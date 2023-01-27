@@ -73,7 +73,7 @@ public:
     }
     else if (typeid(event) == typeid(itk::IterationEvent))
     {
-      std::cout << "#" << m_Optimizer->GetCurrentIteration()
+      std::cout << '#' << m_Optimizer->GetCurrentIteration()
                 << " Current parameters = " << m_Optimizer->GetCurrentPosition() << std::endl;
     }
     else if (typeid(event) == typeid(itk::EndEvent))

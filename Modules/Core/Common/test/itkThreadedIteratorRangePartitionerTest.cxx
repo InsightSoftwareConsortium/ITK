@@ -176,7 +176,7 @@ ThreadedIteratorRangePartitionerRunTest(
     /* Check that we got the begin of the range */
     if (i == 0 && subRange[0] != *(fullDomain.Begin()))
     {
-      std::cerr << "Error: subRange[0][0] should be " << *(fullDomain.Begin()) << ", but it's " << subRange[0] << ".";
+      std::cerr << "Error: subRange[0][0] should be " << *(fullDomain.Begin()) << ", but it's " << subRange[0] << '.';
       return EXIT_FAILURE;
     }
     /* Check that we got the end of the range */
@@ -184,7 +184,7 @@ ThreadedIteratorRangePartitionerRunTest(
     --fullIt;
     if (i == numberOfThreads - 1 && subRange[1] != *fullIt)
     {
-      std::cerr << "Error: subRange[N-1][1] should be " << *fullIt << ", but it's " << subRange[1] << ".";
+      std::cerr << "Error: subRange[N-1][1] should be " << *fullIt << ", but it's " << subRange[1] << '.';
       return EXIT_FAILURE;
     }
     /* Check that the sub-range endings and beginnings are continuous */
@@ -296,7 +296,7 @@ itkThreadedIteratorRangePartitionerTest(int, char *[])
     if (domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads)
     {
       std::cerr << "Error: Expected to use " << maxNumberOfThreads << "threads, but used "
-                << domainThreader->GetNumberOfWorkUnitsUsed() << "." << std::endl;
+                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << std::endl;
     }
   }
   else

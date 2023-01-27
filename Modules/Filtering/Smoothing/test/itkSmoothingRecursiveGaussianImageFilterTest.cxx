@@ -81,7 +81,7 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in pixel value at index [" << std::endl;
-      std::cerr << "Error in pixel value at index [" << it1.GetIndex() << "]" << std::endl;
+      std::cerr << "Error in pixel value at index [" << it1.GetIndex() << ']' << std::endl;
       std::cerr << "Expected value " << it1.Get() << std::endl;
       std::cerr << " differs from " << it2.Get();
       std::cerr << " by more than " << epsilon << std::endl;

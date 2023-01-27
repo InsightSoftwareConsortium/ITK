@@ -410,7 +410,7 @@ MRCHeaderObject::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "vd: " << this->m_Header.vd1 << ' ' << this->m_Header.vd2 << std::endl;
   os << indent << "tiltangles: (" << this->m_Header.tiltangles[0] << ", " << this->m_Header.tiltangles[1] << ", "
      << this->m_Header.tiltangles[2] << ") (" << this->m_Header.tiltangles[3] << ", " << this->m_Header.tiltangles[4]
-     << ", " << this->m_Header.tiltangles[5] << ")" << std::endl;
+     << ", " << this->m_Header.tiltangles[5] << ')' << std::endl;
   os << indent << "org: " << this->m_Header.xorg << ' ' << this->m_Header.yorg << ' ' << this->m_Header.zorg
      << std::endl;
   os << indent << "cmap: \"" << this->m_Header.cmap[0] << this->m_Header.cmap[1] << this->m_Header.cmap[2]
@@ -436,13 +436,13 @@ MRCHeaderObject::PrintSelf(std::ostream & os, Indent indent) const
        << std::endl;
     for (int32_t z = 0; z < this->m_Header.nz && z < 1024; ++z)
     {
-      os << indent << "(" << this->m_ExtendedFeiHeader[z].atilt << ", " << this->m_ExtendedFeiHeader[z].btilt << ", "
+      os << indent << '(' << this->m_ExtendedFeiHeader[z].atilt << ", " << this->m_ExtendedFeiHeader[z].btilt << ", "
          << this->m_ExtendedFeiHeader[z].xstage << ", " << this->m_ExtendedFeiHeader[z].ystage << ", "
          << this->m_ExtendedFeiHeader[z].zstage << ", " << this->m_ExtendedFeiHeader[z].xshift << ", "
          << this->m_ExtendedFeiHeader[z].yshift << ", " << this->m_ExtendedFeiHeader[z].defocus << ", "
          << this->m_ExtendedFeiHeader[z].exptime << ", " << this->m_ExtendedFeiHeader[z].meanint << ", "
          << this->m_ExtendedFeiHeader[z].tiltaxis << ", " << this->m_ExtendedFeiHeader[z].pixelsize << ", "
-         << this->m_ExtendedFeiHeader[z].magnification << ")" << std::endl;
+         << this->m_ExtendedFeiHeader[z].magnification << ')' << std::endl;
     }
   }
 }

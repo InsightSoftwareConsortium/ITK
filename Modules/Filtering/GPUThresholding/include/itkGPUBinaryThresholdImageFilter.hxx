@@ -79,7 +79,7 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImag
     {
       if (ii < sz - 1)
       {
-        excpMsg << ' ' << validTypes[ii] << ",";
+        excpMsg << ' ' << validTypes[ii] << ',';
       }
       else
       {

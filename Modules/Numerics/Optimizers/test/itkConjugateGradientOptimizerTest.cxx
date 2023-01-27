@@ -96,9 +96,9 @@ public:
     derivative = DerivativeType(SpaceDimension);
     derivative[0] = 3 * x + 2 * y - 2;
     derivative[1] = 2 * x + 6 * y + 8;
-    std::cout << "(";
+    std::cout << '(';
     std::cout << derivative[0] << " , ";
-    std::cout << derivative[1] << ")" << std::endl;
+    std::cout << derivative[1] << ')' << std::endl;
   }
 
   unsigned int
@@ -238,8 +238,8 @@ itkConjugateGradientOptimizerTest(int, char *[])
   finalPosition = itkOptimizer->GetCurrentPosition();
 
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
 
   bool   pass = true;
   double trueParameters[2] = { 2, -2 };

@@ -344,20 +344,20 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   std::cout << "The basis of projection is: " << std::endl;
   for (const auto & basis_it : basis_check)
   {
-    std::cout << "[";
+    std::cout << '[';
     InputImageIterator basisImage_it(basis_it, basis_it->GetBufferedRegion());
     for (basisImage_it.GoToBegin(); !basisImage_it.IsAtEnd(); ++basisImage_it)
     {
       std::cout << basisImage_it.Get() << ' ';
     }
-    std::cout << "]" << std::endl;
+    std::cout << ']' << std::endl;
   }
 
   // Print the projections
-  std::cout << "The projection of [0 2 2 0] is [" << proj3 << "]" << std::endl;
+  std::cout << "The projection of [0 2 2 0] is [" << proj3 << ']' << std::endl;
   std::cout << "this should be approx [-1.5412 -2.3716]" << std::endl;
 
-  std::cout << "The projection of [0 3 3 0] is [" << proj4 << "]" << std::endl;
+  std::cout << "The projection of [0 3 3 0] is [" << proj4 << ']' << std::endl;
   std::cout << "this should be approx [3.5574 -2.3119]" << std::endl;
 
   // Print the basis and projections: now the new basis
@@ -365,26 +365,26 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   std::cout << "Now the basis of projection is: " << std::endl;
   for (const auto & basis_it : basis_check_2)
   {
-    std::cout << "[";
+    std::cout << '[';
     InputImageIterator basisImage_it(basis_it, basis_it->GetBufferedRegion());
     for (basisImage_it.GoToBegin(); !basisImage_it.IsAtEnd(); ++basisImage_it)
     {
       std::cout << basisImage_it.Get() << ' ';
     }
-    std::cout << "]" << std::endl;
+    std::cout << ']' << std::endl;
   }
 
   // Print the projections
-  std::cout << "The projection of [0 2 2 0] is [" << proj3_2 << "]" << std::endl;
+  std::cout << "The projection of [0 2 2 0] is [" << proj3_2 << ']' << std::endl;
   std::cout << "this should be approx [1.4142 -1.4142 0]" << std::endl;
 
-  std::cout << "The projection of [0 3 3 0] is [" << proj4_2 << "]" << std::endl;
+  std::cout << "The projection of [0 3 3 0] is [" << proj4_2 << ']' << std::endl;
   std::cout << "this should be approx [2.1213 2.1213 3.000]" << std::endl;
 
-  std::cout << "The projection of [0 2 2 0] is (mean of zero set) [" << proj3_3 << "]" << std::endl;
+  std::cout << "The projection of [0 2 2 0] is (mean of zero set) [" << proj3_3 << ']' << std::endl;
   std::cout << "this should be approx [1.4142 -1.4142 0]" << std::endl;
 
-  std::cout << "The projection of [0 3 3 0] is (mean of zero set) [" << proj4_3 << "]" << std::endl;
+  std::cout << "The projection of [0 3 3 0] is (mean of zero set) [" << proj4_3 << ']' << std::endl;
   std::cout << "this should be approx [2.1213 2.1213 3.000]" << std::endl;
 
   // Test for the eigen values for the test case precomputed using Matlab

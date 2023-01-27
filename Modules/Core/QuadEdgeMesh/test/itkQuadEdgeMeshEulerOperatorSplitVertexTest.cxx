@@ -83,7 +83,7 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   if (mesh->GetPoint(splitVertex->GetNewPointID()).GetValence() != 4)
   {
     std::cout << "FAILED, wrong valence of " << mesh->GetPoint(splitVertex->GetNewPointID()).GetValence()
-              << " for vertex " << splitVertex->GetNewPointID() << "." << std::endl;
+              << " for vertex " << splitVertex->GetNewPointID() << '.' << std::endl;
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(11).GetValence() != 4)

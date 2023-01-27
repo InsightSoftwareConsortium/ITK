@@ -72,7 +72,7 @@ protected:
       return;
     }
 
-    std::cout << static_cast<int>(100 * reconstructor->GetProgress()) << "%" << std::endl;
+    std::cout << static_cast<int>(100 * reconstructor->GetProgress()) << '%' << std::endl;
   }
 };
 

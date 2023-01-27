@@ -249,8 +249,8 @@ ColorTable<TComponent>::UseRandomColors(unsigned int n)
     b = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][2] = b;
     std::ostringstream name;
-    name << "Random(" << std::fixed << std::setprecision(2) << static_cast<float>(r) << "," << static_cast<float>(g)
-         << "," << static_cast<float>(b) << ")";
+    name << "Random(" << std::fixed << std::setprecision(2) << static_cast<float>(r) << ',' << static_cast<float>(g)
+         << ',' << static_cast<float>(b) << ')';
     m_ColorName[i] = name.str();
   }
 }

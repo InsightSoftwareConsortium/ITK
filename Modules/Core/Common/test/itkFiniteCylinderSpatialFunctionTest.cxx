@@ -122,10 +122,10 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
     // function value = 1
     std::cout << "calculated cylinder volume = " << volume << std::endl
               << "measured cylinder volume = " << interiorPixelCounter << std::endl
-              << "volume error = " << volumeError << "%" << std::endl
+              << "volume error = " << volumeError << '%' << std::endl
               << "function value = " << functionValue << std::endl
               << "center location = (" << spatialFunc->GetCenter()[0] << ", " << spatialFunc->GetCenter()[0] << ", "
-              << spatialFunc->GetCenter()[2] << ")" << std::endl
+              << spatialFunc->GetCenter()[2] << ')' << std::endl
               << "axis length = " << axis << std::endl
               << "itkFiniteCylinderSpatialFunction test ended successfully!" << std::endl;
     return EXIT_SUCCESS;
@@ -133,10 +133,10 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   // Default is to produce error code
   std::cerr << "calculated ellipsoid volume = " << volume << std::endl
             << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
-            << "volume error = " << volumeError << "%" << std::endl
+            << "volume error = " << volumeError << '%' << std::endl
             << "function value = " << functionValue << std::endl
             << "center location = (" << spatialFunc->GetCenter()[0] << ", " << spatialFunc->GetCenter()[0] << ", "
-            << spatialFunc->GetCenter()[2] << ")" << std::endl
+            << spatialFunc->GetCenter()[2] << ')' << std::endl
             << "axis length = " << axis << std::endl
             << "itkFiniteCylinderSpatialFunction test failed :(" << std::endl;
   return EXIT_FAILURE;

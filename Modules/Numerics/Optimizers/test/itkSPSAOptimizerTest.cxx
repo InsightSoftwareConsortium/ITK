@@ -210,8 +210,8 @@ itkSPSAOptimizerTest(int, char *[])
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
 
   std::cout << "StateOfConvergence in last iteration: " << itkOptimizer->GetStateOfConvergence() << std::endl;
   std::cout << "NumberOfIterations: " << itkOptimizer->GetCurrentIteration() << std::endl;

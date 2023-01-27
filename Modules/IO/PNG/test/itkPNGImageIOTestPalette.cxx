@@ -211,7 +211,7 @@ itkPNGImageIOTestPalette(int argc, char * argv[])
     {
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Read and written palette don't have the same size ( " << palette_read.size() << " vs "
-                << palette_written.size() << ")" << std::endl;
+                << palette_written.size() << ')' << std::endl;
       return EXIT_FAILURE;
     }
     bool   palette_equal = true;

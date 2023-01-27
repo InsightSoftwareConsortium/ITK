@@ -114,7 +114,7 @@ LabelShapeOpeningImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
      << std::endl;
   os << indent << "Lambda: " << m_Lambda << std::endl;
   os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
-  os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")"
+  os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'
      << std::endl;
 }
 } // end namespace itk

@@ -174,8 +174,8 @@ GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &    
   using ParametersType = GradientDescentOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
 
   std::cout << "ConvergenceValue: " << itkOptimizer->GetConvergenceValue() << std::endl;
 

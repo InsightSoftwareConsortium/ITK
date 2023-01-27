@@ -253,7 +253,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PrintSelf(std::ost
       b += TRealValueType{ 1.0 };
     }
 
-    os << ",  X \\in [" << a << ", " << b << "]" << std::endl;
+    os << ",  X \\in [" << a << ", " << b << ']' << std::endl;
   }
 }
 } // namespace itk

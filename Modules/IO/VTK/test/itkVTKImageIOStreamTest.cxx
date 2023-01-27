@@ -178,12 +178,12 @@ TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
   if (!imagesEqual)
   {
     std::cout << "[FAILED] writing (" << componentType << ", dim = " << TDimension
-              << ", numberOfStreams = " << numberOfStreams << ")" << std::endl;
+              << ", numberOfStreams = " << numberOfStreams << ')' << std::endl;
     return EXIT_FAILURE;
   }
 
   std::cout << "[PASSED] writing (" << componentType << ", dim = " << TDimension
-            << ", numberOfStreams = " << numberOfStreams << ")" << std::endl;
+            << ", numberOfStreams = " << numberOfStreams << ')' << std::endl;
   return EXIT_SUCCESS;
 }
 
@@ -273,12 +273,12 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
   if (!imagesEqual)
   {
     std::cout << "[FAILED] reading (" << componentType << ", dim = " << TDimension
-              << ", numberOfStreams = " << numberOfStreams << ")" << std::endl;
+              << ", numberOfStreams = " << numberOfStreams << ')' << std::endl;
     return EXIT_FAILURE;
   }
 
   std::cout << "[PASSED] reading (" << componentType << ", dim = " << TDimension
-            << ", numberOfStreams = " << numberOfStreams << ")" << std::endl;
+            << ", numberOfStreams = " << numberOfStreams << ')' << std::endl;
   return EXIT_SUCCESS;
 }
 

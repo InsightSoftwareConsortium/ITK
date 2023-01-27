@@ -40,7 +40,7 @@ public:
   SetupFileName(const std::string & filePrefix, const std::string & fileExtension, std::string & outputPath)
   {
     std::ostringstream m_NameWithIndex;
-    m_NameWithIndex << filePrefix << "_" << m_CallNumber << "." << fileExtension;
+    m_NameWithIndex << filePrefix << '_' << m_CallNumber << '.' << fileExtension;
 
     std::ostringstream m_OutputFileName;
 
@@ -64,7 +64,7 @@ public:
     // otherwise, add / and the name
     else
     {
-      m_OutputFileName << outputPath << "/" << m_NameWithIndex.str();
+      m_OutputFileName << outputPath << '/' << m_NameWithIndex.str();
     }
 #endif
 

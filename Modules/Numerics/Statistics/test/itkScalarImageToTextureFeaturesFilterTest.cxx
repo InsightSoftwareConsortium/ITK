@@ -212,7 +212,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans[counter] << "." << std::endl;
+                  << expectedMeans[counter] << '.' << std::endl;
         passed = false;
       }
     }
@@ -222,7 +222,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations[counter] << "." << std::endl;
+                  << expectedDeviations[counter] << '.' << std::endl;
         passed = false;
       }
     }
@@ -241,7 +241,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans2[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans2[counter] << "." << std::endl;
+                  << expectedMeans2[counter] << '.' << std::endl;
         passed = false;
       }
     }
@@ -251,7 +251,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations2[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations2[counter] << "." << std::endl;
+                  << expectedDeviations2[counter] << '.' << std::endl;
         passed = false;
       }
     }
@@ -295,7 +295,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans3[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans3[counter] << "." << std::endl;
+                  << expectedMeans3[counter] << '.' << std::endl;
         passed = false;
       }
     }
@@ -305,7 +305,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations3[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations3[counter] << "." << std::endl;
+                  << expectedDeviations3[counter] << '.' << std::endl;
         passed = false;
       }
     }

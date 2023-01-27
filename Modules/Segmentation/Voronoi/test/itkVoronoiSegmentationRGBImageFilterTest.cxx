@@ -179,7 +179,7 @@ CheckResults(SegmentationType::Pointer outputImage)
   std::cout << "False Interior: " << falseInterior << std::endl;
   std::cout << "False Exterior: " << falseExterior << std::endl;
   double percentCorrect = static_cast<double>(correctInterior + correctExterior) / static_cast<double>(width * height);
-  std::cout << "Percent Correct = " << percentCorrect * 100 << "%" << std::endl;
+  std::cout << "Percent Correct = " << percentCorrect * 100 << '%' << std::endl;
 
   return percentCorrect;
 }
@@ -410,12 +410,12 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
   // test get mean/std tolerance
   double meanTolerance[6];
   filter->GetMeanTolerance(meanTolerance);
-  std::cout << "Mean Tolerance = (" << meanTolerance[0] << "," << meanTolerance[1] << "," << meanTolerance[2] << ","
-            << meanTolerance[3] << "," << meanTolerance[4] << "," << meanTolerance[5] << ")" << std::endl;
+  std::cout << "Mean Tolerance = (" << meanTolerance[0] << ',' << meanTolerance[1] << ',' << meanTolerance[2] << ','
+            << meanTolerance[3] << ',' << meanTolerance[4] << ',' << meanTolerance[5] << ')' << std::endl;
   double stdTolerance[6];
   filter->GetSTDTolerance(stdTolerance);
-  std::cout << "STD Tolerance = (" << stdTolerance[0] << "," << stdTolerance[1] << "," << stdTolerance[2] << ","
-            << stdTolerance[3] << "," << stdTolerance[4] << "," << stdTolerance[5] << ")" << std::endl;
+  std::cout << "STD Tolerance = (" << stdTolerance[0] << ',' << stdTolerance[1] << ',' << stdTolerance[2] << ','
+            << stdTolerance[3] << ',' << stdTolerance[4] << ',' << stdTolerance[5] << ')' << std::endl;
 
   // test type information
   if (strcmp(filter->GetNameOfClass(), "VoronoiSegmentationRGBImageFilter") != 0)

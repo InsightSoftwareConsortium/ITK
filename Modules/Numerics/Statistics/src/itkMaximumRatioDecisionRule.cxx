@@ -35,7 +35,7 @@ MaximumRatioDecisionRule::PrintSelf(std::ostream & os, Indent indent) const
   {
     N = m_PriorProbabilities.size();
   }
-  os << "[" << std::endl;
+  os << '[' << std::endl;
   for (PriorProbabilityVectorType::size_type i = 0; i < N; ++i)
   {
     os << m_PriorProbabilities[i];
@@ -48,7 +48,7 @@ MaximumRatioDecisionRule::PrintSelf(std::ostream & os, Indent indent) const
   {
     os << ", ...";
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 }
 
 void

@@ -194,7 +194,7 @@ MatrixConversionTest()
     {
       if (cvA(i, j) != ITKA[i][j])
       {
-        std::cerr << "cvA(" << i << ", " << j << ") != ITKA[" << i << "][" << j << "]" << std::endl;
+        std::cerr << "cvA(" << i << ", " << j << ") != ITKA[" << i << "][" << j << ']' << std::endl;
         std::cerr << cvA(i, j) << " != " << ITKA[i][j] << std::endl;
 
         std::cerr << "***" << std::endl;
@@ -229,7 +229,7 @@ VectorConversionTest()
   {
     if (cvA[i] != ITKA[i])
     {
-      std::cerr << "cvA[" << i << "] != ITKA[" << i << "]" << std::endl;
+      std::cerr << "cvA[" << i << "] != ITKA[" << i << ']' << std::endl;
       std::cerr << cvA[i] << " != " << ITKA[i] << std::endl;
 
       std::cerr << "***" << std::endl;
@@ -467,7 +467,7 @@ MatrixConversionTest()
     {
       if (cvA(i, j) != itkA[i][j])
       {
-        std::cerr << "cvA(" << i << ", " << j << ") != itkA[" << i << "][" << j << "]" << std::endl;
+        std::cerr << "cvA(" << i << ", " << j << ") != itkA[" << i << "][" << j << ']' << std::endl;
         std::cerr << cvA(i, j) << " != " << itkA[i][j] << std::endl;
 
         std::cerr << "***" << std::endl;
@@ -502,7 +502,7 @@ VectorConversionTest()
   {
     if (cvA[i] != itkA[i])
     {
-      std::cerr << "cvA[" << i << "] != itkA[" << i << "]" << std::endl;
+      std::cerr << "cvA[" << i << "] != itkA[" << i << ']' << std::endl;
       std::cerr << cvA[i] << " != " << itkA[i] << std::endl;
 
       std::cerr << "***" << std::endl;

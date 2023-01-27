@@ -228,7 +228,7 @@ template <unsigned int TDimension, class TSpatialObjectPointType>
 void
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "PointBasedSpatialObject(" << this << ")" << std::endl;
+  os << indent << "PointBasedSpatialObject(" << this << ')' << std::endl;
   os << indent << "Number of points: " << m_Points.size() << std::endl;
   Superclass::PrintSelf(os, indent);
 }

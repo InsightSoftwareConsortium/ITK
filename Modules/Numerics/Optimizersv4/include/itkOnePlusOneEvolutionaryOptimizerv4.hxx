@@ -137,7 +137,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
   if (scales.size() != spaceDimension)
   {
     itkExceptionMacro(<< "The size of Scales is " << scales.size()
-                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << ".");
+                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << '.');
   }
 
   A.set_identity();

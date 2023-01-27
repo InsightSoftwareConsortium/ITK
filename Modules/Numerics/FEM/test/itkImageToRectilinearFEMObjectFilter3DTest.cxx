@@ -99,7 +99,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
   vnl_vector<unsigned int> testNumberOfElements = meshFilter->GetNumberOfElements();
   for (unsigned int i = 0; i < 3; ++i)
   {
-    std::cout << "Pixels per Element Test " << i << ":";
+    std::cout << "Pixels per Element Test " << i << ':';
     if (testPixelsPerElement[i] != pixelsPerElement[i])
     {
       std::cout << " [FAILED]" << std::endl;
@@ -112,7 +112,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
       std::cout << " [PASSED]" << std::endl;
     }
 
-    std::cout << "Number Of Elements Test " << i << ":";
+    std::cout << "Number Of Elements Test " << i << ':';
     if (testNumberOfElements[i] != numberOfElements[i])
     {
       std::cout << " [FAILED]" << std::endl;
@@ -210,10 +210,10 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
         (itk::Math::abs(femObject->GetNode(nodeNumber)->GetCoordinates()[2] - loc[2]) > tolerance))
     {
       std::cout << "[FAILED]" << std::endl;
-      std::cout << "\tExpected (" << loc[0] << "," << loc[1] << "," << loc[2] << "), Got (";
-      std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[0] << ",";
-      std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[1] << ",";
-      std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[2] << ")" << std::endl;
+      std::cout << "\tExpected (" << loc[0] << ',' << loc[1] << ',' << loc[2] << "), Got (";
+      std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[0] << ',';
+      std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[1] << ',';
+      std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[2] << ')' << std::endl;
       foundError = true;
     }
     else
@@ -248,17 +248,17 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
         (femObject->GetElement(elementNumber)->GetNode(7)->GetGlobalNumber() != nodes[7]))
     {
       std::cout << "[FAILED]" << std::endl;
-      std::cout << "\tExpected (" << nodes[0] << "," << nodes[0] << "," << nodes[1];
-      std::cout << "," << nodes[2] << "," << nodes[3] << "," << nodes[4] << ",";
-      std::cout << nodes[5] << "," << nodes[6] << "," << nodes[7] << "), Got (";
-      std::cout << femObject->GetElement(elementNumber)->GetNode(0)->GetGlobalNumber() << ",";
-      std::cout << femObject->GetElement(elementNumber)->GetNode(1)->GetGlobalNumber() << ",";
-      std::cout << femObject->GetElement(elementNumber)->GetNode(2)->GetGlobalNumber() << ",";
-      std::cout << femObject->GetElement(elementNumber)->GetNode(3)->GetGlobalNumber() << ",";
-      std::cout << femObject->GetElement(elementNumber)->GetNode(4)->GetGlobalNumber() << ",";
-      std::cout << femObject->GetElement(elementNumber)->GetNode(5)->GetGlobalNumber() << ",";
-      std::cout << femObject->GetElement(elementNumber)->GetNode(6)->GetGlobalNumber() << ",";
-      std::cout << femObject->GetElement(elementNumber)->GetNode(7)->GetGlobalNumber() << ")" << std::endl;
+      std::cout << "\tExpected (" << nodes[0] << ',' << nodes[0] << ',' << nodes[1];
+      std::cout << ',' << nodes[2] << ',' << nodes[3] << ',' << nodes[4] << ',';
+      std::cout << nodes[5] << ',' << nodes[6] << ',' << nodes[7] << "), Got (";
+      std::cout << femObject->GetElement(elementNumber)->GetNode(0)->GetGlobalNumber() << ',';
+      std::cout << femObject->GetElement(elementNumber)->GetNode(1)->GetGlobalNumber() << ',';
+      std::cout << femObject->GetElement(elementNumber)->GetNode(2)->GetGlobalNumber() << ',';
+      std::cout << femObject->GetElement(elementNumber)->GetNode(3)->GetGlobalNumber() << ',';
+      std::cout << femObject->GetElement(elementNumber)->GetNode(4)->GetGlobalNumber() << ',';
+      std::cout << femObject->GetElement(elementNumber)->GetNode(5)->GetGlobalNumber() << ',';
+      std::cout << femObject->GetElement(elementNumber)->GetNode(6)->GetGlobalNumber() << ',';
+      std::cout << femObject->GetElement(elementNumber)->GetNode(7)->GetGlobalNumber() << ')' << std::endl;
       foundError = true;
     }
     else

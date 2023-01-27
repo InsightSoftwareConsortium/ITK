@@ -84,7 +84,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::AdvanceOne
   if (this->m_Scales.size() != this->m_Gradient.Size())
   {
     itkExceptionMacro(<< "The size of Scales is " << this->m_Scales.size()
-                      << ", but the NumberOfParameters for the CostFunction is " << this->m_Gradient.Size() << ".");
+                      << ", but the NumberOfParameters for the CostFunction is " << this->m_Gradient.Size() << '.');
   }
 
   if (this->m_RelaxationFactor < 0.0)

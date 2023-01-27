@@ -54,7 +54,7 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream
   {
     os << m_Origin[i] << ", ";
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 
   os << indent << "Major radius: " << m_MajorRadius << std::endl;
 

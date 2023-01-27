@@ -102,7 +102,7 @@ public:
     {
       itkExceptionMacro("Internal transforms should be consistent with input image size at each iteration.  "
                         << "Image size = " << ImageSize << ".  Fixed field size = " << FixedDisplacementFieldSize
-                        << ".  Moving field size = " << MovingDisplacementFieldSize << ".");
+                        << ".  Moving field size = " << MovingDisplacementFieldSize << '.');
     }
   }
 };

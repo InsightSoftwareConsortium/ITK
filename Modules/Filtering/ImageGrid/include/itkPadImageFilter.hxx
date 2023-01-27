@@ -59,7 +59,7 @@ PadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent i
   {
     os << ", " << m_PadLowerBound[j];
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 
   os << indent << "Output Pad Upper Bounds: [";
   if (ImageDimension >= 1)
@@ -70,7 +70,7 @@ PadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent i
   {
     os << ", " << m_PadUpperBound[j];
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 }
 
 /**

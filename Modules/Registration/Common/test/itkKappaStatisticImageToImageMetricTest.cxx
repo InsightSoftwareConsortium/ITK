@@ -216,7 +216,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
       std::cerr << "Error !" << std::endl;
       std::cerr << "Expected: [" << static_cast<double>(gradIt.Get()[0]) << ", " << static_cast<double>(gradIt.Get()[1])
                 << "], but got [" << static_cast<double>(xGradIt.Get()) << ", " << static_cast<double>(yGradIt.Get())
-                << "]" << std::endl;
+                << ']' << std::endl;
       std::cerr << "Test failed" << std::endl;
       return EXIT_FAILURE;
     }
@@ -239,7 +239,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
     {
       std::cerr << "Error !" << std::endl;
       std::cerr << "Expected: " << expectedDerivativeMeasure << " but got " << static_cast<double>(derivative[i])
-                << " at index [" << i << "]" << std::endl;
+                << " at index [" << i << ']' << std::endl;
       std::cerr << "Test failed" << std::endl;
       return EXIT_FAILURE;
     }
@@ -263,7 +263,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
     {
       std::cerr << "Error !" << std::endl;
       std::cerr << "Expected: " << expectedDerivativeMeasure << " but got " << static_cast<double>(derivative[i])
-                << " at index [" << i << "]" << std::endl;
+                << " at index [" << i << ']' << std::endl;
       std::cerr << "Test failed" << std::endl;
       return EXIT_FAILURE;
     }

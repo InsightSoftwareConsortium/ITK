@@ -114,7 +114,7 @@ itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest(int, char *[])
   if (mesh->GetPoint(createCenterVertex->GetNewPointID()).GetValence() != 3)
   {
     std::cout << "FAILED, wrong valence of " << mesh->GetPoint(createCenterVertex->GetNewPointID()).GetValence()
-              << " for vertex " << createCenterVertex->GetNewPointID() << "." << std::endl;
+              << " for vertex " << createCenterVertex->GetNewPointID() << '.' << std::endl;
     return EXIT_FAILURE;
   }
   std::cout << ".OK" << std::endl;
@@ -171,7 +171,7 @@ itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest(int, char *[])
   if (mesh->GetPoint(createCenterVertex->GetNewPointID()).GetValence() != 8)
   {
     std::cout << "FAILED, wrong valence of " << mesh->GetPoint(createCenterVertex->GetNewPointID()).GetValence()
-              << " for vertex " << createCenterVertex->GetNewPointID() << "." << std::endl;
+              << " for vertex " << createCenterVertex->GetNewPointID() << '.' << std::endl;
     return EXIT_FAILURE;
   }
   std::cout << ".OK" << std::endl;

@@ -169,7 +169,7 @@ template <typename T, unsigned int TVectorDimension>
 std::ostream &
 operator<<(std::ostream & os, const Vector<T, TVectorDimension> & vct)
 {
-  os << "[";
+  os << '[';
   if (TVectorDimension == 1)
   {
     os << vct[0];
@@ -182,7 +182,7 @@ operator<<(std::ostream & os, const Vector<T, TVectorDimension> & vct)
     }
     os << vct[TVectorDimension - 1];
   }
-  os << "]";
+  os << ']';
   return os;
 }
 

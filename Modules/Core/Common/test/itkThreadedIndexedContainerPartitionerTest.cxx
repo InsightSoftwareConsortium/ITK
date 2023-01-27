@@ -163,13 +163,13 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
     /* Check that we got the begin of the range */
     if (i == 0 && subRange[0] != fullRange[0])
     {
-      std::cerr << "Error: subRange[0][0] should be " << fullRange[0] << ", but it's " << subRange[0] << ".";
+      std::cerr << "Error: subRange[0][0] should be " << fullRange[0] << ", but it's " << subRange[0] << '.';
       return EXIT_FAILURE;
     }
     /* Check that we got the end of the range */
     if (i == numberOfThreads - 1 && subRange[1] != fullRange[1])
     {
-      std::cerr << "Error: subRange[N-1][1] should be " << fullRange[1] << ", but it's " << subRange[1] << ".";
+      std::cerr << "Error: subRange[N-1][1] should be " << fullRange[1] << ", but it's " << subRange[1] << '.';
       return EXIT_FAILURE;
     }
     /* Check that the sub-range endings and beginnings are continuous */
@@ -249,7 +249,7 @@ itkThreadedIndexedContainerPartitionerTest(int, char *[])
     if (domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads - 1)
     {
       std::cerr << "Error: Expected to use only " << maxNumberOfThreads - 1 << "threads, but used "
-                << domainThreader->GetNumberOfWorkUnitsUsed() << "." << std::endl;
+                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << std::endl;
     }
   }
   else

@@ -60,7 +60,7 @@ VideoFileReader<TOutputVideoStream>::UpdateOutputInformation()
   {
     itkExceptionMacro(<< "Output dimension doesn't match dimension of read "
                       << "data. Expected " << FrameDimension << " but the IO "
-                      << "method has " << m_VideoIO->GetNumberOfDimensions() << ".");
+                      << "method has " << m_VideoIO->GetNumberOfDimensions() << '.');
   }
 
   //
@@ -184,7 +184,7 @@ VideoFileReader<TOutputVideoStream>::InitializeVideoIO()
     itkExceptionMacro("Cannot convert " << m_VideoIO->GetNumberOfDimensions()
                                         << "D "
                                            "image set to "
-                                        << FrameType::ImageDimension << "D");
+                                        << FrameType::ImageDimension << 'D');
   }
 
   // See if a buffer conversion is needed

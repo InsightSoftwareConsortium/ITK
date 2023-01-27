@@ -98,7 +98,7 @@ public:
     ostrm << name << "_jointpdf_" << this->m_Count << ext;
     std::cout << "Writing joint pdf to:        " << ostrm.str() << std::endl;
     ostrm.str("");
-    ostrm << path << "/" << name << "_jointpdf_" << this->m_Count << ext;
+    ostrm << path << '/' << name << "_jointpdf_" << this->m_Count << ext;
     this->m_Writer->SetFileName(ostrm.str());
 
     using JointPDFType = typename MIMetricType::JointPDFType;

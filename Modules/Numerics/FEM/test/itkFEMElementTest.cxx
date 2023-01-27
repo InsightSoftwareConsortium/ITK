@@ -391,7 +391,7 @@ PrintK(itk::fem::Solver & S, int s, char)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
 
-  std::cout << std::endl << "k" << s << "=[";
+  std::cout << std::endl << 'k' << s << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (IDL_OUTPUT)
@@ -414,7 +414,7 @@ PrintK(itk::fem::Solver & S, int s, char)
       }
       else
       {
-        std::cout << "]";
+        std::cout << ']';
       }
     }
     else if (MATLAB_OUTPUT)
@@ -443,7 +443,7 @@ PrintF(itk::fem::Solver & S, int s, char)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
 
-  std::cout << std::endl << "f" << s << "=[";
+  std::cout << std::endl << 'f' << s << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
@@ -485,7 +485,7 @@ PrintNodalCoordinates(itk::fem::Solver & S, int w, char comment)
       // changes made - kiran
       else
       {
-        std::cout << "]";
+        std::cout << ']';
       }
     }
     else if (MATLAB_OUTPUT)
@@ -501,7 +501,7 @@ PrintU(itk::fem::Solver & S, int s, char comment)
 // Prints the components of the problem for debugging/reporting purposes
 {
   std::cout << std::endl << comment << "Displacements: " << std::endl;
-  std::cout << "u" << s << "=[";
+  std::cout << 'u' << s << "=[";
   // changes made - kiran
   // for( itk::fem::Solver::NodeArray::iterator n = S.node.begin();
   // n!=S.node.end(); n++) {
@@ -533,7 +533,7 @@ PrintU(itk::fem::Solver & S, int s, char comment)
       // changes made - kiran
       else
       {
-        std::cout << "]";
+        std::cout << ']';
       }
     }
     else if (MATLAB_OUTPUT)
@@ -562,7 +562,7 @@ CheckDisplacements(itk::fem::Solver & S, int s, char comment, double * expectedR
       if (itk::Math::abs(result - expectedResults[index]) > tolerance)
       {
         std::cout << "Error: Result (" << result << ") expected (" << expectedResults[index] << ") with tolerance ("
-                  << tolerance << ")" << std::endl;
+                  << tolerance << ')' << std::endl;
         foundError = true;
       }
       index++;

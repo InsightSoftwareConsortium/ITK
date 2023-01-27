@@ -300,7 +300,7 @@ SPSAOptimizer::GenerateDelta(const unsigned int spaceDimension)
   if (scales.size() != spaceDimension)
   {
     itkExceptionMacro(<< "The size of Scales is " << scales.size()
-                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << ".");
+                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << '.');
   }
 
   const ScalesType & invScales = this->GetInverseScales();

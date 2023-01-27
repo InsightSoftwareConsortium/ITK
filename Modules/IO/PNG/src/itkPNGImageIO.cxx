@@ -298,7 +298,7 @@ PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "ColorPalette:" << std::endl;
     for (unsigned int i = 0; i < m_ColorPalette.size(); ++i)
     {
-      os << indent << "[" << i << "]" << itk::NumericTraits<PaletteType::value_type>::PrintType(m_ColorPalette[i])
+      os << indent << '[' << i << ']' << itk::NumericTraits<PaletteType::value_type>::PrintType(m_ColorPalette[i])
          << std::endl;
     }
   }

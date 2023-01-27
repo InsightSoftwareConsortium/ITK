@@ -59,14 +59,14 @@ ImportImageFilter<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent 
   {
     os << m_Spacing[i] << ", ";
   }
-  os << m_Spacing[i] << "]" << std::endl;
+  os << m_Spacing[i] << ']' << std::endl;
 
   os << indent << "Origin: [";
   for (i = 0; i < static_cast<int>(VImageDimension) - 1; ++i)
   {
     os << m_Origin[i] << ", ";
   }
-  os << m_Origin[i] << "]" << std::endl;
+  os << m_Origin[i] << ']' << std::endl;
   os << indent << "Direction: " << std::endl << this->GetDirection() << std::endl;
 }
 

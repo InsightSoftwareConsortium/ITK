@@ -834,7 +834,7 @@ NiftiImageIO::Read(void * buffer)
     if (this->GetPixelType() != IOPixelEnum::VECTOR && this->GetPixelType() != IOPixelEnum::POINT)
     {
       itkExceptionMacro(<< "RAS conversion requires pixel to be 3-component vector or point. Current pixel type is "
-                        << numComponents << "-component " << this->GetPixelType() << ".");
+                        << numComponents << "-component " << this->GetPixelType() << '.');
     }
     switch (this->m_ComponentType)
     {
@@ -912,7 +912,7 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
     std::ostringstream dim;
     dim << nim->dim[idx];
     std::ostringstream dimKey;
-    dimKey << "dim[" << idx << "]";
+    dimKey << "dim[" << idx << ']';
     EncapsulateMetaData<std::string>(thisDic, dimKey.str(), dim.str());
   }
 
@@ -949,7 +949,7 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
     std::ostringstream pixdim;
     pixdim << nim->pixdim[idx];
     std::ostringstream pixdimKey;
-    pixdimKey << "pixdim[" << idx << "]";
+    pixdimKey << "pixdim[" << idx << ']';
     EncapsulateMetaData<std::string>(thisDic, pixdimKey.str(), pixdim.str());
   }
 
@@ -2419,7 +2419,7 @@ NiftiImageIO::Write(const void * buffer)
       if (this->GetPixelType() != IOPixelEnum::VECTOR && this->GetPixelType() != IOPixelEnum::POINT)
       {
         itkExceptionMacro(<< "RAS conversion requires pixel to be 3-component vector or point. Current pixel type is "
-                          << numComponents << "-component " << this->GetPixelType() << ".");
+                          << numComponents << "-component " << this->GetPixelType() << '.');
       }
       switch (this->m_ComponentType)
       {

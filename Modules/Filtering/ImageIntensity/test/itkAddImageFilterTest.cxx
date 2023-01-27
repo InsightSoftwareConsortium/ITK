@@ -119,7 +119,7 @@ itkAddImageFilterTest(int, char *[])
     if (!itk::Math::ExactlyEquals(oIt.Get(), expectedValue))
     {
       std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << "]" << std::endl;
+      std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ']' << std::endl;
       std::cerr << "Expected: " << expectedValue << ", but got: " << oIt.Get() << std::endl;
       return EXIT_FAILURE;
     }

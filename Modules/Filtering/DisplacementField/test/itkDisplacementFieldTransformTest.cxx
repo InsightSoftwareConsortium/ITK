@@ -37,7 +37,7 @@ samePoint(const TPoint & p1, const TPoint & p2, double epsilon = 1e-8)
   {
     if (!itk::Math::FloatAlmostEqual(p1[i], p2[i], 10, epsilon))
     {
-      std::cout << "Error at index [" << i << "]" << std::endl;
+      std::cout << "Error at index [" << i << ']' << std::endl;
       std::cout << "Expected: "
                 << static_cast<typename itk::NumericTraits<typename TPoint::ValueType>::PrintType>(p1[i])
                 << ", but got: "
@@ -58,7 +58,7 @@ sameVector(const TVector & v1, const TVector & v2, double epsilon = 1e-8)
   {
     if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, epsilon))
     {
-      std::cout << "Error at index [" << i << "]" << std::endl;
+      std::cout << "Error at index [" << i << ']' << std::endl;
       std::cout << "Expected: "
                 << static_cast<typename itk::NumericTraits<typename TVector::ValueType>::PrintType>(v1[i])
                 << ", but got: "
@@ -86,7 +86,7 @@ sameVariableVector(const TVector & v1, const TVector & v2, double epsilon = 1e-8
   {
     if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, epsilon))
     {
-      std::cout << "Error at index [" << i << "]" << std::endl;
+      std::cout << "Error at index [" << i << ']' << std::endl;
       std::cout << "Expected: "
                 << static_cast<typename itk::NumericTraits<typename TVector::ValueType>::PrintType>(v1[i])
                 << ", but got: "
@@ -107,7 +107,7 @@ sameTensor(const TTensor & t1, const TTensor & t2, double epsilon = 1e-8)
   {
     if (!itk::Math::FloatAlmostEqual(t1[i], t2[i], 10, epsilon))
     {
-      std::cout << "Error at index [" << i << "]" << std::endl;
+      std::cout << "Error at index [" << i << ']' << std::endl;
       std::cout << "Expected: "
                 << static_cast<typename itk::NumericTraits<typename TTensor::ValueType>::PrintType>(t1[i])
                 << ", but got: "
@@ -134,7 +134,7 @@ sameArray2D(const TArray2D & a1, const TArray2D_ARG1 & a2, double epsilon = 1e-8
     {
       if (!itk::Math::FloatAlmostEqual(a1(j, i), a2(j, i), 10, epsilon))
       {
-        std::cout << "Error at index (" << j << ", " << i << ")" << std::endl;
+        std::cout << "Error at index (" << j << ", " << i << ')' << std::endl;
         std::cout << "Expected: "
                   << static_cast<typename itk::NumericTraits<typename TArray2D::element_type>::PrintType>(a1(j, i))
                   << ", but got: "
@@ -580,7 +580,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
     if (itk::Math::NotExactlyEquals(params[i], updateTruth[i]))
     {
       std::cout << "Test failed!" << std::endl;
-      std::cout << "Error in UpdateTransformParameters(...) at index [" << i << "]" << std::endl;
+      std::cout << "Error in UpdateTransformParameters(...) at index [" << i << ']' << std::endl;
       std::cout << "Expected: "
                 << static_cast<itk::NumericTraits<DisplacementTransformType::DerivativeType::ValueType>::PrintType>(
                      updateTruth[i])

@@ -508,10 +508,10 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     std::cout << "Indices of the quadrangle: [" << quadFace2->GetOrigin() << ' ' << quadFace2->GetLnext()->GetOrigin()
               << ' ' << quadFace2->GetLnext()->GetLnext()->GetOrigin() << ' '
               << quadFace2->GetLnext()->GetLnext()->GetLnext()->GetOrigin() << ' '
-              << quadFace2->GetLnext()->GetLnext()->GetLnext()->GetLnext()->GetOrigin() << "]" << std::endl;
+              << quadFace2->GetLnext()->GetLnext()->GetLnext()->GetLnext()->GetOrigin() << ']' << std::endl;
 
     std::cout << "Correct indices should be: [" << pid[0] << ' ' << pid[2] << ' ' << pid[4] << ' ' << pid[3] << ' '
-              << pid[0] << "]" << std::endl;
+              << pid[0] << ']' << std::endl;
 
     std::cout << "Testing value for pid4" << std::endl;
     if (quadFace2->GetLnext()->GetLnext()->GetLnext()->GetOrigin() == pid[3])

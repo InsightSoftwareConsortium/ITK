@@ -53,7 +53,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage
       std::cout << '[';
       for (itk::SizeValueType d = 0; d < vecdim - 1; ++d)
       {
-        std::cout << derivative[cnt * vecdim + d] << ",";
+        std::cout << derivative[cnt * vecdim + d] << ',';
       }
       std::cout << derivative[cnt * vecdim + vecdim - 1] << ']' << "\t";
       ++it;

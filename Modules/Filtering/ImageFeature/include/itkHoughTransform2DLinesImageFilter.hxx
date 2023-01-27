@@ -376,7 +376,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::PrintSelf(s
   auto         it = m_LinesList.begin();
   while (it != m_LinesList.end())
   {
-    os << indent << "[" << i << "]: " << *it << std::endl;
+    os << indent << '[' << i << "]: " << *it << std::endl;
     ++it;
     ++i;
   }

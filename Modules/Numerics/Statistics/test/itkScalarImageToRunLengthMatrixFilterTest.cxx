@@ -154,8 +154,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
         index[1] = j;
         if (hist->GetFrequency(index) != frequencies[j][i])
         {
-          std::cerr << "Expected frequency  (i,j)= "
-                    << "(" << i << "," << j << ")" << frequencies[j][i]
+          std::cerr << "Expected frequency  (i,j)= " << '(' << i << ',' << j << ')' << frequencies[j][i]
                     << ", calculated = " << hist->GetFrequency(index) << std::endl;
           passed = false;
         }
@@ -250,8 +249,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
         index[1] = j;
         if (hist->GetFrequency(index) != frequencies2[j][i])
         {
-          std::cerr << "Expected frequency2  (i,j)= "
-                    << "(" << i << "," << j << ")" << frequencies2[j][i]
+          std::cerr << "Expected frequency2  (i,j)= " << '(' << i << ',' << j << ')' << frequencies2[j][i]
                     << ", calculated = " << hist->GetFrequency(index) << std::endl;
           passed = false;
         }

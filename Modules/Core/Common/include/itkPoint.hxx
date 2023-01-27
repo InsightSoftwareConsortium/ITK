@@ -266,7 +266,7 @@ template <typename T, unsigned int TPointDimension>
 std::ostream &
 operator<<(std::ostream & os, const Point<T, TPointDimension> & vct)
 {
-  os << "[";
+  os << '[';
   if (TPointDimension == 1)
   {
     os << vct[0];
@@ -279,7 +279,7 @@ operator<<(std::ostream & os, const Point<T, TPointDimension> & vct)
     }
     os << vct[TPointDimension - 1];
   }
-  os << "]";
+  os << ']';
   return os;
 }
 

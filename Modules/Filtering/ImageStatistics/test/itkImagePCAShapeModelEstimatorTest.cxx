@@ -182,7 +182,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   std::cout << "The mean image is:" << std::endl;
   while (!outImageIt.IsAtEnd())
   {
-    std::cout << static_cast<double>(outImageIt.Get()) << ";" << std::endl;
+    std::cout << static_cast<double>(outImageIt.Get()) << ';' << std::endl;
     ++outImageIt;
   }
   std::cout << "  " << std::endl;
@@ -198,7 +198,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
     std::cout << "The eigen vector number: " << j << " is:" << std::endl;
     while (!outImage2It.IsAtEnd())
     {
-      std::cout << static_cast<double>(outImage2It.Get()) << ";" << std::endl;
+      std::cout << static_cast<double>(outImage2It.Get()) << ';' << std::endl;
       ++outImage2It;
     }
     std::cout << "  " << std::endl;

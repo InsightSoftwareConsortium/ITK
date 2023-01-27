@@ -160,7 +160,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << "]" << std::endl << std::endl;
+  std::cout << ']' << std::endl << std::endl;
 
   std::cout << "Testing 2D LaplacianOperator" << std::endl;
   itk::LaplacianOperator<PixelType, Dimension2D, vnl_vector<PixelType>> a2;
@@ -180,7 +180,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << "]" << std::endl << std::endl;
+  std::cout << ']' << std::endl << std::endl;
 
   std::cout << "Testing 3D LaplacianOperator" << std::endl;
   itk::LaplacianOperator<PixelType, Dimension3D, vnl_vector<PixelType>> a3;
@@ -200,7 +200,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << "]" << std::endl << std::endl;
+  std::cout << ']' << std::endl << std::endl;
 
   std::cout << "Testing SobelOperator2D" << std::endl;
   itk::SobelOperator<PixelType, Dimension2D, vnl_vector<PixelType>> c;
@@ -222,7 +222,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << "]" << std::endl << std::endl;
+  std::cout << ']' << std::endl << std::endl;
 
   direction = 1;
   c.SetDirection(direction);
@@ -239,7 +239,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << "]" << std::endl << std::endl;
+  std::cout << ']' << std::endl << std::endl;
 
   std::cout << "Testing SobelOperator3D" << std::endl;
   itk::SobelOperator<PixelType, Dimension3D, vnl_vector<PixelType>> c2;
@@ -259,7 +259,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << "]" << std::endl << std::endl;
+  std::cout << ']' << std::endl << std::endl;
 
   direction = 1;
   c2.SetDirection(direction);
@@ -276,7 +276,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << "]" << std::endl << std::endl;
+  std::cout << ']' << std::endl << std::endl;
 
   direction = 2;
   c2.SetDirection(direction);
@@ -293,7 +293,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << "]" << std::endl << std::endl;
+  std::cout << ']' << std::endl << std::endl;
 
 
   std::cout << "Test finished." << std::endl;

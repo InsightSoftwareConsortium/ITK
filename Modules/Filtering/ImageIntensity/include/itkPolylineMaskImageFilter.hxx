@@ -386,7 +386,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
       pflag = true;
     }
 
-    itkDebugMacro(<< "Polyline:" << startImageIndex << "," << endImageIndex);
+    itkDebugMacro(<< "Polyline:" << startImageIndex << ',' << endImageIndex);
     LineIteratorType it(projectionImagePtr, startImageIndex, endImageIndex);
     it.GoToBegin();
 

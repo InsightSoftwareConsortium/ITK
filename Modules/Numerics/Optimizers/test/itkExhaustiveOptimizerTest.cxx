@@ -228,8 +228,8 @@ itkExhaustiveOptimizerTest(int, char *[])
 
   ParametersType finalPosition = itkOptimizer->GetMinimumMetricValuePosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
 
   bool                       visitedIndicesPass = true;
   std::vector<unsigned long> visitedIndices = idxObserver->m_VisitedIndices;

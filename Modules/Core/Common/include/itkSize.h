@@ -418,7 +418,7 @@ template <unsigned int VDimension>
 std::ostream &
 operator<<(std::ostream & os, const Size<VDimension> & obj)
 {
-  os << "[";
+  os << '[';
   for (unsigned int i = 0; i + 1 < VDimension; ++i)
   {
     os << obj[i] << ", ";
@@ -427,7 +427,7 @@ operator<<(std::ostream & os, const Size<VDimension> & obj)
   {
     os << obj[VDimension - 1];
   }
-  os << "]";
+  os << ']';
   return os;
 }
 

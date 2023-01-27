@@ -96,14 +96,14 @@ public:
     itk::TimeProbe timer;
 
     timer.Start();
-    std::cout << "/" << std::flush;
+    std::cout << '/' << std::flush;
 
     ITK_TRY_EXPECT_NO_EXCEPTION(fractalFilter->Update());
 
-    std::cout << "/" << std::flush;
+    std::cout << '/' << std::flush;
     timer.Stop();
 
-    std::cout << "   (elapsed time: " << timer.GetMean() << ")" << std::endl;
+    std::cout << "   (elapsed time: " << timer.GetMean() << ')' << std::endl;
 
     using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();

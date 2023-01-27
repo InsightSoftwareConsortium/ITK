@@ -93,7 +93,7 @@ CheckVariableLengthArrayTraits(const T & t)
 #endif
 
   // check std::numeric_limits members
-  std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
+  std::cout << "itk::NumericTraits<" << name << '>' << std::endl;
   std::cout << "\tmin(" << name
             << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min(t))
             << std::endl;
@@ -139,7 +139,7 @@ CheckFixedArrayTraits(const T & t)
 #endif
 
   // check std::numeric_limits members
-  std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
+  std::cout << "itk::NumericTraits<" << name << '>' << std::endl;
   std::cout << "\tZero: " << static_cast<typename itk::NumericTraits<T>::PrintType>((T)(itk::NumericTraits<T>::Zero))
             << std::endl;
   std::cout << "\tOne: " << static_cast<typename itk::NumericTraits<T>::PrintType>((T)(itk::NumericTraits<T>::One))
@@ -169,7 +169,7 @@ void
 CheckTraits(const char * name, T t)
 {
   // check std::numeric_limits members
-  std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
+  std::cout << "itk::NumericTraits<" << name << '>' << std::endl;
   std::cout << "\tis_specialized: " << itk::NumericTraits<T>::digits << std::endl;
   std::cout << "\tdigits: " << itk::NumericTraits<T>::digits << std::endl;
   std::cout << "\tdigits10: " << itk::NumericTraits<T>::digits10 << std::endl;

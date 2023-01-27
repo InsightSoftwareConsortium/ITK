@@ -237,7 +237,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
           std::string ijk = "IJK";
           std::string xyz = "XYZ";
           itkExceptionMacro(<< "Cannot convert a VTK image to an ITK image of dimension " << OutputImageDimension
-                            << " since the VTK image direction matrix element at (" << i << "," << j
+                            << " since the VTK image direction matrix element at (" << i << ',' << j
                             << ") is not equal to 0.0:\n"
                             << "   I  J  K\n"
                             << "X  " << inDirection[0] << ", " << inDirection[1] << ", " << inDirection[2] << "\n"
@@ -246,7 +246,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
                             << "This means that the " << ijk[j] << " data axis has a " << xyz[i]
                             << " component in physical space, but the ITK image can only represent values"
                             << " along " << ijk.substr(0, OutputImageDimension) << " projected on "
-                            << xyz.substr(0, OutputImageDimension) << "." << std::endl);
+                            << xyz.substr(0, OutputImageDimension) << '.' << std::endl);
         }
       }
     }

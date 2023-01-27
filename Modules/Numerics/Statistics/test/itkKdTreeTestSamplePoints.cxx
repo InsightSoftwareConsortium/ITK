@@ -109,10 +109,10 @@ itkKdTreeTestSamplePoints(int, char *[])
       if (distance > itk::Math::eps)
       {
         std::cerr << "kd-tree knn search result:" << std::endl
-                  << "query point = [" << queryPoint << "]" << std::endl
+                  << "query point = [" << queryPoint << ']' << std::endl
                   << "k = " << numberOfNeighbors << std::endl;
         std::cerr << "measurement vector : distance" << std::endl;
-        std::cerr << "[" << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << std::endl;
+        std::cerr << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << std::endl;
       }
     }
   }

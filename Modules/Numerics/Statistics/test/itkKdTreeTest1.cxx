@@ -125,10 +125,10 @@ itkKdTreeTest1(int argc, char * argv[])
           itk::Math::NotAlmostEquals(distanceFromMetric, searchDistance[i]))
       {
         std::cerr << "kd-tree knn search result:" << std::endl
-                  << "query point = [" << queryPoint << "]" << std::endl
+                  << "query point = [" << queryPoint << ']' << std::endl
                   << "k = " << numberOfNeighbors << std::endl;
         std::cerr << "measurement vector : distance_by_distMetric : distance_by_tree" << std::endl;
-        std::cerr << "[" << tree->GetMeasurementVector(neighbors[i]) << "] : " << distanceFromMetric << " : "
+        std::cerr << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distanceFromMetric << " : "
                   << searchDistance[i] << std::endl;
         numberOfFailedPoints1++;
       }

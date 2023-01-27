@@ -260,7 +260,7 @@ itkSubsampleTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed in " << whereFail << "." << std::endl;
+    std::cout << "Test failed in " << whereFail << '.' << std::endl;
     return EXIT_FAILURE;
   }
 

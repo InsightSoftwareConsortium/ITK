@@ -56,7 +56,7 @@ itkTreeContainerTest(int, char *[])
   levelIt.GoToBegin();
   while (!levelIt.IsAtEnd())
   {
-    std::cout << levelIt.Get() << " (" << levelIt.GetLevel() << ")" << std::endl;
+    std::cout << levelIt.Get() << " (" << levelIt.GetLevel() << ')' << std::endl;
     ++levelIt;
   }
 

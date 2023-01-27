@@ -40,7 +40,7 @@ runTestByType()
   if (paramsSize.GetSize() != dim)
   {
     std::cerr << "Constructor with dimension failed. Expected size of " << dim << ", but got " << paramsSize.GetSize()
-              << "." << std::endl;
+              << '.' << std::endl;
     passed = false;
   }
 

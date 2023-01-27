@@ -88,7 +88,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << " ConvergedPercentageToStop=\""
         << this->m_InputObject->GetPercentageParticlesConverged() << "\"";
 
-    ofs << ">";
+    ofs << '>';
     ofs << "\n";
 
     // write the lower bound
@@ -97,7 +97,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << " value=\"";
     for (const auto & bound : this->m_InputObject->GetParameterBounds())
     {
-      ofs << " " << bound.first;
+      ofs << ' ' << bound.first;
     }
     ofs << "\"";
 
@@ -111,7 +111,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << " value=\"";
     for (const auto & bound : this->m_InputObject->GetParameterBounds())
     {
-      ofs << " " << bound.second;
+      ofs << ' ' << bound.second;
     }
     ofs << "\"";
 
@@ -129,7 +129,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     //       elements.
     for (unsigned int i = 0; i < ptols.GetSize(); ++i)
     {
-      ofs << " " << ptols[i];
+      ofs << ' ' << ptols[i];
     }
 
     ofs << "</ParametersConvergenceTolerance>";

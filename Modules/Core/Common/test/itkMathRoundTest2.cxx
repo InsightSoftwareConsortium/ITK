@@ -22,7 +22,7 @@
 #define RoundTestHelperMacro(rndname, input, output)                                                         \
   if (rndname((input)) != (output))                                                                          \
   {                                                                                                          \
-    std::cout << "Failure! " << #rndname << "(" << static_cast<int>(input) << ") expected "                  \
+    std::cout << "Failure! " << #rndname << '(' << static_cast<int>(input) << ") expected "                  \
               << static_cast<int>(output) << " but got " << static_cast<int>(rndname((input))) << std::endl; \
     ok = false;                                                                                              \
   }                                                                                                          \

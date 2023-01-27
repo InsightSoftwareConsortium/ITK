@@ -134,7 +134,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   if ((itk::Math::abs(mean[0] - mean2[0]) > epsilon) || (itk::Math::abs(mean[1] - mean2[1]) > epsilon) ||
       (itk::Math::abs(mean[2] - mean2[2]) > epsilon))
   {
-    std::cerr << "Mean parameter value retrieved using GetMean() and the decorator are not the same:: " << mean << ","
+    std::cerr << "Mean parameter value retrieved using GetMean() and the decorator are not the same:: " << mean << ','
               << mean2 << std::endl;
     return EXIT_FAILURE;
   }

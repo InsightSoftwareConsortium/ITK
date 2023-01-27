@@ -53,7 +53,7 @@ Clamp<TInput, TOutput>::SetBounds(const OutputType lowerBound, const OutputType 
 {
   if (lowerBound > upperBound)
   {
-    itkGenericExceptionMacro("invalid bounds: [" << lowerBound << "; " << upperBound << "]");
+    itkGenericExceptionMacro("invalid bounds: [" << lowerBound << "; " << upperBound << ']');
   }
 
   m_LowerBound = lowerBound;

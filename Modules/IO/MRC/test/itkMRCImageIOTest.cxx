@@ -91,7 +91,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
     writer->SetImageIO(mrcIO);
 
     std::ostringstream m_NameWithIndex;
-    m_NameWithIndex << filePrefix << "_" << m_CallNumber << ".mrc";
+    m_NameWithIndex << filePrefix << '_' << m_CallNumber << ".mrc";
 
     std::ostringstream m_OutputFileName;
 
@@ -116,7 +116,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
     // otherwise, add / and the name
     else
     {
-      m_OutputFileName << outputPath << "/" << m_NameWithIndex.str();
+      m_OutputFileName << outputPath << '/' << m_NameWithIndex.str();
     }
 #endif
 
@@ -158,7 +158,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
 
     // construct the image filename
     std::ostringstream m_NameWithIndex;
-    m_NameWithIndex << filePrefix << "_" << index << ".mrc";
+    m_NameWithIndex << filePrefix << '_' << index << ".mrc";
 
     std::ostringstream m_OutputFileName;
 
@@ -183,7 +183,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
     // otherwise, add / and the name
     else
     {
-      m_OutputFileName << outputPath << "/" << m_NameWithIndex.str();
+      m_OutputFileName << outputPath << '/' << m_NameWithIndex.str();
     }
 #endif
     reader->SetFileName(m_OutputFileName.str());

@@ -68,14 +68,14 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   for (unsigned int i = 0; i < voronoiDiagramGenerator->GetNumberOfSeeds(); ++i)
   {
     PointType currP = voronoiDiagram->GetSeed(i);
-    std::cout << "Seed No." << i << ": At (" << currP[0] << "," << currP[1] << ")" << std::endl;
+    std::cout << "Seed No." << i << ": At (" << currP[0] << ',' << currP[1] << ')' << std::endl;
     std::cout << "Boundary Vertices List (in order): ";
     CellAutoPointer currCell;
     voronoiDiagram->GetCellId(i, currCell);
     PointIdIterator currCellP;
     for (currCellP = currCell->PointIdsBegin(); currCellP != currCell->PointIdsEnd(); ++currCellP)
     {
-      std::cout << *currCellP << ",";
+      std::cout << *currCellP << ',';
     }
     std::cout << std::endl;
     std::cout << " Neighbors (Seed No.): ";
@@ -83,7 +83,7 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
     for (currNeibor = voronoiDiagram->NeighborIdsBegin(i); currNeibor != voronoiDiagram->NeighborIdsEnd(i);
          ++currNeibor)
     {
-      std::cout << *currNeibor << ",";
+      std::cout << *currNeibor << ',';
     }
     std::cout << std::endl << std::endl;
   }
@@ -95,7 +95,7 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   {
     std::cout << "Vertices No. " << j;
     j++;
-    std::cout << ": At (" << allVerts.Value()[0] << "," << allVerts.Value()[1] << ")" << std::endl;
+    std::cout << ": At (" << allVerts.Value()[0] << ',' << allVerts.Value()[1] << ')' << std::endl;
   }
 
   using WriterType = itk::MeshFileWriter<VoronoiDiagram>;

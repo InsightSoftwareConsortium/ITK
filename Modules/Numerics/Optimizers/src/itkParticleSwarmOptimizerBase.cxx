@@ -146,7 +146,7 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
   os << indent << "Create swarm using [normal, uniform] distribution: ";
-  os << "[" << this->m_InitializeNormalDistribution << ", ";
+  os << '[' << this->m_InitializeNormalDistribution << ", ";
   os << !this->m_InitializeNormalDistribution << "]\n";
   os << indent << "Number of particles in swarm: " << this->m_NumberOfParticles << "\n";
   os << indent << "Maximal number of iterations: " << this->m_MaximalNumberOfIterations << "\n";
@@ -157,7 +157,7 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Parameter bounds: [";
   for (it = this->m_ParameterBounds.begin(); it != end; ++it)
   {
-    os << " [" << it->first << ", " << it->second << "]";
+    os << " [" << it->first << ", " << it->second << ']';
   }
   os << " ]\n";
   os << indent << "Parameters' convergence tolerance: " << this->m_ParametersConvergenceTolerance;

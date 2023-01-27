@@ -120,7 +120,7 @@ itkFixedArrayTest2(int, char *[])
     std::cout << "Same pointers: false" << std::endl;
   }
 
-  std::cout << "Performance ratio = " << ratio << "%" << std::endl;
+  std::cout << "Performance ratio = " << ratio << '%' << std::endl;
 
   if (!sameptr && ratio > 20.0) // tolerates only 20%
   {

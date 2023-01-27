@@ -166,7 +166,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
 
   if (this->m_PointsCount < 1)
   {
-    itkExceptionMacro("Invalid number of feature points: " << this->m_PointsCount << ".");
+    itkExceptionMacro("Invalid number of feature points: " << this->m_PointsCount << '.');
   }
 
   this->m_DisplacementsVectorsArray = make_unique_for_overwrite<DisplacementsVector[]>(this->m_PointsCount);

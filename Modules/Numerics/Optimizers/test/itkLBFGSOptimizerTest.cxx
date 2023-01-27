@@ -94,9 +94,9 @@ public:
     derivative = DerivativeType(SpaceDimension);
     derivative[0] = 3 * x + 2 * y - 2;
     derivative[1] = 2 * x + 6 * y + 8;
-    std::cout << "(";
+    std::cout << '(';
     std::cout << derivative[0] << " , ";
-    std::cout << derivative[1] << ")" << std::endl;
+    std::cout << derivative[1] << ')' << std::endl;
   }
 
 
@@ -212,7 +212,7 @@ itkLBFGSOptimizerTest(int, char *[])
   OptimizerType::ParametersType finalPosition;
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
 
   std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 

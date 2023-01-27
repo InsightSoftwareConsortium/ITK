@@ -198,8 +198,8 @@ itkCovarianceSampleFilterTest3(int, char *[])
     {
       if (itk::Math::abs(covariance[i][j] - covarianceOutput[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect:" << i << "," << j << "=" << covariance[i][j]
-                  << "," << covarianceOutput[i][j] << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrrect:" << i << ',' << j << '=' << covariance[i][j]
+                  << ',' << covarianceOutput[i][j] << std::endl;
         return EXIT_FAILURE;
       }
     }

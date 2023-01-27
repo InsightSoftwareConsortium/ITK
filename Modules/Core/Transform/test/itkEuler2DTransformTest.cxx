@@ -326,7 +326,7 @@ itkEuler2DTransformTest(int, char *[])
         approxJacobian[j][k] = approxDerivative;
         if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-4)
         {
-          std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
+          std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
           std::cerr << "Reported result is: " << computedDerivative << std::endl;
           std::cerr << " [ FAILED ] " << std::endl;

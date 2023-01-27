@@ -193,7 +193,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
     {
       if (itk::Math::abs(outputValue) / distance > outputValueThreshold)
       {
-        std::cout << "Error at index [" << iterator.GetIndex() << "]" << std::endl;
+        std::cout << "Error at index [" << iterator.GetIndex() << ']' << std::endl;
         std::cout << "Expected scaled output value be less than: " << outputValueThreshold
                   << ", but got: " << itk::Math::abs(outputValue) / distance
                   << ", where output: " << itk::Math::abs(outputValue) << "; scale factor: " << distance << std::endl;

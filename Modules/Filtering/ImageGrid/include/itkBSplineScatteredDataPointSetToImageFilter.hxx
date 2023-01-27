@@ -1142,7 +1142,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::PrintSe
   os << indent << "Refined lattice coefficients: " << std::endl;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    os << indent << "[" << i << "]: " << this->m_RefinedLatticeCoefficients[i] << std::endl;
+    os << indent << '[' << i << "]: " << this->m_RefinedLatticeCoefficients[i] << std::endl;
   }
 
   itkPrintSelfObjectMacro(ResidualPointSetValues);

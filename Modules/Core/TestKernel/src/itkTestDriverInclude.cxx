@@ -980,7 +980,7 @@ RegressionTestBaselines(char * baselineFilename)
   while (++x)
   {
     std::ostringstream filename;
-    filename << originalBaseline << "." << x << suffix;
+    filename << originalBaseline << '.' << x << suffix;
     std::ifstream filestream(filename.str().c_str());
     if (!filestream)
     {

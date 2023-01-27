@@ -479,7 +479,7 @@ PowellOptimizer::StartOptimization()
     {
       m_StopConditionDescription << "Cost function values at the current parameter (" << fx
                                  << ") and at the local extrema (" << fp << ") are within Value Tolerance ("
-                                 << m_ValueTolerance << ")";
+                                 << m_ValueTolerance << ')';
       this->InvokeEvent(EndEvent());
       return;
     }

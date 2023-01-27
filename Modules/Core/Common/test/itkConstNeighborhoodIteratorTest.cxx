@@ -148,7 +148,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   std::cout << it.GetNext(1) << std::endl;
 
   println("Testing GetNext(0) = GetNext(0,1)");
-  std::cout << it.GetNext(0) << "=" << it.GetNext(0, 1) << std::endl;
+  std::cout << it.GetNext(0) << '=' << it.GetNext(0, 1) << std::endl;
 
   println("Testing GetNext(0, 1)");
   std::cout << it.GetNext(0, 1) << std::endl;
@@ -166,7 +166,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   std::cout << it.GetPrevious(1) << std::endl;
 
   println("Testing GetPrevious(0) = GetPrevious(0,1)");
-  std::cout << it.GetPrevious(0) << "=" << it.GetPrevious(0, 1) << std::endl;
+  std::cout << it.GetPrevious(0) << '=' << it.GetPrevious(0, 1) << std::endl;
 
   println("Testing GetPrevious(0, 1)");
   std::cout << it.GetPrevious(0, 1) << std::endl;

@@ -166,7 +166,7 @@ SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent)
   os << indent << "Position: ";
   for (unsigned int i = 1; i < TPointDimension; ++i)
   {
-    os << m_PositionInObjectSpace[i - 1] << ",";
+    os << m_PositionInObjectSpace[i - 1] << ',';
   }
   os << m_PositionInObjectSpace[TPointDimension - 1] << std::endl;
   os << indent << "ScalarDictionary: " << std::endl;

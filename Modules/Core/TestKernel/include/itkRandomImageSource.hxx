@@ -171,7 +171,7 @@ RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) con
     os << m_Origin[ii] << ", ";
     ++ii;
   }
-  os << m_Origin[ii] << "]" << std::endl;
+  os << m_Origin[ii] << ']' << std::endl;
 
   os << indent << "Spacing: [";
   ii = 0;
@@ -180,7 +180,7 @@ RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) con
     os << m_Spacing[ii] << ", ";
     ++ii;
   }
-  os << m_Spacing[ii] << "]" << std::endl;
+  os << m_Spacing[ii] << ']' << std::endl;
 
   os << indent << "Size: [";
   ii = 0;
@@ -189,7 +189,7 @@ RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) con
     os << m_Size[ii] << ", ";
     ++ii;
   }
-  os << m_Size[ii] << "]" << std::endl;
+  os << m_Size[ii] << ']' << std::endl;
 }
 
 //----------------------------------------------------------------------------

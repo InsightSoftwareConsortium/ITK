@@ -115,7 +115,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::PrintSe
   Superclass::PrintSelf(os, indent);
 
 #ifndef ITK_USE_CUFFTW
-  os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")"
+  os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ')'
      << std::endl;
 #endif
 }

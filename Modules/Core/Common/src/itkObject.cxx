@@ -252,7 +252,7 @@ Object::SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) 
   {
     const EventObject * e = observer.m_Event.get();
     const Command *     c = observer.m_Command;
-    os << indent << e->GetEventName() << "(" << c->GetNameOfClass();
+    os << indent << e->GetEventName() << '(' << c->GetNameOfClass();
     if (!c->GetObjectName().empty())
     {
       os << " \"" << c->GetObjectName() << "\"";

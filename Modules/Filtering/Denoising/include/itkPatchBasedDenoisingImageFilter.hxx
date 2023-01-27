@@ -342,7 +342,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
     }
   }
 
-  itkDebugMacro(<< "Image Intensity range: [" << m_ImageMin << "," << m_ImageMax << "], "
+  itkDebugMacro(<< "Image Intensity range: [" << m_ImageMin << ',' << m_ImageMax << "], "
                 << "IntensityRescaleInvFactor: " << m_IntensityRescaleInvFactor << " , "
                 << "KernelBandwidthMultiplicationFactor: " << m_KernelBandwidthMultiplicationFactor << " , "
                 << "KernelBandwidthSigma initialized to: " << m_KernelBandwidthSigma);

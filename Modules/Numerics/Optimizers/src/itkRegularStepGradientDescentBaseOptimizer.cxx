@@ -164,7 +164,7 @@ RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
   if (scales.size() != spaceDimension)
   {
     itkExceptionMacro(<< "The size of Scales is " << scales.size()
-                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << ".");
+                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << '.');
   }
 
   for (unsigned int i = 0; i < spaceDimension; ++i)

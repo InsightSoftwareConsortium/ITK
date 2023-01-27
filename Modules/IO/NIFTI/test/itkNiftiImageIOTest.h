@@ -196,7 +196,7 @@ MakeNiftiImage()
         qform_temp != "NIFTI_XFORM_SCANNER_ANAT")
     {
       std::cerr << "ERROR: qform code not recovered from file properly: 'NIFTI_XFORM_SCANNER_ANAT' != ." << qform_temp
-                << "'" << std::endl;
+                << '\'' << std::endl;
       return EXIT_FAILURE;
     }
     std::string sform_temp = "";
@@ -204,13 +204,13 @@ MakeNiftiImage()
         sform_temp != "NIFTI_XFORM_SCANNER_ANAT")
     {
       std::cerr << "ERROR: sform code not recovered from file properly:  'NIFTI_XFORM_SCANNER_ANAT' != '" << sform_temp
-                << "'" << std::endl;
+                << '\'' << std::endl;
       return EXIT_FAILURE;
     }
     std::string auxfile_temp = "";
     if (!itk::ExposeMetaData<std::string>(thisDic, "aux_file", auxfile_temp) || auxfile_temp != "aux_info.txt")
     {
-      std::cerr << "ERROR: aux_file not recovered from file properly:  'aux_info.txt' != '" << auxfile_temp << "'"
+      std::cerr << "ERROR: aux_file not recovered from file properly:  'aux_info.txt' != '" << auxfile_temp << '\''
                 << std::endl;
       return EXIT_FAILURE;
     }

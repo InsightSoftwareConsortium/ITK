@@ -659,7 +659,7 @@ CompositeTransform<TParametersValueType, VDimension>::SetParameters(const Parame
   if (inputParameters.Size() != this->GetNumberOfParameters())
   {
     itkExceptionMacro(<< "Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
-                      << this->GetNumberOfParameters() << ".");
+                      << this->GetNumberOfParameters() << '.');
   }
 
   if (transforms.size() == 1)
@@ -742,7 +742,7 @@ CompositeTransform<TParametersValueType, VDimension>::SetFixedParameters(const F
   if (inputParameters.Size() != this->GetNumberOfFixedParameters())
   {
     itkExceptionMacro(<< "Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
-                      << this->GetNumberOfFixedParameters() << ".");
+                      << this->GetNumberOfFixedParameters() << '.');
   }
   this->m_FixedParameters = inputParameters;
 

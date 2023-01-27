@@ -162,7 +162,7 @@ template <unsigned int TDimension>
 void
 ArrowSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "ArrowSpatialObject(" << this << ")" << std::endl;
+  os << indent << "ArrowSpatialObject(" << this << ')' << std::endl;
   Superclass::PrintSelf(os, indent);
   os << indent << "Object Position = " << m_PositionInObjectSpace << std::endl;
   os << indent << "Object Direction = " << m_DirectionInObjectSpace << std::endl;

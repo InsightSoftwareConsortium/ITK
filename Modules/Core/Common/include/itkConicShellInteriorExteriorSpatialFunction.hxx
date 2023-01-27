@@ -90,14 +90,14 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::os
   {
     os << m_Origin[i] << ", ";
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 
   os << indent << "Gradient at origin: [";
   for (i = 0; i < VDimension - 1; ++i)
   {
     os << m_OriginGradient[i] << ", ";
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 
   os << indent << "DistanceMin: " << m_DistanceMin << std::endl;
   os << indent << "DistanceMax: " << m_DistanceMax << std::endl;

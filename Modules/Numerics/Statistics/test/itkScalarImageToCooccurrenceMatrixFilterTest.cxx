@@ -181,7 +181,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
     {
       std::cerr << "Error" << std::endl;
       std::cerr << "The calculated bin sizes are incorrect" << std::endl;
-      std::cerr << "Expected [255, 256), got [" << min << ", " << max << ")" << std::endl << std::endl;
+      std::cerr << "Expected [255, 256), got [" << min << ", " << max << ')' << std::endl << std::endl;
       passed = false;
     }
 

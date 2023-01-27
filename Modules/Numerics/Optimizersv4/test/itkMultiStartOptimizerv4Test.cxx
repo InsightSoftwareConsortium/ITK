@@ -176,11 +176,11 @@ MultiStartOptimizerv4RunTest(itk::MultiStartOptimizerv4::Pointer & itkOptimizer)
   ParametersType bestPosition = itkOptimizer->GetBestParameters();
 
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
   std::cout << "Best Solution   = (";
-  std::cout << bestPosition[0] << ",";
-  std::cout << bestPosition[1] << ")" << std::endl;
+  std::cout << bestPosition[0] << ',';
+  std::cout << bestPosition[1] << ')' << std::endl;
 
   //
   // check results to see if it is within range

@@ -152,7 +152,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
       (itk::Math::abs(standardDeviation[2] - standardDeviation2[2]) > epsilon))
   {
     std::cerr << "Standard Deviation value retrieved using Get() and the decorator are not the same:: "
-              << standardDeviation << "," << standardDeviation2 << std::endl;
+              << standardDeviation << ',' << standardDeviation2 << std::endl;
     return EXIT_FAILURE;
   }
 

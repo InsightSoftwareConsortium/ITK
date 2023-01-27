@@ -85,7 +85,7 @@ ProcessObject::MakeOutput(const DataObjectIdentifierType & name)
    * virtual.
    */
 
-  itkDebugMacro("MakeOutput(" << name << ")");
+  itkDebugMacro("MakeOutput(" << name << ')');
   if (this->IsIndexedOutputName(name))
   {
     return this->MakeOutput(this->MakeIndexFromOutputName(name));
@@ -1214,7 +1214,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
       {
         req = " *";
       }
-      os << indent2 << input.first << ": (" << input.second.GetPointer() << ")" << req << std::endl;
+      os << indent2 << input.first << ": (" << input.second.GetPointer() << ')' << req << std::endl;
     }
   }
   else
@@ -1226,7 +1226,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
   unsigned int idx = 0;
   for (auto it = m_IndexedInputs.begin(); it != m_IndexedInputs.end(); ++it, ++idx)
   {
-    os << indent2 << idx << ": " << (*it)->first << " (" << (*it)->second.GetPointer() << ")" << std::endl;
+    os << indent2 << idx << ": " << (*it)->first << " (" << (*it)->second.GetPointer() << ')' << std::endl;
   }
 
   if (!m_RequiredInputNames.empty())
@@ -1253,7 +1253,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Outputs: " << std::endl;
     for (const auto & output : m_Outputs)
     {
-      os << indent2 << output.first << ": (" << output.second.GetPointer() << ")" << std::endl;
+      os << indent2 << output.first << ": (" << output.second.GetPointer() << ')' << std::endl;
     }
   }
   else
@@ -1264,7 +1264,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
   idx = 0;
   for (auto it = m_IndexedOutputs.begin(); it != m_IndexedOutputs.end(); ++it, ++idx)
   {
-    os << indent2 << idx << ": " << (*it)->first << " (" << (*it)->second.GetPointer() << ")" << std::endl;
+    os << indent2 << idx << ": " << (*it)->first << " (" << (*it)->second.GetPointer() << ')' << std::endl;
   }
 
   os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << std::endl;

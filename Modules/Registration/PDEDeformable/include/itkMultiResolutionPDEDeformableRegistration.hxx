@@ -246,7 +246,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   {
     os << m_NumberOfIterations[ilevel] << ", ";
   }
-  os << m_NumberOfIterations[ilevel] << "]" << std::endl;
+  os << m_NumberOfIterations[ilevel] << ']' << std::endl;
 
   os << indent << "RegistrationFilter: ";
   os << m_RegistrationFilter.GetPointer() << std::endl;

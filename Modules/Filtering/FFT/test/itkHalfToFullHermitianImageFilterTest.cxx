@@ -115,7 +115,7 @@ itkHalfToFullHermitianImageFilterTest(int argc, char * argv[])
       std::cerr << std::endl
                 << "Mismatch found in conjugate index " << conjugateIndex << " (original index " << index
                 << "). Expected " << std::conj(halfToFullFilter->GetOutput()->GetPixel(index)) << ", got " << it.Get()
-                << "." << std::endl;
+                << '.' << std::endl;
       return EXIT_FAILURE;
     }
   }

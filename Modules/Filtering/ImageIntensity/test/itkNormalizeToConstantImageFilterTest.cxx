@@ -74,7 +74,7 @@ itkNormalizeToConstantImageFilterTest(int, char *[])
   if (!itk::Math::FloatAlmostEqual(constant, sum, 10, epsilon))
   {
     std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cout << "First sum (" << sum << ") does not equal constant (" << constant << ")" << std::endl;
+    std::cout << "First sum (" << sum << ") does not equal constant (" << constant << ')' << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -94,7 +94,7 @@ itkNormalizeToConstantImageFilterTest(int, char *[])
   if (!itk::Math::FloatAlmostEqual(constant, sum, 10, epsilon))
   {
     std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cout << "Second sum (" << sum << ") does not equal constant (" << constant << ")" << std::endl;
+    std::cout << "Second sum (" << sum << ") does not equal constant (" << constant << ')' << std::endl;
     return EXIT_FAILURE;
   }
 

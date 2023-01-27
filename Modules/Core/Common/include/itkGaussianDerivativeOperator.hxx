@@ -129,7 +129,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateGaussianCoef
       // if the coeff is less then this value then the value of cap
       // will not change, and it will not contribute to the operator
       itkWarningMacro("Kernel failed to accumulate to approximately one with current remainder "
-                      << cap - sum.GetSum() << " and current coefficient " << coeff[i] << ".");
+                      << cap - sum.GetSum() << " and current coefficient " << coeff[i] << '.');
 
       break;
     }

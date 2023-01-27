@@ -43,7 +43,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   imageSize[0] = 30;
   imageSize[1] = 30;
   imageSize[2] = 15;
-  std::cout << "Random Test image size: " << imageSize[0] << "x" << imageSize[1] << "x" << imageSize[2] << std::endl;
+  std::cout << "Random Test image size: " << imageSize[0] << 'x' << imageSize[1] << 'x' << imageSize[2] << std::endl;
 
   imageIndex.Fill(0);
   float spacing[ImageDimension] = { 1.0, 1.0, 1.0 };

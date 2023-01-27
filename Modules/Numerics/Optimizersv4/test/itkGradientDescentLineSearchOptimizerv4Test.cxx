@@ -180,8 +180,8 @@ GradientDescentLineSearchOptimizerv4RunTest(itk::GradientDescentLineSearchOptimi
   using ParametersType = GradientDescentLineSearchOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
 
   //
   // check results to see if it is within range

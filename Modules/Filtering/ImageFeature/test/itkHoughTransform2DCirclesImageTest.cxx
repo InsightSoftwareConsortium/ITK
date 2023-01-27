@@ -547,7 +547,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
     {
       std::cout << "Failure for circle #" << i << std::endl;
       std::cout << "Expected center: [" << center[i][0] << ", " << center[i][1] << "], found [" << centerResult[i][0]
-                << ", " << centerResult[i][1] << "]" << std::endl;
+                << ", " << centerResult[i][1] << ']' << std::endl;
       std::cout << "Expected radius: " << radius[i] << ", found " << radiusResult[i] << std::endl;
       success = false;
     }

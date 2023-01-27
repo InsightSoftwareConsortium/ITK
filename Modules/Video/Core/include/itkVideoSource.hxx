@@ -255,7 +255,7 @@ VideoSource<TOutputVideoStream>::ThreadedGenerateData(
   const typename TOutputVideoStream::SpatialRegionType & itkNotUsed(outputRegionForThread),
   int                                                    itkNotUsed(threadId))
 {
-  itkExceptionMacro(<< "itk::ERROR: " << this->GetNameOfClass() << "(" << this << "): "
+  itkExceptionMacro(<< "itk::ERROR: " << this->GetNameOfClass() << '(' << this << "): "
                     << "Subclass should override this method!!!");
 }
 

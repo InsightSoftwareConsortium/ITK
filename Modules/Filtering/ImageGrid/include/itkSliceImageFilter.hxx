@@ -312,7 +312,7 @@ SliceImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONS
   {
     if (m_Step[i] == 0)
     {
-      itkExceptionMacro("Step size is zero " << m_Step << "!");
+      itkExceptionMacro("Step size is zero " << m_Step << '!');
     }
   }
 }

@@ -144,7 +144,7 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
         }
         if (RMSError > RMSThreshold)
         {
-          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ")" << std::endl;
+          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << std::endl;
           return EXIT_FAILURE;
         }
       }

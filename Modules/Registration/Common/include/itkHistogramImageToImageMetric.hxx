@@ -188,7 +188,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const Tran
   if (m_DerivativeStepLengthScales.size() != ParametersDimension)
   {
     itkExceptionMacro(<< "The size of DerivativesStepLengthScales is " << m_DerivativeStepLengthScales.size()
-                      << ", but the Number of Parameters is " << ParametersDimension << ".");
+                      << ", but the Number of Parameters is " << ParametersDimension << '.');
   }
 
   // Calculate gradient.

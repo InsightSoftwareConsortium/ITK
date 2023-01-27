@@ -74,7 +74,7 @@ itkVTKImageToImageFilterTest(int, char *[])
     {
       if (output->GetDirection()[i][j] != input->GetDirectionMatrix()->GetData()[i * 3 + j])
       {
-        std::cerr << "Error: directions do not match for component (" << i << "," << j << ")." << std::endl;
+        std::cerr << "Error: directions do not match for component (" << i << ',' << j << ")." << std::endl;
         return EXIT_FAILURE;
       }
     }

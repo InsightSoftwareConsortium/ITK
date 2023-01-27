@@ -36,7 +36,7 @@ InitializationBiasedParticleSwarmOptimizer::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
   os << "Acceleration coefficients [inertia, personal, global, initialization]: ";
-  os << "[" << this->m_InertiaCoefficient << ", " << this->m_PersonalCoefficient << ", ";
+  os << '[' << this->m_InertiaCoefficient << ", " << this->m_PersonalCoefficient << ", ";
   os << this->m_GlobalCoefficient << ", " << this->m_InitializationCoefficient << "]\n";
 }
 

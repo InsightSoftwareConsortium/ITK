@@ -131,7 +131,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
     {
       std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
       std::cout << "Test failed!" << std::endl;
-      std::cout << "Error in GetSplinePoles() at index: [" << i << "]" << std::endl;
+      std::cout << "Error in GetSplinePoles() at index: [" << i << ']' << std::endl;
       std::cout << "Expected: " << expectedSplinePole << std::endl;
       std::cout << " , but got: " << resultSplinePole << std::endl;
       std::cout << " Values differ by more than: " << tolerance1 << std::endl;

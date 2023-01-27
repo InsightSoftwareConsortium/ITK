@@ -110,7 +110,7 @@ itkKdTreeTest2(int argc, char * argv[])
     tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
     std::cout << "kd-tree knn search result:" << std::endl
-              << "query point = [" << queryPoint << "]" << std::endl
+              << "query point = [" << queryPoint << ']' << std::endl
               << "k = " << numberOfNeighbors << std::endl;
     std::cout << "measurement vector : distance" << std::endl;
 
@@ -118,7 +118,7 @@ itkKdTreeTest2(int argc, char * argv[])
     {
       const double distance = distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i]));
 
-      std::cout << "[" << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << std::endl;
+      std::cout << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << std::endl;
 
       if (distance > itk::Math::eps)
       {

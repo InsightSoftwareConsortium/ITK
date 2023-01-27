@@ -87,7 +87,7 @@ itkPathFunctionsTest(int, char *[])
   pixelIndex[0] = 32;
   pixelIndex[1] = 32;
   storedValue = image->GetPixel(pixelIndex);
-  std::cout << "The pixel at index (" << pixelIndex[0] << "," << pixelIndex[1] << ") has the value " << storedValue
+  std::cout << "The pixel at index (" << pixelIndex[0] << ',' << pixelIndex[1] << ") has the value " << storedValue
             << ".\n"
             << std::endl;
 

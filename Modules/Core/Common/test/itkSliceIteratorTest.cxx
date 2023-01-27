@@ -130,12 +130,12 @@ template <typename TContainer>
 void
 PrintSlice(TContainer s)
 {
-  std::cout << "[";
+  std::cout << '[';
   for (s = s.Begin(); s < s.End(); ++s)
   {
     std::cout << *s << ' ';
   }
-  std::cout << "]" << std::endl;
+  std::cout << ']' << std::endl;
 }
 
 

@@ -60,7 +60,7 @@ EuclideanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, con
   {
     itkExceptionMacro(<< "The two measurement vectors have unequal size ("
                       << NumericTraits<MeasurementVectorType>::GetLength(x1) << " and "
-                      << NumericTraits<MeasurementVectorType>::GetLength(x2) << ")");
+                      << NumericTraits<MeasurementVectorType>::GetLength(x2) << ')');
   }
 
   double sumOfSquares = 0.0;

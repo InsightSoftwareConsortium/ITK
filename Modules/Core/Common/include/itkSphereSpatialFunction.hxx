@@ -64,7 +64,7 @@ SphereSpatialFunction<VImageDimension, TInput>::PrintSelf(std::ostream & os, Ind
   {
     os << m_Center[i] << ", ";
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 
   os << indent << "Radius: " << m_Radius << std::endl;
 }

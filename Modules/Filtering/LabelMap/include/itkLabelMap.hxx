@@ -127,7 +127,7 @@ LabelMap<TLabelObject>::GetLabelObject(const LabelType & label) -> LabelObjectTy
   if (it == m_LabelObjectContainer.end())
   {
     itkExceptionMacro(<< "No label object with label "
-                      << static_cast<typename NumericTraits<LabelType>::PrintType>(label) << ".");
+                      << static_cast<typename NumericTraits<LabelType>::PrintType>(label) << '.');
   }
 
   return it->second;
@@ -147,7 +147,7 @@ LabelMap<TLabelObject>::GetLabelObject(const LabelType & label) const -> const L
   if (it == m_LabelObjectContainer.end())
   {
     itkExceptionMacro(<< "No label object with label "
-                      << static_cast<typename NumericTraits<LabelType>::PrintType>(label) << ".");
+                      << static_cast<typename NumericTraits<LabelType>::PrintType>(label) << '.');
   }
 
   return it->second;
@@ -379,7 +379,7 @@ LabelMap<TLabelObject>::GetLabelObject(const IndexType & idx) const -> LabelObje
       return it->second.GetPointer();
     }
   }
-  itkExceptionMacro(<< "No label object at index " << idx << ".");
+  itkExceptionMacro(<< "No label object at index " << idx << '.');
   //   return nullptr;
 }
 
