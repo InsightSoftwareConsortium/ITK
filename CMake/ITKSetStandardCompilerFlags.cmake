@@ -206,6 +206,50 @@ function(check_avx_flags avx_flags_var)
   endif()
 endfunction()
 
+# Check for the presence of SSE2.
+# Adapted from the AVX check and https://github.com/InsightSoftwareConsortium/ITK/blob/master/Modules/ThirdParty/VNL/src/vxl/config/cmake/config/vxl_platform_tests.cxx#L164-L178
+function(check_sse2_flags sse2_flags_var)
+
+  # set flags to be used in check_cxx_source_runs below
+  set(_safe_cmake_required_flags "${CMAKE_REQUIRED_FLAGS}")
+  set(CMAKE_REQUIRED_FLAGS)
+  if(MSVC)
+    set(CMAKE_REQUIRED_FLAGS "/arch:SSE2")
+  elseif(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_REQUIRED_FLAGS "-msse2")
+  endif()
+
+  # perform test
+  include(CheckCXXSourceRuns)
+  check_cxx_source_runs("
+      #include <emmintrin.h>
+      int main()
+      {
+        //try to do some sse2 calculations
+        double d_a[]  = { 6.75, 3.42 };
+        double d_b[]  = { 2.3, 9.2 };
+        double res[2] = {0.0};
+
+        __m128d z;
+        z = _mm_mul_pd(_mm_loadu_pd(d_a),_mm_loadu_pd(d_b));
+
+        _mm_storeu_pd(res,z);
+
+        return 0;
+      }"
+    have_sse2_extensions_var)
+  set(CMAKE_REQUIRED_FLAGS "${_safe_cmake_required_flags}")
+
+  # Set SSE2 Flags
+  set(${sse2_flags_var})
+  if(have_sse2_extensions_var AND MSVC)
+    set(${sse2_flags_var} "/arch:SSE2")
+  elseif(have_sse2_extensions_var AND CMAKE_COMPILER_IS_GNUCXX)
+    set(${sse2_flags_var} "-msse2")
+  endif()
+  set(${sse2_flags_var} "${${sse2_flags_var}}" PARENT_SCOPE)
+endfunction()
+
 function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimization_flags_var)
   set(${c_optimization_flags_var} "" PARENT_SCOPE)
   set(${cxx_optimization_flags_var} "" PARENT_SCOPE)
@@ -348,10 +392,9 @@ macro(check_compiler_platform_flags)
       set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -fno-sized-deallocation")
     endif()
 
-    # gcc must have -msse2 option to enable sse2 support
-    if(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
-      set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -msse2")
-    endif()
+    check_sse2_flags(ITK_SSE2_CFLAGS_IF_AVAILABLE)
+    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} ${ITK_SSE2_CFLAGS_IF_AVAILABLE}")
+
   endif()
 
   #-----------------------------------------------------------------------------
