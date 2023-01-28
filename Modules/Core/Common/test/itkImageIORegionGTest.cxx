@@ -43,7 +43,6 @@ IsDefaultConstructibleCopyableNoThrowMovableAndDestructible()
          StaticAssertValueOfTypeTrait<std::is_copy_constructible<T>>() &&
          StaticAssertValueOfTypeTrait<std::is_copy_assignable<T>>() &&
          StaticAssertValueOfTypeTrait<std::is_nothrow_move_constructible<T>>() &&
-         StaticAssertValueOfTypeTrait<std::is_nothrow_move_assignable<T>>() &&
          StaticAssertValueOfTypeTrait<std::is_nothrow_move_assignable<T>>();
 }
 
