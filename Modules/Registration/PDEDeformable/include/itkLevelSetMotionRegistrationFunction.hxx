@@ -360,11 +360,6 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
   if (d->m_MaxL1Norm > 0.0)
   {
     dt = 1.0 / d->m_MaxL1Norm;
-    // std::cout << "Computed timestep: " << dt << std::endl;
-  }
-  else
-  {
-    // std::cout << "Using default timestep: " << dt << std::endl;
   }
 
   return dt;
