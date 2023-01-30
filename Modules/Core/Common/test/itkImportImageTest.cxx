@@ -113,7 +113,7 @@ itkImportImageTest(int, char *[])
                      (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
                      (region.GetSize()[0] * ((shrink->GetShrinkFactors()[1] / 2) +
                                              (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))))
-                << "\n";
+                << '\n';
       passed = false;
     }
   }

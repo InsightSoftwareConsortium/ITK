@@ -208,7 +208,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
   if (numberOfIndices < numberOfPolygons)
   {
     itkExceptionMacro(<< "Error reading file: " << m_FileName << "\nnumberOfIndices < numberOfPolygons\n"
-                      << "numberOfIndices= " << numberOfIndices << "\n"
+                      << "numberOfIndices= " << numberOfIndices << '\n'
                       << "numberOfPolygons= " << numberOfPolygons);
   }
 

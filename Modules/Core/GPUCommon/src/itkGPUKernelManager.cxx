@@ -139,7 +139,7 @@ GPUKernelManager::LoadProgramFromFile(const char * filename, const char * cPream
 
     /*
     std::ostringstream itkmsg;
-    itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << "\n"
+    itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << '\n'
            << this->GetNameOfClass() << " (" << this << "): "
            << "OpenCL program build error:" << paramValue
            << "\n\n";
@@ -217,7 +217,7 @@ GPUKernelManager::LoadProgramFromString(const char * cSource, const char * cPrea
 
     /*
     std::ostringstream itkmsg;
-    itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << "\n"
+    itkmsg << "ERROR: In " __FILE__ ", line " << __LINE__ << '\n'
            << this->GetNameOfClass() << " (" << this << "): "
            << "OpenCL program build error:" << paramValue
            << "\n\n";

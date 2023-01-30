@@ -59,7 +59,7 @@ itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char *[])
 
   filter->SetInput(im_init);
   filter->SetRMSChangeNormalProcessTrigger(0.1);
-  std::cout << "max iteration = " << (filter->GetMaxFilterIteration()) << "\n";
+  std::cout << "max iteration = " << (filter->GetMaxFilterIteration()) << '\n';
   std::cout << "Starting processing.\n";
   filter->Update();
   filter->Print(std::cout);

@@ -76,7 +76,7 @@ itkMeanImageFilterTest(int, char *[])
   unsigned int i;
   for (i = 1; !it.IsAtEnd(); ++i, ++it)
   {
-    std::cout << "\t" << it.Get();
+    std::cout << '\t' << it.Get();
     if ((i % 8) == 0)
     {
       std::cout << std::endl;
@@ -87,7 +87,7 @@ itkMeanImageFilterTest(int, char *[])
   it = itk::ImageRegionIterator<FloatImage2DType>(mean->GetOutput(), mean->GetOutput()->GetBufferedRegion());
   for (i = 1; !it.IsAtEnd(); ++i, ++it)
   {
-    std::cout << "\t" << it.Get();
+    std::cout << '\t' << it.Get();
     if ((i % 8) == 0)
     {
       std::cout << std::endl;

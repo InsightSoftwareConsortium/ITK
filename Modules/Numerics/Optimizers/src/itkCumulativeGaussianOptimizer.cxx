@@ -211,9 +211,9 @@ CumulativeGaussianOptimizer::PrintComputedParameterHeader()
 void
 CumulativeGaussianOptimizer::PrintComputedParameters() const
 {
-  std::cerr << m_ComputedMean - m_OffsetForMean << "\t" // Printed mean is
+  std::cerr << m_ComputedMean - m_OffsetForMean << '\t' // Printed mean is
                                                         // shifted.
-            << m_ComputedStandardDeviation << "\t" << m_ComputedAmplitude << "\t" << m_ComputedTransitionHeight
+            << m_ComputedStandardDeviation << '\t' << m_ComputedAmplitude << '\t' << m_ComputedTransitionHeight
             << std::endl;
 }
 

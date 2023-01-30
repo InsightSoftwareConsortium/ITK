@@ -103,7 +103,7 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
       if (value != background)
       {
         std::cerr << "Pixel at index " << index << " has value " << value
-                  << " but should have bacground value: " << background << "\n";
+                  << " but should have bacground value: " << background << '\n';
         return EXIT_FAILURE;
       }
     }

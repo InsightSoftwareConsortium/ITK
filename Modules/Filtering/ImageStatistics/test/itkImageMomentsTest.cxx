@@ -180,21 +180,21 @@ itkImageMomentsTest(int argc, char * argv[])
 
   /* Report the center of gravity and central moments */
   std::cout << "\nCenter of gravity =\n";
-  std::cout << "   " << ccg << "\n";
+  std::cout << "   " << ccg << '\n';
   std::cout << "True center of gravity =\n";
-  std::cout << "   " << tcg << "\n";
+  std::cout << "   " << tcg << '\n';
   std::cout << "\nSecond central moments =\n";
-  std::cout << "   " << moments->GetCentralMoments() << "\n";
+  std::cout << "   " << moments->GetCentralMoments() << '\n';
 
   /* Report principal moments and axes */
   std::cout << "\nPrincipal moments = \n";
-  std::cout << "   " << cpm << "\n";
+  std::cout << "   " << cpm << '\n';
   std::cout << "True principal moments = \n";
-  std::cout << "   " << tpm << "\n";
+  std::cout << "   " << tpm << '\n';
   std::cout << "\nPrincipal axes = \n";
-  std::cout << "   " << cpa << "\n";
+  std::cout << "   " << cpa << '\n';
   std::cout << "True principal axes = \n";
-  std::cout << "   " << tpa << "\n";
+  std::cout << "   " << tpa << '\n';
 
   /* Compute transforms between principal and physical axes */
   /* FIXME: Automatically check correctness of these results? */

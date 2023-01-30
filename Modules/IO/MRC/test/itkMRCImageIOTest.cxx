@@ -103,7 +103,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
     }
     else
     {
-      m_OutputFileName << outputPath << "\\" << m_NameWithIndex.str();
+      m_OutputFileName << outputPath << '\\' << m_NameWithIndex.str();
     }
 
 #else /// POSIX UNIX
@@ -170,7 +170,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
     }
     else
     {
-      m_OutputFileName << outputPath << "\\" << m_NameWithIndex.str();
+      m_OutputFileName << outputPath << '\\' << m_NameWithIndex.str();
     }
 
 #else /// POSIX UNIX

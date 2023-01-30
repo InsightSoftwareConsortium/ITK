@@ -53,9 +53,7 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
   }
   std::cout << "Spacing: " << spacing << std::endl;
   ImageNDType::DirectionType direction = image->GetDirection();
-  std::cout << "Direction: "
-            << "\n"
-            << direction << std::endl;
+  std::cout << "Direction: " << '\n' << direction << std::endl;
 
   MetaImage metaImage;
   if (!metaImage.Read(argv[1], false))
@@ -82,9 +80,7 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
     }
   }
   std::cout << "Spacing baseline: " << ioSpacing << std::endl;
-  std::cout << "Direction baseline: "
-            << "\n"
-            << ioDirection << std::endl;
+  std::cout << "Direction baseline: " << '\n' << ioDirection << std::endl;
 
   // Go through entire image and make sure that at each physical pixel location, the value of the images, with negative
   // spacing and positive spacing, are the same.
@@ -122,9 +118,8 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
     if (index != baselineIndex)
     {
       std::cerr << "Difference found between original image and flipped spacing image: "
-                << "Indices do not correspond."
-                << "\n"
-                << "Flipped image: " << index << "\n"
+                << "Indices do not correspond." << '\n'
+                << "Flipped image: " << index << '\n'
                 << "Baseline image:" << baselineIndex << std::endl;
       return EXIT_FAILURE;
     }

@@ -38,7 +38,7 @@ ShowDistanceMap(itk::SmartPointer<TImage> distanceMap)
     {
       while (!it2D2.IsAtEndOfLine())
       {
-        std::cout << std::setw(7) << std::setprecision(5) << it2D2.Get() << "\t";
+        std::cout << std::setw(7) << std::setprecision(5) << it2D2.Get() << '\t';
         ++it2D2;
       }
       std::cout << std::endl;

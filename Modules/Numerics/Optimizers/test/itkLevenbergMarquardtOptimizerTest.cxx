@@ -246,7 +246,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   parameters.Fill(0.0);
   costFunction->GetValue(parameters);
 
-  std::cout << "Number of Values = " << costFunction->GetNumberOfValues() << "\n";
+  std::cout << "Number of Values = " << costFunction->GetNumberOfValues() << '\n';
 
   try
   {

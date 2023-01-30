@@ -607,7 +607,7 @@ RegressionTestHelper(const char *       testImageFilename,
     catch (const std::exception & e)
     {
       std::cerr << "Error during rescale of " << diffName.str() << std::endl;
-      std::cerr << e.what() << "\n";
+      std::cerr << e.what() << '\n';
     }
     catch (...)
     {
@@ -621,7 +621,7 @@ RegressionTestHelper(const char *       testImageFilename,
     catch (const std::exception & e)
     {
       std::cerr << "Error during write of " << diffName.str() << std::endl;
-      std::cerr << e.what() << "\n";
+      std::cerr << e.what() << '\n';
     }
     catch (...)
     {
@@ -642,7 +642,7 @@ RegressionTestHelper(const char *       testImageFilename,
     catch (const std::exception & e)
     {
       std::cerr << "Error during rescale of " << baseName.str() << std::endl;
-      std::cerr << e.what() << "\n";
+      std::cerr << e.what() << '\n';
     }
     catch (...)
     {
@@ -656,7 +656,7 @@ RegressionTestHelper(const char *       testImageFilename,
     catch (const std::exception & e)
     {
       std::cerr << "Error during write of " << baseName.str() << std::endl;
-      std::cerr << e.what() << "\n";
+      std::cerr << e.what() << '\n';
     }
     catch (...)
     {
@@ -677,7 +677,7 @@ RegressionTestHelper(const char *       testImageFilename,
     catch (const std::exception & e)
     {
       std::cerr << "Error during rescale of " << testName.str() << std::endl;
-      std::cerr << e.what() << "\n";
+      std::cerr << e.what() << '\n';
     }
     catch (...)
     {
@@ -691,7 +691,7 @@ RegressionTestHelper(const char *       testImageFilename,
     catch (const std::exception & e)
     {
       std::cerr << "Error during write of " << testName.str() << std::endl;
-      std::cerr << e.what() << "\n";
+      std::cerr << e.what() << '\n';
     }
     catch (...)
     {
@@ -947,7 +947,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   catch (const std::exception & e)
   {
     std::cerr << "Error during rescale and writing of " << testName.str() << std::endl;
-    std::cerr << e.what() << "\n";
+    std::cerr << e.what() << '\n';
   }
   catch (...)
   {

@@ -220,8 +220,8 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     PointType difference;
     difference[0] = transformedMovingPoint[0] - fixedPoint[0];
     difference[1] = transformedMovingPoint[1] - fixedPoint[1];
-    std::cout << fixedPoints->GetPoint(n) << "\t" << movingPoints->GetPoint(n) << "\t" << transformedMovingPoint << "\t"
-              << transformedFixedPoint << "\t" << difference << std::endl;
+    std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoints->GetPoint(n) << '\t' << transformedMovingPoint << '\t'
+              << transformedFixedPoint << '\t' << difference << std::endl;
 
     averageError += ((difference.GetVectorFromOrigin()).GetSquaredNorm());
   }

@@ -594,8 +594,8 @@ MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of Work Units: " << m_NumberOfWorkUnits << "\n";
-  os << indent << "Number of Threads: " << m_MaximumNumberOfThreads << "\n";
+  os << indent << "Number of Work Units: " << m_NumberOfWorkUnits << '\n';
+  os << indent << "Number of Threads: " << m_MaximumNumberOfThreads << '\n';
   os << indent << "Global Maximum Number Of Threads: " << m_PimplGlobals->m_GlobalMaximumNumberOfThreads << std::endl;
   os << indent << "Global Default Number Of Threads: " << m_PimplGlobals->m_GlobalDefaultNumberOfThreads << std::endl;
   os << indent << "Global Default Threader Type: " << m_PimplGlobals->m_GlobalDefaultThreader << std::endl;

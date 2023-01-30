@@ -48,8 +48,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream & os, 
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "UserSpecifiedImageIO flag: " << m_UserSpecifiedImageIO << "\n";
-  os << indent << "m_UseStreaming: " << m_UseStreaming << "\n";
+  os << indent << "UserSpecifiedImageIO flag: " << m_UserSpecifiedImageIO << '\n';
+  os << indent << "m_UseStreaming: " << m_UseStreaming << '\n';
 }
 
 template <typename TOutputImage, typename ConvertPixelTraits>
@@ -354,7 +354,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 
   itkDebugMacro(<< "ImageFileReader::GenerateData() \n"
                 << "Allocating the buffer with the EnlargedRequestedRegion \n"
-                << output->GetRequestedRegion() << "\n");
+                << output->GetRequestedRegion() << '\n');
 
   // allocated the output image to the size of the enlarge requested region
   this->AllocateOutputs();

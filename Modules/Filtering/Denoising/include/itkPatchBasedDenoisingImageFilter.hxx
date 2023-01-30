@@ -171,8 +171,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
   // Pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(voxelNeighborhoodSize);
 
-  itkDebugMacro(<< "Padding inputRequestedRegion by " << voxelNeighborhoodSize << "\n"
-                << "inputRequestedRegion: " << inputRequestedRegion << "\n"
+  itkDebugMacro(<< "Padding inputRequestedRegion by " << voxelNeighborhoodSize << '\n'
+                << "inputRequestedRegion: " << inputRequestedRegion << '\n'
                 << "largestPossibleRegion: " << inputPtr->GetLargestPossibleRegion());
 
   // Crop the input requested region at the input's largest possible region

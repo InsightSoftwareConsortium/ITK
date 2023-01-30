@@ -89,7 +89,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
         << this->m_InputObject->GetPercentageParticlesConverged() << '"';
 
     ofs << '>';
-    ofs << "\n";
+    ofs << '\n';
 
     // write the lower bound
     ofs << "  <bound id=\"lower\"";
@@ -102,7 +102,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << '"';
 
     ofs << "/>";
-    ofs << "\n";
+    ofs << '\n';
 
     // write the upper bound
 
@@ -116,7 +116,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << '"';
 
     ofs << "/>";
-    ofs << "\n";
+    ofs << '\n';
 
     // write the ParametersConvergenceTolerance
 
@@ -133,12 +133,12 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     }
 
     ofs << "</ParametersConvergenceTolerance>";
-    ofs << "\n";
+    ofs << '\n';
 
     // close the tag 'optimizer'
 
     ofs << "</optimizer>";
-    ofs << "\n";
+    ofs << '\n';
 
     ofs.close();
 

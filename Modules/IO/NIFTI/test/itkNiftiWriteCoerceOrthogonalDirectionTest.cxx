@@ -30,7 +30,7 @@ itkNiftiWriteCoerceOrthogonalDirectionTest(int argc, char * argv[])
     std::cerr << "1 argument required, received " << argc << std::endl;
     for (int i = 0; i < argc; ++i)
     {
-      std::cerr << "\t" << i << " : " << argv[i] << std::endl;
+      std::cerr << '\t' << i << " : " << argv[i] << std::endl;
     }
     return EXIT_FAILURE;
   }

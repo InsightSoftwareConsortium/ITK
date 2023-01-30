@@ -222,7 +222,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
     }
   }
 
-  std::cout << "\n" << mesh->GetNumberOfCells() << " cells:" << std::endl;
+  std::cout << '\n' << mesh->GetNumberOfCells() << " cells:" << std::endl;
   for (i = 0; i < mesh->GetNumberOfCells(); ++i)
   {
     using CellAutoPointer = MeshType::CellAutoPointer;
@@ -241,7 +241,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
       std::cout << std::endl;
     }
   }
-  std::cout << "\n";
+  std::cout << '\n';
 
   for (i = 0; i < mesh->GetNumberOfCells(); ++i)
   {
@@ -262,7 +262,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
         {
           std::cout << neighborIter << ' ';
         }
-        std::cout << "\n";
+        std::cout << '\n';
 
         mesh->GetCellBoundaryFeatureNeighbors(0, i, 1, &cellSet);
         std::cout << "Neighbors across vertex 1: ";
@@ -270,7 +270,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
         {
           std::cout << neighborIter << ' ';
         }
-        std::cout << "\n";
+        std::cout << '\n';
 
         mesh->GetCellNeighbors(i, &cellSet);
         std::cout << "Neighbors having edge as boundary: ";
@@ -278,7 +278,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
         {
           std::cout << neighborIter << ' ';
         }
-        std::cout << "\n" << std::endl;
+        std::cout << '\n' << std::endl;
       }
     }
   }

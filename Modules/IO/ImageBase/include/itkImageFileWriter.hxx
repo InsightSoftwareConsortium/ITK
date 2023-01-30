@@ -389,9 +389,9 @@ ImageFileWriter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "IO Region: " << m_PasteIORegion << "\n";
-  os << indent << "Number of Stream Divisions: " << m_NumberOfStreamDivisions << "\n";
-  os << indent << "CompressionLevel: " << m_CompressionLevel << "\n";
+  os << indent << "IO Region: " << m_PasteIORegion << '\n';
+  os << indent << "Number of Stream Divisions: " << m_NumberOfStreamDivisions << '\n';
+  os << indent << "CompressionLevel: " << m_CompressionLevel << '\n';
 
   if (m_UseCompression)
   {

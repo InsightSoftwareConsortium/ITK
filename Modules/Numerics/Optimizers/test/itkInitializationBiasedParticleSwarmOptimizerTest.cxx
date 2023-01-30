@@ -195,7 +195,7 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
     // show why we stopped and see if the optimization succeeded
 
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
@@ -223,7 +223,7 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
     // show why we stopped and see if the optimization succeeded
 
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
@@ -322,7 +322,7 @@ IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
     // show why we stopped and see if the optimization succeeded
 
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
@@ -421,7 +421,7 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
 
     // show why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
@@ -454,7 +454,7 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
 
     // show why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 
@@ -488,7 +488,7 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
 
     // show why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
 
     finalParameters = itkOptimizer->GetCurrentPosition();
 

@@ -41,7 +41,7 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUScalarAnisotropicDiffusionFunc
     itkExceptionMacro("GPUScalarAnisotropicDiffusionFunction supports 1/2/3D image.");
   }
 
-  defines << "#define DIM_" << ImageDimension << "\n";
+  defines << "#define DIM_" << ImageDimension << '\n';
 
   defines << "#define PIXELTYPE ";
 

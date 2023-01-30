@@ -468,7 +468,7 @@ void
 GetTypenameInString(const std::type_info & intype, std::ostringstream & ret)
 {
   std::string typestr = GetTypename(intype);
-  ret << typestr << "\n";
+  ret << typestr << '\n';
   if (typestr == "double")
   {
     std::string pragmastr = Get64BitPragma();

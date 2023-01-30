@@ -117,7 +117,7 @@ public:
         metric->GetValueAndDerivative(parameters, value, derivative);
         timeProbe.Stop();
 
-        std::cout << pval << "\t" << value << "\t" << derivative << std::endl;
+        std::cout << pval << '\t' << value << '\t' << derivative << std::endl;
       }
     }
 

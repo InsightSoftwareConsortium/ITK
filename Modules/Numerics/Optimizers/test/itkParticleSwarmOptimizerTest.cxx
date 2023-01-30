@@ -148,7 +148,7 @@ PSOTest1()
 
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
@@ -172,7 +172,7 @@ PSOTest1()
 
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
@@ -247,7 +247,7 @@ PSOTest2()
 
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
@@ -393,7 +393,7 @@ PSOTest3()
 
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
@@ -422,7 +422,7 @@ PSOTest3()
 
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
@@ -458,7 +458,7 @@ PSOTest3()
 
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
-    std::cout << "\t" << itkOptimizer->GetStopConditionDescription() << "\n";
+    std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;

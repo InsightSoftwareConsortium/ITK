@@ -147,7 +147,7 @@ Thread(int tnum)
   // Implementation in individual thread.  We don't care about
   // mutexing the output because it doesn't matter for the test.
   threadMutex.lock();
-  std::cout << "Starting " << tnum << "\n";
+  std::cout << "Starting " << tnum << '\n';
   threadMutex.unlock();
 
   // Create a list with which to play.
@@ -161,7 +161,7 @@ Thread(int tnum)
   {
     // Output progress of this thread.
     threadMutex.lock();
-    std::cout << tnum << ": " << iteration << "\n";
+    std::cout << tnum << ": " << iteration << '\n';
     threadMutex.unlock();
 
     // Fill the list.

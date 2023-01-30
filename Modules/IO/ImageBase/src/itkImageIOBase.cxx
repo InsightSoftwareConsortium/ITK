@@ -712,7 +712,7 @@ WriteBuffer(std::ostream & os, const TComponent * buffer, ImageIOBase::SizeType 
   {
     if (!(i % 6) && i)
     {
-      os << "\n";
+      os << '\n';
     }
     os << PrintType(*ptr++) << ' ';
   }
@@ -1164,7 +1164,7 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "IOByteOrderEnum: " << this->GetByteOrderAsString(m_ByteOrder) << std::endl;
   os << indent << "IORegion: " << std::endl;
   m_IORegion.Print(os, indent.GetNextIndent());
-  os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << "\n";
+  os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << '\n';
   os << indent << "Pixel Type: " << this->GetPixelTypeAsString(m_PixelType) << std::endl;
   os << indent << "Component Type: " << this->GetComponentTypeAsString(m_ComponentType) << std::endl;
   os << indent << "Dimensions: " << m_Dimensions << std::endl;

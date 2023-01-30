@@ -77,7 +77,7 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
   origin3D[1] = 2.0;
   origin3D[2] = 3.0;
   value.str("");
-  value << origin3D[0] << "\\" << origin3D[1] << "\\" << origin3D[2];
+  value << origin3D[0] << '\\' << origin3D[1] << '\\' << origin3D[2];
   itk::EncapsulateMetaData<std::string>(dictionary, "0020|0032", value.str());
 
   // GDCM will not write IPP unless the modality is one of CT, MR or RT.

@@ -62,14 +62,14 @@ void
 ComparisonImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "ToleranceRadius: " << m_ToleranceRadius << "\n";
-  os << indent << "DifferenceThreshold: " << m_DifferenceThreshold << "\n";
-  os << indent << "MinimumDifference: " << m_MinimumDifference << "\n";
-  os << indent << "MaximumDifference: " << m_MaximumDifference << "\n";
-  os << indent << "MeanDifference: " << m_MeanDifference << "\n";
-  os << indent << "TotalDifference: " << m_TotalDifference << "\n";
-  os << indent << "NumberOfPixelsWithDifferences: " << m_NumberOfPixelsWithDifferences << "\n";
-  os << indent << "IgnoreBoundaryPixels: " << m_IgnoreBoundaryPixels << "\n";
+  os << indent << "ToleranceRadius: " << m_ToleranceRadius << '\n';
+  os << indent << "DifferenceThreshold: " << m_DifferenceThreshold << '\n';
+  os << indent << "MinimumDifference: " << m_MinimumDifference << '\n';
+  os << indent << "MaximumDifference: " << m_MaximumDifference << '\n';
+  os << indent << "MeanDifference: " << m_MeanDifference << '\n';
+  os << indent << "TotalDifference: " << m_TotalDifference << '\n';
+  os << indent << "NumberOfPixelsWithDifferences: " << m_NumberOfPixelsWithDifferences << '\n';
+  os << indent << "IgnoreBoundaryPixels: " << m_IgnoreBoundaryPixels << '\n';
 }
 
 //----------------------------------------------------------------------------

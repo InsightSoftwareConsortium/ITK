@@ -577,7 +577,7 @@ StimulateImageIO::Write(const void * buffer)
     file << "\nstimFileName: " << m_DataFileName.c_str();
 
     // Last carrier return:
-    file << "\n";
+    file << '\n';
 
     // actually read data file
     std::ofstream file_data;

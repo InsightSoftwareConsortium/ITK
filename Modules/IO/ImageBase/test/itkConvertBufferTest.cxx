@@ -27,8 +27,8 @@ itkConvertBufferTest(int, char *[])
   itk::RGBPixel<int>  pi = piInit;
   int                 piaInit[4] = { 3, 1, 4, 1 };
   itk::RGBAPixel<int> pia = piaInit;
-  std::cerr << "RGBPixel<int>: " << pi << "\n";
-  std::cerr << "RGBAPixel<int>: " << pia << "\n";
+  std::cerr << "RGBPixel<int>: " << pi << '\n';
+  std::cerr << "RGBAPixel<int>: " << pia << '\n';
 
   itk::RGBAPixel<unsigned char> ucpa[3];
   itk::RGBAPixel<float>         pa[3];
@@ -47,7 +47,7 @@ itkConvertBufferTest(int, char *[])
       ITK_TEST_EXPECT_EQUAL(p[j][k], ipa[j]);
     }
   }
-  std::cerr << "\n";
+  std::cerr << '\n';
   float                ipa3com[] = { 1.f, 1.f, 1.f, 2.f, 2.f, 2.f, 3.f, 3.f, 3.f };
   itk::RGBPixel<float> pf[3];
   // convert from float[] to RGB<float>
@@ -62,7 +62,7 @@ itkConvertBufferTest(int, char *[])
       ITK_TEST_EXPECT_EQUAL(pf[k][j], ipa3com[j + k * 3]);
     }
   }
-  std::cerr << "\n";
+  std::cerr << '\n';
   // convert from float[] to RGBA<float>
   itk::ConvertPixelBuffer<float, itk::RGBAPixel<float>, itk::DefaultConvertPixelTraits<itk::RGBAPixel<float>>>::Convert(
     ipa3com, 3, pa, 3);
@@ -76,7 +76,7 @@ itkConvertBufferTest(int, char *[])
     }
   }
   ITK_TEST_EXPECT_EQUAL(pa[0][3], 1.f); // Alpha must be 1.0f for float input pixel.
-  std::cerr << "\n";
+  std::cerr << '\n';
   unsigned char ucipa3com[] = { 1, 1, 1, 2, 2, 2, 3, 3, 3 };
   // convert from unsigned char[3] to RGBA<unsigned char>
   itk::ConvertPixelBuffer<unsigned char,
@@ -95,7 +95,7 @@ itkConvertBufferTest(int, char *[])
     }
   }
   ITK_TEST_EXPECT_EQUAL(ucpa[0][3], 255); // Alpha must be 255 for unsigned char input pixel type
-  std::cerr << "\n";
+  std::cerr << '\n';
   // create an initial array of floats
   float farray[] = { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f, 6.4f, 7.4f, 8.8f, 9.9f };
   // set the size of the array in number of elements
@@ -126,6 +126,6 @@ itkConvertBufferTest(int, char *[])
     std::cerr << darray[i] << ' ';
     ITK_TEST_EXPECT_EQUAL(farray[i], static_cast<float>(iarray[i]));
   }
-  std::cerr << "\n";
+  std::cerr << '\n';
   return EXIT_SUCCESS;
 }

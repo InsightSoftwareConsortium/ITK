@@ -32,8 +32,7 @@ GPUMeanImageFilter<TInputImage, TOutputImage>::GPUMeanImageFilter()
     itkExceptionMacro("GPUMeanImageFilter supports 1/2/3D image.");
   }
 
-  defines << "#define DIM_" << TInputImage::ImageDimension << "\n"
-          << "#define PIXELTYPE ";
+  defines << "#define DIM_" << TInputImage::ImageDimension << '\n' << "#define PIXELTYPE ";
   GetTypenameInString(typeid(typename TInputImage::PixelType), defines);
 
   const char * GPUSource = GPUMeanImageFilter::GetOpenCLSource();

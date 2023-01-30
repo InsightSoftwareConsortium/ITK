@@ -383,7 +383,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       if (numberOfVertexIndices < numberOfVertices)
       {
         itkExceptionMacro("ERROR: numberOfVertexIndices < numberOfVertices\n"
-                          << "numberOfVertexIndices= " << numberOfVertexIndices << "\n"
+                          << "numberOfVertexIndices= " << numberOfVertexIndices << '\n'
                           << "numberOfVertices= " << numberOfVertices);
       }
 
@@ -420,7 +420,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       if (numberOfLineIndices < numberOfLines)
       {
         itkExceptionMacro("ERROR: numberOfLineIndices < numberOfLines\n"
-                          << "numberOfLineIndices= " << numberOfLineIndices << "\n"
+                          << "numberOfLineIndices= " << numberOfLineIndices << '\n'
                           << "numberOfLines= " << numberOfLines);
       }
 
@@ -457,7 +457,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       if (numberOfPolygonIndices < numberOfPolygons)
       {
         itkExceptionMacro("ERROR: numberOfPolygonIndices < numberOfPolygons\n"
-                          << "numberOfPolygonIndices= " << numberOfPolygonIndices << "\n"
+                          << "numberOfPolygonIndices= " << numberOfPolygonIndices << '\n'
                           << "numberOfPolygons= " << numberOfPolygons);
       }
 
@@ -1189,27 +1189,22 @@ VTKPolyDataMeshIO::WriteMeshInformation()
   }
 
   // Write VTK header
-  outputFile << "# vtk DataFile Version 2.0"
-             << "\n";
-  outputFile << "File written by itkPolyDataMeshIO"
-             << "\n";
+  outputFile << "# vtk DataFile Version 2.0" << '\n';
+  outputFile << "File written by itkPolyDataMeshIO" << '\n';
   if (m_FileType == IOFileEnum::ASCII)
   {
-    outputFile << "ASCII"
-               << "\n";
+    outputFile << "ASCII" << '\n';
   }
   else if (m_FileType == IOFileEnum::BINARY)
   {
-    outputFile << "BINARY"
-               << "\n";
+    outputFile << "BINARY" << '\n';
   }
   else
   {
     itkExceptionMacro(<< "Invalid output file type (not ASCII or BINARY)");
   }
 
-  outputFile << "DATASET POLYDATA"
-             << "\n";
+  outputFile << "DATASET POLYDATA" << '\n';
 
   outputFile.close();
 }

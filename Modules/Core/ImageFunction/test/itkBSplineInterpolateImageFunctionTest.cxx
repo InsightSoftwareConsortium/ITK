@@ -210,7 +210,7 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
   std::cout << " Index: " << index;
 
   bool bvalue = interp->IsInsideBuffer(index);
-  std::cout << " Inside: " << bvalue << "\n";
+  std::cout << " Inside: " << bvalue << '\n';
 
   if (bvalue != isInside)
   {
@@ -222,7 +222,7 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
   {
     typename TInterpolator::CovariantVectorType value;
     double                                      value2 = interp->EvaluateAtContinuousIndex(index);
-    std::cout << "Interpolated Value: " << value2 << "\n";
+    std::cout << "Interpolated Value: " << value2 << '\n';
     value = interp->EvaluateDerivativeAtContinuousIndex(index);
     std::cout << " Value: ";
     for (int i = 0; i < ImageDimension3D; ++i)

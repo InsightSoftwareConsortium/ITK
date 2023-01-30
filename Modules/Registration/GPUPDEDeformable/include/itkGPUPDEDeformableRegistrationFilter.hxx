@@ -53,7 +53,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
-  defines << "#define DIM_" << TDisplacementField::ImageDimension << "\n";
+  defines << "#define DIM_" << TDisplacementField::ImageDimension << '\n';
 
   // PixelType is a Vector
   defines << "#define OUTPIXELTYPE ";

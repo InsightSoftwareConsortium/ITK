@@ -126,7 +126,7 @@ public:
         if (itk::Math::NotAlmostEquals(it.GetFrequency()[dim], itk::Math::abs(reverseIt.GetFrequency()[dim])))
         {
           std::cout << "Failed testing Hermitian property at index:" << it.GetIndex() << " freq: " << it.GetFrequency()
-                    << "\n"
+                    << '\n'
                     << " reverseIt: " << reverseIt.GetIndex() << " freq: " << reverseIt.GetFrequency() << std::endl;
           return false;
         }

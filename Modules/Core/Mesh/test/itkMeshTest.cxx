@@ -721,9 +721,9 @@ itkMeshTest(int, char *[])
     // cell types of the visitors added to the MultiVisitor
     mesh->Accept(mv);
     // print the counts found
-    std::cout << "Number of TetraCellType " << counts.m_Tetra << "\n";
-    std::cout << "Number of QuadraticEdgeCellType " << counts.m_QuadraticEdgeCell << "\n";
-    std::cout << "Number of QuadraticTriangleCellType " << counts.m_QuadraticTriangleCellType << "\n";
+    std::cout << "Number of TetraCellType " << counts.m_Tetra << '\n';
+    std::cout << "Number of QuadraticEdgeCellType " << counts.m_QuadraticEdgeCell << '\n';
+    std::cout << "Number of QuadraticTriangleCellType " << counts.m_QuadraticTriangleCellType << '\n';
 
     std::cout << bbox << std::endl;
 

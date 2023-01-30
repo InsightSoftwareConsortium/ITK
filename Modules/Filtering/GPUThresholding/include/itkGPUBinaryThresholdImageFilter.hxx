@@ -41,14 +41,13 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImag
   validTypes.emplace_back("float");
   validTypes.emplace_back("double");
 
-  defines << "#define DIM_" << TInputImage::ImageDimension << "\n";
+  defines << "#define DIM_" << TInputImage::ImageDimension << '\n';
 
   std::string validTypeName;
   bool        isValid = GetValidTypename(typeid(typename TInputImage::PixelType), validTypes, validTypeName);
   if (isValid)
   {
-    defines << "#define InPixelType " << validTypeName << "\n"
-            << "#define OutPixelType " << validTypeName << "\n";
+    defines << "#define InPixelType " << validTypeName << '\n' << "#define OutPixelType " << validTypeName << '\n';
 #ifdef __APPLE__
     // This is to work around a bug in the OpenCL compiler on Mac OS 10.6 and 10.7 with NVidia drivers
     // where the compiler was not handling unsigned char arguments correctly.
@@ -62,12 +61,10 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImag
     }
     else
     {
-      defines << "#define InArgType " << validTypeName << "\n"
-              << "#define OutArgType " << validTypeName << "\n";
+      defines << "#define InArgType " << validTypeName << '\n' << "#define OutArgType " << validTypeName << '\n';
     }
 #else
-    defines << "#define InArgType " << validTypeName << "\n"
-            << "#define OutArgType " << validTypeName << "\n";
+    defines << "#define InArgType " << validTypeName << '\n' << "#define OutArgType " << validTypeName << '\n';
 #endif
   }
   else

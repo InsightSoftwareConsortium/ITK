@@ -240,9 +240,9 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
                             << " since the VTK image direction matrix element at (" << i << ',' << j
                             << ") is not equal to 0.0:\n"
                             << "   I  J  K\n"
-                            << "X  " << inDirection[0] << ", " << inDirection[1] << ", " << inDirection[2] << "\n"
-                            << "Y  " << inDirection[3] << ", " << inDirection[4] << ", " << inDirection[5] << "\n"
-                            << "Z  " << inDirection[6] << ", " << inDirection[7] << ", " << inDirection[8] << "\n"
+                            << "X  " << inDirection[0] << ", " << inDirection[1] << ", " << inDirection[2] << '\n'
+                            << "Y  " << inDirection[3] << ", " << inDirection[4] << ", " << inDirection[5] << '\n'
+                            << "Z  " << inDirection[6] << ", " << inDirection[7] << ", " << inDirection[8] << '\n'
                             << "This means that the " << ijk[j] << " data axis has a " << xyz[i]
                             << " component in physical space, but the ITK image can only represent values"
                             << " along " << ijk.substr(0, OutputImageDimension) << " projected on "

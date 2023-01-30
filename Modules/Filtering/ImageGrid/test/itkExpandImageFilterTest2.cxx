@@ -213,7 +213,7 @@ itkExpandImageFilterTest2(int, char *[])
   VectorImage1D::Pointer output1D = expander1D->GetOutput();
 
   std::cout << "Output 1D: \n";
-  std::cout << PrintTestImage1D<VectorImage1D>(output1D) << "\n";
+  std::cout << PrintTestImage1D<VectorImage1D>(output1D) << '\n';
 
   auto s1 = output1D->GetLargestPossibleRegion().GetSize()[0];
   if (s1 != 10)
@@ -235,7 +235,7 @@ itkExpandImageFilterTest2(int, char *[])
   if (!b1)
   {
     std::cout << "Expected 1D image channel 2: " << DoubleToStringArray(slice1, 10)
-              << "\nActual: " << DoubleToStringArray(sliceOut1, 10) << "\n";
+              << "\nActual: " << DoubleToStringArray(sliceOut1, 10) << '\n';
     statusValue = EXIT_FAILURE;
   }
 
@@ -262,7 +262,7 @@ itkExpandImageFilterTest2(int, char *[])
   VectorImage3D::Pointer output3D = expander3D->GetOutput();
 
   std::cout << "Output 3D: \n";
-  std::cout << PrintTestImage3D<VectorImage3D>(output3D) << "\n";
+  std::cout << PrintTestImage3D<VectorImage3D>(output3D) << '\n';
 
   VectorImage3D::SizeType s2 = output3D->GetLargestPossibleRegion().GetSize();
   double                  d3[3] = { 3, 6, 3 };
@@ -275,8 +275,8 @@ itkExpandImageFilterTest2(int, char *[])
   }
   if (!b2)
   {
-    std::cout << "Expected 3D image size: " << DoubleToStringArray(d3, 3) << "\n"
-              << "Actual:" << DoubleToStringArray(d4, 3) << "\n";
+    std::cout << "Expected 3D image size: " << DoubleToStringArray(d3, 3) << '\n'
+              << "Actual:" << DoubleToStringArray(d4, 3) << '\n';
     statusValue = EXIT_FAILURE;
   }
 
@@ -296,7 +296,7 @@ itkExpandImageFilterTest2(int, char *[])
   if (!b3)
   {
     std::cout << "Expected 3D image (1,0:9,1) Channel 2: " << DoubleToStringArray(slice3, 6)
-              << "\nActual: " << DoubleToStringArray(slice3Out, 6) << "\n";
+              << "\nActual: " << DoubleToStringArray(slice3Out, 6) << '\n';
     statusValue = EXIT_FAILURE;
   }
   return statusValue;
