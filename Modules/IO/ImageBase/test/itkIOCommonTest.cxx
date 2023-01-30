@@ -116,14 +116,12 @@ CheckFileNameParsing(const std::string & fileName,
   }
   std::cout << "DONE" << std::endl;
 
-  std::cout << "FullFileName: \"" << fileName << "\"" << std::endl;
+  std::cout << "FullFileName: \"" << fileName << '"' << std::endl;
   std::cout << "FileName: (expected) \"" << correctNameOnly << "\" (actual) \"" << static_cast<const char *>(nameOnly)
-            << "\""
-            << " (correct) " << nameMatches << std::endl;
+            << '"' << " (correct) " << nameMatches << std::endl;
   std::cout << "Extension: (expected) \"" << correctExtension << "\" (actual) \""
-            << static_cast<const char *>(extension) << "\""
-            << " (correct) " << extensionMatches << std::endl;
-  std::cout << "Path: (expected) \"" << correctPath << "\" (actual) \"" << static_cast<const char *>(path) << "\""
+            << static_cast<const char *>(extension) << '"' << " (correct) " << extensionMatches << std::endl;
+  std::cout << "Path: (expected) \"" << correctPath << "\" (actual) \"" << static_cast<const char *>(path) << '"'
             << " (correct) " << pathMatches << std::endl;
 
   bool correctParse = nameMatches && extensionMatches && pathMatches;

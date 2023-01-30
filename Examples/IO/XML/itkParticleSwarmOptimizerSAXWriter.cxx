@@ -68,25 +68,25 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << "<optimizer type=\"ParticleSwarmOptimizer\"";
 
     ofs << " NumberOfParticles=\""
-        << this->m_InputObject->GetNumberOfParticles() << "\"";
+        << this->m_InputObject->GetNumberOfParticles() << '"';
 
     ofs << " MaximumNumberOfIterations=\""
-        << this->m_InputObject->GetMaximalNumberOfIterations() << "\"";
+        << this->m_InputObject->GetMaximalNumberOfIterations() << '"';
 
     ofs << " InertiaCoefficient=\""
-        << this->m_InputObject->GetInertiaCoefficient() << "\"";
+        << this->m_InputObject->GetInertiaCoefficient() << '"';
 
     ofs << " GlobalCoefficient=\""
-        << this->m_InputObject->GetGlobalCoefficient() << "\"";
+        << this->m_InputObject->GetGlobalCoefficient() << '"';
 
     ofs << " PersonalCoefficient=\""
-        << this->m_InputObject->GetPersonalCoefficient() << "\"";
+        << this->m_InputObject->GetPersonalCoefficient() << '"';
 
     ofs << " FunctionConvergenceTolerance=\""
-        << this->m_InputObject->GetFunctionConvergenceTolerance() << "\"";
+        << this->m_InputObject->GetFunctionConvergenceTolerance() << '"';
 
     ofs << " ConvergedPercentageToStop=\""
-        << this->m_InputObject->GetPercentageParticlesConverged() << "\"";
+        << this->m_InputObject->GetPercentageParticlesConverged() << '"';
 
     ofs << '>';
     ofs << "\n";
@@ -99,7 +99,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     {
       ofs << ' ' << bound.first;
     }
-    ofs << "\"";
+    ofs << '"';
 
     ofs << "/>";
     ofs << "\n";
@@ -113,7 +113,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     {
       ofs << ' ' << bound.second;
     }
-    ofs << "\"";
+    ofs << '"';
 
     ofs << "/>";
     ofs << "\n";

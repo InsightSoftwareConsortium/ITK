@@ -105,7 +105,7 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
 
   if (iobase.IsNull())
   {
-    itkGenericExceptionMacro("Unable to determine ImageIO reader for \"" << infname << "\"");
+    itkGenericExceptionMacro("Unable to determine ImageIO reader for \"" << infname << '"');
   }
 
 

@@ -815,7 +815,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
 
   if (iobase.IsNull())
   {
-    itkGenericExceptionMacro("Unable to determine ImageIO reader for \"" << testImageFilename << "\"");
+    itkGenericExceptionMacro("Unable to determine ImageIO reader for \"" << testImageFilename << '"');
   }
 
   // Read the image information

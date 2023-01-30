@@ -50,14 +50,14 @@ TransformIOBaseTemplate<TParametersValueType>::CreateTransform(TransformPointer 
   if (ptr.IsNull())
   {
     std::ostringstream msg;
-    msg << "Could not create an instance of \"" << ClassName << "\"" << std::endl
+    msg << "Could not create an instance of \"" << ClassName << '"' << std::endl
         << "The usual cause of this error is not registering the "
         << "transform with TransformFactory" << std::endl;
     msg << "Currently registered Transforms: " << std::endl;
     std::list<std::string> names = theFactory->GetClassOverrideWithNames();
     for (auto & name : names)
     {
-      msg << "\t\"" << name << "\"" << std::endl;
+      msg << "\t\"" << name << '"' << std::endl;
     }
     itkExceptionMacro(<< msg.str());
   }

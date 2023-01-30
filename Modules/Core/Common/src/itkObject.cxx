@@ -255,7 +255,7 @@ Object::SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) 
     os << indent << e->GetEventName() << '(' << c->GetNameOfClass();
     if (!c->GetObjectName().empty())
     {
-      os << " \"" << c->GetObjectName() << "\"";
+      os << " \"" << c->GetObjectName() << '"';
     }
     os << ")\n";
   }
