@@ -47,48 +47,44 @@ StdStreamLogOutput::SetStream(StreamType & Stream)
 void
 StdStreamLogOutput::Flush()
 {
-  StdStreamLogOutput::m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   if (this->m_Stream)
   {
     this->m_Stream->flush();
   }
-  StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
 void
 StdStreamLogOutput::Write(double timestamp)
 {
-  StdStreamLogOutput::m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   if (this->m_Stream)
   {
     (*this->m_Stream) << timestamp;
   }
-  StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
 void
 StdStreamLogOutput::Write(std::string const & content)
 {
-  StdStreamLogOutput::m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   if (this->m_Stream)
   {
     (*this->m_Stream) << content;
   }
-  StdStreamLogOutput::m_Mutex.unlock();
 }
 
 /** Write to a buffer */
 void
 StdStreamLogOutput::Write(std::string const & content, double timestamp)
 {
-  StdStreamLogOutput::m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   if (this->m_Stream)
   {
     (*this->m_Stream) << timestamp << "  :  " << content;
   }
-  StdStreamLogOutput::m_Mutex.unlock();
 }
 
 void
