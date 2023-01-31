@@ -25,6 +25,11 @@
 #include <limits>
 #include <type_traits> // For is_same.
 
+#if !defined(ITK_LEGACY_REMOVE)
+// Supress MSVC warnings
+#  define _SILENCE_NONFLOATING_COMPLEX_DEPRECATION_WARNING
+#endif
+
 constexpr auto maxUnsignedValue = std::numeric_limits<uintmax_t>::max();
 
 using itk::Math::UnsignedPower;

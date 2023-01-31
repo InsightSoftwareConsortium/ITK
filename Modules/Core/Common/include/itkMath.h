@@ -40,6 +40,7 @@
  */
 #include <vxl_version.h>
 
+
 namespace itk
 {
 namespace Math
