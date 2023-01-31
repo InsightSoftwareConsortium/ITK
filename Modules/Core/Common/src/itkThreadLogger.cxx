@@ -41,70 +41,63 @@ ThreadLogger::~ThreadLogger()
 void
 ThreadLogger::SetPriorityLevel(PriorityLevelEnum level)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(SET_PRIORITY_LEVEL);
   this->m_LevelQ.push(level);
-  this->m_Mutex.unlock();
 }
 
 Logger::PriorityLevelEnum
 ThreadLogger::GetPriorityLevel() const
 {
-  this->m_Mutex.lock();
-  PriorityLevelEnum level = this->m_PriorityLevel;
-  this->m_Mutex.unlock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  PriorityLevelEnum                 level = this->m_PriorityLevel;
   return level;
 }
 
 void
 ThreadLogger::SetLevelForFlushing(PriorityLevelEnum level)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_LevelForFlushing = level;
   this->m_OperationQ.push(SET_LEVEL_FOR_FLUSHING);
   this->m_LevelQ.push(level);
-  this->m_Mutex.unlock();
 }
 
 Logger::PriorityLevelEnum
 ThreadLogger::GetLevelForFlushing() const
 {
-  this->m_Mutex.lock();
-  PriorityLevelEnum level = this->m_LevelForFlushing;
-  this->m_Mutex.unlock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  PriorityLevelEnum                 level = this->m_LevelForFlushing;
   return level;
 }
 
 void
 ThreadLogger::SetDelay(DelayType delay)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_Delay = delay;
-  this->m_Mutex.unlock();
 }
 
 ThreadLogger::DelayType
 ThreadLogger::GetDelay() const
 {
-  this->m_Mutex.lock();
-  DelayType delay = this->m_Delay;
-  this->m_Mutex.unlock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  DelayType                         delay = this->m_Delay;
   return delay;
 }
 
 void
 ThreadLogger::AddLogOutput(OutputType * output)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(ADD_LOG_OUTPUT);
   this->m_OutputQ.push(output);
-  this->m_Mutex.unlock();
 }
 
 void
 ThreadLogger::Write(PriorityLevelEnum level, std::string const & content)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(WRITE);
   this->m_MessageQ.push(content);
   this->m_LevelQ.push(level);
@@ -112,16 +105,14 @@ ThreadLogger::Write(PriorityLevelEnum level, std::string const & content)
   {
     this->InternalFlush();
   }
-  this->m_Mutex.unlock();
 }
 
 void
 ThreadLogger::Flush()
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(FLUSH);
   this->InternalFlush();
-  this->m_Mutex.unlock();
 }
 
 void
@@ -167,38 +158,40 @@ ThreadLogger::ThreadFunction()
 {
   while (!m_TerminationRequested)
   {
-    m_Mutex.lock();
-    while (!m_OperationQ.empty())
     {
-      switch (m_OperationQ.front())
+      const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+      while (!m_OperationQ.empty())
       {
-        case ThreadLogger::SET_PRIORITY_LEVEL:
-          m_PriorityLevel = m_LevelQ.front();
-          m_LevelQ.pop();
-          break;
+        switch (m_OperationQ.front())
+        {
+          case ThreadLogger::SET_PRIORITY_LEVEL:
+            m_PriorityLevel = m_LevelQ.front();
+            m_LevelQ.pop();
+            break;
 
-        case ThreadLogger::SET_LEVEL_FOR_FLUSHING:
-          m_LevelForFlushing = m_LevelQ.front();
-          m_LevelQ.pop();
-          break;
+          case ThreadLogger::SET_LEVEL_FOR_FLUSHING:
+            m_LevelForFlushing = m_LevelQ.front();
+            m_LevelQ.pop();
+            break;
 
-        case ThreadLogger::ADD_LOG_OUTPUT:
-          m_Output->AddLogOutput(m_OutputQ.front());
-          m_OutputQ.pop();
-          break;
+          case ThreadLogger::ADD_LOG_OUTPUT:
+            m_Output->AddLogOutput(m_OutputQ.front());
+            m_OutputQ.pop();
+            break;
 
-        case ThreadLogger::WRITE:
-          Logger::Write(m_LevelQ.front(), m_MessageQ.front());
-          m_LevelQ.pop();
-          m_MessageQ.pop();
-          break;
-        case ThreadLogger::FLUSH:
-          Logger::Flush();
-          break;
+          case ThreadLogger::WRITE:
+            Logger::Write(m_LevelQ.front(), m_MessageQ.front());
+            m_LevelQ.pop();
+            m_MessageQ.pop();
+            break;
+          case ThreadLogger::FLUSH:
+            Logger::Flush();
+            break;
+        }
+        m_OperationQ.pop();
       }
-      m_OperationQ.pop();
-    }
-    m_Mutex.unlock();
+    } // end of scope of lockGuard (unlocking m_Mutex automatically)
+
     itksys::SystemTools::Delay(this->GetDelay());
   }
 }

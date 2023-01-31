@@ -30,10 +30,9 @@ template <typename SimpleLoggerType>
 void
 LoggerThreadWrapper<SimpleLoggerType>::SetPriorityLevel(PriorityLevelEnum level)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(OperationEnum::SET_PRIORITY_LEVEL);
   this->m_LevelQ.push(level);
-  this->m_Mutex.unlock();
 }
 
 /** Get the priority level for the current logger. Only messages that have
@@ -43,9 +42,8 @@ template <typename SimpleLoggerType>
 typename SimpleLoggerType::PriorityLevelEnum
 LoggerThreadWrapper<SimpleLoggerType>::GetPriorityLevel() const
 {
-  this->m_Mutex.lock();
-  PriorityLevelEnum level = this->m_PriorityLevel;
-  this->m_Mutex.unlock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  PriorityLevelEnum                 level = this->m_PriorityLevel;
   return level;
 }
 
@@ -53,20 +51,18 @@ template <typename SimpleLoggerType>
 void
 LoggerThreadWrapper<SimpleLoggerType>::SetLevelForFlushing(PriorityLevelEnum level)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_LevelForFlushing = level;
   this->m_OperationQ.push(OperationEnum::SET_LEVEL_FOR_FLUSHING);
   this->m_LevelQ.push(level);
-  this->m_Mutex.unlock();
 }
 
 template <typename SimpleLoggerType>
 typename SimpleLoggerType::PriorityLevelEnum
 LoggerThreadWrapper<SimpleLoggerType>::GetLevelForFlushing() const
 {
-  this->m_Mutex.lock();
-  PriorityLevelEnum level = this->m_LevelForFlushing;
-  this->m_Mutex.unlock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  PriorityLevelEnum                 level = this->m_LevelForFlushing;
   return level;
 }
 
@@ -74,18 +70,16 @@ template <typename SimpleLoggerType>
 void
 LoggerThreadWrapper<SimpleLoggerType>::SetDelay(DelayType delay)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_Delay = delay;
-  this->m_Mutex.unlock();
 }
 
 template <typename SimpleLoggerType>
 auto
 LoggerThreadWrapper<SimpleLoggerType>::GetDelay() const -> DelayType
 {
-  this->m_Mutex.lock();
-  DelayType delay = this->m_Delay;
-  this->m_Mutex.unlock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  DelayType                         delay = this->m_Delay;
   return delay;
 }
 
@@ -94,17 +88,16 @@ template <typename SimpleLoggerType>
 void
 LoggerThreadWrapper<SimpleLoggerType>::AddLogOutput(OutputType * output)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(OperationEnum::ADD_LOG_OUTPUT);
   this->m_OutputQ.push(output);
-  this->m_Mutex.unlock();
 }
 
 template <typename SimpleLoggerType>
 void
 LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelEnum level, std::string const & content)
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   if (this->m_PriorityLevel >= level)
   {
     this->m_OperationQ.push(OperationEnum::WRITE);
@@ -115,7 +108,6 @@ LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelEnum level, std::strin
   {
     this->PrivateFlush();
   }
-  this->m_Mutex.unlock();
 }
 
 template <typename SimpleLoggerType>
@@ -156,9 +148,8 @@ template <typename SimpleLoggerType>
 void
 LoggerThreadWrapper<SimpleLoggerType>::Flush()
 {
-  this->m_Mutex.lock();
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->PrivateFlush();
-  this->m_Mutex.unlock();
 }
 
 template <typename SimpleLoggerType>
@@ -186,36 +177,39 @@ LoggerThreadWrapper<SimpleLoggerType>::ThreadFunction()
 {
   while (!m_TerminationRequested)
   {
-    m_Mutex.lock();
-    while (!m_OperationQ.empty())
     {
-      switch (m_OperationQ.front())
+      const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+      while (!m_OperationQ.empty())
       {
-        case OperationEnum::SET_PRIORITY_LEVEL:
-          this->m_PriorityLevel = m_LevelQ.front();
-          m_LevelQ.pop();
-          break;
+        switch (m_OperationQ.front())
+        {
+          case OperationEnum::SET_PRIORITY_LEVEL:
+            this->m_PriorityLevel = m_LevelQ.front();
+            m_LevelQ.pop();
+            break;
 
-        case OperationEnum::SET_LEVEL_FOR_FLUSHING:
-          this->m_LevelForFlushing = m_LevelQ.front();
-          m_LevelQ.pop();
-          break;
+          case OperationEnum::SET_LEVEL_FOR_FLUSHING:
+            this->m_LevelForFlushing = m_LevelQ.front();
+            m_LevelQ.pop();
+            break;
 
-        case OperationEnum::ADD_LOG_OUTPUT:
-          this->m_Output->AddLogOutput(m_OutputQ.front());
-          m_OutputQ.pop();
-          break;
+          case OperationEnum::ADD_LOG_OUTPUT:
+            this->m_Output->AddLogOutput(m_OutputQ.front());
+            m_OutputQ.pop();
+            break;
 
-        case OperationEnum::WRITE:
-          SimpleLoggerType::Write(m_LevelQ.front(), m_MessageQ.front());
-          m_LevelQ.pop();
-          m_MessageQ.pop();
-          break;
+          case OperationEnum::WRITE:
+            SimpleLoggerType::Write(m_LevelQ.front(), m_MessageQ.front());
+            m_LevelQ.pop();
+            m_MessageQ.pop();
+            break;
+        }
+        m_OperationQ.pop();
       }
-      m_OperationQ.pop();
-    }
-    SimpleLoggerType::PrivateFlush();
-    m_Mutex.unlock();
+      SimpleLoggerType::PrivateFlush();
+
+    } // end of scope of lockGuard (unlocking m_Mutex automatically)
+
     itksys::SystemTools::Delay(this->GetDelay());
   }
 }

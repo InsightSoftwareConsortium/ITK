@@ -63,7 +63,7 @@ GPUImageDataManager<ImageType>::MakeCPUBufferUpToDate()
 {
   if (m_Image.IsNotNull())
   {
-    m_Mutex.lock();
+    const std::lock_guard<std::mutex> lockGuard(m_Mutex);
 
     ModifiedTimeType gpu_time = this->GetMTime();
     TimeStamp        cpu_time_stamp = m_Image->GetTimeStamp();
@@ -96,8 +96,6 @@ GPUImageDataManager<ImageType>::MakeCPUBufferUpToDate()
       m_IsCPUBufferDirty = false;
       m_IsGPUBufferDirty = false;
     }
-
-    m_Mutex.unlock();
   }
 }
 
@@ -107,7 +105,7 @@ GPUImageDataManager<ImageType>::MakeGPUBufferUpToDate()
 {
   if (m_Image.IsNotNull())
   {
-    m_Mutex.lock();
+    const std::lock_guard<std::mutex> lockGuard(m_Mutex);
 
     ModifiedTimeType gpu_time = this->GetMTime();
     TimeStamp        cpu_time_stamp = m_Image->GetTimeStamp();
@@ -139,8 +137,6 @@ GPUImageDataManager<ImageType>::MakeGPUBufferUpToDate()
       m_IsCPUBufferDirty = false;
       m_IsGPUBufferDirty = false;
     }
-
-    m_Mutex.unlock();
   }
 }
 
