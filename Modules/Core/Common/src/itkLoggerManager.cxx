@@ -68,60 +68,45 @@ LoggerManager::GetLogger(const NameType & name)
 void
 LoggerManager::SetPriorityLevel(PriorityLevelEnum level)
 {
-  auto itr = this->m_LoggerSet.begin();
-
-  while (itr != this->m_LoggerSet.end())
+  for (const auto & logger : m_LoggerSet)
   {
-    itr->second->SetPriorityLevel(level);
-    ++itr;
+    logger.second->SetPriorityLevel(level);
   }
 }
 
 void
 LoggerManager::SetLevelForFlushing(PriorityLevelEnum level)
 {
-  auto itr = this->m_LoggerSet.begin();
-
-  while (itr != this->m_LoggerSet.end())
+  for (const auto & logger : m_LoggerSet)
   {
-    itr->second->SetLevelForFlushing(level);
-    ++itr;
+    logger.second->SetLevelForFlushing(level);
   }
 }
 
 void
 LoggerManager::AddLogOutput(OutputType * output)
 {
-  auto itr = this->m_LoggerSet.begin();
-
-  while (itr != this->m_LoggerSet.end())
+  for (const auto & logger : m_LoggerSet)
   {
-    itr->second->AddLogOutput(output);
-    ++itr;
+    logger.second->AddLogOutput(output);
   }
 }
 
 void
 LoggerManager::Write(PriorityLevelEnum level, std::string const & content)
 {
-  auto itr = this->m_LoggerSet.begin();
-
-  while (itr != this->m_LoggerSet.end())
+  for (const auto & logger : m_LoggerSet)
   {
-    itr->second->Write(level, content);
-    ++itr;
+    logger.second->Write(level, content);
   }
 }
 
 void
 LoggerManager::Flush()
 {
-  auto itr = this->m_LoggerSet.begin();
-
-  while (itr != this->m_LoggerSet.end())
+  for (const auto & logger : m_LoggerSet)
   {
-    itr->second->Flush();
-    ++itr;
+    logger.second->Flush();
   }
 }
 
