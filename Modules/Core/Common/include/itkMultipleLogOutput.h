@@ -83,9 +83,7 @@ protected:
   ~MultipleLogOutput() override;
 
 private:
-  using ContainerType = std::set<OutputType::Pointer>;
-
-  ContainerType m_Output{};
+  std::set<OutputType::Pointer> m_Output{};
 };
 } // namespace itk
 

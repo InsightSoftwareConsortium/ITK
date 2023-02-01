@@ -126,25 +126,17 @@ private:
   void
   InternalFlush();
 
-  using OperationContainerType = std::queue<OperationType>;
-
-  using MessageContainerType = std::queue<std::string>;
-
-  using LevelContainerType = std::queue<PriorityLevelEnum>;
-
-  using OutputContainerType = std::queue<OutputType::Pointer>;
-
   std::thread m_Thread{};
 
   std::atomic<bool> m_TerminationRequested{};
 
-  OperationContainerType m_OperationQ{};
+  std::queue<OperationType> m_OperationQ{};
 
-  MessageContainerType m_MessageQ{};
+  std::queue<std::string> m_MessageQ{};
 
-  LevelContainerType m_LevelQ{};
+  std::queue<PriorityLevelEnum> m_LevelQ{};
 
-  OutputContainerType m_OutputQ{};
+  std::queue<OutputType::Pointer> m_OutputQ{};
 
   mutable std::mutex m_Mutex{};
 
