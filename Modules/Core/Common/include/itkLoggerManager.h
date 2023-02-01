@@ -108,9 +108,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  using ContainerType = std::map<NameType, LoggerPointer>;
-
-  ContainerType m_LoggerSet{};
+  std::map<NameType, LoggerPointer> m_LoggerSet{};
 }; // class Logger
 } // namespace itk
 
