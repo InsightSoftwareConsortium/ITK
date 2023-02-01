@@ -370,7 +370,7 @@ protected:
 
   /** Helper method allows for code reuse while skipping the metric value
    * calculation when appropriate */
-  void
+  virtual void
   CalculateValueAndDerivative(MeasureType & calculatedValue, DerivativeType & derivative, bool calculateValue) const;
 
   /**

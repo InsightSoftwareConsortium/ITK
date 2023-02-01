@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
+#include "itkPointToPlanePointSetToPointSetMetricv4.h"
 #include "itkTranslationTransform.h"
 
 #include <fstream>
@@ -26,7 +27,7 @@ template <unsigned int Dimension>
 int
 itkEuclideanDistancePointSetMetricTestRun()
 {
-  using PointSetType = itk::PointSet<unsigned char, Dimension>;
+  using PointSetType = itk::PointSet<float, Dimension>;
 
   using PointType = typename PointSetType::PointType;
 

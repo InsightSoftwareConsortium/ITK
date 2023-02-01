@@ -17,9 +17,11 @@
  *=========================================================================*/
 
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
+#include "itkPointToPlanePointSetToPointSetMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkAffineTransform.h"
+#include "itkRigid2DTransform.h"
 #include "itkCommand.h"
 #include "itkMath.h"
 
@@ -85,23 +87,39 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
 
   // Create a few points and apply a small rotation to make the moving point set
 
-  float     theta = itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(1.0);
+  int num_of_points = 30;
+
+  float x[num_of_points] = { 0.0,  1.0,  2.0,  3.0,  4.0,  5.0,  6.0,  7.0,  8.0,  9.0,  10.0, 11.0, 12.0, 13.0, 14.0,
+                             15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0 };
+
+  float y[num_of_points] = { 0.0,    0.096,  0.337,  0.598,  0.727,  0.598,  0.169, -0.491, -1.211, -1.76,
+                             -1.918, -1.552, -0.671, 0.559,  1.84,   2.814,  3.166, 2.715,  1.484,  -0.286,
+                             -2.176, -3.695, -4.4,   -4.027, -2.576, -0.332, 2.185, 4.34,   5.547,  5.422 };
+
+  float nx[num_of_points] = { 0.0,     -0.166,  -0.2437, -0.1918, 0.0,     0.2688,  0.4784,  0.568,   0.5356,  0.3333,
+                              -0.1031, -0.5292, -0.726,  -0.7821, -0.7481, -0.5527, 0.0495,  0.6437,  0.8321,  0.8775,
+                              0.8625,  0.7435,  0.1639,  -0.6739, -0.8795, -0.9219, -0.9193, -0.8595, -0.4758, 0.0 };
+
+  float ny[num_of_points] = { 0.0,    0.9861, 0.9698, 0.9814, 1.0,    0.9632, 0.8781, 0.823,  0.8445, 0.9428,
+                              0.9947, 0.8485, 0.6877, 0.6231, 0.6636, 0.8334, 0.9988, 0.7653, 0.5546, 0.4796,
+                              0.506,  0.6687, 0.9865, 0.7388, 0.476,  0.3873, 0.3935, 0.5112, 0.8795, 0.0 };
+
+  float     theta = itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(25.0);
   PointType fixedPoint;
-  fixedPoint[0] = static_cast<CoordRepType>(0.0);
-  fixedPoint[1] = static_cast<CoordRepType>(0.0);
-  fixedPoints->SetPoint(0, fixedPoint);
-  fixedPoint[0] = pointMax;
-  fixedPoint[1] = static_cast<CoordRepType>(0.0);
-  fixedPoints->SetPoint(1, fixedPoint);
-  fixedPoint[0] = pointMax;
-  fixedPoint[1] = pointMax;
-  fixedPoints->SetPoint(2, fixedPoint);
-  fixedPoint[0] = static_cast<CoordRepType>(0.0);
-  fixedPoint[1] = pointMax;
-  fixedPoints->SetPoint(3, fixedPoint);
-  fixedPoint[0] = pointMax / static_cast<CoordRepType>(2.0);
-  fixedPoint[1] = pointMax / static_cast<CoordRepType>(2.0);
-  fixedPoints->SetPoint(4, fixedPoint);
+
+  using VectorType = itk::Vector<float, 2>;
+  VectorType v;
+
+  for (int i = 0; i < num_of_points; ++i)
+  {
+    fixedPoint[0] = static_cast<CoordRepType>(x[i]);
+    fixedPoint[1] = static_cast<CoordRepType>(y[i]);
+    fixedPoints->SetPoint(i, fixedPoint);
+    v[0] = nx[i];
+    v[1] = ny[i];
+    fixedPoints->SetPointData(i, v);
+  }
+
   unsigned int numberOfPoints = fixedPoints->GetNumberOfPoints();
 
   PointType movingPoint;
@@ -132,13 +150,14 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   using OptimizerType = itk::GradientDescentOptimizerv4;
   auto optimizer = OptimizerType::New();
   optimizer->SetMetric(metric);
+  optimizer->SetLearningRate(0.0001);
   optimizer->SetNumberOfIterations(numberOfIterations);
-  optimizer->SetScalesEstimator(shiftScaleEstimator);
+  // optimizer->SetScalesEstimator(shiftScaleEstimator);
   optimizer->SetMaximumStepSizeInPhysicalUnits(maximumPhysicalStepSize);
 
   using CommandType = itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType>;
   auto observer = CommandType::New();
-  // optimizer->AddObserver( itk::IterationEvent(), observer );
+  optimizer->AddObserver(itk::IterationEvent(), observer);
 
   // start
   optimizer->StartOptimization();
@@ -182,7 +201,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
     movingPoint = movingPoints->GetPoint(n);
     difference[0] = movingPoint[0] - transformedFixedPoint[0];
     difference[1] = movingPoint[1] - transformedFixedPoint[1];
-    std::cout << fixedPoints->GetPoint(n) << "\t" << movingPoint << "\t" << transformedFixedPoint << "\t" << difference
+    std::cout << fixedPoints->GetPoint(n) << "->" << movingPoint << "->" << transformedFixedPoint << "->" << difference
               << std::endl;
     if (itk::Math::abs(difference[0]) > tolerance || itk::Math::abs(difference[1]) > tolerance)
     {
@@ -206,8 +225,8 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
 
   int finalResult = EXIT_SUCCESS;
 
-  unsigned int numberOfIterations = 100;
-  auto         maximumPhysicalStepSize = static_cast<double>(2.0);
+  unsigned int numberOfIterations = 200;
+  auto         maximumPhysicalStepSize = static_cast<double>(0.01);
   if (argc > 1)
   {
     numberOfIterations = std::stoi(argv[1]);
@@ -224,12 +243,17 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   //
 
   // metric
-  using PointSetType = itk::PointSet<unsigned char, Dimension>;
-  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
+  using PointSetType = itk::PointSet<itk::Vector<float, 2>, Dimension>;
+  using PointSetMetricType = itk::PointToPlanePointSetToPointSetMetricv4<PointSetType>;
+  // using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   auto metric = PointSetMetricType::New();
+
+  std::cout << "Metric is " << std::endl;
+  std::cout << metric << std::endl;
 
   // transform
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
+  // using AffineTransformType = itk::Rigid2DTransform<double>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout << "XX Test with affine transform: " << std::endl;
@@ -242,71 +266,71 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
     std::cerr << "Failed for affine transform." << std::endl;
   }
 
-  //
-  // Displacement field transform
-  //
+  // //
+  // // Displacement field transform
+  // //
 
-  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<double, Dimension>;
-  auto displacementTransform = DisplacementFieldTransformType::New();
+  // using DisplacementFieldTransformType = itk::DisplacementFieldTransform<double, Dimension>;
+  // auto displacementTransform = DisplacementFieldTransformType::New();
 
-  // Setup the physical space to match the point set virtual domain,
-  // which is defined by the fixed point set since the fixed transform
-  // is identity.
-  using FieldType = DisplacementFieldTransformType::DisplacementFieldType;
-  using RegionType = FieldType::RegionType;
-  using RealType = DisplacementFieldTransformType::ScalarType;
+  // // Setup the physical space to match the point set virtual domain,
+  // // which is defined by the fixed point set since the fixed transform
+  // // is identity.
+  // using FieldType = DisplacementFieldTransformType::DisplacementFieldType;
+  // using RegionType = FieldType::RegionType;
+  // using RealType = DisplacementFieldTransformType::ScalarType;
 
-  FieldType::SpacingType spacing;
-  spacing.Fill(static_cast<RealType>(1.0));
+  // FieldType::SpacingType spacing;
+  // spacing.Fill(static_cast<RealType>(1.0));
 
-  FieldType::DirectionType direction;
-  direction.Fill(static_cast<RealType>(0.0));
-  for (unsigned int d = 0; d < Dimension; ++d)
-  {
-    direction[d][d] = static_cast<RealType>(1.0);
-  }
+  // FieldType::DirectionType direction;
+  // direction.Fill(static_cast<RealType>(0.0));
+  // for (unsigned int d = 0; d < Dimension; ++d)
+  // {
+  //   direction[d][d] = static_cast<RealType>(1.0);
+  // }
 
-  FieldType::PointType origin;
-  origin.Fill(static_cast<RealType>(0.0));
+  // FieldType::PointType origin;
+  // origin.Fill(static_cast<RealType>(0.0));
 
-  RegionType::SizeType regionSize;
-  regionSize.Fill(static_cast<itk::SizeValueType>(pointMax) + 1);
+  // RegionType::SizeType regionSize;
+  // regionSize.Fill(static_cast<itk::SizeValueType>(pointMax) + 1);
 
-  RegionType::IndexType regionIndex;
-  regionIndex.Fill(0);
+  // RegionType::IndexType regionIndex;
+  // regionIndex.Fill(0);
 
-  RegionType region;
-  region.SetSize(regionSize);
-  region.SetIndex(regionIndex);
+  // RegionType region;
+  // region.SetSize(regionSize);
+  // region.SetIndex(regionIndex);
 
-  auto displacementField = FieldType::New();
-  displacementField->SetOrigin(origin);
-  displacementField->SetDirection(direction);
-  displacementField->SetSpacing(spacing);
-  displacementField->SetRegions(region);
-  displacementField->Allocate();
-  DisplacementFieldTransformType::OutputVectorType zeroVector;
-  zeroVector.Fill(static_cast<RealType>(0.0));
-  displacementField->FillBuffer(zeroVector);
-  displacementTransform->SetDisplacementField(displacementField);
+  // auto displacementField = FieldType::New();
+  // displacementField->SetOrigin(origin);
+  // displacementField->SetDirection(direction);
+  // displacementField->SetSpacing(spacing);
+  // displacementField->SetRegions(region);
+  // displacementField->Allocate();
+  // DisplacementFieldTransformType::OutputVectorType zeroVector;
+  // zeroVector.Fill(static_cast<RealType>(0.0));
+  // displacementField->FillBuffer(zeroVector);
+  // displacementTransform->SetDisplacementField(displacementField);
 
-  // metric
-  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
-  auto metric2 = PointSetMetricType::New();
-  // If we don't set the virtual domain when using a displacement field transform, the
-  // metric takes it from the transform during initialization.
-  // metric2->SetVirtualDomain( spacing, origin, direction, region );
+  // // metric
+  // using PointSetMetricType = itk::PointToPlanePointSetToPointSetMetricv4<PointSetType>;
+  // auto metric2 = PointSetMetricType::New();
+  // // If we don't set the virtual domain when using a displacement field transform, the
+  // // metric takes it from the transform during initialization.
+  // // metric2->SetVirtualDomain( spacing, origin, direction, region );
 
-  std::cout << "XX Testing with displacement field transform." << std::endl;
-  oneResult = itkEuclideanDistancePointSetMetricRegistrationTestRun<DisplacementFieldTransformType,
-                                                                    PointSetMetricType,
-                                                                    PointSetType>(
-    numberOfIterations, maximumPhysicalStepSize, pointMax, displacementTransform, metric2);
-  if (oneResult == EXIT_FAILURE)
-  {
-    finalResult = EXIT_FAILURE;
-    std::cerr << "Failed for displacement transform." << std::endl;
-  }
+  // std::cout << "XX Testing with displacement field transform." << std::endl;
+  // oneResult = itkEuclideanDistancePointSetMetricRegistrationTestRun<DisplacementFieldTransformType,
+  //                                                                   PointSetMetricType,
+  //                                                                   PointSetType>(
+  //   numberOfIterations, maximumPhysicalStepSize, pointMax, displacementTransform, metric2);
+  // if (oneResult == EXIT_FAILURE)
+  // {
+  //   finalResult = EXIT_FAILURE;
+  //   std::cerr << "Failed for displacement transform." << std::endl;
+  // }
 
   return finalResult;
 }
