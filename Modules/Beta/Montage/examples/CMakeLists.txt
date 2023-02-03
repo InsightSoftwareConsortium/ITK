@@ -10,6 +10,7 @@ set(ExampleSpecificComponents
   ITKIONRRD
   ITKIOPNG
   ITKIOTransformInsightLegacy
+  ITKTestKernel
   )
 
 if(NOT ITK_SOURCE_DIR)
