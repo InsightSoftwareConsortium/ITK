@@ -36,6 +36,11 @@
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 #include "itkTestingMacros.h"
 
+#if !defined(ITK_LEGACY_REMOVE)
+// Supress MSVC warnings
+#  define _SILENCE_NONFLOATING_COMPLEX_DEPRECATION_WARNING
+#endif
+
 namespace
 {
 
