@@ -19,14 +19,8 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
-ExhaustiveOptimizer::ExhaustiveOptimizer() = default;
 
-/**
- * Start walking
- */
+ExhaustiveOptimizer::ExhaustiveOptimizer() = default;
 
 void
 ExhaustiveOptimizer::StartOptimization()
@@ -84,9 +78,6 @@ ExhaustiveOptimizer::StartWalking()
   this->ResumeWalking();
 }
 
-/**
- * Resume the optimization
- */
 void
 ExhaustiveOptimizer::ResumeWalking()
 {

@@ -291,7 +291,12 @@ protected:
   virtual double
   Compute_c(SizeValueType k) const;
 
-  /** Method to generate a perturbation vector. Takes scales into account. */
+  /** Generate a perturbation vector delta.
+   *
+   * The elements are drawn from a Bernoulli distribution (+-1).
+   *
+   * Takes scales into account.
+   */
   virtual void
   GenerateDelta(const unsigned int spaceDimension);
 

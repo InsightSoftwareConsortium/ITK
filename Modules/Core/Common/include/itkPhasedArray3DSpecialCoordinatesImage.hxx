@@ -30,9 +30,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template <typename TPixel>
 void
 PhasedArray3DSpecialCoordinatesImage<TPixel>::PrintSelf(std::ostream & os, Indent indent) const
