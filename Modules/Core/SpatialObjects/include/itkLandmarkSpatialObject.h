@@ -67,10 +67,6 @@ protected:
   LandmarkSpatialObject();
   ~LandmarkSpatialObject() override = default;
 
-  /** Method to print the object. */
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
-
   typename LightObject::Pointer
   InternalClone() const override;
 };
