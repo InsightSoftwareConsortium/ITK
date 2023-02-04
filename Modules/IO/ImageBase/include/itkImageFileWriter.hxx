@@ -392,9 +392,9 @@ ImageFileWriter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "PasteIORegion: " << m_PasteIORegion << std::endl;
   os << indent << "NumberOfStreamDivisions: " << m_NumberOfStreamDivisions << std::endl;
   os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
-  os << indent << "UseCompression: " << (m_UseCompression ? "On" : "Off") << std::endl;
-  os << indent << "UseInputMetaDataDictionary: " << (m_UseInputMetaDataDictionary ? "On" : "Off") << std::endl;
-  os << indent << "FactorySpecifiedImageIO: " << (m_FactorySpecifiedImageIO ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseCompression);
+  itkPrintSelfBooleanMacro(UseInputMetaDataDictionary);
+  itkPrintSelfBooleanMacro(FactorySpecifiedImageIO);
 }
 } // end namespace itk
 

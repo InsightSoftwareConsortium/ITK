@@ -468,10 +468,10 @@ MeshFileWriter<TInputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 
   itkPrintSelfObjectMacro(MeshIO);
 
-  os << indent << "UserSpecifiedMeshIO: " << (m_UserSpecifiedMeshIO ? "On" : "Off") << std::endl;
-  os << indent << "FactorySpecifiedMeshIO: " << (m_FactorySpecifiedMeshIO ? "On" : "Off") << std::endl;
-  os << indent << "UseCompression: " << (m_UseCompression ? "On" : "Off") << std::endl;
-  os << indent << "FileTypeIsBINARY: " << (m_FileTypeIsBINARY ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UserSpecifiedMeshIO);
+  itkPrintSelfBooleanMacro(FactorySpecifiedMeshIO);
+  itkPrintSelfBooleanMacro(UseCompression);
+  itkPrintSelfBooleanMacro(FileTypeIsBINARY);
 }
 } // end namespace itk
 

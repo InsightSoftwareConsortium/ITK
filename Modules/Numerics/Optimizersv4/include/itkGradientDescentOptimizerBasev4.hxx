@@ -58,13 +58,12 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DoEstimateLearningRateAtEachIteration: " << (m_DoEstimateLearningRateAtEachIteration ? "On" : "Off")
-     << std::endl;
-  os << indent << "DoEstimateLearningRateOnce: " << (m_DoEstimateLearningRateOnce ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(DoEstimateLearningRateAtEachIteration);
+  itkPrintSelfBooleanMacro(DoEstimateLearningRateOnce);
   os << indent << "MaximumStepSizeInPhysicalUnits: "
      << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_MaximumStepSizeInPhysicalUnits)
      << std::endl;
-  os << indent << "UseConvergenceMonitoring: " << (m_UseConvergenceMonitoring ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseConvergenceMonitoring);
   os << indent << "ConvergenceWindowSize: "
      << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_ConvergenceWindowSize) << std::endl;
 
@@ -72,7 +71,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
   itkPrintSelfObjectMacro(ModifyGradientByScalesThreader);
   itkPrintSelfObjectMacro(ModifyGradientByLearningRateThreader);
 
-  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Stop);
   os << indent << "StopCondition: " << m_StopCondition << std::endl;
   os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
   os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Gradient)

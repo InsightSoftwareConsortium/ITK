@@ -53,7 +53,7 @@ SPSAOptimizer::PrintSelf(std::ostream & os, Indent indent) const
      << std::endl;
   os << indent << "LearningRate: " << m_LearningRate << std::endl;
   os << indent << "Delta: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Delta) << std::endl;
-  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Stop);
   os << indent << "StopCondition: " << m_StopCondition << std::endl;
   os << indent << "StateOfConvergence: " << m_StateOfConvergence << std::endl;
   os << indent
@@ -68,7 +68,7 @@ SPSAOptimizer::PrintSelf(std::ostream & os, Indent indent) const
      << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MaximumNumberOfIterations) << std::endl;
   os << indent << "StateOfConvergenceDecayRate: " << m_StateOfConvergenceDecayRate << std::endl;
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
-  os << indent << "Maximize: " << (m_Maximize ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Maximize);
   os << indent << "GradientMagnitude: " << m_GradientMagnitude << std::endl;
   os << indent << "NumberOfPerturbations: "
      << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPerturbations) << std::endl;

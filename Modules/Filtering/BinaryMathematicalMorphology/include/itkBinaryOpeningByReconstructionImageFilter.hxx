@@ -97,7 +97,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>::PrintSelf(std::o
      << std::endl;
   os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_BackgroundValue)
      << std::endl;
-  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(FullyConnected);
 }
 
 } // end namespace itk

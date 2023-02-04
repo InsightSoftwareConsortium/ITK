@@ -2388,11 +2388,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
     os << "(Cannot be computed: input not set)" << std::endl;
   }
 
-  os << indent << "UseSmoothDiscPatchWeights: " << (m_UseSmoothDiscPatchWeights ? "On" : "Off") << std::endl;
-  os << indent << "UseFastTensorComputations: " << (m_UseFastTensorComputations ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseSmoothDiscPatchWeights);
+  itkPrintSelfBooleanMacro(UseFastTensorComputations);
 
   os << indent << "KernelBandwidthSigma: " << m_KernelBandwidthSigma << std::endl;
-  os << indent << "KernelBandwidthSigmaIsSet: " << (m_KernelBandwidthSigmaIsSet ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(KernelBandwidthSigmaIsSet);
 
   os << indent << "IntensityRescaleInvFactor: " << m_IntensityRescaleInvFactor << std::endl;
 
@@ -2403,7 +2403,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
   os << indent << "KernelBandwidthFractionPixelsForEstimation: " << m_KernelBandwidthFractionPixelsForEstimation
      << std::endl;
 
-  os << indent << "ComputeConditionalDerivatives: " << (m_ComputeConditionalDerivatives ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ComputeConditionalDerivatives);
 
   os << indent << "MinSigma: " << m_MinSigma << std::endl;
   os << indent << "MinProbability: " << m_MinProbability << std::endl;
@@ -2415,7 +2415,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 
   os << indent << "NoiseSigma: " << m_NoiseSigma << std::endl;
   os << indent << "NoiseSigmaSquared: " << m_NoiseSigmaSquared << std::endl;
-  os << indent << "NoiseSigmaIsSet: " << (m_NoiseSigmaIsSet ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(NoiseSigmaIsSet);
 
   itkPrintSelfObjectMacro(Sampler);
   itkPrintSelfObjectMacro(UpdateBuffer);

@@ -224,7 +224,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::
 
   m_DefaultBoundaryCondition.Print(os, indent);
 
-  os << indent << "UseBoundaryCondition: " << (m_UseBoundaryCondition ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseBoundaryCondition);
   os << indent << "Kernel: " << static_cast<typename NumericTraits<KernelType>::PrintType>(m_Kernel) << std::endl;
   os << indent << "ObjectValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ObjectValue)
      << std::endl;

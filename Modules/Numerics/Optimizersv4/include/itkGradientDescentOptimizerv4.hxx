@@ -281,8 +281,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std
   os << indent
      << "BestParameters: " << static_cast<typename NumericTraits<ParametersType>::PrintType>(this->m_BestParameters)
      << std::endl;
-  os << indent << "ReturnBestParametersAndValue: " << (this->m_ReturnBestParametersAndValue ? "On" : "Off")
-     << std::endl;
+  itkPrintSelfBooleanMacro(ReturnBestParametersAndValue);
   os << indent
      << "PreviousGradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(this->m_PreviousGradient)
      << std::endl;

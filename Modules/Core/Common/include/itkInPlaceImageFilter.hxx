@@ -38,8 +38,8 @@ InPlaceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InPlace: " << (m_InPlace ? "On" : "Off") << std::endl;
-  os << indent << "RunningInPlace: " << (m_RunningInPlace ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(InPlace);
+  itkPrintSelfBooleanMacro(RunningInPlace);
 }
 
 template <typename TInputImage, typename TOutputImage>

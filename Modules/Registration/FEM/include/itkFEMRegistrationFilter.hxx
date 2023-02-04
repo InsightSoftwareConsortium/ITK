@@ -1482,10 +1482,10 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   os << indent << "MinJacobian: " << m_MinJacobian << std::endl;
   os << indent << "Alpha: " << m_Alpha << std::endl;
 
-  os << indent << "UseLandmarks: " << (m_UseLandmarks ? "On" : "Off") << std::endl;
-  os << indent << "UseMassMatrix: " << (m_UseNormalizedGradient ? "On" : "Off") << std::endl;
-  os << indent << "UseNormalizedGradient: " << (m_UseNormalizedGradient ? "On" : "Off") << std::endl;
-  os << indent << "CreateMeshFromImage: " << (m_CreateMeshFromImage ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseLandmarks);
+  itkPrintSelfBooleanMacro(UseNormalizedGradient);
+  itkPrintSelfBooleanMacro(UseNormalizedGradient);
+  itkPrintSelfBooleanMacro(CreateMeshFromImage);
   os << indent << "EmployRegridding: " << m_EmployRegridding << std::endl;
   os << indent << "DescentDirection: " << m_DescentDirection << std::endl;
   os << indent << "EnergyReductionFactor: " << m_EnergyReductionFactor << std::endl;

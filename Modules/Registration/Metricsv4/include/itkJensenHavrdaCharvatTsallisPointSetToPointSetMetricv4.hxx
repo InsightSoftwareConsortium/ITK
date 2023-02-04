@@ -199,7 +199,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "UseAnisotropicCovariances: " << (m_UseAnisotropicCovariances ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseAnisotropicCovariances);
 
   os << indent << "PointSetSigma: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_PointSetSigma)
      << std::endl;

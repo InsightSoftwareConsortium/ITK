@@ -293,8 +293,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "UserSuppliesMembershipFunctions: " << (m_UserSuppliesMembershipFunctions ? "On" : "Off")
-     << std::endl;
+  itkPrintSelfBooleanMacro(UserSuppliesMembershipFunctions);
   os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
 
   itkPrintSelfObjectMacro(MembershipFunctionContainer);

@@ -32,7 +32,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostr
   }
   os << "] ";
 
-  os << indent << "CenterIsActive: " << (m_CenterIsActive ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(CenterIsActive);
 }
 
 template <typename TImage, typename TBoundaryCondition>

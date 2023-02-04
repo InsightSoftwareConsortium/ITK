@@ -255,7 +255,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   }
   os << m_NumberOfIterations[ilevel] << ']' << std::endl;
 
-  os << indent << "StopRegistrationFlag: " << (m_StopRegistrationFlag ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(StopRegistrationFlag);
 }
 
 template <typename TFixedImage,

@@ -308,7 +308,7 @@ PolygonSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) co
   Superclass::PrintSelf(os, indent);
   os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace << std::endl;
   os << indent << "OrientationInObjectSpaceMTime: " << m_OrientationInObjectSpaceMTime << std::endl;
-  os << indent << "IsClosed: " << (m_IsClosed ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(IsClosed);
   os << indent << "ThicknessInObjectSpace: " << m_ThicknessInObjectSpace << std::endl;
 }
 

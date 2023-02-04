@@ -251,7 +251,7 @@ void
 GaussianDerivativeImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
 
   os << indent << "Sigma: " << m_Sigma << std::endl;
   os << indent << "Extent: " << m_Extent << std::endl;

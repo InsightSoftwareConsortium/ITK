@@ -357,7 +357,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "UserSpecifiedImageIO: " << (m_UserSpecifiedImageIO ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UserSpecifiedImageIO);
   for (unsigned int i = 0; i < m_FileNames.size(); ++i)
   {
     os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << std::endl;
@@ -365,7 +365,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
   os << indent << "SeriesFormat: " << m_SeriesFormat << std::endl;
   os << indent << "StartIndex: " << m_StartIndex << std::endl;
   os << indent << "IncrementIndex: " << m_IncrementIndex << std::endl;
-  os << indent << "UseCompression: " << (m_UseCompression ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseCompression);
   os << indent << "MetaDataDictionaryArray: " << m_MetaDataDictionaryArray << std::endl;
 }
 } // end namespace itk

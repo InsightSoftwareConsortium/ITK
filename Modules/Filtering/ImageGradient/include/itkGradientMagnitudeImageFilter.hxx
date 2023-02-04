@@ -43,7 +43,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
 }
 
 template <typename TInputImage, typename TOutputImage>

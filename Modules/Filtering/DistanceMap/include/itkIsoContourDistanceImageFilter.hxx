@@ -58,7 +58,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
   os << indent << "FarValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_FarValue) << std::endl;
   os << indent << "Spacing: " << static_cast<typename NumericTraits<InputSpacingType>::PrintType>(m_Spacing)
      << std::endl;
-  os << indent << "NarrowBanding: " << (m_NarrowBanding ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(NarrowBanding);
 
   itkPrintSelfObjectMacro(NarrowBand);
 

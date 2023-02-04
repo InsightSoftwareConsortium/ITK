@@ -48,8 +48,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream & os, 
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "UserSpecifiedImageIO: " << (m_UserSpecifiedImageIO ? "On" : "Off") << std::endl;
-  os << indent << "UseStreaming: " << (m_UseStreaming ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UserSpecifiedImageIO);
+  itkPrintSelfBooleanMacro(UseStreaming);
 
   os << indent << "ExceptionMessage: " << m_ExceptionMessage << std::endl;
   os << indent << "ActualIORegion: " << m_ActualIORegion << std::endl;

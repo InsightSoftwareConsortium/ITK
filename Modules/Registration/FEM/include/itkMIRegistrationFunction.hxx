@@ -541,7 +541,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf
   os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
   os << indent << "NumberOfBins: " << m_NumberOfBins << std::endl;
   os << indent << "Minnorm: " << m_Minnorm << std::endl;
-  os << indent << "DoInverse: " << (m_DoInverse ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(DoInverse);
 }
 } // end namespace itk
 

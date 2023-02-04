@@ -210,10 +210,10 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "SeriesUIDs[" << i << "]: " << m_SeriesUIDs[i] << std::endl;
   }
 
-  os << indent << "UseSeriesDetails: " << (m_UseSeriesDetails ? "On" : "Off") << std::endl;
-  os << indent << "Recursive: " << (m_Recursive ? "On" : "Off") << std::endl;
-  os << indent << "LoadSequences: " << (m_LoadSequences ? "On" : "Off") << std::endl;
-  os << indent << "LoadPrivateTags: " << (m_LoadPrivateTags ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseSeriesDetails);
+  itkPrintSelfBooleanMacro(Recursive);
+  itkPrintSelfBooleanMacro(LoadSequences);
+  itkPrintSelfBooleanMacro(LoadPrivateTags);
 }
 
 void

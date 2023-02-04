@@ -87,8 +87,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "TopologicalChange: " << (m_TopologicalChange ? "On" : "Off") << std::endl;
-    os << indent << "SizeCriterion: " << (m_SizeCriterion ? "On" : "Off") << std::endl;
+    itkPrintSelfBooleanMacro(TopologicalChange);
+    itkPrintSelfBooleanMacro(SizeCriterion);
     os << indent << "NumberOfElements: " << m_NumberOfElements << std::endl;
     os << indent << "MeasureBound: " << m_MeasureBound << std::endl;
   }

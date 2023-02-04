@@ -134,7 +134,7 @@ RegionalMinimaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & o
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(FullyConnected);
   os << indent << "FlatIsMinima: " << m_FlatIsMinima << std::endl;
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)

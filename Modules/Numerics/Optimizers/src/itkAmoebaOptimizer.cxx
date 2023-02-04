@@ -53,7 +53,7 @@ AmoebaOptimizer::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "MaximumNumberOfIterations: " << this->m_MaximumNumberOfIterations << std::endl;
   os << indent << "ParametersConvergenceTolerance: " << this->m_ParametersConvergenceTolerance << std::endl;
   os << indent << "FunctionConvergenceTolerance: " << this->m_FunctionConvergenceTolerance << std::endl;
-  os << indent << "AutomaticInitialSimplex: " << (this->m_AutomaticInitialSimplex ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(AutomaticInitialSimplex);
   os << indent << "InitialSimplexDelta: " << this->m_InitialSimplexDelta << std::endl;
 }
 

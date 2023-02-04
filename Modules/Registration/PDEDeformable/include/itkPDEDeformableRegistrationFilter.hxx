@@ -142,14 +142,14 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   os << indent << "StandardDeviations: " << m_StandardDeviations << std::endl;
   os << indent << "UpdateFieldStandardDeviations: " << m_UpdateFieldStandardDeviations << std::endl;
 
-  os << indent << "SmoothDisplacementField: " << (m_SmoothDisplacementField ? "On" : "Off") << std::endl;
-  os << indent << "SmoothUpdateField: " << (m_SmoothUpdateField ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(SmoothDisplacementField);
+  itkPrintSelfBooleanMacro(SmoothUpdateField);
 
   itkPrintSelfObjectMacro(TempField);
 
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
-  os << indent << "StopRegistrationFlag: " << (m_StopRegistrationFlag ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(StopRegistrationFlag);
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>

@@ -300,9 +300,7 @@ PipelineMonitorImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "ClearPipelineOnGenerateOutputInformation: " << (m_ClearPipelineOnGenerateOutputInformation ? "On" : "Off")
-     << std::endl;
+  itkPrintSelfBooleanMacro(ClearPipelineOnGenerateOutputInformation);
   os << indent << "NumberOfUpdates: " << m_NumberOfUpdates << std::endl;
   os << indent << "NumberOfClearPipeline: " << m_NumberOfClearPipeline << std::endl;
 

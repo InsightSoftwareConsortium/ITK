@@ -112,8 +112,8 @@ TubeSpatialObject<TDimension, TTubePointType>::PrintSelf(std::ostream & os, Inde
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ParentPoint : " << m_ParentPoint << std::endl;
-  os << indent << "EndRounded: " << (m_EndRounded ? "On" : "Off") << std::endl;
-  os << indent << "Root: " << (m_Root ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(EndRounded);
+  itkPrintSelfBooleanMacro(Root);
 }
 
 template <unsigned int TDimension, typename TTubePointType>

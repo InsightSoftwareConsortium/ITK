@@ -229,7 +229,7 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
 
   os << indent << "InitialTransformParameters: " << m_InitialTransformParameters << std::endl;
   os << indent << "LastTransformParameters: " << m_LastTransformParameters << std::endl;
-  os << indent << "FixedImageRegionDefined: " << (m_FixedImageRegionDefined ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(FixedImageRegionDefined);
   os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
 }
 

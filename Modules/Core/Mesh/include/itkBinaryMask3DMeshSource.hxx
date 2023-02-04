@@ -2694,7 +2694,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "RegionOfInterestProvidedByUser: " << (m_RegionOfInterestProvidedByUser ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(RegionOfInterestProvidedByUser);
   os << indent << "RegionOfInterest: " << m_RegionOfInterest << std::endl;
 
   os << indent << "LUT: " << m_LUT << std::endl;

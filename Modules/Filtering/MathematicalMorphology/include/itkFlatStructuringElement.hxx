@@ -1163,7 +1163,7 @@ FlatStructuringElement<VDimension>::PrintSelf(std::ostream & os, Indent indent) 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Decomposable: " << (m_Decomposable ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Decomposable);
 
   os << "Lines: " << std::endl;
   for (unsigned int i = 0; i < m_Lines.size(); ++i)
@@ -1171,7 +1171,7 @@ FlatStructuringElement<VDimension>::PrintSelf(std::ostream & os, Indent indent) 
     os << indent.GetNextIndent() << m_Lines[i] << std::endl;
   }
 
-  os << indent << "RadiusIsParametric: " << (m_RadiusIsParametric ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(RadiusIsParametric);
 }
 
 template <unsigned int VDimension>

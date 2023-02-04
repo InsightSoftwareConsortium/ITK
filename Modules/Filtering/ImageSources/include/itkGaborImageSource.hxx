@@ -85,7 +85,7 @@ GaborImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "CalculateImaginaryPart: " << (m_CalculateImaginaryPart ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(CalculateImaginaryPart);
   os << indent << "Frequency: " << this->GetFrequency() << std::endl;
   os << indent << "PhaseOffset: " << m_PhaseOffset << std::endl;
   os << indent << "Sigma: " << this->GetSigma() << std::endl;

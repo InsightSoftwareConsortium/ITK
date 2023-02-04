@@ -42,7 +42,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
 {
   GPUSuperclass::PrintSelf(os, indent);
 
-  os << indent << "UseMovingImageGradient: " << (m_UseMovingImageGradient ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseMovingImageGradient);
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>

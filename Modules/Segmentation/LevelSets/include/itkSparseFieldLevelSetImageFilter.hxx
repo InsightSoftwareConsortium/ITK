@@ -1162,12 +1162,12 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
      << std::endl;
   os << indent << "UpdateBuffer: " << static_cast<typename NumericTraits<UpdateBufferType>::PrintType>(m_UpdateBuffer)
      << std::endl;
-  os << indent << "InterpolateSurfaceLocation: " << (m_InterpolateSurfaceLocation ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(InterpolateSurfaceLocation);
 
   itkPrintSelfObjectMacro(InputImage);
   itkPrintSelfObjectMacro(OutputImage);
 
-  os << indent << "BoundsCheckingActive: " << (m_BoundsCheckingActive ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(BoundsCheckingActive);
 }
 } // end namespace itk
 
