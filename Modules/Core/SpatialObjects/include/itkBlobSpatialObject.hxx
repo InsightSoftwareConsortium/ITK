@@ -51,14 +51,6 @@ BlobSpatialObject<TDimension>::InternalClone() const
   return loPtr;
 }
 
-template <unsigned int TDimension>
-void
-BlobSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  os << indent << "BlobSpatialObject(" << this << ')' << std::endl;
-  Superclass::PrintSelf(os, indent);
-}
-
 } // end namespace itk
 
 #endif

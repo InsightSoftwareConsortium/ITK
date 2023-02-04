@@ -120,12 +120,6 @@ public:
    * \sa CreateDirectional \sa Fill */
   // virtual void CreateToRadius(const unsigned long);
 
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override
-  {
-    Superclass::PrintSelf(os, indent);
-  }
-
 protected:
   /** Type alias support for coefficient vector type.*/
   using typename Superclass::CoefficientVector;
