@@ -62,6 +62,9 @@ public:
   using Self = ZeroFluxNeumannBoundaryCondition;
   using Superclass = ImageBoundaryCondition<TInputImage, TOutputImage>;
 
+  /** Runtime information support. */
+  itkTypeMacro(ZeroFluxNeumannBoundaryCondition, ImageBoundaryCondition);
+
   /** Extract information from the image type. */
   using typename Superclass::PixelType;
   using typename Superclass::PixelPointerType;
@@ -79,13 +82,6 @@ public:
 
   /** Default constructor. */
   ZeroFluxNeumannBoundaryCondition() = default;
-
-  /** Runtime information support. */
-  const char *
-  GetNameOfClass() const override
-  {
-    return "itkZeroFluxNeumannBoundaryCondition";
-  }
 
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */

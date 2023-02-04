@@ -57,11 +57,8 @@ public:
   /** Default destructor. */
   virtual ~SpatialObjectPoint() = default;
 
-  virtual const char *
-  GetNameOfClass() const
-  {
-    return "SpatialObjectPoint";
-  };
+  /** Runtime information support. */
+  itkTypeMacroNoParent(SpatialObjectPoint);
 
   using Self = SpatialObjectPoint;
 
