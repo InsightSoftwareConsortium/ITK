@@ -223,9 +223,6 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Gau
   return field;
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,

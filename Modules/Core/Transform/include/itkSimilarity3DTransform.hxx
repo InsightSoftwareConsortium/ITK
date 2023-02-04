@@ -296,7 +296,6 @@ Similarity3DTransform<TParametersValueType>::ComputeMatrixParameters()
   this->SetVarVersor(v);
 }
 
-// Print self
 template <typename TParametersValueType>
 void
 Similarity3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const

@@ -210,10 +210,6 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   }
 }
 
-
-/**
- * Standard "PrintSelf" method
- */
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>
 void
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType>::PrintSelf(std::ostream & os,

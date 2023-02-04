@@ -170,7 +170,6 @@ ContourSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) co
   os << indent << "AttachedToSlice: " << m_AttachedToSlice << std::endl;
 }
 
-/** Print the contour spatial object */
 template <unsigned int TDimension>
 void
 ContourSpatialObject<TDimension>::Update()

@@ -98,15 +98,18 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);
 
+  /** Start optimization. */
   void
   StartOptimization() override;
 
   void
   StartWalking();
 
+  /** Resume optimization. */
   void
   ResumeWalking();
 
+  /** Stop optimization. */
   void
   StopWalking();
 

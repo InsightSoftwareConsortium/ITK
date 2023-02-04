@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * ************************* Constructor ************************
- */
+
 SPSAOptimizer::SPSAOptimizer()
 
 {
@@ -44,11 +42,8 @@ SPSAOptimizer::SPSAOptimizer()
   m_Alpha = 0.602;
   m_Gamma = 0.101;
   m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
-} // end Constructor
+}
 
-/**
- * ************************* PrintSelf **************************
- */
 void
 SPSAOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -85,10 +80,6 @@ SPSAOptimizer::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Gamma: " << m_Gamma << std::endl;
 } // end PrintSelf
 
-/**
- * ***************** GetValue(parameters) *********************
- * Get the cost function value at a position.
- */
 SPSAOptimizer::MeasureType
 SPSAOptimizer::GetValue(const ParametersType & parameters) const
 {
@@ -98,10 +89,6 @@ SPSAOptimizer::GetValue(const ParametersType & parameters) const
   return this->Superclass::GetValue(parameters);
 }
 
-/**
- * ***************** GetValue() ********************************
- * Get the cost function value at the current position.
- */
 SPSAOptimizer::MeasureType
 SPSAOptimizer::GetValue() const
 {
@@ -111,9 +98,6 @@ SPSAOptimizer::GetValue() const
   return this->GetValue(this->GetCurrentPosition());
 }
 
-/**
- * *********************** StartOptimization ********************
- */
 void
 SPSAOptimizer::StartOptimization()
 {
@@ -137,11 +121,7 @@ SPSAOptimizer::StartOptimization()
 
   this->SetCurrentPosition(this->GetInitialPosition());
   this->ResumeOptimization();
-} // end StartOptimization
-
-/**
- * ********************** ResumeOptimization ********************
- */
+}
 
 void
 SPSAOptimizer::ResumeOptimization()
@@ -179,22 +159,16 @@ SPSAOptimizer::ResumeOptimization()
     }
     m_StateOfConvergence *= m_StateOfConvergenceDecayRate;
   } // while !m_stop
-} // end ResumeOptimization
+}
 
-/**
- * ********************** StopOptimization **********************
- */
 void
 SPSAOptimizer::StopOptimization()
 {
   itkDebugMacro("StopOptimization");
   m_Stop = true;
   InvokeEvent(EndEvent());
-} // end StopOptimization
+}
 
-/**
- * ********************** AdvanceOneStep ************************
- */
 void
 SPSAOptimizer::AdvanceOneStep()
 {
@@ -248,41 +222,19 @@ SPSAOptimizer::AdvanceOneStep()
 
   // Update the state of convergence
   m_StateOfConvergence += ak * m_GradientMagnitude;
-} // end AdvanceOneStep
-
-/**
- * ************************** Compute_a *************************
- *
- * This function computes the parameter a at iteration k, as
- * described by Spall.
- */
+}
 
 double
 SPSAOptimizer::Compute_a(SizeValueType k) const
 {
   return static_cast<double>(m_Sa / std::pow(m_A + k + 1, m_Alpha));
-} // end Compute_a
-
-/**
- * ************************** Compute_c *************************
- *
- * This function computes the parameter a at iteration k, as
- * described by Spall.
- */
+}
 
 double
 SPSAOptimizer::Compute_c(SizeValueType k) const
 {
   return static_cast<double>(m_Sc / std::pow(k + 1, m_Gamma));
-} // end Compute_c
-
-/**
- * ********************** GenerateDelta *************************
- *
- * This function generates a perturbation vector delta.
- * Currently the elements are drawn from a bernoulli
- * distribution. (+- 1)
- */
+}
 
 void
 SPSAOptimizer::GenerateDelta(const unsigned int spaceDimension)
@@ -308,11 +260,8 @@ SPSAOptimizer::GenerateDelta(const unsigned int spaceDimension)
     // the perturbation of a parameter that has a small range.
     m_Delta[j] *= invScales[j];
   }
-} // end GenerateDelta
+}
 
-/**
- * *************** ComputeGradient() *****************************
- */
 void
 SPSAOptimizer::ComputeGradient(const ParametersType & parameters, DerivativeType & gradient)
 {
@@ -402,11 +351,8 @@ SPSAOptimizer::ComputeGradient(const ParametersType & parameters, DerivativeType
   // in the direction of the perturbation (or the opposite
   // of course, if valuediff is negative).
   //
-} // end ComputeGradient
+}
 
-/**
- * ************* GuessParameters *************************
- */
 void
 SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double initialStepSize)
 {
@@ -444,7 +390,7 @@ SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double i
 
   // Set a in order to make the first steps approximately have an initialStepSize
   this->SetSa(initialStepSize * std::pow(m_A + 1.0, m_Alpha) / averageAbsoluteGradient.max_value());
-} // end GuessParameters
+}
 
 const std::string
 SPSAOptimizer::GetStopConditionDescription() const
@@ -474,7 +420,6 @@ SPSAOptimizer::GetStopConditionDescription() const
   return reason.str();
 }
 
-/** Print enum values */
 std::ostream &
 operator<<(std::ostream & out, const SPSAOptimizerEnums::StopConditionSPSAOptimizer value)
 {

@@ -36,9 +36,6 @@ GradientDescentLineSearchOptimizerv4Template<
   this->m_ReturnBestParametersAndValue = true;
 }
 
-/**
- *PrintSelf
- */
 template <typename TInternalComputationValueType>
 void
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os,
