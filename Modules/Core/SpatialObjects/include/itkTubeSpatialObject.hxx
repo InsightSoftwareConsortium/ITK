@@ -358,8 +358,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
       l = l + t[i] * t[i];
     }
     l = std::sqrt(l);
-    // if the adjacent points correspond, use the current point and one
-    //   forward point
+    // If the adjacent points correspond, use the current point and one forward point
     if (Math::AlmostEquals(l, 0.0) || std::isnan(l))
     {
       const PointType & x2 = this->GetPoint(it2)->GetPositionInObjectSpace();
@@ -370,8 +369,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
         l = l + t[i] * t[i];
       }
       l = std::sqrt(l);
-      // if the forward point and the current point correspond, then
-      //   RemoveDuplicatePointsInObjectSpace was not called.
+      // If the forward point and the current point correspond, then RemoveDuplicatePointsInObjectSpace was not called
       if (Math::AlmostEquals(l, 0.0) || std::isnan(l))
       {
         std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : "
@@ -432,8 +430,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
     CovariantVectorType n1;
     if (TDimension == 2)
     {
-      // The normal to the tangent in 2D is the orthogonal direction to the
-      //   tangent.
+      // The normal to the tangent in 2D is the orthogonal direction to the tangent.
       n1[0] = t[1];
       n1[1] = -t[0];
       if (it1 != 0)
@@ -453,8 +450,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
     }
     else if (TDimension == 3)
     {
-      // The normal to the tangent in 3D is the cross product of adjacent
-      //   tangent directions.
+      // The normal to the tangent in 3D is the cross product of adjacent tangent directions.
       n1[0] = t[1] * t2[2] - t[2] * t2[1];
       n1[1] = t[2] * t2[0] - t[0] * t2[2];
       n1[2] = t[0] * t2[1] - t[1] * t2[0];
@@ -497,8 +493,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
         n1 /= l_n1;
       }
 
-      // The second normal is the cross product of the tangent and the
-      //   first normal
+      // The second normal is the cross product of the tangent and the first normal
       CovariantVectorType n2;
       n2[0] = t[1] * n1[2] - t[2] * n1[1];
       n2[1] = t[2] * n1[0] - t[0] * n1[2];
