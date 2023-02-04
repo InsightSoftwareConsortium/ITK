@@ -127,7 +127,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
   ritr.GoToBegin();
 
-  std::cout << "Comparing the pixel values" << std::endl;
+  std::cout << "Comparing the pixel values..." << std::endl;
 
   pixelValue = itk::NumericTraits<PixelType>::ZeroValue();
 
