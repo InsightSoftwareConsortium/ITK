@@ -21,7 +21,6 @@
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
-#include "itkMath.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 
