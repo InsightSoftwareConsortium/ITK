@@ -1271,6 +1271,13 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 
 
+// A useful macro in the PrintSelf method for printing boolean member
+// variables.
+#define itkPrintSelfBooleanMacro(name)                                           \
+  os << indent << #name << ": " << (this->m_##name ? "On" : "Off") << std::endl; \
+  ITK_MACROEND_NOOP_STATEMENT
+
+
 /** Set a decorated output. This defines the Set"name"() and a Set"name"Output() method */
 #define itkSetDecoratedOutputMacro(name, type)                                                                       \
   virtual void Set##name##Output(const SimpleDataObjectDecorator<type> * _arg)                                       \
