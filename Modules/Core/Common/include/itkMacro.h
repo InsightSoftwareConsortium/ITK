@@ -1271,6 +1271,14 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 
 
+// A useful macro in the PrintSelf method for printing member variables
+// that require to be casted to the corresponding numeric value so that
+// their numeric value gets printed.
+#define itkPrintSelfNumericTraitsMacro(name, type)                                                                    \
+  os << indent << #name << ": " << static_cast<typename NumericTraits<type>::PrintType>(this->m_##name) << std::endl; \
+  ITK_MACROEND_NOOP_STATEMENT
+
+
 /** Set a decorated output. This defines the Set"name"() and a Set"name"Output() method */
 #define itkSetDecoratedOutputMacro(name, type)                                                                       \
   virtual void Set##name##Output(const SimpleDataObjectDecorator<type> * _arg)                                       \
