@@ -216,7 +216,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
   if (numberOfIndices < numberOfCells)
   {
     itkExceptionMacro(<< "Error reading file: " << m_FileName << "\nnumberOfIndices < numberOfCells\n"
-                      << "numberOfIndices= " << numberOfIndices << "\n"
+                      << "numberOfIndices= " << numberOfIndices << '\n'
                       << "numberOfCells= " << numberOfCells);
   }
 

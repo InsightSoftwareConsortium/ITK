@@ -70,7 +70,7 @@ itkRGBPixelTest(int, char *[])
   }
 
   std::cout << "std::cout << pixel << std::endl;" << std::endl;
-  std::cout << "\t" << pixel << std::endl;
+  std::cout << '\t' << pixel << std::endl;
 
   for (unsigned int j = 0; j < 2; ++j)
   {

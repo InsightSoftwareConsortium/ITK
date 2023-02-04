@@ -83,11 +83,11 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUGradientNDAnisotropicDiffu
     itkExceptionMacro("GPUGradientNDAnisotropicDiffusionFunction supports 1/2/3D image.");
   }
 
-  defines << "#define DIM_" << TImage::ImageDimension << "\n"
-          << "#define BLOCK_SIZE " << OpenCLGetLocalBlockSize(TImage::ImageDimension) << "\n";
+  defines << "#define DIM_" << TImage::ImageDimension << '\n'
+          << "#define BLOCK_SIZE " << OpenCLGetLocalBlockSize(TImage::ImageDimension) << '\n';
 
   std::string pixeltypename = GetTypename(typeid(typename TImage::PixelType));
-  defines << "#define PIXELTYPE " << pixeltypename << "\n";
+  defines << "#define PIXELTYPE " << pixeltypename << '\n';
 #ifdef __APPLE__
   // This is to work around a bug in the OpenCL compiler on Mac OS 10.6 and 10.7 with NVidia drivers
   // where the compiler was not handling unsigned char arguments correctly.
@@ -100,10 +100,10 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUGradientNDAnisotropicDiffu
   }
   else
   {
-    defines << "#define ARGTYPE " << pixeltypename << "\n";
+    defines << "#define ARGTYPE " << pixeltypename << '\n';
   }
 #else
-  defines << "#define ARGTYPE " << pixeltypename << "\n";
+  defines << "#define ARGTYPE " << pixeltypename << '\n';
 #endif
 
   const char * GPUSource = GPUGradientNDAnisotropicDiffusionFunction::GetOpenCLSource();

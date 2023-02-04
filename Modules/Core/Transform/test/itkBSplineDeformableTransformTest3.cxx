@@ -167,7 +167,7 @@ public:
     BulkTransformType::ParametersType bulkParameters = bulkTransform->GetParameters();
     bulkParameters[0] = 0.5; // half the scale.
     bulkTransform->SetParameters(bulkParameters);
-    std::cout << " parameters " << bulkTransform->GetParameters() << "\n";
+    std::cout << " parameters " << bulkTransform->GetParameters() << '\n';
     bsplineTransform->SetBulkTransform(bulkTransform);
 
     using ParametersType = typename TransformType::ParametersType;

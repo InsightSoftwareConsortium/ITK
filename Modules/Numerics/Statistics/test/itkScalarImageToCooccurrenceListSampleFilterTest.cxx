@@ -73,9 +73,9 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
   {
     for (int j = 0; j < 5; j++, ++imageIt)
     {
-      std::cout << imageIt.Get() << "\t";
+      std::cout << imageIt.Get() << '\t';
     }
-    std::cout << "\n";
+    std::cout << '\n';
   }
 
 

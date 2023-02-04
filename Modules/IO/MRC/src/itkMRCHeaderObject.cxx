@@ -414,7 +414,7 @@ MRCHeaderObject::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "org: " << this->m_Header.xorg << ' ' << this->m_Header.yorg << ' ' << this->m_Header.zorg
      << std::endl;
   os << indent << "cmap: \"" << this->m_Header.cmap[0] << this->m_Header.cmap[1] << this->m_Header.cmap[2]
-     << this->m_Header.cmap[3] << "\"" << std::endl;
+     << this->m_Header.cmap[3] << '"' << std::endl;
   os << indent << "stamp: " << static_cast<int>(this->m_Header.stamp[0]) << ' '
      << static_cast<int>(this->m_Header.stamp[1]) << ' ' << static_cast<int>(this->m_Header.stamp[2]) << ' '
      << static_cast<int>(this->m_Header.stamp[3]) << std::endl;

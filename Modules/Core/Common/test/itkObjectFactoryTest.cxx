@@ -168,7 +168,7 @@ itkObjectFactoryTest(int, char *[])
     for (std::list<std::string>::const_iterator o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
     {
       std::cout << "    Override " << *o << " with " << *n << std::endl
-                << "      described as \"" << *d << "\"" << std::endl
+                << "      described as \"" << *d << '"' << std::endl
                 << "      enabled " << *e << std::endl;
     }
   }

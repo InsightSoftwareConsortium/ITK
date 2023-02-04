@@ -72,7 +72,7 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
   origin3D[1] = 2.0;
   origin3D[2] = 3.0;
   value.str("");
-  value << origin3D[0] << "\\" << origin3D[1] << "\\" << origin3D[2];
+  value << origin3D[0] << '\\' << origin3D[1] << '\\' << origin3D[2];
   itk::EncapsulateMetaData<std::string>(dictionary, "0020|0032", value.str());
 
   Image3DType::DirectionType direction3D;
@@ -86,8 +86,8 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
   direction3D[1][2] = 0.6;
   direction3D[2][2] = 0.6;
   value.str("");
-  value << direction3D[0][0] << "\\" << direction3D[1][0] << "\\" << direction3D[2][0] << "\\" << direction3D[0][1]
-        << "\\" << direction3D[1][1] << "\\" << direction3D[2][1];
+  value << direction3D[0][0] << '\\' << direction3D[1][0] << '\\' << direction3D[2][0] << '\\' << direction3D[0][1]
+        << '\\' << direction3D[1][1] << '\\' << direction3D[2][1];
   itk::EncapsulateMetaData<std::string>(dictionary, "0020|0037", value.str());
 
   // GDCM will not write IPP unless the modality is one of CT, MR or RT.
@@ -119,8 +119,8 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
   direction3D[1][2] = 1;
   direction3D[2][2] = 0;
   value.str("");
-  value << direction3D[0][0] << "\\" << direction3D[1][0] << "\\" << direction3D[2][0] << "\\" << direction3D[0][1]
-        << "\\" << direction3D[1][1] << "\\" << direction3D[2][1];
+  value << direction3D[0][0] << '\\' << direction3D[1][0] << '\\' << direction3D[2][0] << '\\' << direction3D[0][1]
+        << '\\' << direction3D[1][1] << '\\' << direction3D[2][1];
   itk::EncapsulateMetaData<std::string>(dictionary, "0020|0037", value.str());
   src2D->GetOutput()->SetMetaDataDictionary(dictionary);
   ITK_TRY_EXPECT_NO_EXCEPTION(writer2D->Update());

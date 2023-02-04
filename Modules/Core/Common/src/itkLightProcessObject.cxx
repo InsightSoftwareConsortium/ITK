@@ -55,7 +55,7 @@ LightProcessObject::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On\n" : "Off\n");
-  os << indent << "Progress: " << m_Progress << "\n";
+  os << indent << "Progress: " << m_Progress << '\n';
 }
 
 /**

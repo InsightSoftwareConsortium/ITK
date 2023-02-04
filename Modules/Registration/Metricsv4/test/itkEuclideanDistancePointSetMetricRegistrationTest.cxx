@@ -182,7 +182,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
     movingPoint = movingPoints->GetPoint(n);
     difference[0] = movingPoint[0] - transformedFixedPoint[0];
     difference[1] = movingPoint[1] - transformedFixedPoint[1];
-    std::cout << fixedPoints->GetPoint(n) << "\t" << movingPoint << "\t" << transformedFixedPoint << "\t" << difference
+    std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoint << '\t' << transformedFixedPoint << '\t' << difference
               << std::endl;
     if (itk::Math::abs(difference[0]) > tolerance || itk::Math::abs(difference[1]) > tolerance)
     {

@@ -116,22 +116,22 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
         std::cerr << "indexDifference= " << indexDifference << std::endl;
         for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
-          std::cerr << weights1[nw] << "\t";
+          std::cerr << weights1[nw] << '\t';
         }
         std::cerr << std::endl;
         for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
-          std::cerr << weights2[nw] << "\t";
+          std::cerr << weights2[nw] << '\t';
         }
         std::cerr << std::endl;
         for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
-          std::cerr << startIndex1[sd] << "\t";
+          std::cerr << startIndex1[sd] << '\t';
         }
         std::cerr << std::endl;
         for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
-          std::cerr << startIndex2[sd] << "\t";
+          std::cerr << startIndex2[sd] << '\t';
         }
         std::cerr << std::endl;
       }
@@ -204,22 +204,22 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
         std::cerr << "indexDifference= " << indexDifference << std::endl;
         for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
-          std::cerr << weights1[nw] << "\t";
+          std::cerr << weights1[nw] << '\t';
         }
         std::cerr << std::endl;
         for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
-          std::cerr << weights2[nw] << "\t";
+          std::cerr << weights2[nw] << '\t';
         }
         std::cerr << std::endl;
         for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
-          std::cerr << startIndex1[sd] << "\t";
+          std::cerr << startIndex1[sd] << '\t';
         }
         std::cerr << std::endl;
         for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
-          std::cerr << startIndex2[sd] << "\t";
+          std::cerr << startIndex2[sd] << '\t';
         }
         std::cerr << std::endl;
       }

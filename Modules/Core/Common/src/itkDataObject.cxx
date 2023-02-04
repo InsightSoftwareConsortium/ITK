@@ -288,7 +288,7 @@ DataObject::PrintSelf(std::ostream & os, Indent indent) const
   if (m_Source)
   {
     os << indent << "Source: (" << m_Source.GetPointer() << ") \n";
-    os << indent << "Source output name: " << m_SourceOutputName << "\n";
+    os << indent << "Source output name: " << m_SourceOutputName << '\n';
   }
   else
   {

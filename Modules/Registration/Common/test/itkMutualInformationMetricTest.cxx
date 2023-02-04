@@ -202,7 +202,7 @@ itkMutualInformationMetricTest(int, char *[])
     parameters[4] = trans;
     metric->GetValueAndDerivative(parameters, measure, derivative);
 
-    std::cout << trans << "\t" << measure << "\t" << derivative[4] << std::endl;
+    std::cout << trans << '\t' << measure << '\t' << derivative[4] << std::endl;
 
     // exercise the other functions
     metric->GetValue(parameters);

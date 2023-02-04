@@ -82,7 +82,7 @@ MatlabTransformIOTemplate<ParametersValueType>::Read()
   {
     matfile.close();
     itkExceptionMacro("The file could not be opened for read access " << std::endl
-                                                                      << "Filename: \"" << this->GetFileName() << "\"");
+                                                                      << "Filename: \"" << this->GetFileName() << '"');
   }
   while (!matfile.eof())
   {

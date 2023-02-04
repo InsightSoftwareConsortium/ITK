@@ -36,13 +36,13 @@ void
 Directory::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Directory for: " << m_Internal.GetPath() << "\n";
+  os << indent << "Directory for: " << m_Internal.GetPath() << '\n';
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();
   unsigned long numFiles = m_Internal.GetNumberOfFiles();
   for (unsigned long i = 0; i < numFiles; ++i)
   {
-    os << indent << m_Internal.GetFile(i) << "\n";
+    os << indent << m_Internal.GetFile(i) << '\n';
   }
 }
 

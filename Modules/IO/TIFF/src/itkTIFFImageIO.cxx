@@ -251,8 +251,7 @@ TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "JPEGQuality: " << this->GetJPEGQuality() << std::endl;
   if (!m_ColorPalette.empty())
   {
-    os << indent << "Image RGB palette:"
-       << "\n";
+    os << indent << "Image RGB palette:" << '\n';
     for (size_t i = 0; i < m_ColorPalette.size(); ++i)
     {
       os << indent << '[' << i << ']' << itk::NumericTraits<PaletteType::value_type>::PrintType(m_ColorPalette[i])

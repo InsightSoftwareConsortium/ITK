@@ -205,7 +205,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     double precision = 0.0001;
     for (unsigned int i = 0; i < 3; ++i)
     {
-      std::cout << "\t";
+      std::cout << '\t';
       for (unsigned int j = 0; j < 3; ++j)
       {
         std::cout << tensorImage->GetPixel(tensorImageIndex)(i, j) << ' ';
@@ -224,7 +224,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       std::cout << "Expected tensor : " << std::endl;
       for (const auto & i : expectedResult)
       {
-        std::cout << "\t";
+        std::cout << '\t';
         for (double j : i)
         {
           std::cout << j << ' ';

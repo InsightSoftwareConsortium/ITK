@@ -120,7 +120,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
   {
     in.close();
     itkExceptionMacro("The file could not be opened for read access " << std::endl
-                                                                      << "Filename: \"" << this->GetFileName() << "\"");
+                                                                      << "Filename: \"" << this->GetFileName() << '"');
   }
 
   itkDebugMacro("Read file transform Data");
@@ -140,7 +140,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
   while (std::getline(in, line))
   {
     line = trim(line);
-    itkDebugMacro("Found line: \"" << line << "\"");
+    itkDebugMacro("Found line: \"" << line << '"');
 
     if (line.length() == 0)
     {
@@ -162,8 +162,8 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
     std::string Name = trim(line.substr(0, end));
     std::string Value = trim(line.substr(end + 1, line.length()));
     // Push back
-    itkDebugMacro("Name: \"" << Name << "\"");
-    itkDebugMacro("Value: \"" << Value << "\"");
+    itkDebugMacro("Name: \"" << Name << '"');
+    itkDebugMacro("Value: \"" << Value << '"');
     std::istringstream parse(Value);
     VectorBuffer.clear();
     if (Name == "Transform")

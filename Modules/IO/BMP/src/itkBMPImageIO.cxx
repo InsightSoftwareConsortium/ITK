@@ -934,8 +934,7 @@ BMPImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "DataSize: " << m_BMPDataSize << std::endl;
   if (m_IsReadAsScalarPlusPalette)
   {
-    os << "Read as Scalar Image plus palette"
-       << "\n";
+    os << "Read as Scalar Image plus palette" << '\n';
   }
   if (!m_ColorPalette.empty())
   {

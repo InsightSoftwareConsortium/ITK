@@ -598,7 +598,7 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
     // terminal node
     if (node != this->m_EmptyTerminalNode)
     {
-      os << "\"" << node << "\" [label=\"";
+      os << '"' << node << "\" [label=\"";
       for (unsigned int i = 0; i < node->Size(); ++i)
       {
         os << this->GetMeasurementVector(node->GetInstanceIdentifier(i));
@@ -609,7 +609,7 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
   }
   else
   {
-    os << "\"" << node << "\" [label=\"";
+    os << '"' << node << "\" [label=\"";
     os << this->GetMeasurementVector(node->GetInstanceIdentifier(0));
     os << ' ' << partitionDimensionCharSymbol << '=' << partitionValue;
     os << "\" ];" << std::endl;
@@ -617,13 +617,13 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
 
   if (left && (left != this->m_EmptyTerminalNode))
   {
-    os << "\"" << node << "\" -> \"" << left << "\";" << std::endl;
+    os << '"' << node << "\" -> \"" << left << "\";" << std::endl;
     this->PlotTree(left, os);
   }
 
   if (right && (right != this->m_EmptyTerminalNode))
   {
-    os << "\"" << node << "\" -> \"" << right << "\";" << std::endl;
+    os << '"' << node << "\" -> \"" << right << "\";" << std::endl;
     this->PlotTree(right, os);
   }
 }

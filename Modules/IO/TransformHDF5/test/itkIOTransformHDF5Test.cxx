@@ -162,8 +162,8 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
     //  || ( readDisplacement->GetSpacing()[0] != requiredSpacing ) )
     {
       std::cerr << "Error invalid spacing restored from disk" << std::endl;
-      std::cerr << std::setprecision(17) << "\n"
-                << readDisplacement->GetSpacing() << " != " << knownField->GetSpacing() << "\n"
+      std::cerr << std::setprecision(17) << '\n'
+                << readDisplacement->GetSpacing() << " != " << knownField->GetSpacing() << '\n'
                 << requiredSpacing << "It is likely going trough a float truncation "
                 << static_cast<float>(requiredSpacing) << std::endl;
       return EXIT_FAILURE;
@@ -172,8 +172,8 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
         (itk::Math::NotExactlyEquals(readDisplacement->GetOrigin()[0], requiredOrigin)))
     {
       std::cerr << "Error invalid origin restored from disk" << std::endl;
-      std::cerr << std::setprecision(17) << "\n"
-                << readDisplacement->GetOrigin() << " != " << knownField->GetOrigin() << "\n"
+      std::cerr << std::setprecision(17) << '\n'
+                << readDisplacement->GetOrigin() << " != " << knownField->GetOrigin() << '\n'
                 << requiredOrigin << std::endl;
       return EXIT_FAILURE;
     }

@@ -134,7 +134,7 @@ MersenneTwisterRandomVariateGenerator::PrintSelf(std::ostream & os, Indent inden
   os << indent;
   const IntegerType * s = state;
   int                 i = StateVectorLength;
-  for (; i--; os << *s++ << "\t")
+  for (; i--; os << *s++ << '\t')
   {
   }
   os << std::endl;

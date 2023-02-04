@@ -47,7 +47,7 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
     itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
-  defines << "#define DIM_" << TInputImage::ImageDimension << "\n";
+  defines << "#define DIM_" << TInputImage::ImageDimension << '\n';
 
   // PixelType is a Vector
   defines << "#define BUFPIXELTYPE ";
@@ -57,7 +57,7 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
   GetTypenameInString(typeid(typename TOutputImage::PixelType), defines);
 
   // assumes input and output pixel type is same
-  defines << "#define PIXELDIM " << GetPixelDimension(typeid(typename TOutputImage::PixelType)) << "\n";
+  defines << "#define PIXELDIM " << GetPixelDimension(typeid(typename TOutputImage::PixelType)) << '\n';
 
   const char * GPUSource = GPUDenseFiniteDifferenceImageFilter::GetOpenCLSource();
 

@@ -473,7 +473,7 @@ MeshFileWriter<TInputMesh>::PrintSelf(std::ostream & os, Indent indent) const
   }
   else
   {
-    os << m_MeshIO << "\n";
+    os << m_MeshIO << '\n';
   }
 
   if (m_UseCompression)

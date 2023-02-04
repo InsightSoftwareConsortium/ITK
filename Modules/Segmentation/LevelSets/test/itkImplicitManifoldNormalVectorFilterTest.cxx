@@ -55,13 +55,13 @@ itkImplicitManifoldNormalVectorFilterTest(int, char *[])
   filter->SetMaxIteration(100);
   filter->SetMinVectorNorm(0.001);
 
-  std::cout << "Max iteration = " << (filter->GetMaxIteration()) << "\n";
-  std::cout << "IsoLevelLow = " << (filter->GetIsoLevelLow()) << "\n";
-  std::cout << "IsoLevelHigh = " << (filter->GetIsoLevelHigh()) << "\n";
-  std::cout << "MinVectorNorm = " << (filter->GetMinVectorNorm()) << "\n";
-  std::cout << "UnsharpMaskingFlag = " << (filter->GetUnsharpMaskingFlag()) << "\n";
-  std::cout << "UnsharpMaskingWeight = " << (filter->GetUnsharpMaskingWeight()) << "\n";
-  std::cout << "Precomputeflag = " << (filter->GetPrecomputeFlag()) << "\n";
+  std::cout << "Max iteration = " << (filter->GetMaxIteration()) << '\n';
+  std::cout << "IsoLevelLow = " << (filter->GetIsoLevelLow()) << '\n';
+  std::cout << "IsoLevelHigh = " << (filter->GetIsoLevelHigh()) << '\n';
+  std::cout << "MinVectorNorm = " << (filter->GetMinVectorNorm()) << '\n';
+  std::cout << "UnsharpMaskingFlag = " << (filter->GetUnsharpMaskingFlag()) << '\n';
+  std::cout << "UnsharpMaskingWeight = " << (filter->GetUnsharpMaskingWeight()) << '\n';
+  std::cout << "Precomputeflag = " << (filter->GetPrecomputeFlag()) << '\n';
 
   filter->Print(std::cout);
   function->Print(std::cout);

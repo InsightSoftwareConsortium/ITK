@@ -669,19 +669,19 @@ VoxBoCUBImageIO::WriteImageInformation()
   }
 
   // Write the image dimensions
-  header << m_VB_DIMENSIONS << ":\t" << m_Dimensions[0] << "\t" << m_Dimensions[1] << "\t" << m_Dimensions[2]
+  header << m_VB_DIMENSIONS << ":\t" << m_Dimensions[0] << '\t' << m_Dimensions[1] << '\t' << m_Dimensions[2]
          << std::endl;
 
   // Write the spacing
-  header << m_VB_SPACING << ":\t" << m_Spacing[0] << "\t" << m_Spacing[1] << "\t" << m_Spacing[2] << std::endl;
+  header << m_VB_SPACING << ":\t" << m_Spacing[0] << '\t' << m_Spacing[1] << '\t' << m_Spacing[2] << std::endl;
 
   // Write the origin (have to convert to bytes)
 
   double x = -m_Origin[0] / m_Spacing[0];
   double y = -m_Origin[1] / m_Spacing[1];
   double z = -m_Origin[2] / m_Spacing[2];
-  header << m_VB_ORIGIN << ":\t" << ((x >= 0) ? static_cast<int>(x + .5) : static_cast<int>(x - .5)) << "\t"
-         << ((y >= 0) ? static_cast<int>(y + .5) : static_cast<int>(y - .5)) << "\t"
+  header << m_VB_ORIGIN << ":\t" << ((x >= 0) ? static_cast<int>(x + .5) : static_cast<int>(x - .5)) << '\t'
+         << ((y >= 0) ? static_cast<int>(y + .5) : static_cast<int>(y - .5)) << '\t'
          << ((z >= 0) ? static_cast<int>(z + .5) : static_cast<int>(z - .5)) << std::endl;
 
   // Write the byte order
@@ -751,7 +751,7 @@ void
 VoxBoCUBImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PixelType " << m_PixelType << "\n";
+  os << indent << "PixelType " << m_PixelType << '\n';
 }
 
 bool

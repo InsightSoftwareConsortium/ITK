@@ -148,10 +148,10 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Create swarm using [normal, uniform] distribution: ";
   os << '[' << this->m_InitializeNormalDistribution << ", ";
   os << !this->m_InitializeNormalDistribution << "]\n";
-  os << indent << "Number of particles in swarm: " << this->m_NumberOfParticles << "\n";
-  os << indent << "Maximal number of iterations: " << this->m_MaximalNumberOfIterations << "\n";
+  os << indent << "Number of particles in swarm: " << this->m_NumberOfParticles << '\n';
+  os << indent << "Maximal number of iterations: " << this->m_MaximalNumberOfIterations << '\n';
   os << indent << "Number of generations with minimal improvement: ";
-  os << this->m_NumberOfGenerationsWithMinimalImprovement << "\n";
+  os << this->m_NumberOfGenerationsWithMinimalImprovement << '\n';
   ParameterBoundsType::const_iterator it, end;
   end = this->m_ParameterBounds.end();
   os << indent << "Parameter bounds: [";
@@ -161,12 +161,12 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   }
   os << " ]\n";
   os << indent << "Parameters' convergence tolerance: " << this->m_ParametersConvergenceTolerance;
-  os << "\n";
+  os << '\n';
   os << indent << "Function convergence tolerance: " << this->m_FunctionConvergenceTolerance << std::endl;
   os << indent << "UseSeed: " << m_UseSeed << std::endl;
   os << indent << "Seed: " << m_Seed << std::endl;
 
-  os << "\n";
+  os << '\n';
   // printing the swarm, usually should be avoided (too much information)
   if (this->m_PrintSwarm && !m_Particles.empty())
   {
@@ -192,7 +192,7 @@ ParticleSwarmOptimizerBase::PrintSwarm(std::ostream & os, Indent indent) const
     PrintParamtersType(p.m_CurrentVelocity, os);
     os << ' ' << p.m_CurrentValue << ' ';
     PrintParamtersType(p.m_BestParameters, os);
-    os << ' ' << p.m_BestValue << "\n";
+    os << ' ' << p.m_BestValue << '\n';
   }
   os << indent << "]\n";
 }

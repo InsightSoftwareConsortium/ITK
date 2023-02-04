@@ -192,7 +192,7 @@ itkSPSAOptimizerTest(int, char *[])
     return EXIT_FAILURE;
   }
   std::cout << "\nEstimated parameter: a = " << itkOptimizer->Geta();
-  std::cout << "\nEstimated parameter: A = " << itkOptimizer->GetA() << "\n" << std::endl;
+  std::cout << "\nEstimated parameter: A = " << itkOptimizer->GetA() << '\n' << std::endl;
 
   try
   {

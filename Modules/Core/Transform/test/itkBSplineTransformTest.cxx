@@ -262,20 +262,16 @@ itkBSplineTransformTest1()
   unsigned int linearIndex;
   unsigned int baseIndex;
 
-  std::cout << "Index"
-            << "\t"
-            << "Value"
-            << "\t"
-            << "Weight" << std::endl;
+  std::cout << "Index" << '\t' << "Value" << '\t' << "Weight" << std::endl;
   for (j = 0; j < SpaceDimension; ++j)
   {
     baseIndex = j * numberOfParametersPerDimension;
     for (unsigned int k = 0; k < numberOfCoefficientInSupportRegion; ++k)
     {
       linearIndex = indices[k] + baseIndex;
-      std::cout << linearIndex << "\t";
-      std::cout << parameters[linearIndex] << "\t";
-      std::cout << weights[k] << "\t";
+      std::cout << linearIndex << '\t';
+      std::cout << parameters[linearIndex] << '\t';
+      std::cout << weights[k] << '\t';
       std::cout << std::endl;
     }
   }

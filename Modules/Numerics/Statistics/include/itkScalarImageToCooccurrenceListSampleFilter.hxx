@@ -135,7 +135,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
           coords[1] = pixel_intensity;
 
           output->PushBack(coords);
-          // std::cout << "Pushing: " << coords[0] << "\t" << coords[1] <<
+          // std::cout << "Pushing: " << coords[0] << '\t' << coords[1] <<
           // std::endl;
         }
 

@@ -55,7 +55,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage
       {
         std::cout << derivative[cnt * vecdim + d] << ',';
       }
-      std::cout << derivative[cnt * vecdim + vecdim - 1] << ']' << "\t";
+      std::cout << derivative[cnt * vecdim + vecdim - 1] << ']' << '\t';
       ++it;
       ++cnt;
     }
@@ -86,7 +86,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType * image
   {
     for (itk::SizeValueType xcnt = 0; xcnt < dim0; ++xcnt)
     {
-      std::cout << it.Get() << "\t";
+      std::cout << it.Get() << '\t';
       ++it;
     }
     std::cout << std::endl;
@@ -113,7 +113,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointe
   {
     for (itk::SizeValueType xcnt = 0; xcnt < dim0; ++xcnt)
     {
-      std::cout << it.Get() << "\t";
+      std::cout << it.Get() << '\t';
       ++it;
     }
     std::cout << std::endl;

@@ -490,7 +490,7 @@ OutputWindowDisplayDebugText(const char *);
       if (this->GetDebug() && itk::Object::GetGlobalWarningDisplay())          \
       {                                                                        \
         std::ostringstream itkmsg;                                             \
-        itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n"          \
+        itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << '\n'          \
                << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
         itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());               \
       }                                                                        \
@@ -510,7 +510,7 @@ OutputWindowDisplayDebugText(const char *);
     if (itk::Object::GetGlobalWarningDisplay())                              \
     {                                                                        \
       std::ostringstream itkmsg;                                             \
-      itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n"        \
+      itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << '\n'        \
              << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
       itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());             \
     }                                                                        \

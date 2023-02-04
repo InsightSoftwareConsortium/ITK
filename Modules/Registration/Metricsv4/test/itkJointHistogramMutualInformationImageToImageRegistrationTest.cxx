@@ -88,8 +88,8 @@ public:
     {
       return;
     }
-    std::cout << "Current optimizer iteration: " << optimizer->GetCurrentIteration() << "\n";
-    std::cout << "Current optimizer value:     " << optimizer->GetCurrentMetricValue() << "\n";
+    std::cout << "Current optimizer iteration: " << optimizer->GetCurrentIteration() << '\n';
+    std::cout << "Current optimizer value:     " << optimizer->GetCurrentMetricValue() << '\n';
 
     std::string        ext = itksys::SystemTools::GetFilenameExtension(this->m_OutputFileNameBase);
     std::string        name = itksys::SystemTools::GetFilenameWithoutExtension(this->m_OutputFileNameBase);

@@ -563,7 +563,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
                                << "\nRunning itk version :\n"
                                << Version::GetITKSourceVersion() << "\nAttempted loading factory version:\n"
                                << factory->GetITKSourceVersion() << "\nAttempted factory:\n"
-                               << factory->m_LibraryPath << "\n");
+                               << factory->m_LibraryPath << '\n');
     }
     else
     {
@@ -571,7 +571,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
                             << "\nRunning itk version :\n"
                             << Version::GetITKSourceVersion() << "\nLoaded factory version:\n"
                             << factory->GetITKSourceVersion() << "\nLoading factory:\n"
-                            << factory->m_LibraryPath << "\n");
+                            << factory->m_LibraryPath << '\n');
     }
   }
   ObjectFactoryBase::Initialize();
@@ -634,7 +634,7 @@ ObjectFactoryBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << "\n";
+  os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << '\n';
   os << indent << "Factory description: " << this->GetDescription() << std::endl;
 
   auto num = static_cast<int>(m_OverrideMap->size());
@@ -643,7 +643,7 @@ ObjectFactoryBase::PrintSelf(std::ostream & os, Indent indent) const
   indent = indent.GetNextIndent();
   for (auto & i : *m_OverrideMap)
   {
-    os << indent << "Class : " << i.first.c_str() << "\n";
+    os << indent << "Class : " << i.first.c_str() << '\n';
     os << indent << "Overridden with: " << i.second.m_OverrideWithName.c_str() << std::endl;
     os << indent << "Enable flag: " << i.second.m_EnabledFlag << std::endl;
     os << indent << "Create object: " << i.second.m_CreateObject << std::endl;

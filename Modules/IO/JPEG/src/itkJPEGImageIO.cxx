@@ -322,10 +322,10 @@ void
 JPEGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Quality : " << this->GetQuality() << "\n";
-  os << indent << "Progressive : " << m_Progressive << "\n";
-  os << indent << "CMYK to RGB : " << m_CMYKtoRGB << "\n";
-  os << indent << "IsCMYK : " << m_IsCMYK << "\n";
+  os << indent << "Quality : " << this->GetQuality() << '\n';
+  os << indent << "Progressive : " << m_Progressive << '\n';
+  os << indent << "CMYK to RGB : " << m_CMYKtoRGB << '\n';
+  os << indent << "IsCMYK : " << m_IsCMYK << '\n';
 }
 
 void

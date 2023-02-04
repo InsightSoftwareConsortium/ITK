@@ -227,14 +227,14 @@ test_VXLVideoIO(char *        input,
   std::string nonExistantFile = "Bad/Path/To/Nothing";
   if (vxlIO->CanReadFile(nonExistantFile.c_str()))
   {
-    std::cerr << "Should have failed to open \"" << nonExistantFile << "\"" << std::endl;
+    std::cerr << "Should have failed to open \"" << nonExistantFile << '"' << std::endl;
     ret = EXIT_FAILURE;
   }
 
   // Test CanReadFile on non-video file
   if (vxlIO->CanReadFile(nonVideoInput))
   {
-    std::cerr << "Should have failed to open \"" << nonVideoInput << "\"" << std::endl;
+    std::cerr << "Should have failed to open \"" << nonVideoInput << '"' << std::endl;
     ret = EXIT_FAILURE;
   }
 

@@ -231,7 +231,7 @@ ComputeAreaError(const SEType & k, unsigned int thickness)
   {
     for (SEIt = k.Begin(); SEIt != k.End(); ++SEIt)
     {
-      std::cout << *SEIt << "\t";
+      std::cout << *SEIt << '\t';
       if ((SEIt - k.Begin() + 1) % k.GetSize()[0] == 0)
       {
         std::cout << std::endl;

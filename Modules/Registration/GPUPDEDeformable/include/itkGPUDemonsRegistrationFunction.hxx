@@ -71,7 +71,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
     itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
-  defines << "#define DIM_" << TDisplacementField::ImageDimension << "\n";
+  defines << "#define DIM_" << TDisplacementField::ImageDimension << '\n';
 
   defines << "#define IMGPIXELTYPE ";
   GetTypenameInString(typeid(typename TFixedImage::PixelType), defines);

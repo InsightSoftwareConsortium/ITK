@@ -52,7 +52,7 @@ public:
     }
     else
     {
-      m_OutputFileName << outputPath << "\\" << m_NameWithIndex.str();
+      m_OutputFileName << outputPath << '\\' << m_NameWithIndex.str();
     }
 
 #else /// POSIX UNIX

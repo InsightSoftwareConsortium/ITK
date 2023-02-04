@@ -168,7 +168,7 @@ itkSampleClassifierFilterTest2(int, char *[])
     {
       if (iter.GetClassLabel() != class1)
       {
-        std::cerr << "Classification error: " << sampleCounter << "\t" << iter.GetClassLabel() << "\tclass1=" << class1
+        std::cerr << "Classification error: " << sampleCounter << '\t' << iter.GetClassLabel() << "\tclass1=" << class1
                   << std::endl;
         return EXIT_FAILURE;
       }
@@ -177,7 +177,7 @@ itkSampleClassifierFilterTest2(int, char *[])
     {
       if (iter.GetClassLabel() != class2)
       {
-        std::cerr << "Classification error: " << sampleCounter << "\t" << iter.GetClassLabel() << "\tclass2=" << class2
+        std::cerr << "Classification error: " << sampleCounter << '\t' << iter.GetClassLabel() << "\tclass2=" << class2
                   << std::endl;
         return EXIT_FAILURE;
       }

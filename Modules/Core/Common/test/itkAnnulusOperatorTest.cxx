@@ -78,7 +78,7 @@ itkAnnulusOperatorTest(int, char *[])
     {
       std::cout.width(6);
       std::cout.precision(3);
-      std::cout << normalizedAnnulus[k] << "\t";
+      std::cout << normalizedAnnulus[k] << '\t';
     }
     std::cout << std::endl;
   }
@@ -98,7 +98,7 @@ itkAnnulusOperatorTest(int, char *[])
     {
       std::cout.width(6);
       std::cout.precision(3);
-      std::cout << normalizedAnnulus[k] << "\t";
+      std::cout << normalizedAnnulus[k] << '\t';
     }
     std::cout << std::endl;
   }
@@ -145,7 +145,7 @@ itkAnnulusOperatorTest(int, char *[])
     {
       std::cout.width(3);
       std::cout.precision(3);
-      std::cout << annulus[k] << "\t";
+      std::cout << annulus[k] << '\t';
     }
     std::cout << std::endl;
   }
@@ -167,7 +167,7 @@ itkAnnulusOperatorTest(int, char *[])
     {
       std::cout.width(3);
       std::cout.precision(3);
-      std::cout << annulus[k] << "\t";
+      std::cout << annulus[k] << '\t';
     }
     std::cout << std::endl;
   }
@@ -191,7 +191,7 @@ itkAnnulusOperatorTest(int, char *[])
     {
       std::cout.width(3);
       std::cout.precision(3);
-      std::cout << annulus[k] << "\t";
+      std::cout << annulus[k] << '\t';
     }
     std::cout << std::endl;
   }
@@ -223,7 +223,7 @@ itkAnnulusOperatorTest(int, char *[])
     {
       std::cout.width(3);
       std::cout.precision(3);
-      std::cout << annulus[k] << "\t";
+      std::cout << annulus[k] << '\t';
     }
     std::cout << std::endl;
   }

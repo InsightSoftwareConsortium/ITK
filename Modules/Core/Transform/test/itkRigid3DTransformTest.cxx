@@ -112,7 +112,7 @@ TestSettingTranslation()
     std::cout << "r1\n" << r1 << std::endl;
     std::cout << "r2\n" << r2 << std::endl;
     std::cout << "r3\n" << r3 << std::endl;
-    std::cout << p1 << "\n" << p2 << "\n" << p3 << std::endl;
+    std::cout << p1 << '\n' << p2 << '\n' << p3 << std::endl;
     std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
   }
 

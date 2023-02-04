@@ -159,7 +159,7 @@ itkKdTreeTestSamplePoints(int, char *[])
     const double dist = std::sqrt((test_point[0] - queryPoint[0]) * (test_point[0] - queryPoint[0]) +
                                   (test_point[1] - queryPoint[1]) * (test_point[1] - queryPoint[1]));
 
-    std::cout << "\t" << dist << std::endl;
+    std::cout << '\t' << dist << std::endl;
 
     if (dist < min_dist)
     {

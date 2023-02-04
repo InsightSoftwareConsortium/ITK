@@ -139,7 +139,7 @@ itkLabelVotingImageFilterTest(int, char *[])
     {
       std::cout << "Incorrect result using images A,B and undecided=255: "
                 << "i = " << i << ", Expected = " << combinationABundecided255[i] << ", Received = " << it.Get()
-                << "\n";
+                << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -164,7 +164,7 @@ itkLabelVotingImageFilterTest(int, char *[])
     if (combinationAB[i] != it.Get())
     {
       std::cout << "Incorrect result using images A,B: i = " << i << ", Expected = " << combinationAB[i]
-                << ", Received = " << it.Get() << "\n";
+                << ", Received = " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -189,7 +189,7 @@ itkLabelVotingImageFilterTest(int, char *[])
     if (combinationABC[i] != it.Get())
     {
       std::cout << "Incorrect result using images A,B,C: i = " << i << ", Expected = " << combinationABC[i]
-                << ", Received = " << it.Get() << "\n";
+                << ", Received = " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
   }

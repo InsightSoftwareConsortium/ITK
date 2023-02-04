@@ -58,7 +58,7 @@ public:
     std::cout << "Observing from class " << object->GetNameOfClass();
     if (!object->GetObjectName().empty())
     {
-      std::cout << " \"" << object->GetObjectName() << "\"";
+      std::cout << " \"" << object->GetObjectName() << '"';
     }
     std::cout << std::endl;
     const auto * filter = static_cast<const TFilter *>(object);

@@ -449,10 +449,10 @@ protected:
   WritePointsBufferAsBINARY(std::ofstream & outputFile, T * buffer, const StringType & pointComponentType)
   {
     /** 1. Write number of points */
-    outputFile << "POINTS " << this->m_NumberOfPoints << pointComponentType << "\n";
+    outputFile << "POINTS " << this->m_NumberOfPoints << pointComponentType << '\n';
     itk::ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(
       buffer, this->m_NumberOfPoints * this->m_PointDimension, &outputFile);
-    outputFile << "\n";
+    outputFile << '\n';
 
     return;
   }
@@ -600,7 +600,7 @@ protected:
       ReadCellsBuffer(buffer, data.get());
       itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(
         data.get(), numberOfVertexIndices, &outputFile);
-      outputFile << "\n";
+      outputFile << '\n';
     }
 
     /** Write lines */
@@ -654,7 +654,7 @@ protected:
       }
 
       itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(data.get(), numberOfLineIndices, &outputFile);
-      outputFile << "\n";
+      outputFile << '\n';
     }
 
     /** Write polygons */
@@ -668,7 +668,7 @@ protected:
       ReadCellsBuffer(buffer, data.get());
       itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(
         data.get(), numberOfPolygonIndices, &outputFile);
-      outputFile << "\n";
+      outputFile << '\n';
     }
   }
 
@@ -810,7 +810,7 @@ protected:
     MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
     StringType           dataName;
 
-    outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << "\n";
+    outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << '\n';
     switch (this->m_PointPixelType)
     {
       case IOPixelEnum::SCALAR:
@@ -854,7 +854,7 @@ protected:
       }
     }
 
-    outputFile << pointPixelComponentName << "\n";
+    outputFile << pointPixelComponentName << '\n';
     if (this->m_PointPixelType == IOPixelEnum::SCALAR)
     {
       outputFile << "LOOKUP_TABLE default\n";
@@ -862,7 +862,7 @@ protected:
 
     itk::ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(
       buffer, this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents, &outputFile);
-    outputFile << "\n";
+    outputFile << '\n';
     return;
   }
 
@@ -1000,7 +1000,7 @@ protected:
     MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
     StringType           dataName;
 
-    outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << "\n";
+    outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << '\n';
     switch (this->m_CellPixelType)
     {
       case IOPixelEnum::SCALAR:
@@ -1044,7 +1044,7 @@ protected:
       }
     }
 
-    outputFile << cellPixelComponentName << "\n";
+    outputFile << cellPixelComponentName << '\n';
     if (this->m_CellPixelType == IOPixelEnum::SCALAR)
     {
       outputFile << "LOOKUP_TABLE default\n";
@@ -1052,7 +1052,7 @@ protected:
 
     itk::ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(
       buffer, this->m_NumberOfCells * this->m_NumberOfCellPixelComponents, &outputFile);
-    outputFile << "\n";
+    outputFile << '\n';
     return;
   }
 
@@ -1063,7 +1063,7 @@ protected:
                                 unsigned int    numberOfPixelComponents,
                                 SizeValueType   numberOfPixels)
   {
-    outputFile << numberOfPixelComponents << "\n";
+    outputFile << numberOfPixelComponents << '\n';
     Indent indent(2);
     for (SizeValueType ii = 0; ii < numberOfPixels; ++ii)
     {
@@ -1072,7 +1072,7 @@ protected:
         outputFile << ConvertNumberToString(static_cast<float>(buffer[ii * numberOfPixelComponents + jj])) << indent;
       }
 
-      outputFile << "\n";
+      outputFile << '\n';
     }
 
     return;
@@ -1085,7 +1085,7 @@ protected:
                                  unsigned int    numberOfPixelComponents,
                                  SizeValueType   numberOfPixels)
   {
-    outputFile << numberOfPixelComponents << "\n";
+    outputFile << numberOfPixelComponents << '\n';
     SizeValueType numberOfElements = numberOfPixelComponents * numberOfPixels;
     const auto    data = make_unique_for_overwrite<unsigned char[]>(numberOfElements);
     for (SizeValueType ii = 0; ii < numberOfElements; ++ii)
@@ -1094,7 +1094,7 @@ protected:
     }
 
     outputFile.write(reinterpret_cast<char *>(data.get()), numberOfElements);
-    outputFile << "\n";
+    outputFile << '\n';
     return;
   }
 

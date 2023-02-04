@@ -50,8 +50,8 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Pr
 
   itkPrintSelfObjectMacro(MeshIO);
 
-  os << indent << "UserSpecifiedMeshIO flag: " << m_UserSpecifiedMeshIO << "\n";
-  os << indent << "FileName: " << m_FileName << "\n";
+  os << indent << "UserSpecifiedMeshIO flag: " << m_UserSpecifiedMeshIO << '\n';
+  os << indent << "FileName: " << m_FileName << '\n';
 }
 
 template <typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits>

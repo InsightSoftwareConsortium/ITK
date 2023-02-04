@@ -76,7 +76,7 @@ public:
       std::cout << "\nDomain partition per thread:" << std::endl;
       for (itk::ThreadIdType i = 0; i < m_DomainInThreadedExecution.size(); ++i)
       {
-        std::cout << "ThreadId: " << i << "\t" << m_DomainInThreadedExecution[i] << std::endl;
+        std::cout << "ThreadId: " << i << '\t' << m_DomainInThreadedExecution[i] << std::endl;
       }
       std::cout << std::endl;
     }

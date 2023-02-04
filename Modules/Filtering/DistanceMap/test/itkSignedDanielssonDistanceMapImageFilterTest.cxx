@@ -151,7 +151,7 @@ test(int testIdx)
           }
         }
         std::cout << ']';
-        std::cout << "\t";
+        std::cout << '\t';
         ++it2D4;
       }
       std::cout << std::endl;
