@@ -129,7 +129,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
   ritr.GoToBegin();
 
-  std::cout << "Comparing the pixel values.. :" << std::endl;
+  std::cout << "Comparing the pixel values..." << std::endl;
 
   pixelValue = itk::NumericTraits<PixelType>::ZeroValue();
 
