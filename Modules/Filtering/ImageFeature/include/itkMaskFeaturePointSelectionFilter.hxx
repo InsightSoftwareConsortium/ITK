@@ -53,7 +53,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::PrintSelf(std::ostrea
   os << indent << "BlockRadius: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_BlockRadius)
      << std::endl;
   os << indent << "SelectFraction: " << m_SelectFraction << std::endl;
-  os << indent << "ComputeStructureTensors: " << (m_ComputeStructureTensors ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ComputeStructureTensors);
 }
 
 template <typename TImage, typename TMask, typename TFeatures>

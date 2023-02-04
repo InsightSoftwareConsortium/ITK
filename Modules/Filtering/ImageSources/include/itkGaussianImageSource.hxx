@@ -123,7 +123,7 @@ GaussianImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) c
   os << indent << "Mean: " << m_Mean << std::endl;
   os << indent << "Sigma: " << m_Sigma << std::endl;
   os << indent << "Scale: " << m_Scale << std::endl;
-  os << indent << "Normalized: " << (m_Normalized ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Normalized);
 }
 } // end namespace itk
 

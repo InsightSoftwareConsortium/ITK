@@ -1157,7 +1157,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
      << std::endl;
   os << indent << "CurrentConvergenceValue: "
      << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentConvergenceValue) << std::endl;
-  os << indent << "IsConverged: " << (m_IsConverged ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(IsConverged);
 
   os << indent << "FixedSmoothImages: " << m_FixedSmoothImages << std::endl;
   os << indent << "MovingSmoothImages: " << m_MovingSmoothImages << std::endl;
@@ -1179,7 +1179,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   os << indent
      << "OptimizerWeights: " << static_cast<typename NumericTraits<OptimizerWeightsType>::PrintType>(m_OptimizerWeights)
      << std::endl;
-  os << indent << "OptimizerWeightsAreIdentity: " << (m_OptimizerWeightsAreIdentity ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(OptimizerWeightsAreIdentity);
 
   itkPrintSelfObjectMacro(Metric);
 
@@ -1191,11 +1191,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   os << indent << "FirstImageMetricIndex: " << m_FirstImageMetricIndex << std::endl;
   os << indent << "ShrinkFactorsPerLevel: " << m_ShrinkFactorsPerLevel << std::endl;
   os << indent << "SmoothingSigmasPerLevel: " << m_SmoothingSigmasPerLevel << std::endl;
-  os << indent
-     << "SmoothingSigmasAreSpecifiedInPhysicalUnits: " << (m_SmoothingSigmasAreSpecifiedInPhysicalUnits ? "On" : "Off")
-     << std::endl;
+  itkPrintSelfBooleanMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits);
 
-  os << indent << "ReseedIterator: " << (m_ReseedIterator ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ReseedIterator);
   os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
   os << indent << "CurrentRandomSeed: " << m_CurrentRandomSeed << std::endl;
 
@@ -1209,11 +1207,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   itkPrintSelfObjectMacro(CompositeTransform);
   itkPrintSelfObjectMacro(OutputTransform);
 
-  os << indent << "InPlace: " << (m_InPlace ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(InPlace);
 
-  os << indent
-     << "InitializeCenterOfLinearOutputTransform: " << (m_InitializeCenterOfLinearOutputTransform ? "On" : "Off")
-     << std::endl;
+  itkPrintSelfBooleanMacro(InitializeCenterOfLinearOutputTransform);
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>

@@ -334,8 +334,8 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::
   itkPrintSelfObjectMacro(DerivativeFilter);
   itkPrintSelfObjectMacro(ImageAdaptor);
 
-  os << indent << "NormalizeAcrossScale: " << (m_NormalizeAcrossScale ? "On" : "Off") << std::endl;
-  os << indent << "UseImageDirection: " << (m_UseImageDirection ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(NormalizeAcrossScale);
+  itkPrintSelfBooleanMacro(UseImageDirection);
   os << indent << "Sigma: " << m_Sigma << std::endl;
 }
 

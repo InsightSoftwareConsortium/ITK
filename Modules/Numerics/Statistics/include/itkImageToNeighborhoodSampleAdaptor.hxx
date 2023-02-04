@@ -113,7 +113,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::PrintSelf(std::ost
      << std::endl;
   os << indent << "Region: " << m_Region << std::endl;
   os << indent << "OffsetTable: " << m_OffsetTable << std::endl;
-  os << indent << "UseImageRegion: " << (m_UseImageRegion ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageRegion);
   os << indent << "Neighborhood Radius: " << m_Radius << std::endl;
 }
 

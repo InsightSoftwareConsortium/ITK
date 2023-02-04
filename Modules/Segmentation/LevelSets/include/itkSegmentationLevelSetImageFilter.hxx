@@ -109,8 +109,8 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::P
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseExpansionDirection: " << (m_ReverseExpansionDirection ? "On" : "Off") << std::endl;
-  os << indent << "AutoGenerateSpeedAdvection: " << (m_AutoGenerateSpeedAdvection ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ReverseExpansionDirection);
+  itkPrintSelfBooleanMacro(AutoGenerateSpeedAdvection);
 
   os << indent << "SegmentationFunction: ";
   if (m_SegmentationFunction != nullptr)

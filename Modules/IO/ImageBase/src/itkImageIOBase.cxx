@@ -1175,15 +1175,15 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   {
     os << indent << direction << std::endl;
   }
-  os << indent << "UseCompression: " << (m_UseCompression ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseCompression);
   os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
   os << indent << "MaximumCompressionLevel: " << m_MaximumCompressionLevel << std::endl;
   os << indent << "Compressor: " << m_Compressor << std::endl;
-  os << indent << "UseStreamedReading: " << (m_UseStreamedReading ? "On" : "Off") << std::endl;
-  os << indent << "UseStreamedWriting: " << (m_UseStreamedWriting ? "On" : "Off") << std::endl;
-  os << indent << "ExpandRGBPalette: " << (m_ExpandRGBPalette ? "On" : "Off") << std::endl;
-  os << indent << "IsReadAsScalarPlusPalette: " << (m_IsReadAsScalarPlusPalette ? "On" : "Off") << std::endl;
-  os << indent << "WritePalette: " << (m_WritePalette ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseStreamedReading);
+  itkPrintSelfBooleanMacro(UseStreamedWriting);
+  itkPrintSelfBooleanMacro(ExpandRGBPalette);
+  itkPrintSelfBooleanMacro(IsReadAsScalarPlusPalette);
+  itkPrintSelfBooleanMacro(WritePalette);
 }
 
 } // namespace itk

@@ -81,7 +81,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintS
   itkPrintSelfObjectMacro(SqrSpacingFilter);
   itkPrintSelfObjectMacro(SqrtFilter);
 
-  os << indent << "NormalizeAcrossScale: " << (m_NormalizeAcrossScale ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(NormalizeAcrossScale);
 }
 
 template <typename TInputImage, typename TOutputImage>

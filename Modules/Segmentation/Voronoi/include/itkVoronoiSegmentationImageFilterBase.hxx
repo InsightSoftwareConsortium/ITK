@@ -57,10 +57,10 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   os << indent << "Label: " << m_Label << std::endl;
 
   os << indent << "MeanDeviation: " << m_MeanDeviation << std::endl;
-  os << indent << "UseBackgroundInAPrior: " << (m_UseBackgroundInAPrior ? "On" : "Off") << std::endl;
-  os << indent << "OutputBoundary: " << (m_OutputBoundary ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseBackgroundInAPrior);
+  itkPrintSelfBooleanMacro(OutputBoundary);
 
-  os << indent << "InteractiveSegmentation: " << (m_InteractiveSegmentation ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(InteractiveSegmentation);
 
   itkPrintSelfObjectMacro(WorkingVD);
   itkPrintSelfObjectMacro(VDGenerator);

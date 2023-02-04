@@ -57,7 +57,7 @@ GPUReduction<TElement>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "TestGPUKernelHandle: " << m_TestGPUKernelHandle << std::endl;
 
   os << indent << "Size: " << m_Size << std::endl;
-  os << indent << "SmallBlock: " << (m_SmallBlock ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(SmallBlock);
 
   os << indent << "GPUResult: " << static_cast<typename NumericTraits<TElement>::PrintType>(m_GPUResult) << std::endl;
   os << indent << "CPUResult: " << static_cast<typename NumericTraits<TElement>::PrintType>(m_CPUResult) << std::endl;

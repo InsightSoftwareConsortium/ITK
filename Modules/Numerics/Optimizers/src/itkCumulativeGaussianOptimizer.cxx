@@ -394,7 +394,7 @@ CumulativeGaussianOptimizer::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "UpperAsymptote: " << m_UpperAsymptote << std::endl;
   os << indent << "LowerAsymptote: " << m_LowerAsymptote << std::endl;
   os << indent << "OffsetForMean: " << m_OffsetForMean << std::endl;
-  os << indent << "Verbose: " << (m_Verbose ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Verbose);
   os << indent << "FitError: " << m_FitError << std::endl;
 
   os << indent << "FinalSampledArray: ";

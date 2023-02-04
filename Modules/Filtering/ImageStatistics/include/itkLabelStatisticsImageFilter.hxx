@@ -516,7 +516,7 @@ LabelStatisticsImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, In
   }
 
   os << indent << "ValidLabelValues: " << m_ValidLabelValues << std::endl;
-  os << indent << "UseHistograms: " << (m_UseHistograms ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseHistograms);
   os << indent << "NumBins: " << m_NumBins << std::endl;
   os << indent << "LowerBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LowerBound) << std::endl;
   os << indent << "UpperBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_UpperBound) << std::endl;

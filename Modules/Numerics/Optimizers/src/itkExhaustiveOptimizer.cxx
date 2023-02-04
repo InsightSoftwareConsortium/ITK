@@ -202,7 +202,7 @@ ExhaustiveOptimizer::PrintSelf(std::ostream & os, Indent indent) const
   os << indent
      << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
      << std::endl;
-  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Stop);
   os << indent << "CurrentParameter: " << m_CurrentParameter << std::endl;
   os << indent << "StepLength: " << m_StepLength << std::endl;
   os << indent << "CurrentIndex: " << m_CurrentIndex << std::endl;

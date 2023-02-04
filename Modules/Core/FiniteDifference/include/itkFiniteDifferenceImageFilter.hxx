@@ -283,7 +283,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
   os << indent << "State: " << (m_IsInitialized ? "INITIALIZED" : "UNINITIALIZED") << std::endl;
   os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
   os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;

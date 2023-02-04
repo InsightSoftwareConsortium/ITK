@@ -292,7 +292,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
   os << indent << "Disc Radius Ratio: " << m_DiscRadiusRatio << std::endl;
   os << indent << "Accumulator blur variance: " << m_Variance << std::endl;
   os << indent << "Sweep angle : " << m_SweepAngle << std::endl;
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
 
   itkPrintSelfObjectMacro(RadiusImage);
 

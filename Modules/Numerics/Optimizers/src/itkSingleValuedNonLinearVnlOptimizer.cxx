@@ -98,7 +98,7 @@ void
 SingleValuedNonLinearVnlOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Maximize flag: " << (m_Maximize ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Maximize);
   os << indent << "Cached Value: " << m_CachedValue << std::endl;
   os << indent << "Cached Derivative: " << m_CachedDerivative << std::endl;
   os << indent << "Cached current positiion: " << m_CachedCurrentPosition << std::endl;

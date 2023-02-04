@@ -218,7 +218,7 @@ FRPROptimizer::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "OptimizationType: " << m_OptimizationType << std::endl;
-  os << indent << "UseUnitLengthGradient: " << (m_UseUnitLengthGradient ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseUnitLengthGradient);
 }
 
 std::ostream &

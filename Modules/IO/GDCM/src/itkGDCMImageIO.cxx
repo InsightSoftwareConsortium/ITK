@@ -1621,13 +1621,13 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << std::endl;
   os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << std::endl;
   os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << std::endl;
-  os << indent << "KeepOriginalUID: " << (m_KeepOriginalUID ? "On" : "Off") << std::endl;
-  os << indent << "LoadPrivateTags: " << (m_LoadPrivateTags ? "On" : "Off") << std::endl;
-  os << indent << "ReadYBRtoRGB: " << (m_ReadYBRtoRGB ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(KeepOriginalUID);
+  itkPrintSelfBooleanMacro(LoadPrivateTags);
+  itkPrintSelfBooleanMacro(ReadYBRtoRGB);
 
   os << indent << "GlobalNumberOfDimensions: " << m_GlobalNumberOfDimensions << std::endl;
   os << indent << "CompressionType: " << m_CompressionType << std::endl;
-  os << indent << "SingleBit: " << (m_SingleBit ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(SingleBit);
   os << indent << "InternalComponentType: " << m_InternalComponentType << std::endl;
 
   os << indent << "DICOMHeader: ";

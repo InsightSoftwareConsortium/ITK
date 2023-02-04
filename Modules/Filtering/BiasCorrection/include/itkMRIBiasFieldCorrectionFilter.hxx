@@ -947,12 +947,11 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(s
 
   os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
 
-  os << indent << "BiasFieldMultiplicative: " << (m_BiasFieldMultiplicative ? "On" : "Off") << std::endl;
-  os << indent << "UsingInterSliceIntensityCorrection: " << (m_UsingInterSliceIntensityCorrection ? "On" : "Off")
-     << std::endl;
-  os << indent << "UsingSlabIdentification: " << (m_UsingSlabIdentification ? "On" : "Off") << std::endl;
-  os << indent << "UsingBiasFieldCorrection: " << (m_UsingBiasFieldCorrection ? "On" : "Off") << std::endl;
-  os << indent << "GeneratingOutput: " << (m_GeneratingOutput ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(BiasFieldMultiplicative);
+  itkPrintSelfBooleanMacro(UsingInterSliceIntensityCorrection);
+  itkPrintSelfBooleanMacro(UsingSlabIdentification);
+  itkPrintSelfBooleanMacro(UsingBiasFieldCorrection);
+  itkPrintSelfBooleanMacro(GeneratingOutput);
 
   os << indent << "SlabNumberOfSamples: " << m_SlabNumberOfSamples << std::endl;
   os << indent << "SlabBackgroundMinimumThreshold: "

@@ -158,7 +158,7 @@ ContourSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) co
   // os << indent << "ControlPoints: " << m_ControlPoints << std::endl;
   os << indent << "InterpolationMethod: " << m_InterpolationMethod << std::endl;
   os << indent << "InterpolationFactor: " << m_InterpolationFactor << std::endl;
-  os << indent << "IsClosed: " << (m_IsClosed ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(IsClosed);
   os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace << std::endl;
   os << indent << "OrientationInObjectSpaceMTime: "
      << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_OrientationInObjectSpaceMTime) << std::endl;

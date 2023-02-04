@@ -105,7 +105,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Pr
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageGradientCalculator);
 
-  os << indent << "UseMovingImageGradient: " << (m_UseMovingImageGradient ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseMovingImageGradient);
 
   itkPrintSelfObjectMacro(MovingImageInterpolator);
 

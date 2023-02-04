@@ -115,7 +115,7 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::PrintSelf(std::ostream & os
   itkPrintSelfObjectMacro(Transform);
   itkPrintSelfObjectMacro(Interpolator);
 
-  os << indent << "ComputeGradient: " << (m_ComputeGradient ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ComputeGradient);
 
   itkPrintSelfObjectMacro(GradientImage);
 }

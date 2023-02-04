@@ -61,7 +61,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::PrintSelf(std::ostream & os, Indent 
   itkPrintSelfObjectMacro(Locator);
   itkPrintSelfObjectMacro(Marcher);
 
-  os << indent << "Narrowbanding: " << (m_NarrowBanding ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(NarrowBanding);
   os << indent << "InputNarrowBandwidth: " << m_InputNarrowBandwidth << std::endl;
   os << indent << "OutputNarrowBandwidth: " << m_OutputNarrowBandwidth << std::endl;
 

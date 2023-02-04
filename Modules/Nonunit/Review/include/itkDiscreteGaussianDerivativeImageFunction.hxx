@@ -38,7 +38,7 @@ void
 DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
   os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
   os << indent << "Variance: " << m_Variance << std::endl;
   os << indent << "Order: " << m_Order << std::endl;

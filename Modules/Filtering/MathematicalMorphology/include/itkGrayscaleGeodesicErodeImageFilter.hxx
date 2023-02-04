@@ -379,9 +379,9 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "RunOneIteration: " << (m_RunOneIteration ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(RunOneIteration);
   os << indent << "NumberOfIterationsUsed: " << m_NumberOfIterationsUsed << std::endl;
-  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(FullyConnected);
 }
 } // end namespace itk
 #endif

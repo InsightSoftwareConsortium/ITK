@@ -291,7 +291,7 @@ void
 ImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "DynamicMultiThreading: " << (m_DynamicMultiThreading ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(DynamicMultiThreading);
 }
 
 } // end namespace itk

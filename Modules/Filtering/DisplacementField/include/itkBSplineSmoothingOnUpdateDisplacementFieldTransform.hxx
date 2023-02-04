@@ -216,7 +216,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
 
   os << indent << "SplineOrder: " << static_cast<typename NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder)
      << std::endl;
-  os << indent << "EnforceStationaryBoundary: " << (m_EnforceStationaryBoundary ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(EnforceStationaryBoundary);
   os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
   os << indent << "NumberOfControlPointsForTheTotalField: " << m_NumberOfControlPointsForTheTotalField << std::endl;
 }

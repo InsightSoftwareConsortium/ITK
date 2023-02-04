@@ -650,7 +650,7 @@ RegistrationParameterScalesEstimator<TMetric>::PrintSelf(std::ostream & os, Inde
 
   itkPrintSelfObjectMacro(VirtualDomainPointSet);
 
-  os << indent << "TransformForward: " << (m_TransformForward ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(TransformForward);
   os << indent << "SamplingStrategy: " << m_SamplingStrategy << std::endl;
 }
 

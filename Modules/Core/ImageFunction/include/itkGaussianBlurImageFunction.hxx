@@ -68,7 +68,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream & os, In
     os << indent << "Extent[" << i << "] : " << m_Extent[i] << std::endl;
   }
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
 
   os << indent << "Internal Image : " << m_InternalImage << std::endl;
 }

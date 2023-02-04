@@ -671,7 +671,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   os << indent << "Transform: " << this->GetTransform() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "Extrapolator: " << m_Extrapolator.GetPointer() << std::endl;
-  os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseReferenceImage);
 }
 } // end namespace itk
 

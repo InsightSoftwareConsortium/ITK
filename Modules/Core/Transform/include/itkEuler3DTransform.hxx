@@ -363,7 +363,7 @@ Euler3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inde
   os << indent << "AngleX: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleX) << std::endl;
   os << indent << "AngleY: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleY) << std::endl;
   os << indent << "AngleZ: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleZ) << std::endl;
-  os << indent << "ComputeZYX: " << (m_ComputeZYX ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ComputeZYX);
 }
 
 } // namespace itk

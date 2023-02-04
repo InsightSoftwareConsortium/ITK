@@ -182,12 +182,12 @@ ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
 
   itkPrintSelfObjectMacro(ReferenceImage);
 
-  os << indent << "CenterImage: " << (m_CenterImage ? "On" : "Off") << std::endl;
-  os << indent << "ChangeSpacing: " << (m_ChangeSpacing ? "On" : "Off") << std::endl;
-  os << indent << "ChangeOrigin: " << (m_ChangeOrigin ? "On" : "Off") << std::endl;
-  os << indent << "ChangeDirection: " << (m_ChangeDirection ? "On" : "Off") << std::endl;
-  os << indent << "ChangeRegion: " << (m_ChangeRegion ? "On" : "Off") << std::endl;
-  os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(CenterImage);
+  itkPrintSelfBooleanMacro(ChangeSpacing);
+  itkPrintSelfBooleanMacro(ChangeOrigin);
+  itkPrintSelfBooleanMacro(ChangeDirection);
+  itkPrintSelfBooleanMacro(ChangeRegion);
+  itkPrintSelfBooleanMacro(UseReferenceImage);
 
   os << indent << "OutputSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_OutputSpacing)
      << std::endl;

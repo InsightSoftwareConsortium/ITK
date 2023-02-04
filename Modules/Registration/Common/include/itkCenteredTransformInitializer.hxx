@@ -128,7 +128,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::PrintSelf(s
   itkPrintSelfObjectMacro(FixedImage);
   itkPrintSelfObjectMacro(MovingImage);
 
-  os << indent << "UseMoments: " << (m_UseMoments ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseMoments);
 
   itkPrintSelfObjectMacro(MovingCalculator);
   itkPrintSelfObjectMacro(FixedCalculator);

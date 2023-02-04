@@ -208,8 +208,8 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
-  os << indent << "UseImageDirection: " << (m_UseImageDirection ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
+  itkPrintSelfBooleanMacro(UseImageDirection);
 
   os << indent << "BoundaryCondition: ";
   if (m_BoundaryCondition != nullptr)

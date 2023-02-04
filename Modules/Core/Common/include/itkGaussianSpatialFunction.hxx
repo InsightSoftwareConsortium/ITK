@@ -66,7 +66,7 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>::PrintSelf(std::ostrea
   os << indent << "Sigma: " << m_Sigma << std::endl;
   os << indent << "Mean: " << m_Mean << std::endl;
   os << indent << "Scale: " << m_Scale << std::endl;
-  os << indent << "Normalized: " << (m_Normalized ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Normalized);
 }
 } // end namespace itk
 

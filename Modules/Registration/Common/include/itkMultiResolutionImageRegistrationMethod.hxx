@@ -297,15 +297,15 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std
   os << indent << "CurrentLevel: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel)
      << std::endl;
 
-  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Stop);
 
   os << indent << "FixedImagePyramidSchedule: "
      << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_FixedImagePyramidSchedule) << std::endl;
   os << indent << "MovingImagePyramidSchedule: "
      << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_MovingImagePyramidSchedule) << std::endl;
 
-  os << indent << "ScheduleSpecified: " << (m_ScheduleSpecified ? "On" : "Off") << std::endl;
-  os << indent << "NumberOfLevelsSpecified: " << (m_Stop ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ScheduleSpecified);
+  itkPrintSelfBooleanMacro(Stop);
 }
 
 template <typename TFixedImage, typename TMovingImage>

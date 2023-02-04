@@ -257,17 +257,16 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
 
   os << indent << "State: " << m_State << std::endl;
   os << indent << "PatchRadius: " << m_PatchRadius << std::endl;
-  os << indent << "KernelBandwidthEstimation: " << (m_KernelBandwidthEstimation ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(KernelBandwidthEstimation);
   os << indent << "KernelBandwidthUpdateFrequency: " << m_KernelBandwidthUpdateFrequency << std::endl;
   os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
   os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
   os << indent << "NoiseModel: " << m_NoiseModel << std::endl;
   os << indent << "SmoothingWeight: " << m_SmoothingWeight << std::endl;
   os << indent << "NoiseModelFidelityWeight: " << m_NoiseModelFidelityWeight << std::endl;
-  os << indent << "AlwaysTreatComponentsAsEuclidean: " << (m_AlwaysTreatComponentsAsEuclidean ? "On" : "Off")
-     << std::endl;
+  itkPrintSelfBooleanMacro(AlwaysTreatComponentsAsEuclidean);
   os << indent << "ComponentSpace: " << m_ComponentSpace << std::endl;
-  os << indent << "ManualReinitialization: " << (m_ManualReinitialization ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ManualReinitialization);
 }
 } // end namespace itk
 

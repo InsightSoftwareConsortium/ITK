@@ -306,7 +306,7 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::P
 
   itkPrintSelfObjectMacro(DifferenceFunction);
 
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
   os << indent << "State: " << m_State << std::endl;
 }
 

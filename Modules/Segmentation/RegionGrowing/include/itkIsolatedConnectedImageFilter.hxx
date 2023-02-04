@@ -69,8 +69,8 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
   os << indent << "IsolatedValueTolerance: "
      << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValueTolerance) << std::endl;
 
-  os << indent << "FindUpperThreshold: " << (m_FindUpperThreshold ? "On" : "Off") << std::endl;
-  os << indent << "ThresholdingFailed: " << (m_ThresholdingFailed ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(FindUpperThreshold);
+  itkPrintSelfBooleanMacro(ThresholdingFailed);
 }
 
 template <typename TInputImage, typename TOutputImage>

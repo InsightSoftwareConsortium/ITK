@@ -2544,7 +2544,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
 
   os << indent << "SplitAxis: " << m_SplitAxis << std::endl;
   os << indent << "ZSize: " << m_ZSize << std::endl;
-  os << indent << "BoundaryChanged: " << (m_BoundaryChanged ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(BoundaryChanged);
 
   os << indent << "Boundary: ";
   if (m_Boundary != nullptr)
@@ -2601,9 +2601,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
   }
   os << std::endl;
 
-  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
-  os << indent << "InterpolateSurfaceLocation: " << (m_InterpolateSurfaceLocation ? "On" : "Off") << std::endl;
-  os << indent << "BoundsCheckingActive: " << (m_BoundsCheckingActive ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(Stop);
+  itkPrintSelfBooleanMacro(InterpolateSurfaceLocation);
+  itkPrintSelfBooleanMacro(BoundsCheckingActive);
 }
 } // end namespace itk
 

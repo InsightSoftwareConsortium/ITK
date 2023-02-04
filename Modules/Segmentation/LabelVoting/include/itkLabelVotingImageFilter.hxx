@@ -152,7 +152,7 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, 
 
   os << indent << "LabelForUndecidedPixels: "
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_HasLabelForUndecidedPixels) << std::endl;
-  os << indent << "HasLabelForUndecidedPixels: " << (m_HasLabelForUndecidedPixels ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(HasLabelForUndecidedPixels);
   os << indent << "TotalLabelCount: " << m_TotalLabelCount << std::endl;
 }
 } // end namespace itk

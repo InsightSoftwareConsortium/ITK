@@ -132,7 +132,7 @@ BinaryReconstructionByErosionImageFilter<TInputImage>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(FullyConnected);
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
      << std::endl;

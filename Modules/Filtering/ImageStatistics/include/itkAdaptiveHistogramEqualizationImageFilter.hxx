@@ -66,7 +66,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType, TKernel>::PrintSelf(std::os
   os << indent << "InputMaximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum)
      << std::endl;
 
-  os << indent << "UseLookupTable: " << (m_UseLookupTable ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseLookupTable);
 }
 } // namespace itk
 

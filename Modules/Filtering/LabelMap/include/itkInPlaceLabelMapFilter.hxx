@@ -37,7 +37,7 @@ void
 InPlaceLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "InPlace: " << (this->m_InPlace ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(InPlace);
   if (this->CanRunInPlace())
   {
     os << indent << "The input and output to this filter are the same type. The filter can be run in place."

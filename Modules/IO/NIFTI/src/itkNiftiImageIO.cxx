@@ -446,9 +446,9 @@ NiftiImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "NiftiImage: " << m_NiftiImage << std::endl;
   os << indent << "RescaleSlope: " << m_RescaleSlope << std::endl;
   os << indent << "RescaleIntercept: " << m_RescaleIntercept << std::endl;
-  os << indent << "ConvertRAS: " << (m_ConvertRAS ? "On" : "Off") << std::endl;
-  os << indent << "ConvertRASVectors: " << (m_ConvertRASVectors ? "On" : "Off") << std::endl;
-  os << indent << "ConvertRASDisplacementVectors: " << (m_ConvertRASDisplacementVectors ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ConvertRAS);
+  itkPrintSelfBooleanMacro(ConvertRASVectors);
+  itkPrintSelfBooleanMacro(ConvertRASDisplacementVectors);
   os << indent << "OnDiskComponentType: " << m_OnDiskComponentType << std::endl;
   os << indent << "LegacyAnalyze75Mode: " << m_LegacyAnalyze75Mode << std::endl;
   os << indent << "SFORM permissive: " << (m_SFORM_Permissive ? "On" : "Off") << std::endl;

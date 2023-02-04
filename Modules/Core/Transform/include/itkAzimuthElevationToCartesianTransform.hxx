@@ -49,8 +49,7 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::PrintSel
   os << indent << "AzimuthAngularSeparation: " << m_AzimuthAngularSeparation << std::endl;
   os << indent << "ElevationAngularSeparation: " << m_ElevationAngularSeparation << std::endl;
   os << indent << "FirstSampleDistance: " << m_FirstSampleDistance << std::endl;
-  os << indent << "ForwardAzimuthElevationToPhysical: " << (m_ForwardAzimuthElevationToPhysical ? "On" : "Off")
-     << std::endl;
+  itkPrintSelfBooleanMacro(ForwardAzimuthElevationToPhysical);
 }
 
 template <typename TParametersValueType, unsigned int VDimension>

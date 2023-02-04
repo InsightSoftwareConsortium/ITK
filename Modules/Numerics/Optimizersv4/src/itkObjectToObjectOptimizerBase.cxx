@@ -66,12 +66,12 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::PrintSelf(st
   os << indent << "Scales: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Scales) << std::endl;
   os << indent << "Weights: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Weights) << std::endl;
 
-  os << indent << "ScalesAreIdentity: " << (m_ScalesAreIdentity ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(ScalesAreIdentity);
 
   itkPrintSelfObjectMacro(ScalesEstimator);
 
-  os << indent << "WeightsAreIdentity: " << (m_WeightsAreIdentity ? "On" : "Off") << std::endl;
-  os << indent << "DoEstimateScales: " << (m_DoEstimateScales ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(WeightsAreIdentity);
+  itkPrintSelfBooleanMacro(DoEstimateScales);
 }
 
 template <typename TInternalComputationValueType>

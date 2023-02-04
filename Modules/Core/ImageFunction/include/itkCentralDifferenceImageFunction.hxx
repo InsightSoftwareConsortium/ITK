@@ -81,7 +81,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::PrintSelf(s
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "UseImageDirection: " << (m_UseImageDirection ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageDirection);
 
   itkPrintSelfObjectMacro(Interpolator);
 }

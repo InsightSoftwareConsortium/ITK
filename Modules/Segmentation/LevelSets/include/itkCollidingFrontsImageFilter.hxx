@@ -153,8 +153,8 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
   itkPrintSelfObjectMacro(SeedPoints1);
   itkPrintSelfObjectMacro(SeedPoints2);
 
-  os << indent << "StopOnTargets: " << (m_StopOnTargets ? "On" : "Off") << std::endl;
-  os << indent << "ApplyConnectivity: " << (m_ApplyConnectivity ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(StopOnTargets);
+  itkPrintSelfBooleanMacro(ApplyConnectivity);
 
   os << indent << "NegativeEpsilon: " << m_NegativeEpsilon << std::endl;
 }

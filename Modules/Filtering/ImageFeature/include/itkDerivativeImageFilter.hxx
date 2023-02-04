@@ -147,7 +147,7 @@ DerivativeImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, I
 
   os << indent << "Order: " << m_Order << std::endl;
   os << indent << "Direction: " << m_Direction << std::endl;
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  itkPrintSelfBooleanMacro(UseImageSpacing);
 }
 } // end namespace itk
 
