@@ -353,21 +353,21 @@ private:
    * through the pointers (although it does enforce some
    * internal class synchronization).
    */
-  const RegionType &    m_GridRegion;
-  const OriginType &    m_GridOrigin;
-  const SpacingType &   m_GridSpacing;
+  const RegionType &    m_GridRegion{};
+  const OriginType &    m_GridOrigin{};
+  const SpacingType &   m_GridSpacing{};
   const DirectionType & m_GridDirection;
 
   /** The bulk transform. */
-  BulkTransformPointer m_BulkTransform;
+  BulkTransformPointer m_BulkTransform{};
 
-  RegionType m_ValidRegion;
+  RegionType m_ValidRegion{};
 
   /** Variables defining the interpolation support region. */
-  unsigned long m_Offset;
-  bool          m_SplineOrderOdd;
-  IndexType     m_ValidRegionLast;
-  IndexType     m_ValidRegionFirst;
+  unsigned long m_Offset{};
+  bool          m_SplineOrderOdd{};
+  IndexType     m_ValidRegionLast{};
+  IndexType     m_ValidRegionFirst{};
 
   void
   UpdateValidGridRegion();

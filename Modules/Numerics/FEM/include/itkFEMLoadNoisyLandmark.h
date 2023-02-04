@@ -196,17 +196,17 @@ private:
   /**
    * Real displacement of the landmark
    */
-  VectorType m_RealDisplacement;
+  VectorType m_RealDisplacement{};
 
   /**
    * Simulated displacement of the landmark
    */
-  VectorType m_SimulatedDisplacement;
+  VectorType m_SimulatedDisplacement{};
 
   /**
    * Shape function vector
    */
-  VectorType m_Shape;
+  VectorType m_Shape{};
 
   /**
    * Magnitude of the error
@@ -231,13 +231,13 @@ private:
   /**
    * Structure tensor
    */
-  MatrixType m_StructureTensor;
+  MatrixType m_StructureTensor{};
 
   /**
    * Landmark tensor, which can be the stiffness tensor or the product
    * of the stiffness tensor and the structure tensor
    */
-  MatrixType m_LandmarkTensor;
+  MatrixType m_LandmarkTensor{};
 };
 } // end namespace fem
 } // end namespace itk

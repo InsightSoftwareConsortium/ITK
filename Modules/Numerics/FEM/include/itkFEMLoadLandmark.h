@@ -258,16 +258,16 @@ protected:
   /**
    * Point in __local coordinates__ in the undeformed configuration
    */
-  vnl_vector<Float> m_Point;
+  vnl_vector<Float> m_Point{};
 
   /**
    * Point in __global coordinates__ in the deformed configuration
    */
-  vnl_vector<Float> m_Target;
+  vnl_vector<Float> m_Target{};
 
-  vnl_vector<Float> m_Source;
+  vnl_vector<Float> m_Source{};
 
-  vnl_vector<Float> m_Force;
+  vnl_vector<Float> m_Force{};
 
   /**
    * Pointer to the element which contains the undeformed

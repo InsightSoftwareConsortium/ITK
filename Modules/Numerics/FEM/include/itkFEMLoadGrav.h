@@ -108,7 +108,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  vnl_vector<Float> m_GravityForce;
+  vnl_vector<Float> m_GravityForce{};
 };
 } // end namespace fem
 } // end namespace itk

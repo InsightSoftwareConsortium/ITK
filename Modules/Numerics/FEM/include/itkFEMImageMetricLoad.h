@@ -355,26 +355,26 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  GradientImageType * m_MetricGradientImage;
-  MovingPointer       m_RefImage;
-  FixedPointer        m_TarImage;
+  GradientImageType * m_MetricGradientImage{};
+  MovingPointer       m_RefImage{};
+  FixedPointer        m_TarImage{};
   MovingRadiusType    m_MetricRadius; /** used by the metric to set
                                         region size for fixed image*/
-  typename MovingType::SizeType m_RefSize;
-  typename FixedType::SizeType  m_TarSize;
-  unsigned int                  m_NumberOfIntegrationPoints;
-  unsigned int                  m_SolutionIndex;
-  unsigned int                  m_SolutionIndex2;
-  Float                         m_Sign;
-  Float                         m_Temp;
-  Float                         m_Gamma;
+  typename MovingType::SizeType m_RefSize{};
+  typename FixedType::SizeType  m_TarSize{};
+  unsigned int                  m_NumberOfIntegrationPoints{};
+  unsigned int                  m_SolutionIndex{};
+  unsigned int                  m_SolutionIndex2{};
+  Float                         m_Sign{};
+  Float                         m_Temp{};
+  Float                         m_Gamma{};
 
-  typename Solution::ConstPointer     m_Solution;
-  MetricBaseTypePointer               m_Metric;
-  typename TransformBaseType::Pointer m_Transform;
-  typename InterpolatorType::Pointer  m_Interpolator;
+  typename Solution::ConstPointer     m_Solution{};
+  MetricBaseTypePointer               m_Metric{};
+  typename TransformBaseType::Pointer m_Transform{};
+  typename InterpolatorType::Pointer  m_Interpolator{};
 
-  mutable double m_Energy;
+  mutable double m_Energy{};
 
 private:
 };

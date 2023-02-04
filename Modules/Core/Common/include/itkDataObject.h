@@ -556,24 +556,24 @@ protected:
 
 private:
   /** Who generated this data? */
-  WeakPointer<ProcessObject> m_Source;
-  DataObjectIdentifierType   m_SourceOutputName;
+  WeakPointer<ProcessObject> m_Source{};
+  DataObjectIdentifierType   m_SourceOutputName{};
 
   /** When was this data last generated?
    *  This time stamp is an integer number and it is intended to synchronize the
    *  activities of the pipeline. It doesn't relates to the clock time of
    *  acquiring or processing the data. */
-  TimeStamp m_UpdateMTime;
+  TimeStamp m_UpdateMTime{};
 
   /** When, in real time, this data was generated. */
-  RealTimeStamp m_RealTimeStamp;
+  RealTimeStamp m_RealTimeStamp{};
 
   bool m_ReleaseDataFlag; // Data will release after use by a filter if on
   bool m_DataReleased;    // Keep track of data release during pipeline execution
 
   /** The maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */
-  ModifiedTimeType m_PipelineMTime;
+  ModifiedTimeType m_PipelineMTime{};
 
   /** Static member that controls global data release after use by filter. */
   static bool * m_GlobalReleaseDataFlag;
