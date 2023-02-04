@@ -246,21 +246,21 @@ protected:
   }
 
 private:
-  DensityFunctionPointer m_MovingDensityFunction;
+  DensityFunctionPointer m_MovingDensityFunction{};
 
   bool m_UseAnisotropicCovariances{ false };
 
-  RealType     m_PointSetSigma;
-  RealType     m_KernelSigma;
-  unsigned int m_CovarianceKNeighborhood;
-  unsigned int m_EvaluationKNeighborhood;
+  RealType     m_PointSetSigma{};
+  RealType     m_KernelSigma{};
+  unsigned int m_CovarianceKNeighborhood{};
+  unsigned int m_EvaluationKNeighborhood{};
 
-  RealType m_Alpha;
+  RealType m_Alpha{};
 
   /** Precomputed cached values */
-  mutable RealType m_TotalNumberOfPoints;
-  mutable RealType m_Prefactor0;
-  mutable RealType m_Prefactor1;
+  mutable RealType m_TotalNumberOfPoints{};
+  mutable RealType m_Prefactor0{};
+  mutable RealType m_Prefactor1{};
 };
 
 

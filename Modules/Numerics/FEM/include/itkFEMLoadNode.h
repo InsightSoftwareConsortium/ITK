@@ -108,7 +108,7 @@ protected:
    * Force applied on the node. Dimension of F should equal
    * element->GetNumberOfDegreesOfFreedomPerNode().
    */
-  vnl_vector<Float> m_Force;
+  vnl_vector<Float> m_Force{};
 };
 } // end namespace fem
 } // end namespace itk

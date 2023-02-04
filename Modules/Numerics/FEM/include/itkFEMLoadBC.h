@@ -90,7 +90,7 @@ protected:
    *       defined by optional dim parameter (defaults to 0) in AssembleF
    *       function in solver.
    */
-  vnl_vector<Element::Float> m_Value;
+  vnl_vector<Element::Float> m_Value{};
 };
 } // end namespace fem
 } // end namespace itk

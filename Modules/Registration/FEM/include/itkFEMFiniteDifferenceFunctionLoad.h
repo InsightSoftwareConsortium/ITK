@@ -320,25 +320,25 @@ protected:
 private:
   FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers
 
-  MovingPointer m_MovingImage;
-  FixedPointer  m_FixedImage;
+  MovingPointer m_MovingImage{};
+  FixedPointer  m_FixedImage{};
 
   /** Used by the metric to set the region size for the fixed image. */
-  MovingRadiusType m_MetricRadius;
+  MovingRadiusType m_MetricRadius{};
 
-  typename MovingImageType::SizeType  m_MovingSize;
-  typename FixedImageType::SizeType   m_FixedSize;
+  typename MovingImageType::SizeType  m_MovingSize{};
+  typename FixedImageType::SizeType   m_FixedSize{};
   unsigned int                        m_NumberOfIntegrationPoints{ 0 };
   unsigned int                        m_SolutionIndex{ 1 };
   unsigned int                        m_SolutionIndex2{ 0 };
-  Float                               m_Gamma;
+  Float                               m_Gamma{};
   typename Solution::ConstPointer     m_Solution{ nullptr };
   float                               m_GradSigma{ 0.0f };
   float                               m_Sign{ 1.0f };
   float                               m_WhichMetric{ 0.0f };
-  FiniteDifferenceFunctionTypePointer m_DifferenceFunction;
+  FiniteDifferenceFunctionTypePointer m_DifferenceFunction{};
 
-  typename DisplacementFieldType::Pointer m_DisplacementField;
+  typename DisplacementFieldType::Pointer m_DisplacementField{};
 };
 } // end namespace fem
 } // end namespace itk
