@@ -19,6 +19,8 @@
 #  error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
 #else // itkExceptionObject_h
 
+#  include "itkMacro.h"
+
 #  include <memory> // For shared_ptr.
 #  include <string>
 #  include <stdexcept>
@@ -84,11 +86,8 @@ public:
   virtual bool
   operator==(const ExceptionObject & orig) const;
 
-  virtual const char *
-  GetNameOfClass() const
-  {
-    return "ExceptionObject";
-  }
+  /** Runtime information support. */
+  itkTypeMacroNoParent(ExceptionObject);
 
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
@@ -159,11 +158,8 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  const char *
-  GetNameOfClass() const override
-  {
-    return "MemoryAllocationError";
-  }
+  /** Runtime information support. */
+  itkTypeMacro(MemoryAllocationError, ExceptionObject);
 };
 
 /** \class RangeError
@@ -177,11 +173,8 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  const char *
-  GetNameOfClass() const override
-  {
-    return "RangeError";
-  }
+  /** Runtime information support. */
+  itkTypeMacro(RangeError, ExceptionObject);
 };
 
 /** \class InvalidArgumentError
@@ -196,11 +189,8 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  const char *
-  GetNameOfClass() const override
-  {
-    return "InvalidArgumentError";
-  }
+  /** Runtime information support. */
+  itkTypeMacro(InvalidArgumentError, ExceptionObject);
 };
 
 /** \class IncompatibleOperandsError
@@ -214,11 +204,8 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  const char *
-  GetNameOfClass() const override
-  {
-    return "IncompatibleOperandsError";
-  }
+  /** Runtime information support. */
+  itkTypeMacro(IncompatibleOperandsError, ExceptionObject);
 };
 
 /** \class ProcessAborted
@@ -251,11 +238,8 @@ public:
     this->SetDescription("Filter execution was aborted by an external request");
   }
 
-  const char *
-  GetNameOfClass() const override
-  {
-    return "ProcessAborted";
-  }
+  /** Runtime information support. */
+  itkTypeMacro(ProcessAborted, ExceptionObject);
 };
 } // end namespace itk
 

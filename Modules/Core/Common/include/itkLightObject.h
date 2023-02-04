@@ -90,8 +90,7 @@ public:
   /** Return the name of this class as a string. Used by the object factory
    * (implemented in New()) to instantiate objects of a named type. Also
    * used for debugging and other output information.  */
-  virtual const char *
-  GetNameOfClass() const;
+  itkTypeMacroNoParent(LightObject);
 
 #ifdef _WIN32
   /** Used to avoid dll boundary problems.  */

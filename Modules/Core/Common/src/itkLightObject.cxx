@@ -37,12 +37,6 @@ LightObject::LightObject()
   : m_ReferenceCount(1)
 {}
 
-const char *
-LightObject::GetNameOfClass() const
-{
-  return "LightObject";
-}
-
 LightObject::Pointer
 LightObject::New()
 {
