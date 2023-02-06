@@ -1273,7 +1273,10 @@ def imread(
             io_filename, itk.CommonEnums.IOFileMode_ReadMode
         )
         if not image_IO:
-            raise RuntimeError("No ImageIO is registered to handle the given file.")
+            if os.path.exists(io_filename):
+                raise RuntimeError("No ImageIO is registered to handle the given file.")
+            else:
+                raise FileNotFoundError(f"File {io_filename} does not exist.")
         image_IO.SetFileName(io_filename)
         image_IO.ReadImageInformation()
         dimension = image_IO.GetNumberOfDimensions()
