@@ -210,17 +210,17 @@ protected:
 
 protected:
   /** Mesh on which we propagate the front */
-  MeshType * m_Mesh;
+  MeshType * m_Mesh{};
   /** Initial seed of the front */
-  QEType * m_Seed;
+  QEType * m_Seed{};
   /** Whether the iterator is active */
-  bool m_Start;
+  bool m_Start{};
   /** The active front */
-  FrontTypePointer m_Front;
+  FrontTypePointer m_Front{};
   /** The already visited points */
-  IsVisitedPointerType m_IsPointVisited;
+  IsVisitedPointerType m_IsPointVisited{};
   /** The current edge at this stage of iteration */
-  QEType * m_CurrentEdge;
+  QEType * m_CurrentEdge{};
 };
 
 /**

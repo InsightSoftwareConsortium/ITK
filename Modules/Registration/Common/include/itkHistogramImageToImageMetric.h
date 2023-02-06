@@ -171,21 +171,21 @@ protected:
   ~HistogramImageToImageMetric() override = default;
 
   /** The histogram size. */
-  HistogramSizeType m_HistogramSize;
+  HistogramSizeType m_HistogramSize{};
   /** The lower bound for samples in the histogram. */
-  mutable MeasurementVectorType m_LowerBound;
+  mutable MeasurementVectorType m_LowerBound{};
   /** The upper bound for samples in the histogram. */
-  mutable MeasurementVectorType m_UpperBound;
+  mutable MeasurementVectorType m_UpperBound{};
   /** The increase in the upper bound. */
-  double m_UpperBoundIncreaseFactor;
+  double m_UpperBoundIncreaseFactor{};
 
   /** Boolean flag to indicate whether the user supplied lower bounds or
    * whether they should be computed from the min of image intensities */
-  bool m_LowerBoundSetByUser;
+  bool m_LowerBoundSetByUser{};
 
   /** Boolean flag to indicate whether the user supplied upper bounds or
    * whether they should be computed from the max of image intensities */
-  bool m_UpperBoundSetByUser;
+  bool m_UpperBoundSetByUser{};
 
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */
@@ -215,22 +215,22 @@ protected:
 
 private:
   /** The padding value. */
-  FixedImagePixelType m_PaddingValue;
+  FixedImagePixelType m_PaddingValue{};
 
   /** True if those pixels in the fixed image with the same value as the
       padding value should be ignored when calculating the similarity
       measure. */
-  bool m_UsePaddingValue;
+  bool m_UsePaddingValue{};
 
   /** The step length used to calculate the derivative. */
-  double m_DerivativeStepLength;
+  double m_DerivativeStepLength{};
 
   /** The derivative step length scales. */
-  ScalesType m_DerivativeStepLengthScales;
+  ScalesType m_DerivativeStepLengthScales{};
 
   /** Pointer to the joint histogram. This is updated during every call to
    * GetValue() */
-  HistogramPointer m_Histogram;
+  HistogramPointer m_Histogram{};
 };
 } // end namespace itk
 

@@ -157,20 +157,20 @@ protected:
   virtual void
   UpdateEquations() = 0;
 
-  StoppingCriterionPointer m_StoppingCriterion;
+  StoppingCriterionPointer m_StoppingCriterion{};
 
-  EquationContainerPointer                m_EquationContainer;
-  typename LevelSetContainerType::Pointer m_LevelSetContainer;
+  EquationContainerPointer                m_EquationContainer{};
+  typename LevelSetContainerType::Pointer m_LevelSetContainer{};
 
-  LevelSetOutputRealType m_Alpha;
-  LevelSetOutputRealType m_Dt;
-  LevelSetOutputRealType m_RMSChangeAccumulator;
-  bool                   m_UserGloballyDefinedTimeStep;
-  IdentifierType         m_NumberOfIterations;
+  LevelSetOutputRealType m_Alpha{};
+  LevelSetOutputRealType m_Dt{};
+  LevelSetOutputRealType m_RMSChangeAccumulator{};
+  bool                   m_UserGloballyDefinedTimeStep{};
+  IdentifierType         m_NumberOfIterations{};
 
   /** Helper members for threading. */
-  typename LevelSetContainerType::Iterator m_LevelSetContainerIteratorToProcessWhenThreading;
-  typename LevelSetContainerType::Iterator m_LevelSetUpdateContainerIteratorToProcessWhenThreading;
+  typename LevelSetContainerType::Iterator m_LevelSetContainerIteratorToProcessWhenThreading{};
+  typename LevelSetContainerType::Iterator m_LevelSetUpdateContainerIteratorToProcessWhenThreading{};
 };
 } // namespace itk
 

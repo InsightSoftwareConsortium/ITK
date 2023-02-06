@@ -122,7 +122,7 @@ protected:
   /**
    * Pointer to material properties of the element
    */
-  MaterialLinearElasticity::ConstPointer m_Mat;
+  MaterialLinearElasticity::ConstPointer m_Mat{};
 };
 
 } // end namespace fem

@@ -167,13 +167,13 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   MeasureType              m_MatchMeasure{ 0 };
-  DerivativeType           m_MatchMeasureDerivatives;
-  mutable TransformPointer m_Transform;
-  InterpolatorPointer      m_Interpolator;
+  DerivativeType           m_MatchMeasureDerivatives{};
+  mutable TransformPointer m_Transform{};
+  InterpolatorPointer      m_Interpolator{};
 
-  MovingSpatialObjectConstPointer m_MovingSpatialObject;
-  FixedImageConstPointer          m_FixedImage;
-  ParametersType                  m_LastTransformParameters;
+  MovingSpatialObjectConstPointer m_MovingSpatialObject{};
+  FixedImageConstPointer          m_FixedImage{};
+  ParametersType                  m_LastTransformParameters{};
 };
 } // end namespace itk
 

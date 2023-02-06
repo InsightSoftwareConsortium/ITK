@@ -156,7 +156,7 @@ protected:
   }
 
   // Array of pointers to point objects that define the element
-  const Node * m_node[NumberOfNodes];
+  const Node * m_node[NumberOfNodes]{};
 };
 
 } // end namespace fem

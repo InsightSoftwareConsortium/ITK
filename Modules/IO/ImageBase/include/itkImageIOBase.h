@@ -708,14 +708,14 @@ protected:
   IOFileEnum m_FileType{ IOFileEnum::TypeNotApplicable };
 
   /** Does the ImageIOBase object have enough info to be of use? */
-  bool m_Initialized;
+  bool m_Initialized{};
 
   /** Filename to read */
-  std::string m_FileName;
+  std::string m_FileName{};
 
   /** Stores the number of components per pixel. This will be 1 for
    * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images. */
-  unsigned int m_NumberOfComponents;
+  unsigned int m_NumberOfComponents{};
 
   /** The number of independent dimensions in the image. */
   unsigned int m_NumberOfDimensions{ 0 };
@@ -740,41 +740,41 @@ protected:
   InternalSetCompressor(const std::string & _compressor);
 
   /** Should we use streaming for reading */
-  bool m_UseStreamedReading;
+  bool m_UseStreamedReading{};
 
   /** Should we use streaming for writing */
-  bool m_UseStreamedWriting;
+  bool m_UseStreamedWriting{};
 
   /** Should we expand RGB palette or stay scalar */
-  bool m_ExpandRGBPalette;
+  bool m_ExpandRGBPalette{};
 
   /** true if a RGB palette has been read and the image
    * kept scalar */
-  bool m_IsReadAsScalarPlusPalette;
+  bool m_IsReadAsScalarPlusPalette{};
 
   /** Should we try to include a RGB palette while writing the image  */
-  bool m_WritePalette;
+  bool m_WritePalette{};
 
   /** The region to read or write. The region contains information about the
    * data within the region to read or write. */
-  ImageIORegion m_IORegion;
+  ImageIORegion m_IORegion{};
 
   /** The array which stores the number of pixels in the x, y, z directions. */
-  std::vector<SizeValueType> m_Dimensions;
+  std::vector<SizeValueType> m_Dimensions{};
 
   /** The array which stores the spacing of pixels in the
    * x, y, z directions. */
-  std::vector<double> m_Spacing;
+  std::vector<double> m_Spacing{};
 
   /** The array which stores the origin of the image. */
-  std::vector<double> m_Origin;
+  std::vector<double> m_Origin{};
 
   /** The arrays which store the direction cosines of the image. */
-  std::vector<std::vector<double>> m_Direction;
+  std::vector<std::vector<double>> m_Direction{};
 
   /** Stores the number of bytes it takes to get to the next 'thing'
    * e.g. component, pixel, row, slice, etc. */
-  std::vector<SizeType> m_Strides;
+  std::vector<SizeType> m_Strides{};
 
   /** Return the object to an initialized state, ready to be used */
   virtual void
@@ -891,8 +891,8 @@ private:
   bool
   HasSupportedExtension(const char *, const ArrayOfExtensionsType &, bool ignoreCase = true);
 
-  ArrayOfExtensionsType m_SupportedReadExtensions;
-  ArrayOfExtensionsType m_SupportedWriteExtensions;
+  ArrayOfExtensionsType m_SupportedReadExtensions{};
+  ArrayOfExtensionsType m_SupportedWriteExtensions{};
 };
 
 /** Utility function for writing RAW bytes */

@@ -214,14 +214,14 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Const pointer to the input image. */
-  InputImageConstPointer m_Image;
+  InputImageConstPointer m_Image{};
 
   /** Cache some values for testing if indices are inside buffered region. */
-  IndexType m_StartIndex;
-  IndexType m_EndIndex;
+  IndexType m_StartIndex{};
+  IndexType m_EndIndex{};
 
-  ContinuousIndexType m_StartContinuousIndex;
-  ContinuousIndexType m_EndContinuousIndex;
+  ContinuousIndexType m_StartContinuousIndex{};
+  ContinuousIndexType m_EndContinuousIndex{};
 };
 } // end namespace itk
 

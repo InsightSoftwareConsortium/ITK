@@ -47,13 +47,13 @@ public:
 
   /** Optional record name
    */
-  std::string m_RecordName;
+  std::string m_RecordName{};
 
   /** Contains a list of token with the associated memory allocated, tokens
    *  could be typically: Size, Rss, Shared_Clean, Shared_Dirty, Private_Clean,
    *  Private_Dirty, Referenced.
    */
-  std::map<std::string, MemoryLoadType> m_Tokens;
+  std::map<std::string, MemoryLoadType> m_Tokens{};
 };
 
 /** \class SmapsRecord
@@ -163,7 +163,7 @@ protected:
   using MapRecordVectorType = std::vector<MapRecord *>;
 
   /** contains all the segment records */
-  MapRecordVectorType m_Records;
+  MapRecordVectorType m_Records{};
 };
 
 /** \class SmapsData_2_6
@@ -191,7 +191,7 @@ public:
                           operator>>(std::istream & smapsStream, SmapsData_2_6 & data);
 
 protected:
-  bool m_HeapRecordFound;
+  bool m_HeapRecordFound{};
 };
 
 /** \class VMMapData_10_2

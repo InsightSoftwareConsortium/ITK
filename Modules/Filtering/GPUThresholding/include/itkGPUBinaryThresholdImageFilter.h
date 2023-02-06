@@ -77,10 +77,10 @@ public:
   }
 
 private:
-  TInput  m_LowerThreshold;
-  TInput  m_UpperThreshold;
-  TOutput m_InsideValue;
-  TOutput m_OutsideValue;
+  TInput  m_LowerThreshold{};
+  TInput  m_UpperThreshold{};
+  TOutput m_InsideValue{};
+  TOutput m_OutsideValue{};
 };
 } // end of namespace Functor
 

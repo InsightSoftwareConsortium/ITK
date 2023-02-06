@@ -237,11 +237,11 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
   }
 
 private:
-  unsigned int       m_PartitionDimension;
-  MeasurementType    m_PartitionValue;
-  InstanceIdentifier m_InstanceIdentifier;
-  Superclass *       m_Left;
-  Superclass *       m_Right;
+  unsigned int       m_PartitionDimension{};
+  MeasurementType    m_PartitionValue{};
+  InstanceIdentifier m_InstanceIdentifier{};
+  Superclass *       m_Left{};
+  Superclass *       m_Right{};
 }; // end of class
 
 /**
@@ -366,15 +366,15 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode : public KdTree
   }
 
 private:
-  MeasurementVectorSizeType m_MeasurementVectorSize;
-  unsigned int              m_PartitionDimension;
-  MeasurementType           m_PartitionValue;
-  CentroidType              m_WeightedCentroid;
-  CentroidType              m_Centroid;
-  InstanceIdentifier        m_InstanceIdentifier;
-  unsigned int              m_Size;
-  Superclass *              m_Left;
-  Superclass *              m_Right;
+  MeasurementVectorSizeType m_MeasurementVectorSize{};
+  unsigned int              m_PartitionDimension{};
+  MeasurementType           m_PartitionValue{};
+  CentroidType              m_WeightedCentroid{};
+  CentroidType              m_Centroid{};
+  InstanceIdentifier        m_InstanceIdentifier{};
+  unsigned int              m_Size{};
+  Superclass *              m_Left{};
+  Superclass *              m_Right{};
 }; // end of class
 
 /**
@@ -486,7 +486,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode : public KdTreeNode<TSample>
   }
 
 private:
-  std::vector<InstanceIdentifier> m_InstanceIdentifiers;
+  std::vector<InstanceIdentifier> m_InstanceIdentifiers{};
 }; // end of class
 
 /**

@@ -239,7 +239,7 @@ public:
 
 protected: // made protected so other iterators can access
   /** Smart pointer to the function we're evaluating */
-  SmartPointer<FunctionType> m_Function;
+  SmartPointer<FunctionType> m_Function{};
 
   /** A temporary image used for storing info about indices
    * 0 = pixel has not yet been processed
@@ -247,32 +247,32 @@ protected: // made protected so other iterators can access
    * 2 = pixel is inside the function, neighbor check incomplete
    * 3 = pixel is inside the function, neighbor check complete */
   using TTempImage = Image<unsigned char, Self::NDimensions>;
-  typename TTempImage::Pointer m_TemporaryPointer;
+  typename TTempImage::Pointer m_TemporaryPointer{};
 
   /** A list of locations to start the recursive fill */
-  SeedsContainerType m_Seeds;
+  SeedsContainerType m_Seeds{};
 
   /** The origin of the source image */
-  typename ImageType::PointType m_ImageOrigin;
+  typename ImageType::PointType m_ImageOrigin{};
 
   /** The spacing of the source image */
-  typename ImageType::SpacingType m_ImageSpacing;
+  typename ImageType::SpacingType m_ImageSpacing{};
 
   /** Region of the source image */
-  RegionType m_ImageRegion;
+  RegionType m_ImageRegion{};
 
   /** Stack used to hold the path of the iterator through the image */
-  std::queue<IndexType> m_IndexStack;
+  std::queue<IndexType> m_IndexStack{};
 
   /** Location vector used in the flood algorithm */
-  FunctionInputType m_LocationVector;
+  FunctionInputType m_LocationVector{};
 
   /** Indicates whether or not we've found a neighbor that needs to be
    * checked.  */
-  bool m_FoundUncheckedNeighbor;
+  bool m_FoundUncheckedNeighbor{};
 
   /** Indicates whether or not an index is valid (inside an image)/ */
-  bool m_IsValidIndex;
+  bool m_IsValidIndex{};
 };
 } // end namespace itk
 

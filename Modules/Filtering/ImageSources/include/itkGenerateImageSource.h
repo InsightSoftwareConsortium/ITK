@@ -135,10 +135,10 @@ protected:
 
 private:
   SizeType      m_Size; // size of the output image
-  SpacingType   m_Spacing;
-  PointType     m_Origin;
-  DirectionType m_Direction;
-  IndexType     m_StartIndex;
+  SpacingType   m_Spacing{};
+  PointType     m_Origin{};
+  DirectionType m_Direction{};
+  IndexType     m_StartIndex{};
   bool          m_UseReferenceImage{ false };
 };
 

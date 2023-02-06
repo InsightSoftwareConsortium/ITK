@@ -138,8 +138,8 @@ private:
   /**
    * Each element holds COLOR or pointer to another octree node
    */
-  OctreeNodeBranch * m_Branch;
-  OctreeBase *       m_Parent;
+  OctreeNodeBranch * m_Branch{};
+  OctreeBase *       m_Parent{};
 };
 
 class ITKCommon_EXPORT OctreeNodeBranch

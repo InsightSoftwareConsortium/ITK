@@ -405,13 +405,13 @@ protected:
 
   // Cache input and output pointer to get rid of thousands of calls
   // to GetInput and GetOutput.
-  const InputImageType * m_InputImage;
-  OutputImageType *      m_OutputImage;
+  const InputImageType * m_InputImage{};
+  OutputImageType *      m_OutputImage{};
 
 private:
   /** Parameters that define patch size and patch weights (mask). */
   unsigned int     m_PatchRadius{ 4 };
-  PatchWeightsType m_PatchWeights;
+  PatchWeightsType m_PatchWeights{};
 
   /** Parameters that define the strategy for kernel-bandwidth estimation. */
   bool         m_KernelBandwidthEstimation{ false };

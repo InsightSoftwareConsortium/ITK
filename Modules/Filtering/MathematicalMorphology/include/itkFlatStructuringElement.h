@@ -224,9 +224,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool m_Decomposable;
+  bool m_Decomposable{};
 
-  DecompType m_Lines;
+  DecompType m_Lines{};
 
   template <unsigned int VDimension3>
   struct StructuringElementFacet
@@ -246,7 +246,7 @@ private:
   using LType3 = Vector<float, 3>;
   using FacetType3 = StructuringElementFacet<3>;
 
-  bool m_RadiusIsParametric;
+  bool m_RadiusIsParametric{};
 
   /** Check for correct odd size image.
    *  Return image size. Called in constructor FromImage.*/

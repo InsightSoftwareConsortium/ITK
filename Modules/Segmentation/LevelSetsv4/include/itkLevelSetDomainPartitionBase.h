@@ -65,7 +65,7 @@ protected:
   using IdentifierListIterator = typename IdentifierListType::iterator;
   using IdentifierListConstIterator = typename IdentifierListType::const_iterator;
 
-  IdentifierType m_NumberOfLevelSetFunctions;
+  IdentifierType m_NumberOfLevelSetFunctions{};
 };
 } // end namespace itk
 

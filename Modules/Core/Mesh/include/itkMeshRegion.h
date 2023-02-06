@@ -110,10 +110,10 @@ public:
 
 private:
   // The maximum number of regions possible.
-  SizeValueType m_NumberOfRegions;
+  SizeValueType m_NumberOfRegions{};
 
   // The specified region.
-  SizeValueType m_Region;
+  SizeValueType m_Region{};
 };
 } // end namespace itk
 

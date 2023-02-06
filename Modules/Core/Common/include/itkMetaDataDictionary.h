@@ -176,7 +176,7 @@ private:
   bool
   MakeUnique();
 
-  std::shared_ptr<MetaDataDictionaryMapType> m_Dictionary;
+  std::shared_ptr<MetaDataDictionaryMapType> m_Dictionary{};
 };
 
 inline void

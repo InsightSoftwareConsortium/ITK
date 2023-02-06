@@ -152,9 +152,9 @@ protected:
   bool m_OptimizerInitialized{ false };
 
   using InternalOptimizerAutoPointer = std::unique_ptr<InternalOptimizerType>;
-  InternalOptimizerAutoPointer m_VnlOptimizer;
+  InternalOptimizerAutoPointer m_VnlOptimizer{};
 
-  mutable std::ostringstream m_StopConditionDescription;
+  mutable std::ostringstream m_StopConditionDescription{};
 
   bool         m_Trace{ false };
   unsigned int m_MaximumNumberOfFunctionEvaluations{ 2000 };

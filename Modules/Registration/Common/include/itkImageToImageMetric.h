@@ -374,10 +374,10 @@ protected:
   };
 
   bool                     m_UseFixedImageIndexes{ false };
-  FixedImageIndexContainer m_FixedImageIndexes;
+  FixedImageIndexContainer m_FixedImageIndexes{};
 
   bool                m_UseFixedImageSamplesIntensityThreshold{ false };
-  FixedImagePixelType m_FixedImageSamplesIntensityThreshold;
+  FixedImagePixelType m_FixedImageSamplesIntensityThreshold{};
 
   /** FixedImageSamplePoint type alias support */
   using FixedImageSampleContainer = std::vector<FixedImageSamplePoint>;
@@ -401,7 +401,7 @@ protected:
   SampleFullFixedImageRegion(FixedImageSampleContainer & samples) const;
 
   /** Container to store a set of points and fixed image values. */
-  FixedImageSampleContainer m_FixedImageSamples;
+  FixedImageSampleContainer m_FixedImageSamples{};
 
   SizeValueType m_NumberOfParameters{ 0 };
 
@@ -411,22 +411,22 @@ protected:
   // onto this accumulator variable.
   mutable SizeValueType m_NumberOfPixelsCounted{ 0 };
 
-  FixedImageConstPointer  m_FixedImage;
-  MovingImageConstPointer m_MovingImage;
+  FixedImageConstPointer  m_FixedImage{};
+  MovingImageConstPointer m_MovingImage{};
 
   /** Main transform to be used in thread = 0 */
-  TransformPointer m_Transform;
+  TransformPointer m_Transform{};
   /** Copies of Transform helpers per thread (N-1 of them, since m_Transform
    * will do the work for thread=0. */
   std::unique_ptr<TransformPointer[]> m_ThreaderTransform;
 
-  InterpolatorPointer m_Interpolator;
+  InterpolatorPointer m_Interpolator{};
 
   bool                 m_ComputeGradient{ true };
-  GradientImagePointer m_GradientImage;
+  GradientImagePointer m_GradientImage{};
 
-  FixedImageMaskConstPointer  m_FixedImageMask;
-  MovingImageMaskConstPointer m_MovingImageMask;
+  FixedImageMaskConstPointer  m_FixedImageMask{};
+  MovingImageMaskConstPointer m_MovingImageMask{};
 
   ThreadIdType m_NumberOfWorkUnits{ 1 };
 
@@ -435,7 +435,7 @@ protected:
 
   bool m_ReseedIterator{ false };
 
-  mutable int m_RandomSeed;
+  mutable int m_RandomSeed{};
 
   /** Types and variables related to BSpline deformable transforms.
    * If the transform is of type third order BSplineBaseTransform,
@@ -476,20 +476,20 @@ protected:
   using DerivativeFunctionType = CentralDifferenceImageFunction<MovingImageType, CoordinateRepresentationType>;
   using ImageDerivativesType = CovariantVector<double, Self::MovingImageDimension>;
 
-  typename BSplineTransformType::Pointer m_BSplineTransform;
+  typename BSplineTransformType::Pointer m_BSplineTransform{};
 
-  BSplineTransformWeightsArrayType m_BSplineTransformWeightsArray;
-  BSplineTransformIndicesArrayType m_BSplineTransformIndicesArray;
-  MovingImagePointArrayType        m_BSplinePreTransformPointsArray;
-  BooleanArrayType                 m_WithinBSplineSupportRegionArray;
+  BSplineTransformWeightsArrayType m_BSplineTransformWeightsArray{};
+  BSplineTransformIndicesArrayType m_BSplineTransformIndicesArray{};
+  MovingImagePointArrayType        m_BSplinePreTransformPointsArray{};
+  BooleanArrayType                 m_WithinBSplineSupportRegionArray{};
 
-  BSplineParametersOffsetType m_BSplineParametersOffset;
+  BSplineParametersOffsetType m_BSplineParametersOffset{};
 
   // Variables needed for optionally caching values when using a BSpline
   // transform.
   bool                                   m_UseCachingOfBSplineWeights{ true };
-  mutable BSplineTransformWeightsType    m_BSplineTransformWeights;
-  mutable BSplineTransformIndexArrayType m_BSplineTransformIndices;
+  mutable BSplineTransformWeightsType    m_BSplineTransformWeights{};
+  mutable BSplineTransformIndexArrayType m_BSplineTransformIndices{};
 
   mutable std::unique_ptr<BSplineTransformWeightsType[]>    m_ThreaderBSplineTransformWeights;
   mutable std::unique_ptr<BSplineTransformIndexArrayType[]> m_ThreaderBSplineTransformIndices;
@@ -524,10 +524,10 @@ protected:
   /** Boolean to indicate if the interpolator BSpline. */
   bool m_InterpolatorIsBSpline{ false };
   /** Pointer to BSplineInterpolator. */
-  typename BSplineInterpolatorType::Pointer m_BSplineInterpolator;
+  typename BSplineInterpolatorType::Pointer m_BSplineInterpolator{};
 
   /** Pointer to central difference calculator. */
-  typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
+  typename DerivativeFunctionType::Pointer m_DerivativeCalculator{};
 
   /** Compute image derivatives at a point using a central difference function if we are not using a
    * BSplineInterpolator, which includes derivatives.
@@ -593,7 +593,7 @@ protected:
     const typename MultiThreaderType::WorkUnitInfo * m_WorkUnitInfo;
   };
 
-  MultiThreaderType::Pointer              m_Threader;
+  MultiThreaderType::Pointer              m_Threader{};
   std::unique_ptr<ConstantPointerWrapper> m_ConstSelfWrapper;
   mutable std::unique_ptr<unsigned int[]> m_ThreaderNumberOfMovingImageSamples;
   bool                                    m_WithinThreadPreProcess{ false };
@@ -673,7 +673,7 @@ protected:
   SynchronizeTransforms() const;
 
 private:
-  FixedImageRegionType m_FixedImageRegion;
+  FixedImageRegionType m_FixedImageRegion{};
 };
 } // end namespace itk
 

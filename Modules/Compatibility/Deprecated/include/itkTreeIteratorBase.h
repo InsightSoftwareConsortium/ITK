@@ -274,9 +274,9 @@ protected:
   TreeIteratorBase(const TTreeType * tree, const TreeNodeType * start);
 
   mutable TreeNodeType * m_Position; // Current position of the iterator
-  mutable TreeNodeType * m_Begin;
-  const TreeNodeType *   m_Root;
-  TTreeType *            m_Tree;
+  mutable TreeNodeType * m_Begin{};
+  const TreeNodeType *   m_Root{};
+  TTreeType *            m_Tree{};
 
   virtual bool
   HasNext() const = 0;

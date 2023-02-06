@@ -391,18 +391,18 @@ public:
   }
 
 protected: // made protected so other iterators can access
-  typename ImageType::ConstWeakPointer m_Image;
+  typename ImageType::ConstWeakPointer m_Image{};
 
   RegionType m_Region; // region to iterate over
 
-  SizeValueType m_Offset;
+  SizeValueType m_Offset{};
   SizeValueType m_BeginOffset; // offset to last pixel in region
   SizeValueType m_EndOffset;   // offset to one pixel before first pixel
 
-  const InternalPixelType * m_Buffer;
+  const InternalPixelType * m_Buffer{};
 
-  AccessorType        m_PixelAccessor;
-  AccessorFunctorType m_PixelAccessorFunctor;
+  AccessorType        m_PixelAccessor{};
+  AccessorFunctorType m_PixelAccessorFunctor{};
 };
 } // end namespace itk
 

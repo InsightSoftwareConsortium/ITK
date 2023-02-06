@@ -232,22 +232,22 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** A unique ID assigned to this SpatialObjectPoint */
-  int m_Id;
+  int m_Id{};
 
   /** Position of the point */
-  PointType m_PositionInObjectSpace;
+  PointType m_PositionInObjectSpace{};
 
   /** Color of the point */
-  ColorType m_Color;
+  ColorType m_Color{};
 
   /** Additional scalar properties of the point */
-  std::map<std::string, double> m_ScalarDictionary;
+  std::map<std::string, double> m_ScalarDictionary{};
 
 
   // The SpatialObjectPoint keeps a reference to its owning parent
   // spatial object for its spatial context. A WeakPointer is used to
   // avoid a memory leak.
-  WeakPointer<SpatialObjectType> m_SpatialObject;
+  WeakPointer<SpatialObjectType> m_SpatialObject{};
 };
 
 } // end of namespace itk

@@ -160,7 +160,7 @@ protected:
   InternalClone() const;
 
   /** Number of uses of this object by other objects. */
-  mutable std::atomic<int> m_ReferenceCount;
+  mutable std::atomic<int> m_ReferenceCount{};
 };
 
 /**

@@ -122,7 +122,7 @@ protected:
 
 private:
   /** The time step for normal vector finite difference computations. */
-  TimeStepType m_TimeStep;
+  TimeStepType m_TimeStep{};
 };
 } // end namespace itk
 

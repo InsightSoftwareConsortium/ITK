@@ -87,7 +87,7 @@ protected:
   Fill(const CoefficientVector & coeff) override;
 
 private:
-  typename ImageType::ConstPointer m_ImageKernel;
+  typename ImageType::ConstPointer m_ImageKernel{};
 };
 } // namespace itk
 

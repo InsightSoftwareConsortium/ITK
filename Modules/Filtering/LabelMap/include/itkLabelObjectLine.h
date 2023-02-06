@@ -97,8 +97,8 @@ protected:
   PrintTrailer(std::ostream & os, Indent indent) const;
 
 private:
-  IndexType  m_Index;
-  LengthType m_Length;
+  IndexType  m_Index{};
+  LengthType m_Length{};
 };
 } // end namespace itk
 

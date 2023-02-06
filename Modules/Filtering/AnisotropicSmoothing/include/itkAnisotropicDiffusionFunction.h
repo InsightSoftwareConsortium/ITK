@@ -253,9 +253,9 @@ protected:
   }
 
 private:
-  double       m_AverageGradientMagnitudeSquared;
-  double       m_ConductanceParameter;
-  TimeStepType m_TimeStep;
+  double       m_AverageGradientMagnitudeSquared{};
+  double       m_ConductanceParameter{};
+  TimeStepType m_TimeStep{};
 };
 } // end namespace itk
 

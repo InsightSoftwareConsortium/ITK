@@ -102,12 +102,12 @@ public:
   IPLGetMacroDeclaration(Data, const void *);
 
 private:
-  std::string  m_ImageFileName;
-  float        m_SliceLocation;
-  int          m_SliceOffset;
-  int          m_EchoNumber;
-  int          m_ImageNumber;
-  const void * m_Data;
+  std::string  m_ImageFileName{};
+  float        m_SliceLocation{};
+  int          m_SliceOffset{};
+  int          m_EchoNumber{};
+  int          m_ImageNumber{};
+  const void * m_Data{};
 };
 
 /**
@@ -280,16 +280,16 @@ public:
   IPLSetMacroDeclaration(SortOrder, int);
 
 private:
-  ListType m_List;
-  int      m_XDim;
-  int      m_YDim;
-  float    m_XRes;
-  float    m_YRes;
+  ListType m_List{};
+  int      m_XDim{};
+  int      m_YDim{};
+  float    m_XRes{};
+  float    m_YRes{};
   int      m_Key1; /** Key that must be matched for image to be used,
                      i.e. seriesNumber, extensionkey */
   int m_Key2;      /** Key that must be matched for image to be used,
                      i.e. echoNumber */
-  int m_SortOrder;
+  int m_SortOrder{};
 };
 } // namespace itk
 #endif /* itkIPLFileNameList_h */

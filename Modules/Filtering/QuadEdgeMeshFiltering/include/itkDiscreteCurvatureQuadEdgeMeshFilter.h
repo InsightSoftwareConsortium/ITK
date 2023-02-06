@@ -121,7 +121,7 @@ protected:
 
 private:
   /** Cache output pointer to avoid calls in inner loop to GetOutput() */
-  OutputMeshType * m_OutputMesh;
+  OutputMeshType * m_OutputMesh{};
 };
 } // end namespace itk
 

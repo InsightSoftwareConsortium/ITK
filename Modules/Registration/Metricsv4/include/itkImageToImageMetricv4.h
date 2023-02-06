@@ -691,41 +691,41 @@ protected:
   /** Get accessor for flag to calculate derivative. */
   itkGetConstMacro(ComputeDerivative, bool);
 
-  FixedImageConstPointer  m_FixedImage;
-  MovingImageConstPointer m_MovingImage;
+  FixedImageConstPointer  m_FixedImage{};
+  MovingImageConstPointer m_MovingImage{};
 
   /** Pointers to interpolators */
-  FixedInterpolatorPointer                              m_FixedInterpolator;
-  MovingInterpolatorPointer                             m_MovingInterpolator;
-  typename FixedImageGradientInterpolatorType::Pointer  m_FixedImageGradientInterpolator;
-  typename MovingImageGradientInterpolatorType::Pointer m_MovingImageGradientInterpolator;
+  FixedInterpolatorPointer                              m_FixedInterpolator{};
+  MovingInterpolatorPointer                             m_MovingInterpolator{};
+  typename FixedImageGradientInterpolatorType::Pointer  m_FixedImageGradientInterpolator{};
+  typename MovingImageGradientInterpolatorType::Pointer m_MovingImageGradientInterpolator{};
 
   /** Flag to control use of precomputed gradient filter image or gradient
    * calculator for image gradient calculations. */
-  bool m_UseFixedImageGradientFilter;
-  bool m_UseMovingImageGradientFilter;
+  bool m_UseFixedImageGradientFilter{};
+  bool m_UseMovingImageGradientFilter{};
 
   /** Gradient filters */
-  FixedImageGradientFilterPointer  m_FixedImageGradientFilter;
-  MovingImageGradientFilterPointer m_MovingImageGradientFilter;
+  FixedImageGradientFilterPointer  m_FixedImageGradientFilter{};
+  MovingImageGradientFilterPointer m_MovingImageGradientFilter{};
 
   /** Pointer to default gradient filter. Used for easier
    * initialization of the default filter. */
-  typename DefaultFixedImageGradientFilter::Pointer  m_DefaultFixedImageGradientFilter;
-  typename DefaultMovingImageGradientFilter::Pointer m_DefaultMovingImageGradientFilter;
+  typename DefaultFixedImageGradientFilter::Pointer  m_DefaultFixedImageGradientFilter{};
+  typename DefaultMovingImageGradientFilter::Pointer m_DefaultMovingImageGradientFilter{};
 
   /** Pointer to default gradient calculators. Used for easier
    * initialization of the default filter. */
-  typename DefaultFixedImageGradientCalculator::Pointer  m_DefaultFixedImageGradientCalculator;
-  typename DefaultMovingImageGradientCalculator::Pointer m_DefaultMovingImageGradientCalculator;
+  typename DefaultFixedImageGradientCalculator::Pointer  m_DefaultFixedImageGradientCalculator{};
+  typename DefaultMovingImageGradientCalculator::Pointer m_DefaultMovingImageGradientCalculator{};
 
   /** Gradient images to store gradient filter output. */
-  mutable FixedImageGradientImagePointer  m_FixedImageGradientImage;
-  mutable MovingImageGradientImagePointer m_MovingImageGradientImage;
+  mutable FixedImageGradientImagePointer  m_FixedImageGradientImage{};
+  mutable MovingImageGradientImagePointer m_MovingImageGradientImage{};
 
   /** Image gradient calculators */
-  FixedImageGradientCalculatorPointer  m_FixedImageGradientCalculator;
-  MovingImageGradientCalculatorPointer m_MovingImageGradientCalculator;
+  FixedImageGradientCalculatorPointer  m_FixedImageGradientCalculator{};
+  MovingImageGradientCalculatorPointer m_MovingImageGradientCalculator{};
 
   /** Derivative results holder. Uses a raw pointer so we can point it
    * to a user-provided object. This is used in internal methods so
@@ -733,22 +733,22 @@ protected:
    * safely sharing a derivative object between metrics during multi-variate
    * analysis, for memory efficiency.
    * Will be nullptr if not set. */
-  mutable DerivativeType * m_DerivativeResult;
+  mutable DerivativeType * m_DerivativeResult{};
 
   /** Masks */
-  FixedImageMaskConstPointer  m_FixedImageMask;
-  MovingImageMaskConstPointer m_MovingImageMask;
+  FixedImageMaskConstPointer  m_FixedImageMask{};
+  MovingImageMaskConstPointer m_MovingImageMask{};
 
   /** Sampled point sets */
-  FixedSampledPointSetConstPointer m_FixedSampledPointSet;
-  VirtualPointSetPointer           m_VirtualSampledPointSet;
+  FixedSampledPointSetConstPointer m_FixedSampledPointSet{};
+  VirtualPointSetPointer           m_VirtualSampledPointSet{};
 
   /** Flag to use a SampledPointSet, i.e. Sparse sampling. */
-  bool m_UseSampledPointSet;
+  bool m_UseSampledPointSet{};
 
   /** Flag to indicate the user set VirtualSampledPointSet over
   FixedSampledPointSet */
-  bool m_UseVirtualSampledPointSet;
+  bool m_UseVirtualSampledPointSet{};
 
   ImageToImageMetricv4();
   ~ImageToImageMetricv4() override = default;
@@ -808,20 +808,20 @@ private:
 
   /** Flag for warning about use of GetValue. Will be removed when
    *  GetValue implementation is improved. */
-  mutable bool m_HaveMadeGetValueWarning;
+  mutable bool m_HaveMadeGetValueWarning{};
 
   /** Keep track of the number of sampled fixed points that are
    * deemed invalid during conversion to virtual domain.
    * For informational purposes. */
-  SizeValueType m_NumberOfSkippedFixedSampledPoints;
+  SizeValueType m_NumberOfSkippedFixedSampledPoints{};
 
-  bool                m_UseFloatingPointCorrection;
-  DerivativeValueType m_FloatingPointCorrectionResolution;
+  bool                m_UseFloatingPointCorrection{};
+  DerivativeValueType m_FloatingPointCorrectionResolution{};
 
-  MetricTraits m_MetricTraits;
+  MetricTraits m_MetricTraits{};
 
   /** Flag to know if derivative should be calculated */
-  mutable bool m_ComputeDerivative;
+  mutable bool m_ComputeDerivative{};
 
 /** Only floating-point images are currently supported. To support integer images,
  * several small changes must be made */

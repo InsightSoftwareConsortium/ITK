@@ -449,7 +449,7 @@ protected:
   ParallelizeImageRegionHelper(void * arg);
 
   /** The number of work units to create. */
-  ThreadIdType m_NumberOfWorkUnits;
+  ThreadIdType m_NumberOfWorkUnits{};
 
   /** The number of threads to use.
    *  The m_MaximumNumberOfThreads must always be less than or equal to
@@ -459,7 +459,7 @@ protected:
    *  to the current m_GlobalMaximumNumberOfThreads in the
    *  SingleMethodExecute() method.
    */
-  ThreadIdType m_MaximumNumberOfThreads;
+  ThreadIdType m_MaximumNumberOfThreads{};
 
   /** Static function used as a "proxy callback" by multi-threaders.  The
    * threading library will call this routine for each thread, which

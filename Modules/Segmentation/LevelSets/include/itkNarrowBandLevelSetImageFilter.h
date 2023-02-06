@@ -412,19 +412,19 @@ protected:
 
   /** Flag which sets the inward/outward direction of propagation speed. See
       SetReverseExpansionDirection for more information. */
-  bool m_ReverseExpansionDirection;
+  bool m_ReverseExpansionDirection{};
 
   /** Reinitialization filters **/
   /** Internal filter types used for reinitialization */
   using IsoFilterType = IsoContourDistanceImageFilter<OutputImageType, OutputImageType>;
   using ChamferFilterType = FastChamferDistanceImageFilter<OutputImageType, OutputImageType>;
 
-  typename IsoFilterType::Pointer m_IsoFilter;
+  typename IsoFilterType::Pointer m_IsoFilter{};
 
-  typename ChamferFilterType::Pointer m_ChamferFilter;
+  typename ChamferFilterType::Pointer m_ChamferFilter{};
 
 private:
-  SegmentationFunctionType * m_SegmentationFunction;
+  SegmentationFunctionType * m_SegmentationFunction{};
 };
 } // end namespace itk
 

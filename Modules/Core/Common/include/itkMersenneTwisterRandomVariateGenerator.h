@@ -307,13 +307,13 @@ protected:
   IntegerType state[StateVectorLength];
 
   // Next value to get from state
-  IntegerType * m_PNext;
+  IntegerType * m_PNext{};
 
   // Number of values left before reload is needed
-  int m_Left;
+  int m_Left{};
 
   // Seed value
-  std::atomic<IntegerType> m_Seed;
+  std::atomic<IntegerType> m_Seed{};
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/
@@ -324,7 +324,7 @@ private:
   CreateInstance();
 
   // Local lock to enable concurrent access to singleton
-  std::mutex m_InstanceLock;
+  std::mutex m_InstanceLock{};
 
   // Static/Global Variable need to be thread-safely accessed
 

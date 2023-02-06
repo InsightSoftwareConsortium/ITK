@@ -168,13 +168,13 @@ protected:
 
 private:
   /** Number of classes */
-  unsigned int m_NumberOfClasses;
+  unsigned int m_NumberOfClasses{};
 
   /** Pointer to the decision rule to be used for classification. */
-  typename DecisionRuleType::Pointer m_DecisionRule;
+  typename DecisionRuleType::Pointer m_DecisionRule{};
 
   /** Container to hold the membership functions */
-  MembershipFunctionPointerVector m_MembershipFunctions;
+  MembershipFunctionPointerVector m_MembershipFunctions{};
 }; // class Classifier
 } // namespace itk
 

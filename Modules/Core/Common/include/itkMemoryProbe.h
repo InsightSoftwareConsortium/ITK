@@ -53,7 +53,7 @@ protected:
   GetInstantValue() const override;
 
 private:
-  mutable MemoryUsageObserver m_MemoryObserver;
+  mutable MemoryUsageObserver m_MemoryObserver{};
 };
 } // end namespace itk
 

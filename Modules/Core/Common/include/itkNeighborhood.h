@@ -313,14 +313,14 @@ private:
   SizeType m_Size{ { 0 } };
 
   /** The buffer in which data is stored. */
-  AllocatorType m_DataBuffer;
+  AllocatorType m_DataBuffer{};
 
   /** A lookup table for keeping track of stride lengths in a neighborhood
       i.e. the memory offsets between pixels along each dimensional axis */
   OffsetValueType m_StrideTable[VDimension]{ 0 };
 
   /** */
-  std::vector<OffsetType> m_OffsetTable;
+  std::vector<OffsetType> m_OffsetTable{};
 };
 
 template <typename TPixel, unsigned int VDimension, typename TContainer>

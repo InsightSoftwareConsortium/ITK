@@ -140,18 +140,18 @@ private:
   itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType);
 
   /** Variable to hold the input XML file name. */
-  std::string m_FileName;
+  std::string m_FileName{};
 
   /** Variable to hold the output object, created internally or supplied by the user. */
-  OutputType * m_Output;
+  OutputType * m_Output{};
   /** Variable to hold the output object if it is a smart object. */
-  typename LightObject::Pointer m_OutputHolder;
+  typename LightObject::Pointer m_OutputHolder{};
 
   /** Variable to hold the intermediate DOM object. */
-  DOMNodePointer m_IntermediateDOM;
+  DOMNodePointer m_IntermediateDOM{};
 
   /** Variable to log various messages during the reading process. */
-  mutable LoggerPointer m_Logger;
+  mutable LoggerPointer m_Logger{};
 };
 
 } // namespace itk

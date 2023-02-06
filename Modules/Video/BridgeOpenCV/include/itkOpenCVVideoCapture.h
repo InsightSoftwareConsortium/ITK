@@ -139,11 +139,11 @@ public:
 
 protected:
   /** Internal VideoStream */
-  VideoStreamType * m_VideoStream;
+  VideoStreamType * m_VideoStream{};
 
   /** Property members */
-  double m_FpS;
-  int    m_FourCC;
+  double m_FpS{};
+  int    m_FourCC{};
 
 }; // end class VideoCapture
 

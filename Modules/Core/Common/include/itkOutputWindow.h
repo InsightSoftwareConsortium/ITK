@@ -134,8 +134,8 @@ protected:
 private:
   itkGetGlobalDeclarationMacro(OutputWindowGlobals, PimplGlobals);
 
-  std::atomic<bool>            m_PromptUser;
-  std::mutex                   m_cerrMutex;
+  std::atomic<bool>            m_PromptUser{};
+  std::mutex                   m_cerrMutex{};
   static OutputWindowGlobals * m_PimplGlobals;
 };
 } // end namespace itk

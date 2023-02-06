@@ -197,8 +197,8 @@ protected:
 
   /** Cached values to avoid call overhead.
    *  These will only be set once threading has been started. */
-  mutable NumberOfParametersType m_CachedNumberOfParameters;
-  mutable NumberOfParametersType m_CachedNumberOfLocalParameters;
+  mutable NumberOfParametersType m_CachedNumberOfParameters{};
+  mutable NumberOfParametersType m_CachedNumberOfLocalParameters{};
 };
 
 } // end namespace itk

@@ -160,35 +160,35 @@ protected:
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) = 0;
 
   /** Input image */
-  InputImagePointer m_Input;
+  InputImagePointer m_Input{};
 
   /** Container of level-set function */
-  LevelSetContainerPointer m_LevelSetContainer;
+  LevelSetContainerPointer m_LevelSetContainer{};
 
   /** Id of the current level-set function */
-  LevelSetIdentifierType m_CurrentLevelSetId;
+  LevelSetIdentifierType m_CurrentLevelSetId{};
 
-  LevelSetPointer m_CurrentLevelSetPointer;
+  LevelSetPointer m_CurrentLevelSetPointer{};
 
   /** Coefficient \f$ \alpha_i \f$ */
-  LevelSetOutputRealType m_Coefficient;
+  LevelSetOutputRealType m_Coefficient{};
 
   /** Contribution to the CFL condition (which will be used to compute the
    *  the time step at the next iteration
    */
-  LevelSetOutputRealType m_CFLContribution;
+  LevelSetOutputRealType m_CFLContribution{};
 
   /** Heaviside function to be used. Depending on the term expression,
    *  this one may need to be provided
    */
-  HeavisideConstPointer m_Heaviside;
+  HeavisideConstPointer m_Heaviside{};
 
   /** Name to be given to the term. Note by default, one name is provided,
    *  but end-users may rename differently each term.
    */
-  std::string m_TermName;
+  std::string m_TermName{};
 
-  RequiredDataType m_RequiredData;
+  RequiredDataType m_RequiredData{};
 };
 } // namespace itk
 

@@ -74,7 +74,7 @@ public:
 
 private:
   /** The parameter image used by the class */
-  ParameterImagePointer m_ParameterImage;
+  ParameterImagePointer m_ParameterImage{};
 };
 
 } // namespace itk

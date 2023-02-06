@@ -161,10 +161,10 @@ protected:
   /** Member Variables */
   ReadFromEnum       m_ReadFrom{ ReadFromEnum::ReadFromFile };
   TemporalRatioType  m_FramesPerSecond{ 0.0 };
-  FrameOffsetType    m_FrameTotal;
-  FrameOffsetType    m_CurrentFrame;
-  FrameOffsetType    m_IFrameInterval;
-  FrameOffsetType    m_LastIFrame;
+  FrameOffsetType    m_FrameTotal{};
+  FrameOffsetType    m_CurrentFrame{};
+  FrameOffsetType    m_IFrameInterval{};
+  FrameOffsetType    m_LastIFrame{};
   TemporalRatioType  m_Ratio{ 0.0 };
   TemporalOffsetType m_PositionInMSec{ 0.0 };
   bool               m_WriterOpen{ false };

@@ -398,22 +398,22 @@ protected:
 
   ~MultiphaseFiniteDifferenceImageFilter() override = default;
 
-  IdCellType                     m_FunctionCount;
-  std::vector<InputImagePointer> m_LevelSet;
-  VectorIdCellType               m_Lookup;
-  KdTreePointer                  m_KdTree;
+  IdCellType                     m_FunctionCount{};
+  std::vector<InputImagePointer> m_LevelSet{};
+  VectorIdCellType               m_Lookup{};
+  KdTreePointer                  m_KdTree{};
 
-  unsigned int m_ElapsedIterations;
-  double       m_MaximumRMSError;
-  double       m_RMSChange;
-  unsigned int m_NumberOfIterations;
+  unsigned int m_ElapsedIterations{};
+  double       m_MaximumRMSError{};
+  double       m_RMSChange{};
+  unsigned int m_NumberOfIterations{};
 
   /** The function that will be used in calculating updates for each pixel. */
-  std::vector<FiniteDifferenceFunctionPointer> m_DifferenceFunctions;
+  std::vector<FiniteDifferenceFunctionPointer> m_DifferenceFunctions{};
 
   /** Control whether derivatives use spacing of the input image in its
    * calculation. */
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -531,10 +531,10 @@ protected:
 private:
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */
-  bool m_ManualReinitialization;
+  bool m_ManualReinitialization{};
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
-  bool m_InitializedState;
+  bool m_InitializedState{};
 };
 } // end namespace itk
 

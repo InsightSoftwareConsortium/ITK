@@ -207,19 +207,19 @@ protected:
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
-  ImageBoundaryConditionPointerType m_BoundaryCondition;
+  ImageBoundaryConditionPointerType m_BoundaryCondition{};
 
   /** Default boundary condition */
-  DefaultBoundaryConditionType m_DefaultBoundaryCondition;
+  DefaultBoundaryConditionType m_DefaultBoundaryCondition{};
 
   /** Defaults to false */
-  bool m_UseBoundaryCondition;
+  bool m_UseBoundaryCondition{};
 
   /** kernel or structuring element to use. */
-  KernelType m_Kernel;
+  KernelType m_Kernel{};
 
   /** Pixel value that indicates the object be operated upon */
-  PixelType m_ObjectValue;
+  PixelType m_ObjectValue{};
 
   void
   BeforeThreadedGenerateData() override;

@@ -112,10 +112,10 @@ public:
 protected: // made protected so other iterators can access
   /** Smart pointer to the source image. */
   // SmartPointer<const ImageType> m_Image;
-  typename ImageType::ConstWeakPointer m_Image;
+  typename ImageType::ConstWeakPointer m_Image{};
 
   /** Region type to iterate over. */
-  RegionType m_Region;
+  RegionType m_Region{};
 
   /** Is the iterator at the end of its walk? */
   bool m_IsAtEnd{ false };

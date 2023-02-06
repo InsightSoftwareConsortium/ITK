@@ -116,9 +116,9 @@ protected:
   LevelSetSparseImage() = default;
   ~LevelSetSparseImage() override = default;
 
-  LayerMapType    m_Layers;
-  LabelMapPointer m_LabelMap;
-  LayerIdListType m_InternalLabelList;
+  LayerMapType    m_Layers{};
+  LabelMapPointer m_LabelMap{};
+  LayerIdListType m_InternalLabelList{};
 
   /** Initialize the sparse field layers */
   virtual void

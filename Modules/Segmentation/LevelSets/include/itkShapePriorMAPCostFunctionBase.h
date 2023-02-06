@@ -156,10 +156,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  ShapeFunctionPointer m_ShapeFunction;
-  NodeContainerPointer m_ActiveRegion;
+  ShapeFunctionPointer m_ShapeFunction{};
+  NodeContainerPointer m_ActiveRegion{};
 
-  FeatureImagePointer m_FeatureImage;
+  FeatureImagePointer m_FeatureImage{};
 };
 } // end namespace itk
 

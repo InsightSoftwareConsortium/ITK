@@ -74,8 +74,8 @@ protected:
   /** Destructor */
   ~BinaryImageToLevelSetImageAdaptorBase() override = default;
 
-  InputImagePointer m_InputImage;
-  LevelSetPointer   m_LevelSet;
+  InputImagePointer m_InputImage{};
+  LevelSetPointer   m_LevelSet{};
 };
 } // namespace itk
 

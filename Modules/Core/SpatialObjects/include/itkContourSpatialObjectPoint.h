@@ -78,8 +78,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  CovariantVectorType m_NormalInObjectSpace;
-  PointType           m_PickedPointInObjectSpace;
+  CovariantVectorType m_NormalInObjectSpace{};
+  PointType           m_PickedPointInObjectSpace{};
 };
 } // end of namespace itk
 

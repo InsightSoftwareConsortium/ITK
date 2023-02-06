@@ -357,14 +357,14 @@ protected:
   VerifyNumberOfValidPoints(MeasureType & value, DerivativeType & derivative) const;
 
   /** Transforms */
-  FixedTransformPointer  m_FixedTransform;
-  MovingTransformPointer m_MovingTransform;
+  FixedTransformPointer  m_FixedTransform{};
+  MovingTransformPointer m_MovingTransform{};
 
-  VirtualImagePointer m_VirtualImage;
+  VirtualImagePointer m_VirtualImage{};
 
   /** Flag that is set when user provides a virtual domain, either via
    * SetVirtualDomain() or SetVirtualDomainFromImage(). */
-  bool m_UserHasSetVirtualDomain;
+  bool m_UserHasSetVirtualDomain{};
 
   /** Store the number of points used during most recent value and derivative
    * calculation.

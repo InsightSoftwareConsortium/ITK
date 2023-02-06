@@ -167,19 +167,19 @@ protected:
   }
 
   /** The moving image. */
-  MovingImagePointer m_MovingImage;
+  MovingImagePointer m_MovingImage{};
 
   /** The fixed image. */
-  FixedImagePointer m_FixedImage;
+  FixedImagePointer m_FixedImage{};
 
   /** The deformation field. */
-  DisplacementFieldTypePointer m_DisplacementField;
+  DisplacementFieldTypePointer m_DisplacementField{};
 
-  mutable double m_Energy;
+  mutable double m_Energy{};
 
-  bool m_NormalizeGradient;
+  bool m_NormalizeGradient{};
 
-  mutable double m_GradientStep;
+  mutable double m_GradientStep{};
 };
 } // end namespace itk
 

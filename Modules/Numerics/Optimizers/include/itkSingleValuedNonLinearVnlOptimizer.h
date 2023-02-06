@@ -139,15 +139,15 @@ private:
   void
   IterationReport(const EventObject & event);
 
-  CostFunctionAdaptorType * m_CostFunctionAdaptor;
+  CostFunctionAdaptorType * m_CostFunctionAdaptor{};
 
-  bool m_Maximize;
+  bool m_Maximize{};
 
-  CommandType::Pointer m_Command;
+  CommandType::Pointer m_Command{};
 
-  mutable ParametersType m_CachedCurrentPosition;
-  mutable MeasureType    m_CachedValue;
-  mutable DerivativeType m_CachedDerivative;
+  mutable ParametersType m_CachedCurrentPosition{};
+  mutable MeasureType    m_CachedValue{};
+  mutable DerivativeType m_CachedDerivative{};
 };
 } // end namespace itk
 

@@ -208,37 +208,37 @@ protected: // made protected so other iterators can access
   OffsetType m_ZeroOffset; // = 0 for all dimensions
 
   /** Smart pointer to the source image. */
-  typename ImageType::ConstWeakPointer m_Image;
+  typename ImageType::ConstWeakPointer m_Image{};
 
   /** Smart pointer to the path we're following */
-  typename PathType::ConstPointer m_Path;
+  typename PathType::ConstPointer m_Path{};
 
   /** Region type to iterate over. */
-  RegionType m_Region;
+  RegionType m_Region{};
 
   /** The origin of the source image */
-  PointType m_ImageOrigin;
+  PointType m_ImageOrigin{};
 
   /** The spacing of the source image */
-  SpacingType m_ImageSpacing;
+  SpacingType m_ImageSpacing{};
 
   /** Size of the source image */
-  const SizeValueType * m_ImageSize;
+  const SizeValueType * m_ImageSize{};
 
   /** Should GoToBegin() initially skip the first index of a closed path so that
    * the first index will only be visited once--at the end of the path?  If
    * false, then GoToBegin() will always move to the 1'st index.  The default
    * value is true, which is set the constructor. */
-  bool m_VisitStartIndexAsLastIndexIfClosed;
+  bool m_VisitStartIndexAsLastIndexIfClosed{};
 
   /** Is the iterator at the end of its walk? */
-  bool m_IsAtEnd;
+  bool m_IsAtEnd{};
 
   /** Current 1D position along the path, such as time or arc length */
-  PathInputType m_CurrentPathPosition;
+  PathInputType m_CurrentPathPosition{};
 
   /** Current ND index position in the image of the path */
-  IndexType m_CurrentImageIndex;
+  IndexType m_CurrentImageIndex{};
 };
 } // end namespace itk
 

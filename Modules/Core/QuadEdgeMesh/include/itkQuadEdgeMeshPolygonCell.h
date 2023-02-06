@@ -280,7 +280,7 @@ public:
 
 protected:
   using PointIDListType = std::vector<PointIdentifier>;
-  mutable PointIDListType m_PointIds;
+  mutable PointIDListType m_PointIds{};
 
 private:
   void
@@ -301,17 +301,17 @@ private:
   /** In order to have constant time access at the itk level instead of
    * doing a search in the Mesh::Cell container.
    */
-  CellIdentifier m_Ident;
+  CellIdentifier m_Ident{};
 
   /**
    * Entry point into the edge ring.
    */
-  QuadEdgeType * m_EdgeRingEntry;
+  QuadEdgeType * m_EdgeRingEntry{};
 
   /**
    * List of EdgeCells created by the constructor for proper deletion
    */
-  EdgeCellListType m_EdgeCellList;
+  EdgeCellListType m_EdgeCellList{};
 };
 } // end namespace itk
 

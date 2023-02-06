@@ -599,16 +599,16 @@ protected:
 #else
   ~Transform() override = default;
 #endif
-  mutable ParametersType      m_Parameters;
-  mutable FixedParametersType m_FixedParameters;
+  mutable ParametersType      m_Parameters{};
+  mutable FixedParametersType m_FixedParameters{};
 
   OutputDiffusionTensor3DType
   PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(const InputDiffusionTensor3DType &,
                                                                  const InverseJacobianPositionType &) const;
 
 private:
-  std::string m_InputSpaceName;
-  std::string m_OutputSpaceName;
+  std::string m_InputSpaceName{};
+  std::string m_OutputSpaceName{};
 
   template <typename TType>
   static std::string

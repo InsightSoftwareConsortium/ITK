@@ -81,8 +81,8 @@ protected:
   HasNext() const override;
 
 private:
-  mutable ChildIdentifier m_ListPosition;
-  TreeNodeType *          m_ParentNode;
+  mutable ChildIdentifier m_ListPosition{};
+  TreeNodeType *          m_ParentNode{};
 };
 
 } // end namespace itk

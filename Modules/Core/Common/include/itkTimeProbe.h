@@ -69,7 +69,7 @@ public:
   itkGetConstObjectMacro(RealTimeClock, RealTimeClock);
 
 private:
-  RealTimeClock::Pointer m_RealTimeClock;
+  RealTimeClock::Pointer m_RealTimeClock{};
 };
 } // end namespace itk
 

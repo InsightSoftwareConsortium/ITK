@@ -100,7 +100,7 @@ protected:
     os << "Fixed parameters" << this->m_RequiredFixedParameters << std::endl;
   }
 
-  FixedParametersType m_RequiredFixedParameters;
+  FixedParametersType m_RequiredFixedParameters{};
 }; // class TransformParametersAdaptorBase
 } // namespace itk
 

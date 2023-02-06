@@ -421,7 +421,7 @@ protected:
 
 
   bool          m_CenterIsActive{ false };
-  IndexListType m_ActiveIndexList;
+  IndexListType m_ActiveIndexList{};
 };
 } // namespace itk
 

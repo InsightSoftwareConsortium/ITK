@@ -157,7 +157,7 @@ public:
   GetPixel(const IndexType & index, const TInputImage * image) const override;
 
 private:
-  OutputPixelType m_Constant;
+  OutputPixelType m_Constant{};
 };
 } // end namespace itk
 

@@ -375,7 +375,7 @@ protected:
   IndexType m_Bound{ { 0 } };
 
   /** The image on which iteration is defined. */
-  typename ImageType::ConstPointer m_ConstImage;
+  typename ImageType::ConstPointer m_ConstImage{};
 
   /** The end index for iteration within the itk::Image region
    * on which this ConstNeighborhoodIteratorWithOnlyIndex is defined. */
@@ -385,7 +385,7 @@ protected:
   IndexType m_Loop{ { 0 } };
 
   /** The region over which iteration is defined. */
-  RegionType m_Region;
+  RegionType m_Region{};
 
   /** Denotes which of the iterators dimensional sides spill outside
    * region of interest boundaries. By default `false` for each dimension. */
@@ -400,10 +400,10 @@ protected:
   mutable bool m_IsInBoundsValid{ false };
 
   /** Lower threshold of in-bounds loop counter values. */
-  IndexType m_InnerBoundsLow;
+  IndexType m_InnerBoundsLow{};
 
   /** Upper threshold of in-bounds loop counter values. */
-  IndexType m_InnerBoundsHigh;
+  IndexType m_InnerBoundsHigh{};
 
   /** Does the specified region need to worry about boundary conditions? */
   bool m_NeedToUseBoundaryCondition{ false };

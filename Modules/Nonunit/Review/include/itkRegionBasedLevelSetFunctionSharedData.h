@@ -172,12 +172,12 @@ public:
   virtual void
   PopulateListImage() = 0;
 
-  LevelSetDataPointerVector m_LevelSetDataPointerVector;
+  LevelSetDataPointerVector m_LevelSetDataPointerVector{};
 
-  unsigned int     m_FunctionCount;
+  unsigned int     m_FunctionCount{};
   unsigned int     m_NumberOfNeighbors{ 6 };
-  ListImagePointer m_NearestNeighborListImage;
-  KdTreePointer    m_KdTree;
+  ListImagePointer m_NearestNeighborListImage{};
+  KdTreePointer    m_KdTree{};
 
 protected:
   RegionBasedLevelSetFunctionSharedData()

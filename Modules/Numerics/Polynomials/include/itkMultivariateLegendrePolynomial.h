@@ -304,19 +304,19 @@ protected:
   CalculateYCoef(double norm_z, const CoefficientArrayType & coef);
 
 private:
-  DomainSizeType m_DomainSize;
-  unsigned int   m_Dimension;
-  unsigned int   m_Degree;
-  unsigned int   m_NumberOfCoefficients;
+  DomainSizeType m_DomainSize{};
+  unsigned int   m_Dimension{};
+  unsigned int   m_Degree{};
+  unsigned int   m_NumberOfCoefficients{};
 
-  CoefficientArrayType m_CoefficientArray;
-  CoefficientArrayType m_CachedXCoef;
-  CoefficientArrayType m_CachedYCoef;
-  CoefficientArrayType m_CachedZCoef;
+  CoefficientArrayType m_CoefficientArray{};
+  CoefficientArrayType m_CachedXCoef{};
+  CoefficientArrayType m_CachedYCoef{};
+  CoefficientArrayType m_CachedZCoef{};
 
-  DoubleArrayType m_NormFactor;
-  IndexValueType  m_PrevY;
-  IndexValueType  m_PrevZ;
+  DoubleArrayType m_NormFactor{};
+  IndexValueType  m_PrevY{};
+  IndexValueType  m_PrevZ{};
 }; // end of class
 
 ITKPolynomials_EXPORT std::ostream &

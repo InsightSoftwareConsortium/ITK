@@ -121,13 +121,13 @@ protected:
   ReportIteration(const EventObject & event) const;
 
 private:
-  ObjectToObjectMetricBase::Pointer m_ObjectMetric;
-  bool                              m_ScalesInitialized;
-  ScalesType                        m_Scales;
-  Object::Pointer                   m_Reporter;
+  ObjectToObjectMetricBase::Pointer m_ObjectMetric{};
+  bool                              m_ScalesInitialized{};
+  ScalesType                        m_Scales{};
+  Object::Pointer                   m_Reporter{};
 
-  mutable MeasureType    m_CachedValue;
-  mutable DerivativeType m_CachedDerivative;
+  mutable MeasureType    m_CachedValue{};
+  mutable DerivativeType m_CachedDerivative{};
 
 }; // end of Class CostFunction
 

@@ -163,13 +163,13 @@ public:
 
 protected:
   /** The image whose features will be used to create a speed image */
-  typename FeatureImageType::ConstPointer m_FeatureImage;
+  typename FeatureImageType::ConstPointer m_FeatureImage{};
 
   /** The image holding the speed values for front propagation */
-  typename ImageType::Pointer m_SpeedImage;
+  typename ImageType::Pointer m_SpeedImage{};
 
   /** The image holding the advection field for front propagation */
-  typename VectorImageType::Pointer m_AdvectionImage;
+  typename VectorImageType::Pointer m_AdvectionImage{};
 
   /** Returns the propagation speed from the precalculated speed image.*/
   ScalarValueType
@@ -188,9 +188,9 @@ protected:
     m_VectorInterpolator = VectorInterpolatorType::New();
   }
 
-  typename InterpolatorType::Pointer m_Interpolator;
+  typename InterpolatorType::Pointer m_Interpolator{};
 
-  typename VectorInterpolatorType::Pointer m_VectorInterpolator;
+  typename VectorInterpolatorType::Pointer m_VectorInterpolator{};
 };
 } // namespace itk
 

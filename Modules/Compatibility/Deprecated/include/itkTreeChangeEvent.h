@@ -85,7 +85,7 @@ public:
   {}
 
 protected:
-  const TreeIteratorBase<TTreeType> * m_ChangePosition;
+  const TreeIteratorBase<TTreeType> * m_ChangePosition{};
 };
 
 /**  \class TreeNodeChangeEvent

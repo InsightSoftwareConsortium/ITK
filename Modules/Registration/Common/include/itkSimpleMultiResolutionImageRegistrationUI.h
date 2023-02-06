@@ -62,8 +62,8 @@ public:
   }
 
 protected:
-  typename TRegistrator::Pointer m_Registrator;
-  unsigned long                  m_Tag;
+  typename TRegistrator::Pointer m_Registrator{};
+  unsigned long                  m_Tag{};
 };
 
 
@@ -132,8 +132,8 @@ public:
   }
 
 private:
-  itk::Array<unsigned int> m_NumberOfIterations;
-  itk::Array<double>       m_LearningRates;
+  itk::Array<unsigned int> m_NumberOfIterations{};
+  itk::Array<double>       m_LearningRates{};
 };
 
 

@@ -119,7 +119,7 @@ protected:
   }
 
   /** Cache pointer to output to use in inner loops */
-  OutputMeshType * m_OutputMesh;
+  OutputMeshType * m_OutputMesh{};
 };
 } // namespace itk
 

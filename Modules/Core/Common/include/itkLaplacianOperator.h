@@ -118,7 +118,7 @@ protected:
 
 private:
   /** Weights applied to derivatives in each axial direction */
-  double m_DerivativeScalings[VDimension];
+  double m_DerivativeScalings[VDimension]{};
 };
 } // namespace itk
 
