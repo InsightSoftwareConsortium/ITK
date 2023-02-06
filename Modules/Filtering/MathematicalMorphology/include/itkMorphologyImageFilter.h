@@ -154,10 +154,10 @@ protected:
 private:
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
-  ImageBoundaryConditionPointerType m_BoundaryCondition;
+  ImageBoundaryConditionPointerType m_BoundaryCondition{};
 
   /** Default boundary condition */
-  DefaultBoundaryConditionType m_DefaultBoundaryCondition;
+  DefaultBoundaryConditionType m_DefaultBoundaryCondition{};
 }; // end of class
 } // end namespace itk
 

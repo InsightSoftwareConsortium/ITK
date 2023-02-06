@@ -99,7 +99,7 @@ protected:
    * Pointer to an element in a system that contains the DOF
    * on which the external force is applied.
    */
-  Element::ConstPointer m_Element;
+  Element::ConstPointer m_Element{};
 };
 } // end namespace fem
 } // end namespace itk

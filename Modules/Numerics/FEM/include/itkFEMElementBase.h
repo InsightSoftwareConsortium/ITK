@@ -717,7 +717,7 @@ public:
 
 protected:
   // to store edge connectivity data
-  std::vector<std::vector<int>> m_EdgeIds;
+  std::vector<std::vector<int>> m_EdgeIds{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

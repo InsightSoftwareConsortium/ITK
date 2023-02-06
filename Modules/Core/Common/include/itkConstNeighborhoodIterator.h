@@ -590,7 +590,7 @@ protected:
   const InternalPixelType * m_Begin{ nullptr };
 
   /** The image on which iteration is defined. */
-  typename ImageType::ConstWeakPointer m_ConstImage;
+  typename ImageType::ConstWeakPointer m_ConstImage{};
 
   /** A pointer to one past the last pixel in the iteration region. */
   const InternalPixelType * m_End{ nullptr };
@@ -603,7 +603,7 @@ protected:
   IndexType m_Loop{ { 0 } };
 
   /** The region over which iteration is defined. */
-  RegionType m_Region;
+  RegionType m_Region{};
 
   /** The internal array of offsets that provide support for regions of
    *  interest.
@@ -616,7 +616,7 @@ protected:
    * By default this points to m_BoundaryCondition, but
    * OverrideBoundaryCondition allows a user to point this variable an external
    * boundary condition.  */
-  ImageBoundaryConditionPointerType m_BoundaryCondition;
+  ImageBoundaryConditionPointerType m_BoundaryCondition{};
 
   /** Denotes which of the iterators dimensional sides spill outside
    * region of interest boundaries. By default `false` for each dimension. */
@@ -631,19 +631,19 @@ protected:
   mutable bool m_IsInBoundsValid{ false };
 
   /** Lower threshold of in-bounds loop counter values. */
-  IndexType m_InnerBoundsLow;
+  IndexType m_InnerBoundsLow{};
 
   /** Upper threshold of in-bounds loop counter values. */
-  IndexType m_InnerBoundsHigh;
+  IndexType m_InnerBoundsHigh{};
 
   /** Default boundary condition. */
-  TBoundaryCondition m_InternalBoundaryCondition;
+  TBoundaryCondition m_InternalBoundaryCondition{};
 
   /** Does the specified region need to worry about boundary conditions? */
   bool m_NeedToUseBoundaryCondition{ false };
 
   /** Functor type used to access neighborhoods of pixel pointers */
-  NeighborhoodAccessorFunctorType m_NeighborhoodAccessorFunctor;
+  NeighborhoodAccessorFunctorType m_NeighborhoodAccessorFunctor{};
 };
 
 template <typename TImage>

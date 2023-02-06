@@ -93,12 +93,12 @@ protected:
     os << indent << "MeasureBound: " << m_MeasureBound << std::endl;
   }
 
-  bool m_TopologicalChange;
-  bool m_SizeCriterion;
+  bool m_TopologicalChange{};
+  bool m_SizeCriterion{};
 
-  SizeValueType m_NumberOfElements;
+  SizeValueType m_NumberOfElements{};
 
-  MeasureType m_MeasureBound;
+  MeasureType m_MeasureBound{};
 };
 
 /**

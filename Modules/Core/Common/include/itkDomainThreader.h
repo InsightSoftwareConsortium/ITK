@@ -163,7 +163,7 @@ protected:
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   ThreaderCallback(void * arg);
 
-  AssociateType * m_Associate;
+  AssociateType * m_Associate{};
 
 private:
   void
@@ -180,10 +180,10 @@ private:
    * well into that number.
    * This value is determined at the beginning of \c Execute(). */
   ThreadIdType                            m_NumberOfWorkUnitsUsed{ 0 };
-  ThreadIdType                            m_NumberOfWorkUnits;
-  typename DomainPartitionerType::Pointer m_DomainPartitioner;
-  DomainType                              m_CompleteDomain;
-  MultiThreaderBase::Pointer              m_MultiThreader;
+  ThreadIdType                            m_NumberOfWorkUnits{};
+  typename DomainPartitionerType::Pointer m_DomainPartitioner{};
+  DomainType                              m_CompleteDomain{};
+  MultiThreaderBase::Pointer              m_MultiThreader{};
 };
 
 } // namespace itk

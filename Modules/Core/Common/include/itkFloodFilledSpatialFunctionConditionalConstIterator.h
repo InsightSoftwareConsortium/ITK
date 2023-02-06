@@ -125,7 +125,7 @@ protected: // made protected so other iterators can access
    * 3) Intersect: if any of the corners of the pixel in physical space are inside the function,
    * then the pixel is inside the function */
 
-  unsigned char m_InclusionStrategy;
+  unsigned char m_InclusionStrategy{};
 };
 } // end namespace itk
 

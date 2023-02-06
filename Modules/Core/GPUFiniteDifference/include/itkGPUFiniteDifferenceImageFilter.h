@@ -254,7 +254,7 @@ protected:
   {}
 
   /** Timers for statistics */
-  TimeProbe m_InitTime, m_ComputeUpdateTime, m_ApplyUpdateTime, m_SmoothFieldTime;
+  TimeProbe m_InitTime, m_ComputeUpdateTime, m_ApplyUpdateTime, m_SmoothFieldTime{};
 
 private:
   /** Initialize the values of the Function coefficients. This function will
@@ -264,14 +264,14 @@ private:
   InitializeFunctionCoefficients();
 
   /** The function that will be used in calculating updates for each pixel. */
-  typename FiniteDifferenceFunctionType::Pointer m_DifferenceFunction;
+  typename FiniteDifferenceFunctionType::Pointer m_DifferenceFunction{};
 
   /** Control whether derivatives use spacing of the input image in
       its calculation. */
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
-  GPUFiniteDifferenceFilterEnum m_State;
+  GPUFiniteDifferenceFilterEnum m_State{};
 };
 
 } // end namespace itk

@@ -157,8 +157,8 @@ public:
   ~PolygonCell() override = default;
 
 protected:
-  std::vector<EdgeInfo>        m_Edges;
-  std::vector<PointIdentifier> m_PointIds;
+  std::vector<EdgeInfo>        m_Edges{};
+  std::vector<PointIdentifier> m_PointIds{};
 };
 } // namespace itk
 

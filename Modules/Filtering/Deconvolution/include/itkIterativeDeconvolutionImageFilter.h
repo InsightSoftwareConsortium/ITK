@@ -131,10 +131,10 @@ protected:
   GenerateData() override;
 
   /** Discrete Fourier transform of the padded kernel. */
-  InternalComplexImagePointerType m_TransferFunction;
+  InternalComplexImagePointerType m_TransferFunction{};
 
   /** Intermediate results. Protected for easy access by subclasses. */
-  InternalImagePointerType m_CurrentEstimate;
+  InternalImagePointerType m_CurrentEstimate{};
 
   using typename Superclass::FFTFilterType;
   using typename Superclass::IFFTFilterType;
@@ -144,17 +144,17 @@ protected:
 
 private:
   /** Number of iterations to run. */
-  unsigned int m_NumberOfIterations;
+  unsigned int m_NumberOfIterations{};
 
   /** The current iteration. */
-  unsigned int m_Iteration;
+  unsigned int m_Iteration{};
 
   /** Flag indicating whether iteration should be stopped. */
-  bool m_StopIteration;
+  bool m_StopIteration{};
 
   /** Modified times for the input and kernel. */
-  ModifiedTimeType m_InputMTime;
-  ModifiedTimeType m_KernelMTime;
+  ModifiedTimeType m_InputMTime{};
+  ModifiedTimeType m_KernelMTime{};
 };
 } // end namespace itk
 

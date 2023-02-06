@@ -288,9 +288,9 @@ private:
 
   /** Member variables for a factory set by the base class
    * at load or register time */
-  void *        m_LibraryHandle;
-  unsigned long m_LibraryDate;
-  std::string   m_LibraryPath;
+  void *        m_LibraryHandle{};
+  unsigned long m_LibraryDate{};
+  std::string   m_LibraryPath{};
 
   static ObjectFactoryBasePrivate * m_PimplGlobals;
 };

@@ -101,7 +101,7 @@ public:
 
 
 protected:
-  MapType m_Probes;
+  MapType m_Probes{};
 };
 } // end namespace itk
 

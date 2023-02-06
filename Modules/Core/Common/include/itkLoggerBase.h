@@ -234,20 +234,20 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:
-  PriorityLevelEnum m_PriorityLevel;
+  PriorityLevelEnum m_PriorityLevel{};
 
-  PriorityLevelEnum m_LevelForFlushing;
+  PriorityLevelEnum m_LevelForFlushing{};
 
-  MultipleLogOutput::Pointer m_Output;
+  MultipleLogOutput::Pointer m_Output{};
 
-  RealTimeClock::Pointer m_Clock;
+  RealTimeClock::Pointer m_Clock{};
 
-  TimeStampFormatEnum m_TimeStampFormat;
+  TimeStampFormatEnum m_TimeStampFormat{};
 
-  std::string m_HumanReadableFormat;
+  std::string m_HumanReadableFormat{};
 
 private:
-  std::string m_Name;
+  std::string m_Name{};
 }; // class LoggerBase
 } // namespace itk
 

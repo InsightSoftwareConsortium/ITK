@@ -150,10 +150,10 @@ private:
   unsigned int m_NumberOfModels{ 0 };
 
   /** Container to hold the membership functions */
-  MembershipFunctionPointerVector m_MembershipFunctions;
+  MembershipFunctionPointerVector m_MembershipFunctions{};
 
   /**Container for holding the training image */
-  InputImagePointer m_InputImage;
+  InputImagePointer m_InputImage{};
 
   /** The core virtual function to perform modelling of the input data */
   virtual void

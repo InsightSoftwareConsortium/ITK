@@ -102,7 +102,7 @@ public:
   }
 
 protected:
-  MutexType m_MutexLock;
+  MutexType m_MutexLock{};
 };
 
 /**

@@ -231,7 +231,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  NarrowBandPointer m_NarrowBand;
+  NarrowBandPointer m_NarrowBand{};
 
   /** \struct ThreadRegionType
   The type of region used in multithreading.
@@ -247,7 +247,7 @@ protected:
 
   /** A list of subregions of the narrowband which are passed to each thread
    * for parallel processing. */
-  std::vector<RegionType> m_RegionList;
+  std::vector<RegionType> m_RegionList{};
 
   /** This function returns a single region (of the narrow band list) for use
       in multi-threading */
@@ -288,14 +288,14 @@ protected:
   GenerateData() override;
 
   /* Variables to control reinitialization */
-  IdentifierType m_ReinitializationFrequency;
-  IdentifierType m_Step;
+  IdentifierType m_ReinitializationFrequency{};
+  IdentifierType m_Step{};
 
-  bool m_Touched;
+  bool m_Touched{};
 
-  BooleanStdVectorType m_TouchedForThread;
+  BooleanStdVectorType m_TouchedForThread{};
 
-  ValueType m_IsoSurfaceValue;
+  ValueType m_IsoSurfaceValue{};
 
 private:
   /* This class does not use AllocateUpdateBuffer to allocate memory for its

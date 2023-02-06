@@ -270,7 +270,7 @@ private:
   mutable bool m_Debug{ false };
 
   /** Keep track of modification time. */
-  mutable TimeStamp m_MTime;
+  mutable TimeStamp m_MTime{};
 
   /** Global object debug flag. */
   static bool * m_GlobalWarningDisplay;
@@ -291,7 +291,7 @@ private:
    */
   mutable std::unique_ptr<MetaDataDictionary> m_MetaDataDictionary{ nullptr };
 
-  std::string m_ObjectName;
+  std::string m_ObjectName{};
 };
 } // end namespace itk
 

@@ -399,7 +399,7 @@ protected:
   itkSetMacro(DynamicMultiThreading, bool);
   itkBooleanMacro(DynamicMultiThreading);
 
-  bool m_DynamicMultiThreading;
+  bool m_DynamicMultiThreading{};
 };
 } // end namespace itk
 

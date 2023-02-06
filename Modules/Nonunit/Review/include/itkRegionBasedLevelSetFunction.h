@@ -380,47 +380,47 @@ protected:
   ~RegionBasedLevelSetFunction() override = default;
 
   /** The initial level set image */
-  InputImageConstPointer m_InitialImage;
+  InputImageConstPointer m_InitialImage{};
 
   /** The feature image */
-  FeatureImageConstPointer m_FeatureImage;
+  FeatureImageConstPointer m_FeatureImage{};
 
-  SharedDataPointer m_SharedData;
+  SharedDataPointer m_SharedData{};
 
-  HeavisideFunctionConstPointer m_DomainFunction;
+  HeavisideFunctionConstPointer m_DomainFunction{};
 
   /** Area regularization weight */
-  ScalarValueType m_AreaWeight;
+  ScalarValueType m_AreaWeight{};
 
   /** Internal functional of the level set weight */
-  ScalarValueType m_Lambda1;
+  ScalarValueType m_Lambda1{};
 
   /** External functional of the level set weight */
-  ScalarValueType m_Lambda2;
+  ScalarValueType m_Lambda2{};
 
   /** Overlap Penalty Weight */
-  ScalarValueType m_OverlapPenaltyWeight;
+  ScalarValueType m_OverlapPenaltyWeight{};
 
   /** Volume Regularization Weight */
-  ScalarValueType m_VolumeMatchingWeight;
+  ScalarValueType m_VolumeMatchingWeight{};
 
   /** Volume Constraint in pixels */
-  ScalarValueType m_Volume;
+  ScalarValueType m_Volume{};
 
   /** Curvature Regularization Weight */
-  ScalarValueType m_CurvatureWeight;
+  ScalarValueType m_CurvatureWeight{};
 
-  ScalarValueType m_AdvectionWeight;
+  ScalarValueType m_AdvectionWeight{};
 
   /** Laplacian Regularization Weight */
-  ScalarValueType m_ReinitializationSmoothingWeight;
+  ScalarValueType m_ReinitializationSmoothingWeight{};
 
-  unsigned int m_FunctionId;
+  unsigned int m_FunctionId{};
 
   std::slice      x_slice[Self::ImageDimension];
-  OffsetValueType m_Center;
-  OffsetValueType m_xStride[Self::ImageDimension];
-  double          m_InvSpacing[Self::ImageDimension];
+  OffsetValueType m_Center{};
+  OffsetValueType m_xStride[Self::ImageDimension]{};
+  double          m_InvSpacing[Self::ImageDimension]{};
 
   static double m_WaveDT;
   static double m_DT;
@@ -488,7 +488,7 @@ protected:
   virtual void
   UpdateSharedDataParameters() = 0;
 
-  bool m_UpdateC;
+  bool m_UpdateC{};
 
   /** This method's only purpose is to initialize the zero vector
    * constant. */

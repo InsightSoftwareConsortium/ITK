@@ -127,7 +127,7 @@ protected:
     // FIX    os << indent << "Parameters: " << m_Parameters << std::endl;
   }
 
-  ParametersType m_Parameters;
+  ParametersType m_Parameters{};
 };
 } // end namespace itk
 

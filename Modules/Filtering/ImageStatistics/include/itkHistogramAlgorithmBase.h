@@ -91,7 +91,7 @@ protected:
 
 private:
   /** Target histogram data pointer */
-  typename TInputHistogram::ConstPointer m_InputHistogram;
+  typename TInputHistogram::ConstPointer m_InputHistogram{};
 }; // end of class
 } // end of namespace itk
 

@@ -115,7 +115,7 @@ protected:
     os << std::endl;
   }
 
-  EnergyValueContainerType m_EnergyValues;
+  EnergyValueContainerType m_EnergyValues{};
 };
 } // end namespace Function
 } // end namespace itk

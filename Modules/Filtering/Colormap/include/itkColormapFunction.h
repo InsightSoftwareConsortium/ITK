@@ -133,11 +133,11 @@ protected:
   }
 
 private:
-  ScalarType m_MinimumInputValue;
-  ScalarType m_MaximumInputValue;
+  ScalarType m_MinimumInputValue{};
+  ScalarType m_MaximumInputValue{};
 
-  RGBComponentType m_MinimumRGBComponentValue;
-  RGBComponentType m_MaximumRGBComponentValue;
+  RGBComponentType m_MinimumRGBComponentValue{};
+  RGBComponentType m_MaximumRGBComponentValue{};
 };
 } // end namespace Function
 } // end namespace itk

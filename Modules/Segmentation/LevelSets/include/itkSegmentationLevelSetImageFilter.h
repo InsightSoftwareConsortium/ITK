@@ -535,16 +535,16 @@ protected:
 
   /** Flag which sets the inward/outward direction of propagation speed. See
       SetReverseExpansionDirection for more information. */
-  bool m_ReverseExpansionDirection;
+  bool m_ReverseExpansionDirection{};
 
   /** Flag to indicate whether Speed and Advection images are automatically
    *  generated when running the filter.  Otherwise, a pointer to images must
    *  be explicitly set or GenerateSpeedImage() and/or GenerateAdvectionImage()
    *  called directly before updating the filter */
-  bool m_AutoGenerateSpeedAdvection;
+  bool m_AutoGenerateSpeedAdvection{};
 
 private:
-  SegmentationFunctionType * m_SegmentationFunction;
+  SegmentationFunctionType * m_SegmentationFunction{};
 };
 } // end namespace itk
 

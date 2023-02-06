@@ -117,10 +117,10 @@ protected:
   ~GPUFiniteDifferenceFunction() override = default;
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */
-  typename GPUKernelManager::Pointer m_GPUKernelManager;
+  typename GPUKernelManager::Pointer m_GPUKernelManager{};
 
   /** GPU kernel handle for GPUComputeUpdate() */
-  int m_ComputeUpdateGPUKernelHandle;
+  int m_ComputeUpdateGPUKernelHandle{};
 };
 } // end namespace itk
 

@@ -139,7 +139,7 @@ protected:
   }
 
 private:
-  MeasurementVectorSizeType m_MeasurementVectorSize;
+  MeasurementVectorSizeType m_MeasurementVectorSize{};
 
 }; // end of class
 } // end of namespace Statistics

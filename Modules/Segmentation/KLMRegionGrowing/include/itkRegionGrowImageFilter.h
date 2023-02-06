@@ -137,9 +137,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_MaximumNumberOfRegions;
+  unsigned int m_MaximumNumberOfRegions{};
 
-  GridSizeType m_GridSize;
+  GridSizeType m_GridSize{};
 }; // class RegionGrowImageFilter
 } // namespace itk
 

@@ -74,8 +74,8 @@ protected:
   AllocateListDomain();
 
 private:
-  MeshPointer  m_Mesh;
-  ListMeshType m_ListDomain;
+  MeshPointer  m_Mesh{};
+  ListMeshType m_ListDomain{};
 };
 
 } // end namespace itk

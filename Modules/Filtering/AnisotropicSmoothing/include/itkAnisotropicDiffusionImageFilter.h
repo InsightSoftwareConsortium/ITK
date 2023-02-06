@@ -149,15 +149,15 @@ protected:
   void
   InitializeIteration() override;
 
-  bool m_GradientMagnitudeIsFixed;
+  bool m_GradientMagnitudeIsFixed{};
 
 private:
-  double       m_ConductanceParameter;
-  double       m_ConductanceScalingParameter;
-  unsigned int m_ConductanceScalingUpdateInterval;
-  double       m_FixedAverageGradientMagnitude;
+  double       m_ConductanceParameter{};
+  double       m_ConductanceScalingParameter{};
+  unsigned int m_ConductanceScalingUpdateInterval{};
+  double       m_FixedAverageGradientMagnitude{};
 
-  TimeStepType m_TimeStep;
+  TimeStepType m_TimeStep{};
 };
 } // namespace itk
 

@@ -228,7 +228,7 @@ private:
   CalculateChange() override;
 
   /** The buffer that holds the updates for an iteration of the algorithm. */
-  std::vector<InputImagePointer> m_UpdateBuffers;
+  std::vector<InputImagePointer> m_UpdateBuffers{};
 };
 } // end namespace itk
 

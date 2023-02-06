@@ -138,8 +138,8 @@ public:
   /**
    * Base class of the searched object.
    */
-  std::string m_baseClassName;
-  int         m_GlobalNumber;
+  std::string m_baseClassName{};
+  int         m_GlobalNumber{};
 };
 
 /**

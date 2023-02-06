@@ -199,8 +199,8 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  RadiusType    m_Radius;
-  PixelRealType m_ScaleCoefficients[ImageDimension];
+  RadiusType    m_Radius{};
+  PixelRealType m_ScaleCoefficients[ImageDimension]{};
 };
 } // end namespace itk
 

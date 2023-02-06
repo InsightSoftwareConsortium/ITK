@@ -285,21 +285,21 @@ protected:
   }
 
 private:
-  TimeProbe                   m_TimeProbe;
+  TimeProbe                   m_TimeProbe{};
   int                         m_Steps{ 0 };
   int                         m_Iterations{ 0 };
   bool                        m_Quiet{ false };
   bool                        m_TestAbort{ false };
-  std::string                 m_Comment;
-  itk::ProcessObject::Pointer m_Process;
-  std::mutex                  m_ProgressOutput;
+  std::string                 m_Comment{};
+  itk::ProcessObject::Pointer m_Process{};
+  std::mutex                  m_ProgressOutput{};
 
   using CommandType = SimpleMemberCommand<SimpleFilterWatcher>;
-  CommandType::Pointer m_StartFilterCommand;
-  CommandType::Pointer m_EndFilterCommand;
-  CommandType::Pointer m_ProgressFilterCommand;
-  CommandType::Pointer m_IterationFilterCommand;
-  CommandType::Pointer m_AbortFilterCommand;
+  CommandType::Pointer m_StartFilterCommand{};
+  CommandType::Pointer m_EndFilterCommand{};
+  CommandType::Pointer m_ProgressFilterCommand{};
+  CommandType::Pointer m_IterationFilterCommand{};
+  CommandType::Pointer m_AbortFilterCommand{};
 
   unsigned long m_StartTag{ 0 };
   unsigned long m_EndTag{ 0 };

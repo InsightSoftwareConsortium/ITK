@@ -253,13 +253,13 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Fixed and Moving Objects */
-  ObjectConstPointer m_FixedObject;
-  ObjectConstPointer m_MovingObject;
+  ObjectConstPointer m_FixedObject{};
+  ObjectConstPointer m_MovingObject{};
 
-  GradientSourceEnum m_GradientSource;
+  GradientSourceEnum m_GradientSource{};
 
   /** Metric value, stored after evaluating */
-  mutable MeasureType m_Value;
+  mutable MeasureType m_Value{};
 };
 
 /** This helps to meet backward compatibility */

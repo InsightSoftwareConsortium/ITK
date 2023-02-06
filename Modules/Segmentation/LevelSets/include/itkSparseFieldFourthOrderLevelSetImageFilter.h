@@ -308,51 +308,51 @@ protected:
 private:
   /** This is a iteration counter that gets reset to 0 every time
       ProcessNormals method is called. */
-  unsigned int m_RefitIteration;
+  unsigned int m_RefitIteration{};
 
   /** This parameter determines the maximum number of
       SparseFieldLevelSetImageFilter iterations that will be executed between
       calls to ProcessNormals. */
-  unsigned int m_MaxRefitIteration;
+  unsigned int m_MaxRefitIteration{};
 
   /** This parameter is used to set the corresponding parameter in
       ImplicitManifoldNormalDiffusionfFilter. */
-  unsigned int m_MaxNormalIteration;
+  unsigned int m_MaxNormalIteration{};
 
   /** This is used to trigger a call to the ProcessNormals method
       before m_RefitIteration reaches m_MaxRefitIteration if the RMSChange falls
       below this parameter. */
-  ValueType m_RMSChangeNormalProcessTrigger;
+  ValueType m_RMSChangeNormalProcessTrigger{};
 
   /** This flag is set to true to signal final convergence. It can be used by
       subclasses that define a Halt method. */
-  bool m_ConvergenceFlag;
+  bool m_ConvergenceFlag{};
 
   /** The level set function with the term for refitting the level set to the
       processed normal vectors. */
-  LevelSetFunctionType * m_LevelSetFunction;
+  LevelSetFunctionType * m_LevelSetFunction{};
 
   /** This parameter determines the width of the band where we compute
    * curvature from the processed normals. The wider the band, the more level set
    * iterations that can be performed between calls to ProcessNormals. It is
    * qsuggested that this value is left at its default. */
-  ValueType m_CurvatureBandWidth;
+  ValueType m_CurvatureBandWidth{};
 
   /** The parameter that chooses between isotropic/anisotropic filtering of the
       normal vectors. */
-  int m_NormalProcessType;
+  int m_NormalProcessType{};
 
   /** The conductance parameter used if anisotropic filtering of the normal
       vectors is chosen. */
-  ValueType m_NormalProcessConductance;
+  ValueType m_NormalProcessConductance{};
 
   /** The parameter that turns on/off the unsharp mask enhancement of the
       normals. */
-  bool m_NormalProcessUnsharpFlag;
+  bool m_NormalProcessUnsharpFlag{};
 
   /** The weight that controls the extent of enhancement if the
       NormalProcessUnsharpFlag is ON. */
-  ValueType m_NormalProcessUnsharpWeight;
+  ValueType m_NormalProcessUnsharpWeight{};
 
   /** Constants used in the computations. */
   static const SizeValueType m_NumVertex;

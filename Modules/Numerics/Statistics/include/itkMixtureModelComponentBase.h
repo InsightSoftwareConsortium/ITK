@@ -157,20 +157,20 @@ protected:
 
 private:
   /** target sample data pointer */
-  const TSample * m_Sample;
+  const TSample * m_Sample{};
 
-  double m_MinimalParametersChange;
+  double m_MinimalParametersChange{};
 
-  ParametersType m_Parameters;
+  ParametersType m_Parameters{};
 
   /** SmartPointer to the memberhip function - usually density function */
-  MembershipFunctionType * m_MembershipFunction;
+  MembershipFunctionType * m_MembershipFunction{};
 
   /** weights array */
-  WeightArrayType m_Weights;
+  WeightArrayType m_Weights{};
 
   /** indicative flag of membership function's parameter changes */
-  bool m_ParametersModified;
+  bool m_ParametersModified{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

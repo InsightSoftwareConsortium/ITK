@@ -134,10 +134,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  OriginType m_Origin;
+  OriginType m_Origin{};
 
   /** Number of components in the MeasurementVectorType */
-  MeasurementVectorSizeType m_MeasurementVectorSize;
+  MeasurementVectorSizeType m_MeasurementVectorSize{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

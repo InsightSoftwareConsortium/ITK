@@ -824,7 +824,7 @@ protected:
   IOFileEnum      m_FileType{ IOFileEnum::ASCII };
 
   /** Filename to read */
-  std::string m_FileName;
+  std::string m_FileName{};
 
   /** Should we compress the data? */
   bool m_UseCompression{ false };
@@ -848,13 +848,13 @@ protected:
   unsigned int m_PointDimension{ 3 };
 
   /** The number of points and cells */
-  SizeValueType m_NumberOfPoints;
-  SizeValueType m_NumberOfCells;
-  SizeValueType m_NumberOfPointPixels;
-  SizeValueType m_NumberOfCellPixels;
+  SizeValueType m_NumberOfPoints{};
+  SizeValueType m_NumberOfCells{};
+  SizeValueType m_NumberOfPointPixels{};
+  SizeValueType m_NumberOfCellPixels{};
 
   /** The buffer size of cells */
-  SizeValueType m_CellBufferSize;
+  SizeValueType m_CellBufferSize{};
 
   /** Flags indicate whether read or write points, cells, point data and cell
     data */
@@ -864,8 +864,8 @@ protected:
   bool m_UpdateCellData{ false };
 
 private:
-  ArrayOfExtensionsType m_SupportedReadExtensions;
-  ArrayOfExtensionsType m_SupportedWriteExtensions;
+  ArrayOfExtensionsType m_SupportedReadExtensions{};
+  ArrayOfExtensionsType m_SupportedWriteExtensions{};
 };
 #define MESHIOBASE_TYPEMAP(type, ctype)             \
   template <>                                       \

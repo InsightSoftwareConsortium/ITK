@@ -168,19 +168,19 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  mutable SizeValueType m_NumberOfPixelsCounted;
+  mutable SizeValueType m_NumberOfPixelsCounted{};
 
-  FixedPointSetConstPointer m_FixedPointSet;
+  FixedPointSetConstPointer m_FixedPointSet{};
 
-  MovingImageConstPointer m_MovingImage;
+  MovingImageConstPointer m_MovingImage{};
 
-  mutable TransformPointer m_Transform;
+  mutable TransformPointer m_Transform{};
 
-  InterpolatorPointer m_Interpolator;
+  InterpolatorPointer m_Interpolator{};
 
-  bool m_ComputeGradient;
+  bool m_ComputeGradient{};
 
-  GradientImagePointer m_GradientImage;
+  GradientImagePointer m_GradientImage{};
 };
 } // end namespace itk
 

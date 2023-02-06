@@ -132,7 +132,7 @@ public:
 private:
   class ExceptionData;
 
-  std::shared_ptr<const ExceptionData> m_ExceptionData;
+  std::shared_ptr<const ExceptionData> m_ExceptionData{};
 };
 
 /** Generic inserter operator for ExceptionObject and its subclasses. */

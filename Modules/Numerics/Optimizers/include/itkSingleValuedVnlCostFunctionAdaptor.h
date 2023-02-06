@@ -150,15 +150,15 @@ private:
   /** Get current parameters scaling. */
   itkGetConstReferenceMacro(InverseScales, ScalesType);
 
-  SingleValuedCostFunction::Pointer m_CostFunction;
-  bool                              m_ScalesInitialized;
-  ScalesType                        m_InverseScales;
-  bool                              m_NegateCostFunction;
-  Object::Pointer                   m_Reporter;
+  SingleValuedCostFunction::Pointer m_CostFunction{};
+  bool                              m_ScalesInitialized{};
+  ScalesType                        m_InverseScales{};
+  bool                              m_NegateCostFunction{};
+  Object::Pointer                   m_Reporter{};
 
-  mutable MeasureType    m_CachedValue;
-  mutable DerivativeType m_CachedDerivative;
-  mutable ParametersType m_CachedCurrentParameters;
+  mutable MeasureType    m_CachedValue{};
+  mutable DerivativeType m_CachedDerivative{};
+  mutable ParametersType m_CachedCurrentParameters{};
 }; // end of Class CostFunction
 } // end namespace itk
 

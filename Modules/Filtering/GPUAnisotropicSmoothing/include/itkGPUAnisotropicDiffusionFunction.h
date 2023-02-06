@@ -152,16 +152,16 @@ protected:
   }
 
   // GPU buffer for Computing Average Squared Gradient Magnitude
-  typename GPUDataManager::Pointer   m_AnisotropicDiffusionFunctionGPUBuffer;
-  typename GPUKernelManager::Pointer m_AnisotropicDiffusionFunctionGPUKernelManager;
+  typename GPUDataManager::Pointer   m_AnisotropicDiffusionFunctionGPUBuffer{};
+  typename GPUKernelManager::Pointer m_AnisotropicDiffusionFunctionGPUKernelManager{};
 
   // GPU Kernel Handles
-  int m_AverageGradientMagnitudeSquaredGPUKernelHandle;
+  int m_AverageGradientMagnitudeSquaredGPUKernelHandle{};
 
 private:
-  double       m_AverageGradientMagnitudeSquared;
-  double       m_ConductanceParameter;
-  TimeStepType m_TimeStep;
+  double       m_AverageGradientMagnitudeSquared{};
+  double       m_ConductanceParameter{};
+  TimeStepType m_TimeStep{};
 };
 } // end namespace itk
 

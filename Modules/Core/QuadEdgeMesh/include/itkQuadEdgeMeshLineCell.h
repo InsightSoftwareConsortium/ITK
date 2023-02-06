@@ -232,9 +232,9 @@ private:
    * In order to have constant time access at the itk level instead of
    * of doing a search in the Mesh::Cell container.
    */
-  CellIdentifier          m_Identifier;
-  QEType *                m_QuadEdgeGeom;
-  mutable PointIdentifier m_PointIds[2];
+  CellIdentifier          m_Identifier{};
+  QEType *                m_QuadEdgeGeom{};
+  mutable PointIdentifier m_PointIds[2]{};
 };
 } // end namespace itk
 

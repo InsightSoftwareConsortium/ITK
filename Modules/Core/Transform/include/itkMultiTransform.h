@@ -334,11 +334,11 @@ protected:
   }
 
   /** Transform container object. */
-  mutable TransformQueueType m_TransformQueue;
+  mutable TransformQueueType m_TransformQueue{};
 
   /** Cache to save time returning the number of local parameters */
-  mutable NumberOfParametersType m_NumberOfLocalParameters;
-  mutable ModifiedTimeType       m_LocalParametersUpdateTime;
+  mutable NumberOfParametersType m_NumberOfLocalParameters{};
+  mutable ModifiedTimeType       m_LocalParametersUpdateTime{};
 };
 
 } // end namespace itk

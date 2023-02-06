@@ -203,14 +203,14 @@ protected:
 
 private:
   /** Flag to let the class know whether or not to call PrecalculateChange. */
-  bool m_PrecomputeFlag;
+  bool m_PrecomputeFlag{};
 
   /** The Sparse function type. */
-  SparseFunctionType * m_SparseFunction;
+  SparseFunctionType * m_SparseFunction{};
 
   /** A list of subregions of the active set of pixels in the sparse image
       which are passed to each thread for parallel processing. */
-  typename NodeListType::RegionListType m_RegionList;
+  typename NodeListType::RegionListType m_RegionList{};
 };
 } // end namespace itk
 

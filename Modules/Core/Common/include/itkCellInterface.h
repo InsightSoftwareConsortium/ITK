@@ -490,7 +490,7 @@ public:
 
 protected:
   /** Store the set of cells using this boundary. */
-  UsingCellsContainer m_UsingCells;
+  UsingCellsContainer m_UsingCells{};
 };
 
 /** \class CellTraitsInfo

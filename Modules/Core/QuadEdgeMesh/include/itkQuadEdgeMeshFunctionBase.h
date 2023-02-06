@@ -94,7 +94,7 @@ protected:
 private:
 protected:
   /** Mesh on which to apply the modification */
-  MeshType * m_Mesh;
+  MeshType * m_Mesh{};
 };
 } // end namespace itk
 

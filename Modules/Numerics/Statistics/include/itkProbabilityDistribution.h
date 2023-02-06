@@ -164,7 +164,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  ParametersType m_Parameters;
+  ParametersType m_Parameters{};
 }; // end of class
 } // end of namespace Statistics
 } // end namespace itk

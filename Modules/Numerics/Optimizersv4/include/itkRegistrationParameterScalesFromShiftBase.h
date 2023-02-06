@@ -106,7 +106,7 @@ protected:
 
 private:
   // A small variation of parameters
-  ParametersValueType m_SmallParameterVariation;
+  ParametersValueType m_SmallParameterVariation{};
 
 }; // class RegistrationParameterScalesFromShiftBase
 

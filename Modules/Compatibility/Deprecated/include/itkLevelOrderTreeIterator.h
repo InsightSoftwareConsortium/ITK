@@ -106,9 +106,9 @@ private:
   int
   GetLevel(const TreeNodeType * node) const;
 
-  int                                      m_StartLevel;
-  int                                      m_EndLevel;
-  mutable std::queue<const TreeNodeType *> m_Queue;
+  int                                      m_StartLevel{};
+  int                                      m_EndLevel{};
+  mutable std::queue<const TreeNodeType *> m_Queue{};
 };
 
 } // end namespace itk

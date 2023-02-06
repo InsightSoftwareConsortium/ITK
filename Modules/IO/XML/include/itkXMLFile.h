@@ -84,7 +84,7 @@ protected:
   void
   parse();
 
-  std::string m_Filename;
+  std::string m_Filename{};
 };
 
 /**

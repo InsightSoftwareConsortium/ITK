@@ -392,13 +392,13 @@ protected:
    *  in each dimension wrapped from the flat parameters in
    *  m_InternalParametersBuffer
    */
-  CoefficientImageArray m_CoefficientImages;
+  CoefficientImageArray m_CoefficientImages{};
 
   /** Internal parameters buffer. */
-  ParametersType m_InternalParametersBuffer;
+  ParametersType m_InternalParametersBuffer{};
 
   /** Pointer to function used to compute Bspline interpolation weights. */
-  typename WeightsFunctionType::Pointer m_WeightsFunction;
+  typename WeightsFunctionType::Pointer m_WeightsFunction{};
 
 private:
   static CoefficientImageArray

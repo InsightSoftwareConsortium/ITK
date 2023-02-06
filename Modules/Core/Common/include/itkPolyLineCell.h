@@ -136,7 +136,7 @@ public:
 
 protected:
   /** For storing the points needed for a line segment. */
-  std::vector<PointIdentifier> m_PointIds;
+  std::vector<PointIdentifier> m_PointIds{};
 };
 } // end namespace itk
 

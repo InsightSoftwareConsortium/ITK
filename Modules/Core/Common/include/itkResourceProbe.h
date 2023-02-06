@@ -180,22 +180,22 @@ protected:
   itkLegacyMacro(virtual void GetSystemInformation());
 
 private:
-  ValueType m_StartValue;
-  ValueType m_TotalValue;
-  ValueType m_MinimumValue;
-  ValueType m_MaximumValue;
-  ValueType m_StandardDeviation;
-  ValueType m_StandardError;
+  ValueType m_StartValue{};
+  ValueType m_TotalValue{};
+  ValueType m_MinimumValue{};
+  ValueType m_MaximumValue{};
+  ValueType m_StandardDeviation{};
+  ValueType m_StandardError{};
 
-  CountType m_NumberOfStarts;
-  CountType m_NumberOfStops;
-  CountType m_NumberOfIteration;
+  CountType m_NumberOfStarts{};
+  CountType m_NumberOfStops{};
+  CountType m_NumberOfIteration{};
 
-  std::vector<ValueType> m_ProbeValueList;
+  std::vector<ValueType> m_ProbeValueList{};
 
-  std::string m_NameOfProbe;
-  std::string m_TypeString;
-  std::string m_UnitString;
+  std::string m_NameOfProbe{};
+  std::string m_TypeString{};
+  std::string m_UnitString{};
 
   static constexpr unsigned int tabwidth = 15;
 };

@@ -726,30 +726,30 @@ public:
 
 private:
   /** pointer to vector of matrices */
-  MatrixHolder * m_Matrices;
+  MatrixHolder * m_Matrices{};
 
   /** pointer to vector of force arrays */
-  VectorHolder * m_Vectors;
+  VectorHolder * m_Vectors{};
 
   /** pointer to vector of solution arrays */
-  VectorHolder * m_Solutions;
+  VectorHolder * m_Solutions{};
 
   /** pointer to array of unsigned int's indicating max number of entries in
     each matrix */
   // UnsignedIntegerArrayPtr m_MaximumNonZeroValues;
-  unsigned int m_MaximumNonZeroValues;
+  unsigned int m_MaximumNonZeroValues{};
 
   /** Array of pointers to available solver functions */
-  ItkItpackSolverFunction m_Methods[7];
+  ItkItpackSolverFunction m_Methods[7]{};
 
   /** flag indicating which solver function should be used */
-  integer m_Method;
+  integer m_Method{};
 
   /** vector of length 12 used to initialize various parameters on input */
-  integer m_IPARM[12];
+  integer m_IPARM[12]{};
 
   /** vector of length 12 used to initialize various parameters on input */
-  doublereal m_RPARM[12];
+  doublereal m_RPARM[12]{};
 };
 
 /**

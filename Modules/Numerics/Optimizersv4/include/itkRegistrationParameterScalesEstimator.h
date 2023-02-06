@@ -323,21 +323,21 @@ protected:
   itkGetMacro(SamplingStrategy, SamplingStrategyType);
 
   /** the metric object */
-  MetricPointer m_Metric;
+  MetricPointer m_Metric{};
 
   /** the samples in the virtual domain */
-  SamplePointContainerType m_SamplePoints;
+  SamplePointContainerType m_SamplePoints{};
 
   /** Keep track of the last sampling time. */
-  mutable TimeStamp m_SamplingTime;
+  mutable TimeStamp m_SamplingTime{};
 
   /**  the number of samples in the virtual domain */
-  SizeValueType m_NumberOfRandomSamples;
+  SizeValueType m_NumberOfRandomSamples{};
 
   /** the radius of the central region for sampling */
-  IndexValueType m_CentralRegionRadius;
+  IndexValueType m_CentralRegionRadius{};
 
-  typename VirtualPointSetType::ConstPointer m_VirtualDomainPointSet;
+  typename VirtualPointSetType::ConstPointer m_VirtualDomainPointSet{};
 
   // the threshold to decide if the number of random samples uses logarithm
   static constexpr SizeValueType SizeOfSmallDomain = 1000;
@@ -347,10 +347,10 @@ private:
    * m_TransformForward = true (default) for the moving transform parameters.
    * m_TransformForward = false for the fixed transform parameters.
    */
-  bool m_TransformForward;
+  bool m_TransformForward{};
 
   // sampling strategy
-  SamplingStrategyType m_SamplingStrategy;
+  SamplingStrategyType m_SamplingStrategy{};
 
 }; // class RegistrationParameterScalesEstimator
 } // namespace itk

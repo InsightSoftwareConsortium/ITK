@@ -378,8 +378,8 @@ private:
    *  Tolerances for checking whether input images are defined to
    *  occupy the same physical space.
    */
-  double m_CoordinateTolerance;
-  double m_DirectionTolerance;
+  double m_CoordinateTolerance{};
+  double m_DirectionTolerance{};
 };
 } // end namespace itk
 

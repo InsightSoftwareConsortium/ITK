@@ -320,24 +320,24 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename FixedPointSetType::ConstPointer               m_FixedPointSet;
-  mutable typename FixedTransformedPointSetType::Pointer m_FixedTransformedPointSet;
+  typename FixedPointSetType::ConstPointer               m_FixedPointSet{};
+  mutable typename FixedTransformedPointSetType::Pointer m_FixedTransformedPointSet{};
 
-  mutable typename PointsLocatorType::Pointer m_FixedTransformedPointsLocator;
+  mutable typename PointsLocatorType::Pointer m_FixedTransformedPointsLocator{};
 
-  typename MovingPointSetType::ConstPointer               m_MovingPointSet;
-  mutable typename MovingTransformedPointSetType::Pointer m_MovingTransformedPointSet;
+  typename MovingPointSetType::ConstPointer               m_MovingPointSet{};
+  mutable typename MovingTransformedPointSetType::Pointer m_MovingTransformedPointSet{};
 
-  mutable typename PointsLocatorType::Pointer m_MovingTransformedPointsLocator;
+  mutable typename PointsLocatorType::Pointer m_MovingTransformedPointsLocator{};
 
   /** Holds the fixed points after transformation into virtual domain. */
-  mutable VirtualPointSetPointer m_VirtualTransformedPointSet;
+  mutable VirtualPointSetPointer m_VirtualTransformedPointSet{};
 
   /**
    * Bool set by derived classes on whether the point set data (i.e. \c PixelType)
    * should be used.  Default = false.
    */
-  bool m_UsePointSetData;
+  bool m_UsePointSetData{};
 
   /**
    * Flag to calculate value and/or derivative at tangent space.  This is needed
@@ -346,7 +346,7 @@ protected:
    * set metrics might have associated gradient information which will need to be
    * warped if this flag is true.  Default = false.
    */
-  bool m_CalculateValueAndDerivativeInTangentSpace;
+  bool m_CalculateValueAndDerivativeInTangentSpace{};
 
   /**
    * Prepare point sets for use. */
@@ -455,19 +455,19 @@ protected:
                                                   const PixelType & pixel) const = 0;
 
 private:
-  mutable bool m_MovingTransformPointLocatorsNeedInitialization;
-  mutable bool m_FixedTransformPointLocatorsNeedInitialization;
+  mutable bool m_MovingTransformPointLocatorsNeedInitialization{};
+  mutable bool m_FixedTransformPointLocatorsNeedInitialization{};
 
   // Flag to keep track of whether a warning has already been issued
   // regarding the number of valid points.
-  mutable bool m_HaveWarnedAboutNumberOfValidPoints;
+  mutable bool m_HaveWarnedAboutNumberOfValidPoints{};
 
   // Flag to store derivatives at fixed point locations with the rest being zero gradient
   // (default = true).
-  bool m_StoreDerivativeAsSparseFieldForLocalSupportTransforms;
+  bool m_StoreDerivativeAsSparseFieldForLocalSupportTransforms{};
 
-  mutable ModifiedTimeType m_MovingTransformedPointSetTime;
-  mutable ModifiedTimeType m_FixedTransformedPointSetTime;
+  mutable ModifiedTimeType m_MovingTransformedPointSetTime{};
+  mutable ModifiedTimeType m_FixedTransformedPointSetTime{};
 
   // Create ranges over the point set for multithreaded computation of value and derivatives
   using PointIdentifierPair = std::pair<PointIdentifier, PointIdentifier>;

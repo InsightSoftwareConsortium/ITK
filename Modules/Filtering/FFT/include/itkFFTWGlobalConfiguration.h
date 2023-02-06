@@ -97,7 +97,7 @@ public:
   GenerateWisdomFilename(const std::string & baseCacheDirectory) const override;
 
 private:
-  std::string m_WisdomFilename;
+  std::string m_WisdomFilename{};
 };
 
 class ITKFFT_EXPORT SimpleWisdomFilenameGenerator : public WisdomFilenameGeneratorBase

@@ -132,11 +132,11 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  FixedPointSetConstPointer m_FixedPointSet;
+  FixedPointSetConstPointer m_FixedPointSet{};
 
-  MovingPointSetConstPointer m_MovingPointSet;
+  MovingPointSetConstPointer m_MovingPointSet{};
 
-  mutable TransformPointer m_Transform;
+  mutable TransformPointer m_Transform{};
 };
 } // end namespace itk
 
