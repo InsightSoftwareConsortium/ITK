@@ -1411,7 +1411,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
      << std::endl;
 
   os << indent << "SparseData: ";
-  for (IdCellType i = 0; i < m_FunctionCount; ++i)
+  for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     SparseDataStruct * sparsePtr = this->m_SparseData[i];
 
@@ -1439,8 +1439,8 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
     os << indent.GetNextIndent() << "UpdateBuffer: " << sparsePtr->m_UpdateBuffer << std::endl;
 
-    os << indent.GetNextIndent() << "Index: " << static_cast <
-      typename NumericTraits<IdCellType>::PrintType(sparsePtr->m_Index) << std::endl;
+    os << indent.GetNextIndent()
+       << "Index: " << static_cast<typename NumericTraits<IdCellType>::PrintType>(sparsePtr->m_Index) << std::endl;
   }
 
   os << indent << "NumberOfLayers: " << m_NumberOfLayers << std::endl;
