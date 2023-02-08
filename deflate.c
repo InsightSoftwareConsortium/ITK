@@ -59,7 +59,7 @@
 # undef deflateInit2
 #endif
 
-const char PREFIX(deflate_copyright)[] = " deflate 1.2.12 Copyright 1995-2022 Jean-loup Gailly and Mark Adler ";
+const char PREFIX(deflate_copyright)[] = " deflate 1.2.13 Copyright 1995-2022 Jean-loup Gailly and Mark Adler ";
 /*
   If you use the zlib library in a product, an acknowledgment is welcome
   in the documentation of your product. If for some reason you cannot
@@ -662,8 +662,15 @@ unsigned long Z_EXPORT PREFIX(deflateBound)(PREFIX3(stream) *strm, unsigned long
 
     /* if not default parameters, return conservative bound */
     if (DEFLATE_NEED_CONSERVATIVE_BOUND(strm) ||  /* hook for IBM Z DFLTCC */
-            s->w_bits != 15 || HASH_BITS < 15)
+            s->w_bits != 15 || HASH_BITS < 15) {
+        if (s->level == 0) {
+            /* upper bound for stored blocks with length 127 (memLevel == 1) --
+               ~4% overhead plus a small constant */
+            complen = sourceLen + (sourceLen >> 5) + (sourceLen >> 7) + (sourceLen >> 11) + 7;
+        }
+
         return complen + wraplen;
+    }
 
 #ifndef NO_QUICK_STRATEGY
     return sourceLen                       /* The source size itself */

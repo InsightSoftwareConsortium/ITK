@@ -9,7 +9,7 @@
 
 #include "../../zbuild.h"
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #  include <intrin.h>
 #else
 // Newer versions of GCC and clang come with cpuid.h
@@ -27,12 +27,11 @@ Z_INTERNAL int x86_cpu_has_sse41;
 Z_INTERNAL int x86_cpu_has_sse42;
 Z_INTERNAL int x86_cpu_has_pclmulqdq;
 Z_INTERNAL int x86_cpu_has_vpclmulqdq;
-Z_INTERNAL int x86_cpu_has_tzcnt;
 Z_INTERNAL int x86_cpu_has_os_save_ymm;
 Z_INTERNAL int x86_cpu_has_os_save_zmm;
 
 static inline void cpuid(int info, unsigned* eax, unsigned* ebx, unsigned* ecx, unsigned* edx) {
-#ifdef _MSC_VER
+#ifdef _WIN32
     unsigned int registers[4];
     __cpuid((int *)registers, info);
 
@@ -46,7 +45,7 @@ static inline void cpuid(int info, unsigned* eax, unsigned* ebx, unsigned* ecx, 
 }
 
 static inline void cpuidex(int info, int subinfo, unsigned* eax, unsigned* ebx, unsigned* ecx, unsigned* edx) {
-#ifdef _MSC_VER
+#ifdef _WIN32
     unsigned int registers[4];
     __cpuidex((int *)registers, info, subinfo);
 
@@ -60,7 +59,7 @@ static inline void cpuidex(int info, int subinfo, unsigned* eax, unsigned* ebx, 
 }
 
 static inline uint64_t xgetbv(unsigned int xcr) {
-#ifdef _MSC_VER
+#ifdef _WIN32
     return _xgetbv(xcr);
 #else
     uint32_t eax, edx;
@@ -97,7 +96,6 @@ void Z_INTERNAL x86_check_features(void) {
 
         // check BMI1 bit
         // Reference: https://software.intel.com/sites/default/files/article/405250/how-to-detect-new-instruction-support-in-the-4th-generation-intel-core-processor-family.pdf
-        x86_cpu_has_tzcnt = ebx & 0x8;
         x86_cpu_has_vpclmulqdq = ecx & 0x400;
 
         // check AVX2 bit if the OS supports saving YMM registers
@@ -116,7 +114,6 @@ void Z_INTERNAL x86_check_features(void) {
             x86_cpu_has_avx512vnni = 0;
         }
     } else {
-        x86_cpu_has_tzcnt = 0;
         x86_cpu_has_avx2 = 0;
         x86_cpu_has_avx512 = 0;
         x86_cpu_has_avx512vnni = 0;

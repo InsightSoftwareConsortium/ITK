@@ -143,7 +143,7 @@ with zlib, then zlib-ng will temporarily be used instead by the program,
 without risking system-wide instability.
 
 ```
-LD_PRELOAD=/opt/zlib-ng/libz.so.1.2.12.zlib-ng /usr/bin/program
+LD_PRELOAD=/opt/zlib-ng/libz.so.1.2.13.zlib-ng /usr/bin/program
 ```
 
 ### Cmake
@@ -209,7 +209,6 @@ Advanced Build Options
 | CMake                           | configure             | Description                                                         | Default                |
 |:--------------------------------|:----------------------|:--------------------------------------------------------------------|------------------------|
 | FORCE_SSE2                      | --force-sse2          | Skip runtime check for SSE2 instructions (Always on for x86_64)     | OFF (x86)              |
-| FORCE_TZCNT                     | --force-tzcnt         | Skip runtime check for TZCNT instructions                           | OFF                    |
 | WITH_AVX2                       |                       | Build with AVX2 intrinsics                                          | ON                     |
 | WITH_AVX512                     |                       | Build with AVX512 intrinsics                                        | ON                     |
 | WITH_AVX512VNNI                 |                       | Build with AVX512VNNI intrinsics                                    | ON                     |

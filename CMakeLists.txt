@@ -112,7 +112,6 @@ elseif(BASEARCH_S360_FOUND)
     option(WITH_DFLTCC_INFLATE "Build with DFLTCC intrinsics for decompression on IBM Z" OFF)
     option(WITH_CRC32_VX "Build with vectorized CRC32 on IBM Z" ON)
 elseif(BASEARCH_X86_FOUND)
-    option(FORCE_TZCNT "Always assume CPU is TZCNT capable" OFF)
     option(WITH_AVX2 "Build with AVX2" ON)
     option(WITH_AVX512 "Build with AVX512" ON)
     option(WITH_AVX512VNNI "Build with AVX512 VNNI extensions" ON)
@@ -200,7 +199,7 @@ elseif(MSVC)
 elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
     # Enable warnings in GCC and Clang
     set(WARNFLAGS -Wall)
-    set(WARNFLAGS_MAINTAINER -Wextra -Wpedantic)
+    set(WARNFLAGS_MAINTAINER -Wextra)
     set(WARNFLAGS_DISABLE)
     if(WITH_NATIVE_INSTRUCTIONS)
         if(BASEARCH_PPC_FOUND)
@@ -819,10 +818,6 @@ if(WITH_OPTIM)
                 set(WITH_SSE4 OFF)
             endif()
         endif()
-        if(FORCE_TZCNT)
-            add_definitions(-DX86_NOCHECK_TZCNT)
-        endif()
-        add_feature_info(FORCE_TZCNT FORCE_TZCNT "Assume CPU is TZCNT capable")
         if(WITH_SSE2)
             check_sse2_intrinsics()
             if(HAVE_SSE2_INTRIN)
@@ -882,6 +877,11 @@ if(WITH_OPTIM)
         else()
             set(WITH_PCLMULQDQ OFF)
             set(WITH_VPCLMULQDQ OFF)
+        endif()
+        check_xsave_intrinsics()
+        if(HAVE_XSAVE_INTRIN)
+            add_feature_info(XSAVE 1 "Support XSAVE intrinsics using \"${XSAVEFLAG}\"")
+            set_property(SOURCE ${ARCHDIR}/x86_features.c PROPERTY COMPILE_FLAGS "${XSAVEFLAG}")
         endif()
     endif()
 endif()
@@ -962,7 +962,7 @@ set(ZLIB_PRIVATE_HDRS
     deflate.h
     deflate_p.h
     functable.h
-    inffast.h
+    inffast_tpl.h
     inffixed_tbl.h
     inflate.h
     inflate_p.h
@@ -996,7 +996,6 @@ set(ZLIB_SRCS
     deflate_stored.c
     functable.c
     infback.c
-    inffast.c
     inflate.c
     inftrees.c
     insert_string.c
