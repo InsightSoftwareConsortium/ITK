@@ -127,7 +127,7 @@ protected:
 
   ~XMLReader() override = default;
 
-  T * m_OutputObject;
+  T * m_OutputObject{};
 };
 
 /**

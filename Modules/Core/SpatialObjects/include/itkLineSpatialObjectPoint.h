@@ -71,7 +71,7 @@ public:
   operator=(const LineSpatialObjectPoint & rhs);
 
 protected:
-  NormalArrayType m_NormalArrayInObjectSpace;
+  NormalArrayType m_NormalArrayInObjectSpace{};
 
   /** Method to print the object. */
   void

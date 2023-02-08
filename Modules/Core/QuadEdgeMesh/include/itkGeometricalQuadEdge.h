@@ -361,7 +361,7 @@ protected:
   OriginRefType      m_Origin;           // Geometrical information
   PrimalDataType     m_Data;             // User data associated to this edge.
   bool               m_DataSet{ false }; // Indicates if the data is set.
-  LineCellIdentifier m_LineCellIdent;
+  LineCellIdentifier m_LineCellIdent{};
 };
 } // namespace itk
 

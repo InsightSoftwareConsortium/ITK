@@ -81,10 +81,10 @@ protected:
   /** Destructor */
   ~LevelSetEvolutionStoppingCriterion() override = default;
 
-  LevelSetContainerPointer m_LevelSetContainer;
-  OutputRealType           m_RMSChangeAccumulator;
-  IterationIdType          m_NumberOfIterations;
-  IterationIdType          m_CurrentIteration;
+  LevelSetContainerPointer m_LevelSetContainer{};
+  OutputRealType           m_RMSChangeAccumulator{};
+  IterationIdType          m_NumberOfIterations{};
+  IterationIdType          m_CurrentIteration{};
 };
 } // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

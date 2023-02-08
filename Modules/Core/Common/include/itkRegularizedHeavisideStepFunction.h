@@ -73,8 +73,8 @@ protected:
   ~RegularizedHeavisideStepFunction() override = default;
 
 private:
-  RealType m_Epsilon;
-  RealType m_OneOverEpsilon;
+  RealType m_Epsilon{};
+  RealType m_OneOverEpsilon{};
 };
 } // namespace itk
 

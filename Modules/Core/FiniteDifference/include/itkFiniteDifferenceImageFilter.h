@@ -233,7 +233,7 @@ protected:
   ~FiniteDifferenceImageFilter() override = default;
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
-  bool m_IsInitialized;
+  bool m_IsInitialized{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

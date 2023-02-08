@@ -151,8 +151,8 @@ public:
   GetField(DTITubeSpatialObjectPointFieldEnum name) const;
 
 protected:
-  float         m_TensorMatrix[6];
-  FieldListType m_Fields;
+  float         m_TensorMatrix[6]{};
+  FieldListType m_Fields{};
 
   /** Print the object */
   void

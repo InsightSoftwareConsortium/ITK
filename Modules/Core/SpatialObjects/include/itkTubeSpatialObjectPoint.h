@@ -268,23 +268,23 @@ public:
   operator=(const TubeSpatialObjectPoint & rhs);
 
 protected:
-  VectorType          m_TangentInObjectSpace;
-  CovariantVectorType m_Normal1InObjectSpace;
-  CovariantVectorType m_Normal2InObjectSpace;
+  VectorType          m_TangentInObjectSpace{};
+  CovariantVectorType m_Normal1InObjectSpace{};
+  CovariantVectorType m_Normal2InObjectSpace{};
 
-  double m_Branchness;
-  double m_Medialness;
-  double m_Ridgeness;
-  double m_Curvature;
-  double m_Levelness;
-  double m_Roundness;
-  double m_Intensity;
-  double m_Alpha1;
-  double m_Alpha2;
-  double m_Alpha3;
+  double m_Branchness{};
+  double m_Medialness{};
+  double m_Ridgeness{};
+  double m_Curvature{};
+  double m_Levelness{};
+  double m_Roundness{};
+  double m_Intensity{};
+  double m_Alpha1{};
+  double m_Alpha2{};
+  double m_Alpha3{};
 
   /** The radius of the tube point */
-  double m_RadiusInObjectSpace;
+  double m_RadiusInObjectSpace{};
 
   /** Print the object */
   void

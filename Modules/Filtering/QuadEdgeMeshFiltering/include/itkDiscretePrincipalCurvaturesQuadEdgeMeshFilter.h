@@ -77,8 +77,8 @@ protected:
   {}
   ~DiscretePrincipalCurvaturesQuadEdgeMeshFilter() override = default;
 
-  OutputCurvatureType m_Gaussian;
-  OutputCurvatureType m_Mean;
+  OutputCurvatureType m_Gaussian{};
+  OutputCurvatureType m_Mean{};
 
   void
   ComputeMeanAndGaussianCurvatures(const OutputPointType & iP)
