@@ -14,7 +14,6 @@
 #include "zutil.h"
 #include "inftrees.h"
 #include "inflate.h"
-#include "inffast.h"
 #include "inflate_p.h"
 #include "functable.h"
 
@@ -358,7 +357,7 @@ int32_t Z_EXPORT PREFIX(inflateBack)(PREFIX3(stream) *strm, in_func in, void *in
                 RESTORE();
                 if (state->whave < state->wsize)
                     state->whave = state->wsize - left;
-                zng_inflate_fast(strm, state->wsize);
+                functable.inflate_fast(strm, state->wsize);
                 LOAD();
                 break;
             }
@@ -477,12 +476,8 @@ int32_t Z_EXPORT PREFIX(inflateBack)(PREFIX3(stream) *strm, in_func in, void *in
             break;
 
         case DONE:
-            /* inflate stream terminated properly -- write leftover output */
+            /* inflate stream terminated properly */
             ret = Z_STREAM_END;
-            if (left < state->wsize) {
-                if (out(out_desc, state->window, state->wsize - left))
-                    ret = Z_BUF_ERROR;
-            }
             goto inf_leave;
 
         case BAD:
@@ -494,8 +489,13 @@ int32_t Z_EXPORT PREFIX(inflateBack)(PREFIX3(stream) *strm, in_func in, void *in
             goto inf_leave;
         }
 
-    /* Return unused input */
+    /* Write leftover output and return unused input */
   inf_leave:
+    if (left < state->wsize) {
+        if (out(out_desc, state->window, state->wsize - left) && (ret == Z_STREAM_END)) {
+            ret = Z_BUF_ERROR;
+        }
+    }
     strm->next_in = next;
     strm->avail_in = have;
     return ret;

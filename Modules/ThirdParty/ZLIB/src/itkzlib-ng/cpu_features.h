@@ -23,103 +23,111 @@
 extern void cpu_check_features(void);
 
 /* adler32 */
-typedef uint32_t (*adler32_func)(uint32_t adler, const uint8_t *buf, uint64_t len);
+typedef uint32_t (*adler32_func)(uint32_t adler, const uint8_t *buf, size_t len);
 
-extern uint32_t adler32_c(uint32_t adler, const uint8_t *buf, uint64_t len);
+extern uint32_t adler32_c(uint32_t adler, const uint8_t *buf, size_t len);
 #ifdef ARM_NEON_ADLER32
-extern uint32_t adler32_neon(uint32_t adler, const uint8_t *buf, uint64_t len);
+extern uint32_t adler32_neon(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
 #ifdef PPC_VMX_ADLER32
-extern uint32_t adler32_vmx(uint32_t adler, const uint8_t *buf, uint64_t len);
+extern uint32_t adler32_vmx(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
 #ifdef X86_SSSE3_ADLER32
-extern uint32_t adler32_ssse3(uint32_t adler, const uint8_t *buf, uint64_t len);
+extern uint32_t adler32_ssse3(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
 #ifdef X86_AVX2_ADLER32
-extern uint32_t adler32_avx2(uint32_t adler, const uint8_t *buf, uint64_t len);
+extern uint32_t adler32_avx2(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
 #ifdef X86_AVX512_ADLER32
-extern uint32_t adler32_avx512(uint32_t adler, const uint8_t *buf, uint64_t len);
+extern uint32_t adler32_avx512(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
 #ifdef X86_AVX512VNNI_ADLER32
-extern uint32_t adler32_avx512_vnni(uint32_t adler, const uint8_t *buf, uint64_t len);
+extern uint32_t adler32_avx512_vnni(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
 #ifdef POWER8_VSX_ADLER32
-extern uint32_t adler32_power8(uint32_t adler, const uint8_t *buf, uint64_t len);
+extern uint32_t adler32_power8(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
 
 /* adler32 folding */
 #ifdef X86_SSE42_ADLER32
-extern uint32_t adler32_fold_copy_sse42(uint32_t adler, uint8_t *dst, const uint8_t *src, uint64_t len);
+extern uint32_t adler32_fold_copy_sse42(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 #endif
 #ifdef X86_AVX2_ADLER32
-extern uint32_t adler32_fold_copy_avx2(uint32_t adler, uint8_t *dst, const uint8_t *src, uint64_t len);
+extern uint32_t adler32_fold_copy_avx2(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 #endif
 #ifdef X86_AVX512_ADLER32
-extern uint32_t adler32_fold_copy_avx512(uint32_t adler, uint8_t *dst, const uint8_t *src, uint64_t len);
+extern uint32_t adler32_fold_copy_avx512(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 #endif
 #ifdef X86_AVX512VNNI_ADLER32
-extern uint32_t adler32_fold_copy_avx512_vnni(uint32_t adler, uint8_t *dst, const uint8_t *src, uint64_t len);
+extern uint32_t adler32_fold_copy_avx512_vnni(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 #endif
 
 /* CRC32 folding */
 #ifdef X86_PCLMULQDQ_CRC
 extern uint32_t crc32_fold_pclmulqdq_reset(crc32_fold *crc);
-extern void     crc32_fold_pclmulqdq_copy(crc32_fold *crc, uint8_t *dst, const uint8_t *src, uint64_t len);
-extern void     crc32_fold_pclmulqdq(crc32_fold *crc, const uint8_t *src, uint64_t len, uint32_t init_crc);
+extern void     crc32_fold_pclmulqdq_copy(crc32_fold *crc, uint8_t *dst, const uint8_t *src, size_t len);
+extern void     crc32_fold_pclmulqdq(crc32_fold *crc, const uint8_t *src, size_t len, uint32_t init_crc);
 extern uint32_t crc32_fold_pclmulqdq_final(crc32_fold *crc);
-extern uint32_t crc32_pclmulqdq(uint32_t crc32, const uint8_t *buf, uint64_t len);
+extern uint32_t crc32_pclmulqdq(uint32_t crc32, const uint8_t *buf, size_t len);
 #endif
 
 /* memory chunking */
 extern uint32_t chunksize_c(void);
-extern uint8_t* chunkcopy_c(uint8_t *out, uint8_t const *from, unsigned len);
-extern uint8_t* chunkunroll_c(uint8_t *out, unsigned *dist, unsigned *len);
-extern uint8_t* chunkmemset_c(uint8_t *out, unsigned dist, unsigned len);
 extern uint8_t* chunkmemset_safe_c(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #ifdef X86_SSE2_CHUNKSET
 extern uint32_t chunksize_sse2(void);
-extern uint8_t* chunkcopy_sse2(uint8_t *out, uint8_t const *from, unsigned len);
-extern uint8_t* chunkunroll_sse2(uint8_t *out, unsigned *dist, unsigned *len);
-extern uint8_t* chunkmemset_sse2(uint8_t *out, unsigned dist, unsigned len);
 extern uint8_t* chunkmemset_safe_sse2(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
 #ifdef X86_SSE41
-extern uint8_t* chunkmemset_sse41(uint8_t *out, unsigned dist, unsigned len);
 extern uint8_t* chunkmemset_safe_sse41(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
 #ifdef X86_AVX_CHUNKSET
 extern uint32_t chunksize_avx(void);
-extern uint8_t* chunkcopy_avx(uint8_t *out, uint8_t const *from, unsigned len);
-extern uint8_t* chunkunroll_avx(uint8_t *out, unsigned *dist, unsigned *len);
-extern uint8_t* chunkmemset_avx(uint8_t *out, unsigned dist, unsigned len);
 extern uint8_t* chunkmemset_safe_avx(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
 #ifdef ARM_NEON_CHUNKSET
 extern uint32_t chunksize_neon(void);
-extern uint8_t* chunkcopy_neon(uint8_t *out, uint8_t const *from, unsigned len);
-extern uint8_t* chunkunroll_neon(uint8_t *out, unsigned *dist, unsigned *len);
-extern uint8_t* chunkmemset_neon(uint8_t *out, unsigned dist, unsigned len);
 extern uint8_t* chunkmemset_safe_neon(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
 #ifdef POWER8_VSX_CHUNKSET
 extern uint32_t chunksize_power8(void);
-extern uint8_t* chunkcopy_power8(uint8_t *out, uint8_t const *from, unsigned len);
-extern uint8_t* chunkunroll_power8(uint8_t *out, unsigned *dist, unsigned *len);
-extern uint8_t* chunkmemset_power8(uint8_t *out, unsigned dist, unsigned len);
 extern uint8_t* chunkmemset_safe_power8(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
 
-/* CRC32 */
-typedef uint32_t (*crc32_func)(uint32_t crc32, const uint8_t *buf, uint64_t len);
+#ifdef ZLIB_COMPAT
+typedef struct z_stream_s z_stream;
+#else
+typedef struct zng_stream_s zng_stream;
+#endif
 
-extern uint32_t PREFIX(crc32_braid)(uint32_t crc, const uint8_t *buf, uint64_t len);
+/* inflate fast loop */
+extern void inflate_fast_c(PREFIX3(stream) *strm, uint32_t start);
+#ifdef X86_SSE2_CHUNKSET
+extern void inflate_fast_sse2(PREFIX3(stream) *strm, uint32_t start);
+#endif
+#ifdef X86_SSE41
+extern void inflate_fast_sse41(PREFIX3(stream) *strm, uint32_t start);
+#endif
+#ifdef X86_AVX_CHUNKSET
+extern void inflate_fast_avx(PREFIX3(stream) *strm, uint32_t start);
+#endif
+#ifdef ARM_NEON_CHUNKSET
+extern void inflate_fast_neon(PREFIX3(stream) *strm, uint32_t start);
+#endif
+#ifdef POWER8_VSX_CHUNKSET
+extern void inflate_fast_power8(PREFIX3(stream) *strm, uint32_t start);
+#endif
+
+/* CRC32 */
+typedef uint32_t (*crc32_func)(uint32_t crc32, const uint8_t *buf, size_t len);
+
+extern uint32_t PREFIX(crc32_braid)(uint32_t crc, const uint8_t *buf, size_t len);
 #ifdef ARM_ACLE_CRC_HASH
-extern uint32_t crc32_acle(uint32_t crc, const uint8_t *buf, uint64_t len);
+extern uint32_t crc32_acle(uint32_t crc, const uint8_t *buf, size_t len);
 #elif defined(POWER8_VSX_CRC32)
-extern uint32_t crc32_power8(uint32_t crc, const uint8_t *buf, uint64_t len);
+extern uint32_t crc32_power8(uint32_t crc, const uint8_t *buf, size_t len);
 #elif defined(S390_CRC32_VX)
-extern uint32_t PREFIX(s390_crc32_vx)(uint32_t crc, const uint8_t *buf, uint64_t len);
+extern uint32_t PREFIX(s390_crc32_vx)(uint32_t crc, const uint8_t *buf, size_t len);
 #endif
 
 /* compare256 */
