@@ -229,12 +229,12 @@ protected:
   using RowIterator = typename RowType::iterator;
   using RowConstIterator = typename RowType::const_iterator;
 
-  OutputMapPointIdentifier m_InternalMap;
-  ConstraintMapType        m_Constraints;
-  CoefficientMapType       m_CoefficientMap;
-  AreaMapType              m_MixedAreaMap;
+  OutputMapPointIdentifier m_InternalMap{};
+  ConstraintMapType        m_Constraints{};
+  CoefficientMapType       m_CoefficientMap{};
+  AreaMapType              m_MixedAreaMap{};
 
-  CoefficientsComputationType * m_CoefficientsMethod;
+  CoefficientsComputationType * m_CoefficientsMethod{};
 
   unsigned int m_Order{ 1 };
   AreaEnum     m_AreaComputationType{ AreaEnum::NONE };

@@ -86,10 +86,10 @@ protected:
   /** Destructor */
   ~FastMarchingStoppingCriterionBase() override = default;
 
-  OutputDomainPointer m_Domain;
+  OutputDomainPointer m_Domain{};
 
-  OutputPixelType m_PreviousValue;
-  OutputPixelType m_CurrentValue;
+  OutputPixelType m_PreviousValue{};
+  OutputPixelType m_CurrentValue{};
 
   /** Inherited classes must implement this method and make sure member variables
   got reinitialized. */

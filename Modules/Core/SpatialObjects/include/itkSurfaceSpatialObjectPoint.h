@@ -75,7 +75,7 @@ public:
   operator=(const SurfaceSpatialObjectPoint & rhs);
 
 protected:
-  CovariantVectorType m_NormalInObjectSpace;
+  CovariantVectorType m_NormalInObjectSpace{};
 
   /** Method to print the object. */
   void

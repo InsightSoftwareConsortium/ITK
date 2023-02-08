@@ -178,9 +178,9 @@ protected:
   {}
   ~BinaryImageToSparseLevelSetImageAdaptorBase() override = default;
 
-  LevelSetLabelMapPointer m_LabelMap;
+  LevelSetLabelMapPointer m_LabelMap{};
 
-  InternalImagePointer m_InternalImage;
+  InternalImagePointer m_InternalImage{};
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -65,8 +65,8 @@ protected:
 
   ~DecimationQuadEdgeMeshFilter() override = default;
 
-  CriterionPointer m_Criterion;
-  SizeValueType    m_Iteration;
+  CriterionPointer m_Criterion{};
+  SizeValueType    m_Iteration{};
 
   void
   GenerateData() override

@@ -237,22 +237,22 @@ protected:
   /** \brief Destructor */
   ~FastMarchingBase() override = default;
 
-  StoppingCriterionPointer m_StoppingCriterion;
+  StoppingCriterionPointer m_StoppingCriterion{};
 
-  double m_SpeedConstant;
-  double m_InverseSpeed;
-  double m_NormalizationFactor;
+  double m_SpeedConstant{};
+  double m_InverseSpeed{};
+  double m_NormalizationFactor{};
 
-  OutputPixelType m_TargetReachedValue;
-  OutputPixelType m_LargeValue;
-  OutputPixelType m_TopologyValue;
+  OutputPixelType m_TargetReachedValue{};
+  OutputPixelType m_LargeValue{};
+  OutputPixelType m_TopologyValue{};
 
-  NodePairContainerPointer m_TrialPoints;
-  NodePairContainerPointer m_AlivePoints;
-  NodePairContainerPointer m_ProcessedPoints;
-  NodePairContainerPointer m_ForbiddenPoints;
+  NodePairContainerPointer m_TrialPoints{};
+  NodePairContainerPointer m_AlivePoints{};
+  NodePairContainerPointer m_ProcessedPoints{};
+  NodePairContainerPointer m_ForbiddenPoints{};
 
-  bool m_CollectPoints;
+  bool m_CollectPoints{};
 
   // PriorityQueuePointer m_Heap;
   using HeapContainerType = std::vector<NodePairType>;
@@ -260,9 +260,9 @@ protected:
 
   using PriorityQueueType = std::priority_queue<NodePairType, HeapContainerType, NodeComparerType>;
 
-  PriorityQueueType m_Heap;
+  PriorityQueueType m_Heap{};
 
-  TopologyCheckEnum m_TopologyCheck;
+  TopologyCheckEnum m_TopologyCheck{};
 
   /** \brief Get the total number of nodes in the domain */
   virtual IdentifierType
