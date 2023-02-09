@@ -39,6 +39,7 @@ namespace itk
 PyCommand::PyCommand()
 {
   this->m_Object = nullptr;
+  this->m_EmptyArgumentList = Py_BuildValue("()", 0);
 }
 
 
@@ -50,6 +51,13 @@ PyCommand::~PyCommand()
     Py_DECREF(this->m_Object);
   }
   this->m_Object = nullptr;
+
+  if (this->m_EmptyArgumentList)
+  {
+    PyGILStateEnsure gil;
+    Py_DECREF(this->m_EmptyArgumentList);
+  }
+  this->m_EmptyArgumentList = nullptr;
 }
 
 
@@ -114,7 +122,7 @@ PyCommand::PyExecute()
   else
   {
     PyGILStateEnsure gil;
-    PyObject *       result = PyEval_CallObject(this->m_Object, (PyObject *)nullptr);
+    PyObject *       result = PyObject_Call(this->m_Object, this->m_EmptyArgumentList, (PyObject *)nullptr);
 
     if (result)
     {
