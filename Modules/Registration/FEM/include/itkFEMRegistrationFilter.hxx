@@ -32,7 +32,6 @@
 #include "itkRecursiveGaussianImageFilter.h"
 
 #include "vnl/algo/vnl_determinant.h"
-#include "itkMath.h"
 
 namespace itk
 {
