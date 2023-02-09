@@ -81,6 +81,7 @@ protected:
 
 private:
   PyObject * m_Object;
+  PyObject * m_EmptyArgumentList;
 };
 
 
