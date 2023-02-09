@@ -355,7 +355,15 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintSelf(std::ostream & os, Inde
   os << indent << "SolutionIndex2: " << m_SolutionIndex2 << std::endl;
   os << indent << "Gamma: " << m_Gamma << std::endl;
 
-  itkPrintSelfObjectMacro(Solution);
+  os << indent << "Solution: ";
+  if (m_Solution != nullptr)
+  {
+    os << m_Solution << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
 
   os << indent << "GradSigma: " << static_cast<typename NumericTraits<Float>::PrintType>(m_GradSigma) << std::endl;
   os << indent << "Sign: " << m_Sign << std::endl;

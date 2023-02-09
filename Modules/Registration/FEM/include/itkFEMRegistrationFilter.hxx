@@ -1468,7 +1468,8 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   os << indent << "FileCount: " << m_FileCount << std::endl;
   os << indent << "CurrentLevel: " << m_CurrentLevel << std::endl;
   os << indent << "CurrentLevelImageSize: "
-     << static_cast<typename NumericTraits<typename FixedImageType::SizeType>::PrintType>(m_CurrentLevel) << std::endl;
+     << static_cast<typename NumericTraits<typename FixedImageType::SizeType>::PrintType>(m_CurrentLevelImageSize)
+     << std::endl;
   os << indent << "WhichMetric: " << m_WhichMetric << std::endl;
 
   os << indent << "MeshPixelsPerElementAtEachResolution: " << m_MeshPixelsPerElementAtEachResolution << std::endl;
@@ -1526,7 +1527,11 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   itkPrintSelfObjectMacro(Metric);
   itkPrintSelfObjectMacro(FEMObject);
 
-  os << indent << "LandmarkArray: " << m_LandmarkArray << std::endl;
+  os << indent << "LandmarkArray: ";
+  for (const auto & elem : m_LandmarkArray)
+  {
+    os << indent.GetNextIndent() << "[" << &elem - &*(m_LandmarkArray.begin()) << "]: " << *elem << std::endl;
+  }
 
   itkPrintSelfObjectMacro(Interpolator);
 
