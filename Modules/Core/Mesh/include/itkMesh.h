@@ -116,7 +116,7 @@ namespace itk
  *
  * \sphinx
  * \sphinxexample{Core/Mesh/AddPointsAndEdges,Add Points And Edges}
- * \sphinxexample{Core/Mesh/ConvertMeshToUnstructeredGrid,Convert Mesh To Unstructered Grid}
+ * \sphinxexample{Core/Mesh/ConvertMeshToUnstructuredGrid,Convert Mesh To Unstructured Grid}
  * \sphinxexample{Core/Mesh/WorkingWithPointAndCellData,Working With Point And Cell Data}
  * \endsphinx
  */

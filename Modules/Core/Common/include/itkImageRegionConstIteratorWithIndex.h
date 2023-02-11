@@ -27,7 +27,7 @@ namespace itk
  * iterator templated over image type that walks an image region and is
  * specialized to keep track of its index location.
  *
- * The "WithIndex" family of iteators was designed for algorithms that use both
+ * The "WithIndex" family of iterators was designed for algorithms that use both
  * the values and locations of image pixels in calculations. Unlike
  * ImageRegionIterator, which calculates an index only when requested,
  * ImageRegionIteratorWithIndex maintains its index location as a member

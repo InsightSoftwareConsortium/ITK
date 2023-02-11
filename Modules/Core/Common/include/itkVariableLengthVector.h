@@ -357,7 +357,7 @@ public:
    * If \c LetArrayManageMemory is true, then this class will free the
    * memory when this object is destroyed.
    *
-   * \warning This overload receives a non-modiable array, and yet it will let
+   * \warning This overload receives a non-modifiable array, and yet it will let
    * the end-user try to modify it through \c VariableLengthVector interface.
    * Use this constructor with care as this may lead to undefined behaviour.
    * Prefer using `VariableLengthVector<const TValue>` instead of

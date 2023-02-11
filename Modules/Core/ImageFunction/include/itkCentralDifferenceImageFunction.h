@@ -142,7 +142,7 @@ public:
   /** Get the interpolator. */
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
-  /** Evalulate the image derivative by central differencing at specified index.
+  /** Evaluate the image derivative by central differencing at specified index.
    *
    *  No bounds checking is done.
    *  The point is assumed to lie within the image buffer.
@@ -155,7 +155,7 @@ public:
   OutputType
   EvaluateAtIndex(const IndexType & index) const override;
 
-  /** Evalulate the image derivative by central differencing at non-integer
+  /** Evaluate the image derivative by central differencing at non-integer
    *  point.
    *
    *  No bounds checking is done.
@@ -171,7 +171,7 @@ public:
   OutputType
   Evaluate(const PointType & point) const override;
 
-  /** Evalulate the image derivative by central differencing at non-integer
+  /** Evaluate the image derivative by central differencing at non-integer
    *  index.
    *
    *  No bounds checking is done.

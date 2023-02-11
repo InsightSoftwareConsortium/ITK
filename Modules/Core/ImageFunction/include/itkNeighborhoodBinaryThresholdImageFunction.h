@@ -87,7 +87,7 @@ public:
   /** Get the radius of the neighborhood used in computation */
   itkGetConstReferenceMacro(Radius, InputSizeType);
 
-  /** Evalulate the function at specified index */
+  /** Evaluate the function at specified index */
   bool
   EvaluateAtIndex(const IndexType & index) const override;
 

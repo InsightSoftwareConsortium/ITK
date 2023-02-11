@@ -56,7 +56,7 @@ extern ITKCommon_EXPORT std::ostream &
  *
  * GaussianDerivativeOperator can be used to calculate Gaussian derivatives
  * by taking its inner product with to a Neighborhood
- * (NeighborhooIterator) that is swept across an image region.
+ * (NeighborhoodIterator) that is swept across an image region.
  * It is a directional operator.  N successive applications
  * oriented along each dimensional direction will calculate separable,
  * efficient, N-D Gaussian derivatives of an image region.

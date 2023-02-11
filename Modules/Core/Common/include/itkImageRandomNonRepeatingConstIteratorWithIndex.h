@@ -207,7 +207,7 @@ public:
  * \ingroup ITKCommon
  *
  * \sphinx
- * \sphinxexample{Core/Common/RandomSelectPixelFromRegionWithoutReplacee,Random Select Pixel From Region Without
+ * \sphinxexample{Core/Common/RandomSelectPixelFromRegionWithoutReplace,Random Select Pixel From Region Without
  * Replacing} \sphinxexample{Core/Common/PermuteSequenceOfIndices,Permute Sequence Of Indices} \endsphinx
  */
 template <typename TImage>

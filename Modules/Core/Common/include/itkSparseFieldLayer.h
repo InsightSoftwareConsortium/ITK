@@ -28,7 +28,7 @@ namespace itk
  * \class ConstSparseFieldLayerIterator
  * \brief Used to iterate through an itkSparseFieldLayer.
  *
- *  This class is modelled on the STL Forward Iterator concept, and is used to
+ *  This class is modeled on the STL Forward Iterator concept, and is used to
  *  iterate through an itkSparseFieldLayer.
  * \ingroup ITKCommon
  */

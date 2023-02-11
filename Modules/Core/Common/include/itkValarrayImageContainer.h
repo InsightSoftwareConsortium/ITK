@@ -30,7 +30,7 @@ namespace itk
  *  \brief Defines a front-end to the std\\::\<valarray\> container that conforms to the
  *         ImageContainerInterface.
  *
- * This is a full-fleged Object, so
+ * This is a full-fledged Object, so
  * there is modification time, debug, and reference count information.
  *
  * \tparam TElementIdentifier

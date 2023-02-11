@@ -27,7 +27,7 @@ namespace itk
  * an image region and is specialized to keep track of its index location
  * and safely support images of type ImageBase.
  *
- * The "WithOnlyIndex" family of iteators was designed for algorithms that use only
+ * The "WithOnlyIndex" family of iterators was designed for algorithms that use only
  * the locations of image pixels in calculations. Unlike
  * ImageRegionIterator, which calculates an index only when requested,
  * ImageRegionIteratorWithOnlyIndex maintains its index location as a member

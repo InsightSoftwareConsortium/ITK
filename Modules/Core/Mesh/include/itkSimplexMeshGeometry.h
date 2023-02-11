@@ -29,7 +29,7 @@ namespace itk
 {
 /**
  * \class SimplexMeshGeometry
- * \brief handle geometric properties for vertices of a simplx mesh
+ * \brief handle geometric properties for vertices of a simplex mesh
  *
  * It stores and recomputes geometric properties of simplex mesh
  * vertices, i.e. the normal vector, the barycentric coordinates of

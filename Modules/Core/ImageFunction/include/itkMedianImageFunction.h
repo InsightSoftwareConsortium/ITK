@@ -87,7 +87,7 @@ public:
   /** Dimension of the underlying image. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
-  /** Evalulate the function at specified index */
+  /** Evaluate the function at specified index */
   OutputType
   EvaluateAtIndex(const IndexType & index) const override;
 

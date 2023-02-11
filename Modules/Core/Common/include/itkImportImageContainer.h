@@ -28,7 +28,7 @@ namespace itk
  *  \brief Defines an itk::Image front-end to a standard C-array.
  *
  * Defines an itk::Image front-end to a standard C-array. This container
- * conforms to the ImageContainerInterface. This is a full-fleged Object,
+ * conforms to the ImageContainerInterface. This is a full-fledged Object,
  * so there is modification time, debug, and reference count information.
  *
  * \tparam TElementIdentifier An INTEGRAL type for use in indexing the

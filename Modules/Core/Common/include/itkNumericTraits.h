@@ -36,7 +36,7 @@
 namespace itk
 {
 
-// forward decare to avoid circular dependencies
+// forward declare to avoid circular dependencies
 template <typename TValue, unsigned int VLength>
 class FixedArray;
 

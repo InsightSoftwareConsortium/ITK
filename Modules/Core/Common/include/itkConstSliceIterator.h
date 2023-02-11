@@ -39,7 +39,7 @@ namespace itk
  * container's operator[] method.
  *
  * References:
- * Modelled after a slice iterator proposed by Bjarne Stroustrup
+ * Modeled after a slice iterator proposed by Bjarne Stroustrup
  * in C++ Programming Language, Third Edition. Bjarne Stroustrup.  Addison
  * Wesley, Reading, MA. 1997.
  *

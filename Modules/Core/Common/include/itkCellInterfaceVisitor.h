@@ -124,7 +124,7 @@ public:
   }
 
   /** Call the method Visit from the UserVisitor template parameter that
-   * this class inherits from.  I am my own gradpa... */
+   * this class inherits from.  I am my own grandpa... */
   void
   VisitFromCell(CellIdentifier cellId, CellInterface<TPixelType, TCellTraits> * c) override
   {

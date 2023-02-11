@@ -71,7 +71,7 @@ namespace itk
  *                                                             const InputPointType & x,
  *                                                             JacobianPositionType &jacobian ) const;<br>
  *
- * Since TranformVector and TransformCovariantVector have multiple
+ * Since TransformVector and TransformCovariantVector have multiple
  * overloaded methods from the base class, subclasses must specify:<br>
  *  using Superclass::TransformVector;<br>
  *  using Superclass::TransformCovariantVector;<br>
@@ -153,7 +153,7 @@ public:
   using InputVectorPixelType = VariableLengthVector<TParametersValueType>;
   using OutputVectorPixelType = VariableLengthVector<TParametersValueType>;
 
-  /* Standard symmetric second rank tenosr type for this class */
+  /* Standard symmetric second rank tensor type for this class */
   using InputSymmetricSecondRankTensorType = SymmetricSecondRankTensor<TParametersValueType, VInputDimension>;
   using OutputSymmetricSecondRankTensorType = SymmetricSecondRankTensor<TParametersValueType, VOutputDimension>;
 

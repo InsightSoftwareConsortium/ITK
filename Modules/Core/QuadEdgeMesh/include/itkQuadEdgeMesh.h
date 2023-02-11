@@ -118,7 +118,7 @@ public:
   using typename Superclass::PointCellLinksContainer;
   using typename Superclass::PointCellLinksContainerIterator;
 
-  // BoundaryAssignMents section:
+  // BoundaryAssignments section:
   using typename Superclass::BoundaryAssignmentsContainer;
   using typename Superclass::BoundaryAssignmentsContainerPointer;
   using typename Superclass::BoundaryAssignmentsContainerVector;

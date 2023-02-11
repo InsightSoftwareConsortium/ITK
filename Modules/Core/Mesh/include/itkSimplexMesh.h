@@ -186,7 +186,7 @@ public:
   /**
    * Add a neighbor to a point.
    * Note: This can destroy the simplex mesh topology!
-   * Better use te simplex mesh creation filters.
+   * Better use the simplex mesh creation filters.
    */
   void
   AddNeighbor(PointIdentifier pointIdx, PointIdentifier neighborIdx);

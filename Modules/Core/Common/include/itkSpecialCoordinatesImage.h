@@ -33,7 +33,7 @@ namespace itk
  * dependent variables), and a dimension (number of independent variables).
  * The container for the pixel data is the ImportImageContainer.
  *
- * Within the pixel container, images are modelled as arrays, defined by a
+ * Within the pixel container, images are modeled as arrays, defined by a
  * start index and a size.
  *
  * Almost arbitrary mappings between index space & Cartesian physical space are

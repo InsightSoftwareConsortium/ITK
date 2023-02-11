@@ -360,7 +360,7 @@ protected:
       Kernel function */
   DMatrixType m_DMatrix{};
 
-  /** Rotatinoal/Shearing part of the Affine component of the Transformation */
+  /** Rotational/Shearing part of the Affine component of the Transformation */
   AMatrixType m_AMatrix{};
 
   /** Translational part of the Affine component of the Transformation */
