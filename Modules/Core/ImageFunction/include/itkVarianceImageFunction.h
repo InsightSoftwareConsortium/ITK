@@ -81,7 +81,7 @@ public:
   /** Datatype used for the variance */
   using RealType = typename NumericTraits<typename InputImageType::PixelType>::RealType;
 
-  /** Evalulate the function at specified index */
+  /** Evaluate the function at specified index */
   RealType
   EvaluateAtIndex(const IndexType & index) const override;
 

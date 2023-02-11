@@ -83,7 +83,7 @@ public:
   /** Datatype used for the mean */
   using RealType = typename NumericTraits<typename TInputImage::PixelType>::RealType;
 
-  /** Evalulate the function at specified index */
+  /** Evaluate the function at specified index */
   RealType
   EvaluateAtIndex(const IndexType & index) const override;
 

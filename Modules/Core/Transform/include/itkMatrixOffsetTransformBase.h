@@ -462,7 +462,7 @@ public:
    * This populates the parameters an affine transform such that
    * the transform is the inverse of self. If self is not invertible,
    * an exception is thrown.
-   * Note that by default the inverese transform is centered at
+   * Note that by default the inverse transform is centered at
    * the origin. If you need to compute the inverse centered at a point, p,
    *
      \code

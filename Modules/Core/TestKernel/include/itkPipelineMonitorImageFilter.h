@@ -131,7 +131,7 @@ public:
   /** Verifies the the GenerateData executed the expected number of
    * times.
    *
-   * If expecetedNumber is positive then the number of updates must
+   * If expectedNumber is positive then the number of updates must
    * match. If expectedNumber is negative then the number of updates
    * must at least be |expectedNumber|. If expectedNumber is zero,
    * then this method always returns true, and no verification is

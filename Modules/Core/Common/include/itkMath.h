@@ -844,7 +844,7 @@ using vnl_math::squared_magnitude;
 
 
 /*============================================
-Decouple dependance and exposure of vnl_math::abs operations
+Decouple dependence and exposure of vnl_math::abs operations
 in ITK.  Placing this small amount of duplicate vnl_math
 code directly in ITK removes backward compatibility
 issues with system installed VXL versions.

@@ -224,7 +224,7 @@ private:
  * \par
  * The fourth (TBoundaryCondition) is the boundary condition class used
  * to determine the values of pixels that fall off the image boundary.
- * This class has the same meaning here as in the NeighborhoodItetator
+ * This class has the same meaning here as in the NeighborhoodIterator
  * classes.
  *
  * \par
@@ -346,7 +346,7 @@ private:
   static constexpr unsigned int m_OffsetTableSize = Math::UnsignedPower(m_WindowSize, ImageDimension);
 
   /** The offset array, used to keep a list of relevant
-   * offsets in the neihborhoodIterator */
+   * offsets in the neighborhoodIterator */
   unsigned int m_OffsetTable[m_OffsetTableSize]{};
 
   /** Index into the weights array for each offset */

@@ -149,7 +149,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
 
 //
 // Generate all of the possible baselines
-// The possible baselines are generated fromn the baselineFilename using the
+// The possible baselines are generated from the baselineFilename using the
 // following algorithm:
 // 1) strip the suffix
 // 2) append a digit .x

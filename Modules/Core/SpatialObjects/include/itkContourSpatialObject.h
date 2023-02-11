@@ -27,7 +27,7 @@ namespace itk
 {
 /*** \class ContourSpatialObjectEnums
  *
- * \brief Enum classes for the ControuSpatialObject class.
+ * \brief Enum classes for the ContourSpatialObject class.
  *
  * \ingroup ITKSpatialObjects
  */

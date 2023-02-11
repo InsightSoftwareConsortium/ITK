@@ -92,7 +92,7 @@ operator<<(std::ostream & out, const ExtractSliceImageFilterEnums::TestExtractSl
  *            define their desired behavior.
  *    1)  DirectionCollapseToIdentity();
  *            Output has identity direction no matter what
- *    2)  DirectionCollaspeToSubmatrix();
+ *    2)  DirectionCollapseToSubmatrix();
  *            Output direction is the sub-matrix if it is positive definite, else throw an exception.
  *
  * This filter is implemented as a multithreaded filter.  It provides a
@@ -158,7 +158,7 @@ public:
 #endif
 
   /**
-   * Set the strategy to be used to collapse pysical space dimensions.
+   * Set the strategy to be used to collapse physical space dimensions.
    *
    * itk::itkExtractSliceImageFilter::DIRECTIONCOLLAPSETOIDENTITY
    * Set the strategy so that all collapsed images have an identity direction.

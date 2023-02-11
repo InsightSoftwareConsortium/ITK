@@ -246,7 +246,7 @@ public:
    *    * Update
    *  Optionally, a subclass may also wish to overwrite
    *    * ValueAtInObjectSpace
-   *    * IsEvaluableAtInObjectSpace - if the extent is beyond IsInisde.
+   *    * IsEvaluableAtInObjectSpace - if the extent is beyond IsInside.
    */
   /**********************************************************************/
 

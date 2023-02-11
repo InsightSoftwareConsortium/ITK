@@ -88,7 +88,7 @@ public:
   /** Point type alias support */
   using typename Superclass::PointType;
 
-  /** Evalulate the image derivative by central differencing at specified index.
+  /** Evaluate the image derivative by central differencing at specified index.
    *
    *  No bounds checking is done.
    *  The point is assume to lie within the image buffer.
@@ -98,7 +98,7 @@ public:
   OutputType
   EvaluateAtIndex(const IndexType & index) const override;
 
-  /** Evalulate the image derivative by central differencing at non-integer
+  /** Evaluate the image derivative by central differencing at non-integer
    *  positions.
    *
    *  No bounds checking is done.

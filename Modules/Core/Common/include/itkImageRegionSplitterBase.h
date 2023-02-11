@@ -118,7 +118,7 @@ public:
 protected:
   ImageRegionSplitterBase();
 
-  /** Templetless method to compute the number of possible splits for
+  /** Templateless method to compute the number of possible splits for
    *  any number of dimensions. */
   virtual unsigned int
   GetNumberOfSplitsInternal(unsigned int         dim,
@@ -126,7 +126,7 @@ protected:
                             const SizeValueType  regionSize[],
                             unsigned int         requestedNumber) const = 0;
 
-  /** Templetless method to compute an actual split for any number of
+  /** Templateless method to compute an actual split for any number of
    * dimensions. \c dim is the size of the \c regionIndex and \c
    * regionSize arrays.
    */

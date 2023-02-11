@@ -38,7 +38,7 @@ namespace itk
  * variables), and a dimension (number of independent variables).  The
  * container for the pixel data is the ImportImageContainer.
  *
- * Within the pixel container, images are modelled as arrays, defined by a
+ * Within the pixel container, images are modeled as arrays, defined by a
  * start index and a size.
  *
  * The superclass of Image, ImageBase, defines the geometry of the

@@ -33,7 +33,7 @@ namespace itk
 {
 /**
  * \class MetaSceneConverter
- *  \brief Converts between MetaObject and SpaitalObject group.
+ *  \brief Converts between MetaObject and SpatialObject group.
  *
  *  SpatialObject hierarchies are written to disk using the MetaIO
  *  library. This class is responsible for converting between MetaIO
@@ -110,7 +110,7 @@ public:
 
   /** Convert a metaScene into a composite SpatialObject
    *
-   * Manages tbe composite SpatialObject to keep a hierarchy.
+   * Manages the composite SpatialObject to keep a hierarchy.
    */
   MetaScene *
   CreateMetaScene(const SpatialObjectType * soScene,

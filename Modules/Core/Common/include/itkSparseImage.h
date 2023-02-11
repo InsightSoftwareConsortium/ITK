@@ -91,7 +91,7 @@ public:
   /** Types derived from the Superclass */
   using typename Superclass::IndexType;
 
-  /** Tyepdef for the functor used to access a neighborhood of pixel
+  /** Typedef for the functor used to access a neighborhood of pixel
    * pointers. */
   using NeighborhoodAccessorFunctorType = NeighborhoodAccessorFunctor<Self>;
 

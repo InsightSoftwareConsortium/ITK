@@ -334,7 +334,7 @@ public:
 
   /** Get/Set Parameter functions work on the current list of transforms
       that are set to be optimized (active) using the
-      'Set[Nth|All]TransformToOptimze' routines.
+      'Set[Nth|All]TransformToOptimize' routines.
       The parameter data from each active transform is
       concatenated into a single ParametersType object.
       \note The sub-transforms are read in \b reverse queue order,

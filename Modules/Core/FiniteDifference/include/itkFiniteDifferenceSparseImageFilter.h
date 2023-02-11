@@ -171,7 +171,7 @@ protected:
   TimeStepType
   CalculateChange() override;
 
-  /** Multuthreaded implementation of CalculateChange */
+  /** Multithreaded implementation of CalculateChange */
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   CalculateChangeThreaderCallback(void * arg);
 
