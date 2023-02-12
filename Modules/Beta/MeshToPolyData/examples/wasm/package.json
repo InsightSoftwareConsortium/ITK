@@ -11,6 +11,6 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "itk-wasm": "^1.0.0-b.65"
+    "itk-wasm": "^1.0.0-b.71"
   }
 }
