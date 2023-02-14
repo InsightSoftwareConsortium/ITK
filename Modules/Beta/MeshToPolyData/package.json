@@ -4,7 +4,7 @@
   "description": "npm scripts to generate itk-wasm artifacts.",
   "type": "module",
   "scripts": {
-    "build": "npm run emscripten && npm run bindgen",
+    "build": "npm run emscripten && npm run bindgen && npm run wasi",
     "emscripten": "npx itk-wasm -b emscripten-build build",
     "bindgen": "npx itk-wasm -b emscripten-build bindgen --output-dir wasm/typescript --package-name mesh-to-poly-data --package-description \"Convert an ITK Mesh to a simple data structure compatible with vtkPolyData.\" --repository 'https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData'",
     "wasi": "npx itk-wasm -b wasi-build -i itkwasm/wasi build",
