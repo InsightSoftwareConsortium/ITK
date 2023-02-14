@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 from os import sys
 
 try:
@@ -13,7 +12,7 @@ except ImportError:
 
 setup(
     name='itk-labelerodedilate',
-    version='1.2.0',
+    version='1.2.1',
     author='Richard Beare',
     author_email='Richard.Beare@med.monash.edu.au',
     packages=['itk'],
@@ -51,7 +50,5 @@ setup(
     license='Apache',
     keywords='ITK InsightToolkit Math-morphology Label-images',
     url=r'https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate',
-    install_requires=[
-        r'itk>=5.3rc4'
-    ]
-    )
+    install_requires=[r'itk~=5.3.0']
+)
