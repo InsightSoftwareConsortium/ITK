@@ -1,0 +1,7 @@
+node_modules/
+
+emscripten-build/
+wasi-build/
+
+package-lock.json
+pnpm-lock.yaml
