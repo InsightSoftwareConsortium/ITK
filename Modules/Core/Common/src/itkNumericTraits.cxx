@@ -72,6 +72,8 @@ constexpr long double NumericTraits<long double>::Zero;
 constexpr long double NumericTraits<long double>::One;
 
 #if !defined(ITK_LEGACY_REMOVE)
+// Supress MSVC warnings
+#  define _SILENCE_NONFLOATING_COMPLEX_DEPRECATION_WARNING
 template <>
 const std::complex<char> NumericTraits<std::complex<char>>::Zero = std::complex<char>(0, 0);
 template <>
