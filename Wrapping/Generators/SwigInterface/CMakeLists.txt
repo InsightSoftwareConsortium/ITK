@@ -17,10 +17,12 @@ if(WIN32)
   set(swig_version_min 4.0.2)
   set(ITK_SWIG_VERSION 4.0.2)
   set(swigwin_hash  "b8f105f9b9db6acc1f6e3741990915b533cd1bc206eb9645fd6836457fd30789b7229d2e3219d8e35f2390605ade0fbca493ae162ec3b4bc4e428b57155db03d")
+  set(swigwin_cid  "bafybeifxmwvuck7gda6inwgl24cslv4m34uv3dgedvv2b62ctpbwz6sfoy")
 else()
   set(ITK_SWIG_VERSION 4.0.2)
   set(swig_version_min 4.0.2)
   set(swig_hash     "05e7da70ce6d9a733b96c0bcfa3c1b82765bd859f48c74759bbf4bb1467acb1809caa310cba5e2b3280cd704fca249eaa0624821dffae1d2a75097c7f55d14ed")
+  set(swig_cid      "bafybeihguuzirrzzfkwzln42dbq34fare5cnlmpigvyfqitiw3rshwsjie")
 endif()
 
 if(WIN32)
@@ -75,6 +77,9 @@ else()
       endif()
       ExternalProject_Add(swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swigwin_hash}/download"
+            "https://dweb.link/ipfs/${swigwin_cid}/swigwin-4.0.2.zip"
+            "https://itk.mypinata.cloud/ipfs/${swigwin_cid}/swigwin-4.0.2.zip"
+            "https://w3s.link/ipfs/${swigwin_cid}/swigwin-4.0.2.zip"
         URL_HASH SHA512=${swigwin_hash}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
@@ -150,8 +155,12 @@ else()
         )
       endif()
       set(pcre_hash "abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb")
+      set(pcre_cid "bafybeibat55kr3wwfytqx5qser3jhej67fek4wpeypdy5ybxfa3zjbvx3a")
       ExternalProject_Add(PCRE
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${pcre_hash}/download"
+            "https://dweb.link/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
+            "https://itk.pinata.cloud/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
+            "https://w3s.link/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
         URL_HASH SHA512=${pcre_hash}
         CONFIGURE_COMMAND
           ${pcre_env}
@@ -254,6 +263,9 @@ message(STATUS \"Swig configure successfully completed.\")
 
       ExternalProject_Add(swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swig_hash}/download"
+            "https://dweb.link/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
+            "https://itk.pinata.cloud/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
+            "https://w3s.link/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
         URL_HASH SHA512=${swig_hash}
         CONFIGURE_COMMAND
           ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
