@@ -141,7 +141,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     os << "(null)" << std::endl;
   }
 
-  itkPrintSelfObjectMacro(m_GPUImageSizes);
+  itkPrintSelfObjectMacro(GPUImageSizes);
 
   os << indent << "SmoothDisplacementFieldGPUKernelHandle: " << m_SmoothDisplacementFieldGPUKernelHandle << std::endl;
 }
