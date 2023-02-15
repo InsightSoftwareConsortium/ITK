@@ -973,7 +973,7 @@ private:
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
-  itk::SmartPointer<MultiThreaderType> m_MultiThreader{};
+  itk::SmartPointer<MultiThreaderType> m_MultiThreader;
   ThreadIdType                         m_NumberOfWorkUnits{};
 
   bool m_ThreaderUpdateProgress{ true };
