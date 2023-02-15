@@ -144,6 +144,9 @@ protected:
   GPUPDEDeformableRegistrationFilter();
   ~GPUPDEDeformableRegistrationFilter() override = default;
 
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+
   /** Copy the data from the input to the output.
    *
    * If the input does not exist, a zero field is written to the output. */

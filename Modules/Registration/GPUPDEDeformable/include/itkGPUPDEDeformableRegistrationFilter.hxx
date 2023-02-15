@@ -83,34 +83,63 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   itkPrintSelfObjectMacro(TempField);
 
-  os << indent << "SmoothingKernelSizes: " << m_SmoothingKernelSizes << std::endl;
+  os << indent << "SmoothingKernelSizes: ";
+  for (unsigned d = 0; d < ImageDimension; ++d)
+  {
+    os << indent.GetNextIndent() << m_SmoothingKernelSizes[d] << std::endl;
+  }
 
   os << indent << "SmoothingKernels: ";
   if (m_SmoothingKernels != nullptr)
   {
-    os << static_cast<typename NumericTraits<DeformationScalarType>::PrintType>(*m_SmoothingKernels);
+    for (unsigned d = 0; d < ImageDimension; ++d)
+    {
+      os << indent.GetNextIndent() << m_SmoothingKernels[d] << std::endl;
+    }
   }
-  os << std::endl;
 
-  itkPrintSelfObjectMacro(GPUSmoothingKernels);
+  os << indent << "GPUSmoothingKernels: ";
+  if (m_GPUSmoothingKernels != nullptr)
+  {
+    for (unsigned d = 0; d < ImageDimension; ++d)
+    {
+      os << indent.GetNextIndent() << m_GPUSmoothingKernels[d] << std::endl;
+    }
+  }
 
-  os << indent << "UpdateFieldSmoothingKernelSizes: " << m_UpdateFieldSmoothingKernelSizes << std::endl;
+  os << indent << "UpdateFieldSmoothingKernelSizes: ";
+  for (unsigned d = 0; d < ImageDimension; ++d)
+  {
+    os << indent.GetNextIndent() << m_UpdateFieldSmoothingKernelSizes[d] << std::endl;
+  }
 
   os << indent << "UpdateFieldSmoothingKernels: ";
   if (m_UpdateFieldSmoothingKernels != nullptr)
   {
-    os << static_cast<typename NumericTraits<DeformationScalarType>::PrintType>(*m_UpdateFieldSmoothingKernels);
+    for (unsigned d = 0; d < ImageDimension; ++d)
+    {
+      os << indent.GetNextIndent() << m_UpdateFieldSmoothingKernels[d] << std::endl;
+    }
   }
-  os << std::endl;
 
-  itkPrintSelfObjectMacro(UpdateFieldGPUSmoothingKernels);
+  os << indent << "UpdateFieldGPUSmoothingKernels: ";
+  if (m_UpdateFieldGPUSmoothingKernels != nullptr)
+  {
+    for (unsigned d = 0; d < ImageDimension; ++d)
+    {
+      os << indent.GetNextIndent() << m_UpdateFieldGPUSmoothingKernels[d] << std::endl;
+    }
+  }
 
   os << indent << "ImageSizes: ";
   if (m_ImageSizes != nullptr)
   {
-    os << *m_ImageSizes;
+    os << *m_ImageSizes << std::endl;
   }
-  os << std::endl;
+  else
+  {
+    os << "(null)" << std::endl;
+  }
 
   itkPrintSelfObjectMacro(m_GPUImageSizes);
 
