@@ -273,7 +273,7 @@ GPUDataManager::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "GPUBuffer: " << m_GPUBuffer << std::endl;
   os << indent << "CPUBuffer: " << m_CPUBuffer << std::endl;
   os << indent << "IsGPUBufferDirty: " << (m_IsGPUBufferDirty ? "On" : "Off") << std::endl;
-  os << indent << "IsCPUBufferDirty: " << m_IsCPUBufferDirty ? "On" : "Off") << std::endl;
+  os << indent << "IsCPUBufferDirty: " << (m_IsCPUBufferDirty ? "On" : "Off") << std::endl;
 }
 
 } // namespace itk
