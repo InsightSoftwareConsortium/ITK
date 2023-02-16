@@ -28,12 +28,6 @@ namespace itk
 {
 
 template <typename TValue>
-VariableLengthVector<TValue>::VariableLengthVector()
-  : m_Data(nullptr)
-
-{}
-
-template <typename TValue>
 VariableLengthVector<TValue>::VariableLengthVector(unsigned int length)
   : m_Data(nullptr)
 {
