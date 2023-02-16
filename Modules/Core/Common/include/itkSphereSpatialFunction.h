@@ -68,7 +68,7 @@ public:
   itkSetMacro(Radius, double);
 
 protected:
-  SphereSpatialFunction();
+  SphereSpatialFunction() = default;
   ~SphereSpatialFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -78,7 +78,7 @@ private:
   InputType m_Center{};
 
   /** The radius of the sphere. */
-  double m_Radius{};
+  double m_Radius{ 1.0 };
 };
 } // end namespace itk
 

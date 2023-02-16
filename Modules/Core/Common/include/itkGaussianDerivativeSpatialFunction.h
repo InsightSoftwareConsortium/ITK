@@ -91,7 +91,7 @@ public:
   itkGetConstMacro(Direction, unsigned int);
 
 protected:
-  GaussianDerivativeSpatialFunction();
+  GaussianDerivativeSpatialFunction() = default;
   ~GaussianDerivativeSpatialFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -101,13 +101,13 @@ private:
   mutable unsigned int m_Direction{};
 
   /** The standard deviation in each direction. */
-  ArrayType m_Sigma{};
+  ArrayType m_Sigma{ ArrayType::Filled(1.0) };
 
   /** The mean in each direction. */
   ArrayType m_Mean{};
 
   /** A scale factor multiplied by the true value of the Gaussian. */
-  double m_Scale{};
+  double m_Scale{ 1.0 };
 
   /** Whether or not to normalize the Gaussian. */
   bool m_Normalized{};

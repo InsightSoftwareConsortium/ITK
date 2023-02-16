@@ -22,14 +22,6 @@
 namespace itk
 {
 template <unsigned int VImageDimension, typename TInput>
-SphereSpatialFunction<VImageDimension, TInput>::SphereSpatialFunction()
-{
-  m_Radius = 1.0;
-
-  m_Center.Fill(0.0f);
-}
-
-template <unsigned int VImageDimension, typename TInput>
 auto
 SphereSpatialFunction<VImageDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {

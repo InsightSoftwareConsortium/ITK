@@ -21,13 +21,6 @@
 
 namespace itk
 {
-template <typename TFunction>
-BinaryThresholdSpatialFunction<TFunction>::BinaryThresholdSpatialFunction()
-{
-  m_LowerThreshold = NumericTraits<FunctionOutputType>::NonpositiveMin();
-  m_UpperThreshold = NumericTraits<FunctionOutputType>::max();
-  m_Function = nullptr;
-}
 
 template <typename TFunction>
 void

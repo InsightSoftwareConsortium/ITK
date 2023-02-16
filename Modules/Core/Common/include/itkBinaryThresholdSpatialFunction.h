@@ -87,13 +87,13 @@ public:
   Evaluate(const InputType & point) const override;
 
 protected:
-  BinaryThresholdSpatialFunction();
+  BinaryThresholdSpatialFunction() = default;
   ~BinaryThresholdSpatialFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  FunctionOutputType m_LowerThreshold{};
-  FunctionOutputType m_UpperThreshold{};
+  FunctionOutputType m_LowerThreshold{ NumericTraits<FunctionOutputType>::NonpositiveMin() };
+  FunctionOutputType m_UpperThreshold{ NumericTraits<FunctionOutputType>::max() };
 
   typename FunctionType::Pointer m_Function{};
 };
