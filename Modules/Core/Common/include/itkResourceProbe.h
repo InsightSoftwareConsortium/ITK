@@ -19,6 +19,7 @@
 #define itkResourceProbe_h
 
 #include "itkMacro.h"
+#include "itkIndent.h"
 #include "itkIntTypes.h"
 
 #include <iostream> // For cout.
@@ -178,6 +179,10 @@ protected:
 
   /** Obsolete member function from ITK 4.8 - 4.13. Does not do anything anymore. */
   itkLegacyMacro(virtual void GetSystemInformation());
+
+  /** Cause the object to print itself out. */
+  virtual void
+  Print(std::ostream & os, Indent indent) const;
 
 private:
   ValueType m_StartValue{};
