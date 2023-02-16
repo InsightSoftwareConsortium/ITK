@@ -139,7 +139,7 @@ public:
   itkGetConstReferenceMacro(Direction, DirectionType);
 
 protected:
-  ImportImageFilter();
+  ImportImageFilter() = default;
   ~ImportImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -167,9 +167,9 @@ protected:
 
 private:
   RegionType    m_Region{};
-  SpacingType   m_Spacing{};
+  SpacingType   m_Spacing{ MakeFilled<SpacingType>(1.0) };
   OriginType    m_Origin{};
-  DirectionType m_Direction{};
+  DirectionType m_Direction{ DirectionType::GetIdentity() };
 
   typename ImportImageContainerType::Pointer m_ImportImageContainer{};
   SizeValueType                              m_Size{};

@@ -23,23 +23,6 @@
 
 namespace itk
 {
-/**
- *
- */
-template <typename TPixel, unsigned int VImageDimension>
-ImportImageFilter<TPixel, VImageDimension>::ImportImageFilter()
-{
-  unsigned int idx;
-
-  for (idx = 0; idx < VImageDimension; ++idx)
-  {
-    m_Spacing[idx] = 1.0;
-    m_Origin[idx] = 0.0;
-  }
-  m_Direction.SetIdentity();
-
-  m_Size = 0;
-}
 
 /**
  *
