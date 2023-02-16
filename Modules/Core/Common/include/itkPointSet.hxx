@@ -257,21 +257,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::Initialize()
   m_PointDataContainer = nullptr;
 }
 
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-PointSet<TPixelType, VDimension, TMeshTraits>::PointSet()
-  : m_PointsContainer(nullptr)
-  , m_PointDataContainer(nullptr)
-{
-
-  // If we used unstructured regions instead of structured regions, then
-  // assume this object was created by the user and this is region 0 of
-  // 1 region.
-  m_MaximumNumberOfRegions = 1;
-  m_NumberOfRegions = 1;
-  m_BufferedRegion = -1;
-  m_RequestedNumberOfRegions = 0;
-  m_RequestedRegion = -1;
-}
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void

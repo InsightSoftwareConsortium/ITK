@@ -260,7 +260,7 @@ public:
 
 protected:
   /** Constructor for use by New() method. */
-  PointSet();
+  PointSet() = default;
   ~PointSet() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -275,11 +275,11 @@ protected:
   // RequestedRegion are used to define the currently requested
   // region. The LargestPossibleRegion is always requested region = 0
   // and number of regions = 1;
-  RegionType m_MaximumNumberOfRegions{};
-  RegionType m_NumberOfRegions{};
+  RegionType m_MaximumNumberOfRegions{ 1 };
+  RegionType m_NumberOfRegions{ 1 };
   RegionType m_RequestedNumberOfRegions{};
-  RegionType m_BufferedRegion{};
-  RegionType m_RequestedRegion{};
+  RegionType m_BufferedRegion{ -1 };
+  RegionType m_RequestedRegion{ -1 };
 }; // End Class: PointSet
 } // end namespace itk
 
