@@ -87,13 +87,13 @@ public:
                   DomainType &       subRegion) const override;
 
 protected:
-  ThreadedImageRegionPartitioner();
+  ThreadedImageRegionPartitioner() = default;
   ~ThreadedImageRegionPartitioner() override = default;
 
   using ImageRegionSplitterType = ImageRegionSplitterSlowDimension;
 
 private:
-  ImageRegionSplitterType::Pointer m_ImageRegionSplitter{};
+  ImageRegionSplitterType::Pointer m_ImageRegionSplitter{ ImageRegionSplitterType::New() };
 };
 
 } // end namespace itk
