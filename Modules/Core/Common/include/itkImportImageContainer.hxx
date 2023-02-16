@@ -33,15 +33,6 @@
 namespace itk
 {
 template <typename TElementIdentifier, typename TElement>
-ImportImageContainer<TElementIdentifier, TElement>::ImportImageContainer()
-{
-  m_ImportPointer = nullptr;
-  m_ContainerManageMemory = true;
-  m_Capacity = 0;
-  m_Size = 0;
-}
-
-template <typename TElementIdentifier, typename TElement>
 ImportImageContainer<TElementIdentifier, TElement>::~ImportImageContainer()
 {
   DeallocateManagedMemory();

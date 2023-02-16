@@ -152,7 +152,7 @@ public:
   itkBooleanMacro(ContainerManageMemory);
 
 protected:
-  ImportImageContainer();
+  ImportImageContainer() = default;
   ~ImportImageContainer() override;
 
   /** PrintSelf routine. Normally this is a protected internal method. It is
@@ -202,7 +202,7 @@ private:
   TElement *         m_ImportPointer{};
   TElementIdentifier m_Size{};
   TElementIdentifier m_Capacity{};
-  bool               m_ContainerManageMemory{};
+  bool               m_ContainerManageMemory{ true };
 };
 } // end namespace itk
 
