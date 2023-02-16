@@ -163,7 +163,7 @@ public:
   }
 
 protected:
-  ObjectStore();
+  ObjectStore() = default;
   ~ObjectStore() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -174,9 +174,7 @@ protected:
 
   struct MemoryBlock
   {
-    MemoryBlock()
-      : Begin(0)
-    {}
+    MemoryBlock() = default;
 
     MemoryBlock(SizeValueType n)
       : Size(n)
@@ -192,15 +190,15 @@ protected:
       delete[] Begin;
     }
 
-    ObjectType *  Begin;
+    ObjectType *  Begin{};
     SizeValueType Size{ 0 };
   };
 
 private:
-  GrowthStrategyEnum m_GrowthStrategy{};
+  GrowthStrategyEnum m_GrowthStrategy{ GrowthStrategyEnum::EXPONENTIAL_GROWTH };
 
   SizeValueType m_Size{};
-  SizeValueType m_LinearGrowthSize{};
+  SizeValueType m_LinearGrowthSize{ 1024 };
 
   /** Pointers to objects available for borrowing. */
   FreeListType m_FreeList{};
