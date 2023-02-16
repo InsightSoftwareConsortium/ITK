@@ -69,12 +69,12 @@ public:
   itkGetConstMacro(OneOverEpsilon, RealType);
 
 protected:
-  RegularizedHeavisideStepFunction();
+  RegularizedHeavisideStepFunction() = default;
   ~RegularizedHeavisideStepFunction() override = default;
 
 private:
-  RealType m_Epsilon{};
-  RealType m_OneOverEpsilon{};
+  RealType m_Epsilon{ NumericTraits<RealType>::OneValue() };
+  RealType m_OneOverEpsilon{ NumericTraits<RealType>::OneValue() };
 };
 } // namespace itk
 
