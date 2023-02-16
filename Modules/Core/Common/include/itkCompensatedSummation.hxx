@@ -59,13 +59,6 @@ CompensatedSummationAddElement(TFloat & compensation, TFloat & sum, const TFloat
 #endif   // not itkCompensatedSummation_cxx
 
 template <typename TFloat>
-CompensatedSummation<TFloat>::CompensatedSummation()
-  : m_Sum(NumericTraits<AccumulateType>::ZeroValue())
-  , m_Compensation(NumericTraits<AccumulateType>::ZeroValue())
-{}
-
-
-template <typename TFloat>
 CompensatedSummation<TFloat>::CompensatedSummation(const TFloat value)
   : m_Sum(value)
   , m_Compensation(NumericTraits<AccumulateType>::ZeroValue())
