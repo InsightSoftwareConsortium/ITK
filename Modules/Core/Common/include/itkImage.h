@@ -374,7 +374,7 @@ public:
   }
 
 protected:
-  Image();
+  Image() = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
   void
@@ -393,7 +393,7 @@ protected:
 
 private:
   /** Memory for the current buffer. */
-  PixelContainerPointer m_Buffer{};
+  PixelContainerPointer m_Buffer{ PixelContainer::New() };
 };
 } // end namespace itk
 

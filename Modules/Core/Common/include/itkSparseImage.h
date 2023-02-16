@@ -143,7 +143,7 @@ public:
   Initialize() override;
 
 protected:
-  SparseImage();
+  SparseImage() = default;
   ~SparseImage() override = default;
 
   void
@@ -151,9 +151,9 @@ protected:
 
 private:
   /** The variables for storing the node variables. */
-  typename NodeListType::Pointer m_NodeList{};
+  typename NodeListType::Pointer m_NodeList{ NodeListType::New() };
 
-  typename NodeStoreType::Pointer m_NodeStore{};
+  typename NodeStoreType::Pointer m_NodeStore{ NodeStoreType::New() };
 };
 } // end namespace itk
 
