@@ -322,7 +322,7 @@ public:
    * \post \c m_NumElements is 0
    * \post \c m_LetArrayManageMemory is true
    */
-  VariableLengthVector();
+  VariableLengthVector() = default;
 
   /** Constructor with size.
    * Size can only be changed by assignment, \c SetSize() or \c Reserve().
@@ -978,7 +978,7 @@ public:
 private:
   bool m_LetArrayManageMemory{ true }; // if true, the array is responsible
                                        // for memory of data
-  TValue *          m_Data;            // Array to hold data
+  TValue *          m_Data{};          // Array to hold data
   ElementIdentifier m_NumElements{ 0 };
 };
 
