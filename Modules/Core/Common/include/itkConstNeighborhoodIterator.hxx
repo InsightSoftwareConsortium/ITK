@@ -207,12 +207,6 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetBoundingBoxAsImageRegi
 }
 
 template <typename TImage, typename TBoundaryCondition>
-ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ConstNeighborhoodIterator()
-{
-  m_BoundaryCondition = &m_InternalBoundaryCondition;
-}
-
-template <typename TImage, typename TBoundaryCondition>
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ConstNeighborhoodIterator(const Self & orig)
   : Neighborhood<InternalPixelType *, Dimension>(orig)
 {

@@ -98,7 +98,7 @@ public:
   using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType, OutputImageType> *;
 
   /** Default constructor */
-  ConstNeighborhoodIterator();
+  ConstNeighborhoodIterator() = default;
 
   /** Virtual destructor */
   ~ConstNeighborhoodIterator() override = default;
@@ -612,11 +612,14 @@ protected:
    *  within the buffer. */
   OffsetType m_WrapOffset{ { 0 } };
 
+  /** Default boundary condition. */
+  TBoundaryCondition m_InternalBoundaryCondition{};
+
   /** Pointer to the actual boundary condition that will be used.
    * By default this points to m_BoundaryCondition, but
    * OverrideBoundaryCondition allows a user to point this variable an external
    * boundary condition.  */
-  ImageBoundaryConditionPointerType m_BoundaryCondition{};
+  ImageBoundaryConditionPointerType m_BoundaryCondition{ &m_InternalBoundaryCondition };
 
   /** Denotes which of the iterators dimensional sides spill outside
    * region of interest boundaries. By default `false` for each dimension. */
@@ -635,9 +638,6 @@ protected:
 
   /** Upper threshold of in-bounds loop counter values. */
   IndexType m_InnerBoundsHigh{};
-
-  /** Default boundary condition. */
-  TBoundaryCondition m_InternalBoundaryCondition{};
 
   /** Does the specified region need to worry about boundary conditions? */
   bool m_NeedToUseBoundaryCondition{ false };
