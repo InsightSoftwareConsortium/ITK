@@ -25,14 +25,6 @@
 namespace itk
 {
 template <typename TObjectType>
-ObjectStore<TObjectType>::ObjectStore()
-{
-  m_Size = 0;
-  m_LinearGrowthSize = 1024;
-  m_GrowthStrategy = GrowthStrategyEnum::EXPONENTIAL_GROWTH;
-}
-
-template <typename TObjectType>
 ObjectStore<TObjectType>::~ObjectStore()
 {
   this->Clear();
