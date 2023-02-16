@@ -23,16 +23,6 @@ namespace itk
 {
 
 template <typename TImage>
-ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ImageRandomNonRepeatingConstIteratorWithIndex()
-  : ImageConstIteratorWithIndex<TImage>()
-{
-  m_NumberOfPixelsInRegion = 0L;
-  m_NumberOfSamplesRequested = 0L;
-  m_NumberOfSamplesDone = 0L;
-  m_Permutation = nullptr;
-}
-
-template <typename TImage>
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ImageRandomNonRepeatingConstIteratorWithIndex(
   const ImageType *  ptr,
   const RegionType & region)

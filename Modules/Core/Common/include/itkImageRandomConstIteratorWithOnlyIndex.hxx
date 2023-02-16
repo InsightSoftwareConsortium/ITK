@@ -23,16 +23,6 @@ namespace itk
 {
 
 template <typename TImage>
-ImageRandomConstIteratorWithOnlyIndex<TImage>::ImageRandomConstIteratorWithOnlyIndex()
-  : ImageConstIteratorWithOnlyIndex<TImage>()
-{
-  m_NumberOfPixelsInRegion = 0L;
-  m_NumberOfSamplesRequested = 0L;
-  m_NumberOfSamplesDone = 0L;
-  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
-}
-
-template <typename TImage>
 ImageRandomConstIteratorWithOnlyIndex<TImage>::ImageRandomConstIteratorWithOnlyIndex(const ImageType *  ptr,
                                                                                      const RegionType & region)
   : ImageConstIteratorWithOnlyIndex<TImage>(ptr, region)

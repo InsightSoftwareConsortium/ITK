@@ -136,7 +136,7 @@ public:
   using typename Superclass::SizeValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageRandomConstIteratorWithIndex();
+  ImageRandomConstIteratorWithIndex() = default;
   ~ImageRandomConstIteratorWithIndex() override = default;
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -224,7 +224,7 @@ private:
   RandomJump();
 
   using GeneratorPointer = typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
-  GeneratorPointer m_Generator{};
+  GeneratorPointer m_Generator{ Statistics::MersenneTwisterRandomVariateGenerator::New() };
   SizeValueType    m_NumberOfSamplesRequested{};
   SizeValueType    m_NumberOfSamplesDone{};
   SizeValueType    m_NumberOfPixelsInRegion{};

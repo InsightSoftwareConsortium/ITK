@@ -234,7 +234,7 @@ public:
   using typename Superclass::SizeValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageRandomNonRepeatingConstIteratorWithIndex();
+  ImageRandomNonRepeatingConstIteratorWithIndex() = default;
   ~ImageRandomNonRepeatingConstIteratorWithIndex() override { delete m_Permutation; }
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -343,10 +343,10 @@ private:
   void
   UpdatePosition();
 
-  SizeValueType       m_NumberOfSamplesRequested;
-  SizeValueType       m_NumberOfSamplesDone;
-  SizeValueType       m_NumberOfPixelsInRegion;
-  RandomPermutation * m_Permutation;
+  SizeValueType       m_NumberOfSamplesRequested{};
+  SizeValueType       m_NumberOfSamplesDone{};
+  SizeValueType       m_NumberOfPixelsInRegion{};
+  RandomPermutation * m_Permutation{};
 };
 } // end namespace itk
 
