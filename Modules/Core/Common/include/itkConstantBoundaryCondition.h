@@ -91,7 +91,7 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Default constructor. */
-  ConstantBoundaryCondition();
+  ConstantBoundaryCondition() = default;
 
   /** Utility for printing the boundary condition. */
   void
