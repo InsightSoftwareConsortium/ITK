@@ -19,21 +19,9 @@
 #define itkMinimumMaximumImageCalculator_hxx
 
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {
-
-template <typename TInputImage>
-MinimumMaximumImageCalculator<TInputImage>::MinimumMaximumImageCalculator()
-{
-  m_Image = TInputImage::New();
-  m_Maximum = NumericTraits<PixelType>::NonpositiveMin();
-  m_Minimum = NumericTraits<PixelType>::max();
-  m_IndexOfMinimum.Fill(0);
-  m_IndexOfMaximum.Fill(0);
-  m_RegionSetByUser = false;
-}
 
 template <typename TInputImage>
 void
