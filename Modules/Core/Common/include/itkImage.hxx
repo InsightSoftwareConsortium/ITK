@@ -35,13 +35,6 @@ namespace itk
 {
 
 template <typename TPixel, unsigned int VImageDimension>
-Image<TPixel, VImageDimension>::Image()
-{
-  m_Buffer = PixelContainer::New();
-}
-
-
-template <typename TPixel, unsigned int VImageDimension>
 void
 Image<TPixel, VImageDimension>::Allocate(bool initializePixels)
 {

@@ -367,7 +367,7 @@ public:
   SetNumberOfComponentsPerPixel(unsigned int n) override;
 
 protected:
-  VectorImage();
+  VectorImage() = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -381,7 +381,7 @@ private:
   VectorLengthType m_VectorLength{ 0 };
 
   /** Memory for the current buffer. */
-  PixelContainerPointer m_Buffer{};
+  PixelContainerPointer m_Buffer{ PixelContainer::New() };
 };
 } // end namespace itk
 

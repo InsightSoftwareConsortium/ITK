@@ -33,12 +33,6 @@ namespace itk
 {
 
 template <typename TPixel, unsigned int VImageDimension>
-SpecialCoordinatesImage<TPixel, VImageDimension>::SpecialCoordinatesImage()
-{
-  m_Buffer = PixelContainer::New();
-}
-
-template <typename TPixel, unsigned int VImageDimension>
 void
 SpecialCoordinatesImage<TPixel, VImageDimension>::Allocate(bool initialize)
 {

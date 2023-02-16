@@ -325,7 +325,7 @@ public:
   */
 
 protected:
-  SpecialCoordinatesImage();
+  SpecialCoordinatesImage() = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -333,7 +333,7 @@ protected:
 
 private:
   /** Memory for the current buffer. */
-  PixelContainerPointer m_Buffer{};
+  PixelContainerPointer m_Buffer{ PixelContainer::New() };
 };
 } // end namespace itk
 

@@ -23,13 +23,6 @@
 namespace itk
 {
 template <typename TNode, unsigned int VImageDimension>
-SparseImage<TNode, VImageDimension>::SparseImage()
-{
-  m_NodeList = NodeListType::New();
-  m_NodeStore = NodeStoreType::New();
-}
-
-template <typename TNode, unsigned int VImageDimension>
 void
 SparseImage<TNode, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
