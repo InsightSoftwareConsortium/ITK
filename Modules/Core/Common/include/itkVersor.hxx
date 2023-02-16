@@ -25,14 +25,6 @@
 namespace itk
 {
 template <typename T>
-Versor<T>::Versor()
-  : m_X(NumericTraits<T>::ZeroValue())
-  , m_Y(NumericTraits<T>::ZeroValue())
-  , m_Z(NumericTraits<T>::ZeroValue())
-  , m_W(NumericTraits<T>::OneValue())
-{}
-
-template <typename T>
 Versor<T>::Versor(const Self & v)
 {
   m_X = v.m_X;

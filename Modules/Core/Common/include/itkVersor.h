@@ -110,7 +110,7 @@ public:
 
   /** Default constructor creates a null versor
    * (representing 0 degrees  rotation). */
-  Versor();
+  Versor() = default;
 
   /** Copy constructor.  */
   Versor(const Self & v);
@@ -326,16 +326,16 @@ private:
   }
 
   /** Component parallel to x axis.  */
-  ValueType m_X;
+  ValueType m_X{};
 
   /** Component parallel to y axis.  */
-  ValueType m_Y;
+  ValueType m_Y{};
 
   /** Component parallel to z axis.  */
-  ValueType m_Z;
+  ValueType m_Z{};
 
   /** Escalar component of the Versor.  */
-  ValueType m_W;
+  ValueType m_W{ NumericTraits<T>::OneValue() };
 };
 
 template <typename T>
