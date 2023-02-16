@@ -22,13 +22,6 @@
 
 namespace itk
 {
-/** Default contstructor */
-template <typename TValue, unsigned int VVectorDimension, unsigned int VImageDimension>
-ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>::ImageVectorOptimizerParametersHelper()
-{
-  m_ParameterImage = nullptr;
-}
-
 /** Move the data pointer */
 template <typename TValue, unsigned int VVectorDimension, unsigned int VImageDimension>
 void

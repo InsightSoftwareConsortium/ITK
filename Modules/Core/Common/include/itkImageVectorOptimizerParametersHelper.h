@@ -50,7 +50,7 @@ public:
   using typename Superclass::CommonContainerType;
 
   /** Default constructor. */
-  ImageVectorOptimizerParametersHelper();
+  ImageVectorOptimizerParametersHelper() = default;
 
   /** Set a new data pointer for *both* the Array and parameter image,
    * pointing both to a different memory block.
