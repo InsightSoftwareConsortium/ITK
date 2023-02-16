@@ -86,13 +86,6 @@ const TElementIdentifier ElementWrapperPointerInterface<TElement, TElementIdenti
 
 
 // -----------------------------------------------------------------------------
-// MinPriorityQueueElementWrapper
-// -----------------------------------------------------------------------------
-template <typename TElement, typename TElementPriority, typename TElementIdentifier>
-MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::MinPriorityQueueElementWrapper()
-  : m_Location(Superclass::m_ElementNotFound)
-{}
-// -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
 template <typename TElement, typename TElementPriority, typename TElementIdentifier>
@@ -252,17 +245,6 @@ template <typename TElementWrapper,
 const TElementIdentifier
   PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriority, TElementIdentifier>::
     m_ElementNotFound = NumericTraits<TElementIdentifier>::max();
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-template <typename TElementWrapper,
-          typename TElementWrapperInterface,
-          typename TElementPriority,
-          typename TElementIdentifier>
-PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriority, TElementIdentifier>::
-  PriorityQueueContainer()
-  : Superclass()
-{}
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
