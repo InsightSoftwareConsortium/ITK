@@ -111,11 +111,11 @@ public:
   using ElementPriorityType = TElementPriority;
   using ElementIdentifierType = TElementIdentifier;
 
-  ElementType           m_Element;
-  ElementPriorityType   m_Priority;
-  ElementIdentifierType m_Location;
+  ElementType           m_Element{};
+  ElementPriorityType   m_Priority{};
+  ElementIdentifierType m_Location{ Superclass::m_ElementNotFound };
 
-  MinPriorityQueueElementWrapper();
+  MinPriorityQueueElementWrapper() = default;
 
   MinPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority);
 
@@ -205,7 +205,7 @@ public:
   static const ElementIdentifierType m_ElementNotFound;
 
 public:
-  PriorityQueueContainer();
+  PriorityQueueContainer() = default;
   ~PriorityQueueContainer() override = default;
 
   template <typename TInputIterator>
