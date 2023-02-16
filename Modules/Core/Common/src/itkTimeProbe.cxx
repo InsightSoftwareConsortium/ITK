@@ -27,6 +27,14 @@ TimeProbe::TimeProbe()
 
 TimeProbe::~TimeProbe() = default;
 
+void
+TimeProbe::Print(std::ostream & os, Indent indent) const
+{
+  Superclass::Print(os, indent);
+
+  itkPrintSelfObjectMacro(RealTimeClock);
+}
+
 TimeProbe::TimeStampType
 TimeProbe::GetInstantValue() const
 {

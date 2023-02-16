@@ -295,14 +295,14 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::P
 {
   GPUSuperclass::PrintSelf(os, indent);
 
-  os << indent << "InitTime: " << static_cast<typename NumericTraits<TimeProbe>::PrintType>(m_InitTime) << std::endl;
-  os << indent
-     << "ComputeUpdateTime: " << static_cast<typename NumericTraits<TimeProbe>::PrintType>(m_ComputeUpdateTime)
-     << std::endl;
-  os << indent << "ApplyUpdateTime: " << static_cast<typename NumericTraits<TimeProbe>::PrintType>(m_ApplyUpdateTime)
-     << std::endl;
-  os << indent << "SmoothFieldTime: " << static_cast<typename NumericTraits<TimeProbe>::PrintType>(m_SmoothFieldTime)
-     << std::endl;
+  os << indent << "InitTime: " << std::endl;
+  m_InitTime.Print(os, indent.GetNextIndent());
+  os << indent << "ComputeUpdateTime: " << std::endl;
+  m_ComputeUpdateTime.Print(os, indent.GetNextIndent());
+  os << indent << "ApplyUpdateTime: " << std::endl;
+  m_ApplyUpdateTime.Print(os, indent.GetNextIndent());
+  os << indent << "SmoothFieldTime: " << std::endl;
+  m_SmoothFieldTime.Print(os, indent.GetNextIndent());
 
   itkPrintSelfObjectMacro(DifferenceFunction);
 

@@ -39,6 +39,7 @@
 #include "itksys/SystemInformation.hxx"
 #include "itkMath.h"
 #include "itkIsNumber.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -49,6 +50,41 @@ ResourceProbe<ValueType, MeanType>::ResourceProbe(std::string type, std::string 
   , m_UnitString(std::move(unit))
 {
   this->Reset();
+}
+
+template <typename ValueType, typename MeanType>
+void
+ResourceProbe<ValueType, MeanType>::Print(std::ostream & os, Indent indent) const
+{
+  using namespace print_helper;
+
+  os << indent << "StartValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StartValue)
+     << std::endl;
+  os << indent << "TotalValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_TotalValue)
+     << std::endl;
+  os << indent << "MinimumValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_MinimumValue)
+     << std::endl;
+  os << indent << "MaximumValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_MaximumValue)
+     << std::endl;
+  os << indent
+     << "StandardDeviation: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StandardDeviation)
+     << std::endl;
+  os << indent << "StandardError: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StandardError)
+     << std::endl;
+
+  os << indent << "NumberOfStarts: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfStarts)
+     << std::endl;
+  os << indent << "NumberOfStops: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfStops)
+     << std::endl;
+  os << indent
+     << "NumberOfIteration: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfIteration)
+     << std::endl;
+
+  os << indent << "ProbeValueList: " << m_ProbeValueList << std::endl;
+
+  os << indent << "NameOfProbe: " << m_NameOfProbe << std::endl;
+  os << indent << "TypeString: " << m_TypeString << std::endl;
+  os << indent << "UnitString: " << m_UnitString << std::endl;
 }
 
 template <typename ValueType, typename MeanType>
