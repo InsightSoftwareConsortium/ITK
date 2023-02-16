@@ -23,12 +23,6 @@ namespace itk
 {
 
 template <unsigned int VDimension>
-ThreadedImageRegionPartitioner<VDimension>::ThreadedImageRegionPartitioner()
-{
-  this->m_ImageRegionSplitter = ImageRegionSplitterType::New();
-}
-
-template <unsigned int VDimension>
 ThreadIdType
 ThreadedImageRegionPartitioner<VDimension>::PartitionDomain(const ThreadIdType threadId,
                                                             const ThreadIdType requestedTotal,
