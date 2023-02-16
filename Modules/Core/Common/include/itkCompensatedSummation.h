@@ -76,7 +76,7 @@ public:
   using Self = CompensatedSummation;
 
   /** Constructors. */
-  CompensatedSummation();
+  CompensatedSummation() = default;
   CompensatedSummation(FloatType value);
 
   /** Copy constructor. */
@@ -120,8 +120,8 @@ public:
   explicit operator FloatType() const;
 
 private:
-  AccumulateType m_Sum;
-  AccumulateType m_Compensation;
+  AccumulateType m_Sum{};
+  AccumulateType m_Compensation{};
 
 // Maybe support more types in the future with template specialization.
 #ifdef ITK_USE_CONCEPT_CHECKING
