@@ -71,7 +71,6 @@ public:
     void
     ThreadedExecution(const DomainType & subdomain, const itk::ThreadIdType threadId) override
     {
-      itk::CompensatedSummation<double> compensatedSum;
       for (DomainType::IndexValueType i = subdomain[0]; i <= subdomain[1]; ++i)
       {
         double value = 1.0 / 7;
