@@ -24,6 +24,7 @@
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkTimeProbe.h"
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 
 #include "itkOpenCLUtil.h"
 #include "itkGPUImage.h"
@@ -57,6 +58,9 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
 
   auto CPUFilter = CPUAnisoDiffFilterType::New();
   auto GPUFilter = GPUAnisoDiffFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    GPUFilter, GPUGradientAnisotropicDiffusionImageFilter, GPUAnisotropicDiffusionImageFilter);
 
   reader->Update();
 
