@@ -124,7 +124,7 @@ public:
   Print(std::ostream & os, Indent indent) const;
 
 private:
-  char                      m_Pad1[128];
+  char                      m_Pad1[128]{};
   unsigned int              m_Size;
   RadiusType                m_Radius;
   std::vector<unsigned int> m_ArrayIndex;
@@ -133,7 +133,7 @@ private:
   /** An internal table for keeping track of stride lengths in a neighborhood,
    *  i.e. the memory offsets between pixels along each dimensional axis. */
   unsigned int m_StrideTable[Dimension];
-  char         m_Pad2[128];
+  char         m_Pad2[128]{};
 };
 
 /**
