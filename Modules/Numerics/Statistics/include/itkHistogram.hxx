@@ -704,8 +704,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
     }
   }
 
-  os << indent << "TempMeasurementVector: "
-     << static_cast<typename NumericTraits<MeasurementVectorType>::PrintType>(m_TempMeasurementVector) << std::endl;
+  os << indent << "TempMeasurementVector: " << m_TempMeasurementVector << std::endl;
   os << indent << "TempIndex: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_TempIndex) << std::endl;
   os << indent << "ClipBinsAtEnds: " << (m_ClipBinsAtEnds ? "On" : "Off") << std::endl;
 }
