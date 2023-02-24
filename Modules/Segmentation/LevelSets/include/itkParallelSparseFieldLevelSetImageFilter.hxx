@@ -49,7 +49,6 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::ParallelSparseField
   NeighborhoodType it(m_Radius, dummy_image, dummy_image->GetRequestedRegion());
   nCenter = it.Size() / 2;
 
-  m_Size = 2 * Dimension;
   m_ArrayIndex.reserve(m_Size);
   m_NeighborhoodOffset.reserve(m_Size);
 
