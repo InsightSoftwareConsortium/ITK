@@ -176,8 +176,6 @@ Histogram<TMeasurement, TFrequencyContainer>::Initialize(const SizeType & size)
     this->m_OffsetTable[i + 1] = num;
   }
 
-  this->m_TempIndex.SetSize(this->GetMeasurementVectorSize());
-
   m_NumberOfInstances = num;
 
   // adjust the sizes of min max value containers
