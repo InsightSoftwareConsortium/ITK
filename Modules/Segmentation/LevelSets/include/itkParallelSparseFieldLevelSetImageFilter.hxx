@@ -82,7 +82,7 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream 
 
   os << "ParallelSparseFieldCityBlockNeighborList: " << std::endl;
 
-  os << indent << "m_Pad1: " << m_Pad1 << std::endl;
+  os << indent << "Pad1: " << m_Pad1 << std::endl;
   os << indent << "Size: " << m_Size << std::endl;
   os << indent << "Radius: " << m_Radius << std::endl;
   os << indent << "ArrayIndex: " << m_ArrayIndex << std::endl;
