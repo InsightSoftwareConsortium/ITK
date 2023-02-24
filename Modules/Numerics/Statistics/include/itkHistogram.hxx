@@ -196,7 +196,10 @@ Histogram<TMeasurement, TFrequencyContainer>::Initialize(const SizeType & size)
 
   // initialize auxiliary variables
   this->m_TempIndex.SetSize(this->GetMeasurementVectorSize());
+  m_TempIndex.Fill(0);
+
   this->m_TempMeasurementVector.SetSize(this->GetMeasurementVectorSize());
+  m_TempMeasurementVector.Fill(0);
 
   // initialize the frequency container
   m_FrequencyContainer->Initialize(this->m_OffsetTable[this->GetMeasurementVectorSize()]);
