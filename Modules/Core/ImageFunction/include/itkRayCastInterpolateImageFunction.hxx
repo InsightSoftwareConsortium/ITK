@@ -22,16 +22,14 @@
 
 #include "itkMath.h"
 
-// Put the helper class in an anonymous namespace so that it is not
-// exposed to the user
-namespace
+namespace itk
 {
 /**
  * \class Helper class to maintain state when casting a ray.
  *  This helper class keeps the RayCastInterpolateImageFunction thread safe.
  */
-template <typename TInputImage, typename TCoordRep = float>
-class RayCastHelper
+template <typename TInputImage, typename TCoordRep>
+class RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper
 {
 public:
   /**
@@ -302,7 +300,7 @@ protected:
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::Initialise()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Initialise()
 {
   // Save the dimensions of the volume and calculate the bounding box
   this->RecordVolumeDimensions();
@@ -318,7 +316,7 @@ RayCastHelper<TInputImage, TCoordRep>::Initialise()
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::RecordVolumeDimensions()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::RecordVolumeDimensions()
 {
   typename InputImageType::SpacingType spacing = this->m_Image->GetSpacing();
   SizeType                             dim = this->m_Image->GetLargestPossibleRegion().GetSize();
@@ -338,7 +336,7 @@ RayCastHelper<TInputImage, TCoordRep>::RecordVolumeDimensions()
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::DefineCorners()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::DefineCorners()
 {
   // Define corner positions as if at the origin
 
@@ -364,7 +362,7 @@ RayCastHelper<TInputImage, TCoordRep>::DefineCorners()
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::CalcPlanesAndCorners()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcPlanesAndCorners()
 {
   int j;
 
@@ -454,7 +452,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcPlanesAndCorners()
 
 template <typename TInputImage, typename TCoordRep>
 bool
-RayCastHelper<TInputImage, TCoordRep>::CalcRayIntercepts()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcRayIntercepts()
 {
   bool   noInterceptFlag[6];
   double cubeIntercepts[6][3];
@@ -675,7 +673,8 @@ RayCastHelper<TInputImage, TCoordRep>::CalcRayIntercepts()
 
 template <typename TInputImage, typename TCoordRep>
 bool
-RayCastHelper<TInputImage, TCoordRep>::SetRay(const OutputPointType & rayPosition, const DirectionType & rayDirection)
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::SetRay(const OutputPointType & rayPosition,
+                                                                               const DirectionType &   rayDirection)
 {
   // Store the position and direction of the ray
   typename TInputImage::SpacingType spacing = this->m_Image->GetSpacing();
@@ -740,7 +739,7 @@ RayCastHelper<TInputImage, TCoordRep>::SetRay(const OutputPointType & rayPositio
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::EndPointsInVoxels()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::EndPointsInVoxels()
 {
   m_RayVoxelStartPosition[0] = m_RayStartCoordInMM[0] / m_VoxelDimensionInX;
   m_RayVoxelStartPosition[1] = m_RayStartCoordInMM[1] / m_VoxelDimensionInY;
@@ -757,7 +756,7 @@ RayCastHelper<TInputImage, TCoordRep>::EndPointsInVoxels()
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcDirnVector()
 {
   double xNum, yNum, zNum;
 
@@ -905,7 +904,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
 
 template <typename TInputImage, typename TCoordRep>
 bool
-RayCastHelper<TInputImage, TCoordRep>::AdjustRayLength()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::AdjustRayLength()
 {
   bool startOK, endOK;
 
@@ -991,7 +990,7 @@ RayCastHelper<TInputImage, TCoordRep>::AdjustRayLength()
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::Reset()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Reset()
 {
   int i;
 
@@ -1045,7 +1044,7 @@ RayCastHelper<TInputImage, TCoordRep>::Reset()
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::InitialiseVoxelPointers()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::InitialiseVoxelPointers()
 {
   IndexType index;
 
@@ -1177,7 +1176,7 @@ RayCastHelper<TInputImage, TCoordRep>::InitialiseVoxelPointers()
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::IncrementVoxelPointers()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::IncrementVoxelPointers()
 {
   double xBefore = m_Position3Dvox[0].GetSum();
   double yBefore = m_Position3Dvox[1].GetSum();
@@ -1209,7 +1208,7 @@ RayCastHelper<TInputImage, TCoordRep>::IncrementVoxelPointers()
 
 template <typename TInputImage, typename TCoordRep>
 double
-RayCastHelper<TInputImage, TCoordRep>::GetCurrentIntensity() const
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::GetCurrentIntensity() const
 {
   double a, b, c, d;
   double y, z;
@@ -1262,7 +1261,8 @@ RayCastHelper<TInputImage, TCoordRep>::GetCurrentIntensity() const
 
 template <typename TInputImage, typename TCoordRep>
 bool
-RayCastHelper<TInputImage, TCoordRep>::IntegrateAboveThreshold(double & integral, double threshold)
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::IntegrateAboveThreshold(double & integral,
+                                                                                                double   threshold)
 {
   double intensity;
 
@@ -1306,7 +1306,7 @@ RayCastHelper<TInputImage, TCoordRep>::IntegrateAboveThreshold(double & integral
 
 template <typename TInputImage, typename TCoordRep>
 void
-RayCastHelper<TInputImage, TCoordRep>::ZeroState()
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::ZeroState()
 {
   int i;
 
@@ -1354,10 +1354,7 @@ RayCastHelper<TInputImage, TCoordRep>::ZeroState()
     m_RayIntersectionVoxelIndex[i] = 0;
   }
 }
-}; // end of anonymous namespace
 
-namespace itk
-{
 /**************************************************************************
  *
  *
@@ -1411,7 +1408,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTyp
 
   DirectionType direction = transformedFocalPoint - point;
 
-  RayCastHelper<TInputImage, TCoordRep> ray;
+  RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper ray;
   ray.SetImage(this->m_Image);
   ray.ZeroState();
   ray.Initialise();
