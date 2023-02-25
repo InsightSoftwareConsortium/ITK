@@ -191,6 +191,9 @@ protected:
   InputPointType      m_FocalPoint{};
   double              m_Threshold{};
   InterpolatorPointer m_Interpolator{};
+
+private:
+  class RayCastHelper;
 };
 } // namespace itk
 
