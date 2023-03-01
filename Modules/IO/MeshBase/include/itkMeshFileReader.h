@@ -68,7 +68,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOMeshBase
  *
- * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
+ * \author Wanlin Zhu. University of New South Wales, Australia.
  *
  * \sphinx
  * \sphinxexample{IO/Mesh/ReadMesh,Read Mesh}

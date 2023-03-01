@@ -51,7 +51,7 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
  * Note, like ITK, MINC is N dimensional and dimensions
  * can be submitted in any arbitrary order. Here we make sure the
  * dimensions are ordered as xspace, yspace, zspace, time and
- * vector_dimension and so on or xfrequencey, yfrequency, zfrequency,
+ * vector_dimension and so on or xfrequency, yfrequency, zfrequency,
  * tfrequency and vector_dimension and so on NOTE** This class only
  * reads the regularly sampled dimensions as I am not sure how to deal
  * with "irregularly sampled" dimensions yet!

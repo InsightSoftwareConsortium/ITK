@@ -45,9 +45,9 @@ const char * const magicMAP = "MAP ";
 
 /// \brief returns the min and max of a sequence defined by two iterators
 ///
-/// Uses the < operator to determin ordering
-/// If first == last then return is pair(first,first);
-/// otherwise is it pair(min, max)
+/// Uses the < operator to determine ordering.
+/// If first == last then return is pair(first,first).
+/// Otherwise it is pair(min, max).
 template <typename TInputIter>
 inline std::pair<TInputIter, TInputIter>
 min_max_element(TInputIter first, TInputIter last)

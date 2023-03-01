@@ -48,7 +48,7 @@ public:
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
   using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
-  /** base type for MetaConverters -- bidirections conversion btw
+  /** base type for MetaConverters -- bidirectional conversion btw
    *  SpatialObject & MetaObject
    */
   using MetaConverterBaseType = MetaConverterBase<VDimension>;

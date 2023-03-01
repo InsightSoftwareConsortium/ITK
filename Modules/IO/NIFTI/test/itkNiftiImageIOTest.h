@@ -157,7 +157,7 @@ MakeNiftiImage()
       img->SetOrigin(og);
     }
     {
-      // Set the qform, sfrom and aux_file values for the MetaDataDictionary.
+      // Set the qform, sform and aux_file values for the MetaDataDictionary.
       itk::MetaDataDictionary & thisDic = img->GetMetaDataDictionary();
       itk::EncapsulateMetaData<std::string>(thisDic, "qform_code_name", "NIFTI_XFORM_SCANNER_ANAT");
       itk::EncapsulateMetaData<std::string>(thisDic, "sform_code_name", "NIFTI_XFORM_UNKNOWN");

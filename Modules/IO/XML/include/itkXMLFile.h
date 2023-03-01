@@ -157,7 +157,7 @@ public:
   itkSetStringMacro(Filename);
   /** Get the filename to write */
   itkGetStringMacro(Filename);
-  /** Return non-zero if the filename given is writeable. */
+  /** Return non-zero if the filename given is writable. */
   virtual int
   CanWriteFile(const char * name) = 0;
 

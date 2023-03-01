@@ -33,7 +33,7 @@ namespace itk
  * MeshFileWriter interfaces with an MeshIO class to write out the
  * data.
  *
- * A pluggable factory pattern is used that allows different kinds of writers
+ * A plugable factory pattern is used that allows different kinds of writers
  * to be registered (even at run time) without having to modify the
  * code in this class. You can either manually instantiate the MeshIO
  * object and associate it with the MeshFileWriter, or let the class
@@ -41,7 +41,7 @@ namespace itk
  * with a suitable suffix (".vtk", etc) and setting the input
  * to the writer is enough to get the writer to work properly.
  *
- * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
+ * \author Wanlin Zhu. University of New South Wales, Australia.
  *
  * \sa MeshIOBase
  *

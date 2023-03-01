@@ -161,7 +161,7 @@ public:
     return true;
   }
 
-  /** Determing the subsampling factor in case
+  /** Determining the subsampling factor in case
    *  we want a coarse version of the image/
    * \warning this is only used when streaming is on. */
   itkSetMacro(SubSamplingFactor, unsigned int);

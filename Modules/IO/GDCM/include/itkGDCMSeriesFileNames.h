@@ -104,7 +104,7 @@ public:
   const FileNamesContainerType &
   GetInputFileNames();
 
-  /** Set the directory where the output DICOM serie should be written. */
+  /** Set the directory where the output DICOM series should be written. */
   void
   SetOutputDirectory(std::string const & name)
   {
@@ -130,7 +130,7 @@ public:
   GetFileNames(const std::string serie);
 
   /** Returns a vector containing all the UIDs found when parsing the
-   * direcory specified via SetDirectory. If no direcory is specified
+   * directory specified via SetDirectory. If no directory is specified
    * return an empty vector.  An extended UID may be returned/used if
    * SetUseSeriesDetails(true) has been called.
    */
@@ -192,17 +192,17 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Contains the input directory where the DICOM serie is found */
+  /** Contains the input directory where the DICOM series is found */
   std::string m_InputDirectory = "";
 
-  /** Contains the output directory where the DICOM serie should be written */
+  /** Contains the output directory where the DICOM series should be written */
   std::string m_OutputDirectory = "";
 
   /** Internal structure to keep the list of input/output filenames */
   FileNamesContainerType m_InputFileNames{};
   FileNamesContainerType m_OutputFileNames{};
 
-  /** Internal structure to order serie from one directory */
+  /** Internal structure to order series from one directory */
   std::unique_ptr<gdcm::SerieHelper> m_SerieHelper;
 
   /** Internal structure to keep the list of series UIDs */

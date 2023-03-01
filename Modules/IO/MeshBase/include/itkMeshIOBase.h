@@ -59,7 +59,7 @@ namespace itk
  * to be registered (even at run time) without having to modify the
  * code in this class.
  *
- * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
+ * \author Wanlin Zhu. University of New South Wales, Australia.
  *
  * \sa MeshFileWriter
  * \sa MeshFileReader
@@ -706,7 +706,7 @@ protected:
     }
   }
 
-  /** Read cells from a data buffer, used when writting cells. This function
+  /** Read cells from a data buffer, used when writing cells. This function
     write all kind of cells as it is stored in cells container. It is used when
     cells container have only one kind of cells */
   template <typename TInput, typename TOutput>

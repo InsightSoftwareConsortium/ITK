@@ -65,7 +65,7 @@ public:
  * data. If you wish to write data into a series of files (e.g., a
  * slice per file) use ImageSeriesWriter.
  *
- * A pluggable factory pattern is used that allows different kinds of writers
+ * A plugable factory pattern is used that allows different kinds of writers
  * to be registered (even at run time) without having to modify the
  * code in this class. You can either manually instantiate the ImageIO
  * object and associate it with the ImageFileWriter, or let the class

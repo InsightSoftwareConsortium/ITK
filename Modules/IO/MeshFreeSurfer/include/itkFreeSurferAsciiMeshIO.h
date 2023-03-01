@@ -150,7 +150,7 @@ protected:
     }
   }
 
-  /** Read cells from a data buffer, used when writting cells */
+  /** Read cells from a data buffer, used when writing cells */
   template <typename TInput, typename TOutput>
   void
   ReadCellsBuffer(TInput * input, TOutput * output)

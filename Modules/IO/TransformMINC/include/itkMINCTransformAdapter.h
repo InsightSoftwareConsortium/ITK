@@ -124,7 +124,7 @@ public:
     return pnt;
   }
 
-  //! use finate element difference to estimate local jacobian
+  //! use finite element difference to estimate local jacobian
   void
   estimate_local_jacobian(const InputPointType & orig, vnl_matrix_fixed<double, 3, 3> & m)
   {

@@ -114,7 +114,7 @@ public:
     this->Modified();
   }
 
-  /** ReverseOrderOn changes the order of travesal of the file names
+  /** ReverseOrderOn changes the order of traversal of the file names
    * from last to first */
   itkSetMacro(ReverseOrder, bool);
   itkGetConstMacro(ReverseOrder, bool);
@@ -138,7 +138,7 @@ public:
    *
    * By default this is enabled. It may be advantageous to disable
    * this feature when streaming, if this array is not need, as it may
-   * redure the number of times each file is read.
+   * reduce the number of times each file is read.
    *
    * /sa GetMetaDataDictionaryArray()
    */

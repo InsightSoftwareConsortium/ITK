@@ -154,7 +154,7 @@ protected:
   static void
   ConvertTensor9ToTensor6(const InputPixelType * inputData, OutputPixelType * outputData, size_t size);
 
-  /** Convertions related to complex */
+  /** Conversions related to complex */
   static void
   ConvertGrayToComplex(const InputPixelType * inputData, OutputPixelType * outputData, size_t size);
 

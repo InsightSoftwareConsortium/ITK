@@ -165,7 +165,7 @@ public:
   itkGetConstMacro(RescaleIntercept, double);
 
   /** Macro to access the DICOM UID prefix. By default this is the ITK
-   * root id. This default can be overriden if the exam is for example
+   * root id. This default can be overridden if the exam is for example
    * part of an existing study. */
   itkGetStringMacro(UIDPrefix);
   itkSetStringMacro(UIDPrefix);

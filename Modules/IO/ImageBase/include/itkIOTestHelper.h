@@ -103,7 +103,7 @@ public:
 
     {                             // Test if writing to an invalid location causes exception to be thrown:
       imageio = imageio->Clone(); // A new io object is needed because the HDF5 io object is single use.  A new IO
-                                  // object is needed to re-intialize the internal state.
+                                  // object is needed to re-initialize the internal state.
 
       const std::string bad_root_path{ "/a_blatantly_obvious/bad_file_path/that/should/never/exist/on/the/computer/" };
       const std::string bad_filename{ bad_root_path + filename };
