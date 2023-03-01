@@ -70,7 +70,7 @@ fi
 
 # Get the latest ITK git tag
 latest_git_tag=$(git ls-remote --tags \
-git://github.com/InsightSoftwareConsortium/ITK.git | \
+https://github.com/InsightSoftwareConsortium/ITK.git | \
 awk -F/ '{ print $3 }' | egrep -v 'a0|b0|rc|}' | \
 sort -n - | tail -n1)
 
@@ -88,7 +88,7 @@ rm "${azure_pipelines_ci_filename}.bak"
 
 # Get the latest ITK Python git tag
 latest_git_tag=$(git ls-remote --tags \
-git://github.com/InsightSoftwareConsortium/ITKPythonBuilds.git | \
+https://github.com/InsightSoftwareConsortium/ITKPythonBuilds.git | \
 awk -F/ '{ print $3 }' | egrep -v 'a0|b0|rc|}' | \
 sort -n - | tail -n1)
 
