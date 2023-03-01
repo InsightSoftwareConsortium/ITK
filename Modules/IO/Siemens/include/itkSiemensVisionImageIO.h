@@ -256,11 +256,11 @@ private:
     HDR_CENTER_Y_LEN = 8,
     HDR_CENTER_Z = 3784, // Z Center Point, double
     HDR_CENTER_Z_LEN = 8,
-    HDR_NORMV_X = 3792, // Nornal Vector X, double
+    HDR_NORMV_X = 3792, // Normal Vector X, double
     HDR_NORMV_X_LEN = 8,
-    HDR_NORMV_Y = 3800, // Nornal Vector Y, double
+    HDR_NORMV_Y = 3800, // Normal Vector Y, double
     HDR_NORMV_Y_LEN = 8,
-    HDR_NORMV_Z = 3808, // Nornal Vector Z, double
+    HDR_NORMV_Z = 3808, // Normal Vector Z, double
     HDR_NORMV_Z_LEN = 8,
     HDR_DIST_ISO = 3816, // Distance from Isocenter, double
     HDR_DIST_ISO_LEN = 8,

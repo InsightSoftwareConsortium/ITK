@@ -307,7 +307,7 @@ public:
   itkGetConstMacro(WritePalette, bool);
   itkBooleanMacro(WritePalette);
 
-  /** Determine whether a paletized image file has been read as a scalar image
+  /** Determine whether a palletized image file has been read as a scalar image
    *  plus a color palette.
    *  ExpandRGBPalette must be set to true, and the file must be a
    *  palette image file supported for palette reading.*/
@@ -486,7 +486,7 @@ public:
   /** Method for supporting streaming.  Given a requested region, determine what
    * could be the region that we can read from the file. This is called the
    * streamable region, which will be equal or smaller than the
-   * LargestPossibleRegion (unless it was dimensionaly clipped) and
+   * LargestPossibleRegion (unless it was dimensionally clipped) and
    * greater or equal to the RequestedRegion
    *
    * the resulting IORegion may be a greater dimensions the the
@@ -520,7 +520,7 @@ public:
    *
    * numberOfActualSplits should be the value returned from GetActualNumberOfSplitsForWriting with the same parameters
    *
-   * Derieved classes should overload this method to return a compatible region
+   * Derived classes should overload this method to return a compatible region
    */
   virtual ImageIORegion
   GetSplitRegionForWriting(unsigned int          ithPiece,

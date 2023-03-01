@@ -134,7 +134,7 @@ protected:
     }
   }
 
-  /** Read cells from a data buffer, used when writting cells. This function
+  /** Read cells from a data buffer, used when writing cells. This function
     write all kind of cells as it is stored in cells container. It is used when
     cells container have only one kind of cells */
   template <typename TInput, typename TOutput>
@@ -204,8 +204,8 @@ protected:
 
 private:
   std::ifstream    m_InputFile{};
-  StreamOffsetType m_PointsStartPosition; // file position for points rlative to std::ios::beg
-  bool             m_TriangleCellType;    // if all cells are trinalge it is true. otherwise, it is false.
+  StreamOffsetType m_PointsStartPosition; // file position for points relative to std::ios::beg
+  bool             m_TriangleCellType;    // if all cells are triangle it is true. otherwise, it is false.
 };
 } // end namespace itk
 

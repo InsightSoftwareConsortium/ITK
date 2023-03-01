@@ -46,7 +46,7 @@ public:
   using GroupType = GroupSpatialObject<VDimension>;
   using GroupPointer = typename GroupType::Pointer;
 
-  /** base type for MetaConverters -- bidirections conversion btw
+  /** base type for MetaConverters -- bidirectional conversion btw
    *  SpatialObject & MetaObject
    */
   using MetaConverterBaseType = MetaConverterBase<VDimension>;

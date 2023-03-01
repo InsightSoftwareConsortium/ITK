@@ -42,7 +42,7 @@ namespace itk
  * a file.
  * \sa StreamReadBufferAsBinary StreamWriteBufferAsBinary
  *
- * This implementation was taken fron the Insight Journal:
+ * This implementation was taken from the Insight Journal:
  * https://www.insight-journal.org/browse/publication/729
  *
  * \sa itk::ImageFileReader itk::ImageFileWriter
@@ -100,7 +100,7 @@ protected:
    * largest region give by GetNumberOfDimensions().
    *
    * This compares the IORegion to the size of the image in the
-   * file. With out regaurd to the dimensions of either, if the
+   * file. With out regard to the dimensions of either, if the
    * images represent the same region then false is returned.
    */
   virtual bool

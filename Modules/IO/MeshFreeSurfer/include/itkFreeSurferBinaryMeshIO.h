@@ -148,7 +148,7 @@ protected:
       data.get(), this->m_NumberOfCells * numberOfCellPoints, &outputFile);
   }
 
-  /** Read cells from a data buffer, used when writting mesh */
+  /** Read cells from a data buffer, used when writing mesh */
   template <typename TInput, typename TOutput>
   void
   ReadCellsBuffer(TInput * input, TOutput * output)

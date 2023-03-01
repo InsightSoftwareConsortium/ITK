@@ -35,7 +35,7 @@ namespace itk
  * \class VTKPolyDataMeshIO
  * \brief This class defines how to read and write vtk legacy file format.
  *
- * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
+ * \author Wanlin Zhu. University of New South Wales, Australia.
  * \ingroup IOFilters
  * \ingroup ITKIOMeshVTK
  */
@@ -1099,7 +1099,7 @@ protected:
   }
 
   /** Convert cells buffer for output cells buffer, it's user's responsibility to make sure
-  the input cells don't contain any cell type that coule not be written as polygon cell */
+  the input cells don't contain any cell type that could not be written as polygon cell */
   template <typename TInput, typename TOutput>
   void
   ReadCellsBuffer(TInput * input, TOutput * output)
