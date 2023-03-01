@@ -133,7 +133,7 @@ private:
   DerivativeOperator<PixelType, Self::ImageDimension> m_DerivativeOperator{};
 
   /** Modified global average gradient magnitude term. */
-  PixelType m_K;
+  PixelType m_K{};
 
   /** */
   static double m_MIN_NORM;

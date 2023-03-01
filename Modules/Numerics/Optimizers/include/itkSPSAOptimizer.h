@@ -320,7 +320,7 @@ private:
   /** Parameters, as described by Spall.*/
   double m_Sa{};
   double m_Sc{};
-  double m_A;
+  double m_A{};
   double m_Alpha{};
   double m_Gamma{};
 }; // end class SPSAOptimizer
