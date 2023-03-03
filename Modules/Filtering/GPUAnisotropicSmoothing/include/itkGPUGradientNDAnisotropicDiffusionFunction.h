@@ -120,7 +120,7 @@ protected:
   DerivativeOperator<PixelType, Self::ImageDimension> m_DerivativeOperator{};
 
   /** Modified global average gradient magnitude term. */
-  PixelType m_K;
+  PixelType m_K{};
 
   NeighborhoodSizeValueType m_Center{};
   NeighborhoodSizeValueType m_Stride[ImageDimension]{};

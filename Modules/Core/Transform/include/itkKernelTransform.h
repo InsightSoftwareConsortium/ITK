@@ -375,7 +375,7 @@ protected:
   bool m_WMatrixComputed{};
 
   /** Identity matrix. */
-  IMatrixType m_I;
+  IMatrixType m_I{};
 
   /** The list of source landmarks, denoted 'p'. */
   PointSetPointer m_SourceLandmarks{};

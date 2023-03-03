@@ -105,7 +105,7 @@ private:
   DerivativeOperator<ScalarValueType, Self::ImageDimension> m_DerivativeOperator{};
 
   /** Modified global average gradient magnitude term. */
-  ScalarValueType m_K;
+  ScalarValueType m_K{};
 
   static double m_MIN_NORM;
 

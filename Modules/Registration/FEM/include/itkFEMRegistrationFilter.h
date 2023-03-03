@@ -683,7 +683,7 @@ private:
   vnl_vector<unsigned int> m_MeshPixelsPerElementAtEachResolution{};
 
   Float             m_TimeStep{ 1 };
-  vnl_vector<Float> m_E;
+  vnl_vector<Float> m_E{};
   vnl_vector<Float> m_Rho{};
   vnl_vector<Float> m_Gamma{};
   Float             m_Energy{ 0.0 };      // current value of energy

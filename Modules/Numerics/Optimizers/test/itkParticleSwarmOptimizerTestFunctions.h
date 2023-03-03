@@ -141,7 +141,7 @@ public:
   }
 
 private:
-  MatrixType m_A;
+  MatrixType m_A{};
   VectorType m_Intercept{};
 };
 
