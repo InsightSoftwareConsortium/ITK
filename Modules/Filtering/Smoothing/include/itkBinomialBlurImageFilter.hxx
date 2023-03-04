@@ -132,8 +132,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
     this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2 * NDimensions);
 
   // Copy the input image to the temporary image
-  TempIterator  tempIt = TempIterator(tempPtr, tempPtr->GetRequestedRegion());
-  InputIterator inputIt = InputIterator(inputPtr, inputPtr->GetRequestedRegion());
+  TempIterator  tempIt(tempPtr, tempPtr->GetRequestedRegion());
+  InputIterator inputIt(inputPtr, inputPtr->GetRequestedRegion());
 
   for (inputIt.GoToBegin(), tempIt.GoToBegin(); !tempIt.IsAtEnd(); ++tempIt, ++inputIt)
   {
@@ -161,7 +161,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
     // blur each dimension
     for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
-      TempIterator tempItDir = TempIterator(tempPtr, tempPtr->GetRequestedRegion());
+      TempIterator tempItDir(tempPtr, tempPtr->GetRequestedRegion());
       tempItDir.GoToBegin();
       while (!tempItDir.IsAtEnd())
       {
@@ -200,7 +200,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
       itkDebugMacro(<< "End processing forward dimension " << dim);
 
       //----------------------Reverse pass----------------------
-      TempReverseIterator tempReverseIt = TempReverseIterator(tempPtr, tempPtr->GetRequestedRegion());
+      TempReverseIterator tempReverseIt(tempPtr, tempPtr->GetRequestedRegion());
 
       tempReverseIt.GoToBegin();
 
@@ -246,8 +246,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   // buffer iterator walks a region defined by the output
   using OutputIterator = ImageRegionIterator<TOutputImage>;
 
-  OutputIterator outIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
-  TempIterator   tempIt2 = TempIterator(tempPtr, outputPtr->GetRequestedRegion());
+  OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
+  TempIterator   tempIt2(tempPtr, outputPtr->GetRequestedRegion());
 
   for (outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++tempIt2)
   {

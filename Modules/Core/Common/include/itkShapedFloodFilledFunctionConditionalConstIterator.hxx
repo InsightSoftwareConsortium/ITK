@@ -117,7 +117,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPi
 {
   // Create an iterator that will walk the input image
   using IRIType = typename itk::ImageRegionConstIterator<TImage>;
-  IRIType it = IRIType(this->m_Image, this->m_Image->GetBufferedRegion());
+  IRIType it(this->m_Image, this->m_Image->GetBufferedRegion());
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest
@@ -142,7 +142,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPi
 {
   // Create an iterator that will walk the input image
   using IRIType = typename itk::ImageRegionConstIterator<TImage>;
-  IRIType it = IRIType(this->m_Image, this->m_Image->GetBufferedRegion());
+  IRIType it(this->m_Image, this->m_Image->GetBufferedRegion());
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest

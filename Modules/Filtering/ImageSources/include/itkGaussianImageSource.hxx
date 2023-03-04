@@ -97,7 +97,7 @@ GaussianImageSource<TOutputImage>::GenerateData()
 
   // Create an iterator that will walk the output region
   using OutputIterator = ImageRegionIterator<TOutputImage>;
-  OutputIterator outIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
+  OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
 
 
   ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());

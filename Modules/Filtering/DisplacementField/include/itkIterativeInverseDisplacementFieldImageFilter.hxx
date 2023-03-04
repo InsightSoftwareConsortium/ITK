@@ -61,8 +61,8 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
   negField->SetDirection(inputPtr->GetDirection());
   negField->Allocate();
 
-  InputConstIterator InputIt = InputConstIterator(inputPtr, inputPtr->GetRequestedRegion());
-  InputIterator      negImageIt = InputIterator(negField, negField->GetRequestedRegion());
+  InputConstIterator InputIt(inputPtr, inputPtr->GetRequestedRegion());
+  InputIterator      negImageIt(negField, negField->GetRequestedRegion());
 
   for (negImageIt.GoToBegin(); !negImageIt.IsAtEnd(); ++negImageIt)
   {
@@ -112,7 +112,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
     }
 
     ProgressReporter         progress(this, 0, inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
-    OutputIterator           OutputIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
+    OutputIterator           OutputIt(outputPtr, outputPtr->GetRequestedRegion());
     FieldInterpolatorPointer inputFieldInterpolator = FieldInterpolatorType::New();
     inputFieldInterpolator->SetInputImage(inputPtr);
 

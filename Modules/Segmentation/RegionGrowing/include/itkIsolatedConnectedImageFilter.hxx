@@ -197,7 +197,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   float             progressWeight = 0.0f;
   float             cumulatedProgress = 0.0f;
-  IteratorType      it = IteratorType(outputImage, function, m_Seeds1);
+  IteratorType      it(outputImage, function, m_Seeds1);
   IterationReporter iterate(this, 0, 1);
 
   // If the upper threshold has not been set, find it.

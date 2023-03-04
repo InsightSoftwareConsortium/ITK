@@ -97,7 +97,7 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
 
     using ItType = itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, FunctionType>;
 
-    ItType sfi = ItType(sourceImage, spatialFunc, seedPos);
+    ItType sfi(sourceImage, spatialFunc, seedPos);
 
     switch (strat)
     {

@@ -107,7 +107,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   filter->Update();
 
   using inputIterator = itk::ImageRegionIterator<InputImageType>;
-  inputIterator it = inputIterator(inputimg, region);
+  inputIterator it(inputimg, region);
 
   std::cout << "Input Image" << std::endl;
   it.GoToBegin();
@@ -123,7 +123,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   std::cout << std::endl;
 
   using outputIterator = itk::ImageRegionIterator<OutputImageType>;
-  outputIterator ot = outputIterator(filter->GetOutput(), region);
+  outputIterator ot(filter->GetOutput(), region);
 
   std::cout << std::endl << "Output Image" << std::endl;
   ot.GoToBegin();

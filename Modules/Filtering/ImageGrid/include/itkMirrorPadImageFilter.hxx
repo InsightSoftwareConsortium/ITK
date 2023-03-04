@@ -771,8 +771,8 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
             RegionIsOdd(inputIndex[dimCtr], outputRegion.GetIndex()[dimCtr], static_cast<long>(inputSize[dimCtr]));
         }
 
-        OutputIterator outIt = OutputIterator(outputPtr, outputRegion);
-        InputIterator  inIt = InputIterator(inputPtr, inputRegion);
+        OutputIterator outIt(outputPtr, outputRegion);
+        InputIterator  inIt(inputPtr, inputRegion);
         double         decayFactor = 1.0;
 
         // Do the actual copy of the input pixels to the output pixels here.

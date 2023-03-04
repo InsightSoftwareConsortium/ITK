@@ -262,9 +262,9 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
   // Iterate over all of those pixels and offsets, adding each
   // co-occurrence pair to the histogram
   using NeighborhoodIteratorType = ConstNeighborhoodIterator<ImageType>;
-  NeighborhoodIteratorType neighborIt = NeighborhoodIteratorType(radius, input, region);
+  NeighborhoodIteratorType neighborIt(radius, input, region);
   using MaskNeighborhoodIteratorType = ConstNeighborhoodIterator<MaskImageType>;
-  MaskNeighborhoodIteratorType maskNeighborIt = MaskNeighborhoodIteratorType(radius, maskImage, region);
+  MaskNeighborhoodIteratorType maskNeighborIt(radius, maskImage, region);
 
   MeasurementVectorType             cooccur(output->GetMeasurementVectorSize());
   typename HistogramType::IndexType index;

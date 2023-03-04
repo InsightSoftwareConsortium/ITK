@@ -105,7 +105,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
   seedPos.SetIndex(pos);
 
   using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<TImageType, TFunctionType>;
-  TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
+  TItType sfi(sourceImage, spatialFunc, seedPos);
 
   //
   // show seed indices

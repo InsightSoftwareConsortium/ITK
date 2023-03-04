@@ -85,7 +85,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   inputImageA->SetRegions(region);
   inputImageA->Allocate();
 
-  IteratorType it = IteratorType(inputImageA, inputImageA->GetBufferedRegion());
+  IteratorType it(inputImageA, inputImageA->GetBufferedRegion());
 
   for (unsigned int i = 0; i < imageSize; ++i, ++it)
   {

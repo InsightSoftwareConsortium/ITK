@@ -282,8 +282,8 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateCluste
 
   itkDebugMacro("Estimating Centers");
   // calculate new centers
-  OutputIteratorType     itOut = OutputIteratorType(outputImage, updateRegionForThread);
-  InputConstIteratorType itIn = InputConstIteratorType(inputImage, updateRegionForThread);
+  OutputIteratorType     itOut(outputImage, updateRegionForThread);
+  InputConstIteratorType itIn(inputImage, updateRegionForThread);
   while (!itOut.IsAtEnd())
   {
     const size_t ln = updateRegionForThread.GetSize(0);
