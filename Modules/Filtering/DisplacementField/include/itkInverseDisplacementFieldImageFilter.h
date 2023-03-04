@@ -195,14 +195,14 @@ protected:
   PrepareKernelBaseSpline();
 
 private:
-  SizeType                   m_Size;            // Size of the output image
-  KernelTransformPointerType m_KernelTransform; // Coordinate transform to
-                                                // use
-  SpacingType     m_OutputSpacing;              // output image spacing
-  OriginPointType m_OutputOrigin;               // output image origin
+  SizeType                   m_Size{};            // Size of the output image
+  KernelTransformPointerType m_KernelTransform{}; // Coordinate transform to
+                                                  // use
+  SpacingType     m_OutputSpacing{};              // output image spacing
+  OriginPointType m_OutputOrigin{};               // output image origin
 
-  unsigned int m_SubsamplingFactor; // factor to subsample the
-                                    // input field.
+  unsigned int m_SubsamplingFactor{}; // factor to subsample the
+                                      // input field.
 };
 } // end namespace itk
 

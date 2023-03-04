@@ -258,9 +258,9 @@ public:
   }
 
 protected:
-  OffsetValueType m_SpanBeginOffset; // one pixel before the beginning of the span
-                                     // (row)
-  OffsetValueType m_SpanEndOffset;   // one pixel past the end of the span (row)
+  OffsetValueType m_SpanBeginOffset{}; // one pixel before the beginning of the span
+                                       // (row)
+  OffsetValueType m_SpanEndOffset{};   // one pixel past the end of the span (row)
 
 private:
   void

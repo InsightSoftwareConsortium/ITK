@@ -134,7 +134,7 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  SizeType      m_Size; // size of the output image
+  SizeType      m_Size{}; // size of the output image
   SpacingType   m_Spacing{};
   PointType     m_Origin{};
   DirectionType m_Direction{};

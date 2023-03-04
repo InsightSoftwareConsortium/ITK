@@ -270,8 +270,8 @@ public:
   IsOriginalHeaderBigEndian() const;
 
   /** Public available data : FIXME : NO MEMBER VARIABLES SHOULD BE PUBLIC. */
-  Header m_Header; // FIXME : This should be private and
-                   // should have Get/Set Methods.
+  Header m_Header{}; // FIXME : This should be private and
+                     // should have Get/Set Methods.
 
 protected:
   MRCHeaderObject();

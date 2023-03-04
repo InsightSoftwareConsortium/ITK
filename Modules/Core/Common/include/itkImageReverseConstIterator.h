@@ -393,11 +393,11 @@ public:
 protected: // made protected so other iterators can access
   typename ImageType::ConstWeakPointer m_Image{};
 
-  RegionType m_Region; // region to iterate over
+  RegionType m_Region{}; // region to iterate over
 
   SizeValueType m_Offset{};
-  SizeValueType m_BeginOffset; // offset to last pixel in region
-  SizeValueType m_EndOffset;   // offset to one pixel before first pixel
+  SizeValueType m_BeginOffset{}; // offset to last pixel in region
+  SizeValueType m_EndOffset{};   // offset to one pixel before first pixel
 
   const InternalPixelType * m_Buffer{};
 

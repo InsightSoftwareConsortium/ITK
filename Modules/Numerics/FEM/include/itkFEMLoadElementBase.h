@@ -116,7 +116,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
   void
                             AddNextElementInternal(const Element * e);
-  ElementPointersVectorType m_Element; /** pointers to element objects on which the
+  ElementPointersVectorType m_Element{}; /** pointers to element objects on which the
                                   load acts */
 };
 } // end namespace fem

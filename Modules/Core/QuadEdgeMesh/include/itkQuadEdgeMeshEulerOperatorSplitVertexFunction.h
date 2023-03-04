@@ -77,7 +77,7 @@ protected:
   ~QuadEdgeMeshEulerOperatorSplitVertexFunction() override = default;
 
 private:
-  PointIdentifier m_NewPoint; // stock newly created point ID for user.
+  PointIdentifier m_NewPoint{}; // stock newly created point ID for user.
 };
 } // end namespace itk
 

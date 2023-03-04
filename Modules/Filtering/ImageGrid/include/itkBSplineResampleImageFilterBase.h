@@ -173,12 +173,12 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  int m_SplineOrder; // User specified spline order
-  int m_GSize;       // downsampling filter size
-  int m_HSize;       // upsampling filter size
+  int m_SplineOrder{}; // User specified spline order
+  int m_GSize{};       // downsampling filter size
+  int m_HSize{};       // upsampling filter size
 
-  std::vector<double> m_G; // downsampling filter coefficients
-  std::vector<double> m_H; // upsampling filter coefficients
+  std::vector<double> m_G{}; // downsampling filter coefficients
+  std::vector<double> m_H{}; // upsampling filter coefficients
 
 private:
   /** Allocate scratch space based on image sizes. */
@@ -195,8 +195,8 @@ private:
   void
   CopyLineToScratch(ConstInputImageIterator & Iter);
 
-  std::vector<double> m_Scratch; // temp storage for processing
-                                 // of Coefficients
+  std::vector<double> m_Scratch{}; // temp storage for processing
+                                   // of Coefficients
 };
 } // namespace itk
 

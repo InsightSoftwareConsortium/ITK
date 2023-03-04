@@ -236,7 +236,7 @@ protected:
 
   SpacingType m_Spacing{};
 
-  PointType m_Origin; // start value
+  PointType m_Origin{}; // start value
 
   double m_Tolerance{};
 

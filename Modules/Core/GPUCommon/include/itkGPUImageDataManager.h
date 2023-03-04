@@ -86,8 +86,8 @@ protected:
   ~GPUImageDataManager() override = default;
 
 private:
-  WeakPointer<ImageType> m_Image; // WeakPointer has to be used here
-                                  // to avoid SmartPointer loop
+  WeakPointer<ImageType> m_Image{}; // WeakPointer has to be used here
+                                    // to avoid SmartPointer loop
   int                              m_BufferedRegionIndex[ImageType::ImageDimension]{};
   int                              m_BufferedRegionSize[ImageType::ImageDimension]{};
   typename GPUDataManager::Pointer m_GPUBufferedRegionIndex{};

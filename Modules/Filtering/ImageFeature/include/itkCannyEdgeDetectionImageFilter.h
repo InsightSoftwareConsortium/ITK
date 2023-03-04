@@ -251,8 +251,8 @@ private:
   ArrayType m_Variance{};
   ArrayType m_MaximumError{};
 
-  OutputImagePixelType m_UpperThreshold; // should be float here?
-  OutputImagePixelType m_LowerThreshold; // should be float here?
+  OutputImagePixelType m_UpperThreshold{}; // should be float here?
+  OutputImagePixelType m_LowerThreshold{}; // should be float here?
 
   typename OutputImageType::Pointer m_UpdateBuffer1{};
 

@@ -166,7 +166,7 @@ protected: // made protected so other iterators can access
   IndexType m_CurrentImageIndex{};
   IndexType m_StartIndex{};
   IndexType m_LastIndex{};
-  IndexType m_EndIndex; // one past the end of the line in the m_MainDirection
+  IndexType m_EndIndex{}; // one past the end of the line in the m_MainDirection
 
   /** Variables that drive the Bresenham-Algorithm */
   // The dimension with the largest difference between start and end

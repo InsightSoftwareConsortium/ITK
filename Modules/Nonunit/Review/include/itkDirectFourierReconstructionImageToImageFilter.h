@@ -165,24 +165,24 @@ private:
   /** 2D output slice iterator */
   using OutputSliceIteratorType = ImageRegionIteratorWithIndex<OutputSliceType>;
 
-  unsigned short m_ZeroPadding;  /**< n-fold zero-padding */
-  unsigned short m_OverSampling; /**< n-fold oversampling */
+  unsigned short m_ZeroPadding{};  /**< n-fold zero-padding */
+  unsigned short m_OverSampling{}; /**< n-fold oversampling */
 
-  double m_Cutoff;     /**< Radial lowpass cut-off frequency
-                        */
-  double m_AlphaRange; /**< Covered angular range */
+  double m_Cutoff{};     /**< Radial lowpass cut-off frequency
+                          */
+  double m_AlphaRange{}; /**< Covered angular range */
 
-  unsigned short m_ZDirection;        /**< Axial index in the input image */
-  unsigned short m_AlphaDirection;    /**< Angular index in the input image
-                                       */
-  unsigned short m_RDirection;        /**< Radial index in the input image
-                                       */
-  unsigned short m_RadialSplineOrder; /**< Spline order for the radial
+  unsigned short m_ZDirection{};        /**< Axial index in the input image */
+  unsigned short m_AlphaDirection{};    /**< Angular index in the input image
+                                         */
+  unsigned short m_RDirection{};        /**< Radial index in the input image
+                                         */
+  unsigned short m_RadialSplineOrder{}; /**< Spline order for the radial
                                             BSpline interpolation  */
 
-  double m_PI; /**< The constant pi....  */
+  double m_PI{}; /**< The constant pi....  */
 
-  RegionType m_InputRequestedRegion; /**< The region requested from* the input
+  RegionType m_InputRequestedRegion{}; /**< The region requested from* the input
                                        image   */
 };
 } // namespace itk

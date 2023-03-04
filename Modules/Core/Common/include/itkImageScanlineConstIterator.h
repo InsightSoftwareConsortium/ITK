@@ -257,8 +257,8 @@ public:
 
 
 protected:
-  OffsetValueType m_SpanBeginOffset; // one pixel the beginning of the scanline
-  OffsetValueType m_SpanEndOffset;   // one pixel past the end of the scanline
+  OffsetValueType m_SpanBeginOffset{}; // one pixel the beginning of the scanline
+  OffsetValueType m_SpanEndOffset{};   // one pixel past the end of the scanline
 };
 } // end namespace itk
 

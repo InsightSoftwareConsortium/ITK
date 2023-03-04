@@ -379,11 +379,11 @@ public:
 protected: // made protected so other iterators can access
   typename TImage::ConstWeakPointer m_Image{};
 
-  RegionType m_Region; // region to iterate over
+  RegionType m_Region{}; // region to iterate over
 
   OffsetValueType m_Offset{};
-  OffsetValueType m_BeginOffset; // offset to first pixel in region
-  OffsetValueType m_EndOffset;   // offset to one pixel past last pixel in region
+  OffsetValueType m_BeginOffset{}; // offset to first pixel in region
+  OffsetValueType m_EndOffset{};   // offset to one pixel past last pixel in region
 
   const InternalPixelType * m_Buffer{};
 

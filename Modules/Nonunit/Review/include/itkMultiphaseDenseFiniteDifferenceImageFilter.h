@@ -212,7 +212,7 @@ protected:
   void
   ApplyUpdate(TimeStepType dt) override;
 
-  unsigned int m_ReinitializeCounter; // FIXME: Should this be a boolean ?
+  unsigned int m_ReinitializeCounter{}; // FIXME: Should this be a boolean ?
   // unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
 
 private:

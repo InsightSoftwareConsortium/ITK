@@ -155,8 +155,8 @@ protected:
 
   ImageIOBase::Pointer m_ImageIO{};
 
-  bool m_UserSpecifiedImageIO; // keep track whether the
-                               // ImageIO is user specified
+  bool m_UserSpecifiedImageIO{}; // keep track whether the
+                                 // ImageIO is user specified
 
   bool m_UseStreaming{};
 
