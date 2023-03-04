@@ -186,8 +186,8 @@ protected:
 
 private:
   std::ifstream  m_InputFile{};
-  std::streampos m_PointsStartPosition; // file position for points relative to
-                                        // std::ios::beg
+  std::streampos m_PointsStartPosition{}; // file position for points relative to
+                                          // std::ios::beg
 };
 } // end namespace itk
 

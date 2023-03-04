@@ -130,8 +130,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MeanVectorType       m_Mean;       // mean
-  CovarianceMatrixType m_Covariance; // covariance matrix
+  MeanVectorType       m_Mean{};       // mean
+  CovarianceMatrixType m_Covariance{}; // covariance matrix
 
   // inverse covariance matrix. automatically calculated
   // when covariance matrix is set.

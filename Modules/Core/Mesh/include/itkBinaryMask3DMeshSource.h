@@ -215,7 +215,7 @@ private:
   IdentifierType
   SearchThroughLastFrame(int index, int start, int end);
 
-  unsigned char m_LUT[256][2]; // the two lookup tables
+  unsigned char m_LUT[256][2]{}; // the two lookup tables
 
   IdentifierType m_LastVoxel[14]{};
   IdentifierType m_CurrentVoxel[14]{};

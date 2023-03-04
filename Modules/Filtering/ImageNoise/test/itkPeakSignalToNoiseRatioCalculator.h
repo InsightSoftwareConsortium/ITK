@@ -99,8 +99,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool m_Valid; // Have moments been computed
-                // yet?
+  bool m_Valid{}; // Have moments been computed
+                  // yet?
   double m_Output{};
 
   InputImageConstPointer m_Image{};

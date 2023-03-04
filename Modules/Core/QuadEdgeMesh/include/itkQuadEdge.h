@@ -433,8 +433,8 @@ public:
   GetOrder() const;
 
 private:
-  Self * m_Onext; /**< Onext ring */
-  Self * m_Rot;   /**< Rot ring */
+  Self * m_Onext{}; /**< Onext ring */
+  Self * m_Rot{};   /**< Rot ring */
 };
 } // namespace itk
 

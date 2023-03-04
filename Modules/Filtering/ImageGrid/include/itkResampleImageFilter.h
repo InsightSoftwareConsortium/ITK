@@ -367,18 +367,18 @@ private:
   void
   InitializeTransform();
 
-  SizeType                m_Size;         // Size of the output image
-  InterpolatorPointerType m_Interpolator; // Image function for
-                                          // interpolation
-  ExtrapolatorPointerType m_Extrapolator; // Image function for
-                                          // extrapolation
-  PixelType m_DefaultPixelValue;          // default pixel value
-                                          // if the point is
-                                          // outside the image
-  SpacingType     m_OutputSpacing;        // output image spacing
-  OriginPointType m_OutputOrigin;         // output image origin
-  DirectionType   m_OutputDirection;      // output image direction cosines
-  IndexType       m_OutputStartIndex;     // output image start index
+  SizeType                m_Size{};         // Size of the output image
+  InterpolatorPointerType m_Interpolator{}; // Image function for
+                                            // interpolation
+  ExtrapolatorPointerType m_Extrapolator{}; // Image function for
+                                            // extrapolation
+  PixelType m_DefaultPixelValue{};          // default pixel value
+                                            // if the point is
+                                            // outside the image
+  SpacingType     m_OutputSpacing{};        // output image spacing
+  OriginPointType m_OutputOrigin{};         // output image origin
+  DirectionType   m_OutputDirection{};      // output image direction cosines
+  IndexType       m_OutputStartIndex{};     // output image start index
   bool            m_UseReferenceImage{ false };
 };
 } // end namespace itk

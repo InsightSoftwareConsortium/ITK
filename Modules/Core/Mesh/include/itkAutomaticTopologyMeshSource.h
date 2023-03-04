@@ -414,7 +414,7 @@ private:
 
   PointHashMap m_PointsHashTable{};
   CellHashMap  m_CellsHashTable{};
-  MeshPointer  m_OutputMesh; // Retained for convenience.
+  MeshPointer  m_OutputMesh{}; // Retained for convenience.
 };
 } // end namespace itk
 

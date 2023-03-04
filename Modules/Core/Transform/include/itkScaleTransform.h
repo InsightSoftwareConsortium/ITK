@@ -214,7 +214,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ScaleType m_Scale; // Scales of the transformation
+  ScaleType m_Scale{}; // Scales of the transformation
 
 }; // class ScaleTransform
 

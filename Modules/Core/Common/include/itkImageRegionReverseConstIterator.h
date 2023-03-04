@@ -353,8 +353,8 @@ public:
   }
 
 protected:
-  SizeValueType m_SpanBeginOffset; // offset to last pixel in the row
-  SizeValueType m_SpanEndOffset;   // offset to one pixel before the row
+  SizeValueType m_SpanBeginOffset{}; // offset to last pixel in the row
+  SizeValueType m_SpanEndOffset{};   // offset to one pixel before the row
 };
 } // end namespace itk
 

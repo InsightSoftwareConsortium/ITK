@@ -285,9 +285,9 @@ private:
   int      m_YDim{};
   float    m_XRes{};
   float    m_YRes{};
-  int      m_Key1; /** Key that must be matched for image to be used,
+  int      m_Key1{}; /** Key that must be matched for image to be used,
                      i.e. seriesNumber, extensionkey */
-  int m_Key2;      /** Key that must be matched for image to be used,
+  int m_Key2{};      /** Key that must be matched for image to be used,
                      i.e. echoNumber */
   int m_SortOrder{};
 };

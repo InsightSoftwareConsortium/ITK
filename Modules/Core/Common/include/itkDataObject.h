@@ -568,8 +568,8 @@ private:
   /** When, in real time, this data was generated. */
   RealTimeStamp m_RealTimeStamp{};
 
-  bool m_ReleaseDataFlag; // Data will release after use by a filter if on
-  bool m_DataReleased;    // Keep track of data release during pipeline execution
+  bool m_ReleaseDataFlag{}; // Data will release after use by a filter if on
+  bool m_DataReleased{};    // Keep track of data release during pipeline execution
 
   /** The maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */

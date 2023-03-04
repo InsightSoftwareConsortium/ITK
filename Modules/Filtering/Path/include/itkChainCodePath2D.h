@@ -171,7 +171,7 @@ protected:
   }
 
 private:
-  ChainCode2DType m_Chain2D; // the Freeman-encoded chain code
+  ChainCode2DType m_Chain2D{}; // the Freeman-encoded chain code
 
   // FreemanCode[][] implements a lookup table for converting offsets to a
   // Freeman code.  Within each dimension, the only allowable offset values are

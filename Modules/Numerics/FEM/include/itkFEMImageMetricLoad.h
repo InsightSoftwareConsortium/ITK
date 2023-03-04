@@ -358,7 +358,7 @@ private:
   GradientImageType * m_MetricGradientImage{};
   MovingPointer       m_RefImage{};
   FixedPointer        m_TarImage{};
-  MovingRadiusType    m_MetricRadius; /** used by the metric to set
+  MovingRadiusType    m_MetricRadius{}; /** used by the metric to set
                                         region size for fixed image*/
   typename MovingType::SizeType m_RefSize{};
   typename FixedType::SizeType  m_TarSize{};

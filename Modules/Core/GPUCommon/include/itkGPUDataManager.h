@@ -147,7 +147,7 @@ protected:
 protected:
   /* NOTE: ivars are protected instead of private to improve performance access in child classes*/
 
-  unsigned int m_BufferSize; // # of bytes
+  unsigned int m_BufferSize{}; // # of bytes
 
   GPUContextManager * m_ContextManager{};
 

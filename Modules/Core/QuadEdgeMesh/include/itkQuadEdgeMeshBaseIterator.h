@@ -214,10 +214,10 @@ protected:
   }
 
 protected:
-  QuadEdgeType * m_StartEdge; /**< Start edge */
-  QuadEdgeType * m_Iterator;  /**< Current iteration position */
-  int            m_OpType;    /**< Operation type */
-  bool           m_Start;     /**< Indicates iteration has just started */
+  QuadEdgeType * m_StartEdge{}; /**< Start edge */
+  QuadEdgeType * m_Iterator{};  /**< Current iteration position */
+  int            m_OpType{};    /**< Operation type */
+  bool           m_Start{};     /**< Indicates iteration has just started */
 };
 
 /**

@@ -65,7 +65,7 @@ private:
   cl_platform_id     m_Platform{};
   cl_context         m_Context{};
   cl_device_id *     m_Devices{};
-  cl_command_queue * m_CommandQueue; // one queue per device
+  cl_command_queue * m_CommandQueue{}; // one queue per device
 
   cl_uint m_NumberOfDevices, m_NumberOfPlatforms{};
 

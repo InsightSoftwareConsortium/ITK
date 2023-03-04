@@ -666,8 +666,8 @@ private:
   unsigned int m_LineSearchMaximumIterations{ 100 };
 
   /** Parameters used to define Multi-resolution registration. */
-  vnl_vector<unsigned int> m_NumberOfIntegrationPoints; // resolution of integration
-  vnl_vector<unsigned int> m_MetricWidth;               // number of iterations at each level
+  vnl_vector<unsigned int> m_NumberOfIntegrationPoints{}; // resolution of integration
+  vnl_vector<unsigned int> m_MetricWidth{};               // number of iterations at each level
   vnl_vector<unsigned int> m_Maxiters{};
   unsigned int             m_TotalIterations{ 0 }; // total number of iterations that were run
   unsigned int             m_MaxLevel{ 1 };
@@ -687,7 +687,7 @@ private:
   vnl_vector<Float> m_Rho{};
   vnl_vector<Float> m_Gamma{};
   Float             m_Energy{ 0.0 };      // current value of energy
-  Float             m_MinE;               // minimum recorded energy
+  Float             m_MinE{};             // minimum recorded energy
   Float             m_MinJacobian{ 1.0 }; // minimum recorded energy
   Float             m_Alpha{ 1.0 };
 
@@ -711,7 +711,7 @@ private:
 
   // Only use TotalField if re-gridding is employed.
   typename FieldType::Pointer           m_TotalField{};
-  typename ImageMetricLoadType::Pointer m_Load; // Defines the load to use
+  typename ImageMetricLoadType::Pointer m_Load{}; // Defines the load to use
 
   // Define the warper
   typename WarperType::Pointer m_Warper{};

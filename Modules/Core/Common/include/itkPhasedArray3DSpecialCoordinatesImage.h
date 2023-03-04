@@ -411,8 +411,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_AzimuthAngularSeparation;   // in radians
-  double m_ElevationAngularSeparation; // in radians
+  double m_AzimuthAngularSeparation{};   // in radians
+  double m_ElevationAngularSeparation{}; // in radians
   double m_RadiusSampleSize{};
   double m_FirstSampleDistance{};
 };

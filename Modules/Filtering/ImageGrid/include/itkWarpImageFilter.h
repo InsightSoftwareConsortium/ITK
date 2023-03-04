@@ -283,8 +283,8 @@ private:
   DirectionType m_OutputDirection{};
 
   InterpolatorPointer m_Interpolator{};
-  SizeType            m_OutputSize;       // Size of the output image
-  IndexType           m_OutputStartIndex; // output image start index
+  SizeType            m_OutputSize{};       // Size of the output image
+  IndexType           m_OutputStartIndex{}; // output image start index
 };
 } // end namespace itk
 

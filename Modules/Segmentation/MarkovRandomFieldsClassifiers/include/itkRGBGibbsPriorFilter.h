@@ -227,10 +227,10 @@ protected:
 private:
   using InputImageSizeType = typename TInputImage::SizeType;
 
-  InputImageConstPointer m_InputImage;            /** the input */
-  TrainingImageType      m_TrainingImage;         /** image to train the
-                                                    filter. */
-  LabelledImageType m_LabelledImage;              /** output */
+  InputImageConstPointer m_InputImage{};          /** the input */
+  TrainingImageType      m_TrainingImage{};       /** image to train the
+                                                  filter. */
+  LabelledImageType m_LabelledImage{};            /** output */
   unsigned int      m_NumberOfClasses{ 0 };       /** the number of class
                                                  need to be classified.
                                                  */
@@ -247,11 +247,11 @@ private:
   int                          m_RecursiveNumber{ 0 };   /** number of SA iterations. */
   std::unique_ptr<LabelType[]> m_LabelStatus{ nullptr }; /** array for the state of each pixel. */
 
-  InputImagePointer m_MediumImage; /** the medium image to store intermedium
+  InputImagePointer m_MediumImage{}; /** the medium image to store intermedium
                                      result */
 
-  unsigned int m_Temp{ 0 };  /** for SA algo. */
-  IndexType    m_StartPoint; /** the seed of object */
+  unsigned int m_Temp{ 0 };    /** for SA algo. */
+  IndexType    m_StartPoint{}; /** the seed of object */
 
   unsigned int m_ImageWidth{ 0 }; /** image size. */
   unsigned int m_ImageHeight{ 0 };
@@ -260,8 +260,8 @@ private:
                                    be erased. */
   LabelType      m_ObjectLabel{ 1 }; /** the label for object region. */
   unsigned int   m_VecDim{ 0 };      /** the channel number in the image. */
-  InputPixelType m_LowPoint;         /** the point give lowest value of H-1 in
-                                       neighbor. */
+  InputPixelType m_LowPoint{};       /** the point give lowest value of H-1 in
+                                     neighbor. */
 
   std::unique_ptr<unsigned short[]> m_Region{ nullptr };      /** for region erase. */
   std::unique_ptr<unsigned short[]> m_RegionCount{ nullptr }; /** for region erase. */
