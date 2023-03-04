@@ -67,7 +67,7 @@ PrintImageData(ImageTypePtr2D imgPtr)
     std::cout << imgPtr->GetSpacing()[n] << ", ";
   }
   std::cout << std::endl;
-  Iterator outIt = Iterator(imgPtr, imgPtr->GetLargestPossibleRegion());
+  Iterator outIt(imgPtr, imgPtr->GetLargestPossibleRegion());
   outIt.SetDirection(0);
 
   SizeType2D size = imgPtr->GetLargestPossibleRegion().GetSize();

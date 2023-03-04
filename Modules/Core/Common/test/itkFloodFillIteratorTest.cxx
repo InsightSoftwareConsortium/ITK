@@ -96,7 +96,7 @@ itkFloodFillIteratorTest(int, char *[])
   seedPos.SetIndex(pos);
 
   using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<TImageType, TFunctionType>;
-  TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
+  TItType sfi(sourceImage, spatialFunc, seedPos);
 
   // Iterate through the entire image and set interior pixels to 255
   for (; !(sfi.IsAtEnd()); ++sfi)

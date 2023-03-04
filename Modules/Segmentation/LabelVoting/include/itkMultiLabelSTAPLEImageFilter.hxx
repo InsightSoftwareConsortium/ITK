@@ -133,13 +133,13 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
     votingOutput = votingFilter->GetOutput();
   } // begin scope for local filter allocation; de-allocate filter
 
-  OutputIteratorType out = OutputIteratorType(votingOutput, votingOutput->GetRequestedRegion());
+  OutputIteratorType out(votingOutput, votingOutput->GetRequestedRegion());
 
   for (unsigned int k = 0; k < numberOfInputs; ++k)
   {
     this->m_ConfusionMatrixArray[k].Fill(0.0);
 
-    InputConstIteratorType in = InputConstIteratorType(this->GetInput(k), votingOutput->GetRequestedRegion());
+    InputConstIteratorType in(this->GetInput(k), votingOutput->GetRequestedRegion());
 
     for (out.GoToBegin(); !out.IsAtEnd(); ++out, ++in)
     {
@@ -193,7 +193,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializePrio
     const size_t numberOfInputs = this->GetNumberOfInputs();
     for (size_t k = 0; k < numberOfInputs; ++k)
     {
-      InputConstIteratorType in = InputConstIteratorType(this->GetInput(k), this->GetOutput()->GetRequestedRegion());
+      InputConstIteratorType in(this->GetInput(k), this->GetOutput()->GetRequestedRegion());
       for (in.GoToBegin(); !in.IsAtEnd(); ++in)
       {
         ++(this->m_PriorProbabilities[in.Get()]);
@@ -379,7 +379,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
   }
 
   // reset output iterator to start
-  OutputIteratorType out = OutputIteratorType(output, output->GetRequestedRegion());
+  OutputIteratorType out(output, output->GetRequestedRegion());
   for (out.GoToBegin(); !out.IsAtEnd(); ++out)
   {
     // basically, we'll repeat the E step from above

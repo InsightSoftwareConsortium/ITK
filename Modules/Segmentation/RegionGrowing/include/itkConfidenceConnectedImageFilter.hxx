@@ -289,7 +289,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // the [lower, upper] bounds prescribed, the pixel is added to the
   // output segmentation and its neighbors become candidates for the
   // iterator to walk.
-  IteratorType it = IteratorType(outputImage, function, m_Seeds);
+  IteratorType it(outputImage, function, m_Seeds);
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -316,7 +316,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     sumOfSquares = NumericTraits<InputRealType>::ZeroValue();
     typename TOutputImage::SizeValueType numberOfSamples = 0;
 
-    SecondIteratorType sit = SecondIteratorType(inputImage, secondFunction, m_Seeds);
+    SecondIteratorType sit(inputImage, secondFunction, m_Seeds);
     sit.GoToBegin();
     while (!sit.IsAtEnd())
     {
@@ -377,7 +377,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
     outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
-    IteratorType thirdIt = IteratorType(outputImage, function, m_Seeds);
+    IteratorType thirdIt(outputImage, function, m_Seeds);
     thirdIt.GoToBegin();
     try
     {

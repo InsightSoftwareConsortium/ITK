@@ -58,7 +58,7 @@ BSplineUpsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::GenerateDa
   outputPtr->Allocate();
 
   // Iterator for walking the output region is defined in the Superclass
-  OutputImageIterator outIt = OutputImageIterator(outputPtr, outputPtr->GetRequestedRegion());
+  OutputImageIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
 
   // Calculate actual output
   // TODO:  Need to verify outIt is correctly sized.

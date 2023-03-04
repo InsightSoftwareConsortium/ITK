@@ -1105,8 +1105,8 @@ FlatStructuringElement<VDimension>::Annulus(RadiusType   radius,
 
   // Define the iterators for each ellipsoid
   using FloodIteratorType = FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType>;
-  FloodIteratorType itEllipsoidOuter = FloodIteratorType(kernelImage, ellipsoidOuter, seed);
-  FloodIteratorType itEllipsoidInner = FloodIteratorType(kernelImage, ellipsoidInner, seed);
+  FloodIteratorType itEllipsoidOuter(kernelImage, ellipsoidOuter, seed);
+  FloodIteratorType itEllipsoidInner(kernelImage, ellipsoidInner, seed);
   itEllipsoidOuter.SetCenterInclusionStrategy();
   itEllipsoidInner.SetCenterInclusionStrategy();
 

@@ -45,7 +45,7 @@ CovarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType
   }
 
   const unsigned int VectorDimension = this->GetInputImage()->GetNumberOfComponentsPerPixel();
-  RealType           covariance = RealType(VectorDimension, VectorDimension);
+  RealType           covariance(VectorDimension, VectorDimension);
 
   if (!this->IsInsideBuffer(index))
   {
@@ -57,7 +57,7 @@ CovarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType
   covariance.fill(NumericTraits<PixelComponentRealType>::ZeroValue());
 
   using MeanVectorType = vnl_vector<PixelComponentRealType>;
-  MeanVectorType mean = MeanVectorType(VectorDimension);
+  MeanVectorType mean(VectorDimension);
   mean.fill(NumericTraits<PixelComponentRealType>::ZeroValue());
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition

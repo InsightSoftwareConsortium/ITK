@@ -74,7 +74,7 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int argc, char * argv[])
 
   // Mean values hand coded for the VisibleWomanSlice.png color file
   using MeanVectorType = FilterType::MeanVectorType;
-  MeanVectorType mean = MeanVectorType(3);
+  MeanVectorType mean(3);
 
   mean[0] = 44.7504;
   mean[1] = 37.5443;
@@ -84,7 +84,7 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int argc, char * argv[])
 
   // Covariance values hand coded for the VisibleWomanSlice.png color file
   using CovarianceMatrixType = FilterType::CovarianceMatrixType;
-  CovarianceMatrixType covariance = CovarianceMatrixType(3, 3);
+  CovarianceMatrixType covariance(3, 3);
 
   covariance[0][0] = 79.2225;
   covariance[1][1] = 81.0314;

@@ -187,7 +187,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
     const RegionType region(indMin, size);
 
     using IteratorType = ImageRegionConstIteratorWithIndex<ImageType>;
-    IteratorType it = IteratorType(m_Image, region);
+    IteratorType it(m_Image, region);
     it.GoToBegin();
     IndexType  ind;
     PointType  pnt;

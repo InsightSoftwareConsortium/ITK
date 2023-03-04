@@ -272,7 +272,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::
 
   using IteratorType = ImageRegionIterator<ImageType>;
 
-  IteratorType                coeffIterator = IteratorType(this->m_CoefficientImages[0], supportRegion);
+  IteratorType                coeffIterator(this->m_CoefficientImages[0], supportRegion);
   const ParametersValueType * basePointer = this->m_CoefficientImages[0]->GetBufferPointer();
   while (!coeffIterator.IsAtEnd())
   {

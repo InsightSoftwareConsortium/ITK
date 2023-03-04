@@ -82,7 +82,7 @@ itkLabelVotingImageFilterTest(int, char *[])
   inputImageA->SetRegions(region);
   inputImageA->Allocate();
 
-  IteratorType it = IteratorType(inputImageA, inputImageA->GetBufferedRegion());
+  IteratorType it(inputImageA, inputImageA->GetBufferedRegion());
 
   for (int i = 0; i < 8; ++i, ++it)
   {

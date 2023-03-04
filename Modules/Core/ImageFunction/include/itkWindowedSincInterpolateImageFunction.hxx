@@ -68,7 +68,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   radius.Fill(VRadius);
 
   // Initialize the neighborhood
-  IteratorType it = IteratorType(radius, image, image->GetBufferedRegion());
+  IteratorType it(radius, image, image->GetBufferedRegion());
 
   // Compute the offset tables (we ignore all the zero indices
   // in the neighborhood)
@@ -148,7 +148,7 @@ typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunct
   // Position the neighborhood at the index of interest
   Size<ImageDimension> radius;
   radius.Fill(VRadius);
-  IteratorType nit = IteratorType(radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
+  IteratorType nit(radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
   nit.SetLocation(baseIndex);
 
   // Compute the sinc function for each dimension

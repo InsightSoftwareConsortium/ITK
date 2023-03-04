@@ -241,7 +241,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // the [lower, upper] bounds prescribed, the pixel is added to the
   // output segmentation and its neighbors become candidates for the
   // iterator to walk.
-  IteratorType it = IteratorType(outputImage, m_ThresholdFunction, m_Seeds);
+  IteratorType it(outputImage, m_ThresholdFunction, m_Seeds);
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -271,7 +271,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     SizeValueType num = NumericTraits<SizeValueType>::ZeroValue();
 
-    SecondIteratorType sit = SecondIteratorType(inputImage, secondFunction, m_Seeds);
+    SecondIteratorType sit(inputImage, secondFunction, m_Seeds);
     sit.GoToBegin();
     while (!sit.IsAtEnd())
     {
@@ -320,7 +320,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
     outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
-    IteratorType thirdIt = IteratorType(outputImage, m_ThresholdFunction, m_Seeds);
+    IteratorType thirdIt(outputImage, m_ThresholdFunction, m_Seeds);
     thirdIt.GoToBegin();
     try
     {

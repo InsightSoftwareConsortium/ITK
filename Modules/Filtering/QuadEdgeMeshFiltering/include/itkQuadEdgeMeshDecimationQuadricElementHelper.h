@@ -238,7 +238,7 @@ public:
 
   Self operator*(const CoordType & iV) const
   {
-    Self oElement = Self(this->m_Coefficients * iV);
+    Self oElement(this->m_Coefficients * iV);
 
     return oElement;
   }

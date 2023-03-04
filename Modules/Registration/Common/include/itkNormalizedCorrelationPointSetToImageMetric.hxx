@@ -143,13 +143,13 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDer
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
-  DerivativeType derivativeF = DerivativeType(ParametersDimension);
+  DerivativeType derivativeF(ParametersDimension);
   derivativeF.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
-  DerivativeType derivativeM = DerivativeType(ParametersDimension);
+  DerivativeType derivativeM(ParametersDimension);
   derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
-  DerivativeType derivativeO = DerivativeType(ParametersDimension);
+  DerivativeType derivativeO(ParametersDimension);
   derivativeO.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
@@ -286,13 +286,13 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetVal
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
-  DerivativeType derivativeF = DerivativeType(ParametersDimension);
+  DerivativeType derivativeF(ParametersDimension);
   derivativeF.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
-  DerivativeType derivativeM = DerivativeType(ParametersDimension);
+  DerivativeType derivativeM(ParametersDimension);
   derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
-  DerivativeType derivativeO = DerivativeType(ParametersDimension);
+  DerivativeType derivativeO(ParametersDimension);
   derivativeO.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
   PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
