@@ -58,7 +58,10 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
       for (int x = -1; x <= 1; ++x)
       {
         const int pos = center + y * this->GetStride(1) + x * this->GetStride(0);
-        //
+        // Note, The following line copies the double precision
+        // coefficients of SobelOperator to the pixel type
+        // of the neighborhood operator which may not support
+        // negative numbers, or floating point numbers.
         this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
 
         ++coeff_index;
