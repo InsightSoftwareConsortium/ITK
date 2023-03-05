@@ -19,6 +19,7 @@
 #define itkNrrdImageIOTest_h
 
 #include <fstream>
+#include <string>
 #include "itkImageRegionIterator.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -99,6 +100,20 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
   {
     // Generate a random image.
     image = itkNrrdImageIOTestGenerateRandomImage<TPixelType, VImageDimension>(size);
+
+    // add custom metadata
+    itk::MetaDataDictionary dictionary;
+
+    itk::EncapsulateMetaData(dictionary, "ASimpleString", std::string("a string"));
+    itk::EncapsulateMetaData(dictionary, "ASimpleFloat", 1.2f);
+    itk::EncapsulateMetaData(dictionary, "ASimpleDouble", 2.3);
+    itk::EncapsulateMetaData(dictionary, "ASimpleInt", 3);
+
+    itk::EncapsulateMetaData(dictionary, "Array<int>", itk::Array<int>(3, 1));
+    itk::EncapsulateMetaData(dictionary, "Array<float>", itk::Array<float>(4, 2.2f));
+    itk::EncapsulateMetaData(dictionary, "Array<double>", itk::Array<double>(5, 3.3));
+
+    image->SetMetaDataDictionary(dictionary);
   }
 
   // Write, then read the image.
@@ -153,6 +168,42 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
       return EXIT_FAILURE;
     }
   }
+  if (inputFile == "null")
+  {
+    // check incorporated metadata
+    itk::MetaDataDictionary dictionary = reader->GetOutput()->GetMetaDataDictionary();
+
+    auto check_metadata_entry = [](auto & dict, auto & key, auto & expected) {
+      std::string val;
+      if (!itk::ExposeMetaData<std::string>(dict, key, val))
+      {
+        std::cerr << "Missing expected metadata entry:" << key << std::endl;
+        return false;
+      }
+      if (val != expected)
+      {
+        std::cerr << "Wrong metadata for " << key << ", expected:" << expected << " got:" << val.c_str() << std::endl;
+        return false;
+      }
+      return true;
+    };
+
+    if (!check_metadata_entry(dictionary, "ASimpleString", "a string"))
+      return EXIT_FAILURE;
+    if (!check_metadata_entry(dictionary, "ASimpleFloat", "1.2"))
+      return EXIT_FAILURE;
+    if (!check_metadata_entry(dictionary, "ASimpleDouble", "2.3"))
+      return EXIT_FAILURE;
+    if (!check_metadata_entry(dictionary, "ASimpleInt", "3"))
+      return EXIT_FAILURE;
+    if (!check_metadata_entry(dictionary, "Array<int>", "[1, 1, 1]"))
+      return EXIT_FAILURE;
+    if (!check_metadata_entry(dictionary, "Array<float>", "[2.2, 2.2, 2.2, 2.2]"))
+      return EXIT_FAILURE;
+    if (!check_metadata_entry(dictionary, "Array<double>", "[3.3, 3.3, 3.3, 3.3, 3.3]"))
+      return EXIT_FAILURE;
+  }
+
   return EXIT_SUCCESS;
 }
 

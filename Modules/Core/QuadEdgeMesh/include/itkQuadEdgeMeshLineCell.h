@@ -19,6 +19,7 @@
 #define itkQuadEdgeMeshLineCell_h
 
 #include "itkAutoPointer.h"
+#include "itkMesh.h"
 #include "itkGeometricalQuadEdge.h"
 
 namespace itk
