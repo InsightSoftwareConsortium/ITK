@@ -39,12 +39,11 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>::FlipAxes()
   // To flip the operator across all of its axes, all we have to do is reverse
   // the order of all coefficients.
   const unsigned int size = this->Size();
-  PixelType          temp;
 
   for (unsigned int i = 0; i < size / 2; ++i)
   {
-    unsigned int swap_with = size - 1 - i;
-    temp = this->operator[](i);
+    const unsigned int swap_with = size - 1 - i;
+    const PixelType    temp{ this->operator[](i) };
 
     this->operator[](i) = this->operator[](swap_with);
 
@@ -56,10 +55,8 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>::CreateDirectional()
 {
-  SizeValueType     k[VDimension];
-  CoefficientVector coefficients;
-
-  coefficients = this->GenerateCoefficients();
+  SizeValueType           k[VDimension];
+  const CoefficientVector coefficients{ this->GenerateCoefficients() };
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     if (i == this->GetDirection())
@@ -79,9 +76,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>::CreateToRadius(const SizeType & sz)
 {
-  CoefficientVector coefficients;
-
-  coefficients = this->GenerateCoefficients();
+  const CoefficientVector coefficients{ this->GenerateCoefficients() };
   this->SetRadius(sz);
   this->Fill(coefficients);
 }

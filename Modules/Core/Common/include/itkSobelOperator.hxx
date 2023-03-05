@@ -30,38 +30,38 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
 
   // Note that this code is only good for 2d and 3d operators.  Places the
   // coefficients in the exact center of the neighborhood
-  unsigned int i;
-  int          x, y, z, pos;
-  unsigned int center = this->GetCenterNeighborhoodIndex();
+  const unsigned int center = this->GetCenterNeighborhoodIndex();
 
   if (VDimension == 3)
   {
-    i = 0;
-    for (z = -1; z <= 1; ++z)
+    unsigned int coeff_index = 0;
+    for (int z = -1; z <= 1; ++z)
     {
-      for (y = -1; y <= 1; ++y)
+      for (int y = -1; y <= 1; ++y)
       {
-        for (x = -1; x <= 1; ++x)
+        for (int x = -1; x <= 1; ++x)
         {
-          pos = center + z * this->GetStride(2) + y * this->GetStride(1) + x * this->GetStride(0);
-          this->operator[](pos) = static_cast<TPixel>(coeff[i]);
+          const int pos = center + z * this->GetStride(2) + y * this->GetStride(1) + x * this->GetStride(0);
 
-          ++i;
+          this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
+
+          ++coeff_index;
         }
       }
     }
   }
   else if (VDimension == 2)
   {
-    i = 0;
-    for (y = -1; y <= 1; ++y)
+    unsigned int coeff_index = 0;
+    for (int y = -1; y <= 1; ++y)
     {
-      for (x = -1; x <= 1; ++x)
+      for (int x = -1; x <= 1; ++x)
       {
-        pos = center + y * this->GetStride(1) + x * this->GetStride(0);
-        this->operator[](pos) = static_cast<TPixel>(coeff[i]);
+        const int pos = center + y * this->GetStride(1) + x * this->GetStride(0);
+        //
+        this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
 
-        ++i;
+        ++coeff_index;
       }
     }
   }
