@@ -60,7 +60,7 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::A
     this->EstimateLearningRate();
   }
 
-  TInternalComputationValueType gamma = itk::NumericTraits<TInternalComputationValueType>::ZeroValue();
+  TInternalComputationValueType gamma{};
   TInternalComputationValueType gammaDenom = inner_product(this->m_LastGradient, this->m_LastGradient);
   if (gammaDenom > itk::NumericTraits<TInternalComputationValueType>::epsilon())
   {

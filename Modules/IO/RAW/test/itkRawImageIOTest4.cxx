@@ -76,7 +76,7 @@ public:
     it.SetDirection(0);
 
 
-    PixelType value = itk::NumericTraits<PixelType>::ZeroValue();
+    PixelType value{};
     while (!it.IsAtEnd())
     {
       while (!it.IsAtEndOfLine())
@@ -121,7 +121,7 @@ itkRawImageIOTest4(int argc, char * argv[])
   using ComponentType = itk::PixelTraits<PixelType>::ValueType;
   using ByteSwapperType = itk::ByteSwapper<ComponentType>;
 
-  PixelType    value = itk::NumericTraits<PixelType>::ZeroValue();
+  PixelType    value{};
   unsigned int numberOfPixels = dims[0] * dims[1];
 
 

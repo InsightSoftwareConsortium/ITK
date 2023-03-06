@@ -72,7 +72,7 @@ itkSimpleContourExtractorImageFilterTest(int argc, char * argv[])
   FilterType::InputPixelType  inputForegroundValue = 255;
   FilterType::InputPixelType  inputBackgroundValue = 0;
   FilterType::OutputPixelType outputForegroundValue = itk::NumericTraits<FilterType::OutputPixelType>::max();
-  FilterType::OutputPixelType outputBackgroundValue = itk::NumericTraits<FilterType::OutputPixelType>::ZeroValue();
+  FilterType::OutputPixelType outputBackgroundValue{};
 
   filter->SetInputForegroundValue(inputForegroundValue);
 

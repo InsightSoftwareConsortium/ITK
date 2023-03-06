@@ -88,7 +88,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  LabelType label_zero = itk::NumericTraits<LabelType>::ZeroValue();
+  LabelType label_zero{};
 
   using ContourFilterType = itk::LabelContourImageFilter<LabelImageType, LabelImageType>;
   auto contour = ContourFilterType::New();

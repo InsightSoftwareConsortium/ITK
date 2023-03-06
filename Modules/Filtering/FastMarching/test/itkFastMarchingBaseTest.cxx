@@ -144,7 +144,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     double normalizationFactor = 1.0;
     ITK_TEST_SET_GET_VALUE(normalizationFactor, fmm->GetNormalizationFactor());
 
-    auto targetReachedValue = itk::NumericTraits<typename ImageFastMarching::OutputPixelType>::ZeroValue();
+    typename ImageFastMarching::OutputPixelType targetReachedValue{};
     ITK_TEST_EXPECT_EQUAL(targetReachedValue, fmm->GetTargetReachedValue());
 
     bool collectPoints = false;

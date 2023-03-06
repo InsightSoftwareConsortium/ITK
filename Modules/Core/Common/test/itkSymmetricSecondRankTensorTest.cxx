@@ -388,7 +388,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     tensor3D(2, 1) = 0.0; // overrides (1,2)
     tensor3D(2, 2) = 29.0;
 
-    AccumulateValueType expectedTrace = itk::NumericTraits<AccumulateValueType>::ZeroValue();
+    AccumulateValueType expectedTrace{};
 
     expectedTrace += tensor3D(0, 0);
     expectedTrace += tensor3D(1, 1);

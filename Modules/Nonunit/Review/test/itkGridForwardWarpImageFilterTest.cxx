@@ -102,7 +102,7 @@ itkGridForwardWarpImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GridForwardWarpImageFilter, ImageToImageFilter);
 
-  FilterType::PixelType backgroundValue = itk::NumericTraits<FilterType::PixelType>::ZeroValue();
+  FilterType::PixelType backgroundValue{};
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 

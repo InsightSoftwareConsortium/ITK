@@ -44,7 +44,7 @@ bool
 CheckTraits(bool issigned, T * = nullptr)
 {
   // make sure that we have a specialized NumericTraits
-  T t0 = itk::NumericTraits<T>::ZeroValue();
+  T t0{};
   T t1 = itk::NumericTraits<T>::OneValue();
 
   // just here so that we use the variable

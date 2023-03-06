@@ -45,8 +45,6 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
   typename ImageType::RegionType region;
   typename ImageType::IndexType  index;
 
-  PixelType pixelValue;
-
   itk::TimeProbesCollectorBase chronometer;
 
   {
@@ -82,7 +80,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
     IteratorType itr(image, region);
     itr.GoToBegin();
 
-    pixelValue = itk::NumericTraits<PixelType>::ZeroValue();
+    PixelType pixelValue{};
 
     chronometer.Start("Initializing");
     while (!itr.IsAtEnd())
@@ -129,7 +127,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
   std::cout << "Comparing the pixel values..." << std::endl;
 
-  pixelValue = itk::NumericTraits<PixelType>::ZeroValue();
+  PixelType pixelValue{};
 
   chronometer.Start("Compare");
   while (!ritr.IsAtEnd())

@@ -182,7 +182,7 @@ auto
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
   -> OutputType
 {
-  OutputType gradientMagnitude = itk::NumericTraits<OutputType>::ZeroValue();
+  OutputType gradientMagnitude{};
   OutputType temp;
 
   for (unsigned int i = 0; i < m_KernelArray.Size(); ++i)

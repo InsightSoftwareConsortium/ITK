@@ -61,7 +61,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   /* Test SmoothDisplacementFieldGauss */
   std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
   using ParametersValueType = DisplacementTransformType::ParametersValueType;
-  ParametersValueType paramsZero = itk::NumericTraits<itk::NumericTraits<ParametersValueType>::ValueType>::ZeroValue();
+  ParametersValueType                            paramsZero{};
   DisplacementTransformType::ParametersType      params;
   DisplacementTransformType::ParametersType      paramsFill(displacementTransform->GetNumberOfParameters());
   DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;

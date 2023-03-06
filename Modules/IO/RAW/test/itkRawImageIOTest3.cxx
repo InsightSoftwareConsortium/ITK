@@ -65,7 +65,7 @@ itkRawImageIOTest3(int argc, char * argv[])
 
   ImageIteratorType ii(image, region);
 
-  PixelType value = itk::NumericTraits<PixelType>::ZeroValue();
+  PixelType value{};
   ii.GoToBegin();
   while (!ii.IsAtEnd())
   {

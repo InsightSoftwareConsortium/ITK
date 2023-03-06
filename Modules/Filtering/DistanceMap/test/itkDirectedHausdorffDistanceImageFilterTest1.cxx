@@ -65,7 +65,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   region2.SetIndex(index);
 
   itk::ImageRegionIterator<Image1Type> it1(image1, region1);
-  Pixel1Type                           count = itk::NumericTraits<Pixel1Type>::ZeroValue();
+  Pixel1Type                           count{};
   while (!it1.IsAtEnd())
   {
     it1.Set(++count);

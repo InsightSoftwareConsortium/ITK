@@ -119,7 +119,7 @@ protected:
   WritePoints(T * buffer, std::ofstream & outputFile)
   {
     Indent        indent(1);
-    SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
+    SizeValueType index{};
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
@@ -137,7 +137,7 @@ protected:
   WriteCells(T * buffer, std::ofstream & outputFile)
   {
     Indent        indent(7);
-    SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
+    SizeValueType index{};
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {

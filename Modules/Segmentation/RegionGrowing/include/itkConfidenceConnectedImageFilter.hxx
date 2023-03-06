@@ -158,7 +158,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     auto neighborhoodRange =
       ShapedImageNeighborhoodRange<const InputImageType>(*inputImage, IndexType(), neighborhoodOffsets);
 
-    InputRealType sumOfSquares = itk::NumericTraits<InputRealType>::ZeroValue();
+    InputRealType sumOfSquares{};
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
@@ -199,8 +199,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   else
   {
-    InputRealType sum = itk::NumericTraits<InputRealType>::ZeroValue();
-    InputRealType sumOfSquares = itk::NumericTraits<InputRealType>::ZeroValue();
+    InputRealType sum{};
+    InputRealType sumOfSquares{};
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();

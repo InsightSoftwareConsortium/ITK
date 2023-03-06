@@ -235,7 +235,7 @@ BYUMeshIO::ReadCells(void * buffer)
   inputFile.precision(12);
   auto *        data = static_cast<unsigned int *>(buffer);
   SizeValueType numPoints = 0;
-  SizeValueType id = itk::NumericTraits<SizeValueType>::ZeroValue();
+  SizeValueType id{};
   SizeValueType index = 2;
   int           ptId;
   m_FirstCellId -= 1;

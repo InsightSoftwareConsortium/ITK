@@ -160,7 +160,7 @@ main(int argc, char * argv[])
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
-    SumType sum = itk::NumericTraits<SumType>::ZeroValue();
+    SumType sum{};
     it.GoToBeginOfLine();
     index4D = it.GetIndex();
     while (!it.IsAtEndOfLine())
