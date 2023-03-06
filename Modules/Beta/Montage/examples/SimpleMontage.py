@@ -82,7 +82,15 @@ for t in range(stage_tiles.LinearSize()):
 actual_tiles.Write(str(output_path / "TileConfiguration.registered.txt"))
 
 print("Producing the mosaic")
-resampleF = itk.TileMergeImageFilter[type(color_images[0])].New()
+
+input_pixel_type = itk.template(color_images[0])[1][0]
+try:
+  input_rgb_type = itk.template(input_pixel_type)[0]
+  accum_type = input_rgb_type[itk.F] # RGB or RGBA input/output images
+except KeyError:
+  accum_type = itk.D # scalar input / output images
+
+resampleF = itk.TileMergeImageFilter[type(color_images[0]), accum_type].New()
 resampleF.SetMontageSize(stage_tiles.GetAxisSizes())
 for t in range(stage_tiles.LinearSize()):
   resampleF.SetInputTile(t, color_images[t])
