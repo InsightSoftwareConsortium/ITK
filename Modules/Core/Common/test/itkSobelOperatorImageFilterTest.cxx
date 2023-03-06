@@ -21,7 +21,7 @@
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkSobelOperator.h"
 #include "itkTestingMacros.h"
-
+#include "itkRescaleIntensityImageFilter.h"
 
 int
 itkSobelOperatorImageFilterTest(int argc, char * argv[])
@@ -36,33 +36,43 @@ itkSobelOperatorImageFilterTest(int argc, char * argv[])
 
   constexpr unsigned int Dimension = 2;
 
-  using PixelType = unsigned char;
-  using ImageType = itk::Image<PixelType, Dimension>;
+  using SobelPixelType = int16_t;
+  using SobelImageType = itk::Image<SobelPixelType, Dimension>;
 
-  using SobelOperatorType = itk::SobelOperator<PixelType, Dimension>;
-  using FilerType = itk::NeighborhoodOperatorImageFilter<ImageType, ImageType>;
-
-  const auto inputImage = itk::ReadImage<ImageType>(argv[1]);
-
-
-  SobelOperatorType sobelOperator;
-
-  auto direction = std::stoul(argv[2]);
-  sobelOperator.SetDirection(direction);
-
-  itk::Size<Dimension> radius;
-  radius.Fill(1);
-  sobelOperator.CreateToRadius(radius);
-
+  using InputImagePixeltype = int8_t;
+  using InputImageType = itk::Image<InputImagePixeltype, Dimension>;
+  using FilerType = itk::NeighborhoodOperatorImageFilter<InputImageType, SobelImageType>;
   auto filter = FilerType::New();
+  {
+    const auto inputImage = itk::ReadImage<InputImageType>(argv[1]);
+    filter->SetInput(inputImage);
+  }
+  {
+    using SobelOperatorType = itk::SobelOperator<SobelPixelType, Dimension>;
+    SobelOperatorType sobelOperator;
+    {
+      auto direction = std::stoul(argv[2]);
+      sobelOperator.SetDirection(direction);
 
-  filter->SetInput(inputImage);
+      itk::Size<Dimension> radius;
+      radius.Fill(1);
+      sobelOperator.CreateToRadius(radius);
+    }
+    filter->SetOperator(sobelOperator);
+  }
+  filter->Update();
 
-  filter->SetOperator(sobelOperator);
-
-  itk::WriteImage(filter->GetOutput(), argv[3]);
-
-
+  using OutputImageType = itk::Image<uint8_t, Dimension>;
+  // Assume min/max values are approximately +/- same magnitude so that the output images
+  // to be stored in uint8_t have an implied 0 at about pixel value 128.  Many web based viewers
+  // for the difference images in the testing outputs render better in this positive png range.
+  using RescaleIntensityType = itk::RescaleIntensityImageFilter<SobelImageType, OutputImageType>;
+  RescaleIntensityType::Pointer rescalerForVisualization = RescaleIntensityType::New();
+  rescalerForVisualization->SetInput(filter->GetOutput());
+  rescalerForVisualization->SetOutputMinimum(0);
+  rescalerForVisualization->SetOutputMaximum(255);
+  rescalerForVisualization->Update();
+  itk::WriteImage(rescalerForVisualization->GetOutput(), argv[3]);
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
