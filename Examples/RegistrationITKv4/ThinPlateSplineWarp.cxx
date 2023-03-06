@@ -110,7 +110,7 @@ main(int argc, char * argv[])
     targetLandMarks->GetPoints();
   // Software Guide : EndCodeSnippet
 
-  PointIdType id = itk::NumericTraits<PointIdType>::ZeroValue();
+  PointIdType id{};
 
   // Read in the list of landmarks
   std::ifstream infile;

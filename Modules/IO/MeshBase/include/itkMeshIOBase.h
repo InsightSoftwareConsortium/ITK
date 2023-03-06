@@ -738,8 +738,8 @@ protected:
   {
     if (input && output)
     {
-      SizeValueType inputIndex = itk::NumericTraits<SizeValueType>::ZeroValue();
-      SizeValueType outputIndex = itk::NumericTraits<SizeValueType>::ZeroValue();
+      SizeValueType inputIndex{};
+      SizeValueType outputIndex{};
 
       for (SizeValueType ii = 0; ii < m_NumberOfCells; ++ii)
       {

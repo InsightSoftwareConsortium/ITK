@@ -87,7 +87,7 @@ PolyLineParametricPath<VDimension>::IncrementInput(InputType & input) const -> O
   // Save this input index since we will use it to calculate the offset
   const IndexType originalIndex = this->EvaluateToIndex(input);
 
-  InputType potentialTimestep = itk::NumericTraits<InputType>::ZeroValue();
+  InputType potentialTimestep{};
   bool      timeStepSmallEnough = false;
   while (!timeStepSmallEnough)
   {

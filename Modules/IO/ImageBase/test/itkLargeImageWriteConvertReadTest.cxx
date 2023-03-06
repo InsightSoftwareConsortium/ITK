@@ -66,7 +66,7 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
     IteratorType itr(image, region);
     itr.GoToBegin();
 
-    OutputPixelType pixelValue = itk::NumericTraits<OutputPixelType>::ZeroValue();
+    OutputPixelType pixelValue{};
 
     chronometer.Start("Initializing");
     while (!itr.IsAtEnd())

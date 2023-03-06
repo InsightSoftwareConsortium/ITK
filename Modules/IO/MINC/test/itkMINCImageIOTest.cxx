@@ -456,7 +456,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     success = EXIT_FAILURE;
   }
 
-  int metaDataInt = itk::NumericTraits<int>::ZeroValue();
+  int metaDataInt{};
   if (!itk::ExposeMetaData<int>(metaDict2, "acquisition:TestInt", metaDataInt) || metaDataInt != 4)
   {
     std::cerr << "Failure reading metaData "
@@ -705,7 +705,7 @@ MINCReadWriteTestVector(const char * fileName,
     success = EXIT_FAILURE;
   }
 
-  int metaDataInt = itk::NumericTraits<int>::ZeroValue();
+  int metaDataInt{};
   if (!itk::ExposeMetaData<int>(metaDict2, "acquisition:TestInt", metaDataInt) || metaDataInt != 4)
   {
     std::cerr << "Failure reading metaData "

@@ -66,7 +66,7 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   filter->SetInput(mesh);
 
-  auto absTol = itk::NumericTraits<typename CleanFilterType::InputCoordRepType>::ZeroValue();
+  typename CleanFilterType::InputCoordRepType absTol{};
   filter->SetAbsoluteTolerance(absTol);
   ITK_TEST_SET_GET_VALUE(absTol, filter->GetAbsoluteTolerance());
 

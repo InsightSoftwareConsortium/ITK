@@ -107,7 +107,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   filter1->SetMaskImage(mask1);
   filter1->SetOperator(sobelHorizontal);
 
-  auto defaultValue = itk::NumericTraits<typename FilterType::OutputPixelType>::ZeroValue();
+  typename FilterType::OutputPixelType defaultValue{};
   filter1->SetDefaultValue(defaultValue);
   ITK_TEST_SET_GET_VALUE(defaultValue, filter1->GetDefaultValue());
 

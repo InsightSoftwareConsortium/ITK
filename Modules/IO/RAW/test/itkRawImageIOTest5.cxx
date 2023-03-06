@@ -54,7 +54,7 @@ public:
     m_Image->SetRegions(region);
     m_Image->Allocate();
 
-    PixelType value = itk::NumericTraits<PixelType>::ZeroValue();
+    PixelType value{};
 
     // Fill the image with incremental values.
     using IteratorType = itk::ImageRegionIterator<ImageType>;

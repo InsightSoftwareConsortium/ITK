@@ -123,7 +123,7 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest(int, char *[])
 
   using ValueType = typename FilterType::ValueType;
 
-  ValueType isoSurfaceValue = itk::NumericTraits<ValueType>::ZeroValue();
+  ValueType isoSurfaceValue{};
   filter->SetIsoSurfaceValue(isoSurfaceValue);
   ITK_TEST_SET_GET_VALUE(isoSurfaceValue, filter->GetIsoSurfaceValue());
 

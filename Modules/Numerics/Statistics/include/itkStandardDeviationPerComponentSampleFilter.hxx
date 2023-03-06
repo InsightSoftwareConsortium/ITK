@@ -144,7 +144,7 @@ StandardDeviationPerComponentSampleFilter<TSample>::GenerateData()
   typename TSample::AbsoluteFrequencyType frequency;
 
   using TotalAbsoluteFrequencyType = typename TSample::TotalAbsoluteFrequencyType;
-  TotalAbsoluteFrequencyType totalFrequency = itk::NumericTraits<TotalAbsoluteFrequencyType>::ZeroValue();
+  TotalAbsoluteFrequencyType totalFrequency{};
 
   typename TSample::ConstIterator iter = input->Begin();
   typename TSample::ConstIterator end = input->End();

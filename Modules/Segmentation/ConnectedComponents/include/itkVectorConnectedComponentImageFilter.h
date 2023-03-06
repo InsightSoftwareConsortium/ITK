@@ -51,7 +51,7 @@ template <typename TInput>
 class SimilarVectorsFunctor
 {
 public:
-  SimilarVectorsFunctor() { m_Threshold = itk::NumericTraits<typename TInput::ValueType>::ZeroValue(); }
+  SimilarVectorsFunctor() = default;
 
   ~SimilarVectorsFunctor() = default;
 
@@ -87,7 +87,7 @@ public:
   }
 
 protected:
-  typename TInput::ValueType m_Threshold;
+  typename TInput::ValueType m_Threshold{};
 };
 } // end namespace Functor
 
