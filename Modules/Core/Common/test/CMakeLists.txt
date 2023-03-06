@@ -278,20 +278,28 @@ itk_add_test(NAME itkGaussianDerivativeOperatorTest
   COMMAND ITKCommon1TestDriver itkGaussianDerivativeOperatorTest)
 itk_add_test(NAME itkSobelOperatorImageConvolutionHorizTest
   COMMAND ITKCommon1TestDriver
-  --compare DATA{Baseline/itkSobelOperatorImageHorizTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.png
-  itkSobelOperatorImageConvolutionTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 0 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.png)
+  --compare DATA{Baseline/itkSobelOperatorImageConvolutionHorizTest.tiff} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.tiff
+  itkSobelOperatorImageConvolutionTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 0 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.tiff)
 itk_add_test(NAME itkSobelOperatorImageFilterHorizTest
   COMMAND ITKCommon1TestDriver
-  --compare DATA{Baseline/itkSobelOperatorImageHorizTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.png
-  itkSobelOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 0 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.png)
+  --compare DATA{Baseline/itkSobelOperatorImageFilterHorizTest.tiff} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.tiff
+  itkSobelOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 0 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.tiff)
 itk_add_test(NAME itkSobelOperatorImageConvolutionVertTest
   COMMAND ITKCommon1TestDriver
-  --compare DATA{Baseline/itkSobelOperatorImageVertTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertTest.png
-  itkSobelOperatorImageConvolutionTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 1 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertTest.png)
+  --compare DATA{Baseline/itkSobelOperatorImageConvolutionVertTest.tiff} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertTest.tiff
+  itkSobelOperatorImageConvolutionTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 1 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertTest.tiff)
+
+# A simplified data test for debugging sobel operator failures
+itk_add_test(NAME itkSobelOperatorImageConvolutionVertCircleTest
+        COMMAND ITKCommon1TestDriver
+        --compare DATA{Baseline/itkSobelOperatorImageConvolutionVertCircleTest.tiff} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertCircleTest.tiff
+        itkSobelOperatorImageConvolutionTest DATA{${ITK_DATA_ROOT}/Input/circle.png} 1 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertCircleTest.tiff)
+
 itk_add_test(NAME itkSobelOperatorImageFilterVertTest
   COMMAND ITKCommon1TestDriver
-  --compare DATA{Baseline/itkSobelOperatorImageVertTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.png
-  itkSobelOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 1 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.png)
+  --compare DATA{Baseline/itkSobelOperatorImageVertTest.tiff} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.tiff
+  itkSobelOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 1 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.tiff)
+
 itk_add_test(NAME itkSobelOperatorTest
   COMMAND ITKCommon1TestDriver itkSobelOperatorTest)
 
