@@ -191,7 +191,6 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
   // Walk the output region
-  outIt.GoToBegin();
   while (!outIt.IsAtEnd())
   {
     while (!outIt.IsAtEndOfLine())

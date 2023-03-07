@@ -54,8 +54,6 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  it.GoToBegin();
-  ot.GoToBegin();
   // do the work
   while (!it.IsAtEnd())
   {

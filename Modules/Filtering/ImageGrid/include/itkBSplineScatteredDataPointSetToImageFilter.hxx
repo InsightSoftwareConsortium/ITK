@@ -785,7 +785,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::RefineC
 
   ImageRegionIteratorWithIndex<PointDataImageType> It(refinedLattice, refinedLattice->GetLargestPossibleRegion());
 
-  It.GoToBegin();
   while (!It.IsAtEnd())
   {
     idx = It.GetIndex();

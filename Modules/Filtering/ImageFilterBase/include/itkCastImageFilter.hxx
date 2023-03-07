@@ -144,8 +144,6 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
   ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
 
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
   OutputPixelType value{ outputIt.Get() };
   while (!inputIt.IsAtEnd())
   {

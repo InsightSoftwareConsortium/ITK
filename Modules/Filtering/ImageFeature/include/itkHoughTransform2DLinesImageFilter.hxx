@@ -102,7 +102,6 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GenerateDat
   const double nPI = 4.0 * std::atan(1.0);
 
   ImageRegionConstIteratorWithIndex<InputImageType> image_it(inputImage, inputImage->GetRequestedRegion());
-  image_it.GoToBegin();
 
   Index<2> index;
 
@@ -160,7 +159,6 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::Simplify()
   typename OutputImageType::PixelType valuemax;
 
   ImageRegionConstIteratorWithIndex<InputImageType> image_it(inputImage, inputImage->GetRequestedRegion());
-  image_it.GoToBegin();
 
   const double nPI = 4.0 * std::atan(1.0);
 
@@ -201,9 +199,6 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::Simplify()
   ImageRegionConstIteratorWithIndex<OutputImageType> accusimple_it(m_SimplifyAccumulator,
                                                                    m_SimplifyAccumulator->GetRequestedRegion());
   ImageRegionIteratorWithIndex<OutputImageType>      accu_it(outputImage, outputImage->GetRequestedRegion());
-
-  accusimple_it.GoToBegin();
-  accu_it.GoToBegin();
 
   while (!accusimple_it.IsAtEnd())
   {

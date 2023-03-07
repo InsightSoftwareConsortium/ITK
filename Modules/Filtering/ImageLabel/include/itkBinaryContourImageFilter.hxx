@@ -131,7 +131,6 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
   using OutputLineIteratorType = ImageScanlineIterator<OutputImageType>;
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
 
-  outLineIt.GoToBegin();
   for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine(), outLineIt.NextLine())
   {
     SizeValueType    lineId = this->IndexToLinearIndex(inLineIt.GetIndex());

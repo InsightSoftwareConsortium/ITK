@@ -133,7 +133,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   OutputIterator                       outIter(this->GetOutput(0), region);
 
   unsigned int i = 0;
-  outIter.GoToBegin();
   while (!outIter.IsAtEnd())
   {
     outIter.Set(static_cast<typename OutputImageType::PixelType>(m_Means[i]));

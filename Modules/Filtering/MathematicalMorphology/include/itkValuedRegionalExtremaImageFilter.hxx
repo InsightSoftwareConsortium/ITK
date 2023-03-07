@@ -80,8 +80,6 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
 
   InputIterator  inIt(input, output->GetRequestedRegion());
   OutputIterator outIt(output, output->GetRequestedRegion());
-  inIt.GoToBegin();
-  outIt.GoToBegin();
 
   InputImagePixelType firstValue = inIt.Get();
   this->m_Flat = true;

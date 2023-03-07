@@ -68,9 +68,6 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::PrepareData()
   ImageRegionConstIterator<TInputImage> it(inputImage, region);
   ImageRegionIterator<TOutputImage>     ot(pruneImage, region);
 
-  it.GoToBegin();
-  ot.GoToBegin();
-
   itkDebugMacro(<< "PrepareData: Copy input to output");
 
   while (!ot.IsAtEnd())

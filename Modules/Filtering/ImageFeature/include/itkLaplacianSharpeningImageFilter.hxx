@@ -202,7 +202,6 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   ImageRegionIterator<OutputImageType> outIt =
     ImageRegionIterator<OutputImageType>(output, output->GetRequestedRegion());
-  outIt.GoToBegin();
   it.GoToBegin();
   while (!outIt.IsAtEnd())
   {

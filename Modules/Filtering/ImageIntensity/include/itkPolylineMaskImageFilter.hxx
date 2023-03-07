@@ -436,7 +436,6 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   }
 
   LineIteratorType it(projectionImagePtr, startImageIndex, endImageIndex);
-  it.GoToBegin();
 
   while (!it.IsAtEnd())
   {
@@ -465,8 +464,6 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
 
   // Mask the input image using the binary image defined by the region
   // demarcated by the polyline contour
-  outputIt.GoToBegin();
-  inputIt.GoToBegin();
 
   InputImageSpacingType inputImageSpacing;
   InputImagePointType   inputImageOrigin;

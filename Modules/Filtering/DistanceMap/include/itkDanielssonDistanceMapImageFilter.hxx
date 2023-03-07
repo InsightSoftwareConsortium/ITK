@@ -129,9 +129,6 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
   ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, region);
   ImageRegionIteratorWithIndex<VoronoiImageType>    ot(voronoiMap, region);
 
-  it.GoToBegin();
-  ot.GoToBegin();
-
   itkDebugMacro(<< "PrepareData: Copy input to output");
   if (m_InputIsBinary)
   {
@@ -187,7 +184,6 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
   // Wherever the input image is non-zero, initialize the distanceComponents image to the minValue.
   // Wherever the input image is zero, initialize the distanceComponents image to the maxValue.
   it.GoToBegin();
-  ct.GoToBegin();
   while (!it.IsAtEnd())
   {
     if (it.Get())
@@ -220,9 +216,6 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
   ImageRegionIteratorWithIndex<OutputImageType>  dt(distanceMap, region);
 
   itkDebugMacro(<< "ComputeVoronoiMap Region: " << region);
-  ot.GoToBegin();
-  ct.GoToBegin();
-  dt.GoToBegin();
   while (!ot.IsAtEnd())
   {
     IndexType index = ct.GetIndex() + ct.Get();

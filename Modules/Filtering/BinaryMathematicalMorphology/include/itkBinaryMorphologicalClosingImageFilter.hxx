@@ -140,8 +140,6 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Gener
   // iterator on output image
   ImageRegionIterator<OutputImageType> outIt =
     ImageRegionIterator<OutputImageType>(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
-  outIt.GoToBegin();
-  inIt.GoToBegin();
 
   ProgressReporter progress2(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels(), 20, 0.9, 0.1);
   while (!outIt.IsAtEnd())

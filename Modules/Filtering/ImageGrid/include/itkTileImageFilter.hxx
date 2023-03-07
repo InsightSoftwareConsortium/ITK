@@ -66,7 +66,6 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateData()
   output->FillBuffer(defaultPixelValue);
 
   ImageRegionIterator<TileImageType> it(m_TileImage, m_TileImage->GetBufferedRegion());
-  it.GoToBegin();
 
   SizeValueType numPastes = 0;
   while (!it.IsAtEnd())
@@ -237,7 +236,6 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // image number to -1.
   ImageRegionIteratorWithIndex<TileImageType> it(m_TileImage, m_TileImage->GetBufferedRegion());
 
-  it.GoToBegin();
   unsigned int input = 0;
   TileInfo     info;
   while (!it.IsAtEnd())
