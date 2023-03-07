@@ -21,10 +21,61 @@
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkSymmetricEigenAnalysisImageFilter.h"
 #include "itkTestingMacros.h"
+#include "itkImageRegionIterator.h"
 
+/**
+ * Function to convert image of double precison vector pixels to a
+ * representation of scalar values that are easy to view and test.
+ * NOTE: Similar function in itkBSplineScatteredDataPointSetToImageFilterTest5.cxx
+ */
+template <typename InternalImageType>
+static void
+makeTestableScalarImage(typename InternalImageType::Pointer internalImage, std::string outputFilename)
+{ // using OutputPixelType = unsigned char;
+  using OutputPixelType = uint8_t;
+  using OutputImageType = itk::Image<OutputPixelType, 3>;
+
+  OutputImageType::Pointer outputImage = OutputImageType::New();
+  outputImage->CopyInformation(internalImage);
+  outputImage->SetRegions(internalImage->GetBufferedRegion());
+  outputImage->Allocate(true);
+
+  auto myiterator = itk::ImageRegionConstIterator<InternalImageType>(internalImage, internalImage->GetBufferedRegion());
+  auto myOutiterator = itk::ImageRegionIterator<OutputImageType>(outputImage, outputImage->GetBufferedRegion());
+
+  // Convert vector image to magnitude and scale to use range of png values
+  float max_magnitude_value = 0.0;
+  while (!myiterator.IsAtEnd())
+  {
+    const auto arr = myiterator.Get();
+    const auto magvalue = std::sqrt(arr[0] * arr[0] + arr[1] * arr[1] + arr[2] * arr[2]);
+    max_magnitude_value = std::max<float>(max_magnitude_value, magvalue);
+    ++myiterator;
+  }
+  const float scale_factor = 255.0 / ceil(max_magnitude_value);
+  myOutiterator.GoToBegin();
+  myiterator.GoToBegin();
+  while (!myOutiterator.IsAtEnd())
+  {
+    // Convert vector image to magnitude and scale to use range of png values
+    const auto arr = myiterator.Get();
+    const auto magvalue = std::sqrt(arr[0] * arr[0] + arr[1] * arr[1] + arr[2] * arr[2]);
+    myOutiterator.Set(magvalue * scale_factor);
+    ++myiterator;
+    ++myOutiterator;
+  }
+
+  // Write the result image
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  auto writer = WriterType::New();
+  writer->SetFileName(outputFilename);
+  writer->SetInput(outputImage);
+  writer->Update();
+}
 
 namespace itk
 {
+
 
 template <typename TInputImage, typename TInternalImage, typename TOutputImage>
 class SymmetricEigenAnalysisImageFilterHelper : public SymmetricEigenAnalysisImageFilter<TInputImage, TInternalImage>
@@ -39,8 +90,6 @@ public:
 
   using InputImageType = TInputImage;
   using InternalImageType = TInternalImage;
-  using OutputImageType = TOutputImage;
-
 
   itkTypeMacro(SymmetricEigenAnalysisImageFilterHelper, SymmetricEigenAnalysisImageFilter);
 
@@ -84,9 +133,6 @@ public:
     // Declare Iterator type for the input image
     using IteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
-    // Create one iterator for the input image (this is a light object)
-    IteratorType it(inputImage, inputImage->GetRequestedRegion());
-
     typename InputImageType::PixelType tensorValue;
 
     tensorValue(0, 0) = 19.0;
@@ -96,15 +142,14 @@ public:
     tensorValue(1, 2) = 37.0;
     tensorValue(2, 2) = 39.0;
 
-    it.GoToBegin();
-
+    // Create one iterator for the input image (this is a light object)
+    IteratorType it(inputImage, inputImage->GetRequestedRegion());
     // Initialize the content of the input image
     while (!it.IsAtEnd())
     {
       it.Set(tensorValue);
       ++it;
     }
-
 
     // Create the filter
     auto filter = SymmetricEigenAnalysisImageFilterType::New();
@@ -130,31 +175,14 @@ public:
     // Because the object connected to the output may be changed
     // by another during GenerateData() call
     typename InternalImageType::Pointer internalImage = filter->GetOutput();
+    ITK_TRY_EXPECT_NO_EXCEPTION(makeTestableScalarImage<InternalImageType>(internalImage, outputFilename));
 
-    // Get the output image to a writable format
-    using CastImageFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
-
-    auto roundImageFilter = CastImageFilterType::New();
-
-    roundImageFilter->SetInput(internalImage);
-
-    ITK_TRY_EXPECT_NO_EXCEPTION(roundImageFilter->Update());
-
-    // Write the result image
-    using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-    auto writer = WriterType::New();
-
-    writer->SetFileName(outputFilename);
-
-    writer->SetInput(roundImageFilter->GetOutput());
-
-    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
     std::cout << "Test succeeded." << std::endl;
     return EXIT_SUCCESS;
   }
 };
+
 
 template <unsigned int TMatrixDimension, typename TInputImage, typename TInternalImage, typename TOutputImage>
 class SymmetricEigenAnalysisFixedDimensionImageFilterHelper
@@ -167,14 +195,11 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-
   using InputImageType = TInputImage;
   using InternalImageType = TInternalImage;
   using OutputImageType = TOutputImage;
 
-
   itkTypeMacro(SymmetricEigenAnalysisFixedDimensionImageFilterHelper, SymmetricEigenAnalysisFixedDimensionImageFilter);
-
   itkNewMacro(Self);
 
   static int
@@ -216,9 +241,6 @@ public:
     // Declare Iterator type for the input image
     using IteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
-    // Create one iterator for the input image (this is a light object)
-    IteratorType it(inputImage, inputImage->GetRequestedRegion());
-
     typename InputImageType::PixelType tensorValue;
 
     tensorValue(0, 0) = 19.0;
@@ -228,8 +250,8 @@ public:
     tensorValue(1, 2) = 37.0;
     tensorValue(2, 2) = 39.0;
 
-    it.GoToBegin();
-
+    // Create one iterator for the input image (this is a light object)
+    IteratorType it(inputImage, inputImage->GetRequestedRegion());
     // Initialize the content of the input image
     while (!it.IsAtEnd())
     {
@@ -243,9 +265,7 @@ public:
 
     // Set the input image
     filter->SetInput(inputImage);
-
     filter->SetFunctor(filter->GetFunctor());
-
     filter->OrderEigenValuesBy(order);
 
     // Execute the filter
@@ -256,26 +276,7 @@ public:
     // Because the object connected to the output may be changed
     // by another during GenerateData() call
     typename InternalImageType::Pointer internalImage = filter->GetOutput();
-
-    // Get the output image to a writable format
-    using CastImageFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
-
-    auto roundImageFilter = CastImageFilterType::New();
-
-    roundImageFilter->SetInput(internalImage);
-
-    ITK_TRY_EXPECT_NO_EXCEPTION(roundImageFilter->Update());
-
-    // Write the result image
-    using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-    auto writer = WriterType::New();
-
-    writer->SetFileName(outputFilename);
-
-    writer->SetInput(roundImageFilter->GetOutput());
-
-    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+    ITK_TRY_EXPECT_NO_EXCEPTION(makeTestableScalarImage<InternalImageType>(internalImage, outputFilename));
 
     std::cout << "Test succeeded." << std::endl;
     return EXIT_SUCCESS;
@@ -330,7 +331,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
   // Get the input arguments
   auto order = static_cast<itk::EigenValueOrderEnum>(std::stoi(argv[2]));
 
-  std::string outputFilename = argv[1];
+  const std::string outputFilename = argv[1];
 
 
   // Test the filter
@@ -348,8 +349,8 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
   using FilterFixedDimensionType =
     itk::SymmetricEigenAnalysisFixedDimensionImageFilter<Dimension, InputImageType, InternalImageType>;
 
-  auto        orderFixedDimension = static_cast<itk::EigenValueOrderEnum>(std::stoi(argv[2]));
-  std::string outputFilenameFixedDimension = argv[3];
+  auto              orderFixedDimension = static_cast<itk::EigenValueOrderEnum>(std::stoi(argv[2]));
+  const std::string outputFilenameFixedDimension = argv[3];
   // Create an instance to exercise basic object methods
   auto filterFixedDimension = FilterFixedDimensionType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
