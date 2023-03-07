@@ -138,9 +138,9 @@ itk_add_test(NAME itkInvertIntensityImageFilterTest
 itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByValue
       COMMAND ITKImageIntensityTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
-              941cdbc107bea093a564a83ed5993d6d
+        8e3e4221d36144133d2f6692b2ad980b
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png
-              941cdbc107bea093a564a83ed5993d6d
+        8e3e4221d36144133d2f6692b2ad980b
     itkSymmetricEigenAnalysisImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
     1
@@ -148,9 +148,9 @@ itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByValue
 itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude
       COMMAND ITKImageIntensityTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
-              dbff47eae29f458759de12b3dee95176
+        8e3e4221d36144133d2f6692b2ad980b
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
-              dbff47eae29f458759de12b3dee95176
+        8e3e4221d36144133d2f6692b2ad980b
     itkSymmetricEigenAnalysisImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
     2
@@ -160,9 +160,9 @@ itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude
 itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestDoNotOrder
       COMMAND ITKImageIntensityTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
-              dbff47eae29f458759de12b3dee95176
+        8e3e4221d36144133d2f6692b2ad980b
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
-              941cdbc107bea093a564a83ed5993d6d
+        8e3e4221d36144133d2f6692b2ad980b
     itkSymmetricEigenAnalysisImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
     3
