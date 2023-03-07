@@ -188,7 +188,6 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   InLineIt.SetDirection(BestDirection);
   InLineIt.GoToBegin();
   IndexType LineStart;
-  InLineIt.GoToBegin();
 
   using HistVecType = typename std::vector<HistogramType>;
   HistVecType HistVec(ImageDimension);
