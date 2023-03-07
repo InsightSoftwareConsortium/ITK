@@ -58,8 +58,6 @@ Hessian3DToVesselnessMeasureImageFilter<TPixel>::GenerateData()
   ImageRegionIterator<OutputImageType> oit;
   this->AllocateOutputs();
   oit = ImageRegionIterator<OutputImageType>(output, output->GetRequestedRegion());
-  oit.GoToBegin();
-  it.GoToBegin();
   while (!it.IsAtEnd())
   {
     // Get the eigen value

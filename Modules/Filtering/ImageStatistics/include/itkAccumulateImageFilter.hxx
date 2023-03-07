@@ -170,7 +170,6 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
       AccumulatedSize[i] = 1;
     }
   }
-  outputIter.GoToBegin();
   while (!outputIter.IsAtEnd())
   {
     typename TOutputImage::IndexType OutputIndex = outputIter.GetIndex();

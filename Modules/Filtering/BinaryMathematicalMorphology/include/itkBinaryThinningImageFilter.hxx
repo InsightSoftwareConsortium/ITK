@@ -69,9 +69,6 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::PrepareData()
   ImageRegionConstIterator<TInputImage> it(inputImage, region);
   ImageRegionIterator<TOutputImage>     ot(thinImage, region);
 
-  it.GoToBegin();
-  ot.GoToBegin();
-
   itkDebugMacro(<< "PrepareData: Copy input to output");
 
   // Copy the input to the output, changing all foreground pixels to

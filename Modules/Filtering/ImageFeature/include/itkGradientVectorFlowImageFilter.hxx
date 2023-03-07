@@ -129,10 +129,6 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::InitIn
 
   InputImageIterator CIt(m_CImage, m_CImage->GetBufferedRegion());
 
-  BIt.GoToBegin();
-  CIt.GoToBegin();
-  inputIt.GoToBegin();
-
   /* Calculate b(x, y), c1(x, y), c2(x, y), etc.... (eqn 15) */
   while (!inputIt.IsAtEnd())
   {
@@ -197,11 +193,6 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Update
   InputImageConstIterator CIt(m_CImage, m_CImage->GetBufferedRegion());
 
   InternalImageConstIterator BIt(m_BImage, m_BImage->GetBufferedRegion());
-
-  outputIt.GoToBegin();
-  intermediateIt.GoToBegin();
-  BIt.GoToBegin();
-  CIt.GoToBegin();
 
   while (!outputIt.IsAtEnd())
   {

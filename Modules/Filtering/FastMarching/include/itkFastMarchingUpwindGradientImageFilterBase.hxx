@@ -76,8 +76,6 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::InitializeOutput(Out
   using GradientPixelValueType = typename GradientPixelType::ValueType;
   zeroGradient.Fill(NumericTraits<GradientPixelValueType>::ZeroValue());
 
-  gradientIt.GoToBegin();
-
   while (!gradientIt.IsAtEnd())
   {
     gradientIt.Set(zeroGradient);

@@ -67,9 +67,6 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
   ImageRegionConstIterator<InputImageType> it(input, outputRegionForThread);
   ImageRegionIterator<OutputImageType>     oit(output, outputRegionForThread);
 
-  oit.GoToBegin();
-  it.GoToBegin();
-
   while (!it.IsAtEnd())
   {
     // Compute eigen values

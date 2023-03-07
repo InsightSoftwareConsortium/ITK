@@ -113,8 +113,6 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
   oRegIter = ImageRegionIterator<OutputImageType>(this->GetOutput(), outputRegionForThread);
   /* Copy the input image to the output image - then only boundary pixels
    * need to be changed in the output image */
-  iRegIter.GoToBegin();
-  oRegIter.GoToBegin();
   while (!oRegIter.IsAtEnd())
   {
     if (Math::NotExactlyEquals(oRegIter.Get(), m_ObjectValue))

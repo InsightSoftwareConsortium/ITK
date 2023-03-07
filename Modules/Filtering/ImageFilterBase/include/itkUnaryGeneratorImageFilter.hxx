@@ -96,8 +96,6 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
   ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
 
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
   while (!inputIt.IsAtEnd())
   {
     while (!inputIt.IsAtEndOfLine())

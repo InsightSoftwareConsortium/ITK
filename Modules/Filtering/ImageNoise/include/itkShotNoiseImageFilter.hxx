@@ -67,9 +67,6 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
 
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
-
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   while (!inputIt.IsAtEnd())

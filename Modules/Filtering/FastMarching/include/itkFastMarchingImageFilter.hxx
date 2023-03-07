@@ -146,8 +146,6 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   PixelType outputPixel;
   outputPixel = m_LargeValue;
 
-  outIt.GoToBegin();
-
   while (!outIt.IsAtEnd())
   {
     outIt.Set(outputPixel);
@@ -159,8 +157,6 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
 
   LabelIterator typeIt(m_LabelImage, m_LabelImage->GetBufferedRegion());
 
-
-  typeIt.GoToBegin();
   while (!typeIt.IsAtEnd())
   {
     typeIt.Set(LabelEnum::FarPoint);

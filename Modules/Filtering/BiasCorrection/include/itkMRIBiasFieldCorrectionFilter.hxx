@@ -555,7 +555,6 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImag
   this->GetBiasFieldSize(region, biasSize);
 
   bIter.Begin();
-  iIter.GoToBegin();
   if (m_OutputMask.IsNotNull())
   {
     itkDebugMacro(<< "Output mask is being used");
@@ -802,8 +801,6 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::Log1PImage(
   ImageRegionIterator<InternalImageType> t_iter(target, region);
 
   InternalImagePixelType pixel;
-  s_iter.GoToBegin();
-  t_iter.GoToBegin();
   while (!s_iter.IsAtEnd())
   {
     pixel = s_iter.Get();
@@ -833,9 +830,6 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::ExpImage(In
 
   ImageRegionIterator<InternalImageType> s_iter(source, region);
   ImageRegionIterator<InternalImageType> t_iter(target, region);
-
-  s_iter.GoToBegin();
-  t_iter.GoToBegin();
 
   double temp;
   while (!s_iter.IsAtEnd())

@@ -120,7 +120,6 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   ImageRegionIterator<BoolImageType> kernelImageIt; // iterator on image
   kernelImageIt = ImageRegionIterator<BoolImageType>(tmpSEImage, tmpSEImage->GetRequestedRegion());
 
-  kernelImageIt.GoToBegin();
   kernel_it = KernelBegin;
 
   while (!kernelImageIt.IsAtEnd())
@@ -157,7 +156,6 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   // iterator. use the "image" iterator to keep track of
   // components. use the kernel iterator for quick access of offsets
   kernel_it = KernelBegin;
-  kernelImageItIndex.GoToBegin();
   while (!kernelImageItIndex.IsAtEnd())
   {
     // If a ON element is found track the CC

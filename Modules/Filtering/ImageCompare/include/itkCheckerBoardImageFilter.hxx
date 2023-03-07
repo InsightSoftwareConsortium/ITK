@@ -66,10 +66,6 @@ CheckerBoardImageFilter<TImage>::DynamicThreadedGenerateData(const ImageRegionTy
   InputIterator  in1Itr(input1Ptr, outputRegionForThread);
   InputIterator  in2Itr(input2Ptr, outputRegionForThread);
 
-  outItr.GoToBegin();
-  in1Itr.GoToBegin();
-  in2Itr.GoToBegin();
-
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   typename InputImageType::SizeType size = input2Ptr->GetLargestPossibleRegion().GetSize();

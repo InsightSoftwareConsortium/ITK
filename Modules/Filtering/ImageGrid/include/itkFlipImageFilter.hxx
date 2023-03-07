@@ -188,7 +188,6 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  outputIt.GoToBegin();
   while (!outputIt.IsAtEnd())
   {
     // Determine the index of the output line

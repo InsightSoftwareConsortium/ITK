@@ -395,8 +395,6 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   using OutputType = typename InterpolatorType::OutputType;
 
   // Walk the output region
-  outIt.GoToBegin();
-
   while (!outIt.IsAtEnd())
   {
     // Determine the index of the current output pixel

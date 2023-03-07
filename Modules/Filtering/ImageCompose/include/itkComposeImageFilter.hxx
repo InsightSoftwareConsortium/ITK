@@ -114,7 +114,6 @@ ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const
   TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
 
   ImageRegionIterator<OutputImageType> oit(outputImage, outputRegionForThread);
-  oit.GoToBegin();
 
   InputIteratorContainerType inputItContainer;
 

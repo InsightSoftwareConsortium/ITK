@@ -390,7 +390,6 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
   // iterator on output image
   ImageRegionIteratorWithIndex<OutputImageType> ouRegIndexIt(output, outputRegion);
-  ouRegIndexIt.GoToBegin();
 
   // InputRegionForThread is the output region for thread padded by
   // kerne lradius We must traverse this padded region because some
