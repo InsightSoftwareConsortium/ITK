@@ -71,8 +71,8 @@ VnlForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   vnlfft.transform(signal.data_block(), -1);
 
   // Copy the VNL output back to the ITK image.
-  ImageRegionIteratorWithIndex<TOutputImage> oIt(outputPtr, outputPtr->GetLargestPossibleRegion());
-  for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
+  for (ImageRegionIteratorWithIndex<TOutputImage> oIt(outputPtr, outputPtr->GetLargestPossibleRegion()); !oIt.IsAtEnd();
+       ++oIt)
   {
     typename OutputImageType::IndexType       index = oIt.GetIndex();
     typename OutputImageType::OffsetValueType offset = inputPtr->ComputeOffset(index);

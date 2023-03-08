@@ -175,8 +175,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
   interpolator->SetInputImage(inputImagePtr);
 
   // Iterate through the output image
-  OutputIterator outputIt(outputPtr, outputPtr->GetRequestedRegion());
-  for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
+  for (OutputIterator outputIt(outputPtr, outputPtr->GetRequestedRegion()); !outputIt.IsAtEnd(); ++outputIt)
   {
     index = outputIt.GetIndex();
 

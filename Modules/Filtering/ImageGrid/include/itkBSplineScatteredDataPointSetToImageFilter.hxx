@@ -614,8 +614,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   typename ImageType::IndexType          startIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
   typename PointDataImageType::IndexType startPhiIndex = this->m_PhiLattice->GetLargestPossibleRegion().GetIndex();
 
-  ImageRegionIteratorWithIndex<ImageType> It(this->GetOutput(), region);
-  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  for (ImageRegionIteratorWithIndex<ImageType> It(this->GetOutput(), region); !It.IsAtEnd(); ++It)
   {
     typename ImageType::IndexType idx = It.GetIndex();
     for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -1004,9 +1003,10 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Collaps
   const RealType       u,
   const unsigned int   dimension)
 {
-  ImageRegionIteratorWithIndex<PointDataImageType> It(collapsedLattice, collapsedLattice->GetLargestPossibleRegion());
-
-  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  for (ImageRegionIteratorWithIndex<PointDataImageType> It(collapsedLattice,
+                                                           collapsedLattice->GetLargestPossibleRegion());
+       !It.IsAtEnd();
+       ++It)
   {
     PointDataType data;
     data.Fill(0.0);

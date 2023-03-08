@@ -378,9 +378,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
     it[k].GoToBegin();
   }
 
-  // reset output iterator to start
-  OutputIteratorType out(output, output->GetRequestedRegion());
-  for (out.GoToBegin(); !out.IsAtEnd(); ++out)
+  for (OutputIteratorType out(output, output->GetRequestedRegion()); !out.IsAtEnd(); ++out)
   {
     // basically, we'll repeat the E step from above
     for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)

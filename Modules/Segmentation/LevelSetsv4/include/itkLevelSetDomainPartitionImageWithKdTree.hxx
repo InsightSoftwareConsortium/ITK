@@ -48,9 +48,7 @@ LevelSetDomainPartitionImageWithKdTree<TImage>::PopulateDomainWithKdTree()
 
   const ListRegionType region = this->m_ListDomain->GetLargestPossibleRegion();
 
-  ListIteratorType lIt(this->m_ListDomain, region);
-
-  for (lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt)
+  for (ListIteratorType lIt(this->m_ListDomain, region); !lIt.IsAtEnd(); ++lIt)
   {
     const ListIndexType & index = lIt.GetIndex();
     ListPointType         pt;

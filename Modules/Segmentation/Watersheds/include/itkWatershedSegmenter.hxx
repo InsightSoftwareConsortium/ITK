@@ -853,13 +853,12 @@ Segmenter<TInputImage>::GradientDescent(InputImageTypePointer img, ImageRegionTy
   }
   ConstNeighborhoodIterator<InputImageType> valueIt(rad, img, region);
   NeighborhoodIterator<OutputImageType>     labelIt(zeroRad, output, region);
-  ImageRegionIterator<OutputImageType>      it(output, region);
 
   //
   // Sweep through the image and trace all unlabeled
   // pixels to a labeled region
   //
-  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  for (ImageRegionIterator<OutputImageType> it(output, region); !it.IsAtEnd(); ++it)
   {
     if (it.Get() == NULL_LABEL)
     {

@@ -238,9 +238,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTy
   OutputType data;
   data.Fill(0.0);
 
-  ImageRegionIteratorWithIndex<RealImageType> ItW(this->m_NeighborhoodWeightImage,
-                                                  this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
-  for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
+  for (ImageRegionIteratorWithIndex<RealImageType> ItW(this->m_NeighborhoodWeightImage,
+                                                       this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
+       !ItW.IsAtEnd();
+       ++ItW)
   {
     CoordRepType                      B = 1.0;
     typename RealImageType::IndexType idx = ItW.GetIndex();

@@ -197,12 +197,10 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
   auto * output = static_cast<HistogramType *>(this->ProcessObject::GetOutput(0));
 
   using NeighborhoodIteratorType = ConstNeighborhoodIterator<ImageType>;
-  NeighborhoodIteratorType neighborIt;
-  neighborIt = NeighborhoodIteratorType(radius, input, region);
 
   MeasurementVectorType cooccur(output->GetMeasurementVectorSize());
 
-  for (neighborIt.GoToBegin(); !neighborIt.IsAtEnd(); ++neighborIt)
+  for (NeighborhoodIteratorType neighborIt(radius, input, region); !neighborIt.IsAtEnd(); ++neighborIt)
   {
     const PixelType centerPixelIntensity = neighborIt.GetCenterPixel();
     if (centerPixelIntensity < m_Min || centerPixelIntensity > m_Max)

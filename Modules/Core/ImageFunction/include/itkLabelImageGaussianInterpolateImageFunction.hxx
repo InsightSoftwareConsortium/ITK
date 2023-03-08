@@ -60,8 +60,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   using WeightMapType = std::map<OutputType, RealType, TPixelCompare>;
   WeightMapType weightMap;
 
-  ImageRegionConstIteratorWithIndex<InputImageType> It(this->GetInputImage(), region);
-  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  for (ImageRegionConstIteratorWithIndex<InputImageType> It(this->GetInputImage(), region); !It.IsAtEnd(); ++It)
   {
     unsigned int j = It.GetIndex()[0] - region.GetIndex()[0];
     RealType     w = erfArray[0][j];
