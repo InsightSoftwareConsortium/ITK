@@ -38,7 +38,7 @@ namespace itk
  * \f]
  *
  * In this class, the input is the time-varying velocity field and an initial
- * diffeomorophism.  The output diffeomorphism is produced using fourth order
+ * diffeomorphism.  The output diffeomorphism is produced using fourth order
  * Runge-Kutta.
  *
  * \warning The output deformation field needs to have dimensionality of 1

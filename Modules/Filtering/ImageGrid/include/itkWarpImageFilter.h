@@ -56,7 +56,7 @@ namespace itk
  * Position mapped to outside of the input image buffer are assigned
  * a edge padding value.
  *
- * The LargetPossibleRegion for the output is inherited
+ * The LargestPossibleRegion for the output is inherited
  * from the input displacement field. The output image
  * spacing, origin and orientation may be set via
  * SetOutputSpacing, SetOutputOrigin and

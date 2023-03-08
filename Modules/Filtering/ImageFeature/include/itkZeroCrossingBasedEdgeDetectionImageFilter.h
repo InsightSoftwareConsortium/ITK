@@ -25,7 +25,7 @@ namespace itk
 {
 /**
  * \class ZeroCrossingBasedEdgeDetectionImageFilter
- * \brief This filter implements a zero-crossing based edge detecor.
+ * \brief This filter implements a zero-crossing based edge detector.
  *
  * The zero-crossing based edge detector looks for pixels in the Laplacian of
  * an image where the value of the Laplacian passes through zero --- points

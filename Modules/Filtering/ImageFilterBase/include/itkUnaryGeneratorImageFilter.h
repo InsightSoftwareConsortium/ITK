@@ -46,7 +46,7 @@ namespace itk
  * image, etc.
  *
  * \sa UnaryFunctorImageFilter
- * \sa BinaryGeneratorImageFilter TernaryGeneratormageFilter
+ * \sa BinaryGeneratorImageFilter TernaryGeneratorImageFilter
  *
  * \ingroup ITKImageFilterBase MultiThreaded
  *

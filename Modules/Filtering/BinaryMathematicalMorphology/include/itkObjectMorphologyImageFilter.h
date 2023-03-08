@@ -34,8 +34,8 @@ namespace itk
  * This class provides the infrastructure to support of
  * morphological operations being applied to images in which
  * the foreground and background intensities are fixed. This filter
- * operates significantly faster than itkBinaryMorhologicalImageFilters;
- * however itkBinaryMorhologicalImageFilters preserve
+ * operates significantly faster than itkBinaryMorphologicalImageFilters;
+ * however itkBinaryMorphologicalImageFilters preserve
  * background pixels based on values of neighboring background
  * pixels - potentially important during erosion.
  *

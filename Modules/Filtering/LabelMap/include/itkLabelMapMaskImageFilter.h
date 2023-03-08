@@ -143,7 +143,7 @@ public:
   itkBooleanMacro(Crop);
 
   /**
-   * Set/Get the boder added to the mask before the crop. The default is 0 on
+   * Set/Get the border added to the mask before the crop. The default is 0 on
    * all the axes.
    */
   itkSetMacro(CropBorder, SizeType);

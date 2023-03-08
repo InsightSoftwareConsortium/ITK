@@ -87,7 +87,7 @@ public:
 
   /** \brief Set one Trial Image.
     \note Only pixels with non null values are considered as
-    FastMarchingTraitsBase::Trialpoints.*/
+    FastMarchingTraitsBase::TrialPoints.*/
   void
   SetTrialImage(const ImageType * iImage);
   itkGetConstObjectMacro(TrialImage, ImageType);

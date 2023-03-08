@@ -114,7 +114,7 @@ public:
     return this->GetInput();
   }
 
-  /** Get the secong input. */
+  /** Get the second input. */
   const InputImage2Type *
   GetInput2();
 

@@ -165,7 +165,7 @@ public:
 
   /**
    * Return the LabelObject with at the position given in parameter.
-   * This method can be useful when the labels are not consecutives, but is quite
+   * This method can be useful when the labels are not consecutive, but is quite
    * inefficient.
    * This method throws an exception if the index doesn't exist in this image.
    */
@@ -191,7 +191,7 @@ public:
    * has a unique value.
    *
    * The complexity of this method is at best O(L) where L is the number of lines
-   * in the image - usit with care.
+   * in the image - use it with care.
    */
   void
   SetPixel(const IndexType & idx, const LabelType & iLabel);

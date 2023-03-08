@@ -158,7 +158,7 @@ protected:
   void
   GenerateInputRequestedRegion() override;
 
-  /** Starts the image modelling process */
+  /** Starts the image modeling process */
   void
   GenerateData() override;
 

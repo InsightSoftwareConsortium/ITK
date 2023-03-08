@@ -138,7 +138,7 @@ class ITK_TEMPLATE_EXPORT FastMarchingImageFilter : public ImageToImageFilter<TS
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FastMarchingImageFilter);
 
-  /** Standard class typdedefs. */
+  /** Standard class typedefs. */
   using Self = FastMarchingImageFilter;
   using Superclass = ImageToImageFilter<TSpeedImage, TLevelSet>;
   using Pointer = SmartPointer<Self>;
@@ -333,7 +333,7 @@ public:
    * narrow banding. */
   itkSetMacro(CollectPoints, bool);
 
-  /** Get thConste Collect Points flag. */
+  /** Get the Const Collect Points flag. */
   itkGetConstReferenceMacro(CollectPoints, bool);
   itkBooleanMacro(CollectPoints);
 

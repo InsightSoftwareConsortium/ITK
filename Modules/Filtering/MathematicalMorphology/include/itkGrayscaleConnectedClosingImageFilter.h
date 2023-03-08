@@ -26,7 +26,7 @@ namespace itk
  * \brief Enhance pixels associated with a dark object (identified by
  * a seed pixel) where the dark object is surrounded by a brighter object.
  *
- * GrayscaleConnectedClosingImagefilter is useful for enhancing dark
+ * GrayscaleConnectedClosingImageFilter is useful for enhancing dark
  * objects that are surrounded by bright borders. This filter makes it
  * easier to threshold the image and extract just the object of
  * interest.

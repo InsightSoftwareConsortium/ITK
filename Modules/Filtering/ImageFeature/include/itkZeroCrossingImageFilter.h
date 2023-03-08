@@ -97,7 +97,7 @@ public:
 
   /** ZeroCrossingImageFilter needs a larger input requested
    * region than the output requested region (larger by the kernel
-   * size to do comparisons between the central pixel and ite neighbors).
+   * size to do comparisons between the central pixel and its neighbors).
    * Thus ZeroCrossingImageFilter needs to provide an implementation
    * for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.

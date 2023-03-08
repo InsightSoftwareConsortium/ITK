@@ -60,7 +60,7 @@ class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilterBase : public FastMarc
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FastMarchingExtensionImageFilterBase);
 
-  /** Standard class typdedefs. */
+  /** Standard class typedefs. */
   using Self = FastMarchingExtensionImageFilterBase;
   using Superclass = FastMarchingImageFilterBase<TInput, TOutput>;
   using Pointer = SmartPointer<Self>;

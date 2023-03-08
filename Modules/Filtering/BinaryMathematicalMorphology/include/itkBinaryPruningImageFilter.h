@@ -76,7 +76,7 @@ public:
   /** Type for input image. */
   using InputImageType = TInputImage;
 
-  /** Type for output image: Skelenton of the object.  */
+  /** Type for output image: Skeleton of the object.  */
   using OutputImageType = TOutputImage;
 
   /** Type for the region of the input image. */
@@ -100,7 +100,7 @@ public:
   /** Neighborhood iterator type */
   using NeighborhoodIteratorType = NeighborhoodIterator<TInputImage>;
 
-  /** Get Skelenton by thinning image. */
+  /** Get Skeleton by thinning image. */
   OutputImageType *
   GetPruning();
 

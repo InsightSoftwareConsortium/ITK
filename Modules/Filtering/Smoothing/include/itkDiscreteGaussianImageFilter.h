@@ -277,7 +277,7 @@ public:
   /** Set/Get whether or not the filter will use the spacing of the input
    * image in its calculations. Use On to take the image spacing information
    * into account and to specify the Gaussian variance in real world units;
-   * use Off to gnore the image spacing and to specify the Gaussian variance
+   * use Off to ignore the image spacing and to specify the Gaussian variance
    * in voxel units. Default is On. */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);

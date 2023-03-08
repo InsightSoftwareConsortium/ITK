@@ -263,7 +263,7 @@ private:
    *  derivative. */
   typename MultiplyImageFilterType::Pointer m_MultiplyImageFilter{};
 
-  /** Function objects that are used in the inner loops of derivatiVex
+  /** Function objects that are used in the inner loops of derivative
    *  calculations. */
   DerivativeOperator<OutputImagePixelType, Self::ImageDimension> m_ComputeCannyEdge1stDerivativeOper{};
   DerivativeOperator<OutputImagePixelType, Self::ImageDimension> m_ComputeCannyEdge2ndDerivativeOper{};

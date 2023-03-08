@@ -247,7 +247,7 @@ public:
 /**
  * \class ModulusTransform
  *
- * \deprecated The two template parametered ModulusTransform functor
+ * \deprecated The two template parameter ModulusTransform functor
  * is deprecated. Please use the version with 3 template parameters.
  *
  * \ingroup ITKImageIntensity

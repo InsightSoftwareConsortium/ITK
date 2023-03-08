@@ -49,7 +49,7 @@ namespace itk
  * A noniterative version of this algorithm can be found in the
  * ReconstructionByDilationImageFilter. This noniterative solution is
  * much faster than the implementation provided here.  All ITK filters
- * that previously used GrayscaleGeodesicDiliateImageFilter as part of
+ * that previously used GrayscaleGeodesicDilateImageFilter as part of
  * their implementation have been converted to use the
  * ReconstructionByDilationImageFilter. The
  * GrayscaleGeodesicDilateImageFilter is maintained for backward

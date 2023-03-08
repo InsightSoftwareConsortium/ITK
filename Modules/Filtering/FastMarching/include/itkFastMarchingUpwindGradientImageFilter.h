@@ -90,7 +90,7 @@ class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilter : public FastMar
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FastMarchingUpwindGradientImageFilter);
 
-  /** Standard class typdedefs. */
+  /** Standard class typedefs. */
   using Self = FastMarchingUpwindGradientImageFilter;
   using Superclass = FastMarchingImageFilter<TLevelSet, TSpeedImage>;
   using Pointer = SmartPointer<Self>;

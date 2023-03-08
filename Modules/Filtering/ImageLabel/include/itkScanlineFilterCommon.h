@@ -390,7 +390,7 @@ protected:
   {
     // Create a neighborhood so that we can generate a table of offsets
     // to "previous" line indexes
-    // We are going to mis-use the neighborhood iterators to compute the
+    // We are going to misuse the neighborhood iterators to compute the
     // offset for us. All this messing around produces an array of
     // offsets that will be used to index the map
     typename TOutputImage::Pointer output = m_EnclosingFilter->GetOutput();

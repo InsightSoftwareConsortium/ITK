@@ -145,7 +145,7 @@ public:
   itkGetConstMacro(GenerateOutputMask, bool);
   itkBooleanMacro(GenerateOutputMask);
 
-  /** ConfigurewHistogram can be used to configure the histogram. The default version just do nothing. */
+  /** ConfigureHistogram can be used to configure the histogram. The default version just does nothing. */
   virtual void
   ConfigureHistogram(THistogram &)
   {}
