@@ -18,6 +18,11 @@ if(WIN32)
   set(ITK_SWIG_VERSION 4.0.2)
   set(swigwin_hash  "b8f105f9b9db6acc1f6e3741990915b533cd1bc206eb9645fd6836457fd30789b7229d2e3219d8e35f2390605ade0fbca493ae162ec3b4bc4e428b57155db03d")
   set(swigwin_cid  "bafybeifxmwvuck7gda6inwgl24cslv4m34uv3dgedvv2b62ctpbwz6sfoy")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+  set(swig_version_min 4.0.2)
+  set(ITK_SWIG_VERSION 4.0.2)
+  set(swiglinux_hash  "811a96b1223ef062e93c82d9848d74ae4b9dd42edeb2b32292aaa0be357ebabc2c2ba71ec5ee3fda83fb892e9b21266a249469aa66c23e2339dbd07bb48ad6c6")
+  set(swiglinux_cid  "bafybeihacajysw4jwrfkffuzvnlv4ees4eqoydl7ftw2o2nmciru6wky6e")
 else()
   set(ITK_SWIG_VERSION 4.0.2)
   set(swig_version_min 4.0.2)
@@ -27,6 +32,8 @@ endif()
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${ITK_SWIG_VERSION}/bin/swig")
 else()
 
     # follow the standard EP_PREFIX locations
@@ -88,6 +95,24 @@ else()
         ${download_extract_timestamp_flag}
         )
       set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
+    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+      # If we are building ITK
+      if(ITK_BINARY_DIR)
+        itk_download_attempt_check(SWIG)
+      endif()
+      ExternalProject_Add(swig
+        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swiglinux_hash}/download"
+            "https://dweb.link/ipfs/${swiglinux_cid}/swiglinux-4.0.2.tar.gz"
+            "https://itk.mypinata.cloud/ipfs/${swiglinux_cid}/swiglinux-4.0.2.tar.gz"
+            "https://w3s.link/ipfs/${swiglinux_cid}/swiglinux-4.0.2.tar.gz"
+        URL_HASH SHA512=${swiglinux_hash}
+        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${SWIG_VERSION}
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ""
+        INSTALL_COMMAND ""
+        ${download_extract_timestamp_flag}
+        )
+      set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${SWIG_VERSION}/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory.")
     else()
       # From PCRE configure
       # Some influential environment variables:
@@ -275,10 +300,9 @@ message(STATUS \"Swig configure successfully completed.\")
         )
     endif()
 
-    set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory." FORCE)
+    set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory.")
     mark_as_advanced(SWIG_DIR)
     set(SWIG_EXECUTABLE ${swig_ep} CACHE FILEPATH "swig executable." FORCE)
-
   endif()
   mark_as_advanced(SWIG_EXECUTABLE)
 endif()
