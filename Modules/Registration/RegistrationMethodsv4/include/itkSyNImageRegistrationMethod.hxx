@@ -631,10 +631,10 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   gradientField->SetRegions(virtualDomainImage->GetRequestedRegion());
   gradientField->Allocate();
 
-  ImageRegionIterator<DisplacementFieldType> ItG(gradientField, gradientField->GetRequestedRegion());
-
   SizeValueType count = 0;
-  for (ItG.GoToBegin(); !ItG.IsAtEnd(); ++ItG)
+  for (ImageRegionIterator<DisplacementFieldType> ItG(gradientField, gradientField->GetRequestedRegion());
+       !ItG.IsAtEnd();
+       ++ItG)
   {
     DisplacementVectorType displacement;
     for (SizeValueType d = 0; d < ImageDimension; ++d)
@@ -657,11 +657,12 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::ScaleUpdateField(
     const DisplacementFieldType * updateField)
 {
-  typename DisplacementFieldType::SpacingType     spacing = updateField->GetSpacing();
-  ImageRegionConstIterator<DisplacementFieldType> ItF(updateField, updateField->GetLargestPossibleRegion());
+  typename DisplacementFieldType::SpacingType spacing = updateField->GetSpacing();
 
   RealType maxNorm = NumericTraits<RealType>::NonpositiveMin();
-  for (ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF)
+  for (ImageRegionConstIterator<DisplacementFieldType> ItF(updateField, updateField->GetLargestPossibleRegion());
+       !ItF.IsAtEnd();
+       ++ItF)
   {
     DisplacementVectorType vector = ItF.Get();
 

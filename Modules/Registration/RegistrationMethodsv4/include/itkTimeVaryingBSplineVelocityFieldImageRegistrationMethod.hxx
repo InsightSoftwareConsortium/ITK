@@ -779,10 +779,11 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   typename DisplacementFieldType::IndexType gradientFieldIndex = gradientField->GetRequestedRegion().GetIndex();
   typename DisplacementFieldType::SizeType  gradientFieldSize = gradientField->GetRequestedRegion().GetSize();
 
-  ImageRegionConstIteratorWithOnlyIndex<DisplacementFieldType> ItG(gradientField, gradientField->GetRequestedRegion());
-
   SizeValueType localCount = 0;
-  for (ItG.GoToBegin(); !ItG.IsAtEnd(); ++ItG)
+  for (ImageRegionConstIteratorWithOnlyIndex<DisplacementFieldType> ItG(gradientField,
+                                                                        gradientField->GetRequestedRegion());
+       !ItG.IsAtEnd();
+       ++ItG)
   {
     typename DisplacementFieldType::IndexType index = ItG.GetIndex();
 

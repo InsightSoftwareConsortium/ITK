@@ -95,9 +95,7 @@ GridImageSource<TOutputImage>::DynamicThreadedGenerateData(const ImageRegionType
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
-  ImageRegionIteratorWithIndex<ImageType> It(output, outputRegionForThread);
-
-  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  for (ImageRegionIteratorWithIndex<ImageType> It(output, outputRegionForThread); !It.IsAtEnd(); ++It)
   {
     RealType                      val = 1.0;
     typename ImageType::IndexType index = It.GetIndex();

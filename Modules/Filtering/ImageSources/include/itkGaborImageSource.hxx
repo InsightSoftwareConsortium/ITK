@@ -55,14 +55,12 @@ GaborImageSource<TOutputImage>::GenerateData()
   gabor->SetPhaseOffset(this->m_PhaseOffset);
   gabor->SetCalculateImaginaryPart(this->m_CalculateImaginaryPart);
 
-  // Create an iterator that will walk the output region
-  ImageRegionIteratorWithIndex<OutputImageType> outIt(outputPtr, outputPtr->GetRequestedRegion());
-
-
   ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Walk the output image, evaluating the spatial function at each pixel
-  for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
+  for (ImageRegionIteratorWithIndex<OutputImageType> outIt(outputPtr, outputPtr->GetRequestedRegion());
+       !outIt.IsAtEnd();
+       ++outIt)
   {
     const typename OutputImageType::IndexType index = outIt.GetIndex();
     // The position at which the function is evaluated

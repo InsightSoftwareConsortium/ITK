@@ -231,8 +231,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
     epsilon[i] = r * this->m_Spacing[i] * this->m_BSplineEpsilon;
   }
 
-  ImageRegionIteratorWithIndex<OutputImageType> It(outputPtr, region);
-  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  for (ImageRegionIteratorWithIndex<OutputImageType> It(outputPtr, region); !It.IsAtEnd(); ++It)
   {
     typename OutputImageType::IndexType idx = It.GetIndex();
     for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -278,9 +277,10 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::CollapsePhiLattice(Po
                                                                               const RealType       u,
                                                                               const unsigned int   dimension)
 {
-  ImageRegionIteratorWithIndex<PointDataImageType> It(collapsedLattice, collapsedLattice->GetLargestPossibleRegion());
-
-  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  for (ImageRegionIteratorWithIndex<PointDataImageType> It(collapsedLattice,
+                                                           collapsedLattice->GetLargestPossibleRegion());
+       !It.IsAtEnd();
+       ++It)
   {
     PointDataType data;
     data.Fill(0.0);

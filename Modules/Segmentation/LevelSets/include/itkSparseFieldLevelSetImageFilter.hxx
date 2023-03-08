@@ -658,8 +658,6 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActiveLayer(
   //
   NeighborhoodIterator<OutputImageType> shiftedIt(
     m_NeighborList.GetRadius(), m_ShiftedImage, this->m_OutputImage->GetRequestedRegion());
-  NeighborhoodIterator<OutputImageType> outputIt(
-    m_NeighborList.GetRadius(), this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
   NeighborhoodIterator<StatusImageType> statusIt(
     m_NeighborList.GetRadius(), m_StatusImage, this->m_OutputImage->GetRequestedRegion());
   IndexType       center_index, offset_index;
@@ -673,7 +671,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActiveLayer(
   upperBounds =
     this->m_OutputImage->GetRequestedRegion().GetIndex() + this->m_OutputImage->GetRequestedRegion().GetSize();
 
-  for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
+  for (NeighborhoodIterator<OutputImageType> outputIt(
+         m_NeighborList.GetRadius(), this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
+       !outputIt.IsAtEnd();
+       ++outputIt)
   {
     if (Math::ExactlyEquals(outputIt.GetCenterPixel(), m_ValueZero))
     {

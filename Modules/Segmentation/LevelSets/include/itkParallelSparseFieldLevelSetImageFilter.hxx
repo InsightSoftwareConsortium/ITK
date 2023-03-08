@@ -342,8 +342,6 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActi
 
   NeighborhoodIterator<OutputImageType> shiftedIt(
     m_NeighborList.GetRadius(), m_ShiftedImage, m_OutputImage->GetRequestedRegion());
-  NeighborhoodIterator<OutputImageType> outputIt(
-    m_NeighborList.GetRadius(), m_OutputImage, m_OutputImage->GetRequestedRegion());
   NeighborhoodIterator<StatusImageType> statusIt(
     m_NeighborList.GetRadius(), m_StatusImage, m_OutputImage->GetRequestedRegion());
 
@@ -357,7 +355,10 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActi
   typename OutputImageType::IndexType startIndex = m_OutputImage->GetRequestedRegion().GetIndex();
   using StartIndexValueType = IndexValueType;
 
-  for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
+  for (NeighborhoodIterator<OutputImageType> outputIt(
+         m_NeighborList.GetRadius(), m_OutputImage, m_OutputImage->GetRequestedRegion());
+       !outputIt.IsAtEnd();
+       ++outputIt)
   {
     bounds_status = true;
     if (Math::ExactlyEquals(outputIt.GetCenterPixel(), m_ValueZero))

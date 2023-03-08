@@ -62,9 +62,8 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
   negField->Allocate();
 
   InputConstIterator InputIt(inputPtr, inputPtr->GetRequestedRegion());
-  InputIterator      negImageIt(negField, negField->GetRequestedRegion());
 
-  for (negImageIt.GoToBegin(); !negImageIt.IsAtEnd(); ++negImageIt)
+  for (InputIterator negImageIt(negField, negField->GetRequestedRegion()); !negImageIt.IsAtEnd(); ++negImageIt)
   {
     negImageIt.Set(-InputIt.Get());
     ++InputIt;

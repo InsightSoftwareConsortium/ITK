@@ -64,12 +64,13 @@ VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Generate
 
   // VNL requires the full complex result of the transform, so we
   // produce it here from the half complex image assumed when the output is real.
-  SignalVectorType                              signal(vectorSize);
-  ImageRegionIteratorWithIndex<OutputImageType> oIt(outputPtr, outputPtr->GetLargestPossibleRegion());
+  SignalVectorType signal(vectorSize);
 
   OutputIndexValueType maxXIndex = inputIndex[0] + static_cast<OutputIndexValueType>(inputSize[0]);
   unsigned int         si = 0;
-  for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
+  for (ImageRegionIteratorWithIndex<OutputImageType> oIt(outputPtr, outputPtr->GetLargestPossibleRegion());
+       !oIt.IsAtEnd();
+       ++oIt)
   {
     typename OutputImageType::IndexType index = oIt.GetIndex();
     if (index[0] >= maxXIndex)

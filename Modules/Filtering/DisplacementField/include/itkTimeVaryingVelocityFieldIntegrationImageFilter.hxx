@@ -145,9 +145,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
 
   typename DisplacementFieldType::Pointer outputField = this->GetOutput();
 
-  ImageRegionIteratorWithIndex<DisplacementFieldType> It(outputField, region);
-
-  for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+  for (ImageRegionIteratorWithIndex<DisplacementFieldType> It(outputField, region); !It.IsAtEnd(); ++It)
   {
     PointType point;
     outputField->TransformIndexToPhysicalPoint(It.GetIndex(), point);

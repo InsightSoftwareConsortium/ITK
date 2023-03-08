@@ -32,8 +32,7 @@ JointHistogramMutualInformationComputeJointPDFThreader<
   VirtualPointType virtualPoint;
   VirtualIndexType virtualIndex;
   using IteratorType = ImageRegionConstIteratorWithIndex<VirtualImageType>;
-  IteratorType it(this->m_Associate->GetVirtualImage(), imageSubRegion);
-  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  for (IteratorType it(this->m_Associate->GetVirtualImage(), imageSubRegion); !it.IsAtEnd(); ++it)
   {
     virtualIndex = it.GetIndex();
     this->m_Associate->TransformVirtualIndexToPhysicalPoint(virtualIndex, virtualPoint);
