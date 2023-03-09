@@ -141,15 +141,12 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   // set all output value to infinity
   using OutputIterator = ImageRegionIterator<LevelSetImageType>;
 
-  OutputIterator outIt(output, output->GetBufferedRegion());
-
   PixelType outputPixel;
   outputPixel = m_LargeValue;
 
-  while (!outIt.IsAtEnd())
+  for (OutputIterator outIt(output, output->GetBufferedRegion()); !outIt.IsAtEnd(); ++outIt)
   {
     outIt.Set(outputPixel);
-    ++outIt;
   }
 
   // set all points type to FarPoint

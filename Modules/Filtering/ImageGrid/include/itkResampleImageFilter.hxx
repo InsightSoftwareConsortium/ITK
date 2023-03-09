@@ -383,7 +383,6 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   // Create an iterator that will walk the output region for this thread.
   using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
-  OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -395,7 +394,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   using OutputType = typename InterpolatorType::OutputType;
 
   // Walk the output region
-  while (!outIt.IsAtEnd())
+  for (OutputIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
   {
     // Determine the index of the current output pixel
     outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
@@ -424,7 +423,6 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
       }
     }
     progress.CompletedPixel();
-    ++outIt;
   }
 }
 

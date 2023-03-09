@@ -97,12 +97,10 @@ GaussianImageSource<TOutputImage>::GenerateData()
 
   // Create an iterator that will walk the output region
   using OutputIterator = ImageRegionIterator<TOutputImage>;
-  OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
-
 
   ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
   // Walk the output image, evaluating the spatial function at each pixel
-  while (!outIt.IsAtEnd())
+  for (OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); ++outIt)
   {
     const typename TOutputImage::IndexType index = outIt.GetIndex();
     // The position at which the function is evaluated
@@ -113,8 +111,6 @@ GaussianImageSource<TOutputImage>::GenerateData()
     // Set the pixel value to the function value
     outIt.Set(static_cast<typename TOutputImage::PixelType>(value));
     progress.CompletedPixel();
-
-    ++outIt;
   }
 }
 
