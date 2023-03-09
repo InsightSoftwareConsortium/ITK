@@ -198,7 +198,7 @@ public:
   /* Set/Get b-spline domain direction. */
   itkGetConstMacro(BSplineDomainDirection, DirectionType);
 
-  /* Use input field to define the B-spline doain. */
+  /* Use input field to define the B-spline domain. */
   itkSetMacro(UseInputFieldToDefineTheBSplineDomain, bool);
   itkGetConstMacro(UseInputFieldToDefineTheBSplineDomain, bool);
   itkBooleanMacro(UseInputFieldToDefineTheBSplineDomain);

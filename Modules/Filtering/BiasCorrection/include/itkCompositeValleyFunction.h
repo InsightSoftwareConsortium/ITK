@@ -160,7 +160,7 @@ public:
     }
   }
 
-  /** Evalaute the function at point x.  */
+  /** Evaluate the function at point x.  */
   MeasureType
   Evaluate(MeasureType x) override;
 

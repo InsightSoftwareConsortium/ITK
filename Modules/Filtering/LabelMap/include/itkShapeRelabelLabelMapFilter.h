@@ -29,8 +29,9 @@ namespace itk
  * \class ShapeRelabelLabelMapFilter
  * \brief Relabels objects according to their shape attributes.
  *
- * The ShapeRelabelImageFilter relabels a label collection image according to the shape attributes of
- * the objects. The label produced are always consecutives.
+ * The ShapeRelabelImageFilter relabels a label collection image according
+ * to the shape attributes of the objects. The label produced are always
+ * consecutive.
  *
  * This implementation was taken from the Insight Journal paper:
  * https://www.insight-journal.org/browse/publication/176

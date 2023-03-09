@@ -57,7 +57,7 @@ class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilterBase
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FastMarchingUpwindGradientImageFilterBase);
 
-  /** Standard class typdedefs. */
+  /** Standard class typedefs. */
   using Self = FastMarchingUpwindGradientImageFilterBase;
   using Superclass = FastMarchingImageFilterBase<TInput, TOutput>;
   using Pointer = SmartPointer<Self>;
@@ -125,7 +125,7 @@ protected:
 //  using GrandParentClassType = FastMarchingImageFilterBase< VDimension, TInputPixel,
 //    TOutputPixel >;
 
-//  /** Standard class typdedefs. */
+//  /** Standard class typedefs. */
 //  using Self = IsotropicFastMarchingUpwindGradientImageFilterBase;
 //  using Superclass = FastMarchingUpwindGradientImageFilterBase< VDimension, TInputPixel,
 //    TOutputPixel, GrandParentClassType >;

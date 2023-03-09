@@ -73,7 +73,7 @@ protected:
   GenerateData() override;
 
 private:
-  /** The core virtual function to perform ShapeModelling of the input data */
+  /** The core virtual function to perform ShapeModeling of the input data */
   virtual void
   EstimateShapeModels() = 0;
 

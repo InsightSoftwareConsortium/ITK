@@ -132,7 +132,7 @@ protected:
    * value used by the default implementation of EvaluateDerivative() for
    * numerically approximating the derivative with the change over a single
    * default-sized step.  (NOTE that the default implementation of
-   * EvaluateDerivative() should never be used in practice, but users or lazzy
+   * EvaluateDerivative() should never be used in practice, but users or lazy
    * developers may nevertheless unwisely choose to do so anyway.)  For integer-
    * input-types, 1 is probably the correct value.  For double-input-types,
    * either 1 or 0.1 are probably good values.  This value should be set in the

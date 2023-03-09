@@ -84,7 +84,7 @@ public:
    itk::VectorImage<type2, dim>
    \endcode
  *
- * If you need to perform a dimensionaly reduction, you may want
+ * If you need to perform a dimensionality reduction, you may want
  * to use the ExtractImageFilter instead of the CastImageFilter.
  *
  * \ingroup IntensityImageFilters  MultiThreaded

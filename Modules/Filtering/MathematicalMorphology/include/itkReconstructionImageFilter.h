@@ -46,7 +46,7 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
  *
- * \sa MorphologicalReonstructionErosionImageFilter MorphologicalReonstructionDilationImageFilter
+ * \sa MorphologicalReconstructionErosionImageFilter MorphologicalReconstructionDilationImageFilter
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */

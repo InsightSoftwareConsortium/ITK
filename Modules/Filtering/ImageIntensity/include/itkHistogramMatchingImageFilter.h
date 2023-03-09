@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKImageIntensity
  */
 /* THistogramMeasurement -- The precision level for which to do
-  HistogramMeasurmenets */
+  HistogramMeasurements */
 template <typename TInputImage, typename TOutputImage, typename THistogramMeasurement = typename TInputImage::PixelType>
 class ITK_TEMPLATE_EXPORT HistogramMatchingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {

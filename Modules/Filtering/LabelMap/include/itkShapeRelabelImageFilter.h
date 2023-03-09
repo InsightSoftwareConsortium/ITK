@@ -31,7 +31,7 @@ namespace itk
  * \brief relabel objects according to their shape attributes
  *
  * ShapeRelabelImageFilter relabel a labeled image according to the shape attributes of
- * the objects. The label produced are always consecutives.
+ * the objects. The label produced are always consecutive.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

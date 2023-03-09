@@ -214,7 +214,7 @@ private:
  * and his colleagues.
  *
  * The multiresolution pyramid implementation is based on
- * itkMultiTesolutionPyramidImageFilter (without Gaussian smoothing)
+ * itkMultiResolutionPyramidImageFilter (without Gaussian smoothing)
  *
  * For more details. refer to the following articles.
  * "Parametric estimate of intensity inhomogeneities applied to MRI"
@@ -515,7 +515,7 @@ protected:
 protected:
   /** Converts image data from source to target applying std::log(pixel + 1)
    * to all pixels. If the source pixel has negative value, it sets
-   * the value of the corresponding pixel in the targe image as zero. */
+   * the value of the corresponding pixel in the target image as zero. */
   void
   Log1PImage(InternalImageType * source, InternalImageType * target);
 

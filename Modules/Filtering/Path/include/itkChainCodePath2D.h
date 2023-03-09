@@ -34,7 +34,7 @@ namespace itk
  * image plane.  It does so by storing the offset of each index from its
  * immediately preceding, connected, index using a standard Freeman code
  * (1=up, 2=up to the right, and so on proceeding clockwise to 8=up
- * to the left).  The only image index stored directly is thatof the first
+ * to the left).  The only image index stored directly is that of the first
  * index.
  * ChainCodePath2D maps a 1D integer input (step number) to
  * a 2D integer output (either an offset or an image index, depending on
@@ -98,7 +98,7 @@ public:
   OffsetType
   IncrementInput(InputType & input) const override;
 
-  // Functions specific to ChainCodePath and its descendents
+  // Functions specific to ChainCodePath and its descendants
 
   /** New() method for dynamic construction */
   itkNewMacro(Self);

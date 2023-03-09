@@ -27,7 +27,7 @@ namespace itk
  * \class BinaryGrindPeakImageFilter
  * \brief Remove the objects not connected to the boundary of the image.
  *
- * BinaryGrindPeakImageFilter ginds peaks in a grayscale image.
+ * BinaryGrindPeakImageFilter grinds peaks in a grayscale image.
  *
  * Geodesic morphology and the grind peak algorithm is described in
  * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:

@@ -79,7 +79,7 @@ public:
 
 /**
  * \class XOR
- * \brief bitwise XOR fucntor
+ * \brief bitwise XOR functor
  * \ingroup ITKImageIntensity
  */
 template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>

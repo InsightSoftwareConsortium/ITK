@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKThresholding
  *
  * \sphinx
- * \sphinxexample{Filtering/Thresholding/SeparateGroundUsingOtsu,Separate Foreround And Background Using Otsu Method}
+ * \sphinxexample{Filtering/Thresholding/SeparateGroundUsingOtsu,Separate Foreground And Background Using Otsu Method}
  * \endsphinx
  */
 

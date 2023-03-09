@@ -32,7 +32,7 @@ namespace itk
  * The structuring element can be composed of arbitrary nonnegative
  * values (not restricted to zero or one). Element values greater than
  * zero indicate pixels that will be considered during the dilation.
- * The function dilation operation is defined as the maxixum over the
+ * The function dilation operation is defined as the maximum over the
  * element of the image value PLUS the structuring element value.
  *
  * For the each input image pixel,

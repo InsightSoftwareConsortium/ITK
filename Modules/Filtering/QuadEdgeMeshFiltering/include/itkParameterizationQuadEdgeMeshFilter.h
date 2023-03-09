@@ -177,7 +177,7 @@ protected:
   FillMatrix(MatrixType & iM, VectorType & ioBx, VectorType & ioBy);
 
   /**
-   *  \brief Solve linears systems : \f$ iM \cdot oX = iBx \f$ and
+   *  \brief Solve linear systems : \f$ iM \cdot oX = iBx \f$ and
    * \f$ iM \cdot oY = iBy \f$
    *
    *  \param[in] iM

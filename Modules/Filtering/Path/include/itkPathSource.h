@@ -141,7 +141,7 @@ public:
      \endcode
    *
    * For proper pipeline execution, a filter using a mini-pipeline
-   * must implement the GeneratseInputRequestedRegion(),
+   * must implement the GenerateInputRequestedRegion(),
    * GenerateOutputRequestedRegion(), GenerateOutputInformation() and
    * EnlargeOutputRequestedRegion() methods as necessary to reflect
    * how the mini-pipeline will execute (in other words, the outer
