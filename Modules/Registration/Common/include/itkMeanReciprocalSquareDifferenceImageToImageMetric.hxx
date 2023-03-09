@@ -63,7 +63,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Get
 
   typename FixedImageType::IndexType index;
 
-  MeasureType measure = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType measure{};
 
   this->m_NumberOfPixelsCounted = 0;
 

@@ -316,7 +316,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
     const auto                       movingIndex = movingImage->TransformPhysicalPointToIndex(originalLocation);
 
     // the block is selected for a minimum similarity metric
-    SimilaritiesValue similarity = NumericTraits<SimilaritiesValue>::ZeroValue();
+    SimilaritiesValue similarity{};
 
     // New point location
     DisplacementsVector displacement;
@@ -336,11 +336,11 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
     // iterate over neighborhoods in region window
     for (windowIterator.GoToBegin(); !windowIterator.IsAtEnd(); ++windowIterator)
     {
-      SimilaritiesValue fixedSum = NumericTraits<SimilaritiesValue>::ZeroValue();
-      SimilaritiesValue fixedSumOfSquares = NumericTraits<SimilaritiesValue>::ZeroValue();
-      SimilaritiesValue movingSum = NumericTraits<SimilaritiesValue>::ZeroValue();
-      SimilaritiesValue movingSumOfSquares = NumericTraits<SimilaritiesValue>::ZeroValue();
-      SimilaritiesValue covariance = NumericTraits<SimilaritiesValue>::ZeroValue();
+      SimilaritiesValue fixedSum{};
+      SimilaritiesValue fixedSumOfSquares{};
+      SimilaritiesValue movingSum{};
+      SimilaritiesValue movingSumOfSquares{};
+      SimilaritiesValue covariance{};
 
       // iterate over voxels in blockRadius
       for (SizeValueType i = 0; i < numberOfVoxelInBlock; ++i) // windowIterator.Size() == numberOfVoxelInBlock
@@ -359,7 +359,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
       const SimilaritiesValue movingVariance = movingSumOfSquares - numberOfVoxelInBlock * movingMean * movingMean;
       covariance -= numberOfVoxelInBlock * fixedMean * movingMean;
 
-      SimilaritiesValue sim = NumericTraits<SimilaritiesValue>::ZeroValue();
+      SimilaritiesValue sim{};
       if ((fixedVariance * movingVariance) != 0.0)
       {
         sim = (covariance * covariance) / (fixedVariance * movingVariance);

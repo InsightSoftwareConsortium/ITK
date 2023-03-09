@@ -256,8 +256,8 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
     // Interpolated value is the weighted sum of each of the surrounding
     // neighbors. The weight for each neighbor is the fraction overlap
     // of the neighbor pixel with respect to a pixel centered on point.
-    TOutput value = NumericTraits<TOutput>::ZeroValue();
-    TOutput totalOverlap = NumericTraits<TOutput>::ZeroValue();
+    TOutput value{};
+    TOutput totalOverlap{};
 
     for (NumberOfNeighborsType counter = 0; counter < neighbors; ++counter)
     {

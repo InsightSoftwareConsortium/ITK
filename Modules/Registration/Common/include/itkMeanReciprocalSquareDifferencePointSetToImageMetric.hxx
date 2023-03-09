@@ -48,7 +48,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
   PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
-  MeasureType measure = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType measure{};
 
   this->m_NumberOfPixelsCounted = 0;
   double lambdaSquared = std::pow(this->m_Lambda, 2);
@@ -156,7 +156,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
       for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
-        RealType sum = NumericTraits<RealType>::ZeroValue();
+        RealType sum{};
         for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; ++dim)
         {
           // Will it be computationally more efficient to instead calculate the
@@ -204,7 +204,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   }
 
   this->m_NumberOfPixelsCounted = 0;
-  MeasureType measure = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType measure{};
 
   this->SetTransformParameters(parameters);
   double lambdaSquared = std::pow(this->m_Lambda, 2);
@@ -255,7 +255,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
       for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
-        RealType sum = NumericTraits<RealType>::ZeroValue();
+        RealType sum{};
         for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; ++dim)
         {
           sum -= jacobian(dim, par) * gradient[dim] * std::pow(lambdaSquared + diffSquared, 2);

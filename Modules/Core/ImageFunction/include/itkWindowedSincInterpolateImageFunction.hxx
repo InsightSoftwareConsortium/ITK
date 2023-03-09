@@ -186,7 +186,7 @@ typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunct
   // Iterate over the neighborhood, taking the correct set
   // of weights in each dimension
   using PixelType = typename NumericTraits<typename TInputImage::PixelType>::RealType;
-  PixelType xPixelValue = NumericTraits<PixelType>::ZeroValue();
+  PixelType xPixelValue{};
   for (unsigned int j = 0; j < m_OffsetTableSize; ++j)
   {
     // Get the offset for this neighbor

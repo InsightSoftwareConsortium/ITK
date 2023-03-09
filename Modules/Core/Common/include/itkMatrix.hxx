@@ -31,7 +31,7 @@ Vector<T, VRows> Matrix<T, VRows, VColumns>::operator*(const Vector<T, VColumns>
   Vector<T, VRows> result;
   for (unsigned int r = 0; r < VRows; ++r)
   {
-    T sum = NumericTraits<T>::ZeroValue();
+    T sum{};
     for (unsigned int c = 0; c < VColumns; ++c)
     {
       sum += m_Matrix(r, c) * vect[c];
@@ -50,7 +50,7 @@ Point<T, VRows> Matrix<T, VRows, VColumns>::operator*(const Point<T, VColumns> &
   Point<T, VRows> result;
   for (unsigned int r = 0; r < VRows; ++r)
   {
-    T sum = NumericTraits<T>::ZeroValue();
+    T sum{};
     for (unsigned int c = 0; c < VColumns; ++c)
     {
       sum += m_Matrix(r, c) * pnt[c];
@@ -69,7 +69,7 @@ vnl_vector_fixed<T, VRows> Matrix<T, VRows, VColumns>::operator*(const vnl_vecto
   vnl_vector_fixed<T, VRows> result;
   for (unsigned int r = 0; r < VRows; ++r)
   {
-    T sum = NumericTraits<T>::ZeroValue();
+    T sum{};
     for (unsigned int c = 0; c < VColumns; ++c)
     {
       sum += m_Matrix(r, c) * inVNLvect[c];
@@ -88,7 +88,7 @@ CovariantVector<T, VRows> Matrix<T, VRows, VColumns>::operator*(const CovariantV
   CovariantVector<T, VRows> result;
   for (unsigned int r = 0; r < VRows; ++r)
   {
-    T sum = NumericTraits<T>::ZeroValue();
+    T sum{};
     for (unsigned int c = 0; c < VColumns; ++c)
     {
       sum += m_Matrix(r, c) * covect[c];

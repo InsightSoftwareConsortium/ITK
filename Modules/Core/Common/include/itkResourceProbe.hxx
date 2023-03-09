@@ -184,7 +184,7 @@ template <typename ValueType, typename MeanType>
 MeanType
 ResourceProbe<ValueType, MeanType>::GetMean() const
 {
-  MeanType meanValue = NumericTraits<MeanType>::ZeroValue();
+  MeanType meanValue{};
 
   if (this->m_NumberOfStops)
   {

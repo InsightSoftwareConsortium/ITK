@@ -152,7 +152,7 @@ protected:
 
     // and put back the objects in the map
     output->ClearLabels();
-    PixelType                           label = NumericTraits<PixelType>::ZeroValue();
+    PixelType                           label{};
     typename VectorType::const_iterator it2 = labelObjects.begin();
     while (it2 != labelObjects.end())
     {

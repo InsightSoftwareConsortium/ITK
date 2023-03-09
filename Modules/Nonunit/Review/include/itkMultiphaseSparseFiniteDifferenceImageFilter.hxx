@@ -814,7 +814,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
   unsigned int    i;
   ValueType       value_temp, delta;
-  ValueType       value = NumericTraits<ValueType>::ZeroValue(); // warnings
+  ValueType       value{}; // warnings
   bool            found_neighbor_flag;
   LayerIterator   toIt;
   LayerNodeType * node;

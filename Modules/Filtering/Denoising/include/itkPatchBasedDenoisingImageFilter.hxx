@@ -2340,7 +2340,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeGradientJointE
 
     useCachedComputations = true;
 
-    RealValueType gaussianJointEntropy = NumericTraits<RealValueType>::ZeroValue();
+    RealValueType gaussianJointEntropy{};
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
     {
       RealValueType kernelSigma = m_KernelBandwidthSigma[ic];

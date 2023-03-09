@@ -217,7 +217,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   /* Prepare histograms for use in GetValueAndDerivative */
 
   // Initialize the joint pdf and the fixed and moving image marginal pdfs
-  PDFValueType pdfzero = NumericTraits<PDFValueType>::ZeroValue();
+  PDFValueType pdfzero{};
   this->m_JointPDF->FillBuffer(pdfzero);
   this->m_FixedImageMarginalPDF->FillBuffer(pdfzero);
   this->m_MovingImageMarginalPDF->FillBuffer(pdfzero);

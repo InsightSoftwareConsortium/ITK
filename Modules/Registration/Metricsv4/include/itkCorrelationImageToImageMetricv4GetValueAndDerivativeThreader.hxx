@@ -117,9 +117,9 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   /* Accumulate the metric value from threads and store */
   this->m_CorrelationAssociate->m_Value = NumericTraits<InternalComputationValueType>::ZeroValue();
-  InternalComputationValueType fm = NumericTraits<InternalComputationValueType>::ZeroValue();
-  InternalComputationValueType f2 = NumericTraits<InternalComputationValueType>::ZeroValue();
-  InternalComputationValueType m2 = NumericTraits<InternalComputationValueType>::ZeroValue();
+  InternalComputationValueType fm{};
+  InternalComputationValueType f2{};
+  InternalComputationValueType m2{};
   for (ThreadIdType threadId = 0; threadId < numWorkUnitsUsed; ++threadId)
   {
     fm += this->m_CorrelationMetricValueDerivativePerThreadVariables[threadId].fm;
@@ -315,7 +315,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
     for (unsigned int par = 0; par < this->m_CorrelationAssociate->GetNumberOfLocalParameters(); ++par)
     {
-      InternalComputationValueType sum = NumericTraits<InternalComputationValueType>::ZeroValue();
+      InternalComputationValueType sum{};
       for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; ++dim)
       {
         sum += movingImageGradient[dim] * jacobian(dim, par);

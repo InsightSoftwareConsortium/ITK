@@ -269,7 +269,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     covariance.fill(NumericTraits<ComponentRealType>::ZeroValue());
     mean.fill(NumericTraits<ComponentRealType>::ZeroValue());
 
-    SizeValueType num = NumericTraits<SizeValueType>::ZeroValue();
+    SizeValueType num{};
 
     SecondIteratorType sit(inputImage, secondFunction, m_Seeds);
     sit.GoToBegin();

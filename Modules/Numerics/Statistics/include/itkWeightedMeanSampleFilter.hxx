@@ -81,7 +81,7 @@ WeightedMeanSampleFilter<TSample>::ComputeMeanWithWeights()
 
   const WeightArrayType & weightsArray = this->GetWeights();
 
-  WeightValueType totalWeight = NumericTraits<WeightValueType>::ZeroValue();
+  WeightValueType totalWeight{};
 
   typename SampleType::ConstIterator iter = input->Begin();
   typename SampleType::ConstIterator end = input->End();
@@ -142,7 +142,7 @@ WeightedMeanSampleFilter<TSample>::ComputeMeanWithWeightingFunction()
 
   const WeightingFunctionType * const weightFunction = this->GetWeightingFunction();
 
-  WeightValueType totalWeight = NumericTraits<WeightValueType>::ZeroValue();
+  WeightValueType totalWeight{};
 
   typename SampleType::ConstIterator       iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();

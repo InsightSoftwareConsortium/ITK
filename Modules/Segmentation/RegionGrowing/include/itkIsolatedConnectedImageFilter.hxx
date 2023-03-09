@@ -237,7 +237,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       // Find the sum of the intensities in m_Seeds2.  If the second
       // seeds are not included, the sum should be zero.  Otherwise,
       // it will be other than zero.
-      InputRealType                               seedIntensitySum = NumericTraits<InputRealType>::ZeroValue();
+      InputRealType                               seedIntensitySum{};
       typename SeedsContainerType::const_iterator si = m_Seeds2.begin();
       typename SeedsContainerType::const_iterator li = m_Seeds2.end();
       while (si != li)
@@ -302,7 +302,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       // Find the sum of the intensities in m_Seeds2.  If the second
       // seeds are not included, the sum should be zero.  Otherwise,
       // it will be other than zero.
-      InputRealType                               seedIntensitySum = NumericTraits<InputRealType>::ZeroValue();
+      InputRealType                               seedIntensitySum{};
       typename SeedsContainerType::const_iterator si = m_Seeds2.begin();
       typename SeedsContainerType::const_iterator li = m_Seeds2.end();
       while (si != li)
@@ -360,8 +360,8 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Find the sum of the intensities in m_Seeds2.  If the second
   // seeds are not included, the sum should be zero.  Otherwise,
   // it will be other than zero.
-  InputRealType                               seed1IntensitySum = NumericTraits<InputRealType>::ZeroValue();
-  InputRealType                               seed2IntensitySum = NumericTraits<InputRealType>::ZeroValue();
+  InputRealType                               seed1IntensitySum{};
+  InputRealType                               seed2IntensitySum{};
   typename SeedsContainerType::const_iterator si1 = m_Seeds1.begin();
   typename SeedsContainerType::const_iterator li1 = m_Seeds1.end();
   while (si1 != li1)

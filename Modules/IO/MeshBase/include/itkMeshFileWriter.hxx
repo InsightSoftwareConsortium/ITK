@@ -318,7 +318,7 @@ MeshFileWriter<TInputMesh>::CopyPointsToBuffer(Output * data)
 {
   const typename InputMeshType::PointsContainer * points = this->GetInput()->GetPoints();
 
-  SizeValueType                                     index = NumericTraits<SizeValueType>::ZeroValue();
+  SizeValueType                                     index{};
   typename TInputMesh::PointsContainerConstIterator pter = points->Begin();
 
   while (pter != points->End())
@@ -345,7 +345,7 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
   typename TInputMesh::CellType *              cellPtr;
 
   // For each cell
-  SizeValueType                                    index = NumericTraits<SizeValueType>::ZeroValue();
+  SizeValueType                                    index{};
   typename TInputMesh::CellsContainerConstIterator cter = cells->Begin();
   while (cter != cells->End())
   {

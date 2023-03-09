@@ -37,7 +37,7 @@ NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(const ConstNe
 
   const typename OperatorType::ConstIterator op_end = op.End();
   typename OperatorType::ConstIterator       o_it = op.Begin();
-  AccumulateRealType                         sum = NumericTraits<AccumulateRealType>::ZeroValue();
+  AccumulateRealType                         sum{};
 
   for (unsigned int i = start; o_it < op_end; i += stride, ++o_it)
   {
@@ -63,7 +63,7 @@ NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(
   using InputPixelRealType = typename NumericTraits<InputPixelType>::RealType;
   using AccumulateRealType = typename NumericTraits<InputPixelRealType>::AccumulateType;
 
-  AccumulateRealType sum = NumericTraits<AccumulateRealType>::ZeroValue();
+  AccumulateRealType sum{};
 
   using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 

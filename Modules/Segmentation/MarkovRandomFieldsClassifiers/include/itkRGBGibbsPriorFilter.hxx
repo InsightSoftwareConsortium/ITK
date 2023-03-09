@@ -625,9 +625,9 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
     m_RegionCount[r] = 1;
   }
 
-  LabelType i = NumericTraits<LabelType>::ZeroValue();
-  LabelType k = NumericTraits<LabelType>::ZeroValue();
-  LabelType l = NumericTraits<LabelType>::ZeroValue();
+  LabelType i{};
+  LabelType k{};
+  LabelType l{};
   LabelType label;
 
   while (!labelledImageIt.IsAtEnd())

@@ -176,7 +176,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
 
   using PixelType = typename InputImageType::PixelType;
   const PixelType *  neighPixels[Self::ImageDimension][2];
-  const PixelType    zeroPixel = NumericTraits<PixelType>::ZeroValue();
+  const PixelType    zeroPixel{};
   const unsigned int MaxDims = Self::ImageDimension;
   bool               dimOutOfBounds[Self::ImageDimension];
 
@@ -343,7 +343,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
   bool               dimOutOfBounds[Self::ImageDimension];
   const unsigned int MaxDims = Self::ImageDimension;
   PointValueType     delta[Self::ImageDimension];
-  PixelType          zeroPixel = NumericTraits<PixelType>::ZeroValue();
+  PixelType          zeroPixel{};
 
   ScalarDerivativeType componentDerivativeOut;
   ScalarDerivativeType componentDerivative;
@@ -523,7 +523,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
   PixelType          neighPixels[Self::ImageDimension][2];
   bool               dimOutOfBounds[Self::ImageDimension];
   const unsigned int MaxDims = Self::ImageDimension;
-  PixelType          zeroPixel = NumericTraits<PixelType>::ZeroValue();
+  PixelType          zeroPixel{};
 
   for (unsigned int dim = 0; dim < MaxDims; ++dim)
   {

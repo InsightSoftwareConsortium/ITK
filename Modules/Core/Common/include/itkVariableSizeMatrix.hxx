@@ -45,7 +45,7 @@ Array<T> VariableSizeMatrix<T>::operator*(const Array<T> & vect) const
   Array<T> result(rows);
   for (unsigned int r = 0; r < rows; ++r)
   {
-    T sum = NumericTraits<T>::ZeroValue();
+    T sum{};
     for (unsigned int c = 0; c < cols; ++c)
     {
       sum += m_Matrix(r, c) * vect[c];

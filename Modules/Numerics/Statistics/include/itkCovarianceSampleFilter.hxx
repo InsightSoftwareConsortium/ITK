@@ -140,7 +140,7 @@ CovarianceSampleFilter<TSample>::GenerateData()
   NumericTraits<MeasurementVectorRealType>::SetLength(diff, measurementVectorSize);
 
   using TotalFrequencyType = typename SampleType::TotalAbsoluteFrequencyType;
-  TotalFrequencyType totalFrequency = NumericTraits<TotalFrequencyType>::ZeroValue();
+  TotalFrequencyType totalFrequency{};
 
   typename SampleType::ConstIterator       iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();

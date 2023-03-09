@@ -177,7 +177,7 @@ WriteMetaDataAttribute(PolygonGroupSpatialObjectXMLFileWriter * This,
                        const char * const                       attName,
                        std::ofstream &                          output)
 {
-  T value = NumericTraits<T>::ZeroValue();
+  T value{};
 
   if (ExposeMetaData<T>(thisDic, MetaName, value))
   {

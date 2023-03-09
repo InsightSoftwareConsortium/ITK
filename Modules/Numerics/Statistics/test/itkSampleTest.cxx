@@ -82,7 +82,7 @@ public:
   TotalAbsoluteFrequencyType
   GetTotalFrequency() const override
   {
-    TotalAbsoluteFrequencyType sum = NumericTraits<TotalAbsoluteFrequencyType>::ZeroValue();
+    TotalAbsoluteFrequencyType sum{};
     auto                       itr = m_Frequencies.begin();
     while (itr != m_Frequencies.end())
     {

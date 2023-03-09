@@ -55,11 +55,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
 
   using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
-  AccumulateType sff = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType smm = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sfm = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sf = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sm = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sff{};
+  AccumulateType smm{};
+  AccumulateType sfm{};
+  AccumulateType sf{};
+  AccumulateType sm{};
 
   while (!ti.IsAtEnd())
   {
@@ -153,11 +153,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
 
   using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
-  AccumulateType sff = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType smm = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sfm = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sf = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sm = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sff{};
+  AccumulateType smm{};
+  AccumulateType sfm{};
+  AccumulateType sf{};
+  AccumulateType sm{};
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
@@ -257,8 +257,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
       for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
-        RealType sumF = NumericTraits<RealType>::ZeroValue();
-        RealType sumM = NumericTraits<RealType>::ZeroValue();
+        RealType sumF{};
+        RealType sumM{};
         for (unsigned int dim = 0; dim < dimension; ++dim)
         {
           const RealType differential = jacobian(dim, par) * gradient[dim];
@@ -336,11 +336,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
 
   using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
-  AccumulateType sff = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType smm = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sfm = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sf = NumericTraits<AccumulateType>::ZeroValue();
-  AccumulateType sm = NumericTraits<AccumulateType>::ZeroValue();
+  AccumulateType sff{};
+  AccumulateType smm{};
+  AccumulateType sfm{};
+  AccumulateType sf{};
+  AccumulateType sm{};
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
@@ -442,8 +442,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
       for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
-        RealType sumF = NumericTraits<RealType>::ZeroValue();
-        RealType sumM = NumericTraits<RealType>::ZeroValue();
+        RealType sumF{};
+        RealType sumM{};
         for (unsigned int dim = 0; dim < dimension; ++dim)
         {
           const RealType differential = jacobian(dim, par) * gradient[dim];

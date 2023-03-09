@@ -124,7 +124,7 @@ MeanSampleFilter<TSample>::GenerateData()
   std::vector<MeasurementRealAccumulateType> sum(measurementVectorSize);
 
   using TotalFrequencyType = typename SampleType::TotalAbsoluteFrequencyType;
-  TotalFrequencyType totalFrequency = NumericTraits<TotalFrequencyType>::ZeroValue();
+  TotalFrequencyType totalFrequency{};
 
   typename SampleType::ConstIterator       iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();

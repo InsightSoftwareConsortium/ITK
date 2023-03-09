@@ -101,7 +101,7 @@ StatisticsImageFilter<TInputImage>::ThreadedStreamedGenerateData(const RegionTyp
 
   CompensatedSummation<RealType> sum = NumericTraits<RealType>::ZeroValue();
   CompensatedSummation<RealType> sumOfSquares = NumericTraits<RealType>::ZeroValue();
-  SizeValueType                  count = NumericTraits<SizeValueType>::ZeroValue();
+  SizeValueType                  count{};
   PixelType                      min = NumericTraits<PixelType>::max();
   PixelType                      max = NumericTraits<PixelType>::NonpositiveMin();
 

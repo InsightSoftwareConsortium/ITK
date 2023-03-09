@@ -79,7 +79,7 @@ template <typename TInput, unsigned int VDimension, typename TOutput, typename T
 auto
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const InputType & iP) const -> OutputRealType
 {
-  OutputRealType oValue = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType oValue{};
 
   HessianType  hessian = this->EvaluateHessian(iP);
   GradientType grad = this->EvaluateGradient(iP);

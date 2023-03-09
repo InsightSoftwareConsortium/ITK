@@ -221,7 +221,7 @@ template <typename TOutput, unsigned int VDimension>
 auto
 DiscreteLevelSetImage<TOutput, VDimension>::EvaluateLaplacian(const InputType & inputIndex) const -> OutputRealType
 {
-  OutputRealType oLaplacian = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType oLaplacian{};
 
   const auto centerValue = static_cast<OutputRealType>(this->Evaluate(inputIndex));
 
@@ -440,7 +440,7 @@ template <typename TOutput, unsigned int VDimension>
 auto
 DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputType & inputIndex) const -> OutputRealType
 {
-  OutputRealType oValue = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType oValue{};
 
   HessianType  hessian = this->EvaluateHessian(inputIndex);
   GradientType grad = this->EvaluateGradient(inputIndex);

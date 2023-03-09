@@ -105,7 +105,7 @@ InteriorExteriorMeshFilter<TInputMesh, TOutputMesh, TSpatialFunction>::GenerateD
   using ValueType = typename TSpatialFunction::OutputType;
 
   using PointIdType = typename TOutputMesh::PointIdentifier;
-  PointIdType pointId = NumericTraits<PointIdType>::ZeroValue();
+  PointIdType pointId{};
 
   while (inputPoint != inPoints->End())
   {

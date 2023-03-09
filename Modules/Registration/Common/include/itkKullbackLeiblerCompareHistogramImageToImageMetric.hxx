@@ -49,7 +49,7 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::Ev
   // First the term that measures the entropy of the term
   // p(x,y) log p(x,y) - p(x,y) log q(x,y)
 
-  MeasureType KullbackLeibler = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType KullbackLeibler{};
 
   HistogramIteratorType measured_it = histogram.Begin();
   HistogramIteratorType measured_end = histogram.End();

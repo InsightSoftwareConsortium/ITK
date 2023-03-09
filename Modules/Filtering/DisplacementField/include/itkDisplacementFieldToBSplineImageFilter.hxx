@@ -126,7 +126,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   auto weights = WeightsContainerType::New();
 
-  IdentifierType numberOfPoints = NumericTraits<IdentifierType>::ZeroValue();
+  IdentifierType numberOfPoints{};
 
   const typename WeightsContainerType::Element boundaryWeight = 1.0e10;
 

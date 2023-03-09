@@ -125,7 +125,7 @@ template <typename T, unsigned int VVectorDimension>
 auto
 CovariantVector<T, VVectorDimension>::GetSquaredNorm() const -> RealValueType
 {
-  RealValueType sum = NumericTraits<RealValueType>::ZeroValue();
+  RealValueType sum{};
 
   for (unsigned int i = 0; i < VVectorDimension; ++i)
   {

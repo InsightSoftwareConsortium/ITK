@@ -715,8 +715,8 @@ protected:
   {
     if (input && output)
     {
-      SizeValueType inputIndex = NumericTraits<SizeValueType>::ZeroValue();
-      SizeValueType outputIndex = NumericTraits<SizeValueType>::ZeroValue();
+      SizeValueType inputIndex{};
+      SizeValueType outputIndex{};
       for (SizeValueType ii = 0; ii < m_NumberOfCells; ++ii)
       {
         ++inputIndex; // ignore the cell type
@@ -773,8 +773,8 @@ protected:
   {
     if (input && output)
     {
-      SizeValueType inputIndex = NumericTraits<SizeValueType>::ZeroValue();
-      SizeValueType outputIndex = NumericTraits<SizeValueType>::ZeroValue();
+      SizeValueType inputIndex{};
+      SizeValueType outputIndex{};
       for (SizeValueType ii = 0; ii < numberOfCells; ++ii)
       {
         output[outputIndex++] = static_cast<TOutput>(cellType);
@@ -795,8 +795,8 @@ protected:
   {
     if (input && output)
     {
-      SizeValueType inputIndex = NumericTraits<SizeValueType>::ZeroValue();
-      SizeValueType outputIndex = NumericTraits<SizeValueType>::ZeroValue();
+      SizeValueType inputIndex{};
+      SizeValueType outputIndex{};
       for (SizeValueType ii = 0; ii < numberOfCells; ++ii)
       {
         auto numberOfPoints = static_cast<unsigned int>(input[inputIndex++]);

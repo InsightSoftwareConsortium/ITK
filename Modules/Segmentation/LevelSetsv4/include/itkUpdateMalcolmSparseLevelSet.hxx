@@ -141,7 +141,7 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::FillUpdateContainer
 
     const LevelSetOutputRealType update = termContainer->Evaluate(inputIndex);
 
-    LevelSetOutputType value = NumericTraits<LevelSetOutputType>::ZeroValue();
+    LevelSetOutputType value{};
 
     if (update > NumericTraits<LevelSetOutputRealType>::ZeroValue())
     {

@@ -56,7 +56,7 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGene
 
   InputIterator it(inputImage, inputImage->GetBufferedRegion());
 
-  InputRealType maximumSquaredMagnitude = NumericTraits<InputRealType>::ZeroValue();
+  InputRealType maximumSquaredMagnitude{};
 
   while (!it.IsAtEnd())
   {

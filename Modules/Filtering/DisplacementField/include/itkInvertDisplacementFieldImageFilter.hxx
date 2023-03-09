@@ -208,8 +208,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   else
   {
     VectorType inverseSpacing;
-    RealType   localMean = NumericTraits<RealType>::ZeroValue();
-    RealType   localMax = NumericTraits<RealType>::ZeroValue();
+    RealType   localMean{};
+    RealType   localMax{};
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       inverseSpacing[d] = 1.0 / this->m_DisplacementFieldSpacing[d];

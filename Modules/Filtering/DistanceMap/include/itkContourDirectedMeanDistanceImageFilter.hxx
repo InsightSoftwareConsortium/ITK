@@ -148,7 +148,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreade
 
   // Find mean over all threads
   IdentifierType count = 0;
-  RealType       sum = NumericTraits<RealType>::ZeroValue();
+  RealType       sum{};
 
   for (ThreadIdType i = 0; i < numberOfWorkUnits; ++i)
   {

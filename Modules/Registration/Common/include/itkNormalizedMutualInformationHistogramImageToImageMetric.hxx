@@ -27,9 +27,9 @@ typename NormalizedMutualInformationHistogramImageToImageMetric<TFixedImage, TMo
 NormalizedMutualInformationHistogramImageToImageMetric<TFixedImage, TMovingImage>::EvaluateMeasure(
   HistogramType & histogram) const
 {
-  MeasureType entropyX = NumericTraits<MeasureType>::ZeroValue();
-  MeasureType entropyY = NumericTraits<MeasureType>::ZeroValue();
-  MeasureType jointEntropy = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType entropyX{};
+  MeasureType entropyY{};
+  MeasureType jointEntropy{};
 
   using HistogramFrequencyRealType = typename NumericTraits<HistogramFrequencyType>::RealType;
 
