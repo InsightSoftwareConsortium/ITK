@@ -238,7 +238,7 @@ template <typename T, unsigned int VDimension>
 auto
 SymmetricSecondRankTensor<T, VDimension>::GetTrace() const -> AccumulateValueType
 {
-  AccumulateValueType trace = NumericTraits<AccumulateValueType>::ZeroValue();
+  AccumulateValueType trace{};
   unsigned int        k = 0;
 
   for (unsigned int i = 0; i < Dimension; ++i)
@@ -350,7 +350,7 @@ SymmetricSecondRankTensor<T, VDimension>::PreMultiply(const MatrixType & m) cons
   {
     for (unsigned int c = 0; c < VDimension; ++c)
     {
-      AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
+      AccumulateType sum{};
       for (unsigned int t = 0; t < VDimension; ++t)
       {
         sum += m(r, t) * (*this)(t, c);
@@ -375,7 +375,7 @@ SymmetricSecondRankTensor<T, VDimension>::PostMultiply(const MatrixType & m) con
   {
     for (unsigned int c = 0; c < VDimension; ++c)
     {
-      AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
+      AccumulateType sum{};
       for (unsigned int t = 0; t < VDimension; ++t)
       {
         sum += (*this)(r, t) * m(t, c);

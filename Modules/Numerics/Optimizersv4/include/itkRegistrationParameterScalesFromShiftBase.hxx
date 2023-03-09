@@ -137,7 +137,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateStepScale(const Param
   // For global transforms, we want a linear approximation of the function
   // of step scale w.r.t "step". This is true only when "step" is close to
   // zero. Therefore, we need to scale "step" down.
-  FloatType maxStep = NumericTraits<FloatType>::ZeroValue();
+  FloatType maxStep{};
   for (typename ParametersType::SizeValueType p = 0; p < step.GetSize(); ++p)
   {
     if (maxStep < itk::Math::abs(step[p]))
@@ -208,7 +208,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::ComputeMaximumVoxelShift(cons
 
   this->ComputeSampleShifts(deltaParameters, sampleShifts);
 
-  FloatType maxShift = NumericTraits<FloatType>::ZeroValue();
+  FloatType maxShift{};
   for (SizeValueType s = 0; s < sampleShifts.size(); ++s)
   {
     if (maxShift < sampleShifts[s])

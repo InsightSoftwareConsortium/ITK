@@ -54,7 +54,7 @@ const typename FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::OutputPixelT
 FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::GetOutputValue(OutputMeshType * oMesh,
                                                                     const NodeType & iNode) const
 {
-  OutputPixelType outputValue = NumericTraits<OutputPixelType>::ZeroValue();
+  OutputPixelType outputValue{};
   oMesh->GetPointData(iNode, &outputValue);
   return outputValue;
 }
@@ -130,7 +130,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::UpdateValue(OutputMeshType 
   OutputPointType p;
   oMesh->GetPoint(iNode, &p);
 
-  InputPixelType F = NumericTraits<InputPixelType>::ZeroValue();
+  InputPixelType F{};
   this->m_InputMesh->GetPointData(iNode, &F);
 
   if (F < 0.)
@@ -645,7 +645,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::InitializeOutput(OutputMesh
     NodePairContainerConstIterator pointsIter = this->m_ForbiddenPoints->Begin();
     NodePairContainerConstIterator pointsEnd = this->m_ForbiddenPoints->End();
 
-    OutputPixelType zero = NumericTraits<OutputPixelType>::ZeroValue();
+    OutputPixelType zero{};
 
     while (pointsIter != pointsEnd)
     {

@@ -168,7 +168,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
 
   for (NumberOfParametersType par = 0; par < this->GetCachedNumberOfLocalParameters(); ++par)
   {
-    InternalComputationValueType sum = NumericTraits<InternalComputationValueType>::ZeroValue();
+    InternalComputationValueType sum{};
     for (SizeValueType dim = 0; dim < TImageToImageMetric::MovingImageDimension; ++dim)
     {
       sum += scalingfactor * jacobian(dim, par) * movingImageGradient[dim];
@@ -312,7 +312,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   }
 
   InternalComputationValueType delta = rightpoint[ind] - leftpoint[ind];
-  InternalComputationValueType deriv = NumericTraits<InternalComputationValueType>::ZeroValue();
+  InternalComputationValueType deriv{};
   if (delta > NumericTraits<InternalComputationValueType>::ZeroValue())
   {
     deriv = this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->Evaluate(rightpoint) -

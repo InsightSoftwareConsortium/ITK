@@ -353,7 +353,7 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
 
     // create a new cell
     m_NewSimplexCellPointer.TakeOwnership(new OutputPolygonType);
-    PointIdentifier       vertexIdx = NumericTraits<PointIdentifier>::ZeroValue();
+    PointIdentifier       vertexIdx{};
     CellIdentifier        nextIdx = startIdx;
     CellFeatureIdentifier featureId = 0;
 
@@ -367,7 +367,7 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
       EdgeIdentifierType line = std::make_pair(nextIdx, newIdx);
       EdgeIdentifierType lineInv = std::make_pair(newIdx, nextIdx);
 
-      CellIdentifier edgeIdx = NumericTraits<CellIdentifier>::ZeroValue();
+      CellIdentifier edgeIdx{};
 
       if (m_LineCellIndices->IndexExists(line))
       {

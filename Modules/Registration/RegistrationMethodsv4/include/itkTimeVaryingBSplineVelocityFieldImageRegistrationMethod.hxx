@@ -299,8 +299,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
 
       if (this->GetDebug())
       {
-        RealType spatialNorm = NumericTraits<RealType>::ZeroValue();
-        RealType spatioTemporalNorm = NumericTraits<RealType>::ZeroValue();
+        RealType spatialNorm{};
+        RealType spatioTemporalNorm{};
 
         typename TimeVaryingVelocityFieldType::SizeType radius;
         radius.Fill(1);
@@ -316,8 +316,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
         ConstNeighborhoodIterator<TimeVaryingVelocityFieldType> ItV(radius, velocityField, faceList.front());
         for (ItV.GoToBegin(); !ItV.IsAtEnd(); ++ItV)
         {
-          RealType localSpatialNorm = NumericTraits<RealType>::ZeroValue();
-          RealType localSpatioTemporalNorm = NumericTraits<RealType>::ZeroValue();
+          RealType localSpatialNorm{};
+          RealType localSpatioTemporalNorm{};
           for (unsigned int d = 0; d < ImageDimension + 1; ++d)
           {
             DisplacementVectorType vector = (ItV.GetNext(d) - ItV.GetPrevious(d)) * 0.5 * velocityFieldSpacing[d];
@@ -361,11 +361,11 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   velocityFieldPointSet->Initialize();
   velocityFieldWeights->Initialize();
 
-  IdentifierType numberOfVelocityFieldPoints = NumericTraits<IdentifierType>::ZeroValue();
+  IdentifierType numberOfVelocityFieldPoints{};
 
   for (SizeValueType timePoint = 0; timePoint < this->m_NumberOfTimePointSamples; ++timePoint)
   {
-    RealType t = NumericTraits<RealType>::ZeroValue();
+    RealType t{};
     if (this->m_NumberOfTimePointSamples > 1)
     {
       t = static_cast<RealType>(timePoint) / static_cast<RealType>(this->m_NumberOfTimePointSamples - 1);
@@ -464,7 +464,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
 
       this->m_Metric->Initialize();
       typename ImageMetricType::DerivativeType metricDerivative;
-      MeasureType                              value = NumericTraits<MeasureType>::ZeroValue();
+      MeasureType                              value{};
 
       this->m_Metric->GetValueAndDerivative(value, metricDerivative);
 

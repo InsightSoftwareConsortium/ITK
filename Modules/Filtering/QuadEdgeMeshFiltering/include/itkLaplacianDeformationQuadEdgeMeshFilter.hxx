@@ -50,7 +50,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
   OutputQEPrimal * qeIt = qe;
   OutputQEPrimal * qeIt2 = qe->GetOnext();
 
-  OutputCoordRepType oW = NumericTraits<OutputCoordRepType>::ZeroValue();
+  OutputCoordRepType oW{};
 
   do
   {
@@ -222,8 +222,8 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
     }
     else
     {
-      OutputCoordRepType ww = NumericTraits<OutputCoordRepType>::ZeroValue();
-      OutputCoordRepType w = NumericTraits<OutputCoordRepType>::ZeroValue();
+      OutputCoordRepType ww{};
+      OutputCoordRepType w{};
 
       qe = output->FindEdge(vId);
       if (qe)

@@ -539,7 +539,7 @@ RobustSolver<VDimension>::DeleteLandmarksOutOfMesh()
   using VectorContainerType = itk::VectorContainer<LoadIdentifier, Load::Pointer>;
   auto newLoadContainer = VectorContainerType::New();
 
-  LoadIdentifier numToRemoveLoads = NumericTraits<LoadIdentifier>::ZeroValue();
+  LoadIdentifier numToRemoveLoads{};
 
   LoadContainerType * container = this->m_FEMObject->GetModifiableLoadContainer();
 

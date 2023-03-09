@@ -276,7 +276,7 @@ public:
   RealType
   SquaredEuclideanDistanceTo(const Point<TCoordRepB, VPointDimension> & pa) const
   {
-    RealType sum = NumericTraits<RealType>::ZeroValue();
+    RealType sum{};
 
     for (unsigned int i = 0; i < VPointDimension; ++i)
     {

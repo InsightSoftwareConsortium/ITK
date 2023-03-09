@@ -170,7 +170,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeCurvature(con
                                                                              GlobalDataStruct *      gd)
 {
   // Calculate the mean curvature
-  ScalarValueType curvature = NumericTraits<ScalarValueType>::ZeroValue();
+  ScalarValueType curvature{};
 
   unsigned int i, j;
 
@@ -248,10 +248,10 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
   // Access the neighborhood center pixel of phi
   const ScalarValueType inputValue = it.GetCenterPixel();
 
-  ScalarValueType laplacian_term = NumericTraits<ScalarValueType>::ZeroValue();
-  ScalarValueType curvature_term = NumericTraits<ScalarValueType>::ZeroValue();
-  ScalarValueType curvature = NumericTraits<ScalarValueType>::ZeroValue();
-  ScalarValueType globalTerm = NumericTraits<ScalarValueType>::ZeroValue();
+  ScalarValueType laplacian_term{};
+  ScalarValueType curvature_term{};
+  ScalarValueType curvature{};
+  ScalarValueType globalTerm{};
   VectorType      advection_field;
   ScalarValueType x_energy, advection_term = NumericTraits<ScalarValueType>::ZeroValue();
 

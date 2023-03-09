@@ -501,7 +501,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     NodePairContainerConstIterator pointsIter = this->m_ForbiddenPoints->Begin();
     NodePairContainerConstIterator pointsEnd = this->m_ForbiddenPoints->End();
 
-    OutputPixelType zero = NumericTraits<OutputPixelType>::ZeroValue();
+    OutputPixelType zero{};
 
     while (pointsIter != pointsEnd)
     {

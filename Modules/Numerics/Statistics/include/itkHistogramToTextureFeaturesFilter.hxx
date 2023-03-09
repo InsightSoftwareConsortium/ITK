@@ -94,16 +94,16 @@ HistogramToTextureFeaturesFilter<THistogram>::GenerateData()
   this->ComputeMeansAndVariances(pixelMean, marginalMean, marginalDevSquared, pixelVariance);
 
   // Finally compute the texture features. Another one pass.
-  MeasurementType energy = NumericTraits<MeasurementType>::ZeroValue();
-  MeasurementType entropy = NumericTraits<MeasurementType>::ZeroValue();
-  MeasurementType correlation = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType energy{};
+  MeasurementType entropy{};
+  MeasurementType correlation{};
 
-  MeasurementType inverseDifferenceMoment = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType inverseDifferenceMoment{};
 
-  MeasurementType inertia = NumericTraits<MeasurementType>::ZeroValue();
-  MeasurementType clusterShade = NumericTraits<MeasurementType>::ZeroValue();
-  MeasurementType clusterProminence = NumericTraits<MeasurementType>::ZeroValue();
-  MeasurementType haralickCorrelation = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType inertia{};
+  MeasurementType clusterShade{};
+  MeasurementType clusterProminence{};
+  MeasurementType haralickCorrelation{};
 
   double pixelVarianceSquared = pixelVariance * pixelVariance;
   // Variance is only used in correlation. If variance is 0, then

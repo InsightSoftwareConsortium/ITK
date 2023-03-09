@@ -73,9 +73,9 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Tran
   // and moving image.
   //
   MeasureType measure;
-  MeasureType intersection = NumericTraits<MeasureType>::ZeroValue();
-  MeasureType movingForegroundArea = NumericTraits<MeasureType>::ZeroValue();
-  MeasureType fixedForegroundArea = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType intersection{};
+  MeasureType movingForegroundArea{};
+  MeasureType fixedForegroundArea{};
 
   // Compute fixedForegroundArea, movingForegroundArea, and
   // intersection. Loop over the fixed image.

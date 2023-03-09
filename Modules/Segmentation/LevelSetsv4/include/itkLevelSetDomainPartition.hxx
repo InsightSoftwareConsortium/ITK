@@ -27,7 +27,7 @@ void
 LevelSetDomainPartition<TImage>::PopulateListImage()
 {
   ListPixelType  pixelList;
-  IdentifierType i = NumericTraits<IdentifierType>::ZeroValue();
+  IdentifierType i{};
   while (i < this->m_NumberOfLevelSetFunctions)
   {
     pixelList.push_back(i++);

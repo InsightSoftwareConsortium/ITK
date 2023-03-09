@@ -142,7 +142,7 @@ public:
   operator()(const TInput1 & I, const TInput2 & H) const
   {
     const double absH = itk::Math::abs(H);
-    TOutput      value = NumericTraits<TOutput>::ZeroValue();
+    TOutput      value{};
     if (absH >= m_KernelZeroMagnitudeThreshold)
     {
       value = static_cast<TOutput>(I / H);

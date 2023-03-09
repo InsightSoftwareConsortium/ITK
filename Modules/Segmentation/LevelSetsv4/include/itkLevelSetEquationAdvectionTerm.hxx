@@ -150,7 +150,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
   -> LevelSetOutputRealType
 {
   VectorType             advectionField = this->AdvectionSpeed(iP);
-  LevelSetOutputRealType oValue = NumericTraits<LevelSetOutputRealType>::ZeroValue();
+  LevelSetOutputRealType oValue{};
 
   LevelSetGradientType backwardGradient = this->m_CurrentLevelSetPointer->EvaluateBackwardGradient(iP);
   LevelSetGradientType forwardGradient = this->m_CurrentLevelSetPointer->EvaluateForwardGradient(iP);
@@ -178,7 +178,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
                                                                  const LevelSetDataType &       iData)
 {
   VectorType             advectionField = this->AdvectionSpeed(iP);
-  LevelSetOutputRealType oValue = NumericTraits<LevelSetOutputRealType>::ZeroValue();
+  LevelSetOutputRealType oValue{};
 
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {

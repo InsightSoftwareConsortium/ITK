@@ -627,7 +627,7 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
   else
   {
     n = size - 1;
-    InstanceIdentifier m = NumericTraits<InstanceIdentifier>::ZeroValue();
+    InstanceIdentifier m{};
     p_n = 1.0;
     do
     {

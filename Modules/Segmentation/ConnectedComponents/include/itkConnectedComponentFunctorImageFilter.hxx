@@ -35,7 +35,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
 
   InputPixelType        value, neighborValue;
   OutputPixelType       label, originalLabel, neighborLabel;
-  OutputPixelType       maxLabel = NumericTraits<OutputPixelType>::ZeroValue();
+  OutputPixelType       maxLabel{};
   const OutputPixelType maxPossibleLabel = NumericTraits<OutputPixelType>::max();
 
   typename TOutputImage::Pointer     output = this->GetOutput();

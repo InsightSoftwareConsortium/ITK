@@ -185,7 +185,7 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::R
   const std::vector<TimeStepType> & timeStepList,
   const BooleanStdVectorType &      valid) const
 {
-  TimeStepType oMin = NumericTraits<TimeStepType>::ZeroValue();
+  TimeStepType oMin{};
   bool         flag = false;
 
   auto t_it = timeStepList.begin();

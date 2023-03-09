@@ -99,7 +99,7 @@ public:
   {
     GlobalDataStruct()
     {
-      ScalarValueType null_value = NumericTraits<ScalarValueType>::ZeroValue();
+      ScalarValueType null_value{};
 
       m_MaxCurvatureChange = null_value;
       m_MaxAdvectionChange = null_value;

@@ -379,7 +379,7 @@ KernelTransform<TParametersValueType, VDimension>::SetParameters(const Parameter
   if (&parameters != &(this->m_Parameters))
   {
     const size_t                 parameterSize = this->GetParameters().Size();
-    const NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
+    const NumberOfParametersType offset{};
     this->CopyInParameters(&(parameters.data_block())[offset], &(parameters.data_block())[offset] + parameterSize);
   }
 

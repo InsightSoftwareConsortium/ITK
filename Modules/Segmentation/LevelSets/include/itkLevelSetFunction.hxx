@@ -59,7 +59,7 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   ScalarValueType       gradMag = std::sqrt(gd->m_GradMagSqr);
   ScalarValueType       Pgrad[ImageDimension][ImageDimension];
   ScalarValueType       tmp_matrix[ImageDimension][ImageDimension];
-  const ScalarValueType ZERO = NumericTraits<ScalarValueType>::ZeroValue();
+  const ScalarValueType ZERO{};
 
   vnl_matrix_fixed<ScalarValueType, ImageDimension, ImageDimension> Curve;
   const ScalarValueType                                             MIN_EIG = NumericTraits<ScalarValueType>::min();
@@ -154,7 +154,7 @@ LevelSetFunction<TImageType>::ComputeMeanCurvature(const NeighborhoodType & itkN
                                                    GlobalDataStruct *       gd)
 {
   // Calculate the mean curvature
-  ScalarValueType curvature_term = NumericTraits<ScalarValueType>::ZeroValue();
+  ScalarValueType curvature_term{};
   unsigned int    i, j;
 
   for (i = 0; i < ImageDimension; ++i)
@@ -286,7 +286,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
                                             const FloatOffsetType &  offset)
 {
   unsigned int          i, j;
-  const ScalarValueType ZERO = NumericTraits<ScalarValueType>::ZeroValue();
+  const ScalarValueType ZERO{};
   const ScalarValueType center_value = it.GetCenterPixel();
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();

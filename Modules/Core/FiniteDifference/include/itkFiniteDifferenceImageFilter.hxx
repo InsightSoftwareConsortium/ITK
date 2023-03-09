@@ -169,7 +169,7 @@ typename FiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>::ResolveTimeStep(const std::vector<TimeStepType> & timeStepList,
                                                                         const BooleanStdVectorType &      valid) const
 {
-  TimeStepType oMin = NumericTraits<TimeStepType>::ZeroValue();
+  TimeStepType oMin{};
   bool         flag = false;
 
   // grab first valid value

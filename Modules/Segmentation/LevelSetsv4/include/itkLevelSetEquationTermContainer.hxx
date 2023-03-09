@@ -265,7 +265,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const L
 
   auto cfl_it = m_TermContribution.begin();
 
-  LevelSetOutputRealType oValue = NumericTraits<LevelSetOutputRealType>::ZeroValue();
+  LevelSetOutputRealType oValue{};
 
   while (term_it != term_end)
   {
@@ -299,7 +299,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const L
 
   auto cfl_it = m_TermContribution.begin();
 
-  LevelSetOutputRealType oValue = NumericTraits<LevelSetOutputRealType>::ZeroValue();
+  LevelSetOutputRealType oValue{};
 
   while (term_it != term_end)
   {
@@ -351,7 +351,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::ComputeCFLContri
 
   auto cfl_it = m_TermContribution.begin();
 
-  LevelSetOutputRealType oValue = NumericTraits<LevelSetOutputRealType>::ZeroValue();
+  LevelSetOutputRealType oValue{};
 
   while (term_it != term_end)
   {

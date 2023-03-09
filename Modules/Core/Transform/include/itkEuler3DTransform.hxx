@@ -234,7 +234,7 @@ Euler3DTransform<TParametersValueType>::ComputeMatrix()
   const ScalarType cz = std::cos(m_AngleZ);
   const ScalarType sz = std::sin(m_AngleZ);
   const ScalarType one = NumericTraits<ScalarType>::OneValue();
-  const ScalarType zero = NumericTraits<ScalarType>::ZeroValue();
+  const ScalarType zero{};
 
   Matrix<TParametersValueType, 3, 3> RotationX;
   RotationX[0][0] = one;

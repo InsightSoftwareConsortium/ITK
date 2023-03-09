@@ -92,9 +92,9 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeightingFun
   MeasurementVectorRealType diff;
   NumericTraits<MeasurementVectorRealType>::SetLength(diff, measurementVectorSize);
 
-  WeightValueType totalWeight = NumericTraits<WeightValueType>::ZeroValue();
+  WeightValueType totalWeight{};
 
-  WeightValueType totalSquaredWeight = NumericTraits<WeightValueType>::ZeroValue();
+  WeightValueType totalSquaredWeight{};
 
   typename SampleType::ConstIterator       iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();
@@ -189,9 +189,9 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeights()
   MeasurementVectorRealType diff;
   NumericTraits<MeasurementVectorRealType>::SetLength(diff, measurementVectorSize);
 
-  WeightValueType totalWeight = NumericTraits<WeightValueType>::ZeroValue();
+  WeightValueType totalWeight{};
 
-  WeightValueType totalSquaredWeight = NumericTraits<WeightValueType>::ZeroValue();
+  WeightValueType totalSquaredWeight{};
 
   typename SampleType::ConstIterator       iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();

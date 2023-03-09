@@ -78,8 +78,8 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageM
     return;
   }
 
-  InternalComputationValueType sumF = NumericTraits<InternalComputationValueType>::ZeroValue();
-  InternalComputationValueType sumM = NumericTraits<InternalComputationValueType>::ZeroValue();
+  InternalComputationValueType sumF{};
+  InternalComputationValueType sumM{};
 
   for (ThreadIdType threadId = 0; threadId < numWorkUnitsUsed; ++threadId)
   {

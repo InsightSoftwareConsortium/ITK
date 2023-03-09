@@ -55,7 +55,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
   // Initialize some variables before spawning threads
   //
   //
-  MeasureType measure = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType measure{};
   this->m_NumberOfPixelsCounted = 0;
 
   m_ThreadMatches.clear();
@@ -126,7 +126,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
   typename FixedImageType::IndexType index;
   FixedIteratorType                  ti(fixedImage, regionForThread);
 
-  MeasureType   threadMeasure = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType   threadMeasure{};
   SizeValueType threadNumberOfPixelsCounted = 0;
 
   while (!ti.IsAtEnd())

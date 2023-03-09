@@ -228,7 +228,7 @@ void
 PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::GetDerivative(
   DerivativeType & derivative) const
 {
-  MeasureType value = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType value{};
   this->CalculateValueAndDerivative(value, derivative, false);
 }
 
@@ -297,7 +297,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
       NumericTraits<PixelType>::SetLength(pixel, 1);
       for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; ++index)
       {
-        MeasureType         pointValue = NumericTraits<MeasureType>::ZeroValue();
+        MeasureType         pointValue{};
         LocalDerivativeType pointDerivative;
 
         /* Verify the virtual point is in the virtual domain.
@@ -421,7 +421,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
 {
   // Determine the number of valid fixed points, using
   // their positions in the virtual domain.
-  SizeValueType       numberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
+  SizeValueType       numberOfValidPoints{};
   PointsConstIterator virtualIt = this->m_VirtualTransformedPointSet->GetPoints()->Begin();
   while (virtualIt != this->m_VirtualTransformedPointSet->GetPoints()->End())
   {

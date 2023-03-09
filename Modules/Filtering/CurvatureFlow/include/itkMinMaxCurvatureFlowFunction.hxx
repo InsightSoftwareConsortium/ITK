@@ -120,7 +120,7 @@ auto
 MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, const NeighborhoodType & it) const
   -> PixelType
 {
-  PixelType threshold = NumericTraits<PixelType>::ZeroValue();
+  PixelType threshold{};
 
   // Compute gradient
   PixelType     gradient[ImageDimension];
@@ -167,8 +167,8 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
 
   for (neighIter = it.Begin(); neighIter < neighEnd; ++neighIter, ++i)
   {
-    PixelType dotProduct = NumericTraits<PixelType>::ZeroValue();
-    PixelType vectorMagnitude = NumericTraits<PixelType>::ZeroValue();
+    PixelType dotProduct{};
+    PixelType vectorMagnitude{};
 
     for (j = 0; j < ImageDimension; ++j)
     {
@@ -224,7 +224,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<2> &, const
     return it.GetCenterPixel();
   }
 
-  PixelType threshold = NumericTraits<PixelType>::ZeroValue();
+  PixelType threshold{};
 
   // Compute gradient
   double        gradient[imageDimension];
@@ -286,7 +286,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
     return it.GetCenterPixel();
   }
 
-  PixelType threshold = NumericTraits<PixelType>::ZeroValue();
+  PixelType threshold{};
 
   // Compute gradient
   double        gradient[imageDimension];

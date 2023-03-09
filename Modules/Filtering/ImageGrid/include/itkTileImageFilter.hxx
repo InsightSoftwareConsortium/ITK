@@ -52,7 +52,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateData()
   OutputPixelType defaultPixelValue = m_DefaultPixelValue;
   if (NumericTraits<OutputPixelType>::GetLength(defaultPixelValue) == 0)
   {
-    const OutputPixelComponentType zeroComponent = NumericTraits<OutputPixelComponentType>::ZeroValue();
+    const OutputPixelComponentType zeroComponent{};
     const unsigned int             nComponents = output->GetNumberOfComponentsPerPixel();
     NumericTraits<OutputPixelType>::SetLength(defaultPixelValue, nComponents);
     for (unsigned int n = 0; n < nComponents; ++n)

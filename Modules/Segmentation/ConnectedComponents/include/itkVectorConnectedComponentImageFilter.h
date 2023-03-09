@@ -78,7 +78,7 @@ public:
   operator()(const TInput & a, const TInput & b) const
   {
     using RealValueType = typename NumericTraits<typename TInput::ValueType>::RealType;
-    RealValueType dotProduct = NumericTraits<RealValueType>::ZeroValue();
+    RealValueType dotProduct{};
     for (unsigned int i = 0; i < NumericTraits<TInput>::GetLength(a); ++i)
     {
       dotProduct += a[i] * b[i];

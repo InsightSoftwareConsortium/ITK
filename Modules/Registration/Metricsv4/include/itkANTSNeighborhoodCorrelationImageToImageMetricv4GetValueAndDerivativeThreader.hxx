@@ -42,8 +42,8 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
   std::call_once(this->m_ANTSAssociateOnceFlag, [this, &associate]() { this->m_ANTSAssociate = associate; });
 
   VirtualPointType   virtualPoint;
-  MeasureType        metricValueResult = NumericTraits<MeasureType>::ZeroValue();
-  MeasureType        metricValueSum = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType        metricValueResult{};
+  MeasureType        metricValueSum{};
   bool               pointIsValid;
   ScanIteratorType   scanIt;
   ScanParametersType scanParameters;
@@ -137,7 +137,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   const SizeValueType numberOfFillZero = scanParameters.numberOfFillZero;
   const SizeValueType hoodlen = scanParameters.windowLength;
 
-  InternalComputationValueType zero = NumericTraits<InternalComputationValueType>::ZeroValue();
+  InternalComputationValueType zero{};
   scanMem.QsumFixed2 = SumQueueType(numberOfFillZero, zero);
   scanMem.QsumMoving2 = SumQueueType(numberOfFillZero, zero);
   scanMem.QsumFixed = SumQueueType(numberOfFillZero, zero);
@@ -150,7 +150,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   // Now add the rest of the values from each hyperplane
   SizeValueType diameter = 2 * scanParameters.radius[0];
 
-  const LocalRealType localZero = NumericTraits<LocalRealType>::ZeroValue();
+  const LocalRealType localZero{};
   for (SizeValueType i = numberOfFillZero; i < (diameter + NumericTraits<SizeValueType>::OneValue()); ++i)
   {
     LocalRealType sumFixed2 = localZero;
@@ -234,7 +234,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
   using LocalRealType = InternalComputationValueType;
 
-  const LocalRealType localZero = NumericTraits<LocalRealType>::ZeroValue();
+  const LocalRealType localZero{};
 
   LocalRealType sumFixed2 = localZero;
   LocalRealType sumMoving2 = localZero;
@@ -381,7 +381,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 {
   using LocalRealType = InternalComputationValueType;
 
-  const LocalRealType localZero = NumericTraits<LocalRealType>::ZeroValue();
+  const LocalRealType localZero{};
 
   LocalRealType count = localZero;
 
@@ -587,7 +587,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
                            const ThreadIdType                                  threadId)
 {
 
-  MeasureType        metricValueResult = NumericTraits<MeasureType>::ZeroValue();
+  MeasureType        metricValueResult{};
   bool               pointIsValid;
   ScanIteratorType   scanIt;
   ScanParametersType scanParameters;

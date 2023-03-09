@@ -229,7 +229,7 @@ public:
     InternalRegionIterator b_it(iImage, iImage->GetLargestPossibleRegion());
     b_it.GoToBegin();
 
-    TPixel                                    zero_value = NumericTraits<TPixel>::ZeroValue();
+    TPixel                                    zero_value{};
     typename NodeContainer::ElementIdentifier NumberOfPoints = 0;
 
     NodeType node;

@@ -203,7 +203,7 @@ typename MultiphaseFiniteDifferenceImageFilter<TInputImage,
 MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell>::
   ResolveTimeStep(const TimeStepVectorType & timeStepList, const std::vector<uint8_t> & valid)
 {
-  TimeStepType        oMin = NumericTraits<TimeStepType>::ZeroValue();
+  TimeStepType        oMin{};
   const SizeValueType size = timeStepList.size();
 
   if (size == valid.size())

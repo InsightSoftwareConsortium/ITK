@@ -197,7 +197,7 @@ protected:
   using WorkUnitData = typename ScanlineFunctions::WorkUnitData;
 
 private:
-  OutputPixelType m_BackgroundValue = NumericTraits<OutputPixelType>::ZeroValue();
+  OutputPixelType m_BackgroundValue{};
   LabelType       m_ObjectCount = 0;
 
   typename TInputImage::ConstPointer m_Input{};

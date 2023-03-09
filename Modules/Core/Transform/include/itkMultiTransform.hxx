@@ -84,7 +84,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetParameters(
   /* Resize destructively. But if it's already this size, nothing is done so
    * it's efficient. */
   this->m_Parameters.SetSize(this->GetNumberOfParameters());
-  NumberOfParametersType                      offset = NumericTraits<NumberOfParametersType>::ZeroValue();
+  NumberOfParametersType                      offset{};
   TransformQueueType                          transforms = this->GetTransformQueue();
   typename TransformQueueType::const_iterator it;
   it = transforms.begin();
@@ -120,7 +120,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::SetParameters(
   }
 
   TransformQueueType     transforms = this->GetTransformQueue();
-  NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
+  NumberOfParametersType offset{};
   auto                   it = transforms.begin();
 
   do
@@ -155,7 +155,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetFixedParame
    * it's efficient. */
   this->m_FixedParameters.SetSize(this->GetNumberOfFixedParameters());
 
-  NumberOfParametersType                      offset = NumericTraits<NumberOfParametersType>::ZeroValue();
+  NumberOfParametersType                      offset{};
   typename TransformQueueType::const_iterator it;
   TransformQueueType                          transforms = this->GetTransformQueue();
   it = transforms.begin();
@@ -189,7 +189,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::SetFixedParame
   /* Assumes input params are concatenation of the parameters of the
    * sub transforms. */
   TransformQueueType     transforms = this->GetTransformQueue();
-  NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
+  NumberOfParametersType offset{};
 
   /* Why is this done? Seems unnecessary. */
   this->m_FixedParameters = inputParameters;
@@ -218,7 +218,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetNumberOfPar
    * However, it seems that number of parameter might change for dense
    * field transforms (deformation, bspline) during processing and
    * we wouldn't know that in this class, so this is safest. */
-  NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
+  NumberOfParametersType result{};
 
 
   for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
@@ -246,7 +246,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetNumberOfLoc
   /* Note that unlike in GetNumberOfParameters(), we don't expect the
    * number of local parameters to possibly change, so we can cache
    * the value. */
-  NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
+  NumberOfParametersType result{};
 
   for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {
@@ -263,7 +263,7 @@ auto
 MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetNumberOfFixedParameters() const
   -> NumberOfParametersType
 {
-  NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
+  NumberOfParametersType result{};
 
   for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {
@@ -299,7 +299,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::UpdateTransfor
                                                 << numberOfParameters << std::endl);
   }
 
-  NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
+  NumberOfParametersType offset{};
 
   for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {

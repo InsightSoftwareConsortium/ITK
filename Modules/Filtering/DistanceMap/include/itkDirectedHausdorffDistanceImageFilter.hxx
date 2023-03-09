@@ -158,7 +158,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DynamicThreade
   ImageRegionConstIterator<TInputImage1>    it1(inputPtr1, regionForThread);
   ImageRegionConstIterator<DistanceMapType> it2(m_DistanceMap, regionForThread);
 
-  RealType                 maxDistance = NumericTraits<RealType>::ZeroValue();
+  RealType                 maxDistance{};
   CompensatedSummationType sum = 0.0;
   IdentifierType           pixelCount = 0;
 

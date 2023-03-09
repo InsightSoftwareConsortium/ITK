@@ -205,7 +205,7 @@ public:
     InputPointIdentifier id2 = iEdge->GetDestination();
     InputPointType       pt2 = iMesh->GetPoint(id2);
 
-    InputCoordRepType oValue = NumericTraits<InputCoordRepType>::ZeroValue();
+    InputCoordRepType oValue{};
 
     if (iEdge->IsLeftSet())
     {
