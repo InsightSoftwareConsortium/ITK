@@ -120,8 +120,6 @@ LandmarkDisplacementFieldSource<TOutputImage>::GenerateData()
 
   OutputImageRegionType region = outputPtr->GetRequestedRegion();
 
-  OutputIterator outIt(outputPtr, region);
-
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
   OutputIndexType outputIndex; // Index to current output pixel
@@ -135,7 +133,7 @@ LandmarkDisplacementFieldSource<TOutputImage>::GenerateData()
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 10);
 
   // Walk the output region
-  while (!outIt.IsAtEnd())
+  for (OutputIterator outIt(outputPtr, region); !outIt.IsAtEnd(); ++outIt)
   {
     // Determine the index of the current output pixel
     outputIndex = outIt.GetIndex();
@@ -151,7 +149,6 @@ LandmarkDisplacementFieldSource<TOutputImage>::GenerateData()
     }
 
     outIt.Set(displacement);
-    ++outIt;
     progress.CompletedPixel();
   }
 }

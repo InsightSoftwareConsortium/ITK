@@ -218,8 +218,6 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   OutputImageRegionType region = outputPtr->GetRequestedRegion();
 
-  OutputIterator outIt(outputPtr, region);
-
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
   IndexType outputIndex; // Index to current output pixel
@@ -233,7 +231,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 10);
 
   // Walk the output region
-  while (!outIt.IsAtEnd())
+  for (OutputIterator outIt(outputPtr, region); !outIt.IsAtEnd(); ++outIt)
   {
     // Determine the index of the current output pixel
     outputIndex = outIt.GetIndex();
@@ -250,7 +248,6 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
     }
 
     outIt.Set(inverseDisplacement); // set inverse displacement.
-    ++outIt;
     progress.CompletedPixel();
   }
 }
