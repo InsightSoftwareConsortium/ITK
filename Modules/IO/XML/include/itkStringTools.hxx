@@ -49,7 +49,7 @@ StringTools::ToData(std::string & s, std::vector<T> & data, int count)
     // compute the number of elements to be read from the input stream
     while (iss.good()) // loop until error occurred or reach end of stream
     {
-      T value = T();
+      T value{};
       if (iss >> value)
       {
         data.push_back(value);
@@ -75,7 +75,7 @@ StringTools::ToData(std::string & s, std::vector<T> & data, int count)
     }
     for (size_t i = 0; i < static_cast<size_t>(count); ++i)
     {
-      T value = T();
+      T value{};
       iss >> value;
       data[i] = value;
     }
@@ -128,7 +128,7 @@ StringTools::ToData(std::string & s, Array<T> & data, int count)
     std::vector<T> v;
     while (iss.good()) // loop until error occurred or reach end of stream
     {
-      T value = T();
+      T value{};
       if (iss >> value)
       {
         v.push_back(value);
@@ -162,7 +162,7 @@ StringTools::ToData(std::string & s, Array<T> & data, int count)
     }
     for (unsigned int i = 0; i < static_cast<unsigned int>(count); ++i)
     {
-      T value = T();
+      T value{};
       iss >> value;
       data[i] = value;
     }

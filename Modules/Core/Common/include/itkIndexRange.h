@@ -444,7 +444,7 @@ private:
   // IndexRange data members:
 
   // Minimum (N-dimensional) index.
-  MinIndexType m_MinIndex = MinIndexType();
+  MinIndexType m_MinIndex{};
 
   // Maximum (N-dimensional) index.
   IndexType m_MaxIndex = IndexType::Filled(-1);

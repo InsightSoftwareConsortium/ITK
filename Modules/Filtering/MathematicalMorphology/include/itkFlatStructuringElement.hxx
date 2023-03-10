@@ -41,7 +41,7 @@ template <unsigned int VDimension>
 FlatStructuringElement<VDimension>
 FlatStructuringElement<VDimension>::Polygon(RadiusType radius, unsigned int lines)
 {
-  Self res = Self();
+  Self res{};
   GeneratePolygon(res, radius, lines);
   return res;
 }
@@ -854,7 +854,7 @@ FlatStructuringElement<VDimension>
 FlatStructuringElement<VDimension>::Box(RadiusType radius)
 {
   // this should work for any number of dimensions
-  Self res = Self();
+  Self res{};
 
   res.SetDecomposable(true);
   res.SetRadius(radius);
@@ -885,7 +885,7 @@ FlatStructuringElement<VDimension>
 FlatStructuringElement<VDimension>::Cross(RadiusType radius)
 {
   // this should work for any number of dimensions
-  Self res = Self();
+  Self res{};
 
   res.m_Decomposable = false;
   res.SetRadius(radius);
@@ -912,7 +912,7 @@ template <unsigned int VDimension>
 FlatStructuringElement<VDimension>
 FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParametric)
 {
-  Self res = Self();
+  Self res{};
 
   res.SetRadius(radius);
   res.m_Decomposable = false;
@@ -1020,7 +1020,7 @@ FlatStructuringElement<VDimension>::Annulus(RadiusType   radius,
                                             bool         includeCenter,
                                             bool         radiusIsParametric)
 {
-  Self result = Self();
+  Self result{};
 
   result.SetRadius(radius);
   result.m_Decomposable = false;
@@ -1269,7 +1269,7 @@ template <unsigned int VDimension>
 FlatStructuringElement<VDimension>
 FlatStructuringElement<VDimension>::FromImage(const typename FlatStructuringElement<VDimension>::ImageType * image)
 {
-  Self              res = Self();
+  Self              res{};
   RadiusType        size = res.CheckImageSize(image);
   Index<VDimension> centerIdx;
 
