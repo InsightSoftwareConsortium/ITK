@@ -384,24 +384,21 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // Create an iterator that will walk the output region for this thread.
   using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
-  // Define a few indices that will be used to translate from an input pixel
-  // to an output pixel
-  OutputPointType outputPoint; // Coordinates of current output pixel
-  InputPointType  inputPoint;  // Coordinates of current input pixel
-
-  ContinuousInputIndexType inputIndex;
-
   using OutputType = typename InterpolatorType::OutputType;
 
   // Walk the output region
   for (OutputIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
   {
     // Determine the index of the current output pixel
+
+    OutputPointType outputPoint; // Coordinates of current output pixel
     outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
 
     // Compute corresponding input pixel position
-    inputPoint = transformPtr->TransformPoint(outputPoint);
-    const bool isInsideInput = inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
+    const InputPointType inputPoint = transformPtr->TransformPoint(outputPoint);
+
+    ContinuousInputIndexType inputIndex;
+    const bool               isInsideInput = inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
     OutputType value;
     // Evaluate input at right position and copy to the output
