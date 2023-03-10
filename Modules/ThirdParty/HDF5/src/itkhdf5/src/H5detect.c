@@ -56,7 +56,7 @@ H5_GCC_DIAG_OFF("cast-align")
 
 #if defined(__has_attribute)
 #if __has_attribute(no_sanitize_address)
-#define HDF_NO_UBSAN __attribute__((no_sanitize_address))
+#define HDF_NO_UBSAN __attribute__((no_sanitize("address","undefined","integer","nullability")))
 #else
 #define HDF_NO_UBSAN
 #endif
@@ -828,7 +828,7 @@ done:\n\
 
  *-------------------------------------------------------------------------
  */
-static void
+static void HDF_NO_UBSAN
 iprint(detected_t *d)
 {
     unsigned int pass;
