@@ -139,7 +139,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
   {
     FEMObjectLoad * load = (*it_load);
 
-    std::string loadname = std::string(load->m_LoadName);
+    std::string loadname(load->m_LoadName);
     if (loadname == "LoadNode")
     {
       fem::LoadNode::Pointer o1 = fem::LoadNode::New();

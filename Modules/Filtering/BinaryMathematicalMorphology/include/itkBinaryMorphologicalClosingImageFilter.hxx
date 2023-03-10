@@ -135,11 +135,9 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Gener
   // finally copy background which should have been eroded
   //
   // iterator on input image
-  ImageRegionConstIterator<InputImageType> inIt =
-    ImageRegionConstIterator<InputImageType>(this->GetInput(), this->GetOutput()->GetRequestedRegion());
+  ImageRegionConstIterator<InputImageType> inIt(this->GetInput(), this->GetOutput()->GetRequestedRegion());
   // iterator on output image
-  ImageRegionIterator<OutputImageType> outIt =
-    ImageRegionIterator<OutputImageType>(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
+  ImageRegionIterator<OutputImageType> outIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
   ProgressReporter progress2(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels(), 20, 0.9, 0.1);
   while (!outIt.IsAtEnd())

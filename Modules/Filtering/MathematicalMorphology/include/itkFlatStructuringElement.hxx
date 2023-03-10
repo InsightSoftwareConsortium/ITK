@@ -989,8 +989,7 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
   {
     seed[i] = res.GetRadius(i);
   }
-  FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType> sfi =
-    FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType>(sourceImage, spatialFunction, seed);
+  FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType> sfi(sourceImage, spatialFunction, seed);
   sfi.SetCenterInclusionStrategy();
 
   // Iterate through the entire image and set interior pixels to 1

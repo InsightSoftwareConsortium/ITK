@@ -180,9 +180,9 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   m_GaussianKernel.SetRadius(radius);
 
   KernelIteratorType                     kernel_it;
-  ImageRegionIterator<GaussianImageType> git =
-    ImageRegionIterator<GaussianImageType>(gaussianImage->GetOutput(), gaussianImage->GetOutput()->GetBufferedRegion());
-  double norm = 0.0;
+  ImageRegionIterator<GaussianImageType> git(gaussianImage->GetOutput(),
+                                             gaussianImage->GetOutput()->GetBufferedRegion());
+  double                                 norm = 0.0;
   for (git.GoToBegin(); !git.IsAtEnd(); ++git)
   {
     norm += git.Get();

@@ -65,7 +65,7 @@ itkFloodFillIteratorTest(int, char *[])
   std::cout << "New sourceImage allocated" << std::endl;
 
   // Initialize the image to hold all 0's
-  itk::ImageRegionIterator<TImageType> it = itk::ImageRegionIterator<TImageType>(sourceImage, largestPossibleRegion);
+  itk::ImageRegionIterator<TImageType> it(sourceImage, largestPossibleRegion);
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {

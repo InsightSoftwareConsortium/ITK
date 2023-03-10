@@ -646,7 +646,7 @@ GDCMImageIO::InternalReadImageInformation()
         gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
         const gdcm::ByteValue *                      bv = de.GetByteValue();
         assert(bv);
-        std::string s = std::string(bv->GetPointer(), bv->GetLength());
+        std::string s(bv->GetPointer(), bv->GetLength());
         m_Ss.str(s);
         // Erroneous file CT-MONO2-8-abdo.dcm,
         // The spacing is something like that [0.2\0\0.200000],

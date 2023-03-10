@@ -200,8 +200,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto     castInputMinimum = static_cast<OutputPixelType>(inputMinimum);
   auto     castInputMaximum = static_cast<OutputPixelType>(inputMaximum);
 
-  ImageRegionIterator<OutputImageType> outIt =
-    ImageRegionIterator<OutputImageType>(output, output->GetRequestedRegion());
+  ImageRegionIterator<OutputImageType> outIt(output, output->GetRequestedRegion());
   it.GoToBegin();
   while (!outIt.IsAtEnd())
   {
