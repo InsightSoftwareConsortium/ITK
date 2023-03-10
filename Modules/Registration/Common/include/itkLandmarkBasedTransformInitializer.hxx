@@ -319,15 +319,13 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   vnl_matrix<ParametersValueType> transposeAffine = vnl_qr<ParametersValueType>(Q).solve(C);
   vnl_matrix<ParametersValueType> Affine = transposeAffine.transpose();
 
-  vnl_matrix<ParametersValueType> AffineRotation =
-    vnl_matrix<ParametersValueType>(Affine.get_n_columns(0, ImageDimension));
+  vnl_matrix<ParametersValueType> AffineRotation(Affine.get_n_columns(0, ImageDimension));
 
   // [Convert ITK Affine Transformation from vnl]
   //
   // Define Matrix Type.
-  itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> mA =
-    itk::Matrix<ParametersValueType, ImageDimension, ImageDimension>(AffineRotation);
-  itk::Vector<ParametersValueType, ImageDimension> mT;
+  itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> mA(AffineRotation);
+  itk::Vector<ParametersValueType, ImageDimension>                 mT;
   for (unsigned int t = 0; t < ImageDimension; ++t)
   {
     mT[t] = Affine(t, ImageDimension);

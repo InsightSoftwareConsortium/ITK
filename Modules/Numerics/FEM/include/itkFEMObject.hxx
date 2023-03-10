@@ -172,7 +172,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
     fem::Load * load = Copy->GetLoad(k);
     // create a new object of the correct class
 
-    std::string loadname = std::string(load->GetNameOfClass());
+    std::string loadname(load->GetNameOfClass());
     if (loadname == "LoadNode")
     {
       auto * lCopy = dynamic_cast<fem::LoadNode *>(load);

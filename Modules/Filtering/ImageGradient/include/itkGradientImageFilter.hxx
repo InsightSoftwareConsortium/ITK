@@ -151,8 +151,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   // Initialize the x_slice array
-  ConstNeighborhoodIterator<InputImageType> nit =
-    ConstNeighborhoodIterator<InputImageType>(radius, inputImage, faceList.front());
+  ConstNeighborhoodIterator<InputImageType> nit(radius, inputImage, faceList.front());
 
   std::slice          x_slice[InputImageDimension];
   const SizeValueType center = nit.Size() / 2;
@@ -167,7 +166,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   for (const auto & face : faceList)
   {
     nit = ConstNeighborhoodIterator<InputImageType>(radius, inputImage, face);
-    ImageRegionIterator<OutputImageType> it = ImageRegionIterator<OutputImageType>(outputImage, face);
+    ImageRegionIterator<OutputImageType> it(outputImage, face);
     nit.OverrideBoundaryCondition(m_BoundaryCondition);
     nit.GoToBegin();
 
