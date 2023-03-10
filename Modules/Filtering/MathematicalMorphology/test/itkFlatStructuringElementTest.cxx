@@ -35,7 +35,7 @@ itkFlatStructuringElementTest(int, char *[])
   SE2Type::RadiusType r2;
   r2.Fill(scalarRadius);
 
-  SE2Type::Self result2 = SE2Type::Self();
+  SE2Type::Self result2{};
   result2.RadiusIsParametricOn();
   ITK_TEST_SET_GET_VALUE(true, result2.GetRadiusIsParametric());
 
@@ -75,7 +75,7 @@ itkFlatStructuringElementTest(int, char *[])
   using SE3Type = itk::FlatStructuringElement<3>;
   SE3Type::RadiusType r3;
 
-  SE3Type::Self result3 = SE3Type::Self();
+  SE3Type::Self result3{};
   result3.RadiusIsParametricOff();
   ITK_TEST_SET_GET_VALUE(false, result3.GetRadiusIsParametric());
 
@@ -133,7 +133,7 @@ itkFlatStructuringElementTest(int, char *[])
   using SE4Type = itk::FlatStructuringElement<4>;
   SE4Type::RadiusType r4;
 
-  SE4Type::Self result4 = SE4Type::Self();
+  SE4Type::Self result4{};
   result4.RadiusIsParametricOn();
   ITK_TEST_SET_GET_VALUE(true, result4.GetRadiusIsParametric());
 
