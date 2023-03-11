@@ -45,8 +45,6 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   typename ImageType::RegionType region;
   typename ImageType::IndexType  index;
 
-  PixelType pixelValue;
-
   itk::TimeProbesCollectorBase chronometer;
 
   { // begin write block
@@ -73,17 +71,14 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
     std::cout << "Initializing pixel values " << std::endl;
 
-    IteratorType itr(image, region);
-    itr.GoToBegin();
-
-    pixelValue = itk::NumericTraits<PixelType>::ZeroValue();
-
+    PixelType pixelValue{};
     chronometer.Start("Initializing");
-    while (!itr.IsAtEnd())
+    for (IteratorType itr(image, region); !itr.IsAtEnd(); ++itr)
     {
       itr.Set(pixelValue);
-      ++pixelValue;
-      ++itr;
+      // NOTE: pixelValue for unsigned short will wrap around with large images.
+      pixelValue = (pixelValue != itk::NumericTraits<PixelType>::max()) ? pixelValue + static_cast<PixelType>(1)
+                                                                        : static_cast<PixelType>(0);
     }
     chronometer.Stop("Initializing");
 
@@ -125,16 +120,12 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
   typename ImageType::ConstPointer readImage = reader->GetOutput();
 
-  ConstIteratorType ritr(readImage, region);
-
-  ritr.GoToBegin();
 
   std::cout << "Comparing the pixel values..." << std::endl;
 
-  pixelValue = itk::NumericTraits<PixelType>::ZeroValue();
-
+  PixelType pixelValue{};
   chronometer.Start("Compare");
-  while (!ritr.IsAtEnd())
+  for (ConstIteratorType ritr(readImage, region); !ritr.IsAtEnd(); ++ritr)
   {
     if (ritr.Get() != pixelValue)
     {
@@ -143,9 +134,9 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
       std::cerr << "Read Image pixel value " << ritr.Get() << std::endl;
       return EXIT_FAILURE;
     }
-
-    ++pixelValue;
-    ++ritr;
+    // NOTE: pixelValue for unsigned short will wrap around with large images.
+    pixelValue = (pixelValue != itk::NumericTraits<PixelType>::max()) ? pixelValue + static_cast<PixelType>(1)
+                                                                      : static_cast<PixelType>(0);
   }
   chronometer.Stop("Compare");
 
