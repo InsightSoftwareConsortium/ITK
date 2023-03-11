@@ -2,7 +2,7 @@
  * jfdctfst.c
  *
  * Copyright (C) 1994-1996, Thomas G. Lane.
- * Modified 2003-2009 by Guido Vollbeding.
+ * Modified 2003-2017 by Guido Vollbeding.
  * This file is part of the Independent JPEG Group's software.
  * For conditions of distribution and use, see the accompanying README file.
  *
@@ -34,7 +34,7 @@
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jdct.h"		/* Private declarations for DCT subsystem */
+#include "jdct.h"        /* Private declarations for DCT subsystem */
 
 #ifdef DCT_IFAST_SUPPORTED
 
@@ -44,7 +44,7 @@
  */
 
 #if DCTSIZE != 8
-  Sorry, this code only copes with 8x8 DCTs. /* deliberate syntax err */
+  Sorry, this code only copes with 8x8 DCT blocks. /* deliberate syntax err */
 #endif
 
 
@@ -77,10 +77,10 @@
  */
 
 #if CONST_BITS == 8
-#define FIX_0_382683433  ((INT32)   98)		/* FIX(0.382683433) */
-#define FIX_0_541196100  ((INT32)  139)		/* FIX(0.541196100) */
-#define FIX_0_707106781  ((INT32)  181)		/* FIX(0.707106781) */
-#define FIX_1_306562965  ((INT32)  334)		/* FIX(1.306562965) */
+#define FIX_0_382683433  ((INT32)   98)        /* FIX(0.382683433) */
+#define FIX_0_541196100  ((INT32)  139)        /* FIX(0.541196100) */
+#define FIX_0_707106781  ((INT32)  181)        /* FIX(0.707106781) */
+#define FIX_1_306562965  ((INT32)  334)        /* FIX(1.306562965) */
 #else
 #define FIX_0_382683433  FIX(0.382683433)
 #define FIX_0_541196100  FIX(0.541196100)
@@ -109,6 +109,8 @@
 
 /*
  * Perform the forward DCT on one block of samples.
+ *
+ * cK represents cos(K*pi/16).
  */
 
 GLOBAL(void)
@@ -140,22 +142,22 @@ jpeg_fdct_ifast (DCTELEM * data, JSAMPARRAY sample_data, JDIMENSION start_col)
 
     /* Even part */
 
-    tmp10 = tmp0 + tmp3;	/* phase 2 */
+    tmp10 = tmp0 + tmp3;    /* phase 2 */
     tmp13 = tmp0 - tmp3;
     tmp11 = tmp1 + tmp2;
     tmp12 = tmp1 - tmp2;
 
-    /* Apply unsigned->signed conversion */
+    /* Apply unsigned->signed conversion. */
     dataptr[0] = tmp10 + tmp11 - 8 * CENTERJSAMPLE; /* phase 3 */
     dataptr[4] = tmp10 - tmp11;
 
     z1 = MULTIPLY(tmp12 + tmp13, FIX_0_707106781); /* c4 */
-    dataptr[2] = tmp13 + z1;	/* phase 5 */
+    dataptr[2] = tmp13 + z1;    /* phase 5 */
     dataptr[6] = tmp13 - z1;
 
     /* Odd part */
 
-    tmp10 = tmp4 + tmp5;	/* phase 2 */
+    tmp10 = tmp4 + tmp5;    /* phase 2 */
     tmp11 = tmp5 + tmp6;
     tmp12 = tmp6 + tmp7;
 
@@ -165,15 +167,15 @@ jpeg_fdct_ifast (DCTELEM * data, JSAMPARRAY sample_data, JDIMENSION start_col)
     z4 = MULTIPLY(tmp12, FIX_1_306562965) + z5; /* c2+c6 */
     z3 = MULTIPLY(tmp11, FIX_0_707106781); /* c4 */
 
-    z11 = tmp7 + z3;		/* phase 5 */
+    z11 = tmp7 + z3;        /* phase 5 */
     z13 = tmp7 - z3;
 
-    dataptr[5] = z13 + z2;	/* phase 6 */
+    dataptr[5] = z13 + z2;    /* phase 6 */
     dataptr[3] = z13 - z2;
     dataptr[1] = z11 + z4;
     dataptr[7] = z11 - z4;
 
-    dataptr += DCTSIZE;		/* advance pointer to next row */
+    dataptr += DCTSIZE;        /* advance pointer to next row */
   }
 
   /* Pass 2: process columns. */
@@ -191,7 +193,7 @@ jpeg_fdct_ifast (DCTELEM * data, JSAMPARRAY sample_data, JDIMENSION start_col)
 
     /* Even part */
 
-    tmp10 = tmp0 + tmp3;	/* phase 2 */
+    tmp10 = tmp0 + tmp3;    /* phase 2 */
     tmp13 = tmp0 - tmp3;
     tmp11 = tmp1 + tmp2;
     tmp12 = tmp1 - tmp2;
@@ -205,7 +207,7 @@ jpeg_fdct_ifast (DCTELEM * data, JSAMPARRAY sample_data, JDIMENSION start_col)
 
     /* Odd part */
 
-    tmp10 = tmp4 + tmp5;	/* phase 2 */
+    tmp10 = tmp4 + tmp5;    /* phase 2 */
     tmp11 = tmp5 + tmp6;
     tmp12 = tmp6 + tmp7;
 
@@ -215,7 +217,7 @@ jpeg_fdct_ifast (DCTELEM * data, JSAMPARRAY sample_data, JDIMENSION start_col)
     z4 = MULTIPLY(tmp12, FIX_1_306562965) + z5; /* c2+c6 */
     z3 = MULTIPLY(tmp11, FIX_0_707106781); /* c4 */
 
-    z11 = tmp7 + z3;		/* phase 5 */
+    z11 = tmp7 + z3;        /* phase 5 */
     z13 = tmp7 - z3;
 
     dataptr[DCTSIZE*5] = z13 + z2; /* phase 6 */
@@ -223,7 +225,7 @@ jpeg_fdct_ifast (DCTELEM * data, JSAMPARRAY sample_data, JDIMENSION start_col)
     dataptr[DCTSIZE*1] = z11 + z4;
     dataptr[DCTSIZE*7] = z11 - z4;
 
-    dataptr++;			/* advance pointer to next column */
+    dataptr++;            /* advance pointer to next column */
   }
 }
 
