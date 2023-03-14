@@ -314,7 +314,7 @@ public:
    * same deterministic sampling will be used each Update
    * execution. On the other hand, calling the method
    * MetricSamplingReinitializeSeed() without arguments will use the wall clock in
-   * order to have psuedo-random initialization of the seeds. This
+   * order to have pseudo-random initialization of the seeds. This
    * will indeed increase the non-deterministic behavior of the
    * metric.
    */

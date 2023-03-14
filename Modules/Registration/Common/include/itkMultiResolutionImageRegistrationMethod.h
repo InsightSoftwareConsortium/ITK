@@ -54,7 +54,7 @@ namespace itk
  * for each pyramid externally prior to calling Update().
  *
  * \warning If there is discrepancy between the number of level requested
- * and a pyramid schedule. The pyramid schedule will be overriden
+ * and a pyramid schedule. The pyramid schedule will be overridden
  * with a default one.
  *
  * Before each resolution level an IterationEvent is invoked providing an
@@ -158,7 +158,7 @@ public:
   itkSetMacro(FixedImageRegion, FixedImageRegionType);
   itkGetConstReferenceMacro(FixedImageRegion, FixedImageRegionType);
 
-  /** Set/Get the Transfrom. */
+  /** Set/Get the Transform. */
   itkSetObjectMacro(Transform, TransformType);
   itkGetModifiableObjectMacro(Transform, TransformType);
 

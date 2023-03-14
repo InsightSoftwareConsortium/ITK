@@ -153,7 +153,7 @@ namespace itk
     \endcode
  *  must be called in the constructor.
  *
- *  The ProcessPoint method of the derived threader must be overriden to
+ *  The ProcessPoint method of the derived threader must be overridden to
  *  provide the metric-specific evaluation.
  *
  *  To access methods and members within the derived metric class from the
@@ -336,7 +336,7 @@ public:
   using DefaultMovingImageGradientFilter = typename MetricTraits::DefaultMovingImageGradientFilter;
 
   /** Image gradient calculator types. The TOutput template parameter
-   * is chosen to match that of CentralDiffererenceImageFunction. */
+   * is chosen to match that of CentralDifferenceImageFunction. */
   using FixedImageGradientCalculatorType = typename MetricTraits::FixedImageGradientCalculatorType;
   using MovingImageGradientCalculatorType = typename MetricTraits::MovingImageGradientCalculatorType;
 

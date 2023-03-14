@@ -119,7 +119,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
   const TimeStepType & dt)
 {
   // If we smooth the update buffer before applying it, then the are
-  // approximating a viscuous problem as opposed to an elastic problem
+  // approximating a viscous problem as opposed to an elastic problem
   if (this->GetSmoothUpdateField())
   {
     this->SmoothUpdateField();

@@ -297,7 +297,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
         }
 
         //      if ( (fixedValue > 0 || movingValue > 0 || fgm > 0) ||
-        // !filtersamples)
+        // !filterSamples)
 
         if (fixedValue > 0 || movingValue > 0 || fgm > 0)
         {
@@ -380,8 +380,8 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   const double numsamplesA{ static_cast<double>(fixedSamplesA.size()) };
   double       nsamp = numsamplesB;
   //  if (maxf == minf && maxm == minm) return update;
-  //    else std::cout << " b samps " << fixedSamplesB.size()
-  //    << " a samps " <<  fixedSamplesA.size() <<
+  //    else std::cout << " b samples " << fixedSamplesB.size()
+  //    << " a samples " <<  fixedSamplesA.size() <<
   //    oindex  << hoodIt.Size() << it.Size() << std::endl;
 
   fixedMean /= static_cast<double>(sampct);

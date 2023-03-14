@@ -86,7 +86,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   // With local-support transforms we need a virtual domain in
   // order to properly store the per-point derivatives.
   // This will create a virtual domain that matches the DisplacementFieldTransform.
-  // If the virutal domain has already been set, it will
+  // If the virtual domain has already been set, it will
   // be verified against the transform in Superclass::Initialize.
   if (this->HasLocalSupport())
   {
@@ -166,7 +166,7 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
    * This splitting is required in order to avoid having the threads
    * repeatedly write to same location causing false sharing
    */
-  // Use STL container to make sure no unesecarry checks are performed
+  // Use STL container to make sure no unnecessary checks are performed
   using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
   using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
   using VirtualVectorContainer = typename VirtualPointsContainer::STLContainerType;
@@ -266,7 +266,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
    * This splitting is required in order to avoid having the threads
    * repeatedly write to same location causing false sharing
    */
-  // GetNumberOfLocalParameters is not trhead safe in itkCompositeTransform
+  // GetNumberOfLocalParameters is not thread safe in itkCompositeTransform
   NumberOfParametersType                         numberOfLocalParameters = this->GetNumberOfLocalParameters();
   PointIdentifierRanges                          ranges = this->CreateRanges();
   std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
@@ -275,7 +275,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   std::function<void(SizeValueType)> sumNeighborhoodValues =
     [this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue, &numberOfLocalParameters](
       SizeValueType rangeIndex) {
-      // Use STL container to make sure no unesecarry checks are performed
+      // Use STL container to make sure no unnecessary checks are performed
       using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
       using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
       using VirtualVectorContainer = typename VirtualPointsContainer::STLContainerType;

@@ -343,7 +343,7 @@ protected:
     ReduceBuffer();
 
   private:
-    // How many AccumlatorElements used
+    // How many AccumulatorElements used
     size_t m_CurrentFillSize{ 0 };
     // Continguous chunk of memory for efficiency
     std::vector<PDFValueType> m_MemoryBlock;

@@ -107,7 +107,7 @@ public:
 
   /**  Get the value of the metric at a particular parameter
    *  setting. The metric value is the number of pixel matches (or
-   *  mis-matches, see SetMeasureMatches()) normalized by the number
+   *  mismatches, see SetMeasureMatches()) normalized by the number
    *  of pixels under consideration (within the buffer and if
    *  specified within a mask). In other words, the metric measure the
    *  percentage of pixel matches or mismatches. */

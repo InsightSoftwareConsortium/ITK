@@ -243,7 +243,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const
 
       this->m_NumberOfPixelsCounted++;
 
-      // Get the gradient by NearestNeighboorInterpolation:
+      // Get the gradient by NearestNeighborInterpolation:
       // which is equivalent to round up the point components.
       using CoordRepType = typename OutputPointType::CoordRepType;
       using MovingImageContinuousIndexType = ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;

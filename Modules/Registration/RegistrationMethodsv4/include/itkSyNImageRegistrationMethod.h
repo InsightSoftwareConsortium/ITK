@@ -185,11 +185,11 @@ public:
   itkSetMacro(GaussianSmoothingVarianceForTheTotalField, RealType);
   itkGetConstReferenceMacro(GaussianSmoothingVarianceForTheTotalField, RealType);
 
-  /** Get modifiable FixedToMiddle and MovingToMidle transforms to save the current state of the registration. */
+  /** Get modifiable FixedToMiddle and MovingToMiddle transforms to save the current state of the registration. */
   itkGetModifiableObjectMacro(FixedToMiddleTransform, OutputTransformType);
   itkGetModifiableObjectMacro(MovingToMiddleTransform, OutputTransformType);
 
-  /** Set FixedToMiddle and MovingToMidle transforms to restore the registration from a saved state. */
+  /** Set FixedToMiddle and MovingToMiddle transforms to restore the registration from a saved state. */
   itkSetObjectMacro(FixedToMiddleTransform, OutputTransformType);
   itkSetObjectMacro(MovingToMiddleTransform, OutputTransformType);
 
@@ -204,7 +204,7 @@ protected:
   GenerateData() override;
 
   /** Handle optimization internally.
-   * Starts the optimization at each level. Performas a basic gradient descent operation.
+   * Starts the optimization at each level. Performs a basic gradient descent operation.
    */
   virtual void
   StartOptimization();

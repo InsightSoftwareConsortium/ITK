@@ -613,7 +613,7 @@ protected:
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   GetValueMultiThreadedPostProcess(void * workunitInfoAsVoid);
 
-  /** Get the match Measur.e */
+  /** Get the match Measure. */
   virtual inline void
   GetValueThread(ThreadIdType threadId) const;
 

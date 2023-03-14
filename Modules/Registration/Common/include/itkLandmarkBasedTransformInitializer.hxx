@@ -230,7 +230,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // Normalize weights.
   vnlWeight = vnlWeight / vnlWeight.fro_norm();
 
-  // Convert Point to Matrix for Matrix Muptiplication
+  // Convert Point to Matrix for Matrix Multiplication
 
   // q
   // dim+1=4 * numberOfLandmarks matrix
@@ -280,10 +280,10 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   //
   vnl_matrix<ParametersValueType> Q(ImageDimension + 1, ImageDimension + 1, 0.0F);
   for (unsigned int i = 0; i < numberOfLandmarks; ++i)
-  { // Iterate for the number of landmakrs.
+  { // Iterate for the number of landmarks.
     vnl_matrix<ParametersValueType> qTemp(ImageDimension + 1, 1);
 
-    // Convert vector to colume matrix.
+    // Convert vector to column matrix.
     for (unsigned int k = 0; k < ImageDimension + 1; ++k)
     {
       qTemp(k, 0) = q.get(k, i);
@@ -367,7 +367,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   //    Journal of the Optical Society of America A, 4:629-642
   //
   //    Original python implementation by David G. Gobbi
-  //    Readapted from the code in VTK: Hybrid/vtkLandmarkTransform
+  //    Adapted from the code in VTK: Hybrid/vtkLandmarkTransform
   // ----------------------------------------------------------------------------
 
   using VectorType = typename VersorRigid3DTransformType::OutputVectorType;
@@ -499,7 +499,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   //    Journal of the Optical Society of America A, 4:629-642
   //
   //    Original python implementation by David G. Gobbi
-  //    Readapted from the code in VTK: Hybrid/vtkLandmarkTransform
+  //    Adapted from the code in VTK: Hybrid/vtkLandmarkTransform
   // ----------------------------------------------------------------------------
 
   using VectorType = typename Similarity3DTransformType::OutputVectorType;
@@ -631,7 +631,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // Sanity check.
   if (ImageDimension != 2)
   {
-    itkExceptionMacro("Transform is Rigid2DTransfrom and Fixed image dimension is not 2");
+    itkExceptionMacro("Transform is Rigid2DTransform and Fixed image dimension is not 2");
   }
   if (MovingImageType::ImageDimension != 2)
   {

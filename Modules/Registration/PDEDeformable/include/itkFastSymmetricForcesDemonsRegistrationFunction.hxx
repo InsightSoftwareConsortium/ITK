@@ -236,7 +236,7 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   if (globalData)
   {
     // do not consider voxel on the border (2 voxels) as there are often
-    // artefacts
+    // artifacts
     // which falsify the metric
     if (!IsOutsideRegion)
     {
