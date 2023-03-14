@@ -32,7 +32,7 @@ namespace itk
  * \brief Computes similarity between two objects to be registered
  *
  * This Class is templated over the type of the Images to be compared and
- * over the type of transformation and Iterpolator to be used.
+ * over the type of transformation and Interpolator to be used.
  *
  * This metric computes the sum of squared differences between pixels in
  * the derivatives of the moving and fixed images after passing the squared

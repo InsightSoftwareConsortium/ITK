@@ -26,7 +26,7 @@ namespace itk
 /** \class RecursiveMultiResolutionPyramidImageFilter
  * \brief Creates a multi-resolution pyramid using a recursive implementation.
  *
- * RecursiveMultiResolutionPyramidImageFilter creates an image pryamid
+ * RecursiveMultiResolutionPyramidImageFilter creates an image pyramid
  * according to a user defined multi-resolution schedule.
  *
  * If a schedule is downward divisible, a fast recursive implementation is

@@ -52,7 +52,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
   this->m_MovingDensityFunction->SetEvaluationKNeighborhood(this->m_EvaluationKNeighborhood);
   this->m_MovingDensityFunction->SetInputPointSet(this->m_MovingTransformedPointSet);
 
-  // Pre-calc some values for efficiency
+  // Pre-calculate some values for efficiency
   this->m_TotalNumberOfPoints = static_cast<RealType>(
     this->m_NumberOfValidPoints + this->m_MovingDensityFunction->GetInputPointSet()->GetNumberOfPoints());
   this->m_Prefactor0 = -1.0 / static_cast<RealType>(this->m_TotalNumberOfPoints);

@@ -222,7 +222,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   }
   else if (this->GetFixedImage())
   {
-    // Initial deforamtion field is not set.
+    // Initial deformation field is not set.
     // Copy information from the fixed image.
     for (unsigned int idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx)
     {

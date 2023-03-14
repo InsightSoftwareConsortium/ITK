@@ -96,7 +96,7 @@ public:
 
   using InterpolatorPointer = typename InterpolatorType::Pointer;
 
-  /** Typede of the vector type to return derivatives */
+  /** Typedef of the vector type to return derivatives */
   using VectorType = vnl_vector_fixed<double, Self::ObjectDimension>;
 
   /**  Type of the match measure */

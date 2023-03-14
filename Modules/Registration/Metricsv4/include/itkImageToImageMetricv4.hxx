@@ -144,7 +144,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     this->MapFixedSampledPointSetToVirtual();
   }
 
-  /* Inititialize interpolators. */
+  /* Initialize interpolators. */
   itkDebugMacro("Initialize Interpolators");
   this->m_FixedInterpolator->SetInputImage(this->m_FixedImage);
   this->m_MovingInterpolator->SetInputImage(this->m_MovingImage);

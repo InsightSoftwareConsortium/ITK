@@ -169,7 +169,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateD
     {
       if (ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1)
       {
-        // use caster -> smoother -> shrinker piepline
+        // use caster -> smoother -> shrinker pipeline
         caster->SetInput(inputPtr);
         smoother->SetInput(caster->GetOutput());
       }

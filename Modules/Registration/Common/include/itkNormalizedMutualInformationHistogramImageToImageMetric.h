@@ -32,7 +32,7 @@ namespace itk
  *    \f[  \frac{ H(A) + H(B) }{ H(A,B) }  \f]
  *    Where \$ H(A) \$ is the entropy of image \$ A \$,
  *           \$ H(B) \$ is the entropy of image \$ B \$,  and
- *           \$ H(A,B) \$ is the joing entropy of images \$ A \$ and \$ B \$.
+ *           \$ H(A,B) \$ is the joint entropy of images \$ A \$ and \$ B \$.
  *
  *    Details of this implementation can be found in the book
  *      "Medical Image Registration" by Hajnal, Hill and Hawkes.

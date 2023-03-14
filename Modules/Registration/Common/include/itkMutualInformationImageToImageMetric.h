@@ -74,7 +74,7 @@ namespace itk
  * The variance can be set via methods SetFixedImageStandardDeviation()
  * and SetMovingImageStandardDeviation().
  *
- * Implementaton of this class is based on:
+ * Implementation of this class is based on:
  * Viola, P. and Wells III, W. (1997).
  * "Alignment by Maximization of Mutual Information"
  * International Journal of Computer Vision, 24(2):137-154
@@ -241,7 +241,7 @@ private:
   SampleFixedImageDomain(SpatialSampleContainer & samples) const;
 
   /*
-   * Calculate derivatives of the image intensity at the specified point with respect to the transform parmeters.
+   * Calculate derivatives of the image intensity at the specified point with respect to the transform parameters.
    *
    * \todo This should really be done by the mapper.
    *

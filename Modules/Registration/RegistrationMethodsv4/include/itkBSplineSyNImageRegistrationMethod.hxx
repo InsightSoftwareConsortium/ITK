@@ -238,7 +238,7 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
   // with original SyN, the corresponding metric gradient values must be mapped to the closest
   // voxel locations in the reference domain.  The rest of the gradient values are zeroed
   // out prior to gaussian smoothing via convolution.  For the B-spline analog, the underlying
-  // smoothing operation is done using the BSplineScatteredDataPointSettoImageFilter so we
+  // smoothing operation is done using the BSplineScatteredDataPointSetToImageFilter so we
   // don't need to artificially zero out "missing" values.
 
   if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)

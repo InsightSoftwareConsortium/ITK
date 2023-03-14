@@ -92,7 +92,7 @@ public:
     GradientRecursiveGaussianImageFilter<MovingImageType, MovingImageGradientImageType>;
 
   /** Image gradient calculator types. The TOutput template parameter
-   * is chosen to match that of CentralDiffererenceImageFunction. */
+   * is chosen to match that of CentralDifferenceImageFunction. */
   using FixedImageGradientCalculatorType =
     ImageFunction<FixedImageType, CovariantVector<double, Self::FixedImageDimension>, CoordinateRepresentationType>;
   using MovingImageGradientCalculatorType =

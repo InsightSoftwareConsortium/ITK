@@ -77,7 +77,7 @@ extern ITKFEMRegistration_EXPORT std::ostream &
 
 /** \class FEMRegistrationFilter
  *  \brief FEM Image registration filter.
- * The image registration problem is modelled here with the finite
+ * The image registration problem is modeled here with the finite
  * element method. Image registration is, in general, an ill-posed
  * problem. Thus, we use an optimization scheme where the
  * optimization criterion is given by a regularized variational

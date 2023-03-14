@@ -136,7 +136,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
       if (numberOfFixedImagePixelsVisited > dryRunTolerance)
       {
         // We randomly visited as many points as is the size of the fixed image
-        // region.. Too may samples mapped ouside.. go change your transform
+        // region.. Too may samples mapped outside.. go change your transform
         itkExceptionMacro(<< "Too many samples mapped outside the moving buffer");
       }
     }

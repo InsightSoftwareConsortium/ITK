@@ -33,7 +33,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
    * of threads the threader will use, which isn't known for sure until this
    * method is called. */
 
-  /* Allocates and inits per-thread members.
+  /* Allocates and initializes per-thread members.
    * We need a couple of these and the rest will be ignored. */
   Superclass::BeforeThreadedExecution();
 
@@ -120,7 +120,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
       this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetRegions(jointPDFRegion);
       this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetOrigin(origin);
       this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetSpacing(spacing);
-      // NOTE: true = initizize to zero
+      // NOTE: true = initialize to zero
       this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->Allocate(true);
     }
   }
@@ -197,9 +197,9 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     for (ThreadIdType workUnitID = 0; workUnitID < localNumberOfWorkUnitsUsed; ++workUnitID)
     {
       this->m_MattesAssociate->m_ThreaderDerivativeManager[workUnitID].Initialize(
-        // A heuristic that assumues memory for 2x size of
-        // m_JointPDFDerivati efficient and easy to make, so
-        // split it accross all the threads.  A work unit of at least 400 is needed
+        // A heuristic that assumes memory for 2x size of
+        // m_JointPDFDerivative efficient and easy to make, so
+        // split it across all the threads.  A work unit of at least 400 is needed
         // when the thread size approaches the number of histograms so that the
         // there is enough work to be done between thread lockings.
         std::max<size_t>(500,

@@ -50,7 +50,7 @@ namespace itk
  * or GetDisplacementField.
  *
  * The PDE algorithm is run for a user defined number of iterations.
- * Typically the PDE algorithm requires period Gaussin smoothing of the
+ * Typically the PDE algorithm requires period Gaussian smoothing of the
  * deformation field to enforce an elastic-like condition. The amount
  * of smoothing is governed by a set of user defined standard deviations
  * (one for each dimension).

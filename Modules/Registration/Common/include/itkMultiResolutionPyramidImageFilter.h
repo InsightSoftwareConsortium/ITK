@@ -28,7 +28,7 @@ namespace itk
  * pyramid.
  *
  * MultiResolutionPyramidImageFilter provides a generic framework to
- * to create a image pryamid according to a user defined
+ * to create a image pyramid according to a user defined
  * multi-resolution schedule.
  *
  * The multi-resolution schedule is specified in terms for

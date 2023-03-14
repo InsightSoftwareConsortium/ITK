@@ -314,7 +314,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
    * Pre-compute the fixed image parzen window index for
    * each point of the fixed image sample points list.
    */
-  // NOTE:  Need to have computed this->m_FisedImageBinSize here.
+  // NOTE:  Need to have computed this->m_FixedImageBinSize here.
   this->ComputeFixedImageParzenWindowIndices(this->m_FixedImageSamples);
 }
 
@@ -444,7 +444,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueTh
   JointPDFValueType * const pdfPtrStart =
     this->m_MMIMetricPerThreadVariables[0].JointPDF->GetBufferPointer() + tPdfPtrOffset;
 
-  // The PDF domain is chunked based on thread.  Each thread consolodates
+  // The PDF domain is chunked based on thread.  Each thread consolidates
   // independent parts of the PDF.
   for (unsigned int t = 1; t < this->m_NumberOfWorkUnits; ++t)
   {
@@ -508,7 +508,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(c
   this->CommonGetValueProcessing();
 
   /**
-   * Compute the metric by double sumdation over histogram.
+   * Compute the metric by double summation over histogram.
    */
 
   // Setup pointer to point to the first bin

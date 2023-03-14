@@ -27,7 +27,7 @@ namespace itk
  *
  * This class is templated over the type of the two point-sets.  It
  * expects a Transform to be plugged in for each of fixed and moving
- * point sets. The transforms default to IdenityTransform types. This particular
+ * point sets. The transforms default to IdentityTransform types. This particular
  * class is the base class for a hierarchy of point-set to point-set metrics.
  *
  * This class computes a value that measures the similarity between the fixed
