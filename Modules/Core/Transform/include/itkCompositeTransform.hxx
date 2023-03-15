@@ -22,15 +22,6 @@
 namespace itk
 {
 
-
-template <typename TParametersValueType, unsigned int VDimension>
-CompositeTransform<TParametersValueType, VDimension>::CompositeTransform()
-{
-  this->m_TransformsToOptimizeFlags.clear();
-  this->m_TransformsToOptimizeQueue.clear();
-  this->m_PreviousTransformsToOptimizeUpdateTime = 0;
-}
-
 template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::GetTransformCategory() const -> TransformCategoryEnum

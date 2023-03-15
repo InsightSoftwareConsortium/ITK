@@ -22,16 +22,6 @@
 namespace itk
 {
 
-
-template <typename TParametersValueType, unsigned int VDimension, unsigned int VSubDimensions>
-MultiTransform<TParametersValueType, VDimension, VSubDimensions>::MultiTransform()
-  : Superclass(0)
-{
-  this->m_NumberOfLocalParameters = NumericTraits<NumberOfParametersType>::ZeroValue();
-  this->m_LocalParametersUpdateTime = NumericTraits<ModifiedTimeType>::ZeroValue();
-  this->m_TransformQueue.clear();
-}
-
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSubDimensions>
 auto
 MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetTransformCategory() const -> TransformCategoryEnum

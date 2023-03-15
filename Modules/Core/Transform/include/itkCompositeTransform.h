@@ -407,7 +407,7 @@ public:
                                                           JacobianType &         cacheJacobian) const override;
 
 protected:
-  CompositeTransform();
+  CompositeTransform() = default;
   ~CompositeTransform() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
