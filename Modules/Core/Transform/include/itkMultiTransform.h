@@ -300,7 +300,7 @@ public:
   //  virtual void FlattenTransformQueue();
 
 protected:
-  MultiTransform();
+  MultiTransform() = default;
   ~MultiTransform() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
