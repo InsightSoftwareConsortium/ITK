@@ -341,7 +341,7 @@ class itkTemplate(Mapping):
         if normFullName in itkTemplateBase.__template_instantiations_name_to_object__:
             message = (
                 f"Template {normFullName}\n already defined as {itkTemplateBase.__template_instantiations_name_to_object__[normFullName]}\n is redefined "
-                "as {cl}"
+                f"as {cl}"
             )
             warnings.warn(message)
         # register the class
