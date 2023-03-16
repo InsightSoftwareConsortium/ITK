@@ -56,7 +56,7 @@ extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
                                                operator<<(std::ostream & out, const MRFImageFilterEnums::MRFStop value);
 /**
  * \class MRFImageFilter
- * \brief Implementation of a labeller object that uses Markov Random Fields
+ * \brief Implementation of a labeler object that uses Markov Random Fields
  * to classify pixels in an image data set.
  *
  * This object classifies pixels based on a Markov Random Field (MRF)
@@ -68,7 +68,7 @@ extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
  * on a MRF model) and finally, classifies each pixel to the class
  * which has the minimum distance to that pixel (taking the neighborhood
  * influence under consideration). DoNeighborhoodOperation is the function
- * that can be modified to achieve different falvors of MRF filters in
+ * that can be modified to achieve different flavors of MRF filters in
  * derived classes.
  *
  * The classified initial labeled image is needed. It is important
@@ -213,7 +213,7 @@ public:
   /** Labelled Image dimension */
   static constexpr unsigned int ClassifiedImageDimension = TClassifiedImage::ImageDimension;
 
-  /** Type definitions for classifier to be used for the MRF lavbelling. */
+  /** Type definitions for classifier to be used for the MRF labeling. */
   using ClassifierType = ImageClassifierBase<TInputImage, TClassifiedImage>;
 
   /** Size and value type alias support */
@@ -233,7 +233,7 @@ public:
 
   using InputImageFaceListIterator = typename InputImageFaceListType::iterator;
 
-  /** Labelled image neighborhood interator type alias */
+  /** Labeled image neighborhood iterator type alias */
   using LabelledImageNeighborhoodIterator = NeighborhoodIterator<TClassifiedImage>;
 
   using LabelledImageNeighborhoodRadiusType = typename LabelledImageNeighborhoodIterator::RadiusType;
@@ -244,7 +244,7 @@ public:
 
   using LabelledImageFaceListIterator = typename LabelledImageFaceListType::iterator;
 
-  /** Set the pointer to the classifer being used. */
+  /** Set the pointer to the classifier being used. */
   void
   SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
@@ -353,7 +353,7 @@ protected:
   virtual void
   ApplyMRFImageFilter();
 
-  /** Minimize the funcional to be used. */
+  /** Minimize the functional to be used. */
   virtual void
   MinimizeFunctional();
 
@@ -409,7 +409,7 @@ private:
   int          m_TotalNumberOfPixelsInInputImage{ 1 };
   double       m_ErrorTolerance{ 0.2 };
   double       m_SmoothingFactor{ 1 };
-  double *     m_ClassProbability{ nullptr }; // Class liklihood
+  double *     m_ClassProbability{ nullptr }; // Class likelihood
   unsigned int m_NumberOfIterations{ 0 };
   MRFStopEnum  m_StopCondition{ MRFStopEnum::MaximumNumberOfIterations };
 

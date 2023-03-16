@@ -175,7 +175,7 @@ protected:
   ScalarValueType
   PropagationSpeed(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * gd) const override;
 
-  /** Advection field.  Returns a vector from the computed advectionfield.*/
+  /** Advection field.  Returns a vector from the computed advection field.*/
   VectorType
   AdvectionField(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * gd) const override;
 

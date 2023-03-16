@@ -89,7 +89,7 @@ public:
   /** CoordRep type alias support */
   using typename Superclass::CoordRepType;
 
-  /** InputeType type alias support */
+  /** InputType type alias support */
   using typename Superclass::InputType;
 
   /** OutputType type alias support */

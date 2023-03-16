@@ -121,7 +121,7 @@ public:
 
   /** Compute the gradient term component of the MAP cost function.
    * In particular, this method assume that ( 1 - FeatureImage ) approximates
-   * a Gaussian (zero mean, unit variance) algon the normal of the evolving contour.
+   * a Gaussian (zero mean, unit variance) along the normal of the evolving contour.
    * The gradient term is then given by a Laplacian of the goodness of fit of
    * the Gaussian. */
   MeasureType

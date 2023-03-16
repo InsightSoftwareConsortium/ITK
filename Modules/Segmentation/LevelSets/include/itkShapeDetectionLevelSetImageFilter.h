@@ -72,7 +72,7 @@ namespace itk
  * parameter, the smoother the resulting contour. The CurvatureScaling parameter should
  * be non-negative for proper operation of this algorithm.
  * To follow the implementation in Malladi et al paper,
- * set the PropagtionScaling to \f$\pm 1.0\f$ and CurvatureScaling to \f$ \epsilon \f$.
+ * set the PropagationScaling to \f$\pm 1.0\f$ and CurvatureScaling to \f$ \epsilon \f$.
  *
  * Note that there is no advection term for this filter. Setting the
  * advection scaling will have no effect.

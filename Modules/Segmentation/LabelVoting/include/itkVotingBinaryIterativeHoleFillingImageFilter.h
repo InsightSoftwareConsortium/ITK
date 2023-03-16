@@ -118,7 +118,7 @@ public:
   /** Majority threshold. It is the number of pixels over 50% that will decide
    * whether an OFF pixel will become ON or not. For example, if the
    * neighborhood of a pixel has 124 pixels (excluding itself), the 50% will be
-   * 62, and if you set upd a Majority threshold of 5, that means that the
+   * 62, and if you set up a Majority threshold of 5, that means that the
    * filter will require 67 or more neighbor pixels to be ON in order to switch
    * the current OFF pixel to ON. The default value is 1. */
   itkGetConstReferenceMacro(MajorityThreshold, unsigned int);

@@ -54,7 +54,7 @@ namespace itk
  * is referred as a codebook.
  *
  * As required by the GLA algorithm, the initial seed cluster should contain
- * approximate centers of clusters.  The GLA algorithm genrates updated
+ * approximate centers of clusters.  The GLA algorithm generates updated
  * cluster centers that result in a lower distortion than the input seed
  * cluster when the input vectors are mapped/classified/labelled using the
  * given codebooks.
@@ -215,7 +215,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Starts the image modelling process */
+  /** Starts the image modeling process */
   void
   GenerateData() override;
 

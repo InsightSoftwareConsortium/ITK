@@ -129,7 +129,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Starts the image modelling process */
+  /** Starts the image modeling process */
   void
   GenerateData() override;
 

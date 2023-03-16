@@ -62,7 +62,7 @@ public:
   /** OutputType type alias support */
   using typename Superclass::OutputType;
 
-  /** InputeType type alias support */
+  /** InputType type alias support */
   using typename Superclass::InputType;
 
   /** Dimension underlying input image. */

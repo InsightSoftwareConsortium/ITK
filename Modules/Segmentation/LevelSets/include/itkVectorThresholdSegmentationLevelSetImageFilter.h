@@ -38,7 +38,7 @@ namespace itk
  *
  *    \par OVERVIEW
  *    This class is a level set method segmentation filter.  It constructs a
- *    speed function which is close to zero where the Mahalabonian Distance
+ *    speed function which is close to zero where the Mahalanobian Distance
  *    exceeds a certain threshold, effectively locking the propagating front onto those
  *    edges.  Elsewhere, the front will propagate quickly.
  *

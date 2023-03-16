@@ -44,7 +44,7 @@ namespace itk
  * of all the "internal" region. Or a binary boundary delineate, which is defined as
  * the connected lines between seed points of "boundary" region.
  * This class is a base class for voronoi segmentation, single channel or multiple channel
- * image segmentation can be implemented by deriving imagefilters from this class, by
+ * image segmentation can be implemented by deriving image filters from this class, by
  * implementing the virtual methods
  *
  * Detailed information about this algorithm can be found in:
@@ -172,7 +172,7 @@ public:
   virtual void
   MakeSegmentObject();
 
-  /** Return the Voroni Diagram structure. */
+  /** Return the Voronoi Diagram structure. */
   VoronoiPointer
   GetVoronoiDiagram()
   {
@@ -286,7 +286,7 @@ protected:
   void
   drawLine(PointType p1, PointType p2);
 
-  // Draw the intermedia Voronoi Diagram structure.
+  // Draw the intermediate Voronoi Diagram structure.
   void
   drawVDline(VDImagePointer result, PointType p1, PointType p2, unsigned char color);
 };

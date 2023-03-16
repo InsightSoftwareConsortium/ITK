@@ -89,7 +89,7 @@ template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::Initialize()
 {
-  // create new emtpy points containers
+  // create new empty points containers
   m_InsidePoints = NodeContainer::New();
   m_OutsidePoints = NodeContainer::New();
 

@@ -240,7 +240,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
     }
     m_Covariance[classIndex] -= tempMeanSq;
 
-    // Fill the rest of the covairance matrix and make it symmetric
+    // Fill the rest of the covariance matrix and make it symmetric
     if (m_NumberOfSamples[classIndex][0] > 0)
     {
       auto lastInX = static_cast<unsigned int>(VectorDimension - 1);

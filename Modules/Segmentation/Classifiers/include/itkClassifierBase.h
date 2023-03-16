@@ -116,7 +116,7 @@ public:
 
   /** Sets the pointer to the decision rule.
    * Stores the decision rule that makes the real decision using
-   * informations from MembershipFunctions and other prior knowledge */
+   * information from MembershipFunctions and other prior knowledge */
   void
   SetDecisionRule(DecisionRuleType * ptrToDecisionRule)
   {

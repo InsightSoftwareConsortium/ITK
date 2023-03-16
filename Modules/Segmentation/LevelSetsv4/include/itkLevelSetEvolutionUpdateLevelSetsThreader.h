@@ -28,7 +28,7 @@ namespace itk
 
 /**
  * \class LevelSetEvolutionUpdateLevelSetsThreader
- * \brief Threade the UpdateLevelSets method.
+ * \brief Thread the UpdateLevelSets method.
  *
  * Thread the \c UpdateLevelSets method of the LevelSetEvolution class.
  *

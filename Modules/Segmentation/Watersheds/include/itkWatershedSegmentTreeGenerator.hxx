@@ -199,7 +199,7 @@ SegmentTreeGenerator<TScalar>::ExtractMergeHierarchy(SegmentTableTypePointer seg
 {
   typename SegmentTreeType::Pointer list = this->GetOutputSegmentTree();
 
-  // Merges segments up to a specified floodlevel according to the information
+  // Merges segments up to a specified flood level according to the information
   // in the heap of merges.  As two segments are merged, calculates a new
   // possible merges and pushes it onto the heap.
   auto threshold = static_cast<ScalarType>(m_FloodLevel * segments->GetMaximumDepth());

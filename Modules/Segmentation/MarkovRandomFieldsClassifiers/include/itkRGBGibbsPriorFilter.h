@@ -247,7 +247,7 @@ private:
   int                          m_RecursiveNumber{ 0 };   /** number of SA iterations. */
   std::unique_ptr<LabelType[]> m_LabelStatus{ nullptr }; /** array for the state of each pixel. */
 
-  InputImagePointer m_MediumImage{}; /** the medium image to store intermedium
+  InputImagePointer m_MediumImage{}; /** the medium image to store intermediate
                                      result */
 
   unsigned int m_Temp{ 0 };    /** for SA algo. */
@@ -268,7 +268,7 @@ private:
 
   /** weights for different clique configuration. */
   double m_CliqueWeight_1{ 0.0 }; /** weight for cliques that v/h smooth boundary */
-  double m_CliqueWeight_2{ 0.0 }; /** weight for clique that has an intermadiate
+  double m_CliqueWeight_2{ 0.0 }; /** weight for clique that has an intermediate
                                smooth boundary */
   double m_CliqueWeight_3{ 0.0 }; /** weight for clique that has a diagonal smooth
                                boundary */
@@ -296,7 +296,7 @@ private:
   RegionEraser(); /** erase the small region. */
 
   void
-  GenerateMediumImage(); /** create the intermedium image.
+  GenerateMediumImage(); /** create the intermediate image.
                           */
 
   void

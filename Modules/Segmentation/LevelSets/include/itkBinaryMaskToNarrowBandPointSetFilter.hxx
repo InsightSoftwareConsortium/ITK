@@ -129,7 +129,7 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage, TOutputMesh>::GenerateData()
   mesh->SetPointData(pointData);
 
   // This indicates that the current BufferedRegion is equal to the
-  // requested region. This action prevents useless rexecutions of
+  // requested region. This action prevents useless re-executions of
   // the pipeline.
   mesh->SetBufferedRegion(mesh->GetRequestedRegion());
 }

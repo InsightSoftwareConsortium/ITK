@@ -62,7 +62,7 @@ def main():
     # geodesicActiveContour object.  Also see figure 9.18 in the ITK
     # Software Guide.
 
-    # we wan't to know what is happening
+    # we want to know what is happening
     # itk.auto_progress(True)
 
     InternalPixelType = itk.F
@@ -73,7 +73,7 @@ def main():
     OutputImageType = itk.Image[OutputPixelType, Dimension]
 
     reader = itk.ImageFileReader[InternalImageType].New(FileName=argv[1])
-    # needed to give the size to the fastmarching filter
+    # needed to give the size to the fastMarching filter
     reader.Update()
 
     outputDirectory = os.path.dirname(argv[2])

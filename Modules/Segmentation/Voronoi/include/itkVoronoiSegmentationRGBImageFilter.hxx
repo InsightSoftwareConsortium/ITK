@@ -363,7 +363,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
 
   if (objnum < 10)
   {
-    /* a-prior doen's make too much sense */
+    /* a-prior doesn't make too much sense */
     for (unsigned int i = 0; i < 6; ++i)
     {
       m_MeanTolerance[i] = 0;

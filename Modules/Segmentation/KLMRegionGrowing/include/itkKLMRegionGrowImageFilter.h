@@ -72,7 +72,7 @@ namespace itk
  * value for m_MaximumLambda
  * will result in fewer boundaries and fewer regions, while a smaller value
  * for m_MaximumLambda will result in more boundaries and more regions. To have
- * m_MaximumNumberOfRegions control exactly the number of output regions, m_MaximumLamda
+ * m_MaximumNumberOfRegions control exactly the number of output regions, m_MaximumLambda
  * should be set to a very large number. To have m_MaximumLambda control exactly
  * the number of output regions, m_MaximumNumberOfRegions should be set to 2. As a
  * default value, m_MaximumLambda is set to 1000 and m_MaximumNumberOfRegions
@@ -98,9 +98,9 @@ namespace itk
  * users request by calling GetLabelledImage() function. This function
  * returns a reference to the labelled image determined using the KLM
  * algorithm. The algorithm supports 2D and 3D data sets only. The input
- * image dimensions must be exact multiples of the user specified gridsizes.
+ * image dimensions must be exact multiples of the user specified grid sizes.
  * Appropriate padding must be performed by the user if any image which
- * are not multiples of the gridsizes are used.
+ * are not multiples of the grid sizes are used.
  *
  * For more information about the algorithm, see G. Koepfler, C. Lopez
  * and J. M. Morel, ``A Multiscale Algorithm for Image Segmentation by
@@ -352,13 +352,13 @@ protected:
   /** Calculate the statistics representing the region. In this
    * case we compute the mean region intensity and the area of the
    * initial N-dimensional rectangular area. This is the function that
-   * can be overriden in order to enable a different statistical
+   * can be overridden in order to enable a different statistical
    * representation for region initialization. */
   virtual void
   InitializeRegionParameters(InputRegionType region);
 
   /** Function to resolve the region labels to be consecutively ordered.
-   * Each initial atomic region is given a new label and the aggregrate
+   * Each initial atomic region is given a new label and the aggregate
    * region area and mean intensity. */
   virtual void
   ResolveRegions();

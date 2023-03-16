@@ -58,7 +58,7 @@ namespace itk
  *
  * \par References:
  * 1) Urish KL, August J, Huard J. "Unsupervised segmentation for myofiber
- * counting in immunoflourescent microscopy images". Insight Journal.
+ * counting in immunofluorescent microscopy images". Insight Journal.
  * ISC/NA-MIC/MICCAI Workshop on Open-Source Software (2005)
  * https://insight-journal.org/browse/publication/40
  * 2) Pikaz A, Averbuch, A. "Digital image thresholding based on topological
@@ -133,7 +133,7 @@ public:
   itkGetConstMacro(NumberOfObjects, SizeValueType);
 
   /**
-   * Returns the automatic threshold setpoint. This information is
+   * Returns the automatic threshold value. This information is
    * only valid after the filter has executed. */
   itkGetConstMacro(ThresholdValue, PixelType);
 

@@ -108,7 +108,7 @@ public:
   using NodeType = typename NodeContainer::Element;
 
   /** The ReinitializeLevelSetImageFilter expect the input to be binary
-      within the range [-0.5:0.5]. This filte will scale the input to
+      within the range [-0.5:0.5]. This filter will scale the input to
       fit in this range. */
   using RescaleFilterType = RescaleIntensityImageFilter<InputImageType, RealImageType>;
 

@@ -47,7 +47,7 @@ namespace itk
  * extract the largest object or the "k" largest objects. Any
  * particular object can be extracted from the relabeled output using
  * a BinaryThresholdImageFilter. A group of objects can be extracted
- * from the relabled output using a ThresholdImageFilter.
+ * from the relabeled output using a ThresholdImageFilter.
  *
  * Once all the objects are relabeled, the application can query the
  * number of objects and the size of each object. Object sizes are

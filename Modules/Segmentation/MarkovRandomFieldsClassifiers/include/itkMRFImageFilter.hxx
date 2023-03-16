@@ -224,7 +224,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetDefaultMRFNeighborhoodWeight()
 {
   // Set the beta matrix of a 3x3x3 kernel.
   // The index starts from 0 going along the three dimensions
-  // in the order of [coloumn], [row], [depth].
+  // in the order of [column], [row], [depth].
 
   // Allocate memory for the weights of the 3D MRF algorithm
   // and corresponding memory offsets.
@@ -422,7 +422,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::ApplyICMLabeller()
   // Loop through the data set and classify the data
   m_NeighborInfluence.resize(m_NumberOfClasses);
 
-  // Varible to store the input pixel vector value
+  // Variable to store the input pixel vector value
   // InputImagePixelType inputPixel;
 
   m_MahalanobisDistance.resize(m_NumberOfClasses);
@@ -430,7 +430,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::ApplyICMLabeller()
   // Set up the neighborhood iterators and the valid neighborhoods
   // for iteration
 
-  // Set up the nighborhood iterators
+  // Set up the neighborhood iterators
 
   // Define the face list for the input/labelled image
   InputImageFacesCalculator       inputImageFacesCalculator;
