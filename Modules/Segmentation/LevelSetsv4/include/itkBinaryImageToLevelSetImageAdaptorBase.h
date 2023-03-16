@@ -60,7 +60,7 @@ public:
   virtual void
   Initialize() = 0;
 
-  /** Get the sparse levet set function */
+  /** Get the sparse level set function */
   itkGetModifiableObjectMacro(LevelSet, LevelSetType);
 
   /** Set/Get the input image*/

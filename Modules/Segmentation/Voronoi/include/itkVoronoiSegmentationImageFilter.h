@@ -84,14 +84,14 @@ public:
   itkSetMacro(STD, double);
   itkGetConstMacro(STD, double);
 
-  /** Set/Get the Tolearance of Mean for classifying the regions. */
+  /** Set/Get the Tolerance of Mean for classifying the regions. */
   itkSetMacro(MeanTolerance, double);
   itkGetConstMacro(MeanTolerance, double);
 
-  /** Set the Tolearance of STD for classifying the regions. */
+  /** Set the Tolerance of STD for classifying the regions. */
   itkSetMacro(STDTolerance, double);
 
-  /** Get the Tolearance of Variance for classifying the regions. */
+  /** Get the Tolerance of Variance for classifying the regions. */
   itkGetConstMacro(STDTolerance, double);
 
   /** Set/Get the mean percent error. */

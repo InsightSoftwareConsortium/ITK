@@ -228,7 +228,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Allocate the output
   this->AllocateOutputs();
 
-  // In parallel apply the relabling map
+  // In parallel apply the relabeling map
   this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
     output->GetRequestedRegion(),
     [this, &relabelMap](const RegionType & outputRegionForThread) {

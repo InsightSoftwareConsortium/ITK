@@ -44,7 +44,7 @@ namespace itk
  *    SegmentationLevelSetImageFilter), it works by first constructing a scalar
  *    speed term and a vector advection field based on edge features in the
  *    image.  The level set front is then moved according to these two terms
- *    with the addition of a third curvature term to contol the smoothness of
+ *    with the addition of a third curvature term to control the smoothness of
  *    the solution.
  *
  *  \par

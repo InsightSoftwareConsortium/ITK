@@ -81,7 +81,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
 {
   // there is 2 possible cases: with or without watershed lines.
   // the algorithm with watershed lines is from Meyer
-  // the algorithm without watershed lines is from beucher
+  // the algorithm without watershed lines is from Beucher
   // The 2 algorithms are very similar and so are integrated in the same filter.
 
   //---------------------------------------------------------------------------

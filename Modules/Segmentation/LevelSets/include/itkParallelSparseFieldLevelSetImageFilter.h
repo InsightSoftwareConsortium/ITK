@@ -30,7 +30,7 @@
 namespace itk
 {
 /** \class ParallelSparseFieldLevelSetNode
- * A data structure used in the ParallelSparsefieldlevelsetimagefilter to construct
+ * A data structure used in the ParallelSparseFieldLevelSetImageFilter to construct
  * lists of indices and other values.
  * \ingroup ITKLevelSets
  */
@@ -552,7 +552,7 @@ protected:
 
   // This method can be overridden in derived classes.
   // The pixel at 'index' is entering the active layer for thread 'ThreadId'.
-  // The outputimage at 'index' will have the value as given by the
+  // The output image at 'index' will have the value as given by the
   // 'value' parameter.
   virtual void
   ThreadedProcessPixelEnteringActiveLayer(const IndexType & itkNotUsed(index),
@@ -774,7 +774,7 @@ protected:
     /** Local histogram with each thread */
     int * m_ZHistogram;
 
-    /** pseudo-Semaphores used for signalling and waiting neighbor
+    /** pseudo-Semaphores used for signaling and waiting neighbor
      *  threads. Strictly speaking the semaphores are NOT just
      *  accessed by the thread that owns them
      *  BUT also by the thread's neighbors. So they are NOT truly "local" data. */
@@ -784,7 +784,7 @@ protected:
     std::condition_variable m_Condition[2];
 
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for
-      signalling/waiting */
+      signaling/waiting */
     unsigned int m_SemaphoreArrayNumber;
   };
 

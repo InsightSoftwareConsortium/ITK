@@ -178,7 +178,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::Initialize()
     data->neighbors[1] = points->GetElement(data->neighborIndices[1]);
     data->neighbors[2] = points->GetElement(data->neighborIndices[2]);
 
-    // store neighborset with a specific radius
+    // store neighbor set with a specific radius
     InputNeighbors * neighborsList = inputMesh->GetNeighbors(pointItr.Index(), m_Rigidity);
     auto             neighborIt = neighborsList->begin();
 

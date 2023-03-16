@@ -73,7 +73,7 @@ namespace itk
  * and curvature term using methods SetPropagationScaling(), SetAdvectionScaling(),
  * SetCurvatureScaling(). In general, the larger the CurvatureScaling, the smoother the
  * resulting contour. To follow the implementation in Caselles et al paper,
- * set the PropagationScaling to \f$ c \f$ (the inflation or ballon force) and
+ * set the PropagationScaling to \f$ c \f$ (the inflation or balloon force) and
  * AdvectionScaling and CurvatureScaling both to 1.0.
  *
  * \par OUTPUTS

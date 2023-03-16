@@ -63,7 +63,7 @@ namespace itk
  * \par IMPORTANT
  * The TSparseOutputImage template parameter must be a sparse image templated
  * over a NodeType which at least has the following members: m_Data,
- * m_InputData, m_Update and m_MAnifoldNormal.
+ * m_InputData, m_Update and m_ManifoldNormal.
  * Depending on the Function object being used it might need other
  * members. For instance, NormalVectorDiffusionFunction will also require that
  * the NodeType has the following additional members: m_Flux.

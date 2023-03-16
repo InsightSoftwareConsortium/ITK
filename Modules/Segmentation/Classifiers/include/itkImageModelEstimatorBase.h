@@ -155,7 +155,7 @@ private:
   /**Container for holding the training image */
   InputImagePointer m_InputImage{};
 
-  /** The core virtual function to perform modelling of the input data */
+  /** The core virtual function to perform modeling of the input data */
   virtual void
   EstimateModels() = 0;
 }; // class ImageModelEstimator

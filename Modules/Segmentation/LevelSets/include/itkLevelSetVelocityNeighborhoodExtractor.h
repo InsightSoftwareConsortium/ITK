@@ -56,7 +56,7 @@ class ITK_TEMPLATE_EXPORT LevelSetVelocityNeighborhoodExtractor : public LevelSe
 public:
   ITK_DISALLOW_COPY_AND_MOVE(LevelSetVelocityNeighborhoodExtractor);
 
-  /** Standard class typdedefs. */
+  /** Standard class typedefs. */
   using Self = LevelSetVelocityNeighborhoodExtractor;
   using Superclass = LevelSetNeighborhoodExtractor<TLevelSet>;
   using Pointer = SmartPointer<Self>;

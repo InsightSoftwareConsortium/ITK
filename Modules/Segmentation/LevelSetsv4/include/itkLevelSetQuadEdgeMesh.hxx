@@ -44,7 +44,7 @@ auto
 LevelSetQuadEdgeMesh<TMesh>::EvaluateHessian(const InputType & itkNotUsed(iP)) const -> HessianType
 {
   itkWarningMacro(<< "to be implemented");
-  return Self::HessianType(); // Create a new objet with default initializer
+  return Self::HessianType(); // Create a new object with default initializer
 }
 
 template <typename TMesh>

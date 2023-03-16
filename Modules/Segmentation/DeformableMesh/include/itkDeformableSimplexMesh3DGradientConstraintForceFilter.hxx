@@ -235,7 +235,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
       ic[2] < this->m_ImageDepth)
   {
     bool     stop;
-    SIDEEnum side = SIDEEnum::BOTH; // make sure you can set half segment as well but for noe
+    SIDEEnum side = SIDEEnum::BOTH; // make sure you can set half segment as well but for now
                                     // we just set it to full segment
     int    vpos[3];
     int    ii;

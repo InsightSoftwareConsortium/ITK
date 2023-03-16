@@ -222,7 +222,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedWr
   // performance of the map by being able to iterate through it,
   // rather than do lots of look ups. Don't know whether that will
   // make much difference in practice.
-  // Note - this is unnecessary if AllocateOutputs initalizes to zero
+  // Note - this is unnecessary if AllocateOutputs initializes to zero
 
   OutputImageType *                    output = this->GetOutput();
   ImageRegionIterator<OutputImageType> oit(output, outputRegionForThread);

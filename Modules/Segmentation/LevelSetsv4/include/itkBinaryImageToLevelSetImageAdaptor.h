@@ -34,7 +34,7 @@
 namespace itk
 {
 /**
- * \class BinaryImageToLevelSetImageAdator
+ * \class BinaryImageToLevelSetImageAdaptor
  *  \brief Converts one binary image to the appropriate level-set type
  *  provided by the template argument TLevelSet.
  *

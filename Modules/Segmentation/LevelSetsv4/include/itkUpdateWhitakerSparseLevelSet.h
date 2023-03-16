@@ -101,7 +101,7 @@ public:
   void
   Update();
 
-  /** Set/Get the sparse levet set image */
+  /** Set/Get the sparse level set image */
   itkSetObjectMacro(InputLevelSet, LevelSetType);
   itkGetModifiableObjectMacro(InputLevelSet, LevelSetType);
 

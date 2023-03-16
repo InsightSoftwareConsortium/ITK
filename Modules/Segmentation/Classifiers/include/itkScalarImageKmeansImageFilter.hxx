@@ -59,7 +59,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto adaptor = AdaptorType::New();
 
   // Setup the regions here if a sub-region has been specified to restrict
-  // classification on. Since this is not ThreadedGenenerateData, we are
+  // classification on. Since this is not ThreadedGenerateData, we are
   // safe...
   if (m_ImageRegionDefined)
   {

@@ -216,7 +216,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
     progress.CompletedPixel();
   }
 
-  // Flatten the equavalency table
+  // Flatten the equivalency table
   eqTable->Flatten();
 
   // remap the labels

@@ -379,7 +379,7 @@ protected:
   /** Gamma. */
   ScalarValueType m_CurvatureWeight{};
 
-  /** Laplacean smoothing term */
+  /** Laplacian smoothing term */
   ScalarValueType m_LaplacianSmoothingWeight{};
 };
 } // namespace itk

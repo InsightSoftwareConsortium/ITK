@@ -378,7 +378,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActi
       }
       if (bounds_status == true)
       {
-        // Here record the hisgram information
+        // Here record the histogram information
         m_GlobalZHistogram[center_index[m_SplitAxis]]++;
 
         // Borrow a node from the store and set its value.
@@ -884,7 +884,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedIniti
       // nodes for each thread implying no new nodes are created here.
       nodeTempPtr = m_Data[ThreadId].m_LayerNodeStore->Borrow();
       nodeTempPtr->m_Index = nodePtr->m_Index;
-      // push the node on the approproate layer
+      // push the node on the appropriate layer
       m_Data[ThreadId].m_Layers[i]->PushFront(nodeTempPtr);
 
       // for the active layer (layer-0) build the histogram for each thread
@@ -998,7 +998,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
         {
           if (tid == ThreadId)
           {
-            // a thread does NOT pass nodes to istelf
+            // a thread does NOT pass nodes to itself
             continue;
           }
 
@@ -1436,7 +1436,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedApply
   // A synchronize is NOT required here because in 3D case we have at least 7
   // layers, thus ThreadedProcessOutsideList() works on layers 5 & 6 while
   // ThreadedPropagateLayerValues() works on 0, 1, 2, 3, 4 only. => There can
-  // NOT be any dependencies amoing different threads.
+  // NOT be any dependencies among different threads.
 
   // Finally, we update all of the layer VALUES (excluding the active layer,
   // which has already been updated)
@@ -1990,7 +1990,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
 
   // 2. make a copy of the node on the
   //    m_InterNeighborNodeTransferBufferLayers[InOrOut][LastLayer - 1][i] for
-  //    all thread neighbors i ... ... and insert it in one's own InoutList
+  //    all thread neighbors i ... ... and insert it in one's own InOutList
   CopyInsertInterNeighborNodeTransferBufferLayers(ThreadId, OutsideList, InOrOut, BufferLayerNumber - 1);
 
   // Push each index in the input list into its appropriate status layer
@@ -2227,7 +2227,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
     return;
   }
 
-  // Reset the individual histograms to reflect the new distrbution
+  // Reset the individual histograms to reflect the new distribution
   // Also reset the mapping from the Z value --> the thread number i.e.
   // m_MapZToThreadNumber[]
   for (i = 0; i < m_NumOfWorkUnits; ++i)
@@ -2269,7 +2269,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadB
     {
       if (tid == ThreadId)
       {
-        // a thread does NOT pass nodes to istelf
+        // a thread does NOT pass nodes to itself
         continue;
       }
 

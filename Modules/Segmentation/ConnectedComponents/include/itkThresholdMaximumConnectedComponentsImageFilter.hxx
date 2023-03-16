@@ -160,7 +160,7 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Gener
 
     ++iterationCounter;
 #endif
-  } // end of the thresholdloop
+  } // end of the threshold loop
 
   //
   //  The two output values

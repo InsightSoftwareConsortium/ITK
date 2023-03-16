@@ -65,14 +65,14 @@ namespace itk
  *    for more information on Inputs.
  *
  *    \par PARAMETERS
- *    The method SetUseNegatiiveFeatures() can be used to switch from propagating inwards (false)
+ *    The method SetUseNegativeFeatures() can be used to switch from propagating inwards (false)
  *    versus propagating outwards (true).
  *
  *    This implementation allows the user to set the weights between the propagation, advection
  *    and curvature term using methods SetPropagationScaling(), SetAdvectionScaling(),
  *    SetCurvatureScaling(). In general, the larger the CurvatureScaling, the smoother the
  *    resulting contour. To follow the implementation in Caselles's paper,
- *    set the PropagationScaling to \f$ c \f$ (the inflation or ballon force) and
+ *    set the PropagationScaling to \f$ c \f$ (the inflation or balloon force) and
  *    AdvectionScaling and CurvatureScaling both to 1.0.
  *
  *    \par OUTPUTS

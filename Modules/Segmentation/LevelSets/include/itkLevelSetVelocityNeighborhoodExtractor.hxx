@@ -116,7 +116,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
     numer[k] = 0.0;
   }
 
-  // The extend velcoity value is a weighted value of
+  // The extend velocity value is a weighted value of
   // the speed values at point used in the computation
   // of the distance by the superclass.
   //

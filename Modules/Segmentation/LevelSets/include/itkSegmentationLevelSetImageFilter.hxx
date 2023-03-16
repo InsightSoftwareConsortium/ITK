@@ -78,7 +78,7 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::G
   }
 
   // Allocate the images from which speeds will be sampled.
-  // if it is uninitialized and AutoGenerateSpeedAvection is true
+  // if it is uninitialized and AutoGenerateSpeedAdvection is true
   if (!this->m_IsInitialized && m_AutoGenerateSpeedAdvection == true)
   {
     if (Math::NotExactlyEquals(this->GetSegmentationFunction()->GetPropagationWeight(), 0))

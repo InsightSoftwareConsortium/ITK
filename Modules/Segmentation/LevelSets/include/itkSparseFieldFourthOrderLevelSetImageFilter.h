@@ -316,7 +316,7 @@ private:
   unsigned int m_MaxRefitIteration{};
 
   /** This parameter is used to set the corresponding parameter in
-      ImplicitManifoldNormalDiffusionfFilter. */
+      ImplicitManifoldNormalDiffusionFilter. */
   unsigned int m_MaxNormalIteration{};
 
   /** This is used to trigger a call to the ProcessNormals method
@@ -335,7 +335,7 @@ private:
   /** This parameter determines the width of the band where we compute
    * curvature from the processed normals. The wider the band, the more level set
    * iterations that can be performed between calls to ProcessNormals. It is
-   * qsuggested that this value is left at its default. */
+   * suggested that this value is left at its default. */
   ValueType m_CurvatureBandWidth{};
 
   /** The parameter that chooses between isotropic/anisotropic filtering of the

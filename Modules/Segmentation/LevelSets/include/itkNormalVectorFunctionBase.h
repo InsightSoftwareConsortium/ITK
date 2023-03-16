@@ -42,7 +42,7 @@ namespace itk
  *
  * \par PARAMETERS
  * This function class has a time step parameter which is returned by the
- * ComputeGloablTimeStep method. Unlike other finite difference function
+ * ComputeGlobalTimeStep method. Unlike other finite difference function
  * classes, this class does not use the maximum change magnitude to compute the
  * time step, it returns this predetermined time step.
  * \ingroup ITKLevelSets
@@ -83,7 +83,7 @@ public:
   /** The vector type for the normals. */
   using NormalVectorType = typename NodeType::NodeDataType;
 
-  /** Globaldata methods are not needed in this class. */
+  /** GlobalData methods are not needed in this class. */
   void *
   GetGlobalDataPointer() const override
   {

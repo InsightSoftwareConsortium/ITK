@@ -66,7 +66,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GenerateMediumImage()
   m_MediumImage->Allocate();
 }
 
-/* Allocate the memeory for classified image. */
+/* Allocate the memory for classified image. */
 template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::Allocate()

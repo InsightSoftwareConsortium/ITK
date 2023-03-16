@@ -202,7 +202,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Reallocate(int oldS
         m_Codebook[r][c] = 0;
       }
     }
-  } // If oldsize is smaller than the new size
+  } // If oldSize is smaller than the new size
   else
   {
     for (int r = 0; r < newSize; ++r)
@@ -252,7 +252,7 @@ void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::EstimateKmeansModelParameters()
 {
   // If a codebook is provided by the user then call the
-  // Kmenas algorithm directly that is based on the
+  // Kmeans algorithm directly that is based on the
   // Generalized Lloyd algorithm (GLA) if a valid codebook
   // is provided or m_NumberOfModels is set to 0, else
   // Linde-Buzo-Gray algorithm is used for clustering
@@ -369,7 +369,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
         }
 
         // Put highest distortion centroid into nth codebook row,
-        // and erase the set of hightest centroid stats to 0 so
+        // and erase the set of highest centroid stats to 0 so
         // it will not be used again.
 
         // Find centroid, reinitialize
