@@ -22,9 +22,9 @@ function(generate_castxml_commandline_flags)
     # Avoid missing omp.h include
     set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
     if(CMAKE_CXX_EXTENSIONS)
-        set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_EXTENSION_COMPILE_OPTION}")
+        set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX17_EXTENSION_COMPILE_OPTION}")
     else()
-        set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_STANDARD_COMPILE_OPTION}")
+        set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX17_STANDARD_COMPILE_OPTION}")
     endif()
 
     # Aggressive optimization flags cause cast_xml to give invalid error conditions

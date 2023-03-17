@@ -1,6 +1,6 @@
 ##  Set the default target properties for ITK
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14) # Supported values are 14, 17, 20, and 23.
+  set(CMAKE_CXX_STANDARD 17) # Supported values are 17, 20, and 23.
 endif()
 if(NOT CMAKE_CXX_STANDARD_REQUIRED)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
