@@ -115,7 +115,12 @@ TEST(Size, Fill)
                                   itk::SizeValueType{ 2 },
                                   std::numeric_limits<itk::SizeValueType>::max() })
     {
-      itk::Size<dimensionConstant> actualSize;
+      // Added {} initializer to work around warnings from GCC "-Wextra -std=c++17" (before GCC 10), saying:
+      // "note: 'struct itk::Size' has no user-provided default constructor"
+      // as reported by Ignacy Gawedzki "Spurious notes about uninitialized members in C++17"
+      // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91070
+      itk::Size<dimensionConstant> actualSize{};
+
       actualSize.Fill(sizeValue);
       const auto expectedSize = itk::Size<dimensionConstant>::Filled(sizeValue);
       EXPECT_EQ(actualSize, expectedSize);
