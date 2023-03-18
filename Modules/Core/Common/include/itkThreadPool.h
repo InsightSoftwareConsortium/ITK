@@ -84,9 +84,9 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
    * std::cout << result.get() << std::endl; */
   template <class Function, class... Arguments>
   auto
-  AddWork(Function && function, Arguments &&... arguments) -> std::future<std::result_of_t<Function(Arguments...)>>
+  AddWork(Function && function, Arguments &&... arguments) -> std::future<std::invoke_result_t<Function, Arguments...>>
   {
-    using return_type = std::result_of_t<Function(Arguments...)>;
+    using return_type = std::invoke_result_t<Function, Arguments...>;
 
     auto task = std::make_shared<std::packaged_task<return_type()>>(
       std::bind(std::forward<Function>(function), std::forward<Arguments>(arguments)...));
