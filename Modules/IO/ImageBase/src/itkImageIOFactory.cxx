@@ -19,49 +19,100 @@
 #include "itkImageIOFactory.h"
 
 #include <mutex>
-
+#include <vector>
 
 namespace itk
 {
 
 namespace
 {
-std::mutex createImageIOLock;
+std::vector<ImageIOBase::Pointer>
+GetAllImageIOInstances()
+{
+  static std::mutex           createImageIOLock;
+  std::lock_guard<std::mutex> mutexHolder(createImageIOLock);
+
+  const auto                        allInstances = ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+  std::vector<ImageIOBase::Pointer> result;
+  result.reserve(allInstances.size());
+  for (auto & possibleImageIO : allInstances)
+  {
+    auto * io = dynamic_cast<ImageIOBase *>(possibleImageIO.GetPointer());
+    if (io)
+    {
+      result.emplace_back(io);
+    }
+    else
+    {
+      std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << possibleImageIO->GetNameOfClass() << '\n';
+    }
+  }
+  return result;
 }
+} // namespace
 
 ImageIOBase::Pointer
 ImageIOFactory::CreateImageIO(const char * path, IOFileModeEnum mode)
 {
-  std::list<ImageIOBase::Pointer> possibleImageIO;
-
-  std::lock_guard<std::mutex> mutexHolder(createImageIOLock);
-
-  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
+  if (mode != FileModeType::ReadMode && mode != FileModeType::WriteMode)
   {
-    auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
-    if (io)
+    return nullptr;
+  }
+
+  auto       imageIOInstances = GetAllImageIOInstances();
+  const bool ignoreCase = true;
+  // check instances that support file extension
+  for (auto & imageIO : imageIOInstances)
+  {
+    if (mode == FileModeType::ReadMode)
     {
-      possibleImageIO.emplace_back(io);
+      if (imageIO->HasSupportedReadExtension(path, ignoreCase))
+      {
+        if (imageIO->CanReadFile(path))
+        {
+          return imageIO;
+        }
+        else
+        {
+          imageIO = nullptr; // don't check it again
+        }
+      }
     }
     else
     {
-      std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << allobject->GetNameOfClass() << std::endl;
+      if (imageIO->HasSupportedWriteExtension(path, ignoreCase))
+      {
+        if (imageIO->CanWriteFile(path))
+        {
+          return imageIO;
+        }
+        else
+        {
+          imageIO = nullptr;
+        }
+      }
     }
   }
-  for (auto & k : possibleImageIO)
+
+  for (auto & imageIO : imageIOInstances)
   {
+
+    if (!imageIO)
+    {
+      continue;
+    }
     if (mode == IOFileModeEnum::ReadMode)
     {
-      if (k->CanReadFile(path))
+      if (imageIO->CanReadFile(path))
       {
-        return k;
+        return imageIO;
       }
     }
     else if (mode == IOFileModeEnum::WriteMode)
     {
-      if (k->CanWriteFile(path))
+      if (imageIO->CanWriteFile(path))
       {
-        return k;
+        return imageIO;
       }
     }
   }
