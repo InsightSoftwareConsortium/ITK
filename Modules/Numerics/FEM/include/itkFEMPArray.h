@@ -121,7 +121,7 @@ FEMPArray<T>::Find(int gn)
   if (it == this->end())
   {
     /**
-     * We din't find an object with that GN...
+     * We didn't find an object with that GN...
      */
     throw FEMExceptionObjectNotFound(__FILE__, __LINE__, "FEMPArray::Find() const", typeid(T).name(), gn);
   }
@@ -155,7 +155,7 @@ FEMPArray<T>::Find(int gn) const
   if (it == this->end())
   {
     /**
-     * We din't find an object with that GN...
+     * We didn't find an object with that GN...
      */
     throw FEMExceptionObjectNotFound(__FILE__, __LINE__, "FEMPArray::Find() const", typeid(T).name(), gn);
   }

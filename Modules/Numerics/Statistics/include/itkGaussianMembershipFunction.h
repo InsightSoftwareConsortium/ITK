@@ -97,7 +97,7 @@ public:
   /** Set the covariance matrix. Covariance matrix is a
    * VariableSizeMatrix of doubles. The inverse of the covariance
    * matrix and the normalization term for the multivariate Gaussian
-   * are calculated whenever the covaraince matrix is changed. */
+   * are calculated whenever the covariance matrix is changed. */
   void
   SetCovariance(const CovarianceMatrixType & cov);
 

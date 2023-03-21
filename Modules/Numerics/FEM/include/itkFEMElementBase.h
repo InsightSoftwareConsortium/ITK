@@ -545,7 +545,7 @@ public:
   GetNode(unsigned int n) const = 0;
 
   /**
-   * Sets the pointe of n-th node in an element to node.
+   * Sets the pointer of n-th node in an element to node.
    */
   virtual void
   SetNode(unsigned int n, NodeIDType node) = 0;

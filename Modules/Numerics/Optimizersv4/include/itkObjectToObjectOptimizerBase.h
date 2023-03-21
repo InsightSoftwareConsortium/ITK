@@ -264,7 +264,7 @@ public:
 
   /** Returns true if derived optimizer supports using scales.
    * For optimizers that do not support scaling, this
-   * default function is overriden to return false.*/
+   * default function is overridden to return false.*/
   virtual bool
   CanUseScales() const
   {

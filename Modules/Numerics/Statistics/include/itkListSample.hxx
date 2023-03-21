@@ -62,7 +62,7 @@ auto
 ListSample<TMeasurementVector>::GetTotalFrequency() const -> TotalAbsoluteFrequencyType
 {
   // Since the entries are unique, the total
-  // frequency is equal to the numbe of entries.
+  // frequency is equal to the number of entries.
   return this->Size();
 }
 

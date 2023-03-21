@@ -59,7 +59,7 @@ namespace Statistics
  * bin as the original voxel.  The distance component is given by the distance
  * from the original to the final voxel satisfying our jumping criteria.
  *
- * The offset (or offsets) along which the co-occurences are calculated can be
+ * The offset (or offsets) along which the co-occurrences are calculated can be
  * set by the user. Traditionally, only one offset is used per histogram, and
  * offset components in the range [-1, 1] are used. For rotation-invariant
  * features averages of features computed over several histograms with different

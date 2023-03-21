@@ -249,7 +249,7 @@ public:
 
   protected:
     // To ensure const-correctness these method must not be in the public API.
-    // The are purposly not implemented, since they should never be called.
+    // The are purposely not implemented, since they should never be called.
     Iterator();
     Iterator(const Self * sample);
     Iterator(typename InstanceIdentifierHolder::const_iterator iter, const Self * classSample);

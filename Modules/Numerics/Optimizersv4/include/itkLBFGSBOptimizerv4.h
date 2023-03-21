@@ -43,7 +43,7 @@ class ITK_FORWARD_EXPORT LBFGSBOptimizerHelperv4;
  *
  * This class is a wrapper for converted Fortran code for performing limited
  * memory Broyden Fletcher Goldfarb Shannon minimization with simple bounds.
- * The algorithm mininizes a nonlinear function f(x) of n variables subject to
+ * The algorithm minimizes a nonlinear function f(x) of n variables subject to
  * simple bound constraints of l <= x <= u.
  *
  * See also the documentation in Numerics/lbfgsb.c

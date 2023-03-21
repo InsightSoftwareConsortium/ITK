@@ -180,7 +180,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
     {
       cvalue = this->m_Metric->GetValue();
       // While we got the metric value in childPosition,
-      // the metric parameteres are set back to parentPosition
+      // the metric parameters are set back to parentPosition
       this->m_Metric->SetParameters(parentPosition);
     }
     catch (...)

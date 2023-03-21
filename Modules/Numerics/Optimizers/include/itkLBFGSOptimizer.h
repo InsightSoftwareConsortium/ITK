@@ -155,7 +155,7 @@ public:
   itkGetMacro(LineSearchAccuracy, double);
 
   /** Set/Get the default step size. This is a positive real number
-   * with a default value of 1.0 which determines the stpe size in the line
+   * with a default value of 1.0 which determines the step size in the line
    * search.
    */
   virtual void

@@ -612,7 +612,7 @@ template <unsigned int VDimension>
 void
 Solver<VDimension>::ApplyBC(int dim, unsigned int matrix)
 {
-  // Vector with index 1 is used to store force correctios for BCs
+  // Vector with index 1 is used to store force corrections for BCs
   this->m_LinearSystem->DestroyVector(1);
 
   // Step over all Loads

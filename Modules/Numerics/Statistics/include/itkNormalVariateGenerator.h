@@ -62,7 +62,7 @@ namespace Statistics
    \code
    #include "FastNorm.h"
    \endcode
- * and be linked with the maths library (-lm)
+ * and be linked with the math library (-lm)
  *        FastNorm.h contains declaration of the initialization routine
  * 'initnorm()', definition of a macro 'FastGauss' used to generate variates,
  * and three variables used in the macro.

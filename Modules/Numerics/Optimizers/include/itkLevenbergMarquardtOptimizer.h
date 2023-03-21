@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKOptimizers
  *
  * \sphinx
- * \sphinxexample{Numerics/Optimizers/LevenbergMarquardtOptimization, Levenberg-Marquardt Optimiztion}
+ * \sphinxexample{Numerics/Optimizers/LevenbergMarquardtOptimization, Levenberg-Marquardt Optimization}
  * \endsphinx
  */
 class ITKOptimizers_EXPORT LevenbergMarquardtOptimizer : public MultipleValuedNonLinearVnlOptimizer

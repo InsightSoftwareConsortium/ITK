@@ -31,7 +31,7 @@ namespace Statistics
 {
 /**
  * \class MaximumRatioDecisionRule
- *  \brief A decision rule that operates as a frequentist's
+ *  \brief A decision rule that operates as a frequentest's
  *  approximation to Bayes rule.
  *
  * MaximumRatioDecisionRule returns the class label using a Bayesian

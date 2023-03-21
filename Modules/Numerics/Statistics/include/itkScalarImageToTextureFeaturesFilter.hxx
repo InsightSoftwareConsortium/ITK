@@ -138,7 +138,7 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
     }
   }
 
-  // Now get the mean and deviaton of each feature across the offsets.
+  // Now get the mean and deviation of each feature across the offsets.
   m_FeatureMeans->clear();
   m_FeatureStandardDeviations->clear();
   auto * tempFeatureMeans = new double[numFeatures];

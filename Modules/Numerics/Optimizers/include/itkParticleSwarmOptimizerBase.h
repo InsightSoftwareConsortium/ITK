@@ -174,7 +174,7 @@ public:
   itkSetMacro(PercentageParticlesConverged, double);
 
   /**Set the random number seed for the swarm. Use this method to
-   * produce reaptible results, typically, for testing.
+   * produce repeatable results, typically, for testing.
    */
   itkSetMacro(Seed, RandomVariateGeneratorType::IntegerType);
   itkGetMacro(Seed, RandomVariateGeneratorType::IntegerType);

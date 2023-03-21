@@ -201,7 +201,7 @@ HistogramToTextureFeaturesFilter<THistogram>::ComputeMeansAndVariances(double & 
     ++rFreqIterator;
   }
 
-  /*  Now get the mean and deviaton of the marginal sums.
+  /*  Now get the mean and deviation of the marginal sums.
       Compute incremental mean and SD, a la Knuth, "The  Art of Computer
       Programming, Volume 2: Seminumerical Algorithms",  section 4.2.2.
       Compute mean and standard deviation using the recurrence relation:

@@ -156,7 +156,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateDensities()
 
   typename TSample::ConstIterator iter = m_Sample->Begin();
   typename TSample::ConstIterator last = m_Sample->End();
-  // Note: The data type of componentIndex shoub be unsigned int
+  // Note: The data type of componentIndex should be unsigned int
   //       because itk::Array only supports 'unsigned int' number of elements.
   unsigned int componentIndex;
 

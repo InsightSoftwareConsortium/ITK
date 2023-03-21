@@ -155,7 +155,7 @@ private:
   double
   FindAverageSumOfSquaredDifferences(MeasureType * array1, MeasureType * array2);
 
-  /** Given an array sampled from a Gaussin, compute the final parameters. */
+  /** Given an array sampled from a Gaussian, compute the final parameters. */
   void
   FindParametersOfGaussian(MeasureType * sampledGaussianArray);
 

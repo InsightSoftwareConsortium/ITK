@@ -265,7 +265,7 @@ protected:
   void
   UpdateTransformParameters(const ParametersType & deltaParameters);
 
-  /** Sample the virtual domain with phyical points and store the results in m_SamplePoints. */
+  /** Sample the virtual domain with physical points and store the results in m_SamplePoints. */
   virtual void
   SampleVirtualDomain();
 

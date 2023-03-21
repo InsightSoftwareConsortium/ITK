@@ -189,7 +189,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
       }
       catch (const itk::ExceptionObject &)
       {
-        // do nothing we dont care if the metric region is outside the image
+        // do nothing we don't care if the metric region is outside the image
         // std::cerr << e << std::endl;
       }
       for (unsigned int n = 0; n < Nnodes; ++n)
@@ -256,7 +256,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
       }
       catch (const itk::ExceptionObject &)
       {
-        // do nothing we dont care if the metric region is outside the image
+        // do nothing we don't care if the metric region is outside the image
         // std::cerr << e << std::endl;
       }
       for (unsigned int n = 0; n < Nnodes; ++n)
@@ -459,7 +459,7 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec) -> Float
   }
   catch (...)
   {
-    // do nothing we dont care if the metric lies outside the image sometimes
+    // do nothing we don't care if the metric lies outside the image sometimes
     // std::cerr << e << std::endl;
   }
 

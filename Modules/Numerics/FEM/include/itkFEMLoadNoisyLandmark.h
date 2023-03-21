@@ -29,7 +29,7 @@ namespace fem
 /**
  * \class itkFEMLoadNoisyLandmark
  * \brief This landmark is derived from the motion of a specific landmark, but
- * allows the existance of noise or outliers
+ * allows the existence of noise or outliers
  *
  * \author Yixun Liu
  *
