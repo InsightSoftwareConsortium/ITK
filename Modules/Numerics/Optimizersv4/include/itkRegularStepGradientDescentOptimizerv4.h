@@ -36,7 +36,7 @@ namespace itk
  *   The default value for the initial step length is 1, and this value can only
  *   be changed manually via SetLearningRate() since this optimizer does not use
  *   the ScaleEstimator to automatically estimate the learning rate.
- *   Also note that unlike the previous version of ReuglarStepGradientDescentOptimizer,
+ *   Also note that unlike the previous version of RegularStepGradientDescentOptimizer,
  *   ITKv4 does not have a "maximize/minimize" option to modify the effect of
  *   the metric derivative. The assigned metric is assumed to return a parameter
  *   derivative result that "improves" the optimization.

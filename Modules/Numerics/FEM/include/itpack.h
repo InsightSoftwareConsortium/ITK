@@ -117,7 +117,7 @@ extern "C"
        integer *    ierr);
 
   /**
-   * Successive overrelaxation
+   * Successive over-relaxation
    *
    * \param nn Order of linear system
    * \param ia array of row offsets
@@ -147,7 +147,7 @@ extern "C"
        integer *    ierr);
 
   /**
-   * Symmetric successive overrelaxation conjugate gradient
+   * Symmetric successive over-relaxation conjugate gradient
    *
    * \param nn Order of linear system
    * \param ia array of row offsets
@@ -177,7 +177,7 @@ extern "C"
           integer *    ierr);
 
   /**
-   * Symmetric successive overrelaxation semi-iteration
+   * Symmetric successive over-relaxation semi-iteration
    *
    * \param nn Order of linear system
    * \param ia array of row offsets
@@ -315,7 +315,7 @@ extern "C"
          integer *    icnt);
 
   /**
-   * Performs one iteration of the successive overrelaxation method
+   * Performs one iteration of the successive over-relaxation method
    * \param nn Order of linear system
    * \param ia array of row offsets
    * \param ja array of column indices
@@ -328,7 +328,7 @@ extern "C"
   itsor_(integer * nn, integer * ia, integer * ja, doublereal * a, doublereal * rhs, doublereal * u, doublereal * wk);
 
   /**
-   * Performs one iteration of the symmetric successive overrelaxation conjugate gradient method
+   * Performs one iteration of the symmetric successive over-relaxation conjugate gradient method
    * \param nn Order of linear system
    * \param ia array of row offsets
    * \param ja array of column indices
@@ -359,7 +359,7 @@ extern "C"
           doublereal * tri);
 
   /**
-   * Performs one iteration of the symmetric successive overrelaxation semi-iteration method
+   * Performs one iteration of the symmetric successive over-relaxation semi-iteration method
    * \param nn Order of linear system
    * \param ia array of row offsets
    * \param ja array of column indices

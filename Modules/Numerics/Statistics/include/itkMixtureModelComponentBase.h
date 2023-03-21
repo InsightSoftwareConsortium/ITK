@@ -35,7 +35,7 @@ namespace Statistics
  * to update the distribution parameters
  *
  * This class expects that its subclasses (distribution components) should
- * have analytical expressions for updating its paraters using only
+ * have analytical expressions for updating its parameters using only
  * the measurement vectors and their associated weights.
  *
  * This class can be considered as a macro class that encapsulates the
@@ -72,7 +72,7 @@ public:
   /** type alias for the MembershipFunctionBase */
   using MembershipFunctionType = MembershipFunctionBase<MeasurementVectorType>;
 
-  /** type alias of strorage for the weights */
+  /** type alias of storage for the weights */
   using WeightArrayType = Array<double>;
 
   using ParametersType = Array<double>;
@@ -163,7 +163,7 @@ private:
 
   ParametersType m_Parameters{};
 
-  /** SmartPointer to the memberhip function - usually density function */
+  /** SmartPointer to the membership function - usually density function */
   MembershipFunctionType * m_MembershipFunction{};
 
   /** weights array */

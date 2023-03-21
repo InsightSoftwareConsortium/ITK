@@ -41,7 +41,7 @@ namespace Statistics
  * InstanceIdentifier. InstanceIdentifiers have different forms and
  * meanings depending on the type of sample.  For ListSamples, the
  * InstanceIdentifier is an index into the corresponding list. In this
- * case, the InstanceIndentifier corresponds to a particular
+ * case, the InstanceIdentifier corresponds to a particular
  * measurement stored in the Sample. For Histograms, an
  * InstanceIdentifier corresponds to a particular bin in the
  * N-dimensional histogram. In other words, the InstanceIdentifier in

@@ -138,7 +138,7 @@ MahalanobisDistanceMembershipFunction<TVector>::Evaluate(const MeasurementVector
   const MeasurementVectorSizeType measurementVectorSize = this->GetMeasurementVectorSize();
 
   // Our inverse covariance is always well formed. When the covariance
-  // is singular, we use a diagonal inverse covariance with a large diagnonal
+  // is singular, we use a diagonal inverse covariance with a large diagonal
 
   // temp = ( y - mean )^t * InverseCovariance * ( y - mean )
   //

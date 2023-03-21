@@ -192,7 +192,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
       this->m_Gradient = this->m_Gradient + this->m_OptimizersList[whichOptimizer]->GetGradient() * combinefunction;
       itkDebugMacro(" add-grad ");
       this->m_MetricValuesList[whichOptimizer] = this->m_OptimizersList[whichOptimizer]->GetCurrentMetricValue();
-    } // endfor
+    } // end loop
 
     // Check if optimization has been stopped externally.
     // (Presumably this could happen from a multi-threaded client app?)

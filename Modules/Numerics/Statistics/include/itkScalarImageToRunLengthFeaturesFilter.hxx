@@ -142,7 +142,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
     }
   }
 
-  // Now get the mean and deviaton of each feature across the offsets.
+  // Now get the mean and deviation of each feature across the offsets.
   this->m_FeatureMeans->clear();
   this->m_FeatureStandardDeviations->clear();
   const auto tempFeatureMeans = make_unique_for_overwrite<double[]>(numFeatures);

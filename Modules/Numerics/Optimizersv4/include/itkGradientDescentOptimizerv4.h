@@ -41,7 +41,7 @@ namespace itk
  *
  * Gradient scales can be manually set or automatically estimated,
  * as documented in the base class.
- * The learing rate defaults to 1.0, and can be set in two ways:
+ * The learning rate defaults to 1.0, and can be set in two ways:
  * 1) manually, via \c SetLearningRate().
  * Or,
  * 2) automatically, either at each iteration or only at the first iteration,

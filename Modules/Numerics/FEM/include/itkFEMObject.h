@@ -46,7 +46,7 @@ namespace fem
  * \par Overview
  * FEMObject was created to provide an object in ITK that specifies
  * the entire FE model. This model can then be passed to the itk::fem::Solver
- * to generate a solution for the model. The design for this class was modelled
+ * to generate a solution for the model. The design for this class was modeled
  * after the itk::Mesh structure. Presently, no direct I/O support for
  * the FEMObject exists. This must be done using the FEMSpatialObject.
  * The FEMObject simply serves as a storage container for the FE model.

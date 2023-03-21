@@ -44,7 +44,7 @@ namespace itk
  * automatically (by constructing a very small simplex around the
  * initial position) or uses a user supplied simplex size.
  *
- * The method SetOptimizeWithRestarts() indicates that the amoeabe algorithm
+ * The method SetOptimizeWithRestarts() indicates that the amoeba algorithm
  * should be rerun after if converges. This heuristic increases the chances
  * of escaping from a local optimum. Each time the simplex is initialized with
  * the best solution obtained by the previous runs. The edge length is half of

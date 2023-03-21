@@ -28,7 +28,7 @@ namespace itk
  *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
  *
  *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
- *  sub-optimizers are passed to it by the user.  The learning rate or scaleestimator for each sub-optimizer
+ *  sub-optimizers are passed to it by the user.  The learning rate or scale estimator for each sub-optimizer
  *  controls the relative weight of each metric in the optimization.  Denote the weights as \f$ w_1 \f$ and \f$ w_2 \f$
  * then the MultiGradientOptimizer will optimize \f$ \sum_i w_i Metric_i \f$ by using update rule:
  *

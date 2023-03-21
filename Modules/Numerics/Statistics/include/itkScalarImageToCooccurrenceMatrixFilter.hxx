@@ -35,7 +35,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
 
   this->ProcessObject::SetNthOutput(0, this->MakeOutput(0));
 
-  // constant for a coocurrence matrix.
+  // constant for a cooccurrence matrix.
   constexpr unsigned int measurementVectorSize = 2;
 
   auto * output = const_cast<HistogramType *>(this->GetOutput());
@@ -176,7 +176,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
     this->FillHistogram(radius, input->GetRequestedRegion());
   }
 
-  // Normalizse the histogram if requested
+  // Normalize the histogram if requested
   if (m_Normalize)
   {
     this->NormalizeHistogram();

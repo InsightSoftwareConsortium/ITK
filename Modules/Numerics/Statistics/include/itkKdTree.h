@@ -495,7 +495,7 @@ private:
  *  related data structures for a k-d tree.
  *
  * An object of this class stores instance identifiers in a k-d tree
- * that is a binary tree with childrens split along a dimension among
+ * that is a binary tree with children split along a dimension among
  * k-dimensions. The dimension of the split (or partition) is determined
  * for each nonterminal node that has two children. The split process is
  * terminated when the node has no children (when the number of

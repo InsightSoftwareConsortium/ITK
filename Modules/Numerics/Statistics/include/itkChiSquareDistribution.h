@@ -66,7 +66,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Strandard macros */
+  /** Standard macros */
   itkTypeMacro(ChiSquareDistribution, ProbabilityDistribution);
 
   /** Method for creation through the object factory. */

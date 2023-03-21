@@ -63,7 +63,7 @@ public:
 
   /**  Derivative type.
    *  It defines a type used to return the cost function derivative.
-   *  Here a bidimensional Array is used for Multivalued functions   */
+   *  Here a bi-dimensional Array is used for Multivalued functions   */
   using DerivativeType = Array2D<double>;
 
   /** Set the cost function. */

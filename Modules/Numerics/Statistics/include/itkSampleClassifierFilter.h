@@ -75,7 +75,7 @@ public:
   using MembershipFunctionVectorObjectType = SimpleDataObjectDecorator<MembershipFunctionVectorType>;
   using MembershipFunctionVectorObjectPointer = typename MembershipFunctionVectorObjectType::Pointer;
 
-  /** type alias for membership functions weight proprtion */
+  /** type alias for membership functions weight proportion */
   using MembershipFunctionsWeightsArrayType = Array<double>;
 
   using MembershipFunctionsWeightsArrayObjectType = SimpleDataObjectDecorator<MembershipFunctionsWeightsArrayType>;

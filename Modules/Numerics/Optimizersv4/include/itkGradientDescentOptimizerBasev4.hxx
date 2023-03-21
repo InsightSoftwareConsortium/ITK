@@ -184,7 +184,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::ModifyGra
     // in their constructor.
     itkAssertInDebugAndIgnoreInReleaseMacro(!m_ModifyGradientByLearningRateThreader.IsNull());
     // Add a check for m_LearningRateIsIdentity?
-    // But m_LearningRate is not assessible here.
+    // But m_LearningRate is not accessible here.
     // Should we declare it in a base class as m_Scales ?
 
     this->m_ModifyGradientByLearningRateThreader->Execute(this, fullrange);

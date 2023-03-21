@@ -295,14 +295,14 @@ PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double  
       double q; /* ted as p/q; division operation*/
       q = (x - v) * (functionValueOfX - functionValueOfW);
 
-      double p; /* Interpolation step is calcula-*/
+      double p; /* Interpolation step is calculated */
       p = (x - v) * q - (x - w) * t;
 
       q = 2 * (q - t);
 
-      if (q > 0.0) /* q was calculated with the op-*/
+      if (q > 0.0) /* q was calculated with the */
       {
-        p = -p; /* posite sign; make q positive  */
+        p = -p; /* opposite sign; make q positive  */
       }
       else /* and assign possible minus to  */
       {

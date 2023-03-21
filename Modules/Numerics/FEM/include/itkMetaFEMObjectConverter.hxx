@@ -97,7 +97,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     o1->SetGlobalNumber(material->m_GN);
     o1->SetYoungsModulus(material->E); /* Young modulus */
     o1->SetPoissonsRatio(material->nu);
-    o1->SetCrossSectionalArea(material->A); /* Crossection area */
+    o1->SetCrossSectionalArea(material->A); /* Cross section area */
     o1->SetMomentOfInertia(material->I);    /* Moment of inertia */
     o1->SetThickness(material->h);
     o1->SetDensityHeatProduct(material->RhoC);

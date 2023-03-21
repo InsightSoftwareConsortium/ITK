@@ -48,7 +48,7 @@ namespace itk
  *
  * Similarity is evaluated using fixed and moving transforms.
  * Both transforms are initialized to an IdentityTransform, and can be
- * set by the user using SetFixedTranform() and SetMovingTransform().
+ * set by the user using SetFixedTransform() and SetMovingTransform().
  *
  * Virtual Domain
  *

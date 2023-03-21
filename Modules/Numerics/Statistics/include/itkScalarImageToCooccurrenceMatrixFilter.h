@@ -30,7 +30,7 @@ namespace Statistics
 {
 /** \class ScalarImageToCooccurrenceMatrixFilter
  *  \brief This class computes a co-occurrence matrix (histogram) from
- * a given image and a mask image if provided. Coocurrence matrices are
+ * a given image and a mask image if provided. Cooccurrence matrices are
  * used for image texture description.
  *
  * This filters creates a grey-level co-occurrence matrix from a N-D scalar

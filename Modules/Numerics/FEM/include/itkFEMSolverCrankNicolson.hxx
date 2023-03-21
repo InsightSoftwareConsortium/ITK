@@ -226,7 +226,7 @@ SolverCrankNicolson<VDimension>::AssembleFforTimeStep(int dim)
     return;
   }
 
-  this->AssembleF(dim); // assuming assemblef uses index 0 in vector!
+  this->AssembleF(dim); // assuming AssembleF uses index 0 in vector!
 
   using BCTermType = std::map<Element::DegreeOfFreedomIDType, Float>;
   BCTermType bcterm;

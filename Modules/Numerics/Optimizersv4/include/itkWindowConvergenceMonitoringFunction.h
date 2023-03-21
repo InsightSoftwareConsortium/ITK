@@ -73,7 +73,7 @@ public:
   itkSetMacro(WindowSize, EnergyValueContainerSizeType);
   itkGetConstMacro(WindowSize, EnergyValueContainerSizeType);
 
-  /** Calculate convergence value by fitting to a window of the enrgy profile */
+  /** Calculate convergence value by fitting to a window of the energy profile */
   RealType
   GetConvergenceValue() const override;
 
