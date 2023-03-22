@@ -151,19 +151,14 @@ namespace itk
 #endif
 
 /*
- * ITK only supports MSVC++ 14.0 and greater
- * MSVC++ 14.0 _MSC_VER == 1900 (Visual Studio 2015 version 14.0)
- * MSVC++ 14.1 _MSC_VER == 1910 (Visual Studio 2017 version 15.0)
- * MSVC++ 14.11 _MSC_VER == 1911 (Visual Studio 2017 version 15.3)
- * MSVC++ 14.12 _MSC_VER == 1912 (Visual Studio 2017 version 15.5)
- * MSVC++ 14.13 _MSC_VER == 1913 (Visual Studio 2017 version 15.6)
+ * ITK only supports MSVC++ 14.14 and greater
  * MSVC++ 14.14 _MSC_VER == 1914 (Visual Studio 2017 version 15.7)
  * MSVC++ 14.15 _MSC_VER == 1915 (Visual Studio 2017 version 15.8)
  * MSVC++ 14.16 _MSC_VER == 1916 (Visual Studio 2017 version 15.9)
  * MSVC++ 14.2 _MSC_VER == 1920 (Visual Studio 2019 Version 16.0)
  */
-#if defined(_MSC_VER) && (_MSC_VER < 1910)
-#  error "Visual Studio < 2017 is not supported under ITKv5.3"
+#if defined(_MSC_VER) && (_MSC_VER < 1914)
+#  error "MSVC version before Visual Studio 2017 version 15.7 is not supported under ITKv5.4"
 #endif
 #if defined(__SUNPRO_CC) && (__SUNPRO_CC < 0x5140)
 #  error "SUNPro C++ < 5.14.0 is not supported under ITKv5 and above"
@@ -177,9 +172,8 @@ namespace itk
 #if defined(__MWERKS__)
 #  error "The MetroWerks compiler is not supported in ITKv4 and above"
 #endif
-#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER) && \
-  ((__GNUC__ < 5) || ((__GNUC__ == 5) && (__GNUC_MINOR__ < 1)))
-#  error "GCC < 5.1 is not supported under ITKv5.3"
+#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER) && (__GNUC__ < 7)
+#  error "GCC < 7 is not supported under ITKv5.4"
 #endif
 #if defined(__sgi)
 // This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
@@ -188,14 +182,14 @@ namespace itk
 #  error "The SGI compiler is not supported under ITKv4 and above"
 #endif
 #if defined(__APPLE__)
-#  if defined(__clang__) && (__cplusplus < 201402L)
-#    error "Apple LLVM < 5.1 (clang < 3.4) or compiling with a standard less than C++14 is not supported under ITKv5.3"
+#  if defined(__clang__) && (__cplusplus < 201703L)
+#    error "Apple LLVM compiling with a standard less than C++17 is not supported under ITKv5.4"
 #  endif
-#elif defined(__clang__) && ((__clang_major__ < 3) || ((__clang_major__ == 3) && (__clang_minor__ < 4)))
-#  error "Clang < 3.4 is not supported under ITKv5.3"
+#elif defined(__clang__) && (__clang_major__ < 5)
+#  error "Clang < 5 is not supported under ITKv5.4"
 #endif
-#if defined(__INTEL_COMPILER) && (__INTEL_COMPILER < 1700)
-#  error "Intel C++ < 17.0 is not supported under ITKv5.3"
+#if defined(__INTEL_COMPILER) && (__INTEL_COMPILER < 1910)
+#  error "Intel C++ < 19.1 is not supported under ITKv5.4"
 #endif
 
 // Setup symbol exports
