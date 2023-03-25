@@ -31,10 +31,7 @@ template <typename TParametersValueType, unsigned int VDimension, unsigned int V
 void
 BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::SetIdentity()
 {
-  if (this->m_InternalParametersBuffer.Size() != this->GetNumberOfParameters())
-  {
-    this->m_InternalParametersBuffer.SetSize(this->GetNumberOfParameters());
-  }
+  this->m_InternalParametersBuffer.SetSize(this->GetNumberOfParameters());
   this->m_InternalParametersBuffer.Fill(0.0);
 
   this->SetParameters(this->m_InternalParametersBuffer);
