@@ -26,18 +26,6 @@
 namespace itk
 {
 
-// Constructor with default arguments
-template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
-BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::BSplineBaseTransform()
-  : Superclass(0)
-  , m_CoefficientImages(Self::ArrayOfImagePointerGeneratorHelper())
-{
-  this->m_InternalParametersBuffer = ParametersType(0);
-
-  // Instantiate a weights function
-  this->m_WeightsFunction = WeightsFunctionType::New();
-}
-
 // Set the parameters
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
 void
