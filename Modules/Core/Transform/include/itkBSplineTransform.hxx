@@ -539,8 +539,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint
     this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
     // For each dimension, correlate coefficient with weights
-    SizeType supportSize;
-    supportSize.Fill(SplineOrder + 1);
+    constexpr auto   supportSize = SizeType::Filled(SplineOrder + 1);
     const RegionType supportRegion(supportIndex, supportSize);
 
     outputPoint.Fill(NumericTraits<ScalarType>::ZeroValue());
@@ -606,8 +605,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobia
   // Zero all components of jacobian
   jacobian.SetSize(SpaceDimension, this->GetNumberOfParameters());
   jacobian.Fill(0.0);
-  SizeType supportSize;
-  supportSize.Fill(SplineOrder + 1);
+  constexpr auto supportSize = SizeType::Filled(SplineOrder + 1);
 
   ContinuousIndexType index =
     this->m_CoefficientImages[0]
