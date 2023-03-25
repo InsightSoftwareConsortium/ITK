@@ -139,7 +139,7 @@ public:
 
   /** Subtract two offsets. */
   const Self
-  operator-(const Self & vec)
+  operator-(const Self & vec) const
   {
     Self result;
 

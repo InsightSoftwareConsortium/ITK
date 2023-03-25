@@ -451,7 +451,7 @@ public:
 
   /** Distance between two iterators */
   OffsetType
-  operator-(const Self & b)
+  operator-(const Self & b) const
   {
     return m_Loop - b.m_Loop;
   }
