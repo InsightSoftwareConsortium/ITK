@@ -338,7 +338,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  BSplineBaseTransform();
+  BSplineBaseTransform() = default;
   ~BSplineBaseTransform() override = default;
 
   /** Get/Set to allow subclasses to access and manipulate the weights function. */
@@ -392,13 +392,13 @@ protected:
    *  in each dimension wrapped from the flat parameters in
    *  m_InternalParametersBuffer
    */
-  CoefficientImageArray m_CoefficientImages{};
+  CoefficientImageArray m_CoefficientImages{ Self::ArrayOfImagePointerGeneratorHelper() };
 
   /** Internal parameters buffer. */
   ParametersType m_InternalParametersBuffer{};
 
   /** Pointer to function used to compute Bspline interpolation weights. */
-  typename WeightsFunctionType::Pointer m_WeightsFunction{};
+  typename WeightsFunctionType::Pointer m_WeightsFunction{ WeightsFunctionType::New() };
 
 private:
   static CoefficientImageArray
