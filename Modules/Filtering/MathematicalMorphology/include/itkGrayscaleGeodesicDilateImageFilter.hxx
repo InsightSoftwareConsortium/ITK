@@ -234,7 +234,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::GenerateData()
       // assign the old output as the input
       singleIteration->SetMarkerImage(marker);
       // since DisconnectPipeline() creates a new output object, we need
-      // to regraft the information onto the output
+      // to graft the information onto the output
       singleIteration->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
       // Keep track of how many iterations have be done

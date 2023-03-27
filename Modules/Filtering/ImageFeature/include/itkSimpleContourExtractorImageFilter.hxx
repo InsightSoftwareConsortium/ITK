@@ -93,7 +93,7 @@ SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
           }
         }
 
-        // set pixel center pixel value weither it is or not on contour
+        // set pixel center pixel value whether it is or not on contour
         if (bIsOnContour)
         {
           it.Set(m_OutputForegroundValue);

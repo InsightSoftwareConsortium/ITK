@@ -185,7 +185,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
   bool done = false;
 
   // set up the singleIteration filter. we are not using the grafting
-  // mechanism because we only need the requested regioN to be set up
+  // mechanism because we only need the requested region to be set up
   singleIteration->RunOneIterationOn();
   singleIteration->SetMarkerImage(this->GetMarkerImage());
   singleIteration->SetMaskImage(this->GetMaskImage());
@@ -234,7 +234,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
       // assign the old output as the input
       singleIteration->SetMarkerImage(marker);
       // since DisconnectPipeline() creates a new output object, we need
-      // to regraft the information onto the output
+      // to graft the information onto the output
       singleIteration->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
       // Keep track of how many iterations have be done

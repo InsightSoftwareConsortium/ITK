@@ -218,7 +218,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       gradientItContainer.push_back(git);
     }
 
-    // Iterate over the reference and gradient images and solve the steskal
+    // Iterate over the reference and gradient images and solve the Stejskal
     // equations to reconstruct the Diffusion tensor.
     // See splweb.bwh.harvard.edu:8000/pages/papers/westin/ISMRM2002.pdf
     // "A Dual Tensor Basis Solution to the Stejskal-Tanner Equations for

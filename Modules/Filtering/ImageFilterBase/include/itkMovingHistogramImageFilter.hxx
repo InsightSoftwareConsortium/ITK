@@ -121,7 +121,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
     IndexType       PrevLineStart = InLineIt.GetIndex();
     for (InLineIt.GoToBeginOfLine(); !InLineIt.IsAtEndOfLine(); ++InLineIt)
     {
-      // Update the historgram
+      // Update the histogram
       IndexType currentIdx = InLineIt.GetIndex();
       outputImage->SetPixel(currentIdx,
                             static_cast<OutputPixelType>(histRef.GetValue(inputImage->GetPixel(currentIdx))));

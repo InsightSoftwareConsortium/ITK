@@ -184,12 +184,12 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
       inputPathPtr->StartOfInput() + static_cast<double>(inputPathPtr->EndOfInput() - inputPathPtr->StartOfInput()) *
                                        static_cast<double>(index[0]) / static_cast<double>(m_Size[0]);
 
-    // What is the orghogonal offset from the path in the input image for this
+    // What is the orthogonal offset from the path in the input image for this
     // particular index in the output swath image?
     // Vertically centered swath pixels lie on the path in the input image.
     orthogonalOffset = index[1] - static_cast<int>(m_Size[1] / 2); // use signed arithmetic
 
-    // Make continousIndex point to the source pixel in the input image
+    // Make continuousIndex point to the source pixel in the input image
     continousIndex = inputPathPtr->Evaluate(pathInput);
     pathDerivative = inputPathPtr->EvaluateDerivative(pathInput);
     pathDerivative.Normalize();
@@ -199,7 +199,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
     // set the swath pixel to the interpolated input pixel
     if (!interpolator->IsInsideBuffer(continousIndex))
     {
-      // itkExceptionMacro(<<"Requested input index ["<<continousIndex
+      // itkExceptionMacro(<<"Requested input index ["<<continuousIndex
       //                  <<"] is not in the input image" );
       outputIt.Set(m_DefaultPixelValue);
       progress.CompletedPixel();

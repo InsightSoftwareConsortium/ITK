@@ -175,7 +175,7 @@ vidl_itk_istream<TVideoStream>::format() const
   // We need to know about the primitive type used for the pixel
   using PixelValueType = typename itk::NumericTraits<PixelType>::ValueType;
 
-  // Get the number of challenls for the pixel
+  // Get the number of channels for the pixel
   unsigned int channels = itk::NumericTraits<PixelType>::MeasurementVectorType::Dimension;
 
   //

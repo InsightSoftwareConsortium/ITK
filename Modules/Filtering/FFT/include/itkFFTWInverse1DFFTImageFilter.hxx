@@ -90,7 +90,7 @@ FFTWInverse1DFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
   if (this->m_PlanComputed)
   {
     // if the image sizes aren't the same,
-    // we have to comput the plan again
+    // we have to compute the plan again
     if (this->m_LastImageSize != lineSize)
     {
       this->DestroyPlans();

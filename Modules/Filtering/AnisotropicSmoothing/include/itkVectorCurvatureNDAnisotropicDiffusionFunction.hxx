@@ -66,7 +66,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::VectorCurvatureNDAnisotro
   }
 
   // Allocate the derivative operator.
-  m_DerivativeOperator.SetDirection(0); // Not relelevant, we'll apply in a slice-based
+  m_DerivativeOperator.SetDirection(0); // Not relevant, we'll apply in a slice-based
                                         // fashion
   m_DerivativeOperator.SetOrder(1);
   m_DerivativeOperator.CreateDirectional();

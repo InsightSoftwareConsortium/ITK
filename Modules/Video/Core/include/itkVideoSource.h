@@ -155,7 +155,7 @@ protected:
   AllocateOutputs();
 
   /** Method that gets called before threads are dispatched from
-   * TemporalStreamingGeneratData */
+   * TemporalStreamingGenerateData */
   virtual void
   BeforeThreadedGenerateData()
   {}

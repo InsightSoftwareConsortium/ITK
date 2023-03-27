@@ -1514,7 +1514,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
   // Create two images to list adaptors, one for the iteration over the region
   // the other for querying to find the patches set the region of interest for
   // the second to only include patches with at least as many in-bounds
-  // neighborsin the same areas of the patch as the query patch
+  // neighbors in the same areas of the patch as the query patch
   // initialize accumulators
   // for each element in the region
   //   set region of interest
@@ -1905,7 +1905,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeImageUpdate()
 
   str.Filter = this;
 
-  // Compute smoothing updated for intensites at each pixel
+  // Compute smoothing updated for intensities at each pixel
   // based on gradient of the joint entropy
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethod(this->ComputeImageUpdateThreaderCallback, &str);
@@ -2336,7 +2336,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeGradientJointE
       {
         squaredNorm[ic] += centerPatchSquaredNorm[ic];
       }
-    } // end if entire patch is inbounds
+    } // end if entire patch is in bounds
 
     useCachedComputations = true;
 

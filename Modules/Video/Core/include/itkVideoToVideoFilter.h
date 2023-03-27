@@ -83,7 +83,7 @@ public:
   virtual void
   SetInput(unsigned int idx, const InputVideoStreamType * videoStream);
 
-  /** Get the input VideoSream for this temporal process object */
+  /** Get the input VideoStream for this temporal process object */
   const InputVideoStreamType *
   GetInput() const;
 

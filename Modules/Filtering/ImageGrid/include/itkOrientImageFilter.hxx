@@ -547,7 +547,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 
   //
-  // Cast might not be necessary, but CastImagefilter is optimized for
+  // Cast might not be necessary, but CastImageFilter is optimized for
   // the case where the InputImageType == OutputImageType
   cast->SetInput(castInput);
   cast->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());

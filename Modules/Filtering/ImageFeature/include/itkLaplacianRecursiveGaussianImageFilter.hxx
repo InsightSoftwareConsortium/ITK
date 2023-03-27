@@ -206,7 +206,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       return static_cast<InternalRealType>(a + b * (1.0 / spacing2));
     });
 
-    // Cummulate the results on the output image
+    // Cumulate the results on the output image
     addFilter->SetInput1(cumulativeImage);
     addFilter->SetInput2(lastFilter->GetOutput());
     addFilter->InPlaceOn();

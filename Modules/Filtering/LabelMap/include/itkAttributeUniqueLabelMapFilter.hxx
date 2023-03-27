@@ -63,7 +63,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
       ++lit;
     }
 
-    // clear the lines to readd them later
+    // clear the lines to read them later
     lo->Clear();
 
     // go to the next label

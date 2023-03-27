@@ -18,7 +18,7 @@
 
 #
 #  Example on the use of the GrayscaleDilateImageFilter
-#  and Box strucutring element
+#  and Box structuring element
 #
 
 import itk

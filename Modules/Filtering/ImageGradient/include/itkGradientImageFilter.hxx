@@ -177,7 +177,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
         gradient[i] = SIP(x_slice[i], nit, op[i]);
       }
 
-      // This method optionally performs a tansform for Physical
+      // This method optionally performs a transform for Physical
       // coordinates and potential conversion to a different output
       // pixel type.
       this->SetOutputPixel(it, gradient);

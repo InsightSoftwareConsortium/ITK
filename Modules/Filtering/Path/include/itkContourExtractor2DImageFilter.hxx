@@ -117,7 +117,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType  
   for (const InputIndexType index : RegionIndexRange{ usableRegion })
   {
     neighborhoodRange.SetLocation(index);
-    // There are sixteen different possible square types, diagramed below.
+    // There are sixteen different possible square types, diagrammed below.
     // A + indicates that the vertex is above the contour value, and a -
     // indicates that the vertex is below or equal to the contour value.
     // The vertices of each square are here numbered:

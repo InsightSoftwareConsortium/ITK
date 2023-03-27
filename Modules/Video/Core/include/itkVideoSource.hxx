@@ -222,7 +222,7 @@ template <typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::TemporalStreamingGenerateData()
 {
-  // Call a method that can be overriden by a subclass to allocate
+  // Call a method that can be overridden by a subclass to allocate
   // memory for the filter's outputs
   this->AllocateOutputs();
 
@@ -365,7 +365,7 @@ VideoSource<TOutputVideoStream>::ThreaderCallback(void * arg)
   }
   // else
   //   {
-  //   otherwise don't use this thread. Sometimes the threads dont
+  //   otherwise don't use this thread. Sometimes the threads don't
   //   break up very well and it is just as efficient to leave a
   //   few threads idle.
   //   }

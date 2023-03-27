@@ -121,7 +121,7 @@ DerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   filter->OverrideBoundaryCondition(&nbc);
 
   //
-  // Set up the mini-pipline
+  // Set up the mini-pipeline
   //
   filter->SetOperator(oper);
   filter->SetInput(this->GetInput());
