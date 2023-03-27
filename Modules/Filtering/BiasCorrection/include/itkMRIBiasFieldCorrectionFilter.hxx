@@ -671,7 +671,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
 
   while (iter != m_Slabs.end())
   {
-    // Correct inter-slice intensity inhomogeniety
+    // Correct inter-slice intensity inhomogeneity
     // using 0th degree Legendre polynomial
 
     if (m_UsingInterSliceIntensityCorrection)
@@ -933,7 +933,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
     }
     else
     {
-      // No ovelapping, so remove the slab from the vector
+      // No overlapping, so remove the slab from the vector
       slabs.erase(iter);
     }
     ++iter;

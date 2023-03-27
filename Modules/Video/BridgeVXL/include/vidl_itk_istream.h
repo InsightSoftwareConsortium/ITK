@@ -103,7 +103,7 @@ public:
   virtual bool
   is_seekable() const;
 
-  /** Return the nuber of frames. Returns -1 if non-seekable */
+  /** Return the number of frames. Returns -1 if non-seekable */
   virtual int
   num_frames() const;
 

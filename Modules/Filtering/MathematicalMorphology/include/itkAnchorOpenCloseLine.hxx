@@ -117,7 +117,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
                                                     unsigned int &                     outRightP)
 {
   // This returns true to indicate return to startLine label in pseudo
-  // code, and false to indicate finshLine
+  // code, and false to indicate finishLine
   Extreme = buffer[outLeftP];
   unsigned int currentP = outLeftP + 1;
   unsigned int sentinel, endP;

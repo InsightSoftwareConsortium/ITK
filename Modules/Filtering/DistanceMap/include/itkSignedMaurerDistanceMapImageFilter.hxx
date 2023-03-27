@@ -135,7 +135,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
   binaryFilter->Update();
 
   // Dilate the inverted image by 1 pixel to give it the same boundary
-  // as the univerted inputPtr.
+  // as the uninverted inputPtr.
   using BorderFilterType = BinaryContourImageFilter<OutputImageType, OutputImageType>;
   auto borderFilter = BorderFilterType::New();
   borderFilter->SetInput(binaryFilter->GetOutput());

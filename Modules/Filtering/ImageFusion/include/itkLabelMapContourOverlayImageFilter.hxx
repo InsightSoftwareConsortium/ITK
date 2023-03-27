@@ -202,7 +202,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Befor
     itkExceptionMacro(<< "Unsupported Type: " << m_Type);
   }
 
-  // choose which labels will be on top of the oters
+  // choose which labels will be on top of the others
   using UniqueType = LabelUniqueLabelMapFilter<LabelMapType>;
   auto uniq = UniqueType::New();
   uniq->SetInput(obo->GetOutput());

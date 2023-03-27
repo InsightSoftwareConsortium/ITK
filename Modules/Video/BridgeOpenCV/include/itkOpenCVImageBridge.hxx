@@ -243,7 +243,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType * in, bool force3Cha
   // RGB output
   else
   {
-    // Set up an IplImage ponting at the input's buffer. It's ok to do the
+    // Set up an IplImage pointing at the input's buffer. It's ok to do the
     // const cast because it will only get used to copy pixels
     if (inChannels == 3)
     {

@@ -185,7 +185,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
           // sequence.
           // TestB is violated when it is applied to points on a
           // stroke 1 pixel thick.  Hence this test prevents
-          // disconnetion of segments of a skeleton during the
+          // disconnection of segments of a skeleton during the
           // thinning operation.
           // First find the total number of transitions, and then
           // divide by 2.

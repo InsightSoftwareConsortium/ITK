@@ -96,7 +96,7 @@ public:
   virtual TemporalUnitType
   GetTemporalUnit() const;
 
-  /** Explicity set temporal units (Defaults to Frame)*/
+  /** Explicitly set temporal units (Defaults to Frame)*/
   virtual void
   SetTemporalUnitToFrame();
   virtual void

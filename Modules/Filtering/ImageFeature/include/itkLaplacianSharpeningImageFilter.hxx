@@ -124,7 +124,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->RegisterInternalFilter(filter, 0.8f);
 
   //
-  // set up the mini-pipline
+  // set up the mini-pipeline
   //
   filter->SetOperator(oper);
   filter->SetInput(this->GetInput());

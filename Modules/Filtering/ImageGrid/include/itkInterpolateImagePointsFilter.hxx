@@ -147,7 +147,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
   Superclass::GenerateOutputInformation();
 
   // This sets the largestPossibleRegion to ensure it is the same as
-  // the coordinates. While this should be the default behavor, given the
+  // the coordinates. While this should be the default behavior, given the
   // multiple inputs it may incorrectly default to the image
   // largestPossibleRegion.
   // Thus this method was explicitly written.

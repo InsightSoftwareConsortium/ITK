@@ -108,7 +108,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // Allocation.
   // Pay attention to the fact that here, the output is still not
   // allocated (so no extra memory needed for tmp image, if you
-  // consider that you reserve som memory space for output)
+  // consider that you reserve some memory space for output)
   tmpImage->Allocate();
 
   // First Stage
@@ -327,7 +327,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
             } // if( nit.GetPixel( i ) == onTag )
           }   // for (i = 0; i < neighborhoodSize; ++i)
         }     // while ( !propagQueue.empty() )
-      }       // if( bIsOnCountour )
+      }       // if( bIsOnContour )
       else
       {
         tmpRegIndexIt.Set(innerTag);
@@ -386,7 +386,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   ImageRegionIteratorWithIndex<OutputImageType> ouRegIndexIt(output, outputRegion);
 
   // InputRegionForThread is the output region for thread padded by
-  // kerne lradius We must traverse this padded region because some
+  // kernel radius We must traverse this padded region because some
   // border pixel in the added band ( the padded band is the region
   // added after padding ) may be responsible to the painting of some
   // pixel in the non padded region.  This happens typically when a

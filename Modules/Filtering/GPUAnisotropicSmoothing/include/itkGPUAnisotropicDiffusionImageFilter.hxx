@@ -67,7 +67,7 @@ GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter
   {
     if ((this->GetElapsedIterations() % this->GetConductanceScalingUpdateInterval()) == 0)
     {
-      /** GPU version of average squared gradient magniture calculation */
+      /** GPU version of average squared gradient magnitude calculation */
       f->GPUCalculateAverageGradientMagnitudeSquared(this->GetOutput());
     }
   }

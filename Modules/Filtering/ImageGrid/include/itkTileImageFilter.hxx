@@ -148,7 +148,7 @@ void
 TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
 
-  // Do not call the superclass's GenerateOutptuInformation method.
+  // Do not call the superclass's GenerateOutputInformation method.
   // The input images are likely a different dimension than the input,
   // so the superclass's implementation is not compatible.
 

@@ -188,13 +188,13 @@ VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::GenerateInputRequeste
   SizeValueType                outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
   OutputFrameSpatialRegionType outputRegion = this->GetOutput()->GetFrameRequestedSpatialRegion(outputStart);
 
-  // Convert to input spatial region (TODO: handle dificult cases)
+  // Convert to input spatial region (TODO: handle difficult cases)
   const InputFrameSpatialRegionType inputRegion = outputRegion;
 
   // Create input spatial regions for each frame of each input
   for (unsigned int i = 0; i < this->GetNumberOfInputs(); ++i)
   {
-    // Get the input and its requeted temporal region
+    // Get the input and its requested temporal region
     auto * input = dynamic_cast<InputVideoStreamType *>(this->ProcessObject::GetInput(i));
     if (!input)
     {

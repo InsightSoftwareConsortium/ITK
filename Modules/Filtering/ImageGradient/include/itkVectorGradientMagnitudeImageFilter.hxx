@@ -175,7 +175,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
     this->SetNumberOfWorkUnits(m_RequestedNumberOfWorkUnits);
   }
   //
-  // cast might not be necessary, but CastImagefilter is optimized for
+  // cast might not be necessary, but CastImageFilter is optimized for
   // the case where the InputImageType == OutputImageType
   typename CastImageFilter<TInputImage, RealVectorImageType>::Pointer caster =
     CastImageFilter<TInputImage, RealVectorImageType>::New();

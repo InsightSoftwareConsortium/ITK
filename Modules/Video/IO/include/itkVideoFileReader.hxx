@@ -54,7 +54,7 @@ VideoFileReader<TOutputVideoStream>::UpdateOutputInformation()
   }
 
   //
-  // Check that the desired dimension mateches that read from the file
+  // Check that the desired dimension matches that read from the file
   //
   if (m_VideoIO->GetNumberOfDimensions() != FrameDimension)
   {

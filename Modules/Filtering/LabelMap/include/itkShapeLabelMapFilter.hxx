@@ -186,7 +186,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
     // First, the dimension 0
     if (idx[0] == borderMin[0])
     {
-      // Fhe beginning of the line
+      // The beginning of the line
       perimeterOnBorder += sizePerPixelPerDimension[0];
     }
     if (idx[0] + (OffsetValueType)length - 1 == borderMax[0])
@@ -542,7 +542,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   using MapInterceptType = typename std::map<OffsetType, SizeValueType, Functor::LexicographicCompare>;
   MapInterceptType intercepts;
   // int nbOfDirections = static_cast<int>(std::pow(2.0, static_cast<int>(ImageDimension))) - 1;
-  // intecepts.resize(nbOfDirections + 1);  // code begins at position 1
+  // intercepts.resize(nbOfDirections + 1);  // code begins at position 1
 
   // now iterate over the vectors of lines
   using LineImageIteratorType = ConstShapedNeighborhoodIterator<LineImageType>;
@@ -742,7 +742,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapInterce
   double c5 = 0.03698062787608 * 2; // Oxz
   double c6 = 0.03698062787608 * 2; // Oyz
   double c7 = 0.03519563978232 * 2; // Oxyz
-  // TODO - recompute those values if the spacing is non isotrope
+  // TODO - recompute those values if the spacing is non isotropic
 
   Offset3Type nx = { { 1, 0, 0 } };
   Offset3Type ny = { { 0, 1, 0 } };

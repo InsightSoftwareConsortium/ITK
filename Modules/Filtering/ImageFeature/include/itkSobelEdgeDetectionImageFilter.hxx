@@ -100,7 +100,7 @@ SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
-  // Create the sobel operator
+  // Create the Sobel operator
   SobelOperator<OutputPixelType, ImageDimension> opers[ImageDimension];
   ZeroFluxNeumannBoundaryCondition<TInputImage>  nbc;
 

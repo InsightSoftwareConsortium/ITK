@@ -133,7 +133,7 @@ LaplacianImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->RegisterInternalFilter(filter, 1.0f);
 
   //
-  // set up the mini-pipline
+  // set up the mini-pipeline
   //
   filter->SetOperator(oper);
   filter->SetInput(this->GetInput());

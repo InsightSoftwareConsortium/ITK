@@ -85,7 +85,7 @@ public:
 
 private:
   /** Steps involved in this method are:
-    1) Handle converting between colorspaces
+    1) Handle converting between color spaces
     2) Allocate the output image
     3) Create a copy of the current IplImage's buffer without any padding
     (slow but necessary)

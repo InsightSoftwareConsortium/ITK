@@ -211,7 +211,7 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
     }
     else
     {
-      // Tell the pipeline that updating this input is unncesseary
+      // Tell the pipeline that updating this input is unnecessary
       inputRegion = inputPtr->GetBufferedRegion();
     }
     inputPtr->SetRequestedRegion(inputRegion);
