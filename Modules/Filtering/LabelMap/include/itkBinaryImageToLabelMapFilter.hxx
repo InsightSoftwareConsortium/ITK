@@ -195,7 +195,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   }
 
   this->m_NumberOfLabels.fetch_add(nbOfLabels, std::memory_order_relaxed);
-  std::lock_guard<std::mutex> mutexHolder(this->m_Mutex);
+  std::lock_guard mutexHolder(this->m_Mutex);
   this->m_WorkUnitResults.push_back(workUnitData);
 }
 

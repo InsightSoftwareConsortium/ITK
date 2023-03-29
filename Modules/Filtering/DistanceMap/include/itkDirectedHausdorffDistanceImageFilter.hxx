@@ -183,7 +183,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DynamicThreade
 
     progress.CompletedPixel();
   }
-  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
+  std::lock_guard mutexHolder(m_Mutex);
   m_MaxDistance = std::max(m_MaxDistance, maxDistance);
   m_Sum += sum;
   m_PixelCount += pixelCount;
