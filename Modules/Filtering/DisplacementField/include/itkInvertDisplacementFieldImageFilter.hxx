@@ -234,7 +234,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
       ItE.Set(-displacement);
     }
     {
-      std::lock_guard<std::mutex> holder(m_Mutex);
+      std::lock_guard holder(m_Mutex);
       this->m_MeanErrorNorm += localMean;
       if (this->m_MaxErrorNorm < localMax)
       {
