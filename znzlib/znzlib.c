@@ -143,7 +143,7 @@ size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file)
     /* gzread/write take unsigned int length, so maybe read in int pieces
        (noted by M Hanke, example given by M Adler)   6 July 2010 [rickr] */
     while( remain > 0 ) {
-       n2read = (remain < ZNZ_MAX_BLOCK_SIZE) ? remain : ZNZ_MAX_BLOCK_SIZE;
+       n2read = (remain < ZNZ_MAX_BLOCK_SIZE) ? (unsigned)remain : ZNZ_MAX_BLOCK_SIZE;
        nread = gzread(file->zfptr, (void *)cbuf, n2read);
        if( nread < 0 ) return nread; /* returns -1 on error */
 
@@ -175,7 +175,7 @@ size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file)
 #ifdef HAVE_ZLIB
   if (file->zfptr!=NULL) {
     while( remain > 0 ) {
-       n2write = (remain < ZNZ_MAX_BLOCK_SIZE) ? remain : ZNZ_MAX_BLOCK_SIZE;
+       n2write = (remain < ZNZ_MAX_BLOCK_SIZE) ? (unsigned)remain : ZNZ_MAX_BLOCK_SIZE;
        nwritten = gzwrite(file->zfptr, (const void *)cbuf, n2write);
 
        /* gzread returns 0 on error, but in case that ever changes... */

@@ -17,7 +17,7 @@ static int local_fileexists(const char* fname)
 int main( int argc , char *argv[] )
 {
    nifti_image *nim ;
-   int iarg=1 , outmode=1 , ll , argn=1, usegzip=0;
+   int iarg=1 , outmode=1 , argn=1, usegzip=0;
    char *tmpstr;
 
    if( argc < 2 || strcmp(argv[1],"-help") == 0 ){
@@ -78,7 +78,7 @@ int main( int argc , char *argv[] )
    if( nim->fname != NULL ) free(nim->fname) ;
    if( nim->iname != NULL ) free(nim->iname) ;
 
-   ll = strlen(argv[iarg]) ;
+   size_t ll = strlen(argv[iarg]) ;
    tmpstr = nifti_makebasename(argv[iarg]);
    nim->fname = (char *)calloc(1,ll+8) ; strcpy(nim->fname,tmpstr) ;
    nim->iname = (char *)calloc(1,ll+8) ; strcpy(nim->iname,tmpstr) ;
