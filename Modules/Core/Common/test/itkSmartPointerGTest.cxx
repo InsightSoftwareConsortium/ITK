@@ -194,13 +194,13 @@ TEST(SmartPointer, Converting)
   EXPECT_TRUE(rcd1ptr == cd1ptr);
 
   // is_convertible<From,To>
-  static_assert(std::is_convertible<Derived1Pointer, BasePointer>::value, "conversion check");
-  static_assert(std::is_convertible<Derived1Pointer, ConstBasePointer>::value, "conversion check");
+  static_assert(std::is_convertible_v<Derived1Pointer, BasePointer>, "conversion check");
+  static_assert(std::is_convertible_v<Derived1Pointer, ConstBasePointer>, "conversion check");
 
-  static_assert(!std::is_convertible<ConstDerived1Pointer, Derived1Pointer>::value, "conversion check");
+  static_assert(!std::is_convertible_v<ConstDerived1Pointer, Derived1Pointer>, "conversion check");
 
-  static_assert(!std::is_convertible<Derived1Pointer, Derived2::Pointer>::value, "conversion check");
-  static_assert(!std::is_convertible<Derived1Pointer, Derived2::ConstPointer>::value, "conversion check");
+  static_assert(!std::is_convertible_v<Derived1Pointer, Derived2::Pointer>, "conversion check");
+  static_assert(!std::is_convertible_v<Derived1Pointer, Derived2::ConstPointer>, "conversion check");
 }
 
 

@@ -490,7 +490,7 @@ auto
 MakeSize(const T... values)
 {
   const auto toValueType = [](const auto value) {
-    static_assert(std::is_integral<decltype(value)>::value, "Each value must have an integral type!");
+    static_assert(std::is_integral_v<decltype(value)>, "Each value must have an integral type!");
     return static_cast<SizeValueType>(value);
   };
   return Size<sizeof...(T)>{ { toValueType(values)... } };

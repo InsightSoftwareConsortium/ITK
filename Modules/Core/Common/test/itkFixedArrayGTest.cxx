@@ -134,7 +134,7 @@ Check_const_and_non_const_reverse_iterators_retrieve_same_values()
   using ConstIteratorType = typename FixedArrayType::const_reverse_iterator;
   using NonConstIteratorType = typename FixedArrayType::reverse_iterator;
 
-  static_assert(!std::is_same<ConstIteratorType, NonConstIteratorType>::value,
+  static_assert(!std::is_same_v<ConstIteratorType, NonConstIteratorType>,
                 "Const and non-const reverse_iterator types must be different!");
 
   FixedArrayType fixedArray{};

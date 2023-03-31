@@ -54,7 +54,7 @@ public:
   using ObjectType = TObjectType;
 
   template <typename T>
-  using EnableIfConvertible = typename std::enable_if<std::is_convertible<T *, TObjectType *>::value>;
+  using EnableIfConvertible = typename std::enable_if<std::is_convertible_v<T *, TObjectType *>>;
 
   /** Default-constructor  */
   constexpr SmartPointer() noexcept = default;

@@ -20,10 +20,10 @@
 #include <iostream>
 #include <type_traits>
 
-static_assert(std::is_nothrow_default_constructible<itk::ExceptionObject>::value,
+static_assert(std::is_nothrow_default_constructible_v<itk::ExceptionObject>,
               "ExceptionObject must have a noexcept default-constructor!");
-static_assert(std::is_nothrow_copy_assignable<itk::ExceptionObject>::value &&
-                std::is_nothrow_copy_constructible<itk::ExceptionObject>::value,
+static_assert(std::is_nothrow_copy_assignable_v<itk::ExceptionObject> &&
+                std::is_nothrow_copy_constructible_v<itk::ExceptionObject>,
               "An exception type must have noexcept copy semantics!");
 
 class mammal

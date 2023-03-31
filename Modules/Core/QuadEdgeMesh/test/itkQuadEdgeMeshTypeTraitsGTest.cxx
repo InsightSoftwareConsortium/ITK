@@ -26,6 +26,6 @@
 TEST(QuadEdgeMeshTypeTraits, QuadEdgeMeshPointIsNotPOD)
 {
   using T = itk::QuadEdgeMeshPoint<float, 3>;
-  EXPECT_EQ(std::is_trivial<T>::value, false);
-  EXPECT_EQ(std::is_standard_layout<T>::value, false);
+  EXPECT_EQ(std::is_trivial_v<T>, false);
+  EXPECT_EQ(std::is_standard_layout_v<T>, false);
 }

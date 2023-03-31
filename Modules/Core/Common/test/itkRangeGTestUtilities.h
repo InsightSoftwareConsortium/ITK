@@ -130,20 +130,20 @@ public:
     using ConstContainerType = const TContainer;
     using ValueType = std::remove_reference_t<decltype(*(TContainer().begin()))>;
 
-    static_assert(std::is_same<decltype(*(TContainer().begin())), ValueType &>::value,
+    static_assert(std::is_same_v<decltype(*(TContainer().begin())), ValueType &>,
                   "For a non-const container, begin() should return a non-const reference");
-    static_assert(std::is_same<decltype(*(ConstContainerType().begin())), const ValueType &>::value,
+    static_assert(std::is_same_v<decltype(*(ConstContainerType().begin())), const ValueType &>,
                   "For a const container, begin() should return a const reference");
-    static_assert(std::is_same<decltype(*(TContainer().cbegin())), const ValueType &>::value &&
-                    std::is_same<decltype(*(ConstContainerType().cbegin())), const ValueType &>::value,
+    static_assert(std::is_same_v<decltype(*(TContainer().cbegin())), const ValueType &> &&
+                    std::is_same_v<decltype(*(ConstContainerType().cbegin())), const ValueType &>,
                   "For any container, cbegin() should return a const reference");
 
-    static_assert(std::is_same<decltype(*(TContainer().end())), ValueType &>::value,
+    static_assert(std::is_same_v<decltype(*(TContainer().end())), ValueType &>,
                   "For a non-const container, end() should return a non-const reference");
-    static_assert(std::is_same<decltype(*(ConstContainerType().end())), const ValueType &>::value,
+    static_assert(std::is_same_v<decltype(*(ConstContainerType().end())), const ValueType &>,
                   "For a const container, end() should return a const reference");
-    static_assert(std::is_same<decltype(*(TContainer().cend())), const ValueType &>::value &&
-                    std::is_same<decltype(*(ConstContainerType().cend())), const ValueType &>::value,
+    static_assert(std::is_same_v<decltype(*(TContainer().cend())), const ValueType &> &&
+                    std::is_same_v<decltype(*(ConstContainerType().cend())), const ValueType &>,
                   "For any container, cend() should return a const reference");
 
     constexpr TContainer container{};
@@ -168,7 +168,7 @@ private:
   static void
   ExpectIteratorEqualsItself(const TIterator & it)
   {
-    static_assert(!std::is_pointer<TIterator>::value,
+    static_assert(!std::is_pointer_v<TIterator>,
                   "There should be a specific `ExpectIteratorEqualsItself` overload for a pointer as argument");
 
     // Checks the (typically) user-defined `operator==` and `operator!=` of TIterator.

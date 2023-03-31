@@ -133,7 +133,7 @@ public:
     const AggregateType knownAll7s{ { 7, 7, 7, 7 } };
     const AggregateType knownAll6s{ { 6, 6, 6, 6 } };
 
-    EXPECT_EQ(std::is_pod<AggregateType>::value, true);
+    EXPECT_EQ(std::is_pod_v<AggregateType>, true);
     EXPECT_EQ(AggregateType::Dimension, 4);
 
     AggregateType index1 = { { 10, 20, 30, 40 } };
@@ -327,7 +327,7 @@ TEST(Specialized, IndexOffset)
 
 TEST(Specialized, Index)
 {
-  EXPECT_EQ(std::is_pod<itk::Index<13>>::value, true);
+  EXPECT_EQ(std::is_pod_v<itk::Index<13>>, true);
   EXPECT_EQ(itk::Index<2>::GetIndexDimension(), 2);
 
   using IndexType = itk::Index<4>;
@@ -351,7 +351,7 @@ TEST(Specialized, Index)
 TEST(Specialized, Offset)
 {
 
-  EXPECT_EQ(std::is_pod<itk::Offset<13>>::value, true);
+  EXPECT_EQ(std::is_pod_v<itk::Offset<13>>, true);
   EXPECT_EQ(itk::Offset<13>::GetOffsetDimension(), 13);
 
   using OffsetType = itk::Offset<4>;
@@ -374,7 +374,7 @@ TEST(Specialized, Offset)
 
 TEST(Specialized, Size)
 {
-  EXPECT_EQ(std::is_pod<itk::Size<13>>::value, true);
+  EXPECT_EQ(std::is_pod_v<itk::Size<13>>, true);
   EXPECT_EQ(itk::Size<7>::GetSizeDimension(), 7);
 
   using SizeType = itk::Size<4>;

@@ -51,11 +51,11 @@ static_assert(UnsignedPower(2, std::numeric_limits<uintmax_t>::digits - 1) ==
                 (uintmax_t{ 1 } << (std::numeric_limits<uintmax_t>::digits - 1)),
               "Check 2^63 (at least when uintmax_t is 64 bits)");
 
-static_assert(std::is_same<decltype(UnsignedPower(1, 1)), uintmax_t>::value,
+static_assert(std::is_same_v<decltype(UnsignedPower(1, 1)), uintmax_t>,
               "The return type of UnsignedPower should be uintmax_t by default.");
-static_assert(std::is_same<decltype(UnsignedPower<uint8_t>(1, 1)), uint8_t>::value &&
-                std::is_same<decltype(UnsignedPower<uint16_t>(1, 1)), uint16_t>::value &&
-                std::is_same<decltype(UnsignedPower<uint32_t>(1, 1)), uint32_t>::value,
+static_assert(std::is_same_v<decltype(UnsignedPower<uint8_t>(1, 1)), uint8_t> &&
+                std::is_same_v<decltype(UnsignedPower<uint16_t>(1, 1)), uint16_t> &&
+                std::is_same_v<decltype(UnsignedPower<uint32_t>(1, 1)), uint32_t>,
               "UnsignedPower allows specifying the return type by its template argument.");
 
 static_assert((UnsignedProduct(0, 0) == 0) && (UnsignedProduct(0, 1) == 0) && (UnsignedProduct(1, 0) == 0) &&

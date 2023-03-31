@@ -83,9 +83,9 @@ private:
   // otherwise iterator::operator*() returns a proxy, which internally uses the
   // AccessorFunctor of the image to access the pixel indirectly.
   static constexpr bool SupportsDirectPixelAccess =
-    std::is_same<PixelType, InternalPixelType>::value &&
-    std::is_same<typename TImage::AccessorType, DefaultPixelAccessor<PixelType>>::value &&
-    std::is_same<AccessorFunctorType, DefaultPixelAccessorFunctor<std::remove_const_t<TImage>>>::value;
+    std::is_same_v<PixelType, InternalPixelType> &&
+    std::is_same_v<typename TImage::AccessorType, DefaultPixelAccessor<PixelType>> &&
+    std::is_same_v<AccessorFunctorType, DefaultPixelAccessorFunctor<std::remove_const_t<TImage>>>;
 
   // Tells whether or not this range is using a pointer as iterator.
   static constexpr bool UsingPointerAsIterator = SupportsDirectPixelAccess;
@@ -239,7 +239,7 @@ private:
     // Image type class that is either 'const' or non-const qualified, depending on QualifiedIterator and TImage.
     using QualifiedImageType = std::conditional_t<VIsConst, const ImageType, ImageType>;
 
-    static constexpr bool IsImageTypeConst = std::is_const<QualifiedImageType>::value;
+    static constexpr bool IsImageTypeConst = std::is_const_v<QualifiedImageType>;
 
     using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
 
@@ -483,7 +483,7 @@ private:
     operator=(const QualifiedIterator &) noexcept = default;
   };
 
-  static constexpr bool IsImageTypeConst = std::is_const<TImage>::value;
+  static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
 
   using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
 

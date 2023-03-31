@@ -35,53 +35,53 @@
 TEST(CommonTypeTraits, FixedArrayIsPOD)
 {
   using T = itk::FixedArray<float, 3>;
-  EXPECT_TRUE(std::is_trivial<T>::value);
-  EXPECT_TRUE(std::is_standard_layout<T>::value);
+  EXPECT_TRUE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 /************ First Generation FixedArray *************/
 TEST(CommonTypeTraits, VectorIsPOD)
 {
   using T = itk::Vector<float, 3>;
-  EXPECT_TRUE(std::is_trivial<T>::value);
-  EXPECT_TRUE(std::is_standard_layout<T>::value);
+  EXPECT_TRUE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 
 TEST(CommonTypeTraits, CovariantVectorIsPOD)
 {
   using T = itk::CovariantVector<float, 3>;
-  EXPECT_TRUE(std::is_trivial<T>::value);
-  EXPECT_TRUE(std::is_standard_layout<T>::value);
+  EXPECT_TRUE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 
 TEST(CommonTypeTraits, PointIsPOD)
 {
   using T = itk::Point<float>;
-  EXPECT_TRUE(std::is_trivial<T>::value);
-  EXPECT_TRUE(std::is_standard_layout<T>::value);
+  EXPECT_TRUE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 
 TEST(CommonTypeTraits, RGBAPixelIsNotPOD)
 {
   using T = itk::RGBAPixel<unsigned int>;
   // Because initialized to zero
-  EXPECT_FALSE(std::is_trivial<T>::value);
-  EXPECT_TRUE(std::is_standard_layout<T>::value);
+  EXPECT_FALSE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 
 TEST(CommonTypeTraits, RGBPixelIsNotPOD)
 {
   using T = itk::RGBPixel<unsigned int>;
   // Because initialized to zero
-  EXPECT_FALSE(std::is_trivial<T>::value);
-  EXPECT_TRUE(std::is_standard_layout<T>::value);
+  EXPECT_FALSE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 
 TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD)
 {
   using T = itk::SymmetricSecondRankTensor<float, 3>;
   // Because initialized to zero
-  EXPECT_FALSE(std::is_trivial<T>::value);
-  EXPECT_TRUE(std::is_standard_layout<T>::value);
+  EXPECT_FALSE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 
 /************ Second Generation FixedArray *************/
@@ -89,8 +89,8 @@ TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD)
 TEST(CommonTypeTraits, ContinuousIndexIsPOD)
 {
   using T = itk::ContinuousIndex<float, 2>;
-  EXPECT_TRUE(std::is_trivial<T>::value);
-  EXPECT_TRUE(std::is_standard_layout<T>::value);
+  EXPECT_TRUE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 
 /************ FixedArray: noexcept move checks *************/
@@ -114,9 +114,9 @@ struct NotNoexceptMove
 TEST(CommonTypeTraits, FixedArrayIsNoExceptMovable)
 {
   using IntArrayType = itk::FixedArray<int, 3>;
-  EXPECT_TRUE(std::is_nothrow_move_constructible<IntArrayType>::value);
-  EXPECT_TRUE(std::is_copy_constructible<IntArrayType>::value);
+  EXPECT_TRUE(std::is_nothrow_move_constructible_v<IntArrayType>);
+  EXPECT_TRUE(std::is_copy_constructible_v<IntArrayType>);
   using NotNoexceptMoveArrayType = itk::FixedArray<NotNoexceptMove, 3>;
-  EXPECT_FALSE(std::is_nothrow_move_constructible<NotNoexceptMoveArrayType>::value);
-  EXPECT_TRUE(std::is_copy_constructible<NotNoexceptMoveArrayType>::value);
+  EXPECT_FALSE(std::is_nothrow_move_constructible_v<NotNoexceptMoveArrayType>);
+  EXPECT_TRUE(std::is_copy_constructible_v<NotNoexceptMoveArrayType>);
 }

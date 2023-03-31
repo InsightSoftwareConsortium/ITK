@@ -42,7 +42,7 @@ namespace mpl
 template <typename TBase, typename TDerived>
 struct IsBaseOf
 {
-  static constexpr bool Value = std::is_base_of<const TDerived *, const TBase *>::value;
+  static constexpr bool Value = std::is_base_of_v<const TDerived *, const TBase *>;
 };
 } // end namespace mpl
 

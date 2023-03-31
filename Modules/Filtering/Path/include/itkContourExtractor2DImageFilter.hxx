@@ -308,11 +308,11 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
        checkedLabel != allLabels.cend() && m_UnusedLabel == *checkedLabel;
        ++checkedLabel)
   {
-    if /* constexpr */ (std::is_integral<InputPixelType>::value)
+    if /* constexpr */ (std::is_integral_v<InputPixelType>)
     {
       ++m_UnusedLabel;
     }
-    else if /* constexpr */ (std::is_floating_point<InputPixelType>::value)
+    else if /* constexpr */ (std::is_floating_point_v<InputPixelType>)
     {
       m_UnusedLabel = std::nextafter(m_UnusedLabel, NumericTraits<InputPixelType>::max());
     }

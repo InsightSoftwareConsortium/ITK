@@ -174,11 +174,11 @@ protected:
    *  world of rgb<float> or rgb<double> alpha would have to be 1.0
    */
   template <typename UComponentType>
-  static std::enable_if_t<!std::is_integral<UComponentType>::value, UComponentType>
+  static std::enable_if_t<!std::is_integral_v<UComponentType>, UComponentType>
   DefaultAlphaValue();
 
   template <typename UComponentType>
-  static std::enable_if_t<std::is_integral<UComponentType>::value, UComponentType>
+  static std::enable_if_t<std::is_integral_v<UComponentType>, UComponentType>
   DefaultAlphaValue();
 };
 } // namespace itk

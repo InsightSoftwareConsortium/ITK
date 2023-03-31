@@ -56,7 +56,7 @@ DoesImageRegionRangeIteratorDereferenceOperatorReturnReference()
 {
   using IteratorType = typename ImageRegionRange<TImage>::iterator;
 
-  return std::is_reference<decltype(*std::declval<IteratorType>())>::value;
+  return std::is_reference_v<decltype(*std::declval<IteratorType>())>;
 }
 
 
@@ -78,7 +78,7 @@ IsIteratorTypeTheSameAsConstIteratorType()
 {
   using RangeType = ImageRegionRange<TImage>;
 
-  return std::is_same<typename RangeType::iterator, typename RangeType::const_iterator>::value;
+  return std::is_same_v<typename RangeType::iterator, typename RangeType::const_iterator>;
 }
 
 

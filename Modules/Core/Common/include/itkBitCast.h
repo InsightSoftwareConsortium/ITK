@@ -34,8 +34,8 @@ bit_cast(const TSource & source)
 {
   static_assert(sizeof(TDestination) == sizeof(TSource),
                 "The destination type should have the same size as the source type.");
-  static_assert(std::is_trivially_copyable<TDestination>::value, "The destination type should be trivially copyable");
-  static_assert(std::is_trivially_copyable<TSource>::value, "The source type should be trivially copyable.");
+  static_assert(std::is_trivially_copyable_v<TDestination>, "The destination type should be trivially copyable");
+  static_assert(std::is_trivially_copyable_v<TSource>, "The source type should be trivially copyable.");
 
   std::remove_const_t<TDestination> result;
   std::memcpy(&result, &source, sizeof(TSource));

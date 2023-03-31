@@ -1925,7 +1925,7 @@ public:
     return val.real() >= 0;
   }
 
-  static constexpr bool IsSigned = std::is_signed<ValueType>::value;
+  static constexpr bool IsSigned = std::is_signed_v<ValueType>;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;
   static Self
@@ -1982,7 +1982,7 @@ public:
   }
 
 #if defined(ITK_LEGACY_REMOVE)
-  static_assert(std::is_floating_point<TComponent>::value,
+  static_assert(std::is_floating_point_v<TComponent>,
                 "As per https://en.cppreference.com/w/cpp/numeric/complex the behavior is unspecified and may fail to "
                 "compile if TComponent is not float, double, or long double and undefined if T is not NumericType.");
 #endif // defined(ITK_LEGACY_REMOVE)

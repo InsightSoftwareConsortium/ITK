@@ -53,7 +53,7 @@ DoesImageBufferRangeIteratorDereferenceOperatorReturnReference()
 {
   using IteratorType = typename ImageBufferRange<TImage>::iterator;
 
-  return std::is_reference<decltype(*std::declval<IteratorType>())>::value;
+  return std::is_reference_v<decltype(*std::declval<IteratorType>())>;
 }
 
 
@@ -75,7 +75,7 @@ IsIteratorTypeTheSameAsConstIteratorType()
 {
   using RangeType = ImageBufferRange<TImage>;
 
-  return std::is_same<typename RangeType::iterator, typename RangeType::const_iterator>::value;
+  return std::is_same_v<typename RangeType::iterator, typename RangeType::const_iterator>;
 }
 
 
@@ -684,14 +684,14 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
     r = initialIterator;
     auto && actualResult = r += n;
     EXPECT_EQ(actualResult, expectedResult);
-    static_assert(std::is_same<decltype(actualResult), X &>::value, "Type of result 'r += n' tested");
+    static_assert(std::is_same_v<decltype(actualResult), X &>, "Type of result 'r += n' tested");
   }
   {
     // Expressions to be tested: 'a + n' and 'n + a'
     difference_type n = 3;
 
-    static_assert(std::is_same<decltype(a + n), X>::value, "Return type tested");
-    static_assert(std::is_same<decltype(n + a), X>::value, "Return type tested");
+    static_assert(std::is_same_v<decltype(a + n), X>, "Return type tested");
+    static_assert(std::is_same_v<decltype(n + a), X>, "Return type tested");
 
     const auto expectedResult = [a, n] {
       // Operational semantics, as specified by the C++11 Standard:
@@ -714,13 +714,13 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
     r = initialIterator;
     auto && actualResult = r -= n;
     EXPECT_EQ(actualResult, expectedResult);
-    static_assert(std::is_same<decltype(actualResult), X &>::value, "Type of result 'r -= n' tested");
+    static_assert(std::is_same_v<decltype(actualResult), X &>, "Type of result 'r -= n' tested");
   }
   {
     // Expression to be tested: 'a - n'
     difference_type n = -3;
 
-    static_assert(std::is_same<decltype(a - n), X>::value, "Return type tested");
+    static_assert(std::is_same_v<decltype(a - n), X>, "Return type tested");
 
     const auto expectedResult = [a, n] {
       // Operational semantics, as specified by the C++11 Standard:
@@ -732,7 +732,7 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expression to be tested: 'b - a'
-    static_assert(std::is_same<decltype(b - a), difference_type>::value, "Return type tested");
+    static_assert(std::is_same_v<decltype(b - a), difference_type>, "Return type tested");
 
     difference_type n = b - a;
     EXPECT_TRUE(a + n == b);
@@ -741,15 +741,15 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   {
     // Expression to be tested: 'a[n]'
     difference_type n = 3;
-    static_assert(std::is_convertible<decltype(a[n]), reference>::value, "Return type tested");
+    static_assert(std::is_convertible_v<decltype(a[n]), reference>, "Return type tested");
     EXPECT_EQ(a[n], *(a + n));
   }
   {
     // Expressions to be tested: 'a < b', 'a > b', 'a >= b', and 'a <= b':
-    static_assert(std::is_convertible<decltype(a < b), bool>::value, "Return type tested");
-    static_assert(std::is_convertible<decltype(a > b), bool>::value, "Return type tested");
-    static_assert(std::is_convertible<decltype(a >= b), bool>::value, "Return type tested");
-    static_assert(std::is_convertible<decltype(a <= b), bool>::value, "Return type tested");
+    static_assert(std::is_convertible_v<decltype(a < b), bool>, "Return type tested");
+    static_assert(std::is_convertible_v<decltype(a > b), bool>, "Return type tested");
+    static_assert(std::is_convertible_v<decltype(a >= b), bool>, "Return type tested");
+    static_assert(std::is_convertible_v<decltype(a <= b), bool>, "Return type tested");
     EXPECT_EQ(a<b, b - a> 0);
     EXPECT_EQ(a > b, b < a);
     EXPECT_EQ(a >= b, !(a < b));

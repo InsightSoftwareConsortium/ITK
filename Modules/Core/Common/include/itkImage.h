@@ -326,7 +326,7 @@ public:
    * `itk::Image` for non-EqualityComparable pixel types.
    */
   template <typename TEqualityComparable>
-  friend std::enable_if_t<std::is_same<TEqualityComparable, TPixel>::value, bool>
+  friend std::enable_if_t<std::is_same_v<TEqualityComparable, TPixel>, bool>
   operator==(const Image<TEqualityComparable, VImageDimension> & lhs,
              const Image<TEqualityComparable, VImageDimension> & rhs)
   {
@@ -366,7 +366,7 @@ public:
 
   /** Returns (image1 != image2). */
   template <typename TEqualityComparable>
-  friend std::enable_if_t<std::is_same<TEqualityComparable, TPixel>::value, bool>
+  friend std::enable_if_t<std::is_same_v<TEqualityComparable, TPixel>, bool>
   operator!=(const Image<TEqualityComparable, VImageDimension> & lhs,
              const Image<TEqualityComparable, VImageDimension> & rhs)
   {

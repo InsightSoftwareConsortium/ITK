@@ -36,14 +36,14 @@ template <typename T>
 constexpr bool
 IsDefaultConstructibleCopyableNoThrowMovableAndDestructible()
 {
-  return std::is_default_constructible<T>::value && std::is_copy_constructible<T>::value &&
-         std::is_copy_assignable<T>::value && std::is_nothrow_move_constructible<T>::value &&
-         std::is_nothrow_move_assignable<T>::value && std::is_nothrow_destructible<T>::value;
+  return std::is_default_constructible_v<T> && std::is_copy_constructible_v<T> && std::is_copy_assignable_v<T> &&
+         std::is_nothrow_move_constructible_v<T> && std::is_nothrow_move_assignable_v<T> &&
+         std::is_nothrow_destructible_v<T>;
 }
 
-static_assert(std::is_copy_assignable<itk::NeighborhoodOperator<int, 3>>::value,
+static_assert(std::is_copy_assignable_v<itk::NeighborhoodOperator<int, 3>>,
               "NeighborhoodOperator should be copy-assignable.");
-static_assert(std::is_nothrow_move_assignable<itk::NeighborhoodOperator<int, 3>>::value,
+static_assert(std::is_nothrow_move_assignable_v<itk::NeighborhoodOperator<int, 3>>,
               "NeighborhoodOperator should be noexcept move-assignable.");
 
 static_assert(IsDefaultConstructibleCopyableNoThrowMovableAndDestructible<itk::AnnulusOperator<int>>(),

@@ -45,7 +45,7 @@ namespace itk
 template <typename TCoordRep = double, unsigned int VIndexDimension = 2>
 class ITK_TEMPLATE_EXPORT ContinuousIndex : public Point<TCoordRep, VIndexDimension>
 {
-  static_assert(std::is_floating_point<TCoordRep>::value,
+  static_assert(std::is_floating_point_v<TCoordRep>,
                 "The coordinates of a continuous index must be represented by floating point numbers.");
 
 public:

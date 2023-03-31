@@ -66,7 +66,7 @@ RunTest(int argc, char * argv[])
     filter->SetThreshold(std::stod(argv[6]));
   }
 
-  const bool clamp = std::is_integral<typename FilterType::OutputPixelType>::value;
+  const bool clamp = std::is_integral_v<typename FilterType::OutputPixelType>;
   filter->SetClamp(clamp);
   ITK_TEST_SET_GET_VALUE(clamp, filter->GetClamp());
 

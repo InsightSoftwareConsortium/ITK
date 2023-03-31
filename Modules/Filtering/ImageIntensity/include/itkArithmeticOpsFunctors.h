@@ -311,7 +311,7 @@ public:
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     const double temp = std::floor(static_cast<double>(A) / static_cast<double>(B));
-    if (std::is_integral<TOutput>::value && Math::isinf(temp))
+    if (std::is_integral_v<TOutput> && Math::isinf(temp))
     {
       if (temp > 0)
       {

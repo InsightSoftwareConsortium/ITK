@@ -175,7 +175,7 @@ Segmenter<TInputImage>::GenerateData()
   Self::MinMax(input, regionToProcess, minimum, maximum);
   // cap the maximum in the image so that we can always define a pixel
   // value that is one greater than the maximum value in the image.
-  if (std::is_integral<InputPixelType>::value
+  if (std::is_integral_v<InputPixelType>
         // clang-format off
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wfloat_equal

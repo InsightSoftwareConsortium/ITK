@@ -60,8 +60,8 @@ TEST(Vector, CanBeConstructedByStdArray)
 
 TEST(Vector, Make)
 {
-  static_assert(std::is_same<decltype(itk::MakeVector(0))::ValueType, int>::value &&
-                  std::is_same<decltype(itk::MakeVector(0.0))::ValueType, double>::value,
+  static_assert(std::is_same_v<decltype(itk::MakeVector(0))::ValueType, int> &&
+                  std::is_same_v<decltype(itk::MakeVector(0.0))::ValueType, double>,
                 "The value type of the created itk::Vector should be the same as the type of the (first) argument");
 
   static_assert((decltype(itk::MakeVector(1, 1))::Dimension == 2) &&

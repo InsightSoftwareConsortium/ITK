@@ -73,7 +73,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 
 
   constexpr size_t bitsShift = std::min(8 * sizeof(FeatureImagePixelType), 8 * sizeof(m_NumberOfBins) - 1);
-  if (std::is_integral<FeatureImagePixelType>::value && sizeof(FeatureImagePixelType) <= 2 &&
+  if (std::is_integral_v<FeatureImagePixelType> && sizeof(FeatureImagePixelType) <= 2 &&
       m_NumberOfBins == 1u << bitsShift)
   {
     // Add padding so the center of bins are integers

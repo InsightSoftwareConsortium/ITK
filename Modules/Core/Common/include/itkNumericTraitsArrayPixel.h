@@ -112,8 +112,8 @@ public:
     return b;
   }
 
-  static constexpr bool IsSigned = std::is_signed<ValueType>::value;
-  static constexpr bool IsInteger = std::is_integral<ValueType>::value;
+  static constexpr bool IsSigned = std::is_signed_v<ValueType>;
+  static constexpr bool IsInteger = std::is_integral_v<ValueType>;
   static constexpr bool IsComplex = NumericTraits<ValueType>::IsComplex;
 
   /** Set the length of the input array and fill it with zeros. */

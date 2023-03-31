@@ -247,8 +247,7 @@ ITK_TEMPLATE_EXPORT void
 WriteImage(TImagePointer && image, const std::string & filename, bool compress = false)
 {
   using NonReferenceImagePointer = std::remove_reference_t<TImagePointer>;
-  static_assert(std::is_pointer<NonReferenceImagePointer>::value ||
-                  mpl::IsSmartPointer<NonReferenceImagePointer>::Value,
+  static_assert(std::is_pointer_v<NonReferenceImagePointer> || mpl::IsSmartPointer<NonReferenceImagePointer>::Value,
                 "WriteImage requires a raw pointer or SmartPointer.");
 
   using ImageType = std::remove_const_t<std::remove_reference_t<decltype(*image)>>;

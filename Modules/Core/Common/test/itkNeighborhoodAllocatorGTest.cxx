@@ -29,10 +29,10 @@ template <typename T>
 void
 Expect_data_returns_pointer_to_first_element(T & container)
 {
-  static_assert(std::is_pointer<decltype(container.data())>::value, "data() must return a pointer");
+  static_assert(std::is_pointer_v<decltype(container.data())>, "data() must return a pointer");
 
-  static_assert(std::is_const<std::remove_reference_t<decltype(*(container.data()))>>::value ==
-                  std::is_const<std::remove_reference_t<decltype(container[0])>>::value,
+  static_assert(std::is_const_v<std::remove_reference_t<decltype(*(container.data()))>> ==
+                  std::is_const_v<std::remove_reference_t<decltype(container[0])>>,
                 "*container.data() and container[0] must have the same const-ness");
 
   EXPECT_EQ(container.data(), &container[0]);
