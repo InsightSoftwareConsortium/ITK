@@ -43,7 +43,7 @@ namespace itk
  *
  * The following example adds 42 to each pixel, using a range-based for loop:
    \code
-   ImageRegionRange<ImageType> range{ *image, imageRegion };
+   ImageRegionRange range{ *image, imageRegion };
 
    for (auto&& pixel : range)
    {
