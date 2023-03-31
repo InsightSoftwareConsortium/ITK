@@ -120,8 +120,8 @@ CLANG_SUPPRESS_Wfloat_equal
     const MaskPixelType maskLabel = this->GetMaskLabel();
     const bool          useMaskLabel = this->GetUseMaskLabel();
 
-    const ImageBufferRange<RealImageType> logInputImageBufferRange{ *logInputImage };
-    const size_t                          numberOfPixels = logInputImageBufferRange.size();
+    const ImageBufferRange logInputImageBufferRange{ *logInputImage };
+    const size_t           numberOfPixels = logInputImageBufferRange.size();
 
     // Number of pixels of the input image that are included with the filter.
     size_t numberOfIncludedPixels = 0;
@@ -445,7 +445,7 @@ CLANG_SUPPRESS_Wfloat_equal
     // Sharpen the image with the new mapping, E(u|v)
     sharpenedImage->FillBuffer(0);
 
-    const ImageBufferRange<RealImageType> sharpenedImageBufferRange{ *sharpenedImage };
+    const ImageBufferRange sharpenedImageBufferRange{ *sharpenedImage };
 
     for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {

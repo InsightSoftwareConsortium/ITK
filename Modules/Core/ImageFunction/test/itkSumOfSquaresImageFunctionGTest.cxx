@@ -46,7 +46,7 @@ CreateImageFilledWithSequenceOfNaturalNumbers(const typename TImage::SizeType & 
   const auto image = TImage::New();
   image->SetRegions(imageSize);
   image->Allocate();
-  const auto imageBufferRange = itk::ImageBufferRange<TImage>{ *image };
+  const auto imageBufferRange = itk::ImageBufferRange{ *image };
   std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{ 1 });
   return image;
 }
@@ -158,7 +158,7 @@ TEST(SumOfSquaresImageFunction, EvaluateAtCenterPixelOfImageOfSize3x3)
 
   imageFunction->SetInputImage(image);
 
-  const auto imageBufferRange = itk::ImageBufferRange<const ImageType>{ *image };
+  const auto imageBufferRange = itk::ImageBufferRange{ *image };
 
   // Sum of squares of all pixels of the image:
   const auto expectedResult = std::accumulate(

@@ -333,7 +333,7 @@ public:
    * region, within the specified image.
    */
   explicit ImageRegionRange(TImage & image, const RegionType & iterationRegion)
-    : m_BufferBegin{ std::begin(ImageBufferRange<TImage>{ image }) }
+    : m_BufferBegin{ std::begin(ImageBufferRange{ image }) }
     ,
     // Note: Use parentheses instead of curly braces to initialize data members,
     // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
