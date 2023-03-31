@@ -70,7 +70,7 @@ MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator::GetInstance()
 {
   itkInitGlobalsMacro(PimplGlobals);
-  std::lock_guard mutexHolder(m_PimplGlobals->m_StaticInstanceLock);
+  const std::lock_guard mutexHolder(m_PimplGlobals->m_StaticInstanceLock);
 
   if (!m_PimplGlobals->m_StaticInstance)
   {

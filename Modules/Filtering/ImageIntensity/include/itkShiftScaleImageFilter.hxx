@@ -83,7 +83,7 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     progress.Completed(outputRegion.GetSize()[0]);
   }
 
-  std::lock_guard mutexHolder(m_Mutex);
+  const std::lock_guard mutexHolder(m_Mutex);
   m_OverflowCount += overflow;
   m_UnderflowCount += underflow;
 }
