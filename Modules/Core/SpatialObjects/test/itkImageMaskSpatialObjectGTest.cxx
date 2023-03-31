@@ -125,7 +125,7 @@ Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel
   // Set all pixels to non-zero.
   image->FillBuffer(1);
 
-  const itk::ImageBufferRange<ImageType> imageRange{ *image };
+  const itk::ImageBufferRange imageRange{ *image };
 
   for (auto && pixel : imageRange)
   {

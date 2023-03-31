@@ -44,7 +44,7 @@ namespace itk
  *
  * The following example adds 42 to each pixel, using a range-based for loop:
    \code
-   ImageBufferRange<ImageType> range{ *image };
+   ImageBufferRange range{ *image };
 
    for (auto&& pixel : range)
    {

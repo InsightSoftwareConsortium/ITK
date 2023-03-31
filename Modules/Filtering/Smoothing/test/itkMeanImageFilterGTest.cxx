@@ -68,7 +68,7 @@ CreateImageFilledWithSequenceOfNaturalNumbers(const typename TImage::RegionType 
   const auto image = TImage::New();
   image->SetRegions(imageRegion);
   image->Allocate();
-  const auto imageBufferRange = itk::ImageBufferRange<TImage>{ *image };
+  const auto imageBufferRange = itk::ImageBufferRange{ *image };
   std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{ 1 });
   return image;
 }
