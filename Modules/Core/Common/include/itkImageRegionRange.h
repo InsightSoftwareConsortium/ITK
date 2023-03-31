@@ -76,7 +76,7 @@ private:
   using ImageDimensionType = typename TImage::ImageDimensionType;
   using PixelType = typename TImage::PixelType;
 
-  static constexpr bool               IsImageTypeConst = std::is_const<TImage>::value;
+  static constexpr bool               IsImageTypeConst = std::is_const_v<TImage>;
   static constexpr ImageDimensionType ImageDimension = TImage::ImageDimension;
 
   using BufferIteratorType = typename ImageBufferRange<TImage>::iterator;

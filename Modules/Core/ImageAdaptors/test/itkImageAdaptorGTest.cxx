@@ -55,7 +55,7 @@ template <typename T1, typename T2>
 void
 Expect_same_type_and_equal_value(T1 && value1, T2 && value2)
 {
-  static_assert(std::is_same<T1, T2>::value, "Expect the same type!");
+  static_assert(std::is_same_v<T1, T2>, "Expect the same type!");
   EXPECT_EQ(value1, value2);
 }
 

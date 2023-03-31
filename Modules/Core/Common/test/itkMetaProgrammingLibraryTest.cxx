@@ -42,19 +42,19 @@ itkMetaProgrammingLibraryTest(int, char *[])
   static_assert(OrC<false, false>::Value == false, "Unit test failed");
 
   // Or between types
-  static_assert(std::is_same<Or<TrueType, TrueType, TrueType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<TrueType, TrueType, FalseType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<TrueType, FalseType, TrueType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<TrueType, FalseType, FalseType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<FalseType, TrueType, TrueType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<FalseType, TrueType, FalseType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<FalseType, FalseType, TrueType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<FalseType, FalseType, FalseType>::Type, FalseType>::value, "Unit test failed");
+  static_assert(std::is_same_v<Or<TrueType, TrueType, TrueType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<TrueType, TrueType, FalseType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<TrueType, FalseType, TrueType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<TrueType, FalseType, FalseType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<FalseType, TrueType, TrueType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<FalseType, TrueType, FalseType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<FalseType, FalseType, TrueType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<FalseType, FalseType, FalseType>::Type, FalseType>, "Unit test failed");
 
-  static_assert(std::is_same<Or<TrueType, TrueType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<TrueType, FalseType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<FalseType, TrueType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Or<FalseType, FalseType>::Type, FalseType>::value, "Unit test failed");
+  static_assert(std::is_same_v<Or<TrueType, TrueType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<TrueType, FalseType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<FalseType, TrueType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Or<FalseType, FalseType>::Type, FalseType>, "Unit test failed");
 
   // And between constants
   static_assert(AndC<true, true>::Value == true, "Unit test failed");
@@ -63,10 +63,10 @@ itkMetaProgrammingLibraryTest(int, char *[])
   static_assert(AndC<false, false>::Value == false, "Unit test failed");
 
   // And between types
-  static_assert(std::is_same<And<TrueType, TrueType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<And<TrueType, FalseType>::Type, FalseType>::value, "Unit test failed");
-  static_assert(std::is_same<And<FalseType, TrueType>::Type, FalseType>::value, "Unit test failed");
-  static_assert(std::is_same<And<FalseType, FalseType>::Type, FalseType>::value, "Unit test failed");
+  static_assert(std::is_same_v<And<TrueType, TrueType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<And<TrueType, FalseType>::Type, FalseType>, "Unit test failed");
+  static_assert(std::is_same_v<And<FalseType, TrueType>::Type, FalseType>, "Unit test failed");
+  static_assert(std::is_same_v<And<FalseType, FalseType>::Type, FalseType>, "Unit test failed");
 
   // Xor between constants
   static_assert(XorC<true, true>::Value == false, "Unit test failed");
@@ -75,18 +75,18 @@ itkMetaProgrammingLibraryTest(int, char *[])
   static_assert(XorC<false, false>::Value == false, "Unit test failed");
 
   // Xor between types
-  static_assert(std::is_same<Xor<TrueType, TrueType>::Type, FalseType>::value, "Unit test failed");
-  static_assert(std::is_same<Xor<TrueType, FalseType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Xor<FalseType, TrueType>::Type, TrueType>::value, "Unit test failed");
-  static_assert(std::is_same<Xor<FalseType, FalseType>::Type, FalseType>::value, "Unit test failed");
+  static_assert(std::is_same_v<Xor<TrueType, TrueType>::Type, FalseType>, "Unit test failed");
+  static_assert(std::is_same_v<Xor<TrueType, FalseType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Xor<FalseType, TrueType>::Type, TrueType>, "Unit test failed");
+  static_assert(std::is_same_v<Xor<FalseType, FalseType>::Type, FalseType>, "Unit test failed");
 
   // Not between constants
   static_assert(NotC<true>::Value == false, "Unit test failed");
   static_assert(NotC<false>::Value == true, "Unit test failed");
 
   // Not between types
-  static_assert(std::is_same<Not<TrueType>::Type, FalseType>::value, "Unit test failed");
-  static_assert(std::is_same<Not<FalseType>::Type, TrueType>::value, "Unit test failed");
+  static_assert(std::is_same_v<Not<TrueType>::Type, FalseType>, "Unit test failed");
+  static_assert(std::is_same_v<Not<FalseType>::Type, TrueType>, "Unit test failed");
 
   return EXIT_SUCCESS;
 }

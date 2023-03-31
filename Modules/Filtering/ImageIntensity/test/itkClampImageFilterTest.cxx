@@ -81,7 +81,7 @@ TestClampFromTo()
   auto filter = FilterType::New();
 
   filter->SetInput(source->GetOutput());
-  if (std::is_same<TInputPixelType, typename itk::NumericTraits<TOutputPixelType>::ValueType>::value)
+  if (std::is_same_v<TInputPixelType, typename itk::NumericTraits<TOutputPixelType>::ValueType>)
   {
     filter->InPlaceOn();
   }
@@ -194,7 +194,7 @@ TestClampFromToWithCustomBounds()
 
   filter->SetBounds(static_cast<TOutputPixelType>(5), static_cast<TOutputPixelType>(15));
   filter->SetInput(source->GetOutput());
-  if (std::is_same<TInputPixelType, typename itk::NumericTraits<TOutputPixelType>::ValueType>::value)
+  if (std::is_same_v<TInputPixelType, typename itk::NumericTraits<TOutputPixelType>::ValueType>)
   {
     filter->InPlaceOn();
   }

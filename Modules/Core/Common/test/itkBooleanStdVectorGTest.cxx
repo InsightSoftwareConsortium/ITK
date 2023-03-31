@@ -37,7 +37,7 @@ static_assert(bool{ ValueType{ false } } == false,
               "The value type of BooleanStdVectorType should support a lossless round-trip from bool value false.");
 static_assert(bool{ ValueType{ true } } == true,
               "The value type of BooleanStdVectorType should support a lossless round-trip from bool value true.");
-static_assert(std::is_same<decltype(*itk::BooleanStdVectorType{}.data()), ValueType &>::value,
+static_assert(std::is_same_v<decltype(*itk::BooleanStdVectorType{}.data()), ValueType &>,
               "BooleanStdVectorType should have a valid data() member function (unlike std::vector<bool>).");
 
 } // namespace

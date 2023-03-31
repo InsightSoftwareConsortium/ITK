@@ -163,11 +163,11 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
 #if !defined(ITK_LEGACY_REMOVE)
   static_assert(DoGFunctionType::ImageDimension2 == DoGFunctionType::ImageDimension,
                 "Check legacy support for ImageDimension2");
-  static_assert(std::is_same<DoGFunctionType::GaussianDerivativeFunctionType,
-                             DoGFunctionType::GaussianDerivativeSpatialFunctionType>::value,
+  static_assert(std::is_same_v<DoGFunctionType::GaussianDerivativeFunctionType,
+                               DoGFunctionType::GaussianDerivativeSpatialFunctionType>,
                 "Check legacy support for GaussianDerivativeFunctionType");
-  static_assert(std::is_same<DoGFunctionType::GaussianDerivativeFunctionPointer,
-                             DoGFunctionType::GaussianDerivativeSpatialFunctionPointer>::value,
+  static_assert(std::is_same_v<DoGFunctionType::GaussianDerivativeFunctionPointer,
+                               DoGFunctionType::GaussianDerivativeSpatialFunctionPointer>,
                 "Check legacy support for GaussianDerivativeFunctionPointer");
 #endif
 

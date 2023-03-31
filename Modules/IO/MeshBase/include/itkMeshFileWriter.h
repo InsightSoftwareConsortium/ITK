@@ -196,7 +196,7 @@ ITK_TEMPLATE_EXPORT void
 WriteMesh(TMeshPointer && mesh, const std::string & filename, bool compress = false)
 {
   using NonReferenceMeshPointer = std::remove_reference_t<TMeshPointer>;
-  static_assert(std::is_pointer<NonReferenceMeshPointer>::value || mpl::IsSmartPointer<NonReferenceMeshPointer>::Value,
+  static_assert(std::is_pointer_v<NonReferenceMeshPointer> || mpl::IsSmartPointer<NonReferenceMeshPointer>::Value,
                 "WriteMesh requires a raw pointer or SmartPointer.");
 
   using MeshType = std::remove_const_t<std::remove_reference_t<decltype(*mesh)>>;

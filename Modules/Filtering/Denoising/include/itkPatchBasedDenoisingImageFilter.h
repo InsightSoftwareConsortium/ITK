@@ -232,12 +232,10 @@ protected:
   GenerateInputRequestedRegion() override;
 
   template <typename T, typename U = void>
-  using DisableIfMultiComponent =
-    typename std::enable_if<std::is_same<T, typename NumericTraits<T>::ValueType>::value, U>;
+  using DisableIfMultiComponent = typename std::enable_if<std::is_same_v<T, typename NumericTraits<T>::ValueType>, U>;
 
   template <typename T, typename U = void>
-  using EnableIfMultiComponent =
-    typename std::enable_if<!std::is_same<T, typename NumericTraits<T>::ValueType>::value, U>;
+  using EnableIfMultiComponent = typename std::enable_if<!std::is_same_v<T, typename NumericTraits<T>::ValueType>, U>;
 
 
   /** \brief A method to generically get a component.

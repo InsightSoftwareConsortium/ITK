@@ -1204,7 +1204,7 @@ struct VariableLengthVectorExpression
   {
     // Not necessary actually as end-user/developer is not expected to
     // provide new BinaryOperations
-    static_assert(std::is_base_of<Details::op::BinaryOperationConcept, TBinaryOp>::value,
+    static_assert(std::is_base_of_v<Details::op::BinaryOperationConcept, TBinaryOp>,
                   "The Binary Operation shall inherit from BinaryOperationConcept");
   }
 

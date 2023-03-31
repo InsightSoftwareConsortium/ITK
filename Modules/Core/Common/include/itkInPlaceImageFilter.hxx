@@ -120,7 +120,7 @@ template <typename TInputImage, typename TOutputImage>
 bool
 InPlaceImageFilter<TInputImage, TOutputImage>::CanRunInPlace() const
 {
-  return std::is_same<TInputImage, TOutputImage>::value;
+  return std::is_same_v<TInputImage, TOutputImage>;
 }
 
 template <typename TInputImage, typename TOutputImage>

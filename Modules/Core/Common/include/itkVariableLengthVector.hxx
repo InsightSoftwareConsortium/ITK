@@ -262,10 +262,10 @@ void
 VariableLengthVector<TValue>::SetSize(unsigned int sz, TReallocatePolicy reallocatePolicy, TKeepValuesPolicy keepValues)
 {
   static_assert(
-    std::is_base_of<AllocateRootPolicy, TReallocatePolicy>::value,
+    std::is_base_of_v<AllocateRootPolicy, TReallocatePolicy>,
     "The allocation policy does not inherit from itk::VariableLengthVector::AllocateRootPolicy as expected");
   static_assert(
-    std::is_base_of<KeepValuesRootPolicy, TKeepValuesPolicy>::value,
+    std::is_base_of_v<KeepValuesRootPolicy, TKeepValuesPolicy>,
     "The old values keeping policy does not inherit from itk::VariableLengthVector::KeepValuesRootPolicy as expected");
 
   if (reallocatePolicy(sz, m_NumElements) || !m_LetArrayManageMemory)

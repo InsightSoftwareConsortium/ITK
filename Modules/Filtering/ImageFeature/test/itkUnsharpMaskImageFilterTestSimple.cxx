@@ -132,7 +132,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
   filter->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, filter->GetThreshold());
 
-  const bool clamp = std::is_integral<UnsharpMaskImageFilterFilterType::OutputPixelType>::value;
+  const bool clamp = std::is_integral_v<UnsharpMaskImageFilterFilterType::OutputPixelType>;
   filter->SetClamp(clamp);
   ITK_TEST_SET_GET_VALUE(clamp, filter->GetClamp());
 

@@ -520,10 +520,10 @@ struct AlmostEqualsFunctionSelector<true, false, true, false>
 template <typename TInputType1, typename TInputType2>
 struct AlmostEqualsScalarImplementer
 {
-  static constexpr bool TInputType1IsInteger = std::is_integral<TInputType1>::value;
-  static constexpr bool TInputType1IsSigned = std::is_signed<TInputType1>::value;
-  static constexpr bool TInputType2IsInteger = std::is_integral<TInputType2>::value;
-  static constexpr bool TInputType2IsSigned = std::is_signed<TInputType2>::value;
+  static constexpr bool TInputType1IsInteger = std::is_integral_v<TInputType1>;
+  static constexpr bool TInputType1IsSigned = std::is_signed_v<TInputType1>;
+  static constexpr bool TInputType2IsInteger = std::is_integral_v<TInputType2>;
+  static constexpr bool TInputType2IsSigned = std::is_signed_v<TInputType2>;
 
   using SelectedVersion = typename AlmostEqualsFunctionSelector<TInputType1IsInteger,
                                                                 TInputType1IsSigned,
@@ -781,7 +781,7 @@ template <typename TReturnType = uintmax_t>
 constexpr TReturnType
 UnsignedProduct(const uintmax_t a, const uintmax_t b) noexcept
 {
-  static_assert(std::is_unsigned<TReturnType>::value, "UnsignedProduct only supports unsigned return types");
+  static_assert(std::is_unsigned_v<TReturnType>, "UnsignedProduct only supports unsigned return types");
 
   // Note that numeric overflow is not "undefined behavior", for unsigned numbers.
   // This function checks if the result of a*b is mathematically correct.
@@ -803,7 +803,7 @@ template <typename TReturnType = uintmax_t>
 constexpr TReturnType
 UnsignedPower(const uintmax_t base, const uintmax_t exponent) noexcept
 {
-  static_assert(std::is_unsigned<TReturnType>::value, "UnsignedPower only supports unsigned return types");
+  static_assert(std::is_unsigned_v<TReturnType>, "UnsignedPower only supports unsigned return types");
 
   // Uses recursive function calls because C++11 does not support other ways of
   // iterations for a constexpr function.

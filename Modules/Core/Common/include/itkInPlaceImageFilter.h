@@ -147,7 +147,7 @@ protected:
   void
   AllocateOutputs() override
   {
-    if (std::is_same<TInputImage, TOutputImage>::value)
+    if (std::is_same_v<TInputImage, TOutputImage>)
     {
       this->InternalAllocateOutputs();
     }

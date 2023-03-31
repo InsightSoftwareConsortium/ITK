@@ -234,9 +234,9 @@ struct IsSmartPointer<const SmartPointer<T>> : TrueType
  * Identifies if "static_cast<TToType>(TFromType)" can be done.
  */
 template <typename TFromType, typename TToType>
-using is_static_castable = std::integral_constant<bool,
-                                                  std::is_constructible<TToType, TFromType>::value ||
-                                                    std::is_convertible<TFromType, TToType>::value>;
+using is_static_castable =
+  std::integral_constant<bool,
+                         std::is_constructible_v<TToType, TFromType> || std::is_convertible_v<TFromType, TToType>>;
 } // namespace mpl
 
 

@@ -31,9 +31,9 @@ template <typename T>
 constexpr bool
 AllSpecialMemberFunctionsNoThrow()
 {
-  return std::is_nothrow_default_constructible<T>::value && std::is_nothrow_copy_constructible<T>::value &&
-         std::is_nothrow_copy_assignable<T>::value && std::is_nothrow_move_constructible<T>::value &&
-         std::is_nothrow_move_assignable<T>::value && std::is_nothrow_destructible<T>::value;
+  return std::is_nothrow_default_constructible_v<T> && std::is_nothrow_copy_constructible_v<T> &&
+         std::is_nothrow_copy_assignable_v<T> && std::is_nothrow_move_constructible_v<T> &&
+         std::is_nothrow_move_assignable_v<T> && std::is_nothrow_destructible_v<T>;
 }
 
 } // namespace

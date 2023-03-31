@@ -217,7 +217,7 @@ CheckSignedAndIntegerTraitsSameAsSTDNumericLimits(const char * const name)
     std::cout << "\tERROR:  IsSigned definitions for itk::NumericTraits and std::numeric_limits do not match!! ERROR!!"
               << std::endl;
     std::cout << "\tFor type: \t" << name << std::endl;
-    std::cout << "\tITK signed Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed<T>::value ? "true" : "false")
+    std::cout << "\tITK signed Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed_v<T> ? "true" : "false")
               << std::endl;
     std::cout << "\tstd signed Value for:\t<  " << name << "  >\tis:\t"
               << (std::numeric_limits<T>::is_signed ? "true" : "false") << std::endl;
@@ -226,13 +226,13 @@ CheckSignedAndIntegerTraitsSameAsSTDNumericLimits(const char * const name)
   else
   {
     std::cout << "\tSUCCESS:  IsSigned definition for itk::NumericTraits matches std::numeric_limits" << std::endl;
-    std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed<T>::value ? "true" : "false")
+    std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed_v<T> ? "true" : "false")
               << std::endl;
   }
 
   // test for IsInteger
   if ((itk::NumericTraits<T>::IsInteger != std::numeric_limits<T>::is_integer) ||
-      (itk::NumericTraits<T>::IsInteger != std::is_integral<T>::value))
+      (itk::NumericTraits<T>::IsInteger != std::is_integral_v<T>))
   {
     std::cout << "\tERROR:  IsInteger definitions for itk::NumericTraits and std::numeric_limits do not match!! ERROR!!"
               << std::endl;
@@ -242,13 +242,13 @@ CheckSignedAndIntegerTraitsSameAsSTDNumericLimits(const char * const name)
     std::cout << "\tstd numeric_limists::is_integer value for:\t<  " << name << "  >\tis:\t"
               << (std::numeric_limits<T>::is_integer ? "true" : "false") << std::endl;
     std::cout << "\tstd is_integral value for:\t<  " << name << "  >\tis:\t"
-              << (std::is_integral<T>::value ? "true" : "false") << std::endl;
+              << (std::is_integral_v<T> ? "true" : "false") << std::endl;
     didTestPass = false;
   }
   else
   {
     std::cout << "\tSUCCESS:  IsInteger definition for itk::NumericTraits matches std::numeric_limits" << std::endl;
-    std::cout << "\tInteger Value for:\t<  " << name << "  >\tis:\t" << (std::is_integral<T>::value ? "true" : "false")
+    std::cout << "\tInteger Value for:\t<  " << name << "  >\tis:\t" << (std::is_integral_v<T> ? "true" : "false")
               << std::endl;
   }
   std::cout << std::endl;

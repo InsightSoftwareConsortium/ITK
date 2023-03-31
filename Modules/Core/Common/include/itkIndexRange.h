@@ -319,7 +319,7 @@ public:
     // Three compile-time asserts, just to check if SFINAE worked properly:
     static_assert(!VIsSubstitutionFailure,
                   "This template should (of course) be instantiated without substitution failure.");
-    static_assert(std::is_same<TVoid, void>::value,
+    static_assert(std::is_same_v<TVoid, void>,
                   "std::enable_if<!VIsSubstitutionFailure> should yield void, by definition.");
     static_assert(!VBeginAtZero, "This constructor should only be is available when VBeginAtZero is false.");
   }

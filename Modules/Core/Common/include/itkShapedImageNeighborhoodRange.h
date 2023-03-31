@@ -116,8 +116,8 @@ private:
   public:
     // This constant tells whether the policy has a PixelAccessParameterType:
     static constexpr bool HasPixelAccessParameterType =
-      !std::is_same<decltype(Test<TImageNeighborhoodPixelAccessPolicy>(nullptr)),
-                    decltype(Test<TImageNeighborhoodPixelAccessPolicy>())>::value;
+      !std::is_same_v<decltype(Test<TImageNeighborhoodPixelAccessPolicy>(nullptr)),
+                      decltype(Test<TImageNeighborhoodPixelAccessPolicy>())>;
   };
 
 
@@ -296,7 +296,7 @@ private:
     // Image type class that is either 'const' or non-const qualified, depending on QualifiedIterator and TImage.
     using QualifiedImageType = std::conditional_t<VIsConst, const ImageType, ImageType>;
 
-    static constexpr bool IsImageTypeConst = std::is_const<QualifiedImageType>::value;
+    static constexpr bool IsImageTypeConst = std::is_const_v<QualifiedImageType>;
 
     using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
 
@@ -358,9 +358,9 @@ private:
     TImageNeighborhoodPixelAccessPolicy
     CreatePixelAccessPolicy(const TPixelAccessParameter pixelAccessParameter) const
     {
-      static_assert(std::is_same<TPixelAccessParameter, OptionalPixelAccessParameterType>::value,
+      static_assert(std::is_same_v<TPixelAccessParameter, OptionalPixelAccessParameterType>,
                     "This helper function should only be used for OptionalPixelAccessParameterType!");
-      static_assert(!std::is_same<TPixelAccessParameter, EmptyPixelAccessParameter>::value,
+      static_assert(!std::is_same_v<TPixelAccessParameter, EmptyPixelAccessParameter>,
                     "EmptyPixelAccessParameter indicates that there is no pixel access parameter specified!");
       return TImageNeighborhoodPixelAccessPolicy{
         m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_RelativeLocation + *m_CurrentOffset, pixelAccessParameter
@@ -576,7 +576,7 @@ private:
     operator=(const QualifiedIterator &) noexcept = default;
   };
 
-  static constexpr bool IsImageTypeConst = std::is_const<TImage>::value;
+  static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
 
   using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
 

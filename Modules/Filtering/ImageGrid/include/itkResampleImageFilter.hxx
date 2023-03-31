@@ -303,9 +303,8 @@ auto
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
   CastComponentWithBoundsChecking(const TComponent value) -> PixelComponentType
 {
-  static_assert(std::is_same<TComponent, ComponentType>::value,
-                "TComponent should just be the same as the ComponentType!");
-  static_assert(!std::is_same<TComponent, PixelComponentType>::value,
+  static_assert(std::is_same_v<TComponent, ComponentType>, "TComponent should just be the same as the ComponentType!");
+  static_assert(!std::is_same_v<TComponent, PixelComponentType>,
                 "For PixelComponentType there is a more appropriate overload, that should be called instead!");
 
   // Retrieve minimum and maximum values at compile-time:
@@ -341,9 +340,9 @@ auto
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
   CastPixelWithBoundsChecking(const TPixel value) -> PixelType
 {
-  static_assert(std::is_same<TPixel, InterpolatorOutputType>::value,
+  static_assert(std::is_same_v<TPixel, InterpolatorOutputType>,
                 "TPixel should just be the same as the InterpolatorOutputType!");
-  static_assert(!std::is_same<TPixel, ComponentType>::value,
+  static_assert(!std::is_same_v<TPixel, ComponentType>,
                 "For ComponentType there is a more efficient overload, that should be called instead!");
 
   const unsigned int nComponents = InterpolatorConvertType::GetNumberOfComponents(value);

@@ -333,7 +333,7 @@ MakeVector(const TValue firstValue, const TVariadic... otherValues)
 {
   // Assert that the other values have the same type as the first value.
   const auto assertSameType = [](const auto value) {
-    static_assert(std::is_same<decltype(value), const TValue>::value, "Each value must have the same type!");
+    static_assert(std::is_same_v<decltype(value), const TValue>, "Each value must have the same type!");
     return true;
   };
   const bool assertions[] = { true, assertSameType(otherValues)... };

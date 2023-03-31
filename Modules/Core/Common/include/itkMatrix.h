@@ -233,7 +233,7 @@ public:
   explicit Matrix(const TElement (&elements)[VRows][VColumns])
     : m_Matrix(&elements[0][0])
   {
-    static_assert(std::is_same<TElement, T>::value,
+    static_assert(std::is_same_v<TElement, T>,
                   "The type of an element should correspond with this itk::Matrix instantiation.");
   }
 

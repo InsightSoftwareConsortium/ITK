@@ -60,8 +60,8 @@ TEST(Point, CanBeConstructedByStdArray)
 
 TEST(Point, Make)
 {
-  static_assert(std::is_same<decltype(itk::MakePoint(0))::ValueType, int>::value &&
-                  std::is_same<decltype(itk::MakePoint(0.0))::ValueType, double>::value,
+  static_assert(std::is_same_v<decltype(itk::MakePoint(0))::ValueType, int> &&
+                  std::is_same_v<decltype(itk::MakePoint(0.0))::ValueType, double>,
                 "The value type of the created point should be the same as the type of the (first) argument");
 
   static_assert((decltype(itk::MakePoint(1, 1))::Dimension == 2) && (decltype(itk::MakePoint(1, 1, 1))::Dimension == 3),

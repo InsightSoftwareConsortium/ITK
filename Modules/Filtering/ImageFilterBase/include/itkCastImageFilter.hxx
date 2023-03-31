@@ -119,7 +119,7 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
   // Implementation for non-implicit convertible pixels which are
   // itk-array-like.
 
-  static_assert(std::is_convertible<typename InputPixelType::ValueType, typename OutputPixelType::ValueType>::value,
+  static_assert(std::is_convertible_v<typename InputPixelType::ValueType, typename OutputPixelType::ValueType>,
                 "Component types are required to be convertible.");
 
   const typename OutputImageRegionType::SizeType & regionSize = outputRegionForThread.GetSize();
