@@ -322,7 +322,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateCluste
   }
 
   // TODO improve merge algorithm
-  std::lock_guard mutexHolder(m_Mutex);
+  const std::lock_guard mutexHolder(m_Mutex);
   m_UpdateClusterPerThread.push_back(clusterMap);
 }
 

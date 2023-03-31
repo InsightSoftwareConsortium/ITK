@@ -187,7 +187,7 @@ protected:
   {
     if (m_Process)
     {
-      std::lock_guard outputSerializer(m_ProgressOutput);
+      const std::lock_guard outputSerializer(m_ProgressOutput);
       ++m_Steps;
       if (!m_Quiet)
       {

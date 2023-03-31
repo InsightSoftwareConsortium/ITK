@@ -219,7 +219,7 @@ ImageToHistogramFilter<TImage>::ThreadedComputeMinimumAndMaximum(const RegionTyp
     ++inputIt;
   }
 
-  std::lock_guard mutexHolder(m_Mutex);
+  const std::lock_guard mutexHolder(m_Mutex);
   for (unsigned int i = 0; i < nbOfComponents; ++i)
   {
     m_Minimum[i] = std::min(m_Minimum[i], min[i]);

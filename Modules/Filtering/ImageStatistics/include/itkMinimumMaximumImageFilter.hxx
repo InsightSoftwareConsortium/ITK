@@ -112,7 +112,7 @@ MinimumMaximumImageFilter<TInputImage>::ThreadedStreamedGenerateData(const Regio
     it.NextLine();
   }
 
-  std::lock_guard mutexHolder(m_Mutex);
+  const std::lock_guard mutexHolder(m_Mutex);
   m_ThreadMin = std::min(localMin, m_ThreadMin);
   m_ThreadMax = std::max(localMax, m_ThreadMax);
 }
