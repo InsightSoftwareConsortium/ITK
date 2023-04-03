@@ -79,7 +79,7 @@ public:
   Lock();
 
   /** Non-blocking Lock access.
-   \return bool - true if lock is captured, false if it was already heald by someone else.
+   \return bool - true if lock is captured, false if it was already held by someone else.
    */
   bool
   TryLock();
@@ -138,7 +138,7 @@ public:
   Lock();
 
   /** Non-blocking Lock access.
-   \return bool - true if lock is captured, false if it was already heald by someone else.
+   \return bool - true if lock is captured, false if it was already held by someone else.
    */
   bool
   TryLock();

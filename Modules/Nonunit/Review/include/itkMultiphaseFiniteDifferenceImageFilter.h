@@ -516,7 +516,7 @@ protected:
    *        calls to ThreadedGenerateData.
    *
    * \param valid The set of flags indicating which of "timeStepList" elements are
-   *  valid. Although they are uint8_t, they should be treated like bools.
+   *  valid. Although they are uint8_t, they should be treated like booleans.
    *
    * The default is to return the minimum value in the list. */
   inline TimeStepType

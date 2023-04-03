@@ -58,7 +58,7 @@ extern ITKCOMMON_DEPRECATED_EXPORT std::ostream &
  *  - TreeRemoveEvent: when a single node has been removed, i.e. Disconnect() has been called.
  *  - TreePruneEvent: when a node and all its children were removed, i.e. Remove() has been called.
  *
- *  All those events have a member GetChangePosition(), which returns an iterator to the position that has changd.
+ *  All those events have a member GetChangePosition(), which returns an iterator to the position that has changed.
  * Please note that this iterator may not be fully functional, but you should always be able to use its Get() method to
  * retrieve the thing it points to.
  *

@@ -251,7 +251,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   //          even though the Mesh represents a triangulation)
   //          the result of this method is not unique in the sense
   //          that the result depends on the edgeTest parameter.
-  //          Let us illusatre this dependence by considering a
+  //          Let us illustrate this dependence by considering a
   //          Mesh (which is a triangulation) which is not a 2-manifold.
   //          Assume the point P (the origin of "this" edge i.e.
   //          P = this->Originv()) is TWICE on the border i.e. it
@@ -407,7 +407,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::ReorderOn
   //   - p denotes some generic point,
   //   - A and B denote some specific points we want to discuss,
   //   - the Onext() ring order is represented counter-clockwise
-  //     [which is coherent with the definition of edge->GetRigth()]
+  //     [which is coherent with the definition of edge->GetRight()]
   //     i.e. the ordering of the edges is:
   //          b1, b2, b3, b4, b5, b6, b1...
   //

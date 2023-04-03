@@ -1187,7 +1187,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
   }
 
   // This indicates that the current BufferedRegion is equal to the
-  // requested region. This action prevents useless rexecutions of
+  // requested region. This action prevents useless re-executions of
   // the pipeline.
   this->m_OutputMesh->SetBufferedRegion(this->GetOutput()->GetRequestedRegion());
 }

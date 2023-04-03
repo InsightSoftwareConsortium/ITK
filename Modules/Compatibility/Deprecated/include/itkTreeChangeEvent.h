@@ -232,7 +232,7 @@ public:
 };
 
 /** \class TreePruneEvent
- *  \brief Signals that a node and all its childs will shortly be
+ *  \brief Signals that a node and all its children will shortly be
  *         removed. The position of the top-level removed node is provided.
  * \ingroup ITKDeprecated
  */

@@ -263,8 +263,8 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Splice(QEPrimal * a, QEPrimal * b) ->
      *                  \              /
      *                   V ----a->--- V
      *
-     * Basically, we accept to proceed with spliting if there is a
-     * single face on the left and this face is at least an hexagone
+     * Basically, we accept to proceed with splitting if there is a
+     * single face on the left and this face is at least a hexagon
      * and the vertices we wish to splice are at least two vertices aside.
      */
 
@@ -320,7 +320,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Splice(QEPrimal * a, QEPrimal * b) ->
     ///////////////////////////////////////////////////////////////
     // Now that we are done with the handling of the geometry of
     // vertices proceed with the geometry of the faces. When we
-    // are spliting a face (through Splicing) we must construct two
+    // are splitting a face (through Splicing) we must construct two
     // new faces:
     if (MustReconstructFace)
     {
@@ -555,7 +555,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::DeletePoint(const PointIdentifier & p
   // Remove the point from the points container
   this->GetPoints()->DeleteIndex(pid);
 
-  // Check if there is associated poindata and eventually delete them
+  // Check if there is associated pointData and eventually delete them
   if (this->GetPointData()->Size() > 0)
   {
     this->GetPointData()->DeleteIndex(pid);
@@ -849,7 +849,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::DeleteEdge(QEPrimal * e)
     ++cit;
   }
 
-  // we checked all the cells i nthe container
+  // we checked all the cells in the container
   // now delete the elements in the map
   auto                                     dit = cellsToDelete.begin();
   const typename DeleteCellsCont::iterator dend = cellsToDelete.end();

@@ -322,7 +322,7 @@ Versor<T>::Set(const MatrixType & mat)
   // const double epsilon = 1e-30;
   // Keep the epsilon value large enough so that the alternate routes of
   // computing the quaternion are used to within floating point precision of the
-  // math to be used.  Using 1e-30 results in degenerate matries for rotations
+  // math to be used.  Using 1e-30 results in degenerate matrices for rotations
   // near itk::Math::pi due to imprecision of the math.  0.5/std::sqrt(trace) is
   // not accurate to 1e-30, so the resulting matrices would have very large
   // errors.  By decreasing this epsilon value to a higher tolerance, the

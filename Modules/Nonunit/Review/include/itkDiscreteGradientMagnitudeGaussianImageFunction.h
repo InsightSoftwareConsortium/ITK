@@ -221,7 +221,7 @@ private:
   unsigned int m_MaximumKernelWidth{ 30 };
 
   /** Array of derivative operators, one for each dimension and order.
-   * First N zero-rder operators are stored, then N first-order making
+   * First N zero-order operators are stored, then N first-order making
    * 2*N operators altogether where N=ImageDimension */
   GaussianDerivativeOperatorArrayType m_OperatorArray{};
 

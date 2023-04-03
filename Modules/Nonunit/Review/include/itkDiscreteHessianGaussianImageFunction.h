@@ -107,7 +107,7 @@ public:
 #endif
 
 public:
-  /** Evalutate the  in the given dimension at specified point */
+  /** Evaluate the  in the given dimension at specified point */
   OutputType
   Evaluate(const PointType & point) const override;
 

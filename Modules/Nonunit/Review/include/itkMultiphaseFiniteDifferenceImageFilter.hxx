@@ -40,7 +40,7 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
 
   if (!this->m_InitializedState)
   {
-    // Set the coefficients for the deriviatives
+    // Set the coefficients for the derivatives
     double       coeffs[ImageDimension];
     unsigned int i;
     if (m_UseImageSpacing)

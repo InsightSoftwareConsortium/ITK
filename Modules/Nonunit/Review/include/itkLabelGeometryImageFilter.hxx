@@ -1058,7 +1058,7 @@ LabelGeometryImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, Inde
     os << "\t Bounding box: " << mapIt->second.m_BoundingBox;
     os << "\t Bounding box volume: " << mapIt->second.m_BoundingBoxVolume;
     os << "\t Bounding box size: " << mapIt->second.m_BoundingBoxSize;
-    // Oriented bounding box verticies
+    // Oriented bounding box vertices
     os << "\t Oriented bounding box volume: " << mapIt->second.m_OrientedBoundingBoxVolume;
     os << "\t Oriented bounding box size: " << mapIt->second.m_OrientedBoundingBoxSize;
     // Rotation matrix

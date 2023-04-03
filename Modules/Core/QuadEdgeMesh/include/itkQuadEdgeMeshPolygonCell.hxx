@@ -68,7 +68,7 @@ QuadEdgeMeshPolygonCell<TCellInterface>::~QuadEdgeMeshPolygonCell()
 {
   // this disconnect this cell from the
   // QuadEdgeMesh container if there was any.
-  // poping this cell from the container is supposed to
+  // popping this cell from the container is supposed to
   // have been done beforehand.
   this->m_Ident = 0;
 

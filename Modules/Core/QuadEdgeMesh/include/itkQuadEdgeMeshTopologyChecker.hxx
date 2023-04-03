@@ -106,14 +106,14 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
           }
         }
       }
-      else // cell->GetQEGEom( ) == nullptr
+      else // cell->GetQEGeom( ) == nullptr
       {
-        // supposely impossible, throw exception
+        // supposedly impossible, throw exception
       }
     }
 
     ++cellIterator;
-  } // endof while
+  } // end of while
 
   return (true);
 }

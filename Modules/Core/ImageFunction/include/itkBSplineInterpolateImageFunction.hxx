@@ -514,7 +514,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::Evalua
   // perform interpolation
   double    interpolated = 0.0;
   IndexType coefficientIndex;
-  // Step through eachpoint in the n-dimensional interpolation cube.
+  // Step through each point in the n-dimensional interpolation cube.
   for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; ++p)
   {
     double w = 1.0;

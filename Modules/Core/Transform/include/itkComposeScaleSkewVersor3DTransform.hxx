@@ -320,7 +320,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithResp
   //        [2*(v0*v1+v2*w), 1-2*(v0*v0+v2*v2), 2*(v1*v2-v0*w), o1],
   //        [2*(v0*v2-v1*w), 2*(v1*v2+v0*w), 1-2*(v0*v0+v1*v1), o2],
   //        [0, 0, 0, 1]])
-  // # Quaterion to Matrix from:
+  // # Quaternion to Matrix from:
   // #  https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
   // S = Matrix([[s0, 0, 0, 0], [0, s1, 0, 0], [0, 0, s2, 0], [0, 0, 0, 1]])
   // K = Matrix([[1, k0, k1, 0], [0, 1, k2, 0], [0, 0, 1, 0], [0, 0, 0, 1]])

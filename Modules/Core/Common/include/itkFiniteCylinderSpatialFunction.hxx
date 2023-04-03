@@ -27,7 +27,7 @@ template <unsigned int VDimension, typename TInput>
 FiniteCylinderSpatialFunction<VDimension, TInput>::FiniteCylinderSpatialFunction()
 {
   // a normalized {1,1,...1} vector is
-  // { 1.0 / sqrt( VDmim ), ... }
+  // { 1.0 / sqrt( VDim ), ... }
   const double orientationVal = 1.0 / std::sqrt(static_cast<double>(VDimension));
   m_Orientation.Fill(orientationVal);
   m_NormalizedOrientation.Fill(orientationVal);

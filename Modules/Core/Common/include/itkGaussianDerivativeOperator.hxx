@@ -69,11 +69,11 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients
   // copy the gaussian operator adding clamped boundary condition
   CoefficientVector paddedCoeff(coeff.size() + 4 * N - 2);
 
-  // copy the whole gaussuan operator in coeff to paddedCoef
+  // copy the whole gaussian operator in coeff to paddedCoef
   // starting after the padding
   std::copy(coeff.begin(), coeff.end(), paddedCoeff.begin() + 2 * N - 1);
 
-  // padd paddedCoeff with 2*N-1 number of boundary conditions
+  // pad paddedCoeff with 2*N-1 number of boundary conditions
   std::fill(paddedCoeff.begin(), paddedCoeff.begin() + 2 * N, coeff.front());
   std::fill(paddedCoeff.rbegin(), paddedCoeff.rbegin() + 2 * N, coeff.back());
 

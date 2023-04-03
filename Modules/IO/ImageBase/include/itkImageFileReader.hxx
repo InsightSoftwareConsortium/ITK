@@ -406,7 +406,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     m_ImageIO->Read(static_cast<void *>(loadBuffer.get()));
 
     // See note below as to why the buffered region is needed and
-    // not actualIOregion
+    // not actualIORegion
     this->DoConvertBuffer(static_cast<void *>(loadBuffer.get()), output->GetBufferedRegion().GetNumberOfPixels());
   }
   else if (m_ActualIORegion.GetNumberOfPixels() != output->GetBufferedRegion().GetNumberOfPixels())

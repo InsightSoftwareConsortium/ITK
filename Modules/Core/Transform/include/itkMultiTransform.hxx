@@ -276,7 +276,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::UpdateTransfor
    * not implement any threading of their own for UpdateTransformParameters.
    * Since the plan is for an UpdateTransformParameters functor that is
    * user-assignable, we would need a method in the
-   * functor to return whether or not it does therading. If all sub-transforms
+   * functor to return whether or not it does threading. If all sub-transforms
    * return that they don't thread, we could do each sub-transform in its
    * own thread from here. */
   NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
@@ -301,12 +301,12 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::UpdateTransfor
      * memory is allocated or copied.
      * NOTE: the use of const_cast is used to avoid a deep copy in the underlying vnl_vector
      * by using LetArrayManageMemory=false, and being very careful here we can
-     * ensure that casting away consteness does not result in memory corruption. */
+     * ensure that casting away const-ness does not result in memory corruption. */
     auto * nonConstDataRefForPerformance =
       const_cast<typename DerivativeType::ValueType *>(&((update.data_block())[offset]));
     const DerivativeType subUpdate(nonConstDataRefForPerformance, subtransform->GetNumberOfParameters(), false);
     /* This call will also call SetParameters, so don't need to call it
-     * expliclity here. */
+     * explicitly here. */
     subtransform->UpdateTransformParameters(subUpdate, factor);
     offset += subtransform->GetNumberOfParameters();
   }
@@ -320,7 +320,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetInverse(Sel
 {
   typename TransformQueueType::const_iterator it;
 
-  // NOTE: MultiTransform delegagtes to
+  // NOTE: MultiTransform delegates to
   //      individual transform for setting FixedParameters
   //      inverse->SetFixedParameters( this->GetFixedParameters() );
   inverse->ClearTransformQueue();
