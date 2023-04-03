@@ -830,7 +830,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeActiveLayer
     length = std::sqrt(static_cast<double>(length)) + MIN_NORM;
     distance = shiftedIt.GetCenterPixel() / length;
 
-    output->SetPixel(activeIt->m_Value, std::min(std::max(-CHANGE_FACTOR, distance), CHANGE_FACTOR));
+    output->SetPixel(activeIt->m_Value, std::clamp(distance, -CHANGE_FACTOR, CHANGE_FACTOR));
   }
 }
 

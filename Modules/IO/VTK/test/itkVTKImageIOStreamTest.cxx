@@ -242,7 +242,7 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
   }
 
   // Simulate streaming and compares regions
-  numberOfStreams = std::max(1u, std::min(static_cast<unsigned int>(size[TDimension - 1]), numberOfStreams));
+  numberOfStreams = std::clamp(numberOfStreams, 1u, static_cast<unsigned int>(size[TDimension - 1]));
   typename ImageType::SizeValueType width = (size[TDimension - 1] + numberOfStreams - 1) / numberOfStreams;
   typename ImageType::RegionType    totalRegion = consValueImage->GetLargestPossibleRegion();
 

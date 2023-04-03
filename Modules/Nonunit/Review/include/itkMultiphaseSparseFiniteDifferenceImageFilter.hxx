@@ -751,7 +751,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
       distance = outputIt.GetCenterPixel() / gradientMagnitude;
 
       // Insert in the update buffer
-      sparsePtr->m_UpdateBuffer.push_back(std::min(std::max(-MIN_NORM, distance), MIN_NORM));
+      sparsePtr->m_UpdateBuffer.push_back(std::clamp(distance, -MIN_NORM, MIN_NORM));
       ++activeIt;
     }
 
