@@ -519,7 +519,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeAct
     length = std::sqrt(length) + MIN_NORM;
     distance = shiftedIt.GetCenterPixel() / length;
 
-    m_OutputImage->SetPixel(activeIt->m_Index, std::min(std::max(-CHANGE_FACTOR, distance), CHANGE_FACTOR));
+    m_OutputImage->SetPixel(activeIt->m_Index, std::clamp(distance, -CHANGE_FACTOR, CHANGE_FACTOR));
   }
 }
 

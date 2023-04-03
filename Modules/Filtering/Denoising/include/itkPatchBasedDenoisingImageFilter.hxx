@@ -521,7 +521,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
       const unsigned int interval = (patchRadius + 1) - discRadius;
       const float        weight = (-2.0 / pow(interval, 3.0)) * pow((patchRadius + 1) - distanceFromCenter, 3.0f) +
                            (3.0 / pow(interval, 2.0)) * pow((patchRadius + 1) - distanceFromCenter, 2.0f);
-      pwIt.Set(std::max(static_cast<float>(0), std::min(static_cast<float>(1), weight)));
+      pwIt.Set(std::clamp(weight, 0.0f, 1.0f));
     }
   }
 

@@ -92,7 +92,7 @@ TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, co
 
   CoordRepType bound(0.999999);
 
-  CoordRepType cos_theta = std::max(-bound, std::min(bound, v21 * v23));
+  CoordRepType cos_theta = std::clamp(v21 * v23, -bound, bound);
 
   return 1.0 / std::tan(std::acos(cos_theta));
 }
@@ -152,7 +152,7 @@ TriangleHelper<TPoint>::ComputeAngle(const PointType & iP1, const PointType & iP
 
   CoordRepType bound(0.999999);
 
-  CoordRepType cos_theta = std::max(-bound, std::min(bound, v21 * v23));
+  CoordRepType cos_theta = std::clamp(v21 * v23, -bound, bound);
 
   return std::acos(cos_theta);
 }

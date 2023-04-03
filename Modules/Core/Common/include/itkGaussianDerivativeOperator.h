@@ -174,7 +174,7 @@ public:
     constexpr double Min = 0.00001;
     const double     Max = 1.0 - Min;
 
-    m_MaximumError = std::max(Min, std::min(Max, maxerror));
+    m_MaximumError = std::clamp(maxerror, Min, Max);
   }
   double
   GetMaximumError()
