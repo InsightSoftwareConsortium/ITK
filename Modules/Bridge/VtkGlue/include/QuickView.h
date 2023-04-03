@@ -132,7 +132,7 @@ public:
   void
   AddRGBImage(TImage *, bool FlipVertical = true, std::string Description = "");
 
-  /** Render the images. If interact is tru, start a vtk
+  /** Render the images. If interact is true, start a vtk
    * Interactor. If false, return after one render.
    */
   void
@@ -167,14 +167,14 @@ public:
     m_Interpolate = true;
   }
 
-  /** Each render window will take a snaphot */
+  /** Each render window will take a snapshot */
   void
   SnapshotOn()
   {
     m_Snapshot = true;
   }
 
-  /** Each render window will take a snaphot */
+  /** Each render window will take a snapshot */
   void
   SnapshotOff()
   {

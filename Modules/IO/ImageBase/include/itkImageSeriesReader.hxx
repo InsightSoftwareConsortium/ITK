@@ -341,7 +341,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
       // read the meta data information
       readerOutput->UpdateOutputInformation();
 
-      // propagate the requested region to determin what the region
+      // propagate the requested region to determine what the region
       // will actually be read
       readerOutput->PropagateRequestedRegion();
 
@@ -454,7 +454,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
 
       // report progress for read slices
       progress.CompletedPixel();
-    } // end !insidedRequestedRegion
+    } // end !insideRequestedRegion
 
     // Deep copy the MetaDataDictionary into the array
     if (reader->GetImageIO() && needToUpdateMetaDataDictionaryArray)

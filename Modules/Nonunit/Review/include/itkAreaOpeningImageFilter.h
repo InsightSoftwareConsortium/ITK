@@ -29,7 +29,7 @@ namespace itk
  *
  * An attribute opening removes blobs according to criteria
  * such as area. When applied to grayscale images they have the effect of
- * trimming peaks (regions brighter than their surrounings)
+ * trimming peaks (regions brighter than their surroundings)
  * based on area while leaving the rest of the image
  * unchanged.
  *

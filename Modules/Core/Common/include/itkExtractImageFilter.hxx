@@ -175,7 +175,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     }
     else
     {
-      // copy the non-collapsed part of the input spacing and origing to the
+      // copy the non-collapsed part of the input spacing and origin to the
       // output
       outputDirection.SetIdentity();
       int nonZeroCount = 0;

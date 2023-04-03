@@ -27,7 +27,7 @@ namespace itk
 /** \class StochasticFractalDimensionImageFilter
  *  \brief This filter computes the stochastic fractal dimension of the input image.
  *
- * The methodology is based on Madelbrot's fractal theory and the concept of
+ * The methodology is based on Mandelbrot's fractal theory and the concept of
  * fractional Brownian motion and yields images which have been used for
  * classification and edge enhancement.
  *

@@ -163,7 +163,7 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
     // for the points Id to be consecutive,
     // and for the Ids to exist only if the point has been copied
     // i.e. even if the container is a vector,
-    // we ned to copy the old points first.
+    // we need to copy the old points first.
     for (IdentifierType j = 0; j < pointIdxOffset; ++j)
     {
       outputMesh->GetPoint(j, v_pt[0]);

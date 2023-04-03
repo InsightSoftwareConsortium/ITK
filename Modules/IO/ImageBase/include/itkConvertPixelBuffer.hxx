@@ -186,7 +186,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   size_t                 size)
 {
   // Weights convert from linear RGB to CIE luminance assuming a
-  // modern monitor.  See Charles Pontyon's Colour FAQ
+  // modern monitor.  See Charles Poynton's Colour FAQ
   // http://www.poynton.com/notes/colour_and_gamma/ColorFAQ.html
   // NOTE: The scale factors are converted to whole numbers for precision
 
@@ -211,14 +211,14 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   size_t                 size)
 {
   // Weights convert from linear RGB to CIE luminance assuming a
-  // modern monitor.  See Charles Pontyon's Colour FAQ
+  // modern monitor.  See Charles Poynton's Colour FAQ
   // http://www.poynton.com/notes/colour_and_gamma/ColorFAQ.html
   // NOTE: The scale factors are converted to whole numbers for
   // precision
   const InputPixelType * endInput = inputData + size * 4;
   double                 maxAlpha(DefaultAlphaValue<InputPixelType>());
   //
-  // To be backwards campatible, if the output pixel type
+  // To be backwards compatible, if the output pixel type
   // isn't a short or char type, don't fix the problem.
   if (sizeof(*outputData) > 2)
   {
@@ -227,7 +227,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   while (inputData != endInput)
   {
     // this is an ugly implementation of the simple equation
-    // greval = (.2125 * red + .7154 * green + .0721 * blue) / alpha
+    // greyval = (.2125 * red + .7154 * green + .0721 * blue) / alpha
     //
     double tempval = ((2125.0 * static_cast<double>(*inputData) + 7154.0 * static_cast<double>(*(inputData + 1)) +
                        0721.0 * static_cast<double>(*(inputData + 2))) /
@@ -248,7 +248,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   size_t                 size)
 {
   //
-  // To be backwards campatible, if the output pixel type
+  // To be backwards compatible, if the output pixel type
   // isn't a short or char type, don't fix the problem.
   double maxAlpha(DefaultAlphaValue<InputPixelType>());
   if (sizeof(*outputData) > 2)
@@ -271,7 +271,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   else
   {
     // Weights convert from linear RGB to CIE luminance assuming a
-    // modern monitor.  See Charles Pontyon's Colour FAQ
+    // modern monitor.  See Charles Poynton's Colour FAQ
     // http://www.poynton.com/notes/colour_and_gamma/ColorFAQ.html
     // NOTE: The scale factors are converted to whole numbers for
     // precision

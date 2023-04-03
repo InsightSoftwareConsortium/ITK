@@ -208,7 +208,7 @@ ImageRegion<VImageDimension>::Crop(const Self & region)
     }
   }
 
-  // if we cannot crop, return without changing anythin
+  // if we cannot crop, return without changing anything
   if (!cropPossible)
   {
     return cropPossible;

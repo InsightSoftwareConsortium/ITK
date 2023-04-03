@@ -68,7 +68,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::GetS
   splitRegion.first = m_RegionList[i].first;
   splitRegion.last = m_RegionList[i].last;
   return num;
-  // check this last line with the ITKdevelopers. not sure what this is doing
+  // check this last line with the ITKDevelopers. not sure what this is doing
   // copied it from FiniteDifferenceImageFilter class
 }
 
@@ -200,7 +200,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Calc
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   // Use GetSplitRegion to access partition previously computed by
-  // the Splitegions function in the SparseFieldLayer class.
+  // the SplitRegions function in the SparseFieldLayer class.
   ThreadRegionType splitRegion;
   total = str->Filter->GetSplitRegion(workUnitID, workUnitCount, splitRegion);
 
@@ -229,7 +229,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Prec
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   // Use GetSplitRegion to access partition previously computed by
-  // the Splitegions function in the SparseFieldLayer class.
+  // the SplitRegions function in the SparseFieldLayer class.
   ThreadRegionType splitRegion;
   total = str->Filter->GetSplitRegion(workUnitID, workUnitCount, splitRegion);
 

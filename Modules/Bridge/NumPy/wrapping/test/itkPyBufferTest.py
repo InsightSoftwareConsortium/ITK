@@ -53,7 +53,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
 
         import pickle
 
-        ## test serialization of itk ndarrary itk base
+        ## test serialization of itk ndarray itk base
         pickled = pickle.dumps(ndarray_itk_base)
         reloaded = pickle.loads(pickled)
         equal = (reloaded == ndarray_itk_base).all()

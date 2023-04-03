@@ -179,7 +179,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
                                                                                 Point1DArray & zymatrix,
                                                                                 int            extent[6])
 {
-  // convert the polgon into a rasterizable form by finding its
+  // convert the polygon into a rasterizable form by finding its
   // intersection with each z plane, and store the (x,y) coords
   // of each intersection in a vector called "matrix"
   int          zSize = extent[5] - extent[4] + 1;

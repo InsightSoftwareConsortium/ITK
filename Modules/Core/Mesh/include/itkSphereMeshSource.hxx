@@ -65,7 +65,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   ///////////////////////////////////////////////////////////////////////////
   // nodes allocation
 
-  // the temporary container of nodes' connectness
+  // the temporary container of nodes' connectedness
   typename OutputMeshType::PointIdentifier tripoints[3] = { 0, 1, 2 };
 
   // memory allocation for nodes

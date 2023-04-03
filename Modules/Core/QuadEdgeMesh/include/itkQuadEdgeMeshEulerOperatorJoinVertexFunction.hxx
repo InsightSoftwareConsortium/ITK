@@ -247,7 +247,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedQuad
     this->m_Mesh->AddFace(rebuildEdge);
   }
 
-  // this case has no symmetric case in SPlitVertex
+  // this case has no symmetric case in SplitVertex
   // i.e. it is impossible to reconstruct such a pathological
   // case using SplitVertex. Thus the return value is
   // of less interest.
@@ -271,7 +271,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedFace
     EdgesToBeDeleted.pop();
   }
 
-  // it now retuns one edge from NewDest or NewOrg if there are any
+  // it now returns one edge from NewDest or NewOrg if there are any
   // else nullptr
   QEType * temp = this->m_Mesh->FindEdge(dest);
   if (temp != nullptr)
