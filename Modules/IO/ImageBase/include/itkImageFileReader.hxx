@@ -424,7 +424,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
     m_ImageIO->Read(static_cast<void *>(loadBuffer.get()));
 
     // we use std::copy_n here as it should be optimized to memcpy for
-    // plain old data, but still is oop
+    // plain old data, but still is object oriented programming
     std::copy_n(reinterpret_cast<const OutputImagePixelType *>(loadBuffer.get()),
                 output->GetBufferedRegion().GetNumberOfPixels(),
                 outputBuffer);
