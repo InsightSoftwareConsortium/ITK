@@ -61,11 +61,13 @@ TestTransform()
   std::cout << "    Image:         " << index << " -> " << point << std::endl;
 
   std::cout << "TransformPhysicalPointToIndex..." << std::endl;
-  orientedImage->TransformPhysicalPointToIndex(point, index);
-  std::cout << "    Image: " << point << " -> " << index << std::endl;
+  const bool isInsideOrientedImage = orientedImage->TransformPhysicalPointToIndex(point, index);
+  std::cout << "    Image: " << point << " -> " << index << (isInsideOrientedImage ? " inside" : " outside")
+            << std::endl;
 
-  image->TransformPhysicalPointToIndex(point, index);
-  std::cout << "    Image:         " << point << " -> " << index << std::endl;
+  const bool isInsideImage = image->TransformPhysicalPointToIndex(point, index);
+  std::cout << "    Image:         " << point << " -> " << index << (isInsideImage ? " inside" : " outside")
+            << std::endl;
 }
 
 int
