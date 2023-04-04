@@ -211,6 +211,10 @@ public:
   /** \brief Get the continuous index from a physical point
    *
    * Returns true if the resulting index is within the image, false otherwise.
+   *
+   * \note For performance reasons, if you do not need to use the `bool` return value, please call the corresponding
+   * overload instead, which has only one parameter (the point), and returns the continuous index.
+   *
    * \sa Transform */
   template <typename TCoordRep, typename TIndexRep>
   bool
@@ -257,6 +261,10 @@ public:
   /** Get the index (discrete) from a physical point.
    * Floating point index results are truncated to integers.
    * Returns true if the resulting index is within the image, false otherwise
+   *
+   * \note For performance reasons, if you do not need to use the `bool` return value, please call the corresponding
+   * overload instead, which has only one parameter (the point), and returns the index.
+   *
    * \sa Transform */
   template <typename TCoordRep>
   bool
