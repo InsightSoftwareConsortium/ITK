@@ -102,9 +102,15 @@ main(int argc, char * argv[])
   point[0] = origin[0] + spacing[0] * size[0];
   point[1] = origin[1] + spacing[1] * size[1];
 
-  image->TransformPhysicalPointToContinuousIndex(origin, cindex);
+  using ContinuousIndexValueType = ContinuousIndexType::ValueType;
+
+  cindex =
+    image->TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(
+      origin);
   path->AddVertex(cindex);
-  image->TransformPhysicalPointToContinuousIndex(point, cindex);
+  cindex =
+    image->TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(
+      point);
   path->AddVertex(cindex);
   // Software Guide : EndCodeSnippet
 
