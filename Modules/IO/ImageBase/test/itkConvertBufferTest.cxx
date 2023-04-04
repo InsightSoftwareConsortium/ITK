@@ -42,7 +42,7 @@ itkConvertBufferTest(int, char *[])
   for (int j = 0; j < 3; ++j)
   {
     std::cerr << p[j] << ", ";
-    for (unsigned long k = 0; k < sizeof(p) / sizeof(itk::RGBPixel<int>); ++k)
+    for (unsigned long k = 0; k < std::size(p); ++k)
     {
       ITK_TEST_EXPECT_EQUAL(p[j][k], ipa[j]);
     }
@@ -57,7 +57,7 @@ itkConvertBufferTest(int, char *[])
   for (unsigned int j = 0; j < 3; ++j)
   {
     std::cerr << pf[j] << ' ';
-    for (unsigned int k = 0; k < sizeof(pf) / sizeof(itk::RGBPixel<float>); ++k)
+    for (unsigned int k = 0; k < std::size(pf); ++k)
     {
       ITK_TEST_EXPECT_EQUAL(pf[k][j], ipa3com[j + k * 3]);
     }
@@ -70,7 +70,7 @@ itkConvertBufferTest(int, char *[])
   for (unsigned int j = 0; j < 3; ++j)
   {
     std::cerr << pa[j] << ' ';
-    for (unsigned int k = 0; k < sizeof(pa) / sizeof(itk::RGBAPixel<float>); ++k)
+    for (unsigned int k = 0; k < std::size(pa); ++k)
     {
       ITK_TEST_EXPECT_EQUAL(pa[k][j], ipa3com[j + k * 3]);
     }
@@ -89,7 +89,7 @@ itkConvertBufferTest(int, char *[])
   for (unsigned int j = 0; j < 3; ++j)
   {
     std::cerr << ucpa[j] << ' ';
-    for (unsigned int k = 0; k < sizeof(ucpa) / sizeof(itk::RGBAPixel<unsigned char>); ++k)
+    for (unsigned int k = 0; k < std::size(ucpa); ++k)
     {
       ITK_TEST_EXPECT_EQUAL(ucpa[k][j], ucipa3com[j + k * 3]);
     }
@@ -99,9 +99,9 @@ itkConvertBufferTest(int, char *[])
   // create an initial array of floats
   float farray[] = { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f, 6.4f, 7.4f, 8.8f, 9.9f };
   // set the size of the array in number of elements
-  const int arraySize = sizeof(farray) / sizeof(farray[0]);
-  double    darray[arraySize]; // create a double array
-  int       iarray[arraySize]; // create an int array
+  constexpr int arraySize = std::size(farray);
+  double        darray[arraySize]; // create a double array
+  int           iarray[arraySize]; // create an int array
   // convert the float array to a double array
   itk::ConvertPixelBuffer<float, double, itk::DefaultConvertPixelTraits<double>>::Convert(farray, 1, darray, arraySize);
   std::cerr << "\nfloat array  : ";
