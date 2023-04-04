@@ -183,7 +183,7 @@ public:
 
   /** Returns the continuous index from a physical point */
   template <typename TIndexRep, typename TCoordRep>
-  ContinuousIndex<TIndexRep, 3>
+  [[nodiscard]] ContinuousIndex<TIndexRep, 3>
   TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
@@ -217,7 +217,7 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep, typename TIndexRep>
-  bool
+  [[nodiscard]] bool
   TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, 3> &     point,
                                           ContinuousIndex<TIndexRep, 3> & index) const
   {
@@ -233,7 +233,7 @@ public:
    * Floating point index results are truncated to integers.
    */
   template <typename TCoordRep>
-  IndexType
+  [[nodiscard]] IndexType
   TransformPhysicalPointToIndex(const Point<TCoordRep, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
@@ -267,7 +267,7 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep>
-  bool
+  [[nodiscard]] bool
   TransformPhysicalPointToIndex(const Point<TCoordRep, 3> & point, IndexType & index) const
   {
     index = this->TransformPhysicalPointToIndex(point);
@@ -308,7 +308,7 @@ public:
 
   /** Returns a physical point from a continuous index. */
   template <typename TCoordRep, typename TIndexRep>
-  Point<TCoordRep, 3>
+  [[nodiscard]] Point<TCoordRep, 3>
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, 3> & index) const
   {
     Point<TCoordRep, 3> point;
@@ -346,7 +346,7 @@ public:
 
   /** Returns a physical point from a discrete index. */
   template <typename TCoordRep>
-  Point<TCoordRep, 3>
+  [[nodiscard]] Point<TCoordRep, 3>
   TransformIndexToPhysicalPoint(const IndexType & index) const
   {
     Point<TCoordRep, 3> point;
