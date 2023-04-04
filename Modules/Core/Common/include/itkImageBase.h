@@ -439,7 +439,7 @@ public:
      \endcode
    * \sa Transform */
   template <typename TCoordRep>
-  IndexType
+  [[nodiscard]] IndexType
   TransformPhysicalPointToIndex(const Point<TCoordRep, VImageDimension> & point) const
   {
     IndexType index;
@@ -465,7 +465,7 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep>
-  bool
+  [[nodiscard]] bool
   TransformPhysicalPointToIndex(const Point<TCoordRep, VImageDimension> & point, IndexType & index) const
   {
     index = TransformPhysicalPointToIndex(point);
@@ -491,7 +491,7 @@ public:
      \endcode
    * \sa Transform */
   template <typename TIndexRep, typename TCoordRep>
-  ContinuousIndex<TIndexRep, VImageDimension>
+  [[nodiscard]] ContinuousIndex<TIndexRep, VImageDimension>
   TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, VImageDimension> & point) const
   {
     ContinuousIndex<TIndexRep, VImageDimension> index;
@@ -518,7 +518,7 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep, typename TIndexRep>
-  bool
+  [[nodiscard]] bool
   TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, VImageDimension> &     point,
                                           ContinuousIndex<TIndexRep, VImageDimension> & index) const
   {
@@ -554,7 +554,7 @@ public:
    * from a continuous index (in the index space)
    * \sa Transform */
   template <typename TCoordRep, typename TIndexRep>
-  Point<TCoordRep, VImageDimension>
+  [[nodiscard]] Point<TCoordRep, VImageDimension>
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, VImageDimension> & index) const
   {
     Point<TCoordRep, VImageDimension> point;
@@ -587,7 +587,7 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep>
-  Point<TCoordRep, VImageDimension>
+  [[nodiscard]] Point<TCoordRep, VImageDimension>
   TransformIndexToPhysicalPoint(const IndexType & index) const
   {
     Point<TCoordRep, VImageDimension> point;
@@ -637,7 +637,7 @@ public:
    * \sa Image
    */
   template <typename TVector>
-  TVector
+  [[nodiscard]] TVector
   TransformLocalVectorToPhysicalVector(const TVector & inputGradient) const
   {
     TVector outputGradient;
@@ -686,7 +686,7 @@ public:
    *
    */
   template <typename TVector>
-  TVector
+  [[nodiscard]] TVector
   TransformPhysicalVectorToLocalVector(const TVector & inputGradient) const
   {
     TVector outputGradient;

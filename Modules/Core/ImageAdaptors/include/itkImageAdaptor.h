@@ -383,7 +383,7 @@ public:
 
   /** Returns the continuous index from a physical point. */
   template <typename TIndexRep, typename TCoordRep>
-  ContinuousIndex<TIndexRep, TImage::ImageDimension>
+  [[nodiscard]] ContinuousIndex<TIndexRep, TImage::ImageDimension>
   TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, TImage::ImageDimension> & point) const
   {
     return m_Image->template TransformPhysicalPointToContinuousIndex<TIndexRep>(point);
@@ -398,7 +398,7 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep>
-  bool
+  [[nodiscard]] bool
   TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, Self::ImageDimension> &     point,
                                           ContinuousIndex<TCoordRep, Self::ImageDimension> & index) const
   {
@@ -407,7 +407,7 @@ public:
 
   /** Returns the index (discrete) of a voxel from a physical point. */
   template <typename TCoordRep>
-  IndexType
+  [[nodiscard]] IndexType
   TransformPhysicalPointToIndex(const Point<TCoordRep, Self::ImageDimension> & point) const
   {
     return m_Image->TransformPhysicalPointToIndex(point);
@@ -422,7 +422,7 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep>
-  bool
+  [[nodiscard]] bool
   TransformPhysicalPointToIndex(const Point<TCoordRep, Self::ImageDimension> & point, IndexType & index) const
   {
     return m_Image->TransformPhysicalPointToIndex(point, index);
@@ -442,7 +442,7 @@ public:
 
   /** Returns a physical point from a continuous index (in the index space) */
   template <typename TCoordRep, typename TIndexRep>
-  Point<TCoordRep, TImage::ImageDimension>
+  [[nodiscard]] Point<TCoordRep, TImage::ImageDimension>
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, Self::ImageDimension> & index) const
   {
     return m_Image->template TransformContinuousIndexToPhysicalPoint<TIndexRep>(index);
@@ -462,7 +462,7 @@ public:
 
   /** Returns a physical point from a discrete index (in the index space) */
   template <typename TCoordRep>
-  Point<TCoordRep, Self::ImageDimension>
+  [[nodiscard]] Point<TCoordRep, Self::ImageDimension>
   TransformIndexToPhysicalPoint(const IndexType & index) const
   {
     return m_Image->template TransformIndexToPhysicalPoint<TCoordRep>(index);
@@ -477,7 +477,7 @@ public:
   }
 
   template <typename TVector>
-  TVector
+  [[nodiscard]] TVector
   TransformLocalVectorToPhysicalVector(const TVector & inputGradient) const
   {
     TVector outputGradient;
@@ -494,7 +494,7 @@ public:
   }
 
   template <typename TVector>
-  TVector
+  [[nodiscard]] TVector
   TransformPhysicalVectorToLocalVector(const TVector & inputGradient) const
   {
     TVector outputGradient;
