@@ -336,7 +336,7 @@ OpenCLCheckError(cl_int error, const char * filename, int lineno, const char * l
       "CL_INVALID_GLOBAL_WORK_SIZE",
     };
     // print error message
-    const int          errorCount = sizeof(errorString) / sizeof(errorString[0]);
+    constexpr int      errorCount = std::size(errorString);
     const int          index = -error;
     std::ostringstream errorMsg;
 

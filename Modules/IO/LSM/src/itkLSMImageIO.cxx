@@ -52,7 +52,7 @@ extern "C"
                                                           1,
                                                           const_cast<char *>("LSM Private Tag") } };
 
-    TIFFMergeFieldInfo(tiff, xtiffFieldInfo, sizeof(xtiffFieldInfo) / sizeof(xtiffFieldInfo[0]));
+    TIFFMergeFieldInfo(tiff, xtiffFieldInfo, std::size(xtiffFieldInfo));
   }
 }
 
@@ -291,7 +291,7 @@ LSMImageIO::Write(const void * buffer)
     TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     char zeiss[TIF_CZ_LSMINFO_SIZE];
     FillZeissStruct(zeiss);
-    unsigned int iCount = sizeof(zeiss) / sizeof(zeiss[0]);
+    constexpr unsigned int iCount = std::size(zeiss);
     // Zeiss field is only on the first TIFF image
     if (page == 0)
     {

@@ -29,7 +29,7 @@
 // as it tries to create an array of size(-1)
 // https://scaryreasoner.wordpress.com/2009/02/28/checking-sizeof-at-compile-time/
 #define CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(array1, array2) \
-  ((void)sizeof(char[1 - 2 * !!(sizeof(array1) / sizeof(*array1) - sizeof(array2) / sizeof(*array2))]))
+  ((void)sizeof(char[1 - 2 * !!(std::size(array1) - std::size(array2))]))
 
 int
 itkImageIOBaseTest(int, char *[])
@@ -170,8 +170,8 @@ itkImageIOBaseTest(int, char *[])
                                              "matrix" };
     CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(listComponentTypeString, listComponentType);
     CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(listIOPixelType, listIOPixelTypeString);
-    size_t listComponentSize = sizeof(listComponentType) / sizeof(*listComponentType);
-    size_t listPixelSize = sizeof(listIOPixelType) / sizeof(*listIOPixelType);
+    constexpr size_t listComponentSize = std::size(listComponentType);
+    constexpr size_t listPixelSize = std::size(listIOPixelType);
     { // Test the static version of the string <-> type conversions
       for (size_t i = 0; i < listComponentSize; ++i)
       {
