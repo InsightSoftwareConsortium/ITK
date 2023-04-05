@@ -269,7 +269,6 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
 
   SizeType::SizeValueType size[2] = { 4, 7 };
 
-  unsigned int count = 0;
   for (SizeType::SizeValueType s : size)
   {
     for (IndexType::IndexValueType k = -2; k < 6; ++k)
@@ -287,8 +286,6 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
           exclusionSize.Fill(s);
 
           RegionType exclusionRegion(exclusionStart, exclusionSize);
-
-          count++;
 
           if (!RunTest(region, exclusionRegion))
           {

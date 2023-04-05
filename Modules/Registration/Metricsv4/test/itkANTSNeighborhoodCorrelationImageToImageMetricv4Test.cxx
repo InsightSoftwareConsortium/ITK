@@ -306,7 +306,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
   PointSetType::Pointer pset(PointSetType::New());
 
-  unsigned int                                 ind = 0, ct = 0;
+  unsigned int                                 ind = 0;
   itk::ImageRegionIteratorWithIndex<ImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
   {
@@ -315,7 +315,6 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     fixedImage->TransformIndexToPhysicalPoint(It.GetIndex(), pt);
     pset->SetPoint(ind, pt);
     ind++;
-    ct++;
   }
   std::cout << "Setting point set with " << ind << " points of "
             << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
