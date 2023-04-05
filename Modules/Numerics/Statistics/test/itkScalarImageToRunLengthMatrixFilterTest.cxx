@@ -143,7 +143,6 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
       { 0, 3, 0, 0, 0 }, { 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }
     };
 
-    unsigned int count = 0;
     for (unsigned int i = 0; i < 5; ++i)
     {
       for (unsigned int j = 0; j < 5; ++j)
@@ -158,7 +157,6 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
                     << ", calculated = " << hist->GetFrequency(index) << std::endl;
           passed = false;
         }
-        count++;
       }
     }
     unsigned int totalF = hist->GetTotalFrequency();
@@ -238,7 +236,6 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
       { 0, 12, 0, 10, 0 }, { 0, 0, 0, 0, 0 }, { 0, 3, 0, 2, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }
     };
 
-    count = 0;
     for (unsigned int i = 0; i < 5; ++i)
     {
       for (unsigned int j = 0; j < 5; ++j)
@@ -253,7 +250,6 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
                     << ", calculated = " << hist->GetFrequency(index) << std::endl;
           passed = false;
         }
-        count++;
       }
     }
 

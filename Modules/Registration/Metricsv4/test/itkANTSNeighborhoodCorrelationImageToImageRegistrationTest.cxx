@@ -237,7 +237,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   using PointType = PointSetType::PointType;
   std::cout << "Using sparse point set..." << std::endl;
   PointSetType::Pointer                             pset(PointSetType::New());
-  unsigned int                                      ind = 0, ct = 0;
+  unsigned int                                      ind = 0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
   {
@@ -246,7 +246,6 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
     fixedImage->TransformIndexToPhysicalPoint(It.GetIndex(), pt);
     pset->SetPoint(ind, pt);
     ind++;
-    ct++;
   }
   metric->SetFixedSampledPointSet(pset);
   metric->SetUseSampledPointSet(true);

@@ -145,17 +145,12 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename TTempImage::IndexType index;
   typename TTempImage::IndexType indexShift;
 
-  // How many times has the algorithm executed? (for debug)
-  int num_reps = 0;
-
   // Temporary pixel storage
   double pixelA, pixelB;
 
   // walk the output image forwards and compute blur
   for (unsigned int rep = 0; rep < m_Repetitions; ++rep)
   {
-    ++num_reps;
-
     itkDebugMacro(<< "Repetition #" << rep);
 
     // blur each dimension
@@ -237,10 +232,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
 
         ++tempReverseIt;
       } // end walk the image backwards
-
-      itkDebugMacro(<< "End processing reverse dimension " << dim);
-    } // end dimension loop
-  }   // end number of repetitions loop
+    }   // end dimension loop
+  }     // end number of repetitions loop
 
   // Now, copy the temporary image to the output image. Note that the temp
   // buffer iterator walks a region defined by the output

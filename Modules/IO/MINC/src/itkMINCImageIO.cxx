@@ -484,7 +484,6 @@ MINCImageIO::ReadImageInformation()
   origin.Fill(0.0);
   o_origin.Fill(0.0);
 
-  int spatial_dimension = 0;
   // minc api uses inverse order of dimensions , fastest varying are last
   for (int i = 3; i > 0; i--)
   {
@@ -518,7 +517,6 @@ MINCImageIO::ReadImageInformation()
       this->SetDirection(i - 1, _dir);
       this->SetSpacing(i - 1, _sep);
 
-      ++spatial_dimension;
       ++usable_dimensions;
     }
   }

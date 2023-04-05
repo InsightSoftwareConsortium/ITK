@@ -169,20 +169,17 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   }
 
   itFixed.GoToBegin();
-  unsigned int count = 1;
   while (!itFixed.IsAtEnd())
   {
     IndexType ind = itFixed.GetIndex();
     double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p0, imageDimensionality, 0);
     itFixed.Set(v);
-    count++;
     ++itFixed;
   }
 
   itk::ImageRegionIteratorWithIndex<ImageType> itMoving(movingImage, region);
 
   itMoving.GoToBegin();
-  count = 1;
 
   PointType p1;
   p1[0] = 1;
@@ -194,7 +191,6 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
     IndexType ind = itMoving.GetIndex();
     double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p1, imageDimensionality, 0);
     itMoving.Set(v);
-    count++;
     ++itMoving;
   }
 

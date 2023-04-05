@@ -134,7 +134,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
 
   using PointType = PointSetType::PointType;
   PointSetType::Pointer                             pset(PointSetType::New());
-  unsigned long                                     ind = 0, ct = 0;
+  unsigned long                                     ind = 0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> it(fixedImage, fixedImage->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -147,7 +147,6 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
       pset->SetPoint(ind, pt);
       ind++;
     }
-    ct++;
   }
   std::cout << "Setting point set with " << ind << " points of "
             << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
