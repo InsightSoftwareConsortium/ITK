@@ -83,7 +83,7 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
 
   auto neighborhoodRange = ShapedImageNeighborhoodRange<const InputImageType, TPixelAccessPolicy>(
     inputImage, Index<InputImageDimension>(), neighborhoodOffsets);
-  auto outputIterator = ImageRegionRange(outputImage, imageRegion).begin();
+  auto outputIterator = ImageRegionRange<OutputImageType>(outputImage, imageRegion).begin();
 
   for (const auto & index : ImageRegionIndexRange<InputImageDimension>(imageRegion))
   {
@@ -116,7 +116,7 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
 
   auto neighborhoodRange = ShapedImageNeighborhoodRange<const InputImageType, TPixelAccessPolicy>(
     inputImage, Index<InputImageDimension>(), neighborhoodOffsets);
-  auto outputIterator = ImageRegionRange(outputImage, imageRegion).begin();
+  auto outputIterator = ImageRegionRange<OutputImageType>(outputImage, imageRegion).begin();
 
   // These temp variable are needed outside the loop for
   // VariableLengthVectors to avoid memory allocations on a per-pixel
