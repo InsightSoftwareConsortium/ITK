@@ -72,7 +72,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     auto neighborhoodRange =
       ShapedImageNeighborhoodRange<const InputImageType, BufferedImageNeighborhoodPixelAccessPolicy<InputImageType>>(
         *input, Index<InputImageDimension>(), neighborhoodOffsets);
-    auto outputIterator = ImageRegionRange(*output, nonBoundaryRegion).begin();
+    auto outputIterator = ImageRegionRange<OutputImageType>(*output, nonBoundaryRegion).begin();
 
     for (const auto & index : ImageRegionIndexRange<InputImageDimension>(nonBoundaryRegion))
     {
@@ -91,7 +91,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   {
     auto neighborhoodRange =
       ShapedImageNeighborhoodRange<const InputImageType>(*input, Index<InputImageDimension>(), neighborhoodOffsets);
-    auto outputIterator = ImageRegionRange(*output, boundaryFace).begin();
+    auto outputIterator = ImageRegionRange<OutputImageType>(*output, boundaryFace).begin();
 
     for (const auto & index : ImageRegionIndexRange<InputImageDimension>(boundaryFace))
     {
