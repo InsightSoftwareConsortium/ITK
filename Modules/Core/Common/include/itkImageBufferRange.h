@@ -564,6 +564,7 @@ public:
 
 
   /** Specifies a range of the pixels of an image.
+   * \note This constructor supports class template argument deduction (CTAD).
    */
   explicit ImageBufferRange(ImageType & image)
     : // Note: Use parentheses instead of curly braces to initialize data members,

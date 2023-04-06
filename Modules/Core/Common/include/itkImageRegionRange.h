@@ -331,6 +331,7 @@ public:
 
   /** Constructs an object, representing the range of pixels of the specified
    * region, within the specified image.
+   * \note This constructor supports class template argument deduction (CTAD).
    */
   explicit ImageRegionRange(TImage & image, const RegionType & iterationRegion)
     : m_BufferBegin{ std::begin(ImageBufferRange{ image }) }
@@ -362,6 +363,7 @@ public:
 
 
   /** Constructs a range of the pixels of the requested region of an image.
+   * \note This constructor supports class template argument deduction (CTAD).
    */
   explicit ImageRegionRange(TImage & image)
     : ImageRegionRange(image, image.GetRequestedRegion())
