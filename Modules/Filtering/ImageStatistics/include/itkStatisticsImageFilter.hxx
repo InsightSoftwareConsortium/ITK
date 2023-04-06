@@ -125,7 +125,7 @@ StatisticsImageFilter<TInputImage>::ThreadedStreamedGenerateData(const RegionTyp
     it.NextLine();
   }
 
-  const std::lock_guard mutexHolder(m_Mutex);
+  const std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_ThreadSum += sum;
   m_SumOfSquares += sumOfSquares;
   m_Count += count;

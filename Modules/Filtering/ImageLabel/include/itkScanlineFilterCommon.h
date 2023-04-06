@@ -188,9 +188,9 @@ protected:
   void
   LinkLabels(const InternalLabelType label1, const InternalLabelType label2)
   {
-    const std::lock_guard mutexHolder(m_Mutex);
-    InternalLabelType     E1 = this->LookupSet(label1);
-    InternalLabelType     E2 = this->LookupSet(label2);
+    const std::lock_guard<std::mutex> mutexHolder(m_Mutex);
+    InternalLabelType                 E1 = this->LookupSet(label1);
+    InternalLabelType                 E2 = this->LookupSet(label2);
 
     if (E1 < E2)
     {

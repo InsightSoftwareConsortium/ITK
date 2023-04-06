@@ -89,7 +89,7 @@ LabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const Out
     LabelObjectType * labelObject;
     // begin mutex lock
     {
-      const std::lock_guard lock(m_LabelObjectContainerLock);
+      const std::lock_guard<std::mutex> lock(m_LabelObjectContainerLock);
 
       if (m_LabelObjectIterator.IsAtEnd())
       {

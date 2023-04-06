@@ -949,7 +949,7 @@ ImageIOBase::GetImageRegionSplitter() const
   {
     // thread safe lazy initialization,  prevent race condition on
     // setting, with an atomic set if null.
-    const std::lock_guard lock(ioDefaultSplitterLock);
+    const std::lock_guard<std::mutex> lock(ioDefaultSplitterLock);
     if (ioDefaultSplitter.IsNull())
     {
       ioDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer();

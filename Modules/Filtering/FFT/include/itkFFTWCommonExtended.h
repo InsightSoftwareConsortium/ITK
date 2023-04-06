@@ -65,7 +65,7 @@ public:
   Plan_dft_c2r_1d(int n, ComplexType * in, PixelType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -77,7 +77,7 @@ public:
   Plan_dft_c2r_2d(int nx, int ny, ComplexType * in, PixelType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -89,7 +89,7 @@ public:
   Plan_dft_c2r_3d(int nx, int ny, int nz, ComplexType * in, PixelType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -101,7 +101,7 @@ public:
   Plan_dft_c2r(int rank, const int * n, ComplexType * in, PixelType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -114,7 +114,7 @@ public:
   Plan_dft_r2c_1d(int n, PixelType * in, ComplexType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -126,7 +126,7 @@ public:
   Plan_dft_r2c_2d(int nx, int ny, PixelType * in, ComplexType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -138,7 +138,7 @@ public:
   Plan_dft_r2c_3d(int nx, int ny, int nz, PixelType * in, ComplexType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -150,7 +150,7 @@ public:
   Plan_dft_r2c(int rank, const int * n, PixelType * in, ComplexType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -162,7 +162,7 @@ public:
   Plan_dft_1d(const int n, ComplexType * in, ComplexType * out, int sign, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -201,7 +201,7 @@ public:
   Plan_dft_c2r_1d(int n, ComplexType * in, PixelType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -213,7 +213,7 @@ public:
   Plan_dft_c2r_2d(int nx, int ny, ComplexType * in, PixelType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -225,7 +225,7 @@ public:
   Plan_dft_c2r_3d(int nx, int ny, int nz, ComplexType * in, PixelType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -237,7 +237,7 @@ public:
   Plan_dft_c2r(int rank, const int * n, ComplexType * in, PixelType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -250,7 +250,7 @@ public:
   Plan_dft_r2c_1d(int n, PixelType * in, ComplexType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -263,7 +263,7 @@ public:
   Plan_dft_r2c_2d(int nx, int ny, PixelType * in, ComplexType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -276,7 +276,7 @@ public:
   Plan_dft_r2c_3d(int nx, int ny, int nz, PixelType * in, ComplexType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -289,7 +289,7 @@ public:
   Plan_dft_r2c(int rank, const int * n, PixelType * in, ComplexType * out, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -301,7 +301,7 @@ public:
   Plan_dft_1d(const int n, ComplexType * in, ComplexType * out, int sign, unsigned int flags, int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;

@@ -652,7 +652,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 {
   if (m_CurrentFillSize > 0)
   {
-    const std::lock_guard LockHolder(*this->m_ParentJointPDFDerivativesLockPtr);
+    const std::lock_guard<std::mutex> LockHolder(*this->m_ParentJointPDFDerivativesLockPtr);
     ReduceBuffer();
   }
 }

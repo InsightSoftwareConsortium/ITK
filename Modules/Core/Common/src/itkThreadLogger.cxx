@@ -41,7 +41,7 @@ ThreadLogger::~ThreadLogger()
 void
 ThreadLogger::SetPriorityLevel(PriorityLevelEnum level)
 {
-  const std::lock_guard lockGuard(m_Mutex);
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(SET_PRIORITY_LEVEL);
   this->m_LevelQ.push(level);
 }
@@ -49,15 +49,15 @@ ThreadLogger::SetPriorityLevel(PriorityLevelEnum level)
 Logger::PriorityLevelEnum
 ThreadLogger::GetPriorityLevel() const
 {
-  const std::lock_guard lockGuard(m_Mutex);
-  PriorityLevelEnum     level = this->m_PriorityLevel;
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  PriorityLevelEnum                 level = this->m_PriorityLevel;
   return level;
 }
 
 void
 ThreadLogger::SetLevelForFlushing(PriorityLevelEnum level)
 {
-  const std::lock_guard lockGuard(m_Mutex);
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_LevelForFlushing = level;
   this->m_OperationQ.push(SET_LEVEL_FOR_FLUSHING);
   this->m_LevelQ.push(level);
@@ -66,30 +66,30 @@ ThreadLogger::SetLevelForFlushing(PriorityLevelEnum level)
 Logger::PriorityLevelEnum
 ThreadLogger::GetLevelForFlushing() const
 {
-  const std::lock_guard lockGuard(m_Mutex);
-  PriorityLevelEnum     level = this->m_LevelForFlushing;
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  PriorityLevelEnum                 level = this->m_LevelForFlushing;
   return level;
 }
 
 void
 ThreadLogger::SetDelay(DelayType delay)
 {
-  const std::lock_guard lockGuard(m_Mutex);
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_Delay = delay;
 }
 
 ThreadLogger::DelayType
 ThreadLogger::GetDelay() const
 {
-  const std::lock_guard lockGuard(m_Mutex);
-  DelayType             delay = this->m_Delay;
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
+  DelayType                         delay = this->m_Delay;
   return delay;
 }
 
 void
 ThreadLogger::AddLogOutput(OutputType * output)
 {
-  const std::lock_guard lockGuard(m_Mutex);
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(ADD_LOG_OUTPUT);
   this->m_OutputQ.push(output);
 }
@@ -97,7 +97,7 @@ ThreadLogger::AddLogOutput(OutputType * output)
 void
 ThreadLogger::Write(PriorityLevelEnum level, std::string const & content)
 {
-  const std::lock_guard lockGuard(m_Mutex);
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(WRITE);
   this->m_MessageQ.push(content);
   this->m_LevelQ.push(level);
@@ -110,7 +110,7 @@ ThreadLogger::Write(PriorityLevelEnum level, std::string const & content)
 void
 ThreadLogger::Flush()
 {
-  const std::lock_guard lockGuard(m_Mutex);
+  const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(FLUSH);
   this->InternalFlush();
 }
@@ -159,7 +159,7 @@ ThreadLogger::ThreadFunction()
   while (!m_TerminationRequested)
   {
     {
-      const std::lock_guard lockGuard(m_Mutex);
+      const std::lock_guard<std::mutex> lockGuard(m_Mutex);
       while (!m_OperationQ.empty())
       {
         switch (m_OperationQ.front())

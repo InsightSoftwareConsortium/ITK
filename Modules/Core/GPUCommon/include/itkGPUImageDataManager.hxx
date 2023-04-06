@@ -63,7 +63,7 @@ GPUImageDataManager<ImageType>::MakeCPUBufferUpToDate()
 {
   if (m_Image.IsNotNull())
   {
-    const std::lock_guard lockGuard(m_Mutex);
+    const std::lock_guard<std::mutex> lockGuard(m_Mutex);
 
     ModifiedTimeType gpu_time = this->GetMTime();
     TimeStamp        cpu_time_stamp = m_Image->GetTimeStamp();
@@ -105,7 +105,7 @@ GPUImageDataManager<ImageType>::MakeGPUBufferUpToDate()
 {
   if (m_Image.IsNotNull())
   {
-    const std::lock_guard lockGuard(m_Mutex);
+    const std::lock_guard<std::mutex> lockGuard(m_Mutex);
 
     ModifiedTimeType gpu_time = this->GetMTime();
     TimeStamp        cpu_time_stamp = m_Image->GetTimeStamp();
