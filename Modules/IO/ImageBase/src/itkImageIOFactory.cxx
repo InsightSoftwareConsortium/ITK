@@ -34,7 +34,7 @@ ImageIOFactory::CreateImageIO(const char * path, IOFileModeEnum mode)
 {
   std::list<ImageIOBase::Pointer> possibleImageIO;
 
-  const std::lock_guard mutexHolder(createImageIOLock);
+  const std::lock_guard<std::mutex> mutexHolder(createImageIOLock);
 
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
   {
