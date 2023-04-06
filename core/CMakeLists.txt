@@ -103,6 +103,7 @@ endif()
 if(VXL_BUILD_CORE_GEOMETRY AND VXL_BUILD_CORE_NUMERICS)
   add_subdirectory(vcsl)
   add_subdirectory(vpgl)
+  add_subdirectory(vrel)
 endif()
 
 
