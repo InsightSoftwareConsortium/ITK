@@ -73,7 +73,6 @@ template <typename TImage>
 class ImageBufferRange final
 {
 private:
-  using ImageType = TImage;
   using PixelType = typename TImage::PixelType;
   using InternalPixelType = typename TImage::InternalPixelType;
   using AccessorFunctorType = typename TImage::AccessorFunctorType;
@@ -237,7 +236,7 @@ private:
     friend class ImageBufferRange;
 
     // Image type class that is either 'const' or non-const qualified, depending on QualifiedIterator and TImage.
-    using QualifiedImageType = std::conditional_t<VIsConst, const ImageType, ImageType>;
+    using QualifiedImageType = std::conditional_t<VIsConst, const TImage, TImage>;
 
     static constexpr bool IsImageTypeConst = std::is_const_v<QualifiedImageType>;
 
@@ -490,10 +489,10 @@ private:
   class AccessorFunctorInitializer final
   {
   private:
-    ImageType & m_Image;
+    TImage & m_Image;
 
   public:
-    explicit AccessorFunctorInitializer(ImageType & image) noexcept
+    explicit AccessorFunctorInitializer(TImage & image) noexcept
       : m_Image(image)
     {}
 
@@ -503,7 +502,7 @@ private:
     {
       AccessorFunctorType result = {};
       result.SetPixelAccessor(m_Image.GetPixelAccessor());
-      result.SetBegin(m_Image.ImageType::GetBufferPointer());
+      result.SetBegin(m_Image.TImage::GetBufferPointer());
       return result;
     }
   };
@@ -566,12 +565,12 @@ public:
   /** Specifies a range of the pixels of an image.
    * \note This constructor supports class template argument deduction (CTAD).
    */
-  explicit ImageBufferRange(ImageType & image)
+  explicit ImageBufferRange(TImage & image)
     : // Note: Use parentheses instead of curly braces to initialize data members,
       // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
     m_OptionalAccessorFunctor(AccessorFunctorInitializer{ image })
-    , m_ImageBufferPointer{ image.ImageType::GetBufferPointer() }
-    , m_NumberOfPixels{ image.ImageType::GetBufferedRegion().GetNumberOfPixels() }
+    , m_ImageBufferPointer{ image.TImage::GetBufferPointer() }
+    , m_NumberOfPixels{ image.TImage::GetBufferedRegion().GetNumberOfPixels() }
   {}
 
 
