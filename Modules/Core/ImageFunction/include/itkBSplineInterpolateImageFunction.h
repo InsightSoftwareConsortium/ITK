@@ -180,9 +180,9 @@ public:
   CovariantVectorType
   EvaluateDerivative(const PointType & point) const
   {
-    ContinuousIndexType index;
+    const ContinuousIndexType index =
+      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
 
-    this->GetInputImage()->TransformPhysicalPointToContinuousIndex(point, index);
     // No thread info passed in, so call method that doesn't need thread ID.
     return (this->EvaluateDerivativeAtContinuousIndex(index));
   }
@@ -222,9 +222,8 @@ public:
   void
   EvaluateValueAndDerivative(const PointType & point, OutputType & value, CovariantVectorType & deriv) const
   {
-    ContinuousIndexType index;
-
-    this->GetInputImage()->TransformPhysicalPointToContinuousIndex(point, index);
+    const ContinuousIndexType index =
+      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
 
     // No thread info passed in, so call method that doesn't need thread ID.
     this->EvaluateValueAndDerivativeAtContinuousIndex(index, value, deriv);
