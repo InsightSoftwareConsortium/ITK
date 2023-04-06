@@ -46,7 +46,7 @@ RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::CreateHeavisideFunc
 
   const InputPointType origin = image->GetOrigin();
 
-  this->m_HeavisideFunctionOfLevelSetImage->TransformPhysicalPointToIndex(origin, this->m_Start);
+  this->m_Start = this->m_HeavisideFunctionOfLevelSetImage->TransformPhysicalPointToIndex(origin);
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
