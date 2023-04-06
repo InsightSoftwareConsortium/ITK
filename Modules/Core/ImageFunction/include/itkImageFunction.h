@@ -191,7 +191,7 @@ public:
   void
   ConvertPointToContinuousIndex(const PointType & point, ContinuousIndexType & cindex) const
   {
-    m_Image->TransformPhysicalPointToContinuousIndex(point, cindex);
+    cindex = m_Image->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
   }
 
   /** Convert continuous index to nearest index. */

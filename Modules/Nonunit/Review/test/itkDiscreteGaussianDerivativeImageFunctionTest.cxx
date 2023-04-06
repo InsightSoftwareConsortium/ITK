@@ -138,9 +138,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
   out.GoToBegin();
 
   using PointType = typename GaussianDerivativeImageFunctionType::PointType;
-  PointType point;
-  using ContinuousIndexType = typename GaussianDerivativeImageFunctionType::ContinuousIndexType;
-  ContinuousIndexType cindex;
+  PointType           point;
   const unsigned long nop = inputImage->GetRequestedRegion().GetNumberOfPixels();
   unsigned long       pixelNumber = 0;
   while (!it.IsAtEnd())
@@ -157,8 +155,12 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
     }
     else
     {
+      using ContinuousIndexType = typename GaussianDerivativeImageFunctionType::ContinuousIndexType;
+      using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
+
       inputImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
-      inputImage->TransformPhysicalPointToContinuousIndex(point, cindex);
+      const ContinuousIndexType cindex =
+        inputImage->template TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(point);
       out.Set(function->EvaluateAtContinuousIndex(cindex));
     }
     ++it;

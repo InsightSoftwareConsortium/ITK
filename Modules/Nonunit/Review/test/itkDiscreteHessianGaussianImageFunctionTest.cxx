@@ -132,9 +132,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   IteratorType outIter(output, output->GetRequestedRegion());
 
   using PointType = typename HessianGaussianImageFunctionType::PointType;
-  PointType point;
-  using ContinuousIndexType = typename HessianGaussianImageFunctionType::ContinuousIndexType;
-  ContinuousIndexType cindex;
+  PointType           point;
   const unsigned long nop = reader->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
   unsigned long       pixelNumber = 0;
   while (!it.IsAtEnd())
@@ -150,8 +148,12 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     }
     else
     {
+      using ContinuousIndexType = typename HessianGaussianImageFunctionType::ContinuousIndexType;
+      using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
+
       reader->GetOutput()->TransformIndexToPhysicalPoint(it.GetIndex(), point);
-      reader->GetOutput()->TransformPhysicalPointToContinuousIndex(point, cindex);
+      const ContinuousIndexType cindex =
+        reader->GetOutput()->TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(point);
       hessian = function->EvaluateAtContinuousIndex(cindex);
     }
 
