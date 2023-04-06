@@ -208,6 +208,18 @@ public:
     return index;
   }
 
+  /** \brief Returns the continuous index from a physical point
+   * \note This specific overload is easier to use, because it does not have template arguments. It just uses
+   * `itk::SpacePrecisionType`, both for the coordinates of the point and the index values.
+   *
+   * \sa Transform */
+  [[nodiscard]] ContinuousIndex<SpacePrecisionType, ImageDimension>
+  TransformPhysicalPointToContinuousIndex(const PointType & point) const
+  {
+    return TransformPhysicalPointToContinuousIndex<SpacePrecisionType>(point);
+  }
+
+
   /** \brief Get the continuous index from a physical point
    *
    * Returns true if the resulting index is within the image, false otherwise.
