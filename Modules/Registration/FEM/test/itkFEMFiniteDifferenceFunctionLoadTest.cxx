@@ -316,7 +316,7 @@ RunTest(InputImageType *            fixedImage,
       {
         coords[d] = element->GetNodeCoordinates(n)[d];
       }
-      fixedImage->TransformPhysicalPointToIndex(coords, index);
+      index = fixedImage->TransformPhysicalPointToIndex(coords);
       if (!region.IsInside(index))
       {
         continue;
