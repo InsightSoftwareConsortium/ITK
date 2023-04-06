@@ -664,6 +664,12 @@ public:
   }
 };
 
+
+// Deduction guide to avoid compiler warnings (-wctad-maybe-unsupported) when using class template argument deduction.
+template <typename TImage>
+ImageBufferRange(TImage &)->ImageBufferRange<TImage>;
+
+
 /** Creates a range to iterate over the pixels of the specified image.
  * Returns an empty range when the specified argument is a nullptr (which
  * is a valid use case).

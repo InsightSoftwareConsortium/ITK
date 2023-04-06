@@ -461,6 +461,11 @@ public:
   ~ImageRegionRange() = default;
 };
 
+
+// Deduction guide to avoid compiler warnings (-wctad-maybe-unsupported) when using class template argument deduction.
+template <typename TImage>
+ImageRegionRange(TImage &)->ImageRegionRange<TImage>;
+
 } // namespace itk
 
 #endif
