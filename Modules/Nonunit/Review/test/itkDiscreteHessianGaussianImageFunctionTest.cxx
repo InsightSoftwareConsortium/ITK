@@ -132,7 +132,8 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   IteratorType outIter(output, output->GetRequestedRegion());
 
   using PointType = typename HessianGaussianImageFunctionType::PointType;
-  PointType           point;
+  PointType point;
+  using ContinuousIndexType = typename HessianGaussianImageFunctionType::ContinuousIndexType;
   const unsigned long nop = reader->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
   unsigned long       pixelNumber = 0;
   while (!it.IsAtEnd())
@@ -148,7 +149,6 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     }
     else
     {
-      using ContinuousIndexType = typename HessianGaussianImageFunctionType::ContinuousIndexType;
       using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
 
       reader->GetOutput()->TransformIndexToPhysicalPoint(it.GetIndex(), point);
@@ -239,6 +239,8 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     hessian = function->EvaluateAtIndex(index);
     inputImage->TransformIndexToPhysicalPoint(index, point);
     hessian = function->Evaluate(point);
+
+    ContinuousIndexType cindex;
 
     // Exercise the fractional computation of the linear interpolator
     for (unsigned int i = 0; i < Dimension; ++i)
