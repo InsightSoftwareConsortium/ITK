@@ -246,8 +246,6 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     outIt.Set(static_cast<PixelType>(tempIt2.Get()));
   }
-
-  itkDebugMacro(<< "Binomial blur filter executed " << num_reps << " times");
 }
 
 template <typename TInputImage, typename TOutputImage>
