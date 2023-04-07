@@ -157,7 +157,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
     else
     {
       using ContinuousIndexType = typename DiscreteGradientMagnitudeGaussianFunctionType::ContinuousIndexType;
-      using ContinuousValueIndexType = typename ContinuousIndexType::ContinuousIndexType;
+      using ContinuousValueIndexType = typename ContinuousIndexType::ValueType;
 
       inputImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
       const ContinuousIndexType cindex =
