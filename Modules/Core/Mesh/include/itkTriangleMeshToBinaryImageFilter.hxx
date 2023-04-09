@@ -341,7 +341,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
   while (points != myPoints->End())
   {
     const PointType p = points.Value();
-    // the index value type must match the point value type
+    // Explicit <PointType::ValueType> keeps the index in the mesh's point precision.
     const ContinuousIndex<PointType::ValueType, 3> ind =
       OutputImage->template TransformPhysicalPointToContinuousIndex<PointType::ValueType>(p);
     NewPoints->InsertElement(pointId++, ind);

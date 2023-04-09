@@ -147,7 +147,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
       using MovingImageContinuousIndexType = ContinuousIndex<CoordinateType, MovingImageType::ImageDimension>;
 
       const MovingImageContinuousIndexType tempIndex =
-        this->m_MovingImage->template TransformPhysicalPointToContinuousIndex<CoordinateType>(transformedPoint);
+        this->m_MovingImage->TransformPhysicalPointToContinuousIndex(transformedPoint);
 
       typename MovingImageType::IndexType mappedIndex;
       mappedIndex.CopyWithRound(tempIndex);
@@ -246,7 +246,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
       using MovingImageContinuousIndexType = ContinuousIndex<CoordinateType, MovingImageType::ImageDimension>;
 
       const MovingImageContinuousIndexType tempIndex =
-        this->m_MovingImage->template TransformPhysicalPointToContinuousIndex<CoordinateType>(transformedPoint);
+        this->m_MovingImage->TransformPhysicalPointToContinuousIndex(transformedPoint);
 
       typename MovingImageType::IndexType mappedIndex;
       mappedIndex.CopyWithRound(tempIndex);

@@ -230,6 +230,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::
                                                          WeightsType &             weights,
                                                          ParameterIndexArrayType & indexes) const
 {
+  // Explicit <TParametersValueType> keeps the index in parametric precision under ITK_USE_FLOAT_SPACE_PRECISION=ON.
   ContinuousIndexType index =
     this->m_CoefficientImages[0]->template TransformPhysicalPointToContinuousIndex<TParametersValueType>(point);
 
