@@ -153,7 +153,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 
       reader->GetOutput()->TransformIndexToPhysicalPoint(it.GetIndex(), point);
       const ContinuousIndexType cindex =
-        reader->GetOutput()->TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(point);
+        reader->GetOutput()->template TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(point);
       hessian = function->EvaluateAtContinuousIndex(cindex);
     }
 

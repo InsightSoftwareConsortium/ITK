@@ -161,7 +161,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
 
       inputImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
       const ContinuousIndexType cindex =
-        inputImage->TransformPhysicalPointToContinuousIndex<ContinuousValueIndexType>(point);
+        inputImage->template TransformPhysicalPointToContinuousIndex<ContinuousValueIndexType>(point);
       out.Set(function->EvaluateAtContinuousIndex(cindex));
     }
     ++it;
