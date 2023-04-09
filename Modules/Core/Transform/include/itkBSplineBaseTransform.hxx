@@ -233,8 +233,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::
                                                          WeightsType &             weights,
                                                          ParameterIndexArrayType & indexes) const
 {
-  ContinuousIndexType index =
-    this->m_CoefficientImages[0]->template TransformPhysicalPointToContinuousIndex<TParametersValueType>(point);
+  ContinuousIndexType index = this->m_CoefficientImages[0]->TransformPhysicalPointToContinuousIndex(point);
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point

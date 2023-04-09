@@ -183,9 +183,8 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
   const DisplacementFieldType * fieldPtr,
   DisplacementType &            output)
 {
-  const ContinuousIndex<double, ImageDimension> index =
-    fieldPtr->template TransformPhysicalPointToContinuousIndex<double>(point);
-  unsigned int dim; // index over dimension
+  const ContinuousIndex<double, ImageDimension> index = fieldPtr->TransformPhysicalPointToContinuousIndex(point);
+  unsigned int                                  dim; // index over dimension
   /**
    * Compute base index = closest index below point
    * Compute distance from point to base index
