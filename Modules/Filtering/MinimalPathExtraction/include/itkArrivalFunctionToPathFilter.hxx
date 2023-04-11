@@ -244,9 +244,10 @@ ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::Execute(const Object * ob
   }
 
   // Convert point to continuous index
-  InputImagePointer   input = const_cast<InputImageType *>(this->GetInput());
-  ContinuousIndexType cindex;
-  input->TransformPhysicalPointToContinuousIndex(point, cindex);
+  InputImagePointer         input = const_cast<InputImageType *>(this->GetInput());
+  const ContinuousIndexType cindex =
+    input->template TransformPhysicalPointToContinuousIndex<typename ContinuousIndexType::ValueType,
+                                                            typename PointType::ValueType>(point);
 
   // Add point as vertex in path
   typename OutputPathType::Pointer output = this->GetOutput(m_CurrentOutput);

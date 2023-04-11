@@ -81,9 +81,9 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
 
   for (auto it = PrevFront.begin(); it != PrevFront.end(); it++)
   {
-    IndexType indexTargetPrevious;
-    NodeType  nodeTargetPrevious;
-    speed->TransformPhysicalPointToIndex(*it, indexTargetPrevious);
+    NodeType        nodeTargetPrevious;
+    const IndexType indexTargetPrevious =
+      speed->template TransformPhysicalPointToIndex<typename PointType::ValueType>(*it);
     nodeTargetPrevious.SetValue(0.0);
     nodeTargetPrevious.SetIndex(indexTargetPrevious);
     targets->InsertElement(0, nodeTargetPrevious);
@@ -92,9 +92,8 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
 
   for (auto it = NextFront.begin(); it != NextFront.end(); it++)
   {
-    IndexType indexTargetNext;
-    NodeType  nodeTargetNext;
-    speed->TransformPhysicalPointToIndex(*it, indexTargetNext);
+    NodeType        nodeTargetNext;
+    const IndexType indexTargetNext = speed->template TransformPhysicalPointToIndex<typename PointType::ValueType>(*it);
     nodeTargetNext.SetValue(0.0);
     nodeTargetNext.SetIndex(indexTargetNext);
     targets->InsertElement(1, nodeTargetNext);
@@ -112,9 +111,8 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
 
   for (auto it = CurrentFront.begin(); it != CurrentFront.end(); it++)
   {
-    IndexType indexTrial;
-    NodeType  nodeTrial;
-    speed->TransformPhysicalPointToIndex(*it, indexTrial);
+    NodeType        nodeTrial;
+    const IndexType indexTrial = speed->template TransformPhysicalPointToIndex<typename PointType::ValueType>(*it);
     nodeTrial.SetValue(0.0);
     nodeTrial.SetIndex(indexTrial);
     trial->InsertElement(0, nodeTrial);
@@ -234,9 +232,10 @@ SpeedFunctionToPathFilter<TInputImage, TOutputPath>::Execute(const Object *     
   else if (currentValue >= Superclass::m_TerminationValue)
   {
     // Convert point to continuous index
-    InputImagePointer   input = const_cast<InputImageType *>(this->GetInput());
-    ContinuousIndexType cindex;
-    input->TransformPhysicalPointToContinuousIndex(point, cindex);
+    InputImagePointer         input = const_cast<InputImageType *>(this->GetInput());
+    const ContinuousIndexType cindex =
+      input->template TransformPhysicalPointToContinuousIndex<typename ContinuousIndexType::ValueType,
+                                                              typename PointType::ValueType>(point);
 
     // Add point as vertex in path
     OutputPathPointer output = this->GetOutput(Superclass::m_CurrentOutput);
