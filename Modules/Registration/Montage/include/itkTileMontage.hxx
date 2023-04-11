@@ -353,7 +353,7 @@ TileMontage<TImageType, TCoordinate>::UpdateMosaicBounds(TileIndexType         i
   TransformPointer inverseT = TransformType::New();
   transform->GetInverse(inverseT);
   p = inverseT->TransformPoint(p);
-  input0->TransformPhysicalPointToContinuousIndex(p, ci);
+  ci = input0->template TransformPhysicalPointToContinuousIndex<TCoordinate, typename PointType::ValueType>(p);
   for (unsigned d = 0; d < ImageDimension; d++)
   {
     if (index[d] == 0) // this tile is on the minimum edge
@@ -365,7 +365,7 @@ TileMontage<TImageType, TCoordinate>::UpdateMosaicBounds(TileIndexType         i
   ind += input->GetLargestPossibleRegion().GetSize();
   input->TransformIndexToPhysicalPoint(ind, p);
   p = inverseT->TransformPoint(p);
-  input0->TransformPhysicalPointToContinuousIndex(p, ci);
+  ci = input0->template TransformPhysicalPointToContinuousIndex<TCoordinate, typename PointType::ValueType>(p);
   for (unsigned d = 0; d < ImageDimension; d++)
   {
     if (index[d] == m_MontageSize[d] - 1) // this tile is on the maximum edge

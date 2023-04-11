@@ -314,15 +314,16 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::GenerateO
     PointType         iOrigin = input->GetOrigin();
     iOrigin = inverseT->TransformPoint(iOrigin);
 
-    ContinuousIndexType ci;
-    outputImage->TransformPhysicalPointToContinuousIndex(iOrigin, ci);
+    const ContinuousIndexType ci =
+      outputImage->template TransformPhysicalPointToContinuousIndex<typename TInterpolator::CoordRepType,
+                                                                    typename PointType::ValueType>(iOrigin);
     for (unsigned d = 0; d < ImageDimension; d++)
     {
       m_InputsContinuousIndices[i][d] = ci[d] + input->GetLargestPossibleRegion().GetIndex(d);
     }
 
-    ImageIndexType ind;
-    outputImage->TransformPhysicalPointToIndex(iOrigin, ind);
+    const ImageIndexType ind =
+      outputImage->template TransformPhysicalPointToIndex<typename PointType::ValueType>(iOrigin);
     RegionType reg = input->GetLargestPossibleRegion();
     for (unsigned d = 0; d < ImageDimension; d++)
     {
