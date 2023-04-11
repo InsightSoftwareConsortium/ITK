@@ -1386,6 +1386,16 @@ itkDynamicCastInDebugMode(TSource x)
 #endif
 }
 
+#ifdef ITK_LEGACY_REMOVE
+#  if __cplusplus >= 202002L
+#    define ITK_NODISCARD(message) [[nodiscard(message)]]
+#  else
+#    define ITK_NODISCARD(message) [[nodiscard]]
+#  endif
+#else
+#  define ITK_NODISCARD(message)
+#endif
+
 // Defines which used to be in itk_compiler_detection.h
 #define ITK_ALIGNAS(X) alignas(X)
 #define ITK_ALIGNOF(X) alignof(X)
