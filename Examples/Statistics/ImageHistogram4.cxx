@@ -156,7 +156,7 @@ main(int argc, char * argv[])
   // using the \code{SetHistogramBinMinimum()} and
   // \code{SetHistogramBinMaximum()} methods.
   //
-  // Software Guide : EndLatexex
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   using HistogramMeasurementVectorType =

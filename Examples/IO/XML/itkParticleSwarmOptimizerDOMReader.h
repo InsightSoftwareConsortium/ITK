@@ -21,7 +21,7 @@
  * itk::ParticleSwarmOptimizer. To demonstrate the power and flexibility of
  * the new DOM-based object reading, we formulate our XML format for the PSO
  * object in a special way, e.g. using children and text nodes (instead of
- * attributes) for some data fields. This may not be the favouriate way for
+ * attributes) for some data fields. This may not be the favourite way for
  * some users, but users can always define their own XML format, and customize
  * this implementation.
  *

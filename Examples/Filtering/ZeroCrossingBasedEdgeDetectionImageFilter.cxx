@@ -26,7 +26,7 @@
 //
 //  The \doxygen{ZeroCrossingBasedEdgeDetectionImageFilter} performs
 //  edge detection by combining a sequence of Gaussian smoothing,
-//  Laplacian filter, and Zero cross detections on the Laplacian.
+//  Laplacian filter, and Zero crossing detections on the Laplacian.
 //
 //  \index{itk::ZeroCrossingBasedEdgeDetectionImageFilter}
 //

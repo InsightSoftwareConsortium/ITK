@@ -52,7 +52,7 @@
 //  and edit its content. Only the first approach is illustrated here. The
 //  second is discouraged unless you are familiar with Generic Programming,
 //  feel comfortable with C++ templates, and have access to an abundant supply
-//  of (Columbian) coffee.
+//  of (Colombian) coffee.
 //
 //  The first step in customizing the mesh is to include the header file of
 //  the Mesh and its static traits.

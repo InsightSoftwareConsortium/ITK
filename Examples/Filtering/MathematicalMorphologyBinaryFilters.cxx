@@ -95,7 +95,7 @@ main(int argc, char * argv[])
   //  Mathematical morphology operations are implemented by applying an
   //  operator over the neighborhood of each input pixel. The combination of
   //  the rule and the neighborhood is known as \emph{structuring
-  //  element}. Although some rules have become de facto standards for image
+  //  element}. Although some rules have become defacto standards for image
   //  processing, there is a good deal of freedom as to what kind of
   //  algorithmic rule should be applied to the neighborhood. The
   //  implementation in ITK follows the typical rule of minimum for

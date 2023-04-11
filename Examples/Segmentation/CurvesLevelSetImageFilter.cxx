@@ -27,7 +27,7 @@
 // ITK is based on the paper by Caselles \cite{Caselles1997}.  This
 // implementation extends the functionality of the
 // \doxygen{ShapeDetectionLevelSetImageFilter} by the addition of a third
-// avection term which attracts the level set to the object boundaries.
+// advection term which attracts the level set to the object boundaries.
 //
 // CurvesLevelSetImageFilter expects two inputs.  The first is
 // an initial level set in the form of an \doxygen{Image}. The second input
@@ -41,14 +41,14 @@
 // between both examples.
 //
 // \begin{figure} \center
-// \includegraphics[width=\textwidth]{CurvessCollaborationDiagram1}
+// \includegraphics[width=\textwidth]{CurvesCollaborationDiagram1}
 // \itkcaption[CurvesLevelSetImageFilter collaboration
 // diagram]{Collaboration diagram for the CurvesLevelSetImageFilter
 // applied to a segmentation task.}
-// \label{fig:CurvessCollaborationDiagram}
+// \label{fig:CurvesCollaborationDiagram}
 // \end{figure}
 //
-// Figure~\ref{fig:CurvessCollaborationDiagram} shows the major
+// Figure~\ref{fig:CurvesCollaborationDiagram} shows the major
 // components involved in the application of the
 // CurvesLevelSetImageFilter to a segmentation task.
 // This pipeline is quite similar to the one used by the
@@ -254,7 +254,7 @@ main(int argc, char * argv[])
   geodesicActiveContour->SetAdvectionScaling(1.0);
   //  Software Guide : EndCodeSnippet
 
-  //  Once activiated the level set evolution will stop if the convergence
+  //  Once activated the level set evolution will stop if the convergence
   //  criteria or if the maximum number of iterations is reached.  The
   //  convergence criteria is defined in terms of the root mean squared (RMS)
   //  change in the level set function. The evolution is said to have
@@ -272,7 +272,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The filters are now connected in a pipeline indicated in
-  //  Figure~\ref{fig:CurvessCollaborationDiagram} using the
+  //  Figure~\ref{fig:CurvesCollaborationDiagram} using the
   //  following lines:
   //
   //  Software Guide : EndLatex
@@ -533,7 +533,7 @@ main(int argc, char * argv[])
   */
   //  Figure~\ref{fig:CurvesImageFilterOutput} presents the
   //  intermediate outputs of the pipeline illustrated in
-  //  Figure~\ref{fig:CurvessCollaborationDiagram}. They are
+  //  Figure~\ref{fig:CurvesCollaborationDiagram}. They are
   //  from left to right: the output of the anisotropic diffusion filter, the
   //  gradient magnitude of the smoothed image and the sigmoid of the gradient
   //  magnitude which is finally used as the edge potential for the

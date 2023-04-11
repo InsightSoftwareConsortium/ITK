@@ -219,7 +219,7 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterOutput}
   // \itkcaption[VectorCurvatureAnisotropicDiffusionImageFilter output]{Effect
   // of the VectorCurvatureAnisotropicDiffusionImageFilter on the $X$
-  // component of the gradient from a MRIproton density brain image.}
+  // component of the gradient from a MRI proton density brain image.}
   // \label{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //

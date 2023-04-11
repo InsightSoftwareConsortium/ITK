@@ -172,7 +172,7 @@
 // Software Guide : EndCodeSnippet
 
 
-//  The \doxygen{RescaleIntensityImageFilter} is used to renormailize the
+//  The \doxygen{RescaleIntensityImageFilter} is used to renormalize the
 //  output of filters before sending them to files.
 //
 #include "itkRescaleIntensityImageFilter.h"

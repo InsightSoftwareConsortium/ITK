@@ -128,7 +128,7 @@ main(int argc, char * argv[])
   // <<fftinput->GetOutput()->GetLargestPossibleRegion().GetSize() <<
   // std::endl; DEBUG: std::cout << "fftoutput "
   // <<fftoutput->GetOutput()->GetLargestPossibleRegion().GetSize() <<
-  // std::endl; DEBUG: std::cout << "intensityrescaller "
+  // std::endl; DEBUG: std::cout << "intensityrescaler "
   // <<intensityrescaler->GetOutput()->GetLargestPossibleRegion().GetSize() <<
   // std::endl;
   return EXIT_SUCCESS;
