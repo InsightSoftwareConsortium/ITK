@@ -203,7 +203,7 @@ main(int argc, char * argv[])
   //  result in a region that engulfs the image.
   //
   //  \index{itk::NeighborhoodConnectedImageFilter!SetLower()}
-  //  \index{itk::NeighborhoodConnectedImageFilter!SetUppder()}
+  //  \index{itk::NeighborhoodConnectedImageFilter!SetUpper()}
   //
   //  Software Guide : EndLatex
 
@@ -312,7 +312,7 @@ main(int argc, char * argv[])
   // \end{figure}
   //
   //  As with the \code{ConnectedThresholdImageFilter} example, several seeds
-  //  could be provided to the filter by repetedly calling the
+  //  could be provided to the filter by repeatedly calling the
   //  \code{AddSeed()} method with different indices.  Compare Figures
   //  \ref{fig:NeighborhoodConnectedImageFilterOutput} and
   //  \ref{fig:ConnectedThresholdOutput}, demonstrating the outputs of

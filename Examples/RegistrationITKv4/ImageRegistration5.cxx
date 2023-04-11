@@ -172,7 +172,7 @@ main(int argc, char * argv[])
   //  run a multistage registration process, from which the output of each
   //  stage can be used to initialize the next registration stage.
   //
-  //  To get a better underestanding of the registration process in
+  //  To get a better understanding of the registration process in
   //  such situations, consider an example of 3 stages registration process
   //  that is started using an initial moving transform ($\Gamma_{mi}$).
   //  Multiple stages are handled by linking multiple instantiations of

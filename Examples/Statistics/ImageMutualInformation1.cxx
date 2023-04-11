@@ -231,7 +231,7 @@ main(int argc, char * argv[])
   // \code{SetHistogramBinMaximum()} methods. The \code{Update()} method is
   // then called in order to trigger the computation of the histogram.
   //
-  // Software Guide : EndLatexex
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   using HistogramMeasurementVectorType =

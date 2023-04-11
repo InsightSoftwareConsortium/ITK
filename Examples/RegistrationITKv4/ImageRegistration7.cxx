@@ -27,11 +27,11 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{Simularity2DTransform}
+// This example illustrates the use of the \doxygen{Similarity2DTransform}
 // class for performing registration in $2D$. The example code is for
 // the most part identical to the code presented in Section
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
-// use of \doxygen{Simularity2DTransform} here rather than the
+// use of \doxygen{Similarity2DTransform} here rather than the
 // \doxygen{Euler2DTransform} class.
 //
 // A similarity transform can be seen as a composition of rotations,
@@ -50,7 +50,7 @@
 // scaling.
 //
 //
-// \index{itk::Simularity2DTransform}
+// \index{itk::Similarity2DTransform}
 //
 // Software Guide : EndLatex
 
@@ -67,7 +67,7 @@
 //  In addition to the headers included in previous examples, here the
 //  following header must be included.
 //
-//  \index{itk::Simularity2DTransform!header}
+//  \index{itk::Similarity2DTransform!header}
 //
 //  Software Guide : EndLatex
 
@@ -154,7 +154,7 @@ main(int argc, char * argv[])
   //  template parameter of this class is the representation type of the
   //  space coordinates.
   //
-  //  \index{itk::Simularity2DTransform!Instantiation}
+  //  \index{itk::Similarity2DTransform!Instantiation}
   //
   //  Software Guide : EndLatex
 
@@ -182,7 +182,7 @@ main(int argc, char * argv[])
   //  As before, the transform object is constructed and initialized before it
   //  is passed to the registration filter.
   //
-  //  \index{itk::Simularity2DTransform!Pointer}
+  //  \index{itk::Similarity2DTransform!Pointer}
   //
   //  Software Guide : EndLatex
 
@@ -238,8 +238,8 @@ main(int argc, char * argv[])
   //
   //  The remaining parameters of the transform are initialized below.
   //
-  //  \index{itk::Simularity2DTransform!SetScale()}
-  //  \index{itk::Simularity2DTransform!SetAngle()}
+  //  \index{itk::Similarity2DTransform!SetScale()}
+  //  \index{itk::Similarity2DTransform!SetAngle()}
   //
   //  Software Guide : EndLatex
 
@@ -441,7 +441,7 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12}
   // \itkcaption[Fixed and Moving image registered with
-  // Simularity2DTransform]{Fixed and Moving image provided as input to the
+  // Similarity2DTransform]{Fixed and Moving image provided as input to the
   // registration method using the Similarity2D transform.}
   // \label{fig:FixedMovingImageRegistration7}
   // \end{figure}
@@ -452,7 +452,7 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7Output}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceBefore}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter}
-  // \itkcaption[Output of the Simularity2DTransform registration]{Resampled
+  // \itkcaption[Output of the Similarity2DTransform registration]{Resampled
   // moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
   // Similarity2D transform.}
@@ -469,7 +469,7 @@ main(int argc, char * argv[])
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceScale}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations}
-  // \itkcaption[Simularity2DTransform registration plots]{Plots of the
+  // \itkcaption[Similarity2DTransform registration plots]{Plots of the
   // Metric, rotation angle, scale factor, and translations during the
   // registration using Similarity2D transform.}
   // \label{fig:ImageRegistration7Plots}

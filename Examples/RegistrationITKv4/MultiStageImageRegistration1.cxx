@@ -511,7 +511,7 @@ main(int argc, char * argv[])
   //  \doxygen{ImageMomentsCalculator} filter to compute the center of mass.
   //
   //  Based on the above discussion, the user must set the fixed parameters of
-  //  the registration transform outside of the registraton method, so first
+  //  the registration transform outside of the registration method, so first
   //  we instantiate an object of the output transform type.
   //
   // Software Guide : EndLatex

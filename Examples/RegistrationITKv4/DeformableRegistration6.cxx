@@ -36,7 +36,7 @@
 // parameters does not change between resolution levels.
 //
 // This examples use the \doxygen{LBFGS2Optimizerv4}, which is the new
-// implementation of the quasi-Newtown unbounded limited-memory
+// implementation of the quasi-Newton unbounded limited-memory
 // Broyden Fletcher Goldfarb Shannon (LBFGS) optimizer. The unbounded
 // version does not require specification of the bounds of the
 // parameters space, since the number of parameters change at each

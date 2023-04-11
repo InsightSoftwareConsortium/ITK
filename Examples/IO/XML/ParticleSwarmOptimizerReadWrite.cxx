@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 /**
- * This example program shows how to reade/write the ITK object
+ * This example program shows how to read/write the ITK object
  * itk::ParticleSwarmOptimizer using the traditional SAX-based API and the
  * newly introduced DOM-based API.
  *

@@ -229,10 +229,10 @@ main(int argc, char * argv[])
   // \itkcaption[Various Anisotropic Diffusion compared] {Comparison between
   // the gradient (center) and curvature (right) Anisotropic Diffusion
   // filters. Original image at left.}
-  // \label{fig:ComparisionGradientCurvatureRGBAnisotropicDiffusion}
+  // \label{fig:ComparisonGradientCurvatureRGBAnisotropicDiffusion}
   // \end{figure}
   //
-  //  Figure \ref{fig:ComparisionGradientCurvatureRGBAnisotropicDiffusion}
+  //  Figure \ref{fig:ComparisonGradientCurvatureRGBAnisotropicDiffusion}
   //  compares the effect of the gradient and curvature anisotropic diffusion
   //  filters on a small region of the same cryogenic slice used in Figure
   //  \ref{fig:RGBVectorCurvatureAnisotropicDiffusionImageFilterInputOutput}.

@@ -24,7 +24,7 @@
 //  reconstructing the continuous values of a discrete image. In the spectral
 //  domain, this interpolator is performing the task of masking the central
 //  part of the spectrum of the sampled image, that in principle corresponds
-//  to the spectrumn of the continuous image before it was sampled into a
+//  to the spectrum of the continuous image before it was sampled into a
 //  discrete one. In this particular case an \doxygen{AffineTransform} is used
 //  to map the input space into the output space.
 //

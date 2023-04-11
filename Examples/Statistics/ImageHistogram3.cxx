@@ -209,7 +209,7 @@ main(int argc, char * argv[])
   // to assign the histogram to a const smart pointer as shown in previous
   // examples.
   //
-  // \index{itk::Statistics::ImageTohistogramFilter!GetOutput()}
+  // \index{itk::Statistics::ImageToHistogramFilter!GetOutput()}
   //
   // Software Guide : EndLatex
 

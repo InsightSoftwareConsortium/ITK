@@ -19,13 +19,13 @@
 //  Software Guide : BeginLatex
 //
 //  Fourier Descriptors provide a mechanism for representing a closed curve in
-//  space.  The represented curve has infinite continuiity because the
+//  space.  The represented curve has infinite continuity because the
 //  parametric coordinate of its points are computed from a Fourier Series.
 //
 //  In this example we illustrate how a curve that is initially defined by a
 //  set of points in space can be represented in terms for Fourier
 //  Descriptors. This representation is useful for several purposes. For
-//  example, it provides a mechanmism for interpolating values among the
+//  example, it provides a mechanism for interpolating values among the
 //  points, it provides a way of analyzing the smoothness of the curve.  In
 //  this particular example we will focus on this second application of the
 //  Fourier Descriptors.

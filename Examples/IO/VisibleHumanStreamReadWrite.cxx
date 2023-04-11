@@ -64,7 +64,7 @@ main(int argc, char * argv[])
   using RGB3DImageType = itk::Image<RGBPixelType, 3>;
   using RGB2DImageType = itk::Image<RGBPixelType, 2>;
 
-  // genderate the names of the decompressed Visible Male images
+  // generate the names of the decompressed Visible Male images
   using NameGeneratorType = itk::NumericSeriesFileNames;
   auto nameGenerator = NameGeneratorType::New();
   nameGenerator->SetSeriesFormat(visibleHumanPath + "a_vm%04d.raw");

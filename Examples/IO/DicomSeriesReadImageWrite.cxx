@@ -44,7 +44,7 @@
 //  Probably the most common representation of datasets in clinical
 //  applications is the one that uses sets of DICOM slices in order to compose
 //  tridimensional images. This is the case for CT, MRI and PET scanners. It
-//  is very common therefore for image analysists to have to process
+//  is very common therefore for image analysts to have to process
 //  volumetric images that are stored in the form of a set of DICOM files
 //  belonging to a common DICOM series.
 //

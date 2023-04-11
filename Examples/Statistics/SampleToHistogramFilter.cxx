@@ -25,7 +25,7 @@
 // measurement vectors (e.g. \subdoxygen{Statistics}{ListSample},
 // \subdoxygen{Statistics}{ImageToListSampleAdaptor}, or
 // \subdoxygen{Statistics}{PointSetToListSample}) to use less memory or to
-// perform a particular type od analysis. In such cases, we can import data
+// perform a particular type of analysis. In such cases, we can import data
 // from a sample type to a \subdoxygen{Statistics}{Histogram} object
 // using the \subdoxygen{Statistics}{SampleToHistogramFiler}.
 //

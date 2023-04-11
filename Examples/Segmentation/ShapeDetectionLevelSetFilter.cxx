@@ -163,7 +163,7 @@
 #include "itksys/SystemTools.hxx"
 
 
-//  The RescaleIntensityImageFilter is used to renormailize the output
+//  The RescaleIntensityImageFilter is used to renormalize the output
 //  of filters before sending them to files.
 #include "itkRescaleIntensityImageFilter.h"
 

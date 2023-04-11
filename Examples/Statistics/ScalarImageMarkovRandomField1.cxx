@@ -388,7 +388,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Finally, the classifier class is connected to the Markof Random Fields
+  // Finally, the classifier class is connected to the Markov Random Fields
   // filter.
   //
   // Software Guide : EndLatex
