@@ -465,8 +465,8 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep>
-  [[nodiscard]] bool
-  TransformPhysicalPointToIndex(const Point<TCoordRep, VImageDimension> & point, IndexType & index) const
+  ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
+  bool TransformPhysicalPointToIndex(const Point<TCoordRep, VImageDimension> & point, IndexType & index) const
   {
     index = TransformPhysicalPointToIndex(point);
 
@@ -518,9 +518,9 @@ public:
    *
    * \sa Transform */
   template <typename TCoordRep, typename TIndexRep>
-  [[nodiscard]] bool
-  TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, VImageDimension> &     point,
-                                          ContinuousIndex<TIndexRep, VImageDimension> & index) const
+  ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
+  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, VImageDimension> &     point,
+                                               ContinuousIndex<TIndexRep, VImageDimension> & index) const
   {
     index = TransformPhysicalPointToContinuousIndex<TIndexRep>(point);
 
