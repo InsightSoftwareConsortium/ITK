@@ -22,6 +22,7 @@
 #include <nifti1_io.h>
 #include "itkNiftiImageIOConfigurePrivate.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "vnl/algo/vnl_svd.h"
 
 namespace itk
 {
@@ -449,6 +450,7 @@ NiftiImageIO::NiftiImageIO()
   : m_NiftiImageHolder(new NiftiImageProxy(nullptr))
   , m_NiftiImage(*m_NiftiImageHolder.get())
   , m_LegacyAnalyze75Mode{ ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT }
+  , m_SFORM_Permissive{ ITK_NIFTI_IO_SFORM_PERMISSIVE }
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages
@@ -481,6 +483,7 @@ NiftiImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "ConvertRASDisplacementVectors: " << (m_ConvertRASDisplacementVectors ? "On" : "Off") << std::endl;
   os << indent << "OnDiskComponentType: " << m_OnDiskComponentType << std::endl;
   os << indent << "LegacyAnalyze75Mode: " << m_LegacyAnalyze75Mode << std::endl;
+  os << indent << "SFORM permissive: " << (m_SFORM_Permissive ? "On" : "Off") << std::endl;
 }
 
 bool
@@ -898,6 +901,8 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
   MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
   // Necessary to clear dict if ImageIO object is re-used
   thisDic.Clear();
+
+  EncapsulateMetaData<std::string>(thisDic, "ITK_sform_corrected", m_SFORM_Corrected ? "YES" : "NO");
 
   std::ostringstream nifti_type;
   nifti_type << nim->nifti_type;
@@ -2031,6 +2036,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
           // Only orthonormal matricies have transpose as inverse
           const vnl_matrix_fixed<float, 3, 3> candidate_identity = rotation * rotation.transpose();
           const bool                          is_orthonormal = candidate_identity.is_identity(1.0e-4);
+
           return is_orthonormal;
         }
       }();
@@ -2089,15 +2095,48 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
           }();
           prefer_sform_over_qform = sform_and_qform_are_very_similar;
         }
-      } // sform is orthonormal
-    }   // sform not NIFTI_XFORM_UNKNOWN
+      }
+      else if (m_SFORM_Permissive) // sform is orthonormal
+      {
+        // Fix to deal with non-orthogonal matrixes
+        // this approach uses SVD decomposition
+        // maybe it is better to use nifti_make_orthog_mat44
+        // to be consistent with other software?
+        itkWarningMacro(<< this->GetFileName() << " has non-orthogonal sform");
 
+        vnl_matrix_fixed<double, 4, 4> mat;
+
+        for (int i = 0; i < 4; ++i)
+          for (int j = 0; j < 4; ++j)
+          {
+            mat[i][j] = double{ this->m_NiftiImage->sto_xyz.m[i][j] };
+          }
+
+        vnl_svd<double> svd(mat.as_matrix(), 1e-8);
+        if (svd.singularities() == 0)
+        {
+          mat = svd.V() * svd.U().conjugate_transpose();
+          mat44 _mat;
+
+          for (int i = 0; i < 4; ++i)
+            for (int j = 0; j < 4; ++j)
+            {
+              _mat.m[i][j] = static_cast<float>(mat[i][j]);
+            }
+
+          this->m_SFORM_Corrected = true;
+          return _mat;
+        }
+      }
+    } // sform not NIFTI_XFORM_UNKNOWN
     if (prefer_sform_over_qform)
     {
+      this->m_SFORM_Corrected = false;
       return this->m_NiftiImage->sto_xyz;
     }
     else if (this->m_NiftiImage->qform_code != NIFTI_XFORM_UNKNOWN)
     {
+      this->m_SFORM_Corrected = false;
       return this->m_NiftiImage->qto_xyz;
     }
 
@@ -2279,6 +2318,15 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
     itkWarningMacro("Non-orthogonal direction matrix coerced to orthogonal");
   }
 
+  // also issue a warning if original file had non-orthogonal matrix?
+  {
+    const MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+    std::string                temp;
+    if (itk::ExposeMetaData<std::string>(thisDic, "nifti_sform_corrected", temp) && temp == "YES")
+    {
+      itkWarningMacro("Non-orthogonal direction matrix in original nifti file was non-orthogonal");
+    }
+  }
   // Fill in origin.
   matrix.m[0][3] = static_cast<float>(-this->GetOrigin(0));
   matrix.m[1][3] = (origdims > 1) ? static_cast<float>(-this->GetOrigin(1)) : 0.0f;

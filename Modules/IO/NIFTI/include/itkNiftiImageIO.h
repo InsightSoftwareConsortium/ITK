@@ -219,6 +219,11 @@ public:
   itkGetConstMacro(ConvertRASDisplacementVectors, bool);
   itkBooleanMacro(ConvertRASDisplacementVectors);
 
+  /** Allow to read nifti files with non-orthogonal sform*/
+  itkSetMacro(SFORM_Permissive, bool);
+  itkGetConstMacro(SFORM_Permissive, bool);
+  itkBooleanMacro(SFORM_Permissive);
+
 protected:
   NiftiImageIO();
   ~NiftiImageIO() override;
@@ -276,6 +281,9 @@ private:
   IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UNKNOWNCOMPONENTTYPE };
 
   NiftiImageIOEnums::Analyze75Flavor m_LegacyAnalyze75Mode{};
+
+  bool m_SFORM_Permissive;
+  bool m_SFORM_Corrected{ false };
 };
 
 

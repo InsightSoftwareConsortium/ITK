@@ -93,6 +93,7 @@ itk_add_test(NAME itkNiftiReadWriteDirectionTest
         DATA{${ITK_DATA_ROOT}/Input/LPSLabels.nii.gz}
         DATA{${ITK_DATA_ROOT}/Input/LPSLabels_noqform.nii.gz}
         DATA{${ITK_DATA_ROOT}/Input/LPSLabels_nosform.nii.gz}
+        DATA{${ITK_DATA_ROOT}/Input/NonOrthoSform.nii.gz}
         ${ITK_TEST_OUTPUT_DIR}
         )
 

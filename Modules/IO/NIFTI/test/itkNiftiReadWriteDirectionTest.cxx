@@ -25,15 +25,51 @@
 // debug
 #include <map>
 
+/** ReadFile
+ * read an image from disk
+ */
+template <typename TImage>
+typename TImage::Pointer
+ReadImage(const std::string & fileName, bool SFORM_Permissive)
+{
+  using ReaderType = itk::ImageFileReader<TImage>;
+
+  auto                                reader = ReaderType::New();
+  typename itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
+  {
+    imageIO->SetSFORM_Permissive(SFORM_Permissive);
+    reader->SetImageIO(imageIO);
+    reader->SetFileName(fileName.c_str());
+    try
+    {
+      reader->Update();
+    }
+    catch (const itk::ExceptionObject & err)
+    {
+      std::cout << "Caught an exception: " << std::endl;
+      std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << std::endl;
+      throw;
+    }
+    catch (...)
+    {
+      std::cout << "Error while reading in image  " << fileName << std::endl;
+      throw;
+    }
+  }
+  typename TImage::Pointer image = reader->GetOutput();
+  return image;
+}
+
 int
 itkNiftiReadWriteDirectionTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc < 6)
   {
     std::cerr << "Missing Parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << "imageWithBothQAndSForms imageWithNoQform imageWithNoSform testOutputDir" << std::endl;
-    std::cerr << "5 arguments required, received " << argc << std::endl;
+              << "imageWithBothQAndSForms imageWithNoQform imageWithNoSform  imageWithNonOrthoSform testOutputDir"
+              << std::endl;
+    std::cerr << "6 arguments required, received " << argc << std::endl;
     for (int i = 0; i < argc; ++i)
     {
       std::cerr << '\t' << i << " : " << argv[i] << std::endl;
@@ -45,6 +81,16 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   TestImageType::Pointer inputImage = itk::ReadImage<TestImageType>(argv[1]);
   TestImageType::Pointer inputImageNoQform = itk::ReadImage<TestImageType>(argv[2]);
   TestImageType::Pointer inputImageNoSform = itk::ReadImage<TestImageType>(argv[3]);
+
+  itk::MetaDataDictionary & dictionary = inputImage->GetMetaDataDictionary();
+  std::string               temp;
+
+  if (!itk::ExposeMetaData<std::string>(dictionary, "ITK_sform_corrected", temp) || temp != "NO")
+  {
+    std::cerr << "ITK_sform_corrected metadata flag was not properly set" << std::endl;
+    std::cerr << " expected NO, recieved:" << temp.c_str() << std::endl;
+    return EXIT_FAILURE;
+  }
 
   const auto inputImageDirection = inputImage->GetDirection();
   const auto inputImageNoQformDirection = inputImageNoQform->GetDirection();
@@ -74,7 +120,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   }
 
   // Write image that originally had no sform direction representation into a file with both sform and qform
-  const std::string                            testOutputDir = argv[4];
+  const std::string                            testOutputDir = argv[5];
   const std::string                            testFilename = testOutputDir + "/test_filled_sform.nii.gz";
   itk::ImageFileWriter<TestImageType>::Pointer writer = itk::ImageFileWriter<TestImageType>::New();
   ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(inputImageNoSform, testFilename));
@@ -109,6 +155,19 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
     std::cerr << "Error: sform reconstructed from qform is not sufficiently similar to qform" << std::endl;
     std::cerr << "qform-only image direction:" << std::endl << inputImageNoSformDirection << std::endl;
     std::cerr << "Reconstructed sform image direction:" << std::endl << reReadImageDirection << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // should not read the image with non-orthogonal sform
+  ITK_TRY_EXPECT_EXCEPTION(ReadImage<TestImageType>(argv[4], false));
+
+  // this should work
+  TestImageType::Pointer inputImageNonOrthoSform = ReadImage<TestImageType>(argv[4], true);
+  dictionary = inputImageNonOrthoSform->GetMetaDataDictionary();
+  if (!itk::ExposeMetaData<std::string>(dictionary, "ITK_sform_corrected", temp) || temp != "YES")
+  {
+    std::cerr << "ITK_sform_corrected metadata flag was not properly set" << std::endl;
+    std::cerr << " expected YES, recieved:" << temp.c_str() << std::endl;
     return EXIT_FAILURE;
   }
 
