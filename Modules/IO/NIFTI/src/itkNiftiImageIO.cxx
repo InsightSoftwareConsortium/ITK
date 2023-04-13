@@ -23,6 +23,8 @@
 #include "itkNiftiImageIOConfigurePrivate.h"
 #include "itkMakeUniqueForOverwrite.h"
 #include "vnl/algo/vnl_svd.h"
+#include "itksys/SystemTools.hxx"
+#include "itksys/SystemInformation.hxx"
 
 namespace itk
 {
@@ -450,7 +452,7 @@ NiftiImageIO::NiftiImageIO()
   : m_NiftiImageHolder(new NiftiImageProxy(nullptr))
   , m_NiftiImage(*m_NiftiImageHolder.get())
   , m_LegacyAnalyze75Mode{ ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT }
-  , m_SFORM_Permissive{ ITK_NIFTI_IO_SFORM_PERMISSIVE }
+  , m_SFORM_Permissive{ ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT }
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages
@@ -461,6 +463,12 @@ NiftiImageIO::NiftiImageIO()
   {
     this->AddSupportedWriteExtension(ext);
     this->AddSupportedReadExtension(ext);
+  }
+  std::string envVar;
+  if (itksys::SystemTools::GetEnv("ITK_NIFTI_SFORM_PERMISSIVE", envVar))
+  {
+    envVar = itksys::SystemTools::UpperCase(envVar);
+    this->SetSFORM_Permissive(envVar != "NO" && envVar != "OFF" && envVar != "FALSE");
   }
 }
 

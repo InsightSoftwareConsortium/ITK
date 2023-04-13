@@ -21,6 +21,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
+#include "itksys/SystemTools.hxx"
+#include "itksys/SystemInformation.hxx"
 
 // debug
 #include <map>
@@ -160,6 +162,17 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
 
   // should not read the image with non-orthogonal sform
   ITK_TRY_EXPECT_EXCEPTION(ReadImage<TestImageType>(argv[4], false));
+
+  // check if environment flag is used properly
+  // check without permissive option
+  itksys::SystemTools::PutEnv("ITK_NIFTI_SFORM_PERMISSIVE=NO");
+  ITK_TRY_EXPECT_EXCEPTION(itk::ReadImage<TestImageType>(argv[4]));
+  // check with permissive option
+  itksys::SystemTools::PutEnv("ITK_NIFTI_SFORM_PERMISSIVE=YES");
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::ReadImage<TestImageType>(argv[4]));
+  // check with permissive option, when nothing is specified
+  itksys::SystemTools::PutEnv("ITK_NIFTI_SFORM_PERMISSIVE");
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::ReadImage<TestImageType>(argv[4]));
 
   // this should work
   TestImageType::Pointer inputImageNonOrthoSform = ReadImage<TestImageType>(argv[4], true);
