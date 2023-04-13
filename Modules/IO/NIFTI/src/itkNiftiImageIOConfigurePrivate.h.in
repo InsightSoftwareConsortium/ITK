@@ -24,6 +24,6 @@
 // Analyze default flavour
 #define ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT NiftiImageIOEnums::Analyze75Flavor::Analyze@ITK_NIFTI_IO_ANALYZE_FLAVOR@
 // Enable permissive treatment of SFORM
-#cmakedefine01 ITK_NIFTI_IO_SFORM_PERMISSIVE
+#cmakedefine01 ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT
 
 #endif // itkNiftiImageIOConfigurePrivate_h

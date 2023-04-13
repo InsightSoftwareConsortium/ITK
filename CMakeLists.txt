@@ -339,8 +339,8 @@ endif()
 mark_as_advanced(ITK_NIFTI_IO_ANALYZE_FLAVOR)
 
 # Allow non-orthogonal rotation matrix approximation in NIFTI files
-option(ITK_NIFTI_IO_SFORM_PERMISSIVE "Allow non-orthogonal rotation matrix in NIFTI sform by default" ON)
-mark_as_advanced(ITK_NIFTI_IO_SFORM_PERMISSIVE)
+option(ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT "Allow non-orthogonal rotation matrix in NIFTI sform by default" OFF)
+mark_as_advanced(ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT)
 
 
 
