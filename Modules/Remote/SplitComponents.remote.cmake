@@ -49,5 +49,5 @@ itk::Image of, for example, itk::Vector, itk::CovariantVector, or
 itk::SymmetricSecondRankTensor. https://www.insight-journal.org/browse/publication/774"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKSplitComponents.git
-  GIT_TAG 58428c55401e3906f9dbec1f9599e13a7c034ea8
+  GIT_TAG 3030e1e3144b98c190e1d19d81233472b791811e
   )

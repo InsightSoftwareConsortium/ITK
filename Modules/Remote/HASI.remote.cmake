@@ -46,5 +46,5 @@ itk_fetch_module(HASI
 "High-throughput Applications for Skeletal Imaging."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/HASI.git
-  GIT_TAG 3a9824a422cc458cacd1ed4df34dc8339dbd6dcb
+  GIT_TAG d58acf4cda836bdedd1b7531dddc8ca7b20b396a
   )

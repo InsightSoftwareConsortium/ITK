@@ -47,5 +47,5 @@ itk_fetch_module(IOMeshSTL
   the STL (STereoLithography) file format. https://www.insight-journal.org/browse/publication/913"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIOMeshSTL.git
-  GIT_TAG 764773647490f2c8da48b5bea2ad4ea91c911915
+  GIT_TAG 31594eb088ef35897e7ce0f02077e8ce50454e01
   )
