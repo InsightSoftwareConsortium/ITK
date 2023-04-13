@@ -46,5 +46,5 @@ itk_fetch_module(Cleaver
   "ITK module wrapping Cleaver functionalities used for MultiMaterial Tetrahedral Meshing."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/SCIInstitute/ITKCleaver.git
-  GIT_TAG a12f62a7f7f5329525f1ab0b22823bb8aa8a2df0
+  GIT_TAG b65be4687a507b90e9caf7df53c30ded6d4c339c
   )
