@@ -22,7 +22,7 @@
 namespace itk
 {
 template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(ImageType * ptr, const RegionType & region)
+ImageScanlineIterator<TImage>::ImageScanlineIterator(TImage * ptr, const RegionType & region)
   : ImageScanlineConstIterator<TImage>(ptr, region)
 {}
 

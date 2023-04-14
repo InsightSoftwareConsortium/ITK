@@ -102,7 +102,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageScanlineConstIterator(const ImageType * ptr, const RegionType & region)
+  ImageScanlineConstIterator(const TImage * ptr, const RegionType & region)
     : ImageConstIterator<TImage>(ptr, region)
   {
     m_SpanBeginOffset = this->m_BeginOffset;
