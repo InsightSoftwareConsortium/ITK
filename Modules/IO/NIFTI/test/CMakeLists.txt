@@ -102,6 +102,7 @@ itk_add_test(NAME itkNiftiReadWriteDirectionSmallVoxelTest
         DATA{Input/SmallVoxels.nii.gz}
         DATA{Input/SmallVoxels_noqform.nii.gz}
         DATA{Input/SmallVoxels_nosform.nii.gz}
+        DATA{Input/SmallVoxelsNonOrthoSform.nii.gz}
         ${ITK_TEST_OUTPUT_DIR}
         )
 

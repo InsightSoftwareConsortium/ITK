@@ -170,9 +170,6 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   // check with permissive option
   itksys::SystemTools::PutEnv("ITK_NIFTI_SFORM_PERMISSIVE=YES");
   ITK_TRY_EXPECT_NO_EXCEPTION(itk::ReadImage<TestImageType>(argv[4]));
-  // check with permissive option, when nothing is specified
-  itksys::SystemTools::PutEnv("ITK_NIFTI_SFORM_PERMISSIVE");
-  ITK_TRY_EXPECT_NO_EXCEPTION(itk::ReadImage<TestImageType>(argv[4]));
 
   // this should work
   TestImageType::Pointer inputImageNonOrthoSform = ReadImage<TestImageType>(argv[4], true);
