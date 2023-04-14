@@ -213,7 +213,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
     {
       SourceImagePixelType sourceValue = this->GetConstant();
 
-      ImageScanlineIterator<TOutputImage> outputIt(outputPtr, destinationRegion);
+      ImageScanlineIterator outputIt(outputPtr, destinationRegion);
       while (!outputIt.IsAtEnd())
       {
         while (!outputIt.IsAtEndOfLine())
@@ -258,7 +258,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
     {
       SourceImagePixelType sourceValue = this->GetConstant();
 
-      ImageScanlineIterator<TOutputImage> outputIt(outputPtr, destinationRegion);
+      ImageScanlineIterator outputIt(outputPtr, destinationRegion);
       while (!outputIt.IsAtEnd())
       {
         while (!outputIt.IsAtEndOfLine())

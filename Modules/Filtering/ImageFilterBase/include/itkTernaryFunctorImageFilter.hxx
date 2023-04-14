@@ -131,10 +131,10 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  ImageScanlineConstIterator<TInputImage1> inputIt1(inputPtr1, outputRegionForThread);
-  ImageScanlineConstIterator<TInputImage2> inputIt2(inputPtr2, outputRegionForThread);
-  ImageScanlineConstIterator<TInputImage3> inputIt3(inputPtr3, outputRegionForThread);
-  ImageScanlineIterator<TOutputImage>      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineConstIterator inputIt1(inputPtr1, outputRegionForThread);
+  ImageScanlineConstIterator inputIt2(inputPtr2, outputRegionForThread);
+  ImageScanlineConstIterator inputIt3(inputPtr3, outputRegionForThread);
+  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt1.IsAtEnd())
   {

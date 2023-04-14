@@ -47,8 +47,8 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   SizeValueType underflow = 0;
   SizeValueType overflow = 0;
 
-  ImageScanlineIterator<TOutputImage>     ot(outputPtr, outputRegion);
-  ImageScanlineConstIterator<TInputImage> it(inputPtr, outputRegion);
+  ImageScanlineIterator      ot(outputPtr, outputRegion);
+  ImageScanlineConstIterator it(inputPtr, outputRegion);
 
   // support progress methods/callbacks
 

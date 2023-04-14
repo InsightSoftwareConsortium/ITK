@@ -170,8 +170,8 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
   }
 
   // Setup output region iterator
-  ImageScanlineIterator<TImage>      outputIt(outputPtr, outputRegionForThread);
-  ImageScanlineConstIterator<TImage> inputIter(inputPtr, inputReginForThread);
+  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineConstIterator inputIter(inputPtr, inputReginForThread);
 
   IndexValueType offset[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)

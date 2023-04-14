@@ -105,7 +105,7 @@ StatisticsImageFilter<TInputImage>::ThreadedStreamedGenerateData(const RegionTyp
   PixelType                      min = NumericTraits<PixelType>::max();
   PixelType                      max = NumericTraits<PixelType>::NonpositiveMin();
 
-  ImageScanlineConstIterator<TInputImage> it(this->GetInput(), regionForThread);
+  ImageScanlineConstIterator it(this->GetInput(), regionForThread);
 
   // do the work
   while (!it.IsAtEnd())

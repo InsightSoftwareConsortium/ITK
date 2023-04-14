@@ -257,7 +257,7 @@ TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputIma
   std::unique_ptr<ImageScanlineConstIterator<TInputImage1>> inputIt1;
   std::unique_ptr<ImageScanlineConstIterator<TInputImage2>> inputIt2;
   std::unique_ptr<ImageScanlineConstIterator<TInputImage3>> inputIt3;
-  ImageScanlineIterator<TOutputImage>                       outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator                                     outputIt(outputPtr, outputRegionForThread);
 
   if (inputPtr1 && inputPtr2 && inputPtr3)
   {

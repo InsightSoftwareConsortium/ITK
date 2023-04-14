@@ -60,7 +60,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::ParallelComputeLabels(co
   initialSize.m_SizeInPixels = 0;
 
   // walk the input
-  ImageScanlineConstIterator<InputImageType> it(this->GetInput(), inputRegionForThread);
+  ImageScanlineConstIterator it(this->GetInput(), inputRegionForThread);
 
   auto                  inputRequestedRegion = this->GetInput()->GetRequestedRegion();
   TotalProgressReporter report(this, inputRequestedRegion.GetNumberOfPixels(), 100, 0.5f);
@@ -235,8 +235,8 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
       auto                  outputRequestedRegion = this->GetOutput()->GetRequestedRegion();
       TotalProgressReporter report(this, outputRequestedRegion.GetNumberOfPixels(), 100, 0.5f);
 
-      ImageScanlineIterator<OutputImageType>     oit(this->GetOutput(), outputRegionForThread);
-      ImageScanlineConstIterator<InputImageType> it(this->GetInput(), outputRegionForThread);
+      ImageScanlineIterator      oit(this->GetOutput(), outputRegionForThread);
+      ImageScanlineConstIterator it(this->GetInput(), outputRegionForThread);
 
       auto mapIt = relabelMap.cbegin();
 
