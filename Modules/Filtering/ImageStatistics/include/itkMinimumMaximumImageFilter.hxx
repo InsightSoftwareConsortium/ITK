@@ -76,7 +76,7 @@ MinimumMaximumImageFilter<TInputImage>::ThreadedStreamedGenerateData(const Regio
   PixelType localMin = NumericTraits<PixelType>::max();
   PixelType localMax = NumericTraits<PixelType>::NonpositiveMin();
 
-  ImageScanlineConstIterator<TInputImage> it(this->GetInput(), regionForThread);
+  ImageScanlineConstIterator it(this->GetInput(), regionForThread);
 
 
   // do the work

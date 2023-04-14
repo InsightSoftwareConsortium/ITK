@@ -229,8 +229,8 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Dynam
   function.SetBackgroundValue(input->GetBackgroundValue());
   function.SetOpacity(m_Opacity);
 
-  ImageScanlineConstIterator<FeatureImageType> featureIt(input2, outputRegionForThread);
-  ImageScanlineIterator<OutputImageType>       outputIt(output, outputRegionForThread);
+  ImageScanlineConstIterator featureIt(input2, outputRegionForThread);
+  ImageScanlineIterator      outputIt(output, outputRegionForThread);
 
   while (!featureIt.IsAtEnd())
   {

@@ -36,8 +36,8 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
 {
   if (inRegion.GetSize()[0] == outRegion.GetSize()[0])
   {
-    itk::ImageScanlineConstIterator<InputImageType> it(inImage, inRegion);
-    itk::ImageScanlineIterator<OutputImageType>     ot(outImage, outRegion);
+    itk::ImageScanlineConstIterator it(inImage, inRegion);
+    itk::ImageScanlineIterator      ot(outImage, outRegion);
 
     while (!it.IsAtEnd())
     {
