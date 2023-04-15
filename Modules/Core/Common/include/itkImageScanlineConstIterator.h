@@ -260,6 +260,12 @@ protected:
   OffsetValueType m_SpanBeginOffset{}; // one pixel the beginning of the scanline
   OffsetValueType m_SpanEndOffset{};   // one pixel past the end of the scanline
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageScanlineConstIterator(SmartPointer<const TImage>, const typename TImage::RegionType &)
+  ->ImageScanlineConstIterator<TImage>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
