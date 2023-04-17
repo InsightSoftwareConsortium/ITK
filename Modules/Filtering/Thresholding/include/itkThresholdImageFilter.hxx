@@ -102,11 +102,8 @@ ThresholdImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegio
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  using InputIterator = ImageScanlineConstIterator<TImage>;
-  using OutputIterator = ImageScanlineIterator<TImage>;
-
-  InputIterator  inIt(inputPtr, outputRegionForThread);
-  OutputIterator outIt(outputPtr, outputRegionForThread);
+  ImageScanlineConstIterator inIt(inputPtr, outputRegionForThread);
+  ImageScanlineIterator      outIt(outputPtr, outputRegionForThread);
 
   // Walk the regions; threshold each pixel
   while (!outIt.IsAtEnd())

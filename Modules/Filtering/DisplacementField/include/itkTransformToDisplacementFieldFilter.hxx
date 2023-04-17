@@ -178,8 +178,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
   const TransformType * transform = this->GetInput()->Get();
 
   // Create an iterator that will walk the output region for this thread.
-  using OutputIteratorType = ImageScanlineIterator<TOutputImage>;
-  OutputIteratorType outIt(output, outputRegionForThread);
+  ImageScanlineIterator outIt(output, outputRegionForThread);
 
   // Define a few variables that will be used to translate from an input pixel
   // to an output pixel
@@ -228,8 +227,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
   const OutputImageRegionType & largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
 
   // Create an iterator that will walk the output region for this thread.
-  using OutputIteratorType = ImageScanlineIterator<TOutputImage>;
-  OutputIteratorType outIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel

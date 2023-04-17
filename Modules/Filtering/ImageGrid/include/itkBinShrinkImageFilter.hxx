@@ -107,11 +107,8 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   using OutputPixelType = typename OutputImageType::PixelType;
   using AccumulatePixelType = typename NumericTraits<InputPixelType>::RealType;
 
-  using InputConstIteratorType = ImageScanlineConstIterator<InputImageType>;
-  using OutputIteratorType = ImageScanlineIterator<OutputImageType>;
-
-  InputConstIteratorType inputIterator(inputPtr, inputPtr->GetRequestedRegion());
-  OutputIteratorType     outputIterator(outputPtr, outputRegionForThread);
+  ImageScanlineConstIterator inputIterator(inputPtr, inputPtr->GetRequestedRegion());
+  ImageScanlineIterator      outputIterator(outputPtr, outputRegionForThread);
 
   // Set up shaped neighbor hood by defining the offsets
   OutputOffsetType negativeOffset, positiveOffset, iOffset;
