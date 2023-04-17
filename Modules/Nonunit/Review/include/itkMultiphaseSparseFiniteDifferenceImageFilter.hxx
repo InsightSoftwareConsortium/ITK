@@ -1353,7 +1353,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     ImageRegionIterator<InputImageType> inIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
 
     // In the context of the global coordinates
-    OutputIndexType start = output->TransformPhysicalPointToIndex(origin);
+    const OutputIndexType start = output->TransformPhysicalPointToIndex(origin);
 
     // Defining sub-region in the global coordinates
     OutputRegionType region;

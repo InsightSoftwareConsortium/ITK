@@ -33,7 +33,7 @@ ScalarChanAndVeseDenseLevelSetImageFilter<TInputImage, TFeatureImage, TOutputIma
     InputPointType    origin = input->GetOrigin();
 
     // In the context of the global coordinates
-    FeatureIndexType start = this->GetInput()->TransformPhysicalPointToIndex(origin);
+    const FeatureIndexType start = this->GetInput()->TransformPhysicalPointToIndex(origin);
 
     // Defining roi region
     FeatureRegionType region;
