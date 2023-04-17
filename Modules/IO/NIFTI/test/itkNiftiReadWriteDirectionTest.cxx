@@ -62,6 +62,16 @@ ReadImage(const std::string & fileName, bool SFORM_Permissive)
   return image;
 }
 
+
+template <typename TImage>
+bool
+CheckRotation(typename TImage::Pointer img)
+{
+  vnl_matrix_fixed<double, 3, 3>       rotation = img->GetDirection().GetVnlMatrix().extract(3, 3, 0, 0);
+  const vnl_matrix_fixed<double, 3, 3> candidate_identity = rotation * rotation.transpose();
+  return candidate_identity.is_identity(1.0e-4);
+}
+
 int
 itkNiftiReadWriteDirectionTest(int argc, char * argv[])
 {
@@ -83,6 +93,24 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   TestImageType::Pointer inputImage = itk::ReadImage<TestImageType>(argv[1]);
   TestImageType::Pointer inputImageNoQform = itk::ReadImage<TestImageType>(argv[2]);
   TestImageType::Pointer inputImageNoSform = itk::ReadImage<TestImageType>(argv[3]);
+
+
+  // check if rotation matrix is orthogonal
+  if (!CheckRotation<TestImageType>(inputImage))
+  {
+    std::cerr << "Rotation matrix of " << argv[1] << " is not orthgonal" << std::endl;
+    return EXIT_FAILURE;
+  }
+  if (!CheckRotation<TestImageType>(inputImageNoQform))
+  {
+    std::cerr << "Rotation matrix of " << argv[2] << " is not orthgonal" << std::endl;
+    return EXIT_FAILURE;
+  }
+  if (!CheckRotation<TestImageType>(inputImageNoSform))
+  {
+    std::cerr << "Rotation matrix of " << argv[3] << " is not orthgonal" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   itk::MetaDataDictionary & dictionary = inputImage->GetMetaDataDictionary();
   std::string               temp;
@@ -178,6 +206,13 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   {
     std::cerr << "ITK_sform_corrected metadata flag was not properly set" << std::endl;
     std::cerr << " expected YES, recieved:" << temp.c_str() << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // check the resulting rotation matrix is orthogonal
+  if (!CheckRotation<TestImageType>(inputImageNonOrthoSform))
+  {
+    std::cerr << "Rotation matrix after correcting is not orthgonal" << std::endl;
     return EXIT_FAILURE;
   }
 
