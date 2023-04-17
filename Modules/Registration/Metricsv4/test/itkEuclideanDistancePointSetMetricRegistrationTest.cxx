@@ -154,8 +154,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
     typename TTransform::ParametersType params = transform->GetParameters();
     for (itk::SizeValueType n = 0; n < transform->GetNumberOfParameters(); n += transform->GetNumberOfLocalParameters())
     {
-      typename TTransform::ParametersValueType zero =
-        itk::NumericTraits<typename TTransform::ParametersValueType>::ZeroValue();
+      typename TTransform::ParametersValueType zero{};
       if (itk::Math::NotExactlyEquals(params[n], zero) && itk::Math::NotExactlyEquals(params[n + 1], zero))
       {
         std::cout << n << ", " << n + 1 << " : " << params[n] << ", " << params[n + 1] << std::endl;
