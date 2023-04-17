@@ -49,7 +49,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
 
     // Find the index of the target image where this Level Set
     // should be pasted.
-    OutputIndexType start = output->TransformPhysicalPointToIndex(origin);
+    const OutputIndexType start = output->TransformPhysicalPointToIndex(origin);
 
     OutputRegionType region;
     region.SetSize(size);
