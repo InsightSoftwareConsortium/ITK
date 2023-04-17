@@ -49,8 +49,7 @@ itkZeroCrossingImageFilterTest(int, char *[])
   filter->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 
-  typename FilterType::OutputImagePixelType backgroundValue =
-    itk::NumericTraits<typename FilterType::OutputImagePixelType>::ZeroValue();
+  typename FilterType::OutputImagePixelType backgroundValue{};
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 

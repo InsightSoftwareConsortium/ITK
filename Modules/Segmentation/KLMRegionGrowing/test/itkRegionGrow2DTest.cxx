@@ -959,8 +959,7 @@ test_regiongrowKLM2D()
   using OutputImageData = OutputImageType::PixelType::VectorType;
   ImageData                                      pixelIn;
   OutputImageData                                pixelOut;
-  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero =
-    itk::NumericTraits<itk::NumericTraits<OutputImageData>::ValueType>::ZeroValue();
+  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {
@@ -1471,8 +1470,7 @@ test_regiongrowKLM3D()
   using OutputImageData = OutputImageType::PixelType::VectorType;
   ImageData                                      pixelIn;
   OutputImageData                                pixelOut;
-  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero =
-    itk::NumericTraits<itk::NumericTraits<OutputImageData>::ValueType>::ZeroValue();
+  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {
@@ -1883,8 +1881,7 @@ test_regiongrowKLM4D()
   using OutputImageData = OutputImageType::PixelType::VectorType;
   ImageData                                      pixelIn;
   OutputImageData                                pixelOut;
-  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero =
-    itk::NumericTraits<itk::NumericTraits<OutputImageData>::ValueType>::ZeroValue();
+  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {

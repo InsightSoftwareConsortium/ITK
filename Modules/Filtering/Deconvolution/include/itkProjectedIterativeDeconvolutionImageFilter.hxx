@@ -43,7 +43,7 @@ ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::Initialize(ProgressAccu
   this->Superclass::Initialize(progress, progressWeight, iterationProgressWeight);
 
   m_ProjectionFilter = ProjectionFilterType::New();
-  typename InternalImageType::PixelType zero = NumericTraits<typename InternalImageType::PixelType>::ZeroValue();
+  typename InternalImageType::PixelType zero{};
   m_ProjectionFilter->ThresholdBelow(zero);
 }
 

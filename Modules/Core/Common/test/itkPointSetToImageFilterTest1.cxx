@@ -86,8 +86,7 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   filter->SetInsideValue(insideValue);
   ITK_TEST_SET_GET_VALUE(insideValue, filter->GetInsideValue());
 
-  typename BinaryImageType::ValueType outsideValue =
-    itk::NumericTraits<typename BinaryImageType::ValueType>::ZeroValue();
+  typename BinaryImageType::ValueType outsideValue{};
   filter->SetOutsideValue(outsideValue);
   ITK_TEST_SET_GET_VALUE(outsideValue, filter->GetOutsideValue());
 

@@ -184,8 +184,7 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   filter->SetNormalProcessType(normalProcessType);
   ITK_TEST_SET_GET_VALUE(normalProcessType, filter->GetNormalProcessType());
 
-  typename FilterType::ValueType normalProcessConductance =
-    itk::NumericTraits<typename FilterType::ValueType>::ZeroValue();
+  typename FilterType::ValueType normalProcessConductance{};
   filter->SetNormalProcessConductance(normalProcessConductance);
   ITK_TEST_SET_GET_VALUE(normalProcessConductance, filter->GetNormalProcessConductance());
 
@@ -193,8 +192,7 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   filter->SetNormalProcessUnsharpFlag(normalProcessUnsharpFlag);
   ITK_TEST_SET_GET_BOOLEAN(filter, NormalProcessUnsharpFlag, normalProcessUnsharpFlag);
 
-  typename FilterType::ValueType normalProcessUnsharpWeight =
-    itk::NumericTraits<typename FilterType::ValueType>::ZeroValue();
+  typename FilterType::ValueType normalProcessUnsharpWeight{};
   filter->SetNormalProcessUnsharpWeight(normalProcessUnsharpWeight);
   ITK_TEST_SET_GET_VALUE(normalProcessUnsharpWeight, filter->GetNormalProcessUnsharpWeight());
 

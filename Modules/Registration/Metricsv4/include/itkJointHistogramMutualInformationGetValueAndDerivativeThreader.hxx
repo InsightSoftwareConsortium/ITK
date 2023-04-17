@@ -122,8 +122,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
     return false;
   }
   /** the scalingfactor is the MI specific scaling of the image gradient and jacobian terms */
-  InternalComputationValueType scalingfactor =
-    NumericTraits<InternalComputationValueType>::ZeroValue(); // for scaling the jacobian terms
+  InternalComputationValueType scalingfactor{}; // for scaling the jacobian terms
 
   JointPDFPointType jointPDFpoint;
   this->m_JointAssociate->ComputeJointPDFPoint(fixedImageValue, movingImageValue, jointPDFpoint);
