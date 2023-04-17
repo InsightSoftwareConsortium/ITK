@@ -115,11 +115,9 @@ LabelContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
-  using InputLineIteratorType = ImageScanlineConstIterator<InputImageType>;
-  InputLineIteratorType inLineIt(input, outputRegionForThread);
+  ImageScanlineConstIterator inLineIt(input, outputRegionForThread);
 
-  using OutputLineIteratorType = ImageScanlineIterator<OutputImageType>;
-  OutputLineIteratorType outLineIt(output, outputRegionForThread);
+  ImageScanlineIterator outLineIt(output, outputRegionForThread);
 
   for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine(), outLineIt.NextLine())
   {
@@ -158,8 +156,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(
 {
   OutputImageType * output = this->GetOutput();
 
-  using OutputLineIteratorType = ImageScanlineIterator<OutputImageType>;
-  OutputLineIteratorType outLineIt(output, outputRegionForThread);
+  ImageScanlineIterator outLineIt(output, outputRegionForThread);
 
   SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];

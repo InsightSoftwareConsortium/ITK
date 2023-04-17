@@ -435,8 +435,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   const TransformType *  transformPtr = this->GetTransform();
 
   // Create an iterator that will walk the output region for this thread.
-  using OutputIterator = ImageScanlineIterator<TOutputImage>;
-  OutputIterator outIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outIt(outputPtr, outputRegionForThread);
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 

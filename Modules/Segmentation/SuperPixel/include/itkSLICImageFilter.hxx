@@ -141,9 +141,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::BeforeThreadedGenera
   m_OldClusters.resize(numberOfClusters * numberOfClusterComponents);
 
 
-  using InputConstIteratorType = ImageScanlineConstIterator<InputImageType>;
-
-  InputConstIteratorType it(shrunkImage, shrunkImage->GetLargestPossibleRegion());
+  ImageScanlineConstIterator it(shrunkImage, shrunkImage->GetLargestPossibleRegion());
 
   // Initialize cluster centers
   size_t cnt = 0;
@@ -197,9 +195,6 @@ void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateDistanceAndLabel(
   const OutputImageRegionType & outputRegionForThread)
 {
-  using InputConstIteratorType = ImageScanlineConstIterator<InputImageType>;
-  using DistanceIteratorType = ImageScanlineIterator<DistanceImageType>;
-
   const InputImageType * inputImage = this->GetInput();
   OutputImageType *      outputImage = this->GetOutput();
   const unsigned int     numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
@@ -234,8 +229,8 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateDistan
 
     const size_t ln = localRegion.GetSize(0);
 
-    InputConstIteratorType inputIter(inputImage, localRegion);
-    DistanceIteratorType   distanceIter(m_DistanceImage, localRegion);
+    ImageScanlineConstIterator inputIter(inputImage, localRegion);
+    ImageScanlineIterator      distanceIter(m_DistanceImage, localRegion);
 
 
     while (!inputIter.IsAtEnd())
@@ -275,15 +270,12 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateCluste
   const unsigned int numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
   const unsigned int numberOfClusterComponents = numberOfComponents + ImageDimension;
 
-  using InputConstIteratorType = ImageScanlineConstIterator<InputImageType>;
-  using OutputIteratorType = ImageScanlineIterator<OutputImageType>;
-
   UpdateClusterMap clusterMap;
 
   itkDebugMacro("Estimating Centers");
   // calculate new centers
-  OutputIteratorType     itOut(outputImage, updateRegionForThread);
-  InputConstIteratorType itIn(inputImage, updateRegionForThread);
+  ImageScanlineIterator      itOut(outputImage, updateRegionForThread);
+  ImageScanlineConstIterator itIn(inputImage, updateRegionForThread);
   while (!itOut.IsAtEnd())
   {
     const size_t ln = updateRegionForThread.GetSize(0);
@@ -540,13 +532,8 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::SingleThreadedConnec
   // a new label, otherwise it just gets the previously encountered
   // label id.
 
-
-  using OutputIteratorType = ImageScanlineIterator<OutputImageType>;
-  OutputIteratorType outputIter(outputImage, outputImage->GetRequestedRegion());
-
-  using MarkerIteratorType = ImageScanlineIterator<MarkerImageType>;
-  MarkerIteratorType markerIter(m_MarkerImage, outputImage->GetRequestedRegion());
-
+  ImageScanlineIterator outputIter(outputImage, outputImage->GetRequestedRegion());
+  ImageScanlineIterator markerIter(m_MarkerImage, outputImage->GetRequestedRegion());
 
   while (!markerIter.IsAtEnd())
   {

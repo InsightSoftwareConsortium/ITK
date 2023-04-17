@@ -166,8 +166,7 @@ void
 ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThreadedGenerateData(
   const RegionType & outputRegionForThread)
 {
-  using InputLineIteratorType = ImageScanlineConstIterator<InputImageType>;
-  InputLineIteratorType inLineIt(m_Input, outputRegionForThread);
+  ImageScanlineConstIterator inLineIt(m_Input, outputRegionForThread);
 
   WorkUnitData  workUnitData = this->CreateWorkUnitData(outputRegionForThread);
   SizeValueType lineId = workUnitData.firstLine;

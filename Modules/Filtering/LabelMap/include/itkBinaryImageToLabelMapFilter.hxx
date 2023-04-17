@@ -153,8 +153,8 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   const RegionType & outputRegionForThread)
 {
   const TInputImage * input = this->GetInput();
-  using InputLineIteratorType = ImageScanlineConstIterator<InputImageType>;
-  InputLineIteratorType inLineIt(input, outputRegionForThread);
+
+  ImageScanlineConstIterator inLineIt(input, outputRegionForThread);
 
   WorkUnitData  workUnitData = this->CreateWorkUnitData(outputRegionForThread);
   SizeValueType lineId = workUnitData.firstLine;

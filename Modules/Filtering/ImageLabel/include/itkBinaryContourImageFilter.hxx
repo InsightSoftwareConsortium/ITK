@@ -125,11 +125,9 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
   OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
-  using InputLineIteratorType = ImageScanlineConstIterator<InputImageType>;
-  InputLineIteratorType inLineIt(input, outputRegionForThread);
+  ImageScanlineConstIterator inLineIt(input, outputRegionForThread);
 
-  using OutputLineIteratorType = ImageScanlineIterator<OutputImageType>;
-  OutputLineIteratorType outLineIt(output, outputRegionForThread);
+  ImageScanlineIterator outLineIt(output, outputRegionForThread);
 
   for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine(), outLineIt.NextLine())
   {
@@ -197,8 +195,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(const
 {
   OutputImagePointer output = this->GetOutput();
 
-  using OutputLineIteratorType = ImageScanlineIterator<OutputImageType>;
-  OutputLineIteratorType outLineIt(output, outputRegionForThread);
+  ImageScanlineIterator outLineIt(output, outputRegionForThread);
 
   OffsetValueType linecount = m_ForegroundLineMap.size();
 

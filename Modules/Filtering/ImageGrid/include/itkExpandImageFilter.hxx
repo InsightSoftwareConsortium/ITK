@@ -113,9 +113,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Iterator for walking the output
-  using OutputIterator = ImageScanlineIterator<TOutputImage>;
-
-  OutputIterator outIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outIt(outputPtr, outputRegionForThread);
 
   // Report progress on a per scanline basis
   const SizeValueType ln = outputRegionForThread.GetSize(0);
