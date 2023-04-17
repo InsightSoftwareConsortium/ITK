@@ -22,7 +22,6 @@
 #include <nifti1_io.h>
 #include "itkNiftiImageIOConfigurePrivate.h"
 #include "itkMakeUniqueForOverwrite.h"
-#include "vnl/algo/vnl_svd.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
 
@@ -2112,25 +2111,36 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
         // to be consistent with other software?
         itkWarningMacro(<< this->GetFileName() << " has non-orthogonal sform");
 
-        vnl_matrix_fixed<double, 4, 4> mat;
+        vnl_matrix_fixed<double, 3, 3> mat;
 
-        for (int i = 0; i < 4; ++i)
-          for (int j = 0; j < 4; ++j)
+        for (int i = 0; i < 3; ++i)
+          for (int j = 0; j < 3; ++j)
           {
             mat[i][j] = double{ this->m_NiftiImage->sto_xyz.m[i][j] };
           }
 
-        vnl_svd<double> svd(mat.as_matrix(), 1e-8);
+        vnl_svd<double> svd(mat.as_ref(), 1e-8);
+
         if (svd.singularities() == 0)
         {
           mat = svd.V() * svd.U().conjugate_transpose();
           mat44 _mat;
 
-          for (int i = 0; i < 4; ++i)
-            for (int j = 0; j < 4; ++j)
+          for (int i = 0; i < 3; ++i)
+            for (int j = 0; j < 3; ++j)
             {
               _mat.m[i][j] = static_cast<float>(mat[i][j]);
             }
+
+          // preserve origin
+          for (int i = 0; i < 3; ++i)
+          {
+            _mat.m[i][3] = this->m_NiftiImage->sto_xyz.m[i][3];
+          }
+          for (int i = 0; i < 4; ++i) // should be 0 0 0 1
+          {
+            _mat.m[3][i] = this->m_NiftiImage->sto_xyz.m[3][i];
+          }
 
           this->m_SFORM_Corrected = true;
           return _mat;
