@@ -19,6 +19,7 @@
 #define itkImageScanlineConstIterator_h
 
 #include "itkImageIterator.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -263,8 +264,8 @@ protected:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageScanlineConstIterator(SmartPointer<const TImage>, const typename TImage::RegionType &)
-  ->ImageScanlineConstIterator<TImage>;
+ImageScanlineConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  ->ImageScanlineConstIterator<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 
