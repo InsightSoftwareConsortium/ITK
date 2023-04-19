@@ -200,20 +200,10 @@ MRCImageIO::ReadImageInformation()
     }
   }
 
-  if (header.xlen == 0.0f && header.ylen == 0.0f && header.zlen == 0.0f)
-  {
-    // if the spacing was not set in the header then this is the
-    // default
-    m_Spacing[0] = 1.0;
-    m_Spacing[1] = 1.0;
-    m_Spacing[2] = 1.0;
-  }
-  else
-  {
-    m_Spacing[0] = header.xlen / static_cast<float>(header.mx);
-    m_Spacing[1] = header.ylen / static_cast<float>(header.my);
-    m_Spacing[2] = header.zlen / static_cast<float>(header.mz);
-  }
+  // if the spacing was not set in the header then 1.0 is the default
+  m_Spacing[0] = header.xlen != 0.0f ? header.xlen / static_cast<float>(header.mx) : 1.0;
+  m_Spacing[1] = header.ylen != 0.0f ? header.ylen / static_cast<float>(header.my) : 1.0;
+  m_Spacing[2] = header.zlen != 0.0f ? header.zlen / static_cast<float>(header.mz) : 1.0;
 
   // copy the origin
   m_Origin[0] = header.xorg;

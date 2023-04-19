@@ -34,3 +34,11 @@ itk_add_test(NAME itkMRCImageIOTest2c
         DATA{${ITK_DATA_ROOT}/Input/RGBTestImageLZW.tif}
         ${ITK_TEST_OUTPUT_DIR}/itkMRCImageIOTest2c.mrc
         38a2dcfc08812e04b1528f15ca3d2ab7)
+itk_add_test(NAME itkMRCImageIOTest2d
+        COMMAND ITKIOMRCTestDriver
+        --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkMRCImageIOTest2d.mrc
+        96093c8573ce2b4f197f0b0bfcc574bf
+        itkMRCImageIOTest2
+        DATA{Input/tilt_uint8.mrc}
+        ${ITK_TEST_OUTPUT_DIR}/itkMRCImageIOTest2d.mrc
+        96093c8573ce2b4f197f0b0bfcc574bf)
