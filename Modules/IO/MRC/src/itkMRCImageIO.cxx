@@ -358,10 +358,12 @@ MRCImageIO::UpdateHeaderFromImageIO()
   if (ByteSwapper<void *>::SystemIsBigEndian())
   {
     header.stamp[0] = 17;
+    header.stamp[1] = 17;
   }
   else
   {
     header.stamp[0] = 68;
+    header.stamp[1] = 68;
   }
 
   header.alpha = 90;

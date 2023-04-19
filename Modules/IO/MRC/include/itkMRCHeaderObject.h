@@ -164,8 +164,8 @@ public:
     float zorg;
 
     char cmap[4];  /**< Contains "MAP "  */
-    char stamp[4]; /**< First byte has 17 for big- or 68 for
-                     little-endian  */
+    char stamp[4]; /**< First two bytes have 17 and 17 for big-endian or
+                        68 and 68 for little-endian */
     float rms;
 
     // ALL HEADERS:
