@@ -245,9 +245,9 @@ private:
   double      m_Thickness{ 1.0 };
   bool        m_Normalize{ false };
   bool        m_BrightCenter{ false };
-  PixelType   m_InteriorValue{ NumericTraits<PixelType>::ZeroValue() };
+  PixelType   m_InteriorValue{};
   PixelType   m_AnnulusValue{ NumericTraits<PixelType>::OneValue() };
-  PixelType   m_ExteriorValue{ NumericTraits<PixelType>::ZeroValue() };
+  PixelType   m_ExteriorValue{};
   SpacingType m_Spacing{ MakeFilled<SpacingType>(1.0) };
 };
 } // namespace itk
