@@ -146,52 +146,50 @@ private:
     {}
 
     template <size_t VIndex>
-    void Increment(std::true_type) noexcept
+    void
+    Increment() noexcept
     {
-      static_assert(VIndex < (ImageDimension - 1), "For a larger index value, the other overload should be picked");
-
       m_BufferIterator += m_OffsetTable[VIndex];
 
-      if (static_cast<SizeValueType>(++m_IterationOffset[VIndex]) >= m_IterationRegionSize[VIndex])
+      if constexpr (VIndex < (ImageDimension - 1))
       {
-        m_IterationOffset[VIndex] = 0;
-        m_BufferIterator -= m_OffsetTable[VIndex] * m_IterationRegionSize[VIndex];
-        this->Increment<VIndex + 1>(std::integral_constant<bool, (VIndex + 1) < (ImageDimension - 1)>{});
+        if (static_cast<SizeValueType>(++m_IterationOffset[VIndex]) >= m_IterationRegionSize[VIndex])
+        {
+          m_IterationOffset[VIndex] = 0;
+          m_BufferIterator -= m_OffsetTable[VIndex] * m_IterationRegionSize[VIndex];
+          this->Increment<VIndex + 1>();
+        }
+      }
+      else
+      {
+        static_assert(VIndex == (ImageDimension - 1));
+
+        ++m_IterationOffset[VIndex];
       }
     }
 
-    template <size_t VIndex>
-    void Increment(std::false_type) noexcept
-    {
-      static_assert(VIndex == (ImageDimension - 1), "For a smaller index value, the other overload should be picked");
-
-      ++m_IterationOffset[VIndex];
-      m_BufferIterator += m_OffsetTable[VIndex];
-    }
-
 
     template <size_t VIndex>
-    void Decrement(std::true_type) noexcept
+    void
+    Decrement() noexcept
     {
-      static_assert(VIndex < (ImageDimension - 1), "For a larger index value, the other overload should be picked");
-
       m_BufferIterator -= m_OffsetTable[VIndex];
 
-      if (--m_IterationOffset[VIndex] < 0)
+      if constexpr (VIndex < (ImageDimension - 1))
       {
-        m_IterationOffset[VIndex] = m_IterationRegionSize[VIndex] - 1;
-        m_BufferIterator += m_OffsetTable[VIndex] * m_IterationRegionSize[VIndex];
-        this->Decrement<VIndex + 1>(std::integral_constant<bool, (VIndex + 1) < (ImageDimension - 1)>{});
+        if (--m_IterationOffset[VIndex] < 0)
+        {
+          m_IterationOffset[VIndex] = m_IterationRegionSize[VIndex] - 1;
+          m_BufferIterator += m_OffsetTable[VIndex] * m_IterationRegionSize[VIndex];
+          this->Decrement<VIndex + 1>();
+        }
       }
-    }
+      else
+      {
+        static_assert(VIndex == (ImageDimension - 1));
 
-    template <size_t VIndex>
-    void Decrement(std::false_type) noexcept
-    {
-      static_assert(VIndex == (ImageDimension - 1), "For a smaller index value, the other overload should be picked");
-
-      --m_IterationOffset[VIndex];
-      m_BufferIterator -= m_OffsetTable[VIndex];
+        --m_IterationOffset[VIndex];
+      }
     }
 
 
@@ -230,7 +228,7 @@ private:
     QualifiedIterator &
     operator++() noexcept
     {
-      this->Increment<0>(std::integral_constant<bool, (ImageDimension > 1)>{});
+      this->Increment<0>();
       return *this;
     }
 
@@ -250,7 +248,7 @@ private:
     QualifiedIterator &
     operator--() noexcept
     {
-      this->Decrement<0>(std::integral_constant<bool, (ImageDimension > 1)>{});
+      this->Decrement<0>();
       return *this;
     }
 
