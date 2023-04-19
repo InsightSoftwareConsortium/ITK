@@ -24,6 +24,9 @@
 #include "itkMetaDataObject.h"
 #include "itkTestingHashImageFilter.h"
 
+
+static_assert(sizeof(itk::MRCHeaderObject::Header) == 1024, " Ill defined MRC Header struct");
+
 namespace
 {
 
