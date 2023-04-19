@@ -117,7 +117,7 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType &) override;
 
 private:
-  RealType m_Shift{ NumericTraits<RealType>::ZeroValue() };
+  RealType m_Shift{};
   RealType m_Scale{ NumericTraits<RealType>::OneValue() };
 
   SizeValueType m_UnderflowCount{ 0 };

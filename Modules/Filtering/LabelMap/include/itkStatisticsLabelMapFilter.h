@@ -156,8 +156,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  FeatureImagePixelType m_Minimum{ NumericTraits<FeatureImagePixelType>::ZeroValue() };
-  FeatureImagePixelType m_Maximum{ NumericTraits<FeatureImagePixelType>::ZeroValue() };
+  FeatureImagePixelType m_Minimum{};
+  FeatureImagePixelType m_Maximum{};
   unsigned int          m_NumberOfBins{ GetDefaultNumberOfBins() };
   bool                  m_ComputeHistogram{ true };
 }; // end of class

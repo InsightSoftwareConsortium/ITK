@@ -105,7 +105,7 @@ private:
     return VariableLengthVector<TValue>(0);
   }
   TOutput m_OutsideValue{ DefaultOutsideValue(static_cast<TOutput *>(nullptr)) };
-  TMask   m_MaskingValue{ NumericTraits<TMask>::ZeroValue() };
+  TMask   m_MaskingValue{};
 };
 } // namespace Functor
 

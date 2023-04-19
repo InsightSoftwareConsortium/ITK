@@ -181,13 +181,13 @@ private:
 
   DistanceMapPointer m_DistanceMap{ nullptr };
 
-  RealType       m_MaxDistance{ NumericTraits<RealType>::ZeroValue() };
+  RealType       m_MaxDistance{};
   IdentifierType m_PixelCount{};
 
   CompensatedSummationType m_Sum{};
 
-  RealType m_DirectedHausdorffDistance{ NumericTraits<RealType>::ZeroValue() };
-  RealType m_AverageHausdorffDistance{ NumericTraits<RealType>::ZeroValue() };
+  RealType m_DirectedHausdorffDistance{};
+  RealType m_AverageHausdorffDistance{};
   bool     m_UseImageSpacing{ true };
 
   std::mutex m_Mutex{};
