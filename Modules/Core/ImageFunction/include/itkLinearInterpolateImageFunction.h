@@ -87,7 +87,7 @@ public:
 
   /** ContinuousIndex type alias support */
   using typename Superclass::ContinuousIndexType;
-  using InternalComputationType = typename ContinuousIndexType::ValueType;
+  using InternalComputationType = typename Superclass::ContinuousIndexType::ValueType;
 
   /** Evaluate the function at a ContinuousIndex position
    *

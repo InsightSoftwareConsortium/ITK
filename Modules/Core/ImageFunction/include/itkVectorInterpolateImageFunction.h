@@ -69,8 +69,8 @@ public:
 
   /** InputImageType type alias support */
   using typename Superclass::InputImageType;
-  using PixelType = typename InputImageType::PixelType;
-  using ValueType = typename PixelType::ValueType;
+  using PixelType = typename Superclass::InputImageType::PixelType;
+  using ValueType = typename Superclass::InputImageType::PixelType::ValueType;
   using RealType = typename NumericTraits<ValueType>::RealType;
 
   /** Point type alias support */

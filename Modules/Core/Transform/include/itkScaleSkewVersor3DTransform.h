@@ -104,7 +104,7 @@ public:
 
   using ScaleVectorValueType = typename ScaleVectorType::ValueType;
   using SkewVectorValueType = typename SkewVectorType::ValueType;
-  using TranslationValueType = typename TranslationType::ValueType;
+  using TranslationValueType = typename Superclass::TranslationType::ValueType;
 
   using typename Superclass::AxisValueType;
   using typename Superclass::ParametersValueType;

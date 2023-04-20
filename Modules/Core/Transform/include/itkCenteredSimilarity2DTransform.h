@@ -96,7 +96,7 @@ public:
   /** Point type. */
   using typename Superclass::InputPointType;
   using typename Superclass::OutputPointType;
-  using InputPointValueType = typename InputPointType::ValueType;
+  using InputPointValueType = typename Superclass::InputPointType::ValueType;
 
   /** Vector type. */
   using typename Superclass::InputVectorType;

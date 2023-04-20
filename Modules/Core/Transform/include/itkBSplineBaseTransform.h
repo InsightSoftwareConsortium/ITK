@@ -174,7 +174,7 @@ public:
   GetFixedParameters() const override;
 
   /** Parameters as SpaceDimension number of images. */
-  using ParametersValueType = typename ParametersType::ValueType;
+  using ParametersValueType = typename Superclass::ParametersType::ValueType;
   using ImageType = Image<ParametersValueType, Self::SpaceDimension>;
   using ImagePointer = typename ImageType::Pointer;
   using CoefficientImageArray = FixedArray<ImagePointer, VDimension>;

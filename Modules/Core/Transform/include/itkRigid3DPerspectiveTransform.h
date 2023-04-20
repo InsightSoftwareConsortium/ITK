@@ -66,9 +66,9 @@ public:
 
   /** Parameters type. */
   using typename Superclass::FixedParametersType;
-  using FixedParametersValueType = typename FixedParametersType::ValueType;
+  using FixedParametersValueType = typename Superclass::FixedParametersType::ValueType;
   using typename Superclass::ParametersType;
-  using ParametersValueType = typename ParametersType::ValueType;
+  using ParametersValueType = typename Superclass::ParametersType::ValueType;
 
   /** Jacobian types. */
   using typename Superclass::JacobianType;

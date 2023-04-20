@@ -153,7 +153,7 @@ protected:
   void
   ReinitializeToSignedDistance();
 
-  typename LevelSetContainerType::Pointer m_UpdateBuffer{};
+  typename Superclass::LevelSetContainerType::Pointer m_UpdateBuffer{};
 
   friend class LevelSetEvolutionComputeIterationThreader<LevelSetType,
                                                          ThreadedImageRegionPartitioner<TImage::ImageDimension>,

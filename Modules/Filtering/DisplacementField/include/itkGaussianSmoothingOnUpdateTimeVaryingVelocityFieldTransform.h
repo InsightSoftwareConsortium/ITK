@@ -60,7 +60,7 @@ public:
   /** Types from superclass */
   using typename Superclass::ScalarType;
   using typename Superclass::DerivativeType;
-  using DerivativeValueType = typename DerivativeType::ValueType;
+  using DerivativeValueType = typename Superclass::DerivativeType::ValueType;
   using typename Superclass::VelocityFieldType;
 
   using typename Superclass::TimeVaryingVelocityFieldType;

@@ -76,9 +76,9 @@ public:
   using typename Superclass::MeshType;
   using typename Superclass::OutputType;
 
-  using PointIdentifier = typename MeshType::PointIdentifier;
-  using CellIdentifier = typename MeshType::CellIdentifier;
-  using FaceRefType = typename MeshType::FaceRefType;
+  using PointIdentifier = typename Superclass::MeshType::PointIdentifier;
+  using CellIdentifier = typename Superclass::MeshType::CellIdentifier;
+  using FaceRefType = typename Superclass::MeshType::FaceRefType;
 
   /** Evaluate at the specified input position */
   virtual OutputType

@@ -164,7 +164,7 @@ public:
 
   /** Inherit type alias from superclass */
   using typename Superclass::OffsetType;
-  using OffsetValueType = typename OffsetType::OffsetValueType;
+  using OffsetValueType = itk::OffsetValueType;
   using typename Superclass::RadiusType;
   using typename Superclass::SizeType;
   using typename Superclass::SizeValueType;

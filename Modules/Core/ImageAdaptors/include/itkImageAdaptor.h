@@ -100,15 +100,15 @@ public:
 
   /** Index type alias support An index is used to access pixel values. */
   using typename Superclass::IndexType;
-  using IndexValueType = typename IndexType::IndexValueType;
+  using IndexValueType = itk::IndexValueType;
 
   /** Size type alias support A size is used to define region bounds. */
   using typename Superclass::SizeType;
-  using SizeValueType = typename SizeType::SizeValueType;
+  using SizeValueType = itk::SizeValueType;
 
   /** Offset type alias support */
   using typename Superclass::OffsetType;
-  using OffsetValueType = typename OffsetType::OffsetValueType;
+  using OffsetValueType = itk::OffsetValueType;
 
   /** Region type alias support A region is used to specify a subset of
    *  an image. */

@@ -95,7 +95,7 @@ public:
   using AxisType = typename VersorType::VectorType;
   using AngleType = typename VersorType::ValueType;
   using AxisValueType = typename AxisType::ValueType;
-  using ParametersValueType = typename ParametersType::ValueType;
+  using ParametersValueType = typename Superclass::ParametersType::ValueType;
 
   /**
    * Set the transformation from a container of parameters

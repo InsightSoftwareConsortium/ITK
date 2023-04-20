@@ -52,10 +52,10 @@ public:
   using typename Superclass::MeshType;
   using typename Superclass::OutputType;
 
-  using PointIdentifier = typename MeshType::PointIdentifier;
-  using PointType = typename MeshType::PointType;
-  using CoordRepType = typename MeshType::CoordRepType;
-  using VectorType = typename MeshType::VectorType;
+  using PointIdentifier = typename Superclass::MeshType::PointIdentifier;
+  using PointType = typename Superclass::MeshType::PointType;
+  using CoordRepType = typename Superclass::MeshType::CoordRepType;
+  using VectorType = typename Superclass::MeshType::VectorType;
 
   /** Evaluate at the specified input position */
   virtual OutputType

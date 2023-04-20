@@ -76,7 +76,7 @@ public:
   using typename Superclass::IndexValueType;
 
   /** Size type alias support */
-  using SizeType = typename InputImageType::SizeType;
+  using SizeType = typename Superclass::InputImageType::SizeType;
 
   /** ContinuousIndex type alias support */
   using typename Superclass::ContinuousIndexType;

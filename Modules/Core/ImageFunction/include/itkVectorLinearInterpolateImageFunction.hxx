@@ -30,9 +30,9 @@ const unsigned long VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>
 
 
 template <typename TInputImage, typename TCoordRep>
-typename VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::OutputType
+auto
 VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & index) const
+  const ContinuousIndexType & index) const -> OutputType
 {
   //
   // Compute base index = closet index below point

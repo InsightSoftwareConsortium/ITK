@@ -113,11 +113,11 @@ public:
   using typename Superclass::OutputImagePointer;
   using typename Superclass::InputImageConstPointer;
 
-  using IndexType = typename OutputImageType::IndexType;
-  using SizeType = typename OutputImageType::SizeType;
-  using PixelType = typename OutputImageType::PixelType;
-  using SpacingType = typename OutputImageType::SpacingType;
-  using ValueType = typename OutputImageType::PixelType::ValueType;
+  using IndexType = typename Superclass::OutputImageType::IndexType;
+  using SizeType = typename Superclass::OutputImageType::SizeType;
+  using PixelType = typename Superclass::OutputImageType::PixelType;
+  using SpacingType = typename Superclass::OutputImageType::SpacingType;
+  using ValueType = typename Superclass::OutputImageType::PixelType::ValueType;
 
   /** Determine the image dimension. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;

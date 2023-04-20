@@ -58,8 +58,8 @@ public:
   using typename Superclass::EnergyValueType;
   using typename Superclass::EnergyValueContainerType;
   using typename Superclass::EnergyValueContainerSizeType;
-  using EnergyValueIterator = typename EnergyValueContainerType::iterator;
-  using EnergyValueConstIterator = typename EnergyValueContainerType::const_iterator;
+  using EnergyValueIterator = typename Superclass::EnergyValueContainerType::iterator;
+  using EnergyValueConstIterator = typename Superclass::EnergyValueContainerType::const_iterator;
 
   /** Add energy value */
   void

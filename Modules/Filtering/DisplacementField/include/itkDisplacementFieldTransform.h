@@ -148,8 +148,8 @@ public:
   using typename Superclass::OutputDiffusionTensor3DType;
 
   /** Standard tensor type for this class */
-  using InputTensorEigenVectorType = CovariantVector<ScalarType, InputDiffusionTensor3DType::Dimension>;
-  using OutputTensorEigenVectorType = CovariantVector<ScalarType, OutputDiffusionTensor3DType::Dimension>;
+  using InputTensorEigenVectorType = CovariantVector<ScalarType, Superclass::InputDiffusionTensor3DType::Dimension>;
+  using OutputTensorEigenVectorType = CovariantVector<ScalarType, Superclass::OutputDiffusionTensor3DType::Dimension>;
   /** Derivative type */
   using typename Superclass::DerivativeType;
 
@@ -175,7 +175,7 @@ public:
 
   /** Define the internal parameter helper used to access the field */
   using OptimizerParametersHelperType =
-    ImageVectorOptimizerParametersHelper<ScalarType, OutputVectorType::Dimension, Dimension>;
+    ImageVectorOptimizerParametersHelper<ScalarType, Superclass::OutputVectorType::Dimension, Dimension>;
 
   /** Get/Set the displacement field.
    * Set the displacement field. Create special set accessor to update
