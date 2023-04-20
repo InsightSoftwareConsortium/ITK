@@ -36,25 +36,6 @@ namespace itk
  *
  */
 template <typename T>
-SimpleDataObjectDecorator<T>::SimpleDataObjectDecorator()
-{
-#if defined(__GNUC__) && (__GNUC__ > 6)
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-  ITK_GCC_PRAGMA_DIAG(ignored "-Wmaybe-uninitialized")
-#endif                                 // defined( __GNUC__ ) && ( __GNUC__ > 6 )
-  this->m_Component = ComponentType(); // initialize here to avoid Purify UMR
-#if defined(__GNUC__) && (__GNUC__ > 6)
-  ITK_GCC_PRAGMA_DIAG_POP()
-#endif                         // defined( __GNUC__ ) && ( __GNUC__ > 6 )
-  this->m_Initialized = false; // Still needed since not all objects
-                               // are initialized at construction time.
-                               // for example the itkArray.
-}
-
-/**
- *
- */
-template <typename T>
 void
 SimpleDataObjectDecorator<T>::Set(const T & val)
 {
