@@ -54,9 +54,9 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::PrintSel
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::OutputPointType
+auto
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::TransformPoint(
-  const InputPointType & point) const
+  const InputPointType & point) const -> OutputPointType
 {
   OutputPointType result;
 
@@ -72,9 +72,9 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::Transfor
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::OutputPointType
+auto
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::TransformAzElToCartesian(
-  const InputPointType & point) const
+  const InputPointType & point) const -> OutputPointType
 {
   OutputPointType result;
   ScalarType      Azimuth =
@@ -93,9 +93,9 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::Transfor
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::OutputPointType
+auto
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::TransformCartesianToAzEl(
-  const OutputPointType & point) const
+  const OutputPointType & point) const -> OutputPointType
 {
   InputPointType result; // Converted point
 

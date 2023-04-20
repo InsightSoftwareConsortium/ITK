@@ -265,8 +265,8 @@ AffineTransform<TParametersValueType, VDimension>::GetInverseTransform() const
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename AffineTransform<TParametersValueType, VDimension>::ScalarType
-AffineTransform<TParametersValueType, VDimension>::Metric(const Self * other) const
+auto
+AffineTransform<TParametersValueType, VDimension>::Metric(const Self * other) const -> ScalarType
 {
   ScalarType result = 0.0, term;
 
@@ -284,8 +284,8 @@ AffineTransform<TParametersValueType, VDimension>::Metric(const Self * other) co
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename AffineTransform<TParametersValueType, VDimension>::ScalarType
-AffineTransform<TParametersValueType, VDimension>::Metric() const
+auto
+AffineTransform<TParametersValueType, VDimension>::Metric() const -> ScalarType
 {
   ScalarType result = 0.0, term;
 

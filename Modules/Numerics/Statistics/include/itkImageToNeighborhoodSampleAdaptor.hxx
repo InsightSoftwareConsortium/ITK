@@ -82,8 +82,8 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::Size() const -> In
 }
 
 template <typename TImage, typename TBoundaryCondition>
-inline typename ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::AbsoluteFrequencyType
-  ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetFrequency(InstanceIdentifier) const
+inline auto ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetFrequency(InstanceIdentifier) const
+  -> AbsoluteFrequencyType
 {
   if (m_Image.IsNull())
   {
