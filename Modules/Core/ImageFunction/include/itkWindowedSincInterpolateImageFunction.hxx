@@ -129,10 +129,9 @@ template <typename TInputImage,
           typename TWindowFunction,
           typename TBoundaryCondition,
           typename TCoordRep>
-typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
-  OutputType
-  WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
-    EvaluateAtContinuousIndex(const ContinuousIndexType & index) const
+auto
+WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const -> OutputType
 {
   IndexType baseIndex;
   double    distance[ImageDimension];

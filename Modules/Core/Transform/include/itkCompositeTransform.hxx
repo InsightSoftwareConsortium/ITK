@@ -91,9 +91,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformVector(const Inpu
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVectorType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformVector(const InputVectorType & inputVector,
                                                                       const InputPointType &  inputPoint) const
+  -> OutputVectorType
 {
   OutputVectorType outputVector(inputVector);
   OutputPointType  outputPoint(inputPoint);
@@ -110,9 +111,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformVector(const Inpu
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVnlVectorType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformVector(const InputVnlVectorType & inputVector,
                                                                       const InputPointType &     inputPoint) const
+  -> OutputVnlVectorType
 {
   OutputVnlVectorType outputVector(inputVector);
   OutputPointType     outputPoint(inputPoint);
@@ -163,9 +165,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformVector(const Inpu
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVectorPixelType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformVector(const InputVectorPixelType & inputVector,
                                                                       const InputPointType &       inputPoint) const
+  -> OutputVectorPixelType
 {
   OutputVectorPixelType outputVector(inputVector);
   OutputPointType       outputPoint(inputPoint);
@@ -182,9 +185,9 @@ CompositeTransform<TParametersValueType, VDimension>::TransformVector(const Inpu
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputCovariantVectorType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(
-  const InputCovariantVectorType & inputVector) const
+  const InputCovariantVectorType & inputVector) const -> OutputCovariantVectorType
 {
   OutputCovariantVectorType outputVector(inputVector);
 
@@ -199,10 +202,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputCovariantVectorType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(
   const InputCovariantVectorType & inputVector,
-  const InputPointType &           inputPoint) const
+  const InputPointType &           inputPoint) const -> OutputCovariantVectorType
 {
   OutputCovariantVectorType outputVector(inputVector);
   OutputPointType           outputPoint(inputPoint);
@@ -219,9 +222,9 @@ CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVectorPixelType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(
-  const InputVectorPixelType & inputVector) const
+  const InputVectorPixelType & inputVector) const -> OutputVectorPixelType
 {
   OutputVectorPixelType outputVector(inputVector);
 
@@ -236,9 +239,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVectorPixelType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(const InputVectorPixelType & inputVector,
                                                                                const InputPointType & inputPoint) const
+  -> OutputVectorPixelType
 {
   OutputVectorPixelType outputVector(inputVector);
   OutputPointType       outputPoint(inputPoint);
@@ -255,10 +259,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(c
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputDiffusionTensor3DType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D(
   const InputDiffusionTensor3DType & inputTensor,
-  const InputPointType &             inputPoint) const
+  const InputPointType &             inputPoint) const -> OutputDiffusionTensor3DType
 {
   OutputDiffusionTensor3DType outputTensor(inputTensor);
   OutputPointType             outputPoint(inputPoint);
@@ -275,10 +279,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVectorPixelType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D(
   const InputVectorPixelType & inputTensor,
-  const InputPointType &       inputPoint) const
+  const InputPointType &       inputPoint) const -> OutputVectorPixelType
 {
   OutputVectorPixelType outputTensor(inputTensor);
   OutputPointType       outputPoint(inputPoint);
@@ -295,9 +299,9 @@ CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputDiffusionTensor3DType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D(
-  const InputDiffusionTensor3DType & inputTensor) const
+  const InputDiffusionTensor3DType & inputTensor) const -> OutputDiffusionTensor3DType
 {
   OutputDiffusionTensor3DType outputTensor(inputTensor);
 
@@ -312,9 +316,9 @@ CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVectorPixelType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D(
-  const InputVectorPixelType & inputTensor) const
+  const InputVectorPixelType & inputTensor) const -> OutputVectorPixelType
 {
   OutputVectorPixelType outputTensor(inputTensor);
 
@@ -329,10 +333,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputSymmetricSecondRankTensorType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRankTensor(
   const InputSymmetricSecondRankTensorType & inputTensor,
-  const InputPointType &                     inputPoint) const
+  const InputPointType &                     inputPoint) const -> OutputSymmetricSecondRankTensorType
 {
   OutputSymmetricSecondRankTensorType outputTensor(inputTensor);
   OutputPointType                     outputPoint(inputPoint);
@@ -349,10 +353,10 @@ CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRa
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVectorPixelType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRankTensor(
   const InputVectorPixelType & inputTensor,
-  const InputPointType &       inputPoint) const
+  const InputPointType &       inputPoint) const -> OutputVectorPixelType
 {
   OutputVectorPixelType outputTensor(inputTensor);
   OutputPointType       outputPoint(inputPoint);
@@ -369,9 +373,9 @@ CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRa
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputSymmetricSecondRankTensorType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRankTensor(
-  const InputSymmetricSecondRankTensorType & inputTensor) const
+  const InputSymmetricSecondRankTensorType & inputTensor) const -> OutputSymmetricSecondRankTensorType
 {
   OutputSymmetricSecondRankTensorType outputTensor(inputTensor);
 
@@ -386,9 +390,9 @@ CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRa
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename CompositeTransform<TParametersValueType, VDimension>::OutputVectorPixelType
+auto
 CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRankTensor(
-  const InputVectorPixelType & inputTensor) const
+  const InputVectorPixelType & inputTensor) const -> OutputVectorPixelType
 {
   OutputVectorPixelType outputTensor(inputTensor);
 

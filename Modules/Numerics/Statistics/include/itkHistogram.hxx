@@ -365,8 +365,8 @@ Histogram<TMeasurement, TFrequencyContainer>::IsIndexOutOfBounds(const IndexType
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>
-inline typename Histogram<TMeasurement, TFrequencyContainer>::InstanceIdentifier
-Histogram<TMeasurement, TFrequencyContainer>::GetInstanceIdentifier(const IndexType & index) const
+inline auto
+Histogram<TMeasurement, TFrequencyContainer>::GetInstanceIdentifier(const IndexType & index) const -> InstanceIdentifier
 {
   InstanceIdentifier instanceId = 0;
 
@@ -469,8 +469,9 @@ Histogram<TMeasurement, TFrequencyContainer>::GetHistogramMaxFromIndex(const Ind
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>
-inline const typename Histogram<TMeasurement, TFrequencyContainer>::MeasurementVectorType &
+inline auto
 Histogram<TMeasurement, TFrequencyContainer>::GetMeasurementVector(const IndexType & index) const
+  -> const MeasurementVectorType &
 {
   const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
   for (unsigned int i = 0; i < measurementVectorSize; ++i)
@@ -482,8 +483,9 @@ Histogram<TMeasurement, TFrequencyContainer>::GetMeasurementVector(const IndexTy
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>
-inline const typename Histogram<TMeasurement, TFrequencyContainer>::MeasurementVectorType &
+inline auto
 Histogram<TMeasurement, TFrequencyContainer>::GetMeasurementVector(InstanceIdentifier id) const
+  -> const MeasurementVectorType &
 {
   return this->GetMeasurementVector(this->GetIndex(id));
 }
