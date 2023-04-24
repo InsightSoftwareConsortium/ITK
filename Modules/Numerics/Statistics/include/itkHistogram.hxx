@@ -544,8 +544,8 @@ Histogram<TMeasurement, TFrequencyContainer>::IncreaseFrequencyOfMeasurement(con
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>
-inline typename Histogram<TMeasurement, TFrequencyContainer>::AbsoluteFrequencyType
-Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(const IndexType & index) const
+inline auto
+Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(const IndexType & index) const -> AbsoluteFrequencyType
 {
   return (this->GetFrequency(this->GetInstanceIdentifier(index)));
 }
@@ -587,8 +587,8 @@ Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(InstanceIdentifier n,
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>
-inline typename Histogram<TMeasurement, TFrequencyContainer>::TotalAbsoluteFrequencyType
-Histogram<TMeasurement, TFrequencyContainer>::GetTotalFrequency() const
+inline auto
+Histogram<TMeasurement, TFrequencyContainer>::GetTotalFrequency() const -> TotalAbsoluteFrequencyType
 {
   return m_FrequencyContainer->GetTotalFrequency();
 }

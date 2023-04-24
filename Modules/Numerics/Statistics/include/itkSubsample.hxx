@@ -133,8 +133,8 @@ Subsample<TSample>::GetMeasurementVector(InstanceIdentifier id) const -> const M
 }
 
 template <typename TSample>
-inline typename Subsample<TSample>::AbsoluteFrequencyType
-Subsample<TSample>::GetFrequency(InstanceIdentifier id) const
+inline auto
+Subsample<TSample>::GetFrequency(InstanceIdentifier id) const -> AbsoluteFrequencyType
 {
   if (id >= m_IdHolder.size())
   {
@@ -147,8 +147,8 @@ Subsample<TSample>::GetFrequency(InstanceIdentifier id) const
 }
 
 template <typename TSample>
-inline typename Subsample<TSample>::TotalAbsoluteFrequencyType
-Subsample<TSample>::GetTotalFrequency() const
+inline auto
+Subsample<TSample>::GetTotalFrequency() const -> TotalAbsoluteFrequencyType
 {
   return m_TotalFrequency;
 }
@@ -180,8 +180,8 @@ Subsample<TSample>::GetMeasurementVectorByIndex(unsigned int index) const
 }
 
 template <typename TSample>
-inline typename Subsample<TSample>::AbsoluteFrequencyType
-Subsample<TSample>::GetFrequencyByIndex(unsigned int index) const
+inline auto
+Subsample<TSample>::GetFrequencyByIndex(unsigned int index) const -> AbsoluteFrequencyType
 {
   if (index >= m_IdHolder.size())
   {
