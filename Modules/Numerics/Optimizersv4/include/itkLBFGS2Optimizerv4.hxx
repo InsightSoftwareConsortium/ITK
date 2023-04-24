@@ -320,8 +320,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetSolutionAccuracy(
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetSolutionAccuracy() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetSolutionAccuracy() const -> PrecisionType
 {
   return m_Parameters.epsilon;
 }
@@ -351,8 +351,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetDeltaConvergenceTol
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetDeltaConvergenceTolerance() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetDeltaConvergenceTolerance() const -> PrecisionType
 {
   return m_Parameters.delta;
 }
@@ -410,8 +410,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetLineSearch(
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::LineSearchMethodEnum
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearch() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearch() const -> LineSearchMethodEnum
 {
   LineSearchMethodEnum linesearch = LineSearchMethodEnum::LINESEARCH_DEFAULT;
   int                  lbfgsLineSearch = m_Parameters.linesearch;
@@ -464,8 +464,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetMinimumLineSearchSt
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMinimumLineSearchStep() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMinimumLineSearchStep() const -> PrecisionType
 {
   return m_Parameters.min_step;
 }
@@ -481,8 +481,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetMaximumLineSearchSt
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMaximumLineSearchStep() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMaximumLineSearchStep() const -> PrecisionType
 {
   return m_Parameters.max_step;
 }
@@ -497,8 +497,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetLineSearchAccuracy(
   this->Modified();
 }
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearchAccuracy() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearchAccuracy() const -> PrecisionType
 {
   return m_Parameters.ftol;
 }
@@ -513,8 +513,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetWolfeCoefficient(
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetWolfeCoefficient() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetWolfeCoefficient() const -> PrecisionType
 {
   return m_Parameters.wolfe;
 }
@@ -529,8 +529,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetLineSearchGradientA
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearchGradientAccuracy() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearchGradientAccuracy() const -> PrecisionType
 {
   return m_Parameters.gtol;
 }
@@ -546,8 +546,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetMachinePrecisionTol
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMachinePrecisionTolerance() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMachinePrecisionTolerance() const -> PrecisionType
 {
   return m_Parameters.xtol;
 }
@@ -562,8 +562,8 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetOrthantwiseCoeffici
 }
 
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
-LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetOrthantwiseCoefficient() const
+auto
+LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetOrthantwiseCoefficient() const -> PrecisionType
 {
   return m_Parameters.orthantwise_c;
 }

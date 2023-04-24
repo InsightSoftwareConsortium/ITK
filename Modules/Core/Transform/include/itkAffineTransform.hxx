@@ -256,8 +256,8 @@ AffineTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse) co
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename AffineTransform<TParametersValueType, VDimension>::InverseTransformBasePointer
-AffineTransform<TParametersValueType, VDimension>::GetInverseTransform() const
+auto
+AffineTransform<TParametersValueType, VDimension>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 

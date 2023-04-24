@@ -77,8 +77,8 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelSize() const ->
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename DiscreteGaussianImageFilter<TInputImage, TOutputImage>::ArrayType
-DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelVarianceArray() const
+auto
+DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelVarianceArray() const -> ArrayType
 {
   if (m_UseImageSpacing)
   {

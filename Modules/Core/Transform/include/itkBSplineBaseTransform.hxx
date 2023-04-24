@@ -293,8 +293,9 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::ArrayOfIma
 
 // Transform a point
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
-typename BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::OutputPointType
+auto
 BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint(const InputPointType & point) const
+  -> OutputPointType
 {
   WeightsType             weights;
   ParameterIndexArrayType indices;
