@@ -177,9 +177,6 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
   OutputImageType *     output = this->GetOutput();
   const TransformType * transform = this->GetInput()->Get();
 
-  // Create an iterator that will walk the output region for this thread.
-  ImageScanlineIterator outIt(output, outputRegionForThread);
-
   // Define a few variables that will be used to translate from an input pixel
   // to an output pixel
   PointType outputPoint;       // Coordinates of output pixel
@@ -189,8 +186,8 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
-  // Walk the output region
-  while (!outIt.IsAtEnd())
+  // Walk the output region for this thread.
+  for (ImageScanlineIterator outIt(output, outputRegionForThread); !outIt.IsAtEnd(); outIt.NextLine())
   {
     while (!outIt.IsAtEndOfLine())
     {
@@ -209,7 +206,6 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
       outIt.Set(displacementPixel);
       ++outIt;
     }
-    outIt.NextLine();
     progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
@@ -226,17 +222,13 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
 
   const OutputImageRegionType & largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
 
-  // Create an iterator that will walk the output region for this thread.
-  ImageScanlineIterator outIt(outputPtr, outputRegionForThread);
-
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
   PointType outputPoint; // Coordinates of current output pixel
   PointType inputPoint;
 
-
-  // loop over the vector image
-  while (!outIt.IsAtEnd())
+  // Loop over the vector image, walk the output region for this thread.
+  for (ImageScanlineIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); outIt.NextLine())
   {
 
     // Compare with the ResampleImageFilter
@@ -275,8 +267,6 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
       ++outIt;
       ++scanlineIndex;
     }
-
-    outIt.NextLine();
   }
 }
 

@@ -434,9 +434,6 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   const InputImageType * inputPtr = this->GetInput();
   const TransformType *  transformPtr = this->GetTransform();
 
-  // Create an iterator that will walk the output region for this thread.
-  ImageScanlineIterator outIt(outputPtr, outputRegionForThread);
-
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   const OutputImageRegionType & largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
@@ -465,7 +462,8 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
       transformPtr->TransformPoint(outputPtr->template TransformIndexToPhysicalPoint<double>(index)));
   };
 
-  while (!outIt.IsAtEnd())
+  // Create an iterator that will walk the output region for this thread.
+  for (ImageScanlineIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); outIt.NextLine())
   {
     // Determine the continuous index of the first and end pixel of output
     // scan line when mapped to the input coordinate frame.
@@ -513,7 +511,6 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
       ++outIt;
       ++scanlineIndex;
     }
-    outIt.NextLine();
     progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
