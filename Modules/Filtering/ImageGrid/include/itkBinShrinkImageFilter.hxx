@@ -108,7 +108,6 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   using AccumulatePixelType = typename NumericTraits<InputPixelType>::RealType;
 
   ImageScanlineConstIterator inputIterator(inputPtr, inputPtr->GetRequestedRegion());
-  ImageScanlineIterator      outputIterator(outputPtr, outputRegionForThread);
 
   // Set up shaped neighbor hood by defining the offsets
   OutputOffsetType negativeOffset, positiveOffset, iOffset;
@@ -154,7 +153,8 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  while (!outputIterator.IsAtEnd())
+  for (ImageScanlineIterator outputIterator(outputPtr, outputRegionForThread); !outputIterator.IsAtEnd();
+       outputIterator.NextLine())
   {
     const OutputIndexType outputIndex = outputIterator.GetIndex();
 
@@ -204,7 +204,6 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       ++outputIterator;
     }
 
-    outputIterator.NextLine();
     progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }

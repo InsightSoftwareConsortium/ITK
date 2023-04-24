@@ -71,15 +71,14 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
 
   NaryArrayType naryInputArray(numberOfValidInputImages);
 
-  OutputImagePointer    outputPtr = this->GetOutput(0);
-  ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
+  OutputImagePointer outputPtr = this->GetOutput(0);
 
   typename std::vector<ImageScanlineConstIteratorType *>::iterator             regionIterators;
   const typename std::vector<ImageScanlineConstIteratorType *>::const_iterator regionItEnd = inputItrVector.end();
 
   typename NaryArrayType::iterator arrayIt;
 
-  while (!outputIt.IsAtEnd())
+  for (ImageScanlineIterator outputIt(outputPtr, outputRegionForThread); !outputIt.IsAtEnd(); outputIt.NextLine())
   {
     while (!outputIt.IsAtEndOfLine())
     {
@@ -101,7 +100,6 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
       (*regionIterators)->NextLine();
       ++regionIterators;
     }
-    outputIt.NextLine();
   }
 
   // Free memory

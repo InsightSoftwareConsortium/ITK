@@ -112,9 +112,6 @@ ExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();
 
-  // Iterator for walking the output
-  ImageScanlineIterator outIt(outputPtr, outputRegionForThread);
-
   // Report progress on a per scanline basis
   const SizeValueType ln = outputRegionForThread.GetSize(0);
   if (ln == 0)
@@ -123,7 +120,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   }
 
   // Walk the output region, and interpolate the input image
-  while (!outIt.IsAtEnd())
+  for (ImageScanlineIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); outIt.NextLine())
   {
     const typename OutputImageType::IndexType outputIndex = outIt.GetIndex();
 
@@ -154,8 +151,6 @@ ExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       // scanline.
       inputIndex[0] += lineDelta;
     }
-
-    outIt.NextLine();
   }
 }
 

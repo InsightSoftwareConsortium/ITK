@@ -105,15 +105,13 @@ ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData
   // flip the sign of the output image.
   if (m_InsideValue > m_OutsideValue)
   {
-    ImageScanlineIterator ot(output, oRegion);
-    while (!ot.IsAtEnd())
+    for (ImageScanlineIterator ot(output, oRegion); !ot.IsAtEnd(); ot.NextLine())
     {
       while (!ot.IsAtEndOfLine())
       {
         ot.Set(ot.Get() * -1);
         ++ot;
       }
-      ot.NextLine();
     }
   }
 }

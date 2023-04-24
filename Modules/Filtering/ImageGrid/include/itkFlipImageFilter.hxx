@@ -169,8 +169,7 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
     }
   }
 
-  // Setup output region iterator
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  // Setup region iterator
   ImageScanlineConstIterator inputIter(inputPtr, inputReginForThread);
 
   IndexValueType offset[ImageDimension];
@@ -188,7 +187,7 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  while (!outputIt.IsAtEnd())
+  for (ImageScanlineIterator outputIt(outputPtr, outputRegionForThread); !outputIt.IsAtEnd(); outputIt.NextLine())
   {
     // Determine the index of the output line
     const typename TImage::IndexType outputIndex = outputIt.GetIndex();
@@ -231,7 +230,6 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
       }
     }
 
-    outputIt.NextLine();
     progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }

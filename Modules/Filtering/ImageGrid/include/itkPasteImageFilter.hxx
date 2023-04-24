@@ -213,15 +213,13 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
     {
       SourceImagePixelType sourceValue = this->GetConstant();
 
-      ImageScanlineIterator outputIt(outputPtr, destinationRegion);
-      while (!outputIt.IsAtEnd())
+      for (ImageScanlineIterator outputIt(outputPtr, destinationRegion); !outputIt.IsAtEnd(); outputIt.NextLine())
       {
         while (!outputIt.IsAtEndOfLine())
         {
           outputIt.Set(sourceValue);
           ++outputIt;
         }
-        outputIt.NextLine();
         progress.Completed(outputRegionForThread.GetSize()[0]);
       }
     }
@@ -258,15 +256,13 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
     {
       SourceImagePixelType sourceValue = this->GetConstant();
 
-      ImageScanlineIterator outputIt(outputPtr, destinationRegion);
-      while (!outputIt.IsAtEnd())
+      for (ImageScanlineIterator outputIt(outputPtr, destinationRegion); !outputIt.IsAtEnd(); outputIt.NextLine())
       {
         while (!outputIt.IsAtEndOfLine())
         {
           outputIt.Set(sourceValue);
           ++outputIt;
         }
-        outputIt.NextLine();
         progress.Completed(outputRegionForThread.GetSize()[0]);
       }
     }
