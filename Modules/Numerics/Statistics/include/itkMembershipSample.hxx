@@ -107,22 +107,23 @@ MembershipSample<TSample>::GetMeasurementVector(const InstanceIdentifier & id) c
 }
 
 template <typename TSample>
-inline typename MembershipSample<TSample>::MeasurementType
+inline auto
 MembershipSample<TSample>::GetMeasurement(const InstanceIdentifier & id, const unsigned int dimension)
+  -> MeasurementType
 {
   return m_Sample->GetMeasurement(id, dimension);
 }
 
 template <typename TSample>
-inline typename MembershipSample<TSample>::AbsoluteFrequencyType
-MembershipSample<TSample>::GetFrequency(const InstanceIdentifier & id) const
+inline auto
+MembershipSample<TSample>::GetFrequency(const InstanceIdentifier & id) const -> AbsoluteFrequencyType
 {
   return m_Sample->GetFrequency(id);
 }
 
 template <typename TSample>
-inline typename MembershipSample<TSample>::TotalAbsoluteFrequencyType
-MembershipSample<TSample>::GetTotalFrequency() const
+inline auto
+MembershipSample<TSample>::GetTotalFrequency() const -> TotalAbsoluteFrequencyType
 {
   return m_Sample->GetTotalFrequency();
 }

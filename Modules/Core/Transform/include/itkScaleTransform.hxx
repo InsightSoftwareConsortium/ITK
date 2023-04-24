@@ -261,8 +261,8 @@ ScaleTransform<TParametersValueType, VDimension>::ComputeMatrix()
 
 // Back transform a point
 template <typename TParametersValueType, unsigned int VDimension>
-inline typename ScaleTransform<TParametersValueType, VDimension>::InputPointType
-ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputPointType & point) const
+inline auto
+ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputPointType & point) const -> InputPointType
 {
   InputPointType         result;
   const InputPointType & center = this->GetCenter();
@@ -276,8 +276,8 @@ ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputPoin
 
 // Back transform a vector
 template <typename TParametersValueType, unsigned int VDimension>
-inline typename ScaleTransform<TParametersValueType, VDimension>::InputVectorType
-ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputVectorType & vect) const
+inline auto
+ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputVectorType & vect) const -> InputVectorType
 {
   InputVectorType result;
 
@@ -290,8 +290,9 @@ ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputVect
 
 // Back transform a vnl_vector
 template <typename TParametersValueType, unsigned int VDimension>
-inline typename ScaleTransform<TParametersValueType, VDimension>::InputVnlVectorType
+inline auto
 ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputVnlVectorType & vect) const
+  -> InputVnlVectorType
 {
   InputVnlVectorType result;
 
@@ -304,8 +305,9 @@ ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputVnlV
 
 // Back Transform a CovariantVector
 template <typename TParametersValueType, unsigned int VDimension>
-inline typename ScaleTransform<TParametersValueType, VDimension>::InputCovariantVectorType
+inline auto
 ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputCovariantVectorType & vect) const
+  -> InputCovariantVectorType
 {
   // Covariant Vectors are scaled by the inverse
   InputCovariantVectorType result;
