@@ -149,24 +149,24 @@ ResourceProbe<ValueType, MeanType>::Stop()
 
 
 template <typename ValueType, typename MeanType>
-typename ResourceProbe<ValueType, MeanType>::CountType
-ResourceProbe<ValueType, MeanType>::GetNumberOfStarts() const
+auto
+ResourceProbe<ValueType, MeanType>::GetNumberOfStarts() const -> CountType
 {
   return this->m_NumberOfStarts;
 }
 
 
 template <typename ValueType, typename MeanType>
-typename ResourceProbe<ValueType, MeanType>::CountType
-ResourceProbe<ValueType, MeanType>::GetNumberOfStops() const
+auto
+ResourceProbe<ValueType, MeanType>::GetNumberOfStops() const -> CountType
 {
   return this->m_NumberOfStops;
 }
 
 
 template <typename ValueType, typename MeanType>
-typename ResourceProbe<ValueType, MeanType>::CountType
-ResourceProbe<ValueType, MeanType>::GetNumberOfIteration() const
+auto
+ResourceProbe<ValueType, MeanType>::GetNumberOfIteration() const -> CountType
 {
   return this->m_NumberOfIteration;
 }

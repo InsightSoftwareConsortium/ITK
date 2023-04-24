@@ -442,8 +442,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::InverseTransformBasePointer
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::GetInverseTransform() const
+  -> InverseTransformBasePointer
 {
   auto inv = InverseTransformType::New();
 
