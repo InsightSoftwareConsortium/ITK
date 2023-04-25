@@ -30,6 +30,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <iomanip>
 
 namespace itk
@@ -280,11 +281,24 @@ TileMontage<TImageType, TCoordinate>::RegisterPair(TileIndexType fixed, TileInde
 
   m_CandidateConfidences[regLinearIndex] = m_PCM->GetConfidences();
   m_TransformCandidates[regLinearIndex].resize(offsets.size());
-  PointType p0;
-  p0.Fill(0.0);
   for (unsigned i = 0; i < offsets.size(); i++)
   {
-    m_TransformCandidates[regLinearIndex][i] = offsets[i] - p0;
+    if (m_CandidateConfidences[regLinearIndex][i] == 0)
+    {
+      m_CandidateConfidences[regLinearIndex][i] = std::numeric_limits<TCoordinate>::epsilon();
+    }
+
+    for (unsigned d = 0; d < ImageDimension; d++)
+    {
+      if (std::isfinite(offsets[i][d]))
+      {
+        m_TransformCandidates[regLinearIndex][i][d] = offsets[i][d];
+      }
+      else
+      {
+        m_TransformCandidates[regLinearIndex][i][d] = 0;
+      }
+    }
   }
 }
 
