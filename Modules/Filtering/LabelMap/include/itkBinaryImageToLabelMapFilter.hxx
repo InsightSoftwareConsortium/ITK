@@ -154,13 +154,11 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
 {
   const TInputImage * input = this->GetInput();
 
-  ImageScanlineConstIterator inLineIt(input, outputRegionForThread);
-
   WorkUnitData  workUnitData = this->CreateWorkUnitData(outputRegionForThread);
   SizeValueType lineId = workUnitData.firstLine;
 
   SizeValueType nbOfLabels = 0;
-  for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine())
+  for (ImageScanlineConstIterator inLineIt(input, outputRegionForThread); !inLineIt.IsAtEnd(); inLineIt.NextLine())
   {
     LineEncodingType thisLine;
     while (!inLineIt.IsAtEndOfLine())
