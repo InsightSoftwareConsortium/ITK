@@ -156,14 +156,12 @@ LabelContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(
 {
   OutputImageType * output = this->GetOutput();
 
-  ImageScanlineIterator outLineIt(output, outputRegionForThread);
-
   SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];
   OffsetValueType linecount = pixelcount / xsize;
   itkAssertInDebugAndIgnoreInReleaseMacro(SizeValueType(linecount) == m_LineMap.size());
 
-  for (outLineIt.GoToBegin(); !outLineIt.IsAtEnd(); outLineIt.NextLine())
+  for (ImageScanlineIterator outLineIt(output, outputRegionForThread); !outLineIt.IsAtEnd(); outLineIt.NextLine())
   {
     SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
     if (!m_LineMap[thisIdx].empty())

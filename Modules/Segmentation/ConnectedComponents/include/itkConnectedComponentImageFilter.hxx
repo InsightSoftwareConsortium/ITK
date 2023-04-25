@@ -166,13 +166,11 @@ void
 ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThreadedGenerateData(
   const RegionType & outputRegionForThread)
 {
-  ImageScanlineConstIterator inLineIt(m_Input, outputRegionForThread);
-
   WorkUnitData  workUnitData = this->CreateWorkUnitData(outputRegionForThread);
   SizeValueType lineId = workUnitData.firstLine;
 
   SizeValueType nbOfLabels = 0;
-  for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine())
+  for (ImageScanlineConstIterator inLineIt(m_Input, outputRegionForThread); !inLineIt.IsAtEnd(); inLineIt.NextLine())
   {
     LineEncodingType thisLine;
     while (!inLineIt.IsAtEndOfLine())

@@ -195,11 +195,9 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(const
 {
   OutputImagePointer output = this->GetOutput();
 
-  ImageScanlineIterator outLineIt(output, outputRegionForThread);
-
   OffsetValueType linecount = m_ForegroundLineMap.size();
 
-  for (outLineIt.GoToBegin(); !outLineIt.IsAtEnd(); outLineIt.NextLine())
+  for (ImageScanlineIterator outLineIt(output, outputRegionForThread); !outLineIt.IsAtEnd(); outLineIt.NextLine())
   {
     SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
     if (!m_ForegroundLineMap[thisIdx].empty())
