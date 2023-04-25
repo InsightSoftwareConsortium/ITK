@@ -218,26 +218,6 @@ GetLogBiasField(typename itk::Image<PixelType, Dimension>::Pointer scalarImage,
   return dup->GetOutput();
 }
 
-// use SFINAE to select whether to do simple division or per RGB component division
-template <typename PixelType>
-typename std::enable_if<std::is_arithmetic<PixelType>::value, PixelType>::type
-dividePixel(PixelType pixel, float divisor)
-{
-  return pixel / divisor;
-}
-template <typename PixelType>
-typename std::enable_if<!std::is_arithmetic<PixelType>::value, PixelType>::type
-dividePixel(PixelType pixel, float divisor)
-{
-  PixelType result;
-  // we assume RGB or RGBA pixel type
-  unsigned count = pixel.GetNumberOfComponents();
-  for (unsigned c = 0; c < count; c++)
-  {
-    result.SetNthComponent(c, pixel.GetNthComponent(c) / divisor);
-  }
-  return result;
-}
 
 template <typename PixelType, unsigned Dimension>
 typename itk::Image<PixelType, Dimension>::Pointer
@@ -309,7 +289,25 @@ CorrectBias(typename itk::Image<PixelType, Dimension>::Pointer image,
 
   using CustomBinaryFilter = itk::BinaryGeneratorImageFilter<ImageType, RealImageType, ImageType>;
   typename CustomBinaryFilter::Pointer expAndDivFilter = CustomBinaryFilter::New();
-  auto expAndDivLambda = [](PixelType input, float biasField) { return dividePixel(input, biasField); };
+
+  auto expAndDivLambda = [](PixelType input, float biasField) {
+    if constexpr (std::is_arithmetic_v<PixelType>)
+    {
+      return input / biasField;
+    }
+    else
+    {
+      PixelType result;
+      // we assume RGB or RGBA pixel type
+      unsigned count = input.GetNumberOfComponents();
+      for (unsigned c = 0; c < count; c++)
+      {
+        result.SetNthComponent(c, input.GetNthComponent(c) / biasField);
+      }
+      return result;
+    }
+  }; // end expAndDivLambda
+
   expAndDivFilter->SetFunctor(expAndDivLambda);
   expAndDivFilter->SetInput1(image);
   expAndDivFilter->SetInput2(mulField);
@@ -318,24 +316,26 @@ CorrectBias(typename itk::Image<PixelType, Dimension>::Pointer image,
   return expAndDivFilter->GetOutput();
 }
 
-// use SFINAE to select whether to do simple assignment or RGB to Luminance conversion
+
 template <typename RGBImage, typename ScalarImage>
-typename std::enable_if<std::is_same<RGBImage, ScalarImage>::value, void>::type
+void
 assignRGBtoScalar(typename RGBImage::Pointer rgbImage, typename ScalarImage::Pointer & scalarImage)
 {
-  scalarImage = rgbImage;
+  if constexpr (std::is_same_v<RGBImage, ScalarImage>)
+  {
+    scalarImage = rgbImage;
+  }
+  else
+  {
+    using CastType = itk::RGBToLuminanceImageFilter<RGBImage, ScalarImage>;
+    typename CastType::Pointer caster = CastType::New();
+    caster->SetInput(rgbImage);
+    caster->Update();
+    scalarImage = caster->GetOutput();
+    scalarImage->DisconnectPipeline();
+  }
 }
-template <typename RGBImage, typename ScalarImage>
-typename std::enable_if<!std::is_same<RGBImage, ScalarImage>::value, void>::type
-assignRGBtoScalar(typename RGBImage::Pointer rgbImage, typename ScalarImage::Pointer & scalarImage)
-{
-  using CastType = itk::RGBToLuminanceImageFilter<RGBImage, ScalarImage>;
-  typename CastType::Pointer caster = CastType::New();
-  caster->SetInput(rgbImage);
-  caster->Update();
-  scalarImage = caster->GetOutput();
-  scalarImage->DisconnectPipeline();
-}
+
 
 // taken from test/itkMontageTestHelper.hxx and simplified
 template <unsigned Dimension, typename PixelType, typename AccumulatePixelType>
