@@ -582,6 +582,7 @@ TileMontage<TImageType, TCoordinate>::OptimizeTiles()
       {
         std::cout << m_TransformCandidates[candidateIndex][0];
         m_TransformCandidates[candidateIndex].erase(m_TransformCandidates[candidateIndex].begin());
+        m_CandidateConfidences[candidateIndex].erase(m_CandidateConfidences[candidateIndex].begin());
       }
       else
       {
