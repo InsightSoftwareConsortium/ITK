@@ -47,10 +47,10 @@ CurvatureFlowFunction<TImage>::ComputeGlobalTimeStep(void * itkNotUsed(gd)) cons
 }
 
 template <typename TImage>
-typename CurvatureFlowFunction<TImage>::PixelType
+auto
 CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
                                              void *                   itkNotUsed(gd),
-                                             const FloatOffsetType &  itkNotUsed(offset))
+                                             const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   PixelRealType  firstderiv[ImageDimension];
   PixelRealType  secderiv[ImageDimension];

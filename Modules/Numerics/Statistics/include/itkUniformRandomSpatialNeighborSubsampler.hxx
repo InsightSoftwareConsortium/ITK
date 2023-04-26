@@ -173,10 +173,11 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
 } // end Search method
 
 template <typename TSample, typename TRegion>
-typename UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::RandomIntType
+auto
 UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::GetIntegerVariate(RandomIntType lowerBound,
                                                                             RandomIntType upperBound,
                                                                             RandomIntType itkNotUsed(mean))
+  -> RandomIntType
 {
   RandomIntType sizeRange = upperBound - lowerBound;
   // mean ignored since we are uniformly sampling

@@ -112,9 +112,9 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
 }
 
 template <typename TImageType, typename THistogramFrequencyContainer>
-typename ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::DataObjectPointer
+auto
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::MakeOutput(
-  DataObjectPointerArraySizeType itkNotUsed(idx))
+  DataObjectPointerArraySizeType itkNotUsed(idx)) -> DataObjectPointer
 {
   return HistogramType::New().GetPointer();
 }

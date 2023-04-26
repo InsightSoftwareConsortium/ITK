@@ -290,9 +290,10 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const L
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const LevelSetInputIndexType & iP,
                                                                          const LevelSetDataType &       iData)
+  -> LevelSetOutputRealType
 {
   auto term_it = m_Container.begin();
   auto term_end = m_Container.end();

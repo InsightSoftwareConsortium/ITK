@@ -72,9 +72,9 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>::ComputeBoundingBox()
 
 
 template <typename TInputImage, typename TCoordRep>
-typename GaussianInterpolateImageFunction<TInputImage, TCoordRep>::RegionType
+auto
 GaussianInterpolateImageFunction<TInputImage, TCoordRep>::ComputeInterpolationRegion(
-  const ContinuousIndexType & cindex) const
+  const ContinuousIndexType & cindex) const -> RegionType
 {
   RegionType region = this->GetInputImage()->GetBufferedRegion();
   for (unsigned int d = 0; d < ImageDimension; ++d)
@@ -91,9 +91,10 @@ GaussianInterpolateImageFunction<TInputImage, TCoordRep>::ComputeInterpolationRe
 }
 
 template <typename TImageType, typename TCoordRep>
-typename GaussianInterpolateImageFunction<TImageType, TCoordRep>::OutputType
+auto
 GaussianInterpolateImageFunction<TImageType, TCoordRep>::EvaluateAtContinuousIndex(const ContinuousIndexType & cindex,
                                                                                    OutputType * grad) const
+  -> OutputType
 {
   vnl_vector<RealType> erfArray[ImageDimension];
   vnl_vector<RealType> gerfArray[ImageDimension];

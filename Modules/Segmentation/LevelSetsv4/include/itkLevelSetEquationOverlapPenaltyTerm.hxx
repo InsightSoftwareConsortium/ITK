@@ -70,9 +70,10 @@ LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::Value(const Leve
 }
 
 template <typename TInput, typename TLevelSetContainer>
-typename LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & index,
                                                                       const LevelSetDataType &       itkNotUsed(data))
+  -> LevelSetOutputRealType
 {
   LevelSetOutputRealType value{};
   this->ComputeSumTerm(index, value);

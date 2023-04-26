@@ -55,11 +55,11 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::AntiAliasBinaryImageFilte
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::ValueType
+auto
 AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::CalculateUpdateValue(const IndexType &    idx,
                                                                             const TimeStepType & dt,
                                                                             const ValueType &    value,
-                                                                            const ValueType &    change)
+                                                                            const ValueType &    change) -> ValueType
 {
   // This method introduces the constraint on the flow of the surface.
 

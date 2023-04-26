@@ -30,9 +30,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::NormalizedCo
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
-  const TransformParametersType & parameters) const
+  const TransformParametersType & parameters) const -> MeasureType
 {
   FixedImageConstPointer fixedImage = this->m_FixedImage;
 

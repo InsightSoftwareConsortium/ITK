@@ -307,9 +307,9 @@ ConstantVelocityFieldTransform<TParametersValueType, VDimension>::IntegrateVeloc
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename ConstantVelocityFieldTransform<TParametersValueType, VDimension>::DisplacementFieldType::Pointer
+auto
 ConstantVelocityFieldTransform<TParametersValueType, VDimension>::CopyDisplacementField(
-  const DisplacementFieldType * toCopy) const
+  const DisplacementFieldType * toCopy) const -> typename DisplacementFieldType::Pointer
 {
   auto rval = DisplacementFieldType::New();
   rval->SetOrigin(toCopy->GetOrigin());

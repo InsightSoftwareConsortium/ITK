@@ -70,10 +70,10 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::CurvatureNDAnisotropicDiffusion
 }
 
 template <typename TImage>
-typename CurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+auto
 CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
                                                                void *                   itkNotUsed(globalData),
-                                                               const FloatOffsetType &  itkNotUsed(offset))
+                                                               const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   unsigned int i, j;
   double       speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;

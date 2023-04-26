@@ -43,9 +43,9 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Pri
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
-  const TransformParametersType & parameters) const
+  const TransformParametersType & parameters) const -> MeasureType
 {
   FixedImageConstPointer fixedImage = this->m_FixedImage;
 

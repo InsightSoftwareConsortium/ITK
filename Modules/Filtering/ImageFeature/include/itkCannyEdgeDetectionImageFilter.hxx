@@ -135,9 +135,10 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
+auto
 CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ComputeCannyEdge(const NeighborhoodType & it,
                                                                            void * itkNotUsed(globalData))
+  -> OutputImagePixelType
 {
 
   NeighborhoodInnerProduct<OutputImageType> innerProduct;

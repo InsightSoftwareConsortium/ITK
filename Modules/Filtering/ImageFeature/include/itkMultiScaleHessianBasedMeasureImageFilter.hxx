@@ -74,9 +74,9 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
 
 
 template <typename TInputImage, typename THessianImage, typename TOutputImage>
-typename MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImage>::DataObjectPointer
+auto
 MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImage>::MakeOutput(
-  DataObjectPointerArraySizeType idx)
+  DataObjectPointerArraySizeType idx) -> DataObjectPointer
 {
   if (idx == 1)
   {

@@ -78,9 +78,9 @@ ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>:
 }
 
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
-typename ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::OutputType
+auto
 ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & x) const
+  const ContinuousIndexType & x) const -> OutputType
 {
   typename InterpolatorType::OutputType realPart = m_RealInterpolator->EvaluateAtContinuousIndex(x);
   typename InterpolatorType::OutputType imagPart = m_ImaginaryInterpolator->EvaluateAtContinuousIndex(x);

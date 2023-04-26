@@ -161,10 +161,10 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::DisplacementFieldPointer
+auto
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::BSplineSmoothDisplacementField(
   const DisplacementFieldType * field,
-  const ArrayType &             numberOfControlPoints)
+  const ArrayType &             numberOfControlPoints) -> DisplacementFieldPointer
 {
   auto bspliner = BSplineFilterType::New();
   bspliner->SetUseInputFieldToDefineTheBSplineDomain(true);

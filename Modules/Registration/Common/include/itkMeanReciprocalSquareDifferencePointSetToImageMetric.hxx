@@ -31,9 +31,9 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet,
 }
 
 template <typename TFixedPointSet, typename TMovingImage>
-typename MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage>::MeasureType
+auto
 MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValue(
-  const TransformParametersType & parameters) const
+  const TransformParametersType & parameters) const -> MeasureType
 {
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 

@@ -432,9 +432,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
 }
 
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
-typename CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::OutputType
+auto
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & cindex) const
+  const ContinuousIndexType & cindex) const -> OutputType
 {
   OutputType derivative;
   // When ScalarDerivativeType is the same as OutputType, this calls

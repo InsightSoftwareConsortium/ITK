@@ -165,11 +165,11 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+auto
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
   void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset))
+  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   auto *    globalData = (GlobalDataStruct *)gd;
   PixelType update;

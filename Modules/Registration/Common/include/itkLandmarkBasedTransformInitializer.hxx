@@ -767,9 +767,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Initia
 }
 
 template <typename TTransform, typename TFixedImage, typename TMovingImage>
-typename LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::PointType3D
+auto
 LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::ComputeCentroid(
-  const LandmarkPointContainer inputLandmarks)
+  const LandmarkPointContainer inputLandmarks) -> PointType3D
 {
   // Compute the centroids.
   PointType3D centroid;

@@ -236,9 +236,9 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::Evaluate(const PointType 
 }
 
 template <typename TInputImage, typename TOutput>
-typename GaussianDerivativeImageFunction<TInputImage, TOutput>::OutputType
+auto
 GaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & cindex) const
+  const ContinuousIndexType & cindex) const -> OutputType
 {
   IndexType index;
 

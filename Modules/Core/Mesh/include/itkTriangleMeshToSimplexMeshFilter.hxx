@@ -398,9 +398,10 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
 }
 
 template <typename TInputMesh, typename TOutputMesh>
-typename TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::InputPointType
+auto
 TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::ComputeFaceCenter(CellIdentifier        faceId,
                                                                             const InputMeshType * inputMesh)
+  -> InputPointType
 {
   InputPointType v1, v2, v3;
 

@@ -21,10 +21,10 @@
 namespace itk
 {
 template <typename TImage>
-typename VectorNeighborhoodInnerProduct<TImage>::PixelType
+auto
 VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice &                        s,
                                                    const ConstNeighborhoodIterator<TImage> & it,
-                                                   const OperatorType &                      op) const
+                                                   const OperatorType &                      op) const -> PixelType
 {
   PixelType sum{};
 
@@ -47,10 +47,10 @@ VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice &           
 }
 
 template <typename TImage>
-typename VectorNeighborhoodInnerProduct<TImage>::PixelType
+auto
 VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice &       s,
                                                    const NeighborhoodType & it,
-                                                   const OperatorType &     op) const
+                                                   const OperatorType &     op) const -> PixelType
 {
   PixelType sum{};
 

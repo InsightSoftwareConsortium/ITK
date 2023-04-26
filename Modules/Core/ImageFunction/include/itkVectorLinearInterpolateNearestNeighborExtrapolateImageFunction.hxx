@@ -31,9 +31,9 @@ const unsigned int VectorLinearInterpolateNearestNeighborExtrapolateImageFunctio
   1 << TInputImage::ImageDimension;
 
 template <typename TInputImage, typename TCoordRep>
-typename VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::OutputType
+auto
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & index) const
+  const ContinuousIndexType & index) const -> OutputType
 {
   unsigned int dim; // index over dimension
 
@@ -126,9 +126,9 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
  * Evaluate at image index position
  */
 template <typename TInputImage, typename TCoordRep>
-typename VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::OutputType
+auto
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(
-  const IndexType & index) const
+  const IndexType & index) const -> OutputType
 {
   // Find the index that is closest to the requested one
   // but that lies within the image

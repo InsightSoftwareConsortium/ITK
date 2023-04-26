@@ -83,10 +83,10 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CreateTriangles()
 }
 
 template <typename TInputMesh, typename TOutputMesh>
-typename SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CellIdentifier
+auto
 SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::FindCellId(CellIdentifier id1,
                                                                      CellIdentifier id2,
-                                                                     CellIdentifier id3)
+                                                                     CellIdentifier id3) -> CellIdentifier
 {
   std::set<CellIdentifier> cells1 = this->GetInput(0)->GetCellLinks()->GetElement(id1);
   std::set<CellIdentifier> cells2 = this->GetInput(0)->GetCellLinks()->GetElement(id2);

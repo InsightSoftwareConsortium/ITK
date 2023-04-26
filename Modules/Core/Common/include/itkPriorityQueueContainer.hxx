@@ -35,9 +35,9 @@ const typename ElementWrapperInterface<TElement, TElementIdentifier>::ElementIde
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 template <typename TElementWrapperPointer, typename TElementIdentifier>
-typename ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::ElementIdentifierType
+auto
 ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::GetLocation(
-  const ElementWrapperPointerType & element) const
+  const ElementWrapperPointerType & element) const -> ElementIdentifierType
 {
   return (element->GetLocation(*element));
 }
@@ -130,9 +130,9 @@ MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::
 
 // -----------------------------------------------------------------------------
 template <typename TElement, typename TElementPriority, typename TElementIdentifier>
-typename MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::ElementIdentifierType
+auto
 MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::GetLocation(
-  const MinPriorityQueueElementWrapper & element) const
+  const MinPriorityQueueElementWrapper & element) const -> ElementIdentifierType
 {
   return element.m_Location;
 }

@@ -88,9 +88,9 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogInsideTerm(con
 }
 
 template <typename TFeatureImage, typename TOutputPixel>
-typename ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::MeasureType
+auto
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogShapePriorTerm(
-  const ParametersType & parameters) const
+  const ParametersType & parameters) const -> MeasureType
 {
   // assume the shape parameters is from an independent gaussian distributions
   MeasureType measure = 0.0;
@@ -137,9 +137,9 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogGradientTerm(c
 }
 
 template <typename TFeatureImage, typename TOutputPixel>
-typename ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::MeasureType
+auto
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogPosePriorTerm(
-  const ParametersType & itkNotUsed(parameters)) const
+  const ParametersType & itkNotUsed(parameters)) const -> MeasureType
 {
   return 0.0;
 }

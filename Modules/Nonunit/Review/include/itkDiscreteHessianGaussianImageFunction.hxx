@@ -222,9 +222,9 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::Evaluate(const Point
 
 /** Evaluate the function at specified ContinuousIndex position.*/
 template <typename TInputImage, typename TOutput>
-typename DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::OutputType
+auto
 DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & cindex) const
+  const ContinuousIndexType & cindex) const -> OutputType
 {
   if (m_InterpolationMode == InterpolationModeEnum::NearestNeighbourInterpolation)
   {

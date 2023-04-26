@@ -80,9 +80,9 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::SetLevelSe
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+auto
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCurvatureFromSparseImageNeighborhood(
-  SparseImageIteratorType & it) const
+  SparseImageIteratorType & it) const -> ValueType
 {
   unsigned int            counter;
   SizeValueType           position, stride[ImageDimension], indicator[ImageDimension];

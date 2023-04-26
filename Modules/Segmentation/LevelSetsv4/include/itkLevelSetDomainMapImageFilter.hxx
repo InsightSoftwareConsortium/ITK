@@ -39,9 +39,9 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GetDomainMap() const ->
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::InputImageRegionType
+auto
 LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::ComputeConsistentRegion(
-  const InputImageRegionType & inputRegion) const
+  const InputImageRegionType & inputRegion) const -> InputImageRegionType
 {
   bool regionWasModified = false;
 

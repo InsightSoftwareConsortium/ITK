@@ -144,9 +144,9 @@ TranslationTransform<TParametersValueType, VDimension>::TransformVector(const In
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename TranslationTransform<TParametersValueType, VDimension>::OutputCovariantVectorType
+auto
 TranslationTransform<TParametersValueType, VDimension>::TransformCovariantVector(
-  const InputCovariantVectorType & vect) const
+  const InputCovariantVectorType & vect) const -> OutputCovariantVectorType
 {
   return vect;
 }

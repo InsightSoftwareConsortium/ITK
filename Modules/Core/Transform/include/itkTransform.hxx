@@ -120,9 +120,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::UpdateTransf
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVector(const InputVectorType & vector,
                                                                                     const InputPointType &  point) const
+  -> OutputVectorType
 {
   JacobianPositionType jacobian;
   this->ComputeJacobianWithRespectToPosition(point, jacobian);
@@ -141,9 +142,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVec
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputVnlVectorType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVector(const InputVnlVectorType & vector,
                                                                                     const InputPointType & point) const
+  -> OutputVnlVectorType
 {
   JacobianPositionType jacobian;
   this->ComputeJacobianWithRespectToPosition(point, jacobian);
@@ -162,9 +164,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVec
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorPixelType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVector(const InputVectorPixelType & vector,
                                                                                     const InputPointType & point) const
+  -> OutputVectorPixelType
 {
 
   if (vector.GetSize() != VInputDimension)
@@ -192,10 +195,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVec
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputCovariantVectorType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformCovariantVector(
   const InputCovariantVectorType & vector,
-  const InputPointType &           point) const
+  const InputPointType &           point) const -> OutputCovariantVectorType
 {
   InverseJacobianPositionType jacobian;
   this->ComputeInverseJacobianWithRespectToPosition(point, jacobian);
@@ -214,10 +217,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformCov
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorPixelType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformCovariantVector(
   const InputVectorPixelType & vector,
-  const InputPointType &       point) const
+  const InputPointType &       point) const -> OutputVectorPixelType
 {
 
   if (vector.GetSize() != VInputDimension)
@@ -245,10 +248,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformCov
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputDiffusionTensor3DType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformDiffusionTensor3D(
   const InputDiffusionTensor3DType & inputTensor,
-  const InputPointType &             point) const
+  const InputPointType &             point) const -> OutputDiffusionTensor3DType
 {
   InverseJacobianPositionType invJacobian;
   this->ComputeInverseJacobianWithRespectToPosition(point, invJacobian);
@@ -261,10 +264,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformDif
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorPixelType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformDiffusionTensor3D(
   const InputVectorPixelType & inputTensor,
-  const InputPointType &       point) const
+  const InputPointType &       point) const -> OutputVectorPixelType
 {
   if (inputTensor.GetSize() != 6)
   {
@@ -375,10 +378,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputSymmetricSecondRankTensorType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformSymmetricSecondRankTensor(
   const InputSymmetricSecondRankTensorType & inputTensor,
-  const InputPointType &                     point) const
+  const InputPointType &                     point) const -> OutputSymmetricSecondRankTensorType
 {
   JacobianPositionType jacobian;
   this->ComputeJacobianWithRespectToPosition(point, jacobian);
@@ -411,10 +414,10 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformSym
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename Transform<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorPixelType
+auto
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformSymmetricSecondRankTensor(
   const InputVectorPixelType & inputTensor,
-  const InputPointType &       point) const
+  const InputPointType &       point) const -> OutputVectorPixelType
 {
 
   if (inputTensor.GetSize() != (VInputDimension * VInputDimension))

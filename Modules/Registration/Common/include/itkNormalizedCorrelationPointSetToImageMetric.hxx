@@ -30,9 +30,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::Normal
 }
 
 template <typename TFixedPointSet, typename TMovingImage>
-typename NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::MeasureType
+auto
 NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValue(
-  const TransformParametersType & parameters) const
+  const TransformParametersType & parameters) const -> MeasureType
 {
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 

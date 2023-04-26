@@ -103,8 +103,9 @@ ITK_GCC_PRAGMA_DIAG_POP()
 } // namespace
 
 template <typename TParametersValueType>
-typename CompositeTransformIOHelperTemplate<TParametersValueType>::ConstTransformListType &
+auto
 CompositeTransformIOHelperTemplate<TParametersValueType>::GetTransformList(const TransformType * transform)
+  -> ConstTransformListType &
 {
   this->m_TransformList.clear();
 

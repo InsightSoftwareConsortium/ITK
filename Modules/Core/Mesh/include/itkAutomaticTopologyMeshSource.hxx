@@ -74,13 +74,13 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(const CoordinateType * p0) ->
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(CoordinateType x0,
                                                    CoordinateType x1,
                                                    CoordinateType x2,
                                                    CoordinateType x3,
                                                    CoordinateType x4,
-                                                   CoordinateType x5)
+                                                   CoordinateType x5) -> IdentifierType
 {
   CoordinateType p0[] = { x0, x1, x2, x3, x4, x5 };
   PointType      newPoint;
@@ -484,10 +484,10 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(IdentifierType pointId0, Ident
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(IdentifierType pointId0,
                                                       IdentifierType pointId1,
-                                                      IdentifierType pointId2)
+                                                      IdentifierType pointId2) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(3);
   pointIDs[0] = pointId0;
@@ -497,11 +497,11 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(IdentifierType pointId0,
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(IdentifierType pointId0,
                                                            IdentifierType pointId1,
                                                            IdentifierType pointId2,
-                                                           IdentifierType pointId3)
+                                                           IdentifierType pointId3) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(4);
   pointIDs[0] = pointId0;
@@ -512,11 +512,11 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(IdentifierType pointI
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(IdentifierType pointId0,
                                                          IdentifierType pointId1,
                                                          IdentifierType pointId2,
-                                                         IdentifierType pointId3)
+                                                         IdentifierType pointId3) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(4);
   pointIDs[0] = pointId0;
@@ -527,7 +527,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(IdentifierType pointId0
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(IdentifierType pointId0,
                                                         IdentifierType pointId1,
                                                         IdentifierType pointId2,
@@ -535,7 +535,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(IdentifierType pointId0,
                                                         IdentifierType pointId4,
                                                         IdentifierType pointId5,
                                                         IdentifierType pointId6,
-                                                        IdentifierType pointId7)
+                                                        IdentifierType pointId7) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(8);
   pointIDs[0] = pointId0;
@@ -581,11 +581,11 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const PointType & p0, cons
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const PointType & p0,
                                                            const PointType & p1,
                                                            const PointType & p2,
-                                                           const PointType & p3)
+                                                           const PointType & p3) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(4);
   pointIDs[0] = AddPoint(p0);
@@ -596,11 +596,11 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const PointType & p0,
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const PointType & p0,
                                                          const PointType & p1,
                                                          const PointType & p2,
-                                                         const PointType & p3)
+                                                         const PointType & p3) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(4);
   pointIDs[0] = AddPoint(p0);
@@ -611,7 +611,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const PointType & p0,
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const PointType & p0,
                                                         const PointType & p1,
                                                         const PointType & p2,
@@ -619,7 +619,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const PointType & p0,
                                                         const PointType & p4,
                                                         const PointType & p5,
                                                         const PointType & p6,
-                                                        const PointType & p7)
+                                                        const PointType & p7) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(8);
   pointIDs[0] = AddPoint(p0);
@@ -654,10 +654,10 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const CoordinateType * p0, con
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const CoordinateType * p0,
                                                       const CoordinateType * p1,
-                                                      const CoordinateType * p2)
+                                                      const CoordinateType * p2) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(3);
   pointIDs[0] = AddPoint(p0);
@@ -667,11 +667,11 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const CoordinateType * p0,
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const CoordinateType * p0,
                                                            const CoordinateType * p1,
                                                            const CoordinateType * p2,
-                                                           const CoordinateType * p3)
+                                                           const CoordinateType * p3) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(4);
   pointIDs[0] = AddPoint(p0);
@@ -682,11 +682,11 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const CoordinateType 
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const CoordinateType * p0,
                                                          const CoordinateType * p1,
                                                          const CoordinateType * p2,
-                                                         const CoordinateType * p3)
+                                                         const CoordinateType * p3) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(4);
   pointIDs[0] = AddPoint(p0);
@@ -697,7 +697,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const CoordinateType * 
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const CoordinateType * p0,
                                                         const CoordinateType * p1,
                                                         const CoordinateType * p2,
@@ -705,7 +705,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const CoordinateType * p
                                                         const CoordinateType * p4,
                                                         const CoordinateType * p5,
                                                         const CoordinateType * p6,
-                                                        const CoordinateType * p7)
+                                                        const CoordinateType * p7) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(8);
   pointIDs[0] = AddPoint(p0);

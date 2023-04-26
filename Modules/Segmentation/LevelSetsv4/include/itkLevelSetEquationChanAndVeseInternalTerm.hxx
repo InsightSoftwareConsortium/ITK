@@ -140,9 +140,10 @@ LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::Value(const
 }
 
 template <typename TInput, typename TLevelSetContainer>
-typename LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationChanAndVeseInternalTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & inputIndex,
                                                                            const LevelSetDataType &       data)
+  -> LevelSetOutputRealType
 {
   if (this->m_Heaviside.IsNotNull())
   {

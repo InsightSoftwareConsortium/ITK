@@ -64,11 +64,11 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GenerateBSplineSha
 }
 
 template <unsigned int VSplineOrder, typename TRealValueType>
-typename CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PolynomialType
+auto
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoor(const unsigned short order,
                                                                         const VectorType     knots,
                                                                         const unsigned int   whichBasisFunction,
-                                                                        const unsigned int   whichPiece)
+                                                                        const unsigned int whichPiece) -> PolynomialType
 {
   VectorType           tmp(2);
   PolynomialType       poly1(TRealValueType{ 0.0 });

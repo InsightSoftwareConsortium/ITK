@@ -1091,9 +1091,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::SetPhiL
 }
 
 template <typename TInputPointSet, typename TOutputImage>
-typename BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::IndexType
+auto
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::NumberToIndex(const unsigned int number,
-                                                                                       const SizeType     size)
+                                                                                       const SizeType size) -> IndexType
 {
   IndexType k;
   k[0] = 1;

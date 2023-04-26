@@ -31,10 +31,10 @@ BinaryMinMaxCurvatureFlowFunction<TImage>::BinaryMinMaxCurvatureFlowFunction()
 }
 
 template <typename TImage>
-typename BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
+auto
 BinaryMinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
                                                          void *                   globalData,
-                                                         const FloatOffsetType &  offset)
+                                                         const FloatOffsetType &  offset) -> PixelType
 {
   using CurvatureFlowFunctionType = CurvatureFlowFunction<TImage>;
   PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(it, globalData, offset);

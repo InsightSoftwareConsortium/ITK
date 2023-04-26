@@ -1156,10 +1156,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddEuclideanUpdate(co
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RealType
+auto
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddExponentialMapUpdate(
   const DiffusionTensor3D<RealValueType> & spdMatrix,
-  const DiffusionTensor3D<RealValueType> & symMatrix)
+  const DiffusionTensor3D<RealValueType> & symMatrix) -> RealType
 {
   using RealEigenValuesArrayType = typename RealType::EigenValuesArrayType;
   using RealEigenVectorsMatrixType = typename RealType::EigenVectorsMatrixType;
@@ -1505,11 +1505,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeSigmaUpdateThr
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataStruct
+auto
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaUpdate(
   const InputImageRegionType & regionToProcess,
   const int                    itkNotUsed(threadId),
-  ThreadDataStruct             threadData)
+  ThreadDataStruct             threadData) -> ThreadDataStruct
 {
   // Create two images to list adaptors, one for the iteration over the region
   // the other for querying to find the patches set the region of interest for
@@ -1941,11 +1941,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeImageUpdateThr
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataStruct
+auto
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageUpdate(
   const InputImageRegionType & regionToProcess,
   const int                    threadId,
-  ThreadDataStruct             threadData)
+  ThreadDataStruct             threadData) -> ThreadDataStruct
 {
   // Create two images to list adaptors, one for the iteration over the region
   // the other for querying to find the patches set the region of interest for
@@ -2121,12 +2121,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RealType
+auto
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeGradientJointEntropy(
   InstanceIdentifier                  id,
   typename ListAdaptorType::Pointer & inList,
   BaseSamplerPointer &                sampler,
-  ThreadDataStruct &                  threadData)
+  ThreadDataStruct &                  threadData) -> RealType
 {
   using IndexType = typename OutputImageType::IndexType;
 

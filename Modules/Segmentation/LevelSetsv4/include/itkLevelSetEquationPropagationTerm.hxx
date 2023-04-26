@@ -68,9 +68,9 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
 {}
 
 template <typename TInput, typename TLevelSetContainer, typename TPropagationImage>
-typename LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::LevelSetOutputRealType
+auto
 LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::PropagationSpeed(
-  const LevelSetInputIndexType & iP) const
+  const LevelSetInputIndexType & iP) const -> LevelSetOutputRealType
 {
   return (static_cast<LevelSetOutputRealType>(this->m_PropagationImage->GetPixel(iP)));
 }
@@ -106,9 +106,10 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
 }
 
 template <typename TInput, typename TLevelSetContainer, typename TPropagationImage>
-typename LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::LevelSetOutputRealType
+auto
 LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::Value(const LevelSetInputIndexType & iP,
                                                                                       const LevelSetDataType & iData)
+  -> LevelSetOutputRealType
 {
   const LevelSetOutputRealType zero{};
   LevelSetOutputRealType       propagation_gradient = zero;

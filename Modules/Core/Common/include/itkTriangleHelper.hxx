@@ -98,13 +98,13 @@ TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, co
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::PointType
+auto
 TriangleHelper<TPoint>::ComputeBarycenter(const CoordRepType & iA1,
                                           const PointType &    iP1,
                                           const CoordRepType & iA2,
                                           const PointType &    iP2,
                                           const CoordRepType & iA3,
-                                          const PointType &    iP3)
+                                          const PointType &    iP3) -> PointType
 {
   PointType oPt;
 
@@ -187,10 +187,10 @@ TriangleHelper<TPoint>::ComputeCircumCenter(const PointType & iP1, const PointTy
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::PointType
+auto
 TriangleHelper<TPoint>::ComputeConstrainedCircumCenter(const PointType & iP1,
                                                        const PointType & iP2,
-                                                       const PointType & iP3)
+                                                       const PointType & iP3) -> PointType
 {
   const CoordRepType a = iP2.SquaredEuclideanDistanceTo(iP3);
   const CoordRepType b = iP1.SquaredEuclideanDistanceTo(iP3);
