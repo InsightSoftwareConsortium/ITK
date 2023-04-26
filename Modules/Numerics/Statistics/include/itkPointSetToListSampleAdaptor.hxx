@@ -96,8 +96,7 @@ PointSetToListSampleAdaptor<TPointSet>::GetMeasurementVector(InstanceIdentifier 
 }
 
 template <typename TPointSet>
-inline typename PointSetToListSampleAdaptor<TPointSet>::AbsoluteFrequencyType
-  PointSetToListSampleAdaptor<TPointSet>::GetFrequency(InstanceIdentifier) const
+inline auto PointSetToListSampleAdaptor<TPointSet>::GetFrequency(InstanceIdentifier) const -> AbsoluteFrequencyType
 {
   if (m_PointSet.IsNull())
   {

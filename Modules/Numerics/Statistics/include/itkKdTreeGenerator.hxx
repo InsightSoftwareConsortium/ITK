@@ -113,12 +113,12 @@ KdTreeGenerator<TSample>::GenerateData()
 }
 
 template <typename TSample>
-inline typename KdTreeGenerator<TSample>::KdTreeNodeType *
+inline auto
 KdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int            beginIndex,
                                                   unsigned int            endIndex,
                                                   MeasurementVectorType & lowerBound,
                                                   MeasurementVectorType & upperBound,
-                                                  unsigned int            level)
+                                                  unsigned int            level) -> KdTreeNodeType *
 {
   using NodeType = typename KdTreeType::KdTreeNodeType;
   MeasurementType dimensionLowerBound;
@@ -184,12 +184,12 @@ KdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int            beginI
 }
 
 template <typename TSample>
-inline typename KdTreeGenerator<TSample>::KdTreeNodeType *
+inline auto
 KdTreeGenerator<TSample>::GenerateTreeLoop(unsigned int            beginIndex,
                                            unsigned int            endIndex,
                                            MeasurementVectorType & lowerBound,
                                            MeasurementVectorType & upperBound,
-                                           unsigned int            level)
+                                           unsigned int            level) -> KdTreeNodeType *
 {
   if (endIndex - beginIndex <= m_BucketSize)
   {

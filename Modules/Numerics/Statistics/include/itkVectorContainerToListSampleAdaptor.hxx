@@ -63,8 +63,8 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::GetMeasurementVector(Insta
 }
 
 template <typename TVectorContainer>
-inline typename VectorContainerToListSampleAdaptor<TVectorContainer>::AbsoluteFrequencyType
-  VectorContainerToListSampleAdaptor<TVectorContainer>::GetFrequency(InstanceIdentifier) const
+inline auto VectorContainerToListSampleAdaptor<TVectorContainer>::GetFrequency(InstanceIdentifier) const
+  -> AbsoluteFrequencyType
 {
   if (this->m_VectorContainer.IsNull())
   {
