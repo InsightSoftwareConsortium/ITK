@@ -75,8 +75,8 @@ PreOrderTreeIterator<TTreeType>::PreOrderTreeIterator(const TTreeType * tree, co
 
 /** Return the type of the iterator */
 template <typename TTreeType>
-typename PreOrderTreeIterator<TTreeType>::NodeType
-PreOrderTreeIterator<TTreeType>::GetType() const
+auto
+PreOrderTreeIterator<TTreeType>::GetType() const -> NodeType
 {
   return TreeIteratorBaseEnums::TreeIteratorBaseNode::PREORDER;
 }

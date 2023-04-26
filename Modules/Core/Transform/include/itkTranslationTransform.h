@@ -257,32 +257,36 @@ private:
 
 // Back transform a point
 template <typename TParametersValueType, unsigned int VDimension>
-inline typename TranslationTransform<TParametersValueType, VDimension>::InputPointType
+inline auto
 TranslationTransform<TParametersValueType, VDimension>::BackTransform(const OutputPointType & point) const
+  -> InputPointType
 {
   return point - m_Offset;
 }
 
 // Back transform a vector
 template <typename TParametersValueType, unsigned int VDimension>
-inline typename TranslationTransform<TParametersValueType, VDimension>::InputVectorType
+inline auto
 TranslationTransform<TParametersValueType, VDimension>::BackTransform(const OutputVectorType & vect) const
+  -> InputVectorType
 {
   return vect;
 }
 
 // Back transform a vnl_vector
 template <typename TParametersValueType, unsigned int VDimension>
-inline typename TranslationTransform<TParametersValueType, VDimension>::InputVnlVectorType
+inline auto
 TranslationTransform<TParametersValueType, VDimension>::BackTransform(const OutputVnlVectorType & vect) const
+  -> InputVnlVectorType
 {
   return vect;
 }
 
 // Back Transform a CovariantVector
 template <typename TParametersValueType, unsigned int VDimension>
-inline typename TranslationTransform<TParametersValueType, VDimension>::InputCovariantVectorType
+inline auto
 TranslationTransform<TParametersValueType, VDimension>::BackTransform(const OutputCovariantVectorType & vect) const
+  -> InputCovariantVectorType
 {
   return vect;
 }

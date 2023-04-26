@@ -106,8 +106,8 @@ LeafTreeIterator<TTreeType>::~LeafTreeIterator() = default;
 
 /** Return the type of iterator */
 template <typename TTreeType>
-typename LeafTreeIterator<TTreeType>::NodeType
-LeafTreeIterator<TTreeType>::GetType() const
+auto
+LeafTreeIterator<TTreeType>::GetType() const -> NodeType
 {
   return TreeIteratorBaseEnums::TreeIteratorBaseNode::LEAF;
 }

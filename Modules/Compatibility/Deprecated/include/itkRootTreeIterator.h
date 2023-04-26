@@ -74,8 +74,8 @@ RootTreeIterator<TTreeType>::RootTreeIterator(TTreeType * tree, const TreeNodeTy
 
 /** Return the type of the iterator */
 template <typename TTreeType>
-typename RootTreeIterator<TTreeType>::NodeType
-RootTreeIterator<TTreeType>::GetType() const
+auto
+RootTreeIterator<TTreeType>::GetType() const -> NodeType
 {
   return TreeIteratorBaseEnums::TreeIteratorBaseNode::ROOT;
 }

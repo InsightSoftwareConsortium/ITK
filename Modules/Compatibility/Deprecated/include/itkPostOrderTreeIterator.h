@@ -89,8 +89,8 @@ PostOrderTreeIterator<TTreeType>::PostOrderTreeIterator(TTreeType * tree)
 
 /** Return the type of the iterator */
 template <typename TTreeType>
-typename PostOrderTreeIterator<TTreeType>::NodeType
-PostOrderTreeIterator<TTreeType>::GetType() const
+auto
+PostOrderTreeIterator<TTreeType>::GetType() const -> NodeType
 {
   return TreeIteratorBaseEnums::TreeIteratorBaseNode::POSTORDER;
 }

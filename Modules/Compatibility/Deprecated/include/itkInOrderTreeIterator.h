@@ -75,8 +75,8 @@ InOrderTreeIterator<TTreeType>::InOrderTreeIterator(TTreeType * tree, TreeNodeTy
 
 /** Get the type of the iterator */
 template <typename TTreeType>
-typename InOrderTreeIterator<TTreeType>::NodeType
-InOrderTreeIterator<TTreeType>::GetType() const
+auto
+InOrderTreeIterator<TTreeType>::GetType() const -> NodeType
 {
   return TreeIteratorBaseEnums::TreeIteratorBaseNode::INORDER;
 }
