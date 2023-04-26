@@ -32,12 +32,12 @@ WeightedCentroidKdTreeGenerator<TSample>::PrintSelf(std::ostream & os, Indent in
 }
 
 template <typename TSample>
-inline typename WeightedCentroidKdTreeGenerator<TSample>::KdTreeNodeType *
+inline auto
 WeightedCentroidKdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int            beginIndex,
                                                                   unsigned int            endIndex,
                                                                   MeasurementVectorType & lowerBound,
                                                                   MeasurementVectorType & upperBound,
-                                                                  unsigned int            level)
+                                                                  unsigned int            level) -> KdTreeNodeType *
 {
   MeasurementType dimensionLowerBound;
   MeasurementType dimensionUpperBound;

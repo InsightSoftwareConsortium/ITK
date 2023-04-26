@@ -56,8 +56,7 @@ ImageToListSampleAdaptor<TImage>::Size() const -> InstanceIdentifier
 }
 
 template <typename TImage>
-inline typename ImageToListSampleAdaptor<TImage>::AbsoluteFrequencyType ImageToListSampleAdaptor<TImage>::GetFrequency(
-  InstanceIdentifier) const
+inline auto ImageToListSampleAdaptor<TImage>::GetFrequency(InstanceIdentifier) const -> AbsoluteFrequencyType
 {
   if (m_Image.IsNull())
   {

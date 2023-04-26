@@ -394,11 +394,11 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 
 
 template <typename TInputImage>
-inline typename ContourExtractor2DImageFilter<TInputImage>::VertexType
+inline auto
 ContourExtractor2DImageFilter<TInputImage>::InterpolateContourPosition(InputPixelType  fromValue,
                                                                        InputPixelType  toValue,
                                                                        InputIndexType  fromIndex,
-                                                                       InputOffsetType toOffset)
+                                                                       InputOffsetType toOffset) -> VertexType
 {
   // Now calculate the fraction of the way from 'from' to 'to' that the contour
   // crosses. Interpolate linearly: y = v0 + (v1 - v0) * x, and solve for the
