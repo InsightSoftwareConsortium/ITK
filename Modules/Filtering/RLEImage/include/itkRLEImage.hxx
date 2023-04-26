@@ -28,8 +28,8 @@
 namespace itk
 {
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
-inline typename RLEImage<TPixel, VImageDimension, CounterType>::BufferType::IndexType
-RLEImage<TPixel, VImageDimension, CounterType>::truncateIndex(const IndexType & index)
+inline auto
+RLEImage<TPixel, VImageDimension, CounterType>::truncateIndex(const IndexType & index) -> typename BufferType::IndexType
 {
   typename BufferType::IndexType result;
   for (IndexValueType i = 0; i < VImageDimension - 1; i++)
