@@ -89,8 +89,8 @@ private:
 
 
 template <typename TInput, typename TOutput>
-inline typename Clamp<TInput, TOutput>::OutputType
-Clamp<TInput, TOutput>::operator()(const InputType & A) const
+inline auto
+Clamp<TInput, TOutput>::operator()(const InputType & A) const -> OutputType
 {
   const auto dA = static_cast<double>(A);
 
