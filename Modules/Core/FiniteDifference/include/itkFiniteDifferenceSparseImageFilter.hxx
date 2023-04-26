@@ -242,10 +242,10 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Prec
 }
 
 template <typename TInputImageType, typename TSparseOutputImageType>
-typename FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::TimeStepType
+auto
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::ThreadedCalculateChange(
   const ThreadRegionType & regionToProcess,
-  ThreadIdType)
+  ThreadIdType) -> TimeStepType
 {
   using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 

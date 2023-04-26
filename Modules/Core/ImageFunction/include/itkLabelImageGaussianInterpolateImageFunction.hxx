@@ -34,10 +34,10 @@ namespace itk
 {
 
 template <typename TInputImage, typename TCoordRep, typename TPixelCompare>
-typename LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>::OutputType
+auto
 LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & cindex,
-  OutputType *                itkNotUsed(grad)) const
+  OutputType *                itkNotUsed(grad)) const -> OutputType
 {
   vnl_vector<RealType> erfArray[ImageDimension];
   vnl_vector<RealType> gerfArray[ImageDimension];

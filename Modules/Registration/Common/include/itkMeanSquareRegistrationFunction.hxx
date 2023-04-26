@@ -91,11 +91,11 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::I
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+auto
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
   void *                   itkNotUsed(globalData),
-  const FloatOffsetType &  itkNotUsed(offset))
+  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   // Get fixed image related information
   // Note: no need to check the index is within

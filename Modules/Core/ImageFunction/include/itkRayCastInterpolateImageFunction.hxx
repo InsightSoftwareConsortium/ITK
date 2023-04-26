@@ -1430,9 +1430,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTyp
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename RayCastInterpolateImageFunction<TInputImage, TCoordRep>::OutputType
+auto
 RayCastInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & index) const
+  const ContinuousIndexType & index) const -> OutputType
 {
   OutputPointType point;
 

@@ -708,9 +708,9 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::AfterThreadedGenerat
 
 
 template <typename TInputImage, typename TOutputImage, typename TDistancePixel>
-typename SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::DistanceType
+auto
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::Distance(const ClusterType & cluster1,
-                                                                     const ClusterType & cluster2)
+                                                                     const ClusterType & cluster2) -> DistanceType
 {
   const unsigned int s = cluster1.size();
   DistanceType       d1 = 0.0;
@@ -732,10 +732,10 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::Distance(const Clust
 }
 
 template <typename TInputImage, typename TOutputImage, typename TDistancePixel>
-typename SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::DistanceType
+auto
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::Distance(const ClusterType &    cluster,
                                                                      const InputPixelType & _v,
-                                                                     const PointType &      pt)
+                                                                     const PointType &      pt) -> DistanceType
 {
   const unsigned int                                                    s = cluster.size();
   DistanceType                                                          d1 = 0.0;

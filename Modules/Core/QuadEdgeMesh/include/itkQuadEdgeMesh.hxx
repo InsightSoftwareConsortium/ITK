@@ -674,9 +674,9 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddEdge(const PointIdentifier & orgPi
 }
 
 template <typename TPixel, unsigned int VDimension, typename TTraits>
-typename QuadEdgeMesh<TPixel, VDimension, TTraits>::QEPrimal *
+auto
 QuadEdgeMesh<TPixel, VDimension, TTraits>::AddEdgeWithSecurePointList(const PointIdentifier & orgPid,
-                                                                      const PointIdentifier & destPid)
+                                                                      const PointIdentifier & destPid) -> QEPrimal *
 {
   PointsContainerPointer points = this->GetPoints();
 
@@ -1140,9 +1140,9 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::FindEdge(const PointIdentifier & pid0
 /**
  */
 template <typename TPixel, unsigned int VDimension, typename TTraits>
-typename QuadEdgeMesh<TPixel, VDimension, TTraits>::EdgeCellType *
+auto
 QuadEdgeMesh<TPixel, VDimension, TTraits>::FindEdgeCell(const PointIdentifier & pid0,
-                                                        const PointIdentifier & pid1) const
+                                                        const PointIdentifier & pid1) const -> EdgeCellType *
 {
   auto *     result = (EdgeCellType *)nullptr;
   QEPrimal * EdgeGeom = FindEdge(pid0, pid1);
@@ -1340,10 +1340,10 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFace(QEPrimal * entry)
  * @param cPid \ref PointIdentifier of third point
  */
 template <typename TPixel, unsigned int VDimension, typename TTraits>
-typename QuadEdgeMesh<TPixel, VDimension, TTraits>::QEPrimal *
+auto
 QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFaceTriangle(const PointIdentifier & aPid,
                                                            const PointIdentifier & bPid,
-                                                           const PointIdentifier & cPid)
+                                                           const PointIdentifier & cPid) -> QEPrimal *
 {
   PointIdList points(3);
 

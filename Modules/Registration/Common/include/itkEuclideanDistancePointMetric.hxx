@@ -43,9 +43,9 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
 }
 
 template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
-typename EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::MeasureType
+auto
 EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetValue(
-  const TransformParametersType & parameters) const
+  const TransformParametersType & parameters) const -> MeasureType
 {
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 

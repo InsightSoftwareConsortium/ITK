@@ -89,9 +89,10 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeAllVertexNormals()
 }
 
 template <typename TInputMesh, typename TOutputMesh>
-typename NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::OutputVertexNormalType
+auto
 NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeVertexNormal(const OutputPointIdentifier & iId,
                                                                        OutputMeshType *              outputMesh)
+  -> OutputVertexNormalType
 {
 
   OutputQEType *       edge = outputMesh->FindEdge(iId);
@@ -117,10 +118,11 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeVertexNormal(const Out
 }
 
 template <typename TInputMesh, typename TOutputMesh>
-typename NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::OutputVertexNormalComponentType
+auto
 NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdentifier & iPId,
                                                           const OutputCellIdentifier &  iCId,
                                                           OutputMeshType *              outputMesh)
+  -> OutputVertexNormalComponentType
 {
   if (m_Weight == WeightEnum::GOURAUD)
   {

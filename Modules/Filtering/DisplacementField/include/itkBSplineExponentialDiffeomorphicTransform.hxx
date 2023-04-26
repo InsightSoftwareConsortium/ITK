@@ -164,10 +164,10 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upda
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::ConstantVelocityFieldPointer
+auto
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::BSplineSmoothConstantVelocityField(
   const ConstantVelocityFieldType * field,
-  const ArrayType &                 numberOfControlPoints)
+  const ArrayType &                 numberOfControlPoints) -> ConstantVelocityFieldPointer
 {
   auto bspliner = BSplineFilterType::New();
   bspliner->SetUseInputFieldToDefineTheBSplineDomain(true);

@@ -235,9 +235,9 @@ VelocityFieldTransform<TParametersValueType, VDimension>::SetFixedParametersFrom
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename VelocityFieldTransform<TParametersValueType, VDimension>::DisplacementFieldType::Pointer
+auto
 VelocityFieldTransform<TParametersValueType, VDimension>::CopyDisplacementField(
-  const DisplacementFieldType * toCopy) const
+  const DisplacementFieldType * toCopy) const -> typename DisplacementFieldType::Pointer
 {
   auto rval = DisplacementFieldType::New();
   rval->SetOrigin(toCopy->GetOrigin());

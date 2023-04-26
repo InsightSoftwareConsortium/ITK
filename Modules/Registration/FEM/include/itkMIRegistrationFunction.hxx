@@ -82,11 +82,11 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Initializ
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+auto
 MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
   void *                   itkNotUsed(globalData),
-  const FloatOffsetType &  itkNotUsed(offset))
+  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   // We compute the derivative of MI w.r.t. the infinitesimal
   // displacement, following Viola and Wells.

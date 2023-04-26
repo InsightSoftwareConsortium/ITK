@@ -160,8 +160,8 @@ HDF5TransformIOTemplate<TParametersValueType>::WriteFixedParameters(const std::s
 
 /** read a parameter array from the location specified by name */
 template <typename TParametersValueType>
-typename HDF5TransformIOTemplate<TParametersValueType>::ParametersType
-HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string & DataSetName) const
+auto
+HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string & DataSetName) const -> ParametersType
 {
 
   H5::DataSet       paramSet = this->m_H5File->openDataSet(DataSetName);
@@ -206,8 +206,9 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string 
 
 /** read a parameter array from the location specified by name */
 template <typename TParametersValueType>
-typename HDF5TransformIOTemplate<TParametersValueType>::FixedParametersType
+auto
 HDF5TransformIOTemplate<TParametersValueType>::ReadFixedParameters(const std::string & DataSetName) const
+  -> FixedParametersType
 {
 
   H5::DataSet paramSet = this->m_H5File->openDataSet(DataSetName);

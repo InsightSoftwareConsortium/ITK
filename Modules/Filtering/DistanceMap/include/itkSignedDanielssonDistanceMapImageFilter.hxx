@@ -52,9 +52,9 @@ SignedDanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>
 
 /** This is overloaded to create the VectorDistanceMap output image */
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
-typename SignedDanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::DataObjectPointer
+auto
 SignedDanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::MakeOutput(
-  DataObjectPointerArraySizeType idx)
+  DataObjectPointerArraySizeType idx) -> DataObjectPointer
 {
   if (idx == 1)
   {

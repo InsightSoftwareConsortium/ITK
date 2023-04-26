@@ -225,9 +225,9 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::Evaluate(c
 
 /** Evaluate the function at specified ContinuousIndex position.*/
 template <typename TInputImage, typename TOutput>
-typename DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::OutputType
+auto
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & cindex) const
+  const ContinuousIndexType & cindex) const -> OutputType
 {
   if (m_InterpolationMode == InterpolationModeEnum::NearestNeighbourInterpolation)
   {

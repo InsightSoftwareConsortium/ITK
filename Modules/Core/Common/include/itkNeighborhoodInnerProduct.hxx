@@ -23,11 +23,11 @@
 namespace itk
 {
 template <typename TImage, typename TOperator, typename TComputation>
-typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
+auto
 NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(const ConstNeighborhoodIterator<TImage> & it,
                                                                    const OperatorType &                      op,
                                                                    const unsigned int                        start,
-                                                                   const unsigned int                        stride)
+                                                                   const unsigned int stride) -> OutputPixelType
 {
   using InputPixelType = typename TImage::PixelType;
   using InputPixelRealType = typename NumericTraits<InputPixelType>::RealType;
@@ -49,13 +49,13 @@ NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(const ConstNe
 }
 
 template <typename TImage, typename TOperator, typename TComputation>
-typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
+auto
 NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(
   /*           const ImageBoundaryCondition<TImage> *,*/
   const NeighborhoodType & N,
   const OperatorType &     op,
   const unsigned int       start,
-  const unsigned int       stride)
+  const unsigned int       stride) -> OutputPixelType
 {
   typename OperatorType::ConstIterator o_it;
 

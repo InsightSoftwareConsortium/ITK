@@ -85,9 +85,9 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Scal
 }
 
 template <typename TImage, typename THistogramFrequencyContainer>
-typename ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::DataObjectPointer
+auto
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::MakeOutput(
-  DataObjectPointerArraySizeType itkNotUsed(idx))
+  DataObjectPointerArraySizeType itkNotUsed(idx)) -> DataObjectPointer
 {
   return FeatureValueVectorDataObjectType::New().GetPointer();
 }

@@ -392,10 +392,10 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
 }
 
 template <typename TImage>
-typename MinMaxCurvatureFlowFunction<TImage>::PixelType
+auto
 MinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
                                                    void *                   globalData,
-                                                   const FloatOffsetType &  offset)
+                                                   const FloatOffsetType &  offset) -> PixelType
 {
   PixelType update = this->Superclass::ComputeUpdate(it, globalData, offset);
 

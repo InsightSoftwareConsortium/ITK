@@ -46,10 +46,10 @@ GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::InternalClone() const
 }
 
 template <typename TSample, typename TRegion>
-typename GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::RandomIntType
+auto
 GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::GetIntegerVariate(RandomIntType lowerBound,
                                                                              RandomIntType upperBound,
-                                                                             RandomIntType mean)
+                                                                             RandomIntType mean) -> RandomIntType
 {
   if (upperBound < lowerBound)
   {

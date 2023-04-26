@@ -29,10 +29,11 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::Grayscale
 }
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>
-typename GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
+auto
 GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const NeighborhoodIteratorType & nit,
                                                                                 const KernelIteratorType kernelBegin,
                                                                                 const KernelIteratorType kernelEnd)
+  -> PixelType
 {
   unsigned int i;
   PixelType    min = NumericTraits<PixelType>::max();

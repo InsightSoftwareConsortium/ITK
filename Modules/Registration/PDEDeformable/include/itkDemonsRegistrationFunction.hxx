@@ -141,11 +141,11 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Initi
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+auto
 DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
   void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset))
+  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   // Get fixed image related information
   // Note: no need to check the index is within

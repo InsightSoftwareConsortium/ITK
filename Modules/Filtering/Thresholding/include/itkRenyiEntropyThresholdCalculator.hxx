@@ -167,11 +167,12 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 }
 
 template <typename THistogram, typename TOutput>
-typename RenyiEntropyThresholdCalculator<THistogram, TOutput>::InstanceIdentifier
+auto
 RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding(const HistogramType *       histogram,
                                                                              const std::vector<double> & normHisto,
                                                                              const std::vector<double> & P1,
                                                                              const std::vector<double> & P2)
+  -> InstanceIdentifier
 {
 
   // Calculate the total entropy each gray-level and fin the threshold that
@@ -220,12 +221,12 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding(con
 }
 
 template <typename THistogram, typename TOutput>
-typename RenyiEntropyThresholdCalculator<THistogram, TOutput>::InstanceIdentifier
+auto
 RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding2(
   const HistogramType *       itkNotUsed(histogram),
   const std::vector<double> & normHisto,
   const std::vector<double> & P1,
-  const std::vector<double> & P2)
+  const std::vector<double> & P2) -> InstanceIdentifier
 {
 
   InstanceIdentifier threshold =
@@ -270,12 +271,12 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding2(
 }
 
 template <typename THistogram, typename TOutput>
-typename RenyiEntropyThresholdCalculator<THistogram, TOutput>::InstanceIdentifier
+auto
 RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding3(
   const HistogramType *       itkNotUsed(histogram),
   const std::vector<double> & normHisto,
   const std::vector<double> & P1,
-  const std::vector<double> & P2)
+  const std::vector<double> & P2) -> InstanceIdentifier
 {
   InstanceIdentifier threshold =
     0; // was MIN_INT in original code, but if an empty image is processed it gives an error later on.

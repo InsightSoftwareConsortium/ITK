@@ -122,24 +122,24 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::ResumeOptimization()
 
 // LBFGS method
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
+auto
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::EvaluateCostCallback(
   void *                                                                          instance,
   const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType * x,
   LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType *       g,
   const int                                                                       n,
-  const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType   step)
+  const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType   step) -> PrecisionType
 {
   auto * optimizer = static_cast<LBFGS2Optimizerv4Template *>(instance);
   return optimizer->EvaluateCost(x, g, n, step);
 }
 template <typename TInternalComputationValueType>
-typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
+auto
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::EvaluateCost(
   const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType * x,
   LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType *       g,
   const int                                                                       n,
-  const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType)
+  const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType) -> PrecisionType
 {
   ParametersType xItk(n);
   // TODO: potentially not thread safe since x is modified by lbfgs

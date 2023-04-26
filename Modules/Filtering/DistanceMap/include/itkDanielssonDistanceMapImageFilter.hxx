@@ -46,9 +46,9 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Dani
 }
 
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
-typename DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::DataObjectPointer
+auto
 DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::MakeOutput(
-  DataObjectPointerArraySizeType idx)
+  DataObjectPointerArraySizeType idx) -> DataObjectPointer
 {
   if (idx == 1)
   {

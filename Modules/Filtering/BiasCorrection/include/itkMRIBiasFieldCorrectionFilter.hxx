@@ -435,10 +435,11 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::Initialize(
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
-typename MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::BiasFieldType
+auto
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBiasField(InputImageRegionType region,
                                                                                        unsigned int         degree,
                                                                                        int maximumIteration)
+  -> BiasFieldType
 {
   itkDebugMacro(<< "Estimating bias field ");
 

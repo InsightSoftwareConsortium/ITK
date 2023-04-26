@@ -22,9 +22,9 @@
 namespace itk
 {
 template <typename TFixedImage, typename TMovingImage>
-typename CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::EvaluateMeasure(
-  HistogramType & histogram) const
+  HistogramType & histogram) const -> MeasureType
 {
   const MeasureType varianceX = this->VarianceX(histogram);
   const MeasureType varianceY = this->VarianceY(histogram);
@@ -104,9 +104,9 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Va
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Covariance(
-  HistogramType & histogram) const
+  HistogramType & histogram) const -> MeasureType
 {
   MeasureType var{};
   MeasureType meanX = MeanX(histogram);

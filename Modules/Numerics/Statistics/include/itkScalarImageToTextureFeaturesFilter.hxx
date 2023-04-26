@@ -85,9 +85,9 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
 }
 
 template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
-typename ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::DataObjectPointer
+auto
 ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::MakeOutput(
-  DataObjectPointerArraySizeType itkNotUsed(idx))
+  DataObjectPointerArraySizeType itkNotUsed(idx)) -> DataObjectPointer
 {
   return FeatureValueVectorDataObjectType::New().GetPointer();
 }

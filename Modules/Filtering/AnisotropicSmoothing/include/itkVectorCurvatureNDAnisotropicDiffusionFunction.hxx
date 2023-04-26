@@ -73,10 +73,10 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::VectorCurvatureNDAnisotro
 }
 
 template <typename TImage>
-typename VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::PixelType
+auto
 VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
                                                                      void *,
-                                                                     const FloatOffsetType &)
+                                                                     const FloatOffsetType &) -> PixelType
 {
   unsigned int i, j, k;
   double       speed;

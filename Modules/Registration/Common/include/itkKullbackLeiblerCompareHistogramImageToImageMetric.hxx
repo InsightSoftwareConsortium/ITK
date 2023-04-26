@@ -41,9 +41,9 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::In
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::EvaluateMeasure(
-  HistogramType & histogram) const
+  HistogramType & histogram) const -> MeasureType
 {
   // Two terms.
   // First the term that measures the entropy of the term

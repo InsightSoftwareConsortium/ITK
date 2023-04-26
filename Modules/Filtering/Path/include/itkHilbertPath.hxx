@@ -100,31 +100,31 @@ HilbertPath<TIndexValue, VDimension>::TransformMultiDimensionalIndexToPathIndex(
 }
 
 template <typename TIndexValue, unsigned int VDimension>
-typename HilbertPath<TIndexValue, VDimension>::PathIndexType
+auto
 HilbertPath<TIndexValue, VDimension>::GetTransform(const PathIndexType entry,
                                                    const PathIndexType direction,
                                                    const PathIndexType width,
-                                                   const PathIndexType x)
+                                                   const PathIndexType x) -> PathIndexType
 {
   return (this->GetRightBitRotation(x ^ entry, direction + 1, width));
 }
 
 template <typename TIndexValue, unsigned int VDimension>
-typename HilbertPath<TIndexValue, VDimension>::PathIndexType
+auto
 HilbertPath<TIndexValue, VDimension>::GetInverseTransform(const PathIndexType entry,
                                                           const PathIndexType direction,
                                                           const PathIndexType width,
-                                                          const PathIndexType x)
+                                                          const PathIndexType x) -> PathIndexType
 {
   return (this->GetLeftBitRotation(x, direction + 1, width) ^ entry);
 }
 
 template <typename TIndexValue, unsigned int VDimension>
-typename HilbertPath<TIndexValue, VDimension>::PathIndexType
+auto
 HilbertPath<TIndexValue, VDimension>::GetBitRange(const PathIndexType x,
                                                   const PathIndexType width,
                                                   const PathIndexType start,
-                                                  const PathIndexType end)
+                                                  const PathIndexType end) -> PathIndexType
 {
   return (x >> (width - end) & ((1 << (end - start)) - 1));
 }
@@ -146,11 +146,11 @@ HilbertPath<TIndexValue, VDimension>::GetRightBitRotation(PathIndexType x, PathI
 }
 
 template <typename TIndexValue, unsigned int VDimension>
-typename HilbertPath<TIndexValue, VDimension>::PathIndexType
+auto
 HilbertPath<TIndexValue, VDimension>::SetBit(const PathIndexType x,
                                              const PathIndexType width,
                                              const PathIndexType i,
-                                             const PathIndexType b)
+                                             const PathIndexType b) -> PathIndexType
 {
   if (b != 0)
   {

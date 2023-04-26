@@ -199,11 +199,11 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+auto
 LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
   void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset))
+  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   const IndexType index = it.GetIndex();
 
@@ -354,9 +354,9 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::TimeStepType
+auto
 LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeGlobalTimeStep(
-  void * GlobalData) const
+  void * GlobalData) const -> TimeStepType
 {
   TimeStepType dt = 1.0;
 

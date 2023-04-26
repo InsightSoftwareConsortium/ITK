@@ -173,9 +173,10 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
 }
 
 template <typename TInput, typename TLevelSetContainer>
-typename LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & iP,
                                                                  const LevelSetDataType &       iData)
+  -> LevelSetOutputRealType
 {
   VectorType             advectionField = this->AdvectionSpeed(iP);
   LevelSetOutputRealType oValue{};

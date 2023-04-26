@@ -553,9 +553,10 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::L_Func(const double r,
 }
 
 template <typename TInputMesh, typename TOutputMesh>
-typename DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::PointType
+auto
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeBarycentricCoordinates(PointType             p,
                                                                                       SimplexMeshGeometry * data)
+  -> PointType
 {
   const PointType a = data->neighbors[0];
   const PointType b = data->neighbors[1];

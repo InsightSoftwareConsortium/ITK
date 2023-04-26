@@ -313,9 +313,10 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QETy
 }
 
 template <typename TMesh, typename TQEType>
-typename QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::EdgeStatusType
+auto
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::CheckStatus(QEType *                e,
                                                                          std::stack<TQEType *> & oToBeDeleted)
+  -> EdgeStatusType
 {
 #ifndef NDEBUG
   if (!e)

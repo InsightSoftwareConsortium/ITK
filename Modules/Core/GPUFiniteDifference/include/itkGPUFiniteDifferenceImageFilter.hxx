@@ -180,10 +180,10 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::G
 }
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
-typename GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::TimeStepType
+auto
 GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::ResolveTimeStep(
   const std::vector<TimeStepType> & timeStepList,
-  const BooleanStdVectorType &      valid) const
+  const BooleanStdVectorType &      valid) const -> TimeStepType
 {
   TimeStepType oMin{};
   bool         flag = false;

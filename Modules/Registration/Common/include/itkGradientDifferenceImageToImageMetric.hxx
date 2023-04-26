@@ -287,10 +287,10 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeVariance
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
   const TransformParametersType & parameters,
-  const double *                  subtractionFactor) const
+  const double *                  subtractionFactor) const -> MeasureType
 {
   unsigned int iDimension;
 
@@ -347,9 +347,9 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
-  const TransformParametersType & parameters) const
+  const TransformParametersType & parameters) const -> MeasureType
 {
   unsigned int iFilter; // Index of Sobel filters for
                         // each dimension

@@ -605,11 +605,12 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeature(int           
  * though, and we are not sure how wide-spread this support is.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellIdentifier
+auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int                        dimension,
                                                                            CellIdentifier             cellId,
                                                                            CellFeatureIdentifier      featureId,
                                                                            std::set<CellIdentifier> * cellSet)
+  -> CellIdentifier
 {
   /**
    * Sanity check on mesh status.

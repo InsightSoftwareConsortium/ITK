@@ -26,9 +26,9 @@ namespace itk
  * Get the match Measure
  */
 template <typename TFixedPointSet, typename TMovingImage>
-typename MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::MeasureType
+auto
 MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValue(
-  const TransformParametersType & parameters) const
+  const TransformParametersType & parameters) const -> MeasureType
 {
   FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 

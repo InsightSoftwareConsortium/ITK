@@ -44,11 +44,11 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf
 }
 
 template <typename TImageType, typename TFeatureImageType>
-typename ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::PixelType
+auto
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeUpdate(
   const NeighborhoodType & neighborhood,
   void *                   gd,
-  const FloatOffsetType &  offset)
+  const FloatOffsetType &  offset) -> PixelType
 {
   // Compute the generic level set update using superclass
   PixelType value = this->Superclass::ComputeUpdate(neighborhood, gd, offset);

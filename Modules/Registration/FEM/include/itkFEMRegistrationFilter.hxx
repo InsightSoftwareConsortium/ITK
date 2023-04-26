@@ -995,9 +995,9 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SmoothDisplacement
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
-typename FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FieldPointer
+auto
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ExpandVectorField(ExpandFactorsType * expandFactors,
-                                                                                FieldType *         field)
+                                                                                FieldType * field) -> FieldPointer
 {
   // Re-size the vector field
   if (!field)

@@ -75,11 +75,11 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Initiali
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+auto
 NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
   void *                   itkNotUsed(globalData),
-  const FloatOffsetType &  itkNotUsed(offset))
+  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   const IndexType oindex = it.GetIndex();
 

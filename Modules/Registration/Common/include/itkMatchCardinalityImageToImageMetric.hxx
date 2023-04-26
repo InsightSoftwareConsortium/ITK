@@ -32,17 +32,17 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::MatchCardinalityI
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
-  const TransformParametersType & parameters) const
+  const TransformParametersType & parameters) const -> MeasureType
 {
   return const_cast<Self *>(this)->GetNonconstValue(parameters);
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
-  const TransformParametersType & parameters)
+  const TransformParametersType & parameters) -> MeasureType
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 

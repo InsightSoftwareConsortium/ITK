@@ -133,11 +133,11 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
+auto
 SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
   void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset))
+  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   auto *          globalData = (GlobalDataStruct *)gd;
   const IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();

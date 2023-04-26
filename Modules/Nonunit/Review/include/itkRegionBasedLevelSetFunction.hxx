@@ -164,10 +164,10 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeGlobalTimeSte
 }
 
 template <typename TInput, typename TFeature, typename TSharedData>
-typename RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ScalarValueType
+auto
 RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeCurvature(const NeighborhoodType & itkNotUsed(it),
                                                                              const FloatOffsetType & itkNotUsed(offset),
-                                                                             GlobalDataStruct *      gd)
+                                                                             GlobalDataStruct * gd) -> ScalarValueType
 {
   // Calculate the mean curvature
   ScalarValueType curvature{};
@@ -240,10 +240,10 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHessian(const
 }
 
 template <typename TInput, typename TFeature, typename TSharedData>
-typename RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::PixelType
+auto
 RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const NeighborhoodType & it,
                                                                           void *                   globalData,
-                                                                          const FloatOffsetType &  offset)
+                                                                          const FloatOffsetType &  offset) -> PixelType
 {
   // Access the neighborhood center pixel of phi
   const ScalarValueType inputValue = it.GetCenterPixel();
@@ -354,10 +354,10 @@ of Heaviside and dirac delta for each part of the fidelity term.
 - the final dH is the dirac delta term corresponding to the current
 level set we are updating. */
 template <typename TInput, typename TFeature, typename TSharedData>
-typename RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ScalarValueType
+auto
 RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeGlobalTerm(
   const ScalarValueType & itkNotUsed(inputPixel),
-  const InputIndexType &  inputIndex)
+  const InputIndexType &  inputIndex) -> ScalarValueType
 {
   // computes if it belongs to background
   ScalarValueType product = 1;

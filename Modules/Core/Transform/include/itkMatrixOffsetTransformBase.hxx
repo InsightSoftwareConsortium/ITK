@@ -129,36 +129,36 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputPointType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformPoint(
-  const InputPointType & point) const
+  const InputPointType & point) const -> OutputPointType
 {
   return m_Matrix * point + m_Offset;
 }
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformVector(
-  const InputVectorType & vect) const
+  const InputVectorType & vect) const -> OutputVectorType
 {
   return m_Matrix * vect;
 }
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputVnlVectorType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformVector(
-  const InputVnlVectorType & vect) const
+  const InputVnlVectorType & vect) const -> OutputVnlVectorType
 {
   return m_Matrix.GetVnlMatrix() * vect;
 }
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorPixelType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformVector(
-  const InputVectorPixelType & vect) const
+  const InputVectorPixelType & vect) const -> OutputVectorPixelType
 {
   const unsigned int vectorDim = vect.Size();
 
@@ -193,9 +193,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputCovariantVectorType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformCovariantVector(
-  const InputCovariantVectorType & vec) const
+  const InputCovariantVectorType & vec) const -> OutputCovariantVectorType
 {
   OutputCovariantVectorType result; // Converted vector
 
@@ -213,9 +213,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorPixelType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformCovariantVector(
-  const InputVectorPixelType & vect) const
+  const InputVectorPixelType & vect) const -> OutputVectorPixelType
 {
 
   const unsigned int vectorDim = vect.Size();
@@ -251,9 +251,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputDiffusionTensor3DType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformDiffusionTensor3D(
-  const InputDiffusionTensor3DType & tensor) const
+  const InputDiffusionTensor3DType & tensor) const -> OutputDiffusionTensor3DType
 {
 
   JacobianType jacobian;
@@ -274,9 +274,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorPixelType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformDiffusionTensor3D(
-  const InputVectorPixelType & tensor) const
+  const InputVectorPixelType & tensor) const -> OutputVectorPixelType
 {
   OutputVectorPixelType result(InputDiffusionTensor3DType::InternalDimension); // Converted tensor
 
@@ -346,9 +346,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::OutputVectorPixelType
+auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::TransformSymmetricSecondRankTensor(
-  const InputVectorPixelType & inputTensor) const
+  const InputVectorPixelType & inputTensor) const -> OutputVectorPixelType
 {
   JacobianType jacobian;
   jacobian.SetSize(VOutputDimension, VInputDimension);

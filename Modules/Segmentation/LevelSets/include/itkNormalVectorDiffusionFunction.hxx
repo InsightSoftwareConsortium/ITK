@@ -171,10 +171,10 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
 }
 
 template <typename TSparseImageType>
-typename NormalVectorDiffusionFunction<TSparseImageType>::NormalVectorType
+auto
 NormalVectorDiffusionFunction<TSparseImageType>::ComputeSparseUpdate(NeighborhoodType & it,
                                                                      void *,
-                                                                     const FloatOffsetType &) const
+                                                                     const FloatOffsetType &) const -> NormalVectorType
 {
   unsigned int           i;
   NormalVectorType       change;

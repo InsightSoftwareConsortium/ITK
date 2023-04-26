@@ -23,10 +23,10 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-typename PeriodicBoundaryCondition<TInputImage, TOutputImage>::OutputPixelType
+auto
 PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetType &       point_index,
                                                                  const OffsetType &       boundary_offset,
-                                                                 const NeighborhoodType * data) const
+                                                                 const NeighborhoodType * data) const -> OutputPixelType
 {
   // This is guaranteed to be called with an object that is using
   // PeriodicBoundaryCondition
@@ -77,12 +77,12 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetTyp
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PeriodicBoundaryCondition<TInputImage, TOutputImage>::OutputPixelType
+auto
 PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(
   const OffsetType &                      point_index,
   const OffsetType &                      boundary_offset,
   const NeighborhoodType *                data,
-  const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const
+  const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const -> OutputPixelType
 {
   // This is guaranteed to be called with an object that is using
   // PeriodicBoundaryCondition
@@ -133,10 +133,10 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(
 
 
 template <typename TInputImage, typename TOutputImage>
-typename PeriodicBoundaryCondition<TInputImage, TOutputImage>::RegionType
+auto
 PeriodicBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRegion(
   const RegionType & inputLargestPossibleRegion,
-  const RegionType & outputRequestedRegion) const
+  const RegionType & outputRequestedRegion) const -> RegionType
 {
   IndexType imageIndex = inputLargestPossibleRegion.GetIndex();
   SizeType  imageSize = inputLargestPossibleRegion.GetSize();

@@ -133,10 +133,10 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upd
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::ConstantVelocityFieldPointer
+auto
 GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::GaussianSmoothConstantVelocityField(
   ConstantVelocityFieldType * field,
-  ScalarType                  variance)
+  ScalarType                  variance) -> ConstantVelocityFieldPointer
 {
   if (variance <= 0.0)
   {

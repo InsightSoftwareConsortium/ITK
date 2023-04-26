@@ -146,9 +146,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const 
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::OutputType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & idx) const
+  const ContinuousIndexType & idx) const -> OutputType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -266,9 +266,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTy
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::GradientType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtParametricPoint(
-  const PointType & point) const
+  const PointType & point) const -> GradientType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -294,9 +294,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtInde
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::GradientType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtContinuousIndex(
-  const ContinuousIndexType & idx) const
+  const ContinuousIndexType & idx) const -> GradientType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -430,10 +430,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradient(const
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::HessianComponentType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtParametricPoint(
   const PointType &  point,
-  const unsigned int component) const
+  const unsigned int component) const -> HessianComponentType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -445,9 +445,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtParam
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::HessianComponentType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtIndex(const IndexType &  idx,
                                                                                  const unsigned int component) const
+  -> HessianComponentType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -459,10 +460,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtIndex
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::HessianComponentType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtContinuousIndex(
   const ContinuousIndexType & idx,
-  const unsigned int          component) const
+  const unsigned int          component) const -> HessianComponentType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -474,9 +475,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtConti
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::HessianComponentType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessian(const PointType &  params,
                                                                           const unsigned int component) const
+  -> HessianComponentType
 {
   vnl_vector<CoordRepType> p(ImageDimension);
   for (unsigned int i = 0; i < ImageDimension; ++i)

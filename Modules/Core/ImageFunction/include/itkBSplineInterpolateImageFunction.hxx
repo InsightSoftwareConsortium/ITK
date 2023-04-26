@@ -496,11 +496,11 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::ApplyM
 }
 
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
-typename BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::OutputType
+auto
 BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::EvaluateAtContinuousIndexInternal(
   const ContinuousIndexType & x,
   vnl_matrix<long> &          evaluateIndex,
-  vnl_matrix<double> &        weights) const
+  vnl_matrix<double> &        weights) const -> OutputType
 {
   // compute the interpolation indexes
   this->DetermineRegionOfSupport((evaluateIndex), x, m_SplineOrder);
@@ -608,12 +608,12 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::
 }
 
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
-typename BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::CovariantVectorType
+auto
 BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::EvaluateDerivativeAtContinuousIndexInternal(
   const ContinuousIndexType & x,
   vnl_matrix<long> &          evaluateIndex,
   vnl_matrix<double> &        weights,
-  vnl_matrix<double> &        weightsDerivative) const
+  vnl_matrix<double> &        weightsDerivative) const -> CovariantVectorType
 {
   this->DetermineRegionOfSupport((evaluateIndex), x, m_SplineOrder);
 

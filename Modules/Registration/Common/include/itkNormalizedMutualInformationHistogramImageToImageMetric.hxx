@@ -23,9 +23,9 @@
 namespace itk
 {
 template <typename TFixedImage, typename TMovingImage>
-typename NormalizedMutualInformationHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 NormalizedMutualInformationHistogramImageToImageMetric<TFixedImage, TMovingImage>::EvaluateMeasure(
-  HistogramType & histogram) const
+  HistogramType & histogram) const -> MeasureType
 {
   MeasureType entropyX{};
   MeasureType entropyY{};

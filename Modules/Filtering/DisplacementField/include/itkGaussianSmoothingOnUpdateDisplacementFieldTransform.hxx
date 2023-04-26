@@ -126,10 +126,10 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::DisplacementFieldPointer
+auto
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::GaussianSmoothDisplacementField(
   DisplacementFieldType * field,
-  ScalarType              variance)
+  ScalarType              variance) -> DisplacementFieldPointer
 {
   if (variance <= 0.0)
   {

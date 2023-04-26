@@ -199,9 +199,9 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddFace(CellAutoPointer & cell
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::CellIdentifier
+auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::ReplaceFace(CellIdentifier    replaceIndex,
-                                                              CellAutoPointer & cellPointer)
+                                                              CellAutoPointer & cellPointer) -> CellIdentifier
 {
   // Release previous cell, if any.
   // See documentation of Mesh::SetCell().
@@ -248,10 +248,10 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier i
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::NeighborListType *
+auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier    idx,
                                                                unsigned int       radius,
-                                                               NeighborListType * list) const
+                                                               NeighborListType * list) const -> NeighborListType *
 {
   if (list == nullptr)
   {
