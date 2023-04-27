@@ -176,8 +176,8 @@ TileMontage<TImageType, TCoordinate>::GetImageHelper(TileIndexType nDIndex, bool
 }
 
 template <typename TImageType, typename TCoordinate>
-typename TileMontage<TImageType, TCoordinate>::ImageType::Pointer
-TileMontage<TImageType, TCoordinate>::GetImage(TileIndexType nDIndex, bool metadataOnly)
+auto
+TileMontage<TImageType, TCoordinate>::GetImage(TileIndexType nDIndex, bool metadataOnly) -> typename ImageType::Pointer
 {
   RegionType                  reg0; // default-initialized to zeroes
   SizeValueType               linearIndex = this->nDIndexToLinearIndex(nDIndex);
@@ -213,8 +213,9 @@ TileMontage<TImageType, TCoordinate>::nDIndexToLinearIndex(TileIndexType nDIndex
 }
 
 template <typename TImageType, typename TCoordinate>
-typename TileMontage<TImageType, TCoordinate>::TileIndexType
+auto
 TileMontage<TImageType, TCoordinate>::LinearIndexTonDIndex(DataObject::DataObjectPointerArraySizeType linearIndex) const
+  -> TileIndexType
 {
   TileIndexType ind;
   SizeValueType stride = 1u;
