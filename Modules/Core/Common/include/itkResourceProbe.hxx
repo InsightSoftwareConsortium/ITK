@@ -593,16 +593,6 @@ ResourceProbe<ValueType, MeanType>::PrintJSONSystemInformation(std::ostream & os
   os << "  }";
 }
 
-
-// This protected member function that was introduced with ITK 4.8 has been deprecated
-// as of ITK 5.0. Please do not call or override this member function.
-#if !defined(ITK_LEGACY_REMOVE)
-template <typename ValueType, typename MeanType>
-void
-ResourceProbe<ValueType, MeanType>::GetSystemInformation()
-{}
-#endif
-
 } // end namespace itk
 
 #endif

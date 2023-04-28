@@ -177,9 +177,6 @@ protected:
   void
   PrintJSONvar(std::ostream & os, const char * varName, T varValue, unsigned int indent = 4, bool comma = true);
 
-  /** Obsolete member function from ITK 4.8 - 4.13. Does not do anything anymore. */
-  itkLegacyMacro(virtual void GetSystemInformation());
-
   /** Cause the object to print itself out. */
   virtual void
   Print(std::ostream & os, Indent indent) const;
