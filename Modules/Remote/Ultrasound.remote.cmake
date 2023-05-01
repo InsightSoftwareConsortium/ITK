@@ -62,5 +62,5 @@ https://dx.doi.org/10.1109/ISBI.2016.7493437
 https://pdfs.semanticscholar.org/6bcd/1e7adbc24e15c928a7ad5af77bbd5da29c30.pdf"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKUltrasound.git
-  GIT_TAG 07f3e41151307abccb4f37aaee777e6f9fb24d05
+  GIT_TAG 43b512300bd6ef288dcd6828fde7afba6ecc45dc
   )
