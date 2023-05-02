@@ -151,14 +151,11 @@ namespace itk
 #endif
 
 /*
- * ITK only supports MSVC++ 14.14 and greater
- * MSVC++ 14.14 _MSC_VER == 1914 (Visual Studio 2017 version 15.7)
- * MSVC++ 14.15 _MSC_VER == 1915 (Visual Studio 2017 version 15.8)
- * MSVC++ 14.16 _MSC_VER == 1916 (Visual Studio 2017 version 15.9)
+ * ITK only supports MSVC++ 14.2 and greater
  * MSVC++ 14.2 _MSC_VER == 1920 (Visual Studio 2019 Version 16.0)
  */
-#if defined(_MSC_VER) && (_MSC_VER < 1914)
-#  error "MSVC version before Visual Studio 2017 version 15.7 is not supported under ITKv5.4"
+#if defined(_MSC_VER) && (_MSC_VER < 1920)
+#  error "MSVC versions before Visual Studio 2019 are not supported under ITKv5.4"
 #endif
 #if defined(__SUNPRO_CC) && (__SUNPRO_CC < 0x5140)
 #  error "SUNPro C++ < 5.14.0 is not supported under ITKv5 and above"

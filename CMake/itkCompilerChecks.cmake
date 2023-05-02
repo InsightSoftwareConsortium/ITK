@@ -18,8 +18,8 @@ endif ()
 
 # Minimum compiler version check: Microsoft C/C++
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.14)
-  message(FATAL_ERROR "Microsoft Visual Studio 2017 15.7 (MSVC 19.14) or later is required.")
+    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.20)
+  message(FATAL_ERROR "Microsoft Visual Studio 2019 16.0 (MSVC 19.20) or later is required.")
 endif ()
 
 # Minimum compiler version check: Intel C++ (ICC)

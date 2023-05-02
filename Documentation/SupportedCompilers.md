@@ -1,8 +1,7 @@
 ITK requires a compiler with C++17 support.
 
 # Visual Studio
-* VS2015 and earlier: **NOT supported**
-* MSVC toolset v141 (first shipped with VS2017): supported from VS2017 version 15.7
+* VS2017 and earlier: **NOT supported**
 * MSVC toolset v142 (first shipped with VS2019): supported
 * MSVC toolset v143 (first shipped with VS2022): supported
 
