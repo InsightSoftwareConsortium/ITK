@@ -16,18 +16,6 @@ option(VNL_CONFIG_THREAD_SAFE
   "Whether thread-safe vnl implementations are used." ON)
 
 
-#if( VXL_HAS_EMMINTRIN_H AND VXL_HAS_SSE2_HARDWARE_SUPPORT )
-#  option(VNL_CONFIG_ENABLE_SSE2
-#    "Enable Streaming SIMD Extensions 2 optimisations (hardware dependant)." ON)
-#else()
-  option(VNL_CONFIG_ENABLE_SSE2
-    "Enable Streaming SIMD Extensions 2 optimisations (hardware dependant). Currently broken. For use by VNL developers only." OFF)
-#endif()
-if(VNL_CONFIG_ENABLE_SSE2)
-  # Tested on ubuntu and Mac.  ctest becomes unstable and failures change between runs.
-  message(FATAL_ERROR  "VNL_CONFIG_ENABLE_SSE2 option currently fails testing on all platforms,  this is not suitable for use at the momemnt.")
-endif()
-
 option(VNL_CONFIG_ENABLE_SSE2_ROUNDING
   "Enable Streaming SIMD Extensions 2 implementation of rounding (hardware dependant)."
   ${VXL_HAS_SSE2_HARDWARE_SUPPORT} )
@@ -48,7 +36,6 @@ mark_as_advanced(
   VNL_CONFIG_LEGACY_METHODS
   VNL_CONFIG_THREAD_SAFE
   VNL_CONFIG_ENABLE_SSE2_ROUNDING
-  VNL_CONFIG_ENABLE_SSE2
   )
 # Need to enforce 1/0 values for configuration.
 if(VNL_CONFIG_CHECK_BOUNDS)
@@ -66,11 +53,7 @@ if(VNL_CONFIG_THREAD_SAFE)
 else()
   set(VNL_CONFIG_THREAD_SAFE 0)
 endif()
-if(VNL_CONFIG_ENABLE_SSE2)
-  set(VNL_CONFIG_ENABLE_SSE2 1)
-else()
-  set(VNL_CONFIG_ENABLE_SSE2 0)
-endif()
+
 if(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
   set(VNL_CONFIG_ENABLE_SSE2_ROUNDING 1)
 else()
@@ -254,16 +237,6 @@ set( vnl_sources
 aux_source_directory(Templates vnl_sources)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-  if(VNL_CONFIG_ENABLE_SSE2)
-    if( NOT VXL_HAS_SSE2_HARDWARE_SUPPORT )
-      if( VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE )
-        message( ${VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE_HELP} )
-      endif()
-      message( SEND_ERROR "Cannot have VNL_CONFIG_ENABLE_SSE2 because"
-                          " there is no SSE2 hardware support" )
-      set(VNL_CONFIG_ENABLE_SSE2 FALSE)
-    endif()
-  endif()
   if(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
     if( NOT VXL_HAS_SSE2_HARDWARE_SUPPORT )
       if( VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE )

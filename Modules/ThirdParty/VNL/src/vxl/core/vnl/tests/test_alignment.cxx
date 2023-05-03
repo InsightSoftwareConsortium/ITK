@@ -232,7 +232,7 @@ test_alignment_type()
             << "Testing vnl_sse alignment issues in with type " << typeid(float).name() << '\n'
             << "*****************************************************\n"
             << '\n'
-            << "VNL_CONFIG_ENABLE_SSE2 is " << VNL_CONFIG_ENABLE_SSE2 << std::endl;
+            << std::endl;
 
   // Set up random data arrays.
   constexpr unsigned ndata = 13; // not a multiple of 2
