@@ -63,6 +63,10 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         ${ITK_TEST_OUTPUT_DIR}/extras-mushroom.vtk
         ${ITK_TEST_OUTPUT_DIR}
         ${ITK_TEST_OUTPUT_DIR}/LinearTransformWritten.h5
+        ${ExternalData_BINARY_ROOT}/Testing/Data/Input/DicomSeries
+      )
+    set_tests_properties( PythonExtrasTest PROPERTIES DEPENDS
+      PythonDICOMSeries
       )
     itk_python_add_test(NAME PythonXarrayTest
       COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test_xarray.py

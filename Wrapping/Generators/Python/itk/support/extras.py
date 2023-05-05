@@ -1182,6 +1182,7 @@ def imread(
     pixel_type: Optional["itkt.PixelTypes"] = None,
     fallback_only: bool = False,
     imageio: Optional["itkt.ImageIOBase"] = None,
+    series_uid: Optional[Union[int, str]] = None,
 ) -> "itkt.ImageBase":
     """Read an image from a file or series of files and return an itk.Image.
 
@@ -1202,6 +1203,9 @@ def imread(
     imageio :
         Use the provided itk.ImageIOBase derived instance to read the file.
 
+    series_uid :
+        If filename is a directory of DICOM files, and series_uid is a string, it will read the DICOM series that matches this series_uid name.  If series_uid is an integer, it will read the series_uid'th DICOM series in the directory (using python notation, e.g., -1 is the last DICOM series in the directory). If unspecified, it will read the first series in the directory.
+
     Returns
     -------
 
@@ -1212,10 +1216,11 @@ def imread(
     `pixel_type` is not provided (default). The dimension of the image is
     automatically deduced from the dimension stored on disk.
 
-    If the filename provided is a directory then the directory is assumed to
-    be for a DICOM series volume.  If there is exactly one DICOM series
-    volume in that directory, the reader will use an itk.ImageSeriesReader
-    object to read the the DICOM filenames within that directory.
+    If the filename provided is a directory then the directory is assumed
+    to be for a DICOM series volume. If the argument series_uid is
+    specified, it will read that series from that directory. If the
+    specified series_uid doesn't exist, an error is thrown.  If no
+    series_uid is given, the first series in that directory is read.
 
     If the given filename is a list or a tuple of file names, the reader
     will use an itk.ImageSeriesReader object to read the files.
@@ -1247,14 +1252,26 @@ def imread(
             names_generator.SetUseSeriesDetails(True)
             names_generator.AddSeriesRestriction("0008|0021")  # Series Date
             names_generator.SetDirectory(f"{filename}")
-            series_uid = names_generator.GetSeriesUIDs()
-            if len(series_uid) == 0:
+            series_uid_list = names_generator.GetSeriesUIDs()
+            if len(series_uid_list) == 0:
                 raise FileNotFoundError(f"no DICOMs in: {filename}.")
-            if len(series_uid) > 1:
-                raise OSError(
-                    f"the directory: {filename} contains more than one DICOM series."
-                )
-            series_identifier = series_uid[0]
+            if series_uid != None:
+                if isinstance(series_uid, int):
+                    try:
+                        series_identifier = series_uid_list[series_uid]
+                    except IndexError:
+                        raise OSError(
+                            f"cannot access DICOM series {series_uid} in the directory {filename}."
+                        )
+                else:
+                    if series_uid in series_uid_list:
+                        series_identifier = series_uid
+                    else:
+                        raise OSError(
+                            f"the directory {filename} does not contain the DICOM series {series_uid}."
+                        )
+            else:
+                series_identifier = series_uid_list[0]
             filename = names_generator.GetFileNames(series_identifier)
     if type(filename) in [list, tuple]:
         template_reader_type = itk.ImageSeriesReader
