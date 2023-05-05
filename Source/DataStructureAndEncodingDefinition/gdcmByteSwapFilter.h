@@ -28,7 +28,7 @@ class GDCM_EXPORT ByteSwapFilter
 {
 public:
   ByteSwapFilter(DataSet& ds):DS(ds),ByteSwapTag(false) {}
-  ~ByteSwapFilter();
+  ~ByteSwapFilter() = default;
   ByteSwapFilter(const ByteSwapFilter &) = delete;
   ByteSwapFilter& operator=(const ByteSwapFilter &) = delete;
 

@@ -15,9 +15,9 @@
 
 #include "gdcmImage.h"
 
+#include <cstdlib> // abort
+#include <cstring> // memcpy
 #include <limits>
-#include <stdlib.h> // abort
-#include <string.h> // memcpy
 
 namespace gdcm
 {

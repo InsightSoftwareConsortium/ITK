@@ -95,7 +95,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
     //assert( de.GetVR() == VR::INVALID );
     VR cvr = DataSetHelper::ComputeVR(*F,ds, t);
     VR oldvr = de.GetVR();
-    if( cvr == VR::SQ ) { assert( oldvr == VR::SQ || oldvr == VR::UN || oldvr == VR::INVALID ); }
+    if( cvr == VR::SQ ) { assert( oldvr == VR::SQ || oldvr == VR::UN || oldvr == VR::INVALID || oldvr == VR::OB ); }
     //SequenceOfItems *sqi = de.GetSequenceOfItems();
     //SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(&de.GetValue());
     SmartPointer<SequenceOfItems> sqi = nullptr;
@@ -126,7 +126,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
           //assert( oldvr & VR::VRASCII || oldvr == VR::INVALID || oldvr == VR::UN );
           // gdcm-JPEG-Extended.dcm has a couple of VR::OB private field
           // is this a good idea to change them to an ASCII when we know this might not work ?
-          if( !(oldvr & VR::VRASCII || oldvr == VR::INVALID || oldvr == VR::UN) )
+          if( !(oldvr & VR::VRASCII || oldvr == VR::INVALID || oldvr == VR::UN || oldvr == VR::OB) )
             {
             gdcmErrorMacro( "Cannot convert VR for tag: " << t << " " << oldvr << " is incompatible with " << cvr << " as given by ref. dict." );
             return false;
@@ -181,7 +181,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
       }
     else if( de.GetSequenceOfFragments() )
       {
-      assert( cvr & VR::OB_OW );
+      assert( cvr & VR::OB );
       }
     else
       {

@@ -165,7 +165,7 @@ DataSet PresentationDataValue::ConcatenatePDVBlobs(const std::vector<Presentatio
 #if 0
   char fn[512];
   static int i = 0;
-  sprintf( fn, "/tmp/debugimp%d", i++ );
+  snprintf( fn, sizeof(fn), "/tmp/debugimp%d", i++ );
   std::ofstream d( fn, std::ios::binary );
   d.write( theEntireBuffer.c_str(), theEntireBuffer.size() );
   d.close();
@@ -205,7 +205,7 @@ DataSet PresentationDataValue::ConcatenatePDVBlobsAsExplicit(const std::vector<P
 #if 0
   char fn[512];
   static int i = 0;
-  sprintf( fn, "/tmp/debugex%d", i++ );
+  snprintf( fn, sizeof(fn), "/tmp/debugex%d", i++ );
   std::ofstream d( fn, std::ios::binary );
   d.write( theEntireBuffer.c_str(), theEntireBuffer.size() );
   d.close();

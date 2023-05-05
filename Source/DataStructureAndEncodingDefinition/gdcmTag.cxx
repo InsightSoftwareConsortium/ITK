@@ -14,7 +14,7 @@
 #include "gdcmTag.h"
 #include "gdcmTrace.h"
 
-#include <stdio.h> // sscanf
+#include <cstdio> // sscanf
 
 namespace gdcm
 {
@@ -23,7 +23,7 @@ namespace gdcm
     unsigned int group = 0, element = 0;
     if( !str || sscanf(str, "%04x,%04x", &group , &element) != 2 )
       {
-      gdcmDebugMacro( "Problem reading Tag: " << str );
+      //gdcmDebugMacro( "Problem reading Tag: " << str );
       return false;
       }
     SetGroup( (uint16_t)group );

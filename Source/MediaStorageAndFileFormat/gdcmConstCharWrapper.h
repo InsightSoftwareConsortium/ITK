@@ -30,7 +30,7 @@ namespace gdcm
  *  As a side note there is also a problem with const reference to enum type:
  * - http://sourceforge.net/mailarchive/forum.php?thread_name=bf0c3b3f0802290552y5163989t76572b80a044ce28%40mail.gmail.com&forum_name=swig-user
  *
- *   And to keep a track of isse with swig here is the last one:
+ *   And to keep track of an issue with swig here is the last one:
  *
  * -  http://sourceforge.net/mailarchive/forum.php?thread_name=bf0c3b3f0802290552y5163989t76572b80a044ce28%40mail.gmail.com&forum_name=swig-user
  */

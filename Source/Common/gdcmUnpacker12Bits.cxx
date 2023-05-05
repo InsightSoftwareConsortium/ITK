@@ -23,13 +23,12 @@ bool Unpacker12Bits::Unpack(char *out, const char *in, size_t n)
   short *q = (short*)(void*)out;
   const unsigned char *p = (const unsigned char*)in;
   const unsigned char *end = p+n;
-  unsigned char b0,b1,b2;
 
   while (p!=end)
     {
-    b0 = *p++;
-    b1 = *p++;
-    b2 = *p++;
+    unsigned char b0 = *p++;
+    unsigned char b1 = *p++;
+    unsigned char b2 = *p++;
     *q++ = (short)(((b1 & 0xf) << 8) + b0);
     *q++ = (short)((b1>>4) + (b2<<4));
     }
@@ -42,12 +41,11 @@ bool Unpacker12Bits::Pack(char *out, const char *in, size_t n)
   unsigned char *q = (unsigned char*)out;
   const unsigned short *p = (const unsigned short*)(const void*)in;
   const unsigned short *end = (const unsigned short*)(const void*)(in+n);
-  unsigned short b0,b1;
 
   while(p!=end)
     {
-    b0 = *p++;
-    b1 = *p++;
+    unsigned short b0 = *p++;
+    unsigned short b1 = *p++;
 
     *q++ = (unsigned char)(b0 & 0xff);
     *q++ = (unsigned char)((b0 >> 8) + ((b1 & 0xf) << 4));

@@ -125,7 +125,15 @@ void sockinetaddr::setaddr(const char* host_name)
   if ( (sin_addr.s_addr = inet_addr(host_name)) == INADDR_NONE) {
     hostent* hp = gethostbyname(host_name);
     if (hp == nullptr) throw sockerr (EADDRNOTAVAIL, "sockinetaddr::setaddr");
-    memcpy(&sin_addr, hp->h_addr, hp->h_length);
+    char** h_addr_list = hp->h_addr_list;
+    
+    // Conceptually, we want `char* first_addr = *h_addr_list;` but, on some OSes at least,
+    // h_addr_list is not actually aligned as a char* should be (8 bytes typically), and so
+    // we use memcpy() which can do unaligned reads.
+    void* first_addr;
+    memcpy(&first_addr, h_addr_list, sizeof(void*));
+    
+    memcpy(&sin_addr, first_addr, hp->h_length);
     sin_family = hp->h_addrtype;
   } else
     sin_family = sockinetbuf::af_inet;

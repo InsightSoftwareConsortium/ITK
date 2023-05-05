@@ -33,7 +33,7 @@ public:
   typedef AnyEvent Superclass;
   AnonymizeEvent(Tag const &tag = 0):m_Tag(tag) {}
   ~AnonymizeEvent() override = default;
-  AnonymizeEvent(const Self&s) : AnyEvent(s){};
+  AnonymizeEvent(const Self&s) : AnyEvent(s){}
   void operator=(const Self&) = delete;
 
   const char * GetEventName() const override { return "AnonymizeEvent"; }

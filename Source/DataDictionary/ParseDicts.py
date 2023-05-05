@@ -124,7 +124,7 @@ class PdfTextParser:
                 #print "Other Full line:", s2
                 self.AddOutputLine(s2)
               else:
-                # we have a suspicioulsy long line, so what that could
+                # we have a suspiciously long line, so what that could
                 # happen, let's check:
                 if self.IsAFullLine(previousbuffer):
                   self.AddOutputLine(previousbuffer)

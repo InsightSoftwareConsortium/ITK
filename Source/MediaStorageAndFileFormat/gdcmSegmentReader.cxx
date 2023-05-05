@@ -25,7 +25,7 @@ SegmentReader::SegmentReader()
 SegmentReader::~SegmentReader()
 = default;
 
-const SegmentReader::SegmentVector SegmentReader::GetSegments() const
+SegmentReader::SegmentVector SegmentReader::GetSegments() const
 {
   return const_cast<SegmentReader*>(this)->GetSegments();
 }

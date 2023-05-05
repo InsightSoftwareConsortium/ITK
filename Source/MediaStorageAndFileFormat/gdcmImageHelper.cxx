@@ -27,7 +27,7 @@
 #include "gdcmSegmentedPaletteColorLookupTable.h"
 #include "gdcmByteValue.h"
 
-#include <math.h> // fabs
+#include <cmath> // fabs
 
   /* TODO:
    *
@@ -203,7 +203,7 @@ static bool ComputeZSpacingFromIPP(const DataSet &ds, double &zspacing)
   if( !sqi ) return false;
   assert( sqi );
   double normal[3];
-  DirectionCosines dc( &cosines[0] );
+  DirectionCosines dc( cosines.data() );
   dc.Cross( normal );
 
   // For each item
@@ -611,7 +611,7 @@ bool ImageHelper::GetDirectionCosinesFromDataSet(DataSet const & ds, std::vector
       {
       dircos[i] = at.GetValue(i);
       }
-    DirectionCosines dc( &dircos[0] );
+    DirectionCosines dc( dircos.data() );
     if( !dc.IsValid() )
       {
       dc.Normalize();
@@ -1009,10 +1009,19 @@ void ImageHelper::SetDimensionsValue(File& f, const Pixmap & img)
       const Tag tfgs(0x5200,0x9230);
       if( ds.FindDataElement( tfgs ) )
       {
-        SmartPointer<SequenceOfItems> sqi = ds.GetDataElement( tfgs ).GetValueAsSQ();
+        const DataElement &de = ds.GetDataElement( tfgs );
+        SmartPointer<SequenceOfItems> sqi = de.GetValueAsSQ();
         assert( sqi );
-        sqi->SetLengthToUndefined();
         sqi->SetNumberOfItems( dims[2] );
+        {
+          // Simple mechanism to avoid recomputation of Sequence Length: make
+          // them undefined length
+          DataElement dup(de.GetTag());
+          dup.SetVR(VR::SQ);
+          dup.SetValue(*sqi);
+          dup.SetVLToUndefined();
+          ds.Replace(dup);
+        }
       }
     }
 
@@ -1165,7 +1174,7 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
         interceptslope[1] = el_rs.GetValue();
         if( interceptslope[1] == 0 )
           interceptslope[1] = 1;
-        gdcmWarningMacro( "PMS Modality LUT loaded for MR Image Storage: [" << interceptslope[0] << "," << interceptslope[1] << "]" );
+        gdcmDebugMacro( "PMS Modality LUT loaded for MR Image Storage: [" << interceptslope[0] << "," << interceptslope[1] << "]" );
       }
       }
     else
@@ -1173,8 +1182,13 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
       std::vector<double> dummy(2);
       if( GetRescaleInterceptSlopeValueFromDataSet(ds, dummy) )
         {
-        // for everyone else, read your DCS, and set: ForceRescaleInterceptSlope = true if needed
-        gdcmDebugMacro( "Modality LUT unused for MR Image Storage: [" << dummy[0] << "," << dummy[1] << "]" );
+        if(dummy[0] != 0 || dummy[1] != 1) {
+        // SIEMENS is sending MFSPLIT with Modality LUT
+	// Case is: MAGNETOM Prisma / syngo MR XA30A with MFSPLIT
+        interceptslope[0] = dummy[0];
+        interceptslope[1] = dummy[1];
+        gdcmWarningMacro( "Forcing Modality LUT used for MR Image Storage: [" << dummy[0] << "," << dummy[1] << "]" );
+        }
         }
       }
 #endif
@@ -2129,7 +2143,7 @@ void ImageHelper::SetDirectionCosinesValue(DataSet & ds, const std::vector<doubl
   Attribute<0x0020,0x0037> iop = {{1,0,0,0,1,0}}; // default value
 
   assert( dircos.size() == 6 );
-  DirectionCosines dc( &dircos[0] );
+  DirectionCosines dc( dircos.data() );
   if( !dc.IsValid() )
     {
     gdcmWarningMacro( "Direction Cosines are not valid. Using default value (1\\0\\0\\0\\1\\0)" );
@@ -2468,7 +2482,7 @@ bool ImageHelper::GetRealWorldValueMappingContent(File const & f, RealWorldValue
   ms.SetFromFile(f);
   const DataSet& ds = f.GetDataSet();
 
-  if( ms == MediaStorage::MRImageStorage )
+  if( ms == MediaStorage::MRImageStorage || ms == MediaStorage::NuclearMedicineImageStorage )
   {
 	  const Tag trwvms(0x0040,0x9096); // Real World Value Mapping Sequence
 	  if( ds.FindDataElement( trwvms ) )

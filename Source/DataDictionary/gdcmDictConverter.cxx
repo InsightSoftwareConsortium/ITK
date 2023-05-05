@@ -226,7 +226,7 @@ bool DictConverter::Readuint16(const char *raw, uint16_t &ov)
   int r = sscanf(raw, "%04x", &v);
   assert( r == 1 && "Wrong Value read for uint16");
   char sv[4+1];
-  r = sprintf(sv, "%04x", v);
+  r = snprintf(sv, sizeof(sv), "%04x", v);
   assert( r == 4 && "Wrong Value printed for uint16");
   assert( strncmp(raw, sv, 4) == 0 );
   ov = v;

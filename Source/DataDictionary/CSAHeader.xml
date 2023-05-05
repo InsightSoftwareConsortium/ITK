@@ -36,7 +36,7 @@ sKSpace.ucPhasePartialFourier = 0x10
 
 -->
 <dict>
-  <!--entry name="Attribute Name" type="Type" vr="VR" vm="VM" description="Descriptiom"/-->
+  <!--entry name="Attribute Name" type="Type" vr="VR" vm="VM" description="Description"/-->
   <!--entry name="General Image Attributes" type="1" vr="&#xA0;" vm="&#xA0;" description=""/-->
   <entry name="AcquisitionDate" type="3" vr="DA" vm="1" description="A number identifying the single continuous gathering of data over a period of time which resulted in this image"/>
   <entry name="ContentDate" type="2C" vr="DA" vm="1" description="The date the image data creation started. Required if image is part of a series in which the images are temporally related"/>
@@ -70,9 +70,9 @@ sKSpace.ucPhasePartialFourier = 0x10
   <entry name="ScanOptions" type="2" vr="CS" vm="1-n" description="Parameters of scanning sequence"/>
   <entry name="MRAcquisitionType" type="2" vr="CS" vm="1" description="Identification of date encoding scheme. Enumerated Values: 2D = frequency x phase 3D = frequency x phase x phase"/>
   <!--entry name="&#xA0;" type="1" vr="&#xA0;" vm="&#xA0;" description="&#xA0;"/-->
-  <entry name="SequenceName" type="3" vr="SH" vm="1" description="User defined name for the Scanning Sequence and Sequence Varaint combination"/>
+  <entry name="SequenceName" type="3" vr="SH" vm="1" description="User defined name for the Scanning Sequence and Sequence Variant combination"/>
   <entry name="AngioFlag" type="3" vr="CS" vm="1" description="Angio image indicator. Primary image for angio processing. Enumerated values: Y = image is Angio N = image is not Angio"/>
-  <entry name="RepetitionTime" type="2C" vr="DS" vm="1" description="The period of time in msec between the beginning of a pulse sequence and the beginning of a succeeding (essentially identical) pulse sequence. Required except when Scanning Sequence is EP and Sequnece Variant is not segmented k-space"/>
+  <entry name="RepetitionTime" type="2C" vr="DS" vm="1" description="The period of time in msec between the beginning of a pulse sequence and the beginning of a succeeding (essentially identical) pulse sequence. Required except when Scanning Sequence is EP and Sequence Variant is not segmented k-space"/>
   <entry name="EchoTime" type="2" vr="DS" vm="1" description="Time in msec between the middle of the excitation pulse and the peak of the echo produced. In the case of segmented k-space, the TE(eff) is the time between the middle of the excitation pulse to the peak of the echo that is used to cover the center of k-space)"/>
   <entry name="InversionTime" type="2C" vr="DS" vm="1" description="Time in msec after the middle of inverting RF pulse to middle of excitation pulse to detect the amount of longitudinal magnetization. Required if Scanning Sequence has value of IR"/>
   <entry name="NumberOfAverages" type="3" vr="DS" vm="1" description="Number of times a given pulse sequence is repeated before any parameter has changed"/>
@@ -97,7 +97,7 @@ sKSpace.ucPhasePartialFourier = 0x10
   <entry name="Skip Beats" type="3" vr="IS" vm="1" description="Number of beats skipped after a detected arrhythmia"/>
   <entry name="HeartRate" type="3" vr="IS" vm="1" description="Beats per minute"/>
   <entry name="CardiacNumberOfImages" type="3" vr="IS" vm="1" description="Number of imagesb per cardiac cycle"/>
-  <entry name="TriggerWindow" type="3" vr="IS" vm="1" description="Percent of R-R interval, based on Heart Rate (0018,1088), prescriped as a window for a valid/usable trigger"/>
+  <entry name="TriggerWindow" type="3" vr="IS" vm="1" description="Percent of R-R interval, based on Heart Rate (0018,1088), prescribed as a window for a valid/usable trigger"/>
   <entry name="ReconstructionDiameter" type="3" vr="DS" vm="1" description="Diameter in mm of the region from within which data were used in creating the reconstruction of the image. Data may exist outside this region and portions of the patient may exist outside the region"/>
   <entry name="Receive Coil" type="3" vr="SH" vm="1" description="Received coil used"/>
   <entry name="TransmittingCoil" type="3" vr="SH" vm="1" description="Transmitted coil used"/>
@@ -146,7 +146,7 @@ sKSpace.ucPhasePartialFourier = 0x10
   <entry name="InstitutionName" type="3" vr="LO" vm="1" description="Institution where the equipment is located that produced the digital images"/>
   <entry name="InstitutionAddress" type="3" vr="ST" vm="1" description="Mailing address of the institution where the equipment is located that produced the digital images"/>
   <entry name="ManufacturersModelName" type="3" vr="LO" vm="1" description="Manufacturer's model number of the equipment that produced the digital images"/>
-  <entry name="DeviceSerialNumber" type="3" vr="LO" vm="1" description="Manufacturer's seriel number of the equipment that produced the digital images"/>
+  <entry name="DeviceSerialNumber" type="3" vr="LO" vm="1" description="Manufacturer's serial number of the equipment that produced the digital images"/>
   <entry name="SoftwareVersions" type="3" vr="LO" vm="1-n" description="Manufacturer's designation of software of the equipment that produced the digital images"/>
   <!--entry name="Overlay Idendification Attributes" type="1" vr="&#xA0;" vm="&#xA0;" description="&#xA0;"/-->
   <entry name="OverlayRows" type="1" vr="US" vm="1" description="Number of Rows in Overlay"/>
@@ -208,8 +208,8 @@ sKSpace.ucPhasePartialFourier = 0x10
   <entry name="ReferencedImageSequence" type="1" vr="UI" vm="1_n" description="A sequence which provides reference to a set of Image SOP Class/Instance identifying other images significantly related to this image (localizer images)"/>
   <entry name="PatientOrientation" type="1" vr="CS" vm="1" description="Patient direction of the rows and columns of the image. Not required for MR images"/>
   <entry name="ScanningSequence" type="1" vr="CS" vm="1_n" description="Description of the type of data taken. Enumerated values: SE = Spin Echo; IR = Inversion Recovery; GR = Gradient Recalled; EP = Echo Planar; RM = Research Mode"/>
-  <entry name="SequenceName" type="1" vr="SH" vm="1" description="User defined name for the Scanning Sequence and Sequence Varaint combination"/>
-  <entry name="RepetitionTime" type="1" vr="DS" vm="1" description="The period of time in msec between the beginning of a pulse sequence and the beginning of a succeeding (essentially identical) pulse sequence. Required except when Scanning Sequence is EP and Sequnece Variant is not segmented k-space"/>
+  <entry name="SequenceName" type="1" vr="SH" vm="1" description="User defined name for the Scanning Sequence and Sequence Variant combination"/>
+  <entry name="RepetitionTime" type="1" vr="DS" vm="1" description="The period of time in msec between the beginning of a pulse sequence and the beginning of a succeeding (essentially identical) pulse sequence. Required except when Scanning Sequence is EP and Sequence Variant is not segmented k-space"/>
   <entry name="EchoTime" type="1" vr="DS" vm="1" description="Time in msec between the middle of the excitation pulse and the peak of the echo produced. In the case of segmented k-space, the TE(eff) is the time between the middle of the excitation pulse to the peak of the echo that is used to cover the center of k-space)"/>
   <entry name="InversionTime" type="1" vr="DS" vm="1" description="Time in msec after the middle of inverting RF pulse to middle of excitation pulse to detect the amount of longitudinal magnetization. Required if Scanning Sequence has value of IR"/>
   <entry name="NumberOfAverages" type="1" vr="DS" vm="1" description="Number of averages"/>

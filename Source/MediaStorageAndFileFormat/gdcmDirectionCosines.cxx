@@ -13,9 +13,9 @@
 =========================================================================*/
 #include "gdcmDirectionCosines.h"
 
+#include <cmath> // fabs
+#include <cstdio> // sscanf
 #include <limits>
-#include <math.h> // fabs
-#include <stdio.h> // sscanf
 
 namespace gdcm
 {
@@ -39,8 +39,6 @@ DirectionCosines::DirectionCosines(const double dircos[6])
   Values[4] = dircos[4];
   Values[5] = dircos[5];
 }
-
-DirectionCosines::~DirectionCosines() = default;
 
 void DirectionCosines::Print(std::ostream &os) const
 {

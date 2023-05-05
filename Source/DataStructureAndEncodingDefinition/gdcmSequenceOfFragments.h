@@ -60,7 +60,7 @@ public:
   /// \brief Appends a Fragment to the already added ones
   void AddFragment(Fragment const &item);
 
-  // Compute the length of all fragments (and framents only!).
+  // Compute the length of all fragments (and fragments only!).
   // Basically the size of the PixelData as stored (in bytes).
   unsigned long ComputeByteLength() const;
 

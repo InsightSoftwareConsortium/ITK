@@ -17,7 +17,7 @@ endif()
 #----------------------------------------------------------------------------
 
 project(GDCM
-  VERSION 3.0.10
+  VERSION 3.0.22
   LANGUAGES CXX C
 )
 ## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
@@ -28,6 +28,7 @@ set(GDCM_MAJOR_VERSION ${GDCM_VERSION_MAJOR})
 set(GDCM_MINOR_VERSION ${GDCM_VERSION_MINOR})
 set(GDCM_BUILD_VERSION ${GDCM_VERSION_PATCH})
 set(GDCM_VERSION "${GDCM_VERSION_MAJOR}.${GDCM_VERSION_MINOR}.${GDCM_VERSION_PATCH}") # ${GDCM_VERSION_TWEAK}
+set(GDCM_SHORT_VERSION "${GDCM_VERSION_MAJOR}.${GDCM_VERSION_MINOR}")
 
 mark_as_advanced(CMAKE_BACKWARDS_COMPATIBILITY CMAKE_BUILD_TYPE CMAKE_INSTALL_PREFIX)
 set(GDCM_CMAKE_DIR "${GDCM_SOURCE_DIR}/CMake" CACHE INTERNAL "")
@@ -132,6 +133,12 @@ if(NOT LIBRARY_OUTPUT_PATH)
   set(LIBRARY_OUTPUT_PATH ${GDCM_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries.")
   mark_as_advanced(LIBRARY_OUTPUT_PATH)
 endif()
+
+# TODO: The following should be used for CMake 3 and beyond,
+# EXECUTABLE_OUTPUT_PATH and LIBRARY_OUTPUT_PATH are deprecated
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH})
 
 #-----------------------------------------------------------------------------
 # Adding GDCM_DATA_ROOT
@@ -497,11 +504,14 @@ endif()
 #-----------------------------------------------------------------------------
 # Wrapping
 if(GDCM_STANDALONE)
-  option(GDCM_WRAP_PYTHON "build python wrapping" OFF)
+  option(GDCM_WRAP_PYTHON "build gdcm/python wrapping" OFF)
+  option(VTKGDCM_WRAP_PYTHON "build vtkgdcm/python wrapping" OFF)
   option(GDCM_WRAP_PERL "build perl wrapping (experimental !)" OFF)
   option(GDCM_WRAP_PHP "build php wrapping" OFF)
-  option(GDCM_WRAP_JAVA "build java wrapping" OFF)
-  option(GDCM_WRAP_CSHARP "build csharp wrapping" OFF)
+  option(GDCM_WRAP_JAVA "build gdcm/java wrapping" OFF)
+  option(VTKGDCM_WRAP_JAVA "build vtkgdcm/java wrapping" OFF)
+  option(GDCM_WRAP_CSHARP "build gdcm/csharp wrapping" OFF)
+  option(VTKGDCM_WRAP_CSHARP "build vtkgdcm/csharp wrapping" OFF)
   mark_as_advanced(GDCM_WRAP_PHP)
   mark_as_advanced(GDCM_WRAP_PERL)
   mark_as_advanced(GDCM_USE_ACTIVIZ)
@@ -650,7 +660,96 @@ if(GDCM_STANDALONE)
     mark_as_advanced(VTK_DIR)
     set(GDCM_VTK_DIR ${VTK_DIR})
     mark_as_advanced(GDCM_USE_PARAVIEW)
-    add_subdirectory(Utilities/VTK)
+
+    set(VTKGDCM_NAME vtkgdcm CACHE STRING "vtk-gdcm lib name")
+    mark_as_advanced(VTKGDCM_NAME)
+
+    if(VTK_VERSION VERSION_LESS 8.90)
+      add_subdirectory(Utilities/VTK)
+    else()
+      message(STATUS "Building Utilities/VTK as a VTK 9 Module")
+      # TODO: use VTKGDCM_NAME instead of vtkgdcm
+
+      option(VTKGDCM_VERSIONED_INSTALL "Install with versioned names." ON)
+      mark_as_advanced(VTKGDCM_VERSIONED_INSTALL)
+      if(VTKGDCM_VERSIONED_INSTALL)
+        set(vtk_version_suffix "-${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}")
+        set(vtkgdcm_library_suffix "${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}")
+      else()
+        set(vtk_version_suffix "")
+        set(vtkgdcm_library_suffix "")
+      endif()
+      if(DEFINED GDCM_CUSTOM_LIBRARY_SUFFIX)
+        set(vtkgdcm_library_suffix "${GDCM_CUSTOM_LIBRARY_SUFFIX}")
+      endif()
+
+      vtk_module_scan(
+        MODULE_FILES          "${CMAKE_CURRENT_SOURCE_DIR}/Utilities/VTK/vtkgdcm.module"
+        REQUEST_MODULES       "GDCM::vtkgdcm"
+        PROVIDES_MODULES      vtkgdcm_modules
+        ENABLE_TESTS          "${GDCM_BUILD_TESTING}"
+      )
+
+      # documented at https://vtk.org/doc/nightly/html/group__module.html
+      vtk_module_build(
+        MODULES               ${vtkgdcm_modules}
+        INSTALL_EXPORT        GDCM
+        ARCHIVE_DESTINATION   "${GDCM_INSTALL_LIB_DIR}"
+        HEADERS_DESTINATION   "${GDCM_INSTALL_INCLUDE_DIR}/vtk${vtk_version_suffix}"
+        CMAKE_DESTINATION     "${GDCM_INSTALL_PACKAGE_DIR}"
+        LICENSE_DESTINATION   "${GDCM_INSTALL_DATA_DIR}/vtkgdcm-${GDCM_SHORT_VERSION}"
+        HIERARCHY_DESTINATION "${GDCM_INSTALL_LIB_DIR}/vtk${vtk_version_suffix}/hierarchy/vtkgdcm"
+        LIBRARY_NAME_SUFFIX   "${vtkgdcm_library_suffix}"
+        VERSION               "${GDCM_VERSION}"
+        SOVERSION             "1"
+        # TODO: these are probably not set as they should be
+        #USE_EXTERNAL          "${GDCM_USE_EXTERNAL}"
+        #TEST_DATA_TARGET      vtkgdcmData
+        #TEST_INPUT_DATA_DIRECTORY  "${vtkgdcm_test_data_directory_input}"
+        #TEST_OUTPUT_DATA_DIRECTORY "${vtkgdcm_test_data_directory_output}"
+      )
+
+      if(VTKGDCM_WRAP_PYTHON)
+        find_package(PythonInterp ${VTK_PYTHON_VERSION} QUIET)
+
+        vtk_module_wrap_python(
+          MODULES             ${vtkgdcm_modules}
+          TARGET              GDCM::vtkgdcmpython
+          INSTALL_EXPORT      vtkgdcmPython
+          PYTHON_PACKAGE      "vtkgdcm"
+          CMAKE_DESTINATION   "${GDCM_INSTALL_PACKAGE_DIR}"
+          LIBRARY_DESTINATION "${GDCM_INSTALL_LIB_DIR}"
+          MODULE_DESTINATION  "${GDCM_VTK_INSTALL_PYTHONMODULE_DIR}"
+          SOABI               "${Python${VTK_PYTHON_VERSION}_SOABI}"
+          BUILD_STATIC        OFF
+        )
+
+        file(GENERATE
+          OUTPUT  "${CMAKE_BINARY_DIR}/${GDCM_VTK_INSTALL_PYTHONMODULE_DIR}/vtkgdcm/__init__.py"
+          CONTENT "from .vtkgdcm import *\n\n__all__ = ['vtkgdcm']\n__version__ = \"${GDCM_VERSION}\"\n")
+        install(
+          FILES       "${CMAKE_BINARY_DIR}/${GDCM_VTK_INSTALL_PYTHONMODULE_DIR}/vtkgdcm/__init__.py"
+          DESTINATION "${GDCM_VTK_INSTALL_PYTHONMODULE_DIR}/vtkgdcm/")
+
+        export(
+          EXPORT    vtkgdcmPython
+          NAMESPACE GDCM::
+          FILE      "${GDCM_INSTALL_PACKAGE_DIR}/vtkgdcmPython-targets.cmake")
+        install(
+          EXPORT      vtkgdcmPython
+          NAMESPACE   GDCM::
+          FILE        vtkgdcmPython-targets.cmake
+          DESTINATION "${GDCM_INSTALL_PACKAGE_DIR}")
+      endif()
+
+      if(VTKGDCM_WRAP_JAVA)
+        # TODO: this is broken, incomplete, needs lots of work
+        vtk_module_wrap_java(
+          MODULES         ${vtkgdcm_modules}
+          WRAPPED_MODULES vtkgdcm_java_wrapped_modules
+          JAVA_OUTPUT     "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles")
+      endif()
+    endif()
   endif()
 endif()
 
@@ -805,11 +904,11 @@ if(GDCM_STANDALONE) # disabled for ITK distribution of gdcm
   if(GDCM_USE_VTK)
     foreach(comp ${components})
       if( "${comp}" STREQUAL "PythonModule" )
-        if(VTK_WRAP_PYTHON)
+        if(VTK_WRAP_PYTHON AND VTKGDCM_WRAP_PYTHON)
           list(APPEND components VTK${comp})
         endif()
       elseif( "${comp}" STREQUAL "JavaModule" )
-        if(VTK_WRAP_JAVA)
+        if(VTK_WRAP_JAVA AND VTKGDCM_WRAP_JAVA)
           list(APPEND components VTK${comp})
         endif()
       else()

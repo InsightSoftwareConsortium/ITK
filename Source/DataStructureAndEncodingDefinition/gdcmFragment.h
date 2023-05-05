@@ -62,9 +62,6 @@ public:
   template <typename TSwap>
   std::istream &ReadPreValue(std::istream &is)
     {
-    const Tag itemStart(0xfffe, 0xe000);
-    const Tag seqDelItem(0xfffe,0xe0dd);
-
     TagField.Read<TSwap>(is);
     if( !is )
       {
@@ -79,6 +76,8 @@ public:
       throw Exception( "Problem #2" );
       }
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
+    const Tag itemStart(0xfffe, 0xe000);
+    const Tag seqDelItem(0xfffe,0xe0dd);
     if( TagField != itemStart && TagField != seqDelItem )
       {
       throw Exception( "Problem #3" );
@@ -90,9 +89,6 @@ public:
   template <typename TSwap>
   std::istream &ReadValue(std::istream &is)
     {
-    // Superclass
-    const Tag itemStart(0xfffe, 0xe000);
-    const Tag seqDelItem(0xfffe,0xe0dd);
     // Self
     SmartPointer<ByteValue> bv = new ByteValue;
     bv->SetLength(ValueLengthField);

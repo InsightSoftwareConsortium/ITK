@@ -107,9 +107,10 @@ bool ImageChangePhotometricInterpretation::ChangeYBR2RGB()
     return true;
   }
 
+  // Note: allocate with malloc because it guarantees to align suitable for any type, unlike new.
   unsigned long len = image.GetBufferLength();
-  char *p8 = new char[len];
-  image.GetBuffer( p8 );
+  void *p8 = malloc (len);
+  image.GetBuffer( (char *)p8 );
 
   const PixelFormat &pf = image.GetPixelFormat();
   if( image.GetPlanarConfiguration() != 0 ) return false;
@@ -146,7 +147,7 @@ bool ImageChangePhotometricInterpretation::ChangeYBR2RGB()
   }
 
   DataElement &de = Output->GetDataElement();
-  de.SetByteValue( p8, len);
+  de.SetByteValue( (char *)p8, len);
   //Output->GetLUT().Clear();
   Output->SetPhotometricInterpretation( PI );
   //Output->GetPixelFormat().SetSamplesPerPixel( 3 );
@@ -165,7 +166,7 @@ bool ImageChangePhotometricInterpretation::ChangeYBR2RGB()
 
 
   bool success = true;
-  delete[] p8;
+  free(p8);
   return success;
 }
 
@@ -183,9 +184,10 @@ bool ImageChangePhotometricInterpretation::ChangeRGB2YBR()
     return true;
   }
 
+  // Note: allocate with malloc because it guarantees to align suitable for any type, unlike new.
   unsigned long len = image.GetBufferLength();
-  char *p8 = new char[len];
-  image.GetBuffer( p8 );
+  void *p8 = malloc(len);
+  image.GetBuffer( (char *)p8 );
 
   const PixelFormat &pf = image.GetPixelFormat();
   if( image.GetPlanarConfiguration() != 0 ) return false;
@@ -222,7 +224,7 @@ bool ImageChangePhotometricInterpretation::ChangeRGB2YBR()
   }
 
   DataElement &de = Output->GetDataElement();
-  de.SetByteValue( p8, len);
+  de.SetByteValue( (char *)p8, len);
   //Output->GetLUT().Clear();
   Output->SetPhotometricInterpretation( PI );
   //Output->GetPixelFormat().SetSamplesPerPixel( 3 );
@@ -241,7 +243,7 @@ bool ImageChangePhotometricInterpretation::ChangeRGB2YBR()
 
 
   bool success = true;
-  delete[] p8;
+  free(p8);
   return success;
 }
 

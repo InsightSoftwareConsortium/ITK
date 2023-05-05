@@ -16,7 +16,7 @@
 
 =========================================================================*/
 #include "gdcmUIDs.h"
-#include <string.h> // strcmp
+#include <cstring> // strcmp
 
 namespace gdcm
 {

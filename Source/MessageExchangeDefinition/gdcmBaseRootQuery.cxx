@@ -53,10 +53,6 @@ namespace gdcm
   {
     //nothing to do, really
   }
-  BaseRootQuery::~BaseRootQuery()
-  {
-    //nothing to do, really
-  }
 
   static const char *QueryLevelStrings[] = {
     "PATIENT ",

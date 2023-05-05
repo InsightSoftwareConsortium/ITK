@@ -120,11 +120,10 @@ const char* UIDGenerator::Generate()
     {
     int idx = 0;
     bool found = false;
-    std::bitset<8> x;
     while( !found && idx < 16 ) /* 16 is insane ... oh well */
       {
       // too bad ! randbytesbuf is too long, let's try to truncate the high bits a little
-      x = uuid[idx];
+      std::bitset<8> x = uuid[idx];
       unsigned int i = 0;
       while( ( Unique.size() + len > 64 ) && i < 8 )
         {

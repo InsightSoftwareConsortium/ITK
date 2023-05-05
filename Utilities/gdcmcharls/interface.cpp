@@ -272,10 +272,10 @@ extern "C"
 
             vector<uint8_t> rgbyteCompressed(compressedLength + 16);
 
-            memcpy(&rgbyteCompressed[0], compressedData, compressedLength);
+            memcpy(rgbyteCompressed.data(), compressedData, compressedLength);
 
             writer.EnableCompare(true);
-            writer.Write(FromByteArray(&rgbyteCompressed[0], rgbyteCompressed.size()));
+            writer.Write(FromByteArray(rgbyteCompressed.data(), rgbyteCompressed.size()));
             ClearErrorMessage(errorMessage);
             return ApiResult::OK;
         }

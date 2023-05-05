@@ -2,8 +2,10 @@
 # MSFF
 set(MSFF_SRCS
   gdcmEmptyMaskGenerator.cxx
+  gdcmMEC_MR3.cxx
   gdcmEquipmentManufacturer.cxx
   gdcmFileStreamer.cxx
+  gdcmCleaner.cxx
   gdcmJSON.cxx
   gdcmFileChangeTransferSyntax.cxx
   gdcmAnonymizer.cxx
@@ -16,6 +18,7 @@ set(MSFF_SRCS
   gdcmFileDerivation.cxx
   gdcmImageFragmentSplitter.cxx
   gdcmTagPath.cxx
+  gdcmDPath.cxx
   gdcmSimpleSubjectWatcher.cxx
   gdcmAnonymizeEvent.cxx
   gdcmPixmap.cxx
@@ -50,7 +53,9 @@ set(MSFF_SRCS
   gdcmDictPrinter.cxx
   gdcmXMLPrinter.cxx
   gdcmScanner.cxx
+  gdcmScanner2.cxx
   gdcmStrictScanner.cxx
+  gdcmStrictScanner2.cxx
   gdcmPixmapReader.cxx
   gdcmImageReader.cxx
   gdcmPixmapWriter.cxx
@@ -101,6 +106,13 @@ set(MSFF_SRCS
     ${GDCM_SOURCE_DIR}/Utilities/gdcmrle/rle.cxx
     ${GDCM_SOURCE_DIR}/Utilities/gdcmrle/info.cxx
     ${GDCM_SOURCE_DIR}/Utilities/gdcmrle/io.cxx
+  )
+
+  list(APPEND MSFF_SRCS
+    ${GDCM_SOURCE_DIR}/Utilities/gdcmext/csa.c
+    ${GDCM_SOURCE_DIR}/Utilities/gdcmext/mec_mr3.c
+    ${GDCM_SOURCE_DIR}/Utilities/gdcmext/mec_mr3_io.c
+    ${GDCM_SOURCE_DIR}/Utilities/gdcmext/mec_mr3_dict.c
   )
 
 # Do the proper thing when building static...if only there was configured
@@ -215,6 +227,10 @@ else()
 endif()
 if(GDCM_USE_SYSTEM_JSON)
   target_link_libraries(gdcmMSFF LINK_PRIVATE ${JSON_LIBRARIES})
+endif()
+if(UNIX)
+  find_package(Iconv)
+  target_link_libraries(gdcmMSFF LINK_PRIVATE ${Iconv_LIBRARIES})
 endif()
 # handling of static lib within shared is a mess:
 #target_link_libraries(gdcmMSFF gdcmrle)

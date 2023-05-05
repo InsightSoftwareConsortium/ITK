@@ -278,10 +278,11 @@ bool ImageChangeTransferSyntax::TryJPEGLSCodec(const DataElement &pixelde, Bitma
     UpdatePhotometricInterpretation( input, output );
     if( input.GetPixelFormat().GetSamplesPerPixel() == 3 )
     {
-      if( input.GetPlanarConfiguration() == 0 )
+      if( input.GetPlanarConfiguration() == 1 )
       {
-        // http://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_8.2.3.html#table_8.2.3-1
-        output.SetPlanarConfiguration(1);
+        // CP-1843
+        // https://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_8.2.3.html#para_d1e96f41-db25-4a4b-9009-9fd3796e5b43
+        output.SetPlanarConfiguration(0);
       }
     }
 

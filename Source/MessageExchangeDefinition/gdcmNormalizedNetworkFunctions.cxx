@@ -132,7 +132,7 @@ namespace gdcm
 			gdcmErrorMacro( "Failed to GetResponses." );
 			return false;
 		}
-		assert( theResponses.size() >= 1 );
+		assert( !theResponses.empty() );
 		// take the last one:
 		const DataSet &ds = theResponses[ theResponses.size() - 1 ]; // FIXME
 		assert ( ds.FindDataElement(Tag(0x0, 0x0900)) );
@@ -243,7 +243,7 @@ namespace gdcm
 			gdcmErrorMacro( "Failed to GetResponses." );
 			return false;
 		}
-		assert( theResponses.size() >= 1 );
+		assert( !theResponses.empty() );
 		// take the last one:
 		const DataSet &ds = theResponses[ theResponses.size() - 1 ]; // FIXME
 		assert ( ds.FindDataElement(Tag(0x0, 0x0900)) );

@@ -88,7 +88,7 @@ public:
   /// By default (when UseTargetPixelType is false), a best
   /// matching Target Pixel Type is computed. However user can override
   /// this auto selection by switching UseTargetPixelType:true and
-  /// also specifying the specifix Target Pixel Type
+  /// also specifying the specific Target Pixel Type
   void SetTargetPixelType( PixelFormat const & targetst );
 
   /// Override default behavior of Rescale

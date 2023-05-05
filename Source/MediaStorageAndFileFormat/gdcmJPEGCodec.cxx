@@ -21,8 +21,8 @@
 #include "gdcmJPEG12Codec.h"
 #include "gdcmJPEG16Codec.h"
 
+#include <cstring>
 #include <numeric>
-#include <string.h>
 
 namespace gdcm
 {
@@ -342,11 +342,11 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
       }
 
     std::string str = os.str();
-    assert( str.size() );
+    assert( !str.empty() );
     Fragment frag;
     //frag.SetTag( itemStart );
     VL::Type strSize = (VL::Type)str.size();
-    frag.SetByteValue( &str[0], strSize );
+    frag.SetByteValue( str.data(), strSize );
     sq->AddFragment( frag );
 
     }
@@ -528,7 +528,7 @@ bool JPEGCodec::DecodeExtent(
     assert( zmin == 0 );
 
     std::stringstream iis;
-    iis.write( &vdummybuffer[0], vdummybuffer.size() );
+    iis.write( vdummybuffer.data(), vdummybuffer.size() );
     std::stringstream os;
     bool b = DecodeByStreams(iis,os);
     if(!b) return false;
@@ -542,7 +542,7 @@ bool JPEGCodec::DecodeExtent(
     std::istream *theStream = &os;
     std::vector<char> buffer1;
     buffer1.resize( rowsize*bytesPerPixel );
-    char *tmpBuffer1 = &buffer1[0];
+    char *tmpBuffer1 = buffer1.data();
     unsigned int y, z;
     std::streamoff theOffset;
     for (z = zmin; z <= zmax; ++z)
@@ -609,7 +609,7 @@ bool JPEGCodec::DecodeExtent(
 
       std::vector<char> buffer1;
       buffer1.resize( rowsize*bytesPerPixel );
-      char *tmpBuffer1 = &buffer1[0];
+      char *tmpBuffer1 = buffer1.data();
       unsigned int y;
       std::streamoff theOffset;
       for (y = ymin; y <= ymax; ++y)

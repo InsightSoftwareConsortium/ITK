@@ -14,7 +14,7 @@
 #include "gdcmASN1.h"
 #include "gdcmSystem.h"
 
-#include <string.h>
+#include <cstring>
 
 #ifdef GDCM_USE_SYSTEM_OPENSSL
 #include <openssl/bio.h>

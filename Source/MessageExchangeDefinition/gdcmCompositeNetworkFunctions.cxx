@@ -257,7 +257,7 @@ bool CompositeNetworkFunctions::CFind( const char *remote, uint16_t portno,
     gdcmErrorMacro( "Failed to GetResponses." );
     return false;
     }
-  assert( theResponses.size() >= 1 );
+  assert( !theResponses.empty() );
   // take the last one:
   const DataSet &ds = theResponses[ theResponses.size() - 1 ]; // FIXME
   assert ( ds.FindDataElement(Tag(0x0, 0x0900)) );
@@ -423,7 +423,7 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
       //case 0xA700:
       //case 0xA900:
       //case 0xC000:
-          {
+        {
           // TODO: value from 0901 ?
           gdcmErrorMacro( "C-Store of file " << filename << " was a failure." );
           Attribute<0x0,0x0902> errormsg;
@@ -432,8 +432,8 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
           assert( themsg ); (void)themsg;
           gdcmErrorMacro( "Response Status: " << themsg );
           ret = false; // at least one file was not sent correctly
-          }
-       else
+        }
+      else
         gdcmWarningMacro( "Unhandle error code: " << theVal );
       theManager.InvokeEvent( IterationEvent() );
       }

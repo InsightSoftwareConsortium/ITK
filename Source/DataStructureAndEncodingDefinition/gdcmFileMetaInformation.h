@@ -94,20 +94,9 @@ public:
   static void SetSourceApplicationEntityTitle(const char * title);
   static const char *GetSourceApplicationEntityTitle();
 
-  FileMetaInformation(FileMetaInformation const &fmi):DataSet(fmi)
-    {
-    DataSetTS = fmi.DataSetTS;
-    MetaInformationTS = fmi.MetaInformationTS;
-    DataSetMS = fmi.DataSetMS;
-    }
-  FileMetaInformation& operator=(const FileMetaInformation& fmi)
-    {
-    DataSetTS = fmi.DataSetTS;
-    MetaInformationTS = fmi.MetaInformationTS;
-    DataSetMS = fmi.DataSetMS;
-    return *this;
-    }
-
+  FileMetaInformation(FileMetaInformation const& fmi) = default;
+  FileMetaInformation& operator=(const FileMetaInformation& fmi) = default;
+  
     VL GetFullLength() const {
       return P.GetLength() + DataSet::GetLength<ExplicitDataElement>();
     }

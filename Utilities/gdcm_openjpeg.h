@@ -19,7 +19,7 @@
 #ifdef GDCM_USE_SYSTEM_OPENJPEG
 #include <openjpeg.h>
 #else
-#include <gdcmopenjpeg/src/lib/openjp2/openjpeg.h>
+#include "gdcmopenjpeg/src/lib/openjp2/openjpeg.h"
 #endif
 
 #endif

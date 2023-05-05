@@ -13,9 +13,12 @@
 =========================================================================*/
 #include "gdcmTerminal.h"
 
-#include <iostream>
-#include <iostream>
+#include <cstdio>
 #include <fstream>
+#include <iostream>
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#define snprintf _snprintf
+#endif
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -75,12 +78,12 @@ public:
   void setbgcolor(int col) { bgcolor = col; }
   //std::string resettextcolor() const {
   //  char command[13];
-  //  sprintf(command, "%c[%d;%d;%dm", 0x1B, 0, 0, 0);
+  //  snprintf(command, sizeof(command), "%c[%d;%d;%dm", 0x1B, 0, 0, 0);
   //  return command;
   //}
   std::string textcolor() const {
     char command[16];
-    int n = sprintf(command, "%c[%d;%d;%dm", 0x1B, attribute, fgcolor + 30, bgcolor + 40);
+    int n = snprintf(command, sizeof(command), "%c[%d;%d;%dm", 0x1B, attribute, fgcolor + 30, bgcolor + 40);
     assert( n < 16 ); (void)n;
     return command;
   }

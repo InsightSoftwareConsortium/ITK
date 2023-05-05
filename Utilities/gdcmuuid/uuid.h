@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * Public include file for the UUID library
  *
@@ -38,38 +37,19 @@
 
 #include "uuid_mangle.h"
 
-#if defined(_WIN32) && defined(UUID_DLL)
-  #if defined(uuid_EXPORTS)
-    #define UUID_EXPORT __declspec( dllexport )
-  #else
-    #define UUID_EXPORT __declspec( dllimport )
-  #endif
-#else
-#if __GNUC__ >= 4 && defined(UUID_DLL)
-#define UUID_EXPORT    __attribute__ ((visibility ("default")))
-#else
-  #define UUID_EXPORT
-#endif
-#endif /*defined(WIN32)*/
-
-
 #include <sys/types.h>
+#ifndef _WIN32
+#include <sys/time.h>
+#endif
 #include <time.h>
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h> /* timeval CYGWIN is important */
-#endif
 
-/* apparently types.h or time.h is polluting our namespace on Win32... */
-#if defined(uuid_t)
-#undef uuid_t
-#endif
 typedef unsigned char uuid_t[16];
 
 /* UUID Variant definitions */
-#define UUID_VARIANT_NCS  0
-#define UUID_VARIANT_DCE  1
-#define UUID_VARIANT_MICROSOFT  2
-#define UUID_VARIANT_OTHER  3
+#define UUID_VARIANT_NCS 	0
+#define UUID_VARIANT_DCE 	1
+#define UUID_VARIANT_MICROSOFT	2
+#define UUID_VARIANT_OTHER	3
 
 /* UUID Type definitions */
 #define UUID_TYPE_DCE_TIME   1
@@ -78,10 +58,10 @@ typedef unsigned char uuid_t[16];
 /* Allow UUID constants to be defined */
 #ifdef __GNUC__
 #define UUID_DEFINE(name,u0,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10,u11,u12,u13,u14,u15) \
-  static const uuid_t name ATTRIBUTE_UNUSED = {u0,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10,u11,u12,u13,u14,u15}
+	static const uuid_t name __attribute__ ((unused)) = {u0,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10,u11,u12,u13,u14,u15}
 #else
 #define UUID_DEFINE(name,u0,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10,u11,u12,u13,u14,u15) \
-  static const uuid_t name = {u0,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10,u11,u12,u13,u14,u15}
+	static const uuid_t name = {u0,u1,u2,u3,u4,u5,u6,u7,u8,u9,u10,u11,u12,u13,u14,u15}
 #endif
 
 #ifdef __cplusplus
@@ -89,31 +69,27 @@ extern "C" {
 #endif
 
 /* clear.c */
-/*void uuid_clear(uuid_t uu);*/
-#define uuid_clear(uu) memset(uu, 0, sizeof(uu))
+void uuid_clear(uuid_t uu);
 
 /* compare.c */
 int uuid_compare(const uuid_t uu1, const uuid_t uu2);
 
 /* copy.c */
-/*void uuid_copy(uuid_t dst, const uuid_t src);*/
-#define uuid_copy(dst,src) memcpy(dst, src, sizeof(dst))
+void uuid_copy(uuid_t dst, const uuid_t src);
 
 /* gen_uuid.c */
-UUID_EXPORT void uuid_generate(uuid_t out);
+void uuid_generate(uuid_t out);
 void uuid_generate_random(uuid_t out);
-UUID_EXPORT int uuid_get_node_id(unsigned char *node_id);
 void uuid_generate_time(uuid_t out);
 
 /* isnull.c */
-/*int uuid_is_null(const uuid_t uu);*/
-#define uuid_is_null(uu) (!memcmp(uu, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(uu)))
+int uuid_is_null(const uuid_t uu);
 
 /* parse.c */
-UUID_EXPORT int uuid_parse(const char *in, uuid_t uu);
+int uuid_parse(const char *in, uuid_t uu);
 
 /* unparse.c */
-UUID_EXPORT void uuid_unparse(const uuid_t uu, char *out);
+void uuid_unparse(const uuid_t uu, char *out);
 void uuid_unparse_lower(const uuid_t uu, char *out);
 void uuid_unparse_upper(const uuid_t uu, char *out);
 

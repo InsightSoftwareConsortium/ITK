@@ -16,13 +16,11 @@
 #include "gdcmDataSet.h"
 #include "gdcmTrace.h"
 
-#include "gdcmSwapper.h"
-#include "gdcmDataSet.h"
 #include "gdcmExplicitDataElement.h"
 #include "gdcmImplicitDataElement.h"
+#include "gdcmSwapper.h"
 #include "gdcmValue.h"
 
-#include "gdcmValue.h"
 #include "gdcmItem.h"
 #include "gdcmSequenceOfItems.h"
 #include "gdcmParseException.h"

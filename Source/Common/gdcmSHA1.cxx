@@ -18,9 +18,9 @@
 #include <openssl/sha.h>
 #endif
 
-#include <string.h> // memcmp
-#include <stdlib.h> // malloc
-#include <stdio.h> // sprintf
+#include <cstdio> // snprintf
+#include <cstdlib> // malloc
+#include <cstring> // memcmp
 
 /*
  */
@@ -62,7 +62,7 @@ bool SHA1::Compute(const char *buffer, unsigned long buf_len, char digest[])
 
   for (int di = 0; di < 20; ++di)
     {
-    sprintf(digest+2*di, "%02x", output[di]);
+    snprintf(digest+2*di, 3, "%02x", output[di]);
     }
   digest[2*20] = '\0';
 
@@ -131,7 +131,7 @@ bool SHA1::ComputeFile(const char *filename, char digest_str[20*2+1])
 
   for (int di = 0; di < 20; ++di)
     {
-    sprintf(digest_str+2*di, "%02x", digest[di]);
+    snprintf(digest_str+2*di, 3, "%02x", digest[di]);
     }
   digest_str[2*20] = '\0';
   return true;

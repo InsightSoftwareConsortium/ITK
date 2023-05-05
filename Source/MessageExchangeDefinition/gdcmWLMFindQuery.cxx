@@ -46,8 +46,8 @@ WLMFindQuery::ValidateQuery(bool inStrict) const
   const DataSet &ds = GetQueryDataSet();
   if (ds.Size() == 0) return false;
 
-  // in Query somme tags are required other are optional
-  // lets check that we have required one's
+  // in Query some tags are required, others are optional
+  // lets check that we have required ones
 
   bool theReturn = true ;
   DataSet validDs = GetValidDataSet();

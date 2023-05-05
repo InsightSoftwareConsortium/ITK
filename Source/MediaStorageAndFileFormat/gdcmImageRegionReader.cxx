@@ -174,7 +174,7 @@ bool ImageRegionReader::ReadInformation()
   if( !spacing.empty() )
     {
     assert( spacing.size() >= pixeldata.GetNumberOfDimensions() ); // In MR, you can have a Z spacing, but store a 2D image
-    pixeldata.SetSpacing( &spacing[0] );
+    pixeldata.SetSpacing( spacing.data() );
     if( spacing.size() > pixeldata.GetNumberOfDimensions() ) // FIXME HACK
       {
       pixeldata.SetSpacing(pixeldata.GetNumberOfDimensions(), spacing[pixeldata.GetNumberOfDimensions()] );
@@ -184,7 +184,7 @@ bool ImageRegionReader::ReadInformation()
   std::vector<double> origin = ImageHelper::GetOriginValue(*F);
   if( !origin.empty() )
     {
-    pixeldata.SetOrigin( &origin[0] );
+    pixeldata.SetOrigin( origin.data() );
     if( origin.size() > pixeldata.GetNumberOfDimensions() ) // FIXME HACK
       {
       pixeldata.SetOrigin(pixeldata.GetNumberOfDimensions(), origin[pixeldata.GetNumberOfDimensions()] );
@@ -194,7 +194,7 @@ bool ImageRegionReader::ReadInformation()
   std::vector<double> dircos = ImageHelper::GetDirectionCosinesValue(*F);
   if( !dircos.empty() )
     {
-    pixeldata.SetDirectionCosines( &dircos[0] );
+    pixeldata.SetDirectionCosines( dircos.data() );
     }
 
   // Do the Rescale Intercept & Slope
@@ -260,10 +260,10 @@ bool ImageRegionReader::ReadRAWIntoBuffer(char *buffer, size_t buflen)
 
   std::vector<char> buffer1;
   buffer1.resize( rowsize*bytesPerPixel );
-  char *tmpBuffer1 = &buffer1[0];
+  char *tmpBuffer1 = buffer1.data();
   std::vector<char> buffer2;
   buffer2.resize( rowsize*bytesPerPixel );
-  char *tmpBuffer2 = &buffer2[0];
+  char *tmpBuffer2 = buffer2.data();
   unsigned int y, z;
   std::streamoff theOffset;
   for (z = zmin; z <= zmax; ++z)

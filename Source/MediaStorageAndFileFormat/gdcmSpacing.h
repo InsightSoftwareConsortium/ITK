@@ -86,7 +86,7 @@ class GDCM_EXPORT Spacing
 {
 public :
   Spacing();
-  ~Spacing();
+  ~Spacing() = default;
 
   // Here are the list of spacing we support:
   // (0018,0088) DS [1.500000]                                         # 8,1 Spacing Between Slices

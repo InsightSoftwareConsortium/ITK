@@ -19,7 +19,7 @@
 #ifdef GDCM_USE_SYSTEM_EXPAT
 # include <expat.h>
 #else
-# include <gdcmexpat/lib/expat.h>
+# include "gdcmexpat/lib/expat.h"
 #endif
 
 #endif

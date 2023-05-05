@@ -16,6 +16,11 @@
 #include <map>
 #include <string>
 
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#define snprintf _snprintf
+#endif
+
+
 namespace gdcm
 {
 
@@ -55,14 +60,19 @@ bool MrProtocol::Load( const ByteValue * bv, const char * csastr, int version )
     // ### ASCCONV BEGIN ###
     // as well as:
     // ### ASCCONV BEGIN object=MrProtDataImpl@MrProtocolData version=41310008 converter=%MEASCONST%/ConverterList/Prot_Converter.txt ###
+    // and
+    //       "### ASCCONV BEGIN object=MrProtDataImpl@MrProtocolData version=51130001 converter=%MEASCONST%/ConverterList/Prot_Converter.txt ###
     static const char begin[] = "### ASCCONV BEGIN ";
+    static const char begin2[] = "\"### ASCCONV BEGIN ";
     static const char end[] = "### ASCCONV END ###";
     bool hasstarted = false;
     while( std::getline(is, s ) )
     {
       if( !hasstarted )
       {
-        hasstarted = starts_with(s, begin);
+        // syngo E11C does not write on begin of line anymore
+        s.erase(0, s.find_first_not_of(' '));
+        hasstarted = starts_with(s, begin) || starts_with(s, begin2);
         if( hasstarted ) {
           if( version == -1 ) {
             // find version if not specified:
@@ -186,7 +196,7 @@ bool MrProtocol::GetSliceArray( MrProtocol::SliceArray & sa ) const
       double v[3];
       for( int j = 0; j < 3; ++j )
       {
-        sprintf( buf, templ1, i, dir[j] );
+        snprintf( buf, sizeof(buf), templ1, i, dir[j] );
         const char * valstr = GetMrProtocolByName(buf);
         // when not present this means 0.0
         double val = 0.0;
@@ -202,7 +212,7 @@ bool MrProtocol::GetSliceArray( MrProtocol::SliceArray & sa ) const
       double v[3];
       for( int j = 0; j < 3; ++j )
       {
-        sprintf( buf, templ2, i, dir[j] );
+        snprintf( buf, sizeof(buf), templ2, i, dir[j] );
         const char * valstr = GetMrProtocolByName(buf);
         // when not present this means 0.0
         double val = 0.0;

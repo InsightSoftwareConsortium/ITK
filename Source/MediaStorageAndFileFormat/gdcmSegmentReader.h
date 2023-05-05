@@ -41,7 +41,7 @@ public:
   bool Read() override; // Set to protected ?
 
   //**        Segment getters/setters     **//
-  const SegmentVector GetSegments() const;
+  SegmentVector GetSegments() const;
   SegmentVector GetSegments();
 
 //  unsigned int GetNumberOfSegments();

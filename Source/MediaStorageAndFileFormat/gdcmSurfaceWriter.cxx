@@ -380,7 +380,7 @@ bool SurfaceWriter::PrepareWrite()
       }
 
       //******    Surface Mesh Primitives    *****//
-      //        Two exemples :
+      //        Two examples :
       //        (0066,0013) SQ (Sequence with undefined length #=1)     # u/l, 1 Surface Mesh Primitives Sequence
       //          (fffe,e000) na (Item with undefined length #=1)         # u/l, 1 Item
       //            (0066,0042) OL                                         #  0, 1 Long Edge Point Index List

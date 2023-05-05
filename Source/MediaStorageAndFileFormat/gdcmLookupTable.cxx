@@ -18,7 +18,7 @@
 #include <iomanip>
 #include <algorithm>
 
-#include <string.h>
+#include <cstring>
 
 namespace gdcm
 {
@@ -171,7 +171,7 @@ void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
   else if( BitSample == 16 )
     {
     assert( Internal->Length[type]*(BitSample/8) == length );
-    uint16_t *uchar16 = (uint16_t*)(void*)&Internal->RGB[0];
+    uint16_t *uchar16 = (uint16_t*)(void*)Internal->RGB.data();
     const uint16_t *array16 = (const uint16_t*)(const void*)array;
     for( unsigned int i = 0; i < Internal->Length[type]; ++i)
       {
@@ -203,7 +203,7 @@ void LookupTable::GetLUT(LookupTableType type, unsigned char *array, unsigned in
   else if( BitSample == 16 )
     {
     length = Internal->Length[type]*(BitSample/8);
-    uint16_t *uchar16 = (uint16_t*)(void*)&Internal->RGB[0];
+    uint16_t *uchar16 = (uint16_t*)(void*)Internal->RGB.data();
     uint16_t *array16 = (uint16_t*)(void*)array;
     for( unsigned int i = 0; i < Internal->Length[type]; ++i)
       {
@@ -279,6 +279,8 @@ namespace {
     uint64_t I;
   };
 
+#if 0
+  // FIXME: see comments below
   struct ltstr8
     {
     bool operator()(U8 u1, U8 u2) const
@@ -293,6 +295,7 @@ namespace {
       return u1.I < u2.I;
       }
     };
+#endif
 } // end namespace
 
 inline void printrgb( const unsigned char *rgb )
@@ -306,7 +309,7 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
     {
 #if 0
     // FIXME:
-    // There is a very subbtle issue here. We are trying to compress a 8bits RGB image
+    // There is a very subtle issue here. We are trying to compress a 8bits RGB image
     // into an 8bits allocated indexed Pixel Data with 8bits LUT... this is just not
     // possible in the general case
     typedef std::set< U8, ltstr8 > RGBColorIndexer;
@@ -476,7 +479,7 @@ void LookupTable::Decode(std::istream &is, std::ostream &os) const
   else if ( BitSample == 16 )
     {
     // gdcmData/NM-PAL-16-PixRep1.dcm
-    const uint16_t *rgb16 = (uint16_t*)(void*)&Internal->RGB[0];
+    const uint16_t *rgb16 = (uint16_t*)(void*)Internal->RGB.data();
     while( !is.eof() )
       {
       unsigned short idx;
@@ -531,7 +534,7 @@ bool LookupTable::Decode(char *output, size_t outlen, const char *input, size_t 
     }
   else if ( BitSample == 16 )
     {
-    const uint16_t *rgb16 = (const uint16_t*)(void*)&Internal->RGB[0];
+    const uint16_t *rgb16 = (const uint16_t*)(void*)Internal->RGB.data();
     assert( inlen % 2 == 0 );
     const uint16_t * end = (const uint16_t*)(const void*)(input + inlen);
     uint16_t * rgb = (uint16_t*)(void*)output;
@@ -587,7 +590,7 @@ bool LookupTable::Decode8(char *output, size_t outlen, const char *input, size_t
     }
   else if ( BitSample == 16 )
     {
-    const uint16_t *rgb16 = (const uint16_t*)(void*)&Internal->RGB[0];
+    const uint16_t *rgb16 = (const uint16_t*)(void*)Internal->RGB.data();
     assert( inlen % 2 == 0 );
     const uint16_t * end = (const uint16_t*)(const void*)(input + inlen);
     uint8_t * rgb = (uint8_t*)output;
@@ -613,7 +616,7 @@ const unsigned char *LookupTable::GetPointer() const
 {
   if ( BitSample == 8 )
     {
-    return &Internal->RGB[0];
+    return Internal->RGB.data();
     }
   return nullptr;
 }
@@ -654,7 +657,7 @@ bool LookupTable::GetBufferAsRGBA(unsigned char *rgba) const
     ret = true;
 */
     //std::vector<unsigned char>::const_iterator it = Internal->RGB.begin();
-    uint16_t *uchar16 = (uint16_t*)(void*)&Internal->RGB[0];
+    uint16_t *uchar16 = (uint16_t*)(void*)Internal->RGB.data();
     uint16_t *rgba16 = (uint16_t*)(void*)rgba;
     size_t s = Internal->RGB.size();
     s /= 2;
@@ -699,7 +702,7 @@ bool LookupTable::WriteBufferAsRGBA(const unsigned char *rgba)
   else if ( BitSample == 16 )
     {
     //assert( Internal->Length[type]*(BitSample/8) == length );
-    uint16_t *uchar16 = (uint16_t*)(void*)&Internal->RGB[0];
+    uint16_t *uchar16 = (uint16_t*)(void*)Internal->RGB.data();
     const uint16_t *rgba16 = (const uint16_t*)(const void*)rgba;
     size_t s = Internal->RGB.size();
     s /= 2;
@@ -734,7 +737,7 @@ void LookupTable::Print(std::ostream &os) const
     {
     uint16_t maxlut[3] = { 0 , 0 , 0};
     uint16_t minlut[3] = { 0xffff, 0xffff, 0xffff };
-    uint16_t *uchar16 = (uint16_t*)(void*)&Internal->RGB[0];
+    uint16_t *uchar16 = (uint16_t*)(void*)Internal->RGB.data();
     if( Internal->Length[BLUE] != Internal->Length[RED]
     || Internal->Length[RED] != Internal->Length[GREEN] ) return;
     for( unsigned int i = 0; i < Internal->Length[BLUE]; ++i)
@@ -767,7 +770,7 @@ bool LookupTable::IsRGB8() const
     {
     uint16_t maxlut[3] = { 0 , 0 , 0};
     uint16_t minlut[3] = { 0xffff, 0xffff, 0xffff };
-    uint16_t *uchar16 = (uint16_t*)(void*)&Internal->RGB[0];
+    uint16_t *uchar16 = (uint16_t*)(void*)Internal->RGB.data();
     if( Internal->Length[BLUE] != Internal->Length[RED]
     || Internal->Length[RED] != Internal->Length[GREEN] ) return false;
     for( unsigned int i = 0; i < Internal->Length[BLUE]; ++i)

@@ -477,9 +477,9 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
     else if( cinfo.jpeg_color_space == JCS_YCCK )
       {
       assert( cinfo.num_components == 4 );
-      PI = PhotometricInterpretation::YBR_FULL_422; // 4th plane ??
+      gdcmWarningMacro( "JCS_YCCK is not handled. Setting to CMYK for now." );
+      PI = PhotometricInterpretation::CMYK; // non-sense...oh well
       this->PF.SetSamplesPerPixel( 4 );
-      assert( 0 ); //TODO
       }
     else
       {

@@ -21,7 +21,7 @@
 // zlib1g-dev: /usr/include/zlib.h
 # include <zlib.h>
 #else
-# include <gdcmzlib/zlib.h>
+# include "gdcmzlib/zlib.h"
 #endif
 
 #endif

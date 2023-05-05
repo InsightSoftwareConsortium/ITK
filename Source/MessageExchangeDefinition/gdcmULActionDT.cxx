@@ -27,7 +27,6 @@ each class have its own file for the sake of brevity of the number of files.
 #include "gdcmARTIMTimer.h"
 #include "gdcmPDataTFPDU.h"
 
-#include "gdcmPDataTFPDU.h"
 #include "gdcmAttribute.h"
 #include "gdcmProgressEvent.h"
 #include "gdcmFile.h"
@@ -44,7 +43,7 @@ namespace gdcm
 {
 namespace network
   {
-#if USE_PROCESS_INPUT
+#if defined(USE_PROCESS_INPUT) && USE_PROCESS_INPUT
 static void process_input(iosockinet& sio)
 {
   uint8_t itemtype = 0x0;
@@ -259,7 +258,7 @@ EStateID ULActionDT1::PerformAction(Subject *s, ULEvent& inEvent, ULConnection& 
   // another channel (technically this is send to an SCP)
   // in our case we use another port to receive it.
 
-#if USE_PROCESS_INPUT
+#if defined(USE_PROCESS_INPUT) && USE_PROCESS_INPUT
   //wait for the user to try to send some data.
   sockinetbuf sin (sockbuf::sock_stream);
 

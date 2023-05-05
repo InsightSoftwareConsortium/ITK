@@ -27,7 +27,7 @@ class GDCM_EXPORT DictPrinter : public Printer
 {
 public:
   DictPrinter();
-  ~DictPrinter();
+  ~DictPrinter() = default;
 
   void Print(std::ostream& os);
 

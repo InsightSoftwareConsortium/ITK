@@ -90,7 +90,7 @@ class MY_API sockerr : public std::exception
             err = O.err;
             text = O.text;
         }
-        ~sockerr() throw() override {};
+        ~sockerr() throw() override {}
 
         const char* what () const throw() override { return "sockerr"; }
         const char* operation () const { return text.text.c_str(); }

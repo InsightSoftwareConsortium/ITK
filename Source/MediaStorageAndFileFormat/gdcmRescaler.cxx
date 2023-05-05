@@ -12,11 +12,11 @@
 
 =========================================================================*/
 #include "gdcmRescaler.h"
-#include <limits>
 #include <algorithm> // std::max
-#include <stdlib.h> // abort
-#include <string.h> // memcpy
 #include <cmath> // std::lround
+#include <cstdlib> // abort
+#include <cstring> // memcpy
+#include <limits>
 
 namespace gdcm
 {

@@ -24,7 +24,6 @@ class ByteValue;
 class MediaStorage;
 /**
  * \brief PixmapReader
- * \details 
  * \note its role is to convert the DICOM DataSet into a Pixmap
  * representation
  * By default it is also loading the lookup table and overlay when found as

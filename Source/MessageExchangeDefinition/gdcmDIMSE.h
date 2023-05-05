@@ -76,9 +76,9 @@ class CEchoRSP
 public:
 /*
 Message ID M U
-Message ID Being Responded To  M
+Message ID Being Responded To M
 Affected SOP Class UID M U(=)
-Status  M
+Status M
 */
 };
 

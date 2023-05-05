@@ -1059,7 +1059,7 @@ bool PixmapReader::ReadImageInternal(MediaStorage const &ms, bool handlepixeldat
           assert( jpeg.GetDimensions()[1] );
           v[0] = jpeg.GetDimensions()[0];
           v[1] = jpeg.GetDimensions()[1];
-          PixelData->SetDimensions( &v[0] );
+          PixelData->SetDimensions( v.data() );
           //PixelData->SetPixelFormat( jpeg.GetPixelFormat() ); // need to handle carefully
           if( PixelData->GetPixelFormat().GetSamplesPerPixel() != jpeg.GetPixelFormat().GetSamplesPerPixel() )
           {
