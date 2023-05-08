@@ -18,14 +18,14 @@
 #include <cassert>
 #include <cctype>
 #include <deque>
-#include <experimental/filesystem>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <cstring>
 #include <string>
 
-using namespace std::experimental::filesystem::v1;
+using namespace std::filesystem;
 
 namespace
 {
