@@ -11,6 +11,7 @@ trigger:
     - LICENSE
     - NOTICE
     - Documentation/*
+    - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
 pr:
   paths:
@@ -19,6 +20,7 @@ pr:
     - LICENSE
     - NOTICE
     - Documentation/*
+    - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
 variables:
   ExternalDataVersion: 5.3.0
