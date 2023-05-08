@@ -163,6 +163,15 @@ except Exception as e:
 image = itk.imread(filename, imageio=itk.PNGImageIO.New())
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
 
+# imread using a dicom series
+image = itk.imread(sys.argv[8])
+image0 = itk.imread(sys.argv[8], series_uid=0)
+imageS = itk.imread(sys.argv[8], series_uid="1.2.840.113619.2.133.1762890640.1886.1055165015.999.31.625625620030625")
+assert itk.size(image) == itk.size(image0)
+assert itk.size(image) == itk.size(imageS)
+assert image[1,10,10] == image0[1,10,10]
+assert image[1,10,10] == imageS[1,10,10]
+
 # Test serialization with pickle
 array = np.random.randint(0, 256, (8, 12)).astype(np.uint8)
 image = itk.image_from_array(array)
