@@ -26,6 +26,8 @@ operator<<(std::ostream & out, const FastMarchingUpwindGradientImageFilterEnums:
   return out << [value] {
     switch (value)
     {
+      case FastMarchingUpwindGradientImageFilterEnums::TargetCondition::NoTargets:
+        return "itk::FastMarchingUpwindGradientImageFilterEnums::TargetCondition::NoTargets";
       case FastMarchingUpwindGradientImageFilterEnums::TargetCondition::OneTarget:
         return "itk::FastMarchingUpwindGradientImageFilterEnums::TargetCondition::OneTarget";
       case FastMarchingUpwindGradientImageFilterEnums::TargetCondition::SomeTargets:
