@@ -388,7 +388,9 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   };
   for (const auto & ee : allConditions)
   {
-    std::cout << "STREAMED ENUM VALUE FastMarchingUpwindGradientImageFilterEnums::TargetCondition: " << ee << std::endl;
+    std::ostringstream ss;
+    ss << ee;
+    ITK_TEST_EXPECT_TRUE(ss.str().find("INVALID") == std::string::npos);
   }
 
   if (passed)
