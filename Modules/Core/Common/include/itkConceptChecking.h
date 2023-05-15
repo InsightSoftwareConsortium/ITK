@@ -706,7 +706,7 @@ struct HasNumericTraits
       Detail::UniqueType<typename NumericTraits<T>::RealType>();
       Detail::UniqueType<typename NumericTraits<T>::ScalarRealType>();
       Detail::UniqueType<typename NumericTraits<T>::FloatType>();
-      T a{ 0 };
+      T a{};
 
       // Test these methods that take an instance of T to
       // allow for types with variable length.
