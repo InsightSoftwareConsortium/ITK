@@ -1298,5 +1298,14 @@ itkNumericTraitsTest(int, char *[])
   // CompileTime Checks IsComplex traits does not return
   CheckIsComplexTraits();
 
+  itkConceptMacro(NumericTraitsCheckLong, (itk::Concept::HasNumericTraits<long>));
+  itkConceptMacro(NumericTraitsCheckComplexFloat, (itk::Concept::HasNumericTraits<std::complex<float>>));
+  itkConceptMacro(NumericTraitsCheckVectorFloat3, (itk::Concept::HasNumericTraits<itk::Vector<float, 3>>));
+  itkConceptMacro(NumericTraitsCheckStdVectorFloat, (itk::Concept::HasNumericTraits<std::vector<float>>));
+  itkConceptMacro(NumericTraitsCheckVariableLengthVector,
+                  (itk::Concept::HasNumericTraits<itk::VariableLengthVector<double>>));
+  itkConceptMacro(NumericTraitsCheckRGBPixel, (itk::Concept::HasNumericTraits<itk::RGBPixel<unsigned char>>));
+  itkConceptMacro(NumericTraitsCheckRGBAPixel, (itk::Concept::HasNumericTraits<itk::RGBAPixel<unsigned char>>));
+
   return (testPassedStatus) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
