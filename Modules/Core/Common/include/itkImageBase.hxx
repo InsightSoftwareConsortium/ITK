@@ -202,7 +202,7 @@ ImageBase<VImageDimension>::ComputeOffsetTable()
   }
   // if( num > NumericTraits<SizeValueType>::max() )
   //   {
-  //   itkExceptionMacro(<< "Requested number of pixels (" << num
+  //   itkExceptionMacro("Requested number of pixels (" << num
   //     << ") is greater than the largest possible number of pixels (" <<
   // NumericTraits<SizeValueType>::max() << ").");
   //   }
@@ -299,8 +299,8 @@ ImageBase<VImageDimension>::CopyInformation(const DataObject * data)
     else
     {
       // pointer could not be cast back down
-      itkExceptionMacro(<< "itk::ImageBase::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                        << typeid(const ImageBase *).name());
+      itkExceptionMacro("itk::ImageBase::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                         << typeid(const ImageBase *).name());
     }
   }
 }

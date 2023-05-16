@@ -682,8 +682,8 @@ DiscreteLevelSetImage<TOutput, VDimension>::CopyInformation(const DataObject * d
   if (!LevelSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::DiscreteLevelSetImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::DiscreteLevelSetImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                                   << typeid(Self *).name());
   }
 }
 
@@ -698,8 +698,8 @@ DiscreteLevelSetImage<TOutput, VDimension>::Graft(const DataObject * data)
   if (!LevelSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::DiscreteLevelSetImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::DiscreteLevelSetImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                                   << typeid(Self *).name());
   }
 
   this->m_NeighborhoodScales = LevelSet->m_NeighborhoodScales;

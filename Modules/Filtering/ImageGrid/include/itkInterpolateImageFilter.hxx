@@ -83,7 +83,7 @@ InterpolateImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   if (!m_Interpolator)
   {
-    itkExceptionMacro(<< "Interpolator not set");
+    itkExceptionMacro("Interpolator not set");
   }
 
   // Create intermediate image
@@ -182,7 +182,7 @@ InterpolateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     else
     {
       // should never be in here
-      itkExceptionMacro(<< "Index not within the intermediate buffer");
+      itkExceptionMacro("Index not within the intermediate buffer");
     }
 
     progress.CompletedPixel();

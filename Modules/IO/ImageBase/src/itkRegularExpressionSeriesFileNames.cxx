@@ -49,20 +49,20 @@ RegularExpressionSeriesFileNames::GetFileNames()
   // Validate the ivars
   if (m_Directory.empty())
   {
-    itkExceptionMacro(<< "No directory defined!");
+    itkExceptionMacro("No directory defined!");
   }
 
   itksys::RegularExpression reg;
   if (!reg.compile(m_RegularExpression.c_str()))
   {
-    itkExceptionMacro(<< "Error compiling regular expression " << m_RegularExpression);
+    itkExceptionMacro("Error compiling regular expression " << m_RegularExpression);
   }
 
   // Process all files in the directory
   itksys::Directory fileDir;
   if (!fileDir.Load(m_Directory.c_str()))
   {
-    itkExceptionMacro(<< "Directory " << m_Directory.c_str() << " cannot be read!");
+    itkExceptionMacro("Directory " << m_Directory.c_str() << " cannot be read!");
   }
 
   std::vector<std::pair<std::string, std::string>> sortedBySubMatch;

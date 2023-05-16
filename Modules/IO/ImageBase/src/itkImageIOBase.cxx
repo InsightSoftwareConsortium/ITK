@@ -618,7 +618,7 @@ ImageIOBase::OpenFileForReading(std::ifstream & inputStream, const std::string &
   // Make sure that we have a file to
   if (filename.empty())
   {
-    itkExceptionMacro(<< "A FileName must be specified.");
+    itkExceptionMacro("A FileName must be specified.");
   }
 
   // Close file from any previous image
@@ -645,8 +645,8 @@ ImageIOBase::OpenFileForReading(std::ifstream & inputStream, const std::string &
 
   if (!inputStream.is_open() || inputStream.fail())
   {
-    itkExceptionMacro(<< "Could not open file: " << filename << " for reading." << std::endl
-                      << "Reason: " << itksys::SystemTools::GetLastSystemError());
+    itkExceptionMacro("Could not open file: " << filename << " for reading." << std::endl
+                                              << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 }
 
@@ -656,7 +656,7 @@ ImageIOBase::OpenFileForWriting(std::ofstream & outputStream, const std::string 
   // Make sure that we have a file to
   if (filename.empty())
   {
-    itkExceptionMacro(<< "A FileName must be specified.");
+    itkExceptionMacro("A FileName must be specified.");
   }
 
   // Close file from any previous image
@@ -694,8 +694,8 @@ ImageIOBase::OpenFileForWriting(std::ofstream & outputStream, const std::string 
 
   if (!outputStream.is_open() || outputStream.fail())
   {
-    itkExceptionMacro(<< "Could not open file: " << filename << " for writing." << std::endl
-                      << "Reason: " << itksys::SystemTools::GetLastSystemError());
+    itkExceptionMacro("Could not open file: " << filename << " for writing." << std::endl
+                                              << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 }
 

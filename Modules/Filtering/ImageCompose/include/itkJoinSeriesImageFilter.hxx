@@ -45,7 +45,7 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5
 
   if (image.IsNull())
   {
-    itkExceptionMacro(<< "Input not set as expected!");
+    itkExceptionMacro("Input not set as expected!");
   }
 
   const unsigned int numComponents = image->GetNumberOfComponentsPerPixel();
@@ -66,8 +66,9 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5
 
     if (numComponents != image->GetNumberOfComponentsPerPixel())
     {
-      itkExceptionMacro(<< "Primary input has " << numComponents << " numberOfComponents "
-                        << "but input " << idx << " has " << image->GetNumberOfComponentsPerPixel() << '!');
+      itkExceptionMacro("Primary input has " << numComponents << " numberOfComponents "
+                                             << "but input " << idx << " has " << image->GetNumberOfComponentsPerPixel()
+                                             << '!');
     }
   }
 }
@@ -164,7 +165,7 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   else
   {
     // Pointer could not be cast back down
-    itkExceptionMacro(<< "itk::JoinSeriesImageFilter::GenerateOutputInformation "
+    itkExceptionMacro("itk::JoinSeriesImageFilter::GenerateOutputInformation "
                       << "cannot cast input to " << typeid(ImageBase<InputImageDimension> *).name());
   }
 
@@ -196,7 +197,7 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
     {
       // Because DataObject::PropagateRequestedRegion() allows only
       // InvalidRequestedRegionError, it's impossible to write simply:
-      // itkExceptionMacro(<< "Missing input " << idx);
+      // itkExceptionMacro("Missing input " << idx);
       InvalidRequestedRegionError e(__FILE__, __LINE__);
       e.SetLocation(ITK_LOCATION);
       e.SetDescription("Missing input.");

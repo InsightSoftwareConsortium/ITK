@@ -79,8 +79,8 @@ GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutpu
   }
   else
   {
-    itkExceptionMacro(<< "itk::GPUImageToImageFilter::GraftOutput() cannot cast " << typeid(output).name() << " to "
-                      << typeid(GPUOutputImage *).name());
+    itkExceptionMacro("itk::GPUImageToImageFilter::GraftOutput() cannot cast " << typeid(output).name() << " to "
+                                                                               << typeid(GPUOutputImage *).name());
   }
 }
 
@@ -109,8 +109,8 @@ GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutpu
   }
   else
   {
-    itkExceptionMacro(<< "itk::GPUImageToImageFilter::GraftOutput() cannot cast " << typeid(output).name() << " to "
-                      << typeid(GPUOutputImage *).name());
+    itkExceptionMacro("itk::GPUImageToImageFilter::GraftOutput() cannot cast " << typeid(output).name() << " to "
+                                                                               << typeid(GPUOutputImage *).name());
   }
 }
 

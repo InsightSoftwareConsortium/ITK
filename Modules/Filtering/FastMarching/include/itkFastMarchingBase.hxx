@@ -68,19 +68,19 @@ FastMarchingBase<TInput, TOutput>::Initialize(OutputDomainType * oDomain)
 {
   if (m_TrialPoints.IsNull())
   {
-    itkExceptionMacro(<< "No Trial Nodes");
+    itkExceptionMacro("No Trial Nodes");
   }
   if (m_StoppingCriterion.IsNull())
   {
-    itkExceptionMacro(<< "No Stopping Criterion Set");
+    itkExceptionMacro("No Stopping Criterion Set");
   }
   if (m_NormalizationFactor < itk::Math::eps)
   {
-    itkExceptionMacro(<< "Normalization Factor is null or negative");
+    itkExceptionMacro("Normalization Factor is null or negative");
   }
   if (m_SpeedConstant < itk::Math::eps)
   {
-    itkExceptionMacro(<< "SpeedConstant is null or negative");
+    itkExceptionMacro("SpeedConstant is null or negative");
   }
   if (m_CollectPoints)
   {

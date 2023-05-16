@@ -37,7 +37,7 @@ MetaLandmarkConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTyp
   const auto * landmarkMO = dynamic_cast<const LandmarkMetaObjectType *>(mo);
   if (landmarkMO == nullptr)
   {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaLandmark");
+    itkExceptionMacro("Can't convert MetaObject to MetaLandmark");
   }
 
   LandmarkSpatialObjectPointer landmarkSO = LandmarkSpatialObjectType::New();
@@ -89,7 +89,7 @@ MetaLandmarkConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObject
 
   if (landmarkSO.IsNull())
   {
-    itkExceptionMacro(<< "Can't downcast SpatialObject to LandmarkSpatialObject");
+    itkExceptionMacro("Can't downcast SpatialObject to LandmarkSpatialObject");
   }
 
   auto * landmarkMO = new MetaLandmark(VDimension);

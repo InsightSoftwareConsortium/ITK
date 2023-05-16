@@ -35,8 +35,8 @@ QuaternionRigidTransformGradientDescentOptimizer::AdvanceOneStep()
   // Make sure the scales have been set
   if (scales.size() != spaceDimension)
   {
-    itkExceptionMacro(<< "The size of Scales is " << scales.size() << ", but the NumberOfParameters is "
-                      << spaceDimension << '.');
+    itkExceptionMacro("The size of Scales is " << scales.size() << ", but the NumberOfParameters is " << spaceDimension
+                                               << '.');
   }
 
   DerivativeType transformedGradient(spaceDimension);

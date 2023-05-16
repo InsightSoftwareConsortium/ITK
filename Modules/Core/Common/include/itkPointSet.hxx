@@ -291,8 +291,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::CopyInformation(const DataObject 
   if (!pointSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::PointSet::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(PointSet *).name());
+    itkExceptionMacro("itk::PointSet::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                      << typeid(PointSet *).name());
   }
 
   m_MaximumNumberOfRegions = pointSet->GetMaximumNumberOfRegions();
@@ -315,8 +315,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::Graft(const DataObject * data)
   if (!pointSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::PointSet::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::PointSet::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                      << typeid(Self *).name());
   }
 
   this->SetPoints(pointSet->m_PointsContainer);
@@ -379,14 +379,14 @@ PointSet<TPixelType, VDimension, TMeshTraits>::VerifyRequestedRegion()
   // Are we asking for more regions than we can get?
   if (m_RequestedNumberOfRegions > m_MaximumNumberOfRegions)
   {
-    itkExceptionMacro(<< "Cannot break object into " << m_RequestedNumberOfRegions << ". The limit is "
-                      << m_MaximumNumberOfRegions);
+    itkExceptionMacro("Cannot break object into " << m_RequestedNumberOfRegions << ". The limit is "
+                                                  << m_MaximumNumberOfRegions);
   }
 
   if (m_RequestedRegion >= m_RequestedNumberOfRegions || m_RequestedRegion < 0)
   {
-    itkExceptionMacro(<< "Invalid update region " << m_RequestedRegion << ". Must be between 0 and "
-                      << m_RequestedNumberOfRegions - 1);
+    itkExceptionMacro("Invalid update region " << m_RequestedRegion << ". Must be between 0 and "
+                                               << m_RequestedNumberOfRegions - 1);
   }
 
   return retval;

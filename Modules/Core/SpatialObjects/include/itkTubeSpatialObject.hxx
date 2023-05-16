@@ -66,8 +66,8 @@ TubeSpatialObject<TDimension, TTubePointType>::CopyInformation(const DataObject 
   if (soData == nullptr)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::TubeSpatialObject::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(TubeSpatialObject<TDimension> *).name());
+    itkExceptionMacro("itk::TubeSpatialObject::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to " << typeid(TubeSpatialObject<TDimension> *).name());
   }
 
   // check if we are the same type
@@ -95,7 +95,7 @@ TubeSpatialObject<TDimension, TTubePointType>::InternalClone() const
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
   rval->SetEndRounded(this->GetEndRounded());

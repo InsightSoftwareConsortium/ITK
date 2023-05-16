@@ -63,7 +63,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Initializ
 {
   if (!this->m_MovingImage || !this->m_FixedImage || !m_MovingImageInterpolator)
   {
-    itkExceptionMacro(<< "MovingImage, FixedImage and/or Interpolator not set");
+    itkExceptionMacro("MovingImage, FixedImage and/or Interpolator not set");
   }
 
   // Set up gradient calculator

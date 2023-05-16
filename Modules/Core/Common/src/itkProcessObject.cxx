@@ -1091,14 +1091,14 @@ ProcessObject::MakeIndexFromName(const DataObjectIdentifierType & name) const
   if (name.size() <= baseSize || name.substr(0, baseSize) != baseName)
   {
     itkDebugMacro("MakeIndexFromName(" << name << ") -> exception bad base name");
-    itkExceptionMacro(<< "Not an indexed data object: " << name);
+    itkExceptionMacro("Not an indexed data object: " << name);
   }
   DataObjectIdentifierType       idxStr = name.substr(baseSize);
   DataObjectPointerArraySizeType idx;
   if (!(std::istringstream(idxStr) >> idx))
   {
     itkDebugMacro("MakeIndexFromName(" << name << ") -> exception not an index");
-    itkExceptionMacro(<< "Not an indexed data object: " << name);
+    itkExceptionMacro("Not an indexed data object: " << name);
   }
   itkDebugMacro("MakeIndexFromName(" << name << ") -> " << idx);
   return idx;
@@ -1336,7 +1336,7 @@ ProcessObject::VerifyPreconditions() ITKv5_CONST
   {
     if (this->GetInput(requiredInputName) == nullptr)
     {
-      itkExceptionMacro(<< "Input " << requiredInputName << " is required but not set.");
+      itkExceptionMacro("Input " << requiredInputName << " is required but not set.");
     }
   }
 
@@ -1348,8 +1348,8 @@ ProcessObject::VerifyPreconditions() ITKv5_CONST
   {
     if (this->GetInput(*i) == nullptr)
     {
-      itkExceptionMacro(<< "Required Input " << *i << "is not specified!"
-                        << " The required inputs are expected to be the first inputs.");
+      itkExceptionMacro("Required Input " << *i << "is not specified!"
+                                          << " The required inputs are expected to be the first inputs.");
     }
     ++i;
   }
@@ -1361,10 +1361,10 @@ ProcessObject::VerifyPreconditions() ITKv5_CONST
 
   if (validIndexedInputs < this->m_NumberOfRequiredInputs)
   {
-    itkExceptionMacro(<< "At least " << this->m_NumberOfRequiredInputs << " of the first "
-                      << this->m_NumberOfRequiredInputs << " indexed inputs are required but only "
-                      << validIndexedInputs << " are specified."
-                      << " The required inputs are expected to be the first inputs.");
+    itkExceptionMacro("At least " << this->m_NumberOfRequiredInputs << " of the first "
+                                  << this->m_NumberOfRequiredInputs << " indexed inputs are required but only "
+                                  << validIndexedInputs << " are specified."
+                                  << " The required inputs are expected to be the first inputs.");
   }
 }
 

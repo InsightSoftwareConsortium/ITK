@@ -170,7 +170,7 @@ GPUDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
     {
       if (localInput->GetSpacing()[i] == 0.0)
       {
-        itkExceptionMacro(<< "Pixel spacing cannot be zero");
+        itkExceptionMacro("Pixel spacing cannot be zero");
       }
       else
       {

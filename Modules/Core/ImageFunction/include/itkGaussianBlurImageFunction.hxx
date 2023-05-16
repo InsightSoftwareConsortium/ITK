@@ -191,7 +191,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
     {
       if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
       {
-        itkExceptionMacro(<< "Pixel spacing cannot be zero");
+        itkExceptionMacro("Pixel spacing cannot be zero");
       }
       else
       {
@@ -375,7 +375,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
       {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
         {
-          itkExceptionMacro(<< "Pixel spacing cannot be zero");
+          itkExceptionMacro("Pixel spacing cannot be zero");
         }
         else
         {

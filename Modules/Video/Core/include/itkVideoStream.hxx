@@ -392,8 +392,8 @@ VideoStream<TFrameType>::Graft(const DataObject * data)
     const auto * videoData = dynamic_cast<const Self *>(data);
     if (!videoData)
     {
-      itkExceptionMacro(<< "itk::VideoStream::Graft() cannot cast " << typeid(data).name() << " to "
-                        << typeid(const Self *).name());
+      itkExceptionMacro("itk::VideoStream::Graft() cannot cast " << typeid(data).name() << " to "
+                                                                 << typeid(const Self *).name());
     }
 
     // Copy the meta data caches

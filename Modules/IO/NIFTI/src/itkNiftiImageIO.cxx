@@ -614,7 +614,7 @@ NiftiImageIO::Read(void * buffer)
   this->m_NiftiImage = nifti_image_read(this->GetFileName(), false);
   if (this->m_NiftiImage == nullptr)
   {
-    itkExceptionMacro(<< "nifti_image_read (just header) failed for file: " << this->GetFileName());
+    itkExceptionMacro("nifti_image_read (just header) failed for file: " << this->GetFileName());
   }
 
   //
@@ -633,7 +633,7 @@ NiftiImageIO::Read(void * buffer)
   {
     if (nifti_image_load(this->m_NiftiImage) == -1)
     {
-      itkExceptionMacro(<< "nifti_image_load failed for file: " << this->GetFileName());
+      itkExceptionMacro("nifti_image_load failed for file: " << this->GetFileName());
     }
     data = this->m_NiftiImage->data;
   }
@@ -642,7 +642,7 @@ NiftiImageIO::Read(void * buffer)
     // read in a subregion
     if (nifti_read_subregion_image(this->m_NiftiImage, _origin, _size, &data) == -1)
     {
-      itkExceptionMacro(<< "nifti_read_subregion_image failed for file: " << this->GetFileName());
+      itkExceptionMacro("nifti_read_subregion_image failed for file: " << this->GetFileName());
     }
   }
   unsigned int pixelSize = this->m_NiftiImage->nbyper;
@@ -692,13 +692,13 @@ NiftiImageIO::Read(void * buffer)
         CastCopy<unsigned long long>(_data, data, numElts);
         break;
       case IOComponentEnum::FLOAT:
-        itkExceptionMacro(<< "FLOAT pixels do not need Casting to float");
+        itkExceptionMacro("FLOAT pixels do not need Casting to float");
       case IOComponentEnum::DOUBLE:
-        itkExceptionMacro(<< "DOUBLE pixels do not need Casting to float");
+        itkExceptionMacro("DOUBLE pixels do not need Casting to float");
       case IOComponentEnum::LDOUBLE:
-        itkExceptionMacro(<< "LDOUBLE pixels do not need Casting to float");
+        itkExceptionMacro("LDOUBLE pixels do not need Casting to float");
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-        itkExceptionMacro(<< "Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
+        itkExceptionMacro("Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
     }
     //
     // we're replacing the data pointer, so if it was allocated
@@ -833,8 +833,7 @@ NiftiImageIO::Read(void * buffer)
       default:
         if (this->GetPixelType() == IOPixelEnum::SCALAR)
         {
-          itkExceptionMacro(<< "Datatype: " << this->GetComponentTypeAsString(this->m_ComponentType)
-                            << " not supported");
+          itkExceptionMacro("Datatype: " << this->GetComponentTypeAsString(this->m_ComponentType) << " not supported");
         }
     }
   }
@@ -843,7 +842,7 @@ NiftiImageIO::Read(void * buffer)
   {
     if (this->GetPixelType() != IOPixelEnum::VECTOR && this->GetPixelType() != IOPixelEnum::POINT)
     {
-      itkExceptionMacro(<< "RAS conversion requires pixel to be 3-component vector or point. Current pixel type is "
+      itkExceptionMacro("RAS conversion requires pixel to be 3-component vector or point. Current pixel type is "
                         << numComponents << "-component " << this->GetPixelType() << '.');
     }
     switch (this->m_ComponentType)
@@ -855,8 +854,8 @@ NiftiImageIO::Read(void * buffer)
         ConvertRASToFromLPS_CXYZT(static_cast<double *>(buffer), numElts * numComponents);
         break;
       default:
-        itkExceptionMacro(<< "RAS conversion of datatype " << this->GetComponentTypeAsString(this->m_ComponentType)
-                          << " is not supported");
+        itkExceptionMacro("RAS conversion of datatype " << this->GetComponentTypeAsString(this->m_ComponentType)
+                                                        << " is not supported");
     }
   }
 }
@@ -1478,8 +1477,8 @@ NiftiImageIO::WriteImageInformation()
     const unsigned int curdim(this->GetDimensions(i));
     if (curdim > static_cast<unsigned int>(NumericTraits<short>::max()))
     {
-      itkExceptionMacro(<< "Dimension(" << i << ") = " << curdim << " is greater than maximum possible dimension "
-                        << NumericTraits<short>::max());
+      itkExceptionMacro("Dimension(" << i << ") = " << curdim << " is greater than maximum possible dimension "
+                                     << NumericTraits<short>::max());
     }
   }
 
@@ -1496,7 +1495,7 @@ NiftiImageIO::WriteImageInformation()
   const char * tempextension = nifti_find_file_extension(FName.c_str());
   if (tempextension == nullptr)
   {
-    itkExceptionMacro(<< "Bad Nifti file name. No extension found for file: " << FName);
+    itkExceptionMacro("Bad Nifti file name. No extension found for file: " << FName);
   }
   const std::string ExtensionName(tempextension);
   char *            tempbasename = nifti_makebasename(FName.c_str());
@@ -1532,7 +1531,7 @@ NiftiImageIO::WriteImageInformation()
   }
   else
   {
-    itkExceptionMacro(<< "Bad Nifti file name: " << FName);
+    itkExceptionMacro("Bad Nifti file name: " << FName);
   }
   this->m_NiftiImage->fname = nifti_makehdrname(BaseName.c_str(), this->m_NiftiImage->nifti_type, false, IsCompressed);
   this->m_NiftiImage->iname = nifti_makeimgname(BaseName.c_str(), this->m_NiftiImage->nifti_type, false, IsCompressed);
@@ -1610,7 +1609,7 @@ NiftiImageIO::WriteImageInformation()
                                     // images.
     if (this->GetNumberOfDimensions() > 4)
     {
-      itkExceptionMacro(<< "Can not store a vector image of more than 4 dimensions in a Nifti file. Dimension="
+      itkExceptionMacro("Can not store a vector image of more than 4 dimensions in a Nifti file. Dimension="
                         << this->GetNumberOfDimensions());
     }
     //
@@ -1708,7 +1707,7 @@ NiftiImageIO::WriteImageInformation()
           this->m_NiftiImage->nbyper = 8;
           break;
         default:
-          itkExceptionMacro(<< "'unsigned long' type is neither 32 or 64 bits.");
+          itkExceptionMacro("'unsigned long' type is neither 32 or 64 bits.");
       }
       break;
     case IOComponentEnum::LONG:
@@ -1723,7 +1722,7 @@ NiftiImageIO::WriteImageInformation()
           this->m_NiftiImage->nbyper = 8;
           break;
         default:
-          itkExceptionMacro(<< "'long' type is neither 32 or 64 bits.");
+          itkExceptionMacro("'long' type is neither 32 or 64 bits.");
       }
       break;
     case IOComponentEnum::ULONGLONG:
@@ -1745,7 +1744,7 @@ NiftiImageIO::WriteImageInformation()
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     default:
     {
-      itkExceptionMacro(<< "More than one component per pixel not supported");
+      itkExceptionMacro("More than one component per pixel not supported");
     }
   }
   switch (this->GetPixelType())
@@ -1775,7 +1774,7 @@ NiftiImageIO::WriteImageInformation()
           break;
         default:
         {
-          itkExceptionMacro(<< "Only float or double precision complex type supported");
+          itkExceptionMacro("Only float or double precision complex type supported");
         }
       }
       break;
@@ -1789,7 +1788,7 @@ NiftiImageIO::WriteImageInformation()
     case IOPixelEnum::MATRIX:
     case IOPixelEnum::UNKNOWNPIXELTYPE:
     default:
-      itkExceptionMacro(<< "Can not process this pixel type for writing into nifti");
+      itkExceptionMacro("Can not process this pixel type for writing into nifti");
   }
   //     -----------------------------------------------------
   //     vox_offset    required for an "n+1" header
@@ -1806,7 +1805,7 @@ NiftiImageIO::WriteImageInformation()
   {
     if (temp.length() > 23)
     {
-      itkExceptionMacro(<< "aux_file too long, Nifti limit is 23 characters");
+      itkExceptionMacro("aux_file too long, Nifti limit is 23 characters");
     }
     else
     {
@@ -2405,7 +2404,7 @@ NiftiImageIO::Write(const void * buffer)
                                         // so will destructor of the image that really owns it.
     if (nifti_write_status)
     {
-      itkExceptionMacro(<< "ERROR: nifti library failed to write image" << this->GetFileName());
+      itkExceptionMacro("ERROR: nifti library failed to write image" << this->GetFileName());
     }
   }
   else /// Image intent is vector image
@@ -2484,7 +2483,7 @@ NiftiImageIO::Write(const void * buffer)
     {
       if (this->GetPixelType() != IOPixelEnum::VECTOR && this->GetPixelType() != IOPixelEnum::POINT)
       {
-        itkExceptionMacro(<< "RAS conversion requires pixel to be 3-component vector or point. Current pixel type is "
+        itkExceptionMacro("RAS conversion requires pixel to be 3-component vector or point. Current pixel type is "
                           << numComponents << "-component " << this->GetPixelType() << '.');
       }
       switch (this->m_ComponentType)
@@ -2496,8 +2495,8 @@ NiftiImageIO::Write(const void * buffer)
           ConvertRASToFromLPS_XYZTC(reinterpret_cast<double *>(nifti_buf.get()), numComponents * seriesdist);
           break;
         default:
-          itkExceptionMacro(<< "RAS conversion of datatype " << this->GetComponentTypeAsString(this->m_ComponentType)
-                            << " is not supported");
+          itkExceptionMacro("RAS conversion of datatype " << this->GetComponentTypeAsString(this->m_ComponentType)
+                                                          << " is not supported");
       }
     }
 
@@ -2510,7 +2509,7 @@ NiftiImageIO::Write(const void * buffer)
     this->m_NiftiImage->data = nullptr; // if left pointing to data buffer
     if (nifti_write_status)
     {
-      itkExceptionMacro(<< "ERROR: nifti library failed to write image" << this->GetFileName());
+      itkExceptionMacro("ERROR: nifti library failed to write image" << this->GetFileName());
     }
   }
 }

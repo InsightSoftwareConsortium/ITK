@@ -653,8 +653,8 @@ CompositeTransform<TParametersValueType, VDimension>::SetParameters(const Parame
   /* Verify proper input size. */
   if (inputParameters.Size() != this->GetNumberOfParameters())
   {
-    itkExceptionMacro(<< "Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
-                      << this->GetNumberOfParameters() << '.');
+    itkExceptionMacro("Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
+                                                                         << this->GetNumberOfParameters() << '.');
   }
 
   if (transforms.size() == 1)
@@ -736,8 +736,8 @@ CompositeTransform<TParametersValueType, VDimension>::SetFixedParameters(const F
   /* Verify proper input size. */
   if (inputParameters.Size() != this->GetNumberOfFixedParameters())
   {
-    itkExceptionMacro(<< "Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
-                      << this->GetNumberOfFixedParameters() << '.');
+    itkExceptionMacro("Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
+                                                                         << this->GetNumberOfFixedParameters() << '.');
   }
   this->m_FixedParameters = inputParameters;
 
@@ -993,7 +993,7 @@ CompositeTransform<TParametersValueType, VDimension>::InternalClone() const
   typename Self::Pointer clone = dynamic_cast<Self *>(loPtr.GetPointer());
   if (clone.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
   auto tqIt = this->m_TransformQueue.begin();

@@ -105,7 +105,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateData()
 {
   if (!m_InputLevelSet)
   {
-    itkExceptionMacro(<< "Input level set is nullptr");
+    itkExceptionMacro("Input level set is nullptr");
   }
 
   this->Initialize();
@@ -166,7 +166,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataNarrowBand()
 {
   if (!m_InputNarrowBand)
   {
-    itkExceptionMacro(<< "InputNarrowBand has not been set");
+    itkExceptionMacro("InputNarrowBand has not been set");
   }
 
   typename NodeContainer::ConstIterator pointsIter;

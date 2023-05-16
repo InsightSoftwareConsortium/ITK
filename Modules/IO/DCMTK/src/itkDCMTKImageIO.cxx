@@ -91,7 +91,7 @@ DCMTKImageIO::SetLogLevel(LogLevelEnum level)
       OFLog::configure(OFLogger::OFF_LOG_LEVEL);
       break;
     default:
-      itkExceptionMacro(<< "Unknown DCMTK Logging constant " << static_cast<int>(level));
+      itkExceptionMacro("Unknown DCMTK Logging constant " << static_cast<int>(level));
   }
 }
 
@@ -264,7 +264,7 @@ DCMTKImageIO::OpenDicomImage()
   }
   if (this->m_DImage == nullptr)
   {
-    itkExceptionMacro(<< "Can't create DicomImage for " << this->m_FileName);
+    itkExceptionMacro("Can't create DicomImage for " << this->m_FileName);
   }
 }
 
@@ -276,7 +276,7 @@ DCMTKImageIO::Read(void * buffer)
   this->OpenDicomImage();
   if (m_DImage->getStatus() != EIS_Normal)
   {
-    itkExceptionMacro(<< "Error: cannot load DICOM image (" << DicomImage::getString(m_DImage->getStatus()) << ')');
+    itkExceptionMacro("Error: cannot load DICOM image (" << DicomImage::getString(m_DImage->getStatus()) << ')');
   }
 
   m_Dimensions[0] = static_cast<unsigned int>(m_DImage->getWidth());
@@ -287,7 +287,7 @@ DCMTKImageIO::Read(void * buffer)
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     case IOComponentEnum::FLOAT:
     case IOComponentEnum::DOUBLE:
-      itkExceptionMacro(<< "Bad component type" << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
+      itkExceptionMacro("Bad component type" << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
     default: // scalarSize already set
       break;
@@ -328,7 +328,7 @@ DCMTKImageIO::ReorderRGBValues(void * buffer, const void * data, size_t count, u
       ReorderRGBValues<unsigned long>(buffer, data, count, voxel_size);
       break;
     default:
-      itkExceptionMacro(<< "Only unsigned integer pixel types are supported. Bad component type for color image"
+      itkExceptionMacro("Only unsigned integer pixel types are supported. Bad component type for color image"
                         << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
   }
@@ -459,7 +459,7 @@ DCMTKImageIO::ReadImageInformation()
 
   if (interData == nullptr)
   {
-    itkExceptionMacro(<< "Missing Image Data in " << this->m_FileName);
+    itkExceptionMacro("Missing Image Data in " << this->m_FileName);
   }
 
   EP_Representation pixelRep = this->m_DImage->getInterData()->getRepresentation();

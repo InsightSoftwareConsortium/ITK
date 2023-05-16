@@ -225,7 +225,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   // This filter can only operate on data types that are signed.
    if ( !NumericTraits< typename NumericTraits< OutputPixelType  >::ValueType >::is_signed )
     {
-    itkExceptionMacro(<< "This filter can only create images of signed data type.");
+    itkExceptionMacro("This filter can only create images of signed data type.");
     }
 
   // Allocate output

@@ -41,7 +41,7 @@ CovarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType
 
   if (!this->GetInputImage())
   {
-    itkExceptionMacro(<< "No image connected to CovarianceImageFunction");
+    itkExceptionMacro("No image connected to CovarianceImageFunction");
   }
 
   const unsigned int VectorDimension = this->GetInputImage()->GetNumberOfComponentsPerPixel();

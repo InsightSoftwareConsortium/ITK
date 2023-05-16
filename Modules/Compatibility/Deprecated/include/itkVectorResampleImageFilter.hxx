@@ -72,7 +72,7 @@ VectorResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType>
 {
   if (!m_Interpolator)
   {
-    itkExceptionMacro(<< "Interpolator not set");
+    itkExceptionMacro("Interpolator not set");
   }
 
   // Connect input image to interpolator

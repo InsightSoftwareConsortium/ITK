@@ -114,7 +114,7 @@ public:
   void
   GetDerivative(const ParametersType &, DerivativeType &) const override
   {
-    itkExceptionMacro(<< "This function is currently not supported.");
+    itkExceptionMacro("This function is currently not supported.");
   }
 
   /** Return the number of parameters. */

@@ -153,13 +153,13 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::Initialize()
   // check if the mean and variances array are of the right size
   if (m_ShapeParameterMeans.Size() < this->m_ShapeFunction->GetNumberOfShapeParameters())
   {
-    itkExceptionMacro(<< "ShapeParameterMeans does not have at least "
+    itkExceptionMacro("ShapeParameterMeans does not have at least "
                       << this->m_ShapeFunction->GetNumberOfShapeParameters() << " number of elements.");
   }
 
   if (m_ShapeParameterStandardDeviations.Size() < this->m_ShapeFunction->GetNumberOfShapeParameters())
   {
-    itkExceptionMacro(<< "ShapeParameterStandardDeviations does not have at least "
+    itkExceptionMacro("ShapeParameterStandardDeviations does not have at least "
                       << this->m_ShapeFunction->GetNumberOfShapeParameters() << " number of elements.");
   }
 }

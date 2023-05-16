@@ -98,7 +98,7 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
     const auto tmpIndex = outputImagePtr->TransformPhysicalPointToIndex(tmpVertex);
     if (!outputImagePtr->GetBufferedRegion().IsInside(tmpIndex))
     {
-      itkExceptionMacro(<< "Polyline vertex is out of bounds (Vertex,Index): " << tmpVertex << ", " << tmpIndex);
+      itkExceptionMacro("Polyline vertex is out of bounds (Vertex,Index): " << tmpVertex << ", " << tmpIndex);
     }
     ++piter;
   }

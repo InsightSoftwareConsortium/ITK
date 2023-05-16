@@ -77,7 +77,7 @@ MeshFileWriter<TInputMesh>::Write()
   // Make sure input is available
   if (input == nullptr)
   {
-    itkExceptionMacro(<< "No input to writer!");
+    itkExceptionMacro("No input to writer!");
   }
 
   // Make sure that we can write the file given the name
@@ -385,7 +385,7 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
         data[index++] = static_cast<Output>(CellGeometryEnum::QUADRATIC_TRIANGLE_CELL);
         break;
       default:
-        itkExceptionMacro(<< "Unknown mesh cell");
+        itkExceptionMacro("Unknown mesh cell");
     }
 
     // The second element is number of points for each cell

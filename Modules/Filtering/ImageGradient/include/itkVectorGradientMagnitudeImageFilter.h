@@ -438,8 +438,8 @@ protected:
     }
     else
     {
-      itkExceptionMacro(<< "Undefined condition. Cubic root solver returned " << numberOfDistinctRoots
-                        << " distinct roots.");
+      itkExceptionMacro("Undefined condition. Cubic root solver returned " << numberOfDistinctRoots
+                                                                           << " distinct roots.");
     }
 
     return ans;

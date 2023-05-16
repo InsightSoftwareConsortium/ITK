@@ -206,7 +206,7 @@ OpenCVVideoIO::ReadImageInformation()
     std::string filename = this->GetFileName();
     if (!this->CanReadFile(filename.c_str()))
     {
-      itkExceptionMacro(<< "Cannot read file: " << filename);
+      itkExceptionMacro("Cannot read file: " << filename);
     }
 
     // Open the video file
@@ -229,7 +229,7 @@ OpenCVVideoIO::ReadImageInformation()
 
       if (this->m_IFrameInterval == 0)
       {
-        itkExceptionMacro(<< " I-Frame spacing for this video is zero! Please check input data.");
+        itkExceptionMacro(" I-Frame spacing for this video is zero! Please check input data.");
       }
 
       this->m_LastIFrame = (OpenCVVideoIO::FrameOffsetType)(static_cast<float>(this->m_FrameTotal) /
@@ -256,7 +256,7 @@ OpenCVVideoIO::ReadImageInformation()
     // Make sure it opened right
     if (!localCapture)
     {
-      itkExceptionMacro(<< "Cannot read from camera " << this->m_CameraIndex);
+      itkExceptionMacro("Cannot read from camera " << this->m_CameraIndex);
     }
 
     // Query the frame
@@ -266,7 +266,7 @@ OpenCVVideoIO::ReadImageInformation()
     if (!tempImage)
     {
       cvReleaseCapture(&localCapture);
-      itkExceptionMacro(<< "Empty image got from camera " << this->m_CameraIndex);
+      itkExceptionMacro("Empty image got from camera " << this->m_CameraIndex);
     }
 
     // Set the frame total to 1
@@ -276,7 +276,7 @@ OpenCVVideoIO::ReadImageInformation()
   // Should never get here
   else
   {
-    itkExceptionMacro(<< "Invalid Read Type... How did we get here?");
+    itkExceptionMacro("Invalid Read Type... How did we get here?");
   }
 
   // Populate member variables
@@ -317,7 +317,7 @@ OpenCVVideoIO::Read(void * buffer)
   // Make sure we've already called ReadImageInformation (dimensions are non-zero)
   if (this->m_Dimensions[0] == 0 || this->m_Dimensions[1] == 0)
   {
-    itkExceptionMacro(<< "Cannot read frame with zero dimension. May need to call ReadImageInformation");
+    itkExceptionMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
   }
 
   // If video is not already open, open it and keep it open
@@ -335,7 +335,7 @@ OpenCVVideoIO::Read(void * buffer)
   IplImage * tempIm = cvQueryFrame(this->m_Capture);
   if (tempIm == nullptr)
   {
-    itkExceptionMacro(<< "Error reading frame " << this->m_CurrentFrame << ". May be out of bounds");
+    itkExceptionMacro("Error reading frame " << this->m_CurrentFrame << ". May be out of bounds");
   }
 
   // Convert to RGB rather than BGR

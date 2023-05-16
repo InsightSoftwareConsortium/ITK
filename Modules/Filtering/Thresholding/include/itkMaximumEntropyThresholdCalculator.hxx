@@ -33,7 +33,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   if (histogram->GetTotalFrequency() == 0)
   {
-    itkExceptionMacro(<< "Histogram is empty");
+    itkExceptionMacro("Histogram is empty");
   }
   ProgressReporter progress(this, 0, histogram->GetSize(0));
   if (histogram->GetSize(0) == 1)

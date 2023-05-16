@@ -392,7 +392,7 @@ BMPImageIO::ReadImageInformation()
     // error checking
     if ((infoSize != 40) && (infoSize != 12))
     {
-      itkExceptionMacro(<< "Unknown file type! " << m_FileName.c_str() << " is not a Windows BMP file!");
+      itkExceptionMacro("Unknown file type! " << m_FileName.c_str() << " is not a Windows BMP file!");
     }
 
     // there are two different types of BMP files
@@ -424,7 +424,7 @@ BMPImageIO::ReadImageInformation()
     // error checking
     if ((infoSize != 40) && (infoSize != 12))
     {
-      itkExceptionMacro(<< "Unknown file type! " << m_FileName.c_str() << " is not a Windows BMP file!");
+      itkExceptionMacro("Unknown file type! " << m_FileName.c_str() << " is not a Windows BMP file!");
     }
 
     // there are two different types of BMP files
@@ -649,7 +649,7 @@ BMPImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       break;
     }
     default:
-      itkExceptionMacro(<< "Pixel Type Unknown");
+      itkExceptionMacro("Pixel Type Unknown");
   }
 }
 
@@ -703,16 +703,16 @@ BMPImageIO::Write(const void * buffer)
 
   if (nDims != 2)
   {
-    itkExceptionMacro(<< "BMPImageIO cannot write images with a dimension != 2");
+    itkExceptionMacro("BMPImageIO cannot write images with a dimension != 2");
   }
 
   if (this->GetComponentType() != IOComponentEnum::UCHAR)
   {
-    itkExceptionMacro(<< "BMPImageIO supports unsigned char only");
+    itkExceptionMacro("BMPImageIO supports unsigned char only");
   }
   if ((this->m_NumberOfComponents != 1) && (this->m_NumberOfComponents != 3) && (this->m_NumberOfComponents != 4))
   {
-    itkExceptionMacro(<< "BMPImageIO supports 1,3 or 4 components only");
+    itkExceptionMacro("BMPImageIO supports 1,3 or 4 components only");
   }
 
   this->OpenFileForWriting(m_Ofstream, m_FileName);
@@ -819,7 +819,7 @@ BMPImageIO::Write(const void * buffer)
       numberOfBitsPerPixel = 8;
       break;
     default:
-      itkExceptionMacro(<< "Number of components not supported.");
+      itkExceptionMacro("Number of components not supported.");
   }
   this->Write16BitsInteger(numberOfBitsPerPixel);
 

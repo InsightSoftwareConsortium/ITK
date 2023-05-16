@@ -73,7 +73,7 @@ MahalanobisDistanceMetric<TVector>::SetCovariance(const CovarianceMatrixType & c
   {
     if (cov.rows() != this->GetMeasurementVectorSize() || cov.cols() != this->GetMeasurementVectorSize())
     {
-      itkExceptionMacro(<< "Size of the covariance matrix must be same as the length of"
+      itkExceptionMacro("Size of the covariance matrix must be same as the length of"
                         << " the measurement vector.");
     }
   }
@@ -90,7 +90,7 @@ MahalanobisDistanceMetric<TVector>::SetInverseCovariance(const CovarianceMatrixT
   {
     if (invcov.rows() != this->GetMeasurementVectorSize() || invcov.cols() != this->GetMeasurementVectorSize())
     {
-      itkExceptionMacro(<< "Size of the covariance matrix xcmust be same as the length of"
+      itkExceptionMacro("Size of the covariance matrix xcmust be same as the length of"
                         << " each measurement vector.");
     }
   }
@@ -173,7 +173,7 @@ MahalanobisDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, c
   if (NumericTraits<MeasurementVectorType>::GetLength(x1) != this->GetMeasurementVectorSize() ||
       NumericTraits<MeasurementVectorType>::GetLength(x2) != this->GetMeasurementVectorSize())
   {
-    itkExceptionMacro(<< "Size of the measurement vectors is not the same as the length of"
+    itkExceptionMacro("Size of the measurement vectors is not the same as the length of"
                       << " the measurement vector set in the distance metric.");
   }
 

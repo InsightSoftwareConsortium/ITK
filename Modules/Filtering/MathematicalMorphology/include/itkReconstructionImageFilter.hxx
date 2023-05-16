@@ -86,7 +86,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
   // mask and marker must have the same size
   if (this->GetMarkerImage()->GetRequestedRegion().GetSize() != this->GetMaskImage()->GetRequestedRegion().GetSize())
   {
-    itkExceptionMacro(<< "Marker and mask must have the same size.");
+    itkExceptionMacro("Marker and mask must have the same size.");
   }
 
   // create padded versions of the marker image and the mask image
@@ -190,11 +190,11 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     {
       if (compare(0, 1))
       {
-        itkExceptionMacro(<< "Marker pixels must be <= mask pixels.");
+        itkExceptionMacro("Marker pixels must be <= mask pixels.");
       }
       else
       {
-        itkExceptionMacro(<< "Marker pixels must be >= mask pixels.");
+        itkExceptionMacro("Marker pixels must be >= mask pixels.");
       }
     }
 

@@ -265,7 +265,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::InternalClone() const
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
   // set the fixed/moving parameters.
@@ -306,7 +306,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::InternalClone() const
     dynamic_cast<VelocityFieldInterpolatorType *>(this->m_VelocityFieldInterpolator->CreateAnother().GetPointer());
   if (newInterp.IsNull())
   {
-    itkExceptionMacro(<< "dynamic_cast failed.");
+    itkExceptionMacro("dynamic_cast failed.");
   }
 
   // interpolator needs to know about the velocity field

@@ -58,7 +58,7 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
 {
   if (m_OutputMinimum > m_OutputMaximum)
   {
-    itkExceptionMacro(<< "Minimum output value cannot be greater than Maximum output value.");
+    itkExceptionMacro("Minimum output value cannot be greater than Maximum output value.");
   }
 
   const TInputImage * inputImage = this->GetInput();

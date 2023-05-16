@@ -71,7 +71,7 @@ BYUMeshIO::ReadMeshInformation()
 
   if (!inputFile.is_open())
   {
-    itkExceptionMacro(<< "Unable to open input file " << this->m_FileName);
+    itkExceptionMacro("Unable to open input file " << this->m_FileName);
   }
 
   // Read the ASCII file information
@@ -189,7 +189,7 @@ BYUMeshIO::ReadPoints(void * buffer)
 
   if (!inputFile.is_open())
   {
-    itkExceptionMacro(<< "Unable to open input file " << this->m_FileName);
+    itkExceptionMacro("Unable to open input file " << this->m_FileName);
   }
 
   // Set the position to points start
@@ -225,7 +225,7 @@ BYUMeshIO::ReadCells(void * buffer)
 
   if (!inputFile.is_open())
   {
-    itkExceptionMacro(<< "Unable to open input file " << this->m_FileName);
+    itkExceptionMacro("Unable to open input file " << this->m_FileName);
   }
 
   // Set the position to current position
@@ -406,7 +406,7 @@ BYUMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point pixel component type" << std::endl);
     }
   }
 
@@ -502,7 +502,7 @@ BYUMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown cell pixel component type" << std::endl);
+      itkExceptionMacro("Unknown cell pixel component type" << std::endl);
     }
   }
 

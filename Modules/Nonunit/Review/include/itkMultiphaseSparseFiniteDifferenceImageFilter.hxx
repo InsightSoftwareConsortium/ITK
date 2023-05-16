@@ -1072,8 +1072,8 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     // Throw an exception if we don't have enough layers.
     if (sparsePtr->m_Layers.size() < 3)
     {
-      itkExceptionMacro(<< "Not enough layers have been allocated for the"
-                           "sparse field.  Requires at least one layer.");
+      itkExceptionMacro("Not enough layers have been allocated for the"
+                        "sparse field.  Requires at least one layer.");
     }
   }
 
@@ -1362,7 +1362,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
     if (!input || !output)
     {
-      itkExceptionMacro(<< "Either input and/or output is nullptr.");
+      itkExceptionMacro("Either input and/or output is nullptr.");
     }
 
     ImageRegionIterator<OutputImageType> outIt(output, region);

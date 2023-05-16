@@ -42,7 +42,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::InternalClone() const
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
   rval->m_NumberOfResultsRequested = this->m_NumberOfResultsRequested;
@@ -58,11 +58,11 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
 {
   if (!this->m_RadiusInitialized)
   {
-    itkExceptionMacro(<< "Radius not set.");
+    itkExceptionMacro("Radius not set.");
   }
   if (!this->m_SampleRegionInitialized)
   {
-    itkExceptionMacro(<< "Sample region not set.");
+    itkExceptionMacro("Sample region not set.");
   }
   if (!this->GetRegionConstraintInitialized())
   {

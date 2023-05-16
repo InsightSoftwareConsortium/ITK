@@ -110,7 +110,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorit
     }
     else
     {
-      itkExceptionMacro(<< "Invalid algorithm");
+      itkExceptionMacro("Invalid algorithm");
     }
 
     m_Algorithm = algo;

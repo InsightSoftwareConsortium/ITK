@@ -128,7 +128,7 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorithm(Algo
     }
     else
     {
-      itkExceptionMacro(<< "Invalid algorithm");
+      itkExceptionMacro("Invalid algorithm");
     }
 
     m_Algorithm = algo;

@@ -139,8 +139,8 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   if (m_AccumulateDimension >= TInputImage::ImageDimension)
   {
-    itkExceptionMacro(<< "AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = "
-                      << m_AccumulateDimension);
+    itkExceptionMacro(
+      "AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = " << m_AccumulateDimension);
   }
 
   using OutputPixelType = typename TOutputImage::PixelType;

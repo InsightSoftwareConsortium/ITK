@@ -101,8 +101,8 @@ ImageAdaptor<TImage, TAccessor>::Graft(const DataObject * data)
     else
     {
       // pointer could not be cast back down
-      itkExceptionMacro(<< "itk::ImageAdaptor::Graft() cannot cast " << typeid(data).name() << " to "
-                        << typeid(const Self *).name());
+      itkExceptionMacro("itk::ImageAdaptor::Graft() cannot cast " << typeid(data).name() << " to "
+                                                                  << typeid(const Self *).name());
     }
   }
 }

@@ -53,7 +53,7 @@ PlatformMultiThreader::MultipleMethodExecute()
   {
     if (m_MultipleMethod[threadCount] == nullptr)
     {
-      itkExceptionMacro(<< "No multiple method set for: " << threadCount);
+      itkExceptionMacro("No multiple method set for: " << threadCount);
     }
   }
   // Using _beginthreadex on a PC
@@ -126,7 +126,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 
   if (id >= ITK_MAX_THREADS)
   {
-    itkExceptionMacro(<< "You have too many active threads!");
+    itkExceptionMacro("You have too many active threads!");
   }
 
   m_SpawnedThreadInfoArray[id].UserData = UserData;

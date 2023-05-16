@@ -186,7 +186,7 @@ TIFFImageIO::Read(void * buffer)
   {
     if (!this->CanReadFile(m_FileName.c_str()))
     {
-      itkExceptionMacro(<< "Cannot open file " << this->m_FileName << '!');
+      itkExceptionMacro("Cannot open file " << this->m_FileName << '!');
     }
   }
 
@@ -319,7 +319,7 @@ TIFFImageIO::InitializeColors()
     case 16:
       break;
     default:
-      itkExceptionMacro(<< "Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample << "-bit samples");
+      itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample << "-bit samples");
   }
 
   m_TotalColors = uint64_t{ 1 } << m_InternalImage->m_BitsPerSample;
@@ -339,7 +339,7 @@ TIFFImageIO::ReadImageInformation()
   {
     if (!this->CanReadFile(m_FileName.c_str()))
     {
-      itkExceptionMacro(<< "Cannot open file " << this->m_FileName << '!');
+      itkExceptionMacro("Cannot open file " << this->m_FileName << '!');
     }
   }
 
@@ -560,7 +560,7 @@ TIFFImageIO::Write(const void * buffer)
   }
   else
   {
-    itkExceptionMacro(<< "TIFF Writer can only write 2-d or 3-d images");
+    itkExceptionMacro("TIFF Writer can only write 2-d or 3-d images");
   }
 }
 
@@ -604,7 +604,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       bps = 32;
       break;
     default:
-      itkExceptionMacro(<< "TIFF supports unsigned/signed char, unsigned/signed short, and float");
+      itkExceptionMacro("TIFF supports unsigned/signed char, unsigned/signed short, and float");
   }
 
   uint16_t predictor;
@@ -623,7 +623,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     // Adding the "8" option enables the use of big tiff
     mode = "w8";
 #else
-    itkExceptionMacro(<< "Size of image exceeds the limit of libtiff.");
+    itkExceptionMacro("Size of image exceeds the limit of libtiff.");
 #endif
   }
 
@@ -815,7 +815,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
         rowLength = sizeof(float);
         break;
       default:
-        itkExceptionMacro(<< "TIFF supports unsigned/signed char, unsigned/signed short, and float");
+        itkExceptionMacro("TIFF supports unsigned/signed char, unsigned/signed short, and float");
     }
 
     rowLength *= this->GetNumberOfComponents();
@@ -826,7 +826,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     {
       if (TIFFWriteScanline(tif, const_cast<char *>(outPtr), row, 0) < 0)
       {
-        itkExceptionMacro(<< "TIFFImageIO: error out of disk space");
+        itkExceptionMacro("TIFFImageIO: error out of disk space");
       }
       outPtr += rowLength;
       ++row;
@@ -938,7 +938,7 @@ TIFFImageIO::CanFindTIFFTag(unsigned int t)
   // m_InternalImage needs to be valid
   if (!m_InternalImage)
   {
-    itkExceptionMacro(<< "Need to call CanReadFile before");
+    itkExceptionMacro("Need to call CanReadFile before");
   }
 
   ttag_t tag = t; // 32bits integer
@@ -958,7 +958,7 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
   // m_InternalImage needs to be valid
   if (!m_InternalImage)
   {
-    itkExceptionMacro(<< "Need to call CanReadFile before");
+    itkExceptionMacro("Need to call CanReadFile before");
   }
   ttag_t tag = t;
   void * raw_data = nullptr;
@@ -967,7 +967,7 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
 
   if (fld == nullptr)
   {
-    itkExceptionMacro(<< "fld is nullptr");
+    itkExceptionMacro("fld is nullptr");
   }
 
   if (!itkTIFFFieldPassCount(fld))
@@ -991,13 +991,13 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
 
   if (ret != 1)
   {
-    itkExceptionMacro(<< "Tag cannot be found");
+    itkExceptionMacro("Tag cannot be found");
   }
   else
   {
     if (itkTIFFFieldDataType(fld) != TIFF_BYTE)
     {
-      itkExceptionMacro(<< "Tag is not of type TIFF_BYTE");
+      itkExceptionMacro("Tag is not of type TIFF_BYTE");
     }
   }
 
@@ -1303,7 +1303,7 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
 
     if (!TIFFReadRGBAImageOriented(m_InternalImage->m_Image, width, height, tempImage, ORIENTATION_TOPLEFT, 1))
     {
-      itkExceptionMacro(<< "Cannot read TIFF image as a TIFF RGBA image");
+      itkExceptionMacro("Cannot read TIFF image as a TIFF RGBA image");
     }
 
     unsigned char * out = static_cast<unsigned char *>(buffer) + pixelOffset;
@@ -1369,12 +1369,12 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
 
   if (m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG && m_InternalImage->m_SamplesPerPixel != 1)
   {
-    itkExceptionMacro(<< "This reader can only do PLANARCONFIG_CONTIG or single-component PLANARCONFIG_SEPARATE");
+    itkExceptionMacro("This reader can only do PLANARCONFIG_CONTIG or single-component PLANARCONFIG_SEPARATE");
   }
 
   if (m_InternalImage->m_Orientation != ORIENTATION_TOPLEFT && m_InternalImage->m_Orientation != ORIENTATION_BOTLEFT)
   {
-    itkExceptionMacro(<< "This reader can only do ORIENTATION_TOPLEFT and  ORIENTATION_BOTLEFT.");
+    itkExceptionMacro("This reader can only do ORIENTATION_TOPLEFT and  ORIENTATION_BOTLEFT.");
   }
 
 
@@ -1408,7 +1408,7 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
   {
     if (TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0)
     {
-      itkExceptionMacro(<< "Problem reading the row: " << row);
+      itkExceptionMacro("Problem reading the row: " << row);
     }
 
     if (m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT)
@@ -1441,8 +1441,8 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
               image, static_cast<unsigned short *>(buf), width, 1, 0, 0);
             break;
           default:
-            itkExceptionMacro(<< "Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
-                              << "-bit samples with palette.");
+            itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
+                                                                  << "-bit samples with palette.");
         }
         break;
       case TIFFImageIO::PALETTE_RGB:
@@ -1457,8 +1457,8 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
               PutPaletteRGB<ComponentType, unsigned short>(image, static_cast<unsigned short *>(buf), width, 1, 0, 0);
               break;
             default:
-              itkExceptionMacro(<< "Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
-                                << "-bit samples with palette.");
+              itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
+                                                                    << "-bit samples with palette.");
           }
         }
         else
@@ -1473,8 +1473,8 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
                 image, static_cast<unsigned short *>(buf), width, 1, 0, 0);
               break;
             default:
-              itkExceptionMacro(<< "Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
-                                << "-bit samples with palette.");
+              itkExceptionMacro("Sorry, can not handle image with " << m_InternalImage->m_BitsPerSample
+                                                                    << "-bit samples with palette.");
           }
         }
         break;

@@ -211,7 +211,7 @@ public:
   {
     if (i != 0)
     {
-      itkExceptionMacro(<< "Filter has only one input.");
+      itkExceptionMacro("Filter has only one input.");
     }
     else
     {

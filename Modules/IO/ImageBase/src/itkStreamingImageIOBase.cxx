@@ -83,7 +83,7 @@ StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buff
 
     if (file.fail())
     {
-      itkExceptionMacro(<< "Fail reading");
+      itkExceptionMacro("Fail reading");
     }
 
     if (movingDirection == m_IORegion.GetImageDimension())
@@ -208,7 +208,7 @@ StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const void 
 
     if (file.fail())
     {
-      itkExceptionMacro(<< "Fail writing");
+      itkExceptionMacro("Fail writing");
     }
 
     if (movingDirection == m_IORegion.GetImageDimension())

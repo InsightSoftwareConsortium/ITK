@@ -73,7 +73,7 @@ DistanceToCentroidMembershipFunction<TVector>::InternalClone() const
   typename Self::Pointer membershipFunction = dynamic_cast<Self *>(loPtr.GetPointer());
   if (membershipFunction.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
   membershipFunction->SetMeasurementVectorSize(this->GetMeasurementVectorSize());

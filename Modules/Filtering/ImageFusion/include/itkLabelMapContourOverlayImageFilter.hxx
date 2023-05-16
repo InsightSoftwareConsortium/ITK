@@ -199,7 +199,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Befor
   }
   else
   {
-    itkExceptionMacro(<< "Unsupported Type: " << m_Type);
+    itkExceptionMacro("Unsupported Type: " << m_Type);
   }
 
   // choose which labels will be on top of the others

@@ -374,7 +374,7 @@ JPEGImageIO::ReadImageInformation()
                              cinfo.output_components) > 0xffffffff)
   {
     jpeg_destroy_decompress(&cinfo);
-    itkExceptionMacro(<< "JPEG image is too big " << this->GetFileName());
+    itkExceptionMacro("JPEG image is too big " << this->GetFileName());
   }
 
   // pull out the width/height
@@ -458,12 +458,12 @@ JPEGImageIO::Write(const void * buffer)
   // the IORegion is not required to be set so we must use GetNumberOfDimensions
   if (this->GetNumberOfDimensions() != 2)
   {
-    itkExceptionMacro(<< "JPEG Writer can only write 2-dimensional images");
+    itkExceptionMacro("JPEG Writer can only write 2-dimensional images");
   }
 
   if (this->GetComponentType() != IOComponentEnum::UCHAR)
   {
-    itkExceptionMacro(<< "JPEG supports unsigned char only");
+    itkExceptionMacro("JPEG supports unsigned char only");
   }
 
   this->WriteSlice(m_FileName, buffer);
@@ -486,12 +486,12 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
   const SizeValueType height = m_Dimensions[1];
   if (width > JPEG_MAX_DIMENSION || height > JPEG_MAX_DIMENSION)
   {
-    itkExceptionMacro(<< "JPEG: image is too large");
+    itkExceptionMacro("JPEG: image is too large");
   }
   const volatile int num_comp = this->GetNumberOfComponents();
   if (num_comp > MAX_COMPONENTS)
   {
-    itkExceptionMacro(<< "JPEG: too many components");
+    itkExceptionMacro("JPEG: too many components");
   }
 
   auto * volatile row_pointers = new JSAMPROW[height];
@@ -505,7 +505,7 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
   {
     jpeg_destroy_compress(&cinfo);
     delete[] row_pointers;
-    itkExceptionMacro(<< "JPEG error, failed to write " << fileName);
+    itkExceptionMacro("JPEG error, failed to write " << fileName);
   }
 
   jpeg_create_compress(&cinfo);

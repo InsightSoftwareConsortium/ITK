@@ -84,8 +84,8 @@ protected:
     // unit output size
     if (frameDuration != this->TemporalProcessObject::m_UnitOutputNumberOfFrames)
     {
-      itkExceptionMacro(<< "Trying to generate output of non-unit size. Got: " << frameDuration
-                        << " Expected: " << this->TemporalProcessObject::m_UnitOutputNumberOfFrames);
+      itkExceptionMacro("Trying to generate output of non-unit size. Got: "
+                        << frameDuration << " Expected: " << this->TemporalProcessObject::m_UnitOutputNumberOfFrames);
     }
 
     for (SizeValueType i = startFrame; i < startFrame + frameDuration; ++i)

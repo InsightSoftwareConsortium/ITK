@@ -129,8 +129,9 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
   // Make sure the scales have been set properly
   if (scales.size() != spaceDimension)
   {
-    itkExceptionMacro(<< "The size of Scales is " << scales.size()
-                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << '.');
+    itkExceptionMacro("The size of Scales is "
+                      << scales.size() << ", but the NumberOfParameters for the CostFunction is " << spaceDimension
+                      << '.');
   }
 
   A.set_identity();
@@ -156,7 +157,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
     {
       if (!m_RandomGenerator)
       {
-        itkExceptionMacro(<< "Random Generator is not set!");
+        itkExceptionMacro("Random Generator is not set!");
       }
       f_norm[i] = m_RandomGenerator->GetVariate();
     }

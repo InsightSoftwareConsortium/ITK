@@ -131,7 +131,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   if (phyData == nullptr)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::ExtractSliceImageFilter::GenerateOutputInformation "
+    itkExceptionMacro("itk::ExtractSliceImageFilter::GenerateOutputInformation "
                       << "cannot cast input to " << typeid(ImageBase<InputImageDimension> *).name());
   }
   // Copy what we can from the image from spacing and origin of the input
@@ -210,7 +210,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     {
       if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
       {
-        itkExceptionMacro(<< "Invalid submatrix extracted for collapsed direction.");
+        itkExceptionMacro("Invalid submatrix extracted for collapsed direction.");
       }
     }
     break;

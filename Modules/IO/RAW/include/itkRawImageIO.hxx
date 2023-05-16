@@ -83,7 +83,7 @@ RawImageIO<TPixel, VImageDimension>::GetHeaderSize()
 
   if (m_FileName.empty())
   {
-    itkExceptionMacro(<< "A FileName must be specified.");
+    itkExceptionMacro("A FileName must be specified.");
   }
 
   if (!m_ManualHeaderSize)
@@ -135,7 +135,7 @@ RawImageIO<TPixel, VImageDimension>::Read(void * buffer)
   file.seekg((OffsetValueType)streamStart, std::ios::beg);
   if (file.fail())
   {
-    itkExceptionMacro(<< "File seek failed");
+    itkExceptionMacro("File seek failed");
   }
 
   const auto numberOfBytesToBeRead = static_cast<SizeValueType>(this->GetImageSizeInBytes());
@@ -147,8 +147,8 @@ RawImageIO<TPixel, VImageDimension>::Read(void * buffer)
   {
     if (!this->ReadBufferAsBinary(file, buffer, numberOfBytesToBeRead))
     {
-      itkExceptionMacro(<< "Read failed: Wanted " << numberOfBytesToBeRead << " bytes, but read " << file.gcount()
-                        << " bytes.");
+      itkExceptionMacro("Read failed: Wanted " << numberOfBytesToBeRead << " bytes, but read " << file.gcount()
+                                               << " bytes.");
     }
   }
   else

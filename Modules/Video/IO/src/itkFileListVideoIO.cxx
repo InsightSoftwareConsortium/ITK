@@ -149,7 +149,7 @@ FileListVideoIO::ReadImageInformation()
     std::string filename = m_FileNames[0];
     if (!this->CanReadFile(filename.c_str()))
     {
-      itkExceptionMacro(<< "Cannot Read File: " << filename);
+      itkExceptionMacro("Cannot Read File: " << filename);
     }
 
     // Open the internal IO (don't use local so that spacing, origin, direction
@@ -205,7 +205,7 @@ FileListVideoIO::Read(void * buffer)
   // non-zero)
   if (m_Dimensions[0] == 0)
   {
-    itkExceptionMacro(<< "Cannot read frame with zero dimension. May need to call ReadImageInformation");
+    itkExceptionMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
   }
 
   // If video is not already open, open it and keep it open

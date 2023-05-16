@@ -79,8 +79,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::SetThreadData(int thr
   }
   else
   {
-    itkExceptionMacro(<< "Invalid thread id " << threadId << " or SetThreadData called before m_ThreadData (size="
-                      << m_ThreadData.size() << ") was initialized.");
+    itkExceptionMacro("Invalid thread id " << threadId << " or SetThreadData called before m_ThreadData (size="
+                                           << m_ThreadData.size() << ") was initialized.");
   }
 }
 
@@ -94,8 +94,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GetThreadData(int thr
   }
   else
   {
-    itkExceptionMacro(<< "Invalid thread id " << threadId << " or GetThreadData called before m_ThreadData (size="
-                      << m_ThreadData.size() << ") was initialized.");
+    itkExceptionMacro("Invalid thread id " << threadId << " or GetThreadData called before m_ThreadData (size="
+                                           << m_ThreadData.size() << ") was initialized.");
   }
 }
 
@@ -122,7 +122,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
 {
   if (!this->m_InputImage || !this->m_OutputImage)
   {
-    itkExceptionMacro(<< "Input or Output image is nullptr.");
+    itkExceptionMacro("Input or Output image is nullptr.");
   }
 
   InputImageRegionConstIteratorType inputIt(this->m_InputImage, this->m_InputImage->GetRequestedRegion());
@@ -228,7 +228,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
   {
     // The image needs to be at least as big as a single patch
     // throw an exception when this isn't the case
-    itkExceptionMacro(<< "Patch is larger than the entire image (in at least one dimension)."
+    itkExceptionMacro("Patch is larger than the entire image (in at least one dimension)."
                       << "\nImage region: " << largestRegion << "\nPatch length (2*radius + 1): "
                       << this->GetPatchDiameterInVoxels() << "\nUse a smaller patch for this image.\n");
   }
@@ -336,8 +336,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
       // Check that the set kernel sigma is valid
       if (m_KernelBandwidthSigma[ic] <= m_MinSigma)
       {
-        itkExceptionMacro(<< "Gaussian kernel sigma (" << m_KernelBandwidthSigma[ic] << ") must be larger than "
-                          << m_MinSigma);
+        itkExceptionMacro("Gaussian kernel sigma (" << m_KernelBandwidthSigma[ic] << ") must be larger than "
+                                                    << m_MinSigma);
       }
     }
   }
@@ -388,7 +388,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::EnforceConstraints()
   {
     if (m_ImageMax[ic] <= m_ImageMin[ic])
     {
-      itkExceptionMacro(<< "Each image component must be nonconstant.  "
+      itkExceptionMacro("Each image component must be nonconstant.  "
                         << "Component " << ic << " has the constant value " << m_ImageMax[ic] << ".\n");
     }
   }
@@ -401,7 +401,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::EnforceConstraints()
     {
       if (m_ImageMin[ic] < NumericTraits<PixelValueType>::ZeroValue())
       {
-        itkExceptionMacro(<< "When using POISSON or RICIAN noise models, "
+        itkExceptionMacro("When using POISSON or RICIAN noise models, "
                           << "all components of all pixels in the image must "
                           << "be >= 0.  The smallest value for component " << ic << " in the image is "
                           << m_ImageMin[ic] << ".\n");
@@ -569,8 +569,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
   {
     if (centerWeight <= 0.0)
     {
-      itkExceptionMacro(<< "Center pixel's weight (" << patchWeights[(this->GetPatchLengthInVoxels() - 1) / 2]
-                        << ") must be greater than 0.0 ");
+      itkExceptionMacro("Center pixel's weight (" << patchWeights[(this->GetPatchLengthInVoxels() - 1) / 2]
+                                                  << ") must be greater than 0.0 ");
     }
 
     // Normalize to the center weight to guarantee that the center weight == 1.0
@@ -2092,7 +2092,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
           }
           default:
           {
-            itkExceptionMacro(<< "Unexpected noise model " << this->GetNoiseModel() << " specified.");
+            itkExceptionMacro("Unexpected noise model " << this->GetNoiseModel() << " specified.");
             break;
           }
         }

@@ -76,7 +76,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::Write()
   // Make sure input is available
   if (inputImage == nullptr)
   {
-    itkExceptionMacro(<< "No input to writer!");
+    itkExceptionMacro("No input to writer!");
   }
 
   // Make sure the data is up-to-date.
@@ -120,7 +120,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::GenerateNumericFileNames()
 
   if (!inputImage)
   {
-    itkExceptionMacro(<< "Input image is nullptr");
+    itkExceptionMacro("Input image is nullptr");
   }
 
   m_FileNames.clear();
@@ -171,7 +171,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
 
   if (!inputImage)
   {
-    itkExceptionMacro(<< "Input image is nullptr");
+    itkExceptionMacro("Input image is nullptr");
   }
 
   // We need two regions. One for the input, one for the output.
@@ -241,8 +241,8 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
 
   if (m_FileNames.size() != expectedNumberOfFiles)
   {
-    itkExceptionMacro(<< "The number of filenames passed is " << m_FileNames.size() << " but " << expectedNumberOfFiles
-                      << " were expected ");
+    itkExceptionMacro("The number of filenames passed is " << m_FileNames.size() << " but " << expectedNumberOfFiles
+                                                           << " were expected ");
   }
 
   itkDebugMacro(<< "Number of files to write = " << m_FileNames.size());
@@ -288,7 +288,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
       }
       else
       {
-        itkExceptionMacro(<< "Attempted to use a MetaDataDictionaryArray without specifying an ImageIO!");
+        itkExceptionMacro("Attempted to use a MetaDataDictionaryArray without specifying an ImageIO!");
       }
     }
     else

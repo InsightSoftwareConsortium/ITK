@@ -43,7 +43,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   const auto * _mesh = dynamic_cast<const MeshMetaObjectType *>(mo);
   if (_mesh == nullptr)
   {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaMesh");
+    itkExceptionMacro("Can't convert MetaObject to MetaMesh");
   }
 
   auto meshSO = MeshSpatialObjectType::New();
@@ -210,7 +210,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::SpatialObjectToMetaObject
 
   if (meshSO.IsNull())
   {
-    itkExceptionMacro(<< "Can't downcast SpatialObject to MeshSpatialObject");
+    itkExceptionMacro("Can't downcast SpatialObject to MeshSpatialObject");
   }
   auto * metamesh = new MeshMetaObjectType(VDimension);
 

@@ -86,7 +86,7 @@ CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImag
 
   if (!drfp)
   {
-    itkExceptionMacro(<< "Could not cast difference function to CurvatureRegistrationFunction");
+    itkExceptionMacro("Could not cast difference function to CurvatureRegistrationFunction");
   }
 
   drfp->SetDisplacementField(this->GetDisplacementField());
@@ -190,7 +190,7 @@ CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImag
 
   if (!drfp)
   {
-    itkExceptionMacro(<< "Could not cast difference function to CurvatureRegistrationFunction");
+    itkExceptionMacro("Could not cast difference function to CurvatureRegistrationFunction");
   }
 
   return drfp->GetMetric();

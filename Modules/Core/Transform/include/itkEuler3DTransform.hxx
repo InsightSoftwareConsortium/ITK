@@ -131,8 +131,9 @@ Euler3DTransform<TParametersValueType>::SetFixedParameters(const FixedParameters
 {
   if (parameters.size() < InputSpaceDimension)
   {
-    itkExceptionMacro(<< "Error setting fixed parameters: parameters array size (" << parameters.size()
-                      << ") is less than expected  (InputSpaceDimension = " << InputSpaceDimension << ')');
+    itkExceptionMacro("Error setting fixed parameters: parameters array size ("
+                      << parameters.size() << ") is less than expected  (InputSpaceDimension = " << InputSpaceDimension
+                      << ')');
   }
 
   InputPointType c;

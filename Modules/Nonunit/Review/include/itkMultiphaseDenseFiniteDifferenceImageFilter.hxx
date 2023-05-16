@@ -57,7 +57,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
 
     if (!input || !output)
     {
-      itkExceptionMacro(<< "Either input and/or output is nullptr.");
+      itkExceptionMacro("Either input and/or output is nullptr.");
     }
 
     ImageRegionConstIterator<InputImageType> in(input, input->GetBufferedRegion());

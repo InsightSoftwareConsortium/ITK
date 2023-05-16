@@ -215,7 +215,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         {
           if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
           {
-            itkExceptionMacro(<< "Invalid submatrix extracted for collapsed direction.");
+            itkExceptionMacro("Invalid submatrix extracted for collapsed direction.");
           }
         }
         break;
@@ -247,7 +247,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   else
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::ExtractImageFilter::GenerateOutputInformation "
+    itkExceptionMacro("itk::ExtractImageFilter::GenerateOutputInformation "
                       << "cannot cast input to " << typeid(ImageBase<InputImageDimension> *).name());
   }
 }
