@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Documentation: https://msdn.microsoft.com/en-us/library/jj620914.aspx?f=255&MSPPError=-2147217396 -->
-<!-- e.g. copy into C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Packages\Debugger\Visualizers\ITK.natvis -->
+<!-- Documentation: https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2015/debugger/create-custom-views-of-native-objects?view=vs-2015 -->
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
   <Type Name="itk::Size&lt;1&gt;">

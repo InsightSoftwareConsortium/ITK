@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Documentation: https://learn.microsoft.com/en-us/visualstudio/debugger/just-my-code?view=visualstudio -->
+<StepFilter xmlns="http://schemas.microsoft.com/vstudio/debugger/natstepfilter/2010">
+  <Function><Name>itk::SmartPointer.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>itk::Object::Register</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>vtkSmartPointer.*</Name><Action>NoStepInto</Action></Function>
+  <!-- We can also disable stepping into STL functions by uncommeting the next line: -->
+  <!-- <Function><Name>std::.+</Name><Action>NoStepInto</Action></Function> -->
+</StepFilter>
