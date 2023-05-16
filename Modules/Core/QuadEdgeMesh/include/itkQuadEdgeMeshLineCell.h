@@ -20,6 +20,7 @@
 
 #include "itkAutoPointer.h"
 #include "itkGeometricalQuadEdge.h"
+#include "itkCommonEnums.h"
 
 namespace itk
 {
