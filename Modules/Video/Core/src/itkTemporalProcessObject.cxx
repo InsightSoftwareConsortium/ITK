@@ -57,7 +57,7 @@ TemporalProcessObject::EnlargeOutputRequestedRegion(DataObject * output)
   }
   else
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::EnlargeOutputRequestedRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::EnlargeOutputRequestedRegion() "
                       << "cannot cast " << typeid(output).name() << " to " << typeid(TemporalDataObject *).name());
   }
 }
@@ -112,7 +112,7 @@ TemporalProcessObject::GenerateOutputRequestedRegion(DataObject * output)
   }
   else
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateOutputRequestedRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateOutputRequestedRegion() "
                       << "cannot cast " << typeid(output).name() << " to " << typeid(TemporalDataObject *).name());
   }
 }
@@ -168,13 +168,13 @@ TemporalProcessObject::GenerateInputRequestedRegion()
 
   if (tOutput == nullptr)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateInputRequestedRegion() "
                       << "cannot cast " << typeid(this->GetOutput(0)).name() << " to "
                       << typeid(TemporalDataObject *).name());
   }
   else if (tInput == nullptr)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateInputRequestedRegion() "
                       << "cannot cast " << typeid(this->GetInput(0)).name() << " to "
                       << typeid(TemporalDataObject *).name());
   }
@@ -197,13 +197,13 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
   auto * output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
   if (output == nullptr)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedTemporalRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateInputRequestedTemporalRegion() "
                       << "cannot cast " << typeid(this->GetOutput(0)).name() << " to "
                       << typeid(TemporalDataObject *).name());
   }
   if (input == nullptr)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedTemporalRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateInputRequestedTemporalRegion() "
                       << "cannot cast " << typeid(this->GetInput(0)).name() << " to "
                       << typeid(TemporalDataObject *).name());
   }
@@ -230,7 +230,7 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
   // boundary conditions at some point)
   if (inputStart < 0)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedTemporalRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateInputRequestedTemporalRegion() "
                       << "cannot request a region with a starting frame of " << inputStart);
   }
 
@@ -269,7 +269,7 @@ TemporalProcessObject::UpdateOutputInformation()
   auto * output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
   if (output == nullptr)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateOutputRequestedTemporalRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateOutputRequestedTemporalRegion() "
                       << "cannot cast " << typeid(output).name() << " to " << typeid(TemporalDataObject *).name());
   }
 
@@ -347,8 +347,8 @@ TemporalProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
     const DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
     if (ninputs < this->GetNumberOfRequiredInputs())
     {
-      itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only "
-                        << ninputs << " are specified.");
+      itkExceptionMacro("At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << ninputs
+                                    << " are specified.");
     }
     this->GenerateData();
   }
@@ -408,7 +408,7 @@ TemporalProcessObject::GenerateData()
   auto * output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
   if (output == nullptr)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateData() "
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateData() "
                       << "cannot cast " << typeid(output).name() << " to " << typeid(TemporalDataObject *).name());
   }
   SizeValueType outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
@@ -426,7 +426,7 @@ TemporalProcessObject::GenerateData()
       auto * input = dynamic_cast<TemporalDataObject *>(this->GetInput(0));
       if (input == nullptr)
       {
-        itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateData() "
+        itkExceptionMacro("itk::TemporalProcessObject::GenerateData() "
                           << "cannot cast " << typeid(input).name() << " to " << typeid(TemporalDataObject *).name());
       }
       input->SetRequestedTemporalRegion(inputTemporalRegionRequest);
@@ -493,8 +493,8 @@ TemporalProcessObject::GenerateData()
 void
 TemporalProcessObject::TemporalStreamingGenerateData()
 {
-  itkExceptionMacro(<< "itk::Error: " << this->GetNameOfClass() << '(' << this
-                    << "): Subclass should override this method!!!");
+  itkExceptionMacro("itk::Error: " << this->GetNameOfClass() << '(' << this
+                                   << "): Subclass should override this method!!!");
 }
 
 
@@ -510,7 +510,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   auto * outputObject = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
   if (outputObject == nullptr)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::SplitRequestedTemporalRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::SplitRequestedTemporalRegion() "
                       << "cannot cast " << typeid(outputObject).name() << " to "
                       << typeid(TemporalDataObject *).name());
   }
@@ -548,7 +548,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   // Make sure we're not trying to get a negative frame
   if (regionStartFrame < 0)
   {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::SplitRequestedTemporalRegion() "
+    itkExceptionMacro("itk::TemporalProcessObject::SplitRequestedTemporalRegion() "
                       << "cannot start at frame number " << regionStartFrame);
   }
 

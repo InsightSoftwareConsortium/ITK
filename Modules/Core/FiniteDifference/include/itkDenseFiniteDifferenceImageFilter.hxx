@@ -36,7 +36,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
 
   if (!input || !output)
   {
-    itkExceptionMacro(<< "Either input and/or output is nullptr.");
+    itkExceptionMacro("Either input and/or output is nullptr.");
   }
 
   // Check if we are doing in-place filtering

@@ -85,7 +85,7 @@ MeshSource<TOutputMesh>::GraftOutput(const DataObjectIdentifierType & key, DataO
 {
   if (!graft)
   {
-    itkExceptionMacro(<< "Requested to graft output that is a nullptr pointer");
+    itkExceptionMacro("Requested to graft output that is a nullptr pointer");
   }
 
   // we use the process object method since all out output may not be
@@ -102,8 +102,8 @@ MeshSource<TOutputMesh>::GraftNthOutput(unsigned int idx, DataObject * graft)
 {
   if (idx >= this->GetNumberOfIndexedOutputs())
   {
-    itkExceptionMacro(<< "Requested to graft output " << idx << " but this filter only has "
-                      << this->GetNumberOfIndexedOutputs() << " indexed Outputs.");
+    itkExceptionMacro("Requested to graft output " << idx << " but this filter only has "
+                                                   << this->GetNumberOfIndexedOutputs() << " indexed Outputs.");
   }
   this->GraftOutput(this->MakeNameFromOutputIndex(idx), graft);
 }

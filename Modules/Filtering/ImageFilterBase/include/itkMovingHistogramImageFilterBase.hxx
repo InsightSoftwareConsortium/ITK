@@ -92,7 +92,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   // verify that the kernel contain at least one point
   if (count == 0)
   {
-    itkExceptionMacro(<< "The kernel must contain at least one point.");
+    itkExceptionMacro("The kernel must contain at least one point.");
   }
 
   // no attribute should be modified before here to avoid setting the filter in

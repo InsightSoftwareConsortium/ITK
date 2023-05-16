@@ -97,7 +97,7 @@ VTKImageExport<TInputImage>::VTKImageExport()
   }
   else
   {
-    itkExceptionMacro(<< "Type currently not supported");
+    itkExceptionMacro("Type currently not supported");
   }
 }
 
@@ -141,7 +141,7 @@ VTKImageExport<TInputImage>::WholeExtentCallback()
 
   if (!input)
   {
-    itkExceptionMacro(<< "Need to set an input");
+    itkExceptionMacro("Need to set an input");
   }
 
   InputRegionType region = input->GetLargestPossibleRegion();
@@ -176,7 +176,7 @@ VTKImageExport<TInputImage>::SpacingCallback()
 
   if (!input)
   {
-    itkExceptionMacro(<< "Need to set an input");
+    itkExceptionMacro("Need to set an input");
   }
 
   const typename TInputImage::SpacingType & spacing = input->GetSpacing();
@@ -233,7 +233,7 @@ VTKImageExport<TInputImage>::OriginCallback()
 
   if (!input)
   {
-    itkExceptionMacro(<< "Need to set an input");
+    itkExceptionMacro("Need to set an input");
   }
 
   const typename TInputImage::PointType & origin = input->GetOrigin();
@@ -290,7 +290,7 @@ VTKImageExport<TInputImage>::DirectionCallback()
 
   if (!input)
   {
-    itkExceptionMacro(<< "Need to set an input");
+    itkExceptionMacro("Need to set an input");
   }
 
   const typename TInputImage::DirectionType & direction = input->GetDirection();
@@ -363,7 +363,7 @@ VTKImageExport<TInputImage>::PropagateUpdateExtentCallback(int * extent)
   InputImagePointer input = this->GetInput();
   if (!input)
   {
-    itkExceptionMacro(<< "Need to set an input");
+    itkExceptionMacro("Need to set an input");
   }
 
   input->SetRequestedRegion(region);
@@ -383,7 +383,7 @@ VTKImageExport<TInputImage>::DataExtentCallback()
 
   if (!input)
   {
-    itkExceptionMacro(<< "Need to set an input");
+    itkExceptionMacro("Need to set an input");
   }
 
   InputRegionType region = input->GetBufferedRegion();
@@ -416,7 +416,7 @@ VTKImageExport<TInputImage>::BufferPointerCallback()
 
   if (!input)
   {
-    itkExceptionMacro(<< "Need to set an input");
+    itkExceptionMacro("Need to set an input");
   }
 
   return input->GetBufferPointer();

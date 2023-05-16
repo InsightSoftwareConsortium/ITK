@@ -45,7 +45,7 @@ CSVArray2DDataObject<TData>::GetRowIndexByName(const std::string & row_name) con
 {
   if (!this->m_HasRowHeaders)
   {
-    itkExceptionMacro(<< "The dataset does not contain any row headers!");
+    itkExceptionMacro("The dataset does not contain any row headers!");
   }
 
   const auto         it = std::find(this->m_RowHeaders.begin(), this->m_RowHeaders.end(), row_name);
@@ -53,7 +53,7 @@ CSVArray2DDataObject<TData>::GetRowIndexByName(const std::string & row_name) con
 
   if (it == this->m_RowHeaders.end())
   {
-    itkExceptionMacro(<< "The row name " << row_name << " does not exist. ");
+    itkExceptionMacro("The row name " << row_name << " does not exist. ");
   }
   return index;
 }
@@ -64,7 +64,7 @@ CSVArray2DDataObject<TData>::GetColumnIndexByName(const std::string & column_nam
 {
   if (!this->m_HasColumnHeaders)
   {
-    itkExceptionMacro(<< "The dataset does not contain any column headers!");
+    itkExceptionMacro("The dataset does not contain any column headers!");
   }
 
   const auto         it = std::find(this->m_ColumnHeaders.begin(), this->m_ColumnHeaders.end(), column_name);
@@ -72,7 +72,7 @@ CSVArray2DDataObject<TData>::GetColumnIndexByName(const std::string & column_nam
 
   if (it == this->m_ColumnHeaders.end())
   {
-    itkExceptionMacro(<< "The column name " << column_name << " does not exist.");
+    itkExceptionMacro("The column name " << column_name << " does not exist.");
   }
   return index;
 }
@@ -85,7 +85,7 @@ CSVArray2DDataObject<TData>::GetRow(const unsigned int row_index) const -> Numer
   unsigned int      max_rows = this->m_Matrix.rows() - 1;
   if (row_index > max_rows)
   {
-    itkExceptionMacro(<< " Row index: " << row_index << " exceeds matrix dimension: " << max_rows);
+    itkExceptionMacro(" Row index: " << row_index << " exceeds matrix dimension: " << max_rows);
   }
   unsigned int vector_size = this->m_Matrix.cols();
   for (unsigned int i = 0; i < vector_size; ++i)
@@ -113,7 +113,7 @@ CSVArray2DDataObject<TData>::GetColumn(const unsigned int column_index) const ->
   unsigned int      max_columns = this->m_Matrix.columns() - 1;
   if (column_index > max_columns)
   {
-    itkExceptionMacro(<< "Column index: " << column_index << " exceeds matrix dimension: " << max_columns);
+    itkExceptionMacro("Column index: " << column_index << " exceeds matrix dimension: " << max_columns);
   }
   unsigned int vector_size = this->m_Matrix.rows();
   for (unsigned int i = 0; i < vector_size; ++i)
@@ -140,11 +140,11 @@ CSVArray2DDataObject<TData>::GetData(const unsigned int row, const unsigned int 
 {
   if (row > this->m_Matrix.rows() - 1)
   {
-    itkExceptionMacro(<< " Row index: " << row << " exceeds row dimension: " << this->m_Matrix.rows() - 1);
+    itkExceptionMacro(" Row index: " << row << " exceeds row dimension: " << this->m_Matrix.rows() - 1);
   }
   else if (column > this->m_Matrix.cols() - 1)
   {
-    itkExceptionMacro(<< " Column index: " << column << " exceeds column dimension: " << this->m_Matrix.columns() - 1);
+    itkExceptionMacro(" Column index: " << column << " exceeds column dimension: " << this->m_Matrix.columns() - 1);
   }
   return this->m_Matrix[row][column];
 }

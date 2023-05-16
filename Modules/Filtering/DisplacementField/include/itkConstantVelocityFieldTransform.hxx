@@ -337,7 +337,7 @@ ConstantVelocityFieldTransform<TParametersValueType, VDimension>::InternalClone(
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
   // set the fixed/moving parameters.

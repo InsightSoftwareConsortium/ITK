@@ -60,8 +60,8 @@ RegularStepGradientDescentBaseOptimizer::StartOptimization()
   // validity check for the value of GradientMagnitudeTolerance
   if (m_GradientMagnitudeTolerance < 0.0)
   {
-    itkExceptionMacro(<< "Gradient magnitude tolerance must be"
-                         "greater or equal 0.0. Current value is "
+    itkExceptionMacro("Gradient magnitude tolerance must be"
+                      "greater or equal 0.0. Current value is "
                       << m_GradientMagnitudeTolerance);
   }
 
@@ -152,19 +152,20 @@ RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
 
   if (m_RelaxationFactor < 0.0)
   {
-    itkExceptionMacro(<< "Relaxation factor must be positive. Current value is " << m_RelaxationFactor);
+    itkExceptionMacro("Relaxation factor must be positive. Current value is " << m_RelaxationFactor);
   }
 
   if (m_RelaxationFactor >= 1.0)
   {
-    itkExceptionMacro(<< "Relaxation factor must less than 1.0. Current value is " << m_RelaxationFactor);
+    itkExceptionMacro("Relaxation factor must less than 1.0. Current value is " << m_RelaxationFactor);
   }
 
   // Make sure the scales have been set properly
   if (scales.size() != spaceDimension)
   {
-    itkExceptionMacro(<< "The size of Scales is " << scales.size()
-                      << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << '.');
+    itkExceptionMacro("The size of Scales is "
+                      << scales.size() << ", but the NumberOfParameters for the CostFunction is " << spaceDimension
+                      << '.');
   }
 
   for (unsigned int i = 0; i < spaceDimension; ++i)

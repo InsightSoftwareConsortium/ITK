@@ -127,10 +127,10 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
       break;
     }
     case THIN_PLATE_SPLINE:
-      itkExceptionMacro(<< "Reading THIN_PLATE_SPLINE transform is not supported yet");
+      itkExceptionMacro("Reading THIN_PLATE_SPLINE transform is not supported yet");
       break;
     case USER_TRANSFORM:
-      itkExceptionMacro(<< "Reading USER_TRANSFORM transform is not supported yet");
+      itkExceptionMacro("Reading USER_TRANSFORM transform is not supported yet");
       break;
     case GRID_TRANSFORM:
     {
@@ -169,11 +169,11 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
       }
       else
       {
-        itkExceptionMacro(<< "Got grid transform without file name !");
+        itkExceptionMacro("Got grid transform without file name !");
       }
     }
     default:
-      itkExceptionMacro(<< "Reading Unknown transform is not supported!");
+      itkExceptionMacro("Reading Unknown transform is not supported!");
       break;
   }
 }
@@ -184,7 +184,7 @@ MINCTransformIOTemplate<TParametersValueType>::Read()
 {
   if (input_transform_file(this->GetFileName(), &m_XFM) != VIO_OK)
   {
-    itkExceptionMacro(<< "Error reading XFM:" << this->GetFileName());
+    itkExceptionMacro("Error reading XFM:" << this->GetFileName());
   }
   this->m_XFM_initialized = true;
 
@@ -213,7 +213,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
   {
     if (transformIndex != 0)
     {
-      itkExceptionMacro(<< "Composite Transform can only be 1st transform in a file");
+      itkExceptionMacro("Composite Transform can only be 1st transform in a file");
     }
   }
   else
@@ -269,7 +269,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       }
       else
       {
-        itkExceptionMacro(<< "Trying to write-out displacement transform without displacement field");
+        itkExceptionMacro("Trying to write-out displacement transform without displacement field");
       }
       writer->Update();
 
@@ -282,7 +282,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
     }
     else
     {
-      itkExceptionMacro(<< "Transform type:" << transformType.c_str() << "is Unsupported");
+      itkExceptionMacro("Transform type:" << transformType.c_str() << "is Unsupported");
     }
   }
 }
@@ -343,7 +343,7 @@ MINCTransformIOTemplate<TParametersValueType>::Write()
 
   if (wrt != VIO_OK)
   {
-    itkExceptionMacro(<< "Error writing XFM:" << xfm_filename.c_str());
+    itkExceptionMacro("Error writing XFM:" << xfm_filename.c_str());
   }
 }
 

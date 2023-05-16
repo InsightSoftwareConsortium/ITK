@@ -226,7 +226,7 @@ public:
     if (m_GradientImageTypeEnumeration ==
         DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
     {
-      itkExceptionMacro(<< "Cannot call both methods:"
+      itkExceptionMacro("Cannot call both methods:"
                         << "AddGradientImage and SetGradientImage. Please call only one of them.");
     }
 
@@ -249,7 +249,7 @@ public:
   {
     if (idx >= m_NumberOfGradientDirections)
     {
-      itkExceptionMacro(<< "Gradient direction " << idx << " does not exist");
+      itkExceptionMacro("Gradient direction " << idx << " does not exist");
     }
     return m_GradientDirectionContainer->ElementAt(idx);
   }

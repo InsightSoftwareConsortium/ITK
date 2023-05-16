@@ -165,7 +165,7 @@ public:
     const auto * dummyMO = dynamic_cast<const MetaDummy *>(mo);
     if (dummyMO == nullptr)
     {
-      itkExceptionMacro(<< "Can't convert MetaObject to MetaDummy");
+      itkExceptionMacro("Can't convert MetaObject to MetaDummy");
     }
     DummySpatialObjectPointer dummySO = DummySpatialObjectType::New();
     dummySO->SetValue(dummyMO->GetValue());
@@ -188,7 +188,7 @@ public:
     DummySpatialObjectConstPointer dummySO = dynamic_cast<const DummySpatialObjectType *>(spatialObject);
     if (dummySO.IsNull())
     {
-      itkExceptionMacro(<< "Can't downcast SpatialObject to DummySpatialObject");
+      itkExceptionMacro("Can't downcast SpatialObject to DummySpatialObject");
     }
     auto * dummyMO = new MetaDummy;
     dummyMO->SetValue(dummySO->GetValue());

@@ -92,7 +92,7 @@ VTKImageImport<TOutputImage>::VTKImageImport()
   }
   else
   {
-    itkExceptionMacro(<< "Type currently not supported");
+    itkExceptionMacro("Type currently not supported");
   }
 }
 
@@ -107,7 +107,7 @@ VTKImageImport<TOutputImage>::PropagateRequestedRegion(DataObject * outputPtr)
 
   if (!output)
   {
-    itkExceptionMacro(<< "Downcast from DataObject to my Image type failed.");
+    itkExceptionMacro("Downcast from DataObject to my Image type failed.");
   }
   Superclass::PropagateRequestedRegion(output);
   if (m_PropagateUpdateExtentCallback)
@@ -236,9 +236,9 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
         {
           std::string ijk = "IJK";
           std::string xyz = "XYZ";
-          itkExceptionMacro(<< "Cannot convert a VTK image to an ITK image of dimension " << OutputImageDimension
-                            << " since the VTK image direction matrix element at (" << i << ',' << j
-                            << ") is not equal to 0.0:\n"
+          itkExceptionMacro("Cannot convert a VTK image to an ITK image of dimension "
+                            << OutputImageDimension << " since the VTK image direction matrix element at (" << i << ','
+                            << j << ") is not equal to 0.0:\n"
                             << "   I  J  K\n"
                             << "X  " << inDirection[0] << ", " << inDirection[1] << ", " << inDirection[2] << '\n'
                             << "Y  " << inDirection[3] << ", " << inDirection[4] << ", " << inDirection[5] << '\n'
@@ -261,8 +261,8 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
 
     if (components != estimatedNumberOfComponents)
     {
-      itkExceptionMacro(<< "Input number of components is " << components << " but should be "
-                        << estimatedNumberOfComponents);
+      itkExceptionMacro("Input number of components is " << components << " but should be "
+                                                         << estimatedNumberOfComponents);
     }
   }
   if (m_ScalarTypeCallback)
@@ -270,7 +270,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
     const char * scalarName = (m_ScalarTypeCallback)(m_CallbackUserData);
     if (scalarName != m_ScalarTypeName)
     {
-      itkExceptionMacro(<< "Input scalar type is " << scalarName << " but should be " << m_ScalarTypeName.c_str());
+      itkExceptionMacro("Input scalar type is " << scalarName << " but should be " << m_ScalarTypeName.c_str());
     }
   }
 }

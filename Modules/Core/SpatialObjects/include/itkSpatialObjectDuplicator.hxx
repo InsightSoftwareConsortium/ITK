@@ -57,7 +57,7 @@ SpatialObjectDuplicator<TInputSpatialObject>::Update()
 {
   if (!m_Input)
   {
-    itkExceptionMacro(<< "Input SpatialObject has not been connected");
+    itkExceptionMacro("Input SpatialObject has not been connected");
   }
 
   // Update only if the input SpatialObject has been modified

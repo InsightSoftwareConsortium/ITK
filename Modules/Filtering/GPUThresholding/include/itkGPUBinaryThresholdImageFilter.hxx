@@ -105,7 +105,7 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 
   if (lowerThreshold->Get() > upperThreshold->Get())
   {
-    itkExceptionMacro(<< "Lower threshold cannot be greater than upper threshold.");
+    itkExceptionMacro("Lower threshold cannot be greater than upper threshold.");
   }
 
   // Setup up the functor

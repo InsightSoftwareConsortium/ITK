@@ -114,7 +114,7 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Se
     }
     else
     {
-      itkExceptionMacro(<< "Invalid algorithm");
+      itkExceptionMacro("Invalid algorithm");
     }
 
     m_Algorithm = algo;

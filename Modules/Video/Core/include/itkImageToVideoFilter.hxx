@@ -213,7 +213,7 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputRequestedRegi
   auto * vsOutput = dynamic_cast<OutputVideoStreamType *>(output);
   if (vsOutput == nullptr)
   {
-    itkExceptionMacro(<< "itk::ImageToVideoFilter::GenerateOutputRequestedRegion() "
+    itkExceptionMacro("itk::ImageToVideoFilter::GenerateOutputRequestedRegion() "
                       << "cannot cast " << typeid(output).name() << " to " << typeid(OutputVideoStreamType *).name());
   }
 

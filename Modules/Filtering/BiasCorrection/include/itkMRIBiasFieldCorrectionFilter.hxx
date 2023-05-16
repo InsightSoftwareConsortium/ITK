@@ -66,17 +66,17 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro(<< "Image is null");
+    itkExceptionMacro("Image is null");
   }
 
   if (!m_InternalEnergyFunction)
   {
-    itkExceptionMacro(<< "EnergyFunction is null");
+    itkExceptionMacro("EnergyFunction is null");
   }
 
   if (m_BiasField == nullptr)
   {
-    itkExceptionMacro(<< "BiasField is null");
+    itkExceptionMacro("BiasField is null");
   }
 
   MeasureType total = 0.0;
@@ -417,7 +417,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::Initialize(
   // Initialize the energy function
   if (m_TissueClassMeans.Size() < 1)
   {
-    itkExceptionMacro(<< "Tissue Class Means is empty");
+    itkExceptionMacro("Tissue Class Means is empty");
   }
 
   if (!m_EnergyFunction)
@@ -757,17 +757,17 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::SetTissueCl
 
   if (meanSize == 0)
   {
-    itkExceptionMacro(<< "arrays of Means is empty");
+    itkExceptionMacro("arrays of Means is empty");
   }
 
   if (sigmaSize == 0)
   {
-    itkExceptionMacro(<< "arrays of Sigmas is empty");
+    itkExceptionMacro("arrays of Sigmas is empty");
   }
 
   if (meanSize != sigmaSize)
   {
-    itkExceptionMacro(<< "arrays of Means and Sigmas have different lengths");
+    itkExceptionMacro("arrays of Means and Sigmas have different lengths");
   }
 
   m_TissueClassMeans = means;

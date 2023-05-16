@@ -54,7 +54,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()
 
   if (!f)
   {
-    itkExceptionMacro(<< "DifferenceFunction not of type MinMaxCurvatureFlowFunction");
+    itkExceptionMacro("DifferenceFunction not of type MinMaxCurvatureFlowFunction");
   }
 
   f->SetStencilRadius(m_StencilRadius);

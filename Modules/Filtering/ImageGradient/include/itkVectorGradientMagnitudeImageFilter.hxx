@@ -142,7 +142,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
   {
     if (m_ComponentWeights[i] < 0)
     {
-      itkExceptionMacro(<< "Component weights must be positive numbers");
+      itkExceptionMacro("Component weights must be positive numbers");
     }
     m_SqrtComponentWeights[i] = std::sqrt(m_ComponentWeights[i]);
   }
@@ -156,7 +156,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
     {
       if (static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) == 0.0)
       {
-        itkExceptionMacro(<< "Image spacing in dimension " << i << " is zero.");
+        itkExceptionMacro("Image spacing in dimension " << i << " is zero.");
       }
       m_DerivativeWeights[i] = static_cast<TRealType>(1.0 / static_cast<TRealType>(this->GetInput()->GetSpacing()[i]));
     }

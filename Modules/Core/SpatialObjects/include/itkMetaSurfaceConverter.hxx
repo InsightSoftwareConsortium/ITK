@@ -36,7 +36,7 @@ MetaSurfaceConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
   const auto * surfaceMO = dynamic_cast<const SurfaceMetaObjectType *>(mo);
   if (surfaceMO == nullptr)
   {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaSurface");
+    itkExceptionMacro("Can't convert MetaObject to MetaSurface");
   }
   auto surfaceSO = SurfaceSpatialObjectType::New();
 
@@ -95,7 +95,7 @@ MetaSurfaceConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
 
   if (surfaceSO.IsNull())
   {
-    itkExceptionMacro(<< "Can't downcast SpatialObject to SurfaceSpatialObject");
+    itkExceptionMacro("Can't downcast SpatialObject to SurfaceSpatialObject");
   }
   auto * surfaceMO = new MetaSurface(VDimension);
 

@@ -52,7 +52,7 @@ CSVFileReaderBase::PrepareForParsing()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro(<< "There is no file name provided!"
+    itkExceptionMacro("There is no file name provided!"
                       << "Please provide a filename.");
   }
 
@@ -63,7 +63,7 @@ CSVFileReaderBase::PrepareForParsing()
 
   if (this->m_UseStringDelimiterCharacter && this->m_FieldDelimiterCharacter == this->m_StringDelimiterCharacter)
   {
-    itkExceptionMacro(<< "The same character has been set for the string delimiter and the field delimiter character!");
+    itkExceptionMacro("The same character has been set for the string delimiter and the field delimiter character!");
   }
 }
 
@@ -283,7 +283,7 @@ CSVFileReaderBase::GetNextField(std::string & str)
   // Alert the user if end of file is reached
   else
   {
-    itkExceptionMacro(<< "End of file reached. No more entries");
+    itkExceptionMacro("End of file reached. No more entries");
   }
 }
 

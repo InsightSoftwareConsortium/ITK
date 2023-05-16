@@ -61,7 +61,7 @@ UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::VerifyPre
   Superclass::VerifyPreconditions();
   if (m_Threshold < 0.0)
   {
-    itkExceptionMacro(<< "Threshold must be non-negative!");
+    itkExceptionMacro("Threshold must be non-negative!");
   }
 }
 

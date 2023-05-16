@@ -52,32 +52,32 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::Initi
 {
   if (!m_FixedImage)
   {
-    itkExceptionMacro(<< "FixedImage is not present");
+    itkExceptionMacro("FixedImage is not present");
   }
 
   if (!m_MovingSpatialObject)
   {
-    itkExceptionMacro(<< "MovingSpatialObject is not present");
+    itkExceptionMacro("MovingSpatialObject is not present");
   }
 
   if (!m_Metric)
   {
-    itkExceptionMacro(<< "Metric is not present");
+    itkExceptionMacro("Metric is not present");
   }
 
   if (!m_Optimizer)
   {
-    itkExceptionMacro(<< "Optimizer is not present");
+    itkExceptionMacro("Optimizer is not present");
   }
 
   if (!m_Transform)
   {
-    itkExceptionMacro(<< "Transform is not present");
+    itkExceptionMacro("Transform is not present");
   }
 
   if (!m_Interpolator)
   {
-    itkExceptionMacro(<< "Interpolator is not present");
+    itkExceptionMacro("Interpolator is not present");
   }
 
   m_Interpolator->SetInputImage(m_FixedImage);

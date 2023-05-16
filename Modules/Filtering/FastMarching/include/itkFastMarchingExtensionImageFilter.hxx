@@ -116,22 +116,22 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
 
   if (this->GetAlivePoints() && !m_AuxAliveValues)
   {
-    itkExceptionMacro(<< "in Initialize(): Null pointer for AuxAliveValues");
+    itkExceptionMacro("in Initialize(): Null pointer for AuxAliveValues");
   }
 
   if (m_AuxAliveValues && m_AuxAliveValues->Size() != (this->GetAlivePoints())->Size())
   {
-    itkExceptionMacro(<< "in Initialize(): AuxAliveValues is the wrong size");
+    itkExceptionMacro("in Initialize(): AuxAliveValues is the wrong size");
   }
 
   if (this->GetTrialPoints() && !m_AuxTrialValues)
   {
-    itkExceptionMacro(<< "in Initialize(): Null pointer for AuxTrialValues");
+    itkExceptionMacro("in Initialize(): Null pointer for AuxTrialValues");
   }
 
   if (m_AuxTrialValues && m_AuxTrialValues->Size() != (this->GetTrialPoints())->Size())
   {
-    itkExceptionMacro(<< "in Initialize(): AuxTrialValues is the wrong size");
+    itkExceptionMacro("in Initialize(): AuxTrialValues is the wrong size");
   }
 
   // allocate memory for the auxiliary outputs

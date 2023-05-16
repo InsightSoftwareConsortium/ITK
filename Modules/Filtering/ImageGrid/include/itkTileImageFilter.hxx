@@ -370,7 +370,7 @@ TileImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
 
   if (image.IsNull())
   {
-    itkExceptionMacro(<< "Input not set as expected!");
+    itkExceptionMacro("Input not set as expected!");
   }
 
   const unsigned int numComponents = image->GetNumberOfComponentsPerPixel();
@@ -391,8 +391,9 @@ TileImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
 
     if (numComponents != image->GetNumberOfComponentsPerPixel())
     {
-      itkExceptionMacro(<< "Primary input has " << numComponents << " numberOfComponents "
-                        << "but input " << idx << " has " << image->GetNumberOfComponentsPerPixel() << '!');
+      itkExceptionMacro("Primary input has " << numComponents << " numberOfComponents "
+                                             << "but input " << idx << " has " << image->GetNumberOfComponentsPerPixel()
+                                             << '!');
     }
   }
 }

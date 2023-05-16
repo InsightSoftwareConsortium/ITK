@@ -31,7 +31,7 @@ EuclideanSquareDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x
 
   if (measurementVectorSize == 0)
   {
-    itkExceptionMacro(<< "Please set the MeasurementVectorSize first");
+    itkExceptionMacro("Please set the MeasurementVectorSize first");
   }
   MeasurementVectorTraits::Assert(
     this->GetOrigin(),
@@ -58,7 +58,7 @@ EuclideanSquareDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x
 
   if (measurementVectorSize != NumericTraits<MeasurementVectorType>::GetLength(x2))
   {
-    itkExceptionMacro(<< "EuclideanSquareDistanceMetric:: The two measurement vectors have unequal size");
+    itkExceptionMacro("EuclideanSquareDistanceMetric:: The two measurement vectors have unequal size");
   }
 
   double temp, distance = 0.0;

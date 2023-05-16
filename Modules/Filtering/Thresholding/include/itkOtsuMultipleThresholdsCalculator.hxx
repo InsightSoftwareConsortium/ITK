@@ -143,7 +143,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   // and the user could specify the dimension to apply the algorithm to.
   if (histogram->GetSize().Size() != 1)
   {
-    itkExceptionMacro(<< "Histogram must be 1-dimensional.");
+    itkExceptionMacro("Histogram must be 1-dimensional.");
   }
 
   // Compute global mean

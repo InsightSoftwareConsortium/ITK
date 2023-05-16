@@ -37,7 +37,7 @@ MetaArrowConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType *
   const auto * metaArrow = dynamic_cast<const MetaArrow *>(mo);
   if (metaArrow == nullptr)
   {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaArrow");
+    itkExceptionMacro("Can't convert MetaObject to MetaArrow");
   }
   ArrowSpatialObjectPointer arrowSO = ArrowSpatialObjectType::New();
 
@@ -77,7 +77,7 @@ MetaArrowConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectTyp
   ArrowSpatialObjectConstPointer arrowSO = dynamic_cast<const ArrowSpatialObjectType *>(spatialObject);
   if (arrowSO.IsNull())
   {
-    itkExceptionMacro(<< "Can't downcast SpatialObject to ArrowSpatialObject");
+    itkExceptionMacro("Can't downcast SpatialObject to ArrowSpatialObject");
   }
 
   auto * mo = new MetaArrow(VDimension);

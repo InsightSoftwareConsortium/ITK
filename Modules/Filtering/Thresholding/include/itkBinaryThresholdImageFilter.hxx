@@ -218,7 +218,7 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDat
 
   if (lowerThreshold->Get() > upperThreshold->Get())
   {
-    itkExceptionMacro(<< "Lower threshold cannot be greater than upper threshold.");
+    itkExceptionMacro("Lower threshold cannot be greater than upper threshold.");
   }
 
   // Set up the functor

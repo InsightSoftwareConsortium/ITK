@@ -266,7 +266,7 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType &) const override
   {
-    itkExceptionMacro(<< "Method not applicable for deformable transform.");
+    itkExceptionMacro("Method not applicable for deformable transform.");
   }
 
   /** Method to transform a vnl_vector -
@@ -274,7 +274,7 @@ public:
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const override
   {
-    itkExceptionMacro(<< "Method not applicable for deformable transform. ");
+    itkExceptionMacro("Method not applicable for deformable transform. ");
   }
 
   /** Method to transform a CovariantVector -
@@ -283,7 +283,7 @@ public:
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const override
   {
-    itkExceptionMacro(<< "Method not applicable for deformable transform. ");
+    itkExceptionMacro("Method not applicable for deformable transform. ");
   }
 
   /** Get Jacobian at a point. A very specialized function just for BSplines */
@@ -298,8 +298,8 @@ public:
   void
   ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
   {
-    itkExceptionMacro(<< "ComputeJacobianWithRespectToPosition not yet implemented "
-                         "for "
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented "
+                      "for "
                       << this->GetNameOfClass());
   }
   using Superclass::ComputeJacobianWithRespectToPosition;

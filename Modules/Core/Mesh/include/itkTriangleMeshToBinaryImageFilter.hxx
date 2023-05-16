@@ -143,7 +143,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GenerateData()
   {
     if (m_Size[0] == 0 || m_Size[1] == 0 || m_Size[2] == 0)
     {
-      itkExceptionMacro(<< "Must Set Image Size");
+      itkExceptionMacro("Must Set Image Size");
     }
 
     const typename OutputImageType::RegionType region(m_Index, m_Size);
@@ -396,7 +396,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
       }
       break;
       default:
-        itkExceptionMacro(<< "Need Triangle or Polygon cells ONLY");
+        itkExceptionMacro("Need Triangle or Polygon cells ONLY");
     }
     ++cellIt;
   }

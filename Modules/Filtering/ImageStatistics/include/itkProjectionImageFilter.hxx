@@ -41,8 +41,8 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
 
   if (m_ProjectionDimension >= TInputImage::ImageDimension)
   {
-    itkExceptionMacro(<< "Invalid ProjectionDimension. ProjectionDimension is " << m_ProjectionDimension
-                      << " but input ImageDimension is " << TInputImage::ImageDimension);
+    itkExceptionMacro("Invalid ProjectionDimension. ProjectionDimension is "
+                      << m_ProjectionDimension << " but input ImageDimension is " << TInputImage::ImageDimension);
   }
 
   typename TInputImage::IndexType      inputIndex;
@@ -131,8 +131,8 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
 
   if (m_ProjectionDimension >= TInputImage::ImageDimension)
   {
-    itkExceptionMacro(<< "Invalid ProjectionDimension " << m_ProjectionDimension << " but ImageDimension is "
-                      << TInputImage::ImageDimension);
+    itkExceptionMacro("Invalid ProjectionDimension " << m_ProjectionDimension << " but ImageDimension is "
+                                                     << TInputImage::ImageDimension);
   }
 
   Superclass::GenerateInputRequestedRegion();
@@ -206,8 +206,8 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
 {
   if (m_ProjectionDimension >= TInputImage::ImageDimension)
   {
-    itkExceptionMacro(<< "Invalid ProjectionDimension " << m_ProjectionDimension << " but ImageDimension is "
-                      << TInputImage::ImageDimension);
+    itkExceptionMacro("Invalid ProjectionDimension " << m_ProjectionDimension << " but ImageDimension is "
+                                                     << TInputImage::ImageDimension);
   }
 
   using OutputPixelType = typename TOutputImage::PixelType;

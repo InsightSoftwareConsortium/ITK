@@ -221,7 +221,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
   auto * refOutputPtr = itkDynamicCastInDebugMode<TOutputImage *>(ptr);
   if (!refOutputPtr)
   {
-    itkExceptionMacro(<< "Could not cast ptr to TOutputImage*.");
+    itkExceptionMacro("Could not cast ptr to TOutputImage*.");
   }
 
   // find the index for this output
@@ -344,7 +344,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
   InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   if (!inputPtr)
   {
-    itkExceptionMacro(<< "Input has not been set.");
+    itkExceptionMacro("Input has not been set.");
   }
 
   // compute baseIndex and baseSize

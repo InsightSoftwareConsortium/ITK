@@ -117,7 +117,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
   const auto numberOfFiles = static_cast<int>(m_FileNames.size());
   if (numberOfFiles == 0)
   {
-    itkExceptionMacro(<< "At least one filename is required.");
+    itkExceptionMacro("At least one filename is required.");
   }
 
   const int firstFileName = (m_ReverseOrder ? numberOfFiles - 1 : 0);
@@ -348,7 +348,8 @@ ImageSeriesReader<TOutputImage>::GenerateData()
       // check that the size of each slice is the same
       if (readerOutput->GetLargestPossibleRegion().GetSize() != validSize)
       {
-        itkExceptionMacro(<< "Size mismatch! The size of  " << m_FileNames[iFileName].c_str() << " is "
+        itkExceptionMacro("Size mismatch! The size of  "
+                          << m_FileNames[iFileName].c_str() << " is "
                           << readerOutput->GetLargestPossibleRegion().GetSize()
                           << " and does not match the required size " << validSize << " from file "
                           << m_FileNames[m_ReverseOrder ? numberOfFiles - 1 : 0].c_str());

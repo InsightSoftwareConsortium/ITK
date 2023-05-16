@@ -133,7 +133,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
       byte = m_InputFile.get();
       if (byte == EOF)
       {
-        itkExceptionMacro(<< "Unexpected EOF");
+        itkExceptionMacro("Unexpected EOF");
       }
     }
     // Try to get the second '\n', but if the '\n' is not there, we put the byte
@@ -143,7 +143,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
     {
       if (byte == EOF)
       {
-        itkExceptionMacro(<< "Unexpected EOF");
+        itkExceptionMacro("Unexpected EOF");
       }
       m_InputFile.unget();
     }
@@ -211,7 +211,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
   }
   else
   {
-    itkExceptionMacro(<< "Unvalid file type " << m_FileTypeIdentifier);
+    itkExceptionMacro("Unvalid file type " << m_FileTypeIdentifier);
   }
 
   // Set default point pixel component and point pixel type
@@ -427,7 +427,7 @@ FreeSurferBinaryMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point pixel component type" << std::endl);
     }
   }
 
@@ -523,7 +523,7 @@ FreeSurferBinaryMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown cell component type" << std::endl);
+      itkExceptionMacro("Unknown cell component type" << std::endl);
     }
   }
 
@@ -631,7 +631,7 @@ FreeSurferBinaryMeshIO::WritePointData(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown point data pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point data pixel component type" << std::endl);
     }
   }
 

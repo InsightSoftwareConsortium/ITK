@@ -421,8 +421,9 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetFixedParame
   }
   else
   {
-    itkExceptionMacro(<< "Mismatched between parameters size " << passedParameters.size()
-                      << " and the required number of fixed parameters " << this->m_FixedParameters.Size());
+    itkExceptionMacro("Mismatched between parameters size " << passedParameters.size()
+                                                            << " and the required number of fixed parameters "
+                                                            << this->m_FixedParameters.Size());
   }
 
 
@@ -443,7 +444,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetCoefficient
 
   if (!validArrayOfImages)
   {
-    itkExceptionMacro(<< "SetCoefficientImage() requires that an array of "
+    itkExceptionMacro("SetCoefficientImage() requires that an array of "
                       << "correctly sized images be supplied.");
   }
 
@@ -458,7 +459,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetCoefficient
     const SizeValueType numberOfPixels_j = images[j]->GetLargestPossibleRegion().GetNumberOfPixels();
     if (numberOfPixels_j * SpaceDimension != totalParameters)
     {
-      itkExceptionMacro(<< "SetCoefficientImage() has array of images that are "
+      itkExceptionMacro("SetCoefficientImage() has array of images that are "
                         << "not the correct size. " << numberOfPixels_j * SpaceDimension << " != " << totalParameters
                         << " for image at index " << j << "  \n"
                         << images[j]);

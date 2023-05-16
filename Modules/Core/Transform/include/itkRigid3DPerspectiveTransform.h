@@ -191,7 +191,7 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType &) const override
   {
-    itkExceptionMacro(<< "TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
+    itkExceptionMacro("TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
   }
 
   OutputVnlVectorType
@@ -206,8 +206,8 @@ public:
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const override
   {
-    itkExceptionMacro(<< "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for "
-                         "Rigid3DPerspectiveTransform");
+    itkExceptionMacro("TransformCovariantVector(const InputCovariantVectorType &) is not implemented for "
+                      "Rigid3DPerspectiveTransform");
   }
 
   /** Return the rotation matrix */

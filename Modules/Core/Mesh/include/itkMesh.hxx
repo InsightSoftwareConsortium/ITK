@@ -171,7 +171,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CreateCell(int cellType, CellAutoPoin
       cellPointer.TakeOwnership(new OutputQuadraticTriangleCellType);
       break;
     default:
-      itkExceptionMacro(<< "Unknown mesh cell");
+      itkExceptionMacro("Unknown mesh cell");
   }
 
   return;
@@ -1073,8 +1073,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CopyInformation(const DataObject * da
   if (!mesh)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::Mesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::Mesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                  << typeid(Self *).name());
   }
 
   // Copy here specific elements of the Mesh
@@ -1091,8 +1091,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::Graft(const DataObject * data)
   if (!mesh)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::Mesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::Mesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                  << typeid(Self *).name());
   }
 
   this->ReleaseCellsMemory();

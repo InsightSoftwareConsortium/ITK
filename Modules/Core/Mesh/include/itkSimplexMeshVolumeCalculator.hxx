@@ -85,7 +85,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::FindCellId(IdentifierType id1, Identifi
 
   if (cellIt == cells1.end())
   {
-    itkExceptionMacro(<< "Cell was not found, although it should be there");
+    itkExceptionMacro("Cell was not found, although it should be there");
   }
 
   return *cellIt;
@@ -239,7 +239,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::Compute()
 
     if (!(b1 && b2 && b3))
     {
-      itkExceptionMacro(<< "Assertion failed for test of GetElementIfIndexExists()");
+      itkExceptionMacro("Assertion failed for test of GetElementIfIndexExists()");
     }
     else
     {

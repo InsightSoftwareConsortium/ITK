@@ -136,7 +136,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputVertexCellType::NumberOfPoints)
         {
-          itkExceptionMacro(<< "Invalid Vertex Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Vertex Cell with number of points = " << numberOfPoints);
         }
         OutputCellAutoPointer cell;
         auto *                vertexCell = new OutputVertexCellType;
@@ -155,7 +155,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints < 2)
         {
-          itkExceptionMacro(<< "Invalid Line Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Line Cell with number of points = " << numberOfPoints);
         }
         auto pointIDBuffer = static_cast<OutputPointIdentifier>(buffer[index++]);
         for (unsigned int jj = 1; jj < numberOfPoints; ++jj)
@@ -175,7 +175,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints < 2)
         {
-          itkExceptionMacro(<< "Invalid Line Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Line Cell with number of points = " << numberOfPoints);
         }
         auto *                polyLineCell = new OutputPolyLineCellType;
         OutputCellAutoPointer cell;
@@ -195,7 +195,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputTriangleCellType::NumberOfPoints)
         {
-          itkExceptionMacro(<< "Invalid Triangle Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Triangle Cell with number of points = " << numberOfPoints);
         }
 
         OutputCellAutoPointer cell;
@@ -214,7 +214,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadrilateralCellType::NumberOfPoints)
         {
-          itkExceptionMacro(<< "Invalid Quadrilateral Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Quadrilateral Cell with number of points = " << numberOfPoints);
         }
 
         OutputCellAutoPointer cell;
@@ -261,7 +261,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputTetrahedronCellType::NumberOfPoints)
         {
-          itkExceptionMacro(<< "Invalid Tetrahedron Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Tetrahedron Cell with number of points = " << numberOfPoints);
         }
 
         OutputCellAutoPointer cell;
@@ -280,7 +280,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputHexahedronCellType::NumberOfPoints)
         {
-          itkExceptionMacro(<< "Invalid Hexahedron Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Hexahedron Cell with number of points = " << numberOfPoints);
         }
 
         OutputCellAutoPointer cell;
@@ -299,7 +299,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadraticEdgeCellType::NumberOfPoints)
         {
-          itkExceptionMacro(<< "Invalid Quadratic edge Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Quadratic edge Cell with number of points = " << numberOfPoints);
         }
 
         OutputCellAutoPointer cell;
@@ -318,7 +318,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadraticTriangleCellType::NumberOfPoints)
         {
-          itkExceptionMacro(<< "Invalid Quadratic triangle Cell with number of points = " << numberOfPoints);
+          itkExceptionMacro("Invalid Quadratic triangle Cell with number of points = " << numberOfPoints);
         }
 
         OutputCellAutoPointer cell;
@@ -334,7 +334,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown cell type");
+        itkExceptionMacro("Unknown cell type");
       }
     }
   }
@@ -579,7 +579,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
       {
-        itkExceptionMacro(<< "Unknown point component type");
+        itkExceptionMacro("Unknown point component type");
       }
     }
   }
@@ -657,7 +657,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
       {
-        itkExceptionMacro(<< "Unknown cell component type");
+        itkExceptionMacro("Unknown cell component type");
       }
     }
   }

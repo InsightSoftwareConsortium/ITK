@@ -90,7 +90,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
     auto * input = itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(i));
     if (!input)
     {
-      itkExceptionMacro(<< "Input " << i << " not set!");
+      itkExceptionMacro("Input " << i << " not set!");
     }
     if (i == 0)
     {
@@ -98,7 +98,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
     }
     else if (input->GetLargestPossibleRegion() != region)
     {
-      itkExceptionMacro(<< "All Inputs must have the same dimensions.");
+      itkExceptionMacro("All Inputs must have the same dimensions.");
     }
   }
 }

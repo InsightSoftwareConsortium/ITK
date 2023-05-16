@@ -105,8 +105,8 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::SetParameters(
   /* Verify proper input size. */
   if (inputParameters.Size() != this->GetNumberOfParameters())
   {
-    itkExceptionMacro(<< "Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
-                      << this->GetNumberOfParameters() << '.');
+    itkExceptionMacro("Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
+                                                                         << this->GetNumberOfParameters() << '.');
   }
 
   TransformQueueType     transforms = this->GetTransformQueue();
@@ -172,8 +172,8 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::SetFixedParame
   /* Verify proper input size. */
   if (inputParameters.Size() != this->GetNumberOfFixedParameters())
   {
-    itkExceptionMacro(<< "Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
-                      << this->GetNumberOfFixedParameters() << '.');
+    itkExceptionMacro("Input parameter list size is not expected size. " << inputParameters.Size() << " instead of "
+                                                                         << this->GetNumberOfFixedParameters() << '.');
   }
 
   /* Assumes input params are concatenation of the parameters of the

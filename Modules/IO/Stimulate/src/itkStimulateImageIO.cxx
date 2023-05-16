@@ -139,7 +139,7 @@ StimulateImageIO::Read(void * buffer)
       }
       catch (const ExceptionObject &)
       {
-        itkExceptionMacro(<< "No Data file was specified in header (spr) file and guessing file data name failed.");
+        itkExceptionMacro("No Data file was specified in header (spr) file and guessing file data name failed.");
       }
     }
   } // a filename was found for data file
@@ -148,9 +148,9 @@ StimulateImageIO::Read(void * buffer)
 
   if (!this->ReadBufferAsBinary(file_data, buffer, this->GetImageSizeInBytes()))
   {
-    itkExceptionMacro(<< "Read failed: Wanted " << this->GetImageSizeInBytes() << " bytes, but read "
-                      << file_data.gcount() << " bytes."
-                      << " from file " << m_DataFileName);
+    itkExceptionMacro("Read failed: Wanted " << this->GetImageSizeInBytes() << " bytes, but read " << file_data.gcount()
+                                             << " bytes."
+                                             << " from file " << m_DataFileName);
   }
 
   // byte swapping depending on pixel type:
@@ -336,7 +336,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       }
       else
       {
-        itkExceptionMacro(<< "Unrecognized type");
+        itkExceptionMacro("Unrecognized type");
       }
     } // found scalars
     else if (text.find("displayRange") < text.length())
@@ -391,7 +391,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // BigEndian ieee-be / LittleEndian: ieee-le
       if (text.find("ieee-le") < text.length())
       {
-        itkExceptionMacro(<< "Little Endian Stimulate files are not handled.");
+        itkExceptionMacro("Little Endian Stimulate files are not handled.");
       }
     }
     else if (text.find("mapParmFileName") < text.length())
@@ -412,7 +412,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       itksys::RegularExpression regexp("stimFileName:[ ]*(.*)[ ]*$");
       if (!regexp.find(text))
       {
-        itkExceptionMacro(<< "Missing value for stimFileName attribute");
+        itkExceptionMacro("Missing value for stimFileName attribute");
       }
       datafilename = regexp.match(1);
 
@@ -501,7 +501,7 @@ StimulateImageIO::Write(const void * buffer)
   unsigned int numDims = this->GetNumberOfDimensions();
   if (numDims < 2 || numDims > 4)
   {
-    itkExceptionMacro(<< "Stimulate Writer can only write 2,3 or 4-dimensional images");
+    itkExceptionMacro("Stimulate Writer can only write 2,3 or 4-dimensional images");
   }
 
   // Write the Stimulate header information

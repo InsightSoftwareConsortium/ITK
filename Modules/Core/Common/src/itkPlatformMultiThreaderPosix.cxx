@@ -54,7 +54,7 @@ PlatformMultiThreader::MultipleMethodExecute()
   {
     if (m_MultipleMethod[thread_loop] == (ThreadFunctionType) nullptr)
     {
-      itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
+      itkExceptionMacro("No multiple method set for: " << thread_loop);
     }
   }
 
@@ -86,7 +86,7 @@ PlatformMultiThreader::MultipleMethodExecute()
                                      ((void *)(&m_ThreadInfoArray[thread_loop])));
     if (threadError != 0)
     {
-      itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned " << threadError);
+      itkExceptionMacro("Unable to create a thread.  pthread_create() returned " << threadError);
     }
   }
 
@@ -128,7 +128,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 
   if (id >= ITK_MAX_THREADS)
   {
-    itkExceptionMacro(<< "You have too many active threads!");
+    itkExceptionMacro("You have too many active threads!");
   }
 
   m_SpawnedThreadInfoArray[id].UserData = UserData;
@@ -149,7 +149,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
                                    ((void *)(&m_SpawnedThreadInfoArray[id])));
   if (threadError != 0)
   {
-    itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned " << threadError);
+    itkExceptionMacro("Unable to create a thread.  pthread_create() returned " << threadError);
   }
 
   return id;
@@ -180,7 +180,7 @@ PlatformMultiThreader::SpawnWaitForSingleMethodThread(ThreadProcessIdType thread
   // Using POSIX threads
   if (pthread_join(threadHandle, nullptr))
   {
-    itkExceptionMacro(<< "Unable to join thread.");
+    itkExceptionMacro("Unable to join thread.");
   }
 }
 
@@ -201,7 +201,7 @@ PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::Wo
     &threadHandle, &attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy), reinterpret_cast<void *>(threadInfo));
   if (threadError != 0)
   {
-    itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned " << threadError);
+    itkExceptionMacro("Unable to create a thread.  pthread_create() returned " << threadError);
   }
   return threadHandle;
 }

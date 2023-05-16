@@ -177,7 +177,7 @@ protected:
           numberOfPolygonIndices += nn + 1;
           break;
         default:
-          itkExceptionMacro(<< "Currently we dont support this cell type");
+          itkExceptionMacro("Currently we dont support this cell type");
       }
 
       index += nn;
@@ -719,7 +719,7 @@ protected:
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown point pixel type");
+        itkExceptionMacro("Unknown point pixel type");
       }
     }
 
@@ -850,7 +850,7 @@ protected:
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown point pixel type");
+        itkExceptionMacro("Unknown point pixel type");
       }
     }
 
@@ -913,7 +913,7 @@ protected:
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown cell pixel type");
+        itkExceptionMacro("Unknown cell pixel type");
       }
     }
 
@@ -1040,7 +1040,7 @@ protected:
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown cell pixel type");
+        itkExceptionMacro("Unknown cell pixel type");
       }
     }
 

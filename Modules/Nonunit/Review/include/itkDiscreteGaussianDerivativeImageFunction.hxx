@@ -78,7 +78,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
     {
       if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
       {
-        itkExceptionMacro(<< "Pixel spacing cannot be zero");
+        itkExceptionMacro("Pixel spacing cannot be zero");
       }
       else
       {

@@ -46,7 +46,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
   const auto * FEMmo = dynamic_cast<const MetaFEMObject *>(mo);
   if (FEMmo == nullptr)
   {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaFEMObject");
+    itkExceptionMacro("Can't convert MetaObject to MetaFEMObject");
   }
 
   FEMObjectSpatialObjectPointer FEMSO = FEMObjectSpatialObjectType::New();
@@ -317,7 +317,7 @@ MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjec
   FEMObjectSpatialObjectConstPointer FEMSO = dynamic_cast<const FEMObjectSpatialObjectType *>(so);
   if (FEMSO.IsNull())
   {
-    itkExceptionMacro(<< "Can't downcast SpatialObject to FEMObjectSpatialObject");
+    itkExceptionMacro("Can't downcast SpatialObject to FEMObjectSpatialObject");
   }
 
   using FEMObjectType = fem::FEMObject<VDimension>;

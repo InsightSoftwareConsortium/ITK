@@ -265,7 +265,7 @@ VXLVideoIO::ReadImageInformation()
   // Get information from camera
   if (this->m_ReadType == ReadFromCamera)
   {
-    itkExceptionMacro(<< "For now, camera reading is not supported with VXL");
+    itkExceptionMacro("For now, camera reading is not supported with VXL");
   }
 
   // Get information from file
@@ -311,7 +311,7 @@ VXLVideoIO::ReadImageInformation()
       this->m_IFrameInterval = localStream.frame_number();
       if (this->m_IFrameInterval == 0)
       {
-        itkExceptionMacro(<< "I-Frame spacing for this video is zeror! Please check input data.");
+        itkExceptionMacro("I-Frame spacing for this video is zeror! Please check input data.");
       }
       this->m_LastIFrame = static_cast<FrameOffsetType>(static_cast<float>(this->m_FrameTotal) /
                                                         static_cast<float>(this->m_IFrameInterval)) *
@@ -330,7 +330,7 @@ VXLVideoIO::ReadImageInformation()
   // Should never get here
   else
   {
-    itkExceptionMacro(<< "Invalid Read Type... How did we get here?");
+    itkExceptionMacro("Invalid Read Type... How did we get here?");
   }
 }
 
@@ -344,7 +344,7 @@ VXLVideoIO::Read(void * buffer)
   // Make sure we've already called ReadImageInformation (dimensions are non-zero)
   if (this->m_Dimensions.size() != 2 || this->m_Dimensions[0] == 0 || this->m_Dimensions[1] == 0)
   {
-    itkExceptionMacro(<< "Cannot read frame with zero dimension. May need to call ReadImageInformation");
+    itkExceptionMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
   }
 
   // If video is not already open, open it and keep it open
@@ -388,7 +388,7 @@ VXLVideoIO::Read(void * buffer)
     }
     else
     {
-      itkExceptionMacro(<< "Unsupported Pixel Format " << vidl_pixel_format_to_string(this->m_PixelFormat));
+      itkExceptionMacro("Unsupported Pixel Format " << vidl_pixel_format_to_string(this->m_PixelFormat));
     }
   }
 
@@ -549,7 +549,7 @@ VXLVideoIO::SetWriterParameters(TemporalRatioType                  fps,
   }
   else
   {
-    itkExceptionMacro(<< "Invalid number of channels " << this->m_NumberOfComponents);
+    itkExceptionMacro("Invalid number of channels " << this->m_NumberOfComponents);
   }
 }
 

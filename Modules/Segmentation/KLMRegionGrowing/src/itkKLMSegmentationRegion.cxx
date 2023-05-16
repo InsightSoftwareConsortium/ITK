@@ -61,7 +61,7 @@ KLMSegmentationRegion::CombineRegionParameters(const Self * region)
 
   if (mergedRegionArea <= 0)
   {
-    itkExceptionMacro(<< "Invalid region area");
+    itkExceptionMacro("Invalid region area");
   }
   mergedRegionMean /= mergedRegionArea;
   this->SetRegionArea(mergedRegionArea);
@@ -90,7 +90,7 @@ KLMSegmentationRegion::DeleteRegionBorder(KLMSegmentationBorder * pBorderCandida
 {
   if (pBorderCandidate == nullptr)
   {
-    itkExceptionMacro(<< "Null pointer to segmentation region border");
+    itkExceptionMacro("Null pointer to segmentation region border");
   }
 
   auto regionBorderVectorIt = m_RegionBorderVector.begin();
@@ -111,7 +111,7 @@ KLMSegmentationRegion::DeleteRegionBorder(KLMSegmentationBorder * pBorderCandida
 
   if (!foundBorderCandidate)
   {
-    itkExceptionMacro(<< "Border candidate not in region borders list");
+    itkExceptionMacro("Border candidate not in region borders list");
   }
 } // end DeleteRegionBorder()
 
@@ -120,7 +120,7 @@ KLMSegmentationRegion::PushBackRegionBorder(KLMSegmentationBorder * pBorderCandi
 {
   if (pBorderCandidate == nullptr)
   {
-    itkExceptionMacro(<< "Null pointer to segmentation region border");
+    itkExceptionMacro("Null pointer to segmentation region border");
   }
   m_RegionBorderVector.push_back(pBorderCandidate);
 }
@@ -130,7 +130,7 @@ KLMSegmentationRegion::PushFrontRegionBorder(KLMSegmentationBorder * pBorderCand
 {
   if (pBorderCandidate == nullptr)
   {
-    itkExceptionMacro(<< "Null pointer to segmentation region border");
+    itkExceptionMacro("Null pointer to segmentation region border");
   }
   m_RegionBorderVector.insert(m_RegionBorderVector.begin(), pBorderCandidate);
 }
@@ -141,7 +141,7 @@ KLMSegmentationRegion::InsertRegionBorder(KLMSegmentationBorder * pBorderCandida
   // Ensure that the border candidate is not a null pointer
   if (pBorderCandidate == nullptr)
   {
-    itkExceptionMacro(<< "Null pointer to segmentation region border");
+    itkExceptionMacro("Null pointer to segmentation region border");
   }
 
   // The m_RegionBorderVec is an ordered vector of pointers to the borders.
@@ -193,7 +193,7 @@ KLMSegmentationRegion::InsertRegionBorder(RegionBorderVectorIterator RegionBorde
   // Ensure that the border candidate is not a null pointer
   if (pBorderCandidate == nullptr)
   {
-    itkExceptionMacro(<< "Null pointer to segmentation region border");
+    itkExceptionMacro("Null pointer to segmentation region border");
   }
 
   // The m_RegionBorderVec is an ordered vector of pointers to the
@@ -225,7 +225,7 @@ KLMSegmentationRegion::ResetRegionLabelAndUpdateBorders(Self * region)
     // Ensure that region 1 label is less than  region 2 label
     if ((*oldRegionBordersIt)->GetRegion1()->GetRegionLabel() == (*oldRegionBordersIt)->GetRegion2()->GetRegionLabel())
     {
-      itkExceptionMacro(<< "Invalid region border list");
+      itkExceptionMacro("Invalid region border list");
     }
 
     // Correct order
@@ -268,7 +268,7 @@ KLMSegmentationRegion::ResetRegionLabelAndUpdateBorders(Self * region)
 
     else
     {
-      itkExceptionMacro(<< "Invalid region border list");
+      itkExceptionMacro("Invalid region border list");
     } // end else
 
     // Go to the next region border pointed by the iterator
@@ -304,7 +304,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
         ((*thatRegionBordersIt)->GetRegion1() == (*thatRegionBordersIt)->GetRegion2()) ||
         ((*thisRegionBordersIt) == (*thatRegionBordersIt)))
     {
-      itkExceptionMacro(<< "Invalid region border list");
+      itkExceptionMacro("Invalid region border list");
     }
 
     // The two borders point to the same regions: DUPLICATE case.
@@ -335,7 +335,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
 
       else
       {
-        itkExceptionMacro(<< "Invalid region border list");
+        itkExceptionMacro("Invalid region border list");
       } // end else
 
       // Nullify the duplicate border so it can be identified and removed.
@@ -376,7 +376,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
     } // end else if
     else
     {
-      itkExceptionMacro(<< "Invalid region border");
+      itkExceptionMacro("Invalid region border");
     } // end else
   }   // end of while
 
@@ -401,7 +401,7 @@ KLMSegmentationRegion::UpdateRegionBorderLambda()
   // Check if the number of borders for this region is nullptr
   if (m_RegionBorderVector.empty())
   {
-    itkExceptionMacro(<< "The region border for computing Lambda is nullptr");
+    itkExceptionMacro("The region border for computing Lambda is nullptr");
   }
 
   // Set up the iterator to loop through the region border vector

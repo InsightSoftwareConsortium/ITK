@@ -51,17 +51,17 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
   // Check to make sure everything is set
   if (!m_TrainingTransform)
   {
-    itkExceptionMacro(<< "Training Transform is not present");
+    itkExceptionMacro("Training Transform is not present");
   }
 
   if (!m_TrainingInterpolator)
   {
-    itkExceptionMacro(<< "Training Interpolator is not present");
+    itkExceptionMacro("Training Interpolator is not present");
   }
 
   if (!m_TrainingMovingImage)
   {
-    itkExceptionMacro(<< "Training MovingImage is not present");
+    itkExceptionMacro("Training MovingImage is not present");
   }
 
   // If the image is provided by a source, update the source.
@@ -69,7 +69,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
 
   if (!m_TrainingFixedImage)
   {
-    itkExceptionMacro(<< "Training FixedImage is not present");
+    itkExceptionMacro("Training FixedImage is not present");
   }
 
   // If the image is provided by a source, update the source.
@@ -77,13 +77,13 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
 
   if (m_TrainingFixedImageRegion.GetNumberOfPixels() == 0)
   {
-    itkExceptionMacro(<< "TrainingFixedImageRegion is empty");
+    itkExceptionMacro("TrainingFixedImageRegion is empty");
   }
 
   // Make sure the FixedImageRegion is within the FixedImage buffered region
   if (!m_TrainingFixedImageRegion.Crop(m_TrainingFixedImage->GetBufferedRegion()))
   {
-    itkExceptionMacro(<< "TrainingFixedImageRegion does not overlap the training fixed image buffered region");
+    itkExceptionMacro("TrainingFixedImageRegion does not overlap the training fixed image buffered region");
   }
 
   this->m_TrainingInterpolator->SetInputImage(GetTrainingMovingImage());
@@ -138,7 +138,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
 
   if (NumberOfPixelsCounted == 0)
   {
-    itkExceptionMacro(<< "All the points mapped to outside of the Training moving age");
+    itkExceptionMacro("All the points mapped to outside of the Training moving age");
   }
 }
 

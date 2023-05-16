@@ -90,7 +90,7 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::ResumeOptimization()
   int N = parameters.GetSize();
   if (N == 0)
   {
-    itkExceptionMacro(<< "Optimizer parameters are not initialized.");
+    itkExceptionMacro("Optimizer parameters are not initialized.");
   }
 
   // TODO: only needed if SSE is enabled

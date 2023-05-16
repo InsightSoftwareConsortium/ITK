@@ -70,22 +70,22 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
   // Sanity checks
   if (!m_Metric)
   {
-    itkExceptionMacro(<< "Metric is not present");
+    itkExceptionMacro("Metric is not present");
   }
 
   if (!m_Optimizer)
   {
-    itkExceptionMacro(<< "Optimizer is not present");
+    itkExceptionMacro("Optimizer is not present");
   }
 
   if (!m_Transform)
   {
-    itkExceptionMacro(<< "Transform is not present");
+    itkExceptionMacro("Transform is not present");
   }
 
   if (!m_Interpolator)
   {
-    itkExceptionMacro(<< "Interpolator is not present");
+    itkExceptionMacro("Interpolator is not present");
   }
 
   // Setup the metric
@@ -164,35 +164,35 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
 {
   if (!m_Transform)
   {
-    itkExceptionMacro(<< "Transform is not present");
+    itkExceptionMacro("Transform is not present");
   }
 
   m_InitialTransformParametersOfNextLevel = m_InitialTransformParameters;
 
   if (m_InitialTransformParametersOfNextLevel.Size() != m_Transform->GetNumberOfParameters())
   {
-    itkExceptionMacro(<< "Size mismatch between initial parameter and transform");
+    itkExceptionMacro("Size mismatch between initial parameter and transform");
   }
 
   // Sanity checks
   if (!m_FixedImage)
   {
-    itkExceptionMacro(<< "FixedImage is not present");
+    itkExceptionMacro("FixedImage is not present");
   }
 
   if (!m_MovingImage)
   {
-    itkExceptionMacro(<< "MovingImage is not present");
+    itkExceptionMacro("MovingImage is not present");
   }
 
   if (!m_FixedImagePyramid)
   {
-    itkExceptionMacro(<< "Fixed image pyramid is not present");
+    itkExceptionMacro("Fixed image pyramid is not present");
   }
 
   if (!m_MovingImagePyramid)
   {
-    itkExceptionMacro(<< "Moving image pyramid is not present");
+    itkExceptionMacro("Moving image pyramid is not present");
   }
 
   // Setup the fixed and moving image pyramid

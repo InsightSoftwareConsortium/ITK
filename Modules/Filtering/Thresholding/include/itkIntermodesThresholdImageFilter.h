@@ -123,7 +123,7 @@ protected:
     Superclass::VerifyPreconditions();
     if (dynamic_cast<const CalculatorType *>(Superclass::GetCalculator()) == nullptr)
     {
-      itkExceptionMacro(<< "Invalid IntermodesCalculator.");
+      itkExceptionMacro("Invalid IntermodesCalculator.");
     }
   }
 

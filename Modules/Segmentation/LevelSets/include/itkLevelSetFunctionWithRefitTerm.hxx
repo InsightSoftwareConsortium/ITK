@@ -161,11 +161,11 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PropagationSpeed(co
   {
     if (targetnode == nullptr)
     {
-      itkExceptionMacro(<< "required node has null pointer\n");
+      itkExceptionMacro("required node has null pointer\n");
     }
     else
     {
-      itkExceptionMacro(<< "required node has CurvatureFlag = false\n");
+      itkExceptionMacro("required node has CurvatureFlag = false\n");
     }
   }
   else

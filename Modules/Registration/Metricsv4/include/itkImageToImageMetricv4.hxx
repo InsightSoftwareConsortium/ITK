@@ -92,19 +92,19 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   /* Verify things are connected */
   if (this->m_FixedImage.IsNull())
   {
-    itkExceptionMacro(<< "FixedImage is not present");
+    itkExceptionMacro("FixedImage is not present");
   }
   if (this->m_MovingImage.IsNull())
   {
-    itkExceptionMacro(<< "MovingImage is not present");
+    itkExceptionMacro("MovingImage is not present");
   }
   if (this->m_FixedTransform.IsNull())
   {
-    itkExceptionMacro(<< "FixedTransform is not present");
+    itkExceptionMacro("FixedTransform is not present");
   }
   if (this->m_MovingTransform.IsNull())
   {
-    itkExceptionMacro(<< "MovingTransform is not present");
+    itkExceptionMacro("MovingTransform is not present");
   }
 
   // If the image is provided by a source, update the source.

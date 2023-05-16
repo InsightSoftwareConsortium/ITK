@@ -56,7 +56,8 @@ ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> C
   // Check that the input image is fully buffered.
   if (m_ImageKernel->GetBufferedRegion() != m_ImageKernel->GetLargestPossibleRegion())
   {
-    itkExceptionMacro(<< "ImageKernel is not fully buffered. " << std::endl
+    itkExceptionMacro("ImageKernel is not fully buffered. "
+                      << std::endl
                       << "Buffered region: " << m_ImageKernel->GetBufferedRegion() << std::endl
                       << "Largest possible region: " << m_ImageKernel->GetLargestPossibleRegion() << std::endl
                       << "You should call UpdateLargestPossibleRegion() on "
@@ -69,7 +70,7 @@ ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> C
   {
     if (m_ImageKernel->GetLargestPossibleRegion().GetSize()[i] % 2 == 0)
     {
-      itkExceptionMacro(<< "ImageKernelOperator requires an input image "
+      itkExceptionMacro("ImageKernelOperator requires an input image "
                         << "whose size is odd in all dimensions. The provided "
                         << "image has size " << m_ImageKernel->GetLargestPossibleRegion().GetSize());
     }

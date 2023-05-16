@@ -80,8 +80,8 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Graft(const DataObject * data)
   if (!mesh)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::QuadEdgeMesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::QuadEdgeMesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                          << typeid(Self *).name());
   }
 
   this->m_FreePointIndexes = mesh->m_FreePointIndexes;

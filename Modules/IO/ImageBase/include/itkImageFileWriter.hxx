@@ -86,14 +86,14 @@ ImageFileWriter<TInputImage>::Write()
   // Make sure input is available
   if (input == nullptr)
   {
-    itkExceptionMacro(<< "No input to writer!");
+    itkExceptionMacro("No input to writer!");
   }
 
   // Make sure that we can write the file given the name
   //
   if (m_FileName.empty())
   {
-    itkExceptionMacro(<< "No filename was specified");
+    itkExceptionMacro("No filename was specified");
   }
 
   if (m_ImageIO.IsNull() || (m_FactorySpecifiedImageIO && !m_ImageIO->CanWriteFile(m_FileName.c_str())))
@@ -242,7 +242,7 @@ ImageFileWriter<TInputImage>::Write()
   // largest region or not.
   if (!largestIORegion.IsInside(pasteIORegion))
   {
-    itkExceptionMacro(<< "Largest possible region does not fully contain requested paste IO region. Paste IO region: "
+    itkExceptionMacro("Largest possible region does not fully contain requested paste IO region. Paste IO region: "
                       << pasteIORegion << "Largest possible region: " << largestRegion);
   }
 

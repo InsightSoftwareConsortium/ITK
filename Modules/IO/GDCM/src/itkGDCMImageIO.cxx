@@ -290,7 +290,7 @@ GDCMImageIO::Read(void * pointer)
   reader.SetFileName(m_FileName.c_str());
   if (!reader.Read())
   {
-    itkExceptionMacro(<< "Cannot read requested file");
+    itkExceptionMacro("Cannot read requested file");
   }
 
   gdcm::Image & image = reader.GetImage();
@@ -308,7 +308,7 @@ GDCMImageIO::Read(void * pointer)
     icts.SetTransferSyntax(gdcm::TransferSyntax::ImplicitVRLittleEndian);
     if (!icts.Change())
     {
-      itkExceptionMacro(<< "Failed to change to Implicit Transfer Syntax");
+      itkExceptionMacro("Failed to change to Implicit Transfer Syntax");
     }
     image = icts.GetOutput();
   }
@@ -321,7 +321,7 @@ GDCMImageIO::Read(void * pointer)
     icpc.SetPlanarConfiguration(0);
     if (!icpc.Change())
     {
-      itkExceptionMacro(<< "Failed to change to Planar Configuration");
+      itkExceptionMacro("Failed to change to Planar Configuration");
     }
     image = icpc.GetOutput();
   }
@@ -333,7 +333,7 @@ GDCMImageIO::Read(void * pointer)
     const size_t x = m_Dimensions[0] * m_Dimensions[1] * m_Dimensions[2];
     if (x > len * 8)
     {
-      itkExceptionMacro(<< "Failed to load SINGLEBIT image, buffer size " << len);
+      itkExceptionMacro("Failed to load SINGLEBIT image, buffer size " << len);
     }
     len = x;
   }
@@ -354,7 +354,7 @@ GDCMImageIO::Read(void * pointer)
     icpi.SetPhotometricInterpretation(gdcm::PhotometricInterpretation::MONOCHROME2);
     if (!icpi.Change())
     {
-      itkExceptionMacro(<< "Failed to change to Photometric Interpretation");
+      itkExceptionMacro("Failed to change to Photometric Interpretation");
     }
     itkWarningMacro(<< "Converting from MONOCHROME1 to MONOCHROME2 may impact the meaning of DICOM attributes related "
                        "to pixel values.");
@@ -363,7 +363,7 @@ GDCMImageIO::Read(void * pointer)
 
   if (!image.GetBuffer((char *)pointer))
   {
-    itkExceptionMacro(<< "Failed to get the buffer!");
+    itkExceptionMacro("Failed to get the buffer!");
   }
 
   if (m_SingleBit)
@@ -422,7 +422,7 @@ GDCMImageIO::Read(void * pointer)
     {
       if (len % 3 != 0)
       {
-        itkExceptionMacro(<< "Buffer size " << len << " is not valid");
+        itkExceptionMacro("Buffer size " << len << " is not valid");
       }
       YCbCr_to_RGB(reinterpret_cast<unsigned char *>(pointer), static_cast<size_t>(len));
     }
@@ -459,7 +459,7 @@ GDCMImageIO::InternalReadImageInformation()
   reader.SetFileName(m_FileName.c_str());
   if (!reader.Read())
   {
-    itkExceptionMacro(<< "Cannot read requested file");
+    itkExceptionMacro("Cannot read requested file");
   }
   const gdcm::Image &   image = reader.GetImage();
   const gdcm::File &    f = reader.GetFile();
@@ -1179,7 +1179,7 @@ GDCMImageIO::Write(const void * buffer)
       pixeltype = gdcm::PixelFormat::FLOAT64;
       break;
     default:
-      itkExceptionMacro(<< "DICOM does not support this component type");
+      itkExceptionMacro("DICOM does not support this component type");
   }
   itkAssertInDebugAndIgnoreInReleaseMacro(pixeltype != gdcm::PixelFormat::UNKNOWN);
   gdcm::PhotometricInterpretation pi;
@@ -1195,7 +1195,7 @@ GDCMImageIO::Write(const void * buffer)
   }
   else
   {
-    itkExceptionMacro(<< "DICOM does not support this component type");
+    itkExceptionMacro("DICOM does not support this component type");
   }
   pixeltype.SetSamplesPerPixel(static_cast<short unsigned int>(this->GetNumberOfComponents()));
 
@@ -1211,14 +1211,14 @@ GDCMImageIO::Write(const void * buffer)
       outpixeltype.SetPixelRepresentation(static_cast<unsigned short>(std::stoi(pixelRep.c_str())));
       if (this->GetNumberOfComponents() != 1)
       {
-        itkExceptionMacro(<< "Sorry Dave I can't do that");
+        itkExceptionMacro("Sorry Dave I can't do that");
       }
       itkAssertInDebugAndIgnoreInReleaseMacro(outpixeltype != gdcm::PixelFormat::UNKNOWN);
     }
     else
     {
-      itkExceptionMacro(<< "A Floating point buffer was passed but the stored pixel type was not specified."
-                           "This is currently not supported");
+      itkExceptionMacro("A Floating point buffer was passed but the stored pixel type was not specified."
+                        "This is currently not supported");
     }
   }
   else if (this->GetInternalComponentType() != IOComponentEnum::UNKNOWNCOMPONENTTYPE)
@@ -1252,7 +1252,7 @@ GDCMImageIO::Write(const void * buffer)
         outpixeltype = gdcm::PixelFormat::UINT32;
         break;
       default:
-        itkExceptionMacro(<< "DICOM does not support this component type");
+        itkExceptionMacro("DICOM does not support this component type");
     }
   }
 
@@ -1325,13 +1325,13 @@ GDCMImageIO::Write(const void * buffer)
     }
     else
     {
-      itkExceptionMacro(<< "Unknown compression type");
+      itkExceptionMacro("Unknown compression type");
     }
     change.SetInput(image);
     bool b = change.Change();
     if (!b)
     {
-      itkExceptionMacro(<< "Could not change the Transfer Syntax for Compression");
+      itkExceptionMacro("Could not change the Transfer Syntax for Compression");
     }
     writer.SetImage(change.GetOutput());
   }
@@ -1384,14 +1384,14 @@ GDCMImageIO::Write(const void * buffer)
     fef.SetFile(writer.GetFile());
     if (!fef.Change())
     {
-      itkExceptionMacro(<< "Failed to change to Explicit Transfer Syntax");
+      itkExceptionMacro("Failed to change to Explicit Transfer Syntax");
     }
   }
 
   writer.SetFileName(m_FileName.c_str());
   if (!writer.Write())
   {
-    itkExceptionMacro(<< "DICOM does not support this component type");
+    itkExceptionMacro("DICOM does not support this component type");
   }
 }
 

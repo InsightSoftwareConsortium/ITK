@@ -521,7 +521,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
                   << ", DisplacementField Spacing: " << field->GetSpacing() << std::endl;
     directionString << "Virtual Direction: " << this->GetVirtualDirection()
                     << ", DisplacementField Direction: " << field->GetDirection() << std::endl;
-    itkExceptionMacro(<< "Virtual Domain and DisplacementField do not "
+    itkExceptionMacro("Virtual Domain and DisplacementField do not "
                       << "occupy the same physical space! You may be able to "
                       << "simply call displacementField->CopyInformation( "
                       << "metric->GetVirtualImage() ) to align them. " << std::endl

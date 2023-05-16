@@ -107,8 +107,8 @@ LabelMap<TLabelObject>::Graft(const DataObject * data)
   if (imgData == nullptr)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::LabelMap::Graft() cannot cast " << typeid(data).name() << " to "
-                      << typeid(const Self *).name());
+    itkExceptionMacro("itk::LabelMap::Graft() cannot cast " << typeid(data).name() << " to "
+                                                            << typeid(const Self *).name());
   }
   this->Graft(imgData);
 }
@@ -120,14 +120,14 @@ LabelMap<TLabelObject>::GetLabelObject(const LabelType & label) -> LabelObjectTy
 {
   if (m_BackgroundValue == label)
   {
-    itkExceptionMacro(<< "Label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
-                      << " is the background label.");
+    itkExceptionMacro("Label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
+                               << " is the background label.");
   }
   auto it = m_LabelObjectContainer.find(label);
   if (it == m_LabelObjectContainer.end())
   {
-    itkExceptionMacro(<< "No label object with label "
-                      << static_cast<typename NumericTraits<LabelType>::PrintType>(label) << '.');
+    itkExceptionMacro("No label object with label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
+                                                    << '.');
   }
 
   return it->second;
@@ -140,14 +140,14 @@ LabelMap<TLabelObject>::GetLabelObject(const LabelType & label) const -> const L
 {
   if (m_BackgroundValue == label)
   {
-    itkExceptionMacro(<< "Label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
-                      << " is the background label.");
+    itkExceptionMacro("Label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
+                               << " is the background label.");
   }
   auto it = m_LabelObjectContainer.find(label);
   if (it == m_LabelObjectContainer.end())
   {
-    itkExceptionMacro(<< "No label object with label "
-                      << static_cast<typename NumericTraits<LabelType>::PrintType>(label) << '.');
+    itkExceptionMacro("No label object with label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
+                                                    << '.');
   }
 
   return it->second;
@@ -193,8 +193,9 @@ LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) -> LabelObj
     }
     ++i;
   }
-  itkExceptionMacro(<< "Can't access to label object at position " << pos << ". The label map has only "
-                    << this->GetNumberOfLabelObjects() << " label objects registered.");
+  itkExceptionMacro("Can't access to label object at position " << pos << ". The label map has only "
+                                                                << this->GetNumberOfLabelObjects()
+                                                                << " label objects registered.");
 }
 
 
@@ -212,8 +213,9 @@ LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) const -> co
     }
     ++i;
   }
-  itkExceptionMacro(<< "Can't access to label object at position " << pos << ". The label map has only "
-                    << this->GetNumberOfLabelObjects() << " label objects registered.");
+  itkExceptionMacro("Can't access to label object at position " << pos << ". The label map has only "
+                                                                << this->GetNumberOfLabelObjects()
+                                                                << " label objects registered.");
 }
 
 
@@ -379,7 +381,7 @@ LabelMap<TLabelObject>::GetLabelObject(const IndexType & idx) const -> LabelObje
       return it->second.GetPointer();
     }
   }
-  itkExceptionMacro(<< "No label object at index " << idx << '.');
+  itkExceptionMacro("No label object at index " << idx << '.');
   //   return nullptr;
 }
 
@@ -449,7 +451,7 @@ LabelMap<TLabelObject>::PushLabelObject(LabelObjectType * labelObject)
       }
       if (label == lastLabel)
       {
-        itkExceptionMacro(<< "Can't push the label object: the label map is full.");
+        itkExceptionMacro("Can't push the label object: the label map is full.");
       }
     }
   }
@@ -474,8 +476,8 @@ LabelMap<TLabelObject>::RemoveLabel(const LabelType & label)
 {
   if (m_BackgroundValue == label)
   {
-    itkExceptionMacro(<< "Label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
-                      << " is the background label.");
+    itkExceptionMacro("Label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
+                               << " is the background label.");
   }
   m_LabelObjectContainer.erase(label);
   this->Modified();

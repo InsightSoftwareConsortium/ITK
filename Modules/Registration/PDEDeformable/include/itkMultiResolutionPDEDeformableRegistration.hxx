@@ -280,22 +280,22 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 
   if (!movingImage || !fixedImage)
   {
-    itkExceptionMacro(<< "Fixed and/or moving image not set");
+    itkExceptionMacro("Fixed and/or moving image not set");
   }
 
   if (!m_MovingImagePyramid || !m_FixedImagePyramid)
   {
-    itkExceptionMacro(<< "Fixed and/or moving pyramid not set");
+    itkExceptionMacro("Fixed and/or moving pyramid not set");
   }
 
   if (!m_RegistrationFilter)
   {
-    itkExceptionMacro(<< "Registration filter not set");
+    itkExceptionMacro("Registration filter not set");
   }
 
   if (this->m_InitialDisplacementField && this->GetInput(0))
   {
-    itkExceptionMacro(<< "Only one initial deformation can be given. "
+    itkExceptionMacro("Only one initial deformation can be given. "
                       << "SetInitialDisplacementField should not be used in "
                       << "cunjunction with SetArbitraryInitialDisplacementField "
                       << "or SetInput.");

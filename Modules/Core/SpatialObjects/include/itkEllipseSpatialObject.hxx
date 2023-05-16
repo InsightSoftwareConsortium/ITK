@@ -121,7 +121,7 @@ EllipseSpatialObject<TDimension>::InternalClone() const
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "Downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("Downcast to type " << this->GetNameOfClass() << " failed.");
   }
   rval->SetRadiusInObjectSpace(this->GetRadiusInObjectSpace());
   rval->SetCenterInObjectSpace(this->GetCenterInObjectSpace());

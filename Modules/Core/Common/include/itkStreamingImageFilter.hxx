@@ -117,8 +117,8 @@ StreamingImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * i
   const itk::ProcessObject::DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
   if (ninputs < this->GetNumberOfRequiredInputs())
   {
-    itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << ninputs
-                      << " are specified.");
+    itkExceptionMacro("At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << ninputs
+                                  << " are specified.");
   }
 
   /**

@@ -45,15 +45,15 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
 {
   if (!this->m_Transform)
   {
-    itkExceptionMacro(<< "Transform has not been set.");
+    itkExceptionMacro("Transform has not been set.");
   }
   if (!this->m_Image)
   {
-    itkExceptionMacro(<< "Image has not been set.");
+    itkExceptionMacro("Image has not been set.");
   }
   if (TImage::GetImageDimension() != SpaceDimension)
   {
-    itkExceptionMacro(<< "Image dimensionality does not match the transform.");
+    itkExceptionMacro("Image dimensionality does not match the transform.");
   }
 
   OriginType             transformDomainOrigin;
