@@ -21,6 +21,7 @@
 #include "itkAutoPointer.h"
 #include "itkMesh.h"
 #include "itkGeometricalQuadEdge.h"
+#include "itkCommonEnums.h"
 
 namespace itk
 {
