@@ -18,6 +18,9 @@
 
 #include "itkPyCommand.h"
 
+namespace itk
+{
+
 namespace
 {
 // Wrapper to automatics obtain and release GIL
@@ -32,9 +35,6 @@ private:
   PyGILState_STATE m_GIL;
 };
 } // end anonymous namespace
-
-namespace itk
-{
 
 PyCommand::PyCommand()
 {
