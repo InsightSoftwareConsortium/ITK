@@ -388,9 +388,9 @@ private:
      */
     QualifiedIterator() = default;
 
-    /** Constructor that allows implicit conversion from non-const to const
-     * iterator. Also serves as copy-constructor of a non-const iterator.  */
-    QualifiedIterator(const QualifiedIterator<false> & arg) noexcept
+    /** Constructor for implicit conversion from non-const to const iterator.  */
+    template <bool VIsArgumentConst, typename = std::enable_if_t<VIsConst && !VIsArgumentConst>>
+    QualifiedIterator(const QualifiedIterator<VIsArgumentConst> & arg) noexcept
       : m_ImageBufferPointer{ arg.m_ImageBufferPointer }
       ,
       // Note: Use parentheses instead of curly braces to initialize data members,
@@ -569,11 +569,6 @@ private:
 
     /** Returns it[n] for iterator 'it' and integer value 'n'. */
     reference operator[](const difference_type n) const noexcept { return *(*this + n); }
-
-
-    /** Explicitly-defaulted assignment operator. */
-    QualifiedIterator &
-    operator=(const QualifiedIterator &) noexcept = default;
   };
 
   static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
