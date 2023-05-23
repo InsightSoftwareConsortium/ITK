@@ -147,6 +147,12 @@ FreeSurferAsciiMeshIO::ReadPoints(void * buffer)
 
   // Read points
   m_InputFile.precision(12);
+
+  // The 4th value of a point should be integer, usually 0.
+  // Here it is of type 'float' for backward compatibility
+  // with buggy files where the 4th value is 0.000000.
+  // Correctly written files with integer 4th value will
+  // work too.
   float value;
 
   SizeValueType index = 0;
@@ -168,7 +174,11 @@ FreeSurferAsciiMeshIO::ReadCells(void * buffer)
   SizeValueType          index = 0;
   constexpr unsigned int numberOfCellPoints = 3;
   const auto             data = make_unique_for_overwrite<unsigned int[]>(this->m_NumberOfCells * numberOfCellPoints);
-  float                  value;
+
+  // 4th value of a cell is always integer, usually 0,
+  // using 'float' here seems to be safe for correctly written
+  // files and also for possible buggy files.
+  float value;
 
   for (SizeValueType id = 0; id < this->m_NumberOfCells; ++id)
   {
@@ -207,16 +217,14 @@ FreeSurferAsciiMeshIO::WriteMeshInformation()
 
   if (!outputFile.is_open())
   {
-    itkExceptionMacro("Unable to open file\n"
-                      "outputFilename= "
-                      << this->m_FileName);
+    itkExceptionMacro("Unable to open file " << this->m_FileName);
   }
 
   // Write FreeSurfer Surface file header
   outputFile << "#!ascii version of " << this->m_FileName << std::endl;
 
   // Write the number of points and number of cells
-  outputFile << this->m_NumberOfPoints << "    " << this->m_NumberOfCells << std::endl;
+  outputFile << this->m_NumberOfPoints << " " << this->m_NumberOfCells << std::endl;
 
   outputFile.close();
 }
@@ -235,9 +243,7 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
 
   if (!outputFile.is_open())
   {
-    itkExceptionMacro("Unable to open file\n"
-                      "outputFilename= "
-                      << this->m_FileName);
+    itkExceptionMacro("Unable to open file " << this->m_FileName);
   }
 
   // Write points
@@ -245,87 +251,72 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
   {
     case IOComponentEnum::UCHAR:
     {
-      WritePoints(static_cast<unsigned char *>(buffer), outputFile, itk::NumericTraits<unsigned char>::ZeroValue());
+      WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::CHAR:
     {
-      WritePoints(static_cast<char *>(buffer), outputFile, itk::NumericTraits<char>::ZeroValue());
-
+      WritePoints(static_cast<char *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::USHORT:
     {
-      WritePoints(static_cast<unsigned short *>(buffer), outputFile, itk::NumericTraits<unsigned short>::ZeroValue());
-
+      WritePoints(static_cast<unsigned short *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::SHORT:
     {
-      WritePoints(static_cast<short *>(buffer), outputFile, itk::NumericTraits<short>::ZeroValue());
-
+      WritePoints(static_cast<short *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::UINT:
     {
-      WritePoints(static_cast<unsigned int *>(buffer), outputFile, itk::NumericTraits<unsigned int>::ZeroValue());
-
+      WritePoints(static_cast<unsigned int *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::INT:
     {
-      WritePoints(static_cast<int *>(buffer), outputFile, itk::NumericTraits<int>::ZeroValue());
-
+      WritePoints(static_cast<int *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::ULONG:
     {
-      WritePoints(static_cast<unsigned long *>(buffer), outputFile, itk::NumericTraits<unsigned long>::ZeroValue());
-
+      WritePoints(static_cast<unsigned long *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::LONG:
     {
-      WritePoints(static_cast<long *>(buffer), outputFile, itk::NumericTraits<long>::ZeroValue());
-
+      WritePoints(static_cast<long *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::ULONGLONG:
     {
-      WritePoints(static_cast<unsigned long long *>(buffer),
-                  outputFile,
-                  static_cast<unsigned long long>(itk::NumericTraits<unsigned long>::ZeroValue()));
-
+      WritePoints(static_cast<unsigned long long *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::LONGLONG:
     {
-      WritePoints(
-        static_cast<long long *>(buffer), outputFile, static_cast<long long>(itk::NumericTraits<long>::ZeroValue()));
-
+      WritePoints(static_cast<long long *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::FLOAT:
     {
-      WritePoints(static_cast<float *>(buffer), outputFile, 0.0f);
-
+      WritePoints(static_cast<float *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::DOUBLE:
     {
-      WritePoints(static_cast<double *>(buffer), outputFile, 0.0);
-
+      WritePoints(static_cast<double *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::LDOUBLE:
     {
-      WritePoints(static_cast<long double *>(buffer), outputFile, itk::NumericTraits<long double>::ZeroValue());
-
+      WritePoints(static_cast<long double *>(buffer), outputFile);
       break;
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
+      itkExceptionMacro(<< "Unknown point pixel component type");
     }
   }
 
@@ -346,9 +337,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
 
   if (!outputFile.is_open())
   {
-    itkExceptionMacro("Unable to open file\n"
-                      "outputFilename= "
-                      << this->m_FileName);
+    itkExceptionMacro("Unable to open file " << this->m_FileName);
   }
 
   // Write triangles
@@ -396,15 +385,12 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
     }
     case IOComponentEnum::ULONGLONG:
     {
-      WriteCells(static_cast<unsigned long long *>(buffer),
-                 outputFile,
-                 static_cast<unsigned long long>(itk::NumericTraits<unsigned long>::ZeroValue()));
+      WriteCells(static_cast<unsigned long long *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::LONGLONG:
     {
-      WriteCells(
-        static_cast<long long *>(buffer), outputFile, static_cast<long long>(itk::NumericTraits<long>::ZeroValue()));
+      WriteCells(static_cast<long long *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::FLOAT:
@@ -424,7 +410,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown cell pixel component type" << std::endl);
+      itkExceptionMacro(<< "Unknown cell pixel component type");
     }
   }
 
