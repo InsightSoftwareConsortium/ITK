@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKIODCMTKTests
+  itkDCMTKGetDicomTagsTest.cxx
   itkDCMTKImageIOTest.cxx
   itkDCMTKRGBImageIOTest.cxx
   itkDCMTKSeriesReadImageWrite.cxx
@@ -13,6 +14,27 @@ set(ITKIODCMTKTests
 )
 
 CreateTestDriver(ITKIODCMTK "${ITKIODCMTK-Test_LIBRARIES}" "${ITKIODCMTKTests}")
+
+itk_add_test(NAME itkDCMTKGetDicomTagsTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKGetDicomTagsTest
+  --compare DATA{Baseline/DICOMTags.txt}
+  ${ITK_TEST_OUTPUT_DIR}/DICOMTags.txt
+  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/DICOMTags.txt)
+
+itk_add_test(NAME itkDCMTKGetDicomTagsTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKGetDicomTagsTest
+  --compare DATA{Baseline/RGBDICOMTags.txt}
+  ${ITK_TEST_OUTPUT_DIR}/RGBDICOMTags.txt
+  DATA{${ITK_DATA_ROOT}/Input/RGBDicomSeries/raw-RGB.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/RGBDICOMTags.txt)
+
+itk_add_test(NAME itkDCMTKGetDicomTagsTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKGetDicomTagsTest
+  --compare DATA{Baseline/RTDoseDICOMTags.txt}
+  ${ITK_TEST_OUTPUT_DIR}/RTDoseDICOMTags.txt
+  DATA{${ITK_DATA_ROOT}/Input/RTDoseDicomSeries/32bitDoseRTImage.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/RTDoseDICOMTags.txt)
 
 itk_add_test(NAME itkDCMTKImageIOTest1
   COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOTest
