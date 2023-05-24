@@ -98,6 +98,10 @@ protected:
 
   ~LaplacianSharpeningImageFilter() override = default;
 
+  /** This filter must produce all of its output at once. */
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
+
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
