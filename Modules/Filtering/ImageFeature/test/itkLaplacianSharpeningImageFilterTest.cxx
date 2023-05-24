@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkLaplacianSharpeningImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
@@ -62,8 +63,16 @@ itkLaplacianSharpeningImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(laplacianSharpeningFilter->Update());
 
 
-  itk::WriteImage(laplacianSharpeningFilter->GetOutput(), argv[2]);
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
+  using CasterType = itk::CastImageFilter<ImageType, OutputImageType>;
+
+  auto caster = CasterType::New();
+  caster->SetInput(laplacianSharpeningFilter->GetOutput());
+  caster->Update();
+
+  itk::WriteImage(caster->GetOutput(), argv[2]);
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
