@@ -95,7 +95,7 @@ namespace gdcm_ns
     // so we need an inequality
     if( length <= Internal.size() )
       {
-      if(!Internal.empty()) memcpy(buffer, &Internal[0], length);
+      if(!Internal.empty()) memcpy(buffer, Internal.data(), length);
       return true;
       }
     gdcmDebugMacro( "Could not handle length= " << length );

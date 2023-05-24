@@ -80,7 +80,7 @@ protected:
   std::string mHelpDescription; //used when generating the help output
 
 public:
-  ~BaseRootQuery() override;
+  ~BaseRootQuery() override = default;
 
   ///this function will return all tags at a given query level, so that
   ///they maybe selected for searching.  The boolean forFind is true

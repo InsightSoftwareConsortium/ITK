@@ -117,6 +117,10 @@
 // UTF-8
 #cmakedefine GDCM_HAVE_WCHAR_IFSTREAM
 
+// https://stackoverflow.com/questions/15615136/is-codecvt-not-a-std-header
+// https://stackoverflow.com/questions/50867257/c-use-of-wstring-convert-on-linux
+#cmakedefine GDCM_HAVE_CODECVT
+
 #cmakedefine GDCM_FORCE_BIGENDIAN_EMULATION
 
 #ifndef GDCM_OVERRIDE_BROKEN_IMPLEMENTATION

@@ -76,7 +76,7 @@ public:
     os << "TypeOfData                         :" << TypeOfData << std::endl;
     os << "CurveDescription                   :" << CurveDescription << std::endl;
     os << "DataValueRepresentation            :" << DataValueRepresentation << std::endl;
-    const unsigned short * p = (const unsigned short*)(const void*)&Data[0];
+    const unsigned short * p = (const unsigned short*)(const void*)Data.data();
     for(int i = 0; i < NumberOfPoints; i+=2)
       {
       os << p[i] << "," << p[i+1] << std::endl;
@@ -450,7 +450,7 @@ void Curve::GetAsPoints(float *array) const
       assert( 0 && "TODO" );
       }
     }
-  const char * beg = &Internal->Data[0];
+  const char * beg = Internal->Data.data();
   const char * end = beg + Internal->Data.size();
   if( genidx == -1 )
     {
@@ -466,7 +466,7 @@ void Curve::GetAsPoints(float *array) const
     {
     // PS 3.3 - 2004
     // C.10.2.1.5 Curve data descriptor, coordinate start value, coordinate step value
-    uint16_t * p = (uint16_t*)(void*)&Internal->Data[0];
+    uint16_t * p = (uint16_t*)(void*)Internal->Data.data();
     // X
     if( genidx == 0 )
       for(int i = 0; i < Internal->NumberOfPoints; i++ )
@@ -502,7 +502,7 @@ void Curve::GetAsPoints(float *array) const
     }
   else if( Internal->DataValueRepresentation == 1 )
     {
-    int16_t * p = (int16_t*)(void*)&Internal->Data[0];
+    int16_t * p = (int16_t*)(void*)Internal->Data.data();
     for(int i = 0; i < Internal->NumberOfPoints; i++ )
       {
       array[3*i+0] = p[mult*i + 0];
@@ -515,7 +515,7 @@ void Curve::GetAsPoints(float *array) const
     }
   else if( Internal->DataValueRepresentation == 2 )
     {
-    float * p = (float*)(void*)&Internal->Data[0];
+    float * p = (float*)(void*)Internal->Data.data();
     for(int i = 0; i < Internal->NumberOfPoints; i++ )
       {
       array[3*i+0] = p[mult*i + 0];
@@ -528,7 +528,7 @@ void Curve::GetAsPoints(float *array) const
     }
   else if( Internal->DataValueRepresentation == 3 )
     {
-    double * p = (double*)(void*)&Internal->Data[0];
+    double * p = (double*)(void*)Internal->Data.data();
     for(int i = 0; i < Internal->NumberOfPoints; i++ )
       {
       array[3*i+0] = (float)p[mult*i + 0];
@@ -541,7 +541,7 @@ void Curve::GetAsPoints(float *array) const
     }
   else if( Internal->DataValueRepresentation == 4 )
     {
-    int32_t * p = (int32_t*)(void*)&Internal->Data[0];
+    int32_t * p = (int32_t*)(void*)Internal->Data.data();
     for(int i = 0; i < Internal->NumberOfPoints; i++ )
       {
       array[3*i+0] = (float)p[mult*i + 0];

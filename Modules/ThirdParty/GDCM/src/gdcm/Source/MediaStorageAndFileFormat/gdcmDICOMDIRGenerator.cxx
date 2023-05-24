@@ -288,7 +288,7 @@ size_t DICOMDIRGenerator::FindLowerLevelDirectoryRecord( size_t item1, const cha
 
 /*
  * Finding the next Directory Record type is easy, simply starting from the start and iterating
- * to the end guarantee travering everything without omitting anyone.
+ * to the end guarantees traversing everything without omitting anyone.
  *
  * TODO: Need to make sure that Series belong to the same Study...
  */

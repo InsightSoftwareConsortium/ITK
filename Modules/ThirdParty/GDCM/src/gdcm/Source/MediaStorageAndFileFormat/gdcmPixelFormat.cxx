@@ -15,7 +15,7 @@
 #include "gdcmTrace.h"
 #include "gdcmTransferSyntax.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 namespace gdcm
 {

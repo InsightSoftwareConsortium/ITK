@@ -147,7 +147,7 @@ const std::ostream &AAssociateACPDU::Write(std::ostream &os) const
   //os.write( called, 16 );
   os.write( (const char*)&Reserved43_74, sizeof(Reserved43_74) );
   AppContext.Write( os );
-  gdcmAssertAlwaysMacro( PresContextAC.size() );
+  gdcmAssertAlwaysMacro( !PresContextAC.empty() );
   std::vector<PresentationContextAC>::const_iterator it = PresContextAC.begin();
   for( ; it != PresContextAC.end(); ++it )
     {

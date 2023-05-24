@@ -70,7 +70,7 @@ namespace gdcm {
       ULConnectionManager();
       ~ULConnectionManager() override;
 
-      // NOTE: (MM) The following two functions are difficults to use, therefore marking
+      // NOTE: (MM) The following two functions are difficult to use, therefore marking
       // them as internal for now.
 
       // \internal

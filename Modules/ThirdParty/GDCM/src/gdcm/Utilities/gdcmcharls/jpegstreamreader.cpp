@@ -374,7 +374,7 @@ int JpegStreamReader::ReadColorXForm()
     vector<char> sourceTag;
     ReadNBytes(sourceTag, 4);
 
-    if (strncmp(&sourceTag[0], "mrfx", 4) != 0)
+    if (strncmp(sourceTag.data(), "mrfx", 4) != 0)
         return 4;
 
     auto xform = static_cast<ColorTransformation>(ReadByte());

@@ -116,10 +116,8 @@ Surface::VIEWType Surface::GetVIEWType(const char * type)
 
 Surface::Surface():
   SurfaceNumber(0),
-  SurfaceComments(""),
   SurfaceProcessing(false),
   SurfaceProcessingRatio(1.),
-  SurfaceProcessingDescription(""),
   ProcessingAlgorithm(),
   RecommendedDisplayGrayscaleValue(0),
   RecommendedPresentationOpacity(1),
@@ -127,8 +125,6 @@ Surface::Surface():
   FiniteVolume(UNKNOWN),
   Manifold(UNKNOWN),
   AlgorithmFamily(),
-  AlgorithmVersion(""),
-  AlgorithmName(""),
   NumberOfSurfacePoints(0),
   PointCoordinatesData(),
   PointPositionAccuracy(nullptr),
@@ -150,12 +146,12 @@ Surface::Surface():
 
 Surface::~Surface()
 {
-  if (PointPositionAccuracy != nullptr)         delete PointPositionAccuracy;
-  if (PointsBoundingBoxCoordinates != nullptr)  delete PointsBoundingBoxCoordinates;
-  if (AxisOfRotation != nullptr)                delete AxisOfRotation;
-  if (CenterOfRotation != nullptr)              delete CenterOfRotation;
+   delete PointPositionAccuracy;
+   delete PointsBoundingBoxCoordinates;
+   delete AxisOfRotation;
+   delete CenterOfRotation;
 
-  if (VectorAccuracy != nullptr)                delete VectorAccuracy;
+   delete VectorAccuracy;
 }
 
 unsigned short Surface::GetRecommendedDisplayGrayscaleValue() const

@@ -60,7 +60,7 @@ class GDCM_EXPORT Printer
 {
 public:
   Printer();
-  ~Printer();
+  ~Printer() = default;
 
   /// Set file
   void SetFile(File const &f) { F = &f; }

@@ -41,7 +41,7 @@ static GROUP_ENTRY groupname[] = {
   {0x0019,"SPIA","SPI Acquisition"},
   {0x0020,"IMG","Image"},
   {0x0021,"SPIIM","SPI Image"},
-  {0x0022,"OPHY","Ophtalmology"},
+  {0x0022,"OPHY","Ophthalmology"},
   {0x0028,"IMGP","Image Presentation"},
   {0x0032,"SDY","Study"},
   {0x0038,"VIS","Visit"},

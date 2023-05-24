@@ -81,26 +81,37 @@ public:
   ~Anonymizer() override;
 
   /// Make Tag t empty (if not found tag will be created)
-  /// Warning: does not handle SQ element
   bool Empty( Tag const &t );
-  //bool Empty( PrivateTag const &t );
-  //bool Empty( TagPath const &t );
+
+  /// Make PrivateTag pt empty (if not found tag will be created)
+  /// Pay special attention that this code must be done before any call to
+  /// Empty/Remove of the associated Private Creator, but before any call to
+  /// Replace.
+  bool Empty( PrivateTag const &pt );
+
+  /// Identical to 'Empty' except no action is done when tag is not present
+  bool Clear( Tag const &t );
+  bool Clear( PrivateTag const &pt );
 
   /// remove a tag (even a SQ can be removed)
-  /// Return code is false when tag t cannot be found
   bool Remove( Tag const &t );
-  //bool Remove( PrivateTag const &t );
-  //bool Remove( TagPath const &t );
+
+  /// remove a private tag (even a SQ can be removed)
+  /// Pay special attention that this code must be done before any call to
+  /// Empty/Remove of the associated Private Creator, but before any call to
+  /// Replace. When the private reservation becomes empty, no check is done to
+  /// automatically remove the private creator
+  bool Remove( PrivateTag const &pt );
 
   /// Replace tag with another value, if tag is not found it will be created:
   /// WARNING: this function can only execute if tag is a VRASCII
   bool Replace( Tag const &t, const char *value );
+  bool Replace( PrivateTag const &t, const char *value );
 
   /// when the value contains \0, it is a good idea to specify the length. This function
   /// is required when dealing with VRBINARY tag
   bool Replace( Tag const &t, const char *value, VL const & vl );
-  //bool Replace( PrivateTag const &t, const char *value, VL const & vl );
-  //bool Replace( TagPath const &t, const char *value, VL const & vl );
+  bool Replace( PrivateTag const &t, const char *value, VL const & vl );
 
   /// Main function that loop over all elements and remove private tags
   bool RemovePrivateTags();
@@ -110,9 +121,6 @@ public:
 
   /// Main function that loop over all elements and remove retired element
   bool RemoveRetired();
-
-  // TODO:
-  // bool Remove( PRIVATE_TAGS | GROUP_LENGTH | RETIRED );
 
   /// Set/Get File
   void SetFile(const File& f) { F = f; }

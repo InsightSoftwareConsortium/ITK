@@ -123,10 +123,8 @@ bool ServiceClassUser::InitializeConnection()
     }
 
   ULConnection* mConnection = Internals->mConnection;
-  if (mConnection)
-    {
-    delete mConnection;
-    }
+  delete mConnection;
+
   Internals->mConnection = new ULConnection(connectInfo);
   Internals->mConnection->GetTimer().SetTimeout(Internals->timeout);
 
@@ -328,7 +326,7 @@ bool ServiceClassUser::SendFind(const BaseRootQuery* query, std::vector<DataSet>
   std::vector<DataSet> const & theResponses = theCallback.GetResponses();
 
   bool ret = false; // by default an error
-  assert( theResponses.size() >= 1 );
+  assert( !theResponses.empty() );
   // take the last one:
   const DataSet &ds = theResponses[ theResponses.size() - 1 ]; // FIXME
   assert ( ds.FindDataElement(Tag(0x0, 0x0900)) );
@@ -404,10 +402,8 @@ bool ServiceClassUser::SendMove(const BaseRootQuery* query, const char *outputdi
 
   // let's start the secondary connection
   ULConnection* mSecondaryConnection = Internals->mSecondaryConnection;
-  if (mSecondaryConnection)
-    {
-    delete mSecondaryConnection;
-    }
+  delete mSecondaryConnection;
+
   Internals->mSecondaryConnection = new ULConnection(connectInfo2);
   Internals->mSecondaryConnection->GetTimer().SetTimeout(Internals->timeout);
 
@@ -439,10 +435,8 @@ bool ServiceClassUser::SendMove(const BaseRootQuery* query, std::vector<DataSet>
 
   // let's start the secondary connection
   ULConnection* mSecondaryConnection = Internals->mSecondaryConnection;
-  if (mSecondaryConnection)
-    {
-    delete mSecondaryConnection;
-    }
+  delete mSecondaryConnection;
+
   Internals->mSecondaryConnection = new ULConnection(connectInfo2);
   Internals->mSecondaryConnection->GetTimer().SetTimeout(Internals->timeout);
 
@@ -773,7 +767,7 @@ EStateID ServiceClassUser::RunEventLoop(network::ULEvent& currentEvent,
 
 EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionCallback* inCallback){
   EStateID theState = eStaDoesNotExist;
-  bool waitingForEvent;
+  bool waitingForEvent = false;
   EEventID raisedEvent;
 
   bool receivingData = false;

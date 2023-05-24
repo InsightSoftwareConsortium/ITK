@@ -57,7 +57,7 @@ bool ImageApplyLookupTable::Apply()
   const unsigned long len = image.GetBufferLength();
   std::vector<char> v;
   v.resize( len );
-  char *p = &v[0];
+  char *p = v.data();
   image.GetBuffer( p );
   std::stringstream is;
   if( !is.write( p, len ) )
@@ -77,14 +77,14 @@ bool ImageApplyLookupTable::Apply()
   std::vector<char> v2;
   v2.resize( len * 3 );
   if( pimpl->rgb8 )
-    lut.Decode8(&v2[0], v2.size(), &v[0], v.size());
+    lut.Decode8(v2.data(), v2.size(), v.data(), v.size());
   else
-    lut.Decode(&v2[0], v2.size(), &v[0], v.size());
+    lut.Decode(v2.data(), v2.size(), v.data(), v.size());
   assert( v2.size() < (size_t)std::numeric_limits<uint32_t>::max() );
   if( pimpl->rgb8 )
-    de.SetByteValue( &v2[0], (uint32_t)v2.size() / 2);
+    de.SetByteValue( v2.data(), (uint32_t)v2.size() / 2);
   else
-    de.SetByteValue( &v2[0], (uint32_t)v2.size() );
+    de.SetByteValue( v2.data(), (uint32_t)v2.size() );
 #endif
   Output->GetLUT().Clear();
   Output->SetPhotometricInterpretation( PhotometricInterpretation::RGB );

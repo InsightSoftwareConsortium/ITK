@@ -274,7 +274,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
       gdcmWarningMacro("Internal Data is empty." );
       return false;
       }
-    unsigned char * overlay = (unsigned char*)&Internal->Data[0];
+    unsigned char * overlay = (unsigned char*)Internal->Data.data();
     int c = 0;
     uint8_t pmask = (uint8_t)(1 << Internal->BitPosition);
     assert( length / 1 == ovlength * 8 );
@@ -326,7 +326,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
       gdcmWarningMacro("Internal Data is empty." );
       return false;
       }
-    unsigned char * overlay = (unsigned char*)&Internal->Data[0];
+    unsigned char * overlay = (unsigned char*)Internal->Data.data();
     int c = 0;
     uint16_t pmask = (uint16_t)(1 << Internal->BitPosition);
     assert( length / 2 == ovlength * 8 );
