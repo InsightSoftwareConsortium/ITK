@@ -40,7 +40,9 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Calculate the Laplacian filtered image
 
-  using LaplacianImageFilter = LaplacianImageFilter<InputImageType, OutputImageType>;
+  using RealImageType = Image<RealType, ImageDimension>;
+
+  using LaplacianImageFilter = LaplacianImageFilter<InputImageType, RealImageType>;
   typename LaplacianImageFilter::Pointer laplacianFilter = LaplacianImageFilter::New();
   laplacianFilter->SetInput(this->GetInput());
   laplacianFilter->SetUseImageSpacing(m_UseImageSpacing);
@@ -50,8 +52,8 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   typename MinimumMaximumImageCalculator<InputImageType>::Pointer inputCalculator =
     MinimumMaximumImageCalculator<InputImageType>::New();
-  typename MinimumMaximumImageCalculator<OutputImageType>::Pointer filteredCalculator =
-    MinimumMaximumImageCalculator<OutputImageType>::New();
+  typename MinimumMaximumImageCalculator<RealImageType>::Pointer filteredCalculator =
+    MinimumMaximumImageCalculator<RealImageType>::New();
 
   inputCalculator->SetImage(this->GetInput());
   inputCalculator->SetRegion(this->GetInput()->GetRequestedRegion());
@@ -67,8 +69,9 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   RealType filteredShift = static_cast<RealType>(filteredCalculator->GetMinimum());
   RealType filteredScale = static_cast<RealType>(filteredCalculator->GetMaximum()) - filteredShift;
 
-  ImageRegionIterator<OutputImageType>     it(laplacianFilter->GetOutput(),
-                                          laplacianFilter->GetOutput()->GetRequestedRegion());
+  ImageRegionIterator<RealImageType> it(laplacianFilter->GetOutput(),
+                                        laplacianFilter->GetOutput()->GetRequestedRegion());
+
   ImageRegionConstIterator<InputImageType> inIt(this->GetInput(), this->GetInput()->GetRequestedRegion());
 
   // combine the input and laplacian images
@@ -76,7 +79,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   RealType enhancedSum = 0.0;
   while (!it.IsAtEnd())
   {
-    RealType value = static_cast<RealType>(it.Get()); // laplacian value
+    RealType value = it.Get(); // laplacian value
 
     // rescale to [0,1]
     value = (value - filteredShift) / filteredScale;
@@ -114,7 +117,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   while (!outIt.IsAtEnd())
   {
     // adjust value to make the mean intensities before and after match
-    RealType outValue = static_cast<RealType>(it.Get()) - enhancedMean + inputMean;
+    RealType outValue = it.Get() - enhancedMean + inputMean;
 
     if (outValue < inputMinimum)
     {
