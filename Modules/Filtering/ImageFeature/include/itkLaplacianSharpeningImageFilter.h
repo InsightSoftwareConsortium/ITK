@@ -66,6 +66,7 @@ public:
   using RealType = typename NumericTraits<OutputPixelType>::RealType;
   using InputPixelType = typename TInputImage::PixelType;
   using InputInternalPixelType = typename TInputImage::InternalPixelType;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Image type alias support */
@@ -92,6 +93,14 @@ public:
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(InputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<InputPixelType>));
+  itkConceptMacro(OutputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
+  // End concept checking
+#endif
 
 protected:
   LaplacianSharpeningImageFilter() { m_UseImageSpacing = true; }
