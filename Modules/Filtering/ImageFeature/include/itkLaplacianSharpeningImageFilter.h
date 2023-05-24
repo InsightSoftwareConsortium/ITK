@@ -83,17 +83,6 @@ public:
   /** Method for creation through the object factory.  */
   itkNewMacro(Self);
 
-  /** LaplacianSharpeningImageFilter needs a larger input requested
-   * region than the output requested region (larger in the direction
-   * of the derivative).  As such, LaplacianSharpeningImageFilter
-   * needs to provide an implementation for
-   * GenerateInputRequestedRegion() in order to inform the pipeline
-   * execution model.
-   *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  void
-  GenerateInputRequestedRegion() override;
-
   /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
    *  physical space. Default  is UseImageSpacingOn. */
