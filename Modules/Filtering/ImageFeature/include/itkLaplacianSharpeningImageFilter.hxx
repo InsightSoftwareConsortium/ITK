@@ -118,7 +118,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   auto enhancedMean = static_cast<RealType>(enhancedCalculator->GetMean());
 
-  // Allocate and write the output
+  // Shift and window the output
 
   using IntensityWindowingFilterType = IntensityWindowingImageFilter<RealImageType, OutputImageType>;
   auto intensityWindowingFilter = IntensityWindowingFilterType::New();
