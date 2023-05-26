@@ -25,7 +25,7 @@
 #include <iterator>    // For bidirectional_iterator_tag.
 #include <functional>  // For multiplies.
 #include <numeric>     // For accumulate.
-#include <type_traits> // For conditional and is_const.
+#include <type_traits> // For conditional, enable_if, and is_const.
 
 #include "itkImageHelper.h"
 #include "itkImageRegion.h"
@@ -205,12 +205,15 @@ private:
      * the guarantee added to the C++14 Standard: "value-initialized iterators
      * may be compared and shall compare equal to other value-initialized
      * iterators of the same type."
+     *
+     * \note The other five "special member functions" are defaulted implicitly,
+     * following the C++ "Rule of Zero".
      */
     QualifiedIterator() = default;
 
-    /** Constructor that allows implicit conversion from non-const to const
-     * iterator. Also serves as copy-constructor of a non-const iterator.  */
-    QualifiedIterator(const QualifiedIterator<false> & arg) noexcept
+    /** Constructor for implicit conversion from non-const to const iterator.  */
+    template <bool VIsArgumentConst, typename = std::enable_if_t<VIsConst && !VIsArgumentConst>>
+    QualifiedIterator(const QualifiedIterator<VIsArgumentConst> & arg) noexcept
       : m_BufferIterator(arg.m_BufferIterator)
       ,
       // Note: Use parentheses instead of curly braces to initialize data members,
@@ -281,15 +284,6 @@ private:
       // Implemented just like the corresponding std::rel_ops operator.
       return !(lhs == rhs);
     }
-
-
-    /** Explicitly-defaulted assignment operator. */
-    QualifiedIterator &
-    operator=(const QualifiedIterator &) noexcept = default;
-
-
-    /** Explicitly-defaulted destructor. */
-    ~QualifiedIterator() = default;
   };
 
   // Inspired by, and originally copied from ImageBase::FastComputeOffset(ind)).
