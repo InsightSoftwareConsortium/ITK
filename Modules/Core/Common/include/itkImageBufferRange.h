@@ -23,7 +23,7 @@
 #include <cstddef>  // For ptrdiff_t.
 #include <iterator> // For random_access_iterator_tag.
 #include <limits>
-#include <type_traits> // For conditional, is_same, and is_const.
+#include <type_traits> // For conditional, enable_if, is_same, and is_const.
 
 #include "itkMacro.h" // For itkNotUsed.
 #include "itkDefaultPixelAccessor.h"
@@ -300,17 +300,15 @@ private:
      * the guarantee added to the C++14 Standard: "value-initialized iterators
      * may be compared and shall compare equal to other value-initialized
      * iterators of the same type."
-     * \note `QualifiedIterator<VIsConst>` follows the C++ "Rule of Zero" when
-     * VIsConst is true: The other five "special member functions" of the class
-     * are then implicitly defaulted. When VIsConst is false, its
-     * copy-constructor is provided explicitly, but it still behaves the same as
-     * a default implementation.
+     *
+     * \note The other five "special member functions" are defaulted implicitly,
+     * following the C++ "Rule of Zero".
      */
     QualifiedIterator() = default;
 
-    /** Constructor that allows implicit conversion from non-const to const
-     * iterator. Also serves as copy-constructor of a non-const iterator.  */
-    QualifiedIterator(const QualifiedIterator<false> & arg) noexcept
+    /** Constructor for implicit conversion from non-const to const iterator.  */
+    template <bool VIsArgumentConst, typename = std::enable_if_t<VIsConst && !VIsArgumentConst>>
+    QualifiedIterator(const QualifiedIterator<VIsArgumentConst> & arg) noexcept
       : // Note: Use parentheses instead of curly braces to initialize data members,
         // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
       m_OptionalAccessorFunctor(arg.m_OptionalAccessorFunctor)
@@ -475,11 +473,6 @@ private:
 
     /** Returns it[n] for iterator 'it' and integer value 'n'. */
     reference operator[](const difference_type n) const noexcept { return *(*this + n); }
-
-
-    /** Explicitly-defaulted assignment operator. */
-    QualifiedIterator &
-    operator=(const QualifiedIterator &) noexcept = default;
   };
 
   static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
