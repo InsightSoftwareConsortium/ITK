@@ -127,6 +127,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   intensityWindowingFilter->SetOutputMaximum(inputMaximum);
   intensityWindowingFilter->SetWindowMinimum(inputMinimum - (inputMean - enhancedMean));
   intensityWindowingFilter->SetWindowMaximum(inputMaximum - (inputMean - enhancedMean));
+  intensityWindowingFilter->GraftOutput(this->GetOutput());
   intensityWindowingFilter->Update();
 
   this->GraftOutput(intensityWindowingFilter->GetOutput());
