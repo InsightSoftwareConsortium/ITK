@@ -172,7 +172,10 @@ itk_add_test(NAME itkExponentialImageRegistrationTest
               ${TEMP}/itkExponentialImageRegistrationTestNew.nii.gz
               100 # number of affine iterations
               10 # number of deformable iterations
-              )
+              1
+              0.0
+              1.0
+              10)
 set_property(TEST itkExponentialImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkBSplineExponentialImageRegistrationTest
