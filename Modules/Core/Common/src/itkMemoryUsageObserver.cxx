@@ -211,13 +211,13 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 
   if (!m_hNTLib)
   {
-    itkGenericExceptionMacro(<< "Can't find ntdll.dll. "
+    itkGenericExceptionMacro("Can't find ntdll.dll. "
                              << "You should probably disable SUPPORT_TOOLHELP32");
   }
   // the ntdll.dll library could not have been opened (file not found?)
   if (!ZwQuerySystemInformation)
   {
-    itkGenericExceptionMacro(<< "The file ntdll.dll is not supported. "
+    itkGenericExceptionMacro("The file ntdll.dll is not supported. "
                              << "You should probably disable SUPPORT_TOOLHELP32");
   }
 
@@ -365,7 +365,7 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
 
   if ((fp = popen(command.str().c_str(), "r")) == nullptr)
   {
-    itkGenericExceptionMacro(<< "Error using pmap. Can execute pmap command");
+    itkGenericExceptionMacro("Error using pmap. Can execute pmap command");
   }
   char remaining[256];
   int  pmappid = -1;
@@ -373,7 +373,7 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
   // the first word shall be the process ID
   if (pmappid != pid)
   {
-    itkGenericExceptionMacro(<< "Error using pmap. 1st line output shall be PID: name");
+    itkGenericExceptionMacro("Error using pmap. 1st line output shall be PID: name");
   }
   bool        heapNotFound = true;
   char        address[64], perms[32];
@@ -404,13 +404,13 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
     {
       if (ferror(fp))
       {
-        itkGenericExceptionMacro(<< "Error using pmap. Corrupted pmap output");
+        itkGenericExceptionMacro("Error using pmap. Corrupted pmap output");
       }
     }
   }
   if (pclose(fp) == -1)
   {
-    itkGenericExceptionMacro(<< "Error using pmap. Can't close pmap output file.");
+    itkGenericExceptionMacro("Error using pmap. Can't close pmap output file.");
   }
   return mem;
 }

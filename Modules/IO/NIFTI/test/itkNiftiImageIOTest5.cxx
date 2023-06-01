@@ -92,7 +92,7 @@ SlopeInterceptTest()
   nifti_image_free(niftiImage); // Must free before throwing exception.
   if (nifti_write_status)
   {
-    itkGenericExceptionMacro(<< "ERROR: nifti library failed to write image" << filename);
+    itkGenericExceptionMacro("ERROR: nifti library failed to write image" << filename);
   }
 
   //

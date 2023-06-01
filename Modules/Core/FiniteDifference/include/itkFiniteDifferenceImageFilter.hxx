@@ -194,7 +194,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>::ResolveTimeStep(const st
   if (!flag)
   {
     // no values!
-    itkGenericExceptionMacro(<< "there is no satisfying value");
+    itkGenericExceptionMacro("there is no satisfying value");
   }
 
   t_it = timeStepList.begin();

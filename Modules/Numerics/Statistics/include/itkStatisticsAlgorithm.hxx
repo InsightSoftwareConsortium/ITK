@@ -252,7 +252,7 @@ FindSampleBound(const TSample *                           sample,
   const MeasurementVectorSizeType measurementSize = sample->GetMeasurementVectorSize();
   if (measurementSize == 0)
   {
-    itkGenericExceptionMacro(<< "Length of a sample's measurement vector hasn't been set.");
+    itkGenericExceptionMacro("Length of a sample's measurement vector hasn't been set.");
   }
   // Sanity check
   MeasurementVectorTraits::Assert(max, measurementSize, "Length mismatch StatisticsAlgorithm::FindSampleBound");
@@ -260,7 +260,7 @@ FindSampleBound(const TSample *                           sample,
 
   if (sample->Size() == 0)
   {
-    itkGenericExceptionMacro(<< "Attempting to compute bounds of a sample list containing no measurement vectors");
+    itkGenericExceptionMacro("Attempting to compute bounds of a sample list containing no measurement vectors");
   }
 
   min = begin.GetMeasurementVector();
@@ -303,7 +303,7 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
   const MeasurementVectorSizeType Dimension = sample->GetMeasurementVectorSize();
   if (Dimension == 0)
   {
-    itkGenericExceptionMacro(<< "Length of a sample's measurement vector hasn't been set.");
+    itkGenericExceptionMacro("Length of a sample's measurement vector hasn't been set.");
   }
 
   Array<double> sum(Dimension);

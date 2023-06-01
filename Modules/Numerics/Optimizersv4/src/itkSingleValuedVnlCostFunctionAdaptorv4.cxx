@@ -40,7 +40,7 @@ SingleValuedVnlCostFunctionAdaptorv4::f(const InternalParametersType & inparamet
 {
   if (!m_ObjectMetric)
   {
-    itkGenericExceptionMacro(<< "Attempt to use a SingleValuedVnlCostFunctionAdaptorv4 without any Metric plugge d in");
+    itkGenericExceptionMacro("Attempt to use a SingleValuedVnlCostFunctionAdaptorv4 without any Metric plugge d in");
   }
 
   // Use scales if they are provided

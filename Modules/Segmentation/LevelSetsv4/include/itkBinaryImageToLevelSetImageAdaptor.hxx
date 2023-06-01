@@ -72,7 +72,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
 {
   if (this->m_InputImage.IsNull())
   {
-    itkGenericExceptionMacro(<< "m_InputImage is nullptr");
+    itkGenericExceptionMacro("m_InputImage is nullptr");
   }
 
   this->m_LabelMap = LevelSetLabelMapType::New();
@@ -349,7 +349,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, ShiSparseLevelSetImage<TInput::ImageDi
 {
   if (this->m_InputImage.IsNull())
   {
-    itkGenericExceptionMacro(<< "m_InputImage is nullptr");
+    itkGenericExceptionMacro("m_InputImage is nullptr");
   }
 
   this->m_LabelMap = LevelSetLabelMapType::New();
@@ -492,7 +492,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSparseLevelSetImage<TInput::Ima
 {
   if (this->m_InputImage.IsNull())
   {
-    itkGenericExceptionMacro(<< "m_InputImage is nullptr");
+    itkGenericExceptionMacro("m_InputImage is nullptr");
   }
 
   this->m_LabelMap = LevelSetLabelMapType::New();

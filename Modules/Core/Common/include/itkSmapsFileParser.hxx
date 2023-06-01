@@ -102,7 +102,7 @@ SmapsFileParser<TSmapsDataType>::ReadFile(const std::string & mapFileLocation)
   if (filename.str().empty())
   {
 #if defined(WIN32) || defined(_WIN32)
-    itkGenericExceptionMacro(<< "smaps files don't exist on Windows");
+    itkGenericExceptionMacro("smaps files don't exist on Windows");
 #else
     int pid = getpid();
     filename << "/proc/" << pid << "/smaps";
@@ -127,8 +127,7 @@ SmapsFileParser<TSmapsDataType>::ReadFile(const std::string & mapFileLocation)
   catch (const ExceptionObject & excp)
   {
     // propagate the exception
-    itkGenericExceptionMacro(<< "The smaps file " << filename.str()
-                             << " is an invalid file or contains errors: " << excp);
+    itkGenericExceptionMacro("The smaps file " << filename.str() << " is an invalid file or contains errors: " << excp);
   }
   this->m_MapFilePath = filename.str();
 }
@@ -147,7 +146,7 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
       // can't find or open the VMap file
       if (inputFile.is_open() == false)
       {
-        itkGenericExceptionMacro(<< "The VMap file " << mapFileLocation << " could not be open");
+        itkGenericExceptionMacro("The VMap file " << mapFileLocation << " could not be open");
       }
       // load the file
       inputFile >> this->m_MapData;
@@ -156,7 +155,7 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
     else
     {
 #if defined(WIN32) || defined(_WIN32)
-      itkGenericExceptionMacro(<< "VMMap files don't exist on Windows");
+      itkGenericExceptionMacro("VMMap files don't exist on Windows");
 #else
       std::stringstream vmmapCommand;
       vmmapCommand << "vmmap " << getpid();
@@ -164,7 +163,7 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
       FILE * vmmapCommandOutput = nullptr;
       if ((vmmapCommandOutput = popen(vmmapCommand.str().c_str(), "r")) == nullptr)
       {
-        itkGenericExceptionMacro(<< "Error using pmap. Can execute pmap command");
+        itkGenericExceptionMacro("Error using pmap. Can execute pmap command");
       }
 
       // Not optimal solution: copy the output into an std::istream object.
@@ -186,7 +185,7 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
   catch (const ExceptionObject & excp)
   {
     // propagate the exception
-    itkGenericExceptionMacro(<< "The vmmap file is an invalid file or contains errors:\n" << excp);
+    itkGenericExceptionMacro("The vmmap file is an invalid file or contains errors:\n" << excp);
   }
 }
 } // end namespace itk

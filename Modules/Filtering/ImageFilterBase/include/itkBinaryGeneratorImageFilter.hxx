@@ -250,7 +250,7 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
   }
   else
   {
-    itkGenericExceptionMacro(<< "At most one of the inputs can be a constant.");
+    itkGenericExceptionMacro("At most one of the inputs can be a constant.");
   }
 }
 } // end namespace itk

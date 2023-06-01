@@ -128,17 +128,17 @@ LevelSetEvolution<TEquationContainer, LevelSetDenseImage<TImage>>::ComputeTimeSt
       {
         if (Math::ExactlyEquals(contribution, NumericTraits<LevelSetOutputRealType>::max()))
         {
-          itkGenericExceptionMacro(<< "contribution is " << contribution);
+          itkGenericExceptionMacro("contribution is " << contribution);
         }
         else
         {
-          itkGenericExceptionMacro(<< "contribution is too low");
+          itkGenericExceptionMacro("contribution is too low");
         }
       }
     }
     else
     {
-      itkGenericExceptionMacro(<< "m_Alpha should be in ]0,1[");
+      itkGenericExceptionMacro("m_Alpha should be in ]0,1[");
     }
   }
 }
@@ -304,17 +304,17 @@ LevelSetEvolution<TEquationContainer,
       {
         if (Math::ExactlyEquals(contribution, NumericTraits<LevelSetOutputRealType>::max()))
         {
-          itkGenericExceptionMacro(<< "contribution is " << contribution);
+          itkGenericExceptionMacro("contribution is " << contribution);
         }
         else
         {
-          itkGenericExceptionMacro(<< "contribution is too low " << contribution);
+          itkGenericExceptionMacro("contribution is too low " << contribution);
         }
       }
     }
     else
     {
-      itkGenericExceptionMacro(<< "m_Alpha should be in ]0,1[");
+      itkGenericExceptionMacro("m_Alpha should be in ]0,1[");
     }
   }
 }

@@ -50,11 +50,11 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 {
   if (this->m_InputLevelSet.IsNull())
   {
-    itkGenericExceptionMacro(<< "m_InputLevelSet is nullptr");
+    itkGenericExceptionMacro("m_InputLevelSet is nullptr");
   }
   if (this->m_Update.empty())
   {
-    itkGenericExceptionMacro(<< "m_Update is empty");
+    itkGenericExceptionMacro("m_Update is empty");
   }
 
   this->m_Offset = this->m_InputLevelSet->GetDomainOffset();

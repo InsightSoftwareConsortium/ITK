@@ -40,7 +40,7 @@ LabelObject<TLabel, VImageDimension>::GetAttributeFromName(const std::string & s
     return LABEL;
   }
   // can't recognize the name
-  itkGenericExceptionMacro(<< "Unknown attribute: " << s);
+  itkGenericExceptionMacro("Unknown attribute: " << s);
 }
 
 template <typename TLabel, unsigned int VImageDimension>
@@ -53,7 +53,7 @@ LabelObject<TLabel, VImageDimension>::GetNameFromAttribute(const AttributeType &
       return "Label";
   }
   // can't recognize the namespace
-  itkGenericExceptionMacro(<< "Unknown attribute: " << a);
+  itkGenericExceptionMacro("Unknown attribute: " << a);
 }
 
 /**
@@ -254,7 +254,7 @@ LabelObject<TLabel, VImageDimension>::GetIndex(SizeValueType offset) const -> In
 
     ++it;
   }
-  itkGenericExceptionMacro(<< "Invalid offset: " << offset);
+  itkGenericExceptionMacro("Invalid offset: " << offset);
 }
 
 /** Copy the lines from another node. */

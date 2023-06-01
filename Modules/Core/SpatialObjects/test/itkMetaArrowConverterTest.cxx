@@ -135,7 +135,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   auto * newMetaArrow = dynamic_cast<MetaArrow *>(converter->SpatialObjectToMetaObject(itkArrow));
   if (newMetaArrow == nullptr)
   {
-    itkGenericExceptionMacro(<< "Failed to downcast from MetaObject to MetaArrow");
+    itkGenericExceptionMacro("Failed to downcast from MetaObject to MetaArrow");
   }
 
   // check length

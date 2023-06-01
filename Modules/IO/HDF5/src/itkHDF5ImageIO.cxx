@@ -76,7 +76,7 @@ template <typename TScalar>
 H5::PredType
 GetType()
 {
-  itkGenericExceptionMacro(<< "Type not handled "
+  itkGenericExceptionMacro("Type not handled "
                            << "in HDF5 File: " << typeid(TScalar).name());
 }
 #define GetH5TypeSpecialize(CXXType, H5Type) \
@@ -159,7 +159,7 @@ GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(doubl
   {
     return IOComponentEnum::DOUBLE;
   }
-  itkGenericExceptionMacro(<< "unsupported HDF5 data type with id " << type.getId());
+  itkGenericExceptionMacro("unsupported HDF5 data type with id " << type.getId());
 }
 
 H5::PredType
@@ -193,10 +193,10 @@ ComponentToPredType(IOComponentEnum cType)
       return H5::PredType::NATIVE_DOUBLE;
     case IOComponentEnum::LDOUBLE:
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-      itkGenericExceptionMacro(<< "unsupported IOComponentEnum" << static_cast<char>(cType));
+      itkGenericExceptionMacro("unsupported IOComponentEnum" << static_cast<char>(cType));
   }
 
-  itkGenericExceptionMacro(<< "unsupported IOComponentEnum" << static_cast<char>(cType));
+  itkGenericExceptionMacro("unsupported IOComponentEnum" << static_cast<char>(cType));
 }
 
 std::string
@@ -242,7 +242,7 @@ ComponentToString(IOComponentEnum cType)
       rval = "DOUBLE";
       break;
     default:
-      itkGenericExceptionMacro(<< "unsupported IOComponentEnum" << static_cast<char>(cType));
+      itkGenericExceptionMacro("unsupported IOComponentEnum" << static_cast<char>(cType));
   }
   return rval;
 }

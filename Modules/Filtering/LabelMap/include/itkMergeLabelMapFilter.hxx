@@ -144,7 +144,7 @@ MergeLabelMapFilter<TImage>::MergeWithStrict()
       }
       else
       {
-        itkGenericExceptionMacro(<< "Label "
+        itkGenericExceptionMacro("Label "
                                  << static_cast<typename itk::NumericTraits<PixelType>::PrintType>(newLo->GetLabel())
                                  << " from input " << i << " is output background value.");
       }

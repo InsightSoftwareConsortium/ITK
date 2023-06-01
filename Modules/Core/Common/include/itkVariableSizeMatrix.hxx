@@ -38,8 +38,8 @@ Array<T> VariableSizeMatrix<T>::operator*(const Array<T> & vect) const
 
   if (vect.Size() != cols)
   {
-    itkGenericExceptionMacro(<< "Matrix with " << this->Cols() << " columns cannot be "
-                             << "multiplied with array of length: " << vect.Size());
+    itkGenericExceptionMacro("Matrix with " << this->Cols() << " columns cannot be "
+                                            << "multiplied with array of length: " << vect.Size());
   }
 
   Array<T> result(rows);
@@ -63,9 +63,9 @@ VariableSizeMatrix<T> VariableSizeMatrix<T>::operator*(const Self & matrix) cons
 {
   if (this->Cols() != matrix.Rows())
   {
-    itkGenericExceptionMacro(<< "Matrix with size (" << this->Rows() << ',' << this->Cols()
-                             << ") cannot be multiplied by matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
-                             << ')');
+    itkGenericExceptionMacro("Matrix with size (" << this->Rows() << ',' << this->Cols()
+                                                  << ") cannot be multiplied by matrix with size (" << matrix.Rows()
+                                                  << ',' << matrix.Cols() << ')');
   }
   Self result;
   result = m_Matrix * matrix.m_Matrix;
@@ -81,9 +81,9 @@ VariableSizeMatrix<T>::operator+(const Self & matrix) const
 {
   if ((matrix.Rows() != this->Rows()) || (matrix.Cols() != this->Cols()))
   {
-    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
-                             << ") cannot be added to a matrix with size (" << this->Rows() << ',' << this->Cols()
-                             << ')');
+    itkGenericExceptionMacro("Matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
+                                                  << ") cannot be added to a matrix with size (" << this->Rows() << ','
+                                                  << this->Cols() << ')');
   }
 
   Self result(this->Rows(), this->Cols());
@@ -106,9 +106,9 @@ VariableSizeMatrix<T>::operator+=(const Self & matrix)
 {
   if ((matrix.Rows() != this->Rows()) || (matrix.Cols() != this->Cols()))
   {
-    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
-                             << ") cannot be added to a matrix with size (" << this->Rows() << ',' << this->Cols()
-                             << ')');
+    itkGenericExceptionMacro("Matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
+                                                  << ") cannot be added to a matrix with size (" << this->Rows() << ','
+                                                  << this->Cols() << ')');
   }
 
   for (unsigned int r = 0; r < this->Rows(); ++r)
@@ -130,9 +130,9 @@ VariableSizeMatrix<T>::operator-(const Self & matrix) const
 {
   if ((matrix.Rows() != this->Rows()) || (matrix.Cols() != this->Cols()))
   {
-    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
-                             << ") cannot be subtracted from matrix with size (" << this->Rows() << ',' << this->Cols()
-                             << ')');
+    itkGenericExceptionMacro("Matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
+                                                  << ") cannot be subtracted from matrix with size (" << this->Rows()
+                                                  << ',' << this->Cols() << ')');
   }
 
   Self result(this->Rows(), this->Cols());
@@ -155,9 +155,9 @@ VariableSizeMatrix<T>::operator-=(const Self & matrix)
 {
   if ((matrix.Rows() != this->Rows()) || (matrix.Cols() != this->Cols()))
   {
-    itkGenericExceptionMacro(<< "Matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
-                             << ") cannot be subtracted from matrix with size (" << this->Rows() << ',' << this->Cols()
-                             << ')');
+    itkGenericExceptionMacro("Matrix with size (" << matrix.Rows() << ',' << matrix.Cols()
+                                                  << ") cannot be subtracted from matrix with size (" << this->Rows()
+                                                  << ',' << this->Cols() << ')');
   }
 
   for (unsigned int r = 0; r < this->Rows(); ++r)

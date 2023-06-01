@@ -121,7 +121,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   if (itk::Math::abs(As1) < itk::Math::eps)
   {
-    itkGenericExceptionMacro(<< "As1 = 0.");
+    itkGenericExceptionMacro("As1 = 0.");
   }
 
   while (threshold != Tprev)
@@ -133,7 +133,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
 
     if (itk::Math::abs(At) < itk::Math::eps)
     {
-      itkGenericExceptionMacro(<< "At = 0.");
+      itkGenericExceptionMacro("At = 0.");
     }
     double mu = Bt / At;
 
@@ -152,17 +152,17 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
 
     if (sigma2 < itk::Math::eps)
     {
-      itkGenericExceptionMacro(<< "sigma2 <= 0");
+      itkGenericExceptionMacro("sigma2 <= 0");
     }
 
     if (itk::Math::abs(tau2) < itk::Math::eps)
     {
-      itkGenericExceptionMacro(<< "tau2 = 0");
+      itkGenericExceptionMacro("tau2 = 0");
     }
 
     if (itk::Math::abs(p) < itk::Math::eps)
     {
-      itkGenericExceptionMacro(<< "p = 0");
+      itkGenericExceptionMacro("p = 0");
     }
 
     // The terms of the quadratic equation to be solved.

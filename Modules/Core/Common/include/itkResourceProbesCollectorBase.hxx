@@ -42,7 +42,7 @@ ResourceProbesCollectorBase<TProbe>::Stop(const char * id)
   auto pos = this->m_Probes.find(tid);
   if (pos == this->m_Probes.end())
   {
-    itkGenericExceptionMacro(<< "The probe \"" << id << "\" does not exist. It can not be stopped.");
+    itkGenericExceptionMacro("The probe \"" << id << "\" does not exist. It can not be stopped.");
   }
   pos->second.Stop();
 }
@@ -57,7 +57,7 @@ ResourceProbesCollectorBase<TProbe>::GetProbe(const char * id) const
   auto pos = this->m_Probes.find(tid);
   if (pos == this->m_Probes.end())
   {
-    itkGenericExceptionMacro(<< "The probe \"" << id << "\" does not exist.");
+    itkGenericExceptionMacro("The probe \"" << id << "\" does not exist.");
   }
   return pos->second;
 }

@@ -79,7 +79,7 @@ PostOrderTreeIterator<TTreeType>::PostOrderTreeIterator(TTreeType * tree)
     const auto * root = dynamic_cast<const TreeNodeType *>(tree->GetRoot());
     if (root == nullptr)
     {
-      itkGenericExceptionMacro(<< "Can't downcast root node to TreeNodeType *");
+      itkGenericExceptionMacro("Can't downcast root node to TreeNodeType *");
     }
     this->m_Position = const_cast<TreeNodeType *>(root);
     this->m_Position = const_cast<TreeNodeType *>(FindMostRightLeaf(this->m_Position));
@@ -138,7 +138,7 @@ PostOrderTreeIterator<TTreeType>::FindNextNode() const
   auto * rval = dynamic_cast<TreeNodeType *>(this->m_Position->GetParent());
   if (rval == nullptr)
   {
-    itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
+    itkGenericExceptionMacro("Can't downcast to TreeNodeType *");
   }
   return rval;
 }
@@ -156,7 +156,7 @@ PostOrderTreeIterator<TTreeType>::FindSister(TreeNodeType * node) const
   auto * parent = dynamic_cast<TreeNodeType *>(node->GetParent());
   if (parent == nullptr)
   {
-    itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
+    itkGenericExceptionMacro("Can't downcast to TreeNodeType *");
   }
 
   int childPosition = parent->ChildPosition(node);
@@ -173,7 +173,7 @@ PostOrderTreeIterator<TTreeType>::FindSister(TreeNodeType * node) const
       auto * sister = dynamic_cast<TreeNodeType *>(parent->GetChild(childPosition + 1));
       if (sister == nullptr)
       {
-        itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
+        itkGenericExceptionMacro("Can't downcast to TreeNodeType *");
       }
       return sister;
     }
@@ -203,7 +203,7 @@ PostOrderTreeIterator<TTreeType>::FindMostRightLeaf(TreeNodeType * node) const
         helpNode = dynamic_cast<TreeNodeType *>(node->GetChild(i));
         if (helpNode == nullptr)
         {
-          itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
+          itkGenericExceptionMacro("Can't downcast to TreeNodeType *");
         }
       }
       ++i;

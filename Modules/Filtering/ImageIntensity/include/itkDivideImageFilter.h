@@ -107,7 +107,7 @@ protected:
     if (input != nullptr &&
         itk::Math::AlmostEquals(input->Get(), itk::NumericTraits<typename TInputImage2::PixelType>::ZeroValue()))
     {
-      itkGenericExceptionMacro(<< "The constant value used as denominator should not be set to zero");
+      itkGenericExceptionMacro("The constant value used as denominator should not be set to zero");
     }
   }
 };

@@ -201,7 +201,7 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateSpatialObjectScene
 
       if (converterIt == this->m_ConverterMap.end())
       {
-        itkGenericExceptionMacro(<< "Unable to find MetaObject -> SpatialObject converter for " << objectTypeName);
+        itkGenericExceptionMacro("Unable to find MetaObject -> SpatialObject converter for " << objectTypeName);
       }
       currentSO = converterIt->second->MetaObjectToSpatialObject(*it);
     }
@@ -340,8 +340,7 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
       auto converterIt = this->m_ConverterMap.find(spatialObjectTypeName);
       if (converterIt == this->m_ConverterMap.end())
       {
-        itkGenericExceptionMacro(<< "Unable to find MetaObject -> SpatialObject converter for "
-                                 << spatialObjectTypeName);
+        itkGenericExceptionMacro("Unable to find MetaObject -> SpatialObject converter for " << spatialObjectTypeName);
       }
       currentMeta = converterIt->second->SpatialObjectToMetaObject(*it);
     }

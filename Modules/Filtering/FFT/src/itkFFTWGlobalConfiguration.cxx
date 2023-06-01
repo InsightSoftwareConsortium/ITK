@@ -106,7 +106,7 @@ FFTWGlobalConfiguration::GetPlanRigorValue(const std::string & name)
   {
     return FFTW_EXHAUSTIVE;
   }
-  itkGenericExceptionMacro(<< "Unknown plan rigor: " << name);
+  itkGenericExceptionMacro("Unknown plan rigor: " << name);
 }
 
 std::string
@@ -123,7 +123,7 @@ FFTWGlobalConfiguration::GetPlanRigorName(const int value)
     case FFTW_EXHAUSTIVE:
       return "FFTW_EXHAUSTIVE";
     default:
-      itkGenericExceptionMacro(<< "Unknown plan rigor: " << value);
+      itkGenericExceptionMacro("Unknown plan rigor: " << value);
   }
 }
 

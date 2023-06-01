@@ -145,7 +145,7 @@ public:
   static inline void
   CorrectTransformPrecisionType(std::string & itkNotUsed(inputTransformName))
   {
-    itkGenericExceptionMacro(<< "Unknown ScalarType" << typeid(ScalarType).name());
+    itkGenericExceptionMacro("Unknown ScalarType" << typeid(ScalarType).name());
   }
 
 protected:
@@ -165,7 +165,7 @@ protected:
   static inline const std::string
   GetTypeNameString()
   {
-    itkGenericExceptionMacro(<< "Unknown ScalarType" << typeid(ScalarType).name());
+    itkGenericExceptionMacro("Unknown ScalarType" << typeid(ScalarType).name());
   }
 
 private:

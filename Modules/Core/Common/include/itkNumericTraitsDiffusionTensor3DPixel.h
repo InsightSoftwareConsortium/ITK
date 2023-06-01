@@ -157,8 +157,8 @@ public:
   {
     if (s != 6)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a DiffusionTensor3D "
-                                  "to anything other than 6.");
+      itkGenericExceptionMacro("Cannot set the size of a DiffusionTensor3D "
+                               "to anything other than 6.");
     }
     m.Fill(NumericTraits<T>::ZeroValue());
   }

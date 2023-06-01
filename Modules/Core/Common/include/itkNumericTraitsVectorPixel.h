@@ -197,7 +197,7 @@ public:
   {
     if (s != D)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a Vector of length " << D << " to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a Vector of length " << D << " to " << s);
     }
     m.Fill(NumericTraits<T>::ZeroValue());
   }

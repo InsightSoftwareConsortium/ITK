@@ -56,7 +56,7 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::SetLevelSetContainer(
   }
   else
   {
-    itkGenericExceptionMacro(<< "iContainer is nullptr");
+    itkGenericExceptionMacro("iContainer is nullptr");
   }
 }
 
@@ -106,7 +106,7 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::SetUp()
   {
     if (this->m_LevelSetContainer.IsNull())
     {
-      itkGenericExceptionMacro(<< "m_LevelSetContainer is nullptr");
+      itkGenericExceptionMacro("m_LevelSetContainer is nullptr");
     }
     this->m_CurrentLevelSetPointer = this->m_LevelSetContainer->GetLevelSet(this->m_CurrentLevelSetId);
 

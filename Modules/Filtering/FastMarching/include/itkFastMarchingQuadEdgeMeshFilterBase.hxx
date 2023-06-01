@@ -112,14 +112,14 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::UpdateNeighbors(OutputMeshT
       }
       else
       {
-        itkGenericExceptionMacro(<< "qe_it is nullptr");
+        itkGenericExceptionMacro("qe_it is nullptr");
       }
       qe_it = qe_it->GetOnext();
     } while (qe_it != qe);
   }
   else
   {
-    itkGenericExceptionMacro(<< "qe is nullptr");
+    itkGenericExceptionMacro("qe is nullptr");
   }
 }
 
@@ -135,7 +135,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::UpdateValue(OutputMeshType 
 
   if (F < 0.)
   {
-    itkGenericExceptionMacro(<< "F < 0.");
+    itkGenericExceptionMacro("F < 0.");
   }
 
   OutputQEType * qe = p.GetEdge();
@@ -195,7 +195,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::UpdateValue(OutputMeshType 
       else
       {
         // throw one exception here
-        itkGenericExceptionMacro(<< "qe_it2 is nullptr");
+        itkGenericExceptionMacro("qe_it2 is nullptr");
       }
     } while (qe_it != qe);
 
@@ -211,7 +211,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::UpdateValue(OutputMeshType 
   else
   {
     // throw one exception
-    itkGenericExceptionMacro(<< "qe_it is nullptr");
+    itkGenericExceptionMacro("qe_it is nullptr");
   }
 }
 
@@ -595,7 +595,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::InitializeOutput(OutputMesh
 
       if (cell->GetNumberOfPoints() != 3)
       {
-        itkGenericExceptionMacro(<< "Input mesh has non triangular faces");
+        itkGenericExceptionMacro("Input mesh has non triangular faces");
       }
       ++c_it;
     }

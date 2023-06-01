@@ -92,7 +92,7 @@ ByteSwapper<T>::SwapFromSystemToBigEndian(T * p)
       Self::Swap8(p);
       return;
     default:
-      itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
+      itkGenericExceptionMacro("Cannot swap number of bytes requested");
   }
 }
 
@@ -129,7 +129,7 @@ ByteSwapper<T>::SwapRangeFromSystemToBigEndian(T * p, BufferSizeType num)
       Self::Swap8Range(p, num);
       return;
     default:
-      itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
+      itkGenericExceptionMacro("Cannot swap number of bytes requested");
   }
 }
 
@@ -163,7 +163,7 @@ ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(const T * p, int num, OStrea
       Self::SwapWrite8Range(p, num, fp);
       return;
     default:
-      itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
+      itkGenericExceptionMacro("Cannot swap number of bytes requested");
   }
 }
 
@@ -190,7 +190,7 @@ ByteSwapper<T>::SwapFromSystemToLittleEndian(T * p)
       Self::Swap8(p);
       return;
     default:
-      itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
+      itkGenericExceptionMacro("Cannot swap number of bytes requested");
   }
 }
 
@@ -220,7 +220,7 @@ ByteSwapper<T>::SwapRangeFromSystemToLittleEndian(T * p, BufferSizeType num)
       Self::Swap8Range(p, num);
       return;
     default:
-      itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
+      itkGenericExceptionMacro("Cannot swap number of bytes requested");
   }
 }
 
@@ -250,7 +250,7 @@ ByteSwapper<T>::SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, OSt
       Self::SwapWrite8Range(p, num, fp);
       return;
     default:
-      itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
+      itkGenericExceptionMacro("Cannot swap number of bytes requested");
   }
 }
 

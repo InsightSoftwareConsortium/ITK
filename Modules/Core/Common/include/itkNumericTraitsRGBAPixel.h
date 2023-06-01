@@ -182,8 +182,8 @@ public:
   {
     if (s != 4)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a RGBAPixel to anything other "
-                                  "than 4.");
+      itkGenericExceptionMacro("Cannot set the size of a RGBAPixel to anything other "
+                               "than 4.");
     }
     m.Fill(NumericTraits<T>::ZeroValue());
   }

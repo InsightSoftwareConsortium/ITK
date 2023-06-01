@@ -62,7 +62,7 @@ ShiSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputIndex) const
     }
     else
     {
-      itkGenericExceptionMacro(<< "status " << static_cast<int>(status) << " should be 3 or -3");
+      itkGenericExceptionMacro("status " << static_cast<int>(status) << " should be 3 or -3");
     }
   }
 }
@@ -72,7 +72,7 @@ template <unsigned int VDimension>
 auto
 ShiSparseLevelSetImage<VDimension>::EvaluateHessian(const InputType & itkNotUsed(inputIndex)) const -> HessianType
 {
-  itkGenericExceptionMacro(<< "The approximation of the hessian in the Shi's"
+  itkGenericExceptionMacro("The approximation of the hessian in the Shi's"
                            << " representation is poor, and far to be representative."
                            << " If it was required for regularization purpose, "
                            << " you better check recommended regularization methods"
@@ -84,7 +84,7 @@ template <unsigned int VDimension>
 auto
 ShiSparseLevelSetImage<VDimension>::EvaluateLaplacian(const InputType & itkNotUsed(inputIndex)) const -> OutputRealType
 {
-  itkGenericExceptionMacro(<< "The approximation of the hessian in the Shi's"
+  itkGenericExceptionMacro("The approximation of the hessian in the Shi's"
                            << " representation is poor, and far to be representative."
                            << " If it was required for regularization purpose, "
                            << " you better check recommended regularization methods"
@@ -97,7 +97,7 @@ auto
 ShiSparseLevelSetImage<VDimension>::EvaluateMeanCurvature(const InputType & itkNotUsed(inputIndex)) const
   -> OutputRealType
 {
-  itkGenericExceptionMacro(<< "The approximation of the hessian in the Shi's"
+  itkGenericExceptionMacro("The approximation of the hessian in the Shi's"
                            << " representation is poor, and far to be representative."
                            << " If it was required for regularization purpose, "
                            << " you better check recommended regularization methods"

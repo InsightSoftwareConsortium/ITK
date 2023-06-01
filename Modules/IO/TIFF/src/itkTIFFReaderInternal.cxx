@@ -129,7 +129,7 @@ TIFFReaderInternal::Initialize()
       if (!TIFFGetField(this->m_Image, TIFFTAG_TILEWIDTH, &this->m_TileWidth) ||
           !TIFFGetField(this->m_Image, TIFFTAG_TILELENGTH, &this->m_TileHeight))
       {
-        itkGenericExceptionMacro(<< "Cannot read tile width and tile length from file");
+        itkGenericExceptionMacro("Cannot read tile width and tile length from file");
       }
       else
       {

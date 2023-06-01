@@ -116,7 +116,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>::GetTransformList(const
       this->BuildTransformList<6>(transform) == 0 && this->BuildTransformList<7>(transform) == 0 &&
       this->BuildTransformList<8>(transform) == 0 && this->BuildTransformList<9>(transform) == 0)
   {
-    itkGenericExceptionMacro(<< "Unsupported Composite Transform Type " << transform->GetTransformTypeAsString());
+    itkGenericExceptionMacro("Unsupported Composite Transform Type " << transform->GetTransformTypeAsString());
   }
   return m_TransformList;
 }
@@ -137,7 +137,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>::SetTransformList(Trans
       this->InternalSetTransformList<8>(transform, transformList) == 0 &&
       this->InternalSetTransformList<9>(transform, transformList) == 0)
   {
-    itkGenericExceptionMacro(<< "Unsupported Composite Transform Type " << transform->GetTransformTypeAsString());
+    itkGenericExceptionMacro("Unsupported Composite Transform Type " << transform->GetTransformTypeAsString());
   }
 }
 

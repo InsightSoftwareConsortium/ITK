@@ -62,7 +62,7 @@ MalcolmSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputPixel) c
     }
     else
     {
-      itkGenericExceptionMacro(<< "status " << static_cast<int>(status) << " should be 1 or -1");
+      itkGenericExceptionMacro("status " << static_cast<int>(status) << " should be 1 or -1");
     }
   }
 }
@@ -73,7 +73,7 @@ auto
 MalcolmSparseLevelSetImage<VDimension>::EvaluateHessian(const InputType & inputPixel) const -> HessianType
 {
   (void)inputPixel;
-  itkGenericExceptionMacro(<< "The approximation of the hessian in the Malcolm's"
+  itkGenericExceptionMacro("The approximation of the hessian in the Malcolm's"
                            << " representation is poor, and far to be representative."
                            << " If it was required for regularization purpose, "
                            << " you better check recommended regularization methods"
@@ -87,7 +87,7 @@ auto
 MalcolmSparseLevelSetImage<VDimension>::EvaluateLaplacian(const InputType & inputPixel) const -> OutputRealType
 {
   (void)inputPixel;
-  itkGenericExceptionMacro(<< "The approximation of the hessian in the Malcolm's"
+  itkGenericExceptionMacro("The approximation of the hessian in the Malcolm's"
                            << " representation is poor, and far to be representative."
                            << " If it was required for regularization purpose, "
                            << " you better check recommended regularization methods"
@@ -101,7 +101,7 @@ auto
 MalcolmSparseLevelSetImage<VDimension>::EvaluateMeanCurvature(const InputType & inputPixel) const -> OutputRealType
 {
   (void)inputPixel;
-  itkGenericExceptionMacro(<< "The approximation of the hessian in the Malcolm's"
+  itkGenericExceptionMacro("The approximation of the hessian in the Malcolm's"
                            << " representation is poor, and far to be representative."
                            << " If it was required for regularization purpose, "
                            << " you better check recommended regularization methods"

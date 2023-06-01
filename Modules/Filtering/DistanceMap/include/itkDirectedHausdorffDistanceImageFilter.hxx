@@ -141,7 +141,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreadedG
   }
   else
   {
-    itkGenericExceptionMacro(<< "pixelcount is equal to 0");
+    itkGenericExceptionMacro("pixelcount is equal to 0");
   }
 
   m_DirectedHausdorffDistance = m_MaxDistance;
