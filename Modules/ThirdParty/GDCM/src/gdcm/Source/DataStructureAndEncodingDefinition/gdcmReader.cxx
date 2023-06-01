@@ -60,8 +60,8 @@ Reader::~Reader()
 ///        (i.e. the file is a 'true dicom' one)
 /// If not found then seek back at beginning of file (could be Mallinckrodt
 /// or old ACRNEMA with no preamble)
-/// \precondition we are at the beginning of file
-/// \postcondition we are at the beginning of the DataSet or
+/// \pre we are at the beginning of file
+/// \post we are at the beginning of the DataSet or
 /// Meta Information Header
 bool Reader::ReadPreamble()
 {
@@ -70,8 +70,8 @@ bool Reader::ReadPreamble()
 
 /// \brief read the DICOM Meta Information Header
 /// Find out the TransferSyntax used (default: Little Endian Explicit)
-/// \precondition we are at the start of group 0x0002 (well after preamble)
-/// \postcondition we are at the beginning of the DataSet
+/// \pre we are at the start of group 0x0002 (well after preamble)
+/// \post we are at the beginning of the DataSet
 bool Reader::ReadMetaInformation()
 {
   return true;
@@ -831,7 +831,7 @@ bool Reader::CanRead() const
 
 void Reader::SetFileName(const char *utf8path)
 {
-  if(Ifstream) delete Ifstream;
+  delete Ifstream;
   Ifstream = new std::ifstream();
   if (utf8path && *utf8path) {
 #ifdef _MSC_VER

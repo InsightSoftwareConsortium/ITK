@@ -16,8 +16,8 @@
 #include "gdcmElement.h"
 #include "gdcmDirectionCosines.h"
 
+#include <cmath>
 #include <map>
-#include <math.h>
 
 namespace gdcm
 {

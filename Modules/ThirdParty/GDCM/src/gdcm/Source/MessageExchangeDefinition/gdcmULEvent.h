@@ -42,9 +42,9 @@ class ULEvent {
       void DeletePDUVector(){
         std::vector<BasePDU*>::iterator baseItor;
         for (baseItor = mBasePDU.begin(); baseItor < mBasePDU.end(); baseItor++){
-          if (*baseItor != NULL){
+          if (*baseItor != nullptr){
             delete *baseItor;
-            *baseItor = NULL;
+            *baseItor = nullptr;
           }
         }
       }

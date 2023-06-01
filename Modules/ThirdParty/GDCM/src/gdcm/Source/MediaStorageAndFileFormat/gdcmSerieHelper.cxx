@@ -387,7 +387,7 @@ bool SerieHelper::ImagePositionPatientOrdering( FileList *fileList )
     if (distmultimap.count((*it2).first) != 1)
       {
       gdcmErrorMacro("File: "
-        //<< ((*it2).second->GetFileName())
+        // << ((*it2).second->GetFileName())
         << " Distance: "
         << (*it2).first
         << " position is not unique");

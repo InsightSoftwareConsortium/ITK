@@ -314,7 +314,11 @@ static int doround(char *buf, unsigned int n) {
   return 0;
 }
 
-static int roundat(char *buf, unsigned int i, int iexp) {
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#define snprintf _snprintf
+#endif
+
+static int roundat(char *buf, size_t bufLen, unsigned int i, int iexp) {
   if (doround(buf, i) != 0) {
     iexp += 1;
     switch(iexp) {
@@ -334,7 +338,7 @@ static int roundat(char *buf, unsigned int i, int iexp) {
       strcpy(buf, "100");
       break;
     default:
-      sprintf(buf, "1e%d", iexp);
+      snprintf(buf, bufLen, "1e%d", iexp);
     }
     return 1;
   }
@@ -353,20 +357,20 @@ static void x16printf(char *buf, int size, Float f) {
     size -= 1;
     *buf++ = '-';
   }
-  sprintf(line, "%1.16e", f);
+  snprintf(line, sizeof(line), "%1.16e", f);
   if (line[0] == '-') {
     f = -f;
     size -= 1;
     *buf++ = '-';
-    sprintf(line, "%1.16e", f);
+    snprintf(line, sizeof(line), "%1.16e", f);
   }
   *mant = line[0];
   i = (int)strcspn(mant, "eE");
   mant[i] = '\0';
   iexp = (int)strtol(mant + i + 1, nullptr, 10);
-  lexp = sprintf(exp, "e%d", iexp);
+  lexp = snprintf(exp, sizeof(exp), "e%d", iexp);
   if ((iexp >= size) || (iexp < -3)) {
-    i = roundat(mant, size - 1 -lexp, iexp);
+    i = roundat(mant, sizeof(line) - 1, size - 1 -lexp, iexp);
     if(i == 1) {
       strcpy(buf, mant);
       return;
@@ -379,11 +383,11 @@ static void x16printf(char *buf, int size, Float f) {
     strcat(buf, exp);
   }
   else if (iexp >= size - 2) {
-    roundat(mant, iexp + 1, iexp);
+    roundat(mant, sizeof(line) - 1, iexp + 1, iexp);
     strcpy(buf, mant);
   }
   else if (iexp >= 0) {
-    i = roundat(mant, size - 1, iexp);
+    i = roundat(mant, sizeof(line) - 1, size - 1, iexp);
     if (i == 1) {
       strcpy(buf, mant);
       return;
@@ -396,7 +400,7 @@ static void x16printf(char *buf, int size, Float f) {
   }
   else {
     int j;
-    i = roundat(mant, size + 1 + iexp, iexp);
+    i = roundat(mant, sizeof(line) - 1, size + 1 + iexp, iexp);
     if (i == 1) {
       strcpy(buf, mant);
       return;
@@ -405,15 +409,15 @@ static void x16printf(char *buf, int size, Float f) {
     for(j=0; j< -1 - iexp; j++) {
       buf[j+1] = '0';
     }
-    if ((i == 1) && (iexp != -1)) {
-      buf[-iexp] = '1';
-      buf++;
-    }
     strncpy(buf - iexp, mant, size + 1 + iexp);
     buf[size] = 0;
     clean(buf);
   }
 }
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#undef snprintf
+#endif
+
 #endif
 
 template<> inline void EncodingImplementation<VR::VRASCII>::Write(const double* data, unsigned long length, std::ostream &_os)  {

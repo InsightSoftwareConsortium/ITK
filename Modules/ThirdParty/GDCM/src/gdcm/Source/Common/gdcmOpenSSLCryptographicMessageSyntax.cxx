@@ -97,7 +97,11 @@ bool OpenSSLCryptographicMessageSyntax::Encrypt(char *output, size_t &outlen, co
     goto err;
     }
 
+#ifdef OPENSSL_HAS_CONST_VOID_BIO_NEW_MEM_BUF
   in = BIO_new_mem_buf((const void*)array, (int)len);
+#else
+  in = BIO_new_mem_buf((void*)array, (int)len);
+#endif
   if(!in)
     {
     gdcmErrorMacro( "Error at creating the input memory buffer." );
@@ -183,7 +187,11 @@ bool OpenSSLCryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, co
     goto err;
     }
 
+#ifdef OPENSSL_HAS_CONST_VOID_BIO_NEW_MEM_BUF
   in = BIO_new_mem_buf((const void*)array, (int)len);
+#else
+  in = BIO_new_mem_buf((void*)array, (int)len);
+#endif
   if (!in)
     {
     gdcmErrorMacro( "Error at creating the input memory buffer." );

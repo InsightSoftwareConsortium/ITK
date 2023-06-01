@@ -25,7 +25,9 @@ include_regular_expression("^.*$")
 
 set(UUID_SRCS
 compare.c
+copy.c
 gen_uuid.c
+isnull.c
 pack.c
 parse.c
 unpack.c

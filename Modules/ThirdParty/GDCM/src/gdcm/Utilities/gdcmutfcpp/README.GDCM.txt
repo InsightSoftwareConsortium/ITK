@@ -11,3 +11,7 @@ http://sourceforge.net/projects/utfcpp/files/utf8cpp_2x/Release%202.3.4/utf8_v2_
 SHA 256 checksum:
 3373cebb25d88c662a2b960c4d585daf9ae7b396031ecd786e7bb31b15d010ef
 
+
+New location is:
+
+* https://github.com/nemtrif/utfcpp

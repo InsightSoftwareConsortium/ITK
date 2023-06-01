@@ -12,7 +12,7 @@
 
 =========================================================================*/
 #include "gdcmBase64.h"
-#include <string.h> // memcpy
+#include <cstring> // memcpy
 #include <iostream>
 
 namespace gdcm

@@ -66,7 +66,7 @@ public:
 
   /// Execute the XPATH query to find a value (as string)
   /// return false when attribute is not found (or an error in the XPATH query)
-  /// You need to make sure that your XPATH query is syntatically correct
+  /// You need to make sure that your XPATH query is syntactically correct
   bool ExecuteQuery(std::string const &query, std::string & value) const;
 
 protected:

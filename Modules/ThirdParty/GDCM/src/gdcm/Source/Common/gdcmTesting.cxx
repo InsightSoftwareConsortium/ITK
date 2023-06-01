@@ -16,8 +16,8 @@
 #include "gdcmSystem.h"
 #include "gdcmMD5.h"
 
-#include <string.h> // strcmp
-#include <stdlib.h> // malloc
+#include <cstdlib> // malloc
+#include <cstring> // strcmp
 
 
 namespace gdcm
@@ -27,14 +27,14 @@ namespace gdcm
 #error how did that happen ?
 #endif
 
-#include "gdcmDataFileNames.cxx"
-#include "gdcmMD5DataImages.cxx"
-#include "gdcmMD5DataBrokenImages.cxx"
-#include "gdcmMediaStorageDataFiles.cxx"
-#include "gdcmStreamOffsetDataFiles.cxx"
+#include "gdcmDataFileNames.cxx" // NOLINT(bugprone-suspicious-include)
+#include "gdcmMD5DataImages.cxx" // NOLINT(bugprone-suspicious-include)
+#include "gdcmMD5DataBrokenImages.cxx" // NOLINT(bugprone-suspicious-include)
+#include "gdcmMediaStorageDataFiles.cxx" // NOLINT(bugprone-suspicious-include)
+#include "gdcmStreamOffsetDataFiles.cxx" // NOLINT(bugprone-suspicious-include)
 // After gdcmStreamOffsetDataFiles:
-#include "gdcmSelectedTagsOffsetDataFiles.cxx"
-#include "gdcmSelectedPrivateGroupOffsetDataFiles.cxx"
+#include "gdcmSelectedTagsOffsetDataFiles.cxx" // NOLINT(bugprone-suspicious-include)
+#include "gdcmSelectedPrivateGroupOffsetDataFiles.cxx" // NOLINT(bugprone-suspicious-include)
 
 bool Testing::ComputeMD5(const char *buffer, size_t buf_len,
   char digest_str[33])
@@ -451,6 +451,7 @@ static const LossyFile gdcmLossyFilenames[] = {
 { 0,"Bug_Siemens_PrivateIconNoItem.dcm" },
 { 0,"HardcopyColor_YBR_RCT_J2K_PC1.dcm" },
 { 0,"PET-GE-dicomwrite-PixelDataSQUNv2.dcm" },
+{ 0,"MEDILABValidCP246_EVRLESQasOB.dcm" },
 { 0, nullptr }
 };
 

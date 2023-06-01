@@ -162,6 +162,7 @@ int PDBHeader::readprotocoldatablock(const char *input, size_t inputlen, bool ve
   uint32_t len; // = *(const uint32_t*)input;
   memcpy(&len, input, sizeof len);
   SwapperNoOp::SwapArray(&len,1);
+  uint32_t offset = 4;
   //if( verbose )
   //  std::cout << len << "," << inputlen << std::endl;
   if( len + 4 + 1 == inputlen )
@@ -177,11 +178,20 @@ int PDBHeader::readprotocoldatablock(const char *input, size_t inputlen, bool ve
   else
     {
     //std::cerr << "Found the Protocol Data Block but could not read length..." << std::endl;
-    return 1;
+    if( len == 0x8088b1f )
+      {
+      offset = 0;
+      len = (uint32_t)inputlen;
+      }
+    else
+      {
+      gdcmWarningMacro("Unhandled Protocol Data Block magic value: " << len );
+      return 1;
+      }
     }
   // Alright we need to check if the binary blob was padded, if padded we need to
   // discard the trailing \0 to please gzip:
-  std::string str( input + 4, input + len );
+  std::string str( input + offset, input + len );
   std::istringstream is( str );
 
   zlib_stream::zip_istream gzis( is );

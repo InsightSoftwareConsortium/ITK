@@ -16,8 +16,8 @@
 #include "gdcmDefs.h"
 #include "gdcmFilename.h"
 
-#include <limits.h> // PATH_MAX
-#include <string.h> // strcpy
+#include <climits> // PATH_MAX
+#include <cstring> // strcpy
 #ifdef _WIN32
 #include <windows.h> // MAX_PATH
 #endif
@@ -27,7 +27,7 @@ namespace gdcm
 
 // Must NOT be initialized.  Default initialization to zero is
 // necessary.
-unsigned int GlobalCount;
+static unsigned int GlobalCount;
 
 class GlobalInternal
 {

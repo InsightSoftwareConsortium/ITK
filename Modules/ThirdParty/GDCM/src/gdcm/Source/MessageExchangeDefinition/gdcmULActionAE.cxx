@@ -158,7 +158,7 @@ EStateID ULActionAE6::PerformAction(Subject *, ULEvent& inEvent, ULConnection& i
     acceptable = false; //can't accept an empty set of pdus.
     //also, requrie little endian, not sure how to set that, but it should be here.
   }
-  AAssociateRQPDU* rqpdu;
+  AAssociateRQPDU* rqpdu = nullptr;
   if (acceptable){
     rqpdu = dynamic_cast<AAssociateRQPDU*>(inEvent.GetPDUs()[0]);
     if (rqpdu == nullptr){

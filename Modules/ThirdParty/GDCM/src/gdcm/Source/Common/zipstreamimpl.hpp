@@ -143,9 +143,7 @@ basic_zip_streambuf<charT, traits>::overflow(int_type c)
 template <class charT, class traits>
 std::streamsize basic_zip_streambuf<charT, traits>::flush()
 {
-    std::streamsize written_byte_size = 0, total_written_byte_size = 0;
-
-    size_t remainder = 0;
+    std::streamsize total_written_byte_size = 0;
 
     // updating crc
     _crc = crc32(_crc,  _zip_stream.next_in,
@@ -156,14 +154,15 @@ std::streamsize basic_zip_streambuf<charT, traits>::flush()
         _err = deflate(&_zip_stream, Z_FINISH);
         if(_err == Z_OK || _err == Z_STREAM_END)
         {
-            written_byte_size = static_cast<std::streamsize>(_output_buffer.size()) - _zip_stream.avail_out;
+            std::streamsize written_byte_size = static_cast<std::streamsize>(_output_buffer.size()) - _zip_stream.avail_out;
             total_written_byte_size += written_byte_size;
             // output buffer is full, dumping to ostream
             _ostream.write( (const char_type*) &(_output_buffer[0]),
                             static_cast<std::streamsize>(written_byte_size/sizeof(char_type)*sizeof(char)));
 
             // checking if some bytes were not written.
-            if((remainder = written_byte_size%sizeof(char_type)) != 0)
+            size_t remainder = written_byte_size%sizeof(char_type);
+            if(remainder != 0)
             {
                 // copy to the beginning of the stream
 				std::streamsize theDiff = written_byte_size-remainder;
@@ -242,13 +241,12 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
     char_type *buffer,
     std::streamsize buffer_size)
 {
-    std::streamsize written_byte_size = 0, total_written_byte_size = 0;
+    std::streamsize total_written_byte_size = 0;
 
     _zip_stream.next_in = (byte_buffer_type) buffer;
     _zip_stream.avail_in = static_cast<uInt>(buffer_size * sizeof(char_type));
     _zip_stream.avail_out = static_cast<uInt>(_output_buffer.size());
     _zip_stream.next_out = &_output_buffer[0];
-    size_t remainder = 0;
 
     // updating crc
     _crc = crc32(_crc, _zip_stream.next_in,
@@ -260,7 +258,7 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
 
         if (_err == Z_OK  || _err == Z_STREAM_END)
         {
-            written_byte_size= static_cast<std::streamsize>(_output_buffer.size()) -
+            std::streamsize written_byte_size = static_cast<std::streamsize>(_output_buffer.size()) -
                 _zip_stream.avail_out;
             total_written_byte_size += written_byte_size;
             // output buffer is full, dumping to ostream
@@ -269,7 +267,8 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
                            static_cast<std::streamsize>(written_byte_size / sizeof(char_type)));
 
             // checking if some bytes were not written.
-            if((remainder = written_byte_size % sizeof(char_type)) != 0)
+            size_t remainder = written_byte_size % sizeof(char_type);
+            if(remainder != 0)
             {
                 // copy to the beginning of the stream
 				std::streamsize theDiff = written_byte_size-remainder;
@@ -285,6 +284,8 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
     }
     while(_zip_stream.avail_in != 0 && _err == Z_OK);
 
+    (void)total_written_byte_size;
+    
     return _err == Z_OK;
 }
 

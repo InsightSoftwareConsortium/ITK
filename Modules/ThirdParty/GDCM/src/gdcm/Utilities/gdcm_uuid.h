@@ -19,7 +19,7 @@
 #ifdef GDCM_USE_SYSTEM_UUID
 # include <uuid/uuid.h>
 #else
-# include <gdcmuuid/uuid.h>
+# include "gdcmuuid/uuid.h"
 #endif
 
 #endif

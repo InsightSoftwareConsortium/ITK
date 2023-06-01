@@ -71,9 +71,10 @@ void FileMetaInformation::AppendImplementationClassUID(const char * imp)
 {
   if( imp )
     {
-    ImplementationClassUID = GetGDCMImplementationClassUID();
-    ImplementationClassUID += ".";
-    ImplementationClassUID += imp;
+    std::string tmp = GetGDCMImplementationClassUID();
+    tmp += ".";
+    tmp += imp;
+    if( tmp.size() <= 64 ) { ImplementationClassUID = tmp; }
     }
 }
 
@@ -517,7 +518,7 @@ bool ReadImplicitDataElement(std::istream &is, ImplicitDataElement &de)
  * Note: PS 3.5 specifies that Elements with Tags (0001,xxxx), (0003,xxxx),
  * (0005,xxxx), and (0007,xxxx) shall not be used.
  */
-/// \TODO FIXME
+/// \todo FIXME
 /// For now I do a Seek back of 6 bytes. It would be better to finish reading
 /// the first element of the FMI so that I can read the group length and
 /// therefore compare it against the actual value we found...

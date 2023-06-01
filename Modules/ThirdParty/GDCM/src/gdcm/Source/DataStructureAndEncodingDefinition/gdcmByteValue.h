@@ -30,7 +30,6 @@ using namespace gdcm;
 #endif
 /**
  * \brief Class to represent binary value (array of bytes)
- * \note
  */
 class GDCM_EXPORT ByteValue : public Value
 {

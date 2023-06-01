@@ -131,7 +131,7 @@ bool FileChangeTransferSyntax::Change()
     std::vector<char> vbuffer;
     vbuffer.resize( dims[0] * pixsize );
 
-    char *data = &vbuffer[0];
+    char *data = vbuffer.data();
     const size_t datalen = vbuffer.size();
 
     const size_t nscanlines = dims[2] * dims[1];
@@ -176,7 +176,7 @@ bool FileChangeTransferSyntax::Change()
     std::vector<char> vbuffer;
     vbuffer.resize( dims[0] * dims[1] * pixsize );
 
-    char *data = &vbuffer[0];
+    char *data = vbuffer.data();
     const size_t datalen = vbuffer.size();
 
     const size_t nscanlines = dims[2];
@@ -287,7 +287,7 @@ void FileChangeTransferSyntax::SetTransferSyntax( TransferSyntax const & ts )
     &jpeg2000,
     &rle
   };
-  const int n = sizeof( codecs ) / sizeof( *codecs );
+  const int n = sizeof( codecs ) / sizeof( codecs[0] );
   for( int i = 0; i < n; ++i )
     {
     if( codecs[i]->CanCode( ts ) )

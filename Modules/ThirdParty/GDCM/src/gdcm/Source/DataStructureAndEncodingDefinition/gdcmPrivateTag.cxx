@@ -15,7 +15,7 @@
 #include "gdcmTrace.h"
 #include "gdcmSystem.h" // FIXME
 
-#include <stdio.h> // sscanf
+#include <cstdio> // sscanf
 #include <limits> // numeric_limits
 
 namespace gdcm_ns
@@ -24,22 +24,27 @@ namespace gdcm_ns
     {
     if( !str ) return false;
     unsigned int group = 0, element = 0;
-    std::string owner;
-    owner.resize( strlen(str) ); // str != NULL
-    if( sscanf(str, "%04x,%04x,%[^\"]", &group , &element, &owner[0] ) != 3
+    int nchar = -1;
+    if( sscanf(str, "%04x,%04x,%n", &group , &element, &nchar ) != 2
+      || nchar == -1
       || group > std::numeric_limits<uint16_t>::max()
       || element > std::numeric_limits<uint16_t>::max()
+      || group % 2 == 0
       /*|| strlen(owner.c_str()) == 0*/ ) // can't use owner.empty()
       {
-      gdcmDebugMacro( "Problem reading Private Tag: " << str );
+      // comment out the following since too verbose
+      //gdcmDebugMacro( "Problem reading Private Tag: " << str );
       return false;
       }
     SetGroup( (uint16_t)group );
     // This is not considered an error to specify element as 1010 for example.
     // just keep the lower bits of element:
     SetElement( (uint8_t)element );
-    SetOwner( owner.c_str() );
-    if( !*GetOwner() )
+    const char *owner = str + nchar;
+    SetOwner( owner );
+    const bool hasBackslash = strchr(owner,'\\') != nullptr;
+    const char * creator = GetOwner();
+    if( !*creator || hasBackslash )
       {
       gdcmDebugMacro( ": " << str );
       return false;

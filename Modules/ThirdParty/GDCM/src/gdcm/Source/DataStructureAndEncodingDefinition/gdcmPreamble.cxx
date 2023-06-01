@@ -12,7 +12,7 @@
 
 =========================================================================*/
 #include "gdcmPreamble.h"
-#include <string.h> // memset
+#include <cstring> // memset
 
 namespace gdcm
 {

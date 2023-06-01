@@ -133,7 +133,10 @@ namespace gdcm
     return tempF;
     }
 
-  template <> inline Tag SwapperNoOp::Swap<Tag>(Tag val);
+  template <> inline Tag SwapperNoOp::Swap<Tag>(Tag val)
+    {
+    return Tag( Swap(val.GetGroup()), Swap(val.GetElement()) );
+    }
 
   template <> inline void SwapperNoOp::SwapArray(uint8_t *, size_t ) {}
 
@@ -206,7 +209,10 @@ namespace gdcm
     return tempF;
     }
 
-  template <> inline Tag SwapperDoOp::Swap<Tag>(Tag val);
+  template <> inline Tag SwapperDoOp::Swap<Tag>(Tag val)
+    {
+    return Tag( Swap((uint32_t)val.GetElementTag()) );
+    }
 
   template <> inline void SwapperDoOp::SwapArray(uint8_t *, size_t ) {}
 

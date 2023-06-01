@@ -21,10 +21,7 @@ namespace gdcm
 
 /**
  * \brief Class for generating unique UID
- * \details 
- * \note bla
- * Usage:
- * When constructing a Series or Study UID, user *has* to keep around the UID,
+ * \details When constructing a Series or Study UID, user *has* to keep around the UID,
  * otherwise the UID Generator will simply forget the value and create a new UID.
  */
 class GDCM_EXPORT UIDGenerator
@@ -53,7 +50,7 @@ public:
   /// successfully been tested for a root of size 26 bytes. Any longer root should work (the Generate()
   /// function will return a string), but will truncate the high bits of the 128bits UUID until the
   /// generated string fits on 64 bits. The authors disclaims any
-  /// responsabitlity for garanteeing uniqueness of UIDs when the root is longer than 26 bytes.
+  /// responsabitlity for guaranteeing uniqueness of UIDs when the root is longer than 26 bytes.
   static void SetRoot(const char * root);
   static const char *GetRoot();
 

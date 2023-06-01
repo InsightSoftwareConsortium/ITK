@@ -22,11 +22,14 @@
 #include "gdcmEvent.h"
 #include "gdcmProgressEvent.h"
 
+// The GNU C library (glibc) requires this be defined to have fseeko() and ftello().
+#ifdef __GNU_LIBRARY__
 #define _FILE_OFFSET_BITS 64
+#endif
 
+#include <cstdio>
 #include <limits>
 #include <sys/stat.h> // fstat
-#include <stdio.h>
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__MINGW32__))
 #include <io.h>
@@ -51,7 +54,7 @@ namespace gdcm
 // much guarantee to be 32bits only.
 static inline int FSeeko(FILE *stream, off64_t offset, int whence)
 {
-#if _WIN32
+#ifdef _WIN32
 #if defined(__MINGW32__)
   return fseek(stream, offset, whence); // 32bits
 #else
@@ -64,7 +67,7 @@ static inline int FSeeko(FILE *stream, off64_t offset, int whence)
 
 static inline off64_t FTello(FILE *stream)
 {
-#if _WIN32
+#ifdef _WIN32
 #if defined(__MINGW32__)
   return ftell( stream ); // 32bits
 #else
@@ -77,7 +80,7 @@ static inline off64_t FTello(FILE *stream)
 
 static inline bool FTruncate( const int fd, const off64_t len )
 {
-#if _WIN32
+#ifdef _WIN32
 #if defined(__MINGW32__)
   const long size = len;
   const int ret = _chsize( fd, size ); // 32bits
@@ -788,7 +791,7 @@ bool FileStreamer::InitializeCopy()
       Reader reader;
       reader.SetFileName( filename );
       if( !reader.Read() ) return false;
-      if( strcmp( filename, outfilename ) )
+      if( strcmp( filename, outfilename ) != 0 )
         {
         Writer writer;
         writer.SetFileName( outfilename );
@@ -802,7 +805,7 @@ bool FileStreamer::InitializeCopy()
       assert( outfilename );
       std::ifstream is( filename, std::ios::binary );
       if( !is.good() ) return false;
-      if( strcmp( filename, outfilename ) )
+      if( strcmp( filename, outfilename ) != 0 )
         {
         std::ofstream of( outfilename, std::ios::binary );
         if( !of.good() ) return false;

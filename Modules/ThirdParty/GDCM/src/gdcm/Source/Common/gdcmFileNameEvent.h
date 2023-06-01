@@ -34,7 +34,7 @@ public:
   FileNameEvent(const char *s = ""):m_FileName(s) {}
   ~FileNameEvent() override = default;
 
-  FileNameEvent(const Self&s) : AnyEvent(s){};
+  FileNameEvent(const Self&s) : AnyEvent(s){}
   void operator=(const Self&) = delete;
   
 

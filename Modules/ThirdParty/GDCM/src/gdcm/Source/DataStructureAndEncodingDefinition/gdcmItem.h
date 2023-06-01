@@ -251,7 +251,7 @@ public:
       // Not sure how this happen
       if( TagField == Tag(0xfffe, 0xe0dd) )
         {
-        gdcmWarningMacro( "SegDelItem found in defined length Sequence" );
+        gdcmWarningMacro( "SeqDelItem found in defined length Sequence" );
         assert( ValueLengthField == 0 );
         assert( NestedDataSet.Size() == 0 );
         }

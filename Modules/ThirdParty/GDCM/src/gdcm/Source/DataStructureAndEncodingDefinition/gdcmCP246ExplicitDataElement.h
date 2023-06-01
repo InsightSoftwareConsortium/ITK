@@ -21,7 +21,6 @@ namespace gdcm
 // Data Element (CP246Explicit)
 /**
  * \brief Class to read/write a DataElement as CP246Explicit Data Element
- * \details 
  * \note Some system are producing SQ, declare them as UN, but encode the SQ as 'Explicit'
  * instead of Implicit
  */
