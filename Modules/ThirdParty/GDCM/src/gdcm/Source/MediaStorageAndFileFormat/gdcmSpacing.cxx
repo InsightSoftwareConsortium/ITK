@@ -18,8 +18,6 @@ namespace gdcm
 
 Spacing::Spacing() = default;
 
-Spacing::~Spacing() = default;
-
 /*
  * http://www.ics.uci.edu/~eppstein/numth/frap.c
  * http://stackoverflow.com/questions/95727/how-to-convert-floats-to-human-readable-fractions

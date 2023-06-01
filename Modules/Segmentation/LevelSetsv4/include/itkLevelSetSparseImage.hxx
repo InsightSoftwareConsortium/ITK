@@ -73,8 +73,8 @@ LevelSetSparseImage<TOutput, VDimension>::Graft(const DataObject * data)
   if (!levelSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "LevelSetSparseImage::Graft() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("LevelSetSparseImage::Graft() cannot cast " << typeid(data).name() << " to "
+                                                                  << typeid(Self *).name());
   }
 
   this->m_LabelMap->Graft(levelSet->m_LabelMap);
@@ -152,8 +152,8 @@ LevelSetSparseImage<TOutput, VDimension>::CopyInformation(const DataObject * dat
   if (!LevelSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::MalcolmSparseLevelSet::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::MalcolmSparseLevelSet::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                                   << typeid(Self *).name());
   }
 }
 

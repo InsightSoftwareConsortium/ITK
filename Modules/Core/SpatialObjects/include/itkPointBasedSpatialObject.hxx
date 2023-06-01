@@ -94,7 +94,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInObje
 
   if (it == itend)
   {
-    itkExceptionMacro(<< "SpatialObject: ClosestPoint called using an empty point list");
+    itkExceptionMacro("SpatialObject: ClosestPoint called using an empty point list");
   }
 
   SpatialObjectPointType closestPoint;
@@ -123,7 +123,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInWorl
 
   if (it == itend)
   {
-    itkExceptionMacro(<< "SpatialObject: ClosestPoint called using an empty point list");
+    itkExceptionMacro("SpatialObject: ClosestPoint called using an empty point list");
   }
 
   SpatialObjectPointType closestPoint;
@@ -216,7 +216,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::InternalClone() co
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
   rval->SetPoints(this->GetPoints());

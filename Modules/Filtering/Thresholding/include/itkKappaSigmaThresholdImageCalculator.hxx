@@ -105,7 +105,7 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::GetOutput() const -
 {
   if (!this->m_Valid)
   {
-    itkExceptionMacro(<< "GetOutput() invoked, but the output have not been computed. Call Compute() first.");
+    itkExceptionMacro("GetOutput() invoked, but the output have not been computed. Call Compute() first.");
   }
   return this->m_Output;
 }

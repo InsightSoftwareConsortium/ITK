@@ -471,7 +471,7 @@ OBJMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown point component type" << std::endl);
+      itkExceptionMacro("Unknown point component type" << std::endl);
     }
   }
 
@@ -568,7 +568,7 @@ OBJMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown cell component type" << std::endl);
+      itkExceptionMacro("Unknown cell component type" << std::endl);
     }
   }
 
@@ -581,7 +581,7 @@ OBJMeshIO::WritePointData(void * buffer)
   // Point data must be vector
   if (!m_UpdatePointData || m_NumberOfPointPixelComponents != m_PointDimension)
   {
-    itkExceptionMacro(<< "OBJ Mesh writer does not support normals");
+    itkExceptionMacro("OBJ Mesh writer does not support normals");
   }
 
   // Check file name
@@ -684,7 +684,7 @@ OBJMeshIO::WritePointData(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown point data pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point data pixel component type" << std::endl);
     }
   }
   outputFile.close();

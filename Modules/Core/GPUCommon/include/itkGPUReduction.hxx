@@ -119,7 +119,7 @@ GPUReduction<TElement>::GetReductionKernel(int whichKernel, int blockSize, int i
 {
   if (whichKernel != 5 && whichKernel != 6)
   {
-    itkExceptionMacro(<< "Reduction kernel undefined!");
+    itkExceptionMacro("Reduction kernel undefined!");
   }
 
   std::ostringstream defines;

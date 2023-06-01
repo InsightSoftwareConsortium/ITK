@@ -73,7 +73,7 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CreateTriangles()
 
     if (!(b1 && b2 && b3))
     {
-      itkExceptionMacro(<< "Assertion failed for test of GetElementIfIndexExists()");
+      itkExceptionMacro("Assertion failed for test of GetElementIfIndexExists()");
     }
 
     ++pointsIt;
@@ -107,7 +107,7 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::FindCellId(CellIdentif
 
   if (cellIt == cells1.end())
   {
-    itkExceptionMacro(<< "Cell was not found, although it should be there");
+    itkExceptionMacro("Cell was not found, although it should be there");
   }
 
   return *cellIt;

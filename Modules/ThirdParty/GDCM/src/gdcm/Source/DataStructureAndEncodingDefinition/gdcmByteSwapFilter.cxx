@@ -27,8 +27,6 @@ namespace gdcm
 //{
 //}
 //-----------------------------------------------------------------------------
-ByteSwapFilter::~ByteSwapFilter()
-= default;
 
 bool ByteSwapFilter::ByteSwap()
 {

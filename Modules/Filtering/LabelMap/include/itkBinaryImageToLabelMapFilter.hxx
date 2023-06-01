@@ -119,10 +119,10 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
   // check for overflow exception here
   if (m_NumberOfObjects > static_cast<SizeValueType>(NumericTraits<OutputPixelType>::max()))
   {
-    itkExceptionMacro(<< "Number of objects (" << m_NumberOfObjects << ") greater than maximum of output pixel type ("
-                      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(
-                           NumericTraits<OutputPixelType>::max())
-                      << ").");
+    itkExceptionMacro("Number of objects (" << m_NumberOfObjects << ") greater than maximum of output pixel type ("
+                                            << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(
+                                                 NumericTraits<OutputPixelType>::max())
+                                            << ").");
   }
 
   for (SizeValueType thisIdx = 0; thisIdx < linecount; ++thisIdx)

@@ -62,8 +62,11 @@ CHECK_CXX_SOURCE_COMPILES(
   "int main() { const char *f = __FUNCTION__; return 0;}"
   GDCM_CXX_HAS_FUNCTION)
 CHECK_CXX_SOURCE_COMPILES(
-  "\#include <fstream>\nint main() { const wchar_t fn[10] = {}; std::ifstream is( fn ); return 0;}"
+  "\#include <fstream>\nint main() { const wchar_t fn[10] = {}; std::ifstream is( fn ); std::wcerr << fn; return 0;}"
   GDCM_HAVE_WCHAR_IFSTREAM)
+CHECK_CXX_SOURCE_COMPILES(
+  "\#include <string>\n#include <codecvt>\n#include <locale>\nint main() { std::u16string u16; std::string utf8 = std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t>{}.to_bytes(u16); }"
+  GDCM_HAVE_CODECVT)
 if(GDCM_USE_SYSTEM_OPENSSL)
 set(CMAKE_REQUIRED_INCLUDES ${OPENSSL_INCLUDE_DIR})
 set(CMAKE_REQUIRED_LIBRARIES ${OPENSSL_LIBRARIES}
@@ -74,6 +77,9 @@ CHECK_CXX_SOURCE_COMPILES(
   #HAVE_CMS_RECIPIENT_KEY)
     "\#include <openssl/cms.h>\nint main() { CMS_add0_recipient_password(0,0,0,0,0,0,0); return 0;}"
   GDCM_HAVE_CMS_RECIPIENT_PASSWORD)
+CHECK_CXX_SOURCE_COMPILES(
+    "\#include <openssl/bio.h>\nint main() { const void*mem; int len; BIO_new_mem_buf(mem, len); }"
+    OPENSSL_HAS_CONST_VOID_BIO_NEW_MEM_BUF)
 endif()
 
 #-----------------------------------------------------------------------------
@@ -164,6 +170,11 @@ set(Common_SRCS ${Common_SRCS}
   gdcmOpenSSLP7CryptoFactory.cxx
   gdcmOpenSSLP7CryptographicMessageSyntax.cxx
 )
+if(OPENSSL_HAS_CONST_VOID_BIO_NEW_MEM_BUF)
+set_source_files_properties(
+  gdcmOpenSSLP7CryptographicMessageSyntax.cxx
+  PROPERTIES COMPILE_FLAGS "-DOPENSSL_HAS_CONST_VOID_BIO_NEW_MEM_BUF")
+endif()
 endif()
 
 if(GDCM_USE_SYSTEM_OPENSSL AND GDCM_HAVE_CMS_RECIPIENT_PASSWORD)
@@ -171,6 +182,11 @@ set(Common_SRCS ${Common_SRCS}
   gdcmOpenSSLCryptoFactory.cxx
   gdcmOpenSSLCryptographicMessageSyntax.cxx
 )
+if(OPENSSL_HAS_CONST_VOID_BIO_NEW_MEM_BUF)
+set_source_files_properties(
+  gdcmOpenSSLCryptographicMessageSyntax.cxx
+  PROPERTIES COMPILE_FLAGS "-DOPENSSL_HAS_CONST_VOID_BIO_NEW_MEM_BUF")
+endif()
 endif()
 
 if(GDCM_BUILD_TESTING)

@@ -109,7 +109,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
   // mask and marker must have the same size
   if (markerImage->GetRequestedRegion().GetSize() != inputImage->GetRequestedRegion().GetSize())
   {
-    itkExceptionMacro(<< "Marker and input must have the same size.");
+    itkExceptionMacro("Marker and input must have the same size.");
   }
 
   // FAH (in french: File d'Attente Hierarchique)

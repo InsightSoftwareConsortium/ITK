@@ -27,7 +27,7 @@ class GDCM_EXPORT Orientation
   friend std::ostream& operator<<(std::ostream &_os, const Orientation &o);
 public:
   Orientation();
-  ~Orientation();
+  ~Orientation() = default;
 
   /// Print
   void Print(std::ostream &) const;

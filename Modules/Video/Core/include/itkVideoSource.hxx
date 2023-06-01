@@ -104,8 +104,8 @@ VideoSource<TOutputVideoStream>::GraftNthOutput(unsigned int idx, TOutputVideoSt
 {
   if (idx >= this->GetNumberOfOutputs())
   {
-    itkExceptionMacro(<< "Requested to graft output " << idx << " but this VideoSource only has "
-                      << this->GetNumberOfOutputs() << " Outputs.");
+    itkExceptionMacro("Requested to graft output " << idx << " but this VideoSource only has "
+                                                   << this->GetNumberOfOutputs() << " Outputs.");
   }
   if (!graft)
   {
@@ -255,8 +255,8 @@ VideoSource<TOutputVideoStream>::ThreadedGenerateData(
   const typename TOutputVideoStream::SpatialRegionType & itkNotUsed(outputRegionForThread),
   int                                                    itkNotUsed(threadId))
 {
-  itkExceptionMacro(<< "itk::ERROR: " << this->GetNameOfClass() << '(' << this << "): "
-                    << "Subclass should override this method!!!");
+  itkExceptionMacro("itk::ERROR: " << this->GetNameOfClass() << '(' << this << "): "
+                                   << "Subclass should override this method!!!");
 }
 
 //

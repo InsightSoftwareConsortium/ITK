@@ -37,7 +37,7 @@ MetaLineConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * 
   const auto * lineMO = dynamic_cast<const LineMetaObjectType *>(mo);
   if (lineMO == nullptr)
   {
-    itkExceptionMacro(<< "Can't convert MetaObject to MetaLine");
+    itkExceptionMacro("Can't convert MetaObject to MetaLine");
   }
 
   LineSpatialObjectPointer lineSO = LineSpatialObjectType::New();
@@ -98,7 +98,7 @@ MetaLineConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType
   LineSpatialObjectConstPointer lineSO = dynamic_cast<const LineSpatialObjectType *>(spatialObject);
   if (lineSO.IsNull())
   {
-    itkExceptionMacro(<< "Can't downcast SpatialObject to LineSpatialObject");
+    itkExceptionMacro("Can't downcast SpatialObject to LineSpatialObject");
   }
 
   auto * lineMO = new MetaLine(VDimension);

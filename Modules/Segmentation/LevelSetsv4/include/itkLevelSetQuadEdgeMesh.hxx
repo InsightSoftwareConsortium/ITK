@@ -107,8 +107,8 @@ LevelSetQuadEdgeMesh<TMesh>::CopyInformation(const DataObject * data)
   if (!levelSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::LevelSetQuadEdgeMesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::LevelSetQuadEdgeMesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                                  << typeid(Self *).name());
   }
 }
 
@@ -122,8 +122,8 @@ LevelSetQuadEdgeMesh<TMesh>::Graft(const DataObject * data)
   if (!levelSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::LevelSetQuadEdgeMesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::LevelSetQuadEdgeMesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                                  << typeid(Self *).name());
   }
 
   this->m_Mesh = levelSet->m_Mesh;

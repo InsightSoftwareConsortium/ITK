@@ -71,7 +71,7 @@ TBBMultiThreader::SingleMethodExecute()
 {
   if (!m_SingleMethod)
   {
-    itkExceptionMacro(<< "No single method set!");
+    itkExceptionMacro("No single method set!");
   }
 
   // Construct TBB static context with only m_MaximumNumberOfThreads threads

@@ -116,6 +116,21 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
     // postcondition says it cannot be VR::INVALID, so return VR::UN
     return VR::UN;
     }
+  else
+  {
+    if( ds.FindDataElement( t ) )
+      {
+      const DataElement &de = ds.GetDataElement( t );
+      const VR &devr = de.GetVR();
+      if( devr != refvr )
+        {
+        if(!refvr.Compatible(devr)) {
+          gdcmWarningMacro("Inconsistent VR: " << devr << " should be " << refvr << " for: [" << (owner ? owner : "<null>") << "]" << " de is: "  << de );
+	}
+        }
+      }
+
+  }
 
   VR vr = refvr;
 
@@ -197,10 +212,9 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
     else // ( pixeldata == t  )
       {
       // For Pixel Data:
-      if( !ds.FindDataElement( bitsallocated ) )
-        return VR::UN;
+      // if( !ds.FindDataElement( bitsallocated ) ) return VR::UN;
       Attribute<0x0028,0x0100> at;
-      at.SetFromDataElement( ds.GetDataElement( bitsallocated ) );
+      // at.SetFromDataElement( ds.GetDataElement( bitsallocated ) );
       }
     (void)v;
 

@@ -68,7 +68,7 @@ PadImageFilterBase<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // Ask the boundary condition for the input requested region.
   if (!m_BoundaryCondition)
   {
-    itkExceptionMacro(<< "Boundary condition is nullptr so no request region can be generated.");
+    itkExceptionMacro("Boundary condition is nullptr so no request region can be generated.");
   }
   InputImageRegionType inputRequestedRegion =
     m_BoundaryCondition->GetInputRequestedRegion(inputLargestPossibleRegion, outputRequestedRegion);

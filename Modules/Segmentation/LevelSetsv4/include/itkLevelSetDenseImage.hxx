@@ -73,8 +73,8 @@ LevelSetDenseImage<TImage>::CopyInformation(const DataObject * data)
   if (!LevelSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::LevelSetDenseImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::LevelSetDenseImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                                << typeid(Self *).name());
   }
 }
 
@@ -88,8 +88,8 @@ LevelSetDenseImage<TImage>::Graft(const DataObject * data)
   if (!LevelSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::LevelSetDenseImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Self *).name());
+    itkExceptionMacro("itk::LevelSetDenseImage::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                                << typeid(Self *).name());
   }
 
   this->m_Image = LevelSet->m_Image;

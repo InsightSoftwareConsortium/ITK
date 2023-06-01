@@ -139,7 +139,7 @@ typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, 
 
   if (!drfp)
   {
-    itkExceptionMacro(<< "Could not cast difference function to SymmetricDemonsRegistrationFunction");
+    itkExceptionMacro("Could not cast difference function to SymmetricDemonsRegistrationFunction");
   }
 
   return drfp;
@@ -155,7 +155,7 @@ const typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingI
 
   if (!drfp)
   {
-    itkExceptionMacro(<< "Could not cast difference function to SymmetricDemonsRegistrationFunction");
+    itkExceptionMacro("Could not cast difference function to SymmetricDemonsRegistrationFunction");
   }
 
   return drfp;

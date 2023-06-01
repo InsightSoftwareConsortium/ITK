@@ -285,8 +285,8 @@ private:
     }
     else if (this->GetFunctor().GetOutsideValue().GetSize() != this->GetOutput()->GetVectorLength())
     {
-      itkExceptionMacro(<< "Number of components in OutsideValue: " << this->GetFunctor().GetOutsideValue().GetSize()
-                        << " is not the same as the "
+      itkExceptionMacro("Number of components in OutsideValue: "
+                        << this->GetFunctor().GetOutsideValue().GetSize() << " is not the same as the "
                         << "number of components in the image: " << this->GetOutput()->GetVectorLength());
     }
   }

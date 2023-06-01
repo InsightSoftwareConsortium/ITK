@@ -26,8 +26,6 @@ class SequenceOfItems;
 
 /**
  * \brief DataSetHelper (internal class, not intended for user level)
- *
- * \details
  */
 class GDCM_EXPORT DataSetHelper
 {

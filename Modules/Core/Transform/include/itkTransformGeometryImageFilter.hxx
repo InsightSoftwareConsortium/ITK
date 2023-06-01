@@ -44,7 +44,7 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() I
 
   if (!tx->IsLinear())
   {
-    itkExceptionMacro(<< "Transform set to non-linear transform of type: " << tx->GetNameOfClass());
+    itkExceptionMacro("Transform set to non-linear transform of type: " << tx->GetNameOfClass());
   }
 }
 

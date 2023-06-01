@@ -22,6 +22,7 @@ readonly paths="
   Utilities/gdcmcharls
   Utilities/gdcm_charls.h
   Utilities/gdcm_expat.h
+  Utilities/gdcmext
   Utilities/gdcmjpeg
   Utilities/gdcm_ljpeg12.h
   Utilities/gdcm_ljpeg16.h

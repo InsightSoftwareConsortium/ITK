@@ -117,7 +117,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
 {
   if (!this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator)
   {
-    itkExceptionMacro(<< "MovingImage, FixedImage and/or Interpolator not set");
+    itkExceptionMacro("MovingImage, FixedImage and/or Interpolator not set");
   }
 
   // cache fixed image information
@@ -313,7 +313,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
     }
     else
     {
-      itkExceptionMacro(<< "Unknown gradient type");
+      itkExceptionMacro("Unknown gradient type");
     }
   }
   else if (this->m_UseGradientType == GradientEnum::Fixed)
@@ -338,7 +338,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   }
   else
   {
-    itkExceptionMacro(<< "Unknown gradient type");
+    itkExceptionMacro("Unknown gradient type");
   }
 
   const auto usedGradientTimes2 =

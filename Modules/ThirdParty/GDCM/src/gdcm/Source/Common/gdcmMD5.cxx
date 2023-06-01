@@ -19,8 +19,12 @@
 #elif defined(GDCM_BUILD_TESTING)
 #include "gdcm_md5.h"
 #endif
+#include <cstdio>
 #include <fstream>
 #include <vector>
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#define snprintf _snprintf
+#endif
 
 // http://stackoverflow.com/questions/13256446/compute-md5-hash-value-by-c-winapi
 namespace gdcm
@@ -39,7 +43,7 @@ bool MD5::Compute(const char *buffer, size_t buf_len, char digest_str[33])
   MD5_Update(&ctx, buffer, buf_len);
   MD5_Final(digest, &ctx);
   for (int di = 0; di < 16; ++di)
-    sprintf(digest_str+2*di, "%02x", digest[di]);
+    snprintf(digest_str+2*di, 3, "%02x", digest[di]);
   digest_str[2*16] = '\0';
   return true;
 #elif defined(GDCM_BUILD_TESTING)
@@ -49,7 +53,7 @@ bool MD5::Compute(const char *buffer, size_t buf_len, char digest_str[33])
   md5_append(&state, (const md5_byte_t *)buffer, buf_len);
   md5_finish(&state, digest);
   for (int di = 0; di < 16; ++di)
-    sprintf(digest_str+2*di, "%02x", digest[di]);
+    snprintf(digest_str+2*di, 3, "%02x", digest[di]);
   digest_str[2*16] = '\0';
   return true;
 #else
@@ -90,7 +94,7 @@ static bool process_file(const char *filename, md5_byte_t *digest)
   const size_t file_size = System::FileSize(filename);
   std::vector<char> v( file_size );
 
-  char *buffer = &v[0];
+  char *buffer = v.data();
   file.read(buffer, file_size);
 
   md5_state_t state;
@@ -124,7 +128,7 @@ bool MD5::ComputeFile(const char *filename, char digest_str[33])
 
   for (int di = 0; di < 16; ++di)
     {
-    sprintf(digest_str+2*di, "%02x", digest[di]);
+    snprintf(digest_str+2*di, 3, "%02x", digest[di]);
     }
   digest_str[2*16] = '\0';
   return true;

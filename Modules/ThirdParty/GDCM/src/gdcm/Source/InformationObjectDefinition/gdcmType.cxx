@@ -12,7 +12,7 @@
 
 =========================================================================*/
 #include "gdcmType.h"
-#include <string.h>
+#include <cstring>
 
 namespace gdcm
 {

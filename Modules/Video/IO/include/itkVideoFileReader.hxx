@@ -58,7 +58,7 @@ VideoFileReader<TOutputVideoStream>::UpdateOutputInformation()
   //
   if (m_VideoIO->GetNumberOfDimensions() != FrameDimension)
   {
-    itkExceptionMacro(<< "Output dimension doesn't match dimension of read "
+    itkExceptionMacro("Output dimension doesn't match dimension of read "
                       << "data. Expected " << FrameDimension << " but the IO "
                       << "method has " << m_VideoIO->GetNumberOfDimensions() << '.');
   }

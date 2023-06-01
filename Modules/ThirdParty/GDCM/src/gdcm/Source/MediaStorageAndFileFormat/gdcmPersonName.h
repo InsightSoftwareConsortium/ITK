@@ -42,7 +42,7 @@ public:
       }
     return r+1;
   }
-  unsigned int GetMaxLength() const { return MaxLength; };
+  unsigned int GetMaxLength() const { return MaxLength; }
   void SetBlob(const std::vector<char>& v) {
   (void)v;
     //assert(0); //TODO

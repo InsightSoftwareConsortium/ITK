@@ -46,8 +46,8 @@ TranslationTransform<TParametersValueType, VDimension>::SetParameters(const Para
 {
   if (parameters.Size() < SpaceDimension)
   {
-    itkExceptionMacro(<< "Error setting parameters: parameters array size (" << parameters.Size()
-                      << ") is less than expected (SpaceDimension = " << SpaceDimension << ')');
+    itkExceptionMacro("Error setting parameters: parameters array size ("
+                      << parameters.Size() << ") is less than expected (SpaceDimension = " << SpaceDimension << ')');
   }
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.

@@ -119,8 +119,8 @@ Image<TPixel, VImageDimension>::Graft(const DataObject * data)
     else
     {
       // pointer could not be cast back down
-      itkExceptionMacro(<< "itk::Image::Graft() cannot cast " << typeid(data).name() << " to "
-                        << typeid(const Self *).name());
+      itkExceptionMacro("itk::Image::Graft() cannot cast " << typeid(data).name() << " to "
+                                                           << typeid(const Self *).name());
     }
   }
 }

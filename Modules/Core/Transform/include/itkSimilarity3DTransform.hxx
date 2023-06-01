@@ -86,7 +86,7 @@ Similarity3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix
 
   if (det == 0.0)
   {
-    itkExceptionMacro(<< "Attempting to set a matrix with a zero determinant");
+    itkExceptionMacro("Attempting to set a matrix with a zero determinant");
   }
 
   //
@@ -102,7 +102,7 @@ Similarity3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix
   //
   if (s <= 0.0)
   {
-    itkExceptionMacro(<< "Attempting to set a matrix with a negative trace");
+    itkExceptionMacro("Attempting to set a matrix with a negative trace");
   }
 
   MatrixType testForOrthogonal = matrix;
@@ -110,7 +110,7 @@ Similarity3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix
 
   if (!this->MatrixIsOrthogonal(testForOrthogonal, tolerance))
   {
-    itkExceptionMacro(<< "Attempting to set a non-orthogonal matrix (after removing scaling)");
+    itkExceptionMacro("Attempting to set a non-orthogonal matrix (after removing scaling)");
   }
 
   using Baseclass = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;

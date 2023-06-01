@@ -34,7 +34,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   TotalAbsoluteFrequencyType total = histogram->GetTotalFrequency();
   if (total == NumericTraits<TotalAbsoluteFrequencyType>::ZeroValue())
   {
-    itkExceptionMacro(<< "Histogram is empty");
+    itkExceptionMacro("Histogram is empty");
   }
   m_Size = histogram->GetSize(0);
   ProgressReporter progress(this, 0, m_Size);

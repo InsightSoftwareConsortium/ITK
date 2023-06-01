@@ -128,6 +128,8 @@ bool SequenceOfFragments::WriteBuffer(std::ostream &os) const
   //  assert(0);
   //  return false;
   //  }
+  (void)total;
+  
   return true;
 }
 
@@ -142,7 +144,7 @@ bool SequenceOfFragments::FillFragmentWithJPEG( Fragment & frag, std::istream & 
     if( byte == 0xd9 && jfif[ jfif.size() - 2 ] == 0xff ) break;
     }
   const uint32_t len = static_cast<uint32_t>(jfif.size());
-  frag.SetByteValue( (char*)&jfif[0], len );
+  frag.SetByteValue( (char*)jfif.data(), len );
   return true;
 }
 

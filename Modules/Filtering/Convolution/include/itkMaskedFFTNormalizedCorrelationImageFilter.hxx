@@ -592,7 +592,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   }
   else
   {
-    itkExceptionMacro(<< "Precision tolerance not defined for the input image pixel type.");
+    itkExceptionMacro("Precision tolerance not defined for the input image pixel type.");
   }
 
   return precisionTolerance;

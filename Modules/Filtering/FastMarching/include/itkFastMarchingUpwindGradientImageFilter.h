@@ -293,15 +293,15 @@ protected:
 
     if (!targetPointsExist)
     {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
+      itkExceptionMacro("No target point set. Cannot set the target reached mode.");
     }
     else
     {
       SizeValueType availableNumberOfTargets = m_TargetPoints->Size();
       if (targetModeMinPoints > availableNumberOfTargets)
       {
-        itkExceptionMacro(<< "Not enough target points: Available: " << availableNumberOfTargets
-                          << "; Requested: " << targetModeMinPoints);
+        itkExceptionMacro("Not enough target points: Available: " << availableNumberOfTargets
+                                                                  << "; Requested: " << targetModeMinPoints);
       }
     }
   }

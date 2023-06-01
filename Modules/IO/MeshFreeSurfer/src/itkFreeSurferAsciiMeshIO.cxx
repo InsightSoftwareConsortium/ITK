@@ -325,7 +325,7 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point pixel component type" << std::endl);
     }
   }
 
@@ -424,7 +424,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro(<< "Unknown cell pixel component type" << std::endl);
+      itkExceptionMacro("Unknown cell pixel component type" << std::endl);
     }
   }
 

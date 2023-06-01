@@ -31,7 +31,7 @@ ManhattanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x) cons
 
   if (measurementVectorSize == 0)
   {
-    itkExceptionMacro(<< "Please set the MeasurementVectorSize first");
+    itkExceptionMacro("Please set the MeasurementVectorSize first");
   }
   MeasurementVectorTraits::Assert(this->GetOrigin(),
                                   measurementVectorSize,
@@ -55,7 +55,7 @@ ManhattanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, con
 
   if (measurementVectorSize != NumericTraits<MeasurementVectorType>::GetLength(x2))
   {
-    itkExceptionMacro(<< "ManhattanDistanceMetric:: The two measurement vectors have unequal size");
+    itkExceptionMacro("ManhattanDistanceMetric:: The two measurement vectors have unequal size");
   }
 
   double temp, distance = 0.0;

@@ -18,7 +18,7 @@
 #include "gdcmAttribute.h"
 #include "gdcmDataSetHelper.h"
 
-#include <string.h> // strtok
+#include <cstring> // strtok
 
 namespace gdcm
 {
@@ -143,7 +143,6 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
 
   char *str1, *str2, *token, *subtoken;
   char *saveptr1= nullptr, *saveptr2;
-  int j;
 
   //bool dicomnativemodel = false;//unused
   const DataSet *curds = nullptr;
@@ -151,13 +150,12 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
   Tag t;
   int state = 0;
   SmartPointer<SequenceOfItems> sqi;
-  for (j = 1, str1 = query; state >= 0 ; j++, str1 = nullptr)
+  for (str1 = query; state >= 0 ; str1 = nullptr)
     {
     token = System::StrTokR(str1, delim, &saveptr1);
 
     if (token == nullptr)
       break;
-    //printf("%d: %s\n", j, token);
 
     std::vector< std::string > subtokens;
     for (str2 = token; ; str2 = nullptr)
@@ -220,7 +218,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
       }
     else
       {
-      assert( subtokens.size() );
+      assert( !subtokens.empty() );
       gdcmDebugMacro( "Unhandled token: " << subtokens[0] );
       state = -1;
       }

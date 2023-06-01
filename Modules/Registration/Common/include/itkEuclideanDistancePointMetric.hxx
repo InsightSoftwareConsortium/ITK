@@ -36,7 +36,7 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
 
   if (!movingPointSet)
   {
-    itkExceptionMacro(<< "Moving point set has not been assigned");
+    itkExceptionMacro("Moving point set has not been assigned");
   }
 
   return movingPointSet->GetPoints()->Size();
@@ -51,14 +51,14 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
 
   if (!fixedPointSet)
   {
-    itkExceptionMacro(<< "Fixed point set has not been assigned");
+    itkExceptionMacro("Fixed point set has not been assigned");
   }
 
   MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
 
   if (!movingPointSet)
   {
-    itkExceptionMacro(<< "Moving point set has not been assigned");
+    itkExceptionMacro("Moving point set has not been assigned");
   }
 
   MovingPointIterator pointItr = movingPointSet->GetPoints()->Begin();

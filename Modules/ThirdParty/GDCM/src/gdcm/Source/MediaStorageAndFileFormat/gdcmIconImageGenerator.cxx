@@ -345,10 +345,10 @@ void IconImageGenerator::BuildLUT( Bitmap & bitmap, unsigned int maxcolor )
   for( int i = 0; i < 3; ++i )
     {
     lut.InitializeLUT( LookupTable::LookupTableType(i), (unsigned short)ncolors, 0, 8 );
-    lut.SetLUT( LookupTable::LookupTableType(i), &buffer[i][0], (unsigned short)ncolors );
+    lut.SetLUT( LookupTable::LookupTableType(i), buffer[i].data(), (unsigned short)ncolors );
     }
 
-  bitmap.GetDataElement().SetByteValue( (char*)&indeximage[0], (uint32_t)indeximage.size() );
+  bitmap.GetDataElement().SetByteValue( (char*)indeximage.data(), (uint32_t)indeximage.size() );
   assert( lut.Initialized() );
 }
 
@@ -544,7 +544,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
     framelen /= dims[2];
     }
   vbuffer.resize( P->GetBufferLength() );
-  char *buffer = &vbuffer[0];
+  char *buffer = vbuffer.data();
   bool boolean = P->GetBuffer(buffer);
   if( !boolean ) return false;
 
@@ -560,8 +560,8 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
 
   uint8_t ps = I->GetPixelFormat().GetPixelSize();
 
-  char *iconb = &vbuffer2[0];
-  char *imgb = &vbuffer[0];
+  char *iconb = vbuffer2.data();
+  char *imgb = vbuffer.data();
 
   const unsigned int *imgdims = P->GetDimensions();
   const unsigned int stepi = imgdims[0] / Internals->dims[0];
@@ -581,7 +581,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
   // Apply LUT
   if( P->GetPhotometricInterpretation() == PhotometricInterpretation::PALETTE_COLOR )
     {
-    std::string tempvbuf(&vbuffer2[0], vbuffer2.size());
+    std::string tempvbuf(vbuffer2.data(), vbuffer2.size());
     std::istringstream is( tempvbuf );
     std::stringstream ss;
     P->GetLUT().Decode( is, ss );
@@ -613,7 +613,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
 
       std::vector<char> v8;
       v8.resize( Internals->dims[0] * Internals->dims[1] * 3 );
-      if( !r.Rescale(&v8[0],&s[0],s.size()) )
+      if( !r.Rescale(v8.data(),s.data(),s.size()) )
         {
         assert( 0 ); // should not happen in real life
         gdcmErrorMacro( "Problem in the rescaler" );
@@ -626,12 +626,12 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
 
         // re-encode:
         std::stringstream ss2;
-        ss2.str( std::string( &v8[0], v8.size() ) );
+        ss2.str( std::string( v8.data(), v8.size() ) );
 
         std::string s2 = ss2.str();
         // As per standard, we only support 8bits icon
         I->SetPixelFormat( PixelFormat::UINT8 );
-        pixeldata.SetByteValue( &s2[0], (uint32_t)s2.size() );
+        pixeldata.SetByteValue( s2.data(), (uint32_t)s2.size() );
 
         BuildLUT( *I, 256 );
         }
@@ -639,7 +639,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         {
         I->SetPixelFormat( PixelFormat::UINT8 );
         I->GetPixelFormat().SetSamplesPerPixel( 3 );
-        pixeldata.SetByteValue( &v8[0], (uint32_t)v8.size() );
+        pixeldata.SetByteValue( v8.data(), (uint32_t)v8.size() );
         }
       }
     else
@@ -653,7 +653,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
 
         // As per standard, we only support 8bits icon
         I->SetPixelFormat( PixelFormat::UINT8 );
-        pixeldata.SetByteValue( &s[0], (uint32_t)s.size() );
+        pixeldata.SetByteValue( s.data(), (uint32_t)s.size() );
 
         BuildLUT(*I, 256 );
         }
@@ -661,7 +661,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         {
         I->SetPixelFormat( PixelFormat::UINT8 );
         I->GetPixelFormat().SetSamplesPerPixel( 3 );
-        pixeldata.SetByteValue( &s[0], (uint32_t)s.size() );
+        pixeldata.SetByteValue( s.data(), (uint32_t)s.size() );
         }
       }
     }
@@ -671,14 +671,14 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
     || P->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_ICT
     || P->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_RCT )
     {
-    std::string tempvbuf( &vbuffer2[0], vbuffer2.size() );
+    std::string tempvbuf( vbuffer2.data(), vbuffer2.size() );
     if( P->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL
     || P->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422 )
       {
       assert( I->GetPixelFormat() == PixelFormat::UINT8 );
       if( P->GetPlanarConfiguration() == 0 )
         {
-        unsigned char *ybr = (unsigned char*)&tempvbuf[0];
+        unsigned char *ybr = (unsigned char*)tempvbuf.data();
         unsigned char *ybr_out = ybr;
         unsigned char *ybr_end = ybr + vbuffer2.size();
         int R, G, B;
@@ -718,7 +718,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         {
         std::string tempvbufybr = tempvbuf;
 
-        unsigned char *ybr = (unsigned char*)&tempvbufybr[0];
+        unsigned char *ybr = (unsigned char*)tempvbufybr.data();
         unsigned char *ybr_end = ybr + vbuffer2.size();
         assert( vbuffer2.size() % 3 == 0 );
         size_t ybrl = vbuffer2.size() / 3;
@@ -726,7 +726,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         unsigned char *ybrb = ybr + 1 * ybrl;
         unsigned char *ybrc = ybr + 2 * ybrl;
 
-        unsigned char *ybr_out = (unsigned char*)&tempvbuf[0];
+        unsigned char *ybr_out = (unsigned char*)tempvbuf.data();
         unsigned char *ybr_out_end = ybr_out + vbuffer2.size();
         int R, G, B;
         for( ; ybr_out != ybr_out_end; )
@@ -766,7 +766,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         assert( I->GetPixelFormat() == PixelFormat::UINT8 );
         std::string tempvbufrgb = tempvbuf;
 
-        unsigned char *rgb = (unsigned char*)&tempvbufrgb[0];
+        unsigned char *rgb = (unsigned char*)tempvbufrgb.data();
         unsigned char *rgb_end = rgb + vbuffer2.size();
         assert( vbuffer2.size() % 3 == 0 );
         size_t rgbl = vbuffer2.size() / 3;
@@ -774,7 +774,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         unsigned char *rgbb = rgb + 1 * rgbl;
         unsigned char *rgbc = rgb + 2 * rgbl;
 
-        unsigned char *rgb_out = (unsigned char*)&tempvbuf[0];
+        unsigned char *rgb_out = (unsigned char*)tempvbuf.data();
         unsigned char *rgb_out_end = rgb_out + vbuffer2.size();
         for( ; rgb_out != rgb_out_end; )
           {
@@ -800,7 +800,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         {
         // As per standard, we only support 8bits icon
         I->SetPixelFormat( PixelFormat::UINT8 );
-        pixeldata.SetByteValue( &s[0], (uint32_t)s.size() );
+        pixeldata.SetByteValue( s.data(), (uint32_t)s.size() );
 
         BuildLUT(*I, 256 );
         }
@@ -808,7 +808,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         {
         I->SetPixelFormat( PixelFormat::UINT8 );
         I->GetPixelFormat().SetSamplesPerPixel( 3 );
-        pixeldata.SetByteValue( &s[0], (uint32_t)s.size() );
+        pixeldata.SetByteValue( s.data(), (uint32_t)s.size() );
         }
       }
     else
@@ -839,7 +839,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
 
       std::vector<char> v8;
       v8.resize( Internals->dims[0] * Internals->dims[1] * 3 );
-      if( !r.Rescale(&v8[0],&s[0],s.size()) )
+      if( !r.Rescale(v8.data(),s.data(),s.size()) )
         {
         assert( 0 ); // should not happen in real life
         gdcmErrorMacro( "Problem in the rescaler" );
@@ -852,7 +852,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         lut.Allocate();
 
         I->SetPixelFormat( PixelFormat::UINT8 );
-        pixeldata.SetByteValue( &v8[0], (uint32_t)v8.size() );
+        pixeldata.SetByteValue( v8.data(), (uint32_t)v8.size() );
 
         BuildLUT(*I, 256 );
         }
@@ -860,14 +860,14 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         {
         I->SetPixelFormat( PixelFormat::UINT8 );
         I->GetPixelFormat().SetSamplesPerPixel( 3 );
-        pixeldata.SetByteValue( &v8[0], (uint32_t)v8.size() );
+        pixeldata.SetByteValue( v8.data(), (uint32_t)v8.size() );
         }
       }
     }
   else
     {
     // MONOCHROME1 / MONOCHROME2 ...
-    char *buffer2 = &vbuffer2[0];
+    char *buffer2 = vbuffer2.data();
     pixeldata.SetByteValue( buffer2, (uint32_t)vbuffer2.size() );
 
     Rescaler r;
@@ -886,7 +886,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
       }
     if( Internals->AutoMinMax )
       {
-      void *p = &vbuffer2[0];
+      void *p = vbuffer2.data();
       size_t len = vbuffer2.size();
       const PixelFormat &pf = I->GetPixelFormat();
       assert( pf.GetSamplesPerPixel() == 1 );
@@ -963,7 +963,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
 
     std::vector<char> v8;
     v8.resize( Internals->dims[0] * Internals->dims[1] );
-    if( !r.Rescale(&v8[0],&vbuffer2[0],vbuffer2.size()) )
+    if( !r.Rescale(v8.data(),vbuffer2.data(),vbuffer2.size()) )
       {
       assert( 0 ); // should not happen in real life
       gdcmErrorMacro( "Problem in the rescaler" );
@@ -972,7 +972,7 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
 
     // As per standard, we only support 8bits icon
     I->SetPixelFormat( PixelFormat::UINT8 );
-    pixeldata.SetByteValue( &v8[0], (uint32_t)v8.size() );
+    pixeldata.SetByteValue( v8.data(), (uint32_t)v8.size() );
     }
 
   // \postcondition

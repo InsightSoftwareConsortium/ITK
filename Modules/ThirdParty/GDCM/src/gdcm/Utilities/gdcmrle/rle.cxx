@@ -117,7 +117,7 @@ bool rle_encoder::write_header( dest & d )
   const int nsegs = pt.compute_num_segments();
 
   internals->invalues.resize( w * nsegs );
-  char * buffer = &internals->invalues[0];
+  char * buffer = internals->invalues.data();
   size_t buflen = internals->invalues.size();
 
   header & rh = internals->rh;
@@ -269,21 +269,21 @@ int rle_encoder::encode_row( dest & d )
   internals->invalues.resize( w * numsegs );
   internals->outvalues.resize( w * 2 ); // worse possible case ?
 
-  src->read_into_segments( &internals->invalues[0], internals->invalues.size(), internals->img );
+  src->read_into_segments( internals->invalues.data(), internals->invalues.size(), internals->img );
 
   header::ul *comp_pos = internals->comp_pos;
   int n = 0;
   for( int s = 0; s < numsegs; ++s )
     {
     const int ret = encode_row_internal(
-      &internals->outvalues[0], internals->outvalues.size(),
-      &internals->invalues[0] + s * w, w );
+      internals->outvalues.data(), internals->outvalues.size(),
+      internals->invalues.data() + s * w, w );
     if( ret < 0 ) return -1;
     n += ret;
 
     const bool b = d.seek( comp_pos[s] );
     if( !b ) return -1;
-    if( d.write( &internals->outvalues[0], ret ) < 0 ) return -1;
+    if( d.write( internals->outvalues.data(), ret ) < 0 ) return -1;
     comp_pos[s] += ret;
     }
 
@@ -513,7 +513,7 @@ int rle_decoder::decode_row( dest & d )
 
   const size_t scanlen = internals->img.get_width() * nsegs;
   internals->scanline.resize( scanlen );
-  char * scanbuf = &internals->scanline[0];
+  char * scanbuf = internals->scanline.data();
 
   int numOutBytesFull = 0;
   for( int c = 0; c < nc; ++c )

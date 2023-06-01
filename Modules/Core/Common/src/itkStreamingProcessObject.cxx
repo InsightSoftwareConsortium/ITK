@@ -139,8 +139,8 @@ StreamingProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
   const DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
   if (ninputs < this->GetNumberOfRequiredInputs())
   {
-    itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << ninputs
-                      << " are specified.");
+    itkExceptionMacro("At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << ninputs
+                                  << " are specified.");
   }
 
   this->SetAbortGenerateData(false);

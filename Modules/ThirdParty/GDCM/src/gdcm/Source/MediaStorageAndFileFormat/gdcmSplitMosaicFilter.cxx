@@ -17,7 +17,7 @@
 #include "gdcmImageHelper.h"
 #include "gdcmDirectionCosines.h"
 
-#include <math.h>
+#include <cmath>
 
 namespace gdcm
 {
@@ -31,11 +31,11 @@ namespace details {
 static bool reorganize_mosaic(const unsigned short *input, const unsigned int *inputdims,
   unsigned int square, const unsigned int *outputdims, unsigned short *output )
 {
-  for(unsigned int x = 0; x < outputdims[0]; ++x)
+  for(unsigned int z = 0; z < outputdims[2]; ++z)
     {
     for(unsigned int y = 0; y < outputdims[1]; ++y)
       {
-      for(unsigned int z = 0; z < outputdims[2]; ++z)
+      for(unsigned int x = 0; x < outputdims[0]; ++x)
         {
         const size_t outputidx = x + y*outputdims[0] + z*outputdims[0]*outputdims[1];
         const size_t inputidx = (x + (z%square)*outputdims[0]) +
@@ -50,11 +50,11 @@ static bool reorganize_mosaic(const unsigned short *input, const unsigned int *i
 static bool reorganize_mosaic_invert(const unsigned short *input, const unsigned int *inputdims,
   unsigned int square, const unsigned int *outputdims, unsigned short *output )
 {
-  for(unsigned int x = 0; x < outputdims[0]; ++x)
+  for(unsigned int z = 0; z < outputdims[2]; ++z)
     {
     for(unsigned int y = 0; y < outputdims[1]; ++y)
       {
-      for(unsigned int z = 0; z < outputdims[2]; ++z)
+      for(unsigned int x = 0; x < outputdims[0]; ++x)
         {
         const size_t outputidx = x + y*outputdims[0] + (outputdims[2]-1-z)*outputdims[0]*outputdims[1];
         const size_t inputidx = (x + (z%square)*outputdims[0]) +
@@ -368,7 +368,7 @@ bool SplitMosaicFilter::Split()
   unsigned long l = inputimage.GetBufferLength();
   std::vector<char> buf;
   buf.resize(l);
-  inputimage.GetBuffer( &buf[0] );
+  inputimage.GetBuffer( buf.data() );
   DataElement pixeldata( Tag(0x7fe0,0x0010) );
 
   std::vector<char> outbuf;
@@ -378,19 +378,19 @@ bool SplitMosaicFilter::Split()
   if( inverted )
   {
     b = details::reorganize_mosaic_invert(
-        (unsigned short*)(void*)&buf[0], inputimage.GetDimensions(), div, dims,
-        (unsigned short*)(void*)&outbuf[0] );
+        (unsigned short*)(void*)buf.data(), inputimage.GetDimensions(), div, dims,
+        (unsigned short*)(void*)outbuf.data() );
   }
   else
   {
     b = details::reorganize_mosaic(
-        (unsigned short*)(void*)&buf[0], inputimage.GetDimensions(), div, dims,
-        (unsigned short*)(void*)&outbuf[0] );
+        (unsigned short*)(void*)buf.data(), inputimage.GetDimensions(), div, dims,
+        (unsigned short*)(void*)outbuf.data() );
   }
   if( !b ) return false;
 
   VL::Type outbufSize = (VL::Type)outbuf.size();
-  pixeldata.SetByteValue( &outbuf[0], outbufSize );
+  pixeldata.SetByteValue( outbuf.data(), outbufSize );
 
   Image &image = GetImage();
   const TransferSyntax &ts = image.GetTransferSyntax();
@@ -398,7 +398,7 @@ bool SplitMosaicFilter::Split()
      {
      image.SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian );
      }
-   else
+  else
      {
      image.SetTransferSyntax( TransferSyntax::ImplicitVRLittleEndian );
      }
@@ -409,7 +409,7 @@ bool SplitMosaicFilter::Split()
 
   // Fix origin (direction is ok since we reorganize the tiles):
   if( hasOriginCSA )
-  image.SetOrigin( origin );
+    image.SetOrigin( origin );
 
   PhotometricInterpretation pi;
   pi = PhotometricInterpretation::MONOCHROME2;

@@ -91,7 +91,7 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
 {
   if (!IsEvaluableAtInObjectSpace(point, depth, name))
   {
-    itkExceptionMacro(<< "This spatial object is not evaluable at the point");
+    itkExceptionMacro("This spatial object is not evaluable at the point");
   }
 
   if (order == 0)
@@ -347,7 +347,7 @@ SpatialObject<TDimension>::InternalClone() const
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
   rval->SetTypeName(this->GetTypeName());
@@ -495,7 +495,7 @@ SpatialObject<TDimension>::SetObjectToParentTransform(const TransformType * tran
 {
   if (!transform->GetInverse(m_ObjectToParentTransformInverse))
   {
-    itkExceptionMacro(<< "Transform must be invertible.");
+    itkExceptionMacro("Transform must be invertible.");
   }
 
   m_ObjectToParentTransform->SetFixedParameters(transform->GetFixedParameters());
@@ -528,7 +528,7 @@ SpatialObject<TDimension>::ProtectedComputeObjectToWorldTransform()
 
   if (!m_ObjectToWorldTransform->GetInverse(m_ObjectToWorldTransformInverse))
   {
-    itkExceptionMacro(<< "Transform must be invertible.");
+    itkExceptionMacro("Transform must be invertible.");
   }
 
   // Propagate the changes to the children
@@ -548,7 +548,7 @@ SpatialObject<TDimension>::SetObjectToWorldTransform(const TransformType * trans
 {
   if (!transform->GetInverse(m_ObjectToWorldTransformInverse))
   {
-    itkExceptionMacro(<< "Transform must be invertible.");
+    itkExceptionMacro("Transform must be invertible.");
   }
 
   m_ObjectToWorldTransform->SetFixedParameters(transform->GetFixedParameters());
@@ -585,13 +585,13 @@ SpatialObject<TDimension>::ComputeObjectToParentTransform()
     }
     else
     {
-      itkExceptionMacro(<< "Parent's ObjectToWorldTransform not invertible.");
+      itkExceptionMacro("Parent's ObjectToWorldTransform not invertible.");
     }
   }
 
   if (!m_ObjectToParentTransform->GetInverse(m_ObjectToParentTransformInverse))
   {
-    itkExceptionMacro(<< "ObjectToParentTransform not invertible.");
+    itkExceptionMacro("ObjectToParentTransform not invertible.");
   }
   ProtectedComputeObjectToWorldTransform();
 }
@@ -1233,8 +1233,8 @@ SpatialObject<TDimension>::SetRequestedRegion(const DataObject * data)
   }
   else
   {
-    itkExceptionMacro(<< "SpatialObject::SetRequestedRegion(const DataObject *) cannot cast " << typeid(data).name()
-                      << " to " << typeid(SpatialObject *).name());
+    itkExceptionMacro("SpatialObject::SetRequestedRegion(const DataObject *) cannot cast "
+                      << typeid(data).name() << " to " << typeid(SpatialObject *).name());
   }
 }
 
@@ -1277,8 +1277,8 @@ SpatialObject<TDimension>::CopyInformation(const DataObject * data)
   if (soData == nullptr)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::SpatialObject::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(SpatialObject<TDimension> *).name());
+    itkExceptionMacro("itk::SpatialObject::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to " << typeid(SpatialObject<TDimension> *).name());
   }
 
   // Copy the meta data for this data type

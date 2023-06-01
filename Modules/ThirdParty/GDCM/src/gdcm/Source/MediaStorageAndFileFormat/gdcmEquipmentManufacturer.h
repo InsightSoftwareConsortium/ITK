@@ -16,19 +16,17 @@
 
 #include "gdcmTypes.h"
 
-namespace gdcm
-{
+namespace gdcm {
 
 class DataSet;
 /**
- * \brief 
- * \details  
- *
+ * \details
+ * The intent is for private tags handling. This class is not meant to handle
+ * all possible vendors in the world, simply those well known where we intend
+ * to read private tags afterwards (typically SIEMENS+CSA, GEMS+PDB ...)
  */
-class GDCM_EXPORT EquipmentManufacturer
-{
-public:
-
+class GDCM_EXPORT EquipmentManufacturer {
+ public:
   typedef enum {
     UNKNOWN = 0,
     FUJI,
@@ -38,14 +36,21 @@ public:
     MARCONI,
     PMS,
     SIEMENS,
-    TOSHIBA
+    TOSHIBA,
+    AGFA,
+    SAMSUNG,
+    UIH
   } Type;
 
-  static Type Compute( DataSet const & ds );
+  static Type Compute(DataSet const &ds);
 
-private:
+  static const char *TypeToString(Type type);
+
+ private:
+  static EquipmentManufacturer::Type GuessFromPrivateAttributes(
+      DataSet const &ds);
 };
 
-} // end namespace gdcm
+}  // end namespace gdcm
 
-#endif // GDCMEQUIPMENTMANUFACTURER_H
+#endif  // GDCMEQUIPMENTMANUFACTURER_H

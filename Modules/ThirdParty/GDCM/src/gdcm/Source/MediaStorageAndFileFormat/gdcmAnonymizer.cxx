@@ -95,11 +95,45 @@ bool Anonymizer::Empty( Tag const &t)
   return Replace(t, "", 0);
 }
 
+bool Anonymizer::Empty( PrivateTag const &pt)
+{
+  // There is a secret code path to make it work for VR::SQ since operation is just 'make empty'
+  return Replace(pt, "", 0);
+}
+
+bool Anonymizer::Clear( Tag const &t)
+{
+  DataSet &ds = F->GetDataSet();
+  if(ds.FindDataElement(t))
+    this->Empty(t);
+  return true;
+}
+
+bool Anonymizer::Clear( PrivateTag const &pt)
+{
+  DataSet &ds = F->GetDataSet();
+  if(ds.FindDataElement(pt))
+    this->Empty(pt);
+  return true;
+}
+
 bool Anonymizer::Remove( Tag const &t )
 {
   DataSet &ds = F->GetDataSet();
   if(ds.FindDataElement(t))
     return ds.Remove( t ) == 1;
+  else
+    return true;
+}
+
+bool Anonymizer::Remove( PrivateTag const &pt )
+{
+  DataSet &ds = F->GetDataSet();
+  if(ds.FindDataElement(pt))
+    {
+    const DataElement &de = ds.GetDataElement(pt);
+    return ds.Remove( de.GetTag() ) == 1;
+    }
   else
     return true;
 }
@@ -113,6 +147,17 @@ bool Anonymizer::Replace( Tag const &t, const char *value )
     //strlen shouldn't be more than 4gb anyway
     }
   return Replace( t, value, len );
+}
+
+bool Anonymizer::Replace( PrivateTag const &pt, const char *value )
+{
+  VL::Type len = 0; //to avoid the size_t warning on 64 bit windows
+  if( value )
+    {
+    len = (VL::Type)strlen( value );//strlen returns size_t, but it should be VL::Type
+    //strlen shouldn't be more than 4gb anyway
+    }
+  return Replace( pt, value, len );
 }
 
 bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
@@ -147,15 +192,19 @@ bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
             }
           }
         de.SetByteValue( "", vl );
-        ds.Insert( de );
+        ds.Replace( de );
         ret = true;
         }
       else
         {
         // TODO
-        assert( 0 && "TODO" );
+        gdcmErrorMacro( "Cannot make empty private attribute that does not exist" );
         ret = false;
         }
+      }
+    else
+      {
+      gdcmErrorMacro( "Cannot replace private attribute." );
       }
     }
   else
@@ -261,6 +310,71 @@ bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
       }
     }
   return ret;
+}
+
+bool Anonymizer::Replace( PrivateTag const &pt, const char *value, VL const & vl )
+{
+  DataSet &ds = F->GetDataSet();
+  if(ds.FindDataElement(pt))
+    {
+    const DataElement &de = ds.GetDataElement(pt);
+    return Replace( de.GetTag(), value, vl );
+    }
+  else
+    {
+    Tag start = pt;
+    start.SetElement( 0x0010 );
+    bool needcreator = false;
+    bool found = false;
+    Tag maxCreator = pt;
+    maxCreator.SetElement(0x00ff);
+    do {
+      const DataElement& de = ds.FindNextDataElement( start );
+      const ByteValue* bv = de.GetByteValue();
+      std::string creator_str;
+      if(bv) {
+        creator_str = std::string(bv->GetPointer(),bv->GetLength());
+        creator_str = LOComp::Trim(creator_str.c_str());
+      }
+      if( maxCreator < de.GetTag() )  {
+        needcreator = true;
+        found = true;
+      } else if ( System::StrCaseCmp(creator_str.c_str(), pt.GetOwner()) == 0 ) {
+        needcreator = false;
+        found = true;
+      } else {
+        assert( start.GetElement() != 0xff );
+        start.SetElement( start.GetElement() + 1 );
+      }
+    } while ( !found );
+    assert( start.GetGroup() == pt.GetGroup() );
+    if(needcreator)
+    {
+      // add private creator:
+      Element<VR::LO,VM::VM1> priv_creator;
+      priv_creator.SetValue( pt.GetOwner() );
+      DataElement creator = priv_creator.GetAsDataElement();
+      assert( start.GetElement() <= 0xff );
+      start.SetElement( start.GetElement() );
+      creator.SetTag( start );
+      ds.Insert(creator);
+    }
+    // add empty element:
+    static const Global &g = GlobalInstance;
+    static const Dicts &dicts = g.GetDicts();
+    const DictEntry &dictentry = dicts.GetDictEntry(pt);
+    DataElement fake;
+    Tag privateLocation(pt);
+    assert( pt.GetElement() <= 0xff );
+    privateLocation.SetElement( start.GetElement() << 8 | pt.GetElement() );
+    assert( start == privateLocation.GetPrivateCreator() );
+    fake.SetTag( privateLocation );
+    fake.SetVR( dictentry.GetVR() );
+    ds.Insert( fake );
+
+    assert(ds.FindDataElement(pt));
+    return Replace( privateLocation, value, vl );
+    }
 }
 
 static bool Anonymizer_RemoveRetired(File const &file, DataSet &ds)
@@ -502,8 +616,17 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile1()
   //p7.SetCertificate( this->x509 );
 
   DataSet &ds = F->GetDataSet();
+  if( ds.FindDataElement( Tag(0x0012,0x0062) ) )
+    {
+    gdcm::Attribute<0x0012,0x0062> patientIdentityRemoved = {};
+    patientIdentityRemoved.SetFromDataSet( ds );
+    const std::string value = patientIdentityRemoved.GetValue().Trim();
+    if( value != "NO" ) {
+      gdcmErrorMacro( "EncryptedContentTransferSyntax Attribute Patient is set !" );
+      return false;
+    }
+    }
   if(  ds.FindDataElement( Tag(0x0400,0x0500) )
-    || ds.FindDataElement( Tag(0x0012,0x0062) )
     || ds.FindDataElement( Tag(0x0012,0x0063) ) )
     {
     gdcmErrorMacro( "EncryptedContentTransferSyntax Attribute is present !" );
@@ -848,7 +971,7 @@ bool Anonymizer::BALCPProtect(DataSet &ds, Tag const & tag, IOD const & iod)
 
     if ( IsVRUI( tag ) )
       {
-      std::string UIDToAnonymize = "";
+      std::string UIDToAnonymize;
       UIDGenerator uid;
 
       if( !copy.IsEmpty() )
@@ -859,7 +982,7 @@ bool Anonymizer::BALCPProtect(DataSet &ds, Tag const & tag, IOD const & iod)
           }
         }
 
-      std::string anonymizedUID = "";
+      std::string anonymizedUID;
       if( !UIDToAnonymize.empty() )
         {
         if ( dummyMapUIDTags.count( UIDToAnonymize ) == 0 )
@@ -925,6 +1048,11 @@ void Anonymizer::RecurseDataSet( DataSet & ds )
 
   static const Global &g = Global::GetInstance();
   static const Defs &defs = g.GetDefs();
+  if( defs.IsEmpty() )
+  {
+    gdcmWarningMacro( "Missing Definitions, see Global.LoadResourcesFiles()" );
+    return;
+  }
   const IOD& iod = defs.GetIODFromFile(*F);
 
   for(const Tag *ptr = start ; ptr != end ; ++ptr)
@@ -952,6 +1080,8 @@ void Anonymizer::RecurseDataSet( DataSet & ds )
     if( sqi )
       {
       de.SetValue( *sqi ); // EXTREMELY IMPORTANT #2912092
+      // Legacy behavior has been to create CP-246 / undefined length SQ as VR:UN...
+      if( de.GetVR() == VR::OB ) de.SetVR( VR::UN );
       de.SetVLToUndefined();
       assert( sqi->IsUndefinedLength() );
       //de.GetVL().SetToUndefined();

@@ -190,7 +190,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 
   if (m_RadiusImage.IsNull())
   {
-    itkExceptionMacro(<< "Update() must be called before GetCircles().");
+    itkExceptionMacro("Update() must be called before GetCircles().");
   }
 
   m_CirclesList.clear();

@@ -55,7 +55,7 @@ typename DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, TDispl
 
   if (!drfp)
   {
-    itkExceptionMacro(<< "Could not cast difference function to SymmetricDemonsRegistrationFunction");
+    itkExceptionMacro("Could not cast difference function to SymmetricDemonsRegistrationFunction");
   }
 
   return drfp;
@@ -71,7 +71,7 @@ const typename DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, 
 
   if (!drfp)
   {
-    itkExceptionMacro(<< "Could not cast difference function to SymmetricDemonsRegistrationFunction");
+    itkExceptionMacro("Could not cast difference function to SymmetricDemonsRegistrationFunction");
   }
 
   return drfp;

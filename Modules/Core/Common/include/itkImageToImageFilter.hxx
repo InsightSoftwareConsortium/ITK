@@ -215,8 +215,9 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CO
                           << " Direction: " << inputPtrN->GetDirection() << std::endl;
           directionString << "\tTolerance: " << this->m_DirectionTolerance << std::endl;
         }
-        itkExceptionMacro(<< "Inputs do not occupy the same physical space! " << std::endl
-                          << originString.str() << spacingString.str() << directionString.str());
+        itkExceptionMacro("Inputs do not occupy the same physical space! " << std::endl
+                                                                           << originString.str() << spacingString.str()
+                                                                           << directionString.str());
       }
     }
   }

@@ -51,7 +51,7 @@ ThresholdLabelerImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
   {
     if (m_Thresholds[i - 1] > m_Thresholds[i])
     {
-      itkExceptionMacro(<< "Thresholds must be sorted.");
+      itkExceptionMacro("Thresholds must be sorted.");
     }
   }
 

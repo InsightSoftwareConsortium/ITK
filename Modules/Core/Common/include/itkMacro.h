@@ -551,7 +551,7 @@ OutputWindowDisplayDebugText(const char *);
 
 /** The itkExceptionMacro macro is used to print error information (i.e., usually
  * a condition that results in program failure). Example usage looks like:
- * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
+ * itkExceptionMacro("this is error info" << this->SomeVariable); */
 #define itkExceptionMacro(x) \
   itkSpecializedMessageExceptionMacro(ExceptionObject, << this->GetNameOfClass() << '(' << this << "): " x)
 
@@ -894,7 +894,7 @@ compilers.
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetInput(#name));                        \
     if (input == nullptr)                                                                                            \
     {                                                                                                                \
-      itkExceptionMacro(<< "input" #name " is not set");                                                             \
+      itkExceptionMacro("input" #name " is not set");                                                                \
     }                                                                                                                \
     return input->Get();                                                                                             \
   }                                                                                                                  \
@@ -1313,7 +1313,7 @@ compilers.
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetOutput(#name));                        \
     if (output == nullptr)                                                                                            \
     {                                                                                                                 \
-      itkExceptionMacro(<< "output" #name " is not set");                                                             \
+      itkExceptionMacro("output" #name " is not set");                                                                \
     }                                                                                                                 \
     return output->Get();                                                                                             \
   }                                                                                                                   \

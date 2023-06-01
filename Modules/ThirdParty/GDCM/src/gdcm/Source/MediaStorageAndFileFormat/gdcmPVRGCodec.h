@@ -21,7 +21,6 @@ namespace gdcm
 
 /**
  * \brief PVRGCodec
- * \details 
  * \note pvrg is a broken implementation of the JPEG standard. It is known to
  * have a bug in the 16bits lossless implementation of the standard.
  *

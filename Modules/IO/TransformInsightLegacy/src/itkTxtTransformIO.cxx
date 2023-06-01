@@ -289,7 +289,7 @@ TxtTransformIOTemplate<TParametersValueType>::Write()
     {
       if (count > 0)
       {
-        itkExceptionMacro(<< "Composite Transform can only be 1st transform in a file");
+        itkExceptionMacro("Composite Transform can only be 1st transform in a file");
       }
     }
     else

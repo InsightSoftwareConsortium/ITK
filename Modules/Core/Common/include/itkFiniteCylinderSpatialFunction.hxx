@@ -55,7 +55,7 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::SetOrientation(const InputTyp
     norm = std::sqrt(norm);
     if (norm == 0.0) // avoid divide by zero
     {
-      itkExceptionMacro(<< "Degenerate orientation vector " << this->m_Orientation);
+      itkExceptionMacro("Degenerate orientation vector " << this->m_Orientation);
     }
     for (unsigned int i = 0; i < VDimension; ++i)
     {

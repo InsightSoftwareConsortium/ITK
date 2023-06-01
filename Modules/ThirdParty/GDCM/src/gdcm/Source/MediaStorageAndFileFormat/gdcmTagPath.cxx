@@ -14,10 +14,10 @@
 #include "gdcmTagPath.h"
 #include "gdcmTag.h"
 
+#include <cstdio> // sscanf
+#include <cstdlib> // abort
+#include <cstring> // strlen
 #include <vector>
-#include <string.h> // strlen
-#include <stdlib.h> // abort
-#include <stdio.h> // sscanf
 
 namespace gdcm
 {

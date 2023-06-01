@@ -45,7 +45,6 @@ namespace gdcm{
 
 /**
  * \brief QueryFactory.h
- * \note
  * \details contains: a class to produce a query based off of user-entered information
  *
  * Essentially, this class is used to construct a query based off of user input

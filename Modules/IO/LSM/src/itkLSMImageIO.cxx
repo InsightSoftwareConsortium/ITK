@@ -261,7 +261,7 @@ LSMImageIO::Write(const void * buffer)
       break;
 
     default:
-      itkExceptionMacro(<< "TIFF supports unsigned char and unsigned short");
+      itkExceptionMacro("TIFF supports unsigned char and unsigned short");
   }
 
   uint16_t predictor;
@@ -387,7 +387,7 @@ LSMImageIO::Write(const void * buffer)
         rowLength = sizeof(unsigned short);
         break;
       default:
-        itkExceptionMacro(<< "TIFF supports unsigned char and unsigned short");
+        itkExceptionMacro("TIFF supports unsigned char and unsigned short");
     }
 
     rowLength *= this->GetNumberOfComponents();
@@ -398,7 +398,7 @@ LSMImageIO::Write(const void * buffer)
     {
       if (TIFFWriteScanline(tif, const_cast<unsigned char *>(outPtr), row, 0) < 0)
       {
-        itkExceptionMacro(<< "TIFFImageIO: error out of disk space");
+        itkExceptionMacro("TIFFImageIO: error out of disk space");
       }
       outPtr += rowLength;
       ++row;

@@ -37,7 +37,7 @@ MetaContourConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
   const auto * contourMO = dynamic_cast<const MetaContour *>(mo);
   if (contourMO == nullptr)
   {
-    itkExceptionMacro(<< "Can't downcast MetaObject to MetaContour");
+    itkExceptionMacro("Can't downcast MetaObject to MetaContour");
   }
 
   ContourSpatialObjectPointer contourSO = ContourSpatialObjectType::New();
@@ -135,7 +135,7 @@ MetaContourConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
   ContourSpatialObjectConstPointer contourSO = dynamic_cast<const ContourSpatialObjectType *>(so);
   if (contourSO.IsNull())
   {
-    itkExceptionMacro(<< "Can't downcast SpatialObject to ContourSpatialObject");
+    itkExceptionMacro("Can't downcast SpatialObject to ContourSpatialObject");
   }
   auto * contourMO = new MetaContour(VDimension);
 

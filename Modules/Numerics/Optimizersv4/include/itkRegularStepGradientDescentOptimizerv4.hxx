@@ -63,8 +63,8 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::StartOptim
   // validity check for the value of GradientMagnitudeTolerance
   if (m_GradientMagnitudeTolerance < 0.0)
   {
-    itkExceptionMacro(<< "Gradient magnitude tolerance must be "
-                         "greater or equal 0.0. Current value is "
+    itkExceptionMacro("Gradient magnitude tolerance must be "
+                      "greater or equal 0.0. Current value is "
                       << m_GradientMagnitudeTolerance);
   }
 
@@ -83,18 +83,19 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::AdvanceOne
   // Make sure the scales have been set properly
   if (this->m_Scales.size() != this->m_Gradient.Size())
   {
-    itkExceptionMacro(<< "The size of Scales is " << this->m_Scales.size()
-                      << ", but the NumberOfParameters for the CostFunction is " << this->m_Gradient.Size() << '.');
+    itkExceptionMacro("The size of Scales is " << this->m_Scales.size()
+                                               << ", but the NumberOfParameters for the CostFunction is "
+                                               << this->m_Gradient.Size() << '.');
   }
 
   if (this->m_RelaxationFactor < 0.0)
   {
-    itkExceptionMacro(<< "Relaxation factor must be positive. Current value is " << this->m_RelaxationFactor);
+    itkExceptionMacro("Relaxation factor must be positive. Current value is " << this->m_RelaxationFactor);
   }
 
   if (this->m_RelaxationFactor >= 1.0)
   {
-    itkExceptionMacro(<< "Relaxation factor must be less than 1.0. Current value is " << this->m_RelaxationFactor);
+    itkExceptionMacro("Relaxation factor must be less than 1.0. Current value is " << this->m_RelaxationFactor);
   }
 
   //

@@ -99,7 +99,7 @@ DerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     if (this->GetInput()->GetSpacing()[m_Direction] == 0.0)
     {
-      itkExceptionMacro(<< "Image spacing cannot be zero.");
+      itkExceptionMacro("Image spacing cannot be zero.");
     }
     else
     {

@@ -80,11 +80,11 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 
   if (!this->m_FixedImage)
   {
-    itkExceptionMacro(<< "Fixed image has not been set.");
+    itkExceptionMacro("Fixed image has not been set.");
   }
   else if (!this->m_MovingImage)
   {
-    itkExceptionMacro(<< "Moving image has not been set.");
+    itkExceptionMacro("Moving image has not been set.");
   }
 
   if (!m_LowerBoundSetByUser || !m_UpperBoundSetByUser)
@@ -187,8 +187,9 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const Tran
   // Make sure the scales have been set
   if (m_DerivativeStepLengthScales.size() != ParametersDimension)
   {
-    itkExceptionMacro(<< "The size of DerivativesStepLengthScales is " << m_DerivativeStepLengthScales.size()
-                      << ", but the Number of Parameters is " << ParametersDimension << '.');
+    itkExceptionMacro("The size of DerivativesStepLengthScales is " << m_DerivativeStepLengthScales.size()
+                                                                    << ", but the Number of Parameters is "
+                                                                    << ParametersDimension << '.');
   }
 
   // Calculate gradient.
@@ -245,7 +246,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(Transfo
 
   if (!fixedImage)
   {
-    itkExceptionMacro(<< "Fixed image has not been assigned");
+    itkExceptionMacro("Fixed image has not been assigned");
   }
 
   using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
@@ -308,7 +309,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(Transfo
   itkDebugMacro("NumberOfPixelsCounted = " << this->m_NumberOfPixelsCounted);
   if (this->m_NumberOfPixelsCounted == 0)
   {
-    itkExceptionMacro(<< "All the points mapped to outside of the moving image");
+    itkExceptionMacro("All the points mapped to outside of the moving image");
   }
 }
 

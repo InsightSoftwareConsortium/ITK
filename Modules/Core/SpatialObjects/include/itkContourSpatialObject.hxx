@@ -141,7 +141,7 @@ ContourSpatialObject<TDimension>::InternalClone() const
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
   rval->SetInterpolationMethod(this->GetInterpolationMethod());
   rval->SetInterpolationFactor(this->GetInterpolationFactor());
@@ -184,7 +184,7 @@ ContourSpatialObject<TDimension>::Update()
     case InterpolationMethodEnum::BEZIER_INTERPOLATION:
       // TODO: Implement bezier interpolation
       {
-        itkExceptionMacro(<< "Bezier interpolation type not yet defined.");
+        itkExceptionMacro("Bezier interpolation type not yet defined.");
       }
       break;
     case InterpolationMethodEnum::LINEAR_INTERPOLATION:

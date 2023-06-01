@@ -29,7 +29,7 @@ public:
   DirectionCosines(const double dircos[6]);
   // Cannot get the following signature to be wrapped with swig...
   //DirectionCosines(const double *dircos = 0 );
-  ~DirectionCosines();
+  ~DirectionCosines() = default;
 
   /// Print
   void Print(std::ostream &) const;

@@ -13161,7 +13161,7 @@ SOURCE_SIDE = the block is mounted on the side of the Block Tray that is towards
 
 Defined Terms:
 ION_SQUARE = square ion applicator
-ION_RECT = rectangluar ion applicator
+ION_RECT = rectangular ion applicator
 ION_CIRC = circular ion applicator
 ION_SHORT = short ion applicator
 ION_OPEN = open (dummy) ion applicator
@@ -13736,7 +13736,7 @@ Only a single item shall be permitted in this sequence.</description>
 
 Defined Terms:
 ION_SQUARE = square ion applicator
-ION_RECT = rectangluar ion applicator
+ION_RECT = rectangular ion applicator
 ION_CIRC = circular ion applicator
 ION_SHORT = short ion applicator
 ION_OPEN = open (dummy) ion applicator
@@ -14992,7 +14992,7 @@ The application of the Window Center (0028,1050) and Window Width (0028,1051) sh
 Note:  If the Presentation LUT Shape (2050,0020) is IDENTITY, then the result of applying the Window Center (0028,1050) and Window Width (0028,1051) is P-Values.
 
 If multiple values are present, both Attributes shall have the same number of values and shall be considered as pairs. Multiple values indicate that multiple alternative views should be presented.
-The VOI LUT Sequence specifes a (potentially non-linear) conversion from the output of the (conceptual) Modality LUT values to the input to the (conceptual) Presentation LUT.
+The VOI LUT Sequence specifies a (potentially non-linear) conversion from the output of the (conceptual) Modality LUT values to the input to the (conceptual) Presentation LUT.
 If multiple items are present in VOI LUT Sequence (0028,3010), only one shall be applied. Multiple items indicate that multiple alternative views should be presented.
 If any VOI LUT Attributes are included by an Image, a Window Width and Window Center or the VOI LUT Table, but not both, shall be applied to the Image for display. Inclusion of both indicates that multiple alternative views should be presented.
 The three values of the LUT Descriptor (0028,3002) describe the format of the LUT Data (0028,3006).
@@ -15015,7 +15015,7 @@ The application of the Window Center (0028,1050) and Window Width (0028,1051) sh
 Note:  If the Presentation LUT Shape (2050,0020) is IDENTITY, then the result of applying the Window Center (0028,1050) and Window Width (0028,1051) is P-Values.
 
 If multiple values are present, both Attributes shall have the same number of values and shall be considered as pairs. Multiple values indicate that multiple alternative views should be presented.
-The VOI LUT Sequence specifes a (potentially non-linear) conversion from the output of the (conceptual) Modality LUT values to the input to the (conceptual) Presentation LUT.
+The VOI LUT Sequence specifies a (potentially non-linear) conversion from the output of the (conceptual) Modality LUT values to the input to the (conceptual) Presentation LUT.
 If multiple items are present in VOI LUT Sequence (0028,3010), only one shall be applied. Multiple items indicate that multiple alternative views should be presented.
 If any VOI LUT Attributes are included by an Image, a Window Width and Window Center or the VOI LUT Table, but not both, shall be applied to the Image for display. Inclusion of both indicates that multiple alternative views should be presented.
 The three values of the LUT Descriptor (0028,3002) describe the format of the LUT Data (0028,3006).
@@ -15045,7 +15045,7 @@ The application of the Window Center (0028,1050) and Window Width (0028,1051) sh
 Note:  If the Presentation LUT Shape (2050,0020) is IDENTITY, then the result of applying the Window Center (0028,1050) and Window Width (0028,1051) is P-Values.
 
 If multiple values are present, both Attributes shall have the same number of values and shall be considered as pairs. Multiple values indicate that multiple alternative views should be presented.
-The VOI LUT Sequence specifes a (potentially non-linear) conversion from the output of the (conceptual) Modality LUT values to the input to the (conceptual) Presentation LUT.
+The VOI LUT Sequence specifies a (potentially non-linear) conversion from the output of the (conceptual) Modality LUT values to the input to the (conceptual) Presentation LUT.
 If multiple items are present in VOI LUT Sequence (0028,3010), only one shall be applied. Multiple items indicate that multiple alternative views should be presented.
 If any VOI LUT Attributes are included by an Image, a Window Width and Window Center or the VOI LUT Table, but not both, shall be applied to the Image for display. Inclusion of both indicates that multiple alternative views should be presented.
 The three values of the LUT Descriptor (0028,3002) describe the format of the LUT Data (0028,3006).
@@ -15067,7 +15067,7 @@ The application of the Window Center (0028,1050) and Window Width (0028,1051) sh
 Note:  If the Presentation LUT Shape (2050,0020) is IDENTITY, then the result of applying the Window Center (0028,1050) and Window Width (0028,1051) is P-Values.
 
 If multiple values are present, both Attributes shall have the same number of values and shall be considered as pairs. Multiple values indicate that multiple alternative views should be presented.
-The VOI LUT Sequence specifes a (potentially non-linear) conversion from the output of the (conceptual) Modality LUT values to the input to the (conceptual) Presentation LUT.
+The VOI LUT Sequence specifies a (potentially non-linear) conversion from the output of the (conceptual) Modality LUT values to the input to the (conceptual) Presentation LUT.
 If multiple items are present in VOI LUT Sequence (0028,3010), only one shall be applied. Multiple items indicate that multiple alternative views should be presented.
 If any VOI LUT Attributes are included by an Image, a Window Width and Window Center or the VOI LUT Table, but not both, shall be applied to the Image for display. Inclusion of both indicates that multiple alternative views should be presented.
 The three values of the LUT Descriptor (0028,3002) describe the format of the LUT Data (0028,3006).
@@ -20052,7 +20052,7 @@ Required if present and have an equal value in the contributing SOP Instances.</
 Required if present and consistent in the contributing SOP Instances.</description>
     </entry>
   </module>
-  <macro table="C.8.21.3.1.1-1" name="X Ray 3D General Shared Acquisiton Macro">
+  <macro table="C.8.21.3.1.1-1" name="X Ray 3D General Shared Acquisition Macro">
     <entry group="0008" element="2112" name="Source Image Sequence" type="1C">
       <description>A Sequence that identifies the set of Images that constitute this acquisition context.
 Required if the reconstruction is created from DICOM SOP Instances.

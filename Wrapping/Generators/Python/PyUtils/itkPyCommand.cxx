@@ -116,7 +116,7 @@ PyCommand::PyExecute()
     // we throw a standard ITK exception: this makes it possible for
     // our standard Swig exception handling logic to take this
     // through to the invoking Python process
-    itkExceptionMacro(<< "CommandCallable is not a callable Python object, "
+    itkExceptionMacro("CommandCallable is not a callable Python object, "
                       << "or it has not been set.");
   }
   else
@@ -134,7 +134,7 @@ PyCommand::PyExecute()
       PyErr_Print();
       // make sure the invoking Python code knows there was a problem
       // by raising an exception
-      itkExceptionMacro(<< "There was an error executing the "
+      itkExceptionMacro("There was an error executing the "
                         << "CommandCallable.");
     }
   }

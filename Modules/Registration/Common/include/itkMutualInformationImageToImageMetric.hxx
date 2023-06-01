@@ -137,7 +137,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
       {
         // We randomly visited as many points as is the size of the fixed image
         // region.. Too may samples mapped outside.. go change your transform
-        itkExceptionMacro(<< "Too many samples mapped outside the moving buffer");
+        itkExceptionMacro("Too many samples mapped outside the moving buffer");
       }
     }
 
@@ -173,7 +173,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
   if (allOutside)
   {
     // if all the samples mapped to the outside throw an exception
-    itkExceptionMacro(<< "All the sampled point mapped to outside of the moving image");
+    itkExceptionMacro("All the sampled point mapped to outside of the moving image");
   }
 }
 
@@ -250,7 +250,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const P
   {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
-    itkExceptionMacro(<< "Standard deviation is too small");
+    itkExceptionMacro("Standard deviation is too small");
   }
 
   MeasureType measure = dLogSumFixed.GetSum() + dLogSumMoving.GetSum() - dLogSumJoint.GetSum();
@@ -390,7 +390,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
   {
     // at least half the samples in B did not occur within
     // the Parzen window width of samples in A
-    itkExceptionMacro(<< "Standard deviation is too small");
+    itkExceptionMacro("Standard deviation is too small");
   }
 
   value = dLogSumFixed.GetSum() + dLogSumMoving.GetSum() - dLogSumJoint.GetSum();

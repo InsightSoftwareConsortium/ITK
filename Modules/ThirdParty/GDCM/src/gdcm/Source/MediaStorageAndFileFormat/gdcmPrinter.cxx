@@ -82,8 +82,6 @@ Printer::Printer():PrintStyle(Printer::VERBOSE_STYLE),F(nullptr)
 }
 
 //-----------------------------------------------------------------------------
-Printer::~Printer()
-= default;
 
 void Printer::SetColor(bool c)
 {
@@ -463,8 +461,9 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   std::string strowner;
   const char *owner = nullptr;
   const Tag& t = de.GetTag();
-  if( t.IsPrivate() && !t.IsPrivateCreator() )
+  if( t.IsPrivate() && !t.IsPrivateCreator() && !t.IsGroupLength() )
     {
+    // do not reject illegal at this point to handle group 0x0003 / AEGIS_DICOM_2.00
     strowner = ds.GetPrivateCreator(t);
     owner = strowner.c_str();
     }
@@ -535,8 +534,14 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   if( vr != VR::INVALID && (!vr.Compatible( vr_read ) || vr_read == VR::INVALID || vr_read == VR::UN || vr_read != refvr ) )
     {
     assert( vr != VR::INVALID );
+    bool valid = true;
+    if( vr_read == VR::SQ ) {
+      if( !vr.Compatible( vr_read ) ) {
+        valid = false;
+      }
+    }
     // FIXME : if terminal supports it: print in red/green !
-    os << GDCM_TERMINAL_VT100_FOREGROUND_GREEN;
+    os << (valid ? GDCM_TERMINAL_VT100_FOREGROUND_GREEN : GDCM_TERMINAL_VT100_FOREGROUND_RED);
     if( vr == VR::US_SS || vr == VR::OB_OW )
       {
       os << "(" << vr << " => " << refvr << ") ";
@@ -843,7 +848,6 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     // retired element
     else if( retired )
       {
-      assert( t.IsPublic() || t.GetElement() == 0x0 ); // Is there such thing as private and retired element ?
       os << " " << GDCM_TERMINAL_VT100_FOREGROUND_RED << GDCM_TERMINAL_VT100_UNDERLINE;
       os << name;
       os << GDCM_TERMINAL_VT100_NORMAL;

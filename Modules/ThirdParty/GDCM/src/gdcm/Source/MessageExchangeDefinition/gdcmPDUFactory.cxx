@@ -21,7 +21,7 @@ this way, the event loop doesn't have to know about all the different PDU types.
 
 name and date: 25 Sept 2010 mmr
 
-Updte on 27 sept 2010 mmr: since this is where all PDUs are included, also use this
+Update on 27 sept 2010 mmr: since this is where all PDUs are included, also use this
 class to construct specific instances of PDUs, and return the BasePDU class.
 */
 #include "gdcmPDUFactory.h"

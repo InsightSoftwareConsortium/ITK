@@ -123,12 +123,12 @@ Attribute<0x0028,0x0004> piat;
       rawlut8.resize(256);
       //unsigned short rawlut16[65536];
       std::vector<unsigned short> rawlut16;
-      unsigned short *rawlut = &rawlut8[0];
+      unsigned short *rawlut = rawlut8.data();
       unsigned int lutlen = 256;
       if( pf.GetBitsAllocated() == 16 )
         {
         rawlut16.resize(65536);
-        rawlut = &rawlut16[0];
+        rawlut = rawlut16.data();
         lutlen = 65536;
         }
       unsigned int l;

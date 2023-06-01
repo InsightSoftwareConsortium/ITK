@@ -161,8 +161,8 @@ protected:
 
     if (index >= numberOfComponents)
     {
-      itkExceptionMacro(<< "Selected index = " << index
-                        << " is greater than the number of components = " << numberOfComponents);
+      itkExceptionMacro("Selected index = " << index
+                                            << " is greater than the number of components = " << numberOfComponents);
     }
   }
 };

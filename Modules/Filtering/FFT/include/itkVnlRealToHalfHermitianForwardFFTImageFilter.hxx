@@ -51,8 +51,8 @@ VnlRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Generate
   {
     if (!VnlFFTCommon::IsDimensionSizeLegal(inputSize[i]))
     {
-      itkExceptionMacro(<< "Cannot compute FFT of image with size " << inputSize
-                        << ". VnlRealToHalfHermitianForwardFFTImageFilter operates "
+      itkExceptionMacro("Cannot compute FFT of image with size "
+                        << inputSize << ". VnlRealToHalfHermitianForwardFFTImageFilter operates "
                         << "only on images whose size in each dimension has a prime "
                         << "factorization consisting of only 2s, 3s, or 5s.");
     }

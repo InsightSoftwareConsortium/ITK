@@ -182,8 +182,8 @@ BioRadImageIO::Read(void * buffer)
 
   if (!this->ReadBufferAsBinary(file, buffer, this->GetImageSizeInBytes()))
   {
-    itkExceptionMacro(<< "Read failed: Wanted " << this->GetImageSizeInBytes() << " bytes, but read " << file.gcount()
-                      << " bytes.");
+    itkExceptionMacro("Read failed: Wanted " << this->GetImageSizeInBytes() << " bytes, but read " << file.gcount()
+                                             << " bytes.");
   }
 
   // byte swapping depending on pixel type:
@@ -208,7 +208,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   p = &h;
   if (sizeof(h) != BIORAD_HEADER_LENGTH)
   {
-    itkExceptionMacro(<< "Problem of alignement on your platform");
+    itkExceptionMacro("Problem of alignement on your platform");
   }
   file.seekg(0, std::ios::beg);
   file.read((char *)p, BIORAD_HEADER_LENGTH);
@@ -272,7 +272,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     else
     {
       SetComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE);
-      itkExceptionMacro(<< "Cannot read requested file");
+      itkExceptionMacro("Cannot read requested file");
     }
   }
   int          punt(0);
@@ -405,7 +405,7 @@ BioRadImageIO::Write(const void * buffer)
   unsigned int numDims = this->GetNumberOfDimensions();
   if (numDims != 3 && numDims != 2)
   {
-    itkExceptionMacro(<< "BioRad Writer can only write 2 or 3-dimensional images");
+    itkExceptionMacro("BioRad Writer can only write 2 or 3-dimensional images");
   }
 
   // Write the BioRad header information
@@ -413,7 +413,7 @@ BioRadImageIO::Write(const void * buffer)
   p = &header;
   if (sizeof(header) != BIORAD_HEADER_LENGTH)
   {
-    itkExceptionMacro(<< "Problem of alignement on your platform");
+    itkExceptionMacro("Problem of alignement on your platform");
   }
   memset(p, 0, BIORAD_HEADER_LENGTH); // Set everything to zero
   // In particular `notes' needs to be set to zero to indicate there is no notes
@@ -452,7 +452,7 @@ BioRadImageIO::Write(const void * buffer)
       header.ramp2_max = 65535;
       break;
     default:
-      itkExceptionMacro(<< "Component type not supported.");
+      itkExceptionMacro("Component type not supported.");
   }
   // write the actual header
   ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(reinterpret_cast<unsigned short *>(p),

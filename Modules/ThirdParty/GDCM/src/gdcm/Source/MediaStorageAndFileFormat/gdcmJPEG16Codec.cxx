@@ -15,7 +15,7 @@
 
 #include "gdcm_ljpeg16.h"
 
-#include <setjmp.h>
+#include <csetjmp>
 
 #define JPEGBITSCodec JPEG16Codec
 #define my_error_mgr my_error_mgr_16BIT

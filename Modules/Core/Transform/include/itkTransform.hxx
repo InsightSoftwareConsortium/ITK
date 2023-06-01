@@ -55,7 +55,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::InternalClon
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
-    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
+    itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
   rval->SetFixedParameters(this->GetFixedParameters());
   rval->SetParameters(this->GetParameters());

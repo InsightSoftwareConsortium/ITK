@@ -35,10 +35,10 @@ Directory::FilenamesType DirectoryHelper::GetSeriesUIDsBySOPClassUID(const std::
       theScanner.GetFilenameFromTagToValue(Tag(0x0020,0x000e), theSeriesValues[i].c_str());
       std::string theSOPClassUID = theScanner.GetValue(theFirstFilename.c_str(), Tag(0x0008,0x0016));
       //dicom strings sometimes have trailing spaces; make sure to avoid those
-      size_t endpos = theSOPClassUID.find_last_not_of(" "); // Find the first character position from reverse af
+      size_t endpos = theSOPClassUID.find_last_not_of(' '); // Find the first character position from reverse af
       if( std::string::npos != endpos )
         theSOPClassUID = theSOPClassUID.substr( 0, endpos+1 );
-      if (theSOPClassUID == inSOPClassUID.c_str()){
+      if (theSOPClassUID == inSOPClassUID){
         theReturn.push_back(theSeriesValues[i]);
       }
     }
@@ -88,7 +88,7 @@ Directory::FilenamesType DirectoryHelper::GetFilenamesFromSeriesUIDs(const std::
       {
       std::string theSeriesUID = theSeriesValues[i];
       //dicom strings sometimes have trailing spaces; make sure to avoid those
-      size_t endpos = theSeriesUID.find_last_not_of(" "); // Find the first character position from reverse af
+      size_t endpos = theSeriesUID.find_last_not_of(' '); // Find the first character position from reverse af
       if( std::string::npos != endpos )
         theSeriesUID = theSeriesUID.substr( 0, endpos+1 );
       if (inSeriesUID == theSeriesUID)

@@ -13,7 +13,7 @@
 =========================================================================*/
 #include "gdcmIODEntry.h"
 
-#include <stdlib.h> // abort
+#include <cstdlib> // abort
 
 namespace gdcm
 {

@@ -48,7 +48,8 @@ VnlComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGene
   {
     if (!VnlFFTCommon::IsDimensionSizeLegal(imageSize[ii]))
     {
-      itkExceptionMacro(<< "Cannot compute FFT of image with size " << imageSize
+      itkExceptionMacro("Cannot compute FFT of image with size "
+                        << imageSize
                         << ". VnlComplexToComplexFFTImageFilter operates only on images whose size in each dimension "
                            "has only a combination of 2,3, and 5 as prime factors.");
     }

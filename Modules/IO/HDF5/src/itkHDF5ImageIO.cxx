@@ -395,13 +395,13 @@ HDF5ImageIO::ReadScalar(const std::string & DataSetName)
 
   if (Space.getSimpleExtentNdims() != 1)
   {
-    itkExceptionMacro(<< "Wrong # of dims for TransformType "
+    itkExceptionMacro("Wrong # of dims for TransformType "
                       << "in HDF5 File");
   }
   Space.getSimpleExtentDims(dim, nullptr);
   if (dim[0] != 1)
   {
-    itkExceptionMacro(<< "Elements > 1 for scalar type "
+    itkExceptionMacro("Elements > 1 for scalar type "
                       << "in HDF5 File");
   }
   TScalar      scalar;
@@ -466,7 +466,7 @@ HDF5ImageIO::ReadVector(const std::string & DataSetName)
 
   if (Space.getSimpleExtentNdims() != 1)
   {
-    itkExceptionMacro(<< "Wrong # of dims for TransformType "
+    itkExceptionMacro("Wrong # of dims for TransformType "
                       << "in HDF5 File");
   }
   Space.getSimpleExtentDims(dim, nullptr);
@@ -509,7 +509,7 @@ HDF5ImageIO::ReadDirections(const std::string & path)
   hsize_t                          dim[2];
   if (dirSpace.getSimpleExtentNdims() != 2)
   {
-    itkExceptionMacro(<< " Wrong # of dims for Image Directions "
+    itkExceptionMacro(" Wrong # of dims for Image Directions "
                       << "in HDF5 File");
   }
   dirSpace.getSimpleExtentDims(dim, nullptr);
@@ -910,8 +910,8 @@ HDF5ImageIO::ReadImageInformation()
   }
   catch (...)
   {
-    itkExceptionMacro(<< "Unspecified error occured during ReadImageInformation " << this->GetFileName() << " with "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("Unspecified error occured during ReadImageInformation " << this->GetFileName() << " with "
+                                                                               << this->GetNameOfClass());
   }
 }
 
@@ -1258,8 +1258,8 @@ HDF5ImageIO::WriteImageInformation()
   }
   catch (...)
   {
-    itkExceptionMacro(<< "Unspecified error occured during WriteImageInformation: " << this->GetFileName() << " with "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("Unspecified error occured during WriteImageInformation: " << this->GetFileName() << " with "
+                                                                                 << this->GetNameOfClass());
   }
   //
   // only write image information once.
@@ -1318,8 +1318,8 @@ HDF5ImageIO::Write(const void * buffer)
   }
   catch (...)
   {
-    itkExceptionMacro(<< "Unspecified error occured during Write: " << this->GetFileName() << " with "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("Unspecified error occured during Write: " << this->GetFileName() << " with "
+                                                                 << this->GetNameOfClass());
   }
   // TODO: including this line allows the IO object to be re-used multiple times for writing, but
   // but causes the streaming tests for HDF5ImageIO to fail.

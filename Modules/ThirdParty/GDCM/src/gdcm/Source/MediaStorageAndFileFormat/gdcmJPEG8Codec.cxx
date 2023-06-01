@@ -15,7 +15,7 @@
 
 #include "gdcm_ljpeg8.h"
 
-#include <setjmp.h>
+#include <csetjmp>
 
 #define JPEGBITSCodec JPEG8Codec
 #define my_error_mgr my_error_mgr_8BIT

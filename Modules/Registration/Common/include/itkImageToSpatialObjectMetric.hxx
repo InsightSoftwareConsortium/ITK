@@ -38,7 +38,7 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::GetNumberOfParame
 {
   if (!m_Transform)
   {
-    itkExceptionMacro(<< "Transform is not present");
+    itkExceptionMacro("Transform is not present");
   }
   return m_Transform->GetNumberOfParameters();
 }
@@ -49,22 +49,22 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::Initialize()
 {
   if (!m_Transform)
   {
-    itkExceptionMacro(<< "Transform is not present");
+    itkExceptionMacro("Transform is not present");
   }
 
   if (!m_Interpolator)
   {
-    itkExceptionMacro(<< "Interpolator is not present");
+    itkExceptionMacro("Interpolator is not present");
   }
 
   if (!m_MovingSpatialObject)
   {
-    itkExceptionMacro(<< "MovingSpatialObject is not present");
+    itkExceptionMacro("MovingSpatialObject is not present");
   }
 
   if (!m_FixedImage)
   {
-    itkExceptionMacro(<< "FixedImage is not present");
+    itkExceptionMacro("FixedImage is not present");
   }
 
   // If the image is provided by a source, update the source.

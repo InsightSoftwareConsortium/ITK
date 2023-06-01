@@ -107,7 +107,7 @@ OFFMeshIO::ReadMeshInformation()
   std::getline(m_InputFile, line, '\n'); // delimiter is '\n'
   if (line.find("OFF") == std::string::npos)
   {
-    itkExceptionMacro(<< "Error, the file doesn't begin with keyword \"OFF\" ");
+    itkExceptionMacro("Error, the file doesn't begin with keyword \"OFF\" ");
   }
 
   // If the file is binary file, it contains "BINARY"
@@ -277,7 +277,7 @@ OFFMeshIO::ReadPoints(void * buffer)
   }
   else
   {
-    itkExceptionMacro(<< "Invalid file type (not ASCII or BINARY)");
+    itkExceptionMacro("Invalid file type (not ASCII or BINARY)");
   }
 }
 
@@ -296,7 +296,7 @@ OFFMeshIO::ReadCells(void * buffer)
   }
   else
   {
-    itkExceptionMacro(<< "Invalid file type (not ASCII or BINARY)");
+    itkExceptionMacro("Invalid file type (not ASCII or BINARY)");
   }
 
   CloseFile();
@@ -493,7 +493,7 @@ OFFMeshIO::WritePoints(void * buffer)
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
+        itkExceptionMacro("Unknown point pixel component type" << std::endl);
       }
     }
   }
@@ -585,7 +585,7 @@ OFFMeshIO::WritePoints(void * buffer)
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
+        itkExceptionMacro("Unknown point pixel component type" << std::endl);
       }
     }
   }
@@ -705,7 +705,7 @@ OFFMeshIO::WriteCells(void * buffer)
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown cell pixel component type" << std::endl);
+        itkExceptionMacro("Unknown cell pixel component type" << std::endl);
       }
     }
   }
@@ -793,7 +793,7 @@ OFFMeshIO::WriteCells(void * buffer)
       }
       default:
       {
-        itkExceptionMacro(<< "Unknown cell pixel component type" << std::endl);
+        itkExceptionMacro("Unknown cell pixel component type" << std::endl);
       }
     }
   }

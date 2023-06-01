@@ -102,7 +102,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   if (histogram->GetTotalFrequency() == 0)
   {
-    itkExceptionMacro(<< "Histogram is empty");
+    itkExceptionMacro("Histogram is empty");
   }
   SizeValueType    size = histogram->GetSize(0);
   ProgressReporter progress(this, 0, size);
@@ -193,7 +193,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
       }
       else
       {
-        itkExceptionMacro(<< "KittlerIllingworthThresholdCalculator failed to lookup threshold");
+        itkExceptionMacro("KittlerIllingworthThresholdCalculator failed to lookup threshold");
       }
     }
     else
@@ -222,7 +222,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
         }
         else
         {
-          itkExceptionMacro(<< "KittlerIllingworthThresholdCalculator failed to lookup threshold");
+          itkExceptionMacro("KittlerIllingworthThresholdCalculator failed to lookup threshold");
         }
       }
     }

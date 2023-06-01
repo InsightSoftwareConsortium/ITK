@@ -210,17 +210,17 @@ LBFGSBOptimizerv4::StartOptimization(bool /*doOnlyInitialization*/)
 
   if (m_LowerBound.size() < numberOfParameters && !m_BoundSelection.is_zero())
   {
-    itkExceptionMacro(<< "LowerBound array does not have sufficient number of elements");
+    itkExceptionMacro("LowerBound array does not have sufficient number of elements");
   }
 
   if (m_UpperBound.size() < numberOfParameters && !m_BoundSelection.is_zero())
   {
-    itkExceptionMacro(<< "UppperBound array does not have sufficient number of elements");
+    itkExceptionMacro("UppperBound array does not have sufficient number of elements");
   }
 
   if (m_BoundSelection.size() < numberOfParameters)
   {
-    itkExceptionMacro(<< "BoundSelection array does not have sufficient number of elements");
+    itkExceptionMacro("BoundSelection array does not have sufficient number of elements");
   }
 
   if (this->m_CostFunctionConvergenceFactor == 0.0 && this->m_GradientConvergenceTolerance == 0.0)
@@ -241,7 +241,7 @@ LBFGSBOptimizerv4::StartOptimization(bool /*doOnlyInitialization*/)
   {
     // set current position to initial position and throw an exception
     this->m_Metric->SetParameters(this->GetInitialPosition());
-    itkExceptionMacro(<< "Error occurred in optimization");
+    itkExceptionMacro("Error occurred in optimization");
   }
 
   this->m_Metric->SetParameters(parameters);

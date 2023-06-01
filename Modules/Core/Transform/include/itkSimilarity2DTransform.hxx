@@ -152,7 +152,7 @@ Similarity2DTransform<TParametersValueType>::ComputeMatrixParameters()
   // https://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
   if (m_Scale < std::numeric_limits<TParametersValueType>::min())
   {
-    itkExceptionMacro(<< "Bad Rotation Matrix. Scale cannot be zero.\n"
+    itkExceptionMacro("Bad Rotation Matrix. Scale cannot be zero.\n"
                       << "m_Scale : " << m_Scale);
   }
 
@@ -165,7 +165,7 @@ Similarity2DTransform<TParametersValueType>::ComputeMatrixParameters()
 
   if ((this->GetMatrix()[1][0] / m_Scale) - std::sin(this->GetAngle()) > 0.000001)
   {
-    itkExceptionMacro(<< "Bad Rotation Matrix");
+    itkExceptionMacro("Bad Rotation Matrix");
   }
 }
 

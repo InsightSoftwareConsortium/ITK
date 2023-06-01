@@ -66,7 +66,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     return;
   }
 
-  itkExceptionMacro(<< "Unsupported Transform Type " << this->m_Transform->GetNameOfClass());
+  itkExceptionMacro("Unsupported Transform Type " << this->m_Transform->GetNameOfClass());
 }
 
 template <typename TTransform, typename TFixedImage, typename TMovingImage>
@@ -77,7 +77,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   auto * transform = dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer());
   if (transform == nullptr)
   {
-    itkExceptionMacro(<< "BSplineTransform Expected but transform is " << this->m_Transform->GetNameOfClass());
+    itkExceptionMacro("BSplineTransform Expected but transform is " << this->m_Transform->GetNameOfClass());
   }
   if (m_ReferenceImage.IsNull())
   {
@@ -102,7 +102,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   {
     if (this->m_LandmarkWeight.size() != numberOfLandMarks)
     {
-      itkExceptionMacro(<< "Size mismatch between number of landmarks pairs and weights");
+      itkExceptionMacro("Size mismatch between number of landmarks pairs and weights");
     }
     auto weightIt = this->m_LandmarkWeight.begin();
     for (unsigned int i = 0; weightIt != this->m_LandmarkWeight.end(); ++i, ++weightIt)
@@ -198,14 +198,14 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   auto * transform = dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer());
   if (transform == nullptr)
   {
-    itkExceptionMacro(<< "AffineTransform Expected but transform is " << this->m_Transform->GetNameOfClass());
+    itkExceptionMacro("AffineTransform Expected but transform is " << this->m_Transform->GetNameOfClass());
   }
 
   const auto numberOfLandmarks = static_cast<const unsigned int>(this->m_MovingLandmarks.size());
 
   if (numberOfLandmarks < LandmarkPointContainer::value_type::GetPointDimension() + 1)
   {
-    itkExceptionMacro(<< " insufficient number of landmarks, expected "
+    itkExceptionMacro(" insufficient number of landmarks, expected "
                       << LandmarkPointContainer::value_type::GetPointDimension() + 1 << " got " << numberOfLandmarks);
   }
 
@@ -219,7 +219,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   {
     if (this->m_LandmarkWeight.size() != numberOfLandmarks)
     {
-      itkExceptionMacro(<< " size mismatch between number of landmars pairs and weights");
+      itkExceptionMacro(" size mismatch between number of landmars pairs and weights");
     }
     auto weightIt = this->m_LandmarkWeight.begin();
     for (unsigned int i = 0; weightIt != this->m_LandmarkWeight.end(); ++i, ++weightIt)
@@ -344,8 +344,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   auto * transform = dynamic_cast<VersorRigid3DTransformType *>(this->m_Transform.GetPointer());
   if (transform == nullptr)
   {
-    itkExceptionMacro(<< "VersorRigid3DTransformType Expected but transform is "
-                      << this->m_Transform->GetNameOfClass());
+    itkExceptionMacro("VersorRigid3DTransformType Expected but transform is " << this->m_Transform->GetNameOfClass());
   }
 
   // Sanity check
@@ -477,7 +476,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   auto * transform = dynamic_cast<Similarity3DTransformType *>(this->m_Transform.GetPointer());
   if (transform == nullptr)
   {
-    itkExceptionMacro(<< "Similarity3DTransformType Expected but transform is " << this->m_Transform->GetNameOfClass());
+    itkExceptionMacro("Similarity3DTransformType Expected but transform is " << this->m_Transform->GetNameOfClass());
   }
 
   // Sanity check for dimension.
@@ -626,7 +625,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
   if (transform == nullptr)
   {
-    itkExceptionMacro(<< "Rigid2DTransformType Expected but transform is " << this->m_Transform->GetNameOfClass());
+    itkExceptionMacro("Rigid2DTransformType Expected but transform is " << this->m_Transform->GetNameOfClass());
   }
   // Sanity check.
   if (ImageDimension != 2)

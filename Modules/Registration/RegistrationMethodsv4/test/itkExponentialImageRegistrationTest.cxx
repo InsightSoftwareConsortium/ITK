@@ -28,6 +28,7 @@
 #include "itkGaussianExponentialDiffeomorphicTransformParametersAdaptor.h"
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkStatisticsImageFilter.h"
+#include "itkVectorLinearInterpolateImageFunction.h"
 
 #include "itkTimeProbesCollectorBase.h"
 #include "itkTestingMacros.h"
@@ -113,12 +114,13 @@ template <unsigned int VImageDimension>
 int
 PerformExpImageRegistration(int argc, char * argv[])
 {
-  if (argc < 6)
+  if (argc < 10)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
-      << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
+      << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations "
+         "calculateNumberOfIntegrationStepsAutomatically lowerTimeBound upperTimeBound numberOfIntegrationSteps"
       << std::endl;
     return EXIT_FAILURE;
   }
@@ -252,7 +254,31 @@ PerformExpImageRegistration(int argc, char * argv[])
   fieldTransform->SetGaussianSmoothingVarianceForTheUpdateField(0.75);
   fieldTransform->SetGaussianSmoothingVarianceForTheConstantVelocityField(1.5);
   fieldTransform->SetConstantVelocityField(displacementField);
-  fieldTransform->SetCalculateNumberOfIntegrationStepsAutomatically(true);
+
+  using InterpolatorType =
+    itk::VectorLinearInterpolateImageFunction<typename ConstantVelocityFieldTransformType::ConstantVelocityFieldType,
+                                              typename ConstantVelocityFieldTransformType::ScalarType>;
+  auto constantVelocityFieldInterpolator = InterpolatorType::New();
+  fieldTransform->SetConstantVelocityFieldInterpolator(constantVelocityFieldInterpolator);
+  ITK_TEST_SET_GET_VALUE(constantVelocityFieldInterpolator, fieldTransform->GetConstantVelocityFieldInterpolator());
+
+  auto calculateNumberOfIntegrationStepsAutomatically = static_cast<bool>(std::stoi(argv[7]));
+  ITK_TEST_SET_GET_BOOLEAN(
+    fieldTransform, CalculateNumberOfIntegrationStepsAutomatically, calculateNumberOfIntegrationStepsAutomatically);
+
+  auto lowerTimeBound = static_cast<typename ConstantVelocityFieldTransformType::ScalarType>(std::stod(argv[8]));
+  fieldTransform->SetLowerTimeBound(lowerTimeBound);
+  ITK_TEST_SET_GET_VALUE(lowerTimeBound, fieldTransform->GetLowerTimeBound());
+
+  auto upperTimeBound = static_cast<typename ConstantVelocityFieldTransformType::ScalarType>(std::stod(argv[9]));
+  fieldTransform->SetUpperTimeBound(upperTimeBound);
+  ITK_TEST_SET_GET_VALUE(upperTimeBound, fieldTransform->GetUpperTimeBound());
+
+  auto numberOfIntegrationSteps = static_cast<unsigned int>(std::stoi(argv[10]));
+  fieldTransform->SetNumberOfIntegrationSteps(numberOfIntegrationSteps);
+  ITK_TEST_SET_GET_VALUE(numberOfIntegrationSteps, fieldTransform->GetNumberOfIntegrationSteps());
+
+  std::cout << "ConstantVelocityFieldSetTime: " << fieldTransform->GetConstantVelocityFieldSetTime() << std::endl;
 
   using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
   auto                                       correlationMetric = CorrelationMetricType::New();
@@ -425,12 +451,13 @@ PerformExpImageRegistration(int argc, char * argv[])
 int
 itkExponentialImageRegistrationTest(int argc, char * argv[])
 {
-  if (argc < 6)
+  if (argc < 10)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
-      << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
+      << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations "
+         "calculateNumberOfIntegrationStepsAutomatically lowerTimeBound upperTimeBound numberOfIntegrationSteps"
       << std::endl;
     return EXIT_FAILURE;
   }

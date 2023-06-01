@@ -46,6 +46,8 @@ class PrivateTag;
  *
  * \warning: the API of this class might change.
  *
+ * \warning: SEDESC is not always pure ASCII it can contains latin1
+ *
  * \see CSAHeader
  */
 class GDCM_EXPORT PDBHeader

@@ -55,7 +55,7 @@ SpatialObjectPoint<TPointDimension>::SetPositionInWorldSpace(const PointType & p
 {
   if (m_SpatialObject == nullptr)
   {
-    itkExceptionMacro(<< "The SpatialObject must be set prior to calling.");
+    itkExceptionMacro("The SpatialObject must be set prior to calling.");
   }
 
   m_PositionInObjectSpace = m_SpatialObject->GetObjectToWorldTransform()->GetInverseTransform()->TransformPoint(point);
@@ -67,7 +67,7 @@ SpatialObjectPoint<TPointDimension>::GetPositionInWorldSpace() const -> PointTyp
 {
   if (m_SpatialObject == nullptr)
   {
-    itkExceptionMacro(<< "The SpatialObject must be set prior to calling.");
+    itkExceptionMacro("The SpatialObject must be set prior to calling.");
   }
 
   return m_SpatialObject->GetObjectToWorldTransform()->TransformPoint(m_PositionInObjectSpace);

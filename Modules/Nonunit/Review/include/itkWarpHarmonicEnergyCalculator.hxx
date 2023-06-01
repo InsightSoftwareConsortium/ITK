@@ -79,7 +79,7 @@ WarpHarmonicEnergyCalculator<TInputImage>::Compute()
     {
       if (m_Image->GetSpacing()[i] <= 0.0)
       {
-        itkExceptionMacro(<< "Image spacing in dimension " << i << " is zero.");
+        itkExceptionMacro("Image spacing in dimension " << i << " is zero.");
       }
       m_DerivativeWeights[i] = 1.0 / static_cast<double>(m_Image->GetSpacing()[i]);
     }

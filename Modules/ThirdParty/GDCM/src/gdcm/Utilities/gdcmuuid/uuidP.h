@@ -1,4 +1,3 @@
-/* vi: set sw=4 ts=4: */
 /*
  * uuid.h -- private header file for uuids
  *
@@ -33,18 +32,10 @@
  * %End-Header%
  */
 
-#if HAVE_INTTYPES_H
+#ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
-#endif
-#if defined(_MSC_VER) || defined(__BORLANDC__)
-typedef  signed __int8       int8_t;
-typedef  signed __int16      int16_t;
-typedef  signed __int32      int32_t;
-typedef  signed __int64      int64_t;
-typedef  unsigned __int8     uint8_t;
-typedef  unsigned __int16    uint16_t;
-typedef  unsigned __int32    uint32_t;
-typedef  unsigned __int64    uint64_t;
+#else
+#include <uuid/uuid_types.h>
 #endif
 #include <sys/types.h>
 
@@ -57,13 +48,21 @@ typedef  unsigned __int64    uint64_t;
 #define TIME_OFFSET_LOW  0x13814000
 
 struct uuid {
-  uint32_t  time_low;
-  uint16_t  time_mid;
-  uint16_t  time_hi_and_version;
-  uint16_t  clock_seq;
-  uint8_t  node[6];
+	uint32_t	time_low;
+	uint16_t	time_mid;
+	uint16_t	time_hi_and_version;
+	uint16_t	clock_seq;
+	uint8_t	node[6];
 };
 
+#ifndef __GNUC_PREREQ
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#define __GNUC_PREREQ(maj, min) \
+	((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+#else
+#define __GNUC_PREREQ(maj, min) 0
+#endif
+#endif
 
 /*
  * prototypes

@@ -19,7 +19,7 @@
 #ifdef GDCM_USE_SYSTEM_MD5
 # include <md5.h>
 #else
-# include <gdcmmd5/md5.h>
+# include "gdcmmd5/md5.h"
 #endif
 
 #endif

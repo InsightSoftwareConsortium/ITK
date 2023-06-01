@@ -62,7 +62,7 @@ void XMLPrivateDictReader::HandleEntry(const char **atts)
       assert( v <= 0xFFFF );
 
       char sv[4+1];
-      r = sprintf(sv, "%04x", v);
+      r = snprintf(sv, sizeof(sv), "%04x", v);
       assert( r == 4 );
       if( strncmp(raw, sv, 4) == 0 ) // GroupXX
         {
@@ -109,7 +109,7 @@ void XMLPrivateDictReader::HandleEntry(const char **atts)
         assert( v <= 0xFF );
 
         char sv[4+1];
-        r = sprintf(sv, "xx%02x", v);
+        r = snprintf(sv, sizeof(sv), "xx%02x", v);
         assert( r == 4 );
         if( strncmp(raw, sv, 4) == 0 )
           {

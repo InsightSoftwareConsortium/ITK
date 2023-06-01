@@ -66,8 +66,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::CopyInformation(const DataObje
   if (mesh == nullptr)
   {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::Mesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                      << typeid(Superclass *).name());
+    itkExceptionMacro("itk::Mesh::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                                                                  << typeid(Superclass *).name());
   }
 
   this->m_MaximumNumberOfRegions = mesh->GetMaximumNumberOfRegions();

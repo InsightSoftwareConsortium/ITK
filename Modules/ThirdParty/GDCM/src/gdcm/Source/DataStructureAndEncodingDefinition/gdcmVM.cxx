@@ -12,9 +12,9 @@
 
 =========================================================================*/
 #include "gdcmVM.h"
-#include <assert.h>
-#include <stdlib.h> // abort
-#include <string.h> // strcmp
+#include <cassert>
+#include <cstdlib> // abort
+#include <cstring> // strcmp
 
 namespace gdcm
 {
