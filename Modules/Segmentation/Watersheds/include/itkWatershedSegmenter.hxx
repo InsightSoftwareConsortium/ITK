@@ -1017,7 +1017,7 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
     segment_ptr = segments->Lookup(edge_table_entry_ptr->first);
     if (segment_ptr == nullptr)
     {
-      itkGenericExceptionMacro(<< "UpdateSegmentTable:: An unexpected and fatal error has occurred.");
+      itkGenericExceptionMacro("UpdateSegmentTable:: An unexpected and fatal error has occurred.");
     }
 
     // Copy into the segment list
@@ -1135,7 +1135,7 @@ Segmenter<TInputImage>::MergeFlatRegions(flat_region_table_t & regions, Equivale
   {
     if (((a = regions.find(it->first)) == regions.end()) || ((b = regions.find(it->second)) == regions.end()))
     {
-      itkGenericExceptionMacro(<< "MergeFlatRegions:: An unexpected and fatal error has occurred.");
+      itkGenericExceptionMacro("MergeFlatRegions:: An unexpected and fatal error has occurred.");
     }
 
     if (a->second.bounds_min < b->second.bounds_min)

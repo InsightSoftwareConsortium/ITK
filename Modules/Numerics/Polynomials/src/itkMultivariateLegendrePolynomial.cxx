@@ -26,7 +26,7 @@ MultivariateLegendrePolynomial::MultivariateLegendrePolynomial(unsigned int     
 {
   if (dimension > 3 || dimension < 2)
   {
-    itkGenericExceptionMacro(<< "MultivariateLegendrePolynomial only supports 2D and 3D");
+    itkGenericExceptionMacro("MultivariateLegendrePolynomial only supports 2D and 3D");
   }
 
   m_Dimension = dimension;

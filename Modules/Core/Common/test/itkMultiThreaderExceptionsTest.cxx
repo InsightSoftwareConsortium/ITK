@@ -66,7 +66,7 @@ protected:
     if (outputRegionForThread.GetIndex(0) == m_ExceptionIndex)
     {
       std::cout << "Exception launched" << std::endl;
-      itkGenericExceptionMacro(<< "Error");
+      itkGenericExceptionMacro("Error");
     }
   }
 

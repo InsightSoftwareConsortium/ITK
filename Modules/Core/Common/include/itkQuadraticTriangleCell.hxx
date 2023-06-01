@@ -272,7 +272,7 @@ QuadraticTriangleCell<TCellInterface>::EvaluateShapeFunctions(const ParametricCo
 {
   if (parametricCoordinates.size() != 3)
   {
-    itkGenericExceptionMacro(<< "QuadraticTriangleCell expect three coordinates");
+    itkGenericExceptionMacro("QuadraticTriangleCell expect three coordinates");
   }
 
   const double L1 = parametricCoordinates[0];

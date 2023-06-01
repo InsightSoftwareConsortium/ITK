@@ -206,7 +206,7 @@ struct TransformIOHelper
     OutputTransformPointer convertedTransform = dynamic_cast<TOutputTransformType *>(i.GetPointer());
     if (convertedTransform.IsNull())
     {
-      itkGenericExceptionMacro(<< "Could not create an instance of " << transformName);
+      itkGenericExceptionMacro("Could not create an instance of " << transformName);
     }
     convertedTransform->UnRegister();
     return convertedTransform;

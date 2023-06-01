@@ -282,7 +282,7 @@ GPUKernelManager::GetKernelWorkGroupInfo(int kernelIdx, cl_kernel_work_group_inf
       valueSize = sizeof(cl_ulong);
       break;
     default:
-      itkGenericExceptionMacro(<< "Unknown type of work goup information");
+      itkGenericExceptionMacro("Unknown type of work goup information");
   }
 
   cl_int errid = clGetKernelWorkGroupInfo(
@@ -304,7 +304,7 @@ GPUKernelManager::GetDeviceInfo(cl_kernel_work_group_info paramName, size_t argS
       errid = clGetDeviceInfo(m_Manager->GetDeviceId(0), CL_DEVICE_MAX_WORK_ITEM_SIZES, argSize, argValue, nullptr);
       break;
     default:
-      itkGenericExceptionMacro(<< "Unknown type of device info");
+      itkGenericExceptionMacro("Unknown type of device info");
   }
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 

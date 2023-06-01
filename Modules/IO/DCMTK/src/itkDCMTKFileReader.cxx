@@ -373,7 +373,7 @@ DCMTKFileReader::LoadFile()
 {
   if (this->m_FileName.empty())
   {
-    itkGenericExceptionMacro(<< "No filename given");
+    itkGenericExceptionMacro("No filename given");
   }
   delete this->m_DFile;
   this->m_DFile = new DcmFileFormat();

@@ -119,8 +119,9 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::CreateActiveListFro
 {
   if (this->GetRadius() != neighborhood.GetRadius())
   {
-    itkGenericExceptionMacro(<< "Radius of shaped iterator(" << this->GetRadius()
-                             << ") does not equal radius of neighborhood(" << neighborhood.GetRadius() << ')');
+    itkGenericExceptionMacro("Radius of shaped iterator(" << this->GetRadius()
+                                                          << ") does not equal radius of neighborhood("
+                                                          << neighborhood.GetRadius() << ')');
   }
   typename NeighborhoodType::ConstIterator nit;
   NeighborIndexType                        idx = 0;

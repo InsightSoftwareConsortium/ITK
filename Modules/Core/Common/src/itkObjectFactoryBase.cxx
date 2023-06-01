@@ -559,7 +559,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
   {
     if (m_PimplGlobals->m_StrictVersionChecking)
     {
-      itkGenericExceptionMacro(<< "Incompatible factory version load attempt:"
+      itkGenericExceptionMacro("Incompatible factory version load attempt:"
                                << "\nRunning itk version :\n"
                                << Version::GetITKSourceVersion() << "\nAttempted loading factory version:\n"
                                << factory->GetITKSourceVersion() << "\nAttempted factory:\n"

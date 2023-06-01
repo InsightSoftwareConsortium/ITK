@@ -45,7 +45,7 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::SetTimeStep(const LevelSet
   }
   else
   {
-    itkGenericExceptionMacro(<< "iDt should be > epsilon");
+    itkGenericExceptionMacro("iDt should be > epsilon");
   }
 }
 
@@ -66,28 +66,28 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::CheckSetUp()
 {
   if (this->m_LevelSetContainer.IsNull())
   {
-    itkGenericExceptionMacro(<< "this->m_LevelSetContainer is nullptr");
+    itkGenericExceptionMacro("this->m_LevelSetContainer is nullptr");
   }
 
   if (this->m_EquationContainer.IsNull())
   {
-    itkGenericExceptionMacro(<< "m_EquationContainer is nullptr");
+    itkGenericExceptionMacro("m_EquationContainer is nullptr");
   }
 
   typename EquationContainerType::Iterator eqIt = this->m_EquationContainer->Begin();
 
   if (eqIt == this->m_EquationContainer->End())
   {
-    itkGenericExceptionMacro(<< "this->m_EquationContainer is empty");
+    itkGenericExceptionMacro("this->m_EquationContainer is empty");
   }
   if (!eqIt->GetEquation())
   {
-    itkGenericExceptionMacro(<< "m_EquationContainer->GetEquation( 0 ) is nullptr");
+    itkGenericExceptionMacro("m_EquationContainer->GetEquation( 0 ) is nullptr");
   }
 
   if (this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer())
   {
-    itkGenericExceptionMacro(<< "this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer()"
+    itkGenericExceptionMacro("this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer()"
                              << std::endl
                              << this->m_LevelSetContainer.GetPointer()
                              << " != " << this->m_EquationContainer->GetLevelSetContainer() << std::endl);
@@ -98,7 +98,7 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::CheckSetUp()
 
   if (inputImage.IsNull())
   {
-    itkGenericExceptionMacro(<< "input Image is nullptr");
+    itkGenericExceptionMacro("input Image is nullptr");
   }
 
   // Get the LevelSetContainer from the EquationContainer
@@ -107,24 +107,24 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::CheckSetUp()
 
   if (termIt == termContainer->End())
   {
-    itkGenericExceptionMacro(<< "TermContainer is empty");
+    itkGenericExceptionMacro("TermContainer is empty");
   }
 
   if (this->m_LevelSetContainer != termContainer->GetLevelSetContainer())
   {
-    itkGenericExceptionMacro(<< "this->m_LevelSetContainer != termContainer->GetLevelSetContainer()");
+    itkGenericExceptionMacro("this->m_LevelSetContainer != termContainer->GetLevelSetContainer()");
   }
 
   TermPointer term = termIt->GetTerm();
 
   if (this->m_LevelSetContainer != term->GetLevelSetContainer())
   {
-    itkGenericExceptionMacro(<< "this->m_LevelSetContainer != term->GetLevelSetContainer()");
+    itkGenericExceptionMacro("this->m_LevelSetContainer != term->GetLevelSetContainer()");
   }
 
   if (this->m_StoppingCriterion.IsNull())
   {
-    itkGenericExceptionMacro(<< "m_StoppingCriterion is nullptr");
+    itkGenericExceptionMacro("m_StoppingCriterion is nullptr");
   }
 
   this->m_NumberOfIterations = 0;
@@ -162,7 +162,7 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::InitializeIteration()
 
         if (idList->empty())
         {
-          itkGenericExceptionMacro(<< "No level set exists at voxel");
+          itkGenericExceptionMacro("No level set exists at voxel");
         }
 
         auto idListIt = idList->begin();

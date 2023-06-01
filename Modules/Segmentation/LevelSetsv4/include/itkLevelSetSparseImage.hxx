@@ -94,7 +94,7 @@ LevelSetSparseImage<TOutput, VDimension>::GetLayer(LayerIdType value) const -> c
   auto it = m_Layers.find(value);
   if (it == m_Layers.end())
   {
-    itkGenericExceptionMacro(<< "This layer does not exist");
+    itkGenericExceptionMacro("This layer does not exist");
   }
   return it->second;
 }
@@ -107,7 +107,7 @@ LevelSetSparseImage<TOutput, VDimension>::GetLayer(LayerIdType value) -> LayerTy
   auto it = m_Layers.find(value);
   if (it == m_Layers.end())
   {
-    itkGenericExceptionMacro(<< "This layer does not exist");
+    itkGenericExceptionMacro("This layer does not exist");
   }
   return it->second;
 }
@@ -168,7 +168,7 @@ LevelSetSparseImage<TOutput, VDimension>::GetAsLabelObject()
 
   if (this->m_InternalLabelList.empty())
   {
-    itkGenericExceptionMacro(<< "this->m_InternalLabelList empty");
+    itkGenericExceptionMacro("this->m_InternalLabelList empty");
   }
 
   auto lIt = this->m_InternalLabelList.begin();

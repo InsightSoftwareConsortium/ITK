@@ -68,13 +68,13 @@ WhitakerSparseLevelSetImage<TOutput, VDimension>::Evaluate(const InputType & inp
         }
         else
         {
-          itkGenericExceptionMacro(<< "status " << static_cast<int>(status) << " should be 3 or -3");
+          itkGenericExceptionMacro("status " << static_cast<int>(status) << " should be 3 or -3");
         }
       }
     }
     else
     {
-      itkGenericExceptionMacro(<< "Note: m_LabelMap is nullptr");
+      itkGenericExceptionMacro("Note: m_LabelMap is nullptr");
     }
   }
   return rval;

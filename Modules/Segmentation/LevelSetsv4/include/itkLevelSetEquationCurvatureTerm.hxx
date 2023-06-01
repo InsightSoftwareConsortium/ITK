@@ -73,7 +73,7 @@ LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Init
   {
     if (m_CurvatureImage.IsNull())
     {
-      itkGenericExceptionMacro(<< "m_UseCurvatureImage is true and m_CurvatureImage is null");
+      itkGenericExceptionMacro("m_UseCurvatureImage is true and m_CurvatureImage is null");
     }
   }
 }

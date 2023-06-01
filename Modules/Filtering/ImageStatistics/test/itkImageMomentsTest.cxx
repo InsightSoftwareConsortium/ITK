@@ -135,7 +135,7 @@ itkImageMomentsTest(int argc, char * argv[])
       dynamic_cast<itk::SpatialObject<MaskImageType::ImageDimension> *>(mask.GetPointer());
     if (test.IsNull())
     {
-      itkGenericExceptionMacro(<< "Failed conversion to SpatialObject base class.");
+      itkGenericExceptionMacro("Failed conversion to SpatialObject base class.");
     }
     moments->SetSpatialObjectMask(test.GetPointer());
   }

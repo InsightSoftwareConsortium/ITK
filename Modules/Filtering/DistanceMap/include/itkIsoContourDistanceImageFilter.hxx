@@ -341,7 +341,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const Inp
       }
       if (diff < NumericTraits<PixelRealType>::min())
       {
-        itkGenericExceptionMacro(<< "diff " << diff << " < NumericTraits< PixelRealType >::min()");
+        itkGenericExceptionMacro("diff " << diff << " < NumericTraits< PixelRealType >::min()");
         continue;
       }
 

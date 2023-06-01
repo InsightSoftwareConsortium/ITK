@@ -296,7 +296,7 @@ const typename PriorityQueueContainer<TElementWrapper, TElementWrapperInterface,
 {
   if (Empty())
   {
-    itkGenericExceptionMacro(<< "Empty PriorityQueueContainer");
+    itkGenericExceptionMacro("Empty PriorityQueueContainer");
   }
   return (GetElementAtLocation(0));
 }
@@ -343,7 +343,7 @@ PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriori
   {
     if (location >= this->Size())
     {
-      itkGenericExceptionMacro(<< " ElementWrapperType location is out of range");
+      itkGenericExceptionMacro(" ElementWrapperType location is out of range");
     }
     UpdateDownTree(location);
     UpdateUpTree(location);
@@ -373,7 +373,7 @@ PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriori
 
     if (location >= tsize)
     {
-      itkGenericExceptionMacro(<< " ElementWrapperType location is out of range");
+      itkGenericExceptionMacro(" ElementWrapperType location is out of range");
     }
     else
     {

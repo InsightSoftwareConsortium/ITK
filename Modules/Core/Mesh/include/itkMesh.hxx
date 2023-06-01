@@ -1018,7 +1018,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::ReleaseCellsMemory()
       {
         // The user forgot to tell the mesh about how he allocated
         // the cells. No responsible guess can be made here. Call for help.
-        itkGenericExceptionMacro(<< "Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
+        itkGenericExceptionMacro("Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
         break;
       }
       case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsStaticArray:

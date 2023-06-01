@@ -125,12 +125,12 @@ public:
       }
       catch (...)
       {
-        itkGenericExceptionMacro(<< "IO library exception not converted to an itk::ExceptionObject.");
+        itkGenericExceptionMacro("IO library exception not converted to an itk::ExceptionObject.");
       }
       if (!exception_correctly_caught)
       {
-        itkGenericExceptionMacro(<< "Invalid file writing path did not throw an exception: " << bad_filename << " with "
-                                 << imageio->GetNameOfClass());
+        itkGenericExceptionMacro("Invalid file writing path did not throw an exception: " << bad_filename << " with "
+                                                                                          << imageio->GetNameOfClass());
       }
     }
   }

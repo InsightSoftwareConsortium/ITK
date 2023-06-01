@@ -39,7 +39,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Update()
 {
   if (this->m_InputLevelSet.IsNull())
   {
-    itkGenericExceptionMacro(<< "m_InputLevelSet is nullptr");
+    itkGenericExceptionMacro("m_InputLevelSet is nullptr");
   }
 
   this->m_Offset = this->m_InputLevelSet->GetDomainOffset();

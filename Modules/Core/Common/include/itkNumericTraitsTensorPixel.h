@@ -156,8 +156,8 @@ public:
   {
     if (s != D * (D + 1) / 2)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a SymmetricSecondRankTensor "
-                                  "of dimension "
+      itkGenericExceptionMacro("Cannot set the size of a SymmetricSecondRankTensor "
+                               "of dimension "
                                << D << " ( = size of " << D * (D + 1) / 2 << ") to " << s);
     }
     m.Fill(NumericTraits<T>::ZeroValue());

@@ -208,7 +208,7 @@ VariableLengthVector<TValue>::AllocateElements(ElementIdentifier size) const
   {
     // Intercept std::bad_alloc and any exception thrown from TValue
     // default constructor.
-    itkGenericExceptionMacro(<< "Failed to allocate memory of length " << size << " for VariableLengthVector.");
+    itkGenericExceptionMacro("Failed to allocate memory of length " << size << " for VariableLengthVector.");
   }
 }
 

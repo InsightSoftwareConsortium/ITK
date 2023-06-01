@@ -249,8 +249,8 @@ ImageRegion<VImageDimension>::Slice(const unsigned int dim) const -> SliceRegion
 {
   if (dim >= VImageDimension)
   {
-    itkGenericExceptionMacro(<< "The dimension to remove: " << dim
-                             << " is greater than the dimension of the image: " << VImageDimension);
+    itkGenericExceptionMacro(
+      "The dimension to remove: " << dim << " is greater than the dimension of the image: " << VImageDimension);
   }
 
   Index<SliceDimension> sliceIndex;

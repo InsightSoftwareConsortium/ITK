@@ -93,7 +93,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::GenerateData()
 
     if (smIter > m_MaximumSmoothingIterations)
     {
-      itkGenericExceptionMacro(<< "Exceeded maximum iterations for histogram smoothing.");
+      itkGenericExceptionMacro("Exceeded maximum iterations for histogram smoothing.");
     }
   }
 

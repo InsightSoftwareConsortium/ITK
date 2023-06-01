@@ -38,7 +38,7 @@ LevelSetEquationContainer<TTermContainer>::AddEquation(const LevelSetIdentifierT
     {
       if (!iEquation->GetLevelSetContainer())
       {
-        itkGenericExceptionMacro(<< "m_LevelSetContainer and iEquation->GetLevelSetContainer() are nullptr");
+        itkGenericExceptionMacro("m_LevelSetContainer and iEquation->GetLevelSetContainer() are nullptr");
       }
     }
     this->m_Container[iId] = iEquation;
@@ -50,7 +50,7 @@ LevelSetEquationContainer<TTermContainer>::AddEquation(const LevelSetIdentifierT
   }
   else
   {
-    itkGenericExceptionMacro(<< "Term supplied is null");
+    itkGenericExceptionMacro("Term supplied is null");
   }
 }
 
@@ -60,13 +60,13 @@ LevelSetEquationContainer<TTermContainer>::GetEquation(const LevelSetIdentifierT
 {
   if (this->m_Container.empty())
   {
-    itkGenericExceptionMacro(<< "m_Container is empty");
+    itkGenericExceptionMacro("m_Container is empty");
   }
 
   auto it = this->m_Container.find(iId);
   if (it == this->m_Container.end())
   {
-    itkGenericExceptionMacro(<< "this equation " << iId << " does not exist");
+    itkGenericExceptionMacro("this equation " << iId << " does not exist");
   }
   return it->second;
 }

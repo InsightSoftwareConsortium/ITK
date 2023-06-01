@@ -187,7 +187,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -366,7 +366,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -472,7 +472,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -594,7 +594,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -698,7 +698,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -800,7 +800,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -903,7 +903,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1005,7 +1005,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1127,7 +1127,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1230,7 +1230,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1333,7 +1333,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1437,7 +1437,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1540,7 +1540,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1651,7 +1651,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1755,7 +1755,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1850,7 +1850,7 @@ public:
   {
     if (s != 1)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a scalar to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
@@ -1976,7 +1976,7 @@ public:
   {
     if (s != 2)
     {
-      itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
+      itkGenericExceptionMacro("Cannot set the size of a complex to " << s);
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
