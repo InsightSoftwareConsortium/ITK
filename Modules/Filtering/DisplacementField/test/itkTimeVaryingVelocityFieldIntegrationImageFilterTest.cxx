@@ -19,6 +19,7 @@
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
 #include "itkImportImageFilter.h"
 #include "itkTestingMacros.h"
+#include "itkVectorLinearInterpolateImageFunction.h"
 
 int
 itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
@@ -71,6 +72,21 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(integrator, TimeVaryingVelocityFieldIntegrationImageFilter, ImageToImageFilter);
 
+
+  auto velocityFieldInterpolator =
+    itk::VectorLinearInterpolateImageFunction<IntegratorType::TimeVaryingVelocityFieldType,
+                                              IntegratorType::ScalarType>::New();
+  integrator->SetVelocityFieldInterpolator(velocityFieldInterpolator);
+  ITK_TEST_SET_GET_VALUE(velocityFieldInterpolator, integrator->GetVelocityFieldInterpolator());
+
+  auto displacementFieldInterpolator =
+    itk::VectorLinearInterpolateImageFunction<IntegratorType::DisplacementFieldType, IntegratorType::ScalarType>::New();
+  integrator->SetDisplacementFieldInterpolator(displacementFieldInterpolator);
+  ITK_TEST_SET_GET_VALUE(displacementFieldInterpolator, integrator->GetDisplacementFieldInterpolator());
+
+  auto initialDiffeomorphism = IntegratorType::DisplacementFieldType::New();
+  integrator->SetInitialDiffeomorphism(initialDiffeomorphism);
+  ITK_TEST_SET_GET_VALUE(initialDiffeomorphism, integrator->GetInitialDiffeomorphism());
 
   auto lowerTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[1]));
   integrator->SetLowerTimeBound(lowerTimeBound);
