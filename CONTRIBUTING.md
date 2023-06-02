@@ -1,7 +1,9 @@
 Contributing to ITK
 ===================
 
-Welcome to the Insight Toolkit (ITK) ! We're excited you're here and want to contribute.
+Welcome to the Insight Toolkit (ITK) ! We are excited that you are here! Join us as a contributing member of the community.
+
+![Contributor graph](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=InsightSoftwareConsortium/ITK)
 
 This article documents how to contribute improvements to ITK.
 
