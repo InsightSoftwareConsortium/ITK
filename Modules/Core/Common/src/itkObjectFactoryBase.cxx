@@ -567,7 +567,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
     }
     else
     {
-      itkGenericOutputMacro(<< "Possible incompatible factory load:"
+      itkGenericOutputMacro("Possible incompatible factory load:"
                             << "\nRunning itk version :\n"
                             << Version::GetITKSourceVersion() << "\nLoaded factory version:\n"
                             << factory->GetITKSourceVersion() << "\nLoading factory:\n"

@@ -27,7 +27,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    itkGenericOutputMacro(<< "Need a file to process");
+    itkGenericOutputMacro("Need a file to process");
     return EXIT_FAILURE;
   }
 
