@@ -203,7 +203,7 @@ CSVFileReaderBase::GetNextField(std::string & str)
 
   std::string empty;
   // Check that we are not at the end of the file
-  itkDebugMacro(<< "m_Line: " << m_Line);
+  itkDebugMacro("m_Line: " << m_Line);
   if (!this->m_InputStream.eof())
   {
     bool OnANewLine = false;

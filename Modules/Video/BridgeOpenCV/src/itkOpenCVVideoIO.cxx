@@ -137,7 +137,7 @@ OpenCVVideoIO::CanReadFile(const char * filename)
   std::string fname = filename;
   if (fname == "")
   {
-    itkDebugMacro(<< "NoFilename specified");
+    itkDebugMacro("NoFilename specified");
     return false;
   }
 
@@ -159,7 +159,7 @@ OpenCVVideoIO::CanReadFile(const char * filename)
   }
   if (!extensionFound)
   {
-    itkDebugMacro(<< "Unrecognized file extension");
+    itkDebugMacro("Unrecognized file extension");
     return false;
   }
 
@@ -367,7 +367,7 @@ OpenCVVideoIO::SetNextFrameToRead(OpenCVVideoIO::FrameOffsetType frameNumber)
   // Make sure we're not setting past the end
   if (frameNumber > this->m_LastIFrame)
   {
-    itkDebugMacro(<< "Warning: Trying to seek past end of video (past last I-Frame)");
+    itkDebugMacro("Warning: Trying to seek past end of video (past last I-Frame)");
     return false;
   }
 

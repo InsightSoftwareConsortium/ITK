@@ -157,7 +157,7 @@ TemporalDataObject::GetUnbufferedRequestedTemporalRegion()
   // Handle case with unbuffered frames at beginning and end
   if (reqStart < bufStart && reqEnd > bufEnd)
   {
-    itkDebugMacro(<< "Unbuffered frames at beginning and end. Returning entire "
+    itkDebugMacro("Unbuffered frames at beginning and end. Returning entire "
                   << "requested region as unbuffered");
     return this->m_RequestedTemporalRegion;
   }

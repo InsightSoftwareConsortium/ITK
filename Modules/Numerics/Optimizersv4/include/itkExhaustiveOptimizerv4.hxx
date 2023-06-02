@@ -159,7 +159,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::AdvanceOneStep()
   ParametersType newPosition(spaceDimension);
   this->IncrementIndex(newPosition);
 
-  itkDebugMacro(<< "new position = " << newPosition);
+  itkDebugMacro("new position = " << newPosition);
 
   this->m_Metric->SetParameters(newPosition);
 }

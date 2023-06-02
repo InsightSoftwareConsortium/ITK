@@ -377,7 +377,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::ApplyMRFImageFilter()
   m_NumberOfIterations = 0;
   do
   {
-    itkDebugMacro(<< "Iteration No." << m_NumberOfIterations);
+    itkDebugMacro("Iteration No." << m_NumberOfIterations);
 
     MinimizeFunctional();
     m_NumberOfIterations += 1;

@@ -273,7 +273,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
   {
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
 
-    itkDebugMacro(<< " Generating regular Quad mesh " << std::endl);
+    itkDebugMacro(" Generating regular Quad mesh " << std::endl);
     auto meshFilter = ImageToMeshType::New();
     meshFilter->SetInput(m_MovingImage);
     meshFilter->SetPixelsPerElement(pixPerElement);
@@ -282,13 +282,13 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
     meshFilter->Update();
     m_FEMObject = meshFilter->GetOutput();
     m_FEMObject->FinalizeMesh();
-    itkDebugMacro(<< " Generating regular mesh done " << std::endl);
+    itkDebugMacro(" Generating regular mesh done " << std::endl);
   }
   else if (ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron *>(&*m_Element) != nullptr)
   {
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
 
-    itkDebugMacro(<< " Generating regular Hex mesh " << std::endl);
+    itkDebugMacro(" Generating regular Hex mesh " << std::endl);
     auto meshFilter = ImageToMeshType::New();
     meshFilter->SetInput(m_MovingImage);
     meshFilter->SetPixelsPerElement(pixPerElement);
@@ -297,7 +297,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
     meshFilter->Update();
     m_FEMObject = meshFilter->GetOutput();
     m_FEMObject->FinalizeMesh();
-    itkDebugMacro(<< " Generating regular mesh done " << std::endl);
+    itkDebugMacro(" Generating regular mesh done " << std::endl);
   }
   else
   {
@@ -366,7 +366,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
   // Apply the boundary conditions. We pin the image corners.
   // First compute which elements these will be.
   //
-  itkDebugMacro(<< " Applying loads ");
+  itkDebugMacro(" Applying loads ");
 
   vnl_vector<Float> pd;
   pd.set_size(ImageDimension);
@@ -384,11 +384,11 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
     {
       m_LandmarkArray[lmind]->GetElementArray()[0] = nullptr;
 
-      itkDebugMacro(<< " Prescale Pt: " << m_LandmarkArray[lmind]->GetTarget());
+      itkDebugMacro(" Prescale Pt: " << m_LandmarkArray[lmind]->GetTarget());
       if (scaling)
       {
         m_LandmarkArray[lmind]->ScalePointAndForce(scaling, m_EnergyReductionFactor);
-        itkDebugMacro(<< " Postscale Pt: " << m_LandmarkArray[lmind]->GetTarget() << "; scale: " << scaling[0]);
+        itkDebugMacro(" Postscale Pt: " << m_LandmarkArray[lmind]->GetTarget() << "; scale: " << scaling[0]);
       }
 
       pu = m_LandmarkArray[lmind]->GetSource();
@@ -408,7 +408,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
       LoadLandmark::Pointer l5 = dynamic_cast<LoadLandmark *>(&*m_LandmarkArray[lmind]->CreateAnother());
       m_FEMObject->AddNextLoad(l5);
     }
-    itkDebugMacro(<< " Landmarks done");
+    itkDebugMacro(" Landmarks done");
   }
 
   // Now apply the BC loads
@@ -494,7 +494,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
       } // end elt loop
     }
     ++nodect;
-    itkDebugMacro(<< " Node: " << nodect);
+    itkDebugMacro(" Node: " << nodect);
   }
 }
 
@@ -543,18 +543,18 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
 
     if (DLS == 2 && deltE < 0.0)
     {
-      itkDebugMacro(<< " Line search ");
+      itkDebugMacro(" Line search ");
       constexpr float tol = 1.0; // ((0.01  < LastE) ? 0.01 : LastE/10.);
       LastE = this->GoldenSection(solver, tol, m_LineSearchMaximumIterations);
       deltE = (m_MinE - LastE);
-      itkDebugMacro(<< " Line search done " << std::endl);
+      itkDebugMacro(" Line search done " << std::endl);
     }
 
     ++iters;
 
     if (deltE == 0.0)
     {
-      itkDebugMacro(<< " No change in energy " << std::endl);
+      itkDebugMacro(" No change in energy " << std::endl);
       Done = true;
     }
     if ((DLS == 0) && (iters >= m_Maxiters[m_CurrentLevel]))
@@ -592,7 +592,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
         this->EnforceDiffeomorphism(1.0, solver, true);
       }
     }
-    itkDebugMacro(<< " min E: " << m_MinE << "; delt E: " << deltE << "; iters: " << iters << std::endl);
+    itkDebugMacro(" min E: " << m_MinE << "; delt E: " << deltE << "; iters: " << iters << std::endl);
     ++m_TotalIterations;
   }
 }
@@ -637,7 +637,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
   }
   m_FieldSize = field->GetLargestPossibleRegion().GetSize();
 
-  itkDebugMacro(<< " Interpolating vector field of size " << m_FieldSize);
+  itkDebugMacro(" Interpolating vector field of size " << m_FieldSize);
 
   Float rstep, sstep, tstep;
 
@@ -769,7 +769,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
   }
 
   // Ensure that the values are exact at the nodes. They won't necessarily be unless we use this code.
-  itkDebugMacro(<< " Interpolation done " << std::endl);
+  itkDebugMacro(" Interpolation done " << std::endl);
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -791,7 +791,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ComputeJacobian()
 
   m_MinJacobian = statisticsFilter->GetMinimum();
 
-  itkDebugMacro(<< " Min Jacobian: " << m_MinJacobian << std::endl);
+  itkDebugMacro(" Min Jacobian: " << m_MinJacobian << std::endl);
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -800,7 +800,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
                                                                                     SolverType * solver,
                                                                                     bool         onlywriteimages)
 {
-  itkDebugMacro(<< " Checking Jacobian using threshold " << thresh);
+  itkDebugMacro(" Checking Jacobian using threshold " << thresh);
 
   this->ComputeJacobian();
 
@@ -818,36 +818,36 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
   // If using landmarks, warp them
   if (m_UseLandmarks)
   {
-    itkDebugMacro(<< " Warping landmarks: " << m_LandmarkArray.size());
+    itkDebugMacro(" Warping landmarks: " << m_LandmarkArray.size());
 
     if (!m_LandmarkArray.empty())
     {
       for (unsigned int lmind = 0; lmind < m_LandmarkArray.size(); ++lmind)
       {
-        itkDebugMacro(<< " Old source: " << m_LandmarkArray[lmind]->GetSource());
-        itkDebugMacro(<< " Target: " << m_LandmarkArray[lmind]->GetTarget());
+        itkDebugMacro(" Old source: " << m_LandmarkArray[lmind]->GetSource());
+        itkDebugMacro(" Target: " << m_LandmarkArray[lmind]->GetTarget());
 
         // Convert the source to warped coords.
         m_LandmarkArray[lmind]->GetSource() =
           m_LandmarkArray[lmind]->GetSource() +
           (dynamic_cast<LoadLandmark *>(&*solver->GetOutput()->GetLoadWithGlobalNumber(lmind))->GetForce());
-        itkDebugMacro(<< " New source: " << m_LandmarkArray[lmind]->GetSource());
-        itkDebugMacro(<< " Target: " << m_LandmarkArray[lmind]->GetTarget());
+        itkDebugMacro(" New source: " << m_LandmarkArray[lmind]->GetSource());
+        itkDebugMacro(" Target: " << m_LandmarkArray[lmind]->GetTarget());
         LoadLandmark::Pointer l5 = dynamic_cast<LoadLandmark *>(&*m_LandmarkArray[lmind]->CreateAnother());
         solver->GetOutput()->AddNextLoad(l5);
       }
-      itkDebugMacro(<< " Warping landmarks done ");
+      itkDebugMacro(" Warping landmarks done ");
     }
     else
     {
-      itkDebugMacro(<< " Landmark array empty ");
+      itkDebugMacro(" Landmark array empty ");
     }
   }
 
   // Store the total deformation by composing with the full field
   if (!m_TotalField && !onlywriteimages)
   {
-    itkDebugMacro(<< " Allocating total deformation field ");
+    itkDebugMacro(" Allocating total deformation field ");
 
     m_TotalField = FieldType::New();
 
@@ -923,7 +923,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
       ++totalFieldIter;
     }
 
-    itkDebugMacro(<< " Incremental path length: " << pathsteplength);
+    itkDebugMacro(" Incremental path length: " << pathsteplength);
 
     // Set the field to zero
     FieldIterator fieldIter(m_Field, m_Field->GetLargestPossibleRegion());
@@ -968,7 +968,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
 
     m_Load->SetMovingImage(this->GetMovingImage());
   }
-  itkDebugMacro(<< " Enforcing diffeomorphism done ");
+  itkDebugMacro(" Enforcing diffeomorphism done ");
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -1005,8 +1005,8 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ExpandVectorField(
     field = m_Field;
   }
 
-  itkDebugMacro(<< " Input field size: " << m_Field->GetLargestPossibleRegion().GetSize());
-  itkDebugMacro(<< " Expand factors: ");
+  itkDebugMacro(" Input field size: " << m_Field->GetLargestPossibleRegion().GetSize());
+  itkDebugMacro(" Expand factors: ");
   VectorType pad;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -1083,7 +1083,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintVectorField(u
     VectorType disp = fieldIter.Get();
     if ((ct % modnum) == 0)
     {
-      itkDebugMacro(<< " Field pix: " << fieldIter.Get() << std::endl);
+      itkDebugMacro(" Field pix: " << fieldIter.Get() << std::endl);
     }
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -1096,7 +1096,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintVectorField(u
     ++ct;
   }
 
-  itkDebugMacro(<< " Max vec: " << max << std::endl);
+  itkDebugMacro(" Max vec: " << max << std::endl);
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -1105,7 +1105,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve()
 {
   for (m_CurrentLevel = 0; m_CurrentLevel < m_MaxLevel; ++m_CurrentLevel)
   {
-    itkDebugMacro(<< " Beginning level " << m_CurrentLevel << std::endl);
+    itkDebugMacro(" Beginning level " << m_CurrentLevel << std::endl);
 
     auto solver = SolverType::New();
 
@@ -1156,14 +1156,14 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve()
 
     // Now expand the field for the next level, if necessary.
 
-    itkDebugMacro(<< " End level: " << m_CurrentLevel);
+    itkDebugMacro(" End level: " << m_CurrentLevel);
 
   } // end image resolution loop
 
   if (m_TotalField)
   {
-    itkDebugMacro(<< " Copy field: " << m_TotalField->GetLargestPossibleRegion().GetSize());
-    itkDebugMacro(<< " To: " << m_Field->GetLargestPossibleRegion().GetSize() << std::endl);
+    itkDebugMacro(" Copy field: " << m_TotalField->GetLargestPossibleRegion().GetSize());
+    itkDebugMacro(" To: " << m_Field->GetLargestPossibleRegion().GetSize() << std::endl);
     FieldIterator fieldIter(m_TotalField, m_TotalField->GetLargestPossibleRegion());
     fieldIter.GoToBegin();
     for (; !fieldIter.IsAtEnd(); ++fieldIter)

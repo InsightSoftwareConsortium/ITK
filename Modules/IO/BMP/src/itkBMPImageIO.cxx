@@ -60,7 +60,7 @@ BMPImageIO::CanReadFile(const char * filename)
 
   if (fname.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
   }
 
 
@@ -68,7 +68,7 @@ BMPImageIO::CanReadFile(const char * filename)
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
   }
 
   // Now check the content
@@ -153,14 +153,14 @@ BMPImageIO::CanWriteFile(const char * name)
 
   if (filename.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
   }
 
   bool extensionFound = this->HasSupportedWriteExtension(name, false);
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 

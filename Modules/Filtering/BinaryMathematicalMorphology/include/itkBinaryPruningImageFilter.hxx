@@ -55,7 +55,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 BinaryPruningImageFilter<TInputImage, TOutputImage>::PrepareData()
 {
-  itkDebugMacro(<< "PrepareData Start");
+  itkDebugMacro("PrepareData Start");
   OutputImagePointer pruneImage = GetPruning();
 
   InputImagePointer inputImage = dynamic_cast<const TInputImage *>(ProcessObject::GetInput(0));
@@ -68,7 +68,7 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::PrepareData()
   ImageRegionConstIterator<TInputImage> it(inputImage, region);
   ImageRegionIterator<TOutputImage>     ot(pruneImage, region);
 
-  itkDebugMacro(<< "PrepareData: Copy input to output");
+  itkDebugMacro("PrepareData: Copy input to output");
 
   while (!ot.IsAtEnd())
   {
@@ -76,7 +76,7 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::PrepareData()
     ++it;
     ++ot;
   }
-  itkDebugMacro(<< "PrepareData End");
+  itkDebugMacro("PrepareData End");
 }
 
 /**
@@ -86,7 +86,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 BinaryPruningImageFilter<TInputImage, TOutputImage>::ComputePruneImage()
 {
-  itkDebugMacro(<< "ComputeThinImage Start");
+  itkDebugMacro("ComputeThinImage Start");
   OutputImagePointer pruneImage = GetPruning();
 
   typename OutputImageType::RegionType region = pruneImage->GetRequestedRegion();
@@ -128,7 +128,7 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::ComputePruneImage()
     }
     ++count;
   }
-  itkDebugMacro(<< "ComputeThinImage End");
+  itkDebugMacro("ComputeThinImage End");
 }
 
 /**
@@ -140,7 +140,7 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   this->PrepareData();
 
-  itkDebugMacro(<< "GenerateData: Computing Thinning Image");
+  itkDebugMacro("GenerateData: Computing Thinning Image");
   this->ComputePruneImage();
 } // end GenerateData()
 

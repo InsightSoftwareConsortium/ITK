@@ -402,7 +402,7 @@ VoxBoCUBImageIO::CanReadFile(const char * filename)
 
   if (reader == nullptr)
   {
-    itkDebugMacro(<< "The file is not a valid CUB file");
+    itkDebugMacro("The file is not a valid CUB file");
     return false;
   }
 
@@ -761,7 +761,7 @@ VoxBoCUBImageIO::CheckExtension(const char * filename, bool & isCompressed)
 
   if (fname.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 

@@ -206,7 +206,7 @@ VXLVideoIO::CanReadFile(const char * filename)
   std::string fname = filename;
   if (fname == "")
   {
-    itkDebugMacro(<< "NoFilename specified");
+    itkDebugMacro("NoFilename specified");
     return false;
   }
 
@@ -228,7 +228,7 @@ VXLVideoIO::CanReadFile(const char * filename)
   }
   if (!extensionFound)
   {
-    itkDebugMacro(<< "Unrecognized file extension");
+    itkDebugMacro("Unrecognized file extension");
     return false;
   }
 
@@ -356,7 +356,7 @@ VXLVideoIO::Read(void * buffer)
   // Advance to the next frame if possible
   if (!this->m_Reader->advance())
   {
-    itkDebugMacro(<< "Could not advance to the next frame");
+    itkDebugMacro("Could not advance to the next frame");
   }
 
   // Read the current frame
@@ -413,7 +413,7 @@ VXLVideoIO::SetNextFrameToRead(FrameOffsetType frameNumber)
   // Make sure we're not setting past the end
   if (frameNumber > this->m_LastIFrame)
   {
-    itkDebugMacro(<< "Warning: Trying to seek past end of video (past last I-Frame)");
+    itkDebugMacro("Warning: Trying to seek past end of video (past last I-Frame)");
     return false;
   }
 

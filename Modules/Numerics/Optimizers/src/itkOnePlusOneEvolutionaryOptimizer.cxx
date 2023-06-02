@@ -120,8 +120,8 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
     }
   }
 
-  itkDebugMacro(<< ": initial position: " << parentPosition);
-  itkDebugMacro(<< ": initial fitness: " << pvalue);
+  itkDebugMacro(": initial position: " << parentPosition);
+  itkDebugMacro(": initial fitness: " << pvalue);
 
   this->SetCurrentPosition(parentPosition);
   const Optimizer::ScalesType & scales = this->GetScales();
@@ -187,20 +187,20 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
       }
     }
 
-    itkDebugMacro(<< "iter: " << iter << ": parent position: " << parentPosition);
-    itkDebugMacro(<< "iter: " << iter << ": parent fitness: " << pvalue);
-    itkDebugMacro(<< "iter: " << iter << ": random vector: " << f_norm);
-    itkDebugMacro(<< "iter: " << iter << ": A: " << std::endl << A);
-    itkDebugMacro(<< "iter: " << iter << ": delta: " << delta);
-    itkDebugMacro(<< "iter: " << iter << ": child position: " << childPosition);
-    itkDebugMacro(<< "iter: " << iter << ": child fitness: " << cvalue);
+    itkDebugMacro("iter: " << iter << ": parent position: " << parentPosition);
+    itkDebugMacro("iter: " << iter << ": parent fitness: " << pvalue);
+    itkDebugMacro("iter: " << iter << ": random vector: " << f_norm);
+    itkDebugMacro("iter: " << iter << ": A: " << std::endl << A);
+    itkDebugMacro("iter: " << iter << ": delta: " << delta);
+    itkDebugMacro("iter: " << iter << ": child position: " << childPosition);
+    itkDebugMacro("iter: " << iter << ": child fitness: " << cvalue);
 
     double adjust = m_ShrinkFactor;
     if (m_Maximize)
     {
       if (cvalue > pvalue)
       {
-        itkDebugMacro(<< "iter: " << iter << ": increasing search radius");
+        itkDebugMacro("iter: " << iter << ": increasing search radius");
         pvalue = cvalue;
         parent.swap(child);
         adjust = m_GrowthFactor;
@@ -212,14 +212,14 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
       }
       else
       {
-        itkDebugMacro(<< "iter: " << iter << ": decreasing search radius");
+        itkDebugMacro("iter: " << iter << ": decreasing search radius");
       }
     }
     else
     {
       if (cvalue < pvalue)
       {
-        itkDebugMacro(<< "iter: " << iter << ": increasing search radius");
+        itkDebugMacro("iter: " << iter << ": increasing search radius");
         pvalue = cvalue;
         parent.swap(child);
         adjust = m_GrowthFactor;
@@ -231,7 +231,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
       }
       else
       {
-        itkDebugMacro(<< "iter: " << iter << ": decreasing search radius");
+        itkDebugMacro("iter: " << iter << ": decreasing search radius");
       }
     }
 
@@ -240,10 +240,10 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
     // Compute double precision sum of absolute values of
     // a single precision vector
     m_FrobeniusNorm = A.fro_norm();
-    itkDebugMacro(<< "A f-norm:" << m_FrobeniusNorm);
+    itkDebugMacro("A f-norm:" << m_FrobeniusNorm);
     if (m_FrobeniusNorm <= m_Epsilon)
     {
-      itkDebugMacro(<< "converges at iteration = " << iter);
+      itkDebugMacro("converges at iteration = " << iter);
       m_StopConditionDescription.str("");
       m_StopConditionDescription << this->GetNameOfClass() << ": "
                                  << "Fnorm (" << m_FrobeniusNorm << ") is less than Epsilon (" << m_Epsilon
@@ -275,7 +275,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
     }
 
     this->InvokeEvent(IterationEvent());
-    itkDebugMacro(<< "Current position: " << this->GetCurrentPosition());
+    itkDebugMacro("Current position: " << this->GetCurrentPosition());
   }
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": "

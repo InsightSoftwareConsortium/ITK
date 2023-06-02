@@ -813,7 +813,7 @@ GDCMImageIO::CanWriteFile(const char * name)
 
   if (filename.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -1001,7 +1001,7 @@ GDCMImageIO::Write(const void * buffer)
       }
       else
       {
-        itkDebugMacro(<< "GDCMImageIO: non-DICOM and non-ITK standard key = " << key);
+        itkDebugMacro("GDCMImageIO: non-DICOM and non-ITK standard key = " << key);
       }
     }
 

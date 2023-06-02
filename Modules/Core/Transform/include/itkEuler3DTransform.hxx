@@ -70,7 +70,7 @@ template <typename TParametersValueType>
 void
 Euler3DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  itkDebugMacro(<< "Setting parameters " << parameters);
+  itkDebugMacro("Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if (&parameters != &(this->m_Parameters))
@@ -96,7 +96,7 @@ Euler3DTransform<TParametersValueType>::SetParameters(const ParametersType & par
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<< "After setting parameters ");
+  itkDebugMacro("After setting parameters ");
 }
 
 template <typename TParametersValueType>

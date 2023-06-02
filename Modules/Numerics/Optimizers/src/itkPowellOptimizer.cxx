@@ -74,7 +74,7 @@ PowellOptimizer::GetLineValue(double x, ParametersType & tempCoord) const
   {
     tempCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
   }
-  itkDebugMacro(<< "x = " << x);
+  itkDebugMacro("x = " << x);
   double val;
   try
   {
@@ -95,7 +95,7 @@ PowellOptimizer::GetLineValue(double x, ParametersType & tempCoord) const
   {
     val = -val;
   }
-  itkDebugMacro(<< "val = " << val);
+  itkDebugMacro("val = " << val);
   return val;
 }
 
@@ -207,7 +207,7 @@ PowellOptimizer::LineBracket(double *         x1,
     *f3 = this->GetLineValue(*x3, tempCoord);
   }
 
-  itkDebugMacro(<< "Initial: " << *x1 << ", " << *x2 << ", " << *x3);
+  itkDebugMacro("Initial: " << *x1 << ", " << *x2 << ", " << *x3);
   //
   // Report the central point as the minimum
   //
@@ -282,9 +282,9 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
       *extX = x;
       *extVal = functionValueOfX;
       this->SetCurrentLinePoint(x, functionValueOfX);
-      itkDebugMacro(<< "x = " << *extX);
-      itkDebugMacro(<< "val = " << *extVal);
-      itkDebugMacro(<< "return 1");
+      itkDebugMacro("x = " << *extX);
+      itkDebugMacro("val = " << *extVal);
+      itkDebugMacro("return 1");
       return; /* Acceptable approx. is found  */
     }
 
@@ -395,9 +395,9 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
 
   *extX = x;
   *extVal = functionValueOfX;
-  itkDebugMacro(<< "x = " << *extX);
-  itkDebugMacro(<< "val = " << *extVal);
-  itkDebugMacro(<< "return 2");
+  itkDebugMacro("x = " << *extX);
+  itkDebugMacro("val = " << *extVal);
+  itkDebugMacro("return 2");
 
   this->SetCurrentLinePoint(x, functionValueOfX);
 }

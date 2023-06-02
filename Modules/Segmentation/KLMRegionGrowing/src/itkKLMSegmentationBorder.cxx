@@ -89,16 +89,16 @@ KLMSegmentationBorder::EvaluateLambda()
 void
 KLMSegmentationBorder::PrintBorderInfo()
 {
-  itkDebugMacro(<< "------------------------------");
-  itkDebugMacro(<< "Location      : " << this);
-  itkDebugMacro(<< "Lambda        : " << m_Lambda);
-  itkDebugMacro(<< "Region1       : " << this->GetRegion1());
-  itkDebugMacro(<< "Region 1 Label: " << (this->GetRegion1()->GetRegionLabel()));
-  itkDebugMacro(<< "Region2       : " << this->GetRegion2());
-  itkDebugMacro(<< "Region 2 Label: " << (this->GetRegion2()->GetRegionLabel()));
-  itkDebugMacro(<< "++++++++++++++++++++++++++++++");
-  itkDebugMacro(<< "------------------------------");
-  itkDebugMacro(<< "------------------------------");
+  itkDebugMacro("------------------------------");
+  itkDebugMacro("Location      : " << this);
+  itkDebugMacro("Lambda        : " << m_Lambda);
+  itkDebugMacro("Region1       : " << this->GetRegion1());
+  itkDebugMacro("Region 1 Label: " << (this->GetRegion1()->GetRegionLabel()));
+  itkDebugMacro("Region2       : " << this->GetRegion2());
+  itkDebugMacro("Region 2 Label: " << (this->GetRegion2()->GetRegionLabel()));
+  itkDebugMacro("++++++++++++++++++++++++++++++");
+  itkDebugMacro("------------------------------");
+  itkDebugMacro("------------------------------");
 
   std::cout << "Location      : " << this << std::endl << "Lambda        : " << m_Lambda << std::endl;
 }

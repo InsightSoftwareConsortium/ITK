@@ -109,7 +109,7 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
 {
   unsigned int i;
 
-  itkDebugMacro(<< "PointSetToImageFilter::Update() called");
+  itkDebugMacro("PointSetToImageFilter::Update() called");
 
   // Get the input and output pointers
   const InputPointSetType * InputPointSet = this->GetInput();
@@ -220,7 +220,7 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
     ++pointItr;
   }
 
-  itkDebugMacro(<< "PointSetToImageFilter::Update() finished");
+  itkDebugMacro("PointSetToImageFilter::Update() finished");
 } // end update function
 
 template <typename TInputPointSet, typename TOutputImage>

@@ -105,7 +105,7 @@ GiplImageIO::CanReadFile(const char * filename)
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 
@@ -183,14 +183,14 @@ GiplImageIO::CanWriteFile(const char * name)
 
   if (filename.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
   }
 
   bool extensionFound = CheckExtension(name);
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 
@@ -1108,7 +1108,7 @@ GiplImageIO::CheckExtension(const char * filename)
 
   if (fname.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 

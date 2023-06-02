@@ -632,7 +632,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   int          goodInput, goodOutput;
 
   // Are the regions non-empty?
-  itkDebugMacro(<< "MirrorPadImageFilter::DynamicThreadedGenerateData");
+  itkDebugMacro("MirrorPadImageFilter::DynamicThreadedGenerateData");
 
   // Get the input and output pointers
   const InputImageType * inputPtr = this->GetInput();

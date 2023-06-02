@@ -52,8 +52,8 @@ GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coef
     }
     if (coeff.size() > m_MaximumKernelWidth)
     {
-      itkDebugMacro(<< "Kernel size has exceeded the specified maximum width of " << m_MaximumKernelWidth
-                    << " and has been truncated to " << coeff.size()
+      itkDebugMacro("Kernel size has exceeded the specified maximum width of "
+                    << m_MaximumKernelWidth << " and has been truncated to " << coeff.size()
                     << " elements.  You can raise the maximum width using the SetMaximumKernelWidth method.");
       break;
     }

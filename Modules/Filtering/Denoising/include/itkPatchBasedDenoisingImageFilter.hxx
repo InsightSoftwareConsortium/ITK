@@ -171,14 +171,15 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
   // Pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(voxelNeighborhoodSize);
 
-  itkDebugMacro(<< "Padding inputRequestedRegion by " << voxelNeighborhoodSize << '\n'
+  itkDebugMacro("Padding inputRequestedRegion by "
+                << voxelNeighborhoodSize << '\n'
                 << "inputRequestedRegion: " << inputRequestedRegion << '\n'
                 << "largestPossibleRegion: " << inputPtr->GetLargestPossibleRegion());
 
   // Crop the input requested region at the input's largest possible region
   if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
   {
-    itkDebugMacro(<< "Cropped inputRequestedRegion to: " << inputRequestedRegion);
+    itkDebugMacro("Cropped inputRequestedRegion to: " << inputRequestedRegion);
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
   }
@@ -245,9 +246,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
   // For automatic sigma estimation, can't use more than 100% of pixels.
   m_SigmaUpdateDecimationFactor = std::max(m_SigmaUpdateDecimationFactor, 1u);
 
-  itkDebugMacro(<< "m_KernelBandwidthFractionPixelsForEstimation: " << m_KernelBandwidthFractionPixelsForEstimation
-                << ", "
-                << "m_SigmaUpdateDecimationFactor: " << m_SigmaUpdateDecimationFactor);
+  itkDebugMacro("m_KernelBandwidthFractionPixelsForEstimation: " << m_KernelBandwidthFractionPixelsForEstimation << ", "
+                                                                 << "m_SigmaUpdateDecimationFactor: "
+                                                                 << m_SigmaUpdateDecimationFactor);
 
   // Get the number of components per pixel in the input image.
   m_NumPixelComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
@@ -342,7 +343,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
     }
   }
 
-  itkDebugMacro(<< "Image Intensity range: [" << m_ImageMin << ',' << m_ImageMax << "], "
+  itkDebugMacro("Image Intensity range: ["
+                << m_ImageMin << ',' << m_ImageMax << "], "
                 << "IntensityRescaleInvFactor: " << m_IntensityRescaleInvFactor << " , "
                 << "KernelBandwidthMultiplicationFactor: " << m_KernelBandwidthMultiplicationFactor << " , "
                 << "KernelBandwidthSigma initialized to: " << m_KernelBandwidthSigma);
@@ -752,11 +754,11 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
     threadData.minNorm[0] = std::sqrt(minNorm[0]);
     threadData.maxNorm[0] = std::sqrt(maxNorm[0]);
 
-    itkDebugMacro(<< "threadData minNorm: " << minNorm[0] << ", maxNorm: " << maxNorm[0]);
+    itkDebugMacro("threadData minNorm: " << minNorm[0] << ", maxNorm: " << maxNorm[0]);
   }
   else
   {
-    itkDebugMacro(<< "no pixels in this region");
+    itkDebugMacro("no pixels in this region");
   }
   return threadData;
 }
@@ -791,7 +793,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveRiemannianMinM
     }
   }
 
-  itkDebugMacro(<< "image min resolved to: " << m_ImageMin << ", image max resolved to: " << m_ImageMax);
+  itkDebugMacro("image min resolved to: " << m_ImageMin << ", image max resolved to: " << m_ImageMax);
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -1649,7 +1651,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
     else
     {
       InputImagePatchIterator queryIt = sampler->GetSample()->GetMeasurementVector(currentPatchId)[0];
-      itkDebugMacro(<< "unexpected index for current patch, search results are empty."
+      itkDebugMacro("unexpected index for current patch, search results are empty."
                     << "\ncurrent patch id: " << currentPatchId << "\ncurrent patch index: " << nIndex
                     << "\nindex calculated by searcher: " << queryIt.GetIndex(queryIt.GetCenterNeighborhoodIndex())
                     << "\npatch accessed by searcher: ");
@@ -1831,7 +1833,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveSigmaUpdate() 
       continue;
     }
 
-    itkDebugMacro(<< "Resolving sigma update for pixel component " << ic);
+    itkDebugMacro("Resolving sigma update for pixel component " << ic);
 
     // Accumulate the first and second derivatives from all the threads
     const RealValueType kernelSigma = m_KernelBandwidthSigma[ic];
@@ -1849,15 +1851,15 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveSigmaUpdate() 
     firstDerivative /= static_cast<RealValueType>(m_TotalNumberPixels);
     secondDerivative /= static_cast<RealValueType>(m_TotalNumberPixels);
 
-    itkDebugMacro(<< "first deriv: " << firstDerivative << ", second deriv: " << secondDerivative
-                  << ", old sigma: " << kernelSigma);
+    itkDebugMacro("first deriv: " << firstDerivative << ", second deriv: " << secondDerivative
+                                  << ", old sigma: " << kernelSigma);
 
     // If second derivative is zero or negative, compute update using gradient
     // descent
     if ((Math::ExactlyEquals(itk::Math::abs(secondDerivative), NumericTraits<RealValueType>::ZeroValue())) ||
         (secondDerivative < 0))
     {
-      itkDebugMacro(<< "** Second derivative NOT POSITIVE");
+      itkDebugMacro("** Second derivative NOT POSITIVE");
       sigmaUpdate[ic] = -itk::Math::sgn(firstDerivative) * kernelSigma * 0.3;
     }
     else
@@ -1866,30 +1868,30 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveSigmaUpdate() 
       sigmaUpdate[ic] = -firstDerivative / secondDerivative;
     }
 
-    itkDebugMacro(<< "update: " << sigmaUpdate[ic]);
+    itkDebugMacro("update: " << sigmaUpdate[ic]);
 
     // Avoid very large updates to prevent instabilities in Newton-Raphson
     if (itk::Math::abs(sigmaUpdate[ic]) > kernelSigma * 0.3)
     {
-      itkDebugMacro(<< "** Restricting large updates \n");
+      itkDebugMacro("** Restricting large updates \n");
       sigmaUpdate[ic] = itk::Math::sgn(sigmaUpdate[ic]) * kernelSigma * 0.3;
 
-      itkDebugMacro(<< "update: " << sigmaUpdate[ic]);
+      itkDebugMacro("update: " << sigmaUpdate[ic]);
     }
 
     // keep the updated sigma from being too close to zero
     if (kernelSigma + sigmaUpdate[ic] < m_MinSigma)
     {
-      itkDebugMacro(<< "** TOO SMALL SIGMA: adjusting sigma");
+      itkDebugMacro("** TOO SMALL SIGMA: adjusting sigma");
       m_KernelBandwidthSigma[ic] = (kernelSigma + m_MinSigma) / 2.0;
 
-      itkDebugMacro(<< "new sigma: " << m_KernelBandwidthSigma[ic]);
+      itkDebugMacro("new sigma: " << m_KernelBandwidthSigma[ic]);
     }
     else
     {
       m_KernelBandwidthSigma[ic] = kernelSigma + sigmaUpdate[ic];
 
-      itkDebugMacro(<< "new sigma: " << m_KernelBandwidthSigma[ic]);
+      itkDebugMacro("new sigma: " << m_KernelBandwidthSigma[ic]);
     }
   } // end for each independent pixel component
 

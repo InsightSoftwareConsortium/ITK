@@ -89,7 +89,7 @@ template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
 void
 DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::PrepareData()
 {
-  itkDebugMacro(<< "PrepareData Start");
+  itkDebugMacro("PrepareData Start");
   VoronoiImagePointer voronoiMap = this->GetVoronoiMap();
 
   InputImagePointer inputImage = dynamic_cast<const InputImageType *>(ProcessObject::GetInput(0));
@@ -129,7 +129,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
   ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, region);
   ImageRegionIteratorWithIndex<VoronoiImageType>    ot(voronoiMap, region);
 
-  itkDebugMacro(<< "PrepareData: Copy input to output");
+  itkDebugMacro("PrepareData: Copy input to output");
   if (m_InputIsBinary)
   {
     VoronoiPixelType npt = 1;
@@ -178,7 +178,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
     minValue[j] = 0;
   }
 
-  itkDebugMacro(<< "PrepareData: Copy output to ct");
+  itkDebugMacro("PrepareData: Copy output to ct");
 
   // Iterate over the input image and distanceComponents image.
   // Wherever the input image is non-zero, initialize the distanceComponents image to the minValue.
@@ -197,14 +197,14 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
     ++it;
     ++ct;
   }
-  itkDebugMacro(<< "PrepareData End");
+  itkDebugMacro("PrepareData End");
 }
 
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
 void
 DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::ComputeVoronoiMap()
 {
-  itkDebugMacro(<< "ComputeVoronoiMap Start");
+  itkDebugMacro("ComputeVoronoiMap Start");
   VoronoiImagePointer voronoiMap = this->GetVoronoiMap();
   OutputImagePointer  distanceMap = this->GetDistanceMap();
   VectorImagePointer  distanceComponents = this->GetVectorDistanceMap();
@@ -215,7 +215,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
   ImageRegionIteratorWithIndex<VectorImageType>  ct(distanceComponents, region);
   ImageRegionIteratorWithIndex<OutputImageType>  dt(distanceMap, region);
 
-  itkDebugMacro(<< "ComputeVoronoiMap Region: " << region);
+  itkDebugMacro("ComputeVoronoiMap Region: " << region);
   while (!ot.IsAtEnd())
   {
     IndexType index = ct.GetIndex() + ct.Get();
@@ -254,7 +254,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
     ++ct;
     ++dt;
   }
-  itkDebugMacro(<< "ComputeVoronoiMap End");
+  itkDebugMacro("ComputeVoronoiMap End");
 }
 
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
@@ -307,7 +307,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
 
   RegionType region = voronoiMap->GetRequestedRegion();
 
-  itkDebugMacro(<< "Region to process: " << region);
+  itkDebugMacro("Region to process: " << region);
 
   // Instantiate reflective iterator
 
@@ -359,7 +359,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
 
   SizeValueType i = 0;
 
-  itkDebugMacro(<< "GenerateData: Computing distance transform");
+  itkDebugMacro("GenerateData: Computing distance transform");
   while (!it.IsAtEnd())
   {
     if (!(i % updateVisits))
@@ -399,7 +399,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
     ++inputIt;
   }
 
-  itkDebugMacro(<< "GenerateData: ComputeVoronoiMap");
+  itkDebugMacro("GenerateData: ComputeVoronoiMap");
 
   this->ComputeVoronoiMap();
 }

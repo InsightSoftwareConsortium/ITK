@@ -114,7 +114,7 @@ template <typename THistogram, typename TImage, typename TFunction>
 void
 HistogramToImageFilter<THistogram, TImage, TFunction>::GenerateData()
 {
-  itkDebugMacro(<< "HistogramToImageFilter::Update() called");
+  itkDebugMacro("HistogramToImageFilter::Update() called");
 
   this->AllocateOutputs();
 

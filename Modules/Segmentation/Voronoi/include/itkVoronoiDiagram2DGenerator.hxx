@@ -399,7 +399,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::ConstructDiagram()
         }
         else
         {
-          itkDebugMacro(<< "Numerical problem 1" << curr[0] << ' ' << curr1[1]);
+          itkDebugMacro("Numerical problem 1" << curr[0] << ' ' << curr1[1]);
         }
       }
     }

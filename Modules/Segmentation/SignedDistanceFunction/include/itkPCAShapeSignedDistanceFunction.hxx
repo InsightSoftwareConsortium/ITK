@@ -168,14 +168,14 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension, TImage>::Evaluate(con
   // transform the point into the shape model space
   PointType mappedPoint = m_Transform->TransformPoint(point);
 
-  itkDebugMacro(<< "mappedPoint:" << mappedPoint);
+  itkDebugMacro("mappedPoint:" << mappedPoint);
 
   using RealType = typename NumericTraits<OutputType>::RealType;
   RealType output;
 
   if (!m_Interpolators[0]->IsInsideBuffer(mappedPoint))
   {
-    itkDebugMacro(<< "use extrapolator");
+    itkDebugMacro("use extrapolator");
     output = m_Extrapolators[0]->Evaluate(mappedPoint);
 
     for (unsigned int i = 0; i < m_NumberOfPrincipalComponents; ++i)
@@ -186,7 +186,7 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension, TImage>::Evaluate(con
   }
   else
   {
-    itkDebugMacro(<< "use interpolator");
+    itkDebugMacro("use interpolator");
     output = m_Interpolators[0]->Evaluate(mappedPoint);
 
     for (unsigned int i = 0; i < m_NumberOfPrincipalComponents; ++i)

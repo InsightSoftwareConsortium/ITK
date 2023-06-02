@@ -361,7 +361,7 @@ Object::Modified() const
 void
 Object::Register() const
 {
-  itkDebugMacro(<< "Registered, "
+  itkDebugMacro("Registered, "
                 << "ReferenceCount = " << (m_ReferenceCount + 1));
 
   // call the parent
@@ -375,7 +375,7 @@ void
 Object::UnRegister() const noexcept
 {
   // call the parent
-  itkDebugMacro(<< "UnRegistered, "
+  itkDebugMacro("UnRegistered, "
                 << "ReferenceCount = " << (m_ReferenceCount - 1));
 
   if ((m_ReferenceCount - 1) <= 0)
@@ -415,7 +415,7 @@ Object::UnRegister() const noexcept
 void
 Object::SetReferenceCount(int ref)
 {
-  itkDebugMacro(<< "Reference Count set to " << ref);
+  itkDebugMacro("Reference Count set to " << ref);
 
   // ReferenceCount in now unlocked.  We may have a race condition to
   // to delete the object.
@@ -561,7 +561,7 @@ Object::Object()
 
 Object::~Object()
 {
-  itkDebugMacro(<< "Destructing!");
+  itkDebugMacro("Destructing!");
 }
 
 /**

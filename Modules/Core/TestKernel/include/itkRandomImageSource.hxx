@@ -213,7 +213,7 @@ template <typename TOutputImage>
 void
 RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  itkDebugMacro(<< "Generating a random image of scalars");
+  itkDebugMacro("Generating a random image of scalars");
 
 
   using scalarType = typename TOutputImage::PixelType;

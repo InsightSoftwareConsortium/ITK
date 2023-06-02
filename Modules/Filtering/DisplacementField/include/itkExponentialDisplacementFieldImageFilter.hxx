@@ -66,7 +66,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  itkDebugMacro(<< "Actually executing");
+  itkDebugMacro("Actually executing");
 
   InputImageConstPointer inputPtr = this->GetInput();
 

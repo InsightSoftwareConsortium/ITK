@@ -123,14 +123,14 @@ LSMImageIO::CanReadFile(const char * filename)
 
   if (fname.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
 
   if (!this->HasSupportedReadExtension(filename))
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 
@@ -269,7 +269,7 @@ LSMImageIO::Write(const void * buffer)
   TIFF * tif = TIFFOpen(m_FileName.c_str(), "w");
   if (!tif)
   {
-    itkDebugMacro(<< "Returning");
+    itkDebugMacro("Returning");
     return;
   }
 
@@ -354,7 +354,7 @@ LSMImageIO::Write(const void * buffer)
     {
       predictor = 2;
       TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
-      itkDebugMacro(<< "LZW compression is patented outside US so it is disabled");
+      itkDebugMacro("LZW compression is patented outside US so it is disabled");
     }
     else if (compression == COMPRESSION_DEFLATE)
     {

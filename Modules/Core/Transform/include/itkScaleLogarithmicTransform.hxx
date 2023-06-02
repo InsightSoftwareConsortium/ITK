@@ -49,7 +49,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 ScaleLogarithmicTransform<TParametersValueType, VDimension>::GetParameters() const -> const ParametersType &
 {
-  itkDebugMacro(<< "Getting parameters ");
+  itkDebugMacro("Getting parameters ");
 
   const ScaleType & scales = this->GetScale();
   // Transfer the translation part
@@ -58,7 +58,7 @@ ScaleLogarithmicTransform<TParametersValueType, VDimension>::GetParameters() con
     this->m_Parameters[i] = std::log(scales[i]);
   }
 
-  itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
+  itkDebugMacro("After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
 }

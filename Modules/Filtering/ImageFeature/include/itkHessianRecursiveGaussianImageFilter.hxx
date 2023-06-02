@@ -147,7 +147,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  itkDebugMacro(<< "HessianRecursiveGaussianImageFilter generating data ");
+  itkDebugMacro("HessianRecursiveGaussianImageFilter generating data ");
 
   // Create a process accumulator for tracking the progress of this
   // minipipeline

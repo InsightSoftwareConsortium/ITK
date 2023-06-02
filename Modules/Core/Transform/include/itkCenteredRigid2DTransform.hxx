@@ -39,7 +39,7 @@ template <typename TParametersValueType>
 void
 CenteredRigid2DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  itkDebugMacro(<< "Setting parameters " << parameters);
+  itkDebugMacro("Setting parameters " << parameters);
   // Parameters are ordered as:
   //
   // p[0]   = angle
@@ -81,7 +81,7 @@ CenteredRigid2DTransform<TParametersValueType>::SetParameters(const ParametersTy
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<< "After setting parameters ");
+  itkDebugMacro("After setting parameters ");
 }
 
 
@@ -89,7 +89,7 @@ template <typename TParametersValueType>
 auto
 CenteredRigid2DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
-  itkDebugMacro(<< "Getting parameters ");
+  itkDebugMacro("Getting parameters ");
   // Parameters are ordered as:
   //
   // p[0]   = angle
@@ -110,7 +110,7 @@ CenteredRigid2DTransform<TParametersValueType>::GetParameters() const -> const P
     this->m_Parameters[j + 1 + SpaceDimension] = this->GetTranslation()[j];
   }
 
-  itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
+  itkDebugMacro("After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
 }

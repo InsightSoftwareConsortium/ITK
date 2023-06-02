@@ -89,11 +89,11 @@ LandmarkDisplacementFieldSource<TOutputImage>::PrepareKernelBaseSpline()
   m_KernelTransform->GetModifiableTargetLandmarks()->SetPoints(targets);
   m_KernelTransform->GetModifiableSourceLandmarks()->SetPoints(sources);
 
-  itkDebugMacro(<< "Before ComputeWMatrix() ");
+  itkDebugMacro("Before ComputeWMatrix() ");
 
   m_KernelTransform->ComputeWMatrix();
 
-  itkDebugMacro(<< "After ComputeWMatrix() ");
+  itkDebugMacro("After ComputeWMatrix() ");
 }
 
 /**
@@ -107,7 +107,7 @@ LandmarkDisplacementFieldSource<TOutputImage>::GenerateData()
   // the KernelBased spline.
   this->PrepareKernelBaseSpline();
 
-  itkDebugMacro(<< "Actually executing");
+  itkDebugMacro("Actually executing");
 
   // Get the output pointers
   OutputImageType * outputPtr = this->GetOutput();

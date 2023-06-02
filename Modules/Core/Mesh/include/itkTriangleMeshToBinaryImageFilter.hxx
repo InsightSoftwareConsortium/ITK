@@ -135,7 +135,7 @@ template <typename TInputMesh, typename TOutputImage>
 void
 TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GenerateData()
 {
-  itkDebugMacro(<< "TriangleMeshToBinaryImageFilter::Update() called");
+  itkDebugMacro("TriangleMeshToBinaryImageFilter::Update() called");
 
   // Get the input and output pointers
   OutputImagePointer OutputImage = this->GetOutput();
@@ -155,7 +155,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GenerateData()
   }
   else
   {
-    itkDebugMacro(<< "Using info image");
+    itkDebugMacro("Using info image");
     m_InfoImage->Update();
     OutputImage->CopyInformation(m_InfoImage);
     OutputImage->SetRegions(m_InfoImage->GetLargestPossibleRegion());
@@ -170,7 +170,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GenerateData()
 
   RasterizeTriangles();
 
-  itkDebugMacro(<< "TriangleMeshToBinaryImageFilter::Update() finished");
+  itkDebugMacro("TriangleMeshToBinaryImageFilter::Update() finished");
 }
 
 template <typename TInputMesh, typename TOutputImage>

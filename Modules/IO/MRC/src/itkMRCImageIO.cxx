@@ -79,7 +79,7 @@ MRCImageIO::CanReadFile(const char * filename)
     return false;
   }
 
-  itkDebugMacro(<< "Reading Magic numbers " << filename);
+  itkDebugMacro("Reading Magic numbers " << filename);
   char map[4];
   char stamp[4];
 
@@ -233,7 +233,7 @@ MRCImageIO::InternalReadImageInformation(std::ifstream & file)
 
   m_MRCHeader = MRCHeaderObject::New();
 
-  itkDebugMacro(<< "Reading Information ");
+  itkDebugMacro("Reading Information ");
 
   this->OpenFileForReading(file, m_FileName);
 

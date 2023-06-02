@@ -97,7 +97,7 @@ JPEGImageIO::CanReadFile(const char * file)
 
   if (filename.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -105,7 +105,7 @@ JPEGImageIO::CanReadFile(const char * file)
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 

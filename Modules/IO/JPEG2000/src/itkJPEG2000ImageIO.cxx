@@ -109,7 +109,7 @@ JPEG2000ImageIO::PrintSelf(std::ostream & os, Indent indent) const
 bool
 JPEG2000ImageIO::CanReadFile(const char * filename)
 {
-  itkDebugMacro(<< "JPEG2000ImageIO::CanReadFile()");
+  itkDebugMacro("JPEG2000ImageIO::CanReadFile()");
 
   //
   // If the file exists, and have extension .j2k or jp2 or jpt, then we are good
@@ -117,7 +117,7 @@ JPEG2000ImageIO::CanReadFile(const char * filename)
   //
   if (!itksys::SystemTools::FileExists(filename))
   {
-    itkDebugMacro(<< "File doesn't exist");
+    itkDebugMacro("File doesn't exist");
     return false;
   }
 
@@ -137,7 +137,7 @@ JPEG2000ImageIO::SetTileSize(int x, int y)
 void
 JPEG2000ImageIO::ReadImageInformation()
 {
-  itkDebugMacro(<< "ReadImageInformation()");
+  itkDebugMacro("ReadImageInformation()");
 
   FILE * l_file = fopen(this->m_FileName.c_str(), "rb");
 
@@ -257,7 +257,7 @@ JPEG2000ImageIO::ReadImageInformation()
   OPJ_UINT32 l_nb_tiles_x;
   OPJ_UINT32 l_nb_tiles_y;
 
-  itkDebugMacro(<< "Trying to read header now...");
+  itkDebugMacro("Trying to read header now...");
 
   bResult = opj_read_header(this->m_Internal->m_Dinfo,
                             &l_image,
@@ -293,7 +293,7 @@ JPEG2000ImageIO::ReadImageInformation()
   this->m_Internal->m_NumberOfTilesInY = l_nb_tiles_y;
 
 
-  itkDebugMacro(<< "Number of Components = " << l_image->numcomps);
+  itkDebugMacro("Number of Components = " << l_image->numcomps);
   this->SetNumberOfComponents(l_image->numcomps);
 
   if (l_image->comps[0].prec == 8)
@@ -329,17 +329,17 @@ JPEG2000ImageIO::ReadImageInformation()
       this->SetPixelType(IOPixelEnum::VECTOR);
   }
 
-  itkDebugMacro(<< "bits per pixel = " << l_image->comps[0].prec);
-  itkDebugMacro(<< "Color space = " << l_image->color_space);
-  itkDebugMacro(<< "Tile Start X = " << this->m_Internal->m_TileStartX);
-  itkDebugMacro(<< "Tile Start Y = " << this->m_Internal->m_TileStartY);
-  itkDebugMacro(<< "Tile Width = " << this->m_Internal->m_TileWidth);
-  itkDebugMacro(<< "Tile Height = " << this->m_Internal->m_TileHeight);
-  itkDebugMacro(<< "Number of Tiles X = " << this->m_Internal->m_NumberOfTilesInX);
-  itkDebugMacro(<< "Number of Tiles Y = " << this->m_Internal->m_NumberOfTilesInY);
+  itkDebugMacro("bits per pixel = " << l_image->comps[0].prec);
+  itkDebugMacro("Color space = " << l_image->color_space);
+  itkDebugMacro("Tile Start X = " << this->m_Internal->m_TileStartX);
+  itkDebugMacro("Tile Start Y = " << this->m_Internal->m_TileStartY);
+  itkDebugMacro("Tile Width = " << this->m_Internal->m_TileWidth);
+  itkDebugMacro("Tile Height = " << this->m_Internal->m_TileHeight);
+  itkDebugMacro("Number of Tiles X = " << this->m_Internal->m_NumberOfTilesInX);
+  itkDebugMacro("Number of Tiles Y = " << this->m_Internal->m_NumberOfTilesInY);
 
-  itkDebugMacro(<< "image->x1 = " << l_image->x1);
-  itkDebugMacro(<< "image->y1 = " << l_image->y1);
+  itkDebugMacro("image->x1 = " << l_image->x1);
+  itkDebugMacro("image->y1 = " << l_image->y1);
 
   this->SetDimensions(0, l_image->x1);
   this->SetDimensions(1, l_image->y1);
@@ -366,7 +366,7 @@ JPEG2000ImageIO::ReadImageInformation()
 void
 JPEG2000ImageIO::Read(void * buffer)
 {
-  itkDebugMacro(<< "JPEG2000ImageIO::Read() Begin");
+  itkDebugMacro("JPEG2000ImageIO::Read() Begin");
 
   FILE * l_file = fopen(this->m_FileName.c_str(), "rb");
 
@@ -493,15 +493,15 @@ JPEG2000ImageIO::Read(void * buffer)
   auto p_end_x = static_cast<OPJ_INT32>(startx + sizex);
   auto p_end_y = static_cast<OPJ_INT32>(starty + sizey);
 
-  itkDebugMacro(<< "opj_set_decode_area() before");
-  itkDebugMacro(<< "p_start_x = " << p_start_x);
-  itkDebugMacro(<< "p_start_y = " << p_start_y);
-  itkDebugMacro(<< "p_end_x = " << p_end_x);
-  itkDebugMacro(<< "p_end_y = " << p_end_y);
+  itkDebugMacro("opj_set_decode_area() before");
+  itkDebugMacro("p_start_x = " << p_start_x);
+  itkDebugMacro("p_start_y = " << p_start_y);
+  itkDebugMacro("p_end_x = " << p_end_x);
+  itkDebugMacro("p_end_y = " << p_end_y);
 
   bResult = opj_set_decode_area(this->m_Internal->m_Dinfo, p_start_x, p_start_y, p_end_x, p_end_y);
 
-  itkDebugMacro(<< "opj_set_decode_area() after");
+  itkDebugMacro("opj_set_decode_area() after");
 
   if (!bResult)
   {
@@ -553,14 +553,14 @@ JPEG2000ImageIO::Read(void * buffer)
                                                                 << "Reason: opj_read_tile_header returns false");
     }
 
-    itkDebugMacro(<< "l_tile_index " << l_tile_index);
-    itkDebugMacro(<< "l_data_size " << l_data_size);
-    itkDebugMacro(<< "l_current_tile_x0 " << l_current_tile_x0);
-    itkDebugMacro(<< "l_current_tile_y0 " << l_current_tile_y0);
-    itkDebugMacro(<< "l_current_tile_x1 " << l_current_tile_x1);
-    itkDebugMacro(<< "l_current_tile_y1 " << l_current_tile_y1);
-    itkDebugMacro(<< "l_nb_comps " << l_nb_comps);
-    itkDebugMacro(<< "l_go_on " << l_go_on);
+    itkDebugMacro("l_tile_index " << l_tile_index);
+    itkDebugMacro("l_data_size " << l_data_size);
+    itkDebugMacro("l_current_tile_x0 " << l_current_tile_x0);
+    itkDebugMacro("l_current_tile_y0 " << l_current_tile_y0);
+    itkDebugMacro("l_current_tile_x1 " << l_current_tile_x1);
+    itkDebugMacro("l_current_tile_y1 " << l_current_tile_y1);
+    itkDebugMacro("l_nb_comps " << l_nb_comps);
+    itkDebugMacro("l_go_on " << l_go_on);
 
     if (l_go_on)
     {
@@ -578,7 +578,7 @@ JPEG2000ImageIO::Read(void * buffer)
                                                                     << "Reason: Error reallocating memory");
         }
 
-        itkDebugMacro(<< "reallocated for " << l_data_size);
+        itkDebugMacro("reallocated for " << l_data_size);
 
         l_max_data_size = l_data_size;
       }
@@ -606,8 +606,8 @@ JPEG2000ImageIO::Read(void * buffer)
       const SizeValueType sizePerComponentInBytes = l_data_size / (numberOfPixels * numberOfComponents);
       const SizeValueType sizePerChannelInBytes = l_data_size / (numberOfComponents);
 
-      itkDebugMacro(<< "sizePerComponentInBytes: " << sizePerComponentInBytes);
-      itkDebugMacro(<< "sizePerChannelInBytes:   " << sizePerChannelInBytes);
+      itkDebugMacro("sizePerComponentInBytes: " << sizePerComponentInBytes);
+      itkDebugMacro("sizePerChannelInBytes:   " << sizePerChannelInBytes);
 
       const SizeValueType sizePerStrideXInBytes = sizePerChannelInBytes / tsizey;
       const SizeValueType initialStrideInBytes =
@@ -617,11 +617,11 @@ JPEG2000ImageIO::Read(void * buffer)
       const SizeValueType postStrideInBytes =
         (p_end_x - l_current_tile_x1) * sizePerComponentInBytes * numberOfComponents;
 
-      itkDebugMacro(<< "sizePerStrideYInBytes:   " << sizePerChannelInBytes / tsizex);
-      itkDebugMacro(<< "sizePerStrideXInBytes:   " << sizePerStrideXInBytes);
-      itkDebugMacro(<< "initialStrideInBytes:    " << initialStrideInBytes);
-      itkDebugMacro(<< "priorStrideInBytes:      " << priorStrideInBytes);
-      itkDebugMacro(<< "postStrideInBytes:       " << postStrideInBytes);
+      itkDebugMacro("sizePerStrideYInBytes:   " << sizePerChannelInBytes / tsizex);
+      itkDebugMacro("sizePerStrideXInBytes:   " << sizePerStrideXInBytes);
+      itkDebugMacro("initialStrideInBytes:    " << initialStrideInBytes);
+      itkDebugMacro("priorStrideInBytes:      " << priorStrideInBytes);
+      itkDebugMacro("postStrideInBytes:       " << postStrideInBytes);
 
 
       // TODO: Read the void buffer within the tile ROI. How do we specify the
@@ -691,7 +691,7 @@ JPEG2000ImageIO::Read(void * buffer)
     free(l_data);
   }
 
-  itkDebugMacro(<< "JPEG2000ImageIO::Read() End");
+  itkDebugMacro("JPEG2000ImageIO::Read() End");
 }
 
 bool
@@ -703,7 +703,7 @@ JPEG2000ImageIO::CanWriteFile(const char * filename)
 void
 JPEG2000ImageIO::WriteImageInformation()
 {
-  itkDebugMacro(<< "WriteImageInformation()");
+  itkDebugMacro("WriteImageInformation()");
 
   // the IORegion is not required to be set so we must use GetNumberOfDimensions
   if (this->GetNumberOfDimensions() != 2)
@@ -737,7 +737,7 @@ JPEG2000ImageIO::WriteImageInformation()
 void
 JPEG2000ImageIO::Write(const void * buffer)
 {
-  itkDebugMacro(<< "Write() " << this->GetNumberOfComponents());
+  itkDebugMacro("Write() " << this->GetNumberOfComponents());
 
   bool bSuccess;
 
@@ -910,7 +910,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   // HERE, copy the buffer
   SizeValueType index = 0;
   SizeValueType numberOfPixels = SizeValueType(w) * SizeValueType(h);
-  itkDebugMacro(<< " START COPY BUFFER");
+  itkDebugMacro(" START COPY BUFFER");
   if (this->GetComponentType() == IOComponentEnum::UCHAR)
   {
     const auto * charBuffer = (const unsigned char *)buffer;
@@ -936,7 +936,7 @@ JPEG2000ImageIO::Write(const void * buffer)
       ++index;
     }
   }
-  itkDebugMacro(<< " END COPY BUFFER");
+  itkDebugMacro(" END COPY BUFFER");
   //--------------------------------------------------------------------
 
   opj_codec_t * cinfo = nullptr;
@@ -1066,8 +1066,8 @@ RequestedRegion */
 ImageIORegion
 JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const
 {
-  itkDebugMacro(<< "JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion()");
-  itkDebugMacro(<< "Requested region = " << requestedRegion);
+  itkDebugMacro("JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion()");
+  itkDebugMacro("Requested region = " << requestedRegion);
 
   ImageIORegion streamableRegion(this->m_NumberOfDimensions);
 
@@ -1084,7 +1084,7 @@ JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORe
     this->ComputeRegionInTileBoundaries(1, this->m_Internal->m_TileHeight, streamableRegion);
   }
 
-  itkDebugMacro(<< "Streamable region = " << streamableRegion);
+  itkDebugMacro("Streamable region = " << streamableRegion);
 
   return streamableRegion;
 }

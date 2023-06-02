@@ -159,7 +159,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 
   // calculate the class covariances using the sumsOfSquares, sums, and
   // classCount information
-  itkDebugMacro(<< "Estimated parameters after Kmeans filter");
+  itkDebugMacro("Estimated parameters after Kmeans filter");
   for (unsigned int i = 0; i < m_NumberOfClasses; ++i)
   {
     estimatedCovariances[i] =
@@ -169,9 +169,9 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
     {
       estimatedCovariances[i] = 0.0000001;
     }
-    itkDebugMacro(<< "cluster[" << i << "]-- ");
-    itkDebugMacro(<< " estimated mean : " << estimatedMeans[i]);
-    itkDebugMacro(<< " estimated covariance : " << estimatedCovariances[i]);
+    itkDebugMacro("cluster[" << i << "]-- ");
+    itkDebugMacro(" estimated mean : " << estimatedMeans[i]);
+    itkDebugMacro(" estimated covariance : " << estimatedCovariances[i]);
   }
 
   // Create gaussian membership functions.

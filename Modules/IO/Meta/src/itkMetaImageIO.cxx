@@ -86,7 +86,7 @@ MetaImageIO::CanReadFile(const char * filename)
 
   if (fname.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 

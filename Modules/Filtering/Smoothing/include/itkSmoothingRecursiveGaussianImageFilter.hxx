@@ -200,7 +200,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  itkDebugMacro(<< "SmoothingRecursiveGaussianImageFilter generating data ");
+  itkDebugMacro("SmoothingRecursiveGaussianImageFilter generating data ");
 
   const typename TInputImage::ConstPointer inputImage(this->GetInput());
 

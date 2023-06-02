@@ -34,7 +34,7 @@ template <typename TInputImage, typename TOutputImage, typename ResamplerType>
 void
 BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::GenerateData()
 {
-  itkDebugMacro(<< "Actually executing");
+  itkDebugMacro("Actually executing");
 
   // Get the input and output pointers
   InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());

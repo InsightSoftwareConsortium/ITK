@@ -246,7 +246,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
 
-  itkDebugMacro(<< "Actually executing");
+  itkDebugMacro("Actually executing");
 
   // Get the input and output pointers
   const TInputImage * inputPtr = this->GetInput();

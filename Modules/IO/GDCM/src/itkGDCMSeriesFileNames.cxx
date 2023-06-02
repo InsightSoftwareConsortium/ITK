@@ -170,7 +170,7 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
   }
   else
   {
-    itkDebugMacro(<< "No files were found");
+    itkDebugMacro("No files were found");
   }
 
   return m_InputFileNames;
@@ -197,7 +197,7 @@ GDCMSeriesFileNames::GetOutputFileNames()
 
   if (m_OutputDirectory.empty())
   {
-    itkDebugMacro(<< "No output directory was specified");
+    itkDebugMacro("No output directory was specified");
     return m_OutputFileNames;
   }
 
@@ -256,7 +256,7 @@ GDCMSeriesFileNames::GetOutputFileNames()
   }
   else
   {
-    itkDebugMacro(<< "No files were found.");
+    itkDebugMacro("No files were found.");
   }
 
   return m_OutputFileNames;

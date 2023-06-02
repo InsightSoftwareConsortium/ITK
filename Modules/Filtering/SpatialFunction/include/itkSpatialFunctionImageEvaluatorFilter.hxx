@@ -25,7 +25,7 @@ namespace itk
 template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>
 SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>::SpatialFunctionImageEvaluatorFilter()
 {
-  itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called");
+  itkDebugMacro("SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called");
 
   // Set the internal function to null
   this->m_PixelFunction = nullptr;
@@ -35,7 +35,7 @@ template <typename TSpatialFunction, typename TInputImage, typename TOutputImage
 void
 SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>::GenerateData()
 {
-  itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() called");
+  itkDebugMacro("SpatialFunctionImageEvaluatorFilter::GenerateData() called");
 
   // Allocate the output image
   typename TOutputImage::Pointer outputPtr = this->GetOutput();
@@ -66,7 +66,7 @@ SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>
     outIt.Set((PixelType)value);
   }
 
-  itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() finished");
+  itkDebugMacro("SpatialFunctionImageEvaluatorFilter::GenerateData() finished");
 }
 
 template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>

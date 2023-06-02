@@ -96,7 +96,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
       // This is the first pixel we've visited
       Visited.clear();
       Visited.push_back(CurrentPositionIndex);
-      itkDebugMacro(<< "Found unlabeled pixel at: " << CurrentPositionIndex << " Value: " << MinimumNeighborValue);
+      itkDebugMacro("Found unlabeled pixel at: " << CurrentPositionIndex << " Value: " << MinimumNeighborValue);
       // Search along a steepest descent path to a local minimum
       do
       {
@@ -149,8 +149,8 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
         }
         // Get the true class of this pixel
         MinimumNeighborClass = outputImage->GetPixel(MinimumNeighborIndex);
-        itkDebugMacro(<< "\tFound Neighbor at: " << MinimumNeighborIndex << " Value: " << MinimumNeighborValue
-                      << " Class: " << MinimumNeighborClass);
+        itkDebugMacro("\tFound Neighbor at: " << MinimumNeighborIndex << " Value: " << MinimumNeighborValue
+                                              << " Class: " << MinimumNeighborClass);
         // we've slid into a different class
         if (MinimumNeighborClass > 1)
         {
@@ -172,15 +172,15 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
         std::vector<IndexType> OpenList;
         OpenList.clear();
         OpenList.push_back(CurrentPositionIndex);
-        itkDebugMacro(<< "\tFinished slide at: " << CurrentPositionIndex << " Value: " << MinimumNeighborValue
-                      << " Class: " << MinimumNeighborClass);
+        itkDebugMacro("\tFinished slide at: " << CurrentPositionIndex << " Value: " << MinimumNeighborValue
+                                              << " Class: " << MinimumNeighborClass);
         while (!OpenList.empty())
         {
           // Pop the last one off
           IndexType SeedIndex = OpenList.back();
           OpenList.pop_back();
           Visited.push_back(SeedIndex);
-          itkDebugMacro(<< "Flood fill, looking at " << SeedIndex);
+          itkDebugMacro("Flood fill, looking at " << SeedIndex);
           // Look at the neighbors
           InputImagePixelType SeedValue;
           SeedValue = inputImage->GetPixel(SeedIndex);
@@ -230,7 +230,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
         LabelForRegion = MinimumNeighborClass;
         CurrentPositionIndex = MinimumNeighborIndex;
       }
-      itkDebugMacro(<< "Filling in: " << static_cast<unsigned int>(Visited.size()) << " with: " << LabelForRegion);
+      itkDebugMacro("Filling in: " << static_cast<unsigned int>(Visited.size()) << " with: " << LabelForRegion);
       // Loop over all the visited positions, setting their label
       for (i = 0; i < Visited.size(); ++i)
       {

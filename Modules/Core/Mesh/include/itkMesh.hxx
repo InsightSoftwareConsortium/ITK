@@ -1050,7 +1050,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::ReleaseCellsMemory()
         while (cell != end)
         {
           const CellType * cellToBeDeleted = cell->Value();
-          itkDebugMacro(<< "Mesh destructor deleting cell = " << cellToBeDeleted);
+          itkDebugMacro("Mesh destructor deleting cell = " << cellToBeDeleted);
           delete cellToBeDeleted;
           ++cell;
         }

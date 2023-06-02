@@ -355,7 +355,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
   {
     // the point pixel types don't match a type conversion needs to be
     // performed
-    itkDebugMacro(<< "Buffer conversion required from: "
+    itkDebugMacro("Buffer conversion required from: "
                   << m_MeshIO->GetComponentTypeAsString(m_MeshIO->GetPointPixelComponentType()) << " to: "
                   << m_MeshIO->GetComponentTypeAsString(
                        MeshIOBase::MapComponentType<typename ConvertPointPixelTraits::ComponentType>::CType)
@@ -372,7 +372,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
   }
   else
   {
-    itkDebugMacro(<< "No buffer conversion required.");
+    itkDebugMacro("No buffer conversion required.");
     m_MeshIO->ReadPointData(static_cast<void *>(outputPointDataBuffer.get()));
   }
 
@@ -396,7 +396,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
   {
     // the cell pixel types don't match a type conversion needs to be
     // performed
-    itkDebugMacro(<< "Buffer conversion required from: "
+    itkDebugMacro("Buffer conversion required from: "
                   << m_MeshIO->GetComponentTypeAsString(m_MeshIO->GetCellPixelComponentType()) << " to: "
                   << m_MeshIO->GetComponentTypeAsString(
                        MeshIOBase::MapComponentType<typename ConvertCellPixelTraits::ComponentType>::CType)
@@ -413,7 +413,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
   }
   else
   {
-    itkDebugMacro(<< "No buffer conversion required.");
+    itkDebugMacro("No buffer conversion required.");
     m_MeshIO->ReadCellData(static_cast<void *>(outputCellDataBuffer.get()));
   }
 

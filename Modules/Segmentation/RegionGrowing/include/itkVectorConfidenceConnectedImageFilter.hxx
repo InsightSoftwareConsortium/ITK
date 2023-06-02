@@ -204,7 +204,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   m_ThresholdFunction->SetThreshold(m_Multiplier);
 
-  itkDebugMacro(<< "\nMultiplier originally = " << m_Multiplier);
+  itkDebugMacro("\nMultiplier originally = " << m_Multiplier);
 
   // Make sure that the multiplier is large enough to include the seed points
   // themselves.
@@ -232,7 +232,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // threshold itself.
   m_ThresholdFunction->SetThreshold(m_Multiplier);
 
-  itkDebugMacro(<< "\nMultiplier after verifying seeds inclusion = " << m_Multiplier);
+  itkDebugMacro("\nMultiplier after verifying seeds inclusion = " << m_Multiplier);
 
   // Segment the image, the iterator walks the output image (so Set()
   // writes into the output image), starting at the seed point.  As

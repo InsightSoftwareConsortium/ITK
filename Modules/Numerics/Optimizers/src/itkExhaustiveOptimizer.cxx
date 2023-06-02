@@ -142,7 +142,7 @@ ExhaustiveOptimizer::AdvanceOneStep()
   ParametersType newPosition(spaceDimension);
   IncrementIndex(newPosition);
 
-  itkDebugMacro(<< "new position = " << newPosition);
+  itkDebugMacro("new position = " << newPosition);
 
   this->SetCurrentPosition(newPosition);
 }

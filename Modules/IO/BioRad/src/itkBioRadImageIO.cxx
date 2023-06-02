@@ -137,7 +137,7 @@ BioRadImageIO::CanReadFile(const char * filename)
 
   if (fname.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -146,7 +146,7 @@ BioRadImageIO::CanReadFile(const char * filename)
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 
@@ -165,7 +165,7 @@ BioRadImageIO::CanReadFile(const char * filename)
   file.read((char *)(&file_id), 2);
   ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&file_id);
 
-  itkDebugMacro(<< "Magic number: " << file_id);
+  itkDebugMacro("Magic number: " << file_id);
 
   file.close();
   return file_id == BIORAD_MAGIC_NUMBER;
@@ -379,7 +379,7 @@ BioRadImageIO::CanWriteFile(const char * name)
 
   if (filename.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -387,7 +387,7 @@ BioRadImageIO::CanWriteFile(const char * name)
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 
