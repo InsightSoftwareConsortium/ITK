@@ -146,7 +146,7 @@ LineConstIterator<TImage>::operator++()
     // The new index is outside the acceptable region.  We can iterate no
     // farther, call this the end.  NOTE THAT INPUT IS STILL INCREMENTED.
     m_IsAtEnd = true;
-    itkWarningMacro(<< "Line left region; unable to finish tracing it");
+    itkWarningMacro("Line left region; unable to finish tracing it");
   }
 }
 } // end namespace itk

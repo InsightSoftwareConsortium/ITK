@@ -58,7 +58,7 @@ CSVFileReaderBase::PrepareForParsing()
 
   if (this->m_UseStringDelimiterCharacter && !(this->m_HasRowHeaders || this->m_HasColumnHeaders))
   {
-    itkWarningMacro(<< " Use string delimiter has been set to on but row and/or column headers indicators are off!");
+    itkWarningMacro(" Use string delimiter has been set to on but row and/or column headers indicators are off!");
   }
 
   if (this->m_UseStringDelimiterCharacter && this->m_FieldDelimiterCharacter == this->m_StringDelimiterCharacter)
@@ -177,7 +177,7 @@ CSVFileReaderBase::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
   // warning to the user.
   if (!isSame)
   {
-    itkWarningMacro(<< "Warning: Data appears to contain missing data! "
+    itkWarningMacro("Warning: Data appears to contain missing data! "
                     << "These will be set to NaN.");
   }
 

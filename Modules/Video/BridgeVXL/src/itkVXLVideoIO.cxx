@@ -250,7 +250,7 @@ VXLVideoIO::CanReadFile(const char * filename)
 bool
 VXLVideoIO::CanReadCamera(CameraIDType cameraID) const
 {
-  itkWarningMacro(<< "For now, camera reading is not supported with VXL:" << cameraID);
+  itkWarningMacro("For now, camera reading is not supported with VXL:" << cameraID);
   return false;
 }
 
@@ -321,8 +321,8 @@ VXLVideoIO::ReadImageInformation()
       // If the I-Frame spacing is not 1, warn the user
       if (this->m_IFrameInterval != 1)
       {
-        itkWarningMacro(<< "VXL can only seek to I-Frames. I-Frame spacing for this video is " << this->m_IFrameInterval
-                        << ". Last I-Frame is " << this->m_LastIFrame);
+        itkWarningMacro("VXL can only seek to I-Frames. I-Frame spacing for this video is "
+                        << this->m_IFrameInterval << ". Last I-Frame is " << this->m_LastIFrame);
       }
     }
   }
@@ -443,7 +443,7 @@ VXLVideoIO::CanWriteFile(const char * filename)
   // Make sure reader is closed
   if (this->m_ReaderOpen)
   {
-    itkWarningMacro(<< "Can't write anything if reader is open");
+    itkWarningMacro("Can't write anything if reader is open");
     return false;
   }
 
@@ -451,7 +451,7 @@ VXLVideoIO::CanWriteFile(const char * filename)
   std::string fname = filename;
   if (fname == "")
   {
-    itkWarningMacro(<< "No Filename specified");
+    itkWarningMacro("No Filename specified");
     return false;
   }
 
@@ -473,7 +473,7 @@ VXLVideoIO::CanWriteFile(const char * filename)
   }
   if (!extensionFound)
   {
-    itkWarningMacro(<< "Unrecognized file extension " << fname);
+    itkWarningMacro("Unrecognized file extension " << fname);
     return false;
   }
 
@@ -665,7 +665,7 @@ VXLVideoIO::FourCCtoEncoderType(const char * fourCC)
   }
   else
   {
-    itkWarningMacro(<< "Unknown FourCC: " << fourCC);
+    itkWarningMacro("Unknown FourCC: " << fourCC);
     return vidl_ffmpeg_ostream_params::DEFAULT;
   }
 }
@@ -716,7 +716,7 @@ VXLVideoIO::OpenReader()
   // Read from camera
   else if (this->m_ReadType == ReadFromCamera)
   {
-    itkWarningMacro(<< "VXL camera not currently implemented");
+    itkWarningMacro("VXL camera not currently implemented");
   }
 }
 

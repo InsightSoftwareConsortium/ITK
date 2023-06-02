@@ -69,7 +69,7 @@ MRCHeaderObject::SetHeader(const Header * buffer)
   // the cmap field must should either be the magic field or 0
   if (strncmp(_header->cmap, magicMAP, 4) != 0 && memcmp(_header->cmap, "\0\0\0\0", 4) != 0)
   {
-    itkWarningMacro(<< "The header's cmap field does not have expected values");
+    itkWarningMacro("The header's cmap field does not have expected values");
     return false;
   }
 
@@ -100,7 +100,7 @@ MRCHeaderObject::SetHeader(const Header * buffer)
   else
   {
     // the stamp is not expected
-    itkWarningMacro(<< "The header's stamp field does not have expected values");
+    itkWarningMacro("The header's stamp field does not have expected values");
     return false;
   }
 
@@ -121,13 +121,13 @@ MRCHeaderObject::SetHeader(const Header * buffer)
       this->m_Header.nxstart >= this->m_Header.nx || this->m_Header.nystart >= this->m_Header.ny ||
       this->m_Header.nzstart >= this->m_Header.nz)
   {
-    itkWarningMacro(<< "Some header data does not have sensable values");
+    itkWarningMacro("Some header data does not have sensable values");
     return false;
   }
 
   if (this->m_Header.nxstart != 0 || this->m_Header.nystart != 0 || this->m_Header.nzstart != 0)
   {
-    itkWarningMacro(<< "The header's nxstart, nystart and nzstart fields are not supported correctly");
+    itkWarningMacro("The header's nxstart, nystart and nzstart fields are not supported correctly");
   }
 
   return true;

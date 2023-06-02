@@ -139,17 +139,17 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   // they don't.
   if (refOrigin != maskOrigin)
   {
-    itkWarningMacro(<< "Mask origin doesn't match Reference origin "
+    itkWarningMacro("Mask origin doesn't match Reference origin "
                     << "Mask Origin " << maskOrigin << " Ref Origin " << refOrigin);
   }
   if (refSpacing != maskSpacing)
   {
-    itkWarningMacro(<< "Mask spacing doesn't match Reference spacing "
+    itkWarningMacro("Mask spacing doesn't match Reference spacing "
                     << "Mask Spacing " << maskSpacing << " Ref Spacing " << refSpacing);
   }
   if (refDirection != maskDirection)
   {
-    itkWarningMacro(<< "Mask direction doesn't match Reference direction "
+    itkWarningMacro("Mask direction doesn't match Reference direction "
                     << "Mask Direction " << maskDirection << " Ref Direction " << refDirection);
   }
 }

@@ -518,7 +518,7 @@ TIFFImageIO::ReadImageInformation()
     else
     {
       itkDebugMacro("Using TIFFReadRGBAImageOriented");
-      itkWarningMacro(<< "Could not read this palette image as scalar+Palette because of its TIFF format");
+      itkWarningMacro("Could not read this palette image as scalar+Palette because of its TIFF format");
       // can't read as scalar+palette so reset type to RGB
       m_IsReadAsScalarPlusPalette = false;
       this->SetNumberOfComponents(3);
@@ -732,7 +732,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     {
       if (this->GetWritePalette())
       {
-        itkWarningMacro(<< "Could not write this image as palette because pixel is not scalar");
+        itkWarningMacro("Could not write this image as palette because pixel is not scalar");
       }
       TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
     }

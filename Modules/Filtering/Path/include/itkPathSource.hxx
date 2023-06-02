@@ -81,7 +81,7 @@ PathSource<TOutputPath>::GraftNthOutput(unsigned int idx, TOutputPath * graft)
     if (output && graft)
     {
       // Paths do not have a generic pointer to their bulk data
-      itkWarningMacro(<< "Warning:  GraftNthOutput() is broken");
+      itkWarningMacro("Warning:  GraftNthOutput() is broken");
 
       // possible VERY WRONG KLUDGE that should enable mini-pipelining:
       // Completely copy the path to graft over the current output path,

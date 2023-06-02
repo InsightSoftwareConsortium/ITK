@@ -417,7 +417,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::EnforceConstraints()
   {
     if (this->GetNoiseModelFidelityWeight() > 0)
     {
-      itkWarningMacro(<< "Noise model is undefined for RIEMANNIAN case, "
+      itkWarningMacro("Noise model is undefined for RIEMANNIAN case, "
                       << "disabling noise model by setting fidelity weight "
                       << "to zero.");
       this->SetNoiseModelFidelityWeight(0.0);
@@ -689,7 +689,7 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
 
   if (m_NumIndependentComponents != 1)
   {
-    itkWarningMacro(<< "ThreadedRiemannianMinMax calculation assumes that "
+    itkWarningMacro("ThreadedRiemannianMinMax calculation assumes that "
                     << "there is exactly 1 independent component, but "
                     << "num independent components = " << m_NumIndependentComponents << " instead.\n");
   }

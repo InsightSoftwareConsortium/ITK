@@ -97,7 +97,7 @@ PathConstIterator<TImage, TPath>::operator++()
     // The new index is outside the acceptable region.  We can iterate no
     // farther, call this the end.  NOTE THAT INPUT IS STILL INCREMENTED.
     m_IsAtEnd = true;
-    itkWarningMacro(<< "Path left region; unable to finish tracing it");
+    itkWarningMacro("Path left region; unable to finish tracing it");
   }
   else
   {

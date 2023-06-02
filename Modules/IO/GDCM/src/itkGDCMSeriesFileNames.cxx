@@ -55,8 +55,8 @@ GDCMSeriesFileNames::SetInputDirectory(std::string const & name)
 {
   if (name.empty())
   {
-    itkWarningMacro(<< "You need to specify a directory where "
-                       "the DICOM files are located");
+    itkWarningMacro("You need to specify a directory where "
+                    "the DICOM files are located");
     return;
   }
   if (m_InputDirectory == name)
@@ -98,7 +98,7 @@ GDCMSeriesFileNames::GetSeriesUIDs()
   }
   if (m_SeriesUIDs.empty())
   {
-    itkWarningMacro(<< "No Series were found");
+    itkWarningMacro("No Series were found");
   }
   return m_SeriesUIDs;
 }
@@ -111,7 +111,7 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
   gdcm::FileList * flist = m_SerieHelper->GetFirstSingleSerieUIDFileSet();
   if (!flist)
   {
-    itkWarningMacro(<< "No Series can be found, make sure your restrictions are not too strong");
+    itkWarningMacro("No Series can be found, make sure your restrictions are not too strong");
     return m_InputFileNames;
   }
   if (!serie.empty()) // user did not specify any sub selection based on UID
@@ -134,7 +134,7 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
     }
     if (!found)
     {
-      itkWarningMacro(<< "No Series were found");
+      itkWarningMacro("No Series were found");
       return m_InputFileNames;
     }
   }
@@ -150,13 +150,13 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
       gdcm::File * header = *it;
       if (!header)
       {
-        itkWarningMacro(<< "GDCMSeriesFileNames got nullptr header, "
-                           "this is a serious bug");
+        itkWarningMacro("GDCMSeriesFileNames got nullptr header, "
+                        "this is a serious bug");
         continue;
       }
       if (!header->IsReadable())
       {
-        itkWarningMacro(<< "GDCMSeriesFileNames got a non DICOM file:" << header->GetFileName());
+        itkWarningMacro("GDCMSeriesFileNames got a non DICOM file:" << header->GetFileName());
         continue;
       }
       m_InputFileNames.push_back(header->GetFileName());

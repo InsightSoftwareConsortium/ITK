@@ -94,7 +94,7 @@ ImageSource<TOutputImage>::GetOutput(unsigned int idx) -> OutputImageType *
 
   if (out == nullptr && this->ProcessObject::GetOutput(idx) != nullptr)
   {
-    itkWarningMacro(<< "Unable to convert output number " << idx << " to type " << typeid(OutputImageType).name());
+    itkWarningMacro("Unable to convert output number " << idx << " to type " << typeid(OutputImageType).name());
   }
   return out;
 }

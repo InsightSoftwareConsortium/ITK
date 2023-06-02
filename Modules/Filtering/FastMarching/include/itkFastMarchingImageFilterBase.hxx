@@ -100,7 +100,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::EnlargeOutputRequestedRegion(DataO
   else
   {
     // Pointer could not be cast to TLevelSet *
-    itkWarningMacro(<< "itk::FastMarchingImageFilter"
+    itkWarningMacro("itk::FastMarchingImageFilter"
                     << "::EnlargeOutputRequestedRegion cannot cast " << typeid(output).name() << " to "
                     << typeid(OutputImageType *).name());
   }
@@ -416,7 +416,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::CheckTopology(OutputImageType * oI
     }
     else
     {
-      itkWarningMacro(<< "CheckTopology has not be implemented for Dimension != 2 and != 3."
+      itkWarningMacro("CheckTopology has not be implemented for Dimension != 2 and != 3."
                       << "m_TopologyCheck should be set to Nothing.");
     }
   }
@@ -585,7 +585,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
       }
       else
       {
-        itkWarningMacro(<< "Topology checking is only valid for level set dimensions of 2 and 3");
+        itkWarningMacro("Topology checking is only valid for level set dimensions of 2 and 3");
       }
     }
   }

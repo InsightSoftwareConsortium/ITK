@@ -321,7 +321,7 @@ JPEG2000ImageIO::ReadImageInformation()
     case 3:
       if (l_image->color_space != CLRSPC_SRGB)
       {
-        itkWarningMacro(<< "file does not specify color space, assuming sRGB");
+        itkWarningMacro("file does not specify color space, assuming sRGB");
       }
       this->SetPixelType(IOPixelEnum::RGB);
       break;

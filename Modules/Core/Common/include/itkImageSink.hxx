@@ -61,7 +61,7 @@ ImageSink<TInputImage>::GetInput(unsigned int idx) const -> const InputImageType
 
   if (in == nullptr && this->ProcessObject::GetInput(idx) != nullptr)
   {
-    itkWarningMacro(<< "Unable to convert input number " << idx << " to type " << typeid(InputImageType).name());
+    itkWarningMacro("Unable to convert input number " << idx << " to type " << typeid(InputImageType).name());
   }
   return in;
 }
@@ -75,7 +75,7 @@ ImageSink<TInputImage>::GetInput(const DataObjectIdentifierType & key) const -> 
 
   if (in == nullptr && this->ProcessObject::GetInput(key) != nullptr)
   {
-    itkWarningMacro(<< "Unable to convert input \"" << key << "\" to type " << typeid(InputImageType).name());
+    itkWarningMacro("Unable to convert input \"" << key << "\" to type " << typeid(InputImageType).name());
   }
   return in;
 }

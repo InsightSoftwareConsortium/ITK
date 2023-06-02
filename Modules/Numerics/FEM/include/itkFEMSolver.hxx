@@ -146,7 +146,7 @@ Solver<VDimension>::GetOutput(unsigned int idx) -> FEMObjectType *
 
   if (out == nullptr)
   {
-    itkWarningMacro(<< "dynamic_cast to output type failed");
+    itkWarningMacro("dynamic_cast to output type failed");
   }
   return out;
 }

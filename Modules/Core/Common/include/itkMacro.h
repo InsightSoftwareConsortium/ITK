@@ -494,7 +494,7 @@ OutputWindowDisplayDebugText(const char *);
 
 /** This macro is used to print warning information (i.e., unusual circumstance
  * but not necessarily fatal.) Example usage looks like:
- * itkWarningMacro(<< "this is warning info" << this->SomeVariable); */
+ * itkWarningMacro("this is warning info" << this->SomeVariable); */
 #define itkWarningMacro(x)                                                   \
   do                                                                         \
   {                                                                          \

@@ -262,7 +262,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     const auto          hsize = static_cast<SizeValueType>(h.nx * h.ny * h.npic);
     if (gcount == hsize)
     {
-      itkWarningMacro(<< "File is declared as two bytes but really is only one byte");
+      itkWarningMacro("File is declared as two bytes but really is only one byte");
       SetComponentType(IOComponentEnum::UCHAR);
     }
     else if (gcount == hsize * 2)
