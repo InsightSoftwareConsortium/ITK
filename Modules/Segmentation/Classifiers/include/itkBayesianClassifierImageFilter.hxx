@@ -136,7 +136,7 @@ void
 BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisionType, TPriorsPrecisionType>::
   ComputeBayesRule()
 {
-  itkDebugMacro(<< "Computing Bayes Rule");
+  itkDebugMacro("Computing Bayes Rule");
   const InputImageType * membershipImage = this->GetInput();
 
   ImageRegionType imageRegion = membershipImage->GetBufferedRegion();
@@ -166,7 +166,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
     const unsigned int numberOfClasses = membershipImage->GetVectorLength();
 
-    itkDebugMacro(<< "Computing Bayes Rule nclasses in membershipImage: " << numberOfClasses);
+    itkDebugMacro("Computing Bayes Rule nclasses in membershipImage: " << numberOfClasses);
 
     while (!itrMembershipImage.IsAtEnd())
     {

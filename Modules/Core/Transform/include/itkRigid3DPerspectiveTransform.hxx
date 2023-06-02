@@ -57,7 +57,7 @@ template <typename TParametersValueType>
 void
 Rigid3DPerspectiveTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  itkDebugMacro(<< "Setting parameters " << parameters);
+  itkDebugMacro("Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if (&parameters != &(this->m_Parameters))
@@ -88,7 +88,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetParameters(const Parameter
 
   m_Versor.Set(axis);
 
-  itkDebugMacro(<< "Versor is now " << this->GetRotation());
+  itkDebugMacro("Versor is now " << this->GetRotation());
 
   // Transfer the translation part
   OffsetType offset;
@@ -111,7 +111,7 @@ template <typename TParametersValueType>
 auto
 Rigid3DPerspectiveTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
-  itkDebugMacro(<< "Getting parameters ");
+  itkDebugMacro("Getting parameters ");
 
   this->m_Parameters[0] = this->GetRotation().GetX();
   this->m_Parameters[1] = this->GetRotation().GetY();
@@ -122,7 +122,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::GetParameters() const -> cons
   this->m_Parameters[4] = this->GetOffset()[1];
   this->m_Parameters[5] = this->GetOffset()[2];
 
-  itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
+  itkDebugMacro("After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
 }

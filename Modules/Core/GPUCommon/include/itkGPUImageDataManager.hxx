@@ -78,7 +78,7 @@ GPUImageDataManager<ImageType>::MakeCPUBufferUpToDate()
     if ((m_IsCPUBufferDirty || (gpu_time > cpu_time)) && m_GPUBuffer != nullptr && m_CPUBuffer != nullptr)
     {
       cl_int errid;
-      itkDebugMacro(<< "GPU->CPU data copy");
+      itkDebugMacro("GPU->CPU data copy");
       errid = clEnqueueReadBuffer(m_ContextManager->GetCommandQueue(m_CommandQueueId),
                                   m_GPUBuffer,
                                   CL_TRUE,
@@ -120,7 +120,7 @@ GPUImageDataManager<ImageType>::MakeGPUBufferUpToDate()
     if ((m_IsGPUBufferDirty || (gpu_time < cpu_time)) && m_CPUBuffer != nullptr && m_GPUBuffer != nullptr)
     {
       cl_int errid;
-      itkDebugMacro(<< "CPU->GPU data copy");
+      itkDebugMacro("CPU->GPU data copy");
       errid = clEnqueueWriteBuffer(m_ContextManager->GetCommandQueue(m_CommandQueueId),
                                    m_GPUBuffer,
                                    CL_TRUE,

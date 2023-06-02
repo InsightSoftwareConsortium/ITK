@@ -56,7 +56,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 BinaryThinningImageFilter<TInputImage, TOutputImage>::PrepareData()
 {
-  itkDebugMacro(<< "PrepareData Start");
+  itkDebugMacro("PrepareData Start");
   OutputImagePointer thinImage = GetThinning();
 
   InputImagePointer inputImage = dynamic_cast<const TInputImage *>(ProcessObject::GetInput(0));
@@ -69,7 +69,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::PrepareData()
   ImageRegionConstIterator<TInputImage> it(inputImage, region);
   ImageRegionIterator<TOutputImage>     ot(thinImage, region);
 
-  itkDebugMacro(<< "PrepareData: Copy input to output");
+  itkDebugMacro("PrepareData: Copy input to output");
 
   // Copy the input to the output, changing all foreground pixels to
   // have value 1 in the process.
@@ -86,7 +86,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::PrepareData()
     ++it;
     ++ot;
   }
-  itkDebugMacro(<< "PrepareData End");
+  itkDebugMacro("PrepareData End");
 }
 
 /**
@@ -96,7 +96,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
 {
-  itkDebugMacro(<< "ComputeThinImage Start");
+  itkDebugMacro("ComputeThinImage Start");
   OutputImagePointer thinImage = GetThinning();
 
   typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
@@ -275,7 +275,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
     } // end step loop
   }   // end noChange while loop
 
-  itkDebugMacro(<< "ComputeThinImage End");
+  itkDebugMacro("ComputeThinImage End");
 }
 
 /**
@@ -287,7 +287,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   this->PrepareData();
 
-  itkDebugMacro(<< "GenerateData: Computing Thinning Image");
+  itkDebugMacro("GenerateData: Computing Thinning Image");
   this->ComputeThinImage();
 } // end GenerateData()
 } // end namespace itk

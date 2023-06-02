@@ -81,7 +81,7 @@ ImageFileWriter<TInputImage>::Write()
 {
   const InputImageType * input = this->GetInput();
 
-  itkDebugMacro(<< "Writing an image file");
+  itkDebugMacro("Writing an image file");
 
   // Make sure input is available
   if (input == nullptr)
@@ -101,12 +101,12 @@ ImageFileWriter<TInputImage>::Write()
     // try creating via factory
     if (m_ImageIO.IsNull())
     {
-      itkDebugMacro(<< "Attempting factory creation of ImageIO for file: " << m_FileName);
+      itkDebugMacro("Attempting factory creation of ImageIO for file: " << m_FileName);
     }
     else // ( m_FactorySpecifiedImageIO && !m_ImageIO->CanWriteFile( m_FileName.c_str() )
     {
-      itkDebugMacro(<< "ImageIO exists but doesn't know how to write file:" << m_FileName);
-      itkDebugMacro(<< "Attempting creation of ImageIO with a factory for file:" << m_FileName);
+      itkDebugMacro("ImageIO exists but doesn't know how to write file:" << m_FileName);
+      itkDebugMacro("Attempting creation of ImageIO with a factory for file:" << m_FileName);
     }
     m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str(), ImageIOFactory::IOFileModeEnum::WriteMode);
     m_FactorySpecifiedImageIO = true;
@@ -332,7 +332,7 @@ ImageFileWriter<TInputImage>::GenerateData()
   InputImageRegionType   largestRegion = input->GetLargestPossibleRegion();
   InputImagePointer      cacheImage;
 
-  itkDebugMacro(<< "Writing file: " << m_FileName);
+  itkDebugMacro("Writing file: " << m_FileName);
 
   // now extract the data as a raw buffer pointer
   const void * dataPtr = input->GetBufferPointer();

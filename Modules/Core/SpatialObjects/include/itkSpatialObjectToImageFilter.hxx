@@ -265,7 +265,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
 {
   unsigned int i;
 
-  itkDebugMacro(<< "SpatialObjectToImageFilter::Update() called");
+  itkDebugMacro("SpatialObjectToImageFilter::Update() called");
 
   // Get the input and output pointers
   const InputSpatialObjectType * InputObject = this->GetInput();
@@ -363,7 +363,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
     progress.CompletedPixel();
   }
 
-  itkDebugMacro(<< "SpatialObjectToImageFilter::Update() finished");
+  itkDebugMacro("SpatialObjectToImageFilter::Update() finished");
 } // end update function
 
 template <typename TInputSpatialObject, typename TOutputImage>

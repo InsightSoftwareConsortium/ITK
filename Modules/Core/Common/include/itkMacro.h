@@ -470,7 +470,7 @@ OutputWindowDisplayDebugText(const char *);
 /** This macro is used to print debug (or other information). They are
  * also used to catch errors, etc. Requires that the caller implements
  * the GetDebug() method (see itk::Object). Example usage looks like:
- * itkDebugMacro(<< "this is debug info" << this->SomeVariable); */
+ * itkDebugMacro("this is debug info" << this->SomeVariable); */
 #if defined(NDEBUG)
 #  define itkDebugMacro(x) ITK_NOOP_STATEMENT
 #  define itkDebugStatement(x) ITK_NOOP_STATEMENT

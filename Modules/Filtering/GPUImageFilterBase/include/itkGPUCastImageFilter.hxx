@@ -53,9 +53,9 @@ template <typename TInputImage, typename TOutputImage>
 void
 GPUCastImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 {
-  itkDebugMacro(<< "Calling GPUCastImageFilter::GPUGenerateData()");
+  itkDebugMacro("Calling GPUCastImageFilter::GPUGenerateData()");
   GPUSuperclass::GPUGenerateData();
-  itkDebugMacro(<< "GPUCastImageFilter::GPUGenerateData() finished");
+  itkDebugMacro("GPUCastImageFilter::GPUGenerateData() finished");
 }
 
 

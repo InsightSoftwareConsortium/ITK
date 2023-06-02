@@ -100,7 +100,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GenerateData()
       // Find the optimal kernel bandwidth parameter.
       this->ComputeKernelBandwidthUpdate();
     }
-    itkDebugMacro(<< "Computing Image Update iteration " << m_ElapsedIterations + 1 << " of " << m_NumberOfIterations);
+    itkDebugMacro("Computing Image Update iteration " << m_ElapsedIterations + 1 << " of " << m_NumberOfIterations);
 
     // Update the image intensities to denoise the image.
     this->ComputeImageUpdate();

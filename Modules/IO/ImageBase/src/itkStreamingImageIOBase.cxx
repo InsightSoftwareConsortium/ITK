@@ -35,7 +35,7 @@ StreamingImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
 bool
 StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buffer)
 {
-  itkDebugMacro(<< "StreamingReadBufferAsBinary called");
+  itkDebugMacro("StreamingReadBufferAsBinary called");
 
   auto * buffer = static_cast<char *>(_buffer);
   // Offset into file
@@ -68,8 +68,8 @@ StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buff
       subDimensionQuantity *= this->GetDimensions(i);
     }
 
-    itkDebugMacro(<< "Reading " << sizeOfChunk << " of " << sizeOfRegion << " bytes for " << m_FileName << " at "
-                  << dataPos + seekPos << " position in file");
+    itkDebugMacro("Reading " << sizeOfChunk << " of " << sizeOfRegion << " bytes for " << m_FileName << " at "
+                             << dataPos + seekPos << " position in file");
 
     file.seekg(dataPos + seekPos, std::ios::beg);
 
@@ -120,7 +120,7 @@ StreamingImageIOBase::ReadBufferAsBinary(std::istream & is, void * buffer, Strea
   {
     std::streamsize bytesToRead = bytesRemaining > maxChunk ? maxChunk : bytesRemaining;
 
-    itkDebugMacro(<< "Reading " << bytesToRead << " of " << bytesRemaining << " bytes for " << m_FileName);
+    itkDebugMacro("Reading " << bytesToRead << " of " << bytesRemaining << " bytes for " << m_FileName);
 
     is.read(static_cast<char *>(buffer), bytesToRead);
 
@@ -147,7 +147,7 @@ StreamingImageIOBase::WriteBufferAsBinary(std::ostream & os, const void * buffer
   {
     SizeType bytesToWrite = bytesRemaining > maxChunk ? maxChunk : bytesRemaining;
 
-    itkDebugMacro(<< "Writing " << bytesToWrite << " of " << bytesRemaining << " bytes for " << m_FileName);
+    itkDebugMacro("Writing " << bytesToWrite << " of " << bytesRemaining << " bytes for " << m_FileName);
 
     os.write(static_cast<const char *>(buffer), bytesToWrite);
     if (os.fail())
@@ -165,7 +165,7 @@ StreamingImageIOBase::WriteBufferAsBinary(std::ostream & os, const void * buffer
 bool
 StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const void * _buffer)
 {
-  itkDebugMacro(<< "StreamingWriteBufferAsBinary called");
+  itkDebugMacro("StreamingWriteBufferAsBinary called");
 
   const auto * buffer = static_cast<const char *>(_buffer);
   // Offset into file
@@ -203,8 +203,8 @@ StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const void 
     // increment the buffer pointer
     buffer += sizeOfChunk;
 
-    itkDebugMacro(<< "Writing " << sizeOfChunk << " of "
-                  << " ?? bytes for " << m_FileName << " at " << dataPos + seekPos << " position in file");
+    itkDebugMacro("Writing " << sizeOfChunk << " of "
+                             << " ?? bytes for " << m_FileName << " at " << dataPos + seekPos << " position in file");
 
     if (file.fail())
     {

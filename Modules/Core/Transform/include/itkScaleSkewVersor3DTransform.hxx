@@ -74,7 +74,7 @@ template <typename TParametersValueType>
 void
 ScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  itkDebugMacro(<< "Setting parameters " << parameters);
+  itkDebugMacro("Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if (&parameters != &(this->m_Parameters))
@@ -106,7 +106,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Parameters
   newVersor.Set(axis);
   this->SetVarVersor(newVersor);
 
-  itkDebugMacro(<< "Versor is now " << newVersor);
+  itkDebugMacro("Versor is now " << newVersor);
 
   // Matrix must be defined before translation so that offset can be computed
   // from translation
@@ -135,7 +135,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Parameters
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<< "After setting parameters ");
+  itkDebugMacro("After setting parameters ");
 }
 
 //
@@ -153,7 +153,7 @@ template <typename TParametersValueType>
 auto
 ScaleSkewVersor3DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
-  itkDebugMacro(<< "Getting parameters ");
+  itkDebugMacro("Getting parameters ");
 
   this->m_Parameters[0] = this->GetVersor().GetX();
   this->m_Parameters[1] = this->GetVersor().GetY();
@@ -174,7 +174,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::GetParameters() const -> const
   this->m_Parameters[13] = this->GetSkew()[4];
   this->m_Parameters[14] = this->GetSkew()[5];
 
-  itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
+  itkDebugMacro("After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
 }

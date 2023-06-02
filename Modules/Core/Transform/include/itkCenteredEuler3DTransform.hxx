@@ -53,7 +53,7 @@ template <typename TParametersValueType>
 void
 CenteredEuler3DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  itkDebugMacro(<< "Setting parameters " << parameters);
+  itkDebugMacro("Setting parameters " << parameters);
 
   // Save parameters
   if (&parameters != &(this->m_Parameters))
@@ -84,7 +84,7 @@ CenteredEuler3DTransform<TParametersValueType>::SetParameters(const ParametersTy
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<< "After setting parameters ");
+  itkDebugMacro("After setting parameters ");
 }
 
 //

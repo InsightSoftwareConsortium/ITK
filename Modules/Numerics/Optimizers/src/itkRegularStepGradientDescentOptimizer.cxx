@@ -27,7 +27,7 @@ namespace itk
 void
 RegularStepGradientDescentOptimizer::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
-  itkDebugMacro(<< "factor = " << factor << "  transformedGradient= " << transformedGradient);
+  itkDebugMacro("factor = " << factor << "  transformedGradient= " << transformedGradient);
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
@@ -39,7 +39,7 @@ RegularStepGradientDescentOptimizer::StepAlongGradient(double factor, const Deri
     newPosition[j] = currentPosition[j] + transformedGradient[j] * factor;
   }
 
-  itkDebugMacro(<< "new position = " << newPosition);
+  itkDebugMacro("new position = " << newPosition);
 
   this->SetCurrentPosition(newPosition);
 }

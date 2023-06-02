@@ -39,7 +39,7 @@ template <typename TPixel>
 void
 Hessian3DToVesselnessMeasureImageFilter<TPixel>::GenerateData()
 {
-  itkDebugMacro(<< "Hessian3DToVesselnessMeasureImageFilter generating data ");
+  itkDebugMacro("Hessian3DToVesselnessMeasureImageFilter generating data ");
 
   m_SymmetricEigenValueFilter->SetInput(this->GetInput());
 

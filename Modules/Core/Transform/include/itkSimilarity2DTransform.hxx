@@ -51,7 +51,7 @@ template <typename TParametersValueType>
 void
 Similarity2DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  itkDebugMacro(<< "Setting parameters " << parameters);
+  itkDebugMacro("Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if (&parameters != &(this->m_Parameters))
@@ -82,7 +82,7 @@ Similarity2DTransform<TParametersValueType>::SetParameters(const ParametersType 
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<< "After setting parameters ");
+  itkDebugMacro("After setting parameters ");
 }
 
 
@@ -90,7 +90,7 @@ template <typename TParametersValueType>
 auto
 Similarity2DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
-  itkDebugMacro(<< "Getting parameters ");
+  itkDebugMacro("Getting parameters ");
 
   this->m_Parameters[0] = this->GetScale();
   this->m_Parameters[1] = this->GetAngle();
@@ -102,7 +102,7 @@ Similarity2DTransform<TParametersValueType>::GetParameters() const -> const Para
     this->m_Parameters[i + 2] = translation[i];
   }
 
-  itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
+  itkDebugMacro("After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
 }

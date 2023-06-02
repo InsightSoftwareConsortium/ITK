@@ -186,7 +186,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
 {
   unsigned int i;
 
-  itkDebugMacro(<< "PathToImageFilter::GenerateData() called");
+  itkDebugMacro("PathToImageFilter::GenerateData() called");
 
   // Get the input and output pointers
   const InputPathType * InputPath = this->GetInput();
@@ -275,7 +275,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
     pathIt.Set(m_PathValue);
   }
 
-  itkDebugMacro(<< "PathToImageFilter::GenerateData() finished");
+  itkDebugMacro("PathToImageFilter::GenerateData() finished");
 }
 
 template <typename TInputPath, typename TOutputImage>

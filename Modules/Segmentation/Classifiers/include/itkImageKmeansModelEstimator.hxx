@@ -74,25 +74,25 @@ template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::PrintKmeansAlgorithmResults()
 {
-  itkDebugMacro(<< "                                    ");
-  itkDebugMacro(<< "Results of the clustering algorithms");
-  itkDebugMacro(<< "====================================");
+  itkDebugMacro("                                    ");
+  itkDebugMacro("Results of the clustering algorithms");
+  itkDebugMacro("====================================");
 
-  itkDebugMacro(<< "                                    ");
-  itkDebugMacro(<< "Means of the clustered vector       ");
-  itkDebugMacro(<< "++++++++++++++++++++++++++++++++++++");
+  itkDebugMacro("                                    ");
+  itkDebugMacro("Means of the clustered vector       ");
+  itkDebugMacro("++++++++++++++++++++++++++++++++++++");
 
   itkDebugMacro(<< m_Centroid);
 
-  itkDebugMacro(<< "                                    ");
-  itkDebugMacro(<< "Distortion measures                 ");
-  itkDebugMacro(<< "+++++++++++++++++++++++++++++++++++ ");
+  itkDebugMacro("                                    ");
+  itkDebugMacro("Distortion measures                 ");
+  itkDebugMacro("+++++++++++++++++++++++++++++++++++ ");
 
   itkDebugMacro(<< m_CodewordDistortion);
 
-  itkDebugMacro(<< "                                    ");
-  itkDebugMacro(<< "Histogram of the vector             ");
-  itkDebugMacro(<< "+++++++++++++++++++++++++++++++++++ ");
+  itkDebugMacro("                                    ");
+  itkDebugMacro("Histogram of the vector             ");
+  itkDebugMacro("+++++++++++++++++++++++++++++++++++ ");
 
   itkDebugMacro(<< m_CodewordHistogram);
 }
@@ -349,7 +349,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
       }
 
       // Try getting new codewords, send a warning to user
-      itkDebugMacro(<< "Attempting to fill empty cells in the codebook");
+      itkDebugMacro("Attempting to fill empty cells in the codebook");
 
       // Consolidate the highest distortion codewords into the beginning
       // of the array.  Take care to protect zero distortion codewords
@@ -650,7 +650,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithoutCodebookUseL
   const SizeValueType codebookSize = m_Codebook.rows();
   if (m_NumberOfCodewords != codebookSize)
   {
-    itkDebugMacro(<< "Returning fewer codewords than requested");
+    itkDebugMacro("Returning fewer codewords than requested");
   }
 
   // itkDebugMacro(<<"Done with local function LBG ()");

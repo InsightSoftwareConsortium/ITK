@@ -194,7 +194,7 @@ VideoFileReader<TOutputVideoStream>::InitializeVideoIO()
   {
     // the pixel types don't match so a type conversion needs to be
     // performed
-    itkDebugMacro(<< "Buffer conversion required from: "
+    itkDebugMacro("Buffer conversion required from: "
                   << m_VideoIO->GetComponentTypeAsString(m_VideoIO->GetComponentType())
                   << " to: " << m_VideoIO->GetComponentTypeAsString(ioType) << " ConvertPixelTraits::NumComponents "
                   << ConvertPixelTraits::GetNumberOfComponents() << " m_VideoIO->NumComponents "

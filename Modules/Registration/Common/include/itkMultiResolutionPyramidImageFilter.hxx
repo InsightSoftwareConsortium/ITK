@@ -143,7 +143,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetSchedule(const 
 {
   if (schedule.rows() != m_NumberOfLevels || schedule.columns() != ImageDimension)
   {
-    itkDebugMacro(<< "Schedule has wrong dimensions");
+    itkDebugMacro("Schedule has wrong dimensions");
     return;
   }
 

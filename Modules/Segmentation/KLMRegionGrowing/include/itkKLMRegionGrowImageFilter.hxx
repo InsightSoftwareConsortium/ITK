@@ -508,7 +508,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   }
   else
   {
-    itkDebugMacro(<< "Passed initialization");
+    itkDebugMacro("Passed initialization");
   }
 
   // Allocate memory to store the array of pointers that point to the
@@ -587,8 +587,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
 {
-  itkDebugMacro(<< "--------------------");
-  itkDebugMacro(<< "   Merging Regions  ");
+  itkDebugMacro("--------------------");
+  itkDebugMacro("   Merging Regions  ");
 
   // Subtract border length before removing it
   m_TotalBorderLength -= m_BorderCandidate->m_Pointer->GetBorderLength();
@@ -646,9 +646,9 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
   // For DEBUG purposes
   if (this->GetDebug())
   {
-    itkDebugMacro(<< "First Region ");
+    itkDebugMacro("First Region ");
     pRegion1->PrintRegionInfo();
-    itkDebugMacro(<< "Second Region ");
+    itkDebugMacro("Second Region ");
     pRegion2->PrintRegionInfo();
   }
 

@@ -140,7 +140,7 @@ RawImageIO<TPixel, VImageDimension>::Read(void * buffer)
 
   const auto numberOfBytesToBeRead = static_cast<SizeValueType>(this->GetImageSizeInBytes());
 
-  itkDebugMacro(<< "Reading " << numberOfBytesToBeRead << " bytes");
+  itkDebugMacro("Reading " << numberOfBytesToBeRead << " bytes");
 
   const auto componentType = this->GetComponentType();
   if (m_FileType == IOFileEnum::Binary)
@@ -156,7 +156,7 @@ RawImageIO<TPixel, VImageDimension>::Read(void * buffer)
     this->ReadBufferAsASCII(file, buffer, this->GetComponentType(), this->GetImageSizeInComponents());
   }
 
-  itkDebugMacro(<< "Reading Done");
+  itkDebugMacro("Reading Done");
   const SizeValueType numberOfComponents = this->GetImageSizeInComponents();
   ReadRawBytesAfterSwapping(componentType, buffer, m_ByteOrder, numberOfComponents);
 }

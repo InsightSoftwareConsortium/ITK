@@ -68,7 +68,7 @@ PNGImageIO::CanReadFile(const char * file)
 
   if (filename.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 

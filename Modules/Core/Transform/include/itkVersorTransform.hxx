@@ -48,7 +48,7 @@ template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  itkDebugMacro(<< "Setting parameters " << parameters);
+  itkDebugMacro("Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if (&parameters != &(this->m_Parameters))
@@ -66,7 +66,7 @@ VersorTransform<TParametersValueType>::SetParameters(const ParametersType & para
   // The versor will compute the scalar part.
   m_Versor.Set(rightPart);
 
-  itkDebugMacro(<< "Versor is now " << m_Versor);
+  itkDebugMacro("Versor is now " << m_Versor);
 
   this->ComputeMatrix();
   this->ComputeOffset();
@@ -75,7 +75,7 @@ VersorTransform<TParametersValueType>::SetParameters(const ParametersType & para
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<< "After setting parameters ");
+  itkDebugMacro("After setting parameters ");
 }
 
 template <typename TParametersValueType>

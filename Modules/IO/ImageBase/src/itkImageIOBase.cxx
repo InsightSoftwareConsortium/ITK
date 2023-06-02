@@ -628,7 +628,7 @@ ImageIOBase::OpenFileForReading(std::ifstream & inputStream, const std::string &
   }
 
   // Open the new file for reading
-  itkDebugMacro(<< "Opening file for reading: " << filename);
+  itkDebugMacro("Opening file for reading: " << filename);
 
   std::ios::openmode mode = std::ios::in;
   if (!ascii)
@@ -666,7 +666,7 @@ ImageIOBase::OpenFileForWriting(std::ofstream & outputStream, const std::string 
   }
 
   // Open the new file for writing
-  itkDebugMacro(<< "Opening file for writing: " << filename);
+  itkDebugMacro("Opening file for writing: " << filename);
 
   std::ios::openmode mode = std::ios::out;
   if (truncate)

@@ -64,7 +64,7 @@ StimulateImageIO::CanReadFile(const char * filename)
 
   if (fname.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -72,7 +72,7 @@ StimulateImageIO::CanReadFile(const char * filename)
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 
@@ -271,7 +271,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
     else if (text.find("extent") < text.length())
     {
       // not documented
-      itkDebugMacro(<< "Extent was specified");
+      itkDebugMacro("Extent was specified");
     }
     else if (text.find("fov") < text.length())
     {
@@ -367,7 +367,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       char * pch;
       pch = strchr(line, ':');
       sscanf(++pch, "%s", m_FidName); // delete any white space left
-      itkDebugMacro(<< "fidName was specified");
+      itkDebugMacro("fidName was specified");
     }
     else if (text.find("sdtOrient") < text.length())
     {
@@ -379,12 +379,12 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       char * pch;
       pch = strchr(line, ':');
       sscanf(++pch, "%s", m_SdtOrient); // delete any white space left
-      itkDebugMacro(<< "Orientation was specified");
+      itkDebugMacro("Orientation was specified");
     }
     else if (text.find("dsplyThres") < text.length())
     {
       // not documented
-      itkDebugMacro(<< "Display threshold was specified");
+      itkDebugMacro("Display threshold was specified");
     }
     else if (text.find("endian") < text.length())
     {
@@ -397,12 +397,12 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
     else if (text.find("mapParmFileName") < text.length())
     {
       // not documented
-      itkDebugMacro(<< "mapParmFileName was specified");
+      itkDebugMacro("mapParmFileName was specified");
     }
     else if (text.find("mapTypeName") < text.length())
     {
       // not documented
-      itkDebugMacro(<< "mapTypeName was specified");
+      itkDebugMacro("mapTypeName was specified");
     }
     else if (text.find("stimFileName:") < text.length())
     {
@@ -432,12 +432,12 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
     else if (text.find("mapConf") < text.length())
     {
       // not documented
-      itkDebugMacro(<< "mapConf was specified");
+      itkDebugMacro("mapConf was specified");
     }
     else if (text.find("periodStr") < text.length())
     {
       // not documented
-      itkDebugMacro(<< "periodStr was specified");
+      itkDebugMacro("periodStr was specified");
     }
   }
 
@@ -473,7 +473,7 @@ StimulateImageIO::CanWriteFile(const char * name)
 
   if (filename.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -482,7 +482,7 @@ StimulateImageIO::CanWriteFile(const char * name)
 
   if (!extensionFound)
   {
-    itkDebugMacro(<< "The filename extension is not recognized");
+    itkDebugMacro("The filename extension is not recognized");
     return false;
   }
 

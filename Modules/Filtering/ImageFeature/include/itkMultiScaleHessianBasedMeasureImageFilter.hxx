@@ -182,7 +182,7 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
   {
     const double sigma = this->ComputeSigmaValue(scaleLevel);
 
-    itkDebugMacro(<< "Computing measure for scale with sigma = " << sigma);
+    itkDebugMacro("Computing measure for scale with sigma = " << sigma);
 
     m_HessianFilter->SetSigma(sigma);
 

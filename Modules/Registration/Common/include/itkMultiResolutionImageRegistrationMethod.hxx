@@ -222,10 +222,10 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
   using IndexType = typename FixedImageRegionType::IndexType;
 
   ScheduleType schedule = m_FixedImagePyramid->GetSchedule();
-  itkDebugMacro(<< "FixedImage schedule: " << schedule);
+  itkDebugMacro("FixedImage schedule: " << schedule);
 
   ScheduleType movingschedule = m_MovingImagePyramid->GetSchedule();
-  itkDebugMacro(<< "MovingImage schedule: " << movingschedule);
+  itkDebugMacro("MovingImage schedule: " << movingschedule);
 
   SizeType  inputSize = m_FixedImageRegion.GetSize();
   IndexType inputStart = m_FixedImageRegion.GetIndex();

@@ -71,7 +71,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::Write()
 {
   const InputImageType * inputImage = this->GetInput();
 
-  itkDebugMacro(<< "Writing an image file");
+  itkDebugMacro("Writing an image file");
 
   // Make sure input is available
   if (inputImage == nullptr)
@@ -151,7 +151,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ImageSeriesWriter<TInputImage, TOutputImage>::GenerateData()
 {
-  itkDebugMacro(<< "Writing a series of files");
+  itkDebugMacro("Writing a series of files");
   if (m_FileNames.empty())
   {
     // this method will be deprecated. It is here only to maintain the old API
@@ -245,7 +245,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
                                                            << " were expected ");
   }
 
-  itkDebugMacro(<< "Number of files to write = " << m_FileNames.size());
+  itkDebugMacro("Number of files to write = " << m_FileNames.size());
 
   ProgressReporter progress(this, 0, expectedNumberOfFiles, expectedNumberOfFiles);
 

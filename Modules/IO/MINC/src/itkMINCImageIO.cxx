@@ -91,7 +91,7 @@ MINCImageIO::CanReadFile(const char * name)
 {
   if (*name == 0)
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -160,7 +160,7 @@ MINCImageIO::Read(void * buffer)
       volume_data_type = MI_TYPE_DOUBLE;
       break;
     default:
-      itkDebugMacro(<< "Could read datatype " << this->GetComponentType());
+      itkDebugMacro("Could read datatype " << this->GetComponentType());
       return;
   }
 
@@ -893,7 +893,7 @@ MINCImageIO::CanWriteFile(const char * name)
 {
   if (name[0] == '\0')
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -1117,7 +1117,7 @@ MINCImageIO::WriteImageInformation()
           case 'V':
             if (nComp <= 1)
             {
-              itkDebugMacro(<< "Dimension order is incorrect " << dimension_order.c_str());
+              itkDebugMacro("Dimension order is incorrect " << dimension_order.c_str());
               dimorder_good = false;
             }
             else
@@ -1129,7 +1129,7 @@ MINCImageIO::WriteImageInformation()
           case 'T':
             if (nComp <= 1)
             {
-              itkDebugMacro(<< "Dimension order is incorrect " << dimension_order.c_str());
+              itkDebugMacro("Dimension order is incorrect " << dimension_order.c_str());
               dimorder_good = false;
             }
             else
@@ -1150,7 +1150,7 @@ MINCImageIO::WriteImageInformation()
             j = this->m_MINCPImpl->m_NDims - 1 - ((nComp > 1 ? 1 : 0) + 2);
             break;
           default:
-            itkDebugMacro(<< "Dimension order is incorrect " << dimension_order.c_str());
+            itkDebugMacro("Dimension order is incorrect " << dimension_order.c_str());
             dimorder_good = false;
             j = 0;
             break;
@@ -1184,7 +1184,7 @@ MINCImageIO::WriteImageInformation()
     }
     else
     {
-      itkDebugMacro(<< "Dimension order is incorrect " << dimension_order.c_str());
+      itkDebugMacro("Dimension order is incorrect " << dimension_order.c_str());
     }
   }
 
@@ -1329,7 +1329,7 @@ MINCImageIO::WriteImageInformation()
       }
       else
       {
-        itkDebugMacro(<< "Unsupported metadata type:" << tname);
+        itkDebugMacro("Unsupported metadata type:" << tname);
       }
     }
     else if (it->first == "history")

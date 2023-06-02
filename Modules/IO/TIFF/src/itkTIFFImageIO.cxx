@@ -35,7 +35,7 @@ TIFFImageIO::CanReadFile(const char * file)
 
   if (filename.empty())
   {
-    itkDebugMacro(<< "No filename specified.");
+    itkDebugMacro("No filename specified.");
     return false;
   }
 
@@ -506,7 +506,7 @@ TIFFImageIO::ReadImageInformation()
 
     if (!m_IsReadAsScalarPlusPalette)
     {
-      itkDebugMacro(<< "Using TIFFReadRGBAImageOriented");
+      itkDebugMacro("Using TIFFReadRGBAImageOriented");
       if (m_InternalImage->m_BitsPerSample > 8)
       {
         itkWarningMacro("Falling back to suboptimal 8-bit RGBA reader. Data loss will occur with reduced bit depth.");
@@ -517,7 +517,7 @@ TIFFImageIO::ReadImageInformation()
     }
     else
     {
-      itkDebugMacro(<< "Using TIFFReadRGBAImageOriented");
+      itkDebugMacro("Using TIFFReadRGBAImageOriented");
       itkWarningMacro(<< "Could not read this palette image as scalar+Palette because of its TIFF format");
       // can't read as scalar+palette so reset type to RGB
       m_IsReadAsScalarPlusPalette = false;
@@ -1188,8 +1188,8 @@ TIFFImageIO::ReadTIFFTags()
       continue;
     }
 
-    itkDebugMacro(<< "TiffInfo tag " << field_name << '(' << tag << "): " << itkTIFFFieldDataType(field) << ' '
-                  << value_count << ' ' << raw_data);
+    itkDebugMacro("TiffInfo tag " << field_name << '(' << tag << "): " << itkTIFFFieldDataType(field) << ' '
+                                  << value_count << ' ' << raw_data);
 
 
 #define itkEncapsulate(T1, T2)                                                         \

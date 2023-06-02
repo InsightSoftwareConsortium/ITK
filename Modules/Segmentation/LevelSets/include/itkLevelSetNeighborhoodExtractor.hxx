@@ -119,8 +119,8 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateData()
     this->GenerateDataFull();
   }
 
-  itkDebugMacro(<< "No. inside points: " << m_InsidePoints->Size());
-  itkDebugMacro(<< "No. outside points: " << m_OutsidePoints->Size());
+  itkDebugMacro("No. inside points: " << m_InsidePoints->Size());
+  itkDebugMacro("No. outside points: " << m_OutsidePoints->Size());
 }
 
 /*

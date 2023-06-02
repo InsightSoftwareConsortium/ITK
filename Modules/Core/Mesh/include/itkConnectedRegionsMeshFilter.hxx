@@ -145,14 +145,14 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   InputMeshCellsContainerConstPointer    inCells = input->GetCells();
   InputMeshCellDataContainerConstPointer inCellData = input->GetCellData();
 
-  itkDebugMacro(<< "Executing connectivity");
+  itkDebugMacro("Executing connectivity");
 
   //  Check input/allocate storage
   IdentifierType numCells = input->GetNumberOfCells();
   IdentifierType numPts = input->GetNumberOfPoints();
   if (numPts < 1 || numCells < 1)
   {
-    itkDebugMacro(<< "No data to connect!");
+    itkDebugMacro("No data to connect!");
     return;
   }
 
@@ -273,7 +273,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   delete m_Wave2;
   m_Wave = m_Wave2 = nullptr;
 
-  itkDebugMacro(<< "Extracted " << m_RegionNumber << " region(s)");
+  itkDebugMacro("Extracted " << m_RegionNumber << " region(s)");
 
   // Pass the point and point data through
   this->CopyInputMeshToOutputMeshPoints();
@@ -392,8 +392,8 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     {
       count += regionSize;
     }
-    itkDebugMacro(<< "Total #of cells accounted for: " << count);
-    itkDebugMacro(<< "Extracted " << output->GetNumberOfCells() << " cells");
+    itkDebugMacro("Total #of cells accounted for: " << count);
+    itkDebugMacro("Extracted " << output->GetNumberOfCells() << " cells");
   }
 #endif
 

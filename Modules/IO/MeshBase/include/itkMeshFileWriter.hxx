@@ -72,7 +72,7 @@ MeshFileWriter<TInputMesh>::Write()
 {
   const InputMeshType * input = this->GetInput();
 
-  itkDebugMacro(<< "Writing an mesh file");
+  itkDebugMacro("Writing an mesh file");
 
   // Make sure input is available
   if (input == nullptr)
@@ -91,7 +91,7 @@ MeshFileWriter<TInputMesh>::Write()
     // Try creating via factory
     if (m_MeshIO.IsNull())
     {
-      itkDebugMacro(<< "Attempting factory creation of MeshIO for file: " << m_FileName);
+      itkDebugMacro("Attempting factory creation of MeshIO for file: " << m_FileName);
       m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::IOFileModeEnum::WriteMode);
       m_FactorySpecifiedMeshIO = true;
     }
@@ -99,8 +99,8 @@ MeshFileWriter<TInputMesh>::Write()
     {
       if (m_FactorySpecifiedMeshIO && !m_MeshIO->CanWriteFile(m_FileName.c_str()))
       {
-        itkDebugMacro(<< "MeshIO exists but doesn't know how to write file:" << m_FileName);
-        itkDebugMacro(<< "Attempting creation of MeshIO with a factory for file:" << m_FileName);
+        itkDebugMacro("MeshIO exists but doesn't know how to write file:" << m_FileName);
+        itkDebugMacro("Attempting creation of MeshIO with a factory for file:" << m_FileName);
         m_MeshIO = MeshIOFactory::CreateMeshIO(m_FileName.c_str(), MeshIOFactory::IOFileModeEnum::WriteMode);
         m_FactorySpecifiedMeshIO = true;
       }
@@ -248,7 +248,7 @@ MeshFileWriter<TInputMesh>::WritePoints()
 {
   const InputMeshType * input = this->GetInput();
 
-  itkDebugMacro(<< "Writing points: " << m_FileName);
+  itkDebugMacro("Writing points: " << m_FileName);
   SizeValueType pointsBufferSize = input->GetNumberOfPoints() * TInputMesh::PointDimension;
   using ValueType = typename TInputMesh::PointType::ValueType;
   const auto buffer = make_unique_for_overwrite<ValueType[]>(pointsBufferSize);
@@ -260,7 +260,7 @@ template <typename TInputMesh>
 void
 MeshFileWriter<TInputMesh>::WriteCells()
 {
-  itkDebugMacro(<< "Writing cells: " << m_FileName);
+  itkDebugMacro("Writing cells: " << m_FileName);
 
   SizeValueType cellsBufferSize = m_MeshIO->GetCellBufferSize();
   using PointIdentifierType = typename TInputMesh::PointIdentifier;
@@ -275,7 +275,7 @@ MeshFileWriter<TInputMesh>::WritePointData()
 {
   const InputMeshType * input = this->GetInput();
 
-  itkDebugMacro(<< "Writing point data: " << m_FileName);
+  itkDebugMacro("Writing point data: " << m_FileName);
 
   if (input->GetPointData()->Size())
   {
@@ -296,7 +296,7 @@ MeshFileWriter<TInputMesh>::WriteCellData()
 {
   const InputMeshType * input = this->GetInput();
 
-  itkDebugMacro(<< "Writing cell data: " << m_FileName);
+  itkDebugMacro("Writing cell data: " << m_FileName);
 
   if (input->GetCellData()->Size())
   {

@@ -279,8 +279,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   function->ThresholdBetween(static_cast<InputImagePixelType>(lower), static_cast<InputImagePixelType>(upper));
 
-  itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean
-                << " , std::sqrt(variance) = " << std::sqrt(m_Variance));
+  itkDebugMacro("\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean
+                                       << " , std::sqrt(variance) = " << std::sqrt(m_Variance));
 
   // Segment the image, the iterator walks the output image (so Set()
   // writes into the output image), starting at the seed point.  As
@@ -332,10 +332,11 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     // if the variance is zero, there is no point in continuing
     if (Math::AlmostEquals(m_Variance, 0.0))
     {
-      itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean
-                    << ", variance = " << m_Variance << " , std::sqrt(variance) = " << std::sqrt(m_Variance));
-      itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares
-                    << "\nnumberOfSamples = " << numberOfSamples);
+      itkDebugMacro("\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean
+                                           << ", variance = " << m_Variance
+                                           << " , std::sqrt(variance) = " << std::sqrt(m_Variance));
+      itkDebugMacro("\nsum = " << sum << ", sumOfSquares = " << sumOfSquares
+                               << "\nnumberOfSamples = " << numberOfSamples);
       break;
     }
     lower = m_Mean - m_Multiplier * std::sqrt(m_Variance);
@@ -365,9 +366,10 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     function->ThresholdBetween(static_cast<InputImagePixelType>(lower), static_cast<InputImagePixelType>(upper));
 
-    itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean
-                  << ", variance = " << m_Variance << " , std::sqrt(variance) = " << std::sqrt(m_Variance));
-    itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << numberOfSamples);
+    itkDebugMacro("\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean
+                                         << ", variance = " << m_Variance
+                                         << " , std::sqrt(variance) = " << std::sqrt(m_Variance));
+    itkDebugMacro("\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << numberOfSamples);
 
     // Rerun the segmentation, the iterator walks the output image,
     // starting at the seed point.  As the iterator walks, if the

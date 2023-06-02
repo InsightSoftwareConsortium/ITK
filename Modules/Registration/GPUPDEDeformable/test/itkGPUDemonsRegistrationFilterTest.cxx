@@ -56,10 +56,10 @@ public:
   ShowProgress()
   {
     // std::cout
-    itkDebugMacro(<< "Progress: " << m_Process->GetProgress() << "  "
-                  << "Iter: " << m_Process->GetElapsedIterations() << "  "
-                  << "Metric: " << m_Process->GetMetric() << "  "
-                  << "RMSChange: " << m_Process->GetRMSChange() << "  ");
+    itkDebugMacro("Progress: " << m_Process->GetProgress() << "  "
+                               << "Iter: " << m_Process->GetElapsedIterations() << "  "
+                               << "Metric: " << m_Process->GetMetric() << "  "
+                               << "RMSChange: " << m_Process->GetRMSChange() << "  ");
     //               << std::endl;
 
     if (m_Process->GetElapsedIterations() == 10000)

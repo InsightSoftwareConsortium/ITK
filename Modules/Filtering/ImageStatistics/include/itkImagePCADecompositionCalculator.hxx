@@ -37,7 +37,7 @@ template <typename TInputImage, typename TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::SetBasisImages(const BasisImagePointerVector & v)
 {
-  itkDebugMacro(<< "setting BasisImages");
+  itkDebugMacro("setting BasisImages");
   this->m_BasisMatrixCalculated = false;
   // We need this modified setter function so that the calculator
   // can cache the basis set between calculations. Note that computing the

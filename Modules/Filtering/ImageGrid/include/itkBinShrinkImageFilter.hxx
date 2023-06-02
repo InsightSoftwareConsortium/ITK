@@ -98,7 +98,7 @@ void
 BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  itkDebugMacro(<< "BinShrinkImageFilter executing on region:" << outputRegionForThread);
+  itkDebugMacro("BinShrinkImageFilter executing on region:" << outputRegionForThread);
 
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput();

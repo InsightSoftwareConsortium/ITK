@@ -376,8 +376,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
   PointType3D movingCentroid = ComputeCentroid(this->m_MovingLandmarks);
 
-  itkDebugMacro(<< "fixed centroid  = " << fixedCentroid);
-  itkDebugMacro(<< "moving centroid  = " << movingCentroid);
+  itkDebugMacro("fixed centroid  = " << fixedCentroid);
+  itkDebugMacro("moving centroid  = " << movingCentroid);
 
   using VersorType = typename VersorRigid3DTransformType::VersorType;
 
@@ -418,8 +418,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
       }
 
       itkDebugStatement(++ii);
-      itkDebugMacro(<< "f_" << ii << " = " << fixedCentered);
-      itkDebugMacro(<< "m_" << ii << " = " << movingCentered);
+      itkDebugMacro("f_" << ii << " = " << fixedCentered);
+      itkDebugMacro("m_" << ii << " = " << movingCentered);
 
       ++movingItr;
       ++fixedItr;
@@ -431,9 +431,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
     CreateMatrix(N, M);
 
-    itkDebugMacro(<< "For Closed form solution: ");
-    itkDebugMacro(<< "M matrix " << M);
-    itkDebugMacro(<< "N matrix " << N);
+    itkDebugMacro("For Closed form solution: ");
+    itkDebugMacro("M matrix " << M);
+    itkDebugMacro("N matrix " << N);
 
     vnl_matrix<ParametersValueType> eigenVectors(4, 4);
     vnl_vector<ParametersValueType> eigenValues(4);
@@ -446,8 +446,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
     symmetricEigenSystem.ComputeEigenValuesAndVectors(N, eigenValues, eigenVectors);
 
-    itkDebugMacro(<< "EigenVectors " << eigenVectors);
-    itkDebugMacro(<< "EigenValues " << eigenValues);
+    itkDebugMacro("EigenVectors " << eigenVectors);
+    itkDebugMacro("EigenValues " << eigenValues);
 
     // By default eigen values are sorted in ascending order therefore the
     // maximum eigen value is the one in the fourth place = index 3. We need the
@@ -455,7 +455,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     // eigenvector from the last row, index=3.
 
     versor.Set(eigenVectors[3][1], eigenVectors[3][2], eigenVectors[3][3], eigenVectors[3][0]);
-    itkDebugMacro(<< "Resulting versor" << versor);
+    itkDebugMacro("Resulting versor" << versor);
   }
 
 
@@ -508,8 +508,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
   PointType3D movingCentroid = ComputeCentroid(this->m_MovingLandmarks);
 
-  itkDebugMacro(<< "fixed centroid  = " << fixedCentroid);
-  itkDebugMacro(<< "moving centroid  = " << movingCentroid);
+  itkDebugMacro("fixed centroid  = " << fixedCentroid);
+  itkDebugMacro("moving centroid  = " << movingCentroid);
 
   using VersorType = typename VersorRigid3DTransformType::VersorType;
 
@@ -559,8 +559,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
       }
 
       itkDebugStatement(++ii);
-      itkDebugMacro(<< "f_" << ii << " = " << fixedCentered);
-      itkDebugMacro(<< "m_" << ii << " = " << movingCentered);
+      itkDebugMacro("f_" << ii << " = " << fixedCentered);
+      itkDebugMacro("m_" << ii << " = " << movingCentered);
 
       ++movingItr;
       ++fixedItr;
@@ -571,9 +571,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     itk::Matrix<ParametersValueType, 4, 4> N;
 
     CreateMatrix(N, M);
-    itkDebugMacro(<< "For Closed form solution: ");
-    itkDebugMacro(<< "M matrix " << M);
-    itkDebugMacro(<< "N matrix " << N);
+    itkDebugMacro("For Closed form solution: ");
+    itkDebugMacro("M matrix " << M);
+    itkDebugMacro("N matrix " << N);
 
     vnl_matrix<ParametersValueType> eigenVectors(4, 4);
     vnl_vector<ParametersValueType> eigenValues(4);
@@ -586,8 +586,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
     symmetricEigenSystem.ComputeEigenValuesAndVectors(N, eigenValues, eigenVectors);
 
-    itkDebugMacro(<< "EigenVectors " << eigenVectors);
-    itkDebugMacro(<< "EigenValues " << eigenValues);
+    itkDebugMacro("EigenVectors " << eigenVectors);
+    itkDebugMacro("EigenValues " << eigenValues);
 
     // By default eigen values are sorted in ascending order therefore the
     // maximum eigen value is the one  in the fourth place = index 3. We need the
@@ -595,7 +595,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     // eigenvector from the last row, index=3.
 
     versor.Set(eigenVectors[3][1], eigenVectors[3][2], eigenVectors[3][3], eigenVectors[3][0]);
-    itkDebugMacro(<< "Resulting versor" << versor);
+    itkDebugMacro("Resulting versor" << versor);
   }
 
   transform->SetCenter(fixedCentroid);
@@ -671,8 +671,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   movingCentroid[0] /= this->m_MovingLandmarks.size();
   movingCentroid[1] /= this->m_MovingLandmarks.size();
 
-  itkDebugMacro(<< "fixed centroid  = " << fixedCentroid);
-  itkDebugMacro(<< "moving centroid  = " << movingCentroid);
+  itkDebugMacro("fixed centroid  = " << fixedCentroid);
+  itkDebugMacro("moving centroid  = " << movingCentroid);
 
   double rotationAngle = 0.0;
 
@@ -713,14 +713,14 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
       s_cross += (movingCentered[1] * fixedCentered[0]) - (movingCentered[0] * fixedCentered[1]);
 
       itkDebugStatement(++ii);
-      itkDebugMacro(<< "f_" << ii << " = " << fixedCentered);
-      itkDebugMacro(<< "m_" << ii << " = " << movingCentered);
+      itkDebugMacro("f_" << ii << " = " << fixedCentered);
+      itkDebugMacro("m_" << ii << " = " << movingCentered);
 
       ++movingItr;
       ++fixedItr;
     }
 
-    itkDebugMacro(<< "Dot Product of landmarks: " << s_dot << " Cross Product: " << s_cross);
+    itkDebugMacro("Dot Product of landmarks: " << s_dot << " Cross Product: " << s_cross);
     if (itk::Math::abs(s_dot) > 0.00005)
     {
       rotationAngle = std::atan2(s_cross, s_dot);
@@ -743,9 +743,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   transform->SetAngle(rotationAngle);
 
   VectorType translation = transform->GetTranslation();
-  itkDebugMacro(<< "Initial transform translation: " << translation);
+  itkDebugMacro("Initial transform translation: " << translation);
   translation = movingCentroid - fixedCentroid;
-  itkDebugMacro(<< "translation computed as difference of centroids: " << translation);
+  itkDebugMacro("translation computed as difference of centroids: " << translation);
   transform->SetTranslation(translation);
 }
 

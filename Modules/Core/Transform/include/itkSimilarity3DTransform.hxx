@@ -122,7 +122,7 @@ template <typename TParametersValueType>
 void
 Similarity3DTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
 {
-  itkDebugMacro(<< "Setting parameters " << parameters);
+  itkDebugMacro("Setting parameters " << parameters);
 
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if (&parameters != &(this->m_Parameters))
@@ -156,7 +156,7 @@ Similarity3DTransform<TParametersValueType>::SetParameters(const ParametersType 
   m_Scale = parameters[6]; // must be set before calling ComputeMatrix();
   this->ComputeMatrix();
 
-  itkDebugMacro(<< "Versor is now " << this->GetVersor());
+  itkDebugMacro("Versor is now " << this->GetVersor());
 
   // Transfer the translation part
   TranslationType newTranslation;
@@ -170,7 +170,7 @@ Similarity3DTransform<TParametersValueType>::SetParameters(const ParametersType 
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<< "After setting parameters ");
+  itkDebugMacro("After setting parameters ");
 }
 
 //
@@ -187,7 +187,7 @@ template <typename TParametersValueType>
 auto
 Similarity3DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
-  itkDebugMacro(<< "Getting parameters ");
+  itkDebugMacro("Getting parameters ");
 
   this->m_Parameters[0] = this->GetVersor().GetX();
   this->m_Parameters[1] = this->GetVersor().GetY();
@@ -200,7 +200,7 @@ Similarity3DTransform<TParametersValueType>::GetParameters() const -> const Para
 
   this->m_Parameters[6] = this->GetScale();
 
-  itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
+  itkDebugMacro("After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
 }

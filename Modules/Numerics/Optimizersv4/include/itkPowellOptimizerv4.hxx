@@ -67,7 +67,7 @@ PowellOptimizerv4<TInternalComputationValueType>::GetLineValue(double x, Paramet
     tempCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
   }
   this->m_Metric->SetParameters(tempCoord);
-  itkDebugMacro(<< "x = " << x);
+  itkDebugMacro("x = " << x);
   double val;
   try
   {
@@ -84,7 +84,7 @@ PowellOptimizerv4<TInternalComputationValueType>::GetLineValue(double x, Paramet
       throw;
     }
   }
-  itkDebugMacro(<< "val = " << val);
+  itkDebugMacro("val = " << val);
   return val;
 }
 
@@ -200,7 +200,7 @@ PowellOptimizerv4<TInternalComputationValueType>::LineBracket(double *         x
     *f3 = this->GetLineValue(*x3, tempCoord);
   }
 
-  itkDebugMacro(<< "Initial: " << *x1 << ", " << *x2 << ", " << *x3);
+  itkDebugMacro("Initial: " << *x1 << ", " << *x2 << ", " << *x3);
   //
   // Report the central point as the minimum
   //
@@ -277,9 +277,9 @@ PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double  
       *extX = x;
       *extVal = functionValueOfX;
       this->SetCurrentLinePoint(x, functionValueOfX);
-      itkDebugMacro(<< "x = " << *extX);
-      itkDebugMacro(<< "val = " << *extVal);
-      itkDebugMacro(<< "return 1");
+      itkDebugMacro("x = " << *extX);
+      itkDebugMacro("val = " << *extVal);
+      itkDebugMacro("return 1");
       return; /* Acceptable approx. is found  */
     }
 
@@ -390,9 +390,9 @@ PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double  
 
   *extX = x;
   *extVal = functionValueOfX;
-  itkDebugMacro(<< "x = " << *extX);
-  itkDebugMacro(<< "val = " << *extVal);
-  itkDebugMacro(<< "return 2");
+  itkDebugMacro("x = " << *extX);
+  itkDebugMacro("val = " << *extVal);
+  itkDebugMacro("return 2");
 
   this->SetCurrentLinePoint(x, functionValueOfX);
 }

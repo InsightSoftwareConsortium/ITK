@@ -293,7 +293,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::SetSchedule
 {
   if (schedule.rows() != m_NumberOfLevels || schedule.columns() != ImageDimension)
   {
-    itkDebugMacro(<< "Schedule has wrong dimensions");
+    itkDebugMacro("Schedule has wrong dimensions");
     return;
   }
 
@@ -441,7 +441,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBia
                                                                                        int maximumIteration)
   -> BiasFieldType
 {
-  itkDebugMacro(<< "Estimating bias field ");
+  itkDebugMacro("Estimating bias field ");
 
   bool                          cleanCoeffs = false;
   BiasFieldType::DomainSizeType biasSize;
@@ -547,7 +547,7 @@ void
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImage(BiasFieldType &      bias,
                                                                                   InputImageRegionType region)
 {
-  itkDebugMacro(<< "Correcting the image ");
+  itkDebugMacro("Correcting the image ");
   using Pixel = InternalImagePixelType;
   ImageRegionIterator<InternalImageType> iIter(m_InternalInput, region);
   BiasFieldType::SimpleForwardIterator   bIter(&bias);
@@ -558,7 +558,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImag
   bIter.Begin();
   if (m_OutputMask.IsNotNull())
   {
-    itkDebugMacro(<< "Output mask is being used");
+    itkDebugMacro("Output mask is being used");
     ImageRegionIterator<ImageMaskType> mIter(m_OutputMask, region);
     mIter.GoToBegin();
     while (!bIter.IsAtEnd())
@@ -580,7 +580,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImag
   }
   else
   {
-    itkDebugMacro(<< "Output mask is not being used");
+    itkDebugMacro("Output mask is not being used");
     while (!bIter.IsAtEnd())
     {
       double diff = iIter.Get() - bIter.Get();
@@ -626,13 +626,13 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
-  itkDebugMacro(<< "Initializing filter...");
+  itkDebugMacro("Initializing filter...");
   this->Initialize();
-  itkDebugMacro(<< "Filter initialized.");
+  itkDebugMacro("Filter initialized.");
 
   if (m_UsingSlabIdentification)
   {
-    itkDebugMacro(<< "Searching slabs...");
+    itkDebugMacro("Searching slabs...");
 
     typename MRASlabIdentifier<InputImageType>::Pointer identifier = MRASlabIdentifier<InputImageType>::New();
     // Find slabs
@@ -654,7 +654,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
   }
 
   this->AdjustSlabRegions(m_Slabs, this->GetOutput()->GetRequestedRegion());
-  itkDebugMacro(<< "After adjustment, there are " << static_cast<SizeValueType>(m_Slabs.size()) << " slabs.");
+  itkDebugMacro("After adjustment, there are " << static_cast<SizeValueType>(m_Slabs.size()) << " slabs.");
 
   auto iter = m_Slabs.begin();
 
@@ -677,15 +677,15 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
 
     if (m_UsingInterSliceIntensityCorrection)
     {
-      itkDebugMacro(<< "  Correcting inter-slice intensity...");
+      itkDebugMacro("  Correcting inter-slice intensity...");
       this->CorrectInterSliceIntensityInhomogeneity(*iter);
-      itkDebugMacro(<< "  Inter-slice intensity corrected.");
+      itkDebugMacro("  Inter-slice intensity corrected.");
     }
 
     // Correct 3D bias
     if (m_UsingBiasFieldCorrection)
     {
-      itkDebugMacro(<< "  Correcting bias...");
+      itkDebugMacro("  Correcting bias...");
 
       m_BiasFieldCoefficients.clear();
       for (int i = 0; i < nCoef; ++i)
@@ -709,7 +709,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
       }
 
       this->CorrectImage(bias, *iter);
-      itkDebugMacro(<< "  Bias corrected.");
+      itkDebugMacro("  Bias corrected.");
     }
     ++iter;
   }
@@ -730,7 +730,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
 
   if (m_GeneratingOutput)
   {
-    itkDebugMacro(<< "Generating the output image...");
+    itkDebugMacro("Generating the output image...");
 
     if (this->GetBiasFieldMultiplicative())
     {
@@ -742,7 +742,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
     output->Allocate();
     CopyAndConvertImage(m_InternalInput.GetPointer(), output, output->GetRequestedRegion());
 
-    itkDebugMacro(<< "The output image generated.");
+    itkDebugMacro("The output image generated.");
   }
 }
 

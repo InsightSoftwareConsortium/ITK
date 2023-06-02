@@ -543,7 +543,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   else
   {
-    itkDebugMacro(<< "No need to flip");
+    itkDebugMacro("No need to flip");
   }
 
   //

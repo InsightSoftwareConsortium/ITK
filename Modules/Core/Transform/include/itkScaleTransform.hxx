@@ -57,14 +57,14 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 ScaleTransform<TParametersValueType, VDimension>::GetParameters() const -> const ParametersType &
 {
-  itkDebugMacro(<< "Getting parameters ");
+  itkDebugMacro("Getting parameters ");
   // Transfer the translation part
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     this->m_Parameters[i] = m_Scale[i];
   }
 
-  itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
+  itkDebugMacro("After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
 }

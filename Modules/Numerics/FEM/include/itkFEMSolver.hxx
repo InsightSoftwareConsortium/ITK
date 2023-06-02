@@ -547,7 +547,7 @@ Solver<VDimension>::RunSolver()
     throw FEMExceptionSolution(__FILE__, __LINE__, "FEMObject::Solve()", "Master force vector was not initialized!");
   }
   timer.Stop();
-  itkDebugMacro(<< "Assemble Matrix took " << timer.GetMean() << " seconds.\n");
+  itkDebugMacro("Assemble Matrix took " << timer.GetMean() << " seconds.\n");
 
   itk::TimeProbe timer1;
   timer1.Start();
@@ -559,7 +559,7 @@ Solver<VDimension>::RunSolver()
   this->GetOutput()->DeepCopy(this->GetInput());
   this->UpdateDisplacements();
   timer1.Stop();
-  itkDebugMacro(<< "FE Solution took " << timer1.GetMean() << " seconds.\n");
+  itkDebugMacro("FE Solution took " << timer1.GetMean() << " seconds.\n");
 }
 
 template <unsigned int VDimension>

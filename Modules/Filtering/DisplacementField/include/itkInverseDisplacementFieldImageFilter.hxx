@@ -182,16 +182,16 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
     ++ot;
   }
 
-  itkDebugMacro(<< "Number of Landmarks created = " << numberOfLandmarks);
+  itkDebugMacro("Number of Landmarks created = " << numberOfLandmarks);
 
   m_KernelTransform->GetModifiableTargetLandmarks()->SetPoints(target);
   m_KernelTransform->GetModifiableSourceLandmarks()->SetPoints(source);
 
-  itkDebugMacro(<< "Before ComputeWMatrix() ");
+  itkDebugMacro("Before ComputeWMatrix() ");
 
   m_KernelTransform->ComputeWMatrix();
 
-  itkDebugMacro(<< "After ComputeWMatrix() ");
+  itkDebugMacro("After ComputeWMatrix() ");
 }
 
 /**
@@ -205,7 +205,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
   // the KernelBased spline.
   this->PrepareKernelBaseSpline();
 
-  itkDebugMacro(<< "Actually executing");
+  itkDebugMacro("Actually executing");
 
   // Get the output pointers
   OutputImageType * outputPtr = this->GetOutput();
