@@ -78,7 +78,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::GetInput(unsigned int idx) const 
 
   if (in == nullptr && this->ProcessObject::GetInput(idx) != nullptr)
   {
-    itkWarningMacro(<< "Unable to convert input number " << idx << " to type " << typeid(InputImageType).name());
+    itkWarningMacro("Unable to convert input number " << idx << " to type " << typeid(InputImageType).name());
   }
   return in;
 }

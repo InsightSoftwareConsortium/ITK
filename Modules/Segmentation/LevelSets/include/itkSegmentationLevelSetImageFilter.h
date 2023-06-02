@@ -280,7 +280,7 @@ public:
   void
   SetUseNegativeFeatures(bool u)
   {
-    itkWarningMacro(<< "SetUseNegativeFeatures has been deprecated.  Please use SetReverseExpansionDirection instead");
+    itkWarningMacro("SetUseNegativeFeatures has been deprecated.  Please use SetReverseExpansionDirection instead");
     if (u == true)
     {
       this->SetReverseExpansionDirection(false);

@@ -87,8 +87,8 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   if (maxValue == seedValue)
   {
-    itkWarningMacro(<< "GrayscaleConnectedClosingImageFilter: pixel value at seed point matches maximum value in "
-                       "image.  Resulting image will have a constant value.");
+    itkWarningMacro("GrayscaleConnectedClosingImageFilter: pixel value at seed point matches maximum value in "
+                    "image.  Resulting image will have a constant value.");
     outputImage->FillBuffer(maxValue);
     this->UpdateProgress(1.0);
     return;

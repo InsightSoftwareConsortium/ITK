@@ -93,7 +93,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::EnlargeOutputRequestedRegion(DataObj
   else
   {
     // pointer could not be cast to TLevelSet *
-    itkWarningMacro(<< "itk::ReinitializeLevelSetImageFilter"
+    itkWarningMacro("itk::ReinitializeLevelSetImageFilter"
                     << "::EnlargeOutputRequestedRegion cannot cast " << typeid(output).name() << " to "
                     << typeid(TLevelSet *).name());
   }

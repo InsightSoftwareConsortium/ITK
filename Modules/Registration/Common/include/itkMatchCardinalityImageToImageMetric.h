@@ -101,7 +101,7 @@ public:
   void
   GetDerivative(const TransformParametersType &, DerivativeType & derivative) const override
   {
-    itkWarningMacro(<< "This metric does not provide metric derivatives.");
+    itkWarningMacro("This metric does not provide metric derivatives.");
     derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
   }
 

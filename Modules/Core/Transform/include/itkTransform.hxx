@@ -466,8 +466,8 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::ApplyToImage
 
   if (!this->IsLinear())
   {
-    itkWarningMacro(<< "ApplyToImageMetadata was invoked with non-linear transform of type: " << this->GetNameOfClass()
-                    << ". This might produce unexpected results.");
+    itkWarningMacro("ApplyToImageMetadata was invoked with non-linear transform of type: "
+                    << this->GetNameOfClass() << ". This might produce unexpected results.");
   }
 
   typename Self::Pointer inverse = this->GetInverseTransform();

@@ -356,8 +356,8 @@ GDCMImageIO::Read(void * pointer)
     {
       itkExceptionMacro("Failed to change to Photometric Interpretation");
     }
-    itkWarningMacro(<< "Converting from MONOCHROME1 to MONOCHROME2 may impact the meaning of DICOM attributes related "
-                       "to pixel values.");
+    itkWarningMacro("Converting from MONOCHROME1 to MONOCHROME2 may impact the meaning of DICOM attributes related "
+                    "to pixel values.");
     image = icpi.GetOutput();
   }
 

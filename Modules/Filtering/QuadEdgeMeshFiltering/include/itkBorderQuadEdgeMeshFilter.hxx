@@ -62,7 +62,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeBoundary()
       bdryEdge = ComputeLargestBorder();
       break;
     default:
-      itkWarningMacro(<< "Unknown Border to be picked...");
+      itkWarningMacro("Unknown Border to be picked...");
       break;
   }
 

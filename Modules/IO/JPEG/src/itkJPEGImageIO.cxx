@@ -232,7 +232,7 @@ JPEGImageIO::Read(void * buffer)
         jpeg_destroy_decompress(&cinfo);
         delete[] row_pointers;
         delete[] buf0;
-        itkWarningMacro(<< "JPEG error in the file " << this->GetFileName());
+        itkWarningMacro("JPEG error in the file " << this->GetFileName());
         return;
       }
 
@@ -270,7 +270,7 @@ JPEGImageIO::Read(void * buffer)
       {
         jpeg_destroy_decompress(&cinfo);
         delete[] row_pointers;
-        itkWarningMacro(<< "JPEG error in the file " << this->GetFileName());
+        itkWarningMacro("JPEG error in the file " << this->GetFileName());
         return;
       }
 

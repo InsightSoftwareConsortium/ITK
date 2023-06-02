@@ -113,7 +113,7 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GenerateDa
 
   if (!is_ok)
   {
-    itkWarningMacro(<< "no input image provided");
+    itkWarningMacro("no input image provided");
   }
 }
 

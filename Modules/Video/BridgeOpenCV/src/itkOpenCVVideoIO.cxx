@@ -240,7 +240,7 @@ OpenCVVideoIO::ReadImageInformation()
       // If the I-Frame spacing is not 1, warn the user
       if (this->m_IFrameInterval != 1)
       {
-        itkWarningMacro(<< "OpenCV can only seek to I-Frames. I-Frame spacing for this video is "
+        itkWarningMacro("OpenCV can only seek to I-Frames. I-Frame spacing for this video is "
                         << this->m_IFrameInterval << ". Last I-Frame is " << this->m_LastIFrame);
       }
     }
@@ -389,7 +389,7 @@ OpenCVVideoIO::CanWriteFile(const char * filename)
   // Make sure reader is closed
   if (this->m_ReaderOpen)
   {
-    itkWarningMacro(<< "Can't write anything if reader is open");
+    itkWarningMacro("Can't write anything if reader is open");
     return false;
   }
 
@@ -397,7 +397,7 @@ OpenCVVideoIO::CanWriteFile(const char * filename)
   std::string fname = filename;
   if (fname == "")
   {
-    itkWarningMacro(<< "No Filename specified");
+    itkWarningMacro("No Filename specified");
     return false;
   }
 
@@ -419,7 +419,7 @@ OpenCVVideoIO::CanWriteFile(const char * filename)
   }
   if (!extensionFound)
   {
-    itkWarningMacro(<< "Unrecognized file extension " << fname);
+    itkWarningMacro("Unrecognized file extension " << fname);
     return false;
   }
 

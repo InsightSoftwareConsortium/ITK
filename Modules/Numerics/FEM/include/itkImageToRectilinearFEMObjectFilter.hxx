@@ -101,7 +101,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput(unsigned int idx) -> F
 
   if (out == nullptr)
   {
-    itkWarningMacro(<< "dynamic_cast to output type failed");
+    itkWarningMacro("dynamic_cast to output type failed");
   }
   return out;
 }
@@ -113,7 +113,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GenerateData()
 
   if (this->GetNumberOfInputs() < 1)
   {
-    itkWarningMacro(<< "GenerateData() found no input objects");
+    itkWarningMacro("GenerateData() found no input objects");
   }
 
   if (NDimensions == 2)

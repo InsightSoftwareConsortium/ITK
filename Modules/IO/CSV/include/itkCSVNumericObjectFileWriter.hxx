@@ -108,7 +108,7 @@ CSVNumericObjectFileWriter<TValue, VRows, VColumns>::PrepareForWriting()
   // object are not the same
   if (!this->m_RowHeaders.empty() && (this->m_RowHeaders.size() != this->m_Rows))
   {
-    itkWarningMacro(<< "Warning: The number of row headers and the number of rows in"
+    itkWarningMacro("Warning: The number of row headers and the number of rows in"
                     << " the input object is not consistent.");
   }
 
@@ -118,12 +118,12 @@ CSVNumericObjectFileWriter<TValue, VRows, VColumns>::PrepareForWriting()
   {
     if (!this->m_RowHeaders.empty() && this->m_ColumnHeaders.size() != (this->m_Columns + 1))
     {
-      itkWarningMacro(<< "Warning: The number of column headers and the number of"
+      itkWarningMacro("Warning: The number of column headers and the number of"
                       << " columns in the input object is not consistent.");
     }
     if (this->m_RowHeaders.empty() && this->m_ColumnHeaders.size() != this->m_Columns)
     {
-      itkWarningMacro(<< "Warning: The number of column headers and the number of"
+      itkWarningMacro("Warning: The number of column headers and the number of"
                       << " columns in the input object is not consistent.");
     }
   }

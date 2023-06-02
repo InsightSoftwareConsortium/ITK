@@ -60,8 +60,8 @@ template <typename TOutputMesh>
 void
 MeshSource<TOutputMesh>::SetOutput(OutputMeshType * output)
 {
-  itkWarningMacro(<< "SetOutput(): This method is slated to be removed from ITK.  Please use GraftOutput() in possible "
-                     "combination with DisconnectPipeline() instead.");
+  itkWarningMacro("SetOutput(): This method is slated to be removed from ITK.  Please use GraftOutput() in possible "
+                  "combination with DisconnectPipeline() instead.");
   this->ProcessObject::SetNthOutput(0, output);
 }
 

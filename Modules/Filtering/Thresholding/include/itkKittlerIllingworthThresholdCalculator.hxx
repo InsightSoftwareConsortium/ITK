@@ -139,7 +139,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
 
     if (itk::Math::abs(As1 - At) < itk::Math::eps)
     {
-      itkWarningMacro(<< "KittlerIllingworthThresholdCalculator: not converging: As1 = At = " << At);
+      itkWarningMacro("KittlerIllingworthThresholdCalculator: not converging: As1 = At = " << At);
       break;
     }
 
@@ -174,7 +174,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
     double sqterm = w1 * w1 - w0 * w2;
     if (sqterm < itk::Math::eps)
     {
-      itkWarningMacro(<< "KittlerIllingworthThresholdCalculator: not converging.");
+      itkWarningMacro("KittlerIllingworthThresholdCalculator: not converging.");
       break;
     }
 
@@ -205,7 +205,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
       // Not sure if this condition is really useful
       if (itk::Math::isnan(temp))
       {
-        itkWarningMacro(<< "KittlerIllingworthThresholdCalculator: NaN, not converging.");
+        itkWarningMacro("KittlerIllingworthThresholdCalculator: NaN, not converging.");
         threshold = Tprev;
         break;
       }

@@ -342,7 +342,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
       // If there have been too many attempts to fill cells, stop iterations
       if (pass == m_MaxSplitAttempts)
       {
-        itkWarningMacro(<< "Unable to fill all empty cells");
+        itkWarningMacro("Unable to fill all empty cells");
         m_OutputNumberOfEmptyCells = emptycells;
         m_OutputDistortion = distortion;
         return GLA_CONVERGED;

@@ -477,8 +477,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // There should be exactly one entry in the hash for that endpoint
         if (erased != 1)
         {
-          itkWarningMacro(<< "There should be exactly one entry in the hash for that endpoint, but there are "
-                          << erased);
+          itkWarningMacro("There should be exactly one entry in the hash for that endpoint, but there are " << erased);
         }
         contourData.m_Contours.erase(tail); // remove from the master list
 
@@ -500,8 +499,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
           head->front()) };
         if (erased != 1)
         {
-          itkWarningMacro(<< "There should be exactly one entry in the hash for that endpoint, but there are "
-                          << erased);
+          itkWarningMacro("There should be exactly one entry in the hash for that endpoint, but there are " << erased);
         }
         contourData.m_Contours.erase(head); // remove from the master list
 

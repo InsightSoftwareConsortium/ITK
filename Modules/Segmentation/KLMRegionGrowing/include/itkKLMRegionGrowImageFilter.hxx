@@ -309,7 +309,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
 
   if (m_InitialNumberOfRegions < this->GetMaximumNumberOfRegions())
   {
-    itkWarningMacro(<< "Number of initial image regions is less than requested: reduce granularity of the grid");
+    itkWarningMacro("Number of initial image regions is less than requested: reduce granularity of the grid");
   }
 
   // Set current number of regions

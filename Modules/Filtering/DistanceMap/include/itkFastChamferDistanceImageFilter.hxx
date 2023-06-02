@@ -44,7 +44,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::FastChamferDistanceIm
       m_Weights[--dim] = 0.92644;
       break;
     default:
-      itkWarningMacro(<< "Dimension " << ImageDimension << " with Default weights ");
+      itkWarningMacro("Dimension " << ImageDimension << " with Default weights ");
       for (unsigned int i = 1; i <= ImageDimension; ++i)
       {
         m_Weights[i - 1] = std::sqrt(static_cast<float>(i));

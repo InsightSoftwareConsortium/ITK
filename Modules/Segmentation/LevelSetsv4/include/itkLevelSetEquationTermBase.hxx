@@ -112,13 +112,13 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::SetUp()
 
     if (this->m_CurrentLevelSetPointer.IsNull())
     {
-      itkWarningMacro(<< "m_CurrentLevelSetId does not exist in the level set container");
+      itkWarningMacro("m_CurrentLevelSetId does not exist in the level set container");
     }
   }
 
   if (!this->m_Heaviside.IsNotNull())
   {
-    itkWarningMacro(<< "m_Heaviside is nullptr");
+    itkWarningMacro("m_Heaviside is nullptr");
   }
 }
 // ----------------------------------------------------------------------------

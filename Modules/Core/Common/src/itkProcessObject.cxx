@@ -849,7 +849,7 @@ ProcessObject::AddRequiredInputName(const DataObjectIdentifierType & name, DataO
 
   if (!m_RequiredInputNames.insert(name).second)
   {
-    itkWarningMacro(<< "Input already \"" << name << "\" already required!");
+    itkWarningMacro("Input already \"" << name << "\" already required!");
     // Input already required, but it is not added as indexed input?
     return false;
   }

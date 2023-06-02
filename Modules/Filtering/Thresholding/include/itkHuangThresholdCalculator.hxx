@@ -53,7 +53,7 @@ HuangThresholdCalculator<THistogram, TOutput>::GenerateData()
   }
   if (m_FirstBin == m_Size)
   {
-    itkWarningMacro(<< "No data in histogram");
+    itkWarningMacro("No data in histogram");
     return;
   }
   m_LastBin = m_Size - 1;

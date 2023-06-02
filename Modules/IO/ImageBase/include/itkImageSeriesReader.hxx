@@ -475,8 +475,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
   if (TOutputImage::ImageDimension != this->m_NumberOfDimensionsInImage &&
       maxSpacingDeviation > m_SpacingWarningRelThreshold * outputSpacing[this->m_NumberOfDimensionsInImage])
   {
-    itkWarningMacro(<< "Non uniform sampling or missing slices detected,  maximum nonuniformity:"
-                    << maxSpacingDeviation);
+    itkWarningMacro("Non uniform sampling or missing slices detected,  maximum nonuniformity:" << maxSpacingDeviation);
   }
   if (maxSpacingDeviation > 0.0)
   {

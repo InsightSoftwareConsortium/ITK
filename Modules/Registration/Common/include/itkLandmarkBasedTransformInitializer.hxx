@@ -732,7 +732,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   }
   else
   {
-    itkWarningMacro(<< "Less than 2 landmarks available. Rotation is not computed");
+    itkWarningMacro("Less than 2 landmarks available. Rotation is not computed");
   }
 
   auto t = Rigid2DTransformType::New();

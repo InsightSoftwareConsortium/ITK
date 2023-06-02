@@ -134,7 +134,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
       }
       catch (const std::exception & e)
       {
-        itkWarningMacro(<< "GetConvergenceValue() failed with exception: " << e.what() << std::endl);
+        itkWarningMacro("GetConvergenceValue() failed with exception: " << e.what() << std::endl);
       }
     }
 
