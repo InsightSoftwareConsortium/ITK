@@ -106,5 +106,13 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
     }
   }
 
+
+  MetricType::ParametersType parameters = transform->GetParameters();
+  MetricType::DerivativeType derivative;
+  metric->GetDerivative(parameters, derivative);
+
+  MetricType::DerivativeType derivative1{};
+  ITK_TEST_EXPECT_EQUAL(derivative, derivative1);
+
   return EXIT_SUCCESS;
 }
