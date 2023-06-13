@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkIntTypes.h"
 #include "itkMathematicalMorphologyEnums.h"
 
 namespace itk
