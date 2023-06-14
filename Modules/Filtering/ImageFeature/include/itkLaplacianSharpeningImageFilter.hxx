@@ -18,14 +18,121 @@
 #ifndef itkLaplacianSharpeningImageFilter_hxx
 #define itkLaplacianSharpeningImageFilter_hxx
 
-#include "itkNeighborhoodOperatorImageFilter.h"
-#include "itkLaplacianOperator.h"
-#include "itkProgressAccumulator.h"
+#include "itkLaplacianImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
-#include "itkImageRegionIterator.h"
+#include "itkStatisticsImageFilter.h"
+#include "itkAddImageFilter.h"
+#include "itkMultiplyImageFilter.h"
+#include "itkSubtractImageFilter.h"
+#include "itkIntensityWindowingImageFilter.h"
 
 namespace itk
 {
+
+template <typename TInputImage, typename TOutputImage>
+void
+LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
+{
+  Superclass::EnlargeOutputRequestedRegion(output);
+
+  if (output != nullptr)
+  {
+    output->SetRequestedRegionToLargestPossibleRegion();
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
+{
+
+  auto localInput = TInputImage::New();
+  localInput->Graft(this->GetInput());
+
+  // Calculate needed input image statistics
+
+  typename StatisticsImageFilter<InputImageType>::Pointer inputCalculator =
+    StatisticsImageFilter<InputImageType>::New();
+
+  inputCalculator->SetInput(localInput);
+  inputCalculator->Update();
+
+  auto inputMinimum = static_cast<RealType>(inputCalculator->GetMinimum());
+  auto inputMaximum = static_cast<RealType>(inputCalculator->GetMaximum());
+  auto inputMean = static_cast<RealType>(inputCalculator->GetMean());
+
+  auto inputShift = inputMinimum;
+  auto inputScale = inputMaximum - inputMinimum;
+
+  // Calculate the Laplacian filtered image
+
+  using RealImageType = Image<RealType, ImageDimension>;
+
+  using LaplacianImageFilter = LaplacianImageFilter<InputImageType, RealImageType>;
+  typename LaplacianImageFilter::Pointer laplacianFilter = LaplacianImageFilter::New();
+  laplacianFilter->SetInput(localInput);
+  laplacianFilter->SetUseImageSpacing(m_UseImageSpacing);
+  laplacianFilter->Update();
+
+  // Calculate needed laplacian filtered image statistics
+
+  typename MinimumMaximumImageCalculator<RealImageType>::Pointer filteredCalculator =
+    MinimumMaximumImageCalculator<RealImageType>::New();
+
+  filteredCalculator->SetImage(laplacianFilter->GetOutput());
+  filteredCalculator->SetRegion(laplacianFilter->GetOutput()->GetRequestedRegion());
+  filteredCalculator->Compute();
+
+  RealType filteredShift = static_cast<RealType>(filteredCalculator->GetMinimum());
+  RealType filteredScale = static_cast<RealType>(filteredCalculator->GetMaximum()) - filteredShift;
+
+  // Combine the input image and the laplacian image
+
+  using AddImageFilterType = AddImageFilter<RealImageType>;
+  using MultiplyImageFilterType = MultiplyImageFilter<RealImageType>;
+  using SubtractImageFilterType = SubtractImageFilter<InputImageType, RealImageType, RealImageType>;
+
+  auto addImageFilter1 = AddImageFilterType::New();
+  addImageFilter1->SetInput(laplacianFilter->GetOutput());
+  addImageFilter1->SetConstant2(-filteredShift);
+
+  auto multiplyImageFilter = MultiplyImageFilterType::New();
+  multiplyImageFilter->SetInput(addImageFilter1->GetOutput());
+  multiplyImageFilter->SetConstant(inputScale / filteredScale);
+
+  auto addImageFilter2 = AddImageFilterType::New();
+  addImageFilter2->SetInput(multiplyImageFilter->GetOutput());
+  addImageFilter2->SetConstant2(inputShift);
+
+  auto subtractImageFilter = SubtractImageFilterType::New();
+  subtractImageFilter->SetInput1(localInput);
+  subtractImageFilter->SetInput2(addImageFilter2->GetOutput());
+
+  // Calculate needed combined image statistics
+
+  typename StatisticsImageFilter<RealImageType>::Pointer enhancedCalculator =
+    StatisticsImageFilter<RealImageType>::New();
+
+  enhancedCalculator->SetInput(subtractImageFilter->GetOutput());
+  enhancedCalculator->Update();
+
+  auto enhancedMean = static_cast<RealType>(enhancedCalculator->GetMean());
+
+  // Shift and window the output
+
+  using IntensityWindowingFilterType = IntensityWindowingImageFilter<RealImageType, OutputImageType>;
+  auto intensityWindowingFilter = IntensityWindowingFilterType::New();
+  intensityWindowingFilter->SetInput(subtractImageFilter->GetOutput());
+  intensityWindowingFilter->SetOutputMinimum(inputMinimum);
+  intensityWindowingFilter->SetOutputMaximum(inputMaximum);
+  intensityWindowingFilter->SetWindowMinimum(inputMinimum - (inputMean - enhancedMean));
+  intensityWindowingFilter->SetWindowMaximum(inputMaximum - (inputMean - enhancedMean));
+  intensityWindowingFilter->GraftOutput(this->GetOutput());
+  intensityWindowingFilter->Update();
+
+  this->GraftOutput(intensityWindowingFilter->GetOutput());
+}
+
 template <typename TInputImage, typename TOutputImage>
 void
 LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -35,200 +142,6 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
   os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
 }
 
-template <typename TInputImage, typename TOutputImage>
-void
-LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
-{
-  // call the superclass' implementation of this method. This should
-  // copy the output requested region to the input requested region
-  Superclass::GenerateInputRequestedRegion();
-
-  // get pointers to the input and output
-  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
-
-  if (!inputPtr)
-  {
-    return;
-  }
-
-  // Build an operator so that we can determine the kernel size
-  LaplacianOperator<RealType, ImageDimension> oper;
-  oper.CreateOperator();
-
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius(oper.GetRadius());
-
-  // crop the input requested region at the input's largest possible region
-  if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
-  {
-    inputPtr->SetRequestedRegion(inputRequestedRegion);
-    return;
-  }
-  else
-  {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion(inputRequestedRegion);
-
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    e.SetLocation(ITK_LOCATION);
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-  }
-}
-
-template <typename TInputImage, typename TOutputImage>
-void
-LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
-{
-  // Create the Laplacian operator
-  LaplacianOperator<RealType, ImageDimension> oper;
-  double                                      s[ImageDimension];
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-  {
-    if (this->GetInput()->GetSpacing()[i] == 0.0)
-    {
-      itkExceptionMacro("Image spacing cannot be zero");
-    }
-    else
-    {
-      s[i] = 1.0 / this->GetInput()->GetSpacing()[i];
-    }
-  }
-  oper.SetDerivativeScalings(s);
-  oper.CreateOperator();
-
-  // do calculations in floating point
-  using RealImageType = Image<RealType, ImageDimension>;
-  using NOIF = NeighborhoodOperatorImageFilter<InputImageType, RealImageType>;
-  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
-
-  auto filter = NOIF::New();
-  filter->OverrideBoundaryCondition(static_cast<typename NOIF::ImageBoundaryConditionPointerType>(&nbc));
-
-  // Create a process accumulator for tracking the progress of this minipipeline
-  auto progress = ProgressAccumulator::New();
-  progress->SetMiniPipelineFilter(this);
-
-  // Register the filter with the with progress accumulator using
-  // equal weight proportion
-  progress->RegisterInternalFilter(filter, 0.8f);
-
-  //
-  // set up the mini-pipeline
-  //
-  filter->SetOperator(oper);
-  filter->SetInput(this->GetInput());
-  filter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
-
-  // execute the mini-pipeline
-  filter->Update();
-
-  // determine how the data will need to scaled to be properly combined
-  typename MinimumMaximumImageCalculator<InputImageType>::Pointer inputCalculator =
-    MinimumMaximumImageCalculator<InputImageType>::New();
-  typename MinimumMaximumImageCalculator<RealImageType>::Pointer filteredCalculator =
-    MinimumMaximumImageCalculator<RealImageType>::New();
-
-  inputCalculator->SetImage(this->GetInput());
-  inputCalculator->SetRegion(this->GetOutput()->GetRequestedRegion());
-  inputCalculator->Compute();
-
-  filteredCalculator->SetImage(filter->GetOutput());
-  filteredCalculator->SetRegion(this->GetOutput()->GetRequestedRegion());
-  filteredCalculator->Compute();
-
-  RealType inputShift, inputScale, filteredShift, filteredScale;
-  inputShift = static_cast<RealType>(inputCalculator->GetMinimum());
-  inputScale =
-    static_cast<RealType>(inputCalculator->GetMaximum()) - static_cast<RealType>(inputCalculator->GetMinimum());
-
-  filteredShift = filteredCalculator->GetMinimum(); // no need to cast
-  filteredScale = filteredCalculator->GetMaximum() - filteredCalculator->GetMinimum();
-
-  ImageRegionIterator<RealImageType>       it(filter->GetOutput(), filter->GetOutput()->GetRequestedRegion());
-  ImageRegionConstIterator<InputImageType> inIt(this->GetInput(), this->GetOutput()->GetRequestedRegion());
-
-  // combine the input and laplacian images
-  RealType value, invalue;
-  RealType inputSum = 0.0;
-  RealType enhancedSum = 0.0;
-  while (!it.IsAtEnd())
-  {
-    value = it.Get(); // laplacian value
-
-    // rescale to [0,1]
-    value = (value - filteredShift) / filteredScale;
-
-    // rescale to the input dynamic range
-    value = value * inputScale + inputShift;
-
-    // combine the input and laplacian image (note that we subtract
-    // the laplacian due to the signs in our laplacian kernel).
-    invalue = static_cast<RealType>(inIt.Get());
-    value = invalue - value;
-    it.Set(value);
-
-    inputSum += invalue;
-    enhancedSum += value;
-    ++it;
-    ++inIt;
-  }
-  RealType inputMean = inputSum / static_cast<RealType>(this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
-  RealType enhancedMean =
-    enhancedSum / static_cast<RealType>(this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
-
-  // update progress
-  this->UpdateProgress(0.9);
-
-  // copy and cast the output
-  typename TOutputImage::Pointer output = this->GetOutput();
-  output->SetBufferedRegion(output->GetRequestedRegion());
-  output->Allocate();
-
-  RealType inputMinimum = inputCalculator->GetMinimum();
-  RealType inputMaximum = inputCalculator->GetMaximum();
-  auto     castInputMinimum = static_cast<OutputPixelType>(inputMinimum);
-  auto     castInputMaximum = static_cast<OutputPixelType>(inputMaximum);
-
-  ImageRegionIterator<OutputImageType> outIt(output, output->GetRequestedRegion());
-  it.GoToBegin();
-  while (!outIt.IsAtEnd())
-  {
-    value = it.Get();
-
-    // adjust value to make the mean intensities before and after match
-    value = value - enhancedMean + inputMean;
-
-    if (value < inputMinimum)
-    {
-      outIt.Set(castInputMinimum);
-    }
-    else if (value > inputMaximum)
-    {
-      outIt.Set(castInputMaximum);
-    }
-    else
-    {
-      outIt.Set(static_cast<OutputPixelType>(value));
-    }
-
-    ++outIt;
-    ++it;
-  }
-
-  // update progress
-  this->UpdateProgress(1.0);
-}
 } // end namespace itk
 
 #endif

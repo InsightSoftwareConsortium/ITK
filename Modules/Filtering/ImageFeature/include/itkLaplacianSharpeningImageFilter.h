@@ -66,6 +66,7 @@ public:
   using RealType = typename NumericTraits<OutputPixelType>::RealType;
   using InputPixelType = typename TInputImage::PixelType;
   using InputInternalPixelType = typename TInputImage::InternalPixelType;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Image type alias support */
@@ -83,17 +84,6 @@ public:
   /** Method for creation through the object factory.  */
   itkNewMacro(Self);
 
-  /** LaplacianSharpeningImageFilter needs a larger input requested
-   * region than the output requested region (larger in the direction
-   * of the derivative).  As such, LaplacianSharpeningImageFilter
-   * needs to provide an implementation for
-   * GenerateInputRequestedRegion() in order to inform the pipeline
-   * execution model.
-   *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  void
-  GenerateInputRequestedRegion() override;
-
   /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
    *  physical space. Default  is UseImageSpacingOn. */
@@ -104,10 +94,22 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(InputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<InputPixelType>));
+  itkConceptMacro(OutputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
+  // End concept checking
+#endif
+
 protected:
   LaplacianSharpeningImageFilter() { m_UseImageSpacing = true; }
 
   ~LaplacianSharpeningImageFilter() override = default;
+
+  /** This filter must produce all of its output at once. */
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
