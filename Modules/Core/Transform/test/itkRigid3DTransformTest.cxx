@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkRigid3DTransform.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -719,5 +720,63 @@ itkRigid3DTransformTest(int, char *[])
       std::cout << "done." << std::endl;
     }
   }
+
+  // Test inverse of transform
+  {
+    auto transform = TransformType::New();
+
+    // An identity transform should have an inverse
+    transform->SetIdentity();
+    auto inverse = TransformType::New();
+    auto hasInverse = transform->GetInverse(inverse);
+    if (!hasInverse)
+    {
+      std::cerr << "Transform does not have an inverse when expected:" << std::endl;
+      std::cerr << "Transform:" << std::endl << transform;
+      std::cerr << "Inverse:" << std::endl << inverse;
+      return EXIT_FAILURE;
+    }
+    TransformType::MatrixType expectedInverse{};
+    expectedInverse.SetIdentity();
+    ITK_TEST_EXPECT_EQUAL(inverse->GetMatrix(), expectedInverse);
+
+    // An orthogonal transform should have an inverse: use a rotation matrix
+    transform->SetIdentity();
+    // 15 degrees in radians
+    const double angle = 15.0 * std::atan(1.0f) / 45.0;
+    const double sinth = std::sin(angle);
+    const double costh = std::cos(angle);
+
+    // Around the positive Z axis
+    TransformType::MatrixType mrotation;
+    mrotation.SetIdentity();
+    mrotation[0][0] = costh;
+    mrotation[0][1] = sinth;
+    mrotation[1][0] = -sinth;
+    mrotation[1][1] = costh;
+    transform->SetMatrix(mrotation);
+
+    TransformType::OffsetType ioffset{};
+    transform->SetOffset(ioffset);
+
+    hasInverse = transform->GetInverse(inverse);
+    if (!hasInverse)
+    {
+      std::cerr << "Transform does not have an inverse when expected:" << std::endl;
+      std::cerr << "Transform:" << std::endl << transform;
+      std::cerr << "Inverse:" << std::endl << inverse;
+      return EXIT_FAILURE;
+    }
+    expectedInverse.SetIdentity();
+    expectedInverse[0][0] = costh;
+    expectedInverse[0][1] = -sinth;
+    expectedInverse[1][0] = sinth;
+    expectedInverse[1][1] = costh;
+    ITK_TEST_EXPECT_EQUAL(inverse->GetMatrix(), expectedInverse);
+
+    // Cannot test a singular matrix (i.e. not having an inverse) since ITK does not allow to set a
+    // non-orthogonal rotation matrix to the transform
+  }
+
   return EXIT_SUCCESS;
 }
