@@ -19,12 +19,12 @@
 #define itkLaplacianSharpeningImageFilter_hxx
 
 #include "itkLaplacianImageFilter.h"
-#include "itkMinimumMaximumImageCalculator.h"
+#include "itkMinimumMaximumImageFilter.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkAddImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkSubtractImageFilter.h"
-#include "itkIntensityWindowingImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -49,7 +49,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto localInput = TInputImage::New();
   localInput->Graft(this->GetInput());
 
-  // Calculate needed input image statistics
+  // Calculate the needed input image statistics
 
   typename StatisticsImageFilter<InputImageType>::Pointer inputCalculator =
     StatisticsImageFilter<InputImageType>::New();
@@ -63,6 +63,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   auto inputShift = inputMinimum;
   auto inputScale = inputMaximum - inputMinimum;
+  inputCalculator = nullptr;
 
   // Calculate the Laplacian filtered image
 
@@ -74,63 +75,53 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   laplacianFilter->SetUseImageSpacing(m_UseImageSpacing);
   laplacianFilter->Update();
 
-  // Calculate needed laplacian filtered image statistics
+  auto filteredMinMaxFilter = MinimumMaximumImageFilter<RealImageType>::New();
+  filteredMinMaxFilter->SetInput(laplacianFilter->GetOutput());
+  filteredMinMaxFilter->Update();
 
-  typename MinimumMaximumImageCalculator<RealImageType>::Pointer filteredCalculator =
-    MinimumMaximumImageCalculator<RealImageType>::New();
-
-  filteredCalculator->SetImage(laplacianFilter->GetOutput());
-  filteredCalculator->SetRegion(laplacianFilter->GetOutput()->GetRequestedRegion());
-  filteredCalculator->Compute();
-
-  RealType filteredShift = static_cast<RealType>(filteredCalculator->GetMinimum());
-  RealType filteredScale = static_cast<RealType>(filteredCalculator->GetMaximum()) - filteredShift;
+  RealType filteredShift = static_cast<RealType>(filteredMinMaxFilter->GetMinimum());
+  RealType filteredScale = static_cast<RealType>(filteredMinMaxFilter->GetMaximum()) - filteredShift;
+  filteredMinMaxFilter = nullptr;
 
   // Combine the input image and the laplacian image
+  auto binaryFilter = itk::BinaryGeneratorImageFilter<RealImageType, InputImageType, RealImageType>::New();
+  binaryFilter->SetInput1(laplacianFilter->GetOutput());
+  binaryFilter->SetInput2(localInput);
 
-  using AddImageFilterType = AddImageFilter<RealImageType>;
-  using MultiplyImageFilterType = MultiplyImageFilter<RealImageType>;
-  using SubtractImageFilterType = SubtractImageFilter<InputImageType, RealImageType, RealImageType>;
 
-  auto addImageFilter1 = AddImageFilterType::New();
-  addImageFilter1->SetInput(laplacianFilter->GetOutput());
-  addImageFilter1->SetConstant2(-filteredShift);
-
-  auto multiplyImageFilter = MultiplyImageFilterType::New();
-  multiplyImageFilter->SetInput(addImageFilter1->GetOutput());
-  multiplyImageFilter->SetConstant(inputScale / filteredScale);
-
-  auto addImageFilter2 = AddImageFilterType::New();
-  addImageFilter2->SetInput(multiplyImageFilter->GetOutput());
-  addImageFilter2->SetConstant2(inputShift);
-
-  auto subtractImageFilter = SubtractImageFilterType::New();
-  subtractImageFilter->SetInput1(localInput);
-  subtractImageFilter->SetInput2(addImageFilter2->GetOutput());
+  binaryFilter->SetFunctor(
+    [filteredShift, inputScale, filteredScale, inputShift](const typename RealImageType::PixelType &  filteredPixel,
+                                                           const typename InputImageType::PixelType & inputPixel) {
+      return inputPixel - ((filteredPixel - filteredShift) * (inputScale / filteredScale) + inputShift);
+    });
+  binaryFilter->InPlaceOn();
+  binaryFilter->Update();
 
   // Calculate needed combined image statistics
-
   typename StatisticsImageFilter<RealImageType>::Pointer enhancedCalculator =
     StatisticsImageFilter<RealImageType>::New();
 
-  enhancedCalculator->SetInput(subtractImageFilter->GetOutput());
+  enhancedCalculator->SetInput(binaryFilter->GetOutput());
   enhancedCalculator->Update();
 
   auto enhancedMean = static_cast<RealType>(enhancedCalculator->GetMean());
+  enhancedCalculator = nullptr;
 
   // Shift and window the output
+  auto shiftAndClampFilter = UnaryGeneratorImageFilter<RealImageType, OutputImageType>::New();
 
-  using IntensityWindowingFilterType = IntensityWindowingImageFilter<RealImageType, OutputImageType>;
-  auto intensityWindowingFilter = IntensityWindowingFilterType::New();
-  intensityWindowingFilter->SetInput(subtractImageFilter->GetOutput());
-  intensityWindowingFilter->SetOutputMinimum(inputMinimum);
-  intensityWindowingFilter->SetOutputMaximum(inputMaximum);
-  intensityWindowingFilter->SetWindowMinimum(inputMinimum - (inputMean - enhancedMean));
-  intensityWindowingFilter->SetWindowMaximum(inputMaximum - (inputMean - enhancedMean));
-  intensityWindowingFilter->GraftOutput(this->GetOutput());
-  intensityWindowingFilter->Update();
+  shiftAndClampFilter->SetInput(binaryFilter->GetOutput());
+  shiftAndClampFilter->SetFunctor(
+    [enhancedMean, inputMean, inputMinimum, inputMaximum](const typename RealImageType::PixelType & value) {
+      // adjust value to make the mean intensities before and after match
+      auto shiftedValue = value - enhancedMean + inputMean;
+      return static_cast<OutputPixelType>(std::clamp(shiftedValue, inputMinimum, inputMaximum));
+    });
+  shiftAndClampFilter->GraftOutput(this->GetOutput());
+  shiftAndClampFilter->Update();
 
-  this->GraftOutput(intensityWindowingFilter->GetOutput());
+
+  this->GraftOutput(shiftAndClampFilter->GetOutput());
 }
 
 template <typename TInputImage, typename TOutputImage>
