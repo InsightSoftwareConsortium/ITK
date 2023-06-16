@@ -97,8 +97,6 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
-  itkConceptMacro(InputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<InputPixelType>));
-  itkConceptMacro(OutputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
   // End concept checking
 #endif
 

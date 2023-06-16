@@ -69,10 +69,41 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   using RealImageType = Image<RealType, ImageDimension>;
 
-  using LaplacianImageFilter = LaplacianImageFilter<InputImageType, RealImageType>;
-  typename LaplacianImageFilter::Pointer laplacianFilter = LaplacianImageFilter::New();
+  // Create the Laplacian operator
+  LaplacianOperator<RealType, ImageDimension> oper;
+  double                                      s[ImageDimension];
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    if (localInput->GetSpacing()[i] == 0.0)
+    {
+      itkExceptionMacro("Image spacing cannot be zero");
+    }
+    else if (this->m_UseImageSpacing)
+    {
+      s[i] = 1.0 / localInput->GetSpacing()[i];
+    }
+    else
+    {
+      s[i] = 1.0;
+    }
+  }
+  oper.SetDerivativeScalings(s);
+  oper.CreateOperator();
+  // Calculate the Laplacian filtered image
+
+  // do calculations in floating point
+  using RealImageType = Image<RealType, ImageDimension>;
+  using NOIF = NeighborhoodOperatorImageFilter<InputImageType, RealImageType>;
+  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
+
+  auto laplacianFilter = NOIF::New();
+  laplacianFilter->OverrideBoundaryCondition(static_cast<typename NOIF::ImageBoundaryConditionPointerType>(&nbc));
+
+  //
+  // set up the mini-pipeline
+  //
+  laplacianFilter->SetOperator(oper);
   laplacianFilter->SetInput(localInput);
-  laplacianFilter->SetUseImageSpacing(m_UseImageSpacing);
   laplacianFilter->Update();
 
   auto filteredMinMaxFilter = MinimumMaximumImageFilter<RealImageType>::New();
