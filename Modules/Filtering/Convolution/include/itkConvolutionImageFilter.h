@@ -51,7 +51,7 @@ namespace itk
  *
  * "Image Kernel Convolution"
  * by Tustison N., Gee J.
- * https://insight-journal.org/browse/publication/208
+ * https://www.insight-journal.org/browse/publication/208
  *
  * \author Nicholas J. Tustison
  * \author James C. Gee

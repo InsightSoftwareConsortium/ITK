@@ -31,7 +31,7 @@ namespace itk
  *         The Pennsylvania State University 2005
  *
  * This implementation was contributed as a paper to the Insight Journal
- * https://hdl.handle.net/1926/1381
+ * https://www.insight-journal.org/browse/publication/237
  *
  * \ingroup ITKIOPhilipsREC
  */

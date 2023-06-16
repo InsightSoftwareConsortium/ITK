@@ -37,7 +37,7 @@ namespace itk
  *
  * This code was contributed in the Insight Journal paper: "FFT based
  * convolution" by Lehmann G.
- * https://insight-journal.org/browse/publication/717
+ * https://www.insight-journal.org/browse/publication/717
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
