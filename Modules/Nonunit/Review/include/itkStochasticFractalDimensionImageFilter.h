@@ -42,7 +42,6 @@ namespace itk
  * as an paper to the Insight Journal:
  *
  *  "Stochastic Fractal Dimension Image"
- *  https://hdl.handle.net/1926/1525
  *  https://www.insight-journal.org/browse/publication/318
  *
  * \author Nick Tustison

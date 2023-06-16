@@ -37,7 +37,6 @@ namespace itk
  *
  * "Grayscale morphological attribute operations"
  * by Beare R.
- * https://hdl.handle.net/1926/1316
  * https://www.insight-journal.org/browse/publication/203
  *
  *

@@ -36,7 +36,6 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "Conformal Flattening ITK Filter"
  * by Gao Y., Melonakos J., Tannenbaum A.
- * https://hdl.handle.net/1926/225
  * https://www.insight-journal.org/browse/publication/112
  *
  * \ingroup MeshFilters

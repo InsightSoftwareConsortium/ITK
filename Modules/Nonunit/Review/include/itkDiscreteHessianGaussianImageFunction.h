@@ -36,7 +36,7 @@ namespace itk
  * \author Ivan Macia, Vicomtech, Spain, https://www.vicomtech.org/en
  *
  * This implementation was taken from the Insight Journal paper:
- * https://hdl.handle.net/1926/1290
+ * https://www.insight-journal.org/browse/publication/179
  *
  * \sa NeighborhoodOperator
  * \sa ImageFunction
