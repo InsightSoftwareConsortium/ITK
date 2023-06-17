@@ -84,13 +84,9 @@ public:
   /** Method for creation through the object factory.  */
   itkNewMacro(Self);
 
-  /** Enable/Disable using the image spacing information in
-   *  calculations. Use this option if you  want derivatives in
-   *  physical space. Default  is UseImageSpacingOn. */
+  /** Set/Get whether or not the filter will use the spacing information of the input image in its calculations. Use
+   * this option if derivatives are required in physical space. */
   itkBooleanMacro(UseImageSpacing);
-
-  /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
 
