@@ -102,6 +102,10 @@ itk_add_test(NAME itkAutoScaledGradientDescentRegistrationTest4
       COMMAND ITKOptimizersv4TestDriver
       itkAutoScaledGradientDescentRegistrationTest 30 1.0 0 1 0)
 
+itk_add_test(NAME itkAutoScaledGradientDescentRegistrationOnVectorTest
+      COMMAND ITKOptimizersv4TestDriver
+      itkAutoScaledGradientDescentRegistrationOnVectorTest 30 1.0)
+
 itk_add_test(NAME itkQuasiNewtonOptimizerv4Test
       COMMAND ITKOptimizersv4TestDriver
       itkQuasiNewtonOptimizerv4Test)
