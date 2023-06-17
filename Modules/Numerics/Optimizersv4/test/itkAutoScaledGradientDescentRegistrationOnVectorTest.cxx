@@ -126,6 +126,10 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
     std::cout << "Testing RegistrationParameterScalesFromPhysicalShift" << std::endl;
     auto shiftScalesEstimator = ShiftScalesEstimatorType::New();
 
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(
+      shiftScalesEstimator, RegistrationParameterScalesFromPhysicalShift, RegistrationParameterScalesFromShiftBase)
+
+
     shiftScalesEstimator->SetMetric(metric);
     ITK_TEST_SET_GET_VALUE(metric, shiftScalesEstimator->GetMetric());
 
@@ -135,6 +139,14 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
     itk::IndexValueType centralRegionRadius = 5;
     shiftScalesEstimator->SetCentralRegionRadius(centralRegionRadius);
     ITK_TEST_SET_GET_VALUE(centralRegionRadius, shiftScalesEstimator->GetCentralRegionRadius());
+
+    typename ShiftScalesEstimatorType::VirtualPointSetType::ConstPointer virtualDomainPointSet{};
+    shiftScalesEstimator->SetVirtualDomainPointSet(virtualDomainPointSet);
+    ITK_TEST_SET_GET_VALUE(virtualDomainPointSet, shiftScalesEstimator->GetVirtualDomainPointSet());
+
+    typename ShiftScalesEstimatorType::ParametersValueType smallParameterVariation = 0.01;
+    shiftScalesEstimator->SetSmallParameterVariation(smallParameterVariation);
+    ITK_TEST_SET_GET_VALUE(smallParameterVariation, shiftScalesEstimator->GetSmallParameterVariation());
 
     scalesEstimator = shiftScalesEstimator;
   }
