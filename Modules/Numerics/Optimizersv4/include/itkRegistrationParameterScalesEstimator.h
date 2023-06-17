@@ -150,6 +150,7 @@ public:
    *  with the images when appropriate.
    */
   itkSetObjectMacro(Metric, MetricType);
+  itkGetConstObjectMacro(Metric, MetricType);
 
   /** m_TransformForward specifies which transform scales to be estimated.
    * m_TransformForward = true (default) for the moving transform parameters.
@@ -157,6 +158,7 @@ public:
    */
   itkSetMacro(TransformForward, bool);
   itkGetConstMacro(TransformForward, bool);
+  itkBooleanMacro(TransformForward);
 
   /** Get/Set a point set for virtual domain sampling. */
   itkSetObjectMacro(VirtualDomainPointSet, VirtualPointSetType);
@@ -165,6 +167,7 @@ public:
 
   /** the radius of the central region for sampling. */
   itkSetMacro(CentralRegionRadius, IndexValueType);
+  itkGetConstMacro(CentralRegionRadius, IndexValueType);
 
   /** Estimate parameter scales */
   void
