@@ -349,6 +349,24 @@ test_int()
     for (unsigned int i = 0; i < vc.size(); ++i)
       TEST("vc.apply_columnwise(sum_vector)", vc.get(i), 5);
   }
+
+  { // test operator-() on unsigned values
+    unsigned int vvalues[] = {1, 2, 3, 4};
+    int out_values[] = {-1, -2, -3, -4};
+    const vnl_matrix<int> outm(2, 2, 4, out_values);
+
+    vnl_matrix<unsigned int> unsigned_m22(2, 2, 4, vvalues);
+    const vnl_matrix<int> minus_v1 = -unsigned_m22;
+    const vnl_matrix<int> minus_v2 = unsigned_m22.operator-();
+    TEST("unsigned_m22.operator-()",
+         (outm(0, 0) == minus_v1(0, 0) && outm(0, 1) == minus_v1(0, 1) && outm(1, 0) == minus_v1(1, 0) &&
+          outm(1, 1) == minus_v1(1, 1)), true);
+    TEST("unsigned_m22.operator-()",
+         (outm(0, 0) == minus_v2(0, 0) && outm(0, 1) == minus_v2(0, 1) && outm(1, 0) == minus_v2(1, 0) &&
+          outm(1, 1) == minus_v2(1, 1)), true);
+  }
+
+
 }
 
 

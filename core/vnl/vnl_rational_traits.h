@@ -32,6 +32,10 @@ class vnl_numeric_traits<vnl_rational>
   //  This must be a built-in type: do not set this to vnl_rational, since
   //  that would require std::sqrt(vnl_rational) etc., which is not allowed.
   typedef double real_t;
+  //: Name of this type
+  using self = vnl_rational;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
 };
 
 template <>

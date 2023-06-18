@@ -24,6 +24,7 @@
 //-----------------------------------------------------------------------------
 
 #include <complex>
+#include <type_traits>
 #include <vxl_config.h> // for type vxl_uint_64
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
@@ -63,6 +64,9 @@ class VNL_EXPORT vnl_numeric_traits
 
   //: Name of type which results from multiplying this type with a double
   typedef vnl_numeric_traits_not_a_valid_type real_t;
+
+  //: Name of type which results from using a unary operator-()
+  typedef vnl_numeric_traits_not_a_valid_type signed_t;
 };
 #endif
 
@@ -83,6 +87,10 @@ class VNL_EXPORT vnl_numeric_traits<bool>
   typedef unsigned int double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = bool;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
 };
 
 template <>
@@ -114,6 +122,10 @@ class VNL_EXPORT vnl_numeric_traits<char>
   typedef short double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = char;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -135,6 +147,10 @@ class VNL_EXPORT vnl_numeric_traits<unsigned char>
   typedef unsigned short double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = unsigned char;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -156,6 +172,10 @@ class VNL_EXPORT vnl_numeric_traits<signed char>
   typedef signed short double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = signed char;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -177,6 +197,10 @@ class VNL_EXPORT vnl_numeric_traits<short>
   typedef int double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = short;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -198,6 +222,10 @@ class VNL_EXPORT vnl_numeric_traits<unsigned short>
   typedef unsigned int double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = unsigned short;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -219,6 +247,10 @@ class VNL_EXPORT vnl_numeric_traits<int>
   typedef long double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = int;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -240,6 +272,10 @@ class VNL_EXPORT vnl_numeric_traits<unsigned int>
   typedef unsigned long double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = unsigned int;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -261,6 +297,10 @@ class VNL_EXPORT vnl_numeric_traits<long>
   typedef vxl_sint_64 double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = long;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -283,6 +323,10 @@ class VNL_EXPORT vnl_numeric_traits<unsigned long>
   typedef vxl_uint_64 double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = unsigned long;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -306,6 +350,10 @@ class VNL_EXPORT vnl_numeric_traits<long long>
   typedef long long double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = long long;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -327,6 +375,10 @@ class VNL_EXPORT vnl_numeric_traits<unsigned long long>
   typedef unsigned long long double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = unsigned long long;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = std::make_signed<self>::type;
 };
 
 template<>
@@ -349,6 +401,10 @@ class VNL_EXPORT vnl_numeric_traits<float>
   typedef double double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = float;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
 };
 
 template<>
@@ -370,6 +426,10 @@ class VNL_EXPORT vnl_numeric_traits<double>
   typedef long double double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = double;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
 };
 
 template<>
@@ -391,6 +451,10 @@ class VNL_EXPORT vnl_numeric_traits<long double>
   typedef long double double_t; // ahem
   //: Name of type which results from multiplying this type with a double
   typedef long double real_t;
+  //: Name of this type
+  using self = long double;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
 };
 
 template<>
@@ -413,6 +477,10 @@ class VNL_EXPORT vnl_numeric_traits< std::complex<float> >
   typedef std::complex<vnl_numeric_traits<float>::double_t> double_t;
   //: Name of type which results from multiplying this type with a double
   typedef std::complex<float> real_t;
+  //: Name of this type
+  using self = std::complex<float>;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
 };
 
 template<>
@@ -435,6 +503,10 @@ class VNL_EXPORT vnl_numeric_traits< std::complex<double> >
   typedef std::complex<vnl_numeric_traits<double>::double_t> double_t;
   //: Name of type which results from multiplying this type with a double
   typedef std::complex<double> real_t;
+  //: Name of this type
+  using self = std::complex<double>;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
 };
 
 template<>
@@ -457,6 +529,10 @@ class VNL_EXPORT vnl_numeric_traits< std::complex<long double> >
   typedef std::complex<vnl_numeric_traits<long double>::double_t> double_t;
   //: Name of type which results from multiplying this type with a double
   typedef std::complex<long double> real_t;
+  //: Name of this type
+  using self = std::complex<long double>;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
 };
 
 template<>

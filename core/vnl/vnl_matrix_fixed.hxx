@@ -34,27 +34,9 @@ vnl_matrix_fixed<T, num_rows, num_cols>::operator=(const vnl_matrix<T>& rhs)
 	return *this;
 }
 
-template<class T, unsigned nrows, unsigned ncols>
-T       &
-vnl_matrix_fixed<T, nrows, ncols>::operator() (unsigned r, unsigned c)
-{
-#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-	assert(r < rows());   // Check the row index is valid
-	assert(c < cols());   // Check the column index is valid
-#endif
-	return this->data_[r][c];
-}
 
-template<class T, unsigned nrows, unsigned ncols>
-T const &
-vnl_matrix_fixed<T, nrows, ncols>::operator() (unsigned r, unsigned c) const
-{
-#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-	assert(r < rows());   // Check the row index is valid
-	assert(c < cols());   // Check the column index is valid
-#endif
-	return this->data_[r][c];
-}
+
+
 
 template<class T, unsigned nrows, unsigned ncols>
 void

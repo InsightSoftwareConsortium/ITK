@@ -133,8 +133,8 @@ class VNL_EXPORT vnl_vector_fixed_ref_const
   vnl_vector_fixed<T,n> apply(T (*f)(const T&)) const;
 
   //:
-  vnl_vector_fixed<T,n> operator-() const {
-    vnl_vector_fixed<T,n> result;
+  vnl_vector_fixed<typename vnl_numeric_traits<T>::signed_t,n> operator-() const {
+    vnl_vector_fixed<typename vnl_numeric_traits<T>::signed_t,n> result;
     sub( (T)0, data_, result.data_block() );
     return result;
   }
