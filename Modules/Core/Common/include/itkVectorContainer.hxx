@@ -22,14 +22,7 @@
 
 namespace itk
 {
-/**
- * Get a reference to the element at the given index.
- * It is assumed that the index exists, and it will not automatically
- * be created.
- *
- * It is assumed that the value of the element is modified through the
- * reference.
- */
+
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::ElementAt(ElementIdentifier id) -> reference
@@ -38,12 +31,6 @@ VectorContainer<TElementIdentifier, TElement>::ElementAt(ElementIdentifier id) -
   return this->VectorType::operator[](id);
 }
 
-/**
- * Get a reference to the element at the given index.
- * It is assumed that the index exists, and it will not automatically
- * be created.
- *
- */
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::ElementAt(ElementIdentifier id) const -> const_reference
@@ -51,14 +38,6 @@ VectorContainer<TElementIdentifier, TElement>::ElementAt(ElementIdentifier id) c
   return this->VectorType::operator[](id);
 }
 
-/**
- * Get a reference to the element at the given index.
- * If the element location does not exist, it will be created with a
- * default element value.
- *
- * It is assumed that the value of the element is modified through the
- * reference.
- */
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::CreateElementAt(ElementIdentifier id) -> reference
@@ -71,10 +50,6 @@ VectorContainer<TElementIdentifier, TElement>::CreateElementAt(ElementIdentifier
   return this->VectorType::operator[](id);
 }
 
-/**
- * Read the element from the given index.
- * It is assumed that the index exists.
- */
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::GetElement(ElementIdentifier id) const -> Element
@@ -82,10 +57,6 @@ VectorContainer<TElementIdentifier, TElement>::GetElement(ElementIdentifier id) 
   return this->VectorType::operator[](id);
 }
 
-/**
- * Set the element value at the given index.
- * It is assumed that the index exists.
- */
 template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer<TElementIdentifier, TElement>::SetElement(ElementIdentifier id, Element element)
@@ -94,11 +65,6 @@ VectorContainer<TElementIdentifier, TElement>::SetElement(ElementIdentifier id, 
   this->Modified();
 }
 
-/**
- * Set the element value at the given index.
- * If the element location does not exist, it will be created with a
- * default element value.
- */
 template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer<TElementIdentifier, TElement>::InsertElement(ElementIdentifier id, Element element)
@@ -112,10 +78,6 @@ VectorContainer<TElementIdentifier, TElement>::InsertElement(ElementIdentifier i
   this->Modified();
 }
 
-/**
- * Check if the index range of the STL vector is large enough to allow the
- * given index without expansion.
- */
 template <typename TElementIdentifier, typename TElement>
 bool
 VectorContainer<TElementIdentifier, TElement>::IndexExists(ElementIdentifier identifier) const
@@ -124,11 +86,6 @@ VectorContainer<TElementIdentifier, TElement>::IndexExists(ElementIdentifier ide
           (identifier < static_cast<ElementIdentifier>(this->VectorType::size())));
 }
 
-/**
- * Check if the given index is in range of the STL vector.  If it is not,
- * return false.  Otherwise, set the element through the pointer (if it isn't
- * nullptr), and return true.
- */
 template <typename TElementIdentifier, typename TElement>
 bool
 VectorContainer<TElementIdentifier, TElement>::GetElementIfIndexExists(ElementIdentifier identifier,
@@ -146,11 +103,6 @@ VectorContainer<TElementIdentifier, TElement>::GetElementIfIndexExists(ElementId
   return false;
 }
 
-/**
- * Make sure that the index range of the STL vector is large enough to allow
- * the given index, expanding it if necessary.  The index will contain
- * the default element regardless of whether expansion occurred.
- */
 template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer<TElementIdentifier, TElement>::CreateIndex(ElementIdentifier id)
@@ -176,10 +128,6 @@ VectorContainer<TElementIdentifier, TElement>::CreateIndex(ElementIdentifier id)
   }
 }
 
-/**
- * It doesn't make sense to delete a vector index.
- * Instead, just overwrite the index with the default element.
- */
 template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer<TElementIdentifier, TElement>::DeleteIndex(ElementIdentifier id)
@@ -188,9 +136,6 @@ VectorContainer<TElementIdentifier, TElement>::DeleteIndex(ElementIdentifier id)
   this->Modified();
 }
 
-/**
- * Get a begin const iterator for the vector.
- */
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::Begin() const -> ConstIterator
@@ -198,9 +143,6 @@ VectorContainer<TElementIdentifier, TElement>::Begin() const -> ConstIterator
   return ConstIterator(0, this->VectorType::begin());
 }
 
-/**
- * Get an end const iterator for the vector.
- */
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::End() const -> ConstIterator
@@ -208,9 +150,6 @@ VectorContainer<TElementIdentifier, TElement>::End() const -> ConstIterator
   return ConstIterator(this->VectorType::size() - 1, this->VectorType::end());
 }
 
-/**
- * Get a begin iterator for the vector.
- */
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::Begin() -> Iterator
@@ -218,9 +157,6 @@ VectorContainer<TElementIdentifier, TElement>::Begin() -> Iterator
   return Iterator(0, this->VectorType::begin());
 }
 
-/**
- * Get an end iterator for the vector.
- */
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::End() -> Iterator
@@ -228,9 +164,6 @@ VectorContainer<TElementIdentifier, TElement>::End() -> Iterator
   return Iterator(this->VectorType::size() - 1, this->VectorType::end());
 }
 
-/**
- * Get the number of elements currently stored in the vector.
- */
 template <typename TElementIdentifier, typename TElement>
 auto
 VectorContainer<TElementIdentifier, TElement>::Size() const -> ElementIdentifier
@@ -238,9 +171,6 @@ VectorContainer<TElementIdentifier, TElement>::Size() const -> ElementIdentifier
   return static_cast<ElementIdentifier>(this->VectorType::size());
 }
 
-/**
- * Clear the elements. The final size will be zero.
- */
 template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer<TElementIdentifier, TElement>::Initialize()
@@ -248,9 +178,6 @@ VectorContainer<TElementIdentifier, TElement>::Initialize()
   this->VectorType::clear();
 }
 
-/**
- *    Allocate memory for at the requested number of elements.
- */
 template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer<TElementIdentifier, TElement>::Reserve(ElementIdentifier sz)
@@ -258,9 +185,6 @@ VectorContainer<TElementIdentifier, TElement>::Reserve(ElementIdentifier sz)
   this->CreateIndex(sz - 1);
 }
 
-/**
- *   Try to compact the internal representation of the memory.
- */
 template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer<TElementIdentifier, TElement>::Squeeze()

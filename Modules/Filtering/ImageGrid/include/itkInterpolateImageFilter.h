@@ -103,8 +103,11 @@ public:
   itkSetObjectMacro(Interpolator, InterpolatorType);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
-  /** This method is used to set the state of the filter before
-   * multi-threading. */
+  /**
+   * Set up the state of the filter before multi-threading.
+   * InterpolatorType::SetInputImage is not thread-safe and hence
+   * has to be setup before ThreadedGenerateData.
+   */
   void
   BeforeThreadedGenerateData() override;
 

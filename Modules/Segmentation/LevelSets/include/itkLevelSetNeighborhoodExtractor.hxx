@@ -26,9 +26,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template <typename TLevelSet>
 LevelSetNeighborhoodExtractor<TLevelSet>::LevelSetNeighborhoodExtractor()
   : m_InsidePoints(nullptr)
@@ -41,9 +39,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>::LevelSetNeighborhoodExtractor()
   m_NodesUsed.resize(SetDimension);
 }
 
-/*
- *
- */
 template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::PrintSelf(std::ostream & os, Indent indent) const
@@ -58,9 +53,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>::PrintSelf(std::ostream & os, Indent in
   os << m_InputNarrowBand.GetPointer() << std::endl;
 }
 
-/*
- *
- */
 template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::SetInputNarrowBand(NodeContainer * ptr)
@@ -72,9 +64,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>::SetInputNarrowBand(NodeContainer * ptr
   }
 }
 
-/**
- *
- */
 template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::Locate()
@@ -82,9 +71,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>::Locate()
   this->GenerateData();
 }
 
-/**
- *
- */
 template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::Initialize()
@@ -96,9 +82,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>::Initialize()
   m_ImageRegion = this->m_InputLevelSet->GetBufferedRegion();
 }
 
-/*
- *
- */
 template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::GenerateData()
@@ -123,9 +106,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateData()
   itkDebugMacro("No. outside points: " << m_OutsidePoints->Size());
 }
 
-/*
- *
- */
 template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
@@ -157,9 +137,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
   }
 }
 
-/**
- *
- */
 template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataNarrowBand()
@@ -201,9 +178,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataNarrowBand()
   }
 }
 
-/**
- *
- */
 template <typename TLevelSet>
 double
 LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)

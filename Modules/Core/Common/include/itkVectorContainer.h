@@ -505,8 +505,8 @@ public:
 
   /**
    * Delete the element defined by the index identifier.  In practice, it
-   * doesn't make sense to delete a vector index.  Instead, this method just
-   * overwrite the index with the default element.
+   * doesn't make sense to delete a vector index; overwrite the index with
+   * the default element instead.
    */
   void DeleteIndex(ElementIdentifier);
 
@@ -541,6 +541,8 @@ public:
   Size() const;
 
   /**
+   * Allocate memory for at the requested number of elements.
+   *
    * Tell the container to allocate enough memory to allow at least as many
    * elements as the size given to be stored.  In the generic case of ITK
    * containers this is NOT guaranteed to actually allocate any memory, but it
@@ -552,6 +554,8 @@ public:
   void Reserve(ElementIdentifier);
 
   /**
+   * Try to compact the internal representation of the memory.
+   *
    * Tell the container to try to minimize its memory usage for storage of the
    * current number of elements.  This is NOT guaranteed to decrease memory
    * usage. This method is included here mainly for providing a unified API

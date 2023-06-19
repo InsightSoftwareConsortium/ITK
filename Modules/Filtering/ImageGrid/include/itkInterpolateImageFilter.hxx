@@ -72,11 +72,6 @@ InterpolateImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, 
   os << indent << "Distance: " << m_Distance << std::endl;
 }
 
-/**
- * Setup state of filter before multi-threading.
- * InterpolatorType::SetInputImage is not thread-safe and hence
- * has to be setup before ThreadedGenerateData
- */
 template <typename TInputImage, typename TOutputImage>
 void
 InterpolateImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()

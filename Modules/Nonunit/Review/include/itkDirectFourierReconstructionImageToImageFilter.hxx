@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Initialize member variables with meaningful values.
- */
+
 template <typename TInputImage, typename TOutputImage>
 DirectFourierReconstructionImageToImageFilter<TInputImage,
                                               TOutputImage>::DirectFourierReconstructionImageToImageFilter()
@@ -46,9 +44,6 @@ DirectFourierReconstructionImageToImageFilter<TInputImage,
   m_PI = 4 * std::atan(RADIANS);
 }
 
-/**
- * Print out class state (member variables)
- */
 template <typename TInputImage, typename TOutputImage>
 void
 DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
@@ -68,9 +63,6 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::PrintS
   os << indent << "Input Requested Region: " << m_InputRequestedRegion << std::endl;
 }
 
-/**
- * Calculate image boundaries and define output regions, spacing, origin etc.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
@@ -123,9 +115,6 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   outputImage->SetSpacing(outputSpacing);
 }
 
-/**
- * Calculate necessary input image boundaries
- */
 template <typename TInputImage, typename TOutputImage>
 void
 DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
@@ -156,9 +145,6 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   inputImage->SetRequestedRegion(m_InputRequestedRegion);
 }
 
-/**
- * Actual computation
- */
 template <typename TInputImage, typename TOutputImage>
 void
 DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::GenerateData()
