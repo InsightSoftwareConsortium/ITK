@@ -1341,20 +1341,6 @@ ProcessObject::VerifyPreconditions() ITKv5_CONST
   }
 
   /**
-   * Verify the require named inputs.
-   */
-  auto i = m_RequiredInputNames.begin();
-  while (i != m_RequiredInputNames.end())
-  {
-    if (this->GetInput(*i) == nullptr)
-    {
-      itkExceptionMacro("Required Input " << *i << "is not specified!"
-                                          << " The required inputs are expected to be the first inputs.");
-    }
-    ++i;
-  }
-
-  /**
    * Count the number of required indexed inputs which have been assigned
    */
   const DataObjectPointerArraySizeType validIndexedInputs = this->GetNumberOfValidRequiredInputs();
