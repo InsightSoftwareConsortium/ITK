@@ -158,7 +158,7 @@ SPSAOptimizer::ResumeOptimization()
       break;
     }
     m_StateOfConvergence *= m_StateOfConvergenceDecayRate;
-  } // while !m_stop
+  }
 }
 
 void
