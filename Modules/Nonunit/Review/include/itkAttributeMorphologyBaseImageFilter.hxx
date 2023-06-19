@@ -238,7 +238,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
   os << indent << "Lambda: " << static_cast<typename NumericTraits<AttributeType>::PrintType>(m_Lambda) << std::endl;
 }
 } // end namespace itk

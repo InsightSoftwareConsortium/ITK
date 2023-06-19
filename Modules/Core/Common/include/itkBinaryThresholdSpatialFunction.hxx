@@ -27,9 +27,15 @@ void
 BinaryThresholdSpatialFunction<TFunction>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << " m_LowerThreshold: " << m_LowerThreshold << std::endl;
-  os << indent << " m_UpperThreshold: " << m_UpperThreshold << std::endl;
-  os << indent << " m_Function: " << m_Function.GetPointer() << std::endl;
+
+  os << indent
+     << "LowerThreshold: " << static_cast<typename NumericTraits<FunctionOutputType>::PrintType>(m_LowerThreshold)
+     << std::endl;
+  os << indent
+     << "UpperThreshold: " << static_cast<typename NumericTraits<FunctionOutputType>::PrintType>(m_UpperThreshold)
+     << std::endl;
+
+  itkPrintSelfObjectMacro(Function);
 }
 
 template <typename TFunction>

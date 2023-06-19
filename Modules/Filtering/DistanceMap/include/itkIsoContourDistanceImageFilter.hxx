@@ -53,10 +53,17 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Narrowbanding: " << m_NarrowBanding << std::endl;
-  os << indent << "LevelSetValue: " << m_LevelSetValue << std::endl;
-  os << indent << "FarValue: " << m_FarValue << std::endl;
-  os << std::endl;
+  os << indent << "LevelSetValue: " << static_cast<typename NumericTraits<PixelRealType>::PrintType>(m_LevelSetValue)
+     << std::endl;
+  os << indent << "FarValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_FarValue) << std::endl;
+  os << indent << "Spacing: " << static_cast<typename NumericTraits<InputSpacingType>::PrintType>(m_Spacing)
+     << std::endl;
+  os << indent << "NarrowBanding: " << (m_NarrowBanding ? "On" : "Off") << std::endl;
+
+  itkPrintSelfObjectMacro(NarrowBand);
+
+  // ToDo
+  // os << indent << "NarrowBandRegion: " << m_NarrowBandRegion << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>

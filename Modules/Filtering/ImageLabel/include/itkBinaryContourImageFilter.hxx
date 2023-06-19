@@ -252,12 +252,11 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: " << this->m_FullyConnected << std::endl;
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_ForegroundValue)
+     << std::endl;
+  os << indent
+     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
      << std::endl;
 }
 } // end namespace itk

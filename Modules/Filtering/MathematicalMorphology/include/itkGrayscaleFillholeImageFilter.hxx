@@ -144,7 +144,7 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
-  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 #endif
