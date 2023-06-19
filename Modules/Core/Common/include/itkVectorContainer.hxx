@@ -157,19 +157,13 @@ VectorContainer<TElementIdentifier, TElement>::CreateIndex(ElementIdentifier id)
 {
   if (id >= static_cast<ElementIdentifier>(this->VectorType::size()))
   {
-    /**
-     * The vector must be expanded to fit the
-     * new id.
-     */
+    // The vector must be expanded to fit the new id.
     this->VectorType::resize(id + 1);
     this->Modified();
   }
   else if (id > 0)
   {
-    /**
-     * No expansion was necessary.  Just overwrite the index's entry with
-     * the default element.
-     */
+    // No expansion was necessary. Just overwrite the index's entry with the default element.
     this->VectorType::operator[](id) = Element();
 
     this->Modified();
