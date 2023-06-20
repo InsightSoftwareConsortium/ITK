@@ -127,7 +127,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
     auto shiftScalesEstimator = ShiftScalesEstimatorType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(
-      shiftScalesEstimator, RegistrationParameterScalesFromPhysicalShift, RegistrationParameterScalesFromShiftBase)
+      shiftScalesEstimator, RegistrationParameterScalesFromPhysicalShift, RegistrationParameterScalesFromShiftBase);
 
 
     shiftScalesEstimator->SetMetric(metric);
