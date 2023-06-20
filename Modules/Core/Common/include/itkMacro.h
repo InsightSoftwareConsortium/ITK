@@ -966,17 +966,17 @@ compilers.
   itkSetDecoratedObjectInputMacro(name, type);         \
   itkGetDecoratedObjectInputMacro(name, type)
 
-/** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
+/** Set built-in type or regular C++ type.  Creates member Set"name"() (e.g., SetVisibility()); */
 // clang-format off
 #define itkSetMacro(name, type)                     \
-  virtual void Set##name(const type _arg)           \
+  virtual void Set##name(type _arg)           \
   {                                                 \
     itkDebugMacro("setting " #name " to " << _arg); \
     CLANG_PRAGMA_PUSH                               \
     CLANG_SUPPRESS_Wfloat_equal                     \
     if (this->m_##name != _arg)                     \
     {                                               \
-      this->m_##name = _arg;                        \
+      this->m_##name = std::move(_arg);                        \
       this->Modified();                             \
     }                                               \
     CLANG_PRAGMA_POP                                \

@@ -93,11 +93,11 @@ public:
   GetParent() const;
 
   /** Retrieve the tag name of this node. */
-  itkSetMacro(Name, std::string &);
+  itkSetMacro(Name, const std::string &);
   itkGetConstReferenceMacro(Name, std::string);
 
   /** Retrieve the special attribute "id" of this node. */
-  itkSetMacro(ID, std::string &);
+  itkSetMacro(ID, const std::string &);
   itkGetConstReferenceMacro(ID, std::string);
 
   /** Retrieve an attribute by key (return an empty string if not found). */
