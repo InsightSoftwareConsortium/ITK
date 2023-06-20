@@ -55,7 +55,7 @@ public:
   itkTypeMacro(DOMTextNode, DOMNode);
 
   /** Functions to set/get the enclosed text of this node. */
-  itkSetMacro(Text, std::string &);
+  itkSetMacro(Text, const std::string &);
   itkGetConstReferenceMacro(Text, std::string);
 
 protected:
