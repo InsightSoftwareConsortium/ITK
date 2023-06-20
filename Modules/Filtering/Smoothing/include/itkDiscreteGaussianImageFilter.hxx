@@ -343,7 +343,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
-  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
   os << indent << "RealBoundaryCondition: " << m_RealBoundaryCondition << std::endl;
 }
 } // end namespace itk

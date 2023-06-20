@@ -120,10 +120,10 @@ GaussianImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) c
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Gaussian mean: " << m_Mean << std::endl;
-  os << indent << "Gaussian sigma: " << m_Sigma << std::endl;
-  os << indent << "Gaussian scale: " << m_Scale << std::endl;
-  os << indent << "Normalized Gaussian?: " << m_Normalized << std::endl;
+  os << indent << "Mean: " << m_Mean << std::endl;
+  os << indent << "Sigma: " << m_Sigma << std::endl;
+  os << indent << "Scale: " << m_Scale << std::endl;
+  os << indent << "Normalized: " << (m_Normalized ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 

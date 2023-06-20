@@ -133,8 +133,8 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
      << std::endl;
   os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
      << std::endl;
-  os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
-  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "NumberOfIterationsUsed: " << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 #endif

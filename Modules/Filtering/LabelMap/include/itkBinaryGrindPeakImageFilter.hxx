@@ -110,7 +110,7 @@ BinaryGrindPeakImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent ind
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_BackgroundValue)
      << std::endl;
-  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 #endif

@@ -236,7 +236,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 
   os << indent << "DerivativeWeights: " << m_DerivativeWeights << std::endl;
   os << indent << "HalfDerivativeWeights: " << m_HalfDerivativeWeights << std::endl;
-  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
   os << indent << "RequestedNumberOfThreads: "
      << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfWorkUnits) << std::endl;
   os << indent << "RealValuedInputImage: " << m_RealValuedInputImage.GetPointer() << std::endl;

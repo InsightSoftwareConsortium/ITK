@@ -430,7 +430,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
   os << indent << "MarkWatershedLine: " << m_MarkWatershedLine << std::endl;
 }
 

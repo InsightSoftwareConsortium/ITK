@@ -121,7 +121,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+    os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
   }
 
 private:

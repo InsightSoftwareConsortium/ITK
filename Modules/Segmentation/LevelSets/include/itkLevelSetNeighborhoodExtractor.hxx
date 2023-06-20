@@ -44,13 +44,21 @@ void
 LevelSetNeighborhoodExtractor<TLevelSet>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Input level set: " << m_InputLevelSet.GetPointer();
-  os << std::endl;
-  os << indent << "Level set value: " << m_LevelSetValue << std::endl;
-  os << indent << "Narrow bandwidth: " << m_NarrowBandwidth << std::endl;
-  os << indent << "Narrowbanding: " << m_NarrowBanding << std::endl;
-  os << indent << "Input narrow band: ";
-  os << m_InputNarrowBand.GetPointer() << std::endl;
+
+  os << indent << "LevelSetValue: " << m_LevelSetValue << std::endl;
+
+  os << indent << "InsidePoints: " << m_InsidePoints << std::endl;
+  os << indent << "OutsidePoints: " << m_OutsidePoints << std::endl;
+  os << indent << "InputLevelSet: " << m_InputLevelSet << std::endl;
+  os << indent << "NarrowBanding: " << (m_NarrowBanding ? "On" : "Off") << std::endl;
+  os << indent << "NarrowBandwidth: " << m_NarrowBandwidth << std::endl;
+  os << indent << "InputNarrowBand: " << m_InputNarrowBand << std::endl;
+  os << indent << "ImageRegion: " << m_ImageRegion << std::endl;
+  os << indent << "LargeValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LargeValue)
+     << std::endl;
+  // ToDo
+  // os << indent << "NodesUsed: " << m_NodesUsed << std::endl;
+  os << indent << "LastPointIsInside: " << (m_LastPointIsInside ? "On" : "Off") << std::endl;
 }
 
 template <typename TLevelSet>

@@ -49,18 +49,18 @@ void
 DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
                                                                                     Indent         indent) const
 {
-  // call the superclass' implementation of this method
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Zero Padding Factor: " << this->GetZeroPadding() << std::endl;
-  os << indent << "Fourier Oversampling Factor: " << this->GetOverSampling() << std::endl;
-  os << indent << "Radial Spline Order: " << this->GetRadialSplineOrder() << std::endl;
-  os << indent << "Fourier Radial Cutoff Frequency: " << this->GetCutoff() << std::endl;
-  os << indent << "Alpha Range: " << this->GetAlphaRange() << std::endl;
-  os << indent << "Z Direction: " << this->GetZDirection() << std::endl;
-  os << indent << "Alpha Direction: " << this->GetAlphaDirection() << std::endl;
-  os << indent << "Radial Direction: " << this->GetRDirection() << std::endl;
-  os << indent << "Input Requested Region: " << m_InputRequestedRegion << std::endl;
+  os << indent << "ZeroPaddingFactor: " << m_ZeroPadding << std::endl;
+  os << indent << "OverSampling: " << m_OverSampling << std::endl;
+  os << indent << "Cutoff: " << m_Cutoff << std::endl;
+  os << indent << "AlphaRange: " << m_AlphaRange << std::endl;
+  os << indent << "ZDirection: " << m_ZDirection << std::endl;
+  os << indent << "AlphaDirection: " << m_AlphaDirection << std::endl;
+  os << indent << "RDirection: " << m_RDirection << std::endl;
+  os << indent << "RadialSplineOrder: " << m_RadialSplineOrder << std::endl;
+  os << indent << "PI: " << m_PI << std::endl;
+  os << indent << "InputRequestedRegion: " << m_InputRequestedRegion << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>

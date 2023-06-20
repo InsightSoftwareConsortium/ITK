@@ -106,7 +106,7 @@ HConvexImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
   os << indent << "Height of local maxima (contrast): "
      << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height) << std::endl;
   os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
-  os << indent << "FullyConnected: " << m_FullyConnected << std::endl;
+  os << indent << "FullyConnected: " << (m_FullyConnected ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 #endif
