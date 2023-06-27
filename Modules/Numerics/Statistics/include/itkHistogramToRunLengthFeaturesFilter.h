@@ -90,7 +90,6 @@ extern ITKStatistics_EXPORT std::ostream &
  *
  * \sa ScalarImageToRunLengthFeaturesFilter
  * \sa ScalarImageToRunLengthMatrixFilter
- * \sa HistogramToRunLengthFeaturesFilter
  *
  * \author: Nick Tustison
  * \ingroup ITKStatistics
