@@ -304,26 +304,26 @@ namespace itk
   itkCloneMacro(x);         \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define itkSimpleNewMacro(x)                            \
-  static Pointer New()                                  \
-  {                                                     \
-    Pointer smartPtr = itk::ObjectFactory<x>::Create(); \
-    if (smartPtr == nullptr)                            \
-    {                                                   \
-      smartPtr = new x;                                 \
-    }                                                   \
-    smartPtr->UnRegister();                             \
-    return smartPtr;                                    \
-  }                                                     \
+#define itkSimpleNewMacro(x)                              \
+  static Pointer New()                                    \
+  {                                                       \
+    Pointer smartPtr = ::itk::ObjectFactory<x>::Create(); \
+    if (smartPtr == nullptr)                              \
+    {                                                     \
+      smartPtr = new x;                                   \
+    }                                                     \
+    smartPtr->UnRegister();                               \
+    return smartPtr;                                      \
+  }                                                       \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define itkCreateAnotherMacro(x)                           \
-  itk::LightObject::Pointer CreateAnother() const override \
-  {                                                        \
-    itk::LightObject::Pointer smartPtr;                    \
-    smartPtr = x::New().GetPointer();                      \
-    return smartPtr;                                       \
-  }                                                        \
+#define itkCreateAnotherMacro(x)                             \
+  ::itk::LightObject::Pointer CreateAnother() const override \
+  {                                                          \
+    ::itk::LightObject::Pointer smartPtr;                    \
+    smartPtr = x::New().GetPointer();                        \
+    return smartPtr;                                         \
+  }                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkCloneMacro(x)                                                  \
@@ -346,7 +346,7 @@ namespace itk
 #define itkSimpleFactoryOnlyNewMacro(x)                                                                 \
   static auto New()->Pointer                                                                            \
   {                                                                                                     \
-    Pointer smartPtr = itk::ObjectFactory<x>::Create();                                                 \
+    Pointer smartPtr = ::itk::ObjectFactory<x>::Create();                                               \
     if (smartPtr == nullptr)                                                                            \
     {                                                                                                   \
       itkSpecializedMessageExceptionMacro(ExceptionObject,                                              \
@@ -369,21 +369,21 @@ namespace itk
  * UnRegister() on the rawPtr to compensate for LightObject's constructor
  * initializing an object's reference count to 1 (needed for proper
  * initialization of process objects and data objects cycles). */
-#define itkFactorylessNewMacro(x)                          \
-  static Pointer New()                                     \
-  {                                                        \
-    Pointer smartPtr;                                      \
-    x *     rawPtr = new x;                                \
-    smartPtr = rawPtr;                                     \
-    rawPtr->UnRegister();                                  \
-    return smartPtr;                                       \
-  }                                                        \
-  itk::LightObject::Pointer CreateAnother() const override \
-  {                                                        \
-    itk::LightObject::Pointer smartPtr;                    \
-    smartPtr = x::New().GetPointer();                      \
-    return smartPtr;                                       \
-  }                                                        \
+#define itkFactorylessNewMacro(x)                            \
+  static Pointer New()                                       \
+  {                                                          \
+    Pointer smartPtr;                                        \
+    x *     rawPtr = new x;                                  \
+    smartPtr = rawPtr;                                       \
+    rawPtr->UnRegister();                                    \
+    return smartPtr;                                         \
+  }                                                          \
+  ::itk::LightObject::Pointer CreateAnother() const override \
+  {                                                          \
+    ::itk::LightObject::Pointer smartPtr;                    \
+    smartPtr = x::New().GetPointer();                        \
+    return smartPtr;                                         \
+  }                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 //
@@ -478,12 +478,12 @@ OutputWindowDisplayDebugText(const char *);
 #  define itkDebugMacro(x)                                                     \
     do                                                                         \
     {                                                                          \
-      if (this->GetDebug() && itk::Object::GetGlobalWarningDisplay())          \
+      if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())        \
       {                                                                        \
         std::ostringstream itkmsg;                                             \
         itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << '\n'          \
                << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
-        itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());               \
+        ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());             \
       }                                                                        \
     } while (0)
 
@@ -498,12 +498,12 @@ OutputWindowDisplayDebugText(const char *);
 #define itkWarningMacro(x)                                                   \
   do                                                                         \
   {                                                                          \
-    if (itk::Object::GetGlobalWarningDisplay())                              \
+    if (::itk::Object::GetGlobalWarningDisplay())                            \
     {                                                                        \
       std::ostringstream itkmsg;                                             \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << '\n'        \
              << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
-      itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());             \
+      ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());           \
     }                                                                        \
   } while (0)
 
@@ -541,13 +541,13 @@ OutputWindowDisplayDebugText(const char *);
   {                                                                                                                  \
     std::ostringstream exceptionDescriptionOutputStringStream;                                                       \
     exceptionDescriptionOutputStringStream << "ITK ERROR: " x;                                                       \
-    throw itk::ExceptionType(                                                                                        \
+    throw ::itk::ExceptionType(                                                                                      \
       std::string{ __FILE__ }, __LINE__, exceptionDescriptionOutputStringStream.str(), std::string{ ITK_LOCATION }); \
   }                                                                                                                  \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSpecializedExceptionMacro(ExceptionType) \
-  itkSpecializedMessageExceptionMacro(ExceptionType, << itk::ExceptionType::default_exception_message)
+  itkSpecializedMessageExceptionMacro(ExceptionType, << ::itk::ExceptionType::default_exception_message)
 
 /** The itkExceptionMacro macro is used to print error information (i.e., usually
  * a condition that results in program failure). Example usage looks like:
@@ -559,11 +559,11 @@ OutputWindowDisplayDebugText(const char *);
 
 #define itkGenericOutputMacro(x)                                                   \
   {                                                                                \
-    if (itk::Object::GetGlobalWarningDisplay())                                    \
+    if (::itk::Object::GetGlobalWarningDisplay())                                  \
     {                                                                              \
       std::ostringstream itkmsg;                                                   \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" x << "\n\n"; \
-      itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());             \
+      ::itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());           \
     }                                                                              \
   }                                                                                \
   ITK_MACROEND_NOOP_STATEMENT
@@ -571,22 +571,22 @@ OutputWindowDisplayDebugText(const char *);
 //----------------------------------------------------------------------------
 // Macros for simplifying the use of logging
 //
-#define itkLogMacro(x, y)                              \
-  {                                                    \
-    if (this->GetLogger())                             \
-    {                                                  \
-      this->GetLogger()->Write(itk::LoggerBase::x, y); \
-    }                                                  \
-  }                                                    \
+#define itkLogMacro(x, y)                                \
+  {                                                      \
+    if (this->GetLogger())                               \
+    {                                                    \
+      this->GetLogger()->Write(::itk::LoggerBase::x, y); \
+    }                                                    \
+  }                                                      \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define itkLogMacroStatic(obj, x, y)                  \
-  {                                                   \
-    if (obj->GetLogger())                             \
-    {                                                 \
-      obj->GetLogger()->Write(itk::LoggerBase::x, y); \
-    }                                                 \
-  }                                                   \
+#define itkLogMacroStatic(obj, x, y)                    \
+  {                                                     \
+    if (obj->GetLogger())                               \
+    {                                                   \
+      obj->GetLogger()->Write(::itk::LoggerBase::x, y); \
+    }                                                   \
+  }                                                     \
   ITK_MACROEND_NOOP_STATEMENT
 
 //----------------------------------------------------------------------------
@@ -761,7 +761,7 @@ compilers.
   DestinationType, Sourcrnd_halfintup, DestinationElementType, DestinationArray, SourceArray, NumberOfIterations) \
   for (unsigned int i = 0; i < NumberOfIterations; ++i)                                                           \
   {                                                                                                               \
-    DestinationArray[i] = itk::Math::Round<DestinationElementType>(SourceArray[i]);                               \
+    DestinationArray[i] = ::itk::Math::Round<DestinationElementType>(SourceArray[i]);                             \
   }
 
 // end of Template Meta Programming helper macros
