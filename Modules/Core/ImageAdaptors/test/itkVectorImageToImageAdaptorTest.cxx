@@ -29,7 +29,7 @@ int
 itkVectorImageToImageAdaptorTest(int, char *[])
 {
 
-  // image type type alias
+  // image type alias
   constexpr unsigned int Dimension = 3;
   constexpr unsigned int VectorLength = 4;
   constexpr unsigned int componentToExtract = 3;

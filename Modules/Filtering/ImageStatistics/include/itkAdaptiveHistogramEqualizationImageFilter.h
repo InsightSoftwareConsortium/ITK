@@ -100,7 +100,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(AdaptiveHistogramEqualizationImageFilter, ImageToImageFilter);
 
-  /** Image type type alias support */
+  /** Image type alias support */
   using ImageType = TImageType;
   using InputPixelType = typename ImageType::PixelType;
   using ImageSizeType = typename ImageType::SizeType;

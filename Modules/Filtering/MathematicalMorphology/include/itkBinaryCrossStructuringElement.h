@@ -82,7 +82,7 @@ public:
   /** Radius type alias support */
   using typename Superclass::RadiusType;
 
-  /** External slice iterator type type alias support */
+  /** External slice iterator type alias support */
   using SliceIteratorType = SliceIterator<TPixel, Self>;
 
   /** Default constructor. */

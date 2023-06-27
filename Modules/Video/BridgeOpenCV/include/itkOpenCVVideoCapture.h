@@ -53,7 +53,6 @@ class ITK_TEMPLATE_EXPORT OpenCVVideoCapture : public cv::VideoCapture
 public:
   /**-CONSTRUCTORS AND DESTRUCTOR--------------------------------------------*/
 
-  /** ITK stype type alias */
   using VideoStreamType = TVideoStream;
   using Self = OpenCVVideoCapture<VideoStreamType>;
   using FrameType = typename VideoStreamType::FrameType;

@@ -90,7 +90,7 @@ public:
   using FeatureIndexValueType = typename FeatureIndexType::IndexValueType;
   using FeatureRegionType = typename FeatureImageType::RegionType;
 
-  /** Output image type type alias */
+  /** Output image type alias */
   using OutputImageType = TOutputImage;
   using IndexType = typename OutputImageType::IndexType;
   using OutputPixelType = typename OutputImageType::PixelType;
