@@ -89,11 +89,11 @@ public:
   using PointIdIterator = typename CellType::PointIdIterator;
   using CellAutoPointer = typename CellType::CellAutoPointer;
 
-  /** Select the cell that will be used as reference for the flattening.
-   * This value must be the identifier of a cell existing in the input Mesh.
-   * A point of this cell will be mapped to infinity on the plane, or it
-   * will be mapped to the north-pole on the sphere. It is recommended to
-   * select a cell whose curvature is relatively flat. */
+  /** Select the cell that will be used to define the boundary/used as reference for the flattening.
+   * This value must be the identifier of a cell existing in the input Mesh. A point of this cell will be mapped to
+   * infinity on the plane, or it will be mapped to the north-pole on the sphere. It is recommended to select a cell
+   * whose curvature is relatively flat.
+   */
   void
   SetPolarCellIdentifier(CellIdentifier cellId);
 
