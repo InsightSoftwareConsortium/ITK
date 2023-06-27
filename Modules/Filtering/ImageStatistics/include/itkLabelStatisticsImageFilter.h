@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkHistogram.h"
+#include "itkPrintHelper.h"
 #include <mutex>
 #include <unordered_map>
 #include <vector>
@@ -219,6 +220,39 @@ public:
         m_Histogram = l.m_Histogram;
       }
       return *this;
+    }
+
+    friend std::ostream &
+    operator<<(std::ostream & os, const LabelStatistics & labelStatistics)
+    {
+      using namespace print_helper;
+
+      os << "Count: " << static_cast<typename NumericTraits<IdentifierType>::PrintType>(labelStatistics.m_Count)
+         << std::endl;
+      os << "Minimum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Minimum)
+         << std::endl;
+      os << "Maximum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Maximum)
+         << std::endl;
+      os << "Mean: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Mean) << std::endl;
+      os << "Sum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Sum) << std::endl;
+      os << "SumOfSquares: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_SumOfSquares)
+         << std::endl;
+      os << "Sigma: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Sigma) << std::endl;
+      os << "Variance: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Variance)
+         << std::endl;
+      os << "BoundingBox: " << labelStatistics.m_BoundingBox << std::endl;
+
+      os << "Histogram: ";
+      if (labelStatistics.m_Histogram)
+      {
+        labelStatistics.m_Histogram->Print(os);
+      }
+      else
+      {
+        os << "nullptr" << std::endl;
+      }
+
+      return os;
     }
 
     IdentifierType                  m_Count;

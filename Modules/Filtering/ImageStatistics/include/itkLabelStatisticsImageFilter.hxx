@@ -520,12 +520,21 @@ template <typename TImage, typename TLabelImage>
 void
 LabelStatisticsImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of labels: " << m_LabelStatistics.size() << std::endl;
-  os << indent << "Use Histograms: " << m_UseHistograms << std::endl;
-  os << indent << "Histogram Lower Bound: " << m_LowerBound << std::endl;
-  os << indent << "Histogram Upper Bound: " << m_UpperBound << std::endl;
+  os << indent << "LabelStatistics: " << std::endl;
+  for (auto const & pair : m_LabelStatistics)
+  {
+    os << indent.GetNextIndent() << "{" << pair.first << ": " << pair.second << "}" << std::endl;
+  }
+
+  os << indent << "ValidLabelValues: " << m_ValidLabelValues << std::endl;
+  os << indent << "UseHistograms: " << (m_UseHistograms ? "On" : "Off") << std::endl;
+  os << indent << "NumBins: " << m_NumBins << std::endl;
+  os << indent << "LowerBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LowerBound) << std::endl;
+  os << indent << "UpperBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_UpperBound) << std::endl;
 }
 } // end namespace itk
 #endif
