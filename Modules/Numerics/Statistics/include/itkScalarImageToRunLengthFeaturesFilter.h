@@ -84,7 +84,6 @@ namespace Statistics
  *
  * IJ article: https://www.insight-journal.org/browse/publication/231
  *
- * \sa ScalarImageToRunLengthFeaturesFilter
  * \sa ScalarImageToRunLengthMatrixFilter
  * \sa HistogramToRunLengthFeaturesFilter
  *
