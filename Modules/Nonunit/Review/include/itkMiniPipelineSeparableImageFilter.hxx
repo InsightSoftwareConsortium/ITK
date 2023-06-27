@@ -20,15 +20,6 @@
 
 #include "itkProgressAccumulator.h"
 
-/*
- *
- * This code was contributed in the Insight Journal paper:
- * "Efficient implementation of kernel filtering"
- * by Beare R., Lehmann G
- * https://hdl.handle.net/1926/555
- * https://www.insight-journal.org/browse/publication/160
- *
- */
 
 namespace itk
 {
