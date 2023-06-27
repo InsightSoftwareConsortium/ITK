@@ -60,7 +60,6 @@ class OpenCVImageBridge
 public:
   ITK_DISALLOW_COPY_AND_MOVE(OpenCVImageBridge);
 
-  /** ITK stype type alias */
   using Self = OpenCVImageBridge;
 
   /** IplImage* -> itk::Image */

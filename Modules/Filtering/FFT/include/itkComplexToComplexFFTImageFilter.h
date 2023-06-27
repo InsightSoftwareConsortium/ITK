@@ -107,7 +107,7 @@ public:
   static constexpr TransformDirectionEnum INVERSE = TransformDirectionEnum::INVERSE;
 #endif
 
-  /** Image type type alias support */
+  /** Image type alias support */
   using ImageSizeType = typename ImageType::SizeType;
 
   /** Set/Get the direction in which the transform will be applied.

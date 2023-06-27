@@ -90,7 +90,7 @@ public:
 
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
-  /** Image type type alias support */
+  /** Image type alias support */
   using ImageSizeType = typename ImageType::SizeType;
 
   /**

@@ -85,7 +85,7 @@ public:
   /** Offset type used to reference neighbor locations */
   using OffsetType = Offset<VDimension>;
 
-  /** External slice iterator type type alias support */
+  /** External slice iterator type alias support */
   using SliceIteratorType = SliceIterator<TPixel, Self>;
 
   /** Type used to refer to space dimensions */

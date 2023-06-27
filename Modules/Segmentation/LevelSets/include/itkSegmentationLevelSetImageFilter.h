@@ -152,7 +152,7 @@ public:
 
   // static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
-  /** Output image type type alias */
+  /** Output image type alias */
   using OutputImageType = Image<TOutputPixelType, Self::InputImageDimension>;
 
   /** Standard class type aliases */
