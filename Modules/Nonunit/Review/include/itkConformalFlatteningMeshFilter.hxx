@@ -26,9 +26,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template <typename TInputMesh, typename TOutputMesh>
 ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::ConformalFlatteningMeshFilter()
 {
@@ -43,9 +41,6 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::ConformalFlatteningMeshF
   // same number of vertices.
 }
 
-/**
- * Set the triangle used to define the boundary of the flattened region.
- */
 template <typename TInputMesh, typename TOutputMesh>
 void
 ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::SetPolarCellIdentifier(CellIdentifier cellId)
@@ -53,10 +48,6 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::SetPolarCellIdentifier(C
   this->m_PolarCellIdentifier = cellId;
 }
 
-/**
- * Define the scale of the mapping. The largest coordinates of the
- * furthest point in the plane is m_MapScale.
- */
 template <typename TInputMesh, typename TOutputMesh>
 void
 ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::SetScale(double scale)
@@ -64,9 +55,6 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::SetScale(double scale)
   this->m_MapScale = scale;
 }
 
-/**
- * Define that the input surface will be mapped to a sphere
- */
 template <typename TInputMesh, typename TOutputMesh>
 void
 ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::MapToSphere()
@@ -74,9 +62,6 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::MapToSphere()
   this->m_MapToSphere = true;
 }
 
-/** Define that the input surface will be mapped to a plane.
- *  This skips the steps of the stereographic projection.
- */
 template <typename TInputMesh, typename TOutputMesh>
 void
 ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::MapToPlane()
@@ -84,9 +69,6 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::MapToPlane()
   this->m_MapToSphere = false;
 }
 
-/**
- *
- */
 template <typename TInputMesh, typename TOutputMesh>
 void
 ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
@@ -94,9 +76,6 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream &
   Superclass::PrintSelf(os, indent);
 }
 
-/**
- * This method causes the filter to generate its output.
- */
 template <typename TInputMesh, typename TOutputMesh>
 void
 ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
