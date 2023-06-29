@@ -18,47 +18,65 @@
 #  include "arch/power/power_features.h"
 #elif defined(S390_FEATURES)
 #  include "arch/s390/s390_features.h"
+#elif defined(RISCV_FEATURES)
+#  include "arch/riscv/riscv_features.h"
 #endif
 
-extern void cpu_check_features(void);
+struct cpu_features {
+#if defined(X86_FEATURES)
+    struct x86_cpu_features x86;
+#elif defined(ARM_FEATURES)
+    struct arm_cpu_features arm;
+#elif defined(PPC_FEATURES) || defined(POWER_FEATURES)
+    struct power_cpu_features power;
+#elif defined(S390_FEATURES)
+    struct s390_cpu_features s390;
+#elif defined(RISCV_FEATURES)
+    struct riscv_cpu_features riscv;
+#else
+    char empty;
+#endif
+};
+
+extern void cpu_check_features(struct cpu_features *features);
 
 /* adler32 */
 typedef uint32_t (*adler32_func)(uint32_t adler, const uint8_t *buf, size_t len);
 
 extern uint32_t adler32_c(uint32_t adler, const uint8_t *buf, size_t len);
-#ifdef ARM_NEON_ADLER32
+#ifdef ARM_NEON
 extern uint32_t adler32_neon(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
-#ifdef PPC_VMX_ADLER32
+#ifdef PPC_VMX
 extern uint32_t adler32_vmx(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
-#ifdef X86_SSSE3_ADLER32
+#ifdef X86_SSSE3
 extern uint32_t adler32_ssse3(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
-#ifdef X86_AVX2_ADLER32
+#ifdef X86_AVX2
 extern uint32_t adler32_avx2(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
-#ifdef X86_AVX512_ADLER32
+#ifdef X86_AVX512
 extern uint32_t adler32_avx512(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
-#ifdef X86_AVX512VNNI_ADLER32
+#ifdef X86_AVX512VNNI
 extern uint32_t adler32_avx512_vnni(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
-#ifdef POWER8_VSX_ADLER32
+#ifdef POWER8_VSX
 extern uint32_t adler32_power8(uint32_t adler, const uint8_t *buf, size_t len);
 #endif
 
 /* adler32 folding */
-#ifdef X86_SSE42_ADLER32
+#ifdef X86_SSE42
 extern uint32_t adler32_fold_copy_sse42(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 #endif
-#ifdef X86_AVX2_ADLER32
+#ifdef X86_AVX2
 extern uint32_t adler32_fold_copy_avx2(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 #endif
-#ifdef X86_AVX512_ADLER32
+#ifdef X86_AVX512
 extern uint32_t adler32_fold_copy_avx512(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 #endif
-#ifdef X86_AVX512VNNI_ADLER32
+#ifdef X86_AVX512VNNI
 extern uint32_t adler32_fold_copy_avx512_vnni(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 #endif
 
@@ -70,26 +88,33 @@ extern void     crc32_fold_pclmulqdq(crc32_fold *crc, const uint8_t *src, size_t
 extern uint32_t crc32_fold_pclmulqdq_final(crc32_fold *crc);
 extern uint32_t crc32_pclmulqdq(uint32_t crc32, const uint8_t *buf, size_t len);
 #endif
+#if defined(X86_PCLMULQDQ_CRC) && defined(X86_VPCLMULQDQ_CRC)
+extern uint32_t crc32_fold_vpclmulqdq_reset(crc32_fold *crc);
+extern void     crc32_fold_vpclmulqdq_copy(crc32_fold *crc, uint8_t *dst, const uint8_t *src, size_t len);
+extern void     crc32_fold_vpclmulqdq(crc32_fold *crc, const uint8_t *src, size_t len, uint32_t init_crc);
+extern uint32_t crc32_fold_vpclmulqdq_final(crc32_fold *crc);
+extern uint32_t crc32_vpclmulqdq(uint32_t crc32, const uint8_t *buf, size_t len);
+#endif
 
 /* memory chunking */
 extern uint32_t chunksize_c(void);
 extern uint8_t* chunkmemset_safe_c(uint8_t *out, unsigned dist, unsigned len, unsigned left);
-#ifdef X86_SSE2_CHUNKSET
+#ifdef X86_SSE2
 extern uint32_t chunksize_sse2(void);
 extern uint8_t* chunkmemset_safe_sse2(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
-#ifdef X86_SSE41
-extern uint8_t* chunkmemset_safe_sse41(uint8_t *out, unsigned dist, unsigned len, unsigned left);
+#ifdef X86_SSSE3
+extern uint8_t* chunkmemset_safe_ssse3(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
-#ifdef X86_AVX_CHUNKSET
-extern uint32_t chunksize_avx(void);
-extern uint8_t* chunkmemset_safe_avx(uint8_t *out, unsigned dist, unsigned len, unsigned left);
+#ifdef X86_AVX2
+extern uint32_t chunksize_avx2(void);
+extern uint8_t* chunkmemset_safe_avx2(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
-#ifdef ARM_NEON_CHUNKSET
+#ifdef ARM_NEON
 extern uint32_t chunksize_neon(void);
 extern uint8_t* chunkmemset_safe_neon(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
-#ifdef POWER8_VSX_CHUNKSET
+#ifdef POWER8_VSX
 extern uint32_t chunksize_power8(void);
 extern uint8_t* chunkmemset_safe_power8(uint8_t *out, unsigned dist, unsigned len, unsigned left);
 #endif
@@ -102,19 +127,19 @@ typedef struct zng_stream_s zng_stream;
 
 /* inflate fast loop */
 extern void inflate_fast_c(PREFIX3(stream) *strm, uint32_t start);
-#ifdef X86_SSE2_CHUNKSET
+#ifdef X86_SSE2
 extern void inflate_fast_sse2(PREFIX3(stream) *strm, uint32_t start);
 #endif
-#ifdef X86_SSE41
-extern void inflate_fast_sse41(PREFIX3(stream) *strm, uint32_t start);
+#ifdef X86_SSSE3
+extern void inflate_fast_ssse3(PREFIX3(stream) *strm, uint32_t start);
 #endif
-#ifdef X86_AVX_CHUNKSET
-extern void inflate_fast_avx(PREFIX3(stream) *strm, uint32_t start);
+#ifdef X86_AVX2
+extern void inflate_fast_avx2(PREFIX3(stream) *strm, uint32_t start);
 #endif
-#ifdef ARM_NEON_CHUNKSET
+#ifdef ARM_NEON
 extern void inflate_fast_neon(PREFIX3(stream) *strm, uint32_t start);
 #endif
-#ifdef POWER8_VSX_CHUNKSET
+#ifdef POWER8_VSX
 extern void inflate_fast_power8(PREFIX3(stream) *strm, uint32_t start);
 #endif
 
@@ -122,19 +147,19 @@ extern void inflate_fast_power8(PREFIX3(stream) *strm, uint32_t start);
 typedef uint32_t (*crc32_func)(uint32_t crc32, const uint8_t *buf, size_t len);
 
 extern uint32_t PREFIX(crc32_braid)(uint32_t crc, const uint8_t *buf, size_t len);
-#ifdef ARM_ACLE_CRC_HASH
+#ifdef ARM_ACLE
 extern uint32_t crc32_acle(uint32_t crc, const uint8_t *buf, size_t len);
-#elif defined(POWER8_VSX_CRC32)
+#elif defined(POWER8_VSX)
 extern uint32_t crc32_power8(uint32_t crc, const uint8_t *buf, size_t len);
 #elif defined(S390_CRC32_VX)
-extern uint32_t PREFIX(s390_crc32_vx)(uint32_t crc, const uint8_t *buf, size_t len);
+extern uint32_t crc32_s390_vx(uint32_t crc, const uint8_t *buf, size_t len);
 #endif
 
 /* compare256 */
 typedef uint32_t (*compare256_func)(const uint8_t *src0, const uint8_t *src1);
 
 extern uint32_t compare256_c(const uint8_t *src0, const uint8_t *src1);
-#ifdef UNALIGNED_OK
+#if defined(UNALIGNED_OK) && BYTE_ORDER == LITTLE_ENDIAN
 extern uint32_t compare256_unaligned_16(const uint8_t *src0, const uint8_t *src1);
 #ifdef HAVE_BUILTIN_CTZ
 extern uint32_t compare256_unaligned_32(const uint8_t *src0, const uint8_t *src1);
@@ -155,19 +180,22 @@ extern uint32_t compare256_neon(const uint8_t *src0, const uint8_t *src1);
 #ifdef POWER9
 extern uint32_t compare256_power9(const uint8_t *src0, const uint8_t *src1);
 #endif
+#ifdef RISCV_RVV
+extern uint32_t compare256_rvv(const uint8_t *src0, const uint8_t *src1);
+#endif
 
 #ifdef DEFLATE_H_
 /* insert_string */
 extern void insert_string_c(deflate_state *const s, const uint32_t str, uint32_t count);
-#ifdef X86_SSE42_CRC_HASH
-extern void insert_string_sse4(deflate_state *const s, const uint32_t str, uint32_t count);
-#elif defined(ARM_ACLE_CRC_HASH)
+#ifdef X86_SSE42
+extern void insert_string_sse42(deflate_state *const s, const uint32_t str, uint32_t count);
+#elif defined(ARM_ACLE)
 extern void insert_string_acle(deflate_state *const s, const uint32_t str, uint32_t count);
 #endif
 
 /* longest_match */
 extern uint32_t longest_match_c(deflate_state *const s, Pos cur_match);
-#ifdef UNALIGNED_OK
+#if defined(UNALIGNED_OK) && BYTE_ORDER == LITTLE_ENDIAN
 extern uint32_t longest_match_unaligned_16(deflate_state *const s, Pos cur_match);
 #ifdef HAVE_BUILTIN_CTZ
 extern uint32_t longest_match_unaligned_32(deflate_state *const s, Pos cur_match);
@@ -188,10 +216,13 @@ extern uint32_t longest_match_neon(deflate_state *const s, Pos cur_match);
 #ifdef POWER9
 extern uint32_t longest_match_power9(deflate_state *const s, Pos cur_match);
 #endif
+#ifdef RISCV_RVV
+extern uint32_t longest_match_rvv(deflate_state *const s, Pos cur_match);
+#endif
 
 /* longest_match_slow */
 extern uint32_t longest_match_slow_c(deflate_state *const s, Pos cur_match);
-#ifdef UNALIGNED_OK
+#if defined(UNALIGNED_OK) && BYTE_ORDER == LITTLE_ENDIAN
 extern uint32_t longest_match_slow_unaligned_16(deflate_state *const s, Pos cur_match);
 extern uint32_t longest_match_slow_unaligned_32(deflate_state *const s, Pos cur_match);
 #ifdef UNALIGNED64_OK
@@ -210,12 +241,15 @@ extern uint32_t longest_match_slow_neon(deflate_state *const s, Pos cur_match);
 #ifdef POWER9
 extern uint32_t longest_match_slow_power9(deflate_state *const s, Pos cur_match);
 #endif
+#ifdef RISCV_RVV
+extern uint32_t longest_match_slow_rvv(deflate_state *const s, Pos cur_match);
+#endif
 
 /* quick_insert_string */
 extern Pos quick_insert_string_c(deflate_state *const s, const uint32_t str);
-#ifdef X86_SSE42_CRC_HASH
-extern Pos quick_insert_string_sse4(deflate_state *const s, const uint32_t str);
-#elif defined(ARM_ACLE_CRC_HASH)
+#ifdef X86_SSE42
+extern Pos quick_insert_string_sse42(deflate_state *const s, const uint32_t str);
+#elif defined(ARM_ACLE)
 extern Pos quick_insert_string_acle(deflate_state *const s, const uint32_t str);
 #endif
 
@@ -224,14 +258,17 @@ typedef void (*slide_hash_func)(deflate_state *s);
 
 #ifdef X86_SSE2
 extern void slide_hash_sse2(deflate_state *s);
-#elif defined(ARM_NEON_SLIDEHASH)
+#elif defined(ARM_NEON)
 extern void slide_hash_neon(deflate_state *s);
 #endif
-#if defined(PPC_VMX_SLIDEHASH)
+#if defined(PPC_VMX)
 extern void slide_hash_vmx(deflate_state *s);
 #endif
-#if defined(POWER8_VSX_SLIDEHASH)
+#if defined(POWER8_VSX)
 extern void slide_hash_power8(deflate_state *s);
+#endif
+#if defined(RISCV_RVV)
+extern void slide_hash_rvv(deflate_state *s);
 #endif
 #ifdef X86_AVX2
 extern void slide_hash_avx2(deflate_state *s);
@@ -239,9 +276,9 @@ extern void slide_hash_avx2(deflate_state *s);
 
 /* update_hash */
 extern uint32_t update_hash_c(deflate_state *const s, uint32_t h, uint32_t val);
-#ifdef X86_SSE42_CRC_HASH
-extern uint32_t update_hash_sse4(deflate_state *const s, uint32_t h, uint32_t val);
-#elif defined(ARM_ACLE_CRC_HASH)
+#ifdef X86_SSE42
+extern uint32_t update_hash_sse42(deflate_state *const s, uint32_t h, uint32_t val);
+#elif defined(ARM_ACLE)
 extern uint32_t update_hash_acle(deflate_state *const s, uint32_t h, uint32_t val);
 #endif
 #endif

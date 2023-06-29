@@ -132,8 +132,8 @@
         strm->msg = (char *)errmsg; \
     } while (0)
 
-#define INFLATE_FAST_MIN_HAVE 8
-#define INFLATE_FAST_MIN_LEFT 258
+#define INFLATE_FAST_MIN_HAVE 15
+#define INFLATE_FAST_MIN_LEFT 260
 
 /* Load 64 bits from IN and place the bytes at offset BITS in the result. */
 static inline uint64_t load_64_bits(const unsigned char *in, unsigned bits) {
@@ -158,6 +158,11 @@ static inline uint8_t* chunkcopy_safe(uint8_t *out, uint8_t *from, uint64_t len,
     /* For all cases without overlap, memcpy is ideal */
     if (!(olap_src || olap_dst)) {
         memcpy(out, from, (size_t)len);
+        return out + len;
+    }
+
+    /* Complete overlap: Source == destination */
+    if (out == from) {
         return out + len;
     }
 

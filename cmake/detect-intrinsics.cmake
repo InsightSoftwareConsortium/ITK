@@ -46,7 +46,13 @@ macro(check_avx512_intrinsics)
             # instruction scheduling unless you specify a reasonable -mtune= target
             set(AVX512FLAG "-mavx512f -mavx512dq -mavx512bw -mavx512vl")
             if(NOT CMAKE_GENERATOR_TOOLSET MATCHES "ClangCl")
-                set(AVX512FLAG "${AVX512FLAG} -mtune=cascadelake")
+                check_c_compiler_flag("-mtune=cascadelake" HAVE_CASCADE_LAKE)
+                if(HAVE_CASCADE_LAKE)
+                    set(AVX512FLAG "${AVX512FLAG} -mtune=cascadelake")
+                else()
+                    set(AVX512FLAG "${AVX512FLAG} -mtune=skylake-avx512")
+                endif()
+                unset(HAVE_CASCADE_LAKE)
             endif()
         endif()
     elseif(MSVC)
@@ -58,10 +64,10 @@ macro(check_avx512_intrinsics)
         "#include <immintrin.h>
         int main(void) {
             __m512i x = _mm512_set1_epi8(2);
-            const __m512i y = _mm512_set_epi8(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                                              20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
-                                              38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
-                                              56, 57, 58, 59, 60, 61, 62, 63, 64);
+            const __m512i y = _mm512_set_epi32(0x1020304, 0x5060708, 0x90a0b0c, 0xd0e0f10,
+                                               0x11121314, 0x15161718, 0x191a1b1c, 0x1d1e1f20,
+                                               0x21222324, 0x25262728, 0x292a2b2c, 0x2d2e2f30,
+                                               0x31323334, 0x35363738, 0x393a3b3c, 0x3d3e3f40);
             x = _mm512_sub_epi8(x, y);
             (void)x;
             return 0;
@@ -94,7 +100,13 @@ macro(check_avx512vnni_intrinsics)
         if(NOT NATIVEFLAG)
             set(AVX512VNNIFLAG "-mavx512f -mavx512dq -mavx512bw -mavx512vl -mavx512vnni")
             if(NOT CMAKE_GENERATOR_TOOLSET MATCHES "ClangCl")
-                set(AVX512VNNIFLAG "${AVX512VNNIFLAG} -mtune=cascadelake")
+                check_c_compiler_flag("-mtune=cascadelake" HAVE_CASCADE_LAKE)
+                if(HAVE_CASCADE_LAKE)
+                    set(AVX512VNNIFLAG "${AVX512VNNIFLAG} -mtune=cascadelake")
+                else()
+                    set(AVX512VNNIFLAG "${AVX512VNNIFLAG} -mtune=skylake-avx512")
+                endif()
+                unset(HAVE_CASCADE_LAKE)
             endif()
         endif()
     elseif(MSVC)
@@ -341,11 +353,32 @@ macro(check_power8_intrinsics)
     set(CMAKE_REQUIRED_FLAGS)
 endmacro()
 
+macro(check_rvv_intrinsics)
+    if(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+        if(NOT NATIVEFLAG)
+            set(RISCVFLAG "-march=rv64gcv")
+        endif()
+    endif()
+    # Check whether compiler supports RVV
+    set(CMAKE_REQUIRED_FLAGS "${RISCVFLAG} ${NATIVEFLAG}")
+    check_c_source_compiles(
+        "#include <riscv_vector.h>
+        int main() { 
+            return 0; 
+        }" 
+        HAVE_RVV_INTRIN
+    )
+    set(CMAKE_REQUIRED_FLAGS)
+endmacro()
+
 macro(check_s390_intrinsics)
     check_c_source_compiles(
         "#include <sys/auxv.h>
+        #ifndef HWCAP_S390_VXRS
+        #define HWCAP_S390_VXRS HWCAP_S390_VX
+        #endif
         int main() {
-            return (getauxval(AT_HWCAP) & HWCAP_S390_VX);
+            return (getauxval(AT_HWCAP) & HWCAP_S390_VXRS);
         }"
         HAVE_S390_INTRIN
     )
@@ -360,8 +393,18 @@ macro(check_power9_intrinsics)
     # Check if we have what we need for POWER9 optimizations
     set(CMAKE_REQUIRED_FLAGS "${POWER9FLAG} ${NATIVEFLAG}")
     check_c_source_compiles(
-        "int main() {
-            return 0;
+        "#include <sys/auxv.h>
+        #ifdef __FreeBSD__
+        #include <machine/cpu.h>
+        #endif
+        int main() {
+        #ifdef __FreeBSD__
+            unsigned long hwcap;
+            elf_aux_info(AT_HWCAP2, &hwcap, sizeof(hwcap));
+            return (hwcap & PPC_FEATURE2_ARCH_3_00);
+        #else
+            return (getauxval(AT_HWCAP2) & PPC_FEATURE2_ARCH_3_00);
+        #endif
         }"
         HAVE_POWER9_INTRIN
     )
@@ -426,34 +469,6 @@ macro(check_ssse3_intrinsics)
     )
 endmacro()
 
-macro(check_sse41_intrinsics)
-    if(CMAKE_C_COMPILER_ID MATCHES "Intel")
-        if(CMAKE_HOST_UNIX OR APPLE)
-            set(SSE41FLAG "-msse4.1")
-        else()
-            set(SSE41FLAG "/arch:SSE4.1")
-        endif()
-    elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
-        if(NOT NATIVEFLAG)
-            set(SSE41FLAG "-msse4.1")
-        endif()
-    endif()
-    # Check whether compiler supports SSE4.1 intrinsics
-    set(CMAKE_REQUIRED_FLAGS "${SSE41FLAG} ${NATIVEFLAG}")
-    check_c_source_compile_or_run(
-        "#include <immintrin.h>
-        int main(void) {
-            __m128i u, v, w;
-            u = _mm_set1_epi8(1);
-            v = _mm_set1_epi8(2);
-            w = _mm_sad_epu8(u, v);
-            (void)w;
-            return 0;
-        }"
-        HAVE_SSE41_INTRIN
-    )
-endmacro()
-
 macro(check_sse42_intrinsics)
     if(CMAKE_C_COMPILER_ID MATCHES "Intel")
         if(CMAKE_HOST_UNIX OR APPLE)
@@ -466,7 +481,7 @@ macro(check_sse42_intrinsics)
             set(SSE42FLAG "-msse4.2")
         endif()
     endif()
-    # Check whether compiler supports SSE4 CRC inline asm
+    # Check whether compiler supports SSE4.2 CRC inline asm
     set(CMAKE_REQUIRED_FLAGS "${SSE42FLAG} ${NATIVEFLAG}")
     check_c_source_compile_or_run(
         "int main(void) {
@@ -480,7 +495,7 @@ macro(check_sse42_intrinsics)
         }"
         HAVE_SSE42CRC_INLINE_ASM
     )
-    # Check whether compiler supports SSE4 CRC intrinsics
+    # Check whether compiler supports SSE4.2 CRC intrinsics
     check_c_source_compile_or_run(
         "#include <immintrin.h>
         int main(void) {
@@ -495,19 +510,6 @@ macro(check_sse42_intrinsics)
             return 0;
         }"
         HAVE_SSE42CRC_INTRIN
-    )
-    # Check whether compiler supports SSE4.2 compare string intrinsics
-    check_c_source_compile_or_run(
-        "#include <immintrin.h>
-        int main(void) {
-            unsigned char a[64] = { 0 };
-            unsigned char b[64] = { 0 };
-            __m128i xmm_src0, xmm_src1;
-            xmm_src0 = _mm_loadu_si128((__m128i *)(char *)a);
-            xmm_src1 = _mm_loadu_si128((__m128i *)(char *)b);
-            return _mm_cmpestri(xmm_src0, 16, xmm_src1, 16, 0);
-        }"
-        HAVE_SSE42CMPSTR_INTRIN
     )
     set(CMAKE_REQUIRED_FLAGS)
 endmacro()
