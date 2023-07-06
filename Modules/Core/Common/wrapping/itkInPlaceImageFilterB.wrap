@@ -38,4 +38,12 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
     endforeach()
   endforeach()
 
+  # PhasedArray3DSpecialCoordinatesImage
+  foreach(t ${WRAP_ITK_SCALAR})
+    foreach(ut ${WRAP_ITK_INT})
+      itk_wrap_template("I${ITKM_${t}}3PA3DSCI${ITKM_${ut}}"
+        "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >")
+    endforeach()
+  endforeach()
+
 itk_end_wrap_class()
