@@ -26,7 +26,7 @@ if(ITK_WRAP_PYTHON)
     --compare
       DATA{${test_baseline_dir}/ScanConvertPhasedArray3DITKNearestNeighborTestOutput.mha}
       ${ITK_TEST_OUTPUT_DIR}/ScanConvertPhasedArray3DITKNearestNeighborTestOutput.mha
-    COMMAND PythonPhasedArray3DResample.py
+    COMMAND itkPhasedArray3DResampleTest.py
       -i DATA{${test_input_dir}/ScanConvertPhasedArray3DTestInput.mha}
       -o ${ITK_TEST_OUTPUT_DIR}/ScanConvertPhasedArray3DITKNearestNeighborTestOutput.mha
       --azimuth-angular-separation 0.0872665
@@ -42,7 +42,7 @@ if(ITK_WRAP_PYTHON)
     --compare
       DATA{${test_baseline_dir}/ScanConvertPhasedArray3DTestOutput.mha}
       ${ITK_TEST_OUTPUT_DIR}/ScanConvertPhasedArray3DTestOutput.mha
-    COMMAND PythonPhasedArray3DResample.py
+    COMMAND itkPhasedArray3DResampleTest.py
       -i DATA{${test_input_dir}/ScanConvertPhasedArray3DTestInput.mha}
       -o ${ITK_TEST_OUTPUT_DIR}/ScanConvertPhasedArray3DTestOutput.mha
       --azimuth-angular-separation 0.0872665
@@ -58,7 +58,7 @@ if(ITK_WRAP_PYTHON)
     --compare
       DATA{${test_baseline_dir}/ScanConvertPhasedArray3DITKWindowedSincTestOutput.mha}
       ${ITK_TEST_OUTPUT_DIR}/ScanConvertPhasedArray3DITKWindowedSincTestOutput.mha
-    COMMAND PythonPhasedArray3DResample.py
+    COMMAND itkPhasedArray3DResampleTest.py
       -i DATA{${test_input_dir}/ScanConvertPhasedArray3DTestInput.mha}
       -o ${ITK_TEST_OUTPUT_DIR}/ScanConvertPhasedArray3DITKWindowedSincTestOutput.mha
       --azimuth-angular-separation 0.0872665
