@@ -1,0 +1,143 @@
+# ITK image filters wrapped for ITKUltrasound `itk::PhasedArray3DSpecialCoordinatesImage` inputs.
+# Must be wrapped in a separate file after `itkPhasedArray3DSpecialCoordinatesImage.wrap` so that
+# SWIG does not implicitly define erroneous overrides for template methods such as
+# `TransformPhysicalPointToContinuousIndex`, etc.
+
+# See `WRAPPER_SUBMODULE_ORDER` in CMakeLists.txt for where
+# `itkPhasedArray3DSpecialCoordinatesImageFilters.wrap` is set to
+# be wrapped after `itkPhasedArray3DSpecialCoordinatesImage.wrap`.
+
+itk_wrap_include("itkPhasedArray3DSpecialCoordinatesImage.h")
+itk_wrap_class("itk::ImageSource" POINTER)
+  foreach(real_type ${WRAP_ITK_SCALAR})
+    itk_wrap_template("PA3DSCI${ITKM_${real_type}}" "itk::PhasedArray3DSpecialCoordinatesImage<${ITKT_${real_type}}>")
+  endforeach()
+  foreach(complex_type ${WRAP_ITK_COMPLEX_REAL})
+    itk_wrap_template("PA3DSCI${ITKM_${complex_type}}" "itk::PhasedArray3DSpecialCoordinatesImage<${ITKT_${complex_type}}>")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_include("itkImage.h")
+itk_wrap_class("itk::ImageToImageFilter" POINTER)
+  foreach(t ${WRAP_ITK_SCALAR})
+    foreach(ut ${WRAP_ITK_INT})
+      itk_wrap_template("I${ITKM_${t}}3PA3DSCI${ITKM_${ut}}"
+        "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >")
+    endforeach()
+    foreach(t2 ${WRAP_ITK_SCALAR})
+      itk_wrap_template("PA3DSCI${ITKM_${t}}PA3DSCI${ITKM_${t2}}"
+        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t2}} >")
+    endforeach()
+    itk_wrap_template("PA3DSCI${ITKM_${t}}I${ITKM_${t}}3"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t}}, 3>")
+  endforeach()
+
+  foreach(rt ${WRAP_ITK_REAL})
+    foreach(ct ${WRAP_ITK_COMPLEX_REAL})
+      itk_wrap_template("PA3DSCI${ITKM_${rt}}PA3DSCI${ITKM_${ct}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${rt}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${ct}} >")
+      itk_wrap_template("PA3DSCI${ITKM_${ct}}PA3DSCI${ITKM_${rt}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${ct}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${rt}} >")
+    endforeach()
+  endforeach()
+
+  foreach(t3 ${WRAP_ITK_COMPLEX_REAL})
+    itk_wrap_template("PA3DSCI${ITKM_${t3}}PA3DSCI${ITKM_${t3}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${t3}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${t3}} >")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageFileReader" POINTER)
+  foreach(t ${WRAP_ITK_SCALAR})
+    itk_wrap_template("PA3DSCI${ITKM_${t}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageFileWriter" POINTER)
+  foreach(t ${WRAP_ITK_SCALAR})
+    itk_wrap_template("PA3DSCI${ITKM_${t}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::CastImageFilter" POINTER_WITH_2_SUPERCLASSES)
+  foreach(t1 ${WRAP_ITK_SCALAR})
+    foreach(t2 ${WRAP_ITK_SCALAR})
+      itk_wrap_template("PA3DSCI${ITKM_${t1}}PA3DSCI${ITKM_${t2}}"
+        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t1}} >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t2}} >")
+      itk_wrap_template("PA3DSCI${ITKM_${t1}}I${ITKM_${t2}}3"
+        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t1}} >, itk::Image< ${ITKT_${t2}}, 3 >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::RescaleIntensityImageFilter" POINTER_WITH_2_SUPERCLASSES)
+  foreach(t ${WRAP_ITK_SCALAR})
+    foreach(ut ${WRAP_ITK_INT})
+      itk_wrap_template("I${ITKM_${t}}3PA3DSCI${ITKM_${ut}}"
+        "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
+
+
+# The rest is needed for ResampleImageFilter and interpolator functions
+set(resample_filter_pixel_types "F")
+if(ITK_WRAP_unsigned_char)
+  list(APPEND resample_filter_pixel_types "UC")
+endif()
+itk_wrap_include("itkResampleImageFilter.h")
+itk_wrap_class("itk::ResampleImageFilter" POINTER)
+  foreach(t ${resample_filter_pixel_types})
+    itk_wrap_template("PA3DSCI${ITKM_${t}}I${ITKM_${t}}3"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t}}, 3 >")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageFunction" POINTER)
+  foreach(t ${resample_filter_pixel_types})
+    itk_wrap_template("PA3DSCI${ITKM_${t}}${ITKM_D}"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, ${ITKT_D}, ${ITKT_D}")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::InterpolateImageFunction" POINTER)
+  foreach(t ${resample_filter_pixel_types})
+    itk_wrap_template("PA3DSCI${ITKM_${t}}${ITKM_D}" "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, ${ITKT_D}")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::NearestNeighborInterpolateImageFunction" POINTER)
+  foreach(t ${resample_filter_pixel_types})
+    itk_wrap_template("PA3DSCI${ITKM_${t}}${ITKM_D}"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, ${ITKT_D}")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::LinearInterpolateImageFunction" POINTER)
+  foreach(t ${resample_filter_pixel_types})
+    itk_wrap_template("PA3DSCI${ITKM_${t}}${ITKM_D}"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, ${ITKT_D}")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::GaussianInterpolateImageFunction" POINTER)
+  foreach(t ${resample_filter_pixel_types})
+    itk_wrap_template("PA3DSCI${ITKM_${t}}${ITKM_D}"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, ${ITKT_D}")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_include("itkWindowedSincInterpolateImageFunction.h")
+set(window_functions "Hamming" "Cosine" "Welch" "Lanczos")
+set(radii 2 3)
+itk_wrap_class("itk::WindowedSincInterpolateImageFunction" POINTER)
+  foreach(t ${resample_filter_pixel_types})
+    foreach(r ${radii}) # radius
+      foreach(function ${window_functions})
+        itk_wrap_template("PA3DSCI${ITKM_${t}}${r}${function}" "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, ${r}, itk::Function::${function}WindowFunction< ${r} >")
+      endforeach()
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
