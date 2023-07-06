@@ -484,15 +484,11 @@ str = str
         }
 
         itkPointD##template_params TransformContinuousIndexToPhysicalPoint( itkContinuousIndexD##template_params & idx ) {
-            itkPointD##template_params point;
-            self->TransformContinuousIndexToPhysicalPoint<double>( idx, point );
-            return point;
+            return self->TransformContinuousIndexToPhysicalPoint<double>( idx );
         }
 
         itkPointD##template_params TransformIndexToPhysicalPoint( itkIndex##template_params & idx ) {
-            itkPointD##template_params point;
-            self->TransformIndexToPhysicalPoint<double>( idx, point );
-            return point;
+            return self->TransformIndexToPhysicalPoint<double>( idx );
         }
 
         %pythoncode %{
