@@ -40,6 +40,8 @@ set(WRAPPER_SUBMODULE_ORDER
   itkSymmetricSecondRankTensor
   itkImage
   itkVectorImage
+  itkSpecialCoordinatesImage
+  itkPhasedArray3DSpecialCoordinatesImage
   itkNeighborhood
 #  SwigExtras
   itkImageSourceCommon
@@ -52,9 +54,6 @@ set(WRAPPER_SUBMODULE_ORDER
   itkDefaultDynamicMeshTraits
   itkDefaultStaticMeshTraits
   itkFunctionBase
-  itkSpecialCoordinatesImage
-  itkPhasedArray3DSpecialCoordinatesImage
-  itkPhasedArray3DSpecialCoordinatesImageFilters
 #  itkCellInterface
 #  itkPointSet
 #  itkVertexCell

@@ -1,3 +1,4 @@
+itk_wrap_include("itkPhasedArray3DSpecialCoordinatesImage.h")
 itk_wrap_class("itk::ImageToImageFilter" POINTER)
 
   # scalar <-> RGB
@@ -71,4 +72,31 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
     endforeach()
   endif()
 
+  # PhasedArray3DSpecialCoordinatesImage
+  foreach(t ${WRAP_ITK_SCALAR})
+    foreach(ut ${WRAP_ITK_INT})
+      itk_wrap_template("I${ITKM_${t}}3PA3DSCI${ITKM_${ut}}"
+        "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >")
+    endforeach()
+    foreach(t2 ${WRAP_ITK_SCALAR})
+      itk_wrap_template("PA3DSCI${ITKM_${t}}PA3DSCI${ITKM_${t2}}"
+        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t2}} >")
+    endforeach()
+    itk_wrap_template("PA3DSCI${ITKM_${t}}I${ITKM_${t}}3"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t}}, 3>")
+  endforeach()
+
+  foreach(rt ${WRAP_ITK_REAL})
+    foreach(ct ${WRAP_ITK_COMPLEX_REAL})
+      itk_wrap_template("PA3DSCI${ITKM_${rt}}PA3DSCI${ITKM_${ct}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${rt}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${ct}} >")
+      itk_wrap_template("PA3DSCI${ITKM_${ct}}PA3DSCI${ITKM_${rt}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${ct}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${rt}} >")
+    endforeach()
+  endforeach()
+
+  foreach(t3 ${WRAP_ITK_COMPLEX_REAL})
+    itk_wrap_template("PA3DSCI${ITKM_${t3}}PA3DSCI${ITKM_${t3}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${t3}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${t3}} >")
+  endforeach()
 itk_end_wrap_class()

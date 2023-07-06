@@ -1,3 +1,4 @@
+itk_wrap_include("itkPhasedArray3DSpecialCoordinatesImage.h")
 itk_wrap_class("itk::CastImageFilter" POINTER_WITH_SUPERCLASS)
   # Create cast filters between all scalar types. Also force that cast-to-uchar
   # filters are created for all scalar types, and unsigned long for
@@ -80,4 +81,14 @@ itk_wrap_class("itk::CastImageFilter" POINTER_WITH_SUPERCLASS)
   if(NOT ITK_WRAP_unsigned_long_long AND NOT ${ITKM_IT} STREQUAL "ULL")
     itk_wrap_image_filter_combinations("ULL" "${WRAP_ITK_INT}")
   endif()
+
+  # PhasedArray3DSpecialCoordinatesImage
+  foreach(t1 ${WRAP_ITK_SCALAR})
+    foreach(t2 ${WRAP_ITK_SCALAR})
+      itk_wrap_template("PA3DSCI${ITKM_${t1}}PA3DSCI${ITKM_${t2}}"
+        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t1}} >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t2}} >")
+      itk_wrap_template("PA3DSCI${ITKM_${t1}}I${ITKM_${t2}}3"
+        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t1}} >, itk::Image< ${ITKT_${t2}}, 3 >")
+    endforeach()
+  endforeach()
 itk_end_wrap_class()
