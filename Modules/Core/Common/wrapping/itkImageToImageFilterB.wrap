@@ -81,9 +81,9 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
     foreach(t2 ${WRAP_ITK_SCALAR})
       itk_wrap_template("PA3DSCI${ITKM_${t}}PA3DSCI${ITKM_${t2}}"
         "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t2}} >")
+      itk_wrap_template("PA3DSCI${ITKM_${t}}I${ITKM_${t2}}3"
+        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t2}}, 3 >")
     endforeach()
-    itk_wrap_template("PA3DSCI${ITKM_${t}}I${ITKM_${t}}3"
-      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t}}, 3>")
   endforeach()
 
   foreach(rt ${WRAP_ITK_REAL})
