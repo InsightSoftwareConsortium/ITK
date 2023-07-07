@@ -216,7 +216,7 @@ class VNL_EXPORT vnl_sparse_matrix
   { return !operator==(rhs); }
 
   //: Unary minus
-  vnl_sparse_matrix<T> operator-() const;
+  vnl_sparse_matrix<typename vnl_numeric_traits<T>::signed_t> operator-() const;
 
   //: addition
   vnl_sparse_matrix<T> operator+(vnl_sparse_matrix<T> const& rhs) const;

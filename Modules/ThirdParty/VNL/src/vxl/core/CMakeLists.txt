@@ -121,6 +121,8 @@ CMAKE_DEPENDENT_OPTION( VXL_BUILD_VGUI "Build VGUI" OFF
 mark_as_advanced(VXL_BUILD_VGUI)
 if(VXL_BUILD_VGUI)
   add_subdirectory(vgui)
+else()
+  unset(VGUI_FOUND)
 endif()
 
 

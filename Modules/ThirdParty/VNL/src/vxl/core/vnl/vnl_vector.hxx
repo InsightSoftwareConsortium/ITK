@@ -431,11 +431,12 @@ vnl_vector<T>& vnl_vector<T>::post_multiply (vnl_matrix<T> const& m)
 //: Creates new vector containing the negation of THIS vector. O(n).
 
 template<class T>
-vnl_vector<T> vnl_vector<T>::operator- () const
+vnl_vector< typename vnl_numeric_traits<T>::signed_t> vnl_vector<T>::operator- () const
 {
-  vnl_vector<T> result(this->num_elmts);
-  for (size_t i = 0; i < this->num_elmts; i++)
-    result.data[i] = - this->data[i];           // negate element
+  vnl_vector<typename vnl_numeric_traits<T>::signed_t> result(this->num_elmts);
+  for (size_t i = 0; i < this->num_elmts; i++) {
+    result(i) = -this->data[i];           // negate element
+  }
   return result;
 }
 

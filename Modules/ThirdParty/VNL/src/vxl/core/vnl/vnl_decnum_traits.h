@@ -25,6 +25,11 @@ class VNL_EXPORT vnl_numeric_traits<vnl_decnum>
   typedef vnl_decnum double_t;
   //: Name of type which results from multiplying this type with a double
   typedef vnl_decnum real_t;
+  //: Name of this type
+  using self = vnl_decnum;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
+
 };
 
 #endif // vnl_decnum_traits_h_

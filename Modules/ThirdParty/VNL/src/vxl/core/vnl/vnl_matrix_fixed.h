@@ -223,11 +223,26 @@ class VNL_EXPORT vnl_matrix_fixed
 
   //: Access an element for reading or writing
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T       & operator() (unsigned r, unsigned c);
+  T       & operator() (unsigned r, unsigned c)
+  {
+#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
+    assert(r < rows());   // Check the row index is valid
+    assert(c < cols());   // Check the column index is valid
+#endif
+    return this->data_[r][c];
+  }
+
 
   //: Access an element for reading
   // There are assert style boundary checks - #define NDEBUG to turn them off.
-  T const & operator() (unsigned r, unsigned c) const;
+  T const & operator() (unsigned r, unsigned c) const
+  {
+#if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
+    assert(r < rows());   // Check the row index is valid
+    assert(c < cols());   // Check the column index is valid
+#endif
+    return this->data_[r][c];
+  }
 
   // ----------------------- Filling and copying -----------------------
 
@@ -353,10 +368,12 @@ class VNL_EXPORT vnl_matrix_fixed
   }
 
   //: Negate all elements of matrix
-  vnl_matrix_fixed operator- () const
+  vnl_matrix_fixed<typename vnl_numeric_traits<T>::signed_t, num_rows,num_cols> operator- () const
   {
-    vnl_matrix_fixed r;
-    self::sub( T(0), data_block(), r.data_block() );
+    vnl_matrix_fixed<typename vnl_numeric_traits<T>::signed_t, num_rows,num_cols> r;
+    for(int i=0; i<num_rows; ++i)
+      for(int j=0; j<num_cols; ++j)
+        r(i,j) = -(*this)(i,j);
     return r;
   }
 

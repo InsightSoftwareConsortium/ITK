@@ -25,6 +25,11 @@ class VNL_EXPORT vnl_numeric_traits<vnl_bignum>
   typedef vnl_bignum double_t;
   //: Name of type which results from multiplying this type with a double
   typedef double real_t;
+  //: Name of this type
+  using self = vnl_bignum;
+  //: Name of type which results from using a unary operator-()
+  using signed_t = self;
+
 };
 
 #endif // vnl_bignum_traits_h_

@@ -352,10 +352,13 @@ class VNL_EXPORT vnl_vector_fixed
   }
 
   //:
-  vnl_vector_fixed<T,n> operator-() const
+  vnl_vector_fixed<typename vnl_numeric_traits<T>::signed_t,n> operator-() const
   {
-    vnl_vector_fixed<T,n> result;
-    self::sub( (T)0, data_, result.data_ );
+    vnl_vector_fixed<typename vnl_numeric_traits<T>::signed_t,n> result;
+    for(size_t i=0; i< n; ++i)
+    {
+      result[i] = -data_[i];
+    }
     return result;
   }
 
