@@ -1,3 +1,4 @@
+itk_wrap_include("itkPhasedArray3DSpecialCoordinatesImage.h")
 itk_wrap_class("itk::InPlaceImageFilter" POINTER)
   # VectorImage <-> scalar
   UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
