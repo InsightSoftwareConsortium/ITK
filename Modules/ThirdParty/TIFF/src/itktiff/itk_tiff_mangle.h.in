@@ -1,0 +1,344 @@
+#ifndef itk_tiff_mangle_h
+#define itk_tiff_mangle_h
+
+/*
+This header file mangles all symbols exported from the tiff library.
+It is included in all files while building the tiff library.  Due to
+namespace pollution, no tiff headers should be included in .h files in
+ITK.
+
+The following command was used to obtain the symbol list on macOS:
+
+Mac: nm -g lib/libitktiff* 2> /dev/null | grep " [TDRS] " | awk '{ print substr($3, 2); }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort
+
+The following command was used to obtain the symbol list on Linux:
+
+Linux: nm -g lib/libitktiff* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort
+
+Explanation:
+1) The nm command extracts all global/external symbols from the library.
+2) The grep command extracts all the public symbols from the library. (Text, Data, Read-only data, Small objects).
+3) The first awk command prints out only the third column which is the symbol name (the first 2 columns are location and type) (also removes the leading underscore on macOS).
+4) The second awk command prints remove any "@MANGLE_PREFIX@_" prefix that exists already.
+5) The sed command mangles the symbols and formats the output in such a way to be copy and pasted below.
+6) The sort commands sorts the lines alphabetically.
+
+The following commands are used to generate the suggested symbols on Windows systems:
+
+dumpbin /symbols itktiff* > symbol_table.txt (Must be done from the Visual Studio Command Prompt)
+cat symbol_table.txt | grep "External" | grep -i "TIFF" | awk '{print $(NF) }' | awk '!/@MANGLE_PREFIX@_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ @MANGLE_PREFIX@_\1 ' | sed 's/^/#define /' (Must be done in git bash)
+
+For the bash commands:
+The first command prints the symbol table
+The second command extracts all the external symbols
+The third command only extracts those symbols with TIFF in them (case-insensitive)
+The fourth command only prints out the last column (which is the symbol name)
+The fifth command only prints out those symbols which have not been mangled with @MANGLE_PREFIX@_ already
+The sixth command removes duplicates
+The seventh and eighth commmands mangles the symbols and formats the output in such a way to be easily copy and pasted below.
+
+The developer will then need to *MANUALLY* add the symbols to the list below. Please try to keep the symbols in a sorted order (you can use sort utility, in Linux don't forget to to set environmental variable LC_COLLATE=POSIX to deal with the underscores correctly)
+*/
+
+// Section containing symbols which are conditionally defined (alphabetizied!)
+#ifdef CCITT_SUPPORT
+#define TIFFInitCCITTFax3 @MANGLE_PREFIX@_TIFFInitCCITTFax3
+#define TIFFInitCCITTFax4 @MANGLE_PREFIX@_TIFFInitCCITTFax4
+#define TIFFInitCCITTRLE @MANGLE_PREFIX@_TIFFInitCCITTRLE
+#define TIFFInitCCITTRLEW @MANGLE_PREFIX@_TIFFInitCCITTRLEW
+#endif
+
+#ifdef JBIG_SUPPORT
+#define TIFFInitJBIG @MANGLE_PREFIX@_TIFFInitJBIG
+#endif
+
+#ifdef JPEG_SUPPORT
+#define TIFFInitJPEG @MANGLE_PREFIX@_TIFFInitJPEG
+#endif
+
+#ifdef LOGLUV_SUPPORT
+#define TIFFInitSGILog @MANGLE_PREFIX@_TIFFInitSGILog
+#endif
+
+#ifndef LZMA_SUPPORT
+#define TIFFInitLZMA @MANGLE_PREFIX@_TIFFInitLZMA
+#endif
+
+#ifdef LZW_SUPPORT
+#define TIFFInitLZW @MANGLE_PREFIX@_TIFFInitLZW
+#endif
+
+#ifdef NEXT_SUPPORT
+#define TIFFInitNeXT @MANGLE_PREFIX@_TIFFInitNeXT
+#endif
+
+#ifdef OJPEG_SUPPORT
+#define TIFFInitOJPEG @MANGLE_PREFIX@_TIFFInitOJPEG
+#endif
+
+#ifdef PACKBITS_SUPPORT
+#define TIFFInitPackBits @MANGLE_PREFIX@_TIFFInitPackBits
+#endif
+
+#ifdef PIXARLOG_SUPPORT
+#define TIFFInitPixarLog @MANGLE_PREFIX@_TIFFInitPixarLog
+#endif
+
+#ifdef THUNDER_SUPPORT
+#define TIFFInitThunderScan @MANGLE_PREFIX@_TIFFInitThunderScan
+#endif
+
+#ifdef ZIP_SUPPORT
+#define TIFFInitZIP @MANGLE_PREFIX@_TIFFInitZIP
+#endif
+
+// Section containing symbols which are found in Linux but not in all platforms
+#ifdef __linux__
+#endif
+
+// Section containing symbols which are found in Windows but not in all platforms
+#ifdef _WIN32
+#define TIFFOpenW @MANGLE_PREFIX@_TIFFOpenW
+#endif
+
+// Section containing symbols which are found in macOS but not in all platforms
+#ifdef __APPLE__
+#endif
+
+// Common symbols
+#define LogL10fromY @MANGLE_PREFIX@_LogL10fromY
+#define LogL10toY @MANGLE_PREFIX@_LogL10toY
+#define LogL16fromY @MANGLE_PREFIX@_LogL16fromY
+#define LogL16toY @MANGLE_PREFIX@_LogL16toY
+#define LogLuv24fromXYZ @MANGLE_PREFIX@_LogLuv24fromXYZ
+#define LogLuv24toXYZ @MANGLE_PREFIX@_LogLuv24toXYZ
+#define LogLuv32fromXYZ @MANGLE_PREFIX@_LogLuv32fromXYZ
+#define LogLuv32toXYZ @MANGLE_PREFIX@_LogLuv32toXYZ
+#define TIFFAccessTagMethods @MANGLE_PREFIX@_TIFFAccessTagMethods
+#define TIFFCIELabToRGBInit @MANGLE_PREFIX@_TIFFCIELabToRGBInit
+#define TIFFCIELabToXYZ @MANGLE_PREFIX@_TIFFCIELabToXYZ
+#define TIFFCheckTile @MANGLE_PREFIX@_TIFFCheckTile
+#define TIFFCheckpointDirectory @MANGLE_PREFIX@_TIFFCheckpointDirectory
+#define TIFFCleanup @MANGLE_PREFIX@_TIFFCleanup
+#define TIFFClientOpen @MANGLE_PREFIX@_TIFFClientOpen
+#define TIFFClientdata @MANGLE_PREFIX@_TIFFClientdata
+#define TIFFClose @MANGLE_PREFIX@_TIFFClose
+#define TIFFComputeStrip @MANGLE_PREFIX@_TIFFComputeStrip
+#define TIFFComputeTile @MANGLE_PREFIX@_TIFFComputeTile
+#define TIFFCreateCustomDirectory @MANGLE_PREFIX@_TIFFCreateCustomDirectory
+#define TIFFCreateDirectory @MANGLE_PREFIX@_TIFFCreateDirectory
+#define TIFFCreateEXIFDirectory @MANGLE_PREFIX@_TIFFCreateEXIFDirectory
+#define TIFFCurrentDirOffset @MANGLE_PREFIX@_TIFFCurrentDirOffset
+#define TIFFCurrentDirectory @MANGLE_PREFIX@_TIFFCurrentDirectory
+#define TIFFCurrentRow @MANGLE_PREFIX@_TIFFCurrentRow
+#define TIFFCurrentStrip @MANGLE_PREFIX@_TIFFCurrentStrip
+#define TIFFCurrentTile @MANGLE_PREFIX@_TIFFCurrentTile
+#define TIFFDataWidth @MANGLE_PREFIX@_TIFFDataWidth
+#define TIFFDefaultDirectory @MANGLE_PREFIX@_TIFFDefaultDirectory
+#define TIFFDefaultStripSize @MANGLE_PREFIX@_TIFFDefaultStripSize
+#define TIFFDefaultTileSize @MANGLE_PREFIX@_TIFFDefaultTileSize
+#define TIFFError @MANGLE_PREFIX@_TIFFError
+#define TIFFErrorExt @MANGLE_PREFIX@_TIFFErrorExt
+#define TIFFFaxBlackCodes @MANGLE_PREFIX@_TIFFFaxBlackCodes
+#define TIFFFaxBlackTable @MANGLE_PREFIX@_TIFFFaxBlackTable
+#define TIFFFaxMainTable @MANGLE_PREFIX@_TIFFFaxMainTable
+#define TIFFFaxWhiteCodes @MANGLE_PREFIX@_TIFFFaxWhiteCodes
+#define TIFFFaxWhiteTable @MANGLE_PREFIX@_TIFFFaxWhiteTable
+#define TIFFFdOpen @MANGLE_PREFIX@_TIFFFdOpen
+#define TIFFFieldDataType @MANGLE_PREFIX@_TIFFFieldDataType
+#define TIFFFieldName @MANGLE_PREFIX@_TIFFFieldName
+#define TIFFFieldPassCount @MANGLE_PREFIX@_TIFFFieldPassCount
+#define TIFFFieldReadCount @MANGLE_PREFIX@_TIFFFieldReadCount
+#define TIFFFieldTag @MANGLE_PREFIX@_TIFFFieldTag
+#define TIFFFieldWithName @MANGLE_PREFIX@_TIFFFieldWithName
+#define TIFFFieldWithTag @MANGLE_PREFIX@_TIFFFieldWithTag
+#define TIFFFieldWriteCount @MANGLE_PREFIX@_TIFFFieldWriteCount
+#define TIFFFileName @MANGLE_PREFIX@_TIFFFileName
+#define TIFFFileno @MANGLE_PREFIX@_TIFFFileno
+#define TIFFFillStrip @MANGLE_PREFIX@_TIFFFillStrip
+#define TIFFFillTile @MANGLE_PREFIX@_TIFFFillTile
+#define TIFFFindCODEC @MANGLE_PREFIX@_TIFFFindCODEC
+#define TIFFFindField @MANGLE_PREFIX@_TIFFFindField
+#define TIFFFlush @MANGLE_PREFIX@_TIFFFlush
+#define TIFFFlushData @MANGLE_PREFIX@_TIFFFlushData
+#define TIFFFlushData1 @MANGLE_PREFIX@_TIFFFlushData1
+#define TIFFFreeDirectory @MANGLE_PREFIX@_TIFFFreeDirectory
+#define TIFFGetBitRevTable @MANGLE_PREFIX@_TIFFGetBitRevTable
+#define TIFFGetClientInfo @MANGLE_PREFIX@_TIFFGetClientInfo
+#define TIFFGetCloseProc @MANGLE_PREFIX@_TIFFGetCloseProc
+#define TIFFGetConfiguredCODECs @MANGLE_PREFIX@_TIFFGetConfiguredCODECs
+#define TIFFGetField @MANGLE_PREFIX@_TIFFGetField
+#define TIFFGetFieldDefaulted @MANGLE_PREFIX@_TIFFGetFieldDefaulted
+#define TIFFGetMapFileProc @MANGLE_PREFIX@_TIFFGetMapFileProc
+#define TIFFGetMode @MANGLE_PREFIX@_TIFFGetMode
+#define TIFFGetReadProc @MANGLE_PREFIX@_TIFFGetReadProc
+#define TIFFGetSeekProc @MANGLE_PREFIX@_TIFFGetSeekProc
+#define TIFFGetSizeProc @MANGLE_PREFIX@_TIFFGetSizeProc
+#define TIFFGetTagListCount @MANGLE_PREFIX@_TIFFGetTagListCount
+#define TIFFGetTagListEntry @MANGLE_PREFIX@_TIFFGetTagListEntry
+#define TIFFGetUnmapFileProc @MANGLE_PREFIX@_TIFFGetUnmapFileProc
+#define TIFFGetVersion @MANGLE_PREFIX@_TIFFGetVersion
+#define TIFFGetWriteProc @MANGLE_PREFIX@_TIFFGetWriteProc
+#define TIFFInitDumpMode @MANGLE_PREFIX@_TIFFInitDumpMode
+#define TIFFIsBigEndian @MANGLE_PREFIX@_TIFFIsBigEndian
+#define TIFFIsByteSwapped @MANGLE_PREFIX@_TIFFIsByteSwapped
+#define TIFFIsCODECConfigured @MANGLE_PREFIX@_TIFFIsCODECConfigured
+#define TIFFIsMSB2LSB @MANGLE_PREFIX@_TIFFIsMSB2LSB
+#define TIFFIsTiled @MANGLE_PREFIX@_TIFFIsTiled
+#define TIFFIsUpSampled @MANGLE_PREFIX@_TIFFIsUpSampled
+#define TIFFLastDirectory @MANGLE_PREFIX@_TIFFLastDirectory
+#define TIFFMergeFieldInfo @MANGLE_PREFIX@_TIFFMergeFieldInfo
+#define TIFFNumberOfDirectories @MANGLE_PREFIX@_TIFFNumberOfDirectories
+#define TIFFNumberOfStrips @MANGLE_PREFIX@_TIFFNumberOfStrips
+#define TIFFNumberOfTiles @MANGLE_PREFIX@_TIFFNumberOfTiles
+#define TIFFOpen @MANGLE_PREFIX@_TIFFOpen
+#define TIFFPredictorCleanup @MANGLE_PREFIX@_TIFFPredictorCleanup
+#define TIFFPredictorInit @MANGLE_PREFIX@_TIFFPredictorInit
+#define TIFFPrintDirectory @MANGLE_PREFIX@_TIFFPrintDirectory
+#define TIFFRGBAImageBegin @MANGLE_PREFIX@_TIFFRGBAImageBegin
+#define TIFFRGBAImageEnd @MANGLE_PREFIX@_TIFFRGBAImageEnd
+#define TIFFRGBAImageGet @MANGLE_PREFIX@_TIFFRGBAImageGet
+#define TIFFRGBAImageOK @MANGLE_PREFIX@_TIFFRGBAImageOK
+#define TIFFRasterScanlineSize @MANGLE_PREFIX@_TIFFRasterScanlineSize
+#define TIFFRasterScanlineSize64 @MANGLE_PREFIX@_TIFFRasterScanlineSize64
+#define TIFFRawStripSize @MANGLE_PREFIX@_TIFFRawStripSize
+#define TIFFRawStripSize64 @MANGLE_PREFIX@_TIFFRawStripSize64
+#define TIFFReadBufferSetup @MANGLE_PREFIX@_TIFFReadBufferSetup
+#define TIFFReadCustomDirectory @MANGLE_PREFIX@_TIFFReadCustomDirectory
+#define TIFFReadDirectory @MANGLE_PREFIX@_TIFFReadDirectory
+#define TIFFReadEXIFDirectory @MANGLE_PREFIX@_TIFFReadEXIFDirectory
+#define TIFFReadEncodedStrip @MANGLE_PREFIX@_TIFFReadEncodedStrip
+#define TIFFReadEncodedTile @MANGLE_PREFIX@_TIFFReadEncodedTile
+#define TIFFReadRGBAImage @MANGLE_PREFIX@_TIFFReadRGBAImage
+#define TIFFReadRGBAImageOriented @MANGLE_PREFIX@_TIFFReadRGBAImageOriented
+#define TIFFReadRGBAStrip @MANGLE_PREFIX@_TIFFReadRGBAStrip
+#define TIFFReadRGBATile @MANGLE_PREFIX@_TIFFReadRGBATile
+#define TIFFReadRawStrip @MANGLE_PREFIX@_TIFFReadRawStrip
+#define TIFFReadRawTile @MANGLE_PREFIX@_TIFFReadRawTile
+#define TIFFReadScanline @MANGLE_PREFIX@_TIFFReadScanline
+#define TIFFReadTile @MANGLE_PREFIX@_TIFFReadTile
+#define TIFFRegisterCODEC @MANGLE_PREFIX@_TIFFRegisterCODEC
+#define TIFFReverseBits @MANGLE_PREFIX@_TIFFReverseBits
+#define TIFFRewriteDirectory @MANGLE_PREFIX@_TIFFRewriteDirectory
+#define TIFFScanlineSize @MANGLE_PREFIX@_TIFFScanlineSize
+#define TIFFScanlineSize64 @MANGLE_PREFIX@_TIFFScanlineSize64
+#define TIFFSetClientInfo @MANGLE_PREFIX@_TIFFSetClientInfo
+#define TIFFSetClientdata @MANGLE_PREFIX@_TIFFSetClientdata
+#define TIFFSetCompressionScheme @MANGLE_PREFIX@_TIFFSetCompressionScheme
+#define TIFFSetDirectory @MANGLE_PREFIX@_TIFFSetDirectory
+#define TIFFSetErrorHandler @MANGLE_PREFIX@_TIFFSetErrorHandler
+#define TIFFSetErrorHandlerExt @MANGLE_PREFIX@_TIFFSetErrorHandlerExt
+#define TIFFSetField @MANGLE_PREFIX@_TIFFSetField
+#define TIFFSetFileName @MANGLE_PREFIX@_TIFFSetFileName
+#define TIFFSetFileno @MANGLE_PREFIX@_TIFFSetFileno
+#define TIFFSetMode @MANGLE_PREFIX@_TIFFSetMode
+#define TIFFSetSubDirectory @MANGLE_PREFIX@_TIFFSetSubDirectory
+#define TIFFSetTagExtender @MANGLE_PREFIX@_TIFFSetTagExtender
+#define TIFFSetWarningHandler @MANGLE_PREFIX@_TIFFSetWarningHandler
+#define TIFFSetWarningHandlerExt @MANGLE_PREFIX@_TIFFSetWarningHandlerExt
+#define TIFFSetWriteOffset @MANGLE_PREFIX@_TIFFSetWriteOffset
+#define TIFFSetupStrips @MANGLE_PREFIX@_TIFFSetupStrips
+#define TIFFStripSize @MANGLE_PREFIX@_TIFFStripSize
+#define TIFFStripSize64 @MANGLE_PREFIX@_TIFFStripSize64
+#define TIFFSwabArrayOfDouble @MANGLE_PREFIX@_TIFFSwabArrayOfDouble
+#define TIFFSwabArrayOfFloat @MANGLE_PREFIX@_TIFFSwabArrayOfFloat
+#define TIFFSwabArrayOfLong @MANGLE_PREFIX@_TIFFSwabArrayOfLong
+#define TIFFSwabArrayOfLong8 @MANGLE_PREFIX@_TIFFSwabArrayOfLong8
+#define TIFFSwabArrayOfShort @MANGLE_PREFIX@_TIFFSwabArrayOfShort
+#define TIFFSwabArrayOfTriples @MANGLE_PREFIX@_TIFFSwabArrayOfTriples
+#define TIFFSwabDouble @MANGLE_PREFIX@_TIFFSwabDouble
+#define TIFFSwabFloat @MANGLE_PREFIX@_TIFFSwabFloat
+#define TIFFSwabLong @MANGLE_PREFIX@_TIFFSwabLong
+#define TIFFSwabLong8 @MANGLE_PREFIX@_TIFFSwabLong8
+#define TIFFSwabShort @MANGLE_PREFIX@_TIFFSwabShort
+#define TIFFTileRowSize @MANGLE_PREFIX@_TIFFTileRowSize
+#define TIFFTileRowSize64 @MANGLE_PREFIX@_TIFFTileRowSize64
+#define TIFFTileSize @MANGLE_PREFIX@_TIFFTileSize
+#define TIFFTileSize64 @MANGLE_PREFIX@_TIFFTileSize64
+#define TIFFUnRegisterCODEC @MANGLE_PREFIX@_TIFFUnRegisterCODEC
+#define TIFFUnlinkDirectory @MANGLE_PREFIX@_TIFFUnlinkDirectory
+#define TIFFUnsetField @MANGLE_PREFIX@_TIFFUnsetField
+#define TIFFVGetField @MANGLE_PREFIX@_TIFFVGetField
+#define TIFFVGetFieldDefaulted @MANGLE_PREFIX@_TIFFVGetFieldDefaulted
+#define TIFFVSetField @MANGLE_PREFIX@_TIFFVSetField
+#define TIFFVStripSize @MANGLE_PREFIX@_TIFFVStripSize
+#define TIFFVStripSize64 @MANGLE_PREFIX@_TIFFVStripSize64
+#define TIFFVTileSize @MANGLE_PREFIX@_TIFFVTileSize
+#define TIFFVTileSize64 @MANGLE_PREFIX@_TIFFVTileSize64
+#define TIFFWarning @MANGLE_PREFIX@_TIFFWarning
+#define TIFFWarningExt @MANGLE_PREFIX@_TIFFWarningExt
+#define TIFFWriteBufferSetup @MANGLE_PREFIX@_TIFFWriteBufferSetup
+#define TIFFWriteCheck @MANGLE_PREFIX@_TIFFWriteCheck
+#define TIFFWriteCustomDirectory @MANGLE_PREFIX@_TIFFWriteCustomDirectory
+#define TIFFWriteDirectory @MANGLE_PREFIX@_TIFFWriteDirectory
+#define TIFFWriteEncodedStrip @MANGLE_PREFIX@_TIFFWriteEncodedStrip
+#define TIFFWriteEncodedTile @MANGLE_PREFIX@_TIFFWriteEncodedTile
+#define TIFFWriteRawStrip @MANGLE_PREFIX@_TIFFWriteRawStrip
+#define TIFFWriteRawTile @MANGLE_PREFIX@_TIFFWriteRawTile
+#define TIFFWriteScanline @MANGLE_PREFIX@_TIFFWriteScanline
+#define TIFFWriteTile @MANGLE_PREFIX@_TIFFWriteTile
+#define TIFFXYZToRGB @MANGLE_PREFIX@_TIFFXYZToRGB
+#define TIFFYCbCrToRGBInit @MANGLE_PREFIX@_TIFFYCbCrToRGBInit
+#define TIFFYCbCrtoRGB @MANGLE_PREFIX@_TIFFYCbCrtoRGB
+#define XYZtoRGB24 @MANGLE_PREFIX@_XYZtoRGB24
+#define _TIFFBuiltinCODECS @MANGLE_PREFIX@__TIFFBuiltinCODECS
+#define _TIFFCheckMalloc @MANGLE_PREFIX@__TIFFCheckMalloc
+#define _TIFFCheckRealloc @MANGLE_PREFIX@__TIFFCheckRealloc
+#define _TIFFCreateAnonField @MANGLE_PREFIX@__TIFFCreateAnonField
+#define _TIFFDataSize @MANGLE_PREFIX@__TIFFDataSize
+#define _TIFFDefaultStripSize @MANGLE_PREFIX@__TIFFDefaultStripSize
+#define _TIFFDefaultTileSize @MANGLE_PREFIX@__TIFFDefaultTileSize
+#define _TIFFFax3fillruns @MANGLE_PREFIX@__TIFFFax3fillruns
+#define _TIFFFillStriles @MANGLE_PREFIX@__TIFFFillStriles
+#define _TIFFFindFieldByName @MANGLE_PREFIX@__TIFFFindFieldByName
+#define _TIFFFindOrRegisterField @MANGLE_PREFIX@__TIFFFindOrRegisterField
+#define _TIFFGetExifFields @MANGLE_PREFIX@__TIFFGetExifFields
+#define _TIFFGetFields @MANGLE_PREFIX@__TIFFGetFields
+#define _TIFFMergeFields @MANGLE_PREFIX@__TIFFMergeFields
+#define _TIFFMultiply32 @MANGLE_PREFIX@__TIFFMultiply32
+#define _TIFFMultiply64 @MANGLE_PREFIX@__TIFFMultiply64
+#define _TIFFNoFixupTags @MANGLE_PREFIX@__TIFFNoFixupTags
+#define _TIFFNoPostDecode @MANGLE_PREFIX@__TIFFNoPostDecode
+#define _TIFFNoPreCode @MANGLE_PREFIX@__TIFFNoPreCode
+#define _TIFFNoRowDecode @MANGLE_PREFIX@__TIFFNoRowDecode
+#define _TIFFNoRowEncode @MANGLE_PREFIX@__TIFFNoRowEncode
+#define _TIFFNoSeek @MANGLE_PREFIX@__TIFFNoSeek
+#define _TIFFNoStripDecode @MANGLE_PREFIX@__TIFFNoStripDecode
+#define _TIFFNoStripEncode @MANGLE_PREFIX@__TIFFNoStripEncode
+#define _TIFFNoTileDecode @MANGLE_PREFIX@__TIFFNoTileDecode
+#define _TIFFNoTileEncode @MANGLE_PREFIX@__TIFFNoTileEncode
+#define _TIFFPrintFieldInfo @MANGLE_PREFIX@__TIFFPrintFieldInfo
+#define _TIFFRewriteField @MANGLE_PREFIX@__TIFFRewriteField
+#define _TIFFSetDefaultCompressionState @MANGLE_PREFIX@__TIFFSetDefaultCompressionState
+#define _TIFFSetupFields @MANGLE_PREFIX@__TIFFSetupFields
+#define _TIFFSwab16BitData @MANGLE_PREFIX@__TIFFSwab16BitData
+#define _TIFFSwab24BitData @MANGLE_PREFIX@__TIFFSwab24BitData
+#define _TIFFSwab32BitData @MANGLE_PREFIX@__TIFFSwab32BitData
+#define _TIFFSwab64BitData @MANGLE_PREFIX@__TIFFSwab64BitData
+#define _TIFFUInt64ToDouble @MANGLE_PREFIX@__TIFFUInt64ToDouble
+#define _TIFFUInt64ToFloat @MANGLE_PREFIX@__TIFFUInt64ToFloat
+#define _TIFFerrorHandler @MANGLE_PREFIX@__TIFFerrorHandler
+#define _TIFFerrorHandlerExt @MANGLE_PREFIX@__TIFFerrorHandlerExt
+#define _TIFFfree @MANGLE_PREFIX@__TIFFfree
+#define _TIFFgetMode @MANGLE_PREFIX@__TIFFgetMode
+#define _TIFFmalloc @MANGLE_PREFIX@__TIFFmalloc
+#define _TIFFmemcmp @MANGLE_PREFIX@__TIFFmemcmp
+#define _TIFFmemcpy @MANGLE_PREFIX@__TIFFmemcpy
+#define _TIFFmemset @MANGLE_PREFIX@__TIFFmemset
+#define _TIFFprintAscii @MANGLE_PREFIX@__TIFFprintAscii
+#define _TIFFprintAsciiTag @MANGLE_PREFIX@__TIFFprintAsciiTag
+#define _TIFFrealloc @MANGLE_PREFIX@__TIFFrealloc
+#define _TIFFsetByteArray @MANGLE_PREFIX@__TIFFsetByteArray
+#define _TIFFsetDoubleArray @MANGLE_PREFIX@__TIFFsetDoubleArray
+#define _TIFFsetFloatArray @MANGLE_PREFIX@__TIFFsetFloatArray
+#define _TIFFsetLong8Array @MANGLE_PREFIX@__TIFFsetLong8Array
+#define _TIFFsetLongArray @MANGLE_PREFIX@__TIFFsetLongArray
+#define _TIFFsetNString @MANGLE_PREFIX@__TIFFsetNString
+#define _TIFFsetShortArray @MANGLE_PREFIX@__TIFFsetShortArray
+#define _TIFFsetString @MANGLE_PREFIX@__TIFFsetString
+#define _TIFFwarningHandler @MANGLE_PREFIX@__TIFFwarningHandler
+#define _TIFFwarningHandlerExt @MANGLE_PREFIX@__TIFFwarningHandlerExt
+#define uv_decode @MANGLE_PREFIX@_uv_decode
+#define uv_encode @MANGLE_PREFIX@_uv_encode
+
+#endif

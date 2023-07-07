@@ -31,6 +31,11 @@ INCLUDE_DIRECTORIES(
   ${ITK3P_NrrdIO_BINARY_DIR}
 )
 
+set(MANGLE_PREFIX itk)
+configure_file(${ITK3P_NrrdIO_SOURCE_DIR}/itk_NrrdIO_mangle.h.in
+  ${ITK3P_NrrdIO_BINARY_DIR}/itk_NrrdIO_mangle.h
+  @ONLY)
+
 #-----------------------------------------------------------------------------
 # Find platform-specific differences in the handling of IEEE floating point
 # special values.
@@ -82,7 +87,7 @@ INSTALL(TARGETS ITKNrrdIO
   ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
   )
 
-INSTALL(FILES ${ITK3P_NrrdIO_BINARY_DIR}/NrrdIO.h itk_NrrdIO_mangle.h
+INSTALL(FILES ${ITK3P_NrrdIO_BINARY_DIR}/NrrdIO.h ${ITK3P_NrrdIO_BINARY_DIR}/itk_NrrdIO_mangle.h
   DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_NrrdIO.h #include "itkNrrdIO/NrrdIO.h"
   COMPONENT Development)
 

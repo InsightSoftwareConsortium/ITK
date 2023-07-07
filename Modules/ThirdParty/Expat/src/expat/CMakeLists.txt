@@ -178,6 +178,11 @@ CONFIGURE_FILE(${ITK3P_EXPAT_SOURCE_DIR}/expatDllConfig.h.in
 
 configure_file(expat_config.h.cmake "${ITK3P_EXPAT_BINARY_DIR}/expat_config.h")
 
+set(MANGLE_PREFIX itk_expat)
+configure_file(itk_expat_mangle.h.in
+               "${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h"
+               @ONLY)
+
 ADD_LIBRARY(ITKEXPAT ${expat_SRCS})
 
 # Apply user-defined properties to the library target.
@@ -197,6 +202,6 @@ INSTALL(FILES
   ${ITK3P_EXPAT_SOURCE_DIR}/expat.h
   ${ITK3P_EXPAT_BINARY_DIR}/expat_config.h
   ${ITK3P_EXPAT_SOURCE_DIR}/expat_external.h
-  ${ITK3P_EXPAT_SOURCE_DIR}/itk_expat_mangle.h
+  ${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h
   DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_expat.h #include "itkexpat/expat.h"
   COMPONENT Development)

@@ -1,7 +1,7 @@
 project(ITK3P_PNG)
 include_regular_expression("^(png|itk|z).*$")
 
-include_directories(${ITK3P_PNG_SOURCE_DIR})
+include_directories(${ITK3P_PNG_SOURCE_DIR} ${ITK3P_PNG_BINARY_DIR})
 
 # source files for png
 set(PNG_SRCS
@@ -30,8 +30,17 @@ endif(WIN32)
 configure_file(${ITK3P_PNG_SOURCE_DIR}/pngDllConfig.h.in
                ${ITK3P_PNG_BINARY_DIR}/pngDllConfig.h)
 
+set(MANGLE_PREFIX itk_png)
+configure_file(${ITK3P_PNG_SOURCE_DIR}/itk_png_mangle.h.in
+               ${ITK3P_PNG_BINARY_DIR}/itk_png_mangle.h
+               @ONLY)
+
 add_library(itkpng ${PNG_SRCS})
 target_link_libraries(itkpng ${ITKZLIB_LIBRARIES})
+
+target_include_directories(itkpng
+  INTERFACE "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${ITK3P_INSTALL_INCLUDE_DIR}/itkpng>;$<BUILD_INTERFACE:${ITK3P_PNG_BINARY_DIR}>"
+)
 
 # Apply user-defined properties to the library target.
 if(ITK_LIBRARY_PROPERTIES)
@@ -49,7 +58,7 @@ install(FILES
   ${ITK3P_PNG_BINARY_DIR}/pngDllConfig.h
   ${ITK3P_PNG_SOURCE_DIR}/png.h
   ${ITK3P_PNG_SOURCE_DIR}/pngconf.h
-  ${ITK3P_PNG_SOURCE_DIR}/itk_png_mangle.h
+  ${ITK3P_PNG_BINARY_DIR}/itk_png_mangle.h
   DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itkpng # itk_png.h #include "itkpng/png.h"
   COMPONENT Development)
 
