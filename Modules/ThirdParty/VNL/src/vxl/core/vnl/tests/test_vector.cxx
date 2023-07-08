@@ -317,6 +317,37 @@ vnl_vector_test_int()
     v = v_temp, v.roll_inplace(-5); // Positive, in range
     TEST("v.roll_inplace(-5)", (1 == v[0] && 2 == v[1] && 3 == v[2] && 0 == v[3]), true);
   }
+
+  { // test operator-() on unsigned values
+    unsigned int vvalues[] = {1, 2, 3, 4};
+    int out_values[] = {-1, -2, -3, -4};
+
+    vnl_vector<unsigned int> unsigned_v(4, 4, vvalues);
+    const vnl_vector<int> minus_v1 = -unsigned_v;
+    const vnl_vector<int> minus_v2 = unsigned_v.operator-();
+    TEST("unsigned_v.operator-()",
+         (out_values[0] == minus_v1[0] && out_values[1] == minus_v1[1] && out_values[2] == minus_v1[2] &&
+          out_values[3] == minus_v1[3]), true);
+    TEST("unsigned_v.operator-()",
+         (out_values[0] == minus_v2[0] && out_values[1] == minus_v2[1] && out_values[2] == minus_v2[2] &&
+          out_values[3] == minus_v2[3]), true);
+  }
+
+  { // test operator-() on unsigned values
+    unsigned int vvalues[] = {1, 2, 3, 4};
+    int out_values[] = {-1, -2, -3, -4};
+
+    vnl_vector_fixed<unsigned int,4> unsigned_v(vvalues);
+    const vnl_vector_fixed<int,4> minus_v1 = -unsigned_v;
+    const vnl_vector_fixed<int,4> minus_v2 = unsigned_v.operator-();
+    TEST("unsigned_v.operator-()",
+         (out_values[0] == minus_v1[0] && out_values[1] == minus_v1[1] && out_values[2] == minus_v1[2] &&
+          out_values[3] == minus_v1[3]), true);
+    TEST("unsigned_v.operator-()",
+         (out_values[0] == minus_v2[0] && out_values[1] == minus_v2[1] && out_values[2] == minus_v2[2] &&
+          out_values[3] == minus_v2[3]), true);
+  }
+
 }
 
 bool

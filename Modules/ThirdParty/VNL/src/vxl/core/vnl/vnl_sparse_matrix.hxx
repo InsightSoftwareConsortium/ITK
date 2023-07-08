@@ -728,7 +728,7 @@ bool vnl_sparse_matrix<T>::operator==(vnl_sparse_matrix<T> const& rhs) const
 
 //: Unary minus
 template <class T>
-vnl_sparse_matrix<T> vnl_sparse_matrix<T>::operator-() const
+vnl_sparse_matrix<typename vnl_numeric_traits<T>::signed_t> vnl_sparse_matrix<T>::operator-() const
 {
   // The matrix to be returned:
   vnl_sparse_matrix<T> result(rows(), columns());

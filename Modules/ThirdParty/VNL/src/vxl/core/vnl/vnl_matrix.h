@@ -284,7 +284,7 @@ class VNL_EXPORT vnl_matrix
   vnl_matrix<T>& operator*=(vnl_matrix<T> const&rhs) { return *this = (*this) * rhs; }
 
   //: Negate all elements of matrix
-  vnl_matrix<T> operator-() const;
+  vnl_matrix<typename vnl_numeric_traits<T>::signed_t> operator-() const;
 
 
   //: Add rhs to each element of lhs matrix and return result in new matrix

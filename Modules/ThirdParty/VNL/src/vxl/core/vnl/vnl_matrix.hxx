@@ -548,12 +548,12 @@ vnl_matrix<T> operator- (T const& value, vnl_matrix<T> const& m)
 // O(m*n).
 
 template <class T>
-vnl_matrix<T> vnl_matrix<T>::operator- () const
+vnl_matrix<typename vnl_numeric_traits<T>::signed_t> vnl_matrix<T>::operator- () const
 {
-  vnl_matrix<T> result(this->num_rows, this->num_cols);
+  vnl_matrix<typename vnl_numeric_traits<T>::signed_t> result(this->num_rows, this->num_cols);
   for (unsigned int i = 0; i < this->num_rows; i++)
     for (unsigned int j = 0; j < this->num_cols; j++)
-      result.data[i][j] = - this->data[i][j];
+      result(i,j) = - this->data[i][j];
   return result;
 }
 

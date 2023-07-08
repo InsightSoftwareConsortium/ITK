@@ -34,7 +34,7 @@ T vnl_polynomial<T>::evaluate(T const& x) const
 
 //: Returns negative of this polynomial
 template <class T>
-vnl_polynomial<T> vnl_polynomial<T>::operator-() const
+vnl_polynomial<typename vnl_numeric_traits<T>::signed_t> vnl_polynomial<T>::operator-() const
 {
   std::vector<T> neg = coeffs_;
   typename std::vector<T>::iterator i = neg.begin();

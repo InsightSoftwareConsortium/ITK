@@ -34,6 +34,7 @@
 # undef ERROR_CHECKING
 #endif
 #include "vnl_sse.h"
+#include "vnl_numeric_traits.h"
 #include <algorithm>
 
 template <class T> class vnl_vector;
@@ -202,7 +203,7 @@ class VNL_EXPORT vnl_vector
 
   //: Unary minus operator
   // Return new vector = -1*(*this)
-  vnl_vector<T> operator-() const;
+  vnl_vector<typename vnl_numeric_traits<T>::signed_t> operator-() const;
 
   vnl_vector<T> operator+(T v) const {
     vnl_vector<T> result(this->size());
