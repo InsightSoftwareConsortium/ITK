@@ -169,7 +169,7 @@ bool
 VertexCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
                                              PointsContainer *         points,
                                              CoordRepType *            closestPoint,
-                                             CoordRepType              pcoord[2],
+                                             CoordRepType              pcoord[],
                                              double *                  minDist2,
                                              InterpolationWeightType * weights)
 {
