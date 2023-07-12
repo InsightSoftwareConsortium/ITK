@@ -40,6 +40,8 @@ set(WRAPPER_SUBMODULE_ORDER
   itkSymmetricSecondRankTensor
   itkImage
   itkVectorImage
+  itkSpecialCoordinatesImage
+  itkPhasedArray3DSpecialCoordinatesImage
   itkNeighborhood
 #  SwigExtras
   itkImageSourceCommon
