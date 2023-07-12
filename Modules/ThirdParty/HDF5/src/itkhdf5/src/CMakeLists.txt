@@ -3,6 +3,12 @@ cmake_minimum_required (VERSION 3.12)
 # ITK --stop ]]
 project (HDF5_SRC C)
 
+# ITK --start
+set(MANGLE_PREFIX itk)
+configure_file(${HDF5_SRC_DIR}/itk_hdf5_mangle.h.in
+               ${HDF5_SRC_BINARY_DIR}/itk_hdf5_mangle.h
+               @ONLY)
+# ITK --stop
 #-----------------------------------------------------------------------------
 # List Source Files
 #-----------------------------------------------------------------------------
@@ -23,7 +29,7 @@ set (H5_HDRS
     #${HDF5_SRC_DIR}/H5version.h
     #${HDF5_SRC_DIR}/H5overflow.h
 # ITK --start
-    ${HDF5_SRC_DIR}/itk_hdf5_mangle.h
+    ${HDF5_SRC_BINARY_DIR}/itk_hdf5_mangle.h
 # ITK --stop
 )
 IDE_GENERATED_PROPERTIES ("H5" "${H5_HDRS}" "${H5_SOURCES}" )
@@ -835,7 +841,7 @@ set (H5_PUBLIC_HEADERS
     ${H5VL_HDRS}
     ${H5Z_HDRS}
 # ITK --start
-    ${HDF5_SRC_DIR}/itk_hdf5_mangle.h
+    ${HDF5_SRC_BINARY_DIR}/itk_hdf5_mangle.h
 # ITK --stop
 )
 

@@ -1,9 +1,9 @@
 project(ITK3P_JPEG)
 
-include_regular_expression("^(jchuff|jconfig|jdct|jdhuff|jerror|jinclude|jmemsys|jmorecfg|jpegint|jpeglib|jversion|jpeg).*$")
+include_regular_expression("^(itk|jchuff|jconfig|jdct|jdhuff|jerror|jinclude|jmemsys|jmorecfg|jpegint|jpeglib|jversion|jpeg).*$")
 
 include_directories(BEFORE
-               "${CMAKE_CURRENT_BINARY_DIR}"
+               "${ITK3P_JPEG_BINARY_DIR}"
                "${ITK3P_JPEG_SOURCE_DIR}")
 
 # memmgr back ends: compile only one of these into a working library
@@ -50,7 +50,16 @@ endif(WIN32)
 configure_file(${ITK3P_JPEG_SOURCE_DIR}/jpegDllConfig.h.in
                ${ITK3P_JPEG_BINARY_DIR}/jpegDllConfig.h)
 
+set(MANGLE_PREFIX itk_jpeg)
+configure_file(${ITK3P_JPEG_SOURCE_DIR}/itk_jpeg_mangle.h.in
+               ${ITK3P_JPEG_BINARY_DIR}/itk_jpeg_mangle.h
+               @ONLY)
+
 add_library(itkjpeg ${systemdependent_SRCS} ${common_SRCS} ${compression_SRCS} ${decompression_SRCS})
+
+target_include_directories(itkjpeg
+  INTERFACE "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${ITK3P_INSTALL_INCLUDE_DIR}/itkjpeg>;$<BUILD_INTERFACE:${ITK3P_JPEG_BINARY_DIR}>"
+)
 
 # Apply user-defined properties to the library target.
 if(ITK_LIBRARY_PROPERTIES)
@@ -67,7 +76,7 @@ install(TARGETS itkjpeg
 install(FILES
   ${ITK3P_JPEG_BINARY_DIR}/jpegDllConfig.h
   ${ITK3P_JPEG_SOURCE_DIR}/jpeglib.h
-  ${ITK3P_JPEG_SOURCE_DIR}/itk_jpeg_mangle.h
+  ${ITK3P_JPEG_BINARY_DIR}/itk_jpeg_mangle.h
   ${ITK3P_JPEG_SOURCE_DIR}/jconfig.h
   ${ITK3P_JPEG_SOURCE_DIR}/jmorecfg.h
   ${ITK3P_JPEG_SOURCE_DIR}/jerror.h

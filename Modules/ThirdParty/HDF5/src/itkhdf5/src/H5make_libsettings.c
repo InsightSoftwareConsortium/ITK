@@ -71,7 +71,7 @@ insert_libhdf5_settings(FILE *flibinfo)
     /* print variable definition and the string */
     /* Do not use const else AIX strings does not show it. */
 /* ITK --start */
-    fprintf(flibinfo, "char itk_H5libhdf5_settings[]=\n");
+    fprintf(flibinfo, "char " H5_TOSTRING(H5libhdf5_settings) "[]=\n");
 /* ITK --stop */
     bol++;
     while (EOF != (inchar = HDgetc(fsettings))) {
@@ -108,7 +108,7 @@ insert_libhdf5_settings(FILE *flibinfo)
     /* print variable definition and an empty string */
     /* Do not use const else AIX strings does not show it. */
 /* ITK --start */
-    fprintf(flibinfo, "char itk_H5libhdf5_settings[]=\"\";\n");
+    fprintf(flibinfo, "char " H5_TOSTRING(H5libhdf5_settings) "[]=\"\";\n");
 /* ITK --stop */
 #endif
 } /* insert_libhdf5_settings() */

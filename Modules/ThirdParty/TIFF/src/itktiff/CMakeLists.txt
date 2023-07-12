@@ -109,6 +109,11 @@ configure_file(${ITK3P_TIFF_SOURCE_DIR}/tiffDllConfig.h.in
 configure_file(${ITK3P_TIFF_SOURCE_DIR}/tif_config.h.in
   ${ITK3P_TIFF_BINARY_DIR}/itk_tif_config.h)
 
+set(MANGLE_PREFIX itk_tiff)
+configure_file(${ITK3P_TIFF_SOURCE_DIR}/itk_tiff_mangle.h.in
+  ${ITK3P_TIFF_BINARY_DIR}/itk_tiff_mangle.h
+  @ONLY)
+
 if(NOT UNIX)
   add_definitions( -DTIF_PLATFORM_CONSOLE )
   set(common_SRCS ${common_SRCS} tif_win32.c tif_fax3sm.c)
