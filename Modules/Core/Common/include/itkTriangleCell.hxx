@@ -449,7 +449,7 @@ bool
 TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
                                                PointsContainer *         points,
                                                CoordRepType *            closestPoint,
-                                               CoordRepType              pcoord[3],
+                                               CoordRepType              pcoord[],
                                                double *                  minDist2,
                                                InterpolationWeightType * weights)
 {
