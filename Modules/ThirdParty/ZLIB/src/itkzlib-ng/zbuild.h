@@ -8,6 +8,9 @@
 #ifndef _ISOC11_SOURCE
 #  define _ISOC11_SOURCE 1 /* aligned_alloc */
 #endif
+#ifdef __OpenBSD__
+#  define _BSD_SOURCE 1
+#endif
 
 #include <stddef.h>
 #include <string.h>
@@ -85,7 +88,6 @@
 #  define PREFIX3(x) z_ ## x
 #  define PREFIX4(x) x ## 64
 #  define zVersion zlibVersion
-#  define z_size_t unsigned long
 #else
 #  define PREFIX(x) zng_ ## x
 #  define PREFIX2(x) ZLIBNG_ ## x
@@ -93,6 +95,13 @@
 #  define PREFIX4(x) zng_ ## x
 #  define zVersion zlibng_version
 #  define z_size_t size_t
+#endif
+
+/* In zlib-compat some functions and types use unsigned long, but zlib-ng use size_t */
+#if defined(ZLIB_COMPAT)
+#  define z_uintmax_t unsigned long
+#else
+#  define z_uintmax_t size_t
 #endif
 
 /* Minimum of a and b. */
@@ -173,27 +182,13 @@
 #  define LIKELY_NULL(x)        __builtin_expect((x) != 0, 0)
 #  define LIKELY(x)             __builtin_expect(!!(x), 1)
 #  define UNLIKELY(x)           __builtin_expect(!!(x), 0)
-#  define PREFETCH_L1(addr)     __builtin_prefetch(addr, 0, 3)
-#  define PREFETCH_L2(addr)     __builtin_prefetch(addr, 0, 2)
-#  define PREFETCH_RW(addr)     __builtin_prefetch(addr, 1, 2)
-#elif defined(__WIN__)
-#  include <xmmintrin.h>
-#  define LIKELY_NULL(x)        x
-#  define LIKELY(x)             x
-#  define UNLIKELY(x)           x
-#  define PREFETCH_L1(addr)     _mm_prefetch((char *) addr, _MM_HINT_T0)
-#  define PREFETCH_L2(addr)     _mm_prefetch((char *) addr, _MM_HINT_T1)
-#  define PREFETCH_RW(addr)     _mm_prefetch((char *) addr, _MM_HINT_T1)
 #else
 #  define LIKELY_NULL(x)        x
 #  define LIKELY(x)             x
 #  define UNLIKELY(x)           x
-#  define PREFETCH_L1(addr)     addr
-#  define PREFETCH_L2(addr)     addr
-#  define PREFETCH_RW(addr)     addr
 #endif /* (un)likely */
 
-#if defined(__clang__) || defined(__GNUC__)
+#if defined(HAVE_ATTRIBUTE_ALIGNED)
 #  define ALIGNED_(x) __attribute__ ((aligned(x)))
 #elif defined(_MSC_VER)
 #  define ALIGNED_(x) __declspec(align(x))
@@ -241,25 +236,6 @@
 #      define UNALIGNED64_OK
 #    endif
 #  endif
-#endif
-
-/* Force compiler to emit unaligned memory comparisons if unaligned access is supported
-   on the architecture, otherwise don't assume unaligned access is supported. Older
-   compilers don't optimize memcmp calls for all integer types to unaligned access instructions
-   when it is supported on the architecture resulting in significant performance impact. */
-#ifdef UNALIGNED_OK
-#  define zmemcmp_2(str1, str2)   (*((uint16_t *)(str1)) != *((uint16_t *)(str2)))
-#  define zmemcmp_4(str1, str2)   (*((uint32_t *)(str1)) != *((uint32_t *)(str2)))
-#  if defined(UNALIGNED64_OK) && (UINTPTR_MAX == UINT64_MAX)
-#    define zmemcmp_8(str1, str2) (*((uint64_t *)(str1)) != *((uint64_t *)(str2)))
-#  else
-#    define zmemcmp_8(str1, str2) (((uint32_t *)(str1))[0] != ((uint32_t *)(str2))[0] || \
-                                   ((uint32_t *)(str1))[1] != ((uint32_t *)(str2))[1])
-#  endif
-#else
-#  define zmemcmp_2(str1, str2) memcmp(str1, str2, 2)
-#  define zmemcmp_4(str1, str2) memcmp(str1, str2, 4)
-#  define zmemcmp_8(str1, str2) memcmp(str1, str2, 8)
 #endif
 
 #if defined(__has_feature)
