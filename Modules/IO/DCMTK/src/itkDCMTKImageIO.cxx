@@ -65,7 +65,7 @@ DCMTKImageIO::DCMTKImageIO()
 }
 
 void
-DCMTKImageIO::SetLogLevel(LogLevelEnum level)
+DCMTKImageIO ::SetLogLevel(LogLevelEnum level)
 {
   switch (level)
   {
@@ -91,12 +91,12 @@ DCMTKImageIO::SetLogLevel(LogLevelEnum level)
       OFLog::configure(OFLogger::OFF_LOG_LEVEL);
       break;
     default:
-      itkExceptionMacro("Unknown DCMTK Logging constant " << static_cast<int>(level));
+      itkExceptionMacro(<< "Unknown DCMTK Logging constant " << static_cast<int>(level));
   }
 }
 
 DCMTKImageIO::LogLevelEnum
-DCMTKImageIO::GetLogLevel() const
+DCMTKImageIO ::GetLogLevel() const
 {
   dcmtk::log4cplus::Logger rootLogger = dcmtk::log4cplus::Logger::getRoot();
   switch (rootLogger.getLogLevel())
@@ -129,6 +129,21 @@ DCMTKImageIO::~DCMTKImageIO()
   }
   DJDecoderRegistration::cleanup();
   DcmRLEDecoderRegistration::cleanup();
+}
+
+/**
+ * Helper function to test for 128 byte dicom preamble
+ * @param file A stream to test if the file is dicom like
+ * @return true if the stream has a dicom preamble
+ */
+static bool
+readPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in itkGDCMImageIO.cxx
+{
+  unsigned char preamble[132];
+
+  file.read(reinterpret_cast<char *>(preamble), 132);
+
+  return (preamble[128] == 'D' && preamble[129] == 'I' && preamble[130] == 'C' && preamble[131] == 'M');
 }
 
 /**
@@ -214,12 +229,26 @@ DCMTKImageIO::CanReadFile(const char * filename)
 
   if (fname.empty())
   {
-    itkDebugMacro("No filename specified.");
+    itkDebugMacro(<< "No filename specified.");
   }
 
 #if !defined(__EMSCRIPTEN__)
   {
     std::ifstream file;
+
+    // look for a preamble
+    try
+    {
+      this->OpenFileForReading(file, filename);
+    }
+    catch (const ExceptionObject &)
+    {
+      return false;
+    }
+    const bool hasdicompreamble = readPreambleDicom(file);
+    file.close();
+
+    // use a heuristic for file with no preamble
     try
     {
       this->OpenFileForReading(file, filename);
@@ -230,7 +259,7 @@ DCMTKImageIO::CanReadFile(const char * filename)
     }
     const bool hasdicomsig = readNoPreambleDicom(file);
     file.close();
-    if (!hasdicomsig)
+    if (!hasdicomsig and !hasdicompreamble)
     {
       return false;
     }
@@ -247,7 +276,7 @@ DCMTKImageIO::CanWriteFile(const char * itkNotUsed(name))
 }
 
 void
-DCMTKImageIO::OpenDicomImage()
+DCMTKImageIO ::OpenDicomImage()
 {
   if (this->m_DImage != nullptr)
   {
@@ -264,19 +293,19 @@ DCMTKImageIO::OpenDicomImage()
   }
   if (this->m_DImage == nullptr)
   {
-    itkExceptionMacro("Can't create DicomImage for " << this->m_FileName);
+    itkExceptionMacro(<< "Can't create DicomImage for " << this->m_FileName);
   }
 }
 
 
 //------------------------------------------------------------------------------
 void
-DCMTKImageIO::Read(void * buffer)
+DCMTKImageIO ::Read(void * buffer)
 {
   this->OpenDicomImage();
   if (m_DImage->getStatus() != EIS_Normal)
   {
-    itkExceptionMacro("Error: cannot load DICOM image (" << DicomImage::getString(m_DImage->getStatus()) << ')');
+    itkExceptionMacro(<< "Error: cannot load DICOM image (" << DicomImage::getString(m_DImage->getStatus()) << ")");
   }
 
   m_Dimensions[0] = static_cast<unsigned int>(m_DImage->getWidth());
@@ -287,7 +316,7 @@ DCMTKImageIO::Read(void * buffer)
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     case IOComponentEnum::FLOAT:
     case IOComponentEnum::DOUBLE:
-      itkExceptionMacro("Bad component type" << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
+      itkExceptionMacro(<< "Bad component type" << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
     default: // scalarSize already set
       break;
@@ -307,7 +336,7 @@ DCMTKImageIO::Read(void * buffer)
 }
 
 void
-DCMTKImageIO::ReorderRGBValues(void * buffer, const void * data, size_t count, unsigned int voxel_size)
+DCMTKImageIO ::ReorderRGBValues(void * buffer, const void * data, size_t count, unsigned int voxel_size)
 {
   switch (this->m_ComponentType)
   {
@@ -328,7 +357,7 @@ DCMTKImageIO::ReorderRGBValues(void * buffer, const void * data, size_t count, u
       ReorderRGBValues<unsigned long>(buffer, data, count, voxel_size);
       break;
     default:
-      itkExceptionMacro("Only unsigned integer pixel types are supported. Bad component type for color image"
+      itkExceptionMacro(<< "Only unsigned integer pixel types are supported. Bad component type for color image"
                         << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
   }
@@ -459,7 +488,7 @@ DCMTKImageIO::ReadImageInformation()
 
   if (interData == nullptr)
   {
-    itkExceptionMacro("Missing Image Data in " << this->m_FileName);
+    itkExceptionMacro(<< "Missing Image Data in " << this->m_FileName);
   }
 
   EP_Representation pixelRep = this->m_DImage->getInterData()->getRepresentation();
@@ -510,12 +539,12 @@ DCMTKImageIO::ReadImageInformation()
 }
 
 void
-DCMTKImageIO::WriteImageInformation()
+DCMTKImageIO ::WriteImageInformation()
 {}
 
 /** */
 void
-DCMTKImageIO::Write(const void * buffer)
+DCMTKImageIO ::Write(const void * buffer)
 {
   (void)(buffer);
 }
