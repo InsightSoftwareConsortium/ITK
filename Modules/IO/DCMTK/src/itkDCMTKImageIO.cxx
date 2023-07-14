@@ -31,6 +31,26 @@
 #include "dcmtk/dcmdata/dcrledrg.h"
 #include "dcmtk/oflog/oflog.h"
 
+namespace
+{
+
+/**
+ * Helper function to test for 128 byte dicom preamble
+ * @param file A stream to test if the file is dicom like
+ * @return true if the stream has a dicom preamble
+ */
+static bool
+readPreambleDicom(std::ifstream & file)
+{
+  char preamble[132] = "";
+
+  file.read(preamble, sizeof(preamble));
+
+  return (preamble[128] == 'D' && preamble[129] == 'I' && preamble[130] == 'C' && preamble[131] == 'M');
+}
+
+} // end anonymous namespace
+
 namespace itk
 {
 /** Constructor */
@@ -220,6 +240,8 @@ DCMTKImageIO::CanReadFile(const char * filename)
 #if !defined(__EMSCRIPTEN__)
   {
     std::ifstream file;
+
+    // look for a preamble
     try
     {
       this->OpenFileForReading(file, filename);
@@ -228,9 +250,11 @@ DCMTKImageIO::CanReadFile(const char * filename)
     {
       return false;
     }
+    const bool hasdicompreamble = readPreambleDicom(file);
+    file.seekg(0, std::ios::beg);
     const bool hasdicomsig = readNoPreambleDicom(file);
     file.close();
-    if (!hasdicomsig)
+    if (!hasdicomsig && !hasdicompreamble)
     {
       return false;
     }
