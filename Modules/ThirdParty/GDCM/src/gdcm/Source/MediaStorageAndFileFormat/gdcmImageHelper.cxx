@@ -729,7 +729,7 @@ std::vector<double> ImageHelper::GetDirectionCosinesValue(File const & f)
     }
 
   dircos.resize( 6 );
-  if( ms == MediaStorage::SecondaryCaptureImageStorage || !GetDirectionCosinesFromDataSet(ds, dircos) )
+  if( !GetDirectionCosinesFromDataSet(ds, dircos) )
     {
     dircos[0] = 1;
     dircos[1] = 0;
@@ -1269,7 +1269,8 @@ Tag ImageHelper::GetSpacingTagFromMediaStorage(MediaStorage const &ms)
   case MediaStorage::MultiframeTrueColorSecondaryCaptureImageStorage:
     // See PS 3.3-2008. Table C.8-25 SC IMAGE MODULE ATTRIBUTES
     // and Table C.8-25b SC MULTI-FRAME IMAGE MODULE ATTRIBUTES
-    t = Tag(0x0018,0x2010);
+    //t = Tag(0x0018,0x2010); Clarified in CP-586 2006-01-25 that PixelSpacing is correct
+    t = Tag(0x0028,0x0030);
     break;
   case MediaStorage::HardcopyGrayscaleImageStorage:
   case MediaStorage::HardcopyColorImageStorage:
