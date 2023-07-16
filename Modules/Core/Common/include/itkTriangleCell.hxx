@@ -226,9 +226,8 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType   x,
                                              PointType & closestPoint)
 {
   VectorType v21 = p2 - p1;
-  //
-  //   Get parametric location
-  //
+
+  // Get parametric location
   double num(0);
   double denom(0);
 
@@ -248,10 +247,9 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType   x,
   {
     closestPoint = p1; // arbitrary, point is (numerically) far away
   }
-  //
+
   // If parametric coordinate is within 0<=p<=1, then the point is closest to
   // the line.  Otherwise, it's closest to a point at the end of the line.
-  //
   else if ((t = num / denom) < 0.0)
   {
     closestPoint = p1;
@@ -391,43 +389,33 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
     return false;
   }
 
-  //
   // Get the vertexes of this triangle
-  //
   PointType pt1 = points->GetElement(m_PointIds[0]);
   PointType pt2 = points->GetElement(m_PointIds[1]);
   PointType pt3 = points->GetElement(m_PointIds[2]);
 
-  //
   // Compute Vectors along the edges.
   // These two vectors form a vector base for the 2D space of the triangle cell.
-  //
   VectorType v12 = pt1 - pt2;
   VectorType v32 = pt3 - pt2;
 
-  //
   // Compute Vectors in the dual vector base inside the 2D space of the triangle
   // cell.
   // u12 is orthogonal to v32
   // u32 is orthogonal to v12
-  //
   const double dotproduct = v12 * v32;
   VectorType   u12 = v12 - v32 * (dotproduct / v32.GetSquaredNorm());
   VectorType   u32 = v32 - v12 * (dotproduct / v12.GetSquaredNorm());
 
-  //
   // Add normalizations for making {u12,u32} a vector basis orthonormal to {v12,
   // v32}.
-  //
   u12 /= (u12 * v12);
   u32 /= (u32 * v32);
 
-  //
   // Project point to plane, by using the dual vector base
-  //
+
   // Compute components of the input point in the 2D
   // space defined by v12 and v32
-  //
   VectorType xo = X - pt2;
 
   const double u12p = xo * u12;
@@ -436,32 +424,24 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   VectorType x12 = v12 * u12p;
   VectorType x32 = v32 * u32p;
 
-  //
   // The projection of point X in the plane is cp
-  //
   PointType cp = pt2 + x12 + x32;
 
-  //
   // Compute barycentric coordinates in the Triangle
-  //
   const double b1 = u12p;
   const double b2 = 1.0 - u12p - u32p;
   const double b3 = u32p;
 
-  //
   // Test if the projected point is inside the cell.
-  //
+
   // Zero with epsilon
   const double zwe = -NumericTraits<double>::min();
 
-  //
   // Since the three barycentric coordinates are interdependent
   // only three tests should be necessary. That is, we only need
   // to test against the equations of three lines (half-spaces).
-  //
   if ((b1 >= zwe) && (b2 >= zwe) && (b3 >= zwe))
   {
-    //
     // This is the case when the point is inside the triangle
     // projection distance
     if (closestPoint)
