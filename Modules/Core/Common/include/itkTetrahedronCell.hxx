@@ -23,9 +23,7 @@
 
 namespace itk
 {
-/**
- * Standard CellInterface:
- */
+
 template <typename TCellInterface>
 void
 TetrahedronCell<TCellInterface>::MakeCopy(CellAutoPointer & cellPointer) const
@@ -34,10 +32,6 @@ TetrahedronCell<TCellInterface>::MakeCopy(CellAutoPointer & cellPointer) const
   cellPointer->SetPointIds(this->GetPointIds());
 }
 
-/**
- * Standard CellInterface:
- * Get the topological dimension of this cell.
- */
 template <typename TCellInterface>
 unsigned int
 TetrahedronCell<TCellInterface>::GetDimension() const
@@ -45,10 +39,6 @@ TetrahedronCell<TCellInterface>::GetDimension() const
   return Self::CellDimension;
 }
 
-/**
- * Standard CellInterface:
- * Get the number of points required to define the cell.
- */
 template <typename TCellInterface>
 unsigned int
 TetrahedronCell<TCellInterface>::GetNumberOfPoints() const
@@ -56,10 +46,6 @@ TetrahedronCell<TCellInterface>::GetNumberOfPoints() const
   return Self::NumberOfPoints;
 }
 
-/**
- * Standard CellInterface:
- * Get the number of boundary features of the given dimension.
- */
 template <typename TCellInterface>
 auto
 TetrahedronCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -> CellFeatureCount
@@ -220,12 +206,6 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   return false;
 }
 
-/**
- * Standard CellInterface:
- * Get the boundary feature of the given dimension specified by the given
- * cell feature Id.
- * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
- */
 template <typename TCellInterface>
 bool
 TetrahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
@@ -271,12 +251,6 @@ TetrahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimens
   return false;
 }
 
-/**
- * Standard CellInterface:
- * Set the point id list used by the cell.  It is assumed that the given
- * iterator can be incremented and safely de-referenced enough times to
- * get all the point ids needed by the cell.
- */
 template <typename TCellInterface>
 void
 TetrahedronCell<TCellInterface>::SetPointIds(PointIdConstIterator first)
@@ -284,13 +258,6 @@ TetrahedronCell<TCellInterface>::SetPointIds(PointIdConstIterator first)
   std::copy_n(first, Self::NumberOfPoints, m_PointIds.begin());
 }
 
-/**
- * Standard CellInterface:
- * Set the point id list used by the cell.  It is assumed that the range
- * of iterators [first, last) contains the correct number of points needed to
- * define the cell.  The position *last is NOT referenced, so it can safely
- * be one beyond the end of an array or other container.
- */
 template <typename TCellInterface>
 void
 TetrahedronCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
@@ -304,10 +271,6 @@ TetrahedronCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointId
   }
 }
 
-/**
- * Standard CellInterface:
- * Set an individual point identifier in the cell.
- */
 template <typename TCellInterface>
 void
 TetrahedronCell<TCellInterface>::SetPointId(int localId, PointIdentifier ptId)
@@ -315,10 +278,6 @@ TetrahedronCell<TCellInterface>::SetPointId(int localId, PointIdentifier ptId)
   m_PointIds[localId] = ptId;
 }
 
-/**
- * Standard CellInterface:
- * Get a begin iterator to the list of point identifiers used by the cell.
- */
 template <typename TCellInterface>
 auto
 TetrahedronCell<TCellInterface>::PointIdsBegin() -> PointIdIterator
@@ -326,11 +285,6 @@ TetrahedronCell<TCellInterface>::PointIdsBegin() -> PointIdIterator
   return &m_PointIds[0];
 }
 
-/**
- * Standard CellInterface:
- * Get a const begin iterator to the list of point identifiers used
- * by the cell.
- */
 template <typename TCellInterface>
 auto
 TetrahedronCell<TCellInterface>::PointIdsBegin() const -> PointIdConstIterator
@@ -338,10 +292,6 @@ TetrahedronCell<TCellInterface>::PointIdsBegin() const -> PointIdConstIterator
   return &m_PointIds[0];
 }
 
-/**
- * Standard CellInterface:
- * Get an end iterator to the list of point identifiers used by the cell.
- */
 template <typename TCellInterface>
 auto
 TetrahedronCell<TCellInterface>::PointIdsEnd() -> PointIdIterator
@@ -349,11 +299,6 @@ TetrahedronCell<TCellInterface>::PointIdsEnd() -> PointIdIterator
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
 
-/**
- * Standard CellInterface:
- * Get a const end iterator to the list of point identifiers used
- * by the cell.
- */
 template <typename TCellInterface>
 auto
 TetrahedronCell<TCellInterface>::PointIdsEnd() const -> PointIdConstIterator
@@ -361,10 +306,6 @@ TetrahedronCell<TCellInterface>::PointIdsEnd() const -> PointIdConstIterator
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
 
-/**
- * Tetrahedron-specific:
- * Get the number of vertices defining the tetrahedron.
- */
 template <typename TCellInterface>
 auto
 TetrahedronCell<TCellInterface>::GetNumberOfVertices() const -> CellFeatureCount
@@ -372,10 +313,6 @@ TetrahedronCell<TCellInterface>::GetNumberOfVertices() const -> CellFeatureCount
   return Self::NumberOfVertices;
 }
 
-/**
- * Tetrahedron-specific:
- * Get the number of edges defined for the tetrahedron.
- */
 template <typename TCellInterface>
 auto
 TetrahedronCell<TCellInterface>::GetNumberOfEdges() const -> CellFeatureCount
@@ -383,10 +320,6 @@ TetrahedronCell<TCellInterface>::GetNumberOfEdges() const -> CellFeatureCount
   return Self::NumberOfEdges;
 }
 
-/**
- * Tetrahedron-specific:
- * Get the number of faces defined for the tetrahedron.
- */
 template <typename TCellInterface>
 auto
 TetrahedronCell<TCellInterface>::GetNumberOfFaces() const -> CellFeatureCount
@@ -394,11 +327,6 @@ TetrahedronCell<TCellInterface>::GetNumberOfFaces() const -> CellFeatureCount
   return Self::NumberOfFaces;
 }
 
-/**
- * Tetrahedron-specific:
- * Get the vertex specified by the given cell feature Id.
- * The Id can range from 0 to GetNumberOfVertices()-1.
- */
 template <typename TCellInterface>
 bool
 TetrahedronCell<TCellInterface>::GetVertex(CellFeatureIdentifier vertexId, VertexAutoPointer & vertexPointer)
@@ -410,11 +338,6 @@ TetrahedronCell<TCellInterface>::GetVertex(CellFeatureIdentifier vertexId, Verte
   return true;
 }
 
-/**
- * Tetrahedron-specific:
- * Get the edge specified by the given cell feature Id.
- * The Id can range from 0 to GetNumberOfEdges()-1.
- */
 template <typename TCellInterface>
 bool
 TetrahedronCell<TCellInterface>::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer)
@@ -429,11 +352,6 @@ TetrahedronCell<TCellInterface>::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoP
   return true;
 }
 
-/**
- * Tetrahedron-specific:
- * Get the face specified by the given cell feature Id.
- * The Id can range from 0 to GetNumberOfFaces()-1.
- */
 template <typename TCellInterface>
 bool
 TetrahedronCell<TCellInterface>::GetFace(CellFeatureIdentifier faceId, FaceAutoPointer & facePointer)
