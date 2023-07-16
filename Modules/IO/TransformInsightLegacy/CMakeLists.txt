@@ -1,3 +1,0 @@
-project(ITKIOTransformInsightLegacy)
-set(ITKIOTransformInsightLegacy_LIBRARIES ITKIOTransformInsightLegacy)
-itk_module_impl()

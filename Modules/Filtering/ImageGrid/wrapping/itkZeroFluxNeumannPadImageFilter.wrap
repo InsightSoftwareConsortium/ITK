@@ -1,3 +1,0 @@
-itk_wrap_class("itk::ZeroFluxNeumannPadImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 2)
-itk_end_wrap_class()

@@ -1,1 +1,0 @@
-extern int ccopy_(integer *n, complex *cx, integer *incx, complex *cy, integer *incy);

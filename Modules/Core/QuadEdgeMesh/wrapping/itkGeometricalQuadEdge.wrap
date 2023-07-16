@@ -1,4 +1,0 @@
-itk_wrap_class("itk::GeometricalQuadEdge" EXPLICIT_SPECIALIZATION)
-  itk_wrap_template("${ITKM_IT}${ITKM_IT}BBF" "${ITKT_IT}, ${ITKT_IT}, bool, bool, true")
-  itk_wrap_template("${ITKM_IT}${ITKM_IT}BBT" "${ITKT_IT}, ${ITKT_IT}, bool, bool, false")
-itk_end_wrap_class()

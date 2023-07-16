@@ -1,5 +1,0 @@
-itk_wrap_class("itk::ZeroCrossingBasedEdgeDetectionImageFilter" POINTER)
-
-  itk_wrap_image_filter("${WRAP_ITK_REAL}" 2 2+)
-
-itk_end_wrap_class()

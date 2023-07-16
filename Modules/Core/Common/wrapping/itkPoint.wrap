@@ -1,3 +1,0 @@
-itk_wrap_class("itk::Point")
-  set(WRAPPER_TEMPLATES "${itk_Wrap_Point}")
-itk_end_wrap_class()

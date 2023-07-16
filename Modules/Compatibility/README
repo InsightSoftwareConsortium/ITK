@@ -1,9 +1,0 @@
-There is some ambiguity about the need for two separate modules
-in the ITK/Modules/Compatibility organization.
-
-All classes and features in ITK/Modules/Compatibility are
-considered as Legacy code, and will be removed from the toolkit
-in future releases.
-
-Deprecated:  Any code that provides a feature or function
-             that is no longer supported in ITKv5
