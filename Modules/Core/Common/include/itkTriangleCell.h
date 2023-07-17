@@ -71,6 +71,8 @@ public:
   static constexpr unsigned int NumberOfEdges = 3;
   static constexpr unsigned int CellDimension = 2;
 
+  // Standard CellInterface
+
   /** Implement the standard CellInterface. */
   CellGeometryEnum
   GetType() const override
@@ -80,49 +82,80 @@ public:
   void
   MakeCopy(CellAutoPointer &) const override;
 
+  /** Get the topological dimension of this cell. */
   unsigned int
   GetDimension() const override;
 
+  /** Get the number of points required to define the cell. */
   unsigned int
   GetNumberOfPoints() const override;
 
+  /** Get the number of boundary features of the given dimension. */
   CellFeatureCount
   GetNumberOfBoundaryFeatures(int dimension) const override;
 
+  /** Get the boundary feature of the given dimension specified by the given cell feature Id.
+   * The Id can range from 0 to GetNumberOfBoundaryFeatures(dimension)-1.
+   */
   bool
   GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
+
+  /** Set the point id list used by the cell.  It is assumed that the given iterator can be incremented and safely
+   * de-referenced enough times to get all the point ids needed by the cell.
+   */
   void
   SetPointIds(PointIdConstIterator first) override;
 
+  /** Set the point id list used by the cell.  It is assumed that the range of iterators [first, last) contains the
+   * correct number of points needed to define the cell.  The position *last is NOT referenced, so it can safely be
+   * one beyond the end of an array or other container.
+   */
   void
   SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
+  /** Set an individual point identifier in the cell. */
   void
   SetPointId(int localId, PointIdentifier) override;
+
+  /** Get a begin iterator to the list of point identifiers used by the cell. */
   PointIdIterator
   PointIdsBegin() override;
 
+  /** Get a const begin iterator to the list of point identifiers used by the cell. */
   PointIdConstIterator
   PointIdsBegin() const override;
 
+  /** Get an end iterator to the list of point identifiers used by the cell. */
   PointIdIterator
   PointIdsEnd() override;
 
+  /** Get a const end iterator to the list of point identifiers used by the cell. */
   PointIdConstIterator
   PointIdsEnd() const override;
 
-  /** Triangle-specific interface. */
+  // Triangle-specific interface
+
+  /** Get the number of vertices defining the triangle. */
   virtual CellFeatureCount
   GetNumberOfVertices() const;
 
+  /** Get the number of edges defined for the triangle. */
   virtual CellFeatureCount
   GetNumberOfEdges() const;
 
+  /** Get the vertex specified by the given cell feature Id.
+   * The Id can range from 0 to GetNumberOfVertices()-1.
+   */
   virtual bool
   GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+
+  /** Get the edge specified by the given cell feature Id.
+   * The Id can range from 0 to GetNumberOfEdges()-1.
+   */
   virtual bool
   GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
+  /** Evaluate the position of a given point inside the cell */
   bool
   EvaluatePosition(CoordRepType *,
                    PointsContainer *,
@@ -134,7 +167,7 @@ public:
   /** Cell visitor interface. */
   itkCellVisitMacro(CellGeometryEnum::TRIANGLE_CELL);
 
-  /** \brief Compute Area to a TriangleCell given a PointsContainer.  */
+  /** Compute Area to a TriangleCell given a PointsContainer. */
   CoordRepType
   ComputeArea(PointsContainer *);
 
@@ -166,8 +199,8 @@ protected:
     NumericTraits<PointIdentifier>::max()) };
 
 private:
-  /** Computes the SQUARED distance between a point and a line segment defined
-   * by two other points */
+  /** Compute the squared distance between a point and a line segment defined by two other points. Returns the
+   * parametric coordinate t and point location on line. */
   double
   DistanceToLine(PointType x, PointType p1, PointType p2, double & t, CoordRepType * closestPoint);
 
