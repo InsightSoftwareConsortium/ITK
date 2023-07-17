@@ -48,14 +48,14 @@ public:
   static void
   RegisterTransform()
   {
-    auto t = T::New();
+    const std::string transformTypeAsString = T::New()->GetTransformTypeAsString();
 
-    TransformFactoryBase::Pointer f = TransformFactoryBase::GetFactory();
+    const TransformFactoryBase::Pointer f = TransformFactoryBase::GetFactory();
 
-    f->RegisterTransform(t->GetTransformTypeAsString().c_str(),
-                         t->GetTransformTypeAsString().c_str(),
-                         t->GetTransformTypeAsString().c_str(),
-                         1,
+    f->RegisterTransform(transformTypeAsString.c_str(),
+                         transformTypeAsString.c_str(),
+                         transformTypeAsString.c_str(),
+                         true,
                          CreateObjectFunction<T>::New());
   }
 };
