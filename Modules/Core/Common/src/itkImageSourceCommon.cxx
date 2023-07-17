@@ -18,23 +18,16 @@
 
 #include "itkImageRegionSplitterSlowDimension.h"
 #include "itkImageSourceCommon.h"
-#include <mutex>
 
 namespace itk
 {
 
-namespace
-{
-std::once_flag                   globalDefaultSplitterOnceFlag;
-ImageRegionSplitterBase::Pointer globalDefaultSplitter;
-} // namespace
-
 const ImageRegionSplitterBase *
 ImageSourceCommon::GetGlobalDefaultSplitter()
 {
-  std::call_once(globalDefaultSplitterOnceFlag,
-                 []() { globalDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer(); });
-
+  // Note that the initialization of a local static variable is thread-safe ("magic statics").
+  static const ImageRegionSplitterBase::ConstPointer globalDefaultSplitter =
+    ImageRegionSplitterSlowDimension::New().GetPointer();
   return globalDefaultSplitter;
 }
 
