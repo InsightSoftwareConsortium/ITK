@@ -672,6 +672,7 @@ set(ITKCommonGTests
       itkMersenneTwisterRandomVariateGeneratorGTest.cxx
       itkNeighborhoodAllocatorGTest.cxx
       itkNumberToStringGTest.cxx
+      itkObjectFactoryBaseGTest.cxx
       itkOffsetGTest.cxx
       itkOptimizerParametersGTest.cxx
       itkPointGTest.cxx

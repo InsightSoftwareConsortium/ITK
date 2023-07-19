@@ -73,7 +73,11 @@ public:
   /** Create and return an instance of the named itk object.
    * Each loaded ObjectFactoryBase will be asked in the order
    * the factory was in the ITK_AUTOLOAD_PATH.  After the
-   * first factory returns the object no other factories are asked. */
+   * first factory returns the object no other factories are asked.
+   *
+   * \note The object returned by `CreateInstance` will have a reference count of 2, instead of 1. So in order to avoid
+   * memory leaks, one may need to call `object->UnRegister()`.
+   */
   static LightObject::Pointer
   CreateInstance(const char * itkclassname);
 
