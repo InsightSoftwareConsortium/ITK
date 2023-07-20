@@ -577,7 +577,7 @@ std::vector<double> ImageHelper::GetOriginValue(File const & f)
 
   // else
   const Tag timagepositionpatient(0x0020, 0x0032);
-  if( ms != MediaStorage::SecondaryCaptureImageStorage && ds.FindDataElement( timagepositionpatient ) )
+  if( ds.FindDataElement( timagepositionpatient ) )
     {
     const DataElement& de = ds.GetDataElement( timagepositionpatient );
     Attribute<0x0020,0x0032> at = {{0,0,0}}; // default value if empty
@@ -729,7 +729,7 @@ std::vector<double> ImageHelper::GetDirectionCosinesValue(File const & f)
     }
 
   dircos.resize( 6 );
-  if( ms == MediaStorage::SecondaryCaptureImageStorage || !GetDirectionCosinesFromDataSet(ds, dircos) )
+  if( !GetDirectionCosinesFromDataSet(ds, dircos) )
     {
     dircos[0] = 1;
     dircos[1] = 0;
@@ -1388,6 +1388,7 @@ std::vector<double> ImageHelper::GetSpacingValue(File const & f)
   MediaStorage ms;
   ms.SetFromFile(f);
   const DataSet& ds = f.GetDataSet();
+  Tag spacingtag(0xffff,0xffff);
 
   if( ms == MediaStorage::EnhancedCTImageStorage
     || ms == MediaStorage::EnhancedMRImageStorage
@@ -1450,8 +1451,24 @@ std::vector<double> ImageHelper::GetSpacingValue(File const & f)
       return sp;
       }
     }
+  else if( ms == MediaStorage::SecondaryCaptureImageStorage )
+    {
+      if( ds.FindDataElement( Tag(0x0028,0x0030) ) )
+        {
+        // Type 1C in 'SC Image' (for calibrated images)
+        spacingtag = Tag(0x0028,0x0030);
+        }
+      else if( ds.FindDataElement( Tag(0x0018,0x2010) ) )
+        {
+        // Type 3 in 'SC Image'
+        spacingtag = Tag(0x0018,0x2010);
+        }
+    }
+  else
+    {
+    spacingtag = GetSpacingTagFromMediaStorage(ms);
+    }
 
-  Tag spacingtag = GetSpacingTagFromMediaStorage(ms);
   if( spacingtag != Tag(0xffff,0xffff) && ds.FindDataElement( spacingtag ) && !ds.GetDataElement( spacingtag ).IsEmpty() )
     {
     const DataElement& de = ds.GetDataElement( spacingtag );
