@@ -1177,9 +1177,9 @@ ProcessObject::IncrementProgress(float increment)
 bool
 ProcessObject::GetReleaseDataFlag() const
 {
-  if (this->GetPrimaryOutput())
+  if (const auto primaryOutput = this->GetPrimaryOutput())
   {
-    return this->GetPrimaryOutput()->GetReleaseDataFlag();
+    return primaryOutput->GetReleaseDataFlag();
   }
   return false;
 }
@@ -1281,9 +1281,9 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
 void
 ProcessObject::Update()
 {
-  if (this->GetPrimaryOutput())
+  if (const auto primaryOutput = this->GetPrimaryOutput())
   {
-    this->GetPrimaryOutput()->Update();
+    primaryOutput->Update();
   }
 }
 
@@ -1291,9 +1291,9 @@ ProcessObject::Update()
 void
 ProcessObject::ResetPipeline()
 {
-  if (this->GetPrimaryOutput())
+  if (const auto primaryOutput = this->GetPrimaryOutput())
   {
-    this->GetPrimaryOutput()->ResetPipeline();
+    primaryOutput->ResetPipeline();
   }
   else
   {
@@ -1827,10 +1827,10 @@ ProcessObject::UpdateLargestPossibleRegion()
 {
   this->UpdateOutputInformation();
 
-  if (this->GetPrimaryOutput())
+  if (const auto primaryOutput = this->GetPrimaryOutput())
   {
-    this->GetPrimaryOutput()->SetRequestedRegionToLargestPossibleRegion();
-    this->GetPrimaryOutput()->Update();
+    primaryOutput->SetRequestedRegionToLargestPossibleRegion();
+    primaryOutput->Update();
   }
 }
 
