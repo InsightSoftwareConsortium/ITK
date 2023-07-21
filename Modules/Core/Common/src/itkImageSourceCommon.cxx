@@ -15,27 +15,29 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
 #include "itkImageRegionSplitterSlowDimension.h"
 #include "itkImageSourceCommon.h"
+#include "itkSingleton.h"
 #include <mutex>
 
 namespace itk
 {
 
-namespace
+struct ImageSourceCommonGlobals
 {
-std::once_flag                   globalDefaultSplitterOnceFlag;
-ImageRegionSplitterBase::Pointer globalDefaultSplitter;
-} // namespace
+  ImageSourceCommonGlobals() { m_GlobalDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer(); };
+
+  ImageRegionSplitterBase::Pointer m_GlobalDefaultSplitter;
+};
+
+itkGetGlobalSimpleMacro(ImageSourceCommon, ImageSourceCommonGlobals, PimplGlobals);
+ImageSourceCommonGlobals * ImageSourceCommon::m_PimplGlobals;
 
 const ImageRegionSplitterBase *
 ImageSourceCommon::GetGlobalDefaultSplitter()
 {
-  std::call_once(globalDefaultSplitterOnceFlag,
-                 []() { globalDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer(); });
-
-  return globalDefaultSplitter;
+  itkInitGlobalsMacro(PimplGlobals);
+  return m_PimplGlobals->m_GlobalDefaultSplitter;
 }
 
 

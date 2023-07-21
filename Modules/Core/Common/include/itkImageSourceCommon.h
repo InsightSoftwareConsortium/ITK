@@ -20,9 +20,12 @@
 
 #include "ITKCommonExport.h"
 #include "itkImageRegionSplitterBase.h"
+#include "itkSingletonMacro.h"
 
 namespace itk
 {
+
+struct ImageSourceCommonGlobals;
 
 /** \class ImageSourceCommon
  * \brief Secondary base class of ImageSource common between templates
@@ -43,6 +46,10 @@ struct ITKCommon_EXPORT ImageSourceCommon
    */
   static const ImageRegionSplitterBase *
   GetGlobalDefaultSplitter();
+
+private:
+  itkGetGlobalDeclarationMacro(ImageSourceCommonGlobals, PimplGlobals);
+  static ImageSourceCommonGlobals * m_PimplGlobals;
 };
 
 } // end namespace itk
