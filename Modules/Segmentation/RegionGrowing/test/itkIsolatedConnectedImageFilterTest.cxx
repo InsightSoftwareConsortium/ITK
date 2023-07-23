@@ -28,9 +28,11 @@ itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
 {
   if (argc < 8)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " InputImage OutputImage FindUpper seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2 "
-                 "seed2_x2 seed2_y2]*\n";
+              << " InputImage OutputImage FindUpper seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2"
+                 " seed2_x2 seed2_y2]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

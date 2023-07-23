@@ -32,8 +32,9 @@ itkFastApproximateRankImageFilterTest(int argc, char * argv[])
 
   if (argc < 4)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << argv[0] << " InputImage BaselineImage radius" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   using ImageType = itk::Image<unsigned char, 2>;

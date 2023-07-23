@@ -33,9 +33,10 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2(int argc, char * argv[])
 
   if (argc < 7)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder"
               << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   unsigned int const dim = 2;
