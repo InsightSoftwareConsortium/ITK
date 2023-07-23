@@ -51,8 +51,6 @@ template <typename TVideoStream>
 class ITK_TEMPLATE_EXPORT OpenCVVideoCapture : public cv::VideoCapture
 {
 public:
-  /**-CONSTRUCTORS AND DESTRUCTOR--------------------------------------------*/
-
   using VideoStreamType = TVideoStream;
   using Self = OpenCVVideoCapture<VideoStreamType>;
   using FrameType = typename VideoStreamType::FrameType;
@@ -71,7 +69,7 @@ public:
   /** ITK's type info */
   itkTypeMacroNoParent(OpenCVVideoCapture);
 
-  /**-OPEN CLOSE FUNCTIONALITY-----------------------------------------------*/
+  // Open, close functionality
 
   /** overload reading from file and camera just to throw exceptions */
   virtual bool
@@ -107,7 +105,7 @@ public:
   virtual void
   release();
 
-  /**-FRAME ACCESS-----------------------------------------------------------*/
+  // Frame access
 
   /** Grab the next frame from the VideoStream */
   virtual bool
@@ -122,11 +120,11 @@ public:
   virtual Self &
   operator>>(cv::Mat & image);
 
-  /** non-operator version of >>'s functionality */
+  /** Non-operator version of >>'s functionality */
   virtual bool
   read(cv::Mat & image);
 
-  /**-PROPERTIES-------------------------------------------------------------*/
+  // Properties
 
   /** Set a property */
   virtual bool
