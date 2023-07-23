@@ -66,7 +66,7 @@ public:
    * that generated it. */
   virtual ~OpenCVVideoCapture() {}
 
-  /** ITK's type info */
+  /** Runtime information support. */
   itkTypeMacroNoParent(OpenCVVideoCapture);
 
   // Open, close functionality
