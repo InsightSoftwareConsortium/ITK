@@ -689,7 +689,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
   {
     for (const auto & elem : elemVec)
     {
-      os << indent << "[" << &elem - &*(elemVec.begin())
+      os << indent.GetNextIndent() << "[" << &elem - &*(elemVec.begin())
          << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << std::endl;
     }
   }
@@ -699,7 +699,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
   {
     for (const auto & elem : elemVec)
     {
-      os << indent << "[" << &elem - &*(elemVec.begin())
+      os << indent.GetNextIndent() << "[" << &elem - &*(elemVec.begin())
          << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << std::endl;
     }
   }
