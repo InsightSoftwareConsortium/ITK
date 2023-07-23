@@ -91,23 +91,17 @@ itkGradientAnisotropicDiffusionImageFilterTest2(int argc, char * argv[])
     itk::CastImageFilter<myFloatImage, myUCharImage>::New();
   caster->SetInput(filter->GetOutput());
 
-  try
-  {
-    caster->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(caster->Update());
+
 
   // Generate test image
   itk::ImageFileWriter<myUCharImage>::Pointer writer;
   writer = itk::ImageFileWriter<myUCharImage>::New();
   writer->SetInput(caster->GetOutput());
-  std::cout << "Writing " << argv[2] << std::endl;
   writer->SetFileName(argv[2]);
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   myFloatImage::Pointer normalImage = filter->GetOutput();
   normalImage->DisconnectPipeline();
@@ -130,15 +124,8 @@ itkGradientAnisotropicDiffusionImageFilterTest2(int argc, char * argv[])
   // to the same operation
   filter->SetTimeStep(100.0 * filter->GetTimeStep());
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   // the results with spacing should be about the same as without
 

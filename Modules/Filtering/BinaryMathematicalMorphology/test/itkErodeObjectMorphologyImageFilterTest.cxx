@@ -140,23 +140,14 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   filter->SetInput(inputImage);
   filter->SetKernel(ball);
   filter->SetErodeValue(fgValue);
-  filter->SetBackgroundValue(5);
+  ITK_TEST_SET_GET_VALUE(fgValue, filter->GetErodeValue());
 
-  // Exercise Set/Get methods for Background Value
-  const unsigned short backGround = filter->GetBackgroundValue();
-  if (backGround != 5)
-  {
-    std::cerr << "Set/Get Background value problem." << std::endl;
-    return EXIT_FAILURE;
-  }
+  unsigned short backgroundValue = 5;
+  filter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 
   // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
-
-
-  // Test the itkGetMacro
-  unsigned short value = filter->GetErodeValue();
-  std::cout << "filter->GetErodeValue(): " << value << std::endl;
 
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
