@@ -59,7 +59,7 @@ public:
   /** Destructor */
   virtual ~vidl_itk_istream() {}
 
-  /** ITK's type info */
+  /** Runtime information support. */
   // Cannot use as we do not derive from ITK Object with GetNameOfClass itkTypeMacro(vidl_itk_istream, vidl_istream);
   const char *
   GetNameOfClass() const
