@@ -57,25 +57,21 @@ itkNoiseImageFilterTest(int argc, char * argv[])
   rescale->SetOutputMaximum(255);
   rescale->SetInput(filter->GetOutput());
 
-  try
-  {
-    radius.Fill(5);
-    filter->SetInput(input->GetOutput());
-    filter->SetRadius(radius);
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
+  radius.Fill(5);
+  filter->SetInput(input->GetOutput());
+  filter->SetRadius(radius);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   // Generate test image
   itk::ImageFileWriter<myImageChar>::Pointer writer;
   writer = itk::ImageFileWriter<myImageChar>::New();
   writer->SetInput(rescale->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

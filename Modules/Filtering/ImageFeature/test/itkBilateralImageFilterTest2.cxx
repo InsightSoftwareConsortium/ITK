@@ -48,59 +48,58 @@ itkBilateralImageFilterTest2(int argc, char * argv[])
 
   // these settings reduce the amount of noise by a factor of 10
   // when the original signal to noise level is 5
-  filter->SetDomainSigma(4.0);
-  filter->SetRangeSigma(50.0);
-  filter->SetDomainMu(2.5);
-
-  // Test itkSetVectorMacro
-  double domainSigma[dimension];
-  for (double & i : domainSigma)
+  auto domainSigmaValue = 4.0;
+  filter->SetDomainSigma(domainSigmaValue);
+  auto domainSigma = filter->GetDomainSigma();
+  for (auto & value : domainSigma)
   {
-    i = 4.0;
+    auto index = &value - &*(domainSigma.begin());
+    ITK_TEST_SET_GET_VALUE(domainSigmaValue, filter->GetDomainSigma()[index]);
   }
-  filter->SetDomainSigma(domainSigma);
 
-  // Test itkGetVectorMacro
-  std::cout << "filter->GetDomainSigma(): " << filter->GetDomainSigma() << std::endl;
+  double domainSigmaArr[dimension];
+  for (double & i : domainSigmaArr)
+  {
+    i = domainSigmaValue;
+  }
+  filter->SetDomainSigma(domainSigmaArr);
+  for (auto & value : domainSigmaArr)
+  {
+    auto index = &value - &domainSigmaArr[0];
+    ITK_TEST_SET_GET_VALUE(value, filter->GetDomainSigma()[index]);
+  }
 
-  // Test itkSetMacro
-  unsigned int  filterDimensionality = dimension;
-  unsigned long numberOfRangeGaussianSamples = 100;
+  auto rangeSigma = 50.0;
+  filter->SetRangeSigma(rangeSigma);
+  ITK_TEST_SET_GET_VALUE(rangeSigma, filter->GetRangeSigma());
+
+  auto domainMu = 2.5;
+  filter->SetDomainMu(domainMu);
+  ITK_TEST_SET_GET_VALUE(domainMu, filter->GetDomainMu());
+
+  unsigned int filterDimensionality = dimension;
   filter->SetFilterDimensionality(filterDimensionality);
+  ITK_TEST_SET_GET_VALUE(filterDimensionality, filter->GetFilterDimensionality());
+
+  unsigned long numberOfRangeGaussianSamples = 100;
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
+  ITK_TEST_SET_GET_VALUE(numberOfRangeGaussianSamples, filter->GetNumberOfRangeGaussianSamples());
 
-  // Test itkGetMacro
-  double rangeSigma2 = filter->GetRangeSigma();
-  std::cout << "filter->GetRangeSigma(): " << rangeSigma2 << std::endl;
-  unsigned int filterDimensionality2 = filter->GetFilterDimensionality();
-  std::cout << "filter->GetFilterDimensionality(): " << filterDimensionality2 << std::endl;
-  unsigned long numberOfRangeGaussianSamples2 = filter->GetNumberOfRangeGaussianSamples();
-  std::cout << "filter->GetNumberOfRangeGaussianSamples(): " << numberOfRangeGaussianSamples2 << std::endl;
-  double domainMu = filter->GetDomainMu();
-  std::cout << "filter->GetDomainMu(): " << domainMu << std::endl;
 
-  try
-  {
-    input->Update();
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
-  catch (...)
-  {
-    std::cerr << "Some other exception occurred" << std::endl;
-    return -2;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(input->Update());
+
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

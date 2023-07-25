@@ -58,33 +58,35 @@ itkBilateralImageFilterTest3(int argc, char * argv[])
   // the noise reduction in using a single stage with parameters
   // (4.0, 50.0).  The difference is that with 3 less aggressive stages
   // the edges are preserved better.
-  filter1->SetDomainSigma(4.0);
-  filter1->SetRangeSigma(20.0);
-  filter1->SetDomainMu(2.5);
-  filter2->SetDomainSigma(4.0);
-  filter2->SetRangeSigma(20.0);
-  filter2->SetDomainMu(2.5);
-  filter3->SetDomainSigma(4.0);
-  filter3->SetRangeSigma(20.0);
-  filter3->SetDomainMu(2.5);
+  auto domainSigma = 4.0;
+  filter1->SetDomainSigma(domainSigma);
+  auto rangeSigma = 20.0;
+  filter1->SetRangeSigma(rangeSigma);
+  auto domainMu = 2.5;
+  filter1->SetDomainMu(domainMu);
 
-  try
-  {
-    input->Update();
-    filter3->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
+  filter2->SetDomainSigma(domainSigma);
+  filter2->SetRangeSigma(rangeSigma);
+  filter2->SetDomainMu(domainMu);
+
+  filter3->SetDomainSigma(domainSigma);
+  filter3->SetRangeSigma(rangeSigma);
+  filter3->SetDomainMu(domainMu);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(input->Update());
+
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter3->Update());
+
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(filter3->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

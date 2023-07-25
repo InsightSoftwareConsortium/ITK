@@ -58,61 +58,52 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2(int argc, char * argv[])
   // test default values
   RadiusType r1;
   r1.Fill(1);
-  if (filter->GetRadius() != r1)
-  {
-    std::cerr << "Wrong default Radius: " << filter->GetRadius() << std::endl;
-    return EXIT_FAILURE;
-  }
 
-  if (filter->GetAlgorithm() != FilterType::AlgorithmEnum::HISTO)
-  {
-    std::cerr << "Wrong default algorithm." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_SET_GET_VALUE(r1, filter->GetRadius());
 
-  if (filter->GetSafeBorder() != true)
-  {
-    std::cerr << "Wrong default safe border." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_SET_GET_VALUE(FilterType::AlgorithmEnum::HISTO, filter->GetAlgorithm());
 
-  try
-  {
-    filter->SetRadius(20);
-    filter->SetSafeBorder(std::stoi(argv[6]));
+  ITK_TEST_SET_GET_VALUE(true, filter->GetSafeBorder());
 
-    using WriterType = itk::ImageFileWriter<ImageType>;
-    auto writer = WriterType::New();
-    writer->SetInput(filter->GetOutput());
+  filter->SetRadius(20);
 
-    filter->SetAlgorithm(FilterType::AlgorithmEnum::BASIC);
-    writer->SetFileName(argv[2]);
-    writer->Update();
+  auto safeBorder = static_cast<bool>(std::stoi(argv[6]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, SafeBorder, safeBorder);
 
-    filter->SetAlgorithm(FilterType::AlgorithmEnum::HISTO);
-    writer->SetFileName(argv[3]);
-    writer->Update();
-
-    filter->SetAlgorithm(FilterType::AlgorithmEnum::ANCHOR);
-    writer->SetFileName(argv[4]);
-    writer->Update();
-
-    filter->SetAlgorithm(FilterType::AlgorithmEnum::VHGW);
-    writer->SetFileName(argv[5]);
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return EXIT_FAILURE;
-  }
-
-  // Generate test image
   using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
+
+  filter->SetAlgorithm(FilterType::AlgorithmEnum::BASIC);
   writer->SetFileName(argv[2]);
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  filter->SetAlgorithm(FilterType::AlgorithmEnum::HISTO);
+  writer->SetFileName(argv[3]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  filter->SetAlgorithm(FilterType::AlgorithmEnum::ANCHOR);
+  writer->SetFileName(argv[4]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  filter->SetAlgorithm(FilterType::AlgorithmEnum::VHGW);
+  writer->SetFileName(argv[5]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  // Generate test image
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

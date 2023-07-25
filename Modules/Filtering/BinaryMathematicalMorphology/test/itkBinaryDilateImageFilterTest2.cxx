@@ -138,41 +138,31 @@ itkBinaryDilateImageFilterTest2(int, char *[])
   filter->SetInput(inputImage);
   filter->SetKernel(cross);
   filter->SetDilateValue(fgValue);
+  ITK_TEST_SET_GET_VALUE(fgValue, filter->GetDilateValue());
 
   // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
 
-
-  // Test the itkGetMacro
-  unsigned short value = filter->GetDilateValue();
-  std::cout << "filter->GetDilateValue(): " << value << std::endl;
-
   // Execute the filter
-  try
-  {
-    filter->Update();
-    // Create an iterator for going through the image output
-    myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-    //  Print the content of the result image
-    std::cout << "Result with cross radius 1 (default)" << std::endl;
-    i = 0;
-    it2.GoToBegin();
-    while (!it2.IsAtEnd())
+
+  // Create an iterator for going through the image output
+  myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
+
+  //  Print the content of the result image
+  std::cout << "Result with cross radius 1 (default)" << std::endl;
+  i = 0;
+  it2.GoToBegin();
+  while (!it2.IsAtEnd())
+  {
+    std::cout << it2.Get() << "  ";
+    ++it2;
+
+    if (++i % 20 == 0)
     {
-      std::cout << it2.Get() << "  ";
-      ++it2;
-
-      if (++i % 20 == 0)
-      {
-        std::cout << std::endl;
-      }
+      std::cout << std::endl;
     }
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught during filter Update\n" << e;
-    return -1;
   }
 
   // Now try dilation with a cross of higher radius.
@@ -183,31 +173,25 @@ itkBinaryDilateImageFilterTest2(int, char *[])
   filter->Modified();
 
   // Execute the filter
-  try
-  {
-    filter->Update();
-    // Create an iterator for going through the image output
-    myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-    //  Print the content of the result image
-    std::cout << "Result with cross radius 2" << std::endl;
-    i = 0;
-    it2.GoToBegin();
-    while (!it2.IsAtEnd())
+
+  // Set the iterator for going through the image output
+  it2.SetRegion(outputImage->GetBufferedRegion());
+
+  //  Print the content of the result image
+  std::cout << "Result with cross radius 2" << std::endl;
+  i = 0;
+  it2.GoToBegin();
+  while (!it2.IsAtEnd())
+  {
+    std::cout << it2.Get() << "  ";
+    ++it2;
+
+    if (++i % 20 == 0)
     {
-      std::cout << it2.Get() << "  ";
-      ++it2;
-
-      if (++i % 20 == 0)
-      {
-        std::cout << std::endl;
-      }
+      std::cout << std::endl;
     }
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught during filter Update\n" << e;
-    return -1;
   }
 
   // All objects should be automatically destroyed at this point

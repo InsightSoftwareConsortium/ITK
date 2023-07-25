@@ -28,66 +28,61 @@
 int
 itkBilateralImageFilterTest(int, char *[])
 {
-  try
-  {
-    constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
-    using ImageType = itk::Image<float, Dimension>;
+  using ImageType = itk::Image<float, Dimension>;
 
-    // Set up filter
-    using FilterType = itk::BilateralImageFilter<ImageType, ImageType>;
-    itk::BilateralImageFilter<ImageType, ImageType>::Pointer filter =
-      itk::BilateralImageFilter<ImageType, ImageType>::New();
+  // Set up filter
+  using FilterType = itk::BilateralImageFilter<ImageType, ImageType>;
+  itk::BilateralImageFilter<ImageType, ImageType>::Pointer filter =
+    itk::BilateralImageFilter<ImageType, ImageType>::New();
 
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BilateralImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BilateralImageFilter, ImageToImageFilter);
 
 
-    double                         domainSigmaVal = 2.0;
-    typename FilterType::ArrayType domainSigma = FilterType::ArrayType::Filled(domainSigmaVal);
-    filter->SetDomainSigma(domainSigmaVal);
-    ITK_TEST_SET_GET_VALUE(domainSigma, filter->GetDomainSigma());
+  double                         domainSigmaVal = 2.0;
+  typename FilterType::ArrayType domainSigma = FilterType::ArrayType::Filled(domainSigmaVal);
+  filter->SetDomainSigma(domainSigmaVal);
+  ITK_TEST_SET_GET_VALUE(domainSigma, filter->GetDomainSigma());
 
-    domainSigmaVal = 2.5;
-    domainSigma.Fill(domainSigmaVal);
-    filter->SetDomainSigma(domainSigma);
-    ITK_TEST_SET_GET_VALUE(domainSigma, filter->GetDomainSigma());
+  domainSigmaVal = 2.5;
+  domainSigma.Fill(domainSigmaVal);
+  filter->SetDomainSigma(domainSigma);
+  ITK_TEST_SET_GET_VALUE(domainSigma, filter->GetDomainSigma());
 
-    double domainMu = 2.5;
-    filter->SetDomainMu(domainMu);
-    ITK_TEST_SET_GET_VALUE(domainMu, filter->GetDomainMu());
+  double domainMu = 2.5;
+  filter->SetDomainMu(domainMu);
+  ITK_TEST_SET_GET_VALUE(domainMu, filter->GetDomainMu());
 
-    double rangeSigma = 35.0f;
-    filter->SetRangeSigma(rangeSigma);
-    ITK_TEST_SET_GET_VALUE(rangeSigma, filter->GetRangeSigma());
+  double rangeSigma = 35.0f;
+  filter->SetRangeSigma(rangeSigma);
+  ITK_TEST_SET_GET_VALUE(rangeSigma, filter->GetRangeSigma());
 
-    filter->SetFilterDimensionality(Dimension);
-    ITK_TEST_SET_GET_VALUE(Dimension, filter->GetFilterDimensionality());
+  filter->SetFilterDimensionality(Dimension);
+  ITK_TEST_SET_GET_VALUE(Dimension, filter->GetFilterDimensionality());
 
-    bool automaticKernelSize = true;
-    ITK_TEST_SET_GET_BOOLEAN(filter, AutomaticKernelSize, automaticKernelSize);
+  bool automaticKernelSize = true;
+  ITK_TEST_SET_GET_BOOLEAN(filter, AutomaticKernelSize, automaticKernelSize);
 
-    typename FilterType::SizeType::SizeValueType radiusVal = 2;
-    typename FilterType::SizeType                radius = FilterType::SizeType::Filled(radiusVal);
-    filter->SetRadius(radius);
-    ITK_TEST_SET_GET_VALUE(radius, filter->GetRadius());
+  typename FilterType::SizeType::SizeValueType radiusVal = 2;
+  typename FilterType::SizeType                radius = FilterType::SizeType::Filled(radiusVal);
+  filter->SetRadius(radius);
+  ITK_TEST_SET_GET_VALUE(radius, filter->GetRadius());
 
-    unsigned long numberOfRangeGaussianSamples = 150;
-    filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
-    ITK_TEST_SET_GET_VALUE(numberOfRangeGaussianSamples, filter->GetNumberOfRangeGaussianSamples());
+  unsigned long numberOfRangeGaussianSamples = 150;
+  filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
+  ITK_TEST_SET_GET_VALUE(numberOfRangeGaussianSamples, filter->GetNumberOfRangeGaussianSamples());
 
-    // Run Test
-    itk::Size<2> sz;
-    sz[0] = 250;
-    sz[1] = 250;
-    itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
-    test1.SetImageSize(sz);
-    test1.SetFilter(filter);
-    test1.Execute();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    err.Print(std::cerr);
-    return EXIT_FAILURE;
-  }
+  // Run Test
+  itk::Size<2> sz;
+  sz[0] = 250;
+  sz[1] = 250;
+  itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
+  test1.SetImageSize(sz);
+  test1.SetFilter(filter);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
+
+
   return EXIT_SUCCESS;
 }
