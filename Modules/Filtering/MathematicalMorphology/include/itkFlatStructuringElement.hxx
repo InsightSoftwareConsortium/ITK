@@ -1168,7 +1168,7 @@ FlatStructuringElement<VDimension>::PrintSelf(std::ostream & os, Indent indent) 
   os << "Lines: " << std::endl;
   for (unsigned int i = 0; i < m_Lines.size(); ++i)
   {
-    os << indent << m_Lines[i] << std::endl;
+    os << indent.GetNextIndent() << m_Lines[i] << std::endl;
   }
 
   os << indent << "RadiusIsParametric: " << (m_RadiusIsParametric ? "On" : "Off") << std::endl;

@@ -1202,7 +1202,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   os << indent << "TransformParametersAdaptorsPerLevel: ";
   for (const auto & val : m_TransformParametersAdaptorsPerLevel)
   {
-    os << val << " ";
+    os << indent.GetNextIndent() << val << " ";
   }
   os << std::endl;
 

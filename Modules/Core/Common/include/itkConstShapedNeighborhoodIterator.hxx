@@ -25,14 +25,14 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "ActiveIndexList: [";
+  os << indent << "ActiveIndexList: [";
   for (auto it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); ++it)
   {
-    os << *it << ' ';
+    os << indent.GetNextIndent() << *it << ' ';
   }
   os << "] ";
 
-  os << "CenterIsActive: " << (m_CenterIsActive ? "On" : "Off") << std::endl;
+  os << indent << "CenterIsActive: " << (m_CenterIsActive ? "On" : "Off") << std::endl;
 }
 
 template <typename TImage, typename TBoundaryCondition>

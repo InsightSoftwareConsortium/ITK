@@ -963,7 +963,7 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
   os << indent << "TransformsToOptimizeFlags: " << std::endl << indent << indent;
   for (auto it = m_TransformsToOptimizeFlags.begin(); it != m_TransformsToOptimizeFlags.end(); ++it)
   {
-    os << *it << ' ';
+    os << indent.GetNextIndent() << *it << ' ';
   }
   os << std::endl;
 
@@ -971,8 +971,8 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
   typename TransformQueueType::const_iterator cit;
   for (cit = m_TransformsToOptimizeQueue.begin(); cit != m_TransformsToOptimizeQueue.end(); ++cit)
   {
-    os << indent << ">>>>>>>>>" << std::endl;
-    (*cit)->Print(os, indent);
+    (*cit)->Print(os, indent.GetNextIndent());
+    os << std::endl;
   }
 
   os << indent << "PreviousTransformsToOptimizeUpdateTime: "

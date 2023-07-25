@@ -43,7 +43,7 @@ ClassifierBase<TDataContainer>::PrintSelf(std::ostream & os, Indent indent) cons
   os << indent << "MembershipFunctions: " << std::endl;
   for (unsigned int i = 0; i < m_MembershipFunctions.size(); ++i)
   {
-    os << indent << m_MembershipFunctions[i] << std::endl;
+    os << indent.GetNextIndent() << m_MembershipFunctions[i] << std::endl;
   }
 }
 
