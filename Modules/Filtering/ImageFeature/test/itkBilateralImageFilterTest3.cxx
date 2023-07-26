@@ -28,8 +28,9 @@ itkBilateralImageFilterTest3(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage\n";
-    return -1;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage" << std::endl;
+    return EXIT_FAILURE;
   }
 
   using PixelType = unsigned char;
