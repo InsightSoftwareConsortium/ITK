@@ -136,7 +136,11 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
 
   // Connect the input image
   filter->SetInput(inputImage);
+  ITK_TEST_SET_GET_VALUE(inputImage, filter->GetInput());
+
   filter->SetKernel(cross);
+  ITK_TEST_SET_GET_VALUE(cross, filter->GetKernel());
+
   filter->SetDilateValue(fgValue);
   ITK_TEST_SET_GET_VALUE(fgValue, filter->GetDilateValue());
 

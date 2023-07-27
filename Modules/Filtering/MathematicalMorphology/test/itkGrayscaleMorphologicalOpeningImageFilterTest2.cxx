@@ -31,11 +31,11 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2(int argc, char * argv[])
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if (argc < 7)
+  if (argc < 8)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder"
-              << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " InputImage radius BASIC HISTO ANCHOR VHGW SafeBorder" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -66,9 +66,13 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2(int argc, char * argv[])
 
   ITK_TEST_SET_GET_VALUE(true, filter->GetSafeBorder());
 
-  filter->SetRadius(20);
+  itk::SizeValueType radiusValue{ static_cast<itk::SizeValueType>(std::stoi(argv[2])) };
+  filter->SetRadius(radiusValue);
+  RadiusType radius{};
+  radius.Fill(radiusValue);
+  ITK_TEST_SET_GET_VALUE(radius, filter->GetRadius());
 
-  auto safeBorder = static_cast<bool>(std::stoi(argv[6]));
+  auto safeBorder = static_cast<bool>(std::stoi(argv[7]));
   ITK_TEST_SET_GET_BOOLEAN(filter, SafeBorder, safeBorder);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -76,32 +80,32 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
 
   filter->SetAlgorithm(FilterType::AlgorithmEnum::BASIC);
-  writer->SetFileName(argv[2]);
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
-
-
-  filter->SetAlgorithm(FilterType::AlgorithmEnum::HISTO);
   writer->SetFileName(argv[3]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  filter->SetAlgorithm(FilterType::AlgorithmEnum::ANCHOR);
+  filter->SetAlgorithm(FilterType::AlgorithmEnum::HISTO);
   writer->SetFileName(argv[4]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  filter->SetAlgorithm(FilterType::AlgorithmEnum::VHGW);
+  filter->SetAlgorithm(FilterType::AlgorithmEnum::ANCHOR);
   writer->SetFileName(argv[5]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  filter->SetAlgorithm(FilterType::AlgorithmEnum::VHGW);
+  writer->SetFileName(argv[6]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   // Generate test image
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(argv[2]);
+  writer->SetFileName(argv[3]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 

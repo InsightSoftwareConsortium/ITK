@@ -36,6 +36,8 @@ itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkN
   itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter =
     itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
+
 
   itk::IdentifierType numberOfIterations = 1;
   filter->SetNumberOfIterations(numberOfIterations);
@@ -48,6 +50,10 @@ itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkN
   auto conductanceParameter = 3.0;
   filter->SetConductanceParameter(conductanceParameter);
   ITK_TEST_SET_GET_VALUE(conductanceParameter, filter->GetConductanceParameter());
+
+  unsigned int conductanceScalingUpdateInterval = 1;
+  filter->SetConductanceScalingUpdateInterval(conductanceScalingUpdateInterval);
+  ITK_TEST_SET_GET_VALUE(conductanceScalingUpdateInterval, filter->GetConductanceScalingUpdateInterval());
 
   auto conductanceScalingParameter = 1.0;
   filter->SetConductanceScalingParameter(conductanceScalingParameter);

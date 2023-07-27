@@ -296,6 +296,7 @@ itk_add_test(NAME itkGrayscaleMorphologicalClosingImageFilterTest2
               ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2Anchor.png
     itkGrayscaleMorphologicalClosingImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    20
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2Basic.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2Histo.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2VHGW.png
@@ -311,6 +312,7 @@ itk_add_test(NAME itkGrayscaleMorphologicalClosingImageFilterTest2SafeBorder
               ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2AnchorSafeBorder.png
     itkGrayscaleMorphologicalClosingImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    20
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2BasicSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2HistoSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2VHGWSafeBorder.png
@@ -326,6 +328,7 @@ itk_add_test(NAME itkGrayscaleMorphologicalOpeningImageFilterTest2
               ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2Anchor.png
     itkGrayscaleMorphologicalOpeningImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    20
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2Basic.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2Histo.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2VHGW.png
@@ -341,6 +344,7 @@ itk_add_test(NAME itkGrayscaleMorphologicalOpeningImageFilterTest2SafeBorder
               ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2AnchorSafeBorder.png
     itkGrayscaleMorphologicalOpeningImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    20
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2BasicSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2HistoSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2VHGWSafeBorder.png
