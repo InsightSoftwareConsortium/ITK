@@ -141,7 +141,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
   // Create an iterator for going through the image output
   OutputIteratorType outputIterator(outputImage, outputImage->GetBufferedRegion());
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << " Result " << std::endl;
   while (!outputIterator.IsAtEnd())
   {

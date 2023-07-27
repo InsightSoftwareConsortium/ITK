@@ -22,10 +22,6 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-/**
- * Test the class instance by driving it with a null input and output.
- * Returns 0 on success and 1 on failure.
- */
 int
 itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
@@ -57,7 +53,7 @@ itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itk
   filter->SetTimeStep(timeStep);
   ITK_TEST_SET_GET_VALUE(timeStep, filter->GetTimeStep());
 
-  // Run Test
+  // Run test
   itk::Size<2> sz;
   sz[0] = 250;
   sz[1] = 250;

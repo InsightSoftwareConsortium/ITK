@@ -153,7 +153,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   // Create an iterator for going through the image output
   myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << "Result with cross radius 1 (default)" << std::endl;
   i = 0;
   it2.GoToBegin();
@@ -182,7 +182,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   // Set the iterator for going through the image output
   it2.SetRegion(outputImage->GetBufferedRegion());
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << "Result with cross radius 2" << std::endl;
   i = 0;
   it2.GoToBegin();

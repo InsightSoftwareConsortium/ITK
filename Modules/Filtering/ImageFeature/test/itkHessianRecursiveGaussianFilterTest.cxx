@@ -135,7 +135,7 @@ itkHessianRecursiveGaussianFilterTest(int argc, char * argv[])
   // Create an iterator for going through the output image
   myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << " Result " << std::endl;
   itg.GoToBegin();
   while (!itg.IsAtEnd())
@@ -144,7 +144,7 @@ itkHessianRecursiveGaussianFilterTest(int argc, char * argv[])
     ++itg;
   }
 
-  // the following just tests for warnings in 2D
+  // Test for warnings in 2D
   using my2DImageType = itk::Image<float, 2>;
   using my2DFilterType = itk::HessianRecursiveGaussianImageFilter<my2DImageType>;
   auto test = my2DFilterType::New();

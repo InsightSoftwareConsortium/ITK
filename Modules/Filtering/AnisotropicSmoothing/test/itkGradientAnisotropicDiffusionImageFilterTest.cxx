@@ -21,10 +21,6 @@
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkTestingMacros.h"
 
-/**
- * Test the class instance by driving it with a null input and output.
- * Returns 0 on success and 1 on failure.
- */
 int
 itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
@@ -65,7 +61,7 @@ itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkN
   filter->SetFixedAverageGradientMagnitude(fixedAverageGradientMagnitude);
   ITK_TEST_SET_GET_VALUE(fixedAverageGradientMagnitude, filter->GetFixedAverageGradientMagnitude());
 
-  // Run Test
+  // Run test
   itk::Size<Dimension> sz;
   sz[0] = 250;
   sz[1] = 250;

@@ -139,7 +139,7 @@ itkMaskImageFilterTest(int, char *[])
   // Create an iterator for going through the image output
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << " Result " << std::endl;
   while (!it3.IsAtEnd())
   {

@@ -157,7 +157,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
 
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << "  Success: " << std::endl;
   std::cout << "    Time = " << elapsedTime << std::endl;
 
@@ -178,7 +178,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
 
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << "  Success: " << std::endl;
   std::cout << "    Time = " << elapsedTime << std::endl;
 
@@ -245,7 +245,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
 
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << "  Success: " << std::endl;
   std::cout << "    Time = " << elapsedTime << std::endl;
 
@@ -266,7 +266,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
 
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << "  Success: " << std::endl;
   std::cout << "    Time = " << elapsedTime << std::endl;
 
