@@ -76,5 +76,6 @@ itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkN
   ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
