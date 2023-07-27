@@ -56,7 +56,7 @@ itkGrayscaleMorphologicalClosingImageFilterTest2(int argc, char * argv[])
 
   using RadiusType = FilterType::RadiusType;
 
-  // test default values
+  // Test default values
   RadiusType r1;
   r1.Fill(1);
   ITK_TEST_SET_GET_VALUE(r1, filter->GetRadius());

@@ -161,7 +161,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   // Create an iterator for going through the image output
   myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << "Result " << std::endl;
   i = 0;
   while (!it2.IsAtEnd())

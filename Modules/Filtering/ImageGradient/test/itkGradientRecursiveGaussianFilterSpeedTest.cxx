@@ -140,7 +140,7 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
     // Create an iterator for going through the output image
     myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
-    //  Print the content of the result image
+    // Print the content of the result image
     std::cout << " Result " << std::endl;
     itg.GoToBegin();
     std::cout << itg.Get();

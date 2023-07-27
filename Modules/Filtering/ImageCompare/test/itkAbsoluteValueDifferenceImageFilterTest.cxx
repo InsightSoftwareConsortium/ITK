@@ -133,7 +133,7 @@ itkAbsoluteValueDifferenceImageFilterTest(int, char *[])
   // Create an iterator for going through the image output
   myIteratorType4 it4(outputImage, outputImage->GetBufferedRegion());
 
-  //  Print the content of the result image
+  // Print the content of the result image
   std::cout << " Result " << std::endl;
   while (!it4.IsAtEnd())
   {
