@@ -74,10 +74,12 @@ itkFastApproximateRankImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(rank, filter->GetRank());
 
   int r = std::stoi(argv[3]);
-  filter->SetInput(input->GetOutput());
   filter->SetRadius(r);
+
   rank = 0.5;
   filter->SetRank(rank);
+
+  filter->SetInput(input->GetOutput());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
