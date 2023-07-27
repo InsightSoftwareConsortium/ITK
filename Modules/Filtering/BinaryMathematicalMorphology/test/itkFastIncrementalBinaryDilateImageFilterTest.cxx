@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 
 int
-itkBinaryDilateImageFilterTest2(int, char *[])
+itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
 {
   unsigned int i;
 

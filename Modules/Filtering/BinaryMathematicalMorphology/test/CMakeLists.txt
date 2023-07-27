@@ -2,7 +2,7 @@ itk_module_test()
 set(ITKBinaryMathematicalMorphologyTests
 itkBinaryClosingByReconstructionImageFilterTest.cxx
 itkBinaryDilateImageFilterTest.cxx
-itkBinaryDilateImageFilterTest2.cxx
+itkFastIncrementalBinaryDilateImageFilterTest.cxx
 itkBinaryDilateImageFilterTest3.cxx
 itkBinaryErodeImageFilterTest.cxx
 itkBinaryErodeImageFilterTest3.cxx
@@ -24,8 +24,8 @@ itk_add_test(NAME itkBinaryClosingByReconstructionImageFilterTest
     itkBinaryClosingByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1-bin.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png 0 255 10)
 itk_add_test(NAME itkBinaryDilateImageFilterTest
       COMMAND ITKBinaryMathematicalMorphologyTestDriver itkBinaryDilateImageFilterTest)
-itk_add_test(NAME itkBinaryDilateImageFilterTest2
-      COMMAND ITKBinaryMathematicalMorphologyTestDriver itkBinaryDilateImageFilterTest2)
+itk_add_test(NAME itkFastIncrementalBinaryDilateImageFilterTest
+      COMMAND ITKBinaryMathematicalMorphologyTestDriver itkFastIncrementalBinaryDilateImageFilterTest)
 itk_add_test(NAME itkBinaryDilateImageFilterTest-100-0-0
       COMMAND ITKBinaryMathematicalMorphologyTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-0.png
