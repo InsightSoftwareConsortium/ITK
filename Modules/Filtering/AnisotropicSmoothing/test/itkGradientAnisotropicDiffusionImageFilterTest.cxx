@@ -28,13 +28,15 @@
 int
 itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  using ImageType = itk::Image<float, 2>;
+  constexpr unsigned int Dimension = 2;
+
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   using FilterType = itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>;
 
   // Set up filter
-  itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter =
-    itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
 
@@ -64,7 +66,7 @@ itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkN
   ITK_TEST_SET_GET_VALUE(fixedAverageGradientMagnitude, filter->GetFixedAverageGradientMagnitude());
 
   // Run Test
-  itk::Size<2> sz;
+  itk::Size<Dimension> sz;
   sz[0] = 250;
   sz[1] = 250;
   itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;

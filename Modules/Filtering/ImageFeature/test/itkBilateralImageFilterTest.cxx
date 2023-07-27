@@ -30,12 +30,13 @@ itkBilateralImageFilterTest(int, char *[])
 {
   constexpr unsigned int Dimension = 2;
 
-  using ImageType = itk::Image<float, Dimension>;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
+
+  using FilterType = itk::BilateralImageFilter<ImageType, ImageType>;
 
   // Set up filter
-  using FilterType = itk::BilateralImageFilter<ImageType, ImageType>;
-  itk::BilateralImageFilter<ImageType, ImageType>::Pointer filter =
-    itk::BilateralImageFilter<ImageType, ImageType>::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BilateralImageFilter, ImageToImageFilter);
 
@@ -74,7 +75,7 @@ itkBilateralImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(numberOfRangeGaussianSamples, filter->GetNumberOfRangeGaussianSamples());
 
   // Run Test
-  itk::Size<2> sz;
+  itk::Size<Dimension> sz;
   sz[0] = 250;
   sz[1] = 250;
   itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;

@@ -23,7 +23,7 @@
 int
 itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
 {
-  unsigned int i;
+  unsigned int i = 0;
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 2;
@@ -105,7 +105,6 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   ind[1] = 19;
   inputImage->SetPixel(ind, fgValue);
 
-  i = 0;
   it.GoToBegin();
   while (!it.IsAtEnd())
   {

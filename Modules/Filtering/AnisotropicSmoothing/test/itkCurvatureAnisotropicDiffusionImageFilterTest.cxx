@@ -29,11 +29,15 @@
 int
 itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  using ImageType = itk::Image<float, 2>;
+  constexpr unsigned int Dimension = 2;
+
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
+
+  using FilterType = itk::CurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>;
 
   // Set up filter
-  itk::CurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter =
-    itk::CurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, CurvatureAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
 
