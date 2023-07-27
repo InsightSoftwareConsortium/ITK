@@ -138,13 +138,19 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
 
   // Connect the input image
   filter->SetInput(inputImage);
+  ITK_TEST_SET_GET_VALUE(inputImage, filter->GetInput());
+
   filter->SetKernel(ball);
+  ITK_TEST_SET_GET_VALUE(ball, filter->GetKernel());
+
   filter->SetErodeValue(fgValue);
   ITK_TEST_SET_GET_VALUE(fgValue, filter->GetErodeValue());
 
   unsigned short backgroundValue = 5;
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
+
+  std::cout << "BoundaryCondition: " << filter->GetBoundaryCondition() << std::endl;
 
   // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
