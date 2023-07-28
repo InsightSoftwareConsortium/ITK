@@ -22,6 +22,9 @@ jobs:
 
           We are glad you are here and appreciate your contribution. Please keep in mind our [community participation guidelines](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CODE_OF_CONDUCT.md). 📜
           Also, please check [existing open issues](https://github.com/InsightSoftwareConsortium/ITK/issues) and consider discussion on the [ITK Discourse](https://discourse.itk.org). 📖
+
+          This is an automatic message. Allow for time for the ITK community to be able to read the issue and comment on it.
+
         pr-message: |
           Thank you for contributing a pull request! 🙏
 
@@ -29,3 +32,6 @@ jobs:
 
           We are glad you are here and appreciate your contribution. Please keep in mind our [community participation guidelines](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CODE_OF_CONDUCT.md). 📜
           More support and guidance on the contribution process can be found in our [contributing guide](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md). 📖
+
+          This is an automatic message. Allow for time for the ITK community to be able to read the pull request and comment
+          on it.

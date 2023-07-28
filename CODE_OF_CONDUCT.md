@@ -1,10 +1,10 @@
 ITK Community Participation Guidelines
 ======================================
 
-Version 1.0 – Updated May, 2018
+Version 1.0 – Updated July, 2023
 
 The [Insight Software Consortium](https://www.insightsoftwareconsortium.org/)
-(ISC) as the copyright holder of the Insight
+(ISC) as the original copyright holder of the Insight
 Toolkit (ITK) has adopted the following Code of
 Conduct for ITK.
 
@@ -60,8 +60,8 @@ unless discussing something sensitive (e.g. potential conflicts of interest).
 This applies to messages for help or project-related support, too; not only is
 a public support request much more likely to result in an answer to a question,
 it also ensures that any inadvertent mistakes in answering are more easily
-detected and corrected. Please avoid seeking for help privately; asking in the
-official ITK discussion forums will increase your chances of getting an answer.
+detected and corrected. Please avoid seeking for help privately; asking on
+[ITK's Discourse] will increase your chances of getting an answer.
 
 ### Be welcoming
 
@@ -369,8 +369,7 @@ documentation (namely, the
 [DICOM Supplement 55](ftp://medical.nema.org/medical/dicom/final/sup55_ft.pdf)
 and
 [DICOM Supplement 142](ftp://medical.nema.org/medical/dicom/final/sup142_ft.pdf)).
-If you still need help for de-identifying your images, please ask on the
-[ITK discussion](https://discourse.itk.org/).
+If you still need help for de-identifying your images, please ask on [ITK's Discourse].
 
 Please, simply avoid using images that, despite having been used in image
 analysis and related areas historically (e.g. "Lena"), may be interpreted as
@@ -428,5 +427,8 @@ have also been adapted to build this Code of Conduct.
 We are grateful to those projects for contributing these materials under open
 licensing terms for us to easily reuse.
 
-All content on this page is licensed under a Creative Commons Attribution
+All content on this page is licensed under a [Creative Commons] **Attribution**
 license.
+
+[Creative Commons]: https://creativecommons.org/licenses/
+[ITK's Discourse]: https://discourse.itk.org/
