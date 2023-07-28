@@ -427,7 +427,8 @@ have also been adapted to build this Code of Conduct.
 We are grateful to those projects for contributing these materials under open
 licensing terms for us to easily reuse.
 
-All content on this page is licensed under a Creative Commons Attribution
+All content on this page is licensed under a [Creative Commons] **Attribution**
 license.
 
+[Creative Commons]: https://creativecommons.org/licenses/
 [ITK's Discourse]: https://discourse.itk.org/
