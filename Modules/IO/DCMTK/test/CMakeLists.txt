@@ -9,7 +9,8 @@ set(ITKIODCMTKTests
     itkDCMTKLoggerTest.cxx
     itkDCMTKImageIOSlopeInterceptTest.cxx
     itkDCMTKImageIOMultiFrameImageTest.cxx
-    itkDCMTKImageIONoPreambleTest.cxx)
+    itkDCMTKImageIONoPreambleTest.cxx
+    itkDCMTKImageIOSpacingTest.cxx)
 
 createtestdriver(ITKIODCMTK "${ITKIODCMTK-Test_LIBRARIES}" "${ITKIODCMTKTests}")
 
@@ -188,3 +189,8 @@ itk_add_test(
   ITKIODCMTKTestDriver
   itkDCMTKImageIONoPreambleTest
   DATA{Input/NoPreambleDicomTest.dcm})
+
+itk_add_test(
+  NAME itkDCMTKImageIOSpacingTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOSpacingTest
+  DATA{Input/MultiFrameMRIZSpacing.dcm})
