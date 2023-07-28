@@ -29,6 +29,10 @@ Links
 * [Issue tracking](https://github.com/InsightSoftwareConsortium/ITK/issues)
 * [Submit a patch](CONTRIBUTING.md)
 
+*Note*: For questions related to ITK, please use the official [Discussion](https://discourse.itk.org/)
+space: GitHub issues are reserved to track different aspects of the software
+development process, as highlighted by the available templates.
+
 
 About
 -----
