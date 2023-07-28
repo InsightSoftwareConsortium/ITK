@@ -1,10 +1,10 @@
 ITK Community Participation Guidelines
 ======================================
 
-Version 1.0 – Updated May, 2018
+Version 1.0 – Updated July, 2023
 
 The [Insight Software Consortium](https://www.insightsoftwareconsortium.org/)
-(ISC) as the copyright holder of the Insight
+(ISC) as the original copyright holder of the Insight
 Toolkit (ITK) has adopted the following Code of
 Conduct for ITK.
 
