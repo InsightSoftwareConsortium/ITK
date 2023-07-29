@@ -147,6 +147,12 @@ itkOptimizersHierarchyTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(cumGaussCostFunc, CumulativeGaussianCostFunction, MultipleValuedCostFunction);
 
 
+  // Not used; empty method body; called for coverage purposes
+  CumulativeGaussianCostFunctionType::ParametersType parameters{};
+  CumulativeGaussianCostFunctionType::DerivativeType derivative;
+  cumGaussCostFunc->GetDerivative(parameters, derivative);
+
+
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
