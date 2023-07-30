@@ -167,18 +167,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   itkOptimizer->SetInitialPosition(initialPosition);
   ITK_TEST_SET_GET_VALUE(initialPosition, itkOptimizer->GetInitialPosition());
 
-  try
-  {
-    itkOptimizer->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer->StartOptimization());
 
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
@@ -215,18 +204,8 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
     itkOptimizer->SetRelaxationFactor(relaxationFactor);
     ITK_TEST_SET_GET_VALUE(relaxationFactor, itkOptimizer->GetRelaxationFactor());
 
-    try
-    {
-      itkOptimizer->StartOptimization();
-    }
-    catch (const itk::ExceptionObject & e)
-    {
-      std::cout << "Exception thrown ! " << std::endl;
-      std::cout << "An error occurred during Optimization" << std::endl;
-      std::cout << "Location    = " << e.GetLocation() << std::endl;
-      std::cout << "Description = " << e.GetDescription() << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer->StartOptimization());
+
 
     finalPosition = itkOptimizer->GetCurrentPosition();
     std::cout << "Solution        = (";
@@ -260,15 +239,8 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
     itkOptimizer->SetNumberOfIterations(0);
     itkOptimizer->SetInitialPosition(initialPosition);
 
-    try
-    {
-      itkOptimizer->StartOptimization();
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cout << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer->StartOptimization());
+
 
     if (itkOptimizer->GetCurrentIteration() > 0)
     {
@@ -282,25 +254,9 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   // Test the Exception if the GradientMagnitudeTolerance is set to a negative value
   //
   itkOptimizer->SetGradientMagnitudeTolerance(-1.0);
-  bool expectedExceptionReceived = false;
-  try
-  {
-    itkOptimizer->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    expectedExceptionReceived = true;
-    std::cout << "Expected Exception " << std::endl;
-    std::cout << excp << std::endl;
-  }
 
-  if (!expectedExceptionReceived)
-  {
-    std::cerr << "Failure to produce an exception when";
-    std::cerr << "the GradientMagnitudeTolerance is negative " << std::endl;
-    std::cerr << "TEST FAILED !" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(itkOptimizer->StartOptimization());
+
 
   // Test streaming enumeration for
   // RegularStepGradientDescentBaseOptimizerEnums::StopCondition elements
