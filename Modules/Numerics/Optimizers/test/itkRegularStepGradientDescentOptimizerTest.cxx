@@ -105,9 +105,6 @@ private:
 int
 itkRegularStepGradientDescentOptimizerTest(int, char *[])
 {
-  std::cout << "RegularStepGradientDescentOptimizer Test ";
-  std::cout << std::endl << std::endl;
-
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
 
   using ScalesType = OptimizerType::ScalesType;
@@ -175,9 +172,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   std::cout << finalPosition[0] << ',';
   std::cout << finalPosition[1] << ')' << std::endl;
 
-  //
-  // check results to see if it is within range
-  //
+  // Check results to see if it is within range
   bool   pass = true;
   double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
@@ -196,7 +191,6 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
 
 
   // Run now with a different relaxation factor
-
   {
     itkOptimizer->SetInitialPosition(initialPosition);
 
@@ -212,9 +206,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
     std::cout << finalPosition[0] << ',';
     std::cout << finalPosition[1] << ')' << std::endl;
 
-    //
-    // check results to see if it is within range
-    //
+    // Check results to see if it is within range
     pass = true;
     for (unsigned int j = 0; j < 2; ++j)
     {
@@ -231,10 +223,8 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
     }
   }
 
-  //
   // Verify that the optimizer doesn't run if the
   // number of iterations is set to zero.
-  //
   {
     itkOptimizer->SetNumberOfIterations(0);
     itkOptimizer->SetInitialPosition(initialPosition);
