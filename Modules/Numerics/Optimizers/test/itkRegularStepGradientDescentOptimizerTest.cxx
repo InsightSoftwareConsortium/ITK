@@ -19,6 +19,7 @@
 #include <set>
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /**
  *  The objectif function is the quadratic form:
@@ -115,6 +116,9 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    itkOptimizer, RegularStepGradientDescentOptimizer, RegularStepGradientDescentBaseOptimizer);
+
 
   // Declaration of the CostFunction
   auto costFunction = RSGCostFunction::New();
@@ -137,14 +141,31 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
 
-  itkOptimizer->MinimizeOn();
+  auto minimize = true;
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Minimize, minimize);
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, !minimize);
+
   itkOptimizer->SetScales(parametersScale);
-  itkOptimizer->SetGradientMagnitudeTolerance(1e-6);
-  itkOptimizer->SetMaximumStepLength(30.0);
-  itkOptimizer->SetMinimumStepLength(1e-6);
-  itkOptimizer->SetNumberOfIterations(900);
+  ITK_TEST_SET_GET_VALUE(parametersScale, itkOptimizer->GetScales());
+
+  auto gradientMagnitudeTolerance = 1e-6;
+  itkOptimizer->SetGradientMagnitudeTolerance(gradientMagnitudeTolerance);
+  ITK_TEST_SET_GET_VALUE(gradientMagnitudeTolerance, itkOptimizer->GetGradientMagnitudeTolerance());
+
+  auto maximumStepLength = 30.0;
+  itkOptimizer->SetMaximumStepLength(maximumStepLength);
+  ITK_TEST_SET_GET_VALUE(maximumStepLength, itkOptimizer->GetMaximumStepLength());
+
+  auto minimumStepLength = 1e-6;
+  itkOptimizer->SetMinimumStepLength(minimumStepLength);
+  ITK_TEST_SET_GET_VALUE(minimumStepLength, itkOptimizer->GetMinimumStepLength());
+
+  itk::SizeValueType numberOfIterations = static_cast<itk::SizeValueType>(900);
+  itkOptimizer->SetNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
   itkOptimizer->SetInitialPosition(initialPosition);
+  ITK_TEST_SET_GET_VALUE(initialPosition, itkOptimizer->GetInitialPosition());
 
   try
   {
@@ -190,7 +211,10 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   {
     itkOptimizer->SetInitialPosition(initialPosition);
 
-    itkOptimizer->SetRelaxationFactor(0.8);
+    auto relaxationFactor = 0.8;
+    itkOptimizer->SetRelaxationFactor(relaxationFactor);
+    ITK_TEST_SET_GET_VALUE(relaxationFactor, itkOptimizer->GetRelaxationFactor());
+
     try
     {
       itkOptimizer->StartOptimization();
