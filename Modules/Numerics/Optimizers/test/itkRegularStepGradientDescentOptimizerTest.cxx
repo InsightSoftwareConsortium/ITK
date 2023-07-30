@@ -265,6 +265,6 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
               << ee << std::endl;
   }
 
-  std::cout << "TEST PASSED !" << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
