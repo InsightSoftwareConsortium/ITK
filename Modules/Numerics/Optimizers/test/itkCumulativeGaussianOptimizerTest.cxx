@@ -74,6 +74,10 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
   // Set the data array.
   costFunction->SetOriginalDataArray(cumGaussianArray);
 
+  // Not used; empty method body; called for coverage purposes
+  CostFunctionType::DerivativeType derivative;
+  costFunction->GetDerivative(parameters, derivative);
+
   // Set the cost function.
   optimizer->SetCostFunction(costFunction);
 
