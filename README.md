@@ -30,8 +30,9 @@ Links
 * [Submit a patch](CONTRIBUTING.md)
 
 *Note*: For questions related to ITK, please use the official [Discussion](https://discourse.itk.org/)
-space: GitHub issues are reserved to track different aspects of the software
-development process, as highlighted by the available templates.
+space: the [issue tracker](https://github.com/InsightSoftwareConsortium/ITK/issues)
+is reserved to track different aspects of the software development process, as
+highlighted by the available templates.
 
 
 About
