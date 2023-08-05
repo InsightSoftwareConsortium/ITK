@@ -1082,8 +1082,7 @@ compilers.
 // clang-format off
 /** Set pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
- * smart pointers requires using real pointers when setting input,
- * but returning smart pointers on output. */
+ * smart pointers requires using raw pointers when setting input. */
 #define itkSetObjectMacro(name, type)                  \
   virtual void Set##name(type * _arg)                  \
   {                                                    \
@@ -1097,7 +1096,7 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
-/** Get a smart pointer to an object.  Creates the member
+/** Get a raw pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()).
  * NOTE:  This function returns a non-const
  * version of the internal member variable
@@ -1120,7 +1119,7 @@ compilers.
 //       defines both signatures itk::GetXXX() and
 //       itk::GetModifiableXXX()
 
-/** Get a smart const pointer to an object.  Creates the member
+/** Get a raw const pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()). */
 #define itkGetConstObjectMacro(name, type)                                       \
   virtual const type * Get##name() const { return this->m_##name.GetPointer(); } \
@@ -1144,7 +1143,7 @@ compilers.
     itkGetConstObjectMacro(name, type)
 
 #else // defined ( ITK_FUTURE_LEGACY_REMOVE )
-/** Get a smart pointer to an object.  Creates the member
+/** Get a raw pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()). */
 #  define itkGetObjectMacro(name, type)                                \
     virtual type * Get##name() { return this->m_##name.GetPointer(); } \
@@ -1167,8 +1166,7 @@ compilers.
 
 /** Set const pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
- * smart pointers requires using real pointers when setting input,
- * but returning smart pointers on output. */
+ * smart pointers requires using raw pointers when setting input. */
 #define itkSetConstObjectMacro(name, type)             \
   virtual void Set##name(const type * _arg)            \
   {                                                    \
