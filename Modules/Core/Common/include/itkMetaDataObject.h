@@ -213,8 +213,8 @@ private:
 /**
  * EncapsulateMetaData is a convenience function that encapsulates raw MetaData into a
  * MetaDataObject that can be put into the MetaDataDictionary.
- * \param Dictionary TODO
- * \param key TODO
+ * \param Dictionary reference to a dictionary
+ * \param key string identifier for this object
  * \param invalue the value of type T that is to be encapsulated.
  */
 template <typename T>
