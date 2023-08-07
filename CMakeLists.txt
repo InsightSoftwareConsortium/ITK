@@ -486,16 +486,6 @@ if(NOT HAVE_PTRDIFF_T)
     endif()
 endif()
 
-# Macro to check if source compiles
-# (and, when compiling very natively, also runs).
-macro(check_c_source_compile_or_run source flag)
-    if(CMAKE_CROSSCOMPILING OR NOT WITH_NATIVE_INSTRUCTIONS)
-        check_c_source_compiles("${source}" ${flag})
-    else()
-        check_c_source_runs("${source}" ${flag})
-    endif()
-endmacro()
-
 add_compile_options($<$<CONFIG:Debug>:-DZLIB_DEBUG>)
 
 if(MSVC)
@@ -736,7 +726,7 @@ if(WITH_OPTIM)
                 list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/riscv_features.c)
                 # FIXME: we will not set compile flags for riscv_features.c when 
                 # the kernels update hwcap or hwprobe for riscv
-                set(RVV_SRCS ${ARCHDIR}/riscv_features.c ${ARCHDIR}/compare256_rvv.c ${ARCHDIR}/slide_hash_rvv.c)
+                set(RVV_SRCS ${ARCHDIR}/riscv_features.c ${ARCHDIR}/adler32_rvv.c ${ARCHDIR}/compare256_rvv.c ${ARCHDIR}/slide_hash_rvv.c)
                 list(APPEND ZLIB_ARCH_SRCS ${RVV_SRCS})
                 set_property(SOURCE ${RVV_SRCS} PROPERTY COMPILE_FLAGS "${RISCVFLAG} ${NOLTOFLAG}")
             else()
@@ -827,15 +817,12 @@ if(WITH_OPTIM)
         endif()
         if(WITH_SSE42)
             check_sse42_intrinsics()
-            if(HAVE_SSE42CRC_INLINE_ASM OR HAVE_SSE42CRC_INTRIN)
+            if(HAVE_SSE42_INTRIN)
                 add_definitions(-DX86_SSE42)
                 set(SSE42_SRCS ${ARCHDIR}/adler32_sse42.c ${ARCHDIR}/insert_string_sse42.c)
                 add_feature_info(SSE42_CRC 1 "Support SSE4.2 optimized CRC hash generation, using \"${SSE42FLAG}\"")
                 list(APPEND ZLIB_ARCH_SRCS ${SSE42_SRCS})
                 set_property(SOURCE ${SSE42_SRCS} PROPERTY COMPILE_FLAGS "${SSE42FLAG} ${NOLTOFLAG}")
-                if(HAVE_SSE42CRC_INTRIN)
-                    add_definitions(-DX86_SSE42_CRC_INTRIN)
-                endif()
             else()
                 set(WITH_SSE42 OFF)
             endif()
@@ -951,35 +938,18 @@ if(NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
     endif()
 endif()
 
-# Refer to prefix symbolically to ease relocation by end user,
-# as Makefile-generated .pc file does.
-string(FIND "${CMAKE_INSTALL_INCLUDEDIR}" "${CMAKE_INSTALL_PREFIX}/" INCLUDEDIR_POS)
-string(FIND "${CMAKE_INSTALL_LIBDIR}" "${CMAKE_INSTALL_PREFIX}/" LIBDIR_POS)
-string(LENGTH "${CMAKE_INSTALL_PREFIX}/" INSTALL_PREFIX_LEN)
-
-if(NOT IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
-  set(PC_INC_INSTALL_DIR "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
-elseif(INCLUDEDIR_POS EQUAL 0)
-  string(SUBSTRING "${CMAKE_INSTALL_INCLUDEDIR}" "${INSTALL_PREFIX_LEN}" "-1" INCLUDEDIR_RELATIVE)
-  set(PC_INC_INSTALL_DIR "\${prefix}/${INCLUDEDIR_RELATIVE}")
+# The user is allowed (but discouraged) to set absolute CMAKE_INSTALL_*DIR paths.
+# If they do, we copy these non-relocatable paths into the pkg-config file.
+if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
+    set(PC_INC_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
 else()
-  set(PC_INC_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
+    set(PC_INC_INSTALL_DIR "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
 endif()
 
-if(APPLE)
-  option(WITH_RPATH "Enable RPATH for shared library" OFF)
-endif()
-if(NOT IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
-  if(APPLE AND WITH_RPATH)
+if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
     set(PC_LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
-  else()
-    set(PC_LIB_INSTALL_DIR "\${exec_prefix}/${CMAKE_INSTALL_LIBDIR}")
-  endif()
-elseif(LIBDIR_POS EQUAL 0)
-  string(SUBSTRING "${CMAKE_INSTALL_LIBDIR}" "${INSTALL_PREFIX_LEN}" "-1" LIBDIR_RELATIVE)
-  set(PC_LIB_INSTALL_DIR "\${exec_prefix}/${LIBDIR_RELATIVE}")
 else()
-  set(PC_LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
+    set(PC_LIB_INSTALL_DIR "\${exec_prefix}/${CMAKE_INSTALL_LIBDIR}")
 endif()
 
 #============================================================================
@@ -1140,13 +1110,11 @@ if(NOT DEFINED BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
             set_target_properties(zlib PROPERTIES COMPILE_FLAGS "-fno-semantic-interposition")
         endif()
         if(NOT APPLE)
+            if(NOT ZLIB_COMPAT)
+                add_definitions(-DHAVE_SYMVER)
+            endif()
             set_target_properties(zlib PROPERTIES LINK_FLAGS
                 "-Wl,--version-script,\"${CMAKE_CURRENT_SOURCE_DIR}/zlib${SUFFIX}.map\"")
-        elseif(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}" OR NOT WITH_RPATH)
-            # Match configure/make's behavior (i.e. don't use @rpath on mac when using absolute path).
-            set_target_properties(zlib PROPERTIES INSTALL_NAME_DIR "@rpath/${CMAKE_INSTALL_FULL_LIBDIR}")
-        else()
-            set_target_properties(zlib PROPERTIES INSTALL_NAME_DIR "@rpath/${CMAKE_INSTALL_LIBDIR}")
         endif()
     endif()
     if(MSYS)
@@ -1182,11 +1150,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zlib${SUFFIX}.h.in
     ${CMAKE_CURRENT_BINARY_DIR}/zlib${SUFFIX}.h @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gzread.c.in
     ${CMAKE_CURRENT_BINARY_DIR}/gzread.c @ONLY)
-
-# Fix install directory after generating zlib.pc/zlib-ng.pc
-if (NOT IS_ABSOLUTE CMAKE_INSTALL_LIBDIR AND WITH_RPATH)
-    set(CMAKE_INSTALL_LIBDIR "/${CMAKE_INSTALL_LIBDIR}")
-endif()
 
 if (NOT ZLIB_SYMBOL_PREFIX STREQUAL "")
     add_feature_info(ZLIB_SYMBOL_PREFIX ON "Publicly exported symbols have a custom prefix")
@@ -1285,9 +1248,5 @@ elseif(BASEARCH_X86_FOUND)
 endif()
 
 add_feature_info(INSTALL_UTILS INSTALL_UTILS "Copy minigzip and minideflate during install")
-
-if(APPLE)
-    add_feature_info(WITH_RPATH WITH_RPATH "Enable RPATH for shared library")
-endif()
 
 FEATURE_SUMMARY(WHAT ALL INCLUDE_QUIET_PACKAGES)
