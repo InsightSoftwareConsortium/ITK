@@ -12,7 +12,7 @@
     #error archfound i686
 
 // ARM
-#elif defined(__aarch64__) || defined(__arm64__) || defined(_M_ARM64)
+#elif defined(__aarch64__) || defined(__arm64__) || defined(_M_ARM64) || defined(_M_ARM64EC)
     #error archfound aarch64
 #elif defined(__arm__) || defined(__arm) || defined(_M_ARM) || defined(__TARGET_ARCH_ARM)
     #if defined(__ARM64_ARCH_8__) || defined(__ARMv8__) || defined(__ARMv8_A__)
@@ -100,6 +100,10 @@
     #elif __riscv_xlen == 32
         #error archfound riscv32
     #endif
+
+// LOONGARCH
+#elif defined(__loongarch_lp64)
+    #error archfound loongarch64
 
 // Emscripten (WebAssembly)
 #elif defined(__EMSCRIPTEN__)

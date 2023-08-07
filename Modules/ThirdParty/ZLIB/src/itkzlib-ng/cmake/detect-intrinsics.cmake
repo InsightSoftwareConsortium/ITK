@@ -1,6 +1,17 @@
 # detect-intrinsics.cmake -- Detect compiler intrinsics support
 # Licensed under the Zlib license, see LICENSE.md for details
 
+# Macro to check if source compiles
+# (and, when compiling very natively, also runs).
+macro(check_c_source_compile_or_run source flag)
+    if(CMAKE_CROSSCOMPILING OR NOT WITH_NATIVE_INSTRUCTIONS)
+        check_c_source_compiles("${source}" ${flag})
+    else()
+        check_c_source_runs("${source}" ${flag})
+    endif()
+endmacro()
+
+
 macro(check_acle_compiler_flag)
     if(MSVC)
         # Both ARM and ARM64-targeting msvc support intrinsics, but
@@ -176,7 +187,7 @@ macro(check_neon_compiler_flag)
     # Check whether compiler supports NEON flag
     set(CMAKE_REQUIRED_FLAGS "${NEONFLAG} ${NATIVEFLAG}")
     check_c_source_compiles(
-        "#ifdef _M_ARM64
+        "#if defined(_M_ARM64) || defined(_M_ARM64EC)
         #  include <arm64_neon.h>
         #else
         #  include <arm_neon.h>
@@ -199,7 +210,7 @@ macro(check_neon_ld4_intrinsics)
     # Check whether compiler supports loading 4 neon vecs into a register range
     set(CMAKE_REQUIRED_FLAGS "${NEONFLAG}")
     check_c_source_compiles(
-        "#ifdef _M_ARM64
+        "#if defined(_M_ARM64) || defined(_M_ARM64EC)
         #  include <arm64_neon.h>
         #else
         #  include <arm_neon.h>
@@ -481,35 +492,18 @@ macro(check_sse42_intrinsics)
             set(SSE42FLAG "-msse4.2")
         endif()
     endif()
-    # Check whether compiler supports SSE4.2 CRC inline asm
+    # Check whether compiler supports SSE4.2 intrinsics
     set(CMAKE_REQUIRED_FLAGS "${SSE42FLAG} ${NATIVEFLAG}")
     check_c_source_compile_or_run(
-        "int main(void) {
-            unsigned val = 0, h = 0;
-        #if defined(_MSC_VER)
-            { __asm mov edx, h __asm mov eax, val __asm crc32 eax, edx __asm mov h, eax }
-        #else
-            __asm__ __volatile__ ( \"crc32 %1,%0\" : \"+r\" (h) : \"r\" (val) );
-        #endif
-            return (int)h;
-        }"
-        HAVE_SSE42CRC_INLINE_ASM
-    )
-    # Check whether compiler supports SSE4.2 CRC intrinsics
-    check_c_source_compile_or_run(
-        "#include <immintrin.h>
+        "#include <nmmintrin.h>
         int main(void) {
             unsigned crc = 0;
             char c = 'c';
-        #if defined(_MSC_VER)
             crc = _mm_crc32_u32(crc, c);
-        #else
-            crc = __builtin_ia32_crc32qi(crc, c);
-        #endif
             (void)crc;
             return 0;
         }"
-        HAVE_SSE42CRC_INTRIN
+        HAVE_SSE42_INTRIN
     )
     set(CMAKE_REQUIRED_FLAGS)
 endmacro()
