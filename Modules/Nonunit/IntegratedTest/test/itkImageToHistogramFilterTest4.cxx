@@ -89,15 +89,8 @@ itkImageToHistogramFilterTest4Templated(int argc, char * argv[])
   writer->SetInput(rescale->GetOutput());
   writer->SetFileName(argv[3]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   // print the image produced by HistogramToLogProbabilityImageFilter for visual inspection
   imageFilter->GetOutput()->Print(std::cout);

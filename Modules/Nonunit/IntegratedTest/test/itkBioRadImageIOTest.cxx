@@ -51,34 +51,17 @@ itkBioRadImageIOTest(int argc, char * argv[])
   reader->SetImageIO(bioradImageIO);
   bioradImageIO->DebugOn();
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  //
+
   using WriterType = itk::ImageFileWriter<InputImageType>;
   auto writer = WriterType::New();
   writer->SetImageIO(bioradImageIO);
   writer->SetFileName(outfilename);
   writer->SetInput(reader->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
 
   return EXIT_SUCCESS;

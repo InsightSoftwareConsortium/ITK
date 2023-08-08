@@ -177,16 +177,9 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName(argv[1]);
-  try
-  {
-    SpatialReader->Update();
-  }
-  catch (itk::fem::FEMException & e)
-  {
-    std::cout << "Error reading FEM problem: " << argv[1] << "!\n";
-    e.Print(std::cout);
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(SpatialReader->Update());
+
 
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
   FEMObjectSpatialObjectType::ChildrenListType * children = SpatialReader->GetGroup()->GetChildren();
@@ -238,15 +231,8 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
       break;
   }
 
-  try
-  {
-    SH->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ITK exception detected: " << err;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(SH->Update());
+
 
   PrintK(SH);
   PrintF(SH);

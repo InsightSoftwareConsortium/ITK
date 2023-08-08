@@ -78,15 +78,8 @@ itkPhilipsRECImageIOOrientationTest(int argc, char * argv[])
   writer->SetInput(subtract->GetOutput());
   writer->UseCompressionOn();
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

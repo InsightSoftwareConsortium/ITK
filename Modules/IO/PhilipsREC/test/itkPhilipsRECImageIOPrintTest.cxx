@@ -44,15 +44,8 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
   }
   imageIO->SetFileName(argv[1]);
 
-  try
-  {
-    imageIO->ReadImageInformation();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(imageIO->ReadImageInformation());
+
 
   // Print all of the PAR parameters.
   // Return EXIT_FAILURE if the value cannot be read.
