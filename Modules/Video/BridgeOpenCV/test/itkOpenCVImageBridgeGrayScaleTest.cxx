@@ -24,6 +24,7 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
 #include "itkOpenCVTestHelper.h"
+#include "itkTestingMacros.h"
 
 #if defined(CV_VERSION_EPOCH) // OpenCV 2.4.x
 #  include "highgui.h"
@@ -244,7 +245,8 @@ itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
   //
   if (argc != 4)
   {
-    std::cerr << "Usage: " << argv[0] << "scalar_image1 scalar_image2 scalar_image3" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "scalar_image1 scalar_image2 scalar_image3"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

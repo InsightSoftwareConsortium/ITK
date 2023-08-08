@@ -24,6 +24,7 @@
 
 
 #include "itkDynamicLoader.h"
+#include "itkTestingMacros.h"
 
 using PRODUCER_FUNCTION = itk::Object * (*)();
 using DYNAMIC_DOWNCAST_FUNCTION = int (*)(const char * type, const char * instanceSource, itk::Object const * base);
@@ -33,7 +34,7 @@ itkDownCastTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " <LibraryBFilePath>" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <LibraryBFilePath>" << std::endl;
     return EXIT_SUCCESS;
   }
 

@@ -25,6 +25,7 @@
 #include <sstream>
 
 #include "QuickView.h"
+#include "itkTestingMacros.h"
 
 int
 itkVtkMedianFilterTest(int argc, char * argv[])
@@ -33,7 +34,7 @@ itkVtkMedianFilterTest(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " InputImageFile [radius]" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " InputImageFile [radius]" << std::endl;
     return EXIT_FAILURE;
   }
   std::string inputFilename = argv[1];

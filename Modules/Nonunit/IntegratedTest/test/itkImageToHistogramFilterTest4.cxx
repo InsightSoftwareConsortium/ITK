@@ -29,6 +29,7 @@
 #include "itkComposeImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 template <typename TVectorImage>
 int
@@ -38,7 +39,8 @@ itkImageToHistogramFilterTest4Templated(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << " inputImageFileName inputImageFileName outputHistogramFile" << std::endl;
+    std::cerr << "Usage :  " << itkNameOfTestExecutableMacro(argv)
+              << " inputImageFileName inputImageFileName outputHistogramFile" << std::endl;
     return EXIT_FAILURE;
   }
 

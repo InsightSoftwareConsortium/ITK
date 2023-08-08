@@ -20,6 +20,7 @@
 #include "vidl_itk_istream.hxx"
 #include "itkVideoFileReader.h"
 #include "itkVXLVideoIOFactory.h"
+#include "itkTestingMacros.h"
 #include "vidl/vidl_ffmpeg_ostream.h"
 
 
@@ -134,7 +135,7 @@ vidl_itk_istreamTest(int argc, char * argv[])
   //
   if (argc < 5)
   {
-    std::cerr << "Usage: " << argv[0] << " input_file output_file width height" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file output_file width height" << std::endl;
     return EXIT_FAILURE;
   }
 

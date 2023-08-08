@@ -41,6 +41,7 @@
 #include "itkGPUContextManager.h"
 #include "itkGPUDemonsRegistrationFilter.h"
 #include "itkMacro.h"
+#include "itkTestingMacros.h"
 
 namespace
 {
@@ -112,7 +113,7 @@ itkGPUDemonsRegistrationFilterTest(int argc, char * argv[])
   if (argc < 6)
   {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " imageDimension numOfIterations ";
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile " << std::endl;

@@ -21,6 +21,7 @@
 
 #include <vxl_version.h>
 #include "vnl/vnl_vector_fixed.h"
+#include "itkTestingMacros.h"
 
 int
 itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
@@ -28,7 +29,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " InputImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage" << std::endl;
     return EXIT_FAILURE;
   }
 

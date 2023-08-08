@@ -21,6 +21,7 @@
 #include "itkOpenCVVideoCapture.h"
 #include "itkVideoFileReader.h"
 #include "itkOpenCVVideoIOFactory.h"
+#include "itkTestingMacros.h"
 
 #include "opencv2/core/version.hpp"
 #if !defined(CV_VERSION_EPOCH)
@@ -50,7 +51,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   //
   if (argc != 6)
   {
-    std::cerr << "Usage: " << argv[0] << " input_video scalar_output_video RGB_output_video "
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_video scalar_output_video RGB_output_video "
               << "width height" << std::endl;
     return EXIT_FAILURE;
   }

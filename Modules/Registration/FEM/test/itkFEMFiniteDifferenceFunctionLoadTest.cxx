@@ -353,7 +353,7 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
   if (argc != 2)
   {
     std::cerr << "Missing Parameters" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " outputFilenamePrefix" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFilenamePrefix" << std::endl;
     return EXIT_FAILURE;
   }
 

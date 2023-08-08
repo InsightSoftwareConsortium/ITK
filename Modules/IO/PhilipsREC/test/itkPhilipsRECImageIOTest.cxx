@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkPhilipsRECImageIOFactory.h"
+#include "itkTestingMacros.h"
 
 int
 itkPhilipsRECImageIOTest(int argc, char * argv[])
@@ -27,7 +28,7 @@ itkPhilipsRECImageIOTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << std::endl;
     return EXIT_FAILURE;
   }
 

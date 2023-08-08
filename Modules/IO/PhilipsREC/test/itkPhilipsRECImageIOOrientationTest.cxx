@@ -25,6 +25,7 @@
 #include "itkSubtractImageFilter.h"
 
 #include "itkPhilipsRECImageIO.h"
+#include "itkTestingMacros.h"
 
 int
 itkPhilipsRECImageIOOrientationTest(int argc, char * argv[])
@@ -32,7 +33,7 @@ itkPhilipsRECImageIOOrientationTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Usage: " << argv[0] << " ReferenceImage TargetImage ";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " ReferenceImage TargetImage ";
     std::cerr << "OutputImage" << std::endl;
     return EXIT_FAILURE;
   }

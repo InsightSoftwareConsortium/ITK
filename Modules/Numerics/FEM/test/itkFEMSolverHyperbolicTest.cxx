@@ -20,6 +20,7 @@
 #include "itkFEMSpatialObjectReader.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
+#include "itkTestingMacros.h"
 
 
 using FEMSolverType = itk::fem::SolverHyperbolic<2>;
@@ -152,7 +153,7 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cout << "Usage: " << argv[0];
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cout << " input-file iterations lsw (0=VNL, 1=Dense VNL, 2=Itpack)";
     std::cout << std::endl;
     return EXIT_FAILURE;
