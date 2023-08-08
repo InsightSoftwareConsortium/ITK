@@ -67,18 +67,23 @@ public:
   /** Get the filename */
   itkGetStringMacro(FileName);
 
-  /** Set/Get the write mode (append/overwrite) for the Filter */
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  /** Set/Get the write mode (append/overwrite) for the Filter.
+   * Deprecated. */
   void
   SetAppendOff();
 
   void
   SetAppendOn();
 
-  void
-  SetAppendMode(bool mode);
-
   bool
   GetAppendMode();
+#endif
+
+  /** Set/Get the write mode (append/overwrite) for the filter. */
+  itkSetMacro(AppendMode, bool);
+  itkGetConstMacro(AppendMode, bool);
+  itkBooleanMacro(AppendMode);
 
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression, bool);
