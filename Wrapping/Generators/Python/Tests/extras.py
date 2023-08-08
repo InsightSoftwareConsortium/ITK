@@ -541,6 +541,18 @@ if "(<itkCType unsigned char>, 4)" in itk.Image.GetTypesAsList():
 try:
     import vtk
 
+    def assert_images_equal(base, test):
+        assert np.array_equal(itk.origin(base), itk.origin(test))
+        assert np.array_equal(itk.spacing(base), itk.spacing(test))
+        assert np.array_equal(itk.size(base), itk.size(test))
+        assert np.array_equal(
+            itk.array_view_from_image(base), itk.array_view_from_image(test)
+        )
+        if vtk.vtkVersion.GetVTKMajorVersion() >= 9:
+            z_rot_base = itk.array_from_matrix(base.GetDirection())
+            z_rot_test = itk.array_from_matrix(test.GetDirection())
+            assert np.array_equal(z_rot_base, z_rot_test)
+
     print("Testing vtk conversion")
     image = itk.image_from_array(np.random.rand(2, 3, 4))
     z_rot = np.asarray([[0, 1, 0], [-1, 0, 0], [0, 0, 1]], dtype=np.float64)
@@ -570,15 +582,16 @@ try:
 
     vtk_image = itk.vtk_image_from_image(image)
     image_round = itk.image_from_vtk_image(vtk_image)
-    assert np.array_equal(itk.origin(image), itk.origin(image_round))
-    assert np.array_equal(itk.spacing(image), itk.spacing(image_round))
-    assert np.array_equal(itk.size(image), itk.size(image_round))
-    assert np.array_equal(
-        itk.array_view_from_image(image), itk.array_view_from_image(image_round)
-    )
-    if vtk.vtkVersion.GetVTKMajorVersion() >= 9:
-        z_rot_round = itk.array_from_matrix(image_round.GetDirection())
-        assert np.array_equal(z_rot, z_rot_round)
+    assert_images_equal(image, image_round)
+
+    for components in [2, 3, 4, 5, 10]:
+        for size in [(12, 8, components), (4, 6, 8, components)]:  # 2D and 3D
+            numpy_image = np.random.rand(12, 8, components).astype(np.float32)
+            input_image = itk.image_from_array(numpy_image, is_vector=True)
+            # test itk -> vtk -> itk round trip
+            vtk_image = itk.vtk_image_from_image(input_image)
+            itk_image = itk.image_from_vtk_image(vtk_image)
+            assert_images_equal(input_image, itk_image)
 
 except ImportError:
     print("vtk not imported. Skipping vtk conversion tests")
