@@ -160,15 +160,9 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   //
   auto reader = ReaderType::New();
   reader->SetFileName(argv1);
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << e.what() << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTIION(reader->Update());
+
 
   typename ImageType::Pointer baselineImage = reader->GetOutput();
 
