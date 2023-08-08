@@ -114,6 +114,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile warpedOutputImageFile" << std::endl;
+    return EXIT_FAILURE;
   }
 
   //   using PixelType = unsigned char;
