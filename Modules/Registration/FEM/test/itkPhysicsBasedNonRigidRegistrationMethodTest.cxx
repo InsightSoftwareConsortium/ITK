@@ -36,7 +36,7 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
   if (argc != 12)
   {
     std::cerr << "Missing Parameters" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " fixedImageFile"
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " fixedImageFile"
               << " movingImageFile"
               << " maskImageFile"
               << " meshFile"

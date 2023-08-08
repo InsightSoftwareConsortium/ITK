@@ -25,6 +25,7 @@
 #include "itkComposeImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkMaskedImageToHistogramFilterTest1(int argc, char * argv[])
@@ -33,7 +34,7 @@ itkMaskedImageToHistogramFilterTest1(int argc, char * argv[])
   if (argc < 6)
   {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0]
+    std::cerr << "Usage :  " << itkNameOfTestExecutableMacro(argv)
               << " inputImageFileName inputImageFileName maskImage maskValue outputHistogramFile" << std::endl;
     return EXIT_FAILURE;
   }

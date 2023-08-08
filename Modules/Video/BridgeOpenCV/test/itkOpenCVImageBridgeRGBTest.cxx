@@ -23,6 +23,7 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
 #include "itkOpenCVTestHelper.h"
+#include "itkTestingMacros.h"
 
 #if defined(CV_VERSION_EPOCH) // OpenCV 2.4.x
 #  include "highgui.h"
@@ -285,7 +286,8 @@ itkOpenCVImageBridgeRGBTest(int argc, char * argv[])
   //
   if (argc != 4)
   {
-    std::cerr << "Usage: " << argv[0] << "rgb_jpg_image rgb_mha_image rgb_image2" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "rgb_jpg_image rgb_mha_image rgb_image2"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
