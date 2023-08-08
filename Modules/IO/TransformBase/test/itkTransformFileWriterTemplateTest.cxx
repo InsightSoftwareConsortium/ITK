@@ -21,15 +21,8 @@
 #include "itkTestingMacros.h"
 
 int
-itkTransformFileWriterTemplateTest(int argc, char * argv[])
+itkTransformFileWriterTemplateTest(int, char *[])
 {
-  if (argc < 1)
-  {
-    std::cerr << "Usage:" << argv[0];
-    std::cerr << std::endl;
-    return EXIT_FAILURE;
-  }
-
   using TransformWriterType = itk::TransformFileWriterTemplate<double>;
   auto transformWriter = TransformWriterType::New();
 

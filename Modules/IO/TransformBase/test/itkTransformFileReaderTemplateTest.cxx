@@ -21,15 +21,8 @@
 #include "itkTestingMacros.h"
 
 int
-itkTransformFileReaderTemplateTest(int argc, char * argv[])
+itkTransformFileReaderTemplateTest(int, char *[])
 {
-  if (argc < 1)
-  {
-    std::cerr << "Usage:" << argv[0];
-    std::cerr << std::endl;
-    return EXIT_FAILURE;
-  }
-
   using TransformReaderType = itk::TransformFileReaderTemplate<double>;
 
   auto transformReader = TransformReaderType::New();
