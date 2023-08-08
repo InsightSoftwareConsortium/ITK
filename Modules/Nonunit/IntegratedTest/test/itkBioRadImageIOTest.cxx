@@ -44,6 +44,10 @@ itkBioRadImageIOTest(int argc, char * argv[])
   reader->SetFileName(filename);
 
   auto bioradImageIO = ImageIOType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(bioradImageIO, BioRadImageIO, ImageIOBase);
+
+
   reader->SetImageIO(bioradImageIO);
   bioradImageIO->DebugOn();
 
@@ -76,7 +80,6 @@ itkBioRadImageIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  bioradImageIO->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

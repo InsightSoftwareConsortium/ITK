@@ -182,17 +182,59 @@ itkDemonsRegistrationFilterTest(int, char *[])
   using RegistrationType = itk::DemonsRegistrationFilter<ImageType, ImageType, FieldType>;
   auto registrator = RegistrationType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(registrator, DemonsRegistrationFilter, PDEDeformableRegistrationFilter);
+
+
   registrator->SetInitialDisplacementField(caster->GetOutput());
+  ITK_TEST_SET_GET_VALUE(caster->GetOutput(), registrator->GetInitialDisplacementField());
+
   registrator->SetMovingImage(moving);
+  ITK_TEST_SET_GET_VALUE(moving, registrator->GetMovingImage());
+
   registrator->SetFixedImage(fixed);
-  registrator->SetNumberOfIterations(200);
-  registrator->SetStandardDeviations(1.0);
-  registrator->SetMaximumError(0.08);
-  registrator->SetMaximumKernelWidth(10);
-  registrator->SetIntensityDifferenceThreshold(0.001);
+  ITK_TEST_SET_GET_VALUE(fixed, registrator->GetFixedImage());
+
+  auto numberOfIterations = static_cast<itk::IdentifierType>(200);
+  registrator->SetNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, registrator->GetNumberOfIterations());
+
+  double                                   standardDeviationsVal = 1.0;
+  RegistrationType::StandardDeviationsType standardDeviations{ standardDeviationsVal };
+  registrator->SetStandardDeviations(standardDeviationsVal);
+  ITK_TEST_SET_GET_VALUE(standardDeviations, registrator->GetStandardDeviations());
+
+  registrator->SetStandardDeviations(standardDeviations);
+  ITK_TEST_SET_GET_VALUE(standardDeviations, registrator->GetStandardDeviations());
+
+  auto maximumError = 0.08;
+  registrator->SetMaximumError(maximumError);
+  ITK_TEST_SET_GET_VALUE(maximumError, registrator->GetMaximumError());
+
+  unsigned int maximumKernelWidth = 10;
+  registrator->SetMaximumKernelWidth(maximumKernelWidth);
+  ITK_TEST_SET_GET_VALUE(maximumKernelWidth, registrator->GetMaximumKernelWidth());
+
+  auto intensityDifferenceThreshold = 0.001;
+  registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
+  ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
+
+  auto smoothDisplacementField = true;
+  ITK_TEST_SET_GET_BOOLEAN(registrator, SmoothDisplacementField, smoothDisplacementField);
+
+  auto smoothUpdateField = false;
+  ITK_TEST_SET_GET_BOOLEAN(registrator, SmoothUpdateField, smoothUpdateField);
+
+  double                                   updateFieldStandardDeviationsVal = 1.0;
+  RegistrationType::StandardDeviationsType updateFieldStandardDeviations{ updateFieldStandardDeviationsVal };
+  registrator->SetUpdateFieldStandardDeviations(updateFieldStandardDeviationsVal);
+  ITK_TEST_SET_GET_VALUE(updateFieldStandardDeviations, registrator->GetUpdateFieldStandardDeviations());
+
+  registrator->SetUpdateFieldStandardDeviations(updateFieldStandardDeviations);
+  ITK_TEST_SET_GET_VALUE(updateFieldStandardDeviations, registrator->GetUpdateFieldStandardDeviations());
 
   // turn on inplace execution
-  registrator->InPlaceOn();
+  auto inPlace = true;
+  ITK_TEST_SET_GET_BOOLEAN(registrator, InPlace, inPlace);
 
   // turn on/off use moving image gradient
   auto useMovingImageGradient = false;
@@ -204,18 +246,6 @@ itkDemonsRegistrationFilterTest(int, char *[])
   {
     fptr->Print(std::cout);
   }
-
-  // exercise other member variables
-  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
-  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
-
-  double v[ImageDimension];
-  for (unsigned int j = 0; j < ImageDimension; ++j)
-  {
-    v[j] = registrator->GetStandardDeviations()[j];
-  }
-  registrator->SetStandardDeviations(v);
 
   using ProgressType = ShowProgressObject<RegistrationType>;
   ProgressType                                    progressWatch(registrator);
@@ -271,6 +301,8 @@ itkDemonsRegistrationFilterTest(int, char *[])
     std::cout << "Test failed - too many pixels different." << std::endl;
     return EXIT_FAILURE;
   }
+
+  std::cout << "IntensityDifferenceThreshold: " << registrator->GetIntensityDifferenceThreshold() << std::endl;
 
   registrator->Print(std::cout);
 

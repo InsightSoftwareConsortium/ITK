@@ -45,7 +45,11 @@ itkFastApproximateRankImageFilterTest(int argc, char * argv[])
 
   // Create a filter
   using FilterType = itk::FastApproximateRankImageFilter<ImageType, ImageType>;
-  auto                     filter = FilterType::New();
+  auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, FastApproximateRankImageFilter, MiniPipelineSeparableImageFilter);
+
+
   itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;
