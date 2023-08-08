@@ -21,6 +21,8 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkPointSet.h"
 #include "itkFEMScatteredDataPointSetToImageFilter.h"
+#include "itkTestingMacros.h"
+
 /**
  * In this test, we create a simple 2D mesh and feature points to do evaluation.
  *
@@ -66,6 +68,9 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   using ConstIteratorType = itk::ImageRegionConstIterator<DeformationFieldType>;
 
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, FEMScatteredDataPointSetToImageFilter, PointSetToImageFilter);
+
 
   // Construct a feature point set
   auto      featurePoints = FeaturePointSetType::New();
@@ -119,6 +124,7 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   elementSpacing[0] = 2.0;
   elementSpacing[1] = 2.0;
   filter->SetElementSpacing(elementSpacing);
+  ITK_TEST_SET_GET_VALUE(elementSpacing, filter->GetSpacingPerElement());
 
   // Set the output
   DeformationFieldType::SizeType size;
@@ -137,6 +143,9 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   filter->SetOrigin(origin);
 
   filter->Update();
+
+  std::cout << "NumberOfElements: " << filter->GetNumberOfElements() << std::endl;
+
 
   DeformationFieldType::Pointer DF = filter->GetOutput();
 
