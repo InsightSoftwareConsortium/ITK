@@ -745,15 +745,14 @@ def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
     point_data = vtk_image.GetPointData()
     array = vtk_to_numpy(point_data.GetScalars())
     array = array.reshape(-1)
-    is_vector = point_data.GetScalars().GetNumberOfComponents() != 1
+    number_of_components = point_data.GetScalars().GetNumberOfComponents()
+    is_vector = number_of_components != 1
     dims = list(vtk_image.GetDimensions())
     if is_vector and dims[-1] == 1:
-        # 2D
-        dims = dims[:2]
-        dims.reverse()
-        dims.append(point_data.GetScalars().GetNumberOfComponents())
-    else:
-        dims.reverse()
+        dims = dims[:-1]  # 2D, not 3D
+    dims.reverse()
+    if is_vector:
+      dims.append(number_of_components)
     array.shape = tuple(dims)
     l_image = itk.image_view_from_array(array, is_vector)
 
