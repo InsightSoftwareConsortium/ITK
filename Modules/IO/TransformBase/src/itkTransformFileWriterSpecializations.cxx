@@ -37,6 +37,7 @@ TransformFileWriterTemplate<TParametersValueType>::TransformFileWriterTemplate()
 template <typename TParametersValueType>
 TransformFileWriterTemplate<TParametersValueType>::~TransformFileWriterTemplate() = default;
 
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
 /** Set the writer to append to the specified file */
 template <typename TParametersValueType>
 void
@@ -54,14 +55,6 @@ TransformFileWriterTemplate<TParametersValueType>::SetAppendOff()
   this->SetAppendMode(false);
 }
 
-/** Set the writer mode (append/overwrite). */
-template <typename TParametersValueType>
-void
-TransformFileWriterTemplate<TParametersValueType>::SetAppendMode(bool mode)
-{
-  this->m_AppendMode = mode;
-}
-
 /** Get the writer mode. */
 template <typename TParametersValueType>
 bool
@@ -69,6 +62,7 @@ TransformFileWriterTemplate<TParametersValueType>::GetAppendMode()
 {
   return (this->m_AppendMode);
 }
+#endif
 
 template <>
 void

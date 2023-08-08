@@ -32,6 +32,19 @@ itkTransformFileWriterTemplateTest(int, char *[])
   auto useCompression = false;
   ITK_SET_GET_BOOLEAN(transformWriter, UseCompression, useCompression);
 
+  auto appendMode = false;
+  ITK_SET_GET_BOOLEAN(transformWriter, AppendMode, appendMode);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  transformWriter->SetAppendOn();
+  auto nonConstAppendMode = transformWriter->GetAppendMode();
+  ITK_TEST_EXPECT_TRUE(nonConstAppendMode);
+
+  transformWriter->SetAppendOff();
+  nonConstAppendMode = transformWriter->GetAppendMode();
+  ITK_TEST_EXPECT_TRUE(!nonConstAppendMode);
+#endif
+
   // trigger empty write exception
   ITK_TRY_EXPECT_EXCEPTION(transformWriter->Update());
 
