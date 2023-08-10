@@ -586,7 +586,7 @@ try:
 
     for components in [2, 3, 4, 5, 10]:
         for size in [(12, 8, components), (4, 6, 8, components)]:  # 2D and 3D
-            numpy_image = np.random.rand(12, 8, components).astype(np.float32)
+            numpy_image = np.random.rand(*size).astype(np.float32)
             input_image = itk.image_from_array(numpy_image, is_vector=True)
             # test itk -> vtk -> itk round trip
             vtk_image = itk.vtk_image_from_image(input_image)
