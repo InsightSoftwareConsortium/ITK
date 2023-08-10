@@ -25,9 +25,7 @@ namespace itk
 
 struct ImageSourceCommonGlobals
 {
-  ImageSourceCommonGlobals() { m_GlobalDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer(); };
-
-  ImageRegionSplitterBase::Pointer m_GlobalDefaultSplitter;
+  ImageRegionSplitterBase::Pointer m_GlobalDefaultSplitter{ ImageRegionSplitterSlowDimension::New().GetPointer() };
 };
 
 itkGetGlobalSimpleMacro(ImageSourceCommon, ImageSourceCommonGlobals, PimplGlobals);
