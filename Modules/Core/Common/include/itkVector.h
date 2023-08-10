@@ -331,17 +331,11 @@ template <typename TValue, typename... TVariadic>
 auto
 MakeVector(const TValue firstValue, const TVariadic... otherValues)
 {
-  // Assert that the other values have the same type as the first value.
-  const auto assertSameType = [](const auto value) {
-    static_assert(std::is_same_v<decltype(value), const TValue>, "Each value must have the same type!");
-    return true;
-  };
-  const bool assertions[] = { true, assertSameType(otherValues)... };
-  (void)assertions;
-  (void)assertSameType;
+  constexpr unsigned int dimension{ 1 + sizeof...(TVariadic) };
 
-  constexpr unsigned int              dimension{ 1 + sizeof...(TVariadic) };
-  const std::array<TValue, dimension> stdArray{ { firstValue, otherValues... } };
+  // Note that the class template argument deduction guide of std::array ensures that all values have the same type.
+  const std::array stdArray{ firstValue, otherValues... };
+
   return Vector<TValue, dimension>{ stdArray };
 }
 
