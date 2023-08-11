@@ -27,14 +27,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TOutputImage>
-ProxTVImageFilter<TInputImage, TOutputImage>::ProxTVImageFilter()
-  : m_MaximumNumberOfIterations(10)
-  , m_Weights(1.0)
-  , m_Norms(1.0)
-{}
-
-
-template <typename TInputImage, typename TOutputImage>
 void
 ProxTVImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
