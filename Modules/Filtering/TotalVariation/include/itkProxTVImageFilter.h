@@ -74,21 +74,21 @@ public:
   itkGetConstMacro(Norms, ArrayType);
 
 protected:
-  ProxTVImageFilter();
-  virtual ~ProxTVImageFilter() override {}
+  ProxTVImageFilter() = default;
+  ~ProxTVImageFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
   virtual void
   GenerateData() override;
 
 private:
-  unsigned int m_MaximumNumberOfIterations;
-  ArrayType    m_Weights;
-  ArrayType    m_Norms;
+  unsigned int m_MaximumNumberOfIterations = 10;
+  ArrayType    m_Weights = 1.0;
+  ArrayType    m_Norms = 1.0;
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
