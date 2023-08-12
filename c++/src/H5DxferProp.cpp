@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -13,7 +12,6 @@
 
 #include <string>
 
-#include "H5private.h" // for HDmemset
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -40,7 +38,6 @@ DSetMemXferPropList *DSetMemXferPropList::DEFAULT_ = 0;
 //              If DSetMemXferPropList::DEFAULT_ already points to an allocated
 //              object, throw a PropListIException.  This scenario should not
 //              happen.
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 DSetMemXferPropList *
 DSetMemXferPropList::getConstant()
@@ -67,13 +64,11 @@ DSetMemXferPropList::getConstant()
 // Function:    DSetMemXferPropList::deleteConstants
 // Purpose:     Deletes the constant object that DSetMemXferPropList::DEFAULT_
 //              points to.
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::deleteConstants()
 {
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
+    delete DEFAULT_;
 }
 
 //--------------------------------------------------------------------------
@@ -87,7 +82,6 @@ const DSetMemXferPropList &DSetMemXferPropList::DEFAULT = *getConstant();
 // Function     DSetMemXferPropList default constructor
 ///\brief       Default constructor: creates a stub dataset memory and
 ///             transfer property list object.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DSetMemXferPropList::DSetMemXferPropList() : PropList(H5P_DATASET_XFER)
 {
@@ -97,7 +91,6 @@ DSetMemXferPropList::DSetMemXferPropList() : PropList(H5P_DATASET_XFER)
 // Function     DSetMemXferPropList constructor
 ///\brief       Creates a dataset transfer property list with transform
 ///             expression.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DSetMemXferPropList::DSetMemXferPropList(const char *exp) : PropList(H5P_DATASET_XFER)
 {
@@ -110,7 +103,6 @@ DSetMemXferPropList::DSetMemXferPropList(const char *exp) : PropList(H5P_DATASET
 ///             DSetMemXferPropList object
 ///\param       original - IN: Original dataset memory and transfer property
 ///                            list object to copy
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DSetMemXferPropList::DSetMemXferPropList(const DSetMemXferPropList &original) : PropList(original)
 {
@@ -122,7 +114,6 @@ DSetMemXferPropList::DSetMemXferPropList(const DSetMemXferPropList &original) : 
 ///             existing DSetMemXferPropList.
 ///\param       plist_id - IN: Id of an existing dataset memory and transfer
 ///                            property list
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DSetMemXferPropList::DSetMemXferPropList(const hid_t plist_id) : PropList(plist_id)
 {
@@ -135,7 +126,6 @@ DSetMemXferPropList::DSetMemXferPropList(const hid_t plist_id) : PropList(plist_
 ///\param       tconv - IN: Pointer to application-allocated type conversion buffer
 ///\param       bkg   - IN: Pointer to application-allocated background buffer
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setBuffer(size_t size, void *tconv, void *bkg) const
@@ -153,7 +143,6 @@ DSetMemXferPropList::setBuffer(size_t size, void *tconv, void *bkg) const
 ///\param       bkg   - OUT: Pointer to application-allocated background buffer
 ///\return      Buffer size, in bytes
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 size_t
 DSetMemXferPropList::getBuffer(void **tconv, void **bkg) const
@@ -171,12 +160,11 @@ DSetMemXferPropList::getBuffer(void **tconv, void **bkg) const
 ///\brief       Sets the dataset transfer property list status to true or false.
 ///\param       status - IN: Status to set, true or false
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setPreserve(bool status) const
 {
-    herr_t ret_value = H5Pset_preserve(id, (hbool_t)status);
+    herr_t ret_value = H5Pset_preserve(id, static_cast<hbool_t>(status));
     if (ret_value < 0) {
         throw PropListIException("DSetMemXferPropList::setPreserve", "H5Pset_preserve failed");
     }
@@ -187,7 +175,6 @@ DSetMemXferPropList::setPreserve(bool status) const
 ///\brief       Checks status of the dataset transfer property list.
 ///\return      Status of the dataset transfer property list
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 bool
 DSetMemXferPropList::getPreserve() const
@@ -210,7 +197,6 @@ DSetMemXferPropList::getPreserve() const
 ///\param       middle - IN: B-tree split ratio for right-most nodes and lone nodes
 ///\param       right  - IN: B-tree split ratio for all other nodes
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setBtreeRatios(double left, double middle, double right) const
@@ -228,7 +214,6 @@ DSetMemXferPropList::setBtreeRatios(double left, double middle, double right) co
 ///\param       middle - OUT: B-tree split ratio for right-most nodes and lone nodes
 ///\param       right  - OUT: B-tree split ratio for all other nodes
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::getBtreeRatios(double &left, double &middle, double &right) const
@@ -244,7 +229,6 @@ DSetMemXferPropList::getBtreeRatios(double &left, double &middle, double &right)
 ///\brief       Sets data transform expression.
 ///\param       expression - IN: null-terminated data transform expression (char*)
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setDataTransform(const char *expression) const
@@ -261,7 +245,6 @@ DSetMemXferPropList::setDataTransform(const char *expression) const
 ///             It takes a reference to a \c H5std_string for the expression.
 ///\param       expression - IN: H5std_string data transform expression
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setDataTransform(const H5std_string &expression) const
@@ -276,7 +259,6 @@ DSetMemXferPropList::setDataTransform(const H5std_string &expression) const
 ///\param       buf_size   - IN: size of buffer for expression, including the
 ///                              null terminator
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
 ssize_t
 DSetMemXferPropList::getDataTransform(char *exp, size_t buf_size) const
@@ -305,7 +287,6 @@ DSetMemXferPropList::getDataTransform(char *exp, size_t buf_size) const
 ///             It takes no parameter and returns a \c H5std_string for the expression.
 ///
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
 H5std_string
 DSetMemXferPropList::getDataTransform() const
@@ -315,7 +296,7 @@ DSetMemXferPropList::getDataTransform() const
     H5std_string expression;
 
     // Preliminary call to get the expression's length
-    ssize_t exp_len = H5Pget_data_transform(id, NULL, (size_t)0);
+    ssize_t exp_len = H5Pget_data_transform(id, NULL, 0);
 
     // If H5Pget_data_transform returns a negative value, raise an exception
     if (exp_len < 0) {
@@ -324,12 +305,16 @@ DSetMemXferPropList::getDataTransform() const
 
     // If expression exists, calls C routine again to get it
     else if (exp_len > 0) {
+
+        // The actual size is the cast value + 1 for the terminal ASCII NUL
+        // (unfortunate in/out type sign mismatch)
+        size_t actual_exp_len = static_cast<size_t>(exp_len) + 1;
+
         // Temporary buffer for char* expression
-        char *exp_C = new char[exp_len + 1];
-        HDmemset(exp_C, 0, exp_len + 1); // clear buffer
+        char *exp_C = new char[actual_exp_len]();
 
         // Used overloaded function
-        exp_len = getDataTransform(exp_C, exp_len + 1);
+        exp_len = getDataTransform(exp_C, actual_exp_len);
 
         // Convert the C expression to return
         expression = exp_C;
@@ -348,7 +333,6 @@ DSetMemXferPropList::getDataTransform() const
 ///\param       op        - IN: User's function
 ///\param       user_data - IN: User's data
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setTypeConvCB(H5T_conv_except_func_t op, void *user_data) const
@@ -365,7 +349,6 @@ DSetMemXferPropList::setTypeConvCB(H5T_conv_except_func_t op, void *user_data) c
 ///\param       op        - IN: Retrieved user function
 ///\param       user_data - IN: Retrieved user data
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::getTypeConvCB(H5T_conv_except_func_t *op, void **user_data) const
@@ -384,7 +367,6 @@ DSetMemXferPropList::getTypeConvCB(H5T_conv_except_func_t *op, void **user_data)
 ///\param       free_func  - IN: User's free routine
 ///\param       free_info  - IN: User's free parameters
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setVlenMemManager(H5MM_allocate_t alloc_func, void *alloc_info, H5MM_free_t free_func,
@@ -402,7 +384,6 @@ DSetMemXferPropList::setVlenMemManager(H5MM_allocate_t alloc_func, void *alloc_i
 ///             allocation - system \c malloc and \c free will be used.
 ///
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setVlenMemManager() const
@@ -418,7 +399,6 @@ DSetMemXferPropList::setVlenMemManager() const
 ///\param       free_func  - OUT: User's free routine
 ///\param       free_info  - OUT: User's free parameters
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::getVlenMemManager(H5MM_allocate_t &alloc_func, void **alloc_info, H5MM_free_t &free_func,
@@ -438,7 +418,6 @@ DSetMemXferPropList::getVlenMemManager(H5MM_allocate_t &alloc_func, void **alloc
 ///\par Description
 ///             For detail, please refer to the H5Pset_small_data_block_size
 ///             API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setSmallDataBlockSize(hsize_t size) const
@@ -455,7 +434,6 @@ DSetMemXferPropList::setSmallDataBlockSize(hsize_t size) const
 ///\brief       Returns the current small data block size setting.
 ///\return      Size of the small data block, in bytes
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 hsize_t
 DSetMemXferPropList::getSmallDataBlockSize() const
@@ -477,7 +455,6 @@ DSetMemXferPropList::getSmallDataBlockSize() const
 ///\par Description
 ///             For detail, please refer to the H5Pset_hyper_vector_size
 ///             API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setHyperVectorSize(size_t vector_size) const
@@ -495,7 +472,6 @@ DSetMemXferPropList::setHyperVectorSize(size_t vector_size) const
 ///             hyperslab I/O.
 ///\return      Number of I/O vectors
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 size_t
 DSetMemXferPropList::getHyperVectorSize() const
@@ -525,7 +501,6 @@ DSetMemXferPropList::getHyperVectorSize() const
 ///             Valid values are as follows:
 ///             \li \c H5Z_ENABLE_EDC   (default)
 ///             \li \c H5Z_DISABLE_EDC
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 DSetMemXferPropList::setEDCCheck(H5Z_EDC_t check) const
@@ -541,7 +516,6 @@ DSetMemXferPropList::setEDCCheck(H5Z_EDC_t check) const
 ///\brief       Determines whether error-detection is enabled for dataset reads.
 ///\return      \c H5Z_ENABLE_EDC or \c H5Z_DISABLE_EDC
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 H5Z_EDC_t
 DSetMemXferPropList::getEDCCheck() const
@@ -556,7 +530,6 @@ DSetMemXferPropList::getEDCCheck() const
 //--------------------------------------------------------------------------
 // Function:    DSetMemXferPropList destructor
 ///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DSetMemXferPropList::~DSetMemXferPropList()
 {

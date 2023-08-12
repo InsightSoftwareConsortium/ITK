@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -37,7 +36,6 @@ FileCreatPropList *FileCreatPropList::DEFAULT_ = 0;
 // Description
 //              If FileCreatPropList::DEFAULT_ already points to an allocated
 //              object, throw a PropListIException.  This scenario should not happen.
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 FileCreatPropList *
 FileCreatPropList::getConstant()
@@ -63,13 +61,11 @@ FileCreatPropList::getConstant()
 // Function:    FileCreatPropList::deleteConstants
 // Purpose      Deletes the constant object that FileCreatPropList::DEFAULT_
 //              points to.
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::deleteConstants()
 {
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
+    delete DEFAULT_;
 }
 
 //--------------------------------------------------------------------------
@@ -82,7 +78,6 @@ const FileCreatPropList &FileCreatPropList::DEFAULT = *getConstant();
 //--------------------------------------------------------------------------
 // Function:    FileCreatPropList default constructor
 ///\brief       Default constructor: Creates a file create property list
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FileCreatPropList::FileCreatPropList() : PropList(H5P_FILE_CREATE)
 {
@@ -93,7 +88,6 @@ FileCreatPropList::FileCreatPropList() : PropList(H5P_FILE_CREATE)
 ///\brief       Copy constructor: same HDF5 object as \a original
 ///             FileCreatPropList object.
 ///\param       original - IN: FileCreatPropList instance to copy
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FileCreatPropList::FileCreatPropList(const FileCreatPropList &original) : PropList(original)
 {
@@ -104,7 +98,6 @@ FileCreatPropList::FileCreatPropList(const FileCreatPropList &original) : PropLi
 ///\brief       Creates a file creation property list using the id of an
 ///             existing one.
 ///\param       plist_id - IN: FileCreatPropList id to use
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FileCreatPropList::FileCreatPropList(const hid_t plist_id) : PropList(plist_id)
 {
@@ -121,7 +114,6 @@ FileCreatPropList::FileCreatPropList(const hid_t plist_id) : PropList(plist_id)
 ///\exception   H5::PropListIException
 ///\par Description
 ///             Any (or even all) of the output arguments can be null pointers.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::getVersion(unsigned &super, unsigned &freelist, unsigned &stab, unsigned &shhdr) const
@@ -141,7 +133,6 @@ FileCreatPropList::getVersion(unsigned &super, unsigned &freelist, unsigned &sta
 ///\par Description
 ///             The default user block size is 0; it may be set to any power
 ///             of 2 equal to 512 or greater (512, 1024, 2048, etc.)
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::setUserblock(hsize_t size) const
@@ -157,7 +148,6 @@ FileCreatPropList::setUserblock(hsize_t size) const
 ///\brief       Returns the user block size of this file creation property list.
 ///\return      User block size
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 hsize_t
 FileCreatPropList::getUserblock() const
@@ -180,7 +170,6 @@ FileCreatPropList::getUserblock() const
 ///\par Description
 ///             For information, please refer to the H5Pset_sizes API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::setSizes(size_t sizeof_addr, size_t sizeof_size) const
@@ -197,7 +186,6 @@ FileCreatPropList::setSizes(size_t sizeof_addr, size_t sizeof_size) const
 ///             HDF5 file.
 ///
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::getSizes(size_t &sizeof_addr, size_t &sizeof_size) const
@@ -218,7 +206,6 @@ FileCreatPropList::getSizes(size_t &sizeof_addr, size_t &sizeof_size) const
 ///\par Description
 ///             For information, please refer to the H5Pset_sym_k API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::setSymk(unsigned ik, unsigned lk) const
@@ -238,7 +225,6 @@ FileCreatPropList::setSymk(unsigned ik, unsigned lk) const
 ///\par Description
 ///             For information, please refer to the H5Pget_sym_k API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::getSymk(unsigned &ik, unsigned &lk) const
@@ -258,7 +244,6 @@ FileCreatPropList::getSymk(unsigned &ik, unsigned &lk) const
 ///\par Description
 ///             For information, please refer to the H5Pset_istore_k API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::setIstorek(unsigned ik) const
@@ -277,7 +262,6 @@ FileCreatPropList::setIstorek(unsigned ik) const
 ///\par Description
 ///             For information, please refer to the H5Pget_istore_k API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 unsigned
 FileCreatPropList::getIstorek() const
@@ -306,7 +290,6 @@ FileCreatPropList::getIstorek() const
 ///             changed and the existing threshold will be retained.
 ///             For information, please refer to the H5Pset_file_space_strategy
 ///             API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - Feb, 2017
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::setFileSpaceStrategy(H5F_fspace_strategy_t strategy, hbool_t persist,
@@ -327,7 +310,6 @@ FileCreatPropList::setFileSpaceStrategy(H5F_fspace_strategy_t strategy, hbool_t 
 ///\param       persist   - OUT: Whether to persist free-space
 ///\param       threshold - OUT: Free-space section threshold
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - Feb, 2017
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::getFileSpaceStrategy(H5F_fspace_strategy_t &strategy, hbool_t &persist,
@@ -345,7 +327,6 @@ FileCreatPropList::getFileSpaceStrategy(H5F_fspace_strategy_t &strategy, hbool_t
 ///\brief       Sets the file space page size for paged aggregation.
 ///\param       fsp_psize - IN: Filespace's page size
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - Feb, 2017
 //--------------------------------------------------------------------------
 void
 FileCreatPropList::setFileSpacePagesize(hsize_t fsp_psize) const
@@ -363,7 +344,6 @@ FileCreatPropList::setFileSpacePagesize(hsize_t fsp_psize) const
 ///             metadata or raw data.
 ///\return      File space page size
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - Feb, 2017
 //--------------------------------------------------------------------------
 hsize_t
 FileCreatPropList::getFileSpacePagesize() const
@@ -380,7 +360,6 @@ FileCreatPropList::getFileSpacePagesize() const
 //--------------------------------------------------------------------------
 // Function:    FileCreatPropList destructor
 ///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FileCreatPropList::~FileCreatPropList()
 {

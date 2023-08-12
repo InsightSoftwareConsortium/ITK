@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -43,7 +42,7 @@ class H5_DLLCPP DataSpace : public IdComponent {
     DataSpace &operator=(const DataSpace &rhs);
 
     // Closes this dataspace.
-    virtual void close() H5_OVERRIDE;
+    virtual void close() override;
 
     // Makes copy of an existing dataspace.
     void copy(const DataSpace &like_space);
@@ -115,25 +114,25 @@ class H5_DLLCPP DataSpace : public IdComponent {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("DataSpace");
     }
 
     // Gets the dataspace id.
-    virtual hid_t getId() const H5_OVERRIDE;
+    virtual hid_t getId() const override;
 
     // Deletes the global constant
     static void deleteConstants();
 
     // Destructor: properly terminates access to this dataspace.
-    virtual ~DataSpace();
+    virtual ~DataSpace() override;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   protected:
     // Sets the dataspace id.
-    virtual void p_setId(const hid_t new_id) H5_OVERRIDE;
+    virtual void p_setId(const hid_t new_id) override;
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 

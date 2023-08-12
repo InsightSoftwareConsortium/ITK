@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -15,7 +14,6 @@
 static const char *FileHeader = "\n\
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n\
  * Copyright by The HDF Group.                                               *\n\
- * Copyright by the Board of Trustees of the University of Illinois.         *\n\
  * All rights reserved.                                                      *\n\
  *                                                                           *\n\
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *\n\
@@ -43,16 +41,11 @@ static const char *FileHeader = "\n\
  */
 #undef NDEBUG
 #include "H5private.h"
-/* Do NOT use HDfprintf in this file as it is not linked with the library,
+/* Do NOT use fprintf in this file as it is not linked with the library,
  * which contains the H5system.c file in which the function is defined.
  */
 #include "H5Tpublic.h"
 #include "H5Rpublic.h"
-
-/* Disable warning about cast increasing the alignment of the target type,
- * that's _exactly_ what this code is probing.  -QAK
- */
-H5_GCC_DIAG_OFF("cast-align")
 
 #if defined(__has_attribute)
 #if __has_attribute(no_sanitize_address)
@@ -66,36 +59,12 @@ H5_GCC_DIAG_OFF("cast-align")
 
 #define MAXDETECT 64
 
-/* The ALIGNMENT test code may generate the SIGBUS, SIGSEGV, or SIGILL signals.
- * We use setjmp/longjmp in the signal handlers for recovery. But setjmp/longjmp
- * do not necessary restore the signal blocking status while sigsetjmp/siglongjmp
- * do. If sigsetjmp/siglongjmp are not supported, need to use sigprocmask to
- * unblock the signal before doing longjmp.
- */
-/* Define H5SETJMP/H5LONGJMP depending on if sigsetjmp/siglongjmp are */
-/* supported. */
-#if defined(H5_HAVE_SIGSETJMP) && defined(H5_HAVE_SIGLONGJMP)
-/* Always save blocked signals to be restored by siglongjmp. */
-#define H5JMP_BUF           sigjmp_buf
-#define H5SETJMP(buf)       HDsigsetjmp(buf, 1)
-#define H5LONGJMP(buf, val) HDsiglongjmp(buf, val)
-#define H5HAVE_SIGJMP       /* sigsetjmp/siglongjmp are supported. */
-#elif defined(H5_HAVE_LONGJMP)
-#define H5JMP_BUF           jmp_buf
-#define H5SETJMP(buf)       HDsetjmp(buf)
-#define H5LONGJMP(buf, val) HDlongjmp(buf, val)
-#endif
-
-/* ALIGNMENT and signal-handling status codes */
-#define STA_NoALIGNMENT     0x0001 /* No ALIGNMENT Test */
-#define STA_NoHandlerVerify 0x0002 /* No signal handler Tests */
-
 /*
  * This structure holds information about a type that
  * was detected.
  */
 typedef struct detected_t {
-    const char *  varname;
+    const char   *varname;
     unsigned int  size;             /* total byte size                  */
     unsigned int  precision;        /* meaningful bits                  */
     unsigned int  offset;           /* bit offset to meaningful bits    */
@@ -105,16 +74,8 @@ typedef struct detected_t {
     unsigned int  mpos, msize, imp; /* information about mantissa       */
     unsigned int  epos, esize;      /* information about exponent       */
     unsigned long bias;             /* exponent bias for floating pt    */
-    unsigned int  align;            /* required byte alignment          */
     unsigned int  comp_align;       /* alignment for structure          */
 } detected_t;
-
-/* This structure holds structure alignment for pointers, vlen and reference
- * types. */
-typedef struct malign_t {
-    const char * name;
-    unsigned int comp_align; /* alignment for structure          */
-} malign_t;
 
 FILE *rawoutstream = NULL;
 
@@ -122,10 +83,9 @@ FILE *rawoutstream = NULL;
 H5_GCC_DIAG_OFF("larger-than=")
 static detected_t d_g[MAXDETECT];
 H5_GCC_DIAG_ON("larger-than=")
-static malign_t     m_g[MAXDETECT];
-static volatile int nd_g = 0, na_g = 0;
+static volatile int nd_g = 0;
 
-static void         print_results(int nd, detected_t *d, int na, malign_t *m);
+static void         print_results(int nd, detected_t *d);
 static void         iprint(detected_t *);
 static int          byte_cmp(int, const void *, const void *, const unsigned char *);
 static unsigned int bit_cmp(unsigned int, int *, void *, void *, const unsigned char *);
@@ -134,27 +94,8 @@ static unsigned int imp_bit(unsigned int, int *, void *, void *, const unsigned 
 static unsigned int find_bias(unsigned int, unsigned int, int *, void *);
 static void         precision(detected_t *);
 static void         print_header(void);
-static void         detect_C89_integers(void);
 static void         detect_C89_floats(void);
-static void         detect_C99_integers(void);
 static void         detect_C99_floats(void);
-static void         detect_C99_integers8(void);
-static void         detect_C99_integers16(void);
-static void         detect_C99_integers32(void);
-static void         detect_C99_integers64(void);
-static void         detect_alignments(void);
-static unsigned int align_g[]                = {1, 2, 4, 8, 16};
-static int          align_status_g           = 0; /* ALIGNMENT Signal Status */
-static int          sigbus_handler_called_g  = 0; /* how many times called */
-static int          sigsegv_handler_called_g = 0; /* how many times called */
-static int          sigill_handler_called_g  = 0; /* how many times called */
-static int          signal_handler_tested_g  = 0; /* how many times tested */
-#if defined(H5SETJMP) && defined(H5_HAVE_SIGNAL)
-static int verify_signal_handlers(int signum, void (*handler)(int));
-#endif
-#ifdef H5JMP_BUF
-static H5JMP_BUF jbuf_g;
-#endif
 
 /*-------------------------------------------------------------------------
  * Function:    precision
@@ -167,103 +108,10 @@ static H5JMP_BUF jbuf_g;
 static void
 precision(detected_t *d)
 {
-    unsigned int n;
-
-    if (0 == d->msize) {
-        /*
-         * An integer.    The permutation can have negative values at the
-         * beginning or end which represent padding of bytes.  We must adjust
-         * the precision and offset accordingly.
-         */
-        if (d->perm[0] < 0) {
-            /*
-             * Lower addresses are padded.
-             */
-            for (n = 0; n < d->size && d->perm[n] < 0; n++)
-                /*void*/;
-            d->precision = 8 * (d->size - n);
-            d->offset    = 0;
-        }
-        else if (d->perm[d->size - 1] < 0) {
-            /*
-             * Higher addresses are padded.
-             */
-            for (n = 0; n < d->size && d->perm[d->size - (n + 1)]; n++)
-                /*void*/;
-            d->precision = 8 * (d->size - n);
-            d->offset    = 8 * n;
-        }
-        else {
-            /*
-             * No padding.
-             */
-            d->precision = 8 * d->size;
-            d->offset    = 0;
-        }
-    }
-    else {
-        /* A floating point */
-        d->offset    = MIN3(d->mpos, d->epos, d->sign);
-        d->precision = d->msize + d->esize + 1;
-    }
+    /* A floating point */
+    d->offset    = MIN3(d->mpos, d->epos, d->sign);
+    d->precision = d->msize + d->esize + 1;
 }
-
-/*-------------------------------------------------------------------------
- * Function:    DETECT_I/DETECT_BYTE
- *
- * Purpose:     These macro takes a type like `int' and a base name like
- *              `nati' and detects the byte order.  The VAR is used to
- *              construct the names of the C variables defined.
- *
- *              DETECT_I is used for types that are larger than one byte,
- *              DETECT_BYTE is used for types that are exactly one byte.
- *
- * Return:      void
- *
- *-------------------------------------------------------------------------
- */
-#define DETECT_I_BYTE_CORE(TYPE, VAR, INFO, DETECT_TYPE)                                                     \
-    {                                                                                                        \
-        DETECT_TYPE    _v;                                                                                   \
-        int            _i, _j;                                                                               \
-        unsigned char *_x;                                                                                   \
-                                                                                                             \
-        HDmemset(&INFO, 0, sizeof(INFO));                                                                    \
-        INFO.varname = #VAR;                                                                                 \
-        INFO.size    = sizeof(TYPE);                                                                         \
-                                                                                                             \
-        for (_i = sizeof(DETECT_TYPE), _v = 0; _i > 0; --_i)                                                 \
-            _v = (DETECT_TYPE)((DETECT_TYPE)(_v << 8) + (DETECT_TYPE)_i);                                    \
-                                                                                                             \
-        for (_i = 0, _x = (unsigned char *)&_v; _i < (signed)sizeof(DETECT_TYPE); _i++) {                    \
-            _j = (*_x++) - 1;                                                                                \
-            HDassert(_j < (signed)sizeof(DETECT_TYPE));                                                      \
-            INFO.perm[_i] = _j;                                                                              \
-        } /* end for */                                                                                      \
-                                                                                                             \
-        INFO.sign = ('U' != *(#VAR));                                                                        \
-        precision(&(INFO));                                                                                  \
-        ALIGNMENT(TYPE, INFO);                                                                               \
-        if (!HDstrcmp(INFO.varname, "SCHAR") || !HDstrcmp(INFO.varname, "SHORT") ||                          \
-            !HDstrcmp(INFO.varname, "INT") || !HDstrcmp(INFO.varname, "LONG") ||                             \
-            !HDstrcmp(INFO.varname, "LLONG")) {                                                              \
-            COMP_ALIGNMENT(TYPE, INFO.comp_align);                                                           \
-        }                                                                                                    \
-    }
-
-#define DETECT_BYTE(TYPE, VAR, INFO)                                                                         \
-    {                                                                                                        \
-        HDcompile_assert(sizeof(TYPE) == 1);                                                                 \
-                                                                                                             \
-        DETECT_I_BYTE_CORE(TYPE, VAR, INFO, int)                                                             \
-    }
-
-#define DETECT_I(TYPE, VAR, INFO)                                                                            \
-    {                                                                                                        \
-        HDcompile_assert(sizeof(TYPE) > 1);                                                                  \
-                                                                                                             \
-        DETECT_I_BYTE_CORE(TYPE, VAR, INFO, TYPE)                                                            \
-    }
 
 /*-------------------------------------------------------------------------
  * Function:    DETECT_F
@@ -282,14 +130,14 @@ precision(detected_t *d)
         unsigned char _pad_mask[sizeof(TYPE)];                                                               \
         unsigned char _byte_mask;                                                                            \
         int           _i, _j, _last = (-1);                                                                  \
-        const char *  _mesg;                                                                                 \
+        const char   *_mesg;                                                                                 \
                                                                                                              \
-        HDmemset(&INFO, 0, sizeof(INFO));                                                                    \
+        memset(&INFO, 0, sizeof(INFO));                                                                      \
         INFO.varname = #VAR;                                                                                 \
         INFO.size    = sizeof(TYPE);                                                                         \
                                                                                                              \
         /* Initialize padding mask */                                                                        \
-        HDmemset(_pad_mask, 0, sizeof(_pad_mask));                                                           \
+        memset(_pad_mask, 0, sizeof(_pad_mask));                                                             \
                                                                                                              \
         /* Padding bits.  Set a variable to 4.0, then flip each bit and see if                               \
          * the modified variable is equal ("==") to the original.  Build a                                   \
@@ -299,15 +147,15 @@ precision(detected_t *d)
          * and interfere with detection of the various properties below unless we                            \
          * know to ignore them. */                                                                           \
         _v1 = (TYPE)4.0L;                                                                                    \
-        HDmemcpy(_buf1, (const void *)&_v1, sizeof(TYPE));                                                   \
+        memcpy(_buf1, (const void *)&_v1, sizeof(TYPE));                                                     \
         for (_i = 0; _i < (int)sizeof(TYPE); _i++)                                                           \
             for (_byte_mask = (unsigned char)1; _byte_mask; _byte_mask = (unsigned char)(_byte_mask << 1)) { \
                 _buf1[_i] ^= _byte_mask;                                                                     \
-                HDmemcpy((void *)&_v2, (const void *)_buf1, sizeof(TYPE));                                   \
-                H5_GCC_DIAG_OFF("float-equal")                                                               \
+                memcpy((void *)&_v2, (const void *)_buf1, sizeof(TYPE));                                     \
+                H5_GCC_CLANG_DIAG_OFF("float-equal")                                                         \
                 if (_v1 != _v2)                                                                              \
                     _pad_mask[_i] |= _byte_mask;                                                             \
-                H5_GCC_DIAG_ON("float-equal")                                                                \
+                H5_GCC_CLANG_DIAG_ON("float-equal")                                                          \
                 _buf1[_i] ^= _byte_mask;                                                                     \
             } /* end for */                                                                                  \
                                                                                                              \
@@ -316,8 +164,8 @@ precision(detected_t *d)
             _v3 = _v1;                                                                                       \
             _v1 += _v2;                                                                                      \
             _v2 /= (TYPE)256.0L;                                                                             \
-            HDmemcpy(_buf1, (const void *)&_v1, sizeof(TYPE));                                               \
-            HDmemcpy(_buf3, (const void *)&_v3, sizeof(TYPE));                                               \
+            memcpy(_buf1, (const void *)&_v1, sizeof(TYPE));                                                 \
+            memcpy(_buf3, (const void *)&_v3, sizeof(TYPE));                                                 \
             _j = byte_cmp(sizeof(TYPE), _buf3, _buf1, _pad_mask);                                            \
             if (_j >= 0) {                                                                                   \
                 INFO.perm[_i] = _j;                                                                          \
@@ -326,7 +174,7 @@ precision(detected_t *d)
         }                                                                                                    \
         fix_order(sizeof(TYPE), _last, INFO.perm, (const char **)&_mesg);                                    \
                                                                                                              \
-        if (!HDstrcmp(_mesg, "VAX"))                                                                         \
+        if (!strcmp(_mesg, "VAX"))                                                                           \
             INFO.is_vax = TRUE;                                                                              \
                                                                                                              \
         /* Implicit mantissa bit */                                                                          \
@@ -355,26 +203,10 @@ precision(detected_t *d)
         _v1       = (TYPE)1.0L;                                                                              \
         INFO.bias = find_bias(INFO.epos, INFO.esize, INFO.perm, &_v1);                                       \
         precision(&(INFO));                                                                                  \
-        ALIGNMENT(TYPE, INFO);                                                                               \
-        if (!HDstrcmp(INFO.varname, "FLOAT") || !HDstrcmp(INFO.varname, "DOUBLE") ||                         \
-            !HDstrcmp(INFO.varname, "LDOUBLE")) {                                                            \
+        if (!strcmp(INFO.varname, "FLOAT") || !strcmp(INFO.varname, "DOUBLE") ||                             \
+            !strcmp(INFO.varname, "LDOUBLE")) {                                                              \
             COMP_ALIGNMENT(TYPE, INFO.comp_align);                                                           \
         }                                                                                                    \
-    }
-
-/*-------------------------------------------------------------------------
- * Function:    DETECT_M
- *
- * Purpose:     This macro takes only miscellaneous structures or pointer.
- *              It constructs the names and decides the alignment in structure.
- *
- * Return:      void
- *-------------------------------------------------------------------------
- */
-#define DETECT_M(TYPE, VAR, INFO)                                                                            \
-    {                                                                                                        \
-        INFO.name = #VAR;                                                                                    \
-        COMP_ALIGNMENT(TYPE, INFO.comp_align);                                                               \
     }
 
 /* Detect alignment for C structure */
@@ -388,157 +220,6 @@ precision(detected_t *d)
         COMP_ALIGN = (unsigned int)((char *)(&(s.x)) - (char *)(&s));                                        \
     }
 
-#if defined(H5SETJMP) && defined(H5_HAVE_SIGNAL)
-#define ALIGNMENT(TYPE, INFO)                                                                                \
-    {                                                                                                        \
-        char *volatile _buf    = NULL;                                                                       \
-        TYPE            _val   = 1, _val2;                                                                   \
-        volatile size_t _ano   = 0;                                                                          \
-        void (*_handler)(int)  = HDsignal(SIGBUS, sigbus_handler);                                           \
-        void (*_handler2)(int) = HDsignal(SIGSEGV, sigsegv_handler);                                         \
-        void (*_handler3)(int) = HDsignal(SIGILL, sigill_handler);                                           \
-                                                                                                             \
-        _buf = (char *)HDmalloc(sizeof(TYPE) + align_g[NELMTS(align_g) - 1]);                                \
-        if (H5SETJMP(jbuf_g))                                                                                \
-            _ano++;                                                                                          \
-        if (_ano < NELMTS(align_g)) {                                                                        \
-            *((TYPE *)(_buf + align_g[_ano])) = _val;  /*possible SIGBUS or SEGSEGV*/                        \
-            _val2 = *((TYPE *)(_buf + align_g[_ano])); /*possible SIGBUS or SEGSEGV*/                        \
-            /* Cray Check: This section helps detect alignment on Cray's */                                  \
-            /*              vector machines (like the SV1) which mask off */                                 \
-            /*              pointer values when pointing to non-word aligned */                              \
-            /*              locations with pointers that are supposed to be */                               \
-            /*              word aligned. -QAK */                                                            \
-            HDmemset(_buf, 0xff, sizeof(TYPE) + align_g[NELMTS(align_g) - 1]);                               \
-            /*How to handle VAX types?*/                                                                     \
-            if (INFO.perm[0]) /* Big-Endian */                                                               \
-                HDmemcpy(_buf + align_g[_ano] + (INFO.size - ((INFO.offset + INFO.precision) / 8)),          \
-                         ((char *)&_val) + (INFO.size - ((INFO.offset + INFO.precision) / 8)),               \
-                         (size_t)(INFO.precision / 8));                                                      \
-            else /* Little-Endian */                                                                         \
-                HDmemcpy(_buf + align_g[_ano] + (INFO.offset / 8), ((char *)&_val) + (INFO.offset / 8),      \
-                         (size_t)(INFO.precision / 8));                                                      \
-            _val2 = *((TYPE *)(_buf + align_g[_ano]));                                                       \
-            H5_GCC_DIAG_OFF("float-equal")                                                                   \
-            if (_val != _val2)                                                                               \
-                H5LONGJMP(jbuf_g, 1);                                                                        \
-            H5_GCC_DIAG_ON("float-equal")                                                                    \
-            /* End Cray Check */                                                                             \
-            (INFO.align) = align_g[_ano];                                                                    \
-        }                                                                                                    \
-        else {                                                                                               \
-            (INFO.align) = 0;                                                                                \
-            fprintf(stderr, "unable to calculate alignment for %s\n", #TYPE);                                \
-        }                                                                                                    \
-        HDfree(_buf);                                                                                        \
-        HDsignal(SIGBUS, _handler);   /*restore original handler*/                                           \
-        HDsignal(SIGSEGV, _handler2); /*restore original handler*/                                           \
-        HDsignal(SIGILL, _handler3);  /*restore original handler*/                                           \
-    }
-#else
-#define ALIGNMENT(TYPE, INFO)                                                                                \
-    {                                                                                                        \
-        align_status_g |= STA_NoALIGNMENT;                                                                   \
-        (INFO.align) = 0;                                                                                    \
-    }
-#endif
-
-#if defined(H5LONGJMP) && defined(H5_HAVE_SIGNAL)
-
-/*-------------------------------------------------------------------------
- * Function:    sigsegv_handler
- *
- * Purpose:     Handler for SIGSEGV. We use signal() instead of sigaction()
- *              because it's more portable to non-Posix systems. Although
- *              it's not nearly as nice to work with, it does the job for
- *              this simple stuff.
- *
- * Return:      Returns via H5LONGJMP to jbuf_g.
- *-------------------------------------------------------------------------
- */
-static void
-sigsegv_handler(int H5_ATTR_UNUSED signo)
-{
-#if !defined(H5HAVE_SIGJMP) && defined(H5_HAVE_SIGPROCMASK)
-    /* Use sigprocmask to unblock the signal if sigsetjmp/siglongjmp are not */
-    /* supported. */
-    sigset_t set;
-
-    HDsigemptyset(&set);
-    HDsigaddset(&set, SIGSEGV);
-    HDsigprocmask(SIG_UNBLOCK, &set, NULL);
-#endif
-
-    sigsegv_handler_called_g++;
-    HDsignal(SIGSEGV, sigsegv_handler);
-    H5LONGJMP(jbuf_g, SIGSEGV);
-}
-#endif
-
-#if defined(H5LONGJMP) && defined(H5_HAVE_SIGNAL)
-
-/*-------------------------------------------------------------------------
- * Function:    sigbus_handler
- *
- * Purpose:     Handler for SIGBUS. We use signal() instead of sigaction()
- *              because it's more portable to non-Posix systems. Although
- *              it's not nearly as nice to work with, it does the job for
- *              this simple stuff.
- *
- * Return:      Returns via H5LONGJMP to jbuf_g.
- *-------------------------------------------------------------------------
- */
-static void
-sigbus_handler(int H5_ATTR_UNUSED signo)
-{
-#if !defined(H5HAVE_SIGJMP) && defined(H5_HAVE_SIGPROCMASK)
-    /* Use sigprocmask to unblock the signal if sigsetjmp/siglongjmp are not */
-    /* supported. */
-    sigset_t set;
-
-    HDsigemptyset(&set);
-    HDsigaddset(&set, SIGBUS);
-    HDsigprocmask(SIG_UNBLOCK, &set, NULL);
-#endif
-
-    sigbus_handler_called_g++;
-    HDsignal(SIGBUS, sigbus_handler);
-    H5LONGJMP(jbuf_g, SIGBUS);
-}
-#endif
-
-#if defined(H5LONGJMP) && defined(H5_HAVE_SIGNAL)
-
-/*-------------------------------------------------------------------------
- * Function:    sigill_handler
- *
- * Purpose:     Handler for SIGILL. We use signal() instead of sigaction()
- *              because it's more portable to non-Posix systems. Although
- *              it's not nearly as nice to work with, it does the job for
- *              this simple stuff.
- *
- * Return:      Returns via H5LONGJMP to jbuf_g.
- *-------------------------------------------------------------------------
- */
-static void
-sigill_handler(int H5_ATTR_UNUSED signo)
-{
-#if !defined(H5HAVE_SIGJMP) && defined(H5_HAVE_SIGPROCMASK)
-    /* Use sigprocmask to unblock the signal if sigsetjmp/siglongjmp are not */
-    /* supported. */
-    sigset_t set;
-
-    HDsigemptyset(&set);
-    HDsigaddset(&set, SIGILL);
-    HDsigprocmask(SIG_UNBLOCK, &set, NULL);
-#endif
-
-    sigill_handler_called_g++;
-    HDsignal(SIGILL, sigill_handler);
-    H5LONGJMP(jbuf_g, SIGILL);
-}
-#endif
-
 /*-------------------------------------------------------------------------
  * Function:    print_results
  *
@@ -548,7 +229,7 @@ sigill_handler(int H5_ATTR_UNUSED signo)
  *-------------------------------------------------------------------------
  */
 static void
-print_results(int nd, detected_t *d, int na, malign_t *misc_align)
+print_results(int nd, detected_t *d)
 {
     int byte_order = 0; /*byte order of data types*/
     int i, j;
@@ -664,12 +345,11 @@ H5T__init_native(void)\n\
         /* The part common to fixed and floating types */
         fprintf(rawoutstream, "\
     if(NULL == (dt = H5T__alloc()))\n\
-        HGOTO_ERROR(H5E_DATATYPE, H5E_NOSPACE, FAIL, \"datatype allocation failed\")\n\
+        HGOTO_ERROR(H5E_DATATYPE, H5E_NOSPACE, FAIL, \"datatype allocation failed\");\n\
     dt->shared->state = H5T_STATE_IMMUTABLE;\n\
-    dt->shared->type = H5T_%s;\n\
+    dt->shared->type = H5T_FLOAT;\n\
     dt->shared->size = %d;\n",
-                d[i].msize ? "FLOAT" : "INTEGER", /*class            */
-                d[i].size);                       /*size            */
+                d[i].size); /*size            */
 
         if (byte_order == -1)
             fprintf(rawoutstream, "\
@@ -686,50 +366,40 @@ H5T__init_native(void)\n\
     dt->shared->u.atomic.prec = %d;\n\
     dt->shared->u.atomic.lsb_pad = H5T_PAD_ZERO;\n\
     dt->shared->u.atomic.msb_pad = H5T_PAD_ZERO;\n",
-                d[i].offset,                            /*offset        */
-                d[i].precision);                        /*precision        */
-        /*HDassert((d[i].perm[0]>0)==(byte_order>0));*/ /* Double-check that byte-order doesn't change */
+                d[i].offset,                          /*offset        */
+                d[i].precision);                      /*precision        */
+        /*assert((d[i].perm[0]>0)==(byte_order>0));*/ /* Double-check that byte-order doesn't change */
 
-        if (0 == d[i].msize) {
-            /* The part unique to fixed point types */
-            fprintf(rawoutstream, "\
-    dt->shared->u.atomic.u.i.sign = H5T_SGN_%s;\n",
-                    d[i].sign ? "2" : "NONE");
-        }
-        else {
-            /* The part unique to floating point types */
-            fprintf(rawoutstream, "\
-    dt->shared->u.atomic.u.f.sign = %d;\n\
-    dt->shared->u.atomic.u.f.epos = %d;\n\
-    dt->shared->u.atomic.u.f.esize = %d;\n\
-    dt->shared->u.atomic.u.f.ebias = 0x%08lx;\n\
-    dt->shared->u.atomic.u.f.mpos = %d;\n\
-    dt->shared->u.atomic.u.f.msize = %d;\n\
-    dt->shared->u.atomic.u.f.norm = H5T_NORM_%s;\n\
-    dt->shared->u.atomic.u.f.pad = H5T_PAD_ZERO;\n",
-                    d[i].sign,                      /*sign location */
-                    d[i].epos,                      /*exponent loc    */
-                    d[i].esize,                     /*exponent size */
-                    (unsigned long)(d[i].bias),     /*exponent bias */
-                    d[i].mpos,                      /*mantissa loc    */
-                    d[i].msize,                     /*mantissa size */
-                    d[i].imp ? "IMPLIED" : "NONE"); /*normalization */
-        }
+        /* The part unique to floating point types */
+        fprintf(rawoutstream, "\
+dt->shared->u.atomic.u.f.sign = %d;\n\
+dt->shared->u.atomic.u.f.epos = %d;\n\
+dt->shared->u.atomic.u.f.esize = %d;\n\
+dt->shared->u.atomic.u.f.ebias = 0x%08lx;\n\
+dt->shared->u.atomic.u.f.mpos = %d;\n\
+dt->shared->u.atomic.u.f.msize = %d;\n\
+dt->shared->u.atomic.u.f.norm = H5T_NORM_%s;\n\
+dt->shared->u.atomic.u.f.pad = H5T_PAD_ZERO;\n",
+                d[i].sign,                      /*sign location */
+                d[i].epos,                      /*exponent loc    */
+                d[i].esize,                     /*exponent size */
+                (unsigned long)(d[i].bias),     /*exponent bias */
+                d[i].mpos,                      /*mantissa loc    */
+                d[i].msize,                     /*mantissa size */
+                d[i].imp ? "IMPLIED" : "NONE"); /*normalization */
 
-        /* Atomize the type */
+        /* Register the type */
         fprintf(rawoutstream, "\
     if((H5T_NATIVE_%s_g = H5I_register(H5I_DATATYPE, dt, FALSE)) < 0)\n\
-        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, \"can't register ID for built-in datatype\")\n",
+        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, \"can't register ID for built-in datatype\");\n",
                 d[i].varname);
-        fprintf(rawoutstream, "    H5T_NATIVE_%s_ALIGN_g = %lu;\n", d[i].varname,
-                (unsigned long)(d[i].align));
 
         /* Variables for alignment of compound datatype */
-        if (!HDstrcmp(d[i].varname, "SCHAR") || !HDstrcmp(d[i].varname, "SHORT") ||
-            !HDstrcmp(d[i].varname, "INT") || !HDstrcmp(d[i].varname, "LONG") ||
-            !HDstrcmp(d[i].varname, "LLONG") || !HDstrcmp(d[i].varname, "FLOAT") ||
-            !HDstrcmp(d[i].varname, "DOUBLE") || !HDstrcmp(d[i].varname, "LDOUBLE")) {
-            fprintf(rawoutstream, "    H5T_NATIVE_%s_COMP_ALIGN_g = %lu;\n", d[i].varname,
+        if (!strcmp(d[i].varname, "SCHAR") || !strcmp(d[i].varname, "SHORT") ||
+            !strcmp(d[i].varname, "INT") || !strcmp(d[i].varname, "LONG") || !strcmp(d[i].varname, "LLONG") ||
+            !strcmp(d[i].varname, "FLOAT") || !strcmp(d[i].varname, "DOUBLE") ||
+            !strcmp(d[i].varname, "LDOUBLE")) {
+            fprintf(rawoutstream, "    H5T_NATIVE_%s_ALIGN_g = %lu;\n", d[i].varname,
                     (unsigned long)(d[i].comp_align));
         }
     }
@@ -748,12 +418,6 @@ H5T__init_native(void)\n\
                 "BE");
     }
 
-    /* Structure alignment for pointers, vlen and reference types */
-    fprintf(rawoutstream, "\n    /* Structure alignment for pointers, vlen and reference types */\n");
-    for (j = 0; j < na; j++)
-        fprintf(rawoutstream, "    H5T_%s_COMP_ALIGN_g = %lu;\n", misc_align[j].name,
-                (unsigned long)(misc_align[j].comp_align));
-
     fprintf(rawoutstream, "\
 \n\
 done:\n\
@@ -766,57 +430,6 @@ done:\n\
 \n\
     FUNC_LEAVE_NOAPI(ret_value);\n} /* end H5T__init_native() */\n");
 
-    /* Print the ALIGNMENT and signal-handling status as comments */
-    fprintf(rawoutstream, "\n"
-                          "/****************************************/\n"
-                          "/* ALIGNMENT and signal-handling status */\n"
-                          "/****************************************/\n");
-    if (align_status_g & STA_NoALIGNMENT)
-        fprintf(rawoutstream, "/* ALIGNAMENT test is not available */\n");
-    if (align_status_g & STA_NoHandlerVerify)
-        fprintf(rawoutstream, "/* Signal handlers verify test is not available */\n");
-        /* The following is available in H5pubconf.h. Printing them here for */
-        /* convenience. */
-#ifdef H5_HAVE_SIGNAL
-    fprintf(rawoutstream, "/* Signal() support: yes */\n");
-#else
-    fprintf(rawoutstream, "/* Signal() support: no */\n");
-#endif
-#ifdef H5_HAVE_SETJMP
-    fprintf(rawoutstream, "/* setjmp() support: yes */\n");
-#else
-    fprintf(rawoutstream, "/* setjmp() support: no */\n");
-#endif
-#ifdef H5_HAVE_LONGJMP
-    fprintf(rawoutstream, "/* longjmp() support: yes */\n");
-#else
-    fprintf(rawoutstream, "/* longjmp() support: no */\n");
-#endif
-#ifdef H5_HAVE_SIGSETJMP
-    fprintf(rawoutstream, "/* sigsetjmp() support: yes */\n");
-#else
-    fprintf(rawoutstream, "/* sigsetjmp() support: no */\n");
-#endif
-#ifdef H5_HAVE_SIGLONGJMP
-    fprintf(rawoutstream, "/* siglongjmp() support: yes */\n");
-#else
-    fprintf(rawoutstream, "/* siglongjmp() support: no */\n");
-#endif
-#ifdef H5_HAVE_SIGPROCMASK
-    fprintf(rawoutstream, "/* sigprocmask() support: yes */\n");
-#else
-    fprintf(rawoutstream, "/* sigprocmask() support: no */\n");
-#endif
-
-    /* Print the statics of signal handlers called for debugging */
-    fprintf(rawoutstream, "\n"
-                          "/******************************/\n"
-                          "/* signal handlers statistics */\n"
-                          "/******************************/\n");
-    fprintf(rawoutstream, "/* signal_handlers tested: %d times */\n", signal_handler_tested_g);
-    fprintf(rawoutstream, "/* sigbus_handler called: %d times */\n", sigbus_handler_called_g);
-    fprintf(rawoutstream, "/* sigsegv_handler called: %d times */\n", sigsegv_handler_called_g);
-    fprintf(rawoutstream, "/* sigill_handler called: %d times */\n", sigill_handler_called_g);
 } /* end print_results() */
 
 /*-------------------------------------------------------------------------
@@ -842,7 +455,7 @@ iprint(detected_t *d)
         for (i = MIN(pass * 4 + 3, d->size - 1); i >= pass * 4; --i) {
             fprintf(rawoutstream, "%4d", d->perm[i]);
             if (i > pass * 4)
-                HDfputs("     ", stdout);
+                fputs("     ", rawoutstream);
             if (!i)
                 break;
         }
@@ -856,32 +469,26 @@ iprint(detected_t *d)
             unsigned int j;
 
             for (j = 8; j > 0; --j) {
-                if (k == d->sign && d->msize) {
-                    HDfputc('S', rawoutstream);
+                if (k == d->sign) {
+                    fputc('S', rawoutstream);
                 }
                 else if (k >= d->epos && k < d->epos + d->esize) {
-                    HDfputc('E', rawoutstream);
+                    fputc('E', rawoutstream);
                 }
                 else if (k >= d->mpos && k < d->mpos + d->msize) {
-                    HDfputc('M', rawoutstream);
-                }
-                else if (d->msize) {
-                    HDfputc('?', rawoutstream); /*unknown floating point bit */
-                }
-                else if (d->sign) {
-                    HDfputc('I', rawoutstream);
+                    fputc('M', rawoutstream);
                 }
                 else {
-                    HDfputc('U', rawoutstream);
+                    fputc('?', rawoutstream); /*unknown floating point bit */
                 }
                 --k;
             }
             if (i > pass * 4)
-                HDfputc(' ', rawoutstream);
+                fputc(' ', rawoutstream);
             if (!i)
                 break;
         }
-        HDfputc('\n', rawoutstream);
+        fputc('\n', rawoutstream);
         if (!pass)
             break;
     }
@@ -889,22 +496,7 @@ iprint(detected_t *d)
     /*
      * Is there an implicit bit in the mantissa.
      */
-    if (d->msize) {
-        fprintf(rawoutstream, "    * Implicit bit? %s\n", d->imp ? "yes" : "no");
-    }
-
-    /*
-     * Alignment
-     */
-    if (0 == d->align) {
-        fprintf(rawoutstream, "    * Alignment: NOT CALCULATED\n");
-    }
-    else if (1 == d->align) {
-        fprintf(rawoutstream, "    * Alignment: none\n");
-    }
-    else {
-        fprintf(rawoutstream, "    * Alignment: %lu\n", (unsigned long)(d->align));
-    }
+    fprintf(rawoutstream, "    * Implicit bit? %s\n", d->imp ? "yes" : "no");
 }
 
 /*-------------------------------------------------------------------------
@@ -955,7 +547,7 @@ bit_cmp(unsigned int nbytes, int *perm, void *_a, void *_b, const unsigned char 
     unsigned char  aa, bb;
 
     for (i = 0; i < nbytes; i++) {
-        HDassert(perm[i] < (int)nbytes);
+        assert(perm[i] < (int)nbytes);
         if ((aa = (unsigned char)(a[perm[i]] & pad_mask[perm[i]])) !=
             (bb = (unsigned char)(b[perm[i]] & pad_mask[perm[i]]))) {
             unsigned int j;
@@ -965,11 +557,11 @@ bit_cmp(unsigned int nbytes, int *perm, void *_a, void *_b, const unsigned char 
                     return i * 8 + j;
             }
             fprintf(stderr, "INTERNAL ERROR");
-            HDabort();
+            abort();
         }
     }
     fprintf(stderr, "INTERNAL ERROR");
-    HDabort();
+    abort();
     return 0;
 }
 
@@ -1021,7 +613,7 @@ fix_order(int n, int last, int *perm, const char **mesg)
              *          It could have some other endianness and fall into this
              *          case - JKM & QAK)
              */
-            HDassert(0 == n % 2);
+            assert(0 == n % 2);
             if (mesg)
                 *mesg = "VAX";
             for (i = 0; i < n; i += 2) {
@@ -1032,7 +624,7 @@ fix_order(int n, int last, int *perm, const char **mesg)
     }
     else {
         fprintf(stderr, "Failed to detect byte order of %d-byte floating point.\n", n);
-        HDexit(1);
+        exit(1);
     }
 }
 
@@ -1132,7 +724,7 @@ print_header(void)
 {
 
     time_t      now = HDtime(NULL);
-    struct tm * tm  = HDlocaltime(&now);
+    struct tm  *tm  = HDlocaltime(&now);
     char        real_name[30];
     char        host_name[256];
     int         i;
@@ -1188,15 +780,15 @@ bit.\n";
 #ifdef H5_HAVE_GETPWUID
     {
         size_t n;
-        char * comma;
-        if ((pwd = HDgetpwuid(HDgetuid()))) {
-            if ((comma = HDstrchr(pwd->pw_gecos, ','))) {
+        char  *comma;
+        if ((pwd = getpwuid(getuid()))) {
+            if ((comma = strchr(pwd->pw_gecos, ','))) {
                 n = MIN(sizeof(real_name) - 1, (unsigned)(comma - pwd->pw_gecos));
-                HDstrncpy(real_name, pwd->pw_gecos, n);
+                strncpy(real_name, pwd->pw_gecos, n);
                 real_name[n] = '\0';
             }
             else {
-                HDstrncpy(real_name, pwd->pw_gecos, sizeof(real_name));
+                strncpy(real_name, pwd->pw_gecos, sizeof(real_name));
                 real_name[sizeof(real_name) - 1] = '\0';
             }
         }
@@ -1211,7 +803,7 @@ bit.\n";
      * The FQDM of this host or the empty string.
      */
 #ifdef H5_HAVE_GETHOSTNAME
-    if (HDgethostname(host_name, sizeof(host_name)) < 0) {
+    if (gethostname(host_name, sizeof(host_name)) < 0) {
         host_name[0] = '\0';
     }
 #else
@@ -1222,7 +814,7 @@ bit.\n";
      * The file header: warning, copyright notice, build information.
      */
     fprintf(rawoutstream, "/* Generated automatically by H5detect -- do not edit */\n\n\n");
-    HDfputs(FileHeader, rawoutstream); /*the copyright notice--see top of this file */
+    fputs(FileHeader, rawoutstream); /*the copyright notice--see top of this file */
 
     fprintf(rawoutstream, " *\n * Created:\t\t%s %2d, %4d\n", month_name[tm->tm_mon], tm->tm_mday,
             1900 + tm->tm_year);
@@ -1232,58 +824,29 @@ bit.\n";
             fprintf(rawoutstream, "%s <", real_name);
 #ifdef H5_HAVE_GETPWUID
         if (pwd)
-            HDfputs(pwd->pw_name, rawoutstream);
+            fputs(pwd->pw_name, rawoutstream);
 #endif
         if (host_name[0])
             fprintf(rawoutstream, "@%s", host_name);
         if (real_name[0])
             fprintf(rawoutstream, ">");
-        HDfputc('\n', rawoutstream);
+        fputc('\n', rawoutstream);
     }
     fprintf(rawoutstream, " *\n * Purpose:\t\t");
     for (s = purpose; *s; s++) {
-        HDfputc(*s, rawoutstream);
+        fputc(*s, rawoutstream);
         if ('\n' == *s && s[1])
             fprintf(rawoutstream, " *\t\t\t");
     }
 
-    fprintf(rawoutstream, " *\n * Modifications:\n *\n");
+    fprintf(rawoutstream, " *\n");
     fprintf(rawoutstream, " *\tDO NOT MAKE MODIFICATIONS TO THIS FILE!\n");
     fprintf(rawoutstream, " *\tIt was generated by code in `H5detect.c'.\n");
 
     fprintf(rawoutstream, " *\n *");
     for (i = 0; i < 73; i++)
-        HDfputc('-', rawoutstream);
+        fputc('-', rawoutstream);
     fprintf(rawoutstream, "\n */\n\n");
-}
-
-/*-------------------------------------------------------------------------
- * Function:    detect_C89_integers
- *
- * Purpose:     Detect C89 integer types
- *
- * Return:      void
- *-------------------------------------------------------------------------
- */
-static void HDF_NO_UBSAN
-detect_C89_integers(void)
-{
-    DETECT_BYTE(signed char, SCHAR, d_g[nd_g]);
-    nd_g++;
-    DETECT_BYTE(unsigned char, UCHAR, d_g[nd_g]);
-    nd_g++;
-    DETECT_I(short, SHORT, d_g[nd_g]);
-    nd_g++;
-    DETECT_I(unsigned short, USHORT, d_g[nd_g]);
-    nd_g++;
-    DETECT_I(int, INT, d_g[nd_g]);
-    nd_g++;
-    DETECT_I(unsigned int, UINT, d_g[nd_g]);
-    nd_g++;
-    DETECT_I(long, LONG, d_g[nd_g]);
-    nd_g++;
-    DETECT_I(unsigned long, ULONG, d_g[nd_g]);
-    nd_g++;
 }
 
 /*-------------------------------------------------------------------------
@@ -1301,221 +864,6 @@ detect_C89_floats(void)
     nd_g++;
     DETECT_F(double, DOUBLE, d_g[nd_g]);
     nd_g++;
-}
-
-/*-------------------------------------------------------------------------
- * Function:    detect_C99_integers8
- *
- * Purpose:     Detect C99 8 bit integer types
- *
- * Return:      void
- *-------------------------------------------------------------------------
- */
-static void HDF_NO_UBSAN
-detect_C99_integers8(void)
-{
-#if H5_SIZEOF_INT8_T > 0
-#if H5_SIZEOF_INT8_T == 1
-    DETECT_BYTE(int8_t, INT8, d_g[nd_g]);
-    nd_g++;
-#else
-    DETECT_I(int8_t, INT8, d_g[nd_g]);
-    nd_g++;
-#endif
-#endif
-#if H5_SIZEOF_UINT8_T > 0
-#if H5_SIZEOF_UINT8_T == 1
-    DETECT_BYTE(uint8_t, UINT8, d_g[nd_g]);
-    nd_g++;
-#else
-    DETECT_I(uint8_t, UINT8, d_g[nd_g]);
-    nd_g++;
-#endif
-#endif
-#if H5_SIZEOF_INT_LEAST8_T > 0
-#if H5_SIZEOF_INT_LEAST8_T == 1
-    DETECT_BYTE(int_least8_t, INT_LEAST8, d_g[nd_g]);
-    nd_g++;
-#else
-    DETECT_I(int_least8_t, INT_LEAST8, d_g[nd_g]);
-    nd_g++;
-#endif
-#endif
-#if H5_SIZEOF_UINT_LEAST8_T > 0
-#if H5_SIZEOF_UINT_LEAST8_T == 1
-    DETECT_BYTE(uint_least8_t, UINT_LEAST8, d_g[nd_g]);
-    nd_g++;
-#else
-    DETECT_I(uint_least8_t, UINT_LEAST8, d_g[nd_g]);
-    nd_g++;
-#endif
-#endif
-#if H5_SIZEOF_INT_FAST8_T > 0
-#if H5_SIZEOF_INT_FAST8_T == 1
-    DETECT_BYTE(int_fast8_t, INT_FAST8, d_g[nd_g]);
-    nd_g++;
-#else
-    DETECT_I(int_fast8_t, INT_FAST8, d_g[nd_g]);
-    nd_g++;
-#endif
-#endif
-#if H5_SIZEOF_UINT_FAST8_T > 0
-#if H5_SIZEOF_UINT_FAST8_T == 1
-    DETECT_BYTE(uint_fast8_t, UINT_FAST8, d_g[nd_g]);
-    nd_g++;
-#else
-    DETECT_I(uint_fast8_t, UINT_FAST8, d_g[nd_g]);
-    nd_g++;
-#endif
-#endif
-}
-
-/*-------------------------------------------------------------------------
- * Function:    detect_C99_integers16
- *
- * Purpose:     Detect C99 16 bit integer types
- *
- * Return:      void
- *-------------------------------------------------------------------------
- */
-static void HDF_NO_UBSAN
-detect_C99_integers16(void)
-{
-#if H5_SIZEOF_INT16_T > 0
-    DETECT_I(int16_t, INT16, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT16_T > 0
-    DETECT_I(uint16_t, UINT16, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_INT_LEAST16_T > 0
-    DETECT_I(int_least16_t, INT_LEAST16, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT_LEAST16_T > 0
-    DETECT_I(uint_least16_t, UINT_LEAST16, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_INT_FAST16_T > 0
-    DETECT_I(int_fast16_t, INT_FAST16, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT_FAST16_T > 0
-    DETECT_I(uint_fast16_t, UINT_FAST16, d_g[nd_g]);
-    nd_g++;
-#endif
-}
-
-/*-------------------------------------------------------------------------
- * Function:    detect_C99_integers32
- *
- * Purpose:     Detect C99 32 bit integer types
- *
- * Return:      void
- *-------------------------------------------------------------------------
- */
-static void HDF_NO_UBSAN
-detect_C99_integers32(void)
-{
-#if H5_SIZEOF_INT32_T > 0
-    DETECT_I(int32_t, INT32, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT32_T > 0
-    DETECT_I(uint32_t, UINT32, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_INT_LEAST32_T > 0
-    DETECT_I(int_least32_t, INT_LEAST32, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT_LEAST32_T > 0
-    DETECT_I(uint_least32_t, UINT_LEAST32, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_INT_FAST32_T > 0
-    DETECT_I(int_fast32_t, INT_FAST32, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT_FAST32_T > 0
-    DETECT_I(uint_fast32_t, UINT_FAST32, d_g[nd_g]);
-    nd_g++;
-#endif
-}
-
-/*-------------------------------------------------------------------------
- * Function:    detect_C99_integers64
- *
- * Purpose:     Detect C99 64 bit integer types
- *
- * Return:      void
- *
- *-------------------------------------------------------------------------
- */
-static void HDF_NO_UBSAN
-detect_C99_integers64(void)
-{
-#if H5_SIZEOF_INT64_T > 0
-    DETECT_I(int64_t, INT64, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT64_T > 0
-    DETECT_I(uint64_t, UINT64, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_INT_LEAST64_T > 0
-    DETECT_I(int_least64_t, INT_LEAST64, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT_LEAST64_T > 0
-    DETECT_I(uint_least64_t, UINT_LEAST64, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_INT_FAST64_T > 0
-    DETECT_I(int_fast64_t, INT_FAST64, d_g[nd_g]);
-    nd_g++;
-#endif
-#if H5_SIZEOF_UINT_FAST64_T > 0
-    DETECT_I(uint_fast64_t, UINT_FAST64, d_g[nd_g]);
-    nd_g++;
-#endif
-
-#if H5_SIZEOF_LONG_LONG > 0
-    DETECT_I(long long, LLONG, d_g[nd_g]);
-    nd_g++;
-    DETECT_I(unsigned long long, ULLONG, d_g[nd_g]);
-    nd_g++;
-#else
-    /*
-     * This architecture doesn't support an integer type larger than `long'
-     * so we'll just make H5T_NATIVE_LLONG the same as H5T_NATIVE_LONG since
-     * `long long' is probably equivalent to `long' here anyway.
-     */
-    DETECT_I(long, LLONG, d_g[nd_g]);
-    nd_g++;
-    DETECT_I(unsigned long, ULLONG, d_g[nd_g]);
-    nd_g++;
-#endif
-}
-
-/*-------------------------------------------------------------------------
- * Function:    detect_C99_integers
- *
- * Purpose:     Detect C99 integer types
- *
- * Return:      void
- *-------------------------------------------------------------------------
- */
-static void HDF_NO_UBSAN
-detect_C99_integers(void)
-{
-    /* break it down to more subroutines so that each module subroutine */
-    /* is smaller and takes less time to compile with optimization on.  */
-    detect_C99_integers8();
-    detect_C99_integers16();
-    detect_C99_integers32();
-    detect_C99_integers64();
 }
 
 /*-------------------------------------------------------------------------
@@ -1538,94 +886,11 @@ detect_C99_floats(void)
      */
     DETECT_F(double, LDOUBLE, d_g[nd_g]);
     nd_g++;
-#elif H5_SIZEOF_LONG_DOUBLE != 0
+#else
     DETECT_F(long double, LDOUBLE, d_g[nd_g]);
     nd_g++;
 #endif
 }
-
-/*-------------------------------------------------------------------------
- * Function:    detect_alignments
- *
- * Purpose:     Detect structure alignments
- *
- * Return:      void
- *-------------------------------------------------------------------------
- */
-static void HDF_NO_UBSAN
-detect_alignments(void)
-{
-    /* Detect structure alignment for pointers, vlen and reference types */
-    DETECT_M(void *, POINTER, m_g[na_g]);
-    na_g++;
-    DETECT_M(hvl_t, HVL, m_g[na_g]);
-    na_g++;
-    DETECT_M(hobj_ref_t, HOBJREF, m_g[na_g]);
-    na_g++;
-    DETECT_M(hdset_reg_ref_t, HDSETREGREF, m_g[na_g]);
-    na_g++;
-    DETECT_M(H5R_ref_t, REF, m_g[na_g]);
-    na_g++;
-}
-
-#if defined(H5SETJMP) && defined(H5_HAVE_SIGNAL)
-/* Verify the signal handler for signal signum works correctly multiple times.
- * One possible cause of failure is that the signal handling is blocked or
- * changed to SIG_DFL after H5LONGJMP.
- * Return  0 for success, -1 for failure.
- */
-static int
-verify_signal_handlers(int signum, void (*handler)(int))
-{
-#if defined(__has_feature) /* Clang */
-#if __has_feature(address_sanitizer) || __has_feature(thread_sanitizer)
-    /* Under the address and thread sanitizers, don't raise any signals. */
-    return 0;
-#endif
-#elif defined(__SANITIZE_ADDRESS__) || defined(__SANITIZE_THREAD__) /* GCC */
-    return 0;
-#endif
-    void (*save_handler)(int) = HDsignal(signum, handler);
-    volatile int i, val;
-    int          ntries     = 5;
-    volatile int nfailures  = 0;
-    volatile int nsuccesses = 0;
-
-    for (i = 0; i < ntries; i++) {
-        val = H5SETJMP(jbuf_g);
-        if (val == 0) {
-            /* send self the signal to trigger the handler */
-            signal_handler_tested_g++;
-            HDraise(signum);
-            /* Should not reach here. Record error. */
-            nfailures++;
-        }
-        else {
-            if (val == signum) {
-                /* return from signum handler. Record a sucess. */
-                nsuccesses++;
-            }
-            else {
-                fprintf(stderr, "Unknown return value (%d) from H5SETJMP", val);
-                nfailures++;
-            }
-        }
-    }
-    /* restore save handler, check results and report failures */
-    HDsignal(signum, save_handler);
-    if (nfailures > 0 || nsuccesses != ntries) {
-        fprintf(stderr,
-                "verify_signal_handlers for signal %d did %d tries. "
-                "Found %d failures and %d successes\n",
-                signum, ntries, nfailures, nsuccesses);
-        return -1;
-    }
-    else {
-        /* all succeeded */
-        return 0;
-    }
-}
-#endif
 
 /*-------------------------------------------------------------------------
  * Function:    main
@@ -1649,49 +914,13 @@ main(int argc, char *argv[])
     /* First check if filename is string "NULL" */
     if (fname != NULL) {
         /* binary output */
-        if ((f = HDfopen(fname, "w")) != NULL)
+        if ((f = fopen(fname, "w")) != NULL)
             rawoutstream = f;
     }
     if (!rawoutstream)
         rawoutstream = stdout;
 
-#if defined(H5_HAVE_SETSYSINFO) && defined(SSI_NVPAIRS)
-#if defined(UAC_NOPRINT) && defined(UAC_SIGBUS)
-    /*
-     * Make sure unaligned access generates SIGBUS and doesn't print warning
-     * messages so that we can detect alignment constraints on the DEC Alpha.
-     */
-    int nvpairs[2];
-    nvpairs[0] = SSIN_UACPROC;
-    nvpairs[1] = UAC_NOPRINT | UAC_SIGBUS;
-    if (setsysinfo(SSI_NVPAIRS, nvpairs, 1, 0, 0) < 0) {
-        fprintf(stderr, "H5detect: unable to turn off UAC handling: %s\n", HDstrerror(errno));
-    }
-#endif
-#endif
-
-#if defined(H5SETJMP) && defined(H5_HAVE_SIGNAL)
-    /* verify the SIGBUS and SIGSEGV handlers work properly */
-    if (verify_signal_handlers(SIGBUS, sigbus_handler) != 0) {
-        fprintf(stderr, "Signal handler %s for signal %d failed\n", "sigbus_handler", SIGBUS);
-    }
-    if (verify_signal_handlers(SIGSEGV, sigsegv_handler) != 0) {
-        fprintf(stderr, "Signal handler %s for signal %d failed\n", "sigsegv_handler", SIGSEGV);
-    }
-    if (verify_signal_handlers(SIGILL, sigill_handler) != 0) {
-        fprintf(stderr, "Signal handler %s for signal %d failed\n", "sigill_handler", SIGILL);
-    }
-#else
-    align_status_g |= STA_NoHandlerVerify;
-#endif
-
     print_header();
-
-    /* C89 integer types */
-    detect_C89_integers();
-
-    /* C99 integer types */
-    detect_C99_integers();
 
     /* C89 floating point types */
     detect_C89_floats();
@@ -1699,13 +928,10 @@ main(int argc, char *argv[])
     /* C99 floating point types */
     detect_C99_floats();
 
-    /* Detect structure alignment */
-    detect_alignments();
-
-    print_results(nd_g, d_g, na_g, m_g);
+    print_results(nd_g, d_g);
 
     if (rawoutstream && rawoutstream != stdout) {
-        if (HDfclose(rawoutstream))
+        if (fclose(rawoutstream))
             fprintf(stderr, "closing rawoutstream");
         else
             rawoutstream = NULL;
@@ -1713,5 +939,3 @@ main(int argc, char *argv[])
 
     return EXIT_SUCCESS;
 }
-
-H5_GCC_DIAG_ON("cast-align")

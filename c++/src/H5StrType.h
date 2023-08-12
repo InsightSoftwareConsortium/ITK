@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -42,7 +41,7 @@ class H5_DLLCPP StrType : public AtomType {
 
     // Returns an StrType object via DataType* by decoding the
     // binary object description of this type.
-    virtual DataType *decode() const;
+    virtual DataType *decode() const override;
 
     // Retrieves the character set type of this string datatype.
     H5T_cset_t getCset() const;
@@ -58,7 +57,7 @@ class H5_DLLCPP StrType : public AtomType {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const override
     {
         return ("StrType");
     }
@@ -73,7 +72,7 @@ class H5_DLLCPP StrType : public AtomType {
     StrType(const StrType &original);
 
     // Noop destructor.
-    virtual ~StrType();
+    virtual ~StrType() override;
 
 }; // end of StrType
 } // namespace H5

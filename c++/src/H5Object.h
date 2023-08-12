@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -50,16 +49,16 @@ typedef int (*visit_operator_t)(H5Object &obj, const H5std_string attr_name, con
 class UserData4Aiterate {
   public:
     attr_operator_t op;
-    void *          opData;
-    H5Object *      location; // Consider changing to H5Location
+    void           *opData;
+    H5Object       *location; // Consider changing to H5Location
 };
 
 // User data for visit iteration
 class UserData4Visit {
   public:
     visit_operator_t op;
-    void *           opData;
-    H5Object *       obj;
+    void            *opData;
+    H5Object        *obj;
 };
 
 class H5_DLLCPP H5Object : public H5Location {
@@ -106,7 +105,7 @@ class H5_DLLCPP H5Object : public H5Location {
     void removeAttr(const H5std_string &name) const;
 
     // Returns an identifier.
-    virtual hid_t getId() const H5_OVERRIDE = 0;
+    virtual hid_t getId() const override = 0;
 
     // Gets the name of this HDF5 object, i.e., Group, DataSet, or
     // DataType.
@@ -122,10 +121,10 @@ class H5_DLLCPP H5Object : public H5Location {
 
     // Sets the identifier of this object to a new value. - this one
     // doesn't increment reference count
-    virtual void p_setId(const hid_t new_id) H5_OVERRIDE = 0;
+    virtual void p_setId(const hid_t new_id) override = 0;
 
     // Noop destructor.
-    virtual ~H5Object() H5_OVERRIDE;
+    virtual ~H5Object() override;
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 

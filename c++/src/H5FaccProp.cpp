@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -16,8 +15,6 @@
 
 using std::cerr;
 using std::endl;
-
-//#include <string>
 
 #include "H5Include.h"
 #include "H5Exception.h"
@@ -44,7 +41,6 @@ FileAccPropList *FileAccPropList::DEFAULT_ = 0;
 //              If FileAccPropList::DEFAULT_ already points to an allocated
 //              object, throw a PropListIException.  This scenario should not
 //              happen.
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 FileAccPropList *
 FileAccPropList::getConstant()
@@ -71,13 +67,11 @@ FileAccPropList::getConstant()
 // Purpose     Deletes the constant object that FileAccPropList::DEFAULT_
 //              points to.
 // exception    H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 void
 FileAccPropList::deleteConstants()
 {
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
+    delete DEFAULT_;
 }
 
 //--------------------------------------------------------------------------
@@ -90,7 +84,6 @@ const FileAccPropList &FileAccPropList::DEFAULT = *getConstant();
 //--------------------------------------------------------------------------
 // Function:    Default Constructor
 ///\brief       Creates a file access property list
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FileAccPropList::FileAccPropList() : PropList(H5P_FILE_ACCESS)
 {
@@ -100,7 +93,6 @@ FileAccPropList::FileAccPropList() : PropList(H5P_FILE_ACCESS)
 // Function:    FileAccPropList copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
 ///\param       original - IN: FileAccPropList instance to copy
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FileAccPropList::FileAccPropList(const FileAccPropList &original) : PropList(original)
 {
@@ -110,7 +102,6 @@ FileAccPropList::FileAccPropList(const FileAccPropList &original) : PropList(ori
 // Function:    FileAccPropList overloaded constructor
 ///\brief       Creates a file access property list using the id of an
 ///             existing one.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FileAccPropList::FileAccPropList(const hid_t plist_id) : PropList(plist_id)
 {
@@ -121,7 +112,6 @@ FileAccPropList::FileAccPropList(const hid_t plist_id) : PropList(plist_id)
 ///\brief       Modifies this property list to use the \c H5FD_STDIO driver.
 ///
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setStdio() const
@@ -141,7 +131,6 @@ FileAccPropList::setStdio() const
 ///             For detail on valid driver identifiers, please refer to the
 ///             H5Pget_driver API in the HDF5 C Reference Manual.
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 hid_t
 FileAccPropList::getDriver() const
@@ -157,12 +146,11 @@ FileAccPropList::getDriver() const
 // Function:    FileAccPropList::setDriver
 ///\brief       Set file driver for this property list.
 ///\param       new_driver_id   - IN: File driver
-///\param       new_driver_info - IN: Struct containing the driver-specific properites
+///\param       new_driver_info - IN: Struct containing the driver-specific properties
 ///\exception   H5::PropListIException
 ///\par Description
 ///             For information, please refer to the H5Pset_driver API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setDriver(hid_t new_driver_id, const void *new_driver_info) const
@@ -178,7 +166,6 @@ FileAccPropList::setDriver(hid_t new_driver_id, const void *new_driver_info) con
 ///\brief       Sets offset for family driver.
 ///\param       offset - IN: offset value
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setFamilyOffset(hsize_t offset) const
@@ -194,7 +181,6 @@ FileAccPropList::setFamilyOffset(hsize_t offset) const
 ///\brief       Get offset for family driver.
 ///\return      Offset for family driver
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 hsize_t
 FileAccPropList::getFamilyOffset() const
@@ -219,7 +205,6 @@ FileAccPropList::getFamilyOffset() const
 ///\par Description
 ///             For more details on the use of \c H5FD_CORE driver, please
 ///             refer to the H5Pset_fapl_core API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setCore(size_t increment, hbool_t backing_store) const
@@ -237,7 +222,6 @@ FileAccPropList::setCore(size_t increment, hbool_t backing_store) const
 ///\param       backing_store - OUT: Indicating whether to write the file
 ///                                  contents to disk when the file is closed
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::getCore(size_t &increment, hbool_t &backing_store) const
@@ -257,7 +241,6 @@ FileAccPropList::getCore(size_t &increment, hbool_t &backing_store) const
 ///\exception   H5::PropListIException
 ///\par Description
 ///             Note that \a memb_size is used only when creating a new file.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setFamily(hsize_t memb_size, const FileAccPropList &memb_plist) const
@@ -276,7 +259,6 @@ FileAccPropList::setFamily(hsize_t memb_size, const FileAccPropList &memb_plist)
 ///\param       memb_plist - OUT: Retrieved file access property list for each
 ///                               file member
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::getFamily(hsize_t &memb_size, FileAccPropList &memb_plist) const
@@ -297,7 +279,6 @@ FileAccPropList::getFamily(hsize_t &memb_size, FileAccPropList &memb_plist) cons
 ///\param       memb_size  - OUT: Size in bytes of each file member
 ///\return      The file access property list for each file member
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 FileAccPropList
 FileAccPropList::getFamily(hsize_t &memb_size) const
@@ -323,7 +304,6 @@ FileAccPropList::getFamily(hsize_t &memb_size) const
 ///\par Description
 ///             For information, please refer to the H5Pset_fapl_split API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setSplit(const FileAccPropList &meta_plist, const FileAccPropList &raw_plist,
@@ -346,7 +326,6 @@ FileAccPropList::setSplit(const FileAccPropList &meta_plist, const FileAccPropLi
 ///\param       meta_ext    - IN: Metadata filename extension as \c H5std_string
 ///\param       raw_ext     - IN: Raw data filename extension as \c H5std_string
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setSplit(const FileAccPropList &meta_plist, const FileAccPropList &raw_plist,
@@ -365,7 +344,6 @@ FileAccPropList::setSplit(const FileAccPropList &meta_plist, const FileAccPropLi
 ///             property from this property list.
 ///\return      Data sieve buffer size, in bytes
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 size_t
 FileAccPropList::getSieveBufSize() const
@@ -386,7 +364,6 @@ FileAccPropList::getSieveBufSize() const
 ///\par Description
 ///             For more detail, please refer to the H5Pset_sieve_buf_size
 ///             API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setSieveBufSize(size_t bufsize) const
@@ -406,7 +383,6 @@ FileAccPropList::setSieveBufSize(size_t bufsize) const
 ///\par Description
 ///             For information, please refer to the H5Pset_meta_block_size
 ///             API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setMetaBlockSize(hsize_t &block_size) const
@@ -422,7 +398,6 @@ FileAccPropList::setMetaBlockSize(hsize_t &block_size) const
 ///\brief       Returns the current metadata block size setting.
 ///\return      Metadata block size
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 hsize_t
 FileAccPropList::getMetaBlockSize() const
@@ -446,7 +421,6 @@ FileAccPropList::getMetaBlockSize() const
 ///\par Description
 ///             For information, please refer to the H5Pset_fapl_log API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setLog(const char *logfile, unsigned flags, size_t buf_size) const
@@ -465,7 +439,6 @@ FileAccPropList::setLog(const char *logfile, unsigned flags, size_t buf_size) co
 ///\param       logfile  - IN: Name of the log file - string
 ///\param       flags    - IN: Flags specifying the types of logging activity
 ///\param       buf_size - IN: Size of the logging buffer
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setLog(const H5std_string &logfile, unsigned flags, size_t buf_size) const
@@ -479,7 +452,6 @@ FileAccPropList::setLog(const H5std_string &logfile, unsigned flags, size_t buf_
 ///             driver.
 ///
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setSec2() const
@@ -504,7 +476,6 @@ FileAccPropList::setSec2() const
 ///
 ///             For more detail, please refer to the H5Pset_alignment API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setAlignment(hsize_t threshold, hsize_t alignment) const
@@ -522,7 +493,6 @@ FileAccPropList::setAlignment(hsize_t threshold, hsize_t alignment) const
 ///\param       threshold - OUT: Retrieved threshold value for file object size
 ///\param       alignment - OUT: Retrieved alignment value
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileAccPropList::getAlignment(hsize_t &threshold, hsize_t &alignment) const
@@ -541,7 +511,6 @@ FileAccPropList::getAlignment(hsize_t &threshold, hsize_t &alignment) const
 ///\par Description
 ///             For information, please refer to the H5Pset_multi_type API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setMultiType(H5FD_mem_t dtype) const
@@ -560,7 +529,6 @@ FileAccPropList::setMultiType(H5FD_mem_t dtype) const
 ///\par Description
 ///             For information, please refer to the H5Pget_multi_type API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 H5FD_mem_t
 FileAccPropList::getMultiType() const
@@ -588,7 +556,6 @@ FileAccPropList::getMultiType() const
 ///             means fully read chunks are treated no differently than other
 ///             chunks (the preemption is strictly LRU) while a value of one
 ///             means fully read chunks are always preempted before other chunks.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setCache(int mdc_nelmts, size_t rdcc_nelmts, size_t rdcc_nbytes, double rdcc_w0) const
@@ -607,7 +574,6 @@ FileAccPropList::setCache(int mdc_nelmts, size_t rdcc_nelmts, size_t rdcc_nbytes
 ///\param       rdcc_nbytes - OUT: Total size of the raw data chunk cache, in bytes
 ///\param       rdcc_w0 - OUT: Preemption policy
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileAccPropList::getCache(int &mdc_nelmts, size_t &rdcc_nelmts, size_t &rdcc_nbytes, double &rdcc_w0) const
@@ -623,7 +589,6 @@ FileAccPropList::getCache(int &mdc_nelmts, size_t &rdcc_nelmts, size_t &rdcc_nby
 ///\brief       Sets the degree for the file close behavior.
 ///\param       degree - IN:
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setFcloseDegree(H5F_close_degree_t degree) const
@@ -639,7 +604,6 @@ FileAccPropList::setFcloseDegree(H5F_close_degree_t degree) const
 ///\brief       Returns the degree for the file close behavior.
 ///\return      The degree for the file close behavior
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 H5F_close_degree_t
 FileAccPropList::getFcloseDegree() const
@@ -661,7 +625,6 @@ FileAccPropList::getFcloseDegree() const
 ///\par Description
 ///             For information, please refer to the H5Pset_gc_references API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setGcReferences(unsigned gc_ref) const
@@ -677,7 +640,6 @@ FileAccPropList::setGcReferences(unsigned gc_ref) const
 ///\brief       Returns the garbage collecting references setting.
 ///\return      Garbage collecting references setting, 0 (off) or 1 (on)
 ///\exception   H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 unsigned
 FileAccPropList::getGcReferences() const
@@ -703,7 +665,6 @@ FileAccPropList::getGcReferences() const
 ///\par Description
 ///             For information, please refer to the H5Pset_file_locking API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Dana Robinson - 2020
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setFileLocking(hbool_t use_file_locking, hbool_t ignore_when_disabled) const
@@ -726,7 +687,6 @@ FileAccPropList::setFileLocking(hbool_t use_file_locking, hbool_t ignore_when_di
 ///\par Description
 ///             For information, please refer to the H5Pget_file_locking API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Dana Robinson - 2020
 //--------------------------------------------------------------------------
 void
 FileAccPropList::getFileLocking(hbool_t &use_file_locking, hbool_t &ignore_when_disabled) const
@@ -752,17 +712,18 @@ FileAccPropList::getFileLocking(hbool_t &use_file_locking, hbool_t &ignore_when_
 ///             \li \c H5F_LIBVER_18
 ///             \li \c H5F_LIBVER_110
 ///             \li \c H5F_LIBVER_112
+///             \li \c H5F_LIBVER_114
 ///             \li \c H5F_LIBVER_LATEST
 ///
 ///             Valid values of \a libver_high are as follows:
 ///             \li \c H5F_LIBVER_18
 ///             \li \c H5F_LIBVER_110
 ///             \li \c H5F_LIBVER_112
+///             \li \c H5F_LIBVER_114
 ///             \li \c H5F_LIBVER_LATEST   (Default)
 ///
 ///             For more detail, please refer to the H5Pset_libver_bounds API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - March, 2015
 //--------------------------------------------------------------------------
 void
 FileAccPropList::setLibverBounds(H5F_libver_t libver_low, H5F_libver_t libver_high) const
@@ -789,14 +750,15 @@ FileAccPropList::setLibverBounds(H5F_libver_t libver_low, H5F_libver_t libver_hi
 ///             \li \c H5F_LIBVER_18
 ///             \li \c H5F_LIBVER_110
 ///             \li \c H5F_LIBVER_112
+///             \li \c H5F_LIBVER_114
 ///             \li \c H5F_LIBVER_LATEST
 ///
 ///             and \a libver_high:
 ///             \li \c H5F_LIBVER_18
 ///             \li \c H5F_LIBVER_110
 ///             \li \c H5F_LIBVER_112
+///             \li \c H5F_LIBVER_114
 ///             \li \c H5F_LIBVER_LATEST
-// Programmer   Binh-Minh Ribler - March, 2015
 //--------------------------------------------------------------------------
 void
 FileAccPropList::getLibverBounds(H5F_libver_t &libver_low, H5F_libver_t &libver_high) const
@@ -810,7 +772,6 @@ FileAccPropList::getLibverBounds(H5F_libver_t &libver_low, H5F_libver_t &libver_
 //--------------------------------------------------------------------------
 // Function:    FileAccPropList destructor
 ///\brief       Noop destructor
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FileAccPropList::~FileAccPropList()
 {

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -21,10 +20,9 @@
 #include "H5Mpublic.h"
 
 /* Private headers needed by this file */
-#include "H5FDprivate.h" /* File drivers                */
-#include "H5Oprivate.h"  /* Object headers              */
-#include "H5Sprivate.h"  /* Dataspaces                  */
-#include "H5Zprivate.h"  /* Data filters                */
+#include "H5Oprivate.h" /* Object headers              */
+#include "H5Sprivate.h" /* Dataspaces                  */
+#include "H5Zprivate.h" /* Data filters                */
 
 /**************************/
 /* Library Private Macros */

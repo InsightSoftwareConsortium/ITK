@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -32,9 +31,6 @@
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Robb Matzke
- *		Friday, January	 9, 1998
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -48,11 +44,11 @@ H5Tget_pad(hid_t type_id, H5T_pad_t *lsb /*out*/, H5T_pad_t *msb /*out*/)
 
     /* Check args */
     if (NULL == (dt = (H5T_t *)H5I_object_verify(type_id, H5I_DATATYPE)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type");
     while (dt->shared->parent)
         dt = dt->shared->parent; /*defer to parent*/
     if (!H5T_IS_ATOMIC(dt->shared))
-        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "operation not defined for specified data type")
+        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "operation not defined for specified data type");
 
     /* Get values */
     if (lsb)
@@ -71,9 +67,6 @@ done:
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Robb Matzke
- *		Friday, January	 9, 1998
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -87,17 +80,17 @@ H5Tset_pad(hid_t type_id, H5T_pad_t lsb, H5T_pad_t msb)
 
     /* Check args */
     if (NULL == (dt = (H5T_t *)H5I_object_verify(type_id, H5I_DATATYPE)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type");
     if (H5T_STATE_TRANSIENT != dt->shared->state)
-        HGOTO_ERROR(H5E_ARGS, H5E_CANTINIT, FAIL, "data type is read-only")
+        HGOTO_ERROR(H5E_ARGS, H5E_CANTINIT, FAIL, "data type is read-only");
     if (lsb < H5T_PAD_ZERO || lsb >= H5T_NPAD || msb < H5T_PAD_ZERO || msb >= H5T_NPAD)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid pad type")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid pad type");
     if (H5T_ENUM == dt->shared->type && dt->shared->u.enumer.nmembs > 0)
-        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "operation not allowed after members are defined")
+        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "operation not allowed after members are defined");
     while (dt->shared->parent)
         dt = dt->shared->parent; /*defer to parent*/
     if (!H5T_IS_ATOMIC(dt->shared))
-        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "operation not defined for specified data type")
+        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "operation not defined for specified data type");
 
     /* Commit */
     dt->shared->u.atomic.lsb_pad = lsb;

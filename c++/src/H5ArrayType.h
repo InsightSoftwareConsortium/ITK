@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -37,7 +36,7 @@ class H5_DLLCPP ArrayType : public DataType {
 
     // Returns an ArrayType object via DataType* by decoding the
     // binary object description of this type.
-    virtual DataType *decode() const;
+    virtual DataType *decode() const override;
 
     // Returns the number of dimensions of this array datatype.
     int getArrayNDims() const;
@@ -49,7 +48,7 @@ class H5_DLLCPP ArrayType : public DataType {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const override
     {
         return ("ArrayType");
     }
@@ -61,7 +60,7 @@ class H5_DLLCPP ArrayType : public DataType {
     ArrayType(const hid_t existing_id);
 
     // Noop destructor
-    virtual ~ArrayType();
+    virtual ~ArrayType() override;
 
     // Default constructor
     ArrayType();

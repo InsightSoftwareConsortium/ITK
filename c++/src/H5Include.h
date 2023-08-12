@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -24,10 +23,3 @@
  *      magic number as prefix and checksum as suffix for all chunks.
  */
 #define H5O_VERSION_2 2
-
-// Define H5_OVERRIDE to override for C++11.
-#if defined(__cplusplus) && (201103L <= __cplusplus)
-#define H5_OVERRIDE override
-#else
-#define H5_OVERRIDE
-#endif

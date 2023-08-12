@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -12,15 +11,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Robb Matzke
- *              Monday, August  2, 1999
- *
  * Purpose:	The public header file for the core driver.
  */
 #ifndef H5FDcore_H
 #define H5FDcore_H
 
-#define H5FD_CORE (H5FD_core_init())
+#define H5FD_CORE       (H5FDperform_init(H5FD_core_init))
+#define H5FD_CORE_VALUE H5_VFD_CORE
 
 #ifdef __cplusplus
 extern "C" {

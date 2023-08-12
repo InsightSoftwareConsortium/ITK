@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -175,8 +174,8 @@ H5T__bit_shift(uint8_t *buf, ssize_t shift_dist, size_t offset, size_t size)
     FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(buf);
-    HDassert(size);
+    assert(buf);
+    assert(size);
 
     if (shift_dist) {
         size_t abs_shift_dist = (size_t)ABS(shift_dist);
@@ -189,11 +188,11 @@ H5T__bit_shift(uint8_t *buf, ssize_t shift_dist, size_t offset, size_t size)
 
             /* Wrap the local buffer for serialized header info */
             if (NULL == (wb = H5WB_wrap(tmp_buf, sizeof(tmp_buf))))
-                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "can't wrap buffer")
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "can't wrap buffer");
 
             /* Get a pointer to a buffer that's large enough  */
             if (NULL == (shift_buf = (uint8_t *)H5WB_actual(wb, buf_size)))
-                HGOTO_ERROR(H5E_DATATYPE, H5E_NOSPACE, FAIL, "can't get actual buffer")
+                HGOTO_ERROR(H5E_DATATYPE, H5E_NOSPACE, FAIL, "can't get actual buffer");
 
             /* Shift vector by making copies */
             if (shift_dist > 0) { /* left shift */
@@ -217,7 +216,7 @@ H5T__bit_shift(uint8_t *buf, ssize_t shift_dist, size_t offset, size_t size)
 done:
     /* Release resources */
     if (wb && H5WB_unwrap(wb) < 0)
-        HDONE_ERROR(H5E_DATATYPE, H5E_CLOSEERROR, FAIL, "can't close wrapped buffer")
+        HDONE_ERROR(H5E_DATATYPE, H5E_CLOSEERROR, FAIL, "can't close wrapped buffer");
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5T__bit_shift() */
@@ -228,7 +227,7 @@ done:
  * Purpose:     Return a small bit sequence as a number.  Bit vector starts
  *              at OFFSET and is SIZE bits long.
  *
- * Return:      The bit sequence interpretted as an unsigned integer
+ * Return:      The bit sequence interpreted as an unsigned integer
  *
  *-------------------------------------------------------------------------
  */
@@ -241,7 +240,7 @@ H5T__bit_get_d(uint8_t *buf, size_t offset, size_t size)
 
     FUNC_ENTER_PACKAGE_NOERR
 
-    HDassert(8 * sizeof(val) >= size);
+    assert(8 * sizeof(val) >= size);
 
     H5T__bit_copy((uint8_t *)&val, (size_t)0, buf, offset, size);
     switch (H5T_native_order_g) {
@@ -262,13 +261,12 @@ H5T__bit_get_d(uint8_t *buf, size_t offset, size_t size)
         case H5T_ORDER_MIXED:
         default:
             /* This function can't return errors */
-            HDassert(0 && "unknown byte order");
+            assert(0 && "unknown byte order");
     }
 
     /* Set return value */
     ret_value = val;
 
-done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5T__bit_get_d() */
 
@@ -288,7 +286,7 @@ H5T__bit_set_d(uint8_t *buf, size_t offset, size_t size, uint64_t val)
 
     FUNC_ENTER_PACKAGE_NOERR
 
-    HDassert(8 * sizeof(val) >= size);
+    assert(8 * sizeof(val) >= size);
 
     switch (H5T_native_order_g) {
         case H5T_ORDER_LE:
@@ -373,7 +371,7 @@ H5T__bit_set(uint8_t *buf, size_t offset, size_t size, hbool_t value)
  * Purpose:     Finds the first bit with the specified VALUE within a region
  *              of a bit vector.  The region begins at OFFSET and continues
  *              for SIZE bits, but the region can be searched from the least
- *              significat end toward the most significant end(H5T_BIT_LSB
+ *              significant end toward the most significant end(H5T_BIT_LSB
  *              as DIRECTION), or from the most significant end to the least
  *              significant end(H5T_BIT_MSB as DIRECTION).
  *
@@ -396,7 +394,7 @@ H5T__bit_find(const uint8_t *buf, size_t offset, size_t size, H5T_sdir_t directi
     FUNC_ENTER_PACKAGE_NOERR
 
     /* Some functions call this with value=TRUE */
-    HDassert(TRUE == 1);
+    assert(TRUE == 1);
 
     switch (direction) {
         case H5T_BIT_LSB:
@@ -466,7 +464,7 @@ H5T__bit_find(const uint8_t *buf, size_t offset, size_t size, H5T_sdir_t directi
             break;
 
         default:
-            HDassert(0 && "Unknown bit search direction");
+            assert(0 && "Unknown bit search direction");
     } /* end switch */
 
 done:
@@ -493,7 +491,7 @@ H5T__bit_inc(uint8_t *buf, size_t start, size_t size)
     /* Use FUNC_ENTER_PACKAGE_NOERR here to avoid performance issues */
     FUNC_ENTER_PACKAGE_NOERR
 
-    HDassert(buf);
+    assert(buf);
 
     start %= 8;
 
@@ -539,7 +537,7 @@ H5T__bit_inc(uint8_t *buf, size_t start, size_t size)
 /*-------------------------------------------------------------------------
  * Function:    H5T__bit_dec
  *
- * Purpose:     Decrement part of a bit field by substracting 1.  The bit
+ * Purpose:     Decrement part of a bit field by subtracting 1.  The bit
  *              field starts with bit position START and is SIZE bits long.
  *
  * Return:      The "borrow-in" value. It's TRUE if underflows, FALSE
@@ -558,16 +556,16 @@ H5T__bit_dec(uint8_t *buf, size_t start, size_t size)
     /* Use FUNC_ENTER_PACKAGE_NOERR here to avoid performance issues */
     FUNC_ENTER_PACKAGE_NOERR
 
-    HDassert(buf);
-    HDassert(size);
+    assert(buf);
+    assert(size);
 
     /* The first partial byte */
     if ((size + start - 1) / 8 > idx) {
         /* The bit sequence doesn't end in the same byte as starts */
 
-        /* Example:  a sequence like 11000100 and start = 3.  We substract 00001000 from
+        /* Example:  a sequence like 11000100 and start = 3.  We subtract 00001000 from
          * it and get 10111100.  If a sequence is 00000111, we do right shift for START
-         * bits and get 00000000.  So we need to borrow from higher byte when we substract
+         * bits and get 00000000.  So we need to borrow from higher byte when we subtract
          * 00001000.
          */
         if (!(buf[idx] >> pos))
@@ -598,7 +596,7 @@ H5T__bit_dec(uint8_t *buf, size_t start, size_t size)
     else {
         /* The bit sequence ends in the same byte as starts */
 
-        /* Example: a sequence like 11000100 and pos=3, size=3.  We substract 00001000
+        /* Example: a sequence like 11000100 and pos=3, size=3.  We subtract 00001000
          * and get 10111100.  A bit is borrowed from 6th bit(buf[idx]>>6=00000010, tmp>>6=00000011,
          * not equal).  We need to put this bit back by increment 1000000.
          */
@@ -633,8 +631,8 @@ H5T__bit_neg(uint8_t *buf, size_t start, size_t size)
     /* Use FUNC_ENTER_PACKAGE_NOERR here to avoid performance issues */
     FUNC_ENTER_PACKAGE_NOERR
 
-    HDassert(buf);
-    HDassert(size);
+    assert(buf);
+    assert(size);
 
     /* The first partial byte */
     tmp[0] = (uint8_t)~buf[idx];

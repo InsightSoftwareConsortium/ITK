@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -12,15 +11,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Robb Matzke
- *              Monday, August  2, 1999
- *
  * Purpose:	The public header file for the "multi" driver.
  */
 #ifndef H5FDmulti_H
 #define H5FDmulti_H
 
-#define H5FD_MULTI (H5FD_multi_init())
+#define H5FD_MULTI (H5FDperform_init(H5FD_multi_init))
 
 #ifdef __cplusplus
 extern "C" {
@@ -227,17 +223,17 @@ H5_DLL herr_t H5Pget_fapl_multi(hid_t fapl_id, H5FD_mem_t *memb_map /*out*/, hid
  *
  * \par Example:
  * \code
- * // Example 1: Both metadata and rawdata files are in the same
+ * // Example 1: Both metadata and raw data files are in the same
  * //            directory. Use Station1-m.h5 and Station1-r.h5 as
- * //            the metadata and rawdata files.
+ * //            the metadata and raw data files.
  * hid_t fapl, fid;
  * fapl = H5Pcreate(H5P_FILE_ACCESS);
  * H5Pset_fapl_split(fapl, "-m.h5", H5P_DEFAULT, "-r.h5", H5P_DEFAULT);
  * fid=H5Fcreate("Station1",H5F_ACC_TRUNC,H5P_DEFAULT,fapl);
  *
- * // Example 2: metadata and rawdata files are in different
+ * // Example 2: metadata and raw data files are in different
  * //            directories.  Use PointA-m.h5 and /pfs/PointA-r.h5 as
- * //            the metadata and rawdata files.
+ * //            the metadata and raw data files.
  * hid_t fapl, fid;
  * fapl = H5Pcreate(H5P_FILE_ACCESS);
  * H5Pset_fapl_split(fapl, "-m.h5", H5P_DEFAULT, "/pfs/%s-r.h5", H5P_DEFAULT);

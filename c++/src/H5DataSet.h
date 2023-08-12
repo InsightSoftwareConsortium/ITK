@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -28,7 +27,7 @@ namespace H5 {
 class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
   public:
     // Close this dataset.
-    virtual void close();
+    virtual void close() override;
 
     // Extends the dataset with unlimited dimension.
     void extend(const hsize_t *size) const;
@@ -53,16 +52,16 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
     haddr_t getOffset() const;
 
     // Gets the dataspace of this dataset.
-    virtual DataSpace getSpace() const;
+    virtual DataSpace getSpace() const override;
 
     // Determines whether space has been allocated for a dataset.
     void getSpaceStatus(H5D_space_status_t &status) const;
 
     // Returns the amount of storage size required for this dataset.
-    virtual hsize_t getStorageSize() const;
+    virtual hsize_t getStorageSize() const override;
 
     // Returns the in memory size of this attribute's data.
-    virtual size_t getInMemDataSize() const;
+    virtual size_t getInMemDataSize() const override;
 
     // Returns the number of bytes required to store VL data.
     hsize_t getVlenBufSize(const DataType &type, const DataSpace &space) const;
@@ -78,20 +77,20 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
     // The memory and file dataspaces and the transferring property list
     // can be defaults.
     void read(void *buf, const DataType &mem_type, const DataSpace &mem_space = DataSpace::ALL,
-              const DataSpace &          file_space = DataSpace::ALL,
+              const DataSpace           &file_space = DataSpace::ALL,
               const DSetMemXferPropList &xfer_plist = DSetMemXferPropList::DEFAULT) const;
     void read(H5std_string &buf, const DataType &mem_type, const DataSpace &mem_space = DataSpace::ALL,
-              const DataSpace &          file_space = DataSpace::ALL,
+              const DataSpace           &file_space = DataSpace::ALL,
               const DSetMemXferPropList &xfer_plist = DSetMemXferPropList::DEFAULT) const;
 
     // Writes the buffered data to this dataset.
     // The memory and file dataspaces and the transferring property list
     // can be defaults.
     void write(const void *buf, const DataType &mem_type, const DataSpace &mem_space = DataSpace::ALL,
-               const DataSpace &          file_space = DataSpace::ALL,
+               const DataSpace           &file_space = DataSpace::ALL,
                const DSetMemXferPropList &xfer_plist = DSetMemXferPropList::DEFAULT) const;
     void write(const H5std_string &buf, const DataType &mem_type, const DataSpace &mem_space = DataSpace::ALL,
-               const DataSpace &          file_space = DataSpace::ALL,
+               const DataSpace           &file_space = DataSpace::ALL,
                const DSetMemXferPropList &xfer_plist = DSetMemXferPropList::DEFAULT) const;
 
     // Iterates the selected elements in the specified dataspace - not implemented in C++ style yet
@@ -100,7 +99,7 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const override
     {
         return ("DataSet");
     }
@@ -124,15 +123,15 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
     DataSet(const hid_t existing_id);
 
     // Gets the dataset id.
-    virtual hid_t getId() const;
+    virtual hid_t getId() const override;
 
     // Destructor: properly terminates access to this dataset.
-    virtual ~DataSet();
+    virtual ~DataSet() override;
 
   protected:
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
     // Sets the dataset id.
-    virtual void p_setId(const hid_t new_id);
+    virtual void p_setId(const hid_t new_id) override;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
   private:
@@ -142,7 +141,7 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
     // getTypeClass and various API functions getXxxType
     // defined in AbstractDs for generic datatype and specific
     // sub-types
-    virtual hid_t p_get_type() const;
+    virtual hid_t p_get_type() const override;
 
     // Reads variable or fixed len strings from this dataset.
     void p_read_fixed_len(const hid_t mem_type_id, const hid_t mem_space_id, const hid_t file_space_id,

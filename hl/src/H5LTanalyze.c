@@ -10,6 +10,7 @@
 #pragma GCC diagnostic ignored "-Wsign-conversion"                
 #pragma GCC diagnostic ignored "-Wstrict-overflow"                
 #pragma GCC diagnostic ignored "-Wstrict-prototypes"              
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"           
 #if !defined (__clang__)                                          
 #pragma GCC diagnostic ignored "-Wlarger-than="                   
 #pragma GCC diagnostic ignored "-Wsuggest-attribute=const"        
@@ -28,9 +29,14 @@
 #elif defined _MSC_VER                                            
 #pragma warning(push, 1)                                          
 #endif                                                            
-#line 1 "hl/src/H5LTanalyze.c"
+#line 2 "hl/src//H5LTanalyze.c"
+/* Quiet warnings about integer type macro redefinitions on Visual Studio
+ * (MSVC doesn't define STDC_VERSION, but has inttypes.h). This is an
+ * issue that is apparently fixed in flex 2.6.5.
+ */
+#include <stdint.h>
 
-#line 3 "hl/src/H5LTanalyze.c"
+#line 9 "hl/src//H5LTanalyze.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -888,10 +894,9 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "hl/src/H5LTanalyze.l"
+#line 1 "hl/src//H5LTanalyze.l"
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -906,7 +911,8 @@ char *yytext;
  * If you make any changes to H5LTanalyze.l, please run bin/genparser to
  * recreate the output files.
  */
-#line 21 "hl/src/H5LTanalyze.l"
+
+#line 28 "hl/src//H5LTanalyze.l"
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -930,8 +936,8 @@ static int my_yyinput(char *, int);
 extern char *myinput;
 extern size_t input_len;
 
-#line 903 "hl/src/H5LTanalyze.c"
-#line 904 "hl/src/H5LTanalyze.c"
+#line 909 "hl/src//H5LTanalyze.c"
+#line 910 "hl/src//H5LTanalyze.c"
 
 #define INITIAL 0
 
@@ -1140,10 +1146,10 @@ YY_DECL
 		}
 
 	{
-#line 46 "hl/src/H5LTanalyze.l"
+#line 53 "hl/src//H5LTanalyze.l"
 
 
-#line 1116 "hl/src/H5LTanalyze.c"
+#line 1122 "hl/src//H5LTanalyze.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1202,286 +1208,286 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 48 "hl/src/H5LTanalyze.l"
+#line 55 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_I8BE_TOKEN);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 49 "hl/src/H5LTanalyze.l"
+#line 56 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_I8LE_TOKEN);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 50 "hl/src/H5LTanalyze.l"
+#line 57 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_I16BE_TOKEN);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 51 "hl/src/H5LTanalyze.l"
+#line 58 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_I16LE_TOKEN);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 52 "hl/src/H5LTanalyze.l"
+#line 59 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_I32BE_TOKEN);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 53 "hl/src/H5LTanalyze.l"
+#line 60 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_I32LE_TOKEN);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 54 "hl/src/H5LTanalyze.l"
+#line 61 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_I64BE_TOKEN);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 55 "hl/src/H5LTanalyze.l"
+#line 62 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_I64LE_TOKEN);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 57 "hl/src/H5LTanalyze.l"
+#line 64 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_U8BE_TOKEN);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 58 "hl/src/H5LTanalyze.l"
+#line 65 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_U8LE_TOKEN);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 59 "hl/src/H5LTanalyze.l"
+#line 66 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_U16BE_TOKEN);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 60 "hl/src/H5LTanalyze.l"
+#line 67 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_U16LE_TOKEN);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 61 "hl/src/H5LTanalyze.l"
+#line 68 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_U32BE_TOKEN);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 62 "hl/src/H5LTanalyze.l"
+#line 69 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_U32LE_TOKEN);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 63 "hl/src/H5LTanalyze.l"
+#line 70 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_U64BE_TOKEN);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 64 "hl/src/H5LTanalyze.l"
+#line 71 "hl/src//H5LTanalyze.l"
 {return hid(H5T_STD_U64LE_TOKEN);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 66 "hl/src/H5LTanalyze.l"
+#line 73 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_CHAR_TOKEN);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 67 "hl/src/H5LTanalyze.l"
+#line 74 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_SCHAR_TOKEN);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 68 "hl/src/H5LTanalyze.l"
+#line 75 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_UCHAR_TOKEN);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 69 "hl/src/H5LTanalyze.l"
+#line 76 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_SHORT_TOKEN);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 70 "hl/src/H5LTanalyze.l"
+#line 77 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_USHORT_TOKEN);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 71 "hl/src/H5LTanalyze.l"
+#line 78 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_INT_TOKEN);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 72 "hl/src/H5LTanalyze.l"
+#line 79 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_UINT_TOKEN);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 73 "hl/src/H5LTanalyze.l"
+#line 80 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_LONG_TOKEN);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 74 "hl/src/H5LTanalyze.l"
+#line 81 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_ULONG_TOKEN);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 75 "hl/src/H5LTanalyze.l"
+#line 82 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_LLONG_TOKEN);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 76 "hl/src/H5LTanalyze.l"
+#line 83 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_ULLONG_TOKEN);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 78 "hl/src/H5LTanalyze.l"
+#line 85 "hl/src//H5LTanalyze.l"
 {return hid(H5T_IEEE_F32BE_TOKEN);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 79 "hl/src/H5LTanalyze.l"
+#line 86 "hl/src//H5LTanalyze.l"
 {return hid(H5T_IEEE_F32LE_TOKEN);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 80 "hl/src/H5LTanalyze.l"
+#line 87 "hl/src//H5LTanalyze.l"
 {return hid(H5T_IEEE_F64BE_TOKEN);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 81 "hl/src/H5LTanalyze.l"
+#line 88 "hl/src//H5LTanalyze.l"
 {return hid(H5T_IEEE_F64LE_TOKEN);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 82 "hl/src/H5LTanalyze.l"
+#line 89 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_FLOAT_TOKEN);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 83 "hl/src/H5LTanalyze.l"
+#line 90 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_DOUBLE_TOKEN);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 84 "hl/src/H5LTanalyze.l"
+#line 91 "hl/src//H5LTanalyze.l"
 {return hid(H5T_NATIVE_LDOUBLE_TOKEN);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 86 "hl/src/H5LTanalyze.l"
+#line 93 "hl/src//H5LTanalyze.l"
 {return token(H5T_STRING_TOKEN);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 87 "hl/src/H5LTanalyze.l"
+#line 94 "hl/src//H5LTanalyze.l"
 {return token(STRSIZE_TOKEN);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 88 "hl/src/H5LTanalyze.l"
+#line 95 "hl/src//H5LTanalyze.l"
 {return token(STRPAD_TOKEN);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 89 "hl/src/H5LTanalyze.l"
+#line 96 "hl/src//H5LTanalyze.l"
 {return token(CSET_TOKEN);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 90 "hl/src/H5LTanalyze.l"
+#line 97 "hl/src//H5LTanalyze.l"
 {return token(CTYPE_TOKEN);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 91 "hl/src/H5LTanalyze.l"
+#line 98 "hl/src//H5LTanalyze.l"
 {return token(H5T_STR_NULLTERM_TOKEN);}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 92 "hl/src/H5LTanalyze.l"
+#line 99 "hl/src//H5LTanalyze.l"
 {return token(H5T_STR_NULLPAD_TOKEN);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 93 "hl/src/H5LTanalyze.l"
+#line 100 "hl/src//H5LTanalyze.l"
 {return token(H5T_STR_SPACEPAD_TOKEN);}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 94 "hl/src/H5LTanalyze.l"
+#line 101 "hl/src//H5LTanalyze.l"
 {return token(H5T_CSET_ASCII_TOKEN);}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 95 "hl/src/H5LTanalyze.l"
+#line 102 "hl/src//H5LTanalyze.l"
 {return token(H5T_CSET_UTF8_TOKEN);}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 96 "hl/src/H5LTanalyze.l"
+#line 103 "hl/src//H5LTanalyze.l"
 {return token(H5T_C_S1_TOKEN);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 97 "hl/src/H5LTanalyze.l"
+#line 104 "hl/src//H5LTanalyze.l"
 {return token(H5T_FORTRAN_S1_TOKEN);}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 98 "hl/src/H5LTanalyze.l"
+#line 105 "hl/src//H5LTanalyze.l"
 {return token(H5T_VARIABLE_TOKEN);}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 100 "hl/src/H5LTanalyze.l"
+#line 107 "hl/src//H5LTanalyze.l"
 {return token(H5T_COMPOUND_TOKEN);}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 101 "hl/src/H5LTanalyze.l"
+#line 108 "hl/src//H5LTanalyze.l"
 {return token(H5T_ENUM_TOKEN);}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 102 "hl/src/H5LTanalyze.l"
+#line 109 "hl/src//H5LTanalyze.l"
 {return token(H5T_ARRAY_TOKEN);}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 103 "hl/src/H5LTanalyze.l"
+#line 110 "hl/src//H5LTanalyze.l"
 {return token(H5T_VLEN_TOKEN);}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 105 "hl/src/H5LTanalyze.l"
+#line 112 "hl/src//H5LTanalyze.l"
 {return token(H5T_OPAQUE_TOKEN);}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 106 "hl/src/H5LTanalyze.l"
+#line 113 "hl/src//H5LTanalyze.l"
 {return token(OPQ_SIZE_TOKEN);}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 107 "hl/src/H5LTanalyze.l"
+#line 114 "hl/src//H5LTanalyze.l"
 {return token(OPQ_TAG_TOKEN);}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 109 "hl/src/H5LTanalyze.l"
+#line 116 "hl/src//H5LTanalyze.l"
 {
-                        H5LTyylval.ival = HDatoi(yytext);
+                        H5LTyylval.ival = atoi(yytext);
                         return NUMBER;
                  }
 	YY_BREAK
 case 56:
 /* rule 56 can match eol */
 YY_RULE_SETUP
-#line 114 "hl/src/H5LTanalyze.l"
+#line 121 "hl/src//H5LTanalyze.l"
 {
                     H5LTyylval.sval = trim_quotes(yytext);
                     return STRING;
@@ -1489,46 +1495,46 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 119 "hl/src/H5LTanalyze.l"
+#line 126 "hl/src//H5LTanalyze.l"
 {return token('{');}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 120 "hl/src/H5LTanalyze.l"
+#line 127 "hl/src//H5LTanalyze.l"
 {return token('}');}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 121 "hl/src/H5LTanalyze.l"
+#line 128 "hl/src//H5LTanalyze.l"
 {return token('[');}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 122 "hl/src/H5LTanalyze.l"
+#line 129 "hl/src//H5LTanalyze.l"
 {return token(']');}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 123 "hl/src/H5LTanalyze.l"
+#line 130 "hl/src//H5LTanalyze.l"
 {return token(':');}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 124 "hl/src/H5LTanalyze.l"
+#line 131 "hl/src//H5LTanalyze.l"
 {return token(';');}
 	YY_BREAK
 case 63:
 /* rule 63 can match eol */
 YY_RULE_SETUP
-#line 125 "hl/src/H5LTanalyze.l"
+#line 132 "hl/src//H5LTanalyze.l"
 ;
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 127 "hl/src/H5LTanalyze.l"
+#line 134 "hl/src//H5LTanalyze.l"
 ECHO;
 	YY_BREAK
-#line 1501 "hl/src/H5LTanalyze.c"
+#line 1507 "hl/src//H5LTanalyze.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2533,7 +2539,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 127 "hl/src/H5LTanalyze.l"
+#line 134 "hl/src//H5LTanalyze.l"
 
 
 /* Allocate a copy of `quoted` with the double quote character at
@@ -2543,12 +2549,12 @@ void yyfree (void * ptr )
 static char *
 trim_quotes(const char *quoted)
 {
-    size_t len = HDstrlen(quoted);
+    size_t len = strlen(quoted);
     char *trimmed;
 
-    HDassert(quoted[0] == '"' && quoted[len - 1] == '"');
+    assert(quoted[0] == '"' && quoted[len - 1] == '"');
 
-    trimmed = HDstrdup(quoted + 1);
+    trimmed = strdup(quoted + 1);
     trimmed[len - 2] = '\0';
 
     return trimmed;
@@ -2558,19 +2564,19 @@ static int my_yyinput(char *buf, int max_size)
 {
    int ret;
 
-   HDmemcpy(buf, myinput, input_len);
+   memcpy(buf, myinput, input_len);
    ret = (int)input_len;
    return ret;
 }
 
 int H5LTyyerror(const char *msg)
 {
-   HDprintf("ERROR: %s before \"%s\".\n", msg, yytext);
+   printf("ERROR: %s before \"%s\".\n", msg, yytext);
    return 0;
 }
 
 int yywrap()
 {
-    return(1);
+    return 1;
 }
 

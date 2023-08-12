@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -78,7 +77,7 @@ class H5_DLLCPP FileCreatPropList : public PropList {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const override
     {
         return ("FileCreatPropList");
     }
@@ -91,7 +90,7 @@ class H5_DLLCPP FileCreatPropList : public PropList {
     FileCreatPropList(const hid_t plist_id);
 
     // Noop destructor
-    virtual ~FileCreatPropList();
+    virtual ~FileCreatPropList() override;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

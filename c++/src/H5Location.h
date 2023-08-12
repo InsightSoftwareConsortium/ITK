@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -15,7 +14,7 @@
 #ifndef H5Location_H
 #define H5Location_H
 
-#include "H5Classes.h" // constains forward class declarations
+#include "H5Classes.h" // contains forward class declarations
 
 namespace H5 {
 
@@ -108,11 +107,11 @@ class H5_DLLCPP H5Location : public IdComponent {
     // Creates a new dataset in this location.
     DataSet createDataSet(const char *name, const DataType &data_type, const DataSpace &data_space,
                           const DSetCreatPropList &create_plist = DSetCreatPropList::DEFAULT,
-                          const DSetAccPropList &  dapl         = DSetAccPropList::DEFAULT,
+                          const DSetAccPropList   &dapl         = DSetAccPropList::DEFAULT,
                           const LinkCreatPropList &lcpl         = LinkCreatPropList::DEFAULT) const;
     DataSet createDataSet(const H5std_string &name, const DataType &data_type, const DataSpace &data_space,
                           const DSetCreatPropList &create_plist = DSetCreatPropList::DEFAULT,
-                          const DSetAccPropList &  dapl         = DSetAccPropList::DEFAULT,
+                          const DSetAccPropList   &dapl         = DSetAccPropList::DEFAULT,
                           const LinkCreatPropList &lcpl         = LinkCreatPropList::DEFAULT) const;
 
     // Deprecated to add LinkCreatPropList and DSetAccPropList - 1.10.3
@@ -124,12 +123,12 @@ class H5_DLLCPP H5Location : public IdComponent {
     // Opens an existing dataset at this location.
     // DSetAccPropList is added - 1.10.3
     DataSet openDataSet(const char *name, const DSetAccPropList &dapl = DSetAccPropList::DEFAULT) const;
-    DataSet openDataSet(const H5std_string &   name,
+    DataSet openDataSet(const H5std_string    &name,
                         const DSetAccPropList &dapl = DSetAccPropList::DEFAULT) const;
 
-    H5L_info2_t getLinkInfo(const char *           link_name,
+    H5L_info2_t getLinkInfo(const char            *link_name,
                             const LinkAccPropList &lapl = LinkAccPropList::DEFAULT) const;
-    H5L_info2_t getLinkInfo(const H5std_string &   link_name,
+    H5L_info2_t getLinkInfo(const H5std_string    &link_name,
                             const LinkAccPropList &lapl = LinkAccPropList::DEFAULT) const;
 
     // Returns the value of a symbolic link.
@@ -216,26 +215,26 @@ class H5_DLLCPP H5Location : public IdComponent {
     // Creates a soft link from link_name to target_name.
     void link(const char *target_name, const char *link_name,
               const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-              const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+              const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
     void link(const H5std_string &target_name, const H5std_string &link_name,
               const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-              const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+              const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
 
     // Creates a hard link from new_name to curr_name.
     void link(const char *curr_name, const Group &new_loc, const char *new_name,
               const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-              const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+              const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
     void link(const H5std_string &curr_name, const Group &new_loc, const H5std_string &new_name,
               const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-              const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+              const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
 
     // Creates a hard link from new_name to curr_name in same location.
     void link(const char *curr_name, const hid_t same_loc, const char *new_name,
               const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-              const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+              const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
     void link(const H5std_string &curr_name, const hid_t same_loc, const H5std_string &new_name,
               const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-              const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+              const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
 
     // Creates a link of the specified type from new_name to current_name;
     // both names are interpreted relative to the specified location id.
@@ -258,34 +257,34 @@ class H5_DLLCPP H5Location : public IdComponent {
     // Copies a link from a group to another.
     void copyLink(const char *src_name, const Group &dst, const char *dst_name,
                   const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-                  const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+                  const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
     void copyLink(const H5std_string &src_name, const Group &dst, const H5std_string &dst_name,
                   const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-                  const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+                  const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
 
     // Makes a copy of a link in the same group.
     void copyLink(const char *src_name, const char *dst_name,
                   const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-                  const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+                  const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
     void copyLink(const H5std_string &src_name, const H5std_string &dst_name,
                   const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-                  const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+                  const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
 
     // Renames a link in this group and moves to a new location.
     void moveLink(const char *src_name, const Group &dst, const char *dst_name,
                   const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-                  const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+                  const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
     void moveLink(const H5std_string &src_name, const Group &dst, const H5std_string &dst_name,
                   const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-                  const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+                  const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
 
     // Renames a link in this group.
     void moveLink(const char *src_name, const char *dst_name,
                   const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-                  const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+                  const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
     void moveLink(const H5std_string &src_name, const H5std_string &dst_name,
                   const LinkCreatPropList &lcpl = LinkCreatPropList::DEFAULT,
-                  const LinkAccPropList &  lapl = LinkAccPropList::DEFAULT) const;
+                  const LinkAccPropList   &lapl = LinkAccPropList::DEFAULT) const;
 
     // Renames an object at this location.
     // Deprecated due to inadequate functionality.
@@ -334,7 +333,7 @@ class H5_DLLCPP H5Location : public IdComponent {
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
     // Noop destructor.
-    virtual ~H5Location();
+    virtual ~H5Location() override;
 
 }; // end of H5Location
 } // namespace H5

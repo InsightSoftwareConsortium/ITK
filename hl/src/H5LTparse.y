@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -32,8 +31,8 @@ extern int yyerror(const char *);
 /*structure for compound type information*/
 struct cmpd_info {
     hid_t       id;             /*type ID*/
-    hbool_t     is_field;       /*flag to lexer for compound member*/
-    hbool_t     first_memb;     /*flag for first compound member*/
+    bool        is_field;       /*flag to lexer for compound member*/
+    bool        first_memb;     /*flag for first compound member*/
 };
 
 /*stack for nested compound type*/
@@ -49,7 +48,7 @@ static int csindex = -1;                /*pointer to the top of compound stack*/
 struct arr_info {
     hsize_t             dims[H5S_MAX_RANK];     /*size of each dimension, limited to 32 dimensions*/
     unsigned            ndims;                  /*number of dimensions*/
-    hbool_t             is_dim;                 /*flag to lexer for dimension*/
+    bool                is_dim;                 /*flag to lexer for dimension*/
 };
 /*stack for nested array type*/
 static struct arr_info arr_stack[STACK_SIZE];
@@ -57,12 +56,12 @@ static int asindex = -1;               /*pointer to the top of array stack*/
 
 static H5T_str_t   str_pad;                /*variable for string padding*/
 static H5T_cset_t  str_cset;               /*variable for string character set*/
-static hbool_t     is_variable = 0;        /*variable for variable-length string*/
+static bool        is_variable = 0;        /*variable for variable-length string*/
 static size_t      str_size;               /*variable for string size*/
    
 static hid_t       enum_id;                /*type ID*/
-static hbool_t     is_enum = 0;            /*flag to lexer for enum type*/
-static hbool_t     is_enum_memb = 0;       /*flag to lexer for enum member*/
+static bool        is_enum = 0;            /*flag to lexer for enum type*/
+static bool        is_enum_memb = 0;       /*flag to lexer for enum member*/
 static char*       enum_memb_symbol;       /*enum member symbol string*/
 
 %}
@@ -192,7 +191,7 @@ memb_def        :       ddl_type { cmpd_stack[csindex].is_field = 1; /*notify le
                                 }
                             }
                             if($<sval>3) {
-                                HDfree($<sval>3);
+                                free($<sval>3);
                                 $<sval>3 = NULL;
                             }
                             cmpd_stack[csindex].is_field = 0;
@@ -203,8 +202,8 @@ memb_def        :       ddl_type { cmpd_stack[csindex].is_field = 1; /*notify le
                 ;
 field_name      :       STRING
                         {
-                            $<sval>$ = HDstrdup(yylval.sval);
-                            HDfree(yylval.sval);
+                            $<sval>$ = strdup(yylval.sval);
+                            free(yylval.sval);
                             yylval.sval = NULL;
                         }                            
                 ;
@@ -252,7 +251,7 @@ opaque_type     :       H5T_OPAQUE_TOKEN
                             OPQ_TAG_TOKEN opaque_tag ';'
                             {  
                                 H5Tset_tag($<hid>6, yylval.sval);
-                                HDfree(yylval.sval);
+                                free(yylval.sval);
                                 yylval.sval = NULL;
                             }                             
                         '}' { $<hid>$ = $<hid>6; }
@@ -335,8 +334,8 @@ enum_list       :
                 ;
 enum_def        :       enum_symbol         {
                                                 is_enum_memb = 1; /*indicate member of enum*/
-                                                enum_memb_symbol = HDstrdup(yylval.sval); 
-                                                HDfree(yylval.sval);
+                                                enum_memb_symbol = strdup(yylval.sval); 
+                                                free(yylval.sval);
                                                 yylval.sval = NULL;
                                             }
                         enum_val ';'
@@ -376,7 +375,7 @@ enum_def        :       enum_symbol         {
                                     }
 
                                     is_enum_memb = 0; 
-                                    if(enum_memb_symbol) HDfree(enum_memb_symbol);
+                                    if(enum_memb_symbol) free(enum_memb_symbol);
                                 }
 
                                 H5Tclose(super);

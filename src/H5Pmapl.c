@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -112,19 +111,19 @@ H5P__macc_reg_prop(H5P_genclass_t *pclass)
         H5M_ACS_KEY_ALLOC_SIZE_DEF; /* Default key prefetch allocation size for iteration */
     herr_t ret_value = SUCCEED;     /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Register the key prefetch size for iteration */
     if (H5P__register_real(pclass, H5M_ACS_KEY_PREFETCH_SIZE_NAME, H5M_ACS_KEY_PREFETCH_SIZE_SIZE,
                            &key_prefetch_size, NULL, NULL, NULL, H5M_ACS_KEY_PREFETCH_SIZE_ENC,
                            H5M_ACS_KEY_PREFETCH_SIZE_DEC, NULL, NULL, NULL, NULL) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class");
 
     /* Register the key prefetch allocation size for iteration */
     if (H5P__register_real(pclass, H5M_ACS_KEY_ALLOC_SIZE_NAME, H5M_ACS_KEY_ALLOC_SIZE_SIZE, &key_alloc_size,
                            NULL, NULL, NULL, H5M_ACS_KEY_ALLOC_SIZE_ENC, H5M_ACS_KEY_ALLOC_SIZE_DEC, NULL,
                            NULL, NULL, NULL) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -160,7 +159,7 @@ H5Pset_map_iterate_hints(hid_t mapl_id, size_t key_prefetch_size, size_t key_all
 
     /* Get the plist structure */
     if (NULL == (plist = H5P_object_verify(mapl_id, H5P_MAP_ACCESS)))
-        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID");
+        HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
     /* Set sizes */
     if (H5P_set(plist, H5M_ACS_KEY_PREFETCH_SIZE_NAME, &key_prefetch_size) < 0)
@@ -182,17 +181,17 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5Pget_map_iterate_hints(hid_t mapl_id, size_t *key_prefetch_size, size_t *key_alloc_size)
+H5Pget_map_iterate_hints(hid_t mapl_id, size_t *key_prefetch_size /*out*/, size_t *key_alloc_size /*out*/)
 {
     H5P_genplist_t *plist;               /* Property list pointer */
     herr_t          ret_value = SUCCEED; /* return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "i*z*z", mapl_id, key_prefetch_size, key_alloc_size);
+    H5TRACE3("e", "ixx", mapl_id, key_prefetch_size, key_alloc_size);
 
     /* Get the plist structure */
     if (NULL == (plist = H5P_object_verify(mapl_id, H5P_MAP_ACCESS)))
-        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID");
+        HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
     /* Get the properties */
     if (key_prefetch_size) {

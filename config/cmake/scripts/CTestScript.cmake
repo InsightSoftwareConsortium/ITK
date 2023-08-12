@@ -9,7 +9,7 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.18)
 ########################################################
 # This dashboard is maintained by The HDF Group
 # For any comments please contact cdashhelp@hdfgroup.org
@@ -51,7 +51,7 @@ endif ()
 set (BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DSITE:STRING=${CTEST_SITE} -DBUILDNAME:STRING=${CTEST_BUILD_NAME}")
 
 # Launchers work only with Makefile and Ninja generators.
-if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make|Ninja")
+if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make|Ninja" OR LOCAL_SKIP_TEST)
   set(CTEST_USE_LAUNCHERS 0)
   set(ENV{CTEST_USE_LAUNCHERS_DEFAULT} 0)
   set(BUILD_OPTIONS "${BUILD_OPTIONS} -DCTEST_USE_LAUNCHERS:BOOL=OFF")
@@ -261,6 +261,10 @@ if (NOT DEFINED MODEL)
   set (MODEL "Experimental")
 endif ()
 
+set (ENV{CI_SITE_NAME} ${CTEST_SITE})
+set (ENV{CI_BUILD_NAME} ${CTEST_BUILD_NAME})
+set (ENV{CI_MODEL} ${MODEL})
+
 #-----------------------------------------------------------------------------
   ## NORMAL process
   ## -- LOCAL_UPDATE updates the source folder from svn
@@ -269,7 +273,7 @@ endif ()
   ## -- LOCAL_MEMCHECK_TEST executes the Valgrind testing
   ## -- LOCAL_COVERAGE_TEST executes code coverage process
   ## --------------------------
-  ctest_start (${MODEL} TRACK ${MODEL})
+  ctest_start (${MODEL} GROUP ${MODEL})
   if (LOCAL_UPDATE)
     ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
   endif ()
@@ -315,19 +319,17 @@ endif ()
             execute_process (COMMAND ${LOCAL_BATCH_SCRIPT_COMMAND} ${LOCAL_BATCH_SCRIPT_ARGS} ${CTEST_BINARY_DIRECTORY}/${LOCAL_BATCH_SCRIPT_NAME})
           endif()
         endif ()
-        message(STATUS "Check for existence of ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml")
-        execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
+        message(STATUS "Check for existence of ${CTEST_BINARY_DIRECTORY}/ctestS.done")
+        execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/ctestS.done RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
         while(result)
           ctest_sleep(60)
-          execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
+          execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/ctestS.done RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
         endwhile(result)
+        message(STATUS "Serial tests completed.")
+        if (LOCAL_SUBMIT)
+          ctest_submit (PARTS Test)
+        endif ()
         if (LOCAL_BATCH_SCRIPT_PARALLEL_NAME)
-          if (LOCAL_SUBMIT)
-            ctest_submit (PARTS Test)
-          endif ()
-          message(STATUS "Found ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml for serial tests. Renaming to SerialTest.xml")
-          file (RENAME ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/SerialTest.xml)
-          file (RENAME ${CTEST_BINARY_DIRECTORY}/Testing/Temporary/LastTest_${TAG_CONTENTS}.log ${CTEST_BINARY_DIRECTORY}/Testing/Temporary/LastTest_${TAG_CONTENTS}_Serial.log)
           unset(result CACHE)
           if (LOCAL_BATCH_SCRIPT_COMMAND STREQUAL "raybsub")
             execute_process (COMMAND ${CTEST_BINARY_DIRECTORY}/${LOCAL_BATCH_SCRIPT_COMMAND} ${LOCAL_BATCH_SCRIPT_ARGS} ${CTEST_BINARY_DIRECTORY}/${LOCAL_BATCH_SCRIPT_PARALLEL_NAME})
@@ -338,13 +340,13 @@ endif ()
               execute_process (COMMAND ${LOCAL_BATCH_SCRIPT_COMMAND} ${LOCAL_BATCH_SCRIPT_ARGS} ${CTEST_BINARY_DIRECTORY}/${LOCAL_BATCH_SCRIPT_PARALLEL_NAME})
             endif ()
           endif ()
-          message(STATUS "Check for existence of ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml")
-          execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
+          message(STATUS "Check for existence of ${CTEST_BINARY_DIRECTORY}/ctestP.done")
+          execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/ctestP.done RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
           while(result)
             ctest_sleep(60)
-            execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
+            execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/ctestP.done RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
           endwhile(result)
-          message(STATUS "Found ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml for parallel tests.")
+          message(STATUS "parallel tests completed.")
         endif()
       endif ()
       if (LOCAL_SUBMIT)
@@ -364,6 +366,9 @@ endif ()
       if (LOCAL_SUBMIT)
         ctest_submit (PARTS Coverage)
       endif ()
+    endif ()
+    if (LOCAL_SUBMIT)
+      ctest_submit (PARTS Done)
     endif ()
   endif ()
 

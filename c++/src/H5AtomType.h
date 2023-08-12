@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -58,7 +57,7 @@ class H5_DLLCPP AtomType : public DataType {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const override
     {
         return ("AtomType");
     }
@@ -68,7 +67,7 @@ class H5_DLLCPP AtomType : public DataType {
     AtomType(const AtomType &original);
 
     // Noop destructor
-    virtual ~AtomType();
+    virtual ~AtomType() override;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
   protected:

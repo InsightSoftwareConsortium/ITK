@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -38,7 +37,7 @@ class H5_DLLCPP PropList : public IdComponent {
     bool operator==(const PropList &rhs) const;
 
     // Close this property list.
-    virtual void close();
+    virtual void close() override;
 
     // Close a property list class.
     void closeClass() const;
@@ -102,7 +101,7 @@ class H5_DLLCPP PropList : public IdComponent {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const override
     {
         return ("PropList");
     }
@@ -114,10 +113,10 @@ class H5_DLLCPP PropList : public IdComponent {
     PropList(const PropList &original);
 
     // Gets the property list id.
-    virtual hid_t getId() const;
+    virtual hid_t getId() const override;
 
     // Destructor: properly terminates access to this property list.
-    virtual ~PropList();
+    virtual ~PropList() override;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
@@ -128,7 +127,7 @@ class H5_DLLCPP PropList : public IdComponent {
     hid_t id; // HDF5 property list id
 
     // Sets the property list id.
-    virtual void p_setId(const hid_t new_id);
+    virtual void p_setId(const hid_t new_id) override;
 
   private:
     static PropList *DEFAULT_;

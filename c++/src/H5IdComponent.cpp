@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -13,7 +12,6 @@
 
 #include <string>
 
-#include "H5private.h" // for HDmemset
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5Library.h"
@@ -36,7 +34,6 @@ bool IdComponent::H5dontAtexit_called = false;
 //--------------------------------------------------------------------------
 // Function:    IdComponent::incRefCount
 ///\brief       Increment reference counter for a given id.
-// Programmer   Binh-Minh Ribler - May 2005
 //--------------------------------------------------------------------------
 void
 IdComponent::incRefCount(const hid_t obj_id) const
@@ -49,7 +46,6 @@ IdComponent::incRefCount(const hid_t obj_id) const
 //--------------------------------------------------------------------------
 // Function:    IdComponent::incRefCount
 ///\brief       Increment reference counter for the id of this object.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 IdComponent::incRefCount() const
@@ -60,7 +56,6 @@ IdComponent::incRefCount() const
 //--------------------------------------------------------------------------
 // Function:    IdComponent::decRefCount
 ///\brief       Decrement reference counter for a given id.
-// Programmer   Binh-Minh Ribler - May 2005
 // Modification:
 //              Added the check for ref counter to give a little more info
 //              on why H5Idec_ref fails in some cases - BMR 5/19/2005
@@ -80,7 +75,6 @@ IdComponent::decRefCount(const hid_t obj_id) const
 //--------------------------------------------------------------------------
 // Function:    IdComponent::decRefCount
 ///\brief       Decrement reference counter for the id of this object.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 IdComponent::decRefCount() const
@@ -92,7 +86,6 @@ IdComponent::decRefCount() const
 // Function:    IdComponent::getCounter
 ///\brief       Returns the reference counter for a given id.
 ///\return      Reference count
-// Programmer   Binh-Minh Ribler - May 2005
 //--------------------------------------------------------------------------
 int
 IdComponent::getCounter(const hid_t obj_id) const
@@ -111,7 +104,6 @@ IdComponent::getCounter(const hid_t obj_id) const
 // Function:    IdComponent::getCounter
 ///\brief       Returns the reference counter for the id of this object.
 ///\return      Reference count
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 int
 IdComponent::getCounter() const
@@ -131,7 +123,6 @@ IdComponent::getCounter() const
 ///             \li \c H5I_ATTR
 ///             \li or \c H5I_BADID, if no valid type can be determined or the
 ///                         input object id is invalid.
-// Programmer   Binh-Minh Ribler - Jul, 2005
 //--------------------------------------------------------------------------
 H5I_type_t
 IdComponent::getHDFObjType(const hid_t obj_id)
@@ -158,7 +149,6 @@ IdComponent::getHDFObjType(const hid_t obj_id)
 ///             \li \c H5I_ATTR
 ///             \li or \c H5I_BADID, if no valid type can be determined or the
 ///                         input object id is invalid.
-// Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
 H5I_type_t
 IdComponent::getHDFObjType() const
@@ -186,7 +176,6 @@ IdComponent::getHDFObjType() const
 ///             \li \c H5I_ERROR_CLASS
 ///             \li \c H5I_ERROR_MSG
 ///             \li \c H5I_ERROR_STACK
-// Programmer   Binh-Minh Ribler - Feb, 2017
 //--------------------------------------------------------------------------
 hsize_t
 IdComponent::getNumMembers(H5I_type_t type)
@@ -206,7 +195,6 @@ IdComponent::getNumMembers(H5I_type_t type)
 ///\par Description
 ///             A valid ID is one that is in use and has an application
 ///             reference count of at least 1.
-// Programmer   Binh-Minh Ribler - Mar 1, 2017
 //--------------------------------------------------------------------------
 bool
 IdComponent::isValid(hid_t an_id)
@@ -241,7 +229,6 @@ IdComponent::isValid(hid_t an_id)
 ///             \li \c H5I_ERROR_CLASS
 ///             \li \c H5I_ERROR_MSG
 ///             \li \c H5I_ERROR_STACK
-// Programmer   Binh-Minh Ribler - Feb, 2017
 //--------------------------------------------------------------------------
 bool
 IdComponent::typeExists(H5I_type_t type)
@@ -272,7 +259,6 @@ IdComponent::typeExists(H5I_type_t type)
 //        2010/5/9 - BMR
 //              Removed close() and incRefCount() because setId/p_setId takes
 //              care of close() and setId takes care incRefCount().
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IdComponent &
 IdComponent::operator=(const IdComponent &rhs)
@@ -300,7 +286,6 @@ IdComponent::operator=(const IdComponent &rhs)
 // Description:
 //              p_setId ensures that the current valid id of this object is
 //              properly closed before resetting the object's id to the new id.
-// Programmer   Binh-Minh Ribler - 2000
 // Modification
 //        2008/7/23 - BMR
 //              Changed all subclasses' setId to p_setId and put back setId
@@ -325,7 +310,6 @@ IdComponent::setId(const hid_t new_id)
 //--------------------------------------------------------------------------
 // Function:    IdComponent destructor
 ///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IdComponent::~IdComponent()
 {
@@ -347,7 +331,6 @@ IdComponent::~IdComponent()
 ///             where the failure occurs.  The class-name is provided by
 ///             fromClass().  This string will be used by a base class when
 ///             an exception is thrown.
-// Programmer   Binh-Minh Ribler - Aug 6, 2005
 //--------------------------------------------------------------------------
 H5std_string
 IdComponent::inMemFunc(const char *func_name) const
@@ -361,7 +344,6 @@ IdComponent::inMemFunc(const char *func_name) const
 //--------------------------------------------------------------------------
 // Function:    IdComponent default constructor - private
 ///\brief       Default constructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IdComponent::IdComponent()
 {
@@ -383,7 +365,6 @@ IdComponent::IdComponent()
 //      September 2017
 //              This function should be moved to H5Location now that Attribute
 //              inherits from H5Location.
-// Programmer   Binh-Minh Ribler - Jul, 2004
 //--------------------------------------------------------------------------
 H5std_string
 IdComponent::p_get_file_name() const
@@ -398,11 +379,14 @@ IdComponent::p_get_file_name() const
         throw IdComponentException("", "H5Fget_name failed");
     }
 
-    // Call H5Fget_name again to get the actual file name
-    char *name_C = new char[name_size + 1]; // temporary C-string for C API
-    HDmemset(name_C, 0, name_size + 1);     // clear buffer
+    // The actual message size is the cast value + 1 for the terminal ASCII NUL
+    // (unfortunate in/out type sign mismatch)
+    size_t actual_name_size = static_cast<size_t>(name_size) + 1;
 
-    name_size = H5Fget_name(temp_id, name_C, name_size + 1);
+    // Call H5Fget_name again to get the actual file name
+    char *name_C = new char[actual_name_size]();
+
+    name_size = H5Fget_name(temp_id, name_C, actual_name_size);
 
     // Check for failure again
     if (name_size < 0) {
@@ -413,7 +397,8 @@ IdComponent::p_get_file_name() const
     // Convert the C file name and return
     H5std_string file_name(name_C);
     delete[] name_C;
-    return (file_name);
+
+    return file_name;
 }
 
 //
@@ -425,7 +410,6 @@ IdComponent::p_get_file_name() const
 // Purpose      Verifies that the given id is a valid id so it can be passed
 //              into an H5I C function.
 // Return       true if id is valid, false, otherwise
-// Programmer   Binh-Minh Ribler - May, 2005
 //--------------------------------------------------------------------------
 bool
 IdComponent::p_valid_id(const hid_t obj_id)
@@ -434,10 +418,7 @@ IdComponent::p_valid_id(const hid_t obj_id)
         return false;
 
     H5I_type_t id_type = H5Iget_type(obj_id);
-    if (id_type <= H5I_BADID || id_type >= H5I_NTYPES)
-        return false;
-    else
-        return true;
+    return (id_type > H5I_BADID && id_type < H5I_NTYPES);
 }
 
 // Notes about IdComponent::id

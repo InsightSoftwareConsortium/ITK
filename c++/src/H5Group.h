@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -24,20 +23,20 @@ namespace H5 {
 class H5_DLLCPP Group : public H5Object, public CommonFG {
   public:
     // Close this group.
-    virtual void close() H5_OVERRIDE;
+    virtual void close() override;
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("Group");
     }
 
     // Throw group exception.
-    virtual void throwException(const H5std_string &func_name, const H5std_string &msg) const H5_OVERRIDE;
+    virtual void throwException(const H5std_string &func_name, const H5std_string &msg) const override;
 
     // for CommonFG to get the file id.
-    virtual hid_t getLocId() const H5_OVERRIDE;
+    virtual hid_t getLocId() const override;
 
     // Creates a group by way of dereference.
     Group(const H5Location &loc, const void *ref, H5R_type_t ref_type = H5R_OBJECT,
@@ -63,10 +62,10 @@ class H5_DLLCPP Group : public H5Object, public CommonFG {
     Group(const Group &original);
 
     // Gets the group id.
-    virtual hid_t getId() const H5_OVERRIDE;
+    virtual hid_t getId() const override;
 
     // Destructor
-    virtual ~Group() H5_OVERRIDE;
+    virtual ~Group() override;
 
     // Creates a copy of an existing group using its id.
     Group(const hid_t group_id);
@@ -74,7 +73,7 @@ class H5_DLLCPP Group : public H5Object, public CommonFG {
   protected:
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
     // Sets the group id.
-    virtual void p_setId(const hid_t new_id) H5_OVERRIDE;
+    virtual void p_setId(const hid_t new_id) override;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
   private:

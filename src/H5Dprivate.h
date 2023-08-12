@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -79,11 +78,15 @@
 #define H5D_MPIO_LOCAL_NO_COLLECTIVE_CAUSE_NAME                                                              \
     "local_no_collective_cause" /* cause of broken collective I/O in each process */
 #define H5D_MPIO_GLOBAL_NO_COLLECTIVE_CAUSE_NAME                                                             \
-    "global_no_collective_cause"                 /* cause of broken collective I/O in all processes */
-#define H5D_XFER_EDC_NAME       "err_detect"     /* EDC */
-#define H5D_XFER_FILTER_CB_NAME "filter_cb"      /* Filter callback function */
-#define H5D_XFER_CONV_CB_NAME   "type_conv_cb"   /* Type conversion callback function */
-#define H5D_XFER_XFORM_NAME     "data_transform" /* Data transform */
+    "global_no_collective_cause"                         /* cause of broken collective I/O in all processes */
+#define H5D_XFER_EDC_NAME                   "err_detect" /* EDC */
+#define H5D_XFER_FILTER_CB_NAME             "filter_cb"  /* Filter callback function */
+#define H5D_XFER_CONV_CB_NAME               "type_conv_cb"          /* Type conversion callback function */
+#define H5D_XFER_XFORM_NAME                 "data_transform"        /* Data transform */
+#define H5D_XFER_DSET_IO_SEL_NAME           "dset_io_selection"     /* Dataset I/O selection */
+#define H5D_XFER_SELECTION_IO_MODE_NAME     "selection_io_mode"     /* Selection I/O mode */
+#define H5D_XFER_NO_SELECTION_IO_CAUSE_NAME "no_selection_io_cause" /* Cause for no selection I/O */
+#define H5D_XFER_MODIFY_WRITE_BUF_NAME      "modify_write_buf"      /* Modify write buffers */
 #ifdef H5_HAVE_INSTRUMENTED_LIBRARY
 /* Collective chunk instrumentation properties */
 #define H5D_XFER_COLL_CHUNK_LINK_HARD_NAME        "coll_chunk_link_hard"
@@ -137,8 +140,8 @@ typedef struct H5D_dcpl_cache_t {
 /* Callback information for copying datasets */
 typedef struct H5D_copy_file_ud_t {
     H5O_copy_file_ud_common_t common;           /* Shared information (must be first) */
-    struct H5S_extent_t *     src_space_extent; /* Copy of dataspace extent for dataset */
-    H5T_t *                   src_dtype;        /* Copy of datatype for dataset */
+    struct H5S_extent_t      *src_space_extent; /* Copy of dataspace extent for dataset */
+    H5T_t                    *src_dtype;        /* Copy of datatype for dataset */
 } H5D_copy_file_ud_t;
 
 /* Structure for dataset append flush property (H5Pset_append_flush) */
@@ -146,7 +149,7 @@ typedef struct H5D_append_flush_t {
     unsigned        ndims;                  /* The # of dimensions for "boundary" */
     hsize_t         boundary[H5S_MAX_RANK]; /* The dimension sizes for determining boundary */
     H5D_append_cb_t func;                   /* The callback function */
-    void *          udata;                  /* User data */
+    void           *udata;                  /* User data */
 } H5D_append_flush_t;
 
 /*****************************/
@@ -157,13 +160,13 @@ typedef struct H5D_append_flush_t {
 /* Library Private Prototypes */
 /******************************/
 
-H5_DLL herr_t H5D_init(void);
-H5_DLL H5D_t *H5D_open(const H5G_loc_t *loc, hid_t dapl_id);
-H5_DLL herr_t H5D_close(H5D_t *dataset);
-H5_DLL herr_t H5D_mult_refresh_close(hid_t dset_id);
-H5_DLL herr_t H5D_mult_refresh_reopen(H5D_t *dataset);
-H5_DLL H5O_loc_t *H5D_oloc(H5D_t *dataset);
-H5_DLL H5G_name_t *H5D_nameof(const H5D_t *dataset);
+H5_DLL herr_t      H5D_init(void);
+H5_DLL H5D_t      *H5D_open(const H5G_loc_t *loc, hid_t dapl_id);
+H5_DLL herr_t      H5D_close(H5D_t *dataset);
+H5_DLL herr_t      H5D_mult_refresh_close(hid_t dset_id);
+H5_DLL herr_t      H5D_mult_refresh_reopen(H5D_t *dataset);
+H5_DLL H5O_loc_t  *H5D_oloc(H5D_t *dataset);
+H5_DLL H5G_name_t *H5D_nameof(H5D_t *dataset);
 H5_DLL herr_t      H5D_flush_all(H5F_t *f);
 H5_DLL hid_t       H5D_get_create_plist(const H5D_t *dset);
 H5_DLL hid_t       H5D_get_access_plist(const H5D_t *dset);
@@ -177,7 +180,7 @@ H5_DLL herr_t H5D_virtual_check_mapping_pre(const H5S_t *vspace, const H5S_t *sr
 H5_DLL herr_t H5D_virtual_check_mapping_post(const H5O_storage_virtual_ent_t *ent);
 H5_DLL herr_t H5D_virtual_check_min_dims(const H5D_t *dset);
 H5_DLL herr_t H5D_virtual_update_min_dims(H5O_layout_t *layout, size_t idx);
-H5_DLL herr_t H5D_virtual_parse_source_name(const char *                     source_name,
+H5_DLL herr_t H5D_virtual_parse_source_name(const char                      *source_name,
                                             H5O_storage_virtual_name_seg_t **parsed_name,
                                             size_t *static_strlen, size_t *nsubs);
 H5_DLL herr_t H5D_virtual_free_parsed_name(H5O_storage_virtual_name_seg_t *name_seg);

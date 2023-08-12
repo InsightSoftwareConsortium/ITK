@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -45,7 +44,7 @@ class H5_DLLCPP CompType : public DataType {
 
     // Returns a CompType object via DataType* by decoding the binary
     // object description of this type.
-    virtual DataType *decode() const;
+    virtual DataType *decode() const override;
 
     // Returns the type class of the specified member of this compound
     // datatype.  It provides to the user a way of knowing what type
@@ -108,13 +107,13 @@ class H5_DLLCPP CompType : public DataType {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const override
     {
         return ("CompType");
     }
 
     // Noop destructor.
-    virtual ~CompType();
+    virtual ~CompType() override;
 
   private:
     // Contains common code that is used by the member functions

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -13,7 +12,6 @@
 
 #include <string>
 
-#include "H5private.h" // for HDmemset
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -45,9 +43,12 @@ namespace H5 {
 extern "C" {
 
 static herr_t
-userAttrOpWrpr(H5_ATTR_UNUSED hid_t loc_id, const char *attr_name, H5_ATTR_UNUSED const H5A_info_t *ainfo,
-               void *op_data)
+userAttrOpWrpr(hid_t loc_id, const char *attr_name, const H5A_info_t *ainfo, void *op_data)
 {
+    // Unused
+    (void)loc_id;
+    (void)ainfo;
+
     H5std_string       s_attr_name = H5std_string(attr_name);
     UserData4Aiterate *myData      = reinterpret_cast<UserData4Aiterate *>(op_data);
     myData->op(*myData->location, s_attr_name, myData->opData);
@@ -57,9 +58,11 @@ userAttrOpWrpr(H5_ATTR_UNUSED hid_t loc_id, const char *attr_name, H5_ATTR_UNUSE
 // userVisitOpWrpr interfaces between the user's function and the
 // C library function H5Ovisit3
 static herr_t
-userVisitOpWrpr(H5_ATTR_UNUSED hid_t obj_id, const char *attr_name, const H5O_info2_t *obj_info,
-                void *op_data)
+userVisitOpWrpr(hid_t obj_id, const char *attr_name, const H5O_info2_t *obj_info, void *op_data)
 {
+    // Unused
+    (void)obj_id;
+
     H5std_string    s_attr_name = H5std_string(attr_name);
     UserData4Visit *myData      = reinterpret_cast<UserData4Visit *>(op_data);
     int             status      = myData->op(*myData->obj, s_attr_name, obj_info, myData->opData);
@@ -70,7 +73,6 @@ userVisitOpWrpr(H5_ATTR_UNUSED hid_t obj_id, const char *attr_name, const H5O_in
 
 //--------------------------------------------------------------------------
 // Function:    H5Object default constructor (protected)
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5Object::H5Object() : H5Location()
 {
@@ -84,7 +86,6 @@ H5Object::H5Object() : H5Location()
 //              Applications shouldn't need to use it.
 // param        attr   - IN/OUT: Attribute object to be changed
 // param        new_id - IN: New id to set
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 void
 f_Attribute_setId(Attribute *attr, hid_t new_id)
@@ -112,7 +113,6 @@ f_Attribute_setId(Attribute *attr, hid_t new_id)
 ///             attribute with a new attribute of the same name, first
 ///             delete the existing one with \c H5Object::removeAttr, then
 ///             recreate it with this function.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 Attribute
 H5Object::createAttribute(const char *name, const DataType &data_type, const DataSpace &data_space,
@@ -138,7 +138,6 @@ H5Object::createAttribute(const char *name, const DataType &data_type, const Dat
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes
 ///             a reference to an \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 Attribute
 H5Object::createAttribute(const H5std_string &name, const DataType &data_type, const DataSpace &data_space,
@@ -153,7 +152,6 @@ H5Object::createAttribute(const H5std_string &name, const DataType &data_type, c
 ///\param       name - IN: Name of the attribute
 ///\return      Attribute instance
 ///\exception   H5::AttributeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 Attribute
 H5Object::openAttribute(const char *name) const
@@ -174,7 +172,6 @@ H5Object::openAttribute(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes
 ///             a reference to an \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 Attribute
 H5Object::openAttribute(const H5std_string &name) const
@@ -188,7 +185,6 @@ H5Object::openAttribute(const H5std_string &name) const
 ///\param       idx - IN: Index of the attribute, a 0-based, non-negative integer
 ///\return      Attribute instance
 ///\exception   H5::AttributeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 Attribute
 H5Object::openAttribute(const unsigned int idx) const
@@ -218,7 +214,6 @@ H5Object::openAttribute(const unsigned int idx) const
 ///\par Description
 ///             The signature of user_op is
 ///             void (*)(H5::H5Location&, H5std_string, void*).
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 int
 H5Object::iterateAttrs(attr_operator_t user_op, unsigned *_idx, void *op_data)
@@ -278,7 +273,6 @@ H5Object::iterateAttrs(attr_operator_t user_op, unsigned *_idx, void *op_data)
 ///\par Description
 ///             For information, please refer to the H5Ovisit3 API in the HDF5
 ///             C Reference Manual.
-// Programmer   Binh-Minh Ribler - Feb, 2019
 //--------------------------------------------------------------------------
 void
 H5Object::visit(H5_index_t idx_type, H5_iter_order_t order, visit_operator_t user_op, void *op_data,
@@ -313,7 +307,6 @@ H5Object::visit(H5_index_t idx_type, H5_iter_order_t order, visit_operator_t use
 ///             Exception will be thrown when:
 ///             - an error returned by the C API
 ///             - version number is not one of the valid values above
-// Programmer   Binh-Minh Ribler - December, 2016
 //--------------------------------------------------------------------------
 unsigned
 H5Object::objVersion() const
@@ -341,7 +334,6 @@ H5Object::objVersion() const
 ///\brief       Returns the number of attributes attached to this HDF5 object.
 ///\return      Number of attributes
 ///\exception   H5::AttributeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 int
 H5Object::getNumAttrs() const
@@ -359,7 +351,6 @@ H5Object::getNumAttrs() const
 ///\brief       Checks whether the named attribute exists at this location.
 ///\param       name - IN: Name of the attribute to be queried
 ///\exception   H5::AttributeIException
-// Programmer   Binh-Minh Ribler - 2013
 //--------------------------------------------------------------------------
 bool
 H5Object::attrExists(const char *name) const
@@ -381,7 +372,6 @@ H5Object::attrExists(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes
 ///             a reference to an \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 bool
 H5Object::attrExists(const H5std_string &name) const
@@ -394,7 +384,6 @@ H5Object::attrExists(const H5std_string &name) const
 ///\brief       Removes the named attribute from this object.
 ///\param       name - IN: Name of the attribute to be removed
 ///\exception   H5::AttributeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 H5Object::removeAttr(const char *name) const
@@ -409,7 +398,6 @@ H5Object::removeAttr(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes
 ///             a reference to an \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 H5Object::removeAttr(const H5std_string &name) const
@@ -423,7 +411,6 @@ H5Object::removeAttr(const H5std_string &name) const
 ///\param       oldname - IN: Name of the attribute to be renamed
 ///\param       newname - IN: New name ame of the attribute
 ///\exception   H5::AttributeIException
-// Programmer   Binh-Minh Ribler - Mar, 2005
 //--------------------------------------------------------------------------
 void
 H5Object::renameAttr(const char *oldname, const char *newname) const
@@ -438,7 +425,6 @@ H5Object::renameAttr(const char *oldname, const char *newname) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes
 ///             a reference to an \c H5std_string for the names.
-// Programmer   Binh-Minh Ribler - Mar, 2005
 //--------------------------------------------------------------------------
 void
 H5Object::renameAttr(const H5std_string &oldname, const H5std_string &newname) const
@@ -450,7 +436,6 @@ H5Object::renameAttr(const H5std_string &oldname, const H5std_string &newname) c
 // Function:    getObjName
 ///\brief       Given an id, returns the type of the object.
 ///\return      The name of the object
-// Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
 ssize_t
 H5Object::getObjName(char *obj_name, size_t buf_size) const
@@ -474,7 +459,6 @@ H5Object::getObjName(char *obj_name, size_t buf_size) const
 ///\brief       Returns the name of this object as an \a H5std_string.
 ///\return      Name of the object
 ///\exception   H5::Exception
-// Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
 H5std_string
 H5Object::getObjName() const
@@ -482,7 +466,7 @@ H5Object::getObjName() const
     H5std_string obj_name; // object name to return
 
     // Preliminary call to get the size of the object name
-    ssize_t name_size = H5Iget_name(getId(), NULL, static_cast<size_t>(0));
+    ssize_t name_size = H5Iget_name(getId(), NULL, 0);
 
     // If H5Iget_name failed, throw exception
     if (name_size < 0) {
@@ -493,11 +477,16 @@ H5Object::getObjName() const
     }
     // Object's name exists, retrieve it
     else if (name_size > 0) {
-        char *name_C = new char[name_size + 1]; // temporary C-string
-        HDmemset(name_C, 0, name_size + 1);     // clear buffer
+
+        // The actual size is the cast value + 1 for the terminal ASCII NUL
+        // (unfortunate in/out type sign mismatch)
+        size_t actual_name_size = static_cast<size_t>(name_size) + 1;
+
+        // Create buffer for C string
+        char *name_C = new char[actual_name_size]();
 
         // Use overloaded function
-        name_size = getObjName(name_C, name_size + 1);
+        name_size = getObjName(name_C, actual_name_size);
 
         // Convert the C object name to return
         obj_name = name_C;
@@ -505,8 +494,9 @@ H5Object::getObjName() const
         // Clean up resource
         delete[] name_C;
     }
+
     // Return object's name
-    return (obj_name);
+    return obj_name;
 }
 
 //--------------------------------------------------------------------------
@@ -520,7 +510,6 @@ H5Object::getObjName() const
 ///             This function retrieves the object's name as an std string.
 ///             buf_size can specify a specific length or default to 0, in
 ///             which case the entire name will be retrieved.
-// Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
 ssize_t
 H5Object::getObjName(H5std_string &obj_name, size_t len) const
@@ -530,12 +519,12 @@ H5Object::getObjName(H5std_string &obj_name, size_t len) const
     // If no length is provided, get the entire object name
     if (len == 0) {
         obj_name  = getObjName();
-        name_size = obj_name.length();
+        name_size = static_cast<ssize_t>(obj_name.length());
     }
     // If length is provided, get that number of characters in name
     else {
-        char *name_C = new char[len + 1]; // temporary C-string
-        HDmemset(name_C, 0, len + 1);     // clear buffer
+        // Create buffer for C string
+        char *name_C = new char[len + 1]();
 
         // Use overloaded function
         name_size = getObjName(name_C, len + 1);
@@ -549,14 +538,13 @@ H5Object::getObjName(H5std_string &obj_name, size_t len) const
     // Otherwise, keep obj_name intact
 
     // Return name size
-    return (name_size);
+    return name_size;
 }
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 //--------------------------------------------------------------------------
 // Function:    H5Object destructor
 ///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5Object::~H5Object()
 {

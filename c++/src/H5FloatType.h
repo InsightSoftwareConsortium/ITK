@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -36,7 +35,7 @@ class H5_DLLCPP FloatType : public AtomType {
 
     // Returns an FloatType object via DataType* by decoding the
     // binary object description of this type.
-    virtual DataType *decode() const;
+    virtual DataType *decode() const override;
 
     // Retrieves the exponent bias of a floating-point type.
     size_t getEbias() const;
@@ -64,7 +63,7 @@ class H5_DLLCPP FloatType : public AtomType {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const override
     {
         return ("FloatType");
     }
@@ -79,7 +78,7 @@ class H5_DLLCPP FloatType : public AtomType {
     FloatType(const FloatType &original);
 
     // Noop destructor.
-    virtual ~FloatType();
+    virtual ~FloatType() override;
 
 }; // end of FloatType
 } // namespace H5
