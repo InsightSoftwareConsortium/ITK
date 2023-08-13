@@ -887,6 +887,10 @@ itkNumericTraitsTest(int, char *[])
   rgbaPixelSize = itk::NumericTraits<RGBAPixelType>::GetLength(rgbaPixel) - 1;
   ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<RGBAPixelType>::SetLength(rgbaPixel, rgbaPixelSize));
 
+  const auto constRgbaPixel = RGBAPixelType();
+  rgbaPixelSize = itk::NumericTraits<RGBAPixelType>::GetLength(constRgbaPixel);
+  ITK_TEST_EXPECT_EQUAL(rgbaPixelSize, 4);
+
   // itk::SymmetricSecondRankTensor<char, 1>()
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<char, 1>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed char, 1>());

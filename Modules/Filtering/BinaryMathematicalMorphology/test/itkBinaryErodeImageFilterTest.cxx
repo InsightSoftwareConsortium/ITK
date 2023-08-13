@@ -119,7 +119,11 @@ itkBinaryErodeImageFilterTest(int, char *[])
   using myFilterType = itk::BinaryErodeImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  auto                     filter = myFilterType::New();
+  auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryErodeImageFilter, BinaryMorphologyImageFilter);
+
+
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
@@ -133,15 +137,13 @@ itkBinaryErodeImageFilterTest(int, char *[])
   // Connect the input image
   filter->SetInput(inputImage);
   filter->SetKernel(ball);
+
   filter->SetErodeValue(fgValue);
+  ITK_TEST_SET_GET_VALUE(fgValue, filter->GetErodeValue());
 
   // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
 
-
-  // Test the itkGetMacro
-  unsigned short value = filter->GetErodeValue();
-  std::cout << "filter->GetErodeValue(): " << value << std::endl;
 
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());

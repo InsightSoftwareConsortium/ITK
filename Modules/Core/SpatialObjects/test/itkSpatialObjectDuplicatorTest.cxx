@@ -37,8 +37,19 @@ itkSpatialObjectDuplicatorTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(duplicator, SpatialObjectDuplicator, Object);
 
 
+  ITK_TEST_SET_GET_NULL_VALUE(duplicator->GetOutput());
+#if !defined(ITK_LEGACY_REMOVE)
+  ITK_TEST_SET_GET_NULL_VALUE(duplicator->GetModifiedOutput());
+#endif
+
   duplicator->SetInput(ellipse);
   duplicator->Update();
+
+
+  std::cout << "Output: " << duplicator->GetOutput() << std::endl;
+#if !defined(ITK_LEGACY_REMOVE)
+  std::cout << "ModifiedOutput: " << duplicator->GetModifiedOutput() << std::endl;
+#endif
 
   EllipseType::Pointer ellipse_copy = duplicator->GetOutput();
 

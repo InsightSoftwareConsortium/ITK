@@ -199,9 +199,28 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
    */
 
   auto SH = FEMSolverType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(SH, SolverHyperbolic, Solver);
+
+
   SH->SetInput(femSO->GetFEMObject());
-  SH->SetTimeStep(.5);
+  ITK_TEST_SET_GET_VALUE(femSO->GetFEMObject(), SH->GetInput());
+
+  FEMSolverType::Float gamma = 0.5;
+  SH->SetGamma(gamma);
+  ITK_TEST_SET_GET_VALUE(gamma, SH->GetGamma());
+
+  FEMSolverType::Float beta = 0.25;
+  SH->SetBeta(beta);
+  ITK_TEST_SET_GET_VALUE(beta, SH->GetBeta());
+
   SH->SetNumberOfIterations(niter);
+  ITK_TEST_SET_GET_VALUE(niter, SH->GetNumberOfIterations());
+
+  FEMSolverType::Float timeStep = 0.5;
+  SH->SetTimeStep(timeStep);
+  ITK_TEST_SET_GET_VALUE(timeStep, SH->GetTimeStep());
+
 
   itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
   itk::fem::LinearSystemWrapperItpack   lsw_itpack;

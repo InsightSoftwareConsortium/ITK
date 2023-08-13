@@ -120,7 +120,11 @@ itkGrayscaleFunctionErodeImageFilterTest(int argc, char * argv[])
   using myFilterType = itk::GrayscaleFunctionErodeImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  auto                     filter = myFilterType::New();
+  auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GrayscaleFunctionErodeImageFilter, MorphologyImageFilter);
+
+
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
@@ -141,6 +145,8 @@ itkGrayscaleFunctionErodeImageFilterTest(int argc, char * argv[])
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
+
+  std::cout << "BoundaryCondition: " << filter->GetBoundaryCondition() << std::endl;
 
   // Create an iterator for going through the image output
   myIteratorType it2(outputImage, outputImage->GetBufferedRegion());

@@ -20,6 +20,7 @@
 #include "itkNeighborhoodOperatorImageFunction.h"
 
 #include "itkGaussianOperator.h"
+#include "itkTestingMacros.h"
 
 int
 itkNeighborhoodOperatorImageFunctionTest(int, char *[])
@@ -54,6 +55,10 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
 
 
   auto function = FunctionType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, NeighborhoodOperatorImageFunction, ImageFunction);
+
+
   function->SetInputImage(image);
 
   auto * oper = new NeighborhoodOperatorType;

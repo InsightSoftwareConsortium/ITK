@@ -218,6 +218,8 @@ doDenoising(const std::string & inputFileName,
 
     ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
+    std::cout << "NumIndependentComponents: " << filter->GetNumIndependentComponents() << std::endl;
+
     // Restore the original pixel value
     inputImage->SetPixel(pixelIndex, originalPixelValue);
   }
