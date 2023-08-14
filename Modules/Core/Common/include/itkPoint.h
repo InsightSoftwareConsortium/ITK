@@ -365,11 +365,11 @@ template <typename TValue, typename... TVariadic>
 auto
 MakePoint(const TValue firstValue, const TVariadic... otherValues)
 {
-  constexpr unsigned int dimension{ 1 + sizeof...(TVariadic) };
+  static_assert(std::conjunction_v<std::is_same<TVariadic, TValue>...>,
+                "The other values should have the same type as the first value.");
 
-  // Note that the class template argument deduction guide of std::array ensures that all values have the same type.
-  const std::array stdArray{ firstValue, otherValues... };
-
+  constexpr unsigned int              dimension{ 1 + sizeof...(TVariadic) };
+  const std::array<TValue, dimension> stdArray{ { firstValue, otherValues... } };
   return Point<TValue, dimension>{ stdArray };
 }
 
