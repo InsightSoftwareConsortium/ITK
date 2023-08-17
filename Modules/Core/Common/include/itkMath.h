@@ -28,6 +28,7 @@
 #ifndef itkMath_h
 #define itkMath_h
 
+#include <cassert>
 #include <cmath>
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
@@ -764,15 +765,6 @@ GreatestPrimeFactor(unsigned long n);
 ITKCommon_EXPORT unsigned long long
 GreatestPrimeFactor(unsigned long long n);
 
-// C++11 does not guarantee that assert can be used in constexpr
-// functions. This is a work-around for GCC 4.8, 4.9. Originating
-// from Andrzej's C++ blog:
-//  https://akrzemi1.wordpress.com/2017/05/18/asserts-in-constexpr-functions/
-#if defined NDEBUG
-#  define ITK_X_ASSERT(CHECK) void(0)
-#else
-#  define ITK_X_ASSERT(CHECK) ((CHECK) ? void(0) : [] { assert(!#CHECK); }())
-#endif
 
 /**  Returns `a * b`. Numeric overflow triggers a compilation error in
  * "constexpr context" and a debug assert failure at run-time.
@@ -788,7 +780,7 @@ UnsignedProduct(const uintmax_t a, const uintmax_t b) noexcept
   return (a == 0) || (b == 0) ||
              (((static_cast<TReturnType>(a * b) / a) == b) && ((static_cast<TReturnType>(a * b) / b) == a))
            ? static_cast<TReturnType>(a * b)
-           : (ITK_X_ASSERT(!"UnsignedProduct overflow!"), 0);
+           : (assert(!"UnsignedProduct overflow!"), 0);
 }
 
 
@@ -808,13 +800,11 @@ UnsignedPower(const uintmax_t base, const uintmax_t exponent) noexcept
   // Uses recursive function calls because C++11 does not support other ways of
   // iterations for a constexpr function.
   return (exponent == 0)
-           ? (ITK_X_ASSERT(base > 0), 1)
+           ? (assert(base > 0), 1)
            : (exponent == 1) ? base
                              : UnsignedProduct<TReturnType>(UnsignedPower<TReturnType>(base, exponent / 2),
                                                             UnsignedPower<TReturnType>(base, (exponent + 1) / 2));
 }
-
-#undef ITK_X_ASSERT
 
 
 /*==========================================
