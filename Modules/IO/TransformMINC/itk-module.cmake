@@ -19,5 +19,4 @@ itk_module(ITKIOTransformMINC
     TransformIO::MINC
   DESCRIPTION
     "${DOCUMENTATION}"
-  EXCLUDE_FROM_DEFAULT
 )
