@@ -120,11 +120,7 @@ Singleton(const char * globalName, std::function<void(void *)> func, std::functi
   if (instance == nullptr)
   {
     instance = new T;
-    if (!SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, func, deleteFunc))
-    {
-      delete instance;
-      instance = nullptr;
-    }
+    SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, func, deleteFunc);
   }
   return instance;
 }
