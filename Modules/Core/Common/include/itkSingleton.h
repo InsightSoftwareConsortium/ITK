@@ -70,7 +70,8 @@ public:
                     std::function<void(void *)> func,
                     std::function<void()>       deleteFunc)
   {
-    return this->SetGlobalInstancePrivate(globalName, global, func, deleteFunc);
+    this->SetGlobalInstancePrivate(globalName, global, func, deleteFunc);
+    return true;
   }
 
   /** Set/Get the pointer to GlobalSingleton.
@@ -90,9 +91,9 @@ private:
   // work, and could use some type of Holder<T> class for intrinsic types
   void *
   GetGlobalInstancePrivate(const char * globalName);
-  // If globalName is already registered than false is return,
-  // otherwise global is added to the singleton index under globalName
-  bool
+
+  // global is added or set to the singleton index under globalName
+  void
   SetGlobalInstancePrivate(const char *                globalName,
                            void *                      global,
                            std::function<void(void *)> func,
