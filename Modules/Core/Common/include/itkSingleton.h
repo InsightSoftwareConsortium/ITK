@@ -59,7 +59,7 @@ public:
   }
 
 
-  // returns true if the globalName has not been registered yet.
+  // Returns true.
   //
   // It is assumed that the global will remain valid until the start
   // of globals being destroyed.
