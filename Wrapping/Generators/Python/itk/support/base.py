@@ -23,8 +23,6 @@ from sys import stderr as system_error_stream
 # Required to work around weird import error with xarray
 from typing import Dict, Any, List, Optional, Sequence, Union
 
-import pkg_resources
-
 import itkConfig
 from itkConfig import DefaultFactoryLoading as _DefaultFactoryLoading
 from itk.support.template_class import itkTemplate
