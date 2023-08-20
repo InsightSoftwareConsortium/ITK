@@ -27,7 +27,7 @@ std::once_flag globalSingletonOnceFlag;
 // has been loaded. In some cases, this call will perform the initialization.
 // In other cases, static initializers like the IO factory initialization code
 // will have done the initialization.
-itk::SingletonIndex * initializedGlobalSingletonIndex = itk::SingletonIndex::GetInstance();
+[[maybe_unused]] itk::SingletonIndex * volatile initializedGlobalSingletonIndex = itk::SingletonIndex::GetInstance();
 
 /** \class GlobalSingletonIndexInitializer
  *
@@ -53,13 +53,7 @@ public:
   static SingletonIndex *
   GetGlobalSingletonIndex()
   {
-    std::call_once(globalSingletonOnceFlag, []() {
-      m_GlobalSingletonIndex = new SingletonIndex;
-
-      // To avoid being optimized out. The compiler does not like this
-      // statement at a higher scope.
-      Unused(initializedGlobalSingletonIndex);
-    });
+    std::call_once(globalSingletonOnceFlag, []() { m_GlobalSingletonIndex = new SingletonIndex; });
 
     return m_GlobalSingletonIndex;
   }

@@ -27,8 +27,7 @@
  *
  * This function is to be used to mark parameters as unused to suppress
  * compiler warning. It can be used when the parameter needs to be named
- * (i.e. itkNotUsed cannot be used) but is not always used. It ensures
- * that the parameter is not optimized out.
+ * (i.e. itkNotUsed cannot be used) but is not always used.
  */
 template <typename T>
 inline void
