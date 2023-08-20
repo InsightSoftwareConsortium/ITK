@@ -145,6 +145,10 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
 
   std::cout << "[TEST DONE]" << std::endl;
 
+  // Print the filter after its update so that its StartVoxel, Positive and Negative ivars's ImageVoxel class stream
+  // insertion operator overload gets exercised.
+  deformFilter->Print(std::cout);
+
   // Test streaming enumeration for DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE elements
   const std::set<itk::DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE> allSIDE{
     itk::DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE::NORMAL,

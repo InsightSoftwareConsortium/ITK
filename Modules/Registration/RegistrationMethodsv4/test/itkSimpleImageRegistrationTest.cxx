@@ -310,7 +310,13 @@ PerformSimpleImageRegistration(int argc, char * argv[])
   displacementFieldSimple->SetNumberOfLevels(numberOfLevels);
   ITK_TEST_SET_GET_VALUE(numberOfLevels, displacementFieldSimple->GetNumberOfLevels());
 
-  displacementFieldSimple->SetMovingInitialTransformInput(affineSimple->GetTransformOutput());
+  typename AffineRegistrationType::DecoratedOutputTransformType * transformOutputNonConst =
+    affineSimple->GetTransformOutput();
+  const typename AffineRegistrationType::DecoratedOutputTransformType * transformOutputConst =
+    affineSimple->GetTransformOutput();
+  ITK_TEST_EXPECT_EQUAL(transformOutputNonConst, transformOutputConst);
+
+  displacementFieldSimple->SetMovingInitialTransformInput(transformOutputNonConst);
   displacementFieldSimple->SetMetric(correlationMetric);
   displacementFieldSimple->SetOptimizer(optimizer);
 

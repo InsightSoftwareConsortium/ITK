@@ -154,6 +154,9 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(integral, 1276.));
 
+  ITK_TEST_EXPECT_TRUE(interp->IsInsideBuffer(query));
+  ITK_TEST_EXPECT_TRUE(interp->IsInsideBuffer(index));
+
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;

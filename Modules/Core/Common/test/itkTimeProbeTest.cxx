@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
+#include "itkIndent.h"
 #include "itkTimeProbe.h"
 #include "itkMath.h"
 
@@ -89,6 +90,10 @@ itkTimeProbeTest(int, char *[])
   std::cout << "sec  " << timeStamp.GetTimeInSeconds() << std::endl;
   std::cout << "msec " << timeStamp.GetTimeInMilliSeconds() << std::endl;
   std::cout << "usec " << timeStamp.GetTimeInMicroSeconds() << std::endl;
+
+  // Exercise the Print method
+  itk::Indent indent{};
+  localTimer.Print(std::cout, indent);
 
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;
