@@ -120,7 +120,11 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   using myFilterType = itk::GrayscaleFunctionDilateImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  auto                     filter = myFilterType::New();
+  auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GrayscaleFunctionDilateImageFilter, MorphologyImageFilter);
+
+
   itk::SimpleFilterWatcher filterWatcher(filter);
 
   // Create the structuring element
@@ -141,6 +145,8 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
+
+  std::cout << "BoundaryCondition: " << filter->GetBoundaryCondition() << std::endl;
 
   // Create an iterator for going through the image output
   myIteratorType it2(outputImage, outputImage->GetBufferedRegion());

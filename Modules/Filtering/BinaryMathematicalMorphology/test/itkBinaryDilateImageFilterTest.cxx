@@ -119,7 +119,11 @@ itkBinaryDilateImageFilterTest(int, char *[])
   using myFilterType = itk::BinaryDilateImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  auto                     filter = myFilterType::New();
+  auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryDilateImageFilter, BinaryMorphologyImageFilter);
+
+
   itk::SimpleFilterWatcher filterWatcher(filter);
 
   // Create the structuring element
@@ -133,15 +137,13 @@ itkBinaryDilateImageFilterTest(int, char *[])
   // Connect the input image
   filter->SetInput(inputImage);
   filter->SetKernel(ball);
+
   filter->SetDilateValue(fgValue);
+  ITK_TEST_SET_GET_VALUE(fgValue, filter->GetDilateValue());
+
 
   // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
-
-
-  // Test the itkGetMacro
-  unsigned short value = filter->GetDilateValue();
-  std::cout << "filter->GetDilateValue(): " << value << std::endl;
 
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());

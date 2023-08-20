@@ -134,6 +134,11 @@ itkDecoratorTest(int, char *[])
     vop->Set(vp);
 
     std::cout << vop;
+
+    VectorType *       vec = vop->Get();
+    const VectorType * constVec = vop->Get();
+    std::cout << "AutoPointerDataObjectDecorator::Get: " << vec << std::endl;
+    std::cout << "AutoPointerDataObjectDecorator::Get const: " << constVec << std::endl;
   }
 
   std::cout << "----------------------------------------------------" << std::endl;

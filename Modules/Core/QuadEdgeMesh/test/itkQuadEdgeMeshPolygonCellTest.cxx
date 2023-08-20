@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkQuadEdgeMesh.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -86,6 +87,20 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
    */
   mesh->SetCellsAllocationMethod(itk::MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
+
+  // Test point container iterators
+  auto * quadEdgeMeshPolygonCell = new PolygonCellType();
+
+  PolygonCellType::PointIdIterator pointId = quadEdgeMeshPolygonCell->PointIdsBegin();
+  PolygonCellType::PointIdIterator endId = quadEdgeMeshPolygonCell->PointIdsEnd();
+  ITK_TEST_EXPECT_TRUE(pointId);
+  ITK_TEST_EXPECT_TRUE(endId);
+
+  PolygonCellType::PointIdConstIterator constPointId = quadEdgeMeshPolygonCell->PointIdsBegin();
+  PolygonCellType::PointIdConstIterator constEndId = quadEdgeMeshPolygonCell->PointIdsEnd();
+  ITK_TEST_EXPECT_TRUE(pointId);
+  ITK_TEST_EXPECT_TRUE(endId);
+
   /**
    * Create the test cell. Note that testCell is a generic auto
    * pointer to a cell; in this example it ends up pointing to
@@ -109,6 +124,27 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
     std::cerr << "Get Point should have failed !" << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Test iterators
+  std::cout << "Iterator: ";
+  pointId = newcell->PointIdsBegin();
+  endId = newcell->PointIdsEnd();
+  while (pointId != endId)
+  {
+    std::cout << *pointId << ", ";
+    pointId++;
+  }
+  std::cout << std::endl;
+
+  std::cout << "Iterator const: ";
+  constPointId = newcell->PointIdsBegin();
+  constEndId = newcell->PointIdsEnd();
+  while (constPointId != constEndId)
+  {
+    std::cout << *constPointId << ", ";
+    constPointId++;
+  }
+  std::cout << std::endl;
 
   std::cout << "Test MakeCopy" << std::endl;
 
