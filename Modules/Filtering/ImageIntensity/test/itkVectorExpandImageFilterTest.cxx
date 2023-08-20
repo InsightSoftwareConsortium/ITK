@@ -140,6 +140,10 @@ itkVectorExpandImageFilterTest(int, char *[])
   using InterpolatorType = itk::VectorNearestNeighborInterpolateImageFunction<ImageType, double>;
   auto interpolator = InterpolatorType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    interpolator, VectorNearestNeighborInterpolateImageFunction, VectorInterpolateImageFunction);
+
+
   expander->SetInterpolator(interpolator);
   ITK_TEST_SET_GET_VALUE(interpolator, expander->GetInterpolator());
 

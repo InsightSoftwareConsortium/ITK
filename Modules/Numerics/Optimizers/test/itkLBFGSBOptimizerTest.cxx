@@ -218,6 +218,8 @@ itkLBFGSBOptimizerTest(int, char *[])
   itkOptimizer->SetMaximumNumberOfCorrections(maximumNumberOfCorrections);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfCorrections, itkOptimizer->GetMaximumNumberOfCorrections());
 
+  ITK_TEST_EXPECT_TRUE(!itkOptimizer->CanUseScales());
+
   constexpr unsigned int        SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 

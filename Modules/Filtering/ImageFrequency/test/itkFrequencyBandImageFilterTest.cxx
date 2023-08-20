@@ -259,6 +259,10 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   auto testFilter = UnaryFilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(testFilter, UnaryFrequencyDomainFilter, InPlaceImageFilter);
 
+
+  auto actualXDimensionIsOdd = false;
+  ITK_TEST_SET_GET_BOOLEAN(testFilter, ActualXDimensionIsOdd, actualXDimensionIsOdd);
+
   struct TestStruct
   {
     static double

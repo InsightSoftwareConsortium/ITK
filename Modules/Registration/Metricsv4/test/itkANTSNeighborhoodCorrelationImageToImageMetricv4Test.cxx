@@ -238,10 +238,16 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   using MetricTypePointer = MetricType::Pointer;
   MetricTypePointer metric = MetricType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, ANTSNeighborhoodCorrelationImageToImageMetricv4, ImageToImageMetricv4);
+
+
   const itk::Size<ImageDimension> neighborhoodRadius0{ { 1 } };
 
   metric->SetRadius(neighborhoodRadius0);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius0, metric->GetRadius());
+
+  const MetricType::RadiusType constRadius = metric->GetRadius();
+  ITK_TEST_EXPECT_EQUAL(neighborhoodRadius0, constRadius);
 
   itk::Size<ImageDimension> neighborhoodRadius;
   neighborhoodRadius.Fill(1);
