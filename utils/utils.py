@@ -26,6 +26,11 @@ def is_str(string):
         bool: True or False
 
     """
+    warnings.warn(
+        "The is_str function is deprecated. \
+        Use isinstance(string, str) instead.",
+        DeprecationWarning)
+
     if sys.version_info[:2] >= (3, 0):
         return isinstance(string, str)
 
@@ -50,33 +55,10 @@ def find_xml_generator(name="castxml", search_path=None):
 
     """
 
-    if sys.version_info[:2] >= (3, 3):
-        path = _find_xml_generator_for_python_greater_equals_33(
-            name, search_path=search_path)
-    else:
-        path = _find_xml_generator_for_legacy_python(name)
-
+    path = shutil.which(name, path=search_path)
     if path == "" or path is None:
         raise Exception("No c++ parser found. Please install castxml.")
     return path.rstrip(), name
-
-
-def _find_xml_generator_for_python_greater_equals_33(name, search_path=None):
-    return shutil.which(name, path=search_path)
-
-
-def _find_xml_generator_for_legacy_python(name):
-    if platform.system() == "Windows":
-        command = "where"
-    else:
-        command = "which"
-    p = subprocess.Popen([command, name], stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE)
-    path = p.stdout.read().decode("utf-8")
-    p.wait()
-    p.stdout.close()
-    p.stderr.close()
-    return path.rstrip()
 
 
 def _create_logger_(name):
@@ -295,8 +277,12 @@ class cxx_standard(object):
         '-std=c++17': 201703,
         '-std=gnu++1z': 201703,
         '-std=gnu++17': 201703,
-        '-std=c++2a': float('inf'),
-        '-std=gnu++2a': float('inf'),
+        '-std=c++2a': 202002,
+        '-std=gnu++2a': 202002,
+        '-std=c++20': 202002,
+        '-std=gnu++20': 202002,
+        '-std=c++23': float('inf'),
+        '-std=gnu++23': float('inf'),
     }
 
     def __init__(self, cflags):

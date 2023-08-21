@@ -4,7 +4,6 @@
 # See http://www.boost.org/LICENSE_1_0.txt
 
 from pygccxml import declarations
-from .. import utils
 
 
 class linker_t(
@@ -304,7 +303,7 @@ class linker_t(
         self.__link_compound_type()
 
     def visit_declarated(self):
-        if utils.is_str(self.__inst.declaration):
+        if isinstance(self.__inst.declaration, str):
             self.__inst.declaration = self.__decls[self.__inst.declaration]
 
     def visit_restrict(self):

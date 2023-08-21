@@ -522,7 +522,7 @@ class container_traits_impl_t(object):
         """
 
         name = type_or_string
-        if not utils.is_str(type_or_string):
+        if not isinstance(type_or_string, str):
             name = self.class_declaration(type_or_string).name
         if not self.remove_defaults_impl:
             return name
@@ -705,7 +705,7 @@ def find_container_traits(cls_or_string):
         declarations.container_traits: a container traits
     """
 
-    if utils.is_str(cls_or_string):
+    if isinstance(cls_or_string, str):
         if not templates.is_instantiation(cls_or_string):
             return None
         name = templates.name(cls_or_string)

@@ -22,7 +22,6 @@ try:
     from ConfigParser import SafeConfigParser as ConfigParser
 except ImportError:
     from configparser import ConfigParser
-from .. import utils
 
 
 class parser_configuration_t(object):
@@ -383,7 +382,7 @@ def load_xml_generator_configuration(configuration, **defaults):
 
     """
     parser = configuration
-    if utils.is_str(configuration):
+    if isinstance(configuration, str):
         parser = ConfigParser()
         parser.read(configuration)
 
