@@ -165,6 +165,7 @@ class calldef_t(declaration.declaration_t):
         self._calling_convention = None
         self._has_inline = None
         self._mangled = mangled
+        self._overrides = None
 
     def _get__cmp__call_items(self):
         """
@@ -241,6 +242,16 @@ class calldef_t(declaration.declaration_t):
         """list of all optional arguments, the arguments that have default
         value"""
         return self.arguments[len(self.required_args):]
+
+    @property
+    def overrides(self):
+        """If a function is marked as an overrides, contains
+        the declaration which this function overrides."""
+        return self._overrides
+
+    @overrides.setter
+    def overrides(self, overrides):
+        self._overrides = overrides
 
     @property
     def does_throw(self):

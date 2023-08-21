@@ -32,12 +32,14 @@ def is_str(string):
     return isinstance(string, basestring)
 
 
-def find_xml_generator(name="castxml"):
+def find_xml_generator(name="castxml", search_path=None):
     """
     Try to find a c++ parser (xml generator)
 
     Args:
         name (str): name of the c++ parser (e.g. castxml)
+        search_path (str): helps finding castxml
+                           (for example in jupyter notebooks, use sys.path)
 
     Returns:
         path (str), name (str): path to the xml generator and it's name
@@ -49,7 +51,8 @@ def find_xml_generator(name="castxml"):
     """
 
     if sys.version_info[:2] >= (3, 3):
-        path = _find_xml_generator_for_python_greater_equals_33(name)
+        path = _find_xml_generator_for_python_greater_equals_33(
+            name, search_path=search_path)
     else:
         path = _find_xml_generator_for_legacy_python(name)
 
@@ -58,8 +61,8 @@ def find_xml_generator(name="castxml"):
     return path.rstrip(), name
 
 
-def _find_xml_generator_for_python_greater_equals_33(name):
-    return shutil.which(name)
+def _find_xml_generator_for_python_greater_equals_33(name, search_path=None):
+    return shutil.which(name, path=search_path)
 
 
 def _find_xml_generator_for_legacy_python(name):
@@ -162,8 +165,7 @@ def remove_file_no_raise(file_name, config):
             file_name, str(error))
 
 
-# pylint: disable=W0622
-def create_temp_file_name(suffix, prefix=None, dir=None, directory=None):
+def create_temp_file_name(suffix, prefix=None, directory=None):
     """
     Small convenience function that creates temporary files.
 
@@ -171,12 +173,6 @@ def create_temp_file_name(suffix, prefix=None, dir=None, directory=None):
     function tempfile.mkstemp.
 
     """
-    if dir is not None:
-        warnings.warn(
-            "The dir argument is deprecated.\n" +
-            "Please use the directory argument instead.", DeprecationWarning)
-        # Deprecated since 1.9.0, will be removed in 2.0.0
-        directory = dir
 
     if not prefix:
         prefix = tempfile.gettempprefix()
