@@ -20,8 +20,8 @@ fi
 
 # Update the git tag for the version you are merging
 git_url="https://github.com/CastXML/pygccxml"
-git_tag="v2.0.1"
-upstream_sha="aa8661e4efa276f0af034d858e0be1cd1db4af20"
+git_tag="v2.4.0"
+upstream_sha="ce011e1bc57248d205cfda60dd51b3182acbe106"
 
 #
 # Once the merge has been done
