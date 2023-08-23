@@ -40,9 +40,6 @@ struct ThreadPoolGlobals
   // To lock on the various internal variables.
   std::mutex m_Mutex;
 
-  // To allow singleton creation of ThreadPool.
-  std::once_flag m_ThreadPoolOnceFlag;
-
   // The singleton instance of ThreadPool.
   ThreadPool::Pointer m_ThreadPoolInstance;
 
@@ -75,8 +72,8 @@ ThreadPool::GetInstance()
   // initialized.
   itkInitGlobalsMacro(PimplGlobals);
 
-  // Create a singleton ThreadPool.
-  std::call_once(m_PimplGlobals->m_ThreadPoolOnceFlag, []() {
+  // Create a ThreadPool singleton as part of the initialization of a static local variable, to ensure thread-safety.
+  [[maybe_unused]] static const volatile bool isCalledOnce = [] {
     m_PimplGlobals->m_ThreadPoolInstance = ObjectFactory<Self>::Create();
     if (m_PimplGlobals->m_ThreadPoolInstance.IsNull())
     {
@@ -85,7 +82,8 @@ ThreadPool::GetInstance()
 #if defined(ITK_USE_PTHREADS)
     pthread_atfork(ThreadPool::PrepareForFork, ThreadPool::ResumeFromFork, ThreadPool::ResumeFromFork);
 #endif
-  });
+    return true;
+  }();
 
   return m_PimplGlobals->m_ThreadPoolInstance;
 }
@@ -107,7 +105,7 @@ ThreadPool::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 ThreadPool::ThreadPool()
 {
   // m_PimplGlobals->m_Mutex not needed to be acquired here because construction only occurs via GetInstance which is
-  // protected by call_once.
+  // protected by the thread-safe initialization of a static local variable, `isCalledOnce`.
 
   m_PimplGlobals->m_ThreadPoolInstance = this;        // threads need this
   m_PimplGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
