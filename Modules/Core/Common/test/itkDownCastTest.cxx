@@ -34,7 +34,9 @@ itkDownCastTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <LibraryBFilePath>" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " LibraryBFilePath" << std::endl;
     return EXIT_SUCCESS;
   }
 

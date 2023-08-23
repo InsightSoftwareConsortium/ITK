@@ -280,8 +280,9 @@ itkOpenCVImageBridgeRGBTest(int argc, char * argv[])
   //
   if (argc != 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "rgb_jpg_image rgb_mha_image rgb_image2"
-              << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " RGBJPGImage RGBMHAImage RGBImage2" << std::endl;
     return EXIT_FAILURE;
   }
 

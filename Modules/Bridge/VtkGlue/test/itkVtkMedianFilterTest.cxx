@@ -33,8 +33,9 @@ itkVtkMedianFilterTest(int argc, char * argv[])
   // Verify command line arguments
   if (argc < 2)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " InputImageFile [radius]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " InputImageFile [radius]" << std::endl;
     return EXIT_FAILURE;
   }
   std::string inputFilename = argv[1];

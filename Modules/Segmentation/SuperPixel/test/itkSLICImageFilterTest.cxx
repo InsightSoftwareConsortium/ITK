@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkCommand.h"
+#include "itkTestingMacros.h"
 
 namespace
 {
@@ -87,7 +88,9 @@ itkSLICImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Expected FileName [gridSize] [enforceConnectivity]\n";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "inputFileName outputFileName [gridSize] [enforceConnectivity]" << std::endl;
     return EXIT_FAILURE;
   }
 

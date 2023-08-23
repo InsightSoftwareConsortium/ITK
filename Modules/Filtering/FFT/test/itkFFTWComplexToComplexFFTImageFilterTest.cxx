@@ -93,8 +93,9 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <InputImage> <OutputImage> <float|double>"
-              << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " InputImage OutputImage <float|double>" << std::endl;
     return EXIT_FAILURE;
   }
   const char *      inputImageFileName = argv[1];

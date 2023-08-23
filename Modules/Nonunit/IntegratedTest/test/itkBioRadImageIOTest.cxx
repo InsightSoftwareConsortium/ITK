@@ -28,7 +28,9 @@ itkBioRadImageIOTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " BioRad.pic OutputImage.pic\n";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " BioRad.pic OutputImage.pic" << std::endl;
     return EXIT_FAILURE;
   }
 

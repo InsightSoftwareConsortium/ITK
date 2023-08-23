@@ -38,9 +38,9 @@ itkImageToHistogramFilterTest4Templated(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << itkNameOfTestExecutableMacro(argv)
-              << " inputImageFileName inputImageFileName outputHistogramFile" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImageFileName inputImageFileName outputHistogramFile" << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -73,7 +73,7 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImage outputImagePrefix [backend]" << std::endl;
     std::cerr << "backend implementation options:" << std::endl;

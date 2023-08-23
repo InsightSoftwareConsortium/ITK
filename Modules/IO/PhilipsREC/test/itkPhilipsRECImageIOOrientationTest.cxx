@@ -33,8 +33,9 @@ itkPhilipsRECImageIOOrientationTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " ReferenceImage TargetImage ";
-    std::cerr << "OutputImage" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " ReferenceImage TargetImage OutputImage" << std::endl;
     return EXIT_FAILURE;
   }
 

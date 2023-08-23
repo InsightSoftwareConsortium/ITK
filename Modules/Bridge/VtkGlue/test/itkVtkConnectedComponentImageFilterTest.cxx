@@ -44,9 +44,9 @@ itkVtkConnectedComponentImageFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cout << " inputImageFile";
-    std::cerr << std::endl;
+    std::cout << " inputImageFile" << std::endl;
     return EXIT_FAILURE;
   }
 
