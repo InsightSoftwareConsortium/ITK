@@ -51,4 +51,6 @@ elif version < (3, 9, 10) or (3, 10, 0) <= version < (3, 10, 2):
 else:
     from importlib import metadata
 
-__version__ = metadata.version("pygccxml")
+# Begin ITK edit
+__version__ = "2.4.0"
+# __version__ = metadata.version("pygccxml")
