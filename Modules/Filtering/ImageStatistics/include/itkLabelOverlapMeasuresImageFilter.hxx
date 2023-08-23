@@ -120,28 +120,23 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::ThreadedStreamedGenerateData(const
   // local copy, this thread may do multiple merges.
   while (true)
   {
-
+    MapType tomerge{};
     {
-      std::unique_lock<std::mutex> lock(m_Mutex);
+      const std::lock_guard<std::mutex> lockGuard(m_Mutex);
 
       if (m_LabelSetMeasures.empty())
       {
         swap(m_LabelSetMeasures, localStatistics);
         break;
       }
-      else
-      {
-        // copy the output map to thread local storage
-        MapType tomerge;
-        swap(m_LabelSetMeasures, tomerge);
 
-        // allow other threads to merge data
-        lock.unlock();
+      // Move the data of the output map to the local `tomerge` and clear the output map.
+      swap(m_LabelSetMeasures, tomerge);
 
-        // Merge tomerge into localStatistics, locally
-        MergeMap(localStatistics, tomerge);
-      }
-    } // release lock
+    } // release lock, allow other threads to merge data
+
+    // Merge tomerge into localStatistics, locally
+    MergeMap(localStatistics, tomerge);
   }
 }
 

@@ -96,29 +96,27 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::ParallelComputeLabels(co
   // local copy, this thread may do multiple merges.
   while (true)
   {
-    std::unique_lock<std::mutex> lock(m_Mutex);
+    MapType toMerge{};
+    {
+      const std::lock_guard<std::mutex> lockGuard(m_Mutex);
 
-    if (m_SizeMap.empty())
-    {
-      swap(m_SizeMap, localSizeMap);
-      break;
-    }
-    else
-    {
-      // copy the output map to thread local storage
-      MapType toMerge;
+      if (m_SizeMap.empty())
+      {
+        swap(m_SizeMap, localSizeMap);
+        break;
+      }
+
+      // Move the data of the output map to the local `toMerge` and clear the output map.
       swap(m_SizeMap, toMerge);
 
-      // allow other threads to merge data
-      lock.unlock();
+    } // release lock, allow other threads to merge data
 
-      // Merge toMerge into localSizeMap, locally
-      for (auto & sizePair : toMerge)
-      {
-        localSizeMap[sizePair.first] += sizePair.second;
-      }
+    // Merge toMerge into localSizeMap, locally
+    for (auto & sizePair : toMerge)
+    {
+      localSizeMap[sizePair.first] += sizePair.second;
     }
-  } // release lock
+  }
 }
 
 
