@@ -5,7 +5,7 @@
 # See ITK/Modules/ThirdParty/pygccxml/src/README.md
 # for more commentary on how this update process works.
 #
-set -x
+set -ex
 echo "-------------------------------------------------------"
 echo This script will update source code for the pygccxml
 echo library from github.com/CastXML/pygccxml
@@ -53,8 +53,8 @@ git checkout ${upstream_sha}
 upstream_date="$(git log -n 1 --format='%cd')"
 cd ..
 
-# Copy only the source code, which is located in the pygccxml subfolder
-cp -r tmp-pygccxml-upstream/pygccxml/* .
+# Copy only the source code, which is located in the src/pygccxml subfolder
+cp -r tmp-pygccxml-upstream/src/pygccxml/* .
 # get rid of pygccxml clone
 rm -fr tmp-pygccxml-upstream
 # add upstream files in Git
