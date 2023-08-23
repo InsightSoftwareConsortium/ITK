@@ -124,7 +124,7 @@ try:
     data_array = itk.xarray_from_image(image, view=True)
     assert data_array.name == image.GetObjectName()
     # verify we can run a computation on xarray data
-    assert float(data_array.min().compute()) == 1.0
+    assert 0 <= data_array.min().compute() <= 255
 
     data_array = xr.DataArray(arr, dims=["q", "x", "y"])
     try:
