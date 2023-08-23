@@ -98,8 +98,8 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
 
   PolygonCellType::PointIdConstIterator constPointId = quadEdgeMeshPolygonCell.PointIdsBegin();
   PolygonCellType::PointIdConstIterator constEndId = quadEdgeMeshPolygonCell.PointIdsEnd();
-  ITK_TEST_EXPECT_TRUE(pointId);
-  ITK_TEST_EXPECT_TRUE(endId);
+  ITK_TEST_EXPECT_TRUE(constPointId);
+  ITK_TEST_EXPECT_TRUE(constEndId);
 
   /**
    * Create the test cell. Note that testCell is a generic auto
