@@ -57,3 +57,6 @@ class decl_visitor_t(object):
 
     def visit_variable(self):
         raise NotImplementedError()
+
+    def visit_comment(self):
+        raise NotImplementedError()
