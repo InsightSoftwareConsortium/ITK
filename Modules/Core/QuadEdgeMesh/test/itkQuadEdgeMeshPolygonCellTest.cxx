@@ -89,15 +89,15 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
 
 
   // Test point container iterators
-  auto * quadEdgeMeshPolygonCell = new PolygonCellType();
+  PolygonCellType quadEdgeMeshPolygonCell{};
 
-  PolygonCellType::PointIdIterator pointId = quadEdgeMeshPolygonCell->PointIdsBegin();
-  PolygonCellType::PointIdIterator endId = quadEdgeMeshPolygonCell->PointIdsEnd();
+  PolygonCellType::PointIdIterator pointId = quadEdgeMeshPolygonCell.PointIdsBegin();
+  PolygonCellType::PointIdIterator endId = quadEdgeMeshPolygonCell.PointIdsEnd();
   ITK_TEST_EXPECT_TRUE(pointId);
   ITK_TEST_EXPECT_TRUE(endId);
 
-  PolygonCellType::PointIdConstIterator constPointId = quadEdgeMeshPolygonCell->PointIdsBegin();
-  PolygonCellType::PointIdConstIterator constEndId = quadEdgeMeshPolygonCell->PointIdsEnd();
+  PolygonCellType::PointIdConstIterator constPointId = quadEdgeMeshPolygonCell.PointIdsBegin();
+  PolygonCellType::PointIdConstIterator constEndId = quadEdgeMeshPolygonCell.PointIdsEnd();
   ITK_TEST_EXPECT_TRUE(pointId);
   ITK_TEST_EXPECT_TRUE(endId);
 
