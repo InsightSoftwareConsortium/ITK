@@ -33,9 +33,9 @@ itkMaskedImageToHistogramFilterTest1(int argc, char * argv[])
 
   if (argc < 6)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << itkNameOfTestExecutableMacro(argv)
-              << " inputImageFileName inputImageFileName maskImage maskValue outputHistogramFile" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImageFileName inputImageFileName maskImage maskValue outputHistogramFile" << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -245,8 +245,9 @@ itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
   //
   if (argc != 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "scalar_image1 scalar_image2 scalar_image3"
-              << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " scalarImage1 scalarImage2 scalarImage3" << std::endl;
     return EXIT_FAILURE;
   }
 

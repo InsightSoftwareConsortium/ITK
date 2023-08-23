@@ -153,9 +153,9 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
   if (argc < 4)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cout << " input-file iterations lsw (0=VNL, 1=Dense VNL, 2=Itpack)";
-    std::cout << std::endl;
+    std::cout << " inputFileName iterations lsw (0=VNL, 1=Dense VNL, 2=Itpack)" << std::endl;
     return EXIT_FAILURE;
   }
 

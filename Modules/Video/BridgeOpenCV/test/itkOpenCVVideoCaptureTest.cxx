@@ -51,8 +51,9 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   //
   if (argc != 6)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_video scalar_output_video RGB_output_video "
-              << "width height" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " inputVideo scalarOutputVideo RGBOutputVideo width height" << std::endl;
     return EXIT_FAILURE;
   }
 

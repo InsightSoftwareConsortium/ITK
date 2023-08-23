@@ -107,11 +107,9 @@ CopyImageBuffer(TImage * input, TImage * output)
 int
 itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
 {
-
-
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile warpedOutputImageFile" << std::endl;
     return EXIT_FAILURE;
