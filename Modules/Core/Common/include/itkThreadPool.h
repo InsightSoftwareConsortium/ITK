@@ -93,7 +93,7 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
 
     std::future<return_type> res = task->get_future();
     {
-      std::unique_lock<std::mutex> lock(this->GetMutex());
+      const std::lock_guard<std::mutex> lockGuard(this->GetMutex());
       m_WorkQueue.emplace_back([task]() { (*task)(); });
     }
     m_Condition.notify_one();
@@ -107,7 +107,7 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   ThreadIdType
   GetMaximumNumberOfThreads() const
   {
-    std::unique_lock<std::mutex> lock(this->GetMutex());
+    const std::lock_guard<std::mutex> lockGuard(this->GetMutex());
     return static_cast<ThreadIdType>(m_Threads.size());
   }
 
