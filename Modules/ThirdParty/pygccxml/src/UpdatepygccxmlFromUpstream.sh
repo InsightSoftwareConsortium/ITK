@@ -5,7 +5,7 @@
 # See ITK/Modules/ThirdParty/pygccxml/src/README.md
 # for more commentary on how this update process works.
 #
-set -x
+set -ex
 echo "-------------------------------------------------------"
 echo This script will update source code for the pygccxml
 echo library from github.com/CastXML/pygccxml
@@ -20,16 +20,16 @@ fi
 
 # Update the git tag for the version you are merging
 git_url="https://github.com/CastXML/pygccxml"
-git_tag="v2.0.1"
-upstream_sha="aa8661e4efa276f0af034d858e0be1cd1db4af20"
+git_tag="v2.4.0"
+upstream_sha="ce011e1bc57248d205cfda60dd51b3182acbe106"
 
 #
 # Once the merge has been done
 # EDIT THIS SCRIPT to change the hash tag at which to begin the
 # next update...
 #
-# This merge was done on: July 27th, 2020
-git branch pygccxml-upstream f8322d75a190d6d393336ffd5e0d8bd23bbc83e5
+# This merge was done on: August 23rd, 2023
+git branch pygccxml-upstream 6637e8709b7779d19cd6089d3c25b193fd794b7c
 
 #
 # Make a temp directory to handle the import of the upstream source
@@ -53,8 +53,8 @@ git checkout ${upstream_sha}
 upstream_date="$(git log -n 1 --format='%cd')"
 cd ..
 
-# Copy only the source code, which is located in the pygccxml subfolder
-cp -r tmp-pygccxml-upstream/pygccxml/* .
+# Copy only the source code, which is located in the src/pygccxml subfolder
+cp -r tmp-pygccxml-upstream/src/pygccxml/* .
 # get rid of pygccxml clone
 rm -fr tmp-pygccxml-upstream
 # add upstream files in Git
@@ -96,5 +96,9 @@ echo to get the commit hash from which the pygccxml-upstream
 echo branch must be started on the next update.
 echo "---------------------------------"
 echo edit the line \"git branch pygccxml-upstream\" above.
-echo Once you have commited this change to the UpdatepygccxmlFromUpstream.sh script,
+echo "---------------------------------"
+echo Also update the __version__ in pygccxml/__init__.py
+echo "---------------------------------"
+echo Once you have commited this change to the
+echo UpdatepygccxmlFromUpstream.sh script and __init__.py,
 echo use \"git review-push\" to push this new update branch back to GitHub.

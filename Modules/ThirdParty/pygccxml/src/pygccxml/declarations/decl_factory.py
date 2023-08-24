@@ -12,6 +12,7 @@ from .calldef_members import constructor_t
 from .calldef_members import destructor_t
 from .calldef_members import member_operator_t
 from .calldef_members import casting_operator_t
+from .comment import comment_t
 from .free_calldef import free_function_t
 from .free_calldef import free_operator_t
 from .enumeration import enumeration_t
@@ -89,3 +90,7 @@ class decl_factory_t(object):
     def create_variable(self, *arguments, **keywords):
         """creates instance of class that describes variable declaration"""
         return variable_t(*arguments, **keywords)
+
+    def create_comment(self, *arguments, **keywords):
+        """creates instance of class that describes variable declaration"""
+        return comment_t(*arguments, **keywords)

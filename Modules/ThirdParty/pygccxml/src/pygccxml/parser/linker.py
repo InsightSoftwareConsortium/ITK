@@ -107,6 +107,9 @@ class linker_t(
     def visit_member_operator(self):
         self.__link_calldef()
 
+    def visit_comment(self):
+        pass
+
     def visit_casting_operator(self):
         self.__link_calldef()
         # FIXME: is the patch still needed as the demangled name support has

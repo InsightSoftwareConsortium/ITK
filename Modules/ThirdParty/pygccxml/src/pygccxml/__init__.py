@@ -3,11 +3,11 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-"""Python CastXML or GCC-XML front end.
+"""Python CastXML front end.
 
 This package provides functionality to extract and inspect
 declarations from C/C++ header files. This is accomplished
-by invoking an external tool like CastXML or GCC-XML,
+by invoking an external tool like CastXML,
 which parses a header file and dumps the declarations as a
 XML file. This XML file is then read by pygccxml and the contents
 are made available as appropriate Python objects.
@@ -26,6 +26,7 @@ find all those declaration classes in the :mod:declarations sub-package.
 
 """
 
+import sys
 import warnings
 
 from . import declarations
@@ -38,7 +39,18 @@ from . import utils
 # to know what is deprecated.
 warnings.simplefilter("always", DeprecationWarning)
 
-# TODO:
-# 1. Add "explicit" property for constructors
+version = sys.version_info
 
-__version__ = '2.0.1'
+if version < (3, 8):
+    import importlib_metadata as metadata
+elif version < (3, 9, 10) or (3, 10, 0) <= version < (3, 10, 2):
+    try:
+        import importlib_metadata as metadata
+    except ModuleNotFoundError:
+        from importlib import metadata
+else:
+    from importlib import metadata
+
+# Begin ITK edit
+__version__ = "2.4.0"
+# __version__ = metadata.version("pygccxml")
