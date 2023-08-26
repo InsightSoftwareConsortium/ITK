@@ -41,7 +41,6 @@ PlatformMultiThreader::MultipleMethodExecute()
 {
   ThreadIdType threadCount;
 
-  DWORD  threadId;
   HANDLE processId[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
@@ -71,8 +70,8 @@ PlatformMultiThreader::MultipleMethodExecute()
     m_ThreadInfoArray[threadCount].UserData = m_MultipleData[threadCount];
     m_ThreadInfoArray[threadCount].NumberOfWorkUnits = m_NumberOfWorkUnits;
 
-    processId[threadCount] = reinterpret_cast<HANDLE>(_beginthreadex(
-      nullptr, 0, m_MultipleMethod[threadCount], &m_ThreadInfoArray[threadCount], 0, (unsigned int *)&threadId));
+    processId[threadCount] = reinterpret_cast<HANDLE>(
+      _beginthreadex(nullptr, 0, m_MultipleMethod[threadCount], &m_ThreadInfoArray[threadCount], 0, nullptr));
 
     if (processId[threadCount] == nullptr)
     {
@@ -102,8 +101,6 @@ ThreadIdType
 PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 {
   ThreadIdType id = 0;
-
-  DWORD threadId;
 
   while (id < ITK_MAX_THREADS)
   {
@@ -136,8 +133,8 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 
   // Using _beginthreadex on a PC
   //
-  m_SpawnedThreadProcessID[id] = reinterpret_cast<HANDLE>(
-    _beginthreadex(nullptr, 0, f, &m_SpawnedThreadInfoArray[id], 0, (unsigned int *)&threadId));
+  m_SpawnedThreadProcessID[id] =
+    reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 0, f, &m_SpawnedThreadInfoArray[id], 0, nullptr));
   if (m_SpawnedThreadProcessID[id] == nullptr)
   {
     itkExceptionMacro("Error in thread creation !!!");
@@ -175,9 +172,8 @@ ThreadProcessIdType
 PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
 {
   // Using _beginthreadex on a PC
-  DWORD threadId;
-  auto  threadHandle = reinterpret_cast<HANDLE>(
-    _beginthreadex(nullptr, 0, this->SingleMethodProxy, threadInfo, 0, (unsigned int *)&threadId));
+  auto threadHandle =
+    reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 0, this->SingleMethodProxy, threadInfo, 0, nullptr));
   if (threadHandle == nullptr)
   {
     itkExceptionMacro("Error in thread creation !!!");
