@@ -107,23 +107,20 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 {
   ThreadIdType id = 0;
 
-  while (id < ITK_MAX_THREADS)
+  for (; id < ITK_MAX_THREADS; ++id)
   {
     if (!m_SpawnedThreadActiveFlagLock[id])
     {
       m_SpawnedThreadActiveFlagLock[id] = std::make_shared<std::mutex>();
     }
-    m_SpawnedThreadActiveFlagLock[id]->lock();
+    const std::lock_guard<std::mutex> lockGuard(*m_SpawnedThreadActiveFlagLock[id]);
+
     if (m_SpawnedThreadActiveFlag[id] == 0)
     {
       // We've got a useable thread id, so grab it
       m_SpawnedThreadActiveFlag[id] = 1;
-      m_SpawnedThreadActiveFlagLock[id]->unlock();
       break;
     }
-    m_SpawnedThreadActiveFlagLock[id]->unlock();
-
-    ++id;
   }
 
   if (id >= ITK_MAX_THREADS)
@@ -163,9 +160,10 @@ PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
     return;
   }
 
-  m_SpawnedThreadActiveFlagLock[WorkUnitID]->lock();
-  m_SpawnedThreadActiveFlag[WorkUnitID] = 0;
-  m_SpawnedThreadActiveFlagLock[WorkUnitID]->unlock();
+  {
+    const std::lock_guard<std::mutex> lockGuard(*m_SpawnedThreadActiveFlagLock[WorkUnitID]);
+    m_SpawnedThreadActiveFlag[WorkUnitID] = 0;
+  }
 
   pthread_join(m_SpawnedThreadProcessID[WorkUnitID], nullptr);
 
