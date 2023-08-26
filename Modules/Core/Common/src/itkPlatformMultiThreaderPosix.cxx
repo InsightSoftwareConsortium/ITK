@@ -170,7 +170,6 @@ PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
   pthread_join(m_SpawnedThreadProcessID[WorkUnitID], nullptr);
 
   m_SpawnedThreadActiveFlagLock[WorkUnitID] = nullptr;
-  m_SpawnedThreadActiveFlagLock[WorkUnitID] = nullptr;
 }
 #endif
 
