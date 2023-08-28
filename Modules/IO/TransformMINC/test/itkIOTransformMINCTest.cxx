@@ -29,6 +29,7 @@
 #include "itkCompositeTransform.h"
 #include "itkIOTestHelper.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 static constexpr int point_counter = 1000;
 using TransformFileReader = itk::TransformFileReaderTemplate<double>;
@@ -95,66 +96,50 @@ check_linear(const char * linear_transform)
 
   // Testing writing std::cout << "Testing write : ";
   affine->Print(std::cout);
-  try
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Testing read : " << std::endl;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  TransformFileReader::TransformListType list = *reader->GetTransformList();
+
+  if (list.front()->GetTransformTypeAsString() != "AffineTransform_double_3_3")
   {
-    writer->Update();
-    std::cout << std::endl;
-    std::cout << "Testing read : " << std::endl;
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Read back transform of type:" << list.front()->GetTransformTypeAsString() << std::endl;
     return EXIT_FAILURE;
   }
+  AffineTransformType::Pointer affine2 = static_cast<AffineTransformType *>(list.front().GetPointer());
 
-  try
+  std::cout << "Read transform : " << std::endl;
+  affine2->Print(std::cout);
+
+  vnl_random randgen(12345678);
+
+  AffineTransformType::InputPointType pnt, pnt2;
+
+  std::cout << "Testing that transformations are the same ..." << std::endl;
+  for (int i = 0; i < point_counter; ++i)
   {
-    TransformFileReader::TransformListType list = *reader->GetTransformList();
+    AffineTransformType::OutputPointType v1;
+    AffineTransformType::OutputPointType v2;
 
-    if (list.front()->GetTransformTypeAsString() != "AffineTransform_double_3_3")
+    RandomPoint<double>(randgen, pnt, 100);
+    pnt2 = pnt;
+    v1 = affine->TransformPoint(pnt);
+    v2 = affine2->TransformPoint(pnt2);
+
+    if ((v1 - v2).GetSquaredNorm() > tolerance)
     {
-      std::cerr << "Read back transform of type:" << list.front()->GetTransformTypeAsString() << std::endl;
+      std::cerr << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
+                << " in " << linear_transform << " at " << pnt << std::endl;
       return EXIT_FAILURE;
     }
-    AffineTransformType::Pointer affine2 = static_cast<AffineTransformType *>(list.front().GetPointer());
-
-    std::cout << "Read transform : " << std::endl;
-    affine2->Print(std::cout);
-
-    vnl_random randgen(12345678);
-
-    AffineTransformType::InputPointType pnt, pnt2;
-
-    std::cout << "Testing that transformations are the same ..." << std::endl;
-    for (int i = 0; i < point_counter; ++i)
-    {
-      AffineTransformType::OutputPointType v1;
-      AffineTransformType::OutputPointType v2;
-
-      RandomPoint<double>(randgen, pnt, 100);
-      pnt2 = pnt;
-      v1 = affine->TransformPoint(pnt);
-      v2 = affine2->TransformPoint(pnt2);
-
-      if ((v1 - v2).GetSquaredNorm() > tolerance)
-      {
-        std::cerr << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
-                  << " in " << linear_transform << " at " << pnt << std::endl;
-        return EXIT_FAILURE;
-      }
-    }
-    std::cout << " Done !" << std::endl;
   }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << " Done !" << std::endl;
 
   return EXIT_SUCCESS;
 }
@@ -224,31 +209,15 @@ check_nonlinear_double(const char * nonlinear_transform)
   // Testing writing
   std::cout << "Testing write of non linear transform (double) : " << std::endl;
 
-  try
-  {
-    nlwriter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(nlwriter->Update());
+
 
   // Testing writing
   std::cout << "Testing read of non linear transform (double): " << std::endl;
-  try
-  {
-    nlreader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(nlreader->Update());
+
+
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Comparing of non linear transform (double) : " << std::endl;
@@ -363,31 +332,15 @@ check_nonlinear_float(const char * nonlinear_transform)
   // Testing writing
   std::cout << "Testing write of non linear transform (float): " << std::endl;
 
-  try
-  {
-    nlwriter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(nlwriter->Update());
+
 
   // Testing writing
   std::cout << "Testing read of non linear transform (float) : " << std::endl;
-  try
-  {
-    nlreader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(nlreader->Update());
+
+
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Comparing of non linear transform : " << std::endl;
@@ -509,67 +462,51 @@ check_composite(const char * transform_file)
   reader->SetFileName(transform_file);
 
   compositeTransform->Print(std::cout);
-  try
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Testing read : " << std::endl;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  TransformFileReader::TransformListType list = *reader->GetTransformList();
+
+  // MINC XFM internally collapeses two concatenated linear transforms into one
+  if (list.front()->GetTransformTypeAsString() != "AffineTransform_double_3_3")
   {
-    writer->Update();
-    std::cout << std::endl;
-    std::cout << "Testing read : " << std::endl;
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Read back transform of type:" << list.front()->GetTransformTypeAsString() << std::endl;
     return EXIT_FAILURE;
   }
+  AffineTransformType::Pointer affine_xfm = static_cast<AffineTransformType *>(list.front().GetPointer());
 
-  try
+  std::cout << "Read transform : " << std::endl;
+  affine_xfm->Print(std::cout);
+
+  vnl_random randgen(12345678);
+
+  AffineTransformType::InputPointType pnt, pnt2;
+
+  std::cout << "Testing that transformations are the same ..." << std::endl;
+  for (int i = 0; i < point_counter; ++i)
   {
-    TransformFileReader::TransformListType list = *reader->GetTransformList();
+    AffineTransformType::OutputPointType v1;
+    AffineTransformType::OutputPointType v2;
 
-    // MINC XFM internally collapeses two concatenated linear transforms into one
-    if (list.front()->GetTransformTypeAsString() != "AffineTransform_double_3_3")
+    RandomPoint<double>(randgen, pnt, 100);
+    pnt2 = pnt;
+    v1 = compositeTransform->TransformPoint(pnt);
+    v2 = affine_xfm->TransformPoint(pnt2);
+
+    if ((v1 - v2).GetSquaredNorm() > tolerance)
     {
-      std::cerr << "Read back transform of type:" << list.front()->GetTransformTypeAsString() << std::endl;
+      std::cerr << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
+                << " in " << compositeTransform << " at " << pnt << std::endl;
       return EXIT_FAILURE;
     }
-    AffineTransformType::Pointer affine_xfm = static_cast<AffineTransformType *>(list.front().GetPointer());
-
-    std::cout << "Read transform : " << std::endl;
-    affine_xfm->Print(std::cout);
-
-    vnl_random randgen(12345678);
-
-    AffineTransformType::InputPointType pnt, pnt2;
-
-    std::cout << "Testing that transformations are the same ..." << std::endl;
-    for (int i = 0; i < point_counter; ++i)
-    {
-      AffineTransformType::OutputPointType v1;
-      AffineTransformType::OutputPointType v2;
-
-      RandomPoint<double>(randgen, pnt, 100);
-      pnt2 = pnt;
-      v1 = compositeTransform->TransformPoint(pnt);
-      v2 = affine_xfm->TransformPoint(pnt2);
-
-      if ((v1 - v2).GetSquaredNorm() > tolerance)
-      {
-        std::cerr << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
-                  << " in " << compositeTransform << " at " << pnt << std::endl;
-        return EXIT_FAILURE;
-      }
-    }
-    std::cout << " Done !" << std::endl;
   }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << " Done !" << std::endl;
 
   return EXIT_SUCCESS;
 }
@@ -599,121 +536,104 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
 
   fb.close();
 
-  try
+  // generate field
+  using DisplacementFieldTransform = itk::DisplacementFieldTransform<double, 3>;
+  using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
+
+  auto field = DisplacementFieldType::New();
+
+  // create zero displacement field
+  DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
+  DisplacementFieldType::IndexType startIndex3D = { { 0, 0, 0 } };
+
+  double                            spacing[] = { 2.0, 2.0, 2.0 };
+  double                            origin[] = { -10.0, -10.0, -10.0 };
+  DisplacementFieldType::RegionType region;
+
+  region.SetSize(imageSize3D);
+  region.SetIndex(startIndex3D);
+
+  field->SetRegions(region);
+
+  field->SetSpacing(spacing);
+  field->SetOrigin(origin);
+  field->Allocate();
+
+  DisplacementFieldType::PixelType displacement;
+  displacement.Fill(0.0);
+  displacement[0] = 1.0;
+  field->FillBuffer(displacement);
+
+  using MincWriterType = itk::ImageFileWriter<DisplacementFieldType>;
+
+  auto writer = MincWriterType::New();
+  // expecting .mnc here
+  writer->SetFileName(transform_grid_file);
+
+  writer->SetInput(field);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  TransformFileReader::Pointer reader;
+  using CompositeTransformType = itk::CompositeTransform<double, 3>;
+
+  reader = TransformFileReader::New();
+  reader->SetFileName(transform_file);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  const TransformFileReader::TransformListType * list = reader->GetTransformList();
+
+  if (list->size() != 2)
   {
-    // generate field
-    using DisplacementFieldTransform = itk::DisplacementFieldTransform<double, 3>;
-    using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
-
-    auto field = DisplacementFieldType::New();
-
-    // create zero displacement field
-    DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
-    DisplacementFieldType::IndexType startIndex3D = { { 0, 0, 0 } };
-
-    double                            spacing[] = { 2.0, 2.0, 2.0 };
-    double                            origin[] = { -10.0, -10.0, -10.0 };
-    DisplacementFieldType::RegionType region;
-
-    region.SetSize(imageSize3D);
-    region.SetIndex(startIndex3D);
-
-    field->SetRegions(region);
-
-    field->SetSpacing(spacing);
-    field->SetOrigin(origin);
-    field->Allocate();
-
-    DisplacementFieldType::PixelType displacement;
-    displacement.Fill(0.0);
-    displacement[0] = 1.0;
-    field->FillBuffer(displacement);
-
-    using MincWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-
-    auto writer = MincWriterType::New();
-    // expecting .mnc here
-    writer->SetFileName(transform_grid_file);
-
-    writer->SetInput(field);
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while writing the deformation field" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Unexpected number of transforms:" << list->size() << std::endl;
+    std::cerr << "Expected:2" << std::endl;
     std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+  }
+  std::cout << "Reading back transforms : " << list->size() << std::endl << std::endl;
+
+  using CompositeTransformType = itk::CompositeTransform<double, 3>;
+  using TransformType = itk::Transform<double, 3>;
+
+  auto _xfm = CompositeTransformType::New();
+  for (const auto & it : *list)
+  {
+    it->Print(std::cout);
+    std::cout << std::endl;
+    _xfm->AddTransform(static_cast<TransformType *>(it.GetPointer()));
+  }
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+
+  _xfm->Print(std::cout);
+
+  std::cout << "Testing that transformations is expected ..." << std::endl;
+
+  CompositeTransformType::InputPointType  pnt;
+  CompositeTransformType::OutputPointType v, v2;
+
+  pnt[0] = 1.0;
+  pnt[1] = pnt[2] = 0.0;
+  // expected transform: shift by 1 , rotate by 45 deg
+  v2[0] = v[1] = sqrt(2);
+  v2[2] = 0.0;
+
+  v = _xfm->TransformPoint(pnt);
+
+  std::cout << "In:" << pnt << " Out:" << v << std::endl;
+  if ((v - v2).GetSquaredNorm() > tolerance)
+  {
+    std::cerr << "Expected coordinates (" << v << ") doesn't match read-in coordinates (" << v2 << " ) "
+              << " in " << _xfm << " at " << pnt << std::endl;
     return EXIT_FAILURE;
   }
 
 
-  try
-  {
-    TransformFileReader::Pointer reader;
-    using CompositeTransformType = itk::CompositeTransform<double, 3>;
-
-    reader = TransformFileReader::New();
-    reader->SetFileName(transform_file);
-    reader->Update();
-
-    const TransformFileReader::TransformListType * list = reader->GetTransformList();
-
-    if (list->size() != 2)
-    {
-      std::cerr << "Unexpected number of transforms:" << list->size() << std::endl;
-      std::cerr << "Expected:2" << std::endl;
-      std::cout << "[FAILED]" << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << "Reading back transforms : " << list->size() << std::endl << std::endl;
-
-    using CompositeTransformType = itk::CompositeTransform<double, 3>;
-    using TransformType = itk::Transform<double, 3>;
-
-    auto _xfm = CompositeTransformType::New();
-    for (const auto & it : *list)
-    {
-      it->Print(std::cout);
-      std::cout << std::endl;
-      _xfm->AddTransform(static_cast<TransformType *>(it.GetPointer()));
-    }
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-
-    _xfm->Print(std::cout);
-
-    std::cout << "Testing that transformations is expected ..." << std::endl;
-
-    CompositeTransformType::InputPointType  pnt;
-    CompositeTransformType::OutputPointType v, v2;
-
-    pnt[0] = 1.0;
-    pnt[1] = pnt[2] = 0.0;
-    // expected transform: shift by 1 , rotate by 45 deg
-    v2[0] = v[1] = sqrt(2);
-    v2[2] = 0.0;
-
-    v = _xfm->TransformPoint(pnt);
-
-    std::cout << "In:" << pnt << " Out:" << v << std::endl;
-    if ((v - v2).GetSquaredNorm() > tolerance)
-    {
-      std::cerr << "Expected coordinates (" << v << ") doesn't match read-in coordinates (" << v2 << " ) "
-                << " in " << _xfm << " at " << pnt << std::endl;
-      return EXIT_FAILURE;
-    }
-
-
-    std::cout << " Done !" << std::endl;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << " Done !" << std::endl;
 
   return EXIT_SUCCESS;
 }
