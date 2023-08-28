@@ -106,12 +106,8 @@ check_linear(const char * linear_transform)
 
 
   TransformFileReader::TransformListType list = *reader->GetTransformList();
+  ITK_TEST_EXPECT_EQUAL("AffineTransform_double_3_3", list.front()->GetTransformTypeAsString());
 
-  if (list.front()->GetTransformTypeAsString() != "AffineTransform_double_3_3")
-  {
-    std::cerr << "Read back transform of type:" << list.front()->GetTransformTypeAsString() << std::endl;
-    return EXIT_FAILURE;
-  }
   AffineTransformType::Pointer affine2 = static_cast<AffineTransformType *>(list.front().GetPointer());
 
   std::cout << "Read transform : " << std::endl;
@@ -224,11 +220,8 @@ check_nonlinear_double(const char * nonlinear_transform)
   TransformFileReader::TransformListType list = *nlreader->GetTransformList();
   std::cout << "Read :" << list.size() << " transformations" << std::endl;
 
-  if (list.front()->GetTransformTypeAsString() != "DisplacementFieldTransform_double_3_3")
-  {
-    std::cerr << "Read back transform of type:" << list.front()->GetTransformTypeAsString() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL("DisplacementFieldTransform_double_3_3", list.front()->GetTransformTypeAsString());
+
   DisplacementFieldTransform::Pointer disp2 = static_cast<DisplacementFieldTransform *>(list.front().GetPointer());
   DisplacementFieldType::ConstPointer field2 = disp2->GetDisplacementField();
 
@@ -347,11 +340,8 @@ check_nonlinear_float(const char * nonlinear_transform)
   TransformFileReaderFloat::TransformListType list = *nlreader->GetTransformList();
   std::cout << "Read :" << list.size() << " transformations" << std::endl;
 
-  if (list.front()->GetTransformTypeAsString() != "DisplacementFieldTransform_float_3_3")
-  {
-    std::cerr << "Read back transform of type:" << list.front()->GetTransformTypeAsString() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL("DisplacementFieldTransform_float_3_3", list.front()->GetTransformTypeAsString());
+
   DisplacementFieldTransform::Pointer disp2 = static_cast<DisplacementFieldTransform *>(list.front().GetPointer());
   DisplacementFieldType::ConstPointer field2 = disp2->GetDisplacementField();
 
@@ -474,11 +464,8 @@ check_composite(const char * transform_file)
   TransformFileReader::TransformListType list = *reader->GetTransformList();
 
   // MINC XFM internally collapeses two concatenated linear transforms into one
-  if (list.front()->GetTransformTypeAsString() != "AffineTransform_double_3_3")
-  {
-    std::cerr << "Read back transform of type:" << list.front()->GetTransformTypeAsString() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL("AffineTransform_double_3_3", list.front()->GetTransformTypeAsString());
+
   AffineTransformType::Pointer affine_xfm = static_cast<AffineTransformType *>(list.front().GetPointer());
 
   std::cout << "Read transform : " << std::endl;
@@ -585,14 +572,8 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
 
 
   const TransformFileReader::TransformListType * list = reader->GetTransformList();
+  ITK_TEST_EXPECT_EQUAL(2, list->size());
 
-  if (list->size() != 2)
-  {
-    std::cerr << "Unexpected number of transforms:" << list->size() << std::endl;
-    std::cerr << "Expected:2" << std::endl;
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
   std::cout << "Reading back transforms : " << list->size() << std::endl << std::endl;
 
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
