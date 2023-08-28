@@ -225,6 +225,7 @@ check_nonlinear_double(const char * nonlinear_transform)
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Comparing of non linear transform (double) : " << std::endl;
+
   TransformFileReader::TransformListType list = *nlreader->GetTransformList();
   std::cout << "Read :" << list.size() << " transformations" << std::endl;
 
@@ -351,6 +352,7 @@ check_nonlinear_float(const char * nonlinear_transform)
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Comparing of non linear transform : " << std::endl;
+
   TransformFileReaderFloat::TransformListType list = *nlreader->GetTransformList();
   std::cout << "Read :" << list.size() << " transformations" << std::endl;
 
