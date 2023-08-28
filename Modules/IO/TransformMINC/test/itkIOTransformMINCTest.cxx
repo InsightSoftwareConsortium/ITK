@@ -59,6 +59,8 @@ RandomPoint(vnl_random & randgen, itk::Point<T, 3> & pix, double _max = itk::Num
 static int
 check_linear(const char * linear_transform)
 {
+  int testStatus = EXIT_SUCCESS;
+
   using AffineTransformType = itk::AffineTransform<double, 3>;
   const double tolerance = 1e-5;
 
@@ -128,21 +130,27 @@ check_linear(const char * linear_transform)
     v1 = affine->TransformPoint(pnt);
     v2 = affine2->TransformPoint(pnt2);
 
-    if ((v1 - v2).GetSquaredNorm() > tolerance)
+    double expectedDiff = 0.0;
+    if (!itk::Math::FloatAlmostEqual(expectedDiff, (v1 - v2).GetSquaredNorm(), 10, tolerance))
     {
-      std::cerr << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
-                << " in " << linear_transform << " at " << pnt << std::endl;
-      return EXIT_FAILURE;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
+      std::cerr << "Expected value " << v1;
+      std::cerr << " differs from " << v2;
+      std::cerr << " by more than " << tolerance << std::endl;
+      testStatus = EXIT_FAILURE;
     }
   }
   std::cout << " Done !" << std::endl;
 
-  return EXIT_SUCCESS;
+  return testStatus;
 }
 
 static int
 check_nonlinear_double(const char * nonlinear_transform)
 {
+  int testStatus = EXIT_SUCCESS;
+
   const double tolerance = 1e-5;
 
   using DisplacementFieldTransform = itk::DisplacementFieldTransform<double, 3>;
@@ -232,10 +240,11 @@ check_nonlinear_double(const char * nonlinear_transform)
     {
       if (it.Value() != it2.Value())
       {
-        std::cout << "Original Pixel (" << it.Value() << ") doesn't match read-in Pixel (" << it2.Value() << " ) "
-                  << std::endl
-                  << " in " << nonlinear_transform << std::endl;
-        return EXIT_FAILURE;
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in pixel value" << std::endl;
+        std::cerr << "Expected value " << it.Value();
+        std::cerr << " differs from " << it2.Value() << std::endl;
+        testStatus = EXIT_FAILURE;
       }
     }
   }
@@ -243,23 +252,28 @@ check_nonlinear_double(const char * nonlinear_transform)
   { // account for rounding errors
     for (it.GoToBegin(), it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it, ++it2)
     {
-      if ((it.Value() - it2.Value()).GetSquaredNorm() > tolerance)
+      double expectedDiff = 0.0;
+      if (!itk::Math::FloatAlmostEqual(expectedDiff, (it.Value() - it2.Value()).GetSquaredNorm(), 10, tolerance))
       {
-        std::cout << "Original Pixel (" << it.Value() << ") doesn't match read-in Pixel (" << it2.Value() << " ) "
-                  << " in " << nonlinear_transform << std::endl;
-        return EXIT_FAILURE;
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in pixel value" << std::endl;
+        std::cerr << "Expected value " << it.Value();
+        std::cerr << " differs from " << it2.Value();
+        std::cerr << " by more than " << tolerance << std::endl;
+        testStatus = EXIT_FAILURE;
       }
     }
   }
 
-
-  return EXIT_SUCCESS;
+  return testStatus;
 }
 
 
 static int
 check_nonlinear_float(const char * nonlinear_transform)
 {
+  int testStatus = EXIT_SUCCESS;
+
   double tolerance = 1e-5;
 
   using TransformFileWriterFloat = itk::TransformFileWriterTemplate<float>;
@@ -352,10 +366,11 @@ check_nonlinear_float(const char * nonlinear_transform)
     {
       if (it.Value() != it2.Value())
       {
-        std::cout << "Original Pixel (" << it.Value() << ") doesn't match read-in Pixel (" << it2.Value() << " ) "
-                  << std::endl
-                  << " in " << nonlinear_transform << std::endl;
-        return EXIT_FAILURE;
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in pixel value" << std::endl;
+        std::cerr << "Expected value " << it.Value();
+        std::cerr << " differs from " << it2.Value() << std::endl;
+        testStatus = EXIT_FAILURE;
       }
     }
   }
@@ -363,17 +378,20 @@ check_nonlinear_float(const char * nonlinear_transform)
   { // account for rounding errors
     for (it.GoToBegin(), it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it, ++it2)
     {
-      if ((it.Value() - it2.Value()).GetSquaredNorm() > tolerance)
+      double expectedDiff = 0.0;
+      if (!itk::Math::FloatAlmostEqual(expectedDiff, (it.Value() - it2.Value()).GetSquaredNorm(), 10, tolerance))
       {
-        std::cout << "Original Pixel (" << it.Value() << ") doesn't match read-in Pixel (" << it2.Value() << " ) "
-                  << " in " << nonlinear_transform << std::endl;
-        return EXIT_FAILURE;
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in pixel value" << std::endl;
+        std::cerr << "Expected value " << it.Value();
+        std::cerr << " differs from " << it2.Value();
+        std::cerr << " by more than " << tolerance << std::endl;
+        testStatus = EXIT_FAILURE;
       }
     }
   }
 
-
-  return EXIT_SUCCESS;
+  return testStatus;
 }
 
 static int
@@ -410,6 +428,8 @@ secondTest()
 static int
 check_composite(const char * transform_file)
 {
+  int testStatus = EXIT_SUCCESS;
+
   using AffineTransformType = itk::AffineTransform<double, 3>;
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
 
@@ -486,21 +506,27 @@ check_composite(const char * transform_file)
     v1 = compositeTransform->TransformPoint(pnt);
     v2 = affine_xfm->TransformPoint(pnt2);
 
-    if ((v1 - v2).GetSquaredNorm() > tolerance)
+    double expectedDiff = 0.0;
+    if (!itk::Math::FloatAlmostEqual(expectedDiff, (v1 - v2).GetSquaredNorm(), 10, tolerance))
     {
-      std::cerr << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
-                << " in " << compositeTransform << " at " << pnt << std::endl;
-      return EXIT_FAILURE;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
+      std::cerr << "Expected value " << v1;
+      std::cerr << " differs from " << v2;
+      std::cerr << " by more than " << tolerance << std::endl;
+      testStatus = EXIT_FAILURE;
     }
   }
   std::cout << " Done !" << std::endl;
 
-  return EXIT_SUCCESS;
+  return testStatus;
 }
 
 static int
 check_composite2(const char * transform_file, const char * transform_grid_file)
 {
+  int testStatus = EXIT_SUCCESS;
+
   const double tolerance = 1e-5;
 
   std::filebuf fb;
@@ -606,17 +632,21 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   v = _xfm->TransformPoint(pnt);
 
   std::cout << "In:" << pnt << " Out:" << v << std::endl;
-  if ((v - v2).GetSquaredNorm() > tolerance)
-  {
-    std::cerr << "Expected coordinates (" << v << ") doesn't match read-in coordinates (" << v2 << " ) "
-              << " in " << _xfm << " at " << pnt << std::endl;
-    return EXIT_FAILURE;
-  }
 
+  double expectedDiff = 0.0;
+  if (!itk::Math::FloatAlmostEqual(expectedDiff, (v - v2).GetSquaredNorm(), 10, tolerance))
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
+    std::cerr << "Expected value " << v2;
+    std::cerr << " differs from " << v;
+    std::cerr << " by more than " << tolerance << std::endl;
+    testStatus = EXIT_FAILURE;
+  }
 
   std::cout << " Done !" << std::endl;
 
-  return EXIT_SUCCESS;
+  return testStatus;
 }
 
 
