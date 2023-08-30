@@ -260,7 +260,7 @@ itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "scalar 513x512" << std::endl;
+  std::cout << "Scalar 513x512" << std::endl;
   if (itkRunScalarTest<unsigned char>(argv[2]) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
@@ -282,7 +282,7 @@ itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "two-byte pixel image" << std::endl;
+  std::cout << "Two-byte pixel image" << std::endl;
   if (itkRunScalarTest<unsigned short>(argv[3]) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;

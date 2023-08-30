@@ -227,22 +227,22 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
   {
     case 0:
       // VNL
-      std::cout << std::endl << ">>>>>Using LinearSystemWrapperVNL" << std::endl;
+      std::cout << std::endl << "Using LinearSystemWrapperVNL" << std::endl;
       SH->SetLinearSystemWrapper(&lsw_vnl);
       break;
     case 1:
       // Dense VNL
-      std::cout << std::endl << ">>>>>Using LinearSystemWrapperDenseVNL" << std::endl;
+      std::cout << std::endl << "Using LinearSystemWrapperDenseVNL" << std::endl;
       SH->SetLinearSystemWrapper(&lsw_dvnl);
       break;
     case 2:
       // IT Pack
-      std::cout << std::endl << ">>>>>Using LinearSystemWrapperItpack" << std::endl;
+      std::cout << std::endl << "Using LinearSystemWrapperItpack" << std::endl;
       SH->SetLinearSystemWrapper(&lsw_itpack);
       break;
     default:
       // Sparse VNL - default
-      std::cout << std::endl << ">>>>>Using LinearSystemWrapperVNL" << std::endl;
+      std::cout << std::endl << "Using LinearSystemWrapperVNL" << std::endl;
       SH->SetLinearSystemWrapper(&lsw_vnl);
       break;
   }
