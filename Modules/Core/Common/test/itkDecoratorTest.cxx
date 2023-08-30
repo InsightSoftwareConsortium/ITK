@@ -39,8 +39,6 @@ itkDecoratorTest(int, char *[])
 {
   int status = 0;
 
-  std::cout << "----------------------------------------------------" << std::endl;
-
   using FloatObjectType = itk::SimpleDataObjectDecorator<float>;
 
   auto f = FloatObjectType::New();
@@ -48,8 +46,6 @@ itkDecoratorTest(int, char *[])
 
   std::cout << "Value of f: " << f->Get() << std::endl;
   std::cout << "FloatDataObject: " << f << std::endl;
-
-  std::cout << "----------------------------------------------------" << std::endl;
 
   using TransformType = itk::AffineTransform<double, 3>;
   using TransformObjectType = itk::DataObjectDecorator<TransformType>;
@@ -106,8 +102,6 @@ itkDecoratorTest(int, char *[])
   decoratedTransform->Graft(decoratedBaseTransform);
   ITK_TEST_EXPECT_TRUE(decoratedTransform->Get() == nullptr);
 
-  std::cout << "----------------------------------------------------" << std::endl;
-
   using VectorType = std::vector<float>;
   using VectorPointer = VectorType *;
   using VectorObjectType = itk::SimpleDataObjectDecorator<VectorType>;
@@ -118,8 +112,7 @@ itkDecoratorTest(int, char *[])
   std::cout << v << std::endl;
   auto vo = VectorObjectType::New();
   vo->Set(v);
-  std::cout << vo;
-  std::cout << "----------------------------------------------------" << std::endl;
+  std::cout << vo << std::endl;
 
   // The following code block will NOT cause a memory leak because the
   // ownership of the dynamically allocated memory is passed to the
@@ -140,8 +133,6 @@ itkDecoratorTest(int, char *[])
     std::cout << "AutoPointerDataObjectDecorator::Get: " << vec << std::endl;
     std::cout << "AutoPointerDataObjectDecorator::Get const: " << constVec << std::endl;
   }
-
-  std::cout << "----------------------------------------------------" << std::endl;
 
   // The following code block will cause a memory leak because the
   // decorator does not deallocate the memory that was passed in on a

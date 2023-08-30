@@ -179,8 +179,6 @@ itkLBFGSBOptimizerTest(int, char *[])
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  std::cout << "LBFGSB Optimizer Test \n \n";
-
   using OptimizerType = itk::LBFGSBOptimizer;
 
   // Declaration of an itkOptimizer

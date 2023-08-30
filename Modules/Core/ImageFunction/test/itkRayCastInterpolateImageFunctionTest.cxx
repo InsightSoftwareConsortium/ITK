@@ -28,7 +28,6 @@
 int
 itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  std::cout << "Testing RayCastInterpolateImageFunction:\n";
 
   using PixelType = unsigned char;
   constexpr unsigned int ImageDimension = 3;
