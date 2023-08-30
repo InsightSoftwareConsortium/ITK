@@ -194,9 +194,7 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
   femSO->GetFEMObject()->FinalizeMesh();
 
-  /**
-   * Third, create the FEM solver object and generate the solution
-   */
+  // Third, create the FEM solver object and generate the solution
 
   auto SH = FEMSolverType::New();
 
