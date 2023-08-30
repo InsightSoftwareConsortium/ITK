@@ -90,8 +90,6 @@ itkVectorExpandImageFilterTest(int, char *[])
   bool testPassed = true;
 
 
-  //=============================================================
-
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
   ImageType::SizeType   size = { { 64, 64 } };
@@ -128,7 +126,6 @@ itkVectorExpandImageFilterTest(int, char *[])
     inIter.Set(pixel);
   }
 
-  //=============================================================
 
   std::cout << "Run ExpandImageFilter in standalone mode with progress.";
   std::cout << std::endl;
@@ -169,7 +166,6 @@ itkVectorExpandImageFilterTest(int, char *[])
 
   ImageType * expanderOutput = expander->GetOutput();
 
-  //=============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
   Iterator outIter(expanderOutput, expanderOutput->GetBufferedRegion());
@@ -225,8 +221,6 @@ itkVectorExpandImageFilterTest(int, char *[])
   }
 
 
-  //=============================================================
-
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
@@ -249,7 +243,6 @@ itkVectorExpandImageFilterTest(int, char *[])
   streamer->Update();
 
 
-  //=============================================================
   std::cout << "Compare standalone and streamed outputs" << std::endl;
 
   Iterator streamIter(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());

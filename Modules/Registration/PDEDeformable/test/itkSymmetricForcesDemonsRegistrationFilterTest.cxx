@@ -109,7 +109,6 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
-  //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
   std::cout << std::endl;
 
@@ -162,7 +161,6 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   zeroVec.Fill(0.0);
   initField->FillBuffer(zeroVec);
 
-  //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
   using RegistrationType = itk::SymmetricForcesDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
@@ -258,7 +256,6 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  // -----------------------------------------------------------
   std::cout << "Test running registrator without initial deformation field.";
   std::cout << std::endl;
 
@@ -282,7 +279,6 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  //--------------------------------------------------------------
   std::cout << "Test exception handling." << std::endl;
 
   std::cout << "Test nullptr moving image. " << std::endl;

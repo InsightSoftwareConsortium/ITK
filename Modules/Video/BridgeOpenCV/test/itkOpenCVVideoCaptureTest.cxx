@@ -40,15 +40,11 @@ using RGBFrameType = itk::Image<RGBPixelType, 2>;
 using RGBVideoStreamType = itk::VideoStream<RGBFrameType>;
 using rgbReaderType = itk::VideoFileReader<RGBVideoStreamType>;
 
-//
-// Main test
-//
+
 int
 itkOpenCVVideoCaptureTest(int argc, char * argv[])
 {
-  //
-  // Check arguments
-  //
+
   if (argc != 6)
   {
     std::cerr << "Missing parameters." << std::endl;
@@ -59,9 +55,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
 
   itk::ObjectFactoryBase::RegisterFactory(itk::OpenCVVideoIOFactory::New());
 
-  //
   // Test with scalars
-  //
 
   // Set up an itk reader
   itk::ObjectFactoryBase::RegisterFactory(itk::OpenCVVideoIOFactory::New());
@@ -117,9 +111,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   // Clean up
   delete scalarCap;
 
-  //
   // Test with RGB
-  //
 
   // Set up an itk reader
   itk::ObjectFactoryBase::RegisterFactory(itk::OpenCVVideoIOFactory::New());

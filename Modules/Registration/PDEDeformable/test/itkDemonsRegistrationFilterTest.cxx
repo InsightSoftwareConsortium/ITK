@@ -118,7 +118,6 @@ itkDemonsRegistrationFilterTest(int, char *[])
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
-  //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
   std::cout << std::endl;
 
@@ -176,7 +175,6 @@ itkDemonsRegistrationFilterTest(int, char *[])
   caster->SetInput(initField);
   caster->InPlaceOff();
 
-  //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
   using RegistrationType = itk::DemonsRegistrationFilter<ImageType, ImageType, FieldType>;
@@ -275,7 +273,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
 
   warper->Update();
 
-  // ---------------------------------------------------------
+
   std::cout << "Compare warped moving and fixed." << std::endl;
 
   // compare the warp and fixed images
@@ -306,7 +304,6 @@ itkDemonsRegistrationFilterTest(int, char *[])
 
   registrator->Print(std::cout);
 
-  // -----------------------------------------------------------
   std::cout << "Test running registrator without initial deformation field.";
   std::cout << std::endl;
 
@@ -316,7 +313,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(registrator->Update());
 
 
-  //--------------------------------------------------------------
+  // Test exceptions
   std::cout << "Test exception handling." << std::endl;
 
   std::cout << "Test nullptr moving image. " << std::endl;

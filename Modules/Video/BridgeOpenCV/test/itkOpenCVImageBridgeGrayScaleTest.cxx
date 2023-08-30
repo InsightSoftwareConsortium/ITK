@@ -38,9 +38,7 @@
 #endif
 
 
-//-----------------------------------------------------------------------------
 // Convert the data in the IplImage to the templated type
-//
 template <typename TPixelType>
 IplImage *
 ConvertIplImageDataType(IplImage * in)
@@ -82,10 +80,7 @@ ConvertIplImageDataType(IplImage * in)
   return out;
 }
 
-
-//-----------------------------------------------------------------------------
 // Templated test function to do the heavy lifting for scalar case
-//
 template <typename TPixelType, unsigned int VDimension>
 int
 itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
@@ -99,9 +94,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
 
   itk::ObjectFactoryBase::RegisterFactory(itk::OpenCVVideoIOFactory::New());
 
-  //
   // Read the image directly
-  //
   auto reader = ReaderType::New();
   reader->SetFileName(argv);
 
@@ -208,9 +201,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
     return EXIT_FAILURE;
   }
 
-  //
   // Clean up and return successfully
-  //
   cvReleaseImage(&dataConvertedInIpl);
   cvReleaseImage(&inIpl);
   cvReleaseImage(&outIpl);
@@ -233,16 +224,10 @@ itkRunScalarTest(char * argv)
   return EXIT_SUCCESS;
 }
 
-
-//-----------------------------------------------------------------------------
-// Main test
-//
 int
 itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
 {
-  //
-  // Check arguments
-  //
+
   if (argc != 4)
   {
     std::cerr << "Missing parameters." << std::endl;
@@ -251,12 +236,9 @@ itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  //
   // Test for scalar types
-  //
   // Note: We don't test signed char because ITK seems to have trouble reading
-  //       images with char pixels.
-  //
+  // images with char pixels.
   std::cout << "\n================================" << std::endl;
   if (itkRunScalarTest<unsigned char>(argv[1]) == EXIT_FAILURE)
   {

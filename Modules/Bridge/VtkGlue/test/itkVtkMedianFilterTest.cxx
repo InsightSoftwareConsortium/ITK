@@ -30,7 +30,6 @@
 int
 itkVtkMedianFilterTest(int argc, char * argv[])
 {
-  // Verify command line arguments
   if (argc < 2)
   {
     std::cerr << "Missing parameters." << std::endl;
