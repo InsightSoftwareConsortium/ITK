@@ -239,7 +239,6 @@ itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
   // Test for scalar types
   // Note: We don't test signed char because ITK seems to have trouble reading
   // images with char pixels.
-  std::cout << "\n================================" << std::endl;
   if (itkRunScalarTest<unsigned char>(argv[1]) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
@@ -261,7 +260,6 @@ itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "\n================================" << std::endl;
   std::cout << "scalar 513x512" << std::endl;
   if (itkRunScalarTest<unsigned char>(argv[2]) == EXIT_FAILURE)
   {
@@ -284,7 +282,6 @@ itkOpenCVImageBridgeGrayScaleTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "\n================================" << std::endl;
   std::cout << "two-byte pixel image" << std::endl;
   if (itkRunScalarTest<unsigned short>(argv[3]) == EXIT_FAILURE)
   {
