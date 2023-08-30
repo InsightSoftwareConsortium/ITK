@@ -80,8 +80,7 @@ PrintNodalCoordinates(FEMSolverType * S)
 {
   std::cout << std::endl << "Nodal coordinates: " << std::endl;
 
-  std::cout << "xyz"
-            << "=[";
+  std::cout << "xyz=[";
 
   int numberOfNodes = S->GetInput()->GetNumberOfNodes();
   for (int i = 0; i < numberOfNodes; ++i)

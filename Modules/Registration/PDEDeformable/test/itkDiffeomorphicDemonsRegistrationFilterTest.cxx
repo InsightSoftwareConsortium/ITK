@@ -334,8 +334,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   writer2->Update();
   writer3->Update();
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent;
-  std::cout << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
 
   const unsigned int maximumNumberOfDifferentPixels = std::stoi(argv[9]);
 

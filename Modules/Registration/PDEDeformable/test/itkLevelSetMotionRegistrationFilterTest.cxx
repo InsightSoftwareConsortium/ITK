@@ -316,8 +316,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
     ++warpedIter;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent;
-  std::cout << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
 
   constexpr unsigned int maximumNumberOfPixelsDifferent = 4600;
   if (numPixelsDifferent > maximumNumberOfPixelsDifferent)

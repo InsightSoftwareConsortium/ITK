@@ -247,8 +247,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
     ++warpedIter;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent;
-  std::cout << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
 
   if (numPixelsDifferent > 10)
   {
