@@ -118,8 +118,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
-  std::cout << "Generate input images and initial deformation field";
-  std::cout << std::endl;
+  std::cout << "Generate input images and initial deformation field" << std::endl;
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
   SizeType                 size;
@@ -291,8 +290,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
     ++warpedIter;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent;
-  std::cout << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
 
   if (numPixelsDifferent > 10)
   {
@@ -304,8 +302,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
 
   registrator->Print(std::cout);
 
-  std::cout << "Test running registrator without initial deformation field.";
-  std::cout << std::endl;
+  std::cout << "Test running registrator without initial deformation field." << std::endl;
 
   registrator->SetInput(nullptr);
   registrator->SetNumberOfIterations(2);
