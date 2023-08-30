@@ -211,6 +211,8 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   volumecalculator->Compute();
 
   std::cout << "whole volume is " << volumecalculator->GetVolume() << std::endl;
-  std::cout << "[TEST DONE]" << std::endl;
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

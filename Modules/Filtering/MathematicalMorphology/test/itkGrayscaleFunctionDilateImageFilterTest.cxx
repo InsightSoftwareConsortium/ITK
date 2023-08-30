@@ -176,5 +176,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
     writer->Update();
   }
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

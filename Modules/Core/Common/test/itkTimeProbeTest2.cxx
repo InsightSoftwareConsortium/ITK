@@ -136,6 +136,7 @@ itkTimeProbeTest2(int, char *[])
   std::cout << "msec " << timeStamp.GetTimeInMilliSeconds() << std::endl;
   std::cout << "usec " << timeStamp.GetTimeInMicroSeconds() << std::endl;
 
-  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

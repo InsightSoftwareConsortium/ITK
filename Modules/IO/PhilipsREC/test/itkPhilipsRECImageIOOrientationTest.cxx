@@ -82,5 +82,6 @@ itkPhilipsRECImageIOOrientationTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -323,6 +323,6 @@ itkVectorExpandImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -170,5 +170,7 @@ vidl_itk_istreamTest(int argc, char * argv[])
   TestFormatMacro(double, VIDL_PIXEL_FORMAT_UNKNOWN);
   TestFormatMacro(itk::RGBPixel<int>, VIDL_PIXEL_FORMAT_UNKNOWN);
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
