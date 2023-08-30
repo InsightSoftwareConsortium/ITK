@@ -161,5 +161,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   // Clean up
   delete rgbCap;
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

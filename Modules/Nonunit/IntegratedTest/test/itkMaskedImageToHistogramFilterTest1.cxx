@@ -114,5 +114,7 @@ itkMaskedImageToHistogramFilterTest1(int argc, char * argv[])
   // print the image produced by HistogramToLogProbabilityImageFilter for visual inspection
   imageFilter->GetOutput()->Print(std::cout);
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

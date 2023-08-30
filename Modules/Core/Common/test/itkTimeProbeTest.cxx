@@ -95,6 +95,7 @@ itkTimeProbeTest(int, char *[])
   itk::Indent indent{};
   localTimer.Print(std::cout, indent);
 
-  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -42,6 +42,6 @@ itkTransformFileWriterTemplateTest(int, char *[])
   // trigger exception for transformio not found
   ITK_TRY_EXPECT_EXCEPTION(transformWriter->Update());
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

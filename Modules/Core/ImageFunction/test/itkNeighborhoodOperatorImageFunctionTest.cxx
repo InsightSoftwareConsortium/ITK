@@ -107,6 +107,6 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
 
   std::cout << function << std::endl;
 
-  std::cout << "[TEST DONE] " << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

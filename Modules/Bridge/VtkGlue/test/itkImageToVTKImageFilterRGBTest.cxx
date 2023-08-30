@@ -57,5 +57,7 @@ itkImageToVTKImageFilterRGBTest(int argc, char * argv[])
 
   connector->Update();
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

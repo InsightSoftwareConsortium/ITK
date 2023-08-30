@@ -140,5 +140,8 @@ itkImageToHistogramFilterTest4(int argc, char * argv[])
     using VectorImageType = itk::VectorImage<unsigned char, 3>;
     return itkImageToHistogramFilterTest4Templated<VectorImageType>(argc, argv);
   }
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_FAILURE;
 }

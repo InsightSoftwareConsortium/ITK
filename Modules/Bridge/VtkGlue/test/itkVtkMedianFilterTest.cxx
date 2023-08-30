@@ -80,5 +80,7 @@ itkVtkMedianFilterTest(int argc, char * argv[])
   // For testing, turn off interaction
   viewer.Visualize(false);
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

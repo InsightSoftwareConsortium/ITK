@@ -275,5 +275,8 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
       }
     }
   }
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

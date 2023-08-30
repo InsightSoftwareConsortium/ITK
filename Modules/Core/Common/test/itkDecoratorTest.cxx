@@ -159,5 +159,7 @@ itkDecoratorTest(int, char *[])
   // std::cout << vop2;
   //}
 
+
+  std::cout << "Test finished." << std::endl;
   return status;
 }

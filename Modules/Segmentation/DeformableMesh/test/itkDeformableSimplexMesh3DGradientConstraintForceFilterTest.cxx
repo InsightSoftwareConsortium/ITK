@@ -161,5 +161,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
               << std::endl;
   }
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
