@@ -21,7 +21,6 @@
 #include "itkImage.h"
 #include "itkTestingMacros.h"
 
-// Specific ImageIO test
 
 int
 itkBioRadImageIOTest(int argc, char * argv[])

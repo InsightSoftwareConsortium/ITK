@@ -24,9 +24,7 @@
 #include "vidl/vidl_ffmpeg_ostream.h"
 
 
-//
 // Helper function to test pixel type
-//
 template <typename TPixelType>
 bool
 TestFormat(vidl_pixel_format expectedFormat)
@@ -49,9 +47,7 @@ TestFormat(vidl_pixel_format expectedFormat)
     return EXIT_FAILURE;                                                                                             \
   }
 
-//
-// Templated test
-//
+
 template <typename TPixelType>
 int
 vidl_itk_istreamTestWithPixelType(char * argv[], vidl_pixel_format expectedFormat)
@@ -112,7 +108,6 @@ vidl_itk_istreamTestWithPixelType(char * argv[], vidl_pixel_format expectedForma
     }
   }
 
-  // Return success
   delete istream;
   // delete ostream;   //BUG?  Can not close ostream
   return EXIT_SUCCESS;
@@ -124,15 +119,9 @@ vidl_itk_istreamTestWithPixelType(char * argv[], vidl_pixel_format expectedForma
     return EXIT_FAILURE;                                                                  \
   }
 
-//
-// Main test body
-//
 int
 vidl_itk_istreamTest(int argc, char * argv[])
 {
-  //
-  // Check parameters
-  //
   if (argc < 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file output_file width height" << std::endl;
@@ -143,9 +132,7 @@ vidl_itk_istreamTest(int argc, char * argv[])
   // Register a VXLVideoIO. This should be fixed eventually
   itk::ObjectFactoryBase::RegisterFactory(itk::VXLVideoIOFactory::New());
 
-  //
   // Test all supported pixel formats
-  //
 
   // Scalar types
   TemplatedTestMacro(bool, VIDL_PIXEL_FORMAT_MONO_1);
@@ -162,9 +149,7 @@ vidl_itk_istreamTest(int argc, char * argv[])
   TemplatedTestMacro(itk::RGBAPixel<unsigned char>, VIDL_PIXEL_FORMAT_RGBA_32);
   TemplatedTestMacro(itk::RGBPixel<float>, VIDL_PIXEL_FORMAT_RGB_F32);
 
-  //
   // Test format returned for unsupported types
-  //
   TestFormatMacro(int, VIDL_PIXEL_FORMAT_UNKNOWN);
   TestFormatMacro(unsigned int, VIDL_PIXEL_FORMAT_UNKNOWN);
   TestFormatMacro(double, VIDL_PIXEL_FORMAT_UNKNOWN);

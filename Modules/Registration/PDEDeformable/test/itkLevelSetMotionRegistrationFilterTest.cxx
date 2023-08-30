@@ -352,7 +352,6 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  //--------------------------------------------------------------
   std::cout << "Test exception handling." << std::endl;
 
   std::cout << "Test nullptr moving image. " << std::endl;
