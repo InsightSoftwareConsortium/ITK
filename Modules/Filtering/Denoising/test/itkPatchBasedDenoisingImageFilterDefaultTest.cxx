@@ -45,7 +45,6 @@ doDenoising(const std::string & inputFileName, const std::string & outputFileNam
 
   // Create filter and initialize
   auto filter = FilterType::New();
-  filter->SetInput(reader->GetOutput());
 
   ITK_TEST_SET_GET_BOOLEAN(filter, UseSmoothDiscPatchWeights, true);
   auto kernelBandwidthSigma = typename FilterType::RealArrayType{};
@@ -58,6 +57,8 @@ doDenoising(const std::string & inputFileName, const std::string & outputFileNam
 
   // Use 2 threads for consistency
   filter->SetNumberOfWorkUnits(2);
+
+  filter->SetInput(reader->GetOutput());
 
   // Denoise the image
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
