@@ -34,19 +34,12 @@ namespace itk
 {
 static constexpr char blanks[ITK_NUMBER_OF_BLANKS + 1] = "                                        ";
 
-/**
- * Instance creation.
- */
 Indent *
 Indent::New()
 {
   return new Self;
 }
 
-/**
- * Determine the next indentation level. Keep indenting by two until the
- * max of forty.
- */
 Indent
 Indent::GetNextIndent() const
 {
@@ -59,9 +52,6 @@ Indent::GetNextIndent() const
   return indent;
 }
 
-/**
- * Print out the indentation. Basically output a bunch of spaces.
- */
 std::ostream &
 operator<<(std::ostream & os, const Indent & ind)
 {
