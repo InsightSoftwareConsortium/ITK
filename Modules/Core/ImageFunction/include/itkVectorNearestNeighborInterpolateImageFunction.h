@@ -99,11 +99,6 @@ public:
 protected:
   VectorNearestNeighborInterpolateImageFunction() = default;
   ~VectorNearestNeighborInterpolateImageFunction() override = default;
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override
-  {
-    Superclass::PrintSelf(os, indent);
-  }
 };
 } // end namespace itk
 
