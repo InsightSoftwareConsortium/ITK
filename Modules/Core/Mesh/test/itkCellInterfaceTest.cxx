@@ -142,91 +142,43 @@ TestCellInterface(std::string name, TCell * aCell)
 int
 itkCellInterfaceTest(int, char *[])
 {
-  int status;
+  int status = EXIT_SUCCESS;
 
   using VertexCellType = itk::VertexCell<CellInterfaceType>;
-  status = TestCellInterface("Vertex", new VertexCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("Vertex", new VertexCellType);
 
   using LineCellType = itk::LineCell<CellInterfaceType>;
-  status = TestCellInterface("Line", new LineCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("Line", new LineCellType);
 
   using PolyLineCellType = itk::PolyLineCell<CellInterfaceType>;
-  status = TestCellInterface("PolyLine", new PolyLineCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("PolyLine", new PolyLineCellType);
 
   using PolyLineCellType = itk::PolyLineCell<CellInterfaceType>;
-  status = TestCellInterface("PolyLineCellType with 7 vertices", new PolyLineCellType(7));
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("PolyLineCellType with 7 vertices", new PolyLineCellType(7));
 
   using TriangleCellType = itk::TriangleCell<CellInterfaceType>;
-  status = TestCellInterface("Triangle", new TriangleCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("Triangle", new TriangleCellType);
 
   using HexahedronCellType = itk::HexahedronCell<CellInterfaceType>;
-  status = TestCellInterface("HexahedronCell", new HexahedronCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("HexahedronCell", new HexahedronCellType);
 
   using TetrahedronCellType = itk::TetrahedronCell<CellInterfaceType>;
-  status = TestCellInterface("TetrahedronCell", new TetrahedronCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("TetrahedronCell", new TetrahedronCellType);
 
   using QuadraticEdgeCellType = itk::QuadraticEdgeCell<CellInterfaceType>;
-  status = TestCellInterface("QuadraticEdgeCell", new QuadraticEdgeCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("QuadraticEdgeCell", new QuadraticEdgeCellType);
 
   using QuadraticTriangleCellType = itk::QuadraticTriangleCell<CellInterfaceType>;
-  status = TestCellInterface("QuadraticTriangleCell", new QuadraticTriangleCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("QuadraticTriangleCell", new QuadraticTriangleCellType);
 
   using QuadrilateralCellType = itk::QuadrilateralCell<CellInterfaceType>;
-  status = TestCellInterface("QuadrilateralCell", new QuadrilateralCellType);
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("QuadrilateralCell", new QuadrilateralCellType);
 
   using PolygonCellType = itk::PolygonCell<CellInterfaceType>;
-  status = TestCellInterface("PolygonCell with 0 vertices", new PolygonCellType());
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("PolygonCell with 0 vertices", new PolygonCellType());
 
   using PolygonCellType = itk::PolygonCell<CellInterfaceType>;
-  status = TestCellInterface("PolygonCell with 5 vertices", new PolygonCellType(5));
-  if (status != 0)
-  {
-    return EXIT_FAILURE;
-  }
+  status |= TestCellInterface("PolygonCell with 5 vertices", new PolygonCellType(5));
 
 
   std::cout << "Test finished." << std::endl;
