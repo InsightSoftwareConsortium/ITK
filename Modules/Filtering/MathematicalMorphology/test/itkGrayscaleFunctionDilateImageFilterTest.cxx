@@ -25,7 +25,6 @@
 int
 itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
 {
-  unsigned int i;
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 2;
@@ -100,7 +99,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   ind[1] = 19;
   inputImage->SetPixel(ind, fgValue);
 
-  i = 0;
+  unsigned int i = 0;
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
