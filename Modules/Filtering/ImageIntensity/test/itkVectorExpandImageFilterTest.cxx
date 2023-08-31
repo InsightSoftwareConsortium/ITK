@@ -87,7 +87,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   };
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  bool testPassed = true;
+  int testPassed = EXIT_SUCCESS;
 
 
   std::cout << "Create the input image pattern." << std::endl;
@@ -197,7 +197,7 @@ itkVectorExpandImageFilterTest(int, char *[])
       }
       if (k < VectorDimension)
       {
-        testPassed = false;
+        testPassed = EXIT_FAILURE;
         std::cout << "Error at Index: " << index << std::endl;
       }
     }
@@ -213,7 +213,7 @@ itkVectorExpandImageFilterTest(int, char *[])
       }
       if (k < VectorDimension)
       {
-        testPassed = false;
+        testPassed = EXIT_FAILURE;
         std::cout << "Error at Index: " << index << std::endl;
       }
     }
@@ -255,7 +255,7 @@ itkVectorExpandImageFilterTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(outIter.Get()[k], streamIter.Get()[k]))
       {
-        testPassed = false;
+        testPassed = EXIT_FAILURE;
       }
     }
 
@@ -263,57 +263,25 @@ itkVectorExpandImageFilterTest(int, char *[])
     ++streamIter;
   }
 
-  if (!testPassed)
-  {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
-
   // Test error handling
+  std::cout << "Setting Input to nullptr" << std::endl;
 
-  try
-  {
-    testPassed = false;
-    std::cout << "Setting Input to nullptr" << std::endl;
-    expander->SetInput(nullptr);
-    expander->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << err << std::endl;
-    expander->ResetPipeline();
-    expander->SetInput(input);
-    testPassed = true;
-  }
-
-  if (!testPassed)
-  {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  expander->SetInput(nullptr);
+  ITK_TRY_EXPECT_EXCEPTION(expander->Update());
 
 
-  try
-  {
-    testPassed = false;
-    std::cout << "Setting Interpolator to nullptr" << std::endl;
-    expander->SetInterpolator(nullptr);
-    expander->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << err << std::endl;
-    expander->ResetPipeline();
-    expander->SetInterpolator(interpolator);
-    testPassed = true;
-  }
+  expander->ResetPipeline();
+  expander->SetInput(input);
 
-  if (!testPassed)
-  {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "Setting Interpolator to nullptr" << std::endl;
+  expander->SetInterpolator(nullptr);
+  ITK_TRY_EXPECT_EXCEPTION(expander->Update());
+
+
+  expander->ResetPipeline();
+  expander->SetInterpolator(interpolator);
+
 
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  return testPassed;
 }
