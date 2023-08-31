@@ -2483,11 +2483,10 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::SignalNeighbor(unsigned int SemaphoreArrayNumber,
                                                                                   ThreadIdType ThreadId)
 {
-  ThreadData & td = m_Data[ThreadId];
-  td.m_Lock[SemaphoreArrayNumber].lock();
+  ThreadData &                      td = m_Data[ThreadId];
+  const std::lock_guard<std::mutex> lockGuard(td.m_Lock[SemaphoreArrayNumber]);
   ++td.m_Semaphore[SemaphoreArrayNumber];
   td.m_Condition[SemaphoreArrayNumber].notify_one();
-  td.m_Lock[SemaphoreArrayNumber].unlock();
 }
 
 template <typename TInputImage, typename TOutputImage>
