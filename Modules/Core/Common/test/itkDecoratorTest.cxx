@@ -37,7 +37,6 @@ operator<<(std::basic_ostream<CharType, TraitsType> & os, const std::vector<Memb
 int
 itkDecoratorTest(int, char *[])
 {
-  int status = 0;
 
   using FloatObjectType = itk::SimpleDataObjectDecorator<float>;
 
@@ -152,5 +151,5 @@ itkDecoratorTest(int, char *[])
 
 
   std::cout << "Test finished." << std::endl;
-  return status;
+  return EXIT_SUCCESS;
 }
