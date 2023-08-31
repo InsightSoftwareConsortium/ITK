@@ -147,9 +147,10 @@ PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
     return;
   }
 
-  m_SpawnedThreadActiveFlagLock[WorkUnitID]->lock();
-  m_SpawnedThreadActiveFlag[WorkUnitID] = 0;
-  m_SpawnedThreadActiveFlagLock[WorkUnitID]->unlock();
+  {
+    const std::lock_guard<std::mutex> lockGuard(*m_SpawnedThreadActiveFlagLock[WorkUnitID]);
+    m_SpawnedThreadActiveFlag[WorkUnitID] = 0;
+  }
 
   WaitForSingleObject(m_SpawnedThreadProcessID[WorkUnitID], INFINITE);
   CloseHandle(m_SpawnedThreadProcessID[WorkUnitID]);
