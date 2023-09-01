@@ -26,12 +26,8 @@ template <typename TImage>
 ImageRandomConstIteratorWithOnlyIndex<TImage>::ImageRandomConstIteratorWithOnlyIndex(const ImageType *  ptr,
                                                                                      const RegionType & region)
   : ImageConstIteratorWithOnlyIndex<TImage>(ptr, region)
-{
-  m_NumberOfPixelsInRegion = region.GetNumberOfPixels();
-  m_NumberOfSamplesRequested = 0L;
-  m_NumberOfSamplesDone = 0L;
-  m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
-}
+  , m_NumberOfPixelsInRegion{ region.GetNumberOfPixels() }
+{}
 
 template <typename TImage>
 void
