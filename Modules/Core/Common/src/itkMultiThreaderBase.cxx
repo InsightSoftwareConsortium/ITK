@@ -39,6 +39,8 @@
 #include "itkImageSourceCommon.h"
 #include "itkSingleton.h"
 #include "itkProcessObject.h"
+
+#include <algorithm> // For clamp.
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -212,13 +214,7 @@ MultiThreaderBase::SetGlobalMaximumNumberOfThreads(ThreadIdType val)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
-  m_PimplGlobals->m_GlobalMaximumNumberOfThreads = val;
-
-  // clamp between 1 and ITK_MAX_THREADS
-  m_PimplGlobals->m_GlobalMaximumNumberOfThreads =
-    std::min(m_PimplGlobals->m_GlobalMaximumNumberOfThreads, ThreadIdType{ ITK_MAX_THREADS });
-  m_PimplGlobals->m_GlobalMaximumNumberOfThreads =
-    std::max(m_PimplGlobals->m_GlobalMaximumNumberOfThreads, NumericTraits<ThreadIdType>::OneValue());
+  m_PimplGlobals->m_GlobalMaximumNumberOfThreads = std::clamp<ThreadIdType>(val, 1, ITK_MAX_THREADS);
 
   // If necessary reset the default to be used from now on.
   m_PimplGlobals->m_GlobalDefaultNumberOfThreads =
@@ -239,43 +235,21 @@ MultiThreaderBase::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
 
   const std::lock_guard<std::mutex> lock(m_PimplGlobals->globalDefaultInitializerLock);
 
-  m_PimplGlobals->m_GlobalDefaultNumberOfThreads = val;
-
-  // clamp between 1 and m_PimplGlobals->m_GlobalMaximumNumberOfThreads
   m_PimplGlobals->m_GlobalDefaultNumberOfThreads =
-    std::min(m_PimplGlobals->m_GlobalDefaultNumberOfThreads, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
-  m_PimplGlobals->m_GlobalDefaultNumberOfThreads =
-    std::max(m_PimplGlobals->m_GlobalDefaultNumberOfThreads, NumericTraits<ThreadIdType>::OneValue());
+    std::clamp<ThreadIdType>(val, 1, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
 }
 
 void
 MultiThreaderBase::SetMaximumNumberOfThreads(ThreadIdType numberOfThreads)
 {
-  if (m_MaximumNumberOfThreads == numberOfThreads && numberOfThreads <= m_PimplGlobals->m_GlobalMaximumNumberOfThreads)
-  {
-    return;
-  }
-
-  m_MaximumNumberOfThreads = numberOfThreads;
-
-  // clamp between 1 and m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads
-  m_MaximumNumberOfThreads = std::min(m_MaximumNumberOfThreads, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
-  m_MaximumNumberOfThreads = std::max(m_MaximumNumberOfThreads, NumericTraits<ThreadIdType>::OneValue());
+  m_MaximumNumberOfThreads =
+    std::clamp<ThreadIdType>(numberOfThreads, 1, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
 }
 
 void
 MultiThreaderBase::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 {
-  if (m_NumberOfWorkUnits == numberOfWorkUnits && numberOfWorkUnits <= m_PimplGlobals->m_GlobalMaximumNumberOfThreads)
-  {
-    return;
-  }
-
-  m_NumberOfWorkUnits = numberOfWorkUnits;
-
-  // clamp between 1 and m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads
-  m_NumberOfWorkUnits = std::min(m_NumberOfWorkUnits, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
-  m_NumberOfWorkUnits = std::max(m_NumberOfWorkUnits, NumericTraits<ThreadIdType>::OneValue());
+  m_NumberOfWorkUnits = std::clamp<ThreadIdType>(numberOfWorkUnits, 1, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
 }
 
 void
