@@ -148,7 +148,7 @@ FFTWGlobalConfiguration::GetInstance()
   itkInitGlobalsMacro(PimplGlobals);
   if (!m_PimplGlobals->m_Instance)
   {
-    m_PimplGlobals->m_CreationLock.lock();
+    const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->m_CreationLock);
     // Need to make sure that during gaining access
     // to the lock that some other thread did not
     // initialize the singleton.
@@ -157,15 +157,9 @@ FFTWGlobalConfiguration::GetInstance()
       m_PimplGlobals->m_Instance = Self::New();
       if (!m_PimplGlobals->m_Instance)
       {
-        std::ostringstream message;
-        message << "itk::ERROR: "
-                << "FFTWGlobalConfiguration"
-                << " Valid FFTWGlobalConfiguration instance not created";
-        itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
-        throw e_; /* Explicit naming to work around Intel compiler bug.  */
+        itkGenericExceptionMacro("Valid FFTWGlobalConfiguration instance not created");
       }
     }
-    m_PimplGlobals->m_CreationLock.unlock();
   }
   return m_PimplGlobals->m_Instance;
 }
