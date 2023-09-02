@@ -37,6 +37,7 @@
 #include "itksys/SystemTools.hxx"
 #include <cstring>
 #include <algorithm>
+#include <atomic>
 
 namespace
 {
@@ -120,10 +121,10 @@ public:
 
   ObjectFactoryBasePrivate() = default;
 
-  FactoryListType m_RegisteredFactories{};
-  FactoryListType m_InternalFactories{};
-  bool            m_Initialized{ false };
-  bool            m_StrictVersionChecking{ false };
+  FactoryListType   m_RegisteredFactories{};
+  FactoryListType   m_InternalFactories{};
+  std::atomic<bool> m_Initialized{ false };
+  bool              m_StrictVersionChecking{ false };
 };
 
 auto
@@ -236,9 +237,9 @@ ObjectFactoryBase::Initialize()
 {
   itkInitGlobalsMacro(PimplGlobals);
 
-  if (!m_PimplGlobals->m_Initialized)
+  // Atomically set m_Initialized to true. If it was false before, enter the if.
+  if (!m_PimplGlobals->m_Initialized.exchange(true))
   {
-    m_PimplGlobals->m_Initialized = true;
     ObjectFactoryBase::InitializeFactoryList();
     ObjectFactoryBase::RegisterInternal();
 #if defined(ITK_DYNAMIC_LOADING) && !defined(ITK_WRAPPING)
