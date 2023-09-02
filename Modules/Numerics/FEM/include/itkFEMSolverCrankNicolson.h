@@ -82,7 +82,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(SolverCrankNicolson, Solver<TDimension>);
+  itkTypeMacro(SolverCrankNicolson, Solver);
 
   using Float = Element::Float;
 
