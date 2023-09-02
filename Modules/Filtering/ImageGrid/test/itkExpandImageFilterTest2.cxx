@@ -232,8 +232,10 @@ itkExpandImageFilterTest2(int, char *[])
   }
   if (!b1)
   {
-    std::cout << "Expected 1D image channel 2: " << DoubleToStringArray(slice1, 10)
-              << "\nActual: " << DoubleToStringArray(sliceOut1, 10) << '\n';
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in 1D image channel 2" << std::endl;
+    std::cerr << "Expected: " << DoubleToStringArray(slice1, 10) << std::endl;
+    std::cerr << " , but got: " << DoubleToStringArray(sliceOut1, 10) << std::endl;
     statusValue = EXIT_FAILURE;
   }
 
@@ -273,8 +275,10 @@ itkExpandImageFilterTest2(int, char *[])
   }
   if (!b2)
   {
-    std::cout << "Expected 3D image size: " << DoubleToStringArray(d3, 3) << '\n'
-              << "Actual:" << DoubleToStringArray(d4, 3) << '\n';
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in 3D image size" << std::endl;
+    std::cerr << "Expected: " << DoubleToStringArray(d3, 3) << std::endl;
+    std::cerr << " , but got: " << DoubleToStringArray(d4, 3) << std::endl;
     statusValue = EXIT_FAILURE;
   }
 
@@ -293,8 +297,10 @@ itkExpandImageFilterTest2(int, char *[])
 
   if (!b3)
   {
-    std::cout << "Expected 3D image (1,0:9,1) Channel 2: " << DoubleToStringArray(slice3, 6)
-              << "\nActual: " << DoubleToStringArray(slice3Out, 6) << '\n';
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in 3D image (1,0:9,1) Channel 2" << std::endl;
+    std::cerr << "Expected: " << DoubleToStringArray(slice3, 6) << std::endl;
+    std::cerr << " , but got: " << DoubleToStringArray(slice3Out, 6) << std::endl;
     statusValue = EXIT_FAILURE;
   }
   return statusValue;

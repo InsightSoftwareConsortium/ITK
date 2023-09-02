@@ -279,10 +279,11 @@ itkWarpVectorImageFilterTest(int, char *[])
       {
         if (itk::Math::abs(trueValue[k] - value[k]) > 1e-4)
         {
+          std::cerr << "Test failed!" << std::endl;
+          std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
+          std::cerr << "Expected value " << trueValue << std::endl;
+          std::cerr << " differs from " << value << std::endl;
           testPassed = false;
-          std::cout << "Error at Index: " << index << ' ';
-          std::cout << "Expected: " << trueValue << ' ';
-          std::cout << "Actual: " << value << std::endl;
           break;
         }
       }
@@ -292,10 +293,11 @@ itkWarpVectorImageFilterTest(int, char *[])
 
       if (value != PixelType(padValue))
       {
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
+        std::cerr << "Expected value " << padValue << std::endl;
+        std::cerr << " differs from " << value << std::endl;
         testPassed = false;
-        std::cout << "Error at Index: " << index << ' ';
-        std::cout << "Expected: " << padValue << ' ';
-        std::cout << "Actual: " << value << std::endl;
       }
     }
     ++outIter;
@@ -335,6 +337,10 @@ itkWarpVectorImageFilterTest(int, char *[])
   {
     if (outIter.Get() != streamIter.Get())
     {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in streamed output at index [" << outIter.GetIndex() << "]" << std::endl;
+      std::cerr << "Expected value " << outIter.Get() << std::endl;
+      std::cerr << " differs from " << streamIter.Get() << std::endl;
       testPassed = false;
     }
     ++outIter;

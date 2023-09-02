@@ -90,11 +90,11 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
   FilterType::InputPixelType computedThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, computedThreshold))
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Error in GetThreshold()" << std::endl;
-    std::cout << "Expected: "
-              << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(expectedThreshold)
-              << ", but got: "
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in ik::RobustAutomaticThresholdImageFilter::GetThreshold" << std::endl;
+    std::cerr << "Expected: "
+              << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(expectedThreshold) << std::endl;
+    std::cerr << ", but got: "
               << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(computedThreshold) << std::endl;
     return EXIT_FAILURE;
   }

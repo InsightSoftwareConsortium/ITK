@@ -104,9 +104,10 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
 
   if (itk::Math::NotAlmostEquals(expectedValueAtMean, computedValueAtMean))
   {
-    std::cout << "Error in point " << point << ": ";
-    std::cout << "expected: " << expectedValueAtMean << ", but got " << computedValueAtMean << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in Evaluate at point " << point << std::endl;
+    std::cerr << "Expected value " << expectedValueAtMean << std::endl;
+    std::cerr << " differs from " << computedValueAtMean << std::endl;
     return EXIT_FAILURE;
   }
 

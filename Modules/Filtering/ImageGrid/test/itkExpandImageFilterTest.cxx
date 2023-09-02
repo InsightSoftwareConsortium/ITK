@@ -170,22 +170,27 @@ itkExpandImageFilterTest(int, char *[])
       ImageType::IndexType inputIndex = input->TransformPhysicalPointToIndex(point);
       double               trueValue = pattern.Evaluate(inputIndex);
 
-      if (itk::Math::abs(trueValue - value) > 1e-4)
+      double epsilon = 1e-4;
+      if (itk::Math::abs(trueValue - value) > epsilon)
       {
+        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
+        std::cerr << "Expected value " << trueValue << std::endl;
+        std::cerr << " differs from " << value << std::endl;
+        std::cerr << " by more than " << epsilon << std::endl;
         testPassed = EXIT_FAILURE;
-        std::cout << "Error at Index: " << index << ' ';
-        std::cout << "Expected: " << trueValue << ' ';
-        std::cout << "Actual: " << value << std::endl;
       }
     }
     else
     {
       if (itk::Math::NotExactlyEquals(value, padValue))
       {
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
+        std::cerr << "Expected value " << padValue << std::endl;
+        std::cerr << " differs from " << value << std::endl;
         testPassed = EXIT_FAILURE;
-        std::cout << "Error at Index: " << index << ' ';
-        std::cout << "Expected: " << padValue << ' ';
-        std::cout << "Actual: " << value << std::endl;
       }
     }
     ++outIter;
@@ -227,6 +232,10 @@ itkExpandImageFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(outIter.Get(), streamIter.Get()))
     {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in streamed output at index [" << outIter.GetIndex() << "]" << std::endl;
+      std::cerr << "Expected value " << outIter.Get() << std::endl;
+      std::cerr << " differs from " << streamIter.Get() << std::endl;
       testPassed = EXIT_FAILURE;
     }
     ++outIter;
