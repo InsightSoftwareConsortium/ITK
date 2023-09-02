@@ -52,10 +52,8 @@ main(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << "  inputImageFileName "
-              << std::endl;
-
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImageFileName" << std::endl;
     return EXIT_FAILURE;
   }
 
