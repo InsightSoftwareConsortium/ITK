@@ -23,6 +23,7 @@
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 // class to produce a linear image pattern
 template <int VDimension>
@@ -80,7 +81,7 @@ itkExpandImageFilterTest(int, char *[])
   };
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  bool testPassed = true;
+  int testPassed = EXIT_SUCCESS;
 
 
   //=============================================================
@@ -171,7 +172,7 @@ itkExpandImageFilterTest(int, char *[])
 
       if (itk::Math::abs(trueValue - value) > 1e-4)
       {
-        testPassed = false;
+        testPassed = EXIT_FAILURE;
         std::cout << "Error at Index: " << index << ' ';
         std::cout << "Expected: " << trueValue << ' ';
         std::cout << "Actual: " << value << std::endl;
@@ -181,7 +182,7 @@ itkExpandImageFilterTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(value, padValue))
       {
-        testPassed = false;
+        testPassed = EXIT_FAILURE;
         std::cout << "Error at Index: " << index << ' ';
         std::cout << "Expected: " << padValue << ' ';
         std::cout << "Actual: " << value << std::endl;
@@ -226,64 +227,33 @@ itkExpandImageFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(outIter.Get(), streamIter.Get()))
     {
-      testPassed = false;
+      testPassed = EXIT_FAILURE;
     }
     ++outIter;
     ++streamIter;
   }
 
-
-  if (!testPassed)
-  {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
-
   // Test error handling
 
-  try
-  {
-    testPassed = false;
-    std::cout << "Setting Input to nullptr" << std::endl;
-    expander->SetInput(nullptr);
-    expander->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << err << std::endl;
-    expander->ResetPipeline();
-    expander->SetInput(input);
-    testPassed = true;
-  }
+  std::cout << "Setting Input to nullptr" << std::endl;
+  expander->SetInput(nullptr);
 
-  if (!testPassed)
-  {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(expander->Update());
 
 
-  try
-  {
-    testPassed = false;
-    std::cout << "Setting Interpolator to nullptr" << std::endl;
-    expander->SetInterpolator(nullptr);
-    expander->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << err << std::endl;
-    expander->ResetPipeline();
-    expander->SetInterpolator(interpolator);
-    testPassed = true;
-  }
+  expander->ResetPipeline();
+  expander->SetInput(input);
 
-  if (!testPassed)
-  {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "Setting Interpolator to nullptr" << std::endl;
+  expander->SetInterpolator(nullptr);
+
+  ITK_TRY_EXPECT_EXCEPTION(expander->Update());
+
+
+  expander->ResetPipeline();
+  expander->SetInterpolator(interpolator);
+
 
   std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  return testPassed;
 }

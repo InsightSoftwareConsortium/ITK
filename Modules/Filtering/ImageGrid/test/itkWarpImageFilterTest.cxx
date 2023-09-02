@@ -104,7 +104,7 @@ itkWarpImageFilterTest(int, char *[])
   using VectorType = itk::Vector<float, ImageDimension>;
   using FieldType = itk::Image<VectorType, ImageDimension>;
 
-  bool testPassed = true;
+  int testPassed = EXIT_SUCCESS;
 
 
   //=============================================================
@@ -309,7 +309,7 @@ itkWarpImageFilterTest(int, char *[])
 
       if (itk::Math::abs(trueValue - value) > 1e-4)
       {
-        testPassed = false;
+        testPassed = EXIT_FAILURE;
         std::cout << "Error at Index: " << index << ' ';
         std::cout << "Expected: " << trueValue << ' ';
         std::cout << "Actual: " << value << std::endl;
@@ -320,7 +320,7 @@ itkWarpImageFilterTest(int, char *[])
 
       if (itk::Math::NotExactlyEquals(value, padValue))
       {
-        testPassed = false;
+        testPassed = EXIT_FAILURE;
         std::cout << "Error at Index: " << index << ' ';
         std::cout << "Expected: " << padValue << ' ';
         std::cout << "Actual: " << value << std::endl;
@@ -366,45 +366,27 @@ itkWarpImageFilterTest(int, char *[])
       std::cout << "Error C at Index: " << outIter.GetIndex() << ' ';
       std::cout << "Expected: " << outIter.Get() << ' ';
       std::cout << "Actual: " << streamIter.Get() << std::endl;
-      testPassed = false;
+      testPassed = EXIT_FAILURE;
     }
     ++outIter;
     ++streamIter;
   }
 
-
-  if (!testPassed)
-  {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
-
   // Exercise error handling
-
 
   using InterpolatorType = WarperType::InterpolatorType;
   InterpolatorType::Pointer interp = warper->GetModifiableInterpolator();
-  try
-  {
-    std::cout << "Setting interpolator to nullptr" << std::endl;
-    testPassed = false;
-    warper->SetInterpolator(nullptr);
-    warper->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << err << std::endl;
-    testPassed = true;
-    warper->ResetPipeline();
-    warper->SetInterpolator(interp);
-  }
 
-  if (!testPassed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "Setting interpolator to nullptr" << std::endl;
+  warper->SetInterpolator(nullptr);
+
+  ITK_TRY_EXPECT_EXCEPTION(warper->Update());
+
+
+  warper->ResetPipeline();
+  warper->SetInterpolator(interp);
+
 
   std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  return testPassed;
 }

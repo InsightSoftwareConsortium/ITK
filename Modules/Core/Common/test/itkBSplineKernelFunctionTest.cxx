@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkBSplineDerivativeKernelFunction.h"
+#include "itkTestingMacros.h"
+
 
 /*
  * This test exercises the BSpline kernel function
@@ -192,24 +194,7 @@ itkBSplineKernelFunctionTest(int, char *[])
     using FunctionType = itk::BSplineKernelFunction<7>;
     auto function = FunctionType::New();
 
-    bool pass = false;
-    try
-    {
-      function->Evaluate(0.0);
-    }
-    catch (const itk::ExceptionObject & err)
-    {
-      std::cout << "Caught expected exception" << std::endl;
-      std::cout << err << std::endl;
-      pass = true;
-    }
-
-    if (!pass)
-    {
-      std::cout << "Did not catch expected exception" << std::endl;
-      std::cout << "Test failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_EXCEPTION(function->Evaluate(0.0));
   }
 
   // Testing case of unimplemented spline order
@@ -218,24 +203,7 @@ itkBSplineKernelFunctionTest(int, char *[])
     using FunctionType = itk::BSplineDerivativeKernelFunction<5>;
     auto function = FunctionType::New();
 
-    bool pass = false;
-    try
-    {
-      function->Evaluate(0.0);
-    }
-    catch (const itk::ExceptionObject & err)
-    {
-      std::cout << "Caught expected exception" << std::endl;
-      std::cout << err << std::endl;
-      pass = true;
-    }
-
-    if (!pass)
-    {
-      std::cout << "Did not catch expected exception" << std::endl;
-      std::cout << "Test failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_EXCEPTION(function->Evaluate(0.0));
   }
 
 

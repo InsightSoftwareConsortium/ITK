@@ -21,6 +21,7 @@
 
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 using ImageType = itk::Image<float, 3>;
 using DisplacementFieldType = itk::Image<itk::Vector<double, 3>, 3>;
@@ -134,11 +135,9 @@ itkWarpImageFilterTest2(int, char *[])
       return EXIT_FAILURE;
     }
   }
-  if (it1.IsAtEnd() != it2.IsAtEnd())
-  {
-    std::cout << "Iterators don't agree on end of image" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TEST_EXPECT_EQUAL(it1.IsAtEnd(), it2.IsAtEnd());
+
   //
   // try streaming
   auto monitor1 = MonitorFilter::New();
@@ -167,20 +166,14 @@ itkWarpImageFilterTest2(int, char *[])
       return EXIT_FAILURE;
     }
   }
-  if (streamIt.IsAtEnd() != it2.IsAtEnd())
-  {
-    std::cout << "Iterators don't agree on end of image" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TEST_EXPECT_EQUAL(streamIt.IsAtEnd(), it2.IsAtEnd());
+
 
   // this verifies that the pipeline was executed as expected along
   // with correct region propagation and output information
-  if (!monitor2->VerifyAllInputCanStream(4))
-  {
-    std::cout << "Filter failed to execute as expected!" << std::endl;
-    std::cout << monitor2;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_TRUE(monitor2->VerifyAllInputCanStream(4));
+
 
   return EXIT_SUCCESS;
 }
