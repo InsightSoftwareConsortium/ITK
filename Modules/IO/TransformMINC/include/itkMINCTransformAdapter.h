@@ -293,7 +293,7 @@ protected:
   {
     if (VInputDimension != 3 || VOutputDimension != 3)
     {
-      itkExceptionMacro("Sorry, only 3D to 3d minc xfm transform is currently implemented");
+      itkExceptionMacro("MINC transform is currently implemented only for 3D to 3D.");
     }
   }
 
