@@ -55,7 +55,8 @@ main(int argc, char * argv[])
     std::cerr << "Missing command line arguments" << std::endl;
     std::cerr << "Usage :  " << argv[0] << "  inputImageFileName "
               << std::endl;
-    return -1;
+
+    return EXIT_FAILURE;
   }
 
   using PixelType = unsigned char;
@@ -78,7 +79,7 @@ main(int argc, char * argv[])
     std::cerr << "Problem encountered while reading image file : " << argv[1]
               << std::endl;
     std::cerr << excp << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
 
