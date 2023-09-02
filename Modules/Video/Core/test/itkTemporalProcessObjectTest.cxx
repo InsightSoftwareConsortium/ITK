@@ -19,6 +19,7 @@
 
 #include "itkTemporalProcessObject.h"
 #include "itkTemporalDataObject.h"
+#include "itkTestingMacros.h"
 
 /** Set up dummy implementations of TemporalProcessObject and
  * TemporalDataObject for testing
@@ -595,43 +596,21 @@ itkTemporalProcessObjectTest(int, char *[])
   tpo3->UpdateOutputInformation();
 
   // Check largest possible temporal region after propagation
-  if (tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 18)
-  {
-    std::cerr << "tpo1 largest possible region duration not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart() != 1)
-  {
-    std::cerr << "tpo1 largest possible region start not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 48)
-  {
-    std::cerr << "tpo2 largest possible region duration not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart() != 1)
-  {
-    std::cerr << "tpo2 largest possible region start not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
-  itk::TemporalRegion endLargestPossibleRegion = tpo3->GetOutput()->GetLargestPossibleTemporalRegion();
-  if (endLargestPossibleRegion.GetFrameDuration() != 24)
-  {
-    std::cerr << "tpo3 largest possible region duration not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (endLargestPossibleRegion.GetFrameStart() != 2)
-  {
-    std::cerr << "tpo3 largest possible region start not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration(), 18);
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart(), 1);
+
+  ITK_TEST_EXPECT_EQUAL(tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration(), 48);
+  ITK_TEST_EXPECT_EQUAL(tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart(), 1);
+
+  ITK_TEST_EXPECT_EQUAL(tpo3->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration(), 24);
+  ITK_TEST_EXPECT_EQUAL(tpo3->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart(), 2);
 
   //////
   // Test results of requested region propagation
   //////
 
   // Set up requested region for the end of the pipeline
+  itk::TemporalRegion endLargestPossibleRegion = tpo3->GetOutput()->GetLargestPossibleTemporalRegion();
   itk::TemporalRegion finalRequest;
   finalRequest.SetFrameStart(endLargestPossibleRegion.GetFrameStart());
   finalRequest.SetFrameDuration(1);
@@ -645,46 +624,18 @@ itkTemporalProcessObjectTest(int, char *[])
 
   // for tpo3, the requested input region should be size 3 because tpo2 can
   // only output in groups of 3
-  if (tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() != 3)
-  {
-    std::cout << tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() << std::endl;
-    std::cerr << "tpo3 requested region duration not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 3)
-  {
-    std::cerr << tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
-    std::cerr << "tpo3 requested region start not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameDuration(), 3);
+  ITK_TEST_EXPECT_EQUAL(tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameStart(), 3);
 
   // tpo2 is 3->3, so an initial request of 2 gets enlarged to 3 which results
   // in propagating a request for 3 to tpo1
-  if (tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() != 3)
-  {
-    std::cerr << "tpo2 requested region duration not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 3)
-  {
-    std::cerr << tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
-    std::cerr << "tpo2 requested region start not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameDuration(), 3);
+  ITK_TEST_EXPECT_EQUAL(tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameStart(), 3);
 
   // tpo1 is 3->1 and skips 1 frame for each output, so a request for 3
   // requires 5 as input
-  if (tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() != 5)
-  {
-    std::cerr << "tpo1 requested region duration not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 2)
-  {
-    std::cerr << tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
-    std::cerr << "tpo1 requested region start not correct" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameDuration(), 5);
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameStart(), 2);
 
   //////
   // Test Generation of data
@@ -764,11 +715,7 @@ itkTemporalProcessObjectTest(int, char *[])
   correctCallStack.emplace_back(3, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // Check that correct number of calls made
-  if (itk::TemporalProcessObjectTest::m_CallStack.size() != correctCallStack.size())
-  {
-    std::cerr << "Incorrect number of items in call stack" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size())
 
   // Check that call lists match
   std::cout << std::endl;
@@ -804,12 +751,7 @@ itkTemporalProcessObjectTest(int, char *[])
   tpo3->Update();
 
   // Check that correct number of calls made
-  if (itk::TemporalProcessObjectTest::m_CallStack.size() != correctCallStack.size())
-  {
-    std::cerr << "Incorrect number of items in call stack. Got: " << itk::TemporalProcessObjectTest::m_CallStack.size()
-              << " Expected: " << correctCallStack.size() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size())
 
   // Check that call lists match
   std::cout << std::endl;
@@ -844,12 +786,7 @@ itkTemporalProcessObjectTest(int, char *[])
   correctCallStack.emplace_back(3, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // Check that correct number of calls made
-  if (itk::TemporalProcessObjectTest::m_CallStack.size() != correctCallStack.size())
-  {
-    std::cerr << "Incorrect number of items in call stack. Got: " << itk::TemporalProcessObjectTest::m_CallStack.size()
-              << " Expected: " << correctCallStack.size() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size())
 
   // Check that call lists match
   std::cout << std::endl;
@@ -882,19 +819,12 @@ itkTemporalProcessObjectTest(int, char *[])
   tpo1->UpdateOutputInformation();
 
   // Make sure the requested temporal region of tpo1's output is empty
-  if (tpo1->GetOutput()->GetRequestedTemporalRegion() != emptyRegion)
-  {
-    std::cerr << "tpo1's output's requested temporal region not empty before propagate" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetRequestedTemporalRegion(), emptyRegion)
 
   tpo1->PropagateRequestedRegion(tpo1->GetOutput());
-  if (tpo1->GetOutput()->GetRequestedTemporalRegion() != tpo1->GetOutput()->GetLargestPossibleTemporalRegion() ||
-      tpo1->GetOutput()->GetRequestedTemporalRegion() == emptyRegion)
-  {
-    std::cerr << "tpo1's output's requested temporal region not set correctly after propagate" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetRequestedTemporalRegion(),
+                        tpo1->GetOutput()->GetLargestPossibleTemporalRegion())
+  ITK_TEST_EXPECT_TRUE(!(tpo1->GetOutput()->GetRequestedTemporalRegion() == emptyRegion))
 
   // Test that if largest possible temporal region has infinte duration,
   // request gets set to duration 1
@@ -905,14 +835,10 @@ itkTemporalProcessObjectTest(int, char *[])
   tpo1->SetInput(tdo);
   tpo1->UpdateOutputInformation();
   tpo1->PropagateRequestedRegion(tpo1->GetOutput());
-  if (tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != ITK_INFINITE_FRAME_DURATION ||
-      tpo1->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() != 1)
-  {
-    std::cerr << "tpo1's output's temporal regions not properly set for infinite input" << std::endl;
-    std::cerr << "Requested region duration: " << tpo1->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration()
-              << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration(),
+                        ITK_INFINITE_FRAME_DURATION)
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration(), 1)
 
   // Test streaming enumeration for CallRecordEnums::RecordType elements
   const std::set<itk::TemporalProcessObjectTest::CallRecordEnums::RecordType> allRecordType{

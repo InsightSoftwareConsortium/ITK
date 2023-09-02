@@ -94,28 +94,15 @@ itkImageSpatialObjectTest(int, char *[])
   q.Fill(15);
 
   std::cout << "Bounding Box = " << imageSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
-  std::cout << "IsInside()...";
-  if (imageSO->IsInsideInWorldSpace(r) || !imageSO->IsInsideInWorldSpace(q))
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  ITK_TEST_EXPECT_TRUE(!imageSO->IsInsideInWorldSpace(r));
+  ITK_TEST_EXPECT_TRUE(imageSO->IsInsideInWorldSpace(q));
 
   q.Fill(15.1);
   expectedValue = 555;
 
-  try
-  {
-    imageSO->ValueAtInWorldSpace(q, returnedValue);
-  }
-  catch (const itk::ExceptionObject &)
-  {
-    throw;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(imageSO->ValueAtInWorldSpace(q, returnedValue));
+
 
   std::cout << "ValueAt()...";
   if (itk::Math::NotAlmostEquals(returnedValue, expectedValue))
@@ -140,16 +127,9 @@ itkImageSpatialObjectTest(int, char *[])
   expectedDerivative[1] = expectedPixel;
   expectedPixel = 100;
   expectedDerivative[2] = expectedPixel;
-  std::cout << "DerivativeAt()...";
-  if (derivative != expectedDerivative)
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  ITK_TEST_EXPECT_EQUAL(derivative, expectedDerivative);
+
 
   // Now testing the ValueAt() with an interpolator
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType>;

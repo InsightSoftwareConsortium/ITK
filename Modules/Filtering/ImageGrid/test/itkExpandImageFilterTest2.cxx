@@ -24,6 +24,7 @@
 #include "itkVectorImage.h"
 #include "itkVariableLengthVector.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 using PixelType = double;
 using VectorImage1D = itk::VectorImage<PixelType, 1>;
@@ -216,11 +217,8 @@ itkExpandImageFilterTest2(int, char *[])
   std::cout << PrintTestImage1D<VectorImage1D>(output1D) << '\n';
 
   auto s1 = output1D->GetLargestPossibleRegion().GetSize()[0];
-  if (s1 != 10)
-  {
-    std::cout << "Expected 1D image size 10, actual: " << s1;
-    statusValue = EXIT_FAILURE;
-  }
+
+  ITK_TEST_EXPECT_EQUAL(s1, 10);
 
   double                   slice1[10] = { 6, 6, 7, 7, 8, 8, 9, 9, 10, 10 };
   double                   sliceOut1[10] = {};

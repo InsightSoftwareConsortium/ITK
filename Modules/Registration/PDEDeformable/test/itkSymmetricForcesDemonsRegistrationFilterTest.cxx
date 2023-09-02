@@ -249,86 +249,40 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
 
   std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
 
-  if (numPixelsDifferent > 10)
-  {
-    std::cout << "Test failed - too many pixels different." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_TRUE(numPixelsDifferent <= 10)
 
   std::cout << "Test running registrator without initial deformation field.";
   std::cout << std::endl;
 
-  bool passed = true;
-  try
-  {
-    registrator->SetInput(nullptr);
-    registrator->SetNumberOfIterations(2);
-    registrator->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Unexpected error." << std::endl;
-    std::cout << err << std::endl;
-    passed = false;
-  }
+  registrator->SetInput(nullptr);
+  registrator->SetNumberOfIterations(2);
 
-  if (!passed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(registrator->Update());
+
 
   std::cout << "Test exception handling." << std::endl;
 
   std::cout << "Test nullptr moving image. " << std::endl;
-  passed = false;
-  try
-  {
-    registrator->SetInput(initField);
-    registrator->SetMovingImage(nullptr);
-    registrator->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
-    passed = true;
-  }
 
-  if (!passed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  registrator->SetInput(initField);
+  registrator->SetMovingImage(nullptr);
+
+  ITK_TRY_EXPECT_EXCEPTION(registrator->Update());
+
+
   registrator->SetMovingImage(moving);
   registrator->ResetPipeline();
 
   std::cout << "Test nullptr moving image interpolator. " << std::endl;
-  passed = false;
-  try
-  {
-    fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
-    if (fptr == nullptr)
-    {
-      std::cerr << "dynamic_cast of registrator difference function failed";
-      return EXIT_FAILURE;
-    }
-    fptr->SetMovingImageInterpolator(nullptr);
-    registrator->SetInput(initField);
-    registrator->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
-    passed = true;
-  }
 
-  if (!passed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
+  ITK_TEST_EXPECT_TRUE(fptr)
+
+  fptr->SetMovingImageInterpolator(nullptr);
+  registrator->SetInput(initField);
+
+  ITK_TRY_EXPECT_EXCEPTION(registrator->Update());
+
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;

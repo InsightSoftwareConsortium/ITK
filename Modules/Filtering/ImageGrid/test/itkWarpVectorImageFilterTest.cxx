@@ -353,27 +353,16 @@ itkWarpVectorImageFilterTest(int, char *[])
   using InterpolatorType = WarperType::InterpolatorType;
   InterpolatorType::Pointer interp = warper->GetModifiableInterpolator();
 
-  try
-  {
-    std::cout << "Setting interpolator to nullptr" << std::endl;
-    testPassed = false;
-    warper->SetInterpolator(nullptr);
-    warper->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << err << std::endl;
-    testPassed = true;
-    warper->ResetPipeline();
-    warper->SetInterpolator(interp);
-    ITK_TEST_SET_GET_VALUE(interp, warper->GetInterpolator());
-  }
+  std::cout << "Setting interpolator to nullptr" << std::endl;
+  warper->SetInterpolator(nullptr);
 
-  if (!testPassed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(warper->Update());
+
+  warper->ResetPipeline();
+  warper->SetInterpolator(interp);
+
+  ITK_TEST_SET_GET_VALUE(interp, warper->GetInterpolator());
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

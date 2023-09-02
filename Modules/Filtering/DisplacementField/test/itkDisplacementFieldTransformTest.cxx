@@ -256,31 +256,10 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   DisplacementFieldType::DirectionType direction = field->GetDirection();
   DisplacementFieldType::SpacingType   spacing = field->GetSpacing();
 
-  if (size != size2)
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Incorrect size from fixed parameters." << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (origin != origin2)
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Incorrect origin from fixed parameters." << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (spacing != spacing2)
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Incorrect spacing from fixed parameters." << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (direction != direction2)
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Incorrect direction from fixed parameters." << std::endl;
-    return EXIT_FAILURE;
-  }
-
+  ITK_TEST_EXPECT_EQUAL(size, size2);
+  ITK_TEST_EXPECT_EQUAL(origin, origin2);
+  ITK_TEST_EXPECT_EQUAL(spacing, spacing2);
+  ITK_TEST_EXPECT_EQUAL(direction, direction2);
 
   // Initialize Affine transform and use it to create the displacement field
   using AffineTransformType = itk::CenteredAffineTransform<ParametersValueType, Dimensions>;
