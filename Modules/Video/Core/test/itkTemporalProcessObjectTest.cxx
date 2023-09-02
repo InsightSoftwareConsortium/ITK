@@ -721,15 +721,15 @@ itkTemporalProcessObjectTest(int, char *[])
   std::cout << std::endl;
   for (SizeValueType i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
   {
-    std::cout << "Got: ";
-    itk::TemporalProcessObjectTest::m_CallStack[i].Print();
-    std::cout << "Expected: ";
-    correctCallStack[i].Print();
-    std::cout << std::endl;
-
     if (itk::TemporalProcessObjectTest::m_CallStack[i] != correctCallStack[i])
     {
-      std::cerr << "Call stacks don't match" << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in call stack at index [" << i << "]" << std::endl;
+      std::cerr << "Expected value ";
+      correctCallStack[i].Print();
+      std::cerr << std::endl;
+      std::cerr << " differs from ";
+      itk::TemporalProcessObjectTest::m_CallStack[i].Print();
       return EXIT_FAILURE;
     }
   }
@@ -757,15 +757,15 @@ itkTemporalProcessObjectTest(int, char *[])
   std::cout << std::endl;
   for (SizeValueType i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
   {
-    std::cout << "Got: ";
-    itk::TemporalProcessObjectTest::m_CallStack[i].Print();
-    std::cout << "Expected: ";
-    correctCallStack[i].Print();
-    std::cout << std::endl;
-
     if (itk::TemporalProcessObjectTest::m_CallStack[i] != correctCallStack[i])
     {
-      std::cerr << "Call stacks don't match" << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in call stack at index [" << i << "]" << std::endl;
+      std::cerr << "Expected value ";
+      correctCallStack[i].Print();
+      std::cerr << std::endl;
+      std::cerr << " differs from ";
+      itk::TemporalProcessObjectTest::m_CallStack[i].Print();
       return EXIT_FAILURE;
     }
   }
@@ -792,15 +792,15 @@ itkTemporalProcessObjectTest(int, char *[])
   std::cout << std::endl;
   for (SizeValueType i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
   {
-    std::cout << "Got: ";
-    itk::TemporalProcessObjectTest::m_CallStack[i].Print();
-    std::cout << "Expected: ";
-    correctCallStack[i].Print();
-    std::cout << std::endl;
-
     if (itk::TemporalProcessObjectTest::m_CallStack[i] != correctCallStack[i])
     {
-      std::cerr << "Call stacks don't match" << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in call stack at index [" << i << "]" << std::endl;
+      std::cerr << "Expected value ";
+      correctCallStack[i].Print();
+      std::cerr << std::endl;
+      std::cerr << " differs from ";
+      itk::TemporalProcessObjectTest::m_CallStack[i].Print();
       return EXIT_FAILURE;
     }
   }

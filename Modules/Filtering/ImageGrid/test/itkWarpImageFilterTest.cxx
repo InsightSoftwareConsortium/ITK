@@ -307,12 +307,16 @@ itkWarpImageFilterTest(int, char *[])
 
       double trueValue = pattern.Evaluate(outIter.GetIndex(), validSize, clampSize, padValue);
 
-      if (itk::Math::abs(trueValue - value) > 1e-4)
+      double epsilon = 1e-4;
+      if (itk::Math::abs(trueValue - value) > epsilon)
       {
+        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
+        std::cerr << "Expected value " << trueValue << std::endl;
+        std::cerr << " differs from " << value;
+        std::cerr << " by more than " << epsilon << std::endl;
         testPassed = EXIT_FAILURE;
-        std::cout << "Error at Index: " << index << ' ';
-        std::cout << "Expected: " << trueValue << ' ';
-        std::cout << "Actual: " << value << std::endl;
       }
     }
     else
@@ -320,10 +324,11 @@ itkWarpImageFilterTest(int, char *[])
 
       if (itk::Math::NotExactlyEquals(value, padValue))
       {
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
+        std::cerr << "Expected value " << padValue << std::endl;
+        std::cerr << " differs from " << value << std::endl;
         testPassed = EXIT_FAILURE;
-        std::cout << "Error at Index: " << index << ' ';
-        std::cout << "Expected: " << padValue << ' ';
-        std::cout << "Actual: " << value << std::endl;
       }
     }
     ++outIter;
@@ -363,9 +368,10 @@ itkWarpImageFilterTest(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(outIter.Get(), streamIter.Get()))
     {
-      std::cout << "Error C at Index: " << outIter.GetIndex() << ' ';
-      std::cout << "Expected: " << outIter.Get() << ' ';
-      std::cout << "Actual: " << streamIter.Get() << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in streamed output at index [" << outIter.GetIndex() << "]" << std::endl;
+      std::cerr << "Expected value " << outIter.Get() << std::endl;
+      std::cerr << " differs from " << streamIter.Get() << std::endl;
       testPassed = EXIT_FAILURE;
     }
     ++outIter;

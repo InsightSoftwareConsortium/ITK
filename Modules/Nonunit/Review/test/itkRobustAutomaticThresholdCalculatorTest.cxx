@@ -82,11 +82,12 @@ itkRobustAutomaticThresholdCalculatorTest(int argc, char * argv[])
   CalculatorType::InputPixelType computedOutput = calculator->GetOutput();
   if (itk::Math::NotAlmostEquals(expectedOutput, computedOutput))
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Error in GetOutput()" << std::endl;
-    std::cout << "Expected: "
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in itk::RobustAutomaticThresholdCalculator::GetOutput" << std::endl;
+    std::cerr << "Expected: "
               << static_cast<itk::NumericTraits<CalculatorType::InputPixelType>::PrintType>(expectedOutput)
-              << ", but got: "
+              << std::endl;
+    std::cerr << ", but got: "
               << static_cast<itk::NumericTraits<CalculatorType::InputPixelType>::PrintType>(computedOutput)
               << std::endl;
     return EXIT_FAILURE;

@@ -628,9 +628,12 @@ itkSimilarity2DTransformTest(int, char *[])
     {
       if (itk::Math::abs(parameters[j] - pdash[j]) > epsilon)
       {
-        std::cout << "Expected: " << parameters << std::endl;
-        std::cout << "Got: " << pdash << std::endl;
-        std::cout << " [ FAILED ] " << std::endl;
+        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in parameters at index [" << j << "]" << std::endl;
+        std::cerr << "Expected value " << parameters << std::endl;
+        std::cerr << " differs from " << pdash;
+        std::cerr << " by more than " << epsilon << std::endl;
         return EXIT_FAILURE;
       }
     }

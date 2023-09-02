@@ -196,9 +196,10 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   {
     if (varReturned[i] != varChanged[i])
     {
-      std::cout << "Test failed!" << std::endl;
-      std::cout << "Error in GetVariance() at index [" << i << ']' << std::endl;
-      std::cout << "Expected: " << varChanged[i] << ", but got: " << varReturned[i] << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in GetVariance at index [" << i << "]" << std::endl;
+      std::cerr << "Expected value " << varChanged[i] << std::endl;
+      std::cerr << " differs from " << varReturned[i] << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -215,9 +216,10 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   {
     if (itk::Math::NotAlmostEquals(varReturned[i], itk::Math::pi))
     {
-      std::cout << "Test failed!" << std::endl;
-      std::cout << "Error in GetVariance() at index [" << i << ']' << std::endl;
-      std::cout << "Expected: " << itk::Math::pi << ", but got: " << varReturned[i] << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in GetVariance at index [" << i << "]" << std::endl;
+      std::cerr << "Expected value " << itk::Math::pi << std::endl;
+      std::cerr << " differs from " << varReturned[i] << std::endl;
       return EXIT_FAILURE;
     }
   }

@@ -197,8 +197,11 @@ itkVectorExpandImageFilterTest(int, char *[])
       }
       if (k < VectorDimension)
       {
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in vector dimension at index [" << index << "]" << std::endl;
+        std::cerr << "Expected value less than " << VectorDimension << std::endl;
+        std::cerr << " differs from " << k << std::endl;
         testPassed = EXIT_FAILURE;
-        std::cout << "Error at Index: " << index << std::endl;
       }
     }
     else
@@ -213,8 +216,11 @@ itkVectorExpandImageFilterTest(int, char *[])
       }
       if (k < VectorDimension)
       {
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in vector dimension at index [" << index << "]" << std::endl;
+        std::cerr << "Expected value less than " << VectorDimension << std::endl;
+        std::cerr << " differs from " << k << std::endl;
         testPassed = EXIT_FAILURE;
-        std::cout << "Error at Index: " << index << std::endl;
       }
     }
   }
@@ -255,6 +261,10 @@ itkVectorExpandImageFilterTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(outIter.Get()[k], streamIter.Get()[k]))
       {
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Error in vector dimension at index [" << k << "]" << std::endl;
+        std::cerr << "Expected value " << outIter.Get()[k] << std::endl;
+        std::cerr << " differs from " << streamIter.Get()[k] << std::endl;
         testPassed = EXIT_FAILURE;
       }
     }

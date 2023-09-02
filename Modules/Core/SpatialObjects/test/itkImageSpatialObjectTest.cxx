@@ -107,8 +107,10 @@ itkImageSpatialObjectTest(int, char *[])
   std::cout << "ValueAt()...";
   if (itk::Math::NotAlmostEquals(returnedValue, expectedValue))
   {
-    std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
-    std::cout << "[FAILED]: " << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in ValueAt at point " << q << std::endl;
+    std::cerr << "Expected value " << expectedValue << std::endl;
+    std::cerr << " differs from " << returnedValue << std::endl;
     return EXIT_FAILURE;
   }
   else
@@ -143,9 +145,15 @@ itkImageSpatialObjectTest(int, char *[])
 
 
   std::cout << "ValueAt() with interpolator...";
-  if (itk::Math::abs(returnedValue - expectedValue) > 0.001)
+  double epsilon = 0.001;
+  if (itk::Math::abs(returnedValue - expectedValue) > epsilon)
   {
-    std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in ValueAt at point " << q << std::endl;
+    std::cerr << "Expected value " << expectedValue << std::endl;
+    std::cerr << " differs from " << returnedValue;
+    std::cerr << " by more than " << epsilon << std::endl;
     return EXIT_FAILURE;
   }
   else
@@ -159,12 +167,17 @@ itkImageSpatialObjectTest(int, char *[])
   expectedDerivative[1] = 10;
   expectedDerivative[2] = 100;
   std::cout << "DerivativeAt() with interpolator ...";
-  if (itk::Math::abs(derivative[0] - expectedDerivative[0]) > 0.00001 ||
-      itk::Math::abs(derivative[1] - expectedDerivative[1]) > 0.00001 ||
-      itk::Math::abs(derivative[2] - expectedDerivative[2]) > 0.00001)
+  epsilon = 0.00001;
+  if (itk::Math::abs(derivative[0] - expectedDerivative[0]) > epsilon ||
+      itk::Math::abs(derivative[1] - expectedDerivative[1]) > epsilon ||
+      itk::Math::abs(derivative[2] - expectedDerivative[2]) > epsilon)
   {
-    std::cout << "Expected: " << derivative << " returned: " << expectedDerivative << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in ValueAt at point " << q << std::endl;
+    std::cerr << "Expected value " << expectedDerivative << std::endl;
+    std::cerr << " differs from " << derivative;
+    std::cerr << " by more than " << epsilon << std::endl;
     return EXIT_FAILURE;
   }
   else

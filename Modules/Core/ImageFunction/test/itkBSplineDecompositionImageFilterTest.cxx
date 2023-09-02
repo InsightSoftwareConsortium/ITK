@@ -120,12 +120,12 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
     FilterType::SplinePolesVectorType::value_type resultSplinePole = resultSplinePoles[i];
     if (!itk::Math::FloatAlmostEqual(expectedSplinePole, resultSplinePole, 10, tolerance1))
     {
-      std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
-      std::cout << "Test failed!" << std::endl;
-      std::cout << "Error in GetSplinePoles() at index: [" << i << ']' << std::endl;
-      std::cout << "Expected: " << expectedSplinePole << std::endl;
-      std::cout << " , but got: " << resultSplinePole << std::endl;
-      std::cout << " Values differ by more than: " << tolerance1 << std::endl;
+      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in GetSplinePoles() at index [" << i << ']' << std::endl;
+      std::cerr << "Expected value " << expectedSplinePole << std::endl;
+      std::cerr << " differs from " << resultSplinePole;
+      std::cerr << " by more than " << tolerance1 << std::endl;
       return EXIT_FAILURE;
     }
   }
