@@ -77,7 +77,7 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream & os, In
 {
   using namespace print_helper;
 
-  os << "SparseFieldCityBlockNeighborList: " << std::endl;
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Size: " << m_Size << std::endl;
   os << indent << "Radius: " << static_cast<typename NumericTraits<RadiusType>::PrintType>(m_Radius) << std::endl;
