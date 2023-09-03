@@ -46,6 +46,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os, Inde
 {
   using namespace print_helper;
 
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "InputImageNeighborhoodRadius: "
      << static_cast<typename NumericTraits<InputImageNeighborhoodRadiusType>::PrintType>(m_InputImageNeighborhoodRadius)
      << std::endl;
