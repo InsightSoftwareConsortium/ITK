@@ -179,14 +179,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::SetClassifier(typename Class
   m_ClassifierPtr->SetNumberOfClasses(m_NumberOfClasses);
 }
 
-/* Set the training image. */
-template <typename TInputImage, typename TClassifiedImage>
-void
-RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::SetTrainingImage(TrainingImageType image)
-{
-  m_TrainingImage = image;
-}
-
 /* Check if 2 number are identical. */
 template <typename TInputImage, typename TClassifiedImage>
 int
