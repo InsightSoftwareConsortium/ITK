@@ -81,7 +81,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::DataToCoefficients1D
   }
 
   // Compute over all gain
-  for (int k = 0; k < m_NumberOfPoles; ++k)
+  for (unsigned int k = 0; k < m_NumberOfPoles; ++k)
   {
     // Note for cubic splines lambda = 6
     c0 = c0 * (1.0 - m_SplinePoles[k]) * (1.0 - 1.0 / m_SplinePoles[k]);
@@ -94,7 +94,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::DataToCoefficients1D
   }
 
   // Loop over all poles
-  for (int k = 0; k < m_NumberOfPoles; ++k)
+  for (unsigned int k = 0; k < m_NumberOfPoles; ++k)
   {
     // Causal initialization
     this->SetInitialCausalCoefficient(m_SplinePoles[k]);

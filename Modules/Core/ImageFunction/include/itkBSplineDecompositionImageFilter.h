@@ -116,7 +116,7 @@ public:
   itkGetConstMacro(SplinePoles, SplinePolesVectorType);
 
   /** Get the number of poles. */
-  itkGetConstMacro(NumberOfPoles, int);
+  itkGetConstMacro(NumberOfPoles, unsigned int);
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -198,7 +198,7 @@ private:
 
   SplinePolesVectorType m_SplinePoles{};
 
-  int m_NumberOfPoles{};
+  unsigned int m_NumberOfPoles{};
 
   /** Tolerance used for determining initial causal coefficient. Default is 1e-10.*/
   double m_Tolerance{ 1e-10 };
