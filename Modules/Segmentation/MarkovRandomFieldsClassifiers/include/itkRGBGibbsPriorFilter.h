@@ -104,8 +104,7 @@ public:
   using IndexType = typename TInputImage::IndexType;
 
   /** Set the image required for training type classifiers. */
-  void
-  SetTrainingImage(TrainingImageType image);
+  itkSetMacro(TrainingImage, TrainingImageType);
 
   /** Set the labelled image. */
   void
