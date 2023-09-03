@@ -268,11 +268,25 @@ itkRGBGibbsPriorFilterTest(int, char *[])
   applyGibbsImageFilter->SetNumberOfClasses(NumClasses);
   applyGibbsImageFilter->SetMaximumNumberOfIterations(MaxNumIter);
 
-  //  applyGibbsImageFilter->SetErrorTollerance(0.00);
-  applyGibbsImageFilter->SetClusterSize(10);
-  applyGibbsImageFilter->SetBoundaryGradient(6);
-  applyGibbsImageFilter->SetObjectLabel(1);
-  //  applyGibbsImageFilter->SetRecursiveNumber(1);
+  //  applyGibbsImageFilter->SetErrorTolerance(0.00);
+
+  unsigned int clusterSize = 10;
+  applyGibbsImageFilter->SetClusterSize(clusterSize);
+  ITK_TEST_SET_GET_VALUE(clusterSize, applyGibbsImageFilter->GetClusterSize());
+
+  unsigned int boundaryGradient = 6;
+  applyGibbsImageFilter->SetBoundaryGradient(boundaryGradient);
+  ITK_TEST_SET_GET_VALUE(boundaryGradient, applyGibbsImageFilter->GetBoundaryGradient());
+
+  unsigned int objectLabel = 1;
+  applyGibbsImageFilter->SetObjectLabel(objectLabel);
+  ITK_TEST_SET_GET_VALUE(objectLabel, applyGibbsImageFilter->GetObjectLabel());
+
+  GibbsPriorFilterType::IndexType startPoint{};
+  applyGibbsImageFilter->SetStartPoint(startPoint);
+  ITK_TEST_SET_GET_VALUE(startPoint, applyGibbsImageFilter->GetStartPoint());
+
+  // applyGibbsImageFilter->SetRecursiveNumber(1);
 
   double cliqueWeight1 = 5.0;
   applyGibbsImageFilter->SetCliqueWeight_1(cliqueWeight1);
@@ -301,10 +315,13 @@ itkRGBGibbsPriorFilterTest(int, char *[])
   applyGibbsImageFilter->SetInput(vecImage);
   applyGibbsImageFilter->SetClassifier(myClassifier);
 
-  applyGibbsImageFilter->SetObjectThreshold(5.0);
+  auto objectThreshold = 5.0;
+  applyGibbsImageFilter->SetObjectThreshold(objectThreshold);
+  ITK_TEST_SET_GET_VALUE(objectThreshold, applyGibbsImageFilter->GetObjectThreshold());
 
   // Since a suvervised classifier is used, it requires a training image
   applyGibbsImageFilter->SetTrainingImage(classImage);
+  ITK_TEST_SET_GET_VALUE(classImage, applyGibbsImageFilter->GetTrainingImage());
 
   // Kick off the Gibbs labeller function
   applyGibbsImageFilter->Update();
