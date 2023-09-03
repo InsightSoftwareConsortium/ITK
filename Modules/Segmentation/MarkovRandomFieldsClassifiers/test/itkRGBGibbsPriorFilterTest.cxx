@@ -27,7 +27,7 @@
 
 
 int
-itkGibbsTest(int, char *[])
+itkRGBGibbsPriorFilterTest(int, char *[])
 {
 
   constexpr unsigned int ImageWidth = 20;
