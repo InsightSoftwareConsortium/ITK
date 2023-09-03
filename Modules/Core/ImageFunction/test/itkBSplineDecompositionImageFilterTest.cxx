@@ -110,16 +110,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
 
   FilterType::SplinePolesVectorType expectedSplinePoles = ParseSplinePoles<FilterType>(argv[2]);
 
-  int expectedNumberOfPoles = expectedSplinePoles.size();
-  int resultNumberOfPoles = filter->GetNumberOfPoles();
-  if (!itk::Math::ExactlyEquals(expectedNumberOfPoles, resultNumberOfPoles))
-  {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Error in GetNumberOfPoles()" << std::endl;
-    std::cout << "Expected: " << expectedNumberOfPoles << std::endl;
-    std::cout << " , but got: " << resultNumberOfPoles << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(filter->GetNumberOfPoles(), expectedSplinePoles.size());
 
   FilterType::SplinePolesVectorType resultSplinePoles = filter->GetSplinePoles();
   double                            tolerance1 = 1e-10;
