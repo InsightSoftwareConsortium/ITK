@@ -103,8 +103,9 @@ public:
   using InputImageVecType = typename TInputImage::PixelType;
   using IndexType = typename TInputImage::IndexType;
 
-  /** Set the image required for training type classifiers. */
+  /** Set/Get the image required for training type classifiers. */
   itkSetMacro(TrainingImage, TrainingImageType);
+  itkGetConstMacro(TrainingImage, TrainingImageType);
 
   /** Set the labelled image. */
   void
@@ -161,20 +162,25 @@ public:
     return this->m_MaximumNumberOfIterations;
   }
 
-  /** Set the threshold for the object size. */
+  /** Set/Get the threshold for the object size. */
   itkSetMacro(ClusterSize, unsigned int);
+  itkGetConstMacro(ClusterSize, unsigned int);
 
-  /** Set the label for the object region. */
+  /** Set/Get the label for the object region. */
   itkSetMacro(ObjectLabel, LabelType);
+  itkGetConstMacro(ObjectLabel, LabelType);
 
   /** Extract the input image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   itkSetMacro(StartPoint, IndexType);
+  itkGetConstMacro(StartPoint, IndexType);
 
   itkSetMacro(BoundaryGradient, unsigned int);
+  itkGetConstMacro(BoundaryGradient, unsigned int);
 
   itkSetMacro(ObjectThreshold, double);
+  itkGetConstMacro(ObjectThreshold, double);
 
   /** set and get the value for Clique weights */
   itkSetMacro(CliqueWeight_1, double);
