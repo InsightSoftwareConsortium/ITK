@@ -347,20 +347,11 @@ itkHistogramTest(int, char *[])
     whereFail = "Sparse Histogram: Quantile(Dimension, percent)";
   }
 
+  bool clipBinsAtEnds = true;
+  ITK_TEST_SET_GET_BOOLEAN(histogram, ClipBinsAtEnds, clipBinsAtEnds);
 
-  histogram->SetClipBinsAtEnds(true);
-  if (!histogram->GetClipBinsAtEnds())
-  {
-    pass = false;
-    whereFail = "Set/GetClipBinsAtEnds()";
-  }
-
-  histogram->SetClipBinsAtEnds(false);
-  if (histogram->GetClipBinsAtEnds())
-  {
-    pass = false;
-    whereFail = "Set/GetClipBinsAtEnds()";
-  }
+  clipBinsAtEnds = false;
+  ITK_TEST_SET_GET_BOOLEAN(histogram, ClipBinsAtEnds, clipBinsAtEnds);
 
   if (histogram->GetMeasurementVectorSize() != numberOfComponents)
   {
