@@ -862,9 +862,9 @@ itkTemporalProcessObjectTest(int, char *[])
     std::cout << "STREAMED ENUM VALUE CallRecordEnums::MethodType: " << ee << std::endl;
   }
 
-
   //////
   // Return successfully
   //////
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

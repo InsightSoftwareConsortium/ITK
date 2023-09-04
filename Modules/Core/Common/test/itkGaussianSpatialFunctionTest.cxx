@@ -111,5 +111,7 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+
+  std::cerr << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

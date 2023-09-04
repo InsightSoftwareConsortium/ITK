@@ -76,6 +76,6 @@ itkGaborKernelFunctionTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -175,5 +175,6 @@ itkWarpImageFilterTest2(int, char *[])
   ITK_TEST_EXPECT_TRUE(monitor2->VerifyAllInputCanStream(4));
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -364,6 +364,6 @@ itkWarpVectorImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(interp, warper->GetInterpolator());
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

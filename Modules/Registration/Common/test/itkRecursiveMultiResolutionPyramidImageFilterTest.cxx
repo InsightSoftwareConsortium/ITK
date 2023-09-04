@@ -345,6 +345,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   pyramid->SetSchedule(schedule);
   pyramid->Update();
 
-  std::cout << "Test passed." << std::endl;
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

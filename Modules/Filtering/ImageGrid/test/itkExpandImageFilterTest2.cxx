@@ -297,5 +297,8 @@ itkExpandImageFilterTest2(int, char *[])
               << "\nActual: " << DoubleToStringArray(slice3Out, 6) << '\n';
     statusValue = EXIT_FAILURE;
   }
+
+
+  std::cout << "Test finished." << std::endl;
   return statusValue;
 }

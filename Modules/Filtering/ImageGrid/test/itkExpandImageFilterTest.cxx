@@ -254,6 +254,6 @@ itkExpandImageFilterTest(int, char *[])
   expander->SetInterpolator(interpolator);
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return testPassed;
 }
