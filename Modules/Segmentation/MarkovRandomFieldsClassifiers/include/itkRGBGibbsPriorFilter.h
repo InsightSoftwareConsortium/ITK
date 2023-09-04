@@ -34,12 +34,18 @@ namespace itk
  *
  * The core of the method is based on the minimization of a Gibbsian energy function.
  * This energy function f can be divided into three part:
- *   f = f_1 + f_2 + f_3;
- * f_1 is related to the object homogeneity,
- * f_2 is related to the boundary smoothness,
- * f_3 is related to the constraint of the observation (or the noise model).
- * The two force components f_1 and f_3 are minimized by the GradientEnergy
- * method while f_2 is minimized by the GibbsTotalEnergy method.
+ *
+ *  \f[
+ *    f = f_1 + f_2 + f_3
+ *  \f]
+ *
+ * where
+ * \f$f_1\f$ is related to the object homogeneity,
+ * \f$f_2\f$ is related to the boundary smoothness,
+ * \f$f_3\f$ is related to the constraint of the observation (or the noise model).
+ *
+ * The two force components \f$f_1\f$ and \f$f_3\f$ are minimized by the GradientEnergy
+ * method while \f$f_2\f$ is minimized by the GibbsTotalEnergy method.
  *
  * This filter only works with 3D images.
  *
