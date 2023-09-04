@@ -94,11 +94,9 @@ public:
 int
 itkWarpImageFilterTest(int, char *[])
 {
+  constexpr unsigned int ImageDimension = 2;
+
   using PixelType = float;
-  enum
-  {
-    ImageDimension = 2
-  };
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using VectorImageType = itk::VectorImage<PixelType, ImageDimension>;
   using VectorType = itk::Vector<float, ImageDimension>;
@@ -121,11 +119,10 @@ itkWarpImageFilterTest(int, char *[])
 
   ImageType::PixelType padValue = 4.0;
 
-  int                          j;
   ImagePattern<ImageDimension> pattern;
 
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }
@@ -146,7 +143,7 @@ itkWarpImageFilterTest(int, char *[])
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     fieldSize[j] = size[j] * factors[j] + 5;
   }
@@ -163,7 +160,7 @@ itkWarpImageFilterTest(int, char *[])
   {
     ImageType::IndexType index = fieldIter.GetIndex();
     VectorType           displacement;
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       displacement[j] = static_cast<float>(index[j]) * ((1.0 / factors[j]) - 1.0);
     }
@@ -256,7 +253,7 @@ itkWarpImageFilterTest(int, char *[])
   ImageType::SizeType decrementForScaling;
   ImageType::SizeType clampSizeDecrement;
   ImageType::SizeType clampSize;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     validSize[j] = size[j] * factors[j];
 
@@ -290,7 +287,7 @@ itkWarpImageFilterTest(int, char *[])
   validRegion.SetSize(validSize);
 
   // adjust the pattern coefficients to match
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] /= static_cast<double>(factors[j]);
   }

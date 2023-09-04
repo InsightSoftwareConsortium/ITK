@@ -74,11 +74,9 @@ public:
 int
 itkExpandImageFilterTest(int, char *[])
 {
+  constexpr unsigned int ImageDimension = 2;
+
   using PixelType = float;
-  enum
-  {
-    ImageDimension = 2
-  };
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   int testPassed = EXIT_SUCCESS;
@@ -96,10 +94,9 @@ itkExpandImageFilterTest(int, char *[])
   input->SetBufferedRegion(region);
   input->Allocate();
 
-  int                          j;
   ImagePattern<ImageDimension> pattern;
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }
