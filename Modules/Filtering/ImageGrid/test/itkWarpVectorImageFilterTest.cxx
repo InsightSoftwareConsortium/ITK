@@ -263,7 +263,6 @@ itkWarpVectorImageFilterTest(int, char *[])
 
     if (validRegion.IsInside(index))
     {
-
       PixelType trueValue(pattern.Evaluate(outIter.GetIndex(), validSize, clampSize, padValue));
       for (unsigned int k = 0; k < ImageDimension; ++k)
       {
@@ -279,7 +278,6 @@ itkWarpVectorImageFilterTest(int, char *[])
     }
     else
     {
-
       if (value != PixelType(padValue))
       {
         testPassed = false;

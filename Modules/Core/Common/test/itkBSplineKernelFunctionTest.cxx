@@ -186,7 +186,6 @@ itkBSplineKernelFunctionTest(int, char *[])
 
   // Testing case of unimplemented spline order
   {
-
     using FunctionType = itk::BSplineKernelFunction<7>;
     auto function = FunctionType::New();
 
@@ -195,7 +194,6 @@ itkBSplineKernelFunctionTest(int, char *[])
 
   // Testing case of unimplemented spline order
   {
-
     using FunctionType = itk::BSplineDerivativeKernelFunction<5>;
     auto function = FunctionType::New();
 
