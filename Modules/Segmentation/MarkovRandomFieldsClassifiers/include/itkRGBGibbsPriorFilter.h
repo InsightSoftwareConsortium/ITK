@@ -123,11 +123,11 @@ public:
     return m_LabelledImage;
   }
 
-  /** Set the pointer to the classifier being used. */
+  /** Set the classifier. */
   void
   SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
-  /** Set the Number of classes. */
+  /** Set the number of classes. */
   void
   SetNumberOfClasses(const unsigned int numberOfClasses) override
   {
@@ -139,7 +139,7 @@ public:
     }
   }
 
-  /** Get the Number of classes. */
+  /** Get the number of classes. */
   unsigned int
   GetNumberOfClasses() const override
   {
@@ -205,8 +205,9 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  /** Allocate memory for classified image pixel status. */
   void
-  Allocate(); /** allocate memory space for the filter. */
+  Allocate();
 
   void
   MinimizeFunctional() override;
@@ -282,31 +283,36 @@ private:
                                pixels */
   double m_CliqueWeight_6{ 0.0 }; /** weight for clique other than these */
 
-  /** calculate H_2. */
+  /** Minimize the local characteristic \f$f_2\f$ term in the energy function.
+   * Calculates \f$H_2\f$. */
   void
   GibbsTotalEnergy(int i);
 
-  /** calculate the energy in each cluster. */
+  /** Calculate the energy in each cluster. */
   double
   GibbsEnergy(unsigned int i, unsigned int k, unsigned int k1);
 
+  /** Check if the values are identical. */
   int
-  Sim(int a, int b); /** method to return 1 when a equal to b. */
+  Sim(int a, int b);
 
+  /** Label a region. */
   unsigned int
-  LabelRegion(int i, int l, int change); /** help to erase the
-                                           small region. */
+  LabelRegion(int i, int l, int change);
 
+  /** Erase small regions.
+   * Removes the tiny bias inside the object region. */
   void
-  RegionEraser(); /** erase the small region. */
+  RegionEraser();
 
+  /** Create the intermediate image. */
   void
-  GenerateMediumImage(); /** create the intermediate image.
-                          */
+  GenerateMediumImage();
 
+  /** Smooth the image in piecewise fashion.
+   * Calculates \f$H_1\f$. */
   void
-  GreyScalarBoundary(LabelledImageIndexType Index3D); /** calculate H_1.
-                                                       */
+  GreyScalarBoundary(LabelledImageIndexType Index3D);
 
   double m_ObjectThreshold{ 5.0 };
 };

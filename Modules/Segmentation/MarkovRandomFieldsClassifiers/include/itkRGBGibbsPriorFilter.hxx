@@ -29,7 +29,7 @@
 
 namespace itk
 {
-/* Set initial value of some parameters in the constructor */
+
 template <typename TInputImage, typename TClassifiedImage>
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RGBGibbsPriorFilter()
   : m_InputImage(nullptr)
@@ -43,7 +43,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RGBGibbsPriorFilter()
   m_StartPoint.Fill(0);
 }
 
-/* Set the labelled image. */
 template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::SetLabelledImage(LabelledImageType image)
@@ -52,7 +51,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::SetLabelledImage(LabelledIma
   this->Allocate();
 }
 
-/* GenerateMediumImage method. */
 template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GenerateMediumImage()
@@ -66,7 +64,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GenerateMediumImage()
   m_MediumImage->Allocate();
 }
 
-/* Allocate the memory for classified image. */
 template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::Allocate()
@@ -86,7 +83,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::Allocate()
   }
 }
 
-/* Smooth the image in piecewise fashion. */
 template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledImageIndexType Index3D)
@@ -170,7 +166,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
   }
 }
 
-/* Set the classifier. */
 template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::SetClassifier(typename ClassifierType::Pointer ptrToClassifier)
@@ -179,7 +174,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::SetClassifier(typename Class
   m_ClassifierPtr->SetNumberOfClasses(m_NumberOfClasses);
 }
 
-/* Check if 2 number are identical. */
 template <typename TInputImage, typename TClassifiedImage>
 int
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::Sim(int a, int b)
@@ -191,8 +185,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::Sim(int a, int b)
   return 0;
 }
 
-/* GibbsTotalEnergy method that minimizes the local characteristic(f_2) term
- * in the energy function. */
 template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
@@ -598,7 +590,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
   }
 }
 
-/* Remove the tiny bias inside the object region. */
 template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
