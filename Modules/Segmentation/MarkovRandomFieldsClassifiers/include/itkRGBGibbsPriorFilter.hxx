@@ -745,18 +745,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os,
   os << indent << "ClusterSize: " << m_ClusterSize << std::endl;
   os << indent << "ObjectLabel: " << m_ObjectLabel << std::endl;
   os << indent << "StartPoint: " << m_StartPoint << std::endl;
-  if (m_TrainingImage)
-  {
-    os << indent << "TraingImage: " << m_TrainingImage;
-  }
-  if (m_LabelledImage)
-  {
-    os << indent << "TrainingImage: " << m_TrainingImage;
-  }
-  if (m_ClassifierPtr)
-  {
-    os << indent << "ClassifierPtr: " << m_ClassifierPtr;
-  }
+
+  itkPrintSelfObjectMacro(TrainingImage);
+  itkPrintSelfObjectMacro(LabelledImage);
+  itkPrintSelfObjectMacro(ClassifierPtr);
 }
 } /* end namespace itk. */
 
