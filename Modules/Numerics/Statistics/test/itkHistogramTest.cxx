@@ -69,7 +69,6 @@ itkHistogramTest(int, char *[])
   }
 
 
-  // Now call SetMeasurementVectorSize() correctly
   histogram->SetMeasurementVectorSize(numberOfComponents);
 
   if (histogram->GetMeasurementVectorSize() != numberOfComponents)
@@ -78,14 +77,12 @@ itkHistogramTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  //  Exercise Initialize with size and bounds
   histogram->Initialize(size, lowerBound, upperBound);
 
   histogram->SetToZero();
 
   double interval = (upperBound[0] - lowerBound[0]) / static_cast<HistogramType::MeasurementType>(size[0]);
 
-  // tests begin
   MeasurementVectorType measurements(numberOfComponents);
   measurements.Fill(512);
 

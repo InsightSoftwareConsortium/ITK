@@ -522,9 +522,7 @@ private:
 } // end namespace TemporalProcessObjectTest
 } // end namespace itk
 
-/**
- * Test functionality of itkTemporalProcessObject
- */
+
 int
 itkTemporalProcessObjectTest(int, char *[])
 {
@@ -850,7 +848,7 @@ itkTemporalProcessObjectTest(int, char *[])
     std::cout << "STREAMED ENUM VALUE CallRecordEnums::MethodType: " << ee << std::endl;
   }
 
-  // Return successfully
+
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

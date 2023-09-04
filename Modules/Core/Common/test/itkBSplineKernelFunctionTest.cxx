@@ -20,10 +20,6 @@
 #include "itkTestingMacros.h"
 
 
-/*
- * This test exercises the BSpline kernel function
- * of various orders.
- */
 int
 itkBSplineKernelFunctionTest(int, char *[])
 {

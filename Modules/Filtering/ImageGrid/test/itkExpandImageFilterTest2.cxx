@@ -189,7 +189,6 @@ DoubleToStringArray(double * a, unsigned int size)
 int
 itkExpandImageFilterTest2(int, char *[])
 {
-  // return EXIT_FAILURE;
   int statusValue = EXIT_SUCCESS;
 
   // Test 1D: A 5 pixel long 1D image with 2 channels.  Using a NearestNeighborInterpolator for simplicity.  Expanding
