@@ -212,8 +212,8 @@ itkExpandImageFilterTest2(int, char *[])
   expander1D->Update();
   VectorImage1D::Pointer output1D = expander1D->GetOutput();
 
-  std::cout << "Output 1D: \n";
-  std::cout << PrintTestImage1D<VectorImage1D>(output1D) << '\n';
+  std::cout << "Output 1D: " << std::endl;
+  std::cout << PrintTestImage1D<VectorImage1D>(output1D) << std::endl;
 
   auto s1 = output1D->GetLargestPossibleRegion().GetSize()[0];
 
@@ -258,8 +258,8 @@ itkExpandImageFilterTest2(int, char *[])
 
   VectorImage3D::Pointer output3D = expander3D->GetOutput();
 
-  std::cout << "Output 3D: \n";
-  std::cout << PrintTestImage3D<VectorImage3D>(output3D) << '\n';
+  std::cout << "Output 3D: " << std::endl;
+  std::cout << PrintTestImage3D<VectorImage3D>(output3D) << std::endl;
 
   VectorImage3D::SizeType s2 = output3D->GetLargestPossibleRegion().GetSize();
   double                  d3[3] = { 3, 6, 3 };

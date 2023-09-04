@@ -181,7 +181,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
 
 
-  std::cout << "\n\n\nPrinting function" << std::endl;
+  std::cout << "Printing function" << std::endl;
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
   auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   if (fptr != nullptr)
