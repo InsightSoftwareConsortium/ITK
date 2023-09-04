@@ -156,13 +156,10 @@ public:
   const IndexType &
   GetIndex(InstanceIdentifier id) const;
 
-  /** Is set to false if the bins at edges of the histogram extend to
-   *   +/- infinity. */
+  /** Set/Get whether the bins at the edges of the histogram extend to +/- infinity. */
   itkGetConstMacro(ClipBinsAtEnds, bool);
-
-  /** Set to false to have the bins at edges of the histogram extend to
-   *   +/- infinity. */
   itkSetMacro(ClipBinsAtEnds, bool);
+  itkBooleanMacro(ClipBinsAtEnds);
 
   /** Returns true if the given index is out of bound meaning one of index
    * is not between [0, last index] */
