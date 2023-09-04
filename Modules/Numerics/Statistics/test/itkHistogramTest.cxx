@@ -54,9 +54,7 @@ itkHistogramTest(int, char *[])
   lowerBound.Fill(0);
   upperBound.Fill(1024);
 
-  //
   // Exercise exception case
-  //
   try
   {
     // purposely calling Initialize() before calling SetMeasurementVectorSize()
@@ -72,9 +70,7 @@ itkHistogramTest(int, char *[])
   }
 
 
-  //
   // Now call SetMeasurementVectorSize() correctly
-  //
   histogram->SetMeasurementVectorSize(numberOfComponents);
 
   if (histogram->GetMeasurementVectorSize() != numberOfComponents)
@@ -83,9 +79,7 @@ itkHistogramTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  //
   //  Exercise Initialize with size and bounds
-  //
   histogram->Initialize(size, lowerBound, upperBound);
 
   histogram->SetToZero();
@@ -632,9 +626,7 @@ itkHistogramTest(int, char *[])
   }
 
 
-  //
   // Exercise GetIndex() method in the iterator.
-  //
   std::cout << "TEST GetIndex() and GetFrequency() in the iterator" << std::endl;
   itr = histogram->Begin();
   end = histogram->End();
@@ -646,9 +638,7 @@ itkHistogramTest(int, char *[])
   }
 
 
-  //
   // Exercise GetMin / GetMax methods
-  //
   {
     const double            epsilon = 1e-6;
     HistogramType::SizeType size2 = histogram->GetSize();

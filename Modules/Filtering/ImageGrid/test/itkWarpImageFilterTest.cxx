@@ -104,9 +104,6 @@ itkWarpImageFilterTest(int, char *[])
 
   int testPassed = EXIT_SUCCESS;
 
-
-  //=============================================================
-
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
   ImageType::SizeType   size = { { 64, 64 } };
@@ -133,8 +130,6 @@ itkWarpImageFilterTest(int, char *[])
   {
     inIter.Set(pattern.Evaluate(inIter.GetIndex(), size, size, padValue));
   }
-
-  //=============================================================
 
   std::cout << "Create the input displacement field." << std::endl;
 
@@ -167,14 +162,12 @@ itkWarpImageFilterTest(int, char *[])
     fieldIter.Set(displacement);
   }
 
-  //=============================================================
   std::cout << "Instantiate WarpImageFilter with VectorImage.";
   std::cout << std::endl;
 
   using WarpVectorImageFilterType = itk::WarpImageFilter<VectorImageType, VectorImageType, VectorImageType>;
   auto warpVectorImageFilter = WarpVectorImageFilterType::New();
 
-  //=============================================================
   std::cout << "Run WarpImageFilter in standalone mode with progress.";
   std::cout << std::endl;
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
@@ -238,8 +231,6 @@ itkWarpImageFilterTest(int, char *[])
 
   // Update the filter
   warper->Update();
-
-  //=============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
 
@@ -326,8 +317,6 @@ itkWarpImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  //=============================================================
-
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
@@ -348,7 +337,6 @@ itkWarpImageFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();
 
-  //=============================================================
   std::cout << "Compare standalone and streamed outputs" << std::endl;
 
   Iterator streamIter(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());

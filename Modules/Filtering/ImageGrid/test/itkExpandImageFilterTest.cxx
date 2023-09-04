@@ -81,9 +81,6 @@ itkExpandImageFilterTest(int, char *[])
 
   int testPassed = EXIT_SUCCESS;
 
-
-  //=============================================================
-
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
   ImageType::SizeType   size = { { 64, 64 } };
@@ -109,8 +106,6 @@ itkExpandImageFilterTest(int, char *[])
     inIter.Set(pattern.Evaluate(inIter.GetIndex()));
     ++inIter;
   }
-
-  //=============================================================
 
   std::cout << "Run ExpandImageFilter in standalone mode with progress.";
   std::cout << std::endl;
@@ -140,8 +135,6 @@ itkExpandImageFilterTest(int, char *[])
 
   expander->Print(std::cout);
   expander->Update();
-
-  //=============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
   Iterator outIter(expander->GetOutput(), expander->GetOutput()->GetBufferedRegion());
@@ -188,8 +181,6 @@ itkExpandImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  //=============================================================
-
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
@@ -212,7 +203,6 @@ itkExpandImageFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();
 
-  //=============================================================
   std::cout << "Compare standalone and streamed outputs" << std::endl;
 
   Iterator streamIter(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());

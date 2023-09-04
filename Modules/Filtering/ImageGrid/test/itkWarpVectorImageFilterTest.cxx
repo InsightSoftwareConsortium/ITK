@@ -102,9 +102,6 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   bool testPassed = true;
 
-
-  //=============================================================
-
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
   ImageType::SizeType   size = { { 64, 64 } };
@@ -132,8 +129,6 @@ itkWarpVectorImageFilterTest(int, char *[])
   {
     inIter.Set(PixelType(pattern.Evaluate(inIter.GetIndex(), size, size, padValue)));
   }
-
-  //=============================================================
 
   std::cout << "Create the input displacement field." << std::endl;
 
@@ -164,8 +159,6 @@ itkWarpVectorImageFilterTest(int, char *[])
     }
     fieldIter.Set(displacement);
   }
-
-  //=============================================================
 
   std::cout << "Run WarpVectorImageFilter in standalone mode with progress.";
   std::cout << std::endl;
@@ -213,8 +206,6 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   // Update the filter
   warper->Update();
-
-  //=============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
 
@@ -301,8 +292,6 @@ itkWarpVectorImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  //=============================================================
-
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
@@ -323,7 +312,6 @@ itkWarpVectorImageFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();
 
-  //=============================================================
   std::cout << "Compare standalone and streamed outputs" << std::endl;
 
   Iterator streamIter(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());

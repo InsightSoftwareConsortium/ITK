@@ -69,10 +69,7 @@ public:
 int
 itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 {
-
-  //------------------------------------------------------------
   // Create a simple image
-  //------------------------------------------------------------
 
   // Allocate Images
   using PixelType = short;
