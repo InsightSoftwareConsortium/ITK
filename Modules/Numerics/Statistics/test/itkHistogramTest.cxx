@@ -26,7 +26,6 @@
 int
 itkHistogramTest(int, char *[])
 {
-  std::cout << "Histogram Test \n \n";
   bool        pass = true;
   std::string whereFail = "";
 
