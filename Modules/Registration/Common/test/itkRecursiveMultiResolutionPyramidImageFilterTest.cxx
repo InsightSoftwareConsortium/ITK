@@ -146,9 +146,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   imgTarget->SetOrigin(transCenter);
 
 
-  /**
-   * Setup a multi-resolution pyramid
-   */
+  // Setup a multi-resolution pyramid
   using PyramidType = itk::RecursiveMultiResolutionPyramidImageFilter<InputImageType, OutputImageType>;
   using ScheduleType = PyramidType::ScheduleType;
   auto pyramid = PyramidType::New();

@@ -320,7 +320,7 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(DummyTemporalProcessObject, TemporalProcessObject);
 
-  /*-REQUIRED IMPLEMENTATIONS------------------------------------------------*/
+  // Required implementations
 
   /** TemporalStreamingGenerateData */
   void
@@ -454,7 +454,7 @@ public:
     return this->m_InputStencilCurrentFrameIndex;
   }
 
-  /*-DEBUG OVERRIDES---------------------------------------------------------*/
+  // Debug overrides
 
   /** Override Update for debug output */
   void

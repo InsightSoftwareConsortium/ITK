@@ -192,8 +192,8 @@ itkExpandImageFilterTest2(int, char *[])
   // return EXIT_FAILURE;
   int statusValue = EXIT_SUCCESS;
 
-  /// Test 1D: A 5 pixel long 1D image with 2 channels.  Using a NearestNeighborInterpolator for simplicity.  Expanding
-  /// by 2.
+  // Test 1D: A 5 pixel long 1D image with 2 channels.  Using a NearestNeighborInterpolator for simplicity.  Expanding
+  // by 2.
   VectorImage1D::SizeType size1D = { { 5 } };
 
   VectorImage1D::Pointer input1D = GetVectorTestImage<VectorImage1D>(size1D, 2);
@@ -237,8 +237,8 @@ itkExpandImageFilterTest2(int, char *[])
     statusValue = EXIT_FAILURE;
   }
 
-  /// Test 3D: a 3 x 3 4-channel image.  Like above, incremental pixel values along each channel, dim 0, dim 1, dim 2.
-  /// Channel 1 values are 1-27, Channel 2 is 28-54, etc.  Expanding by 2 along dim 1.
+  // Test 3D: a 3 x 3 4-channel image.  Like above, incremental pixel values along each channel, dim 0, dim 1, dim 2.
+  // Channel 1 values are 1-27, Channel 2 is 28-54, etc.  Expanding by 2 along dim 1.
   VectorImage3D::SizeType size3D = { { 3, 3, 3 } };
   VectorImage3D::Pointer  input3D = GetVectorTestImage<VectorImage3D>(size3D, 4);
 

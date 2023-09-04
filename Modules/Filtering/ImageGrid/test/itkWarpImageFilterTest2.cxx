@@ -102,27 +102,31 @@ MakeDisplacementField()
 int
 itkWarpImageFilterTest2(int, char *[])
 {
-  //  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
-  // make test image
+  // itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
+  // Make test image
   ImageType::Pointer image = MakeCheckerboard();
-  // make full-res displacement field
+
+  // Make full-res displacement field
   DisplacementFieldType::Pointer defField1 = MakeDisplacementField<16u>();
-  // make half-res displacement field
+  // Make half-res displacement field
   DisplacementFieldType::Pointer defField2 = MakeDisplacementField<8u>();
 
   auto filter = WarpFilterType::New();
-  // test with full res
+  // Test with full res
   filter->SetDisplacementField(defField1);
   filter->SetInput(image);
   filter->SetOutputParametersFromImage(image);
   filter->Update();
-  ImageType::Pointer result1 = filter->GetOutput(); // save output for later comparison
-  result1->DisconnectPipeline();                    // disconnect to create new output
-  // test with half res
+  // Save output for later comparison
+  ImageType::Pointer result1 = filter->GetOutput();
+  // Disconnect to create new output
+  result1->DisconnectPipeline();
+  // Test with half res
   filter->SetDisplacementField(defField2);
   filter->SetInput(image);
   filter->SetOutputParametersFromImage(image);
-  filter->Modified(); // enforce re-execution just to be sure
+  // Enforce re-execution just to be sure
+  filter->Modified();
   filter->Update();
   ImageType::Pointer                  result2 = filter->GetOutput();
   itk::ImageRegionIterator<ImageType> it1(result1, result1->GetLargestPossibleRegion()),
@@ -138,8 +142,7 @@ itkWarpImageFilterTest2(int, char *[])
 
   ITK_TEST_EXPECT_EQUAL(it1.IsAtEnd(), it2.IsAtEnd());
 
-  //
-  // try streaming
+  // Try streaming
   auto monitor1 = MonitorFilter::New();
   monitor1->SetInput(image);
 
@@ -169,9 +172,7 @@ itkWarpImageFilterTest2(int, char *[])
 
   ITK_TEST_EXPECT_EQUAL(streamIt.IsAtEnd(), it2.IsAtEnd());
 
-
-  // this verifies that the pipeline was executed as expected along
-  // with correct region propagation and output information
+  // Verify that the pipeline was executed as expected along with correct region propagation and output information
   ITK_TEST_EXPECT_TRUE(monitor2->VerifyAllInputCanStream(4));
 
 

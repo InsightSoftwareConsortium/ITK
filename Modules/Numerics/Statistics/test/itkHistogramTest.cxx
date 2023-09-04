@@ -120,7 +120,8 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex(InstanceIdentifier&)";
   }
 
-  index.Fill(-5); // test for outside below
+  // Test for outside
+  index.Fill(-5);
 
   if (!histogram->IsIndexOutOfBounds(index))
   {
@@ -129,8 +130,8 @@ itkHistogramTest(int, char *[])
     whereFail = "IsIndexOutOfBounds(IndexType)";
   }
 
-
-  index.Fill(32); // test for inside
+  // Test for inside
+  index.Fill(32);
 
   if (histogram->IsIndexOutOfBounds(index))
   {
@@ -139,7 +140,8 @@ itkHistogramTest(int, char *[])
     whereFail = "IsIndexOutOfBounds(IndexType)";
   }
 
-  index.Fill(100); // test for outside
+  // Test for outside
+  index.Fill(100);
 
   if (!histogram->IsIndexOutOfBounds(index))
   {
