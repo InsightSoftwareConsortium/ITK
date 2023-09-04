@@ -290,8 +290,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
 
   // run in streamed mode
-  std::cout << "Run ImagePyramid with streamer";
-  std::cout << std::endl;
+  std::cout << "Run ImagePyramid with streamer" << std::endl;
 
   using CasterType = itk::CastImageFilter<InputImageType, InputImageType>;
   auto caster = CasterType::New();

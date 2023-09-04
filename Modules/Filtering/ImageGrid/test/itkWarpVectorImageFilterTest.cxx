@@ -160,8 +160,7 @@ itkWarpVectorImageFilterTest(int, char *[])
     fieldIter.Set(displacement);
   }
 
-  std::cout << "Run WarpVectorImageFilter in standalone mode with progress.";
-  std::cout << std::endl;
+  std::cout << "Run WarpVectorImageFilter in standalone mode with progress." << std::endl;
   using WarperType = itk::WarpVectorImageFilter<ImageType, ImageType, FieldType>;
   auto warper = WarperType::New();
 
@@ -292,8 +291,7 @@ itkWarpVectorImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  std::cout << "Run ExpandImageFilter with streamer";
-  std::cout << std::endl;
+  std::cout << "Run ExpandImageFilter with streamer" << std::endl;
 
   using VectorCasterType = itk::CastImageFilter<FieldType, FieldType>;
   auto vcaster = VectorCasterType::New();

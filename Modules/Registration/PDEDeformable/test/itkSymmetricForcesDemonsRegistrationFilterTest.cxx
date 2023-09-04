@@ -250,8 +250,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(numPixelsDifferent <= 10)
 
-  std::cout << "Test running registrator without initial deformation field.";
-  std::cout << std::endl;
+  std::cout << "Test running registrator without initial deformation field." << std::endl;
 
   registrator->SetInput(nullptr);
   registrator->SetNumberOfIterations(2);

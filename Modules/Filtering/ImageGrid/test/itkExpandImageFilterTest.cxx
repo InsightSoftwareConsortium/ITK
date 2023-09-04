@@ -107,8 +107,7 @@ itkExpandImageFilterTest(int, char *[])
     ++inIter;
   }
 
-  std::cout << "Run ExpandImageFilter in standalone mode with progress.";
-  std::cout << std::endl;
+  std::cout << "Run ExpandImageFilter in standalone mode with progress." << std::endl;
   using ExpanderType = itk::ExpandImageFilter<ImageType, ImageType>;
   auto expander = ExpanderType::New();
 
@@ -181,8 +180,7 @@ itkExpandImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  std::cout << "Run ExpandImageFilter with streamer";
-  std::cout << std::endl;
+  std::cout << "Run ExpandImageFilter with streamer" << std::endl;
 
   using CasterType = itk::CastImageFilter<ImageType, ImageType>;
   auto caster = CasterType::New();
