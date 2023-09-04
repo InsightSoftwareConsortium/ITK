@@ -252,15 +252,15 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
   for (unsigned int jj = 0; jj < 2; ++jj)
   {
     energy[jj] = 0;
-    energy[jj] += GibbsEnergy(i, 0, jj);
-    energy[jj] += GibbsEnergy(i + rowsize + 1, 1, jj);
-    energy[jj] += GibbsEnergy(i + rowsize, 2, jj);
-    energy[jj] += GibbsEnergy(i + rowsize - 1, 3, jj);
-    energy[jj] += GibbsEnergy(i - 1, 4, jj);
-    energy[jj] += GibbsEnergy(i - rowsize - 1, 5, jj);
-    energy[jj] += GibbsEnergy(i - rowsize, 6, jj);
-    energy[jj] += GibbsEnergy(i - rowsize + 1, 7, jj);
-    energy[jj] += GibbsEnergy(i + 1, 8, jj);
+    energy[jj] += this->GibbsEnergy(i, 0, jj);
+    energy[jj] += this->GibbsEnergy(i + rowsize + 1, 1, jj);
+    energy[jj] += this->GibbsEnergy(i + rowsize, 2, jj);
+    energy[jj] += this->GibbsEnergy(i + rowsize - 1, 3, jj);
+    energy[jj] += this->GibbsEnergy(i - 1, 4, jj);
+    energy[jj] += this->GibbsEnergy(i - rowsize - 1, 5, jj);
+    energy[jj] += this->GibbsEnergy(i - rowsize, 6, jj);
+    energy[jj] += this->GibbsEnergy(i - rowsize + 1, 7, jj);
+    energy[jj] += this->GibbsEnergy(i + 1, 8, jj);
     if (m_LabelStatus[i] == jj)
     {
       energy[jj] += -3;
@@ -429,7 +429,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GenerateData()
   m_InputImage = this->GetInput();
   m_VecDim = InputPixelType::GetVectorDimension();
 
-  GenerateMediumImage();
+  this->GenerateMediumImage();
 
   // Pass the input image and training image set to the classifier. For the first iteration, use the original image.
   // In the following loops, you can use the result provided by a segmentation method such as the deformable model.
@@ -442,9 +442,9 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GenerateData()
   // Run the Gaussian classifier algorithm.
   m_ClassifierPtr->Update();
 
-  SetLabelledImage(m_ClassifierPtr->GetClassifiedImage());
+  this->SetLabelledImage(m_ClassifierPtr->GetClassifiedImage());
 
-  ApplyGPImageFilter();
+  this->ApplyGPImageFilter();
 
   // Set the output labelled image and allocate the memory.
   LabelledImageType outputPtr = this->GetOutput();
@@ -480,7 +480,7 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGPImageFilter()
 {
   // Minimize f_1 and f_3.
-  MinimizeFunctional();
+  this->MinimizeFunctional();
 }
 
 template <typename TInputImage, typename TClassifiedImage>
@@ -489,9 +489,9 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::MinimizeFunctional()
 {
   // This implementation uses the SA algorithm.
 
-  ApplyGibbsLabeller();
+  this->ApplyGibbsLabeller();
 
-  RegionEraser();
+  this->RegionEraser();
 
 #ifndef RGBGibbsPriorFilterNeedsDebugging
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
@@ -506,7 +506,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::MinimizeFunctional()
     if ((randomPixel > (rowsize - 1)) && (randomPixel < (size - rowsize)) && (randomPixel % rowsize != 0) &&
         (randomPixel % rowsize != rowsize - 1))
     {
-      GibbsTotalEnergy(randomPixel); // minimize f_2
+      this->GibbsTotalEnergy(randomPixel); // minimize f_2
     }
     ++m_Temp;
   }
@@ -554,7 +554,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
     if ((i > (rowsize - 1)) && (i < (size - rowsize)) && (i % rowsize != 0) && (i % rowsize != rowsize - 1))
     {
       originPixelVec = inputImageIt.Get();
-      GreyScalarBoundary(offsetIndex3D);
+      this->GreyScalarBoundary(offsetIndex3D);
       for (unsigned int rgb = 0; rgb < m_VecDim; ++rgb)
       {
         changedPixelVec[rgb] = m_LowPoint[rgb];
@@ -614,7 +614,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
     if (m_Region[i] == 0)
     {
       label = labelledImageIt.Get();
-      if (LabelRegion(i, ++l, label) > m_ClusterSize)
+      if (this->LabelRegion(i, ++l, label) > m_ClusterSize)
       {
         valid_region_counter[k] = l;
         ++k;
@@ -672,7 +672,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::LabelRegion(int i, int l, in
     m = m_LabelledImage->GetPixel(offsetIndex3D);
     if ((m == change) && (m_Region[i - 1] == 0))
     {
-      count += LabelRegion(i - 1, l, change);
+      count += this->LabelRegion(i - 1, l, change);
     }
     offsetIndex3D[0]++;
   }
@@ -683,7 +683,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::LabelRegion(int i, int l, in
     m = m_LabelledImage->GetPixel(offsetIndex3D);
     if ((m == change) && (m_Region[i + 1] == 0))
     {
-      count += LabelRegion(i + 1, l, change);
+      count += this->LabelRegion(i + 1, l, change);
     }
     offsetIndex3D[0]--;
   }
@@ -694,7 +694,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::LabelRegion(int i, int l, in
     m = m_LabelledImage->GetPixel(offsetIndex3D);
     if ((m == change) && (m_Region[i - rowsize] == 0))
     {
-      count += LabelRegion(i - rowsize, l, change);
+      count += this->LabelRegion(i - rowsize, l, change);
     }
     offsetIndex3D[1]++;
   }
@@ -705,7 +705,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::LabelRegion(int i, int l, in
     m = m_LabelledImage->GetPixel(offsetIndex3D);
     if ((m == change) && (m_Region[i + rowsize] == 0))
     {
-      count += LabelRegion(i + rowsize, l, change);
+      count += this->LabelRegion(i + rowsize, l, change);
     }
     offsetIndex3D[1]--;
   }
