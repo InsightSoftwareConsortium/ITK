@@ -442,7 +442,7 @@ itkHistogramTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!getindex2);
 
-  // Testing GetIndex() for values that are above the median value of the Bin.
+  // Test GetIndex() for values that are above the median value of the bin.
   IndexType pindex(numberOfComponents);
   pindex.Fill(32);
   MeasurementVectorType measurementVector = histogram->GetMeasurementVector(pindex);
@@ -460,7 +460,7 @@ itkHistogramTest(int, char *[])
     ITK_TEST_EXPECT_EQUAL(gindex[gik2], 32);
   }
 
-  // Testing GetIndex() for values that are below the median value of the Bin.
+  // Test GetIndex() for values that are below the median value of the bin.
   for (unsigned int gik3 = 0; gik3 < numberOfComponents; ++gik3)
   {
     measurementVector[gik3] -= 0.6;
@@ -473,7 +473,7 @@ itkHistogramTest(int, char *[])
     ITK_TEST_EXPECT_EQUAL(gindex[gik4], 32);
   }
 
-  // Testing GetIndex on the upper and lower bounds
+  // Test GetIndex on the upper and lower bounds
   IndexType upperIndex(numberOfComponents);
   ITK_TEST_EXPECT_TRUE(histogram->GetIndex(upperBound, upperIndex));
 
@@ -490,7 +490,7 @@ itkHistogramTest(int, char *[])
     ITK_TEST_EXPECT_EQUAL(lowerIndex[k1], 0);
   }
 
-  // Testing GetIndex above the upper bound of a bin
+  // Test GetIndex above the upper bound of a bin
   histogram->SetClipBinsAtEnds(false);
   MeasurementVectorType measurementVectorAbove(numberOfComponents);
   for (unsigned int gupk1 = 0; gupk1 < numberOfComponents; ++gupk1)
@@ -611,7 +611,7 @@ itkHistogramTest(int, char *[])
   }
 
 
-  // Testing methods specific to Iterators
+  // Test methods specific to Iterators
   {
     using IteratorType = HistogramType::Iterator;
     IteratorType iter = histogram->Begin();
@@ -643,7 +643,7 @@ itkHistogramTest(int, char *[])
     ITK_TEST_EXPECT_EQUAL(iter6.GetInstanceIdentifier(), id2);
   }
 
-  // Testing methods specific to ConstIterators
+  // Test methods specific to ConstIterators
   {
     using ConstIteratorType = HistogramType::ConstIterator;
     ConstIteratorType iter = histogram->Begin();
