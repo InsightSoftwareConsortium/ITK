@@ -59,7 +59,7 @@ public:
   }
 
 
-  // returns true if the globalName has not been registered yet.
+  // Returns true.
   //
   // It is assumed that the global will remain valid until the start
   // of globals being destroyed.
@@ -70,7 +70,8 @@ public:
                     std::function<void(void *)> func,
                     std::function<void()>       deleteFunc)
   {
-    return this->SetGlobalInstancePrivate(globalName, global, func, deleteFunc);
+    this->SetGlobalInstancePrivate(globalName, global, func, deleteFunc);
+    return true;
   }
 
   /** Set/Get the pointer to GlobalSingleton.
@@ -90,9 +91,9 @@ private:
   // work, and could use some type of Holder<T> class for intrinsic types
   void *
   GetGlobalInstancePrivate(const char * globalName);
-  // If globalName is already registered than false is return,
-  // otherwise global is added to the singleton index under globalName
-  bool
+
+  // global is added or set to the singleton index under globalName
+  void
   SetGlobalInstancePrivate(const char *                globalName,
                            void *                      global,
                            std::function<void(void *)> func,
@@ -119,11 +120,7 @@ Singleton(const char * globalName, std::function<void(void *)> func, std::functi
   if (instance == nullptr)
   {
     instance = new T;
-    if (!SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, func, deleteFunc))
-    {
-      delete instance;
-      instance = nullptr;
-    }
+    SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, func, deleteFunc);
   }
   return instance;
 }
