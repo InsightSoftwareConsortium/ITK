@@ -87,8 +87,7 @@ namespace itk
 void *
 SingletonIndex::GetGlobalInstancePrivate(const char * globalName)
 {
-  SingletonData::iterator it;
-  it = m_GlobalObjects.find(globalName);
+  const auto it = m_GlobalObjects.find(globalName);
   if (it == m_GlobalObjects.end())
   {
     return nullptr;
@@ -99,12 +98,9 @@ SingletonIndex::GetGlobalInstancePrivate(const char * globalName)
 // If globalName is already registered, set its global as specified,
 // otherwise global is added to the singleton index under globalName
 void
-SingletonIndex::SetGlobalInstancePrivate(const char *                globalName,
-                                         void *                      global,
-                                         std::function<void(void *)> func,
-                                         std::function<void()>       deleteFunc)
+SingletonIndex::SetGlobalInstancePrivate(const char * globalName, void * global, std::function<void()> deleteFunc)
 {
-  m_GlobalObjects.insert_or_assign(globalName, std::make_tuple(global, func, deleteFunc));
+  m_GlobalObjects.insert_or_assign(globalName, std::make_tuple(global, deleteFunc));
 }
 
 SingletonIndex *
@@ -128,7 +124,7 @@ SingletonIndex::~SingletonIndex()
 {
   for (auto & pair : m_GlobalObjects)
   {
-    std::get<2>(pair.second)();
+    std::get<1>(pair.second)();
   }
 }
 

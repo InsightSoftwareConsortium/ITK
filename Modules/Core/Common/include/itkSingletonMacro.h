@@ -44,16 +44,12 @@
   {                                                                                                 \
     if (m_##VarName == nullptr)                                                                     \
     {                                                                                               \
-      const auto setLambda = [](void * a) {                                                         \
-        delete m_##VarName;                                                                         \
-        m_##VarName = static_cast<Type *>(a);                                                       \
-      };                                                                                            \
       const auto deleteLambda = []() {                                                              \
         delete m_##VarName;                                                                         \
         m_##VarName = nullptr;                                                                      \
       };                                                                                            \
       auto * old_instance = SingletonIndex::GetInstance()->GetGlobalInstance<Type>(#SingletonName); \
-      m_##VarName = Singleton<Type>(#SingletonName, setLambda, deleteLambda);                       \
+      m_##VarName = Singleton<Type>(#SingletonName, {}, deleteLambda);                              \
       if (old_instance == nullptr)                                                                  \
       {                                                                                             \
         Init;                                                                                       \

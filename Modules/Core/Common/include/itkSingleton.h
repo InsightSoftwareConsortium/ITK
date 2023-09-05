@@ -47,7 +47,12 @@ class ITKCommon_EXPORT SingletonIndex
 public:
   /** Standard class types. */
   using Self = SingletonIndex;
-  using SingletonData = std::map<std::string, std::tuple<void *, std::function<void(void *)>, std::function<void()>>>;
+
+#ifndef ITK_LEGACY_REMOVE
+  using SingletonData [[deprecated("The internal representation of the singleton data is private, and may not "
+                                   "correspond with SingletonData anymore.")]] =
+    std::map<std::string, std::tuple<void *, std::function<void(void *)>, std::function<void()>>>;
+#endif
 
   // obtain a global registered in the singleton index under the
   // globalName, if unknown then nullptr will be returned.
@@ -67,10 +72,10 @@ public:
   bool
   SetGlobalInstance(const char *                globalName,
                     T *                         global,
-                    std::function<void(void *)> func,
+                    std::function<void(void *)> itkNotUsed(func),
                     std::function<void()>       deleteFunc)
   {
-    this->SetGlobalInstancePrivate(globalName, global, func, deleteFunc);
+    this->SetGlobalInstancePrivate(globalName, global, deleteFunc);
     return true;
   }
 
@@ -94,17 +99,14 @@ private:
 
   // global is added or set to the singleton index under globalName
   void
-  SetGlobalInstancePrivate(const char *                globalName,
-                           void *                      global,
-                           std::function<void(void *)> func,
-                           std::function<void()>       deleteFunc);
+  SetGlobalInstancePrivate(const char * globalName, void * global, std::function<void()> deleteFunc);
 
   /** The static GlobalSingleton. This is initialized to nullptr as the first
    * stage of static initialization. It is then populated on the first call to
    * itk::Singleton::Modified() but it can be overridden with SetGlobalSingleton().
    * */
-  SingletonData m_GlobalObjects;
-  static Self * m_Instance;
+  std::map<std::string, std::tuple<void *, std::function<void()>>> m_GlobalObjects;
+  static Self *                                                    m_Instance;
   //  static SingletonIndexPrivate * m_GlobalSingleton;
 };
 
@@ -112,7 +114,7 @@ private:
 // A wrapper for a global variable registered in the singleton index.
 template <typename T>
 T *
-Singleton(const char * globalName, std::function<void(void *)> func, std::function<void()> deleteFunc)
+Singleton(const char * globalName, std::function<void(void *)> itkNotUsed(func), std::function<void()> deleteFunc)
 {
   static SingletonIndex * singletonIndex = SingletonIndex::GetInstance();
   Unused(singletonIndex);
@@ -120,7 +122,7 @@ Singleton(const char * globalName, std::function<void(void *)> func, std::functi
   if (instance == nullptr)
   {
     instance = new T;
-    SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, func, deleteFunc);
+    SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, {}, deleteFunc);
   }
   return instance;
 }
