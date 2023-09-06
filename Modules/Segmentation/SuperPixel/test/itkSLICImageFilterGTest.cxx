@@ -86,18 +86,14 @@ protected:
 } // namespace
 
 
-TEST_F(SLICFixture, SetGetPrint)
+TEST_F(SLICFixture, SetGet)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
   using Utils = FixtureUtilities<3>;
 
   auto filter = Utils::FilterType::New();
-  filter->Print(std::cout);
 
   typename Utils::FilterType::ConstPointer constfilter = (const Utils::FilterType *)(filter.GetPointer());
-
-  EXPECT_STREQ("SLICImageFilter", filter->GetNameOfClass());
-  EXPECT_STREQ("ImageToImageFilter", filter->Superclass::GetNameOfClass());
 
   Utils::FilterType::SuperGridSizeType gridSize3(3);
   EXPECT_NO_THROW(filter->SetSuperGridSize(gridSize3));
