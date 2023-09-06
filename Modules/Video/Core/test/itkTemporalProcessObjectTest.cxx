@@ -715,7 +715,7 @@ itkTemporalProcessObjectTest(int, char *[])
   correctCallStack.emplace_back(3, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // Check that correct number of calls made
-  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size())
+  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size());
 
   // Check that call lists match
   std::cout << std::endl;
@@ -751,7 +751,7 @@ itkTemporalProcessObjectTest(int, char *[])
   tpo3->Update();
 
   // Check that correct number of calls made
-  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size())
+  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size());
 
   // Check that call lists match
   std::cout << std::endl;
@@ -786,7 +786,7 @@ itkTemporalProcessObjectTest(int, char *[])
   correctCallStack.emplace_back(3, RecordType::RecordTypeEnum::END_CALL, RecordType::MethodTypeEnum::GENERATE_DATA);
 
   // Check that correct number of calls made
-  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size())
+  ITK_TEST_EXPECT_EQUAL(itk::TemporalProcessObjectTest::m_CallStack.size(), correctCallStack.size());
 
   // Check that call lists match
   std::cout << std::endl;
@@ -819,12 +819,12 @@ itkTemporalProcessObjectTest(int, char *[])
   tpo1->UpdateOutputInformation();
 
   // Make sure the requested temporal region of tpo1's output is empty
-  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetRequestedTemporalRegion(), emptyRegion)
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetRequestedTemporalRegion(), emptyRegion);
 
   tpo1->PropagateRequestedRegion(tpo1->GetOutput());
   ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetRequestedTemporalRegion(),
-                        tpo1->GetOutput()->GetLargestPossibleTemporalRegion())
-  ITK_TEST_EXPECT_TRUE(!(tpo1->GetOutput()->GetRequestedTemporalRegion() == emptyRegion))
+                        tpo1->GetOutput()->GetLargestPossibleTemporalRegion());
+  ITK_TEST_EXPECT_TRUE(!(tpo1->GetOutput()->GetRequestedTemporalRegion() == emptyRegion));
 
   // Test that if largest possible temporal region has infinte duration,
   // request gets set to duration 1
@@ -837,8 +837,8 @@ itkTemporalProcessObjectTest(int, char *[])
   tpo1->PropagateRequestedRegion(tpo1->GetOutput());
 
   ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration(),
-                        ITK_INFINITE_FRAME_DURATION)
-  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration(), 1)
+                        ITK_INFINITE_FRAME_DURATION);
+  ITK_TEST_EXPECT_EQUAL(tpo1->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration(), 1);
 
   // Test streaming enumeration for CallRecordEnums::RecordType elements
   const std::set<itk::TemporalProcessObjectTest::CallRecordEnums::RecordType> allRecordType{
