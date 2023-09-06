@@ -248,7 +248,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
 
   std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
 
-  ITK_TEST_EXPECT_TRUE(numPixelsDifferent <= 10)
+  ITK_TEST_EXPECT_TRUE(numPixelsDifferent <= 10);
 
   std::cout << "Test running registrator without initial deformation field." << std::endl;
 
@@ -274,7 +274,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   std::cout << "Test nullptr moving image interpolator. " << std::endl;
 
   fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
-  ITK_TEST_EXPECT_TRUE(fptr)
+  ITK_TEST_EXPECT_TRUE(fptr);
 
   fptr->SetMovingImageInterpolator(nullptr);
   registrator->SetInput(initField);
