@@ -26,7 +26,6 @@
 int
 itkHistogramTest(int, char *[])
 {
-  std::cout << "Histogram Test \n \n";
   bool        pass = true;
   std::string whereFail = "";
 
@@ -54,9 +53,7 @@ itkHistogramTest(int, char *[])
   lowerBound.Fill(0);
   upperBound.Fill(1024);
 
-  //
   // Exercise exception case
-  //
   try
   {
     // purposely calling Initialize() before calling SetMeasurementVectorSize()
@@ -72,9 +69,6 @@ itkHistogramTest(int, char *[])
   }
 
 
-  //
-  // Now call SetMeasurementVectorSize() correctly
-  //
   histogram->SetMeasurementVectorSize(numberOfComponents);
 
   if (histogram->GetMeasurementVectorSize() != numberOfComponents)
@@ -83,16 +77,12 @@ itkHistogramTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  //
-  //  Exercise Initialize with size and bounds
-  //
   histogram->Initialize(size, lowerBound, upperBound);
 
   histogram->SetToZero();
 
   double interval = (upperBound[0] - lowerBound[0]) / static_cast<HistogramType::MeasurementType>(size[0]);
 
-  // tests begin
   MeasurementVectorType measurements(numberOfComponents);
   measurements.Fill(512);
 
@@ -120,7 +110,8 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex(InstanceIdentifier&)";
   }
 
-  index.Fill(-5); // test for outside below
+  // Test for outside
+  index.Fill(-5);
 
   if (!histogram->IsIndexOutOfBounds(index))
   {
@@ -129,8 +120,8 @@ itkHistogramTest(int, char *[])
     whereFail = "IsIndexOutOfBounds(IndexType)";
   }
 
-
-  index.Fill(32); // test for inside
+  // Test for inside
+  index.Fill(32);
 
   if (histogram->IsIndexOutOfBounds(index))
   {
@@ -139,7 +130,8 @@ itkHistogramTest(int, char *[])
     whereFail = "IsIndexOutOfBounds(IndexType)";
   }
 
-  index.Fill(100); // test for outside
+  // Test for outside
+  index.Fill(100);
 
   if (!histogram->IsIndexOutOfBounds(index))
   {
@@ -630,9 +622,7 @@ itkHistogramTest(int, char *[])
   }
 
 
-  //
   // Exercise GetIndex() method in the iterator.
-  //
   std::cout << "TEST GetIndex() and GetFrequency() in the iterator" << std::endl;
   itr = histogram->Begin();
   end = histogram->End();
@@ -644,9 +634,7 @@ itkHistogramTest(int, char *[])
   }
 
 
-  //
   // Exercise GetMin / GetMax methods
-  //
   {
     const double            epsilon = 1e-6;
     HistogramType::SizeType size2 = histogram->GetSize();
@@ -850,6 +838,6 @@ itkHistogramTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

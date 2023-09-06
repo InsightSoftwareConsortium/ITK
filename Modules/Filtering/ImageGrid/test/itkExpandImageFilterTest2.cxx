@@ -189,11 +189,10 @@ DoubleToStringArray(double * a, unsigned int size)
 int
 itkExpandImageFilterTest2(int, char *[])
 {
-  // return EXIT_FAILURE;
   int statusValue = EXIT_SUCCESS;
 
-  /// Test 1D: A 5 pixel long 1D image with 2 channels.  Using a NearestNeighborInterpolator for simplicity.  Expanding
-  /// by 2.
+  // Test 1D: A 5 pixel long 1D image with 2 channels.  Using a NearestNeighborInterpolator for simplicity.  Expanding
+  // by 2.
   VectorImage1D::SizeType size1D = { { 5 } };
 
   VectorImage1D::Pointer input1D = GetVectorTestImage<VectorImage1D>(size1D, 2);
@@ -213,8 +212,8 @@ itkExpandImageFilterTest2(int, char *[])
   expander1D->Update();
   VectorImage1D::Pointer output1D = expander1D->GetOutput();
 
-  std::cout << "Output 1D: \n";
-  std::cout << PrintTestImage1D<VectorImage1D>(output1D) << '\n';
+  std::cout << "Output 1D: " << std::endl;
+  std::cout << PrintTestImage1D<VectorImage1D>(output1D) << std::endl;
 
   auto s1 = output1D->GetLargestPossibleRegion().GetSize()[0];
 
@@ -239,8 +238,8 @@ itkExpandImageFilterTest2(int, char *[])
     statusValue = EXIT_FAILURE;
   }
 
-  /// Test 3D: a 3 x 3 4-channel image.  Like above, incremental pixel values along each channel, dim 0, dim 1, dim 2.
-  /// Channel 1 values are 1-27, Channel 2 is 28-54, etc.  Expanding by 2 along dim 1.
+  // Test 3D: a 3 x 3 4-channel image.  Like above, incremental pixel values along each channel, dim 0, dim 1, dim 2.
+  // Channel 1 values are 1-27, Channel 2 is 28-54, etc.  Expanding by 2 along dim 1.
   VectorImage3D::SizeType size3D = { { 3, 3, 3 } };
   VectorImage3D::Pointer  input3D = GetVectorTestImage<VectorImage3D>(size3D, 4);
 
@@ -261,8 +260,8 @@ itkExpandImageFilterTest2(int, char *[])
 
   VectorImage3D::Pointer output3D = expander3D->GetOutput();
 
-  std::cout << "Output 3D: \n";
-  std::cout << PrintTestImage3D<VectorImage3D>(output3D) << '\n';
+  std::cout << "Output 3D: " << std::endl;
+  std::cout << PrintTestImage3D<VectorImage3D>(output3D) << std::endl;
 
   VectorImage3D::SizeType s2 = output3D->GetLargestPossibleRegion().GetSize();
   double                  d3[3] = { 3, 6, 3 };
@@ -303,5 +302,8 @@ itkExpandImageFilterTest2(int, char *[])
     std::cerr << " , but got: " << DoubleToStringArray(slice3Out, 6) << std::endl;
     statusValue = EXIT_FAILURE;
   }
+
+
+  std::cout << "Test finished." << std::endl;
   return statusValue;
 }

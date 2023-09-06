@@ -94,20 +94,15 @@ public:
 int
 itkWarpImageFilterTest(int, char *[])
 {
+  constexpr unsigned int ImageDimension = 2;
+
   using PixelType = float;
-  enum
-  {
-    ImageDimension = 2
-  };
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using VectorImageType = itk::VectorImage<PixelType, ImageDimension>;
   using VectorType = itk::Vector<float, ImageDimension>;
   using FieldType = itk::Image<VectorType, ImageDimension>;
 
   int testPassed = EXIT_SUCCESS;
-
-
-  //=============================================================
 
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
@@ -121,11 +116,10 @@ itkWarpImageFilterTest(int, char *[])
 
   ImageType::PixelType padValue = 4.0;
 
-  int                          j;
   ImagePattern<ImageDimension> pattern;
 
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }
@@ -137,8 +131,6 @@ itkWarpImageFilterTest(int, char *[])
     inIter.Set(pattern.Evaluate(inIter.GetIndex(), size, size, padValue));
   }
 
-  //=============================================================
-
   std::cout << "Create the input displacement field." << std::endl;
 
   // Tested with { 2, 4 } and { 2, 5 } as well...
@@ -146,7 +138,7 @@ itkWarpImageFilterTest(int, char *[])
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     fieldSize[j] = size[j] * factors[j] + 5;
   }
@@ -163,23 +155,19 @@ itkWarpImageFilterTest(int, char *[])
   {
     ImageType::IndexType index = fieldIter.GetIndex();
     VectorType           displacement;
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       displacement[j] = static_cast<float>(index[j]) * ((1.0 / factors[j]) - 1.0);
     }
     fieldIter.Set(displacement);
   }
 
-  //=============================================================
-  std::cout << "Instantiate WarpImageFilter with VectorImage.";
-  std::cout << std::endl;
+  std::cout << "Instantiate WarpImageFilter with VectorImage." << std::endl;
 
   using WarpVectorImageFilterType = itk::WarpImageFilter<VectorImageType, VectorImageType, VectorImageType>;
   auto warpVectorImageFilter = WarpVectorImageFilterType::New();
 
-  //=============================================================
-  std::cout << "Run WarpImageFilter in standalone mode with progress.";
-  std::cout << std::endl;
+  std::cout << "Run WarpImageFilter in standalone mode with progress." << std::endl;
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
   auto warper = WarperType::New();
 
@@ -242,8 +230,6 @@ itkWarpImageFilterTest(int, char *[])
   // Update the filter
   warper->Update();
 
-  //=============================================================
-
   std::cout << "Checking the output against expected." << std::endl;
 
   // compute non-padded output region
@@ -256,7 +242,7 @@ itkWarpImageFilterTest(int, char *[])
   ImageType::SizeType decrementForScaling;
   ImageType::SizeType clampSizeDecrement;
   ImageType::SizeType clampSize;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     validSize[j] = size[j] * factors[j];
 
@@ -290,7 +276,7 @@ itkWarpImageFilterTest(int, char *[])
   validRegion.SetSize(validSize);
 
   // adjust the pattern coefficients to match
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] /= static_cast<double>(factors[j]);
   }
@@ -334,10 +320,7 @@ itkWarpImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  //=============================================================
-
-  std::cout << "Run ExpandImageFilter with streamer";
-  std::cout << std::endl;
+  std::cout << "Run ExpandImageFilter with streamer" << std::endl;
 
   using VectorCasterType = itk::CastImageFilter<FieldType, FieldType>;
   auto vcaster = VectorCasterType::New();
@@ -356,7 +339,6 @@ itkWarpImageFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();
 
-  //=============================================================
   std::cout << "Compare standalone and streamed outputs" << std::endl;
 
   Iterator streamIter(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());
@@ -393,6 +375,6 @@ itkWarpImageFilterTest(int, char *[])
   warper->SetInterpolator(interp);
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return testPassed;
 }

@@ -74,17 +74,12 @@ public:
 int
 itkExpandImageFilterTest(int, char *[])
 {
+  constexpr unsigned int ImageDimension = 2;
+
   using PixelType = float;
-  enum
-  {
-    ImageDimension = 2
-  };
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   int testPassed = EXIT_SUCCESS;
-
-
-  //=============================================================
 
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
@@ -96,10 +91,9 @@ itkExpandImageFilterTest(int, char *[])
   input->SetBufferedRegion(region);
   input->Allocate();
 
-  int                          j;
   ImagePattern<ImageDimension> pattern;
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }
@@ -113,10 +107,7 @@ itkExpandImageFilterTest(int, char *[])
     ++inIter;
   }
 
-  //=============================================================
-
-  std::cout << "Run ExpandImageFilter in standalone mode with progress.";
-  std::cout << std::endl;
+  std::cout << "Run ExpandImageFilter in standalone mode with progress." << std::endl;
   using ExpanderType = itk::ExpandImageFilter<ImageType, ImageType>;
   auto expander = ExpanderType::New();
 
@@ -143,8 +134,6 @@ itkExpandImageFilterTest(int, char *[])
 
   expander->Print(std::cout);
   expander->Update();
-
-  //=============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
   Iterator outIter(expander->GetOutput(), expander->GetOutput()->GetBufferedRegion());
@@ -196,10 +185,7 @@ itkExpandImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  //=============================================================
-
-  std::cout << "Run ExpandImageFilter with streamer";
-  std::cout << std::endl;
+  std::cout << "Run ExpandImageFilter with streamer" << std::endl;
 
   using CasterType = itk::CastImageFilter<ImageType, ImageType>;
   auto caster = CasterType::New();
@@ -220,7 +206,6 @@ itkExpandImageFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();
 
-  //=============================================================
   std::cout << "Compare standalone and streamed outputs" << std::endl;
 
   Iterator streamIter(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());
@@ -263,6 +248,6 @@ itkExpandImageFilterTest(int, char *[])
   expander->SetInterpolator(interpolator);
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return testPassed;
 }

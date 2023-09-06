@@ -102,9 +102,6 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   bool testPassed = true;
 
-
-  //=============================================================
-
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
   ImageType::SizeType   size = { { 64, 64 } };
@@ -132,8 +129,6 @@ itkWarpVectorImageFilterTest(int, char *[])
   {
     inIter.Set(PixelType(pattern.Evaluate(inIter.GetIndex(), size, size, padValue)));
   }
-
-  //=============================================================
 
   std::cout << "Create the input displacement field." << std::endl;
 
@@ -165,10 +160,7 @@ itkWarpVectorImageFilterTest(int, char *[])
     fieldIter.Set(displacement);
   }
 
-  //=============================================================
-
-  std::cout << "Run WarpVectorImageFilter in standalone mode with progress.";
-  std::cout << std::endl;
+  std::cout << "Run WarpVectorImageFilter in standalone mode with progress." << std::endl;
   using WarperType = itk::WarpVectorImageFilter<ImageType, ImageType, FieldType>;
   auto warper = WarperType::New();
 
@@ -213,8 +205,6 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   // Update the filter
   warper->Update();
-
-  //=============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
 
@@ -273,7 +263,6 @@ itkWarpVectorImageFilterTest(int, char *[])
 
     if (validRegion.IsInside(index))
     {
-
       PixelType trueValue(pattern.Evaluate(outIter.GetIndex(), validSize, clampSize, padValue));
       for (unsigned int k = 0; k < ImageDimension; ++k)
       {
@@ -290,7 +279,6 @@ itkWarpVectorImageFilterTest(int, char *[])
     }
     else
     {
-
       if (value != PixelType(padValue))
       {
         std::cerr << "Test failed!" << std::endl;
@@ -303,10 +291,7 @@ itkWarpVectorImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  //=============================================================
-
-  std::cout << "Run ExpandImageFilter with streamer";
-  std::cout << std::endl;
+  std::cout << "Run ExpandImageFilter with streamer" << std::endl;
 
   using VectorCasterType = itk::CastImageFilter<FieldType, FieldType>;
   auto vcaster = VectorCasterType::New();
@@ -325,7 +310,6 @@ itkWarpVectorImageFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();
 
-  //=============================================================
   std::cout << "Compare standalone and streamed outputs" << std::endl;
 
   Iterator streamIter(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());
@@ -370,6 +354,6 @@ itkWarpVectorImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(interp, warper->GetInterpolator());
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

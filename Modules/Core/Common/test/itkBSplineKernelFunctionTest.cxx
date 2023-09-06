@@ -20,10 +20,6 @@
 #include "itkTestingMacros.h"
 
 
-/*
- * This test exercises the BSpline kernel function
- * of various orders.
- */
 int
 itkBSplineKernelFunctionTest(int, char *[])
 {
@@ -206,7 +202,6 @@ itkBSplineKernelFunctionTest(int, char *[])
 
   // Testing case of unimplemented spline order
   {
-
     using FunctionType = itk::BSplineKernelFunction<7>;
     auto function = FunctionType::New();
 
@@ -215,7 +210,6 @@ itkBSplineKernelFunctionTest(int, char *[])
 
   // Testing case of unimplemented spline order
   {
-
     using FunctionType = itk::BSplineDerivativeKernelFunction<5>;
     auto function = FunctionType::New();
 
@@ -223,6 +217,6 @@ itkBSplineKernelFunctionTest(int, char *[])
   }
 
 
-  std::cout << "Test passed. " << std::endl;
+  std::cout << "Test finished. " << std::endl;
   return EXIT_SUCCESS;
 }

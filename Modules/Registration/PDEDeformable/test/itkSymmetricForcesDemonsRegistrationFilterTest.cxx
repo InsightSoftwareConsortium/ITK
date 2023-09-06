@@ -181,7 +181,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
 
 
-  std::cout << "\n\n\nPrinting function" << std::endl;
+  std::cout << "Printing function" << std::endl;
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
   auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   if (fptr != nullptr)
@@ -229,7 +229,6 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
 
   std::cout << "Registration RMS change: " << registrator->GetRMSChange() << std::endl;
 
-  // ---------------------------------------------------------
   std::cout << "Compare warped moving and fixed." << std::endl;
 
   // compare the warp and fixed images
@@ -251,8 +250,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(numPixelsDifferent <= 10)
 
-  std::cout << "Test running registrator without initial deformation field.";
-  std::cout << std::endl;
+  std::cout << "Test running registrator without initial deformation field." << std::endl;
 
   registrator->SetInput(nullptr);
   registrator->SetNumberOfIterations(2);
@@ -284,6 +282,6 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(registrator->Update());
 
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

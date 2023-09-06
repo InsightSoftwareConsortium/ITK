@@ -320,7 +320,7 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(DummyTemporalProcessObject, TemporalProcessObject);
 
-  /*-REQUIRED IMPLEMENTATIONS------------------------------------------------*/
+  // Required implementations
 
   /** TemporalStreamingGenerateData */
   void
@@ -454,7 +454,7 @@ public:
     return this->m_InputStencilCurrentFrameIndex;
   }
 
-  /*-DEBUG OVERRIDES---------------------------------------------------------*/
+  // Debug overrides
 
   /** Override Update for debug output */
   void
@@ -522,18 +522,15 @@ private:
 } // end namespace TemporalProcessObjectTest
 } // end namespace itk
 
-/**
- * Test functionality of itkTemporalProcessObject
- */
+
 int
 itkTemporalProcessObjectTest(int, char *[])
 {
 
   using SizeValueType = itk::SizeValueType;
   using OffsetValueType = itk::OffsetValueType;
-  //////
+
   // Set up pipeline
-  //////
 
   // Create 3 new DummyTemporalProcessObjects
   using TPOType = itk::TemporalProcessObjectTest::DummyTemporalProcessObject;
@@ -588,9 +585,7 @@ itkTemporalProcessObjectTest(int, char *[])
   // Fill the TemporalDataObject input with frames for the entire region
   tdo->SetBufferToXNewFrames(largestRegion.GetFrameDuration());
 
-  //////
   // Test results of LargestTemporalRegion computation
-  //////
 
   // Update to get largest possible temporal region information
   tpo3->UpdateOutputInformation();
@@ -605,9 +600,7 @@ itkTemporalProcessObjectTest(int, char *[])
   ITK_TEST_EXPECT_EQUAL(tpo3->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration(), 24);
   ITK_TEST_EXPECT_EQUAL(tpo3->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart(), 2);
 
-  //////
   // Test results of requested region propagation
-  //////
 
   // Set up requested region for the end of the pipeline
   itk::TemporalRegion endLargestPossibleRegion = tpo3->GetOutput()->GetLargestPossibleTemporalRegion();
@@ -637,9 +630,7 @@ itkTemporalProcessObjectTest(int, char *[])
   ITK_TEST_EXPECT_EQUAL(tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameDuration(), 5);
   ITK_TEST_EXPECT_EQUAL(tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameStart(), 2);
 
-  //////
   // Test Generation of data
-  //////
 
   // Call update to execute the entire pipeline and track the call stack
   itk::TemporalProcessObjectTest::m_CallStack.clear();
@@ -734,12 +725,10 @@ itkTemporalProcessObjectTest(int, char *[])
     }
   }
 
-  //////
   // Test Generation of next output frame -- Since tpo3 skips two frames of
   // input for every frame of output and tpo2 can only generate 3 outputs at a
   // time, tpo2 must generate 6,7,8 (none of which are already buffered), so
   // the entire pipeline runs again (so the call stack should be the same).
-  //////
 
   // Set the requested region to the next output frame
   finalRequest.SetFrameStart(finalRequest.GetFrameStart() + 1);
@@ -770,10 +759,9 @@ itkTemporalProcessObjectTest(int, char *[])
     }
   }
 
-  //////
   // Call Update again and make sure that nothing happens except one call to
   // GenerateData at the bottom which doesn't end up needing to do anything
-  //////
+
   itk::TemporalProcessObjectTest::m_CallStack.clear();
   tpo3->Update();
 
@@ -805,11 +793,9 @@ itkTemporalProcessObjectTest(int, char *[])
     }
   }
 
-  //////
   // Test that the requested temporal region for the output of a temporal
   // process object gets set to the largest possible temporal region if no
   // temporal region has been set
-  //////
 
   // Reset tpo1 and the requsted temporal region of tdo
   tpo1 = TPOType::New();
@@ -863,8 +849,6 @@ itkTemporalProcessObjectTest(int, char *[])
   }
 
 
-  //////
-  // Return successfully
-  //////
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
