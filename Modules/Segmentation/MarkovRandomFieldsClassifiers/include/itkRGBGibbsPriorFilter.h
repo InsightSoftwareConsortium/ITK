@@ -34,12 +34,18 @@ namespace itk
  *
  * The core of the method is based on the minimization of a Gibbsian energy function.
  * This energy function f can be divided into three part:
- *   f = f_1 + f_2 + f_3;
- * f_1 is related to the object homogeneity,
- * f_2 is related to the boundary smoothness,
- * f_3 is related to the constraint of the observation (or the noise model).
- * The two force components f_1 and f_3 are minimized by the GradientEnergy
- * method while f_2 is minimized by the GibbsTotalEnergy method.
+ *
+ *  \f[
+ *    f = f_1 + f_2 + f_3
+ *  \f]
+ *
+ * where
+ * \f$f_1\f$ is related to the object homogeneity,
+ * \f$f_2\f$ is related to the boundary smoothness,
+ * \f$f_3\f$ is related to the constraint of the observation (or the noise model).
+ *
+ * The two force components \f$f_1\f$ and \f$f_3\f$ are minimized by the GradientEnergy
+ * method while \f$f_2\f$ is minimized by the GibbsTotalEnergy method.
  *
  * This filter only works with 3D images.
  *
@@ -85,21 +91,21 @@ public:
   using TrainingImageType = typename TClassifiedImage::Pointer;
 
   /** Type definitions for the labelled image.
-   *  It is derived from the training image. */
+   * Derived from the training image. */
   using LabelledImageType = typename TClassifiedImage::Pointer;
 
   /** Type definition for the classified image index type. */
   using LabelledImageIndexType = typename TClassifiedImage::IndexType;
 
-  /** Type used as identifier for the Labels
-   \warning -1 cannot be used as the identifier for unlabeled pixels
-   the NumericTraits<>::max() value is used for indicating unlabeled pixels */
+  /** Type used as identifier for the labels.
+   * \warning -1 cannot be used as the identifier for unlabeled pixels
+   * the NumericTraits<>::max() value is used for indicating unlabeled pixels */
   using LabelType = unsigned int;
 
   /** Type definitions for classifier to be used for the MRF labeling. */
   using ClassifierType = ImageClassifierBase<TInputImage, TClassifiedImage>;
 
-  /** The type of input pixel. */
+  /** Input pixel type. */
   using InputImageVecType = typename TInputImage::PixelType;
   using IndexType = typename TInputImage::IndexType;
 
@@ -117,11 +123,11 @@ public:
     return m_LabelledImage;
   }
 
-  /** Set the pointer to the classifier being used. */
+  /** Set the classifier. */
   void
   SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
-  /** Set the Number of classes. */
+  /** Set the number of classes. */
   void
   SetNumberOfClasses(const unsigned int numberOfClasses) override
   {
@@ -133,7 +139,7 @@ public:
     }
   }
 
-  /** Get the Number of classes. */
+  /** Get the number of classes. */
   unsigned int
   GetNumberOfClasses() const override
   {
@@ -176,7 +182,7 @@ public:
 
   itkSetMacro(ObjectThreshold, double);
 
-  /** set and get the value for Clique weights */
+  /** Set/Get the value for clique weights. */
   itkSetMacro(CliqueWeight_1, double);
   itkGetConstMacro(CliqueWeight_1, double);
   itkSetMacro(CliqueWeight_2, double);
@@ -190,7 +196,7 @@ public:
   itkSetMacro(CliqueWeight_6, double);
   itkGetConstMacro(CliqueWeight_6, double);
 
-  /** Specify the type of matrix to use. */
+  /** Type of matrix to use. */
   using MatrixType = vnl_matrix<double>;
 
 protected:
@@ -199,8 +205,9 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  /** Allocate memory for classified image pixel status. */
   void
-  Allocate(); /** allocate memory space for the filter. */
+  Allocate();
 
   void
   MinimizeFunctional() override;
@@ -226,81 +233,105 @@ protected:
 private:
   using InputImageSizeType = typename TInputImage::SizeType;
 
-  InputImageConstPointer m_InputImage{};          /** the input */
-  TrainingImageType      m_TrainingImage{};       /** image to train the
-                                                  filter. */
-  LabelledImageType m_LabelledImage{};            /** output */
-  unsigned int      m_NumberOfClasses{ 0 };       /** the number of class
-                                                 need to be classified.
-                                                 */
-  unsigned int m_MaximumNumberOfIterations{ 10 }; /** number of the
-                                                iteration. */
+  /** Input. */
+  InputImageConstPointer m_InputImage{};
+  /** Image to train the filter. */
+  TrainingImageType m_TrainingImage{};
+  /** Output. */
+  LabelledImageType m_LabelledImage{};
+  /** Number of classes that need to be classified. */
+  unsigned int m_NumberOfClasses{ 0 };
+  /** Maximum number of iterations. */
+  unsigned int m_MaximumNumberOfIterations{ 10 };
 
   typename ClassifierType::Pointer m_ClassifierPtr{};
 
-  unsigned int m_BoundaryGradient{ 7 };                  /** the threshold for the existence of a
-                                                        boundary. */
-  double                       m_BoundaryWeight{ 1 };    /** weight for H_1 */
-  double                       m_GibbsPriorWeight{ 1 };  /** weight for H_2 */
-  int                          m_StartRadius{ 10 };      /** define the start region of the object. */
-  int                          m_RecursiveNumber{ 0 };   /** number of SA iterations. */
-  std::unique_ptr<LabelType[]> m_LabelStatus{ nullptr }; /** array for the state of each pixel. */
+  /** Threshold for the existence of a boundary. */
+  unsigned int m_BoundaryGradient{ 7 };
+  /** Weight for \f$H_1\f$. */
+  double m_BoundaryWeight{ 1 };
+  /** Weight for \f$H_2\f$. */
+  double m_GibbsPriorWeight{ 1 };
+  /** Start region of the object. */
+  int m_StartRadius{ 10 };
+  /** Number of SA iterations. */
+  int m_RecursiveNumber{ 0 };
+  /** Array to store the state of each pixel. */
+  std::unique_ptr<LabelType[]> m_LabelStatus{ nullptr };
 
-  InputImagePointer m_MediumImage{}; /** the medium image to store intermediate
-                                     result */
+  /** Intermediate restult image. */
+  InputImagePointer m_MediumImage{};
 
-  unsigned int m_Temp{ 0 };    /** for SA algo. */
-  IndexType    m_StartPoint{}; /** the seed of object */
+  /** Used by the SA algorithm. */
+  unsigned int m_Temp{ 0 };
+  /** Seeed. */
+  IndexType m_StartPoint{};
 
-  unsigned int m_ImageWidth{ 0 }; /** image size. */
+  /** Image width. */
+  unsigned int m_ImageWidth{ 0 };
+  /** Image height. */
   unsigned int m_ImageHeight{ 0 };
+  /** Image depth. */
   unsigned int m_ImageDepth{ 0 };
-  unsigned int m_ClusterSize{ 10 };  /** region size smaller than the threshold will
-                                   be erased. */
-  LabelType      m_ObjectLabel{ 1 }; /** the label for object region. */
-  unsigned int   m_VecDim{ 0 };      /** the channel number in the image. */
-  InputPixelType m_LowPoint{};       /** the point give lowest value of H-1 in
-                                     neighbor. */
+  /** Region sizes smaller than this threshold value will be erased. */
+  unsigned int m_ClusterSize{ 10 };
+  /** Label for object region. */
+  LabelType m_ObjectLabel{ 1 };
+  /** Number of channels in the image. */
+  unsigned int m_VecDim{ 0 };
+  /** Point giving lowest value of \f$H_1\f$ in neighborhood. */
+  InputPixelType m_LowPoint{};
 
-  std::unique_ptr<unsigned short[]> m_Region{ nullptr };      /** for region erase. */
-  std::unique_ptr<unsigned short[]> m_RegionCount{ nullptr }; /** for region erase. */
+  /** Used for erasing regions. */
+  std::unique_ptr<unsigned short[]> m_Region{ nullptr };
+  /** Used for erasing regions. */
+  std::unique_ptr<unsigned short[]> m_RegionCount{ nullptr };
 
-  /** weights for different clique configuration. */
-  double m_CliqueWeight_1{ 0.0 }; /** weight for cliques that v/h smooth boundary */
-  double m_CliqueWeight_2{ 0.0 }; /** weight for clique that has an intermediate
-                               smooth boundary */
-  double m_CliqueWeight_3{ 0.0 }; /** weight for clique that has a diagonal smooth
-                               boundary */
-  double m_CliqueWeight_4{ 0.0 }; /** weight for clique consists only object pixels */
-  double m_CliqueWeight_5{ 0.0 }; /** weight for clique consists only background
-                               pixels */
-  double m_CliqueWeight_6{ 0.0 }; /** weight for clique other than these */
+  // Weights for different clique configurations.
 
-  /** calculate H_2. */
+  /** Weight for cliques that v/h smooth boundary. */
+  double m_CliqueWeight_1{ 0.0 };
+  /** Weight for clique that has an intermediate smooth boundary. */
+  double m_CliqueWeight_2{ 0.0 };
+  /** Weight for clique that has a diagonal smooth boundary. */
+  double m_CliqueWeight_3{ 0.0 };
+  /** Weight for clique consists only object pixels. */
+  double m_CliqueWeight_4{ 0.0 };
+  /** Weight for clique consists only background pixels. */
+  double m_CliqueWeight_5{ 0.0 };
+  /** Weight for other cliques. */
+  double m_CliqueWeight_6{ 0.0 };
+
+  /** Minimize the local characteristic \f$f_2\f$ term in the energy function.
+   * Calculates \f$H_2\f$. */
   void
   GibbsTotalEnergy(int i);
 
-  /** calculate the energy in each cluster. */
+  /** Calculate the energy in each cluster. */
   double
   GibbsEnergy(unsigned int i, unsigned int k, unsigned int k1);
 
+  /** Check if the values are identical. */
   int
-  Sim(int a, int b); /** method to return 1 when a equal to b. */
+  Sim(int a, int b);
 
+  /** Label a region. */
   unsigned int
-  LabelRegion(int i, int l, int change); /** help to erase the
-                                           small region. */
+  LabelRegion(int i, int l, int change);
 
+  /** Erase small regions.
+   * Removes the tiny bias inside the object region. */
   void
-  RegionEraser(); /** erase the small region. */
+  RegionEraser();
 
+  /** Create the intermediate image. */
   void
-  GenerateMediumImage(); /** create the intermediate image.
-                          */
+  GenerateMediumImage();
 
+  /** Smooth the image in piecewise fashion.
+   * Calculates \f$H_1\f$. */
   void
-  GreyScalarBoundary(LabelledImageIndexType Index3D); /** calculate H_1.
-                                                       */
+  GreyScalarBoundary(LabelledImageIndexType Index3D);
 
   double m_ObjectThreshold{ 5.0 };
 };
