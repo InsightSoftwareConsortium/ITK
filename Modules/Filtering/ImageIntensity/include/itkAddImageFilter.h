@@ -68,7 +68,8 @@ namespace itk
  *
  * \warning No numeric overflow checking is performed in this filter.
  *
- * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
  * \sphinx

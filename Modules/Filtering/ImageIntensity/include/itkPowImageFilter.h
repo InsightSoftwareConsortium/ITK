@@ -84,7 +84,8 @@ public:
    SetConstant2( constant );
    \endcode
  *
- * \ingroup IntensityImageFilters  MultiThreaded
+ * \ingroup IntensityImageFilters
+ * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
  */
