@@ -49,7 +49,7 @@
         m_##VarName = nullptr;                                                                      \
       };                                                                                            \
       auto * old_instance = SingletonIndex::GetInstance()->GetGlobalInstance<Type>(#SingletonName); \
-      m_##VarName = Singleton<Type>(#SingletonName, {}, deleteLambda);                              \
+      m_##VarName = Singleton<Type>(#SingletonName, deleteLambda);                                  \
       if (old_instance == nullptr)                                                                  \
       {                                                                                             \
         Init;                                                                                       \
