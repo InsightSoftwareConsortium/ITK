@@ -1,15 +1,16 @@
 /*
  * test program for NIFTI lib.
  */
+#include <stdbool.h>
 #include <nifti1_io.h>
 enum NIFTITEST_BOOL {
   NIFTITEST_TRUE=1,
   NIFTITEST_FALSE=0
 };
 
-static void PrintTest_eng(const int line,const char * message,const int FailureOccured, const enum NIFTITEST_BOOL isFatal,int *ErrorAccum)
+static void PrintTest_eng(const int line,const char * message,const int FailureOccured, const enum NIFTITEST_BOOL isFatal,int *ErrorAccum,bool verbose)
 {
-  if(FailureOccured==NIFTITEST_TRUE)  /* This line can be commented out for a more verbose output */
+  if(verbose || FailureOccured==NIFTITEST_TRUE)
     {
     char const * const PREFIX= (FailureOccured)?"==========ERROR":"..........SUCCESS";
     char const * const ISFATALPREFIX= (isFatal && FailureOccured)?" FATAL":"";
@@ -23,8 +24,9 @@ static void PrintTest_eng(const int line,const char * message,const int FailureO
       }
     }
   }
+/* Pass true instead of false for a more verbose output */
 #define PrintTest(message,failure,isfailure,errorcount) \
-  PrintTest_eng(__LINE__,message,failure,isfailure,errorcount)
+  PrintTest_eng(__LINE__,message,failure,isfailure,errorcount,false)
 
 static nifti_image * generate_reference_image( const char * write_image_filename , int * const Errors)
 {
@@ -167,14 +169,13 @@ static void compare_reference_image_values(nifti_image const * const reference_i
   PrintTest("Checking description",(strncmp(reference_image->descrip,reloaded_image->descrip,80))!=0,NIFTITEST_FALSE,Errors);
 }
 
-int main (int argc, char *argv[])
+int main (int argc, const char *argv[])
 {
   if (argc > 1)
   {
     printf("The test program takes no arguments: %s", argv[0]);
     return EXIT_FAILURE;
   }
-  char TEMP_STR[256];
   nifti_set_debug_level(3);
   int Errors=0;
   {
@@ -283,7 +284,7 @@ int main (int argc, char *argv[])
 
     nifti_image      * nim_orig, * nim_select;
 
-    int                blist[5] = { 7, 0, 5, 5, 9 };
+    const int          blist[5] = { 7, 0, 5, 5, 9 };
 
     /*
      * test some error paths in the nifti_image_read_bricks
@@ -416,6 +417,7 @@ int main (int argc, char *argv[])
   unsigned int fni;
   for(fni=0;fni<NUM_FILE_NAMES;fni++)
     {
+    char TEMP_STR[256];
     printf("\nTesting \"%s\" filename\n",FILE_NAMES[fni]);
     {
     int KnownValid=nifti_validfilename(FILE_NAMES[fni]);

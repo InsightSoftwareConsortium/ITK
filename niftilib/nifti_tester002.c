@@ -4,7 +4,7 @@
  * extension list, which could cause all sorts of grief.
  */
 #include <nifti1_io.h>
-int main (int argc, char *argv[])
+int main (int argc, const char *argv[])
 {
   if (argc > 1)
   {
