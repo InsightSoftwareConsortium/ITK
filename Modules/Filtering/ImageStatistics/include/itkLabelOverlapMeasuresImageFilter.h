@@ -196,12 +196,15 @@ public:
 protected:
   LabelOverlapMeasuresImageFilter();
   ~LabelOverlapMeasuresImageFilter() override = default;
+
+  /** Type to use for printing label values (e.g. in warnings). */
+  using PrintType = typename NumericTraits<LabelType>::PrintType;
+
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
   BeforeStreamedGenerateData() override;
-
 
   void
   ThreadedStreamedGenerateData(const RegionType &) override;

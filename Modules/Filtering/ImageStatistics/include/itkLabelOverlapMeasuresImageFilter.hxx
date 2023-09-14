@@ -174,7 +174,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetTargetOverlap(LabelType label) 
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
-    itkWarningMacro("Label " << label << " not found.");
+    itkWarningMacro("Label " << static_cast<PrintType>(label) << " not found.");
     return 0.0;
   }
 
@@ -225,7 +225,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap(LabelType label) c
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
-    itkWarningMacro("Label " << label << " not found.");
+    itkWarningMacro("Label " << static_cast<PrintType>(label) << " not found.");
     return 0.0;
   }
 
@@ -292,7 +292,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity(LabelType labe
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
-    itkWarningMacro("Label " << label << " not found.");
+    itkWarningMacro("Label " << static_cast<PrintType>(label) << " not found.");
     return 0.0;
   }
   RealType value = 2.0 *
@@ -335,7 +335,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError(LabelType la
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
-    itkWarningMacro("Label " << label << " not found.");
+    itkWarningMacro("Label " << static_cast<PrintType>(label) << " not found.");
     return 0.0;
   }
 
@@ -391,7 +391,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType la
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
-    itkWarningMacro("Label " << label << " not found.");
+    itkWarningMacro("Label " << static_cast<PrintType>(label) << " not found.");
     return 0.0;
   }
 
@@ -446,7 +446,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseDiscoveryRate(LabelType la
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
-    itkWarningMacro("Label " << label << " not found.");
+    itkWarningMacro("Label " << static_cast<PrintType>(label) << " not found.");
     return 0.0;
   }
 
