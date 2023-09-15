@@ -292,7 +292,7 @@ private:
   mutable GPUReduction<float>::Pointer m_GPUSquaredDifference{};
 
   /** Mutex lock to protect modification to metric. */
-  mutable std::mutex m_MetricCalculationLock{};
+  mutable std::mutex m_MetricCalculationMutex{};
 };
 } // end namespace itk
 

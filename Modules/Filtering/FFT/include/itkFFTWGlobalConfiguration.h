@@ -367,7 +367,7 @@ private:
 
   static FFTWGlobalConfigurationGlobals * m_PimplGlobals;
 
-  std::mutex  m_Lock;
+  std::mutex  m_Mutex;
   bool        m_NewWisdomAvailable{ false };
   int         m_PlanRigor{ 0 };
   bool        m_WriteWisdomCache{ false };

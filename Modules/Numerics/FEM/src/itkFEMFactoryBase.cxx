@@ -42,7 +42,7 @@
 namespace itk
 {
 FEMFactoryBase * FEMFactoryBase::m_Factory = nullptr;
-std::mutex       FEMFactoryBase::m_CreationLock;
+std::mutex       FEMFactoryBase::m_CreationMutex;
 
 FEMFactoryBase::FEMFactoryBase() = default;
 

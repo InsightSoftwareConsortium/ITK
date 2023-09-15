@@ -57,7 +57,7 @@ PlatformMultiThreader::PlatformMultiThreader()
 #endif
 
     m_SpawnedThreadActiveFlag[i] = 0;
-    m_SpawnedThreadActiveFlagLock[i] = nullptr;
+    m_SpawnedThreadActiveFlagMutex[i] = nullptr;
     m_SpawnedThreadInfoArray[i].WorkUnitID = i;
   }
 }

@@ -75,7 +75,7 @@ public:
   {
     if (m_Factory == nullptr)
     {
-      const std::lock_guard<std::mutex> lockGuard(m_CreationLock);
+      const std::lock_guard<std::mutex> lockGuard(m_CreationMutex);
       // Need to make sure that during gaining access
       // to the lock that some other thread did not
       // initialize the singleton.
@@ -110,7 +110,7 @@ protected:
   ~FEMFactoryBase() override;
 
 private:
-  static std::mutex       m_CreationLock;
+  static std::mutex       m_CreationMutex;
   static FEMFactoryBase * m_Factory;
 };
 } // end namespace itk
