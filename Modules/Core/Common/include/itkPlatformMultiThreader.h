@@ -162,7 +162,7 @@ private:
   /** Storage of MutexFunctions and ints used to control spawned
    *  threads and the spawned thread ids. */
   int                         m_SpawnedThreadActiveFlag[ITK_MAX_THREADS]{};
-  std::shared_ptr<std::mutex> m_SpawnedThreadActiveFlagLock[ITK_MAX_THREADS]{};
+  std::shared_ptr<std::mutex> m_SpawnedThreadActiveFlagMutex[ITK_MAX_THREADS]{};
   ThreadProcessIdType         m_SpawnedThreadProcessID[ITK_MAX_THREADS]{};
   WorkUnitInfo                m_SpawnedThreadInfoArray[ITK_MAX_THREADS]{};
 

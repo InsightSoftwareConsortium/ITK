@@ -48,7 +48,7 @@ struct FFTWGlobalConfigurationGlobals
     : m_Instance(nullptr){};
 
   FFTWGlobalConfiguration::Pointer m_Instance;
-  std::mutex                       m_CreationLock;
+  std::mutex                       m_CreationMutex;
 };
 
 WisdomFilenameGeneratorBase::WisdomFilenameGeneratorBase() = default;
@@ -148,7 +148,7 @@ FFTWGlobalConfiguration::GetInstance()
   itkInitGlobalsMacro(PimplGlobals);
   if (!m_PimplGlobals->m_Instance)
   {
-    const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->m_CreationLock);
+    const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->m_CreationMutex);
     // Need to make sure that during gaining access
     // to the lock that some other thread did not
     // initialize the singleton.
@@ -734,7 +734,7 @@ FFTWGlobalConfiguration::ExportWisdomFileDouble(const std::string &
 std::mutex &
 FFTWGlobalConfiguration::GetLockMutex()
 {
-  return GetInstance()->m_Lock;
+  return GetInstance()->m_Mutex;
 }
 
 void

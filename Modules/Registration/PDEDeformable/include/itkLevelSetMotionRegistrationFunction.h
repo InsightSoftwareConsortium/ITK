@@ -282,7 +282,7 @@ private:
   mutable double        m_SumOfSquaredChange{};
 
   /** Mutex lock to protect modification to metric. */
-  mutable std::mutex m_MetricCalculationLock{};
+  mutable std::mutex m_MetricCalculationMutex{};
 
   bool m_UseImageSpacing{};
 };

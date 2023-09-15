@@ -377,7 +377,7 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
 {
   const std::unique_ptr<const GlobalDataStruct> globalData(static_cast<GlobalDataStruct *>(gd));
 
-  const std::lock_guard<std::mutex> lockGuard(m_MetricCalculationLock);
+  const std::lock_guard<std::mutex> lockGuard(m_MetricCalculationMutex);
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
