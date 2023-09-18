@@ -279,9 +279,9 @@ protected:
    *
    * Thread safety note:
    * A separate object is used locally per each thread. Only the members
-   * m_ParentJointPDFDerivativesLockPtr and m_ParentJointPDFDerivatives
+   * m_ParentJointPDFDerivativesMutexPtr and m_ParentJointPDFDerivatives
    * are shared between threads and access to m_ParentJointPDFDerivatives
-   * is controlled with the m_ParentJointPDFDerivativesLockPtr mutex lock.
+   * is controlled with the m_ParentJointPDFDerivativesMutexPtr mutex lock.
    * \ingroup ITKMetricsv4
    */
   class DerivativeBufferManager
@@ -294,7 +294,7 @@ protected:
     void
     Initialize(size_t                                    maxBufferLength,
                const size_t                              cachedNumberOfLocalParameters,
-               std::mutex *                              parentDerivativeLockPtr,
+               std::mutex *                              parentDerivativeMutexPtr,
                typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
 
     void
@@ -354,7 +354,7 @@ protected:
     size_t                       m_CachedNumberOfLocalParameters;
     size_t                       m_MaxBufferSize;
     // Pointer handle to parent version
-    std::mutex * m_ParentJointPDFDerivativesLockPtr;
+    std::mutex * m_ParentJointPDFDerivativesMutexPtr;
     // Smart pointer handle to parent version
     typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
   };
