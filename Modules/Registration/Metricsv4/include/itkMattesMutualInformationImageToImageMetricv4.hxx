@@ -555,7 +555,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMetricTraits>::DerivativeBufferManager ::
   Initialize(size_t                                    maxBufferLength,
              const size_t                              cachedNumberOfLocalParameters,
-             std::mutex *                              parentDerivativeLockPtr,
+             std::mutex *                              parentDerivativeMutexPtr,
              typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives)
 {
   m_CurrentFillSize = 0;
@@ -564,7 +564,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   m_BufferOffsetContainer.resize(maxBufferLength, 0);
   m_CachedNumberOfLocalParameters = cachedNumberOfLocalParameters;
   m_MaxBufferSize = maxBufferLength;
-  m_ParentJointPDFDerivativesLockPtr = parentDerivativeLockPtr;
+  m_ParentJointPDFDerivativesMutexPtr = parentDerivativeMutexPtr;
   m_ParentJointPDFDerivatives = parentJointPDFDerivatives;
   // Allocate and initialize to zero (note the () at the end of the new
   // operator)
@@ -614,7 +614,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   if (m_CurrentFillSize == m_MaxBufferSize)
   {
     // Attempt to acquire the lock once
-    std::unique_lock<std::mutex> FirstTryLockHolder(*this->m_ParentJointPDFDerivativesLockPtr, std::try_to_lock);
+    std::unique_lock<std::mutex> FirstTryLockHolder(*this->m_ParentJointPDFDerivativesMutexPtr, std::try_to_lock);
     if (FirstTryLockHolder.owns_lock())
     {
       ReduceBuffer();
@@ -623,7 +623,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
     {
       DoubleBufferSize();
       // Attempt to acquire the lock a second time
-      std::unique_lock<std::mutex> SecondTryLockHolder(*this->m_ParentJointPDFDerivativesLockPtr, std::try_to_lock);
+      std::unique_lock<std::mutex> SecondTryLockHolder(*this->m_ParentJointPDFDerivativesMutexPtr, std::try_to_lock);
       if (SecondTryLockHolder.owns_lock())
       {
         ReduceBuffer();
@@ -652,7 +652,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 {
   if (m_CurrentFillSize > 0)
   {
-    const std::lock_guard<std::mutex> LockHolder(*this->m_ParentJointPDFDerivativesLockPtr);
+    const std::lock_guard<std::mutex> LockHolder(*this->m_ParentJointPDFDerivativesMutexPtr);
     ReduceBuffer();
   }
 }
