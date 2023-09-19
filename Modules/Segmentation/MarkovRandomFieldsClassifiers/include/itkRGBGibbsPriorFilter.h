@@ -265,12 +265,12 @@ private:
   /** Array to store the state of each pixel. */
   std::unique_ptr<LabelType[]> m_LabelStatus{ nullptr };
 
-  /** Intermediate restult image. */
+  /** Intermediate result image. */
   InputImagePointer m_MediumImage{};
 
   /** Used by the SA algorithm. */
   unsigned int m_Temp{ 0 };
-  /** Seeed. */
+  /** Seed. */
   IndexType m_StartPoint{};
 
   /** Image width. */
