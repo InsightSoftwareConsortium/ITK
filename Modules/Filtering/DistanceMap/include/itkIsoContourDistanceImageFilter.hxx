@@ -373,7 +373,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const Inp
 
         PixelRealType                     valNew0 = val0 * val;
         PixelRealType                     valNew1 = val1 * val;
-        const std::lock_guard<std::mutex> mutexHolder(m_Mutex);
+        const std::lock_guard<std::mutex> lockGuard(m_Mutex);
         if (itk::Math::abs(static_cast<double>(valNew0)) < itk::Math::abs(static_cast<double>(outNeigIt.GetNext(n, 0))))
         {
           outNeigIt.SetNext(n, 0, static_cast<PixelType>(valNew0));

@@ -204,7 +204,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThr
   }
 
   this->m_NumberOfLabels.fetch_add(nbOfLabels, std::memory_order_relaxed);
-  const std::lock_guard<std::mutex> mutexHolder(this->m_Mutex);
+  const std::lock_guard<std::mutex> lockGuard(this->m_Mutex);
   this->m_WorkUnitResults.push_back(workUnitData);
 }
 

@@ -136,7 +136,7 @@ ChangeRegionLabelMapFilter<TInputImage>::ThreadedProcessLabelObject(LabelObjectT
   // remove the object if it is empty
   if (labelObject->Empty())
   {
-    const std::lock_guard<std::mutex> mutexHolder(this->m_LabelObjectContainerLock);
+    const std::lock_guard<std::mutex> lockGuard(this->m_LabelObjectContainerLock);
     this->GetOutput()->RemoveLabelObject(labelObject);
   }
 }
