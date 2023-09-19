@@ -337,7 +337,7 @@ private:
 inline void
 MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
 {
-  const std::lock_guard<std::mutex> mutexHolder(m_InstanceMutex);
+  const std::lock_guard<std::mutex> lockGuard(m_InstanceMutex);
   this->m_Seed = seed;
   // Initialize generator state with seed
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.

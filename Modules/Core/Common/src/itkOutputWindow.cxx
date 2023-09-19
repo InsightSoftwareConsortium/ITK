@@ -96,7 +96,7 @@ OutputWindow::PrintSelf(std::ostream & os, Indent indent) const
 void
 OutputWindow::DisplayText(const char * txt)
 {
-  const std::lock_guard<std::mutex> cerrLock(m_cerrMutex);
+  const std::lock_guard<std::mutex> lockGuard(m_cerrMutex);
   std::cerr << txt;
   if (m_PromptUser)
   {
@@ -117,7 +117,7 @@ OutputWindow::Pointer
 OutputWindow::GetInstance()
 {
   itkInitGlobalsMacro(PimplGlobals);
-  const std::lock_guard<std::recursive_mutex> mutexHolder(m_PimplGlobals->m_StaticInstanceLock);
+  const std::lock_guard<std::recursive_mutex> lockGuard(m_PimplGlobals->m_StaticInstanceLock);
   if (!m_PimplGlobals->m_Instance)
   {
     // Try the factory first
@@ -145,7 +145,7 @@ OutputWindow::SetInstance(OutputWindow * instance)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
-  const std::lock_guard<std::recursive_mutex> mutexHolder(m_PimplGlobals->m_StaticInstanceLock);
+  const std::lock_guard<std::recursive_mutex> lockGuard(m_PimplGlobals->m_StaticInstanceLock);
   if (m_PimplGlobals->m_Instance == instance)
   {
     return;

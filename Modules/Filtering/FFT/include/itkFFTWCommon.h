@@ -133,7 +133,7 @@ public:
                bool          canDestroyInput = false)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -233,7 +233,7 @@ public:
   {
     //
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -335,7 +335,7 @@ public:
            bool          canDestroyInput = false)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
     fftwf_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -388,7 +388,7 @@ public:
   DestroyPlan(PlanType p)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
 #  endif
     fftwf_destroy_plan(p);
   }
@@ -469,7 +469,7 @@ public:
                bool          canDestroyInput = false)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -568,7 +568,7 @@ public:
                bool          canDestroyInput = false)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -670,7 +670,7 @@ public:
            bool          canDestroyInput = false)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
     fftw_plan_with_nthreads(threads);
 #  else
     (void)threads;
@@ -723,7 +723,7 @@ public:
   DestroyPlan(PlanType p)
   {
 #  ifndef ITK_USE_CUFFTW
-    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lock(FFTWGlobalConfiguration::GetLockMutex());
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
 #  endif
     fftw_destroy_plan(p);
   }
