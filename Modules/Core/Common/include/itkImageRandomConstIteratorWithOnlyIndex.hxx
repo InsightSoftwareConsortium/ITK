@@ -63,15 +63,15 @@ ImageRandomConstIteratorWithOnlyIndex<TImage>::RandomJump()
 {
   using PositionValueType = IndexValueType;
 
-  const PositionValueType randomPosition = static_cast<PositionValueType>(
+  auto position = static_cast<PositionValueType>(
     m_Generator->GetVariateWithOpenRange(static_cast<double>(m_NumberOfPixelsInRegion) - 0.5));
-  PositionValueType position = randomPosition;
-  PositionValueType residual;
+
+  const SizeType regionSize = this->m_Region.GetSize();
 
   for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
-    const SizeValueType sizeInThisDimension = this->m_Region.GetSize()[dim];
-    residual = position % sizeInThisDimension;
+    const SizeValueType     sizeInThisDimension = regionSize[dim];
+    const PositionValueType residual = position % sizeInThisDimension;
     this->m_PositionIndex[dim] = residual + this->m_BeginIndex[dim];
     position -= residual;
     position /= sizeInThisDimension;
