@@ -628,7 +628,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   pnt[0] = 1.0;
   pnt[1] = pnt[2] = 0.0;
   // expected transform: shift by 1 , rotate by 45 deg
-  v2[0] = v[1] = sqrt(2);
+  v2[0] = v2[1] = sqrt(2);
   v2[2] = 0.0;
 
   v = _xfm->TransformPoint(pnt);
