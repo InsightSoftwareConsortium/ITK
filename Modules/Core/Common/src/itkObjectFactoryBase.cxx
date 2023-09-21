@@ -37,7 +37,7 @@
 #include "itksys/SystemTools.hxx"
 #include <cstring>
 #include <algorithm>
-#include <atomic>
+
 
 namespace
 {
@@ -121,10 +121,11 @@ public:
 
   ObjectFactoryBasePrivate() = default;
 
-  FactoryListType   m_RegisteredFactories{};
-  FactoryListType   m_InternalFactories{};
-  std::atomic<bool> m_Initialized{ false };
-  bool              m_StrictVersionChecking{ false };
+  FactoryListType m_RegisteredFactories{};
+  FactoryListType m_InternalFactories{};
+  bool            m_Initialized{ false };
+  std::mutex      m_Lock;
+  bool            m_StrictVersionChecking{ false };
 };
 
 auto
@@ -237,14 +238,19 @@ ObjectFactoryBase::Initialize()
 {
   itkInitGlobalsMacro(PimplGlobals);
 
-  // Atomically set m_Initialized to true. If it was false before, enter the if.
-  if (!m_PimplGlobals->m_Initialized.exchange(true))
+  if (!m_PimplGlobals->m_Initialized)
   {
-    ObjectFactoryBase::InitializeFactoryList();
-    ObjectFactoryBase::RegisterInternal();
+    // only one thread initializing at a time, wait until initialization is completed.
+    std::lock_guard lockGuard(m_PimplGlobals->m_Lock);
+    if (!m_PimplGlobals->m_Initialized)
+    {
+      ObjectFactoryBase::InitializeFactoryList();
+      ObjectFactoryBase::RegisterInternal();
 #if defined(ITK_DYNAMIC_LOADING) && !defined(ITK_WRAPPING)
-    ObjectFactoryBase::LoadDynamicFactories();
+      ObjectFactoryBase::LoadDynamicFactories();
 #endif
+      m_PimplGlobals->m_Initialized = true;
+    }
   }
 }
 
