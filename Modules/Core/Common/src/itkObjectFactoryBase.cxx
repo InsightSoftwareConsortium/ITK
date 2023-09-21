@@ -224,15 +224,6 @@ ObjectFactoryBase::CreateAllInstance(const char * itkclassname)
  * A one time initialization method.
  */
 void
-ObjectFactoryBase::InitializeFactoryList()
-{
-  itkInitGlobalsMacro(PimplGlobals);
-}
-
-/**
- * A one time initialization method.
- */
-void
 ObjectFactoryBase::Initialize()
 {
   itkInitGlobalsMacro(PimplGlobals);
@@ -240,7 +231,6 @@ ObjectFactoryBase::Initialize()
   // Atomically set m_Initialized to true. If it was false before, enter the if.
   if (!m_PimplGlobals->m_Initialized.exchange(true))
   {
-    ObjectFactoryBase::InitializeFactoryList();
     ObjectFactoryBase::RegisterInternal();
 #if defined(ITK_DYNAMIC_LOADING) && !defined(ITK_WRAPPING)
     ObjectFactoryBase::LoadDynamicFactories();
@@ -520,7 +510,6 @@ ObjectFactoryBase::RegisterFactoryInternal(ObjectFactoryBase * factory)
   // Do not call general ::Initialize() method as that may invoke additional
   // libraries to be loaded and this method is called during static
   // initialization.
-  ObjectFactoryBase::InitializeFactoryList();
   m_PimplGlobals->m_InternalFactories.push_back(factory);
   factory->Register();
   // if the internal factories have already been register add this one too
