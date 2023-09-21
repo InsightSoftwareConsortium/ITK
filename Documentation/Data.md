@@ -11,7 +11,7 @@ generation) also applies to any other data contained in a text file that a
 test may require, if any.
 
 If you just want to browse and download the ITK testing images, browse the
-data.kitware.com [ITK collection].
+[ITKData Datalad repository].
 
 Setup
 -----
@@ -34,13 +34,26 @@ when you reach the "edit files" step.
 These instructions follow a typical use case of adding a new test with a
 baseline image.
 
+### Create the content link
+
+For the reasons stated in the [Discussion](#discussion) section, rather than
+the binary files themselves, ITK and related projects use content link files
+associated with these files.
+
+Generate the *.cid* content link from your test data file, *MyTest.png* in
+this example, with the [cmake-w3-externaldata-upload] web app. This app will
+upload the data to IPFS and provide a *.cid* CMake ExternalData content link file
+to download.
+
+For more details, see the description and procedures in [UploadBinaryData].
+
 ### Add Data
 
-Copy the data file into your local source tree.
+Copy the data content link file into your local source tree.
 
 ```sh
    $ mkdir -p Modules/.../test/Baseline
-   $ cp ~/MyTest.png Modules/.../test/Baseline/MyTest.png
+   $ cp ~/MyTest.png.cid Modules/.../test/Baseline/MyTest.png.cid
 ```
 
 ### Add Test
@@ -64,22 +77,13 @@ to the test directory:
     reference ends in the ",:" option; follow the link to the `ExternalData`
     module on the right for details.
 
-### Create content link
-
-For the reasons stated in the [Discussion](#discussion) section, rather than
-the binary files themselves, ITK and related projects use content link files
-associated with these files.
-
-To generate the content link file, use the procedure in [UploadBinaryData].
-
-
 ### Commit
 
 Continue to create the topic and edit other files as necessary. Add the content
 link and commit it along with the other changes:
 
 ```sh
-   $ git add Modules/.../test/Baseline/MyTest.png.sha512
+   $ git add Modules/.../test/Baseline/MyTest.png.cid
    $ git add Modules/.../test/CMakeLists.txt
    $ git commit
 ```
@@ -95,9 +99,9 @@ directly, e.g. `make ITKData`, to obtain the data without a complete build.
 The output will be something like
 
 ```sh
-   -- Fetching ".../ExternalData/SHA512/..."
+   -- Fetching ".../ExternalData/CID/..."
    -- [download 100% complete]
-   -- Downloaded object: "ITK-build/ExternalData/Objects/SHA512/..."
+   -- Downloaded object: "ITK-build/ExternalData/Objects/CID/..."
 ```
 
 The downloaded files appear in `ITK-build/ExternalData` by default.
@@ -132,7 +136,6 @@ For more information, see
 [CMake ExternalData: Using Large Files with Distributed Version Control](https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/).
 
 
-[data.kitware.com]: https://data.kitware.com/
-[Github]: https://github.com/InsightSoftwareConsortium/ITK
 [UploadBinaryData]: UploadBinaryData.md
-[ITK collection]: https://data.kitware.com/#collection/57b5c9e58d777f126827f5a1
+[ITKData Datalad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
+[cmake-w3-externaldata-upload]: https://cmake-w3-externaldata-upload.on.fleek.co/
