@@ -37,7 +37,7 @@
 #include "itksys/SystemTools.hxx"
 #include <cstring>
 #include <algorithm>
-#include <atomic>
+#include <mutex>
 
 namespace
 {
@@ -121,10 +121,12 @@ public:
 
   ObjectFactoryBasePrivate() = default;
 
-  FactoryListType   m_RegisteredFactories{};
-  FactoryListType   m_InternalFactories{};
-  std::atomic<bool> m_Initialized{ false };
-  bool              m_StrictVersionChecking{ false };
+  FactoryListType m_RegisteredFactories{};
+  FactoryListType m_InternalFactories{};
+#if defined(ITK_DYNAMIC_LOADING) && !defined(ITK_WRAPPING)
+  std::once_flag m_DynamicLoadingOnceFlag{};
+#endif
+  bool m_StrictVersionChecking{ false };
 };
 
 auto
@@ -228,14 +230,9 @@ ObjectFactoryBase::Initialize()
 {
   itkInitGlobalsMacro(PimplGlobals);
 
-  // Atomically set m_Initialized to true. If it was false before, enter the if.
-  if (!m_PimplGlobals->m_Initialized.exchange(true))
-  {
-    ObjectFactoryBase::RegisterInternal();
 #if defined(ITK_DYNAMIC_LOADING) && !defined(ITK_WRAPPING)
-    ObjectFactoryBase::LoadDynamicFactories();
+  std::call_once(m_PimplGlobals->m_DynamicLoadingOnceFlag, [] { ObjectFactoryBase::LoadDynamicFactories(); });
 #endif
-  }
 }
 
 /**
@@ -512,11 +509,7 @@ ObjectFactoryBase::RegisterFactoryInternal(ObjectFactoryBase * factory)
   // initialization.
   m_PimplGlobals->m_InternalFactories.push_back(factory);
   factory->Register();
-  // if the internal factories have already been register add this one too
-  if (m_PimplGlobals->m_Initialized)
-  {
-    m_PimplGlobals->m_RegisteredFactories.push_back(factory);
-  }
+  m_PimplGlobals->m_RegisteredFactories.push_back(factory);
 }
 
 /**
@@ -706,7 +699,6 @@ ObjectFactoryBase::UnRegisterAllFactories()
   }
 #endif
   m_PimplGlobals->m_RegisteredFactories.clear();
-  m_PimplGlobals->m_Initialized = false;
 }
 
 /**

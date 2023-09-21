@@ -226,8 +226,7 @@ public:
     (void)staticFactoryRegistration;
   }
 
-  /** Initialize the static members of ObjectFactoryBase.
-   *  RegisterInternal() and InitializeFactoryList() are called here. */
+  /** Initialize the static members of ObjectFactoryBase. */
   static void
   Initialize();
 
