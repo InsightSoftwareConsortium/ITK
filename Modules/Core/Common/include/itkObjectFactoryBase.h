@@ -271,10 +271,6 @@ private:
 
   const std::unique_ptr<OverrideMap> m_OverrideMap;
 
-  /** Initialize the static list of Factories. */
-  static void
-  InitializeFactoryList();
-
   /** Register default factories which are not loaded at run time. */
   static void
   RegisterInternal();
