@@ -71,10 +71,7 @@ protected:
   /** Provide pass-through constructors corresponding to all the STL
    * vector constructors.  These are for internal use only since this is also
    * an Object which must be constructed through the "New()" routine. */
-  VectorContainer()
-    : Object()
-    , VectorType()
-  {}
+  VectorContainer() = default;
   VectorContainer(size_type n)
     : Object()
     , VectorType(n)
@@ -185,9 +182,7 @@ public:
     using pointer = typename VectorIterator::pointer;
     using reference = typename VectorIterator::reference;
 
-    Iterator()
-      : m_Pos(0)
-    {}
+    Iterator() = default;
     Iterator(size_type d, const VectorIterator & i)
       : m_Pos(d)
       , m_Iter(i)
@@ -292,8 +287,8 @@ public:
     }
 
   private:
-    size_type      m_Pos;
-    VectorIterator m_Iter;
+    size_type      m_Pos{};
+    VectorIterator m_Iter{};
     friend class ConstIterator;
   };
 
@@ -311,9 +306,7 @@ public:
     using pointer = typename VectorConstIterator::pointer;
     using reference = typename VectorConstIterator::reference;
 
-    ConstIterator()
-      : m_Pos(0)
-    {}
+    ConstIterator() = default;
     ConstIterator(size_type d, const VectorConstIterator & i)
       : m_Pos(d)
       , m_Iter(i)
@@ -428,8 +421,8 @@ public:
     }
 
   private:
-    size_type           m_Pos;
-    VectorConstIterator m_Iter;
+    size_type           m_Pos{};
+    VectorConstIterator m_Iter{};
     friend class Iterator;
   };
 
