@@ -63,32 +63,8 @@ public:
 private:
   /** Quick access to the STL vector type that was inherited. */
   using VectorType = std::vector<Element>;
-  using size_type = typename VectorType::size_type;
   using VectorIterator = typename VectorType::iterator;
   using VectorConstIterator = typename VectorType::const_iterator;
-
-protected:
-  /** Provide pass-through constructors corresponding to all the STL
-   * vector constructors.  These are for internal use only since this is also
-   * an Object which must be constructed through the "New()" routine. */
-  VectorContainer() = default;
-  VectorContainer(size_type n)
-    : Object()
-    , VectorType(n)
-  {}
-  VectorContainer(size_type n, const Element & x)
-    : Object()
-    , VectorType(n, x)
-  {}
-  VectorContainer(const Self & r)
-    : Object()
-    , VectorType(r.CastToSTLConstContainer())
-  {}
-  template <typename TInputIterator>
-  VectorContainer(TInputIterator first, TInputIterator last)
-    : Object()
-    , VectorType(first, last)
-  {}
 
 public:
   /** This type is provided to Adapt this container as an STL container */
@@ -154,8 +130,7 @@ public:
   using typename STLContainerType::const_reference;
   using typename STLContainerType::iterator;
   using typename STLContainerType::const_iterator;
-  // already declared before
-  // using STLContainerType::size_type;
+  using typename STLContainerType::size_type;
   using typename STLContainerType::difference_type;
   using typename STLContainerType::value_type;
   using typename STLContainerType::allocator_type;
@@ -562,6 +537,29 @@ public:
    */
   void
   Initialize();
+
+protected:
+  /** Provide pass-through constructors corresponding to all the STL
+   * vector constructors.  These are for internal use only since this is also
+   * an Object which must be constructed through the "New()" routine. */
+  VectorContainer() = default;
+  VectorContainer(size_type n)
+    : Object()
+    , VectorType(n)
+  {}
+  VectorContainer(size_type n, const Element & x)
+    : Object()
+    , VectorType(n, x)
+  {}
+  VectorContainer(const Self & r)
+    : Object()
+    , VectorType(r.CastToSTLConstContainer())
+  {}
+  template <typename TInputIterator>
+  VectorContainer(TInputIterator first, TInputIterator last)
+    : Object()
+    , VectorType(first, last)
+  {}
 };
 } // end namespace itk
 
