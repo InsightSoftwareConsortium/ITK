@@ -34,6 +34,44 @@ template class itk::VectorContainer<TestedElementIdentifierType, std::string>;
 
 namespace
 {
+template <typename T1, typename T2>
+constexpr void
+AssertSameType()
+{
+  static_assert(std::is_same_v<T1, T2>);
+}
+
+
+template <typename TElementIdentifier, typename TElement>
+constexpr bool
+AssertVectorContainerHasSamePublicNestedTypesAsStdVector()
+{
+  using VectorContainerType = itk::VectorContainer<TElementIdentifier, TElement>;
+  using StdVectorType = std::vector<TElement>;
+
+  // Check the list of nested types of `std::vector` from section [vector.overview] of the C++ Standard Working Draft of
+  // 2023-05-10, from https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4950.pdf.
+  AssertSameType<typename VectorContainerType::value_type, typename StdVectorType::value_type>();
+  AssertSameType<typename VectorContainerType::allocator_type, typename StdVectorType::allocator_type>();
+  AssertSameType<typename VectorContainerType::pointer, typename StdVectorType::pointer>();
+  AssertSameType<typename VectorContainerType::const_pointer, typename StdVectorType::const_pointer>();
+  AssertSameType<typename VectorContainerType::reference, typename StdVectorType::reference>();
+  AssertSameType<typename VectorContainerType::const_reference, typename StdVectorType::const_reference>();
+  AssertSameType<typename VectorContainerType::size_type, typename StdVectorType::size_type>();
+  AssertSameType<typename VectorContainerType::difference_type, typename StdVectorType::difference_type>();
+  AssertSameType<typename VectorContainerType::iterator, typename StdVectorType::iterator>();
+  AssertSameType<typename VectorContainerType::const_iterator, typename StdVectorType::const_iterator>();
+  AssertSameType<typename VectorContainerType::reverse_iterator, typename StdVectorType::reverse_iterator>();
+  AssertSameType<typename VectorContainerType::const_reverse_iterator,
+                 typename StdVectorType::const_reverse_iterator>();
+  return true;
+}
+
+
+static_assert(AssertVectorContainerHasSamePublicNestedTypesAsStdVector<TestedElementIdentifierType, int>());
+static_assert(AssertVectorContainerHasSamePublicNestedTypesAsStdVector<TestedElementIdentifierType, bool>());
+
+
 template <typename TElementIdentifier, typename TElement>
 void
 ExpectContainerHasValueOfCreatedElementAtIdentifier(const TElementIdentifier identifier, const TElement value)
