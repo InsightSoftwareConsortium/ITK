@@ -245,7 +245,7 @@ ObjectFactoryBase::Initialize()
 void
 ObjectFactoryBase::RegisterInternal()
 {
-  itkInitGlobalsMacro(PimplGlobals);
+  // Note: This is an internal member function. It assumes that itkInitGlobalsMacro(PimplGlobals) is called already.
 
   // Guarantee that no internal factories have already been registered.
   itkAssertInDebugAndIgnoreInReleaseMacro(m_PimplGlobals->m_RegisteredFactories.empty());
