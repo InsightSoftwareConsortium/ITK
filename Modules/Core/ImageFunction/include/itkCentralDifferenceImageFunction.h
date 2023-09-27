@@ -102,7 +102,7 @@ public:
   /** InputPixelConvert type alias support */
   using InputPixelConvertType = DefaultConvertPixelTraits<InputPixelType>;
 
-  /** OutputType typdef support. */
+  /** OutputType typedef support. */
   using typename Superclass::OutputType;
 
   /** Output convert type alias support */

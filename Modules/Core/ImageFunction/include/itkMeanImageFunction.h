@@ -72,7 +72,7 @@ public:
   /** InputPixel type alias support */
   using typename Superclass::InputPixelType;
 
-  /** OutputType typdef support. */
+  /** OutputType typedef support. */
   using typename Superclass::OutputType;
 
   /** Index type alias support */

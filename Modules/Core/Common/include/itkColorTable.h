@@ -62,7 +62,7 @@ public:
   void
   UseDiscreteColors();
 
-  /** Generate a lookuptable of n grayscale values. For integral pixel
+  /** Generate a lookup table of n grayscale values. For integral pixel
    * types, a ramp is generated from NonpositiveMin() to max() of the
    * pixel type. For continuous pixel types, the range is 0.0 to 1.0.
    */

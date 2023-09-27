@@ -100,10 +100,10 @@ public:
   /** AuxVector type alias support */
   using AuxValueVectorType = Vector<TPixel, VAuxDimension>;
 
-  /** AuxContainer typdef support. */
+  /** AuxContainer typedef support. */
   using AuxValueContainer = VectorContainer<unsigned int, AuxValueVectorType>;
 
-  /** AuxImage typdef support. */
+  /** AuxImage typedef support. */
   using AuxImageType = Image<AuxValueType, VSetDimension>;
 
   /** AuxImagePointer type alias support */

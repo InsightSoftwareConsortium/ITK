@@ -107,27 +107,27 @@ public:
   using Self = ImageRegionReverseConstIterator;
   using Superclass = ImageReverseConstIterator<TImage>;
 
-  /** Index type alias support While this was already typdef'ed in the superclass
+  /** Index type alias support While this was already typedef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
   using typename Superclass::IndexType;
 
-  /** Size type alias support While this was already typdef'ed in the superclass
+  /** Size type alias support While this was already typedef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
   using typename Superclass::SizeType;
 
-  /** Offset type alias support While this was already typdef'ed in the superclass
+  /** Offset type alias support While this was already typedef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
   using typename Superclass::OffsetType;
 
   /** Region type alias support */
   using typename Superclass::RegionType;
 
-  /** Image type alias support While this was already typdef'ed in the superclass
+  /** Image type alias support While this was already typedef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
   using typename Superclass::ImageType;
 
   /** PixelContainer type alias support Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
+   * the pixel data. While this was already typedef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
   using typename Superclass::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;

@@ -105,26 +105,26 @@ public:
   using Self = ImageLinearConstIteratorWithIndex;
   using Superclass = ImageConstIteratorWithIndex<TImage>;
 
-  /** Index type alias support While this was already typdef'ed in the superclass,
+  /** Index type alias support While this was already typedef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index so that it is not
    * confused with ImageIterator::Index. */
   using IndexType = typename TImage::IndexType;
 
-  /** Region type alias support While this was already typdef'ed in the superclass,
+  /** Region type alias support While this was already typedef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Region back to itk::ImageRegion so that it
    * is not confused with ImageIterator::Index. */
   using RegionType = typename TImage::RegionType;
 
-  /** Image type alias support While this was already typdef'ed in the superclass,
+  /** Image type alias support While this was already typedef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index so that it is not
    * confused with ImageIterator::Index. */
   using ImageType = TImage;
 
   /** PixelContainer type alias support Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass,
+   * the pixel data. While this was already typedef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc. */
   using PixelContainer = typename TImage::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;
