@@ -89,7 +89,7 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
     using return_type = std::invoke_result_t<Function, Arguments...>;
 
     auto task = std::make_shared<std::packaged_task<return_type()>>(
-      std::bind(std::forward<Function>(function), std::forward<Arguments>(arguments)...));
+      [function, arguments...]() -> return_type { return function(arguments...); });
 
     std::future<return_type> res = task->get_future();
     {
