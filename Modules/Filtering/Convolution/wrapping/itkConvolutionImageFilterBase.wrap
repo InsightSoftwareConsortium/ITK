@@ -4,5 +4,5 @@ itk_wrap_include("itkConvolutionImageFilterBase.h")
 itk_wrap_simple_class("itk::ConvolutionImageFilterBaseEnums")
 
 itk_wrap_class("itk::ConvolutionImageFilterBase" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
+itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
 itk_end_wrap_class()

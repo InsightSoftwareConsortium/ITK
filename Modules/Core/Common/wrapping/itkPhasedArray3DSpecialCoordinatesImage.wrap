@@ -6,7 +6,10 @@ itk_wrap_include("complex")
 # CMake for input to SWIG wrapping generation.
 # See `DECL_PYTHON_IMAGEBASE_CLASS` definition in `ITK/Wrapping/Generators/Python/PyBase/pyBase.i`
 # for precedent.
-string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "
+string(
+  APPEND
+  ITK_WRAP_PYTHON_SWIG_EXT
+  "
 %inline %{
 #include \"itkContinuousIndexSwigInterface.h\"
 %}
@@ -36,14 +39,16 @@ string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "
 
 # Wrap class for real and complex pixel types. Dimension is always 3.
 itk_wrap_class("itk::PhasedArray3DSpecialCoordinatesImage" POINTER_WITH_SUPERCLASS)
-  foreach(t ${WRAP_ITK_SCALAR})
-    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_PHASEDARRAY3DSPECIALCOORDINATESIMAGE_CLASS(${WRAPPER_SWIG_NAME}${ITKM_${t}}, 3)\n")
-  endforeach()
-  foreach(t3 ${WRAP_ITK_COMPLEX_REAL})
-    itk_wrap_template("${ITKM_${t3}}" "${ITKT_${t3}}")
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_PHASEDARRAY3DSPECIALCOORDINATESIMAGE_CLASS(${WRAPPER_SWIG_NAME}${ITKM_${t3}}, 3)\n")
-  endforeach()
+foreach(t ${WRAP_ITK_SCALAR})
+  itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+         "DECL_PYTHON_PHASEDARRAY3DSPECIALCOORDINATESIMAGE_CLASS(${WRAPPER_SWIG_NAME}${ITKM_${t}}, 3)\n")
+endforeach()
+foreach(t3 ${WRAP_ITK_COMPLEX_REAL})
+  itk_wrap_template("${ITKM_${t3}}" "${ITKT_${t3}}")
+  string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+         "DECL_PYTHON_PHASEDARRAY3DSPECIALCOORDINATESIMAGE_CLASS(${WRAPPER_SWIG_NAME}${ITKM_${t3}}, 3)\n")
+endforeach()
 itk_end_wrap_class()
 
 # Then wrap consuming filters in itkPhasedArray3DSpecialCoordinatesImageFilters.wrap

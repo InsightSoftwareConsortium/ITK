@@ -1,14 +1,15 @@
-set(DOCUMENTATION "This module contains both I/O and bridging methods needed
+set(DOCUMENTATION
+    "This module contains both I/O and bridging methods needed
 for interacting with and utilizing OpenCV within ITK. This includes symmetric
 bridges for both image data and video data.")
 
-itk_module(ITKVideoBridgeOpenCV
+itk_module(
+  ITKVideoBridgeOpenCV
   ENABLE_SHARED
   DEPENDS
-    ITKVideoIO
+  ITKVideoIO
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

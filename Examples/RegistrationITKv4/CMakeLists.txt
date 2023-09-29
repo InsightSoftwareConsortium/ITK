@@ -86,7 +86,7 @@ target_link_libraries(MultiStageImageRegistration1 ${ITK_LIBRARIES})
 add_executable(MultiStageImageRegistration2 MultiStageImageRegistration2.cxx)
 target_link_libraries(MultiStageImageRegistration2 ${ITK_LIBRARIES})
 
-if (ITKFEMRegistration_ENABLED)
+if(ITKFEMRegistration_ENABLED)
   add_executable(DeformableRegistration1 DeformableRegistration1.cxx)
   target_link_libraries(DeformableRegistration1 ${ITK_LIBRARIES})
 
@@ -157,16 +157,16 @@ target_link_libraries(ImageRegistration17 ${ITK_LIBRARIES})
 add_executable(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx)
 target_link_libraries(ImageRegistrationHistogramPlotter ${ITK_LIBRARIES})
 
-add_executable(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx)
+add_executable(MeanSquaresImageMetric1 MeanSquaresImageMetric1.cxx)
 target_link_libraries(MeanSquaresImageMetric1 ${ITK_LIBRARIES})
 
-add_executable(IterativeClosestPoint1   IterativeClosestPoint1.cxx)
+add_executable(IterativeClosestPoint1 IterativeClosestPoint1.cxx)
 target_link_libraries(IterativeClosestPoint1 ${ITK_LIBRARIES})
 
-add_executable(IterativeClosestPoint2   IterativeClosestPoint2.cxx)
+add_executable(IterativeClosestPoint2 IterativeClosestPoint2.cxx)
 target_link_libraries(IterativeClosestPoint2 ${ITK_LIBRARIES})
 
-add_executable(IterativeClosestPoint3   IterativeClosestPoint3.cxx)
+add_executable(IterativeClosestPoint3 IterativeClosestPoint3.cxx)
 target_link_libraries(IterativeClosestPoint3 ${ITK_LIBRARIES})
 
 if(BUILD_TESTING)

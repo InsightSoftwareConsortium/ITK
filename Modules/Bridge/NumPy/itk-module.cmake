@@ -7,12 +7,12 @@ else()
   set(_exclude_from_default EXCLUDE_FROM_DEFAULT)
 endif()
 
-itk_module(ITKBridgeNumPy
+itk_module(
+  ITKBridgeNumPy
   DEPENDS
-    ITKCommon
+  ITKCommon
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   ${_exclude_from_default}
   DESCRIPTION
-    "${DOCUMENTATION}"
-  )
+  "${DOCUMENTATION}")

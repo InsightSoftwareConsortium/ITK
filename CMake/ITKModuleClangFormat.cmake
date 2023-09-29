@@ -10,6 +10,9 @@
 option(ITK_USE_CLANG_FORMAT "Enable the use of clang-format for coding style formatting." ${BUILD_TESTING})
 mark_as_advanced(ITK_USE_CLANG_FORMAT)
 
-if(BUILD_TESTING AND ITK_USE_CLANG_FORMAT AND NOT CMAKE_CROSSCOMPILING AND NOT ITK_FORBID_DOWNLOADS)
+if(BUILD_TESTING
+   AND ITK_USE_CLANG_FORMAT
+   AND NOT CMAKE_CROSSCOMPILING
+   AND NOT ITK_FORBID_DOWNLOADS)
   include(${ITK_CMAKE_DIR}/../Utilities/ClangFormat/DownloadClangFormat.cmake)
 endif()

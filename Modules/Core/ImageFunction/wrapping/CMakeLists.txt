@@ -1,5 +1,3 @@
 itk_wrap_module(ITKImageFunction)
-set(WRAPPER_SUBMODULE_ORDER
-  itkImageFunctionBase
-)
+set(WRAPPER_SUBMODULE_ORDER itkImageFunctionBase)
 itk_auto_load_and_end_wrap_submodules()

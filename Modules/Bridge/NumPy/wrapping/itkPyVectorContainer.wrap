@@ -1,122 +1,98 @@
 itk_wrap_include("set")
 
 itk_wrap_class("itk::PyVectorContainer")
-  # double is always needed by KernelTransform
-  UNIQUE(scalar_types "${WRAP_ITK_SCALAR};D")
-  UNIQUE(index_types "IT;UC")
-  foreach(tt ${index_types})
-    foreach(t ${scalar_types})
-      set(ElementType ${t})
-      # These are wrapped below with "vectypes"
-      if(NOT t IN_LIST WRAP_ITK_USIGN_INT)
-        itk_wrap_template("${ITKM_${tt}}${ITKM_${t}}" "${ITKT_${tt}},${ITKT_${t}}")
-        set(PyVectorContainerTypes ${ITKM_${tt}}${ITKM_${t}})
-        configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                        ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                        @ONLY)
-        file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                   PyBufferInterfaceTemp)
-        file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                   ${PyBufferInterfaceTemp})
-      endif()
-    endforeach()
+# double is always needed by KernelTransform
+unique(scalar_types "${WRAP_ITK_SCALAR};D")
+unique(index_types "IT;UC")
+foreach(tt ${index_types})
+  foreach(t ${scalar_types})
+    set(ElementType ${t})
+    # These are wrapped below with "vectypes"
+    if(NOT
+       t
+       IN_LIST
+       WRAP_ITK_USIGN_INT)
+      itk_wrap_template("${ITKM_${tt}}${ITKM_${t}}" "${ITKT_${tt}},${ITKT_${t}}")
+      set(PyVectorContainerTypes ${ITKM_${tt}}${ITKM_${t}})
+      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+                     ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+    endif()
   endforeach()
-  UNIQUE(real_types "${WRAP_ITK_REAL};D")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${real_types})
-      set(ElementType ${t})
-      itk_wrap_template("${ITKM_IT}${ITKM_V${t}${d}}" "${ITKT_IT},${ITKT_V${t}${d}}")
-      set(PyVectorContainerTypes ${ITKM_IT}${ITKM_V${t}${d}})
-      configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                      ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                      @ONLY)
-      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                 PyBufferInterfaceTemp)
-      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                 ${PyBufferInterfaceTemp})
+endforeach()
+unique(real_types "${WRAP_ITK_REAL};D")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${real_types})
+    set(ElementType ${t})
+    itk_wrap_template("${ITKM_IT}${ITKM_V${t}${d}}" "${ITKT_IT},${ITKT_V${t}${d}}")
+    set(PyVectorContainerTypes ${ITKM_IT}${ITKM_V${t}${d}})
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+                   ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+    file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
 
-      itk_wrap_template("${ITKM_IT}${ITKM_P${t}${d}}" "${ITKT_IT},${ITKT_P${t}${d}}")
-      set(PyVectorContainerTypes ${ITKM_IT}${ITKM_P${t}${d}})
-      configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                      ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                      @ONLY)
-      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                 PyBufferInterfaceTemp)
-      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                 ${PyBufferInterfaceTemp})
+    itk_wrap_template("${ITKM_IT}${ITKM_P${t}${d}}" "${ITKT_IT},${ITKT_P${t}${d}}")
+    set(PyVectorContainerTypes ${ITKM_IT}${ITKM_P${t}${d}})
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+                   ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+    file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
 
-      itk_wrap_template("${ITKM_IT}M${ITKM_${t}}${d}${d}" "${ITKT_IT}, itk::Matrix< ${ITKT_${t}}, ${d}, ${d} >")
-      set(PyVectorContainerTypes ${ITKM_IT}M${ITKM_${t}}${d}${d})
-      configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                      ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                      @ONLY)
-      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                 PyBufferInterfaceTemp)
-      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                 ${PyBufferInterfaceTemp})
-
-    endforeach()
-  endforeach()
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("${ITKM_UC}${ITKM_O${d}}"  "${ITKT_UC},${ITKT_O${d}}")
-      set(ElementType ${ITKM_OT})
-      set(PyVectorContainerTypes ${ITKM_UC}${ITKM_O${d}})
-      configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                      ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                      @ONLY)
-      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                 PyBufferInterfaceTemp)
-      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                 ${PyBufferInterfaceTemp})
-
-    itk_wrap_template("${ITKM_UI}${ITKM_CID${d}}" "${ITKT_UI},${ITKT_CID${d}}")
-      set(PyVectorContainerTypes ${ITKM_UI}${ITKM_CID${d}})
-      configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                      ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                      @ONLY)
-      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                 PyBufferInterfaceTemp)
-      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                 ${PyBufferInterfaceTemp})
+    itk_wrap_template("${ITKM_IT}M${ITKM_${t}}${d}${d}" "${ITKT_IT}, itk::Matrix< ${ITKT_${t}}, ${d}, ${d} >")
+    set(PyVectorContainerTypes ${ITKM_IT}M${ITKM_${t}}${d}${d})
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+                   ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+    file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
 
   endforeach()
-  # used in FastMarchingExtensionImageFilter
-  itk_wrap_template("${ITKM_UI}${ITKM_VUC1}"    "${ITKT_UI},${ITKT_VUC1}")
-    set(ElementType UC)
-    set(PyVectorContainerTypes ${ITKM_UI}${ITKM_VUC1})
-    configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                    ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                    @ONLY)
-    file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                PyBufferInterfaceTemp)
-    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                ${PyBufferInterfaceTemp})
+endforeach()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  itk_wrap_template("${ITKM_UC}${ITKM_O${d}}" "${ITKT_UC},${ITKT_O${d}}")
+  set(ElementType ${ITKM_OT})
+  set(PyVectorContainerTypes ${ITKM_UC}${ITKM_O${d}})
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+  file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
 
-itk_wrap_template("${ITKM_IT}S${ITKM_IT}"    "${ITKT_IT}, std::set< ${ITKT_IT} >")
-    set(ElementType IT)
-    set(PyVectorContainerTypes ${ITKM_IT}S${ITKM_IT})
-    configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                    ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                    @ONLY)
-    file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                PyBufferInterfaceTemp)
-    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                ${PyBufferInterfaceTemp})
+  itk_wrap_template("${ITKM_UI}${ITKM_CID${d}}" "${ITKT_UI},${ITKT_CID${d}}")
+  set(PyVectorContainerTypes ${ITKM_UI}${ITKM_CID${d}})
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+  file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+
+endforeach()
+# used in FastMarchingExtensionImageFilter
+itk_wrap_template("${ITKM_UI}${ITKM_VUC1}" "${ITKT_UI},${ITKT_VUC1}")
+set(ElementType UC)
+set(PyVectorContainerTypes ${ITKM_UI}${ITKM_VUC1})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+               ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+
+itk_wrap_template("${ITKM_IT}S${ITKM_IT}" "${ITKT_IT}, std::set< ${ITKT_IT} >")
+set(ElementType IT)
+set(PyVectorContainerTypes ${ITKM_IT}S${ITKM_IT})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+               ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
 #used  in ImageRegistrationMethodv4
-  UNIQUE(vectypes "${ITKM_IT};UI;${WRAP_ITK_USIGN_INT}")
-  foreach(t1 ${vectypes})
-    foreach(t2 ${vectypes})
-      set(ElementType ${t2})
-      itk_wrap_template("${ITKM_${t1}}${ITKM_${t2}}" "${ITKT_${t1}}, ${ITKT_${t2}}")
+unique(vectypes "${ITKM_IT};UI;${WRAP_ITK_USIGN_INT}")
+foreach(t1 ${vectypes})
+  foreach(t2 ${vectypes})
+    set(ElementType ${t2})
+    itk_wrap_template("${ITKM_${t1}}${ITKM_${t2}}" "${ITKT_${t1}}, ${ITKT_${t2}}")
 
-      set(PyVectorContainerTypes ${ITKM_${t1}}${ITKM_${t2}})
-      configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
-                      ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                      @ONLY)
-      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp
-                 PyBufferInterfaceTemp)
-      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                 ${PyBufferInterfaceTemp})
-    endforeach()
+    set(PyVectorContainerTypes ${ITKM_${t1}}${ITKM_${t2}})
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
+                   ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp @ONLY)
+    file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
+    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
   endforeach()
+endforeach()
 itk_end_wrap_class()

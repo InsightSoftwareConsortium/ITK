@@ -2,10 +2,10 @@ itk_wrap_filter_dims(has_d_3 3)
 
 if(has_d_3)
   itk_wrap_class("itk::PointBasedSpatialObject" POINTER)
-    itk_wrap_template("DTITube3" "3, itk::DTITubeSpatialObjectPoint<3>")
+  itk_wrap_template("DTITube3" "3, itk::DTITubeSpatialObjectPoint<3>")
   itk_end_wrap_class()
 
   itk_wrap_class("itk::DTITubeSpatialObject" POINTER_WITH_SUPERCLASS)
-    itk_wrap_template(3 3)
+  itk_wrap_template(3 3)
   itk_end_wrap_class()
 endif()

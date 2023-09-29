@@ -1,35 +1,38 @@
 itk_wrap_class("itk::SLICImageFilter" POINTER_WITH_SUPERCLASS)
-  set(to_types "${ITKM_IT}")
-  if(ITK_WRAP_unsigned_short)
-    list(APPEND to_types "US")
-  endif()
+set(to_types "${ITKM_IT}")
+if(ITK_WRAP_unsigned_short)
+  list(APPEND to_types "US")
+endif()
 
-  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${to_types}" 2+)
+itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${to_types}" 2+)
 
-  set(from_types "${WRAP_ITK_SCALAR}")
+set(from_types "${WRAP_ITK_SCALAR}")
 
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(f ${from_types})
-      foreach(t ${to_types})
-        if(ITKM_VI${f}${d} AND ITKT_VI${f}${d})
-          # VectorImage as input
-          itk_wrap_template("${ITKM_VI${f}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${f}${d}},${ITKT_I${t}${d}}")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(f ${from_types})
+    foreach(t ${to_types})
+      if(ITKM_VI${f}${d} AND ITKT_VI${f}${d})
+        # VectorImage as input
+        itk_wrap_template("${ITKM_VI${f}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${f}${d}},${ITKT_I${t}${d}}")
+      endif()
+      if(ITKM_I${ITKM_RGB${f}}${d} AND ITKT_I${ITKM_RGB${f}}${d})
+        # Image of RGBPixel as input
+        itk_wrap_template("${ITKM_I${ITKM_RGB${f}}${d}}${ITKM_I${t}${d}}"
+                          "${ITKT_I${ITKM_RGB${f}}${d}},${ITKT_I${t}${d}}")
+      endif()
+      foreach(c ${ITK_WRAP_VECTOR_COMPONENTS})
+        if(ITKM_I${ITKM_V${f}${c}}${d} AND ITKT_I${ITKM_V${f}${c}}${d})
+          # Image of Vector as input
+          itk_wrap_template("${ITKM_I${ITKM_V${f}${c}}${d}}${ITKM_I${t}${d}}"
+                            "${ITKT_I${ITKM_V${f}${c}}${d}},${ITKT_I${t}${d}}")
         endif()
-        if(ITKM_I${ITKM_RGB${f}}${d} AND ITKT_I${ITKM_RGB${f}}${d})
-          # Image of RGBPixel as input
-          itk_wrap_template("${ITKM_I${ITKM_RGB${f}}${d}}${ITKM_I${t}${d}}" "${ITKT_I${ITKM_RGB${f}}${d}},${ITKT_I${t}${d}}")
+        if(ITKM_I${ITKM_CV${f}${c}}${d} AND ITKT_I${ITKM_CV${f}${c}}${d})
+          # Image of CovariantVector as input
+          itk_wrap_template("${ITKM_I${ITKM_CV${f}${c}}${d}}${ITKM_I${t}${d}}"
+                            "${ITKT_I${ITKM_CV${f}${c}}${d}},${ITKT_I${t}${d}}")
         endif()
-        foreach(c ${ITK_WRAP_VECTOR_COMPONENTS})
-          if(ITKM_I${ITKM_V${f}${c}}${d} AND ITKT_I${ITKM_V${f}${c}}${d})
-            # Image of Vector as input
-            itk_wrap_template("${ITKM_I${ITKM_V${f}${c}}${d}}${ITKM_I${t}${d}}" "${ITKT_I${ITKM_V${f}${c}}${d}},${ITKT_I${t}${d}}")
-          endif()
-          if(ITKM_I${ITKM_CV${f}${c}}${d} AND ITKT_I${ITKM_CV${f}${c}}${d})
-            # Image of CovariantVector as input
-            itk_wrap_template("${ITKM_I${ITKM_CV${f}${c}}${d}}${ITKM_I${t}${d}}" "${ITKT_I${ITKM_CV${f}${c}}${d}},${ITKT_I${t}${d}}")
-          endif()
-        endforeach()
       endforeach()
     endforeach()
   endforeach()
+endforeach()
 itk_end_wrap_class()

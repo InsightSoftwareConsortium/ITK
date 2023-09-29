@@ -4,11 +4,13 @@ project(ITKGPUSmoothing)
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK REQUIRED)
   list(APPEND CMAKE_MODULE_PATH ${ITK_CMAKE_DIR})
-  set(ITK_USE_GPU ON CACHE BOOL "Enable OpenCL GPU support." FORCE)
+  set(ITK_USE_GPU
+      ON
+      CACHE BOOL "Enable OpenCL GPU support." FORCE)
   include(itkOpenCL)
 endif()
 
-if (ITK_USE_GPU)
+if(ITK_USE_GPU)
   set(ITKGPUSmoothing_LIBRARIES ITKGPUSmoothing)
   set(ITKGPUSmoothing_SYSTEM_INCLUDE_DIRS ${OPENCL_INCLUDE_DIRS})
   set(ITKGPUSmoothing_SYSTEM_LIBRARY_DIRS ${OPENCL_LIBRARIES})

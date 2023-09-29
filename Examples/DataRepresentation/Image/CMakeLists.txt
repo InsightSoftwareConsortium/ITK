@@ -24,7 +24,6 @@ target_link_libraries(ImageAdaptor3 ${ITK_LIBRARIES})
 add_executable(ImageAdaptor4 ImageAdaptor4.cxx)
 target_link_libraries(ImageAdaptor4 ${ITK_LIBRARIES})
 
-
 add_executable(Image5 Image5.cxx)
 target_link_libraries(Image5 ${ITK_LIBRARIES})
 
@@ -34,9 +33,6 @@ target_link_libraries(ImageAdaptor1 ${ITK_LIBRARIES})
 add_executable(RGBImage RGBImage.cxx)
 target_link_libraries(RGBImage ${ITK_LIBRARIES})
 
-
-
 if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
-

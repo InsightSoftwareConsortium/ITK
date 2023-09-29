@@ -11,10 +11,15 @@
 #   KitTests - a list of tests to be included in the test driver
 #   ADDITIONAL_SRC (optional) - additional source files, which don't contain tests
 
-macro(CreateTestDriver KIT KIT_LIBS KitTests)
+macro(
+  CreateTestDriver
+  KIT
+  KIT_LIBS
+  KitTests)
   set(ADDITIONAL_SRC ${ARGN})
   if(EMSCRIPTEN)
-    set(emscripten_before "
+    set(emscripten_before
+        "
 EM_ASM(
   var cmake_source_dir = '${CMAKE_SOURCE_DIR}'.split('/');
   // This is intentionally global so it can be unmounted at the end.
@@ -43,7 +48,8 @@ EM_ASM(
     }
   );
 ")
-    set(emscripten_after "
+    set(emscripten_after
+        "
 EM_ASM(
   FS.unmount(source_mount_dir);
   if(source_mount_dir != binary_mount_dir) {
@@ -54,13 +60,16 @@ EM_ASM(
   endif()
   set(CMAKE_TESTDRIVER_BEFORE_TESTMAIN "${emscripten_before}#include \"itkTestDriverBeforeTest.inc\"")
   set(CMAKE_TESTDRIVER_AFTER_TESTMAIN "#include \"itkTestDriverAfterTest.inc\"${emscripten_after}")
-  create_test_sourcelist(Tests ${KIT}TestDriver.cxx
-    ${KitTests}
+  create_test_sourcelist(
+    Tests ${KIT}TestDriver.cxx ${KitTests}
     EXTRA_INCLUDE itkTestDriverIncludeRequiredFactories.h
-    FUNCTION  ProcessArgumentsAndRegisterRequiredFactories
-    )
+    FUNCTION ProcessArgumentsAndRegisterRequiredFactories)
   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests} ${ADDITIONAL_SRC})
-  target_link_libraries(${KIT}TestDriver LINK_PUBLIC ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
+  target_link_libraries(
+    ${KIT}TestDriver
+    LINK_PUBLIC
+    ${KIT_LIBS}
+    ${ITKTestKernel_LIBRARIES})
   itk_module_target_label(${KIT}TestDriver)
 endmacro()
 
@@ -120,12 +129,21 @@ function(itk_python_add_test)
   set(options)
   set(oneValueArgs NAME)
   set(multiValueArgs TEST_DRIVER_ARGS COMMAND)
-  cmake_parse_arguments(PYTHON_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+  cmake_parse_arguments(
+    PYTHON_ADD_TEST
+    "${options}"
+    "${oneValueArgs}"
+    "${multiValueArgs}"
+    ${ARGN})
 
   set(command "${Python3_EXECUTABLE}")
   # add extra command which may be needed on some systems
   if(CMAKE_OSX_ARCHITECTURES)
-    list(GET CMAKE_OSX_ARCHITECTURES 0 test_arch)
+    list(
+      GET
+      CMAKE_OSX_ARCHITECTURES
+      0
+      test_arch)
     set(command arch -${test_arch} ${command})
   endif()
 
@@ -143,17 +161,28 @@ function(itk_python_add_test)
   endif()
   unset(WrapITK_PTH_FILE)
 
-  itk_add_test(NAME ${PYTHON_ADD_TEST_NAME}
-    COMMAND itkTestDriver
-      --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}"  # parent directory of the itk package
-      --add-before-env PYTHONPATH "${ITK_PYTHON_PACKAGE_DIR}"      # package directory and shared libraries + swig artifacts
-      --add-before-libpath "${ITK_PYTHON_PACKAGE_DIR}"             # itk non-wrapping shared libs
-      ${PYTHON_ADD_TEST_TEST_DRIVER_ARGS}
-      ${command}
-      ${PYTHON_ADD_TEST_COMMAND}
-    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
-  )
-  set_property(TEST ${PYTHON_ADD_TEST_NAME} APPEND PROPERTY LABELS Python)
+  itk_add_test(
+    NAME
+    ${PYTHON_ADD_TEST_NAME}
+    COMMAND
+    itkTestDriver
+    --add-before-env
+    PYTHONPATH
+    "${itk_wrap_python_binary_dir}" # parent directory of the itk package
+    --add-before-env
+    PYTHONPATH
+    "${ITK_PYTHON_PACKAGE_DIR}" # package directory and shared libraries + swig artifacts
+    --add-before-libpath
+    "${ITK_PYTHON_PACKAGE_DIR}" # itk non-wrapping shared libs
+    ${PYTHON_ADD_TEST_TEST_DRIVER_ARGS}
+    ${command}
+    ${PYTHON_ADD_TEST_COMMAND}
+    WORKING_DIRECTORY
+    "${CMAKE_CURRENT_LIST_DIR}")
+  set_property(
+    TEST ${PYTHON_ADD_TEST_NAME}
+    APPEND
+    PROPERTY LABELS Python)
 endfunction()
 
 #-----------------------------------------------------------------------------
@@ -184,17 +213,33 @@ function(itk_python_expression_add_test)
   set(options)
   set(oneValueArgs NAME EXPRESSION)
   set(multiValueArgs)
-  cmake_parse_arguments(PYTHON_EXPRESSION_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+  cmake_parse_arguments(
+    PYTHON_EXPRESSION_ADD_TEST
+    "${options}"
+    "${oneValueArgs}"
+    "${multiValueArgs}"
+    ${ARGN})
 
-  itk_python_add_test(NAME ${PYTHON_EXPRESSION_ADD_TEST_NAME}
-    COMMAND -c "import itk$<SEMICOLON> itk.auto_progress(2)$<SEMICOLON> ${PYTHON_EXPRESSION_ADD_TEST_EXPRESSION}"
-    )
+  itk_python_add_test(
+    NAME
+    ${PYTHON_EXPRESSION_ADD_TEST_NAME}
+    COMMAND
+    -c
+    "import itk$<SEMICOLON> itk.auto_progress(2)$<SEMICOLON> ${PYTHON_EXPRESSION_ADD_TEST_EXPRESSION}")
 endfunction()
 
-function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
+function(
+  CreateGoogleTestDriver
+  KIT
+  KIT_LIBS
+  KitTests)
   set(exe "${KIT}GTestDriver")
   add_executable(${exe} ${KitTests})
-  target_link_libraries(${exe} ${KIT_LIBS} GTest::GTest GTest::Main)
+  target_link_libraries(
+    ${exe}
+    ${KIT_LIBS}
+    GTest::GTest
+    GTest::Main)
   itk_module_target_label(${exe})
 
   include(GoogleTest)
@@ -216,9 +261,7 @@ function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
       #           enable the slow introspection (during all other development)
       set(_skip_dependency "SKIP_DEPENDENCY")
     endif()
-    gtest_add_tests(TARGET ${exe}
-      ${_skip_dependency}
-      )
+    gtest_add_tests(TARGET ${exe} ${_skip_dependency})
   endif()
   # TODO need to label the produced ctests
 endfunction()

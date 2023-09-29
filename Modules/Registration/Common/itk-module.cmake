@@ -1,4 +1,5 @@
-set(DOCUMENTATION "This module contains classes to perform registration within
+set(DOCUMENTATION
+    "This module contains classes to perform registration within
 the default ITK registration framework.  A moving image is registered against a
 fixed image by optimizing the parameters of a transform.  This module contains
 metrics to compare the fixed and moving image and classes to coordinate the
@@ -11,38 +12,37 @@ compare the moving image to the fixed image with the image metric, an
 interpolator is required-- these can be found in \\\\ref ITKImageFunction.")
 
 if(BUILD_EXAMPLES)
-set(EXAMPLE_TEST_CASE_DEPENDANCIES
-  ITKImageCompare
-  ITKIOTransformBase
-  ITKIOImageBase
-  ITKPDEDeformableRegistration
-  ITKFFT
-)
+  set(EXAMPLE_TEST_CASE_DEPENDANCIES
+      ITKImageCompare
+      ITKIOTransformBase
+      ITKIOImageBase
+      ITKPDEDeformableRegistration
+      ITKFFT)
 endif()
 
-itk_module(ITKRegistrationCommon
+itk_module(
+  ITKRegistrationCommon
   DEPENDS
-    ITKOptimizers
-    ITKImageIntensity
-    ITKImageFunction
-    ITKImageGrid
-    ITKSpatialObjects
-    ITKSmoothing
-    ITKImageGradient
-    ITKImageFeature
-    ITKFiniteDifference
-    ITKDisplacementField
-    ITKStatistics
+  ITKOptimizers
+  ITKImageIntensity
+  ITKImageFunction
+  ITKImageGrid
+  ITKSpatialObjects
+  ITKSmoothing
+  ITKImageGradient
+  ITKImageFeature
+  ITKFiniteDifference
+  ITKDisplacementField
+  ITKStatistics
   TEST_DEPENDS
-    ITKTestKernel
-    ITKDistanceMap
-    ITKImageSources
-    ITKColormap
-    ITKQuadEdgeMesh
-    ${EXAMPLE_TEST_CASE_DEPENDANCIES}
+  ITKTestKernel
+  ITKDistanceMap
+  ITKImageSources
+  ITKColormap
+  ITKQuadEdgeMesh
+  ${EXAMPLE_TEST_CASE_DEPENDANCIES}
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")
 
 # Extra test dependency on ITKDistanceMap is introduced by itkPointSetToPointSetRegistrationTest.
 # Dependency on ITKStatistics is introduced by itkPointsLocator.

@@ -29,10 +29,8 @@
 
 file(TO_CMAKE_PATH "${CPPCHECK_ROOT_DIR}" CPPCHECK_ROOT_DIR)
 set(CPPCHECK_ROOT_DIR
-  "${CPPCHECK_ROOT_DIR}"
-  CACHE
-  PATH
-  "Path to search for cppcheck")
+    "${CPPCHECK_ROOT_DIR}"
+    CACHE PATH "Path to search for cppcheck")
 mark_as_advanced(CPPCHECK_ROOT_DIR)
 
 # cppcheck app bundles on Mac OS X are GUI, we want command line only
@@ -41,14 +39,11 @@ set(CMAKE_FIND_APPBUNDLE NEVER)
 
 # If we have a custom path, look there first.
 if(CPPCHECK_ROOT_DIR)
-  find_program(CPPCHECK_EXECUTABLE
-    NAMES
-      cppcheck
-      cli
-    PATHS
-      "${CPPCHECK_ROOT_DIR}"
-    PATH_SUFFIXES
-      cli
+  find_program(
+    CPPCHECK_EXECUTABLE
+    NAMES cppcheck cli
+    PATHS "${CPPCHECK_ROOT_DIR}"
+    PATH_SUFFIXES cli
     NO_DEFAULT_PATH)
 endif()
 
@@ -71,16 +66,10 @@ if(CPPCHECK_EXECUTABLE)
   set(CPPCHECK_ALL_ARG --enable=all)
 
   # Check for the two types of command line arguments by just trying them
-  execute_process(COMMAND
-      ${CPPCHECK_EXECUTABLE}
-      --enable=style
-      ${CPPCHECK_QUIET_ARG}
-      ${_cppcheckdummyfile}
-    RESULT_VARIABLE
-      _cppcheck_enable_style_result
-    OUTPUT_QUIET
-    ERROR_QUIET
-    )
+  execute_process(
+    COMMAND ${CPPCHECK_EXECUTABLE} --enable=style ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+    RESULT_VARIABLE _cppcheck_enable_style_result
+    OUTPUT_QUIET ERROR_QUIET)
 
   if("${_cppcheck_enable_style_result}" EQUAL 0)
 
@@ -104,30 +93,18 @@ if(CPPCHECK_EXECUTABLE)
 
   endif()
 
-  execute_process(COMMAND
-      ${CPPCHECK_EXECUTABLE}
-      --enable=unusedFunctions
-      ${CPPCHECK_QUIET_ARG}
-      ${_cppcheckdummyfile}
-    RESULT_VARIABLE
-      _cppcheck_enable_unused_functions_results
-    OUTPUT_QUIET
-    ERROR_QUIET
-    )
+  execute_process(
+    COMMAND ${CPPCHECK_EXECUTABLE} --enable=unusedFunctions ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+    RESULT_VARIABLE _cppcheck_enable_unused_functions_results
+    OUTPUT_QUIET ERROR_QUIET)
 
   if("${_cppcheck_enable_unused_functions_results}" EQUAL 0)
     set(CPPCHECK_UNUSEDFUNC_ARG --enable=unusedFunctions)
   else()
-    execute_process(COMMAND
-      ${CPPCHECK_EXECUTABLE}
-      --enable=unusedFunction
-      ${CPPCHECK_QUIET_ARG}
-      ${_cppcheckdummyfile}
-    RESULT_VARIABLE
-      _cppcheck_enable_unused_function_results
-    OUTPUT_QUIET
-    ERROR_QUIET
-    )
+    execute_process(
+      COMMAND ${CPPCHECK_EXECUTABLE} --enable=unusedFunction ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+      RESULT_VARIABLE _cppcheck_enable_unused_function_results
+      OUTPUT_QUIET ERROR_QUIET)
 
     if("${_cppcheck_enable_unused_function_results}" EQUAL 0)
       set(CPPCHECK_UNUSEDFUNC_ARG --enable=unusedFunction)
@@ -137,16 +114,10 @@ if(CPPCHECK_EXECUTABLE)
 
   endif()
 
-  execute_process(COMMAND
-      ${CPPCHECK_EXECUTABLE}
-      --enable=information
-      ${CPPCHECK_QUIET_ARG}
-      ${_cppcheckdummyfile}
-    RESULT_VARIABLE
-      _cppcheck_enable_information_results
-    OUTPUT_QUIET
-    ERROR_QUIET
-    )
+  execute_process(
+    COMMAND ${CPPCHECK_EXECUTABLE} --enable=information ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+    RESULT_VARIABLE _cppcheck_enable_information_results
+    OUTPUT_QUIET ERROR_QUIET)
 
   if("${_cppcheck_enable_information_results}" EQUAL 0)
     # supported since
@@ -155,16 +126,10 @@ if(CPPCHECK_EXECUTABLE)
     set(CPPCHECK_INFORMATION_ARG)
   endif()
 
-  execute_process(COMMAND
-      ${CPPCHECK_EXECUTABLE}
-      --enable=missingInclude
-      ${CPPCHECK_QUIET_ARG}
-      ${_cppcheckdummyfile}
-    RESULT_VARIABLE
-      _cppcheck_missingInclude_results
-    OUTPUT_QUIET
-    ERROR_QUIET
-    )
+  execute_process(
+    COMMAND ${CPPCHECK_EXECUTABLE} --enable=missingInclude ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+    RESULT_VARIABLE _cppcheck_missingInclude_results
+    OUTPUT_QUIET ERROR_QUIET)
 
   if("${_cppcheck_missingInclude_results}" EQUAL 0)
     # supported since
@@ -176,10 +141,12 @@ if(CPPCHECK_EXECUTABLE)
 endif()
 
 set(CPPCHECK_ALL
-"${CPPCHECK_EXECUTABLE} ${CPPCHECK_POSSIBLEERROR_ARG} ${CPPCHECK_UNUSEDFUNC_ARG} ${CPPCHECK_STYLE_ARG} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_INCLUDEPATH_ARG} some/include/path")
+    "${CPPCHECK_EXECUTABLE} ${CPPCHECK_POSSIBLEERROR_ARG} ${CPPCHECK_UNUSEDFUNC_ARG} ${CPPCHECK_STYLE_ARG} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_INCLUDEPATH_ARG} some/include/path"
+)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(cppcheck
+find_package_handle_standard_args(
+  cppcheck
   DEFAULT_MSG
   CPPCHECK_ALL
   CPPCHECK_EXECUTABLE
@@ -192,8 +159,7 @@ find_package_handle_standard_args(cppcheck
   CPPCHECK_DEFINITION_ARG
   CPPCHECK_QUIET_ARG
   CPPCHECK_FORCE_ARG
-  CPPCHECK_VERBOSE_ARG
-)
+  CPPCHECK_VERBOSE_ARG)
 
 if(CPPCHECK_FOUND OR CPPCHECK_MARK_AS_ADVANCED)
   mark_as_advanced(CPPCHECK_ROOT_DIR)

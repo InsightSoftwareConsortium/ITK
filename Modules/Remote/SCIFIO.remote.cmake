@@ -41,9 +41,12 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
-itk_fetch_module(SCIFIO
+itk_fetch_module(
+  SCIFIO
   "SCIFIO (Bioformats) ImageIO plugin for ITK"
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/scifio/scifio-imageio.git
-  GIT_TAG 1054ece893ee072bdb8124c45ce207de00af280f
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/scifio/scifio-imageio.git
+  GIT_TAG
+  1054ece893ee072bdb8124c45ce207de00af280f)

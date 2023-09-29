@@ -1,4 +1,3 @@
-
 #
 #  W A R N I N G
 #  -------------
@@ -14,7 +13,6 @@
 # compiler settings for a project to use ITK.  It should not be
 # included directly, but rather through the ITK_USE_FILE setting
 # obtained from ITKConfig.cmake.
-
 
 # Add compiler flags needed to use ITK.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
@@ -48,25 +46,25 @@ set(_need_include 0)
 foreach(_factory_name ${ITK_FACTORY_LIST})
   string(TOUPPER ${_factory_name} _factory_uc)
 
-  if (_factory_name MATCHES "IO" AND
-      ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+  if(_factory_name MATCHES "IO" AND ITK_NO_IO_FACTORY_REGISTER_MANAGER)
     if("${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}" VERSION_GREATER_EQUAL "5.4")
-      message(WARNING
-        "ITK_NO_IO_FACTORY_REGISTER_MANAGER CMake variable is "
-        "deprecated. Use ITK_NO_${_factory_uc}_FACTORY_REGISTER_MANAGER")
+      message(WARNING "ITK_NO_IO_FACTORY_REGISTER_MANAGER CMake variable is "
+                      "deprecated. Use ITK_NO_${_factory_uc}_FACTORY_REGISTER_MANAGER")
     endif()
     continue()
   endif()
 
   if(NOT ITK_NO_${_factory_uc}_FACTORY_REGISTER_MANAGER)
-    set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS
-      ITK_${_factory_uc}_FACTORY_REGISTER_MANAGER)
+    set_property(
+      DIRECTORY
+      APPEND
+      PROPERTY COMPILE_DEFINITIONS ITK_${_factory_uc}_FACTORY_REGISTER_MANAGER)
     set(_need_include 1)
 
   endif()
 endforeach()
 
-if (_need_include)
+if(_need_include)
   include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration)
 endif()
 unset(_need_include)

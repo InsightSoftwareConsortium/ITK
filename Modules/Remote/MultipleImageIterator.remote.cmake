@@ -41,8 +41,9 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
-itk_fetch_module(MultipleImageIterator
-"Several applications such as multi-atlas segmentation
+itk_fetch_module(
+  MultipleImageIterator
+  "Several applications such as multi-atlas segmentation
 require frequent iteration over multiple image volumes at the same time.
 Doing so with the regular ITK iterators is tedious and error prone
 as it requires updating each iterator at end of each iteration.
@@ -54,7 +55,9 @@ Schaerer J. \"A MultipleImageIterator for iterating over multiple images simulta
   https://www.insight-journal.org/browse/publication/915
   December, 2014.
 "
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/MultipleImageIterator.git
-  GIT_TAG 046e70f43f56ac1a0e32e083fb1fe1d1379a1f73
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/KitwareMedical/MultipleImageIterator.git
+  GIT_TAG
+  046e70f43f56ac1a0e32e083fb1fe1d1379a1f73)

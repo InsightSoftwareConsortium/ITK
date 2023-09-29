@@ -1,14 +1,15 @@
-set(DOCUMENTATION "This module contains classes to perform the region growing
+set(DOCUMENTATION
+    "This module contains classes to perform the region growing
 approach to image segmentation.  A seed pixel is iteratively propagated to a
 region identifying a tissue type by testing if connected pixels pass a criteria.
 See also \\\\ref ITKKLMRegionGrowing.")
 
-itk_module(ITKRegionGrowing
+itk_module(
+  ITKRegionGrowing
   ENABLE_SHARED
   DEPENDS
-    ITKThresholding
+  ITKThresholding
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

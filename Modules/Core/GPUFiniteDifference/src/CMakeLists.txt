@@ -1,11 +1,7 @@
-set(ITKGPUFiniteDifference_SRCS
-  itkGPUFiniteDifferenceFilterEnum.cxx
-)
+set(ITKGPUFiniteDifference_SRCS itkGPUFiniteDifferenceFilterEnum.cxx)
 
-if (ITK_USE_GPU)
-  set(ITKGPUFiniteDifference_Kernels
-    GPUDenseFiniteDifferenceImageFilter.cl
-    )
+if(ITK_USE_GPU)
+  set(ITKGPUFiniteDifference_Kernels GPUDenseFiniteDifferenceImageFilter.cl)
   write_gpu_kernels("${ITKGPUFiniteDifference_Kernels}" ITKGPUFiniteDifference_SRCS)
 
   itk_module_add_library(ITKGPUFiniteDifference ${ITKGPUFiniteDifference_SRCS})

@@ -1,15 +1,16 @@
-set(DOCUMENTATION "This model contains a class for reading
+set(DOCUMENTATION
+    "This model contains a class for reading
 <a href=\"https://www.cmrr.umn.edu/stimulate/stimUsersGuide/node57.html\">
 Stimulate (SDT/SPR)</a> images.")
 
-itk_module(ITKIOStimulate
+itk_module(
+  ITKIOStimulate
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
+  ITKIOImageBase
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   FACTORY_NAMES
-    ImageIO::Stimulate
+  ImageIO::Stimulate
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

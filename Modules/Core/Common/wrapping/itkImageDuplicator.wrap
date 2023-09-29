@@ -1,63 +1,73 @@
 macro(EXTEND_IMAGE_DUPLICATOR type)
-    if(ITK_WRAP_PYTHON)
-      set(import_text "%import pyCommon.i\n")
-      string(FIND ${ITK_WRAP_PYTHON_SWIG_EXT} ${import_text} pos)
-      if(${pos} EQUAL -1)
-          string(PREPEND ITK_WRAP_PYTHON_SWIG_EXT "${import_text}")
-      endif()
-      string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_FORCE_SNAKE_CASE_CLASS(itkImageDuplicator${type})\n")
+  if(ITK_WRAP_PYTHON)
+    set(import_text "%import pyCommon.i\n")
+    string(FIND ${ITK_WRAP_PYTHON_SWIG_EXT} ${import_text} pos)
+    if(${pos} EQUAL -1)
+      string(PREPEND ITK_WRAP_PYTHON_SWIG_EXT "${import_text}")
     endif()
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_FORCE_SNAKE_CASE_CLASS(itkImageDuplicator${type})\n")
+  endif()
 endmacro()
 
 itk_wrap_class("itk::ImageDuplicator" POINTER)
-  # Making sure that all types wrapped in PyBuffer are also wrapped for ImageDuplicator
-  # as this filter is used in the Python NumPy  bridge.
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
-  foreach(t ${types})
-    string(REGEX MATCHALL "(V${t}|CV${t})" VectorTypes ${WRAP_ITK_VECTOR})
-    set(PixelType ${t})
-    foreach(d ${ITK_WRAP_DIMS})
-      if( DEFINED ITKT_I${t}${d} )
-        EXTEND_IMAGE_DUPLICATOR("${ITKM_I${t}${d}}")
-        itk_wrap_template("${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}")
-      endif()
+# Making sure that all types wrapped in PyBuffer are also wrapped for ImageDuplicator
+# as this filter is used in the Python NumPy  bridge.
+unique(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
+foreach(t ${types})
+  string(
+    REGEX MATCHALL
+          "(V${t}|CV${t})"
+          VectorTypes
+          ${WRAP_ITK_VECTOR})
+  set(PixelType ${t})
+  foreach(d ${ITK_WRAP_DIMS})
+    if(DEFINED ITKT_I${t}${d})
+      extend_image_duplicator("${ITKM_I${t}${d}}")
+      itk_wrap_template("${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}")
+    endif()
 
-      # Wraps Symmetric Second Rank tensor images
-      if( DEFINED ITKM_ISSRT${t}${d}${d})
-        EXTEND_IMAGE_DUPLICATOR("${ITKM_ISSRT${t}${d}${d}}")
-        itk_wrap_template("${ITKM_ISSRT${t}${d}${d}}" "${ITKT_ISSRT${t}${d}${d}}")
-      endif()
+    # Wraps Symmetric Second Rank tensor images
+    if(DEFINED ITKM_ISSRT${t}${d}${d})
+      extend_image_duplicator("${ITKM_ISSRT${t}${d}${d}}")
+      itk_wrap_template("${ITKM_ISSRT${t}${d}${d}}" "${ITKT_ISSRT${t}${d}${d}}")
+    endif()
 
-      # Wraps RGB and RGBA types that have been selected to be wrapped.
-      # We have to recompute them all to extract the pixel component type.
-      foreach(p RGB;RGBA)
-        set(WRAP_RGBA_RGB "${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
-        list(FIND WRAP_RGBA_RGB "${p}${t}" pos)
-        if( NOT ${pos} EQUAL -1 AND DEFINED ITKT_I${p}${t}${d})
-          EXTEND_IMAGE_DUPLICATOR("${ITKM_I${p}${t}${d}}")
-          itk_wrap_template("${ITKM_I${p}${t}${d}}" "${ITKT_I${p}${t}${d}}")
+    # Wraps RGB and RGBA types that have been selected to be wrapped.
+    # We have to recompute them all to extract the pixel component type.
+    foreach(p RGB;RGBA)
+      set(WRAP_RGBA_RGB "${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
+      list(
+        FIND
+        WRAP_RGBA_RGB
+        "${p}${t}"
+        pos)
+      if(NOT
+         ${pos}
+         EQUAL
+         -1
+         AND DEFINED ITKT_I${p}${t}${d})
+        extend_image_duplicator("${ITKM_I${p}${t}${d}}")
+        itk_wrap_template("${ITKM_I${p}${t}${d}}" "${ITKT_I${p}${t}${d}}")
+      endif()
+    endforeach(p)
+    # Image Vector types
+    foreach(vec_dim ${ITK_WRAP_VECTOR_COMPONENTS})
+      foreach(vec_type ${VectorTypes})
+        if(DEFINED ITKM_I${vec_type}${vec_dim}${d})
+          extend_image_duplicator("${ITKM_I${vec_type}${vec_dim}${d}}")
+          itk_wrap_template("${ITKM_I${vec_type}${vec_dim}${d}}" "${ITKT_I${vec_type}${vec_dim}${d}}")
         endif()
-      endforeach(p)
-      # Image Vector types
-      foreach(vec_dim ${ITK_WRAP_VECTOR_COMPONENTS})
-        foreach(vec_type ${VectorTypes})
-           if( DEFINED ITKM_I${vec_type}${vec_dim}${d})
-             EXTEND_IMAGE_DUPLICATOR("${ITKM_I${vec_type}${vec_dim}${d}}")
-             itk_wrap_template("${ITKM_I${vec_type}${vec_dim}${d}}" "${ITKT_I${vec_type}${vec_dim}${d}}")
-             endif()
-          endforeach()
-       endforeach()
-    endforeach(d)
-  endforeach(t)
-  UNIQUE(types "${WRAP_ITK_COMPLEX_REAL};${WRAP_ITK_SCALAR};UC")
-  foreach(t ${types})
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-        itk_wrap_template("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
+      endforeach()
     endforeach()
+  endforeach(d)
+endforeach(t)
+unique(types "${WRAP_ITK_COMPLEX_REAL};${WRAP_ITK_SCALAR};UC")
+foreach(t ${types})
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
   endforeach()
+endforeach()
 
-
-    file(COPY ${CMAKE_CURRENT_LIST_DIR}/pyCommon.i
-      DESTINATION "${WRAP_ITK_TYPEDEFS_DIRECTORY}")
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/pyCommon.i DESTINATION "${WRAP_ITK_TYPEDEFS_DIRECTORY}")
 
 itk_end_wrap_class()

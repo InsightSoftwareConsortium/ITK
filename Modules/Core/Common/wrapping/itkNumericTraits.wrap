@@ -1,4 +1,3 @@
-
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkNumericTraits.h")
 itk_wrap_include("itkNumericTraitsRGBPixel.h")
@@ -17,80 +16,111 @@ endif()
 
 # the superclass
 itk_wrap_class(std::numeric_limits EXPLICIT_SPECIALIZATION)
-  # the basic types
-  foreach(t UC US UI UL ULL SC SS SI SL F D LD B)
-    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach()
+# the basic types
+foreach(
+  t
+  UC
+  US
+  UI
+  UL
+  ULL
+  SC
+  SS
+  SI
+  SL
+  F
+  D
+  LD
+  B)
+  itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+endforeach()
 itk_end_wrap_class()
 
-
 itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
-  # the basic types
-  foreach(t UC US UI UL ULL SC SS SI SL F D LD B)
-    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach()
+# the basic types
+foreach(
+  t
+  UC
+  US
+  UI
+  UL
+  ULL
+  SC
+  SS
+  SI
+  SL
+  F
+  D
+  LD
+  B)
+  itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+endforeach()
 
-  # complex
-  foreach(t ${WRAP_ITK_COMPLEX_REAL})
-    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach()
+# complex
+foreach(t ${WRAP_ITK_COMPLEX_REAL})
+  itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+endforeach()
 
-  # the ITK types
+# the ITK types
 
-  # rgb, rgba
-  UNIQUE(rgbs "RGBUC;RGBAUC;RGBAF;${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
-  foreach(t ${WRAP_ITK_RGB} ${WRAP_ITK_RGBA})
-    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach()
+# rgb, rgba
+unique(rgbs "RGBUC;RGBAUC;RGBAF;${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
+foreach(t ${WRAP_ITK_RGB} ${WRAP_ITK_RGBA})
+  itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+endforeach()
 
-  # covariant vector
-  foreach(d ${ITK_WRAP_VECTOR_COMPONENTS})
-    foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
-      itk_wrap_template("${ITKM_${t}${d}}" "${ITKT_${t}${d}}")
-    endforeach()
+# covariant vector
+foreach(d ${ITK_WRAP_VECTOR_COMPONENTS})
+  foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
+    itk_wrap_template("${ITKM_${t}${d}}" "${ITKT_${t}${d}}")
   endforeach()
+endforeach()
 
-  # vector, as in WrapITKTypes.cmake
-  UNIQUE(vector_dims "1;${ITK_WRAP_VECTOR_COMPONENTS};6")
-  UNIQUE(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
-  foreach(d ${vector_dims})
-    foreach(t ${vector_types})
-      ADD_TEMPLATE("${ITKM_V${t}${d}}" "${ITKT_V${t}${d}}")
-    endforeach()
+# vector, as in WrapITKTypes.cmake
+unique(vector_dims "1;${ITK_WRAP_VECTOR_COMPONENTS};6")
+unique(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
+foreach(d ${vector_dims})
+  foreach(t ${vector_types})
+    add_template("${ITKM_V${t}${d}}" "${ITKT_V${t}${d}}")
   endforeach()
+endforeach()
 
-  # fixed array, as in WrapITKTypes.cmake
-  set(dims ${ITK_WRAP_IMAGE_DIMS})
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    math(EXPR d2 "${d} * 2")
-    # for itk::SymmetricSecondRankTensor
-    math(EXPR d3 "${d} * (${d} + 1) / 2")
-    list(APPEND dims ${d2} ${d3})
-  endforeach()
-  UNIQUE(array_sizes "${dims};1;3;4;6")
-  # make sure that 1-D FixedArrays are wrapped. Also wrap for each selected
-  # image dimension.
-  # 3-D FixedArrays are required as superclass of rgb pixels
-  # TODO: Do we need fixed arrays for all of these types? For just the selected
-  # pixel types plus some few basic cases? Or just for a basic set of types?
-  foreach(d ${array_sizes})
-    ADD_TEMPLATE("${ITKM_FAD${d}}"  "${ITKT_FAD${d}}")
-    ADD_TEMPLATE("${ITKM_FAF${d}}"  "${ITKT_FAF${d}}")
-    ADD_TEMPLATE("${ITKM_FAUL${d}}" "${ITKT_FAUL${d}}")
-    ADD_TEMPLATE("${ITKM_FAUS${d}}" "${ITKT_FAUS${d}}")
-    ADD_TEMPLATE("${ITKM_FAUC${d}}" "${ITKT_FAUC${d}}")
-    ADD_TEMPLATE("${ITKM_FAUI${d}}" "${ITKT_FAUI${d}}")
-    ADD_TEMPLATE("${ITKM_FASL${d}}" "${ITKT_FASL${d}}")
-    ADD_TEMPLATE("${ITKM_FASS${d}}" "${ITKT_FASS${d}}")
-    ADD_TEMPLATE("${ITKM_FASC${d}}" "${ITKT_FASC${d}}")
-    # this one is not defined in itkNumerictTraitsFixedArrayPixel.h
-    # ADD_TEMPLATE("${ITKM_FAB${d}}"  "${ITKT_FAB${d}}")
-  endforeach()
+# fixed array, as in WrapITKTypes.cmake
+set(dims ${ITK_WRAP_IMAGE_DIMS})
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  math(EXPR d2 "${d} * 2")
+  # for itk::SymmetricSecondRankTensor
+  math(EXPR d3 "${d} * (${d} + 1) / 2")
+  list(
+    APPEND
+    dims
+    ${d2}
+    ${d3})
+endforeach()
+unique(array_sizes "${dims};1;3;4;6")
+# make sure that 1-D FixedArrays are wrapped. Also wrap for each selected
+# image dimension.
+# 3-D FixedArrays are required as superclass of rgb pixels
+# TODO: Do we need fixed arrays for all of these types? For just the selected
+# pixel types plus some few basic cases? Or just for a basic set of types?
+foreach(d ${array_sizes})
+  add_template("${ITKM_FAD${d}}" "${ITKT_FAD${d}}")
+  add_template("${ITKM_FAF${d}}" "${ITKT_FAF${d}}")
+  add_template("${ITKM_FAUL${d}}" "${ITKT_FAUL${d}}")
+  add_template("${ITKM_FAUS${d}}" "${ITKT_FAUS${d}}")
+  add_template("${ITKM_FAUC${d}}" "${ITKT_FAUC${d}}")
+  add_template("${ITKM_FAUI${d}}" "${ITKT_FAUI${d}}")
+  add_template("${ITKM_FASL${d}}" "${ITKT_FASL${d}}")
+  add_template("${ITKM_FASS${d}}" "${ITKT_FASS${d}}")
+  add_template("${ITKM_FASC${d}}" "${ITKT_FASC${d}}")
+  # this one is not defined in itkNumerictTraitsFixedArrayPixel.h
+  # ADD_TEMPLATE("${ITKM_FAB${d}}"  "${ITKT_FAB${d}}")
+endforeach()
 
-  # variable length vector, as in WrapITKTypes.cmake
-  UNIQUE(wrap_image_types "${WRAP_ITK_SCALAR};UC")
-  foreach(type ${wrap_image_types})
-    ADD_TEMPLATE("${ITKM_VLV${type}}"  "${ITKT_VLV${type}}")
-  endforeach()
+# variable length vector, as in WrapITKTypes.cmake
+unique(wrap_image_types "${WRAP_ITK_SCALAR};UC")
+foreach(type ${wrap_image_types})
+  add_template("${ITKM_VLV${type}}" "${ITKT_VLV${type}}")
+endforeach()
 
 itk_end_wrap_class()

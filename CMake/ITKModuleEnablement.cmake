@@ -3,16 +3,20 @@
 
 macro(itk_module_load_DAG)
   set(ITK_MODULES_ALL)
-  file(GLOB_RECURSE meta RELATIVE "${ITK_SOURCE_DIR}"
-     "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
-    )
+  file(
+    GLOB_RECURSE meta
+    RELATIVE "${ITK_SOURCE_DIR}"
+    "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
+  )
   foreach(f ${meta})
     include(${ITK_SOURCE_DIR}/${f})
     list(APPEND ITK_MODULES_ALL ${itk-module})
     get_filename_component(${itk-module}_BASE ${f} PATH)
     set(${itk-module}_SOURCE_DIR ${ITK_SOURCE_DIR}/${${itk-module}_BASE})
     set(${itk-module}_BINARY_DIR ${ITK_BINARY_DIR}/${${itk-module}_BASE})
-    if(BUILD_TESTING AND NOT DISABLE_MODULE_TESTS AND EXISTS ${${itk-module}_SOURCE_DIR}/test)
+    if(BUILD_TESTING
+       AND NOT DISABLE_MODULE_TESTS
+       AND EXISTS ${${itk-module}_SOURCE_DIR}/test)
       list(APPEND ITK_MODULES_ALL ${itk-module-test})
       set(${itk-module-test}_SOURCE_DIR ${${itk-module}_SOURCE_DIR}/test)
       set(${itk-module-test}_BINARY_DIR ${${itk-module}_BINARY_DIR}/test)
@@ -22,14 +26,18 @@ macro(itk_module_load_DAG)
     endif()
 
     # Reject bad dependencies.
-    string(REGEX MATCHALL ";(ITKDeprecated|ITKReview|ITKIntegratedTest);"
-      _bad_deps ";${ITK_MODULE_${itk-module}_DEPENDS};${ITK_MODULE_${itk-module-test}_DEPENDS};")
+    string(
+      REGEX MATCHALL
+            ";(ITKDeprecated|ITKReview|ITKIntegratedTest);"
+            _bad_deps
+            ";${ITK_MODULE_${itk-module}_DEPENDS};${ITK_MODULE_${itk-module-test}_DEPENDS};")
     foreach(dep ${_bad_deps})
-      if(NOT "${itk-module}" MATCHES "^(${dep}|ITKIntegratedTest)$")
-        message(FATAL_ERROR
-          "Module \"${itk-module}\" loaded from\n"
-          "  ${${itk-module}_BASE}/itk-module.cmake\n"
-          "may not depend on module \"${dep}\".")
+      if(NOT
+         "${itk-module}"
+         MATCHES
+         "^(${dep}|ITKIntegratedTest)$")
+        message(FATAL_ERROR "Module \"${itk-module}\" loaded from\n" "  ${${itk-module}_BASE}/itk-module.cmake\n"
+                            "may not depend on module \"${dep}\".")
       endif()
     endforeach()
   endforeach()
@@ -39,16 +47,28 @@ macro(itk_module_load_DAG)
 endmacro()
 
 # Validate the module DAG.
-macro(itk_module_check itk-module _needed_by stack)
+macro(
+  itk_module_check
+  itk-module
+  _needed_by
+  stack)
   if(NOT ITK_MODULE_${itk-module}_DECLARED)
-    string(SUBSTRING ${itk-module} 0 3 module-name-prefix)
-    if (${module-name-prefix} EQUAL "ITK")
+    string(
+      SUBSTRING ${itk-module}
+                0
+                3
+                module-name-prefix)
+    if(${module-name-prefix} EQUAL "ITK")
       message(AUTHOR_WARNING "No such module \"${itk-module}\" needed by \"${_needed_by}\"")
     else() # This is a remote module which has not been downloaded yet
       message(STATUS "Including remote module \"${itk-module}\" needed by \"${_needed_by}\"")
-      set(Module_${itk-module} ON CACHE BOOL "Needed by ${_needed_by}" FORCE) # turn it on
+      set(Module_${itk-module}
+          ON
+          CACHE BOOL "Needed by ${_needed_by}" FORCE) # turn it on
       include("${CMAKE_CURRENT_LIST_DIR}/../Modules/Remote/${itk-module}.remote.cmake")
-      set(Module_${itk-module} OFF CACHE BOOL "Needed by ${_needed_by}" FORCE) # turn it back off
+      set(Module_${itk-module}
+          OFF
+          CACHE BOOL "Needed by ${_needed_by}" FORCE) # turn it back off
       set(ModuleEnablementNeedsToRerun ON)
     endif()
     unset(module-name-prefix)
@@ -74,7 +94,7 @@ endmacro()
 
 set(ModuleEnablementNeedsToRerun ON) # this needs to run at least once
 while(ModuleEnablementNeedsToRerun)
-  itk_module_load_DAG()
+  itk_module_load_dag()
   set(ModuleEnablementNeedsToRerun OFF)
   message(STATUS "Running module dependency checks")
   foreach(itk-module ${ITK_MODULES_ALL})
@@ -103,7 +123,9 @@ if(DEFINED ITK_BUILD_ALL_MODULES)
   message(WARNING "ITK_BUILD_ALL_MODULES is deprecated, please remove this entry from the CMake "
                   "cache (edit the CMakeCache.txt file located in the top level of the ITK build "
                   "tree directly or via the CMake GUI), and use ITK_BUILD_DEFAULT_MODULES instead.")
-  set(ITK_BUILD_DEFAULT_MODULES ${ITK_BUILD_ALL_MODULES} CACHE BOOL "Build the default ITK modules." FORCE)
+  set(ITK_BUILD_DEFAULT_MODULES
+      ${ITK_BUILD_ALL_MODULES}
+      CACHE BOOL "Build the default ITK modules." FORCE)
 endif()
 # Provide module selections by groups
 include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
@@ -130,8 +152,11 @@ macro(itk_module_enable itk-module _needed_by)
     message(FATAL_ERROR "No such module \"${itk-module}\" needed by \"${_needed_by}\"")
   endif()
   if(NOT Module_${itk-module})
-    if(NOT ${itk-module}_TESTED_BY OR
-      NOT "x${_needed_by}" STREQUAL "x${${itk-module}_TESTED_BY}")
+    if(NOT ${itk-module}_TESTED_BY
+       OR NOT
+          "x${_needed_by}"
+          STREQUAL
+          "x${${itk-module}_TESTED_BY}")
       list(APPEND ITK_MODULE_${itk-module}_NEEDED_BY ${_needed_by})
     endif()
   endif()
@@ -140,7 +165,10 @@ macro(itk_module_enable itk-module _needed_by)
     foreach(dep IN LISTS ITK_MODULE_${itk-module}_DEPENDS)
       itk_module_enable(${dep} ${itk-module})
     endforeach()
-    if(${itk-module}_TESTED_BY AND (ITK_BUILD_DEFAULT_MODULES OR ITK_BUILD_ALL_MODULES_FOR_TESTS OR Module_${itk-module}))
+    if(${itk-module}_TESTED_BY
+       AND (ITK_BUILD_DEFAULT_MODULES
+            OR ITK_BUILD_ALL_MODULES_FOR_TESTS
+            OR Module_${itk-module}))
       itk_module_enable(${${itk-module}_TESTED_BY} "")
     endif()
   endif()
@@ -178,8 +206,7 @@ set(ITK_MODULES_DISABLED_CPACK)
 foreach(m ${ITK_MODULES_DISABLED})
   list(APPEND ITK_MODULES_DISABLED_CPACK "/${m}/")
 endforeach()
-set(CPACK_SOURCE_IGNORE_FILES
-  "${ITK_MODULES_DISABLED_CPACK};/\\\\.git")
+set(CPACK_SOURCE_IGNORE_FILES "${ITK_MODULES_DISABLED_CPACK};/\\\\.git")
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Insight Toolkit version ${ITK_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VENDOR "ISC")
@@ -261,7 +288,10 @@ if(ITK_GENERATE_PROJECT_XML)
   set(xml "${xml}<Project name='${main_project_name}'>\n")
   foreach(module ${ITK_CDASH_SUBPROJECT_MODULES})
     if(${module}_IS_TEST)
-      message(FATAL_ERROR "unexpected: subproject names should not be test modules module='${module}' tests_for='${${module}_TESTS_FOR}'")
+      message(
+        FATAL_ERROR
+          "unexpected: subproject names should not be test modules module='${module}' tests_for='${${module}_TESTS_FOR}'"
+      )
     endif()
     set(xml "${xml}  <SubProject name='${module}'>\n")
     set(deps "")
@@ -273,7 +303,11 @@ if(ITK_GENERATE_PROJECT_XML)
       endif()
     endif()
     foreach(dep ${dep_list})
-      if(NOT ${dep}_IS_TEST AND NOT "${module}" STREQUAL "${dep}")
+      if(NOT ${dep}_IS_TEST
+         AND NOT
+             "${module}"
+             STREQUAL
+             "${dep}")
         set(xml "${xml}    <Dependency name='${dep}'/>\n")
       endif()
     endforeach()
@@ -299,7 +333,10 @@ if(ITK_GENERATE_SUBPROJECTS_CMAKE)
   set(s "${s}set(itk_subprojects\n")
   foreach(itk-module ${ITK_CDASH_SUBPROJECT_MODULES})
     if(${itk-module}_IS_TEST)
-      message(FATAL_ERROR "unexpected: subproject names should not be test modules itk-module='${itk-module}' tests_for='${${itk-module}_TESTS_FOR}'")
+      message(
+        FATAL_ERROR
+          "unexpected: subproject names should not be test modules itk-module='${itk-module}' tests_for='${${itk-module}_TESTS_FOR}'"
+      )
     endif()
     set(s "${s}  \"${itk-module}\"\n")
   endforeach()
@@ -309,7 +346,7 @@ if(ITK_GENERATE_SUBPROJECTS_CMAKE)
   file(WRITE ${filename}.in "${s}")
 
   # Use configure_file so "${filename}" only changes when its content changes:
- configure_file(${filename}.in ${filename} COPYONLY)
+  configure_file(${filename}.in ${filename} COPYONLY)
 endif()
 
 #-----------------------------------------------------------------------------
@@ -320,8 +357,7 @@ if(NOT ITK_MODULES_ENABLED)
   return()
 endif()
 
-file(WRITE "${ITK_BINARY_DIR}/ITKTargets.cmake"
-  "# Generated by CMake, do not edit!")
+file(WRITE "${ITK_BINARY_DIR}/ITKTargets.cmake" "# Generated by CMake, do not edit!")
 
 macro(init_module_vars)
   verify_itk_module_is_set()

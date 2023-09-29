@@ -1,11 +1,15 @@
 itk_wrap_class("itk::EigenAnalysis2DImageFilter" POINTER)
-  # Only vectors with 2 components are valid. Temporarily change the global vector dims list.
-  set(SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_EIGEN_ANALYSIS_2D_IMAGE_FILTER "${ITK_WRAP_VECTOR_COMPONENTS}")
-  set(ITK_WRAP_VECTOR_COMPONENTS 2)
-  foreach(s ${WRAP_ITK_REAL})
-    itk_wrap_image_filter_combinations("${s}" "${s}" "${WRAP_ITK_VECTOR_REAL}" 2)
-  endforeach()
-  # Restore the global vector dims list.
-  set(ITK_WRAP_VECTOR_COMPONENTS "${SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_EIGEN_ANALYSIS_2D_IMAGE_FILTER}")
-  unset(SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_EIGEN_ANALYSIS_2D_IMAGE_FILTER)
+# Only vectors with 2 components are valid. Temporarily change the global vector dims list.
+set(SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_EIGEN_ANALYSIS_2D_IMAGE_FILTER "${ITK_WRAP_VECTOR_COMPONENTS}")
+set(ITK_WRAP_VECTOR_COMPONENTS 2)
+foreach(s ${WRAP_ITK_REAL})
+  itk_wrap_image_filter_combinations(
+    "${s}"
+    "${s}"
+    "${WRAP_ITK_VECTOR_REAL}"
+    2)
+endforeach()
+# Restore the global vector dims list.
+set(ITK_WRAP_VECTOR_COMPONENTS "${SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_EIGEN_ANALYSIS_2D_IMAGE_FILTER}")
+unset(SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_EIGEN_ANALYSIS_2D_IMAGE_FILTER)
 itk_end_wrap_class()

@@ -1,102 +1,118 @@
 itk_wrap_include("itkPhasedArray3DSpecialCoordinatesImage.h")
 itk_wrap_class("itk::ImageToImageFilter" POINTER)
 
-  # scalar <-> RGB
-  UNIQUE(stypes "${ITKM_IT};UL;${WRAP_ITK_SCALAR}")
-  itk_wrap_image_filter_combinations("${stypes}" "${WRAP_ITK_RGB}")
-  itk_wrap_image_filter_combinations("${WRAP_ITK_RGB}" "${stypes}")
+# scalar <-> RGB
+unique(stypes "${ITKM_IT};UL;${WRAP_ITK_SCALAR}")
+itk_wrap_image_filter_combinations("${stypes}" "${WRAP_ITK_RGB}")
+itk_wrap_image_filter_combinations("${WRAP_ITK_RGB}" "${stypes}")
 
-  # scalar <-> RGBA
-  UNIQUE(stypes "${ITKM_IT};UL;${WRAP_ITK_SCALAR}")
-  itk_wrap_image_filter_combinations("${stypes}" "${WRAP_ITK_RGBA}")
-  itk_wrap_image_filter_combinations("${WRAP_ITK_RGBA}" "${stypes}")
+# scalar <-> RGBA
+unique(stypes "${ITKM_IT};UL;${WRAP_ITK_SCALAR}")
+itk_wrap_image_filter_combinations("${stypes}" "${WRAP_ITK_RGBA}")
+itk_wrap_image_filter_combinations("${WRAP_ITK_RGBA}" "${stypes}")
 
-  # VectorImage <-> scalar
-  UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-      foreach(t ${to_types})
-        foreach(t2 ${to_types})
-          itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t2}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t2}${d}}")
-          itk_wrap_template("${ITKM_I${t2}${d}}${ITKM_VI${t}${d}}" "${ITKT_I${t2}${d}},${ITKT_VI${t}${d}}")
-        endforeach()
-      endforeach()
+# VectorImage <-> scalar
+unique(to_types "UC;${WRAP_ITK_SCALAR}")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${to_types})
+    foreach(t2 ${to_types})
+      itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t2}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t2}${d}}")
+      itk_wrap_template("${ITKM_I${t2}${d}}${ITKM_VI${t}${d}}" "${ITKT_I${t2}${d}},${ITKT_VI${t}${d}}")
     endforeach()
-  # *Vector <-> scalar
-  itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_SCALAR}")
-  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
+  endforeach()
+endforeach()
+# *Vector <-> scalar
+itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_SCALAR}")
+itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
 
-  # complex types
-  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
+# complex types
+itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
 
-  # complex <-> scalar
-  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_COMPLEX_REAL}")
-  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_SCALAR}")
+# complex <-> scalar
+itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_COMPLEX_REAL}")
+itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_SCALAR}")
 
-  UNIQUE(real_types "${WRAP_ITK_REAL};D")
+unique(real_types "${WRAP_ITK_REAL};D")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t2 ${real_types})
+    foreach(t ${WRAP_ITK_SCALAR})
+      # scalar <-> SymmetricSecondRankTensor
+      itk_wrap_template("${ITKM_I${t}${d}}${ITKM_ISSRT${ITKM_${t2}}${d}${d}}"
+                        "${ITKT_I${t}${d}}, ${ITKT_ISSRT${ITKM_${t2}}${d}${d}}")
+      itk_wrap_template("${ITKM_ISSRT${ITKM_${t2}}${d}${d}}${ITKM_I${t}${d}}"
+                        "${ITKT_ISSRT${ITKM_${t2}}${d}${d}}, ${ITKT_I${t}${d}}")
+    endforeach()
+    # SymmetricSecondRankTensor -> SymmetricSecondRankTensor
+    foreach(t3 ${real_types})
+      itk_wrap_template("${ITKM_ISSRT${ITKM_${t2}}${d}${d}}${ITKM_ISSRT${ITKM_${t3}}${d}${d}}"
+                        "${ITKT_ISSRT${ITKM_${t2}}${d}${d}}, ${ITKT_ISSRT${ITKM_${t3}}${d}${d}}")
+    endforeach()
+  endforeach()
+endforeach()
+
+# Wrap dim=3 -> dim=2, dim=3 -> dim=2, etc.
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(d2 ${ITK_WRAP_IMAGE_DIMS})
+    if(NOT
+       "${d}"
+       EQUAL
+       "${d2}") # this was already taken care of elsewhere
+      foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
+        itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}" "${ITKT_I${t}${d}},${ITKT_I${t}${d2}}")
+      endforeach()
+    endif()
+  endforeach()
+endforeach()
+
+list(
+  FIND
+  WRAP_ITK_COV_VECTOR_REAL
+  "CVD"
+  index)
+if(index EQUAL -1)
+  # Real <-> CovariantVector
+  itk_wrap_include("itkCovariantVector.h")
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t2 ${real_types})
-      foreach(t ${WRAP_ITK_SCALAR})
-        # scalar <-> SymmetricSecondRankTensor
-        itk_wrap_template("${ITKM_I${t}${d}}${ITKM_ISSRT${ITKM_${t2}}${d}${d}}" "${ITKT_I${t}${d}}, ${ITKT_ISSRT${ITKM_${t2}}${d}${d}}")
-        itk_wrap_template("${ITKM_ISSRT${ITKM_${t2}}${d}${d}}${ITKM_I${t}${d}}" "${ITKT_ISSRT${ITKM_${t2}}${d}${d}}, ${ITKT_I${t}${d}}")
-      endforeach()
-      # SymmetricSecondRankTensor -> SymmetricSecondRankTensor
-      foreach(t3 ${real_types})
-        itk_wrap_template("${ITKM_ISSRT${ITKM_${t2}}${d}${d}}${ITKM_ISSRT${ITKM_${t3}}${d}${d}}"
-                          "${ITKT_ISSRT${ITKM_${t2}}${d}${d}}, ${ITKT_ISSRT${ITKM_${t3}}${d}${d}}")
-      endforeach()
-    endforeach()
+    itk_wrap_template("I${ITKM_F}${d}ICV${ITKM_D}${d}${d}"
+                      "itk::Image<${ITKT_F}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
+    itk_wrap_template("I${ITKM_D}${d}ICV${ITKM_D}${d}${d}"
+                      "itk::Image<${ITKT_D}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
   endforeach()
+endif()
 
-  # Wrap dim=3 -> dim=2, dim=3 -> dim=2, etc.
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(d2 ${ITK_WRAP_IMAGE_DIMS})
-      if(NOT "${d}" EQUAL "${d2}") # this was already taken care of elsewhere
-        foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
-          itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}"
-                        "${ITKT_I${t}${d}},${ITKT_I${t}${d2}}")
-        endforeach()
-      endif()
-    endforeach()
+# PhasedArray3DSpecialCoordinatesImage
+foreach(t ${WRAP_ITK_SCALAR})
+  foreach(ut ${WRAP_ITK_INT})
+    itk_wrap_template("I${ITKM_${t}}3PA3DSCI${ITKM_${ut}}"
+                      "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >")
   endforeach()
-
-  list(FIND WRAP_ITK_COV_VECTOR_REAL "CVD" index)
-  if(index EQUAL -1)
-    # Real <-> CovariantVector
-    itk_wrap_include("itkCovariantVector.h")
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-      itk_wrap_template("I${ITKM_F}${d}ICV${ITKM_D}${d}${d}"
-                        "itk::Image<${ITKT_F}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
-      itk_wrap_template("I${ITKM_D}${d}ICV${ITKM_D}${d}${d}"
-                        "itk::Image<${ITKT_D}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
-    endforeach()
-  endif()
-
-  # PhasedArray3DSpecialCoordinatesImage
-  foreach(t ${WRAP_ITK_SCALAR})
-    foreach(ut ${WRAP_ITK_INT})
-      itk_wrap_template("I${ITKM_${t}}3PA3DSCI${ITKM_${ut}}"
-        "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >")
-    endforeach()
-    foreach(t2 ${WRAP_ITK_SCALAR})
-      itk_wrap_template("PA3DSCI${ITKM_${t}}PA3DSCI${ITKM_${t2}}"
-        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t2}} >")
-      itk_wrap_template("PA3DSCI${ITKM_${t}}I${ITKM_${t2}}3"
-        "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t2}}, 3 >")
-    endforeach()
+  foreach(t2 ${WRAP_ITK_SCALAR})
+    itk_wrap_template(
+      "PA3DSCI${ITKM_${t}}PA3DSCI${ITKM_${t2}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t2}} >"
+    )
+    itk_wrap_template("PA3DSCI${ITKM_${t}}I${ITKM_${t2}}3"
+                      "itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${t}} >, itk::Image< ${ITKT_${t2}}, 3 >")
   endforeach()
+endforeach()
 
-  foreach(rt ${WRAP_ITK_REAL})
-    foreach(ct ${WRAP_ITK_COMPLEX_REAL})
-      itk_wrap_template("PA3DSCI${ITKM_${rt}}PA3DSCI${ITKM_${ct}}"
-      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${rt}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${ct}} >")
-      itk_wrap_template("PA3DSCI${ITKM_${ct}}PA3DSCI${ITKM_${rt}}"
-      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${ct}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${rt}} >")
-    endforeach()
+foreach(rt ${WRAP_ITK_REAL})
+  foreach(ct ${WRAP_ITK_COMPLEX_REAL})
+    itk_wrap_template(
+      "PA3DSCI${ITKM_${rt}}PA3DSCI${ITKM_${ct}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${rt}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${ct}} >"
+    )
+    itk_wrap_template(
+      "PA3DSCI${ITKM_${ct}}PA3DSCI${ITKM_${rt}}"
+      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${ct}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${rt}} >"
+    )
   endforeach()
+endforeach()
 
-  foreach(t3 ${WRAP_ITK_COMPLEX_REAL})
-    itk_wrap_template("PA3DSCI${ITKM_${t3}}PA3DSCI${ITKM_${t3}}"
-      "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${t3}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${t3}} >")
-  endforeach()
+foreach(t3 ${WRAP_ITK_COMPLEX_REAL})
+  itk_wrap_template(
+    "PA3DSCI${ITKM_${t3}}PA3DSCI${ITKM_${t3}}"
+    "itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${t3}} >, itk::PhasedArray3DSpecialCoordinatesImage<  ${ITKT_${t3}} >"
+  )
+endforeach()
 itk_end_wrap_class()

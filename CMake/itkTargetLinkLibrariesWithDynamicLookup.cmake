@@ -33,68 +33,71 @@ function(_itkCheckUndefinedSymbolsAllowed)
   set(VARIABLE "ITK_UNDEFINED_SYMBOLS_ALLOWED")
   set(cache_var "${VARIABLE}_hash")
 
-
   # hash the CMAKE_FLAGS passed and check cache to know if we need to rerun
   string(MD5 cmake_flags_hash "${CMAKE_SHARED_LINKER_FLAGS}")
 
   if(NOT DEFINED "${cache_var}")
     unset("${VARIABLE}" CACHE)
-  elseif(NOT "${${cache_var}}" STREQUAL "${cmake_flags_hash}")
+  elseif(
+    NOT
+    "${${cache_var}}"
+    STREQUAL
+    "${cmake_flags_hash}")
     unset("${VARIABLE}" CACHE)
   endif()
 
   if(NOT DEFINED "${VARIABLE}")
     set(test_project_dir "${PROJECT_BINARY_DIR}/CMakeTmp/${VARIABLE}")
 
-    file(WRITE "${test_project_dir}/CMakeLists.txt"
-"
+    file(
+      WRITE "${test_project_dir}/CMakeLists.txt"
+      "
 cmake_minimum_required(VERSION ${CMAKE_MINIMUM_REQUIRED_VERSION})
 project(undefined C)
 add_library(foo SHARED \"foo.c\")
 ")
 
-    file(WRITE "${test_project_dir}/foo.c"
-"
+    file(
+      WRITE "${test_project_dir}/foo.c"
+      "
 extern int bar(void);
 int foo(void) {return bar()+1;}
 ")
     # APPLE: the CMAKE_MACOSX_RPATH flag should be passed.
     if(APPLE)
-      set(_rpath_arg  "-DCMAKE_MACOSX_RPATH='${CMAKE_MACOSX_RPATH}'")
+      set(_rpath_arg "-DCMAKE_MACOSX_RPATH='${CMAKE_MACOSX_RPATH}'")
     else()
       set(_rpath_arg)
     endif()
 
-    try_compile(${VARIABLE}
-      "${test_project_dir}"
-      "${test_project_dir}"
-      undefined
-      CMAKE_FLAGS
-        "-DCMAKE_SHARED_LINKER_FLAGS='${CMAKE_SHARED_LINKER_FLAGS}'"
-        ${_rpath_arg}
+    try_compile(
+      ${VARIABLE} "${test_project_dir}"
+      "${test_project_dir}" undefined
+      CMAKE_FLAGS "-DCMAKE_SHARED_LINKER_FLAGS='${CMAKE_SHARED_LINKER_FLAGS}'" ${_rpath_arg}
       OUTPUT_VARIABLE output)
 
-    set(${cache_var} "${cmake_flags_hash}" CACHE INTERNAL  "hashed try_compile flags")
+    set(${cache_var}
+        "${cmake_flags_hash}"
+        CACHE INTERNAL "hashed try_compile flags")
 
     if(${VARIABLE})
       message(STATUS "Performing Test ${VARIABLE} - Success")
     else()
       message(STATUS "Performing Test ${VARIABLE} - Failed")
       file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
-        "Performing Test ${VARIABLE} failed with the following output:\n"
-        "${OUTPUT}\n")
+           "Performing Test ${VARIABLE} failed with the following output:\n" "${OUTPUT}\n")
     endif()
   endif()
 endfunction()
 
-_itkCheckUndefinedSymbolsAllowed()
+_itkcheckundefinedsymbolsallowed()
 
 macro(itk_target_link_libraries_with_dynamic_lookup target)
-  if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set_target_properties(${target} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
   elseif(ITK_UNDEFINED_SYMBOLS_ALLOWED)
     # linker allows undefined symbols, let's just not link
   else()
-    target_link_libraries ( ${target} ${ARGN}  )
+    target_link_libraries(${target} ${ARGN})
   endif()
 endmacro()

@@ -16,18 +16,24 @@ mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 if(WIN32)
   set(swig_version_min 4.0.2)
   set(ITK_SWIG_VERSION 4.0.2)
-  set(swigwin_hash  "b8f105f9b9db6acc1f6e3741990915b533cd1bc206eb9645fd6836457fd30789b7229d2e3219d8e35f2390605ade0fbca493ae162ec3b4bc4e428b57155db03d")
-  set(swigwin_cid  "bafybeifxmwvuck7gda6inwgl24cslv4m34uv3dgedvv2b62ctpbwz6sfoy")
+  set(swigwin_hash
+      "b8f105f9b9db6acc1f6e3741990915b533cd1bc206eb9645fd6836457fd30789b7229d2e3219d8e35f2390605ade0fbca493ae162ec3b4bc4e428b57155db03d"
+  )
+  set(swigwin_cid "bafybeifxmwvuck7gda6inwgl24cslv4m34uv3dgedvv2b62ctpbwz6sfoy")
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
   set(swig_version_min 4.0.2)
   set(ITK_SWIG_VERSION 4.0.2)
-  set(swiglinux_hash  "811a96b1223ef062e93c82d9848d74ae4b9dd42edeb2b32292aaa0be357ebabc2c2ba71ec5ee3fda83fb892e9b21266a249469aa66c23e2339dbd07bb48ad6c6")
-  set(swiglinux_cid  "bafybeihacajysw4jwrfkffuzvnlv4ees4eqoydl7ftw2o2nmciru6wky6e")
+  set(swiglinux_hash
+      "811a96b1223ef062e93c82d9848d74ae4b9dd42edeb2b32292aaa0be357ebabc2c2ba71ec5ee3fda83fb892e9b21266a249469aa66c23e2339dbd07bb48ad6c6"
+  )
+  set(swiglinux_cid "bafybeihacajysw4jwrfkffuzvnlv4ees4eqoydl7ftw2o2nmciru6wky6e")
 else()
   set(ITK_SWIG_VERSION 4.0.2)
   set(swig_version_min 4.0.2)
-  set(swig_hash     "05e7da70ce6d9a733b96c0bcfa3c1b82765bd859f48c74759bbf4bb1467acb1809caa310cba5e2b3280cd704fca249eaa0624821dffae1d2a75097c7f55d14ed")
-  set(swig_cid      "bafybeihguuzirrzzfkwzln42dbq34fare5cnlmpigvyfqitiw3rshwsjie")
+  set(swig_hash
+      "05e7da70ce6d9a733b96c0bcfa3c1b82765bd859f48c74759bbf4bb1467acb1809caa310cba5e2b3280cd704fca249eaa0624821dffae1d2a75097c7f55d14ed"
+  )
+  set(swig_cid "bafybeihguuzirrzzfkwzln42dbq34fare5cnlmpigvyfqitiw3rshwsjie")
 endif()
 
 if(WIN32)
@@ -36,10 +42,10 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR ST
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${ITK_SWIG_VERSION}/bin/swig")
 else()
 
-    # follow the standard EP_PREFIX locations
-    set(swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build)
-    set(swig_source_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig)
-    set(swig_install_dir ${CMAKE_CURRENT_BINARY_DIR}/swig)
+  # follow the standard EP_PREFIX locations
+  set(swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build)
+  set(swig_source_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig)
+  set(swig_install_dir ${CMAKE_CURRENT_BINARY_DIR}/swig)
 
   set(swig_ep "${swig_install_dir}/bin/swig")
 endif()
@@ -82,7 +88,8 @@ else()
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(SWIG)
       endif()
-      ExternalProject_Add(swig
+      ExternalProject_Add(
+        swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swigwin_hash}/download"
             "https://dweb.link/ipfs/${swigwin_cid}/swigwin-4.0.2.zip"
             "https://itk.mypinata.cloud/ipfs/${swigwin_cid}/swigwin-4.0.2.zip"
@@ -91,16 +98,15 @@ else()
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
-        INSTALL_COMMAND ""
-        ${download_extract_timestamp_flag}
-        )
+        INSTALL_COMMAND "" ${download_extract_timestamp_flag})
       set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
     elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
       # If we are building ITK
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(SWIG)
       endif()
-      ExternalProject_Add(swig
+      ExternalProject_Add(
+        swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swiglinux_hash}/download"
             "https://dweb.link/ipfs/${swiglinux_cid}/swiglinux-4.0.2.tar.gz"
             "https://itk.mypinata.cloud/ipfs/${swiglinux_cid}/swiglinux-4.0.2.tar.gz"
@@ -109,10 +115,10 @@ else()
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
-        INSTALL_COMMAND ""
-        ${download_extract_timestamp_flag}
-        )
-      set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${SWIG_VERSION}/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory.")
+        INSTALL_COMMAND "" ${download_extract_timestamp_flag})
+      set(SWIG_DIR
+          ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${SWIG_VERSION}/share/swig/${SWIG_VERSION}
+          CACHE FILEPATH "swig directory.")
     else()
       # From PCRE configure
       # Some influential environment variables:
@@ -137,7 +143,7 @@ else()
       set(pcre_env)
       if(NOT CMAKE_CROSSCOMPILING)
         set(pcre_env
-          env
+            env
             "AR=${CMAKE_AR}"
             "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
             "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
@@ -147,60 +153,56 @@ else()
             "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
             "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
             "CPP=$ENV{CPP}"
-            "CXXPP=$ENV{CXXPP}"
-          )
+            "CXXPP=$ENV{CXXPP}")
         if(APPLE)
           # If building on OS X, the compiler must know what version of the OS X SDK to use
           # without SDKROOT set, configuring PCRE fails.  The deployment target is set to
           # ensure the built library is compatible with the correct OS X version.  This may
           # not be strictly necessary for configure, but the compiler determines which
           # header files to use based on both of these settings.  Adding it for safety.
-          set(pcre_env ${pcre_env}
-            "SDKROOT=${CMAKE_OSX_SYSROOT}"
-            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-          )
+          set(pcre_env ${pcre_env} "SDKROOT=${CMAKE_OSX_SYSROOT}"
+                       "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
         endif()
       endif()
       set(extra_external_project_commands)
       if(APPLE)
         # If building on OS X, we have to set the SDKROOT and DEPOLYMENT_TARGET environment variables
         # so that XCode's compilers know which version of the OS X SDK to use.
-        list(APPEND extra_external_project_commands
+        list(
+          APPEND
+          extra_external_project_commands
           BUILD_COMMAND
-            env
-              "SDKROOT=${CMAKE_OSX_SYSROOT}"
-               "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-            make
+          env
+          "SDKROOT=${CMAKE_OSX_SYSROOT}"
+          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+          make
           INSTALL_COMMAND
-            env
-              "SDKROOT=${CMAKE_OSX_SYSROOT}"
-              "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-            make
-              install
-        )
+          env
+          "SDKROOT=${CMAKE_OSX_SYSROOT}"
+          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+          make
+          install)
       endif()
-      set(pcre_hash "abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb")
+      set(pcre_hash
+          "abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb"
+      )
       set(pcre_cid "bafybeibat55kr3wwfytqx5qser3jhej67fek4wpeypdy5ybxfa3zjbvx3a")
-      ExternalProject_Add(PCRE
+      ExternalProject_Add(
+        PCRE
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${pcre_hash}/download"
             "https://dweb.link/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
             "https://itk.pinata.cloud/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
             "https://w3s.link/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
         URL_HASH SHA512=${pcre_hash}
-        CONFIGURE_COMMAND
-          ${pcre_env}
-          ../PCRE/configure
-          --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
-          --enable-shared=no
-        ${extra_external_project_commands}
-        ${download_extract_timestamp_flag}
-        )
+        CONFIGURE_COMMAND ${pcre_env} ../PCRE/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE --enable-shared=no
+                          ${extra_external_project_commands} ${download_extract_timestamp_flag})
 
       # swig uses bison find it by cmake and pass it down
       find_package(BISON)
-      set(BISON_FLAGS "" CACHE STRING "Flags used by bison")
+      set(BISON_FLAGS
+          ""
+          CACHE STRING "Flags used by bison")
       mark_as_advanced(BISON_FLAGS)
-
 
       # From SWIG configure
       # Some influential environment variables:
@@ -233,7 +235,7 @@ else()
       set(swig_env)
       if(NOT CMAKE_CROSSCOMPILING)
         set(swig_env
-"
+            "
 set(ENV{CC} \"${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}\")
 set(ENV{CFLAGS} \"${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w\")
 set(ENV{LDFLAGS} \"$ENV{LDFLAGS}\")
@@ -244,11 +246,12 @@ set(ENV{CXXFLAGS} \"${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w\")
 set(ENV{CPP} \"$ENV{CPP}\")
 set(ENV{YACC} \"${BISON_EXECUTABLE}\")
 set(ENV{YFLAGS} \"${BISON_FLAGS}\")
-"
-          )
+")
       endif()
       set(_swig_configure_script ${CMAKE_CURRENT_BINARY_DIR}/swig_configure_step.cmake)
-      file(WRITE ${_swig_configure_script} "
+      file(
+        WRITE ${_swig_configure_script}
+        "
       ${swig_env}
 execute_process(COMMAND ../swig/configure
         \"--prefix=${CMAKE_CURRENT_BINARY_DIR}/swig\"
@@ -279,46 +282,56 @@ message(STATUS \"Swig configure successfully completed.\")
         # ensure the built library is compatible with the correct OS X version.  This may
         # not be strictly necessary for configure, but the compiler determines which
         # header files to use based on both of these settings.  Adding it for safety.
-        list(APPEND extra_swig_configure_env
+        list(
+          APPEND
+          extra_swig_configure_env
           env
-            "SDKROOT=${CMAKE_OSX_SYSROOT}"
-            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-        )
+          "SDKROOT=${CMAKE_OSX_SYSROOT}"
+          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
       endif()
 
-      ExternalProject_Add(swig
+      ExternalProject_Add(
+        swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swig_hash}/download"
             "https://dweb.link/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
             "https://itk.pinata.cloud/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
             "https://w3s.link/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
         URL_HASH SHA512=${swig_hash}
-        CONFIGURE_COMMAND
-          ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
-        ${extra_external_project_commands}
-        DEPENDS PCRE
-        ${download_extract_timestamp_flag}
-        )
+        CONFIGURE_COMMAND ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
+                          ${extra_external_project_commands}
+        DEPENDS PCRE ${download_extract_timestamp_flag})
     endif()
 
-    set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION} CACHE FILEPATH "swig directory.")
+    set(SWIG_DIR
+        ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${SWIG_VERSION}
+        CACHE FILEPATH "swig directory.")
     mark_as_advanced(SWIG_DIR)
-    set(SWIG_EXECUTABLE ${swig_ep} CACHE FILEPATH "swig executable." FORCE)
+    set(SWIG_EXECUTABLE
+        ${swig_ep}
+        CACHE FILEPATH "swig executable." FORCE)
   endif()
   mark_as_advanced(SWIG_EXECUTABLE)
 endif()
 
-
-set(PYGCCXML_DIR ${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src CACHE INTERNAL "pygccxml path")
-
+set(PYGCCXML_DIR
+    ${ITK_CMAKE_DIR}/../Modules/ThirdParty/pygccxml/src
+    CACHE INTERNAL "pygccxml path")
 
 ###############################################################################
 # store the current dir, so it can be reused later
-set(ITK_WRAP_SWIGINTERFACE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "swig interface source dir")
-set(ITK_WRAP_SWIGINTERFACE_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "swig interface binary dir")
+set(ITK_WRAP_SWIGINTERFACE_SOURCE_DIR
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+    CACHE INTERNAL "swig interface source dir")
+set(ITK_WRAP_SWIGINTERFACE_BINARY_DIR
+    "${CMAKE_CURRENT_BINARY_DIR}"
+    CACHE INTERNAL "swig interface binary dir")
 
-set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${ITK_DIR}/Wrapping/Typedefs" CACHE INTERNAL "typedefs dir")
-set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path" FORCE)
-
+set(WRAPPER_MASTER_INDEX_OUTPUT_DIR
+    "${ITK_DIR}/Wrapping/Typedefs"
+    CACHE INTERNAL "typedefs dir")
+set(IGENERATOR
+    "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py"
+    CACHE INTERNAL "igenerator.py path" FORCE)
 
 macro(itk_wrap_simple_type_swig_interface wrap_class swig_name)
   string(APPEND SWIG_INTERFACE_TYPEDEFS "using ${swig_name} = ${wrap_class};\n")

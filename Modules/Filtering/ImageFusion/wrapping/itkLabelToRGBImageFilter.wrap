@@ -1,12 +1,12 @@
 itk_wrap_class("itk::LabelToRGBImageFilter" POINTER_WITH_SUPERCLASS)
-  UNIQUE(label_types "${WRAP_ITK_INT};UL")
+unique(label_types "${WRAP_ITK_INT};UL")
 
-  if(ITK_WRAP_rgb_unsigned_short)
-    itk_wrap_image_filter_combinations("${label_types}" RGBUS)
-  endif()
+if(ITK_WRAP_rgb_unsigned_short)
+  itk_wrap_image_filter_combinations("${label_types}" RGBUS)
+endif()
 
-  if(ITK_WRAP_rgb_unsigned_char)
-    itk_wrap_image_filter_combinations("${label_types}" RGBUC)
-  endif()
+if(ITK_WRAP_rgb_unsigned_char)
+  itk_wrap_image_filter_combinations("${label_types}" RGBUC)
+endif()
 
 itk_end_wrap_class()

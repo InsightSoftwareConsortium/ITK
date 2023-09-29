@@ -1,36 +1,40 @@
 itk_wrap_include("itkPhasedArray3DSpecialCoordinatesImage.h")
 itk_wrap_class("itk::ImageSource" POINTER)
-  # Force uchar and ulong image sources for saving in 8 bits and watershed filter
-  UNIQUE(image_types "UC;RGBUC;RGBAUC;SI;UI;UL;ULL;${ITKM_IT};${WRAP_ITK_ALL_TYPES}")
-  itk_wrap_image_filter("${image_types}" 1)
+# Force uchar and ulong image sources for saving in 8 bits and watershed filter
+unique(image_types "UC;RGBUC;RGBAUC;SI;UI;UL;ULL;${ITKM_IT};${WRAP_ITK_ALL_TYPES}")
+itk_wrap_image_filter("${image_types}" 1)
 
-  UNIQUE(to_types "${WRAP_ITK_SCALAR};UC")
-  UNIQUE(ssrt_types "${WRAP_ITK_REAL};D")
+unique(to_types "${WRAP_ITK_SCALAR};UC")
+unique(ssrt_types "${WRAP_ITK_REAL};D")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(type ${to_types})
+    itk_wrap_template("${ITKM_VI${type}${d}}" "${ITKT_VI${type}${d}}")
+  endforeach()
+  foreach(t ${ssrt_types})
+    itk_wrap_template("${ITKM_ISSRT${ITKM_${t}}${d}${d}}" "${ITKT_ISSRT${ITKM_${t}}${d}${d}}")
+  endforeach()
+endforeach()
+
+list(
+  FIND
+  WRAP_ITK_COV_VECTOR_REAL
+  "CVD"
+  index)
+if(index EQUAL -1)
+  itk_wrap_include("itkCovariantVector.h")
+  # Used in ImageRegistrationMethodv4
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(type ${to_types})
-      itk_wrap_template("${ITKM_VI${type}${d}}"  "${ITKT_VI${type}${d}}")
-    endforeach()
-    foreach(t ${ssrt_types})
-      itk_wrap_template("${ITKM_ISSRT${ITKM_${t}}${d}${d}}"  "${ITKT_ISSRT${ITKM_${t}}${d}${d}}")
-    endforeach()
+    itk_wrap_template("ICV${ITKM_D}${d}${d}" "itk::Image< itk::CovariantVector< ${ITKT_D},${d} >,${d} >")
   endforeach()
+endif()
 
-  list(FIND WRAP_ITK_COV_VECTOR_REAL "CVD" index)
-  if(index EQUAL -1)
-    itk_wrap_include("itkCovariantVector.h")
-    # Used in ImageRegistrationMethodv4
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-      itk_wrap_template("ICV${ITKM_D}${d}${d}"
-                        "itk::Image< itk::CovariantVector< ${ITKT_D},${d} >,${d} >")
-    endforeach()
-  endif()
-
-  # PhasedArray3DSpecialCoordinatesImage
-  foreach(real_type ${WRAP_ITK_SCALAR})
-    itk_wrap_template("PA3DSCI${ITKM_${real_type}}" "itk::PhasedArray3DSpecialCoordinatesImage<${ITKT_${real_type}}>")
-  endforeach()
-  foreach(complex_type ${WRAP_ITK_COMPLEX_REAL})
-    itk_wrap_template("PA3DSCI${ITKM_${complex_type}}" "itk::PhasedArray3DSpecialCoordinatesImage<${ITKT_${complex_type}}>")
-  endforeach()
+# PhasedArray3DSpecialCoordinatesImage
+foreach(real_type ${WRAP_ITK_SCALAR})
+  itk_wrap_template("PA3DSCI${ITKM_${real_type}}" "itk::PhasedArray3DSpecialCoordinatesImage<${ITKT_${real_type}}>")
+endforeach()
+foreach(complex_type ${WRAP_ITK_COMPLEX_REAL})
+  itk_wrap_template("PA3DSCI${ITKM_${complex_type}}"
+                    "itk::PhasedArray3DSpecialCoordinatesImage<${ITKT_${complex_type}}>")
+endforeach()
 
 itk_end_wrap_class()

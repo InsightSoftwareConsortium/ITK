@@ -8,17 +8,17 @@
 # endif()
 
 itk_wrap_class("itk::ImageBoundaryCondition")
-  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
+itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
 itk_end_wrap_class()
 
 itk_wrap_class("itk::PeriodicBoundaryCondition")
-  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
+itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
 itk_end_wrap_class()
 
 itk_wrap_class("itk::ZeroFluxNeumannBoundaryCondition")
-  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
+itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
 itk_end_wrap_class()
 
 itk_wrap_class("itk::ConstantBoundaryCondition")
-  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
+itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
 itk_end_wrap_class()

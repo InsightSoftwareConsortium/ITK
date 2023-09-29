@@ -43,10 +43,10 @@
 #       2020-05-25 Continuous integration and clang format linting now performed by Github Actions
 #       2020-05-25 Line coverage is 99.8%, function coverage is 98.0%
 
-
 # Contact: Matt McCormick <matt.mccormick@kitware.com>
-itk_fetch_module(Cuberille
-"This module implements cuberille implicit surface
+itk_fetch_module(
+  Cuberille
+  "This module implements cuberille implicit surface
 polygonization for ITK. This method operates by diving the surface into a
 number of small cubes called cuberilles. Each cuberille is centered at a
 pixel lying on the iso-surface and then quadrilaterals are generated for each
@@ -66,7 +66,9 @@ And the related:
   https://www.insight-journal.org/browse/publication/213
   January-June, 2008.
 "
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKCuberille.git
-  GIT_TAG 2b8509ad31beab7314146c19404ff0b49dcba6dc
-  )
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKCuberille.git
+  GIT_TAG
+  2b8509ad31beab7314146c19404ff0b49dcba6dc)

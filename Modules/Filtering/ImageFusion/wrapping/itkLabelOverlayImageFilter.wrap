@@ -1,12 +1,12 @@
 itk_wrap_class("itk::LabelOverlayImageFilter" POINTER)
-  UNIQUE(label_types "${WRAP_ITK_INT};UL")
+unique(label_types "${WRAP_ITK_INT};UL")
 
-  if(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
-    itk_wrap_image_filter_combinations(US "${label_types}" RGBUS)
-  endif()
+if(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
+  itk_wrap_image_filter_combinations(US "${label_types}" RGBUS)
+endif()
 
-  if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
-    itk_wrap_image_filter_combinations(UC "${label_types}" RGBUC)
-  endif()
+if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
+  itk_wrap_image_filter_combinations(UC "${label_types}" RGBUC)
+endif()
 
 itk_end_wrap_class()

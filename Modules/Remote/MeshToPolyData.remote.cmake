@@ -42,9 +42,12 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Matt McCormick <matt.mccormick@kitware.com>
-itk_fetch_module(MeshToPolyData
-"Convert an ITK Mesh to a data structure compatible with vtkPolyData."
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMeshToPolyData.git
-  GIT_TAG 40e3e6cc6a0742382b8a7983c092f1b20da51c2e
-  )
+itk_fetch_module(
+  MeshToPolyData
+  "Convert an ITK Mesh to a data structure compatible with vtkPolyData."
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMeshToPolyData.git
+  GIT_TAG
+  40e3e6cc6a0742382b8a7983c092f1b20da51c2e)

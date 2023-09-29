@@ -41,7 +41,8 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
-itk_fetch_module(AdaptiveDenoising
+itk_fetch_module(
+  AdaptiveDenoising
   "A spatially adaptive denoising image filter using non-local means.
   A patch-based framework for new ITK functionality: Joint fusion, denoising,
   and non-local super-resolution.
@@ -54,7 +55,9 @@ itk_fetch_module(AdaptiveDenoising
   Insight Journal.
   https://insight-journal.org/browse/publication/979.
   "
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/ntustison/ITKAdaptiveDenoising.git
-  GIT_TAG 24825c8d246e941334f47968553f0ae388851f0c
-)
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/ntustison/ITKAdaptiveDenoising.git
+  GIT_TAG
+  24825c8d246e941334f47968553f0ae388851f0c)

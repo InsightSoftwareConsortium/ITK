@@ -1,7 +1,4 @@
-set(ITKIOTransformMINC_SRC
-  itkMINCTransformIO.cxx
-  itkMINCTransformIOFactory.cxx
-)
+set(ITKIOTransformMINC_SRC itkMINCTransformIO.cxx itkMINCTransformIOFactory.cxx)
 
 add_library(ITKIOTransformMINC ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOTransformMINC_SRC})
 

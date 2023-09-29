@@ -4,5 +4,5 @@ set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkLevelSet.h")
 
 itk_wrap_class("itk::LevelSetNode")
-  set(WRAPPER_TEMPLATES "${itk_Wrap_LevelSetNode}")
+set(WRAPPER_TEMPLATES "${itk_Wrap_LevelSetNode}")
 itk_end_wrap_class()

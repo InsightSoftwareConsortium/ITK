@@ -77,7 +77,7 @@ macro(itk_module _name)
     elseif("${arg}" MATCHES "^ENABLE_SHARED$")
       set(_doing "")
       set(ITK_MODULE_${itk-module}_ENABLE_SHARED 1)
-    ### Parse named option parameters
+      ### Parse named option parameters
     elseif("${_doing}" MATCHES "^DEPENDS$")
       list(APPEND ITK_MODULE_${itk-module}_DEPENDS "${arg}")
     elseif("${_doing}" MATCHES "^TEST_DEPENDS$")
@@ -100,14 +100,13 @@ macro(itk_module _name)
   endforeach()
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
   set(ITK_MODULE_${itk-module}_PUBLIC_DEPENDS ${ITK_MODULE_${itk-module}_DEPENDS})
-  list(APPEND ITK_MODULE_${itk-module}_DEPENDS
+  list(
+    APPEND
+    ITK_MODULE_${itk-module}_DEPENDS
     ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
-    ${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}
-  )
-  set(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS
-    ${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}
-    ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
-  )
+    ${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS})
+  set(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS ${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}
+                                                  ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS})
   unset(ITK_MODULE_${itk-module}_COMPILE_DEPENDS)
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
   if(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Don't sort an empty list
@@ -121,7 +120,10 @@ macro(itk_module _name)
 endmacro()
 
 macro(itk_module_check_name _name)
-  if(NOT "${_name}" MATCHES "^[a-zA-Z][a-zA-Z0-9]*$")
+  if(NOT
+     "${_name}"
+     MATCHES
+     "^[a-zA-Z][a-zA-Z0-9]*$")
     message(FATAL_ERROR "Invalid module name: ${_name}")
   endif()
 endmacro()
@@ -135,14 +137,17 @@ macro(itk_module_impl)
 
   # Collect all sources and headers for IDE projects.
   set(_srcs "")
-  if("${CMAKE_GENERATOR}" MATCHES "Xcode|Visual Studio|KDevelop"
-      OR CMAKE_EXTRA_GENERATOR)
+  if("${CMAKE_GENERATOR}" MATCHES "Xcode|Visual Studio|KDevelop" OR CMAKE_EXTRA_GENERATOR)
     # Add sources to the module target for easy editing in the IDE.
     set(_include ${${itk-module}_SOURCE_DIR}/include)
     if(EXISTS ${_include})
       set(_src ${${itk-module}_SOURCE_DIR}/src)
       file(GLOB_RECURSE _srcs ${_src}/*.cxx)
-      file(GLOB_RECURSE _hdrs ${_include}/*.h ${_include}/*.hxx)
+      file(
+        GLOB_RECURSE
+        _hdrs
+        ${_include}/*.h
+        ${_include}/*.hxx)
       list(APPEND _srcs ${_hdrs})
     endif()
   endif()
@@ -164,7 +169,10 @@ macro(itk_module_impl)
 
   if(EXISTS ${${itk-module}_SOURCE_DIR}/include)
     list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_SOURCE_DIR}/include)
-    install(DIRECTORY include/ DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR} COMPONENT Development)
+    install(
+      DIRECTORY include/
+      DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
+      COMPONENT Development)
   endif()
   if(NOT ITK_SOURCE_DIR AND ${itk-module}_ENABLE_SHARED)
     # When building a module outside the ITK source tree, if ENABLE_SHARED is enabled,
@@ -209,7 +217,7 @@ macro(itk_module_impl)
     add_subdirectory(src)
   endif()
 
-    # Target ${itk-module} may not exist if the module only contains header files
+  # Target ${itk-module} may not exist if the module only contains header files
   if(TARGET ${itk-module})
     if(ITK_MODULE_${itk-module}_ENABLE_SHARED)
       if(ITK_SOURCE_DIR)
@@ -219,19 +227,23 @@ macro(itk_module_impl)
       endif()
 
       # Generate the export macro header for symbol visibility/Windows DLL declspec
-      generate_export_header(${itk-module}
-        EXPORT_FILE_NAME ${_export_header_file}
-        EXPORT_MACRO_NAME ${itk-module}_EXPORT
-        NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
-        STATIC_DEFINE ITK_STATIC)
-      install(FILES
+      generate_export_header(
+        ${itk-module}
+        EXPORT_FILE_NAME
         ${_export_header_file}
+        EXPORT_MACRO_NAME
+        ${itk-module}_EXPORT
+        NO_EXPORT_MACRO_NAME
+        ${itk-module}_HIDDEN
+        STATIC_DEFINE
+        ITK_STATIC)
+      install(
+        FILES ${_export_header_file}
         DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
-        COMPONENT Development
-        )
+        COMPONENT Development)
     endif()
     if((ITK_MODULE_${itk-module}_ENABLE_SHARED AND BUILD_SHARED_LIBS) OR (APPLE AND NOT BUILD_SHARED_LIBS))
-      if (USE_COMPILER_HIDDEN_VISIBILITY)
+      if(USE_COMPILER_HIDDEN_VISIBILITY)
         # Prefer to use target properties supported by newer cmake
         set_target_properties(${itk-module} PROPERTIES CXX_VISIBILITY_PRESET hidden)
         set_target_properties(${itk-module} PROPERTIES C_VISIBILITY_PRESET hidden)
@@ -282,12 +294,11 @@ macro(itk_module_impl)
   set(itk-module-TARGETS_FILE "${itk-module-TARGETS_FILE-install}")
   set(itk-module-RUNTIME_LIBRARY_DIRS "${itk-module-RUNTIME_LIBRARY_DIRS-install}")
   configure_file(${_ITKModuleMacros_DIR}/ITKModuleInfo.cmake.in CMakeFiles/${itk-module}.cmake @ONLY)
-  install(FILES
-    ${${itk-module}_BINARY_DIR}/CMakeFiles/${itk-module}.cmake
+  install(
+    FILES ${${itk-module}_BINARY_DIR}/CMakeFiles/${itk-module}.cmake
     DESTINATION ${ITK_INSTALL_PACKAGE_DIR}/Modules
-    COMPONENT Development
-    )
-  itk_module_doxygen(${itk-module})   # module name
+    COMPONENT Development)
+  itk_module_doxygen(${itk-module}) # module name
 endmacro()
 
 # itk_module_link_dependencies()
@@ -331,12 +342,12 @@ endmacro()
 
 macro(itk_module_examples)
   #Some modules have examples, and those should be hidden if the module is disabled, or examples are not requested
-  cmake_dependent_option(Module_${itk-module}_BUILD_EXAMPLES
+  cmake_dependent_option(
+    Module_${itk-module}_BUILD_EXAMPLES
     "Build the examples for Module_${itk-module}"
     ON
     "BUILD_EXAMPLES OR ITK_BUILD_EXAMPLES;Module_${itk-module};NOT ITK_BUILD_DOCUMENTATION"
-    OFF
-  )
+    OFF)
   if(Module_${itk-module}_BUILD_EXAMPLES)
     if(ITK_SOURCE_DIR)
       # If configuration is done from within ITK,
@@ -364,8 +375,12 @@ endmacro()
 macro(itk_module_warnings_disable)
   foreach(lang ${ARGN})
     if(MSVC)
-      string(REGEX REPLACE "(^|)[/-]W[0-4]( |$)" " "
-        CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS}")
+      string(
+        REGEX
+        REPLACE "(^|)[/-]W[0-4]( |$)"
+                " "
+                CMAKE_${lang}_FLAGS
+                "${CMAKE_${lang}_FLAGS}")
       set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} /W0")
     elseif(BORLAND)
       set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} -w-")
@@ -388,7 +403,10 @@ macro(itk_module_target_label _target_name)
 endmacro()
 
 macro(itk_module_target_name _name)
-  if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+  if(NOT
+     ${CMAKE_SYSTEM_NAME}
+     MATCHES
+     "OpenBSD")
     set_property(TARGET ${_name} PROPERTY VERSION 1)
     set_property(TARGET ${_name} PROPERTY SOVERSION 1)
   endif()
@@ -408,24 +426,30 @@ macro(itk_module_target_name _name)
 endmacro()
 
 macro(itk_module_target_export _name)
-  export(TARGETS ${_name} APPEND FILE ${${itk-module}-targets-build})
+  export(
+    TARGETS ${_name}
+    APPEND
+    FILE ${${itk-module}-targets-build})
 endmacro()
 
 macro(itk_module_target_install _name)
   #Use specific runtime components for executables and libraries separately when installing a module,
   #considering that the target of a module could be either an executable or a library.
-  get_property(_ttype TARGET ${_name} PROPERTY TYPE)
+  get_property(
+    _ttype
+    TARGET ${_name}
+    PROPERTY TYPE)
   if("${_ttype}" STREQUAL EXECUTABLE)
     set(runtime_component Runtime)
   else()
     set(runtime_component RuntimeLibraries)
   endif()
-  install(TARGETS ${_name}
-    EXPORT  ${${itk-module}-targets}
+  install(
+    TARGETS ${_name}
+    EXPORT ${${itk-module}-targets}
     RUNTIME DESTINATION ${${itk-module}_INSTALL_RUNTIME_DIR} COMPONENT ${runtime_component}
     LIBRARY DESTINATION ${${itk-module}_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
-    ARCHIVE DESTINATION ${${itk-module}_INSTALL_ARCHIVE_DIR} COMPONENT Development
-    )
+    ARCHIVE DESTINATION ${${itk-module}_INSTALL_ARCHIVE_DIR} COMPONENT Development)
 endmacro()
 
 macro(itk_module_target _name)

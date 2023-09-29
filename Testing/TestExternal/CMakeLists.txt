@@ -1,12 +1,13 @@
 # This project builds the test directories from all ITK modules as a separate
 # project outside the main ITK build tree as if they were an application.
 cmake_minimum_required(VERSION 3.16.3 FATAL_ERROR)
-foreach(p
-    ## Only policies introduced after the cmake_minimum_required
-    ## version need to explicitly be set to NEW.
-    CMP0070 #3.10.0 Define ``file(GENERATE)`` behavior for relative paths.
-    CMP0071 #3.10.0 Let ``AUTOMOC`` and ``AUTOUIC`` process ``GENERATED`` files.
-    )
+foreach(
+  p
+  ## Only policies introduced after the cmake_minimum_required
+  ## version need to explicitly be set to NEW.
+  CMP0070 #3.10.0 Define ``file(GENERATE)`` behavior for relative paths.
+  CMP0071 #3.10.0 Let ``AUTOMOC`` and ``AUTOUIC`` process ``GENERATED`` files.
+)
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
   endif()
@@ -50,17 +51,15 @@ if(WIN32 AND "${CMAKE_C_COMPILER_ID}" MATCHES "^(Intel)$")
   set(_INTEL_WINDOWS 1)
 endif()
 if(MSVC OR _INTEL_WINDOWS)
-  add_definitions(
-    -D_CRT_NONSTDC_NO_DEPRECATE
-    -D_CRT_SECURE_NO_DEPRECATE
-    -D_SCL_SECURE_NO_DEPRECATE
-    )
+  add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE)
 endif()
 
 # Glob the set modules in the source tree.
-file(GLOB meta RELATIVE "${ITK_TOP_DIR}"
-   "${ITK_TOP_DIR}/*/*/*/itk-module.cmake" # grouped modules
-  )
+file(
+  GLOB meta
+  RELATIVE "${ITK_TOP_DIR}"
+  "${ITK_TOP_DIR}/*/*/*/itk-module.cmake" # grouped modules
+)
 # Identify the subset of modules that have tests.
 foreach(f ${meta})
   get_filename_component(_base ${f} PATH)
@@ -79,12 +78,10 @@ set(ITK_TEST_OUTPUT_DIR "${ITKTestExternal_BINARY_DIR}/Testing/Temporary")
 # Add the test directory for each enabled module that has tests.
 foreach(itk-module ${ITK_MODULES_ENABLED})
   if(${itk-module}_TEST_DIR)
-    add_subdirectory(${ITK_TOP_DIR}/${${itk-module}_TEST_DIR}
-                     ${ITKTestExternal_BINARY_DIR}/${${itk-module}_TEST_DIR})
+    add_subdirectory(${ITK_TOP_DIR}/${${itk-module}_TEST_DIR} ${ITKTestExternal_BINARY_DIR}/${${itk-module}_TEST_DIR})
   endif()
 endforeach()
 
-
 # Create target to download data from the ITKData group.  This must come after
 # all tests have been added that reference the group, so we put it last.
-ExternalData_Add_Target(ITKData)
+ExternalData_add_target(ITKData)

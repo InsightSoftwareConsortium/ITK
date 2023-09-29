@@ -1,24 +1,25 @@
-set(DOCUMENTATION "This module contains classes that compute statistics on
+set(DOCUMENTATION
+    "This module contains classes that compute statistics on
 images, or use those statistics to perform image operations. In particular you
 will find here: how to calculate image moments, minimum maximum values,
 projections, principal components analysis (PCA) for shape modeling,
 computation of label statistics and image accumulation.")
 
-itk_module(ITKImageStatistics
+itk_module(
+  ITKImageStatistics
   COMPILE_DEPENDS
-    ITKImageFilterBase
-    ITKTransform
-    ITKSpatialObjects
-    ITKImageCompose
+  ITKImageFilterBase
+  ITKTransform
+  ITKSpatialObjects
+  ITKImageCompose
   TEST_DEPENDS
-    ITKTestKernel
-    ITKIOGDCM
-    ITKIOMeta
-    ITKImageIntensity
-    ITKThresholding
-    ITKImageLabel
+  ITKTestKernel
+  ITKIOGDCM
+  ITKIOMeta
+  ITKImageIntensity
+  ITKThresholding
+  ITKImageLabel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")
 
 # Extra test dependency on ImageLabel is introduced by itkBinaryProjectionImageFilterTest.

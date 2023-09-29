@@ -1,10 +1,9 @@
 itk_wrap_module(ITKLevelSets)
 
 set(WRAPPER_SUBMODULE_ORDER
-  itkLevelSetFunction
-  itkSparseFieldLevelSetImageFilter
-  itkSparseFieldFourthOrderLevelSetImageFilter
-  itkSegmentationLevelSetImageFilter
-  itkShapePriorSegmentationLevelSetImageFilter
-)
+    itkLevelSetFunction
+    itkSparseFieldLevelSetImageFilter
+    itkSparseFieldFourthOrderLevelSetImageFilter
+    itkSegmentationLevelSetImageFilter
+    itkShapePriorSegmentationLevelSetImageFilter)
 itk_auto_load_and_end_wrap_submodules()

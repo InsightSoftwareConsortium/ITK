@@ -42,8 +42,9 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Dženan Zukić <dzenan.zukic@kitware.com>
-itk_fetch_module(Ultrasound
-"This module contains filters for use with the Insight Toolkit (ITK) that image formation and analysis of ultrasound images.
+itk_fetch_module(
+  Ultrasound
+  "This module contains filters for use with the Insight Toolkit (ITK) that image formation and analysis of ultrasound images.
 
 McCormick, M.
 An Open Source, Fast Ultrasound B-Mode Implementation for Commodity Hardware.
@@ -60,7 +61,9 @@ Ultrasound spectroscopy.
 Prague, Czech Republic. 1013-1016. 2016.
 https://dx.doi.org/10.1109/ISBI.2016.7493437
 https://pdfs.semanticscholar.org/6bcd/1e7adbc24e15c928a7ad5af77bbd5da29c30.pdf"
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKUltrasound.git
-  GIT_TAG aeb838bdaeff596d2e3abed83a079e23f9b87e9f
-  )
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/KitwareMedical/ITKUltrasound.git
+  GIT_TAG
+  aeb838bdaeff596d2e3abed83a079e23f9b87e9f)

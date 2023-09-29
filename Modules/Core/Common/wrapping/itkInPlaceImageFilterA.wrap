@@ -1,48 +1,48 @@
 itk_wrap_class("itk::InPlaceImageFilter" POINTER)
-  # Wrap from each scalar type to each other, and also to uchar (for 8-bit
-  # saving), UL for label images
-  UNIQUE(from_types "UC;UL;${ITKM_IT};ULL;${WRAP_ITK_SCALAR}")
-  UNIQUE(to_types "UC;UL;${ITKM_IT};${WRAP_ITK_SCALAR}")
-  itk_wrap_image_filter_combinations("${from_types}" "${to_types}")
+# Wrap from each scalar type to each other, and also to uchar (for 8-bit
+# saving), UL for label images
+unique(from_types "UC;UL;${ITKM_IT};ULL;${WRAP_ITK_SCALAR}")
+unique(to_types "UC;UL;${ITKM_IT};${WRAP_ITK_SCALAR}")
+itk_wrap_image_filter_combinations("${from_types}" "${to_types}")
 
-  # Vector types
-  itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
+# Vector types
+itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
 
-  # RGB types
-  UNIQUE(rgb "RGBUC;${WRAP_ITK_RGB}")
-  itk_wrap_image_filter_combinations("${rgb}" "${rgb}")
+# RGB types
+unique(rgb "RGBUC;${WRAP_ITK_RGB}")
+itk_wrap_image_filter_combinations("${rgb}" "${rgb}")
 
-  if(ITK_WRAP_rgb_unsigned_char)
-    UNIQUE(types "UL;${WRAP_ITK_SCALAR}")
-    itk_wrap_image_filter_combinations("${types}" "RGBUC")
-  endif()
+if(ITK_WRAP_rgb_unsigned_char)
+  unique(types "UL;${WRAP_ITK_SCALAR}")
+  itk_wrap_image_filter_combinations("${types}" "RGBUC")
+endif()
 
-  if(ITK_WRAP_rgb_unsigned_short)
-    UNIQUE(types "UL;${WRAP_ITK_SCALAR}")
-    itk_wrap_image_filter_combinations("${types}" "RGBUS")
-  endif()
+if(ITK_WRAP_rgb_unsigned_short)
+  unique(types "UL;${WRAP_ITK_SCALAR}")
+  itk_wrap_image_filter_combinations("${types}" "RGBUS")
+endif()
 
-  # RGBA types
-  UNIQUE(rgba "RGBAUC;${WRAP_ITK_RGBA}")
-  itk_wrap_image_filter_combinations("${rgba}" "${rgba}")
+# RGBA types
+unique(rgba "RGBAUC;${WRAP_ITK_RGBA}")
+itk_wrap_image_filter_combinations("${rgba}" "${rgba}")
 
-  # int <-> RGBA
-  if(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
-    itk_wrap_image_filter_types(RGBAUC UC)
-  endif()
+# int <-> RGBA
+if(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
+  itk_wrap_image_filter_types(RGBAUC UC)
+endif()
 
-  if(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
-    itk_wrap_image_filter_types(RGBAUS US)
-  endif()
+if(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
+  itk_wrap_image_filter_types(RGBAUS US)
+endif()
 
-  if(ITK_WRAP_rgba_unsigned_char)
-    UNIQUE(types "UL;${WRAP_ITK_SCALAR}")
-    itk_wrap_image_filter_combinations("${types}" "RGBAUC")
-  endif()
+if(ITK_WRAP_rgba_unsigned_char)
+  unique(types "UL;${WRAP_ITK_SCALAR}")
+  itk_wrap_image_filter_combinations("${types}" "RGBAUC")
+endif()
 
-  if(ITK_WRAP_rgba_unsigned_short)
-    UNIQUE(types "UL;${WRAP_ITK_SCALAR}")
-    itk_wrap_image_filter_combinations("${types}" "RGBAUS")
-  endif()
+if(ITK_WRAP_rgba_unsigned_short)
+  unique(types "UL;${WRAP_ITK_SCALAR}")
+  itk_wrap_image_filter_combinations("${types}" "RGBAUS")
+endif()
 
 itk_end_wrap_class()

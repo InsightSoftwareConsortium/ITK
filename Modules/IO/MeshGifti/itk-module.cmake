@@ -1,19 +1,19 @@
 set(DOCUMENTATION "This module contains classes for reading and writing
 Meshes in the Gifti file format.")
-itk_module(ITKIOMeshGifti
+itk_module(
+  ITKIOMeshGifti
   ENABLE_SHARED
   DEPENDS
-    ITKCommon
-    ITKIOMeshBase
+  ITKCommon
+  ITKIOMeshBase
   COMPILE_DEPENDS
-    ITKMesh
+  ITKMesh
   PRIVATE_DEPENDS
-    ITKGIFTI
+  ITKGIFTI
   TEST_DEPENDS
-    ITKTestKernel
-    ITKQuadEdgeMesh
+  ITKTestKernel
+  ITKQuadEdgeMesh
   FACTORY_NAMES
-    MeshIO::Gifti
+  MeshIO::Gifti
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

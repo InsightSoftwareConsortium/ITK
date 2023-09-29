@@ -1,14 +1,14 @@
 set(DOCUMENTATION "This module contains a class for reading the SiemensVision
 medical file format.")
 
-itk_module(ITKIOSiemens
+itk_module(
+  ITKIOSiemens
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
+  ITKIOImageBase
   PRIVATE_DEPENDS
-    ITKIOIPL
+  ITKIOIPL
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

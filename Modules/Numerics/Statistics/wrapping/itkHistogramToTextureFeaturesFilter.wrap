@@ -1,6 +1,6 @@
-itk_wrap_class("itk::Statistics::HistogramToTextureFeaturesFilter"  POINTER)
-  itk_wrap_template("${ITKM_HD}"  "${ITKT_HD}")
-  itk_wrap_template("${ITKM_HF}"  "${ITKT_HF}")
+itk_wrap_class("itk::Statistics::HistogramToTextureFeaturesFilter" POINTER)
+itk_wrap_template("${ITKM_HD}" "${ITKT_HD}")
+itk_wrap_template("${ITKM_HF}" "${ITKT_HF}")
 itk_end_wrap_class()
 
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)

@@ -1,17 +1,18 @@
-set(DOCUMENTATION "This module contains an ImageIO class to read and write the
+set(DOCUMENTATION
+    "This module contains an ImageIO class to read and write the
 <a href=\"http://teem.sourceforge.net/nrrd/format.html\">Nearly Raw Raster Data
 (NRRD)</a> medical image format.")
 
-itk_module(ITKIONRRD
+itk_module(
+  ITKIONRRD
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
+  ITKIOImageBase
   PRIVATE_DEPENDS
-    ITKNrrdIO
+  ITKNrrdIO
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   FACTORY_NAMES
-    ImageIO::Nrrd
+  ImageIO::Nrrd
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

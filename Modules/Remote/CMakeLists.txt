@@ -1,8 +1,19 @@
 # Functions to fetch remote modules.
 include(ITKModuleRemote)
 
-set(ITK_MINIMUM_COMPLIANCE_LEVEL "3" CACHE STRING "Minimum compliance level [5,4,3,2,1,0] for selecting ITK modules.")
-set_property(CACHE PROPERTY STRINGS ITK_MINIMUM_COMPLIANCE_LEVEL "5" "4" "3" "2" "1" "0")
+set(ITK_MINIMUM_COMPLIANCE_LEVEL
+    "3"
+    CACHE STRING "Minimum compliance level [5,4,3,2,1,0] for selecting ITK modules.")
+set_property(
+  CACHE
+  PROPERTY STRINGS
+           ITK_MINIMUM_COMPLIANCE_LEVEL
+           "5"
+           "4"
+           "3"
+           "2"
+           "1"
+           "0")
 mark_as_advanced(FORCE ITK_MINIMUM_COMPLIANCE_LEVEL)
 
 file(GLOB remotes "*.remote.cmake")
@@ -20,7 +31,8 @@ if(Module_ITKDeprecated)
   endforeach()
 endif()
 
-mark_as_advanced(FORCE
+mark_as_advanced(
+  FORCE
   DEFAULT_API_VERSION
   HDF5_BATCH_H5DETECT
   HDF5_ENABLE_HDFS

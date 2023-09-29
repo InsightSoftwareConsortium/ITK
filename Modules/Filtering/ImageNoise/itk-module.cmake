@@ -1,12 +1,13 @@
-set(DOCUMENTATION "This module contains classes to simulate and
+set(DOCUMENTATION
+    "This module contains classes to simulate and
 evaluate noise. These classes were originally contributed via the
 Insight Journal (https://www.insight-journal.org/browse/publication/721).")
 
-itk_module(ITKImageNoise
+itk_module(
+  ITKImageNoise
   COMPILE_DEPENDS
-    ITKStatistics
+  ITKStatistics
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

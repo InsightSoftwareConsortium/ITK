@@ -42,9 +42,12 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Dženan Zukić <dzenan.zukic@kitware.com>
-itk_fetch_module(HASI
-"High-throughput Applications for Skeletal Imaging."
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/HASI.git
-  GIT_TAG d58acf4cda836bdedd1b7531dddc8ca7b20b396a
-  )
+itk_fetch_module(
+  HASI
+  "High-throughput Applications for Skeletal Imaging."
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/KitwareMedical/HASI.git
+  GIT_TAG
+  d58acf4cda836bdedd1b7531dddc8ca7b20b396a)

@@ -3,14 +3,15 @@ itk_wrap_include("itkPointSet.h")
 itk_wrap_include("itkTransform.h")
 
 itk_wrap_class("itk::TransformMeshFilter" POINTER)
-  # Transform parameter types
-  UNIQUE(transform_type "D;${WRAP_ITK_REAL}")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${WRAP_ITK_SCALAR})
-      foreach(tt ${transform_type})
-        itk_wrap_template("M${ITKM_${t}}${d}M${ITKM_${t}}${d}T${ITKM_${tt}}${d}${d}"
-            "itk::Mesh< ${ITKT_${t}},${d} >, itk::Mesh< ${ITKT_${t}},${d} >, itk::Transform< ${ITKT_${tt}}, ${d}, ${d} >")
-      endforeach()
+# Transform parameter types
+unique(transform_type "D;${WRAP_ITK_REAL}")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${WRAP_ITK_SCALAR})
+    foreach(tt ${transform_type})
+      itk_wrap_template(
+        "M${ITKM_${t}}${d}M${ITKM_${t}}${d}T${ITKM_${tt}}${d}${d}"
+        "itk::Mesh< ${ITKT_${t}},${d} >, itk::Mesh< ${ITKT_${t}},${d} >, itk::Transform< ${ITKT_${tt}}, ${d}, ${d} >")
     endforeach()
   endforeach()
+endforeach()
 itk_end_wrap_class()

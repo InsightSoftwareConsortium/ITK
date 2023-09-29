@@ -42,14 +42,17 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Johan Andruejol <johan.andruejol@kitware.com>
-itk_fetch_module(PrincipalComponentsAnalysis
-"An ITK_-based implementation of principal components analysis.
+itk_fetch_module(
+  PrincipalComponentsAnalysis
+  "An ITK_-based implementation of principal components analysis.
 A more detailed description can be found in the Insight Journal article:
   Bowers M., Younes L. ''Principal Components Analysis of Scalar, Vector, and Mesh Vertex Data.''
     https://www.insight-journal.org/browse/publication/878
     August, 2013.
 "
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.git
-  GIT_TAG 2f8d8bffb37fca8875a674465af5e3d902432f30
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.git
+  GIT_TAG
+  2f8d8bffb37fca8875a674465af5e3d902432f30)

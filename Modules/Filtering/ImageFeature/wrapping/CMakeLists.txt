@@ -1,6 +1,4 @@
 itk_wrap_module(ITKImageFeature)
 
-set(WRAPPER_SUBMODULE_ORDER
-  itkHessianRecursiveGaussianImageFilter
-)
+set(WRAPPER_SUBMODULE_ORDER itkHessianRecursiveGaussianImageFilter)
 itk_auto_load_and_end_wrap_submodules()

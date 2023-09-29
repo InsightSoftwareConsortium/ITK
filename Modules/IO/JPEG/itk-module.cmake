@@ -1,16 +1,16 @@
 set(DOCUMENTATION "This module contains an ImageIO class for reading and
 writing files in the JPEG format.")
 
-itk_module(ITKIOJPEG
+itk_module(
+  ITKIOJPEG
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
+  ITKIOImageBase
   PRIVATE_DEPENDS
-    ITKJPEG
+  ITKJPEG
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   FACTORY_NAMES
-    ImageIO::JPEG
+  ImageIO::JPEG
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

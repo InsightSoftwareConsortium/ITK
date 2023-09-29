@@ -45,9 +45,12 @@
 # Contact: Alexander Schmidt-Richberg <a.schmidt-richberg@imperial.ac.uk>
 #          Jan Ehrhardt <ehrhardt@imi.uni-luebeck.de>
 #          Rene Werner <r.werner@uke.de>
-itk_fetch_module(VariationalRegistration
+itk_fetch_module(
+  VariationalRegistration
   "A module to perform variational image registration. https://www.insight-journal.org/browse/publication/917"
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKVariationalRegistration.git
-  GIT_TAG 7634013fa2b661eda81d79e52b804f669ec0ce79
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKVariationalRegistration.git
+  GIT_TAG
+  7634013fa2b661eda81d79e52b804f669ec0ce79)

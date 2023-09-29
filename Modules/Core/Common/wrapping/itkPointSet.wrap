@@ -3,26 +3,28 @@ itk_wrap_include("itkDefaultDynamicMeshTraits.h")
 itk_wrap_filter_dims(has_d_3 3)
 
 itk_wrap_class("itk::PointSet" POINTER)
-  UNIQUE(types "${WRAP_ITK_SCALAR};D")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${types})
-      itk_wrap_template("${ITKM_${t}}${d}" "${ITKT_${t}},${d}")
-    endforeach()
+unique(types "${WRAP_ITK_SCALAR};D")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${types})
+    itk_wrap_template("${ITKM_${t}}${d}" "${ITKT_${t}},${d}")
   endforeach()
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    # Also wrap the point set type needed for the kernel transforms,
-    # which may be a bug in ITK but they're needed currently.
-    itk_wrap_template("${ITKM_PD${d}}${d}ST${ITKM_D}${d}${d}${ITKM_D}${ITKM_D}"
-      "${ITKT_PD${d}},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_D},${ITKT_D} >")
-    itk_wrap_template("${ITKM_UI}${d}DSM${ITKM_UI}${d}${d}${ITKM_F}${ITKM_F}${ITKM_UI}"
-      "${ITKT_UI},${d},itk::DefaultStaticMeshTraits<${ITKT_UI},${d},${d},${ITKT_F},${ITKT_F},${ITKT_UI} >")
-  endforeach()
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("M${ITKM_D}${d}${d}" "itk::Matrix <${ITKT_D},${d},${d}>,${d}")
-    itk_wrap_template("A${ITKM_D}${d}" "itk::Array <${ITKT_D}>,${d}")
-  endforeach()
+endforeach()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  # Also wrap the point set type needed for the kernel transforms,
+  # which may be a bug in ITK but they're needed currently.
+  itk_wrap_template(
+    "${ITKM_PD${d}}${d}ST${ITKM_D}${d}${d}${ITKM_D}${ITKM_D}"
+    "${ITKT_PD${d}},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_D},${ITKT_D} >")
+  itk_wrap_template(
+    "${ITKM_UI}${d}DSM${ITKM_UI}${d}${d}${ITKM_F}${ITKM_F}${ITKM_UI}"
+    "${ITKT_UI},${d},itk::DefaultStaticMeshTraits<${ITKT_UI},${d},${d},${ITKT_F},${ITKT_F},${ITKT_UI} >")
+endforeach()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  itk_wrap_template("M${ITKM_D}${d}${d}" "itk::Matrix <${ITKT_D},${d},${d}>,${d}")
+  itk_wrap_template("A${ITKM_D}${d}" "itk::Array <${ITKT_D}>,${d}")
+endforeach()
 
-  if(has_d_3)
-    itk_wrap_template("VF33" "itk::Vector< float, 3 >, 3")
-  endif()
+if(has_d_3)
+  itk_wrap_template("VF33" "itk::Vector< float, 3 >, 3")
+endif()
 itk_end_wrap_class()

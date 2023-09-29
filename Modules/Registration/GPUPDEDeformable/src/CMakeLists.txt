@@ -1,11 +1,7 @@
-if (ITK_USE_GPU)
-  set(ITKGPUPDEDeformableRegistration_SRCS
-   )
+if(ITK_USE_GPU)
+  set(ITKGPUPDEDeformableRegistration_SRCS)
 
-  set(ITKGPUPDEDeformableRegistration_Kernels
-    GPUDemonsRegistrationFunction.cl
-    GPUPDEDeformableRegistrationFilter.cl
-    )
+  set(ITKGPUPDEDeformableRegistration_Kernels GPUDemonsRegistrationFunction.cl GPUPDEDeformableRegistrationFilter.cl)
 
   write_gpu_kernels("${ITKGPUPDEDeformableRegistration_Kernels}" ITKGPUPDEDeformableRegistration_SRCS)
 

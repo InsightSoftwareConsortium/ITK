@@ -2,5 +2,5 @@ set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkSmoothingRecursiveGaussianImageFilter.h")
 
 itk_wrap_class("itk::SmoothingRecursiveGaussianImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2 2+)
+itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2 2+)
 itk_end_wrap_class()

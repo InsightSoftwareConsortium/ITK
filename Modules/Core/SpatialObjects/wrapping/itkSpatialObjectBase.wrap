@@ -2,9 +2,9 @@ itk_wrap_include("itkSpatialObject.h")
 itk_wrap_simple_class("itk::MetaEvent")
 
 itk_wrap_class("itk::SpatialObject" POINTER_WITH_CONST_POINTER)
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("${d}" "${d}")
-  endforeach()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  itk_wrap_template("${d}" "${d}")
+endforeach()
 itk_end_wrap_class()
 
 # the file must have a different name than the class name for java
@@ -15,7 +15,7 @@ itk_end_wrap_class()
 #
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_named_class("MetaEvent" "itkMetaEvent_Superclass")
-  # to avoid useless warning: no template can be defined in
-  set(WRAPPER_WARN_ABOUT_NO_TEMPLATE OFF)
-  itk_wrap_one_type("FORCE_INSTANTIATE" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}")
+# to avoid useless warning: no template can be defined in
+set(WRAPPER_WARN_ABOUT_NO_TEMPLATE OFF)
+itk_wrap_one_type("FORCE_INSTANTIATE" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}")
 itk_end_wrap_class()

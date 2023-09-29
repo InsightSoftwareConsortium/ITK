@@ -4,8 +4,8 @@ itk_wrap_include("itkScalarToRGBColormapImageFilter.h")
 itk_wrap_simple_class("itk::ScalarToRGBColormapImageFilterEnums")
 
 itk_wrap_class("itk::ScalarToRGBColormapImageFilter" POINTER)
-  # Wrap itk::IdentifierType to create colormaps from the output of watershed
-  # segmentations
-  UNIQUE(types "${ITKM_IT};${WRAP_ITK_SCALAR}")
-  itk_wrap_image_filter_combinations("${types}" "${WRAP_ITK_COLOR}")
+# Wrap itk::IdentifierType to create colormaps from the output of watershed
+# segmentations
+unique(types "${ITKM_IT};${WRAP_ITK_SCALAR}")
+itk_wrap_image_filter_combinations("${types}" "${WRAP_ITK_COLOR}")
 itk_end_wrap_class()
