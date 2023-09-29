@@ -308,7 +308,7 @@ function(add_cppcheck _name)
           "${CMAKE_CURRENT_SOURCE_DIR}"
         COMMENT
           "${_name}_cppcheck: Running cppcheck on target ${_name}..."
-       V ERBATIM)
+       VERBATIM)
    endif()
 
 endfunction()
