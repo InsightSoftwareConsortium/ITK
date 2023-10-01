@@ -10,7 +10,6 @@ Current Maintainers
 The current ITK maintainers with a trusted GPG key are:
 
   * Matt McCormick (@thewtex) <matt.mccormick@kitware.com>
-  * François Budin (@fbudin69500) <francois.budin@kitware.com>
   * Brad King (@bradking) <brad.king@kitware.com>
   * Jean-Christophe Fillion-Robin (@jcfr) <jchris.fillionr@kitware.com>
 
@@ -869,9 +868,9 @@ For the final release, the release notes produced should be used to
   * Post a message in the [ITK discussion]
   * Create a post in the [Kitware blog]
   * Add a release note doc in [ITK/Documentation/ReleaseNotes](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Documentation/ReleaseNotes)
-  * Create a post in ITK project on [ResearchGate]
   * Update [ITK's Wikipedia page](https://en.wikipedia.org/wiki/Insight_Segmentation_and_Registration_Toolkit).
-  * Send out a summary to Arliss <help@numfocus.org> at NumFOCUS.
+  * Send out a summary to Arliss <help@numfocus.org> at NumFOCUS to announce
+    the release in the NumFOCUS project update monthly newsletter.
   * Post on the [ITK Open Collective page].
   * Post a message on the [Image.sc Forum].
 
