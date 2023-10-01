@@ -1,16 +1,16 @@
 set(DOCUMENTATION "This module contains the base classes for the input and output
 of itkTransform objects.")
 
-itk_module(ITKIOTransformBase
+itk_module(
+  ITKIOTransformBase
   ENABLE_SHARED
   DEPENDS
-    ITKCommon
-    ITKTransform
-    ITKTransformFactory
+  ITKCommon
+  ITKTransform
+  ITKTransformFactory
   COMPILE_DEPENDS
-    ITKDisplacementField
+  ITKDisplacementField
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

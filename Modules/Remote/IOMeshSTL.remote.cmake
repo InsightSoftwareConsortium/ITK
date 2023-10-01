@@ -42,10 +42,13 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Luis Ibanez <luis.ibanez@kitware.com>
-itk_fetch_module(IOMeshSTL
+itk_fetch_module(
+  IOMeshSTL
   "This module contains classes for reading and writing QuadEdgeMeshes using
   the STL (STereoLithography) file format. https://www.insight-journal.org/browse/publication/913"
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIOMeshSTL.git
-  GIT_TAG 31594eb088ef35897e7ce0f02077e8ce50454e01
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIOMeshSTL.git
+  GIT_TAG
+  31594eb088ef35897e7ce0f02077e8ce50454e01)

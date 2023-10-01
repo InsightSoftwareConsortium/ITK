@@ -1,10 +1,7 @@
-if (ITK_USE_GPU)
-  set(ITKGPUSmoothing_SRCS
-    )
+if(ITK_USE_GPU)
+  set(ITKGPUSmoothing_SRCS)
 
-  set(ITKGPUSmoothing_Kernels
-    GPUMeanImageFilter.cl
-    )
+  set(ITKGPUSmoothing_Kernels GPUMeanImageFilter.cl)
 
   write_gpu_kernels("${ITKGPUSmoothing_Kernels}" ITKGPUSmoothing_SRCS)
 

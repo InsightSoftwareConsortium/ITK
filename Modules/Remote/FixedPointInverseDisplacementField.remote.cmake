@@ -41,9 +41,12 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
-itk_fetch_module(FixedPointInverseDisplacementField
+itk_fetch_module(
+  FixedPointInverseDisplacementField
   "Computes the inverse of a displacement field."
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKFixedPointInverseDisplacementField.git
-  GIT_TAG e38e8a3c5af0ffc6ee208e44b805b817d9836ab2
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKFixedPointInverseDisplacementField.git
+  GIT_TAG
+  e38e8a3c5af0ffc6ee208e44b805b817d9836ab2)

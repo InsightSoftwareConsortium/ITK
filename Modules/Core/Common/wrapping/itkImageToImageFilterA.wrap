@@ -1,98 +1,137 @@
 itk_wrap_class("itk::ImageToImageFilter" POINTER)
-  # Wrap from each scalar type to each other, and also to uchar (for 8-bit saving)
-  # and to ulong (for watershed).
-  UNIQUE(from_types "UC;UL;SI;UI;${ITKM_IT};ULL;${WRAP_ITK_SCALAR}")
-  UNIQUE(to_types "UC;UL;SI;UI;${ITKM_IT};${WRAP_ITK_SCALAR}")
-  itk_wrap_image_filter_combinations("${from_types}" "${to_types}")
+# Wrap from each scalar type to each other, and also to uchar (for 8-bit saving)
+# and to ulong (for watershed).
+unique(from_types "UC;UL;SI;UI;${ITKM_IT};ULL;${WRAP_ITK_SCALAR}")
+unique(to_types "UC;UL;SI;UI;${ITKM_IT};${WRAP_ITK_SCALAR}")
+itk_wrap_image_filter_combinations("${from_types}" "${to_types}")
 
-  UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${to_types})
-      itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_VI${t}${d}}")
-    endforeach()
+unique(to_types "UC;${WRAP_ITK_SCALAR}")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${to_types})
+    itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_VI${t}${d}}")
   endforeach()
+endforeach()
 
-  # Vector types
-  itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
+# Vector types
+itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
 
-  foreach(image_dim ${ITK_WRAP_IMAGE_DIMS})
-    if(ITK_WRAP_vector_float AND ITK_WRAP_vector_double)
-      if(ITKM_VIF${image_dim} AND ITKM_VID${image_dim} AND ITKT_VIF${image_dim} AND ITKT_VID${image_dim})
-        # VectorImage(float) <-> VectorImage(double)
-        itk_wrap_template("${ITKM_VIF${image_dim}}${ITKM_VID${image_dim}}" "${ITKT_VIF${image_dim}},${ITKT_VID${image_dim}}")
-        itk_wrap_template("${ITKM_VID${image_dim}}${ITKM_VIF${image_dim}}" "${ITKT_VID${image_dim}},${ITKT_VIF${image_dim}}")
+foreach(image_dim ${ITK_WRAP_IMAGE_DIMS})
+  if(ITK_WRAP_vector_float AND ITK_WRAP_vector_double)
+    if(ITKM_VIF${image_dim}
+       AND ITKM_VID${image_dim}
+       AND ITKT_VIF${image_dim}
+       AND ITKT_VID${image_dim})
+      # VectorImage(float) <-> VectorImage(double)
+      itk_wrap_template("${ITKM_VIF${image_dim}}${ITKM_VID${image_dim}}"
+                        "${ITKT_VIF${image_dim}},${ITKT_VID${image_dim}}")
+      itk_wrap_template("${ITKM_VID${image_dim}}${ITKM_VIF${image_dim}}"
+                        "${ITKT_VID${image_dim}},${ITKT_VIF${image_dim}}")
+    endif()
+    foreach(pixel_type "${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
+      if(ITKM_VIF${image_dim}
+         AND ITKM_I${ITKM_${pixel_type}}${image_dim}
+         AND ITKT_VIF${image_dim}
+         AND ITKT_I${ITKM_${pixel_type}}${image_dim})
+        # VectorImage(float) <-> (RGBPixel, RGBAPixel)
+        itk_wrap_template("${ITKM_VIF${image_dim}}${ITKM_I${ITKM_${pixel_type}}${image_dim}}"
+                          "${ITKT_VIF${image_dim}},${ITKT_I${ITKM_${pixel_type}}${image_dim}}")
+        itk_wrap_template("${ITKM_I${ITKM_${pixel_type}}${image_dim}}${ITKM_VIF${image_dim}}"
+                          "${ITKT_I${ITKM_${pixel_type}}${image_dim}},${ITKT_VIF${image_dim}}")
       endif()
-      foreach(pixel_type "${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
-        if(ITKM_VIF${image_dim} AND ITKM_I${ITKM_${pixel_type}}${image_dim} AND ITKT_VIF${image_dim} AND ITKT_I${ITKM_${pixel_type}}${image_dim})
-          # VectorImage(float) <-> (RGBPixel, RGBAPixel)
-          itk_wrap_template("${ITKM_VIF${image_dim}}${ITKM_I${ITKM_${pixel_type}}${image_dim}}" "${ITKT_VIF${image_dim}},${ITKT_I${ITKM_${pixel_type}}${image_dim}}")
-          itk_wrap_template("${ITKM_I${ITKM_${pixel_type}}${image_dim}}${ITKM_VIF${image_dim}}" "${ITKT_I${ITKM_${pixel_type}}${image_dim}},${ITKT_VIF${image_dim}}")
-        endif()
-        if(ITKM_VID${image_dim} AND ITKM_I${ITKM_${pixel_type}}${image_dim} AND ITKT_VID${image_dim} AND ITKT_I${ITKM_${pixel_type}}${image_dim})
-          # VectorImage(double) <-> (RGBPixel, RGBAPixel)
-          itk_wrap_template("${ITKM_VID${image_dim}}${ITKM_I${ITKM_${pixel_type}}${image_dim}}" "${ITKT_VID${image_dim}},${ITKT_I${ITKM_${pixel_type}}${image_dim}}")
-          itk_wrap_template("${ITKM_I${ITKM_${pixel_type}}${image_dim}}${ITKM_VID${image_dim}}" "${ITKT_I${ITKM_${pixel_type}}${image_dim}},${ITKT_VID${image_dim}}")
-        endif()
+      if(ITKM_VID${image_dim}
+         AND ITKM_I${ITKM_${pixel_type}}${image_dim}
+         AND ITKT_VID${image_dim}
+         AND ITKT_I${ITKM_${pixel_type}}${image_dim})
+        # VectorImage(double) <-> (RGBPixel, RGBAPixel)
+        itk_wrap_template("${ITKM_VID${image_dim}}${ITKM_I${ITKM_${pixel_type}}${image_dim}}"
+                          "${ITKT_VID${image_dim}},${ITKT_I${ITKM_${pixel_type}}${image_dim}}")
+        itk_wrap_template("${ITKM_I${ITKM_${pixel_type}}${image_dim}}${ITKM_VID${image_dim}}"
+                          "${ITKT_I${ITKM_${pixel_type}}${image_dim}},${ITKT_VID${image_dim}}")
+      endif()
+    endforeach()
+  endif()
+  foreach(vector_components ${ITK_WRAP_VECTOR_COMPONENTS})
+    if(ITK_WRAP_vector_float)
+      if(ITKM_IVF${vector_components}${image_dim}
+         AND ITKM_VIF${image_dim}
+         AND ITKT_IVF${vector_components}${image_dim}
+         AND ITKT_VIF${image_dim})
+        # VectorImage(float) <-> Vector(float)
+        itk_wrap_template("${ITKM_IVF${vector_components}${image_dim}}${ITKM_VIF${image_dim}}"
+                          "${ITKT_IVF${vector_components}${image_dim}},${ITKT_VIF${image_dim}}")
+        itk_wrap_template("${ITKM_VIF${image_dim}}${ITKM_IVF${vector_components}${image_dim}}"
+                          "${ITKT_VIF${image_dim}},${ITKT_IVF${vector_components}${image_dim}}")
+      endif()
+    endif()
+    if(ITK_WRAP_covariant_vector_float)
+      if(ITKM_ICVF${vector_components}${image_dim}
+         AND ITKM_VIF${image_dim}
+         AND ITKT_ICVF${vector_components}${image_dim}
+         AND ITKT_VIF${image_dim})
+        # VectorImage(float) <-> CovariantVector(float)
+        itk_wrap_template("${ITKM_ICVF${vector_components}${image_dim}}${ITKM_VIF${image_dim}}"
+                          "${ITKT_ICVF${vector_components}${image_dim}},${ITKT_VIF${image_dim}}")
+        itk_wrap_template("${ITKM_VIF${image_dim}}${ITKM_ICVF${vector_components}${image_dim}}"
+                          "${ITKT_VIF${image_dim}},${ITKT_ICVF${vector_components}${image_dim}}")
+      endif()
+    endif()
+    if(ITK_WRAP_vector_double)
+      if(ITKM_IVD${vector_components}${image_dim}
+         AND ITKM_VID${image_dim}
+         AND ITKT_IVD${vector_components}${image_dim}
+         AND ITKT_VID${image_dim})
+        # VectorImage(double) <-> Vector(double)
+        itk_wrap_template("${ITKM_VID${image_dim}}${ITKM_IVD${vector_components}${image_dim}}"
+                          "${ITKT_VID${image_dim}},${ITKT_IVD${vector_components}${image_dim}}")
+        itk_wrap_template("${ITKM_IVD${vector_components}${image_dim}}${ITKM_VID${image_dim}}"
+                          "${ITKT_IVD${vector_components}${image_dim}},${ITKT_VID${image_dim}}")
+      endif()
+    endif()
+    if(ITK_WRAP_covariant_vector_double)
+      if(ITKM_ICVD${vector_components}${image_dim}
+         AND ITKM_VID${image_dim}
+         AND ITKT_ICVD${vector_components}${image_dim}
+         AND ITKT_VID${image_dim})
+        # VectorImage(double) <-> CovariantVector(double)
+        itk_wrap_template("${ITKM_VID${image_dim}}${ITKM_ICVD${vector_components}${image_dim}}"
+                          "${ITKT_VID${image_dim}},${ITKT_ICVD${vector_components}${image_dim}}")
+        itk_wrap_template("${ITKM_ICVD${vector_components}${image_dim}}${ITKM_VID${image_dim}}"
+                          "${ITKT_ICVD${vector_components}${image_dim}},${ITKT_VID${image_dim}}")
+      endif()
+    endif()
+  endforeach()
+endforeach()
+
+# For GradientRecursiveGaussianImageFilter we need some specific combinations
+foreach(image_dim ${ITK_WRAP_IMAGE_DIMS})
+  foreach(input_vector_dim ${ITK_WRAP_VECTOR_COMPONENTS})
+    math(EXPR output_vector_dim ${input_vector_dim}*2)
+    list(
+      FIND
+      ITK_WRAP_VECTOR_COMPONENTS
+      "${output_vector_dim}"
+      index)
+    if(index GREATER -1)
+      foreach(t ${WRAP_ITK_VECTOR_REAL})
+        foreach(cv ${WRAP_ITK_COV_VECTOR_REAL})
+          itk_wrap_template(
+            "${ITKM_I${t}${input_vector_dim}${image_dim}}${ITKM_I${cv}${output_vector_dim}${image_dim}}"
+            "${ITKT_I${t}${input_vector_dim}${image_dim}},${ITKT_I${cv}${output_vector_dim}${image_dim}}")
+        endforeach()
       endforeach()
     endif()
-    foreach(vector_components ${ITK_WRAP_VECTOR_COMPONENTS})
-      if(ITK_WRAP_vector_float)
-        if(ITKM_IVF${vector_components}${image_dim} AND ITKM_VIF${image_dim} AND ITKT_IVF${vector_components}${image_dim} AND ITKT_VIF${image_dim})
-          # VectorImage(float) <-> Vector(float)
-          itk_wrap_template("${ITKM_IVF${vector_components}${image_dim}}${ITKM_VIF${image_dim}}" "${ITKT_IVF${vector_components}${image_dim}},${ITKT_VIF${image_dim}}")
-          itk_wrap_template("${ITKM_VIF${image_dim}}${ITKM_IVF${vector_components}${image_dim}}" "${ITKT_VIF${image_dim}},${ITKT_IVF${vector_components}${image_dim}}")
-        endif()
-      endif()
-      if(ITK_WRAP_covariant_vector_float)
-        if(ITKM_ICVF${vector_components}${image_dim} AND ITKM_VIF${image_dim} AND ITKT_ICVF${vector_components}${image_dim} AND ITKT_VIF${image_dim})
-          # VectorImage(float) <-> CovariantVector(float)
-          itk_wrap_template("${ITKM_ICVF${vector_components}${image_dim}}${ITKM_VIF${image_dim}}" "${ITKT_ICVF${vector_components}${image_dim}},${ITKT_VIF${image_dim}}")
-          itk_wrap_template("${ITKM_VIF${image_dim}}${ITKM_ICVF${vector_components}${image_dim}}" "${ITKT_VIF${image_dim}},${ITKT_ICVF${vector_components}${image_dim}}")
-        endif()
-      endif()
-      if(ITK_WRAP_vector_double)
-        if(ITKM_IVD${vector_components}${image_dim} AND ITKM_VID${image_dim} AND ITKT_IVD${vector_components}${image_dim} AND ITKT_VID${image_dim})
-          # VectorImage(double) <-> Vector(double)
-          itk_wrap_template("${ITKM_VID${image_dim}}${ITKM_IVD${vector_components}${image_dim}}" "${ITKT_VID${image_dim}},${ITKT_IVD${vector_components}${image_dim}}")
-          itk_wrap_template("${ITKM_IVD${vector_components}${image_dim}}${ITKM_VID${image_dim}}" "${ITKT_IVD${vector_components}${image_dim}},${ITKT_VID${image_dim}}")
-        endif()
-      endif()
-      if(ITK_WRAP_covariant_vector_double)
-        if(ITKM_ICVD${vector_components}${image_dim} AND ITKM_VID${image_dim} AND ITKT_ICVD${vector_components}${image_dim} AND ITKT_VID${image_dim})
-          # VectorImage(double) <-> CovariantVector(double)
-          itk_wrap_template("${ITKM_VID${image_dim}}${ITKM_ICVD${vector_components}${image_dim}}" "${ITKT_VID${image_dim}},${ITKT_ICVD${vector_components}${image_dim}}")
-          itk_wrap_template("${ITKM_ICVD${vector_components}${image_dim}}${ITKM_VID${image_dim}}" "${ITKT_ICVD${vector_components}${image_dim}},${ITKT_VID${image_dim}}")
-        endif()
-      endif()
-    endforeach()
   endforeach()
+endforeach()
 
-  # For GradientRecursiveGaussianImageFilter we need some specific combinations
-  foreach(image_dim ${ITK_WRAP_IMAGE_DIMS})
-    foreach(input_vector_dim ${ITK_WRAP_VECTOR_COMPONENTS})
-      math(EXPR output_vector_dim ${input_vector_dim}*2)
-      list(FIND ITK_WRAP_VECTOR_COMPONENTS "${output_vector_dim}" index)
-      if(index GREATER -1)
-        foreach(t ${WRAP_ITK_VECTOR_REAL})
-          foreach(cv ${WRAP_ITK_COV_VECTOR_REAL})
-            itk_wrap_template(
-              "${ITKM_I${t}${input_vector_dim}${image_dim}}${ITKM_I${cv}${output_vector_dim}${image_dim}}"
-              "${ITKT_I${t}${input_vector_dim}${image_dim}},${ITKT_I${cv}${output_vector_dim}${image_dim}}")
-          endforeach()
-        endforeach()
-      endif()
-    endforeach()
-  endforeach()
+# RGB types
+unique(rgb "RGBUC;${WRAP_ITK_RGB}")
+itk_wrap_image_filter_combinations("${rgb}" "${rgb}")
 
-  # RGB types
-  UNIQUE(rgb "RGBUC;${WRAP_ITK_RGB}")
-  itk_wrap_image_filter_combinations("${rgb}" "${rgb}")
-
-  # RGBA types
-  UNIQUE(rgba "RGBAUC;${WRAP_ITK_RGBA}")
-  itk_wrap_image_filter_combinations("${rgba}" "${rgba}")
-  unset(to_types)
-  unset(from_types)
-  unset(rgb)
-  unset(rgba)
+# RGBA types
+unique(rgba "RGBAUC;${WRAP_ITK_RGBA}")
+itk_wrap_image_filter_combinations("${rgba}" "${rgba}")
+unset(to_types)
+unset(from_types)
+unset(rgb)
+unset(rgba)
 itk_end_wrap_class()

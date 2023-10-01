@@ -1,15 +1,16 @@
-set(DOCUMENTATION "This module contains filters that compute differential
+set(DOCUMENTATION
+    "This module contains filters that compute differential
 operations in images. In particular, image gradients, gradient magnitude and
 difference of Gaussians.")
 
-itk_module(ITKImageGradient
+itk_module(
+  ITKImageGradient
   DEPENDS
-    ITKSmoothing
-    ITKImageIntensity
+  ITKSmoothing
+  ITKImageIntensity
   COMPILE_DEPENDS
-    ITKImageAdaptors
+  ITKImageAdaptors
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

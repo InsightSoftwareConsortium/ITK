@@ -19,8 +19,12 @@ if(ITK_USE_SYSTEM_EIGEN)
 else()
   # Set variables used to configure and install Eigen
   # _eigen3_cmake_install_prefix work also with relative CMAKE_INSTALL_PREFIX
-  get_filename_component(_eigen3_cmake_install_prefix
-    ${CMAKE_INSTALL_PREFIX} ABSOLUTE BASE_DIR ${PROJECT_BINARY_DIR})
+  get_filename_component(
+    _eigen3_cmake_install_prefix
+    ${CMAKE_INSTALL_PREFIX}
+    ABSOLUTE
+    BASE_DIR
+    ${PROJECT_BINARY_DIR})
   set(_eigen3_cmake_install_includedir ${ITK_INSTALL_INCLUDE_DIR})
   set(_eigen3_cmake_install_datadir ${ITK_INSTALL_PACKAGE_DIR}/Modules)
   set(_eigen3_source_dir "${ITK_SOURCE_DIR}/Modules/ThirdParty/Eigen3/src/itkeigen")
@@ -35,35 +39,28 @@ else()
   file(MAKE_DIRECTORY ${_eigen3_build_dir})
   execute_process(
     COMMAND
-    ${CMAKE_COMMAND} ${_eigen3_source_dir}
-    "-DCMAKE_APPLE_SILICON_PROCESSOR=${CMAKE_APPLE_SILICON_PROCESSOR}"
-    "-DCMAKE_INSTALL_PREFIX=${_eigen3_cmake_install_prefix}"
-    "-DCMAKE_INSTALL_INCLUDEDIR=${_eigen3_cmake_install_includedir}"
-    "-DCMAKE_INSTALL_DATADIR=${_eigen3_cmake_install_datadir}"
-    "-DCMAKE_GENERATOR=${CMAKE_GENERATOR}"
-    "-DCMAKE_SH=${CMAKE_SH}"
-    "-DCMAKE_GENERATOR_TOOLSET=${CMAKE_GENERATOR_TOOLSET}"
-    "-DCMAKE_SH=${CMAKE_SH}"
-    "-DCMAKE_GENERATOR_PLATFORM=${CMAKE_GENERATOR_PLATFORM}"
-    "-DCMAKE_GENERATOR_INSTANCE=${CMAKE_GENERATOR_INSTANCE}"
-    "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}"
-    "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}"
-    "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
-    "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
-    "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}"
-    "-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
-    ${_additional_external_project_args}
+      ${CMAKE_COMMAND} ${_eigen3_source_dir} "-DCMAKE_APPLE_SILICON_PROCESSOR=${CMAKE_APPLE_SILICON_PROCESSOR}"
+      "-DCMAKE_INSTALL_PREFIX=${_eigen3_cmake_install_prefix}"
+      "-DCMAKE_INSTALL_INCLUDEDIR=${_eigen3_cmake_install_includedir}"
+      "-DCMAKE_INSTALL_DATADIR=${_eigen3_cmake_install_datadir}" "-DCMAKE_GENERATOR=${CMAKE_GENERATOR}"
+      "-DCMAKE_SH=${CMAKE_SH}" "-DCMAKE_GENERATOR_TOOLSET=${CMAKE_GENERATOR_TOOLSET}" "-DCMAKE_SH=${CMAKE_SH}"
+      "-DCMAKE_GENERATOR_PLATFORM=${CMAKE_GENERATOR_PLATFORM}" "-DCMAKE_GENERATOR_INSTANCE=${CMAKE_GENERATOR_INSTANCE}"
+      "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}" "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}"
+      "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}" "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
+      "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}" "-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
+      ${_additional_external_project_args}
     WORKING_DIRECTORY ${_eigen3_build_dir}
     OUTPUT_VARIABLE ITKEigen3Config_STDOUT
-    ERROR_VARIABLE ITKEigen3Config_STDERR
-    )
+    ERROR_VARIABLE ITKEigen3Config_STDERR)
   set(ITKInternalEigen3_DIR ${_eigen3_build_dir})
   find_package(ITKInternalEigen3)
   if(NOT ITKInternalEigen3_FOUND)
-    message(FATAL_ERROR "ITKInternalEigen3 configuration faileed\nREPORT:\n${ITKEigen3Config_STDOUT}\n${ITKEigen3Config_STDERR}")
+    message(
+      FATAL_ERROR
+        "ITKInternalEigen3 configuration faileed\nREPORT:\n${ITKEigen3Config_STDOUT}\n${ITKEigen3Config_STDERR}")
   endif()
-  install(CODE
-  "execute_process(
+  install(
+    CODE "execute_process(
     COMMAND
     ${CMAKE_COMMAND} --build . --target install
     WORKING_DIRECTORY ${_eigen3_build_dir}

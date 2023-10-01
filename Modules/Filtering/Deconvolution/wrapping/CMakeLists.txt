@@ -1,5 +1,3 @@
 itk_wrap_module(ITKDeconvolution)
-set(WRAPPER_SUBMODULE_ORDER
-  itkIterativeDeconvolutionImageFilter
-)
+set(WRAPPER_SUBMODULE_ORDER itkIterativeDeconvolutionImageFilter)
 itk_auto_load_and_end_wrap_submodules()

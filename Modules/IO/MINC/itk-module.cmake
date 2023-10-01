@@ -1,17 +1,17 @@
 set(DOCUMENTATION "This module contains classes for reading and writing image
 files in the MINC 2 file Format (mnc) and transformations (xfm).")
 
-itk_module(ITKIOMINC
+itk_module(
+  ITKIOMINC
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
+  ITKIOImageBase
   PRIVATE_DEPENDS
-    ITKMINC
+  ITKMINC
   TEST_DEPENDS
-    ITKTestKernel
-    ITKImageStatistics
+  ITKTestKernel
+  ITKImageStatistics
   FACTORY_NAMES
-    ImageIO::MINC
+  ImageIO::MINC
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

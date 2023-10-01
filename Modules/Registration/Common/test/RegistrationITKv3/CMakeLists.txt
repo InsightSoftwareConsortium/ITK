@@ -29,9 +29,9 @@ target_link_libraries(ITKv3ImageRegistration11 "${ITKRegistrationCommon-Test_LIB
 
 # This example in getting stuck and timing out, likely due to spatial
 # object changes.
-if (TEST_DISABLED)
-add_executable(ITKv3ImageRegistration12 ImageRegistration12.cxx)
-target_link_libraries(ITKv3ImageRegistration12 "${ITKRegistrationCommon-Test_LIBRARIES}")
+if(TEST_DISABLED)
+  add_executable(ITKv3ImageRegistration12 ImageRegistration12.cxx)
+  target_link_libraries(ITKv3ImageRegistration12 "${ITKRegistrationCommon-Test_LIBRARIES}")
 endif()
 
 add_executable(ITKv3ImageRegistration13 ImageRegistration13.cxx)
@@ -63,7 +63,7 @@ target_link_libraries(ITKv3DeformableRegistration12 "${ITKRegistrationCommon-Tes
 add_executable(ITKv3ImageRegistration1 ImageRegistration1.cxx)
 target_link_libraries(ITKv3ImageRegistration1 "${ITKRegistrationCommon-Test_LIBRARIES}")
 
-add_executable(ITKv3MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx)
+add_executable(ITKv3MeanSquaresImageMetric1 MeanSquaresImageMetric1.cxx)
 target_link_libraries(ITKv3MeanSquaresImageMetric1 "${ITKRegistrationCommon-Test_LIBRARIES}")
 
 add_executable(ITKv3DeformationFieldJacobian DeformationFieldJacobian.cxx)

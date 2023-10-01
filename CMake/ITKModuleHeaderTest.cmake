@@ -13,21 +13,24 @@ endif()
 # The maximum number of headers in a test.  This helps limit memory issues,
 # and the cppcheck tests.  However, if this is not unity, there is a slight
 # chance that problems may be hidden.  For a complete header check, set to "1".
-set(MAXIMUM_NUMBER_OF_HEADERS ${MAXIMUM_NUMBER_OF_HEADERS_default} CACHE STRING "The number of headers in a HeaderTest code.")
+set(MAXIMUM_NUMBER_OF_HEADERS
+    ${MAXIMUM_NUMBER_OF_HEADERS_default}
+    CACHE STRING "The number of headers in a HeaderTest code.")
 mark_as_advanced(MAXIMUM_NUMBER_OF_HEADERS)
 
 if(NOT TARGET ITKHeaderTests)
-  add_custom_target(ITKHeaderTests
+  add_custom_target(
+    ITKHeaderTests
     ${CMAKE_COMMAND} --build ${ITK_BINARY_DIR}
     COMMENT "Regenerating and building the header tests.")
 endif()
 
 macro(itk_module_headertest _name)
   if(NOT ${_name}_THIRD_PARTY
-      AND EXISTS ${${_name}_SOURCE_DIR}/include
-      AND Python3_EXECUTABLE
-      AND NOT (${_name} STREQUAL ITKTestKernel)
-      AND NOT (CMAKE_GENERATOR MATCHES "^Visual Studio 10.*"))
+     AND EXISTS ${${_name}_SOURCE_DIR}/include
+     AND Python3_EXECUTABLE
+     AND NOT (${_name} STREQUAL ITKTestKernel)
+     AND NOT (CMAKE_GENERATOR MATCHES "^Visual Studio 10.*"))
 
     # Count how many tests we are going to get, and put the source files in
     # the list _outputs.
@@ -44,12 +47,15 @@ macro(itk_module_headertest _name)
     while(${_num_headers} GREATER ${_available_headers})
       math(EXPR _test_num "${_test_num} + 1")
       math(EXPR _available_headers "${_available_headers} + ${MAXIMUM_NUMBER_OF_HEADERS}")
-      list(APPEND _outputs
-        ${${_name}_BINARY_DIR}/test/${_name}HeaderTest${_test_num}.cxx)
+      list(APPEND _outputs ${${_name}_BINARY_DIR}/test/${_name}HeaderTest${_test_num}.cxx)
     endwhile()
 
-    add_custom_target(${_name}HeaderTestClean
-      ${CMAKE_COMMAND} -E remove ${_outputs})
+    add_custom_target(
+      ${_name}HeaderTestClean
+      ${CMAKE_COMMAND}
+      -E
+      remove
+      ${_outputs})
     add_dependencies(ITKHeaderTests ${_name}HeaderTestClean)
 
     # We check to see if the headers are changed.  If so, remove the header test
@@ -76,13 +82,8 @@ macro(itk_module_headertest _name)
       get_filename_component(_test_name ${_header_test_src} NAME_WE)
       add_custom_command(
         OUTPUT ${_header_test_src}
-        COMMAND ${Python3_EXECUTABLE} ${ITK_CMAKE_DIR}/../Utilities/Maintenance/BuildHeaderTest.py
-        ${_name}
-        ${${_name}_SOURCE_DIR}
-        ${${_name}_BINARY_DIR}
-        ${MAXIMUM_NUMBER_OF_HEADERS}
-        ${_test_num}
-        )
+        COMMAND ${Python3_EXECUTABLE} ${ITK_CMAKE_DIR}/../Utilities/Maintenance/BuildHeaderTest.py ${_name}
+                ${${_name}_SOURCE_DIR} ${${_name}_BINARY_DIR} ${MAXIMUM_NUMBER_OF_HEADERS} ${_test_num})
       add_executable(${_test_name} ${_header_test_src})
       target_link_libraries(${_test_name} PUBLIC ${${_name}_LIBRARIES} itksys)
 

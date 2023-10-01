@@ -2,14 +2,18 @@ itk_wrap_include("itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h")
 itk_wrap_include("itkMesh.h")
 
 itk_wrap_class("itk::SyNImageRegistrationMethod" POINTER_WITH_SUPERCLASS)
-  foreach(d ${ITK_WRAP_DIMS})
-    foreach(t ${WRAP_ITK_REAL})
-      itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}"
-                        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >")
-      itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}BSOUDFT${ITKM_D}${d}"
-                        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform< ${ITKT_D}, ${d} >")
-      itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}DFT${ITKM_D}${d}M${ITKM_D}${d}"
-                        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::DisplacementFieldTransform< ${ITKT_D}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::Mesh< ${ITKT_D}, ${d} >")
-    endforeach()
+foreach(d ${ITK_WRAP_DIMS})
+  foreach(t ${WRAP_ITK_REAL})
+    itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}"
+                      "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >")
+    itk_wrap_template(
+      "${ITKM_${t}}${d}${ITKM_${t}}${d}BSOUDFT${ITKM_D}${d}"
+      "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform< ${ITKT_D}, ${d} >"
+    )
+    itk_wrap_template(
+      "${ITKM_${t}}${d}${ITKM_${t}}${d}DFT${ITKM_D}${d}M${ITKM_D}${d}"
+      "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::DisplacementFieldTransform< ${ITKT_D}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::Mesh< ${ITKT_D}, ${d} >"
+    )
   endforeach()
+endforeach()
 itk_end_wrap_class()

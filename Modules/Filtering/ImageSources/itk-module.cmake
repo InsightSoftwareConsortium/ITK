@@ -1,14 +1,14 @@
 set(DOCUMENTATION "This module groups image sources which generate an image")
 
-itk_module(ITKImageSources
+itk_module(
+  ITKImageSources
   COMPILE_DEPENDS
-    ITKCommon
+  ITKCommon
   TEST_DEPENDS
-    ITKTestKernel
-    ITKImageIntensity
+  ITKTestKernel
+  ITKImageIntensity
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")
 
 # the ITKIntensity is only needed for the
 # VectorIndexSelectionCastImageFilter for the PhysicalPointImageSourceTest

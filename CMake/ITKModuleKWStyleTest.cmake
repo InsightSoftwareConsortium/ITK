@@ -18,7 +18,10 @@ option(ITK_USE_KWSTYLE "Enable the use of KWStyle for checking coding style." ${
 mark_as_advanced(ITK_USE_KWSTYLE)
 find_package(KWStyle 1.0.1 QUIET)
 
-if(NOT KWSTYLE_FOUND AND BUILD_TESTING AND ITK_USE_KWSTYLE AND NOT CMAKE_CROSSCOMPILING)
+if(NOT KWSTYLE_FOUND
+   AND BUILD_TESTING
+   AND ITK_USE_KWSTYLE
+   AND NOT CMAKE_CROSSCOMPILING)
   include(${ITK_CMAKE_DIR}/../Utilities/KWStyle/BuildKWStyle.cmake)
 elseif(NOT KWSTYLE_FOUND)
   set(ITK_USE_KWSTYLE OFF)
@@ -26,7 +29,7 @@ endif()
 
 macro(itk_module_kwstyle_test _name)
 
-  set(_kwstyle_itk_configuration_file "${ITK_CMAKE_DIR}/../Utilities/KWStyle/ITK.kws.xml"  )
+  set(_kwstyle_itk_configuration_file "${ITK_CMAKE_DIR}/../Utilities/KWStyle/ITK.kws.xml")
 
   if(EXISTS "${${itk-module}_SOURCE_DIR}/ITKKWStyleOverwrite.txt")
     set(_kwstyle_itk_overwrite_file "${${itk-module}_SOURCE_DIR}/ITKKWStyleOverwrite.txt")
@@ -37,37 +40,41 @@ macro(itk_module_kwstyle_test _name)
   if(EXISTS "${${itk-module}_SOURCE_DIR}/ITKKWStyleFiles.txt.in")
     set(_kwstyle_itk_module_files_list_file "${${itk-module}_BINARY_DIR}/ITKKWStyleFiles.txt")
     # KWStyle requires that the files list be absolute paths
-    configure_file(
-      ${${itk-module}_SOURCE_DIR}/ITKKWStyleFiles.txt.in
-      ${_kwstyle_itk_module_files_list_file}
-      )
+    configure_file(${${itk-module}_SOURCE_DIR}/ITKKWStyleFiles.txt.in ${_kwstyle_itk_module_files_list_file})
   else()
-    set(_kwstyle_itk_module_files_list_file  "${${itk-module}_BINARY_DIR}/ITKKWStyleFiles.txt")
-    set(_kwstyle_file_list "${${itk-module}_SOURCE_DIR}/include/itk*.h"
-                            "${${itk-module}_SOURCE_DIR}/include/itk*.hxx"
-                            "${${itk-module}_SOURCE_DIR}/src/*.cxx"
-                            "${${itk-module}_SOURCE_DIR}/src/*.h"
-                            "${${itk-module}_SOURCE_DIR}/src/*.hxx"
-                            "${${itk-module}_SOURCE_DIR}/test/*.cxx")
+    set(_kwstyle_itk_module_files_list_file "${${itk-module}_BINARY_DIR}/ITKKWStyleFiles.txt")
+    set(_kwstyle_file_list
+        "${${itk-module}_SOURCE_DIR}/include/itk*.h"
+        "${${itk-module}_SOURCE_DIR}/include/itk*.hxx"
+        "${${itk-module}_SOURCE_DIR}/src/*.cxx"
+        "${${itk-module}_SOURCE_DIR}/src/*.h"
+        "${${itk-module}_SOURCE_DIR}/src/*.hxx"
+        "${${itk-module}_SOURCE_DIR}/test/*.cxx")
     file(WRITE ${_kwstyle_itk_module_files_list_file} "")
     foreach(item ${_kwstyle_file_list})
       file(APPEND ${_kwstyle_itk_module_files_list_file} "${item}\n")
     endforeach()
   endif()
 
-  if (NOT KWSTYLE_EXECUTABLE)
+  if(NOT KWSTYLE_EXECUTABLE)
     message(WARNING "KWSTYLE_EXECUTABLE is not set!")
   else()
     if(NOT DISABLE_MODULE_TESTS)
-      itk_add_test(NAME ${itk-module}KWStyleTest
-        COMMAND ${KWSTYLE_EXECUTABLE}
-          -xml ${_kwstyle_itk_configuration_file}
-          -v
-          -o ${_kwstyle_itk_overwrite_file}
-          -D ${_kwstyle_itk_module_files_list_file}
-          -gcc
-        WORKING_DIRECTORY ${ITK_CMAKE_DIR}/..
-        )
+      itk_add_test(
+        NAME
+        ${itk-module}KWStyleTest
+        COMMAND
+        ${KWSTYLE_EXECUTABLE}
+        -xml
+        ${_kwstyle_itk_configuration_file}
+        -v
+        -o
+        ${_kwstyle_itk_overwrite_file}
+        -D
+        ${_kwstyle_itk_module_files_list_file}
+        -gcc
+        WORKING_DIRECTORY
+        ${ITK_CMAKE_DIR}/..)
     endif()
   endif()
 endmacro()

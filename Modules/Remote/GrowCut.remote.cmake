@@ -42,9 +42,12 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Niels Dekker <N.Dekker@lumc.nl>
-itk_fetch_module(GrowCut
-"ITKGrowCut segments a 3D image from user-provided foreground and background seeds."
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKGrowCut.git
-  GIT_TAG 21d982afd15047173108d39643adfba3ba7ca0a9
-  )
+itk_fetch_module(
+  GrowCut
+  "ITKGrowCut segments a 3D image from user-provided foreground and background seeds."
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKGrowCut.git
+  GIT_TAG
+  21d982afd15047173108d39643adfba3ba7ca0a9)

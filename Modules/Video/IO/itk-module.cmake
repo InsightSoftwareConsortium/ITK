@@ -1,14 +1,15 @@
-set(DOCUMENTATION "This module contains the basic framework for Video IO as
+set(DOCUMENTATION
+    "This module contains the basic framework for Video IO as
 well as the itk::FileListVideoIO mechanism that does not depend on any outside
 libraries.")
 
-itk_module(ITKVideoIO
+itk_module(
+  ITKVideoIO
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
-    ITKVideoCore
+  ITKIOImageBase
+  ITKVideoCore
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

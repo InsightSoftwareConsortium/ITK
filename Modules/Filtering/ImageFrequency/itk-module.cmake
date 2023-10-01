@@ -1,4 +1,5 @@
-set(DOCUMENTATION "This module contains classes to iterate over images in the frequency domain,
+set(DOCUMENTATION
+    "This module contains classes to iterate over images in the frequency domain,
 and filters to apply band pass filters based on frequency.
 
 A more detailed description can be found in the Insight Journal article::
@@ -8,13 +9,13 @@ Cerdan, P.H. \"ITK Wavelet Module\".
   September, 2016.
 ")
 
-itk_module(ITKImageFrequency
+itk_module(
+  ITKImageFrequency
   DEPENDS
-    ITKCommon
+  ITKCommon
   TEST_DEPENDS
-    ITKTestKernel
-    ITKImageIntensity
-    ITKFFT
+  ITKTestKernel
+  ITKImageIntensity
+  ITKFFT
   DESCRIPTION
-  "${DOCUMENTATION}"
-  )
+  "${DOCUMENTATION}")

@@ -1,11 +1,8 @@
-if (ITK_USE_GPU)
-  set(ITKGPUAnisotropicSmoothing_SRCS
-    )
+if(ITK_USE_GPU)
+  set(ITKGPUAnisotropicSmoothing_SRCS)
 
-  set(ITKGPUAnisotropicSmoothing_Kernels
-    GPUGradientNDAnisotropicDiffusionFunction.cl
-    GPUScalarAnisotropicDiffusionFunction.cl
-    )
+  set(ITKGPUAnisotropicSmoothing_Kernels GPUGradientNDAnisotropicDiffusionFunction.cl
+                                         GPUScalarAnisotropicDiffusionFunction.cl)
 
   write_gpu_kernels("${ITKGPUAnisotropicSmoothing_Kernels}" ITKGPUAnisotropicSmoothing_SRCS)
 

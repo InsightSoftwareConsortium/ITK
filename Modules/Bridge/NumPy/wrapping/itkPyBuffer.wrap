@@ -1,105 +1,92 @@
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.init"
-               "${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i"
-               @ONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.init" "${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i" @ONLY)
 itk_wrap_class("itk::PyBuffer")
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
-  UNIQUE(vector_universe "${WRAP_ITK_VECTOR};VD;CVD")
-  foreach(t ${types})
-    string(REGEX MATCHALL "(V${t}|CV${t})" VectorTypes ${vector_universe})
-    set(PixelType ${t})
-    foreach(d ${ITK_WRAP_DIMS})
-      if( DEFINED ITKT_I${t}${d} )
-        itk_wrap_template("${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}")
-        set(PyBufferTypes ${ITKM_I${t}${d}})
-        configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in
-                        ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-                        @ONLY)
-        file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-             PyBufferInterfaceTemp)
-        file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-             ${PyBufferInterfaceTemp})
-      endif()
-
-      # Wraps Symmetric Second Rank tensor images
-      if( DEFINED ITKM_ISSRT${t}${d}${d})
-        itk_wrap_template("${ITKM_ISSRT${t}${d}${d}}" "${ITKT_ISSRT${t}${d}${d}}")
-        set(PyBufferTypes ${ITKM_ISSRT${t}${d}${d}})
-        configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in
-                        ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-                        @ONLY)
-        file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-             PyBufferInterfaceTemp)
-        file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-             ${PyBufferInterfaceTemp})
-      endif()
-
-      # Wraps RGB and RGBA types that have been selected to be wrapped.
-      # We have to recompute them all to extract the pixel component type.
-      foreach(p RGB;RGBA)
-        set(WRAP_RGBA_RGB "${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
-        list(FIND WRAP_RGBA_RGB "${p}${t}" pos)
-        if( NOT ${pos} EQUAL -1 AND DEFINED ITKT_I${p}${t}${d})
-          itk_wrap_template("${ITKM_I${p}${t}${d}}" "${ITKT_I${p}${t}${d}}")
-          set(PyBufferTypes ${ITKM_I${p}${t}${d}})
-          configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in
-                          ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-                          @ONLY)
-          file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-               PyBufferInterfaceTemp)
-          file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-               ${PyBufferInterfaceTemp})
-        endif()
-      endforeach(p)
-      # Image Vector types
-      foreach(vec_dim ${ITK_WRAP_VECTOR_COMPONENTS})
-        foreach(vec_type ${VectorTypes})
-           if( DEFINED ITKM_I${vec_type}${vec_dim}${d} )
-             itk_wrap_template("${ITKM_I${vec_type}${vec_dim}${d}}" "${ITKT_I${vec_type}${vec_dim}${d}}")
-             set(PyBufferTypes ${ITKM_I${vec_type}${vec_dim}${d}})
-             configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in
-                         ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-                         @ONLY)
-             file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-                  PyBufferInterfaceTemp)
-             file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-                  ${PyBufferInterfaceTemp})
-             endif()
-          endforeach()
-       endforeach()
-    endforeach(d)
-  endforeach(t)
-
-  # VectorImage types
+unique(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
+unique(vector_universe "${WRAP_ITK_VECTOR};VD;CVD")
+foreach(t ${types})
+  string(
+    REGEX MATCHALL
+          "(V${t}|CV${t})"
+          VectorTypes
+          ${vector_universe})
+  set(PixelType ${t})
   foreach(d ${ITK_WRAP_DIMS})
-    foreach(t ${WRAP_ITK_SCALAR})
-      itk_wrap_template("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
-      set(PyBufferTypes ${ITKM_VI${t}${d}})
-      set(PixelType ${t})
-      configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in
-                      ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-                      @ONLY)
-      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp
-           PyBufferInterfaceTemp)
-      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-           ${PyBufferInterfaceTemp})
-    endforeach(t)
+    if(DEFINED ITKT_I${t}${d})
+      itk_wrap_template("${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}")
+      set(PyBufferTypes ${ITKM_I${t}${d}})
+      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp @ONLY)
+      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp PyBufferInterfaceTemp)
+      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+    endif()
+
+    # Wraps Symmetric Second Rank tensor images
+    if(DEFINED ITKM_ISSRT${t}${d}${d})
+      itk_wrap_template("${ITKM_ISSRT${t}${d}${d}}" "${ITKT_ISSRT${t}${d}${d}}")
+      set(PyBufferTypes ${ITKM_ISSRT${t}${d}${d}})
+      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp @ONLY)
+      file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp PyBufferInterfaceTemp)
+      file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+    endif()
+
+    # Wraps RGB and RGBA types that have been selected to be wrapped.
+    # We have to recompute them all to extract the pixel component type.
+    foreach(p RGB;RGBA)
+      set(WRAP_RGBA_RGB "${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
+      list(
+        FIND
+        WRAP_RGBA_RGB
+        "${p}${t}"
+        pos)
+      if(NOT
+         ${pos}
+         EQUAL
+         -1
+         AND DEFINED ITKT_I${p}${t}${d})
+        itk_wrap_template("${ITKM_I${p}${t}${d}}" "${ITKT_I${p}${t}${d}}")
+        set(PyBufferTypes ${ITKM_I${p}${t}${d}})
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp @ONLY)
+        file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp PyBufferInterfaceTemp)
+        file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+      endif()
+    endforeach(p)
+    # Image Vector types
+    foreach(vec_dim ${ITK_WRAP_VECTOR_COMPONENTS})
+      foreach(vec_type ${VectorTypes})
+        if(DEFINED ITKM_I${vec_type}${vec_dim}${d})
+          itk_wrap_template("${ITKM_I${vec_type}${vec_dim}${d}}" "${ITKT_I${vec_type}${vec_dim}${d}}")
+          set(PyBufferTypes ${ITKM_I${vec_type}${vec_dim}${d}})
+          configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp @ONLY)
+          file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp PyBufferInterfaceTemp)
+          file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+        endif()
+      endforeach()
+    endforeach()
   endforeach(d)
+endforeach(t)
+
+# VectorImage types
+foreach(d ${ITK_WRAP_DIMS})
+  foreach(t ${WRAP_ITK_SCALAR})
+    itk_wrap_template("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
+    set(PyBufferTypes ${ITKM_VI${t}${d}})
+    set(PixelType ${t})
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.in ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp @ONLY)
+    file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i.temp PyBufferInterfaceTemp)
+    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+  endforeach(t)
+endforeach(d)
 itk_end_wrap_class()
 
 # VNL vectors
 
 itk_wrap_class("itk::PyVnl")
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
-  foreach(t ${types})
-    set(PixelType ${t})
-    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-    set(PyVnlTypes ${ITKM_${t}})
-    configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/PyVnlVectorBuffer.i.in
-                    ${CMAKE_CURRENT_BINARY_DIR}/PyVnlVectorBuffer.i.temp
-                    @ONLY)
-    file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVnlVectorBuffer.i.temp
-               PyBufferInterfaceTemp)
-    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i
-               ${PyBufferInterfaceTemp})
-  endforeach(t ${types})
+unique(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
+foreach(t ${types})
+  set(PixelType ${t})
+  itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  set(PyVnlTypes ${ITKM_${t}})
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVnlVectorBuffer.i.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/PyVnlVectorBuffer.i.temp @ONLY)
+  file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVnlVectorBuffer.i.temp PyBufferInterfaceTemp)
+  file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
+endforeach(t ${types})
 itk_end_wrap_class()

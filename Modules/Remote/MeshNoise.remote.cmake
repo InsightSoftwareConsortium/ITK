@@ -42,13 +42,16 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Davis Marc Vigneault <davis.vigneault@gmail.com>
-itk_fetch_module(MeshNoise
+itk_fetch_module(
+  MeshNoise
   "Perturb itk::Mesh and itk::QuadEdgeMesh coordinates with Gaussian noise.
   Please see the following Insight Journal article for an introduction to this module:
   Vigneault, DM.  Perturbing Mesh Vertices with Additive Gaussian Noise.
   https://www.insight-journal.org/browse/publication/981
   "
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMeshNoise.git
-  GIT_TAG a01fae4f1d637eb6d4a183d940b9ce79970db14e
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMeshNoise.git
+  GIT_TAG
+  a01fae4f1d637eb6d4a183d940b9ce79970db14e)

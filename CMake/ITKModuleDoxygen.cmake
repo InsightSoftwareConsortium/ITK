@@ -30,16 +30,23 @@ macro(itk_module_doxygen _name)
   set(_content "${_content} */\n")
 
   if(ITK_SOURCE_DIR)
-    configure_file(
-      "${ITK_SOURCE_DIR}/Utilities/Doxygen/Module.dox.in"
-      "${ITK_BINARY_DIR}/Utilities/Doxygen/Modules/${_name}.dox"
-      @ONLY
-      )
+    configure_file("${ITK_SOURCE_DIR}/Utilities/Doxygen/Module.dox.in"
+                   "${ITK_BINARY_DIR}/Utilities/Doxygen/Modules/${_name}.dox" @ONLY)
   endif()
 
   if(NOT ${_name}_THIRD_PARTY AND EXISTS ${${_name}_SOURCE_DIR}/include)
-    if(Python3_EXECUTABLE AND BUILD_TESTING AND NOT DISABLE_MODULE_TESTS)
-      itk_add_test(NAME ${_name}InDoxygenGroup COMMAND ${Python3_EXECUTABLE} "${ITK_CMAKE_DIR}/../Utilities/Doxygen/mcdoc.py" check ${_name} ${${_name}_SOURCE_DIR}/include)
+    if(Python3_EXECUTABLE
+       AND BUILD_TESTING
+       AND NOT DISABLE_MODULE_TESTS)
+      itk_add_test(
+        NAME
+        ${_name}InDoxygenGroup
+        COMMAND
+        ${Python3_EXECUTABLE}
+        "${ITK_CMAKE_DIR}/../Utilities/Doxygen/mcdoc.py"
+        check
+        ${_name}
+        ${${_name}_SOURCE_DIR}/include)
       itk_memcheck_ignore(${_name}InDoxygenGroup)
     endif()
   endif()

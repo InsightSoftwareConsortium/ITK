@@ -1,15 +1,11 @@
-if (ITK_USE_GPU)
+if(ITK_USE_GPU)
   set(ITKGPUCommon_SRCS
-    itkGPUContextManager.cxx
-    itkGPUDataManager.cxx
-    itkGPUKernelManager.cxx
-    itkOpenCLUtil.cxx
-    )
+      itkGPUContextManager.cxx
+      itkGPUDataManager.cxx
+      itkGPUKernelManager.cxx
+      itkOpenCLUtil.cxx)
 
-  set(ITKGPUCommon_Kernels
-    GPUImageOps.cl
-    GPUReduction.cl
-    )
+  set(ITKGPUCommon_Kernels GPUImageOps.cl GPUReduction.cl)
 
   write_gpu_kernels("${ITKGPUCommon_Kernels}" ITKGPUCommon_SRCS)
 

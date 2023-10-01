@@ -42,10 +42,13 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Matt McCormick <matt.mccormick@kitware.com>
-itk_fetch_module(IOTransformDCMTK
+itk_fetch_module(
+  IOTransformDCMTK
   "The modules contains classes for reading spatial transform from DICOM
   files. See https://www.insight-journal.org/browse/publication/923"
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIOTransformDCMTK.git
-  GIT_TAG e97e0e8c27809eea1834dd534a47fc06168e3e45
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIOTransformDCMTK.git
+  GIT_TAG
+  e97e0e8c27809eea1834dd534a47fc06168e3e45)

@@ -1,14 +1,14 @@
 itk_wrap_class("itk::PCAShapeSignedDistanceFunction" POINTER)
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    # Force wrapping this filter for double images, in addition to other
-    # wrapped image types listed in the variable `WRAP_ITK_REAL`, as it
-    # is the default image template type of this class in C++.
-    UNIQUE(types "${WRAP_ITK_REAL};D")
-    # `TCoordRep` template parameter of this filter can only be wrapped for
-    # `double` because of OptimizerParameters is hardcoded as templated
-    # over `double` in parent class `ShapeSignedDistanceFunction`.
-    foreach(t ${types})
-      itk_wrap_template("${ITKM_D}${d}${ITKM_I${t}${d}}" "${ITKT_D},${d},${ITKT_I${t}${d}}")
-    endforeach()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  # Force wrapping this filter for double images, in addition to other
+  # wrapped image types listed in the variable `WRAP_ITK_REAL`, as it
+  # is the default image template type of this class in C++.
+  unique(types "${WRAP_ITK_REAL};D")
+  # `TCoordRep` template parameter of this filter can only be wrapped for
+  # `double` because of OptimizerParameters is hardcoded as templated
+  # over `double` in parent class `ShapeSignedDistanceFunction`.
+  foreach(t ${types})
+    itk_wrap_template("${ITKM_D}${d}${ITKM_I${t}${d}}" "${ITKT_D},${d},${ITKT_I${t}${d}}")
   endforeach()
+endforeach()
 itk_end_wrap_class()

@@ -41,7 +41,8 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
-itk_fetch_module(AnisotropicDiffusionLBR
+itk_fetch_module(
+  AnisotropicDiffusionLBR
   "Anisotropic Non-Linear Diffusion is a powerful image processing technique,
   which allows to simultaneously remove the noise and enhance sharp features
   in two or three dimensional images. Anisotropic Diffusion is understood here
@@ -61,7 +62,9 @@ itk_fetch_module(AnisotropicDiffusionLBR
     The Insight Journal. 2014 January-December.
     https://insight-journal.org/browse/publication/953
   "
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKAnisotropicDiffusionLBR.git
-  GIT_TAG d46aab0e0c8f02b89eaa0420e61970559177683f
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKAnisotropicDiffusionLBR.git
+  GIT_TAG
+  d46aab0e0c8f02b89eaa0420e61970559177683f)

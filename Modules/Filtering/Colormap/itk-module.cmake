@@ -1,12 +1,12 @@
 set(DOCUMENTATION "This module contains filter/functions for converting
 grayscale images to colormapped RGB images.")
 
-itk_module(ITKColormap
+itk_module(
+  ITKColormap
   ENABLE_SHARED
   COMPILE_DEPENDS
-    ITKCommon
+  ITKCommon
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

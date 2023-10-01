@@ -62,7 +62,11 @@
 # DEALINGS IN THE SOFTWARE.
 ##############################################################################
 
-function(topological_sort LIST PREFIX SUFFIX)
+function(
+  topological_sort
+  LIST
+  PREFIX
+  SUFFIX)
   # Clear the stack and output variable
   set(VERTICES "${${LIST}}")
   set(STACK)
@@ -74,10 +78,13 @@ function(topological_sort LIST PREFIX SUFFIX)
 
     # If we haven't already processed this vertex, start a depth-first
     # search from where.
-    if (NOT FOUND_${VERTEX})
+    if(NOT FOUND_${VERTEX})
       # Push this vertex onto the stack with all of its outgoing edges
-      string(REPLACE ";" " " NEW_ELEMENT
-        "${VERTEX};${${PREFIX}${VERTEX}${SUFFIX}}")
+      string(
+        REPLACE ";"
+                " "
+                NEW_ELEMENT
+                "${VERTEX};${${PREFIX}${VERTEX}${SUFFIX}}")
       list(APPEND STACK ${NEW_ELEMENT})
 
       # We've now seen this vertex
@@ -88,22 +95,34 @@ function(topological_sort LIST PREFIX SUFFIX)
       while(STACK_LENGTH GREATER 0)
         # Remove the vertex and its remaining out-edges from the top
         # of the stack
-        list(GET STACK -1 OUT_EDGES)
+        list(
+          GET
+          STACK
+          -1
+          OUT_EDGES)
         list(REMOVE_AT STACK -1)
 
         # Get the source vertex and the list of out-edges
         separate_arguments(OUT_EDGES)
-        list(GET OUT_EDGES 0 SOURCE)
+        list(
+          GET
+          OUT_EDGES
+          0
+          SOURCE)
         list(REMOVE_AT OUT_EDGES 0)
 
         # While there are still out-edges remaining
         list(LENGTH OUT_EDGES OUT_DEGREE)
-        while (OUT_DEGREE GREATER 0)
+        while(OUT_DEGREE GREATER 0)
           # Pull off the first outgoing edge
-          list(GET OUT_EDGES 0 TARGET)
+          list(
+            GET
+            OUT_EDGES
+            0
+            TARGET)
           list(REMOVE_AT OUT_EDGES 0)
 
-          if (NOT FOUND_${TARGET})
+          if(NOT FOUND_${TARGET})
             # We have not seen the target before, so we will traverse
             # its outgoing edges before coming back to our
             # source. This is the key to the depth-first traversal.
@@ -113,18 +132,20 @@ function(topological_sort LIST PREFIX SUFFIX)
 
             # Push the remaining edges for the current vertex onto the
             # stack
-            string(REPLACE ";" " " NEW_ELEMENT
-              "${SOURCE};${OUT_EDGES}")
+            string(
+              REPLACE ";"
+                      " "
+                      NEW_ELEMENT
+                      "${SOURCE};${OUT_EDGES}")
             list(APPEND STACK ${NEW_ELEMENT})
 
             # Setup the new source and outgoing edges
             set(SOURCE ${TARGET})
-            set(OUT_EDGES
-              ${${PREFIX}${SOURCE}${SUFFIX}})
+            set(OUT_EDGES ${${PREFIX}${SOURCE}${SUFFIX}})
           endif()
 
           list(LENGTH OUT_EDGES OUT_DEGREE)
-        endwhile ()
+        endwhile()
 
         # We have finished all of the outgoing edges for
         # SOURCE; add it to the resulting list.
@@ -133,8 +154,10 @@ function(topological_sort LIST PREFIX SUFFIX)
         # Check the length of the stack
         list(LENGTH STACK STACK_LENGTH)
       endwhile()
-    endif ()
+    endif()
   endforeach()
 
-  set(${LIST} ${${LIST}} PARENT_SCOPE)
+  set(${LIST}
+      ${${LIST}}
+      PARENT_SCOPE)
 endfunction()

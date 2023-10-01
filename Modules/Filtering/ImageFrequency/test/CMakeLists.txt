@@ -4,22 +4,33 @@ set(ITKImageFrequencyTests
     # Iterator with Index.
     itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest.cxx
     # BandPass Filter
-    itkFrequencyBandImageFilterTest.cxx
-  )
+    itkFrequencyBandImageFilterTest.cxx)
 
-CreateTestDriver(ITKImageFrequency "${ITKImageFrequency-Test_LIBRARIES}" "${ITKImageFrequencyTests}")
+createtestdriver(ITKImageFrequency "${ITKImageFrequency-Test_LIBRARIES}" "${ITKImageFrequencyTests}")
 
 # FrequencyIterator
-itk_add_test(NAME itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest
-  COMMAND ITKImageFrequencyTestDriver itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest)
+itk_add_test(
+  NAME
+  itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest
+  COMMAND
+  ITKImageFrequencyTestDriver
+  itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest)
 ## BandPass
-itk_add_test(NAME itkFrequencyBandImageFilterEvenTest
-  COMMAND ITKImageFrequencyTestDriver itkFrequencyBandImageFilterTest "Even")
-itk_add_test(NAME itkFrequencyBandImageFilterOddTest
-  COMMAND ITKImageFrequencyTestDriver itkFrequencyBandImageFilterTest "Odd")
+itk_add_test(
+  NAME
+  itkFrequencyBandImageFilterEvenTest
+  COMMAND
+  ITKImageFrequencyTestDriver
+  itkFrequencyBandImageFilterTest
+  "Even")
+itk_add_test(
+  NAME
+  itkFrequencyBandImageFilterOddTest
+  COMMAND
+  ITKImageFrequencyTestDriver
+  itkFrequencyBandImageFilterTest
+  "Odd")
 
-set(${itk-module}GTests
-  itkFrequencyIteratorsGTest.cxx
-  )
+set(${itk-module}GTests itkFrequencyIteratorsGTest.cxx)
 
-CreateGoogleTestDriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}GTests}")
+creategoogletestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}GTests}")

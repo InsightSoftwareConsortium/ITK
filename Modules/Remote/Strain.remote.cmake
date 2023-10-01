@@ -42,8 +42,9 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Matt McCormick <matt.mccormick@kitware.com>
-itk_fetch_module(Strain
-"Filters to estimate a strain tensor field from a displacement field or a
+itk_fetch_module(
+  Strain
+  "Filters to estimate a strain tensor field from a displacement field or a
 spatial transformation.
 
 For more information, see:
@@ -53,7 +54,9 @@ For more information, see:
   The Insight Journal. January-December. 2017.
   https://www.insight-journal.org/browse/publication/984
 "
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKStrain.git
-  GIT_TAG 676882683516b4c1303fe81c1ba36ce472ca51ba
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/KitwareMedical/ITKStrain.git
+  GIT_TAG
+  676882683516b4c1303fe81c1ba36ce472ca51ba)

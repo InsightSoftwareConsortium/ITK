@@ -42,8 +42,9 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Matt McCormick <matt.mccormick@kitware.com>
-itk_fetch_module(PerformanceBenchmarking
-"New classes increase operating system process priority to
+itk_fetch_module(
+  PerformanceBenchmarking
+  "New classes increase operating system process priority to
 minimize the impact of other processes running on the system.
 
 These classes are used by a suite of example ITK benchmarks to
@@ -56,7 +57,9 @@ For more information, see::
   The Insight Journal. January-December. 2016.
   https://insight-journal.org/browse/publication/972
 "
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPerformanceBenchmarking.git
-  GIT_TAG 950921a642a720867c00c92c548312a4939da917
-  )
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPerformanceBenchmarking.git
+  GIT_TAG
+  950921a642a720867c00c92c548312a4939da917)

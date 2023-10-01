@@ -42,9 +42,12 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Dženan Zukić <dzenan.zukic@kitware.com>
-itk_fetch_module(Montage
-"Reconstruction of 3D volumetric dataset from a collection of 2D slices"
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMontage.git
-  GIT_TAG b91741f4f1746449dc70f08c7cc13c26cafa7d98
-  )
+itk_fetch_module(
+  Montage
+  "Reconstruction of 3D volumetric dataset from a collection of 2D slices"
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMontage.git
+  GIT_TAG
+  b91741f4f1746449dc70f08c7cc13c26cafa7d98)

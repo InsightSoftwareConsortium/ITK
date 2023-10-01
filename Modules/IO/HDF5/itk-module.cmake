@@ -1,18 +1,19 @@
-set(DOCUMENTATION "This module contains an ImageIO class for reading and writing
+set(DOCUMENTATION
+    "This module contains an ImageIO class for reading and writing
 ITK Images stored in the <a href=\"https://www.hdfgroup.org/HDF5/\">HDF5</a>
 data model and file format.")
 
-itk_module(ITKIOHDF5
+itk_module(
+  ITKIOHDF5
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
+  ITKIOImageBase
   PRIVATE_DEPENDS
-    ITKHDF5
+  ITKHDF5
   TEST_DEPENDS
-    ITKTestKernel
-    ITKImageSources
+  ITKTestKernel
+  ITKImageSources
   FACTORY_NAMES
-    ImageIO::HDF5
+  ImageIO::HDF5
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

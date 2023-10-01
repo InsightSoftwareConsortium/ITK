@@ -1,5 +1,3 @@
-set(ITKMathematicalMorphology_SRCS
-  itkMathematicalMorphologyEnums.cxx
-)
+set(ITKMathematicalMorphology_SRCS itkMathematicalMorphologyEnums.cxx)
 
 itk_module_add_library(ITKMathematicalMorphology ${ITKMathematicalMorphology_SRCS})

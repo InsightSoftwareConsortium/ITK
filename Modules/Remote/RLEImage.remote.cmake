@@ -42,15 +42,18 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Dženan Zukić <dzenan.zukic@kitware.com>
-itk_fetch_module(RLEImage
-"Run-length encoded memory compression scheme for an itk::Image.
+itk_fetch_module(
+  RLEImage
+  "Run-length encoded memory compression scheme for an itk::Image.
 
 Insight Journal article:
 https://www.insight-journal.org/browse/publication/978
 
 This work is supported by NIH grant R01 EB014346
 'Continued development and maintenance of the ITK-SNAP 3D image segmentation software'."
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKRLEImage.git
-  GIT_TAG 070fef6b0cd6122d95b62913487c2348ba8f5189
-  )
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/KitwareMedical/ITKRLEImage.git
+  GIT_TAG
+  070fef6b0cd6122d95b62913487c2348ba8f5189)

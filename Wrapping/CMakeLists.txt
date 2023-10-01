@@ -38,24 +38,37 @@ endif()
 ###############################################################################
 
 if(ITK_INSTALL_PACKAGE_DIR)
-  string(REGEX REPLACE "^/" "" path "${ITK_INSTALL_PACKAGE_DIR}/WrapITK/")
+  string(
+    REGEX
+    REPLACE "^/"
+            ""
+            path
+            "${ITK_INSTALL_PACKAGE_DIR}/WrapITK/")
 else()
   set(path "lib/InsightToolkit/WrapITK/")
 endif()
-set(WRAP_ITK_INSTALL_PREFIX "${path}" CACHE INTERNAL "subpath where where most of WrapITK files will be installed")
+set(WRAP_ITK_INSTALL_PREFIX
+    "${path}"
+    CACHE INTERNAL "subpath where where most of WrapITK files will be installed")
 
 # Output directories.
 set(WRAP_ITK_CONFIG_DIR "${WrapITK_SOURCE_DIR}/")
 set(WRAP_ITK_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
-set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${ITK_DIR}/Wrapping/Typedefs" CACHE INTERNAL "typedefs dir")
+set(WRAPPER_MASTER_INDEX_OUTPUT_DIR
+    "${ITK_DIR}/Wrapping/Typedefs"
+    CACHE INTERNAL "typedefs dir")
 
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
   # See ITK/CMakeLists.txt for rational for overwriting multi-config default behavior of appending $<CONFIG>
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "$<1:${WrapITK_BINARY_DIR}/lib>" CACHE INTERNAL "Single output directory for building all libraries.")
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
+      "$<1:${WrapITK_BINARY_DIR}/lib>"
+      CACHE INTERNAL "Single output directory for building all libraries.")
 endif()
 
 if(NOT EXECUTABLE_OUTPUT_PATH)
-  set(EXECUTABLE_OUTPUT_PATH ${WrapITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
+  set(EXECUTABLE_OUTPUT_PATH
+      ${WrapITK_BINARY_DIR}/bin
+      CACHE INTERNAL "Single output directory for building all executables.")
 endif()
 
 # Set WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER to a non-null value, like
@@ -88,14 +101,18 @@ set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 # package use "itk-stubs"
 set(ITK_STUB_BASENAME "itk")
 # ITK_STUB_DIR: all stub files are stored in this directory
-set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/${ITK_STUB_BASENAME}" CACHE INTERNAL "where python interface files are stored.")
+set(ITK_STUB_DIR
+    "${ITK_DIR}/Wrapping/Generators/Python/${ITK_STUB_BASENAME}"
+    CACHE INTERNAL "where python interface files are stored.")
 file(MAKE_DIRECTORY ${ITK_STUB_DIR})
 
 # ITK_PKL_DIR: all temporary pickled object AST representations stored here
-set(ITK_PKL_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-pkl" CACHE INTERNAL "where temp pkl files are stored")
+set(ITK_PKL_DIR
+    "${ITK_DIR}/Wrapping/Generators/Python/itk-pkl"
+    CACHE INTERNAL "where temp pkl files are stored")
 file(MAKE_DIRECTORY ${ITK_PKL_DIR})
 set(WRAP_ITK_TYPEDEFS_DIRECTORY "${ITK_DIR}/Wrapping/Typedefs")
-set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+set(WRAP_ITK_LIB_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
 ###############################################################################
 # Setup test driver
@@ -121,7 +138,8 @@ if(ITK_SOURCE_DIR)
     if(EXISTS "${${_module_enabled}_SOURCE_DIR}/wrapping/CMakeLists.txt")
       list(APPEND WRAP_ITK_MODULES ${_module_enabled})
       set(itk-module_SOURCE_DIR ${${_module_enabled}_SOURCE_DIR})
-      add_subdirectory("${${_module_enabled}_SOURCE_DIR}/wrapping" ${CMAKE_CURRENT_BINARY_DIR}/Modules/${_module_enabled})
+      add_subdirectory("${${_module_enabled}_SOURCE_DIR}/wrapping"
+                       ${CMAKE_CURRENT_BINARY_DIR}/Modules/${_module_enabled})
       unset(itk-module_SOURCE_DIR)
     endif()
   endforeach()
@@ -136,7 +154,9 @@ else() # Building a module externally so itk-module variable must have been prev
     add_subdirectory("${${itk-module}_SOURCE_DIR}/wrapping" ${CMAKE_CURRENT_BINARY_DIR}/Modules/${itk-module})
   endif()
 endif()
-set(WRAP_ITK_MODULES ${WRAP_ITK_MODULES} CACHE INTERNAL "Internal library list.")
+set(WRAP_ITK_MODULES
+    ${WRAP_ITK_MODULES}
+    CACHE INTERNAL "Internal library list.")
 
 ###############################################################################
 # let the different generators running some code after have parsed all the
@@ -150,7 +170,6 @@ if(${module_prefix}_WRAP_PYTHON)
     add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyBase)
   endif()
 endif()
-
 
 ###############################################################################
 # Generate Python typehints when wrapped
@@ -168,7 +187,7 @@ if(ITK_WRAP_PYTHON)
   #   generating the Template and Proxy files for each class. In addition this file
   #   generates the __init__.pyi and _proxies.pyi files used to interface between
   #   the individual .pyi files.
-  set(PYI_GENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/Generators/Python/itk/pyi_generator.py")
+  set(PYI_GENERATOR "${CMAKE_CURRENT_SOURCE_DIR}/Generators/Python/itk/pyi_generator.py")
 
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GlobalIdxFilesList.txt.in
                  ${CMAKE_CURRENT_BINARY_DIR}/GlobalIdxFilesList.txt)
@@ -177,19 +196,17 @@ if(ITK_WRAP_PYTHON)
   # ${GLOBAL_IdxFilesList}: is described within SwigInterface/CMakeLists.txt
   #   The variable is passed to pyi_generator to make sure that the function only uses current index files
   #   All index files found that are not in the given list are assumed to be outdated and are removed.
-  add_custom_target(itk-stub-files ALL
-          BYPRODUCTS "${ITK_STUB_DIR}/_proxies.pyi" "${ITK_STUB_DIR}/__init__.pyi"
-          COMMAND ${Python3_EXECUTABLE} ${PYI_GENERATOR}
-            --pyi_dir "${ITK_STUB_DIR}"
-            --pkl_dir "${ITK_PKL_DIR}"
+  add_custom_target(
+    itk-stub-files ALL
+    BYPRODUCTS "${ITK_STUB_DIR}/_proxies.pyi" "${ITK_STUB_DIR}/__init__.pyi"
+    COMMAND ${Python3_EXECUTABLE} ${PYI_GENERATOR} --pyi_dir "${ITK_STUB_DIR}" --pkl_dir "${ITK_PKL_DIR}"
             --index_list_file "${CMAKE_CURRENT_BINARY_DIR}/GlobalIdxFilesList.txt"
-          DEPENDS ${PYI_GENERATOR} ${GLOBAL_IdxFilesList}
-          COMMENT "Generating .pyi files for Python wrapper interface"
-          VERBATIM
-  )
+    DEPENDS ${PYI_GENERATOR} ${GLOBAL_IdxFilesList}
+    COMMENT "Generating .pyi files for Python wrapper interface"
+    VERBATIM)
 
   # Add module dependencies to ensure .index.txt files have been generated
-  UNIQUE(WRAPPED_MODULE_LIST "${WRAP_ITK_MODULES};ITKPyUtils")
+  unique(WRAPPED_MODULE_LIST "${WRAP_ITK_MODULES};ITKPyUtils")
   foreach(WRAPPER_LIBRARY_NAME ${WRAPPED_MODULE_LIST})
     list(LENGTH ${WRAPPER_LIBRARY_NAME}PyiIdxFiles ${WRAPPER_LIBRARY_NAME}PyiIdxFiles_Len)
     if(${WRAPPER_LIBRARY_NAME}PyiIdxFiles_Len GREATER 0)

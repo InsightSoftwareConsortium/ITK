@@ -1,16 +1,16 @@
 set(DOCUMENTATION "This module contains ImageIO classes for reading the Gipl
 (Guys Image Processing Lab) image format.")
 
-itk_module(ITKIOGIPL
+itk_module(
+  ITKIOGIPL
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
+  ITKIOImageBase
   PRIVATE_DEPENDS
-    ITKZLIB
+  ITKZLIB
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   FACTORY_NAMES
-    ImageIO::Gipl
+  ImageIO::Gipl
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

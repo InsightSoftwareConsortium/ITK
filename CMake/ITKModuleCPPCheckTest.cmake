@@ -15,8 +15,7 @@ macro(itk_module_cppcheck_test _name)
         ${${_name}_SOURCE_DIR}/include #_include_dirs
         VERBOSE
         FORCE
-        ALL
-       )
+        ALL)
     endif()
   endif()
 
@@ -31,8 +30,7 @@ macro(itk_module_cppcheck_test _name)
         ${${_name}_SOURCE_DIR}/include #_include_dirs
         VERBOSE
         FORCE
-        ALL
-        )
+        ALL)
     endif()
   endif()
 endmacro()

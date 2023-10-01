@@ -17,41 +17,64 @@
 set(DO_DEBUG_MACROS OFF)
 function(dump_cmake_variables output_var_name this_module_name)
   if(DO_DEBUG_MACROS)
-  if(this_module_name STREQUAL "itkEuler3DTransform")
-    get_cmake_property(_variableNames VARIABLES)
-    list (FILTER _variableNames EXCLUDE REGEX  "itk_auto_load_submodules.*")
-    list (FILTER _variableNames EXCLUDE REGEX  "^ARG.*")
-    list (FILTER _variableNames EXCLUDE REGEX  "^CMAKE_MATCH.*")
-    list (SORT _variableNames)
-    foreach (_variableName ${_variableNames})
-      list(APPEND output_equalities "^^${_variableName}=${${_variableName}}\n-----------------------------------------\n")
-    endforeach()
-    set(${output_var_name} ${output_equalities} PARENT_SCOPE)
-    #message(STATUS "AAA\n:${output_var_name}===:${_variableNames}:\n\n")
-    unset(output_var_name)
-  endif()
+    if(this_module_name STREQUAL "itkEuler3DTransform")
+      get_cmake_property(_variableNames VARIABLES)
+      list(
+        FILTER
+        _variableNames
+        EXCLUDE
+        REGEX
+        "itk_auto_load_submodules.*")
+      list(
+        FILTER
+        _variableNames
+        EXCLUDE
+        REGEX
+        "^ARG.*")
+      list(
+        FILTER
+        _variableNames
+        EXCLUDE
+        REGEX
+        "^CMAKE_MATCH.*")
+      list(SORT _variableNames)
+      foreach(_variableName ${_variableNames})
+        list(APPEND output_equalities
+             "^^${_variableName}=${${_variableName}}\n-----------------------------------------\n")
+      endforeach()
+      set(${output_var_name}
+          ${output_equalities}
+          PARENT_SCOPE)
+      #message(STATUS "AAA\n:${output_var_name}===:${_variableNames}:\n\n")
+      unset(output_var_name)
+    endif()
   endif()
 endfunction()
 
-function(write_changed_cmake_variables_to_file output_filename pre_list post_list this_module_name)
+function(
+  write_changed_cmake_variables_to_file
+  output_filename
+  pre_list
+  post_list
+  this_module_name)
   if(DO_DEBUG_MACROS)
-  if(this_module_name STREQUAL "itkEuler3DTransform")
-    #message(STATUS "\n\n\nXXX PRE : ${pre_list}")
-    #message(STATUS "\nYYYPOST : ${itk_auto_load_submodules_${WRAPPER_LIBRARY_NAME}_post}")
-    set(changed_post_list ${post_list})
-    #message(STATUS "YYY\n:${changed_post_list}:\n\n")
-    #message(STATUS "\nYYYPOST : ${itk_auto_load_submodules_${WRAPPER_LIBRARY_NAME}_post}")
-    foreach (pre_list_item ${pre_list})
-      list(REMOVE_ITEM changed_post_list "${pre_list_item}")
-    endforeach()
-    set(write_string "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-    message(STATUS "ZZZ\n:${changed_post_list}:${this_module_name}\n\n")
-    foreach(changed_post_list_item ${changed_post_list})
-      set(write_string "${write_string}${changed_post_list_item}")
-    endforeach()
-    file(WRITE ${output_filename} ${write_string})
-    unset(write_string)
-  endif()
+    if(this_module_name STREQUAL "itkEuler3DTransform")
+      #message(STATUS "\n\n\nXXX PRE : ${pre_list}")
+      #message(STATUS "\nYYYPOST : ${itk_auto_load_submodules_${WRAPPER_LIBRARY_NAME}_post}")
+      set(changed_post_list ${post_list})
+      #message(STATUS "YYY\n:${changed_post_list}:\n\n")
+      #message(STATUS "\nYYYPOST : ${itk_auto_load_submodules_${WRAPPER_LIBRARY_NAME}_post}")
+      foreach(pre_list_item ${pre_list})
+        list(REMOVE_ITEM changed_post_list "${pre_list_item}")
+      endforeach()
+      set(write_string "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+      message(STATUS "ZZZ\n:${changed_post_list}:${this_module_name}\n\n")
+      foreach(changed_post_list_item ${changed_post_list})
+        set(write_string "${write_string}${changed_post_list_item}")
+      endforeach()
+      file(WRITE ${output_filename} ${write_string})
+      unset(write_string)
+    endif()
   endif()
 endfunction()
 
@@ -64,11 +87,12 @@ macro(itk_wrap_submodule_python submodule module)
   string(PREPEND ITK_WRAP_PYTHON_LIBRARY_IMPORTS "from itk.${submodule}Python import *\n")
 endmacro()
 
-
 # Support for additional include directories of each module
 # WARNING: Each module must set this variable BEFORE calling itk_wrap_module
 # TODO: is this the place place for this?
-set(WRAPPER_LIBRARY_INCLUDE_DIRECTORIES "" CACHE INTERNAL "additional include directories for each module")
+set(WRAPPER_LIBRARY_INCLUDE_DIRECTORIES
+    ""
+    CACHE INTERNAL "additional include directories for each module")
 
 ###############################################################################
 # Define fundamental wrapping macro which sets up the global variables used
@@ -115,7 +139,7 @@ macro(itk_wrap_module library_name)
 
   # WRAPPER_LIBRARY_DEPENDS. List of names of other wrapper libraries that
   # define symbols used by this wrapper library.
-  INTERSECTION(WRAPPER_LIBRARY_DEPENDS "${ITK_MODULE_${library_name}_DEPENDS}" "${WRAP_ITK_MODULES}")
+  intersection(WRAPPER_LIBRARY_DEPENDS "${ITK_MODULE_${library_name}_DEPENDS}" "${WRAP_ITK_MODULES}")
 
   # WRAPPER_LIBRARY_LINK_LIBRARIES. List of other libraries that should
   # be linked to the wrapper library.
@@ -151,9 +175,9 @@ macro(itk_wrap_module library_name)
   unset(SWIG_INTERFACE_MODULES)
 
   if(${module_prefix}_WRAP_DOC)
-    unset(ITK_WRAP_DOC_DOXYGEN_HEADERS)  # doxygen headers to process in this lib
-    unset(ITK_WRAP_DOC_DOXYGEN_XML_FILES)  # xml files produced by doxygen in this lib
-    unset(ITK_WRAP_DOC_DOCSTRING_FILES)  # swig docstring files produced by doxygen in this lib
+    unset(ITK_WRAP_DOC_DOXYGEN_HEADERS) # doxygen headers to process in this lib
+    unset(ITK_WRAP_DOC_DOXYGEN_XML_FILES) # xml files produced by doxygen in this lib
+    unset(ITK_WRAP_DOC_DOCSTRING_FILES) # swig docstring files produced by doxygen in this lib
   endif()
 
   unset(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES)
@@ -197,9 +221,24 @@ macro(itk_wrap_class class)
   # drop the namespace prefix
   if("${class}" MATCHES "::")
     # there's at least one namespace in the name
-    string(REGEX REPLACE ".*::" "" base_name "${class}")
-    string(REGEX REPLACE "^([^:]*::)?.+" "\\1" top_namespace "${class}")
-    string(REGEX REPLACE "::" "" top_namespace "${top_namespace}") # drop the :: from the namespace
+    string(
+      REGEX
+      REPLACE ".*::"
+              ""
+              base_name
+              "${class}")
+    string(
+      REGEX
+      REPLACE "^([^:]*::)?.+"
+              "\\1"
+              top_namespace
+              "${class}")
+    string(
+      REGEX
+      REPLACE "::"
+              ""
+              top_namespace
+              "${top_namespace}") # drop the :: from the namespace
     set(swig_name "${top_namespace}${base_name}")
   else()
     # no namespaces
@@ -255,9 +294,21 @@ macro(itk_wrap_named_class class swig_name)
 
   if("${ARGC}" EQUAL 3)
     set(WRAPPER_WRAP_METHOD "${ARGV2}")
-    set(VALID_WRAP_METHODS POINTER POINTER_WITH_CONST_POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER)
-    if(NOT "${WRAPPER_WRAP_METHOD}" IN_LIST VALID_WRAP_METHODS)
-      message(SEND_ERROR "itk_wrap_class: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are ${VALID_WRAP_METHODS}")
+    set(VALID_WRAP_METHODS
+        POINTER
+        POINTER_WITH_CONST_POINTER
+        POINTER_WITH_SUPERCLASS
+        POINTER_WITH_2_SUPERCLASSES
+        EXPLICIT_SPECIALIZATION
+        POINTER_WITH_EXPLICIT_SPECIALIZATION
+        ENUM
+        AUTOPOINTER)
+    if(NOT
+       "${WRAPPER_WRAP_METHOD}"
+       IN_LIST
+       VALID_WRAP_METHODS)
+      message(
+        SEND_ERROR "itk_wrap_class: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are ${VALID_WRAP_METHODS}")
     endif()
     unset(VALID_WRAP_METHODS)
   endif()
@@ -293,17 +344,37 @@ macro(itk_wrap_named_class class swig_name)
         # store the header
         list(APPEND ITK_WRAP_DOC_DOXYGEN_HEADERS "${doc_path}")
         # and the produced file
-        string(REPLACE "::" "_" base_name "${class}")
+        string(
+          REPLACE "::"
+                  "_"
+                  base_name
+                  "${class}")
         # some simple computations to find the xml file produced for this class
-        string(REGEX REPLACE "([A-Z])" "\\1" xmlname ${class})
-        string(REGEX REPLACE ":" "_1" xmlname ${xmlname})
+        string(
+          REGEX
+          REPLACE "([A-Z])"
+                  "\\1"
+                  xmlname
+                  ${class})
+        string(
+          REGEX
+          REPLACE ":"
+                  "_1"
+                  xmlname
+                  ${xmlname})
         # Converts camel case names to snake case.
-        string(REGEX REPLACE "([A-Z])" "_\\1" xmlname ${xmlname})
-        string(TOLOWER  ${xmlname} xmlname)
+        string(
+          REGEX
+          REPLACE "([A-Z])"
+                  "_\\1"
+                  xmlname
+                  ${xmlname})
+        string(TOLOWER ${xmlname} xmlname)
         list(APPEND ITK_WRAP_DOC_DOXYGEN_XML_FILES "${CMAKE_CURRENT_BINARY_DIR}/Doc/xml/class${xmlname}.xml")
 
         # the doxy2swig input
-        set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\n${CMAKE_CURRENT_BINARY_DIR}/Doc/xml/class${xmlname}.xml\t${class}")
+        set(ITK_WRAP_DOC_DOXY2SWIG_INPUT
+            "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\n${CMAKE_CURRENT_BINARY_DIR}/Doc/xml/class${xmlname}.xml\t${class}")
         set(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT ON)
         unset(xmlname)
         unset(doc_path)
@@ -330,7 +401,6 @@ macro(itk_wrap_simple_class class)
   itk_end_wrap_class()
 endmacro()
 
-
 macro(itk_wrap_named_simple_class class swig_name)
   # Similar to itk_wrap_named_class in that it generates typedefs for Swig input.
   # However, since no templates need to be declared, there's no need for
@@ -347,18 +417,20 @@ macro(itk_wrap_named_simple_class class swig_name)
   itk_wrap_one_type("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}")
 endmacro()
 
-
 macro(itk_wrap_include include_file)
   # Add a header file to the WRAPPER_INCLUDE_FILES list of files
   # WRAPPER_INCLUDE_FILES is used for both SWIG and CASTXML
   # Global vars modified: WRAPPER_INCLUDE_FILES
-  list(FIND WRAPPER_INCLUDE_FILES "${include_file}" _index)
-  if (${_index} EQUAL -1)
+  list(
+    FIND
+    WRAPPER_INCLUDE_FILES
+    "${include_file}"
+    _index)
+  if(${_index} EQUAL -1)
     # include order IS important. Default values must be before the other ones
     list(APPEND WRAPPER_INCLUDE_FILES ${include_file})
   endif()
 endmacro()
-
 
 macro(itk_end_wrap_class)
   # Parse through the list of WRAPPER_TEMPLATES set up by the macros at the bottom
@@ -369,12 +441,29 @@ macro(itk_end_wrap_class)
   # Global vars modified: WRAPPER_TYPEDEFS
 
   # the regexp used to get the values separated by a #
-  if(NOT "${WRAPPER_TEMPLATES}" STREQUAL "")
+  if(NOT
+     "${WRAPPER_TEMPLATES}"
+     STREQUAL
+     "")
     set(sharp_regexp "([0-9A-Za-z_]*)[ ]*#[ ]*(.*)")
     foreach(wrap ${WRAPPER_TEMPLATES})
-      string(REGEX REPLACE "${sharp_regexp}" "\\1" mangled_suffix "${wrap}")
-      string(REGEX REPLACE "${sharp_regexp}" "\\2" template_parameters "${wrap}")
-      itk_wrap_one_type("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}${mangled_suffix}" "${template_parameters}")
+      string(
+        REGEX
+        REPLACE "${sharp_regexp}"
+                "\\1"
+                mangled_suffix
+                "${wrap}")
+      string(
+        REGEX
+        REPLACE "${sharp_regexp}"
+                "\\2"
+                template_parameters
+                "${wrap}")
+      itk_wrap_one_type(
+        "${WRAPPER_WRAP_METHOD}"
+        "${WRAPPER_CLASS}"
+        "${WRAPPER_SWIG_NAME}${mangled_suffix}"
+        "${template_parameters}")
     endforeach()
     unset(template_parameters)
     unset(mangled_suffix)
@@ -387,7 +476,6 @@ macro(itk_end_wrap_class)
   endif()
 endmacro()
 
-
 macro(itk_wrap_simple_type wrap_class swig_name)
   # Add a typedef, without support for any option
   # CASTXML_TYPEDEFS Is input and output modified by this function
@@ -398,29 +486,68 @@ macro(itk_wrap_simple_type wrap_class swig_name)
 
   # split the class name and the template parameters
   if("${wrap_class}" MATCHES "<.*>")
-    string(REGEX REPLACE "^([^<]+)< *(.+) *>([^>]*)$" "\\1" cpp_name "${wrap_class}")
-    string(REGEX REPLACE "^([^<]+)< *(.+) *>([^>]*)$" "\\2" template_params "${wrap_class}")
-    string(REGEX REPLACE "^([^<]+)< *(.+) *>([^>]*)$" "\\3" ext_def "${wrap_class}")
+    string(
+      REGEX
+      REPLACE "^([^<]+)< *(.+) *>([^>]*)$"
+              "\\1"
+              cpp_name
+              "${wrap_class}")
+    string(
+      REGEX
+      REPLACE "^([^<]+)< *(.+) *>([^>]*)$"
+              "\\2"
+              template_params
+              "${wrap_class}")
+    string(
+      REGEX
+      REPLACE "^([^<]+)< *(.+) *>([^>]*)$"
+              "\\3"
+              ext_def
+              "${wrap_class}")
   else()
     set(cpp_name "${wrap_class}")
     set(template_params NO_TEMPLATE)
     set(ext_def "")
   endif()
-  string(REGEX REPLACE ".*::" "" simple_name "${cpp_name}")
+  string(
+    REGEX
+    REPLACE ".*::"
+            ""
+            simple_name
+            "${cpp_name}")
 
   # must be done first so the typemap are used in the %template commands
   if("${swig_name}" MATCHES "_Pointer$")
-    string(REGEX REPLACE "_Pointer$" "" smart_pointed "${swig_name}")
-    string(REGEX REPLACE "(.)([A-Z][a-z]+)" "\\1_\\2" snake_name "${simple_name}")
-    string(REGEX REPLACE "([a-z0-9])([A-Z])" "\\1_\\2" snake_name "${snake_name}")
-    string(REGEX REPLACE "__" "_" snake_name "${snake_name}")
+    string(
+      REGEX
+      REPLACE "_Pointer$"
+              ""
+              smart_pointed
+              "${swig_name}")
+    string(
+      REGEX
+      REPLACE "(.)([A-Z][a-z]+)"
+              "\\1_\\2"
+              snake_name
+              "${simple_name}")
+    string(
+      REGEX
+      REPLACE "([a-z0-9])([A-Z])"
+              "\\1_\\2"
+              snake_name
+              "${snake_name}")
+    string(
+      REGEX
+      REPLACE "__"
+              "_"
+              snake_name
+              "${snake_name}")
     string(TOLOWER "${snake_name}" snake_name)
-    ADD_PYTHON_POINTER_TYPEMAP("${smart_pointed}" ${simple_name} ${snake_name})
+    add_python_pointer_typemap("${smart_pointed}" ${simple_name} ${snake_name})
     unset(snake_name)
     unset(smart_pointed)
     unset(simple_name)
   endif()
-
 
   # and now, generate the typemaps and other customizations
   if("${cpp_name}" STREQUAL "itk::Matrix")
@@ -433,12 +560,17 @@ macro(itk_wrap_simple_type wrap_class swig_name)
 
   if("${swig_name}" STREQUAL "itkLightObject")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(listitkLightObject) std::list< itkLightObject_Pointer >;\n\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "listitkLightObject" "itk::LightObject")
+    add_python_config_template(
+      "list"
+      "std::list"
+      "listitkLightObject"
+      "itk::LightObject")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::VariableLengthVector")
     if(NOT ("${template_params}" MATCHES "std::complex")) # TODO cover complex types
-      string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_VARIABLELENGTHVECTOR_CLASS(${swig_name}, ${template_params})\n")
+      string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+             "DECL_PYTHON_VARIABLELENGTHVECTOR_CLASS(${swig_name}, ${template_params})\n")
     endif()
   endif()
 
@@ -452,17 +584,30 @@ macro(itk_wrap_simple_type wrap_class swig_name)
 
   if("${swig_name}" STREQUAL "itkDataObject")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(vectoritkDataObject) std::vector< itkDataObject_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectoritkDataObject" "itk::DataObject")
+    add_python_config_template(
+      "vector"
+      "std::vector"
+      "vectoritkDataObject"
+      "itk::DataObject")
   endif()
 
   if("${swig_name}" STREQUAL "itkObjectFactoryBase")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(listitkObjectFactoryBase) std::list< itkObjectFactoryBase * >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "listitkObjectFactoryBase" "itk::ObjectFactoryBase")
+    add_python_config_template(
+      "list"
+      "std::list"
+      "listitkObjectFactoryBase"
+      "itk::ObjectFactoryBase")
   endif()
 
   if("${swig_name}" STREQUAL "itkMetaDataDictionary")
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(vectoritkMetaDataDictionary) std::vector< itkMetaDataDictionary * >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectoritkMetaDataDictionary" "itk::MetaDataDictionary")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+           "%template(vectoritkMetaDataDictionary) std::vector< itkMetaDataDictionary * >;\n")
+    add_python_config_template(
+      "vector"
+      "std::vector"
+      "vectoritkMetaDataDictionary"
+      "itk::MetaDataDictionary")
   endif()
 
   if("${swig_name}" STREQUAL "itkCommand")
@@ -470,12 +615,16 @@ macro(itk_wrap_simple_type wrap_class swig_name)
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%feature(\"director\") itkCommand;\n")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::ImageBase" AND NOT "${swig_name}" MATCHES "Pointer$")
+  if("${cpp_name}" STREQUAL "itk::ImageBase"
+     AND NOT
+         "${swig_name}"
+         MATCHES
+         "Pointer$")
     # add the templated method non seen by gccxml, in a more python-friendly way
     # than the c++ version
-    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetBufferedRegion")
-    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetLargestPossibleRegion")
-    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetRequestedRegion")
+    add_python_output_return_by_value_class("${swig_name}" "GetBufferedRegion")
+    add_python_output_return_by_value_class("${swig_name}" "GetLargestPossibleRegion")
+    add_python_output_return_by_value_class("${swig_name}" "GetRequestedRegion")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_IMAGEBASE_CLASS(${swig_name}, ${template_params})\n")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%inline %{\n")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "#include \"itkContinuousIndexSwigInterface.h\"\n")
@@ -498,42 +647,85 @@ macro(itk_wrap_simple_type wrap_class swig_name)
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_TRANSFORMBASETEMPLATE_CLASS(${swig_name})\n\n")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::PyImageFilter" AND NOT "${swig_name}" MATCHES "Pointer$")
+  if("${cpp_name}" STREQUAL "itk::PyImageFilter"
+     AND NOT
+         "${swig_name}"
+         MATCHES
+         "Pointer$")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYIMAGEFILTER_CLASS(${swig_name})\n\n")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::StatisticsLabelObject" AND NOT "${swig_name}" MATCHES "Pointer$")
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(map${swig_name}) std::map< unsigned long, ${swig_name}_Pointer, std::less< unsigned long > >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("map" "std::map" "map${swig_name}" "unsigned long, ${cpp_name}< ${template_params} >")
+  if("${cpp_name}" STREQUAL "itk::StatisticsLabelObject"
+     AND NOT
+         "${swig_name}"
+         MATCHES
+         "Pointer$")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+           "%template(map${swig_name}) std::map< unsigned long, ${swig_name}_Pointer, std::less< unsigned long > >;\n")
+    add_python_config_template(
+      "map"
+      "std::map"
+      "map${swig_name}"
+      "unsigned long, ${cpp_name}< ${template_params} >")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(vector${swig_name}) std::vector< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
+    add_python_config_template(
+      "vector"
+      "std::vector"
+      "vector${swig_name}"
+      "${cpp_name}< ${template_params} >")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::LabelMap" AND NOT "${swig_name}" MATCHES "Pointer$")
+  if("${cpp_name}" STREQUAL "itk::LabelMap"
+     AND NOT
+         "${swig_name}"
+         MATCHES
+         "Pointer$")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_LABELMAP_CLASS(${swig_name})\n")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::ComponentTreeNode")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(list${swig_name}) std::list< ${swig_name}* >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}" "${cpp_name}< ${template_params} > *")
+    add_python_config_template(
+      "list"
+      "std::list"
+      "list${swig_name}"
+      "${cpp_name}< ${template_params} > *")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::ImageRegion")
-    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetIndex")
-    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetModifiableIndex")
-    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetSize")
-    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetModifiableSize")
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_IMAGEREGION_CLASS(${swig_name})%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
+    add_python_output_return_by_value_class("${swig_name}" "GetIndex")
+    add_python_output_return_by_value_class("${swig_name}" "GetModifiableIndex")
+    add_python_output_return_by_value_class("${swig_name}" "GetSize")
+    add_python_output_return_by_value_class("${swig_name}" "GetModifiableSize")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+           "DECL_PYTHON_IMAGEREGION_CLASS(${swig_name})%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
+    add_python_config_template(
+      "vector"
+      "std::vector"
+      "vector${swig_name}"
+      "${cpp_name}< ${template_params} >")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::Image" AND NOT "${swig_name}" MATCHES "Pointer$")
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_STD_VEC_RAW_TO_SMARTPTR_TYPEMAP(${swig_name}, ${swig_name}_Pointer)\n")
+  if("${cpp_name}" STREQUAL "itk::Image"
+     AND NOT
+         "${swig_name}"
+         MATCHES
+         "Pointer$")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+           "DECL_PYTHON_STD_VEC_RAW_TO_SMARTPTR_TYPEMAP(${swig_name}, ${swig_name}_Pointer)\n")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(vector${swig_name}) std::vector< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} > ")
+    add_python_config_template(
+      "vector"
+      "std::vector"
+      "vector${swig_name}"
+      "${cpp_name}< ${template_params} > ")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::PCAShapeSignedDistanceFunction" AND NOT "${swig_name}" MATCHES "Pointer$")
+  if("${cpp_name}" STREQUAL "itk::PCAShapeSignedDistanceFunction"
+     AND NOT
+         "${swig_name}"
+         MATCHES
+         "Pointer$")
 
     set(import_text "%include ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/itkImage_ext.i\n")
     string(FIND ${ITK_WRAP_PYTHON_SWIG_EXT} ${import_text} pos)
@@ -543,84 +735,117 @@ macro(itk_wrap_simple_type wrap_class swig_name)
     unset(import_text)
   endif()
 
-
   if("${cpp_name}" STREQUAL "itk::Index")
-    ADD_PYTHON_SEQ_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_seq_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::Size")
-    ADD_PYTHON_SEQ_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_seq_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::RGBPixel")
     # number of elements is not in the template parameters so use the
     # macro which get it with Size() instead
-    ADD_PYTHON_VARIABLE_LENGTH_SEQ_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_variable_length_seq_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::RGBAPixel")
     # number of elements is not in the template parameters so use the
     # macro which get it with Size() instead
-    ADD_PYTHON_VARIABLE_LENGTH_SEQ_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_variable_length_seq_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::Offset")
-    ADD_PYTHON_SEQ_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_seq_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::FixedArray")
-    ADD_PYTHON_VEC_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_vec_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::Vector")
-    ADD_PYTHON_VEC_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_vec_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::CovariantVector")
-    ADD_PYTHON_VEC_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_vec_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::Point")
-    ADD_PYTHON_VEC_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_vec_typemap("${swig_name}" "${template_params}")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
+    add_python_config_template(
+      "vector"
+      "std::vector"
+      "vector${swig_name}"
+      "${cpp_name}< ${template_params} >")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::ContinuousIndex")
-    ADD_PYTHON_VEC_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_vec_typemap("${swig_name}" "${template_params}")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::Array")
-    ADD_PYTHON_VARIABLE_LENGTH_SEQ_TYPEMAP("${swig_name}" "${template_params}")
+    add_python_variable_length_seq_typemap("${swig_name}" "${template_params}")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::TransformBaseTemplate" AND NOT "${ext_def}" MATCHES "Pointer")
+  if("${cpp_name}" STREQUAL "itk::TransformBaseTemplate"
+     AND NOT
+         "${ext_def}"
+         MATCHES
+         "Pointer")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
+    add_python_config_template(
+      "list"
+      "std::list"
+      "list${swig_name}_Pointer"
+      "${cpp_name}< ${template_params} >")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::SpatialObjectPoint")
-    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_SPATIALOBJECTPPOINT_CLASS(${swig_name})%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
+    string(
+      APPEND ITK_WRAP_PYTHON_SWIG_EXT
+      "DECL_PYTHON_SPATIALOBJECTPPOINT_CLASS(${swig_name})%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
+    add_python_config_template(
+      "vector"
+      "std::vector"
+      "vector${swig_name}"
+      "${cpp_name}< ${template_params} >")
   endif()
 
-  foreach(sopClassName IN ITEMS "itk::ContourSpatialObjectPoint"
+  foreach(
+    sopClassName IN
+    ITEMS "itk::ContourSpatialObjectPoint"
           "itk::DTITubeSpatialObjectPoint"
           "itk::LineSpatialObjectPoint"
           "itk::SurfaceSpatialObjectPoint"
           "itk::TubeSpatialObjectPoint")
     if("${cpp_name}" STREQUAL "${sopClassName}")
       string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
-      ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
+      add_python_config_template(
+        "vector"
+        "std::vector"
+        "vector${swig_name}"
+        "${cpp_name}< ${template_params} >")
     endif()
   endforeach()
 
-  if("${cpp_name}" STREQUAL "itk::SpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
+  if("${cpp_name}" STREQUAL "itk::SpatialObject"
+     AND NOT
+         "${ext_def}"
+         MATCHES
+         "Pointer")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
+    add_python_config_template(
+      "list"
+      "std::list"
+      "list${swig_name}_Pointer"
+      "${cpp_name}< ${template_params} >")
   endif()
 
-  foreach(soClassName IN ITEMS "itk::ArrowSpatialObjectPoint"
+  foreach(
+    soClassName IN
+    ITEMS "itk::ArrowSpatialObjectPoint"
           "itk::BlogSpatialObject"
           "itk::BoxSpatialObject"
           "itk::ContourSpatialObject"
@@ -635,9 +860,17 @@ macro(itk_wrap_simple_type wrap_class swig_name)
           "itk::PolygonSpatialObject"
           "itk::SurfaceSpatialObject"
           "itk::TubeSpatialObject")
-    if("${cpp_name}" STREQUAL "${soClassName}" AND NOT "${ext_def}" MATCHES "Pointer")
+    if("${cpp_name}" STREQUAL "${soClassName}"
+       AND NOT
+           "${ext_def}"
+           MATCHES
+           "Pointer")
       string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
-      ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
+      add_python_config_template(
+        "list"
+        "std::list"
+        "list${swig_name}_Pointer"
+        "${cpp_name}< ${template_params} >")
     endif()
   endforeach()
   unset(ext_def)
@@ -645,8 +878,11 @@ macro(itk_wrap_simple_type wrap_class swig_name)
   unset(cpp_name)
 endmacro()
 
-
-macro(itk_wrap_one_type wrap_method wrap_class swig_name)
+macro(
+  itk_wrap_one_type
+  wrap_method
+  wrap_class
+  swig_name)
   # Add one  typedef to WRAPPER_TYPEDEFS
   # 'wrap_method' is the one of the valid WRAPPER_WRAP_METHODS from itk_wrap_class,
   # 'wrap_class' is the fully-qualified C++ name of the class
@@ -659,7 +895,12 @@ macro(itk_wrap_one_type wrap_method wrap_class swig_name)
   # Global vars modified: WRAPPER_TYPEDEFS
 
   # get the base C++ class name (no namespaces) from wrap_class:
-  string(REGEX REPLACE "(.*::)" "" base_name "${wrap_class}")
+  string(
+    REGEX
+    REPLACE "(.*::)"
+            ""
+            base_name
+            "${wrap_class}")
 
   set(template_parameters "${ARGV3}")
   if(template_parameters)
@@ -673,8 +914,10 @@ macro(itk_wrap_one_type wrap_method wrap_class swig_name)
   # for gccxml typedefs
 
   if("${wrap_method}" MATCHES "2_SUPERCLASSES")
-    itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass::Superclass" "${swig_name}_Superclass_Superclass")
-    itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass::Superclass::Pointer" "${swig_name}_Superclass_Superclass_Pointer")
+    itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass::Superclass"
+                                        "${swig_name}_Superclass_Superclass")
+    itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass::Superclass::Pointer"
+                                        "${swig_name}_Superclass_Superclass_Pointer")
   endif()
 
   if("${wrap_method}" MATCHES "SUPERCLASS")
@@ -705,8 +948,19 @@ macro(itk_wrap_one_type wrap_method wrap_class swig_name)
     endif()
   endif()
 
-  if(NOT "${wrap_class}" STREQUAL "MetaEvent" AND NOT "${wrap_method}" MATCHES "ENUM")
-    ADD_PYTHON_CONFIG_TEMPLATE("${base_name}" "${wrap_class}" "${swig_name}" "${template_parameters}")
+  if(NOT
+     "${wrap_class}"
+     STREQUAL
+     "MetaEvent"
+     AND NOT
+         "${wrap_method}"
+         MATCHES
+         "ENUM")
+    add_python_config_template(
+      "${base_name}"
+      "${wrap_class}"
+      "${swig_name}"
+      "${template_parameters}")
   endif()
   unset(template_parameters)
 
@@ -718,7 +972,8 @@ macro(itk_wrap_one_type wrap_method wrap_class swig_name)
 
   if("${wrap_method}" MATCHES "2_SUPERCLASSES")
     itk_wrap_simple_type("${full_class_name}::Superclass::Superclass" "${swig_name}_Superclass_Superclass")
-    itk_wrap_simple_type("${full_class_name}::Superclass::Superclass::Pointer" "${swig_name}_Superclass_Superclass_Pointer")
+    itk_wrap_simple_type("${full_class_name}::Superclass::Superclass::Pointer"
+                         "${swig_name}_Superclass_Superclass_Pointer")
   endif()
 
   if("${wrap_method}" MATCHES "SUPERCLASS")
@@ -746,8 +1001,6 @@ macro(itk_wrap_one_type wrap_method wrap_class swig_name)
   unset(base_name)
 endmacro()
 
-
-
 ################################################################################
 # Macros which cause one or more template instantiations to be added to the
 # WRAPPER_TEMPLATES list. This list is initialized by the macro itk_wrap_class above,
@@ -770,9 +1023,13 @@ macro(itk_wrap_template name types)
   # Global vars used: WRAPPER_TEMPLATES
   # Global vars modified: WRAPPER_TEMPLATES
 
-#   list(APPEND WRAPPER_TEMPLATES "${name} # ${types}")
+  #   list(APPEND WRAPPER_TEMPLATES "${name} # ${types}")
   set(WRAPPER_WARN_ABOUT_NO_TEMPLATE OFF)
-  itk_wrap_one_type("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}${name}" "${types}")
+  itk_wrap_one_type(
+    "${WRAPPER_WRAP_METHOD}"
+    "${WRAPPER_CLASS}"
+    "${WRAPPER_SWIG_NAME}${name}"
+    "${types}")
 
   if("${ITK_WRAP_PYTHON_CURRENT_CLASS}" STREQUAL "itk::ImageSource")
     # generate the typemap which let pass an ImageSource instead of an Image
@@ -783,7 +1040,11 @@ macro(itk_wrap_template name types)
     # modules to redefine those missing types if they use it internally.
     if(image STREQUAL "")
       # Replace the mangled type I with itkImage
-      string(REPLACE "I" "itkImage" imageTemplate ${name})
+      string(
+        REPLACE "I"
+                "itkImage"
+                imageTemplate
+                ${name})
       set(image ${imageTemplate})
     endif()
 
@@ -792,7 +1053,9 @@ macro(itk_wrap_template name types)
     #    set(text "${text}  // ======================\n")
     set(text "${text}  ${image_source} * imgsrc;\n")
     set(text "${text}  ${image} * img;\n")
-    set(text "${text}  if($input != Py_None && SWIG_ConvertPtr($input,(void **)(&imgsrc),\$descriptor(${image_source} *), 0) == 0)\n")
+    set(text
+        "${text}  if($input != Py_None && SWIG_ConvertPtr($input,(void **)(&imgsrc),\$descriptor(${image_source} *), 0) == 0)\n"
+    )
     set(text "${text}    {\n")
     set(text "${text}    \$1 = imgsrc->GetOutput(0);\n")
     set(text "${text}    }\n")
@@ -802,7 +1065,8 @@ macro(itk_wrap_template name types)
     set(text "${text}    }\n")
     set(text "${text}  else\n")
     set(text "${text}    {\n")
-    set(text "${text}    PyErr_SetString(PyExc_TypeError, \"Expecting argument of type ${image} or ${image_source}.\");\n")
+    set(text
+        "${text}    PyErr_SetString(PyExc_TypeError, \"Expecting argument of type ${image} or ${image_source}.\");\n")
     set(text "${text}    SWIG_fail;\n")
     set(text "${text}    }\n")
     set(text "${text}}\n")
@@ -812,7 +1076,9 @@ macro(itk_wrap_template name types)
     #    set(text "${text}  // //////////////////////////\n")
     set(text "${text}  ${image_source} * imgsrc;\n")
     set(text "${text}  ${image} * img;\n")
-    set(text "${text}  if($input != Py_None && SWIG_ConvertPtr($input,(void **)(&imgsrc),\$descriptor(${image_source} *), 0) == 0)\n")
+    set(text
+        "${text}  if($input != Py_None && SWIG_ConvertPtr($input,(void **)(&imgsrc),\$descriptor(${image_source} *), 0) == 0)\n"
+    )
     set(text "${text}    {\n")
     set(text "${text}    \$1 = 1;\n")
     set(text "${text}    }\n")
@@ -860,7 +1126,10 @@ macro(itk_wrap_image_filter param_types param_count)
   # of the filter for every pixel type that the user has selected.
 
   set(have_dim_cond OFF)
-  if(NOT "${ARGN}" STREQUAL "")
+  if(NOT
+     "${ARGN}"
+     STREQUAL
+     "")
     set(have_dim_cond ON)
   endif()
 
@@ -903,7 +1172,7 @@ macro(itk_wrap_image_filter_combinations)
   set(arg7 ${ARGV7})
   set(arg8 ${ARGV8})
   set(arg9 ${ARGV9})
-  DECREMENT(last_arg_number ${ARGC})
+  decrement(last_arg_number ${ARGC})
 
   # Now see if we have a dimension condition, and if so, note it and remove it
   # from the list of args that we will process later
@@ -912,7 +1181,7 @@ macro(itk_wrap_image_filter_combinations)
   if("${last_arg}" MATCHES "^[0-9]")
     # We have a dimensionality condition
     set(have_dim_cond ON)
-    DECREMENT(last_arg_number ${last_arg_number})
+    decrement(last_arg_number ${last_arg_number})
   endif()
 
   # Build up a list of all of the combinations of all of the elements in each
@@ -946,7 +1215,11 @@ macro(itk_wrap_image_filter_combinations)
       # Each param_set is a #-delimited list of pixel types. First thing, we unpack
       # param_set back to a CMake list (;-delimited). Then we instantiate the filter
       # for that combination of image pixel types.
-      string(REPLACE "#" ";" param_list "${param_set}")
+      string(
+        REPLACE "#"
+                ";"
+                param_list
+                "${param_set}")
       if(have_dim_cond)
         itk_wrap_image_filter_types(${param_list} "${last_arg}")
       else()
@@ -955,7 +1228,6 @@ macro(itk_wrap_image_filter_combinations)
     endforeach()
   endif()
 endmacro()
-
 
 macro(itk_wrap_image_filter_types)
   # itk_wrap_image_filter_types creates template instantiations of the current image
@@ -978,13 +1250,13 @@ macro(itk_wrap_image_filter_types)
   set(arg7 ${ARGV7})
   set(arg8 ${ARGV8})
   set(arg9 ${ARGV9})
-  DECREMENT(last_arg_number ${ARGC})
+  decrement(last_arg_number ${ARGC})
 
   set(last_arg "${arg${last_arg_number}}")
   if("${last_arg}" MATCHES "^[0-9]")
     # We have a dimensionality condition
     itk_wrap_filter_dims(dims "${last_arg}")
-    DECREMENT(last_arg_number ${last_arg_number})
+    decrement(last_arg_number ${last_arg_number})
   else()
     set(dims ${ITK_WRAP_IMAGE_DIMS})
   endif()
@@ -1025,7 +1297,6 @@ macro(itk_wrap_image_filter_types)
   endforeach()
 endmacro()
 
-
 macro(itk_wrap_filter_dims var_name dimension_condition)
   # itk_wrap_filter_dims processes a dimension_condition and returns a list of the dimensions
   # that (a) meet the condition, and (b) were selected to be wrapped. Recall
@@ -1035,8 +1306,13 @@ macro(itk_wrap_filter_dims var_name dimension_condition)
   if("${dimension_condition}" MATCHES "^[0-9]+\\+$")
     # The condition is of the form "n+". Make a list of the
     # selected wrapping dims that are >= that number.
-    string(REGEX REPLACE "^([0-9]+)\\+$" "\\1" min_dim "${dimension_condition}")
-    DECREMENT(max_disallowed ${min_dim})
+    string(
+      REGEX
+      REPLACE "^([0-9]+)\\+$"
+              "\\1"
+              min_dim
+              "${dimension_condition}")
+    decrement(max_disallowed ${min_dim})
     set(${var_name} "")
     foreach(d ${ITK_WRAP_IMAGE_DIMS})
       if("${d}" GREATER "${max_disallowed}")
@@ -1046,7 +1322,7 @@ macro(itk_wrap_filter_dims var_name dimension_condition)
   else()
     # The condition is just a list of dims. Return the intersection of these
     # dims with the selected ones.
-    INTERSECTION(${var_name} "${dimension_condition}" "${ITK_WRAP_IMAGE_DIMS}")
+    intersection(${var_name} "${dimension_condition}" "${ITK_WRAP_IMAGE_DIMS}")
   endif()
 endmacro()
 

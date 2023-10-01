@@ -1,4 +1,5 @@
-set(DOCUMENTATION "This module contains classes related to watershed
+set(DOCUMENTATION
+    "This module contains classes related to watershed
 segmentation. The watershed algorithm proceeds in several steps. First, an initial
 classification of all points into catchment basin regions is done by tracing
 each point down its path of steepest descent to a local minima. Next,
@@ -16,17 +17,17 @@ and new developments.\"  The Insight Journal - 2006 January - June.
 https://www.insight-journal.org/browse/publication/92
 ")
 
-itk_module(ITKWatersheds
+itk_module(
+  ITKWatersheds
   ENABLE_SHARED
   DEPENDS
-    ITKImageIntensity
-    ITKThresholding
-    ITKImageGradient
-    ITKSmoothing
-    ITKMathematicalMorphology
+  ITKImageIntensity
+  ITKThresholding
+  ITKImageGradient
+  ITKSmoothing
+  ITKMathematicalMorphology
   TEST_DEPENDS
-    ITKTestKernel
-    ITKImageFusion
+  ITKTestKernel
+  ITKImageFusion
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

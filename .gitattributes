@@ -29,6 +29,9 @@ zap.pl           crlf=input
 
 # Custom attribute to mark sources as using our C++/C code style.
 [attr]our-c-style  whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,clangformat
+# Custom attribute to mark sources as using our CMake code style.
+[attr]our-cmake-style  whitespace=tab-in-indent,no-lf-at-eof hooks.style=cmakeformat
+
 
 *.c              our-c-style
 *.h              our-c-style
@@ -36,7 +39,9 @@ zap.pl           crlf=input
 *.hxx            our-c-style
 *.txx            our-c-style
 *.txt            whitespace=tab-in-indent,no-lf-at-eof
-*.cmake          whitespace=tab-in-indent,no-lf-at-eof
+*.cmake          whitespace=tab-in-indent,no-lf-at-eof our-cmake-style
+*.wrap           whitespace=tab-in-indent,no-lf-at-eof our-cmake-style
+CMakeLists.txt   whitespace=tab-in-indent,no-lf-at-eof our-cmake-style
 
 # ExternalData content links must have LF newlines
 *.md5            crlf=input

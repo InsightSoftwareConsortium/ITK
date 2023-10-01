@@ -17,36 +17,60 @@ set(ITK_METRICV4_POINTSET_TYPES "")
 # Convenience functions to work around CMake lists
 # Use # as delimiter for sublists
 macro(itk_sublist_to_list out_var my_sublist)
-  string(REPLACE "#" ";" ${out_var} ${my_sublist})
+  string(
+    REPLACE "#"
+            ";"
+            ${out_var}
+            ${my_sublist})
 endmacro()
 
 macro(itk_list_to_sublist out_var my_list)
-  string(REPLACE ";" "#" ${out_var} ${my_list})
+  string(
+    REPLACE ";"
+            "#"
+            ${out_var}
+            ${my_list})
 endmacro()
 
-macro(_cartesian out_var my_list1 my_list2)
-# cartesian product of my_list1 and my_list2 into out_var as a list of sublists
+macro(
+  _cartesian
+  out_var
+  my_list1
+  my_list2)
+  # cartesian product of my_list1 and my_list2 into out_var as a list of sublists
 
   foreach(x1 ${my_list1})
     foreach(x2 ${my_list2})
-	  list(APPEND ${out_var} "${x1}#${x2}")
-	endforeach()
+      list(APPEND ${out_var} "${x1}#${x2}")
+    endforeach()
   endforeach()
-  UNIQUE(${out_var} "${${out_var}}")
+  unique(${out_var} "${${out_var}}")
 endmacro()
 
 # recompute what 2+ means
-itk_wrap_filter_dims( two_plus "2+")
+itk_wrap_filter_dims(two_plus "2+")
 _cartesian(_real_images "${WRAP_ITK_REAL}" "${two_plus}")
 
 macro(_add_image_filter_types mangle cpp_name)
-# recreates the types/behavior of itk_wrap_image_filter so that we can add the instantiations to our list
-foreach(z ${_real_images})
-  itk_sublist_to_list(y ${z})
-  list(GET y 0 my_type)
-  list(GET y 1 my_dim)
-  list(APPEND ITK_METRICV4_IMAGE_TYPES "${mangle}${ITKM_${my_type}}${my_dim}#${cpp_name}< itk::Image< ${ITKT_${my_type}}, ${my_dim} >, itk::Image< ${ITKT_${my_type}}, ${my_dim} > >")
-endforeach()
+  # recreates the types/behavior of itk_wrap_image_filter so that we can add the instantiations to our list
+  foreach(z ${_real_images})
+    itk_sublist_to_list(y ${z})
+    list(
+      GET
+      y
+      0
+      my_type)
+    list(
+      GET
+      y
+      1
+      my_dim)
+    list(
+      APPEND
+      ITK_METRICV4_IMAGE_TYPES
+      "${mangle}${ITKM_${my_type}}${my_dim}#${cpp_name}< itk::Image< ${ITKT_${my_type}}, ${my_dim} >, itk::Image< ${ITKT_${my_type}}, ${my_dim} > >"
+    )
+  endforeach()
 endmacro()
 
 _add_image_filter_types("ANTSNCITIM" "itk::ANTSNeighborhoodCorrelationImageToImageMetricv4")
@@ -58,17 +82,30 @@ _add_image_filter_types("MSITIM" "itk::MeanSquaresImageToImageMetricv4")
 _add_image_filter_types("ITIM" "itk::ImageToImageMetricv4")
 
 # not sure why we are articially adding double, but this is consistent across the Metricv4 types
-UNIQUE(_real_plus_double "${WRAP_ITK_REAL};D")
+unique(_real_plus_double "${WRAP_ITK_REAL};D")
 _cartesian(_real_pointsets "${_real_plus_double}" "${ITK_WRAP_IMAGE_DIMS}")
 _cartesian(_int_pointsets "${WRAP_ITK_INT}" "${ITK_WRAP_IMAGE_DIMS}")
 
-macro(_add_pointset_types mangle cpp_name pointsets)
-foreach(z ${pointsets})
-  itk_sublist_to_list(y ${z})
-  list(GET y 0 my_type)
-  list(GET y 1 my_dim)
-  list(APPEND ITK_METRICV4_POINTSET_TYPES "${mangle}PS${ITKM_${my_type}}${my_dim}#${cpp_name}< itk::PointSet< ${ITKT_${my_type}}, ${my_dim} > >")
-endforeach()
+macro(
+  _add_pointset_types
+  mangle
+  cpp_name
+  pointsets)
+  foreach(z ${pointsets})
+    itk_sublist_to_list(y ${z})
+    list(
+      GET
+      y
+      0
+      my_type)
+    list(
+      GET
+      y
+      1
+      my_dim)
+    list(APPEND ITK_METRICV4_POINTSET_TYPES
+         "${mangle}PS${ITKM_${my_type}}${my_dim}#${cpp_name}< itk::PointSet< ${ITKT_${my_type}}, ${my_dim} > >")
+  endforeach()
 endmacro()
 
 _add_pointset_types("EDPSTPSM" "itk::EuclideanDistancePointSetToPointSetMetricv4" "${_real_pointsets}")
@@ -81,16 +118,16 @@ _add_pointset_types("LPSTPSM" "itk::LabeledPointSetToPointSetMetricv4" "${_int_p
 set(ITK_METRICV4_TYPES "${ITK_METRICV4_IMAGE_TYPES};${ITK_METRICV4_POINTSET_TYPES}")
 
 set(ITK_METRICV4_HEADERS
-  "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
-  "itkCorrelationImageToImageMetricv4.h"
-  "itkDemonsImageToImageMetricv4.h"
-  "itkJointHistogramMutualInformationImageToImageMetricv4.h"
-  "itkMattesMutualInformationImageToImageMetricv4.h"
-  "itkMeanSquaresImageToImageMetricv4.h"
-  "itkImageToImageMetricv4.h"
-  "itkEuclideanDistancePointSetToPointSetMetricv4.h"
-  "itkExpectationBasedPointSetToPointSetMetricv4.h"
-  "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
-  "itkPointSetToPointSetMetricv4.h"
-  "itkPointSetToPointSetMetricWithIndexv4.h"
-  "itkLabeledPointSetToPointSetMetricv4.h")
+    "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
+    "itkCorrelationImageToImageMetricv4.h"
+    "itkDemonsImageToImageMetricv4.h"
+    "itkJointHistogramMutualInformationImageToImageMetricv4.h"
+    "itkMattesMutualInformationImageToImageMetricv4.h"
+    "itkMeanSquaresImageToImageMetricv4.h"
+    "itkImageToImageMetricv4.h"
+    "itkEuclideanDistancePointSetToPointSetMetricv4.h"
+    "itkExpectationBasedPointSetToPointSetMetricv4.h"
+    "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
+    "itkPointSetToPointSetMetricv4.h"
+    "itkPointSetToPointSetMetricWithIndexv4.h"
+    "itkLabeledPointSetToPointSetMetricv4.h")

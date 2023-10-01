@@ -1,10 +1,7 @@
-if (ITK_USE_GPU)
-  set(ITKGPUThresholding_SRCS
-   )
+if(ITK_USE_GPU)
+  set(ITKGPUThresholding_SRCS)
 
-  set(ITKGPUThresholding_Kernels
-    GPUBinaryThresholdImageFilter.cl
-    )
+  set(ITKGPUThresholding_Kernels GPUBinaryThresholdImageFilter.cl)
 
   write_gpu_kernels("${ITKGPUThresholding_Kernels}" ITKGPUThresholding_SRCS)
 

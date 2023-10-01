@@ -5,5 +5,5 @@ itk_wrap_include("vnl/vnl_unary_function.h")
 itk_wrap_include("vnl/vnl_vector.h")
 
 itk_wrap_class("vnl_unary_function" EXPLICIT_SPECIALIZATION)
-  itk_wrap_template("${ITKM_D}_vnl_vector${ITKM_D}" "${ITKT_D}, vnl_vector< ${ITKT_D} >")
+itk_wrap_template("${ITKM_D}_vnl_vector${ITKM_D}" "${ITKT_D}, vnl_vector< ${ITKT_D} >")
 itk_end_wrap_class()

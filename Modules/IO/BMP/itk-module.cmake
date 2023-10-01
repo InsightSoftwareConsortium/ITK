@@ -1,14 +1,14 @@
 set(DOCUMENTATION "This module contains ImageIO classes for reading the
 Microsoft Bitmap File Format (BMP).")
 
-itk_module(ITKIOBMP
+itk_module(
+  ITKIOBMP
   ENABLE_SHARED
   DEPENDS
-    ITKIOImageBase
+  ITKIOImageBase
   TEST_DEPENDS
-    ITKTestKernel
+  ITKTestKernel
   FACTORY_NAMES
-    ImageIO::BMP
+  ImageIO::BMP
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

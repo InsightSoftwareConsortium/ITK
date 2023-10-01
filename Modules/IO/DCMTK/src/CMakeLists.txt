@@ -1,9 +1,8 @@
 set(ITKIODCMTK_SRC
-  itkDCMTKImageIO.cxx
-  itkDCMTKFileReader.cxx
-  itkDCMTKImageIOFactory.cxx
-  itkDCMTKSeriesFileNames.cxx
-)
+    itkDCMTKImageIO.cxx
+    itkDCMTKFileReader.cxx
+    itkDCMTKImageIOFactory.cxx
+    itkDCMTKSeriesFileNames.cxx)
 
 add_library(ITKIODCMTK ${ITK_LIBRARY_BUILD_TYPE} ${ITKIODCMTK_SRC})
 

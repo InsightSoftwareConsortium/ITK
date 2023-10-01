@@ -41,15 +41,18 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
-itk_fetch_module(TotalVariation
-"An ITK-based implementation of fast total variation methods used for image denoising,
+itk_fetch_module(
+  TotalVariation
+  "An ITK-based implementation of fast total variation methods used for image denoising,
 image deconvolution, and other applications.
 
 The class itkProxTVImageFilter wraps the third party library proxTV for 2D and 3D images.
 Please refer to the documentation upstream for a detailed description:
 https://github.com/albarji/proxTV
 "
-  MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTotalVariation.git
-  GIT_TAG 1dda823f15c8e190ddcd9354f388af01f8b07b08
-)
+  MODULE_COMPLIANCE_LEVEL
+  2
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTotalVariation.git
+  GIT_TAG
+  1dda823f15c8e190ddcd9354f388af01f8b07b08)

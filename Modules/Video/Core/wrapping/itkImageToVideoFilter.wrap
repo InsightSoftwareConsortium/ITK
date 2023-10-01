@@ -6,20 +6,24 @@ itk_wrap_include("itkVideoStream.h")
 set(m_d "9999999")
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   if(${d} LESS ${m_d})
-     set(m_d ${d})
+    set(m_d ${d})
   endif()
 endforeach()
-string(REPLACE ${m_d} "" INPUT_DIMS "${ITK_WRAP_IMAGE_DIMS}")
+string(
+  REPLACE ${m_d}
+          ""
+          INPUT_DIMS
+          "${ITK_WRAP_IMAGE_DIMS}")
 
 itk_wrap_class("itk::ImageToVideoFilter" POINTER)
-  foreach(d ${INPUT_DIMS})
-    foreach(t ${WRAP_ITK_SCALAR})
-      itk_wrap_template("I${ITKM_${t}}${d}" "${ITKT_I${ITKM_${t}}${d}}")
+foreach(d ${INPUT_DIMS})
+  foreach(t ${WRAP_ITK_SCALAR})
+    itk_wrap_template("I${ITKM_${t}}${d}" "${ITKT_I${ITKM_${t}}${d}}")
 
-      # Explicitly wrap vector image template arguments
-      DECREMENT(d2 ${d})
-      itk_wrap_template("VI${ITKM_${t}}${d}VI${ITKM_${t}}${d2}"
-                        "${ITKT_VI${ITKM_${t}}${d}}, itk::VideoStream<${ITKT_VI${ITKM_${t}}${d2}}>")
-    endforeach()
+    # Explicitly wrap vector image template arguments
+    decrement(d2 ${d})
+    itk_wrap_template("VI${ITKM_${t}}${d}VI${ITKM_${t}}${d2}"
+                      "${ITKT_VI${ITKM_${t}}${d}}, itk::VideoStream<${ITKT_VI${ITKM_${t}}${d2}}>")
   endforeach()
+endforeach()
 itk_end_wrap_class()

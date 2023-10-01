@@ -41,7 +41,8 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
-itk_fetch_module(LabelErodeDilate
+itk_fetch_module(
+  LabelErodeDilate
   "Classes performing morphology efficiently on label images.
   Label collisions are consistently handled, and
   operations are efficient (approximately constant time wrt
@@ -49,8 +50,10 @@ itk_fetch_module(LabelErodeDilate
   structuring elements are supported.
   https://www.insight-journal.org/browse/publication/886
   https://www.insight-journal.org/browse/publication/228"
-  MODULE_COMPLIANCE_LEVEL 2
+  MODULE_COMPLIANCE_LEVEL
+  2
   #UPSTREAM_GIT_REPOSITORY
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate.git
-  GIT_TAG 7e23b12be913ff2bd935d9ffc2d10b573a923501
-  )
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate.git
+  GIT_TAG
+  7e23b12be913ff2bd935d9ffc2d10b573a923501)

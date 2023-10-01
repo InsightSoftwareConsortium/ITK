@@ -42,9 +42,12 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 # Contact: Tom Birdsong <tom.birdsong@kitware.com>
-itk_fetch_module(VkFFTBackend
-"ITK FFT accelerated backends using the VkFFT library for Vulkan/CUDA/HIP/OpenCL compatibility."
-  MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKVkFFTBackend.git
-  GIT_TAG 4574a6106f75c72146a2a358d0eea39e451de86b
-)
+itk_fetch_module(
+  VkFFTBackend
+  "ITK FFT accelerated backends using the VkFFT library for Vulkan/CUDA/HIP/OpenCL compatibility."
+  MODULE_COMPLIANCE_LEVEL
+  3
+  GIT_REPOSITORY
+  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKVkFFTBackend.git
+  GIT_TAG
+  4574a6106f75c72146a2a358d0eea39e451de86b)

@@ -1,17 +1,17 @@
 set(DOCUMENTATION "This module contains classes for reading and writing
 Meshes in the OFF file format.")
-itk_module(ITKIOMeshOFF
+itk_module(
+  ITKIOMeshOFF
   ENABLE_SHARED
   DEPENDS
-    ITKCommon
-    ITKIOMeshBase
+  ITKCommon
+  ITKIOMeshBase
   COMPILE_DEPENDS
-    ITKMesh
+  ITKMesh
   TEST_DEPENDS
-    ITKTestKernel
-    ITKQuadEdgeMesh
+  ITKTestKernel
+  ITKQuadEdgeMesh
   FACTORY_NAMES
-    MeshIO::OFF
+  MeshIO::OFF
   DESCRIPTION
-    "${DOCUMENTATION}"
-)
+  "${DOCUMENTATION}")

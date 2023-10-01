@@ -142,8 +142,6 @@
 # after including ITK can have unintended side effects.
 #
 
-
-
 # _itk_configure_FactoryRegisterManager(<factory_type> <formats>)
 #
 # Configure the registration manager header in the directory
@@ -155,15 +153,18 @@ function(_itk_configure_FactoryRegisterManager factory_type formats)
   set(LIST_OF_FACTORIES_REGISTRATION "")
   set(LIST_OF_FACTORY_NAMES "")
   string(TOLOWER ${factory_type} _qualifier)
-  foreach (format ${formats})
+  foreach(format ${formats})
     set(_module_name ${${format}_${_qualifier}_module_name})
     set(_factory_name ${${format}_${_qualifier}_factory_name})
-    _itk_ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
-      ${_module_name} ${_factory_name})
+    _itk_add_factory_registration(
+      "LIST_OF_FACTORIES_REGISTRATION"
+      "LIST_OF_FACTORY_NAMES"
+      ${_module_name}
+      ${_factory_name})
   endforeach()
 
   configure_file(${ITK_CMAKE_DIR}/itk${factory_type}FactoryRegisterManager.h.in
-   "${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration/itk${factory_type}FactoryRegisterManager.h" @ONLY)
+                 "${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration/itk${factory_type}FactoryRegisterManager.h" @ONLY)
 
 endfunction()
 
@@ -172,15 +173,19 @@ endfunction()
 # Update variables`LIST_OF_FACTORY_NAMES` and `LIST_OF_FACTORIES_REGISTRATION`
 # used to configure `itk<factory_type>IOFactoryRegisterManager.h`.
 #
-macro(_itk_ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_name _factory_name)
+macro(
+  _itk_ADD_FACTORY_REGISTRATION
+  _registration_list_var
+  _names_list_var
+  _module_name
+  _factory_name)
   # note: this is an internal CMake variable and should not be used outside ITK
   set(_abi)
   if(${_module_name}_ENABLE_SHARED AND ITK_BUILD_SHARED)
     set(_abi "ITK_ABI_IMPORT")
   endif()
 
-  set(${_registration_list_var}
-    "${${_registration_list_var}}void ${_abi} ${_factory_name}FactoryRegister__Private();")
+  set(${_registration_list_var} "${${_registration_list_var}}void ${_abi} ${_factory_name}FactoryRegister__Private();")
   set(${_names_list_var} "${${_names_list_var}}${_factory_name}FactoryRegister__Private,")
 endmacro()
 
@@ -198,7 +203,7 @@ macro(itk_generate_factory_registration)
 
   set(variadic_args ${ARGN})
   list(LENGTH variadic_args _argc)
-  if (${_argc} GREATER 0)
+  if(${_argc} GREATER 0)
     set(_factory_list ${variadic_args})
   endif()
 
@@ -209,9 +214,18 @@ macro(itk_generate_factory_registration)
     foreach(_format ${ITK_${_factory_name}})
       set(Module)
       foreach(_module ${ITK_FACTORY_NAMES})
-        string(REGEX MATCH "^.*::${_factory_name}::${_format}$" Module_Matched "${_module}")
+        string(
+          REGEX MATCH
+                "^.*::${_factory_name}::${_format}$"
+                Module_Matched
+                "${_module}")
         if(Module_Matched)
-          string(REGEX REPLACE "(.*)::${_factory_name}::${_format}" "\\1" Module "${Module_Matched}")
+          string(
+            REGEX
+            REPLACE "(.*)::${_factory_name}::${_format}"
+                    "\\1"
+                    Module
+                    "${Module_Matched}")
           break()
         endif()
       endforeach()
@@ -227,11 +241,10 @@ macro(itk_generate_factory_registration)
     if(ITK_NO_${factory_uc}_FACTORY_REGISTER_MANAGER)
       # pass generation this factory registration
     elseif(_factory_name MATCHES "IO" AND ITK_NO_IO_FACTORY_REGISTER_MANAGER)
-      message(WARNING
-        "ITK_NO_IO_FACTORY_REGISTER_MANAGER CMake variable is "
-        "deprecated. Use ITK_NO_${factory_uc}_FACTORY_REGISTER_MANAGER")
+      message(WARNING "ITK_NO_IO_FACTORY_REGISTER_MANAGER CMake variable is "
+                      "deprecated. Use ITK_NO_${factory_uc}_FACTORY_REGISTER_MANAGER")
     else()
-      _itk_configure_FactoryRegisterManager("${_factory_name}" "${LIST_OF_${factory_uc}_FORMATS}")
+      _itk_configure_factoryregistermanager("${_factory_name}" "${LIST_OF_${factory_uc}_FORMATS}")
     endif()
   endforeach()
   unset(_factory_name)

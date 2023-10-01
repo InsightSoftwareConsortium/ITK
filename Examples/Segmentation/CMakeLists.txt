@@ -19,7 +19,7 @@ add_executable(FastMarchingImageFilter FastMarchingImageFilter.cxx)
 target_link_libraries(FastMarchingImageFilter ${ITK_LIBRARIES})
 
 add_executable(GeodesicActiveContourShapePriorLevelSetImageFilter
-GeodesicActiveContourShapePriorLevelSetImageFilter.cxx)
+               GeodesicActiveContourShapePriorLevelSetImageFilter.cxx)
 target_link_libraries(GeodesicActiveContourShapePriorLevelSetImageFilter ${ITK_LIBRARIES})
 
 add_executable(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx)

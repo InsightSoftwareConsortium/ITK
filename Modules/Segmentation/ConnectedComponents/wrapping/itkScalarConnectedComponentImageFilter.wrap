@@ -1,6 +1,6 @@
 itk_wrap_class("itk::ScalarConnectedComponentImageFilter" POINTER_WITH_SUPERCLASS)
-  UNIQUE(to_types "UL;${WRAP_ITK_INT}")
-  # Supports too few labels.
-  list(REMOVE_ITEM to_types "UC")
-  itk_wrap_image_filter_combinations("${WRAP_ITK_INT}" "${to_types}" 2+)
+unique(to_types "UL;${WRAP_ITK_INT}")
+# Supports too few labels.
+list(REMOVE_ITEM to_types "UC")
+itk_wrap_image_filter_combinations("${WRAP_ITK_INT}" "${to_types}" 2+)
 itk_end_wrap_class()
