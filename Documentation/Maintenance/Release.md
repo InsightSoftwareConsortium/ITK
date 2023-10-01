@@ -10,7 +10,6 @@ Current Maintainers
 The current ITK maintainers with a trusted GPG key are:
 
   * Matt McCormick (@thewtex) <matt.mccormick@kitware.com>
-  * François Budin (@fbudin69500) <francois.budin@kitware.com>
   * Brad King (@bradking) <brad.king@kitware.com>
   * Jean-Christophe Fillion-Robin (@jcfr) <jchris.fillionr@kitware.com>
 
