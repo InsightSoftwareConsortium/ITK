@@ -92,3 +92,7 @@ fbbc7aa38cf23d0966b1dbd0f9825797e84c2502
 16fd80e52046246282ef6150d33ed52273720946
 # ENH: Use https instead of http when https works
 9cd0f2053f0cf181ec4412bf896301faf0cc2092
+# ENH: Migrate content links from .md5, .sha512 to .cid
+f3899ce8c6d53fc077c4e0bfa2c6f1fe56166b57
+# STYLE: Initial run of cmake-format
+efa749515db840b54f7329b261d3ec4c3a575f83
