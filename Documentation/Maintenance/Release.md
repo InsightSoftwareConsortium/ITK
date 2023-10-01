@@ -869,7 +869,8 @@ For the final release, the release notes produced should be used to
   * Create a post in the [Kitware blog]
   * Add a release note doc in [ITK/Documentation/ReleaseNotes](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Documentation/ReleaseNotes)
   * Update [ITK's Wikipedia page](https://en.wikipedia.org/wiki/Insight_Segmentation_and_Registration_Toolkit).
-  * Send out a summary to Arliss <help@numfocus.org> at NumFOCUS.
+  * Send out a summary to Arliss <help@numfocus.org> at NumFOCUS to announce
+    the release in the NumFOCUS project update monthly newsletter.
   * Post on the [ITK Open Collective page].
   * Post a message on the [Image.sc Forum].
 
