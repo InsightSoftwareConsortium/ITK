@@ -11,24 +11,65 @@ A [solution to this problem] which has been adopted by ITK is to store binary
 files, such as images, in a separate location outside the Git repository, then
 download the files at build time with [CMake].
 
-A "content link" file contains an identifying [SHA512 hash]. The content
+A "content link" file contains an identifying [Content Identifier (CID)]. The content
 link is stored in the [Git] repository at the path where the file would exist,
-but with a `.sha512` extension appended to the file name. [CMake] will find
+but with a `.cid` extension appended to the file name. [CMake] will find
 these content link files at **build** time, download them from a list of server
 resources, and create symlinks or copies of the original files at the
 corresponding location in the **build tree**.
 
-See also our [Data](Data.md) guide for more information. If you just
-want to browse and download the ITK testing images, see the data.kitware.com
-[ITK collection].
+The [Content Identifier (CID)] is a self-describing hash following the
+[multiformats] standard created by the
+Interplanetary Filesystem ([IPFS]) community. A file
+with a CID for its filename is content-verifiable. Locating files
+according to their CID makes content-addressed, as opposed to
+location-addressed, data exchange possible. This practice is the
+foundation of the decentralized web, also known as the dWeb or Web3. By
+adopting Web3, we gain:
 
-**Note**: for historical reasons, before [SHA512 hash] files were used in ITK,
-[MD5 hash] content link files were used.
+  - Permissionless data uploads
+  - Robust, redundant storage
+  - Local and peer-to-peer storage
+  - Scalability
+  - Sustainability
+
+Contributors to the ITK upload their data through an a simple web app
+that utilizes an easy-to-use, permissionless, free service, [web3.storage].
+
+Data used in the ITK Git repository is periodically tracked in a
+dedicated Datalad repository, the [ITKData Datalad repository].
+and stored across redundant locations so it can be retrieved from any of
+the following:
+
+  - Local [IPFS](https://ipfs.io/) nodes
+  - Peer [IPFS](https://ipfs.io/) nodes
+  - [web3.storage](https://web3.storage/)
+  - [pinata.cloud](https://pinata.cloud)
+  - Kitware's IPFS Server
+  - [ITKTestingData] GitHub Pages CDN
+  - Kitware's Apache HTTP Server
+  - Local testing data cache
+  - Archive tarballs from GitHub Releases
+
+![ITK testing data figure](./ITK-testing-data.png)
+
+*Testing data workflow. Testing or example data is uploaded to IPFS via the content-link-upload.itk.org web app.
+This pins the data on multiple servers across the globe.
+At release time, the data is also pinned on multiple servers in the USA and France and community pinners.
+At release time, the data is also stored in the DataLad Git repository and also served on an Apache HTTP server and the GitHub Pages CDN.
+At test time an ITK build can pull the data from a local cache, archive tarball, the Apache HTTP server, GitHub Pages CDN, or multiple IPFS HTTP gateways.*
+
+See also our [Data](Data.md) guide for more information. If you just
+want to browse and download the ITK testing images, see the
+[ITKData Datalad repository].
+
+**Note**: for historical reasons, before [Content Identifier (CID)] files were
+used in ITK, [SHA512 hash] and [MD5 hash] content link files were used.
 
 Adding images as input to ITK sources
 -------------------------------------
 
-[ITK examples] and ITK class tests (see Section 9.4 of the
+ITK examples and ITK class tests (see Section 9.4 of the
 [ITK Software Guide]) rely on **input** and **baseline** images (or data in
 general) to demonstrate and check the features of a given class. Hence, when
 developing an ITK example or test, images will need to be added to the [Git]
@@ -48,58 +89,76 @@ need to be followed:
      * Spacing should be different from ones, and it should be anisotropic.
      * Direction should be different from identity.
 
-Using Girder to get the SHA512 hash
------------------------------------
+Upload new testing data
+-----------------------
 
 ### Prerequisites
 
-The [data.kitware.com] server is an ITK community resource where any community
-member can upload binary data files. There are three methods available to
-upload data files:
+[web3.storage] is a decentralized IPFS storage
+provider where any ITK community member can upload binary data files.
+There are two methods available to upload data files:
 
-  1. The [UploadBinaryData.sh] shell script.
-  1. The [Girder web interface].
-  2. The `girder-cli` command line executable that comes with the
-     [girder-client] Python package.
+1.  The CMake ExternalData Web3 upload browser interface.
+2.  The <span class="title-ref">w3</span> command line executable that
+    comes with the [@web3-storage/w3] Node.js NPM package.
 
-Before uploading data, please visit [data.kitware.com] and register for an
-account.
+Once files have been uploaded to your account, they will be publicly
+available and accessible since data is content addressed on the IPFS
+peer-to-peer network. At release time, the release manager will upload
+and archive repository data references in other redundant storage
+locations.
 
-Once files have been uploaded to your account, they will be publicly available
-and accessible since data is content addressed. Specifically, the
-[hashsum_download] plugin in Girder looks through all public (or private if
-authenticated) data for files with the given hash. Thus, so as long as the file
-is publicly available somewhere on [data.kitware.com], ITK will be able to
-retrieve the corresponding file.
+### Upload Via the Web Interface
 
-At release time, the release manager will upload and archive repository data
-references in the [ITK collection] and other redundant storage locations.
+Use the [Content Link Upload]
+tool ([Alt Link]) to
+upload your data to the [IPFS] and download the
+corresponding CMake content link file.
 
+![[CMake ExternalData Web3
+Content Link Upload](https://content-link-upload.itk.org/)](CMakeW3ExternalDataUpload.png)
 
-### Upload via the shell script
+Add the file to the repository in the directory referenced by the *CMakeLists.txt*
+script.  Next time CMake configuration runs, it will find the new content link.
+During the next project build, the data file corresponding to the content link will be
+downloaded into the build tree.
 
-The [UploadBinaryData.sh] script will authenticate to [data.kitware.com],
-upload the file to your user account's *Public* folder, and create a
-`*.sha512` [CMake] `ExternalData` content link file. After the content link
-has been created, you will need to add the `*.sha512` file to your commit.
+### Upload Via CMake and Node.js CLI
 
-When `./Utilities/SetupForDevelopment.sh` is executed, as described in
-[CONTRIBUTING.md], authentication to Girder is configured in Git. If the Git
-`girder.api-key` config or `GIRDER_API_KEY` environmental variable is not set,
-a prompt will appear for your username and password. The API key can be
-created in the [data.kitware.com] user account web browser interface.
+Install the <span class="title-ref">w3</span> CLI with the
+[@web3-storage/w3] [Node.js] package:
 
-To upload new binary testing data:
+``` shell
+$ npm install --location=global @web3-storage/w3
+```
 
-  1. Place the binary file at the desired location in the Git repository.
-  2. Run the `git data-upload` alias, and pass in the binary file(s) as arguments. E.g.
-     `cd ITK; git data-upload ./Modules/Core/Common/test/Input/cthead1.png`.
-  3. In the corresponding `test/CMakeLists.txt` file, use the
-     `itk_add_test` macro and reference the relative file path with `DATA` and braces.
-     E.g.: `DATA{Input/cthead1.png}`.
-  4. Re-build ITK, the `ITKData` target specifically, and the testing data will be
-     downloaded into the build tree. The path in the build tree is used in test execution.
+Login in and create an API token at
+[web3.storage] then pass it into `w3 token`:
 
+``` shell
+$ w3 token
+? Paste your API token for api.web3.storage › <your token here>
+
+⁂ API token saved
+```
+
+Create an <span class="title-ref">w3externaldata</span> bash/zsh
+function:
+
+``` shell
+$ function w3externaldata() { w3 put $1 --no-wrap | tail -n 1 | awk -F "/ipfs/" '{print $2}' | tee $1.cid }
+```
+
+Call the function with the file to be uploaded. This command will
+generate the <span class="title-ref">\<filename\>.cid</span> content
+link:
+
+``` shell
+$ w3externaldata <filename>
+# Packed 1 file (0.3MB)
+⁂ Stored 1 file
+bafkreifpfhcc3gc7zo2ds3ktyyl5qrycwisyaolegp47cl27i4swxpa2ey
+```
 
 ### Upload via the web interface
 
@@ -109,43 +168,7 @@ To upload new binary testing data:
   3. Click the green upload button.
   4. Click the *Browse or drop files* to select the files to upload.
   5. Click *Start Upload* to upload the file to the server.
-  6. Next, proceed to [Download the Content Link].
-
-### Upload via Python script
-
-A Python script to upload files from the command line, `girder-cli`, is
-available with the [girder-client] Python package. To install it, type:
-
-```sh
-   $ python -m pip install girder-client
-```
-
-To upload files with the `girder-cli` script, we need to obtain an API key and a
-parent folder id from the web interface.
-
-  1. After logging in, select *My account* from the user drop down.
-  2. Next, select the *API keys* tab.
-  3. Create a new API key if one is not available by clickin on *Create new
-     key*.
-  4. The *show* link will show the key, which can be copied into the command
-     line.
-  5. Next, select *My Folders* from the user drop down.
-  6. Next, select the *Public* folder of your personal data space.
-  7. Click the *i* button for information about the folder.
-  8. The *Unique ID* can be copied into the command line.
-
-Use both the API key and the folder ID when calling `girder-cli`. For example,
-
-```sh
-   $ girder-cli \
-       --api-key 12345ALongSetOfCharactersAndNumbers \
-       --api-url https://data.kitware.com/api/v1 \
-       upload \
-       58becaee8d777f0aefede556 \
-       /tmp/cthead1.png
-```
-
-Next, proceed to [Download the Content Link].
+  6. Next, proceed to download the Content Link.
 
 ### Download the content link
 
@@ -157,26 +180,26 @@ Move the content link file to the **source tree** at the location where the
 actual file is desired in the build tree. Stage the new file to your commit:
 
 ```sh
-   $ git add -- path/to/file.sha512
+   $ git add -- path/to/file.cid
 ```
 
-
-
-[Download the Content Link]: https://itk.org/ITKExamples/Documentation/Contribute/UploadBinaryData.html#download-the-content-link
+[Alt Link]: https://content-link-upload.itk.eth.limo
+[Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
+[Content Identifier (CID)]: https://docs.ipfs.tech/concepts/content-addressing/
+[Content Link Upload]: https://content-link-upload.itk.org
+[CONTRIBUTING.md]: ../CONTRIBUTING.md
 [CMake]: https://cmake.org/
-[data.kitware.com]: https://data.kitware.com/
-[girder-client]: https://girder.readthedocs.io/en/latest/python-client.html#the-command-line-interface
-[Girder web interface]: https://girder.readthedocs.io/en/latest/user-guide.html
 [Git]: https://git-scm.com/
-[hashsum_download]: https://girder.readthedocs.io/en/latest/plugins.html#hashsum-download
-[ITK collection]: https://data.kitware.com/#collection/57b5c9e58d777f126827f5a1
+[IPFS]: https://ipfs.io/
+[ITKData Datalad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
 [ITK community]: https://discourse.itk.org/
 [ITK Sphinx Examples]: https://itk.org/ITKExamples/index.html
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
-[solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
-[UploadBinaryData.sh]: ../Utilities/UploadBinaryData.sh
-[CONTRIBUTING.md]: ../CONTRIBUTING.md
-
-[Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
+[ITKTestingData]: https://github.com/InsightSoftwareConsortium/ITKTestingData
 [MD5 hash]: https://en.wikipedia.org/wiki/MD5
+[multiformats]: https://multiformats.io/
+[Node.js]: https://nodejs.org/
 [SHA512 hash]: https://en.wikipedia.org/wiki/SHA-2
+[solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
+[web3.storage]: https://web3.storage/
+[@web3-storage/w3]: https://www.npmjs.com/package/@web3-storage/w3
