@@ -59,3 +59,18 @@ TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateReturnsSameAsStdMt1
     EXPECT_EQ(generator->GetIntegerVariate(), stdMt19937());
   }
 }
+
+
+TEST(MersenneTwisterRandomVariateGenerator, ResetNextSeed)
+{
+  using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
+
+  const auto globalGenerator = GeneratorType::GetInstance();
+  ASSERT_NE(globalGenerator, nullptr);
+
+  GeneratorType::ResetNextSeed();
+  const auto nextSeed = globalGenerator->GetNextSeed();
+
+  GeneratorType::ResetNextSeed();
+  EXPECT_EQ(globalGenerator->GetNextSeed(), nextSeed);
+}
