@@ -14,6 +14,3 @@ git config alias.gerrit-push \
 # Useful alias to see what commits are on the current branch with respect to
 # upstream/master
 git config alias.prepush 'log --graph --stat upstream/master..'
-
-# Alias to the script to upload testing data
-git config alias.data-upload "!bash Utilities/UploadBinaryData.sh"

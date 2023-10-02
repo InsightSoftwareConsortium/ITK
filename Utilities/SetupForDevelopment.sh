@@ -27,8 +27,6 @@ Utilities/GitSetup/setup-git-aliases && echo &&
  echo 'Failed to setup origin.  Run this again to retry.') && echo &&
 (Utilities/GitSetup/setup-github ||
  echo 'Failed to setup GitHub.  Run this again to retry.') && echo &&
-(Utilities/GitSetup/setup-girder-api-key ||
- echo 'Failed to setup the Girder API key.  Run this again to retry.') && echo &&
 Utilities/GitSetup/tips &&
 Utilities/GitSetup/github-tips
 
