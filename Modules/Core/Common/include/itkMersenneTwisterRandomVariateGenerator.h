@@ -160,6 +160,11 @@ public:
   static Pointer
   GetInstance();
 
+  /** Resets the internal data that is used to calculate the next seed. (Does not reset the initial seed.) Allows
+   * generating a reproducible sequence of pseudo-random numbers. */
+  static void
+  ResetNextSeed();
+
   /** Length of state vector */
   static constexpr IntegerType StateVectorLength = 624;
 
