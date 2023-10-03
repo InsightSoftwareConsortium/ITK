@@ -226,8 +226,7 @@ public:
     (void)staticFactoryRegistration;
   }
 
-  /** Initialize the static members of ObjectFactoryBase.
-   *  RegisterInternal() and InitializeFactoryList() are called here. */
+  /** Initialize the static members of ObjectFactoryBase. */
   static void
   Initialize();
 
@@ -270,10 +269,6 @@ private:
   itkGetGlobalDeclarationMacro(ObjectFactoryBasePrivate, PimplGlobals);
 
   const std::unique_ptr<OverrideMap> m_OverrideMap;
-
-  /** Register default factories which are not loaded at run time. */
-  static void
-  RegisterInternal();
 
   /** Load dynamic factories from the ITK_AUTOLOAD_PATH */
   static void

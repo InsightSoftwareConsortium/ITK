@@ -231,27 +231,16 @@ ObjectFactoryBase::Initialize()
   // Atomically set m_Initialized to true. If it was false before, enter the if.
   if (!m_PimplGlobals->m_Initialized.exchange(true))
   {
-    ObjectFactoryBase::RegisterInternal();
+    // Guarantee that no internal factories have already been registered.
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_PimplGlobals->m_RegisteredFactories.empty());
+
+    // Register all factories registered by the "RegisterFactoryInternal" method
+    m_PimplGlobals->m_RegisteredFactories = m_PimplGlobals->m_InternalFactories;
+
 #if defined(ITK_DYNAMIC_LOADING) && !defined(ITK_WRAPPING)
     ObjectFactoryBase::LoadDynamicFactories();
 #endif
   }
-}
-
-/**
- * Register any factories that are always present in ITK like
- * the OpenGL factory, currently this is not done.
- */
-void
-ObjectFactoryBase::RegisterInternal()
-{
-  itkInitGlobalsMacro(PimplGlobals);
-
-  // Guarantee that no internal factories have already been registered.
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_PimplGlobals->m_RegisteredFactories.empty());
-
-  // Register all factories registered by the "RegisterFactoryInternal" method
-  m_PimplGlobals->m_RegisteredFactories = m_PimplGlobals->m_InternalFactories;
 }
 
 /**
