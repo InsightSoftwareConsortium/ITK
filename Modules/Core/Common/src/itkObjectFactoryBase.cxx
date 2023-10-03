@@ -249,14 +249,9 @@ ObjectFactoryBase::RegisterInternal()
 
   // Guarantee that no internal factories have already been registered.
   itkAssertInDebugAndIgnoreInReleaseMacro(m_PimplGlobals->m_RegisteredFactories.empty());
-  m_PimplGlobals->m_RegisteredFactories.clear();
 
-  // Register all factories registered by the
-  // "RegisterFactoryInternal" method
-  for (auto & internalFactory : m_PimplGlobals->m_InternalFactories)
-  {
-    m_PimplGlobals->m_RegisteredFactories.push_back(internalFactory);
-  }
+  // Register all factories registered by the "RegisterFactoryInternal" method
+  m_PimplGlobals->m_RegisteredFactories = m_PimplGlobals->m_InternalFactories;
 }
 
 /**
