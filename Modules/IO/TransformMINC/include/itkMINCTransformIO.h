@@ -32,7 +32,7 @@ namespace itk
 
 /** \class MINCTransformIOTemplate
  *
- * \brief Read and write transforms in Minc XFM Format
+ * \brief Read and write transforms in MINC format (.xfm).
  *
  * \author Vladimir S. FONOV
  *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012

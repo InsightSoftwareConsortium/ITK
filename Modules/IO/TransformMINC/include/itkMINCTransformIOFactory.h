@@ -26,7 +26,7 @@
 namespace itk
 {
 /** \class MINCTransformIOFactory
- * \brief Create instances of MincTransformIO objects using an object factory.
+ * \brief Create instances of MINCTransformIO objects using an object factory.
  *
  * \ingroup ITKIOTransformMINC
  */
