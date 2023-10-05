@@ -86,7 +86,6 @@ void
 MersenneTwisterRandomVariateGenerator::ResetNextSeed()
 {
   itkInitGlobalsMacro(PimplGlobals);
-  const std::lock_guard<std::recursive_mutex> lockGuard(m_PimplGlobals->m_StaticInstanceLock);
   m_PimplGlobals->m_StaticDiffer = 0;
 }
 
