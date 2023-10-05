@@ -1714,6 +1714,7 @@ set(ITKCommonGTests
     itkImageBufferRangeGTest.cxx
     itkImageRegionRangeGTest.cxx
     itkImageIORegionGTest.cxx
+    itkImageRandomConstIteratorWithIndexGTest.cxx
     itkImageRegionGTest.cxx
     itkIndexGTest.cxx
     itkIndexRangeGTest.cxx
