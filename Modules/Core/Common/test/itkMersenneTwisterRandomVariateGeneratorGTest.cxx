@@ -21,6 +21,9 @@
 #include <gtest/gtest.h>
 #include <random> // For mt19937.
 
+// The class to be tested.
+using itk::Statistics::MersenneTwisterRandomVariateGenerator;
+
 
 // Tests that GetIntegerVariate() conforms with the C++11 requirement for std::mt19937,
 // when the ITK generator uses the default seed of std::mt19937:
@@ -29,7 +32,7 @@
 // (C++11 section "Engines and engine adaptors with predefined parameters", [rand.predef])
 TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateConformsWithStdMt19937Requirement)
 {
-  const auto generator = itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
+  const auto generator = MersenneTwisterRandomVariateGenerator::New();
   generator->SetSeed(std::mt19937::default_seed);
 
   for (int i = 1; i < 10000; ++i)
@@ -50,7 +53,7 @@ TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateConformsWithStdMt19
 // as std::mt19937, when std::mt19937 uses the same seed as the ITK generator.
 TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateReturnsSameAsStdMt19937)
 {
-  const auto   generator = itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
+  const auto   generator = MersenneTwisterRandomVariateGenerator::New();
   std::mt19937 stdMt19937{ generator->GetSeed() };
 
   // Just repeat a few times, assuming that that should be enough.
@@ -63,14 +66,12 @@ TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateReturnsSameAsStdMt1
 
 TEST(MersenneTwisterRandomVariateGenerator, ResetNextSeed)
 {
-  using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
-
-  const auto globalGenerator = GeneratorType::GetInstance();
+  const auto globalGenerator = MersenneTwisterRandomVariateGenerator::GetInstance();
   ASSERT_NE(globalGenerator, nullptr);
 
-  GeneratorType::ResetNextSeed();
+  MersenneTwisterRandomVariateGenerator::ResetNextSeed();
   const auto nextSeed = globalGenerator->GetNextSeed();
 
-  GeneratorType::ResetNextSeed();
+  MersenneTwisterRandomVariateGenerator::ResetNextSeed();
   EXPECT_EQ(globalGenerator->GetNextSeed(), nextSeed);
 }
