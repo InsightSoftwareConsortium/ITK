@@ -240,7 +240,7 @@ main(int argc, char * argv[])
     myClassifier->AddMembershipFunction(membershipFunctions[i]);
   }
 
-  // Set the Gibbs Prior labeller
+  // Set the Gibbs Prior labeler
   //  Software Guide : BeginLatex
   //
   //  After that we can define the multi-channel Gibbs prior model.
@@ -253,7 +253,7 @@ main(int argc, char * argv[])
   auto applyGibbsImageFilter = GibbsPriorFilterType::New();
   // Software Guide : EndCodeSnippet
 
-  // Set the MRF labeller parameters
+  // Set the MRF labeler parameters
   //  Software Guide : BeginLatex
   //
   //  The parameters for the Gibbs prior filter are defined

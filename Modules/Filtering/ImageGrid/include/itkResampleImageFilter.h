@@ -168,7 +168,7 @@ public:
 
   using PixelComponentType = typename PixelConvertType::ComponentType;
 
-  /** Input pixel continuous index typdef */
+  /** Input pixel continuous index typedef */
   using ContinuousInputIndexType = ContinuousIndex<TInterpolatorPrecisionType, InputImageDimension>;
 
   /** Typedef to describe the output image region type. */

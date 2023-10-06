@@ -136,7 +136,7 @@ public:
   using Superclass = ImageConstIteratorWithOnlyIndex<TImage>;
 
   /**
-   * Index type alias support While these were already typdef'ed in the superclass
+   * Index type alias support While these were already typedef'ed in the superclass
    * they need to be redone here for this subclass to compile properly with gcc.
    */
   /** Types inherited from the Superclass */

@@ -145,7 +145,7 @@ public:
     return m_ThresholdFunction->GetCovariance();
   }
 
-  /** Set/Get the threshold for the Mahanalobis Distance */
+  /** Set/Get the threshold for the Mahalanobis Distance */
   void
   SetThreshold(ScalarValueType thr)
   {

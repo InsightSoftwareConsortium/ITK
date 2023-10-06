@@ -393,7 +393,7 @@ main(int argc, char * argv[])
   //  Let's execute this example over some of the images available in the
   //  following website
   //
-  //  \url{https://public.kitware.com/pub/itk/Data/BrainWeb}.
+  //  \url{https://data.Kitware.com/#collection/57b5c9e58d777f126827f5a1/folder/57b769c08d777f10f269af3a}.
   //
   //  Note that the images in this website are compressed in \code{.tgz}
   //  files. You should download these files and decompress them in your local

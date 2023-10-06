@@ -625,7 +625,7 @@ Solver<VDimension>::ApplyBC(int dim, unsigned int matrix)
     // Apply boundary conditions in form of MFC loads.
     //
     // We add the multi freedom constraints contribution to the master
-    // stiffness matrix using the lagrange multipliers. Basically we only
+    // stiffness matrix using the Lagrange multipliers. Basically we only
     // change the last couple of rows and columns in K.
     if (LoadBCMFC::Pointer c = dynamic_cast<LoadBCMFC *>(l0.GetPointer()))
     {

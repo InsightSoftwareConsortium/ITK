@@ -31,7 +31,7 @@ itkImportImageTest(int, char *[])
   {
     rawImage[i] = i;
   }
-  // typdefs to simplify the syntax
+  // typedefs to simplify the syntax
   constexpr unsigned int Dimension = 2;
   using PixelType = short;
 
