@@ -785,7 +785,13 @@ set (HDF5_SRC_INCLUDE_DIRS
     ${HDF5_SRC_INCLUDE_DIRS}
     ${H5FD_SUBFILING_DIR}
 )
+
+if (FALSE) # XXX(kitware): Disable subfilling because it requires parallel.
 option (HDF5_ENABLE_SUBFILING_VFD "Build Parallel HDF5 Subfiling VFD" OFF)
+else ()
+set(HDF5_ENABLE_SUBFILING_VFD OFF)
+endif ()
+
 if (HDF5_ENABLE_SUBFILING_VFD)
   if (NOT HDF5_ENABLE_PARALLEL)
     message (FATAL_ERROR "Subfiling VFD requires a parallel HDF5 build")
