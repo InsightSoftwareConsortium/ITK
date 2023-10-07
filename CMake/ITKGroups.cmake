@@ -78,12 +78,12 @@ foreach(group ${group_list})
   set(_${group}_module_list)
   file(GLOB_RECURSE _${group}_module_files ${ITK_SOURCE_DIR}/Modules/${group}/itk-module.cmake)
   foreach(_module_file ${_${group}_module_files})
-    file(STRINGS ${_module_file} _module_line REGEX "itk_module[ \n]*\\([ \n]*[A-Za-z0-9]*")
+    file(READ ${_module_file} _module_file_content)
     string(
       REGEX MATCH
-            "(\\([ \n]*)([A-Za-z0-9]*)"
+            "itk_module[ \n]*(\\([ \n]*)([A-Za-z0-9]*)"
             _module_name
-            ${_module_line})
+            ${_module_file_content})
     set(_module_name ${CMAKE_MATCH_2})
     set(_${_module_name}_module_line ${_module_line})
     list(APPEND _${group}_module_list ${_module_name})
