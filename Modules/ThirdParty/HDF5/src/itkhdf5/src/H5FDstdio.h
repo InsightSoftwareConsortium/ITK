@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -12,17 +11,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Robb Matzke
- *              Monday, August  2, 1999
- *
- * Purpose:	The public header file for the sec2 driver.
+ * Purpose:	The public header file for the C stdio driver
  */
 #ifndef H5FDstdio_H
 #define H5FDstdio_H
 
 #include "H5Ipublic.h"
 
-#define H5FD_STDIO (H5FD_stdio_init())
+#define H5FD_STDIO (H5FDperform_init(H5FD_stdio_init))
 
 #ifdef __cplusplus
 extern "C" {

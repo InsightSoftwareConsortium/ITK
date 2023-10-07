@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -13,7 +12,6 @@
 
 #include <string>
 
-#include "H5private.h" // for HDstrcpy
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -53,7 +51,6 @@ namespace H5 {
 ///\param       name  - IN: Name of the datatype to open
 ///\return      DataType instance
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DataType
 CommonFG::openDataType(const char *name) const
@@ -77,7 +74,6 @@ CommonFG::openDataType(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DataType
 CommonFG::openDataType(const H5std_string &name) const
@@ -91,7 +87,6 @@ CommonFG::openDataType(const H5std_string &name) const
 ///\param       name  - IN: Name of the array datatype to open
 ///\return      ArrayType instance
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - Jul, 2005
 //--------------------------------------------------------------------------
 ArrayType
 CommonFG::openArrayType(const char *name) const
@@ -115,7 +110,6 @@ CommonFG::openArrayType(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - Jul, 2005
 //--------------------------------------------------------------------------
 ArrayType
 CommonFG::openArrayType(const H5std_string &name) const
@@ -129,7 +123,6 @@ CommonFG::openArrayType(const H5std_string &name) const
 ///\param       name  - IN: Name of the compound datatype to open
 ///\return      CompType instance
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 CompType
 CommonFG::openCompType(const char *name) const
@@ -153,7 +146,6 @@ CommonFG::openCompType(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 CompType
 CommonFG::openCompType(const H5std_string &name) const
@@ -167,7 +159,6 @@ CommonFG::openCompType(const H5std_string &name) const
 ///\param       name  - IN: Name of the enumeration datatype to open
 ///\return      EnumType instance
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 EnumType
 CommonFG::openEnumType(const char *name) const
@@ -191,7 +182,6 @@ CommonFG::openEnumType(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 EnumType
 CommonFG::openEnumType(const H5std_string &name) const
@@ -205,7 +195,6 @@ CommonFG::openEnumType(const H5std_string &name) const
 ///\param       name  - IN: Name of the integer datatype to open
 ///\return      IntType instance
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType
 CommonFG::openIntType(const char *name) const
@@ -229,7 +218,6 @@ CommonFG::openIntType(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType
 CommonFG::openIntType(const H5std_string &name) const
@@ -243,7 +231,6 @@ CommonFG::openIntType(const H5std_string &name) const
 ///\param       name  - IN: Name of the floating-point datatype to open
 ///\return      FloatType instance
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FloatType
 CommonFG::openFloatType(const char *name) const
@@ -267,7 +254,6 @@ CommonFG::openFloatType(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FloatType
 CommonFG::openFloatType(const H5std_string &name) const
@@ -281,7 +267,6 @@ CommonFG::openFloatType(const H5std_string &name) const
 ///\param       name  - IN: Name of the string datatype to open
 ///\return      StrType instance
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 StrType
 CommonFG::openStrType(const char *name) const
@@ -305,7 +290,6 @@ CommonFG::openStrType(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 StrType
 CommonFG::openStrType(const H5std_string &name) const
@@ -319,7 +303,6 @@ CommonFG::openStrType(const H5std_string &name) const
 ///\param       name  - IN: Name of the variable length datatype to open
 ///\return      VarLenType instance
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - Jul, 2005
 //--------------------------------------------------------------------------
 VarLenType
 CommonFG::openVarLenType(const char *name) const
@@ -343,7 +326,6 @@ CommonFG::openVarLenType(const char *name) const
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a name.
-// Programmer   Binh-Minh Ribler - Jul, 2005
 //--------------------------------------------------------------------------
 VarLenType
 CommonFG::openVarLenType(const H5std_string &name) const
@@ -355,7 +337,6 @@ CommonFG::openVarLenType(const H5std_string &name) const
 //--------------------------------------------------------------------------
 // Function:    CommonFG default constructor
 ///\brief       Default constructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 CommonFG::CommonFG()
 {
@@ -364,7 +345,6 @@ CommonFG::CommonFG()
 //--------------------------------------------------------------------------
 // Function:    CommonFG destructor
 ///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 CommonFG::~CommonFG()
 {
@@ -378,7 +358,6 @@ CommonFG::~CommonFG()
 //              Applications shouldn't need to use it.
 // param        dtype   - IN/OUT: DataType object to be changed
 // param        new_id - IN: New id to set
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 void
 f_DataType_setId(DataType *dtype, hid_t new_id)
@@ -394,7 +373,6 @@ f_DataType_setId(DataType *dtype, hid_t new_id)
 //              Applications shouldn't need to use it.
 // param        dset   - IN/OUT: DataSet object to be changed
 // param        new_id - IN: New id to set
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 void
 f_DataSet_setId(DataSet *dset, hid_t new_id)

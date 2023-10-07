@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -38,7 +37,6 @@ namespace H5 {
 //--------------------------------------------------------------------------
 // Function:    IntType default constructor
 ///\brief       Default constructor: Creates a stub integer datatype
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType::IntType()
 {
@@ -47,7 +45,6 @@ IntType::IntType()
 //--------------------------------------------------------------------------
 // Function:    IntType copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType::IntType(const IntType &original) : AtomType(original)
 {
@@ -58,7 +55,6 @@ IntType::IntType(const IntType &original) : AtomType(original)
 ///\brief       Creates a integer type using a predefined type
 ///\param       pred_type - IN: Predefined datatype
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType::IntType(const PredType &pred_type) : AtomType()
 {
@@ -72,7 +68,6 @@ IntType::IntType(const PredType &pred_type) : AtomType()
 ///             datatype.
 ///\param       existing_id - IN: Id of an existing datatype
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType::IntType(const hid_t existing_id) : AtomType(existing_id)
 {
@@ -83,7 +78,6 @@ IntType::IntType(const hid_t existing_id) : AtomType(existing_id)
 ///\brief       Gets the integer datatype of the specified dataset.
 ///\param       dataset - IN: Dataset that this integer datatype associates with
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType::IntType(const DataSet &dataset) : AtomType()
 {
@@ -102,7 +96,6 @@ IntType::IntType(const DataSet &dataset) : AtomType()
 ///\param       loc        - IN: Location of the type
 ///\param       dtype_name - IN: Integer type name
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Dec 2016
 // Description
 //              In 1.10.1, this constructor was introduced and may replace the
 //              existing function CommonFG::openIntType(const char*) to
@@ -121,7 +114,6 @@ IntType::IntType(const H5Location &loc, const char *dtype_name) : AtomType()
 ///\param       loc        - IN: Location of the type
 ///\param       dtype_name - IN: Integer type name
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Dec 2016
 // Description
 //              In 1.10.1, this constructor was introduced and may replace the
 //              existing function CommonFG::openIntType(const H5std_string&)
@@ -139,7 +131,6 @@ IntType::IntType(const H5Location &loc, const H5std_string &dtype_name) : AtomTy
 ///             binary object description of this type.
 ///
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Aug 2017
 //--------------------------------------------------------------------------
 DataType *
 IntType::decode() const
@@ -161,7 +152,6 @@ IntType::decode() const
 ///\brief       Retrieves the sign type for an integer type.
 ///\return      Valid sign type
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5T_sign_t
 IntType::getSign() const
@@ -181,7 +171,6 @@ IntType::getSign() const
 ///\brief       Sets the sign property for an integer type.
 ///\param       sign - IN: Sign type
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 IntType::setSign(H5T_sign_t sign) const
@@ -196,7 +185,6 @@ IntType::setSign(H5T_sign_t sign) const
 //--------------------------------------------------------------------------
 // Function:    IntType destructor
 ///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType::~IntType()
 {

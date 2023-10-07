@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -31,12 +30,9 @@
 class H5_HLCPPDLL PacketTable {
   public:
     /* Null constructor
-     * Sets table_id to "invalid"
+     * Sets table_id to H5I_INVALID_HID
      */
-    PacketTable()
-    {
-        table_id = H5I_INVALID_HID;
-    }
+    PacketTable();
 
     /* "Open" Constructor
      * Opens an existing packet table, which can contain either fixed-length or
@@ -57,39 +53,39 @@ class H5_HLCPPDLL PacketTable {
      * Use this after the constructor to ensure HDF did not have
      * any trouble making or opening the packet table.
      */
-    bool IsValid();
+    bool IsValid() const;
 
     /* IsVariableLength
      * Return 1 if this packet table uses variable-length datatype,
      * return 0 if it is Fixed Length.  Returns -1 if the table is
      * invalid (not open).
      */
-    int IsVariableLength();
+    int IsVariableLength() const;
 
     /* ResetIndex
      * Sets the "current packet" index to point to the first packet in the
      * packet table
      */
-    void ResetIndex();
+    void ResetIndex() const;
 
     /* SetIndex
      * Sets the current packet to point to the packet specified by index.
      * Returns 0 on success, negative on failure (if index is out of bounds)
      */
-    int SetIndex(hsize_t index);
+    int SetIndex(hsize_t index) const;
 
     /* GetIndex
      * Returns the position of the current packet.
      * On failure, returns 0 and error is set to negative.
      */
-    hsize_t GetIndex(int &error);
+    hsize_t GetIndex(int &error) const;
 
     /* GetPacketCount
      * Returns the number of packets in the packet table.  Error
      * is set to 0 on success.  On failure, returns 0 and
      * error is set to negative.
      */
-    hsize_t GetPacketCount(int &error);
+    hsize_t GetPacketCount(int &error) const;
 
     hsize_t
     GetPacketCount()
@@ -101,7 +97,7 @@ class H5_HLCPPDLL PacketTable {
     /* GetTableId
      * Returns the identifier of the packet table.
      */
-    hid_t GetTableId();
+    hid_t GetTableId() const;
 
     /* GetDatatype
      * Returns the datatype identifier used by the packet table, on success,
@@ -109,7 +105,7 @@ class H5_HLCPPDLL PacketTable {
      * Note: it is best to avoid using this identifier in applications, unless
      * the desired functionality cannot be performed via the packet table ID.
      */
-    hid_t GetDatatype();
+    hid_t GetDatatype() const;
 
     /* GetDataset
      * Returns the dataset identifier associated with the packet table, on
@@ -117,7 +113,7 @@ class H5_HLCPPDLL PacketTable {
      * Note: it is best to avoid using this identifier in applications, unless
      * the desired functionality cannot be performed via the packet table ID.
      */
-    hid_t GetDataset();
+    hid_t GetDataset() const;
 
     /* FreeBuff
      * Frees the buffers created when variable-length packets are read.
@@ -125,7 +121,7 @@ class H5_HLCPPDLL PacketTable {
      * location in memory.
      * Returns 0 on success, negative on error.
      */
-    int FreeBuff(size_t numStructs, hvl_t *buffer);
+    int FreeBuff(size_t numStructs, hvl_t *buffer) const;
 
   protected:
     hid_t table_id;
@@ -166,7 +162,7 @@ class H5_HLCPPDLL FL_PacketTable : virtual public PacketTable {
     /* Destructor
      * Cleans up the packet table
      */
-    virtual ~FL_PacketTable()
+    ~FL_PacketTable() override
     {
     }
 

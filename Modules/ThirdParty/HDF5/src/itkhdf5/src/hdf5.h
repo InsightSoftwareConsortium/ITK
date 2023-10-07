@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -24,6 +23,7 @@
 #include "H5ACpublic.h" /* Metadata cache                           */
 #include "H5Dpublic.h"  /* Datasets                                 */
 #include "H5Epublic.h"  /* Errors                                   */
+#include "H5ESpublic.h" /* Event Sets                               */
 #include "H5Fpublic.h"  /* Files                                    */
 #include "H5FDpublic.h" /* File drivers                             */
 #include "H5Gpublic.h"  /* Groups                                   */
@@ -40,6 +40,20 @@
 #include "H5VLpublic.h" /* Virtual Object Layer                     */
 #include "H5Zpublic.h"  /* Data filters                             */
 
+/* Plugin/component developer headers */
+#include "H5ESdevelop.h" /* Event Sets */
+#include "H5FDdevelop.h" /* File drivers */
+#include "H5Idevelop.h"  /* ID management */
+#include "H5Ldevelop.h"  /* Links */
+#include "H5Tdevelop.h"  /* Datatypes */
+#include "H5TSdevelop.h" /* Threadsafety */
+#include "H5Zdevelop.h"  /* Data filters */
+
+/* Virtual object layer (VOL) connector developer support */
+#include "H5VLconnector.h"          /* VOL connector author routines */
+#include "H5VLconnector_passthru.h" /* Pass-through VOL connector author routines */
+#include "H5VLnative.h"             /* Native VOL connector macros, for VOL connector authors */
+
 /* Predefined file drivers */
 #include "H5FDcore.h"     /* Files stored entirely in memory          */
 #include "H5FDdirect.h"   /* Linux direct I/O                         */
@@ -49,6 +63,7 @@
 #include "H5FDmirror.h"   /* Mirror VFD and IPC definitions           */
 #include "H5FDmpi.h"      /* MPI-based file drivers                   */
 #include "H5FDmulti.h"    /* Usage-partitioned file family            */
+#include "H5FDonion.h"    /* Onion file I/O                           */
 #include "H5FDros3.h"     /* R/O S3 "file" I/O                        */
 #include "H5FDsec2.h"     /* POSIX unbuffered file I/O                */
 #include "H5FDsplitter.h" /* Twin-channel (R/W & R/O) I/O passthrough */
@@ -56,6 +71,8 @@
 #ifdef H5_HAVE_WINDOWS
 #include "H5FDwindows.h" /* Win32 I/O                                */
 #endif
+#include "H5FDsubfiling.h" /* Subfiling VFD                            */
+#include "H5FDioc.h"       /* I/O Concentrator VFD                     */
 
 /* Virtual object layer (VOL) connectors */
 #include "H5VLnative.h"   /* Native VOL connector                     */

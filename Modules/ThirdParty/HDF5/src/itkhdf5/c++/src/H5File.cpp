@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -119,6 +118,52 @@ H5File::H5File(const H5std_string &name, unsigned int flags, const FileCreatProp
     }
 }
 
+//--------------------------------------------------------------------------
+// Function:    H5File overloaded constructor
+///\brief       Opens an HDF5 file using a non-default access property list
+///\param       name         - IN: Name of the file
+///\param       flags        - IN: File access flags
+///\param       access_plist - IN: File access property list.
+///\par Description
+///             Valid values of \a flags include:
+///             \li \c H5F_ACC_RDONLY - Open file as read-only, if it already
+///                             exists, and fail, otherwise
+///             \li \c H5F_ACC_RDWR - Open file for read/write, if it already
+///                             exists, and fail, otherwise
+// Notes        With a PGI compiler (~2012-2013,) the exception thrown by
+//              p_get_file could not be caught in the applications.  Added try
+//              block here to catch then re-throw it. -BMR 2013/03/21
+//--------------------------------------------------------------------------
+H5File::H5File(const char *name, unsigned int flags, const FileAccPropList &access_plist)
+    : Group(), id(H5I_INVALID_HID)
+{
+    try {
+        p_get_file(name, flags, FileCreatPropList::DEFAULT, access_plist);
+    }
+    catch (FileIException &open_file) {
+        throw open_file;
+    }
+}
+
+//--------------------------------------------------------------------------
+// Function:    H5File overloaded constructor
+///\brief       This is another overloaded constructor.  It differs from the
+///             above constructor only in the type of the \a name argument.
+///\param       name - IN: Name of the file - \c H5std_string
+///\param       flags - IN: File access flags
+///\param       access_plist - IN: File access property list
+//--------------------------------------------------------------------------
+H5File::H5File(const H5std_string &name, unsigned int flags, const FileAccPropList &access_plist)
+    : Group(), id(H5I_INVALID_HID)
+{
+    try {
+        p_get_file(name.c_str(), flags, FileCreatPropList::DEFAULT, access_plist);
+    }
+    catch (FileIException &open_file) {
+        throw open_file;
+    }
+}
+
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 //--------------------------------------------------------------------------
 // This function is private and contains common code between the
@@ -165,9 +210,8 @@ H5File::p_get_file(const char *name, unsigned int flags, const FileCreatPropList
 //              constructor is needed by the library in order to return
 //              an object, H5File doesn't need it. -BMR (HDFFV-8766 partially)
 //--------------------------------------------------------------------------
-H5File::H5File(hid_t existing_id) : Group()
+H5File::H5File(hid_t existing_id) : Group(), id{existing_id}
 {
-    id = existing_id;
     incRefCount(); // increment number of references to this id
 }
 
@@ -180,9 +224,8 @@ H5File::H5File(hid_t existing_id) : Group()
 ///\param       original - IN: H5File instance to copy
 // December 2000
 //--------------------------------------------------------------------------
-H5File::H5File(const H5File &original) : Group(original)
+H5File::H5File(const H5File &original) : Group(original), id{original.getId()}
 {
-    id = original.getId();
     incRefCount(); // increment number of references to this id
 }
 
@@ -575,7 +618,6 @@ H5File::getVFDHandle(void **file_handle) const
 ///\par Description
 ///             This function is called after an existing file is opened in
 ///             order to learn the true size of the underlying file.
-// Programmer   Raymond Lu - June 24, 2004
 //--------------------------------------------------------------------------
 hsize_t
 H5File::getFileSize() const
@@ -596,7 +638,6 @@ H5File::getFileSize() const
 ///\par Description
 ///             This function is called after an existing file is opened in
 ///             order to retrieve the unique 'file number' for the file.
-// Programmer   Quincey Koziol - April 13, 2019
 //--------------------------------------------------------------------------
 unsigned long
 H5File::getFileNum() const
@@ -667,7 +708,7 @@ H5File::getLocId() const
 ///\exception   H5::IdComponentException when the attempt to close the HDF5
 ///             object fails
 // Description
-//              The underlaying reference counting in the C library ensures
+//              The underlying reference counting in the C library ensures
 //              that the current valid id of this object is properly closed.
 //              Then the object's id is reset to the new id.
 // December 2000

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -14,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:             H5Gpublic.h
- *                      Jul 11 1997
- *                      Robb Matzke
  *
  * Purpose:             Public declarations for the H5G package
  *
@@ -24,14 +21,10 @@
 #ifndef H5Gpublic_H
 #define H5Gpublic_H
 
-/* System headers needed by this file */
-#include <sys/types.h>
-
-/* Public headers needed by this file */
-#include "H5public.h"  /* Generic Functions			*/
-#include "H5Lpublic.h" /* Links                                */
-#include "H5Opublic.h" /* Object headers			*/
-#include "H5Tpublic.h" /* Datatypes				*/
+#include "H5public.h"  /* Generic Functions                        */
+#include "H5Ipublic.h" /* Identifiers                              */
+#include "H5Lpublic.h" /* Links                                    */
+#include "H5Opublic.h" /* Object Headers                           */
 
 /*****************/
 /* Public Macros */
@@ -120,10 +113,23 @@ extern "C" {
  *
  * \since 1.8.0
  *
- * \see H5Gopen2(), H5Gclose()
+ * \see H5Gopen2()
  *
  */
 H5_DLL hid_t H5Gcreate2(hid_t loc_id, const char *name, hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id);
+
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Gcreate}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL hid_t H5Gcreate_async(const char *app_file, const char *app_func, unsigned app_line, hid_t loc_id,
+                             const char *name, hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id, hid_t es_id);
+#else
+H5_DLL hid_t  H5Gcreate_async(hid_t loc_id, const char *name, hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id,
+                              hid_t es_id);
+#endif
 
 /**
  *-------------------------------------------------------------------------
@@ -142,7 +148,7 @@ H5_DLL hid_t H5Gcreate2(hid_t loc_id, const char *name, hid_t lcpl_id, hid_t gcp
  *          provides similar functionality to that provided by
  *          H5Gcreate1(), with the differences described in the list below.
  *
- *          The new group’s creation and access properties are specified
+ *          The new group's creation and access properties are specified
  *          in \p gcpl_id and \p gapl_id, respectively.
  *
  *          H5Gcreate_anon() returns a new group identifier. This identifier
@@ -154,12 +160,12 @@ H5_DLL hid_t H5Gcreate2(hid_t loc_id, const char *name, hid_t lcpl_id, hid_t gcp
  *
  *          \li H5Gcreate1() does not provide for the use of custom property
  *              lists; H5Gcreate1() always uses default properties.
- *          \li H5Gcreate_anon() neither provides the new group’s name
+ *          \li H5Gcreate_anon() neither provides the new group's name
  *              nor links it into the HDF5 file structure; those actions
  *              must be performed separately through a call to H5Olink(),
  *              which offers greater control over linking.
  *          \li H5Gcreate_anon() does not directly provide a hint mechanism
- *              for the group’s heap size. Comparable information can be
+ *              for the group's heap size. Comparable information can be
  *              included in the group creation property list \p gcpl_id through
  *              a H5Pset_local_heap_size_hint() call.
  *
@@ -167,7 +173,7 @@ H5_DLL hid_t H5Gcreate2(hid_t loc_id, const char *name, hid_t lcpl_id, hid_t gcp
  *          H5Gclose() when the group is no longer needed so that resource
  *          leaks will not develop.
  *
- * \see H5Olink(), H5Dcreate(), Using Identifiers
+ * \see H5Olink(), H5Gcreate()
  *
  * \since 1.8.0
  *
@@ -199,10 +205,22 @@ H5_DLL hid_t H5Gcreate_anon(hid_t loc_id, hid_t gcpl_id, hid_t gapl_id);
  *
  * \since 1.8.0
  *
- * \see H5Gcreate2(), H5Gclose()
+ * \see H5Gcreate2()
  *
  */
 H5_DLL hid_t H5Gopen2(hid_t loc_id, const char *name, hid_t gapl_id);
+
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Gopen}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL hid_t H5Gopen_async(const char *app_file, const char *app_func, unsigned app_line, hid_t loc_id,
+                           const char *name, hid_t gapl_id, hid_t es_id);
+#else
+H5_DLL hid_t  H5Gopen_async(hid_t loc_id, const char *name, hid_t gapl_id, hid_t es_id);
+#endif
 
 /**
  *-------------------------------------------------------------------------
@@ -218,11 +236,9 @@ H5_DLL hid_t H5Gopen2(hid_t loc_id, const char *name, hid_t gapl_id);
  *          property list associated with the group specified by \p group_id.
  *
  *          The creation property list identifier should be released with
- *          H5Gclose() to prevent resource leaks.
+ *          H5Pclose() to prevent resource leaks.
  *
  * \since 1.8.0
- *
- * \see H5Gcreate2(), H5Gclose()
  *
  */
 H5_DLL hid_t H5Gget_create_plist(hid_t group_id);
@@ -250,10 +266,20 @@ H5_DLL hid_t H5Gget_create_plist(hid_t group_id);
  *
  * \since 1.8.0
  *
- * \see H5Gcreate2(), H5Gclose()
- *
  */
 H5_DLL herr_t H5Gget_info(hid_t loc_id, H5G_info_t *ginfo);
+
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Gget_info}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Gget_info_async(const char *app_file, const char *app_func, unsigned app_line, hid_t loc_id,
+                                H5G_info_t *ginfo /*out*/, hid_t es_id);
+#else
+H5_DLL herr_t H5Gget_info_async(hid_t loc_id, H5G_info_t *ginfo /*out*/, hid_t es_id);
+#endif
 
 /**
  *-------------------------------------------------------------------------
@@ -284,16 +310,28 @@ H5_DLL herr_t H5Gget_info(hid_t loc_id, H5G_info_t *ginfo);
  *
  * \since 1.8.0
  *
- * \see H5Gcreate2(), H5Gclose()
- *
  */
 H5_DLL herr_t H5Gget_info_by_name(hid_t loc_id, const char *name, H5G_info_t *ginfo, hid_t lapl_id);
+
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Gget_info_by_name}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Gget_info_by_name_async(const char *app_file, const char *app_func, unsigned app_line,
+                                        hid_t loc_id, const char *name, H5G_info_t *ginfo /*out*/,
+                                        hid_t lapl_id, hid_t es_id);
+#else
+H5_DLL herr_t H5Gget_info_by_name_async(hid_t loc_id, const char *name, H5G_info_t *ginfo /*out*/,
+                                        hid_t lapl_id, hid_t es_id);
+#endif
 
 /**
  *-------------------------------------------------------------------------
  * \ingroup H5G
  *
- * \brief Retrieves information about a group, according to the group’s
+ * \brief Retrieves information about a group, according to the group's
  *        position within an index
  *
  * \fgdta_loc_id
@@ -331,11 +369,25 @@ H5_DLL herr_t H5Gget_info_by_name(hid_t loc_id, const char *name, H5G_info_t *gi
  *
  * \since 1.8.0
  *
- * \see H5Gcreate2(), H5Gclose()
- *
  */
 H5_DLL herr_t H5Gget_info_by_idx(hid_t loc_id, const char *group_name, H5_index_t idx_type,
                                  H5_iter_order_t order, hsize_t n, H5G_info_t *ginfo, hid_t lapl_id);
+
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Gget_info_by_idx}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Gget_info_by_idx_async(const char *app_file, const char *app_func, unsigned app_line,
+                                       hid_t loc_id, const char *group_name, H5_index_t idx_type,
+                                       H5_iter_order_t order, hsize_t n, H5G_info_t *ginfo /*out*/,
+                                       hid_t lapl_id, hid_t es_id);
+#else
+H5_DLL herr_t H5Gget_info_by_idx_async(hid_t loc_id, const char *group_name, H5_index_t idx_type,
+                                       H5_iter_order_t order, hsize_t n, H5G_info_t *ginfo /*out*/,
+                                       hid_t lapl_id, hid_t es_id);
+#endif
 
 /**
  *-------------------------------------------------------------------------
@@ -348,7 +400,7 @@ H5_DLL herr_t H5Gget_info_by_idx(hid_t loc_id, const char *group_name, H5_index_
  * \return \herr_t
  *
  * \details H5Gflush() causes all buffers associated with a group to be
- *          immediately flushed to disk without removing the data from
+ *          immediately flushed to the disk without removing the data from
  *          the cache.
  *
  * \attention
@@ -356,11 +408,9 @@ H5_DLL herr_t H5Gget_info_by_idx(hid_t loc_id, const char *group_name, H5_index_
  *          flushes the internal HDF5 buffers and then asks the operating
  *          system (the OS) to flush the system buffers for the open
  *          files. After that, the OS is responsible for ensuring that
- *          the data is actually flushed to disk.
+ *          the data is actually flushed to the disk.
  *
  * \since 1.8.0
- *
- * \see H5Gcreate2(), H5Gclose()
  *
  */
 H5_DLL herr_t H5Gflush(hid_t group_id);
@@ -379,13 +429,11 @@ H5_DLL herr_t H5Gflush(hid_t group_id);
  *          cleared and immediately re-loaded with updated contents from disk.
  *
  *          This function essentially closes the group, evicts all
- *          metadata associated with it from the cache, and then re-opens
+ *          metadata associated with it from the cache, and then reopens
  *          the group. The reopened group is automatically re-registered
  *          with the same identifier.
  *
  * \since 1.8.0
- *
- * \see H5Gcreate2(), H5Gclose()
  *
  */
 H5_DLL herr_t H5Grefresh(hid_t group_id);
@@ -400,7 +448,7 @@ H5_DLL herr_t H5Grefresh(hid_t group_id);
  *
  * \return \herr_t
  *
- * \details H5Gclose() releases resources used by a group which was
+ * \details H5Gclose() releases resources used by a group that was
  *          opened by H5Gcreate() or H5Gopen().  After closing a group,
  *          \p group_id cannot be used again until another H5Gcreate()
  *          or H5Gopen() is called on it.
@@ -415,6 +463,42 @@ H5_DLL herr_t H5Grefresh(hid_t group_id);
  *
  */
 H5_DLL herr_t H5Gclose(hid_t group_id);
+
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Gclose}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Gclose_async(const char *app_file, const char *app_func, unsigned app_line, hid_t group_id,
+                             hid_t es_id);
+#else
+H5_DLL herr_t H5Gclose_async(hid_t group_id, hid_t es_id);
+#endif
+
+/// \cond DEV
+/* API Wrappers for async routines */
+/* (Must be defined _after_ the function prototype) */
+/* (And must only defined when included in application code, not the library) */
+#ifndef H5G_MODULE
+#define H5Gcreate_async(...)           H5Gcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Gopen_async(...)             H5Gopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Gget_info_async(...)         H5Gget_info_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Gget_info_by_name_async(...) H5Gget_info_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Gget_info_by_idx_async(...)  H5Gget_info_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Gclose_async(...)            H5Gclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+
+/* Define "wrapper" versions of function calls, to allow compile-time values to
+ *      be passed in by language wrapper or library layer on top of HDF5.
+ */
+#define H5Gcreate_async_wrap           H5_NO_EXPAND(H5Gcreate_async)
+#define H5Gopen_async_wrap             H5_NO_EXPAND(H5Gopen_async)
+#define H5Gget_info_async_wrap         H5_NO_EXPAND(H5Gget_info_async)
+#define H5Gget_info_by_name_async_wrap H5_NO_EXPAND(H5Gget_info_by_name_async)
+#define H5Gget_info_by_idx_async_wrap  H5_NO_EXPAND(H5Gget_info_by_idx_async)
+#define H5Gclose_async_wrap            H5_NO_EXPAND(H5Gclose_async)
+#endif /* H5G_MODULE */
+/// \endcond
 
 /* Symbols defined for compatibility with previous versions of the HDF5 API.
  *
@@ -660,7 +744,7 @@ H5_DLL herr_t H5Glink2(hid_t cur_loc_id, const char *cur_name, H5G_link_t type, 
  *
  * \attention Exercise care in moving groups as it is possible to render data in
  *            a file inaccessible with H5Gmove(). See The Group Interface in the
- *            HDF5 User's Guide.
+ *            \ref UG.
  *
  * \version 1.8.0 Function deprecated in this release.
  *
@@ -691,7 +775,7 @@ H5_DLL herr_t H5Gmove(hid_t src_loc_id, const char *src_name, const char *dst_na
  *
  * \attention Exercise care in moving groups as it is possible to render data in
  *            a file inaccessible with H5Gmove2(). See The Group Interface in the
- *            HDF5 User's Guide.
+ *            \ref UG.
  *
  * \version 1.8.0 Function deprecated in this release.
  *
@@ -728,11 +812,11 @@ H5_DLL herr_t H5Gmove2(hid_t src_loc_id, const char *src_name, hid_t dst_loc_id,
  *          Note that space identified as freespace is available for re-use only
  *          as long as the file remains open; once a file has been closed, the
  *          HDF5 library loses track of freespace. See “Freespace Management” in
- *          the HDF5 User's Guide for further details.
+ *          the \ref UG for further details.
  *
  * \attention Exercise care in moving groups as it is possible to render data in
  *            a file inaccessible with H5Gunlink(). See The Group Interface in the
- *            HDF5 User's Guide.
+ *            \ref UG.
  *
  * \version 1.8.0 Function deprecated in this release.
  *
@@ -800,7 +884,7 @@ H5_DLL herr_t H5Gget_linkval(hid_t loc_id, const char *name, size_t size, char *
  *          \p loc_id can specify any object in the file. name can be one of the
  *          following:
  *          \li The name of the object relative to \p loc_id
- *          \li An absolute name of the object, starting from \c /, the file’s
+ *          \li An absolute name of the object, starting from \c /, the file's
  *              root group
  *          \li A dot (\c .), if \p loc_id fully specifies the object
  *
@@ -836,14 +920,14 @@ H5_DLL herr_t H5Gset_comment(hid_t loc_id, const char *name, const char *comment
  * \deprecated This function is deprecated in favor of the function
  *             H5Oget_comment().
  *
- * \details H5Gget_comment() retrieves the comment for the the object specified
+ * \details H5Gget_comment() retrieves the comment for the object specified
  *          by \p loc_id and \p name. The comment is returned in the buffer \p
  *          buf.
  *
  *          \p loc_id can specify any object in the file. name can be one of the
  *          following:
  *          \li The name of the object relative to \p loc_id
- *          \li An absolute name of the object, starting from \c /, the file’s
+ *          \li An absolute name of the object, starting from \c /, the file's
  *              root group
  *          \li A dot (\c .), if \p loc_id fully specifies the object
  *
@@ -897,7 +981,7 @@ H5_DLL int H5Gget_comment(hid_t loc_id, const char *name, size_t bufsize, char *
  *          The operation receives the group identifier for the group being
  *          iterated over, \p group, the name of the current object within
  *          the group, \p name, and the pointer to the operator data
- *          passed in to H5Giterate(), \p op_data.
+ *          passed into H5Giterate(), \p op_data.
  *
  *          The return values from an operator are:
  *          \li Zero causes the iterator to continue, returning zero when all
@@ -918,7 +1002,10 @@ H5_DLL int H5Gget_comment(hid_t loc_id, const char *name, size_t bufsize, char *
  *          examine the members of \c subgroup_a. When recursive iteration is
  *          required, the application must handle the recursion, explicitly
  *          calling H5Giterate() on discovered subgroups.
-
+ *
+ * \warning  Adding or removing members to the group during iteration
+ *           will lead to undefined behavior.
+ *
  * \version 1.8.0 Function deprecated in this release.
  *
  */
@@ -1006,7 +1093,7 @@ H5_DLL herr_t H5Gget_objinfo(hid_t loc_id, const char *name, hbool_t follow_link
  *-------------------------------------------------------------------------
  * \ingroup H5G
  *
- * \brief Returns a name of an object specified by an index
+ * \brief Returns the name of an object specified by an index
  *
  * \fg_loc_id
  * \param[in] idx Transient index identifying object
@@ -1019,7 +1106,7 @@ H5_DLL herr_t H5Gget_objinfo(hid_t loc_id, const char *name, hbool_t follow_link
  *
  * \deprecated This function is deprecated in favor of the function H5Lget_name_by_idx().
  *
- * \details H5Gget_objname_by_idx() returns a name of the object specified by
+ * \details H5Gget_objname_by_idx() returns the name of the object specified by
  *          the index \p idx in the group \p loc_id.
  *
  *          The group is specified by a group identifier \p loc_id. If
@@ -1038,7 +1125,7 @@ H5_DLL herr_t H5Gget_objinfo(hid_t loc_id, const char *name, hbool_t follow_link
  *          actual object name length, the object name is truncated to
  *          \Code{max_size - 1} characters.
  *
- *          Note that if the size of the object's name is unkown, a preliminary
+ *          Note that if the size of the object's name is unknown, a preliminary
  *          call to H5Gget_objname_by_idx() with \p name set to \c NULL will
  *          return the length of the object's name. A second call to
  *          H5Gget_objname_by_idx() can then be used to retrieve the actual

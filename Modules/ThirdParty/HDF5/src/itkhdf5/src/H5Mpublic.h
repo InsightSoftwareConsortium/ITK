@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -20,11 +19,12 @@
 #ifndef H5Mpublic_H
 #define H5Mpublic_H
 
-/* System headers needed by this file */
+#include "H5public.h"   /* Generic Functions                        */
+#include "H5Ipublic.h"  /* Identifiers                              */
+#include "H5VLpublic.h" /* Virtual Object Layer                     */
 
-/* Public headers needed by this file */
-#include "H5public.h"
-#include "H5Ipublic.h"
+/* Exposes VOL connector types, so it needs the connector header */
+#include "H5VLconnector.h"
 
 /*****************/
 /* Public Macros */
@@ -68,6 +68,115 @@ typedef enum H5VL_map_specific_t {
 typedef herr_t (*H5M_iterate_t)(hid_t map_id, const void *key, void *op_data);
 //! <!-- [H5M_iterate_t_snip] -->
 
+/* Parameters for map operations */
+typedef union H5VL_map_args_t {
+    /* H5VL_MAP_CREATE */
+    struct {
+        H5VL_loc_params_t loc_params;  /* Location parameters for object */
+        const char       *name;        /* Name of new map object */
+        hid_t             lcpl_id;     /* Link creation property list for map */
+        hid_t             key_type_id; /* Datatype for map keys */
+        hid_t             val_type_id; /* Datatype for map values */
+        hid_t             mcpl_id;     /* Map creation property list */
+        hid_t             mapl_id;     /* Map access property list */
+        void             *map;         /* Pointer to newly created map object (OUT) */
+    } create;
+
+    /* H5VL_MAP_OPEN */
+    struct {
+        H5VL_loc_params_t loc_params; /* Location parameters for object */
+        const char       *name;       /* Name of new map object */
+        hid_t             mapl_id;    /* Map access property list */
+        void             *map;        /* Pointer to newly created map object (OUT) */
+    } open;
+
+    /* H5VL_MAP_GET_VAL */
+    struct {
+        hid_t       key_mem_type_id;   /* Memory datatype for key */
+        const void *key;               /* Pointer to key */
+        hid_t       value_mem_type_id; /* Memory datatype for value */
+        void       *value;             /* Buffer for value (OUT) */
+    } get_val;
+
+    /* H5VL_MAP_EXISTS */
+    struct {
+        hid_t       key_mem_type_id; /* Memory datatype for key */
+        const void *key;             /* Pointer to key */
+        hbool_t     exists;          /* Flag indicating whether key exists in map (OUT) */
+    } exists;
+
+    /* H5VL_MAP_PUT */
+    struct {
+        hid_t       key_mem_type_id;   /* Memory datatype for key */
+        const void *key;               /* Pointer to key */
+        hid_t       value_mem_type_id; /* Memory datatype for value */
+        const void *value;             /* Pointer to value */
+    } put;
+
+    /* H5VL_MAP_GET */
+    struct {
+        H5VL_map_get_t get_type; /* 'get' operation to perform */
+
+        /* Parameters for each operation */
+        union {
+            /* H5VL_MAP_GET_MAPL */
+            struct {
+                hid_t mapl_id; /* Map access property list ID (OUT) */
+            } get_mapl;
+
+            /* H5VL_MAP_GET_MCPL */
+            struct {
+                hid_t mcpl_id; /* Map creation property list ID (OUT) */
+            } get_mcpl;
+
+            /* H5VL_MAP_GET_KEY_TYPE */
+            struct {
+                hid_t type_id; /* Datatype ID for map's keys (OUT) */
+            } get_key_type;
+
+            /* H5VL_MAP_GET_VAL_TYPE */
+            struct {
+                hid_t type_id; /* Datatype ID for map's values (OUT) */
+            } get_val_type;
+
+            /* H5VL_MAP_GET_COUNT */
+            struct {
+                hsize_t count; /* # of KV pairs in map (OUT) */
+            } get_count;
+        } args;
+    } get;
+
+    /* H5VL_MAP_SPECIFIC */
+    struct {
+        H5VL_map_specific_t specific_type; /* 'specific' operation to perform */
+
+        /* Parameters for each operation */
+        union {
+            /* H5VL_MAP_ITER */
+            struct {
+                H5VL_loc_params_t loc_params;      /* Location parameters for object */
+                hsize_t           idx;             /* Start/end iteration index (IN/OUT) */
+                hid_t             key_mem_type_id; /* Memory datatype for key */
+                H5M_iterate_t     op;              /* Iteration callback routine */
+                void             *op_data;         /* Pointer to callback context */
+            } iterate;
+
+            /* H5VL_MAP_DELETE */
+            struct {
+                H5VL_loc_params_t loc_params;      /* Location parameters for object */
+                hid_t             key_mem_type_id; /* Memory datatype for key */
+                const void       *key;             /* Pointer to key */
+            } del;
+        } args;
+    } specific;
+
+    /* H5VL_MAP_OPTIONAL */
+    /* Unused */
+
+    /* H5VL_MAP_CLOSE */
+    /* No args */
+} H5VL_map_args_t;
+
 /********************/
 /* Public Variables */
 /********************/
@@ -102,7 +211,7 @@ extern "C" {
  * \details H5Mcreate() creates a new map object for storing key-value
  *          pairs. The in-file datatype for keys is defined by \p key_type_id
  *          and the in-file datatype for values is defined by \p val_type_id. \p
- *          loc_id specifies the location to create the the map object and \p
+ *          loc_id specifies the location to create the map object and \p
  *          name specifies the name of the link to the map object relative to
  *          \p loc_id.
  *
@@ -111,6 +220,19 @@ extern "C" {
  */
 H5_DLL hid_t H5Mcreate(hid_t loc_id, const char *name, hid_t key_type_id, hid_t val_type_id, hid_t lcpl_id,
                        hid_t mcpl_id, hid_t mapl_id);
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Mcreate}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL hid_t H5Mcreate_async(const char *app_file, const char *app_func, unsigned app_line, hid_t loc_id,
+                             const char *name, hid_t key_type_id, hid_t val_type_id, hid_t lcpl_id,
+                             hid_t mcpl_id, hid_t mapl_id, hid_t es_id);
+#else
+H5_DLL hid_t  H5Mcreate_async(hid_t loc_id, const char *name, hid_t key_type_id, hid_t val_type_id,
+                              hid_t lcpl_id, hid_t mcpl_id, hid_t mapl_id, hid_t es_id);
+#endif
 
 /**
  * \ingroup H5M
@@ -139,10 +261,21 @@ H5_DLL hid_t H5Mcreate_anon(hid_t loc_id, hid_t key_type_id, hid_t val_type_id, 
  *          H5Mclose() when the application is not longer interested in
  *          accessing it.
  *
- * \since 1.13.0
+ * \since 1.12.0
  *
  */
 H5_DLL hid_t H5Mopen(hid_t loc_id, const char *name, hid_t mapl_id);
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Mopen}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL hid_t H5Mopen_async(const char *app_file, const char *app_func, unsigned app_line, hid_t loc_id,
+                           const char *name, hid_t mapl_id, hid_t es_id);
+#else
+H5_DLL hid_t  H5Mopen_async(hid_t loc_id, const char *name, hid_t mapl_id, hid_t es_id);
+#endif
 
 /**
  * \ingroup H5M
@@ -162,6 +295,17 @@ H5_DLL hid_t H5Mopen(hid_t loc_id, const char *name, hid_t mapl_id);
  *
  */
 H5_DLL herr_t H5Mclose(hid_t map_id);
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Mclose}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Mclose_async(const char *app_file, const char *app_func, unsigned app_line, hid_t map_id,
+                             hid_t es_id);
+#else
+H5_DLL herr_t H5Mclose_async(hid_t map_id, hid_t es_id);
+#endif
 
 /**
  * \ingroup H5M
@@ -208,7 +352,10 @@ H5_DLL hid_t H5Mget_val_type(hid_t map_id);
  * \details H5Mget_create_plist() returns an identifier for a copy of the
  *          creation property list for a map object specified by \p map_id.
  *
- * \since 1.13.0
+ *          The creation property list identifier should be released with
+ *          H5Pclose() to prevent resource leaks.
+ *
+ * \since 1.12.0
  *
  */
 H5_DLL hid_t H5Mget_create_plist(hid_t map_id);
@@ -277,6 +424,19 @@ H5_DLL herr_t H5Mget_count(hid_t map_id, hsize_t *count, hid_t dxpl_id);
  */
 H5_DLL herr_t H5Mput(hid_t map_id, hid_t key_mem_type_id, const void *key, hid_t val_mem_type_id,
                      const void *value, hid_t dxpl_id);
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Mput}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Mput_async(const char *app_file, const char *app_func, unsigned app_line, hid_t map_id,
+                           hid_t key_mem_type_id, const void *key, hid_t val_mem_type_id, const void *value,
+                           hid_t dxpl_id, hid_t es_id);
+#else
+H5_DLL herr_t H5Mput_async(hid_t map_id, hid_t key_mem_type_id, const void *key, hid_t val_mem_type_id,
+                           const void *value, hid_t dxpl_id, hid_t es_id);
+#endif
 
 /**
  * \ingroup H5M
@@ -310,6 +470,19 @@ H5_DLL herr_t H5Mput(hid_t map_id, hid_t key_mem_type_id, const void *key, hid_t
  */
 H5_DLL herr_t H5Mget(hid_t map_id, hid_t key_mem_type_id, const void *key, hid_t val_mem_type_id, void *value,
                      hid_t dxpl_id);
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Mget}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Mget_async(const char *app_file, const char *app_func, unsigned app_line, hid_t map_id,
+                           hid_t key_mem_type_id, const void *key, hid_t val_mem_type_id, void *value,
+                           hid_t dxpl_id, hid_t es_id);
+#else
+H5_DLL herr_t H5Mget_async(hid_t map_id, hid_t key_mem_type_id, const void *key, hid_t val_mem_type_id,
+                           void *value, hid_t dxpl_id, hid_t es_id);
+#endif
 
 /**
  * \ingroup H5M
@@ -369,6 +542,9 @@ H5_DLL herr_t H5Mexists(hid_t map_id, hid_t key_mem_type_id, const void *key, hb
  *
  *          Any further options can be specified through the property list \p dxpl_id.
  *
+ *  \warning Adding or removing key-value pairs to the map during iteration
+ *           will lead to undefined behavior.
+ *
  * \since 1.12.0
  *
  */
@@ -410,6 +586,9 @@ H5_DLL herr_t H5Miterate(hid_t map_id, hsize_t *idx, hid_t key_mem_type_id, H5M_
  *
  *          Any further options can be specified through the property list \p dxpl_id.
  *
+ *  \warning Adding or removing key-value pairs to the map during iteration
+ *           will lead to undefined behavior.
+ *
  * \since 1.12.0
  *
  */
@@ -439,6 +618,27 @@ H5_DLL herr_t H5Miterate_by_name(hid_t loc_id, const char *map_name, hsize_t *id
  *
  */
 H5_DLL herr_t H5Mdelete(hid_t map_id, hid_t key_mem_type_id, const void *key, hid_t dxpl_id);
+
+/// \cond DEV
+/* API Wrappers for async routines */
+/* (Must be defined _after_ the function prototype) */
+/* (And must only defined when included in application code, not the library) */
+#ifndef H5M_MODULE
+#define H5Mcreate_async(...) H5Mcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mopen_async(...)   H5Mopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mclose_async(...)  H5Mclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mput_async(...)    H5Mput_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mget_async(...)    H5Mget_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+
+/* Define "wrapper" versions of function calls, to allow compile-time values to
+ * be passed in by language wrapper or library layer on top of HDF5. */
+#define H5Mcreate_async_wrap H5_NO_EXPAND(H5Mcreate_async)
+#define H5Mopen_async_wrap   H5_NO_EXPAND(H5Mopen_async)
+#define H5Mclose_async_wrap  H5_NO_EXPAND(H5Mclose_async)
+#define H5Mput_async_wrap    H5_NO_EXPAND(H5Mput_async)
+#define H5Mget_async_wrap    H5_NO_EXPAND(H5Mget_async)
+#endif /* H5M_MODULE */
+/// \endcond
 
 /* Symbols defined for compatibility with previous versions of the HDF5 API.
  *

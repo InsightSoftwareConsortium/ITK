@@ -16,11 +16,6 @@
 #ifndef H5CXprivate_H
 #define H5CXprivate_H
 
-/* Include package's public header */
-#ifdef NOT_YET
-#include "H5CXpublic.h"
-#endif /* NOT_YET */
-
 /* Private headers needed by this file */
 #include "H5private.h"   /* Generic Functions                    */
 #include "H5ACprivate.h" /* Metadata cache                       */
@@ -43,7 +38,7 @@ typedef struct H5CX_state_t {
     hid_t                 dxpl_id;            /* DXPL for operation */
     hid_t                 lapl_id;            /* LAPL for operation */
     hid_t                 lcpl_id;            /* LCPL for operation */
-    void *                vol_wrap_ctx;       /* VOL connector's "wrap context" for creating IDs */
+    void                 *vol_wrap_ctx;       /* VOL connector's "wrap context" for creating IDs */
     H5VL_connector_prop_t vol_connector_prop; /* VOL connector property */
 
 #ifdef H5_HAVE_PARALLEL
@@ -63,7 +58,7 @@ typedef struct H5CX_state_t {
 /* Library private routines */
 #ifndef H5private_H
 H5_DLL herr_t H5CX_push(void);
-H5_DLL herr_t H5CX_pop(void);
+H5_DLL herr_t H5CX_pop(hbool_t update_dxpl_props);
 #endif /* H5private_H */
 H5_DLL void    H5CX_push_special(void);
 H5_DLL hbool_t H5CX_is_def_dxpl(void);
@@ -120,6 +115,9 @@ H5_DLL herr_t H5CX_get_filter_cb(H5Z_cb_t *filter_cb);
 H5_DLL herr_t H5CX_get_data_transform(H5Z_data_xform_t **data_transform);
 H5_DLL herr_t H5CX_get_vlen_alloc_info(H5T_vlen_alloc_info_t *vl_alloc_info);
 H5_DLL herr_t H5CX_get_dt_conv_cb(H5T_conv_cb_t *cb_struct);
+H5_DLL herr_t H5CX_get_selection_io_mode(H5D_selection_io_mode_t *selection_io_mode);
+H5_DLL herr_t H5CX_get_no_selection_io_cause(uint32_t *no_selection_io_cause);
+H5_DLL herr_t H5CX_get_modify_write_buf(hbool_t *modify_write_buf);
 
 /* "Getter" routines for LCPL properties cached in API context */
 H5_DLL herr_t H5CX_get_encoding(H5T_cset_t *encoding);
@@ -160,7 +158,12 @@ H5_DLL herr_t H5CX_set_vlen_alloc_info(H5MM_allocate_t alloc_func, void *alloc_i
 /* "Setter" routines for LAPL properties cached in API context */
 H5_DLL herr_t H5CX_set_nlinks(size_t nlinks);
 
+H5_DLL herr_t H5CX_init(void);
+
 /* "Setter" routines for cached DXPL properties that must be returned to application */
+
+H5_DLL void H5CX_set_no_selection_io_cause(uint32_t no_selection_io_cause);
+
 #ifdef H5_HAVE_PARALLEL
 H5_DLL void H5CX_set_mpio_actual_chunk_opt(H5D_mpio_actual_chunk_opt_mode_t chunk_opt);
 H5_DLL void H5CX_set_mpio_actual_io_mode(H5D_mpio_actual_io_mode_t actual_io_mode);
