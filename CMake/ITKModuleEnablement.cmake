@@ -1,7 +1,7 @@
 # This script sorts out the module dependencies, provides user options for customizing
 # the list of modules to be built, and enables modules accordingly.
 
-macro(itk_module_load_DAG)
+macro(itk_module_load_dag)
   set(ITK_MODULES_ALL)
   file(
     GLOB_RECURSE meta
