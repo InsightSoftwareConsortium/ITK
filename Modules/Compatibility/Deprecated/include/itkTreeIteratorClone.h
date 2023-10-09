@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** \class itkTreeIteratorClone
+/** \class TreeIteratorClone
  *  \brief itkTreeIteratorClone class
  *  \ingroup DataRepresentation
  *  \ingroup ITKDeprecated

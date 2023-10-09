@@ -43,7 +43,7 @@ public:
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const FloatingPointExceptionsEnums::ExceptionAction value);
 
-/** \class itkFloatingPointExceptions
+/** \class FloatingPointExceptions
  *  \brief Allows floating point exceptions to be caught during program execution.
  *
  * Allows floating point exceptions to be caught during program execution.
