@@ -24,7 +24,7 @@ ITK packages exist for many Linux distributions. For Debian and Ubuntu, they
 can be obtained running
 
 ```sh
-   $ sudo apt-get install libinsighttoolkit4-dev
+   $ sudo apt-get install libinsighttoolkit5-dev
 ```
 
 This will give you the libraries and development headers.
@@ -77,9 +77,9 @@ where `ITKLatestRelease` is the name of the local repository created.
 Additionally, specific releases can be cloned using the tags, for example:
 
 ```sh
-   $ git clone -b v4.13.1 https://github.com/InsightSoftwareConsortium/ITK ITK-4.13.1
+   $ git clone -b v5.3.0 https://github.com/InsightSoftwareConsortium/ITK ITK-5.3.0
 ```
-where `v4.13.1` corresponds to ITK 4.13.1, and the `ITK-4.13.1` is the name
+where `v5.3.0` corresponds to ITK 5.3.0, and the `ITK-5.3.0` is the name
 of the local repository created.
 
 ### Update
@@ -114,7 +114,7 @@ instructions to update it.
 Alternatively, one may checkout a specific release tag using
 
 ```sh
-   $ git checkout v4.13.1
+   $ git checkout v5.3.0
 ```
 
 Release tags never move. Repeat the command with a different tag to get a
