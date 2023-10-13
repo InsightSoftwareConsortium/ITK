@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- * \class QuadEdgeMeshScalarDataVTKPolyData
+ * \class QuadEdgeMeshScalarDataVTKPolyDataWriter
  *
  * \brief This class saves a QuadMesh into a VTK-legacy file format,
  *        including its scalar data associated with points.

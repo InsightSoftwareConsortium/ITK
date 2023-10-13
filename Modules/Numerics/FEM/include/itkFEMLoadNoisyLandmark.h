@@ -27,7 +27,7 @@ namespace itk
 namespace fem
 {
 /**
- * \class itkFEMLoadNoisyLandmark
+ * \class FEMLoadNoisyLandmark
  * \brief This landmark is derived from the motion of a specific landmark, but
  * allows the existence of noise or outliers
  *

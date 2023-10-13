@@ -55,7 +55,7 @@ public:
 // Define how to print enumeration
 extern ITKTransform_EXPORT std::ostream &
                            operator<<(std::ostream & out, const TransformBaseTemplateEnums::TransformCategory value);
-/** \class itkTransformBaseTemplate
+/** \class TransformBaseTemplate
  *
  * This class is an abstract class to represent a spatial transform.
  *
