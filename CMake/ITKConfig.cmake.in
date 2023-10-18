@@ -6,7 +6,7 @@
 # to load ITK's settings for an external project.
 #
 # ITK components can be specified when using the CMake function `find_package()`
-# E.g. find_package(ITK COMPONENTS ITKCommon ITKIOImageBase ITKIONRRD ITKImageGradient)
+# E.g. find_package(ITK COMPONENTS ITKCommon ITKIOImageBase OPTIONAL_COMPONENTS ITKIONRRD )
 #
 # The components listed in this call must be ITK module names or factories
 # (e.g. ITKImageIO, ITKTransformIO). Factories allow the user to load all the
@@ -83,8 +83,13 @@ itk_module_config(ITK ${ITK_MODULES_ENABLED})
 
 # Compute set of requested modules.
 if(ITK_FIND_COMPONENTS)
-  set(ITK_MODULES_REQUESTED ${ITK_FIND_COMPONENTS})
-  # Specific modules requested by find_package(ITK).
+  # Specific modules required by find_package(ITK) or optional and available.
+  set(ITK_MODULES_REQUESTED "")
+  foreach(M ${ITK_FIND_COMPONENTS})
+    if(ITK_FIND_REQUIRED_${M} OR M IN_LIST ITK_MODULES_ENABLED)
+      LIST(APPEND ITK_MODULES_REQUESTED "${M}")
+    endif()
+  endforeach()
   itk_module_config(ITK ${ITK_MODULES_REQUESTED})
 else()
   set(ITK_MODULES_REQUESTED ${ITK_MODULES_ENABLED})

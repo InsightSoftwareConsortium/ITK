@@ -23,8 +23,13 @@
 
 # Compute set of requested modules.
 if(ITK_FIND_COMPONENTS)
-  # Specific modules requested by find_package(ITK).
-  set(ITK_MODULES_REQUESTED "${ITK_FIND_COMPONENTS}")
+  # Specific modules required by find_package(ITK) or optional and available.
+  set(ITK_MODULES_REQUESTED "")
+  foreach(M ${ITK_FIND_COMPONENTS})
+    if(ITK_FIND_REQUIRED_${M} OR M IN_LIST ITK_MODULES_ENABLED)
+      LIST(APPEND ITK_MODULES_REQUESTED "${M}")
+    endif()
+  endforeach()
 else()
   # No specific modules requested.  Use all of them.
   set(ITK_MODULES_REQUESTED "")
