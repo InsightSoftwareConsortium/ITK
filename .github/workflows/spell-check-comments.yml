@@ -1,0 +1,49 @@
+name: Spell Checking Code Comments
+
+on: [push,pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  spell:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install comment-spell-check~=0.2.2
+        curl -O https://raw.githubusercontent.com/SimpleITK/SimpleITK/master/.github/workflows/additional_dictionary.txt
+
+    - name: Spell check Modules directory
+      run: |
+        comment_spell_check \
+          --miss \
+          --prefix "gdcm" --exclude ThirdParty \
+          --dict additional_dictionary.txt \
+          --dict .github/workflows/itk_dict.txt \
+          --suffix ".h" \
+          --suffix ".hxx" \
+          --suffix ".py" \
+          Modules
+
+    - name: Spell check Examples directory
+      run: |
+        comment_spell_check \
+          --miss \
+          --prefix "gdcm" \
+          --dict additional_dictionary.txt \
+          --dict .github/workflows/itk_dict.txt \
+          --suffix ".h" \
+          --suffix ".hxx" \
+          --suffix ".py" \
+          --suffix ".cxx" \
+          Examples
