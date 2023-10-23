@@ -23,15 +23,18 @@
 #include <map>
 #include <functional>
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
 /** \brief A function which does nothing
+ * \deprecated Preferably use the C++ `[[maybe_unused]]` attribute instead!
  *
  * This function is to be used to mark parameters as unused to suppress
  * compiler warning. It can be used when the parameter needs to be named
  * (i.e. itkNotUsed cannot be used) but is not always used.
  */
 template <typename T>
-inline void
+[[deprecated("Preferably use the C++ `[[maybe_unused]]` attribute instead!")]] inline void
 Unused(const T &){};
+#endif
 
 namespace itk
 {
