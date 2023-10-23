@@ -832,8 +832,7 @@ ObjectFactoryBase::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate)
 std::list<ObjectFactoryBase *>
 ObjectFactoryBase::GetRegisteredFactories()
 {
-  //  static SingletonIndex * singletonIndex = SingletonIndex::GetInstance();
-  //  Unused(singletonIndex);
+  //  [[maybe_unused]] static SingletonIndex * singletonIndex = SingletonIndex::GetInstance();
   ObjectFactoryBase::Initialize();
   return m_PimplGlobals->m_RegisteredFactories;
 }

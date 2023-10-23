@@ -124,9 +124,8 @@ template <typename T>
 T *
 Singleton(const char * globalName, std::function<void()> deleteFunc)
 {
-  static SingletonIndex * singletonIndex = SingletonIndex::GetInstance();
-  Unused(singletonIndex);
-  T * instance = SingletonIndex::GetInstance()->GetGlobalInstance<T>(globalName);
+  [[maybe_unused]] static SingletonIndex * singletonIndex = SingletonIndex::GetInstance();
+  T *                                      instance = SingletonIndex::GetInstance()->GetGlobalInstance<T>(globalName);
   if (instance == nullptr)
   {
     instance = new T;
