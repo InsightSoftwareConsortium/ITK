@@ -805,12 +805,17 @@ def image_from_dict(image_dict: Dict) -> "itkt.Image":
     import itk
 
     ImageType = image_type_from_wasm_type(image_dict["imageType"])
-    image = itk.PyBuffer[ImageType].GetImageViewFromArray(image_dict["data"])
+    if image_dict["data"] is None:
+        image = ImageType.New()
+        image.SetRegions(image_dict["size"])
+        image.Allocate(True)
+    else:
+        image = itk.PyBuffer[ImageType].GetImageViewFromArray(image_dict["data"])
+        image.SetRegions(image_dict["size"])
     image.SetOrigin(image_dict["origin"])
     image.SetSpacing(image_dict["spacing"])
     image.SetDirection(image_dict["direction"])
     image.SetObjectName(image_dict["name"])
-    image.SetRegions(image_dict["size"])
     return image
 
 
