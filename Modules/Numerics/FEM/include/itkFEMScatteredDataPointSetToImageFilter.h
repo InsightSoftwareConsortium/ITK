@@ -142,6 +142,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FEMScatteredDataPointSetToImageFilter, PointSetToImageFilter);
+
   /** Extract dimension from the output image. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
