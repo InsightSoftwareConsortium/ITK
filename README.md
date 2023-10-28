@@ -22,6 +22,7 @@ Links
 
 * [Homepage](https://itk.org)
 * [Download](https://itk.org/download/)
+* [Documentation](https://docs.itk.org/en/latest/)
 * [Discussion](https://discourse.itk.org/)
 * [Software Guide](https://itk.org/ItkSoftwareGuide.pdf)
 * [Help](https://itk.org/resources/)
