@@ -80,4 +80,4 @@ patch -p0 < previous-gdcm.patch                         (5)
 
 
 NOTE for later:
-(shoud we disable getenv just as dcmtk ? there is a ijg flag for that NO_ENV or something similar
+(should we disable getenv just as dcmtk ? there is a ijg flag for that NO_ENV or something similar

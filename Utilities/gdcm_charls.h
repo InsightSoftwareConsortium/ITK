@@ -17,8 +17,8 @@
 /* Use the charls library configured for gdcm.  */
 #include "gdcmTypes.h"
 #ifdef GDCM_USE_SYSTEM_CHARLS
-// It is expected that version 2.0.0 is used
-# include <CharLS/charls.h>
+// It is expected that version >= 2.2.0 is used
+# include <charls/charls.h>
 #else
 #include "gdcmcharls/charls.h"
 #endif

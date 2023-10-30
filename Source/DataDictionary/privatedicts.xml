@@ -3516,7 +3516,7 @@
   <entry owner="GEMS_GDXE_FALCON_04" group="0011" element="xx40" vr="SL" vm="1" name="Pasting Overlap"/>
   <entry owner="GEMS_GDXE_FALCON_04" group="0011" element="xx41" vr="IS" vm="24" name="Sub-image Collimator Vertices"/>
   <entry owner="GEMS_GDXE_FALCON_04" group="0011" element="xx42" vr="LO" vm="1" name="View IP"/>
-  <entry owner="GEMS_GDXE_FALCON_04" group="0011" element="xx43" vr="IS" vm="24" name="Key-stone Co-ordinates"/>
+  <entry owner="GEMS_GDXE_FALCON_04" group="0011" element="xx43" vr="IS" vm="24" name="Key-stone Coordinates"/>
   <entry owner="GEMS_GDXE_FALCON_04" group="0011" element="xx44" vr="CS" vm="1" name="Receptor Type"/>
   <entry owner="GEMS_GDXE_FALCON_04" group="0011" element="xx46" vr="LO" vm="1-n" name="?"/>
   <entry owner="GEMS_GDXE_FALCON_04" group="0011" element="xx47" vr="DS" vm="1" name="?"/>
