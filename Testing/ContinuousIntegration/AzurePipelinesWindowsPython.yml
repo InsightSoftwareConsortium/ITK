@@ -11,6 +11,7 @@ trigger:
     - LICENSE
     - NOTICE
     - Documentation/*
+    - Utilities/Debugger/*
     - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
 pr:
@@ -20,6 +21,7 @@ pr:
     - LICENSE
     - NOTICE
     - Documentation/*
+    - Utilities/Debugger/*
     - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
 variables:
