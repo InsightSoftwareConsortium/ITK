@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copy into C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Packages\Debugger\Visualizers\default.natstepfilter -->
-<StepFilter xmlns="https://schemas.microsoft.com/vstudio/debugger/natstepfilter/2010">
+<StepFilter xmlns="http://schemas.microsoft.com/vstudio/debugger/natstepfilter/2010">
   <Function><Name>__security_check_cookie</Name><Action>NoStepInto</Action></Function>
   <Function><Name>__abi_winrt_.*</Name><Action>NoStepInto</Action></Function>
   <Function><Name>_ObjectStublessClient.*</Name><Action>NoStepInto</Action></Function>
