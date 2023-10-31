@@ -9,6 +9,10 @@
         i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
         algorithms in NumPy / SciPy.
         """
+
+        if image.GetBufferPointer() is None:
+            return None
+
         if update:
             # Ensure the image regions and image pixel buffer have been updated
             # correctly
@@ -46,6 +50,8 @@
 
         This is a deep copy of the image buffer and is completely safe and without potential side effects.
         """
+        if image.GetBufferPointer() is None:
+            return None
 
         arrayView = itkPyBuffer@PyBufferTypes@.GetArrayViewFromImage(image, keep_axes, update)
 

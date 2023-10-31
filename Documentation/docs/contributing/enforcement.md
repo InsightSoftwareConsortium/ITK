@@ -173,7 +173,7 @@ regular report handling process, they will do the following:
   as a clear and severe breach. The Committee should also say that, if the
   originator believes this is unfair or they want to be reconnected to ITK,
   they have the right to ask for a review (see
-  [Addressing Grievances](reporting.md).
+  [Addressing Grievances](reporting.md)).
   * The Committee will formally review and sign off on all cases where this
   mechanism has been applied to make sure it is not being used to control
   ordinary heated disagreement.

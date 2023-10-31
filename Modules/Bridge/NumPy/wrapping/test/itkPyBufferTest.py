@@ -70,6 +70,38 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
             equal = (recon_obj == ndarray_itk_base).all()
             assert equal, "Different results before and after pickle"
 
+    def test_EmptyImage_pickle(self):
+        """
+        Test the serialization of an empty itk.Image
+        """
+        Dimension = 3
+        ImageType = itk.Image[itk.UC, Dimension]
+        RegionType = itk.ImageRegion[Dimension]
+
+        region = RegionType()
+        region.SetSize(0, 6)
+        region.SetSize(1, 6)
+        region.SetSize(2, 6)
+
+        image = ImageType.New()
+        image.SetRegions(region)
+        spacing = [3.0, 4.0, 5.0]
+        image.SetSpacing(spacing)
+        # Before allocation
+        # scalarImage.Allocate(True)
+
+        import pickle
+        pickled = pickle.dumps(image)
+        reloaded = pickle.loads(pickled)
+        reloaded_spacing = reloaded.GetSpacing()
+        spacing = reloaded.GetSpacing()
+        assert spacing[0] == reloaded_spacing[0]
+        assert spacing[1] == reloaded_spacing[1]
+        assert spacing[2] == reloaded_spacing[2]
+
+        ndarray_itk_base = itk.array_view_from_image(image)
+        assert ndarray_itk_base == None
+
     def test_NumPyBridge_itkScalarImage(self):
         "Try to convert all pixel types to NumPy array view"
 
