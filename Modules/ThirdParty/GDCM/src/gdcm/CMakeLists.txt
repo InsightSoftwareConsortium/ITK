@@ -319,7 +319,7 @@ option(GDCM_USE_SYSTEM_PAPYRUS3 "Use system papyrus3" OFF)
 option(GDCM_USE_SYSTEM_SOCKETXX "Use system socket++" OFF)
 option(GDCM_USE_SYSTEM_LJPEG "Use system ljpeg (ijg lib)" OFF)
 option(GDCM_USE_SYSTEM_OPENJPEG "Use system openjpeg" OFF)
-option(GDCM_USE_SYSTEM_CHARLS "Use system CharLS" OFF)
+option(GDCM_USE_SYSTEM_CHARLS "Use system charls" OFF)
 mark_as_advanced(
   GDCM_USE_SYSTEM_ZLIB
   GDCM_USE_SYSTEM_OPENSSL
@@ -352,8 +352,9 @@ else()
 endif()
 
 if(GDCM_USE_SYSTEM_CHARLS)
-  find_package(CharLS 2.0.0 REQUIRED)
-  set(GDCM_CHARLS_LIBRARIES ${CHARLS_LIBRARIES})
+  find_package(charls 2.2.0 REQUIRED)
+  set(GDCM_CHARLS_LIBRARIES charls)
+  message(STATUS "Found charls version " ${charls_VERSION})
 else()
   set(GDCM_CHARLS_LIBRARIES gdcmcharls)
 endif()

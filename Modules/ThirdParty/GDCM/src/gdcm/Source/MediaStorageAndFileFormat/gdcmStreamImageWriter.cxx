@@ -150,7 +150,7 @@ int StreamImageWriter::WriteRawHeader(RAWCodec* inCodec, std::ostream* inStream)
     //Addition by Manoj
     memcpy(&(tmpBuffer1[4*sizeof(uint16_t)]), &fifthTag, sizeof(uint32_t));// Data Element Length 4 bytes
 
-    // Basic OffSet Tabl with No Item Value
+    // Basic OffSet Table with No Item Value
     memcpy(&(tmpBuffer1[4*sizeof(uint16_t)+sizeof(uint32_t)]), &sixthTag, sizeof(uint16_t)); //fffe
     memcpy(&(tmpBuffer1[5*sizeof(uint16_t)+sizeof(uint32_t)]), &seventhTag, sizeof(uint16_t));//e000
     memcpy(&(tmpBuffer1[6*sizeof(uint16_t)+sizeof(uint32_t)]), &eightthTag, sizeof(uint32_t));//00000000H
