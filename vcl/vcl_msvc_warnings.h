@@ -44,6 +44,6 @@
 
 // data-conversion related to 'size_t'
 #pragma warning ( disable : 4267 )
-
+  
 #endif // _MSC_VER
 #endif //vcl_msvc_warnings_h__
