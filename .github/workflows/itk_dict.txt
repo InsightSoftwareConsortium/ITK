@@ -45,6 +45,7 @@ Cz
 DDataFrameobject
 Dz
 Dasarathy
+Deref
 Dij
 Dinstein
 DownsamplerType
