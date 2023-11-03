@@ -228,7 +228,7 @@ static bool read_info(struct app *self, struct csa_info *i) {
   // syngodt (signed)
   s = fread_mirror(&i->syngodt, sizeof i->syngodt, 1, self);
   ERROR_RETURN(s, 1);
-  // numer of items
+  // number of items
   s = fread_mirror(&i->nitems, sizeof i->nitems, 1, self);
   if (self->csa_type == SV10) assert(i->nitems % 6 == 0);
   ERROR_RETURN(s, 1);

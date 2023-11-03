@@ -23,7 +23,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef _MSC_VER
+#if defined(_MSC_VER) || defined(__OpenBSD__)
+#define GDCM_HAS_ICONV 0
+#else
+#define GDCM_HAS_ICONV 1
+#endif
+
+#if GDCM_HAS_ICONV
 #include <iconv.h>
 #endif
 #if defined(_MSC_VER) && (_MSC_VER < 1900)
@@ -54,7 +60,7 @@ static size_t stream_read(void *ptr, size_t size, size_t nmemb,
 
 struct app {
   struct stream *in;
-#ifndef _MSC_VER
+#if GDCM_HAS_ICONV
   iconv_t conv;
 #endif
   void *shift_jis_buffer;
@@ -62,7 +68,7 @@ struct app {
 
 static struct app *create_app(struct app *self, struct stream *in) {
   self->in = in;
-#ifndef _MSC_VER
+#if GDCM_HAS_ICONV
   self->conv = iconv_open("utf-8", "shift-jis");
   assert(self->conv != (iconv_t)-1);
 #endif
@@ -358,7 +364,7 @@ static char *shift_jis_to_utf8(char *str, size_t len, struct app *self) {
   const size_t guesstimate = len < 128 ? 128 : len * 2;
   self->shift_jis_buffer = realloc(self->shift_jis_buffer, guesstimate);
   char *dest_str = self->shift_jis_buffer;
-#ifndef _MSC_VER
+#if GDCM_HAS_ICONV
   char *in_str = str;
   char *out_str = dest_str;
   size_t inbytes = len;
@@ -842,7 +848,7 @@ bool mec_mr3_print(const void *input, size_t len) {
 #else
   free(data.buffer);
 #endif
-#ifndef _MSC_VER
+#if GDCM_HAS_ICONV
   iconv_close(self->conv);
 #endif
   free(self->shift_jis_buffer);

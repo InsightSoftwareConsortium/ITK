@@ -51,7 +51,7 @@ Types specified in the Modules in Annex C shall be supported.
 class GDCM_EXPORT IODEntry
 {
 public:
-  IODEntry(const char *name = "", const char *ref = "", const char *usag = ""):Name(name),Ref(ref),usage(usag) {
+  IODEntry(const char *name = "", const char *ref = "", const char *inUsage = ""):Name(name),Ref(ref),usage(inUsage) {
   }
   friend std::ostream& operator<<(std::ostream& _os, const IODEntry &_val);
 
@@ -64,7 +64,7 @@ public:
   void SetRef(const char *ref) { Ref = ref; }
   const char *GetRef() const { return Ref.c_str(); }
 
-  void SetUsage(const char *usag) { usage = usag; }
+  void SetUsage(const char *inUsage) { usage = inUsage; }
   const char *GetUsage() const { return usage.c_str(); }
   Usage::UsageType GetUsageType() const;
 

@@ -178,9 +178,9 @@ public:
       // For some reason this seems slower on my linux box...
       is.seekg(2, std::ios::cur );
 #else
-      char dum[2];
-      is.read(dum, 2);
-      if( !(dum[0] == 0 && dum[1] == 0 ))
+      char dumb[2];
+      is.read(dumb, 2);
+      if( !(dumb[0] == 0 && dumb[1] == 0 ))
         {
         // JDDICOM_Sample4.dcm
         gdcmDebugMacro( "32bits VR contains non zero bytes. Skipped" );
@@ -205,8 +205,8 @@ public:
     // See PS 3.5, Data Element Structure With Explicit VR
     if( vrfield & VL32 )
       {
-      const char dum[2] = {0, 0};
-      os.write(dum,2);
+      const char dumb[2] = {0, 0};
+      os.write(dumb,2);
       }
     return os;
     }

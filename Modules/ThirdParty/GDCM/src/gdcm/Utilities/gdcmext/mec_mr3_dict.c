@@ -208,7 +208,7 @@ static const struct mec_mr3_dict dict[] = {
     {0x02, 0x0000a81c, 0xff003200, ""},                                       //
     {0x02, 0x0000a81d, 0xff002a00, ""},                                       //
     {0x02, 0x0000a822, 0x00000500, ""},                                       //
-    {0x02, 0x0000a823, 0xff002c00, "MR Acquition Type"},                      //
+    {0x02, 0x0000a823, 0xff002c00, "MR Acquisition Type"},                      //
     {0x02, 0x0000a824, 0xff002400, ""},                                       //
     {0x02, 0x0000a825, 0xff002400, ""},                                       //
     {0x02, 0x0000a826, 0xff003200, ""},                                       //
