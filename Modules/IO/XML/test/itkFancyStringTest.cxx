@@ -39,7 +39,7 @@ void
 testFancyStringForStringOperations();
 
 int
-itkDOMTest7(int, char *[])
+itkFancyStringTest(int, char *[])
 {
   try
   {
