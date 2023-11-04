@@ -175,13 +175,9 @@ itkGradientDescentOptimizerBasev4Test(int, char *[])
 
   /* exercise some methods */
   optimizer->SetMetric(metric);
-  if (optimizer->GetMetric() != metric)
-  {
-    std::cerr << "Set/GetMetric failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_SET_GET_VALUE(metric, optimizer->GetMetric());
 
-  std::cout << "value: " << optimizer->GetCurrentMetricValue() << std::endl;
+  ITK_TEST_SET_GET_VALUE(0.0, optimizer->GetCurrentMetricValue());
 
   optimizer->SetNumberOfWorkUnits(2);
 
