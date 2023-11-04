@@ -50,11 +50,12 @@ itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   MeshType::Pointer mesh = reader->GetOutput();
 
-  auto gaussian_curvature = CurvatureFilterType::New();
-  gaussian_curvature->SetInput(mesh);
-  gaussian_curvature->Update();
+  auto gaussianCurvatureFilter = CurvatureFilterType::New();
 
-  MeshType::Pointer output = gaussian_curvature->GetOutput();
+  gaussianCurvatureFilter->SetInput(mesh);
+  gaussianCurvatureFilter->Update();
+
+  MeshType::Pointer output = gaussianCurvatureFilter->GetOutput();
 
   using WriterType = itk::MeshFileWriter<MeshType>;
   auto writer = WriterType::New();
@@ -63,7 +64,7 @@ itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   writer->Update();
 
   // ** PRINT **
-  std::cout << gaussian_curvature;
+  std::cout << gaussianCurvatureFilter;
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
