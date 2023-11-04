@@ -49,35 +49,17 @@ testFancyStringEqualOperator();
 int
 itkFancyStringTest(int, char *[])
 {
-  try
-  {
-    testFancyStringWithBasicType();
+  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithBasicType());
 
-    testFancyStringWithStdVector();
+  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithStdVector());
 
-    testFancyStringWithItkArray();
+  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithItkArray());
 
-    testFancyStringForStringOperations();
+  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringForStringOperations());
 
-    testFancyStringUnequalOperator();
+  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringUnequalOperator());
 
-    testFancyStringEqualOperator();
-  }
-  catch (const itk::ExceptionObject & eo)
-  {
-    eo.Print(std::cerr);
-    return EXIT_FAILURE;
-  }
-  catch (const char * emsg)
-  {
-    std::cerr << emsg << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (...)
-  {
-    std::cerr << "Unknown exception caught!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringEqualOperator());
 
 
   std::cout << "Test finished." << std::endl;
