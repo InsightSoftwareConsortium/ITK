@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkBSplineDeformableTransform.h"
 #include "itkTestingMacros.h"
 
 #include <iostream>
@@ -130,11 +131,18 @@ itkTransformGeometryImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TransformGeometryImageFilter, InPlaceImageFilter);
 
   // Test the exceptions
-  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
+  // Test the exception about input image not being set
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
   filter->SetInputImage(inputImage);
   ITK_TEST_SET_GET_VALUE(inputImage, filter->GetInputImage());
+
+  // Test the exception about the transform not being linear
+  auto nonLinearTransform = itk::BSplineDeformableTransform<double, Dimension, 3>::New();
+  filter->SetTransform(nonLinearTransform);
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
   filter->SetTransform(transform);
   ITK_TEST_SET_GET_VALUE(transform, filter->GetTransform());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
