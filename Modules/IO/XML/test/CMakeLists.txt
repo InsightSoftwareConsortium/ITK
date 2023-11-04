@@ -7,8 +7,8 @@ set(ITKIOXMLTests
     itkDOMTest4.cxx
     itkDOMTest5.cxx
     itkDOMTest6.cxx
-    itkDOMTest7.cxx
     itkDOMTest8.cxx
+    itkFancyStringTest.cxx
     itkFileToolsTest.cxx)
 
 createtestdriver(ITKIOXML "${ITKIOXML-Test_LIBRARIES}" "${ITKIOXMLTests}")
@@ -303,19 +303,19 @@ itk_add_test(
 
 itk_add_test(
   NAME
-  itkDOMTest7
-  COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest7)
-
-itk_add_test(
-  NAME
   itkDOMTest8
   COMMAND
   ITKIOXMLTestDriver
   itkDOMTest8
   ${ITK_TEST_OUTPUT_DIR}/xmldom-test8/
   output/test_file)
+
+itk_add_test(
+  NAME
+  itkFancyStringTest
+  COMMAND
+  ITKIOXMLTestDriver
+  itkFancyStringTest)
 
 itk_add_test(
   NAME
