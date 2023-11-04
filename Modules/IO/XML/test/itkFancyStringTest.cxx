@@ -25,6 +25,7 @@ This program tests operations of itk::FancyString.
 #include <iostream>
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 void
 testFancyStringWithBasicType();
@@ -39,6 +40,13 @@ void
 testFancyStringForStringOperations();
 
 int
+testFancyStringUnequalOperator();
+
+int
+testFancyStringEqualOperator();
+
+
+int
 itkFancyStringTest(int, char *[])
 {
   try
@@ -50,6 +58,10 @@ itkFancyStringTest(int, char *[])
     testFancyStringWithItkArray();
 
     testFancyStringForStringOperations();
+
+    testFancyStringUnequalOperator();
+
+    testFancyStringEqualOperator();
   }
   catch (const itk::ExceptionObject & eo)
   {
@@ -444,4 +456,72 @@ testFancyStringForStringOperations()
   std::cout << "testFancyStringForStringOperations: ContainSub(-) OK!" << std::endl;
 
   // all testings were successful if reached here
+}
+
+int
+testFancyStringUnequalOperator()
+{
+  {
+    const std::string str = "Hello World!";
+
+    itk::FancyString  s1{ str };
+    const std::string s2{ "Hello World" };
+
+    ITK_TEST_EXPECT_TRUE(s1 != s2);
+
+    const std::string s3{ "Hello world!" };
+
+    ITK_TEST_EXPECT_TRUE(s1 != s3);
+
+    ITK_TEST_EXPECT_TRUE(!(s1 != str));
+  }
+
+  {
+    itk::FancyString s1{ "s" };
+    const char *     s2{ "S" };
+
+    ITK_TEST_EXPECT_TRUE(s1 != s2);
+  }
+
+  {
+    itk::FancyString s1{ "Hello World!" };
+    itk::FancyString s2{ "Hello World" };
+
+    ITK_TEST_EXPECT_TRUE(s1 != s2);
+
+    itk::FancyString s3{ "Hello world!" };
+
+    ITK_TEST_EXPECT_TRUE(s1 != s3);
+  }
+
+  return EXIT_SUCCESS;
+}
+
+int
+testFancyStringEqualOperator()
+{
+  {
+    itk::FancyString  s1{ "Hello World!" };
+    const std::string s2{ "Hello World!" };
+
+    ITK_TEST_EXPECT_TRUE(s1 == s2);
+
+    ITK_TEST_EXPECT_TRUE(!(s1 == "Hello"));
+  }
+
+  {
+    itk::FancyString s1{ "s" };
+    const char *     s2{ "s" };
+
+    ITK_TEST_EXPECT_TRUE(s1 == s2);
+  }
+
+  {
+    itk::FancyString s1{ "Hello World!" };
+    itk::FancyString s2{ "Hello World!" };
+
+    ITK_TEST_EXPECT_TRUE(s1 == s2);
+  }
+
+  return EXIT_SUCCESS;
 }
