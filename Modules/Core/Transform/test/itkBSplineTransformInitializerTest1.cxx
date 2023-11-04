@@ -102,14 +102,23 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(transformInitializer, BSplineTransformInitializer, Object);
 
-  TransformType::MeshSizeType meshSize;
-  meshSize.Fill(4);
+
+  // Test exceptions
+
+  // Expect an exception as no transform is set
+  ITK_TRY_EXPECT_EXCEPTION(transformInitializer->InitializeTransform());
 
   transformInitializer->SetTransform(bsplineTransform);
   ITK_TEST_SET_GET_VALUE(bsplineTransform, transformInitializer->GetTransform());
 
+  // Expect an exception as no image is set
+  ITK_TRY_EXPECT_EXCEPTION(transformInitializer->InitializeTransform());
+
   transformInitializer->SetImage(fixedImage);
   ITK_TEST_SET_GET_VALUE(fixedImage, transformInitializer->GetImage());
+
+  TransformType::MeshSizeType meshSize;
+  meshSize.Fill(4);
 
   transformInitializer->SetTransformDomainMeshSize(meshSize);
   ITK_TEST_SET_GET_VALUE(meshSize, transformInitializer->GetTransformDomainMeshSize());
