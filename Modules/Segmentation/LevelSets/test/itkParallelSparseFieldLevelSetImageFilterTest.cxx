@@ -306,6 +306,10 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   mf->SetNumberOfLayers(numberOfLayers);
   ITK_TEST_SET_GET_VALUE(numberOfLayers, mf->GetNumberOfLayers());
 
+  typename PSFLSIFT::MorphFilter::ValueType isoSurfaceValue = 0.0;
+  mf->SetIsoSurfaceValue(isoSurfaceValue);
+  ITK_TEST_SET_GET_VALUE(isoSurfaceValue, mf->GetIsoSurfaceValue());
+
   ITK_TRY_EXPECT_NO_EXCEPTION(mf->Update());
 
 
