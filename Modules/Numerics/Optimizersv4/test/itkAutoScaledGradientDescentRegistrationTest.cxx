@@ -180,19 +180,8 @@ itkAutoScaledGradientDescentRegistrationTestTemplated(int         numberOfIterat
   std::cout << "GetDoEstimateLearningRateAtEachIteration: " << optimizer->GetDoEstimateLearningRateAtEachIteration()
             << std::endl;
 
-  try
-  {
-    optimizer->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
+
 
   std::cout << "...finished. " << std::endl
             << "StopCondition: " << optimizer->GetStopConditionDescription() << std::endl
