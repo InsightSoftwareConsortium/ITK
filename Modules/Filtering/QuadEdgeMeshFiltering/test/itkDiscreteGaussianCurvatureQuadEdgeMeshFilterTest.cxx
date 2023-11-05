@@ -52,6 +52,10 @@ itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   auto gaussianCurvatureFilter = CurvatureFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    gaussianCurvatureFilter, DiscreteGaussianCurvatureQuadEdgeMeshFilter, DiscreteCurvatureQuadEdgeMeshFilter);
+
+
   gaussianCurvatureFilter->SetInput(mesh);
   gaussianCurvatureFilter->Update();
 
@@ -63,8 +67,6 @@ itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   writer->SetFileName("gaussian_curvature.vtk");
   writer->Update();
 
-  // ** PRINT **
-  std::cout << gaussianCurvatureFilter;
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
