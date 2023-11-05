@@ -72,5 +72,7 @@ itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   // ** PRINT **
   std::cout << gaussian_curvature;
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
