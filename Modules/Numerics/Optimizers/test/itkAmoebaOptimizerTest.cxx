@@ -278,6 +278,8 @@ AmoebaTest1()
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, AmoebaOptimizer, SingleValuedNonLinearVnlOptimizer);
 
 
+  ITK_TEST_EXPECT_TRUE(itkOptimizer->CanUseScales());
+
   // set optimizer parameters
   typename OptimizerType::NumberOfIterationsType numberOfIterations = 10;
   itkOptimizer->SetMaximumNumberOfIterations(numberOfIterations);
