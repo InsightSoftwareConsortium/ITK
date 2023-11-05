@@ -230,7 +230,10 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  using ImageType = itk::Image<float, 3>;
+  constexpr unsigned int Dimension = 3;
+
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   constexpr int n = 100;                // Number of iterations
   constexpr int numberOfWorkUnits = 11; // Number of work units to be used
