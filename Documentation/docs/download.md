@@ -98,6 +98,12 @@ ITK is available in [vcpkg] as `itk`:
 vcpkg install itk
 ```
 
+If you're a [Homebrew](https://brew.sh/) user, you can install [itk](https://formulae.brew.sh/formula/itk) via:
+
+```sh
+brew install itk
+```
+
 🚀 Latest sources with Git
 --------------------------
 
