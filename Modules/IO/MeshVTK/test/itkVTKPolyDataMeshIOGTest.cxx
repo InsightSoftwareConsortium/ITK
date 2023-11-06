@@ -19,6 +19,7 @@
 // First include the header file to be tested:
 #include "itkMeshFileReader.h"
 
+#include "itkDeref.h"
 #include "itkMesh.h"
 #include "itkMeshFileWriter.h"
 #include "itkVTKPolyDataMeshIO.h"
@@ -53,9 +54,8 @@ Expect_lossless_writing_and_reading_of_points(const std::string &               
 {
   const auto inputMesh = TMesh::New();
 
-  const auto inputPoints = inputMesh->GetPoints();
-  ASSERT_NE(inputPoints, nullptr);
-  inputPoints->assign(points.cbegin(), points.cend());
+  auto & inputPoints = itk::Deref(inputMesh->GetPoints());
+  inputPoints.assign(points.cbegin(), points.cend());
 
   const auto writer = itk::MeshFileWriter<TMesh>::New();
   if (writeAsBinary)
@@ -76,18 +76,16 @@ Expect_lossless_writing_and_reading_of_points(const std::string &               
   reader->SetMeshIO(itk::VTKPolyDataMeshIO::New());
   reader->Update();
 
-  const auto outputMesh = reader->GetOutput();
-  ASSERT_NE(outputMesh, nullptr);
-  const auto outputPoints = outputMesh->GetPoints();
-  ASSERT_NE(outputPoints, nullptr);
+  const auto & outputMesh = itk::Deref(reader->GetOutput());
+  const auto & outputPoints = itk::Deref(outputMesh.GetPoints());
 
   const size_t expectedNumberOfPoints = points.size();
 
-  EXPECT_EQ(outputPoints->size(), expectedNumberOfPoints);
+  EXPECT_EQ(outputPoints.size(), expectedNumberOfPoints);
 
   auto pointIterator = points.cbegin();
 
-  for (const auto & outputPoint : *outputPoints)
+  for (const auto & outputPoint : outputPoints)
   {
     const auto & expectedPoint = *pointIterator;
 
