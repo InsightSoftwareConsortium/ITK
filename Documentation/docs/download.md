@@ -4,6 +4,8 @@ Download ITK
 💾 Current release
 ------------------
 
+More information on this release can be found in the [release notes](releases/5.3.md).
+
 ### Python packages
 
 To install the [ITK Python packages],
@@ -43,6 +45,8 @@ Additional releases can be downloaded from [ITK's GitHub Releases page].
 
 ✨ Latest pre-release
 ---------------------
+
+More information on this release can be found in the [release notes](releases/5.4rc01.md).
 
 ### Python packages
 
