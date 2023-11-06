@@ -1,0 +1,3 @@
+[codespell]
+skip = ./Utilities/gdcmcharls,./Utilities/gdcmopenjpeg,./Utilities/gdcmrle,./Utilities/gdcmexpat,./Utilities/gdcmjpeg,./Utilities/gdcmzlib,./Utilities/pvrg,./Utilities/socketxx
+ignore-words-list = convertor,possibile,iif,comando,oly,ofthe,didi,promis,alue,tutoriels,som,tabl,psot,cna,varian,pres,comparaison,serie,ore,ect,mor,setts,unknow,inout,te,nd,te,pinter,fo,ot,siz,ist,shs,invers,studi,wallthickness,vas,fith
