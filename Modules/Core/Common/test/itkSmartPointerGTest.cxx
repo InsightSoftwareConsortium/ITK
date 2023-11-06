@@ -357,3 +357,15 @@ TEST(SmartPointer, ConvertingRegisterCount)
     EXPECT_TRUE(d1ptr.IsNull());
   }
 }
+
+
+// Tests that `smartPointer.get()` is equivalent to `smartPointer.GetPointer()`.
+TEST(SmartPointer, GetIsEquivalentToGetPointer)
+{
+  const auto check = [](auto && smartPointer) { EXPECT_EQ(smartPointer.get(), smartPointer.GetPointer()); };
+
+  check(itk::Object::New());
+  check(itk::Object::Pointer{});
+  check(itk::Object::ConstPointer{});
+  check(itk::SmartPointer<itk::Object>{});
+}

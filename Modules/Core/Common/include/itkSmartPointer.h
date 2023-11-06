@@ -134,6 +134,15 @@ public:
     return m_Pointer;
   }
 
+  /** Returns the stored (raw) pointer. Equivalent to `GetPointer()`, but then following the Standard C++ Library naming
+   * conversion (like `std::shared_ptr::get()`). */
+  ObjectType *
+  get() const noexcept
+  {
+    return m_Pointer;
+  }
+
+
   /** Overload operator assignment.
    *
    * This method is also implicitly used for move semantics.
