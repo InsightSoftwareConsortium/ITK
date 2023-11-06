@@ -64,14 +64,16 @@ TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateReturnsSameAsStdMt1
 }
 
 
+// Tests that two GetNextSeed() calls return the very same seed value, when ResetNextSeed() is called before each of
+// those calls.
 TEST(MersenneTwisterRandomVariateGenerator, ResetNextSeed)
 {
-  const auto globalGenerator = MersenneTwisterRandomVariateGenerator::GetInstance();
-  ASSERT_NE(globalGenerator, nullptr);
+  // Call GetInstance() beforehand, to make sure the global instance is there already when calling GetNextSeed().
+  [[maybe_unused]] const auto globalGenerator = MersenneTwisterRandomVariateGenerator::GetInstance();
 
   MersenneTwisterRandomVariateGenerator::ResetNextSeed();
-  const auto nextSeed = globalGenerator->GetNextSeed();
+  const auto seed = MersenneTwisterRandomVariateGenerator::GetNextSeed();
 
   MersenneTwisterRandomVariateGenerator::ResetNextSeed();
-  EXPECT_EQ(globalGenerator->GetNextSeed(), nextSeed);
+  EXPECT_EQ(MersenneTwisterRandomVariateGenerator::GetNextSeed(), seed);
 }
