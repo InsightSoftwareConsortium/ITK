@@ -249,20 +249,6 @@ Build the `ITKData` target
 
 This will download new testing data since the previous release.
 
-Next, run the script from within the ITK source directory:
-
-```sh
-   ./Utilities/Maintenance/ContentLinkSynchronization.sh ${ExternalData_OBJECT_STORES}
-```
-
-Do not use `--cleanup` as for the purpose of the GitHub resource, it is
-important to keep the older files: some are from older revisions of ITK, and
-people continue to use the older versions of ITK and request the testing data.
-
-This is will verify all contents, fully populate the `MD5/` and `SHA512/`
-directories in the object store, and create any missing `.md5` or `.sha512`
-content links. If any new content link files are created, commit the result.
-
 Next, archive the data on data.kitware.com. Create a folder, e.g.
 `$MAJOR_VERSION.$MINOR_VERSION`, in `ITK/ITKTestingData`, and run
 
