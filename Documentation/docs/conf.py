@@ -43,7 +43,7 @@ html_static_path = ['_static']
 # html_logo = "_static/itk-logo.svg"
 html_logo = "_static/itk-logo-low-res.png"
 html_favicon = "_static/icon/favicon.ico"
-html_title = f"{project} documentation"
+html_title = f"{project}'s documentation"
 
 # Furo options
 html_theme_options = {

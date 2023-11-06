@@ -21,11 +21,10 @@ Links
 -----
 
 * [Homepage](https://itk.org)
-* [Download](https://itk.org/download/)
-* [Documentation](https://docs.itk.org/en/latest/)
+* [Download](https://docs.itk.org/en/latest/download.html)
+* [Documentation](https://docs.itk.org/)
 * [Discussion](https://discourse.itk.org/)
 * [Software Guide](https://itk.org/ItkSoftwareGuide.pdf)
-* [Help](https://itk.org/resources/)
 * [Examples](https://examples.itk.org/)
 * [Issue tracking](https://github.com/InsightSoftwareConsortium/ITK/issues)
 * [Submit a patch](CONTRIBUTING.md)
@@ -76,15 +75,8 @@ or
 conda install -c conda-forge itk
 ```
 
-If you're a [Homebrew](https://brew.sh/) user, you can install [itk](https://formulae.brew.sh/formula/itk) via:
-
-```sh
-brew install itk
-```
-
 The cross-platform, C++ core of the toolkit may be built from source using
 [CMake](https://cmake.org).
-
 
 Copyright
 ---------

@@ -357,7 +357,7 @@ Harassment will not be tolerated in any of its forms either. Specifically:
 
 Although the above list cannot be exhaustive, we will not tolerate
 discrimination based on any of the protected characteristics in our
-[Diversity Statement](motivation.md#diversity-statement).
+[Diversity Statement](motivation.md).
 
 The relative anonymity (if any) in the discussion forums is no shelter for
 unacceptable behavior.
