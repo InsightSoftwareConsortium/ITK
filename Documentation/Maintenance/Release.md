@@ -836,7 +836,7 @@ Release Notes Posts
 -------------------
 
 To get started with the release notes, first use the download link
-cookiecutter to generate Markdown and webpage Download page HTML:
+cookiecutter to generate [Download page](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/download.md) markdown:
 
 ```sh
 pip install cookiecutter

@@ -1,30 +1,90 @@
 Download ITK
 ============
 
-This page documents how to download ITK. See our
-[CONTRIBUTING](contributing/index) guide for more information.
+💾 Current release
+------------------
 
-Download ITK Release Assets
----------------------------
+### Python packages
 
-ITK release tarballs, including:
+To install the [ITK Python packages],
 
-- Source code
-- Regression test data
-- Doxygen documentation
-- ITK's Software Guide
-- ITK's Examples
+```sh
+pip install itk
+```
 
-can be downloaded from [ITK's GitHub Releases
-page](https://github.com/InsightSoftwareConsortium/ITK/releases).
+Additionally, wheels for external modules are available through the Python Package Index ([PyPI]).
 
-### Linux Package Distributions
+### Release artifacts
+
+**Guide and Textbook**
+
+- [InsightSoftwareGuide-Book1-5.3.0.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightSoftwareGuide-Book1-5.3.0.pdf)
+- [InsightSoftwareGuide-Book2-5.3.0.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightSoftwareGuide-Book2-5.3.0.pdf)
+
+**Library Sources**
+
+- [InsightToolkit-5.3.0.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.tar.gz)
+- [InsightToolkit-5.3.0.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.zip)
+
+**Testing Data**
+
+Unpack optional testing data in the same directory where the Library Source is unpacked.
+
+- [InsightData-5.3.0.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightData-5.3.0.tar.gz)
+- [InsightData-5.3.0.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightData-5.3.0.zip)
+
+**Checksums**
+
+- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/MD5SUMS)
+- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/SHA512SUMS)
+
+
+Additional releases can be downloaded from [ITK's GitHub Releases page].
+
+✨ Latest pre-release
+---------------------
+
+### Python packages
+
+To install the [ITK Python packages],
+
+```sh
+pip install --upgrade pip
+pip install --pre --upgrade itk
+```
+
+### Release artifacts
+
+**Guide and Textbook**
+
+- [InsightSoftwareGuide-Book1-5.4rc01.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightSoftwareGuide-Book1-5.4rc01.pdf)
+- [InsightSoftwareGuide-Book2-5.4rc01.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightSoftwareGuide-Book2-5.4rc01.pdf)
+
+**Library Sources**
+
+- [InsightToolkit-5.4rc01.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightToolkit-5.4rc01.tar.gz)
+- [InsightToolkit-5.4rc01.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightToolkit-5.4rc01.zip)
+
+**Testing Data**
+
+Unpack optional testing data in the same directory where the Library Source is unpacked.
+
+- [InsightData-5.4rc01.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightData-5.4rc01.tar.gz)
+- [InsightData-5.4rc01.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightData-5.4rc01.zip)
+
+**Checksums**
+
+- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/MD5SUMS)
+- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/SHA512SUMS)
+
+📦 Package managers
+-------------------
 
 ITK packages exist for many Linux distributions. For Debian and Ubuntu, they
 can be obtained running
 
 ```sh
-   $ sudo apt-get install libinsighttoolkit5-dev
+sudo apt-get install libinsighttoolkit5-dev
 ```
 
 This will give you the libraries and development headers.
@@ -32,24 +92,14 @@ This will give you the libraries and development headers.
 For information on other ITK packages and packages for other distributions, see
 this [blog post].
 
-### Python
-
-ITK Python wheels are available through the Python Package Index ([PyPI]).
-
-To install the ITK Python wheel, use
+ITK is available in [vcpkg] as `itk`:
 
 ```sh
-   $ python -m pip install --upgrade pip
-   $ python -m pip install itk
+vcpkg install itk
 ```
 
-Additionally, wheels for external modules may also be available through the
-Python Package Index ([PyPI]).
-
-Check the [ITKPythonPackage] website for further information.
-
-Download ITK Sources with Git
------------------------------
+🚀 Latest sources with Git
+--------------------------
 
 First, [download and install Git](https://git-scm.com/downloads).
 
@@ -63,21 +113,21 @@ for further information on configuring and building ITK.
 Clone ITK using the commands
 
 ```sh
-   $ git clone https://github.com/InsightSoftwareConsortium/ITK
-   $ cd ITK
+git clone https://github.com/InsightSoftwareConsortium/ITK
+cd ITK
 ```
 
 The latest stable release can be cloned into a local repository using
 
 ```sh
-   $ git clone -b release https://github.com/InsightSoftwareConsortium/ITK ITKLatestRelease
+git clone -b release https://github.com/InsightSoftwareConsortium/ITK ITKLatestRelease
 ```
 where `ITKLatestRelease` is the name of the local repository created.
 
 Additionally, specific releases can be cloned using the tags, for example:
 
 ```sh
-   $ git clone -b v5.3.0 https://github.com/InsightSoftwareConsortium/ITK ITK-5.3.0
+git clone -b v5.3.0 https://github.com/InsightSoftwareConsortium/ITK ITK-5.3.0
 ```
 where `v5.3.0` corresponds to ITK 5.3.0, and the `ITK-5.3.0` is the name
 of the local repository created.
@@ -88,8 +138,8 @@ Users that have made no local changes and simply want to update a clone with
 the latest changes may run
 
 ```sh
-   $ git checkout master
-   $ git pull --rebase upstream master
+git checkout master
+git pull --rebase upstream master
 ```
 
 Avoid making local changes unless you have read our [developer
@@ -105,7 +155,7 @@ should guarantee only bug fixes to the functionality available in the latest
 release:
 
 ```sh
-   $ git checkout --track -b release origin/release
+git checkout --track -b release origin/release
 ```
 
 This local branch will always follow the latest `release`. Use the [#update]
@@ -114,23 +164,24 @@ instructions to update it.
 Alternatively, one may checkout a specific release tag using
 
 ```sh
-   $ git checkout v5.3.0
+git checkout v5.3.0
 ```
 
 Release tags never move. Repeat the command with a different tag to get a
 different release. One may list available tags using:
 
 ```sh
-   $ git tag
+git tag
 ```
 
-
 [blog post]: https://blog.kitware.com/itk-packages-in-linux-distributions/
+[CMake]: https://cmake.org/
 [download page]: https://itk.org/ITK/resources/software.html
+[Git]: https://git-scm.com
+[ITK Python packages]: https://itkpythonpackage.readthedocs.io/en/latest/Quick_start_guide.html
+[ITK's GitHub Releases
+page]: https://github.com/InsightSoftwareConsortium/ITK/releases
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
-
-[CMake]: https://cmake.org/
-
-[Git]: https://git-scm.com
-[PyPI]: https://pypi.python.org/pypi
+[PyPI]: https://pypi.org/search/?q=itk
+[vcpkg]: https://github.com/microsoft/vcpkg
