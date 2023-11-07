@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -59,22 +58,22 @@ static void            H5S__free_pnt_list(H5S_pnt_list_t *pnt_lst);
 static herr_t   H5S__point_copy(H5S_t *dst, const H5S_t *src, hbool_t share_selection);
 static herr_t   H5S__point_release(H5S_t *space);
 static htri_t   H5S__point_is_valid(const H5S_t *space);
-static hssize_t H5S__point_serial_size(const H5S_t *space);
-static herr_t   H5S__point_serialize(const H5S_t *space, uint8_t **p);
-static herr_t   H5S__point_deserialize(H5S_t **space, const uint8_t **p);
+static hssize_t H5S__point_serial_size(H5S_t *space);
+static herr_t   H5S__point_serialize(H5S_t *space, uint8_t **p);
+static herr_t   H5S__point_deserialize(H5S_t **space, const uint8_t **p, const size_t p_size, hbool_t skip);
 static herr_t   H5S__point_bounds(const H5S_t *space, hsize_t *start, hsize_t *end);
 static herr_t   H5S__point_offset(const H5S_t *space, hsize_t *off);
 static int      H5S__point_unlim_dim(const H5S_t *space);
 static htri_t   H5S__point_is_contiguous(const H5S_t *space);
 static htri_t   H5S__point_is_single(const H5S_t *space);
-static htri_t   H5S__point_is_regular(const H5S_t *space);
-static htri_t   H5S__point_shape_same(const H5S_t *space1, const H5S_t *space2);
-static htri_t   H5S__point_intersect_block(const H5S_t *space, const hsize_t *start, const hsize_t *end);
+static htri_t   H5S__point_is_regular(H5S_t *space);
+static htri_t   H5S__point_shape_same(H5S_t *space1, H5S_t *space2);
+static htri_t   H5S__point_intersect_block(H5S_t *space, const hsize_t *start, const hsize_t *end);
 static herr_t   H5S__point_adjust_u(H5S_t *space, const hsize_t *offset);
 static herr_t   H5S__point_adjust_s(H5S_t *space, const hssize_t *offset);
 static herr_t   H5S__point_project_scalar(const H5S_t *space, hsize_t *offset);
 static herr_t   H5S__point_project_simple(const H5S_t *space, H5S_t *new_space, hsize_t *offset);
-static herr_t   H5S__point_iter_init(const H5S_t *space, H5S_sel_iter_t *iter);
+static herr_t   H5S__point_iter_init(H5S_t *space, H5S_sel_iter_t *iter);
 static herr_t   H5S__point_get_version_enc_size(const H5S_t *space, uint32_t *version, uint8_t *enc_size);
 
 /* Selection iteration callbacks */
@@ -123,7 +122,7 @@ const H5S_select_class_t H5S_sel_point[1] = {{
     H5S__point_iter_init,
 }};
 
-/* Format version bounds for dataspace hyperslab selection */
+/* Format version bounds for dataspace point selection */
 const unsigned H5O_sds_point_ver_bounds[] = {
     H5S_POINT_VERSION_1, /* H5F_LIBVER_EARLIEST */
     H5S_POINT_VERSION_1, /* H5F_LIBVER_V18 */
@@ -169,7 +168,7 @@ H5FL_DEFINE_STATIC(H5S_pnt_list_t);
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5S__point_iter_init(const H5S_t *space, H5S_sel_iter_t *iter)
+H5S__point_iter_init(H5S_t *space, H5S_sel_iter_t *iter)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
@@ -1001,7 +1000,7 @@ done:
 hssize_t
 H5Sget_select_elem_npoints(hid_t spaceid)
 {
-    H5S_t *  space;     /* Dataspace to modify selection of */
+    H5S_t   *space;     /* Dataspace to modify selection of */
     hssize_t ret_value; /* return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1059,7 +1058,7 @@ H5S__point_get_version_enc_size(const H5S_t *space, uint32_t *version, uint8_t *
     hsize_t      bounds_start[H5S_MAX_RANK]; /* Starting coordinate of bounding box */
     hsize_t      bounds_end[H5S_MAX_RANK];   /* Opposite coordinate of bounding box */
     hsize_t      max_size = 0;               /* Maximum selection size */
-    unsigned     u;                          /* Local index veriable */
+    unsigned     u;                          /* Local index variable */
     herr_t       ret_value = SUCCEED;        /* Return value */
 
     FUNC_ENTER_STATIC
@@ -1158,7 +1157,7 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 static hssize_t
-H5S__point_serial_size(const H5S_t *space)
+H5S__point_serial_size(H5S_t *space)
 {
     uint32_t version;        /* Version number */
     uint8_t  enc_size;       /* Encoded size of point selection info */
@@ -1203,7 +1202,7 @@ done:
     Serialize the current selection into a user-provided buffer.
  USAGE
     herr_t H5S__point_serialize(space, p)
-        const H5S_t *space;     IN: Dataspace with selection to serialize
+        H5S_t *space;           IN: Dataspace with selection to serialize
         uint8_t **p;            OUT: Pointer to buffer to put serialized
                                 selection.  Will be advanced to end of
                                 serialized selection.
@@ -1218,11 +1217,11 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S__point_serialize(const H5S_t *space, uint8_t **p)
+H5S__point_serialize(H5S_t *space, uint8_t **p)
 {
     H5S_pnt_node_t *curr;                /* Point information nodes */
-    uint8_t *       pp;                  /* Local pointer for encoding */
-    uint8_t *       lenp = NULL;         /* pointer to length location for later storage */
+    uint8_t        *pp;                  /* Local pointer for encoding */
+    uint8_t        *lenp = NULL;         /* pointer to length location for later storage */
     uint32_t        len  = 0;            /* number of bytes used */
     unsigned        u;                   /* local counting variable */
     uint32_t        version;             /* Version number */
@@ -1351,20 +1350,20 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S__point_deserialize(H5S_t **space, const uint8_t **p)
+H5S__point_deserialize(H5S_t **space, const uint8_t **p, const size_t p_size, hbool_t skip)
 {
-    H5S_t *tmp_space = NULL;                 /* Pointer to actual dataspace to use,
-                                                either *space or a newly allocated one */
-    hsize_t        dims[H5S_MAX_RANK];       /* Dimension sizes */
-    uint32_t       version;                  /* Version number */
-    uint8_t        enc_size = 0;             /* Encoded size of selection info */
-    hsize_t *      coord    = NULL, *tcoord; /* Pointer to array of elements */
-    const uint8_t *pp;                       /* Local pointer for decoding */
-    uint64_t       num_elem = 0;             /* Number of elements in selection */
-    unsigned       rank;                     /* Rank of points */
-    unsigned       i, j;                     /* local counting variables */
-    herr_t         ret_value = SUCCEED;      /* Return value */
-
+    H5S_t *tmp_space = NULL;                    /* Pointer to actual dataspace to use,
+                                                   either *space or a newly allocated one */
+    hsize_t        dims[H5S_MAX_RANK];          /* Dimension sizes */
+    uint32_t       version;                     /* Version number */
+    uint8_t        enc_size = 0;                /* Encoded size of selection info */
+    hsize_t       *coord    = NULL, *tcoord;    /* Pointer to array of elements */
+    const uint8_t *pp;                          /* Local pointer for decoding */
+    uint64_t       num_elem = 0;                /* Number of elements in selection */
+    unsigned       rank;                        /* Rank of points */
+    unsigned       i, j;                        /* local counting variables */
+    herr_t         ret_value = SUCCEED;         /* Return value */
+    const uint8_t *p_end     = *p + p_size - 1; /* Pointer to last valid byte in buffer */
     FUNC_ENTER_STATIC
 
     /* Check args */
@@ -1385,16 +1384,23 @@ H5S__point_deserialize(H5S_t **space, const uint8_t **p)
         tmp_space = *space;
 
     /* Decode version */
+    if (H5_IS_KNOWN_BUFFER_OVERFLOW(skip, pp, sizeof(uint32_t), p_end))
+        HGOTO_ERROR(H5E_DATASPACE, H5E_OVERFLOW, FAIL, "buffer overflow while decoding selection version")
     UINT32DECODE(pp, version);
 
     if (version < H5S_POINT_VERSION_1 || version > H5S_POINT_VERSION_LATEST)
         HGOTO_ERROR(H5E_DATASPACE, H5E_BADVALUE, FAIL, "bad version number for point selection")
 
-    if (version >= (uint32_t)H5S_POINT_VERSION_2)
+    if (version >= (uint32_t)H5S_POINT_VERSION_2) {
         /* Decode size of point info */
+        if (H5_IS_KNOWN_BUFFER_OVERFLOW(skip, pp, 1, p_end))
+            HGOTO_ERROR(H5E_DATASPACE, H5E_OVERFLOW, FAIL, "buffer overflow while decoding point info")
         enc_size = *(pp)++;
+    }
     else {
         /* Skip over the remainder of the header */
+        if (H5_IS_KNOWN_BUFFER_OVERFLOW(skip, pp, 8, p_end))
+            HGOTO_ERROR(H5E_DATASPACE, H5E_OVERFLOW, FAIL, "buffer overflow while decoding selection headers")
         pp += 8;
         enc_size = H5S_SELECT_INFO_ENC_SIZE_4;
     }
@@ -1404,6 +1410,8 @@ H5S__point_deserialize(H5S_t **space, const uint8_t **p)
         HGOTO_ERROR(H5E_DATASPACE, H5E_CANTLOAD, FAIL, "unknown size of point/offset info for selection")
 
     /* Decode the rank of the point selection */
+    if (H5_IS_KNOWN_BUFFER_OVERFLOW(skip, pp, sizeof(uint32_t), p_end))
+        HGOTO_ERROR(H5E_DATASPACE, H5E_OVERFLOW, FAIL, "buffer overflow while decoding selection rank")
     UINT32DECODE(pp, rank);
 
     if (!*space) {
@@ -1415,18 +1423,30 @@ H5S__point_deserialize(H5S_t **space, const uint8_t **p)
     else
         /* Verify the rank of the provided dataspace */
         if (rank != tmp_space->extent.rank)
-        HGOTO_ERROR(H5E_DATASPACE, H5E_BADRANGE, FAIL,
-                    "rank of serialized selection does not match dataspace")
+            HGOTO_ERROR(H5E_DATASPACE, H5E_BADRANGE, FAIL,
+                        "rank of serialized selection does not match dataspace")
 
     /* decode the number of points */
     switch (enc_size) {
         case H5S_SELECT_INFO_ENC_SIZE_2:
+            if (H5_IS_KNOWN_BUFFER_OVERFLOW(skip, pp, sizeof(uint16_t), p_end))
+                HGOTO_ERROR(H5E_DATASPACE, H5E_OVERFLOW, FAIL,
+                            "buffer overflow while decoding number of points")
+
             UINT16DECODE(pp, num_elem);
             break;
         case H5S_SELECT_INFO_ENC_SIZE_4:
+            if (H5_IS_KNOWN_BUFFER_OVERFLOW(skip, pp, sizeof(uint32_t), p_end))
+                HGOTO_ERROR(H5E_DATASPACE, H5E_OVERFLOW, FAIL,
+                            "buffer overflow while decoding number of points")
+
             UINT32DECODE(pp, num_elem);
             break;
         case H5S_SELECT_INFO_ENC_SIZE_8:
+            if (H5_IS_KNOWN_BUFFER_OVERFLOW(skip, pp, sizeof(uint64_t), p_end))
+                HGOTO_ERROR(H5E_DATASPACE, H5E_OVERFLOW, FAIL,
+                            "buffer overflow while decoding number of points")
+
             UINT64DECODE(pp, num_elem);
             break;
         default:
@@ -1438,6 +1458,29 @@ H5S__point_deserialize(H5S_t **space, const uint8_t **p)
     if (NULL == (coord = (hsize_t *)H5MM_malloc(num_elem * rank * sizeof(hsize_t))))
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "can't allocate coordinate information")
 
+    /* Determine necessary size of buffer for coordinates */
+    size_t enc_type_size = 0;
+
+    switch (enc_size) {
+        case H5S_SELECT_INFO_ENC_SIZE_2:
+            enc_type_size = sizeof(uint16_t);
+            break;
+        case H5S_SELECT_INFO_ENC_SIZE_4:
+            enc_type_size = sizeof(uint32_t);
+            break;
+        case H5S_SELECT_INFO_ENC_SIZE_8:
+            enc_type_size = sizeof(uint64_t);
+            break;
+        default:
+            HGOTO_ERROR(H5E_DATASPACE, H5E_UNSUPPORTED, FAIL, "unknown point info size")
+            break;
+    }
+
+    size_t coordinate_buffer_requirement = num_elem * rank * enc_type_size;
+
+    if (H5_IS_KNOWN_BUFFER_OVERFLOW(skip, pp, coordinate_buffer_requirement, p_end))
+        HGOTO_ERROR(H5E_DATASPACE, H5E_OVERFLOW, FAIL, "buffer overflow while decoding selection coordinates")
+
     /* Retrieve the coordinates from the buffer */
     for (tcoord = coord, i = 0; i < num_elem; i++)
         for (j = 0; j < (unsigned)rank; j++, tcoord++)
@@ -1445,11 +1488,9 @@ H5S__point_deserialize(H5S_t **space, const uint8_t **p)
                 case H5S_SELECT_INFO_ENC_SIZE_2:
                     UINT16DECODE(pp, *tcoord);
                     break;
-
                 case H5S_SELECT_INFO_ENC_SIZE_4:
                     UINT32DECODE(pp, *tcoord);
                     break;
-
                 case H5S_SELECT_INFO_ENC_SIZE_8:
                     UINT64DECODE(pp, *tcoord);
                     break;
@@ -1504,7 +1545,7 @@ done:
     dataspace they are located within.  The list of points is formatted as
     follows: <coordinate> followed by the next coordinate, etc. until all the
     point information in the selection have been put into the user's buffer.
-        The points are returned in the order they will be interated through
+        The points are returned in the order they will be iterated through
     when a selection is read/written from/to disk.
  GLOBAL VARIABLES
  COMMENTS, BUGS, ASSUMPTIONS
@@ -1578,7 +1619,7 @@ H5S__get_select_elem_pointlist(const H5S_t *space, hsize_t startpoint, hsize_t n
     dataspace they are located within.  The list of points is formatted as
     follows: <coordinate> followed by the next coordinate, etc. until all the
     point information in the selection have been put into the user's buffer.
-        The points are returned in the order they will be interated through
+        The points are returned in the order they will be iterated through
     when a selection is read/written from/to disk.
  GLOBAL VARIABLES
  COMMENTS, BUGS, ASSUMPTIONS
@@ -1691,9 +1732,9 @@ done:
 static herr_t
 H5S__point_offset(const H5S_t *space, hsize_t *offset)
 {
-    const hsize_t * pnt;                 /* Pointer to a selected point's coordinates */
+    const hsize_t  *pnt;                 /* Pointer to a selected point's coordinates */
     const hssize_t *sel_offset;          /* Pointer to the selection's offset */
-    const hsize_t * dim_size;            /* Pointer to a dataspace's extent */
+    const hsize_t  *dim_size;            /* Pointer to a dataspace's extent */
     hsize_t         accum;               /* Accumulator for dimension sizes */
     int             i;                   /* index variable */
     herr_t          ret_value = SUCCEED; /* Return value */
@@ -1842,7 +1883,7 @@ H5S__point_is_single(const H5S_t *space)
     Check if a point selection is "regular"
  USAGE
     htri_t H5S__point_is_regular(space)
-        const H5S_t *space;     IN: Dataspace pointer to check
+        H5S_t *space;     IN: Dataspace pointer to check
  RETURNS
     TRUE/FALSE/FAIL
  DESCRIPTION
@@ -1857,7 +1898,7 @@ H5S__point_is_single(const H5S_t *space)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S__point_is_regular(const H5S_t *space)
+H5S__point_is_regular(H5S_t *space)
 {
     htri_t ret_value = FAIL; /* Return value */
 
@@ -1882,8 +1923,8 @@ H5S__point_is_regular(const H5S_t *space)
     Check if a two "point" selections are the same shape
  USAGE
     htri_t H5S__point_shape_same(space1, space2)
-        const H5S_t *space1;     IN: First dataspace to check
-        const H5S_t *space2;     IN: Second dataspace to check
+        H5S_t *space1;           IN: First dataspace to check
+        H5S_t *space2;           IN: Second dataspace to check
  RETURNS
     TRUE / FALSE / FAIL
  DESCRIPTION
@@ -1895,7 +1936,7 @@ H5S__point_is_regular(const H5S_t *space)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S__point_shape_same(const H5S_t *space1, const H5S_t *space2)
+H5S__point_shape_same(H5S_t *space1, H5S_t *space2)
 {
     H5S_pnt_node_t *pnt1, *pnt2;          /* Point information nodes */
     hssize_t        offset[H5S_MAX_RANK]; /* Offset between the selections */
@@ -1988,7 +2029,7 @@ done:
     Detect intersections of selection with block
  USAGE
     htri_t H5S__point_intersect_block(space, start, end)
-        const H5S_t *space;     IN: Dataspace with selection to use
+        H5S_t *space;           IN: Dataspace with selection to use
         const hsize_t *start;   IN: Starting coordinate for block
         const hsize_t *end;     IN: Ending coordinate for block
  RETURNS
@@ -2001,7 +2042,7 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 htri_t
-H5S__point_intersect_block(const H5S_t *space, const hsize_t *start, const hsize_t *end)
+H5S__point_intersect_block(H5S_t *space, const hsize_t *start, const hsize_t *end)
 {
     H5S_pnt_node_t *pnt;               /* Point information node */
     htri_t          ret_value = FALSE; /* Return value */
@@ -2230,8 +2271,8 @@ static herr_t
 H5S__point_project_simple(const H5S_t *base_space, H5S_t *new_space, hsize_t *offset)
 {
     const H5S_pnt_node_t *base_node;           /* Point node in base space */
-    H5S_pnt_node_t *      new_node;            /* Point node in new space */
-    H5S_pnt_node_t *      prev_node;           /* Previous point node in new space */
+    H5S_pnt_node_t       *new_node;            /* Point node in new space */
+    H5S_pnt_node_t       *prev_node;           /* Previous point node in new space */
     unsigned              rank_diff;           /* Difference in ranks between spaces */
     unsigned              u;                   /* Local index variable */
     herr_t                ret_value = SUCCEED; /* Return value */
@@ -2317,7 +2358,7 @@ H5S__point_project_simple(const H5S_t *base_space, H5S_t *new_space, hsize_t *of
             /* Copy over the point's coordinates */
             HDmemset(new_node->pnt, 0, sizeof(hsize_t) * rank_diff);
             H5MM_memcpy(&new_node->pnt[rank_diff], base_node->pnt,
-                        (new_space->extent.rank * sizeof(hsize_t)));
+                        (base_space->extent.rank * sizeof(hsize_t)));
 
             /* Keep the order the same when copying */
             if (NULL == prev_node)

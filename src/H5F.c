@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -472,10 +471,10 @@ done:
 hid_t
 H5Fcreate(const char *filename, unsigned flags, hid_t fcpl_id, hid_t fapl_id)
 {
-    void *                new_file = NULL; /* File struct for new file                 */
-    H5P_genplist_t *      plist;           /* Property list pointer                    */
+    void                 *new_file = NULL; /* File struct for new file                 */
+    H5P_genplist_t       *plist;           /* Property list pointer                    */
     H5VL_connector_prop_t connector_prop;  /* Property for VOL connector ID & info     */
-    H5VL_object_t *       vol_obj = NULL;  /* VOL object for file                      */
+    H5VL_object_t        *vol_obj = NULL;  /* VOL object for file                      */
     hbool_t               supported;       /* Whether 'post open' operation is supported by VOL connector */
     hid_t                 ret_value;       /* return value                             */
 
@@ -572,10 +571,10 @@ done:
 hid_t
 H5Fopen(const char *filename, unsigned flags, hid_t fapl_id)
 {
-    void *                new_file = NULL; /* File struct for new file                 */
-    H5P_genplist_t *      plist;           /* Property list pointer                    */
+    void                 *new_file = NULL; /* File struct for new file                 */
+    H5P_genplist_t       *plist;           /* Property list pointer                    */
     H5VL_connector_prop_t connector_prop;  /* Property for VOL connector ID & info     */
-    H5VL_object_t *       vol_obj = NULL;  /* VOL object for file                      */
+    H5VL_object_t        *vol_obj = NULL;  /* VOL object for file                      */
     hbool_t               supported;       /* Whether 'post open' operation is supported by VOL connector */
     hid_t                 ret_value;       /* Return value                             */
 
@@ -726,7 +725,7 @@ done:
 herr_t
 H5Fdelete(const char *filename, hid_t fapl_id)
 {
-    H5P_genplist_t *      plist;          /* Property list pointer */
+    H5P_genplist_t       *plist;          /* Property list pointer */
     H5VL_connector_prop_t connector_prop; /* Property for VOL connector ID & info */
     htri_t                is_hdf5   = FAIL;
     herr_t                ret_value = SUCCEED;
@@ -788,7 +787,7 @@ done:
 hid_t
 H5Freopen(hid_t file_id)
 {
-    void *         file    = NULL; /* File struct for new file */
+    void          *file    = NULL; /* File struct for new file */
     H5VL_object_t *vol_obj = NULL; /* VOL object for file                      */
     hbool_t        supported;      /* Whether 'post open' operation is supported by VOL connector */
     hid_t          ret_value = H5I_INVALID_HID; /* Return value */
@@ -1427,7 +1426,7 @@ done:
  *              1) The file being opened has v3 superblock
  *              2) The file is opened with H5F_ACC_RDWR
  *              3) The file is not already marked for SWMR writing
- *              4) Current implementaion for opened objects:
+ *              4) Current implementation for opened objects:
  *                  --only allow datasets and groups without attributes
  *                  --disallow named datatype with/without attributes
  *                  --disallow opened attributes attached to objects

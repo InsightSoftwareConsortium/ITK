@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -52,7 +51,7 @@
  * link storage
  */
 typedef struct {
-    H5F_t *      f;       /* Pointer to file for insertion */
+    H5F_t       *f;       /* Pointer to file for insertion */
     haddr_t      oh_addr; /* Address of the object header */
     H5O_linfo_t *linfo;   /* Pointer to link info */
 } H5G_obj_oh_it_ud1_t;
@@ -354,7 +353,7 @@ done:
 static herr_t
 H5G__obj_compact_to_dense_cb(const void *_mesg, unsigned H5_ATTR_UNUSED idx, void *_udata)
 {
-    const H5O_link_t *   lnk       = (const H5O_link_t *)_mesg;     /* Pointer to link */
+    const H5O_link_t    *lnk       = (const H5O_link_t *)_mesg;     /* Pointer to link */
     H5G_obj_oh_it_ud1_t *udata     = (H5G_obj_oh_it_ud1_t *)_udata; /* 'User data' passed in */
     herr_t               ret_value = H5_ITER_CONT;                  /* Return value */
 
@@ -692,7 +691,7 @@ done:
 herr_t
 H5G__obj_info(const H5O_loc_t *oloc, H5G_info_t *grp_info)
 {
-    H5G_t *     grp = NULL;          /* Group to query */
+    H5G_t      *grp = NULL;          /* Group to query */
     H5G_loc_t   grp_loc;             /* Entry of group to be queried */
     H5G_name_t  grp_path;            /* Group hier. path */
     H5O_loc_t   grp_oloc;            /* Group object location */
@@ -867,7 +866,7 @@ H5G__obj_remove_update_linfo(const H5O_loc_t *oloc, H5O_linfo_t *linfo)
 
             /* Check if we should switch from dense storage back to link messages */
             if (linfo->nlinks < ginfo.min_dense) {
-                struct H5O_t *   oh = NULL;          /* Pointer to group's object header */
+                struct H5O_t    *oh = NULL;          /* Pointer to group's object header */
                 H5G_link_table_t ltable;             /* Table of links */
                 hbool_t          can_convert = TRUE; /* Whether converting to link messages is possible */
                 size_t           u;                  /* Local index */
@@ -972,7 +971,7 @@ H5G_obj_remove(const H5O_loc_t *oloc, H5RS_str_t *grp_full_path_r, const char *n
         else
             /* Remove object from the link messages */
             if (H5G__compact_remove(oloc, grp_full_path_r, name) < 0)
-            HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "can't remove object")
+                HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "can't remove object")
     } /* end if */
     else {
         /* Using the old format for groups */
@@ -1111,7 +1110,7 @@ H5G__obj_lookup(const H5O_loc_t *grp_oloc, const char *name, H5O_link_t *lnk)
     else
         /* Get the object's info from the symbol table */
         if ((ret_value = H5G__stab_lookup(grp_oloc, name, lnk)) < 0)
-        HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "can't locate object")
+            HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "can't locate object")
 
 done:
     FUNC_LEAVE_NOAPI_TAG(ret_value)

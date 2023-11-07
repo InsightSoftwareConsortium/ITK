@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -73,7 +72,7 @@ typedef struct H5FD_mpio_t {
 
 /* Callbacks */
 static herr_t   H5FD__mpio_term(void);
-static H5FD_t * H5FD__mpio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
+static H5FD_t  *H5FD__mpio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
 static herr_t   H5FD__mpio_close(H5FD_t *_file);
 static herr_t   H5FD__mpio_query(const H5FD_t *_f1, unsigned long *flags);
 static haddr_t  H5FD__mpio_get_eoa(const H5FD_t *_file, H5FD_mem_t type);
@@ -217,6 +216,41 @@ H5FD__mpio_parse_debug_str(const char *s)
 
     FUNC_LEAVE_NOAPI_VOID
 } /* end H5FD__mpio_parse_debug_str() */
+
+/*---------------------------------------------------------------------------
+ * Function:    H5FD__mem_t_to_str
+ *
+ * Purpose:     Returns a string representing the enum value in an H5FD_mem_t
+ *              enum
+ *
+ * Returns:     H5FD_mem_t enum value string
+ *
+ *---------------------------------------------------------------------------
+ */
+static const char *
+H5FD__mem_t_to_str(H5FD_mem_t mem_type)
+{
+    switch (mem_type) {
+        case H5FD_MEM_NOLIST:
+            return "H5FD_MEM_NOLIST";
+        case H5FD_MEM_DEFAULT:
+            return "H5FD_MEM_DEFAULT";
+        case H5FD_MEM_SUPER:
+            return "H5FD_MEM_SUPER";
+        case H5FD_MEM_BTREE:
+            return "H5FD_MEM_BTREE";
+        case H5FD_MEM_DRAW:
+            return "H5FD_MEM_DRAW";
+        case H5FD_MEM_GHEAP:
+            return "H5FD_MEM_GHEAP";
+        case H5FD_MEM_LHEAP:
+            return "H5FD_MEM_LHEAP";
+        case H5FD_MEM_OHDR:
+            return "H5FD_MEM_OHDR";
+        default:
+            return "(Unknown)";
+    }
+}
 #endif /* H5FDmpio_DEBUG */
 
 /*-------------------------------------------------------------------------
@@ -784,7 +818,7 @@ done:
 static H5FD_t *
 H5FD__mpio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t H5_ATTR_UNUSED maxaddr)
 {
-    H5FD_mpio_t *   file = NULL;          /* VFD File struct for new file */
+    H5FD_mpio_t    *file = NULL;          /* VFD File struct for new file */
     H5P_genplist_t *plist;                /* Property list pointer */
     MPI_Comm        comm = MPI_COMM_NULL; /* MPI Communicator, from plist */
     MPI_Info        info = MPI_INFO_NULL; /* MPI Info, from plist */
@@ -860,13 +894,18 @@ H5FD__mpio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t H5_ATTR
     file->mpi_size = mpi_size;
 
     /* Only processor p0 will get the filesize and broadcast it. */
-    if (mpi_rank == 0)
+    if (mpi_rank == 0) {
+        /* If MPI_File_get_size fails, broadcast file size as -1 to signal error */
         if (MPI_SUCCESS != (mpi_code = MPI_File_get_size(fh, &file_size)))
-            HMPI_GOTO_ERROR(NULL, "MPI_File_get_size failed", mpi_code)
+            file_size = (MPI_Offset)-1;
+    }
 
     /* Broadcast file size */
     if (MPI_SUCCESS != (mpi_code = MPI_Bcast(&file_size, (int)sizeof(MPI_Offset), MPI_BYTE, 0, comm)))
         HMPI_GOTO_ERROR(NULL, "MPI_Bcast failed", mpi_code)
+
+    if (file_size < 0)
+        HMPI_GOTO_ERROR(NULL, "MPI_File_get_size failed", mpi_code)
 
     /* Determine if the file should be truncated */
     if (file_size && (flags & H5F_ACC_TRUNC)) {
@@ -985,7 +1024,6 @@ H5FD__mpio_query(const H5FD_t H5_ATTR_UNUSED *_file, unsigned long *flags /* out
         *flags |= H5FD_FEAT_AGGREGATE_METADATA;  /* OK to aggregate metadata allocations  */
         *flags |= H5FD_FEAT_AGGREGATE_SMALLDATA; /* OK to aggregate "small" raw data allocations */
         *flags |= H5FD_FEAT_HAS_MPI; /* This driver uses MPI                                             */
-        *flags |= H5FD_FEAT_ALLOCATE_EARLY;         /* Allocate space early instead of late         */
         *flags |= H5FD_FEAT_DEFAULT_VFD_COMPATIBLE; /* VFD creates a file which can be opened with the default
                                                        VFD */
     }                                               /* end if */
@@ -1163,6 +1201,7 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
     int n;
 #endif
     hbool_t use_view_this_time = FALSE;
+    hbool_t derived_type       = FALSE;
     hbool_t rank0_bcast        = FALSE; /* If read-with-rank0-and-bcast flag was used */
 #ifdef H5FDmpio_DEBUG
     hbool_t H5FD_mpio_debug_t_flag = (H5FD_mpio_debug_flags_s[(int)'t'] && H5FD_MPIO_TRACE_THIS_RANK(file));
@@ -1190,8 +1229,6 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
     if (H5FD_mpi_haddr_to_MPIOff(addr, &mpi_off /*out*/) < 0)
         HGOTO_ERROR(H5E_INTERNAL, H5E_BADRANGE, FAIL, "can't convert from haddr to MPI off")
     size_i = (int)size;
-    if ((hsize_t)size_i != size)
-        HGOTO_ERROR(H5E_INTERNAL, H5E_BADRANGE, FAIL, "can't convert from size to size_i")
 
 #ifdef H5FDmpio_DEBUG
     if (H5FD_mpio_debug_r_flag)
@@ -1264,10 +1301,14 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
                 rank0_bcast = TRUE;
 
                 /* Read on rank 0 Bcast to other ranks */
-                if (file->mpi_rank == 0)
+                if (file->mpi_rank == 0) {
+                    /* If MPI_File_read_at fails, push an error, but continue
+                     * to participate in following MPI_Bcast */
                     if (MPI_SUCCESS !=
                         (mpi_code = MPI_File_read_at(file->f, mpi_off, buf, size_i, buf_type, &mpi_stat)))
-                        HMPI_GOTO_ERROR(FAIL, "MPI_File_read_at failed", mpi_code)
+                        HMPI_DONE_ERROR(FAIL, "MPI_File_read_at failed", mpi_code)
+                }
+
                 if (MPI_SUCCESS != (mpi_code = MPI_Bcast(buf, size_i, buf_type, 0, file->comm)))
                     HMPI_GOTO_ERROR(FAIL, "MPI_Bcast failed", mpi_code)
             } /* end if */
@@ -1275,7 +1316,7 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
                 /* Perform collective read operation */
                 if (MPI_SUCCESS !=
                     (mpi_code = MPI_File_read_at_all(file->f, mpi_off, buf, size_i, buf_type, &mpi_stat)))
-                HMPI_GOTO_ERROR(FAIL, "MPI_File_read_at_all failed", mpi_code)
+                    HMPI_GOTO_ERROR(FAIL, "MPI_File_read_at_all failed", mpi_code)
         } /* end if */
         else {
 #ifdef H5FDmpio_DEBUG
@@ -1297,6 +1338,21 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
             HMPI_GOTO_ERROR(FAIL, "MPI_File_set_view failed", mpi_code)
     } /* end if */
     else {
+        if (size != (hsize_t)size_i) {
+            /* If HERE, then we need to work around the integer size limit
+             * of 2GB. The input size_t size variable cannot fit into an integer,
+             * but we can get around that limitation by creating a different datatype
+             * and then setting the integer size (or element count) to 1 when using
+             * the derived_type.
+             */
+
+            if (H5_mpio_create_large_type(size, 0, MPI_BYTE, &buf_type) < 0)
+                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTGET, FAIL, "can't create MPI-I/O datatype")
+
+            derived_type = TRUE;
+            size_i       = 1;
+        }
+
 #ifdef H5FDmpio_DEBUG
         if (H5FD_mpio_debug_r_flag)
             HDfprintf(stderr, "%s: (%d) doing MPI independent IO\n", FUNC, file->mpi_rank);
@@ -1311,11 +1367,21 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
     if (!rank0_bcast || (rank0_bcast && file->mpi_rank == 0)) {
         /* How many bytes were actually read? */
 #if MPI_VERSION >= 3
-        if (MPI_SUCCESS != (mpi_code = MPI_Get_elements_x(&mpi_stat, buf_type, &bytes_read)))
+        if (MPI_SUCCESS != (mpi_code = MPI_Get_elements_x(&mpi_stat, buf_type, &bytes_read))) {
 #else
-        if (MPI_SUCCESS != (mpi_code = MPI_Get_elements(&mpi_stat, MPI_BYTE, &bytes_read)))
+        if (MPI_SUCCESS != (mpi_code = MPI_Get_elements(&mpi_stat, MPI_BYTE, &bytes_read))) {
 #endif
-            HMPI_GOTO_ERROR(FAIL, "MPI_Get_elements failed", mpi_code)
+            if (rank0_bcast && file->mpi_rank == 0) {
+                /* If MPI_Get_elements(_x) fails for a rank 0 bcast strategy,
+                 * push an error, but continue to participate in the following
+                 * MPI_Bcast.
+                 */
+                bytes_read = -1;
+                HMPI_DONE_ERROR(FAIL, "MPI_Get_elements failed", mpi_code)
+            }
+            else
+                HMPI_GOTO_ERROR(FAIL, "MPI_Get_elements failed", mpi_code)
+        }
     } /* end if */
 
     /* If the rank0-bcast feature was used, broadcast the # of bytes read to
@@ -1343,6 +1409,12 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
     if (bytes_read < 0 || bytes_read > io_size)
         HGOTO_ERROR(H5E_IO, H5E_READERROR, FAIL, "file read failed")
 
+#ifdef H5FDmpio_DEBUG
+    if (H5FD_mpio_debug_r_flag)
+        HDfprintf(stderr, "%s: (%d) mpi_off = %ld  bytes_read = %lld  type = %s\n", __func__, file->mpi_rank,
+                  (long)mpi_off, bytes_read, H5FD__mem_t_to_str(type));
+#endif
+
     /*
      * This gives us zeroes beyond end of physical MPI file.
      */
@@ -1350,6 +1422,9 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
         HDmemset((char *)buf + bytes_read, 0, (size_t)n);
 
 done:
+    if (derived_type)
+        MPI_Type_free(&buf_type);
+
 #ifdef H5FDmpio_DEBUG
     if (H5FD_mpio_debug_t_flag)
         HDfprintf(stderr, "%s: (%d) Leaving\n", FUNC, file->mpi_rank);
@@ -1468,20 +1543,6 @@ H5FD__mpio_write(H5FD_t *_file, H5FD_mem_t type, hid_t H5_ATTR_UNUSED dxpl_id, h
          */
         mpi_off = 0;
     } /* end if */
-    else if (size != (hsize_t)size_i) {
-        /* If HERE, then we need to work around the integer size limit
-         * of 2GB. The input size_t size variable cannot fit into an integer,
-         * but we can get around that limitation by creating a different datatype
-         * and then setting the integer size (or element count) to 1 when using
-         * the derived_type.
-         */
-
-        if (H5_mpio_create_large_type(size, 0, MPI_BYTE, &buf_type) < 0)
-            HGOTO_ERROR(H5E_INTERNAL, H5E_CANTGET, FAIL, "can't create MPI-I/O datatype")
-
-        derived_type = TRUE;
-        size_i       = 1;
-    }
 
     /* Write the data. */
     if (use_view_this_time) {
@@ -1527,6 +1588,21 @@ H5FD__mpio_write(H5FD_t *_file, H5FD_mem_t type, hid_t H5_ATTR_UNUSED dxpl_id, h
             HMPI_GOTO_ERROR(FAIL, "MPI_File_set_view failed", mpi_code)
     } /* end if */
     else {
+        if (size != (hsize_t)size_i) {
+            /* If HERE, then we need to work around the integer size limit
+             * of 2GB. The input size_t size variable cannot fit into an integer,
+             * but we can get around that limitation by creating a different datatype
+             * and then setting the integer size (or element count) to 1 when using
+             * the derived_type.
+             */
+
+            if (H5_mpio_create_large_type(size, 0, MPI_BYTE, &buf_type) < 0)
+                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTGET, FAIL, "can't create MPI-I/O datatype")
+
+            derived_type = TRUE;
+            size_i       = 1;
+        }
+
 #ifdef H5FDmpio_DEBUG
         if (H5FD_mpio_debug_w_flag)
             HDfprintf(stderr, "%s: (%d) doing MPI independent IO\n", FUNC, file->mpi_rank);
@@ -1559,6 +1635,12 @@ H5FD__mpio_write(H5FD_t *_file, H5FD_mem_t type, hid_t H5_ATTR_UNUSED dxpl_id, h
     /* Check for write failure */
     if (bytes_written != io_size || bytes_written < 0)
         HGOTO_ERROR(H5E_IO, H5E_WRITEERROR, FAIL, "file write failed")
+
+#ifdef H5FDmpio_DEBUG
+    if (H5FD_mpio_debug_w_flag)
+        HDfprintf(stderr, "%s: (%d) mpi_off = %ld  bytes_written = %lld  type = %s\n", __func__,
+                  file->mpi_rank, (long)mpi_off, bytes_written, H5FD__mem_t_to_str(type));
+#endif
 
     /* Each process will keep track of its perceived EOF value locally, and
      * ultimately we will reduce this value to the maximum amongst all
@@ -1680,7 +1762,7 @@ H5FD__mpio_truncate(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, hbool_t H5_ATTR
 
         /* In principle, it is possible for the size returned by the
          * call to MPI_File_get_size() to depend on whether writes from
-         * all proceeses have completed at the time process 0 makes the
+         * all processes have completed at the time process 0 makes the
          * call.
          *
          * In practice, most (all?) truncate calls will come after a barrier
@@ -1695,16 +1777,18 @@ H5FD__mpio_truncate(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, hbool_t H5_ATTR
                 HMPI_GOTO_ERROR(FAIL, "MPI_Barrier failed", mpi_code)
 
         /* Only processor p0 will get the filesize and broadcast it. */
-        /* (Note that throwing an error here will cause non-rank 0 processes
-         *      to hang in following Bcast.  -QAK, 3/17/2018)
-         */
-        if (0 == file->mpi_rank)
+        if (0 == file->mpi_rank) {
+            /* If MPI_File_get_size fails, broadcast file size as -1 to signal error */
             if (MPI_SUCCESS != (mpi_code = MPI_File_get_size(file->f, &size)))
-                HMPI_GOTO_ERROR(FAIL, "MPI_File_get_size failed", mpi_code)
+                size = (MPI_Offset)-1;
+        }
 
         /* Broadcast file size */
         if (MPI_SUCCESS != (mpi_code = MPI_Bcast(&size, (int)sizeof(MPI_Offset), MPI_BYTE, 0, file->comm)))
             HMPI_GOTO_ERROR(FAIL, "MPI_Bcast failed", mpi_code)
+
+        if (size < 0)
+            HMPI_GOTO_ERROR(FAIL, "MPI_File_get_size failed", mpi_code)
 
         if (H5FD_mpi_haddr_to_MPIOff(file->eoa, &needed_eof) < 0)
             HGOTO_ERROR(H5E_INTERNAL, H5E_BADRANGE, FAIL, "cannot convert from haddr_t to MPI_Offset")

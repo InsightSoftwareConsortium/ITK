@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -59,7 +58,7 @@ H5Tget_precision(hid_t type_id)
 
     /* Get precision */
     if ((ret_value = H5T_get_precision(dt)) == 0)
-        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, 0, "cant't get precision for specified datatype")
+        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, 0, "can't get precision for specified datatype")
 
 done:
     FUNC_LEAVE_API(ret_value)

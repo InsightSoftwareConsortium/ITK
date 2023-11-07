@@ -46,9 +46,9 @@ typedef struct H5FD_splitter_t {
     H5FD_t               pub;     /* public stuff, must be first    */
     unsigned             version; /* version of the H5FD_splitter_vfd_config_t structure used */
     H5FD_splitter_fapl_t fa;      /* driver-specific file access properties */
-    H5FD_t *             rw_file; /* pointer of R/W channel */
-    H5FD_t *             wo_file; /* pointer of W/O channel */
-    FILE *               logfp;   /* Log file pointer */
+    H5FD_t              *rw_file; /* pointer of R/W channel */
+    H5FD_t              *wo_file; /* pointer of W/O channel */
+    FILE                *logfp;   /* Log file pointer */
 } H5FD_splitter_t;
 
 /*
@@ -107,8 +107,8 @@ static herr_t  H5FD__splitter_term(void);
 static hsize_t H5FD__splitter_sb_size(H5FD_t *_file);
 static herr_t  H5FD__splitter_sb_encode(H5FD_t *_file, char *name /*out*/, unsigned char *buf /*out*/);
 static herr_t  H5FD__splitter_sb_decode(H5FD_t *_file, const char *name, const unsigned char *buf);
-static void *  H5FD__splitter_fapl_get(H5FD_t *_file);
-static void *  H5FD__splitter_fapl_copy(const void *_old_fa);
+static void   *H5FD__splitter_fapl_get(H5FD_t *_file);
+static void   *H5FD__splitter_fapl_copy(const void *_old_fa);
 static herr_t  H5FD__splitter_fapl_free(void *_fapl);
 static H5FD_t *H5FD__splitter_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
 static herr_t  H5FD__splitter_close(H5FD_t *_file);
@@ -293,7 +293,7 @@ herr_t
 H5Pset_fapl_splitter(hid_t fapl_id, H5FD_splitter_vfd_config_t *vfd_config)
 {
     H5FD_splitter_fapl_t *info      = NULL;
-    H5P_genplist_t *      plist_ptr = NULL;
+    H5P_genplist_t       *plist_ptr = NULL;
     herr_t                ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
@@ -315,9 +315,9 @@ H5Pset_fapl_splitter(hid_t fapl_id, H5FD_splitter_vfd_config_t *vfd_config)
      * determining attribute.
      */
     if (H5P_DEFAULT != vfd_config->wo_fapl_id) {
-        H5FD_class_t *     wo_driver = NULL;
+        H5FD_class_t      *wo_driver = NULL;
         H5FD_driver_prop_t wo_driver_prop;
-        H5P_genplist_t *   wo_plist_ptr    = NULL;
+        H5P_genplist_t    *wo_plist_ptr    = NULL;
         unsigned long      wo_driver_flags = 0;
 
         wo_plist_ptr = (H5P_genplist_t *)H5I_object(vfd_config->wo_fapl_id);
@@ -339,10 +339,12 @@ H5Pset_fapl_splitter(hid_t fapl_id, H5FD_splitter_vfd_config_t *vfd_config)
         HGOTO_ERROR(H5E_VFL, H5E_CANTALLOC, FAIL, "unable to allocate file access property list struct")
 
     info->ignore_wo_errs = vfd_config->ignore_wo_errs;
-    HDstrncpy(info->wo_path, vfd_config->wo_path, H5FD_SPLITTER_PATH_MAX);
-    HDstrncpy(info->log_file_path, vfd_config->log_file_path, H5FD_SPLITTER_PATH_MAX);
-    info->rw_fapl_id = H5P_FILE_ACCESS_DEFAULT; /* pre-set value */
-    info->wo_fapl_id = H5P_FILE_ACCESS_DEFAULT; /* pre-set value */
+    HDstrncpy(info->wo_path, vfd_config->wo_path, H5FD_SPLITTER_PATH_MAX + 1);
+    info->wo_path[H5FD_SPLITTER_PATH_MAX] = '\0';
+    HDstrncpy(info->log_file_path, vfd_config->log_file_path, H5FD_SPLITTER_PATH_MAX + 1);
+    info->log_file_path[H5FD_SPLITTER_PATH_MAX] = '\0';
+    info->rw_fapl_id                            = H5P_FILE_ACCESS_DEFAULT; /* pre-set value */
+    info->wo_fapl_id                            = H5P_FILE_ACCESS_DEFAULT; /* pre-set value */
 
     /* Set non-default channel FAPL IDs in splitter configuration info */
     if (H5P_DEFAULT != vfd_config->rw_fapl_id) {
@@ -381,7 +383,7 @@ herr_t
 H5Pget_fapl_splitter(hid_t fapl_id, H5FD_splitter_vfd_config_t *config)
 {
     const H5FD_splitter_fapl_t *fapl_ptr  = NULL;
-    H5P_genplist_t *            plist_ptr = NULL;
+    H5P_genplist_t             *plist_ptr = NULL;
     herr_t                      ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
@@ -411,8 +413,8 @@ H5Pget_fapl_splitter(hid_t fapl_id, H5FD_splitter_vfd_config_t *config)
     if (NULL == (fapl_ptr = (const H5FD_splitter_fapl_t *)H5P_peek_driver_info(plist_ptr)))
         HGOTO_ERROR(H5E_PLIST, H5E_BADVALUE, FAIL, "unable to get specific-driver info")
 
-    HDstrncpy(config->wo_path, fapl_ptr->wo_path, H5FD_SPLITTER_PATH_MAX);
-    HDstrncpy(config->log_file_path, fapl_ptr->log_file_path, H5FD_SPLITTER_PATH_MAX);
+    HDstrncpy(config->wo_path, fapl_ptr->wo_path, H5FD_SPLITTER_PATH_MAX + 1);
+    HDstrncpy(config->log_file_path, fapl_ptr->log_file_path, H5FD_SPLITTER_PATH_MAX + 1);
     config->ignore_wo_errs = fapl_ptr->ignore_wo_errs;
 
     /* Copy R/W and W/O FAPLs */
@@ -511,7 +513,7 @@ H5FD__splitter_write(H5FD_t *_file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr
                      const void *buf)
 {
     H5FD_splitter_t *file      = (H5FD_splitter_t *)_file;
-    H5P_genplist_t * plist_ptr = NULL;
+    H5P_genplist_t  *plist_ptr = NULL;
     herr_t           ret_value = SUCCEED;
 
     FUNC_ENTER_STATIC
@@ -548,7 +550,7 @@ static void *
 H5FD__splitter_fapl_get(H5FD_t *_file)
 {
     H5FD_splitter_t *file      = (H5FD_splitter_t *)_file;
-    void *           ret_value = NULL;
+    void            *ret_value = NULL;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -572,8 +574,8 @@ static void *
 H5FD__splitter_fapl_copy(const void *_old_fa)
 {
     const H5FD_splitter_fapl_t *old_fa_ptr = (const H5FD_splitter_fapl_t *)_old_fa;
-    H5FD_splitter_fapl_t *      new_fa_ptr = NULL;
-    void *                      ret_value  = NULL;
+    H5FD_splitter_fapl_t       *new_fa_ptr = NULL;
+    void                       *ret_value  = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -586,8 +588,8 @@ H5FD__splitter_fapl_copy(const void *_old_fa)
         HGOTO_ERROR(H5E_VFL, H5E_CANTALLOC, NULL, "unable to allocate log file FAPL")
 
     H5MM_memcpy(new_fa_ptr, old_fa_ptr, sizeof(H5FD_splitter_fapl_t));
-    HDstrncpy(new_fa_ptr->wo_path, old_fa_ptr->wo_path, H5FD_SPLITTER_PATH_MAX);
-    HDstrncpy(new_fa_ptr->log_file_path, old_fa_ptr->log_file_path, H5FD_SPLITTER_PATH_MAX);
+    HDstrncpy(new_fa_ptr->wo_path, old_fa_ptr->wo_path, H5FD_SPLITTER_PATH_MAX + 1);
+    HDstrncpy(new_fa_ptr->log_file_path, old_fa_ptr->log_file_path, H5FD_SPLITTER_PATH_MAX + 1);
 
     /* Copy R/W and W/O FAPLs */
     if (H5FD__copy_plist(old_fa_ptr->rw_fapl_id, &(new_fa_ptr->rw_fapl_id)) < 0)
@@ -652,10 +654,10 @@ done:
 static H5FD_t *
 H5FD__splitter_open(const char *name, unsigned flags, hid_t splitter_fapl_id, haddr_t maxaddr)
 {
-    H5FD_splitter_t *           file_ptr  = NULL; /* Splitter VFD info */
+    H5FD_splitter_t            *file_ptr  = NULL; /* Splitter VFD info */
     const H5FD_splitter_fapl_t *fapl_ptr  = NULL; /* Driver-specific property list */
-    H5P_genplist_t *            plist_ptr = NULL;
-    H5FD_t *                    ret_value = NULL;
+    H5P_genplist_t             *plist_ptr = NULL;
+    H5FD_t                     *ret_value = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -687,8 +689,8 @@ H5FD__splitter_open(const char *name, unsigned flags, hid_t splitter_fapl_id, ha
         HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, NULL, "unable to get VFL driver info")
 
     /* Copy simpler info */
-    HDstrncpy(file_ptr->fa.wo_path, fapl_ptr->wo_path, H5FD_SPLITTER_PATH_MAX);
-    HDstrncpy(file_ptr->fa.log_file_path, fapl_ptr->log_file_path, H5FD_SPLITTER_PATH_MAX);
+    HDstrncpy(file_ptr->fa.wo_path, fapl_ptr->wo_path, H5FD_SPLITTER_PATH_MAX + 1);
+    HDstrncpy(file_ptr->fa.log_file_path, fapl_ptr->log_file_path, H5FD_SPLITTER_PATH_MAX + 1);
     file_ptr->fa.ignore_wo_errs = fapl_ptr->ignore_wo_errs;
 
     /* Copy R/W and W/O channel FAPLs. */
@@ -1297,7 +1299,7 @@ H5FD__splitter_log_error(const H5FD_splitter_t *file, const char *atfunc, const 
 
     if (file->logfp != NULL) {
         size_t size;
-        char * s;
+        char  *s;
 
         size = HDstrlen(atfunc) + HDstrlen(msg) + 3; /* ':', ' ', '\n' */
         s    = (char *)H5MM_malloc(sizeof(char) * (size + 1));

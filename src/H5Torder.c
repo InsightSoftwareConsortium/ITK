@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -81,7 +80,7 @@ static herr_t H5T__set_order(H5T_t *dtype, H5T_order_t order);
 H5T_order_t
 H5Tget_order(hid_t type_id)
 {
-    H5T_t *     dt;        /* Datatype to query */
+    H5T_t      *dt;        /* Datatype to query */
     H5T_order_t ret_value; /* Return value */
 
     FUNC_ENTER_API(H5T_ORDER_ERROR)

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -59,7 +58,7 @@ static herr_t
 H5Z__set_local_shuffle(hid_t dcpl_id, hid_t type_id, hid_t H5_ATTR_UNUSED space_id)
 {
     H5P_genplist_t *dcpl_plist;                          /* Property list pointer */
-    const H5T_t *   type;                                /* Datatype */
+    const H5T_t    *type;                                /* Datatype */
     unsigned        flags;                               /* Filter flags */
     size_t          cd_nelmts = H5Z_SHUFFLE_USER_NPARMS; /* Number of filter parameters */
     unsigned        cd_values[H5Z_SHUFFLE_TOTAL_NPARMS]; /* Filter parameters */
@@ -115,7 +114,7 @@ static size_t
 H5Z__filter_shuffle(unsigned flags, size_t cd_nelmts, const unsigned cd_values[], size_t nbytes,
                     size_t *buf_size, void **buf)
 {
-    void *         dest  = NULL;  /* Buffer to deposit [un]shuffled bytes into */
+    void          *dest  = NULL;  /* Buffer to deposit [un]shuffled bytes into */
     unsigned char *_src  = NULL;  /* Alias for source buffer */
     unsigned char *_dest = NULL;  /* Alias for destination buffer */
     unsigned       bytesoftype;   /* Number of bytes per element */

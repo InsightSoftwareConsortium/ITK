@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -40,11 +39,11 @@
 /* Local Prototypes */
 /********************/
 
-static void *     H5O__group_get_copy_file_udata(void);
+static void      *H5O__group_get_copy_file_udata(void);
 static void       H5O__group_free_copy_file_udata(void *udata);
 static htri_t     H5O__group_isa(const H5O_t *loc);
-static void *     H5O__group_open(const H5G_loc_t *obj_loc, H5I_type_t *opened_type);
-static void *     H5O__group_create(H5F_t *f, void *_crt_info, H5G_loc_t *obj_loc);
+static void      *H5O__group_open(const H5G_loc_t *obj_loc, H5I_type_t *opened_type);
+static void      *H5O__group_create(H5F_t *f, void *_crt_info, H5G_loc_t *obj_loc);
 static H5O_loc_t *H5O__group_get_oloc(hid_t obj_id);
 static herr_t     H5O__group_bh_info(const H5O_loc_t *loc, H5O_t *oh, H5_ih_info_t *bh_info);
 
@@ -198,7 +197,7 @@ static void *
 H5O__group_open(const H5G_loc_t *obj_loc, H5I_type_t *opened_type)
 {
     H5G_t *grp       = NULL; /* Group opened */
-    void * ret_value = NULL; /* Return value */
+    void  *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -237,8 +236,8 @@ static void *
 H5O__group_create(H5F_t *f, void *_crt_info, H5G_loc_t *obj_loc)
 {
     H5G_obj_create_t *crt_info  = (H5G_obj_create_t *)_crt_info; /* Group creation parameters */
-    H5G_t *           grp       = NULL;                          /* New group created */
-    void *            ret_value = NULL;                          /* Return value */
+    H5G_t            *grp       = NULL;                          /* New group created */
+    void             *ret_value = NULL;                          /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -284,7 +283,7 @@ done:
 static H5O_loc_t *
 H5O__group_get_oloc(hid_t obj_id)
 {
-    H5G_t *    grp;              /* Group opened */
+    H5G_t     *grp;              /* Group opened */
     H5O_loc_t *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC

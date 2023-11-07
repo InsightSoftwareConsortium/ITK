@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -46,7 +45,7 @@ typedef struct H5D_bt2_ctx_ud_t {
     const H5F_t *f;          /* Pointer to file info */
     uint32_t     chunk_size; /* Size of chunk (bytes; for filtered object) */
     unsigned     ndims;      /* Number of dimensions */
-    uint32_t *   dim;        /* Size of chunk in elements */
+    uint32_t    *dim;        /* Size of chunk in elements */
 } H5D_bt2_ctx_ud_t;
 
 /* The callback context */
@@ -61,7 +60,7 @@ typedef struct H5D_bt2_ctx_t {
 /* Callback info for iteration over chunks in v2 B-tree */
 typedef struct H5D_bt2_it_ud_t {
     H5D_chunk_cb_func_t cb;    /* Callback routine for the chunk */
-    void *              udata; /* User data for the chunk's callback routine */
+    void               *udata; /* User data for the chunk's callback routine */
 } H5D_bt2_it_ud_t;
 
 /* User data for compare callback */
@@ -75,7 +74,7 @@ typedef struct H5D_bt2_ud_t {
 /********************/
 
 /* Shared v2 B-tree methods for indexing filtered and non-filtered chunked datasets */
-static void * H5D__bt2_crt_context(void *udata);
+static void  *H5D__bt2_crt_context(void *udata);
 static herr_t H5D__bt2_dst_context(void *ctx);
 static herr_t H5D__bt2_store(void *native, const void *udata);
 static herr_t H5D__bt2_compare(const void *rec1, const void *rec2, int *result);
@@ -215,9 +214,9 @@ static void *
 H5D__bt2_crt_context(void *_udata)
 {
     H5D_bt2_ctx_ud_t *udata = (H5D_bt2_ctx_ud_t *)_udata; /* User data for building callback context */
-    H5D_bt2_ctx_t *   ctx;                                /* Callback context structure */
-    uint32_t *        my_dim    = NULL;                   /* Pointer to copy of chunk dimension size */
-    void *            ret_value = NULL;                   /* Return value */
+    H5D_bt2_ctx_t    *ctx;                                /* Callback context structure */
+    uint32_t         *my_dim    = NULL;                   /* Pointer to copy of chunk dimension size */
+    void             *ret_value = NULL;                   /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -329,7 +328,7 @@ H5D__bt2_store(void *record, const void *_udata)
 static herr_t
 H5D__bt2_compare(const void *_udata, const void *_rec2, int *result)
 {
-    const H5D_bt2_ud_t *   udata     = (const H5D_bt2_ud_t *)_udata;   /* User data */
+    const H5D_bt2_ud_t    *udata     = (const H5D_bt2_ud_t *)_udata;   /* User data */
     const H5D_chunk_rec_t *rec1      = &(udata->rec);                  /* The search record */
     const H5D_chunk_rec_t *rec2      = (const H5D_chunk_rec_t *)_rec2; /* The native record */
     herr_t                 ret_value = SUCCEED;                        /* Return value */
@@ -362,7 +361,7 @@ H5D__bt2_compare(const void *_udata, const void *_rec2, int *result)
 static herr_t
 H5D__bt2_unfilt_encode(uint8_t *raw, const void *_record, void *_ctx)
 {
-    H5D_bt2_ctx_t *        ctx    = (H5D_bt2_ctx_t *)_ctx;            /* Callback context structure */
+    H5D_bt2_ctx_t         *ctx    = (H5D_bt2_ctx_t *)_ctx;            /* Callback context structure */
     const H5D_chunk_rec_t *record = (const H5D_chunk_rec_t *)_record; /* The native record */
     unsigned               u;                                         /* Local index variable */
 
@@ -396,7 +395,7 @@ H5D__bt2_unfilt_encode(uint8_t *raw, const void *_record, void *_ctx)
 static herr_t
 H5D__bt2_unfilt_decode(const uint8_t *raw, void *_record, void *_ctx)
 {
-    H5D_bt2_ctx_t *  ctx    = (H5D_bt2_ctx_t *)_ctx;      /* Callback context structure */
+    H5D_bt2_ctx_t   *ctx    = (H5D_bt2_ctx_t *)_ctx;      /* Callback context structure */
     H5D_chunk_rec_t *record = (H5D_chunk_rec_t *)_record; /* The native record */
     unsigned         u;                                   /* Local index variable */
 
@@ -431,7 +430,7 @@ static herr_t
 H5D__bt2_unfilt_debug(FILE *stream, int indent, int fwidth, const void *_record, const void *_ctx)
 {
     const H5D_chunk_rec_t *record = (const H5D_chunk_rec_t *)_record; /* The native record */
-    const H5D_bt2_ctx_t *  ctx    = (const H5D_bt2_ctx_t *)_ctx;      /* Callback context */
+    const H5D_bt2_ctx_t   *ctx    = (const H5D_bt2_ctx_t *)_ctx;      /* Callback context */
     unsigned               u;                                         /* Local index variable */
 
     FUNC_ENTER_STATIC_NOERR
@@ -467,7 +466,7 @@ H5D__bt2_unfilt_debug(FILE *stream, int indent, int fwidth, const void *_record,
 static herr_t
 H5D__bt2_filt_encode(uint8_t *raw, const void *_record, void *_ctx)
 {
-    H5D_bt2_ctx_t *        ctx    = (H5D_bt2_ctx_t *)_ctx;            /* Callback context structure */
+    H5D_bt2_ctx_t         *ctx    = (H5D_bt2_ctx_t *)_ctx;            /* Callback context structure */
     const H5D_chunk_rec_t *record = (const H5D_chunk_rec_t *)_record; /* The native record */
     unsigned               u;                                         /* Local index variable */
 
@@ -505,7 +504,7 @@ H5D__bt2_filt_encode(uint8_t *raw, const void *_record, void *_ctx)
 static herr_t
 H5D__bt2_filt_decode(const uint8_t *raw, void *_record, void *_ctx)
 {
-    H5D_bt2_ctx_t *  ctx    = (H5D_bt2_ctx_t *)_ctx;      /* Callback context structure */
+    H5D_bt2_ctx_t   *ctx    = (H5D_bt2_ctx_t *)_ctx;      /* Callback context structure */
     H5D_chunk_rec_t *record = (H5D_chunk_rec_t *)_record; /* The native record */
     unsigned         u;                                   /* Local index variable */
 
@@ -545,7 +544,7 @@ static herr_t
 H5D__bt2_filt_debug(FILE *stream, int indent, int fwidth, const void *_record, const void *_ctx)
 {
     const H5D_chunk_rec_t *record = (const H5D_chunk_rec_t *)_record; /* The native record */
-    const H5D_bt2_ctx_t *  ctx    = (const H5D_bt2_ctx_t *)_ctx;      /* Callback context */
+    const H5D_bt2_ctx_t   *ctx    = (const H5D_bt2_ctx_t *)_ctx;      /* Callback context */
     unsigned               u;                                         /* Local index variable */
 
     FUNC_ENTER_STATIC_NOERR
@@ -610,7 +609,7 @@ H5D__bt2_idx_init(const H5D_chk_idx_info_t H5_ATTR_UNUSED *idx_info, const H5S_t
 static herr_t
 H5D__btree2_idx_depend(const H5D_chk_idx_info_t *idx_info)
 {
-    H5O_t *             oh = NULL;           /* Object header */
+    H5O_t              *oh = NULL;           /* Object header */
     H5O_loc_t           oloc;                /* Temporary object header location for dataset */
     H5AC_proxy_entry_t *oh_proxy;            /* Dataset's object header proxy */
     herr_t              ret_value = SUCCEED; /* Return value */
@@ -827,7 +826,7 @@ H5D__bt2_idx_is_space_alloc(const H5O_storage_chunk_t *storage)
 static herr_t
 H5D__bt2_mod_cb(void *_record, void *_op_data, hbool_t *changed)
 {
-    H5D_bt2_ud_t *   op_data = (H5D_bt2_ud_t *)_op_data;   /* User data for v2 B-tree calls */
+    H5D_bt2_ud_t    *op_data = (H5D_bt2_ud_t *)_op_data;   /* User data for v2 B-tree calls */
     H5D_chunk_rec_t *record  = (H5D_chunk_rec_t *)_record; /* Chunk record */
 
     FUNC_ENTER_STATIC_NOERR
@@ -873,7 +872,7 @@ static herr_t
 H5D__bt2_idx_insert(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *udata,
                     const H5D_t H5_ATTR_UNUSED *dset)
 {
-    H5B2_t *     bt2;                 /* v2 B-tree handle for indexing chunks */
+    H5B2_t      *bt2;                 /* v2 B-tree handle for indexing chunks */
     H5D_bt2_ud_t bt2_udata;           /* User data for v2 B-tree calls */
     unsigned     u;                   /* Local index variable */
     herr_t       ret_value = SUCCEED; /* Return value */
@@ -898,7 +897,7 @@ H5D__bt2_idx_insert(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *udata,
     }    /* end if */
     else /* Patch the top level file pointer contained in bt2 if needed */
         if (H5B2_patch_file(idx_info->storage->u.btree2.bt2, idx_info->f) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch v2 B-tree file pointer")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch v2 B-tree file pointer")
 
     /* Set convenience pointer to v2 B-tree structure */
     bt2 = idx_info->storage->u.btree2.bt2;
@@ -965,7 +964,7 @@ H5D__bt2_found_cb(const void *nrecord, void *op_data)
 static herr_t
 H5D__bt2_idx_get_addr(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *udata)
 {
-    H5B2_t *        bt2;                 /* v2 B-tree handle for indexing chunks */
+    H5B2_t         *bt2;                 /* v2 B-tree handle for indexing chunks */
     H5D_bt2_ud_t    bt2_udata;           /* User data for v2 B-tree calls */
     H5D_chunk_rec_t found_rec;           /* Record found from searching for object */
     unsigned        u;                   /* Local index variable */
@@ -991,7 +990,7 @@ H5D__bt2_idx_get_addr(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *udata)
     }    /* end if */
     else /* Patch the top level file pointer contained in bt2 if needed */
         if (H5B2_patch_file(idx_info->storage->u.btree2.bt2, idx_info->f) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch v2 B-tree file pointer")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch v2 B-tree file pointer")
 
     /* Set convenience pointer to v2 B-tree structure */
     bt2 = idx_info->storage->u.btree2.bt2;
@@ -1059,7 +1058,7 @@ done:
 static int
 H5D__bt2_idx_iterate_cb(const void *_record, void *_udata)
 {
-    H5D_bt2_it_ud_t *      udata     = (H5D_bt2_it_ud_t *)_udata;        /* User data */
+    H5D_bt2_it_ud_t       *udata     = (H5D_bt2_it_ud_t *)_udata;        /* User data */
     const H5D_chunk_rec_t *record    = (const H5D_chunk_rec_t *)_record; /* Native record */
     int                    ret_value = -1;                               /* Return value */
 
@@ -1087,7 +1086,7 @@ H5D__bt2_idx_iterate_cb(const void *_record, void *_udata)
 static int
 H5D__bt2_idx_iterate(const H5D_chk_idx_info_t *idx_info, H5D_chunk_cb_func_t chunk_cb, void *chunk_udata)
 {
-    H5B2_t *        bt2;              /* v2 B-tree handle for indexing chunks */
+    H5B2_t         *bt2;              /* v2 B-tree handle for indexing chunks */
     H5D_bt2_it_ud_t udata;            /* User data for B-tree iterator callback */
     int             ret_value = FAIL; /* Return value */
 
@@ -1111,7 +1110,7 @@ H5D__bt2_idx_iterate(const H5D_chk_idx_info_t *idx_info, H5D_chunk_cb_func_t chu
     }    /* end if */
     else /* Patch the top level file pointer contained in bt2 if needed */
         if (H5B2_patch_file(idx_info->storage->u.btree2.bt2, idx_info->f) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch v2 B-tree file pointer")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch v2 B-tree file pointer")
 
     /* Set convenience pointer to v2 B-tree structure */
     bt2 = idx_info->storage->u.btree2.bt2;
@@ -1147,7 +1146,7 @@ static herr_t
 H5D__bt2_remove_cb(const void *_record, void *_udata)
 {
     const H5D_chunk_rec_t *record    = (const H5D_chunk_rec_t *)_record; /* The native record */
-    H5F_t *                f         = (H5F_t *)_udata;                  /* User data for removal callback */
+    H5F_t                 *f         = (H5F_t *)_udata;                  /* User data for removal callback */
     herr_t                 ret_value = SUCCEED;                          /* Return value */
 
     FUNC_ENTER_STATIC
@@ -1178,7 +1177,7 @@ done:
 static herr_t
 H5D__bt2_idx_remove(const H5D_chk_idx_info_t *idx_info, H5D_chunk_common_ud_t *udata)
 {
-    H5B2_t *     bt2;                 /* v2 B-tree handle for indexing chunks */
+    H5B2_t      *bt2;                 /* v2 B-tree handle for indexing chunks */
     H5D_bt2_ud_t bt2_udata;           /* User data for v2 B-tree find call */
     unsigned     u;                   /* Local index variable */
     herr_t       ret_value = SUCCEED; /* Return value */
@@ -1202,7 +1201,7 @@ H5D__bt2_idx_remove(const H5D_chk_idx_info_t *idx_info, H5D_chunk_common_ud_t *u
     }    /* end if */
     else /* Patch the top level file pointer contained in bt2 if needed */
         if (H5B2_patch_file(idx_info->storage->u.btree2.bt2, idx_info->f) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch v2 B-tree file pointer")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch v2 B-tree file pointer")
 
     /* Set convenience pointer to v2 B-tree structure */
     bt2 = idx_info->storage->u.btree2.bt2;

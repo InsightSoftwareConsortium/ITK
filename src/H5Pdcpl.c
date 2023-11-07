@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -482,8 +481,8 @@ static herr_t
 H5P__dcrt_layout_enc(const void *value, void **_pp, size_t *size)
 {
     const H5O_layout_t *layout = (const H5O_layout_t *)value; /* Create local aliases for values */
-    uint8_t **          pp     = (uint8_t **)_pp;
-    uint8_t *           tmp_p;
+    uint8_t           **pp     = (uint8_t **)_pp;
+    uint8_t            *tmp_p;
     size_t              tmp_size;
     size_t              u;                   /* Local index variable */
     herr_t              ret_value = SUCCEED; /* Return value */
@@ -619,7 +618,7 @@ H5P__dcrt_layout_dec(const void **_pp, void *value)
     const H5O_layout_t *layout;     /* Storage layout */
     H5O_layout_t        tmp_layout; /* Temporary local layout structure */
     H5D_layout_t        type;       /* Layout type */
-    const uint8_t **    pp        = (const uint8_t **)_pp;
+    const uint8_t     **pp        = (const uint8_t **)_pp;
     herr_t              ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -1123,7 +1122,7 @@ H5P__dcrt_fill_value_enc(const void *value, void **_pp, size_t *size)
     const H5O_fill_t *fill      = (const H5O_fill_t *)value; /* Create local aliases for values */
     size_t            dt_size   = 0;                         /* Size of encoded datatype */
     herr_t            ret_value = SUCCEED;                   /* Return value */
-    uint8_t **        pp        = (uint8_t **)_pp;
+    uint8_t         **pp        = (uint8_t **)_pp;
     uint64_t          enc_value;
     unsigned          enc_size = 0;
 
@@ -1214,7 +1213,7 @@ done:
 static herr_t
 H5P__dcrt_fill_value_dec(const void **_pp, void *_value)
 {
-    H5O_fill_t *    fill      = (H5O_fill_t *)_value; /* Fill value */
+    H5O_fill_t     *fill      = (H5O_fill_t *)_value; /* Fill value */
     const uint8_t **pp        = (const uint8_t **)_pp;
     herr_t          ret_value = SUCCEED; /* Return value */
 
@@ -1525,7 +1524,7 @@ H5P__dcrt_ext_file_list_enc(const void *value, void **_pp, size_t *size)
     const H5O_efl_t *efl = (const H5O_efl_t *)value; /* Create local aliases for values */
     size_t           len = 0;                        /* String length of slot name */
     size_t           u;                              /* Local index variable */
-    uint8_t **       pp = (uint8_t **)_pp;
+    uint8_t        **pp = (uint8_t **)_pp;
     unsigned         enc_size;
     uint64_t         enc_value;
 
@@ -1607,7 +1606,7 @@ H5P__dcrt_ext_file_list_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P__dcrt_ext_file_list_dec(const void **_pp, void *_value)
 {
-    H5O_efl_t *     efl = (H5O_efl_t *)_value; /* External file list */
+    H5O_efl_t      *efl = (H5O_efl_t *)_value; /* External file list */
     const uint8_t **pp  = (const uint8_t **)_pp;
     size_t          u, nused;
     unsigned        enc_size;
@@ -1717,7 +1716,7 @@ done:
  *              Failure:        Negative
  *
  * Programmer:  Neil Fortner
- *              Thurday, Feb 26, 2015
+ *              Thursday, Feb 26, 2015
  *
  *--------------------------------------------------------------------------
  */
@@ -1982,7 +1981,7 @@ H5P__init_def_layout(void)
 herr_t
 H5Pset_layout(hid_t plist_id, H5D_layout_t layout_type)
 {
-    H5P_genplist_t *    plist;               /* Property list pointer */
+    H5P_genplist_t     *plist;               /* Property list pointer */
     const H5O_layout_t *layout;              /* Pointer to default layout information for type specified */
     herr_t              ret_value = SUCCEED; /* Return value */
 
@@ -2227,10 +2226,10 @@ herr_t
 H5Pset_virtual(hid_t dcpl_id, hid_t vspace_id, const char *src_file_name, const char *src_dset_name,
                hid_t src_space_id)
 {
-    H5P_genplist_t *           plist = NULL;               /* Property list pointer */
+    H5P_genplist_t            *plist = NULL;               /* Property list pointer */
     H5O_layout_t               virtual_layout;             /* Layout information for setting virtual info */
-    H5S_t *                    vspace;                     /* Virtual dataset space selection */
-    H5S_t *                    src_space;                  /* Source dataset space selection */
+    H5S_t                     *vspace;                     /* Virtual dataset space selection */
+    H5S_t                     *src_space;                  /* Source dataset space selection */
     H5O_storage_virtual_ent_t *old_list         = NULL;    /* List pointer previously on property list */
     H5O_storage_virtual_ent_t *ent              = NULL;    /* Convenience pointer to new VDS entry */
     hbool_t                    retrieved_layout = FALSE;   /* Whether the layout has been retrieved */
@@ -2456,7 +2455,7 @@ H5Pget_virtual_vspace(hid_t dcpl_id, size_t idx)
 {
     H5P_genplist_t *plist;        /* Property list pointer */
     H5O_layout_t    layout;       /* Layout information */
-    H5S_t *         space = NULL; /* Dataspace pointer */
+    H5S_t          *space = NULL; /* Dataspace pointer */
     hid_t           ret_value;    /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -2513,7 +2512,7 @@ H5Pget_virtual_srcspace(hid_t dcpl_id, size_t idx)
 {
     H5P_genplist_t *plist;            /* Property list pointer */
     H5O_layout_t    layout;           /* Layout information */
-    H5S_t *         space     = NULL; /* Dataspace pointer */
+    H5S_t          *space     = NULL; /* Dataspace pointer */
     hid_t           ret_value = FAIL; /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -3275,7 +3274,7 @@ H5Pset_fill_value(hid_t plist_id, hid_t type_id, const void *value)
     H5O_fill_reset_dyn(&fill);
 
     if (value) {
-        H5T_t *     type;  /* Datatype for fill value */
+        H5T_t      *type;  /* Datatype for fill value */
         H5T_path_t *tpath; /* Conversion information */
 
         /* Retrieve pointer to datatype */
@@ -3348,8 +3347,8 @@ H5P_get_fill_value(H5P_genplist_t *plist, const H5T_t *type, void *value /*out*/
 {
     H5O_fill_t  fill;                /* Fill value to retrieve */
     H5T_path_t *tpath;               /*type conversion info	*/
-    void *      buf       = NULL;    /*conversion buffer	*/
-    void *      bkg       = NULL;    /*conversion buffer	*/
+    void       *buf       = NULL;    /*conversion buffer	*/
+    void       *bkg       = NULL;    /*conversion buffer	*/
     hid_t       src_id    = -1;      /*source datatype id	*/
     hid_t       dst_id    = -1;      /*destination datatype id	*/
     herr_t      ret_value = SUCCEED; /* Return value */
@@ -3440,7 +3439,7 @@ herr_t
 H5Pget_fill_value(hid_t plist_id, hid_t type_id, void *value /*out*/)
 {
     H5P_genplist_t *plist;               /* Property list pointer */
-    H5T_t *         type;                /* Datatype		*/
+    H5T_t          *type;                /* Datatype		*/
     herr_t          ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
