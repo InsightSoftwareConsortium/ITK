@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -56,7 +55,7 @@
 /* User data for skip list iterator callback for iterating over section size nodes when syncing */
 typedef struct {
     H5FS_sinfo_t *sinfo;         /* Free space section info */
-    uint8_t **    image;         /* Pointer to address of buffer pointer to serialize with */
+    uint8_t     **image;         /* Pointer to address of buffer pointer to serialize with */
     unsigned      sect_cnt_size; /* # of bytes to encode section size counts in */
 } H5FS_iter_ud_t;
 
@@ -75,7 +74,7 @@ static herr_t H5FS__sinfo_serialize_node_cb(void *_item, void H5_ATTR_UNUSED *ke
 /* Metadata cache callbacks */
 static herr_t H5FS__cache_hdr_get_initial_load_size(void *udata, size_t *image_len);
 static htri_t H5FS__cache_hdr_verify_chksum(const void *image_ptr, size_t len, void *udata_ptr);
-static void * H5FS__cache_hdr_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
+static void  *H5FS__cache_hdr_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
 static herr_t H5FS__cache_hdr_image_len(const void *thing, size_t *image_len);
 static herr_t H5FS__cache_hdr_pre_serialize(H5F_t *f, void *thing, haddr_t addr, size_t len,
                                             haddr_t *new_addr, size_t *new_len, unsigned *flags);
@@ -85,7 +84,7 @@ static herr_t H5FS__cache_hdr_free_icr(void *thing);
 
 static herr_t H5FS__cache_sinfo_get_initial_load_size(void *udata, size_t *image_len);
 static htri_t H5FS__cache_sinfo_verify_chksum(const void *image_ptr, size_t len, void *udata_ptr);
-static void * H5FS__cache_sinfo_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
+static void  *H5FS__cache_sinfo_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
 static herr_t H5FS__cache_sinfo_image_len(const void *thing, size_t *image_len);
 static herr_t H5FS__cache_sinfo_pre_serialize(H5F_t *f, void *thing, haddr_t addr, size_t len,
                                               haddr_t *new_addr, size_t *new_len, unsigned *flags);
@@ -226,12 +225,12 @@ static void *
 H5FS__cache_hdr_deserialize(const void *_image, size_t H5_ATTR_NDEBUG_UNUSED len, void *_udata,
                             hbool_t H5_ATTR_UNUSED *dirty)
 {
-    H5FS_t *             fspace = NULL;                          /* Free space header info */
+    H5FS_t              *fspace = NULL;                          /* Free space header info */
     H5FS_hdr_cache_ud_t *udata  = (H5FS_hdr_cache_ud_t *)_udata; /* User data for callback */
-    const uint8_t *      image  = (const uint8_t *)_image;       /* Pointer into raw data buffer */
+    const uint8_t       *image  = (const uint8_t *)_image;       /* Pointer into raw data buffer */
     uint32_t             stored_chksum;                          /* Stored metadata checksum value */
     unsigned             nclasses;                               /* Number of section classes */
-    H5FS_t *             ret_value = NULL;                       /* Return value */
+    H5FS_t              *ret_value = NULL;                       /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -386,7 +385,7 @@ H5FS__cache_hdr_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t H5_AT
                               haddr_t H5_ATTR_NDEBUG_UNUSED *new_addr, size_t H5_ATTR_NDEBUG_UNUSED *new_len,
                               unsigned *flags)
 {
-    H5FS_t *    fspace    = (H5FS_t *)_thing; /* Pointer to the object */
+    H5FS_t     *fspace    = (H5FS_t *)_thing; /* Pointer to the object */
     H5AC_ring_t orig_ring = H5AC_RING_INV;    /* Original ring value */
     herr_t      ret_value = SUCCEED;          /* Return value */
 
@@ -436,7 +435,7 @@ H5FS__cache_hdr_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t H5_AT
          *
          *        H5F_addr_defined(fspace->addr)
          *
-         *    will both be TRUE.  If this contition does not hold, then
+         *    will both be TRUE.  If this condition does not hold, then
          *    either the free space info is not persistent
          *    (!H5F_addr_defined(fspace->addr)???) or the section info
          *    contains no free space data that must be written to file
@@ -683,7 +682,7 @@ done:
 static herr_t
 H5FS__cache_hdr_serialize(const H5F_t *f, void *_image, size_t H5_ATTR_NDEBUG_UNUSED len, void *_thing)
 {
-    H5FS_t * fspace = (H5FS_t *)_thing;  /* Pointer to the object */
+    H5FS_t  *fspace = (H5FS_t *)_thing;  /* Pointer to the object */
     uint8_t *image  = (uint8_t *)_image; /* Pointer into raw data buffer */
     uint32_t metadata_chksum;            /* Computed metadata checksum value */
     herr_t   ret_value = SUCCEED;        /* Return value */
@@ -887,7 +886,7 @@ done:
 static herr_t
 H5FS__cache_sinfo_get_initial_load_size(void *_udata, size_t *image_len)
 {
-    const H5FS_t *         fspace;                                  /* free space manager */
+    const H5FS_t          *fspace;                                  /* free space manager */
     H5FS_sinfo_cache_ud_t *udata = (H5FS_sinfo_cache_ud_t *)_udata; /* User data for callback */
 
     FUNC_ENTER_STATIC_NOERR
@@ -961,14 +960,14 @@ H5FS__cache_sinfo_deserialize(const void *_image, size_t H5_ATTR_NDEBUG_UNUSED l
                               hbool_t H5_ATTR_NDEBUG_UNUSED *dirty)
 {
     H5FS_sinfo_cache_ud_t *udata = (H5FS_sinfo_cache_ud_t *)_udata; /* User data for callback */
-    H5FS_t *               fspace;                                  /* free space manager */
-    H5FS_sinfo_t *         sinfo = NULL;                            /* Free space section info */
+    H5FS_t                *fspace;                                  /* free space manager */
+    H5FS_sinfo_t          *sinfo = NULL;                            /* Free space section info */
     haddr_t                fs_addr;                                 /* Free space header address */
     size_t                 old_sect_size;                           /* Old section size */
-    const uint8_t *        image = (const uint8_t *)_image;         /* Pointer into raw data buffer */
-    const uint8_t *        chksum_image;                            /* Points to chksum location */
+    const uint8_t         *image = (const uint8_t *)_image;         /* Pointer into raw data buffer */
+    const uint8_t         *chksum_image;                            /* Points to chksum location */
     uint32_t               stored_chksum;                           /* Stored metadata checksum  */
-    void *                 ret_value = NULL;                        /* Return value */
+    void                  *ret_value = NULL;                        /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -1005,10 +1004,10 @@ H5FS__cache_sinfo_deserialize(const void *_image, size_t H5_ATTR_NDEBUG_UNUSED l
     if (fspace->serial_sect_count > 0) {
         hsize_t old_tot_sect_count; /* Total section count from header */
         hsize_t H5_ATTR_NDEBUG_UNUSED
-                                      old_serial_sect_count; /* Total serializable section count from header */
-        hsize_t H5_ATTR_NDEBUG_UNUSED old_ghost_sect_count;  /* Total ghost section count from header */
-        hsize_t H5_ATTR_NDEBUG_UNUSED old_tot_space;         /* Total space managed from header */
-        unsigned                      sect_cnt_size;         /* The size of the section size counts */
+            old_serial_sect_count;                          /* Total serializable section count from header */
+        hsize_t H5_ATTR_NDEBUG_UNUSED old_ghost_sect_count; /* Total ghost section count from header */
+        hsize_t H5_ATTR_NDEBUG_UNUSED old_tot_space;        /* Total space managed from header */
+        unsigned                      sect_cnt_size;        /* The size of the section size counts */
 
         /* Compute the size of the section counts */
         sect_cnt_size = H5VM_limit_enc_size((uint64_t)fspace->serial_sect_count);
@@ -1159,7 +1158,7 @@ H5FS__cache_sinfo_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t H5_
                                 haddr_t *new_addr, size_t H5_ATTR_NDEBUG_UNUSED *new_len, unsigned *flags)
 {
     H5FS_sinfo_t *sinfo = (H5FS_sinfo_t *)_thing; /* Pointer to the object */
-    H5FS_t *      fspace;                         /* Free space header */
+    H5FS_t       *fspace;                         /* Free space header */
     haddr_t       sinfo_addr;                     /* Address for section info */
     herr_t        ret_value = SUCCEED;            /* Return value */
 
@@ -1240,10 +1239,10 @@ done:
 static herr_t
 H5FS__cache_sinfo_serialize(const H5F_t *f, void *_image, size_t len, void *_thing)
 {
-    H5FS_sinfo_t * sinfo = (H5FS_sinfo_t *)_thing;   /* Pointer to the object */
+    H5FS_sinfo_t  *sinfo = (H5FS_sinfo_t *)_thing;   /* Pointer to the object */
     H5FS_iter_ud_t udata;                            /* User data for callbacks */
-    uint8_t *      image        = (uint8_t *)_image; /* Pointer into raw data buffer */
-    uint8_t *      chksum_image = NULL;              /* Points to chksum location */
+    uint8_t       *image        = (uint8_t *)_image; /* Pointer into raw data buffer */
+    uint8_t       *chksum_image = NULL;              /* Points to chksum location */
     uint32_t       metadata_chksum;                  /* Computed metadata checksum value */
     unsigned       bin;                              /* Current bin we are on */
     herr_t         ret_value = SUCCEED;              /* Return value */
@@ -1427,8 +1426,8 @@ static herr_t
 H5FS__sinfo_serialize_sect_cb(void *_item, void H5_ATTR_UNUSED *key, void *_udata)
 {
     H5FS_section_class_t *sect_cls;                                 /* Class of section */
-    H5FS_section_info_t * sect      = (H5FS_section_info_t *)_item; /* Free space section to work on */
-    H5FS_iter_ud_t *      udata     = (H5FS_iter_ud_t *)_udata;     /* Callback info */
+    H5FS_section_info_t  *sect      = (H5FS_section_info_t *)_item; /* Free space section to work on */
+    H5FS_iter_ud_t       *udata     = (H5FS_iter_ud_t *)_udata;     /* Callback info */
     herr_t                ret_value = SUCCEED;                      /* Return value */
 
     FUNC_ENTER_STATIC
@@ -1481,7 +1480,7 @@ done:
 static herr_t
 H5FS__sinfo_serialize_node_cb(void *_item, void H5_ATTR_UNUSED *key, void *_udata)
 {
-    H5FS_node_t *   fspace_node = (H5FS_node_t *)_item;     /* Free space size node to work on */
+    H5FS_node_t    *fspace_node = (H5FS_node_t *)_item;     /* Free space size node to work on */
     H5FS_iter_ud_t *udata       = (H5FS_iter_ud_t *)_udata; /* Callback info */
     herr_t          ret_value   = SUCCEED;                  /* Return value */
 

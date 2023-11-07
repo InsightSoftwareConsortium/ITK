@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -300,7 +299,7 @@ done:
  *-------------------------------------------------------------------------
  */
 void
-H5G__ent_copy(H5G_entry_t *dst, const H5G_entry_t *src, H5_copy_depth_t depth)
+H5G__ent_copy(H5G_entry_t *dst, H5G_entry_t *src, H5_copy_depth_t depth)
 {
     FUNC_ENTER_PACKAGE_NOERR
 
@@ -318,8 +317,7 @@ H5G__ent_copy(H5G_entry_t *dst, const H5G_entry_t *src, H5_copy_depth_t depth)
         ;
     }
     else if (depth == H5_COPY_SHALLOW) {
-        /* Discarding 'const' qualifier OK - QAK */
-        H5G__ent_reset((H5G_entry_t *)src);
+        H5G__ent_reset(src);
     } /* end if */
 
     FUNC_LEAVE_NOAPI_VOID
@@ -422,7 +420,7 @@ H5G__ent_convert(H5F_t *f, H5HL_t *heap, const char *name, const H5O_link_t *lnk
             else if (obj_type == H5O_TYPE_UNKNOWN) {
                 /* Try to retrieve symbol table information for caching */
                 H5O_loc_t  targ_oloc;   /* Location of link target */
-                H5O_t *    oh;          /* Link target object header */
+                H5O_t     *oh;          /* Link target object header */
                 H5O_stab_t stab;        /* Link target symbol table */
                 htri_t     stab_exists; /* Whether the target symbol table exists */
 

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -11,11 +10,11 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <string>
+#include <cstring>
 #include <iostream>
+#include <string>
 using namespace std;
 
-#include "H5private.h" // for HDmemset
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -351,7 +350,7 @@ H5Location::getComment(const char *name, size_t buf_size) const
     H5std_string comment;
 
     // Preliminary call to get the comment's length
-    ssize_t comment_len = H5Oget_comment_by_name(getId(), name, NULL, (size_t)0, H5P_DEFAULT);
+    ssize_t comment_len = H5Oget_comment_by_name(getId(), name, NULL, 0, H5P_DEFAULT);
 
     // If H5Oget_comment_by_name returns a negative value, raise an exception
     if (comment_len < 0) {
@@ -368,7 +367,7 @@ H5Location::getComment(const char *name, size_t buf_size) const
 
         // Temporary buffer for char* comment
         char *comment_C = new char[tmp_len + 1];
-        HDmemset(comment_C, 0, tmp_len + 1); // clear buffer
+        memset(comment_C, 0, tmp_len + 1);
 
         // Used overloaded function
         ssize_t temp_len = getComment(name, tmp_len + 1, comment_C);
@@ -1747,7 +1746,7 @@ H5Location::getObjinfo(const H5std_string &name, hbool_t follow_link, H5G_stat_t
 // Function:    H5Location::getObjinfo
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above functions in that it doesn't have
-///             the paramemter \a follow_link.
+///             the parameter \a follow_link.
 // Nov, 2005
 //--------------------------------------------------------------------------
 void
@@ -1819,7 +1818,7 @@ H5std_string
 H5Location::getLinkval(const char *name, size_t size) const
 {
     H5L_info2_t  linkinfo;
-    char *       value_C; // value in C string
+    char        *value_C; // value in C string
     size_t       val_size = size;
     H5std_string value;
     herr_t       ret_value;
@@ -1835,8 +1834,9 @@ H5Location::getLinkval(const char *name, size_t size) const
 
     // if link has value, retrieve the value, otherwise, return null string
     if (val_size > 0) {
-        value_C = new char[val_size + 1];   // temporary C-string for C API
-        HDmemset(value_C, 0, val_size + 1); // clear buffer
+        // Create buffer for C string
+        value_C = new char[val_size + 1];
+        memset(value_C, 0, val_size + 1);
 
         ret_value = H5Lget_val(getId(), name, value_C, val_size, H5P_DEFAULT);
         if (ret_value < 0) {
@@ -2046,9 +2046,9 @@ H5Location::getObjnameByIdx(hsize_t idx) const
     if (name_len < 0)
         throwException("getObjnameByIdx", "H5Lget_name_by_idx failed");
 
-    // now, allocate C buffer to get the name
+    // Create buffer for C string
     char *name_C = new char[name_len + 1];
-    HDmemset(name_C, 0, name_len + 1); // clear buffer
+    memset(name_C, 0, name_len + 1);
 
     name_len =
         H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, name_C, name_len + 1, H5P_DEFAULT);
@@ -2102,8 +2102,9 @@ H5Location::getObjnameByIdx(hsize_t idx, char *name, size_t size) const
 ssize_t
 H5Location::getObjnameByIdx(hsize_t idx, H5std_string &name, size_t size) const
 {
-    char *name_C = new char[size + 1]; // temporary C-string for object name
-    HDmemset(name_C, 0, size + 1);     // clear buffer
+    // Create buffer for C string
+    char *name_C = new char[size + 1];
+    memset(name_C, 0, size + 1);
 
     // call overloaded function to get the name
     ssize_t name_len = getObjnameByIdx(idx, name_C, size + 1);

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -70,8 +69,7 @@ LinkCreatPropList::getConstant()
 void
 LinkCreatPropList::deleteConstants()
 {
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
+    delete DEFAULT_;
 }
 
 //--------------------------------------------------------------------------
@@ -122,7 +120,7 @@ LinkCreatPropList::LinkCreatPropList(const hid_t plist_id) : PropList(plist_id)
 void
 LinkCreatPropList::setCreateIntermediateGroup(bool crt_intmd_group) const
 {
-    herr_t ret_value = H5Pset_create_intermediate_group(id, (unsigned)crt_intmd_group);
+    herr_t ret_value = H5Pset_create_intermediate_group(id, static_cast<unsigned>(crt_intmd_group));
     // Throw exception if H5Pset_create_intermediate_group returns failure
     if (ret_value < 0) {
         throw PropListIException("setCreateIntermediateGroup", "H5Pset_create_intermediate_group failed");
@@ -147,7 +145,7 @@ LinkCreatPropList::getCreateIntermediateGroup() const
         throw PropListIException("getCreateIntermediateGroup", "H5Pget_create_intermediate_group failed");
     }
 
-    return ((bool)crt_intmd_group);
+    return static_cast<bool>(crt_intmd_group);
 }
 
 //--------------------------------------------------------------------------

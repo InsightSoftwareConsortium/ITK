@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -84,7 +83,7 @@
     (0x0020u) /**< Restrict search to objects opened through current file ID                                 \
                    (as opposed to objects opened through any file ID accessing this file) */
 
-#define H5F_FAMILY_DEFAULT (hsize_t)0
+#define H5F_FAMILY_DEFAULT 0 /* (hsize_t) */
 
 #ifdef H5_HAVE_PARALLEL
 /**
@@ -189,7 +188,7 @@ typedef enum H5F_libver_t {
     H5F_LIBVER_V18      = 1, /**< Use the latest v18 format for storing objects */
     H5F_LIBVER_V110     = 2, /**< Use the latest v110 format for storing objects */
     H5F_LIBVER_V112     = 3, /**< Use the latest v112 format for storing objects */
-    H5F_LIBVER_NBOUNDS
+    H5F_LIBVER_NBOUNDS       /**< Sentinel */
 } H5F_libver_t;
 
 #define H5F_LIBVER_LATEST H5F_LIBVER_V112
@@ -386,7 +385,7 @@ H5_DLL hid_t H5Fcreate(const char *filename, unsigned flags, hid_t fcpl_id, hid_
  *          opened.
  *
  *          The \p fapl_id parameter specifies the file access property list.
- *          Use of #H5P_DEFAULT specifies that default I/O access properties
+ *          The use of #H5P_DEFAULT specifies that default I/O access properties
  *          are to be used.
  *
  *          The \p flags parameter specifies whether the file will be opened in
@@ -496,7 +495,7 @@ H5_DLL hid_t H5Freopen(hid_t file_id);
  * \snippet H5F_examples.c flush
  *
  * \attention HDF5 does not possess full control over buffering. H5Fflush()
- *            flushes the internal HDF5 buffers then asks the operating system
+ *            flushes the internal HDF5 buffers and then asks the operating system
  *            (the OS) to flush the system buffers for the open files. After
  *            that, the OS is responsible for ensuring that the data is
  *            actually flushed to disk.
@@ -523,7 +522,7 @@ H5_DLL herr_t H5Fflush(hid_t object_id, H5F_scope_t scope);
  * \snippet H5F_examples.c minimal
  *
  * \note \Bold{Delayed close:} Note the following deviation from the
- *       above-described behavior. If H5Fclose() is called for a file but one
+ *       above-described behavior. If H5Fclose() is called for a file, but one
  *       or more objects within the file remain open, those objects will remain
  *       accessible until they are individually closed. Thus, if the dataset
  *       \c data_sample is open when H5Fclose() is called for the file
@@ -532,7 +531,7 @@ H5_DLL herr_t H5Fflush(hid_t object_id, H5F_scope_t scope);
  *       automatically closed once all objects in the file have been closed.\n
  *       Be warned, however, that there are circumstances where it is not
  *       possible to delay closing a file. For example, an MPI-IO file close is
- *       a collective call; all of the processes that opened the file must
+ *       a collective call; all of the processes that open the file must
  *       close it collectively. The file cannot be closed at some time in the
  *       future by each process in an independent fashion. Another example is
  *       that an application using an AFS token-based file access privilege may
@@ -1304,7 +1303,7 @@ H5_DLL herr_t H5Fstart_swmr_write(hid_t file_id);
  *          \snippet this H5F_sect_info_t_snip
  *
  *          This routine retrieves free-space section information for \p nsects
- *          sections or at most the maximum number of sections in the specified
+ *          sections or, at most, the maximum number of sections in the specified
  *          free-space manager. If the number of sections is not known, a
  *          preliminary H5Fget_free_sections() call can be made by setting \p
  *          sect_info to NULL and the total number of free-space sections for
@@ -1570,7 +1569,7 @@ H5_DLL herr_t H5Fget_page_buffering_stats(hid_t file_id, unsigned accesses[2], u
  * \brief Obtains information about a cache image if it exists
  *
  * \file_id
- * \param[out] image_addr Offset of the cache image if it exists, or \c HADDR_UNDEF if it does not
+ * \param[out] image_addr Offset of the cache image if it exists, or HADDR_UNDEF if it does not
  * \param[out] image_size Length of the cache image if it exists, or 0 if it does not
  * \returns \herr_t
  *
@@ -1612,7 +1611,7 @@ H5_DLL herr_t H5Fget_mdc_image_info(hid_t file_id, haddr_t *image_addr, hsize_t 
  *          file_id. This setting is used to inform the library to create
  *          minimized dataset object headers when \c TRUE.
  *
- *          The setting's value is returned in the boolean pointer minimize.
+ *          The setting's value is returned in the boolean pointer minimized.
  *
  * \since 1.10.5
  *
@@ -1811,7 +1810,7 @@ H5_DLL herr_t H5Fget_info1(hid_t obj_id, H5F_info1_t *file_info);
 /**
  * \ingroup H5F
  *
- * \brief Sets thelatest version of the library to be used for writing objects
+ * \brief Sets the latest version of the library to be used for writing objects
  *
  * \file_id
  * \param[in] latest_format Latest format flag
@@ -1820,6 +1819,7 @@ H5_DLL herr_t H5Fget_info1(hid_t obj_id, H5F_info1_t *file_info);
  *
  * \deprecated When?
  *
+ * \todo In which version was this function introduced?
  * \todo In which version was this function deprecated?
  *
  */

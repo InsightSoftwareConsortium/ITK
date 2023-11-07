@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -16,8 +15,6 @@
 
 using std::cerr;
 using std::endl;
-
-//#include <string>
 
 #include "H5Include.h"
 #include "H5Exception.h"
@@ -76,8 +73,7 @@ FileAccPropList::getConstant()
 void
 FileAccPropList::deleteConstants()
 {
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
+    delete DEFAULT_;
 }
 
 //--------------------------------------------------------------------------
@@ -157,7 +153,7 @@ FileAccPropList::getDriver() const
 // Function:    FileAccPropList::setDriver
 ///\brief       Set file driver for this property list.
 ///\param       new_driver_id   - IN: File driver
-///\param       new_driver_info - IN: Struct containing the driver-specific properites
+///\param       new_driver_info - IN: Struct containing the driver-specific properties
 ///\exception   H5::PropListIException
 ///\par Description
 ///             For information, please refer to the H5Pset_driver API in

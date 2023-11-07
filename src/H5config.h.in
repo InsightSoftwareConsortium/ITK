@@ -3,9 +3,6 @@
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
-/* Define if C++ compiler recognizes offsetof */
-#undef CXX_HAVE_OFFSETOF
-
 /* Define if this is a debug build. */
 #undef DEBUG_BUILD
 
@@ -14,6 +11,9 @@
 
 /* Define if dev_t is a scalar */
 #undef DEV_T_IS_SCALAR
+
+/* Define if new references for dimension scales were requested */
+#undef DIMENSION_SCALES_WITH_NEW_REF
 
 /* Define if your system is IBM ppc64le and cannot convert some long double
    values correctly. */
@@ -248,8 +248,8 @@
 /* Define if the map API (H5M) should be compiled */
 #undef HAVE_MAP_API
 
-/* Define to 1 if you have the <memory.h> header file. */
-#undef HAVE_MEMORY_H
+/* Define if using MinGW */
+#undef HAVE_MINGW
 
 /* Define whether the Mirror virtual file driver (VFD) will be compiled */
 #undef HAVE_MIRROR_VFD
@@ -284,11 +284,17 @@
 /* Define if we have parallel support */
 #undef HAVE_PARALLEL
 
+/* Define if we have support for writing to filtered datasets in parallel */
+#undef HAVE_PARALLEL_FILTERED_WRITES
+
 /* Define if both pread and pwrite exist. */
 #undef HAVE_PREADWRITE
 
 /* Define to 1 if you have the <pthread.h> header file. */
 #undef HAVE_PTHREAD_H
+
+/* Define to 1 if you have the <pwd.h> header file. */
+#undef HAVE_PWD_H
 
 /* Define to 1 if you have the <quadmath.h> header file. */
 #undef HAVE_QUADMATH_H
@@ -347,6 +353,9 @@
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
@@ -434,6 +443,12 @@
 
 /* Define to 1 if you have the `waitpid' function. */
 #undef HAVE_WAITPID
+
+/* Define if on the Windows platform using the Win32 API */
+#undef HAVE_WIN32_API
+
+/* Define if this is a Windows machine */
+#undef HAVE_WINDOWS
 
 /* Define if your system has window style path name. */
 #undef HAVE_WINDOW_PATH
@@ -646,7 +661,9 @@
 /* The size of `__int64', as computed by sizeof. */
 #undef SIZEOF___INT64
 
-/* Define to 1 if you have the ANSI C header files. */
+/* Define to 1 if all of the C90 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
 
 /* Define if strict file format checks are enabled */
@@ -656,7 +673,11 @@
    PTHREAD_SCOPE_SYSTEM) call. */
 #undef SYSTEM_SCOPE_THREADS
 
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+/* HDF5 testing intensity level */
+#undef TEST_EXPRESS_LEVEL_DEFAULT
+
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. This
+   macro is obsolete. */
 #undef TIME_WITH_SYS_TIME
 
 /* Define using v1.10 public API symbols by default */
@@ -685,7 +706,7 @@
 /* Version number of package */
 #undef VERSION
 
-/* Data accuracy is prefered to speed during data conversions */
+/* Data accuracy is preferred to speed during data conversions */
 #undef WANT_DATA_ACCURACY
 
 /* Check exception handling functions during data conversions */

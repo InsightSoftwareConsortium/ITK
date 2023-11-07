@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -53,7 +52,7 @@
 struct H5MM_block_t; /* Forward declaration for typedef */
 typedef struct H5MM_block_t {
     unsigned char
-                         sig[H5MM_SIG_SIZE]; /* Signature for the block, to indicate it was allocated with H5MM* interface */
+        sig[H5MM_SIG_SIZE]; /* Signature for the block, to indicate it was allocated with H5MM* interface */
     struct H5MM_block_t *next; /* Pointer to next block in the list of allocated blocks */
     struct H5MM_block_t *prev; /* Pointer to previous block in the list of allocated blocks */
     union {

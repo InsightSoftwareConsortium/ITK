@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -86,7 +85,7 @@ H5HF__man_dblock_create(H5HF_hdr_t *hdr, H5HF_indirect_t *par_iblock, unsigned p
                         H5HF_free_section_t **ret_sec_node)
 {
     H5HF_free_section_t *sec_node;            /* Pointer to free space section for block */
-    H5HF_direct_t *      dblock = NULL;       /* Pointer to direct block */
+    H5HF_direct_t       *dblock = NULL;       /* Pointer to direct block */
     haddr_t              dblock_addr;         /* Direct block's address */
     size_t               free_space;          /* Free space in new block */
     herr_t               ret_value = SUCCEED; /* Return value */
@@ -431,9 +430,9 @@ H5HF_direct_t *
 H5HF__man_dblock_protect(H5HF_hdr_t *hdr, haddr_t dblock_addr, size_t dblock_size,
                          H5HF_indirect_t *par_iblock, unsigned par_entry, unsigned flags)
 {
-    H5HF_direct_t *        dblock;           /* Direct block from cache */
-    H5HF_dblock_cache_ud_t udata;            /* parent and other infor for deserializing direct block */
-    H5HF_direct_t *        ret_value = NULL; /* Return value */
+    H5HF_direct_t         *dblock;           /* Direct block from cache */
+    H5HF_dblock_cache_ud_t udata;            /* parent and other info for deserializing direct block */
+    H5HF_direct_t         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -23,11 +22,6 @@
 
 #ifndef H5FAprivate_H
 #define H5FAprivate_H
-
-/* Include package's public header */
-#ifdef NOT_YET
-#include "H5FApublic.h"
-#endif /* NOT_YET */
 
 /* Private headers needed by this file */
 #include "H5ACprivate.h" /* Metadata cache               */
@@ -58,13 +52,13 @@ typedef enum H5FA_cls_id_t {
  */
 typedef struct H5FA_class_t {
     H5FA_cls_id_t id;            /* ID of Fixed Array class, as found in file    */
-    const char *  name;          /* Name of class (for debugging)                */
+    const char   *name;          /* Name of class (for debugging)                */
     size_t        nat_elmt_size; /* Size of native (memory) element              */
 
     /* Fixed array client callback methods */
     void *(*crt_context)(void *udata); /* Create context for other callbacks */
     herr_t (*dst_context)(void *ctx);  /* Destroy context */
-    herr_t (*fill)(void * nat_blk,
+    herr_t (*fill)(void  *nat_blk,
                    size_t nelmts); /* Fill array of elements with encoded form of "missing element" value */
     herr_t (*encode)(void *raw, const void *elmt, size_t nelmts,
                      void *ctx); /* Encode elements from native form to disk storage form */
@@ -134,7 +128,7 @@ H5_DLL herr_t  H5FA_patch_file(H5FA_t *fa, H5F_t *f);
 H5_DLL herr_t H5FA_get_stats(const H5FA_t *ea, H5FA_stat_t *stats);
 
 /* Debugging routines */
-#ifdef H5FA_DEBUGGING
-#endif /* H5FA_DEBUGGING */
+#ifdef H5FA_DEBUG
+#endif /* H5FA_DEBUG */
 
 #endif /* H5FAprivate_H */

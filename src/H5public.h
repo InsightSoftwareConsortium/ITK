@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -56,21 +55,19 @@
 #ifdef H5_HAVE_STDDEF_H
 #include <stddef.h>
 #endif
+
 #ifdef H5_HAVE_PARALLEL
 /* Don't link against MPI C++ bindings */
+#ifndef MPICH_SKIP_MPICXX
 #define MPICH_SKIP_MPICXX 1
-#define OMPI_SKIP_MPICXX  1
+#endif
+#ifndef OMPI_SKIP_MPICXX
+#define OMPI_SKIP_MPICXX 1
+#endif
 #include <mpi.h>
 #ifndef MPI_FILE_NULL /* MPIO may be defined in mpi.h already */
 #include <mpio.h>
 #endif
-#endif
-
-/* Include the Windows API adapter header early */
-#include "H5api_adpt.h"
-
-#ifdef __cplusplus
-extern "C" {
 #endif
 
 /* Macros for enabling/disabling particular GCC warnings */
@@ -78,17 +75,43 @@ extern "C" {
  *      http://www.dbp-consulting.com/tutorials/SuppressingGCCWarnings.html
  *      http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas
  */
-/* These pragmas are only implemented usefully in gcc 4.6+ */
-#if ((__GNUC__ * 100) + __GNUC_MINOR__) >= 406
 #define H5_GCC_DIAG_JOINSTR(x, y) x y
 #define H5_GCC_DIAG_DO_PRAGMA(x)  _Pragma(#x)
 #define H5_GCC_DIAG_PRAGMA(x)     H5_GCC_DIAG_DO_PRAGMA(GCC diagnostic x)
 
-#define H5_GCC_DIAG_OFF(x) H5_GCC_DIAG_PRAGMA(push) H5_GCC_DIAG_PRAGMA(ignored H5_GCC_DIAG_JOINSTR("-W", x))
-#define H5_GCC_DIAG_ON(x)  H5_GCC_DIAG_PRAGMA(pop)
+#define H5_DIAG_OFF(x) H5_GCC_DIAG_PRAGMA(push) H5_GCC_DIAG_PRAGMA(ignored H5_GCC_DIAG_JOINSTR("-W", x))
+#define H5_DIAG_ON(x)  H5_GCC_DIAG_PRAGMA(pop)
+
+/* Macros for enabling/disabling particular GCC-only warnings.
+ * These pragmas are only implemented usefully in gcc 4.6+
+ */
+#if (((__GNUC__ * 100) + __GNUC_MINOR__) >= 406)
+#define H5_GCC_DIAG_OFF(x) H5_DIAG_OFF(x)
+#define H5_GCC_DIAG_ON(x)  H5_DIAG_ON(x)
 #else
 #define H5_GCC_DIAG_OFF(x)
 #define H5_GCC_DIAG_ON(x)
+#endif
+
+/* Macros for enabling/disabling particular clang-only warnings.
+ */
+#if defined(__clang__)
+#define H5_CLANG_DIAG_OFF(x) H5_DIAG_OFF(x)
+#define H5_CLANG_DIAG_ON(x)  H5_DIAG_ON(x)
+#else
+#define H5_CLANG_DIAG_OFF(x)
+#define H5_CLANG_DIAG_ON(x)
+#endif
+
+/* Macros for enabling/disabling particular GCC / clang warnings.
+ * These macros should be used for warnings supported by both gcc and clang.
+ */
+#if (((__GNUC__ * 100) + __GNUC_MINOR__) >= 406) || defined(__clang__)
+#define H5_GCC_CLANG_DIAG_OFF(x) H5_DIAG_OFF(x)
+#define H5_GCC_CLANG_DIAG_ON(x)  H5_DIAG_ON(x)
+#else
+#define H5_GCC_CLANG_DIAG_OFF(x)
+#define H5_GCC_CLANG_DIAG_ON(x)
 #endif
 
 /* Version numbers */
@@ -103,7 +126,7 @@ extern "C" {
 /**
  * For tweaks, bug-fixes, or development
  */
-#define H5_VERS_RELEASE 1
+#define H5_VERS_RELEASE 3
 /**
  * For pre-releases like \c snap0. Empty string for official releases.
  */
@@ -111,7 +134,7 @@ extern "C" {
 /**
  * Full version string
  */
-#define H5_VERS_INFO "HDF5 library version: 1.12.1"
+#define H5_VERS_INFO "HDF5 library version: 1.12.3"
 
 #define H5check() H5check_version(H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE)
 
@@ -192,8 +215,9 @@ extern "C" {
  * Status return values.  Failed integer functions in HDF5 result almost
  * always in a negative value (unsigned failing functions sometimes return
  * zero for failure) while successful return is non-negative (often zero).
- * The negative failure value is most commonly -1, but don't bet on it.  The
- * proper way to detect failure is something like:
+ * The negative failure value is most commonly -1, but don't bet on it.
+ *
+ * The proper way to detect failure is something like:
  * \code
  * if((dset = H5Dopen2(file, name)) < 0)
  *    fprintf(stderr, "unable to open the requested dataset\n");
@@ -233,7 +257,14 @@ typedef int herr_t;
 typedef bool hbool_t;
 typedef int  htri_t;
 
-/* Define the ssize_t type if it not is defined */
+/* The signed version of size_t
+ *
+ * ssize_t is POSIX and not defined in any C standard. It's used in some
+ * public HDF5 API calls so this work-around will define it if it's not
+ * present.
+ *
+ * Use of ssize_t should be discouraged in new code.
+ */
 #if H5_SIZEOF_SSIZE_T == 0
 /* Undefine this size, we will re-define it in one of the sections below */
 #undef H5_SIZEOF_SSIZE_T
@@ -251,8 +282,10 @@ typedef long long ssize_t;
 #endif
 #endif
 
-/* int64_t type is used for creation order field for links.  It may be
- * defined in Posix.1g, otherwise it is defined here.
+/**
+ * The size of file objects.
+ *
+ * \internal Defined as a (minimum) 64-bit integer type.
  */
 #if H5_SIZEOF_INT64_T >= 8
 #elif H5_SIZEOF_INT >= 8
@@ -297,9 +330,11 @@ typedef unsigned long long uint64_t;
 #error "nothing appropriate for uint64_t"
 #endif
 
-/*
- * The sizes of file objects have their own types defined here, use a minimum
- * 64-bit type.
+/**
+ * The size of file objects. Used when negative values are needed to indicate errors.
+ *
+ * \internal Defined as a (minimum) 64-bit integer type. Use of hssize_t
+ * should be discouraged in new code.
  */
 #if H5_SIZEOF_LONG_LONG >= 8
 H5_GCC_DIAG_OFF("long-long")
@@ -319,8 +354,14 @@ H5_GCC_DIAG_ON("long-long")
 #error "nothing appropriate for hsize_t"
 #endif
 
-/*
- * File addresses have their own types.
+#ifdef H5_HAVE_PARALLEL
+#define HSIZE_AS_MPI_TYPE MPI_UINT64_T
+#endif
+
+/**
+ * The address of an object in the file.
+ *
+ * \internal Defined as a (minimum) 64-bit unsigned integer type.
  */
 #if H5_SIZEOF_INT >= 8
 typedef unsigned haddr_t;
@@ -401,9 +442,9 @@ typedef enum {
 /* (Actually, any positive value will cause the iterator to stop and pass back
  *      that positive value to the function that called the iterator)
  */
-#define H5_ITER_ERROR (-1)
-#define H5_ITER_CONT  (0)
-#define H5_ITER_STOP  (1)
+#define H5_ITER_ERROR (-1) /**< Error, stop iteration */
+#define H5_ITER_CONT  (0)  /**< Continue iteration */
+#define H5_ITER_STOP  (1)  /**< Stop iteration, short-circuit success */
 
 //! <!-- [H5_index_t_snip] -->
 /**
@@ -461,6 +502,13 @@ typedef struct H5_alloc_stats_t {
     size_t             curr_alloc_blocks_count;  /**< Current # of blocks allocated */
     size_t             peak_alloc_blocks_count;  /**< Peak # of blocks allocated */
 } H5_alloc_stats_t;
+
+/* API adapter header (defines H5_DLL, etc.) */
+#include "H5api_adpt.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Functions in H5.c */
 /**
@@ -600,7 +648,7 @@ H5_DLL herr_t H5set_free_list_limits(int reg_global_lim, int reg_list_lim, int a
  *          garbage collected with H5garbage_collect(). These lists are global
  *          for the entire library.
  *
- * \since 1.12.1
+ * \since 1.10.7
  */
 H5_DLL herr_t H5get_free_list_sizes(size_t *reg_size, size_t *arr_size, size_t *blk_size, size_t *fac_size);
 /**
@@ -621,7 +669,7 @@ H5_DLL herr_t H5get_free_list_sizes(size_t *reg_size, size_t *arr_size, size_t *
  *          entire library, but do not include allocations from chunked dataset
  *          I/O filters or non-native VOL connectors.
  *
- * \since 1.12.1
+ * \since 1.10.7
  */
 H5_DLL herr_t H5get_alloc_stats(H5_alloc_stats_t *stats);
 /**
@@ -671,7 +719,7 @@ H5_DLL herr_t H5get_libversion(unsigned *majnum, unsigned *minnum, unsigned *rel
  *          currently linked. If this check fails, H5check_version() causes the
  *          application to abort (by means of a standard C abort() call) and
  *          prints information that is usually useful for debugging. This
- *          precaution is is taken to avoid the risks of data corruption or
+ *          precaution is taken to avoid the risks of data corruption or
  *          segmentation faults.
  *
  *          The most common cause of this failure is that an application was

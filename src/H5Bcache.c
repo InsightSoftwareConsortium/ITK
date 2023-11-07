@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -50,7 +49,7 @@
 
 /* Metadata cache callbacks */
 static herr_t H5B__cache_get_initial_load_size(void *udata, size_t *image_len);
-static void * H5B__cache_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
+static void  *H5B__cache_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
 static herr_t H5B__cache_image_len(const void *thing, size_t *image_len);
 static herr_t H5B__cache_serialize(const H5F_t *f, void *image, size_t len, void *thing);
 static herr_t H5B__cache_free_icr(void *thing);
@@ -97,7 +96,7 @@ static herr_t
 H5B__cache_get_initial_load_size(void *_udata, size_t *image_len)
 {
     H5B_cache_ud_t *udata = (H5B_cache_ud_t *)_udata; /* User data for callback */
-    H5B_shared_t *  shared;                           /* Pointer to shared B-tree info */
+    H5B_shared_t   *shared;                           /* Pointer to shared B-tree info */
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -132,13 +131,13 @@ static void *
 H5B__cache_deserialize(const void *_image, size_t H5_ATTR_UNUSED len, void *_udata,
                        hbool_t H5_ATTR_UNUSED *dirty)
 {
-    H5B_t *         bt    = NULL;                     /* Pointer to the deserialized B-tree node */
+    H5B_t          *bt    = NULL;                     /* Pointer to the deserialized B-tree node */
     H5B_cache_ud_t *udata = (H5B_cache_ud_t *)_udata; /* User data for callback */
-    H5B_shared_t *  shared;                           /* Pointer to shared B-tree info */
-    const uint8_t * image = (const uint8_t *)_image;  /* Pointer into image buffer */
-    uint8_t *       native;                           /* Pointer to native keys */
+    H5B_shared_t   *shared;                           /* Pointer to shared B-tree info */
+    const uint8_t  *image = (const uint8_t *)_image;  /* Pointer into image buffer */
+    uint8_t        *native;                           /* Pointer to native keys */
     unsigned        u;                                /* Local index variable */
-    H5B_t *         ret_value = NULL;                 /* Return value */
+    H5B_t          *ret_value = NULL;                 /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -235,7 +234,7 @@ done:
 static herr_t
 H5B__cache_image_len(const void *_thing, size_t *image_len)
 {
-    const H5B_t * bt = (const H5B_t *)_thing; /* Pointer to the B-tree node */
+    const H5B_t  *bt = (const H5B_t *)_thing; /* Pointer to the B-tree node */
     H5B_shared_t *shared;                     /* Pointer to shared B-tree info */
 
     FUNC_ENTER_STATIC_NOERR
@@ -269,10 +268,10 @@ H5B__cache_image_len(const void *_thing, size_t *image_len)
 static herr_t
 H5B__cache_serialize(const H5F_t *f, void *_image, size_t H5_ATTR_UNUSED len, void *_thing)
 {
-    H5B_t *       bt = (H5B_t *)_thing;      /* Pointer to the B-tree node */
+    H5B_t        *bt = (H5B_t *)_thing;      /* Pointer to the B-tree node */
     H5B_shared_t *shared;                    /* Pointer to shared B-tree info */
-    uint8_t *     image = (uint8_t *)_image; /* Pointer into image buffer */
-    uint8_t *     native;                    /* Pointer to native keys */
+    uint8_t      *image = (uint8_t *)_image; /* Pointer into image buffer */
+    uint8_t      *native;                    /* Pointer to native keys */
     unsigned      u;                         /* Local index counter */
     herr_t        ret_value = SUCCEED;       /* Return value */
 

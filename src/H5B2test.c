@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -54,7 +53,7 @@ typedef struct H5B2_test_ctx_t {
 /********************/
 
 /* v2 B-tree driver callbacks for 'test' B-trees */
-static void * H5B2__test_crt_context(void *udata);
+static void  *H5B2__test_crt_context(void *udata);
 static herr_t H5B2__test_dst_context(void *ctx);
 static herr_t H5B2__test_store(void *nrecord, const void *udata);
 static herr_t H5B2__test_compare(const void *rec1, const void *rec2, int *result);
@@ -130,9 +129,9 @@ H5FL_DEFINE_STATIC(H5B2_test_ctx_t);
 static void *
 H5B2__test_crt_context(void *_f)
 {
-    H5F_t *          f = (H5F_t *)_f;  /* User data for building callback context */
+    H5F_t           *f = (H5F_t *)_f;  /* User data for building callback context */
     H5B2_test_ctx_t *ctx;              /* Callback context structure */
-    void *           ret_value = NULL; /* Return value */
+    void            *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -483,9 +482,9 @@ H5B2__get_root_addr_test(H5B2_t *bt2, haddr_t *root_addr)
 herr_t
 H5B2__get_node_info_test(H5B2_t *bt2, void *udata, H5B2_node_info_test_t *ninfo)
 {
-    H5B2_hdr_t *    hdr;                 /* Pointer to the B-tree header */
+    H5B2_hdr_t     *hdr;                 /* Pointer to the B-tree header */
     H5B2_node_ptr_t curr_node_ptr;       /* Node pointer info for current node */
-    void *          parent = NULL;       /* Parent of current node */
+    void           *parent = NULL;       /* Parent of current node */
     uint16_t        depth;               /* Current depth of the tree */
     int             cmp;                 /* Comparison value of records */
     unsigned        idx;                 /* Location of record which matches key */

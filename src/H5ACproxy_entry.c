@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -245,7 +244,7 @@ done:
 static int
 H5AC__proxy_entry_add_child_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_udata)
 {
-    H5AC_info_t *       parent    = (H5AC_info_t *)_item;         /* Pointer to the parent entry */
+    H5AC_info_t        *parent    = (H5AC_info_t *)_item;         /* Pointer to the parent entry */
     H5AC_proxy_entry_t *pentry    = (H5AC_proxy_entry_t *)_udata; /* Pointer to the proxy entry */
     int                 ret_value = H5_ITER_CONT;                 /* Callback return value */
 
@@ -338,7 +337,7 @@ done:
 static int
 H5AC__proxy_entry_remove_child_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_udata)
 {
-    H5AC_info_t *       parent    = (H5AC_info_t *)_item;         /* Pointer to the parent entry */
+    H5AC_info_t        *parent    = (H5AC_info_t *)_item;         /* Pointer to the parent entry */
     H5AC_proxy_entry_t *pentry    = (H5AC_proxy_entry_t *)_udata; /* Pointer to the proxy entry */
     int                 ret_value = H5_ITER_CONT;                 /* Callback return value */
 
