@@ -44,9 +44,9 @@ H5VL__native_datatype_commit(void *obj, const H5VL_loc_params_t *loc_params, con
                              hid_t H5_ATTR_UNUSED dxpl_id, void H5_ATTR_UNUSED **req)
 {
     H5G_loc_t loc;              /* Location to commit datatype */
-    H5T_t *   dt;               /* Datatype for ID */
-    H5T_t *   type      = NULL; /* copy of the original type which will be committed */
-    void *    ret_value = NULL; /* Return value */
+    H5T_t    *dt;               /* Datatype for ID */
+    H5T_t    *type      = NULL; /* copy of the original type which will be committed */
+    void     *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -113,9 +113,9 @@ H5VL__native_datatype_open(void *obj, const H5VL_loc_params_t *loc_params, const
                            hid_t H5_ATTR_UNUSED tapl_id, hid_t H5_ATTR_UNUSED dxpl_id,
                            void H5_ATTR_UNUSED **req)
 {
-    H5T_t *   type = NULL; /* Datatype opened in file */
+    H5T_t    *type = NULL; /* Datatype opened in file */
     H5G_loc_t loc;         /* Group location of object to open */
-    void *    ret_value = NULL;
+    void     *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 
@@ -155,7 +155,7 @@ H5VL__native_datatype_get(void *obj, H5VL_datatype_get_t get_type, hid_t H5_ATTR
     switch (get_type) {
         case H5VL_DATATYPE_GET_BINARY: {
             ssize_t *nalloc = HDva_arg(arguments, ssize_t *);
-            void *   buf    = HDva_arg(arguments, void *);
+            void    *buf    = HDva_arg(arguments, void *);
             size_t   size   = HDva_arg(arguments, size_t);
 
             if (H5T_encode(dt, (unsigned char *)buf, &size) < 0)

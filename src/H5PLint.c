@@ -135,7 +135,7 @@ H5PL__set_plugin_control_mask(unsigned int mask)
 herr_t
 H5PL__init_package(void)
 {
-    char * env_var   = NULL;
+    char  *env_var   = NULL;
     herr_t ret_value = SUCCEED;
 
     FUNC_ENTER_PACKAGE
@@ -225,8 +225,8 @@ H5PL_load(H5PL_type_t type, const H5PL_key_t *key)
 {
     H5PL_search_params_t search_params;       /* Plugin search parameters     */
     hbool_t              found       = FALSE; /* Whether the plugin was found */
-    const void *         plugin_info = NULL;  /* Information from the plugin  */
-    const void *         ret_value   = NULL;
+    const void          *plugin_info = NULL;  /* Information from the plugin  */
+    const void          *ret_value   = NULL;
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -258,11 +258,17 @@ H5PL_load(H5PL_type_t type, const H5PL_key_t *key)
     /* If not found, try iterating through the path table to find an appropriate plugin */
     if (!found)
         if (H5PL__find_plugin_in_path_table(&search_params, &found, &plugin_info) < 0)
-            HGOTO_ERROR(H5E_PLUGIN, H5E_CANTGET, NULL, "search in path table failed")
+            HGOTO_ERROR(H5E_PLUGIN, H5E_CANTGET, NULL,
+                        "can't find plugin in the paths either set by HDF5_PLUGIN_PATH, or default location, "
+                        "or set by H5PLxxx functions")
 
     /* Set the return value we found the plugin */
     if (found)
         ret_value = plugin_info;
+    else
+        HGOTO_ERROR(H5E_PLUGIN, H5E_NOTFOUND, NULL,
+                    "can't find plugin. Check either HDF5_PLUGIN_PATH, default location, "
+                    "or path set by H5PLxxx functions")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -273,9 +279,31 @@ done:
  *
  * Purpose:     Opens a plugin.
  *
- *              The success parameter will be set to TRUE and the plugin_info
- *              parameter will be filled in on success. Otherwise, they
- *              will be FALSE and NULL, respectively.
+ *              `path` specifies the path to the plugin library file.
+ *
+ *              `type` specifies the type of plugin being searched for and
+ *              will be used to verify that a loaded plugin matches the
+ *              type requested. H5PL_TYPE_NONE may be passed, in which case
+ *              no plugin type verification is performed. This is most
+ *              useful when iterating over available plugins without regard
+ *              to their types.
+ *
+ *              `key` specifies the information that will be used to find a
+ *              specific plugin. For filter plugins, this is typically an
+ *              integer identifier. For VOL connectors, this
+ *              is typically either an integer identifier or a name string.
+ *              After a plugin has been opened, this information will be
+ *              compared against the relevant information provided by the
+ *              plugin to ensure that the plugin is a match. If
+ *              H5PL_TYPE_NONE is provided for `type`, then `key` should be
+ *              NULL.
+ *
+ *              On successful open of a plugin, the `success` parameter
+ *              will be set to TRUE and the `plugin_type` and `plugin_info`
+ *              parameters will be filled appropriately. On failure, the
+ *              `success` parameter will be set to FALSE, the `plugin_type`
+ *              parameter will be set to H5PL_TYPE_ERROR and the
+ *              `plugin_info` parameter will be set to NULL.
  *
  * Return:      SUCCEED/FAIL
  *

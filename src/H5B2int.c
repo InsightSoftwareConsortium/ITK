@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -52,9 +51,9 @@
 /********************/
 /* Local Prototypes */
 /********************/
-static herr_t H5B2__update_child_flush_depends(H5B2_hdr_t *hdr, unsigned depth,
-                                               const H5B2_node_ptr_t *node_ptrs, unsigned start_idx,
-                                               unsigned end_idx, void *old_parent, void *new_parent);
+static herr_t H5B2__update_child_flush_depends(H5B2_hdr_t *hdr, unsigned depth, H5B2_node_ptr_t *node_ptrs,
+                                               unsigned start_idx, unsigned end_idx, void *old_parent,
+                                               void *new_parent);
 
 /*********************/
 /* Package Variables */
@@ -140,9 +139,9 @@ H5B2__split1(H5B2_hdr_t *hdr, uint16_t depth, H5B2_node_ptr_t *curr_node_ptr,
 {
     const H5AC_class_t *child_class;                             /* Pointer to child node's class info */
     haddr_t   left_addr = HADDR_UNDEF, right_addr = HADDR_UNDEF; /* Addresses of left & right child nodes */
-    void *    left_child = NULL, *right_child = NULL;            /* Pointers to child nodes */
+    void     *left_child = NULL, *right_child = NULL;            /* Pointers to child nodes */
     uint16_t *left_nrec, *right_nrec;                            /* Pointers to child # of records */
-    uint8_t * left_native, *right_native;                        /* Pointers to childs' native records */
+    uint8_t  *left_native, *right_native;                        /* Pointers to childs' native records */
     H5B2_node_ptr_t *left_node_ptrs  = NULL,
                     *right_node_ptrs = NULL; /* Pointers to childs' node pointer info */
     uint16_t mid_record;                     /* Index of "middle" record in current node */
@@ -425,9 +424,9 @@ H5B2__redistribute2(H5B2_hdr_t *hdr, uint16_t depth, H5B2_internal_t *internal, 
 {
     const H5AC_class_t *child_class;                             /* Pointer to child node's class info */
     haddr_t   left_addr = HADDR_UNDEF, right_addr = HADDR_UNDEF; /* Addresses of left & right child nodes */
-    void *    left_child = NULL, *right_child = NULL;            /* Pointers to child nodes */
+    void     *left_child = NULL, *right_child = NULL;            /* Pointers to child nodes */
     uint16_t *left_nrec, *right_nrec;                            /* Pointers to child # of records */
-    uint8_t * left_native, *right_native;                        /* Pointers to childs' native records */
+    uint8_t  *left_native, *right_native;                        /* Pointers to childs' native records */
     H5B2_node_ptr_t *left_node_ptrs  = NULL,
                     *right_node_ptrs = NULL;            /* Pointers to childs' node pointer info */
     hssize_t left_moved_nrec = 0, right_moved_nrec = 0; /* Number of records moved, for internal redistrib */
@@ -697,16 +696,16 @@ H5B2__redistribute3(H5B2_hdr_t *hdr, uint16_t depth, H5B2_internal_t *internal, 
 {
     H5B2_node_ptr_t *left_node_ptrs      = NULL,
                     *right_node_ptrs     = NULL;                 /* Pointers to childs' node pointer info */
-    H5B2_node_ptr_t *   middle_node_ptrs = NULL;                 /* Pointers to childs' node pointer info */
+    H5B2_node_ptr_t    *middle_node_ptrs = NULL;                 /* Pointers to childs' node pointer info */
     const H5AC_class_t *child_class;                             /* Pointer to child node's class info */
     haddr_t   left_addr = HADDR_UNDEF, right_addr = HADDR_UNDEF; /* Addresses of left & right child nodes */
     haddr_t   middle_addr = HADDR_UNDEF;                         /* Address of middle child node */
-    void *    left_child = NULL, *right_child = NULL;            /* Pointers to child nodes */
-    void *    middle_child = NULL;                               /* Pointers to middle child node */
+    void     *left_child = NULL, *right_child = NULL;            /* Pointers to child nodes */
+    void     *middle_child = NULL;                               /* Pointers to middle child node */
     uint16_t *left_nrec, *right_nrec;                            /* Pointers to child # of records */
     uint16_t *middle_nrec;                                       /* Pointers to middle child # of records */
-    uint8_t * left_native, *right_native;                        /* Pointers to childs' native records */
-    uint8_t * middle_native;                             /* Pointers to middle child's native records */
+    uint8_t  *left_native, *right_native;                        /* Pointers to childs' native records */
+    uint8_t  *middle_native;                             /* Pointers to middle child's native records */
     hssize_t  left_moved_nrec = 0, right_moved_nrec = 0; /* Number of records moved, for internal split */
     hssize_t  middle_moved_nrec = 0;                     /* Number of records moved, for internal split */
     unsigned  left_child_flags  = H5AC__NO_FLAGS_SET,
@@ -1124,9 +1123,9 @@ H5B2__merge2(H5B2_hdr_t *hdr, uint16_t depth, H5B2_node_ptr_t *curr_node_ptr,
 {
     const H5AC_class_t *child_class;                             /* Pointer to child node's class info */
     haddr_t   left_addr = HADDR_UNDEF, right_addr = HADDR_UNDEF; /* Addresses of left & right child nodes */
-    void *    left_child = NULL, *right_child = NULL;            /* Pointers to left & right child nodes */
+    void     *left_child = NULL, *right_child = NULL;            /* Pointers to left & right child nodes */
     uint16_t *left_nrec, *right_nrec;     /* Pointers to left & right child # of records */
-    uint8_t * left_native, *right_native; /* Pointers to left & right children's native records */
+    uint8_t  *left_native, *right_native; /* Pointers to left & right children's native records */
     H5B2_node_ptr_t *left_node_ptrs  = NULL,
                     *right_node_ptrs = NULL; /* Pointers to childs' node pointer info */
     unsigned left_child_flags        = H5AC__NO_FLAGS_SET,
@@ -1300,12 +1299,12 @@ H5B2__merge3(H5B2_hdr_t *hdr, uint16_t depth, H5B2_node_ptr_t *curr_node_ptr,
     const H5AC_class_t *child_class;                             /* Pointer to child node's class info */
     haddr_t   left_addr = HADDR_UNDEF, right_addr = HADDR_UNDEF; /* Addresses of left & right child nodes */
     haddr_t   middle_addr = HADDR_UNDEF;                         /* Address of middle child node */
-    void *    left_child = NULL, *right_child = NULL;            /* Pointers to left & right child nodes */
-    void *    middle_child = NULL;                               /* Pointer to middle child node */
+    void     *left_child = NULL, *right_child = NULL;            /* Pointers to left & right child nodes */
+    void     *middle_child = NULL;                               /* Pointer to middle child node */
     uint16_t *left_nrec, *right_nrec;     /* Pointers to left & right child # of records */
     uint16_t *middle_nrec;                /* Pointer to middle child # of records */
-    uint8_t * left_native, *right_native; /* Pointers to left & right children's native records */
-    uint8_t * middle_native;              /* Pointer to middle child's native records */
+    uint8_t  *left_native, *right_native; /* Pointers to left & right children's native records */
+    uint8_t  *middle_native;              /* Pointer to middle child's native records */
     H5B2_node_ptr_t *left_node_ptrs   = NULL,
                     *right_node_ptrs  = NULL; /* Pointers to childs' node pointer info */
     H5B2_node_ptr_t *middle_node_ptrs = NULL; /* Pointer to child's node pointer info */
@@ -1617,14 +1616,14 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2__iterate_node(H5B2_hdr_t *hdr, uint16_t depth, const H5B2_node_ptr_t *curr_node, void *parent,
+H5B2__iterate_node(H5B2_hdr_t *hdr, uint16_t depth, H5B2_node_ptr_t *curr_node, void *parent,
                    H5B2_operator_t op, void *op_data)
 {
     const H5AC_class_t *curr_node_class = NULL;   /* Pointer to current node's class info */
-    void *              node            = NULL;   /* Pointers to current node */
-    uint8_t *           node_native;              /* Pointers to node's native records */
-    uint8_t *           native      = NULL;       /* Pointers to copy of node's native records */
-    H5B2_node_ptr_t *   node_ptrs   = NULL;       /* Pointers to node's node pointers */
+    void               *node            = NULL;   /* Pointers to current node */
+    uint8_t            *node_native;              /* Pointers to node's native records */
+    uint8_t            *native      = NULL;       /* Pointers to copy of node's native records */
+    H5B2_node_ptr_t    *node_ptrs   = NULL;       /* Pointers to node's node pointers */
     hbool_t             node_pinned = FALSE;      /* Whether node is pinned */
     unsigned            u;                        /* Local index */
     herr_t              ret_value = H5_ITER_CONT; /* Iterator return value */
@@ -1642,8 +1641,7 @@ H5B2__iterate_node(H5B2_hdr_t *hdr, uint16_t depth, const H5B2_node_ptr_t *curr_
 
         /* Lock the current B-tree node */
         if (NULL ==
-            (internal = H5B2__protect_internal(hdr, parent, (H5B2_node_ptr_t *)curr_node, depth, FALSE,
-                                               H5AC__READ_ONLY_FLAG))) /* Casting away const OK -QAK */
+            (internal = H5B2__protect_internal(hdr, parent, curr_node, depth, FALSE, H5AC__READ_ONLY_FLAG)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to protect B-tree internal node")
 
         /* Set up information about current node */
@@ -1739,12 +1737,12 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2__delete_node(H5B2_hdr_t *hdr, uint16_t depth, const H5B2_node_ptr_t *curr_node, void *parent,
-                  H5B2_remove_t op, void *op_data)
+H5B2__delete_node(H5B2_hdr_t *hdr, uint16_t depth, H5B2_node_ptr_t *curr_node, void *parent, H5B2_remove_t op,
+                  void *op_data)
 {
     const H5AC_class_t *curr_node_class = NULL; /* Pointer to current node's class info */
-    void *              node            = NULL; /* Pointers to current node */
-    uint8_t *           native;                 /* Pointers to node's native records */
+    void               *node            = NULL; /* Pointers to current node */
+    uint8_t            *native;                 /* Pointers to node's native records */
     herr_t              ret_value = SUCCEED;    /* Return value */
 
     FUNC_ENTER_PACKAGE
@@ -1759,8 +1757,7 @@ H5B2__delete_node(H5B2_hdr_t *hdr, uint16_t depth, const H5B2_node_ptr_t *curr_n
 
         /* Lock the current B-tree node */
         if (NULL ==
-            (internal = H5B2__protect_internal(hdr, parent, (H5B2_node_ptr_t *)curr_node, depth, FALSE,
-                                               H5AC__NO_FLAGS_SET))) /* Casting away const OK -QAK */
+            (internal = H5B2__protect_internal(hdr, parent, curr_node, depth, FALSE, H5AC__NO_FLAGS_SET)))
             HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to protect B-tree internal node")
 
         /* Set up information about current node */
@@ -1824,7 +1821,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2__node_size(H5B2_hdr_t *hdr, uint16_t depth, const H5B2_node_ptr_t *curr_node, void *parent,
+H5B2__node_size(H5B2_hdr_t *hdr, uint16_t depth, H5B2_node_ptr_t *curr_node, void *parent,
                 hsize_t *btree_size)
 {
     H5B2_internal_t *internal  = NULL;    /* Pointer to internal node */
@@ -1839,8 +1836,8 @@ H5B2__node_size(H5B2_hdr_t *hdr, uint16_t depth, const H5B2_node_ptr_t *curr_nod
     HDassert(depth > 0);
 
     /* Lock the current B-tree node */
-    if (NULL == (internal = H5B2__protect_internal(hdr, parent, (H5B2_node_ptr_t *)curr_node, depth, FALSE,
-                                                   H5AC__READ_ONLY_FLAG))) /* Casting away const OK -QAK */
+    if (NULL ==
+        (internal = H5B2__protect_internal(hdr, parent, curr_node, depth, FALSE, H5AC__READ_ONLY_FLAG)))
         HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to protect B-tree internal node")
 
     /* Recursively descend into child nodes, if we are above the "twig" level in the B-tree */
@@ -1910,11 +1907,11 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5B2__update_flush_depend(H5B2_hdr_t *hdr, unsigned depth, const H5B2_node_ptr_t *node_ptr, void *old_parent,
+H5B2__update_flush_depend(H5B2_hdr_t *hdr, unsigned depth, H5B2_node_ptr_t *node_ptr, void *old_parent,
                           void *new_parent)
 {
     const H5AC_class_t *child_class;           /* Pointer to child node's class info */
-    void *              child       = NULL;    /* Pointer to child node */
+    void               *child       = NULL;    /* Pointer to child node */
     unsigned            node_status = 0;       /* Node's status in the metadata cache */
     herr_t              ret_value   = SUCCEED; /* Return value */
 
@@ -1933,7 +1930,7 @@ H5B2__update_flush_depend(H5B2_hdr_t *hdr, unsigned depth, const H5B2_node_ptr_t
 
     /* If the node is in the cache, check for retargeting its parent */
     if (node_status & H5AC_ES__IN_CACHE) {
-        void ** parent_ptr  = NULL;  /* Pointer to child node's parent */
+        void  **parent_ptr  = NULL;  /* Pointer to child node's parent */
         hbool_t update_deps = FALSE; /* Whether to update flush dependencies */
 
         /* Get child node pointer */
@@ -1941,9 +1938,8 @@ H5B2__update_flush_depend(H5B2_hdr_t *hdr, unsigned depth, const H5B2_node_ptr_t
             H5B2_internal_t *child_int;
 
             /* Protect child */
-            if (NULL == (child_int = H5B2__protect_internal(
-                             hdr, new_parent, (H5B2_node_ptr_t *)node_ptr, (uint16_t)(depth - 1), FALSE,
-                             H5AC__NO_FLAGS_SET))) /* Casting away const OK -QAK */
+            if (NULL == (child_int = H5B2__protect_internal(hdr, new_parent, node_ptr, (uint16_t)(depth - 1),
+                                                            FALSE, H5AC__NO_FLAGS_SET)))
                 HGOTO_ERROR(H5E_BTREE, H5E_CANTPROTECT, FAIL, "unable to protect B-tree internal node")
             child_class = H5AC_BT2_INT;
             child       = child_int;
@@ -2010,7 +2006,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5B2__update_child_flush_depends(H5B2_hdr_t *hdr, unsigned depth, const H5B2_node_ptr_t *node_ptrs,
+H5B2__update_child_flush_depends(H5B2_hdr_t *hdr, unsigned depth, H5B2_node_ptr_t *node_ptrs,
                                  unsigned start_idx, unsigned end_idx, void *old_parent, void *new_parent)
 {
     unsigned u;                   /* Local index variable */

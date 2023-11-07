@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -123,7 +122,7 @@
 #endif
 
 /* Define an internal macro for converting unsigned long long to long double.  SGI compilers give
- * some incorect conversion.  64-bit Solaris does different rounding.   Windows Visual Studio 6 does
+ * some incorrect conversion.  64-bit Solaris does different rounding.   Windows Visual Studio 6 does
  * not support unsigned long long.  For FreeBSD(sleipnir), the last 2 bytes of mantissa are lost when
  * compiler tries to do the conversion.  For Cygwin, compiler doesn't do rounding correctly.
  * Mac OS 10.4 gives some incorrect result. */
@@ -170,8 +169,8 @@ typedef struct H5T_conv_func_t {
 /* The datatype conversion database */
 struct H5T_path_t {
     char            name[H5T_NAMELEN]; /*name for debugging only	     */
-    H5T_t *         src;               /*source datatype 		     */
-    H5T_t *         dst;               /*destination datatype		     */
+    H5T_t          *src;               /*source datatype 		     */
+    H5T_t          *dst;               /*destination datatype		     */
     H5T_conv_func_t conv;              /* Conversion function  */
     hbool_t         is_hard;           /*is it a hard function?	     */
     hbool_t         is_noop;           /*is it the noop conversion?	     */
@@ -231,7 +230,7 @@ typedef struct H5T_atomic_t {
             unsigned               version; /* version of encoded reference         */
             hbool_t                opaque;  /* opaque reference type                */
             H5T_loc_t              loc;     /* location of data in buffer           */
-            H5VL_object_t *        file;    /* file VOL pointer (if data is on disk) */
+            H5VL_object_t         *file;    /* file VOL pointer (if data is on disk) */
             const H5T_ref_class_t *cls;     /* Pointer to ref class callbacks */
         } r;                                /* reference types */
     } u;
@@ -246,7 +245,7 @@ typedef enum H5T_sort_t {
 
 /* A compound datatype member */
 typedef struct H5T_cmemb_t {
-    char *        name;   /*name of this member		     */
+    char         *name;   /*name of this member		     */
     size_t        offset; /*offset from beginning of struct    */
     size_t        size;   /*size of this member		     */
     struct H5T_t *type;   /*type of this member		     */
@@ -267,8 +266,8 @@ typedef struct H5T_enum_t {
     unsigned   nalloc; /*num entries allocated		     */
     unsigned   nmembs; /*number of members defined in enum  */
     H5T_sort_t sorted; /*how are members sorted?	     */
-    void *     value;  /*array of values		     */
-    char **    name;   /*array of symbol names		     */
+    void      *value;  /*array of values		     */
+    char     **name;   /*array of symbol names		     */
 } H5T_enum_t;
 
 /* VL types */
@@ -287,7 +286,7 @@ typedef herr_t (*H5T_vlen_setnull_func_t)(H5VL_object_t *file, void *_vl, void *
 typedef herr_t (*H5T_vlen_read_func_t)(H5VL_object_t *file, void *_vl, void *buf, size_t len);
 typedef herr_t (*H5T_vlen_write_func_t)(H5VL_object_t *file, const H5T_vlen_alloc_info_t *vl_alloc_info,
                                         void *_vl, void *buf, void *_bg, size_t seq_len, size_t base_size);
-typedef herr_t (*H5T_vlen_delete_func_t)(H5VL_object_t *file, const void *_vl);
+typedef herr_t (*H5T_vlen_delete_func_t)(H5VL_object_t *file, void *_vl);
 
 /* VL datatype callbacks */
 typedef struct H5T_vlen_class_t {
@@ -307,7 +306,7 @@ typedef struct H5T_vlen_t {
     H5T_cset_t      cset;         /* For VL string: character set */
     H5T_str_t       pad;          /* For VL string: space or null padding of
                                    * extra bytes */
-    H5VL_object_t *         file; /* File object (if VL data is on disk) */
+    H5VL_object_t          *file; /* File object (if VL data is on disk) */
     const H5T_vlen_class_t *cls;  /* Pointer to VL class callbacks */
 } H5T_vlen_t;
 
@@ -339,8 +338,8 @@ typedef struct H5T_shared_t {
     size_t      size;     /*total size of an instance of this type     */
     unsigned    version;  /* Version of object header message to encode this object with */
     hbool_t
-                   force_conv; /* Set if this type always needs to be converted and H5T__conv_noop cannot be called */
-    struct H5T_t * parent;        /*parent type for derived datatypes	     */
+        force_conv; /* Set if this type always needs to be converted and H5T__conv_noop cannot be called */
+    struct H5T_t  *parent;        /*parent type for derived datatypes	     */
     H5VL_object_t *owned_vol_obj; /* Vol object owned by this type (free on close) */
     union {
         H5T_atomic_t atomic; /* an atomic datatype              */
@@ -355,7 +354,7 @@ typedef struct H5T_shared_t {
 struct H5T_t {
     H5O_shared_t sh_loc; /* Shared message info (must be first) */
 
-    H5T_shared_t * shared;  /* all other information */
+    H5T_shared_t  *shared;  /* all other information */
     H5O_loc_t      oloc;    /* Object location, if the type is a named type */
     H5G_name_t     path;    /* group hier. path if the type is a named type */
     H5VL_object_t *vol_obj; /* pointer to VOL object when working with committed datatypes */
@@ -401,9 +400,7 @@ H5_DLLVAR size_t H5T_NATIVE_LONG_COMP_ALIGN_g;
 H5_DLLVAR size_t H5T_NATIVE_LLONG_COMP_ALIGN_g;
 H5_DLLVAR size_t H5T_NATIVE_FLOAT_COMP_ALIGN_g;
 H5_DLLVAR size_t H5T_NATIVE_DOUBLE_COMP_ALIGN_g;
-#if H5_SIZEOF_LONG_DOUBLE != 0
 H5_DLLVAR size_t H5T_NATIVE_LDOUBLE_COMP_ALIGN_g;
-#endif
 
 H5_DLLVAR size_t H5T_POINTER_COMP_ALIGN_g;
 H5_DLLVAR size_t H5T_HVL_COMP_ALIGN_g;
@@ -429,9 +426,7 @@ H5_DLLVAR size_t H5T_NATIVE_LLONG_ALIGN_g;
 H5_DLLVAR size_t H5T_NATIVE_ULLONG_ALIGN_g;
 H5_DLLVAR size_t H5T_NATIVE_FLOAT_ALIGN_g;
 H5_DLLVAR size_t H5T_NATIVE_DOUBLE_ALIGN_g;
-#if H5_SIZEOF_LONG_DOUBLE != 0
 H5_DLLVAR size_t H5T_NATIVE_LDOUBLE_ALIGN_g;
-#endif
 
 /* C9x alignment constraints */
 H5_DLLVAR size_t H5T_NATIVE_INT8_ALIGN_g;
@@ -468,10 +463,8 @@ H5_DLLVAR float  H5T_NATIVE_FLOAT_POS_INF_g;
 H5_DLLVAR float  H5T_NATIVE_FLOAT_NEG_INF_g;
 H5_DLLVAR double H5T_NATIVE_DOUBLE_POS_INF_g;
 H5_DLLVAR double H5T_NATIVE_DOUBLE_NEG_INF_g;
-#if H5_SIZEOF_LONG_DOUBLE != 0
 H5_DLLVAR double H5T_NATIVE_LDOUBLE_POS_INF_g;
 H5_DLLVAR double H5T_NATIVE_LDOUBLE_NEG_INF_g;
-#endif
 
 /* Declare extern the free lists for H5T_t's and H5T_shared_t's */
 H5FL_EXTERN(H5T_t);
@@ -873,9 +866,9 @@ H5_DLL herr_t H5T__ref_reclaim(void *elem, const H5T_t *dt);
 H5_DLL htri_t H5T__ref_set_loc(H5T_t *dt, H5VL_object_t *file, H5T_loc_t loc);
 
 /* Compound functions */
-H5_DLL herr_t H5T__insert(H5T_t *parent, const char *name, size_t offset, const H5T_t *member);
-H5_DLL size_t H5T__get_member_size(const H5T_t *dt, unsigned membno);
-H5_DLL void   H5T__update_packed(const H5T_t *dt);
+H5_DLL herr_t             H5T__insert(H5T_t *parent, const char *name, size_t offset, const H5T_t *member);
+H5_DLL size_t             H5T__get_member_size(const H5T_t *dt, unsigned membno);
+H5_DLL void               H5T__update_packed(const H5T_t *dt);
 H5_DLL H5T_subset_info_t *H5T__conv_struct_subset(const H5T_cdata_t *cdata);
 
 /* Enumerated type functions */
@@ -884,7 +877,7 @@ H5_DLL herr_t H5T__enum_insert(const H5T_t *dt, const char *name, const void *va
 H5_DLL herr_t H5T__get_member_value(const H5T_t *dt, unsigned membno, void *value);
 
 /* Field functions (for both compound & enumerated types) */
-H5_DLL char * H5T__get_member_name(H5T_t const *dt, unsigned membno);
+H5_DLL char  *H5T__get_member_name(H5T_t const *dt, unsigned membno);
 H5_DLL herr_t H5T__sort_value(const H5T_t *dt, int *map);
 H5_DLL herr_t H5T__sort_name(const H5T_t *dt, int *map);
 

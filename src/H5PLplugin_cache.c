@@ -269,11 +269,11 @@ H5PL__find_plugin_in_cache(const H5PL_search_params_t *search_params, hbool_t *f
             (search_params->key->id == (H5PL_cache_g[u]).key.id)) {
 
             H5PL_get_plugin_info_t get_plugin_info_function;
-            const void *           info;
+            const void            *info;
 
             /* Get the "get plugin info" function from the plugin. */
             if (NULL == (get_plugin_info_function = (H5PL_get_plugin_info_t)H5PL_GET_LIB_FUNC(
-                             (H5PL_cache_g[u]).handle, "H5PLget_plugin_info")))
+                             H5PL_cache_g[u].handle, "H5PLget_plugin_info")))
                 HGOTO_ERROR(H5E_PLUGIN, H5E_CANTGET, FAIL, "can't get function for H5PLget_plugin_info")
 
             /* Call the "get plugin info" function */
@@ -286,9 +286,7 @@ H5PL__find_plugin_in_cache(const H5PL_search_params_t *search_params, hbool_t *f
 
             /* No need to continue processing */
             break;
-
-        } /* end if */
-
+        }
     } /* end for */
 
 done:

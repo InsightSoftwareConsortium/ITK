@@ -2,12 +2,20 @@ cmake_minimum_required (VERSION 3.12)
 project (HDF5 C)
 
 if (POLICY CMP0074)
+  # find_package() uses <PackageName>_ROOT variables.
   cmake_policy (SET CMP0074 NEW)
 endif ()
 
 if (POLICY CMP0083)
+  # To control generation of Position Independent Executable (PIE) or not,
+  # some flags are required at link time.
   cmake_policy (SET CMP0083 NEW)
 endif ()
+
+# Avoid warning about DOWNLOAD_EXTRACT_TIMESTAMP in CMake 3.24:
+if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
+    cmake_policy(SET CMP0135 NEW)
+endif()
 
 #-----------------------------------------------------------------------------
 # Instructions for use : Normal Build
@@ -212,9 +220,9 @@ set (HDF5_HL_F90_C_LIBSH_TARGET   "${HDF5_HL_F90_C_LIB_CORENAME}-shared")
 #-----------------------------------------------------------------------------
 set (HDF_CONFIG_DIR          ${HDF5_SOURCE_DIR}/config)
 set (HDF_RESOURCES_DIR       ${HDF5_SOURCE_DIR}/config/cmake)
-set (HDF_RESOURCES_EXT_DIR   ${HDF5_SOURCE_DIR}/config/cmake_ext_mod)
 set (HDF5_SRC_DIR            ${HDF5_SOURCE_DIR}/src)
 set (HDF5_TEST_SRC_DIR       ${HDF5_SOURCE_DIR}/test)
+set (HDF5_TEST_PAR_DIR       ${HDF5_SOURCE_DIR}/testpar)
 set (HDF5_CPP_SRC_DIR        ${HDF5_SOURCE_DIR}/c++)
 set (HDF5_CPP_TST_DIR        ${HDF5_SOURCE_DIR}/c++/test)
 set (HDF5_HL_SRC_DIR         ${HDF5_SOURCE_DIR}/hl)
@@ -229,10 +237,12 @@ set (HDF5_JAVA_JNI_SRC_DIR         ${HDF5_SOURCE_DIR}/java/src/jni)
 set (HDF5_JAVA_HDF5_SRC_DIR        ${HDF5_SOURCE_DIR}/java/src/hdf)
 set (HDF5_JAVA_TEST_SRC_DIR        ${HDF5_SOURCE_DIR}/java/test)
 set (HDF5_JAVA_LIB_DIR             ${HDF5_SOURCE_DIR}/java/lib)
-set (HDF5_JAVA_LOGGING_JAR         ${HDF5_SOURCE_DIR}/java/lib/slf4j-api-1.7.25.jar)
-set (HDF5_JAVA_LOGGING_NOP_JAR     ${HDF5_SOURCE_DIR}/java/lib/ext/slf4j-nop-1.7.25.jar)
-set (HDF5_JAVA_LOGGING_SIMPLE_JAR  ${HDF5_SOURCE_DIR}/java/lib/ext/slf4j-simple-1.7.25.jar)
+set (HDF5_JAVA_LOGGING_JAR         ${HDF5_SOURCE_DIR}/java/lib/slf4j-api-2.0.6.jar)
+set (HDF5_JAVA_LOGGING_NOP_JAR     ${HDF5_SOURCE_DIR}/java/lib/ext/slf4j-nop-2.0.6.jar)
+set (HDF5_JAVA_LOGGING_SIMPLE_JAR  ${HDF5_SOURCE_DIR}/java/lib/ext/slf4j-simple-2.0.6.jar)
 set (HDF5_DOXYGEN_DIR              ${HDF5_SOURCE_DIR}/doxygen)
+
+set (HDF5_SRC_INCLUDE_DIRS ${HDF5_SRC_DIR})
 
 #-----------------------------------------------------------------------------
 # parse the full version number from H5public.h and include in H5_VERS_INFO
@@ -428,13 +438,20 @@ set (HDF5_PACKAGE_URL "http://www.hdfgroup.org")
 set (HDF5_PACKAGE_BUGREPORT "help@hdfgroup.org")
 
 #-----------------------------------------------------------------------------
+# Set variables needed for installation
+#-----------------------------------------------------------------------------
+set (HDF5_VERSION_STRING ${HDF5_PACKAGE_VERSION})
+set (HDF5_VERSION_MAJOR  ${HDF5_PACKAGE_VERSION_MAJOR})
+set (HDF5_VERSION_MINOR  ${HDF5_PACKAGE_VERSION_MINOR})
+
+#-----------------------------------------------------------------------------
 # Include some macros for reusable code
 #-----------------------------------------------------------------------------
-include (${HDF_RESOURCES_EXT_DIR}/HDFMacros.cmake)
+include (${HDF_RESOURCES_DIR}/HDFMacros.cmake)
 
 HDF_DIR_PATHS(${HDF5_PACKAGE_NAME})
 
-include (${HDF_RESOURCES_EXT_DIR}/HDFLibMacros.cmake)
+include (${HDF_RESOURCES_DIR}/HDFLibMacros.cmake)
 include (${HDF_RESOURCES_DIR}/HDF5PluginMacros.cmake)
 include (${HDF_RESOURCES_DIR}/HDF5Macros.cmake)
 
@@ -466,6 +483,12 @@ include (${HDF_RESOURCES_DIR}/ConfigureChecks.cmake)
 set (CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
 #-----------------------------------------------------------------------------
+# Include directories in the source or build tree should come before other
+# directories to prioritize headers in the sources over installed ones.
+#-----------------------------------------------------------------------------
+set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
+
+#-----------------------------------------------------------------------------
 # Mac OS X Options
 #-----------------------------------------------------------------------------
 if (HDF5_BUILD_FRAMEWORKS AND NOT BUILD_SHARED_LIBS)
@@ -475,28 +498,30 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to Build Shared and Static libs, default is both
 #-----------------------------------------------------------------------------
+option (ONLY_SHARED_LIBS "Only Build Shared Libraries" OFF)
+mark_as_advanced (ONLY_SHARED_LIBS)
 option (BUILD_STATIC_LIBS "Build Static Libraries" ON)
 set (H5_ENABLE_STATIC_LIB NO)
 option (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
 set (H5_ENABLE_SHARED_LIB NO)
-option (ONLY_SHARED_LIBS "Only Build Shared Libraries" OFF)
-mark_as_advanced (ONLY_SHARED_LIBS)
+
+# only shared libraries is true if user forces static OFF
+if (NOT BUILD_STATIC_LIBS)
+  set (ONLY_SHARED_LIBS ON CACHE BOOL "Only Build Shared Libraries" FORCE)
+endif ()
+
+# only shared libraries is set ON by user then force settings
+if (ONLY_SHARED_LIBS)
+  set (H5_ENABLE_STATIC_LIB NO)
+  set (BUILD_SHARED_LIBS ON CACHE BOOL "Build Shared Libraries" FORCE)
+  set (BUILD_STATIC_LIBS OFF CACHE BOOL "Build Static Libraries" FORCE)
+endif ()
 
 if (BUILD_STATIC_LIBS)
   set (H5_ENABLE_STATIC_LIB YES)
 endif ()
 if (BUILD_SHARED_LIBS)
   set (H5_ENABLE_SHARED_LIB YES)
-endif ()
-
-# Force only shared libraries if all OFF
-if (NOT BUILD_STATIC_LIBS AND NOT BUILD_SHARED_LIBS)
-  set (ONLY_SHARED_LIBS ON CACHE BOOL "Only Build Shared Libraries" FORCE)
-endif ()
-
-if (ONLY_SHARED_LIBS)
-  set (H5_ENABLE_STATIC_LIB NO)
-  set (BUILD_SHARED_LIBS ON CACHE BOOL "Build Shared Libraries")
 endif ()
 
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -563,29 +588,6 @@ if (HDF5_ENABLE_COVERAGE)
 endif ()
 
 #-----------------------------------------------------------------------------
-# Option to indicate using dmalloc
-#-----------------------------------------------------------------------------
-# option (HDF5_ENABLE_USING_DMALLOC "Indicate that dmalloc is used" OFF)
-# if (HDF5_ENABLE_USING_DMALLOC)
-#   find_package (DMALLOC)
-#   set (H5_HAVE_DMALLOC DMALLOC_FOUND)
-# endif ()
-
-#-----------------------------------------------------------------------------
-# Option to build documentation
-#-----------------------------------------------------------------------------
-option (HDF5_BUILD_DOC "Build documentation" OFF)
-if (HDF5_BUILD_DOC AND EXISTS "${HDF5_DOXYGEN_DIR}" AND IS_DIRECTORY "${HDF5_DOXYGEN_DIR}")
-# check if Doxygen is installed
-  find_package(Doxygen)
-  if (DOXYGEN_FOUND)
-    message(STATUS "Doxygen version: ${DOXYGEN_VERSION}")
-  else ()
-    message(STATUS "Doxygen needs to be installed to generate the doxygen documentation")
-  endif ()
-endif ()
-
-#-----------------------------------------------------------------------------
 # Option to indicate using a memory checker
 #-----------------------------------------------------------------------------
 option (HDF5_ENABLE_USING_MEMCHECKER "Indicate that a memory checker is used" OFF)
@@ -641,16 +643,6 @@ if (MSVC)
   set (WIN_LINK_FLAGS "")
 endif ()
 
-set (MAKE_SYSTEM)
-if (CMAKE_MAKE_PROGRAM MATCHES "make")
-  set (MAKE_SYSTEM 1)
-endif ()
-
-set (CFG_INIT "/${CMAKE_CFG_INTDIR}")
-if (MAKE_SYSTEM)
-  set (CFG_INIT "")
-endif ()
-
 # Do not generate test programs by default
 option (HDF5_BUILD_GENERATORS "Build Test Generators" OFF)
 
@@ -659,13 +651,26 @@ option (HDF5_BUILD_GENERATORS "Build Test Generators" OFF)
 #-----------------------------------------------------------------------------
 option (HDF5_ENABLE_TRACE "Enable API tracing capability" OFF)
 mark_as_advanced (HDF5_ENABLE_TRACE)
-if (${HDF_CFG_NAME} MATCHES "Debug")
+if (${HDF_CFG_NAME} MATCHES "Debug" OR ${HDF_CFG_NAME} MATCHES "Developer")
   # Enable instrumenting of the library's internal operations
   option (HDF5_ENABLE_INSTRUMENT "Instrument The library" OFF)
+
+  # Instrumenting is enabled by default for parallel debug builds
+  if (HDF5_ENABLE_PARALLEL)
+    set (HDF5_ENABLE_INSTRUMENT ON CACHE BOOL "Instrument The library" FORCE)
+  endif ()
+
   if (HDF5_ENABLE_INSTRUMENT)
     set (H5_HAVE_INSTRUMENTED_LIBRARY 1)
   endif ()
   mark_as_advanced (HDF5_ENABLE_INSTRUMENT)
+endif ()
+
+#-----------------------------------------------------------------------------
+# Add some definitions for Developer Builds
+#-----------------------------------------------------------------------------
+if (${HDF_CFG_NAME} MATCHES "Developer")
+  include (${HDF_RESOURCES_DIR}/HDF5DeveloperBuild.cmake)
 endif ()
 
 #-----------------------------------------------------------------------------
@@ -681,7 +686,7 @@ else ()
 endif ()
 
 include (${HDF_RESOURCES_DIR}/HDFCompilerFlags.cmake)
-set (CMAKE_MODULE_PATH ${HDF_RESOURCES_DIR} ${HDF_RESOURCES_EXT_DIR} ${CMAKE_MODULE_PATH})
+set (CMAKE_MODULE_PATH ${HDF_RESOURCES_DIR} ${CMAKE_MODULE_PATH})
 
 #-----------------------------------------------------------------------------
 # Option to Enable HDFS
@@ -722,10 +727,14 @@ if (HDF5_ENABLE_PARALLEL)
 
     # Used by Parallel Compression feature
     set (PARALLEL_FILTERED_WRITES ON)
-    CHECK_SYMBOL_EXISTS (MPI_Mprobe "mpi.h" H5_HAVE_MPI_Mprobe)
-    CHECK_SYMBOL_EXISTS (MPI_Imrecv "mpi.h" H5_HAVE_MPI_Imrecv)
-    if (NOT H5_HAVE_MPI_Mprobe OR NOT H5_HAVE_MPI_Imrecv)
-      message (WARNING "The MPI_Mprobe and/or MPI_Imrecv functions could not be located.
+    CHECK_SYMBOL_EXISTS (MPI_Ibarrier "mpi.h" H5_HAVE_MPI_Ibarrier)
+    CHECK_SYMBOL_EXISTS (MPI_Issend "mpi.h" H5_HAVE_MPI_Issend)
+    CHECK_SYMBOL_EXISTS (MPI_Iprobe "mpi.h" H5_HAVE_MPI_Iprobe)
+    CHECK_SYMBOL_EXISTS (MPI_Irecv "mpi.h" H5_HAVE_MPI_Irecv)
+    if (H5_HAVE_MPI_Ibarrier AND H5_HAVE_MPI_Issend AND H5_HAVE_MPI_Iprobe AND H5_HAVE_MPI_Irecv)
+      set (H5_HAVE_PARALLEL_FILTERED_WRITES 1)
+    else ()
+      message (WARNING "The MPI_Ibarrier/MPI_Issend/MPI_Iprobe/MPI_Irecv functions could not be located.
                Parallel writes of filtered data will be disabled.")
       set (PARALLEL_FILTERED_WRITES OFF)
     endif ()
@@ -807,13 +816,6 @@ option (HDF5_PACKAGE_EXTLIBS "CPACK - include external libraries" OFF)
 if (NOT HDF5_EXTERNALLY_CONFIGURED)
   if (HDF5_PACKAGE_EXTLIBS)
     set (HDF5_NO_PACKAGES OFF CACHE BOOL "CPACK - Disable packaging" FORCE)
-    if (HDF5_ENABLE_Z_LIB_SUPPORT AND ZLIB_FOUND)
-      PACKAGE_ZLIB_LIBRARY (${HDF5_ALLOW_EXTERNAL_SUPPORT})
-    endif ()
-
-    if (HDF5_ENABLE_SZIP_SUPPORT AND SZIP_FOUND)
-      PACKAGE_SZIP_LIBRARY (${HDF5_ALLOW_EXTERNAL_SUPPORT})
-    endif ()
   endif ()
 endif ()
 
@@ -824,9 +826,8 @@ option (HDF5_ENABLE_THREADSAFE "Enable thread-safety" OFF)
 if (HDF5_ENABLE_THREADSAFE)
   # check for unsupported options
   if (WIN32)
-    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-      message (VERBOSE " **** thread-safety option not supported with static library **** ")
-      message (VERBOSE " **** thread-safety option will not be used building static library **** ")
+    if (BUILD_STATIC_LIBS)
+      message (FATAL_ERROR " **** thread-safety option not supported with static library **** ")
     endif ()
   endif ()
   if (HDF5_ENABLE_PARALLEL)
@@ -896,21 +897,28 @@ endif ()
 add_subdirectory (src)
 
 if (HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "GIT" OR HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "TGZ")
-  if (ZLIB_FOUND AND ZLIB_USE_EXTERNAL)
-    if (NOT ONLY_SHARED_LIBS)
-      add_dependencies (${HDF5_LIB_TARGET} ZLIB)
+  if ((ZLIB_FOUND AND ZLIB_USE_EXTERNAL) OR (SZIP_FOUND AND SZIP_USE_EXTERNAL))
+    if (BUILD_STATIC_LIBS)
+      add_dependencies (${HDF5_LIB_TARGET} ${LINK_COMP_LIBS})
     endif ()
     if (BUILD_SHARED_LIBS)
-      add_dependencies (${HDF5_LIBSH_TARGET} ZLIB)
+      add_dependencies (${HDF5_LIBSH_TARGET} ${LINK_COMP_LIBS})
     endif ()
   endif ()
-  if (SZIP_FOUND AND SZIP_USE_EXTERNAL)
-    if (NOT ONLY_SHARED_LIBS)
-      add_dependencies (${HDF5_LIB_TARGET} SZIP)
-    endif ()
-    if (BUILD_SHARED_LIBS)
-      add_dependencies (${HDF5_LIBSH_TARGET} SZIP)
-    endif ()
+endif ()
+
+#-----------------------------------------------------------------------------
+# Option to build documentation
+#-----------------------------------------------------------------------------
+option (HDF5_BUILD_DOC "Build documentation" OFF)
+if (HDF5_BUILD_DOC AND EXISTS "${HDF5_DOXYGEN_DIR}" AND IS_DIRECTORY "${HDF5_DOXYGEN_DIR}")
+# check if Doxygen is installed
+  find_package(Doxygen)
+  if (DOXYGEN_FOUND)
+    message(STATUS "Doxygen version: ${DOXYGEN_VERSION}")
+    add_subdirectory (doxygen)
+  else ()
+    message(STATUS "Doxygen needs to be installed to generate the doxygen documentation")
   endif ()
 endif ()
 
@@ -934,6 +942,9 @@ if (BUILD_TESTING)
   if (HDF5_TEST_VFD)
     option (HDF5_TEST_FHEAP_VFD "Execute tests with different VFDs" ON)
     mark_as_advanced (HDF5_TEST_FHEAP_VFD)
+
+    # Initialize the list of VFDs to be used for testing and create a test folder for each VFD
+    H5_SET_VFD_LIST()
   endif ()
 
   option (HDF5_TEST_PASSTHROUGH_VOL "Execute tests with different passthrough VOL connectors" OFF)
@@ -943,8 +954,13 @@ if (BUILD_TESTING)
     mark_as_advanced (HDF5_TEST_FHEAP_PASSTHROUGH VOL)
   endif ()
 
-  option (HDF_TEST_EXPRESS "Control testing framework (0-3)" "0")
+  set (H5_TEST_EXPRESS_LEVEL_DEFAULT "3")
+  set (HDF_TEST_EXPRESS "${H5_TEST_EXPRESS_LEVEL_DEFAULT}"
+      CACHE STRING "Control testing framework (0-3) (0 = exhaustive testing; 3 = quicker testing)")
   mark_as_advanced (HDF_TEST_EXPRESS)
+  if (NOT "${HDF_TEST_EXPRESS}" STREQUAL "")
+    set (H5_TEST_EXPRESS_LEVEL_DEFAULT "${HDF_TEST_EXPRESS}")
+  endif ()
 
   enable_testing ()
   include (CTest)
@@ -977,11 +993,11 @@ if (BUILD_TESTING)
   mark_as_advanced (HDF5_TEST_JAVA)
 
   if (NOT HDF5_EXTERNALLY_CONFIGURED)
-    if (EXISTS "${HDF5_SOURCE_DIR}/test" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/test")
+    if (EXISTS "${HDF5_TEST_SRC_DIR}" AND IS_DIRECTORY "${HDF5_TEST_SRC_DIR}")
       add_subdirectory (test)
     endif ()
     if (H5_HAVE_PARALLEL)
-      if (EXISTS "${HDF5_SOURCE_DIR}/testpar" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/testpar")
+      if (EXISTS "${HDF5_TEST_PAR_DIR}" AND IS_DIRECTORY "${HDF5_TEST_PAR_DIR}")
         add_subdirectory (testpar)
       endif ()
     endif ()
@@ -992,10 +1008,7 @@ endif ()
 # Option to build HDF5 Utilities
 #-----------------------------------------------------------------------------
 if (EXISTS "${HDF5_SOURCE_DIR}/utils" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/utils")
-  option (HDF5_BUILD_UTILS  "Build HDF5 Utils" ON)
-  if (HDF5_BUILD_UTILS)
-    add_subdirectory (utils)
-  endif ()
+  add_subdirectory (utils)
 endif ()
 
 #-----------------------------------------------------------------------------
@@ -1055,7 +1068,7 @@ set (H5_FC_FUNC_ "H5_FC_FUNC_(name,NAME) name ## _")
 if (EXISTS "${HDF5_SOURCE_DIR}/fortran" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/fortran")
   option (HDF5_BUILD_FORTRAN "Build FORTRAN support" OFF)
   if (HDF5_BUILD_FORTRAN)
-    include (${HDF_RESOURCES_EXT_DIR}/HDFUseFortran.cmake)
+    include (${HDF_RESOURCES_DIR}/HDFUseFortran.cmake)
 
     if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
       message (VERBOSE "Fortran compiler ID is ${CMAKE_Fortran_COMPILER_ID}")
@@ -1070,6 +1083,7 @@ if (EXISTS "${HDF5_SOURCE_DIR}/fortran" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/for
 
     # Parallel IO usage requires MPI to be Linked and Included
     if (H5_HAVE_PARALLEL)
+      find_package(MPI REQUIRED COMPONENTS Fortran)
       set (LINK_Fortran_LIBS ${LINK_Fortran_LIBS} ${MPI_Fortran_LIBRARIES})
       if (MPI_Fortran_LINK_FLAGS)
         set (CMAKE_Fortran_EXE_LINKER_FLAGS "${MPI_Fortran_LINK_FLAGS} ${CMAKE_EXE_LINKER_FLAGS}")
@@ -1114,7 +1128,6 @@ if (EXISTS "${HDF5_SOURCE_DIR}/c++" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/c++")
       endif ()
     endif ()
 
-    include (${HDF_RESOURCES_EXT_DIR}/HDFUseCXX.cmake)
     include (${HDF_RESOURCES_DIR}/HDFCXXCompilerFlags.cmake)
 
     add_subdirectory (c++)

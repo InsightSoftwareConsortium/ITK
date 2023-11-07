@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -36,7 +35,7 @@
 #ifdef H5O_ENABLE_BOGUS
 
 /* PRIVATE PROTOTYPES */
-static void * H5O__bogus_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
+static void  *H5O__bogus_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
                                 size_t p_size, const uint8_t *p);
 static herr_t H5O__bogus_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
 static size_t H5O__bogus_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
@@ -47,7 +46,7 @@ const H5O_msg_class_t H5O_MSG_BOGUS_VALID[1] = {{
     H5O_BOGUS_VALID_ID,    /*message id number             */
     "bogus valid",         /*message name for debugging    */
     0,                     /*native message size           */
-    H5O_SHARE_IS_SHARABLE, /* messages are sharable?       */
+    H5O_SHARE_IS_SHARABLE, /* messages are shareable?       */
     H5O__bogus_decode,     /*decode message                */
     H5O__bogus_encode,     /*encode message                */
     NULL,                  /*copy the native value         */
@@ -71,7 +70,7 @@ const H5O_msg_class_t H5O_MSG_BOGUS_INVALID[1] = {{
     H5O_BOGUS_INVALID_ID,  /*message id number             */
     "bogus invalid",       /*message name for debugging    */
     0,                     /*native message size           */
-    H5O_SHARE_IS_SHARABLE, /* messages are sharable?       */
+    H5O_SHARE_IS_SHARABLE, /* messages are shareable?       */
     H5O__bogus_decode,     /*decode message                */
     H5O__bogus_encode,     /*encode message                */
     NULL,                  /*copy the native value         */
@@ -110,7 +109,7 @@ H5O__bogus_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUS
                   unsigned H5_ATTR_UNUSED *ioflags, size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5O_bogus_t *mesg = NULL;
-    void *       ret_value; /* Return value */
+    void        *ret_value; /* Return value */
 
     FUNC_ENTER_STATIC
 

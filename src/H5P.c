@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -43,7 +42,7 @@
 typedef struct {
     H5P_iterate_t iter_func; /* Iterator callback */
     hid_t         id;        /* Property list or class ID */
-    void *        iter_data; /* Iterator callback pointer */
+    void         *iter_data; /* Iterator callback pointer */
 } H5P_iter_ud_t;
 
 /********************/
@@ -664,7 +663,7 @@ H5Pset(hid_t plist_id, const char *name, const void *value)
     if (!name || !*name)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property name");
     if (value == NULL)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalied property value");
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property value");
 
     /* Go set the value */
     if (H5P_set(plist, name, value) < 0)
@@ -678,7 +677,7 @@ done:
  NAME
     H5Pexist
  PURPOSE
-    Routine to query the existance of a property in a property object.
+    Routine to query the existence of a property in a property object.
  USAGE
     htri_t H5P_exist(id, name)
         hid_t id;           IN: Property object ID to check
@@ -712,7 +711,7 @@ H5Pexist(hid_t id, const char *name)
     if (!name || !*name)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property name");
 
-    /* Check for the existance of the property in the list or class */
+    /* Check for the existence of the property in the list or class */
     if (H5I_GENPROP_LST == H5I_get_type(id)) {
         if (NULL == (plist = (H5P_genplist_t *)H5I_object(id)))
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a property list");
@@ -858,7 +857,7 @@ done:
     Failure: H5I_INVALID_HID (negative)
  DESCRIPTION
      Decodes a property list from a binary buffer. The contents of the buffer
-     contain the values for the correponding properties of the plist. The decode
+     contain the values for the corresponding properties of the plist. The decode
      callback of a certain property decodes its value from the buffer and sets it
      in the property list.
  GLOBAL VARIABLES
@@ -1018,7 +1017,7 @@ done:
 htri_t
 H5Pequal(hid_t id1, hid_t id2)
 {
-    void * obj1, *obj2;       /* Property objects to compare */
+    void  *obj1, *obj2;       /* Property objects to compare */
     htri_t ret_value = FALSE; /* return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1195,7 +1194,7 @@ H5Piterate(hid_t id, int *idx, H5P_iterate_t iter_func, void *iter_data)
 {
     H5P_iter_ud_t udata;        /* User data for internal iterator callback */
     int           fake_idx = 0; /* Index when user doesn't provide one */
-    void *        obj;          /* Property object to copy */
+    void         *obj;          /* Property object to copy */
     int           ret_value;    /* return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1276,7 +1275,7 @@ H5Pget(hid_t plist_id, const char *name, void *value)
     if (!name || !*name)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property name");
     if (value == NULL)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalied property value");
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property value");
 
     /* Go get the value */
     if (H5P_get(plist, name, value) < 0)
@@ -1299,7 +1298,7 @@ done:
     Returns non-negative on success, negative on failure.
  DESCRIPTION
         Removes a property from a property list.  Both properties which were
-    in existance when the property list was created (i.e. properties registered
+    in existence when the property list was created (i.e. properties registered
     with H5Pregister2) and properties added to the list after it was created
     (i.e. added with H5Pinsert2) may be removed from a property list.
     Properties do not need to be removed a property list before the list itself
@@ -1522,7 +1521,7 @@ char *
 H5Pget_class_name(hid_t pclass_id)
 {
     H5P_genclass_t *pclass;    /* Property class to query */
-    char *          ret_value; /* return value */
+    char           *ret_value; /* return value */
 
     FUNC_ENTER_API(NULL)
     H5TRACE1("*s", "i", pclass_id);

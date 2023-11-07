@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -11,11 +10,10 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <cstring>
 #include <iostream>
-
 #include <string>
 
-#include "H5private.h" // for HDmemset
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -71,8 +69,7 @@ PropList::getConstant()
 void
 PropList::deleteConstants()
 {
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
+    delete DEFAULT_;
 }
 
 //--------------------------------------------------------------------------
@@ -305,7 +302,7 @@ PropList::getId() const
 ///\exception   H5::IdComponentException when the attempt to close the HDF5
 ///             object fails
 // Description:
-//              The underlaying reference counting in the C library ensures
+//              The underlying reference counting in the C library ensures
 //              that the current valid id of this object is properly closed.
 //              Then the object's id is reset to the new id.
 // Programmer   Binh-Minh Ribler - 2000
@@ -461,8 +458,8 @@ PropList::getProperty(const char *name) const
     size_t size = getPropSize(name);
 
     // Allocate buffer then get the property
-    char *prop_strg_C = new char[size + 1]; // temporary C-string for C API
-    HDmemset(prop_strg_C, 0, size + 1);     // clear buffer
+    char *prop_strg_C = new char[size + 1];
+    memset(prop_strg_C, 0, size + 1);
 
     herr_t ret_value = H5Pget(id, name, prop_strg_C); // call C API
 
@@ -548,7 +545,7 @@ PropList::getPropSize(const H5std_string &name) const
 // Function:    PropList::getClassName
 ///\brief       Return the name of a generic property list class.
 ///\return      A string containing the class name, if success, otherwise,
-///             a NULL string.
+///             an empty string.
 // Programmer:  Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
 H5std_string
@@ -562,8 +559,9 @@ PropList::getClassName() const
         return (class_name);
     }
     else
-        return 0;
+        return "";
 }
+
 //--------------------------------------------------------------------------
 // Function:    PropList::getNumProps
 ///\brief       Returns the number of properties in this property list or class.
@@ -633,11 +631,12 @@ PropList::setProperty(const char *name, void *value) const
 void
 PropList::setProperty(const char *name, const char *charptr) const
 {
-    herr_t ret_value = H5Pset(id, name, (const void *)charptr);
+    herr_t ret_value = H5Pset(id, name, static_cast<const void *>(charptr));
     if (ret_value < 0) {
         throw PropListIException(inMemFunc("setProperty"), "H5Pset failed");
     }
 }
+
 //--------------------------------------------------------------------------
 // Function:    PropList::setProperty
 ///\brief       This is an overloaded member function, provided for convenience.

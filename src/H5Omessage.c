@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -50,11 +49,11 @@
 
 /* User data for iteration while removing a message */
 typedef struct {
-    H5F_t *        f;        /* Pointer to file for insertion */
+    H5F_t         *f;        /* Pointer to file for insertion */
     int            sequence; /* Sequence # to search for */
     unsigned       nfailed;  /* # of failed message removals */
     H5O_operator_t op;       /* Callback routine for removal operations */
-    void *         op_data;  /* Callback data for removal operations */
+    void          *op_data;  /* Callback data for removal operations */
     hbool_t        adj_link; /* Whether to adjust links when removing messages */
 } H5O_iter_rm_t;
 
@@ -237,7 +236,7 @@ done:
 herr_t
 H5O_msg_write(const H5O_loc_t *loc, unsigned type_id, unsigned mesg_flags, unsigned update_flags, void *mesg)
 {
-    H5O_t *                oh = NULL;           /* Object header to use */
+    H5O_t                 *oh = NULL;           /* Object header to use */
     const H5O_msg_class_t *type;                /* Actual H5O class type for the ID */
     herr_t                 ret_value = SUCCEED; /* Return value */
 
@@ -371,7 +370,7 @@ H5O__msg_write_real(H5F_t *f, H5O_t *oh, const H5O_msg_class_t *type, unsigned m
         HDassert(((H5O_shared_t *)idx_msg->native)->type != H5O_SHARE_TYPE_COMMITTED);
 
         /* Also, sanity check that a message doesn't switch status from being
-         *      shared (or sharable) to being unsharable.  (Which could cause
+         *      shared (or shareable) to being unshareable.  (Which could cause
          *      a message to increase in size in the object header)
          */
         HDassert(!(mesg_flags & H5O_MSG_FLAG_DONTSHARE));
@@ -437,7 +436,7 @@ void *
 H5O_msg_read(const H5O_loc_t *loc, unsigned type_id, void *mesg)
 {
     H5O_t *oh        = NULL; /* Object header to use */
-    void * ret_value = NULL; /* Return value */
+    void  *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_TAG(loc->addr, NULL)
 
@@ -489,7 +488,7 @@ H5O_msg_read_oh(H5F_t *f, H5O_t *oh, unsigned type_id, void *mesg)
 {
     const H5O_msg_class_t *type; /* Actual H5O class type for the ID */
     unsigned               idx;  /* Message's index in object header */
-    void *                 ret_value = NULL;
+    void                  *ret_value = NULL;
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -616,7 +615,7 @@ void *
 H5O_msg_free(unsigned type_id, void *mesg)
 {
     const H5O_msg_class_t *type;             /* Actual H5O class type for the ID */
-    void *                 ret_value = NULL; /* Return value */
+    void                  *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
@@ -676,12 +675,11 @@ H5O_msg_free_real(const H5O_msg_class_t *type, void *msg_native)
 {
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    /* check args */
-    HDassert(type);
+    /* Don't assert on args since this could be called in cleanup code */
 
     if (msg_native) {
         H5O__msg_reset_real(type, msg_native);
-        if (NULL != (type->free))
+        if (type && type->free)
             (type->free)(msg_native);
         else
             H5MM_xfree(msg_native);
@@ -709,7 +707,7 @@ void *
 H5O_msg_copy(unsigned type_id, const void *mesg, void *dst)
 {
     const H5O_msg_class_t *type;             /* Actual H5O class type for the ID */
-    void *                 ret_value = NULL; /* Return value */
+    void                  *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -745,7 +743,7 @@ done:
 int
 H5O_msg_count(const H5O_loc_t *loc, unsigned type_id)
 {
-    H5O_t *                oh = NULL;        /* Object header to operate on */
+    H5O_t                 *oh = NULL;        /* Object header to operate on */
     const H5O_msg_class_t *type;             /* Actual H5O class type for the ID */
     unsigned               msg_count;        /* Message count */
     int                    ret_value = FAIL; /* Return value */
@@ -918,7 +916,7 @@ done:
 herr_t
 H5O_msg_remove(const H5O_loc_t *loc, unsigned type_id, int sequence, hbool_t adj_link)
 {
-    H5O_t *                oh = NULL;        /* Pointer to actual object header */
+    H5O_t                 *oh = NULL;        /* Pointer to actual object header */
     const H5O_msg_class_t *type;             /* Actual H5O class type for the ID */
     herr_t                 ret_value = FAIL; /* Return value */
 
@@ -968,7 +966,7 @@ herr_t
 H5O_msg_remove_op(const H5O_loc_t *loc, unsigned type_id, int sequence, H5O_operator_t op, void *op_data,
                   hbool_t adj_link)
 {
-    H5O_t *                oh = NULL;        /* Pointer to actual object header */
+    H5O_t                 *oh = NULL;        /* Pointer to actual object header */
     const H5O_msg_class_t *type;             /* Actual H5O class type for the ID */
     herr_t                 ret_value = FAIL; /* Return value */
 
@@ -1131,7 +1129,7 @@ done:
  *		Nov 19 2004
  *
  * Description:
- *      This function interates over the object headers of an object
+ *      This function iterates over the object headers of an object
  *  specified with 'loc' of type 'type_id'.  For each object header of the
  *  object, the 'op_data' and some additional information (specified below) are
  *  passed to the 'op' function.
@@ -1151,7 +1149,7 @@ done:
 herr_t
 H5O_msg_iterate(const H5O_loc_t *loc, unsigned type_id, const H5O_mesg_operator_t *op, void *op_data)
 {
-    H5O_t *                oh = NULL;        /* Pointer to actual object header */
+    H5O_t                 *oh = NULL;        /* Pointer to actual object header */
     const H5O_msg_class_t *type;             /* Actual H5O class type for the ID */
     herr_t                 ret_value = FAIL; /* Return value */
 
@@ -1194,7 +1192,7 @@ done:
  *		Sep  6 2005
  *
  * Description:
- *      This function interates over the object headers of an object
+ *      This function iterates over the object headers of an object
  *  specified with 'ent' of type 'type_id'.  For each object header of the
  *  object, the 'op_data' and some additional information (specified below) are
  *  passed to the 'op' function.
@@ -1336,7 +1334,7 @@ size_t
 H5O_msg_size_f(const H5F_t *f, hid_t ocpl_id, unsigned type_id, const void *mesg, size_t extra_raw)
 {
     const H5O_msg_class_t *type;          /* Actual H5O class type for the ID */
-    H5P_genplist_t *       ocpl;          /* Object Creation Property list */
+    H5P_genplist_t        *ocpl;          /* Object Creation Property list */
     uint8_t                oh_flags;      /* Object header status flags */
     size_t                 ret_value = 0; /* Return value */
 
@@ -1544,7 +1542,7 @@ H5O_msg_is_shared(unsigned type_id, const void *mesg)
         HDassert(type);
         HDassert(mesg);
 
-        /* If messages in a class aren't sharable, then obviously this message isn't shared! :-) */
+        /* If messages in a class aren't shareable, then obviously this message isn't shared! :-) */
         if (type->share_flags & H5O_SHARE_IS_SHARABLE)
             ret_value = H5O_IS_STORED_SHARED(((const H5O_shared_t *)mesg)->type);
         else
@@ -1731,7 +1729,7 @@ H5O_msg_decode(H5F_t *f, H5O_t *open_oh, unsigned type_id, size_t buf_size, cons
 {
     const H5O_msg_class_t *type;             /* Actual H5O class type for the ID */
     unsigned               ioflags   = 0;    /* Flags for decode routine */
-    void *                 ret_value = NULL; /* Return value */
+    void                  *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1878,7 +1876,7 @@ H5O__copy_mesg(H5F_t *f, H5O_t *oh, size_t idx, const H5O_msg_class_t *type, con
                unsigned mesg_flags, unsigned update_flags)
 {
     H5O_chunk_proxy_t *chk_proxy   = NULL;           /* Chunk that message is in */
-    H5O_mesg_t *       idx_msg     = &oh->mesg[idx]; /* Pointer to message to modify */
+    H5O_mesg_t        *idx_msg     = &oh->mesg[idx]; /* Pointer to message to modify */
     hbool_t            chk_dirtied = FALSE;          /* Flag for unprotecting chunk */
     herr_t             ret_value   = SUCCEED;        /* Return value */
 
@@ -2170,9 +2168,9 @@ done:
 herr_t
 H5O_msg_get_flags(const H5O_loc_t *loc, unsigned type_id, uint8_t *flags)
 {
-    H5O_t *                oh = NULL;           /* Object header to use */
+    H5O_t                 *oh = NULL;           /* Object header to use */
     const H5O_msg_class_t *type;                /* Actual H5O class type for the ID */
-    H5O_mesg_t *           idx_msg;             /* Pointer to message to modify */
+    H5O_mesg_t            *idx_msg;             /* Pointer to message to modify */
     unsigned               idx;                 /* Index of message to modify */
     herr_t                 ret_value = SUCCEED; /* Return value */
 

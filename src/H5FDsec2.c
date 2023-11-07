@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -189,7 +188,7 @@ H5FL_DEFINE_STATIC(H5FD_sec2_t);
 static herr_t
 H5FD__init_package(void)
 {
-    char * lock_env_var = NULL; /* Environment variable pointer */
+    char  *lock_env_var = NULL; /* Environment variable pointer */
     herr_t ret_value    = SUCCEED;
 
     FUNC_ENTER_STATIC
@@ -322,7 +321,7 @@ H5FD__sec2_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr
 #endif
     h5_stat_t       sb;
     H5P_genplist_t *plist;            /* Property list pointer */
-    H5FD_t *        ret_value = NULL; /* Return value */
+    H5FD_t         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -549,7 +548,7 @@ H5FD__sec2_query(const H5FD_t *_file, unsigned long *flags /* out */)
 
     /* Set the VFL feature flags that this driver supports */
     /* Notice: the Mirror VFD Writer currently uses only the Sec2 driver as
-     * the underying driver -- as such, the Mirror VFD implementation copies
+     * the underlying driver -- as such, the Mirror VFD implementation copies
      * these feature flags as its own. Any modifications made here must be
      * reflected in H5FDmirror.c
      * -- JOS 2020-01-13

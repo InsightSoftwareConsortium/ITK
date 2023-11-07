@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -408,7 +407,7 @@ H5MF__sect_simple_merge(H5FS_section_info_t **_sect1, H5FS_section_info_t *_sect
                         void H5_ATTR_UNUSED *_udata)
 {
     H5MF_free_section_t **sect1     = (H5MF_free_section_t **)_sect1; /* File free section */
-    H5MF_free_section_t * sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
+    H5MF_free_section_t  *sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
     herr_t                ret_value = SUCCEED;                        /* Return value */
 
     FUNC_ENTER_STATIC
@@ -448,7 +447,7 @@ static htri_t
 H5MF__sect_simple_can_shrink(const H5FS_section_info_t *_sect, void *_udata)
 {
     const H5MF_free_section_t *sect  = (const H5MF_free_section_t *)_sect; /* File free section */
-    H5MF_sect_ud_t *           udata = (H5MF_sect_ud_t *)_udata;           /* User data for callback */
+    H5MF_sect_ud_t            *udata = (H5MF_sect_ud_t *)_udata;           /* User data for callback */
     haddr_t                    eoa;              /* End of address space in the file */
     haddr_t                    end;              /* End of section to extend */
     htri_t                     ret_value = FAIL; /* Return value */
@@ -472,8 +471,9 @@ H5MF__sect_simple_can_shrink(const H5FS_section_info_t *_sect, void *_udata)
         /* Set the shrinking type */
         udata->shrink = H5MF_SHRINK_EOA;
 #ifdef H5MF_ALLOC_DEBUG_MORE
-        HDfprintf(stderr, "%s: section {%a, %Hu}, shrinks file, eoa = %a\n", FUNC, sect->sect_info.addr,
-                  sect->sect_info.size, eoa);
+        HDfprintf(stderr,
+                  "%s: section {%" PRIuHADDR ", %" PRIuHSIZE "}, shrinks file, eoa = %" PRIuHADDR "\n", FUNC,
+                  sect->sect_info.addr, sect->sect_info.size, eoa);
 #endif /* H5MF_ALLOC_DEBUG_MORE */
 
         /* Indicate shrinking can occur */
@@ -496,7 +496,8 @@ H5MF__sect_simple_can_shrink(const H5FS_section_info_t *_sect, void *_udata)
                 /* Set the aggregator to operate on */
                 udata->aggr = &(udata->f->shared->meta_aggr);
 #ifdef H5MF_ALLOC_DEBUG_MORE
-                HDfprintf(stderr, "%s: section {%a, %Hu}, adjoins metadata aggregator\n", FUNC,
+                HDfprintf(stderr,
+                          "%s: section {%" PRIuHADDR ", %" PRIuHSIZE "}, adjoins metadata aggregator\n", FUNC,
                           sect->sect_info.addr, sect->sect_info.size);
 #endif /* H5MF_ALLOC_DEBUG_MORE */
 
@@ -517,8 +518,9 @@ H5MF__sect_simple_can_shrink(const H5FS_section_info_t *_sect, void *_udata)
                 /* Set the aggregator to operate on */
                 udata->aggr = &(udata->f->shared->sdata_aggr);
 #ifdef H5MF_ALLOC_DEBUG_MORE
-                HDfprintf(stderr, "%s: section {%a, %Hu}, adjoins small data aggregator\n", FUNC,
-                          sect->sect_info.addr, sect->sect_info.size);
+                HDfprintf(stderr,
+                          "%s: section {%" PRIuHADDR ", %" PRIuHSIZE "}, adjoins small data aggregator\n",
+                          FUNC, sect->sect_info.addr, sect->sect_info.size);
 #endif /* H5MF_ALLOC_DEBUG_MORE */
 
                 /* Indicate shrinking can occur */
@@ -551,7 +553,7 @@ static herr_t
 H5MF__sect_simple_shrink(H5FS_section_info_t **_sect, void *_udata)
 {
     H5MF_free_section_t **sect      = (H5MF_free_section_t **)_sect; /* File free section */
-    H5MF_sect_ud_t *      udata     = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
+    H5MF_sect_ud_t       *udata     = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
     herr_t                ret_value = SUCCEED;                       /* Return value */
 
     FUNC_ENTER_STATIC
@@ -617,7 +619,7 @@ static herr_t
 H5MF__sect_small_add(H5FS_section_info_t **_sect, unsigned *flags, void *_udata)
 {
     H5MF_free_section_t **sect  = (H5MF_free_section_t **)_sect; /* Fractal heap free section */
-    H5MF_sect_ud_t *      udata = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
+    H5MF_sect_ud_t       *udata = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
     haddr_t               sect_end;
     hsize_t               rem, prem;
     herr_t                ret_value = SUCCEED; /* Return value */
@@ -625,8 +627,8 @@ H5MF__sect_small_add(H5FS_section_info_t **_sect, unsigned *flags, void *_udata)
     FUNC_ENTER_STATIC
 
 #ifdef H5MF_ALLOC_DEBUG_MORE
-    HDfprintf(stderr, "%s: Entering, section {%a, %Hu}\n", FUNC, (*sect)->sect_info.addr,
-              (*sect)->sect_info.size);
+    HDfprintf(stderr, "%s: Entering, section {%" PRIuHADDR ", %" PRIuHSIZE "}\n", FUNC,
+              (*sect)->sect_info.addr, (*sect)->sect_info.size);
 #endif /* H5MF_ALLOC_DEBUG_MORE */
 
     /* Do not adjust the section raw data or global heap data */
@@ -653,8 +655,8 @@ H5MF__sect_small_add(H5FS_section_info_t **_sect, unsigned *flags, void *_udata)
     else if (prem <= H5F_PGEND_META_THRES(udata->f)) {
         (*sect)->sect_info.size += prem;
 #ifdef H5MF_ALLOC_DEBUG_MORE
-        HDfprintf(stderr, "%s: section is adjusted {%a, %Hu}\n", FUNC, (*sect)->sect_info.addr,
-                  (*sect)->sect_info.size);
+        HDfprintf(stderr, "%s: section is adjusted {%" PRIuHADDR ", %" PRIuHSIZE "}\n", FUNC,
+                  (*sect)->sect_info.addr, (*sect)->sect_info.size);
 #endif /* H5MF_ALLOC_DEBUG_MORE */
     }  /* end if */
 
@@ -682,7 +684,7 @@ H5MF__sect_small_can_merge(const H5FS_section_info_t *_sect1, const H5FS_section
 {
     const H5MF_free_section_t *sect1     = (const H5MF_free_section_t *)_sect1; /* File free section */
     const H5MF_free_section_t *sect2     = (const H5MF_free_section_t *)_sect2; /* File free section */
-    H5MF_sect_ud_t *           udata     = (H5MF_sect_ud_t *)_udata;            /* User data for callback */
+    H5MF_sect_ud_t            *udata     = (H5MF_sect_ud_t *)_udata;            /* User data for callback */
     htri_t                     ret_value = FALSE;                               /* Return value */
 
     FUNC_ENTER_STATIC_NOERR
@@ -702,7 +704,7 @@ H5MF__sect_small_can_merge(const H5FS_section_info_t *_sect1, const H5FS_section
             ret_value = FALSE;
 
 #ifdef H5MF_ALLOC_DEBUG_MORE
-    HDfprintf(stderr, "%s: Leaving: ret_value = %t\n", FUNC, ret_value);
+    HDfprintf(stderr, "%s: Leaving: ret_value = %d\n", FUNC, ret_value);
 #endif /* H5MF_ALLOC_DEBUG_MORE */
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -728,8 +730,8 @@ static herr_t
 H5MF__sect_small_merge(H5FS_section_info_t **_sect1, H5FS_section_info_t *_sect2, void *_udata)
 {
     H5MF_free_section_t **sect1     = (H5MF_free_section_t **)_sect1; /* File free section */
-    H5MF_free_section_t * sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
-    H5MF_sect_ud_t *      udata     = (H5MF_sect_ud_t *)_udata;       /* User data for callback */
+    H5MF_free_section_t  *sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
+    H5MF_sect_ud_t       *udata     = (H5MF_sect_ud_t *)_udata;       /* User data for callback */
     herr_t                ret_value = SUCCEED;                        /* Return value */
 
     FUNC_ENTER_STATIC
@@ -806,7 +808,7 @@ H5MF__sect_large_can_merge(const H5FS_section_info_t *_sect1, const H5FS_section
     ret_value = H5F_addr_eq(sect1->sect_info.addr + sect1->sect_info.size, sect2->sect_info.addr);
 
 #ifdef H5MF_ALLOC_DEBUG_MORE
-    HDfprintf(stderr, "%s: Leaving: ret_value = %t\n", FUNC, ret_value);
+    HDfprintf(stderr, "%s: Leaving: ret_value = %d\n", FUNC, ret_value);
 #endif /* H5MF_ALLOC_DEBUG_MORE */
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -830,7 +832,7 @@ static herr_t
 H5MF__sect_large_merge(H5FS_section_info_t **_sect1, H5FS_section_info_t *_sect2, void H5_ATTR_UNUSED *_udata)
 {
     H5MF_free_section_t **sect1     = (H5MF_free_section_t **)_sect1; /* File free section */
-    H5MF_free_section_t * sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
+    H5MF_free_section_t  *sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
     herr_t                ret_value = SUCCEED;                        /* Return value */
 
     FUNC_ENTER_STATIC
@@ -869,7 +871,7 @@ static htri_t
 H5MF__sect_large_can_shrink(const H5FS_section_info_t *_sect, void *_udata)
 {
     const H5MF_free_section_t *sect  = (const H5MF_free_section_t *)_sect; /* File free section */
-    H5MF_sect_ud_t *           udata = (H5MF_sect_ud_t *)_udata;           /* User data for callback */
+    H5MF_sect_ud_t            *udata = (H5MF_sect_ud_t *)_udata;           /* User data for callback */
     haddr_t                    eoa;               /* End of address space in the file */
     haddr_t                    end;               /* End of section to extend */
     htri_t                     ret_value = FALSE; /* Return value */
@@ -894,8 +896,9 @@ H5MF__sect_large_can_shrink(const H5FS_section_info_t *_sect, void *_udata)
         /* Set the shrinking type */
         udata->shrink = H5MF_SHRINK_EOA;
 #ifdef H5MF_ALLOC_DEBUG_MORE
-        HDfprintf(stderr, "%s: section {%a, %Hu}, shrinks file, eoa = %a\n", FUNC, sect->sect_info.addr,
-                  sect->sect_info.size, eoa);
+        HDfprintf(stderr,
+                  "%s: section {%" PRIuHADDR ", %" PRIuHSIZE "}, shrinks file, eoa = %" PRIuHADDR "\n", FUNC,
+                  sect->sect_info.addr, sect->sect_info.size, eoa);
 #endif /* H5MF_ALLOC_DEBUG_MORE */
 
         /* Indicate shrinking can occur */
@@ -922,7 +925,7 @@ static herr_t
 H5MF__sect_large_shrink(H5FS_section_info_t **_sect, void *_udata)
 {
     H5MF_free_section_t **sect      = (H5MF_free_section_t **)_sect; /* File free section */
-    H5MF_sect_ud_t *      udata     = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
+    H5MF_sect_ud_t       *udata     = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
     hsize_t               frag_size = 0;                             /* Fragment size */
     herr_t                ret_value = SUCCEED;                       /* Return value */
 
