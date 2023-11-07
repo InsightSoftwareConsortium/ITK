@@ -12,6 +12,7 @@ readonly tag="release"
 readonly shortlog=false
 readonly paths="
   .gitattributes
+  .codespellrc
   CMake/UseCopyright.cmake
   CMake/InstallMacros.cmake
   CMake/COPYING-CMAKE-SCRIPTS
