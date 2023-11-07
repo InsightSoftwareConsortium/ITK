@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -58,7 +57,7 @@
 
 /* Metadata cache (H5AC) callbacks */
 static herr_t H5G__cache_node_get_initial_load_size(void *udata, size_t *image_len);
-static void * H5G__cache_node_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
+static void  *H5G__cache_node_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
 static herr_t H5G__cache_node_image_len(const void *thing, size_t *image_len);
 static herr_t H5G__cache_node_serialize(const H5F_t *f, void *image, size_t len, void *thing);
 static herr_t H5G__cache_node_free_icr(void *thing);
@@ -134,7 +133,7 @@ H5G__cache_node_get_initial_load_size(void *_udata, size_t *image_len)
  * Function:    H5G__cache_node_deserialize
  *
  * Purpose:	Given a buffer containing the on disk image of a symbol table
- *		node, allocate an instance of H5G_node_t, load the contence of the
+ *		node, allocate an instance of H5G_node_t, load the contents of the
  *		image into it, and return a pointer to the instance.
  *
  *		Note that deserializing the image requires access to the file
@@ -154,11 +153,11 @@ H5G__cache_node_get_initial_load_size(void *_udata, size_t *image_len)
 static void *
 H5G__cache_node_deserialize(const void *_image, size_t len, void *_udata, hbool_t H5_ATTR_UNUSED *dirty)
 {
-    H5F_t *        f         = (H5F_t *)_udata;         /* User data for callback */
-    H5G_node_t *   sym       = NULL;                    /* Symbol table node created */
+    H5F_t         *f         = (H5F_t *)_udata;         /* User data for callback */
+    H5G_node_t    *sym       = NULL;                    /* Symbol table node created */
     const uint8_t *image     = (const uint8_t *)_image; /* Pointer to image to deserialize */
     const uint8_t *image_end = image + len - 1;         /* Pointer to end of image buffer */
-    void *         ret_value = NULL;                    /* Return value */
+    void          *ret_value = NULL;                    /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -240,7 +239,7 @@ H5G__cache_node_image_len(const void *_thing, size_t *image_len)
 /*-------------------------------------------------------------------------
  * Function:    H5G__cache_node_serialize
  *
- * Purpose:	Given a correctly sized buffer and an instace of H5G_node_t,
+ * Purpose:	Given a correctly sized buffer and an instance of H5G_node_t,
  *		serialize the contents of the instance of H5G_node_t, and write
  *		this data into the supplied buffer.  This buffer will be written
  *		to disk.
@@ -257,7 +256,7 @@ static herr_t
 H5G__cache_node_serialize(const H5F_t *f, void *_image, size_t len, void *_thing)
 {
     H5G_node_t *sym       = (H5G_node_t *)_thing; /* Pointer to object */
-    uint8_t *   image     = (uint8_t *)_image;    /* Pointer into raw data buffer */
+    uint8_t    *image     = (uint8_t *)_image;    /* Pointer into raw data buffer */
     herr_t      ret_value = SUCCEED;              /* Return value */
 
     FUNC_ENTER_STATIC

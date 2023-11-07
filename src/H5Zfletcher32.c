@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -59,7 +58,7 @@ static size_t
 H5Z__filter_fletcher32(unsigned flags, size_t H5_ATTR_UNUSED cd_nelmts,
                        const unsigned H5_ATTR_UNUSED cd_values[], size_t nbytes, size_t *buf_size, void **buf)
 {
-    void *         outbuf = NULL; /* Pointer to new buffer */
+    void          *outbuf = NULL; /* Pointer to new buffer */
     unsigned char *src    = (unsigned char *)(*buf);
     uint32_t       fletcher;          /* Checksum value */
     uint32_t       reversed_fletcher; /* Possible wrong checksum value */
@@ -113,7 +112,7 @@ H5Z__filter_fletcher32(unsigned flags, size_t H5_ATTR_UNUSED cd_nelmts,
         }
 
         /* Set return values */
-        /* (Re-use the input buffer, just note that the size is smaller by the size of the checksum) */
+        /* (Reuse the input buffer, just note that the size is smaller by the size of the checksum) */
         ret_value = nbytes - FLETCHER_LEN;
     }
     else {                  /* Write */

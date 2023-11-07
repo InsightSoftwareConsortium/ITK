@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -33,7 +32,7 @@
 static void *H5O__name_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags, size_t p_size,
                               const uint8_t *p);
 static herr_t H5O__name_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
-static void * H5O__name_copy(const void *_mesg, void *_dest);
+static void  *H5O__name_copy(const void *_mesg, void *_dest);
 static size_t H5O__name_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
 static herr_t H5O__name_reset(void *_mesg);
 static herr_t H5O__name_debug(H5F_t *f, const void *_mesg, FILE *stream, int indent, int fwidth);
@@ -43,7 +42,7 @@ const H5O_msg_class_t H5O_MSG_NAME[1] = {{
     H5O_NAME_ID,        /*message id number             */
     "name",             /*message name for debugging    */
     sizeof(H5O_name_t), /*native message size           */
-    0,                  /* messages are sharable?       */
+    0,                  /* messages are shareable?       */
     H5O__name_decode,   /*decode message                */
     H5O__name_encode,   /*encode message                */
     H5O__name_copy,     /*copy the native value         */
@@ -82,7 +81,7 @@ H5O__name_decode(H5F_t H5_ATTR_UNUSED *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigne
                  unsigned H5_ATTR_UNUSED *ioflags, size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5O_name_t *mesg;
-    void *      ret_value = NULL; /* Return value */
+    void       *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -157,8 +156,8 @@ static void *
 H5O__name_copy(const void *_mesg, void *_dest)
 {
     const H5O_name_t *mesg      = (const H5O_name_t *)_mesg;
-    H5O_name_t *      dest      = (H5O_name_t *)_dest;
-    void *            ret_value = NULL; /* Return value */
+    H5O_name_t       *dest      = (H5O_name_t *)_dest;
+    void             *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 

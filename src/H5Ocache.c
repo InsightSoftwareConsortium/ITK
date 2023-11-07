@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -60,7 +59,7 @@ static herr_t H5O__cache_get_initial_load_size(void *udata, size_t *image_len);
 static herr_t H5O__cache_get_final_load_size(const void *image_ptr, size_t image_len, void *udata,
                                              size_t *actual_len);
 static htri_t H5O__cache_verify_chksum(const void *image_ptr, size_t len, void *udata_ptr);
-static void * H5O__cache_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
+static void  *H5O__cache_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
 static herr_t H5O__cache_image_len(const void *thing, size_t *image_len);
 static herr_t H5O__cache_serialize(const H5F_t *f, void *image, size_t len, void *thing);
 static herr_t H5O__cache_notify(H5AC_notify_action_t action, void *_thing);
@@ -68,7 +67,7 @@ static herr_t H5O__cache_free_icr(void *thing);
 
 static herr_t H5O__cache_chk_get_initial_load_size(void *udata, size_t *image_len);
 static htri_t H5O__cache_chk_verify_chksum(const void *image_ptr, size_t len, void *udata_ptr);
-static void * H5O__cache_chk_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
+static void  *H5O__cache_chk_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
 static herr_t H5O__cache_chk_image_len(const void *thing, size_t *image_len);
 static herr_t H5O__cache_chk_serialize(const H5F_t *f, void *image, size_t len, void *thing);
 static herr_t H5O__cache_chk_notify(H5AC_notify_action_t action, void *_thing);
@@ -78,8 +77,8 @@ static herr_t H5O__cache_chk_free_icr(void *thing);
 static herr_t H5O__prefix_deserialize(const uint8_t *image, H5O_cache_ud_t *udata);
 
 /* Chunk routines */
-static herr_t H5O__chunk_deserialize(H5O_t *oh, haddr_t addr, size_t len, const uint8_t *image,
-                                     H5O_common_cache_ud_t *udata, hbool_t *dirty);
+static herr_t H5O__chunk_deserialize(H5O_t *oh, haddr_t addr, size_t chunk_size, const uint8_t *image,
+                                     size_t len, H5O_common_cache_ud_t *udata, hbool_t *dirty);
 static herr_t H5O__chunk_serialize(const H5F_t *f, H5O_t *oh, unsigned chunkno);
 
 /* Misc. routines */
@@ -229,7 +228,7 @@ done:
 static htri_t
 H5O__cache_verify_chksum(const void *_image, size_t len, void *_udata)
 {
-    const uint8_t * image     = (const uint8_t *)_image;  /* Pointer into raw data buffer */
+    const uint8_t  *image     = (const uint8_t *)_image;  /* Pointer into raw data buffer */
     H5O_cache_ud_t *udata     = (H5O_cache_ud_t *)_udata; /* User data for callback */
     htri_t          ret_value = TRUE;                     /* Return value */
 
@@ -275,7 +274,7 @@ H5O__cache_verify_chksum(const void *_image, size_t len, void *_udata)
  *
  *		Note that the object header is read with with a speculative read.
  *		If the initial read is too small, make note of this fact and return
- *     		without error.  H5C__load_entry() will note the size discrepency
+ *     		without error.  H5C__load_entry() will note the size discrepancy
  *		and retry the deserialize operation with the correct size read.
  *
  * Return:      Success:        Pointer to in core representation
@@ -287,11 +286,11 @@ H5O__cache_verify_chksum(const void *_image, size_t len, void *_udata)
  *-------------------------------------------------------------------------
  */
 static void *
-H5O__cache_deserialize(const void *image, size_t H5_ATTR_NDEBUG_UNUSED len, void *_udata, hbool_t *dirty)
+H5O__cache_deserialize(const void *image, size_t len, void *_udata, hbool_t *dirty)
 {
-    H5O_t *         oh        = NULL;                     /* Object header read in */
+    H5O_t          *oh        = NULL;                     /* Object header read in */
     H5O_cache_ud_t *udata     = (H5O_cache_ud_t *)_udata; /* User data for callback */
-    void *          ret_value = NULL;                     /* Return value */
+    void           *ret_value = NULL;                     /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -333,7 +332,7 @@ H5O__cache_deserialize(const void *image, size_t H5_ATTR_NDEBUG_UNUSED len, void
         oh->proxy = NULL;
 
     /* Parse the first chunk */
-    if (H5O__chunk_deserialize(oh, udata->common.addr, udata->chunk0_size, (const uint8_t *)image,
+    if (H5O__chunk_deserialize(oh, udata->common.addr, udata->chunk0_size, (const uint8_t *)image, len,
                                &(udata->common), dirty) < 0)
         HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, NULL, "can't deserialize first object header chunk")
 
@@ -403,7 +402,7 @@ H5O__cache_image_len(const void *_thing, size_t *image_len)
 static herr_t
 H5O__cache_serialize(const H5F_t *f, void *image, size_t len, void *_thing)
 {
-    H5O_t *  oh = (H5O_t *)_thing; /* Object header to encode */
+    H5O_t   *oh = (H5O_t *)_thing; /* Object header to encode */
     uint8_t *chunk_image;          /* Pointer to object header prefix buffer */
     herr_t   ret_value = SUCCEED;  /* Return value */
 
@@ -696,7 +695,7 @@ H5O__cache_chk_get_initial_load_size(void *_udata, size_t *image_len)
 static htri_t
 H5O__cache_chk_verify_chksum(const void *_image, size_t len, void *_udata)
 {
-    const uint8_t *     image     = (const uint8_t *)_image;      /* Pointer into raw data buffer */
+    const uint8_t      *image     = (const uint8_t *)_image;      /* Pointer into raw data buffer */
     H5O_chk_cache_ud_t *udata     = (H5O_chk_cache_ud_t *)_udata; /* User data for callback */
     htri_t              ret_value = TRUE;                         /* Return value */
 
@@ -736,11 +735,11 @@ H5O__cache_chk_verify_chksum(const void *_image, size_t len, void *_udata)
  *-------------------------------------------------------------------------
  */
 static void *
-H5O__cache_chk_deserialize(const void *image, size_t H5_ATTR_NDEBUG_UNUSED len, void *_udata, hbool_t *dirty)
+H5O__cache_chk_deserialize(const void *image, size_t len, void *_udata, hbool_t *dirty)
 {
-    H5O_chunk_proxy_t * chk_proxy = NULL;                         /* Chunk proxy object */
+    H5O_chunk_proxy_t  *chk_proxy = NULL;                         /* Chunk proxy object */
     H5O_chk_cache_ud_t *udata     = (H5O_chk_cache_ud_t *)_udata; /* User data for callback */
-    void *              ret_value = NULL;                         /* Return value */
+    void               *ret_value = NULL;                         /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -763,7 +762,7 @@ H5O__cache_chk_deserialize(const void *image, size_t H5_ATTR_NDEBUG_UNUSED len, 
         HDassert(udata->common.cont_msg_info);
 
         /* Parse the chunk */
-        if (H5O__chunk_deserialize(udata->oh, udata->common.addr, udata->size, (const uint8_t *)image,
+        if (H5O__chunk_deserialize(udata->oh, udata->common.addr, udata->size, (const uint8_t *)image, len,
                                    &(udata->common), dirty) < 0)
             HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, NULL, "can't deserialize object header chunk")
 
@@ -1107,7 +1106,7 @@ static herr_t
 H5O__prefix_deserialize(const uint8_t *_image, H5O_cache_ud_t *udata)
 {
     const uint8_t *image     = (const uint8_t *)_image; /* Pointer into raw data buffer */
-    H5O_t *        oh        = NULL;                    /* Object header read in */
+    H5O_t         *oh        = NULL;                    /* Object header read in */
     herr_t         ret_value = SUCCEED;                 /* Return value */
 
     FUNC_ENTER_STATIC
@@ -1275,11 +1274,11 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O__chunk_deserialize(H5O_t *oh, haddr_t addr, size_t len, const uint8_t *image,
+H5O__chunk_deserialize(H5O_t *oh, haddr_t addr, size_t chunk_size, const uint8_t *image, size_t len,
                        H5O_common_cache_ud_t *udata, hbool_t *dirty)
 {
     const uint8_t *chunk_image;          /* Pointer into buffer to decode */
-    uint8_t *      eom_ptr;              /* Pointer to end of messages for a chunk */
+    uint8_t       *eom_ptr;              /* Pointer to end of messages for a chunk */
     unsigned       merged_null_msgs = 0; /* Number of null messages merged together */
     unsigned       chunkno;              /* Current chunk's index */
 #ifndef NDEBUG
@@ -1295,6 +1294,7 @@ H5O__chunk_deserialize(H5O_t *oh, haddr_t addr, size_t len, const uint8_t *image
     HDassert(oh);
     HDassert(H5F_addr_defined(addr));
     HDassert(image);
+    HDassert(len);
     HDassert(udata->f);
     HDassert(udata->cont_msg_info);
 
@@ -1315,14 +1315,16 @@ H5O__chunk_deserialize(H5O_t *oh, haddr_t addr, size_t len, const uint8_t *image
     oh->chunk[chunkno].addr = addr;
     if (chunkno == 0)
         /* First chunk's 'image' includes room for the object header prefix */
-        oh->chunk[0].size = len + (size_t)H5O_SIZEOF_HDR(oh);
+        oh->chunk[0].size = chunk_size + (size_t)H5O_SIZEOF_HDR(oh);
     else
-        oh->chunk[chunkno].size = len;
+        oh->chunk[chunkno].size = chunk_size;
     if (NULL == (oh->chunk[chunkno].image = H5FL_BLK_MALLOC(chunk_image, oh->chunk[chunkno].size)))
         HGOTO_ERROR(H5E_OHDR, H5E_CANTALLOC, FAIL, "memory allocation failed")
     oh->chunk[chunkno].chunk_proxy = NULL;
 
     /* Copy disk image into chunk's image */
+    if (len < oh->chunk[chunkno].size)
+        HGOTO_ERROR(H5E_OHDR, H5E_CANTCOPY, FAIL, "attempted to copy too many disk image bytes into buffer")
     H5MM_memcpy(oh->chunk[chunkno].image, image, oh->chunk[chunkno].size);
 
     /* Point into chunk image to decode */

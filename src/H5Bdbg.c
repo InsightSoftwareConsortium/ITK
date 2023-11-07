@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -51,9 +50,9 @@
 herr_t
 H5B_debug(H5F_t *f, haddr_t addr, FILE *stream, int indent, int fwidth, const H5B_class_t *type, void *udata)
 {
-    H5B_t *        bt = NULL;
-    H5UC_t *       rc_shared;           /* Ref-counted shared info */
-    H5B_shared_t * shared;              /* Pointer to shared B-tree info */
+    H5B_t         *bt = NULL;
+    H5UC_t        *rc_shared;           /* Ref-counted shared info */
+    H5B_shared_t  *shared;              /* Pointer to shared B-tree info */
     H5B_cache_ud_t cache_udata;         /* User-data for metadata cache callback */
     unsigned       u;                   /* Local index variable */
     herr_t         ret_value = SUCCEED; /* Return value */
@@ -110,20 +109,20 @@ H5B_debug(H5F_t *f, haddr_t addr, FILE *stream, int indent, int fwidth, const H5
      */
     for (u = 0; u < bt->nchildren; u++) {
         HDfprintf(stream, "%*sChild %d...\n", indent, "", u);
-        HDfprintf(stream, "%*s%-*s %" PRIuHADDR "\n", indent + 3, "", MAX(0, fwidth - 3),
+        HDfprintf(stream, "%*s%-*s %" PRIuHADDR "\n", indent + 3, "", MAX(3, fwidth) - 3,
                   "Address:", bt->child[u]);
 
         /* If there is a key debugging routine, use it to display the left & right keys */
         if (type->debug_key) {
             /* Decode the 'left' key & print it */
-            HDfprintf(stream, "%*s%-*s\n", indent + 3, "", MAX(0, fwidth - 3), "Left Key:");
+            HDfprintf(stream, "%*s%-*s\n", indent + 3, "", MAX(3, fwidth) - 3, "Left Key:");
             HDassert(H5B_NKEY(bt, shared, u));
-            (void)(type->debug_key)(stream, indent + 6, MAX(0, fwidth - 6), H5B_NKEY(bt, shared, u), udata);
+            (void)(type->debug_key)(stream, indent + 6, MAX(6, fwidth) - 6, H5B_NKEY(bt, shared, u), udata);
 
             /* Decode the 'right' key & print it */
-            HDfprintf(stream, "%*s%-*s\n", indent + 3, "", MAX(0, fwidth - 3), "Right Key:");
+            HDfprintf(stream, "%*s%-*s\n", indent + 3, "", MAX(3, fwidth) - 3, "Right Key:");
             HDassert(H5B_NKEY(bt, shared, u + 1));
-            (void)(type->debug_key)(stream, indent + 6, MAX(0, fwidth - 6), H5B_NKEY(bt, shared, u + 1),
+            (void)(type->debug_key)(stream, indent + 6, MAX(6, fwidth) - 6, H5B_NKEY(bt, shared, u + 1),
                                     udata);
         } /* end if */
     }     /* end for */
@@ -153,9 +152,9 @@ done:
 herr_t
 H5B__assert(H5F_t *f, haddr_t addr, const H5B_class_t *type, void *udata)
 {
-    H5B_t *        bt = NULL;
-    H5UC_t *       rc_shared;   /* Ref-counted shared info */
-    H5B_shared_t * shared;      /* Pointer to shared B-tree info */
+    H5B_t         *bt = NULL;
+    H5UC_t        *rc_shared;   /* Ref-counted shared info */
+    H5B_shared_t  *shared;      /* Pointer to shared B-tree info */
     H5B_cache_ud_t cache_udata; /* User-data for metadata cache callback */
     int            ncell, cmp;
     static int     ncalls = 0;

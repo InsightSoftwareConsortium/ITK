@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -39,13 +38,13 @@
 static void *H5O__link_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags, size_t p_size,
                               const uint8_t *p);
 static herr_t H5O__link_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
-static void * H5O__link_copy(const void *_mesg, void *_dest);
+static void  *H5O__link_copy(const void *_mesg, void *_dest);
 static size_t H5O__link_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
 static herr_t H5O__link_reset(void *_mesg);
 static herr_t H5O__link_free(void *_mesg);
 static herr_t H5O__link_pre_copy_file(H5F_t *file_src, const void *mesg_src, hbool_t *deleted,
                                       const H5O_copy_t *cpy_info, void *udata);
-static void * H5O__link_copy_file(H5F_t *file_src, void *native_src, H5F_t *file_dst, hbool_t *recompute_size,
+static void  *H5O__link_copy_file(H5F_t *file_src, void *native_src, H5F_t *file_dst, hbool_t *recompute_size,
                                   unsigned *mesg_flags, H5O_copy_t *cpy_info, void *udata);
 static herr_t H5O__link_post_copy_file(const H5O_loc_t *src_oloc, const void *mesg_src, H5O_loc_t *dst_oloc,
                                        void *mesg_dst, unsigned *mesg_flags, H5O_copy_t *cpy_info);
@@ -56,7 +55,7 @@ const H5O_msg_class_t H5O_MSG_LINK[1] = {{
     H5O_LINK_ID,              /*message id number             */
     "link",                   /*message name for debugging    */
     sizeof(H5O_link_t),       /*native message size           */
-    0,                        /* messages are sharable?       */
+    0,                        /* messages are shareable?       */
     H5O__link_decode,         /*decode message                */
     H5O__link_encode,         /*encode message                */
     H5O__link_copy,           /*copy the native value         */
@@ -114,11 +113,11 @@ static void *
 H5O__link_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUSED mesg_flags,
                  unsigned H5_ATTR_UNUSED *ioflags, size_t p_size, const uint8_t *p)
 {
-    H5O_link_t *   lnk = NULL;             /* Pointer to link message */
+    H5O_link_t    *lnk = NULL;             /* Pointer to link message */
     size_t         len = 0;                /* Length of a string in the message */
     unsigned char  link_flags;             /* Flags for encoding link info */
     const uint8_t *p_end     = p + p_size; /* End of the p buffer */
-    void *         ret_value = NULL;       /* Return value */
+    void          *ret_value = NULL;       /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -414,8 +413,8 @@ static void *
 H5O__link_copy(const void *_mesg, void *_dest)
 {
     const H5O_link_t *lnk       = (const H5O_link_t *)_mesg;
-    H5O_link_t *      dest      = (H5O_link_t *)_dest;
-    void *            ret_value = NULL; /* Return value */
+    H5O_link_t       *dest      = (H5O_link_t *)_dest;
+    void             *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -719,7 +718,7 @@ H5O__link_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *native_src, H5F_t H5_A
                     H5O_copy_t H5_ATTR_UNUSED *cpy_info, void H5_ATTR_UNUSED *udata)
 {
     H5O_link_t *link_src  = (H5O_link_t *)native_src;
-    void *      ret_value = NULL; /* Return value */
+    void       *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -758,7 +757,7 @@ H5O__link_post_copy_file(const H5O_loc_t *src_oloc, const void *mesg_src, H5O_lo
                          unsigned H5_ATTR_UNUSED *mesg_flags, H5O_copy_t *cpy_info)
 {
     const H5O_link_t *link_src  = (const H5O_link_t *)mesg_src;
-    H5O_link_t *      link_dst  = (H5O_link_t *)mesg_dst;
+    H5O_link_t       *link_dst  = (H5O_link_t *)mesg_dst;
     herr_t            ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC

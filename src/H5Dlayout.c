@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -212,7 +211,7 @@ H5D__layout_meta_size(const H5F_t *f, const H5O_layout_t *layout, hbool_t includ
                 ret_value++;
 
                 /* Dimension sizes */
-                ret_value += layout->u.chunk.ndims * layout->u.chunk.enc_bytes_per_dim;
+                ret_value += layout->u.chunk.ndims * (size_t)layout->u.chunk.enc_bytes_per_dim;
 
                 /* Type of chunk index */
                 ret_value++;
@@ -450,7 +449,7 @@ done:
 herr_t
 H5D__layout_oh_create(H5F_t *file, H5O_t *oh, H5D_t *dset, hid_t dapl_id)
 {
-    H5O_layout_t *    layout;                /* Dataset's layout information */
+    H5O_layout_t     *layout;                /* Dataset's layout information */
     const H5O_fill_t *fill_prop;             /* Pointer to dataset's fill value information */
     unsigned          layout_mesg_flags;     /* Flags for inserting layout message */
     hbool_t           layout_init = FALSE;   /* Flag to indicate that chunk information was initialized */
@@ -500,7 +499,7 @@ H5D__layout_oh_create(H5F_t *file, H5O_t *oh, H5D_t *dset, hid_t dapl_id)
     /* Update external storage message, if it's used */
     if (dset->shared->dcpl_cache.efl.nused > 0) {
         H5O_efl_t *efl = &dset->shared->dcpl_cache.efl; /* Dataset's external file list */
-        H5HL_t *   heap;                                /* Pointer to local heap for EFL file names */
+        H5HL_t    *heap;                                /* Pointer to local heap for EFL file names */
         size_t     heap_size = H5HL_ALIGN(1);
         size_t     u;
         size_t     name_offset;
@@ -592,7 +591,9 @@ herr_t
 H5D__layout_oh_read(H5D_t *dataset, hid_t dapl_id, H5P_genplist_t *plist)
 {
     htri_t  msg_exists;              /* Whether a particular type of message exists */
+    hbool_t pline_copied  = FALSE;   /* Flag to indicate that dcpl_cache.pline's message was copied */
     hbool_t layout_copied = FALSE;   /* Flag to indicate that layout message was copied */
+    hbool_t efl_copied    = FALSE;   /* Flag to indicate that the EFL message was copied */
     herr_t  ret_value     = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE
@@ -608,6 +609,7 @@ H5D__layout_oh_read(H5D_t *dataset, hid_t dapl_id, H5P_genplist_t *plist)
         /* Retrieve the I/O pipeline message */
         if (NULL == H5O_msg_read(&(dataset->oloc), H5O_PLINE_ID, &dataset->shared->dcpl_cache.pline))
             HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't retrieve message")
+        pline_copied = TRUE;
 
         /* Set the I/O pipeline info in the property list */
         if (H5P_set(plist, H5O_CRT_PIPELINE_NAME, &dataset->shared->dcpl_cache.pline) < 0)
@@ -628,9 +630,10 @@ H5D__layout_oh_read(H5D_t *dataset, hid_t dapl_id, H5P_genplist_t *plist)
     if ((msg_exists = H5O_msg_exists(&(dataset->oloc), H5O_EFL_ID)) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't check if message exists")
     if (msg_exists) {
-        /* Retrieve the EFL  message */
+        /* Retrieve the EFL message */
         if (NULL == H5O_msg_read(&(dataset->oloc), H5O_EFL_ID, &dataset->shared->dcpl_cache.efl))
             HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't retrieve message")
+        efl_copied = TRUE;
 
         /* Set the EFL info in the property list */
         if (H5P_set(plist, H5D_CRT_EXT_FILE_LIST_NAME, &dataset->shared->dcpl_cache.efl) < 0)
@@ -662,10 +665,17 @@ H5D__layout_oh_read(H5D_t *dataset, hid_t dapl_id, H5P_genplist_t *plist)
             HGOTO_ERROR(H5E_DATASET, H5E_BADVALUE, FAIL, "unable to set chunk sizes")
 
 done:
-    if (ret_value < 0 && layout_copied)
-        if (H5O_msg_reset(H5O_LAYOUT_ID, &dataset->shared->layout) < 0)
-            HDONE_ERROR(H5E_DATASET, H5E_CANTRESET, FAIL, "unable to reset layout info")
-
+    if (ret_value < 0) {
+        if (pline_copied)
+            if (H5O_msg_reset(H5O_PLINE_ID, &dataset->shared->dcpl_cache.pline) < 0)
+                HDONE_ERROR(H5E_DATASET, H5E_CANTRESET, FAIL, "unable to reset pipeline info")
+        if (layout_copied)
+            if (H5O_msg_reset(H5O_LAYOUT_ID, &dataset->shared->layout) < 0)
+                HDONE_ERROR(H5E_DATASET, H5E_CANTRESET, FAIL, "unable to reset layout info")
+        if (efl_copied)
+            if (H5O_msg_reset(H5O_EFL_ID, &dataset->shared->dcpl_cache.efl) < 0)
+                HDONE_ERROR(H5E_DATASET, H5E_CANTRESET, FAIL, "unable to reset efl message")
+    }
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5D__layout_oh_read() */
 

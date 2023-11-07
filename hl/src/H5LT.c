@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -20,7 +19,7 @@
 #define TMP_LEN   256
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 size_t input_len;
-char * myinput;
+char  *myinput;
 size_t indent = 0;
 
 /* File Image operations
@@ -57,12 +56,12 @@ size_t indent = 0;
 
 /* Data structure to pass application data to callbacks. */
 typedef struct {
-    void *   app_image_ptr;   /* Pointer to application buffer */
+    void    *app_image_ptr;   /* Pointer to application buffer */
     size_t   app_image_size;  /* Size of application buffer */
-    void *   fapl_image_ptr;  /* Pointer to FAPL buffer */
+    void    *fapl_image_ptr;  /* Pointer to FAPL buffer */
     size_t   fapl_image_size; /* Size of FAPL buffer */
     int      fapl_ref_count;  /* Reference counter for FAPL buffer */
-    void *   vfd_image_ptr;   /* Pointer to VFD buffer */
+    void    *vfd_image_ptr;   /* Pointer to VFD buffer */
     size_t   vfd_image_size;  /* Size of VFD buffer */
     int      vfd_ref_count;   /* Reference counter for VFD buffer */
     unsigned flags;           /* Flags indicate how the file image will */
@@ -71,12 +70,12 @@ typedef struct {
 } H5LT_file_image_ud_t;
 
 /* callbacks prototypes for file image ops */
-static void * image_malloc(size_t size, H5FD_file_image_op_t file_image_op, void *udata);
-static void * image_memcpy(void *dest, const void *src, size_t size, H5FD_file_image_op_t file_image_op,
+static void  *image_malloc(size_t size, H5FD_file_image_op_t file_image_op, void *udata);
+static void  *image_memcpy(void *dest, const void *src, size_t size, H5FD_file_image_op_t file_image_op,
                            void *udata);
-static void * image_realloc(void *ptr, size_t size, H5FD_file_image_op_t file_image_op, void *udata);
+static void  *image_realloc(void *ptr, size_t size, H5FD_file_image_op_t file_image_op, void *udata);
 static herr_t image_free(void *ptr, H5FD_file_image_op_t file_image_op, void *udata);
-static void * udata_copy(void *udata);
+static void  *udata_copy(void *udata);
 static herr_t udata_free(void *udata);
 
 /* Definition of callbacks for file image operations. */
@@ -102,7 +101,7 @@ static void *
 image_malloc(size_t size, H5FD_file_image_op_t file_image_op, void *_udata)
 {
     H5LT_file_image_ud_t *udata        = (H5LT_file_image_ud_t *)_udata;
-    void *                return_value = NULL;
+    void                 *return_value = NULL;
 
     /* callback is only used if the application buffer is not actually copied */
     if (!(udata->flags & H5LT_FILE_IMAGE_DONT_COPY))
@@ -282,7 +281,7 @@ static void *
 image_realloc(void *ptr, size_t size, H5FD_file_image_op_t file_image_op, void *_udata)
 {
     H5LT_file_image_ud_t *udata        = (H5LT_file_image_ud_t *)_udata;
-    void *                return_value = NULL;
+    void                 *return_value = NULL;
 
     /* callback is only used if the application buffer is not actually copied */
     if (!(udata->flags & H5LT_FILE_IMAGE_DONT_COPY))
@@ -1776,6 +1775,32 @@ H5LTset_attribute_ulong(hid_t loc_id, const char *obj_name, const char *attr_nam
 }
 
 /*-------------------------------------------------------------------------
+ * Function: H5LTset_attribute_ullong
+ *
+ * Purpose: Create and write an attribute.
+ *
+ * Return: Success: 0, Failure: -1
+ *
+ * Programmer: Alessandro Felder
+ *
+ * Date: August 27, 2021
+ *
+ * Comments:
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5LTset_attribute_ullong(hid_t loc_id, const char *obj_name, const char *attr_name,
+                         const unsigned long long *data, size_t size)
+{
+
+    if (H5LT_set_attribute_numerical(loc_id, obj_name, attr_name, size, H5T_NATIVE_ULLONG, data) < 0)
+        return -1;
+
+    return 0;
+}
+
+/*-------------------------------------------------------------------------
  * Function: H5LTset_attribute_float
  *
  * Purpose: Create and write an attribute.
@@ -1830,46 +1855,6 @@ H5LTset_attribute_double(hid_t loc_id, const char *obj_name, const char *attr_na
 }
 
 /*-------------------------------------------------------------------------
- * Function: find_attr
- *
- * Purpose: operator function used by H5LT_find_attribute
- *
- * Programmer: Pedro Vicente
- *
- * Date: June 21, 2001
- *
- * Comments:
- *
- * Modifications:
- *
- *-------------------------------------------------------------------------
- */
-static herr_t
-find_attr(H5_ATTR_UNUSED hid_t loc_id, const char *name, H5_ATTR_UNUSED const H5A_info_t *ainfo,
-          void *op_data)
-{
-    int ret = H5_ITER_CONT;
-
-    /* check the arguments */
-    if (name == NULL)
-        return H5_ITER_CONT;
-
-    /* Shut compiler up */
-    (void)loc_id;
-    (void)ainfo;
-
-    /* Define a positive value for return value if the attribute was found. This will
-     * cause the iterator to immediately return that positive value,
-     * indicating short-circuit success
-     */
-
-    if (HDstrncmp(name, (char *)op_data, MAX(HDstrlen((char *)op_data), HDstrlen(name))) == 0)
-        ret = H5_ITER_STOP;
-
-    return ret;
-}
-
-/*-------------------------------------------------------------------------
  * Function: H5LTfind_attribute
  *
  * Purpose: Inquires if an attribute named attr_name exists attached to
@@ -1900,32 +1885,22 @@ H5LTfind_attribute(hid_t loc_id, const char *attr_name)
  *
  * Date: June 21, 2001
  *
- * Comments:
- *  The function uses H5Aiterate2 with the operator function find_attr
- *
  * Return:
- *  Success: The return value of the first operator that
- *              returns non-zero, or zero if all members were
- *              processed with no operator returning non-zero.
+ *  Success: Positive if the attribute exists attached to the
+ *              object loc_id. Zero if the attribute does not
+ *              exist attached to the object loc_id.
  *
  *  Failure: Negative if something goes wrong within the
- *              library, or the negative value returned by one
- *              of the operators.
+ *              library.
  *
  *-------------------------------------------------------------------------
  */
-/* H5Aiterate wants a non-const pointer but we have a const pointer in the API
- * call. It's safe to ignore this because we control the callback, don't
- * modify the op_data buffer (i.e.: attr_name) during the traversal, and the
- * library never modifies that buffer.
- */
-H5_GCC_DIAG_OFF("cast-qual")
 herr_t
 H5LT_find_attribute(hid_t loc_id, const char *attr_name)
 {
-    return H5Aiterate2(loc_id, H5_INDEX_NAME, H5_ITER_INC, NULL, find_attr, (void *)attr_name);
+    htri_t attr_exists = H5Aexists(loc_id, attr_name);
+    return (attr_exists < 0) ? (herr_t)-1 : (attr_exists) ? (herr_t)1 : (herr_t)0;
 }
-H5_GCC_DIAG_ON("cast-qual")
 
 /*-------------------------------------------------------------------------
  * Function: H5LTget_attribute_ndims
@@ -2146,19 +2121,28 @@ realloc_and_append(hbool_t _no_user_buf, size_t *len, char *buf, const char *str
     size_t size_str_to_add, size_str;
 
     if (_no_user_buf) {
+        char *tmp_realloc;
+
+        if (!buf)
+            goto out;
+
         /* If the buffer isn't big enough, reallocate it.  Otherwise, go to do strcat. */
         if (str_to_add && ((ssize_t)(*len - (HDstrlen(buf) + HDstrlen(str_to_add) + 1)) < LIMIT)) {
             *len += ((HDstrlen(buf) + HDstrlen(str_to_add) + 1) / INCREMENT + 1) * INCREMENT;
-            buf = (char *)HDrealloc(buf, *len);
         }
         else if (!str_to_add && ((ssize_t)(*len - HDstrlen(buf) - 1) < LIMIT)) {
             *len += INCREMENT;
-            buf = (char *)HDrealloc(buf, *len);
         }
-    }
 
-    if (!buf)
-        goto out;
+        tmp_realloc = (char *)HDrealloc(buf, *len);
+        if (tmp_realloc == NULL) {
+            HDfree(buf);
+            buf = NULL;
+            goto out;
+        }
+        else
+            buf = tmp_realloc;
+    }
 
     if (str_to_add) {
         /* find the size of the buffer to add */
@@ -2171,7 +2155,7 @@ realloc_and_append(hbool_t _no_user_buf, size_t *len, char *buf, const char *str
          */
         if (size_str < *len - 1) {
             if (size_str + size_str_to_add < *len - 1) {
-                HDstrncat(buf, str_to_add, size_str_to_add);
+                HDstrcat(buf, str_to_add);
             }
             else {
                 HDstrncat(buf, str_to_add, (*len - 1) - size_str);
@@ -2239,7 +2223,7 @@ out:
 static char *
 print_enum(hid_t type, char *str, size_t *str_len, hbool_t no_ubuf, size_t indt)
 {
-    char **        name  = NULL; /*member names                   */
+    char         **name  = NULL; /*member names                   */
     unsigned char *value = NULL; /*value array                    */
     int            nmembs;       /*number of members              */
     char           tmp_str[TMP_LEN];
@@ -2374,9 +2358,9 @@ out:
 herr_t
 H5LTdtype_to_text(hid_t dtype, char *str, H5LT_lang_t lang_type, size_t *len)
 {
-    size_t str_len = INCREMENT;
-    char * text_str;
-    herr_t ret = SUCCEED;
+    size_t str_len  = INCREMENT;
+    char  *text_str = NULL;
+    herr_t ret      = SUCCEED;
 
     if (lang_type <= H5LT_LANG_ERR || lang_type >= H5LT_NO_LANG)
         goto out;
@@ -2400,6 +2384,8 @@ H5LTdtype_to_text(hid_t dtype, char *str, H5LT_lang_t lang_type, size_t *len)
     return ret;
 
 out:
+    HDfree(text_str);
+
     return FAIL;
 }
 
@@ -2542,11 +2528,9 @@ H5LT_dtype_to_text(hid_t dtype, char *dt_str, H5LT_lang_t lang, size_t *slen, hb
             }
             else if (H5Tequal(dtype, H5T_NATIVE_DOUBLE)) {
                 HDsnprintf(dt_str, *slen, "H5T_NATIVE_DOUBLE");
-#if H5_SIZEOF_LONG_DOUBLE != 0
             }
             else if (H5Tequal(dtype, H5T_NATIVE_LDOUBLE)) {
                 HDsnprintf(dt_str, *slen, "H5T_NATIVE_LDOUBLE");
-#endif
             }
             else {
                 HDsnprintf(dt_str, *slen, "undefined float");
@@ -2766,7 +2750,7 @@ next:
         case H5T_ENUM: {
             hid_t  super;
             size_t super_len;
-            char * stmp = NULL;
+            char  *stmp = NULL;
 
             /* Print lead-in */
             HDsnprintf(dt_str, *slen, "H5T_ENUM {\n");
@@ -2779,10 +2763,14 @@ next:
             if (H5LTdtype_to_text(super, NULL, lang, &super_len) < 0)
                 goto out;
             stmp = (char *)HDcalloc(super_len, sizeof(char));
-            if (H5LTdtype_to_text(super, stmp, lang, &super_len) < 0)
+            if (H5LTdtype_to_text(super, stmp, lang, &super_len) < 0) {
+                HDfree(stmp);
                 goto out;
-            if (!(dt_str = realloc_and_append(no_user_buf, slen, dt_str, stmp)))
+            }
+            if (!(dt_str = realloc_and_append(no_user_buf, slen, dt_str, stmp))) {
+                HDfree(stmp);
                 goto out;
+            }
 
             if (stmp)
                 HDfree(stmp);
@@ -2809,7 +2797,7 @@ next:
         case H5T_VLEN: {
             hid_t  super;
             size_t super_len;
-            char * stmp = NULL;
+            char  *stmp = NULL;
 
             /* Print lead-in */
             HDsnprintf(dt_str, *slen, "H5T_VLEN {\n");
@@ -2822,10 +2810,14 @@ next:
             if (H5LTdtype_to_text(super, NULL, lang, &super_len) < 0)
                 goto out;
             stmp = (char *)HDcalloc(super_len, sizeof(char));
-            if (H5LTdtype_to_text(super, stmp, lang, &super_len) < 0)
+            if (H5LTdtype_to_text(super, stmp, lang, &super_len) < 0) {
+                HDfree(stmp);
                 goto out;
-            if (!(dt_str = realloc_and_append(no_user_buf, slen, dt_str, stmp)))
+            }
+            if (!(dt_str = realloc_and_append(no_user_buf, slen, dt_str, stmp))) {
+                HDfree(stmp);
                 goto out;
+            }
 
             if (stmp)
                 HDfree(stmp);
@@ -2848,7 +2840,7 @@ next:
         case H5T_ARRAY: {
             hid_t   super;
             size_t  super_len;
-            char *  stmp = NULL;
+            char   *stmp = NULL;
             hsize_t dims[H5S_MAX_RANK];
             int     ndims;
 
@@ -2879,10 +2871,14 @@ next:
             if (H5LTdtype_to_text(super, NULL, lang, &super_len) < 0)
                 goto out;
             stmp = (char *)HDcalloc(super_len, sizeof(char));
-            if (H5LTdtype_to_text(super, stmp, lang, &super_len) < 0)
+            if (H5LTdtype_to_text(super, stmp, lang, &super_len) < 0) {
+                HDfree(stmp);
                 goto out;
-            if (!(dt_str = realloc_and_append(no_user_buf, slen, dt_str, stmp)))
+            }
+            if (!(dt_str = realloc_and_append(no_user_buf, slen, dt_str, stmp))) {
+                HDfree(stmp);
                 goto out;
+            }
             if (stmp)
                 HDfree(stmp);
             stmp = NULL;
@@ -2902,12 +2898,12 @@ next:
             break;
         }
         case H5T_COMPOUND: {
-            char *      mname = NULL;
+            char       *mname = NULL;
             hid_t       mtype;
             size_t      moffset;
             H5T_class_t mclass;
             size_t      mlen;
-            char *      mtmp = NULL;
+            char       *mtmp = NULL;
             int         nmembs;
 
             if ((nmembs = H5Tget_nmembers(dtype)) < 0)
@@ -2933,10 +2929,14 @@ next:
                 if (H5LTdtype_to_text(mtype, NULL, lang, &mlen) < 0)
                     goto out;
                 mtmp = (char *)HDcalloc(mlen, sizeof(char));
-                if (H5LTdtype_to_text(mtype, mtmp, lang, &mlen) < 0)
+                if (H5LTdtype_to_text(mtype, mtmp, lang, &mlen) < 0) {
+                    HDfree(mtmp);
                     goto out;
-                if (!(dt_str = realloc_and_append(no_user_buf, slen, dt_str, mtmp)))
+                }
+                if (!(dt_str = realloc_and_append(no_user_buf, slen, dt_str, mtmp))) {
+                    HDfree(mtmp);
                     goto out;
+                }
                 if (mtmp)
                     HDfree(mtmp);
                 mtmp = NULL;
@@ -3290,6 +3290,33 @@ H5LTget_attribute_ulong(hid_t loc_id, const char *obj_name, const char *attr_nam
 }
 
 /*-------------------------------------------------------------------------
+ * Function: H5LTget_attribute_ullong
+ *
+ * Purpose: Reads an attribute named attr_name
+ *
+ * Return: Success: 0, Failure: -1
+ *
+ * Programmer: Alessandro Felder
+ *
+ * Date: August 27, 2021
+ *
+ * Comments:
+ *
+ * Modifications:
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5LTget_attribute_ullong(hid_t loc_id, const char *obj_name, const char *attr_name, unsigned long long *data)
+{
+    /* Get the attribute */
+    if (H5LT_get_attribute_mem(loc_id, obj_name, attr_name, H5T_NATIVE_ULLONG, data) < 0)
+        return -1;
+
+    return 0;
+}
+
+/*-------------------------------------------------------------------------
  * Function: H5LTget_attribute_float
  *
  * Purpose: Reads an attribute named attr_name
@@ -3576,9 +3603,9 @@ out:
 htri_t
 H5LTpath_valid(hid_t loc_id, const char *path, hbool_t check_object_valid)
 {
-    char *     tmp_path = NULL; /* Temporary copy of the path */
-    char *     curr_name;       /* Pointer to current component of path name */
-    char *     delimit;         /* Pointer to path delimiter during traversal */
+    char      *tmp_path = NULL; /* Temporary copy of the path */
+    char      *curr_name;       /* Pointer to current component of path name */
+    char      *delimit;         /* Pointer to path delimiter during traversal */
     H5I_type_t obj_type;
     htri_t     link_exists, obj_exists;
     size_t     path_length;

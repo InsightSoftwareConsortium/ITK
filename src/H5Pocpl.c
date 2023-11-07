@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -482,7 +481,7 @@ done:
  *        transfer property list.  The FLAGS argument specifies certain
  *        general properties of the filter and is documented below.
  *        The CD_VALUES is an array of CD_NELMTS integers which are
- *        auxiliary data for the filter.  The integer vlues will be
+ *        auxiliary data for the filter.  The integer values will be
  *        stored in the dataset object header as part of the filter
  *        information.
  *
@@ -543,7 +542,7 @@ done:
  *              transfer property list.  The FLAGS argument specifies certain
  *              general properties of the filter and is documented below.
  *              The CD_VALUES is an array of CD_NELMTS integers which are
- *              auxiliary data for the filter.  The integer vlues will be
+ *              auxiliary data for the filter.  The integer values will be
  *              stored in the dataset object header as part of the filter
  *              information.
  *
@@ -609,7 +608,7 @@ done:
  *        creation property list.  The FLAGS argument specifies certain
  *        general properties of the filter and is documented below.
  *        The CD_VALUES is an array of CD_NELMTS integers which are
- *        auxiliary data for the filter.  The integer vlues will be
+ *        auxiliary data for the filter.  The integer values will be
  *        stored in the dataset object header as part of the filter
  *        information.
  *
@@ -671,7 +670,7 @@ done:
  *        creation property list.  The FLAGS argument specifies certain
  *        general properties of the filter and is documented below.
  *        The CD_VALUES is an array of CD_NELMTS integers which are
- *        auxiliary data for the filter.  The integer vlues will be
+ *        auxiliary data for the filter.  The integer values will be
  *        stored in the dataset object header as part of the filter
  *        information.
  *
@@ -782,7 +781,7 @@ done:
  *        CD_NELMTS indicates the number of entries in the CD_VALUES
  *        array allocated by the caller while on exit it contains the
  *        number of values defined by the filter.  FILTER_CONFIG is a bit
- *      field contaning encode/decode flags from H5Zpublic.h.  The IDX
+ *      field containing encode/decode flags from H5Zpublic.h.  The IDX
  *      should be a value between zero and N-1 as described for
  *      H5Pget_nfilters() and the function will return failure if the
  *      filter number is out of range.
@@ -801,7 +800,7 @@ H5Pget_filter2(hid_t plist_id, unsigned idx, unsigned int *flags /*out*/, size_t
                unsigned cd_values[] /*out*/, size_t namelen, char name[] /*out*/,
                unsigned *filter_config /*out*/)
 {
-    H5P_genplist_t *         plist;     /* Property list */
+    H5P_genplist_t          *plist;     /* Property list */
     H5O_pline_t              pline;     /* Filter pipeline */
     const H5Z_filter_info_t *filter;    /* Pointer to filter information */
     H5Z_filter_t             ret_value; /* return value */
@@ -867,7 +866,7 @@ done:
  *        CD_NELMTS indicates the number of entries in the CD_VALUES
  *        array allocated by the caller while on exit it contains the
  *        number of values defined by the filter.  FILTER_CONFIG is a bit
- *      field contaning encode/decode flags from H5Zpublic.h.  The ID
+ *      field containing encode/decode flags from H5Zpublic.h.  The ID
  *      should be the filter ID to retrieve the parameters for.  If the
  *      filter is not set for the property list, an error will be returned.
  *
@@ -916,7 +915,7 @@ done:
  *        CD_NELMTS indicates the number of entries in the CD_VALUES
  *        array allocated by the caller while on exit it contains the
  *        number of values defined by the filter.  FILTER_CONFIG is a bit
- *      field contaning encode/decode flags from H5Zpublic.h.  The ID
+ *      field containing encode/decode flags from H5Zpublic.h.  The ID
  *      should be the filter ID to retrieve the parameters for.  If the
  *      filter is not set for the property list, an error will be returned.
  *
@@ -1356,7 +1355,7 @@ static herr_t
 H5P__ocrt_pipeline_enc(const void *value, void **_pp, size_t *size)
 {
     const H5O_pline_t *pline = (const H5O_pline_t *)value;
-    uint8_t **         pp    = (uint8_t **)_pp;
+    uint8_t          **pp    = (uint8_t **)_pp;
     size_t             u; /* Local index variable */
 
     FUNC_ENTER_STATIC_NOERR
@@ -1447,7 +1446,7 @@ H5P__ocrt_pipeline_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P__ocrt_pipeline_dec(const void **_pp, void *_value)
 {
-    H5O_pline_t *   pline = (H5O_pline_t *)_value; /* Property to set */
+    H5O_pline_t    *pline = (H5O_pline_t *)_value; /* Property to set */
     const uint8_t **pp    = (const uint8_t **)_pp;
     size_t          nused;               /* Number of filters used for pipeline */
     unsigned        enc_size;            /* Size of encoded value (in bytes) */
@@ -1751,7 +1750,7 @@ H5Pget_filter1(hid_t plist_id, unsigned idx, unsigned int *flags /*out*/, size_t
 {
     H5O_pline_t              pline;     /* Filter pipeline */
     const H5Z_filter_info_t *filter;    /* Pointer to filter information */
-    H5P_genplist_t *         plist;     /* Property list pointer */
+    H5P_genplist_t          *plist;     /* Property list pointer */
     H5Z_filter_t             ret_value; /* return value */
 
     FUNC_ENTER_API(H5Z_FILTER_ERROR)

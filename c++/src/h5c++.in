@@ -1,7 +1,6 @@
 #!/bin/sh
 #
 # Copyright by The HDF Group.
-# Copyright by the Board of Trustees of the University of Illinois.
 # All rights reserved.
 #
 # This file is part of HDF5.  The full HDF5 copyright notice, including
@@ -35,10 +34,10 @@ HL="@HL@"
 ## (Advanced usage - know what you're doing - you're on your own here.)   ##
 ## The four variables below can be used to insert paths and flags in      ##
 ## CPPFLAGS, CXXFLAGS, LDFLAGS, or LIBS in the h5cc compile line:         ##
-##    $CLINKER $H5BLD_CPPFLAGS $CPPFLAGS $H5BLD_CXXFLAGS $CXXFLAGS        ##
+##    $CXXLINKER $H5BLD_CPPFLAGS $CPPFLAGS $H5BLD_CXXFLAGS $CXXFLAGS      ##
 ##    $LDFLAGS $LIBS $clibpath $link_objs $link_args $shared_link         ##
 ##                                                                        ##
-## These settings can be overridden by setting HDF5_CXXFLAGS,              ##
+## These settings can be overridden by setting HDF5_CXXFLAGS,             ##
 ## HDF5_CPPFLAGS, HDF5_LDFLAGS, or HDF5_LIBS in the environment.          ##
 ##                                                                        ##
 ############################################################################
@@ -93,7 +92,7 @@ H5BLD_LDFLAGS="@AM_LDFLAGS@ @LDFLAGS@"
 H5BLD_LIBS="@LIBS@"
 
 CXX="${HDF5_CXX:-$CXXBASE}"
-CXXLINKER="${HDF5_CLINKER:-$CXXLINKERBASE}"
+CXXLINKER="${HDF5_CXXLINKER:-$CXXLINKERBASE}"
 CXXFLAGS="${HDF5_CXXFLAGS:-$CXXFLAGSBASE}"
 CPPFLAGS="${HDF5_CPPFLAGS:-$CPPFLAGSBASE}"
 LDFLAGS="${HDF5_LDFLAGS:-$LDFLAGSBASE}"

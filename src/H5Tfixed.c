@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -40,7 +39,7 @@
 H5T_sign_t
 H5Tget_sign(hid_t type_id)
 {
-    H5T_t *    dt = NULL;
+    H5T_t     *dt = NULL;
     H5T_sign_t ret_value;
 
     FUNC_ENTER_API(H5T_SGN_ERROR)

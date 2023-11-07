@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -803,7 +802,7 @@ done:
 static herr_t
 H5HF__man_iblock_root_revert(H5HF_indirect_t *root_iblock)
 {
-    H5HF_hdr_t *   hdr;                 /* Pointer to heap's header */
+    H5HF_hdr_t    *hdr;                 /* Pointer to heap's header */
     H5HF_direct_t *dblock = NULL;       /* Pointer to new root indirect block */
     haddr_t        dblock_addr;         /* Direct block's address in the file */
     size_t         dblock_size;         /* Direct block's size */
@@ -893,7 +892,7 @@ done:
 herr_t
 H5HF__man_iblock_alloc_row(H5HF_hdr_t *hdr, H5HF_free_section_t **sec_node)
 {
-    H5HF_indirect_t *    iblock       = NULL;      /* Pointer to indirect block */
+    H5HF_indirect_t     *iblock       = NULL;      /* Pointer to indirect block */
     H5HF_free_section_t *old_sec_node = *sec_node; /* Pointer to old indirect section node */
     unsigned             dblock_entry;             /* Entry for direct block */
     hbool_t              iblock_held = FALSE;      /* Flag to indicate that indirect block is held */
@@ -1349,7 +1348,7 @@ done:
 herr_t
 H5HF__man_iblock_detach(H5HF_indirect_t *iblock, unsigned entry)
 {
-    H5HF_hdr_t *     hdr;                 /* Fractal heap header */
+    H5HF_hdr_t      *hdr;                 /* Fractal heap header */
     H5HF_indirect_t *del_iblock = NULL;   /* Pointer to protected indirect block, when deleting */
     unsigned         row;                 /* Row for entry */
     herr_t           ret_value = SUCCEED; /* Return value */

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -302,7 +301,7 @@ AbstractDs::getStrType() const
 
 //--------------------------------------------------------------------------
 // Function:    AbstractDs::getVarLenType
-///\brief       Returns the floating-point datatype of this abstract dataset,
+///\brief       Returns the variable length datatype of this abstract dataset,
 ///             which can be a dataset or an attribute.
 ///\return      VarLenType instance
 ///\exception   H5::DataTypeIException

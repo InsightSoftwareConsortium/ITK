@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -228,7 +227,7 @@ done:
  * Purpose:     Return a small bit sequence as a number.  Bit vector starts
  *              at OFFSET and is SIZE bits long.
  *
- * Return:      The bit sequence interpretted as an unsigned integer
+ * Return:      The bit sequence interpreted as an unsigned integer
  *
  *-------------------------------------------------------------------------
  */
@@ -268,7 +267,6 @@ H5T__bit_get_d(uint8_t *buf, size_t offset, size_t size)
     /* Set return value */
     ret_value = val;
 
-done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5T__bit_get_d() */
 
@@ -373,7 +371,7 @@ H5T__bit_set(uint8_t *buf, size_t offset, size_t size, hbool_t value)
  * Purpose:     Finds the first bit with the specified VALUE within a region
  *              of a bit vector.  The region begins at OFFSET and continues
  *              for SIZE bits, but the region can be searched from the least
- *              significat end toward the most significant end(H5T_BIT_LSB
+ *              significant end toward the most significant end(H5T_BIT_LSB
  *              as DIRECTION), or from the most significant end to the least
  *              significant end(H5T_BIT_MSB as DIRECTION).
  *
@@ -539,7 +537,7 @@ H5T__bit_inc(uint8_t *buf, size_t start, size_t size)
 /*-------------------------------------------------------------------------
  * Function:    H5T__bit_dec
  *
- * Purpose:     Decrement part of a bit field by substracting 1.  The bit
+ * Purpose:     Decrement part of a bit field by subtracting 1.  The bit
  *              field starts with bit position START and is SIZE bits long.
  *
  * Return:      The "borrow-in" value. It's TRUE if underflows, FALSE
@@ -565,9 +563,9 @@ H5T__bit_dec(uint8_t *buf, size_t start, size_t size)
     if ((size + start - 1) / 8 > idx) {
         /* The bit sequence doesn't end in the same byte as starts */
 
-        /* Example:  a sequence like 11000100 and start = 3.  We substract 00001000 from
+        /* Example:  a sequence like 11000100 and start = 3.  We subtract 00001000 from
          * it and get 10111100.  If a sequence is 00000111, we do right shift for START
-         * bits and get 00000000.  So we need to borrow from higher byte when we substract
+         * bits and get 00000000.  So we need to borrow from higher byte when we subtract
          * 00001000.
          */
         if (!(buf[idx] >> pos))
@@ -598,7 +596,7 @@ H5T__bit_dec(uint8_t *buf, size_t start, size_t size)
     else {
         /* The bit sequence ends in the same byte as starts */
 
-        /* Example: a sequence like 11000100 and pos=3, size=3.  We substract 00001000
+        /* Example: a sequence like 11000100 and pos=3, size=3.  We subtract 00001000
          * and get 10111100.  A bit is borrowed from 6th bit(buf[idx]>>6=00000010, tmp>>6=00000011,
          * not equal).  We need to put this bit back by increment 1000000.
          */

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -54,10 +53,10 @@
 /* Struct used by change name callback function */
 typedef struct H5G_names_t {
     H5G_names_op_t op;              /* Operation performed on file */
-    H5F_t *        src_file;        /* Top file in src location's mounted file hier. */
-    H5RS_str_t *   src_full_path_r; /* Source location's full path */
-    H5F_t *        dst_file;        /* Destination location's file */
-    H5RS_str_t *   dst_full_path_r; /* Destination location's full path */
+    H5F_t         *src_file;        /* Top file in src location's mounted file hier. */
+    H5RS_str_t    *src_full_path_r; /* Source location's full path */
+    H5F_t         *dst_file;        /* Destination location's file */
+    H5RS_str_t    *dst_full_path_r; /* Destination location's full path */
 } H5G_names_t;
 
 /* Info to pass to the iteration function when building name */
@@ -147,10 +146,10 @@ H5G__component(const char *name, size_t *size_p)
 char *
 H5G_normalize(const char *name)
 {
-    char *   norm;             /* Pointer to the normalized string */
+    char    *norm;             /* Pointer to the normalized string */
     size_t   s, d;             /* Positions within the strings */
     unsigned last_slash;       /* Flag to indicate last character was a slash */
-    char *   ret_value = NULL; /* Return value */
+    char    *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -274,7 +273,7 @@ done:
 static H5RS_str_t *
 H5G__build_fullpath(const char *prefix, const char *name)
 {
-    char *      full_path;        /* Full user path built */
+    char       *full_path;        /* Full user path built */
     size_t      orig_path_len;    /* Original length of the path */
     size_t      path_len;         /* Length of the path */
     size_t      name_len;         /* Length of the name */
@@ -307,7 +306,7 @@ H5G__build_fullpath(const char *prefix, const char *name)
     /* Build full path */
     HDstrncpy(full_path, prefix, orig_path_len + 1);
     if (need_sep)
-        HDstrncat(full_path, "/", (size_t)1);
+        HDstrcat(full_path, "/");
     HDstrncat(full_path, name, name_len);
 
     /* Create reference counted string for path */
@@ -647,7 +646,7 @@ H5G__name_move_path(H5RS_str_t **path_r_ptr, const char *full_suffix, const char
         size_t      path_prefix2_len;  /* Length of 2nd path prefix */
         const char *common_prefix;     /* Common prefix for src & dst paths */
         size_t      common_prefix_len; /* Length of common prefix */
-        char *      new_path;          /* Pointer to new path */
+        char       *new_path;          /* Pointer to new path */
         size_t      new_path_len;      /* Length of new path */
 
         /* Compute path prefix before full suffix*/
@@ -719,9 +718,9 @@ static int
 H5G__name_replace_cb(void *obj_ptr, hid_t obj_id, void *key)
 {
     const H5G_names_t *names = (const H5G_names_t *)key; /* Get operation's information */
-    H5O_loc_t *        oloc;         /* Object location for object that the ID refers to */
-    H5G_name_t *       obj_path;     /* Pointer to group hier. path for obj */
-    H5F_t *            top_obj_file; /* Top file in object's mounted file hier. */
+    H5O_loc_t         *oloc;         /* Object location for object that the ID refers to */
+    H5G_name_t        *obj_path;     /* Pointer to group hier. path for obj */
+    H5F_t             *top_obj_file; /* Top file in object's mounted file hier. */
     hbool_t obj_in_child = FALSE;    /* Flag to indicate that the object is in the child mount hier. */
     herr_t  ret_value    = SUCCEED;  /* Return value */
 
@@ -815,7 +814,7 @@ H5G__name_replace_cb(void *obj_ptr, hid_t obj_id, void *key)
                 const char *full_path;     /* Full path of current object */
                 const char *src_path;      /* Full path of source object */
                 size_t      src_path_len;  /* Length of source full path */
-                char *      new_full_path; /* New full path of object */
+                char       *new_full_path; /* New full path of object */
                 size_t      new_full_len;  /* Length of new full path */
 
                 /* Get pointers to paths of interest */
@@ -862,7 +861,7 @@ H5G__name_replace_cb(void *obj_ptr, hid_t obj_id, void *key)
                 const char *full_suffix;     /* Full path after source path */
                 size_t      full_suffix_len; /* Length of full path after source path */
                 const char *src_path;        /* Full path of source object */
-                char *      new_full_path;   /* New full path of object */
+                char       *new_full_path;   /* New full path of object */
 
                 /* Get pointers to paths of interest */
                 full_path = H5RS_get_str(obj_path->full_path_r);
@@ -925,7 +924,7 @@ H5G__name_replace_cb(void *obj_ptr, hid_t obj_id, void *key)
                 const char *full_path;       /* Full path of current object */
                 const char *full_suffix;     /* Suffix of full path, after src_path */
                 size_t      full_suffix_len; /* Length of suffix of full path after src_path*/
-                char *      new_full_path;   /* New full path of object */
+                char       *new_full_path;   /* New full path of object */
                 size_t      new_full_len;    /* Length of new full path */
                 const char *src_path;        /* Full path of source object */
                 const char *dst_path;        /* Full path of destination object */

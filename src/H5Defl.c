@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -44,14 +43,14 @@
 /* Callback info for readvv operation */
 typedef struct H5D_efl_readvv_ud_t {
     const H5O_efl_t *efl;  /* Pointer to efl info */
-    const H5D_t *    dset; /* The dataset */
-    unsigned char *  rbuf; /* Read buffer */
+    const H5D_t     *dset; /* The dataset */
+    unsigned char   *rbuf; /* Read buffer */
 } H5D_efl_readvv_ud_t;
 
 /* Callback info for writevv operation */
 typedef struct H5D_efl_writevv_ud_t {
-    const H5O_efl_t *    efl;  /* Pointer to efl info */
-    const H5D_t *        dset; /* The dataset */
+    const H5O_efl_t     *efl;  /* Pointer to efl info */
+    const H5D_t         *dset; /* The dataset */
     const unsigned char *wbuf; /* Write buffer */
 } H5D_efl_writevv_ud_t;
 
@@ -62,7 +61,7 @@ typedef struct H5D_efl_writevv_ud_t {
 /* Layout operation callbacks */
 static herr_t H5D__efl_construct(H5F_t *f, H5D_t *dset);
 static herr_t H5D__efl_io_init(const H5D_io_info_t *io_info, const H5D_type_info_t *type_info, hsize_t nelmts,
-                               const H5S_t *file_space, const H5S_t *mem_space, H5D_chunk_map_t *cm);
+                               H5S_t *file_space, H5S_t *mem_space, H5D_chunk_map_t *cm);
 static ssize_t H5D__efl_readvv(const H5D_io_info_t *io_info, size_t dset_max_nseq, size_t *dset_curr_seq,
                                size_t dset_len_arr[], hsize_t dset_offset_arr[], size_t mem_max_nseq,
                                size_t *mem_curr_seq, size_t mem_len_arr[], hsize_t mem_offset_arr[]);
@@ -80,12 +79,24 @@ static herr_t H5D__efl_write(const H5O_efl_t *efl, const H5D_t *dset, haddr_t ad
 /*********************/
 
 /* External File List (EFL) storage layout I/O ops */
-const H5D_layout_ops_t H5D_LOPS_EFL[1] = {{H5D__efl_construct, NULL, H5D__efl_is_space_alloc, NULL,
-                                           H5D__efl_io_init, H5D__contig_read, H5D__contig_write,
+const H5D_layout_ops_t H5D_LOPS_EFL[1] = {{
+    H5D__efl_construct,      /* construct */
+    NULL,                    /* init */
+    H5D__efl_is_space_alloc, /* is_space_alloc */
+    NULL,                    /* is_data_cached */
+    H5D__efl_io_init,        /* io_init */
+    H5D__contig_read,        /* ser_read */
+    H5D__contig_write,       /* ser_write */
 #ifdef H5_HAVE_PARALLEL
-                                           NULL, NULL,
-#endif /* H5_HAVE_PARALLEL */
-                                           H5D__efl_readvv, H5D__efl_writevv, NULL, NULL, NULL}};
+    NULL, /* par_read */
+    NULL, /* par_write */
+#endif
+    H5D__efl_readvv,  /* readvv */
+    H5D__efl_writevv, /* writevv */
+    NULL,             /* flush */
+    NULL,             /* io_term */
+    NULL              /* dest */
+}};
 
 /*******************/
 /* Local Variables */
@@ -198,8 +209,8 @@ H5D__efl_is_space_alloc(const H5O_storage_t H5_ATTR_UNUSED *storage)
  */
 static herr_t
 H5D__efl_io_init(const H5D_io_info_t *io_info, const H5D_type_info_t H5_ATTR_UNUSED *type_info,
-                 hsize_t H5_ATTR_UNUSED nelmts, const H5S_t H5_ATTR_UNUSED *file_space,
-                 const H5S_t H5_ATTR_UNUSED *mem_space, H5D_chunk_map_t H5_ATTR_UNUSED *cm)
+                 hsize_t H5_ATTR_UNUSED nelmts, H5S_t H5_ATTR_UNUSED *file_space,
+                 H5S_t H5_ATTR_UNUSED *mem_space, H5D_chunk_map_t H5_ATTR_UNUSED *cm)
 {
     FUNC_ENTER_STATIC_NOERR
 
@@ -235,7 +246,7 @@ H5D__efl_read(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t size
     haddr_t cur;
     ssize_t n;
     size_t  u;                   /* Local index variable */
-    char *  full_name = NULL;    /* File name with prefix */
+    char   *full_name = NULL;    /* File name with prefix */
     herr_t  ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -323,7 +334,7 @@ H5D__efl_write(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t siz
     haddr_t cur;
     hsize_t skip = 0;
     size_t  u;                   /* Local index variable */
-    char *  full_name = NULL;    /* File name with prefix */
+    char   *full_name = NULL;    /* File name with prefix */
     herr_t  ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC

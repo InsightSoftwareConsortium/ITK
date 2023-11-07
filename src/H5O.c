@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -93,9 +92,9 @@
 hid_t
 H5Oopen(hid_t loc_id, const char *name, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5I_type_t        opened_type;
-    void *            opened_obj = NULL;
+    void             *opened_obj = NULL;
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID;
 
@@ -162,9 +161,9 @@ hid_t
 H5Oopen_by_idx(hid_t loc_id, const char *group_name, H5_index_t idx_type, H5_iter_order_t order, hsize_t n,
                hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5I_type_t        opened_type;
-    void *            opened_obj = NULL;
+    void             *opened_obj = NULL;
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID;
 
@@ -223,10 +222,10 @@ done:
 hid_t
 H5Oopen_by_token(hid_t loc_id, H5O_token_t token)
 {
-    H5VL_object_t *   vol_obj;                     /* Object of loc_id */
+    H5VL_object_t    *vol_obj;                     /* Object of loc_id */
     H5I_type_t        vol_obj_type = H5I_BADID;    /* Object type of loc_id */
     H5I_type_t        opened_type;                 /* Opened object type */
-    void *            opened_obj = NULL;           /* Opened object */
+    void             *opened_obj = NULL;           /* Opened object */
     H5VL_loc_params_t loc_params;                  /* Location parameters */
     hid_t             ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -286,8 +285,8 @@ done:
 herr_t
 H5Olink(hid_t obj_id, hid_t new_loc_id, const char *new_name, hid_t lcpl_id, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj1 = NULL; /* object of obj_id */
-    H5VL_object_t *   vol_obj2 = NULL; /* object of new_loc_id */
+    H5VL_object_t    *vol_obj1 = NULL; /* object of obj_id */
+    H5VL_object_t    *vol_obj2 = NULL; /* object of new_loc_id */
     H5VL_object_t     tmp_vol_obj;     /* Temporary object */
     H5VL_loc_params_t loc_params1;
     H5VL_loc_params_t loc_params2;
@@ -380,7 +379,7 @@ done:
 herr_t
 H5Oincr_refcount(hid_t object_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED;
 
@@ -430,7 +429,7 @@ done:
 herr_t
 H5Odecr_refcount(hid_t object_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -473,7 +472,7 @@ done:
 htri_t
 H5Oexists_by_name(hid_t loc_id, const char *name, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     htri_t            ret_value = FAIL; /* Return value */
 
@@ -524,7 +523,7 @@ done:
 herr_t
 H5Oget_info3(hid_t loc_id, H5O_info2_t *oinfo, unsigned fields)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -569,7 +568,7 @@ done:
 herr_t
 H5Oget_info_by_name3(hid_t loc_id, const char *name, H5O_info2_t *oinfo, unsigned fields, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -627,7 +626,7 @@ herr_t
 H5Oget_info_by_idx3(hid_t loc_id, const char *group_name, H5_index_t idx_type, H5_iter_order_t order,
                     hsize_t n, H5O_info2_t *oinfo, unsigned fields, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -686,7 +685,7 @@ done:
 herr_t
 H5Oget_native_info(hid_t loc_id, H5O_native_info_t *oinfo, unsigned fields)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -732,7 +731,7 @@ herr_t
 H5Oget_native_info_by_name(hid_t loc_id, const char *name, H5O_native_info_t *oinfo, unsigned fields,
                            hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -790,7 +789,7 @@ herr_t
 H5Oget_native_info_by_idx(hid_t loc_id, const char *group_name, H5_index_t idx_type, H5_iter_order_t order,
                           hsize_t n, H5O_native_info_t *oinfo, unsigned fields, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -854,7 +853,7 @@ done:
 herr_t
 H5Oset_comment(hid_t obj_id, const char *comment)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -902,7 +901,7 @@ done:
 herr_t
 H5Oset_comment_by_name(hid_t loc_id, const char *name, const char *comment, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -955,7 +954,7 @@ done:
 ssize_t
 H5Oget_comment(hid_t obj_id, char *comment, size_t bufsize)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     ssize_t           ret_value = -1; /* Return value */
 
@@ -998,7 +997,7 @@ done:
 ssize_t
 H5Oget_comment_by_name(hid_t loc_id, const char *name, char *comment, size_t bufsize, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     ssize_t           ret_value = -1; /* Return value */
 
@@ -1071,7 +1070,7 @@ herr_t
 H5Ovisit3(hid_t obj_id, H5_index_t idx_type, H5_iter_order_t order, H5O_iterate2_t op, void *op_data,
           unsigned fields)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value; /* Return value */
 
@@ -1145,7 +1144,7 @@ herr_t
 H5Ovisit_by_name3(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_iter_order_t order,
                   H5O_iterate2_t op, void *op_data, unsigned fields, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj; /* Object of loc_id */
+    H5VL_object_t    *vol_obj; /* Object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value; /* Return value */
 
@@ -1291,7 +1290,7 @@ done:
 herr_t
 H5Odisable_mdc_flushes(hid_t object_id)
 {
-    H5VL_object_t *   vol_obj;             /* Object of loc_id */
+    H5VL_object_t    *vol_obj;             /* Object of loc_id */
     H5VL_loc_params_t loc_params;          /* Location parameters */
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -1359,7 +1358,7 @@ done:
 herr_t
 H5Oenable_mdc_flushes(hid_t object_id)
 {
-    H5VL_object_t *   vol_obj;             /* Object of loc_id */
+    H5VL_object_t    *vol_obj;             /* Object of loc_id */
     H5VL_loc_params_t loc_params;          /* Location parameters */
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -1432,7 +1431,7 @@ done:
 herr_t
 H5Oare_mdc_flushes_disabled(hid_t object_id, hbool_t *are_disabled)
 {
-    H5VL_object_t *   vol_obj;             /* Object of loc_id */
+    H5VL_object_t    *vol_obj;             /* Object of loc_id */
     H5VL_loc_params_t loc_params;          /* Location parameters */
     herr_t            ret_value = SUCCEED; /* Return value */
 

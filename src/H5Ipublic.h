@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -105,7 +104,7 @@ extern "C" {
 /* Public API functions */
 
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Registers an object under a type and returns an ID for it
  *
@@ -127,7 +126,7 @@ extern "C" {
  */
 H5_DLL hid_t H5Iregister(H5I_type_t type, const void *object);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Returns the object referenced by an ID
  *
@@ -150,7 +149,7 @@ H5_DLL hid_t H5Iregister(H5I_type_t type, const void *object);
  */
 H5_DLL void *H5Iobject_verify(hid_t id, H5I_type_t type);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Removes an ID from its type
  *
@@ -189,12 +188,7 @@ H5_DLL void *H5Iremove_verify(hid_t id, H5I_type_t type);
  * \return Returns the object type if successful; otherwise #H5I_BADID.
  *
  * \details H5Iget_type() retrieves the type of the object identified by
- *          \p id.
- *
- *          Valid types returned by the function are:
- *          \id_types
- *
- *          If no valid type can be determined or the identifier submitted is
+ *          \p id. If no valid type can be determined or the identifier submitted is
  *          invalid, the function returns #H5I_BADID.
  *
  *          This function is of particular use in determining the type of
@@ -390,7 +384,7 @@ H5_DLL int H5Idec_ref(hid_t id);
  */
 H5_DLL int H5Iget_ref(hid_t id);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Creates and returns a new ID type
  *
@@ -422,7 +416,7 @@ H5_DLL int H5Iget_ref(hid_t id);
  */
 H5_DLL H5I_type_t H5Iregister_type(size_t hash_size, unsigned reserved, H5I_free_t free_func);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Deletes all identifiers of the given type
  *
@@ -446,7 +440,7 @@ H5_DLL H5I_type_t H5Iregister_type(size_t hash_size, unsigned reserved, H5I_free
  */
 H5_DLL herr_t H5Iclear_type(H5I_type_t type, hbool_t force);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Removes an identifier type and all identifiers within that type
  *
@@ -469,7 +463,7 @@ H5_DLL herr_t H5Iclear_type(H5I_type_t type, hbool_t force);
  */
 H5_DLL herr_t H5Idestroy_type(H5I_type_t type);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Increments the reference count on an ID type
  *
@@ -488,7 +482,7 @@ H5_DLL herr_t H5Idestroy_type(H5I_type_t type);
  */
 H5_DLL int H5Iinc_type_ref(H5I_type_t type);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Decrements the reference count on an identifier type
  *
@@ -508,11 +502,11 @@ H5_DLL int H5Iinc_type_ref(H5I_type_t type);
  */
 H5_DLL int H5Idec_type_ref(H5I_type_t type);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Retrieves the reference count on an ID type
  *
- * \param[in] type The identifier of the type whose reference count is to be retieved
+ * \param[in] type The identifier of the type whose reference count is to be retrieved
  *
  * \return Returns the current reference count on success, negative on failure.
  *
@@ -527,7 +521,7 @@ H5_DLL int H5Idec_type_ref(H5I_type_t type);
  */
 H5_DLL int H5Iget_type_ref(H5I_type_t type);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Finds the memory referred to by an ID within the given ID type such
  *        that some criterion is satisfied
@@ -568,7 +562,7 @@ H5_DLL int H5Iget_type_ref(H5I_type_t type);
  */
 H5_DLL void *H5Isearch(H5I_type_t type, H5I_search_func_t func, void *key);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Calls a callback for each member of the identifier type specified
  *
@@ -597,7 +591,7 @@ H5_DLL void *H5Isearch(H5I_type_t type, H5I_search_func_t func, void *key);
  */
 H5_DLL herr_t H5Iiterate(H5I_type_t type, H5I_iterate_func_t op, void *op_data);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Returns the number of identifiers in a given identifier type
  *
@@ -617,7 +611,7 @@ H5_DLL herr_t H5Iiterate(H5I_type_t type, H5I_iterate_func_t op, void *op_data);
  */
 H5_DLL herr_t H5Inmembers(H5I_type_t type, hsize_t *num_members);
 /**
- * \ingroup H5I
+ * \ingroup H5IUD
  *
  * \brief Determines whether an identifier type is registered
  *

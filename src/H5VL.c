@@ -12,7 +12,7 @@
 
 /*
  * Purpose:     The Virtual Object Layer as described in documentation.
- *              The pupose is to provide an abstraction on how to access the
+ *              The purpose is to provide an abstraction on how to access the
  *              underlying HDF5 container, whether in a local file with
  *              a specific file format, or remotely on other machines, etc...
  */
@@ -654,6 +654,39 @@ done:
     FUNC_LEAVE_API(ret_value)
 } /* H5VLobject() */
 
+/*---------------------------------------------------------------------------
+ * Function:    H5VLobject_is_native
+ *
+ * Purpose:     Determines whether an object ID represents a native VOL
+ *              connector object.
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *
+ *---------------------------------------------------------------------------
+ */
+herr_t
+H5VLobject_is_native(hid_t obj_id, hbool_t *is_native)
+{
+    H5VL_object_t *vol_obj   = NULL;
+    herr_t         ret_value = SUCCEED;
+
+    FUNC_ENTER_API(FAIL)
+    H5TRACE2("e", "i*b", obj_id, is_native);
+
+    if (!is_native)
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "`is_native` argument is NULL")
+
+    /* Get the location object for the ID */
+    if (NULL == (vol_obj = H5VL_vol_object(obj_id)))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "invalid object identifier")
+
+    if (H5VL_object_is_native(vol_obj, is_native) < 0)
+        HGOTO_ERROR(H5E_VOL, H5E_CANTGET, FAIL, "can't determine if object is a native connector object")
+
+done:
+    FUNC_LEAVE_API(ret_value)
+} /* H5VLobject_is_native() */
+
 /*-------------------------------------------------------------------------
  * Function:    H5VLget_file_type
  *
@@ -667,8 +700,8 @@ done:
 hid_t
 H5VLget_file_type(void *file_obj, hid_t connector_id, hid_t dtype_id)
 {
-    H5T_t *        dtype;               /* unatomized type         */
-    H5T_t *        file_type    = NULL; /* copied file type        */
+    H5T_t         *dtype;               /* unatomized type         */
+    H5T_t         *file_type    = NULL; /* copied file type        */
     hid_t          file_type_id = -1;   /* copied file type id     */
     H5VL_object_t *file_vol_obj = NULL; /* VOL object for file     */
     hid_t          ret_value    = -1;   /* Return value            */
