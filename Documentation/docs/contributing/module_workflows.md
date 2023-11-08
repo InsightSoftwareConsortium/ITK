@@ -17,7 +17,7 @@ ITK reusable workflows support most ITK external modules and provide CI boilerpl
 
 It is easy to add ITK reusable workflow integration to an external module. In a file `workflow.yml` in the `.github/workflows` directory of your project, add the following specification:
 
-```yml
+```
 name: Build, test, package
 
 on: [push,pull_request]
