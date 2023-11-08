@@ -39,6 +39,7 @@ To automatically rebuild the website with any input markdown changes and serve
 the result, use [sphinx-autobuild]
 
 ```sh
+pip install -r requirements.txt
 pip install sphinx-autobuild
 ```
 
