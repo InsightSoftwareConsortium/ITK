@@ -45,4 +45,5 @@ releases/index
 migration_guides/index
 contributing/code_of_conduct
 contributing/index
+licenses
 ```
