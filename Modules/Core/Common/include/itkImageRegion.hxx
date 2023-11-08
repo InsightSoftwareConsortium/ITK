@@ -188,10 +188,9 @@ bool
 ImageRegion<VImageDimension>::Crop(const Self & region)
 {
   OffsetValueType crop;
-  unsigned int    i;
 
   // Can we crop?
-  for (i = 0; i < VImageDimension; ++i)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     // Is the left edge of current region to the right of the right edge of the region to crop with? Or is the right
     // edge of the current region to the left of the left edge of the region to crop with? (if so, we cannot crop)
@@ -204,7 +203,7 @@ ImageRegion<VImageDimension>::Crop(const Self & region)
   }
 
   // we can crop, so crop
-  for (i = 0; i < VImageDimension; ++i)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     // first check the start index
     if (m_Index[i] < region.m_Index[i])
