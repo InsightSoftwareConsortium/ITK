@@ -189,29 +189,18 @@ ImageRegion<VImageDimension>::Crop(const Self & region)
 {
   OffsetValueType crop;
   unsigned int    i;
-  bool            cropPossible = true;
 
   // Can we crop?
-  for (i = 0; i < VImageDimension && cropPossible; ++i)
+  for (i = 0; i < VImageDimension; ++i)
   {
-    // Is left edge of current region to the right of the right edge
-    // of the region to crop with? (if so, we cannot crop)
-    if (m_Index[i] >= region.m_Index[i] + static_cast<OffsetValueType>(region.m_Size[i]))
+    // Is the left edge of current region to the right of the right edge of the region to crop with? Or is the right
+    // edge of the current region to the left of the left edge of the region to crop with? (if so, we cannot crop)
+    if (m_Index[i] >= region.m_Index[i] + static_cast<OffsetValueType>(region.m_Size[i]) ||
+        m_Index[i] + static_cast<OffsetValueType>(m_Size[i]) <= region.m_Index[i])
     {
-      cropPossible = false;
+      // if we cannot crop, return without changing anything
+      return false;
     }
-    // If right edge of the current region to the left of the left
-    // edge of the region to crop with? (if so, we cannot crop)
-    if (m_Index[i] + static_cast<OffsetValueType>(m_Size[i]) <= region.m_Index[i])
-    {
-      cropPossible = false;
-    }
-  }
-
-  // if we cannot crop, return without changing anything
-  if (!cropPossible)
-  {
-    return cropPossible;
   }
 
   // we can crop, so crop
@@ -240,7 +229,7 @@ ImageRegion<VImageDimension>::Crop(const Self & region)
     }
   }
 
-  return cropPossible;
+  return true;
 }
 
 template <unsigned int VImageDimension>
