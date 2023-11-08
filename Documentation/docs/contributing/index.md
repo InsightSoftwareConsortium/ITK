@@ -374,6 +374,7 @@ ITK Git Cheatsheet <https://github.com/InsightSoftwareConsortium/ITK/blob/master
 updating_third_party.md
 data.md
 upload_binary_data.md
+module_workflows.md
 ```
 
 [ITK Git Cheatsheet]: ./GitCheatSheet.pdf
