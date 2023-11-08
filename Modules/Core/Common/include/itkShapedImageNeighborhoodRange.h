@@ -686,8 +686,8 @@ public:
                                const OptionalPixelAccessParameterType optionalPixelAccessParameter = {})
     : ShapedImageNeighborhoodRange{ image,
                                     location,
-                                    shapeOffsets.data(),
-                                    shapeOffsets.size(),
+                                    std::data(shapeOffsets),
+                                    std::size(shapeOffsets),
                                     optionalPixelAccessParameter }
   {}
 
