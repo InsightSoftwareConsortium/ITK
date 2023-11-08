@@ -20,6 +20,8 @@ We invite you to join the ITK community and explore our documentation to find ou
 :caption: 💾 Download
 
 download
+releases/index
+licenses
 ```
 
 
@@ -42,9 +44,8 @@ API <https://itk.org/Doxygen/html/index.html>
 Discussion <https://discourse.itk.org>
 Issue tracker <https://github.com/InsightSoftwareConsortium/ITK/issues>
 CDash Dashboard <https://open.cdash.org/index.php?project=Insight>
-releases/index
+supported_compilers
 migration_guides/index
 contributing/code_of_conduct
 contributing/index
-licenses
 ```
