@@ -3,6 +3,12 @@
 include(ITK_CheckCCompilerFlag)
 
 set(_additional_external_project_args)
+if(APPLE)
+  if(DEFINED CMAKE_APPLE_SILICON_PROCESSOR)
+    list(APPEND _additional_external_project_args
+      -DCMAKE_APPLE_SILICON_PROCESSOR:STRING=${CMAKE_APPLE_SILICON_PROCESSOR})
+  endif()
+endif()
 
 # Because the header-only nature of Eigen3, EIGEN_MPL2_ONLY definition could be leaked outside ITK.
 # This would wrongly enforce EIGEN_MPL2_ONLY to other libraries using Eigen.
@@ -10,9 +16,6 @@ set(_additional_external_project_args)
 # to avoid introducing GPL code from Eigen3 internally in ITK.
 option(ITK_USE_EIGEN_MPL2_ONLY "Set compile definition EIGEN_MPL2_ONLY for ITKInternalEigen3." OFF)
 mark_as_advanced(ITK_USE_EIGEN_MPL2_ONLY)
-if(ITK_USE_EIGEN_MPL2_ONLY)
-  list(APPEND _additional_external_project_args "-DITK_USE_EIGEN_MPL2_ONLY:BOOL=ON")
-endif()
 
 if(ITK_USE_SYSTEM_EIGEN)
   find_package(Eigen3)
@@ -36,33 +39,41 @@ else()
   # However, generators and c,cxx compilers have to be explicitly passed
   # for CMake configuration to work.
   # Configure Eigen
-  file(MAKE_DIRECTORY ${_eigen3_build_dir})
   execute_process(
     COMMAND
-      ${CMAKE_COMMAND} ${_eigen3_source_dir} "-DCMAKE_APPLE_SILICON_PROCESSOR=${CMAKE_APPLE_SILICON_PROCESSOR}"
-      "-DCMAKE_INSTALL_PREFIX=${_eigen3_cmake_install_prefix}"
-      "-DCMAKE_INSTALL_INCLUDEDIR=${_eigen3_cmake_install_includedir}"
-      "-DCMAKE_INSTALL_DATADIR=${_eigen3_cmake_install_datadir}" "-DCMAKE_GENERATOR=${CMAKE_GENERATOR}"
-      "-DCMAKE_SH=${CMAKE_SH}" "-DCMAKE_GENERATOR_TOOLSET=${CMAKE_GENERATOR_TOOLSET}" "-DCMAKE_SH=${CMAKE_SH}"
-      "-DCMAKE_GENERATOR_PLATFORM=${CMAKE_GENERATOR_PLATFORM}" "-DCMAKE_GENERATOR_INSTANCE=${CMAKE_GENERATOR_INSTANCE}"
-      "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}" "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}"
-      "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}" "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
-      "-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}" "-DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}"
+      ${CMAKE_COMMAND}
+      -DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}
+      -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+      -DCMAKE_GENERATOR_TOOLSET=${CMAKE_GENERATOR_TOOLSET}
+      -DCMAKE_GENERATOR_PLATFORM=${CMAKE_GENERATOR_PLATFORM}
+      -DCMAKE_GENERATOR_INSTANCE=${CMAKE_GENERATOR_INSTANCE}
+      -DCMAKE_SH=${CMAKE_SH}
+      -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+      -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+      -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+      -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+      -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}
+      -DCMAKE_INSTALL_PREFIX=${_eigen3_cmake_install_prefix}
+      -DCMAKE_INSTALL_INCLUDEDIR=${_eigen3_cmake_install_includedir}
+      -DCMAKE_INSTALL_DATADIR=${_eigen3_cmake_install_datadir}
+      -DITK_USE_EIGEN_MPL2_ONLY:BOOL=${ITK_USE_EIGEN_MPL2_ONLY}
       ${_additional_external_project_args}
-    WORKING_DIRECTORY ${_eigen3_build_dir}
+      -S ${_eigen3_source_dir}
+      -B ${_eigen3_build_dir}
     OUTPUT_VARIABLE ITKEigen3Config_STDOUT
-    ERROR_VARIABLE ITKEigen3Config_STDERR)
+    ERROR_VARIABLE ITKEigen3Config_STDERR
+    )
   set(ITKInternalEigen3_DIR ${_eigen3_build_dir})
   find_package(ITKInternalEigen3)
   if(NOT ITKInternalEigen3_FOUND)
     message(
       FATAL_ERROR
-        "ITKInternalEigen3 configuration faileed\nREPORT:\n${ITKEigen3Config_STDOUT}\n${ITKEigen3Config_STDERR}")
+        "ITKInternalEigen3 configuration failed\nREPORT:\n${ITKEigen3Config_STDOUT}\n${ITKEigen3Config_STDERR}")
   endif()
   install(
     CODE "execute_process(
     COMMAND
-    ${CMAKE_COMMAND} --build . --target install
+    ${CMAKE_COMMAND} --build . --config Release --target install
     WORKING_DIRECTORY ${_eigen3_build_dir}
     )"
     COMPONENT Development)
