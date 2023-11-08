@@ -89,8 +89,8 @@ ImageRegion<VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Dimension: " << this->GetImageDimension() << std::endl;
-  os << indent << "Index: " << this->GetIndex() << std::endl;
-  os << indent << "Size: " << this->GetSize() << std::endl;
+  os << indent << "Index: " << m_Index << std::endl;
+  os << indent << "Size: " << m_Size << std::endl;
 }
 
 template <unsigned int VImageDimension>
@@ -196,13 +196,13 @@ ImageRegion<VImageDimension>::Crop(const Self & region)
   {
     // Is left edge of current region to the right of the right edge
     // of the region to crop with? (if so, we cannot crop)
-    if (m_Index[i] >= region.GetIndex()[i] + static_cast<OffsetValueType>(region.GetSize()[i]))
+    if (m_Index[i] >= region.m_Index[i] + static_cast<OffsetValueType>(region.m_Size[i]))
     {
       cropPossible = false;
     }
     // If right edge of the current region to the left of the left
     // edge of the region to crop with? (if so, we cannot crop)
-    if (m_Index[i] + static_cast<OffsetValueType>(m_Size[i]) <= region.GetIndex()[i])
+    if (m_Index[i] + static_cast<OffsetValueType>(m_Size[i]) <= region.m_Index[i])
     {
       cropPossible = false;
     }
@@ -218,10 +218,10 @@ ImageRegion<VImageDimension>::Crop(const Self & region)
   for (i = 0; i < VImageDimension; ++i)
   {
     // first check the start index
-    if (m_Index[i] < region.GetIndex()[i])
+    if (m_Index[i] < region.m_Index[i])
     {
       // how much do we need to adjust
-      crop = region.GetIndex()[i] - m_Index[i];
+      crop = region.m_Index[i] - m_Index[i];
 
       // adjust the start index and the size of the current region
       m_Index[i] += crop;
@@ -229,11 +229,11 @@ ImageRegion<VImageDimension>::Crop(const Self & region)
     }
     // now check the final size
     if (m_Index[i] + static_cast<OffsetValueType>(m_Size[i]) >
-        region.GetIndex()[i] + static_cast<OffsetValueType>(region.GetSize()[i]))
+        region.m_Index[i] + static_cast<OffsetValueType>(region.m_Size[i]))
     {
       // how much do we need to adjust
-      crop = m_Index[i] + static_cast<OffsetValueType>(m_Size[i]) - region.GetIndex()[i] -
-             static_cast<OffsetValueType>(region.GetSize()[i]);
+      crop = m_Index[i] + static_cast<OffsetValueType>(m_Size[i]) - region.m_Index[i] -
+             static_cast<OffsetValueType>(region.m_Size[i]);
 
       // adjust the size
       m_Size[i] -= static_cast<SizeValueType>(crop);
