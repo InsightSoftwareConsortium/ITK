@@ -10,6 +10,9 @@
 #ifndef EIGEN_SELFADJOINTRANK2UPTADE_H
 #define EIGEN_SELFADJOINTRANK2UPTADE_H
 
+// IWYU pragma: private
+#include "../InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -50,9 +53,8 @@ struct selfadjoint_rank2_update_selector<Scalar,Index,UType,VType,Upper>
   }
 };
 
-template<bool Cond, typename T> struct conj_expr_if
-  : conditional<!Cond, const T&,
-      CwiseUnaryOp<scalar_conjugate_op<typename traits<T>::Scalar>,T> > {};
+template<bool Cond, typename T>
+using conj_expr_if = std::conditional<!Cond, const T&, CwiseUnaryOp<scalar_conjugate_op<typename traits<T>::Scalar>,T>>;
 
 } // end namespace internal
 
@@ -63,13 +65,13 @@ EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,U
 {
   typedef internal::blas_traits<DerivedU> UBlasTraits;
   typedef typename UBlasTraits::DirectLinearAccessType ActualUType;
-  typedef typename internal::remove_all<ActualUType>::type _ActualUType;
-  typename internal::add_const_on_value_type<ActualUType>::type actualU = UBlasTraits::extract(u.derived());
+  typedef internal::remove_all_t<ActualUType> ActualUType_;
+  internal::add_const_on_value_type_t<ActualUType> actualU = UBlasTraits::extract(u.derived());
 
   typedef internal::blas_traits<DerivedV> VBlasTraits;
   typedef typename VBlasTraits::DirectLinearAccessType ActualVType;
-  typedef typename internal::remove_all<ActualVType>::type _ActualVType;
-  typename internal::add_const_on_value_type<ActualVType>::type actualV = VBlasTraits::extract(v.derived());
+  typedef internal::remove_all_t<ActualVType> ActualVType_;
+  internal::add_const_on_value_type_t<ActualVType> actualV = VBlasTraits::extract(v.derived());
 
   // If MatrixType is row major, then we use the routine for lower triangular in the upper triangular case and
   // vice versa, and take the complex conjugate of all coefficients and vector entries.
@@ -80,8 +82,8 @@ EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,U
   if (IsRowMajor)
     actualAlpha = numext::conj(actualAlpha);
 
-  typedef typename internal::remove_all<typename internal::conj_expr_if<int(IsRowMajor) ^ int(UBlasTraits::NeedToConjugate), _ActualUType>::type>::type UType;
-  typedef typename internal::remove_all<typename internal::conj_expr_if<int(IsRowMajor) ^ int(VBlasTraits::NeedToConjugate), _ActualVType>::type>::type VType;
+  typedef internal::remove_all_t<typename internal::conj_expr_if<int(IsRowMajor) ^ int(UBlasTraits::NeedToConjugate), ActualUType_>::type> UType;
+  typedef internal::remove_all_t<typename internal::conj_expr_if<int(IsRowMajor) ^ int(VBlasTraits::NeedToConjugate), ActualVType_>::type> VType;
   internal::selfadjoint_rank2_update_selector<Scalar, Index, UType, VType,
     (IsRowMajor ? int(UpLo==Upper ? Lower : Upper) : UpLo)>
     ::run(_expression().const_cast_derived().data(),_expression().outerStride(),UType(actualU),VType(actualV),actualAlpha);

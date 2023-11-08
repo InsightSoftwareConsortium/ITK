@@ -13,6 +13,9 @@
 
 #include "./RealSchur.h"
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 /** \eigenvalues_module \ingroup Eigenvalues_Module
@@ -22,7 +25,7 @@ namespace Eigen {
   *
   * \brief Computes eigenvalues and eigenvectors of general matrices
   *
-  * \tparam _MatrixType the type of the matrix of which we are computing the
+  * \tparam MatrixType_ the type of the matrix of which we are computing the
   * eigendecomposition; this is expected to be an instantiation of the Matrix
   * class template. Currently, only real matrices are supported.
   *
@@ -61,12 +64,12 @@ namespace Eigen {
   *
   * \sa MatrixBase::eigenvalues(), class ComplexEigenSolver, class SelfAdjointEigenSolver
   */
-template<typename _MatrixType> class EigenSolver
+template<typename MatrixType_> class EigenSolver
 {
   public:
 
-    /** \brief Synonym for the template parameter \p _MatrixType. */
-    typedef _MatrixType MatrixType;
+    /** \brief Synonym for the template parameter \p MatrixType_. */
+    typedef MatrixType_ MatrixType;
 
     enum {
       RowsAtCompileTime = MatrixType::RowsAtCompileTime,

@@ -13,6 +13,9 @@
 
 // This file contains some helper function to deal with block householder reflectors
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -85,7 +88,7 @@ void make_block_householder_triangular_factor(TriangularFactorType& triFactor, c
 template<typename MatrixType,typename VectorsType,typename CoeffsType>
 void apply_block_householder_on_the_left(MatrixType& mat, const VectorsType& vectors, const CoeffsType& hCoeffs, bool forward)
 {
-  enum { TFactorSize = MatrixType::ColsAtCompileTime };
+  enum { TFactorSize = VectorsType::ColsAtCompileTime };
   Index nbVecs = vectors.cols();
   Matrix<typename MatrixType::Scalar, TFactorSize, TFactorSize, RowMajor> T(nbVecs,nbVecs);
   

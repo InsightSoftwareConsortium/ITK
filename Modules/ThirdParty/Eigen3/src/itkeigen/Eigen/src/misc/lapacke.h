@@ -46,7 +46,11 @@
 #include <stdlib.h>
 
 #ifndef lapack_int
-#define lapack_int     int
+  #ifdef LAPACK_ILP64
+    #define lapack_int int64_t
+  #else
+    #define lapack_int int
+  #endif
 #endif
 
 #ifndef lapack_logical
@@ -72,8 +76,7 @@
 
 /* Complex type (single precision) */
 #ifndef lapack_complex_float
-#include <complex.h>
-#define lapack_complex_float    float _Complex
+#define lapack_complex_float std::complex<float>
 #endif
 
 #ifndef lapack_complex_float_real
@@ -88,8 +91,7 @@ lapack_complex_float lapack_make_complex_float( float re, float im );
 
 /* Complex type (double precision) */
 #ifndef lapack_complex_double
-#include <complex.h>
-#define lapack_complex_double   double _Complex
+#define lapack_complex_double std::complex<double>
 #endif
 
 #ifndef lapack_complex_double_real

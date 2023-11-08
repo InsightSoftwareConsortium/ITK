@@ -10,6 +10,9 @@
 #ifndef EIGEN_NOALIAS_H
 #define EIGEN_NOALIAS_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \class NoAlias

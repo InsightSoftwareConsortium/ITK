@@ -10,12 +10,14 @@
 #ifndef EIGEN_RANDOM_H
 #define EIGEN_RANDOM_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
 
 template<typename Scalar> struct scalar_random_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_random_op)
   inline const Scalar operator() () const { return random<Scalar>(); }
 };
 

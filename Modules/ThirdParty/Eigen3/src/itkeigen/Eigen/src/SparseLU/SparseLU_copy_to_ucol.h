@@ -29,6 +29,9 @@
 #ifndef SPARSELU_COPY_TO_UCOL_H
 #define SPARSELU_COPY_TO_UCOL_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 namespace internal {
 

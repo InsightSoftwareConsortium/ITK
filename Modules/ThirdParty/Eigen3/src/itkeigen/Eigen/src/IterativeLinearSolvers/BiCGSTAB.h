@@ -11,6 +11,9 @@
 #ifndef EIGEN_BICGSTAB_H
 #define EIGEN_BICGSTAB_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -49,9 +52,9 @@ bool bicgstab(const MatrixType& mat, const Rhs& rhs, Dest& x,
     x.setZero();
     return true;
   }
-  Scalar rho    = 1;
-  Scalar alpha  = 1;
-  Scalar w      = 1;
+  Scalar rho    (1);
+  Scalar alpha  (1);
+  Scalar w      (1);
   
   VectorType v = VectorType::Zero(n), p = VectorType::Zero(n);
   VectorType y(n),  z(n);
@@ -108,17 +111,17 @@ bool bicgstab(const MatrixType& mat, const Rhs& rhs, Dest& x,
 
 }
 
-template< typename _MatrixType,
-          typename _Preconditioner = DiagonalPreconditioner<typename _MatrixType::Scalar> >
+template< typename MatrixType_,
+          typename Preconditioner_ = DiagonalPreconditioner<typename MatrixType_::Scalar> >
 class BiCGSTAB;
 
 namespace internal {
 
-template< typename _MatrixType, typename _Preconditioner>
-struct traits<BiCGSTAB<_MatrixType,_Preconditioner> >
+template< typename MatrixType_, typename Preconditioner_>
+struct traits<BiCGSTAB<MatrixType_,Preconditioner_> >
 {
-  typedef _MatrixType MatrixType;
-  typedef _Preconditioner Preconditioner;
+  typedef MatrixType_ MatrixType;
+  typedef Preconditioner_ Preconditioner;
 };
 
 }
@@ -129,8 +132,8 @@ struct traits<BiCGSTAB<_MatrixType,_Preconditioner> >
   * This class allows to solve for A.x = b sparse linear problems using a bi conjugate gradient
   * stabilized algorithm. The vectors x and b can be either dense or sparse.
   *
-  * \tparam _MatrixType the type of the sparse matrix A, can be a dense or a sparse matrix.
-  * \tparam _Preconditioner the type of the preconditioner. Default is DiagonalPreconditioner
+  * \tparam MatrixType_ the type of the sparse matrix A, can be a dense or a sparse matrix.
+  * \tparam Preconditioner_ the type of the preconditioner. Default is DiagonalPreconditioner
   *
   * \implsparsesolverconcept
   *
@@ -154,8 +157,8 @@ struct traits<BiCGSTAB<_MatrixType,_Preconditioner> >
   *
   * \sa class SimplicialCholesky, DiagonalPreconditioner, IdentityPreconditioner
   */
-template< typename _MatrixType, typename _Preconditioner>
-class BiCGSTAB : public IterativeSolverBase<BiCGSTAB<_MatrixType,_Preconditioner> >
+template< typename MatrixType_, typename Preconditioner_>
+class BiCGSTAB : public IterativeSolverBase<BiCGSTAB<MatrixType_,Preconditioner_> >
 {
   typedef IterativeSolverBase<BiCGSTAB> Base;
   using Base::matrix;
@@ -164,10 +167,10 @@ class BiCGSTAB : public IterativeSolverBase<BiCGSTAB<_MatrixType,_Preconditioner
   using Base::m_info;
   using Base::m_isInitialized;
 public:
-  typedef _MatrixType MatrixType;
+  typedef MatrixType_ MatrixType;
   typedef typename MatrixType::Scalar Scalar;
   typedef typename MatrixType::RealScalar RealScalar;
-  typedef _Preconditioner Preconditioner;
+  typedef Preconditioner_ Preconditioner;
 
 public:
 

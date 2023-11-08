@@ -28,7 +28,12 @@
   *
   */
 
-#include "src/CholmodSupport/CholmodSupport.h"
+#include "CholmodSupport"
+
+// IWYU pragma: begin_exports
 #include "src/SPQRSupport/SuiteSparseQRSupport.h"
+// IWYU pragma: end_exports
+
+#include "src/Core/util/ReenableStupidWarnings.h"
 
 #endif

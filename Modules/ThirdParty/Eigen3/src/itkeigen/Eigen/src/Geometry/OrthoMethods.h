@@ -11,41 +11,88 @@
 #ifndef EIGEN_ORTHOMETHODS_H
 #define EIGEN_ORTHOMETHODS_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
+
+namespace internal {
+
+// Vector3 version (default)
+template<typename Derived, typename OtherDerived, int Size>
+struct cross_impl
+{
+  typedef typename ScalarBinaryOpTraits<typename internal::traits<Derived>::Scalar,typename internal::traits<OtherDerived>::Scalar>::ReturnType Scalar;
+  typedef Matrix<Scalar,MatrixBase<Derived>::RowsAtCompileTime,MatrixBase<Derived>::ColsAtCompileTime> return_type;
+
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  return_type run(const MatrixBase<Derived>& first, const MatrixBase<OtherDerived>& second)
+  {
+    EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Derived,3)
+    EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,3)
+
+    // Note that there is no need for an expression here since the compiler
+    // optimize such a small temporary very well (even within a complex expression)
+    typename internal::nested_eval<Derived,2>::type lhs(first.derived());
+    typename internal::nested_eval<OtherDerived,2>::type rhs(second.derived());
+    return return_type(
+      numext::conj(lhs.coeff(1) * rhs.coeff(2) - lhs.coeff(2) * rhs.coeff(1)),
+      numext::conj(lhs.coeff(2) * rhs.coeff(0) - lhs.coeff(0) * rhs.coeff(2)),
+      numext::conj(lhs.coeff(0) * rhs.coeff(1) - lhs.coeff(1) * rhs.coeff(0))
+    );
+  }
+};
+
+// Vector2 version
+template<typename Derived, typename OtherDerived>
+struct cross_impl<Derived, OtherDerived, 2>
+{
+  typedef typename ScalarBinaryOpTraits<typename internal::traits<Derived>::Scalar,typename internal::traits<OtherDerived>::Scalar>::ReturnType Scalar;
+  typedef Scalar return_type;
+
+  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
+  return_type run(const MatrixBase<Derived>& first, const MatrixBase<OtherDerived>& second)
+  {
+    EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Derived,2);
+    EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,2);
+    typename internal::nested_eval<Derived,2>::type lhs(first.derived());
+    typename internal::nested_eval<OtherDerived,2>::type rhs(second.derived());
+    return numext::conj(lhs.coeff(0) * rhs.coeff(1) - lhs.coeff(1) * rhs.coeff(0));
+  }
+};
+
+} // end namespace internal
 
 /** \geometry_module \ingroup Geometry_Module
   *
-  * \returns the cross product of \c *this and \a other
+  * \returns the cross product of \c *this and \a other. This is either a scalar for size-2 vectors or a size-3 vector for size-3 vectors.
   *
-  * Here is a very good explanation of cross-product: http://xkcd.com/199/
+  * This method is implemented for two different cases: between vectors of fixed size 2 and between vectors of fixed size 3.
   * 
-  * With complex numbers, the cross product is implemented as
-  * \f$ (\mathbf{a}+i\mathbf{b}) \times (\mathbf{c}+i\mathbf{d}) = (\mathbf{a} \times \mathbf{c} - \mathbf{b} \times \mathbf{d}) - i(\mathbf{a} \times \mathbf{d} - \mathbf{b} \times \mathbf{c})\f$
+  * For vectors of size 3, the output is simply the traditional cross product.
+  *
+  * For vectors of size 2, the output is a scalar.
+  * Given vectors \f$ v = \begin{bmatrix} v_1 & v_2 \end{bmatrix} \f$ and \f$ w = \begin{bmatrix} w_1 & w_2 \end{bmatrix} \f$,
+  * the result is simply \f$ v\times w = \overline{v_1 w_2 - v_2 w_1} = \text{conj}\left|\begin{smallmatrix} v_1 & w_1 \\ v_2 & w_2 \end{smallmatrix}\right| \f$;
+  * or, to put it differently, it is the third coordinate of the cross product of \f$ \begin{bmatrix} v_1 & v_2 & v_3 \end{bmatrix} \f$ and \f$ \begin{bmatrix} w_1 & w_2 & w_3 \end{bmatrix} \f$.
+  * For real-valued inputs, the result can be interpreted as the signed area of a parallelogram spanned by the two vectors.
+  * 
+  * \note With complex numbers, the cross product is implemented as
+  * \f$ (\mathbf{a}+i\mathbf{b}) \times (\mathbf{c}+i\mathbf{d}) = (\mathbf{a} \times \mathbf{c} - \mathbf{b} \times \mathbf{d}) - i(\mathbf{a} \times \mathbf{d} + \mathbf{b} \times \mathbf{c})\f$
   * 
   * \sa MatrixBase::cross3()
   */
 template<typename Derived>
 template<typename OtherDerived>
-#ifndef EIGEN_PARSED_BY_DOXYGEN
 EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-typename MatrixBase<Derived>::template cross_product_return_type<OtherDerived>::type
+#ifndef EIGEN_PARSED_BY_DOXYGEN
+typename internal::cross_impl<Derived, OtherDerived>::return_type
 #else
-typename MatrixBase<Derived>::PlainObject
+inline std::conditional_t<SizeAtCompileTime==2, Scalar, PlainObject>
 #endif
 MatrixBase<Derived>::cross(const MatrixBase<OtherDerived>& other) const
 {
-  EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Derived,3)
-  EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,3)
-
-  // Note that there is no need for an expression here since the compiler
-  // optimize such a small temporary very well (even within a complex expression)
-  typename internal::nested_eval<Derived,2>::type lhs(derived());
-  typename internal::nested_eval<OtherDerived,2>::type rhs(other.derived());
-  return typename cross_product_return_type<OtherDerived>::type(
-    numext::conj(lhs.coeff(1) * rhs.coeff(2) - lhs.coeff(2) * rhs.coeff(1)),
-    numext::conj(lhs.coeff(2) * rhs.coeff(0) - lhs.coeff(0) * rhs.coeff(2)),
-    numext::conj(lhs.coeff(0) * rhs.coeff(1) - lhs.coeff(1) * rhs.coeff(0))
-  );
+  return internal::cross_impl<Derived, OtherDerived>::run(*this, other);
 }
 
 namespace internal {
@@ -91,8 +138,8 @@ MatrixBase<Derived>::cross3(const MatrixBase<OtherDerived>& other) const
   OtherDerivedNested rhs(other.derived());
 
   return internal::cross3_impl<Architecture::Target,
-                        typename internal::remove_all<DerivedNested>::type,
-                        typename internal::remove_all<OtherDerivedNested>::type>::run(lhs,rhs);
+                        internal::remove_all_t<DerivedNested>,
+                        internal::remove_all_t<OtherDerivedNested>>::run(lhs,rhs);
 }
 
 /** \geometry_module \ingroup Geometry_Module

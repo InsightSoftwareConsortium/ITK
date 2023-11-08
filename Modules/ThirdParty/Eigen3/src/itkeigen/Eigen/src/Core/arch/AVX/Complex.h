@@ -10,6 +10,9 @@
 #ifndef EIGEN_COMPLEX_AVX_H
 #define EIGEN_COMPLEX_AVX_H
 
+// IWYU pragma: private
+#include "../../InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
@@ -31,7 +34,6 @@ template<> struct packet_traits<std::complex<float> >  : default_packet_traits
     Vectorizable = 1,
     AlignedOnScalar = 1,
     size = 4,
-    HasHalfPacket = 1,
 
     HasAdd    = 1,
     HasSub    = 1,
@@ -169,15 +171,12 @@ template<> EIGEN_STRONG_INLINE std::complex<float> predux_mul<Packet4cf>(const P
                          Packet2cf(_mm256_extractf128_ps(a.v, 1))));
 }
 
+
 EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet4cf,Packet8f)
 
 template<> EIGEN_STRONG_INLINE Packet4cf pdiv<Packet4cf>(const Packet4cf& a, const Packet4cf& b)
 {
-  Packet4cf num = pmul(a, pconj(b));
-  __m256 tmp = _mm256_mul_ps(b.v, b.v);
-  __m256 tmp2    = _mm256_shuffle_ps(tmp,tmp,0xB1);
-  __m256 denom = _mm256_add_ps(tmp, tmp2);
-  return Packet4cf(_mm256_div_ps(num.v, denom));
+  return pdiv_complex(a, b);
 }
 
 template<> EIGEN_STRONG_INLINE Packet4cf pcplxflip<Packet4cf>(const Packet4cf& x)
@@ -202,7 +201,6 @@ template<> struct packet_traits<std::complex<double> >  : default_packet_traits
     Vectorizable = 1,
     AlignedOnScalar = 0,
     size = 2,
-    HasHalfPacket = 1,
 
     HasAdd    = 1,
     HasSub    = 1,
@@ -323,10 +321,7 @@ EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet2cd,Packet4d)
 
 template<> EIGEN_STRONG_INLINE Packet2cd pdiv<Packet2cd>(const Packet2cd& a, const Packet2cd& b)
 {
-  Packet2cd num = pmul(a, pconj(b));
-  __m256d tmp = _mm256_mul_pd(b.v, b.v);
-  __m256d denom = _mm256_hadd_pd(tmp, tmp);
-  return Packet2cd(_mm256_div_pd(num.v, denom));
+  return pdiv_complex(a, b);
 }
 
 template<> EIGEN_STRONG_INLINE Packet2cd pcplxflip<Packet2cd>(const Packet2cd& x)

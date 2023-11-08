@@ -10,6 +10,9 @@
 #ifndef EIGEN_DETERMINANT_H
 #define EIGEN_DETERMINANT_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -80,8 +83,8 @@ template<typename Derived> struct determinant_impl<Derived, 4>
     Scalar d3_1 = det3(m, 0,d2_23, 2,d2_03, 3,d2_02);
     Scalar d3_2 = det3(m, 0,d2_13, 1,d2_03, 3,d2_01);
     Scalar d3_3 = det3(m, 0,d2_12, 1,d2_02, 2,d2_01);
-    return internal::pmadd(-m(0,3),d3_0, m(1,3)*d3_1) +
-           internal::pmadd(-m(2,3),d3_2, m(3,3)*d3_3);
+    return internal::pmadd(static_cast<Scalar>(-m(0,3)),d3_0, static_cast<Scalar>(m(1,3)*d3_1)) +
+           internal::pmadd(static_cast<Scalar>(-m(2,3)),d3_2, static_cast<Scalar>(m(3,3)*d3_3));
   }
 protected:
   static EIGEN_DEVICE_FUNC
@@ -93,7 +96,7 @@ protected:
   static EIGEN_DEVICE_FUNC
   Scalar det3(const Derived& m, Index i0, const Scalar& d0, Index i1, const Scalar& d1, Index i2, const Scalar& d2)
   {
-    return internal::pmadd(m(i0,2), d0, internal::pmadd(-m(i1,2), d1, m(i2,2)*d2));
+    return internal::pmadd(m(i0,2), d0, internal::pmadd(static_cast<Scalar>(-m(i1,2)), d1, static_cast<Scalar>(m(i2,2)*d2)));
   }
 };
 
@@ -109,7 +112,7 @@ inline typename internal::traits<Derived>::Scalar MatrixBase<Derived>::determina
 {
   eigen_assert(rows() == cols());
   typedef typename internal::nested_eval<Derived,Base::RowsAtCompileTime>::type Nested;
-  return internal::determinant_impl<typename internal::remove_all<Nested>::type>::run(derived());
+  return internal::determinant_impl<internal::remove_all_t<Nested>>::run(derived());
 }
 
 } // end namespace Eigen

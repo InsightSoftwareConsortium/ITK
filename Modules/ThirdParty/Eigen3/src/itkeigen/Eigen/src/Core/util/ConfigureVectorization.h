@@ -30,27 +30,13 @@
  *
  * If we made alignment depend on whether or not EIGEN_VECTORIZE is defined, it would be impossible to link
  * vectorized and non-vectorized code.
- * 
- * FIXME: this code can be cleaned up once we switch to proper C++11 only.
  */
 #if (defined EIGEN_CUDACC)
   #define EIGEN_ALIGN_TO_BOUNDARY(n) __align__(n)
   #define EIGEN_ALIGNOF(x) __alignof(x)
-#elif EIGEN_HAS_ALIGNAS
+#else
   #define EIGEN_ALIGN_TO_BOUNDARY(n) alignas(n)
   #define EIGEN_ALIGNOF(x) alignof(x)
-#elif EIGEN_COMP_GNUC || EIGEN_COMP_PGI || EIGEN_COMP_IBM || EIGEN_COMP_ARM
-  #define EIGEN_ALIGN_TO_BOUNDARY(n) __attribute__((aligned(n)))
-  #define EIGEN_ALIGNOF(x) __alignof(x)
-#elif EIGEN_COMP_MSVC
-  #define EIGEN_ALIGN_TO_BOUNDARY(n) __declspec(align(n))
-  #define EIGEN_ALIGNOF(x) __alignof(x)
-#elif EIGEN_COMP_SUNCC
-  // FIXME not sure about this one:
-  #define EIGEN_ALIGN_TO_BOUNDARY(n) __attribute__((aligned(n)))
-  #define EIGEN_ALIGNOF(x) __alignof(x)
-#else
-  #error Please tell me what is the equivalent of alignas(n) and alignof(x) for your compiler
 #endif
 
 // If the user explicitly disable vectorization, then we also disable alignment
@@ -68,6 +54,8 @@
 #elif defined(__AVX__)
   // 32 bytes static alignment is preferred only if really required
   #define EIGEN_IDEAL_MAX_ALIGN_BYTES 32
+#elif defined __HVX__ && (__HVX_LENGTH__ == 128)
+  #define EIGEN_IDEAL_MAX_ALIGN_BYTES 128
 #else
   #define EIGEN_IDEAL_MAX_ALIGN_BYTES 16
 #endif
@@ -105,18 +93,12 @@
   // try to keep heap alignment even when we have to disable static alignment.
   #if EIGEN_COMP_GNUC && !(EIGEN_ARCH_i386_OR_x86_64 || EIGEN_ARCH_ARM_OR_ARM64 || EIGEN_ARCH_PPC || EIGEN_ARCH_IA64 || EIGEN_ARCH_MIPS)
   #define EIGEN_GCC_AND_ARCH_DOESNT_WANT_STACK_ALIGNMENT 1
-  #elif EIGEN_ARCH_ARM_OR_ARM64 && EIGEN_COMP_GNUC_STRICT && EIGEN_GNUC_AT_MOST(4, 6)
-  // Old versions of GCC on ARM, at least 4.4, were once seen to have buggy static alignment support.
-  // Not sure which version fixed it, hopefully it doesn't affect 4.7, which is still somewhat in use.
-  // 4.8 and newer seem definitely unaffected.
-  #define EIGEN_GCC_AND_ARCH_DOESNT_WANT_STACK_ALIGNMENT 1
   #else
   #define EIGEN_GCC_AND_ARCH_DOESNT_WANT_STACK_ALIGNMENT 0
   #endif
 
   // static alignment is completely disabled with GCC 3, Sun Studio, and QCC/QNX
   #if !EIGEN_GCC_AND_ARCH_DOESNT_WANT_STACK_ALIGNMENT \
-  && !EIGEN_GCC3_OR_OLDER \
   && !EIGEN_COMP_SUNCC \
   && !EIGEN_OS_QNX
     #define EIGEN_ARCH_WANTS_STACK_ALIGNMENT 1
@@ -201,21 +183,19 @@
 // removed as gcc 4.1 and msvc 2008 are not supported anyways.
 #if EIGEN_COMP_MSVC
   #include <malloc.h> // for _aligned_malloc -- need it regardless of whether vectorization is enabled
-  #if (EIGEN_COMP_MSVC >= 1500) // 2008 or later
-    // a user reported that in 64-bit mode, MSVC doesn't care to define _M_IX86_FP.
-    #if (defined(_M_IX86_FP) && (_M_IX86_FP >= 2)) || EIGEN_ARCH_x86_64
-      #define EIGEN_SSE2_ON_MSVC_2008_OR_LATER
-    #endif
+  // a user reported that in 64-bit mode, MSVC doesn't care to define _M_IX86_FP.
+  #if (defined(_M_IX86_FP) && (_M_IX86_FP >= 2)) || EIGEN_ARCH_x86_64
+    #define EIGEN_SSE2_ON_MSVC_2008_OR_LATER
   #endif
 #else
-  #if (defined __SSE2__) && ( (!EIGEN_COMP_GNUC) || EIGEN_COMP_ICC || EIGEN_GNUC_AT_LEAST(4,2) )
-    #define EIGEN_SSE2_ON_NON_MSVC_BUT_NOT_OLD_GCC
+  #if defined(__SSE2__)
+    #define EIGEN_SSE2_ON_NON_MSVC
   #endif
 #endif
 
 #if !(defined(EIGEN_DONT_VECTORIZE) || defined(EIGEN_GPUCC))
 
-  #if defined (EIGEN_SSE2_ON_NON_MSVC_BUT_NOT_OLD_GCC) || defined(EIGEN_SSE2_ON_MSVC_2008_OR_LATER)
+  #if defined (EIGEN_SSE2_ON_NON_MSVC) || defined(EIGEN_SSE2_ON_MSVC_2008_OR_LATER)
 
     // Defines symbols for compile-time detection of which instructions are
     // used.
@@ -292,11 +272,22 @@
         #ifdef __AVX512BF16__
           #define EIGEN_VECTORIZE_AVX512BF16
         #endif
+        #ifdef __AVX512FP16__
+          #ifdef __AVX512VL__
+            #define EIGEN_VECTORIZE_AVX512FP16
+          #else
+            #if EIGEN_COMP_GNUC
+              #error Please add -mavx512vl to your compiler flags: compiling with -mavx512fp16 alone without AVX512-VL is not supported.
+            #else
+              #error Please enable AVX512-VL in your compiler flags (e.g. -mavx512vl): compiling with AVX512-FP16 alone without AVX512-VL is not supported.
+            #endif
+          #endif 
+        #endif
       #endif
     #endif
 
     // Disable AVX support on broken xcode versions
-    #if defined(__apple_build_version__) && (__apple_build_version__ == 11000033 ) && ( __MAC_OS_X_VERSION_MIN_REQUIRED == 101500 )
+    #if ( EIGEN_COMP_CLANGAPPLE == 11000033 ) && ( __MAC_OS_X_VERSION_MIN_REQUIRED == 101500 )
       // A nasty bug in the clang compiler shipped with xcode in a common compilation situation
       // when XCode 11.0 and Mac deployment target macOS 10.15 is https://trac.macports.org/ticket/58776#no1
       #ifdef EIGEN_VECTORIZE_AVX
@@ -339,7 +330,7 @@
     extern "C" {
       // In theory we should only include immintrin.h and not the other *mmintrin.h header files directly.
       // Doing so triggers some issues with ICC. However old gcc versions seems to not have this file, thus:
-      #if EIGEN_COMP_ICC >= 1110
+      #if EIGEN_COMP_ICC >= 1110 || EIGEN_COMP_EMSCRIPTEN
         #include <immintrin.h>
       #else
         #include <mmintrin.h>
@@ -363,10 +354,10 @@
       #endif
     } // end extern "C"
 
-  #elif defined __VSX__
+  #elif defined(__VSX__) && !defined(__APPLE__)
 
     #define EIGEN_VECTORIZE
-    #define EIGEN_VECTORIZE_VSX
+    #define EIGEN_VECTORIZE_VSX 1
     #include <altivec.h>
     // We need to #undef all these ugly tokens defined in <altivec.h>
     // => use __vector instead of vector
@@ -428,6 +419,12 @@
 #include <msa.h>
 #endif
 
+#elif defined __HVX__ && (__HVX_LENGTH__ == 128)
+
+#define EIGEN_VECTORIZE
+#define EIGEN_VECTORIZE_HVX
+#include <hexagon_types.h>
+
 #endif
 #endif
 
@@ -438,7 +435,7 @@
   #include <arm_fp16.h>
 #endif
 
-#if defined(__F16C__) && (!defined(EIGEN_GPUCC) && (!EIGEN_COMP_CLANG || EIGEN_COMP_CLANG>=380))
+#if defined(__F16C__) && !defined(EIGEN_GPUCC) && (!EIGEN_COMP_CLANG_STRICT || EIGEN_CLANG_STRICT_AT_LEAST(3,8,0))
   // We can use the optimized fp16 to float and float to fp16 conversion routines
   #define EIGEN_HAS_FP16_C
 
@@ -470,10 +467,15 @@
   #include <hip/hip_vector_types.h>
   #define EIGEN_HAS_HIP_FP16
   #include <hip/hip_fp16.h>
+  #define EIGEN_HAS_HIP_BF16
+  #include <hip/hip_bfloat16.h>
 #endif
 
 
 /** \brief Namespace containing all symbols from the %Eigen library. */
+// IWYU pragma: private
+#include "../InternalHeaderCheck.h"
+
 namespace Eigen {
 
 inline static const char *SimdInstructionSetsInUse(void) {

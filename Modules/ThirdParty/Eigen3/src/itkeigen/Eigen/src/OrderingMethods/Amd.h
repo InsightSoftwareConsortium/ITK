@@ -21,6 +21,9 @@ the Mozilla Public License v. 2.0, as stated at the top of this file.
 #ifndef EIGEN_SPARSE_AMD_H
 #define EIGEN_SPARSE_AMD_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {

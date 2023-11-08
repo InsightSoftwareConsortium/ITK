@@ -21,6 +21,9 @@
 #ifndef EIGEN_TYPE_CASTING_SYCL_H
 #define EIGEN_TYPE_CASTING_SYCL_H
 
+// IWYU pragma: private
+#include "../../InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
@@ -62,7 +65,7 @@ pcast<cl::sycl::cl_double2, cl::sycl::cl_float4>(
                                cl::sycl::rounding_mode::automatic>();
   auto b1 = b.template convert<cl::sycl::cl_float,
                                cl::sycl::rounding_mode::automatic>();
-  return cl::sycl::float4(a1.x(), a1.y(), b1.x(), b1.y());
+  return cl::sycl::cl_float4(a1.x(), a1.y(), b1.x(), b1.y());
 }
 
 template <>

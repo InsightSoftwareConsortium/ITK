@@ -11,9 +11,24 @@
 #ifndef EIGEN_DIAGONALMATRIX_H
 #define EIGEN_DIAGONALMATRIX_H
 
-namespace Eigen { 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
 
-#ifndef EIGEN_PARSED_BY_DOXYGEN
+namespace Eigen {
+
+/** \class DiagonalBase
+ * \ingroup Core_Module
+ *
+ * \brief Base class for diagonal matrices and expressions
+ *
+ * This is the base class that is inherited by diagonal matrix and related expression
+ * types, which internally use a vector for storing the diagonal entries. Diagonal
+ * types always represent square matrices.
+ *
+ * \tparam Derived is the derived type, a DiagonalMatrix or DiagonalWrapper.
+ *
+ * \sa class DiagonalMatrix, class DiagonalWrapper
+ */
 template<typename Derived>
 class DiagonalBase : public EigenBase<Derived>
 {
@@ -37,24 +52,42 @@ class DiagonalBase : public EigenBase<Derived>
     typedef DenseMatrixType DenseType;
     typedef DiagonalMatrix<Scalar,DiagonalVectorType::SizeAtCompileTime,DiagonalVectorType::MaxSizeAtCompileTime> PlainObject;
 
+    /** \returns a reference to the derived object. */
     EIGEN_DEVICE_FUNC
     inline const Derived& derived() const { return *static_cast<const Derived*>(this); }
+    /** \returns a const reference to the derived object. */
     EIGEN_DEVICE_FUNC
     inline Derived& derived() { return *static_cast<Derived*>(this); }
 
+    /**
+     * Constructs a dense matrix from \c *this. Note, this directly returns a dense matrix type,
+     * not an expression.
+     * \returns A dense matrix, with its diagonal entries set from the the derived object. */
     EIGEN_DEVICE_FUNC
     DenseMatrixType toDenseMatrix() const { return derived(); }
 
+    /** \returns a reference to the derived object's vector of diagonal coefficients. */
     EIGEN_DEVICE_FUNC
     inline const DiagonalVectorType& diagonal() const { return derived().diagonal(); }
+    /** \returns a const reference to the derived object's vector of diagonal coefficients. */
     EIGEN_DEVICE_FUNC
     inline DiagonalVectorType& diagonal() { return derived().diagonal(); }
 
+    /** \returns the value of the coefficient as if \c *this was a dense matrix. */
     EIGEN_DEVICE_FUNC
+    inline Scalar coeff(Index row, Index col) const {
+      eigen_assert(row >= 0 && col >= 0 && row < rows() && col <= cols());
+      return row == col ? diagonal().coeff(row) : Scalar(0);
+    }
+
+    /** \returns the number of rows. */
+    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR 
     inline Index rows() const { return diagonal().size(); }
-    EIGEN_DEVICE_FUNC
+    /** \returns the number of columns. */
+    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR 
     inline Index cols() const { return diagonal().size(); }
 
+    /** \returns the diagonal matrix product of \c *this by the dense matrix, \a matrix */
     template<typename MatrixDerived>
     EIGEN_DEVICE_FUNC
     const Product<Derived,MatrixDerived,LazyProduct>
@@ -63,88 +96,99 @@ class DiagonalBase : public EigenBase<Derived>
       return Product<Derived, MatrixDerived, LazyProduct>(derived(),matrix.derived());
     }
 
-    typedef DiagonalWrapper<const CwiseUnaryOp<internal::scalar_inverse_op<Scalar>, const DiagonalVectorType> > InverseReturnType;
-    EIGEN_DEVICE_FUNC
-    inline const InverseReturnType
-    inverse() const
-    {
-      return InverseReturnType(diagonal().cwiseInverse());
-    }
-    
-    EIGEN_DEVICE_FUNC
-    inline const DiagonalWrapper<const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(DiagonalVectorType,Scalar,product) >
-    operator*(const Scalar& scalar) const
-    {
-      return DiagonalWrapper<const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(DiagonalVectorType,Scalar,product) >(diagonal() * scalar);
-    }
-    EIGEN_DEVICE_FUNC
-    friend inline const DiagonalWrapper<const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar,DiagonalVectorType,product) >
-    operator*(const Scalar& scalar, const DiagonalBase& other)
-    {
-      return DiagonalWrapper<const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar,DiagonalVectorType,product) >(scalar * other.diagonal());
+    template <typename OtherDerived>
+    using DiagonalProductReturnType = DiagonalWrapper<const EIGEN_CWISE_BINARY_RETURN_TYPE(
+        DiagonalVectorType, typename OtherDerived::DiagonalVectorType, product)>;
+
+    /** \returns the diagonal matrix product of \c *this by the diagonal matrix \a other */
+    template <typename OtherDerived>
+    EIGEN_DEVICE_FUNC const DiagonalProductReturnType<OtherDerived> operator*(
+        const DiagonalBase<OtherDerived>& other) const {
+      return diagonal().cwiseProduct(other.diagonal()).asDiagonal();
     }
 
-    template<typename OtherDerived>
+    using DiagonalInverseReturnType =
+        DiagonalWrapper<const CwiseUnaryOp<internal::scalar_inverse_op<Scalar>, const DiagonalVectorType>>;
+
+    /** \returns the inverse \c *this. Computed as the coefficient-wise inverse of the diagonal. */
     EIGEN_DEVICE_FUNC
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
-    inline unspecified_expression_type
-    #else
-    inline const DiagonalWrapper<const EIGEN_CWISE_BINARY_RETURN_TYPE(DiagonalVectorType,typename OtherDerived::DiagonalVectorType,sum) >
-    #endif
-    operator+(const DiagonalBase<OtherDerived>& other) const
-    {
+    inline const DiagonalInverseReturnType inverse() const { return diagonal().cwiseInverse().asDiagonal(); }
+
+    using DiagonalScaleReturnType =
+        DiagonalWrapper<const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(DiagonalVectorType, Scalar, product)>;
+
+    /** \returns the product of \c *this by the scalar \a scalar */
+    EIGEN_DEVICE_FUNC
+    inline const DiagonalScaleReturnType operator*(const Scalar& scalar) const {
+      return (diagonal() * scalar).asDiagonal();
+    }
+
+    using ScaleDiagonalReturnType =
+        DiagonalWrapper<const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar, DiagonalVectorType, product)>;
+
+    /** \returns the product of a scalar and the diagonal matrix \a other */
+    EIGEN_DEVICE_FUNC
+    friend inline const ScaleDiagonalReturnType operator*(const Scalar& scalar, const DiagonalBase& other) {
+      return (scalar * other.diagonal()).asDiagonal();
+    }
+
+    template <typename OtherDerived>
+    using DiagonalSumReturnType = DiagonalWrapper<const EIGEN_CWISE_BINARY_RETURN_TYPE(
+        DiagonalVectorType, typename OtherDerived::DiagonalVectorType, sum)>;
+
+    /** \returns the sum of \c *this and the diagonal matrix \a other */
+    template <typename OtherDerived>
+    EIGEN_DEVICE_FUNC inline const DiagonalSumReturnType<OtherDerived> operator+(
+        const DiagonalBase<OtherDerived>& other) const {
       return (diagonal() + other.diagonal()).asDiagonal();
     }
 
-    template<typename OtherDerived>
-    EIGEN_DEVICE_FUNC
-    #ifdef EIGEN_PARSED_BY_DOXYGEN
-    inline unspecified_expression_type
-    #else
-    inline const DiagonalWrapper<const EIGEN_CWISE_BINARY_RETURN_TYPE(DiagonalVectorType,typename OtherDerived::DiagonalVectorType,difference) >
-    #endif
-    operator-(const DiagonalBase<OtherDerived>& other) const
-    {
+    template <typename OtherDerived>
+    using DiagonalDifferenceReturnType = DiagonalWrapper<const EIGEN_CWISE_BINARY_RETURN_TYPE(
+        DiagonalVectorType, typename OtherDerived::DiagonalVectorType, difference)>;
+
+    /** \returns the difference of \c *this and the diagonal matrix \a other */
+    template <typename OtherDerived>
+    EIGEN_DEVICE_FUNC inline const DiagonalDifferenceReturnType<OtherDerived> operator-(
+        const DiagonalBase<OtherDerived>& other) const {
       return (diagonal() - other.diagonal()).asDiagonal();
     }
 };
 
-#endif
-
 /** \class DiagonalMatrix
-  * \ingroup Core_Module
-  *
-  * \brief Represents a diagonal matrix with its storage
-  *
-  * \param _Scalar the type of coefficients
-  * \param SizeAtCompileTime the dimension of the matrix, or Dynamic
-  * \param MaxSizeAtCompileTime the dimension of the matrix, or Dynamic. This parameter is optional and defaults
-  *        to SizeAtCompileTime. Most of the time, you do not need to specify it.
-  *
-  * \sa class DiagonalWrapper
-  */
+ * \ingroup Core_Module
+ *
+ * \brief Represents a diagonal matrix with its storage
+ *
+ * \tparam Scalar_ the type of coefficients
+ * \tparam SizeAtCompileTime the dimension of the matrix, or Dynamic
+ * \tparam MaxSizeAtCompileTime the dimension of the matrix, or Dynamic. This parameter is optional and defaults
+ *        to SizeAtCompileTime. Most of the time, you do not need to specify it.
+ *
+ * \sa class DiagonalBase, class DiagonalWrapper
+ */
 
 namespace internal {
-template<typename _Scalar, int SizeAtCompileTime, int MaxSizeAtCompileTime>
-struct traits<DiagonalMatrix<_Scalar,SizeAtCompileTime,MaxSizeAtCompileTime> >
- : traits<Matrix<_Scalar,SizeAtCompileTime,SizeAtCompileTime,0,MaxSizeAtCompileTime,MaxSizeAtCompileTime> >
+template<typename Scalar_, int SizeAtCompileTime, int MaxSizeAtCompileTime>
+struct traits<DiagonalMatrix<Scalar_,SizeAtCompileTime,MaxSizeAtCompileTime> >
+ : traits<Matrix<Scalar_,SizeAtCompileTime,SizeAtCompileTime,0,MaxSizeAtCompileTime,MaxSizeAtCompileTime> >
 {
-  typedef Matrix<_Scalar,SizeAtCompileTime,1,0,MaxSizeAtCompileTime,1> DiagonalVectorType;
+  typedef Matrix<Scalar_,SizeAtCompileTime,1,0,MaxSizeAtCompileTime,1> DiagonalVectorType;
   typedef DiagonalShape StorageKind;
   enum {
-    Flags = LvalueBit | NoPreferredStorageOrderBit
+    Flags = LvalueBit | NoPreferredStorageOrderBit | NestByRefBit
   };
 };
 }
-template<typename _Scalar, int SizeAtCompileTime, int MaxSizeAtCompileTime>
+template<typename Scalar_, int SizeAtCompileTime, int MaxSizeAtCompileTime>
 class DiagonalMatrix
-  : public DiagonalBase<DiagonalMatrix<_Scalar,SizeAtCompileTime,MaxSizeAtCompileTime> >
+  : public DiagonalBase<DiagonalMatrix<Scalar_,SizeAtCompileTime,MaxSizeAtCompileTime> >
 {
   public:
     #ifndef EIGEN_PARSED_BY_DOXYGEN
     typedef typename internal::traits<DiagonalMatrix>::DiagonalVectorType DiagonalVectorType;
     typedef const DiagonalMatrix& Nested;
-    typedef _Scalar Scalar;
+    typedef Scalar_ Scalar;
     typedef typename internal::traits<DiagonalMatrix>::StorageKind StorageKind;
     typedef typename internal::traits<DiagonalMatrix>::StorageIndex StorageIndex;
     #endif
@@ -178,10 +222,7 @@ class DiagonalMatrix
     EIGEN_DEVICE_FUNC
     inline DiagonalMatrix(const Scalar& x, const Scalar& y, const Scalar& z) : m_diagonal(x,y,z) {}
 
-    #if EIGEN_HAS_CXX11
-    /** \brief Construct a diagonal matrix with fixed size from an arbitrary number of coefficients. \cpp11
-      * 
-      * There exists C++98 anologue constructors for fixed-size diagonal matrices having 2 or 3 coefficients.
+    /** \brief Construct a diagonal matrix with fixed size from an arbitrary number of coefficients.
       * 
       * \warning To construct a diagonal matrix of fixed size, the number of values passed to this 
       * constructor must match the fixed dimension of \c *this.
@@ -200,7 +241,10 @@ class DiagonalMatrix
     EIGEN_DEVICE_FUNC
     explicit EIGEN_STRONG_INLINE DiagonalMatrix(const std::initializer_list<std::initializer_list<Scalar>>& list)
       : m_diagonal(list) {}
-    #endif  // EIGEN_HAS_CXX11
+
+    /** \brief Constructs a DiagonalMatrix from an r-value diagonal vector type */
+    EIGEN_DEVICE_FUNC
+    explicit inline DiagonalMatrix(DiagonalVectorType&& diag) : m_diagonal(std::move(diag)) {}
 
     /** Copy constructor. */
     template<typename OtherDerived>
@@ -239,6 +283,22 @@ class DiagonalMatrix
     }
     #endif
 
+    typedef DiagonalWrapper<const CwiseNullaryOp<internal::scalar_constant_op<Scalar>, DiagonalVectorType>>
+        InitializeReturnType;
+
+    /** Initializes a diagonal matrix of size SizeAtCompileTime with coefficients set to zero */
+    EIGEN_DEVICE_FUNC
+    static const InitializeReturnType Zero() { return DiagonalVectorType::Zero().asDiagonal(); }
+    /** Initializes a diagonal matrix of size dim with coefficients set to zero */
+    EIGEN_DEVICE_FUNC
+    static const InitializeReturnType Zero(Index size) { return DiagonalVectorType::Zero(size).asDiagonal(); }
+    /** Initializes a identity matrix of size SizeAtCompileTime */
+    EIGEN_DEVICE_FUNC
+    static const InitializeReturnType Identity() { return DiagonalVectorType::Ones().asDiagonal(); }
+    /** Initializes a identity matrix of size dim */
+    EIGEN_DEVICE_FUNC
+    static const InitializeReturnType Identity(Index size) { return DiagonalVectorType::Ones(size).asDiagonal(); }
+
     /** Resizes to given size. */
     EIGEN_DEVICE_FUNC
     inline void resize(Index size) { m_diagonal.resize(size); }
@@ -261,7 +321,7 @@ class DiagonalMatrix
   *
   * \brief Expression of a diagonal matrix
   *
-  * \param _DiagonalVectorType the type of the vector of diagonal coefficients
+  * \tparam DiagonalVectorType_ the type of the vector of diagonal coefficients
   *
   * This class is an expression of a diagonal matrix, but not storing its own vector of diagonal coefficients,
   * instead wrapping an existing vector expression. It is the return type of MatrixBase::asDiagonal()
@@ -271,10 +331,10 @@ class DiagonalMatrix
   */
 
 namespace internal {
-template<typename _DiagonalVectorType>
-struct traits<DiagonalWrapper<_DiagonalVectorType> >
+template<typename DiagonalVectorType_>
+struct traits<DiagonalWrapper<DiagonalVectorType_> >
 {
-  typedef _DiagonalVectorType DiagonalVectorType;
+  typedef DiagonalVectorType_ DiagonalVectorType;
   typedef typename DiagonalVectorType::Scalar Scalar;
   typedef typename DiagonalVectorType::StorageIndex StorageIndex;
   typedef DiagonalShape StorageKind;
@@ -289,13 +349,13 @@ struct traits<DiagonalWrapper<_DiagonalVectorType> >
 };
 }
 
-template<typename _DiagonalVectorType>
+template<typename DiagonalVectorType_>
 class DiagonalWrapper
-  : public DiagonalBase<DiagonalWrapper<_DiagonalVectorType> >, internal::no_assignment_operator
+  : public DiagonalBase<DiagonalWrapper<DiagonalVectorType_> >, internal::no_assignment_operator
 {
   public:
     #ifndef EIGEN_PARSED_BY_DOXYGEN
-    typedef _DiagonalVectorType DiagonalVectorType;
+    typedef DiagonalVectorType_ DiagonalVectorType;
     typedef DiagonalWrapper Nested;
     #endif
 
@@ -386,6 +446,6 @@ struct Assignment<DstXprType, SrcXprType, Functor, Diagonal2Dense>
 
 } // namespace internal
 
-} // end namespace Eigen
+}  // end namespace Eigen
 
 #endif // EIGEN_DIAGONALMATRIX_H

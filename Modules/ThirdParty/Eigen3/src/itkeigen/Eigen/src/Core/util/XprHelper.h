@@ -11,41 +11,65 @@
 #ifndef EIGEN_XPRHELPER_H
 #define EIGEN_XPRHELPER_H
 
-// just a workaround because GCC seems to not really like empty structs
-// FIXME: gcc 4.3 generates bad code when strict-aliasing is enabled
-// so currently we simply disable this optimization for gcc 4.3
-#if EIGEN_COMP_GNUC && !EIGEN_GNUC_AT(4,3)
-  #define EIGEN_EMPTY_STRUCT_CTOR(X) \
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE X() {} \
-    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE X(const X& ) {}
-#else
-  #define EIGEN_EMPTY_STRUCT_CTOR(X)
-#endif
+// IWYU pragma: private
+#include "../InternalHeaderCheck.h"
 
 namespace Eigen {
 
 namespace internal {
 
-template<typename IndexDest, typename IndexSrc>
-EIGEN_DEVICE_FUNC
-inline IndexDest convert_index(const IndexSrc& idx) {
-  // for sizeof(IndexDest)>=sizeof(IndexSrc) compilers should be able to optimize this away:
-  eigen_internal_assert(idx <= NumTraits<IndexDest>::highest() && "Index value to big for target type");
-  return IndexDest(idx);
+
+// useful for unsigned / signed integer comparisons when idx is intended to be non-negative
+template <typename IndexType>
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename make_unsigned<IndexType>::type returnUnsignedIndexValue(
+    const IndexType& idx) {
+  EIGEN_STATIC_ASSERT((NumTraits<IndexType>::IsInteger), THIS FUNCTION IS FOR INTEGER TYPES)
+  eigen_internal_assert(idx >= 0 && "Index value is negative and target type is unsigned");
+  using UnsignedType = typename make_unsigned<IndexType>::type;
+  return static_cast<UnsignedType>(idx);
+}
+
+template <typename IndexDest, typename IndexSrc, 
+          bool IndexDestIsInteger = NumTraits<IndexDest>::IsInteger,
+          bool IndexDestIsSigned = NumTraits<IndexDest>::IsSigned,
+          bool IndexSrcIsInteger = NumTraits<IndexSrc>::IsInteger,
+          bool IndexSrcIsSigned = NumTraits<IndexSrc>::IsSigned>
+struct convert_index_impl {
+  static inline EIGEN_DEVICE_FUNC IndexDest run(const IndexSrc& idx) {
+    eigen_internal_assert(idx <= NumTraits<IndexDest>::highest() && "Index value is too big for target type");
+    return static_cast<IndexDest>(idx);
+  }
+};
+template <typename IndexDest, typename IndexSrc>
+struct convert_index_impl<IndexDest, IndexSrc, true, true, true, false> {
+  // IndexDest is a signed integer
+  // IndexSrc is an unsigned integer
+  static inline EIGEN_DEVICE_FUNC IndexDest run(const IndexSrc& idx) {
+    eigen_internal_assert(idx <= returnUnsignedIndexValue(NumTraits<IndexDest>::highest()) &&
+                          "Index value is too big for target type");
+    return static_cast<IndexDest>(idx);
+  }
+};
+template <typename IndexDest, typename IndexSrc>
+struct convert_index_impl<IndexDest, IndexSrc, true, false, true, true> {
+  // IndexDest is an unsigned integer
+  // IndexSrc is a signed integer
+  static inline EIGEN_DEVICE_FUNC IndexDest run(const IndexSrc& idx) {
+    eigen_internal_assert(returnUnsignedIndexValue(idx) <= NumTraits<IndexDest>::highest() &&
+                          "Index value is too big for target type");
+    return static_cast<IndexDest>(idx);
+  }
+};
+
+template <typename IndexDest, typename IndexSrc>
+EIGEN_DEVICE_FUNC inline IndexDest convert_index(const IndexSrc& idx) {
+  return convert_index_impl<IndexDest, IndexSrc>::run(idx);
 }
 
 // true if T can be considered as an integral index (i.e., and integral type or enum)
 template<typename T> struct is_valid_index_type
 {
-  enum { value =
-#if EIGEN_HAS_TYPE_TRAITS
-    internal::is_integral<T>::value || std::is_enum<T>::value
-#elif EIGEN_COMP_MSVC
-    internal::is_integral<T>::value || __is_enum(T)
-#else
-    // without C++11, we use is_convertible to Index instead of is_integral in order to treat enums as Index.
-    internal::is_convertible<T,Index>::value && !internal::is_same<T,float>::value && !is_same<T,double>::value
-#endif
+  enum { value = internal::is_integral<T>::value || std::is_enum<T>::value
   };
 };
 
@@ -119,7 +143,7 @@ class no_assignment_operator
 template<typename I1, typename I2>
 struct promote_index_type
 {
-  typedef typename conditional<(sizeof(I1)<sizeof(I2)), I2, I1>::type type;
+  typedef std::conditional_t<(sizeof(I1)<sizeof(I2)), I2, I1> type;
 };
 
 /** \internal If the template parameter Value is Dynamic, this class is just a wrapper around a T variable that
@@ -154,7 +178,6 @@ template<typename T> class variable_if_dynamic<T, Dynamic>
 template<typename T, int Value> class variable_if_dynamicindex
 {
   public:
-    EIGEN_EMPTY_STRUCT_CTOR(variable_if_dynamicindex)
     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T v) { EIGEN_ONLY_USED_FOR_DEBUG(v); eigen_assert(v == T(Value)); }
     EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE EIGEN_CONSTEXPR
     T value() { return T(Value); }
@@ -208,84 +231,95 @@ struct find_best_packet
   typedef typename find_best_packet_helper<Size,typename packet_traits<T>::type>::type type;
 };
 
+template <int Size, typename PacketType,
+          bool Stop = (Size == unpacket_traits<PacketType>::size) ||
+                      is_same<PacketType, typename unpacket_traits<PacketType>::half>::value>
+struct find_packet_by_size_helper;
+template <int Size, typename PacketType>
+struct find_packet_by_size_helper<Size, PacketType, true> {
+  using type = PacketType;
+};
+template <int Size, typename PacketType>
+struct find_packet_by_size_helper<Size, PacketType, false> {
+  using type = typename find_packet_by_size_helper<Size, typename unpacket_traits<PacketType>::half>::type;
+};
+
+template <typename T, int Size>
+struct find_packet_by_size {
+  using type = typename find_packet_by_size_helper<Size, typename packet_traits<T>::type>::type;
+  static constexpr bool value = (Size == unpacket_traits<type>::size);
+};
+template <typename T>
+struct find_packet_by_size<T, 1> {
+  using type = typename unpacket_traits<T>::type;
+  static constexpr bool value = (unpacket_traits<type>::size == 1);
+};
+
 #if EIGEN_MAX_STATIC_ALIGN_BYTES>0
-template<int ArrayBytes, int AlignmentBytes,
-         bool Match     =  bool((ArrayBytes%AlignmentBytes)==0),
-         bool TryHalf   =  bool(EIGEN_MIN_ALIGN_BYTES<AlignmentBytes) >
-struct compute_default_alignment_helper
-{
-  enum { value = 0 };
-};
-
-template<int ArrayBytes, int AlignmentBytes, bool TryHalf>
-struct compute_default_alignment_helper<ArrayBytes, AlignmentBytes, true, TryHalf> // Match
-{
-  enum { value = AlignmentBytes };
-};
-
-template<int ArrayBytes, int AlignmentBytes>
-struct compute_default_alignment_helper<ArrayBytes, AlignmentBytes, false, true> // Try-half
-{
-  // current packet too large, try with an half-packet
-  enum { value = compute_default_alignment_helper<ArrayBytes, AlignmentBytes/2>::value };
-};
+constexpr inline int compute_default_alignment_helper(int ArrayBytes, int AlignmentBytes) {
+  if((ArrayBytes % AlignmentBytes) == 0) {
+    return AlignmentBytes;
+  } else if (EIGEN_MIN_ALIGN_BYTES<AlignmentBytes) {
+    return compute_default_alignment_helper(ArrayBytes, AlignmentBytes/2);
+  } else {
+    return 0;
+  }
+}
 #else
 // If static alignment is disabled, no need to bother.
-// This also avoids a division by zero in "bool Match =  bool((ArrayBytes%AlignmentBytes)==0)"
-template<int ArrayBytes, int AlignmentBytes>
-struct compute_default_alignment_helper
-{
-  enum { value = 0 };
-};
+// This also avoids a division by zero
+constexpr inline int compute_default_alignment_helper(int ArrayBytes, int AlignmentBytes) {
+  EIGEN_UNUSED_VARIABLE(ArrayBytes);
+  EIGEN_UNUSED_VARIABLE(AlignmentBytes);
+  return 0;
+}
 #endif
 
 template<typename T, int Size> struct compute_default_alignment {
-  enum { value = compute_default_alignment_helper<Size*sizeof(T),EIGEN_MAX_STATIC_ALIGN_BYTES>::value };
+  enum { value = compute_default_alignment_helper(Size*sizeof(T), EIGEN_MAX_STATIC_ALIGN_BYTES) };
 };
 
 template<typename T> struct compute_default_alignment<T,Dynamic> {
   enum { value = EIGEN_MAX_ALIGN_BYTES };
 };
 
-template<typename _Scalar, int _Rows, int _Cols,
-         int _Options = AutoAlign |
-                          ( (_Rows==1 && _Cols!=1) ? RowMajor
-                          : (_Cols==1 && _Rows!=1) ? ColMajor
+template<typename Scalar_, int Rows_, int Cols_,
+         int Options_ = AutoAlign |
+                          ( (Rows_==1 && Cols_!=1) ? RowMajor
+                          : (Cols_==1 && Rows_!=1) ? ColMajor
                           : EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION ),
-         int _MaxRows = _Rows,
-         int _MaxCols = _Cols
+         int MaxRows_ = Rows_,
+         int MaxCols_ = Cols_
 > class make_proper_matrix_type
 {
     enum {
-      IsColVector = _Cols==1 && _Rows!=1,
-      IsRowVector = _Rows==1 && _Cols!=1,
-      Options = IsColVector ? (_Options | ColMajor) & ~RowMajor
-              : IsRowVector ? (_Options | RowMajor) & ~ColMajor
-              : _Options
+      IsColVector = Cols_==1 && Rows_!=1,
+      IsRowVector = Rows_==1 && Cols_!=1,
+      Options = IsColVector ? (Options_ | ColMajor) & ~RowMajor
+              : IsRowVector ? (Options_ | RowMajor) & ~ColMajor
+              : Options_
     };
   public:
-    typedef Matrix<_Scalar, _Rows, _Cols, Options, _MaxRows, _MaxCols> type;
+    typedef Matrix<Scalar_, Rows_, Cols_, Options, MaxRows_, MaxCols_> type;
 };
 
-template<typename Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols>
-class compute_matrix_flags
-{
-    enum { row_major_bit = Options&RowMajor ? RowMajorBit : 0 };
-  public:
-    // FIXME currently we still have to handle DirectAccessBit at the expression level to handle DenseCoeffsBase<>
-    // and then propagate this information to the evaluator's flags.
-    // However, I (Gael) think that DirectAccessBit should only matter at the evaluation stage.
-    enum { ret = DirectAccessBit | LvalueBit | NestByRefBit | row_major_bit };
-};
+constexpr inline unsigned compute_matrix_flags(int Options) {
+  unsigned row_major_bit = Options&RowMajor ? RowMajorBit : 0;
+  // FIXME currently we still have to handle DirectAccessBit at the expression level to handle DenseCoeffsBase<>
+  // and then propagate this information to the evaluator's flags.
+  // However, I (Gael) think that DirectAccessBit should only matter at the evaluation stage.
+  return DirectAccessBit | LvalueBit | NestByRefBit | row_major_bit;
+}
 
-template<int _Rows, int _Cols> struct size_at_compile_time
-{
-  enum { ret = (_Rows==Dynamic || _Cols==Dynamic) ? Dynamic : _Rows * _Cols };
-};
+constexpr inline int size_at_compile_time(int rows, int cols) {
+  if (rows == 0 || cols == 0) return 0;
+  if (rows == Dynamic || cols == Dynamic) return Dynamic;
+  return rows * cols;
+}
 
 template<typename XprType> struct size_of_xpr_at_compile_time
 {
-  enum { ret = size_at_compile_time<traits<XprType>::RowsAtCompileTime,traits<XprType>::ColsAtCompileTime>::ret };
+  enum { ret = size_at_compile_time(traits<XprType>::RowsAtCompileTime, traits<XprType>::ColsAtCompileTime) };
 };
 
 /* plain_matrix_type : the difference from eval is that plain_matrix_type is always a plain matrix type,
@@ -299,6 +333,11 @@ template<typename T> struct plain_matrix_type<T,Dense>
   typedef typename plain_matrix_type_dense<T,typename traits<T>::XprKind, traits<T>::Flags>::type type;
 };
 template<typename T> struct plain_matrix_type<T,DiagonalShape>
+{
+  typedef typename T::PlainObject type;
+};
+
+template<typename T> struct plain_matrix_type<T,SkewSymmetricShape>
 {
   typedef typename T::PlainObject type;
 };
@@ -349,17 +388,22 @@ template<typename T> struct eval<T,DiagonalShape>
   typedef typename plain_matrix_type<T>::type type;
 };
 
-// for matrices, no need to evaluate, just use a const reference to avoid a useless copy
-template<typename _Scalar, int _Rows, int _Cols, int _Options, int _MaxRows, int _MaxCols>
-struct eval<Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>, Dense>
+template<typename T> struct eval<T,SkewSymmetricShape>
 {
-  typedef const Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>& type;
+  typedef typename plain_matrix_type<T>::type type;
 };
 
-template<typename _Scalar, int _Rows, int _Cols, int _Options, int _MaxRows, int _MaxCols>
-struct eval<Array<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>, Dense>
+// for matrices, no need to evaluate, just use a const reference to avoid a useless copy
+template<typename Scalar_, int Rows_, int Cols_, int Options_, int MaxRows_, int MaxCols_>
+struct eval<Matrix<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>, Dense>
 {
-  typedef const Array<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols>& type;
+  typedef const Matrix<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>& type;
+};
+
+template<typename Scalar_, int Rows_, int Cols_, int Options_, int MaxRows_, int MaxCols_>
+struct eval<Array<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>, Dense>
+{
+  typedef const Array<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>& type;
 };
 
 
@@ -415,28 +459,28 @@ template<typename T> struct plain_matrix_type_row_major
 template <typename T>
 struct ref_selector
 {
-  typedef typename conditional<
+  typedef std::conditional_t<
     bool(traits<T>::Flags & NestByRefBit),
     T const&,
     const T
-  >::type type;
+  > type;
 
-  typedef typename conditional<
+  typedef std::conditional_t<
     bool(traits<T>::Flags & NestByRefBit),
     T &,
     T
-  >::type non_const_type;
+  > non_const_type;
 };
 
 /** \internal Adds the const qualifier on the value-type of T2 if and only if T1 is a const type */
 template<typename T1, typename T2>
 struct transfer_constness
 {
-  typedef typename conditional<
+  typedef std::conditional_t<
     bool(internal::is_const<T1>::value),
-    typename internal::add_const_on_value_type<T2>::type,
+    add_const_on_value_type_t<T2>,
     T2
-  >::type type;
+  > type;
 };
 
 
@@ -469,7 +513,7 @@ template<typename T, int n, typename PlainObject = typename plain_object_eval<T>
     Evaluate = (int(evaluator<T>::Flags) & EvalBeforeNestingBit) || (int(CostEval) < int(CostNoEval))
   };
 
-  typedef typename conditional<Evaluate, PlainObject, typename ref_selector<T>::type>::type type;
+  typedef std::conditional_t<Evaluate, PlainObject, typename ref_selector<T>::type> type;
 };
 
 template<typename T>
@@ -509,10 +553,10 @@ struct generic_xpr_base<Derived, XprKind, Dense>
 template<typename XprType, typename CastType> struct cast_return_type
 {
   typedef typename XprType::Scalar CurrentScalarType;
-  typedef typename remove_all<CastType>::type _CastType;
-  typedef typename _CastType::Scalar NewScalarType;
-  typedef typename conditional<is_same<CurrentScalarType,NewScalarType>::value,
-                              const XprType&,CastType>::type type;
+  typedef remove_all_t<CastType> CastType_;
+  typedef typename CastType_::Scalar NewScalarType;
+  typedef std::conditional_t<is_same<CurrentScalarType,NewScalarType>::value,
+                              const XprType&,CastType> type;
 };
 
 template <typename A, typename B> struct promote_storage_type;
@@ -587,6 +631,12 @@ template <typename B, int ProductTag> struct product_promote_storage_type<Diagon
 template <int ProductTag>             struct product_promote_storage_type<Dense,              DiagonalShape,      ProductTag> { typedef Dense ret; };
 template <int ProductTag>             struct product_promote_storage_type<DiagonalShape,      Dense,              ProductTag> { typedef Dense ret; };
 
+template <typename A, int ProductTag> struct product_promote_storage_type<A,                  SkewSymmetricShape, ProductTag> { typedef A ret; };
+template <typename B, int ProductTag> struct product_promote_storage_type<SkewSymmetricShape, B,                  ProductTag> { typedef B ret; };
+template <int ProductTag>             struct product_promote_storage_type<Dense,              SkewSymmetricShape, ProductTag> { typedef Dense ret; };
+template <int ProductTag>             struct product_promote_storage_type<SkewSymmetricShape, Dense,              ProductTag> { typedef Dense ret; };
+template <int ProductTag>             struct product_promote_storage_type<SkewSymmetricShape, SkewSymmetricShape, ProductTag> { typedef Dense ret; };
+
 template <typename A, int ProductTag> struct product_promote_storage_type<A,                  PermutationStorage, ProductTag> { typedef A ret; };
 template <typename B, int ProductTag> struct product_promote_storage_type<PermutationStorage, B,                  ProductTag> { typedef B ret; };
 template <int ProductTag>             struct product_promote_storage_type<Dense,              PermutationStorage, ProductTag> { typedef Dense ret; };
@@ -603,11 +653,11 @@ struct plain_row_type
   typedef Array<Scalar, 1, ExpressionType::ColsAtCompileTime,
                  int(ExpressionType::PlainObject::Options) | int(RowMajor), 1, ExpressionType::MaxColsAtCompileTime> ArrayRowType;
 
-  typedef typename conditional<
+  typedef std::conditional_t<
     is_same< typename traits<ExpressionType>::XprKind, MatrixXpr >::value,
     MatrixRowType,
     ArrayRowType
-  >::type type;
+  > type;
 };
 
 template<typename ExpressionType, typename Scalar = typename ExpressionType::Scalar>
@@ -618,27 +668,28 @@ struct plain_col_type
   typedef Array<Scalar, ExpressionType::RowsAtCompileTime, 1,
                  ExpressionType::PlainObject::Options & ~RowMajor, ExpressionType::MaxRowsAtCompileTime, 1> ArrayColType;
 
-  typedef typename conditional<
+  typedef std::conditional_t<
     is_same< typename traits<ExpressionType>::XprKind, MatrixXpr >::value,
     MatrixColType,
     ArrayColType
-  >::type type;
+  > type;
 };
 
 template<typename ExpressionType, typename Scalar = typename ExpressionType::Scalar>
 struct plain_diag_type
 {
-  enum { diag_size = EIGEN_SIZE_MIN_PREFER_DYNAMIC(ExpressionType::RowsAtCompileTime, ExpressionType::ColsAtCompileTime),
-         max_diag_size = EIGEN_SIZE_MIN_PREFER_FIXED(ExpressionType::MaxRowsAtCompileTime, ExpressionType::MaxColsAtCompileTime)
+  enum { diag_size = internal::min_size_prefer_dynamic(ExpressionType::RowsAtCompileTime, ExpressionType::ColsAtCompileTime),
+         max_diag_size = min_size_prefer_fixed(ExpressionType::MaxRowsAtCompileTime,
+                                               ExpressionType::MaxColsAtCompileTime)
   };
   typedef Matrix<Scalar, diag_size, 1, ExpressionType::PlainObject::Options & ~RowMajor, max_diag_size, 1> MatrixDiagType;
   typedef Array<Scalar, diag_size, 1, ExpressionType::PlainObject::Options & ~RowMajor, max_diag_size, 1> ArrayDiagType;
 
-  typedef typename conditional<
+  typedef std::conditional_t<
     is_same< typename traits<ExpressionType>::XprKind, MatrixXpr >::value,
     MatrixDiagType,
     ArrayDiagType
-  >::type type;
+  > type;
 };
 
 template<typename Expr,typename Scalar = typename Expr::Scalar>
@@ -652,7 +703,7 @@ struct plain_constant_type
   typedef Matrix<Scalar,  traits<Expr>::RowsAtCompileTime,   traits<Expr>::ColsAtCompileTime,
                  Options, traits<Expr>::MaxRowsAtCompileTime,traits<Expr>::MaxColsAtCompileTime> matrix_type;
 
-  typedef CwiseNullaryOp<scalar_constant_op<Scalar>, const typename conditional<is_same< typename traits<Expr>::XprKind, MatrixXpr >::value, matrix_type, array_type>::type > type;
+  typedef CwiseNullaryOp<scalar_constant_op<Scalar>, const std::conditional_t<is_same< typename traits<Expr>::XprKind, MatrixXpr >::value, matrix_type, array_type> > type;
 };
 
 template<typename ExpressionType>
@@ -692,14 +743,14 @@ struct possibly_same_dense {
 
 template<typename T1, typename T2>
 EIGEN_DEVICE_FUNC
-bool is_same_dense(const T1 &mat1, const T2 &mat2, typename enable_if<possibly_same_dense<T1,T2>::value>::type * = 0)
+bool is_same_dense(const T1 &mat1, const T2 &mat2, std::enable_if_t<possibly_same_dense<T1,T2>::value> * = 0)
 {
   return (mat1.data()==mat2.data()) && (mat1.innerStride()==mat2.innerStride()) && (mat1.outerStride()==mat2.outerStride());
 }
 
 template<typename T1, typename T2>
 EIGEN_DEVICE_FUNC
-bool is_same_dense(const T1 &, const T2 &, typename enable_if<!possibly_same_dense<T1,T2>::value>::type * = 0)
+bool is_same_dense(const T1 &, const T2 &, std::enable_if_t<!possibly_same_dense<T1,T2>::value> * = 0)
 {
   return false;
 }
@@ -721,9 +772,9 @@ struct scalar_div_cost<std::complex<T>, Vectorized> {
 
 
 template<bool Vectorized>
-struct scalar_div_cost<signed long,Vectorized,typename conditional<sizeof(long)==8,void,false_type>::type> { enum { value = 24 }; };
+struct scalar_div_cost<signed long,Vectorized, std::conditional_t<sizeof(long)==8,void,false_type>> { enum { value = 24 }; };
 template<bool Vectorized>
-struct scalar_div_cost<unsigned long,Vectorized,typename conditional<sizeof(long)==8,void,false_type>::type> { enum { value = 21 }; };
+struct scalar_div_cost<unsigned long,Vectorized, std::conditional_t<sizeof(long)==8,void,false_type>> { enum { value = 21 }; };
 
 
 #ifdef EIGEN_DEBUG_ASSIGN
@@ -757,6 +808,54 @@ std::string demangle_flags(int f)
   return res;
 }
 #endif
+
+template<typename XprType>
+struct is_block_xpr : std::false_type {};
+
+template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel>
+struct is_block_xpr<Block<XprType, BlockRows, BlockCols, InnerPanel>> : std::true_type {};
+
+template <typename XprType, int BlockRows, int BlockCols, bool InnerPanel>
+struct is_block_xpr<const Block<XprType, BlockRows, BlockCols, InnerPanel>> : std::true_type {};
+
+// Helper utility for constructing non-recursive block expressions.
+template<typename XprType>
+struct block_xpr_helper {
+  using BaseType = XprType;
+
+  // For regular block expressions, simply forward along the InnerPanel argument,
+  // which is set when calling row/column expressions.
+  static constexpr bool is_inner_panel(bool inner_panel) { return inner_panel; }
+  
+  // Only enable non-const base function if XprType is not const (otherwise we get a duplicate definition).
+  template<typename T = XprType, typename EnableIf=std::enable_if_t<!std::is_const<T>::value>>
+  static EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BaseType& base(XprType& xpr) { return xpr; }
+  static EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const BaseType& base(const XprType& xpr) { return xpr; }
+  static constexpr EIGEN_ALWAYS_INLINE Index row(const XprType& /*xpr*/, Index r) { return r; }
+  static constexpr EIGEN_ALWAYS_INLINE Index col(const XprType& /*xpr*/, Index c) { return c; }
+};
+
+template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel>
+struct block_xpr_helper<Block<XprType, BlockRows, BlockCols, InnerPanel>> {
+  using BlockXprType = Block<XprType, BlockRows, BlockCols, InnerPanel>;
+  // Recursive helper in case of explicit block-of-block expression.
+  using NestedXprHelper = block_xpr_helper<XprType>;
+  using BaseType = typename NestedXprHelper::BaseType;
+ 
+  // For block-of-block expressions, we need to combine the InnerPannel trait
+  // with that of the block subexpression.
+  static constexpr bool is_inner_panel(bool inner_panel) { return InnerPanel && inner_panel; }
+
+  // Only enable non-const base function if XprType is not const (otherwise we get a duplicates definition).
+  template<typename T = XprType, typename EnableIf=std::enable_if_t<!std::is_const<T>::value>>
+  static EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BaseType& base(BlockXprType& xpr) { return NestedXprHelper::base(xpr.nestedExpression()); }
+  static EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const BaseType& base(const BlockXprType& xpr) { return NestedXprHelper::base(xpr.nestedExpression()); }
+  static constexpr EIGEN_ALWAYS_INLINE Index row(const BlockXprType& xpr, Index r) { return xpr.startRow() + NestedXprHelper::row(xpr.nestedExpression(), r); }
+  static constexpr EIGEN_ALWAYS_INLINE Index col(const BlockXprType& xpr, Index c) { return xpr.startCol() + NestedXprHelper::col(xpr.nestedExpression(), c); }
+};
+
+template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel>
+struct block_xpr_helper<const Block<XprType, BlockRows, BlockCols, InnerPanel>> : block_xpr_helper<Block<XprType, BlockRows, BlockCols, InnerPanel>> {};
 
 } // end namespace internal
 
@@ -812,12 +911,12 @@ struct ScalarBinaryOpTraits<T,T,BinaryOp>
 };
 
 template <typename T, typename BinaryOp>
-struct ScalarBinaryOpTraits<T, typename NumTraits<typename internal::enable_if<NumTraits<T>::IsComplex,T>::type>::Real, BinaryOp>
+struct ScalarBinaryOpTraits<T, typename NumTraits<std::enable_if_t<NumTraits<T>::IsComplex,T>>::Real, BinaryOp>
 {
   typedef T ReturnType;
 };
 template <typename T, typename BinaryOp>
-struct ScalarBinaryOpTraits<typename NumTraits<typename internal::enable_if<NumTraits<T>::IsComplex,T>::type>::Real, T, BinaryOp>
+struct ScalarBinaryOpTraits<typename NumTraits<std::enable_if_t<NumTraits<T>::IsComplex,T>>::Real, T, BinaryOp>
 {
   typedef T ReturnType;
 };

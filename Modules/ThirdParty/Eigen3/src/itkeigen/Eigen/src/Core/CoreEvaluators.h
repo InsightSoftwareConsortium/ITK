@@ -13,6 +13,9 @@
 #ifndef EIGEN_COREEVALUATORS_H
 #define EIGEN_COREEVALUATORS_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
@@ -498,7 +501,7 @@ struct evaluator<CwiseNullaryOp<NullaryOp,PlainObjectType> >
   : evaluator_base<CwiseNullaryOp<NullaryOp,PlainObjectType> >
 {
   typedef CwiseNullaryOp<NullaryOp,PlainObjectType> XprType;
-  typedef typename internal::remove_all<PlainObjectType>::type PlainObjectTypeCleaned;
+  typedef internal::remove_all_t<PlainObjectType> PlainObjectTypeCleaned;
 
   enum {
     CoeffReadCost = internal::functor_traits<NullaryOp>::Cost,
@@ -619,6 +622,207 @@ protected:
   Data m_d;
 };
 
+// ----------------------- Casting ---------------------
+
+template <typename SrcType, typename DstType, typename ArgType>
+struct unary_evaluator<CwiseUnaryOp<core_cast_op<SrcType, DstType>, ArgType>, IndexBased> {
+  using CastOp = core_cast_op<SrcType, DstType>;
+  using XprType = CwiseUnaryOp<CastOp, ArgType>;
+
+  // Use the largest packet type by default
+  using SrcPacketType = typename packet_traits<SrcType>::type;
+  static constexpr int SrcPacketSize = unpacket_traits<SrcPacketType>::size;
+  static constexpr int SrcPacketBytes = SrcPacketSize * sizeof(SrcType);
+
+  enum {
+    CoeffReadCost = int(evaluator<ArgType>::CoeffReadCost) + int(functor_traits<CastOp>::Cost),
+    PacketAccess = functor_traits<CastOp>::PacketAccess,
+    ActualPacketAccessBit = PacketAccess ? PacketAccessBit : 0,
+    Flags = evaluator<ArgType>::Flags & (HereditaryBits | LinearAccessBit | ActualPacketAccessBit),
+    IsRowMajor = (evaluator<ArgType>::Flags & RowMajorBit),
+    Alignment = evaluator<ArgType>::Alignment
+  };
+
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit unary_evaluator(const XprType& xpr)
+      : m_argImpl(xpr.nestedExpression()), m_rows(xpr.rows()), m_cols(xpr.cols()) {
+    EIGEN_INTERNAL_CHECK_COST_VALUE(functor_traits<CastOp>::Cost);
+    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
+  }
+
+  template <typename DstPacketType>
+  using AltSrcScalarOp = std::enable_if_t<(unpacket_traits<DstPacketType>::size < SrcPacketSize && !find_packet_by_size<SrcType, unpacket_traits<DstPacketType>::size>::value), bool>;
+  template <typename DstPacketType>
+  using SrcPacketArgs1 = std::enable_if_t<(find_packet_by_size<SrcType, unpacket_traits<DstPacketType>::size>::value), bool>;
+  template <typename DstPacketType>
+  using SrcPacketArgs2 = std::enable_if_t<(unpacket_traits<DstPacketType>::size) == (2 * SrcPacketSize), bool>;
+  template <typename DstPacketType>
+  using SrcPacketArgs4 = std::enable_if_t<(unpacket_traits<DstPacketType>::size) == (4 * SrcPacketSize), bool>;
+  template <typename DstPacketType>
+  using SrcPacketArgs8 = std::enable_if_t<(unpacket_traits<DstPacketType>::size) == (8 * SrcPacketSize), bool>;
+
+  template <bool UseRowMajor = IsRowMajor, std::enable_if_t<UseRowMajor, bool> = true>
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool check_array_bounds(Index, Index col, Index packetSize) const {
+    return col + packetSize <= cols();
+  }
+  template <bool UseRowMajor = IsRowMajor, std::enable_if_t<!UseRowMajor, bool> = true>
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool check_array_bounds(Index row, Index, Index packetSize) const {
+    return row + packetSize <= rows();
+  }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool check_array_bounds(Index index, Index packetSize) const {
+    return index + packetSize <= size();
+  }
+
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE SrcType srcCoeff(Index row, Index col, Index offset) const {
+    Index actualRow = IsRowMajor ? row : row + offset;
+    Index actualCol = IsRowMajor ? col + offset : col;
+    return m_argImpl.coeff(actualRow, actualCol);
+  }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE SrcType srcCoeff(Index index, Index offset) const {
+    Index actualIndex = index + offset;
+    return m_argImpl.coeff(actualIndex);
+  }
+
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE DstType coeff(Index row, Index col) const {
+    return cast<SrcType, DstType>(srcCoeff(row, col, 0));
+  }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE DstType coeff(Index index) const { return cast<SrcType, DstType>(srcCoeff(index, 0)); }
+
+  template <int LoadMode, typename PacketType = SrcPacketType>
+  EIGEN_STRONG_INLINE PacketType srcPacket(Index row, Index col, Index offset) const {
+    constexpr int PacketSize = unpacket_traits<PacketType>::size;
+    Index actualRow = IsRowMajor ? row : row + (offset * PacketSize);
+    Index actualCol = IsRowMajor ? col + (offset * PacketSize) : col;
+    eigen_assert(check_array_bounds(actualRow, actualCol, PacketSize) && "Array index out of bounds");
+    return m_argImpl.template packet<LoadMode, PacketType>(actualRow, actualCol);
+  }
+  template <int LoadMode, typename PacketType = SrcPacketType>
+  EIGEN_STRONG_INLINE PacketType srcPacket(Index index, Index offset) const {
+    constexpr int PacketSize = unpacket_traits<PacketType>::size;
+    Index actualIndex = index + (offset * PacketSize);
+    eigen_assert(check_array_bounds(actualIndex, PacketSize) && "Array index out of bounds");
+    return m_argImpl.template packet<LoadMode, PacketType>(actualIndex);
+  }
+
+  // There is no source packet type with equal or fewer elements than DstPacketType.
+  // This is problematic as the evaluation loop may attempt to access data outside the bounds of the array.
+  // For example, consider the cast utilizing pcast<Packet4f,Packet2d> with an array of size 4: {0.0f,1.0f,2.0f,3.0f}. 
+  // The first iteration of the evaulation loop will load 16 bytes: {0.0f,1.0f,2.0f,3.0f} and cast to {0.0,1.0}, which is acceptable.
+  // The second iteration will load 16 bytes: {2.0f,3.0f,?,?}, which is outside the bounds of the array.
+
+  // Instead, perform runtime check to determine if the load would access data outside the bounds of the array.
+  // If not, perform full load. Otherwise, revert to a scalar loop to perform a partial load.
+  // In either case, perform a vectorized cast of the source packet.
+  template <int LoadMode, typename DstPacketType, AltSrcScalarOp<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index row, Index col) const {
+    constexpr int DstPacketSize = unpacket_traits<DstPacketType>::size;
+    constexpr int SrcBytesIncrement = DstPacketSize * sizeof(SrcType);
+    constexpr int SrcLoadMode = plain_enum_min(SrcBytesIncrement, LoadMode);
+    SrcPacketType src;
+    if (EIGEN_PREDICT_TRUE(check_array_bounds(row, col, SrcPacketSize))) {
+      src = srcPacket<SrcLoadMode>(row, col, 0);
+    } else {
+      Array<SrcType, SrcPacketSize, 1> srcArray;
+      for (size_t k = 0; k < DstPacketSize; k++) srcArray[k] = srcCoeff(row, col, k);
+      for (size_t k = DstPacketSize; k < SrcPacketSize; k++) srcArray[k] = SrcType(0);
+      src = pload<SrcPacketType>(srcArray.data());
+    }
+    return pcast<SrcPacketType, DstPacketType>(src);
+  }
+  // Use the source packet type with the same size as DstPacketType, if it exists
+  template <int LoadMode, typename DstPacketType, SrcPacketArgs1<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index row, Index col) const {
+    constexpr int DstPacketSize = unpacket_traits<DstPacketType>::size;
+    using SizedSrcPacketType = typename find_packet_by_size<SrcType, DstPacketSize>::type;
+    constexpr int SrcBytesIncrement = DstPacketSize * sizeof(SrcType);
+    constexpr int SrcLoadMode = plain_enum_min(SrcBytesIncrement, LoadMode);
+    return pcast<SizedSrcPacketType, DstPacketType>(
+        srcPacket<SrcLoadMode, SizedSrcPacketType>(row, col, 0));
+  }
+  // unpacket_traits<DstPacketType>::size == 2 * SrcPacketSize
+  template <int LoadMode, typename DstPacketType, SrcPacketArgs2<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index row, Index col) const {
+    constexpr int SrcLoadMode = plain_enum_min(SrcPacketBytes, LoadMode);
+    return pcast<SrcPacketType, DstPacketType>(
+        srcPacket<SrcLoadMode>(row, col, 0), srcPacket<SrcLoadMode>(row, col, 1));
+  }
+  // unpacket_traits<DstPacketType>::size == 4 * SrcPacketSize
+  template <int LoadMode, typename DstPacketType, SrcPacketArgs4<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index row, Index col) const {
+    constexpr int SrcLoadMode = plain_enum_min(SrcPacketBytes, LoadMode);
+    return pcast<SrcPacketType, DstPacketType>(
+        srcPacket<SrcLoadMode>(row, col, 0), srcPacket<SrcLoadMode>(row, col, 1),
+        srcPacket<SrcLoadMode>(row, col, 2), srcPacket<SrcLoadMode>(row, col, 3));
+  }
+  // unpacket_traits<DstPacketType>::size == 8 * SrcPacketSize
+  template <int LoadMode, typename DstPacketType, SrcPacketArgs8<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index row, Index col) const {
+    constexpr int SrcLoadMode = plain_enum_min(SrcPacketBytes, LoadMode);
+    return pcast<SrcPacketType, DstPacketType>(
+        srcPacket<SrcLoadMode>(row, col, 0), srcPacket<SrcLoadMode>(row, col, 1), 
+        srcPacket<SrcLoadMode>(row, col, 2), srcPacket<SrcLoadMode>(row, col, 3), 
+        srcPacket<SrcLoadMode>(row, col, 4), srcPacket<SrcLoadMode>(row, col, 5),
+        srcPacket<SrcLoadMode>(row, col, 6), srcPacket<SrcLoadMode>(row, col, 7));
+  }
+
+  // Analagous routines for linear access.
+  template <int LoadMode, typename DstPacketType, AltSrcScalarOp<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index index) const {
+    constexpr int DstPacketSize = unpacket_traits<DstPacketType>::size;
+    constexpr int SrcBytesIncrement = DstPacketSize * sizeof(SrcType);
+    constexpr int SrcLoadMode = plain_enum_min(SrcBytesIncrement, LoadMode);
+    SrcPacketType src;
+    if (EIGEN_PREDICT_TRUE(check_array_bounds(index, SrcPacketSize))) {
+      src = srcPacket<SrcLoadMode>(index, 0);
+    } else {
+      Array<SrcType, SrcPacketSize, 1> srcArray;
+      for (size_t k = 0; k < DstPacketSize; k++) srcArray[k] = srcCoeff(index, k);
+      for (size_t k = DstPacketSize; k < SrcPacketSize; k++) srcArray[k] = SrcType(0);
+      src = pload<SrcPacketType>(srcArray.data());
+    }
+    return pcast<SrcPacketType, DstPacketType>(src);
+  }
+  template <int LoadMode, typename DstPacketType, SrcPacketArgs1<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index index) const {
+    constexpr int DstPacketSize = unpacket_traits<DstPacketType>::size;
+    using SizedSrcPacketType = typename find_packet_by_size<SrcType, DstPacketSize>::type;
+    constexpr int SrcBytesIncrement = DstPacketSize * sizeof(SrcType);
+    constexpr int SrcLoadMode = plain_enum_min(SrcBytesIncrement, LoadMode);
+    return pcast<SizedSrcPacketType, DstPacketType>(
+        srcPacket<SrcLoadMode, SizedSrcPacketType>(index, 0));
+  }
+  template <int LoadMode, typename DstPacketType, SrcPacketArgs2<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index index) const {
+    constexpr int SrcLoadMode = plain_enum_min(SrcPacketBytes, LoadMode);
+    return pcast<SrcPacketType, DstPacketType>(
+        srcPacket<SrcLoadMode>(index, 0), srcPacket<SrcLoadMode>(index, 1));
+  }
+  template <int LoadMode, typename DstPacketType, SrcPacketArgs4<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index index) const {
+    constexpr int SrcLoadMode = plain_enum_min(SrcPacketBytes, LoadMode);
+    return pcast<SrcPacketType, DstPacketType>(
+        srcPacket<SrcLoadMode>(index, 0), srcPacket<SrcLoadMode>(index, 1),
+        srcPacket<SrcLoadMode>(index, 2), srcPacket<SrcLoadMode>(index, 3));
+  }
+  template <int LoadMode, typename DstPacketType, SrcPacketArgs8<DstPacketType> = true>
+  EIGEN_STRONG_INLINE DstPacketType packet(Index index) const {
+    constexpr int SrcLoadMode = plain_enum_min(SrcPacketBytes, LoadMode);
+    return pcast<SrcPacketType, DstPacketType>(
+        srcPacket<SrcLoadMode>(index, 0), srcPacket<SrcLoadMode>(index, 1),
+        srcPacket<SrcLoadMode>(index, 2), srcPacket<SrcLoadMode>(index, 3),
+        srcPacket<SrcLoadMode>(index, 4), srcPacket<SrcLoadMode>(index, 5),
+        srcPacket<SrcLoadMode>(index, 6), srcPacket<SrcLoadMode>(index, 7));
+  }
+
+  constexpr EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index rows() const { return m_rows; }
+  constexpr EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index cols() const { return m_cols; }
+  constexpr EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index size() const { return m_rows * m_cols; }
+
+ protected:
+  const evaluator<ArgType> m_argImpl;
+  const variable_if_dynamic<Index, XprType::RowsAtCompileTime> m_rows;
+  const variable_if_dynamic<Index, XprType::ColsAtCompileTime> m_cols;
+};
+
 // -------------------- CwiseTernaryOp --------------------
 
 // this is a ternary expression
@@ -655,9 +859,9 @@ struct ternary_evaluator<CwiseTernaryOp<TernaryOp, Arg1, Arg2, Arg3>, IndexBased
         )
      ),
     Flags = (Flags0 & ~RowMajorBit) | (Arg1Flags & RowMajorBit),
-    Alignment = EIGEN_PLAIN_ENUM_MIN(
-        EIGEN_PLAIN_ENUM_MIN(evaluator<Arg1>::Alignment, evaluator<Arg2>::Alignment),
-        evaluator<Arg3>::Alignment)
+    Alignment = plain_enum_min(
+            plain_enum_min(evaluator<Arg1>::Alignment, evaluator<Arg2>::Alignment),
+            evaluator<Arg3>::Alignment)
   };
 
   EIGEN_DEVICE_FUNC explicit ternary_evaluator(const XprType& xpr) : m_d(xpr)
@@ -751,7 +955,7 @@ struct binary_evaluator<CwiseBinaryOp<BinaryOp, Lhs, Rhs>, IndexBased, IndexBase
         )
      ),
     Flags = (Flags0 & ~RowMajorBit) | (LhsFlags & RowMajorBit),
-    Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator<Lhs>::Alignment,evaluator<Rhs>::Alignment)
+    Alignment = plain_enum_min(evaluator<Lhs>::Alignment, evaluator<Rhs>::Alignment)
   };
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
@@ -810,11 +1014,11 @@ protected:
 
 // -------------------- CwiseUnaryView --------------------
 
-template<typename UnaryOp, typename ArgType>
-struct unary_evaluator<CwiseUnaryView<UnaryOp, ArgType>, IndexBased>
-  : evaluator_base<CwiseUnaryView<UnaryOp, ArgType> >
+template<typename UnaryOp, typename ArgType, typename StrideType>
+struct unary_evaluator<CwiseUnaryView<UnaryOp, ArgType, StrideType>, IndexBased>
+  : evaluator_base<CwiseUnaryView<UnaryOp, ArgType, StrideType> >
 {
-  typedef CwiseUnaryView<UnaryOp, ArgType> XprType;
+  typedef CwiseUnaryView<UnaryOp, ArgType, StrideType> XprType;
 
   enum {
     CoeffReadCost = int(evaluator<ArgType>::CoeffReadCost) + int(functor_traits<UnaryOp>::Cost),
@@ -900,7 +1104,8 @@ struct mapbase_evaluator : evaluator_base<Derived>
       m_innerStride(map.innerStride()),
       m_outerStride(map.outerStride())
   {
-    EIGEN_STATIC_ASSERT(EIGEN_IMPLIES(evaluator<Derived>::Flags&PacketAccessBit, internal::inner_stride_at_compile_time<Derived>::ret==1),
+    EIGEN_STATIC_ASSERT(check_implication((evaluator<Derived>::Flags & PacketAccessBit) != 0,
+                                          internal::inner_stride_at_compile_time<Derived>::ret == 1),
                         PACKET_ACCESS_REQUIRES_TO_HAVE_INNER_STRIDE_FIXED_TO_1);
     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
@@ -1072,7 +1277,7 @@ struct evaluator<Block<ArgType, BlockRows, BlockCols, InnerPanel> >
     Alignment0 = (InnerPanel && (OuterStrideAtCompileTime!=Dynamic)
                              && (OuterStrideAtCompileTime!=0)
                              && (((OuterStrideAtCompileTime * int(sizeof(Scalar))) % int(PacketAlignment)) == 0)) ? int(PacketAlignment) : 0,
-    Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator<ArgType>::Alignment, Alignment0)
+    Alignment = plain_enum_min(evaluator<ArgType>::Alignment, Alignment0)
   };
   typedef block_evaluator<ArgType, BlockRows, BlockCols, InnerPanel> block_evaluator_type;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
@@ -1222,8 +1427,8 @@ struct block_evaluator<ArgType, BlockRows, BlockCols, InnerPanel, /* HasDirectAc
   explicit block_evaluator(const XprType& block)
     : mapbase_evaluator<XprType, typename XprType::PlainObject>(block)
   {
-    // TODO: for the 3.3 release, this should be turned to an internal assertion, but let's keep it as is for the beta lifetime
-    eigen_assert(((internal::UIntPtr(block.data()) % EIGEN_PLAIN_ENUM_MAX(1,evaluator<XprType>::Alignment)) == 0) && "data is not aligned");
+    eigen_internal_assert((internal::is_constant_evaluated() || (std::uintptr_t(block.data()) % plain_enum_max(1,evaluator<XprType>::Alignment)) == 0) \
+      && "data is not aligned");
   }
 };
 
@@ -1239,12 +1444,12 @@ struct evaluator<Select<ConditionMatrixType, ThenMatrixType, ElseMatrixType> >
   typedef Select<ConditionMatrixType, ThenMatrixType, ElseMatrixType> XprType;
   enum {
     CoeffReadCost = evaluator<ConditionMatrixType>::CoeffReadCost
-                  + EIGEN_PLAIN_ENUM_MAX(evaluator<ThenMatrixType>::CoeffReadCost,
-                                         evaluator<ElseMatrixType>::CoeffReadCost),
+                  + plain_enum_max(evaluator<ThenMatrixType>::CoeffReadCost,
+                                             evaluator<ElseMatrixType>::CoeffReadCost),
 
     Flags = (unsigned int)evaluator<ThenMatrixType>::Flags & evaluator<ElseMatrixType>::Flags & HereditaryBits,
 
-    Alignment = EIGEN_PLAIN_ENUM_MIN(evaluator<ThenMatrixType>::Alignment, evaluator<ElseMatrixType>::Alignment)
+    Alignment = plain_enum_min(evaluator<ThenMatrixType>::Alignment, evaluator<ElseMatrixType>::Alignment)
   };
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
@@ -1295,7 +1500,7 @@ struct unary_evaluator<Replicate<ArgType, RowFactor, ColFactor> >
     Factor = (RowFactor==Dynamic || ColFactor==Dynamic) ? Dynamic : RowFactor*ColFactor
   };
   typedef typename internal::nested_eval<ArgType,Factor>::type ArgTypeNested;
-  typedef typename internal::remove_all<ArgTypeNested>::type ArgTypeNestedCleaned;
+  typedef internal::remove_all_t<ArgTypeNested> ArgTypeNestedCleaned;
 
   enum {
     CoeffReadCost = evaluator<ArgTypeNestedCleaned>::CoeffReadCost,
@@ -1379,7 +1584,7 @@ template<typename XprType>
 struct evaluator_wrapper_base
   : evaluator_base<XprType>
 {
-  typedef typename remove_all<typename XprType::NestedExpressionType>::type ArgType;
+  typedef remove_all_t<typename XprType::NestedExpressionType> ArgType;
   enum {
     CoeffReadCost = evaluator<ArgType>::CoeffReadCost,
     Flags = evaluator<ArgType>::Flags,
@@ -1720,14 +1925,14 @@ struct evaluator<EvalToTemp<ArgType> >
   EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr)
     : m_result(xpr.arg())
   {
-    ::new (static_cast<Base*>(this)) Base(m_result);
+    internal::construct_at<Base>(this, m_result);
   }
 
   // This constructor is used when nesting an EvalTo evaluator in another evaluator
   EIGEN_DEVICE_FUNC evaluator(const ArgType& arg)
     : m_result(arg)
   {
-    ::new (static_cast<Base*>(this)) Base(m_result);
+    internal::construct_at<Base>(this, m_result);
   }
 
 protected:

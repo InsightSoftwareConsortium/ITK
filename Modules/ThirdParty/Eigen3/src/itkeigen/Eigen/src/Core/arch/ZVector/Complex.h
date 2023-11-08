@@ -8,8 +8,11 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_COMPLEX32_ALTIVEC_H
-#define EIGEN_COMPLEX32_ALTIVEC_H
+#ifndef EIGEN_COMPLEX32_ZVECTOR_H
+#define EIGEN_COMPLEX32_ZVECTOR_H
+
+// IWYU pragma: private
+#include "../../InternalHeaderCheck.h"
 
 namespace Eigen {
 
@@ -51,7 +54,6 @@ template<> struct packet_traits<std::complex<float> >  : default_packet_traits
     Vectorizable = 1,
     AlignedOnScalar = 1,
     size = 2,
-    HasHalfPacket = 0,
 
     HasAdd    = 1,
     HasSub    = 1,
@@ -76,7 +78,6 @@ template<> struct packet_traits<std::complex<double> >  : default_packet_traits
     Vectorizable = 1,
     AlignedOnScalar = 1,
     size = 1,
-    HasHalfPacket = 0,
 
     HasAdd    = 1,
     HasSub    = 1,
@@ -179,10 +180,7 @@ EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet1cd,Packet2d)
 
 template<> EIGEN_STRONG_INLINE Packet1cd pdiv<Packet1cd>(const Packet1cd& a, const Packet1cd& b)
 {
-  // TODO optimize it for AltiVec
-  Packet1cd res = pmul(a,pconj(b));
-  Packet2d s = vec_madd(b.v, b.v, p2d_ZERO_);
-  return Packet1cd(pdiv(res.v, s + vec_perm(s, s, p16uc_REVERSE64)));
+  return pdiv_complex(a, b);
 }
 
 EIGEN_STRONG_INLINE Packet1cd pcplxflip/*<Packet1cd>*/(const Packet1cd& x)
@@ -318,11 +316,7 @@ EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet2cf,Packet4f)
 
 template<> EIGEN_STRONG_INLINE Packet2cf pdiv<Packet2cf>(const Packet2cf& a, const Packet2cf& b)
 {
-  // TODO optimize it for AltiVec
-  Packet2cf res;
-  res.cd[0] = pdiv<Packet1cd>(a.cd[0], b.cd[0]);
-  res.cd[1] = pdiv<Packet1cd>(a.cd[1], b.cd[1]);
-  return res;
+  return pdiv_complex(a, b);
 }
 
 EIGEN_STRONG_INLINE Packet2cf pcplxflip/*<Packet2cf>*/(const Packet2cf& x)
@@ -404,10 +398,7 @@ EIGEN_MAKE_CONJ_HELPER_CPLX_REAL(Packet2cf,Packet4f)
 
 template<> EIGEN_STRONG_INLINE Packet2cf pdiv<Packet2cf>(const Packet2cf& a, const Packet2cf& b)
 {
-  // TODO optimize it for AltiVec
-  Packet2cf res = pmul(a, pconj(b));
-  Packet4f s = pmul<Packet4f>(b.v, b.v);
-  return Packet2cf(pdiv(res.v, padd<Packet4f>(s, vec_perm(s, s, p16uc_COMPLEX32_REV))));
+  return pdiv_complex(a, b);
 }
 
 template<> EIGEN_STRONG_INLINE Packet2cf pcplxflip<Packet2cf>(const Packet2cf& x)
@@ -433,4 +424,4 @@ template<> EIGEN_STRONG_INLINE Packet2cf pblend(const Selector<2>& ifPacket, con
 
 } // end namespace Eigen
 
-#endif // EIGEN_COMPLEX32_ALTIVEC_H
+#endif // EIGEN_COMPLEX32_ZVECTOR_H

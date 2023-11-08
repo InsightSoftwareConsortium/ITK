@@ -11,6 +11,9 @@
 #ifndef EIGEN_SPARSE_TRIANGULARVIEW_H
 #define EIGEN_SPARSE_TRIANGULARVIEW_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \ingroup SparseCore_Module
@@ -44,8 +47,8 @@ template<typename MatrixType, unsigned int Mode> class TriangularViewImpl<Matrix
     EIGEN_SPARSE_PUBLIC_INTERFACE(TriangularViewType)
     
     typedef typename MatrixType::Nested MatrixTypeNested;
-    typedef typename internal::remove_reference<MatrixTypeNested>::type MatrixTypeNestedNonRef;
-    typedef typename internal::remove_all<MatrixTypeNested>::type MatrixTypeNestedCleaned;
+    typedef std::remove_reference_t<MatrixTypeNested> MatrixTypeNestedNonRef;
+    typedef internal::remove_all_t<MatrixTypeNested> MatrixTypeNestedCleaned;
 
     template<typename RhsType, typename DstType>
     EIGEN_DEVICE_FUNC
@@ -149,8 +152,8 @@ public:
         }
       }
 
-//       inline Index row() const { return (ArgType::Flags&RowMajorBit ? Base::outer() : this->index()); }
-//       inline Index col() const { return (ArgType::Flags&RowMajorBit ? this->index() : Base::outer()); }
+      inline Index row() const { return (ArgType::Flags&RowMajorBit ? Base::outer() : this->index()); }
+      inline Index col() const { return (ArgType::Flags&RowMajorBit ? this->index() : Base::outer()); }
       inline StorageIndex index() const
       {
         if(HasUnitDiag && m_returnOne)  return internal::convert_index<StorageIndex>(Base::outer());

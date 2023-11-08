@@ -57,7 +57,9 @@ namespace Eigen { struct SluMatrix; }
   *
   */
 
+// IWYU pragma: begin_exports
 #include "src/SuperLUSupport/SuperLUSupport.h"
+// IWYU pragma: end_exports
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 

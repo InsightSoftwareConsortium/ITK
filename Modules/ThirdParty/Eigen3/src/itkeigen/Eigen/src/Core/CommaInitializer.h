@@ -11,6 +11,9 @@
 #ifndef EIGEN_COMMAINITIALIZER_H
 #define EIGEN_COMMAINITIALIZER_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 /** \class CommaInitializer
@@ -45,7 +48,7 @@ struct CommaInitializer
   {
     eigen_assert(m_xpr.rows() >= other.rows() && m_xpr.cols() >= other.cols()
       && "Cannot comma-initialize a 0x0 matrix (operator<<)");
-    m_xpr.block(0, 0, other.rows(), other.cols()) = other;
+    m_xpr.template block<OtherDerived::RowsAtCompileTime, OtherDerived::ColsAtCompileTime>(0, 0, other.rows(), other.cols()) = other;
   }
 
   /* Copy/Move constructor which transfers ownership. This is crucial in 

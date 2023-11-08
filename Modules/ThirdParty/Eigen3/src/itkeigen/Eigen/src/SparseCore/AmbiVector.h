@@ -10,6 +10,9 @@
 #ifndef EIGEN_AMBIVECTOR_H
 #define EIGEN_AMBIVECTOR_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -19,12 +22,12 @@ namespace internal {
   *
   * See BasicSparseLLT and SparseProduct for usage examples.
   */
-template<typename _Scalar, typename _StorageIndex>
+template<typename Scalar_, typename StorageIndex_>
 class AmbiVector
 {
   public:
-    typedef _Scalar Scalar;
-    typedef _StorageIndex StorageIndex;
+    typedef Scalar_ Scalar;
+    typedef StorageIndex_ StorageIndex;
     typedef typename NumTraits<Scalar>::Real RealScalar;
 
     explicit AmbiVector(Index size)
@@ -125,8 +128,8 @@ class AmbiVector
 };
 
 /** \returns the number of non zeros in the current sub vector */
-template<typename _Scalar,typename _StorageIndex>
-Index AmbiVector<_Scalar,_StorageIndex>::nonZeros() const
+template<typename Scalar_,typename StorageIndex_>
+Index AmbiVector<Scalar_,StorageIndex_>::nonZeros() const
 {
   if (m_mode==IsSparse)
     return m_llSize;
@@ -134,8 +137,8 @@ Index AmbiVector<_Scalar,_StorageIndex>::nonZeros() const
     return m_end - m_start;
 }
 
-template<typename _Scalar,typename _StorageIndex>
-void AmbiVector<_Scalar,_StorageIndex>::init(double estimatedDensity)
+template<typename Scalar_,typename StorageIndex_>
+void AmbiVector<Scalar_,StorageIndex_>::init(double estimatedDensity)
 {
   if (estimatedDensity>0.1)
     init(IsDense);
@@ -143,8 +146,8 @@ void AmbiVector<_Scalar,_StorageIndex>::init(double estimatedDensity)
     init(IsSparse);
 }
 
-template<typename _Scalar,typename _StorageIndex>
-void AmbiVector<_Scalar,_StorageIndex>::init(int mode)
+template<typename Scalar_,typename StorageIndex_>
+void AmbiVector<Scalar_,StorageIndex_>::init(int mode)
 {
   m_mode = mode;
   // This is only necessary in sparse mode, but we set these unconditionally to avoid some maybe-uninitialized warnings
@@ -160,15 +163,15 @@ void AmbiVector<_Scalar,_StorageIndex>::init(int mode)
   *
   * Don't worry, this function is extremely cheap.
   */
-template<typename _Scalar,typename _StorageIndex>
-void AmbiVector<_Scalar,_StorageIndex>::restart()
+template<typename Scalar_,typename StorageIndex_>
+void AmbiVector<Scalar_,StorageIndex_>::restart()
 {
   m_llCurrent = m_llStart;
 }
 
 /** Set all coefficients of current subvector to zero */
-template<typename _Scalar,typename _StorageIndex>
-void AmbiVector<_Scalar,_StorageIndex>::setZero()
+template<typename Scalar_,typename StorageIndex_>
+void AmbiVector<Scalar_,StorageIndex_>::setZero()
 {
   if (m_mode==IsDense)
   {
@@ -183,8 +186,8 @@ void AmbiVector<_Scalar,_StorageIndex>::setZero()
   }
 }
 
-template<typename _Scalar,typename _StorageIndex>
-_Scalar& AmbiVector<_Scalar,_StorageIndex>::coeffRef(Index i)
+template<typename Scalar_,typename StorageIndex_>
+Scalar_& AmbiVector<Scalar_,StorageIndex_>::coeffRef(Index i)
 {
   if (m_mode==IsDense)
     return m_buffer[i];
@@ -252,8 +255,8 @@ _Scalar& AmbiVector<_Scalar,_StorageIndex>::coeffRef(Index i)
   }
 }
 
-template<typename _Scalar,typename _StorageIndex>
-_Scalar& AmbiVector<_Scalar,_StorageIndex>::coeff(Index i)
+template<typename Scalar_,typename StorageIndex_>
+Scalar_& AmbiVector<Scalar_,StorageIndex_>::coeff(Index i)
 {
   if (m_mode==IsDense)
     return m_buffer[i];
@@ -280,11 +283,11 @@ _Scalar& AmbiVector<_Scalar,_StorageIndex>::coeff(Index i)
 }
 
 /** Iterator over the nonzero coefficients */
-template<typename _Scalar,typename _StorageIndex>
-class AmbiVector<_Scalar,_StorageIndex>::Iterator
+template<typename Scalar_,typename StorageIndex_>
+class AmbiVector<Scalar_,StorageIndex_>::Iterator
 {
   public:
-    typedef _Scalar Scalar;
+    typedef Scalar_ Scalar;
     typedef typename NumTraits<Scalar>::Real RealScalar;
 
     /** Default constructor

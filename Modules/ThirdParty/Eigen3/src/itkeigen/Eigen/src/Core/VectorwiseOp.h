@@ -11,6 +11,9 @@
 #ifndef EIGEN_PARTIAL_REDUX_H
 #define EIGEN_PARTIAL_REDUX_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \class PartialReduxExpr
@@ -86,7 +89,6 @@ template<typename A,typename B> struct partial_redux_dummy_func;
 #define EIGEN_MAKE_PARTIAL_REDUX_FUNCTOR(MEMBER,COST,VECTORIZABLE,BINARYOP)                \
   template <typename ResultType,typename Scalar>                                                            \
   struct member_##MEMBER {                                                                  \
-    EIGEN_EMPTY_STRUCT_CTOR(member_##MEMBER)                                                \
     typedef ResultType result_type;                                                         \
     typedef BINARYOP<Scalar,Scalar> BinaryOp;   \
     template<int Size> struct Cost { enum { value = COST }; };             \
@@ -191,7 +193,7 @@ template<typename ExpressionType, int Direction> class VectorwiseOp
     typedef typename ExpressionType::RealScalar RealScalar;
     typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
     typedef typename internal::ref_selector<ExpressionType>::non_const_type ExpressionTypeNested;
-    typedef typename internal::remove_all<ExpressionTypeNested>::type ExpressionTypeNestedCleaned;
+    typedef internal::remove_all_t<ExpressionTypeNested> ExpressionTypeNestedCleaned;
 
     template<template<typename OutScalar,typename InputScalar> class Functor,
                       typename ReturnScalar=Scalar> struct ReturnType
@@ -230,9 +232,9 @@ template<typename ExpressionType, int Direction> class VectorwiseOp
     typename ExtendedType<OtherDerived>::Type
     extendedTo(const DenseBase<OtherDerived>& other) const
     {
-      EIGEN_STATIC_ASSERT(EIGEN_IMPLIES(isVertical, OtherDerived::MaxColsAtCompileTime==1),
+      EIGEN_STATIC_ASSERT(internal::check_implication(isVertical, OtherDerived::MaxColsAtCompileTime==1),
                           YOU_PASSED_A_ROW_VECTOR_BUT_A_COLUMN_VECTOR_WAS_EXPECTED)
-      EIGEN_STATIC_ASSERT(EIGEN_IMPLIES(isHorizontal, OtherDerived::MaxRowsAtCompileTime==1),
+      EIGEN_STATIC_ASSERT(internal::check_implication(isHorizontal, OtherDerived::MaxRowsAtCompileTime==1),
                           YOU_PASSED_A_COLUMN_VECTOR_BUT_A_ROW_VECTOR_WAS_EXPECTED)
       return typename ExtendedType<OtherDerived>::Type
                       (other.derived(),
@@ -253,9 +255,9 @@ template<typename ExpressionType, int Direction> class VectorwiseOp
     typename OppositeExtendedType<OtherDerived>::Type
     extendedToOpposite(const DenseBase<OtherDerived>& other) const
     {
-      EIGEN_STATIC_ASSERT(EIGEN_IMPLIES(isHorizontal, OtherDerived::MaxColsAtCompileTime==1),
+      EIGEN_STATIC_ASSERT(internal::check_implication(isHorizontal, OtherDerived::MaxColsAtCompileTime==1),
                           YOU_PASSED_A_ROW_VECTOR_BUT_A_COLUMN_VECTOR_WAS_EXPECTED)
-      EIGEN_STATIC_ASSERT(EIGEN_IMPLIES(isVertical, OtherDerived::MaxRowsAtCompileTime==1),
+      EIGEN_STATIC_ASSERT(internal::check_implication(isVertical, OtherDerived::MaxRowsAtCompileTime==1),
                           YOU_PASSED_A_COLUMN_VECTOR_BUT_A_ROW_VECTOR_WAS_EXPECTED)
       return typename OppositeExtendedType<OtherDerived>::Type
                       (other.derived(),
@@ -349,8 +351,8 @@ template<typename ExpressionType, int Direction> class VectorwiseOp
     typedef typename ReturnType<internal::member_hypotNorm,RealScalar>::Type HypotNormReturnType;
     typedef typename ReturnType<internal::member_sum>::Type SumReturnType;
     typedef EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(SumReturnType,Scalar,quotient) MeanReturnType;
-    typedef typename ReturnType<internal::member_all>::Type AllReturnType;
-    typedef typename ReturnType<internal::member_any>::Type AnyReturnType;
+    typedef typename ReturnType<internal::member_all, bool>::Type AllReturnType;
+    typedef typename ReturnType<internal::member_any, bool>::Type AnyReturnType;
     typedef PartialReduxExpr<ExpressionType, internal::member_count<Index,Scalar>, Direction> CountReturnType;
     typedef typename ReturnType<internal::member_prod>::Type ProdReturnType;
     typedef Reverse<const ExpressionType, Direction> ConstReverseReturnType;
@@ -594,7 +596,7 @@ template<typename ExpressionType, int Direction> class VectorwiseOp
       return m_matrix += extendedTo(other.derived());
     }
 
-    /** Substracts the vector \a other to each subvector of \c *this */
+    /** Subtracts the vector \a other to each subvector of \c *this */
     template<typename OtherDerived>
     EIGEN_DEVICE_FUNC
     ExpressionType& operator-=(const DenseBase<OtherDerived>& other)
@@ -604,7 +606,7 @@ template<typename ExpressionType, int Direction> class VectorwiseOp
       return m_matrix -= extendedTo(other.derived());
     }
 
-    /** Multiples each subvector of \c *this by the vector \a other */
+    /** Multiplies each subvector of \c *this by the vector \a other */
     template<typename OtherDerived>
     EIGEN_DEVICE_FUNC
     ExpressionType& operator*=(const DenseBase<OtherDerived>& other)
@@ -744,7 +746,7 @@ template<typename ExpressionType, int Direction> class VectorwiseOp
 #   endif
 
   protected:
-    Index redux_length() const
+    EIGEN_DEVICE_FUNC Index redux_length() const
     {
       return Direction==Vertical ? m_matrix.rows() : m_matrix.cols();
     }

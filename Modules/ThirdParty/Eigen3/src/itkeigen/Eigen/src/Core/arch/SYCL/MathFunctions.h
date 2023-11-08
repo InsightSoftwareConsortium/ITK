@@ -20,6 +20,9 @@
 
 #ifndef EIGEN_MATH_FUNCTIONS_SYCL_H
 #define EIGEN_MATH_FUNCTIONS_SYCL_H
+// IWYU pragma: private
+#include "../../InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
@@ -35,6 +38,7 @@ namespace internal {
     return cl::sycl::log(a);                                           \
   }
 
+SYCL_PLOG(cl::sycl::cl_half8)
 SYCL_PLOG(cl::sycl::cl_float4)
 SYCL_PLOG(cl::sycl::cl_double2)
 #undef SYCL_PLOG
@@ -46,6 +50,7 @@ SYCL_PLOG(cl::sycl::cl_double2)
     return cl::sycl::log1p(a);                                           \
   }
 
+SYCL_PLOG1P(cl::sycl::cl_half8)
 SYCL_PLOG1P(cl::sycl::cl_float4)
 SYCL_PLOG1P(cl::sycl::cl_double2)
 #undef SYCL_PLOG1P
@@ -57,6 +62,7 @@ SYCL_PLOG1P(cl::sycl::cl_double2)
     return cl::sycl::log10(a);                                           \
   }
 
+SYCL_PLOG10(cl::sycl::cl_half8)
 SYCL_PLOG10(cl::sycl::cl_float4)
 SYCL_PLOG10(cl::sycl::cl_double2)
 #undef SYCL_PLOG10
@@ -68,6 +74,8 @@ SYCL_PLOG10(cl::sycl::cl_double2)
     return cl::sycl::exp(a);                                           \
   }
 
+SYCL_PEXP(cl::sycl::cl_half8)
+SYCL_PEXP(cl::sycl::cl_half)
 SYCL_PEXP(cl::sycl::cl_float4)
 SYCL_PEXP(cl::sycl::cl_float)
 SYCL_PEXP(cl::sycl::cl_double2)
@@ -80,6 +88,7 @@ SYCL_PEXP(cl::sycl::cl_double2)
     return cl::sycl::expm1(a);                                           \
   }
 
+SYCL_PEXPM1(cl::sycl::cl_half8)
 SYCL_PEXPM1(cl::sycl::cl_float4)
 SYCL_PEXPM1(cl::sycl::cl_double2)
 #undef SYCL_PEXPM1
@@ -91,6 +100,7 @@ SYCL_PEXPM1(cl::sycl::cl_double2)
     return cl::sycl::sqrt(a);                                           \
   }
 
+SYCL_PSQRT(cl::sycl::cl_half8)
 SYCL_PSQRT(cl::sycl::cl_float4)
 SYCL_PSQRT(cl::sycl::cl_double2)
 #undef SYCL_PSQRT
@@ -102,6 +112,7 @@ SYCL_PSQRT(cl::sycl::cl_double2)
     return cl::sycl::rsqrt(a);                                           \
   }
 
+SYCL_PRSQRT(cl::sycl::cl_half8)
 SYCL_PRSQRT(cl::sycl::cl_float4)
 SYCL_PRSQRT(cl::sycl::cl_double2)
 #undef SYCL_PRSQRT
@@ -114,6 +125,7 @@ SYCL_PRSQRT(cl::sycl::cl_double2)
     return cl::sycl::sin(a);                                           \
   }
 
+SYCL_PSIN(cl::sycl::cl_half8)
 SYCL_PSIN(cl::sycl::cl_float4)
 SYCL_PSIN(cl::sycl::cl_double2)
 #undef SYCL_PSIN
@@ -126,6 +138,7 @@ SYCL_PSIN(cl::sycl::cl_double2)
     return cl::sycl::cos(a);                                           \
   }
 
+SYCL_PCOS(cl::sycl::cl_half8)
 SYCL_PCOS(cl::sycl::cl_float4)
 SYCL_PCOS(cl::sycl::cl_double2)
 #undef SYCL_PCOS
@@ -138,6 +151,7 @@ SYCL_PCOS(cl::sycl::cl_double2)
     return cl::sycl::tan(a);                                           \
   }
 
+SYCL_PTAN(cl::sycl::cl_half8)
 SYCL_PTAN(cl::sycl::cl_float4)
 SYCL_PTAN(cl::sycl::cl_double2)
 #undef SYCL_PTAN
@@ -150,6 +164,7 @@ SYCL_PTAN(cl::sycl::cl_double2)
     return cl::sycl::asin(a);                                           \
   }
 
+SYCL_PASIN(cl::sycl::cl_half8)
 SYCL_PASIN(cl::sycl::cl_float4)
 SYCL_PASIN(cl::sycl::cl_double2)
 #undef SYCL_PASIN
@@ -162,6 +177,7 @@ SYCL_PASIN(cl::sycl::cl_double2)
     return cl::sycl::acos(a);                                           \
   }
 
+SYCL_PACOS(cl::sycl::cl_half8)
 SYCL_PACOS(cl::sycl::cl_float4)
 SYCL_PACOS(cl::sycl::cl_double2)
 #undef SYCL_PACOS
@@ -174,6 +190,7 @@ SYCL_PACOS(cl::sycl::cl_double2)
     return cl::sycl::atan(a);                                           \
   }
 
+SYCL_PATAN(cl::sycl::cl_half8)
 SYCL_PATAN(cl::sycl::cl_float4)
 SYCL_PATAN(cl::sycl::cl_double2)
 #undef SYCL_PATAN
@@ -186,6 +203,7 @@ SYCL_PATAN(cl::sycl::cl_double2)
     return cl::sycl::sinh(a);                                           \
   }
 
+SYCL_PSINH(cl::sycl::cl_half8)
 SYCL_PSINH(cl::sycl::cl_float4)
 SYCL_PSINH(cl::sycl::cl_double2)
 #undef SYCL_PSINH
@@ -198,6 +216,7 @@ SYCL_PSINH(cl::sycl::cl_double2)
     return cl::sycl::cosh(a);                                           \
   }
 
+SYCL_PCOSH(cl::sycl::cl_half8)
 SYCL_PCOSH(cl::sycl::cl_float4)
 SYCL_PCOSH(cl::sycl::cl_double2)
 #undef SYCL_PCOSH
@@ -210,6 +229,7 @@ SYCL_PCOSH(cl::sycl::cl_double2)
     return cl::sycl::tanh(a);                                           \
   }
 
+SYCL_PTANH(cl::sycl::cl_half8)
 SYCL_PTANH(cl::sycl::cl_float4)
 SYCL_PTANH(cl::sycl::cl_double2)
 #undef SYCL_PTANH
@@ -221,6 +241,7 @@ SYCL_PTANH(cl::sycl::cl_double2)
     return cl::sycl::ceil(a);                                           \
   }
 
+SYCL_PCEIL(cl::sycl::cl_half)
 SYCL_PCEIL(cl::sycl::cl_float4)
 SYCL_PCEIL(cl::sycl::cl_double2)
 #undef SYCL_PCEIL
@@ -232,6 +253,7 @@ SYCL_PCEIL(cl::sycl::cl_double2)
     return cl::sycl::round(a);                                           \
   }
 
+SYCL_PROUND(cl::sycl::cl_half8)
 SYCL_PROUND(cl::sycl::cl_float4)
 SYCL_PROUND(cl::sycl::cl_double2)
 #undef SYCL_PROUND
@@ -243,6 +265,7 @@ SYCL_PROUND(cl::sycl::cl_double2)
     return cl::sycl::rint(a);                                           \
   }
 
+SYCL_PRINT(cl::sycl::cl_half8)
 SYCL_PRINT(cl::sycl::cl_float4)
 SYCL_PRINT(cl::sycl::cl_double2)
 #undef SYCL_PRINT
@@ -254,6 +277,7 @@ SYCL_PRINT(cl::sycl::cl_double2)
     return cl::sycl::floor(a);                                           \
   }
 
+SYCL_FLOOR(cl::sycl::cl_half8)
 SYCL_FLOOR(cl::sycl::cl_float4)
 SYCL_FLOOR(cl::sycl::cl_double2)
 #undef SYCL_FLOOR
@@ -265,6 +289,7 @@ SYCL_FLOOR(cl::sycl::cl_double2)
     return expr;                                                       \
   }
 
+SYCL_PMIN(cl::sycl::cl_half8, cl::sycl::fmin(a, b))
 SYCL_PMIN(cl::sycl::cl_float4, cl::sycl::fmin(a, b))
 SYCL_PMIN(cl::sycl::cl_double2, cl::sycl::fmin(a, b))
 #undef SYCL_PMIN
@@ -276,6 +301,7 @@ SYCL_PMIN(cl::sycl::cl_double2, cl::sycl::fmin(a, b))
     return expr;                                                       \
   }
 
+SYCL_PMAX(cl::sycl::cl_half8, cl::sycl::fmax(a, b))
 SYCL_PMAX(cl::sycl::cl_float4, cl::sycl::fmax(a, b))
 SYCL_PMAX(cl::sycl::cl_double2, cl::sycl::fmax(a, b))
 #undef SYCL_PMAX
@@ -289,6 +315,7 @@ SYCL_PMAX(cl::sycl::cl_double2, cl::sycl::fmax(a, b))
                                      cl::sycl::rounding_mode::automatic>()); \
   }
 
+SYCL_PLDEXP(cl::sycl::cl_half8)
 SYCL_PLDEXP(cl::sycl::cl_float4)
 SYCL_PLDEXP(cl::sycl::cl_double2)
 #undef SYCL_PLDEXP

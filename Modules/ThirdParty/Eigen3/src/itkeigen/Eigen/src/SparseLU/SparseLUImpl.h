@@ -9,6 +9,9 @@
 #ifndef SPARSELU_IMPL_H
 #define SPARSELU_IMPL_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 namespace internal {
   

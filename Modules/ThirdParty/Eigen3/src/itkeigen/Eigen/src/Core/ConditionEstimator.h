@@ -10,6 +10,9 @@
 #ifndef EIGEN_CONDITIONESTIMATOR_H
 #define EIGEN_CONDITIONESTIMATOR_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
@@ -160,12 +163,12 @@ rcond_estimate_helper(typename Decomposition::RealScalar matrix_norm, const Deco
 {
   typedef typename Decomposition::RealScalar RealScalar;
   eigen_assert(dec.rows() == dec.cols());
-  if (dec.rows() == 0)              return NumTraits<RealScalar>::infinity();
-  if (matrix_norm == RealScalar(0)) return RealScalar(0);
-  if (dec.rows() == 1)              return RealScalar(1);
+  if (dec.rows() == 0)                        return NumTraits<RealScalar>::infinity();
+  if (numext::is_exactly_zero(matrix_norm)) return RealScalar(0);
+  if (dec.rows() == 1)                        return RealScalar(1);
   const RealScalar inverse_matrix_norm = rcond_invmatrix_L1_norm_estimate(dec);
-  return (inverse_matrix_norm == RealScalar(0) ? RealScalar(0)
-                                               : (RealScalar(1) / inverse_matrix_norm) / matrix_norm);
+  return (numext::is_exactly_zero(inverse_matrix_norm) ? RealScalar(0)
+                                                       : (RealScalar(1) / inverse_matrix_norm) / matrix_norm);
 }
 
 }  // namespace internal

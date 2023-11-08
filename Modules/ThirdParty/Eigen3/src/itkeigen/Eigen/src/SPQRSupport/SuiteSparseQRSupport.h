@@ -11,6 +11,9 @@
 #ifndef EIGEN_SUITESPARSEQRSUPPORT_H
 #define EIGEN_SUITESPARSEQRSUPPORT_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
   
   template<typename MatrixType> class SPQR; 
@@ -50,21 +53,21 @@ namespace Eigen {
   * R is the sparse triangular factor. Use matrixQR() to get it as SparseMatrix.
   * NOTE : The Index type of R is always SuiteSparse_long. You can get it with SPQR::Index
   *
-  * \tparam _MatrixType The type of the sparse matrix A, must be a column-major SparseMatrix<>
+  * \tparam MatrixType_ The type of the sparse matrix A, must be a column-major SparseMatrix<>
   *
   * \implsparsesolverconcept
   *
   *
   */
-template<typename _MatrixType>
-class SPQR : public SparseSolverBase<SPQR<_MatrixType> >
+template<typename MatrixType_>
+class SPQR : public SparseSolverBase<SPQR<MatrixType_> >
 {
   protected:
-    typedef SparseSolverBase<SPQR<_MatrixType> > Base;
+    typedef SparseSolverBase<SPQR<MatrixType_> > Base;
     using Base::m_isInitialized;
   public:
-    typedef typename _MatrixType::Scalar Scalar;
-    typedef typename _MatrixType::RealScalar RealScalar;
+    typedef typename MatrixType_::Scalar Scalar;
+    typedef typename MatrixType_::RealScalar RealScalar;
     typedef SuiteSparse_long StorageIndex ;
     typedef SparseMatrix<Scalar, ColMajor, StorageIndex> MatrixType;
     typedef Map<PermutationMatrix<Dynamic, Dynamic, StorageIndex> > PermutationType;
@@ -90,7 +93,7 @@ class SPQR : public SparseSolverBase<SPQR<_MatrixType> >
       cholmod_l_start(&m_cc);
     }
     
-    explicit SPQR(const _MatrixType& matrix)
+    explicit SPQR(const MatrixType_& matrix)
       : m_analysisIsOk(false),
         m_factorizationIsOk(false),
         m_isRUpToDate(false),
@@ -122,7 +125,7 @@ class SPQR : public SparseSolverBase<SPQR<_MatrixType> >
       std::free(m_HPinv);
     }
 
-    void compute(const _MatrixType& matrix)
+    void compute(const MatrixType_& matrix)
     {
       if(m_isInitialized) SPQR_free();
 
@@ -137,7 +140,7 @@ class SPQR : public SparseSolverBase<SPQR<_MatrixType> >
       {
         RealScalar max2Norm = 0.0;
         for (int j = 0; j < mat.cols(); j++) max2Norm = numext::maxi(max2Norm, mat.col(j).norm());
-        if(max2Norm==RealScalar(0))
+        if(numext::is_exactly_zero(max2Norm))
           max2Norm = RealScalar(1);
         pivotThreshold = 20 * (mat.rows() + mat.cols()) * max2Norm * NumTraits<RealScalar>::epsilon();
       }
@@ -258,12 +261,12 @@ class SPQR : public SparseSolverBase<SPQR<_MatrixType> >
     int m_ordering; // Ordering method to use, see SPQR's manual
     int m_allow_tol; // Allow to use some tolerance during numerical factorization.
     RealScalar m_tolerance; // treat columns with 2-norm below this tolerance as zero
-    mutable cholmod_sparse *m_cR; // The sparse R factor in cholmod format
+    mutable cholmod_sparse *m_cR = nullptr; // The sparse R factor in cholmod format
     mutable MatrixType m_R; // The sparse matrix R in Eigen format
-    mutable StorageIndex *m_E; // The permutation applied to columns
-    mutable cholmod_sparse *m_H;  //The householder vectors
-    mutable StorageIndex *m_HPinv; // The row permutation of H
-    mutable cholmod_dense *m_HTau; // The Householder coefficients
+    mutable StorageIndex *m_E = nullptr; // The permutation applied to columns
+    mutable cholmod_sparse *m_H = nullptr;  //The householder vectors
+    mutable StorageIndex *m_HPinv = nullptr; // The row permutation of H
+    mutable cholmod_dense *m_HTau = nullptr; // The Householder coefficients
     mutable Index m_rank; // The rank of the matrix
     mutable cholmod_common m_cc; // Workspace and parameters
     bool m_useDefaultThreshold;     // Use default threshold

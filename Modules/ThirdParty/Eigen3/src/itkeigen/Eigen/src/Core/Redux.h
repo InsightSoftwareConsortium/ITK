@@ -11,6 +11,9 @@
 #ifndef EIGEN_REDUX_H
 #define EIGEN_REDUX_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -42,9 +45,10 @@ public:
   };
 
   enum {
+    MayLinearize = (int(Evaluator::Flags) & LinearAccessBit),
     MightVectorize = (int(Evaluator::Flags)&ActualPacketAccessBit)
                   && (functor_traits<Func>::PacketAccess),
-    MayLinearVectorize = bool(MightVectorize) && (int(Evaluator::Flags)&LinearAccessBit),
+    MayLinearVectorize = bool(MightVectorize) && bool(MayLinearize),
     MaySliceVectorize  = bool(MightVectorize) && (int(SliceVectorizedWork)==Dynamic || int(SliceVectorizedWork)>=3)
   };
 
@@ -52,6 +56,7 @@ public:
   enum {
     Traversal = int(MayLinearVectorize) ? int(LinearVectorizedTraversal)
               : int(MaySliceVectorize)  ? int(SliceVectorizedTraversal)
+              : int(MayLinearize)       ? int(LinearTraversal)
                                         : int(DefaultTraversal)
   };
 
@@ -95,12 +100,10 @@ public:
 
 /*** no vectorization ***/
 
-template<typename Func, typename Evaluator, int Start, int Length>
+template<typename Func, typename Evaluator, Index Start, Index Length>
 struct redux_novec_unroller
 {
-  enum {
-    HalfLength = Length/2
-  };
+  static constexpr Index HalfLength = Length/2;
 
   typedef typename Evaluator::Scalar Scalar;
 
@@ -112,13 +115,11 @@ struct redux_novec_unroller
   }
 };
 
-template<typename Func, typename Evaluator, int Start>
+template<typename Func, typename Evaluator, Index Start>
 struct redux_novec_unroller<Func, Evaluator, Start, 1>
 {
-  enum {
-    outer = Start / Evaluator::InnerSizeAtCompileTime,
-    inner = Start % Evaluator::InnerSizeAtCompileTime
-  };
+  static constexpr Index outer = Start / Evaluator::InnerSizeAtCompileTime;
+  static constexpr Index inner = Start % Evaluator::InnerSizeAtCompileTime;
 
   typedef typename Evaluator::Scalar Scalar;
 
@@ -132,8 +133,46 @@ struct redux_novec_unroller<Func, Evaluator, Start, 1>
 // This is actually dead code and will never be called. It is required
 // to prevent false warnings regarding failed inlining though
 // for 0 length run() will never be called at all.
-template<typename Func, typename Evaluator, int Start>
+template<typename Func, typename Evaluator, Index Start>
 struct redux_novec_unroller<Func, Evaluator, Start, 0>
+{
+  typedef typename Evaluator::Scalar Scalar;
+  EIGEN_DEVICE_FUNC 
+  static EIGEN_STRONG_INLINE Scalar run(const Evaluator&, const Func&) { return Scalar(); }
+};
+
+template<typename Func, typename Evaluator, Index Start, Index Length>
+struct redux_novec_linear_unroller
+{
+  static constexpr Index HalfLength = Length/2;
+
+  typedef typename Evaluator::Scalar Scalar;
+
+  EIGEN_DEVICE_FUNC
+  static EIGEN_STRONG_INLINE Scalar run(const Evaluator &eval, const Func& func)
+  {
+    return func(redux_novec_linear_unroller<Func, Evaluator, Start, HalfLength>::run(eval,func),
+                redux_novec_linear_unroller<Func, Evaluator, Start+HalfLength, Length-HalfLength>::run(eval,func));
+  }
+};
+
+template<typename Func, typename Evaluator, Index Start>
+struct redux_novec_linear_unroller<Func, Evaluator, Start, 1>
+{
+  typedef typename Evaluator::Scalar Scalar;
+
+  EIGEN_DEVICE_FUNC
+  static EIGEN_STRONG_INLINE Scalar run(const Evaluator &eval, const Func&)
+  {
+    return eval.coeff(Start);
+  }
+};
+
+// This is actually dead code and will never be called. It is required
+// to prevent false warnings regarding failed inlining though
+// for 0 length run() will never be called at all.
+template<typename Func, typename Evaluator, Index Start>
+struct redux_novec_linear_unroller<Func, Evaluator, Start, 0>
 {
   typedef typename Evaluator::Scalar Scalar;
   EIGEN_DEVICE_FUNC 
@@ -142,17 +181,14 @@ struct redux_novec_unroller<Func, Evaluator, Start, 0>
 
 /*** vectorization ***/
 
-template<typename Func, typename Evaluator, int Start, int Length>
+template<typename Func, typename Evaluator, Index Start, Index Length>
 struct redux_vec_unroller
 {
   template<typename PacketType>
   EIGEN_DEVICE_FUNC
   static EIGEN_STRONG_INLINE PacketType run(const Evaluator &eval, const Func& func)
   {
-    enum {
-      PacketSize = unpacket_traits<PacketType>::size,
-      HalfLength = Length/2
-    };
+    constexpr Index HalfLength = Length/2;
 
     return func.packetOp(
             redux_vec_unroller<Func, Evaluator, Start, HalfLength>::template run<PacketType>(eval,func),
@@ -160,21 +196,49 @@ struct redux_vec_unroller
   }
 };
 
-template<typename Func, typename Evaluator, int Start>
+template<typename Func, typename Evaluator, Index Start>
 struct redux_vec_unroller<Func, Evaluator, Start, 1>
 {
   template<typename PacketType>
   EIGEN_DEVICE_FUNC
   static EIGEN_STRONG_INLINE PacketType run(const Evaluator &eval, const Func&)
   {
-    enum {
-      PacketSize = unpacket_traits<PacketType>::size,
-      index = Start * PacketSize,
-      outer = index / int(Evaluator::InnerSizeAtCompileTime),
-      inner = index % int(Evaluator::InnerSizeAtCompileTime),
-      alignment = Evaluator::Alignment
-    };
+    constexpr Index PacketSize = unpacket_traits<PacketType>::size;
+    constexpr Index index = Start * PacketSize;
+    constexpr Index outer = index / int(Evaluator::InnerSizeAtCompileTime);
+    constexpr Index inner = index % int(Evaluator::InnerSizeAtCompileTime);
+    constexpr int alignment = Evaluator::Alignment;
+
     return eval.template packetByOuterInner<alignment,PacketType>(outer, inner);
+  }
+};
+
+template<typename Func, typename Evaluator, Index Start, Index Length>
+struct redux_vec_linear_unroller
+{
+  template<typename PacketType>
+  EIGEN_DEVICE_FUNC
+  static EIGEN_STRONG_INLINE PacketType run(const Evaluator &eval, const Func& func)
+  {
+    constexpr Index HalfLength = Length/2;
+
+    return func.packetOp(
+            redux_vec_linear_unroller<Func, Evaluator, Start, HalfLength>::template run<PacketType>(eval,func),
+            redux_vec_linear_unroller<Func, Evaluator, Start+HalfLength, Length-HalfLength>::template run<PacketType>(eval,func) );
+  }
+};
+
+template<typename Func, typename Evaluator, Index Start>
+struct redux_vec_linear_unroller<Func, Evaluator, Start, 1>
+{
+  template<typename PacketType>
+  EIGEN_DEVICE_FUNC
+  static EIGEN_STRONG_INLINE PacketType run(const Evaluator &eval, const Func&)
+  {
+    constexpr Index PacketSize = unpacket_traits<PacketType>::size;
+    constexpr Index index = (Start * PacketSize);
+    constexpr int alignment = Evaluator::Alignment;
+    return eval.template packet<alignment,PacketType>(index);
   }
 };
 
@@ -198,8 +262,7 @@ struct redux_impl<Func, Evaluator, DefaultTraversal, NoUnrolling>
   Scalar run(const Evaluator &eval, const Func& func, const XprType& xpr)
   {
     eigen_assert(xpr.rows()>0 && xpr.cols()>0 && "you are using an empty matrix");
-    Scalar res;
-    res = eval.coeffByOuterInner(0, 0);
+    Scalar res = eval.coeffByOuterInner(0, 0);
     for(Index i = 1; i < xpr.innerSize(); ++i)
       res = func(res, eval.coeffByOuterInner(0, i));
     for(Index i = 1; i < xpr.outerSize(); ++i)
@@ -210,10 +273,41 @@ struct redux_impl<Func, Evaluator, DefaultTraversal, NoUnrolling>
 };
 
 template<typename Func, typename Evaluator>
+struct redux_impl<Func, Evaluator, LinearTraversal, NoUnrolling>
+{
+  typedef typename Evaluator::Scalar Scalar;
+
+  template<typename XprType>
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE
+  Scalar run(const Evaluator &eval, const Func& func, const XprType& xpr)
+  {
+    eigen_assert(xpr.size()>0 && "you are using an empty matrix");
+    Scalar res = eval.coeff(0);
+    for(Index k = 1; k < xpr.size(); ++k)
+      res = func(res, eval.coeff(k));
+    return res;
+  }
+};
+
+template<typename Func, typename Evaluator>
 struct redux_impl<Func,Evaluator, DefaultTraversal, CompleteUnrolling>
   : redux_novec_unroller<Func,Evaluator, 0, Evaluator::SizeAtCompileTime>
 {
   typedef redux_novec_unroller<Func,Evaluator, 0, Evaluator::SizeAtCompileTime> Base;
+  typedef typename Evaluator::Scalar Scalar;
+  template<typename XprType>
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE
+  Scalar run(const Evaluator &eval, const Func& func, const XprType& /*xpr*/)
+  {
+    return Base::run(eval,func);
+  }
+};
+
+template<typename Func, typename Evaluator>
+struct redux_impl<Func,Evaluator, LinearTraversal, CompleteUnrolling>
+  : redux_novec_linear_unroller<Func,Evaluator, 0, Evaluator::SizeAtCompileTime>
+{
+  typedef redux_novec_linear_unroller<Func,Evaluator, 0, Evaluator::SizeAtCompileTime> Base;
   typedef typename Evaluator::Scalar Scalar;
   template<typename XprType>
   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE
@@ -234,12 +328,10 @@ struct redux_impl<Func, Evaluator, LinearVectorizedTraversal, NoUnrolling>
   {
     const Index size = xpr.size();
     
-    const Index packetSize = redux_traits<Func, Evaluator>::PacketSize;
-    const int packetAlignment = unpacket_traits<PacketScalar>::alignment;
-    enum {
-      alignment0 = (bool(Evaluator::Flags & DirectAccessBit) && bool(packet_traits<Scalar>::AlignedOnScalar)) ? int(packetAlignment) : int(Unaligned),
-      alignment = EIGEN_PLAIN_ENUM_MAX(alignment0, Evaluator::Alignment)
-    };
+    constexpr Index packetSize = redux_traits<Func, Evaluator>::PacketSize;
+    constexpr int packetAlignment = unpacket_traits<PacketScalar>::alignment;
+    constexpr int alignment0 = (bool(Evaluator::Flags & DirectAccessBit) && bool(packet_traits<Scalar>::AlignedOnScalar)) ? int(packetAlignment) : int(Unaligned);
+    constexpr int alignment = plain_enum_max(alignment0, Evaluator::Alignment);
     const Index alignedStart = internal::first_default_aligned(xpr);
     const Index alignedSize2 = ((size-alignedStart)/(2*packetSize))*(2*packetSize);
     const Index alignedSize = ((size-alignedStart)/(packetSize))*(packetSize);
@@ -293,11 +385,9 @@ struct redux_impl<Func, Evaluator, SliceVectorizedTraversal, Unrolling>
   EIGEN_DEVICE_FUNC static Scalar run(const Evaluator &eval, const Func& func, const XprType& xpr)
   {
     eigen_assert(xpr.rows()>0 && xpr.cols()>0 && "you are using an empty matrix");
+    constexpr Index packetSize = redux_traits<Func, Evaluator>::PacketSize;
     const Index innerSize = xpr.innerSize();
     const Index outerSize = xpr.outerSize();
-    enum {
-      packetSize = redux_traits<Func, Evaluator>::PacketSize
-    };
     const Index packetedInnerSize = ((innerSize)/packetSize)*packetSize;
     Scalar res;
     if(packetedInnerSize)
@@ -328,11 +418,9 @@ struct redux_impl<Func, Evaluator, LinearVectorizedTraversal, CompleteUnrolling>
   typedef typename Evaluator::Scalar Scalar;
 
   typedef typename redux_traits<Func, Evaluator>::PacketType PacketType;
-  enum {
-    PacketSize = redux_traits<Func, Evaluator>::PacketSize,
-    Size = Evaluator::SizeAtCompileTime,
-    VectorizedSize = (int(Size) / int(PacketSize)) * int(PacketSize)
-  };
+  static constexpr Index PacketSize = redux_traits<Func, Evaluator>::PacketSize;
+  static constexpr Index  Size = Evaluator::SizeAtCompileTime;
+  static constexpr Index  VectorizedSize = (int(Size) / int(PacketSize)) * int(PacketSize);
 
   template<typename XprType>
   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE
@@ -341,24 +429,24 @@ struct redux_impl<Func, Evaluator, LinearVectorizedTraversal, CompleteUnrolling>
     EIGEN_ONLY_USED_FOR_DEBUG(xpr)
     eigen_assert(xpr.rows()>0 && xpr.cols()>0 && "you are using an empty matrix");
     if (VectorizedSize > 0) {
-      Scalar res = func.predux(redux_vec_unroller<Func, Evaluator, 0, Size / PacketSize>::template run<PacketType>(eval,func));
+      Scalar res = func.predux(redux_vec_linear_unroller<Func, Evaluator, 0, Size / PacketSize>::template run<PacketType>(eval,func));
       if (VectorizedSize != Size)
-        res = func(res,redux_novec_unroller<Func, Evaluator, VectorizedSize, Size-VectorizedSize>::run(eval,func));
+        res = func(res,redux_novec_linear_unroller<Func, Evaluator, VectorizedSize, Size-VectorizedSize>::run(eval,func));
       return res;
     }
     else {
-      return redux_novec_unroller<Func, Evaluator, 0, Size>::run(eval,func);
+      return redux_novec_linear_unroller<Func, Evaluator, 0, Size>::run(eval,func);
     }
   }
 };
 
 // evaluator adaptor
-template<typename _XprType>
-class redux_evaluator : public internal::evaluator<_XprType>
+template<typename XprType_>
+class redux_evaluator : public internal::evaluator<XprType_>
 {
-  typedef internal::evaluator<_XprType> Base;
+  typedef internal::evaluator<XprType_> Base;
 public:
-  typedef _XprType XprType;
+  typedef XprType_ XprType;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
   explicit redux_evaluator(const XprType &xpr) : Base(xpr) {}
   

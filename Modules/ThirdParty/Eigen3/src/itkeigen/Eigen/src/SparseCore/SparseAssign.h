@@ -10,6 +10,9 @@
 #ifndef EIGEN_SPARSEASSIGN_H
 #define EIGEN_SPARSEASSIGN_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 template<typename Derived>    
@@ -76,14 +79,20 @@ void assign_sparse_to_sparse(DstXprType &dst, const SrcXprType &src)
 
   SrcEvaluatorType srcEvaluator(src);
 
-  const bool transpose = (DstEvaluatorType::Flags & RowMajorBit) != (SrcEvaluatorType::Flags & RowMajorBit);
+  constexpr bool transpose = (DstEvaluatorType::Flags & RowMajorBit) != (SrcEvaluatorType::Flags & RowMajorBit);
   const Index outerEvaluationSize = (SrcEvaluatorType::Flags&RowMajorBit) ? src.rows() : src.cols();
+
+  Index reserveSize = 0;
+  for (Index j = 0; j < outerEvaluationSize; ++j)
+    for (typename SrcEvaluatorType::InnerIterator it(srcEvaluator, j); it; ++it)
+      reserveSize++;
+
   if ((!transpose) && src.isRValue())
   {
     // eval without temporary
     dst.resize(src.rows(), src.cols());
     dst.setZero();
-    dst.reserve((std::min)(src.rows()*src.cols(), (std::max)(src.rows(),src.cols())*2));
+    dst.reserve(reserveSize);
     for (Index j=0; j<outerEvaluationSize; ++j)
     {
       dst.startVec(j);
@@ -107,7 +116,7 @@ void assign_sparse_to_sparse(DstXprType &dst, const SrcXprType &src)
     
     DstXprType temp(src.rows(), src.cols());
 
-    temp.reserve((std::min)(src.rows()*src.cols(), (std::max)(src.rows(),src.cols())*2));
+    temp.reserve(reserveSize);
     for (Index j=0; j<outerEvaluationSize; ++j)
     {
       temp.startVec(j);
@@ -172,7 +181,7 @@ struct assignment_from_dense_op_sparse
   // Specialization for dense1 = sparse + dense2; -> dense1 = dense2; dense1 += sparse;
   template<typename Lhs, typename Rhs, typename Scalar>
   static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-  typename internal::enable_if<internal::is_same<typename internal::evaluator_traits<Rhs>::Shape,DenseShape>::value>::type
+  std::enable_if_t<internal::is_same<typename internal::evaluator_traits<Rhs>::Shape,DenseShape>::value>
   run(DstXprType &dst, const CwiseBinaryOp<internal::scalar_sum_op<Scalar,Scalar>, const Lhs, const Rhs> &src,
       const internal::assign_op<typename DstXprType::Scalar,Scalar>& /*func*/)
   {
@@ -188,7 +197,7 @@ struct assignment_from_dense_op_sparse
   // Specialization for dense1 = sparse - dense2; -> dense1 = -dense2; dense1 += sparse;
   template<typename Lhs, typename Rhs, typename Scalar>
   static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-  typename internal::enable_if<internal::is_same<typename internal::evaluator_traits<Rhs>::Shape,DenseShape>::value>::type
+  std::enable_if_t<internal::is_same<typename internal::evaluator_traits<Rhs>::Shape,DenseShape>::value>
   run(DstXprType &dst, const CwiseBinaryOp<internal::scalar_difference_op<Scalar,Scalar>, const Lhs, const Rhs> &src,
       const internal::assign_op<typename DstXprType::Scalar,Scalar>& /*func*/)
   {
@@ -206,8 +215,8 @@ struct assignment_from_dense_op_sparse
   template< typename DstXprType, typename Lhs, typename Rhs, typename Scalar> \
   struct Assignment<DstXprType, CwiseBinaryOp<internal::BINOP<Scalar,Scalar>, const Lhs, const Rhs>, internal::ASSIGN_OP<typename DstXprType::Scalar,Scalar>, \
                     Sparse2Dense, \
-                    typename internal::enable_if<   internal::is_same<typename internal::evaluator_traits<Lhs>::Shape,DenseShape>::value \
-                                                 || internal::is_same<typename internal::evaluator_traits<Rhs>::Shape,DenseShape>::value>::type> \
+                    std::enable_if_t<   internal::is_same<typename internal::evaluator_traits<Lhs>::Shape,DenseShape>::value \
+                                     || internal::is_same<typename internal::evaluator_traits<Rhs>::Shape,DenseShape>::value>> \
     : assignment_from_dense_op_sparse<DstXprType, internal::ASSIGN_OP<typename DstXprType::Scalar,typename Lhs::Scalar>, internal::ASSIGN_OP2<typename DstXprType::Scalar,typename Rhs::Scalar> > \
   {}
 

@@ -16,6 +16,21 @@ limitations under the License.
 #ifndef EIGEN_BFLOAT16_H
 #define EIGEN_BFLOAT16_H
 
+// IWYU pragma: private
+#include "../../InternalHeaderCheck.h"
+
+#if defined(EIGEN_HAS_HIP_BF16)
+// When compiling with GPU support, the "hip_bfloat16" base class as well as
+// some other routines are defined in the GPU compiler header files
+// (hip_bfloat16.h), and they are not tagged constexpr
+// As a consequence, we get compile failures when compiling Eigen with
+// GPU support. Hence the need to disable EIGEN_CONSTEXPR when building
+// Eigen with GPU support
+  #pragma push_macro("EIGEN_CONSTEXPR")
+  #undef EIGEN_CONSTEXPR
+  #define EIGEN_CONSTEXPR
+#endif
+
 #define BF16_PACKET_FUNCTION(PACKET_F, PACKET_BF16, METHOD)         \
   template <>                                                       \
   EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS EIGEN_UNUSED  \
@@ -23,18 +38,46 @@ limitations under the License.
     return F32ToBf16(METHOD<PACKET_F>(Bf16ToF32(_x)));              \
   }
 
+// Only use HIP GPU bf16 in kernels
+#if defined(EIGEN_HAS_HIP_BF16) && defined(EIGEN_GPU_COMPILE_PHASE)
+#define EIGEN_USE_HIP_BF16
+#endif
+
 namespace Eigen {
 
 struct bfloat16;
 
+namespace numext {
+template <>
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::bfloat16 bit_cast<Eigen::bfloat16, uint16_t>(const uint16_t& src);
+
+template <>
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC uint16_t bit_cast<uint16_t, Eigen::bfloat16>(const Eigen::bfloat16& src);
+}  // namespace numext
 namespace bfloat16_impl {
+
+#if defined(EIGEN_USE_HIP_BF16)
+
+struct __bfloat16_raw : public hip_bfloat16 {
+  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw() {}
+  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw(hip_bfloat16 hb) : hip_bfloat16(hb) {}
+  explicit EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw(unsigned short raw) : hip_bfloat16(raw) {}
+};
+
+#else
 
 // Make our own __bfloat16_raw definition.
 struct __bfloat16_raw {
+#if defined(EIGEN_HAS_HIP_BF16) && !defined(EIGEN_GPU_COMPILE_PHASE)
+  EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw() {}
+#else
   EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw() : value(0) {}
+#endif
   explicit EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw(unsigned short raw) : value(raw) {}
   unsigned short value;
 };
+
+#endif // defined(EIGEN_USE_HIP_BF16)
 
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw raw_uint16_to_bfloat16(unsigned short value);
 template <bool AssumeArgumentIsNormalOrInfinityOrZero>
@@ -83,57 +126,114 @@ struct bfloat16 : public bfloat16_impl::bfloat16_base {
     return bfloat16_impl::bfloat16_to_float(*this);
   }
 };
-} // namespace Eigen
 
-namespace std {
-template<>
-struct numeric_limits<Eigen::bfloat16> {
-  static const bool is_specialized = true;
-  static const bool is_signed = true;
-  static const bool is_integer = false;
-  static const bool is_exact = false;
-  static const bool has_infinity = true;
-  static const bool has_quiet_NaN = true;
-  static const bool has_signaling_NaN = true;
-  static const float_denorm_style has_denorm = std::denorm_absent;
-  static const bool has_denorm_loss = false;
-  static const std::float_round_style round_style = numeric_limits<float>::round_style;
-  static const bool is_iec559 = false;
-  static const bool is_bounded = true;
-  static const bool is_modulo = false;
-  static const int digits = 8;
-  static const int digits10 = 2;
-  static const int max_digits10 = 4;
-  static const int radix = 2;
-  static const int min_exponent = numeric_limits<float>::min_exponent;
-  static const int min_exponent10 = numeric_limits<float>::min_exponent10;
-  static const int max_exponent = numeric_limits<float>::max_exponent;
-  static const int max_exponent10 = numeric_limits<float>::max_exponent10;
-  static const bool traps = numeric_limits<float>::traps;
-  static const bool tinyness_before = numeric_limits<float>::tinyness_before;
+// TODO(majnemer): Get rid of this once we can rely on C++17 inline variables do
+// solve the ODR issue.
+namespace bfloat16_impl {
+template <typename = void>
+struct numeric_limits_bfloat16_impl {
+  static EIGEN_CONSTEXPR const bool is_specialized = true;
+  static EIGEN_CONSTEXPR const bool is_signed = true;
+  static EIGEN_CONSTEXPR const bool is_integer = false;
+  static EIGEN_CONSTEXPR const bool is_exact = false;
+  static EIGEN_CONSTEXPR const bool has_infinity = true;
+  static EIGEN_CONSTEXPR const bool has_quiet_NaN = true;
+  static EIGEN_CONSTEXPR const bool has_signaling_NaN = true;
+  static EIGEN_CONSTEXPR const std::float_denorm_style has_denorm = std::denorm_present;
+  static EIGEN_CONSTEXPR const bool has_denorm_loss = false;
+  static EIGEN_CONSTEXPR const std::float_round_style round_style = std::numeric_limits<float>::round_style;
+  static EIGEN_CONSTEXPR const bool is_iec559 = true;
+  // The C++ standard defines this as "true if the set of values representable
+  // by the type is finite." BFloat16 has finite precision.
+  static EIGEN_CONSTEXPR const bool is_bounded = true;
+  static EIGEN_CONSTEXPR const bool is_modulo = false;
+  static EIGEN_CONSTEXPR const int digits = 8;
+  static EIGEN_CONSTEXPR const int digits10 = 2;
+  static EIGEN_CONSTEXPR const int max_digits10 = 4;
+  static EIGEN_CONSTEXPR const int radix = std::numeric_limits<float>::radix;
+  static EIGEN_CONSTEXPR const int min_exponent = std::numeric_limits<float>::min_exponent;
+  static EIGEN_CONSTEXPR const int min_exponent10 = std::numeric_limits<float>::min_exponent10;
+  static EIGEN_CONSTEXPR const int max_exponent = std::numeric_limits<float>::max_exponent;
+  static EIGEN_CONSTEXPR const int max_exponent10 = std::numeric_limits<float>::max_exponent10;
+  static EIGEN_CONSTEXPR const bool traps = std::numeric_limits<float>::traps;
+  // IEEE754: "The implementer shall choose how tininess is detected, but shall
+  // detect tininess in the same way for all operations in radix two"
+  static EIGEN_CONSTEXPR const bool tinyness_before = std::numeric_limits<float>::tinyness_before;
 
-  static Eigen::bfloat16 (min)() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x0080); }
-  static Eigen::bfloat16 lowest() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0xff7f); }
-  static Eigen::bfloat16 (max)() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f7f); }
-  static Eigen::bfloat16 epsilon() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x3c00); }
-  static Eigen::bfloat16 round_error() { return Eigen::bfloat16(0x3f00); }
-  static Eigen::bfloat16 infinity() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f80); }
-  static Eigen::bfloat16 quiet_NaN() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7fc0); }
-  static Eigen::bfloat16 signaling_NaN() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f81); }
-  static Eigen::bfloat16 denorm_min() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x0001); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 (min)() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x0080); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 lowest() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0xff7f); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 (max)() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f7f); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 epsilon() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x3c00); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 round_error() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x3f00); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 infinity() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7f80); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 quiet_NaN() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7fc0); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 signaling_NaN() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x7fa0); }
+  static EIGEN_CONSTEXPR Eigen::bfloat16 denorm_min() { return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(0x0001); }
 };
 
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::is_specialized;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::is_signed;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::is_integer;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::is_exact;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::has_infinity;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::has_quiet_NaN;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::has_signaling_NaN;
+template<typename T>
+EIGEN_CONSTEXPR const std::float_denorm_style numeric_limits_bfloat16_impl<T>::has_denorm;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::has_denorm_loss;
+template<typename T>
+EIGEN_CONSTEXPR const std::float_round_style numeric_limits_bfloat16_impl<T>::round_style;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::is_iec559;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::is_bounded;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::is_modulo;
+template<typename T>
+EIGEN_CONSTEXPR const int numeric_limits_bfloat16_impl<T>::digits;
+template<typename T>
+EIGEN_CONSTEXPR const int numeric_limits_bfloat16_impl<T>::digits10;
+template<typename T>
+EIGEN_CONSTEXPR const int numeric_limits_bfloat16_impl<T>::max_digits10;
+template<typename T>
+EIGEN_CONSTEXPR const int numeric_limits_bfloat16_impl<T>::radix;
+template<typename T>
+EIGEN_CONSTEXPR const int numeric_limits_bfloat16_impl<T>::min_exponent;
+template<typename T>
+EIGEN_CONSTEXPR const int numeric_limits_bfloat16_impl<T>::min_exponent10;
+template<typename T>
+EIGEN_CONSTEXPR const int numeric_limits_bfloat16_impl<T>::max_exponent;
+template<typename T>
+EIGEN_CONSTEXPR const int numeric_limits_bfloat16_impl<T>::max_exponent10;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::traps;
+template<typename T>
+EIGEN_CONSTEXPR const bool numeric_limits_bfloat16_impl<T>::tinyness_before;
+}  // end namespace bfloat16_impl
+}  // end namespace Eigen
+
+namespace std {
 // If std::numeric_limits<T> is specialized, should also specialize
 // std::numeric_limits<const T>, std::numeric_limits<volatile T>, and
 // std::numeric_limits<const volatile T>
 // https://stackoverflow.com/a/16519653/
 template<>
-struct numeric_limits<const Eigen::bfloat16> : numeric_limits<Eigen::bfloat16> {};
+class numeric_limits<Eigen::bfloat16> : public Eigen::bfloat16_impl::numeric_limits_bfloat16_impl<> {};
 template<>
-struct numeric_limits<volatile Eigen::bfloat16> : numeric_limits<Eigen::bfloat16> {};
+class numeric_limits<const Eigen::bfloat16> : public numeric_limits<Eigen::bfloat16> {};
 template<>
-struct numeric_limits<const volatile Eigen::bfloat16> : numeric_limits<Eigen::bfloat16> {};
-} // namespace std
+class numeric_limits<volatile Eigen::bfloat16> : public numeric_limits<Eigen::bfloat16> {};
+template<>
+class numeric_limits<const volatile Eigen::bfloat16> : public numeric_limits<Eigen::bfloat16> {};
+}  // end namespace std
 
 namespace Eigen {
 
@@ -148,7 +248,7 @@ namespace bfloat16_impl {
 // We need to provide emulated *host-side* BF16 operators for clang.
 #pragma push_macro("EIGEN_DEVICE_FUNC")
 #undef EIGEN_DEVICE_FUNC
-#if defined(EIGEN_HAS_CUDA_BF16) && defined(EIGEN_HAS_NATIVE_BF16)
+#if (defined(EIGEN_HAS_GPU_BF16) && defined(EIGEN_HAS_NATIVE_BF16))
 #define EIGEN_DEVICE_FUNC __host__
 #else // both host and device need emulated ops.
 #define EIGEN_DEVICE_FUNC __host__ __device__
@@ -177,9 +277,8 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator / (const bfloat16& a, co
   return bfloat16(float(a) / float(b));
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator - (const bfloat16& a) {
-  bfloat16 result;
-  result.value = a.value ^ 0x8000;
-  return result;
+  numext::uint16_t x = numext::bit_cast<uint16_t>(a) ^ 0x8000;
+  return numext::bit_cast<bfloat16>(x);
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16& operator += (bfloat16& a, const bfloat16& b) {
   a = bfloat16(float(a) + float(b));
@@ -246,33 +345,47 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 operator / (const bfloat16& a, In
 }
 
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw truncate_to_bfloat16(const float v) {
+#if defined(EIGEN_USE_HIP_BF16)
+  return __bfloat16_raw(__bfloat16_raw::round_to_bfloat16(v, __bfloat16_raw::truncate));
+#else
   __bfloat16_raw output;
-  if (Eigen::numext::isnan EIGEN_NOT_A_MACRO(v)) {
+  if (numext::isnan EIGEN_NOT_A_MACRO(v)) {
     output.value = std::signbit(v) ? 0xFFC0: 0x7FC0;
     return output;
   }
   output.value = static_cast<numext::uint16_t>(numext::bit_cast<numext::uint32_t>(v) >> 16);
   return output;
+#endif
 }
 
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR __bfloat16_raw raw_uint16_to_bfloat16(numext::uint16_t value) {
+#if defined(EIGEN_USE_HIP_BF16)
+  __bfloat16_raw bf;
+  bf.data = value;
+  return bf;
+#else
   return __bfloat16_raw(value);
+#endif
 }
 
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR numext::uint16_t raw_bfloat16_as_uint16(const __bfloat16_raw& bf) {
+#if defined(EIGEN_USE_HIP_BF16)
+  return bf.data;
+#else
   return bf.value;
+#endif
 }
 
 // float_to_bfloat16_rtne template specialization that does not make any
 // assumption about the value of its function argument (ff).
 template <>
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<false>(float ff) {
-#if (defined(EIGEN_HAS_CUDA_BF16) && defined(EIGEN_HAS_HIP_BF16))
-  // Nothing to do here
+#if defined(EIGEN_USE_HIP_BF16)
+  return __bfloat16_raw(__bfloat16_raw::round_to_bfloat16(ff));
 #else
   __bfloat16_raw output;
 
-  if (Eigen::numext::isnan EIGEN_NOT_A_MACRO(ff)) {
+  if (numext::isnan EIGEN_NOT_A_MACRO(ff)) {
     // If the value is a NaN, squash it to a qNaN with msb of fraction set,
     // this makes sure after truncation we don't end up with an inf.
     //
@@ -441,8 +554,8 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<fals
 // type to bfloat16.
 template <>
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<true>(float ff) {
-#if (defined(EIGEN_HAS_CUDA_BF16) && defined(EIGEN_HAS_HIP_BF16))
-    // Nothing to do here
+#if defined(EIGEN_USE_HIP_BF16)
+    return __bfloat16_raw(__bfloat16_raw::round_to_bfloat16(ff));
 #else
     numext::uint32_t input = numext::bit_cast<numext::uint32_t>(ff);
     __bfloat16_raw output;
@@ -457,29 +570,41 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC __bfloat16_raw float_to_bfloat16_rtne<true
 }
 
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC float bfloat16_to_float(__bfloat16_raw h) {
+#if defined(EIGEN_USE_HIP_BF16)
+    return static_cast<float>(h);
+#else
     return numext::bit_cast<float>(static_cast<numext::uint32_t>(h.value) << 16);
+#endif
 }
+
 // --- standard functions ---
 
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isinf)(const bfloat16& a) {
   EIGEN_USING_STD(isinf);
+#if defined(EIGEN_USE_HIP_BF16)
+  return (isinf)(a); // Uses HIP hip_bfloat16 isinf operator
+#else
   return (isinf)(float(a));
+#endif
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isnan)(const bfloat16& a) {
   EIGEN_USING_STD(isnan);
+#if defined(EIGEN_USE_HIP_BF16)
+  return (isnan)(a); // Uses HIP hip_bfloat16 isnan operator
+#else
   return (isnan)(float(a));
+#endif
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bool (isfinite)(const bfloat16& a) {
   return !(isinf EIGEN_NOT_A_MACRO (a)) && !(isnan EIGEN_NOT_A_MACRO (a));
 }
 
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 abs(const bfloat16& a) {
-  bfloat16 result;
-  result.value = a.value & 0x7FFF;
-  return result;
+  numext::uint16_t x = numext::bit_cast<numext::uint16_t>(a) & 0x7FFF;
+  return numext::bit_cast<bfloat16>(x);
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 exp(const bfloat16& a) {
-   return bfloat16(::expf(float(a)));
+  return bfloat16(::expf(float(a)));
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 expm1(const bfloat16& a) {
   return bfloat16(numext::expm1(float(a)));
@@ -497,10 +622,13 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 log2(const bfloat16& a) {
   return bfloat16(static_cast<float>(EIGEN_LOG2E) * ::logf(float(a)));
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 sqrt(const bfloat16& a) {
-    return bfloat16(::sqrtf(float(a)));
+  return bfloat16(::sqrtf(float(a)));
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 pow(const bfloat16& a, const bfloat16& b) {
   return bfloat16(::powf(float(a), float(b)));
+}
+EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 atan2(const bfloat16& a, const bfloat16& b) {
+  return bfloat16(::atan2f(float(a), float(b)));
 }
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 sin(const bfloat16& a) {
   return bfloat16(::sinf(float(a)));
@@ -529,7 +657,6 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 cosh(const bfloat16& a) {
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 tanh(const bfloat16& a) {
   return bfloat16(::tanhf(float(a)));
 }
-#if EIGEN_HAS_CXX11_MATH
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 asinh(const bfloat16& a) {
   return bfloat16(::asinhf(float(a)));
 }
@@ -539,7 +666,6 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 acosh(const bfloat16& a) {
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 atanh(const bfloat16& a) {
   return bfloat16(::atanhf(float(a)));
 }
-#endif
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 floor(const bfloat16& a) {
   return bfloat16(::floorf(float(a)));
 }
@@ -561,6 +687,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 (min)(const bfloat16& a, const bf
   const float f2 = static_cast<float>(b);
   return f2 < f1 ? b : a;
 }
+
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 (max)(const bfloat16& a, const bfloat16& b) {
   const float f1 = static_cast<float>(a);
   const float f2 = static_cast<float>(b);
@@ -572,6 +699,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 fmin(const bfloat16& a, const bfl
   const float f2 = static_cast<float>(b);
   return bfloat16(::fminf(f1, f2));
 }
+
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC bfloat16 fmax(const bfloat16& a, const bfloat16& b) {
   const float f1 = static_cast<float>(a);
   const float f2 = static_cast<float>(b);
@@ -621,7 +749,6 @@ template<> struct NumTraits<Eigen::bfloat16>
   }
   EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR static EIGEN_STRONG_INLINE Eigen::bfloat16 dummy_precision() {
     return bfloat16_impl::raw_uint16_to_bfloat16(0x3D4D);  // bfloat16(5e-2f);
-
   }
   EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR static EIGEN_STRONG_INLINE Eigen::bfloat16 highest() {
     return bfloat16_impl::raw_uint16_to_bfloat16(0x7F7F);
@@ -638,6 +765,11 @@ template<> struct NumTraits<Eigen::bfloat16>
 };
 
 } // namespace Eigen
+
+
+#if defined(EIGEN_HAS_HIP_BF16)
+  #pragma pop_macro("EIGEN_CONSTEXPR")
+#endif
 
 namespace Eigen {
 namespace numext {
@@ -662,7 +794,7 @@ bool (isfinite)(const Eigen::bfloat16& h) {
 
 template <>
 EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Eigen::bfloat16 bit_cast<Eigen::bfloat16, uint16_t>(const uint16_t& src) {
-  return Eigen::bfloat16(Eigen::bfloat16_impl::raw_uint16_to_bfloat16(src));
+  return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(src);
 }
 
 template <>
@@ -684,5 +816,49 @@ struct hash<Eigen::bfloat16> {
 } // namespace std
 #endif
 
+// Add the missing shfl* intrinsics.
+// The __shfl* functions are only valid on HIP or _CUDA_ARCH_ >= 300.
+//   CUDA defines them for (__CUDA_ARCH__ >= 300 || !defined(__CUDA_ARCH__))
+//
+// HIP and CUDA prior to SDK 9.0 define
+//    __shfl, __shfl_up, __shfl_down, __shfl_xor for int and float
+// CUDA since 9.0 deprecates those and instead defines
+//    __shfl_sync, __shfl_up_sync, __shfl_down_sync, __shfl_xor_sync,
+//    with native support for __half and __nv_bfloat16
+//
+// Note that the following are __device__ - only functions.
+#if defined(EIGEN_HIPCC)
+
+#if defined(EIGEN_HAS_HIP_BF16)
+
+__device__ EIGEN_STRONG_INLINE Eigen::bfloat16 __shfl(Eigen::bfloat16 var, int srcLane, int width=warpSize) {
+  const int ivar = static_cast<int>(Eigen::numext::bit_cast<Eigen::numext::uint16_t>(var));
+  return Eigen::numext::bit_cast<Eigen::bfloat16>(static_cast<Eigen::numext::uint16_t>(__shfl(ivar, srcLane, width)));
+}
+
+__device__ EIGEN_STRONG_INLINE Eigen::bfloat16 __shfl_up(Eigen::bfloat16 var, unsigned int delta, int width=warpSize) {
+  const int ivar = static_cast<int>(Eigen::numext::bit_cast<Eigen::numext::uint16_t>(var));
+  return Eigen::numext::bit_cast<Eigen::bfloat16>(static_cast<Eigen::numext::uint16_t>(__shfl_up(ivar, delta, width)));
+}
+
+__device__ EIGEN_STRONG_INLINE Eigen::bfloat16 __shfl_down(Eigen::bfloat16 var, unsigned int delta, int width=warpSize) {
+  const int ivar = static_cast<int>(Eigen::numext::bit_cast<Eigen::numext::uint16_t>(var));
+  return Eigen::numext::bit_cast<Eigen::bfloat16>(static_cast<Eigen::numext::uint16_t>(__shfl_down(ivar, delta, width)));
+}
+
+__device__ EIGEN_STRONG_INLINE Eigen::bfloat16 __shfl_xor(Eigen::bfloat16 var, int laneMask, int width=warpSize) {
+  const int ivar = static_cast<int>(Eigen::numext::bit_cast<Eigen::numext::uint16_t>(var));
+  return Eigen::numext::bit_cast<Eigen::bfloat16>(static_cast<Eigen::numext::uint16_t>(__shfl_xor(ivar, laneMask, width)));
+}
+
+#endif // HIP
+
+#endif // __shfl*
+
+#if defined(EIGEN_HIPCC)
+EIGEN_STRONG_INLINE __device__ Eigen::bfloat16 __ldg(const Eigen::bfloat16* ptr) {
+  return Eigen::bfloat16_impl::raw_uint16_to_bfloat16(__ldg(Eigen::numext::bit_cast<const Eigen::numext::uint16_t*>(ptr)));
+}
+#endif // __ldg
 
 #endif // EIGEN_BFLOAT16_H

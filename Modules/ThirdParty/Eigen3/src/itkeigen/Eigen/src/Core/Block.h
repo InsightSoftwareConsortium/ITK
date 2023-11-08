@@ -11,51 +11,55 @@
 #ifndef EIGEN_BLOCK_H
 #define EIGEN_BLOCK_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
-template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel>
-struct traits<Block<XprType, BlockRows, BlockCols, InnerPanel> > : traits<XprType>
+template<typename XprType_, int BlockRows, int BlockCols, bool InnerPanel_>
+struct traits<Block<XprType_, BlockRows, BlockCols, InnerPanel_> > : traits<XprType_>
 {
-  typedef typename traits<XprType>::Scalar Scalar;
-  typedef typename traits<XprType>::StorageKind StorageKind;
-  typedef typename traits<XprType>::XprKind XprKind;
-  typedef typename ref_selector<XprType>::type XprTypeNested;
-  typedef typename remove_reference<XprTypeNested>::type _XprTypeNested;
+  typedef typename traits<XprType_>::Scalar Scalar;
+  typedef typename traits<XprType_>::StorageKind StorageKind;
+  typedef typename traits<XprType_>::XprKind XprKind;
+  typedef typename ref_selector<XprType_>::type XprTypeNested;
+  typedef std::remove_reference_t<XprTypeNested> XprTypeNested_;
   enum{
-    MatrixRows = traits<XprType>::RowsAtCompileTime,
-    MatrixCols = traits<XprType>::ColsAtCompileTime,
+    MatrixRows = traits<XprType_>::RowsAtCompileTime,
+    MatrixCols = traits<XprType_>::ColsAtCompileTime,
     RowsAtCompileTime = MatrixRows == 0 ? 0 : BlockRows,
     ColsAtCompileTime = MatrixCols == 0 ? 0 : BlockCols,
     MaxRowsAtCompileTime = BlockRows==0 ? 0
                          : RowsAtCompileTime != Dynamic ? int(RowsAtCompileTime)
-                         : int(traits<XprType>::MaxRowsAtCompileTime),
+                         : int(traits<XprType_>::MaxRowsAtCompileTime),
     MaxColsAtCompileTime = BlockCols==0 ? 0
                          : ColsAtCompileTime != Dynamic ? int(ColsAtCompileTime)
-                         : int(traits<XprType>::MaxColsAtCompileTime),
+                         : int(traits<XprType_>::MaxColsAtCompileTime),
 
-    XprTypeIsRowMajor = (int(traits<XprType>::Flags)&RowMajorBit) != 0,
+    XprTypeIsRowMajor = (int(traits<XprType_>::Flags)&RowMajorBit) != 0,
     IsRowMajor = (MaxRowsAtCompileTime==1&&MaxColsAtCompileTime!=1) ? 1
                : (MaxColsAtCompileTime==1&&MaxRowsAtCompileTime!=1) ? 0
                : XprTypeIsRowMajor,
     HasSameStorageOrderAsXprType = (IsRowMajor == XprTypeIsRowMajor),
     InnerSize = IsRowMajor ? int(ColsAtCompileTime) : int(RowsAtCompileTime),
     InnerStrideAtCompileTime = HasSameStorageOrderAsXprType
-                             ? int(inner_stride_at_compile_time<XprType>::ret)
-                             : int(outer_stride_at_compile_time<XprType>::ret),
+                             ? int(inner_stride_at_compile_time<XprType_>::ret)
+                             : int(outer_stride_at_compile_time<XprType_>::ret),
     OuterStrideAtCompileTime = HasSameStorageOrderAsXprType
-                             ? int(outer_stride_at_compile_time<XprType>::ret)
-                             : int(inner_stride_at_compile_time<XprType>::ret),
+                             ? int(outer_stride_at_compile_time<XprType_>::ret)
+                             : int(inner_stride_at_compile_time<XprType_>::ret),
 
     // FIXME, this traits is rather specialized for dense object and it needs to be cleaned further
-    FlagsLvalueBit = is_lvalue<XprType>::value ? LvalueBit : 0,
+    FlagsLvalueBit = is_lvalue<XprType_>::value ? LvalueBit : 0,
     FlagsRowMajorBit = IsRowMajor ? RowMajorBit : 0,
-    Flags = (traits<XprType>::Flags & (DirectAccessBit | (InnerPanel?CompressedAccessBit:0))) | FlagsLvalueBit | FlagsRowMajorBit,
+    Flags = (traits<XprType_>::Flags & (DirectAccessBit | (InnerPanel_?CompressedAccessBit:0))) | FlagsLvalueBit | FlagsRowMajorBit,
     // FIXME DirectAccessBit should not be handled by expressions
     //
     // Alignment is needed by MapBase's assertions
     // We can sefely set it to false here. Internal alignment errors will be detected by an eigen_internal_assert in the respective evaluator
-    Alignment = 0
+    Alignment = 0,
+    InnerPanel = InnerPanel_ ? 1 : 0
   };
 };
 
@@ -82,7 +86,7 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel, typena
   * type of DenseBase::block(Index,Index,Index,Index) and DenseBase::block<int,int>(Index,Index) and
   * most of the time this is the only way it is used.
   *
-  * However, if you want to directly maniputate block expressions,
+  * However, if you want to directly manipulate block expressions,
   * for instance if you want to write a function returning such an expression, you
   * will need to use this class.
   *
@@ -104,13 +108,14 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel> class 
   : public BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, typename internal::traits<XprType>::StorageKind>
 {
     typedef BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, typename internal::traits<XprType>::StorageKind> Impl;
+    using BlockHelper = internal::block_xpr_helper<Block>;
   public:
     //typedef typename Impl::Base Base;
     typedef Impl Base;
     EIGEN_GENERIC_PUBLIC_INTERFACE(Block)
     EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Block)
 
-    typedef typename internal::remove_all<XprType>::type NestedExpression;
+    typedef internal::remove_all_t<XprType> NestedExpression;
 
     /** Column or Row constructor
       */
@@ -146,9 +151,25 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel> class 
       eigen_assert(startRow >= 0 && blockRows >= 0 && startRow  <= xpr.rows() - blockRows
           && startCol >= 0 && blockCols >= 0 && startCol <= xpr.cols() - blockCols);
     }
+
+    // convert nested blocks (e.g. Block<Block<MatrixType>>) to a simple block expression (Block<MatrixType>)
+
+    using ConstUnwindReturnType = Block<const typename BlockHelper::BaseType, BlockRows, BlockCols, InnerPanel>;
+    using UnwindReturnType = Block<typename BlockHelper::BaseType, BlockRows, BlockCols, InnerPanel>;
+
+    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ConstUnwindReturnType unwind() const {
+      return ConstUnwindReturnType(BlockHelper::base(*this), BlockHelper::row(*this, 0), BlockHelper::col(*this, 0),
+                                   this->rows(), this->cols());
+    }
+
+    template <typename T = Block, typename EnableIf = std::enable_if_t<!std::is_const<T>::value>>
+    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE UnwindReturnType unwind() {
+      return UnwindReturnType(BlockHelper::base(*this), BlockHelper::row(*this, 0), BlockHelper::col(*this, 0),
+                              this->rows(), this->cols());
+    }
 };
 
-// The generic default implementation for dense block simplu forward to the internal::BlockImpl_dense
+// The generic default implementation for dense block simply forward to the internal::BlockImpl_dense
 // that must be specialized for direct and non-direct access...
 template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel>
 class BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Dense>
@@ -295,7 +316,7 @@ template<typename XprType, int BlockRows, int BlockCols, bool InnerPanel, bool H
     #endif
 
     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-    const typename internal::remove_all<XprTypeNested>::type& nestedExpression() const
+    const internal::remove_all_t<XprTypeNested>& nestedExpression() const
     {
       return m_xpr;
     }
@@ -334,6 +355,17 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
     enum {
       XprTypeIsRowMajor = (int(traits<XprType>::Flags)&RowMajorBit) != 0
     };
+
+    /** \internal Returns base+offset (unless base is null, in which case returns null).
+      * Adding an offset to nullptr is undefined behavior, so we must avoid it.
+      */
+    template <typename Scalar>
+    EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR EIGEN_ALWAYS_INLINE
+    static Scalar* add_to_nullable_pointer(Scalar* base, Index offset)
+    {
+      return base != nullptr ? base+offset : nullptr;
+    }
+
   public:
 
     typedef MapBase<BlockType> Base;
@@ -344,8 +376,9 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
       */
     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
     BlockImpl_dense(XprType& xpr, Index i)
-      : Base(xpr.data() + i * (    ((BlockRows==1) && (BlockCols==XprType::ColsAtCompileTime) && (!XprTypeIsRowMajor))
-                                || ((BlockRows==XprType::RowsAtCompileTime) && (BlockCols==1) && ( XprTypeIsRowMajor)) ? xpr.innerStride() : xpr.outerStride()),
+      : Base((BlockRows == 0 || BlockCols == 0) ? nullptr : add_to_nullable_pointer(xpr.data(),
+                 i * (    ((BlockRows==1) && (BlockCols==XprType::ColsAtCompileTime) && (!XprTypeIsRowMajor))
+                       || ((BlockRows==XprType::RowsAtCompileTime) && (BlockCols==1) && ( XprTypeIsRowMajor)) ? xpr.innerStride() : xpr.outerStride())),
              BlockRows==1 ? 1 : xpr.rows(),
              BlockCols==1 ? 1 : xpr.cols()),
         m_xpr(xpr),
@@ -359,7 +392,8 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
       */
     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
     BlockImpl_dense(XprType& xpr, Index startRow, Index startCol)
-      : Base(xpr.data()+xpr.innerStride()*(XprTypeIsRowMajor?startCol:startRow) + xpr.outerStride()*(XprTypeIsRowMajor?startRow:startCol)),
+      : Base((BlockRows == 0 || BlockCols == 0) ? nullptr : add_to_nullable_pointer(xpr.data(),
+                 xpr.innerStride()*(XprTypeIsRowMajor?startCol:startRow) + xpr.outerStride()*(XprTypeIsRowMajor?startRow:startCol))),
         m_xpr(xpr), m_startRow(startRow), m_startCol(startCol)
     {
       init();
@@ -371,14 +405,16 @@ class BlockImpl_dense<XprType,BlockRows,BlockCols, InnerPanel,true>
     BlockImpl_dense(XprType& xpr,
           Index startRow, Index startCol,
           Index blockRows, Index blockCols)
-      : Base(xpr.data()+xpr.innerStride()*(XprTypeIsRowMajor?startCol:startRow) + xpr.outerStride()*(XprTypeIsRowMajor?startRow:startCol), blockRows, blockCols),
+      : Base((blockRows == 0 || blockCols == 0) ? nullptr : add_to_nullable_pointer(xpr.data(),
+                 xpr.innerStride()*(XprTypeIsRowMajor?startCol:startRow) + xpr.outerStride()*(XprTypeIsRowMajor?startRow:startCol)),
+             blockRows, blockCols),
         m_xpr(xpr), m_startRow(startRow), m_startCol(startCol)
     {
       init();
     }
 
     EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-    const typename internal::remove_all<XprTypeNested>::type& nestedExpression() const EIGEN_NOEXCEPT
+    const internal::remove_all_t<XprTypeNested>& nestedExpression() const EIGEN_NOEXCEPT
     {
       return m_xpr;
     }

@@ -11,6 +11,9 @@
 #ifndef EIGEN_HYPERPLANE_H
 #define EIGEN_HYPERPLANE_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 /** \geometry_module \ingroup Geometry_Module
@@ -22,24 +25,24 @@ namespace Eigen {
   * A hyperplane is an affine subspace of dimension n-1 in a space of dimension n.
   * For example, a hyperplane in a plane is a line; a hyperplane in 3-space is a plane.
   *
-  * \tparam _Scalar the scalar type, i.e., the type of the coefficients
-  * \tparam _AmbientDim the dimension of the ambient space, can be a compile time value or Dynamic.
-  *             Notice that the dimension of the hyperplane is _AmbientDim-1.
+  * \tparam Scalar_ the scalar type, i.e., the type of the coefficients
+  * \tparam AmbientDim_ the dimension of the ambient space, can be a compile time value or Dynamic.
+  *             Notice that the dimension of the hyperplane is AmbientDim_-1.
   *
   * This class represents an hyperplane as the zero set of the implicit equation
   * \f$ n \cdot x + d = 0 \f$ where \f$ n \f$ is a unit normal vector of the plane (linear part)
   * and \f$ d \f$ is the distance (offset) to the origin.
   */
-template <typename _Scalar, int _AmbientDim, int _Options>
+template <typename Scalar_, int AmbientDim_, int Options_>
 class Hyperplane
 {
 public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF_VECTORIZABLE_FIXED_SIZE(_Scalar,_AmbientDim==Dynamic ? Dynamic : _AmbientDim+1)
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF_VECTORIZABLE_FIXED_SIZE(Scalar_,AmbientDim_==Dynamic ? Dynamic : AmbientDim_+1)
   enum {
-    AmbientDimAtCompileTime = _AmbientDim,
-    Options = _Options
+    AmbientDimAtCompileTime = AmbientDim_,
+    Options = Options_
   };
-  typedef _Scalar Scalar;
+  typedef Scalar_ Scalar;
   typedef typename NumTraits<Scalar>::Real RealScalar;
   typedef Eigen::Index Index; ///< \deprecated since Eigen 3.3
   typedef Matrix<Scalar,AmbientDimAtCompileTime,1> VectorType;
@@ -106,7 +109,7 @@ public:
     if(norm <= v0.norm() * v1.norm() * NumTraits<RealScalar>::epsilon())
     {
       Matrix<Scalar,2,3> m; m << v0.transpose(), v1.transpose();
-      JacobiSVD<Matrix<Scalar,2,3> > svd(m, ComputeFullV);
+      JacobiSVD<Matrix<Scalar,2,3>, ComputeFullV> svd(m);
       result.normal() = svd.matrixV().col(2);
     }
     else

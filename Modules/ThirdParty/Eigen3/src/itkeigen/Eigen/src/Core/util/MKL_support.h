@@ -120,6 +120,9 @@
 #include "../../misc/blas.h"
 #endif
 
+// IWYU pragma: private
+#include "../InternalHeaderCheck.h"
+
 namespace Eigen {
 
 typedef std::complex<double> dcomplex;

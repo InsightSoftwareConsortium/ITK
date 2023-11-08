@@ -10,6 +10,9 @@
 #ifndef EIGEN_SELFADJOINTMATRIX_H
 #define EIGEN_SELFADJOINTMATRIX_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \class SelfAdjointView
@@ -18,8 +21,8 @@ namespace Eigen {
   *
   * \brief Expression of a selfadjoint matrix from a triangular part of a dense matrix
   *
-  * \param MatrixType the type of the dense matrix storing the coefficients
-  * \param TriangularPart can be either \c #Lower or \c #Upper
+  * \tparam MatrixType the type of the dense matrix storing the coefficients
+  * \tparam TriangularPart can be either \c #Lower or \c #Upper
   *
   * This class is an expression of a sefladjoint matrix from a triangular part of a matrix
   * with given dense storage of the coefficients. It is the return type of MatrixBase::selfadjointView()
@@ -33,7 +36,7 @@ template<typename MatrixType, unsigned int UpLo>
 struct traits<SelfAdjointView<MatrixType, UpLo> > : traits<MatrixType>
 {
   typedef typename ref_selector<MatrixType>::non_const_type MatrixTypeNested;
-  typedef typename remove_all<MatrixTypeNested>::type MatrixTypeNestedCleaned;
+  typedef remove_all_t<MatrixTypeNested> MatrixTypeNestedCleaned;
   typedef MatrixType ExpressionType;
   typedef typename MatrixType::PlainObject FullMatrixType;
   enum {
@@ -46,12 +49,13 @@ struct traits<SelfAdjointView<MatrixType, UpLo> > : traits<MatrixType>
 }
 
 
-template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
-  : public TriangularBase<SelfAdjointView<_MatrixType, UpLo> >
+template<typename MatrixType_, unsigned int UpLo> class SelfAdjointView
+  : public TriangularBase<SelfAdjointView<MatrixType_, UpLo> >
 {
   public:
+    EIGEN_STATIC_ASSERT(UpLo==Lower || UpLo==Upper,SELFADJOINTVIEW_ACCEPTS_UPPER_AND_LOWER_MODE_ONLY)
 
-    typedef _MatrixType MatrixType;
+    typedef MatrixType_ MatrixType;
     typedef TriangularBase<SelfAdjointView> Base;
     typedef typename internal::traits<SelfAdjointView>::MatrixTypeNested MatrixTypeNested;
     typedef typename internal::traits<SelfAdjointView>::MatrixTypeNestedCleaned MatrixTypeNestedCleaned;
@@ -60,8 +64,8 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
     /** \brief The type of coefficients in this matrix */
     typedef typename internal::traits<SelfAdjointView>::Scalar Scalar;
     typedef typename MatrixType::StorageIndex StorageIndex;
-    typedef typename internal::remove_all<typename MatrixType::ConjugateReturnType>::type MatrixConjugateReturnType;
-    typedef SelfAdjointView<typename internal::add_const<MatrixType>::type, UpLo> ConstSelfAdjointView;
+    typedef internal::remove_all_t<typename MatrixType::ConjugateReturnType> MatrixConjugateReturnType;
+    typedef SelfAdjointView<std::add_const_t<MatrixType>, UpLo> ConstSelfAdjointView;
 
     enum {
       Mode = internal::traits<SelfAdjointView>::Mode,
@@ -71,10 +75,7 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
     typedef typename MatrixType::PlainObject PlainObject;
 
     EIGEN_DEVICE_FUNC
-    explicit inline SelfAdjointView(MatrixType& matrix) : m_matrix(matrix)
-    {
-      EIGEN_STATIC_ASSERT(UpLo==Lower || UpLo==Upper,SELFADJOINTVIEW_ACCEPTS_UPPER_AND_LOWER_MODE_ONLY);
-    }
+    explicit inline SelfAdjointView(MatrixType& matrix) : m_matrix(matrix) { }
 
     EIGEN_DEVICE_FUNC EIGEN_CONSTEXPR
     inline Index rows() const EIGEN_NOEXCEPT { return m_matrix.rows(); }
@@ -180,16 +181,16 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
       */
     template<unsigned int TriMode>
     EIGEN_DEVICE_FUNC
-    typename internal::conditional<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)),
-                                   TriangularView<MatrixType,TriMode>,
-                                   TriangularView<typename MatrixType::AdjointReturnType,TriMode> >::type
+    std::conditional_t<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)),
+                            TriangularView<MatrixType,TriMode>,
+                            TriangularView<typename MatrixType::AdjointReturnType,TriMode> >
     triangularView() const
     {
-      typename internal::conditional<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)), MatrixType&, typename MatrixType::ConstTransposeReturnType>::type tmp1(m_matrix);
-      typename internal::conditional<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)), MatrixType&, typename MatrixType::AdjointReturnType>::type tmp2(tmp1);
-      return typename internal::conditional<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)),
-                                   TriangularView<MatrixType,TriMode>,
-                                   TriangularView<typename MatrixType::AdjointReturnType,TriMode> >::type(tmp2);
+      std::conditional_t<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)), MatrixType&, typename MatrixType::ConstTransposeReturnType> tmp1(m_matrix);
+      std::conditional_t<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)), MatrixType&, typename MatrixType::AdjointReturnType> tmp2(tmp1);
+      return std::conditional_t<(TriMode&(Upper|Lower))==(UpLo&(Upper|Lower)),
+                          TriangularView<MatrixType,TriMode>,
+                          TriangularView<typename MatrixType::AdjointReturnType,TriMode> >(tmp2);
     }
 
     typedef SelfAdjointView<const MatrixConjugateReturnType,UpLo> ConjugateReturnType;
@@ -203,10 +204,10 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
      */
     template<bool Cond>
     EIGEN_DEVICE_FUNC
-    inline typename internal::conditional<Cond,ConjugateReturnType,ConstSelfAdjointView>::type
+    inline std::conditional_t<Cond,ConjugateReturnType,ConstSelfAdjointView>
     conjugateIf() const
     {
-      typedef typename internal::conditional<Cond,ConjugateReturnType,ConstSelfAdjointView>::type ReturnType;
+      typedef std::conditional_t<Cond,ConjugateReturnType,ConstSelfAdjointView> ReturnType;
       return ReturnType(m_matrix.template conjugateIf<Cond>());
     }
 
@@ -218,10 +219,10 @@ template<typename _MatrixType, unsigned int UpLo> class SelfAdjointView
 
     typedef SelfAdjointView<typename MatrixType::TransposeReturnType,TransposeMode> TransposeReturnType;
      /** \sa MatrixBase::transpose() */
+    template<class Dummy=int>
     EIGEN_DEVICE_FUNC
-    inline TransposeReturnType transpose()
+    inline TransposeReturnType transpose(std::enable_if_t<Eigen::internal::is_lvalue<MatrixType>::value, Dummy*> = nullptr)
     {
-      EIGEN_STATIC_ASSERT_LVALUE(MatrixType)
       typename MatrixType::TransposeReturnType tmp(m_matrix);
       return TransposeReturnType(tmp);
     }
