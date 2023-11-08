@@ -362,8 +362,8 @@ As implied above, the changes to SpatialObject are extensive.   They include the
 Class changes
 -------------
 
-[itk::FilterWatcher](../Modules/Core/TestKernel/include/itkFilterWatcher.h) was deleted.
-It should be replaced by [itk::SimpleFilterWatcher](../Modules/Core/Common/include/itkSimpleFilterWatcher.h).
+`itk::FilterWatcher` was deleted.
+It should be replaced by [itk::SimpleFilterWatcher](../../../Modules/Core/Common/include/itkSimpleFilterWatcher.h).
 
 `itksys::hash_map` has been removed. It should be replaced by `std::unordered_map`.
 
@@ -627,6 +627,6 @@ To resolve these errors, update the remote module's dependency specification in
 Update scripts
 --------------
 
-[Utilities/ITKv5Preparation](../Utilities/ITKv5Preparation/) directory contains
+[Utilities/ITKv5Preparation](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Utilities/ITKv5Preparation) directory contains
 bash scripts which have been used to update ITK to version 5. These scripts
 can assist with updating external code bases to ITK 5 content and style.

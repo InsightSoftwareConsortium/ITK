@@ -42,6 +42,7 @@ API <https://itk.org/Doxygen/html/index.html>
 Discussion <https://discourse.itk.org>
 Issue tracker <https://github.com/InsightSoftwareConsortium/ITK/issues>
 releases/index
+migration_guides/index
 contributing/code_of_conduct
 contributing/index
 ```
