@@ -958,6 +958,33 @@ TEST(ShapedImageNeighborhoodRange, ConstructorSupportsRValueShapeOffsets)
 }
 
 
+// Tests that the shape of the neighborhood can be specified by a C-array of offsets.
+TEST(ShapedImageNeighborhoodRange, ConstructorSupportsCArrayOfShapeOffsets)
+{
+  using ImageType = itk::Image<unsigned char>;
+  using RangeType = itk::ShapedImageNeighborhoodRange<ImageType>;
+  using OffsetType = ImageType::OffsetType;
+
+  const auto                 image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(1, 2);
+  const ImageType::IndexType location{ { 1, 1 } };
+
+  // A rather arbitrary shape, specified by a C-array of offsets.
+  const OffsetType arrayOfShapeOffsets[] = { OffsetType{}, itk::MakeFilled<OffsetType>(1) };
+
+  // An std::vector that represents the very same shape.
+  const std::vector<OffsetType> vectorOfShapeOffsets(std::begin(arrayOfShapeOffsets), std::end(arrayOfShapeOffsets));
+
+  const RangeType rangeFromArrayOfShapeOffsets(*image, location, arrayOfShapeOffsets);
+  const RangeType rangeFromVectorOfShapeOffsets(*image, location, vectorOfShapeOffsets);
+
+  // Assert that both ranges iterate over the same neighborhood.
+  ASSERT_TRUE(std::equal(rangeFromArrayOfShapeOffsets.cbegin(),
+                         rangeFromArrayOfShapeOffsets.cend(),
+                         rangeFromVectorOfShapeOffsets.cbegin(),
+                         rangeFromVectorOfShapeOffsets.cend()));
+}
+
+
 // Tests that an arbitrary (possibly non-zero) index of the buffered region is supported.
 TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
 {
