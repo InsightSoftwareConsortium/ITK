@@ -11,7 +11,7 @@ guidelines](../../CONTRIBUTING.md).
 
 Once merged into `master`, the documentation will be available in the `latest`
 version of the ReadTheDocs documentation as https://docs.itk.org/. Note that
-this is not the default version. To change versions, use the links in the lower
+`latest` is not the default version (`release` is). To change versions, use the links in the lower
 left of the page.
 
 To preview documentation changes, three options are available.
