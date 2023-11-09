@@ -135,7 +135,7 @@ List differences between last release and current release branch:
 
 When creating a new major or minor release, a new branch should be pushed to
 the InsightSoftwareConsortium/ITK repository on GitHub. For example, `5.4` for
-the 5.5 release series. This is used by ReadTheDocs to build and deploy
+the 5.4 release series. This is used by ReadTheDocs to build and deploy
 versioned documentation for that release. After creating that branch,
 [Activate it in the ReadTheDocs
 configuration](https://readthedocs.org/projects/itk/versions/), then [trigger
