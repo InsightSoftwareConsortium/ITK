@@ -24,12 +24,13 @@ download
 
 
 ```{toctree}
-:maxdepth: 3
+:maxdepth: 1
 :caption: 📖 Learn
 
 Examples <https://examples.itk.org>
 Tutorial <https://github.com/InsightSoftwareConsortium/ScientificImageAnalysisVisualizationAndArtificialIntelligenceCourse>
 Software Guide <https://itk.org/ItkSoftwareGuide.pdf>
+learn/faq.md
 learn/courses.md
 ```
 
