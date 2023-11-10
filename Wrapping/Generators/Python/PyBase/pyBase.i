@@ -268,6 +268,16 @@ str = str
             msg << "swig_name(" << self->GetIndex() << ", " << self->GetSize()  << ")";
             return msg.str();
     }
+        %pythoncode %{
+    def __getstate__(self):
+        """Get object state, necessary for serialization with pickle."""
+        state = (tuple(self.GetIndex()), tuple(self.GetSize()))
+        return state
+
+    def __setstate__(self, state):
+        """Set object state, necessary for serialization with pickle."""
+        self.__init__(*state)
+        %}
 }
 
 %enddef
@@ -798,6 +808,16 @@ str = str
                 array = itk.array_from_matrix(self)
                 return np.asarray(array, dtype=dtype)
 
+            def __getstate__(self):
+                """Get object state, necessary for serialization with pickle."""
+                import itk
+                state = itk.array_from_matrix(self)
+                return state
+
+            def __setstate__(self, state):
+                """Set object state, necessary for serialization with pickle."""
+                matrix = itk.matrix_from_array(state)
+                self.__init__(matrix)
             %}
         }
 

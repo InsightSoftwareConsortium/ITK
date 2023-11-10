@@ -189,6 +189,15 @@ comparison = itk.comparison_image_filter(
 )
 assert np.sum(comparison) == 0.0
 
+matrix = itk.Matrix[itk.D, 2, 2]()
+matrix.SetIdentity()
+serialize_deserialize = pickle.loads(pickle.dumps(matrix))
+assert np.array_equal(np.asarray(matrix), np.asarray(serialize_deserialize))
+
+region = itk.ImageRegion[2]([7,8], [2,3])
+serialize_deserialize = pickle.loads(pickle.dumps(region))
+assert region == serialize_deserialize
+
 # Make sure we can read unsigned short, unsigned int, and cast
 image = itk.imread(filename, itk.UI)
 assert type(image) == itk.Image[itk.UI, 2]
