@@ -49,3 +49,11 @@ migration_guides/index
 contributing/code_of_conduct
 contributing/index
 ```
+
+
+```{toctree}
+:maxdepth: 1
+:caption: 🌱 Scientific ecosystem
+
+scientific_ecosystem/itk_ecosystem.md
+```
