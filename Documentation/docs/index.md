@@ -34,6 +34,7 @@ Examples <https://examples.itk.org>
 Tutorial <https://github.com/InsightSoftwareConsortium/ScientificImageAnalysisVisualizationAndArtificialIntelligenceCourse>
 Software Guide <https://itk.org/ItkSoftwareGuide.pdf>
 learn/faq.md
+learn/dicom.md
 learn/courses.md
 learn/fda_off_the_shelf_sw_guidelines.md
 learn/medical_image_data_units.md
