@@ -382,6 +382,9 @@ example.
 
 ### What are Hounsfield Units?
 
+CT imaging data are measured in Hounsfield Units (HU), which is a
+quantitative scale for describing radiodensity.
+
 Hounsfield units were defined by Sir Godfrey N. Hounsfield, one of the
 pioneers of Computer Tomography for clinical applications.
 
@@ -394,19 +397,34 @@ the level for Air is -1000.
 The attenuation of any other material is mapped linearly into this
 range.
 
-A table of Hounsfield units for common human tissues is avalable in the
-following link [ITK Hounsfield Units](https://itk.org/Wiki/ITK_Hounsfield_Units)
+The table below shows the HU of various human tissues.
+
+| Tissue | HU |
+| ------ | -- |
+| Bone | 1000 |
+| Liver | [40, 60] |
+| White matter | 46 |
+| Grey matter| 43 |
+| Blood | 40 |
+| Muscle | [10, 40] |
+| Kidney | 30 |
+| Cerebrospinal fluid | 15 |
+| Water | 0 |
+| Fat | [-100, -50] |
+| Air | -1000 |
+
+More details can be found in the Wikipedia article [Houndfield Units](https://en.wikipedia.org/wiki/Hounsfield_scale).
 
 ### What are MRI T1 / T2 units?
 
-MRI images measure two types of relaxation times.
+MRI images measure two types of relaxation times, T1 and T2.
 
 The units are millisecons and the two relaxation concepts relate to how
 long it takes for the molecules in the tissue to realign themselves with
 a magentic field after being perturbed.
 
 Details on the MRI units are available on the [Relaxation (NMR)](https://en.wikipedia.org/wiki/Relaxation_%28NMR%29)
-Wikipedia page.
+Wikipedia article.
 
 ### DICOM: Bits Allocated, Bits Stored and High Bit
 
