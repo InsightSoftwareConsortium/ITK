@@ -395,6 +395,7 @@ CDash Dashboard <https://open.cdash.org/index.php?project=Insight>
 dashboard.md
 updating_third_party.md
 data.md
+documenting_itk.md
 upload_binary_data.md
 module_workflows.md
 python_packaging.md
