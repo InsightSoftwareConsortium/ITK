@@ -376,6 +376,7 @@ data.md
 upload_binary_data.md
 module_workflows.md
 python_packaging.md
+../README.md
 ```
 
 [ITK Git Cheatsheet]: ./GitCheatSheet.pdf

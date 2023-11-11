@@ -1,23 +1,23 @@
-## How to contribute documentation improvements
+# Contribute documentation improvements
 
 Thank you for improving our documentation! Every addition made is read
 thousands of times and has a tremendous impact.
 
-These are the sources for the [ITK docs](docs.itk.org)
+These are the sources for the [ITK docs](https://docs.itk.org)
 [sphinx](https://www.sphinx-doc.org/) website.
 
 The contribution process generally follows our [contributing
-guidelines](../../CONTRIBUTING.md).
+guidelines](./contributing/index.md).
 
 To preview documentation changes, three options are available.
 
-### Option 0: Edit on GitHub, use the pull request preview.
+## Option 0: Edit on GitHub, use the pull request preview
 
 If files are edited with GitHub's web user interface, the pull request will
 build a preview of changes with a pull request check called `docs/readthedocs.org:itk`.
 Click on the *Details* link to view the documentation build preview.
 
-### Option 1: Build and serve locally
+## Option 1: Build and serve locally
 
 To compile the document locally create a python virtual environment and install the required packages.
 
@@ -33,18 +33,18 @@ pip install -r requirements.txt
 Use `make html` in this directory to build the documentation.
 Open `_build/html/index.html` in your browser to inspect the result.
 
-### Option 2: Autobuild and serve locally
+## Option 2: Autobuild and serve locally
 
 To automatically rebuild the website with any input markdown changes and serve
 the result, use [sphinx-autobuild]
 
 ```sh
+cd ITK/Documentation/docs
 pip install -r requirements.txt
 pip install sphinx-autobuild
 ```
 
 ```
-cd ITK/Documentation/docs
 sphinx-autobuild -a . _build/html
 ```
 
