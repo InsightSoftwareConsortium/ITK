@@ -31,7 +31,7 @@ class GiplImageIOInternals;
 /**
  * \class GiplImageIO
  *
- *  \brief Read GiplImage file format.
+ *  \brief Read GIPL (Guy's Image Processing Lab) file format.
  *
  *  \ingroup IOFilters
  *
