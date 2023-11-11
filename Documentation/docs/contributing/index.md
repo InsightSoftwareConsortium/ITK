@@ -373,6 +373,7 @@ GitHub flow guide <https://guides.github.com/introduction/flow/index.html>
 ITK Git Cheatsheet <https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/contributing/GitCheatSheet.pdf>
 updating_third_party.md
 data.md
+documenting_itk.md
 upload_binary_data.md
 module_workflows.md
 python_packaging.md
