@@ -98,7 +98,7 @@ public:
     return m_Region;
   }
 
-  /** Set the number of regions. */
+  /** Set the current region. */
   void
   SetRegion(SizeValueType region)
   {
