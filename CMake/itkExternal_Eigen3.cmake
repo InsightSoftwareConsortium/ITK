@@ -10,6 +10,18 @@ if(APPLE)
   endif()
 endif()
 
+if(NOT CMAKE_CONFIGURATION_TYPES)
+  list(APPEND _additional_external_project_args
+    -DCMAKE_BUILD_TYPE:STRING=Release)
+endif()
+
+if(CMAKE_SH AND CMAKE_VERSION VERSION_LESS "3.17.0")
+  # Setting CMAKE_SH is required when using "MinGW Makefiles" generator with CMake < 3.17
+  # See https://github.com/InsightSoftwareConsortium/ITK/issues/66#issuecomment-424374973
+  list(APPEND _additional_external_project_args
+    -DCMAKE_SH:PATH=${CMAKE_SH})
+endif()
+
 # Because the header-only nature of Eigen3, EIGEN_MPL2_ONLY definition could be leaked outside ITK.
 # This would wrongly enforce EIGEN_MPL2_ONLY to other libraries using Eigen.
 # We wrap this definition in ITK_USE_EIGEN_MPL2_ONLY, and only enabling it internally in the dashboards and CI,
@@ -42,24 +54,23 @@ else()
   execute_process(
     COMMAND
       ${CMAKE_COMMAND}
-      -DCMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}
-      -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
-      -DCMAKE_GENERATOR_TOOLSET=${CMAKE_GENERATOR_TOOLSET}
-      -DCMAKE_GENERATOR_PLATFORM=${CMAKE_GENERATOR_PLATFORM}
-      -DCMAKE_GENERATOR_INSTANCE=${CMAKE_GENERATOR_INSTANCE}
-      -DCMAKE_SH=${CMAKE_SH}
-      -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-      -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-      -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-      -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-      -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES}
-      -DCMAKE_INSTALL_PREFIX=${_eigen3_cmake_install_prefix}
-      -DCMAKE_INSTALL_INCLUDEDIR=${_eigen3_cmake_install_includedir}
-      -DCMAKE_INSTALL_DATADIR=${_eigen3_cmake_install_datadir}
-      -DITK_USE_EIGEN_MPL2_ONLY:BOOL=${ITK_USE_EIGEN_MPL2_ONLY}
-      ${_additional_external_project_args}
-      -S ${_eigen3_source_dir}
-      -B ${_eigen3_build_dir}
+        -DCMAKE_SYSTEM_VERSION:STRING=${CMAKE_SYSTEM_VERSION}
+        -DCMAKE_GENERATOR:STRING=${CMAKE_GENERATOR}
+        -DCMAKE_GENERATOR_TOOLSET:STRING=${CMAKE_GENERATOR_TOOLSET}
+        -DCMAKE_GENERATOR_PLATFORM:STRING=${CMAKE_GENERATOR_PLATFORM}
+        -DCMAKE_GENERATOR_INSTANCE:STRING=${CMAKE_GENERATOR_INSTANCE}
+        -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+        -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
+        -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
+        -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
+        -DCMAKE_OSX_ARCHITECTURES:STRING=${CMAKE_OSX_ARCHITECTURES}
+        -DCMAKE_INSTALL_PREFIX:PATH=${_eigen3_cmake_install_prefix}
+        -DCMAKE_INSTALL_INCLUDEDIR:PATH=${_eigen3_cmake_install_includedir}
+        -DCMAKE_INSTALL_DATADIR:PATH=${_eigen3_cmake_install_datadir}
+        -DITK_USE_EIGEN_MPL2_ONLY:BOOL=${ITK_USE_EIGEN_MPL2_ONLY}
+        ${_additional_external_project_args}
+        -S ${_eigen3_source_dir}
+        -B ${_eigen3_build_dir}
     OUTPUT_VARIABLE ITKEigen3Config_STDOUT
     ERROR_VARIABLE ITKEigen3Config_STDERR
     )
