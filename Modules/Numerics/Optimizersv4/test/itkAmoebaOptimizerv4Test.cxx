@@ -367,6 +367,12 @@ AmoebaTest1()
   itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
   ITK_TEST_SET_GET_VALUE(fTolerance, itkOptimizer->GetFunctionConvergenceTolerance());
 
+  OptimizerType::DerivativeType cachedDerivative{};
+  ITK_TEST_EXPECT_EQUAL(cachedDerivative, itkOptimizer->GetCachedDerivative());
+
+  OptimizerType::ParametersType cachedCurrentPos{};
+  ITK_TEST_EXPECT_EQUAL(cachedCurrentPos, itkOptimizer->GetCachedCurrentPosition());
+
   auto metric = itkAmoebaOptimizerv4TestMetric1::New();
   itkOptimizer->SetMetric(metric);
   std::cout << "itkOptimizer->GetMetric(): " << itkOptimizer->GetMetric() << std::endl;
