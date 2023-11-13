@@ -133,6 +133,14 @@ List differences between last release and current release branch:
    git shortlog --no-merges $release_version..release
 ```
 
+When creating a new major or minor release, a new branch should be pushed to
+the InsightSoftwareConsortium/ITK repository on GitHub. For example, `5.4` for
+the 5.4 release series. This is used by ReadTheDocs to build and deploy
+versioned documentation for that release. After creating that branch,
+[Activate it in the ReadTheDocs
+configuration](https://readthedocs.org/projects/itk/versions/), then [trigger
+a build for the branch](https://readthedocs.org/projects/itk/).
+
 Merge bug fix commits in release. The topic branch should be named
 `<bug-name>-for-release`:
   * If topic branch was created from the `release` branch, `checkout` topic
@@ -146,30 +154,6 @@ Merge bug fix commits in release. The topic branch should be named
 ```sh
    $ git merge <bug-name>-for-release --no-ff
 ```
-
-Merge `release-4.13` into `release` (so that `release` keeps track of release history):
-Similarly for the `release-4.13` branch:
-
-```sh
-   git checkout release-4.13
-   git pull upstream release-4.13
-   git checkout release
-   git merge release-4.13
-   git push origin release release-4.13
-```
-Similarly for the `master` and `release` branches:
-
-```sh
-   git checkout master
-   git pull
-   git merge release
-   git push origin master release
-```
-
-For patches that need to be merged to the `release-3.20` branch, they are first
-merged to `release-3.20`, then `release-3.20` is merged to the release branch
-with `git merge -s ours` to avoid a huge number of merge conflicts. Then,
-`release` is merged into `master`.
 
 Pre-tag activities
 ------------------
@@ -330,6 +314,14 @@ i.e. it will be fast forwarded.
 For minor releases, merge the release branch into `master` branch as for a
 normal commit, and resolve conflicts (arising from mismatch in version number)
 by keeping `master` branch versions.
+
+Merge the `release` branch into the current named version branch, e.g. `5.4`.
+
+```sh
+  git checkout $version
+  git merge --ff-only release
+  git push upstream $version
+```
 
 ### Remote modules
 
