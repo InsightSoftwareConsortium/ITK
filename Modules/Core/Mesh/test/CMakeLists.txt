@@ -3,6 +3,7 @@ set(ITKMeshTests
     itkAutomaticTopologyMeshSourceTest.cxx
     itkImageToParametricSpaceFilterTest.cxx
     itkInteriorExteriorMeshFilterTest.cxx
+    itkMeshRegionTest.cxx
     itkParametricSpaceToImageSpaceMeshFilterTest.cxx
     itkRegularSphereMeshSourceTest.cxx
     itkRegularSphereMeshSourceTest2.cxx
@@ -85,6 +86,12 @@ itk_add_test(
   COMMAND
   ITKMeshTestDriver
   itkInteriorExteriorMeshFilterTest)
+itk_add_test(
+  NAME
+  itkMeshRegionTest
+  COMMAND
+  ITKMeshTestDriver
+  itkMeshRegionTest)
 itk_add_test(
   NAME
   itkRegularSphereMeshSourceTest
