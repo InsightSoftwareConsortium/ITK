@@ -58,6 +58,8 @@ itkShapeOpeningLabelMapFilterTest1(int argc, char * argv[])
   using LabelOpeningType = itk::ShapeOpeningLabelMapFilter<LabelMapType>;
   auto opening = LabelOpeningType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(opening, ShapeOpeningLabelMapFilter, InPlaceLabelMapFilter);
+
   // testing get and set macros for Lambda
   double lambda = std::stod(argv[3]);
   opening->SetLambda(lambda);
