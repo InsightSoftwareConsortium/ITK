@@ -376,7 +376,7 @@ FastGrowCut<TInputImage, TLabelImage, TMaskImage>::GenerateData()
   auto       outputImage = this->GetOutput();
   RegionType inRegion = inputImage->GetLargestPossibleRegion();
 
-  SpacingType  spacing = inputImage->GetSpacing();
+  // SpacingType  spacing = inputImage->GetSpacing();
   // const double compareTolerance = (spacing[0] + spacing[1] + spacing[2]) / 3.0 * 0.01;
 
   // Copy seedImage into the output
