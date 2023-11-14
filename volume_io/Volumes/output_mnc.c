@@ -745,7 +745,7 @@ VIOAPI  VIO_Status  copy_auxiliary_data_from_open_minc_file(
 @CALLS      : 
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Nov. 2, 1998  D. MacDonald - fixed error P. Neelin found with
-                                           concating to non-existent history
+                                           concatenating to non-existent history
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  add_minc_history(

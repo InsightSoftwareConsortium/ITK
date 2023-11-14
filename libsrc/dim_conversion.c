@@ -36,7 +36,7 @@
  * Use standard labs() and fabs() instead of our private macros
  *
  * Revision 6.1  1999/10/19 14:45:07  neelin
- * Fixed Log subsitutions for CVS
+ * Fixed Log substitutions for CVS
  *
  * Revision 6.0  1997/09/12 13:24:54  neelin
  * Release of minc version 0.6
@@ -537,7 +537,7 @@ PRIVATE int MI_get_dim_bufsize_step(mi_icv_type *icvp, int subsc[])
                  dimensions
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
-@DESCRIPTION: Sets the variables for dimensions converions
+@DESCRIPTION: Sets the variables for dimensions conversions
 @METHOD     : 
 @GLOBALS    : 
 @CALLS      : NetCDF routines

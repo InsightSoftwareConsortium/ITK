@@ -80,6 +80,7 @@ static  void  output_one_transform(
     int        i, c, trans;
     VIO_Transform  *lin_transform;
     VIO_STR     volume_filename, base_filename, prefix_filename;
+    size_t      volume_filename_length;
 
     switch( transform->type )
     {
@@ -181,9 +182,9 @@ static  void  output_one_transform(
         /*--- write out the volume filename to the transform file */
 /*        if( ! transform->displacement_volume_file )
         {*/
-          volume_filename = alloc_string( string_length(prefix_filename) +
-                                        100 );
-          sprintf( volume_filename, "%s_grid_%d.mnc", prefix_filename,
+          volume_filename_length = string_length(prefix_filename) + 100;
+          volume_filename = alloc_string( volume_filename_length );
+          snprintf( volume_filename, volume_filename_length, "%s_grid_%d.mnc", prefix_filename,
                         *volume_count );
           
           transform->displacement_volume_file = volume_filename;

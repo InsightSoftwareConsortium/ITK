@@ -173,7 +173,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
       n_slice_dimensions=file->n_file_dimensions-n_slice_dimensions;
       
      
-      /*now iterate throught all slices to find out global image intensity range*/
+      /*now iterate through all slices to find out global image intensity range*/
       for_less(d,0,n_slice_dimensions)
       {
         slices_count*=dimension_size[d];
@@ -186,7 +186,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
           double slice_min,slice_max;
 
           d=0;
-          /*iteration trough dimensions*/
+          /*iteration through dimensions*/
           while(d<n_slice_dimensions)
           {
             slice_start[d]++;

@@ -603,7 +603,7 @@ VIOAPI  void   concat_transforms(
               y_trans
               z_trans
 @RETURNS    : VIO_Status
-@DESCRIPTION: Transforms the point (x,y,z,w) by the homogenous transform
+@DESCRIPTION: Transforms the point (x,y,z,w) by the homogeneous transform
               matrix, resulting in (x_trans,y_trans,z_trans).
 @METHOD     : 
 @GLOBALS    : 

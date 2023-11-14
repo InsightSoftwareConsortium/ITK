@@ -899,7 +899,7 @@ int miset_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
 
   full_path_for_attr(fullpath, sizeof(fullpath), path, name, vol);
 
-  /* find last occurance of '/' */
+  /* find last occurrence of '/' */
   pch = strrchr ( path, '/' );
 
   if ( pch != NULL ) {
