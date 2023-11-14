@@ -185,58 +185,40 @@ public:
     {
       case MINIMUM:
         return "Minimum";
-        break;
       case MAXIMUM:
         return "Maximum";
-        break;
       case MEAN:
         return "Mean";
-        break;
       case SUM:
         return "Sum";
-        break;
       case STANDARD_DEVIATION:
         return "StandardDeviation";
-        break;
       case VARIANCE:
         return "Variance";
-        break;
       case MEDIAN:
         return "Median";
-        break;
       case MAXIMUM_INDEX:
         return "MaximumIndex";
-        break;
       case MINIMUM_INDEX:
         return "MinimumIndex";
-        break;
       case CENTER_OF_GRAVITY:
         return "CenterOfGravity";
-        break;
       /*      case CENTRAL_MOMENTS:
-              return "CentralMoments";
-              break;*/
+              return "CentralMoments";*/
       case WEIGHTED_PRINCIPAL_MOMENTS:
         return "WeightedPrincipalMoments";
-        break;
       case WEIGHTED_PRINCIPAL_AXES:
         return "WeightedPrincipalAxes";
-        break;
       case KURTOSIS:
         return "Kurtosis";
-        break;
       case SKEWNESS:
         return "Skewness";
-        break;
       case WEIGHTED_ELONGATION:
         return "WeightedElongation";
-        break;
       case HISTOGRAM:
         return "Histogram";
-        break;
       case WEIGHTED_FLATNESS:
         return "WeightedFlatness";
-        break;
     }
     // can't recognize the name
     return Superclass::GetNameFromAttribute(a);
