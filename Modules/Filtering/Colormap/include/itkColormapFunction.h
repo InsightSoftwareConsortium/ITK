@@ -97,9 +97,7 @@ protected:
 
     auto     d = static_cast<RealType>(maxInputValue - minInputValue);
     RealType value = (static_cast<RealType>(v) - static_cast<RealType>(minInputValue)) / d;
-
-    value = std::max(0.0, value);
-    value = std::min(1.0, value);
+    value = std::clamp(value, 0.0, 1.0);
     return value;
   }
 
