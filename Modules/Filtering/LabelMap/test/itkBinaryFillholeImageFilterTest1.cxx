@@ -22,21 +22,12 @@
 #include "itkBinaryFillholeImageFilter.h"
 #include "itkTestingMacros.h"
 
-
-int
-itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
+namespace // Anonymous namespace avoids name collisions
 {
-
-  if (argc != 5)
-  {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputFileName outputFileName fullyConnected foregroundValue" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  constexpr unsigned int Dimension = 2;
-
+template <unsigned Dimension>
+int
+DoIt(char * argv[])
+{
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -75,4 +66,35 @@ itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
+}
+} // namespace
+
+int
+itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
+{
+  if (argc != 5)
+  {
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " inputFileName outputFileName fullyConnected foregroundValue" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  using ImageType = itk::Image<short>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  auto reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->UpdateOutputInformation());
+
+  unsigned dim = reader->GetImageIO()->GetNumberOfDimensions();
+  switch (dim)
+  {
+    case 2:
+      return DoIt<2>(argv);
+    case 3:
+      return DoIt<3>(argv);
+    default:
+      itkGenericExceptionMacro("Only image dimensions 2 and 3 are supported, but " << argv[1]
+                                                                                   << " has dimension: " << dim);
+  }
 }

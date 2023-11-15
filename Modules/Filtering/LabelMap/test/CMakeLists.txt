@@ -235,6 +235,32 @@ itk_add_test(
   255)
 itk_add_test(
   NAME
+  itkBinaryFillholeImageFilterTest3D_0
+  COMMAND
+  ITKLabelMapTestDriver
+  --compare
+  DATA{Baseline/fillhole_test_3D_0.nrrd}
+  ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest3D_0.nrrd
+  itkBinaryFillholeImageFilterTest1
+  DATA{Input/fillhole_test_3D.nrrd}
+  ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest3D_0.nrrd
+  0
+  1)
+itk_add_test(
+  NAME
+  itkBinaryFillholeImageFilterTest3D_1
+  COMMAND
+  ITKLabelMapTestDriver
+  --compare
+  DATA{Baseline/fillhole_test_3D_1.nrrd}
+  ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest3D_1.nrrd
+  itkBinaryFillholeImageFilterTest1
+  DATA{Input/fillhole_test_3D.nrrd}
+  ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest3D_1.nrrd
+  1
+  1)
+itk_add_test(
+  NAME
   itkBinaryGrindPeakImageFilterTest1
   COMMAND
   ITKLabelMapTestDriver
