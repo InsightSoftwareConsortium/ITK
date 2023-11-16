@@ -63,7 +63,7 @@ int miget_record_field_name(mihandle_t volume,
 
 /** This method sets a field name for the volume record. The volume
  * must be of class "MI_CLASS_UNIFORM_RECORD".  The size of record
- * type will be increased if necessary to accomodate the new field.
+ * type will be increased if necessary to accommodate the new field.
  */
 int miset_record_field_name(mihandle_t volume,
                         int index,

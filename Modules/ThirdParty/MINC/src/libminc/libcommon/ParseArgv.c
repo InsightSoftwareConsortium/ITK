@@ -82,7 +82,7 @@ static void PrintVersion(ArgvInfo *argTable);
  *
  * Quick replacement for strtol which eliminates the undesirable property
  * of interpreting numbers with leading '0' characters as octal, while
- * retaining "0x" as indicating a hexidecimal number.
+ * retaining "0x" as indicating a hexadecimal number.
  */
 long int
 ParseLong(const char *argPtr, char **endPtr)
@@ -173,7 +173,7 @@ ParseArgv(argcPtr, argv, argTable, flags)
       length = strlen(curArg);
       
       /*
-       * Loop throught the argument descriptors searching for one with
+       * Loop through the argument descriptors searching for one with
        * the matching key string.  If found, leave a pointer to it in
        * matchPtr.
        */

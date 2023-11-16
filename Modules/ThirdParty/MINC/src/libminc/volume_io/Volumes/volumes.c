@@ -1801,7 +1801,7 @@ VIOAPI  void  set_volume_translation(
         else if( volume->spatial_axes[2] >= 0 )
             dim = 2;
 
-        /*--- set a1 to the lowest occuring non-spatial axis, and create
+        /*--- set a1 to the lowest occurring non-spatial axis, and create
               a unit vector normal to that of the spatial axis */
 
         if( dim == 0 )

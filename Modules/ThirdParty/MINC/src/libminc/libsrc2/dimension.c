@@ -184,7 +184,7 @@ int micopy_dimension ( midimhandle_t dim_ptr, midimhandle_t *new_dim_ptr )
   * enough range to represent detail on the order of 10 Angstroms in
   * typical medical imaging applications.
   *
-  * For the detailed defintion of \a class and \a type refer to the MINC 2.0 API
+  * For the detailed definition of \a class and \a type refer to the MINC 2.0 API
   * definition.
   * \ingroup mi2Dim
   */
@@ -1217,7 +1217,7 @@ int miset_dimension_separation ( midimhandle_t dimension, double separation )
   * Get the sampling interval (STEP) for a list of dimensions.
   * \param dimensions An array of dimension handles.
   * \param voxel_order The order in which the voxel indices increase/decrease.
-  * \param array_length The number of dimensions in the dimesions array.
+  * \param array_length The number of dimensions in the dimensions array.
   * \param separations An array of dimensions sampling intervals (step) values.
   *
   * Get or Set the scalar separation (sampling interval)
@@ -1245,7 +1245,7 @@ int miget_dimension_separations ( const midimhandle_t dimensions[],
 /**
   * Set the sampling interval (STEP) for a list of dimensions.
   * \param dimensions An array of dimension handles.
-  * \param array_length The number of dimensions in the dimesions array.
+  * \param array_length The number of dimensions in the dimensions array.
   * \param separations An array of dimensions sampling intervals (step) values.
   *
   * Refer to miget_dimension_separations().

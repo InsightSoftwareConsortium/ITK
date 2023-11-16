@@ -107,7 +107,7 @@
  * For newer versions of glibc, this would cause a seg fault.
  *
  * Revision 6.2  1999/10/19 14:45:11  neelin
- * Fixed Log subsitutions for CVS
+ * Fixed Log substitutions for CVS
  *
  * Revision 6.1  1997/10/06 12:54:08  neelin
  * Changed call to tmpnam to tempnam so that TMPDIR variable is checked when
@@ -257,7 +257,7 @@ PRIVATE int execute_decompress_command(char *command, const char *infile,
    /* we now ignore header_only and always uncompress the whole
     * file as the previous "header only" hack that used to work
     * on MINC1 files doesn't work reliably with MINC2 */
-   (void) sprintf(whole_command, "exec %s %s > %s 2> /dev/null", 
+   (void) snprintf(whole_command, sizeof(whole_command), "exec %s %s > %s 2> /dev/null", 
                   command, infile, outfile);
    status = system(whole_command);
 

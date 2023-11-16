@@ -3,7 +3,7 @@
 @DESCRIPTION: File containing error codes for libminc package.
 @GLOBALS    : 
 @CALLS      : 
-@CREATED    : 17 Feburary, 2004 (Robert Vincent)
+@CREATED    : 17 February, 2004 (Robert Vincent)
 @MODIFIED   : 
  *
  * $Log: minc_error.h,v $

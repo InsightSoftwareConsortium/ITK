@@ -1447,7 +1447,7 @@ int minc_create_thumbnail ( mihandle_t volume, int grp )
     return ( MI_ERROR );
   }
 
-  sprintf ( path, MI_ROOT_PATH "/image/%d", grp );
+  snprintf ( path, sizeof(path), MI_ROOT_PATH "/image/%d", grp );
   grp_id = H5Gcreate2 ( volume->hdf_id, path, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT );
 
   if ( grp_id < 0 ) {
@@ -1691,7 +1691,7 @@ minc_update_thumbnail ( mihandle_t volume, hid_t loc_id, int igrp, int ogrp )
 
   /* Open the input path.
   */
-  sprintf ( path, "%d/image", igrp );
+  snprintf ( path, sizeof(path), "%d/image", igrp );
   idst_id = H5Dopen1 ( loc_id, path );
 
   if ( idst_id < 0 ) {
@@ -1727,7 +1727,7 @@ minc_update_thumbnail ( mihandle_t volume, hid_t loc_id, int igrp, int ogrp )
   */
   ofspc_id = H5Screate_simple ( ndims, osize, NULL );
 
-  sprintf ( path, "%d/image", ogrp );
+  snprintf ( path, sizeof(path), "%d/image", ogrp );
 
   H5E_BEGIN_TRY {
     odst_id = H5Dcreate1 ( loc_id, path, typ_id, ofspc_id, H5P_DEFAULT );
@@ -1753,7 +1753,7 @@ minc_update_thumbnail ( mihandle_t volume, hid_t loc_id, int igrp, int ogrp )
     /* Create a simple scalar dataspace. */
     tmspc_id = H5Screate ( H5S_SCALAR );
 
-    sprintf ( path, "%d/image-max", ogrp );
+    snprintf ( path, sizeof(path), "%d/image-max", ogrp );
     H5E_BEGIN_TRY {
       omax_id = H5Dcreate1 ( loc_id, path, H5T_IEEE_F64LE, tfspc_id,
       H5P_DEFAULT );
@@ -1763,7 +1763,7 @@ minc_update_thumbnail ( mihandle_t volume, hid_t loc_id, int igrp, int ogrp )
       omax_id = H5Dopen1 ( loc_id, path );
     }
 
-    sprintf ( path, "%d/image-min", ogrp );
+    snprintf ( path, sizeof(path), "%d/image-min", ogrp );
     H5E_BEGIN_TRY {
       omin_id = H5Dcreate1 ( loc_id, path, H5T_IEEE_F64LE, tfspc_id,
       H5P_DEFAULT );
@@ -2209,7 +2209,7 @@ scaled_maximal_pivoting_gaussian_elimination_real ( int n,
 
 /** Computes the inverse of a square matrix.
 */
-static int
+int
 invert_4x4_matrix ( double matrix[4][4], /**< Input matrix */
                     double inverse[4][4] ) /**< Output (inverted) matrix */
 {

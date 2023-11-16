@@ -304,12 +304,12 @@ static  VIO_STR  create_backup_filename(
     {
         if( count == 0 )
         {
-            (void) sprintf( backup_filename, "%s.%s.bkp",
+            (void) snprintf( backup_filename, len, "%s.%s.bkp",
                             expanded, date );
         }
         else
         {
-            (void) sprintf( backup_filename, "%s.%s.bkp_%d",
+            (void) snprintf( backup_filename, len, "%s.%s.bkp_%d",
                             expanded, date, count );
         }
 
@@ -1012,13 +1012,13 @@ VIOAPI  VIO_Status  open_file(
 
         tmp_name = get_temporary_filename();
 
-        (void) sprintf( command, "gunzip -c %s > %s", expanded, tmp_name );
+        (void) snprintf( command, sizeof(command), "gunzip -c %s > %s", expanded, tmp_name );
         command_status = system( command );
 
         /* Try again, using bzip2 */
         if( command_status != 0 )
         {
-            (void) sprintf( command, "bunzip2 -c %s > %s", expanded, tmp_name );
+            (void) snprintf( command, sizeof(command), "bunzip2 -c %s > %s", expanded, tmp_name );
             command_status = system( command );
         }
 

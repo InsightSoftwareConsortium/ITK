@@ -269,20 +269,20 @@ int miselect_resolution(mihandle_t volume, int depth)
   if (volume->image_id >= 0) {
     H5Dclose(volume->image_id);
   }
-  sprintf(path, "%d/image", depth);
+  snprintf(path, sizeof(path), "%d/image", depth);
   volume->image_id = H5Dopen1(grp_id, path);
   
   if (volume->volume_class == MI_CLASS_REAL) {
     if (volume->imax_id >= 0) {
       H5Dclose(volume->imax_id);
     }
-    sprintf(path, "%d/image-max", depth);
+    snprintf(path, sizeof(path), "%d/image-max", depth);
     volume->imax_id = H5Dopen1(grp_id, path);
     
     if (volume->imin_id >= 0) {
       H5Dclose(volume->imin_id);
     }
-    sprintf(path, "%d/image-min", depth);
+    snprintf(path, sizeof(path), "%d/image-min", depth);
     volume->imin_id = H5Dopen1(grp_id, path);
   }
   return (MI_NOERROR);
