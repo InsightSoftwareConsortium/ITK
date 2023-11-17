@@ -2,7 +2,7 @@ ITK Dashboard Scripts
 =====================
 
 This page documents how to use the ITK `dashboard` branch in [Git]. See our
-[CONTRIBUTING](../CONTRIBUTING.md) guide for more information.
+[CONTRIBUTING](index.md) guide for more information.
 
 Using the dashboard scripts
 ---------------------------

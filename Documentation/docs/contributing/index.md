@@ -372,6 +372,7 @@ git_help.md
 GitHub flow guide <https://guides.github.com/introduction/flow/index.html>
 ITK Git Cheatsheet <https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/contributing/GitCheatSheet.pdf>
 CDash Dashboard <https://open.cdash.org/index.php?project=Insight>
+dashboard.md
 updating_third_party.md
 data.md
 upload_binary_data.md
