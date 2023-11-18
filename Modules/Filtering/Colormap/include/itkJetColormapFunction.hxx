@@ -32,17 +32,13 @@ JetColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> 
 
   // Apply the color mapping.
   RealType red = -itk::Math::abs(3.95 * (value - 0.7460)) + 1.5;
-
-  red = std::min(red, 1.0);
-  red = std::max(0.0, red);
+  red = std::clamp(red, 0.0, 1.0);
 
   RealType green = -itk::Math::abs(3.95 * (value - 0.492)) + 1.5;
-  green = std::min(green, 1.0);
-  green = std::max(0.0, green);
+  green = std::clamp(green, 0.0, 1.0);
 
   RealType blue = -itk::Math::abs(3.95 * (value - 0.2385)) + 1.5;
-  blue = std::min(blue, 1.0);
-  blue = std::max(0.0, blue);
+  blue = std::clamp(blue, 0.0, 1.0);
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

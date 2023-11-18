@@ -41,10 +41,8 @@ ProgressTransformer::ProgressTransformer(float start, float end, ProcessObject *
   : m_TargetFilter(targetFilter)
   , m_ProgressTag(0)
 {
-  m_Start = std::max(start, 0.0f);
-  m_Start = std::min(m_Start, 1.0f);
-  m_End = std::max(end, 0.0f);
-  m_End = std::min(m_End, 1.0f);
+  m_Start = std::clamp(start, 0.0f, 1.0f);
+  m_End = std::clamp(end, 0.0f, 1.0f);
   m_Dummy = DummyProcess::New();
 
   m_ProgressCommand = CommandType::New();
@@ -56,8 +54,7 @@ void
 ProgressTransformer::UpdateProgress()
 {
   float progress = m_Dummy->GetProgress();
-  progress = std::max(progress, 0.0f);
-  progress = std::min(progress, 1.0f);
+  progress = std::clamp(progress, 0.0f, 1.0f);
 
   progress = m_Start + progress * (m_End - m_Start); // transform progress
   m_TargetFilter->UpdateProgress(progress);

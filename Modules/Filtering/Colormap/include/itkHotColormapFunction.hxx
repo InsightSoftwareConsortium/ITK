@@ -32,17 +32,13 @@ HotColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> 
 
   // Apply the color mapping.
   RealType red = 63.0 / 26.0 * value - 1.0 / 13.0;
-
-  red = std::max(0.0, red);
-  red = std::min(1.0, red);
+  red = std::clamp(red, 0.0, 1.0);
 
   RealType green = 63.0 / 26.0 * value - 11.0 / 13.0;
-  green = std::max(0.0, green);
-  green = std::min(1.0, green);
+  green = std::clamp(green, 0.0, 1.0);
 
   RealType blue = 4.5 * value - 3.5;
-  blue = std::max(0.0, blue);
-  blue = std::min(1.0, blue);
+  blue = std::clamp(blue, 0.0, 1.0);
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
