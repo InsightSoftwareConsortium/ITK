@@ -99,7 +99,7 @@
  * in their own way.
  *
  * Revision 6.1  1999/10/19 14:45:15  neelin
- * Fixed Log subsitutions for CVS
+ * Fixed Log substitutions for CVS
  *
  * Revision 6.0  1997/09/12 13:23:41  neelin
  * Release of minc version 0.6

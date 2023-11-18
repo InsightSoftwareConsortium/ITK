@@ -529,7 +529,7 @@ minc_save_start(char *path,     /* Path to the file */
     int var_ndims;              /* Number of dimensions per variable */
     int var_dims[MI_S_NDIMS];   /* Dimension ID's per variable */
     int i, j;                   /* Generic loop counters */
-    int old_ncopts;             /* For supressing fatal error messages */
+    int old_ncopts;             /* For suppressing fatal error messages */
     struct file_info *p_file;   /* For accessing the file structure */
     struct var_info *p_var;
     struct att_info *p_att;

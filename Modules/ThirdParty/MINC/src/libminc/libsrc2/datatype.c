@@ -23,7 +23,7 @@ int miget_data_type ( mihandle_t volume, mitype_t *data_type )
   return ( MI_NOERROR );
 }
 
-/** Return the byte size of the voxel datatytpe
+/** Return the byte size of the voxel datatype
  */
 int miget_data_type_size ( mihandle_t volume, misize_t *voxel_size )
 {

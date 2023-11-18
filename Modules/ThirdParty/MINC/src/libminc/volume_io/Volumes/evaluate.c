@@ -320,7 +320,7 @@ static void trilinear_interpolate_rgb(
 @OUTPUT     : value    
               derivs
 @RETURNS    : 
-@DESCRIPTION: Computes the trilinear interpolation of the 8 coeficients, passing
+@DESCRIPTION: Computes the trilinear interpolation of the 8 coefficients, passing
               the value back in the 'value' parameter.  If the derivs parameter
               is not null, then the 3 derivatives are also computed and
               passed back.
@@ -533,7 +533,7 @@ static void trilinear_interpolate(
               parameters[]  - 0 to 1 parameters for each dim
               n_values      - number of values to interpolate
               degree        - degree of interpolation, 4 == cubic
-              coefs         - [degree*degree*degree... *n_values] coeficients
+              coefs         - [degree*degree*degree... *n_values] coefficients
 @OUTPUT     : values        - pass back values
               first_deriv   - pass first derivs [n_values][n_dims]
               second_deriv  - pass back values  [n_values][n_dims][n_dims]
@@ -1083,7 +1083,7 @@ VIOAPI  int   evaluate_volume(
         }
     }
 
-    /*--- make room for the coeficients */
+    /*--- make room for the coefficients */
 
     if( n_values * n_coefs > MAX_COEF_SPACE )
     {
@@ -1125,13 +1125,13 @@ VIOAPI  int   evaluate_volume(
         for_less( v, 0, n_values * n_coefs )
             coefs[v] = outside_value;
 
-        /*--- get the necessary coeficients from the volume */
+        /*--- get the necessary coefficients from the volume */
 
         extract_coefficients( volume, start, end, &coefs[start_index], inc );
     }
     else
     {
-        /*--- get the necessary coeficients from the volume */
+        /*--- get the necessary coefficients from the volume */
 
         for_less( d, n_dims, VIO_MAX_DIMENSIONS )
         {
@@ -1146,7 +1146,7 @@ VIOAPI  int   evaluate_volume(
                          end[4] - start[4], coefs );
     }
 
-    /*--- now that we have the coeficients, do the interpolation */
+    /*--- now that we have the coefficients, do the interpolation */
 
     switch( degrees_continuity )
     {

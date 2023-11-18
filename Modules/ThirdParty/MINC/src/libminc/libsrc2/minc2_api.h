@@ -121,7 +121,7 @@ int miget_data_class(mihandle_t vol, miclass_t *volume_class);
  */
 int miget_data_type(mihandle_t vol, mitype_t *volume_data_type);
 
-/** Return the byte size of the voxel datatytpe
+/** Return the byte size of the voxel datatype
  * \ingroup mi2DataType
  */
 int miget_data_type_size(mihandle_t vol, misize_t *voxel_size);
@@ -187,7 +187,7 @@ int micopy_dimension(midimhandle_t dim_ptr, midimhandle_t *new_dim_ptr);
   * enough range to represent detail on the order of 10 Angstroms in
   * typical medical imaging applications.
   *
-  * For the detailed defintion of \a class and \a type refer to the MINC 2.0 API
+  * For the detailed definition of \a class and \a type refer to the MINC 2.0 API
   * definition.
   * \ingroup mi2Dim
   */
@@ -493,7 +493,7 @@ int miset_dimension_separation(midimhandle_t dimension,
   * Get the sampling interval (STEP) for a list of dimensions.
   * \param dimensions An array of dimension handles.
   * \param voxel_order The order in which the voxel indices increase/decrease.
-  * \param array_length The number of dimensions in the dimesions array.
+  * \param array_length The number of dimensions in the dimensions array.
   * \param separations An array of dimensions sampling intervals (step) values.
   *
   * Get or Set the scalar separation (sampling interval)
@@ -512,7 +512,7 @@ int miget_dimension_separations(const midimhandle_t dimensions[],
 /**
   * Set the sampling interval (STEP) for a list of dimensions.
   * \param dimensions An array of dimension handles.
-  * \param array_length The number of dimensions in the dimesions array.
+  * \param array_length The number of dimensions in the dimensions array.
   * \param separations An array of dimensions sampling intervals (step) values.
   *
   * Refer to miget_dimension_separations().
@@ -730,7 +730,7 @@ int miget_volume_dimension_count(mihandle_t volume, midimclass_t dimclass,
                                         midimattr_t attr, int *number_of_dimensions);
 
 /** Return the number of slice dimensions associated with this volume.
- *  it's only usefull for slice normalization
+ *  it's only useful for slice normalization
  *  will return the total number of volume dimensions if slice normalization is not used
  * \ingroup mi2Vol
 */
@@ -1425,7 +1425,7 @@ int miget_record_field_name(mihandle_t volume, int index, char **name);
 
 /** This method sets a field name for the volume record. The volume
  * must be of class "MI_CLASS_UNIFORM_RECORD".  The size of record
- * type will be increased if necessary to accomodate the new field.
+ * type will be increased if necessary to accommodate the new field.
  * \ingroup mi2Rec
  */
 int miset_record_field_name(mihandle_t volume, int index, 

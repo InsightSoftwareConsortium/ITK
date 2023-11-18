@@ -170,6 +170,7 @@ int minc_update_thumbnail(mihandle_t volume, hid_t loc_id, int igrp, int ogrp);
 
 int minc_update_thumbnails(mihandle_t volume);
 
+
 int scaled_maximal_pivoting_gaussian_elimination(int   n,
                                                   int   row[],
                                                   double **a,

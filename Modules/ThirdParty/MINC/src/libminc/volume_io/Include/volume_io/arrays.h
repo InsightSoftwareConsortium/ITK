@@ -121,7 +121,7 @@
 @DESCRIPTION: Adds an element to an array where a separate n_allocated and 
             : n_elems is maintained.  n_allocated will always be greater than
             : or equal to n_elems.  This routine is useful so that you don't
-            : have to call SET_ARRAY_SIZE everytime you remove an element,
+            : have to call SET_ARRAY_SIZE every time you remove an element,
             : as in done in DELETE_ELEMENT_FROM_ARRAY
 @METHOD     : 
 @GLOBALS    : 

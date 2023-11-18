@@ -111,7 +111,7 @@
  * A few fixes to the configure script.
  *
  * Revision 6.1  1999/10/19 14:45:09  neelin
- * Fixed Log subsitutions for CVS
+ * Fixed Log substitutions for CVS
  *
  * Revision 6.0  1997/09/12 13:24:54  neelin
  * Release of minc version 0.6
@@ -1342,7 +1342,7 @@ MNCAPI int micreate_group_variable(int cdfid, const char *name)
 @INPUT      : id - cdf file id
               tm_stamp  - timestamp as returned by time_stamp() function.
 @OUTPUT     : (none)
-@RETURNS    : MI_NOERROR if successfuly
+@RETURNS    : MI_NOERROR if successful
 @DESCRIPTION: Appends the string (which should be in the format returned
               by the time_stamp() function) to the global "history" 
               attribute.

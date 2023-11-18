@@ -202,7 +202,7 @@ VIOAPI  VIO_STR  format_time(
 
     if( negative )  seconds = -seconds;
 
-    (void) sprintf( buffer, format, seconds, units[i] );
+    (void) snprintf( buffer, sizeof(buffer), format, seconds, units[i] );
 
     return( create_string( buffer ) );
 }

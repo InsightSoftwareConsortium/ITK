@@ -7,7 +7,7 @@
 @MODIFIED   : 
  * $Log: type_limits.h,v $
  * Revision 6.1  1999-10-19 14:45:12  neelin
- * Fixed Log subsitutions for CVS
+ * Fixed Log substitutions for CVS
  *
  * Revision 6.0  1997/09/12 13:24:54  neelin
  * Release of minc version 0.6

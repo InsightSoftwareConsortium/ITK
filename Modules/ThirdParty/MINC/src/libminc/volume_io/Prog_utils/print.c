@@ -120,7 +120,7 @@ VIOAPI  void  print( VIO_STR format, ... )
     char     print_buffer[VIO_EXTREMELY_LARGE_STRING_SIZE];
 
     va_start( ap, format );
-    (void) vsprintf( print_buffer, format, ap );
+    (void) vsnprintf( print_buffer, sizeof(print_buffer), format, ap );
     va_end( ap );
 
     if( print_function[top_of_stack] == NULL )
@@ -219,7 +219,7 @@ VIOAPI  void  print_error( char format[], ... )
     char     print_buffer[VIO_EXTREMELY_LARGE_STRING_SIZE];
 
     va_start( ap, format );
-    vsprintf( print_buffer, format, ap );
+    vsnprintf( print_buffer, sizeof(print_buffer), format, ap );
     va_end( ap );
 
     if( print_error_function[top_of_error_stack] == NULL )
