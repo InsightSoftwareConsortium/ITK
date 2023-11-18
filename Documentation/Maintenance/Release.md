@@ -358,6 +358,9 @@ endings.
 
 The `InsightData` tarballs are generated along with the source code tarballs.
 
+Data is fetched from [IPFS]. An IPFS daemon must be running to fetch the data
+- [ipfs-desktop] is recommended.
+
 Once the repository has been tagged, we use the following script in the
 repository to create the tarballs:
 
@@ -873,6 +876,8 @@ excellent packaging.
 [documentation page]: https://www.itk.org/ITK/help/documentation.html
 [download page]: https://itk.org/ITK/resources/software.html
 [GitHub]: https://github.com/InsightSoftwareConsortium/ITK
+[IPFS]: https://ipfs.tech/
+[ipfs-desktop]: https://github.com/ipfs/ipfs-desktop/releases
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITK discussion]: https://discourse.itk.org/
 [Image.sc Forum]: https://image.sc
