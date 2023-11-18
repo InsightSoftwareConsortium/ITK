@@ -275,8 +275,8 @@ public:
   bool
   IsInside(const Self & otherRegion) const
   {
-    const auto otherIndex = otherRegion.m_Index;
-    const auto otherSize = otherRegion.m_Size;
+    const auto & otherIndex = otherRegion.m_Index;
+    const auto & otherSize = otherRegion.m_Size;
 
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
