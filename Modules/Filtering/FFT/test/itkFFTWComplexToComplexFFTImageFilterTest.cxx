@@ -115,10 +115,8 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
 #ifdef ITK_USE_FFTWF
       case 2:
         return transformImage<float, 2>(inputImageFileName, outputImageFileName);
-        break;
       case 3:
         return transformImage<float, 3>(inputImageFileName, outputImageFileName);
-        break;
 #endif
       default:
         std::cerr << "Unknown image dimension." << std::endl;
@@ -133,10 +131,8 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
 #ifdef ITK_USE_FFTWD
       case 2:
         return transformImage<double, 2>(inputImageFileName, outputImageFileName);
-        break;
       case 3:
         return transformImage<double, 3>(inputImageFileName, outputImageFileName);
-        break;
 #endif
       default:
         std::cerr << "Unknown image dimension." << std::endl;

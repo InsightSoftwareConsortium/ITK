@@ -180,17 +180,13 @@ public:
     {
       case ThreaderEnum::Platform:
         return "Platform";
-        break;
       case ThreaderEnum::Pool:
         return "Pool";
-        break;
       case ThreaderEnum::TBB:
         return "TBB";
-        break;
       case ThreaderEnum::Unknown:
       default:
         return "Unknown";
-        break;
     }
   }
 
