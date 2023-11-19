@@ -202,55 +202,125 @@ Commit the result:
 Archive ExternalData
 --------------------
 
-Set the environmental or CMake variable `ExternalData_OBJECT_STORES` to a
-local directory. e.g.
+More background on the testing data can be found in the
+[Contributing Upload Binary Data][../docs/contributing/upload_binary_data.md) documentation.
+
+The following steps archive data for release on various resources. Both
+[datalad] and [@web3-storage/w3] should be installed locally. And the [kubo]
+`ipfs` cli. It is recommended to install and run [ipfs-desktop] and symlink
+the `ipfs` cli it comes with into your PATH.
+
+### Fetch the latest ITKData datalad repository
+
+Clone the ITKData datalad repository, if not already available.
 
 ```sh
-   export ExternalData_OBJECT_STORES=${HOME}/data
+  cd ~/data/
+  datalad clone https://gin.g-node.org/InsightSoftwareConsortium/ITKData.git
+  cd ITKData
 ```
 
-Pre-populate the store with the contents of the 'InsightData' tarballs from a
-previous release. Once the tarball extracted, move the content of its
-subfolder called `.ExternalData` in your local `ExternalData_OBJECT_STORES`
-directory.
-
-Then, from the ITK build directory, configure ITK enabling the flags:
-  * `ITK_WRAP_PYTHON`
-  * `ITK_LEGACY_SILENT`
-  * `BUILD_TESTING`
-  * `BUILD_EXAMPLES`
-
-If you have previously enabled remote modules using the same ITK source
-directory, either verify that they are enabled in your current build, or remove
-their source directory that has been added inside ITK source directory
-(i.e. `./Modules/Remote/$name_of_remote_module`).
-
-Build the `ITKData` target
+Make sure the datalad repository is up-to-date.
 
 ```sh
-   make ITKData
+  datalad update -r .
+  datalad get .
 ```
 
-This will download new testing data since the previous release.
+### Fetch new data locally
 
-Next, archive the data on data.kitware.com. Create a folder, e.g.
-`$MAJOR_VERSION.$MINOR_VERSION`, in `ITK/ITKTestingData`, and run
+Checkout the tag which we are archiving.
 
 ```sh
-   python -m pip install girder-client
-   python ./Utilities/Maintenance/ArchiveTestingDataOnGirder.py --object-store ${ExternalData_OBJECT_STORES} --parent-id <the-girder-id-of-the-folder-created> --api-key <your-girder-user-api-key>
+  cd ~/src/ITK
+  git checkout <version>
 ```
 
-This script requires the girder-client Python package install from Girder
-master, November 2016 or later, (Girder > 2.0.0).
-
-Archive the `InsightData` contents on ITK's file server at Kitware:
+And fetch new data into the datalad repository.
 
 ```sh
-   rsync -vrt ${ExternalData_OBJECT_STORES}/MD5/ kitware@web:ITKExternalData/MD5/
+  cd ~/data/ITKData
+  ./ContentLinkSynchronization.sh --create ~/src/ITK
 ```
 
-Update the data archive at https://github.com/InsightSoftwareConsortium/ITKTestingData.
+Upload the tree to archival storage with:
+
+```sh
+  w3 put . --no-wrap -n ITKData-pre-verify -H
+```
+
+Verify and possibly update CID's in the ITK repository with the CID output
+from the previous step.
+
+```sh
+  ./ContentLinkSynchronization.sh --root-cid bafy<rest-of-the-cid> ~/src/ITK
+  datalad status
+```
+
+If there is new content, commit it with:
+
+```sh
+  datalad save -m "ENH: Updates for ITK-v<itk-release-version>"
+```
+
+Upload the repository update to web3.storage:
+
+```sh
+  w3 put . --no-wrap -n ITKData-v<itk-release-version> -H
+```
+
+Edit the *README.md* file with the new root CID and push.
+
+```sh
+  datalad save -m "DOC: Update root CID for ITK-v<itk-release-version>"
+  datalad push
+```
+
+### Pin the CID on locally and on Pinata
+
+If the [pinata] pinning service is not already available, create it:
+
+```sh
+  ipfs pin remote service add pinata https://api.pinata.cloud/psa/ PINATA_JWT
+```
+
+Then pin the root CID locally and on Pinata:
+
+```sh
+  ipfs pin add /ipfs/bafy<rest-of-cid>
+  ipfs pin remote add --service=pinata --name=ITKData-ITK-v<itk-release-version> /ipfs/bafy<rest-of-cid>
+```
+
+### Pin the CID on Kitware's ipfs server
+
+Optionally, pin to Kitware's ipfs server:
+
+```
+  ssh ipfs
+  export IPFS_PATH=/data/ipfs
+  ipfs pin add --progress /ipfs/bafy<rest-of-cid>
+```
+
+### Rsync the data to Kitware's Apache Server
+
+Optionally, rsync the object to Kitware's Apache Server
+
+```sh
+  rsync -vrtL ./Objects/CID kitware@web:ITKExternalData/
+```
+
+### Push the data to GitHub Pages
+
+Push the data to the [ITKTestingData] `gh-pages` branch. GitHub restricts size
+of files.
+
+```
+rsync -vrtL --max-size=45m ./Objects/CID ~/data/ITKTestingData/
+cd ~/data/ITKTestingData
+git add .
+git commit -m "ENH: Updates for ITK <version>"
+git push
+```
 
 Tag the ITK repository
 ----------------------
@@ -872,6 +942,7 @@ excellent packaging.
 [Kitware blog]: https://blog.kitware.com/
 [blog post]: https://blog.kitware.com/itk-packages-in-linux-distributions/
 [Dashboard]: https://open.cdash.org/index.php?project=Insight
+[datalad]: https://www.datalad.org/
 [community]: https://discourse.itk.org/
 [documentation page]: https://www.itk.org/ITK/help/documentation.html
 [download page]: https://itk.org/ITK/resources/software.html
@@ -879,6 +950,7 @@ excellent packaging.
 [IPFS]: https://ipfs.tech/
 [ipfs-desktop]: https://github.com/ipfs/ipfs-desktop/releases
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
+[ITKTestingData]: https://github.com/InsightSoftwareConsortium/ITKTestingData
 [ITK discussion]: https://discourse.itk.org/
 [Image.sc Forum]: https://image.sc
 [ITK Open Collective page]: https://opencollective.org/itk
@@ -886,9 +958,12 @@ excellent packaging.
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
 [ITK Sphinx examples]: https://itk.org/ITKExamples/
+[kubo]: https://github.com/ipfs/kubo
+[pinata]: https://pinata.cloud
 [releases page]: https://itk.org/Wiki/ITK/Releases
 [release schedule]: https://itk.org/Wiki/ITK/Release_Schedule
 [Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
+[@web3-storage/w3]: https://www.npmjs.com/package/@web3-storage/w3
 
 [kitware]: https://www.kitware.com/
 [public.kitware.com]: public.kitware.com
