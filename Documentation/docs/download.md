@@ -93,6 +93,12 @@ sudo apt-get install libinsighttoolkit5-dev
 
 This will give you the libraries and development headers.
 
+In GNU Guix, install ITK with:
+
+```sh
+guix install insight-toolkit
+```
+
 For information on other ITK packages and packages for other distributions, see
 this [blog post].
 
@@ -188,6 +194,7 @@ git tag
 [CMake]: https://cmake.org/
 [download page]: https://itk.org/ITK/resources/software.html
 [Git]: https://git-scm.com
+[GNU Guix]: https://guix.gnu.org/
 [ITK Python packages]: https://itkpythonpackage.readthedocs.io/en/latest/Quick_start_guide.html
 [ITK's GitHub Releases
 page]: https://github.com/InsightSoftwareConsortium/ITK/releases
