@@ -10,6 +10,9 @@
 #ifndef EIGEN_ROTATIONBASE_H
 #define EIGEN_ROTATIONBASE_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 // forward declaration
@@ -23,13 +26,13 @@ struct rotation_base_generic_product_selector;
   * \brief Common base class for compact rotation representations
   *
   * \tparam Derived is the derived type, i.e., a rotation type
-  * \tparam _Dim the dimension of the space
+  * \tparam Dim_ the dimension of the space
   */
-template<typename Derived, int _Dim>
+template<typename Derived, int Dim_>
 class RotationBase
 {
   public:
-    enum { Dim = _Dim };
+    enum { Dim = Dim_ };
     /** the scalar type of the coefficients */
     typedef typename internal::traits<Derived>::Scalar Scalar;
 
@@ -135,9 +138,9 @@ struct rotation_base_generic_product_selector<RotationDerived,OtherVectorType,tr
   *
   * \brief Constructs a Dim x Dim rotation matrix from the rotation \a r
   */
-template<typename _Scalar, int _Rows, int _Cols, int _Storage, int _MaxRows, int _MaxCols>
+template<typename Scalar_, int Rows_, int Cols_, int Storage_, int MaxRows_, int MaxCols_>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC Matrix<_Scalar, _Rows, _Cols, _Storage, _MaxRows, _MaxCols>
+EIGEN_DEVICE_FUNC Matrix<Scalar_, Rows_, Cols_, Storage_, MaxRows_, MaxCols_>
 ::Matrix(const RotationBase<OtherDerived,ColsAtCompileTime>& r)
 {
   EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Matrix,int(OtherDerived::Dim),int(OtherDerived::Dim))
@@ -148,10 +151,10 @@ EIGEN_DEVICE_FUNC Matrix<_Scalar, _Rows, _Cols, _Storage, _MaxRows, _MaxCols>
   *
   * \brief Set a Dim x Dim rotation matrix from the rotation \a r
   */
-template<typename _Scalar, int _Rows, int _Cols, int _Storage, int _MaxRows, int _MaxCols>
+template<typename Scalar_, int Rows_, int Cols_, int Storage_, int MaxRows_, int MaxCols_>
 template<typename OtherDerived>
-EIGEN_DEVICE_FUNC Matrix<_Scalar, _Rows, _Cols, _Storage, _MaxRows, _MaxCols>&
-Matrix<_Scalar, _Rows, _Cols, _Storage, _MaxRows, _MaxCols>
+EIGEN_DEVICE_FUNC Matrix<Scalar_, Rows_, Cols_, Storage_, MaxRows_, MaxCols_>&
+Matrix<Scalar_, Rows_, Cols_, Storage_, MaxRows_, MaxCols_>
 ::operator=(const RotationBase<OtherDerived,ColsAtCompileTime>& r)
 {
   EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Matrix,int(OtherDerived::Dim),int(OtherDerived::Dim))

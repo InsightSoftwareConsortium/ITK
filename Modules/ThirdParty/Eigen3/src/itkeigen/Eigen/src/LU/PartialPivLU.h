@@ -11,16 +11,19 @@
 #ifndef EIGEN_PARTIALLU_H
 #define EIGEN_PARTIALLU_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
-template<typename _MatrixType> struct traits<PartialPivLU<_MatrixType> >
- : traits<_MatrixType>
+template<typename MatrixType_, typename PermutationIndex_> struct traits<PartialPivLU<MatrixType_, PermutationIndex_> >
+ : traits<MatrixType_>
 {
   typedef MatrixXpr XprKind;
   typedef SolverStorage StorageKind;
-  typedef int StorageIndex;
-  typedef traits<_MatrixType> BaseTraits;
+  typedef PermutationIndex_ StorageIndex;
+  typedef traits<MatrixType_> BaseTraits;
   enum {
     Flags = BaseTraits::Flags & RowMajorBit,
     CoeffReadCost = Dynamic
@@ -46,7 +49,7 @@ struct enable_if_ref<Ref<T>,Derived> {
   *
   * \brief LU decomposition of a matrix with partial pivoting, and related features
   *
-  * \tparam _MatrixType the type of the matrix of which we are computing the LU decomposition
+  * \tparam MatrixType_ the type of the matrix of which we are computing the LU decomposition
   *
   * This class represents a LU decomposition of a \b square \b invertible matrix, with partial pivoting: the matrix A
   * is decomposed as A = PLU where L is unit-lower-triangular, U is upper-triangular, and P
@@ -73,12 +76,12 @@ struct enable_if_ref<Ref<T>,Derived> {
   *
   * \sa MatrixBase::partialPivLu(), MatrixBase::determinant(), MatrixBase::inverse(), MatrixBase::computeInverse(), class FullPivLU
   */
-template<typename _MatrixType> class PartialPivLU
-  : public SolverBase<PartialPivLU<_MatrixType> >
+template<typename MatrixType_, typename PermutationIndex_> class PartialPivLU
+  : public SolverBase<PartialPivLU<MatrixType_, PermutationIndex_> >
 {
   public:
 
-    typedef _MatrixType MatrixType;
+    typedef MatrixType_ MatrixType;
     typedef SolverBase<PartialPivLU> Base;
     friend class SolverBase<PartialPivLU>;
 
@@ -87,8 +90,9 @@ template<typename _MatrixType> class PartialPivLU
       MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
       MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime
     };
-    typedef PermutationMatrix<RowsAtCompileTime, MaxRowsAtCompileTime> PermutationType;
-    typedef Transpositions<RowsAtCompileTime, MaxRowsAtCompileTime> TranspositionType;
+    using PermutationIndex = PermutationIndex_;
+    typedef PermutationMatrix<RowsAtCompileTime, MaxRowsAtCompileTime, PermutationIndex> PermutationType;
+    typedef Transpositions<RowsAtCompileTime, MaxRowsAtCompileTime, PermutationIndex> TranspositionType;
     typedef typename MatrixType::PlainObject PlainObject;
 
     /**
@@ -265,10 +269,7 @@ template<typename _MatrixType> class PartialPivLU
 
   protected:
 
-    static void check_template_parameters()
-    {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
-    }
+    EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar)
 
     void compute();
 
@@ -280,8 +281,8 @@ template<typename _MatrixType> class PartialPivLU
     bool m_isInitialized;
 };
 
-template<typename MatrixType>
-PartialPivLU<MatrixType>::PartialPivLU()
+template<typename MatrixType, typename PermutationIndex>
+PartialPivLU<MatrixType, PermutationIndex>::PartialPivLU()
   : m_lu(),
     m_p(),
     m_rowsTranspositions(),
@@ -291,8 +292,8 @@ PartialPivLU<MatrixType>::PartialPivLU()
 {
 }
 
-template<typename MatrixType>
-PartialPivLU<MatrixType>::PartialPivLU(Index size)
+template<typename MatrixType, typename PermutationIndex>
+PartialPivLU<MatrixType, PermutationIndex>::PartialPivLU(Index size)
   : m_lu(size, size),
     m_p(size),
     m_rowsTranspositions(size),
@@ -302,9 +303,9 @@ PartialPivLU<MatrixType>::PartialPivLU(Index size)
 {
 }
 
-template<typename MatrixType>
+template<typename MatrixType, typename PermutationIndex>
 template<typename InputType>
-PartialPivLU<MatrixType>::PartialPivLU(const EigenBase<InputType>& matrix)
+PartialPivLU<MatrixType, PermutationIndex>::PartialPivLU(const EigenBase<InputType>& matrix)
   : m_lu(matrix.rows(),matrix.cols()),
     m_p(matrix.rows()),
     m_rowsTranspositions(matrix.rows()),
@@ -315,9 +316,9 @@ PartialPivLU<MatrixType>::PartialPivLU(const EigenBase<InputType>& matrix)
   compute(matrix.derived());
 }
 
-template<typename MatrixType>
+template<typename MatrixType, typename PermutationIndex>
 template<typename InputType>
-PartialPivLU<MatrixType>::PartialPivLU(EigenBase<InputType>& matrix)
+PartialPivLU<MatrixType, PermutationIndex>::PartialPivLU(EigenBase<InputType>& matrix)
   : m_lu(matrix.derived()),
     m_p(matrix.rows()),
     m_rowsTranspositions(matrix.rows()),
@@ -334,12 +335,12 @@ namespace internal {
 template<typename Scalar, int StorageOrder, typename PivIndex, int SizeAtCompileTime=Dynamic>
 struct partial_lu_impl
 {
-  static const int UnBlockedBound = 16;
-  static const bool UnBlockedAtCompileTime = SizeAtCompileTime!=Dynamic && SizeAtCompileTime<=UnBlockedBound;
-  static const int ActualSizeAtCompileTime = UnBlockedAtCompileTime ? SizeAtCompileTime : Dynamic;
+  static constexpr int UnBlockedBound = 16;
+  static constexpr bool UnBlockedAtCompileTime = SizeAtCompileTime!=Dynamic && SizeAtCompileTime<=UnBlockedBound;
+  static constexpr int ActualSizeAtCompileTime = UnBlockedAtCompileTime ? SizeAtCompileTime : Dynamic;
   // Remaining rows and columns at compile-time:
-  static const int RRows = SizeAtCompileTime==2 ? 1 : Dynamic;
-  static const int RCols = SizeAtCompileTime==2 ? 1 : Dynamic;
+  static constexpr int RRows = SizeAtCompileTime==2 ? 1 : Dynamic;
+  static constexpr int RCols = SizeAtCompileTime==2 ? 1 : Dynamic;
   typedef Matrix<Scalar, ActualSizeAtCompileTime, ActualSizeAtCompileTime, StorageOrder> MatrixType;
   typedef Ref<MatrixType> MatrixTypeRef;
   typedef Ref<Matrix<Scalar, Dynamic, Dynamic, StorageOrder> > BlockType;
@@ -379,7 +380,7 @@ struct partial_lu_impl
 
       row_transpositions[k] = PivIndex(row_of_biggest_in_col);
 
-      if(biggest_in_corner != Score(0))
+      if(!numext::is_exactly_zero(biggest_in_corner))
       {
         if(k != row_of_biggest_in_col)
         {
@@ -405,7 +406,7 @@ struct partial_lu_impl
     {
       Index k = endk;
       row_transpositions[k] = PivIndex(k);
-      if (Scoring()(lu(k, k)) == Score(0) && first_zero_pivot == -1)
+      if (numext::is_exactly_zero(Scoring()(lu(k, k))) && first_zero_pivot == -1)
         first_zero_pivot = k;
     }
 
@@ -515,19 +516,16 @@ void partial_lu_inplace(MatrixType& lu, TranspositionType& row_transpositions, t
   partial_lu_impl
     < typename MatrixType::Scalar, MatrixType::Flags&RowMajorBit?RowMajor:ColMajor,
       typename TranspositionType::StorageIndex,
-      EIGEN_SIZE_MIN_PREFER_FIXED(MatrixType::RowsAtCompileTime,MatrixType::ColsAtCompileTime)>
+      internal::min_size_prefer_fixed(MatrixType::RowsAtCompileTime, MatrixType::ColsAtCompileTime)>
     ::blocked_lu(lu.rows(), lu.cols(), &lu.coeffRef(0,0), lu.outerStride(), &row_transpositions.coeffRef(0), nb_transpositions);
 }
 
 } // end namespace internal
 
-template<typename MatrixType>
-void PartialPivLU<MatrixType>::compute()
+template<typename MatrixType, typename PermutationIndex>
+void PartialPivLU<MatrixType, PermutationIndex>::compute()
 {
-  check_template_parameters();
-
-  // the row permutation is stored as int indices, so just to be sure:
-  eigen_assert(m_lu.rows()<NumTraits<int>::highest());
+  eigen_assert(m_lu.rows()<NumTraits<PermutationIndex>::highest());
 
   if(m_lu.cols()>0)
     m_l1_norm = m_lu.cwiseAbs().colwise().sum().maxCoeff();
@@ -548,8 +546,8 @@ void PartialPivLU<MatrixType>::compute()
   m_isInitialized = true;
 }
 
-template<typename MatrixType>
-typename PartialPivLU<MatrixType>::Scalar PartialPivLU<MatrixType>::determinant() const
+template<typename MatrixType, typename PermutationIndex>
+typename PartialPivLU<MatrixType, PermutationIndex>::Scalar PartialPivLU<MatrixType, PermutationIndex>::determinant() const
 {
   eigen_assert(m_isInitialized && "PartialPivLU is not initialized.");
   return Scalar(m_det_p) * m_lu.diagonal().prod();
@@ -558,8 +556,8 @@ typename PartialPivLU<MatrixType>::Scalar PartialPivLU<MatrixType>::determinant(
 /** \returns the matrix represented by the decomposition,
  * i.e., it returns the product: P^{-1} L U.
  * This function is provided for debug purpose. */
-template<typename MatrixType>
-MatrixType PartialPivLU<MatrixType>::reconstructedMatrix() const
+template<typename MatrixType, typename PermutationIndex>
+MatrixType PartialPivLU<MatrixType, PermutationIndex>::reconstructedMatrix() const
 {
   eigen_assert(m_isInitialized && "LU is not initialized.");
   // LU
@@ -577,10 +575,10 @@ MatrixType PartialPivLU<MatrixType>::reconstructedMatrix() const
 namespace internal {
 
 /***** Implementation of inverse() *****************************************************/
-template<typename DstXprType, typename MatrixType>
-struct Assignment<DstXprType, Inverse<PartialPivLU<MatrixType> >, internal::assign_op<typename DstXprType::Scalar,typename PartialPivLU<MatrixType>::Scalar>, Dense2Dense>
+template<typename DstXprType, typename MatrixType, typename PermutationIndex>
+struct Assignment<DstXprType, Inverse<PartialPivLU<MatrixType, PermutationIndex> >, internal::assign_op<typename DstXprType::Scalar,typename PartialPivLU<MatrixType, PermutationIndex>::Scalar>, Dense2Dense>
 {
-  typedef PartialPivLU<MatrixType> LuType;
+  typedef PartialPivLU<MatrixType, PermutationIndex> LuType;
   typedef Inverse<LuType> SrcXprType;
   static void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<typename DstXprType::Scalar,typename LuType::Scalar> &)
   {
@@ -598,10 +596,11 @@ struct Assignment<DstXprType, Inverse<PartialPivLU<MatrixType> >, internal::assi
   * \sa class PartialPivLU
   */
 template<typename Derived>
-inline const PartialPivLU<typename MatrixBase<Derived>::PlainObject>
+template<typename PermutationIndex>
+inline const PartialPivLU<typename MatrixBase<Derived>::PlainObject, PermutationIndex>
 MatrixBase<Derived>::partialPivLu() const
 {
-  return PartialPivLU<PlainObject>(eval());
+  return PartialPivLU<PlainObject, PermutationIndex>(eval());
 }
 
 /** \lu_module
@@ -613,10 +612,11 @@ MatrixBase<Derived>::partialPivLu() const
   * \sa class PartialPivLU
   */
 template<typename Derived>
-inline const PartialPivLU<typename MatrixBase<Derived>::PlainObject>
+template<typename PermutationIndex>
+inline const PartialPivLU<typename MatrixBase<Derived>::PlainObject, PermutationIndex>
 MatrixBase<Derived>::lu() const
 {
-  return PartialPivLU<PlainObject>(eval());
+  return PartialPivLU<PlainObject, PermutationIndex>(eval());
 }
 
 } // end namespace Eigen

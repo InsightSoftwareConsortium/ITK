@@ -10,6 +10,9 @@
 #ifndef EIGEN_TRANSLATION_H
 #define EIGEN_TRANSLATION_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 /** \geometry_module \ingroup Geometry_Module
@@ -18,23 +21,23 @@ namespace Eigen {
   *
   * \brief Represents a translation transformation
   *
-  * \tparam _Scalar the scalar type, i.e., the type of the coefficients.
-  * \tparam _Dim the  dimension of the space, can be a compile time value or Dynamic
+  * \tparam Scalar_ the scalar type, i.e., the type of the coefficients.
+  * \tparam Dim_ the  dimension of the space, can be a compile time value or Dynamic
   *
   * \note This class is not aimed to be used to store a translation transformation,
   * but rather to make easier the constructions and updates of Transform objects.
   *
   * \sa class Scaling, class Transform
   */
-template<typename _Scalar, int _Dim>
+template<typename Scalar_, int Dim_>
 class Translation
 {
 public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF_VECTORIZABLE_FIXED_SIZE(_Scalar,_Dim)
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF_VECTORIZABLE_FIXED_SIZE(Scalar_,Dim_)
   /** dimension of the space */
-  enum { Dim = _Dim };
+  enum { Dim = Dim_ };
   /** the scalar type of the coefficients */
-  typedef _Scalar Scalar;
+  typedef Scalar_ Scalar;
   /** corresponding vector type */
   typedef Matrix<Scalar,Dim,1> VectorType;
   /** corresponding linear transformation matrix type */
@@ -131,7 +134,7 @@ public:
 
   /** Applies translation to vector */
   template<typename Derived>
-  inline typename internal::enable_if<Derived::IsVectorAtCompileTime,VectorType>::type
+  inline std::enable_if_t<Derived::IsVectorAtCompileTime,VectorType>
   operator* (const MatrixBase<Derived>& vec) const
   { return m_coeffs + vec.derived(); }
 

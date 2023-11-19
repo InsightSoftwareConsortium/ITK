@@ -15,6 +15,9 @@
 
 #include <iostream>
 
+// IWYU pragma: private
+#include "../../InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
@@ -75,15 +78,12 @@ struct Packet2cf {
   EIGEN_STRONG_INLINE Packet2cf operator-(const Packet2cf& b) const {
     return Packet2cf(*this) -= b;
   }
-  EIGEN_STRONG_INLINE Packet2cf& operator/=(const Packet2cf& b) {
-    *this *= b.conjugate();
-    Packet4f s = pmul<Packet4f>(b.v, b.v);
-    s = padd(s, (Packet4f)__builtin_msa_shf_w((v4i32)s, EIGEN_MSA_SHF_I8(1, 0, 3, 2)));
-    v = pdiv(v, s);
-    return *this;
-  }
   EIGEN_STRONG_INLINE Packet2cf operator/(const Packet2cf& b) const {
-    return Packet2cf(*this) /= b;
+    return pdiv_complex(Packet2cf(*this), b);
+  }
+  EIGEN_STRONG_INLINE Packet2cf& operator/=(const Packet2cf& b) {
+    *this = Packet2cf(*this) / b;
+    return *this;
   }
   EIGEN_STRONG_INLINE Packet2cf operator-(void) const {
     return Packet2cf(pnegate(v));
@@ -108,7 +108,6 @@ struct packet_traits<std::complex<float> > : default_packet_traits {
     Vectorizable = 1,
     AlignedOnScalar = 1,
     size = 2,
-    HasHalfPacket = 0,
 
     HasAdd = 1,
     HasSub = 1,
@@ -423,7 +422,6 @@ struct packet_traits<std::complex<double> > : default_packet_traits {
     Vectorizable = 1,
     AlignedOnScalar = 0,
     size = 1,
-    HasHalfPacket = 0,
 
     HasAdd = 1,
     HasSub = 1,

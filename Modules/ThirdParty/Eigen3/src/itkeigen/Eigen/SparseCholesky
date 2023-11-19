@@ -30,8 +30,11 @@
   * \endcode
   */
 
+// IWYU pragma: begin_exports
 #include "src/SparseCholesky/SimplicialCholesky.h"
 #include "src/SparseCholesky/SimplicialCholesky_impl.h"
+// IWYU pragma: end_exports
+
 #include "src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_SPARSECHOLESKY_MODULE_H

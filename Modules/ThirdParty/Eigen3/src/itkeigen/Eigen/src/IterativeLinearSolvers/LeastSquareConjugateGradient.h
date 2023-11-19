@@ -10,6 +10,9 @@
 #ifndef EIGEN_LEAST_SQUARE_CONJUGATE_GRADIENT_H
 #define EIGEN_LEAST_SQUARE_CONJUGATE_GRADIENT_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -73,7 +76,7 @@ void least_square_conjugate_gradient(const MatrixType& mat, const Rhs& rhs, Dest
     Scalar alpha = absNew / tmp.squaredNorm();      // the amount we travel on dir
     x += alpha * p;                                 // update solution
     residual -= alpha * tmp;                        // update residual
-    normal_residual = mat.adjoint() * residual;     // update residual of the normal equation
+    normal_residual.noalias() = mat.adjoint() * residual;     // update residual of the normal equation
     
     residualNorm2 = normal_residual.squaredNorm();
     if(residualNorm2 < threshold)
@@ -93,17 +96,17 @@ void least_square_conjugate_gradient(const MatrixType& mat, const Rhs& rhs, Dest
 
 }
 
-template< typename _MatrixType,
-          typename _Preconditioner = LeastSquareDiagonalPreconditioner<typename _MatrixType::Scalar> >
+template< typename MatrixType_,
+          typename Preconditioner_ = LeastSquareDiagonalPreconditioner<typename MatrixType_::Scalar> >
 class LeastSquaresConjugateGradient;
 
 namespace internal {
 
-template< typename _MatrixType, typename _Preconditioner>
-struct traits<LeastSquaresConjugateGradient<_MatrixType,_Preconditioner> >
+template< typename MatrixType_, typename Preconditioner_>
+struct traits<LeastSquaresConjugateGradient<MatrixType_,Preconditioner_> >
 {
-  typedef _MatrixType MatrixType;
-  typedef _Preconditioner Preconditioner;
+  typedef MatrixType_ MatrixType;
+  typedef Preconditioner_ Preconditioner;
 };
 
 }
@@ -111,13 +114,13 @@ struct traits<LeastSquaresConjugateGradient<_MatrixType,_Preconditioner> >
 /** \ingroup IterativeLinearSolvers_Module
   * \brief A conjugate gradient solver for sparse (or dense) least-square problems
   *
-  * This class allows to solve for A x = b linear problems using an iterative conjugate gradient algorithm.
+  * This class solves for the least-squares solution to A x = b using an iterative conjugate gradient algorithm.
   * The matrix A can be non symmetric and rectangular, but the matrix A' A should be positive-definite to guaranty stability.
   * Otherwise, the SparseLU or SparseQR classes might be preferable.
   * The matrix A and the vectors x and b can be either dense or sparse.
   *
-  * \tparam _MatrixType the type of the matrix A, can be a dense or a sparse matrix.
-  * \tparam _Preconditioner the type of the preconditioner. Default is LeastSquareDiagonalPreconditioner
+  * \tparam MatrixType_ the type of the matrix A, can be a dense or a sparse matrix.
+  * \tparam Preconditioner_ the type of the preconditioner. Default is LeastSquareDiagonalPreconditioner
   *
   * \implsparsesolverconcept
   * 
@@ -145,8 +148,8 @@ struct traits<LeastSquaresConjugateGradient<_MatrixType,_Preconditioner> >
   * 
   * \sa class ConjugateGradient, SparseLU, SparseQR
   */
-template< typename _MatrixType, typename _Preconditioner>
-class LeastSquaresConjugateGradient : public IterativeSolverBase<LeastSquaresConjugateGradient<_MatrixType,_Preconditioner> >
+template< typename MatrixType_, typename Preconditioner_>
+class LeastSquaresConjugateGradient : public IterativeSolverBase<LeastSquaresConjugateGradient<MatrixType_,Preconditioner_> >
 {
   typedef IterativeSolverBase<LeastSquaresConjugateGradient> Base;
   using Base::matrix;
@@ -155,10 +158,10 @@ class LeastSquaresConjugateGradient : public IterativeSolverBase<LeastSquaresCon
   using Base::m_info;
   using Base::m_isInitialized;
 public:
-  typedef _MatrixType MatrixType;
+  typedef MatrixType_ MatrixType;
   typedef typename MatrixType::Scalar Scalar;
   typedef typename MatrixType::RealScalar RealScalar;
-  typedef _Preconditioner Preconditioner;
+  typedef Preconditioner_ Preconditioner;
 
 public:
 

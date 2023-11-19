@@ -11,6 +11,9 @@
 #ifndef EIGEN_SPARSE_QR_H
 #define EIGEN_SPARSE_QR_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 template<typename MatrixType, typename OrderingType> class SparseQR;
@@ -59,8 +62,8 @@ namespace internal {
   * R is the sparse triangular or trapezoidal matrix. The later occurs when A is rank-deficient.
   * matrixR().topLeftCorner(rank(), rank()) always returns a triangular factor of full rank.
   * 
-  * \tparam _MatrixType The type of the sparse matrix A, must be a column-major SparseMatrix<>
-  * \tparam _OrderingType The fill-reducing ordering method. See the \link OrderingMethods_Module 
+  * \tparam MatrixType_ The type of the sparse matrix A, must be a column-major SparseMatrix<>
+  * \tparam OrderingType_ The fill-reducing ordering method. See the \link OrderingMethods_Module
   *  OrderingMethods \endlink module for the list of built-in and external ordering methods.
   * 
   * \implsparsesolverconcept
@@ -80,16 +83,16 @@ namespace internal {
   * \warning For complex matrices matrixQ().transpose() will actually return the adjoint matrix.
   * 
   */
-template<typename _MatrixType, typename _OrderingType>
-class SparseQR : public SparseSolverBase<SparseQR<_MatrixType,_OrderingType> >
+template<typename MatrixType_, typename OrderingType_>
+class SparseQR : public SparseSolverBase<SparseQR<MatrixType_,OrderingType_> >
 {
   protected:
-    typedef SparseSolverBase<SparseQR<_MatrixType,_OrderingType> > Base;
+    typedef SparseSolverBase<SparseQR<MatrixType_,OrderingType_> > Base;
     using Base::m_isInitialized;
   public:
     using Base::_solve_impl;
-    typedef _MatrixType MatrixType;
-    typedef _OrderingType OrderingType;
+    typedef MatrixType_ MatrixType;
+    typedef OrderingType_ OrderingType;
     typedef typename MatrixType::Scalar Scalar;
     typedef typename MatrixType::RealScalar RealScalar;
     typedef typename MatrixType::StorageIndex StorageIndex;
@@ -321,7 +324,7 @@ void SparseQR<MatrixType,OrderingType>::analyzePattern(const MatrixType& mat)
 {
   eigen_assert(mat.isCompressed() && "SparseQR requires a sparse matrix in compressed mode. Call .makeCompressed() before passing it to SparseQR");
   // Copy to a column major matrix if the input is rowmajor
-  typename internal::conditional<MatrixType::IsRowMajor,QRMatrixType,const MatrixType&>::type matCpy(mat);
+  std::conditional_t<MatrixType::IsRowMajor,QRMatrixType,const MatrixType&> matCpy(mat);
   // Compute the column fill reducing ordering
   OrderingType ord; 
   ord(matCpy, m_perm_c); 

@@ -20,6 +20,9 @@
 #endif
 #endif
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /* TODO extract L, extract U, compute det, etc... */
@@ -278,21 +281,21 @@ inline SuiteSparse_long umfpack_get_determinant(std::complex<double> *Mx, double
   *
   * \warning The input matrix A should be in a \b compressed and \b column-major form.
   * Otherwise an expensive copy will be made. You can call the inexpensive makeCompressed() to get a compressed matrix.
-  * \tparam _MatrixType the type of the sparse matrix A, it must be a SparseMatrix<>
+  * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
   *
   * \implsparsesolverconcept
   *
   * \sa \ref TutorialSparseSolverConcept, class SparseLU
   */
-template<typename _MatrixType>
-class UmfPackLU : public SparseSolverBase<UmfPackLU<_MatrixType> >
+template<typename MatrixType_>
+class UmfPackLU : public SparseSolverBase<UmfPackLU<MatrixType_> >
 {
   protected:
-    typedef SparseSolverBase<UmfPackLU<_MatrixType> > Base;
+    typedef SparseSolverBase<UmfPackLU<MatrixType_> > Base;
     using Base::m_isInitialized;
   public:
     using Base::_solve_impl;
-    typedef _MatrixType MatrixType;
+    typedef MatrixType_ MatrixType;
     typedef typename MatrixType::Scalar Scalar;
     typedef typename MatrixType::RealScalar RealScalar;
     typedef typename MatrixType::StorageIndex StorageIndex;
@@ -529,16 +532,16 @@ class UmfPackLU : public SparseSolverBase<UmfPackLU<_MatrixType> >
     template<typename MatrixDerived>
     void grab(const EigenBase<MatrixDerived> &A)
     {
-      mp_matrix.~UmfpackMatrixRef();
-      ::new (&mp_matrix) UmfpackMatrixRef(A.derived());
+      internal::destroy_at(&mp_matrix);
+      internal::construct_at(&mp_matrix, A.derived());
     }
 
     void grab(const UmfpackMatrixRef &A)
     {
       if(&(A.derived()) != &mp_matrix)
       {
-        mp_matrix.~UmfpackMatrixRef();
-        ::new (&mp_matrix) UmfpackMatrixRef(A);
+        internal::destroy_at(&mp_matrix);
+        internal::construct_at(&mp_matrix, A);
       }
     }
 

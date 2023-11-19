@@ -13,6 +13,9 @@
 
 #include "./Tridiagonalization.h"
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 /** \eigenvalues_module \ingroup Eigenvalues_Module
@@ -22,7 +25,7 @@ namespace Eigen {
   *
   * \brief Computes eigenvalues and eigenvectors of the generalized selfadjoint eigen problem
   *
-  * \tparam _MatrixType the type of the matrix of which we are computing the
+  * \tparam MatrixType_ the type of the matrix of which we are computing the
   * eigendecomposition; this is expected to be an instantiation of the Matrix
   * class template.
   *
@@ -44,19 +47,19 @@ namespace Eigen {
   *
   * \sa class SelfAdjointEigenSolver, class EigenSolver, class ComplexEigenSolver
   */
-template<typename _MatrixType>
-class GeneralizedSelfAdjointEigenSolver : public SelfAdjointEigenSolver<_MatrixType>
+template<typename MatrixType_>
+class GeneralizedSelfAdjointEigenSolver : public SelfAdjointEigenSolver<MatrixType_>
 {
-    typedef SelfAdjointEigenSolver<_MatrixType> Base;
+    typedef SelfAdjointEigenSolver<MatrixType_> Base;
   public:
 
-    typedef _MatrixType MatrixType;
+    typedef MatrixType_ MatrixType;
 
     /** \brief Default constructor for fixed-size matrices.
       *
       * The default constructor is useful in cases in which the user intends to
       * perform decompositions via compute(). This constructor
-      * can only be used if \p _MatrixType is a fixed-size matrix; use
+      * can only be used if \p MatrixType_ is a fixed-size matrix; use
       * GeneralizedSelfAdjointEigenSolver(Index) for dynamic-size matrices.
       */
     GeneralizedSelfAdjointEigenSolver() : Base() {}

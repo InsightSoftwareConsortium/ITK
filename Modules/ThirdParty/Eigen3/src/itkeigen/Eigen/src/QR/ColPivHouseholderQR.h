@@ -11,15 +11,18 @@
 #ifndef EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
 #define EIGEN_COLPIVOTINGHOUSEHOLDERQR_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
-template<typename _MatrixType> struct traits<ColPivHouseholderQR<_MatrixType> >
- : traits<_MatrixType>
+template<typename MatrixType_, typename PermutationIndex_> struct traits<ColPivHouseholderQR<MatrixType_, PermutationIndex_> >
+ : traits<MatrixType_>
 {
   typedef MatrixXpr XprKind;
   typedef SolverStorage StorageKind;
-  typedef int StorageIndex;
+  typedef PermutationIndex_ PermutationIndex;
   enum { Flags = 0 };
 };
 
@@ -31,7 +34,7 @@ template<typename _MatrixType> struct traits<ColPivHouseholderQR<_MatrixType> >
   *
   * \brief Householder rank-revealing QR decomposition of a matrix with column-pivoting
   *
-  * \tparam _MatrixType the type of the matrix of which we are computing the QR decomposition
+  * \tparam MatrixType_ the type of the matrix of which we are computing the QR decomposition
   *
   * This class performs a rank-revealing QR decomposition of a matrix \b A into matrices \b P, \b Q and \b R
   * such that
@@ -48,31 +51,41 @@ template<typename _MatrixType> struct traits<ColPivHouseholderQR<_MatrixType> >
   * 
   * \sa MatrixBase::colPivHouseholderQr()
   */
-template<typename _MatrixType> class ColPivHouseholderQR
-        : public SolverBase<ColPivHouseholderQR<_MatrixType> >
+template<typename MatrixType_, typename PermutationIndex_> class ColPivHouseholderQR
+        : public SolverBase<ColPivHouseholderQR<MatrixType_, PermutationIndex_> >
 {
   public:
 
-    typedef _MatrixType MatrixType;
+    typedef MatrixType_ MatrixType;
     typedef SolverBase<ColPivHouseholderQR> Base;
     friend class SolverBase<ColPivHouseholderQR>;
-
+    typedef PermutationIndex_ PermutationIndex;
     EIGEN_GENERIC_PUBLIC_INTERFACE(ColPivHouseholderQR)
+
     enum {
       MaxRowsAtCompileTime = MatrixType::MaxRowsAtCompileTime,
       MaxColsAtCompileTime = MatrixType::MaxColsAtCompileTime
     };
     typedef typename internal::plain_diag_type<MatrixType>::type HCoeffsType;
-    typedef PermutationMatrix<ColsAtCompileTime, MaxColsAtCompileTime> PermutationType;
-    typedef typename internal::plain_row_type<MatrixType, Index>::type IntRowVectorType;
+    typedef PermutationMatrix<ColsAtCompileTime, MaxColsAtCompileTime, PermutationIndex> PermutationType;
+    typedef typename internal::plain_row_type<MatrixType, PermutationIndex>::type IntRowVectorType;
     typedef typename internal::plain_row_type<MatrixType>::type RowVectorType;
     typedef typename internal::plain_row_type<MatrixType, RealScalar>::type RealRowVectorType;
-    typedef HouseholderSequence<MatrixType,typename internal::remove_all<typename HCoeffsType::ConjugateReturnType>::type> HouseholderSequenceType;
+    typedef HouseholderSequence<MatrixType,internal::remove_all_t<typename HCoeffsType::ConjugateReturnType>> HouseholderSequenceType;
     typedef typename MatrixType::PlainObject PlainObject;
 
-  private:
-
-    typedef typename PermutationType::StorageIndex PermIndexType;
+private:
+    void init(Index rows, Index cols) {
+      Index diag = numext::mini(rows, cols);
+      m_hCoeffs.resize(diag);
+      m_colsPermutation.resize(cols);
+      m_colsTranspositions.resize(cols);
+      m_temp.resize(cols);
+      m_colNormsUpdated.resize(cols);
+      m_colNormsDirect.resize(cols);
+      m_isInitialized = false;
+      m_usePrescribedThreshold = false;
+    }
 
   public:
 
@@ -99,16 +112,7 @@ template<typename _MatrixType> class ColPivHouseholderQR
       * according to the specified problem \a size.
       * \sa ColPivHouseholderQR()
       */
-    ColPivHouseholderQR(Index rows, Index cols)
-      : m_qr(rows, cols),
-        m_hCoeffs((std::min)(rows,cols)),
-        m_colsPermutation(PermIndexType(cols)),
-        m_colsTranspositions(cols),
-        m_temp(cols),
-        m_colNormsUpdated(cols),
-        m_colNormsDirect(cols),
-        m_isInitialized(false),
-        m_usePrescribedThreshold(false) {}
+    ColPivHouseholderQR(Index rows, Index cols) : m_qr(rows, cols) { init(rows, cols); }
 
     /** \brief Constructs a QR factorization from a given matrix
       *
@@ -122,18 +126,9 @@ template<typename _MatrixType> class ColPivHouseholderQR
       *
       * \sa compute()
       */
-    template<typename InputType>
-    explicit ColPivHouseholderQR(const EigenBase<InputType>& matrix)
-      : m_qr(matrix.rows(), matrix.cols()),
-        m_hCoeffs((std::min)(matrix.rows(),matrix.cols())),
-        m_colsPermutation(PermIndexType(matrix.cols())),
-        m_colsTranspositions(matrix.cols()),
-        m_temp(matrix.cols()),
-        m_colNormsUpdated(matrix.cols()),
-        m_colNormsDirect(matrix.cols()),
-        m_isInitialized(false),
-        m_usePrescribedThreshold(false)
-    {
+    template <typename InputType>
+    explicit ColPivHouseholderQR(const EigenBase<InputType>& matrix) : m_qr(matrix.rows(), matrix.cols()) {
+      init(matrix.rows(), matrix.cols());
       compute(matrix.derived());
     }
 
@@ -143,18 +138,9 @@ template<typename _MatrixType> class ColPivHouseholderQR
       *
       * \sa ColPivHouseholderQR(const EigenBase&)
       */
-    template<typename InputType>
-    explicit ColPivHouseholderQR(EigenBase<InputType>& matrix)
-      : m_qr(matrix.derived()),
-        m_hCoeffs((std::min)(matrix.rows(),matrix.cols())),
-        m_colsPermutation(PermIndexType(matrix.cols())),
-        m_colsTranspositions(matrix.cols()),
-        m_temp(matrix.cols()),
-        m_colNormsUpdated(matrix.cols()),
-        m_colNormsDirect(matrix.cols()),
-        m_isInitialized(false),
-        m_usePrescribedThreshold(false)
-    {
+    template <typename InputType>
+    explicit ColPivHouseholderQR(EigenBase<InputType>& matrix) : m_qr(matrix.derived()) {
+      init(matrix.rows(), matrix.cols());
       computeInPlace();
     }
 
@@ -217,6 +203,21 @@ template<typename _MatrixType> class ColPivHouseholderQR
       return m_colsPermutation;
     }
 
+    /** \returns the determinant of the matrix of which
+      * *this is the QR decomposition. It has only linear complexity
+      * (that is, O(n) where n is the dimension of the square matrix)
+      * as the QR decomposition has already been computed.
+      *
+      * \note This is only for square matrices.
+      *
+      * \warning a determinant can be very big or small, so for matrices
+      * of large enough dimension, there is a risk of overflow/underflow.
+      * One way to work around that is to use logAbsDeterminant() instead.
+      *
+      * \sa absDeterminant(), logAbsDeterminant(), MatrixBase::determinant()
+      */
+    typename MatrixType::Scalar determinant() const;
+
     /** \returns the absolute value of the determinant of the matrix of which
       * *this is the QR decomposition. It has only linear complexity
       * (that is, O(n) where n is the dimension of the square matrix)
@@ -228,7 +229,7 @@ template<typename _MatrixType> class ColPivHouseholderQR
       * of large enough dimension, there is a risk of overflow/underflow.
       * One way to work around that is to use logAbsDeterminant() instead.
       *
-      * \sa logAbsDeterminant(), MatrixBase::determinant()
+      * \sa determinant(), logAbsDeterminant(), MatrixBase::determinant()
       */
     typename MatrixType::RealScalar absDeterminant() const;
 
@@ -242,7 +243,7 @@ template<typename _MatrixType> class ColPivHouseholderQR
       * \note This method is useful to work around the risk of overflow/underflow that's inherent
       * to determinant computation.
       *
-      * \sa absDeterminant(), MatrixBase::determinant()
+      * \sa determinant(), absDeterminant(), MatrixBase::determinant()
       */
     typename MatrixType::RealScalar logAbsDeterminant() const;
 
@@ -424,12 +425,9 @@ template<typename _MatrixType> class ColPivHouseholderQR
 
   protected:
 
-    friend class CompleteOrthogonalDecomposition<MatrixType>;
+    friend class CompleteOrthogonalDecomposition<MatrixType, PermutationIndex>;
 
-    static void check_template_parameters()
-    {
-      EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar);
-    }
+    EIGEN_STATIC_ASSERT_NON_INTEGER(Scalar)
 
     void computeInPlace();
 
@@ -443,11 +441,21 @@ template<typename _MatrixType> class ColPivHouseholderQR
     bool m_isInitialized, m_usePrescribedThreshold;
     RealScalar m_prescribedThreshold, m_maxpivot;
     Index m_nonzero_pivots;
-    Index m_det_pq;
+    Index m_det_p;
 };
 
-template<typename MatrixType>
-typename MatrixType::RealScalar ColPivHouseholderQR<MatrixType>::absDeterminant() const
+template<typename MatrixType, typename PermutationIndex>
+typename MatrixType::Scalar ColPivHouseholderQR<MatrixType, PermutationIndex>::determinant() const
+{
+  eigen_assert(m_isInitialized && "HouseholderQR is not initialized.");
+  eigen_assert(m_qr.rows() == m_qr.cols() && "You can't take the determinant of a non-square matrix!");
+  Scalar detQ;
+  internal::householder_determinant<HCoeffsType, Scalar, NumTraits<Scalar>::IsComplex>::run(m_hCoeffs, detQ);
+  return m_qr.diagonal().prod() * detQ * Scalar(m_det_p);
+}
+
+template<typename MatrixType, typename PermutationIndex>
+typename MatrixType::RealScalar ColPivHouseholderQR<MatrixType, PermutationIndex>::absDeterminant() const
 {
   using std::abs;
   eigen_assert(m_isInitialized && "ColPivHouseholderQR is not initialized.");
@@ -455,8 +463,8 @@ typename MatrixType::RealScalar ColPivHouseholderQR<MatrixType>::absDeterminant(
   return abs(m_qr.diagonal().prod());
 }
 
-template<typename MatrixType>
-typename MatrixType::RealScalar ColPivHouseholderQR<MatrixType>::logAbsDeterminant() const
+template<typename MatrixType, typename PermutationIndex>
+typename MatrixType::RealScalar ColPivHouseholderQR<MatrixType, PermutationIndex>::logAbsDeterminant() const
 {
   eigen_assert(m_isInitialized && "ColPivHouseholderQR is not initialized.");
   eigen_assert(m_qr.rows() == m_qr.cols() && "You can't take the determinant of a non-square matrix!");
@@ -469,22 +477,20 @@ typename MatrixType::RealScalar ColPivHouseholderQR<MatrixType>::logAbsDetermina
   *
   * \sa class ColPivHouseholderQR, ColPivHouseholderQR(const MatrixType&)
   */
-template<typename MatrixType>
+template<typename MatrixType, typename PermutationIndex>
 template<typename InputType>
-ColPivHouseholderQR<MatrixType>& ColPivHouseholderQR<MatrixType>::compute(const EigenBase<InputType>& matrix)
+ColPivHouseholderQR<MatrixType, PermutationIndex>& ColPivHouseholderQR<MatrixType, PermutationIndex>::compute(const EigenBase<InputType>& matrix)
 {
   m_qr = matrix.derived();
   computeInPlace();
   return *this;
 }
 
-template<typename MatrixType>
-void ColPivHouseholderQR<MatrixType>::computeInPlace()
+template<typename MatrixType, typename PermutationIndex>
+void ColPivHouseholderQR<MatrixType, PermutationIndex>::computeInPlace()
 {
-  check_template_parameters();
 
-  // the column permutation is stored as int indices, so just to be sure:
-  eigen_assert(m_qr.cols()<=NumTraits<int>::highest());
+  eigen_assert(m_qr.cols()<=NumTraits<PermutationIndex>::highest());
 
   using std::abs;
 
@@ -527,7 +533,7 @@ void ColPivHouseholderQR<MatrixType>::computeInPlace()
       m_nonzero_pivots = k;
 
     // apply the transposition to the columns
-    m_colsTranspositions.coeffRef(k) = biggest_col_index;
+    m_colsTranspositions.coeffRef(k) = static_cast<PermutationIndex>(biggest_col_index);
     if(k != biggest_col_index) {
       m_qr.col(k).swap(m_qr.col(biggest_col_index));
       std::swap(m_colNormsUpdated.coeffRef(k), m_colNormsUpdated.coeffRef(biggest_col_index));
@@ -555,7 +561,7 @@ void ColPivHouseholderQR<MatrixType>::computeInPlace()
       // http://www.netlib.org/lapack/lawnspdf/lawn176.pdf
       // and used in LAPACK routines xGEQPF and xGEQP3.
       // See lines 278-297 in http://www.netlib.org/lapack/explore-html/dc/df4/sgeqpf_8f_source.html
-      if (m_colNormsUpdated.coeffRef(j) != RealScalar(0)) {
+      if (!numext::is_exactly_zero(m_colNormsUpdated.coeffRef(j))) {
         RealScalar temp = abs(m_qr.coeffRef(k, j)) / m_colNormsUpdated.coeffRef(j);
         temp = (RealScalar(1) + temp) * (RealScalar(1) - temp);
         temp = temp <  RealScalar(0) ? RealScalar(0) : temp;
@@ -573,18 +579,18 @@ void ColPivHouseholderQR<MatrixType>::computeInPlace()
     }
   }
 
-  m_colsPermutation.setIdentity(PermIndexType(cols));
-  for(PermIndexType k = 0; k < size/*m_nonzero_pivots*/; ++k)
-    m_colsPermutation.applyTranspositionOnTheRight(k, PermIndexType(m_colsTranspositions.coeff(k)));
+  m_colsPermutation.setIdentity(cols);
+  for(Index k = 0; k < size/*m_nonzero_pivots*/; ++k)
+    m_colsPermutation.applyTranspositionOnTheRight(k, static_cast<Index>(m_colsTranspositions.coeff(k)));
 
-  m_det_pq = (number_of_transpositions%2) ? -1 : 1;
+  m_det_p = (number_of_transpositions%2) ? -1 : 1;
   m_isInitialized = true;
 }
 
 #ifndef EIGEN_PARSED_BY_DOXYGEN
-template<typename _MatrixType>
+template<typename MatrixType_, typename PermutationIndex_>
 template<typename RhsType, typename DstType>
-void ColPivHouseholderQR<_MatrixType>::_solve_impl(const RhsType &rhs, DstType &dst) const
+void ColPivHouseholderQR<MatrixType_, PermutationIndex_>::_solve_impl(const RhsType &rhs, DstType &dst) const
 {
   const Index nonzero_pivots = nonzeroPivots();
 
@@ -606,9 +612,9 @@ void ColPivHouseholderQR<_MatrixType>::_solve_impl(const RhsType &rhs, DstType &
   for(Index i = nonzero_pivots; i < cols(); ++i) dst.row(m_colsPermutation.indices().coeff(i)).setZero();
 }
 
-template<typename _MatrixType>
+template<typename MatrixType_, typename PermutationIndex_>
 template<bool Conjugate, typename RhsType, typename DstType>
-void ColPivHouseholderQR<_MatrixType>::_solve_impl_transposed(const RhsType &rhs, DstType &dst) const
+void ColPivHouseholderQR<MatrixType_, PermutationIndex_>::_solve_impl_transposed(const RhsType &rhs, DstType &dst) const
 {
   const Index nonzero_pivots = nonzeroPivots();
 
@@ -634,10 +640,10 @@ void ColPivHouseholderQR<_MatrixType>::_solve_impl_transposed(const RhsType &rhs
 
 namespace internal {
 
-template<typename DstXprType, typename MatrixType>
-struct Assignment<DstXprType, Inverse<ColPivHouseholderQR<MatrixType> >, internal::assign_op<typename DstXprType::Scalar,typename ColPivHouseholderQR<MatrixType>::Scalar>, Dense2Dense>
+template<typename DstXprType, typename MatrixType, typename PermutationIndex>
+struct Assignment<DstXprType, Inverse<ColPivHouseholderQR<MatrixType, PermutationIndex> >, internal::assign_op<typename DstXprType::Scalar,typename ColPivHouseholderQR<MatrixType, PermutationIndex>::Scalar>, Dense2Dense>
 {
-  typedef ColPivHouseholderQR<MatrixType> QrType;
+  typedef ColPivHouseholderQR<MatrixType, PermutationIndex> QrType;
   typedef Inverse<QrType> SrcXprType;
   static void run(DstXprType &dst, const SrcXprType &src, const internal::assign_op<typename DstXprType::Scalar,typename QrType::Scalar> &)
   {
@@ -650,8 +656,8 @@ struct Assignment<DstXprType, Inverse<ColPivHouseholderQR<MatrixType> >, interna
 /** \returns the matrix Q as a sequence of householder transformations.
   * You can extract the meaningful part only by using:
   * \code qr.householderQ().setLength(qr.nonzeroPivots()) \endcode*/
-template<typename MatrixType>
-typename ColPivHouseholderQR<MatrixType>::HouseholderSequenceType ColPivHouseholderQR<MatrixType>
+template<typename MatrixType, typename PermutationIndex>
+typename ColPivHouseholderQR<MatrixType, PermutationIndex>::HouseholderSequenceType ColPivHouseholderQR<MatrixType, PermutationIndex>
   ::householderQ() const
 {
   eigen_assert(m_isInitialized && "ColPivHouseholderQR is not initialized.");
@@ -663,10 +669,11 @@ typename ColPivHouseholderQR<MatrixType>::HouseholderSequenceType ColPivHousehol
   * \sa class ColPivHouseholderQR
   */
 template<typename Derived>
-const ColPivHouseholderQR<typename MatrixBase<Derived>::PlainObject>
+template<typename PermutationIndexType>
+const ColPivHouseholderQR<typename MatrixBase<Derived>::PlainObject, PermutationIndexType>
 MatrixBase<Derived>::colPivHouseholderQr() const
 {
-  return ColPivHouseholderQR<PlainObject>(eval());
+  return ColPivHouseholderQR<PlainObject, PermutationIndexType>(eval());
 }
 
 } // end namespace Eigen

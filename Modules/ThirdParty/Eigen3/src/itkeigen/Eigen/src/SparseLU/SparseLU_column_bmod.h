@@ -31,6 +31,9 @@
 #ifndef SPARSELU_COLUMN_BMOD_H
 #define SPARSELU_COLUMN_BMOD_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {

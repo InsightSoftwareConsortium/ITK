@@ -16,6 +16,9 @@
 // * Eigen/SVD
 // * Eigen/Array
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 #ifndef EIGEN_PARSED_BY_DOXYGEN
@@ -32,10 +35,10 @@ template<typename MatrixType, typename OtherMatrixType>
 struct umeyama_transform_matrix_type
 {
   enum {
-    MinRowsAtCompileTime = EIGEN_SIZE_MIN_PREFER_DYNAMIC(MatrixType::RowsAtCompileTime, OtherMatrixType::RowsAtCompileTime),
+    MinRowsAtCompileTime = internal::min_size_prefer_dynamic(MatrixType::RowsAtCompileTime, OtherMatrixType::RowsAtCompileTime),
 
     // When possible we want to choose some small fixed size value since the result
-    // is likely to fit on the stack. So here, EIGEN_SIZE_MIN_PREFER_DYNAMIC is not what we want.
+    // is likely to fit on the stack. So here, min_size_prefer_dynamic is not what we want.
     HomogeneousDimension = int(MinRowsAtCompileTime) == Dynamic ? Dynamic : int(MinRowsAtCompileTime)+1
   };
 
@@ -102,7 +105,7 @@ umeyama(const MatrixBase<Derived>& src, const MatrixBase<OtherDerived>& dst, boo
   EIGEN_STATIC_ASSERT((internal::is_same<Scalar, typename internal::traits<OtherDerived>::Scalar>::value),
     YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
 
-  enum { Dimension = EIGEN_SIZE_MIN_PREFER_DYNAMIC(Derived::RowsAtCompileTime, OtherDerived::RowsAtCompileTime) };
+  enum { Dimension = internal::min_size_prefer_dynamic(Derived::RowsAtCompileTime, OtherDerived::RowsAtCompileTime) };
 
   typedef Matrix<Scalar, Dimension, 1> VectorType;
   typedef Matrix<Scalar, Dimension, Dimension> MatrixType;
@@ -122,13 +125,10 @@ umeyama(const MatrixBase<Derived>& src, const MatrixBase<OtherDerived>& dst, boo
   const RowMajorMatrixType src_demean = src.colwise() - src_mean;
   const RowMajorMatrixType dst_demean = dst.colwise() - dst_mean;
 
-  // Eq. (36)-(37)
-  const Scalar src_var = src_demean.rowwise().squaredNorm().sum() * one_over_n;
-
   // Eq. (38)
   const MatrixType sigma = one_over_n * dst_demean * src_demean.transpose();
 
-  JacobiSVD<MatrixType> svd(sigma, ComputeFullU | ComputeFullV);
+  JacobiSVD<MatrixType, ComputeFullU | ComputeFullV> svd(sigma);
 
   // Initialize the resulting transformation with an identity matrix...
   TransformationMatrixType Rt = TransformationMatrixType::Identity(m+1,m+1);
@@ -136,14 +136,19 @@ umeyama(const MatrixBase<Derived>& src, const MatrixBase<OtherDerived>& dst, boo
   // Eq. (39)
   VectorType S = VectorType::Ones(m);
 
-  if  ( svd.matrixU().determinant() * svd.matrixV().determinant() < 0 )
-    S(m-1) = -1;
+  if  ( svd.matrixU().determinant() * svd.matrixV().determinant() < 0 ) {
+    Index tmp = m - 1;  
+    S(tmp) = -1;
+  }
 
   // Eq. (40) and (43)
   Rt.block(0,0,m,m).noalias() = svd.matrixU() * S.asDiagonal() * svd.matrixV().transpose();
 
   if (with_scaling)
   {
+    // Eq. (36)-(37)
+    const Scalar src_var = src_demean.rowwise().squaredNorm().sum() * one_over_n;
+
     // Eq. (42)
     const Scalar c = Scalar(1)/src_var * svd.singularValues().dot(S);
 

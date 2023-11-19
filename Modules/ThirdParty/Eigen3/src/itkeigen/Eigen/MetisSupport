@@ -27,8 +27,9 @@ extern "C" {
   * It can be used just as any other built-in method as explained in \link OrderingMethods_Module here. \endlink
   */
 
-
+// IWYU pragma: begin_exports
 #include "src/MetisSupport/MetisSupport.h"
+// IWYU pragma: end_exports
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 

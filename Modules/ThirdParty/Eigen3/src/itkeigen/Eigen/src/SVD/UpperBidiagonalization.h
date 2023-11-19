@@ -11,17 +11,20 @@
 #ifndef EIGEN_BIDIAGONALIZATION_H
 #define EIGEN_BIDIAGONALIZATION_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
 // UpperBidiagonalization will probably be replaced by a Bidiagonalization class, don't want to make it stable API.
 // At the same time, it's useful to keep for now as it's about the only thing that is testing the BandMatrix class.
 
-template<typename _MatrixType> class UpperBidiagonalization
+template<typename MatrixType_> class UpperBidiagonalization
 {
   public:
 
-    typedef _MatrixType MatrixType;
+    typedef MatrixType_ MatrixType;
     enum {
       RowsAtCompileTime = MatrixType::RowsAtCompileTime,
       ColsAtCompileTime = MatrixType::ColsAtCompileTime,
@@ -37,10 +40,10 @@ template<typename _MatrixType> class UpperBidiagonalization
     typedef Matrix<Scalar, ColsAtCompileTimeMinusOne, 1> SuperDiagVectorType;
     typedef HouseholderSequence<
               const MatrixType,
-              const typename internal::remove_all<typename Diagonal<const MatrixType,0>::ConjugateReturnType>::type
+              const internal::remove_all_t<typename Diagonal<const MatrixType,0>::ConjugateReturnType>
             > HouseholderUSequenceType;
     typedef HouseholderSequence<
-              const typename internal::remove_all<typename MatrixType::ConjugateReturnType>::type,
+              const internal::remove_all_t<typename MatrixType::ConjugateReturnType>,
               Diagonal<const MatrixType,1>,
               OnTheRight
             > HouseholderVSequenceType;
@@ -51,7 +54,7 @@ template<typename _MatrixType> class UpperBidiagonalization
     * The default constructor is useful in cases in which the user intends to
     * perform decompositions via Bidiagonalization::compute(const MatrixType&).
     */
-    UpperBidiagonalization() : m_householder(), m_bidiagonal(), m_isInitialized(false) {}
+    UpperBidiagonalization() : m_householder(), m_bidiagonal(0, 0), m_isInitialized(false) {}
 
     explicit UpperBidiagonalization(const MatrixType& matrix)
       : m_householder(matrix.rows(), matrix.cols()),
@@ -60,7 +63,13 @@ template<typename _MatrixType> class UpperBidiagonalization
     {
       compute(matrix);
     }
-    
+
+    UpperBidiagonalization(Index rows, Index cols)
+      : m_householder(rows, cols),
+        m_bidiagonal(cols, cols),
+        m_isInitialized(false)
+    {}
+
     UpperBidiagonalization& compute(const MatrixType& matrix);
     UpperBidiagonalization& computeUnblocked(const MatrixType& matrix);
     
@@ -161,13 +170,13 @@ void upperbidiagonalization_blocked_helper(MatrixType& A,
   typedef typename MatrixType::Scalar Scalar;
   typedef typename MatrixType::RealScalar RealScalar;
   typedef typename NumTraits<RealScalar>::Literal Literal;
-  enum { StorageOrder = traits<MatrixType>::Flags & RowMajorBit };
-  typedef InnerStride<int(StorageOrder) == int(ColMajor) ? 1 : Dynamic> ColInnerStride;
-  typedef InnerStride<int(StorageOrder) == int(ColMajor) ? Dynamic : 1> RowInnerStride;
+  static constexpr int StorageOrder = (traits<MatrixType>::Flags & RowMajorBit) ? RowMajor : ColMajor;
+  typedef InnerStride<StorageOrder == ColMajor ? 1 : Dynamic> ColInnerStride;
+  typedef InnerStride<StorageOrder == ColMajor ? Dynamic : 1> RowInnerStride;
   typedef Ref<Matrix<Scalar, Dynamic, 1>, 0, ColInnerStride>    SubColumnType;
   typedef Ref<Matrix<Scalar, 1, Dynamic>, 0, RowInnerStride>    SubRowType;
   typedef Ref<Matrix<Scalar, Dynamic, Dynamic, StorageOrder > > SubMatType;
-  
+
   Index brows = A.rows();
   Index bcols = A.cols();
 
@@ -293,7 +302,7 @@ void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagona
   Index size = (std::min)(rows, cols);
 
   // X and Y are work space
-  enum { StorageOrder = traits<MatrixType>::Flags & RowMajorBit };
+  static constexpr int StorageOrder = (traits<MatrixType>::Flags & RowMajorBit) ? RowMajor : ColMajor;
   Matrix<Scalar,
          MatrixType::RowsAtCompileTime,
          Dynamic,
@@ -333,11 +342,15 @@ void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagona
     // Finally, the algorithm continue on the updated A22.
     //
     // However, if B is too small, or A22 empty, then let's use an unblocked strategy
+
+    auto upper_diagonal = bidiagonal.template diagonal<1>();
+    typename MatrixType::RealScalar* upper_diagonal_ptr = upper_diagonal.size() > 0 ? &upper_diagonal.coeffRef(k) : nullptr;
+
     if(k+bs==cols || bcols<48) // somewhat arbitrary threshold
     {
       upperbidiagonalization_inplace_unblocked(B,
                                                &(bidiagonal.template diagonal<0>().coeffRef(k)),
-                                               &(bidiagonal.template diagonal<1>().coeffRef(k)),
+                                               upper_diagonal_ptr,
                                                X.data()
                                               );
       break; // We're done
@@ -346,7 +359,7 @@ void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagona
     {
       upperbidiagonalization_blocked_helper<BlockType>( B,
                                                         &(bidiagonal.template diagonal<0>().coeffRef(k)),
-                                                        &(bidiagonal.template diagonal<1>().coeffRef(k)),
+                                                        upper_diagonal_ptr,
                                                         bs,
                                                         X.topLeftCorner(brows,bs),
                                                         Y.topLeftCorner(bcols,bs)
@@ -355,8 +368,8 @@ void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagona
   }
 }
 
-template<typename _MatrixType>
-UpperBidiagonalization<_MatrixType>& UpperBidiagonalization<_MatrixType>::computeUnblocked(const _MatrixType& matrix)
+template<typename MatrixType_>
+UpperBidiagonalization<MatrixType_>& UpperBidiagonalization<MatrixType_>::computeUnblocked(const MatrixType_& matrix)
 {
   Index rows = matrix.rows();
   Index cols = matrix.cols();
@@ -377,8 +390,8 @@ UpperBidiagonalization<_MatrixType>& UpperBidiagonalization<_MatrixType>::comput
   return *this;
 }
 
-template<typename _MatrixType>
-UpperBidiagonalization<_MatrixType>& UpperBidiagonalization<_MatrixType>::compute(const _MatrixType& matrix)
+template<typename MatrixType_>
+UpperBidiagonalization<MatrixType_>& UpperBidiagonalization<MatrixType_>::compute(const MatrixType_& matrix)
 {
   Index rows = matrix.rows();
   Index cols = matrix.cols();

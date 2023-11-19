@@ -63,8 +63,11 @@
   * \endcode
   */
 
+// IWYU pragma: begin_exports
 #include "src/OrderingMethods/Amd.h"
 #include "src/OrderingMethods/Ordering.h"
+// IWYU pragma: end_exports
+
 #include "src/Core/util/ReenableStupidWarnings.h"
 
 #endif // EIGEN_ORDERINGMETHODS_MODULE_H

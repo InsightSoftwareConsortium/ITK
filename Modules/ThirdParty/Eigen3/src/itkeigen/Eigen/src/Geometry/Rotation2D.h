@@ -10,6 +10,9 @@
 #ifndef EIGEN_ROTATION2D_H
 #define EIGEN_ROTATION2D_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 /** \geometry_module \ingroup Geometry_Module
@@ -18,7 +21,7 @@ namespace Eigen {
   *
   * \brief Represents a rotation/orientation in a 2 dimensional space.
   *
-  * \tparam _Scalar the scalar type, i.e., the type of the coefficients
+  * \tparam Scalar_ the scalar type, i.e., the type of the coefficients
   *
   * This class is equivalent to a single scalar representing a counter clock wise rotation
   * as a single angle in radian. It provides some additional features such as the automatic
@@ -31,16 +34,16 @@ namespace Eigen {
 
 namespace internal {
 
-template<typename _Scalar> struct traits<Rotation2D<_Scalar> >
+template<typename Scalar_> struct traits<Rotation2D<Scalar_> >
 {
-  typedef _Scalar Scalar;
+  typedef Scalar_ Scalar;
 };
 } // end namespace internal
 
-template<typename _Scalar>
-class Rotation2D : public RotationBase<Rotation2D<_Scalar>,2>
+template<typename Scalar_>
+class Rotation2D : public RotationBase<Rotation2D<Scalar_>,2>
 {
-  typedef RotationBase<Rotation2D<_Scalar>,2> Base;
+  typedef RotationBase<Rotation2D<Scalar_>,2> Base;
 
 public:
 
@@ -48,7 +51,7 @@ public:
 
   enum { Dim = 2 };
   /** the scalar type of the coefficients */
-  typedef _Scalar Scalar;
+  typedef Scalar_ Scalar;
   typedef Matrix<Scalar,2,1> Vector2;
   typedef Matrix<Scalar,2,2> Matrix2;
 

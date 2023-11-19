@@ -7,10 +7,8 @@ shopt -s dotglob
 readonly name="Eigen3"
 readonly ownership="Eigen Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/Eigen3/src/itkeigen"
-# readonly repo="https://gitlab.com/libeigen/eigen"
-# readonly repo="https://gitlab.kitware.com/third-party/eigen.git"
-readonly repo="https://gitlab.kitware.com/phcerdan/eigen.git"
-readonly tag="for/itk-3.4"
+readonly repo="https://github.com/InsightSoftwareConsortium/eigen"
+readonly tag="for/itk-20231108-master-4d54c43d"
 readonly paths="
 Eigen/Cholesky
 Eigen/CholmodSupport

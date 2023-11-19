@@ -10,14 +10,17 @@
 #ifndef EIGEN_ARRAY_H
 #define EIGEN_ARRAY_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
-template<typename _Scalar, int _Rows, int _Cols, int _Options, int _MaxRows, int _MaxCols>
-struct traits<Array<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols> > : traits<Matrix<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols> >
+template<typename Scalar_, int Rows_, int Cols_, int Options_, int MaxRows_, int MaxCols_>
+struct traits<Array<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_> > : traits<Matrix<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_> >
 {
   typedef ArrayXpr XprKind;
-  typedef ArrayBase<Array<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols> > XprBase;
+  typedef ArrayBase<Array<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_> > XprBase;
 };
 }
 
@@ -41,16 +44,16 @@ struct traits<Array<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols> > : tra
   *
   * \sa \blank \ref TutorialArrayClass, \ref TopicClassHierarchy
   */
-template<typename _Scalar, int _Rows, int _Cols, int _Options, int _MaxRows, int _MaxCols>
+template<typename Scalar_, int Rows_, int Cols_, int Options_, int MaxRows_, int MaxCols_>
 class Array
-  : public PlainObjectBase<Array<_Scalar, _Rows, _Cols, _Options, _MaxRows, _MaxCols> >
+  : public PlainObjectBase<Array<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_> >
 {
   public:
 
     typedef PlainObjectBase<Array> Base;
     EIGEN_DENSE_PUBLIC_INTERFACE(Array)
 
-    enum { Options = _Options };
+    enum { Options = Options_ };
     typedef typename Base::PlainObject PlainObject;
 
   protected:
@@ -131,7 +134,6 @@ class Array
     EIGEN_DEVICE_FUNC
     EIGEN_STRONG_INLINE Array() : Base()
     {
-      Base::_check_template_params();
       EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
     }
 
@@ -142,17 +144,14 @@ class Array
     Array(internal::constructor_without_unaligned_array_assert)
       : Base(internal::constructor_without_unaligned_array_assert())
     {
-      Base::_check_template_params();
       EIGEN_INITIALIZE_COEFFS_IF_THAT_OPTION_IS_ENABLED
     }
 #endif
 
-#if EIGEN_HAS_RVALUE_REFERENCES
     EIGEN_DEVICE_FUNC
     Array(Array&& other) EIGEN_NOEXCEPT_IF(std::is_nothrow_move_constructible<Scalar>::value)
       : Base(std::move(other))
     {
-      Base::_check_template_params();
     }
     EIGEN_DEVICE_FUNC
     Array& operator=(Array&& other) EIGEN_NOEXCEPT_IF(std::is_nothrow_move_assignable<Scalar>::value)
@@ -160,9 +159,7 @@ class Array
       Base::operator=(std::move(other));
       return *this;
     }
-#endif
 
-    #if EIGEN_HAS_CXX11
     /** \copydoc PlainObjectBase(const Scalar& a0, const Scalar& a1, const Scalar& a2, const Scalar& a3, const ArgTypes&... args)
      *
      * Example: \include Array_variadic_ctor_cxx11.cpp
@@ -197,16 +194,15 @@ class Array
       *
       * \sa  Array(const Scalar& a0, const Scalar& a1, const Scalar& a2, const Scalar& a3, const ArgTypes&... args)
       */
-    EIGEN_DEVICE_FUNC
-    EIGEN_STRONG_INLINE Array(const std::initializer_list<std::initializer_list<Scalar>>& list) : Base(list) {}
-    #endif // end EIGEN_HAS_CXX11
+    EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Array(
+        const std::initializer_list<std::initializer_list<Scalar>>& list)
+        : Base(list) {}
 
     #ifndef EIGEN_PARSED_BY_DOXYGEN
     template<typename T>
     EIGEN_DEVICE_FUNC
     EIGEN_STRONG_INLINE explicit Array(const T& x)
     {
-      Base::_check_template_params();
       Base::template _init1<T>(x);
     }
 
@@ -214,7 +210,6 @@ class Array
     EIGEN_DEVICE_FUNC
     EIGEN_STRONG_INLINE Array(const T0& val0, const T1& val1)
     {
-      Base::_check_template_params();
       this->template _init2<T0,T1>(val0, val1);
     }
 
@@ -249,7 +244,6 @@ class Array
     EIGEN_DEVICE_FUNC
     EIGEN_STRONG_INLINE Array(const Scalar& val0, const Scalar& val1, const Scalar& val2)
     {
-      Base::_check_template_params();
       EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Array, 3)
       m_storage.data()[0] = val0;
       m_storage.data()[1] = val1;
@@ -261,7 +255,6 @@ class Array
     EIGEN_DEVICE_FUNC
     EIGEN_STRONG_INLINE Array(const Scalar& val0, const Scalar& val1, const Scalar& val2, const Scalar& val3)
     {
-      Base::_check_template_params();
       EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(Array, 4)
       m_storage.data()[0] = val0;
       m_storage.data()[1] = val1;
@@ -283,8 +276,8 @@ class Array
     template<typename OtherDerived>
     EIGEN_DEVICE_FUNC
     EIGEN_STRONG_INLINE Array(const EigenBase<OtherDerived> &other,
-                              typename internal::enable_if<internal::is_convertible<typename OtherDerived::Scalar,Scalar>::value,
-                                                           PrivateType>::type = PrivateType())
+                              std::enable_if_t<internal::is_convertible<typename OtherDerived::Scalar,Scalar>::value,
+                                               PrivateType> = PrivateType())
       : Base(other.derived())
     { }
 
@@ -359,8 +352,6 @@ EIGEN_MAKE_ARRAY_TYPEDEFS_ALL_SIZES(std::complex<double>, cd)
 #undef EIGEN_MAKE_ARRAY_TYPEDEFS
 #undef EIGEN_MAKE_ARRAY_FIXED_TYPEDEFS
 
-#if EIGEN_HAS_CXX11
-
 #define EIGEN_MAKE_ARRAY_TYPEDEFS(Size, SizeSuffix)               \
 /** \ingroup arraytypedefs */                                     \
 /** \brief \cpp11 */                                              \
@@ -391,8 +382,6 @@ EIGEN_MAKE_ARRAY_FIXED_TYPEDEFS(4)
 
 #undef EIGEN_MAKE_ARRAY_TYPEDEFS
 #undef EIGEN_MAKE_ARRAY_FIXED_TYPEDEFS
-
-#endif // EIGEN_HAS_CXX11
 
 #define EIGEN_USING_ARRAY_TYPEDEFS_FOR_TYPE_AND_SIZE(TypeSuffix, SizeSuffix) \
 using Eigen::Matrix##SizeSuffix##TypeSuffix; \

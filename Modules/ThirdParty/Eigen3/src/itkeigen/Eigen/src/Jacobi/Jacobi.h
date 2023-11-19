@@ -11,6 +11,9 @@
 #ifndef EIGEN_JACOBI_H
 #define EIGEN_JACOBI_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \ingroup Jacobi_Module
@@ -161,7 +164,7 @@ template<typename Scalar>
 EIGEN_DEVICE_FUNC
 void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const Scalar& q, Scalar* r)
 {
-  makeGivens(p, q, r, typename internal::conditional<NumTraits<Scalar>::IsComplex, internal::true_type, internal::false_type>::type());
+  makeGivens(p, q, r, std::conditional_t<NumTraits<Scalar>::IsComplex, internal::true_type, internal::false_type>());
 }
 
 
@@ -232,13 +235,13 @@ void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const Scalar& q, Scalar
 {
   using std::sqrt;
   using std::abs;
-  if(q==Scalar(0))
+  if(numext::is_exactly_zero(q))
   {
     m_c = p<Scalar(0) ? Scalar(-1) : Scalar(1);
     m_s = Scalar(0);
     if(r) *r = abs(p);
   }
-  else if(p==Scalar(0))
+  else if(numext::is_exactly_zero(p))
   {
     m_c = Scalar(0);
     m_s = q<Scalar(0) ? Scalar(1) : Scalar(-1);
@@ -342,18 +345,18 @@ struct apply_rotation_in_the_plane_selector<Scalar,OtherScalar,SizeAtCompileTime
 {
   static inline void run(Scalar *x, Index incrx, Scalar *y, Index incry, Index size, OtherScalar c, OtherScalar s)
   {
-    enum {
-      PacketSize = packet_traits<Scalar>::size,
-      OtherPacketSize = packet_traits<OtherScalar>::size
-    };
     typedef typename packet_traits<Scalar>::type Packet;
     typedef typename packet_traits<OtherScalar>::type OtherPacket;
 
+    constexpr int RequiredAlignment =
+        (std::max)(unpacket_traits<Packet>::alignment, unpacket_traits<OtherPacket>::alignment);
+    constexpr Index PacketSize = packet_traits<Scalar>::size;
+
     /*** dynamic-size vectorized paths ***/
-    if(SizeAtCompileTime == Dynamic && ((incrx==1 && incry==1) || PacketSize == 1))
+    if(size >= 2 * PacketSize && SizeAtCompileTime == Dynamic && ((incrx == 1 && incry == 1) || PacketSize == 1))
     {
       // both vectors are sequentially stored in memory => vectorization
-      enum { Peeling = 2 };
+      constexpr Index Peeling = 2;
 
       Index alignedStart = internal::first_default_aligned(y, size);
       Index alignedEnd = alignedStart + ((size-alignedStart)/PacketSize)*PacketSize;
@@ -421,11 +424,11 @@ struct apply_rotation_in_the_plane_selector<Scalar,OtherScalar,SizeAtCompileTime
     }
 
     /*** fixed-size vectorized path ***/
-    else if(SizeAtCompileTime != Dynamic && MinAlignment>0) // FIXME should be compared to the required alignment
+    else if(SizeAtCompileTime != Dynamic && MinAlignment >= RequiredAlignment)
     {
       const OtherPacket pc = pset1<OtherPacket>(c);
       const OtherPacket ps = pset1<OtherPacket>(s);
-      conj_helper<OtherPacket,Packet,NumTraits<OtherPacket>::IsComplex,false> pcj;
+      conj_helper<OtherPacket,Packet,NumTraits<OtherScalar>::IsComplex,false> pcj;
       conj_helper<OtherPacket,Packet,false,false> pm;
       Scalar* EIGEN_RESTRICT px = x;
       Scalar* EIGEN_RESTRICT py = y;
@@ -450,11 +453,11 @@ struct apply_rotation_in_the_plane_selector<Scalar,OtherScalar,SizeAtCompileTime
 
 template<typename VectorX, typename VectorY, typename OtherScalar>
 EIGEN_DEVICE_FUNC
-void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x, DenseBase<VectorY>& xpr_y, const JacobiRotation<OtherScalar>& j)
+void inline apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x, DenseBase<VectorY>& xpr_y, const JacobiRotation<OtherScalar>& j)
 {
   typedef typename VectorX::Scalar Scalar;
-  const bool Vectorizable =    (int(VectorX::Flags) & int(VectorY::Flags) & PacketAccessBit)
-                            && (int(packet_traits<Scalar>::size) == int(packet_traits<OtherScalar>::size));
+  constexpr bool Vectorizable = (int(evaluator<VectorX>::Flags) & int(evaluator<VectorY>::Flags) & PacketAccessBit) &&
+                                (int(packet_traits<Scalar>::size) == int(packet_traits<OtherScalar>::size));
 
   eigen_assert(xpr_x.size() == xpr_y.size());
   Index size = xpr_x.size();
@@ -466,14 +469,12 @@ void /*EIGEN_DONT_INLINE*/ apply_rotation_in_the_plane(DenseBase<VectorX>& xpr_x
 
   OtherScalar c = j.c();
   OtherScalar s = j.s();
-  if (c==OtherScalar(1) && s==OtherScalar(0))
+  if (numext::is_exactly_one(c) && numext::is_exactly_zero(s))
     return;
 
-  apply_rotation_in_the_plane_selector<
-    Scalar,OtherScalar,
-    VectorX::SizeAtCompileTime,
-    EIGEN_PLAIN_ENUM_MIN(evaluator<VectorX>::Alignment, evaluator<VectorY>::Alignment),
-    Vectorizable>::run(x,incrx,y,incry,size,c,s);
+  constexpr int Alignment = (std::min)(int(evaluator<VectorX>::Alignment), int(evaluator<VectorY>::Alignment));
+  apply_rotation_in_the_plane_selector<Scalar, OtherScalar, VectorX::SizeAtCompileTime, Alignment, Vectorizable>::run(
+      x, incrx, y, incry, size, c, s);
 }
 
 } // end namespace internal

@@ -10,6 +10,9 @@
 #ifndef EIGEN_PARTIALREDUX_H
 #define EIGEN_PARTIALREDUX_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -29,7 +32,7 @@ namespace internal {
 *    some (optional) processing of the outcome, e.g., division by n for mean.
 *
 * For the vectorized path let's observe that the packet-size and outer-unrolling
-* are both decided by the assignement logic. So all we have to do is to decide
+* are both decided by the assignment logic. So all we have to do is to decide
 * on the inner unrolling.
 *
 * For the unrolling, we can reuse "internal::redux_vec_unroller" from Redux.h,
@@ -91,7 +94,7 @@ struct packetwise_redux_impl<Func, Evaluator, CompleteUnrolling>
  * This specialization is not required for general reductions, which is
  * why it is defined here.
  */
-template<typename Func, typename Evaluator, int Start>
+template<typename Func, typename Evaluator, Index Start>
 struct redux_vec_unroller<Func, Evaluator, Start, 0>
 {
   template<typename PacketType>
@@ -139,8 +142,8 @@ struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
 {
   typedef PartialReduxExpr<ArgType, MemberOp, Direction> XprType;
   typedef typename internal::nested_eval<ArgType,1>::type ArgTypeNested;
-  typedef typename internal::add_const_on_value_type<ArgTypeNested>::type ConstArgTypeNested;
-  typedef typename internal::remove_all<ArgTypeNested>::type ArgTypeNestedCleaned;
+  typedef add_const_on_value_type_t<ArgTypeNested> ConstArgTypeNested;
+  typedef internal::remove_all_t<ArgTypeNested> ArgTypeNestedCleaned;
   typedef typename ArgType::Scalar InputScalar;
   typedef typename XprType::Scalar Scalar;
   enum {
@@ -152,16 +155,16 @@ struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
                   : TraversalSize==0 ? 1
                   : int(TraversalSize) * int(evaluator<ArgType>::CoeffReadCost) + int(CostOpType::value),
     
-    _ArgFlags = evaluator<ArgType>::Flags,
+    ArgFlags_ = evaluator<ArgType>::Flags,
 
-    _Vectorizable =  bool(int(_ArgFlags)&PacketAccessBit)
+    Vectorizable_ =  bool(int(ArgFlags_)&PacketAccessBit)
                   && bool(MemberOp::Vectorizable)
-                  && (Direction==int(Vertical) ? bool(_ArgFlags&RowMajorBit) : (_ArgFlags&RowMajorBit)==0)
+                  && (Direction==int(Vertical) ? bool(ArgFlags_&RowMajorBit) : (ArgFlags_&RowMajorBit)==0)
                   && (TraversalSize!=0),
                   
     Flags = (traits<XprType>::Flags&RowMajorBit)
           | (evaluator<ArgType>::Flags&(HereditaryBits&(~RowMajorBit)))
-          | (_Vectorizable ? PacketAccessBit : 0)
+          | (Vectorizable_ ? PacketAccessBit : 0)
           | LinearAccessBit,
     
     Alignment = 0 // FIXME this will need to be improved once PartialReduxExpr is vectorized

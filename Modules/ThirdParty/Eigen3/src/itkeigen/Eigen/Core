@@ -8,8 +8,8 @@
 // Public License v. 2.0. If a copy of the MPL was not distributed
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#ifndef EIGEN_CORE_H
-#define EIGEN_CORE_H
+#ifndef EIGEN_CORE_MODULE_H
+#define EIGEN_CORE_MODULE_H
 
 // first thing Eigen does: stop the compiler from reporting useless warnings.
 #include "src/Core/util/DisableStupidWarnings.h"
@@ -34,16 +34,16 @@
   #include <new>
 #endif
 
-// Disable the ipa-cp-clone optimization flag with MinGW 6.x or newer (enabled by default with -O3)
+// Disable the ipa-cp-clone optimization flag with MinGW 6.x or older (enabled by default with -O3)
 // See http://eigen.tuxfamily.org/bz/show_bug.cgi?id=556 for details.
-#if EIGEN_COMP_MINGW && EIGEN_GNUC_AT_LEAST(4,6) && EIGEN_GNUC_AT_MOST(5,5)
+#if EIGEN_COMP_MINGW && EIGEN_GNUC_STRICT_LESS_THAN(6,0,0)
   #pragma GCC optimize ("-fno-ipa-cp-clone")
 #endif
 
 // Prevent ICC from specializing std::complex operators that silently fail
 // on device. This allows us to use our own device-compatible specializations
 // instead.
-#if defined(EIGEN_COMP_ICC) && defined(EIGEN_GPU_COMPILE_PHASE) \
+#if EIGEN_COMP_ICC && defined(EIGEN_GPU_COMPILE_PHASE) \
     && !defined(_OVERRIDE_COMPLEX_SPECIALIZATION_)
 #define _OVERRIDE_COMPLEX_SPECIALIZATION_ 1
 #endif
@@ -67,6 +67,7 @@
 #endif
 
 #ifdef EIGEN_HAS_OPENMP
+#include <atomic>
 #include <omp.h>
 #endif
 
@@ -81,10 +82,9 @@
 #include <cstddef>
 #include <cstdlib>
 #include <cmath>
-#include <cassert>
 #include <functional>
-#include <sstream>
 #ifndef EIGEN_NO_IO
+  #include <sstream>
   #include <iosfwd>
 #endif
 #include <cstring>
@@ -94,14 +94,11 @@
 // for min/max:
 #include <algorithm>
 
-#if EIGEN_HAS_CXX11
 #include <array>
-#endif
+#include <vector>
 
 // for std::is_nothrow_move_assignable
-#ifdef EIGEN_INCLUDE_TYPE_TRAITS
 #include <type_traits>
-#endif
 
 // for outputting debug info
 #ifdef EIGEN_DEBUG_ASSIGN
@@ -159,14 +156,27 @@ using std::ptrdiff_t;
   * \endcode
   */
 
+#ifdef EIGEN_USE_LAPACKE
+  #ifdef EIGEN_USE_MKL
+    #include "mkl_lapacke.h"
+  #else
+    #include "src/misc/lapacke.h"
+  #endif
+#endif
+
+// IWYU pragma: begin_exports
 #include "src/Core/util/Constants.h"
 #include "src/Core/util/Meta.h"
+#include "src/Core/util/Assert.h"
 #include "src/Core/util/ForwardDeclarations.h"
 #include "src/Core/util/StaticAssert.h"
 #include "src/Core/util/XprHelper.h"
 #include "src/Core/util/Memory.h"
 #include "src/Core/util/IntegralConstant.h"
+#include "src/Core/util/Serializer.h"
 #include "src/Core/util/SymbolicIndex.h"
+#include "src/Core/util/EmulateArray.h"
+#include "src/Core/util/MoreMeta.h"
 
 #include "src/Core/NumTraits.h"
 #include "src/Core/MathFunctions.h"
@@ -176,10 +186,12 @@ using std::ptrdiff_t;
 // Generic half float support
 #include "src/Core/arch/Default/Half.h"
 #include "src/Core/arch/Default/BFloat16.h"
-#include "src/Core/arch/Default/TypeCasting.h"
 #include "src/Core/arch/Default/GenericPacketMathFunctionsFwd.h"
 
 #if defined EIGEN_VECTORIZE_AVX512
+  #if defined EIGEN_VECTORIZE_AVX512FP16
+    #include "src/Core/arch/AVX512/PacketMathFP16.h"
+  #endif
   #include "src/Core/arch/SSE/PacketMath.h"
   #include "src/Core/arch/SSE/TypeCasting.h"
   #include "src/Core/arch/SSE/Complex.h"
@@ -192,6 +204,7 @@ using std::ptrdiff_t;
   #include "src/Core/arch/SSE/MathFunctions.h"
   #include "src/Core/arch/AVX/MathFunctions.h"
   #include "src/Core/arch/AVX512/MathFunctions.h"
+  #include "src/Core/arch/AVX512/TrsmKernel.h"
 #elif defined EIGEN_VECTORIZE_AVX
   // Use AVX for floats and doubles, SSE for integers
   #include "src/Core/arch/SSE/PacketMath.h"
@@ -209,6 +222,7 @@ using std::ptrdiff_t;
   #include "src/Core/arch/SSE/Complex.h"
 #elif defined(EIGEN_VECTORIZE_ALTIVEC) || defined(EIGEN_VECTORIZE_VSX)
   #include "src/Core/arch/AltiVec/PacketMath.h"
+  #include "src/Core/arch/AltiVec/TypeCasting.h"
   #include "src/Core/arch/AltiVec/MathFunctions.h"
   #include "src/Core/arch/AltiVec/Complex.h"
 #elif defined EIGEN_VECTORIZE_NEON
@@ -228,6 +242,8 @@ using std::ptrdiff_t;
   #include "src/Core/arch/MSA/PacketMath.h"
   #include "src/Core/arch/MSA/MathFunctions.h"
   #include "src/Core/arch/MSA/Complex.h"
+#elif defined EIGEN_VECTORIZE_HVX
+  #include "src/Core/arch/HVX/PacketMath.h"
 #endif
 
 #if defined EIGEN_VECTORIZE_GPU
@@ -237,7 +253,6 @@ using std::ptrdiff_t;
 #endif
 
 #if defined(EIGEN_USE_SYCL)
-  #include "src/Core/arch/SYCL/SyclMemoryModel.h"
   #include "src/Core/arch/SYCL/InteropHeaders.h"
 #if !defined(EIGEN_DONT_VECTORIZE_SYCL)
   #include "src/Core/arch/SYCL/PacketMath.h"
@@ -257,10 +272,14 @@ using std::ptrdiff_t;
 #include "src/Core/functors/StlFunctors.h"
 #include "src/Core/functors/AssignmentFunctors.h"
 
-// Specialized functors to enable the processing of complex numbers
-// on CUDA devices
-#ifdef EIGEN_CUDACC
-#include "src/Core/arch/CUDA/Complex.h"
+// Specialized functors for GPU.
+#ifdef EIGEN_GPUCC
+#include "src/Core/arch/GPU/Complex.h"
+#endif
+
+// Specializations of vectorized activation functions for NEON.
+#ifdef EIGEN_VECTORIZE_NEON
+#include "src/Core/arch/NEON/UnaryFunctors.h"
 #endif
 
 #include "src/Core/util/IndexedViewHelper.h"
@@ -315,6 +334,7 @@ using std::ptrdiff_t;
 #include "src/Core/DiagonalMatrix.h"
 #include "src/Core/Diagonal.h"
 #include "src/Core/DiagonalProduct.h"
+#include "src/Core/SkewSymmetricMatrix3.h"
 #include "src/Core/Redux.h"
 #include "src/Core/Visitor.h"
 #include "src/Core/Fuzzy.h"
@@ -347,13 +367,20 @@ using std::ptrdiff_t;
 #include "src/Core/CoreIterators.h"
 #include "src/Core/ConditionEstimator.h"
 
-#if defined(EIGEN_VECTORIZE_ALTIVEC) || defined(EIGEN_VECTORIZE_VSX)
+#if defined(EIGEN_VECTORIZE_VSX)
   #include "src/Core/arch/AltiVec/MatrixProduct.h"
 #elif defined EIGEN_VECTORIZE_NEON
   #include "src/Core/arch/NEON/GeneralBlockPanelKernel.h"
 #endif
 
-#include "src/Core/BooleanRedux.h"
+#if defined(EIGEN_VECTORIZE_AVX512)
+  #include "src/Core/arch/AVX512/GemmKernel.h"
+#endif
+
+#if defined(EIGEN_VECTORIZE_HVX)
+  #include "src/Core/arch/HVX/GeneralBlockPanelKernel.h"
+#endif
+
 #include "src/Core/Select.h"
 #include "src/Core/VectorwiseOp.h"
 #include "src/Core/PartialReduxEvaluator.h"
@@ -379,7 +406,8 @@ using std::ptrdiff_t;
 #endif
 
 #include "src/Core/GlobalFunctions.h"
+// IWYU pragma: end_exports
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_CORE_H
+#endif // EIGEN_CORE_MODULE_H

@@ -16,6 +16,9 @@
 * It corresponds to the level 3 SYRK and level 2 SYR Blas routines.
 **********************************************************************/
 
+// IWYU pragma: private
+#include "../InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 
@@ -26,7 +29,7 @@ struct selfadjoint_rank1_update<Scalar,Index,ColMajor,UpLo,ConjLhs,ConjRhs>
   {
     internal::conj_if<ConjRhs> cj;
     typedef Map<const Matrix<Scalar,Dynamic,1> > OtherMap;
-    typedef typename internal::conditional<ConjLhs,typename OtherMap::ConjugateReturnType,const OtherMap&>::type ConjLhsType;
+    typedef std::conditional_t<ConjLhs,typename OtherMap::ConjugateReturnType,const OtherMap&> ConjLhsType;
     for (Index i=0; i<size; ++i)
     {
       Map<Matrix<Scalar,Dynamic,1> >(mat+stride*i+(UpLo==Lower ? i : 0), (UpLo==Lower ? size-i : (i+1)))
@@ -55,14 +58,14 @@ struct selfadjoint_product_selector<MatrixType,OtherType,UpLo,true>
     typedef typename MatrixType::Scalar Scalar;
     typedef internal::blas_traits<OtherType> OtherBlasTraits;
     typedef typename OtherBlasTraits::DirectLinearAccessType ActualOtherType;
-    typedef typename internal::remove_all<ActualOtherType>::type _ActualOtherType;
-    typename internal::add_const_on_value_type<ActualOtherType>::type actualOther = OtherBlasTraits::extract(other.derived());
+    typedef internal::remove_all_t<ActualOtherType> ActualOtherType_;
+    internal::add_const_on_value_type_t<ActualOtherType> actualOther = OtherBlasTraits::extract(other.derived());
 
     Scalar actualAlpha = alpha * OtherBlasTraits::extractScalarFactor(other.derived());
 
     enum {
       StorageOrder = (internal::traits<MatrixType>::Flags&RowMajorBit) ? RowMajor : ColMajor,
-      UseOtherDirectly = _ActualOtherType::InnerStrideAtCompileTime==1
+      UseOtherDirectly = ActualOtherType_::InnerStrideAtCompileTime==1
     };
     internal::gemv_static_vector_if<Scalar,OtherType::SizeAtCompileTime,OtherType::MaxSizeAtCompileTime,!UseOtherDirectly> static_other;
 
@@ -70,7 +73,7 @@ struct selfadjoint_product_selector<MatrixType,OtherType,UpLo,true>
       (UseOtherDirectly ? const_cast<Scalar*>(actualOther.data()) : static_other.data()));
       
     if(!UseOtherDirectly)
-      Map<typename _ActualOtherType::PlainObject>(actualOtherPtr, actualOther.size()) = actualOther;
+      Map<typename ActualOtherType_::PlainObject>(actualOtherPtr, actualOther.size()) = actualOther;
     
     selfadjoint_rank1_update<Scalar,Index,StorageOrder,UpLo,
                               OtherBlasTraits::NeedToConjugate  && NumTraits<Scalar>::IsComplex,
@@ -87,21 +90,21 @@ struct selfadjoint_product_selector<MatrixType,OtherType,UpLo,false>
     typedef typename MatrixType::Scalar Scalar;
     typedef internal::blas_traits<OtherType> OtherBlasTraits;
     typedef typename OtherBlasTraits::DirectLinearAccessType ActualOtherType;
-    typedef typename internal::remove_all<ActualOtherType>::type _ActualOtherType;
-    typename internal::add_const_on_value_type<ActualOtherType>::type actualOther = OtherBlasTraits::extract(other.derived());
+    typedef internal::remove_all_t<ActualOtherType> ActualOtherType_;
+    internal::add_const_on_value_type_t<ActualOtherType> actualOther = OtherBlasTraits::extract(other.derived());
 
     Scalar actualAlpha = alpha * OtherBlasTraits::extractScalarFactor(other.derived());
 
     enum {
       IsRowMajor = (internal::traits<MatrixType>::Flags&RowMajorBit) ? 1 : 0,
-      OtherIsRowMajor = _ActualOtherType::Flags&RowMajorBit ? 1 : 0
+      OtherIsRowMajor = ActualOtherType_::Flags&RowMajorBit ? 1 : 0
     };
 
     Index size = mat.cols();
     Index depth = actualOther.cols();
 
     typedef internal::gemm_blocking_space<IsRowMajor ? RowMajor : ColMajor,Scalar,Scalar,
-              MatrixType::MaxColsAtCompileTime, MatrixType::MaxColsAtCompileTime, _ActualOtherType::MaxColsAtCompileTime> BlockingType;
+              MatrixType::MaxColsAtCompileTime, MatrixType::MaxColsAtCompileTime, ActualOtherType_::MaxColsAtCompileTime> BlockingType;
 
     BlockingType blocking(size, size, depth, 1, false);
 

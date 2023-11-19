@@ -7,6 +7,5 @@ This branch contains changes required to embed Eigen into ITK. This
  process.
 
 * Add `.gitattributes` to avoid failures in ITK's content checks.
-* Remove executable permissions from include files.
 * Integrate the CMake build with ITK's module system.
 <!-- * Mangle all exported symbols to live in a `itkeigen` namespace. -->

@@ -33,6 +33,8 @@
   */
 
 #include "src/misc/RealSvd2x2.h"
+
+// IWYU pragma: begin_exports
 #include "src/Eigenvalues/Tridiagonalization.h"
 #include "src/Eigenvalues/RealSchur.h"
 #include "src/Eigenvalues/EigenSolver.h"
@@ -54,6 +56,7 @@
 #include "src/Eigenvalues/ComplexSchur_LAPACKE.h"
 #include "src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h"
 #endif
+// IWYU pragma: end_exports
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 

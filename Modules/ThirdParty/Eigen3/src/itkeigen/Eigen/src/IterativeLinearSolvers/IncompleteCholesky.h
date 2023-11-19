@@ -14,6 +14,9 @@
 #include <vector>
 #include <list>
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 /**
   * \brief Modified Incomplete Cholesky with dual threshold
@@ -22,10 +25,9 @@ namespace Eigen {
   *              Limited memory, SIAM J. Sci. Comput.  21(1), pp. 24-45, 1999
   *
   * \tparam Scalar the scalar type of the input matrices
-  * \tparam _UpLo The triangular part that will be used for the computations. It can be Lower
+  * \tparam UpLo_ The triangular part that will be used for the computations. It can be Lower
     *               or Upper. Default is Lower.
-  * \tparam _OrderingType The ordering method to use, either AMDOrdering<> or NaturalOrdering<>. Default is AMDOrdering<int>,
-  *                       unless EIGEN_MPL2_ONLY is defined, in which case the default is NaturalOrdering<int>.
+  * \tparam OrderingType_ The ordering method to use, either AMDOrdering<> or NaturalOrdering<>. Default is AMDOrdering<int>.
   *
   * \implsparsesolverconcept
   *
@@ -41,15 +43,15 @@ namespace Eigen {
   * the info() method, then you can either increase the initial shift, or better use another preconditioning technique.
   *
   */
-template <typename Scalar, int _UpLo = Lower, typename _OrderingType = AMDOrdering<int> >
-class IncompleteCholesky : public SparseSolverBase<IncompleteCholesky<Scalar,_UpLo,_OrderingType> >
+template <typename Scalar, int UpLo_ = Lower, typename OrderingType_ = AMDOrdering<int> >
+class IncompleteCholesky : public SparseSolverBase<IncompleteCholesky<Scalar,UpLo_,OrderingType_> >
 {
   protected:
-    typedef SparseSolverBase<IncompleteCholesky<Scalar,_UpLo,_OrderingType> > Base;
+    typedef SparseSolverBase<IncompleteCholesky<Scalar,UpLo_,OrderingType_> > Base;
     using Base::m_isInitialized;
   public:
     typedef typename NumTraits<Scalar>::Real RealScalar;
-    typedef _OrderingType OrderingType;
+    typedef OrderingType_ OrderingType;
     typedef typename OrderingType::PermutationType PermutationType;
     typedef typename PermutationType::StorageIndex StorageIndex;
     typedef SparseMatrix<Scalar,ColMajor,StorageIndex> FactorType;
@@ -57,7 +59,7 @@ class IncompleteCholesky : public SparseSolverBase<IncompleteCholesky<Scalar,_Up
     typedef Matrix<RealScalar,Dynamic,1> VectorRx;
     typedef Matrix<StorageIndex,Dynamic, 1> VectorIx;
     typedef std::vector<std::list<StorageIndex> > VectorList;
-    enum { UpLo = _UpLo };
+    enum { UpLo = UpLo_ };
     enum {
       ColsAtCompileTime = Dynamic,
       MaxColsAtCompileTime = Dynamic
@@ -160,13 +162,13 @@ class IncompleteCholesky : public SparseSolverBase<IncompleteCholesky<Scalar,_Up
     }
 
     /** \returns the sparse lower triangular factor L */
-    const FactorType& matrixL() const { eigen_assert("m_factorizationIsOk"); return m_L; }
+    const FactorType& matrixL() const { eigen_assert(m_factorizationIsOk && "factorize() should be called first"); return m_L; }
 
     /** \returns a vector representing the scaling factor S */
-    const VectorRx& scalingS() const { eigen_assert("m_factorizationIsOk"); return m_scale; }
+    const VectorRx& scalingS() const { eigen_assert(m_factorizationIsOk && "factorize() should be called first"); return m_scale; }
 
     /** \returns the fill-in reducing permutation P (can be empty for a natural ordering) */
-    const PermutationType& permutationP() const { eigen_assert("m_analysisIsOk"); return m_perm; }
+    const PermutationType& permutationP() const { eigen_assert(m_analysisIsOk && "analyzePattern() should be called first"); return m_perm; }
 
   protected:
     FactorType m_L;              // The lower part stored in CSC
@@ -185,9 +187,9 @@ class IncompleteCholesky : public SparseSolverBase<IncompleteCholesky<Scalar,_Up
 //   C-J. Lin and J. J. Moré, Incomplete Cholesky Factorizations with
 //   Limited memory, SIAM J. Sci. Comput.  21(1), pp. 24-45, 1999
 //   http://ftp.mcs.anl.gov/pub/tech_reports/reports/P682.pdf
-template<typename Scalar, int _UpLo, typename OrderingType>
-template<typename _MatrixType>
-void IncompleteCholesky<Scalar,_UpLo, OrderingType>::factorize(const _MatrixType& mat)
+template<typename Scalar, int UpLo_, typename OrderingType>
+template<typename MatrixType_>
+void IncompleteCholesky<Scalar,UpLo_, OrderingType>::factorize(const MatrixType_& mat)
 {
   using std::sqrt;
   eigen_assert(m_analysisIsOk && "analyzePattern() should be called first");
@@ -199,12 +201,12 @@ void IncompleteCholesky<Scalar,_UpLo, OrderingType>::factorize(const _MatrixType
   {
     // The temporary is needed to make sure that the diagonal entry is properly sorted
     FactorType tmp(mat.rows(), mat.cols());
-    tmp = mat.template selfadjointView<_UpLo>().twistedBy(m_perm);
+    tmp = mat.template selfadjointView<UpLo_>().twistedBy(m_perm);
     m_L.template selfadjointView<Lower>() = tmp.template selfadjointView<Lower>();
   }
   else
   {
-    m_L.template selfadjointView<Lower>() = mat.template selfadjointView<_UpLo>();
+    m_L.template selfadjointView<Lower>() = mat.template selfadjointView<UpLo_>();
   }
 
   Index n = m_L.cols();
@@ -369,8 +371,8 @@ void IncompleteCholesky<Scalar,_UpLo, OrderingType>::factorize(const _MatrixType
   } while(m_info!=Success);
 }
 
-template<typename Scalar, int _UpLo, typename OrderingType>
-inline void IncompleteCholesky<Scalar,_UpLo, OrderingType>::updateList(Ref<const VectorIx> colPtr, Ref<VectorIx> rowIdx, Ref<VectorSx> vals, const Index& col, const Index& jk, VectorIx& firstElt, VectorList& listCol)
+template<typename Scalar, int UpLo_, typename OrderingType>
+inline void IncompleteCholesky<Scalar,UpLo_, OrderingType>::updateList(Ref<const VectorIx> colPtr, Ref<VectorIx> rowIdx, Ref<VectorSx> vals, const Index& col, const Index& jk, VectorIx& firstElt, VectorList& listCol)
 {
   if (jk < colPtr(col+1) )
   {

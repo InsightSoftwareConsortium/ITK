@@ -11,6 +11,9 @@
 #ifndef EIGEN_EIGENBASE_H
 #define EIGEN_EIGENBASE_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \class EigenBase

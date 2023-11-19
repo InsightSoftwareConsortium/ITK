@@ -11,6 +11,9 @@
 #ifndef EIGEN_HOUSEHOLDER_SEQUENCE_H
 #define EIGEN_HOUSEHOLDER_SEQUENCE_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \ingroup Householder_Module
@@ -131,34 +134,34 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
     typedef typename internal::traits<HouseholderSequence>::Scalar Scalar;
 
     typedef HouseholderSequence<
-      typename internal::conditional<NumTraits<Scalar>::IsComplex,
-        typename internal::remove_all<typename VectorsType::ConjugateReturnType>::type,
-        VectorsType>::type,
-      typename internal::conditional<NumTraits<Scalar>::IsComplex,
-        typename internal::remove_all<typename CoeffsType::ConjugateReturnType>::type,
-        CoeffsType>::type,
+      std::conditional_t<NumTraits<Scalar>::IsComplex,
+        internal::remove_all_t<typename VectorsType::ConjugateReturnType>,
+        VectorsType>,
+      std::conditional_t<NumTraits<Scalar>::IsComplex,
+        internal::remove_all_t<typename CoeffsType::ConjugateReturnType>,
+        CoeffsType>,
       Side
     > ConjugateReturnType;
 
     typedef HouseholderSequence<
       VectorsType,
-      typename internal::conditional<NumTraits<Scalar>::IsComplex,
-        typename internal::remove_all<typename CoeffsType::ConjugateReturnType>::type,
-        CoeffsType>::type,
+      std::conditional_t<NumTraits<Scalar>::IsComplex,
+        internal::remove_all_t<typename CoeffsType::ConjugateReturnType>,
+        CoeffsType>,
       Side
     > AdjointReturnType;
 
     typedef HouseholderSequence<
-      typename internal::conditional<NumTraits<Scalar>::IsComplex,
-        typename internal::remove_all<typename VectorsType::ConjugateReturnType>::type,
-        VectorsType>::type,
+      std::conditional_t<NumTraits<Scalar>::IsComplex,
+        internal::remove_all_t<typename VectorsType::ConjugateReturnType>,
+        VectorsType>,
       CoeffsType,
       Side
     > TransposeReturnType;
 
     typedef HouseholderSequence<
-      typename internal::add_const<VectorsType>::type,
-      typename internal::add_const<CoeffsType>::type,
+      std::add_const_t<VectorsType>,
+      std::add_const_t<CoeffsType>,
       Side
     > ConstHouseholderSequence;
 
@@ -255,10 +258,10 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
      */
     template<bool Cond>
     EIGEN_DEVICE_FUNC
-    inline typename internal::conditional<Cond,ConjugateReturnType,ConstHouseholderSequence>::type
+    inline std::conditional_t<Cond,ConjugateReturnType,ConstHouseholderSequence>
     conjugateIf() const
     {
-      typedef typename internal::conditional<Cond,ConjugateReturnType,ConstHouseholderSequence>::type ReturnType;
+      typedef std::conditional_t<Cond,ConjugateReturnType,ConstHouseholderSequence> ReturnType;
       return ReturnType(m_vectors.template conjugateIf<Cond>(), m_coeffs.template conjugateIf<Cond>());
     }
 
@@ -382,21 +385,25 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
           Index bs = end-k;
           Index start = k + m_shift;
 
-          typedef Block<typename internal::remove_all<VectorsType>::type,Dynamic,Dynamic> SubVectorsType;
+          typedef Block<internal::remove_all_t<VectorsType>,Dynamic,Dynamic> SubVectorsType;
           SubVectorsType sub_vecs1(m_vectors.const_cast_derived(), Side==OnTheRight ? k : start,
                                                                    Side==OnTheRight ? start : k,
                                                                    Side==OnTheRight ? bs : m_vectors.rows()-start,
                                                                    Side==OnTheRight ? m_vectors.cols()-start : bs);
-          typename internal::conditional<Side==OnTheRight, Transpose<SubVectorsType>, SubVectorsType&>::type sub_vecs(sub_vecs1);
+          std::conditional_t<Side==OnTheRight, Transpose<SubVectorsType>, SubVectorsType&> sub_vecs(sub_vecs1);
 
-          Index dstStart = dst.rows()-rows()+m_shift+k;
           Index dstRows  = rows()-m_shift-k;
-          Block<Dest,Dynamic,Dynamic> sub_dst(dst,
-                                              dstStart,
-                                              inputIsIdentity ? dstStart : 0,
-                                              dstRows,
-                                              inputIsIdentity ? dstRows : dst.cols());
-          apply_block_householder_on_the_left(sub_dst, sub_vecs, m_coeffs.segment(k, bs), !m_reverse);
+
+          if (inputIsIdentity)
+          {
+            Block<Dest, Dynamic, Dynamic> sub_dst = dst.bottomRightCorner(dstRows, dstRows);
+            apply_block_householder_on_the_left(sub_dst, sub_vecs, m_coeffs.segment(k, bs), !m_reverse);
+          }
+          else
+          {
+            auto sub_dst = dst.bottomRows(dstRows);
+            apply_block_householder_on_the_left(sub_dst, sub_vecs, m_coeffs.segment(k, bs), !m_reverse);
+          }
         }
       }
       else
@@ -405,9 +412,18 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
         for(Index k = 0; k < m_length; ++k)
         {
           Index actual_k = m_reverse ? k : m_length-k-1;
-          Index dstStart = rows()-m_shift-actual_k;
-          dst.bottomRightCorner(dstStart, inputIsIdentity ? dstStart : dst.cols())
-            .applyHouseholderOnTheLeft(essentialVector(actual_k), m_coeffs.coeff(actual_k), workspace.data());
+          Index dstRows = rows()-m_shift-actual_k;
+
+          if (inputIsIdentity)
+          {
+            Block<Dest, Dynamic, Dynamic> sub_dst = dst.bottomRightCorner(dstRows, dstRows);
+            sub_dst.applyHouseholderOnTheLeft(essentialVector(actual_k), m_coeffs.coeff(actual_k), workspace.data());
+          }
+          else
+          {
+            auto sub_dst = dst.bottomRows(dstRows);
+            sub_dst.applyHouseholderOnTheLeft(essentialVector(actual_k), m_coeffs.coeff(actual_k), workspace.data());
+          }
         }
       }
     }
@@ -428,7 +444,7 @@ template<typename VectorsType, typename CoeffsType, int Side> class HouseholderS
       return res;
     }
 
-    template<typename _VectorsType, typename _CoeffsType, int _Side> friend struct internal::hseq_side_dependent_impl;
+    template<typename VectorsType_, typename CoeffsType_, int Side_> friend struct internal::hseq_side_dependent_impl;
 
     /** \brief Sets the length of the Householder sequence.
       * \param [in]  length  New value for the length.

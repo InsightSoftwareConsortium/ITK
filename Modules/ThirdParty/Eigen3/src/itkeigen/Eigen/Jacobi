@@ -24,7 +24,9 @@
   *  - MatrixBase::applyOnTheRight().
   */
 
+// IWYU pragma: begin_exports
 #include "src/Jacobi/Jacobi.h"
+// IWYU pragma: end_exports
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 

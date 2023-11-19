@@ -15,6 +15,9 @@
       EIGEN_STATIC_ASSERT((int(internal::evaluator<Derived>::Flags) & LinearAccessBit) || Derived::IsVectorAtCompileTime, \
                           YOU_ARE_TRYING_TO_USE_AN_INDEX_BASED_ACCESSOR_ON_AN_EXPRESSION_THAT_DOES_NOT_SUPPORT_THAT)
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \ingroup Core_Module
@@ -51,11 +54,11 @@ template<typename Derived> class MapBase<Derived, ReadOnlyAccessors>
     typedef typename internal::traits<Derived>::Scalar Scalar;
     typedef typename internal::packet_traits<Scalar>::type PacketScalar;
     typedef typename NumTraits<Scalar>::Real RealScalar;
-    typedef typename internal::conditional<
-                         bool(internal::is_lvalue<Derived>::value),
-                         Scalar *,
-                         const Scalar *>::type
-                     PointerType;
+    typedef std::conditional_t<
+                bool(internal::is_lvalue<Derived>::value),
+                Scalar *,
+                const Scalar *>
+            PointerType;
 
     using Base::derived;
 //    using Base::RowsAtCompileTime;
@@ -189,21 +192,32 @@ template<typename Derived> class MapBase<Derived, ReadOnlyAccessors>
 
     template<typename T>
     EIGEN_DEVICE_FUNC
-    void checkSanity(typename internal::enable_if<(internal::traits<T>::Alignment>0),void*>::type = 0) const
+    void checkSanity(std::enable_if_t<(internal::traits<T>::Alignment>0),void*> = 0) const
     {
+// Temporary macro to allow scalars to not be properly aligned.  This is while we sort out failures
+// in TensorFlow Lite that are currently relying on this UB.
+#ifndef EIGEN_ALLOW_UNALIGNED_SCALARS
+      // Pointer must be aligned to the Scalar type, otherwise we get UB.
+      eigen_assert((std::uintptr_t(m_data) % alignof(Scalar) == 0) && "data is not scalar-aligned");
+#endif
 #if EIGEN_MAX_ALIGN_BYTES>0
       // innerStride() is not set yet when this function is called, so we optimistically assume the lowest plausible value:
       const Index minInnerStride = InnerStrideAtCompileTime == Dynamic ? 1 : Index(InnerStrideAtCompileTime);
       EIGEN_ONLY_USED_FOR_DEBUG(minInnerStride);
-      eigen_assert((   ((internal::UIntPtr(m_data) % internal::traits<Derived>::Alignment) == 0)
+      eigen_assert((   ((std::uintptr_t(m_data) % internal::traits<Derived>::Alignment) == 0)
                     || (cols() * rows() * minInnerStride * sizeof(Scalar)) < internal::traits<Derived>::Alignment ) && "data is not aligned");
 #endif
     }
 
     template<typename T>
     EIGEN_DEVICE_FUNC
-    void checkSanity(typename internal::enable_if<internal::traits<T>::Alignment==0,void*>::type = 0) const
-    {}
+    void checkSanity(std::enable_if_t<internal::traits<T>::Alignment==0,void*> = 0) const
+    {
+#ifndef EIGEN_ALLOW_UNALIGNED_SCALARS
+      // Pointer must be aligned to the Scalar type, otherwise we get UB.
+      eigen_assert((std::uintptr_t(m_data) % alignof(Scalar) == 0) && "data is not scalar-aligned");
+#endif
+    }
 
     PointerType m_data;
     const internal::variable_if_dynamic<Index, RowsAtCompileTime> m_rows;
@@ -245,11 +259,11 @@ template<typename Derived> class MapBase<Derived, WriteAccessors>
     using Base::rowStride;
     using Base::colStride;
 
-    typedef typename internal::conditional<
+    typedef std::conditional_t<
                     internal::is_lvalue<Derived>::value,
                     Scalar,
                     const Scalar
-                  >::type ScalarWithConstIfNotLvalue;
+                  > ScalarWithConstIfNotLvalue;
 
     EIGEN_DEVICE_FUNC
     inline const Scalar* data() const { return this->m_data; }

@@ -11,9 +11,147 @@
 #ifndef EIGEN_MATHFUNCTIONSIMPL_H
 #define EIGEN_MATHFUNCTIONSIMPL_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
+
+/** \internal Fast reciprocal using Newton-Raphson's method.
+
+ Preconditions:
+   1. The starting guess provided in approx_a_recip must have at least half
+      the leading mantissa bits in the correct result, such that a single
+      Newton-Raphson step is sufficient to get within 1-2 ulps of the currect
+      result.
+   2. If a is zero, approx_a_recip must be infinite with the same sign as a.
+   3. If a is infinite, approx_a_recip must be zero with the same sign as a.
+
+   If the preconditions are satisfied, which they are for for the _*_rcp_ps
+   instructions on x86, the result has a maximum relative error of 2 ulps,
+   and correctly handles reciprocals of zero, infinity, and NaN.
+*/
+template <typename Packet, int Steps>
+struct generic_reciprocal_newton_step {
+  static_assert(Steps > 0, "Steps must be at least 1.");
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE  Packet
+  run(const Packet& a, const Packet& approx_a_recip) {
+    using Scalar = typename unpacket_traits<Packet>::type;
+    const Packet two = pset1<Packet>(Scalar(2));
+    // Refine the approximation using one Newton-Raphson step:
+    //   x_{i} = x_{i-1} * (2 - a * x_{i-1})
+     const Packet x =
+         generic_reciprocal_newton_step<Packet,Steps - 1>::run(a, approx_a_recip);
+     const Packet tmp = pnmadd(a, x, two);
+     // If tmp is NaN, it means that a is either +/-0 or +/-Inf.
+     // In this case return the approximation directly.
+     const Packet is_not_nan = pcmp_eq(tmp, tmp);
+     return pselect(is_not_nan, pmul(x, tmp), x);
+  }
+};
+
+template<typename Packet>
+struct generic_reciprocal_newton_step<Packet, 0> {
+   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Packet
+   run(const Packet& /*unused*/, const Packet& approx_rsqrt) {
+    return approx_rsqrt;
+  }
+};
+
+
+/** \internal Fast reciprocal sqrt using Newton-Raphson's method.
+
+ Preconditions:
+   1. The starting guess provided in approx_a_recip must have at least half
+      the leading mantissa bits in the correct result, such that a single
+      Newton-Raphson step is sufficient to get within 1-2 ulps of the currect
+      result.
+   2. If a is zero, approx_a_recip must be infinite with the same sign as a.
+   3. If a is infinite, approx_a_recip must be zero with the same sign as a.
+
+   If the preconditions are satisfied, which they are for for the _*_rcp_ps
+   instructions on x86, the result has a maximum relative error of 2 ulps,
+   and correctly handles zero, infinity, and NaN. Positive denormals are
+   treated as zero.
+*/
+template <typename Packet, int Steps>
+struct generic_rsqrt_newton_step {
+  static_assert(Steps > 0, "Steps must be at least 1.");
+  using Scalar = typename unpacket_traits<Packet>::type;
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Packet
+  run(const Packet& a, const Packet& approx_rsqrt) {
+    constexpr Scalar kMinusHalf = Scalar(-1)/Scalar(2);
+    const Packet cst_minus_half = pset1<Packet>(kMinusHalf);
+    const Packet cst_minus_one = pset1<Packet>(Scalar(-1));
+
+    Packet inv_sqrt = approx_rsqrt;
+    for (int step = 0; step < Steps; ++step) {
+      // Refine the approximation using one Newton-Raphson step:
+      // h_n = (x * inv_sqrt) * inv_sqrt - 1 (so that h_n is nearly 0).
+      // inv_sqrt = inv_sqrt - 0.5 * inv_sqrt * h_n
+      Packet r2 = pmul(a, inv_sqrt);
+      Packet half_r = pmul(inv_sqrt, cst_minus_half);
+      Packet h_n = pmadd(r2, inv_sqrt, cst_minus_one);
+      inv_sqrt = pmadd(half_r, h_n, inv_sqrt);
+    }
+
+    // If x is NaN, then either:
+    // 1) the input is NaN
+    // 2) zero and infinity were multiplied
+    // In either of these cases, return approx_rsqrt
+    return pselect(pisnan(inv_sqrt), approx_rsqrt, inv_sqrt);
+  }
+};
+
+template<typename Packet>
+struct generic_rsqrt_newton_step<Packet, 0> {
+   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Packet
+   run(const Packet& /*unused*/, const Packet& approx_rsqrt) {
+    return approx_rsqrt;
+  }
+};
+
+/** \internal Fast sqrt using Newton-Raphson's method.
+
+ Preconditions:
+   1. The starting guess for the reciprocal sqrt provided in approx_rsqrt must
+      have at least half the leading mantissa bits in the correct result, such
+      that a single Newton-Raphson step is sufficient to get within 1-2 ulps of
+      the currect result.
+   2. If a is zero, approx_rsqrt must be infinite.
+   3. If a is infinite, approx_rsqrt must be zero.
+
+   If the preconditions are satisfied, which they are for for the _*_rsqrt_ps
+   instructions on x86, the result has a maximum relative error of 2 ulps,
+   and correctly handles zero and infinity, and NaN. Positive denormal inputs
+   are treated as zero.
+*/
+template <typename Packet, int Steps=1>
+struct generic_sqrt_newton_step {
+  static_assert(Steps > 0, "Steps must be at least 1.");
+
+  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE  Packet
+  run(const Packet& a, const Packet& approx_rsqrt) {
+    using Scalar = typename unpacket_traits<Packet>::type;
+    const Packet one_point_five = pset1<Packet>(Scalar(1.5));
+    const Packet minus_half = pset1<Packet>(Scalar(-0.5));
+    // If a is inf or zero, return a directly.
+    const Packet inf_mask = pcmp_eq(a, pset1<Packet>(NumTraits<Scalar>::infinity()));
+    const Packet return_a = por(pcmp_eq(a, pzero(a)), inf_mask);
+    // Do a single step of Newton's iteration for reciprocal square root:
+    //   x_{n+1} = x_n * (1.5 + (-0.5 * x_n) * (a * x_n))).
+    // The Newton's step is computed this way to avoid over/under-flows.
+    Packet rsqrt = pmul(approx_rsqrt, pmadd(pmul(minus_half, approx_rsqrt), pmul(a, approx_rsqrt), one_point_five));
+    for (int step = 1; step < Steps; ++step) {
+      rsqrt = pmul(rsqrt, pmadd(pmul(minus_half, rsqrt), pmul(a, rsqrt), one_point_five));
+    }
+
+    // Return sqrt(x) = x * rsqrt(x) for non-zero finite positive arguments.
+    // Return a itself for 0 or +inf, NaN for negative arguments.
+    return pselect(return_a, a, pmul(a, rsqrt));
+  }
+};
 
 /** \internal \returns the hyperbolic tan of \a a (coeff-wise)
     Doesn't do anything fancy, just a 13/6-degree rational interpolant which
@@ -21,7 +159,7 @@ namespace internal {
     outside of which tanh(x) = +/-1 in single precision. The input is clamped
     to the range [-c, c]. The value c is chosen as the smallest value where
     the approximation evaluates to exactly 1. In the reange [-0.0004, 0.0004]
-    the approxmation tanh(x) ~= x is used for better accuracy as x tends to zero.
+    the approximation tanh(x) ~= x is used for better accuracy as x tends to zero.
 
     This implementation works on both scalars and packets.
 */
@@ -88,7 +226,7 @@ RealScalar positive_real_hypot(const RealScalar& x, const RealScalar& y)
   EIGEN_USING_STD(sqrt);
   RealScalar p, qp;
   p = numext::maxi(x,y);
-  if(p==RealScalar(0)) return RealScalar(0);
+  if(numext::is_exactly_zero(p)) return RealScalar(0);
   qp = numext::mini(y,x) / p;
   return p * sqrt(RealScalar(1) + qp*qp);
 }
@@ -138,8 +276,8 @@ EIGEN_DEVICE_FUNC std::complex<T> complex_sqrt(const std::complex<T>& z) {
 
   return
     (numext::isinf)(y) ? std::complex<T>(NumTraits<T>::infinity(), y)
-      : x == zero ? std::complex<T>(w, y < zero ? -w : w)
-      : x > zero ? std::complex<T>(w, y / (2 * w))
+      : numext::is_exactly_zero(x) ? std::complex<T>(w, y < zero ? -w : w)
+                                   : x > zero ? std::complex<T>(w, y / (2 * w))
       : std::complex<T>(numext::abs(y) / (2 * w), y < zero ? -w : w );
 }
 
@@ -177,10 +315,10 @@ EIGEN_DEVICE_FUNC std::complex<T> complex_rsqrt(const std::complex<T>& z) {
   const T woz = w / abs_z;
   // Corner cases consistent with 1/sqrt(z) on gcc/clang.
   return
-    abs_z == zero ? std::complex<T>(NumTraits<T>::infinity(), NumTraits<T>::quiet_NaN())
-      : ((numext::isinf)(x) || (numext::isinf)(y)) ? std::complex<T>(zero, zero)
-      : x == zero ? std::complex<T>(woz, y < zero ? woz : -woz)
-      : x > zero ? std::complex<T>(woz, -y / (2 * w * abs_z))
+          numext::is_exactly_zero(abs_z) ? std::complex<T>(NumTraits<T>::infinity(), NumTraits<T>::quiet_NaN())
+                                         : ((numext::isinf)(x) || (numext::isinf)(y)) ? std::complex<T>(zero, zero)
+      : numext::is_exactly_zero(x) ? std::complex<T>(woz, y < zero ? woz : -woz)
+                                   : x > zero ? std::complex<T>(woz, -y / (2 * w * abs_z))
       : std::complex<T>(numext::abs(y) / (2 * w * abs_z), y < zero ? woz : -woz );
 }
 

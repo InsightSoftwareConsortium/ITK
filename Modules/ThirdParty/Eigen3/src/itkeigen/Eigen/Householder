@@ -20,9 +20,11 @@
   * \endcode
   */
 
+// IWYU pragma: begin_exports
 #include "src/Householder/Householder.h"
 #include "src/Householder/HouseholderSequence.h"
 #include "src/Householder/BlockHouseholder.h"
+// IWYU pragma: end_exports
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 

@@ -11,6 +11,9 @@
 #ifndef EIGEN_MATRIXBASE_H
 #define EIGEN_MATRIXBASE_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \class MatrixBase
@@ -92,8 +95,8 @@ template<typename Derived> class MatrixBase
 
 #ifndef EIGEN_PARSED_BY_DOXYGEN
     /** type of the equivalent square matrix */
-    typedef Matrix<Scalar,EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime),
-                          EIGEN_SIZE_MAX(RowsAtCompileTime,ColsAtCompileTime)> SquareMatrixType;
+    typedef Matrix<Scalar, internal::max_size_prefer_dynamic(RowsAtCompileTime, ColsAtCompileTime),
+                           internal::max_size_prefer_dynamic(RowsAtCompileTime, ColsAtCompileTime)> SquareMatrixType;
 #endif // not EIGEN_PARSED_BY_DOXYGEN
 
     /** \returns the size of the main diagonal, which is min(rows(),cols()).
@@ -107,10 +110,10 @@ template<typename Derived> class MatrixBase
     /** \internal Represents a matrix with all coefficients equal to one another*/
     typedef CwiseNullaryOp<internal::scalar_constant_op<Scalar>,PlainObject> ConstantReturnType;
     /** \internal the return type of MatrixBase::adjoint() */
-    typedef typename internal::conditional<NumTraits<Scalar>::IsComplex,
-                        CwiseUnaryOp<internal::scalar_conjugate_op<Scalar>, ConstTransposeReturnType>,
-                        ConstTransposeReturnType
-                     >::type AdjointReturnType;
+    typedef std::conditional_t<NumTraits<Scalar>::IsComplex,
+               CwiseUnaryOp<internal::scalar_conjugate_op<Scalar>, ConstTransposeReturnType>,
+               ConstTransposeReturnType
+            > AdjointReturnType;
     /** \internal Return type of eigenvalues() */
     typedef Matrix<std::complex<RealScalar>, internal::traits<Derived>::ColsAtCompileTime, 1, ColMajor> EigenvaluesReturnType;
     /** \internal the return type of identity */
@@ -123,9 +126,9 @@ template<typename Derived> class MatrixBase
 
 #define EIGEN_CURRENT_STORAGE_BASE_CLASS Eigen::MatrixBase
 #define EIGEN_DOC_UNARY_ADDONS(X,Y)
-#   include "../plugins/CommonCwiseBinaryOps.h"
-#   include "../plugins/MatrixCwiseUnaryOps.h"
-#   include "../plugins/MatrixCwiseBinaryOps.h"
+#   include "../plugins/CommonCwiseBinaryOps.inc"
+#   include "../plugins/MatrixCwiseUnaryOps.inc"
+#   include "../plugins/MatrixCwiseBinaryOps.inc"
 #   ifdef EIGEN_MATRIXBASE_PLUGIN
 #     include EIGEN_MATRIXBASE_PLUGIN
 #   endif
@@ -184,6 +187,11 @@ template<typename Derived> class MatrixBase
     const Product<Derived, DiagonalDerived, LazyProduct>
     operator*(const DiagonalBase<DiagonalDerived> &diagonal) const;
 
+    template<typename SkewDerived>
+    EIGEN_DEVICE_FUNC
+    const Product<Derived, SkewDerived, LazyProduct>
+    operator*(const SkewSymmetricBase<SkewDerived> &skew) const;
+
     template<typename OtherDerived>
     EIGEN_DEVICE_FUNC
     typename ScalarBinaryOpTraits<typename internal::traits<Derived>::Scalar,typename internal::traits<OtherDerived>::Scalar>::ReturnType
@@ -206,28 +214,22 @@ template<typename Derived> class MatrixBase
     EIGEN_DEVICE_FUNC
     DiagonalReturnType diagonal();
 
-    typedef typename internal::add_const<Diagonal<const Derived> >::type ConstDiagonalReturnType;
+    typedef Diagonal<const Derived> ConstDiagonalReturnType;
     EIGEN_DEVICE_FUNC
-    ConstDiagonalReturnType diagonal() const;
-
-    template<int Index> struct DiagonalIndexReturnType { typedef Diagonal<Derived,Index> Type; };
-    template<int Index> struct ConstDiagonalIndexReturnType { typedef const Diagonal<const Derived,Index> Type; };
+    const ConstDiagonalReturnType diagonal() const;
 
     template<int Index>
     EIGEN_DEVICE_FUNC
-    typename DiagonalIndexReturnType<Index>::Type diagonal();
+    Diagonal<Derived, Index> diagonal();
 
     template<int Index>
     EIGEN_DEVICE_FUNC
-    typename ConstDiagonalIndexReturnType<Index>::Type diagonal() const;
-
-    typedef Diagonal<Derived,DynamicIndex> DiagonalDynamicIndexReturnType;
-    typedef typename internal::add_const<Diagonal<const Derived,DynamicIndex> >::type ConstDiagonalDynamicIndexReturnType;
+    const Diagonal<const Derived, Index> diagonal() const;
 
     EIGEN_DEVICE_FUNC
-    DiagonalDynamicIndexReturnType diagonal(Index index);
+    Diagonal<Derived, DynamicIndex> diagonal(Index index);
     EIGEN_DEVICE_FUNC
-    ConstDiagonalDynamicIndexReturnType diagonal(Index index) const;
+    const Diagonal<const Derived, DynamicIndex> diagonal(Index index) const;
 
     template<unsigned int Mode> struct TriangularViewReturnType { typedef TriangularView<Derived, Mode> Type; };
     template<unsigned int Mode> struct ConstTriangularViewReturnType { typedef const TriangularView<const Derived, Mode> Type; };
@@ -263,6 +265,8 @@ template<typename Derived> class MatrixBase
     EIGEN_DEVICE_FUNC
     const DiagonalWrapper<const Derived> asDiagonal() const;
     const PermutationWrapper<const Derived> asPermutation() const;
+    EIGEN_DEVICE_FUNC
+    const SkewSymmetricWrapper<const Derived> asSkewSymmetric() const;
 
     EIGEN_DEVICE_FUNC
     Derived& setIdentity();
@@ -276,6 +280,8 @@ template<typename Derived> class MatrixBase
 
     bool isUpperTriangular(const RealScalar& prec = NumTraits<Scalar>::dummy_precision()) const;
     bool isLowerTriangular(const RealScalar& prec = NumTraits<Scalar>::dummy_precision()) const;
+
+    bool isSkewSymmetric(const RealScalar& prec = NumTraits<Scalar>::dummy_precision()) const;
 
     template<typename OtherDerived>
     bool isOrthogonal(const MatrixBase<OtherDerived>& other,
@@ -323,10 +329,10 @@ template<typename Derived> class MatrixBase
 
 /////////// LU module ///////////
 
-    inline const FullPivLU<PlainObject> fullPivLu() const;
-    inline const PartialPivLU<PlainObject> partialPivLu() const;
+    template<typename PermutationIndex = DefaultPermutationIndex> inline const FullPivLU<PlainObject, PermutationIndex> fullPivLu() const;
+    template<typename PermutationIndex = DefaultPermutationIndex> inline const PartialPivLU<PlainObject, PermutationIndex> partialPivLu() const;
 
-    inline const PartialPivLU<PlainObject> lu() const;
+    template<typename PermutationIndex = DefaultPermutationIndex> inline const PartialPivLU<PlainObject, PermutationIndex> lu() const;
 
     EIGEN_DEVICE_FUNC
     inline const Inverse<Derived> inverse() const;
@@ -357,9 +363,9 @@ template<typename Derived> class MatrixBase
 /////////// QR module ///////////
 
     inline const HouseholderQR<PlainObject> householderQr() const;
-    inline const ColPivHouseholderQR<PlainObject> colPivHouseholderQr() const;
-    inline const FullPivHouseholderQR<PlainObject> fullPivHouseholderQr() const;
-    inline const CompleteOrthogonalDecomposition<PlainObject> completeOrthogonalDecomposition() const;
+    template<typename PermutationIndex = DefaultPermutationIndex> inline const ColPivHouseholderQR<PlainObject, PermutationIndex> colPivHouseholderQr() const;
+    template<typename PermutationIndex = DefaultPermutationIndex> inline const FullPivHouseholderQR<PlainObject, PermutationIndex> fullPivHouseholderQr() const;
+    template<typename PermutationIndex = DefaultPermutationIndex> inline const CompleteOrthogonalDecomposition<PlainObject, PermutationIndex> completeOrthogonalDecomposition() const;
 
 /////////// Eigenvalues module ///////////
 
@@ -368,25 +374,23 @@ template<typename Derived> class MatrixBase
 
 /////////// SVD module ///////////
 
-    inline JacobiSVD<PlainObject> jacobiSvd(unsigned int computationOptions = 0) const;
-    inline BDCSVD<PlainObject>    bdcSvd(unsigned int computationOptions = 0) const;
+    template<int Options = 0>
+    inline JacobiSVD<PlainObject, Options> jacobiSvd() const;
+    template<int Options = 0>
+    EIGEN_DEPRECATED
+    inline JacobiSVD<PlainObject, Options> jacobiSvd(unsigned int computationOptions) const;
+
+    template<int Options = 0>
+    inline BDCSVD<PlainObject, Options> bdcSvd() const;
+    template<int Options = 0>
+    EIGEN_DEPRECATED
+    inline BDCSVD<PlainObject, Options> bdcSvd(unsigned int computationOptions) const;
 
 /////////// Geometry module ///////////
 
-    #ifndef EIGEN_PARSED_BY_DOXYGEN
-    /// \internal helper struct to form the return type of the cross product
-    template<typename OtherDerived> struct cross_product_return_type {
-      typedef typename ScalarBinaryOpTraits<typename internal::traits<Derived>::Scalar,typename internal::traits<OtherDerived>::Scalar>::ReturnType Scalar;
-      typedef Matrix<Scalar,MatrixBase::RowsAtCompileTime,MatrixBase::ColsAtCompileTime> type;
-    };
-    #endif // EIGEN_PARSED_BY_DOXYGEN
     template<typename OtherDerived>
     EIGEN_DEVICE_FUNC
-#ifndef EIGEN_PARSED_BY_DOXYGEN
-    inline typename cross_product_return_type<OtherDerived>::type
-#else
-    inline PlainObject
-#endif
+    inline typename internal::cross_impl<Derived, OtherDerived>::return_type
     cross(const MatrixBase<OtherDerived>& other) const;
 
     template<typename OtherDerived>
@@ -396,8 +400,11 @@ template<typename Derived> class MatrixBase
     EIGEN_DEVICE_FUNC
     inline PlainObject unitOrthogonal(void) const;
 
-    EIGEN_DEVICE_FUNC
+    EIGEN_DEPRECATED EIGEN_DEVICE_FUNC
     inline Matrix<Scalar,3,1> eulerAngles(Index a0, Index a1, Index a2) const;
+
+    EIGEN_DEVICE_FUNC
+    inline Matrix<Scalar,3,1> canonicalEulerAngles(Index a0, Index a1, Index a2) const;
 
     // put this as separate enum value to work around possible GCC 4.3 bug (?)
     enum { HomogeneousReturnTypeDirection = ColsAtCompileTime==1&&RowsAtCompileTime==1 ? ((internal::traits<Derived>::Flags&RowMajorBit)==RowMajorBit ? Horizontal : Vertical)
@@ -468,11 +475,9 @@ template<typename Derived> class MatrixBase
     const MatrixFunctionReturnValue<Derived> matrixFunction(StemFunction f) const;
     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, cosh, hyperbolic cosine)
     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, sinh, hyperbolic sine)
-#if EIGEN_HAS_CXX11_MATH
     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, atanh, inverse hyperbolic cosine)
     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, acosh, inverse hyperbolic cosine)
     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, asinh, inverse hyperbolic sine)
-#endif
     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, cos, cosine)
     EIGEN_MATRIX_FUNCTION(MatrixFunctionReturnValue, sin, sine)
     EIGEN_MATRIX_FUNCTION(MatrixSquareRootReturnValue, sqrt, square root)

@@ -10,6 +10,9 @@
 #ifndef EIGEN_SYMBOLIC_INDEX_H
 #define EIGEN_SYMBOLIC_INDEX_H
 
+// IWYU pragma: private
+#include "../InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \namespace Eigen::symbolic
@@ -30,12 +33,11 @@ namespace Eigen {
   * // And evaluate it: (c++14)
   * std::cout << expr.eval(x=6,y=3,z=-13) << "\n";
   *
-  * // In c++98/11, only one symbol per expression is supported for now:
-  * auto expr98 = (3-x)/2;
-  * std::cout << expr98.eval(x=6) << "\n";
   * \endcode
   *
-  * It is currently only used internally to define and manipulate the Eigen::last and Eigen::lastp1 symbols in Eigen::seq and Eigen::seqN.
+  * It is currently only used internally to define and manipulate the
+  * Eigen::placeholders::last and Eigen::placeholders::lastp1 symbols in
+  * Eigen::seq and Eigen::seqN.
   *
   */
 namespace symbolic {
@@ -88,10 +90,8 @@ public:
   template<typename T>
   Index eval(const T& values) const { return derived().eval_impl(values); }
 
-#if EIGEN_HAS_CXX14
   template<typename... Types>
   Index eval(Types&&... values) const { return derived().eval_impl(std::make_tuple(values...)); }
-#endif
 
   NegateExpr<Derived> operator-() const { return NegateExpr<Derived>(derived()); }
 
@@ -138,34 +138,6 @@ public:
   template<int N>
   friend QuotientExpr<ValueExpr<internal::FixedInt<N> >,Derived> operator/(internal::FixedInt<N>, const BaseExpr& b)
   { return QuotientExpr<ValueExpr<internal::FixedInt<N> > ,Derived>(ValueExpr<internal::FixedInt<N> >(),b.derived()); }
-
-#if (!EIGEN_HAS_CXX14)
-  template<int N>
-  AddExpr<Derived,ValueExpr<internal::FixedInt<N> > > operator+(internal::FixedInt<N> (*)()) const
-  { return AddExpr<Derived,ValueExpr<internal::FixedInt<N> > >(derived(), ValueExpr<internal::FixedInt<N> >()); }
-  template<int N>
-  AddExpr<Derived,ValueExpr<internal::FixedInt<-N> > > operator-(internal::FixedInt<N> (*)()) const
-  { return AddExpr<Derived,ValueExpr<internal::FixedInt<-N> > >(derived(), ValueExpr<internal::FixedInt<-N> >()); }
-  template<int N>
-  ProductExpr<Derived,ValueExpr<internal::FixedInt<N> > > operator*(internal::FixedInt<N> (*)()) const
-  { return ProductExpr<Derived,ValueExpr<internal::FixedInt<N> > >(derived(),ValueExpr<internal::FixedInt<N> >()); }
-  template<int N>
-  QuotientExpr<Derived,ValueExpr<internal::FixedInt<N> > > operator/(internal::FixedInt<N> (*)()) const
-  { return QuotientExpr<Derived,ValueExpr<internal::FixedInt<N> > >(derived(),ValueExpr<internal::FixedInt<N> >()); }
-
-  template<int N>
-  friend AddExpr<Derived,ValueExpr<internal::FixedInt<N> > > operator+(internal::FixedInt<N> (*)(), const BaseExpr& b)
-  { return AddExpr<Derived,ValueExpr<internal::FixedInt<N> > >(b.derived(), ValueExpr<internal::FixedInt<N> >()); }
-  template<int N>
-  friend AddExpr<NegateExpr<Derived>,ValueExpr<internal::FixedInt<N> > > operator-(internal::FixedInt<N> (*)(), const BaseExpr& b)
-  { return AddExpr<NegateExpr<Derived>,ValueExpr<internal::FixedInt<N> > >(-b.derived(), ValueExpr<internal::FixedInt<N> >()); }
-  template<int N>
-  friend ProductExpr<ValueExpr<internal::FixedInt<N> >,Derived> operator*(internal::FixedInt<N> (*)(), const BaseExpr& b)
-  { return ProductExpr<ValueExpr<internal::FixedInt<N> >,Derived>(ValueExpr<internal::FixedInt<N> >(),b.derived()); }
-  template<int N>
-  friend QuotientExpr<ValueExpr<internal::FixedInt<N> >,Derived> operator/(internal::FixedInt<N> (*)(), const BaseExpr& b)
-  { return QuotientExpr<ValueExpr<internal::FixedInt<N> > ,Derived>(ValueExpr<internal::FixedInt<N> >(),b.derived()); }
-#endif
 
 
   template<typename OtherDerived>
@@ -228,11 +200,9 @@ public:
 
   Index eval_impl(const SymbolValue<Tag> &values) const { return values.value(); }
 
-#if EIGEN_HAS_CXX14
   // C++14 versions suitable for multiple symbols
   template<typename... Types>
   Index eval_impl(const std::tuple<Types...>& values) const { return std::get<SymbolValue<Tag> >(values).value(); }
-#endif
 };
 
 template<typename Arg0>

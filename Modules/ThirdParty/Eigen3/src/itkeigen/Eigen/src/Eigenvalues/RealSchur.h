@@ -13,6 +13,9 @@
 
 #include "./HessenbergDecomposition.h"
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 /** \eigenvalues_module \ingroup Eigenvalues_Module
@@ -22,7 +25,7 @@ namespace Eigen {
   *
   * \brief Performs a real Schur decomposition of a square matrix
   *
-  * \tparam _MatrixType the type of the matrix of which we are computing the
+  * \tparam MatrixType_ the type of the matrix of which we are computing the
   * real Schur decomposition; this is expected to be an instantiation of the
   * Matrix class template.
   *
@@ -51,10 +54,10 @@ namespace Eigen {
   *
   * \sa class ComplexSchur, class EigenSolver, class ComplexEigenSolver
   */
-template<typename _MatrixType> class RealSchur
+template<typename MatrixType_> class RealSchur
 {
   public:
-    typedef _MatrixType MatrixType;
+    typedef MatrixType_ MatrixType;
     enum {
       RowsAtCompileTime = MatrixType::RowsAtCompileTime,
       ColsAtCompileTime = MatrixType::ColsAtCompileTime,
@@ -312,7 +315,7 @@ RealSchur<MatrixType>& RealSchur<MatrixType>::computeFromHessenberg(const HessMa
   Scalar considerAsZero = numext::maxi<Scalar>( norm * numext::abs2(NumTraits<Scalar>::epsilon()),
                                                 (std::numeric_limits<Scalar>::min)() );
 
-  if(norm!=Scalar(0))
+  if(!numext::is_exactly_zero(norm))
   {
     while (iu >= 0)
     {
@@ -515,7 +518,7 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
     Matrix<Scalar, 2, 1> ess;
     v.makeHouseholder(ess, tau, beta);
     
-    if (beta != Scalar(0)) // if v is not zero
+    if (!numext::is_exactly_zero(beta)) // if v is not zero
     {
       if (firstIteration && k > il)
         m_matT.coeffRef(k,k-1) = -m_matT.coeff(k,k-1);
@@ -535,7 +538,7 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
   Matrix<Scalar, 1, 1> ess;
   v.makeHouseholder(ess, tau, beta);
 
-  if (beta != Scalar(0)) // if v is not zero
+  if (!numext::is_exactly_zero(beta)) // if v is not zero
   {
     m_matT.coeffRef(iu-1, iu-2) = beta;
     m_matT.block(iu-1, iu-1, 2, size-iu+1).applyHouseholderOnTheLeft(ess, tau, workspace);

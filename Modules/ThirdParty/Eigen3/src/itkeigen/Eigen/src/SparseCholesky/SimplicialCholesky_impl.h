@@ -20,6 +20,9 @@ the Mozilla Public License v. 2.0, as stated at the top of this file.
 #ifndef EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
 #define EIGEN_SIMPLICIAL_CHOLESKY_IMPL_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 template<typename Derived>

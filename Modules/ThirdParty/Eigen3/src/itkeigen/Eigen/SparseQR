@@ -28,8 +28,10 @@
   * 
   */
 
+// IWYU pragma: begin_exports
 #include "src/SparseCore/SparseColEtree.h"
 #include "src/SparseQR/SparseQR.h"
+// IWYU pragma: end_exports
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 

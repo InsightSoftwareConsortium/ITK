@@ -12,73 +12,149 @@
 
 // This file implements sparse * permutation products
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
 
+template<typename ExpressionType, typename PlainObjectType, bool NeedEval = !is_same<ExpressionType, PlainObjectType>::value>
+struct XprHelper
+{
+    XprHelper(const ExpressionType& xpr) : m_xpr(xpr) {}
+    inline const PlainObjectType& xpr() const { return m_xpr; }
+    // this is a new PlainObjectType initialized by xpr
+    const PlainObjectType m_xpr;
+};
+template<typename ExpressionType, typename PlainObjectType>
+struct XprHelper<ExpressionType, PlainObjectType, false>
+{
+    XprHelper(const ExpressionType& xpr) : m_xpr(xpr) {}
+    inline const PlainObjectType& xpr() const { return m_xpr; }
+    // this is a reference to xpr
+    const PlainObjectType& m_xpr;
+};
+
+template<typename PermDerived, bool NeedInverseEval>
+struct PermHelper
+{
+    using IndicesType = typename PermDerived::IndicesType;
+    using PermutationIndex = typename IndicesType::Scalar;
+    using type = PermutationMatrix<IndicesType::SizeAtCompileTime, IndicesType::MaxSizeAtCompileTime, PermutationIndex>;
+    PermHelper(const PermDerived& perm) : m_perm(perm.inverse()) {}
+    inline const type& perm() const { return m_perm; }
+    // this is a new PermutationMatrix initialized by perm.inverse()
+    const type m_perm;
+};
+template<typename PermDerived>
+struct PermHelper<PermDerived, false>
+{
+    using type = PermDerived;
+    PermHelper(const PermDerived& perm) : m_perm(perm) {}
+    inline const type& perm() const { return m_perm; }
+    // this is a reference to perm
+    const type& m_perm;
+};
+
 template<typename ExpressionType, int Side, bool Transposed>
 struct permutation_matrix_product<ExpressionType, Side, Transposed, SparseShape>
 {
-    typedef typename nested_eval<ExpressionType, 1>::type MatrixType;
-    typedef typename remove_all<MatrixType>::type MatrixTypeCleaned;
+    using MatrixType = typename nested_eval<ExpressionType, 1>::type;
+    using MatrixTypeCleaned = remove_all_t<MatrixType>;
 
-    typedef typename MatrixTypeCleaned::Scalar Scalar;
-    typedef typename MatrixTypeCleaned::StorageIndex StorageIndex;
+    using Scalar = typename MatrixTypeCleaned::Scalar;
+    using StorageIndex = typename MatrixTypeCleaned::StorageIndex;
 
-    enum {
-      SrcStorageOrder = MatrixTypeCleaned::Flags&RowMajorBit ? RowMajor : ColMajor,
-      MoveOuter = SrcStorageOrder==RowMajor ? Side==OnTheLeft : Side==OnTheRight
-    };
-    
-    typedef typename internal::conditional<MoveOuter,
-        SparseMatrix<Scalar,SrcStorageOrder,StorageIndex>,
-        SparseMatrix<Scalar,int(SrcStorageOrder)==RowMajor?ColMajor:RowMajor,StorageIndex> >::type ReturnType;
+    // the actual "return type" is `Dest`. this is a temporary type
+    using ReturnType = SparseMatrix<Scalar, MatrixTypeCleaned::IsRowMajor ? RowMajor : ColMajor, StorageIndex>;
+    using TmpHelper = XprHelper<ExpressionType, ReturnType>;
 
-    template<typename Dest,typename PermutationType>
-    static inline void run(Dest& dst, const PermutationType& perm, const ExpressionType& xpr)
-    {
-      MatrixType mat(xpr);
-      if(MoveOuter)
-      {
-        SparseMatrix<Scalar,SrcStorageOrder,StorageIndex> tmp(mat.rows(), mat.cols());
-        Matrix<StorageIndex,Dynamic,1> sizes(mat.outerSize());
-        for(Index j=0; j<mat.outerSize(); ++j)
-        {
+    static constexpr bool NeedOuterPermutation = ExpressionType::IsRowMajor ? Side == OnTheLeft : Side == OnTheRight;
+    static constexpr bool NeedInversePermutation = Transposed ? Side == OnTheLeft : Side == OnTheRight;
+
+    template <typename Dest, typename PermutationType>
+    static inline void permute_outer(Dest& dst, const PermutationType& perm, const ExpressionType& xpr) {
+
+        // if ExpressionType is not ReturnType, evaluate `xpr` (allocation)
+        // otherwise, just reference `xpr`
+        // TODO: handle trivial expressions such as CwiseBinaryOp without temporary
+        const TmpHelper tmpHelper(xpr);
+        const ReturnType& tmp = tmpHelper.xpr();
+
+        ReturnType result(tmp.rows(), tmp.cols());
+
+        for (Index j = 0; j < tmp.outerSize(); j++) {
           Index jp = perm.indices().coeff(j);
-          sizes[((Side==OnTheLeft) ^ Transposed) ? jp : j] = StorageIndex(mat.innerVector(((Side==OnTheRight) ^ Transposed) ? jp : j).nonZeros());
+          Index jsrc = NeedInversePermutation ? jp : j;
+          Index jdst = NeedInversePermutation ? j : jp;
+          Index begin = tmp.outerIndexPtr()[jsrc];
+          Index end = tmp.isCompressed() ? tmp.outerIndexPtr()[jsrc + 1] : begin + tmp.innerNonZeroPtr()[jsrc];
+          result.outerIndexPtr()[jdst + 1] += end - begin;
         }
-        tmp.reserve(sizes);
-        for(Index j=0; j<mat.outerSize(); ++j)
-        {
-          Index jp = perm.indices().coeff(j);
-          Index jsrc = ((Side==OnTheRight) ^ Transposed) ? jp : j;
-          Index jdst = ((Side==OnTheLeft) ^ Transposed) ? jp : j;
-          for(typename MatrixTypeCleaned::InnerIterator it(mat,jsrc); it; ++it)
-            tmp.insertByOuterInner(jdst,it.index()) = it.value();
-        }
-        dst = tmp;
-      }
-      else
-      {
-        SparseMatrix<Scalar,int(SrcStorageOrder)==RowMajor?ColMajor:RowMajor,StorageIndex> tmp(mat.rows(), mat.cols());
-        Matrix<StorageIndex,Dynamic,1> sizes(tmp.outerSize());
-        sizes.setZero();
-        PermutationMatrix<Dynamic,Dynamic,StorageIndex> perm_cpy;
-        if((Side==OnTheLeft) ^ Transposed)
-          perm_cpy = perm;
-        else
-          perm_cpy = perm.transpose();
 
-        for(Index j=0; j<mat.outerSize(); ++j)
-          for(typename MatrixTypeCleaned::InnerIterator it(mat,j); it; ++it)
-            sizes[perm_cpy.indices().coeff(it.index())]++;
-        tmp.reserve(sizes);
-        for(Index j=0; j<mat.outerSize(); ++j)
-          for(typename MatrixTypeCleaned::InnerIterator it(mat,j); it; ++it)
-            tmp.insertByOuterInner(perm_cpy.indices().coeff(it.index()),j) = it.value();
-        dst = tmp;
-      }
+        std::partial_sum(result.outerIndexPtr(), result.outerIndexPtr() + result.outerSize() + 1,
+                         result.outerIndexPtr());
+        result.resizeNonZeros(result.nonZeros());
+
+        for (Index j = 0; j < tmp.outerSize(); j++) {
+          Index jp = perm.indices().coeff(j);
+          Index jsrc = NeedInversePermutation ? jp : j;
+          Index jdst = NeedInversePermutation ? j : jp;
+          Index begin = tmp.outerIndexPtr()[jsrc];
+          Index end = tmp.isCompressed() ? tmp.outerIndexPtr()[jsrc + 1] : begin + tmp.innerNonZeroPtr()[jsrc];
+          Index target = result.outerIndexPtr()[jdst];
+          smart_copy(tmp.innerIndexPtr() + begin, tmp.innerIndexPtr() + end, result.innerIndexPtr() + target);
+          smart_copy(tmp.valuePtr() + begin, tmp.valuePtr() + end, result.valuePtr() + target);
+        }
+        dst = std::move(result);
     }
+
+    template <typename Dest, typename PermutationType>
+    static inline void permute_inner(Dest& dst, const PermutationType& perm, const ExpressionType& xpr) {
+        using InnerPermHelper = PermHelper<PermutationType, NeedInversePermutation>;
+        using InnerPermType = typename InnerPermHelper::type;
+
+        // if ExpressionType is not ReturnType, evaluate `xpr` (allocation)
+        // otherwise, just reference `xpr`
+        // TODO: handle trivial expressions such as CwiseBinaryOp without temporary
+        const TmpHelper tmpHelper(xpr);
+        const ReturnType& tmp = tmpHelper.xpr();
+
+        // if inverse permutation of inner indices is requested, calculate perm.inverse() (allocation)
+        // otherwise, just reference `perm`
+        const InnerPermHelper permHelper(perm);
+        const InnerPermType& innerPerm = permHelper.perm();
+
+        ReturnType result(tmp.rows(), tmp.cols());
+
+        for (Index j = 0; j < tmp.outerSize(); j++) {
+            Index begin = tmp.outerIndexPtr()[j];
+            Index end = tmp.isCompressed() ? tmp.outerIndexPtr()[j + 1] : begin + tmp.innerNonZeroPtr()[j];
+            result.outerIndexPtr()[j + 1] += end - begin;
+        }
+
+        std::partial_sum(result.outerIndexPtr(), result.outerIndexPtr() + result.outerSize() + 1, result.outerIndexPtr());
+        result.resizeNonZeros(result.nonZeros());
+
+        for (Index j = 0; j < tmp.outerSize(); j++) {
+            Index begin = tmp.outerIndexPtr()[j];
+            Index end = tmp.isCompressed() ? tmp.outerIndexPtr()[j + 1] : begin + tmp.innerNonZeroPtr()[j];
+            Index target = result.outerIndexPtr()[j];
+            std::transform(tmp.innerIndexPtr() + begin, tmp.innerIndexPtr() + end, result.innerIndexPtr() + target,
+                           [&innerPerm](StorageIndex i) { return innerPerm.indices().coeff(i); });
+            smart_copy(tmp.valuePtr() + begin, tmp.valuePtr() + end, result.valuePtr() + target);
+        }
+        // the inner indices were permuted, and must be sorted
+        result.sortInnerIndices();
+        dst = std::move(result);
+    }
+
+    template <typename Dest, typename PermutationType, bool DoOuter = NeedOuterPermutation, std::enable_if_t<DoOuter, int> = 0>
+    static inline void run(Dest& dst, const PermutationType& perm, const ExpressionType& xpr) { permute_outer(dst, perm, xpr); }
+
+    template <typename Dest, typename PermutationType, bool DoOuter = NeedOuterPermutation, std::enable_if_t<!DoOuter, int> = 0>
+    static inline void run(Dest& dst, const PermutationType& perm, const ExpressionType& xpr) { permute_inner(dst, perm, xpr); }
 };
 
 }
@@ -107,7 +183,7 @@ struct product_evaluator<Product<Lhs, Rhs, AliasFreeProduct>, ProductTag, Permut
   explicit product_evaluator(const XprType& xpr)
     : m_result(xpr.rows(), xpr.cols())
   {
-    ::new (static_cast<Base*>(this)) Base(m_result);
+    internal::construct_at<Base>(this, m_result);
     generic_product_impl<Lhs, Rhs, PermutationShape, SparseShape, ProductTag>::evalTo(m_result, xpr.lhs(), xpr.rhs());
   }
 
@@ -141,35 +217,34 @@ protected:
 } // end namespace internal
 
 /** \returns the matrix with the permutation applied to the columns
-  */
-template<typename SparseDerived, typename PermDerived>
-inline const Product<SparseDerived, PermDerived, AliasFreeProduct>
-operator*(const SparseMatrixBase<SparseDerived>& matrix, const PermutationBase<PermDerived>& perm)
-{ return Product<SparseDerived, PermDerived, AliasFreeProduct>(matrix.derived(), perm.derived()); }
+ */
+template <typename SparseDerived, typename PermDerived>
+inline const Product<SparseDerived, PermDerived, AliasFreeProduct> operator*(
+    const SparseMatrixBase<SparseDerived>& matrix, const PermutationBase<PermDerived>& perm) {
+  return Product<SparseDerived, PermDerived, AliasFreeProduct>(matrix.derived(), perm.derived());
+}
 
 /** \returns the matrix with the permutation applied to the rows
-  */
-template<typename SparseDerived, typename PermDerived>
-inline const Product<PermDerived, SparseDerived, AliasFreeProduct>
-operator*( const PermutationBase<PermDerived>& perm, const SparseMatrixBase<SparseDerived>& matrix)
-{ return  Product<PermDerived, SparseDerived, AliasFreeProduct>(perm.derived(), matrix.derived()); }
-
+ */
+template <typename SparseDerived, typename PermDerived>
+inline const Product<PermDerived, SparseDerived, AliasFreeProduct> operator*(
+    const PermutationBase<PermDerived>& perm, const SparseMatrixBase<SparseDerived>& matrix) {
+  return Product<PermDerived, SparseDerived, AliasFreeProduct>(perm.derived(), matrix.derived());
+}
 
 /** \returns the matrix with the inverse permutation applied to the columns.
-  */
-template<typename SparseDerived, typename PermutationType>
-inline const Product<SparseDerived, Inverse<PermutationType>, AliasFreeProduct>
-operator*(const SparseMatrixBase<SparseDerived>& matrix, const InverseImpl<PermutationType, PermutationStorage>& tperm)
-{
+ */
+template <typename SparseDerived, typename PermutationType>
+inline const Product<SparseDerived, Inverse<PermutationType>, AliasFreeProduct> operator*(
+    const SparseMatrixBase<SparseDerived>& matrix, const InverseImpl<PermutationType, PermutationStorage>& tperm) {
   return Product<SparseDerived, Inverse<PermutationType>, AliasFreeProduct>(matrix.derived(), tperm.derived());
 }
 
 /** \returns the matrix with the inverse permutation applied to the rows.
-  */
-template<typename SparseDerived, typename PermutationType>
-inline const Product<Inverse<PermutationType>, SparseDerived, AliasFreeProduct>
-operator*(const InverseImpl<PermutationType,PermutationStorage>& tperm, const SparseMatrixBase<SparseDerived>& matrix)
-{
+ */
+template <typename SparseDerived, typename PermutationType>
+inline const Product<Inverse<PermutationType>, SparseDerived, AliasFreeProduct> operator*(
+    const InverseImpl<PermutationType, PermutationStorage>& tperm, const SparseMatrixBase<SparseDerived>& matrix) {
   return Product<Inverse<PermutationType>, SparseDerived, AliasFreeProduct>(tperm.derived(), matrix.derived());
 }
 

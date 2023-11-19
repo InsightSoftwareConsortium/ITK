@@ -10,6 +10,9 @@
 #ifndef EIGEN_SPARSETRIANGULARSOLVER_H
 #define EIGEN_SPARSETRIANGULARSOLVER_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -114,7 +117,7 @@ struct sparse_solve_triangular_selector<Lhs,Rhs,Mode,Lower,ColMajor>
       for(Index i=0; i<lhs.cols(); ++i)
       {
         Scalar& tmp = other.coeffRef(i,col);
-        if (tmp!=Scalar(0)) // optimization when other is actually sparse
+        if (!numext::is_exactly_zero(tmp)) // optimization when other is actually sparse
         {
           LhsIterator it(lhsEval, i);
           while(it && it.index()<i)
@@ -149,7 +152,7 @@ struct sparse_solve_triangular_selector<Lhs,Rhs,Mode,Upper,ColMajor>
       for(Index i=lhs.cols()-1; i>=0; --i)
       {
         Scalar& tmp = other.coeffRef(i,col);
-        if (tmp!=Scalar(0)) // optimization when other is actually sparse
+        if (!numext::is_exactly_zero(tmp)) // optimization when other is actually sparse
         {
           if(!(Mode & UnitDiag))
           {
@@ -182,11 +185,11 @@ void TriangularViewImpl<ExpressionType,Mode,Sparse>::solveInPlace(MatrixBase<Oth
 
   enum { copy = internal::traits<OtherDerived>::Flags & RowMajorBit };
 
-  typedef typename internal::conditional<copy,
-    typename internal::plain_matrix_type_column_major<OtherDerived>::type, OtherDerived&>::type OtherCopy;
+  typedef std::conditional_t<copy,
+    typename internal::plain_matrix_type_column_major<OtherDerived>::type, OtherDerived&> OtherCopy;
   OtherCopy otherCopy(other.derived());
 
-  internal::sparse_solve_triangular_selector<ExpressionType, typename internal::remove_reference<OtherCopy>::type, Mode>::run(derived().nestedExpression(), otherCopy);
+  internal::sparse_solve_triangular_selector<ExpressionType, std::remove_reference_t<OtherCopy>, Mode>::run(derived().nestedExpression(), otherCopy);
 
   if (copy)
     other = otherCopy;
@@ -239,7 +242,7 @@ struct sparse_solve_triangular_sparse_selector<Lhs,Rhs,Mode,UpLo,ColMajor>
       {
         tempVector.restart();
         Scalar& ci = tempVector.coeffRef(i);
-        if (ci!=Scalar(0))
+        if (!numext::is_exactly_zero(ci))
         {
           // find
           typename Lhs::InnerIterator it(lhs, i);
@@ -270,11 +273,11 @@ struct sparse_solve_triangular_sparse_selector<Lhs,Rhs,Mode,UpLo,ColMajor>
       }
 
 
-      Index count = 0;
+//       Index count = 0;
       // FIXME compute a reference value to filter zeros
       for (typename AmbiVector<Scalar,StorageIndex>::Iterator it(tempVector/*,1e-12*/); it; ++it)
       {
-        ++ count;
+//         ++ count;
 //         std::cerr << "fill " << it.index() << ", " << col << "\n";
 //         std::cout << it.value() << "  ";
         // FIXME use insertBack
@@ -299,8 +302,8 @@ void TriangularViewImpl<ExpressionType,Mode,Sparse>::solveInPlace(SparseMatrixBa
 
 //   enum { copy = internal::traits<OtherDerived>::Flags & RowMajorBit };
 
-//   typedef typename internal::conditional<copy,
-//     typename internal::plain_matrix_type_column_major<OtherDerived>::type, OtherDerived&>::type OtherCopy;
+//   typedef std::conditional_t<copy,
+//     typename internal::plain_matrix_type_column_major<OtherDerived>::type, OtherDerived&> OtherCopy;
 //   OtherCopy otherCopy(other.derived());
 
   internal::sparse_solve_triangular_sparse_selector<ExpressionType, OtherDerived, Mode>::run(derived().nestedExpression(), other.derived());

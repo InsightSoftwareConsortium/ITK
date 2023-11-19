@@ -10,6 +10,9 @@
 #ifndef EIGEN_SPARSESOLVERBASE_H
 #define EIGEN_SPARSESOLVERBASE_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen { 
 
 namespace internal {
@@ -19,7 +22,7 @@ namespace internal {
   * The rhs is decomposed into small vertical panels which are solved through dense temporaries.
   */
 template<typename Decomposition, typename Rhs, typename Dest>
-typename enable_if<Rhs::ColsAtCompileTime!=1 && Dest::ColsAtCompileTime!=1>::type
+std::enable_if_t<Rhs::ColsAtCompileTime!=1 && Dest::ColsAtCompileTime!=1>
 solve_sparse_through_dense_panels(const Decomposition &dec, const Rhs& rhs, Dest &dest)
 {
   EIGEN_STATIC_ASSERT((Dest::Flags&RowMajorBit)==0,THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
@@ -43,7 +46,7 @@ solve_sparse_through_dense_panels(const Decomposition &dec, const Rhs& rhs, Dest
 
 // Overload for vector as rhs
 template<typename Decomposition, typename Rhs, typename Dest>
-typename enable_if<Rhs::ColsAtCompileTime==1 || Dest::ColsAtCompileTime==1>::type
+std::enable_if_t<Rhs::ColsAtCompileTime==1 || Dest::ColsAtCompileTime==1>
 solve_sparse_through_dense_panels(const Decomposition &dec, const Rhs& rhs, Dest &dest)
 {
   typedef typename Dest::Scalar DestScalar;
@@ -72,6 +75,8 @@ class SparseSolverBase : internal::noncopyable
     SparseSolverBase()
       : m_isInitialized(false)
     {}
+
+    SparseSolverBase(SparseSolverBase&&other ) : internal::noncopyable{}, m_isInitialized{other.m_isInitialized} {}
 
     ~SparseSolverBase()
     {}

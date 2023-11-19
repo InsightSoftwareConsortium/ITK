@@ -10,12 +10,15 @@
 #ifndef EIGEN_DENSECOEFFSBASE_H
 #define EIGEN_DENSECOEFFSBASE_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
 template<typename T> struct add_const_on_value_type_if_arithmetic
 {
-  typedef typename conditional<is_arithmetic<T>::value, T, typename add_const_on_value_type<T>::type>::type type;
+  typedef std::conditional_t<is_arithmetic<T>::value, T, add_const_on_value_type_t<T>> type;
 };
 }
 
@@ -43,13 +46,13 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
     // - This is the return type of the coeff() method.
     // - The LvalueBit means exactly that we can offer a coeffRef() method, which means exactly that we can get references
     // to coeffs, which means exactly that we can have coeff() return a const reference (as opposed to returning a value).
-    // - The is_artihmetic check is required since "const int", "const double", etc. will cause warnings on some systems
+    // - The is_arithmetic check is required since "const int", "const double", etc. will cause warnings on some systems
     // while the declaration of "const T", where T is a non arithmetic type does not. Always returning "const Scalar&" is
     // not possible, since the underlying expressions might not offer a valid address the reference could be referring to.
-    typedef typename internal::conditional<bool(internal::traits<Derived>::Flags&LvalueBit),
-                         const Scalar&,
-                         typename internal::conditional<internal::is_arithmetic<Scalar>::value, Scalar, const Scalar>::type
-                     >::type CoeffReturnType;
+    typedef std::conditional_t<bool(internal::traits<Derived>::Flags&LvalueBit),
+                const Scalar&,
+                std::conditional_t<internal::is_arithmetic<Scalar>::value, Scalar, const Scalar>
+            > CoeffReturnType;
 
     typedef typename internal::add_const_on_value_type_if_arithmetic<
                          typename internal::packet_traits<Scalar>::type

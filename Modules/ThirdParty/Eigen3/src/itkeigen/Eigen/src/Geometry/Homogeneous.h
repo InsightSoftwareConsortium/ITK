@@ -10,6 +10,9 @@
 #ifndef EIGEN_HOMOGENEOUS_H
 #define EIGEN_HOMOGENEOUS_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 /** \geometry_module \ingroup Geometry_Module
@@ -35,7 +38,7 @@ struct traits<Homogeneous<MatrixType,Direction> >
 {
   typedef typename traits<MatrixType>::StorageKind StorageKind;
   typedef typename ref_selector<MatrixType>::type MatrixTypeNested;
-  typedef typename remove_reference<MatrixTypeNested>::type _MatrixTypeNested;
+  typedef std::remove_reference_t<MatrixTypeNested> MatrixTypeNested_;
   enum {
     RowsPlusOne = (MatrixType::RowsAtCompileTime != Dynamic) ?
                   int(MatrixType::RowsAtCompileTime) + 1 : Dynamic,
@@ -45,7 +48,7 @@ struct traits<Homogeneous<MatrixType,Direction> >
     ColsAtCompileTime = Direction==Horizontal ? ColsPlusOne : MatrixType::ColsAtCompileTime,
     MaxRowsAtCompileTime = RowsAtCompileTime,
     MaxColsAtCompileTime = ColsAtCompileTime,
-    TmpFlags = _MatrixTypeNested::Flags & HereditaryBits,
+    TmpFlags = MatrixTypeNested_::Flags & HereditaryBits,
     Flags = ColsAtCompileTime==1 ? (TmpFlags & ~RowMajorBit)
           : RowsAtCompileTime==1 ? (TmpFlags | RowMajorBit)
           : TmpFlags
@@ -57,13 +60,13 @@ template<typename MatrixType,typename Rhs> struct homogeneous_right_product_impl
 
 } // end namespace internal
 
-template<typename MatrixType,int _Direction> class Homogeneous
-  : public MatrixBase<Homogeneous<MatrixType,_Direction> >, internal::no_assignment_operator
+template<typename MatrixType,int Direction_> class Homogeneous
+  : public MatrixBase<Homogeneous<MatrixType,Direction_> >, internal::no_assignment_operator
 {
   public:
 
     typedef MatrixType NestedExpression;
-    enum { Direction = _Direction };
+    enum { Direction = Direction_ };
 
     typedef MatrixBase<Homogeneous> Base;
     EIGEN_DENSE_PUBLIC_INTERFACE(Homogeneous)
@@ -225,7 +228,7 @@ template<typename Scalar, int Dim, int Mode,int Options>
 struct take_matrix_for_product<Transform<Scalar, Dim, Mode, Options> >
 {
   typedef Transform<Scalar, Dim, Mode, Options> TransformType;
-  typedef typename internal::add_const<typename TransformType::ConstAffinePart>::type type;
+  typedef std::add_const_t<typename TransformType::ConstAffinePart> type;
   EIGEN_DEVICE_FUNC static type run (const TransformType& x) { return x.affine(); }
 };
 
@@ -241,8 +244,8 @@ template<typename MatrixType,typename Lhs>
 struct traits<homogeneous_left_product_impl<Homogeneous<MatrixType,Vertical>,Lhs> >
 {
   typedef typename take_matrix_for_product<Lhs>::type LhsMatrixType;
-  typedef typename remove_all<MatrixType>::type MatrixTypeCleaned;
-  typedef typename remove_all<LhsMatrixType>::type LhsMatrixTypeCleaned;
+  typedef remove_all_t<MatrixType> MatrixTypeCleaned;
+  typedef remove_all_t<LhsMatrixType> LhsMatrixTypeCleaned;
   typedef typename make_proper_matrix_type<
                  typename traits<MatrixTypeCleaned>::Scalar,
                  LhsMatrixTypeCleaned::RowsAtCompileTime,
@@ -257,8 +260,8 @@ struct homogeneous_left_product_impl<Homogeneous<MatrixType,Vertical>,Lhs>
   : public ReturnByValue<homogeneous_left_product_impl<Homogeneous<MatrixType,Vertical>,Lhs> >
 {
   typedef typename traits<homogeneous_left_product_impl>::LhsMatrixType LhsMatrixType;
-  typedef typename remove_all<LhsMatrixType>::type LhsMatrixTypeCleaned;
-  typedef typename remove_all<typename LhsMatrixTypeCleaned::Nested>::type LhsMatrixTypeNested;
+  typedef remove_all_t<LhsMatrixType> LhsMatrixTypeCleaned;
+  typedef remove_all_t<typename LhsMatrixTypeCleaned::Nested> LhsMatrixTypeNested;
   EIGEN_DEVICE_FUNC homogeneous_left_product_impl(const Lhs& lhs, const MatrixType& rhs)
     : m_lhs(take_matrix_for_product<Lhs>::run(lhs)),
       m_rhs(rhs)
@@ -299,7 +302,7 @@ template<typename MatrixType,typename Rhs>
 struct homogeneous_right_product_impl<Homogeneous<MatrixType,Horizontal>,Rhs>
   : public ReturnByValue<homogeneous_right_product_impl<Homogeneous<MatrixType,Horizontal>,Rhs> >
 {
-  typedef typename remove_all<typename Rhs::Nested>::type RhsNested;
+  typedef remove_all_t<typename Rhs::Nested> RhsNested;
   EIGEN_DEVICE_FUNC homogeneous_right_product_impl(const MatrixType& lhs, const Rhs& rhs)
     : m_lhs(lhs), m_rhs(rhs)
   {}
@@ -343,7 +346,7 @@ struct unary_evaluator<Homogeneous<ArgType,Direction>, IndexBased>
   EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& op)
     : Base(), m_temp(op)
   {
-    ::new (static_cast<Base*>(this)) Base(m_temp);
+    internal::construct_at<Base>(this, m_temp);
   }
 
 protected:
@@ -402,7 +405,7 @@ struct homogeneous_right_product_refactoring_helper
     Rows = Lhs::RowsAtCompileTime
   };
   typedef typename Rhs::template ConstNRowsBlockXpr<Dim>::Type          LinearBlockConst;
-  typedef typename remove_const<LinearBlockConst>::type                 LinearBlock;
+  typedef std::remove_const_t<LinearBlockConst>                 LinearBlock;
   typedef typename Rhs::ConstRowXpr                                     ConstantColumn;
   typedef Replicate<const ConstantColumn,Rows,1>                        ConstantBlock;
   typedef Product<Lhs,LinearBlock,LazyProduct>                          LinearProduct;
@@ -455,7 +458,7 @@ struct homogeneous_left_product_refactoring_helper
     Cols = Rhs::ColsAtCompileTime
   };
   typedef typename Lhs::template ConstNColsBlockXpr<Dim>::Type          LinearBlockConst;
-  typedef typename remove_const<LinearBlockConst>::type                 LinearBlock;
+  typedef std::remove_const_t<LinearBlockConst>                 LinearBlock;
   typedef typename Lhs::ConstColXpr                                     ConstantColumn;
   typedef Replicate<const ConstantColumn,1,Cols>                        ConstantBlock;
   typedef Product<LinearBlock,Rhs,LazyProduct>                          LinearProduct;

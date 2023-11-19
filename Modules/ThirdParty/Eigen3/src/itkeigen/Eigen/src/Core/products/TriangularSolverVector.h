@@ -10,6 +10,9 @@
 #ifndef EIGEN_TRIANGULAR_SOLVER_VECTOR_H
 #define EIGEN_TRIANGULAR_SOLVER_VECTOR_H
 
+// IWYU pragma: private
+#include "../InternalHeaderCheck.h"
+
 namespace Eigen {
 
 namespace internal {
@@ -41,11 +44,10 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
     typedef const_blas_data_mapper<LhsScalar,Index,RowMajor> LhsMapper;
     typedef const_blas_data_mapper<RhsScalar,Index,ColMajor> RhsMapper;
 
-    typename internal::conditional<
-                          Conjugate,
-                          const CwiseUnaryOp<typename internal::scalar_conjugate_op<LhsScalar>,LhsMap>,
-                          const LhsMap&>
-                        ::type cjLhs(lhs);
+    std::conditional_t<
+                  Conjugate,
+                  const CwiseUnaryOp<typename internal::scalar_conjugate_op<LhsScalar>,LhsMap>,
+                  const LhsMap&> cjLhs(lhs);
     static const Index PanelWidth = EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
     for(Index pi=IsLower ? 0 : size;
         IsLower ? pi<size : pi>0;
@@ -77,7 +79,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
         if (k>0)
           rhs[i] -= (cjLhs.row(i).segment(s,k).transpose().cwiseProduct(Map<const Matrix<RhsScalar,Dynamic,1> >(rhs+s,k))).sum();
 
-        if((!(Mode & UnitDiag)) && numext::not_equal_strict(rhs[i],RhsScalar(0)))
+        if((!(Mode & UnitDiag)) && !is_identically_zero(rhs[i]))
           rhs[i] /= cjLhs(i,i);
       }
     }
@@ -97,10 +99,10 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
     const LhsMap lhs(_lhs,size,size,OuterStride<>(lhsStride));
     typedef const_blas_data_mapper<LhsScalar,Index,ColMajor> LhsMapper;
     typedef const_blas_data_mapper<RhsScalar,Index,ColMajor> RhsMapper;
-    typename internal::conditional<Conjugate,
-                                   const CwiseUnaryOp<typename internal::scalar_conjugate_op<LhsScalar>,LhsMap>,
-                                   const LhsMap&
-                                  >::type cjLhs(lhs);
+    std::conditional_t<Conjugate,
+                            const CwiseUnaryOp<typename internal::scalar_conjugate_op<LhsScalar>,LhsMap>,
+                            const LhsMap&
+                           > cjLhs(lhs);
     static const Index PanelWidth = EIGEN_TUNE_TRIANGULAR_PANEL_WIDTH;
 
     for(Index pi=IsLower ? 0 : size;
@@ -114,7 +116,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
       for(Index k=0; k<actualPanelWidth; ++k)
       {
         Index i = IsLower ? pi+k : pi-k-1;
-        if(numext::not_equal_strict(rhs[i],RhsScalar(0)))
+        if(!is_identically_zero(rhs[i]))
         {
           if(!(Mode & UnitDiag))
             rhs[i] /= cjLhs.coeff(i,i);

@@ -10,6 +10,9 @@
 #ifndef EIGEN_SOLVE_H
 #define EIGEN_SOLVE_H
 
+// IWYU pragma: private
+#include "./InternalHeaderCheck.h"
+
 namespace Eigen {
 
 template<typename Decomposition, typename RhsType, typename StorageKind> class SolveImpl;
@@ -77,7 +80,7 @@ public:
 
 protected:
   const Decomposition &m_dec;
-  const RhsType       &m_rhs;
+  const typename internal::ref_selector<RhsType>::type m_rhs;
 };
 
 
@@ -123,7 +126,7 @@ struct evaluator<Solve<Decomposition,RhsType> >
   EIGEN_DEVICE_FUNC explicit evaluator(const SolveType& solve)
     : m_result(solve.rows(), solve.cols())
   {
-    ::new (static_cast<Base*>(this)) Base(m_result);
+    internal::construct_at<Base>(this, m_result);
     solve.dec()._solve_impl(solve.rhs(), m_result);
   }
 
