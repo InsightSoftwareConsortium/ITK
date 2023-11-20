@@ -34,6 +34,15 @@
 #include "itkContinuousIndex.h"
 #include "itkMath.h"
 
+// Macro added to each `ImageRegion` member function that overrides a virtual member function of `Region`. In the
+// future, `ImageRegion` will no longer inherit from `Region`, so then those `ImageRegion` member functions will no
+// longer override.
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+#  define itkRegionOverrideMacro // nothing (in the future)
+#else
+#  define itkRegionOverrideMacro override
+#endif
+
 namespace itk
 {
 // Forward declaration of ImageBase so it can be declared a friend
@@ -66,15 +75,26 @@ class ITK_TEMPLATE_EXPORT ImageBase;
  * \endsphinx
  */
 template <unsigned int VImageDimension>
-class ITK_TEMPLATE_EXPORT ImageRegion final : public Region
+class ITK_TEMPLATE_EXPORT ImageRegion final
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  // This inheritance is to be removed in the future.
+  : public Region
+#endif
 {
 public:
   /** Standard class type aliases. */
   using Self = ImageRegion;
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   using Superclass = Region;
+#endif
 
   /** Standard part of all itk objects. */
-  itkTypeMacro(ImageRegion, Region);
+  const char *
+  GetNameOfClass() const itkRegionOverrideMacro
+  {
+    return "ImageRegion";
+  }
 
   /** Dimension of the image available at compile time. */
   static constexpr unsigned int ImageDimension = VImageDimension;
@@ -106,11 +126,15 @@ public:
   using SliceRegion = ImageRegion<Self::SliceDimension>;
 
   /** Return the region type. Images are described with structured regions. */
-  Superclass::RegionEnum
-  GetRegionType() const override
+  Region::RegionEnum
+  GetRegionType() const itkRegionOverrideMacro
   {
-    return Superclass::RegionEnum::ITK_STRUCTURED_REGION;
+    return Region::RegionEnum::ITK_STRUCTURED_REGION;
   }
+
+  /** Print the region. */
+  void
+  Print(std::ostream & os, Indent indent = 0) const itkRegionOverrideMacro;
 
   /** Constructor. ImageRegion is a lightweight object that is not reference
    * counted, so the constructor is public. Its two data members are filled
@@ -119,7 +143,7 @@ public:
 
   /** Destructor. ImageRegion is a lightweight object that is not reference
    * counted, so the destructor is public. */
-  ~ImageRegion() override = default;
+  ~ImageRegion() itkRegionOverrideMacro = default;
 
   /** Copy constructor. ImageRegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
@@ -339,7 +363,7 @@ protected:
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
   void
-  PrintSelf(std::ostream & os, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const itkRegionOverrideMacro;
 
 private:
   IndexType m_Index = { { 0 } };
@@ -353,6 +377,8 @@ template <unsigned int VImageDimension>
 std::ostream &
 operator<<(std::ostream & os, const ImageRegion<VImageDimension> & region);
 } // end namespace itk
+
+#undef itkRegionOverrideMacro
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageRegion.hxx"

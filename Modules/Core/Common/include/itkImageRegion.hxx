@@ -84,10 +84,16 @@ ImageRegion<VImageDimension>::GetNumberOfPixels() const -> SizeValueType
 
 template <unsigned int VImageDimension>
 void
+ImageRegion<VImageDimension>::Print(std::ostream & os, Indent indent) const
+{
+  os << indent << this->GetNameOfClass() << " (" << this << ")\n";
+  this->PrintSelf(os, indent.GetNextIndent());
+}
+
+template <unsigned int VImageDimension>
+void
 ImageRegion<VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);
-
   os << indent << "Dimension: " << this->GetImageDimension() << std::endl;
   os << indent << "Index: " << m_Index << std::endl;
   os << indent << "Size: " << m_Size << std::endl;
