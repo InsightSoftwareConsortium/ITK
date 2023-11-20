@@ -55,3 +55,5 @@ sphinx-autobuild -a . _build/html
 
 This will start a server at [http://127.0.0.1:8000](http://127.0.0.1:8000)
 and rebuild whenever the documentation changes.
+
+[sphinx-autobuild]: https://github.com/executablebooks/sphinx-autobuild
