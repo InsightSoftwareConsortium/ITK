@@ -36,27 +36,20 @@ return_pipe_status() {
 
 find_data_objects() {
   git ls-tree --full-tree -r "$1" |
-  egrep '\.(md5)$' |
+  egrep '\.(cid)$' |
   while read mode type obj path; do
     case "$path" in
-      *.md5)  echo MD5/$(git cat-file blob $obj) ;;
+      *.cid)  echo CID/$(git cat-file blob $obj) ;;
       *)      die "Unknown ExternalData content link: $path" ;;
     esac
   done | sort | uniq
   return_pipe_status
 }
 
-validate_MD5() {
-  md5sum=$(md5sum "$1" | sed 's/ .*//') &&
-  if test "$md5sum" != "$2"; then
-    die "Object MD5/$2 is corrupt: $1"
-  fi
-}
-
 download_object() {
   algo="$1" ; hash="$2" ; path="$3"
   mkdir -p $(dirname "$path") &&
-  if curl -L "https://www.itk.org/files/ExternalData/$algo/$hash" -o "$path.tmp$$" 1>&2; then
+  if curl -L "http://127.0.01:8080/ipfs/$hash" -o "$path.tmp$$" 1>&2; then
     mv "$path.tmp$$" "$path"
   else
     rm -f "$path.tmp$$"
@@ -78,7 +71,6 @@ index_data_objects() {
       download_object "$algo" "$hash" "$path" &&
       file="$path"
     fi &&
-    validate_$algo "$file" "$hash" &&
     obj=$(git hash-object -t blob -w "$file") &&
     echo "100644 blob $obj	$path" ||
     return
