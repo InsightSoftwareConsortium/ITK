@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhilipsRECImageIO, Superclass);
+  itkTypeMacro(PhilipsRECImageIO, ImageIOBase);
 
   /** Special types used for Philips PAR meta data. */
   using EchoTimesContainerType = VectorContainer<unsigned int, double>;

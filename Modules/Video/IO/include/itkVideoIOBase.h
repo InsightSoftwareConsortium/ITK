@@ -86,7 +86,7 @@ public:
   using CameraIDType = SizeValueType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VideoIOBase, Superclass);
+  itkTypeMacro(VideoIOBase, ImageIOBase);
 
   /** Close the reader and writer and reset members */
   virtual void

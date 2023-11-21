@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VXLVideoIO, Superclass);
+  itkTypeMacro(VXLVideoIO, VideoIOBase);
 
   /** Close the reader and writer and reset members */
   void

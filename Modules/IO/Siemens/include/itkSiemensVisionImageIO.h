@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SiemensVisionImageIO, Superclass);
+  itkTypeMacro(SiemensVisionImageIO, IPLCommonImageIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

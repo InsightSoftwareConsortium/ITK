@@ -64,7 +64,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformIOBaseTemplate, Superclass);
+  itkTypeMacro(TransformIOBaseTemplate, LightProcessObject);
 
   /** Transform types */
   using ScalarType = TParametersValueType; // For backwards compatibility

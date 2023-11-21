@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GE5ImageIO, Superclass);
+  itkTypeMacro(GE5ImageIO, IPLCommonImageIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

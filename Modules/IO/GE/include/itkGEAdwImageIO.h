@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GEAdwImageIO, Superclass);
+  itkTypeMacro(GEAdwImageIO, IPLCommonImageIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
