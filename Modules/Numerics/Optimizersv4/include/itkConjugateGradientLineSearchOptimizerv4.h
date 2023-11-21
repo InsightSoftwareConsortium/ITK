@@ -58,7 +58,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConjugateGradientLineSearchOptimizerv4Template, Superclass);
+  itkTypeMacro(ConjugateGradientLineSearchOptimizerv4Template, GradientDescentLineSearchOptimizerv4Template);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);

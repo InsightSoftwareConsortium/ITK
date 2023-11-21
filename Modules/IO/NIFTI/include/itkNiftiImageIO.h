@@ -108,7 +108,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NiftiImageIO, Superclass);
+  itkTypeMacro(NiftiImageIO, ImageIOBase);
 
   //-------- This part of the interfaces deals with reading data. -----
 

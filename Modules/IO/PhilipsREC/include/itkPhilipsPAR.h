@@ -223,7 +223,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhilipsPAR, Superclass);
+  itkTypeMacro(PhilipsPAR, LightProcessObject);
 
   // Reads the PAR file parameters in "parFile" and stores the PAR parameters in
   // pPar.

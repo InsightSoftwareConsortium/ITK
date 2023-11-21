@@ -120,7 +120,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GDCMImageIO, Superclass);
+  itkTypeMacro(GDCMImageIO, ImageIOBase);
 
   /*-------- This part of the interface deals with reading data. ------ */
 
