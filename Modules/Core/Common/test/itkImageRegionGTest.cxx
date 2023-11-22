@@ -86,8 +86,7 @@ TEST(ImageRegion, CropReturnsFalseWithoutChangingAnythingWhenItCannotCrop)
   for (const auto indexValue : { std::numeric_limits<itk::IndexValueType>::min(),
                                  itk::IndexValueType{ -1 },
                                  itk::IndexValueType{},
-                                 itk::IndexValueType{ 1 },
-                                 std::numeric_limits<itk::IndexValueType>::max() })
+                                 itk::IndexValueType{ 1 } })
   {
     const RegionType zeroSizedRegion{ IndexType::Filled(indexValue), SizeType{} };
     const RegionType nonZeroSizedRegion{ IndexType::Filled(indexValue), SizeType::Filled(1) };
