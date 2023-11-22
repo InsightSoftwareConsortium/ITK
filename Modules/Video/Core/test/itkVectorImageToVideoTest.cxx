@@ -61,7 +61,6 @@ itkVectorImageToVideoTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(videoFilter->Update());
 
   auto videoOutput = videoFilter->GetOutput();
-  auto imageRegion = inputImage->GetLargestPossibleRegion();
 
   // Verify start frame and frame duration in output match size of designated temporal axis in input
   ITK_TEST_EXPECT_EQUAL(

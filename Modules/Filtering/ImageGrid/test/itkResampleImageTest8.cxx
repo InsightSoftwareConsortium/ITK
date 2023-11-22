@@ -131,7 +131,6 @@ itkResampleImageTest8(int, char *[])
   using InputImageSizeType = InputImageType::SizeType;
 
   using OutputImageIndexType = OutputImageType::IndexType;
-  using OutputImageRegionType = OutputImageType::RegionType;
   using OutputImageSizeType = OutputImageType::SizeType;
 
   using CoordRepType = double;
@@ -166,9 +165,8 @@ itkResampleImageTest8(int, char *[])
   auto tform = TransformType::New();
 
   // OutputImagePointerType outputImage = OutputImageType::New();
-  OutputImageIndexType  outputIndex = { { 0, 0, 0 } };
-  OutputImageSizeType   outputSize = { { 18, 12, 5 } };
-  OutputImageRegionType outputRegion;
+  OutputImageIndexType outputIndex = { { 0, 0, 0 } };
+  OutputImageSizeType  outputSize = { { 18, 12, 5 } };
 
   // Create a linear interpolation image function
   auto interp = InterpolatorType::New();

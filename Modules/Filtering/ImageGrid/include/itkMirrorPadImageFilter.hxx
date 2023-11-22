@@ -485,9 +485,6 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   OutputImageSizeType  outputSize = outputPtr->GetRequestedRegion().GetSize();
   InputImageSizeType   inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
 
-  OutputImageRegionType outputRegion;
-  InputImageRegionType  inputRegion;
-
   // For n dimensions, there are k^n combinations of before, between, and
   // after on these regions.  We are keeping this flexible so that we
   // can handle other blockings imposed by the mirror and wrap algorithms.
