@@ -457,8 +457,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedConnectivity
 
 
   ClusterType cluster(numberOfClusterComponents, &m_Clusters[clusterIndex * numberOfClusterComponents]);
-  typename InputImageType::RegionType localRegion;
-  IndexType                           idx;
+  IndexType   idx;
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {

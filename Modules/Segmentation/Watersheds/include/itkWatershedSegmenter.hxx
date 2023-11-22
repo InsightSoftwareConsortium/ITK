@@ -1325,7 +1325,6 @@ Segmenter<TInputImage>::GenerateOutputRequestedRegion(DataObject * output)
   ImageBase<ImageDimension> * imgData;
   ImageBase<ImageDimension> * op;
   imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
-  typename TInputImage::RegionType c_reg;
 
   if (imgData)
   {

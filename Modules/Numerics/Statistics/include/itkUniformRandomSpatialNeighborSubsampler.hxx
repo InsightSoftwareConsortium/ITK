@@ -72,9 +72,8 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
   results->Clear();
   results->SetSample(this->m_Sample);
 
-  RegionType searchRegion;
-  IndexType  searchStartIndex;
-  IndexType  searchEndIndex;
+  IndexType searchStartIndex;
+  IndexType searchEndIndex;
 
   IndexType constraintIndex = this->m_RegionConstraint.GetIndex();
   SizeType  constraintSize = this->m_RegionConstraint.GetSize();

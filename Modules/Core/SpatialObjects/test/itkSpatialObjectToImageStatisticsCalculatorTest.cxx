@@ -31,8 +31,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   using EllipseType = itk::EllipseSpatialObject<2>;
 
   // Image Definition
-  ImageType::RegionType region;
-  ImageType::SizeType   size;
+  ImageType::SizeType size;
   size.Fill(50);
   ImageType::SpacingType spacing;
   spacing.Fill(1);

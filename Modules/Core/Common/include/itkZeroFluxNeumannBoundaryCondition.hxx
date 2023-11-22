@@ -92,9 +92,8 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRe
   IndexType outputIndex = outputRequestedRegion.GetIndex();
   SizeType  outputSize = outputRequestedRegion.GetSize();
 
-  IndexType  requestIndex;
-  SizeType   requestSize;
-  RegionType requestRegion;
+  IndexType requestIndex;
+  SizeType  requestSize;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
