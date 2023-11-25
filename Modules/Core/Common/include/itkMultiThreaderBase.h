@@ -337,7 +337,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
       VDimension,
       requestedRegion.GetIndex().m_InternalArray,
       requestedRegion.GetSize().m_InternalArray,
-      [funcP](const IndexValueType index[], const SizeValueType size[]) {
+      [&funcP](const IndexValueType index[], const SizeValueType size[]) {
         ImageRegion<VDimension> region;
         for (unsigned int d = 0; d < VDimension; ++d)
         {
