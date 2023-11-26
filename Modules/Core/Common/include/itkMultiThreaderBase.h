@@ -324,14 +324,14 @@ ITK_GCC_PRAGMA_DIAG_POP()
                    ArrayThreadingFunctorType aFunc,
                    ProcessObject *           filter);
 
-  /** Break up region into smaller chunks, and call the function with chunks as parameters.
+  /** Break up region into smaller chunks, and call the user-specified function or function object `funcP` for each
+   * chunk, having the region of the chunk as argument. The type of such a chuck region is `ImageRegion<VDimension>`.
+   * Each such `funcP(region)` call must be thread-safe.
    * If filter argument is not nullptr, this function will update its progress
    * as each work unit is completed. Delegates work to non-templated version. */
-  template <unsigned int VDimension>
+  template <unsigned int VDimension, typename TFunction>
   ITK_TEMPLATE_EXPORT void
-  ParallelizeImageRegion(const ImageRegion<VDimension> &           requestedRegion,
-                         TemplatedThreadingFunctorType<VDimension> funcP,
-                         ProcessObject *                           filter)
+  ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TFunction funcP, ProcessObject * filter)
   {
     this->ParallelizeImageRegion(
       VDimension,
@@ -352,12 +352,12 @@ ITK_GCC_PRAGMA_DIAG_POP()
   /** Similar to ParallelizeImageRegion, but do not split the region along one
    * of the directions. If VDimension is 1, restrictedDirection is ignored
    * and no parallelization occurs. */
-  template <unsigned int VDimension>
+  template <unsigned int VDimension, typename TFunction>
   ITK_TEMPLATE_EXPORT void
-  ParallelizeImageRegionRestrictDirection(unsigned int                              restrictedDirection,
-                                          const ImageRegion<VDimension> &           requestedRegion,
-                                          TemplatedThreadingFunctorType<VDimension> funcP,
-                                          ProcessObject *                           filter)
+  ParallelizeImageRegionRestrictDirection(unsigned int                    restrictedDirection,
+                                          const ImageRegion<VDimension> & requestedRegion,
+                                          TFunction                       funcP,
+                                          ProcessObject *                 filter)
   {
     if (VDimension <= 1) // Cannot split, no parallelization
     {
