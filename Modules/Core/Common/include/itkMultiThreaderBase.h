@@ -308,8 +308,13 @@ ITK_GCC_PRAGMA_DIAG_POP()
   virtual void
   SetSingleMethod(ThreadFunctionType, void * data) = 0;
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  // `TemplatedThreadingFunctorType` was previously used to declare the `funcP` parameter of `ParallelizeImageRegion`
+  // and `ParallelizeImageRegionRestrictDirection` template member functions.
   template <unsigned int VDimension>
-  using TemplatedThreadingFunctorType = std::function<void(const ImageRegion<VDimension> &)>;
+  using TemplatedThreadingFunctorType [[deprecated]] = std::function<void(const ImageRegion<VDimension> &)>;
+#endif
+
   using ThreadingFunctorType = std::function<void(const IndexValueType index[], const SizeValueType size[])>;
   using ArrayThreadingFunctorType = std::function<void(SizeValueType)>;
 
