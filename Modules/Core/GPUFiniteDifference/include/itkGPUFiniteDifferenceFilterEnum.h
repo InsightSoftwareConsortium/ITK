@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include "ITKGPUFiniteDifferenceExport.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
