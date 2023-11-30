@@ -34,12 +34,12 @@ public:
 
     using InputPolyDataType = itk::wasm::InputPolyData<PolyDataType>;
     InputPolyDataType inputPolyData;
-    pipeline.add_option("input-polydata", inputPolyData, "Input polydata")->required()->type_name("INPUT_POLYDATA");
+    pipeline.add_option("poly-data", inputPolyData, "Input polydata")->required()->type_name("INPUT_POLYDATA");
 
     using MeshType = itk::Mesh<typename PolyDataType::PixelType, 3>;
     using OutputMeshType = itk::wasm::OutputMesh<MeshType>;
     OutputMeshType outputMesh;
-    pipeline.add_option("output-mesh", outputMesh, "Output mesh")->required()->type_name("OUTPUT_MESH");
+    pipeline.add_option("mesh", outputMesh, "Output mesh")->required()->type_name("OUTPUT_MESH");
 
     ITK_WASM_PARSE(pipeline);
 
@@ -61,5 +61,5 @@ int main (int argc, char * argv[])
   itk::WasmMeshIOFactory::RegisterOneFactory();
 
   return itk::wasm::SupportInputPolyDataTypes<PipelineFunctor>
-  ::PixelTypes<uint8_t,int8_t,float,double>("input-polydata", pipeline);
+  ::PixelTypes<uint8_t,int8_t,float,double>("poly-data", pipeline);
 }

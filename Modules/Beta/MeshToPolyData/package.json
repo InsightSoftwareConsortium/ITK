@@ -7,7 +7,7 @@
     "build": "npm run emscripten && npm run bindgen:typescript && npm run wasi && npm run bindgen:python",
     "emscripten": "npx itk-wasm -b emscripten-build build",
     "bindgen:typescript": "npx itk-wasm -b emscripten-build bindgen --output-dir wasm/typescript --package-name @itk-wasm/mesh-to-poly-data --package-version 0.1.0 --package-description \"Convert an ITK Mesh to a simple data structure compatible with vtkPolyData.\" --repository 'https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData'",
-    "bindgen:python": "npx itk-wasm -b wasi-build bindgen --output-dir wasm/python --package-name itkwasm-mesh-to-poly-data --package-version 0.1.0 --package-description \"Convert an ITK Mesh to a simple data structure compatible with vtkPolyData.\" --repository 'https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData'",
+    "bindgen:python": "npx itk-wasm -b wasi-build bindgen --interface python --output-dir wasm/python --package-name itkwasm-mesh-to-poly-data --package-version 0.1.0 --package-description \"Convert an ITK Mesh to a simple data structure compatible with vtkPolyData.\" --repository 'https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData'",
     "wasi": "npx itk-wasm -b wasi-build -i itkwasm/wasi build",
     "clean": "git clean -fdx -e node_modules"
   },

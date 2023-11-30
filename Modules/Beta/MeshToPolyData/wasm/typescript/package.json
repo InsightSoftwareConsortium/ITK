@@ -1,0 +1,54 @@
+{
+  "name": "@itk-wasm/mesh-to-poly-data",
+  "version": "0.1.0",
+  "description": "Convert an ITK Mesh to a simple data structure compatible with vtkPolyData.",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/index.js",
+      "node": "./dist/index-node.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "start": "npm run copyShoelaceAssets && vite",
+    "test": "npm run test:node",
+    "test:node": "ava test/node/*.js",
+    "build": "npm run build:tsc && npm run build:browser:workerEmbedded && npm run build:browser:workerEmbeddedMin && npm run build:demo",
+    "build:browser:workerEmbedded": "esbuild --loader:.worker.js=dataurl --bundle --format=esm --outfile=./dist/bundle/index-worker-embedded.js ./src/index-worker-embedded.ts",
+    "build:browser:workerEmbeddedMin": "esbuild --minify --loader:.worker.js=dataurl --bundle --format=esm --outfile=./dist/bundle/index-worker-embedded.min.js ./src/index-worker-embedded.min.ts",
+    "build:tsc": "tsc --pretty",
+    "copyShoelaceAssets": "shx mkdir -p test/browser/demo-app/public && shx cp -r node_modules/@shoelace-style/shoelace/dist/assets test/browser/demo-app/public/",
+    "build:demo": "npm run copyShoelaceAssets && vite build"
+  },
+  "keywords": [
+    "itk",
+    "wasm",
+    "webassembly",
+    "wasi"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "itk-wasm": "^1.0.0-b.157"
+  },
+  "devDependencies": {
+    "@itk-wasm/image-io": "^0.2.0",
+    "@itk-wasm/mesh-io": "^0.2.0",
+    "@shoelace-style/shoelace": "^2.5.2",
+    "@types/node": "^20.2.5",
+    "ava": "^5.3.1",
+    "esbuild": "^0.19.5",
+    "shx": "^0.3.4",
+    "typescript": "^5.0.4",
+    "vite": "^4.5.0",
+    "vite-plugin-static-copy": "^0.17.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData"
+  }
+}
