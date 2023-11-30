@@ -21,3 +21,15 @@ jobs:
     - name: Build
       run: |
         npm run build
+
+    - name: Build typescript buildings
+      working-directory: ./wasm/typescript
+      run: |
+        npm install -g pnpm
+        pnpm install
+        pnpm build
+
+    - name: Test typescript buildings
+      working-directory: ./wasm/typescript
+      run: |
+        pnpm test
