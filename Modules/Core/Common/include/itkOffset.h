@@ -526,10 +526,6 @@ swap(Offset<VDimension> & one, Offset<VDimension> & two)
   std::swap(one.m_InternalArray, two.m_InternalArray);
 }
 
-// static constexpr definition explicitly needed in C++11
-template <unsigned int VDimension>
-constexpr unsigned int Offset<VDimension>::Dimension;
-
 } // end namespace itk
 
 #endif

@@ -496,11 +496,6 @@ MakeSize(const T... values)
   return Size<sizeof...(T)>{ { toValueType(values)... } };
 }
 
-
-// static constexpr definition explicitly needed in C++11
-template <unsigned int VDimension>
-constexpr unsigned int Size<VDimension>::Dimension;
-
 } // end namespace itk
 
 #endif
