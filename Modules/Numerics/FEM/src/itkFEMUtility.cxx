@@ -23,19 +23,6 @@ namespace itk
 namespace fem
 {
 
-/* Add definition for static constexpr members
-
-Reason: You have to provide the definition of the static member as well as the
-declaration. The declaration and the initializer go inside the class,
-but the member definition has to be in a single separate compilation unit.
-*/
-
-constexpr double GaussIntegrate::zero;
-constexpr double GaussIntegrate::one;
-constexpr double GaussIntegrate::two;
-constexpr double GaussIntegrate::z[110];
-constexpr double GaussIntegrate::w[110];
-
 /**
  * Numerical integration (Gauss-Legendre formula).
  * Integrates function f(x) from x=a to x=b in n points.

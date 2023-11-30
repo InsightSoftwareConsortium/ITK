@@ -595,10 +595,6 @@ MakeIndex(const T... values)
   return Index<sizeof...(T)>{ { toValueType(values)... } };
 }
 
-
-// static constexpr definition explicitly needed in C++11
-template <unsigned int VDimension>
-constexpr unsigned int Index<VDimension>::Dimension;
 } // end namespace itk
 
 #endif
