@@ -5,3 +5,5 @@ wasi-build/
 
 package-lock.json
 pnpm-lock.yaml
+
+wasm/python/
