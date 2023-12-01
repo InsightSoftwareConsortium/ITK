@@ -246,7 +246,7 @@ image = itk.image_from_vtk_image(vtk_image)
 
 ### ITK and napari
 
-An `itk.Image` can be converted to and from a [`napari.layers.Image``](https://napari.org/stable/api/napari.layers.Image.html#napari.layers.Image) while
+An `itk.Image` can be converted to and from a [`napari.layers.Image`](https://napari.org/stable/api/napari.layers.Image.html#napari.layers.Image) while
 preserving metadata with the [itk-napari-conversion package](https://github.com/InsightSoftwareConsortium/itk-napari-conversion).
 
 ### ITK Python types
