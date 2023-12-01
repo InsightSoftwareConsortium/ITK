@@ -27,7 +27,7 @@ simplify the availability of the commits to the main checkout.
 Here's an example of updating the `DoubleConversion` project from tag 1.1.6 to
 3.0.0, starting with updating the third-party repo
 
-```sh
+```bash
    $ cd ./Modules/ThirdParty/DoubleConversion
    $ git checkout for/itk
    $ git fetch origin
@@ -37,7 +37,7 @@ Here's an example of updating the `DoubleConversion` project from tag 1.1.6 to
 
 Now import into ITK
 
-```sh
+```bash
    $ cd ./Modules/ThirdParty/twisted
    $ git checkout -b update_doubleconversion
    $ ./UpdateFromUpstream.sh
@@ -65,7 +65,7 @@ still be tracked so that they may be used).
 The basic steps to import a project `foo` based on the tag `foo-3.0.0` looks
 like this:
 
-```sh
+```bash
    $ git clone https://github.com/InsightSoftwareConsortium/foo.git
    $ cd foo/
    $ git remote add insight git@github.com:InsightSoftwareConsortium/ITK.git:Modules/ThirdParty/foo.git
@@ -88,13 +88,13 @@ party module's `UpdateFromUpstream.sh` script should have.
 
 Make sure `UpdateFromUpstream.sh` is executable before commit. On Unix, run:
 
-```sh
+```bash
    $ chmod u+x UpdateFromUpstream.sh && git add -u UpdateFromUpstream.sh
 ```
 
 On Windows, run:
 
-```sh
+```bash
    $ git update-index --chmod=+x UpdateFromUpstream.sh
 ```
 

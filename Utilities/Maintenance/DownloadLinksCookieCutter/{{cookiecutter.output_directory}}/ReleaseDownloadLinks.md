@@ -2,7 +2,7 @@
 
 Install [ITK Python packages](https://itkpythonpackage.readthedocs.io/en/latest/Quick_start_guide.html) with:
 
-```sh
+```bash
 pip install --upgrade itk
 ```
 

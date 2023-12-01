@@ -10,7 +10,7 @@ Using the dashboard scripts
 The `dashboard` branch contains a dashboard client helper script. Use these
 commands to track it:
 
-```sh
+```bash
    $ mkdir -p ~/Dashboards/ITKScripts
    $ cd ~/Dashboards/ITKScripts
    $ git init
@@ -22,7 +22,7 @@ The `itk_common.cmake` script contains setup instructions in its top comments.
 
 Update the dashboard branch to get the latest version of this script by simply running
 
-```sh
+```bash
    $ git pull origin
 ```
 
@@ -36,13 +36,13 @@ Making changes to the dashboard scripts
 If you find bugs in the hooks themselves or would like to add new features, the
 can be edited in the usual Git manner:
 
-```sh
+```bash
    $ git checkout -b my_topic_branch
 ```
 
 Make your edits, test it, and commit the result. Create a patch file with:
 
-```sh
+```bash
    $ git format-patch origin/dashboard
 ```
 

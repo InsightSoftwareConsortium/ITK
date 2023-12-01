@@ -119,7 +119,7 @@ Integrate bug fixes in the release branch
 
 Update `master` and `release` branches:
 
-```sh
+```bash
 git fetch upstream
 git checkout master
 git reset --hard upstream/master
@@ -129,7 +129,7 @@ git reset --hard upstream/release
 
 List differences between last release and current release branch:
 
-```sh
+```bash
 git shortlog --no-merges $release_version..release
 ```
 
@@ -151,7 +151,7 @@ Merge bug fix commits in release. The topic branch should be named
     `master`.
   * Merge new branch on `release`:
 
-```sh
+```bash
 $ git merge <bug-name>-for-release --no-ff
 ```
 
@@ -182,19 +182,19 @@ Update Zenodo Citation Configuration
 
 Install the python packages:
 
-```sh
+```bash
 python -m pip install gitpython python-Levenshtein fuzzywuzzy
 ```
 
 Run the update script:
 
-```sh
+```bash
 ./Utilities/Maintenance/UpdateZenodo.py
 ```
 
 Commit the result:
 
-```sh
+```bash
 git add -- .zenodo.json
 git commit -m "DOC: Update .zenodo"
 ```
@@ -214,7 +214,7 @@ the `ipfs` cli it comes with into your PATH.
 
 Clone the ITKData datalad repository, if not already available.
 
-```sh
+```bash
 cd ~/data/
 datalad clone https://gin.g-node.org/InsightSoftwareConsortium/ITKData.git
 cd ITKData
@@ -222,7 +222,7 @@ cd ITKData
 
 Make sure the datalad repository is up-to-date.
 
-```sh
+```bash
 datalad update -r .
 datalad get .
 ```
@@ -231,47 +231,47 @@ datalad get .
 
 Checkout the tag which we are archiving.
 
-```sh
+```bash
 cd ~/src/ITK
 git checkout <version>
 ```
 
 And fetch new data into the datalad repository.
 
-```sh
+```bash
 cd ~/data/ITKData
 ./ContentLinkSynchronization.sh --create ~/src/ITK
 ```
 
 Upload the tree to archival storage with:
 
-```sh
+```bash
 w3 put . --no-wrap -n ITKData-pre-verify -H
 ```
 
 Verify and possibly update CID's in the ITK repository with the CID output
 from the previous step.
 
-```sh
+```bash
 ./ContentLinkSynchronization.sh --root-cid bafy<rest-of-the-cid> ~/src/ITK
 datalad status
 ```
 
 If there is new content, commit it with:
 
-```sh
+```bash
 datalad save -m "ENH: Updates for ITK-v<itk-release-version>"
 ```
 
 Upload the repository update to web3.storage:
 
-```sh
+```bash
 w3 put . --no-wrap -n ITKData-v<itk-release-version> -H
 ```
 
 Edit the *README.md* file with the new root CID and push.
 
-```sh
+```bash
 datalad save -m "DOC: Update root CID for ITK-v<itk-release-version>"
 datalad push
 ```
@@ -280,13 +280,13 @@ datalad push
 
 If the [pinata] pinning service is not already available, create it:
 
-```sh
+```bash
 ipfs pin remote service add pinata https://api.pinata.cloud/psa/ PINATA_JWT
 ```
 
 Then pin the root CID locally and on Pinata:
 
-```sh
+```bash
 ipfs pin add /ipfs/bafy<rest-of-cid>
 ipfs pin remote add --service=pinata --name=ITKData-ITK-v<itk-release-version> /ipfs/bafy<rest-of-cid>
 ```
@@ -305,7 +305,7 @@ ipfs pin add --progress /ipfs/bafy<rest-of-cid>
 
 Optionally, rsync the object to Kitware's Apache Server
 
-```sh
+```bash
 rsync -vrtL ./Objects/CID kitware@web:ITKExternalData/
 ```
 
@@ -332,7 +332,7 @@ maintainers after an ITK Confab.
 
 Use the command:
 
-```sh
+```bash
 git checkout master
 git pull
 ```
@@ -350,7 +350,7 @@ tree that has been fully tested in the [Dashboard].
 
 In the source tree that was just updated, use the command
 
-```sh
+```bash
 git tag -m "ITK $version" -s v$version $commit_hash_to_be_tagged
 ```
 
@@ -359,7 +359,7 @@ number and $commit_hash_to_be_tagged` to the correct commit hash.
 
 Push it to the repository
 
-```sh
+```bash
 git push upstream v$version
 ```
 
@@ -370,7 +370,7 @@ Note that only trusted GPG key holders may do this step.
 Update the `release` branch only during feature releases after the tag for the
 release. Perform a `fast-forward` merge of `master` into release:
 
-```sh
+```bash
 git checkout release
 git reset --hard upstream/release
 git merge --ff-only v$version
@@ -387,7 +387,7 @@ by keeping `master` branch versions.
 
 Merge the `release` branch into the current named version branch, e.g. `5.4`.
 
-```sh
+```bash
 git checkout $version
 git merge --ff-only release
 git push upstream $version
@@ -438,7 +438,7 @@ repository to create the tarballs:
 
 Run:
 
-```sh
+```bash
 ./Utilities/Maintenance/SourceTarball.bash --tgz
 ```
 
@@ -448,7 +448,7 @@ This will generate tarballs for the source and testing data.
 
 From a Git Bash shell, run:
 
-```sh
+```bash
 ./Utilities/Maintenance/SourceTarball.bash --zip
 ```
 
@@ -458,7 +458,7 @@ endings.
 **Note**: tarballs can be created from a specific commit. The user can manually
 specify the version of ITK used to name the output files:
 
-```sh
+```bash
 ./Utilities/Maintenance/SourceTarball.bash -v $version $commit_hash_to_be_tagged
 ```
 where, of course, `$version` must be changed for the for the correct release
@@ -466,7 +466,7 @@ number and `$commit_hash_to_be_tagged` to the correct commit hash.
 
 Alternatively,
 
-```sh
+```bash
 ./Utilities/Maintenance/SourceTarball.bash -v $version v$version
 ```
 can be used to specify the version starting with `v`.
@@ -476,7 +476,7 @@ Once all tarballs have been collected for upload to GitHub, create *MD5SUMS* and
 the source tarballs to verify their contents, e.g. with `sha512sum -c
 SHA512SUMS`.
 
-```sh
+```bash
 md5sum ./Insight* > MD5SUMS
 sha512sum ./Insight* > SHA512SUMS
 ```
@@ -516,7 +516,7 @@ and the build tarballs from the `release` branch locally.
 
 Build the sdist and wheels for Linux (amd64):
 
-```sh
+```bash
 ssh blaster
 cd ~/Packaging/ITKPythonPackage
 
@@ -552,7 +552,7 @@ git reset --hard HEAD~1
 
 For Linux ARM builds, the steps are similar, but the wheel build step is:
 
-```sh
+```bash
 docker run --privileged --rm tonistiigi/binfmt --install all
 docker run -it -v $(pwd):/work/ quay.io/pypa/manylinux_2_28_aarch64:latest bash
 # In the container
@@ -564,7 +564,7 @@ yum install sudo
 
 Build the wheels for macOS (both amd64 and ARM):
 
-```sh
+```bash
 ssh misty
 cd /Users/svc-dashboard/D/P/ITKPythonPackage
 git reset --hard HEAD
@@ -582,7 +582,7 @@ cd ..
 
 Build the wheels for Windows:
 
-```sh
+```bash
 vncviewer overload # Open Git Bash shell
 cd /c/P/IPP
 git reset --hard HEAD
@@ -605,7 +605,7 @@ powershell "IPP/scripts/windows-build-tarball.ps1"
 
 Next, tag the release branch `HEAD` and push to GitHub:
 
-```sh
+```bash
 git tag -m "ITKPythonPackage $version" -s v$version HEAD
 git push upstream release v$version
 ```
@@ -621,7 +621,7 @@ Run `pip install itk` in a fresh virtualenv and run all the
 [ITKSphinxExamples](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples) Python
 tests against this Python. For example,
 
-```sh
+```bash
 virtualenv itk-venv
 ./itk-venv/bin/python -m pip install itk
 git clone https://github.com/InsightSoftwareConsortium/ITKSphinxExamples
@@ -683,7 +683,7 @@ build's configuration.
 Run CMake in the binary build and enable `BUILD_DOXYGEN`, configure and
 generate, then:
 
-```sh
+```bash
 cd Binaries/ITK
 make Documentation
 cd Utilities
@@ -722,14 +722,14 @@ update the guide and make it available:
 To create `ItkSoftwareGuide.pdf` to deposit at itk.org/ItkSoftwareGuide.pdf from
 `InsightSoftwareGuide-Book{1,2}-5.X.0.pdf`, use `pdftk`:
 
-```sh
+```bash
 pdftk ITKSoftwareGuideSinglePDFCoverPage.pdf ITKSoftwareGuide-Book1.pdf ITKSoftwareGuide-Book2.pdf cat output /tmp/ItkSoftwareGuide.pdf
 ```
 
 Update *ItkSoftwareGuide.pdf* hosted at itk.org. Many links point at this resource.
 
 
-```sh
+```bash
 scp /tmp/ItkSoftwareGuide.pdf public.kitware.com:/tmp/
 cd /projects/Insight/WWW/InsightWeb
 rm ItkSoftwareGuide.pdf
@@ -743,7 +743,7 @@ page, and then also one of the blank pages so pages fall on
 
 Then, run:
 
-```sh
+```bash
 pdftk ITKSoftwareGuide-Book1.pdf cat 2-3 5-end output /tmp/ITKSoftwareGuide-Book1.pdf
 pdftk ITKSoftwareGuide-Book2.pdf cat 2-3 5-end output /tmp/ITKSoftwareGuide-Book2.pdf
 ```
@@ -765,7 +765,7 @@ These html tarballs are also renamed for distribution with the ITK release.
 
 To generate source tarballs, set the prefix and tag:
 
-```sh
+```bash
 tag = $(git describe)
 prefix = InsightSphinxExamples-$version
 ```
@@ -773,7 +773,7 @@ where `$version` is the appropriate release number, e.g., `4.12.0`.
 
 Generate the `.tar.gz` and `.zip` tarballs:
 
-```sh
+```bash
 git archive --format=tar --prefix=${prefix}/ --output=${prefix}.tar ${tag}
 gzip -9 ${prefix}.tar
 git archive --format=zip -9 --prefix=${prefix}/ --output=${prefix}.zip ${tag}
@@ -889,7 +889,7 @@ Release Notes Posts
 To get started with the release notes, first use the download link
 cookiecutter to generate [Download page](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/download.md) markdown:
 
-```sh
+```bash
 pip install cookiecutter
 cookiecutter ~/src/ITK/Utilities/Maintenance/DownloadLinksCookieCutter/
 ```
@@ -899,7 +899,7 @@ release notes.
 
 To generate the changelog by running
 
-```sh
+```bash
 cd ITK
 ./Utilities/Maintenance/AuthorsChangesSince.py $old_version
 ```
