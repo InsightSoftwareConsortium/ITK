@@ -251,12 +251,12 @@ preserving metadata with the [itk-napari-conversion package](https://github.com/
 
 ### ITK Python types
 
-| C++ type             | Python type          | NumPy dtype  |
-| -------------------- | -------------------- | ------------ |
-| float                | itk.F                | np.float32   |
-| double               | itk.D                | np.float64   |
-| unsigned char        | itk.UC               | np.uint8     |
-| std::complex\<float> | itk.complex\[itk.F\] | np.complex64 |
+| C++ type              | Python type          | NumPy dtype    |
+| --------------------- | -------------------- | -------------- |
+| `float`               | `itk.F`              | `np.float32`   |
+| `double`              | `itk.D`              | `np.float64`   |
+| `unsigned char`       | `itk.UC`             | `np.uint8`     |
+| `std::complex<float>` | `itk.complex[itk.F]` | `np.complex64` |
 
 This list is not exhaustive and is only presented to illustrate the type names. The complete list of types can be found in the [ITK Software Guide](https://itk.org/ItkSoftwareGuide.pdf).
 
