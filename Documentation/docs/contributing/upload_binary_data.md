@@ -179,7 +179,7 @@ bafkreifpfhcc3gc7zo2ds3ktyyl5qrycwisyaolegp47cl27i4swxpa2ey
 Move the content link file to the **source tree** at the location where the
 actual file is desired in the build tree. Stage the new file to your commit:
 
-```sh
+```bash
    $ git add -- path/to/file.cid
 ```
 

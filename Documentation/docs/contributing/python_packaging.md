@@ -3,7 +3,7 @@ Build ITK Python packages
 
 We can generate Python wrappings and package them as Python wheels in order to conveniently distribute and use the ITK C++ library in Python scripts. In most cases community members can use the [general ITK Python distributions](https://pypi.org/project/itk/) on the Python Package Index (PyPI) for their projects.
 
-```py
+```python
 pip install itk
 ```
 
@@ -34,7 +34,7 @@ In addition, the environment variables `MANYLINUX_VERSION` and `IMAGE_TAG` may b
 
 For example:
 
-```sh
+```bash
 $ git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
 [...]
 
@@ -51,13 +51,13 @@ itk-5.3.0.dev20231108-cp38-cp38m-manylinux2014_x86_64.whl
 
 First, install the Python.org macOS Python distributions. This step requires sudo:
 
-```sh
+```bash
 ./scripts/macpython-install-python.sh
 ```
 
 Then, run [macpython-build-wheels.sh](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/blob/master/scripts/macpython-build-wheels.sh) to build the wheels. A Python version may be targetd by passing a trailing argument to the script. See ITKPythonPackage for environment variables used by `macpython-build-wheels.sh`.
 
-```sh
+```bash
 $ git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
 [...]
 
@@ -103,23 +103,23 @@ PS C:\IPP> ls dist
 InsightSoftwareConsortiums may upload ITK package wheels to PyPI using `twine`.
 
 First, install dependencies:
-```py
+```python
 python -m pip install twine
 ```
 
 Then, upload packages to the [PyPI testing server](https://test.pypi.org):
-```py
+```python
 python -m twine upload -r pypitest dist/*
 ```
 
 After verifying distributions appear correctly on the testing server, upload the packages to the production PyPI server:
 
-```py
+```python
 python -m twine upload dist/*
 ```
 
 The updated ITK Python wheels are now available for general installation:
-```py
+```python
 python -m pip install itk
 ```
 
@@ -131,13 +131,13 @@ Scripts are available in ITKPythonPackage to generate build archives on each pla
 
 ### Linux
 
-```sh
+```bash
 ./scripts/dockcross-manylinux-build-tarball.sh
 ```
 
 ### macOS
 
-```sh
+```bash
 ./scripts/macpython-build-tarball.sh
 ```
 

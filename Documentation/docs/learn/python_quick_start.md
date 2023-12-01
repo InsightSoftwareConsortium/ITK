@@ -4,7 +4,7 @@
 
 To install the ITK Python package:
 
-```
+```bash
 $ pip install itk
 ```
 
@@ -85,7 +85,7 @@ itk_image = itk.image_from_dict(image_dict)
 
 ITK's `itk.Mesh` class also works seamlessly with NumPy:
 
-```py
+```python
 # Read input mesh
 itk_mesh = itk.meshread(input_mesh_filename)
 
@@ -204,7 +204,7 @@ These file formats can also be used with native ITK Python.
 
 Install the binary Python package:
 
-```sh
+```bash
 pip install itk-webassemblyinterface
 ```
 

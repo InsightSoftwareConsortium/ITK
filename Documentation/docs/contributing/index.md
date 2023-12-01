@@ -20,14 +20,14 @@ Before you begin, perform initial setup:
   2. Optionally download our [one page PDF desk reference](https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/master/Documentation/GitCheatSheet.pdf).
   3. Follow the [download instructions] to create a local ITK clone:
 
-```sh
+```bash
    $ git clone https://github.com/InsightSoftwareConsortium/ITK
 ```
 
   4. Run the developer setup script [`SetupForDevelopment.sh`] to prepare your
      ITK work tree and create Git command aliases used below:
 
-```sh
+```bash
    $ ./Utilities/SetupForDevelopment.sh
 ```
 
@@ -67,7 +67,7 @@ Update
 
 Update your local `master` branch:
 
-```sh
+```bash
    $ git checkout master
    $ git pullall
 ```
@@ -82,19 +82,19 @@ feature or fix to be developed given just the branch name.
 
 To start a new topic branch:
 
-```sh
+```bash
    $ git fetch upstream
 ```
 
 For new development, start the topic from `upstream/master`:
 
-```sh
+```bash
    $ git checkout -b my-topic upstream/master
 ```
 
 For release branch fixes, start the topic from `upstream/release`:
 
-```sh
+```bash
    $ git checkout -b my-topic upstream/release
 ```
 
@@ -104,12 +104,12 @@ further information on working with branches.*)
 Edit files and create commits (repeat as needed). Add a prefix to your commit
 message (see below).
 
-```sh
+```bash
    $ edit file1 file2 file3
 ```
 (*To add data follow [these instructions](data.md).*)
 
-```sh
+```bash
    $ git add file1 file2 file3
    $ git commit
 ```
@@ -203,19 +203,19 @@ upstream repository.
 
 Checkout the topic if it is not your current branch:
 
-```sh
+```bash
    $ git checkout my-topic
 ```
 
 Check what commits will be pushed to GitHub for review:
 
-```sh
+```bash
    $ git prepush
 ```
 
 Push commits in your topic branch for review by the community:
 
-```sh
+```bash
    $ git review-push --force
 ```
 
@@ -264,14 +264,14 @@ Once a topic is approved during GitHub review, proceed to the
 
 Checkout the topic if it is not your current branch:
 
-```sh
+```bash
    $ git checkout my-topic
 ```
 
 To revise the most recent commit on the topic edit files and add changes
 normally and then amend the commit:
 
-```sh
+```bash
    $ git commit --amend
 ```
 
@@ -280,7 +280,7 @@ for further information on revising and rewriting your commit history.*)
 
 To revise commits further back on the topic, say the `3`rd commit back:
 
-```sh
+```bash
    $ git rebase -i HEAD~3
 ```
 
@@ -315,7 +315,7 @@ comment on the pull request which states the topic should be merged to the
 Here are the recommended steps to merge a topic to both `release` and `master`
 branches, assuming the topic branch is forked off the `release` branch:
 
-```sh
+```bash
    $ git checkout release
    $ git merge --no-ff my-topic
    $ git push upstream release
@@ -323,7 +323,7 @@ branches, assuming the topic branch is forked off the `release` branch:
 
 and do:
 
-```sh
+```bash
    $ git checkout master
    $ git merge --no-ff release
    $ git push upstream master
@@ -339,14 +339,14 @@ After a topic has been merged upstream, delete your local branch for the topic.
 
 Checkout and update the `master` branch:
 
-```sh
+```bash
    $ git checkout master
    $ git pullall
 ```
 
 Delete the local topic branch:
 
-```sh
+```bash
    $ git branch -d my-topic
 ```
 

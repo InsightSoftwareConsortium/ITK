@@ -20,7 +20,7 @@ The workflow below depends on local hooks to function properly. Follow the main
 developer setup instructions before proceeding. In particular, run
 `SetupForDevelopment.sh`:
 
-```sh
+```bash
    $ ./Utilities/SetupForDevelopment.sh
 ```
 
@@ -52,7 +52,7 @@ For more details, see the description and procedures in [Upload Binary Data].
 
 Copy the data content link file into your local source tree.
 
-```sh
+```bash
    $ mkdir -p Modules/.../test/Baseline
    $ cp ~/MyTest.png.cid Modules/.../test/Baseline/MyTest.png.cid
 ```
@@ -63,7 +63,7 @@ Edit the test `CMakeLists.txt` file and reference the data file in an
 `itk_add_test` call. Specify the file inside `DATA{...}` using a path relative
 to the test directory:
 
-```sh
+```bash
    $ edit Modules/.../test/CMakeLists.txt
 
    itk_add_test(NAME MyTest COMMAND ... --compare DATA{Baseline/MyTest.png,:} ...)
@@ -84,7 +84,7 @@ to the test directory:
 Continue to create the topic and edit other files as necessary. Add the content
 link and commit it along with the other changes:
 
-```sh
+```bash
    $ git add Modules/.../test/Baseline/MyTest.png.cid
    $ git add Modules/.../test/CMakeLists.txt
    $ git commit
@@ -100,7 +100,7 @@ build tree the `ITKData` target must be built. One may build the target
 directly, e.g. `make ITKData`, to obtain the data without a complete build.
 The output will be something like
 
-```sh
+```bash
    -- Fetching ".../ExternalData/CID/..."
    -- [download 100% complete]
    -- Downloaded object: "ITK-build/ExternalData/Objects/CID/..."
@@ -115,7 +115,7 @@ among multiple builds. Configure for each build the advanced cache entry
 `ExternalData_OBJECT_STORES` to a directory on your local disk outside all
 build trees, e.g. "`/home/user/.ExternalData`":
 
-```sh
+```bash
    $ cmake -DExternalData_OBJECT_STORES=/home/user/.ExternalData ../ITK
 ```
 
