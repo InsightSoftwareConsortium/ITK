@@ -354,24 +354,6 @@ For mode details see the page [FDA Guidelines for Software Developement](https:/
 
 ## Using ITK
 
-### How do I combine ITK and VTK in my application?
-
-A full tutorial on how to combine ITK and VTK is available at [Getting Started with ITK and VTK](http://www.itk.org/CourseWare/Training/GettingStarted-II.pdf).
-
-You will need the auxiliary classes available at the [ITKApps](https://github.com/InsightSoftwareConsortium/ITKApps)
-repository.
-
-For example, for converting ITK images into VTK images and back, you
-will find useful the files from the [ITKVTKGlue](https://github.com/InsightSoftwareConsortium/ITKVtkGlue)
-module:
-
-```
-itkImageToVTKImageFilter.h
-itkImageToVTKImageFilter.hxx
-itkVTKImageToImageFilter.h
-itkVTKImageToImageFilter.hxx
-```
-
 ### How do I configure Vim for ITK coding style?
 
 ITK provides a [`clang-format` configuration file](https://github.com/InsightSoftwareConsortium/ITK/blob/master/.clang-format)
