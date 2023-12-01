@@ -28,19 +28,19 @@ Here's an example of updating the `DoubleConversion` project from tag 1.1.6 to
 3.0.0, starting with updating the third-party repo
 
 ```bash
-   $ cd ./Modules/ThirdParty/DoubleConversion
-   $ git checkout for/itk
-   $ git fetch origin
-   $ git rebase --onto doubleconversion-1.1.6 doubleconversion-3.0.0
-   $ git push
+cd ./Modules/ThirdParty/DoubleConversion
+git checkout for/itk
+git fetch origin
+git rebase --onto doubleconversion-1.1.6 doubleconversion-3.0.0
+git push
 ```
 
 Now import into ITK
 
 ```bash
-   $ cd ./Modules/ThirdParty/twisted
-   $ git checkout -b update_doubleconversion
-   $ ./UpdateFromUpstream.sh
+cd ./Modules/ThirdParty/twisted
+git checkout -b update_doubleconversion
+./UpdateFromUpstream.sh
 ```
 
 Now you can review the change and make a merge request from the branch as normal.
@@ -66,14 +66,14 @@ The basic steps to import a project `foo` based on the tag `foo-3.0.0` looks
 like this:
 
 ```bash
-   $ git clone https://github.com/InsightSoftwareConsortium/foo.git
-   $ cd foo/
-   $ git remote add insight git@github.com:InsightSoftwareConsortium/ITK.git:Modules/ThirdParty/foo.git
-   $ git push -u insight
-   $ git push -u insight --tags
-   $ git checkout foo-3.0.0
-   $ git checkout -b for/itk
-   $ git push --set-upstream insight for/itk
+git clone https://github.com/InsightSoftwareConsortium/foo.git
+cd foo/
+git remote add insight git@github.com:InsightSoftwareConsortium/ITK.git:Modules/ThirdParty/foo.git
+git push -u insight
+git push -u insight --tags
+git checkout foo-3.0.0
+git checkout -b for/itk
+git push --set-upstream insight for/itk
 ```
 
 Making the initial import involves filling out the project's
@@ -89,13 +89,13 @@ party module's `UpdateFromUpstream.sh` script should have.
 Make sure `UpdateFromUpstream.sh` is executable before commit. On Unix, run:
 
 ```bash
-   $ chmod u+x UpdateFromUpstream.sh && git add -u UpdateFromUpstream.sh
+chmod u+x UpdateFromUpstream.sh && git add -u UpdateFromUpstream.sh
 ```
 
 On Windows, run:
 
 ```bash
-   $ git update-index --chmod=+x UpdateFromUpstream.sh
+git update-index --chmod=+x UpdateFromUpstream.sh
 ```
 
 Also add an entry to `CMakeLists.txt` and `itk-module.cmake` as appropriate.

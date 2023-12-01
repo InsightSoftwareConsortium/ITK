@@ -11,11 +11,11 @@ The `dashboard` branch contains a dashboard client helper script. Use these
 commands to track it:
 
 ```bash
-   $ mkdir -p ~/Dashboards/ITKScripts
-   $ cd ~/Dashboards/ITKScripts
-   $ git init
-   $ git remote add -t dashboard origin https://itk.org/ITK.git
-   $ git pull origin
+mkdir -p ~/Dashboards/ITKScripts
+cd ~/Dashboards/ITKScripts
+git init
+git remote add -t dashboard origin https://itk.org/ITK.git
+git pull origin
 ```
 
 The `itk_common.cmake` script contains setup instructions in its top comments.
@@ -23,7 +23,7 @@ The `itk_common.cmake` script contains setup instructions in its top comments.
 Update the dashboard branch to get the latest version of this script by simply running
 
 ```bash
-   $ git pull origin
+git pull origin
 ```
 
 Here is
@@ -37,13 +37,13 @@ If you find bugs in the hooks themselves or would like to add new features, the
 can be edited in the usual Git manner:
 
 ```bash
-   $ git checkout -b my_topic_branch
+git checkout -b my_topic_branch
 ```
 
 Make your edits, test it, and commit the result. Create a patch file with:
 
 ```bash
-   $ git format-patch origin/dashboard
+git format-patch origin/dashboard
 ```
 
 And post the results to the [ITK discussion].

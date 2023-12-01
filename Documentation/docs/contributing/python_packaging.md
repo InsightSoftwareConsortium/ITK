@@ -35,15 +35,15 @@ In addition, the environment variables `MANYLINUX_VERSION` and `IMAGE_TAG` may b
 For example:
 
 ```bash
-$ git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
+git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
 [...]
 
-$ pushd ITKPythonPackage
-$ export MANYLINUX_VERSION=2014
-$ ./scripts/dockcross-manylinux-build-wheels.sh cp38
+pushd ITKPythonPackage
+export MANYLINUX_VERSION=2014
+./scripts/dockcross-manylinux-build-wheels.sh cp38
 [...]
 
-$ ls -1 dist/
+ls -1 dist/
 itk-5.3.0.dev20231108-cp38-cp38m-manylinux2014_x86_64.whl
 ```
 
@@ -58,13 +58,13 @@ First, install the Python.org macOS Python distributions. This step requires sud
 Then, run [macpython-build-wheels.sh](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/blob/master/scripts/macpython-build-wheels.sh) to build the wheels. A Python version may be targetd by passing a trailing argument to the script. See ITKPythonPackage for environment variables used by `macpython-build-wheels.sh`.
 
 ```bash
-$ git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
+git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
 [...]
 
-$ ./scripts/macpython-build-wheels.sh cp38
+./scripts/macpython-build-wheels.sh cp38
 [...]
 
-$ ls -1 dist/
+ls -1 dist/
 itk-5.3.0.dev20231108-cp38-cp38m-macosx_10_9_x86_64.whl
 ```
 

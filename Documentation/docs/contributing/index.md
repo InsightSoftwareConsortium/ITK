@@ -21,14 +21,14 @@ Before you begin, perform initial setup:
   3. Follow the [download instructions] to create a local ITK clone:
 
 ```bash
-   $ git clone https://github.com/InsightSoftwareConsortium/ITK
+git clone https://github.com/InsightSoftwareConsortium/ITK
 ```
 
   4. Run the developer setup script [`SetupForDevelopment.sh`] to prepare your
      ITK work tree and create Git command aliases used below:
 
 ```bash
-   $ ./Utilities/SetupForDevelopment.sh
+./Utilities/SetupForDevelopment.sh
 ```
 
 This script helps configure your GitHub fork remote, Git client-side hooks,
@@ -68,8 +68,8 @@ Update
 Update your local `master` branch:
 
 ```bash
-   $ git checkout master
-   $ git pullall
+git checkout master
+git pullall
 ```
 
 (create-a-topic)=
@@ -83,19 +83,19 @@ feature or fix to be developed given just the branch name.
 To start a new topic branch:
 
 ```bash
-   $ git fetch upstream
+git fetch upstream
 ```
 
 For new development, start the topic from `upstream/master`:
 
 ```bash
-   $ git checkout -b my-topic upstream/master
+git checkout -b my-topic upstream/master
 ```
 
 For release branch fixes, start the topic from `upstream/release`:
 
 ```bash
-   $ git checkout -b my-topic upstream/release
+git checkout -b my-topic upstream/release
 ```
 
 (*You may visit the* Pro Git: Basic Branching *resource in [Git Help] for
@@ -105,13 +105,13 @@ Edit files and create commits (repeat as needed). Add a prefix to your commit
 message (see below).
 
 ```bash
-   $ edit file1 file2 file3
+edit file1 file2 file3
 ```
 (*To add data follow [these instructions](data.md).*)
 
-```bash
-   $ git add file1 file2 file3
-   $ git commit
+```sh
+git add file1 file2 file3
+git commit
 ```
 
 (*You may visit the* Pro Git: Recording Changes *resource in [Git Help] for
@@ -204,19 +204,19 @@ upstream repository.
 Checkout the topic if it is not your current branch:
 
 ```bash
-   $ git checkout my-topic
+git checkout my-topic
 ```
 
 Check what commits will be pushed to GitHub for review:
 
 ```bash
-   $ git prepush
+git prepush
 ```
 
 Push commits in your topic branch for review by the community:
 
 ```bash
-   $ git review-push --force
+git review-push --force
 ```
 
 A URL will be provided in the terminal -- visit this url to review the topic
@@ -241,7 +241,7 @@ test can be re-executed by adding a comment to the pull request with the
 content `/azp run <ConfigurationName>`. For example:
 
 ```
-    /azp run ITK.Linux
+/azp run ITK.Linux
 ```
 
 After the topic has been merged, it is tested on many
@@ -265,14 +265,14 @@ Once a topic is approved during GitHub review, proceed to the
 Checkout the topic if it is not your current branch:
 
 ```bash
-   $ git checkout my-topic
+git checkout my-topic
 ```
 
 To revise the most recent commit on the topic edit files and add changes
 normally and then amend the commit:
 
 ```bash
-   $ git commit --amend
+git commit --amend
 ```
 
 (*You may visit the* Pro Git: Changing the Last Commit *resource in [Git Help]
@@ -281,7 +281,7 @@ for further information on revising and rewriting your commit history.*)
 To revise commits further back on the topic, say the `3`rd commit back:
 
 ```bash
-   $ git rebase -i HEAD~3
+git rebase -i HEAD~3
 ```
 
 (*Substitute the correct number of commits back, as low as `1`.*)
@@ -316,17 +316,17 @@ Here are the recommended steps to merge a topic to both `release` and `master`
 branches, assuming the topic branch is forked off the `release` branch:
 
 ```bash
-   $ git checkout release
-   $ git merge --no-ff my-topic
-   $ git push upstream release
+git checkout release
+git merge --no-ff my-topic
+git push upstream release
 ```
 
 and do:
 
 ```bash
-   $ git checkout master
-   $ git merge --no-ff release
-   $ git push upstream master
+git checkout master
+git merge --no-ff release
+git push upstream master
 ```
 
 to merge the `release` branch back to `master`.
@@ -340,14 +340,14 @@ After a topic has been merged upstream, delete your local branch for the topic.
 Checkout and update the `master` branch:
 
 ```bash
-   $ git checkout master
-   $ git pullall
+git checkout master
+git pullall
 ```
 
 Delete the local topic branch:
 
 ```bash
-   $ git branch -d my-topic
+git branch -d my-topic
 ```
 
 The `branch -d` command works only when the topic branch has been correctly
