@@ -128,14 +128,14 @@ downloaded into the build tree.
 Install the <span class="title-ref">w3</span> CLI with the
 [@web3-storage/w3] [Node.js] package:
 
-``` shell
+```bash
 npm install --location=global @web3-storage/w3
 ```
 
 Login in and create an API token at
 [web3.storage] then pass it into `w3 token`:
 
-``` shell
+```bash
 w3 token
 ? Paste your API token for api.web3.storage › <your token here>
 
@@ -145,7 +145,7 @@ w3 token
 Create an <span class="title-ref">w3externaldata</span> bash/zsh
 function:
 
-``` shell
+```bash
 function w3externaldata() { w3 put $1 --no-wrap | tail -n 1 | awk -F "/ipfs/" '{print $2}' | tee $1.cid }
 ```
 
@@ -153,7 +153,7 @@ Call the function with the file to be uploaded. This command will
 generate the <span class="title-ref">\<filename\>.cid</span> content
 link:
 
-``` shell
+```bash
 w3externaldata <filename>
 # Packed 1 file (0.3MB)
 ⁂ Stored 1 file
