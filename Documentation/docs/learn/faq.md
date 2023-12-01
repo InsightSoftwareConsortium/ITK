@@ -92,8 +92,8 @@ formats:
 
 | File Format | Read/Write | Import |
 | ----------- | ---------- | ------ |
-| [BYU](http://www.eg-models.de/formats/Format_Byu.html) | [
-[`itk::BYUMeshIO`]https://itk.org/Doxygen/html/classitk_1_1BYUMeshIO.html | |
+| [BYU](http://www.eg-models.de/formats/Format_Byu.html) |
+ [`itk::BYUMeshIO`](https://itk.org/Doxygen/html/classitk_1_1BYUMeshIO.html) | |
 | [FreeSurfer surface, binary and ASCII](http://www.grahamwideman.com/gw/brain/fs/surfacefileformats.htm) | [`itk::FreeSurferBinaryMeshIO`](https://itk.org/Doxygen/html/classitk_1_1FreeSurferBinaryMeshIO.html), [`itk::FreeSurferAsciiMeshIO`](https://itk.org/Doxygen/html/classitk_1_1FreeSurferAsciiMeshIO.html) | |
 | [OFF](https://en.wikipedia.org/wiki/OFF_%28file_format%29) | [`ìtk::OFFMeshIO`](https://itk.org/Doxygen/html/classitk_1_1OFFMeshIO.html) | |
 | [STL](https://en.wikipedia.org/wiki/STL_%28file_format%29) | | |
