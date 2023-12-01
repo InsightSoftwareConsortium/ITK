@@ -5,7 +5,7 @@
 To install the ITK Python package:
 
 ```bash
-$ pip install itk
+pip install itk
 ```
 
 ## Usage

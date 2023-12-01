@@ -129,14 +129,14 @@ Install the <span class="title-ref">w3</span> CLI with the
 [@web3-storage/w3] [Node.js] package:
 
 ``` shell
-$ npm install --location=global @web3-storage/w3
+npm install --location=global @web3-storage/w3
 ```
 
 Login in and create an API token at
 [web3.storage] then pass it into `w3 token`:
 
 ``` shell
-$ w3 token
+w3 token
 ? Paste your API token for api.web3.storage › <your token here>
 
 ⁂ API token saved
@@ -146,7 +146,7 @@ Create an <span class="title-ref">w3externaldata</span> bash/zsh
 function:
 
 ``` shell
-$ function w3externaldata() { w3 put $1 --no-wrap | tail -n 1 | awk -F "/ipfs/" '{print $2}' | tee $1.cid }
+function w3externaldata() { w3 put $1 --no-wrap | tail -n 1 | awk -F "/ipfs/" '{print $2}' | tee $1.cid }
 ```
 
 Call the function with the file to be uploaded. This command will
@@ -154,7 +154,7 @@ generate the <span class="title-ref">\<filename\>.cid</span> content
 link:
 
 ``` shell
-$ w3externaldata <filename>
+w3externaldata <filename>
 # Packed 1 file (0.3MB)
 ⁂ Stored 1 file
 bafkreifpfhcc3gc7zo2ds3ktyyl5qrycwisyaolegp47cl27i4swxpa2ey
@@ -180,7 +180,7 @@ Move the content link file to the **source tree** at the location where the
 actual file is desired in the build tree. Stage the new file to your commit:
 
 ```bash
-   $ git add -- path/to/file.cid
+git add -- path/to/file.cid
 ```
 
 [Alt Link]: https://content-link-upload.itk.eth.limo
