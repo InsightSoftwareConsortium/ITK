@@ -118,12 +118,12 @@ public:
    * container. However, in this particular case, Reserve as a Resize
    * semantics that is kept for backward compatibility reasons.
    *
-   * If UseDefaultConstructor is true, then * the default constructor is used
-   * to initialize each element.  POD date types initialize to zero.
+   * If UseValueInitialization is true, then POD types will be
+   * zero-initialized.
    *
    * \sa SetImportPointer() */
   void
-  Reserve(ElementIdentifier size, const bool UseDefaultConstructor = false);
+  Reserve(ElementIdentifier size, const bool UseValueInitialization = false);
 
   /** Tell the container to try to minimize its memory usage for
    * storage of the current number of elements.  If new memory is
@@ -162,12 +162,11 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
-   * Allocates elements of the array.  If UseDefaultConstructor is true, then
-   * the default constructor is used to initialize each element.  POD date types
-   * initialize to zero.
+   * Allocates elements of the array.  If UseValueInitialization is true, then
+   * POD types will be zero-initialized.
    */
   virtual TElement *
-  AllocateElements(ElementIdentifier size, bool UseDefaultConstructor = false) const;
+  AllocateElements(ElementIdentifier size, bool UseValueInitialization = false) const;
 
   virtual void
   DeallocateManagedMemory();

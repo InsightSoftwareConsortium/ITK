@@ -203,7 +203,7 @@ public:
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
   void
-  Allocate(bool UseDefaultConstructor = false) override;
+  Allocate(bool UseValueInitialization = false) override;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */

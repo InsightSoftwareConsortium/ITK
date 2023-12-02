@@ -35,7 +35,7 @@ namespace itk
 //----------------------------------------------------------------------------
 template <typename TPixel, unsigned int VImageDimension>
 void
-VectorImage<TPixel, VImageDimension>::Allocate(const bool UseDefaultConstructor)
+VectorImage<TPixel, VImageDimension>::Allocate(const bool UseValueInitialization)
 {
   if (m_VectorLength == 0)
   {
@@ -46,7 +46,7 @@ VectorImage<TPixel, VImageDimension>::Allocate(const bool UseDefaultConstructor)
   this->ComputeOffsetTable();
   num = this->GetOffsetTable()[VImageDimension];
 
-  m_Buffer->Reserve(num * m_VectorLength, UseDefaultConstructor);
+  m_Buffer->Reserve(num * m_VectorLength, UseValueInitialization);
 }
 
 template <typename TPixel, unsigned int VImageDimension>
