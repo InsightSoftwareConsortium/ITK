@@ -8,7 +8,7 @@ its natural boundaries:
   is a web-based image, mesh, and point set viewer.
 - [itk-viewer](https://itk-viewer.on.fleek.co/) is a multi-dimensional
   web-based image, mesh, and point set viewer.
-- [itk-wasm](https://wasm.itk.org/en/latest/) combines ITK and
+- [ITK-Wasm](https://wasm.itk.org/en/latest/) combines ITK and
   [WebAssembly](https://webassembly.org/) to enable high-performance
   spatial analysis in a web browser or system-level environments and
   reproducible execution across programming languages and hardware

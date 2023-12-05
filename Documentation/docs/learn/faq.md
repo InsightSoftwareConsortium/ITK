@@ -16,7 +16,7 @@ via a factory mechanism based on the file extension
 ([`itk::ImageIOFactory`](https://itk.org/Doxygen/html/classitk_1_1ImageIOFactory.html)). Some proprietary files format are only imported.
 
 More information on supported file formats is available on the
-[ITK-wasm Image File Formats](https://wasm.itk.org/en/latest/introduction/file_formats/images.html)
+[ITK-Wasm Image File Formats](https://wasm.itk.org/en/latest/introduction/file_formats/images.html)
 site.
 
 Other file formats not listed below, such as [OME-NGFF](https://ngff.openmicroscopy.org/0.4/),
@@ -102,7 +102,7 @@ formats:
 | [VTK legacy file format for vtkPolyData](https://www.vtk.org/wp-content/uploads/2015/04/file-formats.pdf) | [`itk::VTKPolyDataMeshIO`](https://itk.org/Doxygen/html/classitk_1_1VTKPolyDataMeshIO.html) | |
 
 More information on supported mesh and point set file formats is available on the
-[ITK-wasm Mesh and Point Set File Formats](https://wasm.itk.org/en/latest/introduction/file_formats/meshes.html)
+[ITK-Wasm Mesh and Point Set File Formats](https://wasm.itk.org/en/latest/introduction/file_formats/meshes.html)
 site.
 
 ### What transform file formats can ITK import and export?
@@ -176,7 +176,7 @@ installed version of GDCM and link ITK to it using `ITK_USE_SYSTEM_GDCM`.
 
 ITK supports a number of language bindings, including Python and
 JavaScript, among others, through [SimpleITK](https://simpleitk.org/)
-and [itk-wasm](https://wasm.itk.org/en/latest/).
+and [ITK-Wasm](https://wasm.itk.org/en/latest/).
 
 ### How do I cite the use of ITK in a publication?
 
