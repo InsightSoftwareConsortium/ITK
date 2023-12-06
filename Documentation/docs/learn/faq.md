@@ -33,7 +33,7 @@ images.
 | Analyze 7.5 | `itk::AnalyzeImageIO` | |
 | [BioRad](https://www.bio-rad.com/) | | |
 | [BMP](https://en.wikipedia.org/wiki/BMP_file_format) † | [`itk::BMPImageIO`](https://itk.org/Doxygen/html/classitk_1_1BMPImageIO.html) | |
-| [DICOM](https://dicom.nema.org/) | [`itk::GDCMImageIO`](https://itk.org/Doxygen/html/classitk_1_1GDCMImageIO.html) | Using DicomImageIO is backward compatible, but user should prefer GDCMImageIO |
+| [DICOM](https://dicom.nema.org/) | [`itk::GDCMImageIO`](https://itk.org/Doxygen/html/classitk_1_1GDCMImageIO.html) | |
 | [DICOM Series](https://dicom.nema.org/) | | |
 | GE 4x | [`itk::GE4ImageIO`](https://itk.org/Doxygen/html/classitk_1_1GE4ImageIO.html) | |
 | GE 5x | [`itk::GE5ImageIO`](https://itk.org/Doxygen/html/classitk_1_1GE5ImageIO.html) | |
