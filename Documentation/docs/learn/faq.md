@@ -1,4 +1,4 @@
-# Frequenty asked questions (FAQ)
+# Frequently asked questions (FAQ)
 
 ## General information and availability
 
