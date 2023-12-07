@@ -378,13 +378,12 @@ ITK_GCC_PRAGMA_DIAG_POP()
       SplitRegionType splitRegion;
       for (unsigned int splitDimension = 0, dimension = 0; dimension < VDimension; ++dimension)
       {
-        if (dimension == restrictedDirection)
+        if (dimension != restrictedDirection)
         {
-          continue;
+          splitRegion.SetIndex(splitDimension, requestedRegion.GetIndex(dimension));
+          splitRegion.SetSize(splitDimension, requestedRegion.GetSize(dimension));
+          ++splitDimension;
         }
-        splitRegion.SetIndex(splitDimension, requestedRegion.GetIndex(dimension));
-        splitRegion.SetSize(splitDimension, requestedRegion.GetSize(dimension));
-        ++splitDimension;
       }
 
       this->ParallelizeImageRegion(
@@ -397,13 +396,12 @@ ITK_GCC_PRAGMA_DIAG_POP()
           restrictedRequestedRegion.SetSize(restrictedDirection, requestedRegion.GetSize(restrictedDirection));
           for (unsigned int splitDimension = 0, dimension = 0; dimension < VDimension; ++dimension)
           {
-            if (dimension == restrictedDirection)
+            if (dimension != restrictedDirection)
             {
-              continue;
+              restrictedRequestedRegion.SetIndex(dimension, index[splitDimension]);
+              restrictedRequestedRegion.SetSize(dimension, size[splitDimension]);
+              ++splitDimension;
             }
-            restrictedRequestedRegion.SetIndex(dimension, index[splitDimension]);
-            restrictedRequestedRegion.SetSize(dimension, size[splitDimension]);
-            ++splitDimension;
           }
           funcP(restrictedRequestedRegion);
         },
