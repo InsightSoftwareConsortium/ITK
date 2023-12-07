@@ -390,7 +390,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
         SplitDimension,
         splitIndex.m_InternalArray,
         splitSize.m_InternalArray,
-        [&](const IndexValueType index[], const SizeValueType size[]) {
+        [restrictedDirection, &requestedRegion, &funcP](const IndexValueType index[], const SizeValueType size[]) {
           ImageRegion<VDimension> restrictedRequestedRegion;
           restrictedRequestedRegion.SetIndex(restrictedDirection, requestedRegion.GetIndex(restrictedDirection));
           restrictedRequestedRegion.SetSize(restrictedDirection, requestedRegion.GetSize(restrictedDirection));
