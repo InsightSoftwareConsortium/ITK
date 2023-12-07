@@ -364,7 +364,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
                                           TFunction                       funcP,
                                           ProcessObject *                 filter)
   {
-    if (VDimension <= 1) // Cannot split, no parallelization
+    if constexpr (VDimension <= 1) // Cannot split, no parallelization
     {
 
       ProgressReporter progress(filter, 0, requestedRegion.GetNumberOfPixels());
@@ -372,7 +372,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
     }
     else // Can split, parallelize!
     {
-      constexpr unsigned int SplitDimension = (VDimension - 1) ? VDimension - 1 : VDimension;
+      constexpr unsigned int SplitDimension = VDimension - 1;
       using SplitRegionType = ImageRegion<SplitDimension>;
 
       SplitRegionType splitRegion;
