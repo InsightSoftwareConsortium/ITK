@@ -373,23 +373,23 @@ ITK_GCC_PRAGMA_DIAG_POP()
     else // Can split, parallelize!
     {
       constexpr unsigned int SplitDimension = VDimension - 1;
-      using SplitRegionType = ImageRegion<SplitDimension>;
 
-      SplitRegionType splitRegion;
+      Index<SplitDimension> splitIndex{};
+      Size<SplitDimension>  splitSize{};
       for (unsigned int splitDimension = 0, dimension = 0; dimension < VDimension; ++dimension)
       {
         if (dimension != restrictedDirection)
         {
-          splitRegion.SetIndex(splitDimension, requestedRegion.GetIndex(dimension));
-          splitRegion.SetSize(splitDimension, requestedRegion.GetSize(dimension));
+          splitIndex[splitDimension] = requestedRegion.GetIndex(dimension);
+          splitSize[splitDimension] = requestedRegion.GetSize(dimension);
           ++splitDimension;
         }
       }
 
       this->ParallelizeImageRegion(
         SplitDimension,
-        splitRegion.GetIndex().m_InternalArray,
-        splitRegion.GetSize().m_InternalArray,
+        splitIndex.m_InternalArray,
+        splitSize.m_InternalArray,
         [&](const IndexValueType index[], const SizeValueType size[]) {
           ImageRegion<VDimension> restrictedRequestedRegion;
           restrictedRequestedRegion.SetIndex(restrictedDirection, requestedRegion.GetIndex(restrictedDirection));
