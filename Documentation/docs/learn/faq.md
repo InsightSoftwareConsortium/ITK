@@ -134,13 +134,9 @@ in case of desperation.
 1. Write a MetaImage header. This is a small text file holding
    information about the image: spacing, dimensions, pixelt type, etc.
    This header can hold the list of DICOM files you want to read. The
-   only restriction is that the files must be uncompressed.
-   The easy way to create a MetaImage header is to use the application:
-   `MetaImageImporter` that is available in
-   [ITKApps/MetaImageImporter](https://github.com/InsightSoftwareConsortium/ITKApps/tree/master/MetaImageImporter).
-   You can also take an existing MetaImage reader and modify it in
-   order to fit your needs. Please find attached one file that you
-   can edit it with your favorite text editor.
+   only restriction is that the files must be uncompressed. You can
+   take an existing MetaImage header and modify it in order to fit
+   your needs.
 1. Use `MRIConvert`: Jolinda Smith from the Lewis Center for
    Neuroimaging at the University of Oregon developed a nice
    application that allows you to load DICOM series and export them in
@@ -492,9 +488,7 @@ particular, you will find interesting the section where the mutual
 information metric is described.
 
 Examples on multimodality registration are available in
-[Examples/RegistrationITKv4](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Examples/RegistrationITKv4). A demo application using mutual
-information is available under
-[ITKApps/LandmarkInitializedMutualInformationRegistration](https://github.com/InsightSoftwareConsortium/ITKApps/tree/master/LandmarkInitializedMutualInformationRegistration).
+[Examples/RegistrationITKv4](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Examples/RegistrationITKv4).
 
 It is strongly recommended that you read the chapter on "Geometric
 Transformations" section, where resampling is explained, before you get
