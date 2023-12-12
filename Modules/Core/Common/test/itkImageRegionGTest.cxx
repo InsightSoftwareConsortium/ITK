@@ -194,3 +194,28 @@ TEST(ImageRegion, CropLargerToSmallerRegionAndViceVersa)
     }
   }
 }
+
+
+// Tests C++ structured binding of an ImageRegion.
+TEST(ImageRegion, SupportsStructuredBinding)
+{
+  using RegionType = itk::ImageRegion<2>;
+  using IndexType = RegionType::IndexType;
+  using SizeType = RegionType::SizeType;
+
+  RegionType region{};
+  auto && [index, size] = region;
+
+  static_assert(std::is_same_v<decltype(index), IndexType>);
+  static_assert(std::is_same_v<decltype(size), SizeType>);
+  EXPECT_EQ(&index, &(region.GetIndex()));
+  EXPECT_EQ(&size, &(region.GetSize()));
+
+  const RegionType constRegion{};
+  auto && [constIndex, constSize] = constRegion;
+
+  static_assert(std::is_same_v<decltype(constIndex), const IndexType>);
+  static_assert(std::is_same_v<decltype(constSize), const SizeType>);
+  EXPECT_EQ(&constIndex, &(constRegion.GetIndex()));
+  EXPECT_EQ(&constSize, &(constRegion.GetSize()));
+}

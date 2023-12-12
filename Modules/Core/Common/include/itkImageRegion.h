@@ -33,6 +33,8 @@
 #include "itkSize.h"
 #include "itkContinuousIndex.h"
 #include "itkMath.h"
+#include <type_traits> // For conditional and integral_constant.
+#include <utility>     // For tuple_element and tuple_size.
 
 // Macro added to each `ImageRegion` member function that overrides a virtual member function of `Region`. In the
 // future, `ImageRegion` will no longer inherit from `Region`, so then those `ImageRegion` member functions will no
@@ -357,6 +359,39 @@ public:
   SliceRegion
   Slice(const unsigned int dim) const;
 
+  /** Supports tuple-like access: `get<0>()` returns a reference to the index and `get<1>()` returns a reference to the
+   * size of the region. */
+  template <size_t VTupleIndex>
+  [[nodiscard]] auto &
+  get()
+  {
+    if constexpr (VTupleIndex == 0)
+    {
+      return m_Index;
+    }
+    else
+    {
+      static_assert(VTupleIndex == 1);
+      return m_Size;
+    }
+  }
+
+  /** Supports tuple-like access. Const overload. */
+  template <size_t VTupleIndex>
+  [[nodiscard]] const auto &
+  get() const
+  {
+    if constexpr (VTupleIndex == 0)
+    {
+      return m_Index;
+    }
+    else
+    {
+      static_assert(VTupleIndex == 1);
+      return m_Size;
+    }
+  }
+
 protected:
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
@@ -377,6 +412,35 @@ template <unsigned int VImageDimension>
 std::ostream &
 operator<<(std::ostream & os, const ImageRegion<VImageDimension> & region);
 } // end namespace itk
+
+
+namespace std
+{
+// NOLINTBEGIN(cert-dcl58-cpp)
+// Locally suppressed the following warning from Clang-Tidy (LLVM 17.0.1), as it appears undeserved.
+// > warning: modification of 'std' namespace can result in undefined behavior [cert-dcl58-cpp]
+
+/** `std::tuple_size` specialization, needed for ImageRegion to support C++ structured binding.
+ *
+ * Example, using structured binding to retrieve the index and size of a region:
+   \code
+    auto [index, size] = image.GetRequestedRegion();
+   \endcode
+ */
+template <unsigned int VImageDimension>
+struct tuple_size<itk::ImageRegion<VImageDimension>> : integral_constant<size_t, 2>
+{};
+
+/** `std::tuple_element` specialization, needed for ImageRegion to support C++ structured binding. */
+template <size_t VTupleIndex, unsigned int VImageDimension>
+struct tuple_element<VTupleIndex, itk::ImageRegion<VImageDimension>>
+  : conditional<VTupleIndex == 0, itk::Index<VImageDimension>, itk::Size<VImageDimension>>
+{
+  static_assert(VTupleIndex < tuple_size_v<itk::ImageRegion<VImageDimension>>);
+};
+
+// NOLINTEND(cert-dcl58-cpp)
+} // namespace std
 
 #undef itkRegionOverrideMacro
 
