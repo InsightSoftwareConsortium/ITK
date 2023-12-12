@@ -136,6 +136,8 @@ Minc
 MincTransformIO
 Minkowski
 Musser
+NOLINTBEGIN
+NOLINTEND
 NVidia
 Negahdaripour
 Newmark
@@ -279,6 +281,7 @@ callosum
 centerline
 cdf
 cdfs
+cert
 cfl
 cgi
 cha
@@ -303,6 +306,7 @@ confocal
 cooccurrence
 costless
 cp
+cpp
 cr
 cranio
 creativecommons
@@ -322,6 +326,7 @@ d'Attente
 dDwWmMyY
 da
 dat
+dcl
 dcmimage
 dcmtk
 datablock
