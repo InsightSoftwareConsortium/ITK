@@ -41,9 +41,9 @@ MetaDataObjectBase::GetMetaDataObjectTypeInfo() const
 
 
 void
-MetaDataObjectBase::Print(std::ostream & os) const
+MetaDataObjectBase::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << "[UNKNOWN_PRINT_CHARACTERISTICS]" << std::endl;
+  os << indent << "[UNKNOWN_PRINT_CHARACTERISTICS]" << std::endl;
 }
 
 } // end namespace itk

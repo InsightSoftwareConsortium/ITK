@@ -63,11 +63,6 @@ namespace itk
  * string "[UNKNOWN PRINT CHARACTERISTICS]" that works for all possible
  * MetaDataObject types.
  *
- * The application developer may overload the default implementation to provide
- * a specialized Print() characteristics to produce results desirable for their application.
- * A set of very crude Macros {NATIVE_TYPE_METADATAPRINT, ITK_OBJECT_TYPE_METADATAPRINT_1COMMA,
- * ITK_IMAGE_TYPE_METADATAPRINT  } are provided to facilitate a very simple implementation, and as an example.
- *
  * \ingroup ITKCommon
  *
  */
@@ -123,13 +118,6 @@ public:
   void
   SetMetaDataObjectValue(const MetaDataObjectType & newValue);
 
-  /**
-   * Defines the default behavior for printing out this element
-   * \param os An output stream
-   */
-  void
-  Print(std::ostream & os) const override;
-
   /** Returns (metaDataObject1 == metaDataObject2). */
   friend bool
   operator==(const Self & lhs, const Self & rhs)
@@ -144,9 +132,20 @@ public:
     return !(lhs == rhs);
   }
 
+  /** Helper to print contents of a MetaDataObject. */
+  void
+  PrintValue(std::ostream & os) const;
+
 protected:
   MetaDataObject() = default;
   ~MetaDataObject() override = default;
+
+  /**
+   * Defines the default behavior for printing out this element
+   * \param os An output stream
+   */
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Assigns the value of `source` to `target`.
@@ -262,53 +261,8 @@ ExposeMetaData(const MetaDataDictionary & Dictionary, const std::string key, T &
   return true;
 }
 
+
 } // end namespace itk
-
-/**
- * \def ITK_NATIVE_TYPE_METADATAPRINT( TYPE_NAME )
- * \brief An ugly macro to facilitate creating a simple implementation of
- * the MetaDataObject<Type>::Print() function for types that
- * have operator<< defined.
- * \param TYPE_NAME the native type parameter type
- */
-#define ITK_NATIVE_TYPE_METADATAPRINT(TYPE_NAME)                      \
-  template <>                                                         \
-  void itk::MetaDataObject<TYPE_NAME>::Print(std::ostream & os) const \
-  {                                                                   \
-    os << this->m_MetaDataObjectValue << std::endl;                   \
-  }
-
-/**
- * \def ITK_OBJECT_TYPE_METADATAPRINT_1COMMA( TYPE_NAME_PART1, TYPE_NAME_PART2 )
- * \brief An ugly macro to facilitate creating a simple implementation of
- * the MetaDataObject< Type >::Print() function for
- * itk::Objects that have 1 comma in their type definition
- * \param TYPE_NAME_PART1
- * \param TYPE_NAME_PART2
- */
-#define ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(TYPE_NAME_PART1, TYPE_NAME_PART2)               \
-  template <>                                                                                \
-  void itk::MetaDataObject<TYPE_NAME_PART1, TYPE_NAME_PART2>::Print(std::ostream & os) const \
-  {                                                                                          \
-    this->m_MetaDataObjectValue->Print(os);                                                  \
-  }
-
-/**
- * \def ITK_IMAGE_TYPE_METADATAPRINT( STORAGE_TYPE )
- * An ugly macro to facilitate creating a simple implementation of
- * the MetaDataObject<Type>::Print() function for
- * itk::Image\<STORAGE_TYPE,[1-8]\>\::Pointer
- * \param STORAGE_TYPE The storage type of the image type to print.
- */
-#define ITK_IMAGE_TYPE_METADATAPRINT(STORAGE_TYPE)                           \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE, 1>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE, 2>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE, 3>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE, 4>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE, 5>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE, 6>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE, 7>::Pointer) \
-  ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image<STORAGE_TYPE, 8>::Pointer)
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMetaDataObject.hxx"
