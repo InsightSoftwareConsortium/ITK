@@ -16,6 +16,8 @@
 #
 # ==========================================================================*/
 
+import importlib
+from importlib.metadata import metadata
 import os
 import re
 import functools
@@ -24,17 +26,17 @@ import numpy as np
 
 _HAVE_XARRAY = False
 try:
-    import xarray as xr
+    metadata('xarray')
 
     _HAVE_XARRAY = True
 except ImportError:
     pass
 _HAVE_TORCH = False
 try:
-    import torch
+    metadata('torch')
 
     _HAVE_TORCH = True
-except ImportError:
+except importlib.metadata.PackageNotFoundError:
     pass
 
 
@@ -84,6 +86,10 @@ def accept_array_like_xarray_torch(image_filter):
     If a xarray DataArray is passed as an input, output itk.Image's are converted to xarray.DataArray's."""
     import numpy as np
     import itk
+    if _HAVE_XARRAY:
+        import xarray as xr
+    if _HAVE_TORCH:
+        import torch
 
     @functools.wraps(image_filter)
     def image_filter_wrapper(*args, **kwargs):

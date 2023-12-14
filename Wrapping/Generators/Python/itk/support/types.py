@@ -16,6 +16,8 @@
 #
 # ==========================================================================*/
 
+import importlib
+from importlib.metadata import metadata
 from typing import Union, Optional, Tuple, TYPE_CHECKING
 import os
 
@@ -26,17 +28,17 @@ except ImportError:
 
 _HAVE_XARRAY = False
 try:
-    import xarray as xr
+    metadata('xarray')
 
     _HAVE_XARRAY = True
-except ImportError:
+except importlib.metadata.PackageNotFoundError:
     pass
 _HAVE_TORCH = False
 try:
-    import torch
+    metadata('torch')
 
     _HAVE_TORCH = True
-except ImportError:
+except importlib.metadata.PackageNotFoundError:
     pass
 
 # noinspection PyPep8Naming
@@ -218,11 +220,11 @@ ImageSource = "itk.ImageSource"
 ImageOrImageSource = Union[ImageBase, ImageSource]
 # Can be coerced into an itk.ImageBase
 if _HAVE_XARRAY and _HAVE_TORCH:
-    ImageLike = Union[ImageBase, ArrayLike, xr.DataArray, torch.Tensor]
+    ImageLike = Union[ImageBase, ArrayLike, "xr.DataArray", "torch.Tensor"]
 elif _HAVE_XARRAY:
-    ImageLike = Union[ImageBase, ArrayLike, xr.DataArray]
+    ImageLike = Union[ImageBase, ArrayLike, "xr.DataArray"]
 elif _HAVE_TORCH:
-    ImageLike = Union[ImageBase, ArrayLike, torch.Tensor]
+    ImageLike = Union[ImageBase, ArrayLike, "torch.Tensor"]
 else:
     ImageLike = Union[ImageBase, ArrayLike]
 
