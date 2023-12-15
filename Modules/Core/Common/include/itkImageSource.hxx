@@ -201,9 +201,7 @@ ImageSource<TOutputImage>::ClassicMultiThread(ThreadFunctionType callbackFunctio
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(validThreads);
   this->GetMultiThreader()->SetUpdateProgress(false);
-  this->GetMultiThreader()->SetSingleMethod(callbackFunction, &str);
-
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->GetMultiThreader()->SetSingleMethodAndExecute(callbackFunction, &str);
 }
 
 template <typename TOutputImage>

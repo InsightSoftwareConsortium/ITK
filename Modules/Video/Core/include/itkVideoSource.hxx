@@ -236,10 +236,7 @@ VideoSource<TOutputVideoStream>::TemporalStreamingGenerateData()
   str.Filter = this;
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-  this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
-
-  // multithread the execution
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->GetMultiThreader()->SetSingleMethodAndExecute(this->ThreaderCallback, &str);
 
   // Call a method that can be overridden by a subclass to perform
   // some calculations after all the threads have completed

@@ -477,8 +477,7 @@ MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,
     {
       aFunc, firstIndex, lastIndexPlus1, filter
     };
-    this->SetSingleMethod(&MultiThreaderBase::ParallelizeArrayHelper, &acParams);
-    this->SingleMethodExecute();
+    this->SetSingleMethodAndExecute(&MultiThreaderBase::ParallelizeArrayHelper, &acParams);
   }
   else if (firstIndex + 1 == lastIndexPlus1)
   {
@@ -537,8 +536,7 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
   {
     funcP, dimension, index, size, filter
   };
-  this->SetSingleMethod(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
-  this->SingleMethodExecute();
+  this->SetSingleMethodAndExecute(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
 }
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION

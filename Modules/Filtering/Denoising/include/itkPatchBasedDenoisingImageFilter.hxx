@@ -636,9 +636,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::DispatchedRiemannianM
   str.Filter = this;
   str.Img = const_cast<InputImageType *>(img);
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-  this->GetMultiThreader()->SetSingleMethod(this->RiemannianMinMaxThreaderCallback, &str);
-  // Multithread the execution
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->GetMultiThreader()->SetSingleMethodAndExecute(this->RiemannianMinMaxThreaderCallback, &str);
   this->ResolveRiemannianMinMax();
 }
 
@@ -1358,9 +1356,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ApplyUpdate()
   ThreadFilterStruct str;
   str.Filter = this;
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-  this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback, &str);
-  // Multithread the execution
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->GetMultiThreader()->SetSingleMethodAndExecute(this->ApplyUpdateThreaderCallback, &str);
 
   // Explicitly call Modified on GetOutput here since ThreadedApplyUpdate
   // changes this buffer through iterators which don't increment the output
@@ -1910,10 +1906,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeImageUpdate()
   // Compute smoothing updated for intensities at each pixel
   // based on gradient of the joint entropy
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-  this->GetMultiThreader()->SetSingleMethod(this->ComputeImageUpdateThreaderCallback, &str);
-
-  // Multithread the execution
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->GetMultiThreader()->SetSingleMethodAndExecute(this->ComputeImageUpdateThreaderCallback, &str);
 }
 
 template <typename TInputImage, typename TOutputImage>

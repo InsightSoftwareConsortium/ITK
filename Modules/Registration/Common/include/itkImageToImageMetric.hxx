@@ -1009,8 +1009,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::GetValueMultiThreadedInitiate() c
 {
   this->SynchronizeTransforms();
 
-  m_Threader->SetSingleMethod(GetValueMultiThreaded, static_cast<void *>(m_ConstSelfWrapper.get()));
-  m_Threader->SingleMethodExecute();
+  m_Threader->SetSingleMethodAndExecute(GetValueMultiThreaded, static_cast<void *>(m_ConstSelfWrapper.get()));
 
   for (ThreadIdType threadId = 0; threadId < m_NumberOfWorkUnits - 1; ++threadId)
   {
@@ -1022,8 +1021,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 ImageToImageMetric<TFixedImage, TMovingImage>::GetValueMultiThreadedPostProcessInitiate() const
 {
-  m_Threader->SetSingleMethod(GetValueMultiThreadedPostProcess, static_cast<void *>(m_ConstSelfWrapper.get()));
-  m_Threader->SingleMethodExecute();
+  m_Threader->SetSingleMethodAndExecute(GetValueMultiThreadedPostProcess,
+                                        static_cast<void *>(m_ConstSelfWrapper.get()));
 }
 
 template <typename TFixedImage, typename TMovingImage>
@@ -1108,8 +1107,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeMultiThreade
 {
   this->SynchronizeTransforms();
 
-  m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreaded, static_cast<void *>(m_ConstSelfWrapper.get()));
-  m_Threader->SingleMethodExecute();
+  m_Threader->SetSingleMethodAndExecute(GetValueAndDerivativeMultiThreaded,
+                                        static_cast<void *>(m_ConstSelfWrapper.get()));
 
   for (ThreadIdType threadId = 0; threadId < m_NumberOfWorkUnits - 1; ++threadId)
   {
@@ -1121,9 +1120,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 ImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeMultiThreadedPostProcessInitiate() const
 {
-  m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreadedPostProcess,
-                              static_cast<void *>(m_ConstSelfWrapper.get()));
-  m_Threader->SingleMethodExecute();
+  m_Threader->SetSingleMethodAndExecute(GetValueAndDerivativeMultiThreadedPostProcess,
+                                        static_cast<void *>(m_ConstSelfWrapper.get()));
 }
 
 template <typename TFixedImage, typename TMovingImage>

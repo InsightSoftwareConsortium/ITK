@@ -258,9 +258,7 @@ ImageTransformer<TInputImage>::ClassicMultiThread(ThreadFunctionType callbackFun
   str.Filter = this;
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-  this->GetMultiThreader()->SetSingleMethod(callbackFunction, &str);
-
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->GetMultiThreader()->SetSingleMethodAndExecute(callbackFunction, &str);
 }
 
 //----------------------------------------------------------------------------
