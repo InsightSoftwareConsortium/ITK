@@ -45,6 +45,7 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include <utility> // For move.
 
 #if defined(ITK_USE_TBB)
 #  include "itkTBBMultiThreader.h"
@@ -444,6 +445,15 @@ MultiThreaderBase::SingleMethodProxy(void * arg)
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
+
+
+void
+MultiThreaderBase::SetSingleMethodAndExecute(ThreadFunctionType func, void * data)
+{
+  this->SetSingleMethod(std::move(func), data);
+  this->SingleMethodExecute();
+}
+
 
 void
 MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,

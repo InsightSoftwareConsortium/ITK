@@ -308,6 +308,10 @@ ITK_GCC_PRAGMA_DIAG_POP()
   virtual void
   SetSingleMethod(ThreadFunctionType, void * data) = 0;
 
+  /** Set the method and the user data, by SetSingleMethod, and executes the method, by SingleMethodExecute. */
+  void
+  SetSingleMethodAndExecute(ThreadFunctionType func, void * data);
+
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   // `TemplatedThreadingFunctorType` was previously used to declare the `funcP` parameter of `ParallelizeImageRegion`
   // and `ParallelizeImageRegionRestrictDirection` template member functions.
