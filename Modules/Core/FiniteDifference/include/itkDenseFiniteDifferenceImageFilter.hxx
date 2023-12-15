@@ -85,9 +85,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ApplyUpdate(const T
   str.Filter = this;
   str.TimeStep = dt;
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-  this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback, &str);
-  // Multithread the execution
-  this->GetMultiThreader()->SingleMethodExecute();
+  this->GetMultiThreader()->SetSingleMethodAndExecute(this->ApplyUpdateThreaderCallback, &str);
 
   // Explicitly call Modified on GetOutput here
   // since ThreadedApplyUpdate changes this buffer

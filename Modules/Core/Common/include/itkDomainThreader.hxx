@@ -95,11 +95,7 @@ DomainThreader<TDomainPartitioner, TAssociate>::StartThreadingSequence()
   ThreadStruct str;
   str.domainThreader = this;
 
-  MultiThreaderBase * multiThreader = this->GetMultiThreader();
-  multiThreader->SetSingleMethod(this->ThreaderCallback, &str);
-
-  // multithread the execution
-  multiThreader->SingleMethodExecute();
+  this->GetMultiThreader()->SetSingleMethodAndExecute(this->ThreaderCallback, &str);
 }
 
 template <typename TDomainPartitioner, typename TAssociate>
