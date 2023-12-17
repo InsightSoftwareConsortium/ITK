@@ -7,6 +7,7 @@ Enabling testing requires RLEImage module to be enabled."
 
 itk_module(
   MorphologicalContourInterpolation
+  ENABLE_SHARED
   DEPENDS
     ITKBinaryMathematicalMorphology
     ITKDistanceMap

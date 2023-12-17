@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.16.3)
 
+if(POLICY CMP0135)
+  cmake_policy(SET CMP0135 NEW)
+endif()
+
 if(CMAKE_CXX_STANDARD EQUAL "11")
   message(
     FATAL_ERROR
@@ -20,7 +24,7 @@ endif()
 project(MorphologicalContourInterpolation)
 
 if(NOT ITK_SOURCE_DIR)
-  find_package(ITK 4.9 REQUIRED)
+  find_package(ITK REQUIRED)
   list(APPEND CMAKE_MODULE_PATH ${ITK_CMAKE_DIR})
   include(ITKModuleExternal)
 else()
