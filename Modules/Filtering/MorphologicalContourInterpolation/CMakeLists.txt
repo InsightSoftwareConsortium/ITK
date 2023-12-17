@@ -4,23 +4,6 @@ if(POLICY CMP0135)
   cmake_policy(SET CMP0135 NEW)
 endif()
 
-if(CMAKE_CXX_STANDARD EQUAL "11")
-  message(
-    FATAL_ERROR
-    "CMAKE_CXX_STANDARD:STRING=11 is not supported in ITK version 5.3 and greater."
-  )
-endif()
-
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14) # Supported values are ``14``, ``17``, and ``20``.
-endif()
-if(NOT CMAKE_CXX_STANDARD_REQUIRED)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
-endif()
-if(NOT CMAKE_CXX_EXTENSIONS)
-  set(CMAKE_CXX_EXTENSIONS OFF)
-endif()
-
 project(MorphologicalContourInterpolation)
 
 if(NOT ITK_SOURCE_DIR)
