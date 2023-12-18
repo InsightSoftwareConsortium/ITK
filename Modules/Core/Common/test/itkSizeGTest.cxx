@@ -18,9 +18,14 @@
 
 // First include the header file to be tested:
 #include "itkSize.h"
+#include "itkMath.h"
 #include "itkRangeGTestUtilities.h"
+
 #include <gtest/gtest.h>
+
+#include <functional> // For multiplies
 #include <limits>
+#include <numeric>     // For accumulate.
 #include <type_traits> // For integral_constant.
 
 
@@ -131,4 +136,37 @@ TEST(Size, Fill)
   check(DimensionConstant<1>);
   check(DimensionConstant<2>);
   check(DimensionConstant<3>);
+}
+
+
+// Tests Size::CalculateProductOfElements().
+TEST(Size, CalculateProductOfElements)
+{
+  const auto checkFilledSizes = [](const auto dimensionConstant) {
+    // Check at runtime:
+    for (itk::SizeValueType sizeValue{}; sizeValue <= 2; ++sizeValue)
+    {
+      const auto size = itk::Size<dimensionConstant>::Filled(sizeValue);
+      EXPECT_EQ(size.CalculateProductOfElements(), itk::Math::UnsignedPower(sizeValue, dimensionConstant));
+    }
+
+    // Check at compile-time:
+    constexpr itk::SizeValueType sizeValue{ 3 };
+    constexpr auto               size = itk::Size<dimensionConstant>::Filled(sizeValue);
+    static_assert(size.CalculateProductOfElements() == itk::Math::UnsignedPower(sizeValue, dimensionConstant));
+  };
+
+  // Check CalculateProductOfElements() for 1D, 2D, and 3D sizes, filled by `Size::Filled`:
+  checkFilledSizes(DimensionConstant<1>);
+  checkFilledSizes(DimensionConstant<2>);
+  checkFilledSizes(DimensionConstant<3>);
+
+  const auto checkArbitrarySize = [](const auto & size) {
+    EXPECT_EQ(size.CalculateProductOfElements(),
+              std::accumulate(size.cbegin(), size.cend(), itk::SizeValueType{ 1 }, std::multiplies<>{}));
+  };
+
+  // Do a few more trivial tests.
+  checkArbitrarySize(itk::MakeSize(2, 4));
+  checkArbitrarySize(itk::MakeSize(1, 2, 3));
 }
