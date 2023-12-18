@@ -211,6 +211,19 @@ public:
     std::fill_n(begin(), size(), value);
   } // MATCH std::array assign, ITK Fill
 
+  /** Multiplies all elements. Yields the number of pixels of an image of this size. */
+  [[nodiscard]] constexpr SizeValueType
+  CalculateProductOfElements() const
+  {
+    SizeValueType product{ 1 };
+
+    for (const SizeValueType value : m_InternalArray)
+    {
+      product *= value;
+    }
+    return product;
+  }
+
   /** Size is an "aggregate" class.  Its data is public (m_InternalArray)
    * allowing for fast and convenient instantiations/assignments.
    * ( See main class documentation for an example of initialization)
