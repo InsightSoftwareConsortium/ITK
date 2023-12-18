@@ -346,7 +346,7 @@ be summarized as follows:
  guidelines for the development of software-related medical devices."
 ```
 
-For mode details see the page [FDA Guidelines for Software Developement](https://itk.org/Wiki/FDA_Guidelines_for_Software_Development).
+For mode details see the page [FDA Guidelines for Software Developement](fda_off_the_shelf_sw_guidelines.md).
 
 ## Using ITK
 
@@ -469,13 +469,13 @@ as 12 bits.
 
 ### I'm working with DICOM images, where can I find more information?
 
-See [ITK/DICOM](https://itk.org/Wiki/ITK/DICOM).
+See the [DICOM](dicom.md) page.
 
 ## Data display
 
 ### What imaging software is available for displaying medical image files?
 
-Please see the [third party applications](https://itk.org/Wiki/ITK/Third_Party_Applications) page for
+Please see the [third party applications](third_party_applications.md) page for
 visualization applications that used ITK to perform image
 reading/writing.
 
