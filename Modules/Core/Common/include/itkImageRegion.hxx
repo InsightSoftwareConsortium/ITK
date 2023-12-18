@@ -72,14 +72,7 @@ template <unsigned int VImageDimension>
 auto
 ImageRegion<VImageDimension>::GetNumberOfPixels() const -> SizeValueType
 {
-  SizeValueType numPixels = 1;
-
-  for (unsigned int i = 0; i < VImageDimension; ++i)
-  {
-    numPixels *= m_Size[i];
-  }
-
-  return numPixels;
+  return m_Size.CalculateProductOfElements();
 }
 
 template <unsigned int VImageDimension>
