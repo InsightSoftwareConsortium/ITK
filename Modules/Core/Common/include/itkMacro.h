@@ -432,15 +432,21 @@ namespace itk
     ITK_MACROEND_NOOP_STATEMENT
 #endif
 
-/** Macro used to add standard methods to all classes, mainly type
- * information. */
-#define itkTypeMacro(thisClass, superclass)                           \
+
+/** Macro's used to add `GetNameOfClass()` member functions to polymorphic ITK classes: `itkVirtualGetNameOfClassMacro`
+ * adds a virtual `GetNameOfClass()` member function to the class definition, and `itkOverrideGetNameOfClassMacro` adds
+ * a `GetNameOfClass()` override. */
+#define itkVirtualGetNameOfClassMacro(thisClass)                     \
+  virtual const char * GetNameOfClass() const { return #thisClass; } \
+  ITK_MACROEND_NOOP_STATEMENT
+
+#define itkOverrideGetNameOfClassMacro(thisClass)                     \
   const char * GetNameOfClass() const override { return #thisClass; } \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define itkTypeMacroNoParent(thisClass)                              \
-  virtual const char * GetNameOfClass() const { return #thisClass; } \
-  ITK_MACROEND_NOOP_STATEMENT
+/** Macro used to add standard methods to all classes, mainly type information. */
+#define itkTypeMacro(thisClass, superclass) itkOverrideGetNameOfClassMacro(thisClass)
+#define itkTypeMacroNoParent(thisClass) itkVirtualGetNameOfClassMacro(thisClass)
 
 namespace itk
 {
