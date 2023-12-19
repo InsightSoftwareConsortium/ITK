@@ -64,7 +64,7 @@ public:
   static constexpr unsigned int NeighborhoodDimension = VDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacroNoParent(Neighborhood);
+  itkVirtualGetNameOfClassMacro(Neighborhood);
 
   /** External support for pixel type. */
   using PixelType = TPixel;

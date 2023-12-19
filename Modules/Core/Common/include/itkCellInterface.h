@@ -462,7 +462,7 @@ public:
 #endif
 
   /** Standard part of every itk Object. */
-  itkTypeMacroNoParent(CellInterface);
+  itkVirtualGetNameOfClassMacro(CellInterface);
 
 public:
   CellInterface() = default;

@@ -76,7 +76,7 @@ public:
 #endif
 
   /** Standard part of all itk objects. */
-  itkTypeMacroNoParent(Region);
+  itkVirtualGetNameOfClassMacro(Region);
 
   /** Subclasses must return a region type describing whether the region
    * is structured or unstructured. */

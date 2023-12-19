@@ -79,7 +79,7 @@ public:
   ImageBoundaryCondition() = default;
 
   /** Runtime information support. */
-  itkTypeMacroNoParent(ImageBoundaryCondition);
+  itkVirtualGetNameOfClassMacro(ImageBoundaryCondition);
 
   /** Utility for printing the boundary condition. */
   virtual void

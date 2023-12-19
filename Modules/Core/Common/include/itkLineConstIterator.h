@@ -103,7 +103,7 @@ public:
   using AccessorType = typename TImage::AccessorType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacroNoParent(LineConstIterator);
+  itkVirtualGetNameOfClassMacro(LineConstIterator);
 
   /** Get the dimension (size) of the index. */
   static unsigned int
