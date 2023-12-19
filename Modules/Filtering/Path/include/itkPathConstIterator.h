@@ -131,7 +131,7 @@ public:
   using PathOutputType = typename PathType::OutputType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacroNoParent(PathConstIterator);
+  itkVirtualGetNameOfClassMacro(PathConstIterator);
 
   /** Get the dimension (size) of the index. */
   static unsigned int

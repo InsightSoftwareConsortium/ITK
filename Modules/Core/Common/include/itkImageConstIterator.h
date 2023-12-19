@@ -94,7 +94,7 @@ public:
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacroNoParent(ImageConstIterator);
+  itkVirtualGetNameOfClassMacro(ImageConstIterator);
 
   /** Index type alias support */
   using IndexType = typename TImage::IndexType;

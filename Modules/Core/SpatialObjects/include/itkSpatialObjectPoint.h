@@ -58,7 +58,7 @@ public:
   virtual ~SpatialObjectPoint() = default;
 
   /** Runtime information support. */
-  itkTypeMacroNoParent(SpatialObjectPoint);
+  itkVirtualGetNameOfClassMacro(SpatialObjectPoint);
 
   using Self = SpatialObjectPoint;
 

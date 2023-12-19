@@ -38,7 +38,7 @@ TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
     TestClass() = default;
     virtual ~TestClass() = default;
 
-    itkTypeMacroNoParent(TestClass);
+    itkVirtualGetNameOfClassMacro(TestClass);
 
     void
     CallExceptionMacro(const std::string & message) const

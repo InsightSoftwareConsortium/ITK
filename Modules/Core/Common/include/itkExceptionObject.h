@@ -87,7 +87,7 @@ public:
   operator==(const ExceptionObject & orig) const;
 
   /** Runtime information support. */
-  itkTypeMacroNoParent(ExceptionObject);
+  itkVirtualGetNameOfClassMacro(ExceptionObject);
 
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the

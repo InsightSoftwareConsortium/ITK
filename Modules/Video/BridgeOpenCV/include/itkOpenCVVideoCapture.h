@@ -67,7 +67,7 @@ public:
   virtual ~OpenCVVideoCapture() {}
 
   /** Runtime information support. */
-  itkTypeMacroNoParent(OpenCVVideoCapture);
+  itkVirtualGetNameOfClassMacro(OpenCVVideoCapture);
 
   // Open, close functionality
 
