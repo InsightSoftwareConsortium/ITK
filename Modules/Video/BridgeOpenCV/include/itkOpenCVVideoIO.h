@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(OpenCVVideoIO, VideoIOBase);
+  itkOverrideGetNameOfClassMacro(OpenCVVideoIO);
 
   /** Close the reader and writer and reset members */
   virtual void

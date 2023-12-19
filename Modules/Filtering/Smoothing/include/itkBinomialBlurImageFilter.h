@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinomialBlurImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinomialBlurImageFilter);
 
   /** Number of dimensions */
   static constexpr unsigned int NDimensions = TInputImage::ImageDimension;

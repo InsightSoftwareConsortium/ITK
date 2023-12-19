@@ -57,7 +57,7 @@ public:
   using Superclass = Object;
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEquationTermBase, Object);
+  itkOverrideGetNameOfClassMacro(LevelSetEquationTermBase);
 
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;

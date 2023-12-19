@@ -49,7 +49,7 @@ public:
   using typename Superclass::MeasurementVectorSizeType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ManhattanDistanceMetric, DistanceMetric);
+  itkOverrideGetNameOfClassMacro(ManhattanDistanceMetric);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

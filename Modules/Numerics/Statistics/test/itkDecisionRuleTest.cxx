@@ -35,7 +35,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(MyDecisionRule, DecisionRule);
+  itkOverrideGetNameOfClassMacro(MyDecisionRule);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

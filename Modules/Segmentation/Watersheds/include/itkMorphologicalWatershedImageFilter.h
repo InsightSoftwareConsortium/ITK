@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MorphologicalWatershedImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MorphologicalWatershedImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

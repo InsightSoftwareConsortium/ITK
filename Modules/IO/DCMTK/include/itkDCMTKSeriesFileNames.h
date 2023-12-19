@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DCMTKSeriesFileNames, ProcessObject);
+  itkOverrideGetNameOfClassMacro(DCMTKSeriesFileNames);
 
   /* -------- Define the API for DCMTKSeriesFileNames ----------- */
 

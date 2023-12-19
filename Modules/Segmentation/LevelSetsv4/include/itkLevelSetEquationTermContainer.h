@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEquationTermContainer, Object);
+  itkOverrideGetNameOfClassMacro(LevelSetEquationTermContainer);
 
   using TermIdType = unsigned int;
 

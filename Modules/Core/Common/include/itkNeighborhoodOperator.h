@@ -76,7 +76,7 @@ public:
   using Self = NeighborhoodOperator;
   using Superclass = Neighborhood<TPixel, VDimension, TAllocator>;
 
-  itkTypeMacro(NeighborhoodOperator, NeighborhoodOperator);
+  itkOverrideGetNameOfClassMacro(NeighborhoodOperator);
 
   /** Size object type alias support */
   using typename Superclass::SizeType;

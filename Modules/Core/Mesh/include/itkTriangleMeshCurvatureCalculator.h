@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TriangleMeshCurvatureCalculator, Object);
+  itkOverrideGetNameOfClassMacro(TriangleMeshCurvatureCalculator);
 
   /** Convenient type alias for this Calculator. */
   using InputMeshType = TInputMesh;

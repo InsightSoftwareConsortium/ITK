@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IterativeInverseDisplacementFieldImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(IterativeInverseDisplacementFieldImageFilter);
 
   /** Some type alias. */
   using InputImageType = TInputImage;

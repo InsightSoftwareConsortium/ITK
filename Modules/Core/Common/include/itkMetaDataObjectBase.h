@@ -56,7 +56,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaDataObjectBase, LightObject);
+  itkOverrideGetNameOfClassMacro(MetaDataObjectBase);
 
   /**
    * \author Hans J. Johnson

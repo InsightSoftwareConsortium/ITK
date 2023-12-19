@@ -51,7 +51,7 @@ public:
   using OutputDomainPointer = typename Traits::OutputDomainPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingStoppingCriterionBase, StoppingCriterionBase);
+  itkOverrideGetNameOfClassMacro(FastMarchingStoppingCriterionBase);
 
   /** Reinitialize internal values. */
   void

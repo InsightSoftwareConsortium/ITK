@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DoubleThresholdImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(DoubleThresholdImageFilter);
 
   /** Types from the superclass */
   using typename Superclass::InputImagePointer;

@@ -93,7 +93,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineCenteredL2ResampleImageFilterBase, BSplineCenteredResampleImageFilterBase);
+  itkOverrideGetNameOfClassMacro(BSplineCenteredL2ResampleImageFilterBase);
 
 protected:
   void

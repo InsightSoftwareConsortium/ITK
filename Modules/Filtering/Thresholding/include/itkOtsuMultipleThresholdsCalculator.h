@@ -71,7 +71,7 @@ public:
   using InstanceIdentifierVectorType = std::vector<InstanceIdentifierType>;
 
   /**Standard Macros */
-  itkTypeMacro(OtsuMultipleThresholdsCalculator, HistogramAlgorithmsBase);
+  itkOverrideGetNameOfClassMacro(OtsuMultipleThresholdsCalculator);
   itkNewMacro(Self);
 
   /** Typedef for the thresholds output */

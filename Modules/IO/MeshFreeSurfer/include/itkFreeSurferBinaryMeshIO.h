@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FreeSurferBinaryMeshIO, MeshIOBase);
+  itkOverrideGetNameOfClassMacro(FreeSurferBinaryMeshIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

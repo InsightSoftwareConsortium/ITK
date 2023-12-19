@@ -88,7 +88,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImagePCAShapeModelEstimator, ImageShapeModelEstimatorBase);
+  itkOverrideGetNameOfClassMacro(ImagePCAShapeModelEstimator);
 
   /** Type definition for the input image. */
   using InputImageType = TInputImage;

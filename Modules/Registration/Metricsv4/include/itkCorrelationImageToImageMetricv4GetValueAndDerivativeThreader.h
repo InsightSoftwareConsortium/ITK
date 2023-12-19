@@ -44,8 +44,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(CorrelationImageToImageMetricv4GetValueAndDerivativeThreader,
-               ImageToImageMetricv4GetValueAndDerivativeThreader);
+  itkOverrideGetNameOfClassMacro(CorrelationImageToImageMetricv4GetValueAndDerivativeThreader);
 
   itkNewMacro(Self);
 

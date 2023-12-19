@@ -124,7 +124,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(LaplacianDeformationQuadEdgeMeshFilter);
 
   /** Input types. */
   using InputMeshType = TInputMesh;

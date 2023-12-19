@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TanImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(TanImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

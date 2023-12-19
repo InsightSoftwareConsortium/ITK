@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(QuaternionRigidTransformGradientDescentOptimizer, GradientDescentOptimizer);
+  itkOverrideGetNameOfClassMacro(QuaternionRigidTransformGradientDescentOptimizer);
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */

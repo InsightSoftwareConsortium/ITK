@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CenteredRigid2DTransform, Rigid2DTransform);
+  itkOverrideGetNameOfClassMacro(CenteredRigid2DTransform);
 
   /** Dimension of parameters. */
   static constexpr unsigned int SpaceDimension = 2;

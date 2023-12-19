@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegionSplitterMultidimensional, ImageRegionSplitterBase);
+  itkOverrideGetNameOfClassMacro(ImageRegionSplitterMultidimensional);
 
 protected:
   ImageRegionSplitterMultidimensional();

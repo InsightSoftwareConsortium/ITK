@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(FFTShiftImageFilter, CyclicShiftImageFilter);
+  itkOverrideGetNameOfClassMacro(FFTShiftImageFilter);
 
   /** Set/Get whether the filter must invert the transform or not.
    * This option has no effect if none of the size of the input image is even,

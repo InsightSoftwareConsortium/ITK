@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(StatisticsLabelObject, LabelObject);
+  itkOverrideGetNameOfClassMacro(StatisticsLabelObject);
 
   using LabelMapType = LabelMap<Self>;
 

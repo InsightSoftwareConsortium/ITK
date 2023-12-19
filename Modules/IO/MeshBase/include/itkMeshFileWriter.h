@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeshFileWriter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(MeshFileWriter);
 
   /** Some convenient type alias. */
   using InputMeshType = TInputMesh;

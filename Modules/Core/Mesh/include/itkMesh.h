@@ -140,7 +140,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(Mesh, PointSet);
+  itkOverrideGetNameOfClassMacro(Mesh);
 
   /** Hold on to the type information specified by the template parameters. */
   using MeshTraits = TMeshTraits;

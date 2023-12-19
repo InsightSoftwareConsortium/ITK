@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetDenseImage, DiscreteLevelSetImage);
+  itkOverrideGetNameOfClassMacro(LevelSetDenseImage);
 
   static constexpr unsigned int Dimension = Superclass::Dimension;
 

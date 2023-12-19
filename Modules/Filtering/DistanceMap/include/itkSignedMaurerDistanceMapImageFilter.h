@@ -92,7 +92,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SignedMaurerDistanceMapImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(SignedMaurerDistanceMapImageFilter);
 
   using InputRegionType = typename InputImageType::RegionType;
   using OutputRegionType = typename OutputImageType::RegionType;

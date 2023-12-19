@@ -190,7 +190,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToImageMetricv4, ObjectToObjectMetric);
+  itkOverrideGetNameOfClassMacro(ImageToImageMetricv4);
 
   /** Type used internally for computations */
   /** It should be possible to derive the internal computation type from the class object. */

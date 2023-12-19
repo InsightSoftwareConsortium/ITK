@@ -125,7 +125,7 @@ public:
   using GeodesicActiveContourFunctionPointer = typename GeodesicActiveContourFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GeodesicActiveContourLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(GeodesicActiveContourLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

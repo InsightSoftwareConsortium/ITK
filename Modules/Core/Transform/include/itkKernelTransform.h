@@ -70,7 +70,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KernelTransform, Transform);
+  itkOverrideGetNameOfClassMacro(KernelTransform);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);

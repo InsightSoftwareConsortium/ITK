@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GPUPDEDeformableRegistrationFilter, GPUDenseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUPDEDeformableRegistrationFilter);
 
   /** FixedImage image type. */
   using FixedImageType = TFixedImage;

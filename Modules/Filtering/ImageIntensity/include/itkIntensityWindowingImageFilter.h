@@ -166,7 +166,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(IntensityWindowingImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(IntensityWindowingImageFilter);
 
   /** Set/Get the values of the maximum and minimum
    *  intensities of the output image. */

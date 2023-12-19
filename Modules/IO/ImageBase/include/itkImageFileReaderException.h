@@ -32,7 +32,7 @@ class ITKIOImageBase_EXPORT ImageFileReaderException : public ExceptionObject
 {
 public:
   /** Run-time information. */
-  itkTypeMacro(ImageFileReaderException, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(ImageFileReaderException);
 
   /** Constructor. */
   ImageFileReaderException(const char * file,

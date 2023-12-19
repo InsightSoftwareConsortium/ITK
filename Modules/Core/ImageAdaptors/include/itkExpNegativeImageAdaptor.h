@@ -92,7 +92,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExpNegativeImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(ExpNegativeImageAdaptor);
 
 protected:
   ExpNegativeImageAdaptor() = default;

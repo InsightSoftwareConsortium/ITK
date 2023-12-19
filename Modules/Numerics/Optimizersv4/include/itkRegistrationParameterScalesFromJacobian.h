@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegistrationParameterScalesFromJacobian, RegistrationParameterScalesEstimator);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesFromJacobian);
 
   /** Type of scales */
   using typename Superclass::ScalesType;

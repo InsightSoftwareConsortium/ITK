@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(VectorMagnitudeImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(VectorMagnitudeImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

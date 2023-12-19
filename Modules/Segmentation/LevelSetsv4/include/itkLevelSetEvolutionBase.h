@@ -51,7 +51,7 @@ public:
   using Superclass = Object;
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEvolutionBase, Object);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolutionBase);
 
   using EquationContainerType = TEquationContainer;
   using EquationContainerPointer = typename EquationContainerType::Pointer;

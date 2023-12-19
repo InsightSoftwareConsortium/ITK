@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWInverse1DFFTImageFilter, Inverse1DFFTImageFilter);
+  itkOverrideGetNameOfClassMacro(FFTWInverse1DFFTImageFilter);
 
 
 protected:

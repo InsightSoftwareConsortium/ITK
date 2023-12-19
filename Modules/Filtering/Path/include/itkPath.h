@@ -66,7 +66,7 @@ public:
   static constexpr unsigned int PathDimension = VDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Path, FunctionBase);
+  itkOverrideGetNameOfClassMacro(Path);
 
   /** Input type */
   using InputType = TInput;

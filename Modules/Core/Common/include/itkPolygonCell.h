@@ -60,7 +60,7 @@ public:
   itkCellInheritedTypedefs(TCellInterface);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(PolygonCell, CellInterface);
+  itkOverrideGetNameOfClassMacro(PolygonCell);
 
   /** Save some template parameter information. */
   static constexpr unsigned int CellDimension = 2;

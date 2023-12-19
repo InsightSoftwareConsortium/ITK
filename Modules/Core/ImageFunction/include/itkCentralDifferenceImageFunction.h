@@ -88,7 +88,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CentralDifferenceImageFunction, ImageFunction);
+  itkOverrideGetNameOfClassMacro(CentralDifferenceImageFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

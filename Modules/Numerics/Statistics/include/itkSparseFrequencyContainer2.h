@@ -51,7 +51,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(SparseFrequencyContainer2, Object);
+  itkOverrideGetNameOfClassMacro(SparseFrequencyContainer2);
   itkNewMacro(Self);
 
   /** instance identifier alias */

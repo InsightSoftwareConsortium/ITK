@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKImageToImageFilter, VTKImageImport);
+  itkOverrideGetNameOfClassMacro(VTKImageToImageFilter);
 
   /** Some type alias. */
   using OutputImageType = TOutputImage;

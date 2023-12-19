@@ -45,7 +45,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegularStepGradientDescentOptimizer, RegularStepGradientDescentBaseOptimizer);
+  itkOverrideGetNameOfClassMacro(RegularStepGradientDescentOptimizer);
 
   /** Cost function type alias. */
   using CostFunctionType = Superclass::CostFunctionType;

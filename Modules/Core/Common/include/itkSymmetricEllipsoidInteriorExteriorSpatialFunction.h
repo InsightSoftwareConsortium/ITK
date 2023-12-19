@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time information. */
-  itkTypeMacro(SymmetricEllipsoidInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
+  itkOverrideGetNameOfClassMacro(SymmetricEllipsoidInteriorExteriorSpatialFunction);
 
   /** Input type for the function. */
   using typename Superclass::InputType;

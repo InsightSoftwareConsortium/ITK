@@ -86,7 +86,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageFileReader, ImageSource);
+  itkOverrideGetNameOfClassMacro(ImageFileReader);
 
   /** The size of the output image. */
   using SizeType = typename TOutputImage::SizeType;

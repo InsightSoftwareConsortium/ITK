@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PowellOptimizerv4, ObjectToObjectOptimizerBaseTemplate);
+  itkOverrideGetNameOfClassMacro(PowellOptimizerv4);
 
   using typename Superclass::ParametersType;
   using typename Superclass::MeasureType;

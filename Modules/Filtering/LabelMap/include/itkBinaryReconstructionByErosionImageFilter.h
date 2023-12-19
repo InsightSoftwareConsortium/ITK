@@ -93,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryReconstructionByErosionImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryReconstructionByErosionImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

@@ -136,7 +136,7 @@ public:
   using IntegerType = uint32_t;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MersenneTwisterRandomVariateGenerator, RandomVariateGeneratorBase);
+  itkOverrideGetNameOfClassMacro(MersenneTwisterRandomVariateGenerator);
 
   /** \brief Method for creation through the object factory.
    *

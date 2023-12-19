@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToSpatialObjectRegistrationMethod, ProcessObject);
+  itkOverrideGetNameOfClassMacro(ImageToSpatialObjectRegistrationMethod);
 
   /**  Type of the Fixed image. */
   using FixedImageType = TFixedImage;

@@ -89,7 +89,7 @@ public:
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ZeroCrossingImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ZeroCrossingImageFilter);
 
   /** ImageDimension enumeration   */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

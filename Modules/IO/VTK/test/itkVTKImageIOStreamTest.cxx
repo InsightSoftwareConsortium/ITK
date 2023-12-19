@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConstantImageSource, GenerateImageSource);
+  itkOverrideGetNameOfClassMacro(ConstantImageSource);
 
   /** Set the value to fill the image. */
   itkSetMacro(Value, typename TOutputImage::PixelType);

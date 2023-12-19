@@ -89,7 +89,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageGaussianModelEstimator, ImageModelEstimatorBase);
+  itkOverrideGetNameOfClassMacro(ImageGaussianModelEstimator);
 
   /** Type definition for the input image. */
   using InputImageType = TInputImage;

@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeanSquaresHistogramImageToImageMetric, HistogramImageToImageMetric);
+  itkOverrideGetNameOfClassMacro(MeanSquaresHistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using typename Superclass::RealType;

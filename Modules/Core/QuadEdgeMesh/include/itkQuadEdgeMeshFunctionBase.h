@@ -64,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(QuadEdgeMeshFunctionBase, Object);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshFunctionBase);
 
   /** Mesh type that must be modified */
   using MeshType = TMesh;

@@ -97,7 +97,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ComplexToImaginaryImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(ComplexToImaginaryImageAdaptor);
 
 protected:
   ComplexToImaginaryImageAdaptor() = default;

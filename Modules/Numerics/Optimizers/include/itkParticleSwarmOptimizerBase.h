@@ -65,7 +65,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParticleSwarmOptimizerBase, SingleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(ParticleSwarmOptimizerBase);
 
   using ParameterBoundsType = std::vector<std::pair<ParametersType::ValueType, ParametersType::ValueType>>;
 

@@ -84,7 +84,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(ImplicitManifoldNormalVectorFilter, FiniteDifferenceSparseImageFilter);
+  itkOverrideGetNameOfClassMacro(ImplicitManifoldNormalVectorFilter);
 
   /** Standard New macro. */
   itkNewMacro(Self);

@@ -71,7 +71,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
-  itkTypeMacro(DirectFourierReconstructionImageToImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(DirectFourierReconstructionImageToImageFilter);
 
   /** Class RegionType */
   using RegionType = typename InputImageType::RegionType;

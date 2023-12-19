@@ -60,7 +60,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(AtanRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction);
+  itkOverrideGetNameOfClassMacro(AtanRegularizedHeavisideStepFunction);
 
   using typename Superclass::InputType;
   using typename Superclass::OutputType;

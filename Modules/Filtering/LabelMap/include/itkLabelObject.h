@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LabelObject, LightObject);
+  itkOverrideGetNameOfClassMacro(LabelObject);
 
   static constexpr unsigned int ImageDimension = VImageDimension;
 

@@ -48,7 +48,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate, DomainThreader);
+  itkOverrideGetNameOfClassMacro(GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate);
 
   itkNewMacro(Self);
 

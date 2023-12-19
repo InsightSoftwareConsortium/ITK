@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ClosingByReconstructionImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ClosingByReconstructionImageFilter);
 
   /** Set kernel (structuring element). */
   itkSetMacro(Kernel, KernelType);

@@ -73,7 +73,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(BoundaryResolver, ProcessObject);
+  itkOverrideGetNameOfClassMacro(BoundaryResolver);
 
   /** Expose the image dimension at run time. */
   static constexpr unsigned int ImageDimension = TDimension;

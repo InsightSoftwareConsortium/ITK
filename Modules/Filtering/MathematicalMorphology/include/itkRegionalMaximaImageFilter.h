@@ -82,7 +82,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RegionalMaximaImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(RegionalMaximaImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

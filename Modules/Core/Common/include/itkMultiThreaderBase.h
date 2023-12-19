@@ -119,7 +119,7 @@ public:
   New();
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiThreaderBase, Object);
+  itkOverrideGetNameOfClassMacro(MultiThreaderBase);
 
   /** Get/Set the number of threads to use. It will be clamped to the range
    * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should

@@ -76,7 +76,7 @@ public:
   static constexpr IOModeEnum WriteMode = IOModeEnum::WriteMode;
 #endif
   /** Runtime type information (and related methods). **/
-  itkTypeMacro(VideoIOFactory, Object);
+  itkOverrideGetNameOfClassMacro(VideoIOFactory);
 
   /** Create the appropriate ImageIO depending on the particulars of the file.
    *  Note: arg can either be a path for reading/writing from/to a file or a

@@ -39,7 +39,7 @@ public:
   using Superclass = Command;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkTypeMacro(WatershedMiniPipelineProgressCommand, Command);
+  itkOverrideGetNameOfClassMacro(WatershedMiniPipelineProgressCommand);
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */

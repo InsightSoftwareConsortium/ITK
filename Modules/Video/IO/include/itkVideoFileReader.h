@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VideoFileReader, VideoSource);
+  itkOverrideGetNameOfClassMacro(VideoFileReader);
 
 
   /** Specify the file to read. This is forwarded to the IO instance. */

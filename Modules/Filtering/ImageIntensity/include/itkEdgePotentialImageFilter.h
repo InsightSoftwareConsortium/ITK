@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(EdgePotentialImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(EdgePotentialImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

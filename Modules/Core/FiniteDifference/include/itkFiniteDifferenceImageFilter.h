@@ -142,7 +142,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(FiniteDifferenceImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(FiniteDifferenceImageFilter);
 
   /** Input and output image types. */
   using InputImageType = TInputImage;

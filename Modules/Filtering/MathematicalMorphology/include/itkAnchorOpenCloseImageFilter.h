@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AnchorOpenCloseImageFilter, KernelImageFilter);
+  itkOverrideGetNameOfClassMacro(AnchorOpenCloseImageFilter);
 
 protected:
   AnchorOpenCloseImageFilter();

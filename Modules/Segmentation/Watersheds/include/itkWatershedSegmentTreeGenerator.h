@@ -88,7 +88,7 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  itkTypeMacro(SegmentTreeGenerator, ProcessObject);
+  itkOverrideGetNameOfClassMacro(SegmentTreeGenerator);
 
   /** Convenient type definitions */
   using ScalarType = TScalar;

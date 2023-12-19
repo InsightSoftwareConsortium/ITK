@@ -152,7 +152,7 @@ public:
   using ScalarValueType = typename CannyFunctionType::ScalarValueType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CannySegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(CannySegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

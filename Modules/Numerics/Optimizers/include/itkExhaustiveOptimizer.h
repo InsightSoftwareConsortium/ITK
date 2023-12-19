@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(ExhaustiveOptimizer);
 
   /** Start optimization. */
   void

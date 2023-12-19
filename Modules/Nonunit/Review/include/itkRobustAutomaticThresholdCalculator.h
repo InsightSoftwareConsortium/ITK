@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RobustAutomaticThresholdCalculator, Object);
+  itkOverrideGetNameOfClassMacro(RobustAutomaticThresholdCalculator);
 
   /** Extract the dimension of the image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ContourDirectedMeanDistanceImageFilter);
 
   /** Image related type alias. */
   using InputImage1Type = TInputImage1;

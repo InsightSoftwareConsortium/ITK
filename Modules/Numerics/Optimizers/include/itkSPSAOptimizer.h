@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SPSAOptimizer, SingleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(SPSAOptimizer);
 
   using StopConditionSPSAOptimizerEnum = SPSAOptimizerEnums::StopConditionSPSAOptimizer;
 #if !defined(ITK_LEGACY_REMOVE)

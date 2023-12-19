@@ -68,7 +68,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectFactoryBase, Object);
+  itkOverrideGetNameOfClassMacro(ObjectFactoryBase);
 
   /** Create and return an instance of the named itk object.
    * Each loaded ObjectFactoryBase will be asked in the order

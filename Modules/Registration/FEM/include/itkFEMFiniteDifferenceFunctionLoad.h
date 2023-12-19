@@ -76,7 +76,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FiniteDifferenceFunctionLoad, LoadElement);
+  itkOverrideGetNameOfClassMacro(FiniteDifferenceFunctionLoad);
 
 
   /** CreateAnother method will clone the existing instance of this type,

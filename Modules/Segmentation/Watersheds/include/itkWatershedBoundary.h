@@ -129,7 +129,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(Boundary, DataObject);
+  itkOverrideGetNameOfClassMacro(Boundary);
 
   /** The following averts an internal compiler error on microsoft compilers */
   using FacePointer = typename face_t::Pointer;

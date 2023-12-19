@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DeformableSimplexMesh3DBalloonForceFilter, DeformableSimplexMesh3DFilter);
+  itkOverrideGetNameOfClassMacro(DeformableSimplexMesh3DBalloonForceFilter);
 
   /** Some type alias. */
   using InputMeshType = TInputMesh;

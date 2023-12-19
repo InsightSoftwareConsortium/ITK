@@ -42,7 +42,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DummyImageSource, ImageSource);
+  itkOverrideGetNameOfClassMacro(DummyImageSource);
 
   /** Index for which exception is thrown. */
   itkSetMacro(ExceptionIndex, IndexValueType);

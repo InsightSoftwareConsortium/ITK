@@ -124,7 +124,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
-  itkTypeMacro(StandardDeviationProjectionImageFilter, ProjectionImageFilter);
+  itkOverrideGetNameOfClassMacro(StandardDeviationProjectionImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -125,7 +125,7 @@ public:
   using ShapeDetectionFunctionPointer = typename ShapeDetectionFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShapeDetectionLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(ShapeDetectionLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

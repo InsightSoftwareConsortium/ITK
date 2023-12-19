@@ -151,7 +151,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KLMSegmentationBorder, SegmentationBorder);
+  itkOverrideGetNameOfClassMacro(KLMSegmentationBorder);
 
   /** Set the region 1 associated with the border */
   void

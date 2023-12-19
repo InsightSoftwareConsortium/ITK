@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeanReciprocalSquareDifferencePointSetToImageMetric, Object);
+  itkOverrideGetNameOfClassMacro(MeanReciprocalSquareDifferencePointSetToImageMetric);
 
   /** Types transferred from the base class */
   using typename Superclass::RealType;

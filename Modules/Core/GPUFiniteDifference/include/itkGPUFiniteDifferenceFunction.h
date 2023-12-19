@@ -57,7 +57,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GPUFiniteDifferenceFunction, FiniteDifferenceFunction);
+  itkOverrideGetNameOfClassMacro(GPUFiniteDifferenceFunction);
 
   /** Extract some parameters from the image type */
   using typename Superclass::ImageType;

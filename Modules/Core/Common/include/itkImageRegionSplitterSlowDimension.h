@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegionSplitterSlowDimension, ImageRegionSplitterBase);
+  itkOverrideGetNameOfClassMacro(ImageRegionSplitterSlowDimension);
 
 
 protected:

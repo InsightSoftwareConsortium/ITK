@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Euler3DTransform, Rigid3DTransform);
+  itkOverrideGetNameOfClassMacro(Euler3DTransform);
 
   /** Dimension of the space. */
   static constexpr unsigned int SpaceDimension = 3;

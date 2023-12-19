@@ -54,7 +54,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(DistanceToCentroidMembershipFunction, MembershipFunctionBase);
+  itkOverrideGetNameOfClassMacro(DistanceToCentroidMembershipFunction);
   itkNewMacro(Self);
 
   /** SmartPointer class for superclass */

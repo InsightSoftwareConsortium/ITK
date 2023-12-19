@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKPolyDataWriter, Object);
+  itkOverrideGetNameOfClassMacro(VTKPolyDataWriter);
 
   /** Write the Input mesh to the Output file.
    * Use either Update() or Write(). */

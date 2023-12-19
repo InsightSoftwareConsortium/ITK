@@ -94,7 +94,7 @@ public:
 
 public:
   /** Standard part of every itk Object. */
-  itkTypeMacro(QuadEdgeMeshPolygonCell, TCellInterface);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshPolygonCell);
 
   /** Object memory management methods. */
   QuadEdgeMeshPolygonCell(PointIdentifier nPoints = 0);

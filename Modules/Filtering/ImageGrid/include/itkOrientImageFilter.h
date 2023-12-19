@@ -179,7 +179,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(OrientImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(OrientImageFilter);
 
   /** Set/Get the orientation codes to define the coordinate transform. */
   itkGetEnumMacro(GivenCoordinateOrientation, CoordinateOrientationCode);

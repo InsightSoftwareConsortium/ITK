@@ -48,7 +48,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HistogramImageToImageMetric, ImageToImageMetric);
+  itkOverrideGetNameOfClassMacro(HistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using typename Superclass::RealType;

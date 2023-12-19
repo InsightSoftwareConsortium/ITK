@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingImageFilterBase, FastMarchingBase);
+  itkOverrideGetNameOfClassMacro(FastMarchingImageFilterBase);
 
 
   using InputImageType = typename Superclass::InputDomainType;

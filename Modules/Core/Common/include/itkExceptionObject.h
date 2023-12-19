@@ -159,7 +159,7 @@ public:
   using ExceptionObject::ExceptionObject;
 
   /** Runtime information support. */
-  itkTypeMacro(MemoryAllocationError, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(MemoryAllocationError);
 };
 
 /** \class RangeError
@@ -174,7 +174,7 @@ public:
   using ExceptionObject::ExceptionObject;
 
   /** Runtime information support. */
-  itkTypeMacro(RangeError, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(RangeError);
 };
 
 /** \class InvalidArgumentError
@@ -190,7 +190,7 @@ public:
   using ExceptionObject::ExceptionObject;
 
   /** Runtime information support. */
-  itkTypeMacro(InvalidArgumentError, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(InvalidArgumentError);
 };
 
 /** \class IncompatibleOperandsError
@@ -205,7 +205,7 @@ public:
   using ExceptionObject::ExceptionObject;
 
   /** Runtime information support. */
-  itkTypeMacro(IncompatibleOperandsError, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(IncompatibleOperandsError);
 };
 
 /** \class ProcessAborted
@@ -239,7 +239,7 @@ public:
   }
 
   /** Runtime information support. */
-  itkTypeMacro(ProcessAborted, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(ProcessAborted);
 };
 } // end namespace itk
 

@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DisplacementFieldTransformParametersAdaptor, TransformParametersAdaptor);
+  itkOverrideGetNameOfClassMacro(DisplacementFieldTransformParametersAdaptor);
 
   /** Typedefs associated with the transform */
   using TransformType = TTransform;

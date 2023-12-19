@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MRCImageIO, StreamingImageIOBase);
+  itkOverrideGetNameOfClassMacro(MRCImageIO);
 
   // we don't use this method
   void

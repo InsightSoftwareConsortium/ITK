@@ -69,7 +69,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(NormalVectorDiffusionFunction, NormalVectorFunctionBase);
+  itkOverrideGetNameOfClassMacro(NormalVectorDiffusionFunction);
 
   /** Image dimension derived from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

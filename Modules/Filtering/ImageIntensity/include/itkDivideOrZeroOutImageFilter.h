@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(DivideOrZeroOutImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(DivideOrZeroOutImageFilter);
 
   /** Print internal ivars */
   void

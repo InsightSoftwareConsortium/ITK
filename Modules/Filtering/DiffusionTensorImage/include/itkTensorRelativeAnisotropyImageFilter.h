@@ -92,7 +92,7 @@ public:
   using InputValueType = typename InputPixelType::ValueType;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(TensorRelativeAnisotropyImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(TensorRelativeAnisotropyImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

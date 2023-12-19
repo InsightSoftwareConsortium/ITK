@@ -53,7 +53,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ColormapFunction, Object);
+  itkOverrideGetNameOfClassMacro(ColormapFunction);
 
   using RGBPixelType = TRGBPixel;
   using RGBComponentType = typename TRGBPixel::ComponentType;

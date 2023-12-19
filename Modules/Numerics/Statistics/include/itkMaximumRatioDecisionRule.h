@@ -67,7 +67,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MaximumRatioDecisionRule, DecisionRule);
+  itkOverrideGetNameOfClassMacro(MaximumRatioDecisionRule);
 
   /** Standard New() method support */
   itkNewMacro(Self);

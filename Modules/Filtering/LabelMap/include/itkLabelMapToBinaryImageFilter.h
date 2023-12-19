@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapToBinaryImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelMapToBinaryImageFilter);
 
   /**
    * Set/Get the value used as "background" in the output image.

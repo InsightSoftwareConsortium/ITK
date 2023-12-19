@@ -178,7 +178,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KLMRegionGrowImageFilter, RegionGrowImageFilter);
+  itkOverrideGetNameOfClassMacro(KLMRegionGrowImageFilter);
 
   /** Type definition for the input image. */
   using InputImageType = TInputImage;

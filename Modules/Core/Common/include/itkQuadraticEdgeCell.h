@@ -47,7 +47,7 @@ public:
   itkCellInheritedTypedefs(TCellInterface);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(QuadraticEdgeCell, CellInterface);
+  itkOverrideGetNameOfClassMacro(QuadraticEdgeCell);
 
   /** The type of boundary for this lines's vertices. */
   using VertexType = VertexCell<TCellInterface>;

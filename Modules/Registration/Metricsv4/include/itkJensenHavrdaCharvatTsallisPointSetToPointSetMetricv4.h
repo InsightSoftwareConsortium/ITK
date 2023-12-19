@@ -85,7 +85,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
+  itkOverrideGetNameOfClassMacro(JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4);
 
   using PointSetType = TPointSet;
   using PointsContainer = typename PointSetType::PointsContainer;

@@ -63,7 +63,7 @@ public:
   using MeasurementVectorSizeType = unsigned int;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DistanceMetric, FunctionBase);
+  itkOverrideGetNameOfClassMacro(DistanceMetric);
 
   using OriginType = Array<double>;
 

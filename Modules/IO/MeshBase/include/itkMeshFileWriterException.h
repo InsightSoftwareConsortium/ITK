@@ -36,7 +36,7 @@ public:
   ~MeshFileWriterException() noexcept override;
 
   /** Run-time information. */
-  itkTypeMacro(MeshFileWriterException, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(MeshFileWriterException);
 
   /** Constructor. */
   MeshFileWriterException(const char * file,

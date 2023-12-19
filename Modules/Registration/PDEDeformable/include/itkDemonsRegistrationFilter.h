@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DemonsRegistrationFilter, PDEDeformableRegistrationFilter);
+  itkOverrideGetNameOfClassMacro(DemonsRegistrationFilter);
 
   /** Inherit types from superclass. */
   using typename Superclass::TimeStepType;

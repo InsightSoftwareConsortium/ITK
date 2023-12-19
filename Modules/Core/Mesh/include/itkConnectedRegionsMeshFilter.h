@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConnectedRegionsMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(ConnectedRegionsMeshFilter);
 
   /**
    * Convenient type alias for this filter.

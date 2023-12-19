@@ -52,7 +52,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToPathFilter, PathSource);
+  itkOverrideGetNameOfClassMacro(ImageToPathFilter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

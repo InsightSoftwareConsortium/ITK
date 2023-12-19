@@ -112,7 +112,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryThresholdProjectionImageFilter, ProjectionImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryThresholdProjectionImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

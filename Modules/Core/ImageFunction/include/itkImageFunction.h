@@ -69,7 +69,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageFunction, FunctionBase);
+  itkOverrideGetNameOfClassMacro(ImageFunction);
 
   /** InputImageType type alias support */
   using InputImageType = TInputImage;

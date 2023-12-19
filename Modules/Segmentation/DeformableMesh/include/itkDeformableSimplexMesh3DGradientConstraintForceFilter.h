@@ -163,7 +163,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DeformableSimplexMesh3DGradientConstraintForceFilter, DeformableSimplexMesh3DFilter);
+  itkOverrideGetNameOfClassMacro(DeformableSimplexMesh3DGradientConstraintForceFilter);
 
   /** Some type alias. */
   using InputMeshType = TInputMesh;

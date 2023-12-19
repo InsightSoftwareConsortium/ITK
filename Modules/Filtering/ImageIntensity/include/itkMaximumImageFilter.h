@@ -97,7 +97,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MaximumImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(MaximumImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

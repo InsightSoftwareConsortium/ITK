@@ -58,7 +58,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
-  itkTypeMacro(GPUKernelManager, LightObject);
+  itkOverrideGetNameOfClassMacro(GPUKernelManager);
 
   bool
   LoadProgramFromFile(const char * filename, const char * cPreamble = "");

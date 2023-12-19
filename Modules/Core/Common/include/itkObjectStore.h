@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectStore, Object);
+  itkOverrideGetNameOfClassMacro(ObjectStore);
 
   /** Type of the objects in storage. */
   using ObjectType = TObjectType;

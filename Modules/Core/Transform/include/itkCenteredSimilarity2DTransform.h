@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CenteredSimilarity2DTransform, Similarity2DTransform);
+  itkOverrideGetNameOfClassMacro(CenteredSimilarity2DTransform);
 
   /** Dimension of parameters. */
   static constexpr unsigned int SpaceDimension = 2;

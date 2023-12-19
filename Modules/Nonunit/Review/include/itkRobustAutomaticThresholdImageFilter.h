@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RobustAutomaticThresholdImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(RobustAutomaticThresholdImageFilter);
 
   /** Standard image type within this class. */
   using InputImageType = TInputImage;

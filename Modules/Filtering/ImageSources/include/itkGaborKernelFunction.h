@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaborKernelFunction, KernelFunctionBase);
+  itkOverrideGetNameOfClassMacro(GaborKernelFunction);
 
   /** Evaluate the function. */
   TRealValueType

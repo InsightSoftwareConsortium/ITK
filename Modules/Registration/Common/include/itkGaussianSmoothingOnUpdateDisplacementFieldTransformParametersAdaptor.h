@@ -46,8 +46,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor,
-               DisplacementFieldTransformParametersAdaptor);
+  itkOverrideGetNameOfClassMacro(GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
 
   using TransformType = TTransform;
   using ScalarType = typename TransformType::ScalarType;

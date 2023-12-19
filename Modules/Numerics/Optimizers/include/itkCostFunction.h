@@ -45,7 +45,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CostFunctionTemplate, Object);
+  itkOverrideGetNameOfClassMacro(CostFunctionTemplate);
 
   /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */

@@ -67,7 +67,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(MembershipFunctionBase, FunctionBase);
+  itkOverrideGetNameOfClassMacro(MembershipFunctionBase);
 
   /** MeasurementVector type alias support */
   using MeasurementVectorType = TVector;

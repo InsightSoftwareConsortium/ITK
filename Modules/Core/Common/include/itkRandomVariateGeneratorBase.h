@@ -40,7 +40,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RandomVariateGeneratorBase, Object);
+  itkOverrideGetNameOfClassMacro(RandomVariateGeneratorBase);
 
   /** get a variate using FastNorm function */
   virtual double

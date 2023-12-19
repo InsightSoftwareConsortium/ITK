@@ -88,7 +88,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelStatisticsOpeningImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelStatisticsOpeningImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

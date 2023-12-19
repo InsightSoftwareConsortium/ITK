@@ -65,7 +65,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(HeavisideStepFunction, HeavisideStepFunctionBase);
+  itkOverrideGetNameOfClassMacro(HeavisideStepFunction);
 
   using typename Superclass::InputType;
   using typename Superclass::OutputType;

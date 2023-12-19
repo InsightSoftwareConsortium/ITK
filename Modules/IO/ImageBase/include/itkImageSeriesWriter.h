@@ -37,7 +37,7 @@ public:
   ~ImageSeriesWriterException() noexcept override;
 
   /** Run-time information. */
-  itkTypeMacro(ImageSeriesWriterException, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(ImageSeriesWriterException);
 
   /** Constructor. */
   ImageSeriesWriterException(char * file, unsigned int line, const char * message = "Error in IO")
@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageSeriesWriter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(ImageSeriesWriter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

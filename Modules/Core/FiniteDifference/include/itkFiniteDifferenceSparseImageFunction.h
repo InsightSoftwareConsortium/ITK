@@ -56,7 +56,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(FiniteDifferenceSparseImageFunction, FiniteDifferenceFunction);
+  itkOverrideGetNameOfClassMacro(FiniteDifferenceSparseImageFunction);
 
   /** The image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

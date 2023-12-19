@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LevelSetVelocityNeighborhoodExtractor, LevelSetNeighborhoodExtractor);
+  itkOverrideGetNameOfClassMacro(LevelSetVelocityNeighborhoodExtractor);
 
   /** The type of the level set. */
   using LevelSetType = LevelSetTypeDefault<TLevelSet>;

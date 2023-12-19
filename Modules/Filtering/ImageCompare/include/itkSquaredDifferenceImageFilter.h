@@ -101,7 +101,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SquaredDifferenceImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(SquaredDifferenceImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

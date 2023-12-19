@@ -57,7 +57,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(DecisionRule, Object);
+  itkOverrideGetNameOfClassMacro(DecisionRule);
 
   /** Types for discriminant values and vectors. */
   using MembershipValueType = double;

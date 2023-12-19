@@ -85,7 +85,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TernaryOperatorImageFilter, TernaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(TernaryOperatorImageFilter);
 
 protected:
   TernaryOperatorImageFilter()

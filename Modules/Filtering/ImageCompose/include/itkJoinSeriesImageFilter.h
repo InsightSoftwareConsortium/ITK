@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JoinSeriesImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(JoinSeriesImageFilter);
 
   /** Compiler can't inherit type alias? */
   using typename Superclass::InputImageType;

@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Solver, ProcessObject);
+  itkOverrideGetNameOfClassMacro(Solver);
 
   static constexpr unsigned int FEMDimension = VDimension;
   static constexpr unsigned int MaxDimensions = 3;

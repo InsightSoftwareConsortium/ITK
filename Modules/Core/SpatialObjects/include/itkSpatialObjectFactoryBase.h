@@ -59,7 +59,7 @@ public:
   GetDescription() const override;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SpatialObjectFactoryBase, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(SpatialObjectFactoryBase);
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

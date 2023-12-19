@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HistogramThresholdCalculator, ProcessObject);
+  itkOverrideGetNameOfClassMacro(HistogramThresholdCalculator);
 
   /** Type definition for the input histogram. */
   using HistogramType = THistogram;

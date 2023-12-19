@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastChamferDistanceImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(FastChamferDistanceImageFilter);
 
   /** Type for input image. */
   using InputImageType = TInputImage;

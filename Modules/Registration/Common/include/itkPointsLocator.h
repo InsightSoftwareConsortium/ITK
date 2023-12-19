@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(PointsLocator, Object);
+  itkOverrideGetNameOfClassMacro(PointsLocator);
 
   /** Hold on to the type information specified by the template parameters. */
   using PointsContainer = TPointsContainer;

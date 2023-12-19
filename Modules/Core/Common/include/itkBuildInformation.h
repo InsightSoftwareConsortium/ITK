@@ -78,7 +78,7 @@ public:
   using MapType = std::map<MapKeyType, MapStorageType>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BuildInformation, Object);
+  itkOverrideGetNameOfClassMacro(BuildInformation);
 
   /** Returns the global instance */
   static Pointer

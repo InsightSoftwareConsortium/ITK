@@ -52,7 +52,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FileListVideoIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(FileListVideoIOFactory);
 
   /** Register one factory of this type  */
   static void

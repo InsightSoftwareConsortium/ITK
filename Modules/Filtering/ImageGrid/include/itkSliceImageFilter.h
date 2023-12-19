@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SliceImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(SliceImageFilter);
 
   /** Typedef to images */
   using OutputImageType = TOutputImage;

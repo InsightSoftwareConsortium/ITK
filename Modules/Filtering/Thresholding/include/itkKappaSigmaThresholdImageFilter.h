@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(KappaSigmaThresholdImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(KappaSigmaThresholdImageFilter);
 
   /** Standard image type within this class. */
   using InputImageType = TInputImage;

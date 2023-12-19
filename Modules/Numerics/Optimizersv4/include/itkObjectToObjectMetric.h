@@ -101,7 +101,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectMetric, ObjectToObjectMetricBaseTemplate);
+  itkOverrideGetNameOfClassMacro(ObjectToObjectMetric);
 
   /** Type used for representing object components  */
   using CoordinateRepresentationType = TParametersValueType;

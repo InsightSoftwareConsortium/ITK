@@ -66,7 +66,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTDiscreteGaussianImageFilterFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(FFTDiscreteGaussianImageFilterFactory);
 
   /** Register one factory of this type  */
   static void

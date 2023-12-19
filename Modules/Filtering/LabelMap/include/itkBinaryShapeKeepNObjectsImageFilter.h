@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryShapeKeepNObjectsImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryShapeKeepNObjectsImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

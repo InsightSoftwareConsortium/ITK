@@ -92,7 +92,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExhaustiveOptimizerv4, ObjectToObjectOptimizerBaseTemplate);
+  itkOverrideGetNameOfClassMacro(ExhaustiveOptimizerv4);
 
   /** Steps type */
   using StepsType = Array<SizeValueType>;

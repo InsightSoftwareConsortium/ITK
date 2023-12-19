@@ -77,7 +77,7 @@ public:
   using typename Superclass::InternalComplexImagePointerType;
 
   /** Runtime information support. */
-  itkTypeMacro(IterativeDeconvolutionImageFilter, ConvolutionImageFilterBase);
+  itkOverrideGetNameOfClassMacro(IterativeDeconvolutionImageFilter);
 
   /** Set/get the number of iterations. */
   itkSetMacro(NumberOfIterations, unsigned int);

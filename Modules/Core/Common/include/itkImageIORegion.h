@@ -72,7 +72,7 @@ public:
   using RegionType = Superclass::RegionEnum;
 
   /** Standard part of all itk objects. */
-  itkTypeMacro(ImageIORegion, Region);
+  itkOverrideGetNameOfClassMacro(ImageIORegion);
 
   /** Dimension of the image available at run time. */
   unsigned int

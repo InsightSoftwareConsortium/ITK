@@ -82,7 +82,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryImageToStatisticsLabelMapFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryImageToStatisticsLabelMapFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

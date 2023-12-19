@@ -84,7 +84,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(IsotropicFourthOrderLevelSetImageFilter, SparseFieldFourthOrderLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(IsotropicFourthOrderLevelSetImageFilter);
 
   /** Standard new macro */
   itkNewMacro(Self);

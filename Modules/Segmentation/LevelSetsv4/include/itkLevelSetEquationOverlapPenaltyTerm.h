@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEquationOverlapPenaltyTerm, LevelSetEquationTermBase);
+  itkOverrideGetNameOfClassMacro(LevelSetEquationOverlapPenaltyTerm);
 
   using typename Superclass::InputImageType;
   using typename Superclass::InputImagePointer;

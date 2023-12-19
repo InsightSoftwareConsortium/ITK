@@ -42,7 +42,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(LevelSetDomainPartitionBase, LightObject);
+  itkOverrideGetNameOfClassMacro(LevelSetDomainPartitionBase);
 
   /** Get/Set the number of level set functions */
   itkSetMacro(NumberOfLevelSetFunctions, IdentifierType);

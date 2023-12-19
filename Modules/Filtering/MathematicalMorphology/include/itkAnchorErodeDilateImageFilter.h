@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AnchorErodeDilateImageFilter, KernelImageFilter);
+  itkOverrideGetNameOfClassMacro(AnchorErodeDilateImageFilter);
 
   /** Set/Get the boundary value. */
   itkSetMacro(Boundary, InputImagePixelType);

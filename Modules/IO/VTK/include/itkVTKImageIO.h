@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKImageIO, StreamingImageIOBase);
+  itkOverrideGetNameOfClassMacro(VTKImageIO);
 
   // see super class for documentation
   //

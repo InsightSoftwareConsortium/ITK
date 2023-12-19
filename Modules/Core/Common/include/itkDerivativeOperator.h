@@ -74,7 +74,7 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DerivativeOperator, NeighborhoodOperator);
+  itkOverrideGetNameOfClassMacro(DerivativeOperator);
 
   /** Type alias support for pixel real type.*/
   using typename Superclass::PixelRealType;

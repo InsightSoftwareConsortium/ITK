@@ -88,7 +88,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RichardsonLucyDeconvolutionImageFilter, IterativeDeconvolutionImageFilter);
+  itkOverrideGetNameOfClassMacro(RichardsonLucyDeconvolutionImageFilter);
 
 protected:
   RichardsonLucyDeconvolutionImageFilter();

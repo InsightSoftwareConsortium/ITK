@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUDiscreteGaussianImageFilter, GPUImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUDiscreteGaussianImageFilter);
 
   /** Image type information. */
   using InputImageType = TInputImage;

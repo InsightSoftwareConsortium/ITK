@@ -54,7 +54,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegistrationParameterScalesFromShiftBase, RegistrationParameterScalesEstimator);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesFromShiftBase);
 
   /** Type of scales */
   using typename Superclass::ScalesType;

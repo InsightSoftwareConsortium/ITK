@@ -49,7 +49,7 @@ public:
   using Superclass = LevelSetBase<TInput, VDimension, TOutput, ImageBaseType>;
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetImage, LevelSetBase);
+  itkOverrideGetNameOfClassMacro(LevelSetImage);
 
   static constexpr unsigned int Dimension = Superclass::Dimension;
 

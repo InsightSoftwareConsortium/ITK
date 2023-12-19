@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConjugateGradientOptimizer, SingleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(ConjugateGradientOptimizer);
 
   /** InternalParameters type alias. */
   using InternalParametersType = vnl_vector<double>;

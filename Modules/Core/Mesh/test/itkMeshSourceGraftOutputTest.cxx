@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeshSourceGraftOutputFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(MeshSourceGraftOutputFilter);
 
   /** Get/Set transform. */
   itkSetObjectMacro(Transform, TransformType);

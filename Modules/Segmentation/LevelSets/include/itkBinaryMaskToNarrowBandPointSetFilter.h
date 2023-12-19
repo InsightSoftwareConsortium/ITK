@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryMaskToNarrowBandPointSetFilter, ImageToMeshFilter);
+  itkOverrideGetNameOfClassMacro(BinaryMaskToNarrowBandPointSetFilter);
 
   /** Some type alias associated with the input images. */
   using InputImageType = TInputImage;

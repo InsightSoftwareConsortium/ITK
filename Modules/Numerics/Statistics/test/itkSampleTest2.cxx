@@ -42,7 +42,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(MySample, Sample);
+  itkOverrideGetNameOfClassMacro(MySample);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -72,7 +72,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0QuadraticTriangularStrain, Element2DStrain<Element2DC0QuadraticTriangular>);
+  itkOverrideGetNameOfClassMacro(Element2DC0QuadraticTriangularStrain);
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */

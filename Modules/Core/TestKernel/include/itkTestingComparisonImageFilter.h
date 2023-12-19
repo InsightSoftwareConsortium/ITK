@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ComparisonImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ComparisonImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

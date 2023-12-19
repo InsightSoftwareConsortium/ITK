@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ComplexConjugateImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(ComplexConjugateImageAdaptor);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking. */

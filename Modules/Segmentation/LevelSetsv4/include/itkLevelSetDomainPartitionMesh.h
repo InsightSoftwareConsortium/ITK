@@ -42,7 +42,7 @@ public:
 
   static constexpr unsigned int PointDimension = TMesh::PointDimension;
 
-  itkTypeMacro(LevelSetDomainPartitionMesh, LevelSetDomainPartitionBase);
+  itkOverrideGetNameOfClassMacro(LevelSetDomainPartitionMesh);
 
   using MeshType = TMesh;
   using MeshPointer = typename MeshType::Pointer;

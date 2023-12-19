@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SphereMeshSource, MeshSource);
+  itkOverrideGetNameOfClassMacro(SphereMeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
   using OutputMeshType = TOutputMesh;

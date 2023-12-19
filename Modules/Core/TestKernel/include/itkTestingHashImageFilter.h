@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(HashImageFilter, CastImageFilter);
+  itkOverrideGetNameOfClassMacro(HashImageFilter);
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = typename DataObject::Pointer;

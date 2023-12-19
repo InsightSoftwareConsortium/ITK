@@ -132,7 +132,7 @@ public:
   static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegistrationMethodv4, ProcessObject);
+  itkOverrideGetNameOfClassMacro(ImageRegistrationMethodv4);
 
   /** Input type alias for the images and transforms. */
   using FixedImageType = TFixedImage;

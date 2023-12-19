@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(OtsuMultipleThresholdsImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(OtsuMultipleThresholdsImageFilter);
 
   /** Image pixel value type alias. */
   using InputPixelType = typename TInputImage::PixelType;

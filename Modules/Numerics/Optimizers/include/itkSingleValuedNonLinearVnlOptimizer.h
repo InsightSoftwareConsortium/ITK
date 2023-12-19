@@ -46,7 +46,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SingleValuedNonLinearVnlOptimizer, SingleValueNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(SingleValuedNonLinearVnlOptimizer);
 
   /** Command observer that will interact with the ITKVNL cost-function
    * adaptor in order to generate iteration events. This will allow to overcome

@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LevelSetNeighborhoodExtractor, Object);
+  itkOverrideGetNameOfClassMacro(LevelSetNeighborhoodExtractor);
 
   /** LevelSetType type alias support */
   using LevelSetType = LevelSetTypeDefault<TLevelSet>;

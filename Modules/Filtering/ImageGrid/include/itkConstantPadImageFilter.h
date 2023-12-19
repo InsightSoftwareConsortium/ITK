@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConstantPadImageFilter, PadImageFilter);
+  itkOverrideGetNameOfClassMacro(ConstantPadImageFilter);
 
   /** Typedef to describe the output image region type. */
   using typename Superclass::OutputImageRegionType;

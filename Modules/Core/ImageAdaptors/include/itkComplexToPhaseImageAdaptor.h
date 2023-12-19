@@ -92,7 +92,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ComplexToPhaseImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(ComplexToPhaseImageAdaptor);
 
 protected:
   ComplexToPhaseImageAdaptor() = default;

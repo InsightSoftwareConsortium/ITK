@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParametricSpaceToImageSpaceMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(ParametricSpaceToImageSpaceMeshFilter);
 
 protected:
   ParametricSpaceToImageSpaceMeshFilter();

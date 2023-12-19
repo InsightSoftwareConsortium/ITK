@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BilateralImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BilateralImageFilter);
 
   /** Image type information. */
   using InputImageType = TInputImage;

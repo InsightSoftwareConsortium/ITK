@@ -164,7 +164,7 @@ public:
   itkNewMacro(Self);
 
   /** Macro that provides the GetNameOfClass() method */
-  itkTypeMacro(SigmoidImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(SigmoidImageFilter);
 
   void
   SetAlpha(double alpha)

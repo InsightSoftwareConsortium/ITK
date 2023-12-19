@@ -102,7 +102,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LandmarkBasedTransformInitializer, Object);
+  itkOverrideGetNameOfClassMacro(LandmarkBasedTransformInitializer);
 
   /** Type of the transform to initialize. */
   using TransformType = TTransform;

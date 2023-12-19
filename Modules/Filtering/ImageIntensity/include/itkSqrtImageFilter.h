@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SqrtImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(SqrtImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

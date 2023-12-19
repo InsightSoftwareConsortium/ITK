@@ -73,7 +73,7 @@ public:
   using RotationPlaneEnum = FrustumSpatialFunctionEnums::RotationPlane;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FrustumSpatialFunction, InteriorExteriorSpatialFunction);
+  itkOverrideGetNameOfClassMacro(FrustumSpatialFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

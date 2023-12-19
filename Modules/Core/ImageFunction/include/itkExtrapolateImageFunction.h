@@ -55,7 +55,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExtrapolateImageFunction, ImageFunction);
+  itkOverrideGetNameOfClassMacro(ExtrapolateImageFunction);
 
   /** OutputType type alias support */
   using typename Superclass::OutputType;

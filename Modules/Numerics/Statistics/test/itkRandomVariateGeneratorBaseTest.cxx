@@ -32,7 +32,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(VariateGeneratorTestHelper, RandomVariateGeneratorBase);
+  itkOverrideGetNameOfClassMacro(VariateGeneratorTestHelper);
 
   itkNewMacro(Self);
 

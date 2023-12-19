@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VideoStream, TemporalDataObject);
+  itkOverrideGetNameOfClassMacro(VideoStream);
 
   /** Safely expand the internal ring buffer. */
   void

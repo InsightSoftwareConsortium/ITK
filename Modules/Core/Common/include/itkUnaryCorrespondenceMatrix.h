@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(UnaryCorrespondenceMatrix, DataObject);
+  itkOverrideGetNameOfClassMacro(UnaryCorrespondenceMatrix);
 
 protected:
   /** Default Constructor. */

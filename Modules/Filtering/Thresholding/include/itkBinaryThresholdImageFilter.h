@@ -150,7 +150,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryThresholdImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryThresholdImageFilter);
 
   /** Pixel types. */
   using InputPixelType = typename TInputImage::PixelType;

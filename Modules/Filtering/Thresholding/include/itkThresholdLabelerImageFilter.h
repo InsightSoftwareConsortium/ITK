@@ -132,7 +132,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThresholdLabelerImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(ThresholdLabelerImageFilter);
 
   /** Pixel types. */
   using InputPixelType = typename TInputImage::PixelType;

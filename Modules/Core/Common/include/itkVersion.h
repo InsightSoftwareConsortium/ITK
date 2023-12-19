@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(Version, Object);
+  itkOverrideGetNameOfClassMacro(Version);
 
   /** Return the version of itk this object is a part of. */
   static const char *

@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(LevelSetFunction, FiniteDifferenceFunction);
+  itkOverrideGetNameOfClassMacro(LevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

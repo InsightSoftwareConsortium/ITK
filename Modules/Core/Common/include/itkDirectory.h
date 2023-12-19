@@ -57,7 +57,7 @@ public:
   }
 
   /** Return the class name as a string. */
-  itkTypeMacro(Directory, Object);
+  itkOverrideGetNameOfClassMacro(Directory);
 
   /** Load the specified directory and load the names of the files
    * in that directory. 0 is returned if the directory can not be

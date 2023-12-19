@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FrequencyBandImageFilter, UnaryFrequencyDomainFilter);
+  itkOverrideGetNameOfClassMacro(FrequencyBandImageFilter);
 
   /** Typedef to images */
   using ImageType = TImageType;

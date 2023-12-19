@@ -74,7 +74,7 @@ public:
   using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 
   /** Runtime information support. */
-  itkTypeMacro(LabelToRGBImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelToRGBImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

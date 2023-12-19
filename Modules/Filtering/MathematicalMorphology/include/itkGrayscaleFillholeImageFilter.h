@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleFillholeImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GrayscaleFillholeImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

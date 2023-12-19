@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BYUMeshIO, MeshIOBase);
+  itkOverrideGetNameOfClassMacro(BYUMeshIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

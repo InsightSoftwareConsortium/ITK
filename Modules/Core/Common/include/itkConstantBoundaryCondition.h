@@ -73,7 +73,7 @@ public:
   using Superclass = ImageBoundaryCondition<TInputImage, TOutputImage>;
 
   /** Runtime information support. */
-  itkTypeMacro(ConstantBoundaryCondition, ImageBoundaryCondition);
+  itkOverrideGetNameOfClassMacro(ConstantBoundaryCondition);
 
   /** Extract information from the image type */
   using typename Superclass::PixelType;

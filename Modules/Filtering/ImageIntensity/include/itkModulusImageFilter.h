@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ModulusImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(ModulusImageFilter);
 
   /** Set/Get the dividend */
   virtual void

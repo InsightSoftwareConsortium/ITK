@@ -106,7 +106,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SignedDanielssonDistanceMapImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(SignedDanielssonDistanceMapImageFilter);
 
   /** Type for input image. */
   using InputImageType = TInputImage;

@@ -53,7 +53,7 @@ public:
   /** Dimension of the underlying image. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
-  itkTypeMacro(Inverse1DFFTImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(Inverse1DFFTImageFilter);
 
   /** Customized object creation methods that support configuration-based
    * selection of FFT implementation.

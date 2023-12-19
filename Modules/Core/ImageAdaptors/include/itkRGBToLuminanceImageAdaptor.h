@@ -93,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RGBToLuminanceImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(RGBToLuminanceImageAdaptor);
 
 protected:
   RGBToLuminanceImageAdaptor() = default;

@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VnlComplexToComplexFFTImageFilter, ComplexToComplexFFTImageFilter);
+  itkOverrideGetNameOfClassMacro(VnlComplexToComplexFFTImageFilter);
 
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 

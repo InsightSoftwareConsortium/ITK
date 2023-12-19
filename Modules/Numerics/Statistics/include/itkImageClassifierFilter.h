@@ -58,7 +58,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(ImageClassifierFilter, ImageToImagefilter);
+  itkOverrideGetNameOfClassMacro(ImageClassifierFilter);
   itkNewMacro(Self);
 
   /** Image pixel value type alias. */

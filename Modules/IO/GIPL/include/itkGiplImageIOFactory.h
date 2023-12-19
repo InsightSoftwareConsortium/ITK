@@ -51,7 +51,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GiplImageIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(GiplImageIOFactory);
 
   /** Register one factory of this type  */
   static void

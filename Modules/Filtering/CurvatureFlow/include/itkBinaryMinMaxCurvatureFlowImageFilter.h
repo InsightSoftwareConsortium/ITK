@@ -94,7 +94,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryMinMaxCurvatureFlowImageFilter, MinMaxCurvatureFlowImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryMinMaxCurvatureFlowImageFilter);
 
   /** Inherit type alias from Superclass. */
   using typename Superclass::FiniteDifferenceFunctionType;

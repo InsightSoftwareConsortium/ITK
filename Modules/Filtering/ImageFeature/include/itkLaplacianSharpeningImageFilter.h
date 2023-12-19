@@ -79,7 +79,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods)  */
-  itkTypeMacro(LaplacianSharpeningImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LaplacianSharpeningImageFilter);
 
   /** Method for creation through the object factory.  */
   itkNewMacro(Self);

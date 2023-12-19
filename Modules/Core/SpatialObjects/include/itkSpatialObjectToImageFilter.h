@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SpatialObjectToImageFilter, ImageSource);
+  itkOverrideGetNameOfClassMacro(SpatialObjectToImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageRegionType;

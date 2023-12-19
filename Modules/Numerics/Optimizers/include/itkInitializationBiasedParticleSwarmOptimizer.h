@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(InitializationBiasedParticleSwarmOptimizer, ParticleSwarmOptimizerBase);
+  itkOverrideGetNameOfClassMacro(InitializationBiasedParticleSwarmOptimizer);
 
   /** The Particle swarm optimizer uses the following update formula:
    * \f[c_3 =  c_{3initial}(1.0 - IterationIndex/MaximalNumberOfIterations)\f]

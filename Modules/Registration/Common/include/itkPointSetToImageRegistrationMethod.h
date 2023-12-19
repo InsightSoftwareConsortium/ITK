@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetToImageRegistrationMethod, ProcessObject);
+  itkOverrideGetNameOfClassMacro(PointSetToImageRegistrationMethod);
 
   /**  Type of the Fixed PointSet. */
   using FixedPointSetType = TFixedPointSet;

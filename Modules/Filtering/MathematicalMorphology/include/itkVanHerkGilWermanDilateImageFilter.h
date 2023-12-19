@@ -47,7 +47,7 @@ public:
   using Superclass = VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, MaxFunctor<typename TImage::PixelType>>;
 
   /** Runtime information support. */
-  itkTypeMacro(VanHerkGilWermanDilateImageFilter, VanHerkGilWermanErodeDilateImageFilter);
+  itkOverrideGetNameOfClassMacro(VanHerkGilWermanDilateImageFilter);
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;

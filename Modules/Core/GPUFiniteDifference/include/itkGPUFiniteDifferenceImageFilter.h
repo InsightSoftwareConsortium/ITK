@@ -51,7 +51,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GPUFiniteDifferenceImageFilter, GPUInPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUFiniteDifferenceImageFilter);
 
   /** Input and output image types. */
   using InputImageType = TInputImage;

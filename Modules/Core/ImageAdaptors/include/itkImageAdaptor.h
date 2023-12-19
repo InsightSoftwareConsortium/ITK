@@ -72,7 +72,7 @@ public:
   using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageAdaptor, ImageBase);
+  itkOverrideGetNameOfClassMacro(ImageAdaptor);
 
   /** Typedef of unadapted image */
   using InternalImageType = TImage;

@@ -64,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ChainCodePath2D, ChainCodePath);
+  itkOverrideGetNameOfClassMacro(ChainCodePath2D);
 
   /** OutputType type alias support */
   using OutputType = Superclass::OutputType;

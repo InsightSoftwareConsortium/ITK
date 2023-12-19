@@ -125,7 +125,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorConnectedComponentImageFilter, ConnectedComponentFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(VectorConnectedComponentImageFilter);
 
   using InputValueType = typename TInputImage::PixelType::ValueType;
 

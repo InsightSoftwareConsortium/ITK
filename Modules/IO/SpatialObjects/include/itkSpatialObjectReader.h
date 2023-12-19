@@ -57,7 +57,7 @@ public:
 
   /** Run-time type information (and related methods). */
   using Superclass = Object;
-  itkTypeMacro(SpatialObjectReader, Object);
+  itkOverrideGetNameOfClassMacro(SpatialObjectReader);
 
   /** Load a scene file. */
   void

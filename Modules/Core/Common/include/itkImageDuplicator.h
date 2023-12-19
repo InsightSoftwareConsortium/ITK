@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageDuplicator, Object);
+  itkOverrideGetNameOfClassMacro(ImageDuplicator);
 
   /** Type definitions for the input image. */
   using ImageType = TInputImage;

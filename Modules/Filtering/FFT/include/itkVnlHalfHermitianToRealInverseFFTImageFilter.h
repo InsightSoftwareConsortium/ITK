@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VnlHalfHermitianToRealInverseFFTImageFilter, HalfHermitianToRealInverseFFTImageFilter);
+  itkOverrideGetNameOfClassMacro(VnlHalfHermitianToRealInverseFFTImageFilter);
 
   /** Extract the dimensionality of the images. They must be the
    * same. */

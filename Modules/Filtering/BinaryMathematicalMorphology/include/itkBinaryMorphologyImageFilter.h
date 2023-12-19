@@ -126,7 +126,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryMorphologyImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryMorphologyImageFilter);
 
   /** Kernel type alias. */
   using KernelType = TKernel;

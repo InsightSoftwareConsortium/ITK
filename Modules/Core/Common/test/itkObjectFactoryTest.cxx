@@ -46,7 +46,7 @@ public:
   itkNewMacro(TestImage);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestImage, Image);
+  itkOverrideGetNameOfClassMacro(TestImage);
 
   // Methods from itkObject
   ~TestImage() override = default;
@@ -69,7 +69,7 @@ public:
   itkNewMacro(TestImage2);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestImage2, Image);
+  itkOverrideGetNameOfClassMacro(TestImage2);
 
   // Methods from itkObject
   ~TestImage2() override = default;
@@ -102,7 +102,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(TestFactory);
 
   /** Register one factory of this type  */
   static void

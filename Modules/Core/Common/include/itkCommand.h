@@ -54,7 +54,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Command, Object);
+  itkOverrideGetNameOfClassMacro(Command);
 
   /** Abstract method that defines the action to be taken by the command. */
   virtual void
@@ -100,7 +100,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MemberCommand, Command);
+  itkOverrideGetNameOfClassMacro(MemberCommand);
 
   /**  Set the callback function along with the object that it will
    *  be invoked on. */
@@ -174,7 +174,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ReceptorMemberCommand, Command);
+  itkOverrideGetNameOfClassMacro(ReceptorMemberCommand);
 
   /**  Set the callback function along with the object that it will
    *  be invoked on. */
@@ -237,7 +237,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SimpleMemberCommand, Command);
+  itkOverrideGetNameOfClassMacro(SimpleMemberCommand);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -301,7 +301,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SimpleConstMemberCommand, Command);
+  itkOverrideGetNameOfClassMacro(SimpleConstMemberCommand);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -367,7 +367,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CStyleCommand, Command);
+  itkOverrideGetNameOfClassMacro(CStyleCommand);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -425,7 +425,7 @@ public:
   using FunctionObjectType = std::function<void(const EventObject &)>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FunctionCommand, Command);
+  itkOverrideGetNameOfClassMacro(FunctionCommand);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorLinearInterpolateNearestNeighborExtrapolateImageFunction, VectorInterpolateImageFunction);
+  itkOverrideGetNameOfClassMacro(VectorLinearInterpolateNearestNeighborExtrapolateImageFunction);
 
   /** InputImageType type alias support */
   using typename Superclass::InputImageType;

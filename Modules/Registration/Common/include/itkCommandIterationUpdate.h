@@ -91,7 +91,7 @@ public:
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(CommandIterationUpdate, itk::Command);
+  itkOverrideGetNameOfClassMacro(CommandIterationUpdate);
 
 
   /**

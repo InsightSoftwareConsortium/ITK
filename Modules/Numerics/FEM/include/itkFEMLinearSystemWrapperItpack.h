@@ -776,7 +776,7 @@ public:
   ~FEMExceptionItpackSolver() noexcept override = default;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionItpackSolver, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionItpackSolver);
 };
 } // end namespace fem
 } // end namespace itk

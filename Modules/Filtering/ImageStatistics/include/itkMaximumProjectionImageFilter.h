@@ -94,7 +94,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
-  itkTypeMacro(MaximumProjectionImageFilter, ProjectionImageFilter);
+  itkOverrideGetNameOfClassMacro(MaximumProjectionImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

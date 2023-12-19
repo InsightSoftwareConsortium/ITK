@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MiniPipelineSeparableImageFilter, BoxImageFilter);
+  itkOverrideGetNameOfClassMacro(MiniPipelineSeparableImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

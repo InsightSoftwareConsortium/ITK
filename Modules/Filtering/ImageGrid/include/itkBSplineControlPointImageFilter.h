@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineControlPointImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BSplineControlPointImageFilter);
 
   /** Extract dimension from input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

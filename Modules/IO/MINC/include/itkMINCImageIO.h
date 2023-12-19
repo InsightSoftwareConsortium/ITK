@@ -81,7 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MINCImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(MINCImageIO);
 
   /** Right now MINC supports up to 3D with multiple components */
   bool

@@ -47,7 +47,7 @@ public:
   using RGBPixelType = TRGBPixel;
   using RealType = typename NumericTraits<ScalarType>::RealType;
 
-  itkTypeMacro(CustomColormapFunctionHelper, CustomColormapFunction);
+  itkOverrideGetNameOfClassMacro(CustomColormapFunctionHelper);
 
   itkNewMacro(Self);
 

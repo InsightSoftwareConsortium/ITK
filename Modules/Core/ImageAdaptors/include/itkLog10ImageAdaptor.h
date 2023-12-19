@@ -92,7 +92,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Log10ImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(Log10ImageAdaptor);
 
 protected:
   Log10ImageAdaptor() = default;

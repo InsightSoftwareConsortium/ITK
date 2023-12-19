@@ -98,7 +98,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ESMDemonsRegistrationFunction, PDEDeformableRegistrationFunction);
+  itkOverrideGetNameOfClassMacro(ESMDemonsRegistrationFunction);
 
   /** MovingImage image type. */
   using typename Superclass::MovingImageType;

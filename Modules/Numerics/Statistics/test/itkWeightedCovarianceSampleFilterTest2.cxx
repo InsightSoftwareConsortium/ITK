@@ -320,7 +320,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
     using Pointer = itk::SmartPointer<Self>;
 
     /** Standard macros. */
-    itkTypeMacro(WeightedCovarianceSampleTestFunction2, FunctionBase);
+    itkOverrideGetNameOfClassMacro(WeightedCovarianceSampleTestFunction2);
     itkNewMacro(Self);
 
     /** Input type */

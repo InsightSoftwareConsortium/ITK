@@ -83,7 +83,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
-  itkTypeMacro(ObjectMorphologyImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ObjectMorphologyImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

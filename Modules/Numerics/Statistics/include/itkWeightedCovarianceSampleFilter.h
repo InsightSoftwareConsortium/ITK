@@ -53,7 +53,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard Macros */
-  itkTypeMacro(WeightedCovarianceSampleFilter, CovarianceSampleFilter);
+  itkOverrideGetNameOfClassMacro(WeightedCovarianceSampleFilter);
   itkNewMacro(Self);
 
   /** Types derived from the base class */

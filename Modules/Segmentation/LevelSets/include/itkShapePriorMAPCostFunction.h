@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShapePriorMAPCostFunction, ShapePriorMAPCostFunctionBase);
+  itkOverrideGetNameOfClassMacro(ShapePriorMAPCostFunction);
 
   /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */

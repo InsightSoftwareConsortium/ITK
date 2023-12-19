@@ -82,7 +82,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoundedReciprocalImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(BoundedReciprocalImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

@@ -50,7 +50,7 @@ public:
   itkCellInheritedTypedefs(TCellInterface);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(QuadraticTriangleCell, CellInterface);
+  itkOverrideGetNameOfClassMacro(QuadraticTriangleCell);
 
   /** The type of boundary for this triangle's vertices. */
   using VertexType = VertexCell<TCellInterface>;

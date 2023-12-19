@@ -128,7 +128,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ContourExtractor2DImageFilter, ImageToPathFilter);
+  itkOverrideGetNameOfClassMacro(ContourExtractor2DImageFilter);
 
   /** Image and path type alias support */
   using InputImagePointer = typename InputImageType::Pointer;

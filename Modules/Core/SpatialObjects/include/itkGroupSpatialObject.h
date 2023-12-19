@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(GroupSpatialObject, SpatialObject);
+  itkOverrideGetNameOfClassMacro(GroupSpatialObject);
 
 protected:
   GroupSpatialObject();

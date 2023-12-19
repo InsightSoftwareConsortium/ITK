@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExtractOrthogonalSwath2DImageFilter, ImageAndPathToImageFilter);
+  itkOverrideGetNameOfClassMacro(ExtractOrthogonalSwath2DImageFilter);
 
   /** Some convenient type alias. */
   using ImageType = TImage;

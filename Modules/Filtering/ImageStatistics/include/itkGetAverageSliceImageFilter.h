@@ -60,7 +60,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GetAverageSliceImageFilter, AccumulateImageFilter);
+  itkOverrideGetNameOfClassMacro(GetAverageSliceImageFilter);
 
   /** Set the direction in which to reflect the data. */
   itkGetConstMacro(AveragedOutDimension, unsigned int);

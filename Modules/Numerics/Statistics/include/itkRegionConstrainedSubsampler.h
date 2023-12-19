@@ -64,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(RegionConstrainedSubsampler, SubsamplerBase);
+  itkOverrideGetNameOfClassMacro(RegionConstrainedSubsampler);
 
   /** type alias alias for the source data container */
   using SampleType = TSample;

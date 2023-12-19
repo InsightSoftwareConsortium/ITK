@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FileListVideoIO, VideoIOBase);
+  itkOverrideGetNameOfClassMacro(FileListVideoIO);
 
   /** Get the internal ImageIOBase object. */
   itkGetConstObjectMacro(ImageIO, ImageIOBase);

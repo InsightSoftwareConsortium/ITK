@@ -120,7 +120,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CastImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(CastImageFilter);
 
 protected:
   CastImageFilter();

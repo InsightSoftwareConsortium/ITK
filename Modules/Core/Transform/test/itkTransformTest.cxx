@@ -36,7 +36,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
-  itkTypeMacro(TransformTestHelper, Transform);
+  itkOverrideGetNameOfClassMacro(TransformTestHelper);
 
   using typename Superclass::JacobianType;
   using typename Superclass::JacobianPositionType;

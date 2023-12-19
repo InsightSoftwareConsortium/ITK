@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RoundImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(RoundImageFilter);
 
 protected:
   RoundImageFilter()

@@ -90,7 +90,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AbsImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(AbsImageAdaptor);
 
 protected:
   AbsImageAdaptor() = default;

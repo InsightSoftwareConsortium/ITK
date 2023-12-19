@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(VectorThresholdSegmentationLevelSetFunction, SegmentationLevelSetFunction);
+  itkOverrideGetNameOfClassMacro(VectorThresholdSegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   using typename Superclass::ImageType;

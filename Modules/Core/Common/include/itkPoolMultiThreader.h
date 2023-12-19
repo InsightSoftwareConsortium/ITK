@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PoolMultiThreader, MultiThreaderBase);
+  itkOverrideGetNameOfClassMacro(PoolMultiThreader);
 
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using

@@ -40,7 +40,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DOMTestObjectDOMReader, DOMReader);
+  itkOverrideGetNameOfClassMacro(DOMTestObjectDOMReader);
 
 protected:
   DOMTestObjectDOMReader() = default;

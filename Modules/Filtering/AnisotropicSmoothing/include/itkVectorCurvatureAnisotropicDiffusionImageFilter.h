@@ -81,7 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information. */
-  itkTypeMacro(VectorCurvatureAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
+  itkOverrideGetNameOfClassMacro(VectorCurvatureAnisotropicDiffusionImageFilter);
 
   /** Convenient type alias. */
   using typename Superclass::UpdateBufferType;

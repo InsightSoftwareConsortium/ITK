@@ -82,7 +82,7 @@ public:
   CreateAnother() const override;
 
   /** Standard part of all itk objects. */
-  itkTypeMacro(Object, LightObject);
+  itkOverrideGetNameOfClassMacro(Object);
 
   /** Turn debugging output on.  */
   virtual void

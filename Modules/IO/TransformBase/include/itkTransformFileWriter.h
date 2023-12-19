@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformFileWriterTemplate, LightProcessObject);
+  itkOverrideGetNameOfClassMacro(TransformFileWriterTemplate);
 
   /** Set the filename  */
   itkSetStringMacro(FileName);

@@ -64,7 +64,7 @@ public:
   using typename Superclass::TriangleType;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(DiscreteGaussianCurvatureQuadEdgeMeshFilter, DiscreteCurvatureQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(DiscreteGaussianCurvatureQuadEdgeMeshFilter);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);

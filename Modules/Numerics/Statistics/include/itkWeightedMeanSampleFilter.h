@@ -52,7 +52,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /**Standard Macros */
-  itkTypeMacro(WeightedMeanSampleFilter, MeanSampleFilter);
+  itkOverrideGetNameOfClassMacro(WeightedMeanSampleFilter);
   itkNewMacro(Self);
 
   /** Types derived from the base class */

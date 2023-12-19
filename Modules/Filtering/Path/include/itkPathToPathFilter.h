@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PathToPathFilter, PathSource);
+  itkOverrideGetNameOfClassMacro(PathToPathFilter);
 
   /** Some convenient type alias. */
   using InputPathType = TInputPath;

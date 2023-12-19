@@ -98,7 +98,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AdaptiveHistogramEqualizationImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(AdaptiveHistogramEqualizationImageFilter);
 
   /** Image type alias support */
   using ImageType = TImageType;

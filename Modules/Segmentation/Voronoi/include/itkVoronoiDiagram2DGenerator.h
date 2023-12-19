@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(VoronoiDiagram2DGenerator, MeshSource);
+  itkOverrideGetNameOfClassMacro(VoronoiDiagram2DGenerator);
 
   /** Convenient type alias. */
   using VoronoidDiagramType = VoronoiDiagram2D<TCoordType>;

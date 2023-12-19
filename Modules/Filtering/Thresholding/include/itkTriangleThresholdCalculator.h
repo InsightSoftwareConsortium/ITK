@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TriangleThresholdCalculator, HistogramThresholdCalculator);
+  itkOverrideGetNameOfClassMacro(TriangleThresholdCalculator);
 
   /** Type definition for the input image. */
   using HistogramType = THistogram;

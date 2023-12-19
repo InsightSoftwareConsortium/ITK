@@ -173,7 +173,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SparseFieldLayer, Object);
+  itkOverrideGetNameOfClassMacro(SparseFieldLayer);
 
   /** Type of node stored in the linked list. */
   using NodeType = TNodeType;

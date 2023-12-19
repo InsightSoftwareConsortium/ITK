@@ -59,7 +59,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MahalanobisDistanceThresholdImageFunction, ImageFunction);
+  itkOverrideGetNameOfClassMacro(MahalanobisDistanceThresholdImageFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

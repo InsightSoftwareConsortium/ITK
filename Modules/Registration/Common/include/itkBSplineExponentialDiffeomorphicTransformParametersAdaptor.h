@@ -46,8 +46,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineExponentialDiffeomorphicTransformParametersAdaptor,
-               BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
+  itkOverrideGetNameOfClassMacro(BSplineExponentialDiffeomorphicTransformParametersAdaptor);
 
   using TransformType = TTransform;
   using ScalarType = typename TransformType::ScalarType;

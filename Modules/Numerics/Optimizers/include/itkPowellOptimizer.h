@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PowellOptimizer, SingleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(PowellOptimizer);
 
   /** Type of the Cost Function   */
   using CostFunctionType = SingleValuedCostFunction;

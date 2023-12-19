@@ -47,7 +47,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadGrav, LoadElement);
+  itkOverrideGetNameOfClassMacro(LoadGrav);
 
   virtual vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float>) = 0;
 
@@ -77,7 +77,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadGravConst, LoadGrav);
+  itkOverrideGetNameOfClassMacro(LoadGravConst);
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */

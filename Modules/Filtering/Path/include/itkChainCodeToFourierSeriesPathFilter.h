@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ChainCodeToFourierSeriesPathFilter, PathToPathFilter);
+  itkOverrideGetNameOfClassMacro(ChainCodeToFourierSeriesPathFilter);
 
   /** Some convenient type alias. */
   using InputPathType = TInputChainCodePath;

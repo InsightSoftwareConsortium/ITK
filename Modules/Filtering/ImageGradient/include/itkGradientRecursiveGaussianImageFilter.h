@@ -127,7 +127,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GradientRecursiveGaussianImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GradientRecursiveGaussianImageFilter);
 
   /** Set/Get the Sigma value. Sigma is measured in the units of image spacing. */
   void

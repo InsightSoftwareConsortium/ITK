@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoxMeanImageFilter, BoxImageFilter);
+  itkOverrideGetNameOfClassMacro(BoxMeanImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

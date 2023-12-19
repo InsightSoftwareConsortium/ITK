@@ -45,7 +45,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for defining the name of the class */
-  itkTypeMacro(RealTimeClock, Object);
+  itkOverrideGetNameOfClassMacro(RealTimeClock);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

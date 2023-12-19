@@ -86,7 +86,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelSelectionLabelMapFilter, AttributeSelectionLabelMapFilter);
+  itkOverrideGetNameOfClassMacro(LabelSelectionLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

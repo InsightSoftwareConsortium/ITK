@@ -112,7 +112,7 @@ public:
   using ScalarValueType = typename ThresholdFunctionType::ScalarValueType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(VectorThresholdSegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

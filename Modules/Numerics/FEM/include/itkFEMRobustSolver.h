@@ -95,7 +95,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(RobustSolver, Solver);
+  itkOverrideGetNameOfClassMacro(RobustSolver);
 
   /** Inherit some types from the superclass. */
   using typename Superclass::VectorType;

@@ -51,7 +51,7 @@ public:
 
   using StreamPointerType = std::ostream *;
 
-  itkTypeMacro(StdStreamLogOutput, LogOutput);
+  itkOverrideGetNameOfClassMacro(StdStreamLogOutput);
 
   itkNewMacro(StdStreamLogOutput);
 

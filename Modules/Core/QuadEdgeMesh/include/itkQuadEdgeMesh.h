@@ -165,7 +165,7 @@ public:
 public:
   /** Basic Object interface. */
   itkNewMacro(Self);
-  itkTypeMacro(QuadEdgeMesh, Mesh);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMesh);
 
 #if !defined(ITK_WRAPPING_PARSER)
   /** FrontIterator definitions */

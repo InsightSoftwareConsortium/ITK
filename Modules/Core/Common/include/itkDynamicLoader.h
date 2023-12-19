@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DynamicLoader, Object);
+  itkOverrideGetNameOfClassMacro(DynamicLoader);
 
   /** Load a dynamic library into the current process.
    * The returned LibHandle can be used to access the symbols in the

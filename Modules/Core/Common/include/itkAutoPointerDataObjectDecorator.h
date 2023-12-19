@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AutoPointerDataObjectDecorator, DataObject);
+  itkOverrideGetNameOfClassMacro(AutoPointerDataObjectDecorator);
 
   /** Set the contained object */
   virtual void

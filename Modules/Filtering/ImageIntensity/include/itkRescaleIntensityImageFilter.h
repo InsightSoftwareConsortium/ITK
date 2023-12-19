@@ -157,7 +157,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RescaleIntensityImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(RescaleIntensityImageFilter);
 
   itkSetMacro(OutputMinimum, OutputPixelType);
   itkSetMacro(OutputMaximum, OutputPixelType);

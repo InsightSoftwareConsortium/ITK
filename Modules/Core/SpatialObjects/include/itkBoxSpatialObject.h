@@ -52,7 +52,7 @@ public:
   using PointsContainerType = typename BoundingBoxType::PointsContainer;
 
   itkNewMacro(Self);
-  itkTypeMacro(BoxSpatialObject, SpatialObject);
+  itkOverrideGetNameOfClassMacro(BoxSpatialObject);
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */

@@ -37,7 +37,7 @@ public:
   using typename Superclass::ParametersType;
   using typename Superclass::ParametersValueType;
 
-  itkTypeMacro(GradientDescentOptimizerBasev4TestMetric, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(GradientDescentOptimizerBasev4TestMetric);
 
   itkNewMacro(Self);
 
@@ -128,7 +128,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentOptimizerBasev4TestOptimizer, GradientDescentOptimizerBasev4);
+  itkOverrideGetNameOfClassMacro(GradientDescentOptimizerBasev4TestOptimizer);
 
   /* Provide an override for the pure virtual StartOptimization */
   void

@@ -47,7 +47,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThinPlateSplineKernelTransform, KernelTransform);
+  itkOverrideGetNameOfClassMacro(ThinPlateSplineKernelTransform);
 
   /** Scalar type. */
   using typename Superclass::ScalarType;

@@ -59,7 +59,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run time type information. */
-  itkTypeMacro(LevelSetEvolutionComputeIterationThreader, DomainThreader);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolutionComputeIterationThreader);
 
   /** Standard New macro. */
   itkNewMacro(Self);
@@ -116,7 +116,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run time type information. */
-  itkTypeMacro(LevelSetEvolutionComputeIterationThreader, DomainThreader);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolutionComputeIterationThreader);
 
   /** Standard New macro. */
   itkNewMacro(Self);
@@ -171,7 +171,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run time type information. */
-  itkTypeMacro(LevelSetEvolutionComputeIterationThreader, DomainThreader);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolutionComputeIterationThreader);
 
   /** Standard New macro. */
   itkNewMacro(Self);

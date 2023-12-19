@@ -53,7 +53,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryThresholdSpatialFunction, SpatialFunction);
+  itkOverrideGetNameOfClassMacro(BinaryThresholdSpatialFunction);
 
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);

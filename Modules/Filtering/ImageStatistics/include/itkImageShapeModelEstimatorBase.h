@@ -57,7 +57,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageShapeModelEstimatorBase, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ImageShapeModelEstimatorBase);
 
   /** Type definitions for the training image. */
   using InputImageType = TInputImage;

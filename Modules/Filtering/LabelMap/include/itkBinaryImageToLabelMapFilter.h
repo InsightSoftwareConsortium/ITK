@@ -77,7 +77,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(BinaryImageToLabelMapFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryImageToLabelMapFilter);
 
   /**
    * Types from the Superclass

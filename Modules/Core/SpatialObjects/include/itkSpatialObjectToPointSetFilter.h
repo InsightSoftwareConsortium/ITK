@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SpatialObjectToPointSetFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(SpatialObjectToPointSetFilter);
 
   /** Some convenient type alias. */
   using PointBasedSpatialObjectType = TPointBasedSpatialObject;

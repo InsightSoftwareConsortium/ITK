@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWComplexToComplex1DFFTImageFilter, ComplexToComplex1DFFTImageFilter);
+  itkOverrideGetNameOfClassMacro(FFTWComplexToComplex1DFFTImageFilter);
 
 
 protected:

@@ -55,7 +55,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(SampleToSubsampleFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(SampleToSubsampleFilter);
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */

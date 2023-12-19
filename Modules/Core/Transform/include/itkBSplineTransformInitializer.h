@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineTransformInitializer, Object);
+  itkOverrideGetNameOfClassMacro(BSplineTransformInitializer);
 
   /** Type of the transform to initialize. */
   using TransformType = TTransform;

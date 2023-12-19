@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LSMImageIO, TIFFImageIO);
+  itkOverrideGetNameOfClassMacro(LSMImageIO);
 
   /*-------- This part of the interface deals with reading data. ------ */
 

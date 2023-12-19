@@ -74,7 +74,7 @@ public:
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
-  itkTypeMacro(RegionBasedLevelSetFunctionSharedData, LightObject);
+  itkOverrideGetNameOfClassMacro(RegionBasedLevelSetFunctionSharedData);
 
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;

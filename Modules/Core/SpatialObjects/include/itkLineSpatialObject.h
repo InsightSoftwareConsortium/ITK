@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(LineSpatialObject, PointBasedSpatialObject);
+  itkOverrideGetNameOfClassMacro(LineSpatialObject);
 
   /** Returns true if the line is evaluable at the requested point,
    *  false otherwise. */

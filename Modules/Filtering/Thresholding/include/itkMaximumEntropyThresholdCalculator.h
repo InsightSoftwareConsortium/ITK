@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MaximumEntropyThresholdCalculator, HistogramThresholdCalculator);
+  itkOverrideGetNameOfClassMacro(MaximumEntropyThresholdCalculator);
 
   /** Type definition for the input image. */
   using HistogramType = THistogram;

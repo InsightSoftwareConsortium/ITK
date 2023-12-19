@@ -85,7 +85,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TernaryMagnitudeSquaredImageFilter, TernaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(TernaryMagnitudeSquaredImageFilter);
 
 protected:
   TernaryMagnitudeSquaredImageFilter()

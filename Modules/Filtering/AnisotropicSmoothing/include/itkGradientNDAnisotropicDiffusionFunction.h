@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GradientNDAnisotropicDiffusionFunction, ScalarAnisotropicDiffusionFunction);
+  itkOverrideGetNameOfClassMacro(GradientNDAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
   using typename Superclass::ImageType;

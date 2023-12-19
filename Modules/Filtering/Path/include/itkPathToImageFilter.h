@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PathToImageFilter, ImageSource);
+  itkOverrideGetNameOfClassMacro(PathToImageFilter);
 
   /** Some convenient type alias. */
   using typename Superclass::OutputImageRegionType;

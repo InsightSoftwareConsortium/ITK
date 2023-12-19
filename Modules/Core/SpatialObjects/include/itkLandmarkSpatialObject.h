@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(LandmarkSpatialObject, PointBasedSpatialObject);
+  itkOverrideGetNameOfClassMacro(LandmarkSpatialObject);
 
 protected:
   LandmarkSpatialObject();

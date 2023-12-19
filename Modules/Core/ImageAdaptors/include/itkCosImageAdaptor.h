@@ -91,7 +91,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CosImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(CosImageAdaptor);
 
 protected:
   CosImageAdaptor() = default;

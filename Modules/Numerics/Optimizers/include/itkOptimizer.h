@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Optimizer, Object);
+  itkOverrideGetNameOfClassMacro(Optimizer);
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */

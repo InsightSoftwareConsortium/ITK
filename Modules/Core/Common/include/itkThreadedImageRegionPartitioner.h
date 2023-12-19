@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThreadedImageRegionPartitioner, ThreadedDomainPartitioner);
+  itkOverrideGetNameOfClassMacro(ThreadedImageRegionPartitioner);
 
   /** Type of the object being threaded over */
   using typename Superclass::DomainType;

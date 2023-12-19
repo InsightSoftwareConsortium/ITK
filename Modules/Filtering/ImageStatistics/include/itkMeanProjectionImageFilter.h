@@ -104,7 +104,7 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Runtime information support. */
-  itkTypeMacro(MeanProjectionImageFilter, ProjectionImageFilter);
+  itkOverrideGetNameOfClassMacro(MeanProjectionImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

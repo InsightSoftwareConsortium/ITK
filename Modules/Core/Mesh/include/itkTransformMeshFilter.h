@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(TransformMeshFilter);
 
   /** Get/Set transform. */
   itkSetObjectMacro(Transform, TransformType);

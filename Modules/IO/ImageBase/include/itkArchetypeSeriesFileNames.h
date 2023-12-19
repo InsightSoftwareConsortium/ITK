@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ArchetypeSeriesFileNames, Object);
+  itkOverrideGetNameOfClassMacro(ArchetypeSeriesFileNames);
 
   /* -------- Define the API for ArchetypeSeriesFileNames ----------- */
 

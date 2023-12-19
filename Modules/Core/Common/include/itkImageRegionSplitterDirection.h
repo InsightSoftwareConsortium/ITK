@@ -46,7 +46,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegionSplitterDirection, ImageRegionSplitterBase);
+  itkOverrideGetNameOfClassMacro(ImageRegionSplitterDirection);
 
   /** Get the direction in which not to split the image.*
    *

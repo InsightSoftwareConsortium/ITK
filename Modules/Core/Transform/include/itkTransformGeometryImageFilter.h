@@ -113,7 +113,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(TransformGeometryImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(TransformGeometryImageFilter);
 
   /** input/output image type alias */
   using InputImageType = TInputImage;

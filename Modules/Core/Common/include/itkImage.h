@@ -101,7 +101,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Image, ImageBase);
+  itkOverrideGetNameOfClassMacro(Image);
 
   /** Pixel type alias support. Used to declare pixel type in filters
    * or other operations. */

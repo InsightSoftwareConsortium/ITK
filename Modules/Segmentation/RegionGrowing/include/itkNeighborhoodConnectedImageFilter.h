@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods).  */
-  itkTypeMacro(NeighborhoodConnectedImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(NeighborhoodConnectedImageFilter);
 
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;

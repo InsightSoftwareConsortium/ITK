@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JPEGImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(JPEGImageIO);
 
   /** Set/Get the level of quality for the output images. */
   virtual void

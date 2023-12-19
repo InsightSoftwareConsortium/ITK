@@ -39,7 +39,7 @@ public:
 
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Derived1, Object);
+  itkOverrideGetNameOfClassMacro(Derived1);
 
   itkNewMacro(Derived1);
 
@@ -77,7 +77,7 @@ public:
 
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Derived2, Object);
+  itkOverrideGetNameOfClassMacro(Derived2);
 
   itkNewMacro(Derived2);
 

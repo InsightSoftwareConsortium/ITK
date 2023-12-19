@@ -90,7 +90,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegistrationParameterScalesEstimator, OptimizerParameterScalesEstimatorTemplate);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesEstimator);
 
   /** Type of scales */
   using typename Superclass::ScalesType;

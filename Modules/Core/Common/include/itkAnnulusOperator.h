@@ -83,7 +83,7 @@ public:
   using SpacingType = Vector<double, TDimension>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AnnulusOperator, NeighborhoodOperator);
+  itkOverrideGetNameOfClassMacro(AnnulusOperator);
 
   /** Create the operator. The radius of the operator is determined automatically. */
   void

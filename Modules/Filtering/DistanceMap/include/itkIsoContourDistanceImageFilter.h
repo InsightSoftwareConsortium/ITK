@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IsoContourDistanceImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(IsoContourDistanceImageFilter);
 
   /**Typedefs from the superclass */
   using typename Superclass::InputImageType;

@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(ImportImageContainer, Object);
+  itkOverrideGetNameOfClassMacro(ImportImageContainer);
 
   /** Get the pointer from which the image data is imported. */
   TElement *

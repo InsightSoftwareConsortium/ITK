@@ -106,7 +106,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShotNoiseImageFilter, NoiseBaseImageFilter);
+  itkOverrideGetNameOfClassMacro(ShotNoiseImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageType;

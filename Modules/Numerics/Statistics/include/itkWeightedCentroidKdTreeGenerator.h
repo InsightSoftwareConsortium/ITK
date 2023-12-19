@@ -76,7 +76,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(WeightedCentroidKdTreeGenerator, KdTreeGenerator);
+  itkOverrideGetNameOfClassMacro(WeightedCentroidKdTreeGenerator);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -61,7 +61,7 @@ public:
   using typename Superclass::TimeStepType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarAnisotropicDiffusionFunction, AnisotropicDiffusionFunction);
+  itkOverrideGetNameOfClassMacro(ScalarAnisotropicDiffusionFunction);
 
   void
   CalculateAverageGradientMagnitudeSquared(TImage *) override;

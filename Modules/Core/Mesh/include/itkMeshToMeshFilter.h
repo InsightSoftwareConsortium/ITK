@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeshToMeshFilter, MeshSource);
+  itkOverrideGetNameOfClassMacro(MeshToMeshFilter);
 
   /** Some convenient type alias. */
   using InputMeshType = TInputMesh;

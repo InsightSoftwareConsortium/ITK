@@ -60,7 +60,7 @@ public:
   using SampleType = TSample;
 
   /** Standard Macros */
-  itkTypeMacro(StandardDeviationPerComponentSampleFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(StandardDeviationPerComponentSampleFilter);
   itkNewMacro(Self);
 
   /** Length of a measurement vector */

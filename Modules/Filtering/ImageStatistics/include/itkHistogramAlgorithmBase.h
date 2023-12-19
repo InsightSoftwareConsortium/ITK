@@ -44,7 +44,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /**Standard Macros */
-  itkTypeMacro(HistogramAlgorithmBase, Object);
+  itkOverrideGetNameOfClassMacro(HistogramAlgorithmBase);
 
   /** Histogram type alias alias */
   using InputHistogramType = TInputHistogram;

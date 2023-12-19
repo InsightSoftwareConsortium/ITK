@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEquationContainer, Object);
+  itkOverrideGetNameOfClassMacro(LevelSetEquationContainer);
 
   using TermContainerType = TTermContainer;
   using TermContainerPointer = typename TermContainerType::Pointer;

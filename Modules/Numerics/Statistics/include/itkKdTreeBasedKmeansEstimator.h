@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KdTreeBasedKmeansEstimator, Object);
+  itkOverrideGetNameOfClassMacro(KdTreeBasedKmeansEstimator);
 
   /** Types for the KdTree data structure */
   using KdTreeNodeType = typename TKdTree::KdTreeNodeType;

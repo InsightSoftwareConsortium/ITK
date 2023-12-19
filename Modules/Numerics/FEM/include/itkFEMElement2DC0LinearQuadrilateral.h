@@ -65,7 +65,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0LinearQuadrilateral, TemplatedParentClass);
+  itkOverrideGetNameOfClassMacro(Element2DC0LinearQuadrilateral);
 
   // ////////////////////////////////////////////////////////////////////////
   /**

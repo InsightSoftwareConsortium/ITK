@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(JointHistogramMutualInformationImageToImageMetricv4);
 
   /** Type used for representing parameter values  */
   using typename Superclass::CoordinateRepresentationType;

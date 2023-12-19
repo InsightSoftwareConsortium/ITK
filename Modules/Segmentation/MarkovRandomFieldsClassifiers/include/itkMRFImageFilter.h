@@ -162,7 +162,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MRFImageFilter, Object);
+  itkOverrideGetNameOfClassMacro(MRFImageFilter);
 
   /** Type definition for the input image. */
   using InputImageType = TInputImage;

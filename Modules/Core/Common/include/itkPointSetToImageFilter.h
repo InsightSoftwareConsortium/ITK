@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetToImageFilter, ImageSource);
+  itkOverrideGetNameOfClassMacro(PointSetToImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageRegionType;

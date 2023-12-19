@@ -126,7 +126,7 @@ public:
   using OutputCellsContainerConstIterator = typename OutputMeshType::CellsContainerConstIterator;
 
   itkNewMacro(Self);
-  itkTypeMacro(BorderQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(BorderQuadEdgeMeshFilter);
   static constexpr unsigned int PointDimension = InputTraits::PointDimension;
 
   using InputVectorPointType = std::vector<InputPointType>;

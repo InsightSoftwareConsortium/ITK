@@ -53,7 +53,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
 
-  itkTypeMacro(itkAmoebaOptimizerv4TestMetric1, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(itkAmoebaOptimizerv4TestMetric1);
 
   enum
   {
@@ -165,7 +165,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(itkAmoebaOptimizerv4TestMetric2, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(itkAmoebaOptimizerv4TestMetric2);
 
   enum
   {

@@ -45,7 +45,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadBC, Load);
+  itkOverrideGetNameOfClassMacro(LoadBC);
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */

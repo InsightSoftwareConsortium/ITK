@@ -33,7 +33,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   itkNewMacro(DummyProcess);
-  itkTypeMacro(DummyProcess, ProcessObject);
+  itkOverrideGetNameOfClassMacro(DummyProcess);
 };
 } // namespace
 

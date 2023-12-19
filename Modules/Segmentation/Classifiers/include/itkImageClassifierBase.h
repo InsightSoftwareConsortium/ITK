@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageClassifierBase, ClassifierBase);
+  itkOverrideGetNameOfClassMacro(ImageClassifierBase);
 
   /** Type definition for the input image. */
   using InputImageType = TInputImage;

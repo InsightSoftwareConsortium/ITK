@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LabeledPointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
+  itkOverrideGetNameOfClassMacro(LabeledPointSetToPointSetMetricv4);
 
   using FixedPointSetType = TFixedPointSet;
   using FixedPointSetPointer = typename FixedPointSetType::Pointer;

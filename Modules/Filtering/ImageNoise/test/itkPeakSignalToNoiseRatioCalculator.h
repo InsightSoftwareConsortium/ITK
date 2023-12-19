@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PeakSignalToNoiseRatioCalculator, Object);
+  itkOverrideGetNameOfClassMacro(PeakSignalToNoiseRatioCalculator);
 
   /** Extract the dimension of the image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

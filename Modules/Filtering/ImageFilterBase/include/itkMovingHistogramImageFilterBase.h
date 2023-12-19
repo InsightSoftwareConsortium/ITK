@@ -103,7 +103,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MovingHistogramImageFilterBase, KernelImageFilter);
+  itkOverrideGetNameOfClassMacro(MovingHistogramImageFilterBase);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

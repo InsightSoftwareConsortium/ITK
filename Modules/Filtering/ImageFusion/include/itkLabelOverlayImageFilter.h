@@ -80,7 +80,7 @@ public:
   using InputPixelType = typename TInputImage::PixelType;
 
   /** Runtime information support. */
-  itkTypeMacro(LabelOverlayImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelOverlayImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

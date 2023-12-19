@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RGBGibbsPriorFilter, MRFImageFilter);
+  itkOverrideGetNameOfClassMacro(RGBGibbsPriorFilter);
 
   /** Types from superclass.  */
   using typename Superclass::InputImagePixelType;

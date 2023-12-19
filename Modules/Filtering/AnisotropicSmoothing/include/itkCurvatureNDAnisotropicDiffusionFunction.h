@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(CurvatureNDAnisotropicDiffusionFunction, ScalarAnisotropicDiffusionFunction);
+  itkOverrideGetNameOfClassMacro(CurvatureNDAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
   using typename Superclass::ImageType;

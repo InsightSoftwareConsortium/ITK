@@ -87,7 +87,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaDataObject, MetaDataObjectBase);
+  itkOverrideGetNameOfClassMacro(MetaDataObject);
 
   /**
    * The definition of this function is necessary to fulfill

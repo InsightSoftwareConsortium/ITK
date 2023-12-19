@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ProjectedLandweberDeconvolutionImageFilter, ProjectedIterativeDeconvolutionImageFilter);
+  itkOverrideGetNameOfClassMacro(ProjectedLandweberDeconvolutionImageFilter);
 
 protected:
   ProjectedLandweberDeconvolutionImageFilter();

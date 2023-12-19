@@ -55,7 +55,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element3DC0LinearHexahedronMembrane, Element3DMembrane<Element3DC0LinearHexahedron>);
+  itkOverrideGetNameOfClassMacro(Element3DC0LinearHexahedronMembrane);
 
   /**
    * CreateAnother method will clone the existing instance of this type,

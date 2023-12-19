@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(DivideImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(DivideImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

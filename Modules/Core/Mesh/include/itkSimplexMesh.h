@@ -111,7 +111,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(SimplexMesh, Mesh);
+  itkOverrideGetNameOfClassMacro(SimplexMesh);
 
   /** Hold on to the type information specified by the template parameters. */
   using MeshTraits = TMeshTraits;

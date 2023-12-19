@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToVTKImageFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(ImageToVTKImageFilter);
 
   /** Some type alias. */
   using InputImageType = TInputImage;

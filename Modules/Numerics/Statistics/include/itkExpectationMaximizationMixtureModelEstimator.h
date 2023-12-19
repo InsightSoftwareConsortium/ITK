@@ -92,7 +92,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(ExpectationMaximizationMixtureModelEstimator, Object);
+  itkOverrideGetNameOfClassMacro(ExpectationMaximizationMixtureModelEstimator);
   itkNewMacro(Self);
 
   /** TSample template argument related type alias */

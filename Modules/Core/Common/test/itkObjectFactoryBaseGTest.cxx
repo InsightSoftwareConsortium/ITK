@@ -61,7 +61,7 @@ public:
     return "Test Object Factory";
   }
 
-  itkTypeMacro(TestObjectFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(TestObjectFactory);
 
   itkFactorylessNewMacro(Self);
 

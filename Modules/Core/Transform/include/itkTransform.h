@@ -92,7 +92,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Transform, TransformBaseTemplate);
+  itkOverrideGetNameOfClassMacro(Transform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int InputSpaceDimension = VInputDimension;

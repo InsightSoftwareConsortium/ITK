@@ -120,7 +120,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(HistogramToEntropyImageFilter, HistogramToImageFilter);
+  itkOverrideGetNameOfClassMacro(HistogramToEntropyImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

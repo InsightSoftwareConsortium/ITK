@@ -56,7 +56,7 @@ public:
   using EdgeCellType = typename MeshType::EdgeCellType;
   using EdgeListType = typename MeshType::EdgeListType;
 
-  itkTypeMacro(QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshBoundaryEdgesMeshFunction);
   itkNewMacro(Self);
 
   OutputType

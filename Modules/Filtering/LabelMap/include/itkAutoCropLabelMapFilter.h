@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AutoCropLabelMapFilter, ChangeRegionImageFilter);
+  itkOverrideGetNameOfClassMacro(AutoCropLabelMapFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageType;

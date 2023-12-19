@@ -80,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWHalfHermitianToRealInverseFFTImageFilter, HalfHermitianToRealInverseFFTImageFilter);
+  itkOverrideGetNameOfClassMacro(FFTWHalfHermitianToRealInverseFFTImageFilter);
 
   /** Define the image dimension. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;

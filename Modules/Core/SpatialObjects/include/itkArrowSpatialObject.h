@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(ArrowSpatialObject, SpatialObject);
+  itkOverrideGetNameOfClassMacro(ArrowSpatialObject);
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */

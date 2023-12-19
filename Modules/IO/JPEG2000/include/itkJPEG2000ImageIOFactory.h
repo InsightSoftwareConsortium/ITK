@@ -68,7 +68,7 @@ public:
   }
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JPEG2000ImageIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(JPEG2000ImageIOFactory);
 
   /** Register one factory of this type  */
   static void

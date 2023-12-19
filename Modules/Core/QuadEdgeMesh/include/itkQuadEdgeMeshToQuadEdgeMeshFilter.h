@@ -91,7 +91,7 @@ public:
 
 public:
   itkNewMacro(Self);
-  itkTypeMacro(QuadEdgeMeshToQuadEdgeMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshToQuadEdgeMeshFilter);
 
 protected:
   QuadEdgeMeshToQuadEdgeMeshFilter();

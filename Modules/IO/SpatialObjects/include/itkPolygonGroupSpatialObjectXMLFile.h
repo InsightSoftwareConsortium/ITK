@@ -49,7 +49,7 @@ public:
   using PolygonPointListType = std::vector<PolygonPointType>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PolygonGroupSpatialObjectXMLFileReader, XMLReader);
+  itkOverrideGetNameOfClassMacro(PolygonGroupSpatialObjectXMLFileReader);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -99,7 +99,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PolygonGroupSpatialObjectXMLFileWriter, XMLWriterBase);
+  itkOverrideGetNameOfClassMacro(PolygonGroupSpatialObjectXMLFileWriter);
 
   using GroupType = GroupSpatialObject<3>;
 

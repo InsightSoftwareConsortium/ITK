@@ -120,7 +120,7 @@ public:
   using LaplacianFunctionType = LaplacianSegmentationLevelSetFunction<OutputImageType, FeatureImageType>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LaplacianSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(LaplacianSegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

@@ -46,7 +46,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(conjugateCostFunction, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(conjugateCostFunction);
 
   enum
   {

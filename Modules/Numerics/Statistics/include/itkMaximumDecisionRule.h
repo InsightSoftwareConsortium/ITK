@@ -48,7 +48,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MaximumDecisionRule, DecisionRule);
+  itkOverrideGetNameOfClassMacro(MaximumDecisionRule);
 
   /** Standard New() method support */
   itkNewMacro(Self);

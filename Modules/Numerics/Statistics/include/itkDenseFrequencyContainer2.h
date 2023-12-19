@@ -52,7 +52,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DenseFrequencyContainer2, Object);
+  itkOverrideGetNameOfClassMacro(DenseFrequencyContainer2);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

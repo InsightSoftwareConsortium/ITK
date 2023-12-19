@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information. */
-  itkTypeMacro(VectorGradientAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
+  itkOverrideGetNameOfClassMacro(VectorGradientAnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */
   using typename Superclass::UpdateBufferType;

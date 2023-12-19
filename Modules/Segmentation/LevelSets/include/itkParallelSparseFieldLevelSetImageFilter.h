@@ -275,7 +275,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParallelSparseFieldLevelSetImageFilter, FiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(ParallelSparseFieldLevelSetImageFilter);
 
   /** Information derived from the image types. */
   using InputImageType = TInputImage;

@@ -62,7 +62,7 @@ public:
   using OStreamType = std::ostream;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ByteSwapper, Object);
+  itkOverrideGetNameOfClassMacro(ByteSwapper);
 
   /** Query the machine Endian-ness. */
   static bool

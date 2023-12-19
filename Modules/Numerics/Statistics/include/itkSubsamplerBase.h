@@ -59,7 +59,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(SubsamplerBase, Object);
+  itkOverrideGetNameOfClassMacro(SubsamplerBase);
 
   /** implement type-specific clone method */
   itkCloneMacro(Self);

@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(FEMObject, DataObject);
+  itkOverrideGetNameOfClassMacro(FEMObject);
 
   static constexpr unsigned int FEMDimension = VDimension;
   static constexpr unsigned int MaxDimensions = 3;

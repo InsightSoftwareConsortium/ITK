@@ -53,7 +53,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
-  itkTypeMacro(GPUDataManager, Object);
+  itkOverrideGetNameOfClassMacro(GPUDataManager);
 
   using MutexHolderType = std::lock_guard<std::mutex>;
 

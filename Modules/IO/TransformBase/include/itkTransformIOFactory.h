@@ -49,7 +49,7 @@ public:
   /** Class Methods used to interface with the registered factories */
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformIOFactoryTemplate, Object);
+  itkOverrideGetNameOfClassMacro(TransformIOFactoryTemplate);
 
   /** Convenient type alias. */
   using TransformIOBasePointer = typename TransformIOBaseTemplate<TParametersValueType>::Pointer;

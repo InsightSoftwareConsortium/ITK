@@ -121,7 +121,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiResolutionPyramidImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MultiResolutionPyramidImageFilter);
 
   /** ScheduleType type alias support */
   using ScheduleType = Array2D<unsigned int>;

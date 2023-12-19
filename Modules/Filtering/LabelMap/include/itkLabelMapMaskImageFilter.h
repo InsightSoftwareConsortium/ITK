@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapMaskImageFilter, LabelMapFilter);
+  itkOverrideGetNameOfClassMacro(LabelMapMaskImageFilter);
 
   /** Set the feature image */
   void

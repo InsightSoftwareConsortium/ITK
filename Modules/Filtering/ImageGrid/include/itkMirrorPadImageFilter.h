@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MirrorPadImageFilter, PadImageFilter);
+  itkOverrideGetNameOfClassMacro(MirrorPadImageFilter);
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;

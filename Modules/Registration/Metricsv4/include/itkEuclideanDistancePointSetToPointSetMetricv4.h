@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(EuclideanDistancePointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
+  itkOverrideGetNameOfClassMacro(EuclideanDistancePointSetToPointSetMetricv4);
 
   /** Types transferred from the base class */
   using typename Superclass::MeasureType;

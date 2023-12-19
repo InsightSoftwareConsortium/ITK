@@ -42,7 +42,7 @@ public:
   using ValueType = TValue;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TreeContainerBase, Object);
+  itkOverrideGetNameOfClassMacro(TreeContainerBase);
 
   /** Set the root element.
    * A new node is created and the element is added to the node */

@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TileImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(TileImageFilter);
 
   /** Image pixel value type alias. */
   using InputPixelType = typename TInputImage::PixelType;

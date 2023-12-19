@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PolylineMask2DImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(PolylineMask2DImageFilter);
 
   /** Number of dimensions. */
   static constexpr unsigned int NDimensions = TInputImage::ImageDimension;

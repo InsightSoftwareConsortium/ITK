@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PathSource, ProcessObject);
+  itkOverrideGetNameOfClassMacro(PathSource);
 
   /** Some convenient type alias. */
   using OutputPathType = TOutputPath;

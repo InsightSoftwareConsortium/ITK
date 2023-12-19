@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FRPROptimizer, PowellOptimizer);
+  itkOverrideGetNameOfClassMacro(FRPROptimizer);
 
   /** Type of the Cost Function   */
   using CostFunctionType = SingleValuedCostFunction;

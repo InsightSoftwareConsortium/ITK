@@ -49,7 +49,7 @@ public:
   /** Method for creation through object factory */
   itkNewMacro(Self);
 
-  itkTypeMacro(LevelSetContainer, LevelSetContainerBase);
+  itkOverrideGetNameOfClassMacro(LevelSetContainer);
 
   using typename Superclass::LevelSetIdentifierType;
 
@@ -106,7 +106,7 @@ public:
   /** Method for creation through object factory */
   itkNewMacro(Self);
 
-  itkTypeMacro(LevelSetContainer, LevelSetContainerBase);
+  itkOverrideGetNameOfClassMacro(LevelSetContainer);
 
   using typename Superclass::LevelSetIdentifierType;
 

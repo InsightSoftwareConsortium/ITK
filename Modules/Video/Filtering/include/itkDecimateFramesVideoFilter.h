@@ -54,7 +54,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(DecimateFramesVideoFilter, VideoToVideoFilter);
+  itkOverrideGetNameOfClassMacro(DecimateFramesVideoFilter);
 
   /** Get/Set the spacing of the preserved frames */
   void

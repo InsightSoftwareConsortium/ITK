@@ -107,7 +107,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ExpNegativeImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(ExpNegativeImageFilter);
 
   void
   SetFactor(double factor)

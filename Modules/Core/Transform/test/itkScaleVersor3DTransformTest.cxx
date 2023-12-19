@@ -31,7 +31,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformHelperType, ScaleVersor3DTransform);
+  itkOverrideGetNameOfClassMacro(TransformHelperType);
 
   void
   TriggerExceptionFromComputeMatrixParameters()

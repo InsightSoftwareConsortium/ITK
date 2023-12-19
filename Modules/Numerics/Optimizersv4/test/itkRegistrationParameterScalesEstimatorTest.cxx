@@ -48,7 +48,7 @@ public:
   using typename Superclass::ParametersType;
   using typename Superclass::ParametersValueType;
 
-  itkTypeMacro(RegistrationParameterScalesEstimatorTestMetric, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesEstimatorTestMetric);
 
   itkNewMacro(Self);
 
@@ -138,7 +138,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(RegistrationParameterScalesEstimatorTest, RegistrationParameterScalesEstimator);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesEstimatorTest);
 
   /** Type of scales */
   using typename Superclass::ScalesType;

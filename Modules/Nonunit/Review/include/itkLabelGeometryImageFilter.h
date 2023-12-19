@@ -88,7 +88,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelGeometryImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelGeometryImageFilter);
 
   /** Image related type alias. */
   using IntensityImageType = TIntensityImage;

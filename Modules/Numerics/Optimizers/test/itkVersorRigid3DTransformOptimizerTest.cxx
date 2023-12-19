@@ -58,7 +58,7 @@ public:
   using TransformType = itk::VersorRigid3DTransform<double>;
 
   itkNewMacro(Self);
-  itkTypeMacro(versorRigid3DCostFunction, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(versorRigid3DCostFunction);
 
   static constexpr unsigned int SpaceDimension = 6;
 

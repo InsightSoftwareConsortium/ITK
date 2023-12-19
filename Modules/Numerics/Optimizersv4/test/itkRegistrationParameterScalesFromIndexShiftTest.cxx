@@ -42,7 +42,7 @@ public:
   using typename Superclass::ParametersType;
   using typename Superclass::ParametersValueType;
 
-  itkTypeMacro(RegistrationParameterScalesFromIndexShiftTestMetric, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesFromIndexShiftTestMetric);
 
   itkNewMacro(Self);
 

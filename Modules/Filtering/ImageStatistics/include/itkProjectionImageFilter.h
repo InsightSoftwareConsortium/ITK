@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ProjectionImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ProjectionImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

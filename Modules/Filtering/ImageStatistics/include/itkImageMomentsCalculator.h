@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageMomentsCalculator, Object);
+  itkOverrideGetNameOfClassMacro(ImageMomentsCalculator);
 
   /** Extract the dimension of the image. */
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;

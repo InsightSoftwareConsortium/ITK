@@ -110,7 +110,7 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianDerivativeOperator, NeighborhoodOperator);
+  itkOverrideGetNameOfClassMacro(GaussianDerivativeOperator);
 
   using InterpolationModeEnum = GaussianDerivativeOperatorEnums::InterpolationMode;
 

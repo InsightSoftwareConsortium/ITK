@@ -94,7 +94,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(PointSet, DataObject);
+  itkOverrideGetNameOfClassMacro(PointSet);
 
   /** Hold on to the type information specified by the template parameters. */
   using MeshTraits = TMeshTraits;

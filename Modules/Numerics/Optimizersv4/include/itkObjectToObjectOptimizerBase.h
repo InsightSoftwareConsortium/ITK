@@ -122,7 +122,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectOptimizerBaseTemplate, Object);
+  itkOverrideGetNameOfClassMacro(ObjectToObjectOptimizerBaseTemplate);
 
   /**  Scale type. */
   using ScalesType = OptimizerParameters<TInternalComputationValueType>;

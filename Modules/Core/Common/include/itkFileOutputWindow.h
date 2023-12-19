@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FileOutputWindow, OutputWindow);
+  itkOverrideGetNameOfClassMacro(FileOutputWindow);
 
   /** Send a string to display. */
   void

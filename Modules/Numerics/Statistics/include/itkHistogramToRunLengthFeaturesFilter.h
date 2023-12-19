@@ -108,7 +108,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HistogramToRunLengthFeaturesFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(HistogramToRunLengthFeaturesFilter);
 
   /** standard New() method support */
   itkNewMacro(Self);

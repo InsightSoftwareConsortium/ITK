@@ -107,7 +107,7 @@ public:
   using OutputComponentType = typename PixelTraits<OutputPixelType>::ValueType;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(HessianRecursiveGaussianImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(HessianRecursiveGaussianImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

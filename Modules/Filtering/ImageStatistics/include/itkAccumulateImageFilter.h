@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AccumulateImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(AccumulateImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

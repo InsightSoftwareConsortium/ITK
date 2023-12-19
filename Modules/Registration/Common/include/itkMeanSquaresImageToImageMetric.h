@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeanSquaresImageToImageMetric, ImageToImageMetric);
+  itkOverrideGetNameOfClassMacro(MeanSquaresImageToImageMetric);
 
   /** Types inherited from Superclass. */
   using typename Superclass::TransformType;

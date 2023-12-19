@@ -63,7 +63,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ElementStd, TBaseClass);
+  itkOverrideGetNameOfClassMacro(ElementStd);
 
   // FIXME: Add concept checking for TBaseClass, and TPointClass
 

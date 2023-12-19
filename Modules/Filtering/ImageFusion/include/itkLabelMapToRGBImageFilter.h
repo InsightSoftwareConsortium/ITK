@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapToRGBImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelMapToRGBImageFilter);
 
   /** Set/Get the rgb functor - defaults to a reasonable set of colors.
    * This can be used to apply a different colormap.

@@ -93,7 +93,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
-  itkTypeMacro(MinimumProjectionImageFilter, ProjectionImageFilter);
+  itkOverrideGetNameOfClassMacro(MinimumProjectionImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

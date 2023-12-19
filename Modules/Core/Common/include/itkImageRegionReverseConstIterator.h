@@ -143,7 +143,7 @@ public:
   using typename Superclass::AccessorType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegionReverseConstIterator, ImageReverseConstIterator);
+  itkOverrideGetNameOfClassMacro(ImageRegionReverseConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionReverseConstIterator()

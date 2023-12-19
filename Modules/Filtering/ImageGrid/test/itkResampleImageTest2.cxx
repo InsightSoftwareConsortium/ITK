@@ -47,7 +47,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NonlinearAffineTransform, AffineTransform);
+  itkOverrideGetNameOfClassMacro(NonlinearAffineTransform);
 
   /** Override this. See test below. */
   bool

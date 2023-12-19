@@ -68,7 +68,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetFunction, FunctionBase);
+  itkOverrideGetNameOfClassMacro(PointSetFunction);
 
   /** InputPointSetType type alias support */
   using InputPointSetType = TInputPointSet;

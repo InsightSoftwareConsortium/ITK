@@ -85,7 +85,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LBFGSOptimizerBasev4, SingleValuedNonLinearVnlOptimizerv4);
+  itkOverrideGetNameOfClassMacro(LBFGSOptimizerBasev4);
 
   using MetricType = Superclass::MetricType;
   using ParametersType = Superclass::ParametersType;

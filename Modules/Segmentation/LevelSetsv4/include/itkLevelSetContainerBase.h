@@ -50,7 +50,7 @@ public:
   using Superclass = Object;
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetContainerBase, Object);
+  itkOverrideGetNameOfClassMacro(LevelSetContainerBase);
 
   /** type alias related to the type of level set*/
   using LevelSetType = TLevelSet;

@@ -67,7 +67,7 @@ public:
   static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineSyNImageRegistrationMethod, SyNImageRegistrationMethod);
+  itkOverrideGetNameOfClassMacro(BSplineSyNImageRegistrationMethod);
 
   /** Input type alias for the images. */
   using FixedImageType = TFixedImage;

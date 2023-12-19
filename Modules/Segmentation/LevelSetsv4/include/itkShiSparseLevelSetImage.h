@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShiSparseLevelSetImage, LevelSetSparseImage);
+  itkOverrideGetNameOfClassMacro(ShiSparseLevelSetImage);
 
   static constexpr unsigned int Dimension = VDimension;
 

@@ -43,7 +43,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineBaseTransform, Transform);
+  itkOverrideGetNameOfClassMacro(BSplineBaseTransform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = VDimension;

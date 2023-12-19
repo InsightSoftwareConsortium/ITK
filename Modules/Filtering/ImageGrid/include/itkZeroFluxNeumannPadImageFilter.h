@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ZeroFluxNeumannPadImageFilter, PadImageFilter);
+  itkOverrideGetNameOfClassMacro(ZeroFluxNeumannPadImageFilter);
 
   /** Typedef to describe the output image region type. */
   using typename Superclass::OutputImageRegionType;

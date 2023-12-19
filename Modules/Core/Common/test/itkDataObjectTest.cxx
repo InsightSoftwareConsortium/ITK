@@ -37,7 +37,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DataObjectTestHelper, DataObject);
+  itkOverrideGetNameOfClassMacro(DataObjectTestHelper);
 
 protected:
   DataObjectTestHelper() = default;

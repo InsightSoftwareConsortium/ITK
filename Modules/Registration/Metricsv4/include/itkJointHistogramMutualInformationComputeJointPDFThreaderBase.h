@@ -47,7 +47,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(JointHistogramMutualInformationComputeJointPDFThreaderBase, DomainThreader);
+  itkOverrideGetNameOfClassMacro(JointHistogramMutualInformationComputeJointPDFThreaderBase);
 
   /** Superclass types.  */
   using typename Superclass::DomainType;

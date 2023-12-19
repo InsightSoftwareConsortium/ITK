@@ -90,7 +90,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(CosImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(CosImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

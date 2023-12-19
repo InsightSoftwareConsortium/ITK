@@ -54,7 +54,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(SampleClassifierFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(SampleClassifierFilter);
   itkNewMacro(Self);
 
   /** Type of the input Sample */

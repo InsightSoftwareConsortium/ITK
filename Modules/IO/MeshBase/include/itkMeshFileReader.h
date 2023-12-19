@@ -93,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeshFileReader, MeshSource);
+  itkOverrideGetNameOfClassMacro(MeshFileReader);
 
   /** Define output mesh types */
   using OutputMeshType = TOutputMesh;

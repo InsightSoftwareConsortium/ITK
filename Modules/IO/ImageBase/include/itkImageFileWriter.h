@@ -35,7 +35,7 @@ class ITKIOImageBase_EXPORT ImageFileWriterException : public ExceptionObject
 {
 public:
   /** Run-time information. */
-  itkTypeMacro(ImageFileWriterException, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(ImageFileWriterException);
 
   /** Constructor. */
   ImageFileWriterException(const char * file,
@@ -99,7 +99,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageFileWriter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(ImageFileWriter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

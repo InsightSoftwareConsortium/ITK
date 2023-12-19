@@ -123,7 +123,7 @@ public:
   using typename Superclass::InputImagePointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorRescaleIntensityImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(VectorRescaleIntensityImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

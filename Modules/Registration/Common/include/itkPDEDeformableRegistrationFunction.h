@@ -50,7 +50,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(PDEDeformableRegistrationFunction, FiniteDifferenceFunction);
+  itkOverrideGetNameOfClassMacro(PDEDeformableRegistrationFunction);
 
   /** MovingImage image type. */
   using MovingImageType = TMovingImage;

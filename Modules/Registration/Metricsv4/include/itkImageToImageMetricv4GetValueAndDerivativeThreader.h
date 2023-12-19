@@ -67,8 +67,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(ImageToImageMetricv4GetValueAndDerivativeThreader,
-               ImageToImageMetricv4GetValueAndDerivativeThreaderBase);
+  itkOverrideGetNameOfClassMacro(ImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Superclass types. */
   using typename Superclass::DomainType;
@@ -144,8 +143,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(ImageToImageMetricv4GetValueAndDerivativeThreader,
-               ImageToImageMetricv4GetValueAndDerivativeThreaderBase);
+  itkOverrideGetNameOfClassMacro(ImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Superclass types. */
   using typename Superclass::DomainType;

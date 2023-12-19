@@ -70,7 +70,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(MahalanobisDistanceMembershipFunction, MembershipFunctionBase);
+  itkOverrideGetNameOfClassMacro(MahalanobisDistanceMembershipFunction);
   itkNewMacro(Self);
 
   /** SmartPointer class for superclass */

@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SimilarityIndexImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(SimilarityIndexImageFilter);
 
   /** Image related type alias. */
   using InputImage1Type = TInputImage1;

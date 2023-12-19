@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MaskFeaturePointSelectionFilter, ImageToMeshFilter);
+  itkOverrideGetNameOfClassMacro(MaskFeaturePointSelectionFilter);
 
   static constexpr unsigned int ImageDimension = 3u;
 

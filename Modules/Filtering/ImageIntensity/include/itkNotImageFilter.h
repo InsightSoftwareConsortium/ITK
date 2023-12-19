@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(NotImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(NotImageFilter);
 
   /** Set/Get the value used to mark the false pixels of the result of
    * the operator. Defaults to 0 */

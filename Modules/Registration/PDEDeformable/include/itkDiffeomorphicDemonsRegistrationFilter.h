@@ -91,7 +91,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DiffeomorphicDemonsRegistrationFilter, PDEDeformableRegistrationFilter);
+  itkOverrideGetNameOfClassMacro(DiffeomorphicDemonsRegistrationFilter);
 
   /** FixedImage image type. */
   using typename Superclass::FixedImageType;

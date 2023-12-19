@@ -124,7 +124,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarConnectedComponentImageFilter, ConnectedComponentFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(ScalarConnectedComponentImageFilter);
 
   using InputPixelType = typename TInputImage::PixelType;
 

@@ -49,7 +49,7 @@ public:
   using Superclass = DecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(EdgeDecimationQuadEdgeMeshFilter, DecimationQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(EdgeDecimationQuadEdgeMeshFilter);
 
   using InputMeshType = TInput;
   using InputMeshPointer = typename InputMeshType::Pointer;

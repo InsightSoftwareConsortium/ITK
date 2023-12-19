@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information. */
-  itkTypeMacro(FastMutexLock, Object);
+  itkOverrideGetNameOfClassMacro(FastMutexLock);
 
   /** Lock the itkFastMutexLock. */
   void

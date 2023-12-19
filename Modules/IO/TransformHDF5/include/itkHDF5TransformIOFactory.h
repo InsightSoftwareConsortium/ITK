@@ -51,7 +51,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HDF5TransformIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(HDF5TransformIOFactory);
 
   /** Register one factory of this type  */
   static void

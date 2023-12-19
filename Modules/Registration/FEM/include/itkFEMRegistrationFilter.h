@@ -150,7 +150,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(FEMRegistrationFilter);
 
   using MovingImageType = TMovingImage;
   using FixedImageType = TFixedImage;

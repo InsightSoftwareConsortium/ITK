@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SaltAndPepperNoiseImageFilter, NoiseBaseImageFilter);
+  itkOverrideGetNameOfClassMacro(SaltAndPepperNoiseImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageType;

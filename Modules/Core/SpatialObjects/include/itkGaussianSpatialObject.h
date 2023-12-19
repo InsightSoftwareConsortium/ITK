@@ -59,7 +59,7 @@ public:
   static constexpr unsigned int ObjectDimensions = TDimension;
 
   itkNewMacro(Self);
-  itkTypeMacro(GaussianSpatialObject, SpatialObject);
+  itkOverrideGetNameOfClassMacro(GaussianSpatialObject);
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */

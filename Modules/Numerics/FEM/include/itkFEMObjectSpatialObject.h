@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FEMObjectSpatialObject, SpatialObject);
+  itkOverrideGetNameOfClassMacro(FEMObjectSpatialObject);
 
   /** Set the FEM object in the spatial object. */
   void

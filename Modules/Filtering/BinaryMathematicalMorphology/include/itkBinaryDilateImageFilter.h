@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryDilateImageFilter, BinaryMorphologyImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryDilateImageFilter);
 
   /** Kernel (structuring element) iterator. */
   using KernelIteratorType = typename KernelType::ConstIterator;

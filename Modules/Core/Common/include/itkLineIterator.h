@@ -81,7 +81,7 @@ public:
   using typename Superclass::AccessorType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LineIterator, LineConstIterator);
+  itkOverrideGetNameOfClassMacro(LineIterator);
 
   /** Set the pixel value */
   void

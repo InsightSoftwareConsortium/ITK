@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapToAttributeImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelMapToAttributeImageFilter);
 
   /**
    * Set/Get the value used as "background" in the output image, if the input

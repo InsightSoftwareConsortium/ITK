@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DiscreteGaussianImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(DiscreteGaussianImageFilter);
 
   /** Image type information. */
   using InputImageType = TInputImage;

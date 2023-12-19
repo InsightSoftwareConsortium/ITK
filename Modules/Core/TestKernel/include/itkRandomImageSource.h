@@ -70,7 +70,7 @@ public:
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RandomImageSource, ImageSource);
+  itkOverrideGetNameOfClassMacro(RandomImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

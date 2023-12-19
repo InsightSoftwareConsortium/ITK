@@ -61,7 +61,7 @@ public:
 
 public:
   itkNewMacro(Self);
-  itkTypeMacro(QuadEdgeMeshTopologyChecker, Object);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshTopologyChecker);
 
   itkSetConstObjectMacro(Mesh, MeshType);
 

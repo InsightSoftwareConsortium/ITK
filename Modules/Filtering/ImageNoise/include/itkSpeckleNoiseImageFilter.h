@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SpeckleNoiseImageFilter, NoiseBaseImageFilter);
+  itkOverrideGetNameOfClassMacro(SpeckleNoiseImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageType;

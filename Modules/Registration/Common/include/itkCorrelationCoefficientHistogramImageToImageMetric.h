@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CorrelationCoefficientHistogramImageToImageMetric, HistogramImageToImageMetric);
+  itkOverrideGetNameOfClassMacro(CorrelationCoefficientHistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using typename Superclass::RealType;

@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(PhysicsBasedNonRigidRegistrationMethod, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(PhysicsBasedNonRigidRegistrationMethod);
 
   using MovingImageType = TMovingImage;
   using FixedImageType = TFixedImage;

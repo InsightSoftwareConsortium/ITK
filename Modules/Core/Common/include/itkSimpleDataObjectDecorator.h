@@ -81,7 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SimpleDataObjectDecorator, DataObject);
+  itkOverrideGetNameOfClassMacro(SimpleDataObjectDecorator);
 
   /** Set the contained object */
   virtual void

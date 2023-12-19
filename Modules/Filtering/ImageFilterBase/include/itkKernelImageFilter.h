@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(KernelImageFilter, BoxImageFilter);
+  itkOverrideGetNameOfClassMacro(KernelImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

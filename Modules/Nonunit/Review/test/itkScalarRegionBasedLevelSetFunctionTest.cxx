@@ -41,7 +41,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(ScalarRegionBasedLevelSetFunctionTestHelper, ScalarRegionBasedLevelSetFunction);
+  itkOverrideGetNameOfClassMacro(ScalarRegionBasedLevelSetFunctionTestHelper);
 
   using typename Superclass::ScalarValueType;
   using typename Superclass::FeaturePixelType;
@@ -99,7 +99,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(ScalarRegionBasedLevelSetFunctionSharedDataHelper, DataObject);
+  itkOverrideGetNameOfClassMacro(ScalarRegionBasedLevelSetFunctionSharedDataHelper);
 
   unsigned long m_FunctionCount;
 

@@ -45,7 +45,7 @@ public:
   using Superclass = VTKPolyDataWriter<TMesh>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(QuadEdgeMeshScalarDataVTKPolyDataWriter, VTKPolyDataWriter);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshScalarDataVTKPolyDataWriter);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);

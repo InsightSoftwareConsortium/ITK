@@ -84,7 +84,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiTransformTestTransform, MultiTransform);
+  itkOverrideGetNameOfClassMacro(MultiTransformTestTransform);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
