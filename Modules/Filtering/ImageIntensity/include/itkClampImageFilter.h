@@ -161,7 +161,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ClampImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(ClampImageFilter);
 
   OutputPixelType
   GetLowerBound() const;

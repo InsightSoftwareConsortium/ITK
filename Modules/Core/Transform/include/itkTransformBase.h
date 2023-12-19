@@ -84,7 +84,7 @@ public:
   using FixedParametersType = OptimizerParameters<FixedParametersValueType>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformBaseTemplate, Object);
+  itkOverrideGetNameOfClassMacro(TransformBaseTemplate);
 
   /** The number of parameters can potentially be very large,
    *  therefore we use here a large capacity integer. */

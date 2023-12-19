@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VnlComplexToComplex1DFFTImageFilter, ComplexToComplex1DFFTImageFilter);
+  itkOverrideGetNameOfClassMacro(VnlComplexToComplex1DFFTImageFilter);
 
 protected:
   VnlComplexToComplex1DFFTImageFilter() = default;

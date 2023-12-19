@@ -47,7 +47,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaDTITubeConverter, MetaConverterBase);
+  itkOverrideGetNameOfClassMacro(MetaDTITubeConverter);
 
   using typename Superclass::SpatialObjectType;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;

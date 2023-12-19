@@ -52,7 +52,7 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ForwardDifferenceOperator, NeighborhoodOperator);
+  itkOverrideGetNameOfClassMacro(ForwardDifferenceOperator);
 
   /** Type alias support for pixel type. */
   using PixelType = TPixel;

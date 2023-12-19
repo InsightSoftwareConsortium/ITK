@@ -53,7 +53,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(NeighborhoodSampler, SampleToSubsampleFilter);
+  itkOverrideGetNameOfClassMacro(NeighborhoodSampler);
   itkNewMacro(Self);
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,

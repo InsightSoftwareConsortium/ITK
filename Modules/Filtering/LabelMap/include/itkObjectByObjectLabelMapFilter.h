@@ -131,7 +131,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ObjectByObjectLabelMapFilter, LabelMapFilter);
+  itkOverrideGetNameOfClassMacro(ObjectByObjectLabelMapFilter);
 
   void
   SetFilter(InputFilterType * filter);

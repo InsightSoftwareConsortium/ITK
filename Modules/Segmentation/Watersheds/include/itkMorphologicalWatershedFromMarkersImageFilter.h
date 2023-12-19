@@ -111,7 +111,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MorphologicalWatershedFromMarkersImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MorphologicalWatershedFromMarkersImageFilter);
 
   /** Set the marker image */
   void

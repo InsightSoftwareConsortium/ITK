@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ComplexToImaginaryImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(ComplexToImaginaryImageFilter);
 
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;

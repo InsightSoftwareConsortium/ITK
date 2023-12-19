@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SymmetricForcesDemonsRegistrationFilter, PDEDeformableRegistrationFilter);
+  itkOverrideGetNameOfClassMacro(SymmetricForcesDemonsRegistrationFilter);
 
   /** FixedImage image type. */
   using typename Superclass::FixedImageType;

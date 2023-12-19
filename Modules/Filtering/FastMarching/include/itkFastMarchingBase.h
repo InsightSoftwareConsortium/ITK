@@ -136,7 +136,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingBase, FastMarchingTraits);
+  itkOverrideGetNameOfClassMacro(FastMarchingBase);
 
   /** Input Domain related definitions */
   using InputDomainType = typename Traits::InputDomainType;

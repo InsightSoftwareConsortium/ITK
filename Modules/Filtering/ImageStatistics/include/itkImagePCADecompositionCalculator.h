@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImagePCADecompositionCalculator, Object);
+  itkOverrideGetNameOfClassMacro(ImagePCADecompositionCalculator);
 
   /** Type definitions for the input images. */
   using InputImageType = TInputImage;

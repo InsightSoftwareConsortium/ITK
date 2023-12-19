@@ -52,7 +52,7 @@ public:
   using TransformType = itk::VersorTransform<double>;
 
   itkNewMacro(Self);
-  itkTypeMacro(versorCostFunction, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(versorCostFunction);
 
   enum
   {

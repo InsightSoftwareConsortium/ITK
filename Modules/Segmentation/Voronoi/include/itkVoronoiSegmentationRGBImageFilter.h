@@ -64,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VoronoiSegmentationRGBImageFilter, VoronoiSegmentationImageFilterBase);
+  itkOverrideGetNameOfClassMacro(VoronoiSegmentationRGBImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

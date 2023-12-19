@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DOMNode, Object);
+  itkOverrideGetNameOfClassMacro(DOMNode);
 
   /** Container to return all or a subset of the children of a DOM node. */
   using ChildrenListType = std::vector<DOMNode *>;

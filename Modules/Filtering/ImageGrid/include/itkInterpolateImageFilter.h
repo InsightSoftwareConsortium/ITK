@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(InterpolateImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(InterpolateImageFilter);
 
   /** Inherit type alias from Superclass */
   using typename Superclass::InputImageType;

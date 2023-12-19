@@ -102,7 +102,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(ConnectedComponentFunctorImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ConnectedComponentFunctorImageFilter);
 
   /**
    * Method for creation through the object factory.

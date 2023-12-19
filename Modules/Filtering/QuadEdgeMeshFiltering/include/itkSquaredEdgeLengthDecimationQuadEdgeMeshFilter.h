@@ -40,7 +40,7 @@ public:
   using Superclass = EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(SquaredEdgeLengthDecimationQuadEdgeMeshFilter, EdgeDecimationQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(SquaredEdgeLengthDecimationQuadEdgeMeshFilter);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);

@@ -80,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SparseImage, Image);
+  itkOverrideGetNameOfClassMacro(SparseImage);
 
   /** Dimension of the image. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

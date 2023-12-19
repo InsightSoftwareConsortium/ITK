@@ -52,7 +52,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(amoebaTestF1, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(amoebaTestF1);
 
   enum
   {
@@ -161,7 +161,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(amoebaTestF1, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(amoebaTestF1);
 
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;

@@ -86,7 +86,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShapePriorSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(ShapePriorSegmentationLevelSetImageFilter);
 
   /** Inherited type alias from the superclass. */
   using typename Superclass::ValueType;

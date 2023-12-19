@@ -49,7 +49,7 @@ public:
 
   using OutputType = LogOutput;
 
-  itkTypeMacro(MultipleLogOutput, LogOutput);
+  itkOverrideGetNameOfClassMacro(MultipleLogOutput);
   itkNewMacro(MultipleLogOutput);
 
 public:

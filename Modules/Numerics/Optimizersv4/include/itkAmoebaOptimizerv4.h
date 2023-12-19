@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AmoebaOptimizerv4, SingleValuedNonLinearVnlOptimizerv4);
+  itkOverrideGetNameOfClassMacro(AmoebaOptimizerv4);
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */

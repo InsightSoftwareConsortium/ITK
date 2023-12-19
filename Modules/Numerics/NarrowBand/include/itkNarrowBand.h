@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NarrowBand, LightObject);
+  itkOverrideGetNameOfClassMacro(NarrowBand);
 
   using NodeContainerType = std::vector<NodeType>;
   using SizeType = typename NodeContainerType::size_type;

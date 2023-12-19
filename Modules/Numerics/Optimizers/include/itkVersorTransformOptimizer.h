@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VersorTransformOptimizer, RegularStepGradientDescentBaseOptimizer);
+  itkOverrideGetNameOfClassMacro(VersorTransformOptimizer);
 
   /**  Versor Type  */
   using VersorType = Versor<double>;

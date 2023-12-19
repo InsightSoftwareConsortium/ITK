@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CumulativeGaussianOptimizer, MultipleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(CumulativeGaussianOptimizer);
 
   /** Set and get macros. */
   itkSetMacro(DifferenceTolerance, double);

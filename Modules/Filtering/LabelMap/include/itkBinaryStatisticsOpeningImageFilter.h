@@ -94,7 +94,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryStatisticsOpeningImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryStatisticsOpeningImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

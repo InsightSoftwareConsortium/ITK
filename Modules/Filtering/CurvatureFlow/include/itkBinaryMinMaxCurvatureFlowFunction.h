@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(BinaryMinMaxCurvatureFlowFunction, MinMaxCurvatureFlowFunction);
+  itkOverrideGetNameOfClassMacro(BinaryMinMaxCurvatureFlowFunction);
 
   /** Inherit some parameters from the superclass type. */
   using typename Superclass::PixelType;

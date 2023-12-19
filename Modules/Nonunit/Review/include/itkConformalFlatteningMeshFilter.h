@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConformalFlatteningMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(ConformalFlatteningMeshFilter);
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
   static constexpr unsigned int InputPointDimension = TInputMesh::PointDimension;

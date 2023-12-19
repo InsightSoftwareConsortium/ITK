@@ -133,7 +133,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SpatialObject, DataObject);
+  itkOverrideGetNameOfClassMacro(SpatialObject);
 
   /** Get/Set the ID */
   void

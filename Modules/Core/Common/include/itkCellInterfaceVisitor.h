@@ -55,7 +55,7 @@ public:
   using CellIdentifier = typename TCellTraits::CellIdentifier;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CellInterfaceVisitor, LightObject);
+  itkOverrideGetNameOfClassMacro(CellInterfaceVisitor);
 
   /** This method is called by each cell as it visits this visitor. */
   virtual void
@@ -113,7 +113,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CellInterfaceVisitorImplementation, LightObject);
+  itkOverrideGetNameOfClassMacro(CellInterfaceVisitorImplementation);
 
   /** Call the static method GetTopologyId for the CellTopology type that
    * we are templated over. */

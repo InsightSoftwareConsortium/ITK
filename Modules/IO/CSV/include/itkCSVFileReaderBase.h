@@ -74,7 +74,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(CSVFileReaderBase, LightProcessObject);
+  itkOverrideGetNameOfClassMacro(CSVFileReaderBase);
 
   /** Set the name of the file to be read */
   itkSetStringMacro(FileName);

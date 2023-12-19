@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryGrindPeakImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryGrindPeakImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

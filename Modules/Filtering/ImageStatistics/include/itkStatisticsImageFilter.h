@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsImageFilter, ImageSink);
+  itkOverrideGetNameOfClassMacro(StatisticsImageFilter);
 
   /** Image related type alias. */
   using InputImagePointer = typename TInputImage::Pointer;

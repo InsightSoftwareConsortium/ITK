@@ -177,7 +177,7 @@ public:
   using SpeedImageType = typename SegmentationFunctionType::ImageType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SegmentationLevelSetImageFilter, SparseFieldLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(SegmentationLevelSetImageFilter);
 
   /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */

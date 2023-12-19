@@ -92,7 +92,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineResampleImageFilterBase, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BSplineResampleImageFilterBase);
 
   /** New macro for creation of through a Smart Pointer */
   //  Must be instantiated through another class. itkNewMacro( Self );

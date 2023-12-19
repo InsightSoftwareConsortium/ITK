@@ -57,7 +57,7 @@ public:
   using Superclass = Region;
 
   /** Standard part of all itk objects. */
-  itkTypeMacro(MeshRegion, Region);
+  itkOverrideGetNameOfClassMacro(MeshRegion);
 
   /** Constructor.  MeshRegion is a lightweight object and is not reference
    * counted. */

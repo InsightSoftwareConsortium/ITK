@@ -68,7 +68,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0LinearQuadrilateralMembrane, Element2DMembrane<Element2DC0LinearQuadrilateral>);
+  itkOverrideGetNameOfClassMacro(Element2DC0LinearQuadrilateralMembrane);
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */

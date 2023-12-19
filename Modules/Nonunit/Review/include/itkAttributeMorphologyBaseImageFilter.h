@@ -99,7 +99,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(AttributeMorphologyBaseImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(AttributeMorphologyBaseImageFilter);
 
   /**
    * Method for creation through the object factory.

@@ -152,7 +152,7 @@ public:
   using AccessorType = TAccessor;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AdaptImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(AdaptImageFilter);
 
   /** Get the accessor. This is a convenience method so the user */
   AccessorType &

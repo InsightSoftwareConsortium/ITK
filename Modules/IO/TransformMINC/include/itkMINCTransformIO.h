@@ -60,7 +60,7 @@ public:
   using OffsetType = typename MatrixOffsetTransformBaseType::OffsetType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MINCTransformIOTemplate, TransformIOBaseTemplate);
+  itkOverrideGetNameOfClassMacro(MINCTransformIOTemplate);
   itkNewMacro(Self);
 
   /** Determine the file type. Returns true if this ImageIO can read the

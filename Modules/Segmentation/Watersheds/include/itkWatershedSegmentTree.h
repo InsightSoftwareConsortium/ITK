@@ -56,7 +56,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(SegmentTree, DataObject);
+  itkOverrideGetNameOfClassMacro(SegmentTree);
   using ScalarType = TScalar;
 
   /** Elements of the list (nodes of the tree).  A record of a merge

@@ -222,7 +222,7 @@ public:
 
 public:
   itkNewMacro(Self);
-  itkTypeMacro(PriorityQueueContainer, VectorContainer);
+  itkOverrideGetNameOfClassMacro(PriorityQueueContainer);
 
   // void Reserve( ElementIdentifier NbOfElementsToStore )
   //{ this->Superclass->Reserve( NbOfElementsToStore ); }

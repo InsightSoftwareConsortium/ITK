@@ -72,7 +72,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element3DC0LinearHexahedron, TemplatedParentClass);
+  itkOverrideGetNameOfClassMacro(Element3DC0LinearHexahedron);
 
   // ////////////////////////////////////////////////////////////////////////
   /**

@@ -91,7 +91,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Bruker2dseqImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(Bruker2dseqImageIO);
 
   /** Determine if the necessary files exist to read the specified 2dseq file.
    * Returns true if all required files exist. */

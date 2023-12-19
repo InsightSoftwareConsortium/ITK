@@ -101,7 +101,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryNotImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryNotImageFilter);
 
   using PixelType = typename TImage::PixelType;
 

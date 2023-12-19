@@ -47,7 +47,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaGaussianConverter, MetaConverterBase);
+  itkOverrideGetNameOfClassMacro(MetaGaussianConverter);
 
   using typename Superclass::SpatialObjectType;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;

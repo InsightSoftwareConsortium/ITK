@@ -131,7 +131,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time information. */
-  itkTypeMacro(MutexLock, Object);
+  itkOverrideGetNameOfClassMacro(MutexLock);
 
   /** Lock the itkMutexLock. */
   void

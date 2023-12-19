@@ -126,7 +126,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BlockMatchingImageFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(BlockMatchingImageFilter);
 
   /** set/get half size */
   itkSetMacro(BlockRadius, ImageSizeType);

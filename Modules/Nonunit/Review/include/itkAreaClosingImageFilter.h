@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AreaClosingImageFilter, AttributeMorphologyBaseImageFilter);
+  itkOverrideGetNameOfClassMacro(AreaClosingImageFilter);
 
   /**
    * Set/Get whether the image spacing is used or not - defaults to true.

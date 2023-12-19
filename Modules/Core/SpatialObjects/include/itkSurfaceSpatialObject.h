@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(SurfaceSpatialObject, PointBasedSpatialObject);
+  itkOverrideGetNameOfClassMacro(SurfaceSpatialObject);
 
   /** Restore a spatial object to its initial state, yet preserves Id as well as
    *   parent and children relationships */

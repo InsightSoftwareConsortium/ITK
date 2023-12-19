@@ -102,7 +102,7 @@ public:
   using Self = SobelOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
-  itkTypeMacro(SobelOperator, NeighborhoodOperator);
+  itkOverrideGetNameOfClassMacro(SobelOperator);
 
   /** Creates the operator with length only in the specified direction.
    * The radius of the operator will be 0 except along the axis on which

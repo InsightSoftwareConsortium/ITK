@@ -80,7 +80,7 @@ public:
   using AssociateType = TAssociate;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DomainThreader, Object);
+  itkOverrideGetNameOfClassMacro(DomainThreader);
 
   /** Run the multi-threaded operation on the given domain.
    *

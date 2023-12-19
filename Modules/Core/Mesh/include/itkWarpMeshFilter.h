@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(WarpMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(WarpMeshFilter);
 
   /** Set the deformation field. */
   void

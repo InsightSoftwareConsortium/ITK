@@ -58,7 +58,7 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  itkTypeMacro(SpatialObjectWriter, Object);
+  itkOverrideGetNameOfClassMacro(SpatialObjectWriter);
 
   /** Load a tube file. */
   void

@@ -99,7 +99,7 @@ public:
   /** method for creation through the object factory */
   itkNewMacro(Self);
 
-  itkTypeMacro(DummySpatialObject, SpatialObject);
+  itkOverrideGetNameOfClassMacro(DummySpatialObject);
   void
   SetValue(float val)
   {
@@ -146,7 +146,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaDummyConverter, MetaConverterBase);
+  itkOverrideGetNameOfClassMacro(MetaDummyConverter);
 
   using typename Superclass::SpatialObjectType;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;

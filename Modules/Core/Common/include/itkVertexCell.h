@@ -49,7 +49,7 @@ public:
   itkCellInheritedTypedefs(TCellInterface);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(VertexCell, CellInterface);
+  itkOverrideGetNameOfClassMacro(VertexCell);
 
   /** Vertex-specific topology numbers. */
   static constexpr unsigned int NumberOfPoints = 1;

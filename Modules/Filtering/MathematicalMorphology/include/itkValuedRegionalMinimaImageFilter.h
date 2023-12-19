@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ValuedRegionalMinimaImageFilter, ValuedRegionalExtremaImageFilter);
+  itkOverrideGetNameOfClassMacro(ValuedRegionalMinimaImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

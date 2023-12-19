@@ -42,7 +42,7 @@ public:
   using typename Superclass::ParametersType;
   using typename Superclass::ParametersValueType;
 
-  itkTypeMacro(RegistrationParameterScalesFromJacobianTestMetric, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesFromJacobianTestMetric);
 
   itkNewMacro(Self);
 

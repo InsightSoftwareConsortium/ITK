@@ -115,7 +115,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineTransform, BSplineBaseTransform);
+  itkOverrideGetNameOfClassMacro(BSplineTransform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = VDimension;

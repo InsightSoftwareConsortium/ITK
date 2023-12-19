@@ -95,7 +95,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(IsotropicDiffusionLevelSetFilter, SparseFieldFourthOrderLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(IsotropicDiffusionLevelSetFilter);
   itkNewMacro(Self);
 
   using typename Superclass::SparseImageType;

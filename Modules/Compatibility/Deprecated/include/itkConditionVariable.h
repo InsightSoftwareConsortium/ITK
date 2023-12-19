@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConditionVariable, LightObject);
+  itkOverrideGetNameOfClassMacro(ConditionVariable);
 
   /** Suspend execution of this thread until the condition is signaled. The
    *  argument is a SimpleMutex object that must be locked prior to calling

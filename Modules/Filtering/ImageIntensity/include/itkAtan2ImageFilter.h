@@ -94,7 +94,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(Atan2ImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(Atan2ImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

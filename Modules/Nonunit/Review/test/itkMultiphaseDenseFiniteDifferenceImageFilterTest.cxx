@@ -47,7 +47,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MultiphaseDenseFiniteDifferenceImageFilterTestHelper, MultiphaseDenseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(MultiphaseDenseFiniteDifferenceImageFilterTestHelper);
 
   itkNewMacro(Self);
 

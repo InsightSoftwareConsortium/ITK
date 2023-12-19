@@ -80,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarChanAndVeseSparseLevelSetImageFilter, MultiphaseSparseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(ScalarChanAndVeseSparseLevelSetImageFilter);
 
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 

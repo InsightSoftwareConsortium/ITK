@@ -48,7 +48,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
 
-  itkTypeMacro(TestImageToImageGetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader);
+  itkOverrideGetNameOfClassMacro(TestImageToImageGetValueAndDerivativeThreader);
 
   itkNewMacro(Self);
 
@@ -121,7 +121,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToImageMetricv4TestMetric, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(ImageToImageMetricv4TestMetric);
 
   /** superclass types */
   using typename Superclass::MeasureType;

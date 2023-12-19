@@ -45,7 +45,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToMeshFilter, MeshSource);
+  itkOverrideGetNameOfClassMacro(ImageToMeshFilter);
 
   /** Create a valid output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;

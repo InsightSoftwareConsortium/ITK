@@ -68,7 +68,7 @@ public:
   static constexpr unsigned int NDimensions = TOutputImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GenerateImageSource, ImageSource);
+  itkOverrideGetNameOfClassMacro(GenerateImageSource);
 
   itkSetMacro(UseReferenceImage, bool);
   itkBooleanMacro(UseReferenceImage);

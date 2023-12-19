@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PlatformMultiThreader, MultiThreaderBase);
+  itkOverrideGetNameOfClassMacro(PlatformMultiThreader);
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** Set/Get the maximum number of threads to use when multithreading.  It

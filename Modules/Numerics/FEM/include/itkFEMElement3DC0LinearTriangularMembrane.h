@@ -51,7 +51,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element3DC0LinearTriangularMembrane, Element3DMembrane<Element3DC0LinearTriangular>);
+  itkOverrideGetNameOfClassMacro(Element3DC0LinearTriangularMembrane);
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */

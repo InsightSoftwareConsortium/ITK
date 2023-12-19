@@ -52,7 +52,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(DummyVideoSource, VideoSource);
+  itkOverrideGetNameOfClassMacro(DummyVideoSource);
 
 protected:
   /** Constructor */

@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParticleSwarmOptimizer, ParticleSwarmOptimizerBase);
+  itkOverrideGetNameOfClassMacro(ParticleSwarmOptimizer);
 
   /** The Particle swarm optimizer uses the following update formula:
    * v_i(t+1) = w*v_i(t) +

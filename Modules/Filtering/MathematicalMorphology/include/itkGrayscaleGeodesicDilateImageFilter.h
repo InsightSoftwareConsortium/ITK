@@ -98,7 +98,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleGeodesicDilateImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GrayscaleGeodesicDilateImageFilter);
 
   /** Set/Get the marker image. The marker image must be pixelwise
    * less than or equal to the mask image. The marker image the

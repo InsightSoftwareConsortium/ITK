@@ -55,7 +55,7 @@ public:
   itkCellInheritedTypedefs(TCellInterface);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(TriangleCell, CellInterface);
+  itkOverrideGetNameOfClassMacro(TriangleCell);
 
   /** The type of boundary for this triangle's vertices. */
   using VertexType = VertexCell<TCellInterface>;

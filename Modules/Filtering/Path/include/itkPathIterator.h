@@ -95,7 +95,7 @@ public:
   using typename Superclass::PathOutputType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PathIterator, PathConstIterator);
+  itkOverrideGetNameOfClassMacro(PathIterator);
 
   /** Set the pixel value */
   void

@@ -98,7 +98,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LBFGSOptimizer, SingleValuedNonLinearVnlOptimizer);
+  itkOverrideGetNameOfClassMacro(LBFGSOptimizer);
 
   /** InternalParameters type alias. */
   using InternalParametersType = vnl_vector<double>;

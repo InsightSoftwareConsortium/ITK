@@ -53,7 +53,7 @@ public:
   using Self = SimpleTestFilter;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  itkTypeMacro(SimpleTestFilter, DenseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(SimpleTestFilter);
   itkNewMacro(Self);
   void
   SetNumberOfIterations(const IdentifierType numberOfIterations) override

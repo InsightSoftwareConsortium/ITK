@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SLICImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(SLICImageFilter);
 
   /** ImageDimension constants */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

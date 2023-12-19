@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LBFGSBOptimizer, SingleValuedNonLinearVnlOptimizer);
+  itkOverrideGetNameOfClassMacro(LBFGSBOptimizer);
 
   /**  BoundValue type.
    *  Use for defining the lower and upper bounds on the variables.

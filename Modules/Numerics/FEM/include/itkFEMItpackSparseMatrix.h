@@ -314,7 +314,7 @@ public:
   ~FEMExceptionItpackSparseMatrixSbagn() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionItpackSparseMatrixSbagn, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionItpackSparseMatrixSbagn);
 };
 
 /**
@@ -345,7 +345,7 @@ public:
   ~FEMExceptionItpackSparseMatrixSbsij() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionItpackSparseMatrixSbsij, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionItpackSparseMatrixSbsij);
 };
 } // end namespace fem
 } // end namespace itk

@@ -91,7 +91,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExpImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(ExpImageAdaptor);
 
 protected:
   ExpImageAdaptor() = default;

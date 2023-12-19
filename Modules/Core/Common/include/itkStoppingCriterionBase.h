@@ -45,7 +45,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(StoppingCriterionBase, Object);
+  itkOverrideGetNameOfClassMacro(StoppingCriterionBase);
 
   /** \return \c true if the stopping criterion is reached (and the algorithm
   must stop).

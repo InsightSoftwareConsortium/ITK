@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VoronoiSegmentationImageFilterBase, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(VoronoiSegmentationImageFilterBase);
 
   /** Get the image dimension from the template parameter. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

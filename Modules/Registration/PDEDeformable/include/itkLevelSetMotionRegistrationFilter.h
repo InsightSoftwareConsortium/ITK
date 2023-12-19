@@ -104,7 +104,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LevelSetMotionRegistrationFilter, PDEDeformableRegistrationFilter);
+  itkOverrideGetNameOfClassMacro(LevelSetMotionRegistrationFilter);
 
   /** Inherit types from superclass. */
   using typename Superclass::TimeStepType;

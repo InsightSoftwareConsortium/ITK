@@ -90,7 +90,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(ScalarChanAndVeseLevelSetFunction, ScalarLevelSetFunction);
+  itkOverrideGetNameOfClassMacro(ScalarChanAndVeseLevelSetFunction);
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 

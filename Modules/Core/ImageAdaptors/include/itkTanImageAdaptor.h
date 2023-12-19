@@ -92,7 +92,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TanImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(TanImageAdaptor);
 
 protected:
   TanImageAdaptor() = default;

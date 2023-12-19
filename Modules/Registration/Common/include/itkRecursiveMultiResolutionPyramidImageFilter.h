@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RecursiveMultiResolutionPyramidImageFilter, MultiResolutionPyramidImageFilter);
+  itkOverrideGetNameOfClassMacro(RecursiveMultiResolutionPyramidImageFilter);
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

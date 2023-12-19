@@ -57,7 +57,7 @@ public:
   using CoordinateRepresentationType = Superclass::ParametersValueType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetToPointSetMetric, MultipleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(PointSetToPointSetMetric);
 
   /**  Type of the moving Pointset. */
   using MovingPointSetType = TMovingPointSet;

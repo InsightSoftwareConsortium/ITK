@@ -72,7 +72,7 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LaplacianOperator, NeighborhoodOperator);
+  itkOverrideGetNameOfClassMacro(LaplacianOperator);
 
   using typename Superclass::SizeType;
 

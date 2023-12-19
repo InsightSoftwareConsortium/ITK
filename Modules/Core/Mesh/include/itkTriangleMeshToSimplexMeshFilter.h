@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TriangleMeshToSimplexMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(TriangleMeshToSimplexMeshFilter);
 
   using InputMeshType = TInputMesh;
   using InputMeshPointer = typename TInputMesh::Pointer;

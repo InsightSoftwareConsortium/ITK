@@ -54,7 +54,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(MahalanobisDistanceMetric, DistanceMetric);
+  itkOverrideGetNameOfClassMacro(MahalanobisDistanceMetric);
   itkNewMacro(Self);
 
   /** Typedef to represent the measurement vector type */

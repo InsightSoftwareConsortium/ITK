@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoxSigmaImageFilter, BoxImageFilter);
+  itkOverrideGetNameOfClassMacro(BoxSigmaImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

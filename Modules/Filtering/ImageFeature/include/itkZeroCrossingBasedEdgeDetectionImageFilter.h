@@ -101,7 +101,7 @@ public:
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(ZeroCrossingBasedEdgeDetectionImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ZeroCrossingBasedEdgeDetectionImageFilter);
 
   /** ImageDimension enumeration   */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

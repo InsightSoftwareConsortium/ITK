@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GiftiMeshIO, MeshIOBase);
+  itkOverrideGetNameOfClassMacro(GiftiMeshIO);
 
   itkGetConstMacro(ReadPointData, bool);
   itkSetMacro(ReadPointData, bool);

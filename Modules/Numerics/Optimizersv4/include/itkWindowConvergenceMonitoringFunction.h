@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(WindowConvergenceMonitoringFunction, ConvergenceMonitoringFunction);
+  itkOverrideGetNameOfClassMacro(WindowConvergenceMonitoringFunction);
 
   using ScalarType = TScalar;
   using RealType = typename NumericTraits<ScalarType>::RealType;

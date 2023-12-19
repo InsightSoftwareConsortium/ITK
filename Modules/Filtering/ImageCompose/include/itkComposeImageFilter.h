@@ -68,7 +68,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   itkNewMacro(Self);
-  itkTypeMacro(ComposeImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ComposeImageFilter);
 
   static constexpr unsigned int Dimension = TInputImage::ImageDimension;
 

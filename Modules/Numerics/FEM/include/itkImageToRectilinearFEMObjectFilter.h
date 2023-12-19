@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToRectilinearFEMObjectFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(ImageToRectilinearFEMObjectFilter);
 
   static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 

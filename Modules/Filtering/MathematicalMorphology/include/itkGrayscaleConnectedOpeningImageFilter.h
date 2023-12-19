@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleConnectedOpeningImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GrayscaleConnectedOpeningImageFilter);
 
   /** Set/Get the seed pixel for the segmentation */
   itkSetMacro(Seed, InputImageIndexType);

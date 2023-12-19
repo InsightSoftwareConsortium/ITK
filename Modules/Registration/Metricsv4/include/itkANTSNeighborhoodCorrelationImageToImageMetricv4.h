@@ -109,7 +109,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ANTSNeighborhoodCorrelationImageToImageMetricv4, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(ANTSNeighborhoodCorrelationImageToImageMetricv4);
 
   /** superclass types */
   using typename Superclass::MeasureType;

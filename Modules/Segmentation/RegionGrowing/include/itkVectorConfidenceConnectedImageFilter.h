@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods).  */
-  itkTypeMacro(VectorConfidenceConnectedImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(VectorConfidenceConnectedImageFilter);
 
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;

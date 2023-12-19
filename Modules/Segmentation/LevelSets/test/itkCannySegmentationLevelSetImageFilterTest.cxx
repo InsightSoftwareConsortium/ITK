@@ -125,7 +125,7 @@ public:
   using Superclass = Command;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkTypeMacro(RMSCommand, Command);
+  itkOverrideGetNameOfClassMacro(RMSCommand);
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */

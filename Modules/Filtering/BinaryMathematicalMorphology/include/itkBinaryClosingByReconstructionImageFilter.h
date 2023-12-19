@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryClosingByReconstructionImageFilter, KernelImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryClosingByReconstructionImageFilter);
 
   using InputImageType = TInputImage;
   using OutputImageType = TInputImage;

@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NormalizedMutualInformationHistogramImageToImageMetric, HistogramImageToImageMetric);
+  itkOverrideGetNameOfClassMacro(NormalizedMutualInformationHistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   using typename Superclass::RealType;

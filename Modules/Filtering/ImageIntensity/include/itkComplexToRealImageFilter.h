@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ComplexToRealImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(ComplexToRealImageFilter);
 
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;

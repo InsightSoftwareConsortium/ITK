@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VersorRigid3DTransform, VersorTransform);
+  itkOverrideGetNameOfClassMacro(VersorRigid3DTransform);
 
   /** Dimension of parameters. */
   static constexpr unsigned int SpaceDimension = 3;

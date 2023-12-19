@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(CurvesLevelSetFunction, SegmentationLevelSetFunction);
+  itkOverrideGetNameOfClassMacro(CurvesLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   using PixelType = typename SuperSuperclass::PixelType;

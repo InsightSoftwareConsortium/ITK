@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingNumberOfElementsStoppingCriterion, FastMarchingStoppingCriterionBase);
+  itkOverrideGetNameOfClassMacro(FastMarchingNumberOfElementsStoppingCriterion);
 
   using typename Superclass::OutputPixelType;
   using typename Superclass::NodeType;

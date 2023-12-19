@@ -36,7 +36,7 @@ public:
   ~MeshFileReaderException() noexcept override;
 
   /** Run-time information. */
-  itkTypeMacro(MeshFileReaderException, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(MeshFileReaderException);
 
   /** Constructor. */
   MeshFileReaderException(const char * file,

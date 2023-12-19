@@ -47,7 +47,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Load, FEMLightObject);
+  itkOverrideGetNameOfClassMacro(Load);
 
   /** Array class that holds special pointers to the load objects */
   using ArrayType = FEMPArray<Self>;

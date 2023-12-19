@@ -81,7 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(OnePlusOneEvolutionaryOptimizerv4, ObjectToObjectOptimizerBaseTemplate);
+  itkOverrideGetNameOfClassMacro(OnePlusOneEvolutionaryOptimizerv4);
 
   /** Type of the Cost Function   */
   using CostFunctionType = SingleValuedCostFunctionv4;

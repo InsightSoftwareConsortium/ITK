@@ -76,7 +76,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(LabelContourImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelContourImageFilter);
 
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 

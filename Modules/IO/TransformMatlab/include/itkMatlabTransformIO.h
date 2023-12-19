@@ -42,7 +42,7 @@ public:
   using ConstTransformListType = typename TransformIOBaseTemplate<ParametersValueType>::ConstTransformListType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MatlabTransformIOTemplate, TransformIOBaseTemplate);
+  itkOverrideGetNameOfClassMacro(MatlabTransformIOTemplate);
   itkNewMacro(Self);
 
   /** Determine the file type. Returns true if this ImageIO can read the

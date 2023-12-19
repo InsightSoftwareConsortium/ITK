@@ -107,7 +107,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(VectorIndexSelectionCastImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(VectorIndexSelectionCastImageFilter);
 
   /** Get/Set methods for the index */
   void

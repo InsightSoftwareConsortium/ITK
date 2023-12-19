@@ -160,7 +160,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(DiffusionTensor3DReconstructionImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(DiffusionTensor3DReconstructionImageFilter);
 
   using ReferencePixelType = TReferenceImagePixelType;
 

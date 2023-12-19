@@ -70,7 +70,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(GaussianDistribution, ProbabilityDistribution);
+  itkOverrideGetNameOfClassMacro(GaussianDistribution);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

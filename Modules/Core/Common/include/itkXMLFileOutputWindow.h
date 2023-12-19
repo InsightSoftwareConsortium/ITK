@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(XMLFileOutputWindow, FileOutputWindow);
+  itkOverrideGetNameOfClassMacro(XMLFileOutputWindow);
 
   /** Send a string to the XML file. */
   void

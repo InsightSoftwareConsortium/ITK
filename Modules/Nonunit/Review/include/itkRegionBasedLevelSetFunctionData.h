@@ -77,7 +77,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkTypeMacro(RegionBasedLevelSetFunctionData, LightObject);
+  itkOverrideGetNameOfClassMacro(RegionBasedLevelSetFunctionData);
 
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;

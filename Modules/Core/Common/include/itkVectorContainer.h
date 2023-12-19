@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(VectorContainer, Object);
+  itkOverrideGetNameOfClassMacro(VectorContainer);
 
   /** Convenient type alias for the iterator and const iterator. */
   class Iterator;

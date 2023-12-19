@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaContourConverter, MetaConverterBase);
+  itkOverrideGetNameOfClassMacro(MetaContourConverter);
 
   using typename Superclass::SpatialObjectType;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;

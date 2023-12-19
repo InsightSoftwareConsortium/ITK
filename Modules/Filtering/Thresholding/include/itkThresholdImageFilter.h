@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThresholdImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(ThresholdImageFilter);
 
   /** Typedef to describe the type of pixel. */
   using PixelType = typename TImage::PixelType;

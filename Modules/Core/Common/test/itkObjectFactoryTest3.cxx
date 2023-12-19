@@ -57,7 +57,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestFactory3, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(TestFactory3);
 
   /** Register one factory of this type  */
   static void

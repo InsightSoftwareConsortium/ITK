@@ -95,7 +95,7 @@ public:
   using DirectionType = typename InputImageType::DirectionType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ChangeInformationImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ChangeInformationImageFilter);
 
   /** Copy the information from another Image.  By default,
    *  the information is copied from the input image. */

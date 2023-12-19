@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegularStepGradientDescentBaseOptimizer, SingleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(RegularStepGradientDescentBaseOptimizer);
 
   using StopConditionEnum = RegularStepGradientDescentBaseOptimizerEnums::StopCondition;
 #if !defined(ITK_LEGACY_REMOVE)

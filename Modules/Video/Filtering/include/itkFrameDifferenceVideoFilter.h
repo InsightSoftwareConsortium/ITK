@@ -57,7 +57,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(FrameDifferenceVideoFilter, VideoToVideoFilter);
+  itkOverrideGetNameOfClassMacro(FrameDifferenceVideoFilter);
 
   /** Get/Set the offset for computing frame differences. Defaults to 1. */
   void

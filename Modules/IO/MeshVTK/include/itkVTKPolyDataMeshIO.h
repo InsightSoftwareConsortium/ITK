@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKPolyDataMeshIO, MeshIOBase);
+  itkOverrideGetNameOfClassMacro(VTKPolyDataMeshIO);
 
   /**-------- This part of the interfaces deals with reading data. ----- */
 

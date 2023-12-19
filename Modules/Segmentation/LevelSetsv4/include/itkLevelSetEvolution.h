@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEvolution, LevelSetEvolutionBase);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolution);
 
   using typename Superclass::EquationContainerType;
   using typename Superclass::EquationContainerPointer;
@@ -203,7 +203,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEvolution, LevelSetEvolutionBase);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolution);
 
   using typename Superclass::EquationContainerType;
   using typename Superclass::EquationContainerPointer;
@@ -314,7 +314,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEvolution, LevelSetEvolutionBase);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolution);
 
   using typename Superclass::EquationContainerType;
   using typename Superclass::EquationContainerPointer;
@@ -392,7 +392,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEvolution, LevelSetEvolutionBase);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolution);
 
   using typename Superclass::EquationContainerType;
   using typename Superclass::EquationContainerPointer;

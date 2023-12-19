@@ -60,7 +60,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeanSquaresImageToImageMetricv4, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(MeanSquaresImageToImageMetricv4);
 
   using typename Superclass::DerivativeType;
 

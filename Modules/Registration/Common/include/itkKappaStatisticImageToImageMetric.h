@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KappaStatisticImageToImageMetric, ImageToImageMetric);
+  itkOverrideGetNameOfClassMacro(KappaStatisticImageToImageMetric);
 
   /** Types transferred from the base class */
   using typename Superclass::RealType;

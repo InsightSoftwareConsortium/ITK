@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaSceneConverter, Object);
+  itkOverrideGetNameOfClassMacro(MetaSceneConverter);
 
   /** SpatialObject Scene types */
   using SpatialObjectType = itk::SpatialObject<VDimension>;

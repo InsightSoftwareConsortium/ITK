@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ComposeScaleSkewVersor3DTransform, VersorRigid3DTransform);
+  itkOverrideGetNameOfClassMacro(ComposeScaleSkewVersor3DTransform);
 
   /** Dimension of parameters. */
   static constexpr unsigned int InputSpaceDimension = 3;

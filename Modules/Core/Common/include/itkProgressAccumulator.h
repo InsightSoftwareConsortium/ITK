@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ProgressAccumulator, Object);
+  itkOverrideGetNameOfClassMacro(ProgressAccumulator);
 
   /** Get the total progress accumulated by this object */
   itkGetConstMacro(AccumulatedProgress, float);

@@ -60,7 +60,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MedianImageFunction, ImageFunction);
+  itkOverrideGetNameOfClassMacro(MedianImageFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

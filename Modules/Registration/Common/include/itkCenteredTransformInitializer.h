@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CenteredTransformInitializer, Object);
+  itkOverrideGetNameOfClassMacro(CenteredTransformInitializer);
 
   /** Type of the transform to initialize */
   using TransformType = TTransform;

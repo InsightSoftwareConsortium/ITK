@@ -81,7 +81,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(ProbabilityDistribution, Object);
+  itkOverrideGetNameOfClassMacro(ProbabilityDistribution);
 
   /** Type of the parameter vector. */
   using ParametersType = Array<double>;

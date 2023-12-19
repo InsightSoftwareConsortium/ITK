@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(InvertDisplacementFieldImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(InvertDisplacementFieldImageFilter);
 
   /** Extract dimension from input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

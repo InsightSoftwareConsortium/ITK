@@ -40,7 +40,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaArrayReader, LightProcessObject);
+  itkOverrideGetNameOfClassMacro(MetaArrayReader);
 
   /** Set the filename. */
   itkSetStringMacro(FileName);

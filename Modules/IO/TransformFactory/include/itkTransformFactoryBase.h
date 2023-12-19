@@ -56,7 +56,7 @@ public:
   GetDescription() const override;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformFactoryBase, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(TransformFactoryBase);
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

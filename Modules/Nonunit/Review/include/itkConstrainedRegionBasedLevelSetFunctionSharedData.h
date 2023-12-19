@@ -71,7 +71,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkTypeMacro(ConstrainedRegionBasedLevelSetFunctionSharedData, RegionBasedLevelSetFunctionSharedData);
+  itkOverrideGetNameOfClassMacro(ConstrainedRegionBasedLevelSetFunctionSharedData);
 
   using InputImageType = TInputImage;
   using typename Superclass::InputImagePointer;

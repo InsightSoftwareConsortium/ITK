@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeshIOFactory, Object);
+  itkOverrideGetNameOfClassMacro(MeshIOFactory);
 
   /** Convenient type alias. */
   using MeshIOBasePointer = itk::MeshIOBase::Pointer;

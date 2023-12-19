@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaMeshConverter, MetaConverterBase);
+  itkOverrideGetNameOfClassMacro(MetaMeshConverter);
 
   using typename Superclass::SpatialObjectType;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;

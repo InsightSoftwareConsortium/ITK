@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianDerivativeSpatialFunction, SpatialFunction);
+  itkOverrideGetNameOfClassMacro(GaussianDerivativeSpatialFunction);
 
   /** Input type for the function. */
   using typename Superclass::InputType;

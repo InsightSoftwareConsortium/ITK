@@ -94,7 +94,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTDiscreteGaussianImageFilter, DiscreteGaussianImageFilter);
+  itkOverrideGetNameOfClassMacro(FFTDiscreteGaussianImageFilter);
 
   /** Image type information. */
   using InputImageType = typename Superclass::InputImageType;

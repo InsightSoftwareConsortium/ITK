@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsRelabelLabelMapFilter, ShapeRelabelLabelMapFilter);
+  itkOverrideGetNameOfClassMacro(StatisticsRelabelLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

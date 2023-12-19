@@ -69,7 +69,7 @@ public:
   using typename Superclass::VectorType;
 
   itkNewMacro(Self);
-  itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints, LaplacianDeformationQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints);
 
 protected:
   LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() = default;

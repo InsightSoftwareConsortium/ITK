@@ -45,7 +45,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkTypeMacro(LevelSetDomainPartition, LevelSetDomainPartitionBase);
+  itkOverrideGetNameOfClassMacro(LevelSetDomainPartition);
 
   using ImageType = TImage;
   using ImagePointer = typename ImageType::Pointer;

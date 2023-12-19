@@ -59,7 +59,7 @@ public:
   itkCellInheritedTypedefs(TCellInterface);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(HexahedronCell, CellInterface);
+  itkOverrideGetNameOfClassMacro(HexahedronCell);
 
   /** The type of boundary for this triangle's vertices. */
   using VertexType = VertexCell<TCellInterface>;

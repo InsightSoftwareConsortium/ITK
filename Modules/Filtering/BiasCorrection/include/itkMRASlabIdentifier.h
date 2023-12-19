@@ -76,7 +76,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MRASlabIdentifier, Object);
+  itkOverrideGetNameOfClassMacro(MRASlabIdentifier);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

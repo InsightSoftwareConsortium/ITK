@@ -39,7 +39,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(GradientDescentOptimizerv4Test2Metric, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(GradientDescentOptimizerv4Test2Metric);
 
   enum
   {

@@ -97,7 +97,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryImageToShapeLabelMapFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryImageToShapeLabelMapFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by face connectivity or

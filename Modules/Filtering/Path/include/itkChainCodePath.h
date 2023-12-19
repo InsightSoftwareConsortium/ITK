@@ -63,7 +63,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ChainCodePath, Path);
+  itkOverrideGetNameOfClassMacro(ChainCodePath);
 
   /** OutputType type alias support */
   using typename Superclass::OutputType;

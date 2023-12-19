@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(FFTPadImageFilter, PadImageFilterBase);
+  itkOverrideGetNameOfClassMacro(FFTPadImageFilter);
 
   /**
    * Set/Get the greatest prime factor allowed on the size of the padded image.

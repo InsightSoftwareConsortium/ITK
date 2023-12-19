@@ -93,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AcosImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(AcosImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

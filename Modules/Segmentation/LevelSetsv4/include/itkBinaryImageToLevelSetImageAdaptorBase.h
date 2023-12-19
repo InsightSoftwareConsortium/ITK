@@ -40,7 +40,7 @@ public:
   using Superclass = Object;
 
   /** Run-time type information */
-  itkTypeMacro(BinaryImageToLevelSetImageAdaptorBase, Object);
+  itkOverrideGetNameOfClassMacro(BinaryImageToLevelSetImageAdaptorBase);
 
   using InputImageType = TInputImage;
   using InputImagePixelType = typename InputImageType::PixelType;

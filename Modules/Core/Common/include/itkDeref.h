@@ -36,7 +36,7 @@ public:
   using ExceptionObject::ExceptionObject;
 
   /** Runtime information support. */
-  itkTypeMacro(DerefError, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(DerefError);
 };
 
 

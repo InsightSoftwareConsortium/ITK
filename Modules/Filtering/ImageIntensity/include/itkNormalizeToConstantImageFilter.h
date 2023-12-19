@@ -90,7 +90,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(NormalizeToConstantImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(NormalizeToConstantImageFilter);
 
   /** Set/get the normalization constant. */
   itkSetMacro(Constant, RealType);

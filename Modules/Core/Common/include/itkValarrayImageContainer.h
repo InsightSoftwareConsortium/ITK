@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(ValarrayImageContainer, Object);
+  itkOverrideGetNameOfClassMacro(ValarrayImageContainer);
 
   /** Index operator. This version can be an lvalue. */
   TElement & operator[](const ElementIdentifier id) { return this->ValarrayType::operator[](id); }

@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScaleTransform, Transform);
+  itkOverrideGetNameOfClassMacro(ScaleTransform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = VDimension;

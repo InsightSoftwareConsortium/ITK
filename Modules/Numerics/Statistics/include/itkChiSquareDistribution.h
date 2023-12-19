@@ -67,7 +67,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(ChiSquareDistribution, ProbabilityDistribution);
+  itkOverrideGetNameOfClassMacro(ChiSquareDistribution);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

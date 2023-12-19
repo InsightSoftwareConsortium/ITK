@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GPUGradientNDAnisotropicDiffusionFunction, GPUScalarAnisotropicDiffusionFunction);
+  itkOverrideGetNameOfClassMacro(GPUGradientNDAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
   using typename Superclass::ImageType;

@@ -50,7 +50,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(LBFGSBOptimizerv4TestMetric, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(LBFGSBOptimizerv4TestMetric);
 
   enum
   {

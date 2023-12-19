@@ -49,7 +49,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ElasticBodyReciprocalSplineKernelTransform, KernelTransform);
+  itkOverrideGetNameOfClassMacro(ElasticBodyReciprocalSplineKernelTransform);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);

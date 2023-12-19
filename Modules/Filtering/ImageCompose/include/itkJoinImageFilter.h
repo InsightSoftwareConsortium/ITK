@@ -231,7 +231,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JoinImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(JoinImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

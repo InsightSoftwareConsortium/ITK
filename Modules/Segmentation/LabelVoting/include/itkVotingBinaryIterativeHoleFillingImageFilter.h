@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VotingBinaryIterativeHoleFillingImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(VotingBinaryIterativeHoleFillingImageFilter);
 
   /** Type of the internal Voting filter that is going to be executed
     iteratively */

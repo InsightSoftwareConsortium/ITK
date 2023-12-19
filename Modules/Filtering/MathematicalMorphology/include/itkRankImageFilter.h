@@ -89,7 +89,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RankImageFilter, MovingHistogramImageFilter);
+  itkOverrideGetNameOfClassMacro(RankImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

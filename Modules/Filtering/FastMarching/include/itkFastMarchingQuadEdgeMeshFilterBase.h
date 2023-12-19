@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingQuadEdgeMeshFilterBase, FastMarchingBase);
+  itkOverrideGetNameOfClassMacro(FastMarchingQuadEdgeMeshFilterBase);
 
   using InputMeshType = typename Superclass::InputDomainType;
   using InputMeshPointer = typename Superclass::InputDomainPointer;

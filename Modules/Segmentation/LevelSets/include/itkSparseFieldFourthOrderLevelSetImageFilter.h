@@ -163,7 +163,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(SparseFieldFourthOrderLevelSetImageFilter, SparseFieldLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(SparseFieldFourthOrderLevelSetImageFilter);
 
   /** Standard image dimension macro. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

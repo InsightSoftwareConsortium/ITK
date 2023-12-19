@@ -46,7 +46,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FileFreeImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(FileFreeImageIO);
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */

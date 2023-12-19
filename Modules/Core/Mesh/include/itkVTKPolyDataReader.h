@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKPolyDataReader, MeshSource);
+  itkOverrideGetNameOfClassMacro(VTKPolyDataReader);
 
   /** Hold on to the type information specified by the template parameters. */
   using OutputMeshType = TOutputMesh;

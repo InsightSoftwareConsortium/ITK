@@ -56,7 +56,7 @@ public:
   using ScalarType = TScalar;
 
   itkNewMacro(Self);
-  itkTypeMacro(SegmentTable, DataObject);
+  itkOverrideGetNameOfClassMacro(SegmentTable);
 
   /** The value type for lists of adjacencies contained in each table
       entry */

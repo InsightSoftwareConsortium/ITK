@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CoxDeBoorBSplineKernelFunction, KernelFunctionBase);
+  itkOverrideGetNameOfClassMacro(CoxDeBoorBSplineKernelFunction);
 
   using VectorType = vnl_vector<TRealValueType>;
   using PolynomialType = vnl_real_polynomial;

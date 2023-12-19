@@ -48,7 +48,7 @@ public:
   itkCellInheritedTypedefs(TCellInterface);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(PolyLineCell, CellInterface);
+  itkOverrideGetNameOfClassMacro(PolyLineCell);
 
   /** The type of boundary for this lines's vertices. */
   using VertexType = VertexCell<TCellInterface>;

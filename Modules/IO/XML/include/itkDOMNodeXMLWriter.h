@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DOMNodeXMLWriter, Object);
+  itkOverrideGetNameOfClassMacro(DOMNodeXMLWriter);
 
   using InputType = DOMNode;
   using ConstInputPointer = InputType::ConstPointer;

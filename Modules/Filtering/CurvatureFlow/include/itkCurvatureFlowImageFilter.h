@@ -108,7 +108,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CurvatureFlowImageFilter, DenseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(CurvatureFlowImageFilter);
 
   /** InputImage type. */
   using typename Superclass::InputImageType;

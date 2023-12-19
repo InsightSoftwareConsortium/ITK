@@ -130,7 +130,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MattesMutualInformationImageToImageMetric, ImageToImageMetric);
+  itkOverrideGetNameOfClassMacro(MattesMutualInformationImageToImageMetric);
 
   /** Types inherited from Superclass. */
   using typename Superclass::TransformType;

@@ -60,7 +60,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShanbhagThresholdCalculator, HistogramThresholdCalculator);
+  itkOverrideGetNameOfClassMacro(ShanbhagThresholdCalculator);
 
   /** Type definition for the input image. */
   using HistogramType = THistogram;

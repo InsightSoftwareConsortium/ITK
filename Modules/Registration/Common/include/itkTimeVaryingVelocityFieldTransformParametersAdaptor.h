@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TimeVaryingVelocityFieldTransformParametersAdaptor, TransformParametersAdaptor);
+  itkOverrideGetNameOfClassMacro(TimeVaryingVelocityFieldTransformParametersAdaptor);
 
   /** Typedefs associated with the transform */
   using TransformType = TTransform;

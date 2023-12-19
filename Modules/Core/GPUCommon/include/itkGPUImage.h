@@ -50,7 +50,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(GPUImage, Image);
+  itkOverrideGetNameOfClassMacro(GPUImage);
 
   static constexpr unsigned int ImageDimension = VImageDimension;
 
@@ -238,7 +238,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUImageFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(GPUImageFactory);
 
   /** Register one factory of this type  */
   static void

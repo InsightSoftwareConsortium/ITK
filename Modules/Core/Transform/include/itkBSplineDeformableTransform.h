@@ -143,7 +143,7 @@ public:
   itkCloneMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineDeformableTransform, BSplineBaseTransform);
+  itkOverrideGetNameOfClassMacro(BSplineDeformableTransform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = VDimension;

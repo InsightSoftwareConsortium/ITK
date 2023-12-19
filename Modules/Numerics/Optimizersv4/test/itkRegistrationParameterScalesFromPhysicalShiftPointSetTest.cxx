@@ -48,7 +48,7 @@ public:
   using typename Superclass::FixedPointSetType;
   using typename Superclass::MovingPointSetType;
 
-  itkTypeMacro(RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric, PointSetToPointSetMetricv4);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric);
 
   itkNewMacro(Self);
 

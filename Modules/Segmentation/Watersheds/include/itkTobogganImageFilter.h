@@ -83,7 +83,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(TobogganImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(TobogganImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

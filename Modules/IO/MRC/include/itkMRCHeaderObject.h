@@ -218,7 +218,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MRCHeaderObject, LightObject);
+  itkOverrideGetNameOfClassMacro(MRCHeaderObject);
 
   void
   DeepCopy(ConstPointer h);

@@ -72,7 +72,7 @@ public:
   /** Standard class type aliases. */
   using Self = DOMWriter;
 
-  itkTypeMacro(DOMWriter, Object);
+  itkOverrideGetNameOfClassMacro(DOMWriter);
 
   using InputType = TInput;
 

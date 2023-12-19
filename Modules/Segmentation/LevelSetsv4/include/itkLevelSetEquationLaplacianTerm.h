@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEquationLaplacianTerm, LevelSetEquationTermBase);
+  itkOverrideGetNameOfClassMacro(LevelSetEquationLaplacianTerm);
 
   using typename Superclass::InputImageType;
   using typename Superclass::InputImagePointer;

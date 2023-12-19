@@ -172,7 +172,7 @@ public:
   using VectorImageType = typename SegmentationFunctionType::VectorImageType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NarrowBandLevelSetImageFilter, NarrowBandImageFilterBase);
+  itkOverrideGetNameOfClassMacro(NarrowBandLevelSetImageFilter);
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */

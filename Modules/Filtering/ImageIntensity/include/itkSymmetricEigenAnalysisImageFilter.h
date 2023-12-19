@@ -263,7 +263,7 @@ public:
   }
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(SymmetricEigenAnalysisImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(SymmetricEigenAnalysisImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -359,7 +359,7 @@ public:
   }
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(SymmetricEigenAnalysisFixedDimensionImageFilter, UnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(SymmetricEigenAnalysisFixedDimensionImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

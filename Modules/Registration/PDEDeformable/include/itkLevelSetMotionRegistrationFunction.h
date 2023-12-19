@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LevelSetMotionRegistrationFunction, PDEDeformableRegistrationFunction);
+  itkOverrideGetNameOfClassMacro(LevelSetMotionRegistrationFunction);
 
   /** MovingImage image type. */
   using typename Superclass::MovingImageType;

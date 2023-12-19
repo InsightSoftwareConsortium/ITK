@@ -148,7 +148,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(FastMarchingImageFilter);
 
   /** Typedef support of level set method types. */
   using LevelSetType = LevelSetTypeDefault<TLevelSet>;

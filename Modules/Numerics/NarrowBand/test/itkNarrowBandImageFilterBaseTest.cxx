@@ -42,7 +42,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time class information. */
-  itkTypeMacro(NbTestClass, NarrowBandImageFilterBase);
+  itkOverrideGetNameOfClassMacro(NbTestClass);
 
   using FiniteFunctionType = CurvatureFlowFunction<TOutputImageType>;
 

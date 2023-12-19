@@ -94,7 +94,7 @@ public:
   using Superclass = LightProcessObject;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ClassifierBase, LightProcessObject);
+  itkOverrideGetNameOfClassMacro(ClassifierBase);
 
   /** Sets the number of classes. */
   itkSetMacro(NumberOfClasses, unsigned int);

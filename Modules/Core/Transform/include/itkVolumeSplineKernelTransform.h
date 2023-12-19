@@ -47,7 +47,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VolumeSplineKernelTransform, KernelTransform);
+  itkOverrideGetNameOfClassMacro(VolumeSplineKernelTransform);
 
   /** Scalar type. */
   using typename Superclass::ScalarType;

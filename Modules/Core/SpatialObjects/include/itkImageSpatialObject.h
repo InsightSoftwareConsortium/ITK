@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageSpatialObject, SpatialObject);
+  itkOverrideGetNameOfClassMacro(ImageSpatialObject);
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */

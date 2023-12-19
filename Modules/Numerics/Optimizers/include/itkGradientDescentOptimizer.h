@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentOptimizer, SingleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(GradientDescentOptimizer);
 
   using StopConditionGradientDescentOptimizerEnum =
     GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer;

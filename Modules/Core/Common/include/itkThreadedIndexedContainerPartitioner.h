@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThreadedIndexedContainerPartitioner, ThreadedDomainPartitioner);
+  itkOverrideGetNameOfClassMacro(ThreadedIndexedContainerPartitioner);
 
   /** Type for convenience of base class methods */
   using DomainType = Superclass::DomainType;

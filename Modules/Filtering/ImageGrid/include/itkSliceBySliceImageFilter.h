@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SliceBySliceImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(SliceBySliceImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

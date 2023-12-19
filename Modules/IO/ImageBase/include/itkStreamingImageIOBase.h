@@ -60,7 +60,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(StreamingImageIOBase, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(StreamingImageIOBase);
 
   // see super class for documentation
   //

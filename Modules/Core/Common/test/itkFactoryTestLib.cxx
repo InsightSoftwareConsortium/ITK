@@ -38,7 +38,7 @@ public:
   itkNewMacro(TestImportImageContainer);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestImportImageContainer, ImportImageContainer);
+  itkOverrideGetNameOfClassMacro(TestImportImageContainer);
 
   using typename Superclass::ElementIdentifier;
   using typename Superclass::Element;
@@ -138,7 +138,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImportImageContainerFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(ImportImageContainerFactory);
 
   /** Register one factory of this type  */
   static void

@@ -91,7 +91,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(DummyVideoToVideoFilter, VideoToVideoFilter);
+  itkOverrideGetNameOfClassMacro(DummyVideoToVideoFilter);
 
 protected:
   /** Constructor */

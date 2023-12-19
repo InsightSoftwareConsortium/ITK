@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryPruningImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryPruningImageFilter);
 
   /** Type for input image. */
   using InputImageType = TInputImage;

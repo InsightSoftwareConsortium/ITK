@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKImageImport, ImageSource);
+  itkOverrideGetNameOfClassMacro(VTKImageImport);
 
   /** Convenient type alias from the output image. */
   using OutputImageType = TOutputImage;

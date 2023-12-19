@@ -78,7 +78,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PCAShapeSignedDistanceFunction, ShapeSignedDistancFunction);
+  itkOverrideGetNameOfClassMacro(PCAShapeSignedDistanceFunction);
 
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);

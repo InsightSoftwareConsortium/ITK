@@ -55,7 +55,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorContainerToListSampleAdaptor, ListSample);
+  itkOverrideGetNameOfClassMacro(VectorContainerToListSampleAdaptor);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

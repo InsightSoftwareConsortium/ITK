@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelOverlapMeasuresImageFilter, ImageSink);
+  itkOverrideGetNameOfClassMacro(LabelOverlapMeasuresImageFilter);
 
   /** Image related type alias. */
   using LabelImageType = TLabelImage;

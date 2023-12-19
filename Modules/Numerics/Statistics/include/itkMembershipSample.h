@@ -66,7 +66,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(MembershipSample, DataObject);
+  itkOverrideGetNameOfClassMacro(MembershipSample);
   itkNewMacro(Self);
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,

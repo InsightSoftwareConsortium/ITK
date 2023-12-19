@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VnlForwardFFTImageFilter, ForwardFFTImageFilter);
+  itkOverrideGetNameOfClassMacro(VnlForwardFFTImageFilter);
 
   /** Extract the dimensionality of the images. They are assumed to be
    * the same. */

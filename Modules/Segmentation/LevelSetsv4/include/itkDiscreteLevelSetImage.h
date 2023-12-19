@@ -46,7 +46,7 @@ public:
   using Superclass = LevelSetImage<IndexType, VDimension, TOutput>;
 
   /** Run-time type information */
-  itkTypeMacro(DiscreteLevelSetImage, LevelSetImage);
+  itkOverrideGetNameOfClassMacro(DiscreteLevelSetImage);
 
   static constexpr unsigned int Dimension = Superclass::Dimension;
 

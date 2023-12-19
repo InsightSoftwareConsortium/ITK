@@ -46,7 +46,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VoronoiPartitioningImageFilter, VoronoiSegmentationImageFilterBase);
+  itkOverrideGetNameOfClassMacro(VoronoiPartitioningImageFilter);
 
   /** Convenient type alias. */
   using typename Superclass::BinaryObjectImage;

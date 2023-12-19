@@ -47,7 +47,7 @@ public:
   using Self = TemporalRegion;
   using Superclass = Region;
 
-  itkTypeMacro(TemporalRegion, Region);
+  itkOverrideGetNameOfClassMacro(TemporalRegion);
 
   /** Typedef for frame offsets */
   using FrameOffsetType = itk::SizeValueType;

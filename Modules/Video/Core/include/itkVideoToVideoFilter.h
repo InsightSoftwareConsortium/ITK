@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VideoToVideoFilter, VideoSource);
+  itkOverrideGetNameOfClassMacro(VideoToVideoFilter);
 
   /** Set the input VideoStream for this temporal process object */
   using Superclass::SetInput;

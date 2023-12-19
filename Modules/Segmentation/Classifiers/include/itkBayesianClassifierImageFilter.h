@@ -98,7 +98,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BayesianClassifierImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BayesianClassifierImageFilter);
 
   /** Input and Output image types. */
   using typename Superclass::InputImageType;

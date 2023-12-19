@@ -86,7 +86,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(ShapeDetectionLevelSetFunction, SegmentationLevelSetFunction);
+  itkOverrideGetNameOfClassMacro(ShapeDetectionLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   using typename Superclass::ImageType;

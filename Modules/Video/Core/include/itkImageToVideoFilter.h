@@ -80,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToVideoFilter, VideoSource);
+  itkOverrideGetNameOfClassMacro(ImageToVideoFilter);
 
   /** Set the input Image for this process object */
   using Superclass::SetInput;

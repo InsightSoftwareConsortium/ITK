@@ -50,7 +50,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(MultiGradientOptimizerv4TestMetric, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(MultiGradientOptimizerv4TestMetric);
 
   enum
   {
@@ -165,7 +165,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(MultiGradientOptimizerv4TestMetric2, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(MultiGradientOptimizerv4TestMetric2);
 
   enum
   {

@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageMaskSpatialObject, ImageSpatialObject);
+  itkOverrideGetNameOfClassMacro(ImageMaskSpatialObject);
 
   /** Test whether a point is inside the object.
    *

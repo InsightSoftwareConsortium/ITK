@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(BlobSpatialObject, SpatialObject);
+  itkOverrideGetNameOfClassMacro(BlobSpatialObject);
 
 protected:
   BlobSpatialObject();

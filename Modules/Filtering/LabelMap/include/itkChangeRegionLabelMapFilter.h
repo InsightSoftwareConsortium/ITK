@@ -65,7 +65,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ChangeRegionLabelMapFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(ChangeRegionLabelMapFilter);
 
   /** Standard New method. */
   itkNewMacro(Self);

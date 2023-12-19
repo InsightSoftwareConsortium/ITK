@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(Log10ImageFilter, UnaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(Log10ImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(HausdorffDistanceImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(HausdorffDistanceImageFilter);
 
   /** Image related type alias. */
   using InputImage1Type = TInputImage1;

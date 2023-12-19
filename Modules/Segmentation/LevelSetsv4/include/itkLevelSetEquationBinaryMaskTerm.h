@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetEquationBinaryMaskTerm, LevelSetEquationTermBase);
+  itkOverrideGetNameOfClassMacro(LevelSetEquationBinaryMaskTerm);
 
   using typename Superclass::InputImageType;
   using typename Superclass::InputImagePointer;

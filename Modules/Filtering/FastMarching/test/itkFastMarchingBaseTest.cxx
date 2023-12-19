@@ -37,7 +37,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingBaseTestHelper, FastMarchingBase);
+  itkOverrideGetNameOfClassMacro(FastMarchingBaseTestHelper);
 
   using typename Superclass::Traits;
   using typename Superclass::OutputDomainType;

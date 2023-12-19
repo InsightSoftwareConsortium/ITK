@@ -75,7 +75,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParametricPath, Path);
+  itkOverrideGetNameOfClassMacro(ParametricPath);
 
   /** Input type */
   using typename Superclass::InputType;

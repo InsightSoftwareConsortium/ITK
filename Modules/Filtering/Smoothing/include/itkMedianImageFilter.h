@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MedianImageFilter, BoxImageFilter);
+  itkOverrideGetNameOfClassMacro(MedianImageFilter);
 
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;

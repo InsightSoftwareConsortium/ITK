@@ -116,7 +116,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(NaryAddImageFilter, NaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(NaryAddImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NumericSeriesFileNames, Object);
+  itkOverrideGetNameOfClassMacro(NumericSeriesFileNames);
 
   /* -------- Define the API for NumericSeriesFileNames ----------- */
 

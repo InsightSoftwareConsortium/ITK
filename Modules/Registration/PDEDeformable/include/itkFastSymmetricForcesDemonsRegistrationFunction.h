@@ -60,7 +60,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastSymmetricForcesDemonsRegistrationFunction, PDEDeformableRegistrationFunction);
+  itkOverrideGetNameOfClassMacro(FastSymmetricForcesDemonsRegistrationFunction);
 
   /** MovingImage image type. */
   using typename Superclass::MovingImageType;

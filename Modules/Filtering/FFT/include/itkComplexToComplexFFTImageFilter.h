@@ -91,7 +91,7 @@ public:
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ComplexToComplexFFTImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ComplexToComplexFFTImageFilter);
 
   /** Customized object creation methods that support configuration-based
    * selection of FFT implementation.

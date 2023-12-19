@@ -59,7 +59,7 @@ public:
   using SampleType = TSample;
 
   /**Standard Macros */
-  itkTypeMacro(MeanSampleFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(MeanSampleFilter);
   itkNewMacro(Self);
 
   /** Type of each measurement vector in sample */

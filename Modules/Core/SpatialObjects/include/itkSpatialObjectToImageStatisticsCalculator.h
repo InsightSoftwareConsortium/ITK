@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SpatialObjectToImageStatisticsCalculator, Object);
+  itkOverrideGetNameOfClassMacro(SpatialObjectToImageStatisticsCalculator);
 
   /** Type definitions for the input image. */
   using ImageType = TInputImage;

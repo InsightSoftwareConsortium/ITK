@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NonLinearOptimizer, Optimizer);
+  itkOverrideGetNameOfClassMacro(NonLinearOptimizer);
 
   /**  Types inherited from the superclass */
   using ParametersType = Superclass::ParametersType;

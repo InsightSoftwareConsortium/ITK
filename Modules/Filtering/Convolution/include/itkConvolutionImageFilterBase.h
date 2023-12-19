@@ -65,7 +65,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information ( and related methods ) */
-  itkTypeMacro(ConvolutionImageFilterBase, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ConvolutionImageFilterBase);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

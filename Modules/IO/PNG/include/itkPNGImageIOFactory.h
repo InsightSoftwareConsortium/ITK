@@ -56,7 +56,7 @@ public:
     return new PNGImageIOFactory;
   }
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PNGImageIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(PNGImageIOFactory);
 
   /** Register one factory of this type  */
   static void

@@ -70,7 +70,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(BinaryContourImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryContourImageFilter);
 
   /**
    * Method for creation through the object factory.

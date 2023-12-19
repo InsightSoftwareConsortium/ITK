@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(StreamingImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(StreamingImageFilter);
 
   /** Some type alias for the input and output. */
   using InputImageType = TInputImage;

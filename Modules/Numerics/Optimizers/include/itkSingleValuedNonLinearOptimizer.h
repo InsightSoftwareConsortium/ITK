@@ -47,7 +47,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SingleValuedNonLinearOptimizer, NonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(SingleValuedNonLinearOptimizer);
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */

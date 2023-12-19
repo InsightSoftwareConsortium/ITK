@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineInterpolationWeightFunction, FunctionBase);
+  itkOverrideGetNameOfClassMacro(BSplineInterpolationWeightFunction);
 
   /** Space dimension. */
   static constexpr unsigned int SpaceDimension = VSpaceDimension;

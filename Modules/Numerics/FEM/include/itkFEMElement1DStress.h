@@ -52,7 +52,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Element1DStress, TBaseClass);
+  itkOverrideGetNameOfClassMacro(Element1DStress);
 
   // Repeat the required type alias and enums from parent class
   using typename Superclass::Float;

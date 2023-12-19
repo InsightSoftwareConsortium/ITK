@@ -155,7 +155,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AutomaticTopologyMeshSource, MeshSource);
+  itkOverrideGetNameOfClassMacro(AutomaticTopologyMeshSource);
 
   /** Add the point p0 if it's not already there, and return its ID. */
   IdentifierType

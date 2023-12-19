@@ -52,7 +52,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadNoisyLandmark, LoadLandmark);
+  itkOverrideGetNameOfClassMacro(LoadNoisyLandmark);
 
   /** Outlier or not */
   void

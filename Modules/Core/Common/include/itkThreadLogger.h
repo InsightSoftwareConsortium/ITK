@@ -47,7 +47,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThreadLogger, Logger);
+  itkOverrideGetNameOfClassMacro(ThreadLogger);
 
   /** New macro for creation of a Smart Pointer */
   itkNewMacro(Self);

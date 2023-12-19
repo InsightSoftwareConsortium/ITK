@@ -46,7 +46,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(GPUScalarAnisotropicDiffusionFunction, GPUAnisotropicDiffusionFunction);
+  itkOverrideGetNameOfClassMacro(GPUScalarAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

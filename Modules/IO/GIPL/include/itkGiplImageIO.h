@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GiplImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(GiplImageIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

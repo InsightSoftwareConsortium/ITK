@@ -108,7 +108,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhasedArray3DSpecialCoordinatesImage, SpecialCoordinatesImage);
+  itkOverrideGetNameOfClassMacro(PhasedArray3DSpecialCoordinatesImage);
 
   /** Pixel type alias support Used to declare pixel type in filters
    * or other operations. */

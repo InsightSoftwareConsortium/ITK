@@ -57,7 +57,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiGradientOptimizerv4Template, GradientDescentOptimizerv4Template);
+  itkOverrideGetNameOfClassMacro(MultiGradientOptimizerv4Template);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

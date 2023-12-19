@@ -34,7 +34,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(TextOutput, OutputWindow);
+  itkOverrideGetNameOfClassMacro(TextOutput);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(TextOutput);

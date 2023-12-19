@@ -119,7 +119,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(MorphFunction, LevelSetFunction);
+  itkOverrideGetNameOfClassMacro(MorphFunction);
 
   /**
    * Method for creation through the object factory.
@@ -163,7 +163,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(MorphFilter, DenseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(MorphFilter);
 
   /**
    * Method for creation through the object factory.

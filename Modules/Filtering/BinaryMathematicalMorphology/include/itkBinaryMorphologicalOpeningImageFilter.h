@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryMorphologicalOpeningImageFilter, KernelImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryMorphologicalOpeningImageFilter);
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;

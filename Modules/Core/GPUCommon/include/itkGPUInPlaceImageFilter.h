@@ -50,7 +50,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUInPlaceImageFilter, GPUImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUInPlaceImageFilter);
 
   /** Superclass type alias. */
   using OutputImageType = typename GPUSuperclass::OutputImageType;

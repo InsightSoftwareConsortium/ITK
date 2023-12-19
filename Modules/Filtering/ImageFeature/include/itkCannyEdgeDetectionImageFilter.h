@@ -130,7 +130,7 @@ public:
   using InputImageRegionType = typename TInputImage::RegionType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CannyEdgeDetectionImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(CannyEdgeDetectionImageFilter);
 
   /** ImageDimension constant. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

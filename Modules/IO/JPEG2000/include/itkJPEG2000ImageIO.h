@@ -97,7 +97,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JPEG2000ImageIO, StreamingImageIOBase);
+  itkOverrideGetNameOfClassMacro(JPEG2000ImageIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

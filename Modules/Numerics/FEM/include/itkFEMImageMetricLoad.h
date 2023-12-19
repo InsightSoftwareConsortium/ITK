@@ -78,7 +78,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageMetricLoad, LoadElement);
+  itkOverrideGetNameOfClassMacro(ImageMetricLoad);
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */

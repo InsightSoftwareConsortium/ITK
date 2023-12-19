@@ -80,7 +80,7 @@ public:
   using BoundaryConditionPointerType = BoundaryConditionType *;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PadImageFilter, PadImageFilterBase);
+  itkOverrideGetNameOfClassMacro(PadImageFilter);
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

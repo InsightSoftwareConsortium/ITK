@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(CurvatureFlowFunction, FiniteDifferenceFunction);
+  itkOverrideGetNameOfClassMacro(CurvatureFlowFunction);
 
   /** Inherit some parameters from the superclass type. */
   using typename Superclass::ImageType;

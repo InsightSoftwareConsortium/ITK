@@ -47,7 +47,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkTypeMacro(LevelSetDomainPartitionImageWithKdTree, LevelSetDomainPartitionImage);
+  itkOverrideGetNameOfClassMacro(LevelSetDomainPartitionImageWithKdTree);
 
   using ImageType = TImage;
   using typename Superclass::ListIndexType;

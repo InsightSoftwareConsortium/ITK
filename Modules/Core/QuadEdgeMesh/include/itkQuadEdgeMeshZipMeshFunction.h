@@ -45,7 +45,7 @@ public:
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
-  itkTypeMacro(QuadEdgeMeshZipMeshFunction, QuadEdgeMeshFunctionBase);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshZipMeshFunction);
 
   /** Type of QuadEdge with which to apply slicing. */
   using QEType = TQEType;

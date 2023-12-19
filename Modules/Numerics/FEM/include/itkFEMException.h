@@ -55,7 +55,7 @@ public:
   ~FEMException() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMException, ExceptionObject);
+  itkOverrideGetNameOfClassMacro(FEMException);
 };
 
 /**
@@ -79,7 +79,7 @@ public:
   ~FEMExceptionIO() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionIO, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionIO);
 };
 
 /**
@@ -109,7 +109,7 @@ public:
   ~FEMExceptionWrongClass() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionWrongClass, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionWrongClass);
 };
 
 /**
@@ -133,7 +133,7 @@ public:
   ~FEMExceptionObjectNotFound() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionObjectNotFound, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionObjectNotFound);
 
   /**
    * Base class of the searched object.
@@ -164,7 +164,7 @@ public:
   ~FEMExceptionSolution() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionSolution, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionSolution);
 };
 } // end namespace fem
 } // end namespace itk

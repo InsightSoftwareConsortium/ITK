@@ -71,7 +71,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(Sample, DataObject);
+  itkOverrideGetNameOfClassMacro(Sample);
 
   /** MeasurementVector type alias support */
   using MeasurementVectorType = TMeasurementVector;

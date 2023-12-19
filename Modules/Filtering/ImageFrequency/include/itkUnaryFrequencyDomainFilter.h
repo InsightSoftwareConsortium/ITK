@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(UnaryFrequencyDomainFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(UnaryFrequencyDomainFilter);
 
   /** Typedef to images */
   using ImageType = TImageType;

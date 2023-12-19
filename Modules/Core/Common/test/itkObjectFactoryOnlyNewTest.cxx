@@ -41,7 +41,7 @@ public:
   itkFactoryOnlyNewMacro(TestImageInterfaceClass);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestImageInterfaceClass, Image);
+  itkOverrideGetNameOfClassMacro(TestImageInterfaceClass);
 
   // Methods from itkObject
   ~TestImageInterfaceClass() override = default;
@@ -65,7 +65,7 @@ public:
   itkFactorylessNewMacro(TestImageImplementationClass);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestImageImplementationClass, TestImage);
+  itkOverrideGetNameOfClassMacro(TestImageImplementationClass);
 
   // Methods from itkObject
   ~TestImageImplementationClass() override = default;
@@ -99,7 +99,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(TestFactory);
 
   /** Register one factory of this type  */
   static void

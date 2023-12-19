@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SolverHyperbolic, Solver);
+  itkOverrideGetNameOfClassMacro(SolverHyperbolic);
 
   using Float = Element::Float;
 

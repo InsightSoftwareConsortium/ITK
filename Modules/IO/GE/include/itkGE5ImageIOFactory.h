@@ -52,7 +52,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GE5ImageIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(GE5ImageIOFactory);
 
   /** Register one factory of this type  */
   static void

@@ -144,7 +144,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageKmeansModelEstimator, ImageModelEstimatorBase);
+  itkOverrideGetNameOfClassMacro(ImageKmeansModelEstimator);
 
   /** Type definition for the input image. */
   using InputImageType = TInputImage;

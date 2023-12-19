@@ -85,7 +85,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ApproximateSignedDistanceMapImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ApproximateSignedDistanceMapImageFilter);
 
   /** standard New() method support */
   itkNewMacro(Self);

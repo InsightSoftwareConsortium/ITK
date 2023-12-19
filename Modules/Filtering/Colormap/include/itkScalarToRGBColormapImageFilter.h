@@ -141,7 +141,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarToRGBColormapImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ScalarToRGBColormapImageFilter);
 
   /** Some type alias. */
   using InputImageType = TInputImage;

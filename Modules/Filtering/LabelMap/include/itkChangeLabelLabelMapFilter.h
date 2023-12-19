@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ChangeLabelLabelMapFilter, InPlaceLabelMapFilter);
+  itkOverrideGetNameOfClassMacro(ChangeLabelLabelMapFilter);
 
   using ChangeMapType = typename std::map<PixelType, PixelType>;
   using ChangeMapIterator = typename ChangeMapType::const_iterator;

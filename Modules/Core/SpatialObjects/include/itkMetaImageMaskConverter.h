@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MetaImageMaskConverter, MetaImageConverter);
+  itkOverrideGetNameOfClassMacro(MetaImageMaskConverter);
 
 protected:
   const char *

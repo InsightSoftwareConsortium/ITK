@@ -64,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformParametersAdaptorBase, Object);
+  itkOverrideGetNameOfClassMacro(TransformParametersAdaptorBase);
 
   /** Typedefs associated with the transform */
   using TransformBaseType = TTransform;

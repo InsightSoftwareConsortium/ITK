@@ -120,7 +120,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUBinaryThresholdImageFilter, GPUUnaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUBinaryThresholdImageFilter);
 
   /** Pixel types. */
   using InputPixelType = typename TInputImage::PixelType;
@@ -178,7 +178,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUBinaryThresholdImageFilterFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(GPUBinaryThresholdImageFilterFactory);
 
   /** Register one factory of this type  */
   static void

@@ -64,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThreadPool, Object);
+  itkOverrideGetNameOfClassMacro(ThreadPool);
 
   /** Returns the global instance */
   static Pointer

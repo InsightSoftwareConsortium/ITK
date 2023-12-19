@@ -57,7 +57,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShapePriorMAPCostFunctionBase, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(ShapePriorMAPCostFunctionBase);
 
   /**  MeasureType type alias.
    *  It defines a type used to return the cost function value. */

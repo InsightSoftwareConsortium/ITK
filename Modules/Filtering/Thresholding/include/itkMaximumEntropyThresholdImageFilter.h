@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MaximumEntropyThresholdImageFilter, HistogramThresholdImageFilter);
+  itkOverrideGetNameOfClassMacro(MaximumEntropyThresholdImageFilter);
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;

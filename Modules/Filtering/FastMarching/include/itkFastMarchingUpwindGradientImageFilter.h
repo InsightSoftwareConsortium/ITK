@@ -100,7 +100,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingUpwindGradientImageFilter, FastMarchingImageFilter);
+  itkOverrideGetNameOfClassMacro(FastMarchingUpwindGradientImageFilter);
 
   /** Inherited type alias. */
   using typename Superclass::LevelSetType;

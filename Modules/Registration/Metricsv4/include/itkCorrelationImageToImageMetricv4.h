@@ -92,7 +92,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CorrelationImageToImageMetricv4, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(CorrelationImageToImageMetricv4);
 
   /** Superclass types */
   using typename Superclass::MeasureType;

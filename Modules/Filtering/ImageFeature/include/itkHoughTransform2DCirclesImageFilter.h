@@ -100,7 +100,7 @@ public:
   using CirclesListSizeType = typename CirclesListType::size_type;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HoughTransform2DCirclesImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(HoughTransform2DCirclesImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

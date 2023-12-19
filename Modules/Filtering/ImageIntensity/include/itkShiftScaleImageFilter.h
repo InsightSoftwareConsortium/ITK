@@ -78,7 +78,7 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShiftScaleImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ShiftScaleImageFilter);
 
   /** Set/Get the amount to Shift each Pixel. The shift is followed by a Scale.
    */

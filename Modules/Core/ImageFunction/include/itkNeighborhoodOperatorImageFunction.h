@@ -61,7 +61,7 @@ public:
   using typename Superclass::ContinuousIndexType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NeighborhoodOperatorImageFunction, ImageFunction);
+  itkOverrideGetNameOfClassMacro(NeighborhoodOperatorImageFunction);
 
   /** Dimension of the underlying image. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;

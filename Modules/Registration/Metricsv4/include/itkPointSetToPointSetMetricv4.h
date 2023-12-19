@@ -79,7 +79,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetToPointSetMetricv4, PointSetToPointSetMetricWithIndexv4);
+  itkOverrideGetNameOfClassMacro(PointSetToPointSetMetricv4);
 
   /**  Type of the measure. */
   using typename Superclass::MeasureType;

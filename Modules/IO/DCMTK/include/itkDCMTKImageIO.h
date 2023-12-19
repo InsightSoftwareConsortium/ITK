@@ -82,7 +82,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DCMTKImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(DCMTKImageIO);
 
   using LogLevelEnum = DCMTKImageIOEnums::LogLevel;
 #if !defined(ITK_LEGACY_REMOVE)

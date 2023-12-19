@@ -114,7 +114,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(HistogramToLogProbabilityImageFilter, HistogramToImageFilter);
+  itkOverrideGetNameOfClassMacro(HistogramToLogProbabilityImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

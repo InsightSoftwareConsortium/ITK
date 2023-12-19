@@ -105,7 +105,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KLMSegmentationRegion, SegmentationRegion);
+  itkOverrideGetNameOfClassMacro(KLMSegmentationRegion);
 
   /** Type definition for an double vector. */
   using MeanRegionIntensityType = vnl_vector<double>;

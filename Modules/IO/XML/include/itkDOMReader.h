@@ -70,7 +70,7 @@ public:
   /** Standard class type aliases. */
   using Self = DOMReader;
 
-  itkTypeMacro(DOMReader, Object);
+  itkOverrideGetNameOfClassMacro(DOMReader);
 
   using OutputType = TOutput;
 

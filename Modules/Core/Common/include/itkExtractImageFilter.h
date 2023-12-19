@@ -130,7 +130,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExtractImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(ExtractImageFilter);
 
   /** Image type information. */
   using InputImageType = TInputImage;

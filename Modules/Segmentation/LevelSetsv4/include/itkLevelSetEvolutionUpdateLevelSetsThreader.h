@@ -56,7 +56,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run time type information. */
-  itkTypeMacro(LevelSetEvolutionUpdateLevelSetsThreader, DomainThreader);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolutionUpdateLevelSetsThreader);
 
   /** Standard New macro. */
   itkNewMacro(Self);

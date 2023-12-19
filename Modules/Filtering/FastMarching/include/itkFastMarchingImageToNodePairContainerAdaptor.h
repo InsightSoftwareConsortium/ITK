@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingImageToNodePairContainerAdaptor, Object);
+  itkOverrideGetNameOfClassMacro(FastMarchingImageToNodePairContainerAdaptor);
 
   using Traits = FastMarchingTraits<TInput, TOutput>;
   using NodePairType = typename Traits::NodePairType;

@@ -97,7 +97,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(WarpImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(WarpImageFilter);
 
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename TOutputImage::RegionType;

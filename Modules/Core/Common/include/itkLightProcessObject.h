@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LightProcessObject, Object);
+  itkOverrideGetNameOfClassMacro(LightProcessObject);
 
   /** Set the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways.  */

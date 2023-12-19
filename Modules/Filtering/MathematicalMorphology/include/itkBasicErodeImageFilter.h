@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BasicErodeImageFilter, MorphologyImageFilter);
+  itkOverrideGetNameOfClassMacro(BasicErodeImageFilter);
 
   /** Declaration of pixel type. */
   using typename Superclass::PixelType;

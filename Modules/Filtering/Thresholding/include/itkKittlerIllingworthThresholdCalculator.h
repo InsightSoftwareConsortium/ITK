@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KittlerIllingworthThresholdCalculator, HistogramThresholdCalculator);
+  itkOverrideGetNameOfClassMacro(KittlerIllingworthThresholdCalculator);
 
   /** Type definition for the input image. */
   using HistogramType = THistogram;

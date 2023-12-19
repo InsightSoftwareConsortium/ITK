@@ -37,7 +37,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingStoppingCriterionBaseHelperTest, FastMarchingStoppingCriterionBase);
+  itkOverrideGetNameOfClassMacro(FastMarchingStoppingCriterionBaseHelperTest);
 
   bool
   IsSatisfied() const override

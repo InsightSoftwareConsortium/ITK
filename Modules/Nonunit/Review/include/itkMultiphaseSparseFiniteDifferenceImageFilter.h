@@ -192,7 +192,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiphaseSparseFiniteDifferenceImageFilter, MultiphaseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(MultiphaseSparseFiniteDifferenceImageFilter);
 
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 

@@ -39,7 +39,7 @@ public:
   using typename Superclass::ParametersType;
   using typename Superclass::ParametersValueType;
 
-  itkTypeMacro(ObjectToObjectMetricTestMetric, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(ObjectToObjectMetricTestMetric);
 
   itkNewMacro(Self);
 

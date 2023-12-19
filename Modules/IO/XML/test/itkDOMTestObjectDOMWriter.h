@@ -41,7 +41,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DOMTestObjectDOMWriter, DOMWriter);
+  itkOverrideGetNameOfClassMacro(DOMTestObjectDOMWriter);
 
 protected:
   DOMTestObjectDOMWriter() = default;

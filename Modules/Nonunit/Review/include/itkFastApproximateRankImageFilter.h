@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(FastApproximateRankImageFilter, MiniPipelineSeparableImageFilter);
+  itkOverrideGetNameOfClassMacro(FastApproximateRankImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

@@ -90,7 +90,7 @@ public:
   GetOutput() const;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarImageToCooccurrenceListSampleFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(ScalarImageToCooccurrenceListSampleFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

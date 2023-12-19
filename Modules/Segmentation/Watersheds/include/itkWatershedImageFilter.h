@@ -179,7 +179,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(WatershedImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(WatershedImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

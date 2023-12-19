@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetDomainMapImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LevelSetDomainMapImageFilter);
 
   using InputImageType = TInputImage;
   using InputImageConstPointer = typename InputImageType::ConstPointer;

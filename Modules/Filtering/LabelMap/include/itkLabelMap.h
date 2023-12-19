@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LabelMap, ImageBase);
+  itkOverrideGetNameOfClassMacro(LabelMap);
 
   using LabelObjectType = TLabelObject;
 

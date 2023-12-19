@@ -102,7 +102,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(NormalQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(NormalQuadEdgeMeshFilter);
 
   using InputMeshType = TInputMesh;
   using InputMeshPointer = typename InputMeshType::Pointer;

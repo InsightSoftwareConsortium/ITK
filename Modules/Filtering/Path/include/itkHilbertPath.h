@@ -63,7 +63,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HilbertPath, Path);
+  itkOverrideGetNameOfClassMacro(HilbertPath);
 
   /** New() method for dynamic construction */
   itkNewMacro(Self);

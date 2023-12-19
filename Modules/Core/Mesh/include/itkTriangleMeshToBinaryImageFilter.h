@@ -93,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TriangleMeshToBinaryImageFilter, ImageSource);
+  itkOverrideGetNameOfClassMacro(TriangleMeshToBinaryImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageRegionType;

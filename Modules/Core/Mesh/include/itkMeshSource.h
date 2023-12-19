@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeshSource, ProcessObject);
+  itkOverrideGetNameOfClassMacro(MeshSource);
 
   /** Some convenient type alias. */
   using DataObjectPointer = DataObject::Pointer;

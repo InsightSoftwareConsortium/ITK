@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(EuclideanDistancePointMetric, Object);
+  itkOverrideGetNameOfClassMacro(EuclideanDistancePointMetric);
 
   /** Types transferred from the base class. */
   using typename Superclass::TransformType;

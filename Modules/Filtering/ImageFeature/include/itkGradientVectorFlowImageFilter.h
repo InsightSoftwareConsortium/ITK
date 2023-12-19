@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientVectorFlowImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GradientVectorFlowImageFilter);
 
   /** Some type alias. */
   using InputImageType = TInputImage;

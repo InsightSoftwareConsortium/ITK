@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(DTITubeSpatialObject, TubeSpatialObject);
+  itkOverrideGetNameOfClassMacro(DTITubeSpatialObject);
 
 protected:
   DTITubeSpatialObject();

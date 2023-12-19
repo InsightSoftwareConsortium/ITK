@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BinaryGeneratorImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryGeneratorImageFilter);
 
   /** Some convenient type alias. */
   using Input1ImageType = TInputImage1;

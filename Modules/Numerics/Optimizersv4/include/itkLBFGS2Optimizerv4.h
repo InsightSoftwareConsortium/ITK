@@ -201,7 +201,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LBFGS2Optimizerv4Template, GradientDescentOptimizerv4Template);
+  itkOverrideGetNameOfClassMacro(LBFGS2Optimizerv4Template);
 
   /** Start optimization with an initial value. */
   void

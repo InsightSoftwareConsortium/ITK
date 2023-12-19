@@ -54,7 +54,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FEMLightObject, itk::LightObject);
+  itkOverrideGetNameOfClassMacro(FEMLightObject);
 
   /**
    * Set the global number of the object

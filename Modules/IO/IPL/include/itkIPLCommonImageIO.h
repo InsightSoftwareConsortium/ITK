@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IPLCommonImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(IPLCommonImageIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

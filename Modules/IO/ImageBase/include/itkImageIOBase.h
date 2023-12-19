@@ -86,7 +86,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageIOBase, LightProcessObject);
+  itkOverrideGetNameOfClassMacro(ImageIOBase);
 
   /** Set/Get the name of the file to be read. */
   itkSetStringMacro(FileName);

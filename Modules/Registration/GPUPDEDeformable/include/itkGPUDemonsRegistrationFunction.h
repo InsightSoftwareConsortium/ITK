@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUDemonsRegistrationFunction, DemonsRegistrationFunction);
+  itkOverrideGetNameOfClassMacro(GPUDemonsRegistrationFunction);
 
   /** MovingImage image type. */
   using typename Superclass::MovingImageType;

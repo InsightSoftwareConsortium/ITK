@@ -47,7 +47,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(GPUAnisotropicDiffusionFunction, GPUFiniteDifferenceFunction);
+  itkOverrideGetNameOfClassMacro(GPUAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type */
   using typename Superclass::ImageType;

@@ -127,7 +127,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LandweberDeconvolutionImageFilter, IterativeDeconvolutionImageFilter);
+  itkOverrideGetNameOfClassMacro(LandweberDeconvolutionImageFilter);
 
   /** Set/get relaxation factor. */
   itkSetMacro(Alpha, double);

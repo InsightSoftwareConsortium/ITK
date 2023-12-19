@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LBFGSBOptimizerv4, LBFGSOptimizerBasev4);
+  itkOverrideGetNameOfClassMacro(LBFGSBOptimizerv4);
 
   enum BoundSelectionValues
   {

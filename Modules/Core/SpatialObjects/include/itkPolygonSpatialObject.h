@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(PolygonSpatialObject, PointBasedSpatialObject);
+  itkOverrideGetNameOfClassMacro(PolygonSpatialObject);
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */

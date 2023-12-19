@@ -101,7 +101,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiResolutionPDEDeformableRegistration, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MultiResolutionPDEDeformableRegistration);
 
   /** Fixed image type. */
   using FixedImageType = TFixedImage;

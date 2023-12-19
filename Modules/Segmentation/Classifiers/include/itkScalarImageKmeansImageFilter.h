@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarImageKmeansImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ScalarImageKmeansImageFilter);
 
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;

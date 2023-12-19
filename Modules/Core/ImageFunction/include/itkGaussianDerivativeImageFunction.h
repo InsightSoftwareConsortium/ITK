@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianDerivativeImageFunction, ImageFunction);
+  itkOverrideGetNameOfClassMacro(GaussianDerivativeImageFunction);
 
   /** InputImageType type alias support */
   using InputImageType = TInputImage;

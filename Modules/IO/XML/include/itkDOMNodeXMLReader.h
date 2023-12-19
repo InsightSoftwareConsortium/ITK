@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DOMNodeXMLReader, Object);
+  itkOverrideGetNameOfClassMacro(DOMNodeXMLReader);
 
   using OutputType = DOMNode;
   using OutputPointer = OutputType::Pointer;

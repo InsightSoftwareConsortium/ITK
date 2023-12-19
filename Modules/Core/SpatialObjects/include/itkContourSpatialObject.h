@@ -105,7 +105,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(ContourSpatialObject, PointBasedSpatialObject);
+  itkOverrideGetNameOfClassMacro(ContourSpatialObject);
 
   /** Reset the spatial object to its initial condition, yet preserves
    *   Id, Parent, and Child information */

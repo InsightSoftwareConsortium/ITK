@@ -59,7 +59,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExpectationBasedPointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
+  itkOverrideGetNameOfClassMacro(ExpectationBasedPointSetToPointSetMetricv4);
 
   /** Types transferred from the base class */
   using typename Superclass::MeasureType;

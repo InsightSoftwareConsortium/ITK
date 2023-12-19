@@ -117,7 +117,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapContourOverlayImageFilter, LabelMapFilter);
+  itkOverrideGetNameOfClassMacro(LabelMapContourOverlayImageFilter);
 
   /** Set the feature image */
   void

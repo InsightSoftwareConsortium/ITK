@@ -58,7 +58,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /**Standard Macros */
-  itkTypeMacro(GaussianMixtureModelComponent, MixtureModelComponentBase);
+  itkOverrideGetNameOfClassMacro(GaussianMixtureModelComponent);
   itkNewMacro(Self);
 
   /** Typedefs from the superclass */

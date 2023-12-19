@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleMorphologicalClosingImageFilter, KernelImageFilter);
+  itkOverrideGetNameOfClassMacro(GrayscaleMorphologicalClosingImageFilter);
 
   /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

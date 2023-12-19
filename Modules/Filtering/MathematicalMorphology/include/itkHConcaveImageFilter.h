@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(HConcaveImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(HConcaveImageFilter);
 
   /** Set/Get the height that a local maximum must be above the local
    * background (local contrast) in order to survive the

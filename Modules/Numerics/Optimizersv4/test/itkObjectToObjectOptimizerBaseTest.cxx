@@ -35,7 +35,7 @@ public:
   using typename Superclass::ParametersType;
   using typename Superclass::ParametersValueType;
 
-  itkTypeMacro(ObjectToObjectOptimizerBaseTestMetric, ObjectToObjectMetricBase);
+  itkOverrideGetNameOfClassMacro(ObjectToObjectOptimizerBaseTestMetric);
 
   itkNewMacro(Self);
 
@@ -123,7 +123,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectOptimizerBaseTestOptimizer, ObjectToObjectOptimizerBase);
+  itkOverrideGetNameOfClassMacro(ObjectToObjectOptimizerBaseTestOptimizer);
 
   /* Provide initialization for this class */
   void

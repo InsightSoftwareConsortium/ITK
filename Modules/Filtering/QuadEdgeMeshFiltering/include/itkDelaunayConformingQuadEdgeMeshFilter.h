@@ -91,7 +91,7 @@ public:
   static constexpr unsigned int OutputVDimension = OutputMeshType::PointDimension;
 
   itkNewMacro(Self);
-  itkTypeMacro(DelaunayConformingQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(DelaunayConformingQuadEdgeMeshFilter);
 
   itkGetConstMacro(NumberOfEdgeFlips, SizeValueType);
 

@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GDCMSeriesFileNames, ProcessObject);
+  itkOverrideGetNameOfClassMacro(GDCMSeriesFileNames);
 
   /* -------- Define the API for GDCMSeriesFileNames ----------- */
 

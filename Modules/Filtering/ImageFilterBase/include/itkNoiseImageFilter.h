@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NoiseImageFilter, BoxImageFilter);
+  itkOverrideGetNameOfClassMacro(NoiseImageFilter);
 
   /** Image type alias support */
   using InputPixelType = typename InputImageType::PixelType;

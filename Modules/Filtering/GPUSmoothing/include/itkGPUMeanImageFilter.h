@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUMeanImageFilter, GPUBoxImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUMeanImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageRegionType;
@@ -125,7 +125,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUMeanImageFilterFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(GPUMeanImageFilterFactory);
 
   /** Register one factory of this type  */
   static void

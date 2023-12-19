@@ -88,7 +88,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ParametricBlindLeastSquaresDeconvolutionImageFilter, IterativeDeconvolutionImageFilter);
+  itkOverrideGetNameOfClassMacro(ParametricBlindLeastSquaresDeconvolutionImageFilter);
 
   /** Set/get the parametric kernel source. */
   void

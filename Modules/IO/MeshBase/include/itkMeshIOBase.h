@@ -97,7 +97,7 @@ public:
   {};
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeshIOBase, LightProcessObject);
+  itkOverrideGetNameOfClassMacro(MeshIOBase);
 
   /** Set/Get the name of the file to be read. */
   itkSetStringMacro(FileName);

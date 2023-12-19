@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleFunctionDilateImageFilter, MorphologyImageFilter);
+  itkOverrideGetNameOfClassMacro(GrayscaleFunctionDilateImageFilter);
 
   /** Declaration of pixel type. */
   using typename Superclass::PixelType;

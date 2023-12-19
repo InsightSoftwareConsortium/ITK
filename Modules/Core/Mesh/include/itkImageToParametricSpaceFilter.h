@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToParametricSpaceFilter, ImageToMeshFilter);
+  itkOverrideGetNameOfClassMacro(ImageToParametricSpaceFilter);
 
   /** Some type alias associated with the input images. */
   using InputImageType = TInputImage;

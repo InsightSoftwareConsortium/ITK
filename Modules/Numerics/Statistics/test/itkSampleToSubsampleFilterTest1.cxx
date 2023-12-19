@@ -40,7 +40,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(SubsamplerTester, SampleToSubsampleFilter);
+  itkOverrideGetNameOfClassMacro(SubsamplerTester);
   itkNewMacro(Self);
 
 protected:

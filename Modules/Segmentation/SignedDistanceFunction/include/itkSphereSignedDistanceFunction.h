@@ -54,7 +54,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SphereSignedDistanceFunction, ShapeSignedDistancFunction);
+  itkOverrideGetNameOfClassMacro(SphereSignedDistanceFunction);
 
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);

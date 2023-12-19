@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ShapeUniqueLabelMapFilter, InPlaceLabelMapFilter);
+  itkOverrideGetNameOfClassMacro(ShapeUniqueLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ConvertLabelMapFilter, LabelMapFilter);
+  itkOverrideGetNameOfClassMacro(ConvertLabelMapFilter);
 
 protected:
   ConvertLabelMapFilter() = default;

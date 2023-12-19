@@ -64,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TimeVaryingVelocityFieldTransform, VelocityFieldTransform);
+  itkOverrideGetNameOfClassMacro(TimeVaryingVelocityFieldTransform);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);

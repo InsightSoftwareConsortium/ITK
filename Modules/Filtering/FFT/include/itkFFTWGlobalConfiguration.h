@@ -213,7 +213,7 @@ public:
   using MutexType = std::mutex;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWGlobalConfiguration, Object);
+  itkOverrideGetNameOfClassMacro(FFTWGlobalConfiguration);
 
   /** Get the mutex that protects calls to FFTW functions. */
   static std::mutex &

@@ -95,7 +95,7 @@ public:
 
 public:
   /** Standard part of every itk Object. */
-  itkTypeMacro(QuadEdgeMeshLineCell, TCellInterface);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshLineCell);
 
   // accessor to the new QEGeom link that replaces now inheritance.
   QEType *

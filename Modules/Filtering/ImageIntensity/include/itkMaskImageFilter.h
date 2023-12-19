@@ -164,7 +164,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MaskImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(MaskImageFilter);
 
   /** Typedefs **/
   using MaskImageType = TMaskImage;

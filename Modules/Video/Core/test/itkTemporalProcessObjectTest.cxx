@@ -212,7 +212,7 @@ public:
 
   /** Class macros */
   itkNewMacro(Self);
-  itkTypeMacro(DummyTemporalDataObject, TemporalDataObject);
+  itkOverrideGetNameOfClassMacro(DummyTemporalDataObject);
 
   /** Override update for debug output */
   void
@@ -318,7 +318,7 @@ public:
 
   /** Class macros */
   itkNewMacro(Self);
-  itkTypeMacro(DummyTemporalProcessObject, TemporalProcessObject);
+  itkOverrideGetNameOfClassMacro(DummyTemporalProcessObject);
 
   // Required implementations
 

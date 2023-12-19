@@ -105,7 +105,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NormalVariateGenerator, RandomVariateGeneratorBase);
+  itkOverrideGetNameOfClassMacro(NormalVariateGenerator);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

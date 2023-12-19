@@ -48,7 +48,7 @@ public:
   using typename Superclass::OriginType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(EuclideanDistanceMetric, DistanceMetric);
+  itkOverrideGetNameOfClassMacro(EuclideanDistanceMetric);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

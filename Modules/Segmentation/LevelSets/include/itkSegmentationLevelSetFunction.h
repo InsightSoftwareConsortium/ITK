@@ -56,7 +56,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(SegmentationLevelSetFunction, LevelSetFunction);
+  itkOverrideGetNameOfClassMacro(SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   using typename Superclass::ImageType;

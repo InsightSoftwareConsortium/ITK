@@ -66,7 +66,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform);
+  itkOverrideGetNameOfClassMacro(GaussianExponentialDiffeomorphicTransform);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);

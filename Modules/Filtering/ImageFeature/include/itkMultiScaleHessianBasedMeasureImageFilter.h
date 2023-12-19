@@ -129,7 +129,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MultiScaleHessianBasedMeasureImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MultiScaleHessianBasedMeasureImageFilter);
 
   /** Set/Get macros for SigmaMin */
   itkSetMacro(SigmaMinimum, double);

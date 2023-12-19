@@ -56,7 +56,7 @@ public:
     return new JPEGImageIOFactory;
   }
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JPEGImageIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(JPEGImageIOFactory);
 
   /** Register one factory of this type  */
   static void

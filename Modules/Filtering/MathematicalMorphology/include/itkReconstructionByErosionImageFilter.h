@@ -98,7 +98,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ReconstructionByErosionImageFilter, ReconstructionImageFilter);
+  itkOverrideGetNameOfClassMacro(ReconstructionByErosionImageFilter);
 
 protected:
   ReconstructionByErosionImageFilter() { this->m_MarkerValue = NumericTraits<typename TOutputImage::PixelType>::max(); }

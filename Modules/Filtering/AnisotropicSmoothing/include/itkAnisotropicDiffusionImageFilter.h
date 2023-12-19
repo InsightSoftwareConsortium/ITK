@@ -83,7 +83,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information. */
-  itkTypeMacro(AnisotropicDiffusionImageFilter, DenseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(AnisotropicDiffusionImageFilter);
 
   /** Capture information from the superclass. */
   using typename Superclass::InputImageType;

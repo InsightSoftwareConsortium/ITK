@@ -80,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RegionalMinimaImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(RegionalMinimaImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

@@ -86,7 +86,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(InPlaceImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(InPlaceImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageType;

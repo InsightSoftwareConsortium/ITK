@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetToSpatialObjectDemonsRegistration, ProcessObject);
+  itkOverrideGetNameOfClassMacro(PointSetToSpatialObjectDemonsRegistration);
 
   /**  Type of the Fixed PointSet. */
   using FixedPointSetType = TFixedPointSet;

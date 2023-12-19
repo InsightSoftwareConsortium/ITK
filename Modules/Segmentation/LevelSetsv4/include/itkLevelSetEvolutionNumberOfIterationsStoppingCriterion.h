@@ -44,7 +44,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LevelSetEvolutionNumberOfIterationsStoppingCriterion, LevelSetEvolutionStoppingCriterion);
+  itkOverrideGetNameOfClassMacro(LevelSetEvolutionNumberOfIterationsStoppingCriterion);
 
   using LevelSetContainerType = TLevelSetContainer;
   using LevelSetContainerPointer = typename LevelSetContainerType::Pointer;

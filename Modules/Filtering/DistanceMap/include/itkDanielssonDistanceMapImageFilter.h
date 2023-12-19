@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DanielssonDistanceMapImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(DanielssonDistanceMapImageFilter);
 
   /** Type for input image. */
   using InputImageType = TInputImage;

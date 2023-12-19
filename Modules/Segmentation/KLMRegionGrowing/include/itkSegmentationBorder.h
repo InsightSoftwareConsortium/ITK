@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SegmentationBorder, Object);
+  itkOverrideGetNameOfClassMacro(SegmentationBorder);
 
   /** Set/Get the length of a border object. */
   itkSetMacro(BorderLength, double);

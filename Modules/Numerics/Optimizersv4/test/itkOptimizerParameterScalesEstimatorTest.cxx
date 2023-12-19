@@ -34,7 +34,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(OptimizerParameterScalesEstimatorTest, OptimizerParameterScalesEstimator);
+  itkOverrideGetNameOfClassMacro(OptimizerParameterScalesEstimatorTest);
 
   /** Estimate parameter scales */
   void

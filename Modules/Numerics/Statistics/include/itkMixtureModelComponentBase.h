@@ -64,7 +64,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /**Standard Macros */
-  itkTypeMacro(MixtureModelComponentBase, Object);
+  itkOverrideGetNameOfClassMacro(MixtureModelComponentBase);
 
   using MeasurementVectorType = typename TSample::MeasurementVectorType;
   using MeasurementVectorSizeType = typename TSample::MeasurementVectorSizeType;

@@ -91,7 +91,7 @@ public:
   using typename Superclass::AccessorType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageScanlineConstIterator, ImageConstIterator);
+  itkOverrideGetNameOfClassMacro(ImageScanlineConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageScanlineConstIterator()

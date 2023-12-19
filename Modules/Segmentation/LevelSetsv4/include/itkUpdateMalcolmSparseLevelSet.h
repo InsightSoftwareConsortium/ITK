@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(UpdateMalcolmSparseLevelSet, Object);
+  itkOverrideGetNameOfClassMacro(UpdateMalcolmSparseLevelSet);
 
   static constexpr unsigned int ImageDimension = VDimension;
 

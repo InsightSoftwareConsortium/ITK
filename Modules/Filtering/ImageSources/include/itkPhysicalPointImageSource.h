@@ -58,7 +58,7 @@ public:
   using SizeType = typename RegionType::SizeType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhysicalPointImageSource, GenerateImageSource);
+  itkOverrideGetNameOfClassMacro(PhysicalPointImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

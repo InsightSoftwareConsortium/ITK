@@ -104,7 +104,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AbsoluteValueDifferenceImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(AbsoluteValueDifferenceImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

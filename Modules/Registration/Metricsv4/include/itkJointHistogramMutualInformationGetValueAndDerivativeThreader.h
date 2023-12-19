@@ -45,8 +45,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(JointHistogramMutualInformationGetValueAndDerivativeThreader,
-               ImageToImageMetricv4GetValueAndDerivativeThreader);
+  itkOverrideGetNameOfClassMacro(JointHistogramMutualInformationGetValueAndDerivativeThreader);
 
   itkNewMacro(Self);
 

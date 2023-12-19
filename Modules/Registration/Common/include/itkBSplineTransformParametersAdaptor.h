@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineTransformParametersAdaptor, TransformParametersAdaptor);
+  itkOverrideGetNameOfClassMacro(BSplineTransformParametersAdaptor);
 
   /** Typedefs associated with the transform */
   using TransformType = TTransform;

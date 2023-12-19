@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(YenThresholdImageFilter, HistogramThresholdImageFilter);
+  itkOverrideGetNameOfClassMacro(YenThresholdImageFilter);
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;

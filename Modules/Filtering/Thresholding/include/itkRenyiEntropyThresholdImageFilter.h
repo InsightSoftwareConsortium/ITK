@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RenyiEntropyThresholdImageFilter, HistogramThresholdImageFilter);
+  itkOverrideGetNameOfClassMacro(RenyiEntropyThresholdImageFilter);
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;

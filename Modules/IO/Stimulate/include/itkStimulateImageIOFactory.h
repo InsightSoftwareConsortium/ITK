@@ -60,7 +60,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(StimulateImageIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(StimulateImageIOFactory);
 
   /** Register one factory of this type  */
   static void

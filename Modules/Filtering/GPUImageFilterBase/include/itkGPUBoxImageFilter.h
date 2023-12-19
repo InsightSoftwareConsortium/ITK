@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GPUBoxImageFilter, GPUImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUBoxImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

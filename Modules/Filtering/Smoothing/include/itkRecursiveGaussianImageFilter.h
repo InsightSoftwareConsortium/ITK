@@ -115,7 +115,7 @@ public:
   itkNewMacro(Self);
 
   /** Type macro that defines a name for this class */
-  itkTypeMacro(RecursiveGaussianImageFilter, RecursiveSeparableImageFilter);
+  itkOverrideGetNameOfClassMacro(RecursiveGaussianImageFilter);
 
   /** Set/Get the Sigma, measured in world coordinates, of the Gaussian
    * kernel.  The default is 1.0. An exception will be generated if

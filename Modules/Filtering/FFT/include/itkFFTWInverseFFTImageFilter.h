@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWInverseFFTImageFilter, InverseFFTImageFilter);
+  itkOverrideGetNameOfClassMacro(FFTWInverseFFTImageFilter);
 
   /** Define the image dimension. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;

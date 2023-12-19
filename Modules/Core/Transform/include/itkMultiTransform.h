@@ -72,7 +72,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiTransform, Transform);
+  itkOverrideGetNameOfClassMacro(MultiTransform);
 
   /** Sub transform type **/
   using TransformType = Transform<TParametersValueType, VSubDimensions, VSubDimensions>;

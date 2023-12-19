@@ -125,7 +125,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MergeLabelMapFilter, InPlaceLabelMapFilter);
+  itkOverrideGetNameOfClassMacro(MergeLabelMapFilter);
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** Enables backwards compatibility for enum values */

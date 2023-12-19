@@ -80,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShrinkImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ShrinkImageFilter);
 
   /** Typedef to images */
   using OutputImageType = TOutputImage;

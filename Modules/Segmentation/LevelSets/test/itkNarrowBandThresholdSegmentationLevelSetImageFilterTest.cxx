@@ -83,7 +83,7 @@ public:
   using Superclass = Command;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
-  itkTypeMacro(NBRMSCommand, Command);
+  itkOverrideGetNameOfClassMacro(NBRMSCommand);
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */

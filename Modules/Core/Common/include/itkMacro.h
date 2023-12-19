@@ -537,7 +537,7 @@ OutputWindowDisplayDebugText(const char *);
     static constexpr const char * const default_exception_message = whatmessage;     \
     /* Inherit the constructors from its base class. */                              \
     using parentexcp::parentexcp;                                                    \
-    itkTypeMacro(newexcp, parentexcp);                                               \
+    itkOverrideGetNameOfClassMacro(newexcp);                                         \
   };                                                                                 \
   }                                                                                  \
   ITK_MACROEND_NOOP_STATEMENT

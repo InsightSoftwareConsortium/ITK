@@ -44,7 +44,7 @@ public:
   using Superclass = Object;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(QuadEdgeMeshDecimationCriterion, Object);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshDecimationCriterion);
 
   using MeshType = TMesh;
   using ElementType = TElement;
@@ -123,7 +123,7 @@ public:
   using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(NumberOfPointsCriterion, QuadEdgeMeshDecimationCriterion);
+  itkOverrideGetNameOfClassMacro(NumberOfPointsCriterion);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -167,7 +167,7 @@ public:
   using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(NumberOfFacesCriterion, QuadEdgeMeshDecimationCriterion);
+  itkOverrideGetNameOfClassMacro(NumberOfFacesCriterion);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -214,7 +214,7 @@ public:
   using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(MaxMeasureBoundCriterion, QuadEdgeMeshDecimationCriterion);
+  itkOverrideGetNameOfClassMacro(MaxMeasureBoundCriterion);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -263,7 +263,7 @@ public:
   using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(MinMeasureBoundCriterion, QuadEdgeMeshDecimationCriterion);
+  itkOverrideGetNameOfClassMacro(MinMeasureBoundCriterion);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);

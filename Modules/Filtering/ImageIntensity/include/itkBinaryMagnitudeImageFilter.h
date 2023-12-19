@@ -99,7 +99,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryMagnitudeImageFilter, BinaryGeneratorImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryMagnitudeImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

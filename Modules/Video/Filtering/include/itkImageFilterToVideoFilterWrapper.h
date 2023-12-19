@@ -59,7 +59,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(ImageFilterToVideoFilterWrapper, VideoToVideoFilter);
+  itkOverrideGetNameOfClassMacro(ImageFilterToVideoFilterWrapper);
 
   /** Set the filter to use in the internal pipeline */
   itkSetObjectMacro(ImageFilter, ImageFilterType);

@@ -97,7 +97,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BayesianClassifierInitializationImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BayesianClassifierInitializationImageFilter);
 
   /** Input image iterators */
   using InputImageIteratorType = ImageRegionConstIterator<InputImageType>;

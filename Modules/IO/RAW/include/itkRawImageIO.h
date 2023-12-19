@@ -60,7 +60,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RawImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(RawImageIO);
 
   /** Pixel type alias support Used to declare pixel type in filters
    * or other operations. */
@@ -206,7 +206,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RawImageIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(RawImageIOFactory);
 
   /** Register one factory of this type  */
   static void

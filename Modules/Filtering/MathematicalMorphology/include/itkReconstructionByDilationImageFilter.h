@@ -100,7 +100,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ReconstructionByDilationImageFilter, ReconstructionImageFilter);
+  itkOverrideGetNameOfClassMacro(ReconstructionByDilationImageFilter);
 
 protected:
   ReconstructionByDilationImageFilter()

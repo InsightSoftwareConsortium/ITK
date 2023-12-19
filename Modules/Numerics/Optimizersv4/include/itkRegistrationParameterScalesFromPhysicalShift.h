@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegistrationParameterScalesFromPhysicalShift, RegistrationParameterScalesFromShiftBase);
+  itkOverrideGetNameOfClassMacro(RegistrationParameterScalesFromPhysicalShift);
 
   /** Type of scales */
   using typename Superclass::ScalesType;

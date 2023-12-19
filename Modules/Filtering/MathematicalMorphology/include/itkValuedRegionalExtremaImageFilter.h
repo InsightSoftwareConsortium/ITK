@@ -106,7 +106,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ValuedRegionalExtremaImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ValuedRegionalExtremaImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

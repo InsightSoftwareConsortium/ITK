@@ -83,7 +83,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DataObjectDecorator, DataObject);
+  itkOverrideGetNameOfClassMacro(DataObjectDecorator);
 
   /** Set the contained object */
   virtual void

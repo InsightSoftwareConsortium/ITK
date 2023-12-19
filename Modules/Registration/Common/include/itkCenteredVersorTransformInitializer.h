@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CenteredVersorTransformInitializer, CenteredTransformInitializer);
+  itkOverrideGetNameOfClassMacro(CenteredVersorTransformInitializer);
 
   /** Type of the transform to initialize */
   using typename Superclass::TransformType;

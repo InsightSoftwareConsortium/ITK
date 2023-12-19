@@ -53,7 +53,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadNode, Load);
+  itkOverrideGetNameOfClassMacro(LoadNode);
 
   using Float = Element::Node::Float;
 

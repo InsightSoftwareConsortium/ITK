@@ -86,7 +86,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(PDEDeformableRegistrationFilter, DenseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(PDEDeformableRegistrationFilter);
 
   /** FixedImage image type. */
   using FixedImageType = TFixedImage;

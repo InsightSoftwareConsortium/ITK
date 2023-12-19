@@ -91,7 +91,7 @@ public:
   using InputImageType = TInputImage;
   using InternalImageType = TInternalImage;
 
-  itkTypeMacro(SymmetricEigenAnalysisImageFilterHelper, SymmetricEigenAnalysisImageFilter);
+  itkOverrideGetNameOfClassMacro(SymmetricEigenAnalysisImageFilterHelper);
 
   itkNewMacro(Self);
 
@@ -199,7 +199,7 @@ public:
   using InternalImageType = TInternalImage;
   using OutputImageType = TOutputImage;
 
-  itkTypeMacro(SymmetricEigenAnalysisFixedDimensionImageFilterHelper, SymmetricEigenAnalysisFixedDimensionImageFilter);
+  itkOverrideGetNameOfClassMacro(SymmetricEigenAnalysisFixedDimensionImageFilterHelper);
   itkNewMacro(Self);
 
   static int

@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BMPImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(BMPImageIO);
 
   /** Getter for the FileLowerLeft attribute. */
   itkGetConstMacro(FileLowerLeft, bool);

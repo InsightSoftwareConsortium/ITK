@@ -57,7 +57,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MRIBiasEnergyFunction, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(MRIBiasEnergyFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -243,7 +243,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MRIBiasFieldCorrectionFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MRIBiasFieldCorrectionFilter);
 
   /** The dimension of the image. */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;

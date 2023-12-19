@@ -77,7 +77,7 @@ public:
   // itkNewMacro() is not provided since this is an abstract class.
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(RegionBasedLevelSetFunction, FiniteDifferenceFunction);
+  itkOverrideGetNameOfClassMacro(RegionBasedLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   using TimeStepType = double;

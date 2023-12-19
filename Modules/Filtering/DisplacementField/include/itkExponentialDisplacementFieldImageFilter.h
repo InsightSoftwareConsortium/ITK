@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExponentialDisplacementFieldImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ExponentialDisplacementFieldImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

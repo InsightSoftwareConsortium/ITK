@@ -48,7 +48,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(OptimizerParameterScalesEstimatorTemplate, Object);
+  itkOverrideGetNameOfClassMacro(OptimizerParameterScalesEstimatorTemplate);
 
   /** Type of scales */
   using ScalesType = OptimizerParameters<TInternalComputationValueType>;

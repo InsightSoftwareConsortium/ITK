@@ -85,7 +85,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(WhiteTopHatImageFilter, KernelImageFilter);
+  itkOverrideGetNameOfClassMacro(WhiteTopHatImageFilter);
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */

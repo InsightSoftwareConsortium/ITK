@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(InteriorExteriorMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(InteriorExteriorMeshFilter);
 
   /** Get/Set the spatial function. */
   itkSetObjectMacro(SpatialFunction, SpatialFunctionType);

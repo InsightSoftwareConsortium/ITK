@@ -75,7 +75,7 @@ public:
   using OutputImageType = TOutputImage;
 
   /** Runtime information support. */
-  itkTypeMacro(StochasticFractalDimensionImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(StochasticFractalDimensionImageFilter);
 
   /** Set/Get the input mask image that will constraint the computation of the
    * fractal dimension to pixels that are on in the mask. This is intended to

@@ -92,7 +92,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineInterpolateImageFunction, InterpolateImageFunction);
+  itkOverrideGetNameOfClassMacro(BSplineInterpolateImageFunction);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);

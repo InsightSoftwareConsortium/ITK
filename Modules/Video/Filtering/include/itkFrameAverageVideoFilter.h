@@ -56,7 +56,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(FrameAverageVideoFilter, VideoToVideoFilter);
+  itkOverrideGetNameOfClassMacro(FrameAverageVideoFilter);
 
   /** Get/Set the number of frames to average over */
   void

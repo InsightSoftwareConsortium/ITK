@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ThresholdMaximumConnectedComponentsImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ThresholdMaximumConnectedComponentsImageFilter);
 
   /** Typedef to describe the type of pixel. */
   using PixelType = typename TInputImage::PixelType;

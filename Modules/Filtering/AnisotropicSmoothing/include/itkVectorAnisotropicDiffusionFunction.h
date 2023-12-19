@@ -62,7 +62,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(VectorAnisotropicDiffusionFunction, AnisotropicDiffusionFunction);
+  itkOverrideGetNameOfClassMacro(VectorAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type */
   using typename Superclass::ImageType;

@@ -117,7 +117,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MattesMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
+  itkOverrideGetNameOfClassMacro(MattesMutualInformationImageToImageMetricv4);
 
   /** Superclass types */
   using typename Superclass::MeasureType;

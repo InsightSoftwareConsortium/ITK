@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DOMTextNode, DOMNode);
+  itkOverrideGetNameOfClassMacro(DOMTextNode);
 
   /** Functions to set/get the enclosed text of this node. */
   itkSetMacro(Text, const std::string &);

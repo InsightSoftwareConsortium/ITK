@@ -114,7 +114,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CurvatureRegistrationFilter, PDEDeformableRegistrationFilter);
+  itkOverrideGetNameOfClassMacro(CurvatureRegistrationFilter);
 
   /** Inherit types from superclass. */
   using typename Superclass::TimeStepType;

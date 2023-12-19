@@ -121,7 +121,7 @@ public:
   using CurvesFunctionPointer = typename CurvesFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CurvesLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(CurvesLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

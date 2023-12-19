@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VideoFileWriter, TemporalProcessObject);
+  itkOverrideGetNameOfClassMacro(VideoFileWriter);
 
 
   /** Specify the file to read. This is forwarded to the IO instance. */

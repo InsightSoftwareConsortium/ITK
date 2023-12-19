@@ -51,7 +51,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information */
-  itkTypeMacro(LevelSetBase, DataObject);
+  itkOverrideGetNameOfClassMacro(LevelSetBase);
 
   static constexpr unsigned int Dimension = VDimension;
 

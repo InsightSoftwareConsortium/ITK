@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HistogramToImageFilter, ImageSource);
+  itkOverrideGetNameOfClassMacro(HistogramToImageFilter);
 
   /** Superclass type alias. */
   using typename Superclass::OutputImageRegionType;

@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiResolutionImageRegistrationMethod, ProcessObject);
+  itkOverrideGetNameOfClassMacro(MultiResolutionImageRegistrationMethod);
 
   /**  Type of the Fixed image. */
   using FixedImageType = TFixedImage;

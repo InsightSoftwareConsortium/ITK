@@ -73,7 +73,7 @@ public:
 
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Rigid3DTransform, Rigid3DTransform);
+  itkOverrideGetNameOfClassMacro(Rigid3DTransform);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);

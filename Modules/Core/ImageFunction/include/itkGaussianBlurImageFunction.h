@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianBlurImageFunction, ImageFunction);
+  itkOverrideGetNameOfClassMacro(GaussianBlurImageFunction);
 
   /** InputImageType type alias support */
   using InputImageType = TInputImage;

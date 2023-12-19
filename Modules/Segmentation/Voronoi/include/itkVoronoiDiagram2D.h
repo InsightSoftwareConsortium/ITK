@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(VoronoiDiagram2D, Mesh);
+  itkOverrideGetNameOfClassMacro(VoronoiDiagram2D);
 
   /** Define the mesh traits. */
   using MeshTraits = DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType>;

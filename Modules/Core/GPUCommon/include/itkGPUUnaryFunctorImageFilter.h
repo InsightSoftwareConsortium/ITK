@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUUnaryFunctorImageFilter, GPUInPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUUnaryFunctorImageFilter);
 
   /** Some type alias. */
   using FunctorType = TFunction;

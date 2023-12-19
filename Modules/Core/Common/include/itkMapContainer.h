@@ -56,7 +56,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard part of every itk Object. */
-  itkTypeMacro(MapContainer, Object);
+  itkOverrideGetNameOfClassMacro(MapContainer);
 
   /** Save the template parameters. */
   using ElementIdentifier = TElementIdentifier;

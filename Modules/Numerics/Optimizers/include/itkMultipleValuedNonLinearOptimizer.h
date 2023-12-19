@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultipleValuedNonLinearOptimizer, NonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(MultipleValuedNonLinearOptimizer);
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */

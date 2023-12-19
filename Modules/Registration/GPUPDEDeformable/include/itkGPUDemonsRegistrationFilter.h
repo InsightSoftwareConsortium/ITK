@@ -86,7 +86,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUDemonsRegistrationFilter, GPUPDEDeformableRegistrationFilter);
+  itkOverrideGetNameOfClassMacro(GPUDemonsRegistrationFilter);
 
   /** Inherit types from GPUSuperclass. */
   using TimeStepType = typename GPUSuperclass::TimeStepType;
@@ -178,7 +178,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUDemonsRegistrationFilterFactory, itk::ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(GPUDemonsRegistrationFilterFactory);
 
   /** Register one factory of this type  */
   static void

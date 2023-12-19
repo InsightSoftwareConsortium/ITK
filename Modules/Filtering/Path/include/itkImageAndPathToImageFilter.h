@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageAndPathToImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ImageAndPathToImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(DiscreteGradientMagnitudeGaussianImageFunction, ImageFunction);
+  itkOverrideGetNameOfClassMacro(DiscreteGradientMagnitudeGaussianImageFunction);
 
   /** Image dependent types */
   using typename Superclass::InputImageType;

@@ -36,7 +36,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
-  itkTypeMacro(MyDistanceMetric, DistanceMetric);
+  itkOverrideGetNameOfClassMacro(MyDistanceMetric);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

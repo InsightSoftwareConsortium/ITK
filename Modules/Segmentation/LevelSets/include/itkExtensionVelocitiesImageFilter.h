@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExtensionVelocitiesImageFilter, ReinitializeLevelSetImageFilter);
+  itkOverrideGetNameOfClassMacro(ExtensionVelocitiesImageFilter);
 
   /** The type of level set and the pointer type. */
   using LevelSetType = LevelSetTypeDefault<TLevelSet>;

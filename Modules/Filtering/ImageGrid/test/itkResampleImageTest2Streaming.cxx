@@ -48,7 +48,7 @@ public:
   itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NonlinearAffineTransform, AffineTransform);
+  itkOverrideGetNameOfClassMacro(NonlinearAffineTransform);
 
   /** Override this so not linear. See test below. */
   typename itk::TransformBaseTemplate<TCoordRepType>::TransformCategoryEnum

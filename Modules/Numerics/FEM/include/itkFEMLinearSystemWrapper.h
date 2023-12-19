@@ -551,7 +551,7 @@ public:
   ~FEMExceptionLinearSystem() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionLinearSystem, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionLinearSystem);
 };
 
 class ITK_ABI_EXPORT FEMExceptionLinearSystemBounds : public FEMException
@@ -583,7 +583,7 @@ public:
   ~FEMExceptionLinearSystemBounds() noexcept override;
 
   /** Type related information. */
-  itkTypeMacro(FEMExceptionLinearSystem, FEMException);
+  itkOverrideGetNameOfClassMacro(FEMExceptionLinearSystem);
 };
 } // end namespace fem
 } // end namespace itk

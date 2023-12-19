@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(OrthogonalSwath2DPathFilter, PathAndImageToPathFilter);
+  itkOverrideGetNameOfClassMacro(OrthogonalSwath2DPathFilter);
 
   /** Some convenient type alias. */
   using InputPathType = TFourierSeriesPath;

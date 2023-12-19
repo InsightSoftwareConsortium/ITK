@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ProjectedIterativeDeconvolutionImageFilter, IterativeDeconvolutionImageFilter);
+  itkOverrideGetNameOfClassMacro(ProjectedIterativeDeconvolutionImageFilter);
 
 protected:
   ProjectedIterativeDeconvolutionImageFilter();

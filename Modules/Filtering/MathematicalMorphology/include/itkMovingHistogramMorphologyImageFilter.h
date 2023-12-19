@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MovingHistogramMorphologyImageFilter, MovingHistogramImageFilter);
+  itkOverrideGetNameOfClassMacro(MovingHistogramMorphologyImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

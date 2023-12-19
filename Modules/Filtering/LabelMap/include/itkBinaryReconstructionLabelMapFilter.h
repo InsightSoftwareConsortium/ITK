@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryReconstructionLabelMapFilter, InPlaceLabelMapFilter);
+  itkOverrideGetNameOfClassMacro(BinaryReconstructionLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

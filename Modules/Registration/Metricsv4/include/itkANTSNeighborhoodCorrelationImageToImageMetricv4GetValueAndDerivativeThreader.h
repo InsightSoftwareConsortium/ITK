@@ -67,8 +67,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader,
-               ImageToImageMetricv4GetValueAndDerivativeThreader);
+  itkOverrideGetNameOfClassMacro(ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader);
 
   itkNewMacro(Self);
 

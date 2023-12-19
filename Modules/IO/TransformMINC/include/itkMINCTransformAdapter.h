@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MINCTransformAdapter, Transform);
+  itkOverrideGetNameOfClassMacro(MINCTransformAdapter);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int InputSpaceDimension = VInputDimension;
