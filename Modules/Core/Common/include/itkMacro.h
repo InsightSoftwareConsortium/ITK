@@ -444,9 +444,24 @@ namespace itk
   const char * GetNameOfClass() const override { return #thisClass; } \
   ITK_MACROEND_NOOP_STATEMENT
 
-/** Macro used to add standard methods to all classes, mainly type information. */
-#define itkTypeMacro(thisClass, superclass) itkOverrideGetNameOfClassMacro(thisClass)
-#define itkTypeMacroNoParent(thisClass) itkVirtualGetNameOfClassMacro(thisClass)
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+#  define itkTypeMacro(thisClass, superclass)                                                                      \
+    static_assert(false,                                                                                           \
+                  "In a future revision of ITK, the macro `itkTypeMacro(thisClass, superclass)` will be removed. " \
+                  "Please call `itkOverrideGetNameOfClassMacro(thisClass)` instead!")
+#  define itkTypeMacroNoParent(thisClass)                                                                      \
+    static_assert(false,                                                                                       \
+                  "In a future revision of ITK, the macro `itkTypeMacroNoParent(thisClass)` will be removed. " \
+                  "Please call `itkVirtualGetNameOfClassMacro(thisClass)` instead!")
+#else
+/** Legacy macro's to add or override a `GetNameOfClass()` member function.
+ * \deprecated Instead of `itkTypeMacro`, it is preferred to call `itkOverrideGetNameOfClassMacro` (without `superclass`
+ * argument). Instead of `itkTypeMacroNoParent`, it is preferred to call `itkVirtualGetNameOfClassMacro`.
+ */
+#  define itkTypeMacro(thisClass, superclass) itkOverrideGetNameOfClassMacro(thisClass)
+#  define itkTypeMacroNoParent(thisClass) itkVirtualGetNameOfClassMacro(thisClass)
+#endif
+
 
 namespace itk
 {
