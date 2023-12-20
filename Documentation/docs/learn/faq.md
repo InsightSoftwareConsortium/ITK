@@ -346,7 +346,7 @@ be summarized as follows:
  guidelines for the development of software-related medical devices."
 ```
 
-For mode details see the page [FDA Guidelines for Software Developement](fda_off_the_shelf_sw_guidelines.md).
+For mode details see the page [FDA guidelines for software development](fda_sw_development_guidelines.md).
 
 ## Using ITK
 
