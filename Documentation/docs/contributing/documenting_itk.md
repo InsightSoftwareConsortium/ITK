@@ -14,12 +14,12 @@ https://itk.org/Doxygen53/html/index.html.
 Generating a complete Doxygen documentation requires (besides CMake and
 the ITK source code):
 
-- [**Doxygen**](https://www.doxygen.nl/)
-- [**LaTeX**](https://www.latex-project.org/) for formulas
+- [Doxygen](https://www.doxygen.nl/)
+- [LaTeX](https://www.latex-project.org/) for formulas
 
 Preferable:
 
-- [**Dot**](https://graphviz.org/doc/info/lang.html) from [GraphViz](https://graphviz.org/)
+- [Dot](https://graphviz.org/doc/info/lang.html) from [GraphViz](https://graphviz.org/)
   for generating inheritance and dependency graphs.
 
 ## Generating the Doxygen documentation
