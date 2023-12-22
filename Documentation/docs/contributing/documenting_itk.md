@@ -110,8 +110,8 @@ int Method1(PixelType iP1, unsigned int iValue, unsigned int& oValue, PixelType&
 The most common Doxygen commands used to document methods and functions
 in ITK are:
 
-- [`\param`][https://www.doxygen.nl/manual/commands.html#cmdparam)
-- [`\return`][https://www.doxygen.nl/manual/commands.html#cmdreturn)
+- [`\param`](https://www.doxygen.nl/manual/commands.html#cmdparam)
+- [`\return`](https://www.doxygen.nl/manual/commands.html#cmdreturn)
 
 ### Creating links to ITK examples
 
