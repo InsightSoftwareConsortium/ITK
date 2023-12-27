@@ -161,7 +161,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkOverrideGetNameOfClassMacro(amoebaTestF1);
+  itkOverrideGetNameOfClassMacro(amoebaTestF2);
 
   using ParametersType = Superclass::ParametersType;
   using MeasureType = Superclass::MeasureType;
