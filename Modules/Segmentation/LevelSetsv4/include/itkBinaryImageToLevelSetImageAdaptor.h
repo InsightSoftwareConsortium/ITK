@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkOverrideGetNameOfClassMacro(BinaryImageToLevelSetImageAdaptorBase);
+  itkOverrideGetNameOfClassMacro(BinaryImageToLevelSetImageAdaptor);
 
   using InputImageType = TInputImage;
   using InputImagePixelType = typename InputImageType::PixelType;
