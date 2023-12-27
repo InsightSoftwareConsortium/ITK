@@ -196,11 +196,9 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
   }
   ScalarType weight2 = 1.0 - weight1;
 
-  using TimeVaryingVelocityFieldSizeType = typename VelocityFieldType::SizeType;
   using TimeVaryingVelocityFieldIndexType = typename VelocityFieldType::IndexType;
 
-  TimeVaryingVelocityFieldSizeType  size = field->GetLargestPossibleRegion().GetSize();
-  TimeVaryingVelocityFieldIndexType startIndex = field->GetLargestPossibleRegion().GetIndex();
+  auto [startIndex, size] = field->GetLargestPossibleRegion();
 
   ImageRegionIteratorWithIndex<VelocityFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
   ImageRegionConstIteratorWithIndex<VelocityFieldType> smoothedFieldIt(smoothField,

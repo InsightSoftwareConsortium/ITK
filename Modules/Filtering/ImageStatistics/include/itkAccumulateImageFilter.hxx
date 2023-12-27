@@ -157,8 +157,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputIterType outputIter(outputImage, outputImage->GetBufferedRegion());
   using inputIterType = ImageRegionConstIterator<TInputImage>;
 
-  typename TInputImage::SizeType  AccumulatedSize = inputImage->GetLargestPossibleRegion().GetSize();
-  typename TInputImage::IndexType AccumulatedIndex = inputImage->GetLargestPossibleRegion().GetIndex();
+  auto [AccumulatedIndex, AccumulatedSize] = inputImage->GetLargestPossibleRegion();
 
   typename TInputImage::SizeValueType  SizeAccumulateDimension = AccumulatedSize[m_AccumulateDimension];
   const auto                           sizeAccumulateDimensionDouble = static_cast<double>(SizeAccumulateDimension);

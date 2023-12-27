@@ -73,8 +73,7 @@ protected:
   CreateNarrowBand() override
   {
     // Create a band
-    typename ImageType::SizeType   sz = this->GetInput()->GetRequestedRegion().GetSize();
-    typename ImageType::IndexType  tl = this->GetInput()->GetRequestedRegion().GetIndex();
+    auto [tl, sz] = this->GetInput()->GetRequestedRegion();
     typename Superclass::IndexType in;
 
     for (in [0] = 32 + tl[0]; in[0] < tl[0] + static_cast<long>(sz[0]); in[0]++)

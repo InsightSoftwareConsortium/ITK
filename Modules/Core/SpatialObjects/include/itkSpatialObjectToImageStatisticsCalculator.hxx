@@ -161,10 +161,9 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
       ptMin[i] = bounds[i * 2];
       ptMax[i] = bounds[i * 2 + 1];
     }
-    auto      indMin = m_Image->TransformPhysicalPointToIndex(ptMin);
-    auto      indMax = m_Image->TransformPhysicalPointToIndex(ptMax);
-    IndexType imageIndex = m_Image->GetLargestPossibleRegion().GetIndex();
-    SizeType  imageSize = m_Image->GetLargestPossibleRegion().GetSize();
+    auto indMin = m_Image->TransformPhysicalPointToIndex(ptMin);
+    auto indMax = m_Image->TransformPhysicalPointToIndex(ptMax);
+    auto [imageIndex, imageSize] = m_Image->GetLargestPossibleRegion();
     for (unsigned int i = 0; i < Self::ObjectDimension; ++i)
     {
       if (indMin[i] > indMax[i])

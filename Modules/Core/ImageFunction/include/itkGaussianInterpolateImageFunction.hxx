@@ -58,8 +58,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>::ComputeBoundingBox()
 
   typename InputImageType::ConstPointer input = this->GetInputImage();
   typename InputImageType::SpacingType  spacing = input->GetSpacing();
-  typename InputImageType::IndexType    index = input->GetLargestPossibleRegion().GetIndex();
-  typename InputImageType::SizeType     size = input->GetLargestPossibleRegion().GetSize();
+  auto [index, size] = input->GetLargestPossibleRegion();
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {

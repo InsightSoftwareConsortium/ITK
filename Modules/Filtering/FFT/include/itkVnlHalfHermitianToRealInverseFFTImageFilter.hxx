@@ -41,10 +41,8 @@ VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Generate
   // reports the beginning and the end of the process.
   ProgressReporter progress(this, 0, 1);
 
-  const InputSizeType   inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const InputIndexType  inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
-  const OutputSizeType  outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
-  const OutputIndexType outputIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
+  const auto [inputIndex, inputSize] = inputPtr->GetLargestPossibleRegion();
+  const auto [outputIndex, outputSize] = outputPtr->GetLargestPossibleRegion();
 
   // Allocate output buffer memory
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());

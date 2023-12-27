@@ -350,8 +350,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActi
   ValueType       value;
   StatusType      layer_number;
 
-  typename OutputImageType::SizeType  regionSize = m_OutputImage->GetRequestedRegion().GetSize();
-  typename OutputImageType::IndexType startIndex = m_OutputImage->GetRequestedRegion().GetIndex();
+  auto [startIndex, regionSize] = m_OutputImage->GetRequestedRegion();
   using StartIndexValueType = IndexValueType;
 
   for (NeighborhoodIterator<OutputImageType> outputIt(

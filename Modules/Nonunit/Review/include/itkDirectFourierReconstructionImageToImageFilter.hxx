@@ -79,8 +79,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   }
 
   RegionType inputRegion = inputImage->GetLargestPossibleRegion();
-  IndexType  inputStart = inputRegion.GetIndex();
-  SizeType   inputSize = inputRegion.GetSize();
+  auto [inputStart, inputSize] = inputRegion;
 
   IndexType outputStart;
   SizeType  outputSize;
@@ -131,8 +130,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   // request maximum angular and radial information / to be optimized
 
-  SizeType  inputSize = inputImage->GetLargestPossibleRegion().GetSize();
-  IndexType inputStart = inputImage->GetLargestPossibleRegion().GetIndex();
+  auto [inputStart, inputSize] = inputImage->GetLargestPossibleRegion();
 
   // crop to requested z-axis
   inputSize[m_ZDirection] = outputImage->GetRequestedRegion().GetSize()[2];
@@ -162,8 +160,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   // Crop angular input image size to 180 degrees
   typename InputImageType::RegionType inputROI = m_InputRequestedRegion;
-  typename InputImageType::SizeType   inputROISize = inputROI.GetSize();
-  typename InputImageType::IndexType  inputROIStart = inputROI.GetIndex();
+  auto [inputROIStart, inputROISize] = inputROI;
 
   // the number of projections needed to cover 180 degrees
   const auto   alpha_size = Math::Floor<unsigned int>((180 * (inputROISize[m_AlphaDirection])) / m_AlphaRange);

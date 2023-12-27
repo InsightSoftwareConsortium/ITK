@@ -118,8 +118,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   tempPtr->Allocate();
 
   // How big is the input image?
-  typename TInputImage::SizeType  size = inputPtr->GetRequestedRegion().GetSize();
-  typename TInputImage::IndexType startIndex = inputPtr->GetRequestedRegion().GetIndex();
+  auto [startIndex, size] = inputPtr->GetRequestedRegion();
 
   // Iterator Typedefs for this routine
   using TempIterator = ImageRegionIterator<TTempImage>;

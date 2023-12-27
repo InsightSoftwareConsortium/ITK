@@ -45,8 +45,7 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
   // find the small dimension of the face - should only be one
   typename TRegion::IndexType ISt = AllImage.GetIndex();
 
-  typename TRegion::SizeType  FSz = face.GetSize();
-  typename TRegion::IndexType FSt = face.GetIndex();
+  auto [FSt, FSz] = face;
 
   unsigned int smallDim = 0;
   for (unsigned int i = 0; i < AllImage.GetImageDimension(); ++i)
@@ -90,13 +89,12 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
                 unsigned int &                    end)
 {
   // compute intersection between ray and box
-  typename TImage::IndexType ImStart = AllImage.GetIndex();
-  typename TImage::SizeType  ImSize = AllImage.GetSize();
-  float                      Tfar = NumericTraits<float>::max();
-  float                      Tnear = NumericTraits<float>::NonpositiveMin();
-  float                      domdir = NumericTraits<float>::NonpositiveMin();
-  int                        sPos, ePos;
-  unsigned int               perpdir = 0;
+  auto [ImStart, ImSize] = AllImage;
+  float        Tfar = NumericTraits<float>::max();
+  float        Tnear = NumericTraits<float>::NonpositiveMin();
+  float        domdir = NumericTraits<float>::NonpositiveMin();
+  int          sPos, ePos;
+  unsigned int perpdir = 0;
   for (unsigned int i = 0; i < TImage::RegionType::ImageDimension; ++i)
   {
     const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
@@ -298,16 +296,13 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   // because it doesn't return faces of the sub-blocks if they don't
   // fall along the edge of the image
   using RegionType = typename TInputImage::RegionType;
-  using SizeType = typename TInputImage::SizeType;
-  using IndexType = typename TInputImage::IndexType;
   using FaceListType = std::list<RegionType>;
   FaceListType faceList;
 
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     RegionType R1, R2;
-    SizeType   S1 = AllImage.GetSize();
-    IndexType  I2 = AllImage.GetIndex();
+    auto [I2, S1] = AllImage;
 
     S1[i] = 1;
     R1 = AllImage;
@@ -386,9 +381,8 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     }
 
     // figure out how much extra each other dimension needs to be extended
-    typename TInputImage::SizeType  NewSize = RelevantRegion.GetSize();
-    typename TInputImage::IndexType NewStart = RelevantRegion.GetIndex();
-    unsigned int                    NonFaceLen = AllImage.GetSize()[NonFaceDim];
+    auto [NewStart, NewSize] = RelevantRegion;
+    unsigned int NonFaceLen = AllImage.GetSize()[NonFaceDim];
     for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (i != NonFaceDim)

@@ -101,8 +101,7 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
   SizeType   searchSize;
   IndexType  endIndex;
 
-  IndexType constraintIndex = this->m_RegionConstraint.GetIndex();
-  SizeType  constraintSize = this->m_RegionConstraint.GetSize();
+  auto [constraintIndex, constraintSize] = this->m_RegionConstraint;
 
   IndexType                            queryIndex;
   typename RegionType::OffsetTableType offsetTable;

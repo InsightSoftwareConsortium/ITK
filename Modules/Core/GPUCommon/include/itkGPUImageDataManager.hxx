@@ -33,8 +33,7 @@ GPUImageDataManager<ImageType>::SetImagePointer(ImageType * img)
   using SizeType = typename ImageType::SizeType;
 
   RegionType region = m_Image->GetBufferedRegion();
-  IndexType  index = region.GetIndex();
-  SizeType   size = region.GetSize();
+  auto [index, size] = region;
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {

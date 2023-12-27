@@ -226,8 +226,7 @@ SliceBySliceImageFilter<TInputImage,
   this->AllocateOutputs();
 
   const RegionType requestedRegion = this->GetOutput(0)->GetRequestedRegion();
-  const IndexType  requestedIndex = requestedRegion.GetIndex();
-  const SizeType   requestedSize = requestedRegion.GetSize();
+  const auto [requestedIndex, requestedSize] = requestedRegion;
 
   InternalRegionType internalOutputRegion;
   InternalRegionType internalInputRegion;

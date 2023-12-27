@@ -49,10 +49,8 @@ ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType reg
     return result;
   }
 
-  const IndexType bStart = bufferedRegion.GetIndex();
-  const SizeType  bSize = bufferedRegion.GetSize();
-  const IndexType rStart = regionToProcess.GetIndex();
-  const SizeType  rSize = regionToProcess.GetSize();
+  const auto [bStart, bSize] = bufferedRegion;
+  const auto [rStart, rSize] = regionToProcess;
 
   SizeType  nbSize = rSize;   // Non-boundary region
   IndexType nbStart = rStart; // data.

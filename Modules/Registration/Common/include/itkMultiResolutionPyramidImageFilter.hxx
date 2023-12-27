@@ -422,8 +422,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
     IndexType  outputIndex;
     SizeType   outputSize;
     RegionType outputRegion;
-    IndexType  baseIndex = ptr->GetRequestedRegion().GetIndex();
-    SizeType   baseSize = ptr->GetRequestedRegion().GetSize();
+    auto [baseIndex, baseSize] = ptr->GetRequestedRegion();
 
     for (idim = 0; idim < TOutputImage::ImageDimension; ++idim)
     {
@@ -482,13 +481,10 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
   }
 
   // compute baseIndex and baseSize
-  using SizeType = typename OutputImageType::SizeType;
-  using IndexType = typename OutputImageType::IndexType;
   using RegionType = typename OutputImageType::RegionType;
 
   unsigned int refLevel = m_NumberOfLevels - 1;
-  SizeType     baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
-  IndexType    baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
+  auto [baseIndex, baseSize] = this->GetOutput(refLevel)->GetRequestedRegion();
 
   unsigned int idim;
   for (idim = 0; idim < ImageDimension; ++idim)

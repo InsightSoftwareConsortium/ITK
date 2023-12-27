@@ -217,13 +217,11 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
 
   typename TInputImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
 
-  typename TInputImage::SizeType  inputSize = inputRegion.GetSize();
-  typename TInputImage::IndexType inputIndex = inputRegion.GetIndex();
+  auto [inputIndex, inputSize] = inputRegion;
 
   typename TOutputImage::Pointer outputImage = this->GetOutput();
 
-  typename TOutputImage::SizeType  outputSizeForThread = outputRegionForThread.GetSize();
-  typename TOutputImage::IndexType outputIndexForThread = outputRegionForThread.GetIndex();
+  auto [outputIndexForThread, outputSizeForThread] = outputRegionForThread;
 
   // compute the input region for this thread
   typename TInputImage::RegionType inputRegionForThread = inputRegion;

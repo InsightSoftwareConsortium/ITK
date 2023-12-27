@@ -184,8 +184,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
   ScalarType weight2 = 1.0 - weight1;
 
   const typename DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
-  const typename DisplacementFieldType::SizeType   size = region.GetSize();
-  const typename DisplacementFieldType::IndexType  startIndex = region.GetIndex();
+  const auto [startIndex, size] = region;
 
   ImageRegionIteratorWithIndex<DisplacementFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
   ImageRegionConstIteratorWithIndex<DisplacementFieldType> smoothedFieldIt(smoothField,

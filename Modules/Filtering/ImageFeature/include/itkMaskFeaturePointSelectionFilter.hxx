@@ -146,8 +146,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   }
 
   // set safe region for picking feature points depending on whether tensors are computed
-  IndexType safeIndex = region.GetIndex();
-  SizeType  safeSize = region.GetSize();
+  auto [safeIndex, safeSize] = region;
 
   if (m_ComputeStructureTensors)
   {

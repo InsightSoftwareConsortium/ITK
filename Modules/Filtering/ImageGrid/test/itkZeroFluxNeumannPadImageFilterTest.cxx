@@ -33,8 +33,7 @@ static bool
 VerifyFilterOutput(const ShortImage * inputImage, const FloatImage * outputImage)
 {
   ShortImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
-  ShortImage::IndexType  inputIndex = inputRegion.GetIndex();
-  ShortImage::SizeType   inputSize = inputRegion.GetSize();
+  auto [inputIndex, inputSize] = inputRegion;
 
   ShortImage::RegionType                             outputRegion = outputImage->GetLargestPossibleRegion();
   itk::ImageRegionConstIteratorWithIndex<FloatImage> outputIterator(outputImage, outputRegion);
@@ -106,12 +105,10 @@ VerifyFilter(const ShortImage *    inputImage,
   }
 
   ShortImage::RegionType outputRegion = padFilter->GetOutput()->GetLargestPossibleRegion();
-  ShortImage::IndexType  outputIndex = outputRegion.GetIndex();
-  ShortImage::SizeType   outputSize = outputRegion.GetSize();
+  auto [outputIndex, outputSize] = outputRegion;
 
   ShortImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
-  ShortImage::IndexType  inputIndex = inputRegion.GetIndex();
-  ShortImage::SizeType   inputSize = inputRegion.GetSize();
+  auto [inputIndex, inputSize] = inputRegion;
 
   ShortImage::IndexType expectedIndex;
   ShortImage::SizeType  expectedSize;

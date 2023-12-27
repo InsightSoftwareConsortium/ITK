@@ -94,15 +94,12 @@ Segmenter<TInputImage>::GenerateData()
   ImageRegionType thresholdLargestPossibleRegion = this->GetLargestPossibleRegion();
 
   // First we have to find the boundaries and adjust the threshold image size
-  typename ImageRegionType::IndexType tidx = thresholdImageRegion.GetIndex();
-  typename ImageRegionType::SizeType  tsz = thresholdImageRegion.GetSize();
-  typename ImageRegionType::IndexType tlidx = thresholdLargestPossibleRegion.GetIndex();
-  typename ImageRegionType::SizeType  tlsz = thresholdLargestPossibleRegion.GetSize();
+  auto [tidx, tsz] = thresholdImageRegion;
+  auto [tlidx, tlsz] = thresholdLargestPossibleRegion;
   for (i = 0; i < ImageDimension; ++i)
   {
-    ImageRegionType                     reg;
-    typename ImageRegionType::IndexType idx = regionToProcess.GetIndex();
-    typename ImageRegionType::SizeType  sz = regionToProcess.GetSize();
+    ImageRegionType reg;
+    auto [idx, sz] = regionToProcess;
 
     // Set LOW face
     idx[i] = regionToProcess.GetIndex()[i];

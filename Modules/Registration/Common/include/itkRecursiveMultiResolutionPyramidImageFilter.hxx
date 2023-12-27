@@ -348,13 +348,10 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
   }
 
   // compute baseIndex and baseSize
-  using SizeType = typename OutputImageType::SizeType;
-  using IndexType = typename OutputImageType::IndexType;
   using RegionType = typename OutputImageType::RegionType;
 
   unsigned int refLevel = this->GetNumberOfLevels() - 1;
-  SizeType     baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
-  IndexType    baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
+  auto [baseIndex, baseSize] = this->GetOutput(refLevel)->GetRequestedRegion();
 
   unsigned int idim;
   for (idim = 0; idim < ImageDimension; ++idim)

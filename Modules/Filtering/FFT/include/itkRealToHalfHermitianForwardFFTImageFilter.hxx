@@ -43,8 +43,7 @@ RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateOut
   // This is all based on the same function in itk::ShrinkImageFilter
   // ShrinkImageFilter also modifies the image spacing, but spacing
   // has no meaning in the result of an FFT.
-  const InputSizeType  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const InputIndexType inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const auto [inputStartIndex, inputSize] = inputPtr->GetLargestPossibleRegion();
 
   OutputSizeType  outputSize;
   OutputIndexType outputStartIndex;

@@ -53,8 +53,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::SplitRequestedReg
 
   const OutputSizeType & requestedRegionSize = splitRegion.GetSize();
 
-  OutputIndexType splitIndex = splitRegion.GetIndex();
-  OutputSizeType  splitSize = splitRegion.GetSize();
+  auto [splitIndex, splitSize] = splitRegion;
 
   // split on the outermost dimension available
   // and avoid the current dimension

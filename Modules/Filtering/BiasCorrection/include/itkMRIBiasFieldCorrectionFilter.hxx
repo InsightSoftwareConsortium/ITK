@@ -599,8 +599,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectInte
   IndexValueType lastSlice =
     region.GetIndex()[m_SlicingDirection] + static_cast<IndexValueType>(region.GetSize()[m_SlicingDirection]);
   InputImageRegionType sliceRegion;
-  InputImageIndexType  index = region.GetIndex();
-  InputImageSizeType   size = region.GetSize();
+  auto [index, size] = region;
 
   sliceRegion.SetSize(size);
   BiasFieldType bias = this->EstimateBiasField(sliceRegion, 0, m_InterSliceCorrectionMaximumIteration);
@@ -882,8 +881,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
   SlabRegionVectorType & slabs,
   OutputImageRegionType  requestedRegion)
 {
-  OutputImageIndexType indexFirst = requestedRegion.GetIndex();
-  OutputImageSizeType  size = requestedRegion.GetSize();
+  auto [indexFirst, size] = requestedRegion;
   OutputImageIndexType indexLast = indexFirst;
 
   for (SizeValueType i = 0; i < ImageDimension; ++i)

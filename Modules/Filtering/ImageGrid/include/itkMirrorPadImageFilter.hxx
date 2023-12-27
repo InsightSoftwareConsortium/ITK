@@ -39,10 +39,9 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *
                                                                           std::vector<long> *     sizes,
                                                                           OutputImageRegionType & outputRegion)
 {
-  unsigned int         ctr;
-  int                  done = 0;
-  OutputImageIndexType nextIndex = outputRegion.GetIndex();
-  OutputImageSizeType  nextSize = outputRegion.GetSize();
+  unsigned int ctr;
+  int          done = 0;
+  auto [nextIndex, nextSize] = outputRegion;
 
   //
   // Starting at the first dimension, increment the counter and set a new
@@ -96,10 +95,9 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextInputRegion(long * 
                                                                          std::vector<long> *    sizes,
                                                                          InputImageRegionType & inputRegion)
 {
-  unsigned int        ctr;
-  int                 done = 0;
-  InputImageIndexType nextIndex = inputRegion.GetIndex();
-  InputImageSizeType  nextSize = inputRegion.GetSize();
+  unsigned int ctr;
+  int          done = 0;
+  auto [nextIndex, nextSize] = inputRegion;
 
   //
   // Starting at the first dimension, increment the counter and set a new
@@ -187,8 +185,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::ConvertOutputIndexToInputIndex(
   long         a, b, c; // Output region goes from a to a+b-1
                         // Input region goes from c to c+b-1
   OutputImageIndexType outputRegionStart = outputRegion.GetIndex();
-  InputImageIndexType  inputRegionStart = inputRegion.GetIndex();
-  InputImageSizeType   inputSizes = inputRegion.GetSize();
+  auto [inputRegionStart, inputSizes] = inputRegion;
 
   for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {

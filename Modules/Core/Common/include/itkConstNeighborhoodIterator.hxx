@@ -392,10 +392,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::SetRegion(const RegionTyp
   m_End = m_ConstImage->GetBufferPointer() + m_ConstImage->ComputeOffset(m_EndIndex);
 
   // now determine whether boundary conditions are going to be needed
-  const IndexType bStart = m_ConstImage->GetBufferedRegion().GetIndex();
-  const SizeType  bSize = m_ConstImage->GetBufferedRegion().GetSize();
-  const IndexType rStart = region.GetIndex();
-  const SizeType  rSize = region.GetSize();
+  const auto [bStart, bSize] = m_ConstImage->GetBufferedRegion();
+  const auto [rStart, rSize] = region;
 
   m_NeedToUseBoundaryCondition = false;
   for (DimensionValueType i = 0; i < Dimension; ++i)
@@ -627,8 +625,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::SetBound(const SizeType &
 {
   SizeType                radius = this->GetRadius();
   const OffsetValueType * offset = m_ConstImage->GetOffsetTable();
-  const IndexType         imageBRStart = m_ConstImage->GetBufferedRegion().GetIndex();
-  SizeType                imageBRSize = m_ConstImage->GetBufferedRegion().GetSize();
+  const auto [imageBRStart, imageBRSize] = m_ConstImage->GetBufferedRegion();
 
   // Set the bounds and the wrapping offsets. Inner bounds are the loop
   // indices where the iterator will begin to overlap the edge of the image

@@ -98,9 +98,8 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
   const InputImageType * input = this->GetInput();
 
   // Get first input frame's largest possible spatial region
-  InputImageRegionType                 inputRegion = input->GetLargestPossibleRegion();
-  typename InputImageType::SizeType    inputSize = inputRegion.GetSize();
-  typename InputImageType::IndexType   inputIndex = inputRegion.GetIndex();
+  InputImageRegionType inputRegion = input->GetLargestPossibleRegion();
+  auto [inputIndex, inputSize] = inputRegion;
   typename InputImageType::SpacingType inputSpacing = input->GetSpacing();
   typename InputImageType::PointType   inputOrigin = input->GetOrigin();
 

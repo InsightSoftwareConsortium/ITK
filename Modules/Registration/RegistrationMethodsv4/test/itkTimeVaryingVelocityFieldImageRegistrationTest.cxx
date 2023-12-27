@@ -206,8 +206,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldSpacing.Fill(1.0);
   velocityFieldDirection.SetIdentity();
 
-  typename FixedImageType::IndexType     fixedImageIndex = fixedImage->GetBufferedRegion().GetIndex();
-  typename FixedImageType::SizeType      fixedImageSize = fixedImage->GetBufferedRegion().GetSize();
+  auto [fixedImageIndex, fixedImageSize] = fixedImage->GetBufferedRegion();
   typename FixedImageType::PointType     fixedImageOrigin = fixedImage->GetOrigin();
   typename FixedImageType::SpacingType   fixedImageSpacing = fixedImage->GetSpacing();
   typename FixedImageType::DirectionType fixedImageDirection = fixedImage->GetDirection();
