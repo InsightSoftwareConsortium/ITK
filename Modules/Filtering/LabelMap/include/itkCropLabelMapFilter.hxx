@@ -46,7 +46,7 @@ CropLabelMapFilter<TInputImage>::GenerateOutputInformation()
   SizeType  size;
   IndexType index;
 
-  auto [inputIndex, inputSize] = inputPtr->GetLargestPossibleRegion();
+  const auto [inputIndex, inputSize] = inputPtr->GetLargestPossibleRegion();
 
   SizeType originalCropSize = m_UpperBoundaryCropSize + m_LowerBoundaryCropSize;
 

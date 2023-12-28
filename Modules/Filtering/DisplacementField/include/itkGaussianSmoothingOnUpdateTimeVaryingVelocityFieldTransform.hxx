@@ -198,7 +198,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
 
   using TimeVaryingVelocityFieldIndexType = typename VelocityFieldType::IndexType;
 
-  auto [startIndex, size] = field->GetLargestPossibleRegion();
+  const auto [startIndex, size] = field->GetLargestPossibleRegion();
 
   ImageRegionIteratorWithIndex<VelocityFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
   ImageRegionConstIteratorWithIndex<VelocityFieldType> smoothedFieldIt(smoothField,

@@ -45,7 +45,7 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
   // find the small dimension of the face - should only be one
   typename TRegion::IndexType ISt = AllImage.GetIndex();
 
-  auto [FSt, FSz] = face;
+  const auto [FSt, FSz] = face;
 
   unsigned int smallDim = 0;
   for (unsigned int i = 0; i < AllImage.GetImageDimension(); ++i)
@@ -89,7 +89,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
                 unsigned int &                    end)
 {
   // compute intersection between ray and box
-  auto [ImStart, ImSize] = AllImage;
+  const auto [ImStart, ImSize] = AllImage;
   float        Tfar = NumericTraits<float>::max();
   float        Tnear = NumericTraits<float>::NonpositiveMin();
   float        domdir = NumericTraits<float>::NonpositiveMin();

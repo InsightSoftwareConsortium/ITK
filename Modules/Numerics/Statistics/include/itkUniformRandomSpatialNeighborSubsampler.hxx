@@ -75,7 +75,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
   IndexType searchStartIndex;
   IndexType searchEndIndex;
 
-  auto [constraintIndex, constraintSize] = this->m_RegionConstraint;
+  const auto [constraintIndex, constraintSize] = this->m_RegionConstraint;
 
   IndexType                            queryIndex;
   typename RegionType::OffsetTableType offsetTable;

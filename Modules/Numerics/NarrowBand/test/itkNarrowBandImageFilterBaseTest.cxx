@@ -73,7 +73,7 @@ protected:
   CreateNarrowBand() override
   {
     // Create a band
-    auto [tl, sz] = this->GetInput()->GetRequestedRegion();
+    const auto [tl, sz] = this->GetInput()->GetRequestedRegion();
     typename Superclass::IndexType in;
 
     for (in [0] = 32 + tl[0]; in[0] < tl[0] + static_cast<long>(sz[0]); in[0]++)

@@ -185,7 +185,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::ConvertOutputIndexToInputIndex(
   long         a, b, c; // Output region goes from a to a+b-1
                         // Input region goes from c to c+b-1
   OutputImageIndexType outputRegionStart = outputRegion.GetIndex();
-  auto [inputRegionStart, inputSizes] = inputRegion;
+  const auto [inputRegionStart, inputSizes] = inputRegion;
 
   for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {

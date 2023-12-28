@@ -99,7 +99,7 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
 
   // Get first input frame's largest possible spatial region
   InputImageRegionType inputRegion = input->GetLargestPossibleRegion();
-  auto [inputIndex, inputSize] = inputRegion;
+  const auto [inputIndex, inputSize] = inputRegion;
   typename InputImageType::SpacingType inputSpacing = input->GetSpacing();
   typename InputImageType::PointType   inputOrigin = input->GetOrigin();
 

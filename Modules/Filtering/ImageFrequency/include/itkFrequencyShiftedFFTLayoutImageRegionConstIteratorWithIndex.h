@@ -249,7 +249,7 @@ private:
   void
   Init()
   {
-    auto [minIndex, sizeImage] = this->m_Image->GetLargestPossibleRegion();
+    const auto [minIndex, sizeImage] = this->m_Image->GetLargestPossibleRegion();
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
     {
       this->m_ZeroFrequencyIndex[dim] =

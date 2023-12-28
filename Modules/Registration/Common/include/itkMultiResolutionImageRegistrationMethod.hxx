@@ -227,7 +227,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
   ScheduleType movingschedule = m_MovingImagePyramid->GetSchedule();
   itkDebugMacro("MovingImage schedule: " << movingschedule);
 
-  auto [inputStart, inputSize] = m_FixedImageRegion;
+  const auto [inputStart, inputSize] = m_FixedImageRegion;
 
   const SizeValueType numberOfLevels = m_FixedImagePyramid->GetNumberOfLevels();
 

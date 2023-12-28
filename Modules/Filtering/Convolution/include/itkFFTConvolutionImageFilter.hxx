@@ -150,11 +150,11 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   float remainingProgress = 1.0f;
 
   InputRegionType inputLargestRegion = input->GetLargestPossibleRegion();
-  auto [inputLargestIndex, inputLargestSize] = inputLargestRegion;
+  const auto [inputLargestIndex, inputLargestSize] = inputLargestRegion;
   InputRegionType inputRequestedRegion = input->GetRequestedRegion();
-  auto [inputRequestedIndex, inputRequestedSize] = inputRequestedRegion;
+  const auto [inputRequestedIndex, inputRequestedSize] = inputRequestedRegion;
   OutputRegionType outputRequestedRegion = this->GetOutput()->GetRequestedRegion();
-  auto [outputRequestedIndex, outputRequestedSize] = outputRequestedRegion;
+  const auto [outputRequestedIndex, outputRequestedSize] = outputRequestedRegion;
 
   // Pad the input image such that the requested region, expanded by
   // twice the kernel radius, lies entirely within the buffered region.

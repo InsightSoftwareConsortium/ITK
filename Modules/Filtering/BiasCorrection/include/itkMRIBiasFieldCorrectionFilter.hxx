@@ -881,7 +881,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
   SlabRegionVectorType & slabs,
   OutputImageRegionType  requestedRegion)
 {
-  auto [indexFirst, size] = requestedRegion;
+  const auto [indexFirst, size] = requestedRegion;
   OutputImageIndexType indexLast = indexFirst;
 
   for (SizeValueType i = 0; i < ImageDimension; ++i)

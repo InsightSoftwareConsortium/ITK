@@ -119,7 +119,7 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
 
   // Now copy the redundant complex conjugate region, if there is one
   // in this thread's output region.
-  auto [outputRegionIndex, outputRegionSize] = outputRegionForThread;
+  const auto [outputRegionIndex, outputRegionSize] = outputRegionForThread;
   OutputImageIndexType outputRegionMaximumIndex = outputRegionIndex + outputRegionSize;
 
   if (outputRegionMaximumIndex[0] > inputRegionMaximumIndex[0])
@@ -140,7 +140,7 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         OutputImageRegionType outputLargestPossibleRegion = outputPtr->GetLargestPossibleRegion();
-        auto [outputLargestPossibleRegionIndex, outputLargestPossibleRegionSize] = outputLargestPossibleRegion;
+        const auto [outputLargestPossibleRegionIndex, outputLargestPossibleRegionSize] = outputLargestPossibleRegion;
         if (conjugateIndex[i] != outputLargestPossibleRegionIndex[i])
         {
           index[i] = outputLargestPossibleRegionSize[i] - conjugateIndex[i] + 2 * outputLargestPossibleRegionIndex[i];

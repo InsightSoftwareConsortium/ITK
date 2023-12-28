@@ -138,9 +138,9 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRegion(
   const RegionType & inputLargestPossibleRegion,
   const RegionType & outputRequestedRegion) const -> RegionType
 {
-  auto [imageIndex, imageSize] = inputLargestPossibleRegion;
+  const auto [imageIndex, imageSize] = inputLargestPossibleRegion;
 
-  auto [outputIndex, outputSize] = outputRequestedRegion;
+  const auto [outputIndex, outputSize] = outputRequestedRegion;
 
   IndexType inputRequestedIndex;
   SizeType  inputRequestedSize;
@@ -182,7 +182,7 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const IndexType &
   -> OutputPixelType
 {
   RegionType imageRegion = image->GetLargestPossibleRegion();
-  auto [imageIndex, imageSize] = imageRegion;
+  const auto [imageIndex, imageSize] = imageRegion;
 
   IndexType lookupIndex;
 

@@ -84,7 +84,7 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(gdcmIO, seriesWriter->GetImageIO());
 
   ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  auto [start, size] = region;
+  const auto [start, size] = region;
 
 
   std::string format = outputDirectory;

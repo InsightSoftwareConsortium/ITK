@@ -145,7 +145,7 @@ VTKImageExport<TInputImage>::WholeExtentCallback()
   }
 
   InputRegionType region = input->GetLargestPossibleRegion();
-  auto [index, size] = region;
+  const auto [index, size] = region;
 
   unsigned int i = 0;
   // Fill in the known portion of the extent.
@@ -386,7 +386,7 @@ VTKImageExport<TInputImage>::DataExtentCallback()
   }
 
   InputRegionType region = input->GetBufferedRegion();
-  auto [index, size] = region;
+  const auto [index, size] = region;
 
   unsigned int i = 0;
   for (; i < InputImageDimension; ++i)

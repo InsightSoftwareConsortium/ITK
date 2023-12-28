@@ -113,7 +113,7 @@ VTKImageImport<TOutputImage>::PropagateRequestedRegion(DataObject * outputPtr)
   if (m_PropagateUpdateExtentCallback)
   {
     OutputRegionType region = output->GetRequestedRegion();
-    auto [index, size] = region;
+    const auto [index, size] = region;
 
     int          updateExtent[6];
     unsigned int i = 0;

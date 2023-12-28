@@ -86,9 +86,9 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRe
   const RegionType & inputLargestPossibleRegion,
   const RegionType & outputRequestedRegion) const -> RegionType
 {
-  auto [inputIndex, inputSize] = inputLargestPossibleRegion;
+  const auto [inputIndex, inputSize] = inputLargestPossibleRegion;
 
-  auto [outputIndex, outputSize] = outputRequestedRegion;
+  const auto [outputIndex, outputSize] = outputRequestedRegion;
 
   IndexType requestIndex;
   SizeType  requestSize;
@@ -154,7 +154,7 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const Inde
   -> OutputPixelType
 {
   RegionType imageRegion = image->GetLargestPossibleRegion();
-  auto [imageIndex, imageSize] = imageRegion;
+  const auto [imageIndex, imageSize] = imageRegion;
 
   IndexType lookupIndex;
 

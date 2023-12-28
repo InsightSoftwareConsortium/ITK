@@ -163,7 +163,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
     }
     auto indMin = m_Image->TransformPhysicalPointToIndex(ptMin);
     auto indMax = m_Image->TransformPhysicalPointToIndex(ptMax);
-    auto [imageIndex, imageSize] = m_Image->GetLargestPossibleRegion();
+    const auto [imageIndex, imageSize] = m_Image->GetLargestPossibleRegion();
     for (unsigned int i = 0; i < Self::ObjectDimension; ++i)
     {
       if (indMin[i] > indMax[i])
