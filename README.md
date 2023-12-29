@@ -1,6 +1,6 @@
 | CI | Stable | Develop |
 |:---|:-------|:--------|
-| GitHub Actions | [![Stable Status](https://github.com/zlib-ng/zlib-ng/workflows/CI%20CMake/badge.svg?branch=stable)](https://github.com/zlib-ng/zlib-ng/actions) <br> [![Stable Status](https://github.com/zlib-ng/zlib-ng/workflows/CI%20Configure/badge.svg?branch=stable)](https://github.com/zlib-ng/zlib-ng/actions) <br> [![Stable Status](https://github.com/zlib-ng/zlib-ng/workflows/CI%20NMake/badge.svg?branch=stable)](https://github.com/zlib-ng/zlib-ng/actions) | [![Develop Status](https://github.com/zlib-ng/zlib-ng/workflows/CI%20CMake/badge.svg?branch=develop)](https://github.com/zlib-ng/zlib-ng/actions) <br> [![Develop Status](https://github.com/zlib-ng/zlib-ng/workflows/CI%20Configure/badge.svg?branch=develop)](https://github.com/zlib-ng/zlib-ng/actions) <br> [![Develop Status](https://github.com/zlib-ng/zlib-ng/workflows/CI%20NMake/badge.svg?branch=develop)](https://github.com/zlib-ng/zlib-ng/actions) |
+| GitHub Actions | [![Stable CMake](https://github.com/zlib-ng/zlib-ng/actions/workflows/cmake.yml/badge.svg?branch=stable)](https://github.com/zlib-ng/zlib-ng/actions/workflows/cmake.yml?query=branch%3Astable) <br> [![Stable Configure](https://github.com/zlib-ng/zlib-ng/actions/workflows/configure.yml/badge.svg?branch=stable)](https://github.com/zlib-ng/zlib-ng/actions/workflows/configure.yml?query=branch%3Astable) <br> [![Stable NMake](https://github.com/zlib-ng/zlib-ng/actions/workflows/nmake.yml/badge.svg?branch=stable)](https://github.com/zlib-ng/zlib-ng/actions/workflows/nmake.yml?query=branch%3Astable) | [![Develop CMake](https://github.com/zlib-ng/zlib-ng/actions/workflows/cmake.yml/badge.svg?branch=develop)](https://github.com/zlib-ng/zlib-ng/actions/workflows/cmake.yml?query=branch%3Adevelop) <br> [![Develop Configure](https://github.com/zlib-ng/zlib-ng/actions/workflows/configure.yml/badge.svg?branch=develop)](https://github.com/zlib-ng/zlib-ng/actions/workflows/configure.yml?query=branch%3Adevelop) <br> [![Develop NMake](https://github.com/zlib-ng/zlib-ng/actions/workflows/nmake.yml/badge.svg?branch=develop)](https://github.com/zlib-ng/zlib-ng/actions/workflows/nmake.yml?query=branch%3Adevelop) |
 | CodeFactor     | [![CodeFactor](https://www.codefactor.io/repository/github/zlib-ng/zlib-ng/badge/stable)](https://www.codefactor.io/repository/github/zlib-ng/zlib-ng/overview/stable) | [![CodeFactor](https://www.codefactor.io/repository/github/zlib-ng/zlib-ng/badge/develop)](https://www.codefactor.io/repository/github/zlib-ng/zlib-ng/overview/develop) |
 | OSS-Fuzz       | [![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/zlib-ng.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:zlib-ng) | [![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/zlib-ng.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:zlib-ng) |
 | Codecov        | [![codecov](https://codecov.io/github/zlib-ng/zlib-ng/branch/stable/graph/badge.svg?token=uKsgK9LIuC)](https://codecov.io/github/zlib-ng/zlib-ng/tree/stable) | [![codecov](https://codecov.io/github/zlib-ng/zlib-ng/branch/develop/graph/badge.svg?token=uKsgK9LIuC)](https://codecov.io/github/zlib-ng/zlib-ng/tree/develop) |
@@ -22,7 +22,7 @@ Features
   * Adler32 implementation using SSSE3, AVX2, AVX512, AVX512-VNNI, Neon, VMX & VSX
   * CRC32-B implementation using PCLMULQDQ, VPCLMULQDQ, ACLE, & IBM Z
   * Hash table implementation using CRC32-C intrinsics on x86 and ARM
-  * Slide hash implementations using SSE2, AVX2, Neon, VMX & VSX
+  * Slide hash implementations using SSE2, AVX2, ARMv6, Neon, VMX & VSX
   * Compare256 implementations using SSE2, AVX2, Neon, POWER9 & RVV
   * Inflate chunk copying using SSE2, SSSE3, AVX, Neon & VSX
   * Support for hardware-accelerated deflate using IBM Z DFLTCC
@@ -102,7 +102,7 @@ Build Options
 | WITH_GZFILEOP            | --without-gzfileops      | Compile with support for gzFile related functions                                     | ON      |
 | WITH_OPTIM               | --without-optimizations  | Build with optimisations                                                              | ON      |
 | WITH_NEW_STRATEGIES      | --without-new-strategies | Use new strategies                                                                    | ON      |
-| WITH_NATIVE_INSTRUCTIONS | --native                 | Compiles with full instruction set supported on this host (gcc/clang -march=native)   | OFF     |
+| WITH_NATIVE_INSTRUCTIONS |                          | Compiles with full instruction set supported on this host (gcc/clang -march=native)   | OFF     |
 | WITH_SANITIZER           |                          | Build with sanitizer (memory, address, undefined)                                     | OFF     |
 | WITH_GTEST               |                          | Build gtest_zlib                                                                      | ON      |
 | WITH_FUZZERS             |                          | Build test/fuzz                                                                       | OFF     |
@@ -131,7 +131,7 @@ LD_PRELOAD=/opt/zlib-ng/libz.so.1.2.13.zlib-ng /usr/bin/program
 
 To install zlib-ng system-wide using cmake:
 
-```
+```sh or powershell
 cmake --build . --target install
 ```
 
@@ -139,8 +139,20 @@ cmake --build . --target install
 
 To install zlib-ng system-wide using the configure script:
 
-```
+```sh
 make install
+```
+
+### CPack
+
+After building with cmake, an installation package can be created using cpack. By default a tgz package is created,
+but you can append `-G <format>` to each command to generate alternative packages types (TGZ, ZIP, RPM, DEB). To easily
+create a rpm or deb package, you would use `-G RPM` or `-G DEB` respectively.
+
+```sh or powershell
+cd build
+cpack --config CPackConfig.cmake
+cpack --config CPackSourceConfig.cmake
 ```
 
 ### Vcpkg
@@ -194,6 +206,7 @@ Advanced Build Options
 | WITH_VPCLMULQDQ                 | --without-vpclmulqdq  | Build with VPCLMULQDQ intrinsics                                    | ON                     |
 | WITH_ACLE                       | --without-acle        | Build with ACLE intrinsics                                          | ON                     |
 | WITH_NEON                       | --without-neon        | Build with NEON intrinsics                                          | ON                     |
+| WITH_ARMV6                      | --without-armv6       | Build with ARMv6 intrinsics                                         | ON                     |
 | WITH_ALTIVEC                    | --without-altivec     | Build with AltiVec (VMX) intrinsics                                 | ON                     |
 | WITH_POWER8                     | --without-power8      | Build with POWER8 optimisations                                     | ON                     |
 | WITH_RVV                        |                       | Build with RVV intrinsics                                           | ON                     |

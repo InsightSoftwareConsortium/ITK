@@ -23,8 +23,8 @@ if(NOT CMAKE_C_STANDARD IN_LIST VALID_C_STANDARDS)
     MESSAGE(FATAL_ERROR "CMAKE_C_STANDARD:STRING=${CMAKE_C_STANDARD} not in known standards list\n ${VALID_C_STANDARDS}")
 endif()
 
-# Parse the full version number from zlib.h and include in ZLIB_FULL_VERSION
-file(READ ${CMAKE_CURRENT_SOURCE_DIR}/zlib${SUFFIX}.h.in _zlib_h_contents)
+# Parse the full version number from zlib.h.in and include in ZLIB_FULL_VERSION
+file(READ ${CMAKE_CURRENT_SOURCE_DIR}/zlib.h.in _zlib_h_contents)
 string(REGEX REPLACE ".*#define[ \t]+ZLIB_VERSION[ \t]+\"([0-9]+.[0-9]+.[0-9]+).*\".*"
         "\\1" ZLIB_HEADER_VERSION ${_zlib_h_contents})
 string(REGEX REPLACE ".*#define[ \t]+ZLIBNG_VERSION[ \t]+\"([-0-9A-Za-z.]+)\".*"
@@ -57,6 +57,7 @@ endif()
 
 # Make sure we use an appropriate BUILD_TYPE by default, "Release" to be exact
 # this should select the maximum generic optimisation on the current platform (i.e. -O3 for gcc/clang)
+get_property(GENERATOR_IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(NOT GENERATOR_IS_MULTI_CONFIG)
     if(NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE "Release" CACHE STRING
@@ -101,6 +102,7 @@ set_property(CACHE WITH_SANITIZER PROPERTY STRINGS "Memory" "Address" "Undefined
 if(BASEARCH_ARM_FOUND)
     option(WITH_ACLE "Build with ACLE" ON)
     option(WITH_NEON "Build with NEON intrinsics" ON)
+    cmake_dependent_option(WITH_ARMV6 "Build with ARMv6 SIMD" ON "NOT ARCH STREQUAL \"aarch64\"" OFF)
 elseif(BASEARCH_PPC_FOUND)
     option(WITH_ALTIVEC "Build with AltiVec (VMX) optimisations for PowerPC" ON)
     option(WITH_POWER8 "Build with optimisations for POWER8" ON)
@@ -128,6 +130,7 @@ mark_as_advanced(FORCE
     ZLIB_SYMBOL_PREFIX
     WITH_REDUCED_MEM
     WITH_ACLE WITH_NEON
+    WITH_ARMV6
     WITH_DFLTCC_DEFLATE
     WITH_DFLTCC_INFLATE
     WITH_CRC32_VX
@@ -149,9 +152,11 @@ if(ZLIB_COMPAT)
     set(WITH_GZFILEOP ON)
     set(SUFFIX "")
     set(ZLIB_FULL_VERSION ${ZLIB_HEADER_VERSION}.zlib-ng)
+    set(EXPORT_NAME ZLIB)
 else()
     set(SUFFIX "-ng")
     set(ZLIB_FULL_VERSION ${ZLIBNG_HEADER_VERSION})
+    set(EXPORT_NAME zlib-ng)
 endif()
 
 if(WITH_GZFILEOP)
@@ -167,10 +172,6 @@ if(CMAKE_C_COMPILER_ID MATCHES "^Intel")
         set(WARNFLAGS /Wall)
         set(WARNFLAGS_MAINTAINER /W5)
         set(WARNFLAGS_DISABLE)
-    endif()
-    if(WITH_NATIVE_INSTRUCTIONS)
-        message(STATUS "Ignoring WITH_NATIVE_INSTRUCTIONS; not supported on this configuration")
-        set(WITH_NATIVE_INSTRUCTIONS OFF)
     endif()
 elseif(MSVC)
     # Minimum supported MSVC version is 1800 = Visual Studio 12.0/2013
@@ -190,23 +191,22 @@ elseif(MSVC)
         if(NOT "${ARCH}" MATCHES "aarch64")
             set(NEONFLAG "/arch:VFPv4")
         endif()
-        endif()
-    if(WITH_NATIVE_INSTRUCTIONS)
-        message(STATUS "Ignoring WITH_NATIVE_INSTRUCTIONS; not supported on this configuration")
-        set(WITH_NATIVE_INSTRUCTIONS OFF)
     endif()
 elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
     # Enable warnings in GCC and Clang
     set(WARNFLAGS -Wall)
     set(WARNFLAGS_MAINTAINER -Wextra)
     set(WARNFLAGS_DISABLE)
-    if(WITH_NATIVE_INSTRUCTIONS)
-        if(BASEARCH_PPC_FOUND)
-            set(NATIVEFLAG "-mcpu=native")
-        else()
-            set(NATIVEFLAG "-march=native")
-        endif()
-    else()
+    # Check whether -fno-lto is available
+    set(CMAKE_REQUIRED_FLAGS "-fno-lto")
+    check_c_source_compiles(
+        "int main() { return 0; }"
+        FNO_LTO_AVAILABLE FAIL_REGEX "not supported")
+    set(CMAKE_REQUIRED_FLAGS)
+    if(FNO_LTO_AVAILABLE)
+        set(ZNOLTOFLAG "-fno-lto")
+    endif()
+    if(NOT WITH_NATIVE_INSTRUCTIONS)
         if(BASEARCH_ARM_FOUND)
             if("${ARCH}" MATCHES "arm" AND NOT CMAKE_C_FLAGS MATCHES "-mfloat-abi")
                 # Auto-detect support for ARM floating point ABI
@@ -239,27 +239,44 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
                 endif()
             endif()
         endif()
-        # Check whether -fno-lto is available
-        set(CMAKE_REQUIRED_FLAGS "-fno-lto")
-        check_c_source_compiles(
-            "int main() { return 0; }"
-            FNO_LTO_AVAILABLE FAIL_REGEX "not supported")
-        set(CMAKE_REQUIRED_FLAGS)
+        # Disable LTO unless Native Instructions are enabled
         if(FNO_LTO_AVAILABLE)
-            set(NOLTOFLAG "-fno-lto")
+            set(NOLTOFLAG ${ZNOLTOFLAG})
         endif()
     endif()
     if(MINGW)
-        list(APPEND WARNFLAGS_DISABLE -Wno-pedantic-ms-format)
+        # Add `-Wno-pedantic-ms-format` only if the toolchain supports it
+        check_c_compiler_flag(-Wno-pedantic-ms-format HAVE_NO_PEDANTIC_MS_FORMAT)
+        if(HAVE_NO_PEDANTIC_MS_FORMAT)
+            list(APPEND WARNFLAGS_DISABLE -Wno-pedantic-ms-format)
+        endif()
     endif()
-else()
-    if(WITH_NATIVE_INSTRUCTIONS)
+endif()
+
+# Set native march/mcpu
+if(WITH_NATIVE_INSTRUCTIONS)
+    if(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+        check_c_compiler_flag(-march=native HAVE_MARCH_NATIVE)
+        if(HAVE_MARCH_NATIVE)
+            set(NATIVEFLAG "-march=native")
+        else()
+            check_c_compiler_flag(-mcpu=native HAVE_MCPU_NATIVE)
+            if(HAVE_MCPU_NATIVE)
+                set(NATIVEFLAG "-mcpu=native")
+            endif()
+        endif()
+        # Fall through
+    endif()
+    if(NATIVEFLAG)
+        # Apply flag to all source files and compilation checks
+        add_compile_options(${NATIVEFLAG})
+    else()
         message(STATUS "Ignoring WITH_NATIVE_INSTRUCTIONS; not implemented yet on this configuration")
         set(WITH_NATIVE_INSTRUCTIONS OFF)
     endif()
 endif()
 
-# Disable LTO
+# Force disable LTO if WITH_NATIVE_INSTRUCTIONS is not active
 if(NOT WITH_NATIVE_INSTRUCTIONS)
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
     foreach(_cfg_name IN LISTS CMAKE_CONFIGURATION_TYPES)
@@ -292,15 +309,13 @@ if(NOT WITH_CODE_COVERAGE AND NOT MSVC AND NOT CMAKE_C_FLAGS MATCHES "([\\/\\-]O
         CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
 endif()
 
-# Set native instruction set compiler flag
-if(WITH_NATIVE_INSTRUCTIONS AND DEFINED NATIVEFLAG)
-    # Apply flag to all source files and compilation checks
-    add_compile_options(${NATIVEFLAG})
-endif()
-
 #
 # Check for standard/system includes
 #
+check_include_file(arm_acle.h  HAVE_ARM_ACLE_H)
+if(HAVE_ARM_ACLE_H)
+    add_definitions(-DHAVE_ARM_ACLE_H)
+endif()
 check_include_file(sys/auxv.h  HAVE_SYS_AUXV_H)
 if(HAVE_SYS_AUXV_H)
     add_definitions(-DHAVE_SYS_AUXV_H)
@@ -410,21 +425,6 @@ check_c_source_compiles(
     HAVE_ATTRIBUTE_ALIGNED FAIL_REGEX "aligned")
 if(HAVE_ATTRIBUTE_ALIGNED)
     add_definitions(-DHAVE_ATTRIBUTE_ALIGNED)
-endif()
-
-#
-# check for _Thread_local() support in the compiler
-#
-check_c_source_compiles(
-    "_Thread_local int test;
-    int main(void) {
-        (void)test;
-        return 0;
-    }"
-    HAVE_THREAD_LOCAL
-)
-if(HAVE_THREAD_LOCAL)
-    add_definitions(-DHAVE_THREAD_LOCAL)
 endif()
 
 #
@@ -557,7 +557,20 @@ if(WITH_OPTIM)
     if(BASEARCH_ARM_FOUND)
         add_definitions(-DARM_FEATURES)
         if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-            if(NOT "${ARCH}" MATCHES "aarch64")
+            if("${ARCH}" MATCHES "aarch64")
+                check_c_source_compiles(
+                    "#include <sys/auxv.h>
+                    int main() {
+                        return (getauxval(AT_HWCAP) & HWCAP_CRC32);
+                    }"
+                    ARM_AUXV_HAS_CRC32
+                )
+                if(ARM_AUXV_HAS_CRC32)
+                    add_definitions(-DARM_AUXV_HAS_CRC32)
+                else()
+                   message(STATUS "HWCAP_CRC32 not present in sys/auxv.h; cannot detect support at runtime.")
+                endif()
+            else()
                 check_c_source_compiles(
                     "#include <sys/auxv.h>
                     int main() {
@@ -582,21 +595,6 @@ if(WITH_OPTIM)
                         message(STATUS "HWCAP2_CRC32 not present in sys/auxv.h; cannot detect support at runtime.")
                     endif()
                 endif()
-            else()
-                check_c_source_compiles(
-                    "#include <sys/auxv.h>
-                    int main() {
-                        return (getauxval(AT_HWCAP) & HWCAP_CRC32);
-                    }"
-                    ARM_AUXV_HAS_CRC32
-                )
-                if(ARM_AUXV_HAS_CRC32)
-                    add_definitions(-DARM_AUXV_HAS_CRC32)
-                else()
-                   message(STATUS "HWCAP_CRC32 not present in sys/auxv.h; cannot detect support at runtime.")
-                endif()
-            endif()
-            if(NOT "${ARCH}" MATCHES "aarch64")
                 check_c_source_compiles(
                     "#include <sys/auxv.h>
                     int main() {
@@ -624,7 +622,7 @@ if(WITH_OPTIM)
         endif()
         list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/arm_features.h)
         list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/arm_features.c)
-        if(WITH_ACLE AND NOT "${ARCH}" MATCHES "armv[2-7]")
+        if(WITH_ACLE)
             check_acle_compiler_flag()
             if(HAVE_ACLE_FLAG)
                 add_definitions(-DARM_ACLE)
@@ -640,7 +638,7 @@ if(WITH_OPTIM)
         endif()
         if(WITH_NEON)
             check_neon_compiler_flag()
-            if(MFPU_NEON_AVAILABLE)
+            if(NEON_AVAILABLE)
                 add_definitions(-DARM_NEON)
                 set(NEON_SRCS ${ARCHDIR}/adler32_neon.c ${ARCHDIR}/chunkset_neon.c
                     ${ARCHDIR}/compare256_neon.c ${ARCHDIR}/slide_hash_neon.c)
@@ -658,6 +656,23 @@ if(WITH_OPTIM)
             else()
                 set(WITH_NEON OFF)
             endif()
+        endif()
+        if(WITH_ARMV6)
+            check_armv6_compiler_flag()
+            if(HAVE_ARMV6_INLINE_ASM OR HAVE_ARMV6_INTRIN)
+                add_definitions(-DARM_SIMD)
+                set(ARMV6_SRCS ${ARCHDIR}/slide_hash_armv6.c)
+                set_property(SOURCE ${ARMV6_SRCS} PROPERTY COMPILE_FLAGS "${ARMV6FLAG} ${NOLTOFLAG}")
+                list(APPEND ZLIB_ARCH_SRCS ${ARMV6_SRCS})
+                add_feature_info(ARMV6 1 "Support ARMv6 SIMD instructions in slide_hash, using \"${ARMV6FLAG}\"")
+                if(HAVE_ARMV6_INTRIN)
+                    add_definitions(-DARM_SIMD_INTRIN)
+                endif()
+            else()
+                set(WITH_ARMV6 OFF)
+            endif()
+        else()
+            set(WITH_ARMV6 OFF)
         endif()
     elseif(BASEARCH_PPC_FOUND)
         # Common arch detection code
@@ -724,9 +739,9 @@ if(WITH_OPTIM)
                 add_definitions(-DRISCV_RVV)
                 list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/riscv_features.h)
                 list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/riscv_features.c)
-                # FIXME: we will not set compile flags for riscv_features.c when 
+                # FIXME: we will not set compile flags for riscv_features.c when
                 # the kernels update hwcap or hwprobe for riscv
-                set(RVV_SRCS ${ARCHDIR}/riscv_features.c ${ARCHDIR}/adler32_rvv.c ${ARCHDIR}/compare256_rvv.c ${ARCHDIR}/slide_hash_rvv.c)
+                set(RVV_SRCS ${ARCHDIR}/riscv_features.c ${ARCHDIR}/adler32_rvv.c ${ARCHDIR}/chunkset_rvv.c ${ARCHDIR}/compare256_rvv.c ${ARCHDIR}/slide_hash_rvv.c)
                 list(APPEND ZLIB_ARCH_SRCS ${RVV_SRCS})
                 set_property(SOURCE ${RVV_SRCS} PROPERTY COMPILE_FLAGS "${RISCVFLAG} ${NOLTOFLAG}")
             else()
@@ -1058,7 +1073,7 @@ foreach(ZLIB_INSTALL_LIBRARY ${ZLIB_INSTALL_LIBRARIES})
     endif()
     target_include_directories(${ZLIB_INSTALL_LIBRARY} PUBLIC
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}>"
-        "$<INSTALL_INTERFACE:include>")
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 endforeach()
 
 if(WIN32)
@@ -1142,6 +1157,9 @@ else()
 endif()
 
 set(ZLIB_PC ${CMAKE_CURRENT_BINARY_DIR}/zlib${SUFFIX}.pc)
+if(WITH_GZFILEOP)
+    set(PKG_CONFIG_CFLAGS "-DWITH_GZFILEOP")
+endif()
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zlib.pc.cmakein
     ${ZLIB_PC} @ONLY)
 configure_file(${CMAKE_CURRENT_BINARY_DIR}/zconf${SUFFIX}.h.cmakein
@@ -1179,13 +1197,28 @@ if(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL)
 endif()
 if(NOT SKIP_INSTALL_FILES AND NOT SKIP_INSTALL_ALL)
     install(FILES ${ZLIB_PC} DESTINATION "${PKGCONFIG_INSTALL_DIR}")
+    # INFO: Mimics official zlib CMake target
+    # Generates ZLIB.cmake in case ZLIB_COMPAT=ON and always exports the CMake target ZLIB::ZLIB
+    # In case ZLIB_COMPAT=OFF, the CMake target and file follows zlib-ng naming convention
+    if (ZLIB_COMPAT)
+        if (TARGET zlib)
+            set_target_properties(zlib PROPERTIES EXPORT_NAME ZLIB)
+        else()
+            set_target_properties(zlibstatic PROPERTIES EXPORT_NAME ZLIB)
+        endif()
+    endif()
+    install(TARGETS ${ZLIB_INSTALL_LIBRARIES}
+        EXPORT ${EXPORT_NAME}
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    install(EXPORT ${EXPORT_NAME}
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}"
+        NAMESPACE ${EXPORT_NAME}::)
 endif()
 
 #============================================================================
 # Example binaries
 #============================================================================
 
-option(ZLIB_ENABLE_TESTS "Build test binaries" ON)
 if(ZLIB_ENABLE_TESTS)
     enable_testing()
 
@@ -1226,6 +1259,7 @@ add_feature_info(WITH_INFLATE_ALLOW_INVALID_DIST WITH_INFLATE_ALLOW_INVALID_DIST
 if(BASEARCH_ARM_FOUND)
     add_feature_info(WITH_ACLE WITH_ACLE "Build with ACLE")
     add_feature_info(WITH_NEON WITH_NEON "Build with NEON intrinsics")
+    add_feature_info(WITH_ARMV6 WITH_ARMV6 "Build with ARMv6 SIMD")
 elseif(BASEARCH_PPC_FOUND)
     add_feature_info(WITH_ALTIVEC WITH_ALTIVEC "Build with AltiVec optimisations")
     add_feature_info(WITH_POWER8 WITH_POWER8 "Build with optimisations for POWER8")
@@ -1250,3 +1284,20 @@ endif()
 add_feature_info(INSTALL_UTILS INSTALL_UTILS "Copy minigzip and minideflate during install")
 
 FEATURE_SUMMARY(WHAT ALL INCLUDE_QUIET_PACKAGES)
+
+#============================================================================
+# CPack
+#============================================================================
+set(CPACK_GENERATOR "TGZ")
+set(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_SOURCE_IGNORE_FILES .git/ _CPack_Packages/ "${PROJECT_BINARY_DIR}/")
+
+set(CPACK_PACKAGE_NAME "zlib${SUFFIX}")
+set(CPACK_PACKAGE_VERSION ${ZLIB_FULL_VERSION})
+set(CPACK_PACKAGE_DIRECTORY "${PROJECT_BINARY_DIR}/package")
+
+if("${PROJECT_BINARY_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}")
+    message(WARNING "Building to source folder is not recommended. Cpack will be unable to generate source package.")
+endif()
+
+include(CPack)
