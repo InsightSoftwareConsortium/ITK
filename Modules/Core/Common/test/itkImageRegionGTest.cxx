@@ -40,11 +40,30 @@ CheckTrivialCopyabilityOfImageRegion()
   return !isImageRegionTriviallyCopyable;
 #endif
 }
+
+
+// Checks that `ImageRegion` supports class template argument deduction (CTAD).
+template <unsigned int VDimension>
+constexpr bool
+CheckClassTemplateArgumentDeduction()
+{
+  using ExpectedType = itk::ImageRegion<VDimension>;
+
+  static_assert(
+    std::is_same_v<decltype(itk::ImageRegion(itk::Index<VDimension>{}, itk::Size<VDimension>{})), ExpectedType>,
+    "The `ImageRegion(Index, Size)` constructor should support CTAD!");
+  static_assert(std::is_same_v<decltype(itk::ImageRegion(itk::Size<VDimension>{})), ExpectedType>,
+                "The `ImageRegion(Size)` constructor should support CTAD!");
+  return true;
+}
+
+
 } // namespace
 
 static_assert(CheckTrivialCopyabilityOfImageRegion<2>() && CheckTrivialCopyabilityOfImageRegion<3>(),
               "ImageRegion<VDimension> should be trivially copyable when legacy support is removed.");
 
+static_assert(CheckClassTemplateArgumentDeduction<2>() && CheckClassTemplateArgumentDeduction<3>());
 
 // Tests that a zero-sized region is not considered to be inside of another region.
 TEST(ImageRegion, ZeroSizedRegionIsNotInside)

@@ -113,7 +113,7 @@ public:
   }
 
   /** Index type alias support An index is used to access pixel values. */
-  using IndexType = Index<Self::ImageDimension>;
+  using IndexType = Index<VImageDimension>;
   using IndexValueType = typename IndexType::IndexValueType;
   using OffsetType = typename IndexType::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
@@ -121,7 +121,7 @@ public:
   using OffsetTableType = OffsetValueType[ImageDimension + 1];
 
   /** Size type alias support A size is used to define region bounds. */
-  using SizeType = Size<Self::ImageDimension>;
+  using SizeType = Size<VImageDimension>;
   using SizeValueType = typename SizeType::SizeValueType;
 
   /** Slice region type alias. SliceRegion is one dimension less than Self. */
@@ -152,7 +152,8 @@ public:
   ImageRegion(const Self &) noexcept = default;
 
   /** Constructor that takes an index and size. ImageRegion is a lightweight
-   * object that is not reference counted, so this constructor is public. */
+   * object that is not reference counted, so this constructor is public.
+   * \note This constructor supports class template argument deduction (CTAD). */
   ImageRegion(const IndexType & index, const SizeType & size) noexcept
     : // Note: Use parentheses instead of curly braces to initialize data members,
       // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
@@ -162,7 +163,8 @@ public:
 
   /** Constructor that takes a size and assumes an index of zeros. ImageRegion
    * is lightweight object that is not reference counted so this constructor
-   * is public. */
+   * is public.
+   * \note This constructor supports class template argument deduction (CTAD). */
   ImageRegion(const SizeType & size) noexcept
     : m_Size(size)
   {
@@ -407,6 +409,12 @@ private:
   /** Friends of ImageRegion */
   friend class ImageBase<VImageDimension>;
 };
+
+
+// Deduction guide to avoid compiler warnings (-wctad-maybe-unsupported) when using class template argument deduction.
+template <unsigned int VImageDimension>
+ImageRegion(const Index<VImageDimension> &, const Size<VImageDimension> &)->ImageRegion<VImageDimension>;
+
 
 template <unsigned int VImageDimension>
 std::ostream &
