@@ -49,7 +49,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   ///! Run-time type information (and related methods).
-  itkTypeMacro(PyCommand, Command);
+  itkOverrideGetNameOfClassMacro(PyCommand);
 
   ///! Method for creation through the object factory.
   itkNewMacro(Self);
