@@ -86,7 +86,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information */
-  itkTypeMacro(CompositeExampleImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(CompositeExampleImageFilter);
 
   //  Software Guide : BeginLatex
   //

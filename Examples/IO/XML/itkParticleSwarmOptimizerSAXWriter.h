@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParticleSwarmOptimizerSAXWriter, XMLWriterBase);
+  itkOverrideGetNameOfClassMacro(ParticleSwarmOptimizerSAXWriter);
 
   /**
    * Virtual method defined in itk::XMLWriterBase.

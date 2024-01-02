@@ -67,7 +67,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Standard macros. */
-  itkTypeMacro(ExampleWeightFunction, FunctionBase);
+  itkOverrideGetNameOfClassMacro(ExampleWeightFunction);
   itkNewMacro(Self);
 
   /** Input type */
