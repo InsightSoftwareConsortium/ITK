@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParticleSwarmOptimizerDOMReader, DOMReader);
+  itkOverrideGetNameOfClassMacro(ParticleSwarmOptimizerDOMReader);
 
 protected:
   ParticleSwarmOptimizerDOMReader() = default;

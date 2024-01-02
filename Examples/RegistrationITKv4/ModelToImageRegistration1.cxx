@@ -161,7 +161,7 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
 
-  itkTypeMacro(IterationCallback, Superclass);
+  itkOverrideGetNameOfClassMacro(IterationCallback);
   itkNewMacro(Self);
 
   /** Type defining the optimizer. */
@@ -265,7 +265,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SimpleImageToSpatialObjectMetric, ImageToSpatialObjectMetric);
+  itkOverrideGetNameOfClassMacro(SimpleImageToSpatialObjectMetric);
 
   static constexpr unsigned int ParametricSpaceDimension = 3;
 
