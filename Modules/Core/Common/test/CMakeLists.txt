@@ -1718,6 +1718,7 @@ set(ITKCommonGTests
     itkBuildInformationGTest.cxx
     itkConnectedImageNeighborhoodShapeGTest.cxx
     itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
+    itkCopyGTest.cxx
     itkDerefGTest.cxx
     itkExceptionObjectGTest.cxx
     itkFixedArrayGTest.cxx
