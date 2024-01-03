@@ -37,6 +37,7 @@ Conners
 ConvertAnitkImageTovtkImageData
 ConvertRGBvtkImageDataToAnitkImage
 Cortesi's
+Coverity
 Creade
 CreateListOfSamplesWithIDs
 Crofton's
@@ -94,6 +95,7 @@ Hilden
 Hiraki
 Hirschberg
 Hostname
+Intelli
 IOregion
 ITKIOMeshGifti
 ITKImageToIplImage
@@ -198,6 +200,7 @@ Spall
 Sprengel
 Stegun
 Stiehl
+Synopsys
 Syst
 Tajbakhsh
 Talos
@@ -587,6 +590,7 @@ lin
 lina
 lins
 lm
+lnt
 loc
 localizer
 lockings
