@@ -8,7 +8,7 @@ readonly name="Eigen3"
 readonly ownership="Eigen Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/Eigen3/src/itkeigen"
 readonly repo="https://github.com/InsightSoftwareConsortium/eigen"
-readonly tag="for/itk-20231108-master-4d54c43d"
+readonly tag="for/itk-20240108-master-4d54c43d"
 readonly paths="
 Eigen/Cholesky
 Eigen/CholmodSupport
