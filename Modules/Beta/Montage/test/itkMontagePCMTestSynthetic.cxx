@@ -39,7 +39,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Image, Object);
+  itkTypeMacro(HyperSphereImageSource, Object);
 
   using ImageType = itk::Image<TPixel, VDimension>;
 
