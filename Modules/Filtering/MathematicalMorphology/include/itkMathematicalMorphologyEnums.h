@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include "ITKMathematicalMorphologyExport.h"
-#include <cstdint>
+#include "itkIntTypes.h"
 
 
 namespace itk
@@ -39,7 +39,7 @@ public:
    * \brief Algorithm or implementation used in the dilation/erosion operations.
    * \ingroup ITKMathematicalMorphology
    */
-  enum class Algorithm : std::uint8_t
+  enum class Algorithm : uint8_t
   {
     BASIC = 0,
     HISTO = 1,
