@@ -19,12 +19,12 @@
 #ifndef itkConnectedImageNeighborhoodShape_h
 #define itkConnectedImageNeighborhoodShape_h
 
+#include "itkIntTypes.h" // For uintmax_t
 #include "itkMath.h"
 #include "itkOffset.h"
 
 #include <array>
 #include <cassert>
-#include <cstdint> // For uintmax_t
 #include <limits>
 
 namespace itk

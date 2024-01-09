@@ -28,7 +28,7 @@
 #ifndef itkSpatialOrientation_h
 #define itkSpatialOrientation_h
 
-#include <cstdint>
+#include "itkIntTypes.h"
 #include <ostream>
 
 #include "ITKCommonExport.h"
