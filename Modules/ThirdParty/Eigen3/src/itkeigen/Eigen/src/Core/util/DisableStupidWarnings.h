@@ -20,7 +20,20 @@
   #ifndef EIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
     #pragma warning( push )
   #endif
-  #pragma warning( disable : 4100 4101 4127 4181 4211 4244 4273 4324 4503 4512 4522 4700 4714 4717 4800)
+  #define EIGEN_STUPID_WARNINGS_BASE 4100 4101 4127 4181 4211 4244 4273 4324 4503 4512 4522 4700 4714 4717 4800
+  // ITK Patch to disable MSVC 2019 warnings. See Issue #4376
+  // 4348 - Redefinition of default parameter (IndexedViewSelector)
+  #if _MSC_FULL_VER < 192930040
+    #define EIGEN_STUPID_WARNINGS_EXTRAS 4348
+  #else
+    #define EIGEN_STUPID_WARNINGS_EXTRAS
+  #endif
+  #define EIGEN_STUPID_WARNINGS EIGEN_STUPID_WARNINGS_BASE EIGEN_STUPID_WARNINGS_EXTRAS
+  #pragma warning( disable : EIGEN_STUPID_WARNINGS)
+  #undef EIGEN_STUPID_WARNINGS
+  #undef EIGEN_STUPID_WARNINGS_BASE
+  #undef EIGEN_STUPID_WARNINGS_EXTRAS
+
   // We currently rely on has_denorm in tests, and need it defined correctly for half/bfloat16.
   #ifndef _SILENCE_CXX23_DENORM_DEPRECATION_WARNING
     #define EIGEN_REENABLE_CXX23_DENORM_DEPRECATION_WARNING 1
