@@ -1199,6 +1199,7 @@ if(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL)
 endif()
 if(NOT SKIP_INSTALL_FILES AND NOT SKIP_INSTALL_ALL)
     install(FILES ${ZLIB_PC} DESTINATION "${PKGCONFIG_INSTALL_DIR}")
+	if(FALSE) # ITK change: this messes with ITK's library naming
     # INFO: Mimics official zlib CMake target
     # Generates ZLIB.cmake in case ZLIB_COMPAT=ON and always exports the CMake target ZLIB::ZLIB
     # In case ZLIB_COMPAT=OFF, the CMake target and file follows zlib-ng naming convention
@@ -1215,6 +1216,7 @@ if(NOT SKIP_INSTALL_FILES AND NOT SKIP_INSTALL_ALL)
     install(EXPORT ${EXPORT_NAME}
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_NAME}"
         NAMESPACE ${EXPORT_NAME}::)
+	endif() # ITK change
 endif()
 
 #============================================================================
@@ -1287,6 +1289,7 @@ add_feature_info(INSTALL_UTILS INSTALL_UTILS "Copy minigzip and minideflate duri
 
 FEATURE_SUMMARY(WHAT ALL INCLUDE_QUIET_PACKAGES)
 
+if(FALSE) # ITK change: don't define packaging
 #============================================================================
 # CPack
 #============================================================================
@@ -1303,3 +1306,4 @@ if("${PROJECT_BINARY_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}")
 endif()
 
 include(CPack)
+endif() # ITK change
