@@ -165,7 +165,7 @@ check_for_clangformat() {
   die "clang-format executable was not found.
 
 A clang-format binary will be downloaded and configured when ITK
-is built with the BUILD_TESTING CMake configuration option enabled.
+is built with the (i) BUILD_TESTING=True and (ii) ITK_USE_CLANG_FORMAT=True CMake configuration options enabled.
 
 Alternatively, install clang-format version $clangformat_required_version or set the executable location with
 
