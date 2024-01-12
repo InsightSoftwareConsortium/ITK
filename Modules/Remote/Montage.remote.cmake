@@ -50,4 +50,4 @@ itk_fetch_module(
   GIT_REPOSITORY
   ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMontage.git
   GIT_TAG
-  b91741f4f1746449dc70f08c7cc13c26cafa7d98)
+  53f0970fe3ed9a257c8e7f1e6b1ab547840f8fa8)
