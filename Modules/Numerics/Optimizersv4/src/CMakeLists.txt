@@ -2,6 +2,7 @@ set(ITKOptimizersv4_SRCS
     itkObjectToObjectOptimizerBase.cxx
     itkSingleValuedNonLinearVnlOptimizerv4.cxx
     itkSingleValuedVnlCostFunctionAdaptorv4.cxx
+    itkLBFGSOptimizerv4Base.cxx
     itkLBFGSOptimizerv4.cxx
     itkLBFGS2Optimizerv4.cxx
     itkLBFGSBOptimizerv4.cxx
