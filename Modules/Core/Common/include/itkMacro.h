@@ -434,24 +434,23 @@ namespace itk
 #endif
 
 
-/** Macro's used to add `GetNameOfClass()` member functions to polymorphic ITK classes: `itkVirtualGetNameOfClassMacro`
- * adds a virtual `GetNameOfClass()` member function to the class definition, and `itkOverrideGetNameOfClassMacro` adds
- * a `GetNameOfClass()` override. */
-#define itkVirtualGetNameOfClassMacro(thisClass)                                                             \
-  virtual const char * GetNameOfClass() const                                                                \
+// Internal macro (not part of the public ITK API), used to implement `GetNameOfClass()` member functions.
+#define itkInternalGetNameOfClassImplementationMacro(thisClass)                                              \
   {                                                                                                          \
     static_assert(std::is_same_v<thisClass, std::remove_const_t<std::remove_reference_t<decltype(*this)>>>); \
     return #thisClass;                                                                                       \
   }                                                                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define itkOverrideGetNameOfClassMacro(thisClass)                                                            \
-  const char * GetNameOfClass() const override                                                               \
-  {                                                                                                          \
-    static_assert(std::is_same_v<thisClass, std::remove_const_t<std::remove_reference_t<decltype(*this)>>>); \
-    return #thisClass;                                                                                       \
-  }                                                                                                          \
-  ITK_MACROEND_NOOP_STATEMENT
+
+/** Macro's used to add `GetNameOfClass()` member functions to polymorphic ITK classes: `itkVirtualGetNameOfClassMacro`
+ * adds a virtual `GetNameOfClass()` member function to the class definition, and `itkOverrideGetNameOfClassMacro` adds
+ * a `GetNameOfClass()` override. */
+#define itkVirtualGetNameOfClassMacro(thisClass) \
+  virtual const char * GetNameOfClass() const itkInternalGetNameOfClassImplementationMacro(thisClass)
+
+#define itkOverrideGetNameOfClassMacro(thisClass) \
+  const char * GetNameOfClass() const override itkInternalGetNameOfClassImplementationMacro(thisClass)
 
 #ifdef ITK_FUTURE_LEGACY_REMOVE
 #  define itkTypeMacro(thisClass, superclass)                                                                      \
