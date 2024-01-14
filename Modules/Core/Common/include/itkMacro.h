@@ -435,11 +435,13 @@ namespace itk
 
 
 // Internal macro (not part of the public ITK API), used to implement `GetNameOfClass()` member functions.
-#define itkInternalGetNameOfClassImplementationMacro(thisClass)                                              \
-  {                                                                                                          \
-    static_assert(std::is_same_v<thisClass, std::remove_const_t<std::remove_reference_t<decltype(*this)>>>); \
-    return #thisClass;                                                                                       \
-  }                                                                                                          \
+#define itkInternalGetNameOfClassImplementationMacro(thisClass)                                             \
+  {                                                                                                         \
+    static_assert(std::is_same_v<thisClass, std::remove_const_t<std::remove_reference_t<decltype(*this)>>>, \
+                  "The macro argument `" #thisClass                                                         \
+                  "` appears incorrect! It should correspond with the name of this class!");                \
+    return #thisClass;                                                                                      \
+  }                                                                                                         \
   ITK_MACROEND_NOOP_STATEMENT
 
 
