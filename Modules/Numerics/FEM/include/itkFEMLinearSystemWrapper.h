@@ -583,7 +583,7 @@ public:
   ~FEMExceptionLinearSystemBounds() noexcept override;
 
   /** Type related information. */
-  itkOverrideGetNameOfClassMacro(FEMExceptionLinearSystem);
+  itkOverrideGetNameOfClassMacro(FEMExceptionLinearSystemBounds);
 };
 } // end namespace fem
 } // end namespace itk
