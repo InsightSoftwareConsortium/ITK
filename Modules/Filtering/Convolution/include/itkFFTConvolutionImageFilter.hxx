@@ -151,8 +151,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
 
   InputRegionType inputLargestRegion = input->GetLargestPossibleRegion();
   const auto [inputLargestIndex, inputLargestSize] = inputLargestRegion;
-  InputRegionType inputRequestedRegion = input->GetRequestedRegion();
-  const auto [inputRequestedIndex, inputRequestedSize] = inputRequestedRegion;
+  const auto [inputRequestedIndex, inputRequestedSize] = input->GetRequestedRegion();
   OutputRegionType outputRequestedRegion = this->GetOutput()->GetRequestedRegion();
   const auto [outputRequestedIndex, outputRequestedSize] = outputRequestedRegion;
 

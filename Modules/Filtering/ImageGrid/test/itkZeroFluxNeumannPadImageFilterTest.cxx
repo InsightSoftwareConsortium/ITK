@@ -104,11 +104,9 @@ VerifyFilter(const ShortImage *    inputImage,
     return false;
   }
 
-  ShortImage::RegionType outputRegion = padFilter->GetOutput()->GetLargestPossibleRegion();
-  const auto [outputIndex, outputSize] = outputRegion;
+  const auto [outputIndex, outputSize] = padFilter->GetOutput()->GetLargestPossibleRegion();
 
-  ShortImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
-  const auto [inputIndex, inputSize] = inputRegion;
+  const auto [inputIndex, inputSize] = inputImage->GetLargestPossibleRegion();
 
   ShortImage::IndexType expectedIndex;
   ShortImage::SizeType  expectedSize;

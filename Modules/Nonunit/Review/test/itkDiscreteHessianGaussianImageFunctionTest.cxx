@@ -228,9 +228,8 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   // Exercise another interpolation mode: LinearInterpolation
   {
     function->SetInterpolationMode(HessianGaussianImageFunctionType::InterpolationModeEnum::LinearInterpolation);
-    const ImageType *              inputImage = reader->GetOutput();
-    typename ImageType::RegionType region = inputImage->GetBufferedRegion();
-    auto [index, size] = region;
+    const ImageType * inputImage = reader->GetOutput();
+    auto [index, size] = inputImage->GetBufferedRegion();
     // Aim for the pixel at the center of the image
     for (unsigned int i = 0; i < Dimension; ++i)
     {

@@ -190,8 +190,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Gau
   }
   ScalarType weight2 = 1.0 - weight1;
 
-  const typename ConstantVelocityFieldType::RegionType region = field->GetLargestPossibleRegion();
-  const auto [startIndex, size] = region;
+  const auto [startIndex, size] = field->GetLargestPossibleRegion();
 
   ImageRegionIteratorWithIndex<ConstantVelocityFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
   ImageRegionConstIteratorWithIndex<ConstantVelocityFieldType> smoothedFieldIt(smoothField,

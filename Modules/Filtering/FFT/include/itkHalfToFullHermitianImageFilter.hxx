@@ -139,8 +139,8 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
       OutputImageIndexType index(conjugateIndex);
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        OutputImageRegionType outputLargestPossibleRegion = outputPtr->GetLargestPossibleRegion();
-        const auto [outputLargestPossibleRegionIndex, outputLargestPossibleRegionSize] = outputLargestPossibleRegion;
+        const auto [outputLargestPossibleRegionIndex, outputLargestPossibleRegionSize] =
+          outputPtr->GetLargestPossibleRegion();
         if (conjugateIndex[i] != outputLargestPossibleRegionIndex[i])
         {
           index[i] = outputLargestPossibleRegionSize[i] - conjugateIndex[i] + 2 * outputLargestPossibleRegionIndex[i];

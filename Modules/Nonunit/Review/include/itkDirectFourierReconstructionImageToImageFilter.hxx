@@ -78,8 +78,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
     return;
   }
 
-  RegionType inputRegion = inputImage->GetLargestPossibleRegion();
-  auto [inputStart, inputSize] = inputRegion;
+  auto [inputStart, inputSize] = inputImage->GetLargestPossibleRegion();
 
   IndexType outputStart;
   SizeType  outputSize;

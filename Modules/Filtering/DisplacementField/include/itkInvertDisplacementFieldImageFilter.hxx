@@ -168,8 +168,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const RegionType & region)
 {
-  const typename DisplacementFieldType::RegionType fullRegion = this->m_ComposedField->GetRequestedRegion();
-  const auto [startIndex, size] = fullRegion;
+  const auto [startIndex, size] = this->m_ComposedField->GetRequestedRegion();
   const typename DisplacementFieldType::PixelType zeroVector{};
 
   ImageRegionIterator<DisplacementFieldType> ItE(this->m_ComposedField, region);

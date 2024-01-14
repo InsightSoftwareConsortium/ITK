@@ -187,10 +187,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
   {
     typename TimeVaryingVelocityFieldType::PointType spaceTimeOrigin = inputField->GetOrigin();
 
-    using RegionType = typename TimeVaryingVelocityFieldType::RegionType;
-    RegionType region = inputField->GetLargestPossibleRegion();
-
-    auto [lastIndex, size] = region;
+    auto [lastIndex, size] = inputField->GetLargestPossibleRegion();
     for (unsigned int d = 0; d < InputImageDimension; ++d)
     {
       lastIndex[d] += (size[d] - 1);

@@ -52,9 +52,7 @@ ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GetValidReg
 {
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
 
-  InputRegionType inputLargestPossibleRegion = inputPtr->GetLargestPossibleRegion();
-
-  auto [validIndex, validSize] = inputLargestPossibleRegion;
+  auto [validIndex, validSize] = inputPtr->GetLargestPossibleRegion();
 
   // Shrink the output largest possible region by the kernel radius.
   KernelSizeType kernelSize = this->GetKernelImage()->GetLargestPossibleRegion().GetSize();

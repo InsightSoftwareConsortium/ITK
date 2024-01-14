@@ -791,8 +791,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   }
   RealType weight2 = 1.0 - weight1;
 
-  const typename DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
-  const auto [startIndex, size] = region;
+  const auto [startIndex, size] = field->GetLargestPossibleRegion();
 
   ImageRegionConstIteratorWithIndex<DisplacementFieldType> ItF(field, field->GetLargestPossibleRegion());
   ImageRegionIteratorWithIndex<DisplacementFieldType>      ItS(smoothField, smoothField->GetLargestPossibleRegion());

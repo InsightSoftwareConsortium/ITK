@@ -144,8 +144,7 @@ VTKImageExport<TInputImage>::WholeExtentCallback()
     itkExceptionMacro("Need to set an input");
   }
 
-  InputRegionType region = input->GetLargestPossibleRegion();
-  const auto [index, size] = region;
+  const auto [index, size] = input->GetLargestPossibleRegion();
 
   unsigned int i = 0;
   // Fill in the known portion of the extent.
@@ -385,8 +384,7 @@ VTKImageExport<TInputImage>::DataExtentCallback()
     itkExceptionMacro("Need to set an input");
   }
 
-  InputRegionType region = input->GetBufferedRegion();
-  const auto [index, size] = region;
+  const auto [index, size] = input->GetBufferedRegion();
 
   unsigned int i = 0;
   for (; i < InputImageDimension; ++i)

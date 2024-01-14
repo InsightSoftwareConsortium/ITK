@@ -32,8 +32,7 @@ GPUImageDataManager<ImageType>::SetImagePointer(ImageType * img)
   using IndexType = typename ImageType::IndexType;
   using SizeType = typename ImageType::SizeType;
 
-  RegionType region = m_Image->GetBufferedRegion();
-  const auto [index, size] = region;
+  const auto [index, size] = m_Image->GetBufferedRegion();
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {

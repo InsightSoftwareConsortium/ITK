@@ -225,8 +225,7 @@ SliceBySliceImageFilter<TInputImage,
 
   this->AllocateOutputs();
 
-  const RegionType requestedRegion = this->GetOutput(0)->GetRequestedRegion();
-  const auto [requestedIndex, requestedSize] = requestedRegion;
+  const auto [requestedIndex, requestedSize] = this->GetOutput(0)->GetRequestedRegion();
 
   InternalRegionType internalOutputRegion;
   InternalRegionType internalInputRegion;
