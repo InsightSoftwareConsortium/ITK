@@ -181,7 +181,7 @@ LabelMap<TLabelObject>::GetPixel(const IndexType & idx) const -> const LabelType
 
 template <typename TLabelObject>
 auto
-LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) -> LabelObjectType *
+LabelMap<TLabelObject>::GetNthLabelObject(const LabelMap::SizeValueType & pos) -> LabelObjectType *
 {
   SizeValueType i = 0;
 
@@ -201,7 +201,7 @@ LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) -> LabelObj
 
 template <typename TLabelObject>
 auto
-LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) const -> const LabelObjectType *
+LabelMap<TLabelObject>::GetNthLabelObject(const LabelMap::SizeValueType & pos) const -> const LabelObjectType *
 {
   SizeValueType i = 0;
 
@@ -493,14 +493,6 @@ LabelMap<TLabelObject>::ClearLabels()
     m_LabelObjectContainer.clear();
     this->Modified();
   }
-}
-
-
-template <typename TLabelObject>
-auto
-LabelMap<TLabelObject>::GetNumberOfLabelObjects() const -> SizeValueType
-{
-  return static_cast<typename LabelMap<TLabelObject>::SizeValueType>(m_LabelObjectContainer.size());
 }
 
 

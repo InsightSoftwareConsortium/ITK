@@ -31,20 +31,6 @@ ImageRandomConstIteratorWithOnlyIndex<TImage>::ImageRandomConstIteratorWithOnlyI
 
 template <typename TImage>
 void
-ImageRandomConstIteratorWithOnlyIndex<TImage>::SetNumberOfSamples(SizeValueType number)
-{
-  m_NumberOfSamplesRequested = number;
-}
-
-template <typename TImage>
-auto
-ImageRandomConstIteratorWithOnlyIndex<TImage>::GetNumberOfSamples() const -> SizeValueType
-{
-  return m_NumberOfSamplesRequested;
-}
-
-template <typename TImage>
-void
 ImageRandomConstIteratorWithOnlyIndex<TImage>::ReinitializeSeed()
 {
   m_Generator->SetSeed();

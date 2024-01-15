@@ -267,7 +267,10 @@ public:
    * Return the number of label objects in the image
    */
   typename Self::SizeValueType
-  GetNumberOfLabelObjects() const;
+  GetNumberOfLabelObjects() const
+  {
+    return static_cast<SizeValueType>(m_LabelObjectContainer.size());
+  }
 
   /**
    * Return the labels of the label objects available in the label map
