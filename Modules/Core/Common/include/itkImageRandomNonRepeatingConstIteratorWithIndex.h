@@ -324,10 +324,20 @@ public:
 
   /** Set/Get number of random samples to extract from the image region. */
   void
-  SetNumberOfSamples(SizeValueType number);
+  SetNumberOfSamples(SizeValueType number)
+  {
+    m_NumberOfSamplesRequested = number;
+    if (number > m_NumberOfPixelsInRegion)
+    {
+      m_NumberOfSamplesRequested = m_NumberOfPixelsInRegion;
+    }
+  }
 
   SizeValueType
-  GetNumberOfSamples() const;
+  GetNumberOfSamples() const
+  {
+    return m_NumberOfSamplesRequested;
+  }
 
   /** Reinitialize the seed of the random number generator. */
   void
