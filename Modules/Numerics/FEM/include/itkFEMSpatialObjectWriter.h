@@ -42,7 +42,7 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
-  itkOverrideGetNameOfClassMacro(Superclass);
+  itkOverrideGetNameOfClassMacro(FEMSpatialObjectWriter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
