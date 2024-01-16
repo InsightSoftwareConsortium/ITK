@@ -197,7 +197,7 @@ CenteredSimilarity2DTransform<TParametersValueType>::GetInverse(Self * inverse) 
   }
 
   inverse->SetFixedParameters(this->GetFixedParameters());
-  this->GetInverseMatrix();
+  const auto & inverseMatrix = this->GetInverseMatrix();
   if (this->GetSingular())
   {
     return false;
@@ -205,7 +205,7 @@ CenteredSimilarity2DTransform<TParametersValueType>::GetInverse(Self * inverse) 
   inverse->SetCenter(this->GetCenter()); // inverse have the same center
   inverse->SetScale(1.0 / this->GetScale());
   inverse->SetAngle(-this->GetAngle());
-  inverse->SetTranslation(-(this->GetInverseMatrix() * this->GetTranslation()));
+  inverse->SetTranslation(-(inverseMatrix * this->GetTranslation()));
   return true;
 }
 

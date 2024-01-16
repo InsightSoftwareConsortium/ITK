@@ -425,15 +425,15 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
   }
 
   inverse->SetFixedParameters(this->GetFixedParameters());
-  this->GetInverseMatrix();
+  const auto & inverseMatrix = this->GetInverseMatrix();
   if (m_Singular)
   {
     return false;
   }
 
-  inverse->m_Matrix = this->GetInverseMatrix();
+  inverse->m_Matrix = inverseMatrix;
   inverse->m_InverseMatrix = m_Matrix;
-  inverse->m_Offset = -(this->GetInverseMatrix() * m_Offset);
+  inverse->m_Offset = -(inverseMatrix * m_Offset);
   inverse->ComputeTranslation();
   inverse->ComputeMatrixParameters();
 
