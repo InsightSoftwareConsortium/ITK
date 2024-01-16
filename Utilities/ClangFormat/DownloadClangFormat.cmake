@@ -43,6 +43,8 @@ endif()
 if(ITK_FORBID_DOWNLOADS)
   message(SEND_ERROR "Attempted to download ClangFormat when ITK_FORBID_DOWNLOADS is ON")
 endif()
+cmake_policy(PUSH)
+cmake_policy(SET CMP0135 NEW)
 if(NOT TARGET ClangFormat AND _clang_format_hash)
   ExternalProject_Add(
     ClangFormat
@@ -58,3 +60,4 @@ if(NOT TARGET ClangFormat AND _clang_format_hash)
     LOG_INSTALL 0
     INSTALL_COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/ITKClangFormatConfig.cmake)
 endif()
+cmake_policy(POP)
