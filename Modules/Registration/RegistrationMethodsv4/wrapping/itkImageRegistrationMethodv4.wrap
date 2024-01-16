@@ -10,6 +10,7 @@ itk_wrap_include("itkMesh.h")
 
 itk_wrap_class("itk::DataObjectDecorator" POINTER)
 foreach(d ${ITK_WRAP_DIMS})
+  itk_wrap_template("CT${ITKM_D}${d}" "itk::CompositeTransform< ${ITKT_D}, ${d} >")
   itk_wrap_template("DFT${ITKM_D}${d}" "itk::DisplacementFieldTransform< ${ITKT_D}, ${d} >")
   itk_wrap_template("BSOUDFT${ITKM_D}${d}" "itk::BSplineSmoothingOnUpdateDisplacementFieldTransform< ${ITKT_D}, ${d} >")
   # necessary for TimeVaryingVelocityFieldImageRegistrationMethodv4
