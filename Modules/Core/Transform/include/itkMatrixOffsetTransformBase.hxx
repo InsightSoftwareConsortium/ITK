@@ -75,12 +75,15 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
   os << indent << "Translation: " << m_Translation << std::endl;
 
   os << indent << "Inverse: " << std::endl;
+
+  const auto & inverseMatrix = this->GetInverseMatrix();
+
   for (i = 0; i < VInputDimension; ++i)
   {
     os << indent.GetNextIndent();
     for (j = 0; j < VOutputDimension; ++j)
     {
-      os << this->GetInverseMatrix()[i][j] << ' ';
+      os << inverseMatrix[i][j] << ' ';
     }
     os << std::endl;
   }
@@ -199,13 +202,14 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 {
   OutputCovariantVectorType result; // Converted vector
 
+  const auto & inverseMatrix = this->GetInverseMatrix();
+
   for (unsigned int i = 0; i < VOutputDimension; ++i)
   {
     result[i] = NumericTraits<ScalarType>::ZeroValue();
     for (unsigned int j = 0; j < VInputDimension; ++j)
     {
-      result[i] += this->GetInverseMatrix()[j][i] * vec[j]; // Inverse
-                                                            // transposed
+      result[i] += inverseMatrix[j][i] * vec[j]; // Inverse transposed
     }
   }
   return result;
@@ -222,6 +226,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
   vnl_vector<TParametersValueType> vnl_vect(vectorDim);
   vnl_matrix<TParametersValueType> vnl_mat(vectorDim, vect.Size(), 0.0);
+
+  const auto & inverseMatrix = this->GetInverseMatrix();
+
   for (unsigned int i = 0; i < vectorDim; ++i)
   {
     vnl_vect[i] = vect[i];
@@ -229,7 +236,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
     {
       if ((i < VInputDimension) && (j < VInputDimension))
       {
-        vnl_mat(i, j) = this->GetInverseMatrix()(j, i);
+        vnl_mat(i, j) = inverseMatrix(j, i);
       }
       else if (i == j)
       {
@@ -258,11 +265,14 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
   JacobianType jacobian;
   jacobian.SetSize(InverseMatrixType::RowDimensions, InverseMatrixType::ColumnDimensions);
+
+  const auto & inverseMatrix = this->GetInverseMatrix();
+
   for (unsigned int i = 0; i < InverseMatrixType::RowDimensions; ++i)
   {
     for (unsigned int j = 0; j < InverseMatrixType::ColumnDimensions; ++j)
     {
-      jacobian(i, j) = this->GetInverseMatrix()(i, j);
+      jacobian(i, j) = inverseMatrix(i, j);
     }
   }
 
@@ -321,12 +331,15 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
     }
   }
 
+
+  const auto & inverseMatrix = this->GetInverseMatrix();
+
   for (unsigned int i = 0; i < VInputDimension; ++i)
   {
     for (unsigned int j = 0; j < VOutputDimension; ++j)
     {
       jacobian(j, i) = this->GetMatrix()(j, i);
-      invJacobian(i, j) = this->GetInverseMatrix()(i, j);
+      invJacobian(i, j) = inverseMatrix(i, j);
     }
   }
 
@@ -365,12 +378,14 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
     }
   }
 
+  const auto & inverseMatrix = this->GetInverseMatrix();
+
   for (unsigned int i = 0; i < VInputDimension; ++i)
   {
     for (unsigned int j = 0; j < VOutputDimension; ++j)
     {
       jacobian(j, i) = this->GetMatrix()(j, i);
-      invJacobian(i, j) = this->GetInverseMatrix()(i, j);
+      invJacobian(i, j) = inverseMatrix(i, j);
     }
   }
 
