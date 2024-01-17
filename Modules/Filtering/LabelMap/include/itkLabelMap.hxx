@@ -36,14 +36,6 @@ namespace itk
 {
 
 template <typename TLabelObject>
-LabelMap<TLabelObject>::LabelMap()
-{
-  m_BackgroundValue = NumericTraits<LabelType>::ZeroValue();
-  this->Initialize();
-}
-
-
-template <typename TLabelObject>
 void
 LabelMap<TLabelObject>::PrintSelf(std::ostream & os, Indent indent) const
 {

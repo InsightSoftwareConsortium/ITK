@@ -486,7 +486,7 @@ public:
   };
 
 protected:
-  LabelMap();
+  LabelMap() = default;
   ~LabelMap() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
