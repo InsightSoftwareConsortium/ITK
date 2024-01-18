@@ -96,19 +96,27 @@ Upload new testing data
 
 [web3.storage] is a decentralized IPFS storage
 provider where any ITK community member can upload binary data files.
-There are two methods available to upload data files:
+There are two primary methods available to upload data files:
 
-1.  The CMake ExternalData Web3 upload browser interface.
-2.  The <span class="title-ref">w3</span> command line executable that
-    comes with the [@web3-storage/w3] Node.js NPM package.
+A.  The CMake ExternalData Web3 upload browser interface.
+B.  The <span class="title-ref">w3</span> command line executable that
+    comes with the [@web3-storage/w3cli] Node.js NPM package.
 
-Once files have been uploaded to your account, they will be publicly
+Once files have been uploaded, they will be publicly
 available and accessible since data is content addressed on the IPFS
-peer-to-peer network. At release time, the release manager will upload
-and archive repository data references in other redundant storage
-locations.
+peer-to-peer network.
 
-### Upload Via the Web Interface
+In addition to these two methods, documented in detail below, another
+possibility includes pinning the data on IPFS with [other pinning services]
+and creating the content link file manually. The content link file is simply a
+plan text file with a `.cid` extension whose contents are the CID file.
+However, the documented two methods are recommended due to their simplicity
+and in order to keep CID values consistent.
+
+At release time, the release manager uploads and archives repository data
+references in other storage locations for additional redundancy.
+
+### Option A) Upload Via the Web Interface
 
 Use the [Content Link Upload]
 tool ([Alt Link]) to
@@ -118,28 +126,19 @@ corresponding CMake content link file.
 ![[CMake ExternalData Web3
 Content Link Upload](https://content-link-upload.itk.org/)](./content-link-upload.png)
 
-Add the file to the repository in the directory referenced by the *CMakeLists.txt*
-script.  Next time CMake configuration runs, it will find the new content link.
-During the next project build, the data file corresponding to the content link will be
-downloaded into the build tree.
-
-### Upload Via CMake and Node.js CLI
+### Option B) Upload Via CMake and Node.js CLI
 
 Install the <span class="title-ref">w3</span> CLI with the
-[@web3-storage/w3] [Node.js] package:
+[@web3-storage/w3cli] [Node.js] package:
 
 ```bash
-npm install --location=global @web3-storage/w3
+npm install -g @web3-storage/w3cli
 ```
 
-Login in and create an API token at
-[web3.storage] then pass it into `w3 token`:
+Login in with your credentials.
 
 ```bash
-w3 token
-? Paste your API token for api.web3.storage › <your token here>
-
-⁂ API token saved
+w3 login
 ```
 
 Create an <span class="title-ref">w3externaldata</span> bash/zsh
@@ -155,33 +154,26 @@ link:
 
 ```bash
 w3externaldata <filename>
-# Packed 1 file (0.3MB)
+  1 file (0.3MB)
 ⁂ Stored 1 file
 bafkreifpfhcc3gc7zo2ds3ktyyl5qrycwisyaolegp47cl27i4swxpa2ey
 ```
 
-### Upload via the web interface
+### Add the content link to the source tree
 
-  1. After logging in, you will be presented with the welcome page. Click on
-     the *personal data space link*.
-  2. Next, select the *Public* folder of your personal data space.
-  3. Click the green upload button.
-  4. Click the *Browse or drop files* to select the files to upload.
-  5. Click *Start Upload* to upload the file to the server.
-  6. Next, proceed to download the Content Link.
+Add the file to the repository in the directory referenced by the
+*CMakeLists.txt* script. Move the content link file to the **source tree** at
+the location where the actual file is desired in the build tree.
 
-### Download the content link
-
-  1. Click on the file that has been uploaded.
-  2. Click on the *i* button for further information.
-  3. Finally, click on the *Download key file* icon to download the key file.
-
-Move the content link file to the **source tree** at the location where the
-actual file is desired in the build tree. Stage the new file to your commit:
+Stage the new file to your commit:
 
 ```bash
 git add -- path/to/file.cid
 ```
+
+Next time CMake configuration runs, it will find the new content link. During
+the next project build, the data file corresponding to the content link will
+be downloaded into the build tree.
 
 [Alt Link]: https://content-link-upload.itk.eth.limo
 [Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
@@ -199,7 +191,8 @@ git add -- path/to/file.cid
 [MD5 hash]: https://en.wikipedia.org/wiki/MD5
 [multiformats]: https://multiformats.io/
 [Node.js]: https://nodejs.org/
+[other pinning services]: https://docs.ipfs.tech/how-to/work-with-pinning-services/
 [SHA512 hash]: https://en.wikipedia.org/wiki/SHA-2
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
 [web3.storage]: https://web3.storage/
-[@web3-storage/w3]: https://www.npmjs.com/package/@web3-storage/w3
+[@web3-storage/w3cli]: https://www.npmjs.com/package/@web3-storage/w3cli

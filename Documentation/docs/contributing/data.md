@@ -136,9 +136,11 @@ module fetches data needed by enabled tests. This allows arbitrarily large data
 to be added and removed without bloating the version control history.
 
 For more information, see
-[CMake ExternalData: Using Large Files with Distributed Version Control](https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/).
+[CMake ExternalData: Using Large Files with Distributed Version Control] and
+the [InterPlanetary File System (IPFS)].
 
-
-[Upload Binary Data]: upload_binary_data.md
-[ITKData Datalad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
+[CMake ExternalData: Using Large Files with Distributed Version Control]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
 [content-link-upload]: https://content-link-upload.itk.org
+[InterPlanetary File System (IPFS)]: https://ipfs.tech/
+[ITKData Datalad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
+[Upload Binary Data]: upload_binary_data.md
