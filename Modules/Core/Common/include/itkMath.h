@@ -33,6 +33,7 @@
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
 #include <vnl/vnl_math.h>
+#include <type_traits>
 
 /* Only maintain backwards compatibility with old versions
  * of VXL back to the point where vnl_math:: was introduced
@@ -177,6 +178,10 @@ template <typename TReturn, typename TInput>
 inline TReturn
 Round(TInput x)
 {
+  static_assert(
+    sizeof(TReturn) > sizeof(int64_t) || std::is_integral_v<TReturn>,
+    "Math::Round template argument `TReturn` must be an integer type. If a floating point result is preferred, "
+    "consider using std::round (from <cmath>), or cast the result of a Math::Round call to a floating point type!");
   return RoundHalfIntegerUp<TReturn, TInput>(x);
 }
 
