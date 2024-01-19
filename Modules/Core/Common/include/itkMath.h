@@ -107,12 +107,11 @@ static constexpr float float_sqrteps = vnl_math::float_sqrteps;
   template <typename TReturn, typename TInput>                              \
   inline TReturn name(TInput x)                                             \
   {                                                                         \
-                                                                            \
-    if (sizeof(TReturn) <= 4)                                               \
+    if constexpr (sizeof(TReturn) <= 4)                                     \
     {                                                                       \
       return static_cast<TReturn>(Detail::name##_32(x));                    \
     }                                                                       \
-    else if (sizeof(TReturn) <= 8)                                          \
+    else if constexpr (sizeof(TReturn) <= 8)                                \
     {                                                                       \
       return static_cast<TReturn>(Detail::name##_64(x));                    \
     }                                                                       \
@@ -219,14 +218,14 @@ CastWithRangeCheck(TInput x)
 #endif // ITK_USE_CONCEPT_CHECKING
 
   auto ret = static_cast<TReturn>(x);
-  if (sizeof(TReturn) > sizeof(TInput) &&
-      !(!itk::NumericTraits<TReturn>::is_signed && itk::NumericTraits<TInput>::is_signed))
+  if constexpr (sizeof(TReturn) > sizeof(TInput) &&
+                !(!itk::NumericTraits<TReturn>::is_signed && itk::NumericTraits<TInput>::is_signed))
   {
     // if the output type is bigger and we are not converting a signed
     // integer to an unsigned integer then we have no problems
     return ret;
   }
-  else if (sizeof(TReturn) >= sizeof(TInput))
+  else if constexpr (sizeof(TReturn) >= sizeof(TInput))
   {
     if (itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret))
     {
