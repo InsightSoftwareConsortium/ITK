@@ -326,22 +326,6 @@ public:
       m_Iterator = m_Begin;
     }
 
-    ConstIterator(const ConstIterator & iter)
-    {
-      m_Iterator = iter.m_Iterator;
-      m_Begin = iter.m_Begin;
-      m_End = iter.m_End;
-    }
-
-    ConstIterator &
-    operator=(const ConstIterator & iter)
-    {
-      m_Iterator = iter.m_Iterator;
-      m_Begin = iter.m_Begin;
-      m_End = iter.m_End;
-      return *this;
-    }
-
     const LabelObjectType *
     GetLabelObject() const
     {
@@ -413,22 +397,6 @@ public:
       m_Iterator = m_Begin;
     }
 
-    Iterator(const Iterator & iter)
-    {
-      m_Iterator = iter.m_Iterator;
-      m_Begin = iter.m_Begin;
-      m_End = iter.m_End;
-    }
-
-    Iterator &
-    operator=(const Iterator & iter)
-    {
-      m_Iterator = iter.m_Iterator;
-      m_Begin = iter.m_Begin;
-      m_End = iter.m_End;
-      return *this;
-    }
-
     LabelObjectType *
     GetLabelObject()
     {
@@ -486,7 +454,7 @@ public:
   };
 
 protected:
-  LabelMap();
+  LabelMap() = default;
   ~LabelMap() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

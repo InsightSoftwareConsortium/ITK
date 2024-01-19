@@ -36,14 +36,6 @@ namespace itk
 {
 
 template <typename TLabelObject>
-LabelMap<TLabelObject>::LabelMap()
-{
-  m_BackgroundValue = NumericTraits<LabelType>::ZeroValue();
-  this->Initialize();
-}
-
-
-template <typename TLabelObject>
 void
 LabelMap<TLabelObject>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -183,19 +175,12 @@ template <typename TLabelObject>
 auto
 LabelMap<TLabelObject>::GetNthLabelObject(const LabelMap::SizeValueType & pos) -> LabelObjectType *
 {
-  SizeValueType i = 0;
-
-  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
+  if (const auto numberOfLabelObjects = m_LabelObjectContainer.size(); numberOfLabelObjects <= pos)
   {
-    if (i == pos)
-    {
-      return it->second;
-    }
-    ++i;
+    itkExceptionMacro("Can't access label object at position " << pos << ". The label map has only "
+                                                               << numberOfLabelObjects << " label objects registered.");
   }
-  itkExceptionMacro("Can't access to label object at position " << pos << ". The label map has only "
-                                                                << this->GetNumberOfLabelObjects()
-                                                                << " label objects registered.");
+  return std::next(m_LabelObjectContainer.cbegin(), pos)->second;
 }
 
 
@@ -203,19 +188,12 @@ template <typename TLabelObject>
 auto
 LabelMap<TLabelObject>::GetNthLabelObject(const LabelMap::SizeValueType & pos) const -> const LabelObjectType *
 {
-  SizeValueType i = 0;
-
-  for (LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
+  if (const auto numberOfLabelObjects = m_LabelObjectContainer.size(); numberOfLabelObjects <= pos)
   {
-    if (i == pos)
-    {
-      return it->second;
-    }
-    ++i;
+    itkExceptionMacro("Can't access label object at position " << pos << ". The label map has only "
+                                                               << numberOfLabelObjects << " label objects registered.");
   }
-  itkExceptionMacro("Can't access to label object at position " << pos << ". The label map has only "
-                                                                << this->GetNumberOfLabelObjects()
-                                                                << " label objects registered.");
+  return std::next(m_LabelObjectContainer.cbegin(), pos)->second;
 }
 
 
