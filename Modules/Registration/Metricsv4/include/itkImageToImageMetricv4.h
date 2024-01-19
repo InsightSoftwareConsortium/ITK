@@ -407,19 +407,43 @@ public:
   itkGetModifiableObjectMacro(MovingInterpolator, MovingInterpolatorType);
 
   /** Set/Get the moving image mask. */
-  itkSetObjectMacro(MovingImageMask, MovingImageMaskType);
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual void
+  SetMovingImageMask(MovingImageMaskType * const arg)
+  {
+    const auto * const constArg = arg;
+    // Call the overload defined by itkSetConstObjectMacro, or an override.
+    this->SetMovingImageMask(constArg);
+  }
+#endif
   itkSetConstObjectMacro(MovingImageMask, MovingImageMaskType);
   itkGetConstObjectMacro(MovingImageMask, MovingImageMaskType);
 
   /** Set/Get the fixed image mask. */
-  itkSetObjectMacro(FixedImageMask, FixedImageMaskType);
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual void
+  SetFixedImageMask(FixedImageMaskType * const arg)
+  {
+    const auto * const constArg = arg;
+    // Call the overload defined by itkSetConstObjectMacro, or an override.
+    this->SetFixedImageMask(constArg);
+  }
+#endif
   itkSetConstObjectMacro(FixedImageMask, FixedImageMaskType);
   itkGetConstObjectMacro(FixedImageMask, FixedImageMaskType);
 
   /** Set/Get the fixed image domain sampling point set
    * See main documentation regarding using fixed vs virtual domain
    * for the point set. */
-  itkSetObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual void
+  SetFixedSampledPointSet(FixedSampledPointSetType * const arg)
+  {
+    const auto * const constArg = arg;
+    // Call the overload defined by itkSetConstObjectMacro, or an override.
+    this->SetFixedSampledPointSet(constArg);
+  }
+#endif
   itkSetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
   itkGetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
 

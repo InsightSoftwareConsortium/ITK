@@ -161,7 +161,15 @@ public:
   itkBooleanMacro(TransformForward);
 
   /** Get/Set a point set for virtual domain sampling. */
-  itkSetObjectMacro(VirtualDomainPointSet, VirtualPointSetType);
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual void
+  SetVirtualDomainPointSet(VirtualPointSetType * const arg)
+  {
+    const auto * const constArg = arg;
+    // Call the overload defined by itkSetConstObjectMacro, or an override.
+    this->SetVirtualDomainPointSet(constArg);
+  }
+#endif
   itkSetConstObjectMacro(VirtualDomainPointSet, VirtualPointSetType);
   itkGetConstObjectMacro(VirtualDomainPointSet, VirtualPointSetType);
 
