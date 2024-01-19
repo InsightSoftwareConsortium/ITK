@@ -20,6 +20,7 @@
 
 #include "itkUnaryGeneratorImageFilter.h"
 #include "itkMath.h"
+#include <type_traits> // For conditional_t and is_integral_v.
 
 namespace itk
 {
@@ -45,7 +46,18 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
-    return itk::Math::Round<TOutput, TInput>(A);
+    if constexpr (sizeof(TOutput) <= sizeof(int64_t) && !std::is_integral_v<TOutput>)
+    {
+      using IntegerType = std::conditional_t<sizeof(TOutput) <= sizeof(int32_t), int32_t, int64_t>;
+
+      // The TReturn argument of Math::Round must be an integer type.
+      return static_cast<TOutput>(Math::Round<IntegerType>(A));
+    }
+    else
+    {
+      // Rare (exceptional) case: sizeof(TOutput) > sizeof(int64_t).
+      return Math::Round<TOutput>(A);
+    }
   }
 };
 } // namespace Functor
