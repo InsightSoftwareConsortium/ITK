@@ -54,7 +54,7 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>::ClampCast(const double value) -
   {
     return NumericTraits<OutputImagePixelType>::NonpositiveMin();
   }
-  else if (NumericTraits<OutputImagePixelType>::is_integer)
+  else if constexpr (NumericTraits<OutputImagePixelType>::is_integer)
   {
     return Math::Round<OutputImagePixelType>(value);
   }
