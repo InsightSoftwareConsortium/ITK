@@ -36,9 +36,6 @@ template <typename TInput1, typename TInput2, typename TInput3, typename TOutput
 class ITK_TEMPLATE_EXPORT LandweberMethod
 {
 public:
-  LandweberMethod() = default;
-  ~LandweberMethod() = default;
-
   bool
   operator==(const LandweberMethod &) const
   {

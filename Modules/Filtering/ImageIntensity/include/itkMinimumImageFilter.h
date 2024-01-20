@@ -33,8 +33,6 @@ template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class Minimum
 {
 public:
-  Minimum() = default;
-  ~Minimum() = default;
   bool
   operator==(const Minimum &) const
   {

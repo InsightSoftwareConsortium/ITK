@@ -43,8 +43,6 @@ template <typename TInput, typename TOutput>
 class EdgePotential
 {
 public:
-  EdgePotential() = default;
-  ~EdgePotential() = default;
   bool
   operator==(const EdgePotential &) const
   {

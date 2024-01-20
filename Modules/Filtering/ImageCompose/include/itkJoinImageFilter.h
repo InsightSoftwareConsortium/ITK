@@ -48,9 +48,6 @@ template <typename TPixel1, typename TPixel2>
 class JoinFunctor
 {
 public:
-  JoinFunctor() = default;
-  ~JoinFunctor() = default;
-
   /** Standard type alias */
   using Self = JoinFunctor;
 

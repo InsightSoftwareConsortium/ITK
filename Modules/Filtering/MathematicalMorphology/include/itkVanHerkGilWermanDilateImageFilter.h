@@ -27,8 +27,6 @@ template <typename TPixel>
 class MaxFunctor
 {
 public:
-  MaxFunctor() = default;
-  ~MaxFunctor() = default;
   inline TPixel
   operator()(const TPixel & A, const TPixel & B) const
   {

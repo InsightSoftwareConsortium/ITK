@@ -34,8 +34,6 @@ template <typename TInput, typename TOutput>
 class Sin
 {
 public:
-  Sin() = default;
-  ~Sin() = default;
   bool
   operator==(const Sin &) const
   {

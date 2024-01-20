@@ -58,8 +58,6 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class MagnitudeAndPhaseToComplex
 {
 public:
-  MagnitudeAndPhaseToComplex() = default;
-  ~MagnitudeAndPhaseToComplex() = default;
   bool
   operator==(const MagnitudeAndPhaseToComplex &) const
   {

@@ -34,8 +34,6 @@ template <typename TInput, typename TOutput>
 class Asin
 {
 public:
-  Asin() = default;
-  ~Asin() = default;
   bool
   operator==(const Asin &) const
   {

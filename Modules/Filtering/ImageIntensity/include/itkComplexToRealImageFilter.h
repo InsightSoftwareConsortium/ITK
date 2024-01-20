@@ -35,8 +35,6 @@ template <typename TInput, typename TOutput>
 class ComplexToReal
 {
 public:
-  ComplexToReal() = default;
-  ~ComplexToReal() = default;
   bool
   operator==(const ComplexToReal &) const
   {

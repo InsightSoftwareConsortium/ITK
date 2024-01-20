@@ -35,8 +35,6 @@ template <typename TInput, typename TOutput>
 class ComplexToModulus
 {
 public:
-  ComplexToModulus() = default;
-  ~ComplexToModulus() = default;
   bool
   operator==(const ComplexToModulus &) const
   {

@@ -764,9 +764,6 @@ public:
   static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
-  SymmetricEigenAnalysisFixedDimension() = default;
-  ~SymmetricEigenAnalysisFixedDimension() = default;
-
   using MatrixType = TMatrix;
   using EigenMatrixType = TEigenMatrix;
   using VectorType = TVector;

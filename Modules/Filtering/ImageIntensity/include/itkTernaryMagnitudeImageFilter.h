@@ -33,8 +33,6 @@ template <typename TInput1, typename TInput2, typename TInput3, typename TOutput
 class Modulus3
 {
 public:
-  Modulus3() = default;
-  ~Modulus3() = default;
   bool
   operator==(const Modulus3 &) const
   {

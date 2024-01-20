@@ -33,8 +33,6 @@ template <typename TInput, typename TOutput>
 class Abs
 {
 public:
-  Abs() = default;
-  ~Abs() = default;
   bool
   operator==(const Abs &) const
   {

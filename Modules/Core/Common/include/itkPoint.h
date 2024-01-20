@@ -344,9 +344,6 @@ public:
   using PointType = typename PointContainerType::Element;
   using WeightContainerType = TWeightContainer;
 
-  BarycentricCombination() = default;
-  ~BarycentricCombination() = default;
-
   static PointType
   Evaluate(const PointContainerPointer & points, const WeightContainerType & weights);
 };

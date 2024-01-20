@@ -34,8 +34,6 @@ template <typename TInput, typename TOutput>
 class Sqrt
 {
 public:
-  Sqrt() = default;
-  ~Sqrt() = default;
   bool
   operator==(const Sqrt &) const
   {

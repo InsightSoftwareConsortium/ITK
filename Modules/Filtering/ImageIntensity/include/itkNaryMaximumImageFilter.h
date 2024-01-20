@@ -38,8 +38,6 @@ public:
   // not sure if this type alias really makes things more clear... could just use
   // TOutput?
 
-  Maximum1() = default;
-  ~Maximum1() = default;
   inline TOutput
   operator()(const std::vector<TInput> & B) const
   {

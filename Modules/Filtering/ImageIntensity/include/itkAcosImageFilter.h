@@ -34,8 +34,6 @@ template <typename TInput, typename TOutput>
 class Acos
 {
 public:
-  Acos() = default;
-  ~Acos() = default;
   bool
   operator==(const Acos &) const
   {

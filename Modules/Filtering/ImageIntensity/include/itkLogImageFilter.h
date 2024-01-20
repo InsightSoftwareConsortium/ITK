@@ -34,8 +34,6 @@ template <typename TInput, typename TOutput>
 class Log
 {
 public:
-  Log() = default;
-  ~Log() = default;
   bool
   operator==(const Log &) const
   {

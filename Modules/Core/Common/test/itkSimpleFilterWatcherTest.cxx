@@ -28,8 +28,6 @@ template <typename TInput, typename TOutput>
 class TanHelper
 {
 public:
-  TanHelper() = default;
-  ~TanHelper() = default;
   bool
   operator==(const TanHelper & rhs) const
   {

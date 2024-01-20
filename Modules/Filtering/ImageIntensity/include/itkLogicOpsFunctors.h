@@ -119,9 +119,6 @@ class ITK_TEMPLATE_EXPORT Equal : public LogicOpBase<TInput1, TInput2, TOutput>
 public:
   using Self = Equal;
 
-  Equal() = default;
-  ~Equal() = default;
-
   bool
   operator==(const Self &) const
   {
@@ -155,9 +152,6 @@ class ITK_TEMPLATE_EXPORT NotEqual : public LogicOpBase<TInput1, TInput2, TOutpu
 {
 public:
   using Self = NotEqual;
-
-  NotEqual() = default;
-  ~NotEqual() = default;
 
   bool
   operator==(const Self &) const
@@ -193,8 +187,6 @@ class ITK_TEMPLATE_EXPORT GreaterEqual : public LogicOpBase<TInput1, TInput2, TO
 {
 public:
   using Self = GreaterEqual;
-  GreaterEqual() = default;
-  ~GreaterEqual() = default;
 
   bool
   operator==(const Self &) const
@@ -230,8 +222,6 @@ class ITK_TEMPLATE_EXPORT Greater : public LogicOpBase<TInput1, TInput2, TOutput
 {
 public:
   using Self = Greater;
-  Greater() = default;
-  ~Greater() = default;
 
   bool
   operator==(const Self &) const
@@ -268,9 +258,6 @@ class ITK_TEMPLATE_EXPORT LessEqual : public LogicOpBase<TInput1, TInput2, TOutp
 public:
   using Self = LessEqual;
 
-  LessEqual() = default;
-  ~LessEqual() = default;
-
   bool
   operator==(const Self &) const
   {
@@ -305,8 +292,6 @@ class ITK_TEMPLATE_EXPORT Less : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   using Self = Less;
-  Less() = default;
-  ~Less() = default;
 
   bool
   operator==(const Self &) const
@@ -337,9 +322,6 @@ template <typename TInput, typename TOutput = TInput>
 class ITK_TEMPLATE_EXPORT NOT : public LogicOpBase<TInput, TInput, TOutput>
 {
 public:
-  NOT() = default;
-  ~NOT() = default;
-
   bool
   operator==(const NOT &) const
   {
@@ -368,9 +350,6 @@ template <typename TInput1, typename TInput2, typename TInput3, typename TOutput
 class ITK_TEMPLATE_EXPORT TernaryOperator
 {
 public:
-  TernaryOperator() = default;
-  ~TernaryOperator() = default;
-
   bool
   operator==(const TernaryOperator &) const
   {
