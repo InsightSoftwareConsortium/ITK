@@ -46,8 +46,6 @@ template <typename TInput, typename TOutput>
 class VectorCast
 {
 public:
-  VectorCast() = default;
-  ~VectorCast() = default;
   bool
   operator!=(const VectorCast &) const
   {

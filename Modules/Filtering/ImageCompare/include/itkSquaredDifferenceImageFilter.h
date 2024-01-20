@@ -57,8 +57,6 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class SquaredDifference2
 {
 public:
-  SquaredDifference2() = default;
-  ~SquaredDifference2() = default;
   bool
   operator==(const SquaredDifference2 &) const
   {

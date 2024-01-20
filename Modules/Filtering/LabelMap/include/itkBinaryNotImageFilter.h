@@ -58,8 +58,6 @@ template <typename TPixel>
 class BinaryNot
 {
 public:
-  BinaryNot() = default;
-  ~BinaryNot() = default;
   bool
   operator==(const BinaryNot &) const
   {

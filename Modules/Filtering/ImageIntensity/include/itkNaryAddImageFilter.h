@@ -35,8 +35,6 @@ class Add1
 {
 public:
   using AccumulatorType = typename NumericTraits<TInput>::AccumulateType;
-  Add1() = default;
-  ~Add1() = default;
   inline TOutput
   operator()(const std::vector<TInput> & B) const
   {

@@ -58,8 +58,6 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class AbsoluteValueDifference2
 {
 public:
-  AbsoluteValueDifference2() = default;
-  ~AbsoluteValueDifference2() = default;
   bool
   operator==(const AbsoluteValueDifference2 &) const
   {

@@ -34,8 +34,6 @@ template <typename TInput, typename TOutput>
 class Exp
 {
 public:
-  Exp() = default;
-  ~Exp() = default;
   bool
   operator==(const Exp &) const
   {

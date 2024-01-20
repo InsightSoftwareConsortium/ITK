@@ -36,8 +36,6 @@ template <typename TInput, typename TOutput>
 class ComplexToImaginary
 {
 public:
-  ComplexToImaginary() = default;
-  ~ComplexToImaginary() = default;
   bool
   operator==(const ComplexToImaginary &) const
   {

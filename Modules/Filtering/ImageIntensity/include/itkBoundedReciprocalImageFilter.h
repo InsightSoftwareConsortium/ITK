@@ -47,8 +47,6 @@ template <typename TInput, typename TOutput>
 class BoundedReciprocal
 {
 public:
-  BoundedReciprocal() = default;
-  ~BoundedReciprocal() = default;
   bool
   operator==(const BoundedReciprocal &) const
   {

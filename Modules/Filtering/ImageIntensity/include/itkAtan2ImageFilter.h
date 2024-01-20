@@ -34,8 +34,6 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class Atan2
 {
 public:
-  Atan2() = default;
-  ~Atan2() = default;
   bool
   operator==(const Atan2 &) const
   {

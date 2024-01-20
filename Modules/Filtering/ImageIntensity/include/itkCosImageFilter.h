@@ -34,8 +34,6 @@ template <typename TInput, typename TOutput>
 class Cos
 {
 public:
-  Cos() = default;
-  ~Cos() = default;
   bool
   operator==(const Cos &) const
   {

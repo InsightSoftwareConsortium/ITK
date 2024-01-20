@@ -28,8 +28,6 @@ template <typename TPixel>
 class MinFunctor
 {
 public:
-  MinFunctor() = default;
-  ~MinFunctor() = default;
   inline TPixel
   operator()(const TPixel & A, const TPixel & B) const
   {

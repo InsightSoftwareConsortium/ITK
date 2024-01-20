@@ -38,8 +38,6 @@ class MaskNegatedInput
 public:
   using AccumulatorType = typename NumericTraits<TInput>::AccumulateType;
 
-  MaskNegatedInput() = default;
-  ~MaskNegatedInput() = default;
   bool
   operator==(const MaskNegatedInput &) const
   {

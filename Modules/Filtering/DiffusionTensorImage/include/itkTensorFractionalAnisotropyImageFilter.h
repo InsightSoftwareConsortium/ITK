@@ -32,8 +32,6 @@ class TensorFractionalAnisotropyFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
-  TensorFractionalAnisotropyFunction() = default;
-  ~TensorFractionalAnisotropyFunction() = default;
   bool
   operator==(const TensorFractionalAnisotropyFunction &) const
   {

@@ -34,8 +34,6 @@ template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT Add2
 {
 public:
-  Add2() = default;
-  ~Add2() = default;
   bool
   operator==(const Add2 &) const
   {
@@ -61,8 +59,6 @@ template <typename TInput1, typename TInput2, typename TInput3, typename TOutput
 class ITK_TEMPLATE_EXPORT Add3
 {
 public:
-  Add3() = default;
-  ~Add3() = default;
   bool
   operator==(const Add3 &) const
   {
@@ -88,8 +84,6 @@ template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT Sub2
 {
 public:
-  Sub2() = default;
-  ~Sub2() = default;
   bool
   operator==(const Sub2 &) const
   {
@@ -115,8 +109,6 @@ template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class ITK_TEMPLATE_EXPORT Mult
 {
 public:
-  Mult() = default;
-  ~Mult() = default;
   bool
   operator==(const Mult &) const
   {
@@ -142,8 +134,6 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT Div
 {
 public:
-  Div() = default;
-  ~Div() = default;
   bool
   operator==(const Div &) const
   {
@@ -217,9 +207,6 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT Modulus
 {
 public:
-  Modulus() = default;
-  ~Modulus() = default;
-
   bool
   operator==(const Modulus &) const
   {
@@ -368,8 +355,6 @@ template <class TInput1, class TOutput = TInput1>
 class UnaryMinus
 {
 public:
-  UnaryMinus() = default;
-  ~UnaryMinus() = default;
   bool
   operator==(const UnaryMinus &) const
   {

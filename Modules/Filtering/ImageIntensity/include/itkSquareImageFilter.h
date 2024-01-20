@@ -41,8 +41,6 @@ class Square
 {
 public:
   using RealType = typename NumericTraits<TInput>::RealType;
-  Square() = default;
-  ~Square() = default;
   bool
   operator==(const Square &) const
   {

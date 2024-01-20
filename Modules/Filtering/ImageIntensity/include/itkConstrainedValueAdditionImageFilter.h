@@ -34,8 +34,6 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class ConstrainedValueAddition
 {
 public:
-  ConstrainedValueAddition() = default;
-  ~ConstrainedValueAddition() = default;
   bool
   operator==(const ConstrainedValueAddition &) const
   {

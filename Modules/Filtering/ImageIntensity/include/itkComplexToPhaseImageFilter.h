@@ -36,8 +36,6 @@ template <typename TInput, typename TOutput>
 class ComplexToPhase
 {
 public:
-  ComplexToPhase() = default;
-  ~ComplexToPhase() = default;
   bool
   operator==(const ComplexToPhase &) const
   {

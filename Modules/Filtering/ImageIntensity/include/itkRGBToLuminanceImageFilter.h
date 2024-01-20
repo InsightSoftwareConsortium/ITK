@@ -43,8 +43,6 @@ public:
   using ComponentType = typename TInput::ComponentType;
   using RealType = typename itk::NumericTraits<ComponentType>::RealType;
 
-  RGBToLuminance() = default;
-  ~RGBToLuminance() = default;
   bool
   operator==(const RGBToLuminance &) const
   {

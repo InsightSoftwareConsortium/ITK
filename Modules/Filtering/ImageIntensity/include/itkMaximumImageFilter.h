@@ -33,8 +33,6 @@ template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class Maximum
 {
 public:
-  Maximum() = default;
-  ~Maximum() = default;
   bool
   operator==(const Maximum &) const
   {

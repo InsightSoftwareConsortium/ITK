@@ -51,10 +51,6 @@ public:
   using OffsetArray = std::vector<OffsetType>;
   using IndexArray = std::vector<IndexType>;
 
-  // constructors
-  BresenhamLine() = default;
-  ~BresenhamLine() = default;
-
   /** Build a line in a specified Direction. */
   OffsetArray
   BuildLine(LType Direction, IdentifierType length);

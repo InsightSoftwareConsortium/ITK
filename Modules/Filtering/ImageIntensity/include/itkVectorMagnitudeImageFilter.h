@@ -48,9 +48,6 @@ template <typename TInput, typename TOutput>
 class VectorMagnitude
 {
 public:
-  VectorMagnitude() = default;
-  ~VectorMagnitude() = default;
-
   bool
   operator==(const VectorMagnitude &) const
   {

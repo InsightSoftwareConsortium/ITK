@@ -44,8 +44,6 @@ class SymmetricEigenAnalysisFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
-  SymmetricEigenAnalysisFunction() = default;
-  ~SymmetricEigenAnalysisFunction() = default;
   using CalculatorType = SymmetricEigenAnalysis<TInput, TOutput>;
   bool
   operator==(const SymmetricEigenAnalysisFunction &) const
@@ -131,8 +129,6 @@ class SymmetricEigenAnalysisFixedDimensionFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
-  SymmetricEigenAnalysisFixedDimensionFunction() = default;
-  ~SymmetricEigenAnalysisFixedDimensionFunction() = default;
   using CalculatorType = SymmetricEigenAnalysisFixedDimension<TMatrixDimension, TInput, TOutput>;
   bool
   operator==(const SymmetricEigenAnalysisFixedDimensionFunction &) const

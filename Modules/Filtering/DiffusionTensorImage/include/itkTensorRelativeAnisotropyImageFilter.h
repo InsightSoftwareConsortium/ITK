@@ -32,8 +32,6 @@ class TensorRelativeAnisotropyFunction
 {
 public:
   using RealValueType = typename TInput::RealValueType;
-  TensorRelativeAnisotropyFunction() = default;
-  ~TensorRelativeAnisotropyFunction() = default;
   bool
   operator==(const TensorRelativeAnisotropyFunction &) const
   {
