@@ -72,7 +72,7 @@ public:
   void
   SetGlobalInstance(const char * globalName, T * global, std::function<void()> deleteFunc)
   {
-    this->SetGlobalInstancePrivate(globalName, global, deleteFunc);
+    this->SetGlobalInstancePrivate(globalName, global, std::move(deleteFunc));
   }
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
@@ -84,7 +84,7 @@ public:
                     std::function<void(void *)> itkNotUsed(func),
                     std::function<void()>       deleteFunc)
   {
-    this->SetGlobalInstance(globalName, global, deleteFunc);
+    this->SetGlobalInstance(globalName, global, std::move(deleteFunc));
     // Just returns true for backward compatibility (legacy only).
     return true;
   }
@@ -132,7 +132,7 @@ Singleton(const char * globalName, std::function<void()> deleteFunc)
   if (instance == nullptr)
   {
     instance = new T;
-    SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, deleteFunc);
+    SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, std::move(deleteFunc));
   }
   return instance;
 }
@@ -143,7 +143,7 @@ template <typename T>
 [[deprecated("Prefer calling the Singleton(globalName, deleteFunc) overload (without the unused func parameter)!")]] T *
 Singleton(const char * globalName, std::function<void(void *)> itkNotUsed(func), std::function<void()> deleteFunc)
 {
-  return Singleton<T>(globalName, deleteFunc);
+  return Singleton<T>(globalName, std::move(deleteFunc));
 }
 #endif
 
