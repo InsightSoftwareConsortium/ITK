@@ -94,7 +94,7 @@ SingletonIndex::GetGlobalInstancePrivate(const char * globalName)
 void
 SingletonIndex::SetGlobalInstancePrivate(const char * globalName, void * global, std::function<void()> deleteFunc)
 {
-  m_GlobalObjects.insert_or_assign(globalName, std::make_tuple(global, deleteFunc));
+  m_GlobalObjects.insert_or_assign(globalName, std::make_tuple(global, std::move(deleteFunc)));
 }
 
 SingletonIndex *
