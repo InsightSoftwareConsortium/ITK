@@ -158,10 +158,10 @@ itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char * argv[])
 
   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<Dimension>;
   using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
-  FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
-  SpatialWriter->SetInput(femSODef);
-  SpatialWriter->SetFileName(argv[1]);
-  SpatialWriter->Update();
+  FEMSpatialObjectWriterPointer spatialWriter = FEMSpatialObjectWriterType::New();
+  spatialWriter->SetInput(femSODef);
+  spatialWriter->SetFileName(argv[1]);
+  spatialWriter->Update();
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

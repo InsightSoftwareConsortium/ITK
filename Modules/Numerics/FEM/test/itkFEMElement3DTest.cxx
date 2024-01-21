@@ -45,7 +45,7 @@ itkFEMElement3DTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   // Need to register default FEM object types,
-  // and setup SpatialReader to recognize FEM types
+  // and setup spatialReader to recognize FEM types
   // which is all currently done as a HACK in
   // the initialization of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
@@ -56,11 +56,11 @@ itkFEMElement3DTest(int argc, char * argv[])
 
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<3>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
-  FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
-  SpatialReader->SetFileName(argv[1]);
-  SpatialReader->Update();
+  FEMSpatialObjectReaderPointer spatialReader = FEMSpatialObjectReaderType::New();
+  spatialReader->SetFileName(argv[1]);
+  spatialReader->Update();
 
-  FEMSpatialObjectReaderType::GroupPointer myGroup = SpatialReader->GetGroup();
+  FEMSpatialObjectReaderType::GroupPointer myGroup = spatialReader->GetGroup();
 
   std::cout << "Group Test: ";
   if (!myGroup)
@@ -76,7 +76,7 @@ itkFEMElement3DTest(int argc, char * argv[])
   // Testing the fe mesh validity
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<3>;
 
-  FEMObjectSpatialObjectType::ChildrenListType * children = SpatialReader->GetGroup()->GetChildren();
+  FEMObjectSpatialObjectType::ChildrenListType * children = spatialReader->GetGroup()->GetChildren();
 
   std::cout << "FEM Spatial Object Test: ";
   if (children->front()->GetTypeName() != "FEMObjectSpatialObject")

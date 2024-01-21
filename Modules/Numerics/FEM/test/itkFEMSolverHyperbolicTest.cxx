@@ -174,14 +174,14 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
-  FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
-  SpatialReader->SetFileName(argv[1]);
+  FEMSpatialObjectReaderPointer spatialReader = FEMSpatialObjectReaderType::New();
+  spatialReader->SetFileName(argv[1]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(SpatialReader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(spatialReader->Update());
 
 
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
-  FEMObjectSpatialObjectType::ChildrenListType * children = SpatialReader->GetGroup()->GetChildren();
+  FEMObjectSpatialObjectType::ChildrenListType * children = spatialReader->GetGroup()->GetChildren();
   FEMObjectSpatialObjectType::Pointer            femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>((*(children->begin())).GetPointer());
   if (!femSO)
