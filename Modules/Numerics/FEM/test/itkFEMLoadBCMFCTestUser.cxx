@@ -29,7 +29,7 @@ itkFEMLoadBCMFCTestUser(int argc, char *[])
     return EXIT_FAILURE;
   }
   // Need to register default FEM object types,
-  // and setup SpatialReader to recognize FEM types
+  // and setup spatialReader to recognize FEM types
   // which is all currently done as a HACK in
   // the initialization of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
@@ -236,10 +236,10 @@ itkFEMLoadBCMFCTestUser(int argc, char *[])
    femSODef->SetFEMObject(solver->GetOutput());
    using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
    using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
-   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
-   SpatialWriter->SetInput(femSODef);
-   SpatialWriter->SetFileName( argv[2] );
-   SpatialWriter->Update();*/
+   FEMSpatialObjectWriterPointer spatialWriter = FEMSpatialObjectWriterType::New();
+   spatialWriter->SetInput(femSODef);
+   spatialWriter->SetFileName( argv[2] );
+   spatialWriter->Update();*/
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

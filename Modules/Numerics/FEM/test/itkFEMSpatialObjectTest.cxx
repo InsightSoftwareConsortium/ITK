@@ -28,7 +28,7 @@ itkFEMSpatialObjectTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   // Need to register default FEM object types,
-  // and setup SpatialReader to recognize FEM types
+  // and setup spatialReader to recognize FEM types
   // which is all currently done as a HACK in
   // the initialization of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
@@ -37,17 +37,17 @@ itkFEMSpatialObjectTest(int argc, char * argv[])
   std::cout << "Read Spatial Object" << std::endl;
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
-  FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
-  SpatialReader->SetFileName(argv[1]);
-  SpatialReader->Update();
+  FEMSpatialObjectReaderPointer spatialReader = FEMSpatialObjectReaderType::New();
+  spatialReader->SetFileName(argv[1]);
+  spatialReader->Update();
 
 
   /*
-    FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
+    FEMSpatialObjectReaderType::ScenePointer myScene = spatialReader->GetScene();
 
     using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
     using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
-    FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
+    FEMObjectSpatialObjectType::ChildrenListType* children = spatialReader->GetGroup()->GetChildren();
 
     FEMObjectSpatialObjectType::Pointer femSO =
       dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );

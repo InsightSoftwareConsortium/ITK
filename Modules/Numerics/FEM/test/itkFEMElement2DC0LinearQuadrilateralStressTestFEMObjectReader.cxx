@@ -31,7 +31,7 @@ int
 itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * argv[])
 {
   // Need to register default FEM object types,
-  // and setup SpatialReader to recognize FEM types
+  // and setup spatialReader to recognize FEM types
   // which is all currently done as a HACK in
   // the initialization of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
@@ -42,18 +42,18 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * a
 
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
-  FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
-  SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/Trial.meta");
-  SpatialReader->Update();
+  FEMSpatialObjectReaderPointer spatialReader = FEMSpatialObjectReaderType::New();
+  spatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/Trial.meta");
+  spatialReader->Update();
 
   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
   using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
-  FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
-  SpatialWriter->SetInput(SpatialReader->GetScene());
-  SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/TrialWrite.meta");
-  SpatialWriter->Update();
+  FEMSpatialObjectWriterPointer spatialWriter = FEMSpatialObjectWriterType::New();
+  spatialWriter->SetInput(spatialReader->GetScene());
+  spatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/TrialWrite.meta");
+  spatialWriter->Update();
 
-  FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
+  FEMSpatialObjectReaderType::ScenePointer myScene = spatialReader->GetScene();
   if (!myScene)
   {
     std::cout << "No Scene : [FAILED]" << std::endl;
@@ -65,7 +65,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * a
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
   using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
 
-  FEMObjectSpatialObjectType::ChildrenListType * children = SpatialReader->GetGroup()->GetChildren();
+  FEMObjectSpatialObjectType::ChildrenListType * children = spatialReader->GetGroup()->GetChildren();
   if (strcmp((*(children->begin()))->GetTypeName(), "FEMObjectSpatialObject"))
   {
     std::cout << " [FAILED]" << std::endl;
