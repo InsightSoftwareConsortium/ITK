@@ -101,7 +101,7 @@ PoolMultiThreader::~PoolMultiThreader() = default;
 void
 PoolMultiThreader::SetSingleMethod(ThreadFunctionType f, void * data)
 {
-  m_SingleMethod = f;
+  m_SingleMethod = std::move(f);
   m_SingleData = data;
 }
 
