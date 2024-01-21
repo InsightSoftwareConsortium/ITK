@@ -42,7 +42,6 @@ itkFEMSolverTest3D(int argc, char * argv[])
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName(argv[1]);
-  //  SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/3DC0LinearHexahedronMembraneTest.meta");
   SpatialReader->Update();
 
   FEMSpatialObjectReaderType::GroupPointer myGroup = SpatialReader->GetGroup();
@@ -110,7 +109,6 @@ itkFEMSolverTest3D(int argc, char * argv[])
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
   SpatialWriter->SetInput(femSODef);
   SpatialWriter->SetFileName(argv[2]);
-  //  SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/3DC0LinearHexahedronMembraneTestWrite.meta");
   SpatialWriter->Update();
 
   std::cout << "Test PASSED!" << std::endl;

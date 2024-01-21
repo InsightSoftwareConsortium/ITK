@@ -42,7 +42,6 @@ itkFEMLoadBCMFCTest(int argc, char * argv[])
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName(argv[1]);
-  //  SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/LoadBCMFCTest.meta");
   SpatialReader->Update();
 
   FEMSpatialObjectReaderType::GroupPointer myGroup = SpatialReader->GetGroup();

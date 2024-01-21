@@ -42,7 +42,6 @@ itkFEMLandmarkLoadImplementationTest(int argc, char * argv[])
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
-  //  SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/LoadLandmarkTest.meta");
   SpatialReader->SetFileName(argv[1]);
   SpatialReader->Update();
 
@@ -87,7 +86,6 @@ itkFEMLandmarkLoadImplementationTest(int argc, char * argv[])
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
   SpatialWriter->SetInput(femSODef);
   SpatialWriter->SetFileName(argv[2]);
-  //  SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/LoadLandmarkTestWrite.meta");
   SpatialWriter->Update();
 
   std::cout << "Test PASSED!" << std::endl;
