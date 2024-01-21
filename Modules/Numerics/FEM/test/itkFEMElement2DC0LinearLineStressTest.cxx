@@ -42,7 +42,6 @@ itkFEMElement2DC0LinearLineStressTest(int argc, char * argv[])
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName(argv[1]);
-  //  SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearLineStressTest.meta");
   SpatialReader->Update();
 
   FEMSpatialObjectReaderType::GroupPointer myGroup = SpatialReader->GetGroup();
@@ -105,7 +104,6 @@ itkFEMElement2DC0LinearLineStressTest(int argc, char * argv[])
   using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
   SpatialWriter->SetInput(femSODef);
-  //  SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearLineStressTestWrite.meta");
   SpatialWriter->SetFileName(argv[2]);
   SpatialWriter->Update();
 

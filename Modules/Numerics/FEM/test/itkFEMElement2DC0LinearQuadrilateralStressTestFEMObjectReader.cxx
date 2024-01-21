@@ -43,7 +43,6 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * a
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
-  // SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/SpatialObjects.meta");
   SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/Trial.meta");
   SpatialReader->Update();
 
