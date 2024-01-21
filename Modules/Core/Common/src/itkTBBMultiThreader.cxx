@@ -62,7 +62,7 @@ TBBMultiThreader::~TBBMultiThreader() = default;
 void
 TBBMultiThreader::SetSingleMethod(ThreadFunctionType f, void * data)
 {
-  m_SingleMethod = f;
+  m_SingleMethod = std::move(f);
   m_SingleData = data;
 }
 
