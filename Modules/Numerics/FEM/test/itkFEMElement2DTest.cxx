@@ -20,6 +20,7 @@
 #include "itkFEMSpatialObjectReader.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
+#include "itkTestingMacros.h"
 
 using Solver2DType = itk::fem::Solver<2>;
 
@@ -38,11 +39,13 @@ PrintK1(Solver2DType * S, int s);
 int
 itkFEMElement2DTest(int argc, char * argv[])
 {
-  if (argc < 1)
+  if (argc != 2)
   {
-    std::cerr << "Missing Spatial Object Filename" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
     return EXIT_FAILURE;
   }
+
   // Need to register default FEM object types,
   // and setup spatialReader to recognize FEM types
   // which is all currently done as a HACK in

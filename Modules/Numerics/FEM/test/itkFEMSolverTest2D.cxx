@@ -24,10 +24,18 @@
 #include "itkSpatialObject.h"
 #include "itkFEMSpatialObjectReader.h"
 #include "itkFEMSpatialObjectWriter.h"
+#include "itkTestingMacros.h"
 
 int
 itkFEMSolverTest2D(int argc, char * argv[])
 {
+  if (argc != 3)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   // Need to register default FEM object types,
   // and setup spatialReader to recognize FEM types
   // which is all currently done as a HACK in
