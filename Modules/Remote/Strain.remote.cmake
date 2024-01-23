@@ -54,9 +54,7 @@ For more information, see:
   The Insight Journal. January-December. 2017.
   https://www.insight-journal.org/browse/publication/984
 "
-  MODULE_COMPLIANCE_LEVEL
-  2
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/KitwareMedical/ITKStrain.git
-  GIT_TAG
-  676882683516b4c1303fe81c1ba36ce472ca51ba)
+  MODULE_COMPLIANCE_LEVEL 2
+  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKStrain.git
+  GIT_TAG 676882683516b4c1303fe81c1ba36ce472ca51ba
+  )

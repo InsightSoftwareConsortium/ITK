@@ -48,9 +48,7 @@ itk_fetch_module(
   accurate numerical derivatives and gradients from an input scalar image.
   Higher Order Accurate Derivative and Gradient Calculation in ITK
   https://www.insight-journal.org/browse/publication/775"
-  MODULE_COMPLIANCE_LEVEL
-  2
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient.git
-  GIT_TAG
-  f90bb7ec83c7842c03e4e68d58957b965870497e)
+  MODULE_COMPLIANCE_LEVEL 2
+  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient.git
+  GIT_TAG f90bb7ec83c7842c03e4e68d58957b965870497e
+  )
