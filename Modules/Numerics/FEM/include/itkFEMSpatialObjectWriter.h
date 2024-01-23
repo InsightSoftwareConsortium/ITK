@@ -25,7 +25,7 @@ namespace itk
 {
 /** \class FEMSpatialObjectWriter
  *
- * \brief Read any SpatialObject file with conversion for FEM Objects
+ * \brief Write FEM SpatialObjects to a file
  *
  * \ingroup ITKFEM
  */
