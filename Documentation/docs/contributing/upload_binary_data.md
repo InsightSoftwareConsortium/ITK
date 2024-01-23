@@ -27,44 +27,41 @@ location-addressed, data exchange possible. This practice is the
 foundation of the decentralized web, also known as the dWeb or Web3. By
 adopting Web3, we gain:
 
-  - Permissionless data uploads
-  - Robust, redundant storage
-  - Local and peer-to-peer storage
-  - Scalability
-  - Sustainability
+- **Permissionless data uploads**
+- **Robust, redundant storage**
+- **Local and peer-to-peer storage**
+- **Scalability**
+- **Sustainability**
 
 Contributors to the ITK upload their data through an a simple web app
 that utilizes an easy-to-use, permissionless, free service, [web3.storage].
 
 Data used in the ITK Git repository is periodically tracked in a
-dedicated Datalad repository, the [ITKData Datalad repository].
+dedicated DataLad repository, the [ITKData DataLad repository].
 and stored across redundant locations so it can be retrieved from any of
 the following:
 
-  - Local [IPFS](https://ipfs.io/) nodes
-  - Peer [IPFS](https://ipfs.io/) nodes
-  - [web3.storage](https://web3.storage/)
-  - [pinata.cloud](https://pinata.cloud)
-  - Kitware's IPFS Server
-  - [ITKTestingData] GitHub Pages CDN
-  - Kitware's Apache HTTP Server
-  - Local testing data cache
-  - Archive tarballs from GitHub Releases
+- Local [IPFS](https://ipfs.io/) nodes
+- Peer [IPFS](https://ipfs.io/) nodes
+- [web3.storage](https://web3.storage/)
+- [pinata.cloud](https://pinata.cloud)
+- Kitware's IPFS Server
+- [ITKTestingData](https://github.com/InsightSoftwareConsortium/ITKTestingData) GitHub Pages CDN
+- Kitware's Apache HTTP Server
+- Local testing data cache
+- Archive tarballs from GitHub Releases
 
 ![ITK testing data figure](./itk-testing-data.png)
 
 *Testing data workflow. Testing or example data is uploaded to IPFS via the content-link-upload.itk.org web app.
 This pins the data on multiple servers across the globe.
 At release time, the data is also pinned on multiple servers in the USA and France and community pinners.
-At release time, the data is also stored in the DataLad Git repository and also served on an Apache HTTP server and the GitHub Pages CDN.
+At release time, the data is also stored in the DataLad Git repository, served on an Apache HTTP server, and the GitHub Pages CDN.
 At test time an ITK build can pull the data from a local cache, archive tarball, the Apache HTTP server, GitHub Pages CDN, or multiple IPFS HTTP gateways.*
 
 See also our [Data](data.md) guide for more information. If you just
 want to browse and download the ITK testing images, see the
-[ITKData Datalad repository].
-
-**Note**: for historical reasons, before [Content Identifier (CID)] files were
-used in ITK, [SHA512 hash] and [MD5 hash] content link files were used.
+[ITKData DataLad repository].
 
 Adding images as input to ITK sources
 -------------------------------------

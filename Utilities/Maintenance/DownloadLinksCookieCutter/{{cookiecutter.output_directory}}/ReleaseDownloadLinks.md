@@ -1,6 +1,6 @@
 **Python Packages**
 
-Install [ITK Python packages](https://itkpythonpackage.readthedocs.io/en/latest/Quick_start_guide.html) with:
+Install [ITK Python packages](https://docs.itk.org/en/latest/learn/python_quick_start.html) with:
 
 ```bash
 pip install --upgrade itk
