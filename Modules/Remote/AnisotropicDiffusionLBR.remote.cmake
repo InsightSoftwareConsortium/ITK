@@ -62,9 +62,7 @@ itk_fetch_module(
     The Insight Journal. 2014 January-December.
     https://insight-journal.org/browse/publication/953
   "
-  MODULE_COMPLIANCE_LEVEL
-  2
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKAnisotropicDiffusionLBR.git
-  GIT_TAG
-  d46aab0e0c8f02b89eaa0420e61970559177683f)
+  MODULE_COMPLIANCE_LEVEL 2
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKAnisotropicDiffusionLBR.git
+  GIT_TAG d46aab0e0c8f02b89eaa0420e61970559177683f
+  )

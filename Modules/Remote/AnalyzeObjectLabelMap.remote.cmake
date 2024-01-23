@@ -48,9 +48,7 @@ endif()
 itk_fetch_module(
   AnalyzeObjectLabelMap
   "AnalyzeObjectLabelMap plugin for ITK. From Insight Journal article with handle: https://www.insight-journal.org/browse/publication/178"
-  MODULE_COMPLIANCE_LEVEL
-  3
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/itkAnalyzeObjectMap.git
-  GIT_TAG
-  e6a8291f6066c4f0e732d422c3cdb0a5644f2ce6)
+  MODULE_COMPLIANCE_LEVEL 3
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/itkAnalyzeObjectMap.git
+  GIT_TAG e6a8291f6066c4f0e732d422c3cdb0a5644f2ce6
+  )

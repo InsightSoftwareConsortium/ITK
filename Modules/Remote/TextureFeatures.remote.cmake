@@ -55,9 +55,7 @@ For more information, see:
   The Insight Journal. January-December. 2017.
   https://www.insight-journal.org/browse/publication/985
 "
-  MODULE_COMPLIANCE_LEVEL
-  2
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTextureFeatures.git
-  GIT_TAG
-  e8a9020eddc0310ed490dfe5afc61e065dc95831)
+  MODULE_COMPLIANCE_LEVEL 2
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKTextureFeatures.git
+  GIT_TAG e8a9020eddc0310ed490dfe5afc61e065dc95831
+  )

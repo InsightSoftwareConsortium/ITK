@@ -45,10 +45,8 @@
 itk_fetch_module(
   SmoothingRecursiveYvvGaussianFilter
   "GPU and CPU Young & Van Vliet Recursive Gaussian Smoothing Filter: https://www.insight-journal.org/browse/publication/896"
-  MODULE_COMPLIANCE_LEVEL
-  2
-  #UPSTREAM_REPO GIT_REPOSITORY ${git_protocol}://github.com/Inria-Asclepios/SmoothingRecursiveYvvGaussianFilter
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKSmoothingRecursiveYvvGaussianFilter.git
-  GIT_TAG
-  f6bd553266aa1c1c3cdebc9033fd3b21f1f734c4)
+  MODULE_COMPLIANCE_LEVEL 2
+  #UPSTREAM_REPO GIT_REPOSITORY https://github.com/Inria-Asclepios/SmoothingRecursiveYvvGaussianFilter
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKSmoothingRecursiveYvvGaussianFilter.git
+  GIT_TAG f6bd553266aa1c1c3cdebc9033fd3b21f1f734c4
+  )

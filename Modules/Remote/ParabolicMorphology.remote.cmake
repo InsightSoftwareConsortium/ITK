@@ -47,9 +47,7 @@ itk_fetch_module(
   Fast distance transforms and binary erosions/dilations/openings/closings
   by spheres, sharpenings and grayscale operations.
   https://www.insight-journal.org/browse/publication/228"
-  MODULE_COMPLIANCE_LEVEL
-  2
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKParabolicMorphology.git
-  GIT_TAG
-  4cfb99d9688184f579bf4fae4c8cf99ea61bb8e5)
+  MODULE_COMPLIANCE_LEVEL 2
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKParabolicMorphology.git
+  GIT_TAG 4cfb99d9688184f579bf4fae4c8cf99ea61bb8e5
+  )

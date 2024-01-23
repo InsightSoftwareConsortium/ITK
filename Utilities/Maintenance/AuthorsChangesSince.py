@@ -63,7 +63,7 @@ def remote_repository(remote_spec):
         split = line.split()
         try:
             tag_index = split.index("GIT_REPOSITORY")
-            return split[tag_index + 1].replace("${git_protocol}", "https").strip()
+            return split[tag_index + 1].replace("https", "https").strip()
         except ValueError:
             continue
 

@@ -66,9 +66,7 @@ And the related:
   https://www.insight-journal.org/browse/publication/213
   January-June, 2008.
 "
-  MODULE_COMPLIANCE_LEVEL
-  3
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKCuberille.git
-  GIT_TAG
-  2b8509ad31beab7314146c19404ff0b49dcba6dc)
+  MODULE_COMPLIANCE_LEVEL 3
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKCuberille.git
+  GIT_TAG 2b8509ad31beab7314146c19404ff0b49dcba6dc
+  )

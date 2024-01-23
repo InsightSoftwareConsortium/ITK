@@ -51,12 +51,10 @@ This can be used, for instance, for image classification.
 
 This historical set of features is likely not appropriate for modern neural
 network implementations due to performance issues."
-    MODULE_COMPLIANCE_LEVEL
-    0
-    GIT_REPOSITORY
-    ${git_protocol}://github.com/InsightSoftwareConsortium/ITKNeuralNetworks.git
-    GIT_TAG
-    c293e56699d6d102dcde567baf1cf5b704819c17)
+    MODULE_COMPLIANCE_LEVEL 0
+    GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKNeuralNetworks.git
+    GIT_TAG c293e56699d6d102dcde567baf1cf5b704819c17
+    )
 
   if(NOT ITK_LEGACY_SILENT AND Module_NeuralNetworks)
     message(WARNING "NeuralNetworks remote module is deprecated.

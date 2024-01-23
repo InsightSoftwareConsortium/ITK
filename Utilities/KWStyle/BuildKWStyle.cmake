@@ -22,7 +22,7 @@ set(CMAKE_C_COMPILER_LAUNCHER_FLAG -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_
 if(NOT TARGET KWStyle)
   ExternalProject_Add(
     KWStyle
-    GIT_REPOSITORY "${git_protocol}://github.com/Kitware/KWStyle.git"
+    GIT_REPOSITORY "https://github.com/Kitware/KWStyle.git"
     GIT_TAG 1173206c0e7f4bc70dc3af641daf6e33f4042772
     UPDATE_COMMAND ""
     DOWNLOAD_DIR ${KWStyle_SOURCE_DIR}

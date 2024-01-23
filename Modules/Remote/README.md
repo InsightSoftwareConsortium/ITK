@@ -100,7 +100,7 @@ Use the following template to document the compliance level of the modules.
 itk_fetch_module(MyFavRemoteModule
   "The best image processing algorithm in ITK. From Insight Journal article with handle: https://hdl.handle.net/1234/567"
   MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/MyFavRemoteModule.git
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/MyFavRemoteModule.git
   GIT_TAG 9988d866433896368bd3049c396b974433b22ccd
   )
 ```

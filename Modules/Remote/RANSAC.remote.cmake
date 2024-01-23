@@ -50,9 +50,7 @@ The class itkRANSAC is the main driver that takes an object of class itkLandmark
 Please refer to the documentation upstream for a detailed description and sample usage:
 https://github.com/InsightSoftwareConsortium/ITKRANSAC
 "
-  MODULE_COMPLIANCE_LEVEL
-  2
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKRANSAC.git
-  GIT_TAG
-  ed350fbabaf82c81167f41c6996e779425e87de4)
+  MODULE_COMPLIANCE_LEVEL 2
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKRANSAC.git
+  GIT_TAG ed350fbabaf82c81167f41c6996e779425e87de4
+  )

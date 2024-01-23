@@ -117,6 +117,7 @@ $git_ls |
   grep -e 'hooks.style: .*cmakeformat'       |
   grep -v 'ThirdParty'                       |
   grep -v 'ExternalData.cmake'               |
+  grep -v 'Modules/Remote'                   |
   sed -n 's/:[^:]*:[^:]*$//p'                |
   # Update sources in-place.
   tr '\n' '\0'                               |

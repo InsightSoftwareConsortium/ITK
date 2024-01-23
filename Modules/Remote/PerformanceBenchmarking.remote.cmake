@@ -57,9 +57,7 @@ For more information, see::
   The Insight Journal. January-December. 2016.
   https://insight-journal.org/browse/publication/972
 "
-  MODULE_COMPLIANCE_LEVEL
-  2
-  GIT_REPOSITORY
-  ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPerformanceBenchmarking.git
-  GIT_TAG
-  950921a642a720867c00c92c548312a4939da917)
+  MODULE_COMPLIANCE_LEVEL 2
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKPerformanceBenchmarking.git
+  GIT_TAG 950921a642a720867c00c92c548312a4939da917
+  )
