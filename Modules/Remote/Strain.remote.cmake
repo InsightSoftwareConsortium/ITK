@@ -56,5 +56,5 @@ For more information, see:
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/KitwareMedical/ITKStrain.git
-  GIT_TAG 676882683516b4c1303fe81c1ba36ce472ca51ba
+  GIT_TAG 461e2a1deef3e12d54b75784398eccb3475d8e5c
   )

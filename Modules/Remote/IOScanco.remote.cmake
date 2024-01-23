@@ -46,5 +46,5 @@ itk_fetch_module(
   "An ITK module to read and write Scanco microCT .isq files."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/KitwareMedical/ITKIOScanco.git
-  GIT_TAG c7352ec1d5071968f64459e722335170de59bba4
+  GIT_TAG 10b80f69048e79ab3069e89635822a6851099278
   )
