@@ -192,7 +192,7 @@ else()
     endif()
     ExternalProject_Add(
       castxml
-      GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
+      GIT_REPOSITORY https://github.com/CastXML/CastXML.git
       GIT_TAG v${_castxml_version}
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}

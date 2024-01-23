@@ -47,6 +47,6 @@ itk_fetch_module(
   "The modules contains classes for reading spatial transform from DICOM
   files. See https://www.insight-journal.org/browse/publication/923"
   MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIOTransformDCMTK.git
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKIOTransformDCMTK.git
   GIT_TAG e97e0e8c27809eea1834dd534a47fc06168e3e45
   )

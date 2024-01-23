@@ -48,6 +48,6 @@ itk_fetch_module(
 
   ITK external module for libraries originally developed in SPHARM-PDM 3D Slicer extension (https://github.com/NIRALUser/SPHARM-PDM)."
   MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/SlicerSALT/ITKShape.git
+  GIT_REPOSITORY https://github.com/SlicerSALT/ITKShape.git
   GIT_TAG eb38c9603e78f03e7ed085e3bdac450ad8000dcb
   )

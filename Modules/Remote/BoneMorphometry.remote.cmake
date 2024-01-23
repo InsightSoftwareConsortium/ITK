@@ -51,6 +51,6 @@ itk_fetch_module(
   https://www.insight-journal.org/browse/publication/988
   "
   MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKBoneMorphometry.git
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry.git
   GIT_TAG 47b8f352fb2cb7204d7a8b332847da438f268b35
   )

@@ -54,6 +54,6 @@ The Insight Journal. July-December. 2011.
 https://www.insight-journal.org/browse/publication/846
 "
   MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKPhaseSymmetry.git
+  GIT_REPOSITORY https://github.com/KitwareMedical/ITKPhaseSymmetry.git
   GIT_TAG 4d9cba2d0529e29500c11fd25ac9c4c808a0279b
   )

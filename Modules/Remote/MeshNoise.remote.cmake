@@ -50,6 +50,6 @@ itk_fetch_module(
   https://www.insight-journal.org/browse/publication/981
   "
   MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMeshNoise.git
+  GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKMeshNoise.git
   GIT_TAG a01fae4f1d637eb6d4a183d940b9ce79970db14e
   )
