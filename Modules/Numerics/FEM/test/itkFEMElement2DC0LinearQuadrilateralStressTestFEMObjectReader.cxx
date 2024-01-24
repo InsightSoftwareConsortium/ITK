@@ -28,7 +28,7 @@
 
 //  Example taken from 'Fundamentals of the Finite ELement Method' - Grandin
 int
-itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * argv[])
+itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int, char *[])
 {
   // Need to register default FEM object types,
   // and setup spatialReader to recognize FEM types

@@ -21,15 +21,27 @@
 #include "itkImageFileReader.h"
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
 {
-  if (argc < 1)
+  if (argc != 11)
   {
-    std::cerr << "Missing Spatial Object Filename" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName"
+              << " pixelsPerElementX"
+              << " pixelsPerElementY"
+              << " numberOfElementsX"
+              << " numberOfElementsY"
+              << " expectedNumberOfNodes"
+              << " expectedNumberOfElements"
+              << " numberOfNodesToTest"
+              << " nodeNumber"
+              << " elementNumber" << std::endl;
     return EXIT_FAILURE;
   }
+
   // Need to register default FEM object types,
   // and setup spatialReader to recognize FEM types
   // which is all currently done as a HACK in

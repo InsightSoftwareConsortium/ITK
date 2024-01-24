@@ -21,13 +21,8 @@
 #include "itkFEMElement2DC0LinearLineStress.h"
 
 int
-itkFEMLoadBCMFCTestUser(int argc, char *[])
+itkFEMLoadBCMFCTestUser(int, char *[])
 {
-  if (argc < 1)
-  {
-    std::cerr << "Missing Spatial Object Filename" << std::endl;
-    return EXIT_FAILURE;
-  }
   // Need to register default FEM object types,
   // and setup spatialReader to recognize FEM types
   // which is all currently done as a HACK in
