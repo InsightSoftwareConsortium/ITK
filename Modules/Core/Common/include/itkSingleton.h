@@ -72,7 +72,7 @@ public:
   void
   SetGlobalInstance(const char * globalName, T * global, std::function<void()> deleteFunc)
   {
-    this->SetGlobalInstancePrivate(globalName, global, std::move(deleteFunc));
+    this->SetGlobalInstancePrivate(globalName, GlobalObject{ global, std::move(deleteFunc) });
   }
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
@@ -99,6 +99,13 @@ public:
   ~SingletonIndex();
 
 private:
+  // Internal struct to store the instance pointer and the delete function object of a global object.
+  struct GlobalObject
+  {
+    void *                Instance{};
+    std::function<void()> DeleteFunc{};
+  };
+
   // may return nullptr if string is not registered already
   //
   // access something like a std::map<std::string, void *> or
@@ -110,14 +117,14 @@ private:
 
   // global is added or set to the singleton index under globalName
   void
-  SetGlobalInstancePrivate(const char * globalName, void * global, std::function<void()> deleteFunc);
+  SetGlobalInstancePrivate(const char * globalName, GlobalObject globalObject);
 
   /** The static GlobalSingleton. This is initialized to nullptr as the first
    * stage of static initialization. It is then populated on the first call to
    * itk::Singleton::Modified() but it can be overridden with SetGlobalSingleton().
    * */
-  std::map<std::string, std::tuple<void *, std::function<void()>>> m_GlobalObjects;
-  static Self *                                                    m_Instance;
+  std::map<std::string, GlobalObject> m_GlobalObjects;
+  static Self *                       m_Instance;
   //  static SingletonIndexPrivate * m_GlobalSingleton;
 };
 
