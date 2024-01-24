@@ -18,7 +18,13 @@
 
 
 #include "itkFEMElement2DC0LinearLineStress.h"
-#include "itkFEMSpatialObjectWriter.h"
+#include "itkFEMElementBase.h"
+#include "itkFEMFactoryBase.h"
+#include "itkFEMMaterialLinearElasticity.h"
+#include "itkFEMLoadBCMFC.h"
+#include "itkFEMLoadBC.h"
+#include "itkFEMLoadNode.h"
+#include "itkFEMObject.h"
 
 
 int
