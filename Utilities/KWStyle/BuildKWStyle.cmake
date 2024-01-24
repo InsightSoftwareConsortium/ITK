@@ -23,7 +23,7 @@ if(NOT TARGET KWStyle)
   ExternalProject_Add(
     KWStyle
     GIT_REPOSITORY "https://github.com/Kitware/KWStyle.git"
-    GIT_TAG 1173206c0e7f4bc70dc3af641daf6e33f4042772
+    GIT_TAG 51ede352f6634d965444720f63b4f3e660fe5d42
     UPDATE_COMMAND ""
     DOWNLOAD_DIR ${KWStyle_SOURCE_DIR}
     SOURCE_DIR ${KWStyle_SOURCE_DIR}
