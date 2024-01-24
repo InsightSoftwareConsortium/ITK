@@ -86,15 +86,15 @@ SingletonIndex::GetGlobalInstancePrivate(const char * globalName)
   {
     return nullptr;
   }
-  return std::get<0>(it->second);
+  return it->second.Instance;
 }
 
 // If globalName is already registered, set its global as specified,
 // otherwise global is added to the singleton index under globalName
 void
-SingletonIndex::SetGlobalInstancePrivate(const char * globalName, void * global, std::function<void()> deleteFunc)
+SingletonIndex::SetGlobalInstancePrivate(const char * globalName, GlobalObject globalObject)
 {
-  m_GlobalObjects.insert_or_assign(globalName, std::make_tuple(global, std::move(deleteFunc)));
+  m_GlobalObjects.insert_or_assign(globalName, std::move(globalObject));
 }
 
 SingletonIndex *
@@ -118,7 +118,7 @@ SingletonIndex::~SingletonIndex()
 {
   for (auto & pair : m_GlobalObjects)
   {
-    std::get<1>(pair.second)();
+    pair.second.DeleteFunc();
   }
 }
 
