@@ -138,8 +138,7 @@ SpatialObject<TDimension>::DerivativeAtInWorldSpace(const PointType &           
                                                     const std::string &          name,
                                                     const DerivativeOffsetType & offset)
 {
-  PointType pnt;
-  pnt = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
+  const PointType pnt = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
   this->DerivativeAtInObjectSpace(pnt, order, value, depth, name, offset);
 }
 
@@ -181,8 +180,7 @@ SpatialObject<TDimension>::IsInsideInWorldSpace(const PointType &   point,
                                                 unsigned int        depth,
                                                 const std::string & name) const
 {
-  PointType pnt;
-  pnt = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
+  const PointType pnt = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
   return IsInsideInObjectSpace(pnt, depth, name);
 }
 
@@ -192,10 +190,9 @@ SpatialObject<TDimension>::IsInsideChildrenInObjectSpace(const PointType &   poi
                                                          unsigned int        depth,
                                                          const std::string & name) const
 {
-  PointType pnt;
   for (const auto & child : m_ChildrenList)
   {
-    pnt = child->GetObjectToParentTransformInverse()->TransformPoint(point);
+    const PointType pnt = child->GetObjectToParentTransformInverse()->TransformPoint(point);
     if (child->IsInsideInObjectSpace(pnt, depth, name))
     {
       return true;
@@ -234,8 +231,7 @@ SpatialObject<TDimension>::IsEvaluableAtInWorldSpace(const PointType &   point,
                                                      unsigned int        depth,
                                                      const std::string & name) const
 {
-  PointType pnt;
-  pnt = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
+  const PointType pnt = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
   return this->IsEvaluableAtInObjectSpace(pnt, depth, name);
 }
 
@@ -245,10 +241,9 @@ SpatialObject<TDimension>::IsEvaluableAtChildrenInObjectSpace(const PointType & 
                                                               unsigned int        depth,
                                                               const std::string & name) const
 {
-  PointType pnt;
   for (const auto & child : m_ChildrenList)
   {
-    pnt = child->GetObjectToParentTransformInverse()->TransformPoint(point);
+    const PointType pnt = child->GetObjectToParentTransformInverse()->TransformPoint(point);
     if (child->IsEvaluableAtInObjectSpace(pnt, depth, name))
     {
       return true;
@@ -300,8 +295,7 @@ SpatialObject<TDimension>::ValueAtInWorldSpace(const PointType &   point,
                                                unsigned int        depth,
                                                const std::string & name) const
 {
-  PointType pnt;
-  pnt = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
+  const PointType pnt = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
   return this->ValueAtInObjectSpace(pnt, value, depth, name);
 }
 
@@ -312,10 +306,9 @@ SpatialObject<TDimension>::ValueAtChildrenInObjectSpace(const PointType &   poin
                                                         unsigned int        depth,
                                                         const std::string & name) const
 {
-  PointType pnt;
   for (const auto & child : m_ChildrenList)
   {
-    pnt = child->GetObjectToParentTransformInverse()->TransformPoint(point);
+    const PointType pnt = child->GetObjectToParentTransformInverse()->TransformPoint(point);
     if (child->IsEvaluableAtInObjectSpace(pnt, depth, name))
     {
       child->ValueAtInObjectSpace(pnt, value, depth, name);
@@ -401,7 +394,7 @@ SpatialObject<TDimension>::GetFamilyBoundingBoxInWorldSpace() const -> const Bou
   auto itTrans = transformedCorners->begin();
   while (it != corners.end())
   {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    const PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
     *itTrans = pnt;
     ++it;
     ++itTrans;
@@ -633,7 +626,7 @@ SpatialObject<TDimension>::GetMyBoundingBoxInWorldSpace() const -> const Boundin
   auto itTrans = transformedCorners->begin();
   while (it != corners.end())
   {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    const PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
     *itTrans = pnt;
     ++it;
     ++itTrans;
