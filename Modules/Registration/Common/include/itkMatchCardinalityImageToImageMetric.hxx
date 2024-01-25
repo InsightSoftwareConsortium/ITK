@@ -122,6 +122,11 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
     itkExceptionMacro("Fixed image has not been assigned");
   }
 
+  const typename Superclass::FixedImageMaskType::WorldSpaceContext fixedImageMaskWorldSpaceContext(
+    Superclass::m_FixedImageMask);
+  const typename Superclass::MovingImageMaskType::WorldSpaceContext movingImageMaskWorldSpaceContext(
+    Superclass::m_MovingImageMask);
+
   using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
   typename FixedImageType::IndexType index;
   FixedIteratorType                  ti(fixedImage, regionForThread);
@@ -136,7 +141,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->GetFixedImageMask() && !this->GetFixedImageMask()->IsInsideInWorldSpace(inputPoint))
+    if (this->GetFixedImageMask() && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
     {
       ++ti;
       continue;
@@ -144,7 +149,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
 
     typename Superclass::OutputPointType transformedPoint = this->GetTransform()->TransformPoint(inputPoint);
 
-    if (this->GetMovingImageMask() && !this->GetMovingImageMask()->IsInsideInWorldSpace(transformedPoint))
+    if (this->GetMovingImageMask() && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(transformedPoint))
     {
       ++ti;
       continue;

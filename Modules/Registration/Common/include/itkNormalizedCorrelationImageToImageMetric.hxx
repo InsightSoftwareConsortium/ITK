@@ -61,6 +61,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   AccumulateType sf{};
   AccumulateType sm{};
 
+  const typename Superclass::FixedImageMaskType::WorldSpaceContext fixedImageMaskWorldSpaceContext(
+    Superclass::m_FixedImageMask);
+  const typename Superclass::MovingImageMaskType::WorldSpaceContext movingImageMaskWorldSpaceContext(
+    Superclass::m_MovingImageMask);
+
   while (!ti.IsAtEnd())
   {
     index = ti.GetIndex();
@@ -68,7 +73,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+    if (this->m_FixedImageMask && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
     {
       ++ti;
       continue;
@@ -76,7 +81,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    if (this->m_MovingImageMask && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(transformedPoint))
     {
       ++ti;
       continue;
@@ -169,6 +174,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
   DerivativeType derivativeM(ParametersDimension);
   derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
+  const typename Superclass::FixedImageMaskType::WorldSpaceContext fixedImageMaskWorldSpaceContext(
+    Superclass::m_FixedImageMask);
+  const typename Superclass::MovingImageMaskType::WorldSpaceContext movingImageMaskWorldSpaceContext(
+    Superclass::m_MovingImageMask);
+
   ti.GoToBegin();
   // First compute the sums
   while (!ti.IsAtEnd())
@@ -178,7 +188,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+    if (this->m_FixedImageMask && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
     {
       ++ti;
       continue;
@@ -186,7 +196,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    if (this->m_MovingImageMask && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(transformedPoint))
     {
       ++ti;
       continue;
@@ -222,7 +232,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+    if (this->m_FixedImageMask && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
     {
       ++ti;
       continue;
@@ -230,7 +240,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    if (this->m_MovingImageMask && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(transformedPoint))
     {
       ++ti;
       continue;
@@ -355,6 +365,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
   DerivativeType derivativeM1(ParametersDimension);
   derivativeM1.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
+  const typename Superclass::FixedImageMaskType::WorldSpaceContext fixedImageMaskWorldSpaceContext(
+    Superclass::m_FixedImageMask);
+  const typename Superclass::MovingImageMaskType::WorldSpaceContext movingImageMaskWorldSpaceContext(
+    Superclass::m_MovingImageMask);
+
   ti.GoToBegin();
   // First compute the sums
   while (!ti.IsAtEnd())
@@ -364,7 +379,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+    if (this->m_FixedImageMask && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
     {
       ++ti;
       continue;
@@ -372,7 +387,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    if (this->m_MovingImageMask && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(transformedPoint))
     {
       ++ti;
       continue;
@@ -407,7 +422,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+    if (this->m_FixedImageMask && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
     {
       ++ti;
       continue;
@@ -415,7 +430,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    if (this->m_MovingImageMask && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(transformedPoint))
     {
       ++ti;
       continue;

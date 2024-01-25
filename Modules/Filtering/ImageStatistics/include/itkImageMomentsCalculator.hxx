@@ -78,6 +78,8 @@ ImageMomentsCalculator<TImage>::Compute()
     return;
   }
 
+  const typename SpatialObjectType::WorldSpaceContext worldSpaceContext(m_SpatialObjectMask);
+
   ImageRegionConstIteratorWithIndex<ImageType> it(m_Image, m_Image->GetRequestedRegion());
 
   while (!it.IsAtEnd())
@@ -89,7 +91,7 @@ ImageMomentsCalculator<TImage>::Compute()
     Point<double, ImageDimension> physicalPosition;
     m_Image->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);
 
-    if (m_SpatialObjectMask.IsNull() || m_SpatialObjectMask->IsInsideInWorldSpace(physicalPosition))
+    if (m_SpatialObjectMask.IsNull() || worldSpaceContext.IsInsideSpatialObject(physicalPosition))
     {
       m_M0 += value;
 

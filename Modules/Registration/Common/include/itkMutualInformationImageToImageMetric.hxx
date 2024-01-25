@@ -110,6 +110,11 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
                                      // and the resampled fixed grid after
                                      // transformation.
 
+  const typename Superclass::FixedImageMaskType::WorldSpaceContext fixedImageMaskWorldSpaceContext(
+    Superclass::m_FixedImageMask);
+  const typename Superclass::MovingImageMaskType::WorldSpaceContext movingImageMaskWorldSpaceContext(
+    Superclass::m_MovingImageMask);
+
   // Number of random picks made from the portion of fixed image within the
   // fixed mask
   SizeValueType numberOfFixedImagePixelsVisited = 0;
@@ -124,7 +129,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
     this->m_FixedImage->TransformIndexToPhysicalPoint(index, iter->FixedImagePointValue);
 
     // If not inside the fixed mask, ignore the point
-    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(iter->FixedImagePointValue))
+    if (this->m_FixedImageMask && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(iter->FixedImagePointValue))
     {
       ++randIter; // jump to another random position
       continue;
@@ -145,7 +150,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
 
     // If the transformed point after transformation does not lie within the
     // MovingImageMask, skip it.
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(mappedPoint))
+    if (this->m_MovingImageMask && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(mappedPoint))
     {
       ++randIter;
       continue;

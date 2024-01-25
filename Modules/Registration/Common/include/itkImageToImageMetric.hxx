@@ -585,6 +585,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
 
   if (m_FixedImageMask.IsNotNull() || m_UseFixedImageSamplesIntensityThreshold)
   {
+    const typename FixedImageMaskType::WorldSpaceContext worldSpaceContext(m_FixedImageMask);
+
     InputPointType inputPoint;
 
     // repeat until we get enough samples to fill the array
@@ -599,7 +601,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
       if (m_FixedImageMask.IsNotNull())
       {
         // If not inside the mask, ignore the point
-        if (!m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+        if (!worldSpaceContext.IsInsideSpatialObject(inputPoint))
         {
           ++regionIter; // jump to next pixel
           if (regionIter.IsAtEnd())

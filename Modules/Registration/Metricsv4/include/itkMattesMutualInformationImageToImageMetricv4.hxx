@@ -159,13 +159,15 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       // A null mask implies entire space is to be used.
       if (!this->m_FixedImageMask.IsNull()) // use only masked samples.
       {
+        const auto worldSpaceContext = Superclass::m_FixedImageMask->CreateWorldSpaceContext();
+
         itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage,
                                                                this->m_FixedImage->GetBufferedRegion());
         while (!fi.IsAtEnd())
         {
           typename TFixedImage::PointType fixedSpacePhysicalPoint;
           this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
-          const bool usePoint = this->m_FixedImageMask->IsInsideInWorldSpace(fixedSpacePhysicalPoint);
+          const bool usePoint = worldSpaceContext.IsInsideSpatialObject(fixedSpacePhysicalPoint);
           if (usePoint)
           {
             const typename TFixedImage::PixelType & currValue = fi.Value();
@@ -201,12 +203,15 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                                               this->m_MovingImage->GetBufferedRegion());
 
       if (!this->m_MovingImageMask.IsNull())
-      { // A null mask implies entire space is to be used.
+      {
+        const auto worldSpaceContext = Superclass::m_MovingImageMask->CreateWorldSpaceContext();
+
+        // A null mask implies entire space is to be used.
         while (!mi.IsAtEnd())
         {
           typename TMovingImage::PointType movingSpacePhysicalPoint;
           this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
-          const bool usePoint = this->m_MovingImageMask->IsInsideInWorldSpace(movingSpacePhysicalPoint);
+          const bool usePoint = worldSpaceContext.IsInsideSpatialObject(movingSpacePhysicalPoint);
           if (usePoint)
           {
             const typename TMovingImage::PixelType & currValue = mi.Value();

@@ -182,7 +182,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   {
     maskSpatialObject = static_cast<MaskSpatialObjectType *>(this->ProcessObject::GetInput(1));
   }
-  bool useMask(maskSpatialObject.IsNotNull());
+  const typename MaskSpatialObjectType::WorldSpaceContext worldSpaceContext(maskSpatialObject);
 
   // Two cases here .
   // 1. If the Gradients have been specified in multiple images, we will create
@@ -236,12 +236,12 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       // look up the voxel in the mask image corresponding to
       // the location of the current index.
       bool unmaskedPixel(true);
-      if (useMask)
+      if (worldSpaceContext.HasSpatialObject())
       {
         typename ImageRegionConstIteratorWithIndex<ReferenceImageType>::IndexType index = it.GetIndex();
         typename ReferenceImageType::PointType                                    point;
         refImage->TransformIndexToPhysicalPoint(index, point);
-        unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
+        unmaskedPixel = worldSpaceContext.IsInsideSpatialObject(point);
       }
 
       if (Math::NotAlmostEquals(b0, itk::NumericTraits<ReferencePixelType>::ZeroValue()) && unmaskedPixel &&
@@ -354,13 +354,13 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       // look up the voxel in the mask image corresponding to
       // the location of the current index.
       bool unmaskedPixel(true);
-      if (useMask)
+      if (worldSpaceContext.HasSpatialObject())
       {
         typename ImageRegionConstIteratorWithIndex<ReferenceImageType>::IndexType index = git.GetIndex();
         typename ReferenceImageType::PointType                                    point;
 
         gradientImagePointer->TransformIndexToPhysicalPoint(index, point);
-        unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
+        unmaskedPixel = worldSpaceContext.IsInsideSpatialObject(point);
       }
 
       if (Math::NotAlmostEquals(b0, NumericTraits<ReferencePixelType>::ZeroValue()) && unmaskedPixel &&

@@ -54,6 +54,11 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Get
     itkExceptionMacro("Fixed image has not been assigned");
   }
 
+  const typename Superclass::FixedImageMaskType::WorldSpaceContext fixedImageMaskWorldSpaceContext(
+    Superclass::m_FixedImageMask);
+  const typename Superclass::MovingImageMaskType::WorldSpaceContext movingImageMaskWorldSpaceContext(
+    Superclass::m_MovingImageMask);
+
   double MovingValue;
   double FixedValue;
 
@@ -76,7 +81,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Get
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+    if (this->m_FixedImageMask && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
     {
       ++ti;
       continue;
@@ -85,7 +90,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Get
     TransformType const * transform = this->m_Transform;
     OutputPointType       transformedPoint = transform->TransformPoint(inputPoint);
 
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+    if (this->m_MovingImageMask && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
     {
       ++ti;
       continue;

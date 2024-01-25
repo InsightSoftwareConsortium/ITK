@@ -939,6 +939,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     }
   }
 
+  const typename FixedImageMaskType::WorldSpaceContext worldSpaceContext(fixedMaskImage);
+
   const VirtualDomainRegionType &                    virtualDomainRegion = virtualImage->GetRequestedRegion();
   const typename VirtualDomainImageType::SpacingType oneThirdVirtualSpacing = virtualImage->GetSpacing() / 3.0;
 
@@ -985,7 +987,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
             {
               point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
             }
-            if (!fixedMaskImage || fixedMaskImage->IsInsideInWorldSpace(point))
+            if (!fixedMaskImage || worldSpaceContext.IsInsideSpatialObject(point))
             {
               samplePointSet->SetPoint(index, point);
               ++index;
@@ -1021,7 +1023,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           {
             point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
           }
-          if (!fixedMaskImage || fixedMaskImage->IsInsideInWorldSpace(point))
+          if (!fixedMaskImage || worldSpaceContext.IsInsideSpatialObject(point))
           {
             samplePointSet->SetPoint(index, point);
             ++index;

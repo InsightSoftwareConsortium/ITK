@@ -263,6 +263,11 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(Transfo
 
   histogram.Initialize(m_HistogramSize, m_LowerBound, m_UpperBound);
 
+  const typename Superclass::FixedImageMaskType::WorldSpaceContext fixedImageMaskWorldSpaceContext(
+    Superclass::m_FixedImageMask);
+  const typename Superclass::MovingImageMaskType::WorldSpaceContext movingImageMaskWorldSpaceContext(
+    Superclass::m_MovingImageMask);
+
   ti.GoToBegin();
   while (!ti.IsAtEnd())
   {
@@ -273,7 +278,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(Transfo
       InputPointType inputPoint;
       fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-      if (this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint))
+      if (this->m_FixedImageMask && !fixedImageMaskWorldSpaceContext.IsInsideSpatialObject(inputPoint))
       {
         ++ti;
         continue;
@@ -281,7 +286,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(Transfo
 
       OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-      if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
+      if (this->m_MovingImageMask && !movingImageMaskWorldSpaceContext.IsInsideSpatialObject(transformedPoint))
       {
         ++ti;
         continue;

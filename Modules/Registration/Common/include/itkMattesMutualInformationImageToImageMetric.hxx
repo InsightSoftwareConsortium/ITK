@@ -107,11 +107,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
     const bool                                          fixedMaskIsPresent = !(this->m_FixedImageMask.IsNull());
     if (fixedMaskIsPresent)
     {
+      const auto worldSpaceContext = Superclass::m_FixedImageMask->CreateWorldSpaceContext();
+
       typename TFixedImage::PointType fixedSpacePhysicalPoint;
       while (!fi.IsAtEnd())
       {
         this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
-        const bool shouldCheckPixelIntensity = this->m_FixedImageMask->IsInsideInWorldSpace(fixedSpacePhysicalPoint);
+        const bool shouldCheckPixelIntensity = worldSpaceContext.IsInsideSpatialObject(fixedSpacePhysicalPoint);
         if (shouldCheckPixelIntensity)
         {
           const PDFValueType & currValue = fi.Get();
@@ -138,12 +140,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
       const bool                                           movingMaskIsPresent = !(this->m_MovingImageMask.IsNull());
       if (movingMaskIsPresent)
       {
+        const auto worldSpaceContext = Superclass::m_MovingImageMask->CreateWorldSpaceContext();
+
         typename TMovingImage::PointType movingSpacePhysicalPoint;
         while (!mi.IsAtEnd())
         {
           this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
-          const bool shouldCheckPixelIntensity =
-            this->m_MovingImageMask->IsInsideInWorldSpace(movingSpacePhysicalPoint);
+          const bool shouldCheckPixelIntensity = worldSpaceContext.IsInsideSpatialObject(movingSpacePhysicalPoint);
           if (shouldCheckPixelIntensity)
           {
             const PDFValueType & currValue = mi.Get();

@@ -192,11 +192,14 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
     IndexType  ind;
     PointType  pnt;
     VectorType mv;
+
+    const auto worldSpaceContext = m_SpatialObject->CreateWorldSpaceContext();
+
     while (!it.IsAtEnd())
     {
       ind = it.GetIndex();
       m_Image->TransformIndexToPhysicalPoint(ind, pnt);
-      if (m_SpatialObject->IsInsideInWorldSpace(pnt))
+      if (worldSpaceContext.IsInsideSpatialObject(pnt))
       {
         mv[0] = it.Get();
         m_Sum += static_cast<AccumulateType>(mv[0]);

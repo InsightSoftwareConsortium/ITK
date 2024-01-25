@@ -90,54 +90,62 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
    *  max and min for the fixed image. */
   itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetRequestedRegion());
 
-  /** \todo multi-thread me */
-  while (!fi.IsAtEnd())
   {
-    typename TFixedImage::PointType fixedSpacePhysicalPoint;
-    this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
-    /* A null mask implies entire space is to be used.*/
-    if (this->m_FixedImageMask.IsNull() || this->m_FixedImageMask->IsInsideInWorldSpace(fixedSpacePhysicalPoint))
+    const typename Superclass::FixedImageMaskType::WorldSpaceContext worldSpaceContext(Superclass::m_FixedImageMask);
+
+    /** \todo multi-thread me */
+    while (!fi.IsAtEnd())
     {
-      const typename TFixedImage::PixelType currentValue = fi.Get();
-      // update the Fixed Image true min accordingly
-      if (currentValue < this->m_FixedImageTrueMin)
+      typename TFixedImage::PointType fixedSpacePhysicalPoint;
+      this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
+      /* A null mask implies entire space is to be used.*/
+      if (this->m_FixedImageMask.IsNull() || worldSpaceContext.IsInsideSpatialObject(fixedSpacePhysicalPoint))
       {
-        this->m_FixedImageTrueMin = currentValue;
+        const typename TFixedImage::PixelType currentValue = fi.Get();
+        // update the Fixed Image true min accordingly
+        if (currentValue < this->m_FixedImageTrueMin)
+        {
+          this->m_FixedImageTrueMin = currentValue;
+        }
+        // update the Fixed Image true max accordingly
+        if (currentValue > this->m_FixedImageTrueMax)
+        {
+          this->m_FixedImageTrueMax = currentValue;
+        }
       }
-      // update the Fixed Image true max accordingly
-      if (currentValue > this->m_FixedImageTrueMax)
-      {
-        this->m_FixedImageTrueMax = currentValue;
-      }
+      ++fi;
     }
-    ++fi;
   }
   /** Iterate through the moving image and set the true
    * max and min for the moving image. */
   itk::ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage,
                                                           this->m_MovingImage->GetBufferedRegion());
 
-  while (!mi.IsAtEnd())
   {
-    typename TMovingImage::PointType movingSpacePhysicalPoint;
-    this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
+    const typename Superclass::MovingImageMaskType::WorldSpaceContext worldSpaceContext(Superclass::m_MovingImageMask);
 
-    /* A null mask implies entire space is to be used.*/
-    if (this->m_MovingImageMask.IsNull() || this->m_MovingImageMask->IsInsideInWorldSpace(movingSpacePhysicalPoint))
+    while (!mi.IsAtEnd())
     {
-      const typename TMovingImage::PixelType currentValue = mi.Get();
-      // update the Moving Image true min accordingly
-      if (currentValue < this->m_MovingImageTrueMin)
+      typename TMovingImage::PointType movingSpacePhysicalPoint;
+      this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
+
+      /* A null mask implies entire space is to be used.*/
+      if (this->m_MovingImageMask.IsNull() || worldSpaceContext.IsInsideSpatialObject(movingSpacePhysicalPoint))
       {
-        this->m_MovingImageTrueMin = currentValue;
+        const typename TMovingImage::PixelType currentValue = mi.Get();
+        // update the Moving Image true min accordingly
+        if (currentValue < this->m_MovingImageTrueMin)
+        {
+          this->m_MovingImageTrueMin = currentValue;
+        }
+        // update the Moving Image true max accordingly
+        if (currentValue > this->m_MovingImageTrueMax)
+        {
+          this->m_MovingImageTrueMax = currentValue;
+        }
       }
-      // update the Moving Image true max accordingly
-      if (currentValue > this->m_MovingImageTrueMax)
-      {
-        this->m_MovingImageTrueMax = currentValue;
-      }
+      ++mi;
     }
-    ++mi;
   }
   itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax
                                    << std::endl);
