@@ -323,3 +323,33 @@ TEST(ImageMaskSpatialObject, CornerPointIsNotInsideMaskOfZeroValues)
   const double cornerPoint[] = { 1.5, 1.5 };
   ASSERT_FALSE(imageMaskSpatialObject->IsInsideInObjectSpace(cornerPoint));
 }
+
+
+// Check that the return value of WorldSpaceContext::IsInsideSpatialObject is equal to the corresponding
+// IsInsideInWorldSpace call.
+TEST(ImageMaskSpatialObject, WorldSpaceContextIsInsideSpatialObjectEqualsIsInsideInWorldSpace)
+{
+  constexpr auto imageDimension = 2U;
+  using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<imageDimension>;
+  using MaskImageType = ImageMaskSpatialObjectType::ImageType;
+  using MaskPixelType = MaskImageType::PixelType;
+  using PointType = MaskImageType::PointType;
+
+  // Create a mask image.
+  const auto maskImage = MaskImageType::New();
+  maskImage->SetRegions(itk::Size<imageDimension>::Filled(2));
+  maskImage->Allocate(true);
+  maskImage->SetPixel({}, MaskPixelType{ 1 });
+  maskImage->SetSpacing(itk::MakeFilled<MaskImageType::SpacingType>(0.5));
+
+  const auto imageMaskSpatialObject = ImageMaskSpatialObjectType::New();
+  imageMaskSpatialObject->SetImage(maskImage);
+
+  const auto worldSpaceContext = imageMaskSpatialObject->CreateWorldSpaceContext();
+
+  for (const double pointValue : { -1.0, 0.0, 0.5, 1.0 })
+  {
+    const PointType point(pointValue);
+    EXPECT_EQ(imageMaskSpatialObject->IsInsideInWorldSpace(point), worldSpaceContext.IsInsideSpatialObject(point));
+  }
+}

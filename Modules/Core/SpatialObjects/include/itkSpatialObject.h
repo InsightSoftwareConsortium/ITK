@@ -647,6 +647,53 @@ public:
   };
 #endif
 
+  /**
+   * \class WorldSpaceContext
+   * Caches the ObjectToWorldTransformInverse transform during its construction, allowing to speed up the estimation if
+   * a point in the context of the world space is inside the specified spatial object.
+   * \ingroup ITKSpatialObjects
+   */
+  class WorldSpaceContext
+  {
+  public:
+    /** Defaulted default-constructor. Creates an empty context, that does not have a spatial object. */
+    WorldSpaceContext() = default;
+
+    /** Explicit constructor. When the argument is not null, it creates a context that has the spatial object specified
+     * by the argument. When the argument is null, it creates an empty context. */
+    explicit WorldSpaceContext(const SpatialObject * const spatialObject)
+      : m_SpatialObject(spatialObject)
+      , m_ObjectToWorldTransformInverse(spatialObject ? spatialObject->GetObjectToWorldTransformInverse() : nullptr)
+    {}
+
+    /** Tells whether this context has a spatial object. */
+    bool
+    HasSpatialObject() const
+    {
+      return m_SpatialObject != nullptr;
+    }
+
+    /** A faster alternative to SpatialObject::IsInsideInWorldSpace. */
+    bool
+    IsInsideSpatialObject(const PointType & point) const
+    {
+      return m_SpatialObject->IsInsideInObjectSpace(
+        m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point));
+    }
+
+  private:
+    const SpatialObject * m_SpatialObject{};
+    const TransformType * m_ObjectToWorldTransformInverse{};
+  };
+
+
+  /** Creates a context for this spatial object. */
+  WorldSpaceContext
+  CreateWorldSpaceContext() const
+  {
+    return WorldSpaceContext(this);
+  }
+
 protected:
   /** Compute the World transform when the local transform is set
    *  This function should be called each time the local transform
