@@ -410,8 +410,7 @@ template <unsigned int TDimension>
 void
 SpatialObject<TDimension>::AddChild(Self * pointer)
 {
-  typename ChildrenListType::iterator pos;
-  pos = std::find(m_ChildrenList.begin(), m_ChildrenList.end(), pointer);
+  const typename ChildrenListType::iterator pos = std::find(m_ChildrenList.begin(), m_ChildrenList.end(), pointer);
   if (pos == m_ChildrenList.end())
   {
     m_ChildrenList.push_back(pointer);
@@ -431,8 +430,7 @@ template <unsigned int TDimension>
 bool
 SpatialObject<TDimension>::RemoveChild(Self * pointer)
 {
-  typename ChildrenListType::iterator pos;
-  pos = std::find(m_ChildrenList.begin(), m_ChildrenList.end(), pointer);
+  const typename ChildrenListType::iterator pos = std::find(m_ChildrenList.begin(), m_ChildrenList.end(), pointer);
   if (pos != m_ChildrenList.end())
   {
     m_ChildrenList.erase(pos);
