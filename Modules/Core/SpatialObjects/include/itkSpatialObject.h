@@ -332,7 +332,12 @@ public:
    * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
    * `SetObjectToWorldTransform(transform)` */
   virtual bool
-  IsInsideInWorldSpace(const PointType & point, unsigned int depth = 0, const std::string & name = "") const;
+  IsInsideInWorldSpace(const PointType & point, unsigned int depth, const std::string & name = "") const;
+
+  /** Overload, optimized for depth = 0 and name = "": `spatialObject.IsInsideInWorldSpace(point)` is equivalent to
+   * `spatialObject.IsInsideInWorldSpace(point, 0, "")`, but much faster. */
+  bool
+  IsInsideInWorldSpace(const PointType & point) const;
 
   /** World space equivalent to IsEvaluableAtInObjectSpace
    * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
