@@ -186,6 +186,14 @@ SpatialObject<TDimension>::IsInsideInWorldSpace(const PointType &   point,
 
 template <unsigned int TDimension>
 bool
+SpatialObject<TDimension>::IsInsideInWorldSpace(const PointType & point) const
+{
+  const PointType pnt = m_ObjectToWorldTransformInverse->TransformPoint(point);
+  return IsInsideInObjectSpace(pnt);
+}
+
+template <unsigned int TDimension>
+bool
 SpatialObject<TDimension>::IsInsideChildrenInObjectSpace(const PointType &   point,
                                                          unsigned int        depth,
                                                          const std::string & name) const
