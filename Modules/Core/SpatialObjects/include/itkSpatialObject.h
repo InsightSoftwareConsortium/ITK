@@ -317,18 +317,27 @@ public:
   itkSetMacro(DefaultOutsideValue, double);
   itkGetConstMacro(DefaultOutsideValue, double);
 
-  /** World space equivalent to ValueAtInObjectSpace */
+  /** World space equivalent to ValueAtInObjectSpace
+   * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
+   * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
+   * `SetObjectToWorldTransform(transform)` */
   virtual bool
   ValueAtInWorldSpace(const PointType &   point,
                       double &            value,
                       unsigned int        depth = 0,
                       const std::string & name = "") const;
 
-  /** World space equivalent to IsInsideInObjectSpace */
+  /** World space equivalent to IsInsideInObjectSpace
+   * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
+   * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
+   * `SetObjectToWorldTransform(transform)` */
   virtual bool
   IsInsideInWorldSpace(const PointType & point, unsigned int depth = 0, const std::string & name = "") const;
 
-  /** World space equivalent to IsEvaluableAtInObjectSpace */
+  /** World space equivalent to IsEvaluableAtInObjectSpace
+   * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
+   * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
+   * `SetObjectToWorldTransform(transform)` */
   virtual bool
   IsEvaluableAtInWorldSpace(const PointType & point, unsigned int depth = 0, const std::string & name = "") const;
 
@@ -342,7 +351,10 @@ public:
                             const std::string &          name = "",
                             const DerivativeOffsetType & offset = MakeFilled<DerivativeOffsetType>(1));
 
-  /** Return the n-th order derivative value at the specified point. */
+  /** Return the n-th order derivative value at the specified point.
+   * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
+   * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
+   * `SetObjectToWorldTransform(transform)` */
   virtual void
   DerivativeAtInWorldSpace(const PointType &            point,
                            short unsigned int           order,
