@@ -19,7 +19,6 @@
 #include "itkMath.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
-#include "itkMath.h"
 #include "itkTestingMacros.h"
 
 /* Simple test to verify that class builds and runs.

@@ -20,7 +20,6 @@
 #include "itkTextOutput.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
-#include "itkMath.h"
 #include <iostream>
 
 /**

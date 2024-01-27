@@ -22,10 +22,8 @@
 #include "itkKLMSegmentationRegion.h"
 #include "itkMacro.h"
 #include "ITKKLMRegionGrowingExport.h"
-
 #include "itkMath.h"
 #include "vnl/vnl_vector.h"
-#include "itkMath.h"
 
 namespace itk
 {

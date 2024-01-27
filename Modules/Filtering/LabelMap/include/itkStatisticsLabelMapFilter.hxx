@@ -23,7 +23,6 @@
 #include "itkProgressReporter.h"
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
-#include "itkMath.h"
 
 namespace itk
 {

@@ -26,7 +26,6 @@
 
 #include <functional>
 #include <queue>
-#include "itkMath.h"
 
 namespace itk
 {
