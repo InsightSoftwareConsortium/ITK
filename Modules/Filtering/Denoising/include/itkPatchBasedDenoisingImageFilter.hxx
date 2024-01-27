@@ -23,7 +23,6 @@
 #include "itkResampleImageFilter.h"
 #include "itkIdentityTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkImageFileWriter.h"
 #include "itkGaussianOperator.h"
 #include "itkImageAlgorithm.h"
 #include "itkVectorImageToImageAdaptor.h"
