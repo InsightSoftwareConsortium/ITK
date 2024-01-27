@@ -24,7 +24,6 @@
 #include "itkIterationReporter.h"
 #include "itkMath.h"
 #include "itkNumericTraits.h"
-#include "itkMath.h"
 #include "itkPrintHelper.h"
 
 namespace itk

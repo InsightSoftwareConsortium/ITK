@@ -25,10 +25,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include "itkPrintHelper.h"
-
-#include "itkMath.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
-#include "itkMath.h"
 
 namespace itk
 {

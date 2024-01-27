@@ -19,9 +19,6 @@
 #include "itkMath.h"
 #include <iostream>
 
-#include <iostream>
-#include "itkMath.h"
-
 
 namespace
 {

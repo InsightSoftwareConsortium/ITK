@@ -20,9 +20,7 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "itkMath.h"
 #include <algorithm>
-#include "itkMath.h"
 
 namespace itk
 {

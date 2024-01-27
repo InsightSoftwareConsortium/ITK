@@ -22,7 +22,6 @@
 #include "itkMath.h"
 #include <cstring>
 #include <cstdlib>
-#include "itkMath.h"
 
 namespace itk
 {

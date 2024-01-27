@@ -18,8 +18,6 @@
 
 #include <iostream>
 #include "itkMath.h"
-
-#include "itkMath.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkStdStreamStateSave.h"
 

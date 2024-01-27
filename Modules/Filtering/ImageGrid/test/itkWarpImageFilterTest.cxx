@@ -23,7 +23,6 @@
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkVectorImage.h"
-#include "itkMath.h"
 #include "itkTestingMacros.h"
 
 // class to produce a linear image pattern

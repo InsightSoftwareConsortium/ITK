@@ -20,7 +20,6 @@
 #include "itkMath.h"
 #include "vnl/algo/vnl_lbfgs.h"
 #include "itkTestingMacros.h"
-#include "itkMath.h"
 #include <iostream>
 
 /**
