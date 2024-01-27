@@ -19,6 +19,7 @@
 #include <fstream>
 #include "itkVectorThresholdSegmentationLevelSetImageFilter.h"
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkMath.h"

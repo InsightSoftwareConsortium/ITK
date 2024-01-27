@@ -21,7 +21,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkLaplacianImageFilter.h"
-#include "itkImageFileWriter.h"
 
 namespace itk
 {
