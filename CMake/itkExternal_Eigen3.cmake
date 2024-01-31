@@ -73,9 +73,8 @@ else()
   endif()
   install(
     CODE "execute_process(
-    COMMAND
-    ${CMAKE_COMMAND} --build . --config Release --target install
-    WORKING_DIRECTORY ${_eigen3_build_dir}
+    COMMAND \${CMAKE_COMMAND} --build . --config Release --target install
+    WORKING_DIRECTORY \"${_eigen3_build_dir}\"
     )"
     COMPONENT Development)
 endif()
