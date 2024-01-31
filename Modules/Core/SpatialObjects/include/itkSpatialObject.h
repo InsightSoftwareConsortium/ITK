@@ -240,11 +240,11 @@ public:
 
   /**********************************************************************/
   /* These are the three member functions that a subclass will typically
-   *    overwrite.
+   *    override.
    *    * ComputeMyBoundingBox (protected:)
    *    * IsInsideInObjectSpace
    *    * Update
-   *  Optionally, a subclass may also wish to overwrite
+   *  Optionally, a subclass may also wish to override
    *    * ValueAtInObjectSpace
    *    * IsEvaluableAtInObjectSpace - if the extent is beyond IsInside.
    */
