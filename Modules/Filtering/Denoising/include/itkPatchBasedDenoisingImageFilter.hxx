@@ -25,6 +25,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkGaussianOperator.h"
 #include "itkImageAlgorithm.h"
+#include "itkIntTypes.h"
 #include "itkVectorImageToImageAdaptor.h"
 #include "itkSpatialNeighborSubsampler.h"
 #include "itkMacro.h"
@@ -42,7 +43,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::PatchBasedDenoisingIm
   m_MinProbability(NumericTraits<RealValueType>::min() * 100)
   , // to avoid divide by zero
   m_SigmaUpdateDecimationFactor(
-    static_cast<unsigned int>(Math::Round<double>(1.0 / m_KernelBandwidthFractionPixelsForEstimation)))
+    static_cast<unsigned int>(Math::Round<int64_t>(1.0 / m_KernelBandwidthFractionPixelsForEstimation)))
   , m_NoiseSigma()
   , m_NoiseSigmaSquared()
   , m_SearchSpaceList(ListAdaptorType::New())
@@ -238,10 +239,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
 
   // For automatic sigma estimation, select every 'k'th pixel.
   m_SigmaUpdateDecimationFactor =
-    static_cast<unsigned int>(Math::Round<double>(1.0 / m_KernelBandwidthFractionPixelsForEstimation));
+    static_cast<unsigned int>(Math::Round<int64_t>(1.0 / m_KernelBandwidthFractionPixelsForEstimation));
   // For automatic sigma estimation, use at least 1% of pixels.
-  m_SigmaUpdateDecimationFactor = std::min(m_SigmaUpdateDecimationFactor,
-                                           static_cast<unsigned int>(Math::Round<double>(m_TotalNumberPixels / 100.0)));
+  m_SigmaUpdateDecimationFactor = std::min(
+    m_SigmaUpdateDecimationFactor, static_cast<unsigned int>(Math::Round<int64_t>(m_TotalNumberPixels / 100.0)));
   // For automatic sigma estimation, can't use more than 100% of pixels.
   m_SigmaUpdateDecimationFactor = std::max(m_SigmaUpdateDecimationFactor, 1u);
 
