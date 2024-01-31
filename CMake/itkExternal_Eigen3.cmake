@@ -62,20 +62,29 @@ else()
       -DCMAKE_INSTALL_DATADIR:PATH=${_eigen3_cmake_install_datadir}
       -DITK_USE_EIGEN_MPL2_ONLY:BOOL=${ITK_USE_EIGEN_MPL2_ONLY} ${_additional_external_project_args} -S
       ${_eigen3_source_dir} -B ${_eigen3_build_dir}
-    OUTPUT_VARIABLE ITKEigen3Config_STDOUT
-    ERROR_VARIABLE ITKEigen3Config_STDERR)
-  set(ITKInternalEigen3_DIR ${_eigen3_build_dir})
-  find_package(ITKInternalEigen3)
-  if(NOT ITKInternalEigen3_FOUND)
-    message(
-      FATAL_ERROR
-        "ITKInternalEigen3 configuration failed\nREPORT:\n${ITKEigen3Config_STDOUT}\n${ITKEigen3Config_STDERR}")
+    OUTPUT_VARIABLE _ITKEigen3Config_OUTPUT
+    ERROR_VARIABLE  _ITKEigen3Config_OUTPUT
+    RESULT_VARIABLE _ITKEigen3Config_RESULT
+    )
+  if(NOT _ITKEigen3Config_RESULT EQUAL 0)
+    string(REPLACE "\n" "\n  " _ITKEigen3Config_OUTPUT "${_ITKEigen3Config_OUTPUT}")
+    message(FATAL_ERROR
+      "ITKInternalEigen3 configuration failed:\n"
+      "  ${_ITKEigen3Config_OUTPUT}\n"
+      )
   endif()
+  if(NOT EXISTS "${_eigen3_build_dir}/ITKInternalEigen3Config.cmake")
+    message(FATAL_ERROR
+      "ITKInternalEigen3 configuration did not produce expected file:\n"
+      "  ${_eigen3_build_dir}/ITKInternalEigen3Config.cmake\n"
+      )
+  endif()
+  set(ITKInternalEigen3_DIR ${_eigen3_build_dir})
+  find_package(ITKInternalEigen3 CONFIG REQUIRED QUIET)
   install(
     CODE "execute_process(
-    COMMAND
-    ${CMAKE_COMMAND} --build . --config Release --target install
-    WORKING_DIRECTORY ${_eigen3_build_dir}
+    COMMAND \${CMAKE_COMMAND} --build . --config Release --target install
+    WORKING_DIRECTORY \"${_eigen3_build_dir}\"
     )"
     COMPONENT Development)
 endif()
