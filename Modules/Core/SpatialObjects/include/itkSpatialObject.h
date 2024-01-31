@@ -46,10 +46,10 @@ namespace itk
  * system, and a list of inverse transformation to go backward.  Any
  * spatial objects can be plugged to a spatial object as children.  To
  * implement your own spatial object, you need to derive from the
- * following class, which requires the definition of just a few pure
- * virtual functions.  Examples of such functions are ValueAtInWorldSpace(),
- * IsEvaluableAtInWorldSpace(), and IsInsideInWorldSpace(), each of which has a meaning
- * specific to each particular object type.
+ * following class, which requires overriding just a few virtual functions.
+ * Examples of such functions are ValueAtInWorldSpace(),
+ * IsEvaluableAtInWorldSpace(), and IsInsideInWorldSpace(), each of which has a
+ * meaning specific to each particular object type.
  * \ingroup ITKSpatialObjects
  */
 
