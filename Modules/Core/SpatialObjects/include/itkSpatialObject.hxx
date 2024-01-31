@@ -138,7 +138,7 @@ SpatialObject<TDimension>::DerivativeAtInWorldSpace(const PointType &           
                                                     const std::string &          name,
                                                     const DerivativeOffsetType & offset)
 {
-  const PointType pnt = m_ObjectToWorldTransformInverse->TransformPoint(point);
+  const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
   this->DerivativeAtInObjectSpace(pnt, order, value, depth, name, offset);
 }
 
@@ -180,7 +180,7 @@ SpatialObject<TDimension>::IsInsideInWorldSpace(const PointType &   point,
                                                 unsigned int        depth,
                                                 const std::string & name) const
 {
-  const PointType pnt = m_ObjectToWorldTransformInverse->TransformPoint(point);
+  const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
   return IsInsideInObjectSpace(pnt, depth, name);
 }
 
@@ -188,7 +188,7 @@ template <unsigned int TDimension>
 bool
 SpatialObject<TDimension>::IsInsideInWorldSpace(const PointType & point) const
 {
-  const PointType pnt = m_ObjectToWorldTransformInverse->TransformPoint(point);
+  const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
   return IsInsideInObjectSpace(pnt);
 }
 
@@ -239,7 +239,7 @@ SpatialObject<TDimension>::IsEvaluableAtInWorldSpace(const PointType &   point,
                                                      unsigned int        depth,
                                                      const std::string & name) const
 {
-  const PointType pnt = m_ObjectToWorldTransformInverse->TransformPoint(point);
+  const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
   return this->IsEvaluableAtInObjectSpace(pnt, depth, name);
 }
 
@@ -303,7 +303,7 @@ SpatialObject<TDimension>::ValueAtInWorldSpace(const PointType &   point,
                                                unsigned int        depth,
                                                const std::string & name) const
 {
-  const PointType pnt = m_ObjectToWorldTransformInverse->TransformPoint(point);
+  const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
   return this->ValueAtInObjectSpace(pnt, value, depth, name);
 }
 
