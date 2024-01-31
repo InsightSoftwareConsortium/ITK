@@ -47,8 +47,8 @@ namespace itk
  * spatial objects can be plugged to a spatial object as children.  To
  * implement your own spatial object, you need to derive from the
  * following class, which requires overriding just a few virtual functions.
- * Examples of such functions are ValueAtInWorldSpace(),
- * IsEvaluableAtInWorldSpace(), and IsInsideInWorldSpace(), each of which has a
+ * Examples of such functions are ValueAtInObjectSpace(),
+ * IsInsideInObjectSpace(), and ComputeMyBoundingBox(), each of which has a
  * meaning specific to each particular object type.
  * \ingroup ITKSpatialObjects
  */
