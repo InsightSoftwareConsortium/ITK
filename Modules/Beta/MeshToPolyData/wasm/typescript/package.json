@@ -4,13 +4,13 @@
   "description": "Convert an ITK Mesh to a simple data structure compatible with vtkPolyData.",
   "type": "module",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index-all.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index-all.d.ts",
       "browser": "./dist/index.js",
       "node": "./dist/index-node.js",
-      "default": "./dist/index.js"
+      "default": "./dist/index-all.js"
     }
   },
   "scripts": {
@@ -33,11 +33,11 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "itk-wasm": "^1.0.0-b.157"
+    "itk-wasm": "^1.0.0-b.164"
   },
   "devDependencies": {
-    "@itk-wasm/image-io": "^0.2.0",
-    "@itk-wasm/mesh-io": "^0.2.0",
+    "@itk-wasm/image-io": "^1.1.0",
+    "@itk-wasm/mesh-io": "^1.1.0",
     "@shoelace-style/shoelace": "^2.5.2",
     "@types/node": "^20.2.5",
     "ava": "^5.3.1",

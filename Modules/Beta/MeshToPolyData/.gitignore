@@ -3,7 +3,8 @@ node_modules/
 emscripten-build/
 wasi-build/
 
-package-lock.json
-pnpm-lock.yaml
+micromamba/
 
 wasm/python/
+
+test/pyodide-emscripten.tar.bz2

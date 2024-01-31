@@ -48,7 +48,8 @@ public:
     polyDataToMeshFilter->SetInput(inputPolyData.Get());
     polyDataToMeshFilter->Update();
 
-    outputMesh.Set(polyDataToMeshFilter->GetOutput());
+    typename MeshType::ConstPointer mesh = polyDataToMeshFilter->GetOutput();
+    outputMesh.Set(mesh);
 
     return EXIT_SUCCESS;
   }
