@@ -21,6 +21,7 @@
 
 #include "itkMath.h"
 #include "itkProgressReporter.h"
+#include <cmath> // For round.
 
 namespace itk
 {
@@ -101,7 +102,7 @@ HuangThresholdCalculator<THistogram, TOutput>::GenerateData()
   for (InstanceIdentifier threshold = m_FirstBin; threshold < m_LastBin; ++threshold)
   {
     double entropy = 0.;
-    auto   mu = Math::Round<MeasurementType>(W[threshold] / S[threshold]);
+    auto   mu = static_cast<MeasurementType>(std::round(W[threshold] / S[threshold]));
 
     typename HistogramType::MeasurementVectorType v(1);
     v[0] = mu;
@@ -121,7 +122,7 @@ HuangThresholdCalculator<THistogram, TOutput>::GenerateData()
 
         entropy += Smu[diff] * histogram->GetFrequency(i, 0);
       }
-      mu = Math::Round<MeasurementType>((W[m_LastBin] - W[threshold]) / (S[m_LastBin] - S[threshold]));
+      mu = static_cast<MeasurementType>(std::round((W[m_LastBin] - W[threshold]) / (S[m_LastBin] - S[threshold])));
       v[0] = mu;
 
       bool status = histogram->GetIndex(v, muFullIdx);
