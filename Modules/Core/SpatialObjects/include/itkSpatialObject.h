@@ -320,19 +320,29 @@ public:
   /** World space equivalent to ValueAtInObjectSpace
    * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
    * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
-   * `SetObjectToWorldTransform(transform)` */
-  virtual bool
-  ValueAtInWorldSpace(const PointType &   point,
-                      double &            value,
-                      unsigned int        depth = 0,
-                      const std::string & name = "") const;
+   * `SetObjectToWorldTransform(transform)`
+   * \note This member function is not meant to be overridden. In the future, it may not be declared `virtual` anymore.
+   */
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual
+#endif
+    bool
+    ValueAtInWorldSpace(const PointType &   point,
+                        double &            value,
+                        unsigned int        depth = 0,
+                        const std::string & name = "") const;
 
   /** World space equivalent to IsInsideInObjectSpace
    * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
    * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
-   * `SetObjectToWorldTransform(transform)` */
-  virtual bool
-  IsInsideInWorldSpace(const PointType & point, unsigned int depth, const std::string & name = "") const;
+   * `SetObjectToWorldTransform(transform)`
+   * \note This member function is not meant to be overridden. In the future, it may not be declared `virtual` anymore.
+   */
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual
+#endif
+    bool
+    IsInsideInWorldSpace(const PointType & point, unsigned int depth, const std::string & name = "") const;
 
   /** Overload, optimized for depth = 0 and name = "": `spatialObject.IsInsideInWorldSpace(point)` is equivalent to
    * `spatialObject.IsInsideInWorldSpace(point, 0, "")`, but much faster. */
@@ -342,9 +352,14 @@ public:
   /** World space equivalent to IsEvaluableAtInObjectSpace
    * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
    * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
-   * `SetObjectToWorldTransform(transform)` */
-  virtual bool
-  IsEvaluableAtInWorldSpace(const PointType & point, unsigned int depth = 0, const std::string & name = "") const;
+   * `SetObjectToWorldTransform(transform)`
+   * \note This member function is not meant to be overridden. In the future, it may not be declared `virtual` anymore.
+   */
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual
+#endif
+    bool
+    IsEvaluableAtInWorldSpace(const PointType & point, unsigned int depth = 0, const std::string & name = "") const;
 
 
   /** Return the n-th order derivative value at the specified point. */
@@ -359,14 +374,19 @@ public:
   /** Return the n-th order derivative value at the specified point.
    * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
    * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or
-   * `SetObjectToWorldTransform(transform)` */
-  virtual void
-  DerivativeAtInWorldSpace(const PointType &            point,
-                           short unsigned int           order,
-                           CovariantVectorType &        value,
-                           unsigned int                 depth = 0,
-                           const std::string &          name = "",
-                           const DerivativeOffsetType & offset = MakeFilled<DerivativeOffsetType>(1));
+   * `SetObjectToWorldTransform(transform)`
+   * \note This member function is not meant to be overridden. In the future, it may not be declared `virtual` anymore.
+   */
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual
+#endif
+    void
+    DerivativeAtInWorldSpace(const PointType &            point,
+                             short unsigned int           order,
+                             CovariantVectorType &        value,
+                             unsigned int                 depth = 0,
+                             const std::string &          name = "",
+                             const DerivativeOffsetType & offset = MakeFilled<DerivativeOffsetType>(1));
 
 
   /*********************/
