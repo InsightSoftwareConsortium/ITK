@@ -56,19 +56,20 @@ Source = "https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData"
 
 [tool.hatch.envs.default.scripts]
 test = [
-  "hatch build -t wheel",
-  "pytest --dist-dir=./dist --rt=chrome",
+  "hatch build -t wheel ./dist/pyodide/",
+  "pytest --dist-dir=./dist/pyodide --rt=chrome",
 ]
 download-pyodide = [
   "curl -L https://github.com/pyodide/pyodide/releases/download/0.24.1/pyodide-0.24.1.tar.bz2 -o pyodide.tar.bz2",
   "tar xjf pyodide.tar.bz2",
-  "rm -rf dist pyodide.tar.bz2",
+  "rm -rf dist/pyodide pyodide.tar.bz2",
+  "mkdir -p dist",
   "mv pyodide dist",
 ]
 serve = [
-  "hatch build -t wheel",
+  "hatch build -t wheel ./dist/pyodide/",
   'echo "\nVisit http://localhost:8877/console.html\n"',
-  "python -m http.server --directory=./dist 8877",
+  "python -m http.server --directory=./dist/pyodide 8877",
 ]
 
 
