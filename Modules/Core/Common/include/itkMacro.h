@@ -48,6 +48,7 @@
 #include <cstdlib>
 #ifndef NDEBUG
 #  include <cassert>
+#  include "itkPrintHelper.h" // for ostream operator<<std::vector<T>
 #endif
 
 #include <sstream>
@@ -509,6 +510,7 @@ OutputWindowDisplayDebugText(const char *);
 #  define itkDebugMacro(x)                                                     \
     do                                                                         \
     {                                                                          \
+      using namespace ::itk::print_helper; /* for ostream << std::vector<T> */ \
       if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())        \
       {                                                                        \
         std::ostringstream itkmsg;                                             \
