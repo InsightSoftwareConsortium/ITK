@@ -32,10 +32,8 @@
     "test:data:download": "echo \"not needed\"",
     "test:data:pack": "dam pack test/data test/data.tar.gz",
     "test:python:wasi": "itk-wasm pnpm-script test:python:wasi",
-    "test:pyodide:download:emscripten": "itk-wasm pnpm-script test:pyodide:download:emscripten",
     "test:python:emscripten": "itk-wasm pnpm-script test:python:emscripten",
-    "test:pyodide:download:dispatch": "itk-wasm pnpm-script test:pyodide:download:dispatch",
-    "test:python:dispatch": "itk-wasm pnpm-script test:python:emscripten",
+    "test:python:dispatch": "itk-wasm pnpm-script test:python:dispatch",
     "test:python": "itk-wasm pnpm-script test:python",
     "test:wasi": "itk-wasm pnpm-script test:wasi -- -V",
     "clean": "git clean -fdx -e node_modules"
@@ -44,6 +42,6 @@
   "devDependencies": {
     "@itk-wasm/dam": "^1.1.0",
     "@thewtex/setup-micromamba": "^1.9.7",
-    "itk-wasm": "^1.0.0-b.164"
+    "itk-wasm": "^1.0.0-b.165"
   }
 }

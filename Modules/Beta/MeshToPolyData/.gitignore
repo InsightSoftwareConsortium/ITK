@@ -8,3 +8,4 @@ micromamba/
 wasm/python/
 
 test/pyodide-emscripten.tar.bz2
+test/pyodide-dispatch.tar.bz2

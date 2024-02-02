@@ -15,8 +15,8 @@ importers:
         specifier: ^1.9.7
         version: 1.9.7
       itk-wasm:
-        specifier: ^1.0.0-b.164
-        version: 1.0.0-b.164
+        specifier: ^1.0.0-b.165
+        version: 1.0.0-b.165
 
   wasm/typescript:
     dependencies:
@@ -716,11 +716,25 @@ packages:
       - debug
     dev: true
 
+  /@itk-wasm/dam@1.1.1:
+    resolution: {integrity: sha512-7+9L3lrLMKF4y6B6qjs8GqfbpxT0waOJUM14NdMNEA6M+BoBS8fdHREhQHo2s7QMA5O7I+Jv7m+dyqlisGnbdQ==}
+    hasBin: true
+    dependencies:
+      axios: 1.6.7
+      commander: 10.0.1
+      decompress: 4.2.1
+      files-from-path: 1.0.4
+      ipfs-car: 1.2.0
+      tar: 6.2.0
+    transitivePeerDependencies:
+      - debug
+    dev: true
+
   /@itk-wasm/image-io@1.1.0:
     resolution: {integrity: sha512-2uAeBC5F0U/N6FaOLe0MVoOA2h3hizwTBuyZIwaVYoEzCav5a2ZDoCneC9FEpPR6G4VtVvzTlF/G6Eo4d8ofuA==}
     dependencies:
       axios: 1.6.7
-      itk-wasm: 1.0.0-b.164
+      itk-wasm: 1.0.0-b.165
       mime-types: 2.1.35
     transitivePeerDependencies:
       - debug
@@ -729,7 +743,7 @@ packages:
   /@itk-wasm/mesh-io@1.1.0:
     resolution: {integrity: sha512-zB+bgbvkWjUmCqjTnw4CSfPfEJr4QaiO/XdDse+0t8GjCcdjqplDIyudCABbzsLjQ+vVZ1t4RsRLnuZJ90+j5Q==}
     dependencies:
-      itk-wasm: 1.0.0-b.164
+      itk-wasm: 1.0.0-b.165
       mime-types: 2.1.35
     transitivePeerDependencies:
       - debug
@@ -2015,6 +2029,26 @@ packages:
       wasm-feature-detect: 1.6.1
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /itk-wasm@1.0.0-b.165:
+    resolution: {integrity: sha512-Rq0+AL2BuRqcFh9r3h69pB3nt84tw/gTxnI6GjIOYw5Bfah9qO+C8hRJpD8aWNBa5o3wNHRAMVlp0pt/L4K8gg==}
+    hasBin: true
+    dependencies:
+      '@itk-wasm/dam': 1.1.1
+      '@thewtex/zstddec': 0.2.0
+      '@types/emscripten': 1.39.10
+      axios: 1.6.7
+      comlink: 4.4.1
+      commander: 11.1.0
+      fs-extra: 11.2.0
+      glob: 8.1.0
+      markdown-table: 3.0.3
+      mime-types: 2.1.35
+      wasm-feature-detect: 1.6.1
+    transitivePeerDependencies:
+      - debug
+    dev: true
 
   /js-sha3@0.8.0:
     resolution: {integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==}
