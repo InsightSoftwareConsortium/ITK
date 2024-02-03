@@ -10,6 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
+
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
@@ -20,7 +23,7 @@ jobs:
         version: 8
         run_install: true
 
-    - uses: actions/setup-python@v3
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
