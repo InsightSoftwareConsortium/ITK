@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "itkwasm-mesh-to-poly-data"
+readme = "README.md"
+license = "Apache-2.0"
+dynamic = ["version"]
+description = "Convert an ITK Mesh to a simple data structure compatible with vtkPolyData."
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python",
+  "Programming Language :: C++",
+  "Environment :: WebAssembly",
+  "Environment :: WebAssembly :: Emscripten",
+  "Environment :: WebAssembly :: WASI",
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+keywords = [
+  "itkwasm",
+  "webassembly",
+  "wasi",
+  "emscripten",
+]
+
+requires-python = ">=3.8"
+dependencies = [
+    "itkwasm >= 1.0.b145",
+    "itkwasm-mesh-to-poly-data-wasi; sys_platform != \"emscripten\"",
+    "itkwasm-mesh-to-poly-data-emscripten; sys_platform == \"emscripten\"",
+
+]
+
+[tool.hatch.version]
+path = "itkwasm_mesh_to_poly_data/_version.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest",
+  "pytest-pyodide",
+  "itkwasm-mesh-io",
+]
+
+[project.urls]
+Home = "https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData"
+Source = "https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData"
+
+[tool.hatch.envs.default.scripts]
+test = [
+  "hatch build -t wheel ./dist/pyodide/",
+  "pytest --dist-dir=./dist/pyodide --rt=chrome",
+]
+download-pyodide = [
+  "curl -L https://github.com/pyodide/pyodide/releases/download/0.24.1/pyodide-0.24.1.tar.bz2 -o pyodide.tar.bz2",
+  "tar xjf pyodide.tar.bz2",
+  "rm -rf dist/pyodide pyodide.tar.bz2",
+  "mkdir -p dist",
+  "mv pyodide dist",
+]
+serve = [
+  "hatch build -t wheel ./dist/pyodide/",
+  'echo "\nVisit http://localhost:8877/console.html\n"',
+  "python -m http.server --directory=./dist/pyodide 8877",
+]
+
+
+
+[tool.hatch.build]
+exclude = [
+  "/examples",
+]

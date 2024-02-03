@@ -8,16 +8,29 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v3
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
+
+    - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
 
     - name: Install
-      run: |
-        npm install
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        run_install: true
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
     - name: Build
       run: |
-        npm run build
+        pnpm build
+
+    - name: Test
+      run: |
+        pnpm test
