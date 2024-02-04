@@ -1,0 +1,106 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-wasm-documentation:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        run_install: true
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Build
+      run: |
+        pnpm build
+
+    - name: Build package typescript documentation
+      run: |
+        mkdir -p docs/ts/docs
+        mkdir -p docs//ts/app
+
+        sed "s%      basePath:.*%      basePath: '/itkmeshtopolydata/ts/docs',%" wasm/typescript/index.html > docs/ts/docs/index.html
+        cp wasm/typescript/README.md docs/ts/docs/
+        mkdir -p docs/ts/docs/test/browser/demo-app
+        cp wasm/typescript/test/browser/demo-app/logo.svg docs/ts/docs/test/browser/demo-app/
+
+        pushd wasm/typescript
+        rm -rf demo-app node_modules/.vite
+        export VITE_BASE_URL="/itkmeshtopolydata/ts/app/"
+        pnpm build
+        popd
+        rsync -a wasm/typescript/demo-app/ docs/ts/app/
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Build package python documentation
+      run: |
+        mkdir -p docs/py/docs
+        mkdir -p docs/py/app
+
+        export SPHINX_BASE_URL="/itkmeshtopolydata/py/docs/"
+        pushd wasm/python/itkwasm-mesh-to-poly-data/docs
+        pip install -r requirements.txt
+        make html
+        popd
+        rsync -a wasm/python/itkwasm-mesh-to-poly-data/docs/_build/html/ docs/py/docs/
+
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: docs
+        retention-days: 7
+
+  deploy-gh-pages:
+    needs: build-wasm-documentation
+    runs-on: ubuntu-22.04
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      contents: read
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      # with:
+        # preview: true <-> currently not available to the public
