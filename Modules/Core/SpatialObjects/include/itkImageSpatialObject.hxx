@@ -149,6 +149,8 @@ ImageSpatialObject<TDimension, PixelType>::SetImage(const ImageType * image)
     }
 
     m_Image = image;
+    UpdateImageRegions();
+
     if (m_Interpolator)
     {
       m_Interpolator->SetInputImage(m_Image);
@@ -184,6 +186,32 @@ ImageSpatialObject<TDimension, PixelType>::InternalClone() const
 
   return loPtr;
 }
+
+
+template <unsigned int TDimension, typename PixelType>
+void
+ImageSpatialObject<TDimension, PixelType>::Update()
+{
+  UpdateImageRegions();
+
+  // Call the Superclass Update() after (not before) updating the image regions! The effect of Superclass::Update()
+  // may depend partially on the image regions.
+  Superclass::Update();
+}
+
+
+template <unsigned int TDimension, typename PixelType>
+void
+ImageSpatialObject<TDimension, PixelType>::UpdateImageRegions()
+{
+  if (m_Image)
+  {
+    Superclass::SetLargestPossibleRegion(m_Image->GetLargestPossibleRegion());
+    Superclass::SetBufferedRegion(m_Image->GetBufferedRegion());
+    Superclass::SetRequestedRegion(m_Image->GetRequestedRegion());
+  }
+}
+
 
 template <unsigned int TDimension, typename PixelType>
 void
