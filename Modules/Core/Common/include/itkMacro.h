@@ -319,13 +319,8 @@ namespace itk
   }                                                       \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define itkCreateAnotherMacro(x)                             \
-  ::itk::LightObject::Pointer CreateAnother() const override \
-  {                                                          \
-    ::itk::LightObject::Pointer smartPtr;                    \
-    smartPtr = x::New().GetPointer();                        \
-    return smartPtr;                                         \
-  }                                                          \
+#define itkCreateAnotherMacro(x)                                                               \
+  ::itk::LightObject::Pointer CreateAnother() const override { return x::New().GetPointer(); } \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkCloneMacro(x)                                                  \
