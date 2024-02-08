@@ -30,6 +30,7 @@
 #include "itkAffineTransform.h"
 #include "itkVectorContainer.h"
 #include "itkBoundingBox.h"
+#include <limits>
 
 namespace itk
 {
@@ -65,7 +66,7 @@ public:
 
   static constexpr ObjectDimensionType ObjectDimension = VDimension;
 
-  static constexpr unsigned int MaximumDepth = 9999999;
+  static constexpr unsigned int MaximumDepth = std::numeric_limits<unsigned int>::max();
 
   /** Return the maximum depth that a tree of spatial objects can
    * have.  This provides convenient access to a static constant. */
