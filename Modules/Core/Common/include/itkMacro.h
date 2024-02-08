@@ -374,9 +374,8 @@ namespace itk
 #define itkFactorylessNewMacro(x) \
   static Pointer New()            \
   {                               \
-    Pointer smartPtr;             \
     x *     rawPtr = new x;       \
-    smartPtr = rawPtr;            \
+    Pointer smartPtr = rawPtr;    \
     rawPtr->UnRegister();         \
     return smartPtr;              \
   }                               \
