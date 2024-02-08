@@ -371,21 +371,16 @@ namespace itk
  * UnRegister() on the rawPtr to compensate for LightObject's constructor
  * initializing an object's reference count to 1 (needed for proper
  * initialization of process objects and data objects cycles). */
-#define itkFactorylessNewMacro(x)                            \
-  static Pointer New()                                       \
-  {                                                          \
-    Pointer smartPtr;                                        \
-    x *     rawPtr = new x;                                  \
-    smartPtr = rawPtr;                                       \
-    rawPtr->UnRegister();                                    \
-    return smartPtr;                                         \
-  }                                                          \
-  ::itk::LightObject::Pointer CreateAnother() const override \
-  {                                                          \
-    ::itk::LightObject::Pointer smartPtr;                    \
-    smartPtr = x::New().GetPointer();                        \
-    return smartPtr;                                         \
-  }                                                          \
+#define itkFactorylessNewMacro(x) \
+  static Pointer New()            \
+  {                               \
+    Pointer smartPtr;             \
+    x *     rawPtr = new x;       \
+    smartPtr = rawPtr;            \
+    rawPtr->UnRegister();         \
+    return smartPtr;              \
+  }                               \
+  itkCreateAnotherMacro(x);       \
   ITK_MACROEND_NOOP_STATEMENT
 
 //
