@@ -424,6 +424,13 @@ operator<<(std::ostream & os, const ImageRegion<VImageDimension> & region);
 
 namespace std
 {
+#if defined(__clang__)
+#  pragma GCC diagnostic push
+// Old Clang compiler versions (before Clang 7.0.0) produced some unimportant warnings, like: "warning: 'tuple_size'
+// defined as a struct template here but previously declared as a class template"
+#  pragma GCC diagnostic ignored "-Wmismatched-tags"
+#endif
+
 // NOLINTBEGIN(cert-dcl58-cpp)
 // Locally suppressed the following warning from Clang-Tidy (LLVM 17.0.1), as it appears undeserved.
 // > warning: modification of 'std' namespace can result in undefined behavior [cert-dcl58-cpp]
@@ -448,6 +455,10 @@ struct tuple_element<VTupleIndex, itk::ImageRegion<VImageDimension>>
 };
 
 // NOLINTEND(cert-dcl58-cpp)
+
+#if defined(__clang__)
+#  pragma GCC diagnostic pop
+#endif
 } // namespace std
 
 #undef itkRegionOverrideMacro
