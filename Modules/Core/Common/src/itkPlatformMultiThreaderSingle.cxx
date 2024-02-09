@@ -39,9 +39,9 @@ PlatformMultiThreader::MultipleMethodExecute()
   ThreadIdType thread_loop;
 
   // obey the global maximum number of threads limit
-  if (m_NumberOfWorkUnits > m_GlobalMaximumNumberOfThreads)
+  if (m_NumberOfWorkUnits > MultiThreaderBase::GetGlobalMaximumNumberOfThreads())
   {
-    m_NumberOfWorkUnits = m_GlobalMaximumNumberOfThreads;
+    m_NumberOfWorkUnits = MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
   }
 
   for (thread_loop = 0; thread_loop < m_NumberOfWorkUnits; ++thread_loop)
