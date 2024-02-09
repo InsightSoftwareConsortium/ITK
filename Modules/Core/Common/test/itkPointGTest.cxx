@@ -48,6 +48,22 @@ Expect_Point_can_be_constructed_by_std_array()
 } // namespace
 
 
+// Tests that a Point that is "value-initialized" (by empty braces, `{}`) is zero-filled.
+TEST(Point, ValueInitializedIsZeroFilled)
+{
+  const auto expectZeroFilled = [](const auto & fixedArray) {
+    for (const auto element : fixedArray)
+    {
+      EXPECT_EQ(element, 0);
+    }
+  };
+
+  expectZeroFilled(itk::Point<int>{});
+  expectZeroFilled(itk::Point<float, 2>{});
+  expectZeroFilled(itk::Point<double, 4>{});
+}
+
+
 // Tests that a Point can be constructed by specifying
 // its coordinates by an std::array<ValueType, VDimension>.
 TEST(Point, CanBeConstructedByStdArray)
