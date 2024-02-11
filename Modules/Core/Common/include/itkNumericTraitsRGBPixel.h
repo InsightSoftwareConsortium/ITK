@@ -115,7 +115,7 @@ public:
   static const Self
   ZeroValue()
   {
-    return MakeFilled<Self>(NumericTraits<T>::ZeroValue());
+    return Self{};
   }
 
   static const Self
