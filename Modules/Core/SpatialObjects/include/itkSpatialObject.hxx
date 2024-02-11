@@ -398,15 +398,9 @@ SpatialObject<TDimension>::GetFamilyBoundingBoxInWorldSpace() const -> const Bou
   auto       transformedCorners = PointsContainer::New();
   transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>(corners.size()));
 
-  auto it = corners.begin();
-  auto itTrans = transformedCorners->begin();
-  while (it != corners.end())
-  {
-    const PointType pnt = this->m_ObjectToWorldTransform->TransformPoint(*it);
-    *itTrans = pnt;
-    ++it;
-    ++itTrans;
-  }
+  std::transform(corners.cbegin(), corners.cend(), transformedCorners->begin(), [this](const auto & point) {
+    return m_ObjectToWorldTransform->TransformPoint(point);
+  });
 
   m_FamilyBoundingBoxInWorldSpace->SetPoints(transformedCorners);
   m_FamilyBoundingBoxInWorldSpace->ComputeBoundingBox();
@@ -628,15 +622,9 @@ SpatialObject<TDimension>::GetMyBoundingBoxInWorldSpace() const -> const Boundin
   auto       transformedCorners = PointsContainer::New();
   transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>(corners.size()));
 
-  auto it = corners.begin();
-  auto itTrans = transformedCorners->begin();
-  while (it != corners.end())
-  {
-    const PointType pnt = this->m_ObjectToWorldTransform->TransformPoint(*it);
-    *itTrans = pnt;
-    ++it;
-    ++itTrans;
-  }
+  std::transform(corners.cbegin(), corners.cend(), transformedCorners->begin(), [this](const auto & point) {
+    return m_ObjectToWorldTransform->TransformPoint(point);
+  });
 
   m_MyBoundingBoxInWorldSpace->SetPoints(transformedCorners);
   m_MyBoundingBoxInWorldSpace->ComputeBoundingBox();
