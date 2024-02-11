@@ -402,7 +402,7 @@ SpatialObject<TDimension>::GetFamilyBoundingBoxInWorldSpace() const -> const Bou
   auto itTrans = transformedCorners->begin();
   while (it != corners.end())
   {
-    const PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    const PointType pnt = this->m_ObjectToWorldTransform->TransformPoint(*it);
     *itTrans = pnt;
     ++it;
     ++itTrans;
@@ -511,7 +511,7 @@ SpatialObject<TDimension>::ProtectedComputeObjectToWorldTransform()
   m_ObjectToWorldTransform->SetParameters(this->GetObjectToParentTransform()->GetParameters());
   if (this->HasParent())
   {
-    m_ObjectToWorldTransform->Compose(this->GetParent()->GetObjectToWorldTransform(), false);
+    m_ObjectToWorldTransform->Compose(this->GetParent()->m_ObjectToWorldTransform, false);
   }
 
   if (!m_ObjectToWorldTransform->GetInverse(m_ObjectToWorldTransformInverse))
@@ -565,7 +565,7 @@ SpatialObject<TDimension>::ComputeObjectToParentTransform()
   if (this->HasParent())
   {
     auto inverse = TransformType::New();
-    if (this->GetParent()->GetObjectToWorldTransform()->GetInverse(inverse))
+    if (this->GetParent()->m_ObjectToWorldTransform->GetInverse(inverse))
     {
       m_ObjectToParentTransform->Compose(inverse, true);
     }
@@ -632,7 +632,7 @@ SpatialObject<TDimension>::GetMyBoundingBoxInWorldSpace() const -> const Boundin
   auto itTrans = transformedCorners->begin();
   while (it != corners.end())
   {
-    const PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    const PointType pnt = this->m_ObjectToWorldTransform->TransformPoint(*it);
     *itTrans = pnt;
     ++it;
     ++itTrans;
@@ -1015,7 +1015,7 @@ SpatialObject<TDimension>::SetParent(Self * parent)
   if (parent != m_Parent)
   {
     Self *                oldParent = m_Parent;
-    const TransformType * oldObjectWorldTransform = this->GetObjectToWorldTransform();
+    const TransformType * oldObjectWorldTransform = this->m_ObjectToWorldTransform;
 
     m_Parent = parent;
     if (parent != nullptr)
@@ -1251,7 +1251,7 @@ SpatialObject<TDimension>::CopyInformation(const DataObject * data)
   this->SetProperty(source->GetProperty());
 
   // copy the ivars
-  this->SetObjectToWorldTransform(source->GetObjectToWorldTransform());
+  this->SetObjectToWorldTransform(source->m_ObjectToWorldTransform);
   this->SetDefaultInsideValue(source->GetDefaultInsideValue());
   this->SetDefaultOutsideValue(source->GetDefaultOutsideValue());
 
