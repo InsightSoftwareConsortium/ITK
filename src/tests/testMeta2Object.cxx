@@ -141,7 +141,7 @@ main(int, char *[])
   auto * inDataChar = new char[1];
   inDataChar[0] = 1;
   auto * outDataChar = new char[1];
-  if (!MET_ValueToValue(MET_CHAR_ARRAY, inDataChar, 0, MET_CHAR_ARRAY, outDataChar))
+  if (!MET_ValueToValue(MET_CHAR_ARRAY, inDataChar, 0, MET_CHAR_ARRAY, outDataChar, 1))
   {
     std::cout << "MET_ValueToValue: FAIL" << std::endl;
     return EXIT_FAILURE;
@@ -157,7 +157,7 @@ main(int, char *[])
   auto * inDataUChar = new unsigned char[1];
   inDataUChar[0] = 1;
   auto * outDataUChar = new unsigned char[1];
-  if (!MET_ValueToValue(MET_UCHAR_ARRAY, inDataUChar, 0, MET_UCHAR_ARRAY, outDataUChar))
+  if (!MET_ValueToValue(MET_UCHAR_ARRAY, inDataUChar, 0, MET_UCHAR_ARRAY, outDataUChar, 1))
   {
     std::cout << "MET_ValueToValue: FAIL" << std::endl;
     return EXIT_FAILURE;
