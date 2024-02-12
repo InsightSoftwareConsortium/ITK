@@ -10,7 +10,7 @@ ITK.
 
 The following command was used to obtain the symbol list:
 
-nm lib/libitkpng-4.12.a 2> /dev/null | grep " T \| D \| R " |
+nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
  awk '{ print substr($3, 1); }' | sort | awk '!/@MANGLE_PREFIX@_/ { print }' |
  sed 's \(.*\) \1\ @MANGLE_PREFIX@_\1 ' | sed 's/^/#define /'
 
@@ -228,8 +228,6 @@ nm lib/libitkpng-4.12.a 2> /dev/null | grep " T \| D \| R " |
 #define png_process_data_skip @MANGLE_PREFIX@_process_data_skip
 #define png_process_some_data @MANGLE_PREFIX@_process_some_data
 #define png_progressive_combine_row @MANGLE_PREFIX@_progressive_combine_row
-#define png_push_crc_finish @MANGLE_PREFIX@_push_crc_finish
-#define png_push_crc_skip @MANGLE_PREFIX@_push_crc_skip
 #define png_push_fill_buffer @MANGLE_PREFIX@_push_fill_buffer
 #define png_push_have_end @MANGLE_PREFIX@_push_have_end
 #define png_push_have_info @MANGLE_PREFIX@_push_have_info
@@ -418,6 +416,12 @@ nm lib/libitkpng-4.12.a 2> /dev/null | grep " T \| D \| R " |
 #define png_zfree @MANGLE_PREFIX@_zfree
 #define png_zlib_inflate @MANGLE_PREFIX@_zlib_inflate
 #define png_zstream_error @MANGLE_PREFIX@_zstream_error
-
+#define _png_read_filter_row_avg3_neon @MANGLE_PREFIX@___png_read_filter_row_avg3_neon
+#define _png_read_filter_row_avg4_neon @MANGLE_PREFIX@___png_read_filter_row_avg4_neon
+#define _png_read_filter_row_paeth3_neon @MANGLE_PREFIX@___png_read_filter_row_paeth3_neon
+#define _png_read_filter_row_paeth4_neon @MANGLE_PREFIX@___png_read_filter_row_paeth4_neon
+#define _png_read_filter_row_sub3_neon @MANGLE_PREFIX@___png_read_filter_row_sub3_neon
+#define _png_read_filter_row_sub4_neon @MANGLE_PREFIX@___png_read_filter_row_sub4_neon
+#define _png_read_filter_row_up_neon @MANGLE_PREFIX@___png_read_filter_row_up_neon
 
 #endif
