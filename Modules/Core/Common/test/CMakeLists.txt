@@ -1719,7 +1719,9 @@ set(ITKCommonGTests
     itkConnectedImageNeighborhoodShapeGTest.cxx
     itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
     itkCopyGTest.cxx
+    itkCovariantVectorGTest.cxx
     itkDerefGTest.cxx
+    itkDiffusionTensor3DGTest.cxx
     itkExceptionObjectGTest.cxx
     itkFixedArrayGTest.cxx
     itkImageNeighborhoodOffsetsGTest.cxx
@@ -1741,9 +1743,12 @@ set(ITKCommonGTests
     itkOffsetGTest.cxx
     itkOptimizerParametersGTest.cxx
     itkPointGTest.cxx
+    itkRGBAPixelGTest.cxx
+    itkRGBPixelGTest.cxx
     itkShapedImageNeighborhoodRangeGTest.cxx
     itkSizeGTest.cxx
     itkSmartPointerGTest.cxx
+    itkSymmetricSecondRankTensorGTest.cxx
     itkVectorContainerGTest.cxx
     itkVectorGTest.cxx
     itkWeakPointerGTest.cxx
