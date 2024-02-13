@@ -245,81 +245,78 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
   {
     case IOComponentEnum::UCHAR:
     {
-      WritePoints(static_cast<unsigned char *>(buffer), outputFile, itk::NumericTraits<unsigned char>::ZeroValue());
+      WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::CHAR:
     {
-      WritePoints(static_cast<char *>(buffer), outputFile, itk::NumericTraits<char>::ZeroValue());
+      WritePoints(static_cast<char *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::USHORT:
     {
-      WritePoints(static_cast<unsigned short *>(buffer), outputFile, itk::NumericTraits<unsigned short>::ZeroValue());
+      WritePoints(static_cast<unsigned short *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::SHORT:
     {
-      WritePoints(static_cast<short *>(buffer), outputFile, itk::NumericTraits<short>::ZeroValue());
+      WritePoints(static_cast<short *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::UINT:
     {
-      WritePoints(static_cast<unsigned int *>(buffer), outputFile, itk::NumericTraits<unsigned int>::ZeroValue());
+      WritePoints(static_cast<unsigned int *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::INT:
     {
-      WritePoints(static_cast<int *>(buffer), outputFile, itk::NumericTraits<int>::ZeroValue());
+      WritePoints(static_cast<int *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::ULONG:
     {
-      WritePoints(static_cast<unsigned long *>(buffer), outputFile, itk::NumericTraits<unsigned long>::ZeroValue());
+      WritePoints(static_cast<unsigned long *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::LONG:
     {
-      WritePoints(static_cast<long *>(buffer), outputFile, itk::NumericTraits<long>::ZeroValue());
+      WritePoints(static_cast<long *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::ULONGLONG:
     {
-      WritePoints(static_cast<unsigned long long *>(buffer),
-                  outputFile,
-                  static_cast<unsigned long long>(itk::NumericTraits<unsigned long>::ZeroValue()));
+      WritePoints(static_cast<unsigned long long *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::LONGLONG:
     {
-      WritePoints(
-        static_cast<long long *>(buffer), outputFile, static_cast<long long>(itk::NumericTraits<long>::ZeroValue()));
+      WritePoints(static_cast<long long *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::FLOAT:
     {
-      WritePoints(static_cast<float *>(buffer), outputFile, 0.0f);
+      WritePoints(static_cast<float *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::DOUBLE:
     {
-      WritePoints(static_cast<double *>(buffer), outputFile, 0.0);
+      WritePoints(static_cast<double *>(buffer), outputFile);
 
       break;
     }
     case IOComponentEnum::LDOUBLE:
     {
-      WritePoints(static_cast<long double *>(buffer), outputFile, itk::NumericTraits<long double>::ZeroValue());
+      WritePoints(static_cast<long double *>(buffer), outputFile);
 
       break;
     }
@@ -396,15 +393,12 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
     }
     case IOComponentEnum::ULONGLONG:
     {
-      WriteCells(static_cast<unsigned long long *>(buffer),
-                 outputFile,
-                 static_cast<unsigned long long>(itk::NumericTraits<unsigned long>::ZeroValue()));
+      WriteCells(static_cast<unsigned long long *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::LONGLONG:
     {
-      WriteCells(
-        static_cast<long long *>(buffer), outputFile, static_cast<long long>(itk::NumericTraits<long>::ZeroValue()));
+      WriteCells(static_cast<long long *>(buffer), outputFile);
       break;
     }
     case IOComponentEnum::FLOAT:
