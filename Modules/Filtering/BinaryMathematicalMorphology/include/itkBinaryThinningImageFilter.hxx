@@ -81,7 +81,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::PrepareData()
     }
     else
     {
-      ot.Set(NumericTraits<OutputImagePixelType>::ZeroValue());
+      ot.Set(OutputImagePixelType{});
     }
     ++it;
     ++ot;

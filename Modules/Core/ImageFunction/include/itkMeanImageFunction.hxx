@@ -36,7 +36,7 @@ MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & ind
 {
   RealType sum;
 
-  sum = NumericTraits<RealType>::ZeroValue();
+  sum = RealType{};
 
   const InputImageType * const image = this->GetInputImage();
 

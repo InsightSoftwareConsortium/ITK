@@ -55,7 +55,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::AllocateImage(con
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     size[i] = image->DimSize()[i];
-    if (Math::ExactlyEquals(image->ElementSpacing()[i], NumericTraits<typename SpacingType::ValueType>::ZeroValue()))
+    if (Math::ExactlyEquals(image->ElementSpacing()[i], typename SpacingType::ValueType{}))
     {
       spacing[i] = 1;
     }

@@ -106,7 +106,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
     // Pad the kernel if necessary to an odd size in each dimension.
     using PadImageFilterType = ConstantPadImageFilter<TImage, TImage>;
     auto kernelPadImageFilter = PadImageFilterType::New();
-    kernelPadImageFilter->SetConstant(NumericTraits<KernelImagePixelType>::ZeroValue());
+    kernelPadImageFilter->SetConstant(KernelImagePixelType{});
     kernelPadImageFilter->SetPadLowerBound(this->GetKernelPadSize());
     kernelPadImageFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     kernelPadImageFilter->ReleaseDataFlagOn();

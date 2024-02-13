@@ -167,8 +167,7 @@ ScalableAffineTransform<TParametersValueType, VDimension>::ComputeMatrix()
     typename MatrixType::InternalMatrixType & imat = mat.GetVnlMatrix();
     for (unsigned int i = 0; i < VDimension; ++i)
     {
-      if (Math::NotAlmostEquals(m_MatrixScale[i],
-                                NumericTraits<typename NumericTraits<InputVectorType>::ValueType>::ZeroValue()) &&
+      if (Math::NotAlmostEquals(m_MatrixScale[i], typename NumericTraits<InputVectorType>::ValueType{}) &&
           Math::NotAlmostEquals(m_Scale[i], 0.0))
       {
         imat.put(i, i, m_Scale[i] / m_MatrixScale[i] * this->GetMatrix()[i][i]);

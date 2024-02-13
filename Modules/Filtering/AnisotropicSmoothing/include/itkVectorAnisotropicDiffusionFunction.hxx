@@ -64,7 +64,7 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
 
   // Now do the actual processing
   accumulator = 0.0;
-  counter = NumericTraits<SizeValueType>::ZeroValue();
+  counter = SizeValueType{};
 
   // First process the non-boundary region
 

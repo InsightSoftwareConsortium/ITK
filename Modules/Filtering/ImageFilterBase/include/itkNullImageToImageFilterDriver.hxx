@@ -114,7 +114,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>::InitializePixel(const D
 {
   for (unsigned int i = 0; i < InputPixelDimension; ++i)
   {
-    pixel[i] = NumericTraits<typename PixelTraits<InputPixelType>::ValueType>::ZeroValue();
+    pixel[i] = typename PixelTraits<InputPixelType>::ValueType{};
   }
 }
 
@@ -122,7 +122,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 NullImageToImageFilterDriver<TInputImage, TOutputImage>::InitializePixel(const Dispatch<1> &, InputPixelType & pixel)
 {
-  pixel = NumericTraits<InputPixelType>::ZeroValue();
+  pixel = InputPixelType{};
 }
 
 /**

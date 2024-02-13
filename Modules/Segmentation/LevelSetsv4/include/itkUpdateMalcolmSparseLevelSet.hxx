@@ -28,8 +28,8 @@ namespace itk
 
 template <unsigned int VDimension, typename TEquationContainer>
 UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::UpdateMalcolmSparseLevelSet()
-  : m_CurrentLevelSetId(NumericTraits<IdentifierType>::ZeroValue())
-  , m_RMSChangeAccumulator(NumericTraits<LevelSetOutputRealType>::ZeroValue())
+  : m_CurrentLevelSetId(IdentifierType{})
+  , m_RMSChangeAccumulator(LevelSetOutputRealType{})
 
 {
   this->m_Offset.Fill(0);
@@ -143,11 +143,11 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::FillUpdateContainer
 
     LevelSetOutputType value{};
 
-    if (update > NumericTraits<LevelSetOutputRealType>::ZeroValue())
+    if (update > LevelSetOutputRealType{})
     {
       value = NumericTraits<LevelSetOutputType>::OneValue();
     }
-    if (update < NumericTraits<LevelSetOutputRealType>::ZeroValue())
+    if (update < LevelSetOutputRealType{})
     {
       value = -NumericTraits<LevelSetOutputType>::OneValue();
     }
@@ -196,11 +196,11 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::EvolveWithUnPhasedP
 
     const LevelSetOutputType update = upIt->second;
 
-    if (update != NumericTraits<LevelSetOutputType>::ZeroValue())
+    if (update != LevelSetOutputType{})
     {
       oldValue = LevelSetType::ZeroLayer();
 
-      if (update > NumericTraits<LevelSetOutputType>::ZeroValue())
+      if (update > LevelSetOutputType{})
       {
         newValue = LevelSetType::PlusOneLayer();
       }
@@ -289,7 +289,7 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::EvolveWithPhasedPro
     LevelSetInputType  currentIdx = nodeIt->first;
     LevelSetInputType  inputIndex = currentIdx + this->m_Offset;
 
-    if (Math::NotAlmostEquals(update, NumericTraits<LevelSetOutputRealType>::ZeroValue()))
+    if (Math::NotAlmostEquals(update, LevelSetOutputRealType{}))
     {
       // only allow positiveUpdate forces
       if (iContraction)

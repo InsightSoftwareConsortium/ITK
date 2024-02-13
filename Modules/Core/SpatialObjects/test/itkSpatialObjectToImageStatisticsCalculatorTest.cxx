@@ -82,8 +82,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
   if (calculator->GetMean() != itk::MakeFilled<CalculatorType::VectorType>(255) ||
-      itk::Math::NotAlmostEquals(calculator->GetCovarianceMatrix()[0][0],
-                                 itk::NumericTraits<CalculatorType::MatrixType::ValueType>::ZeroValue()))
+      itk::Math::NotAlmostEquals(calculator->GetCovarianceMatrix()[0][0], CalculatorType::MatrixType::ValueType{}))
   {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;

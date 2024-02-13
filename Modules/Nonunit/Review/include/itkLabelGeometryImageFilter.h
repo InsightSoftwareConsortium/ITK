@@ -157,7 +157,7 @@ public:
     {
       // initialized to the default values
       this->m_Label = 0;
-      this->m_Sum = NumericTraits<RealType>::ZeroValue();
+      this->m_Sum = RealType{};
 
       const unsigned int imageDimension = Self::ImageDimension;
 

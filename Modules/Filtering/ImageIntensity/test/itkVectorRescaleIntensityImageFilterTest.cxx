@@ -107,8 +107,7 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
     const OutputPixelType outputValue = ot.Get();
     for (unsigned int k = 0; k < VectorDimension; ++k)
     {
-      if (itk::Math::NotAlmostEquals(outputValue[k],
-                                     itk::NumericTraits<itk::NumericTraits<OutputPixelType>::ValueType>::ZeroValue()))
+      if (itk::Math::NotAlmostEquals(outputValue[k], itk::NumericTraits<OutputPixelType>::ValueType{}))
       {
         if (!itk::Math::FloatAlmostEqual(
               static_cast<double>(outputValue[k]), static_cast<double>(pixelValue[k] * factor), 10, tolerance))

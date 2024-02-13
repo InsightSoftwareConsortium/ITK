@@ -258,7 +258,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
       }
       else
       {
-        auxVal = NumericTraits<AuxValueType>::ZeroValue();
+        auxVal = AuxValueType{};
       }
 
       this->m_AuxImages[k]->SetPixel(iNode, auxVal);

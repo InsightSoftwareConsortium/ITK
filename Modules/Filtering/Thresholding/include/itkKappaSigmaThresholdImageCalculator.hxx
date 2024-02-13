@@ -26,7 +26,7 @@ namespace itk
 template <typename TInputImage, typename TMaskImage>
 KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::KappaSigmaThresholdImageCalculator()
   : m_MaskValue(NumericTraits<MaskPixelType>::max())
-  , m_Output(NumericTraits<InputPixelType>::ZeroValue())
+  , m_Output(InputPixelType{})
 {}
 
 template <typename TInputImage, typename TMaskImage>

@@ -33,7 +33,7 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>::DoubleThresholdImageFilte
   m_Threshold3 = NumericTraits<InputPixelType>::max();
   m_Threshold4 = NumericTraits<InputPixelType>::max();
 
-  m_OutsideValue = NumericTraits<OutputPixelType>::ZeroValue();
+  m_OutsideValue = OutputPixelType{};
   m_InsideValue = NumericTraits<OutputPixelType>::max();
 
   m_FullyConnected = false;

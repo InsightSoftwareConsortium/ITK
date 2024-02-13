@@ -37,7 +37,7 @@ SumOfSquaresImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexTy
 {
   RealType sumOfSquares;
 
-  sumOfSquares = NumericTraits<RealType>::ZeroValue();
+  sumOfSquares = RealType{};
 
   const InputImageType * const image = this->GetInputImage();
 

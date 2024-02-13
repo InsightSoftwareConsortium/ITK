@@ -84,7 +84,7 @@ Hessian3DToVesselnessMeasureImageFilter<TPixel>::GenerateData()
     }
     else
     {
-      oit.Set(NumericTraits<OutputPixelType>::ZeroValue());
+      oit.Set(OutputPixelType{});
     }
 
     ++it;

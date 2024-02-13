@@ -29,7 +29,7 @@ template <typename TInputImage, typename TKernel>
 BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>::BinaryOpeningByReconstructionImageFilter()
 {
   m_ForegroundValue = NumericTraits<PixelType>::max();
-  m_BackgroundValue = NumericTraits<PixelType>::ZeroValue();
+  m_BackgroundValue = PixelType{};
   m_FullyConnected = false;
 }
 

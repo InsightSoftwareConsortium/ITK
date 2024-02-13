@@ -39,7 +39,7 @@ public:
   TIndexType  m_Index;
   signed char m_NodeState{ 0 };
   BandNode()
-    : m_Data(NumericTraits<TDataType>::ZeroValue())
+    : m_Data(TDataType{})
   {}
 };
 

@@ -152,7 +152,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
 {
-  this->m_NumberOfPixelsChanged = NumericTraits<SizeValueType>::ZeroValue();
+  this->m_NumberOfPixelsChanged = SizeValueType{};
 
   unsigned int numberOfWorkUnits = this->GetNumberOfWorkUnits();
   this->m_Count.SetSize(numberOfWorkUnits);

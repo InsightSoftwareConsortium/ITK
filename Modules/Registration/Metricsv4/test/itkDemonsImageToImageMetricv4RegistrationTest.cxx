@@ -141,7 +141,7 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   using FixedRescaleFilterType = itk::RescaleIntensityImageFilter<FixedImageType, FixedImageType>;
   auto fixedRescaleFilter = FixedRescaleFilterType::New();
   fixedRescaleFilter->SetInput(fixedImage);
-  fixedRescaleFilter->SetOutputMinimum(itk::NumericTraits<PixelType>::ZeroValue());
+  fixedRescaleFilter->SetOutputMinimum(PixelType{});
   fixedRescaleFilter->SetOutputMaximum(itk::NumericTraits<PixelType>::OneValue());
   fixedRescaleFilter->Update();
   fixedImage = fixedRescaleFilter->GetOutput();
@@ -149,7 +149,7 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   using MovingRescaleFilterType = itk::RescaleIntensityImageFilter<MovingImageType, MovingImageType>;
   auto movingRescaleFilter = MovingRescaleFilterType::New();
   movingRescaleFilter->SetInput(movingImage);
-  movingRescaleFilter->SetOutputMinimum(itk::NumericTraits<PixelType>::ZeroValue());
+  movingRescaleFilter->SetOutputMinimum(PixelType{});
   movingRescaleFilter->SetOutputMaximum(itk::NumericTraits<PixelType>::OneValue());
   movingRescaleFilter->Update();
   movingImage = movingRescaleFilter->GetOutput();

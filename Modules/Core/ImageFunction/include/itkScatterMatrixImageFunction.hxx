@@ -51,7 +51,7 @@ ScatterMatrixImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexT
   const unsigned int VectorDimension = PixelType::Dimension;
 
   covariance = vnl_matrix<PixelComponentRealType>(VectorDimension, VectorDimension);
-  covariance.fill(NumericTraits<PixelComponentRealType>::ZeroValue());
+  covariance.fill(PixelComponentRealType{});
 
   if (!this->GetInputImage())
   {

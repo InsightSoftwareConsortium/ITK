@@ -27,10 +27,10 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename THistogramMeasurement>
 HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::HistogramMatchingImageFilter()
-  : m_SourceMinValue(NumericTraits<THistogramMeasurement>::ZeroValue())
-  , m_SourceMaxValue(NumericTraits<THistogramMeasurement>::ZeroValue())
-  , m_ReferenceMinValue(NumericTraits<THistogramMeasurement>::ZeroValue())
-  , m_ReferenceMaxValue(NumericTraits<THistogramMeasurement>::ZeroValue())
+  : m_SourceMinValue(THistogramMeasurement{})
+  , m_SourceMaxValue(THistogramMeasurement{})
+  , m_ReferenceMinValue(THistogramMeasurement{})
+  , m_ReferenceMaxValue(THistogramMeasurement{})
   , m_SourceHistogram(HistogramType::New())
   , m_OutputHistogram(HistogramType::New())
 
@@ -437,7 +437,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   typename HistogramType::IndexType             index(1);
   typename HistogramType::MeasurementVectorType measurement(1);
   using MeasurementType = typename HistogramType::MeasurementType;
-  measurement[0] = NumericTraits<MeasurementType>::ZeroValue();
+  measurement[0] = MeasurementType{};
 
   {
     // put each image pixel into the histogram

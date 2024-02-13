@@ -72,7 +72,7 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
   auto labelMapConverter = LabelImageToLabelMapFilterType::New();
   labelMapConverter->SetInput(reader->GetOutput());
-  labelMapConverter->SetBackgroundValue(itk::NumericTraits<PixelType>::ZeroValue());
+  labelMapConverter->SetBackgroundValue(PixelType{});
 
   using StructuringElementType = itk::FlatStructuringElement<Dimension>;
   StructuringElementType::RadiusType radius;

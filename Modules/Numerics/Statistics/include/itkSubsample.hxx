@@ -29,7 +29,7 @@ template <typename TSample>
 Subsample<TSample>::Subsample()
 {
   m_Sample = nullptr;
-  m_TotalFrequency = NumericTraits<AbsoluteFrequencyType>::ZeroValue();
+  m_TotalFrequency = AbsoluteFrequencyType{};
   m_ActiveDimension = 0;
 }
 
@@ -78,7 +78,7 @@ Subsample<TSample>::InitializeWithAllInstances()
   auto                            idIter = m_IdHolder.begin();
   typename TSample::ConstIterator iter = m_Sample->Begin();
   typename TSample::ConstIterator last = m_Sample->End();
-  m_TotalFrequency = NumericTraits<AbsoluteFrequencyType>::ZeroValue();
+  m_TotalFrequency = AbsoluteFrequencyType{};
   while (iter != last)
   {
     *idIter++ = iter.GetInstanceIdentifier();
@@ -114,7 +114,7 @@ void
 Subsample<TSample>::Clear()
 {
   m_IdHolder.clear();
-  m_TotalFrequency = NumericTraits<AbsoluteFrequencyType>::ZeroValue();
+  m_TotalFrequency = AbsoluteFrequencyType{};
   this->Modified();
 }
 

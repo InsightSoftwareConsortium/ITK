@@ -276,7 +276,7 @@ public:
 
 protected:
   MultiLabelSTAPLEImageFilter()
-    : m_LabelForUndecidedPixels(NumericTraits<OutputPixelType>::ZeroValue())
+    : m_LabelForUndecidedPixels(OutputPixelType{})
     , m_TerminationUpdateThreshold(1e-5)
   {}
   ~MultiLabelSTAPLEImageFilter() override = default;

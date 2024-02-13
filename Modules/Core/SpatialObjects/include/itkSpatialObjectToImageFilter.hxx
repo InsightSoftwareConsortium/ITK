@@ -336,8 +336,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
     double val = 0;
 
     bool evaluable = InputObject->ValueAtInWorldSpace(objectPoint, val, m_ChildrenDepth);
-    if (Math::NotExactlyEquals(m_InsideValue, NumericTraits<ValueType>::ZeroValue()) ||
-        Math::NotExactlyEquals(m_OutsideValue, NumericTraits<ValueType>::ZeroValue()))
+    if (Math::NotExactlyEquals(m_InsideValue, ValueType{}) || Math::NotExactlyEquals(m_OutsideValue, ValueType{}))
     {
       if (evaluable)
       {

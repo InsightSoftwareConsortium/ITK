@@ -503,7 +503,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Tran
   constexpr SizeType supportSize = WeightsFunctionType::SupportSize;
   const RegionType   supportRegion(supportIndex, supportSize);
 
-  outputPoint.Fill(NumericTraits<ScalarType>::ZeroValue());
+  outputPoint.Fill(ScalarType{});
 
   using IteratorType = ImageScanlineConstIterator<ImageType>;
   IteratorType                coeffIterator[SpaceDimension];

@@ -544,7 +544,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputTyp
     }
 
     data.MeanCurvature.m_Computed = true;
-    data.MeanCurvature.m_Value = NumericTraits<OutputRealType>::ZeroValue();
+    data.MeanCurvature.m_Value = OutputRealType{};
 
     for (unsigned int i = 0; i < Dimension; ++i)
     {

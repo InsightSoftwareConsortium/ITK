@@ -36,7 +36,7 @@ template <typename TInput, unsigned int VDimension, typename TOutput, typename T
 bool
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::IsInside(const InputType & iP) const
 {
-  return (this->Evaluate(iP) <= NumericTraits<OutputType>::ZeroValue());
+  return (this->Evaluate(iP) <= OutputType{});
 }
 
 // ----------------------------------------------------------------------------
@@ -134,7 +134,7 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const 
     }
 
     ioData.MeanCurvature.m_Computed = true;
-    ioData.MeanCurvature.m_Value = NumericTraits<OutputRealType>::ZeroValue();
+    ioData.MeanCurvature.m_Value = OutputRealType{};
 
     for (unsigned int i = 0; i < Dimension; ++i)
     {
@@ -186,7 +186,7 @@ void
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::SetRequestedRegionToLargestPossibleRegion()
 {
   m_RequestedNumberOfRegions = NumericTraits<RegionType>::OneValue();
-  m_RequestedRegion = NumericTraits<RegionType>::ZeroValue();
+  m_RequestedRegion = RegionType{};
 }
 
 // ----------------------------------------------------------------------------

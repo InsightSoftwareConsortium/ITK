@@ -401,7 +401,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::EnforceConstraints()
   {
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
     {
-      if (m_ImageMin[ic] < NumericTraits<PixelValueType>::ZeroValue())
+      if (m_ImageMin[ic] < PixelValueType{})
       {
         itkExceptionMacro("When using POISSON or RICIAN noise models, "
                           << "all components of all pixels in the image must "
@@ -879,9 +879,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
   // If these occur, default to the standard eigen analysis.
   // These basically enforce that the spdMatrix is in fact
   // symmetric positive definite.
-  if ((I3 < NumericTraits<RealTensorValueT>::epsilon()) || (D0 < NumericTraits<RealTensorValueT>::ZeroValue()) ||
-      (D3 < NumericTraits<RealTensorValueT>::ZeroValue()) || (D5 < NumericTraits<RealTensorValueT>::ZeroValue()) ||
-      (D0 * D3 < DSq1) || (D0 * D5 < DSq2) || (D3 * D5 < DSq4) || (n < NumericTraits<RealTensorValueT>::epsilon()))
+  if ((I3 < NumericTraits<RealTensorValueT>::epsilon()) || (D0 < RealTensorValueT{}) || (D3 < RealTensorValueT{}) ||
+      (D5 < RealTensorValueT{}) || (D0 * D3 < DSq1) || (D0 * D5 < DSq2) || (D3 * D5 < DSq4) ||
+      (n < NumericTraits<RealTensorValueT>::epsilon()))
   {
     spdMatrix.ComputeEigenAnalysis(eigenVals, eigenVecs);
     return;
@@ -1852,8 +1852,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveSigmaUpdate() 
 
     // If second derivative is zero or negative, compute update using gradient
     // descent
-    if ((Math::ExactlyEquals(itk::Math::abs(secondDerivative), NumericTraits<RealValueType>::ZeroValue())) ||
-        (secondDerivative < 0))
+    if ((Math::ExactlyEquals(itk::Math::abs(secondDerivative), RealValueType{})) || (secondDerivative < 0))
     {
       itkDebugMacro("** Second derivative NOT POSITIVE");
       sigmaUpdate[ic] = -itk::Math::sgn(firstDerivative) * kernelSigma * 0.3;

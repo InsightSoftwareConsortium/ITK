@@ -276,7 +276,7 @@ public:
   inline vnl_matrix_fixed<T, VColumns, VRows>
   GetInverse() const
   {
-    if (vnl_determinant(m_Matrix) == NumericTraits<T>::ZeroValue())
+    if (vnl_determinant(m_Matrix) == T{})
     {
       itkGenericExceptionMacro("Singular matrix. Determinant is 0.");
     }

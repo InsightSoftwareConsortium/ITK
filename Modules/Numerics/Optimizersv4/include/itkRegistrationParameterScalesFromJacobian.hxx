@@ -38,7 +38,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateScales(ScalesType & pa
 
   const auto numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
 
-  norms.Fill(NumericTraits<typename ParametersType::ValueType>::ZeroValue());
+  norms.Fill(typename ParametersType::ValueType{});
   parameterScales.Fill(NumericTraits<typename ScalesType::ValueType>::OneValue());
 
   // checking each sample point
@@ -107,7 +107,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateLocalStepScales(const 
   const SizeValueType numLocals = numAllPara / numPara;
 
   localStepScales.SetSize(numLocals);
-  localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::ZeroValue());
+  localStepScales.Fill(typename ScalesType::ValueType{});
 
   // checking each sample point
   for (SizeValueType c = 0; c < numSamples; ++c)

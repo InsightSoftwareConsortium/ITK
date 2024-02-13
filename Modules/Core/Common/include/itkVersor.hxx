@@ -48,9 +48,9 @@ template <typename T>
 void
 Versor<T>::SetIdentity()
 {
-  m_X = NumericTraits<T>::ZeroValue();
-  m_Y = NumericTraits<T>::ZeroValue();
-  m_Z = NumericTraits<T>::ZeroValue();
+  m_X = T{};
+  m_Y = T{};
+  m_Z = T{};
   m_W = NumericTraits<T>::OneValue();
 }
 
@@ -209,11 +209,11 @@ Versor<T>::GetAxis() const -> VectorType
 
   const RealType vectorNorm = std::sqrt(ax * ax + ay * ay + az * az);
 
-  if (vectorNorm == NumericTraits<RealType>::ZeroValue())
+  if (vectorNorm == RealType{})
   {
-    axis[0] = NumericTraits<T>::ZeroValue();
-    axis[1] = NumericTraits<T>::ZeroValue();
-    axis[2] = NumericTraits<T>::ZeroValue();
+    axis[0] = T{};
+    axis[1] = T{};
+    axis[2] = T{};
   }
   else
   {
@@ -468,8 +468,8 @@ Versor<T>::SetRotationAroundX(ValueType angle)
   const ValueType cosangle2 = std::cos(angle / 2.0);
 
   m_X = sinangle2;
-  m_Y = NumericTraits<T>::ZeroValue();
-  m_Z = NumericTraits<T>::ZeroValue();
+  m_Y = T{};
+  m_Z = T{};
   m_W = cosangle2;
 }
 
@@ -480,9 +480,9 @@ Versor<T>::SetRotationAroundY(ValueType angle)
   const ValueType sinangle2 = std::sin(angle / 2.0);
   const ValueType cosangle2 = std::cos(angle / 2.0);
 
-  m_X = NumericTraits<T>::ZeroValue();
+  m_X = T{};
   m_Y = sinangle2;
-  m_Z = NumericTraits<T>::ZeroValue();
+  m_Z = T{};
   m_W = cosangle2;
 }
 
@@ -493,8 +493,8 @@ Versor<T>::SetRotationAroundZ(ValueType angle)
   const ValueType sinangle2 = std::sin(angle / 2.0);
   const ValueType cosangle2 = std::cos(angle / 2.0);
 
-  m_X = NumericTraits<T>::ZeroValue();
-  m_Y = NumericTraits<T>::ZeroValue();
+  m_X = T{};
+  m_Y = T{};
   m_Z = sinangle2;
   m_W = cosangle2;
 }

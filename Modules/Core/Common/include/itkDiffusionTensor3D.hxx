@@ -115,14 +115,14 @@ DiffusionTensor3D<T>::GetRelativeAnisotropy() const -> RealValueType
   // zero.
   if (trace < NumericTraits<RealValueType>::min())
   {
-    return NumericTraits<RealValueType>::ZeroValue();
+    return RealValueType{};
   }
 
   const RealValueType anisotropy = 3.0 * isp - trace * trace;
 
-  if (anisotropy < NumericTraits<RealValueType>::ZeroValue())
+  if (anisotropy < RealValueType{})
   {
-    return NumericTraits<RealValueType>::ZeroValue();
+    return RealValueType{};
   }
 
   const auto relativeAnisotropySquared = static_cast<RealValueType>(anisotropy / (std::sqrt(3.0) * trace));

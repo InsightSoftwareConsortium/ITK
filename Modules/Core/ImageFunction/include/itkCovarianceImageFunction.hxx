@@ -54,11 +54,11 @@ CovarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType
   }
 
 
-  covariance.fill(NumericTraits<PixelComponentRealType>::ZeroValue());
+  covariance.fill(PixelComponentRealType{});
 
   using MeanVectorType = vnl_vector<PixelComponentRealType>;
   MeanVectorType mean(VectorDimension);
-  mean.fill(NumericTraits<PixelComponentRealType>::ZeroValue());
+  mean.fill(PixelComponentRealType{});
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;

@@ -27,7 +27,7 @@ OFFMeshIO::OFFMeshIO()
 {
   this->AddSupportedWriteExtension(".off");
   this->SetByteOrderToBigEndian();
-  m_PointsStartPosition = itk::NumericTraits<StreamOffsetType>::ZeroValue();
+  m_PointsStartPosition = StreamOffsetType{};
   m_TriangleCellType = true;
 }
 

@@ -98,7 +98,7 @@ itkImageMomentsTest(int argc, char * argv[])
   image->SetSpacing(spacing);
   image->Allocate();
 
-  image->FillBuffer(itk::NumericTraits<PixelType>::ZeroValue());
+  image->FillBuffer(PixelType{});
 
   /* Set a few mass points within the image */
   /* FIXME: The method used here to set the points is klutzy,

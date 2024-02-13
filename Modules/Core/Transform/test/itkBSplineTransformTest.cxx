@@ -133,7 +133,7 @@ itkBSplineTransformTest1()
    */
   unsigned long  numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters(numberOfParameters);
-  parameters.Fill(itk::NumericTraits<ParametersType::ValueType>::ZeroValue());
+  parameters.Fill(ParametersType::ValueType{});
 
   /**
    * Define N * N-D grid of spline coefficients by wrapping the
@@ -647,7 +647,7 @@ itkBSplineTransformTest3()
    */
   unsigned long  numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters(numberOfParameters);
-  parameters.Fill(itk::NumericTraits<ParametersType::ValueType>::ZeroValue());
+  parameters.Fill(ParametersType::ValueType{});
 
   /**
    * Define N * N-D grid of spline coefficients by wrapping the

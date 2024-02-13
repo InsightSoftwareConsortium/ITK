@@ -740,7 +740,7 @@ protected:
       // documentation.
       if (this->m_NumberOfPointPixelComponents == 3)
       {
-        T zero(itk::NumericTraits<T>::ZeroValue());
+        T zero(T{});
         T e12;
         while (i < num)
         {
@@ -931,7 +931,7 @@ protected:
       const SizeValueType num = this->m_NumberOfCellPixelComponents * this->m_NumberOfCellPixels;
       if (this->m_NumberOfCellPixelComponents == 2)
       {
-        T zero(itk::NumericTraits<T>::ZeroValue());
+        T zero(T{});
         T e12;
         while (i < num)
         {

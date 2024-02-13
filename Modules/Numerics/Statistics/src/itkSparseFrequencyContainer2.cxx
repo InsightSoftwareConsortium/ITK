@@ -23,7 +23,7 @@ namespace Statistics
 {
 SparseFrequencyContainer2::SparseFrequencyContainer2()
 {
-  m_TotalFrequency = NumericTraits<TotalAbsoluteFrequencyType>::ZeroValue();
+  m_TotalFrequency = TotalAbsoluteFrequencyType{};
 }
 
 void SparseFrequencyContainer2::Initialize(SizeValueType)
@@ -38,10 +38,10 @@ SparseFrequencyContainer2::SetToZero()
   auto end = m_FrequencyContainer.end();
   while (iter != end)
   {
-    iter->second = NumericTraits<AbsoluteFrequencyType>::ZeroValue();
+    iter->second = AbsoluteFrequencyType{};
     ++iter;
   }
-  m_TotalFrequency = NumericTraits<TotalAbsoluteFrequencyType>::ZeroValue();
+  m_TotalFrequency = TotalAbsoluteFrequencyType{};
 }
 
 bool

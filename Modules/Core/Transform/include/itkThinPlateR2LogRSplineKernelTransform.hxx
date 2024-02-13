@@ -27,9 +27,8 @@ ThinPlateR2LogRSplineKernelTransform<TParametersValueType, VDimension>::ComputeG
 {
   const TParametersValueType r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits<TParametersValueType>::ZeroValue());
-  const TParametersValueType R2logR =
-    (r > 1e-8) ? r * r * std::log(r) : NumericTraits<TParametersValueType>::ZeroValue();
+  gmatrix.fill(TParametersValueType{});
+  const TParametersValueType R2logR = (r > 1e-8) ? r * r * std::log(r) : TParametersValueType{};
 
   gmatrix.fill_diagonal(R2logR);
 }
@@ -48,8 +47,7 @@ ThinPlateR2LogRSplineKernelTransform<TParametersValueType, VDimension>::ComputeD
   {
     InputVectorType            position = thisPoint - sp->Value();
     const TParametersValueType r = position.GetNorm();
-    const TParametersValueType R2logR =
-      (r > 1e-8) ? r * r * std::log(r) : NumericTraits<TParametersValueType>::ZeroValue();
+    const TParametersValueType R2logR = (r > 1e-8) ? r * r * std::log(r) : TParametersValueType{};
     for (unsigned int odim = 0; odim < VDimension; ++odim)
     {
       result[odim] += R2logR * this->m_DMatrix(odim, lnd);

@@ -241,12 +241,12 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
       {
         U[i] = static_cast<RealType>(totalNumberOfSpans[i]) - epsilon[i];
       }
-      if (U[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(U[i]) <= epsilon[i])
+      if (U[i] < RealType{} && itk::Math::abs(U[i]) <= epsilon[i])
       {
-        U[i] = NumericTraits<RealType>::ZeroValue();
+        U[i] = RealType{};
       }
 
-      if (U[i] < NumericTraits<RealType>::ZeroValue() || U[i] >= static_cast<RealType>(totalNumberOfSpans[i]))
+      if (U[i] < RealType{} || U[i] >= static_cast<RealType>(totalNumberOfSpans[i]))
       {
         itkExceptionMacro("The collapse point component "
                           << U[i] << " is outside the corresponding parametric domain of [0, " << totalNumberOfSpans[i]

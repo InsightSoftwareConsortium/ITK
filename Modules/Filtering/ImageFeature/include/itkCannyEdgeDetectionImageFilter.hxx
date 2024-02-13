@@ -31,8 +31,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::CannyEdgeDetectionImageFilter()
-  : m_UpperThreshold(NumericTraits<OutputImagePixelType>::ZeroValue())
-  , m_LowerThreshold(NumericTraits<OutputImagePixelType>::ZeroValue())
+  : m_UpperThreshold(OutputImagePixelType{})
+  , m_LowerThreshold(OutputImagePixelType{})
 {
   m_Variance.Fill(0.0);
   m_MaximumError.Fill(0.01);
@@ -286,7 +286,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::HysteresisThresholding
   ImageRegionIterator<TOutputImage> uit(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
   while (!uit.IsAtEnd())
   {
-    uit.Value() = NumericTraits<OutputImagePixelType>::ZeroValue();
+    uit.Value() = OutputImagePixelType{};
     ++uit;
   }
 

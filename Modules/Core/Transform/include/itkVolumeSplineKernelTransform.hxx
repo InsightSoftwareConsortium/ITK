@@ -27,7 +27,7 @@ VolumeSplineKernelTransform<TParametersValueType, VDimension>::ComputeG(const In
 {
   const TParametersValueType r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits<TParametersValueType>::ZeroValue());
+  gmatrix.fill(TParametersValueType{});
   const TParametersValueType r3 = r * r * r;
   for (unsigned int i = 0; i < VDimension; ++i)
   {

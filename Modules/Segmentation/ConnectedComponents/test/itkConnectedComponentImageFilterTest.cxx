@@ -76,7 +76,7 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
 
   threshold->SetInput(reader->GetOutput());
   threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());
-  threshold->SetOutsideValue(itk::NumericTraits<InternalPixelType>::ZeroValue());
+  threshold->SetOutsideValue(InternalPixelType{});
   threshold->SetLowerThreshold(threshold_low);
   threshold->SetUpperThreshold(threshold_hi);
   threshold->Update();

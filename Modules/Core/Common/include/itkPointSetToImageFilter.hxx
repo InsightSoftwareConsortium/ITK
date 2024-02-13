@@ -36,7 +36,7 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::PointSetToImageFilter()
   this->m_Spacing.Fill(1.0);
   this->m_Direction.SetIdentity();
   this->m_InsideValue = NumericTraits<ValueType>::OneValue();
-  this->m_OutsideValue = NumericTraits<ValueType>::ZeroValue();
+  this->m_OutsideValue = ValueType{};
 }
 
 template <typename TInputPointSet, typename TOutputImage>
@@ -143,7 +143,7 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
   bool specified = false;
   for (i = 0; i < OutputImageDimension; ++i)
   {
-    if (m_Size[i] != NumericTraits<SizeValueType>::ZeroValue())
+    if (m_Size[i] != SizeValueType{})
     {
       specified = true;
       break;
@@ -169,8 +169,7 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
   specified = false;
   for (i = 0; i < OutputImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals(m_Spacing[i],
-                               NumericTraits<typename NumericTraits<SpacingType>::ValueType>::ZeroValue()))
+    if (Math::NotExactlyEquals(m_Spacing[i], typename NumericTraits<SpacingType>::ValueType{}))
     {
       specified = true;
       break;
@@ -185,7 +184,7 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
   specified = false;
   for (i = 0; i < OutputImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals(m_Origin[i], NumericTraits<typename NumericTraits<PointType>::ValueType>::ZeroValue()))
+    if (Math::NotExactlyEquals(m_Origin[i], typename NumericTraits<PointType>::ValueType{}))
     {
       specified = true;
       break;

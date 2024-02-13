@@ -180,7 +180,7 @@ LevelSetFunction<TImageType>::InitializeZeroVectorConstant() -> VectorType
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    ans[i] = NumericTraits<ScalarValueType>::ZeroValue();
+    ans[i] = ScalarValueType{};
   }
 
   return ans;
@@ -252,9 +252,9 @@ LevelSetFunction<TImageType>::ComputeGlobalTimeStep(void * GlobalData) const -> 
   dt /= maxScaleCoefficient;
 
   // reset the values
-  d->m_MaxAdvectionChange = NumericTraits<ScalarValueType>::ZeroValue();
-  d->m_MaxPropagationChange = NumericTraits<ScalarValueType>::ZeroValue();
-  d->m_MaxCurvatureChange = NumericTraits<ScalarValueType>::ZeroValue();
+  d->m_MaxAdvectionChange = ScalarValueType{};
+  d->m_MaxPropagationChange = ScalarValueType{};
+  d->m_MaxCurvatureChange = ScalarValueType{};
 
   return dt;
 }

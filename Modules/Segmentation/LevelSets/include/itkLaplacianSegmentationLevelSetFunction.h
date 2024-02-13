@@ -67,7 +67,7 @@ public:
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetAdvectionWeight(ScalarValueType{});
     this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::OneValue());
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
@@ -81,7 +81,7 @@ public:
   void
   SetAdvectionWeight(const ScalarValueType value) override
   {
-    if (Math::ExactlyEquals(value, NumericTraits<ScalarValueType>::ZeroValue()))
+    if (Math::ExactlyEquals(value, ScalarValueType{}))
     {
       Superclass::SetAdvectionWeight(value);
     }

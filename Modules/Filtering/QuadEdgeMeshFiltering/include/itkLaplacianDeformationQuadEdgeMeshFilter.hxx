@@ -92,7 +92,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 
     if (area < itk::Math::eps)
     {
-      return NumericTraits<OutputCoordRepType>::ZeroValue();
+      return OutputCoordRepType{};
     }
     else
     {
@@ -101,7 +101,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
   }
   else
   {
-    return NumericTraits<OutputCoordRepType>::ZeroValue();
+    return OutputCoordRepType{};
   }
 }
 

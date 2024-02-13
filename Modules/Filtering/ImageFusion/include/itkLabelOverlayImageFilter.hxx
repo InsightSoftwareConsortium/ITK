@@ -26,7 +26,7 @@ template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::LabelOverlayImageFilter()
 {
   m_Opacity = 0.5;
-  m_BackgroundValue = NumericTraits<LabelPixelType>::ZeroValue();
+  m_BackgroundValue = LabelPixelType{};
 }
 
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>

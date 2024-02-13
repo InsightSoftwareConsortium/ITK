@@ -178,7 +178,7 @@ void
 BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities>::
   BeforeThreadedGenerateData()
 {
-  this->m_PointsCount = itk::NumericTraits<SizeValueType>::ZeroValue();
+  this->m_PointsCount = SizeValueType{};
   FeaturePointsConstPointer featurePoints = this->GetFeaturePoints();
   if (featurePoints)
   {

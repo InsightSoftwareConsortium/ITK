@@ -32,7 +32,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   const HistogramType * histogram = this->GetInput();
 
   TotalAbsoluteFrequencyType total = histogram->GetTotalFrequency();
-  if (total == NumericTraits<TotalAbsoluteFrequencyType>::ZeroValue())
+  if (total == TotalAbsoluteFrequencyType{})
   {
     itkExceptionMacro("Histogram is empty");
   }
@@ -188,7 +188,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding(con
     double ent_back = 0.0;
     for (InstanceIdentifier ih = 0; ih <= it; ++ih)
     {
-      if (histogram->GetFrequency(ih, 0) != NumericTraits<AbsoluteFrequencyType>::ZeroValue())
+      if (histogram->GetFrequency(ih, 0) != AbsoluteFrequencyType{})
       {
         double x = (normHisto[ih] / P1[it]);
         ent_back -= x * std::log(x);
@@ -199,7 +199,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding(con
     double ent_obj = 0.0;
     for (InstanceIdentifier ih = it + 1; ih < m_Size; ++ih)
     {
-      if (histogram->GetFrequency(ih, 0) != NumericTraits<AbsoluteFrequencyType>::ZeroValue())
+      if (histogram->GetFrequency(ih, 0) != AbsoluteFrequencyType{})
       {
         double x = (normHisto[ih] / P2[it]);
         ent_obj -= x * std::log(x);

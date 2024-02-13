@@ -56,7 +56,7 @@ public:
   inline void
   Initialize()
   {
-    m_Sum = NumericTraits<TOutputPixel>::ZeroValue();
+    m_Sum = TOutputPixel{};
   }
 
   inline void

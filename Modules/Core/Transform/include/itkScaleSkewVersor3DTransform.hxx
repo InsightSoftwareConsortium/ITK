@@ -28,7 +28,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::ScaleSkewVersor3DTransform()
   : Superclass(ParametersDimension)
 {
   m_Scale.Fill(NumericTraits<TParametersValueType>::OneValue());
-  m_Skew.Fill(NumericTraits<TParametersValueType>::ZeroValue());
+  m_Skew.Fill(TParametersValueType{});
 }
 
 // Constructor with arguments
@@ -184,7 +184,7 @@ void
 ScaleSkewVersor3DTransform<TParametersValueType>::SetIdentity()
 {
   m_Scale.Fill(NumericTraits<ScaleVectorValueType>::OneValue());
-  m_Skew.Fill(NumericTraits<SkewVectorValueType>::ZeroValue());
+  m_Skew.Fill(SkewVectorValueType{});
   Superclass::SetIdentity();
 }
 

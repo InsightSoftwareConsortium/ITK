@@ -96,7 +96,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::AddTerm(const Te
     }
 
     m_Container[iId] = iTerm;
-    m_TermContribution[iId] = NumericTraits<LevelSetOutputPixelType>::ZeroValue();
+    m_TermContribution[iId] = LevelSetOutputPixelType{};
     m_NameContainer[iTerm->GetTermName()] = iTerm;
 
     RequiredDataType termRequiredData = iTerm->GetRequiredData();
@@ -155,7 +155,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::PushTerm(TermTyp
     ++id;
 
     m_Container[id] = iTerm;
-    m_TermContribution[id] = NumericTraits<LevelSetOutputPixelType>::ZeroValue();
+    m_TermContribution[id] = LevelSetOutputPixelType{};
     m_NameContainer[iTerm->GetTermName()] = iTerm;
 
     RequiredDataType termRequiredData = iTerm->GetRequiredData();
@@ -336,7 +336,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Update()
   while (term_it != term_end)
   {
     (term_it->second)->Update();
-    (cfl_it->second) = NumericTraits<LevelSetOutputPixelType>::ZeroValue();
+    (cfl_it->second) = LevelSetOutputPixelType{};
     ++term_it;
     ++cfl_it;
   }
@@ -358,7 +358,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::ComputeCFLContri
   {
     LevelSetOutputRealType cfl = (term_it->second)->GetCFLContribution();
 
-    if (Math::AlmostEquals(cfl, NumericTraits<LevelSetOutputRealType>::ZeroValue()))
+    if (Math::AlmostEquals(cfl, LevelSetOutputRealType{}))
     {
       cfl = (cfl_it->second);
     }

@@ -53,12 +53,12 @@ public:
 
   MeanAccumulator(SizeValueType size) { m_Size = size; }
 
-  ~MeanAccumulator() { m_Size = NumericTraits<SizeValueType>::ZeroValue(); }
+  ~MeanAccumulator() { m_Size = SizeValueType{}; }
 
   inline void
   Initialize()
   {
-    m_Sum = NumericTraits<TAccumulate>::ZeroValue();
+    m_Sum = TAccumulate{};
   }
 
   inline void

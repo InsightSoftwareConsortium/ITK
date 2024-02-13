@@ -27,7 +27,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::AntiAliasBinaryImageFilter()
   : m_UpperBinaryValue(NumericTraits<BinaryValueType>::OneValue())
-  , m_LowerBinaryValue(NumericTraits<BinaryValueType>::ZeroValue())
+  , m_LowerBinaryValue(BinaryValueType{})
   , m_InputImage(nullptr)
 {
   m_CurvatureFunction = CurvatureFunctionType::New();

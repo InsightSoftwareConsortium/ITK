@@ -97,7 +97,7 @@ public:
 #endif
 
   /** Set the "outside" pixel value. The default value
-   * NumericTraits<PixelType>::ZeroValue(). */
+   * PixelType{}. */
   itkSetMacro(OutsideValue, PixelType);
 
   /** Get the "outside" pixel value. */

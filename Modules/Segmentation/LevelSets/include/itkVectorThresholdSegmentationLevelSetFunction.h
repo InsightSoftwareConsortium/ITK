@@ -136,7 +136,7 @@ public:
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetAdvectionWeight(ScalarValueType{});
     this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::OneValue());
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
@@ -147,8 +147,8 @@ protected:
     MeanVectorType       mean(NumberOfComponents);
     CovarianceMatrixType covariance(NumberOfComponents, NumberOfComponents);
 
-    mean.Fill(NumericTraits<typename FeatureScalarType::ValueType>::ZeroValue());
-    covariance.Fill(NumericTraits<typename FeatureScalarType::ValueType>::ZeroValue());
+    mean.Fill(typename FeatureScalarType::ValueType{});
+    covariance.Fill(typename FeatureScalarType::ValueType{});
 
     m_Mahalanobis = MahalanobisFunctionType::New();
     m_Mahalanobis->SetMean(mean);

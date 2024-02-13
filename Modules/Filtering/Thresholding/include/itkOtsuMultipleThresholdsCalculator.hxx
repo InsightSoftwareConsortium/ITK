@@ -27,7 +27,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::OtsuMultipleThresholdsCalcula
 
 {
   m_Output.resize(m_NumberOfThresholds);
-  std::fill(m_Output.begin(), m_Output.end(), NumericTraits<MeasurementType>::ZeroValue());
+  std::fill(m_Output.begin(), m_Output.end(), MeasurementType{});
 }
 
 template <typename TInputHistogram>
@@ -77,7 +77,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
       }
       else
       {
-        classMean[j] = NumericTraits<MeanType>::ZeroValue();
+        classMean[j] = MeanType{};
       }
 
       // Set higher thresholds adjacent to their previous ones, and update mean
@@ -92,7 +92,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
         }
         else
         {
-          classMean[k] = NumericTraits<MeanType>::ZeroValue();
+          classMean[k] = MeanType{};
         }
       }
 
@@ -112,7 +112,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
       }
       else
       {
-        classMean[numberOfClasses - 1] = NumericTraits<MeanType>::ZeroValue();
+        classMean[numberOfClasses - 1] = MeanType{};
       }
 
       // Exit the for loop if a threshold has been incremented
@@ -200,7 +200,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
     }
     else
     {
-      classMean[j] = NumericTraits<MeanType>::ZeroValue();
+      classMean[j] = MeanType{};
     }
     meanSum += classMean[j] * static_cast<MeanType>(classFrequency[j]);
   }
@@ -212,7 +212,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   }
   else
   {
-    classMean[numberOfClasses - 1] = NumericTraits<MeanType>::ZeroValue();
+    classMean[numberOfClasses - 1] = MeanType{};
   }
 
   //
@@ -297,7 +297,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
     if (m_ValleyEmphasis)
     {
       // Sum relevant weights to get valley emphasis factor
-      valleyEmphasisFactor = NumericTraits<WeightType>::ZeroValue();
+      valleyEmphasisFactor = WeightType{};
       for (j = 0; j < numberOfClasses - 1; ++j)
       {
         valleyEmphasisFactor += imgPDF[thresholdIndexes[j]];

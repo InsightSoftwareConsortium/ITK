@@ -89,7 +89,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
   {
     if (queryIndex[dim] < static_cast<IndexValueType>(this->m_Radius[dim]))
     {
-      searchStartIndex[dim] = std::max(NumericTraits<IndexValueType>::ZeroValue(), constraintIndex[dim]);
+      searchStartIndex[dim] = std::max(IndexValueType{}, constraintIndex[dim]);
     }
     else
     {

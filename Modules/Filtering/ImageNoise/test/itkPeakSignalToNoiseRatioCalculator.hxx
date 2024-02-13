@@ -31,7 +31,7 @@ PeakSignalToNoiseRatioCalculator<TInputImage>::PeakSignalToNoiseRatioCalculator(
   m_Valid = false;
   m_Image = nullptr;
   m_NoisyImage = nullptr;
-  m_Output = NumericTraits<InputPixelType>::ZeroValue();
+  m_Output = InputPixelType{};
 }
 
 template <class TInputImage>

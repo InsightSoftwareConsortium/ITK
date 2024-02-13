@@ -40,7 +40,7 @@ namespace itk
 
 template <typename TImage>
 ThresholdImageFilter<TImage>::ThresholdImageFilter()
-  : m_OutsideValue(NumericTraits<PixelType>::ZeroValue())
+  : m_OutsideValue(PixelType{})
   , m_Lower(NumericTraits<PixelType>::NonpositiveMin())
   , m_Upper(NumericTraits<PixelType>::max())
 {

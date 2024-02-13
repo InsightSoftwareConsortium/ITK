@@ -103,7 +103,7 @@ template <typename T, unsigned int TVectorDimension>
 auto
 Vector<T, TVectorDimension>::GetSquaredNorm() const -> RealValueType
 {
-  typename NumericTraits<RealValueType>::AccumulateType sum = NumericTraits<T>::ZeroValue();
+  typename NumericTraits<RealValueType>::AccumulateType sum = T{};
   for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     const RealValueType value = (*this)[i];
@@ -200,7 +200,7 @@ operator>>(std::istream & is, Vector<T, TVectorDimension> & vct)
 template <typename T, unsigned int TVectorDimension>
 typename Vector<T, TVectorDimension>::ValueType Vector<T, TVectorDimension>::operator*(const Self & other) const
 {
-  typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::ZeroValue();
+  typename NumericTraits<T>::AccumulateType value = T{};
   for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     value += (*this)[i] * other[i];

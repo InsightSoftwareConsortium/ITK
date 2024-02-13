@@ -29,7 +29,7 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::MorphologicalWatershedImageFilter()
-  : m_Level(NumericTraits<InputImagePixelType>::ZeroValue())
+  : m_Level(InputImagePixelType{})
 {}
 
 
@@ -82,7 +82,7 @@ MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto rmin = RMinType::New();
   rmin->SetInput(input);
   rmin->SetFullyConnected(m_FullyConnected);
-  rmin->SetBackgroundValue(NumericTraits<OutputImagePixelType>::ZeroValue());
+  rmin->SetBackgroundValue(OutputImagePixelType{});
   rmin->SetForegroundValue(NumericTraits<OutputImagePixelType>::max());
 
   // label the components
@@ -99,7 +99,7 @@ MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
   wshed->SetFullyConnected(m_FullyConnected);
   wshed->SetMarkWatershedLine(m_MarkWatershedLine);
 
-  if (m_Level != NumericTraits<InputImagePixelType>::ZeroValue())
+  if (m_Level != InputImagePixelType{})
   {
     // insert a h-minima filter to remove the smallest minima
     //

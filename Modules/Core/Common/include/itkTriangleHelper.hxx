@@ -78,14 +78,14 @@ TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, co
 
   CoordRepType v21_l2 = v21.GetSquaredNorm();
 
-  if (Math::NotAlmostEquals(v21_l2, NumericTraits<CoordRepType>::ZeroValue()))
+  if (Math::NotAlmostEquals(v21_l2, CoordRepType{}))
   {
     v21 /= std::sqrt(v21_l2);
   }
 
   VectorType   v23 = iC - iB;
   CoordRepType v23_l2 = v23.GetSquaredNorm();
-  if (Math::NotAlmostEquals(v23_l2, NumericTraits<CoordRepType>::ZeroValue()))
+  if (Math::NotAlmostEquals(v23_l2, CoordRepType{}))
   {
     v23 /= std::sqrt(v23_l2);
   }
@@ -110,7 +110,7 @@ TriangleHelper<TPoint>::ComputeBarycenter(const CoordRepType & iA1,
 
   CoordRepType total = iA1 + iA2 + iA3;
 
-  if (Math::AlmostEquals(total, NumericTraits<CoordRepType>::ZeroValue()))
+  if (Math::AlmostEquals(total, CoordRepType{}))
   {
     // in such case there is no barycenter;
     oPt.Fill(0.);
@@ -243,7 +243,7 @@ TriangleHelper<TPoint>::ComputeMixedArea(const PointType & iP1, const PointType 
   {
     auto area = static_cast<CoordRepType>(TriangleType::ComputeArea(iP1, iP2, iP3));
 
-    if ((iP2 - iP1) * (iP3 - iP1) < NumericTraits<CoordRepType>::ZeroValue())
+    if ((iP2 - iP1) * (iP3 - iP1) < CoordRepType{})
     {
       return 0.5 * area;
     }

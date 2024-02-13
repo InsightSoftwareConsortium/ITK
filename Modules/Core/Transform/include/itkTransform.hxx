@@ -130,7 +130,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVec
   OutputVectorType result;
   for (unsigned int i = 0; i < VOutputDimension; ++i)
   {
-    result[i] = NumericTraits<TParametersValueType>::ZeroValue();
+    result[i] = TParametersValueType{};
     for (unsigned int j = 0; j < VInputDimension; ++j)
     {
       result[i] += jacobian[i][j] * vector[j];
@@ -152,7 +152,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVec
   OutputVnlVectorType result;
   for (unsigned int i = 0; i < VOutputDimension; ++i)
   {
-    result[i] = NumericTraits<ParametersValueType>::ZeroValue();
+    result[i] = ParametersValueType{};
     for (unsigned int j = 0; j < VInputDimension; ++j)
     {
       result[i] += jacobian[i][j] * vector[j];
@@ -183,7 +183,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVec
 
   for (unsigned int i = 0; i < VOutputDimension; ++i)
   {
-    result[i] = NumericTraits<ParametersValueType>::ZeroValue();
+    result[i] = ParametersValueType{};
     for (unsigned int j = 0; j < VInputDimension; ++j)
     {
       result[i] += jacobian[i][j] * vector[j];
@@ -205,7 +205,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformCov
   OutputCovariantVectorType result;
   for (unsigned int i = 0; i < VOutputDimension; ++i)
   {
-    result[i] = NumericTraits<TParametersValueType>::ZeroValue();
+    result[i] = TParametersValueType{};
     for (unsigned int j = 0; j < VInputDimension; ++j)
     {
       result[i] += jacobian[j][i] * vector[j];
@@ -236,7 +236,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformCov
 
   for (unsigned int i = 0; i < VOutputDimension; ++i)
   {
-    result[i] = NumericTraits<ParametersValueType>::ZeroValue();
+    result[i] = ParametersValueType{};
     for (unsigned int j = 0; j < VInputDimension; ++j)
     {
       result[i] += jacobian[j][i] * vector[j];

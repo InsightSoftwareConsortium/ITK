@@ -49,8 +49,8 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageM
   // Set initial values.
   for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
-    this->m_CorrelationMetricPerThreadVariables[i].FixSum = NumericTraits<InternalComputationValueType>::ZeroValue();
-    this->m_CorrelationMetricPerThreadVariables[i].MovSum = NumericTraits<InternalComputationValueType>::ZeroValue();
+    this->m_CorrelationMetricPerThreadVariables[i].FixSum = InternalComputationValueType{};
+    this->m_CorrelationMetricPerThreadVariables[i].MovSum = InternalComputationValueType{};
   }
 }
 
@@ -62,7 +62,7 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageM
 
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
-  this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
+  this->m_CorrelationAssociate->m_NumberOfValidPoints = SizeValueType{};
 
   const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
 

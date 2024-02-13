@@ -24,11 +24,11 @@ namespace itk
 template <typename TMesh>
 QuadEdgeMeshTopologyChecker<TMesh>::QuadEdgeMeshTopologyChecker()
 {
-  m_ExpectedNumberOfPoints = NumericTraits<PointIdentifier>::ZeroValue();
-  m_ExpectedNumberOfEdges = NumericTraits<CellIdentifier>::ZeroValue();
-  m_ExpectedNumberOfFaces = NumericTraits<CellIdentifier>::ZeroValue();
-  m_ExpectedNumberOfBoundaries = NumericTraits<CellIdentifier>::ZeroValue();
-  m_ExpectedGenus = NumericTraits<OffsetValueType>::ZeroValue();
+  m_ExpectedNumberOfPoints = PointIdentifier{};
+  m_ExpectedNumberOfEdges = CellIdentifier{};
+  m_ExpectedNumberOfFaces = CellIdentifier{};
+  m_ExpectedNumberOfBoundaries = CellIdentifier{};
+  m_ExpectedGenus = OffsetValueType{};
   m_Mesh = nullptr;
 }
 

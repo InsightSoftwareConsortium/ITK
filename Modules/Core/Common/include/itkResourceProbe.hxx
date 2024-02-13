@@ -91,15 +91,15 @@ template <typename ValueType, typename MeanType>
 void
 ResourceProbe<ValueType, MeanType>::Reset()
 {
-  this->m_TotalValue = NumericTraits<ValueType>::ZeroValue();
-  this->m_StartValue = NumericTraits<ValueType>::ZeroValue();
+  this->m_TotalValue = ValueType{};
+  this->m_StartValue = ValueType{};
   this->m_MinimumValue = NumericTraits<ValueType>::max();
   this->m_MaximumValue = NumericTraits<ValueType>::NonpositiveMin();
-  this->m_StandardDeviation = NumericTraits<ValueType>::ZeroValue();
+  this->m_StandardDeviation = ValueType{};
 
-  this->m_NumberOfStarts = NumericTraits<CountType>::ZeroValue();
-  this->m_NumberOfStops = NumericTraits<CountType>::ZeroValue();
-  this->m_NumberOfIteration = NumericTraits<CountType>::ZeroValue();
+  this->m_NumberOfStarts = CountType{};
+  this->m_NumberOfStops = CountType{};
+  this->m_NumberOfIteration = CountType{};
 
   this->m_ProbeValueList.clear();
 }
@@ -223,13 +223,12 @@ ResourceProbe<ValueType, MeanType>::GetStandardDeviation()
                  diff.begin(),
                  // Subtract mean from every value;
                  [realMean](const ValueType v) { return (static_cast<InternalComputeType>(v) - realMean); });
-  const InternalComputeType sqsum =
-    std::inner_product(diff.begin(), diff.end(), diff.begin(), NumericTraits<InternalComputeType>::ZeroValue());
+  const InternalComputeType sqsum = std::inner_product(diff.begin(), diff.end(), diff.begin(), InternalComputeType{});
 
   const InternalComputeType sz = static_cast<InternalComputeType>(this->m_ProbeValueList.size()) - 1.0;
   if (sz <= 0.0)
   {
-    this->m_StandardDeviation = NumericTraits<ValueType>::ZeroValue();
+    this->m_StandardDeviation = ValueType{};
   }
   else
   {
@@ -351,7 +350,7 @@ ResourceProbe<ValueType, MeanType>::ExpandedReport(std::ostream & os,
   ValueType ratioOfMeanToMinimum;
   if (Math::ExactlyEquals(this->GetMinimum(), 0.0))
   {
-    ratioOfMeanToMinimum = NumericTraits<ValueType>::ZeroValue();
+    ratioOfMeanToMinimum = ValueType{};
   }
   else
   {
@@ -361,7 +360,7 @@ ResourceProbe<ValueType, MeanType>::ExpandedReport(std::ostream & os,
   ValueType ratioOfMaximumToMean;
   if (Math::ExactlyEquals(this->GetMean(), 0.0))
   {
-    ratioOfMaximumToMean = NumericTraits<ValueType>::ZeroValue();
+    ratioOfMaximumToMean = ValueType{};
   }
   else
   {
@@ -433,7 +432,7 @@ ResourceProbe<ValueType, MeanType>::JSONReport(std::ostream & os)
   ValueType ratioOfMeanToMinimum;
   if (Math::ExactlyEquals(this->GetMinimum(), 0.0))
   {
-    ratioOfMeanToMinimum = NumericTraits<ValueType>::ZeroValue();
+    ratioOfMeanToMinimum = ValueType{};
   }
   else
   {
@@ -443,7 +442,7 @@ ResourceProbe<ValueType, MeanType>::JSONReport(std::ostream & os)
   ValueType ratioOfMaximumToMean;
   if (Math::ExactlyEquals(this->GetMean(), 0.0))
   {
-    ratioOfMaximumToMean = NumericTraits<ValueType>::ZeroValue();
+    ratioOfMaximumToMean = ValueType{};
   }
   else
   {

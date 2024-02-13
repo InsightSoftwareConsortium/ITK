@@ -271,8 +271,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
       elongation = 1;
       flatness = 1;
     }
-    else if (Math::NotAlmostEquals(principalMoments[0],
-                                   itk::NumericTraits<typename VectorType::ValueType>::ZeroValue()))
+    else if (Math::NotAlmostEquals(principalMoments[0], typename VectorType::ValueType{}))
     {
       //    elongation = principalMoments[ImageDimension-1] /
       // principalMoments[0];

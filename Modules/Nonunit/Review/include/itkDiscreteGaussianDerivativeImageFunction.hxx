@@ -110,7 +110,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
 
   kernelImage->SetRegions(region);
   kernelImage->Allocate();
-  kernelImage->FillBuffer(itk::NumericTraits<TOutput>::ZeroValue());
+  kernelImage->FillBuffer(TOutput{});
 
   // Initially the kernel image will be an impulse at the center
   typename KernelImageType::IndexType centerIndex;

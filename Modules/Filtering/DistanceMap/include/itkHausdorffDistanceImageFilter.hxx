@@ -30,8 +30,8 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::HausdorffDistanceImage
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
 
-  m_HausdorffDistance = NumericTraits<RealType>::ZeroValue();
-  m_AverageHausdorffDistance = NumericTraits<RealType>::ZeroValue();
+  m_HausdorffDistance = RealType{};
+  m_AverageHausdorffDistance = RealType{};
   m_UseImageSpacing = true;
 }
 

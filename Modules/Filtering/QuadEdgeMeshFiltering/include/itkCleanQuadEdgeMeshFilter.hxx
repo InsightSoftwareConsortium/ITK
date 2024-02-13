@@ -26,8 +26,8 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh>
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CleanQuadEdgeMeshFilter()
 {
-  this->m_AbsoluteTolerance = NumericTraits<InputCoordRepType>::ZeroValue();
-  this->m_RelativeTolerance = NumericTraits<InputCoordRepType>::ZeroValue();
+  this->m_AbsoluteTolerance = InputCoordRepType{};
+  this->m_RelativeTolerance = InputCoordRepType{};
 
   this->m_BoundingBox = BoundingBoxType::New();
 

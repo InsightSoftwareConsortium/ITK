@@ -30,7 +30,7 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 ZeroCrossingImageFilter<TInputImage, TOutputImage>::ZeroCrossingImageFilter()
-  : m_BackgroundValue(NumericTraits<OutputImagePixelType>::ZeroValue())
+  : m_BackgroundValue(OutputImagePixelType{})
   , m_ForegroundValue(NumericTraits<OutputImagePixelType>::OneValue())
 {
   this->DynamicMultiThreadingOn();

@@ -32,7 +32,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::ObjectMorphologyImageFilter()
   : m_Kernel()
 {
-  m_DefaultBoundaryCondition.SetConstant(NumericTraits<PixelType>::ZeroValue());
+  m_DefaultBoundaryCondition.SetConstant(PixelType{});
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 
   m_UseBoundaryCondition = false;
@@ -92,7 +92,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::BeforeThreadedGenerateData()
 {
-  if (Math::ExactlyEquals(m_ObjectValue, NumericTraits<typename TInputImage::PixelType>::ZeroValue()))
+  if (Math::ExactlyEquals(m_ObjectValue, typename TInputImage::PixelType{}))
   {
     this->GetOutput()->FillBuffer(1);
   }

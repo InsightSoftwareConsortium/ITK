@@ -95,7 +95,7 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
 
   if (magnitudeSqr < 1e-9)
   {
-    return NumericTraits<PixelType>::ZeroValue();
+    return PixelType{};
   }
 
   // compute the update value = mean curvature * magnitude

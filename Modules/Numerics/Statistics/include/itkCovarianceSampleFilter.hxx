@@ -120,7 +120,7 @@ CovarianceSampleFilter<TSample>::GenerateData()
 
   MatrixType output = decoratedOutput->Get();
   output.SetSize(measurementVectorSize, measurementVectorSize);
-  output.Fill(NumericTraits<typename MatrixType::ValueType>::ZeroValue());
+  output.Fill(typename MatrixType::ValueType{});
 
   auto * decoratedMeanOutput =
     itkDynamicCastInDebugMode<MeasurementVectorDecoratedType *>(this->ProcessObject::GetOutput(1));

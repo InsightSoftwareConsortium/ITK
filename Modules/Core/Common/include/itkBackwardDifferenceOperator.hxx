@@ -29,7 +29,7 @@ BackwardDifferenceOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients
 
   coeff[0] = -1.0 * NumericTraits<PixelType>::OneValue();
   coeff[1] = NumericTraits<PixelType>::OneValue();
-  coeff[2] = NumericTraits<PixelType>::ZeroValue();
+  coeff[2] = PixelType{};
 
   return coeff;
 }

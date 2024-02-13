@@ -326,9 +326,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   OffsetValueType numberOfFillZero =
     this->m_ANTSAssociate->GetVirtualRegion().GetIndex(0) - (scanRegion.GetIndex(0) - scanParameters.radius[0]);
 
-  if (numberOfFillZero < NumericTraits<OffsetValueType>::ZeroValue())
+  if (numberOfFillZero < OffsetValueType{})
   {
-    numberOfFillZero = NumericTraits<OffsetValueType>::ZeroValue();
+    numberOfFillZero = OffsetValueType{};
   }
 
   scanParameters.numberOfFillZero = numberOfFillZero;
@@ -337,11 +337,11 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   scanParameters.windowLength = scanIt.Size();
   scanParameters.scanRegionBeginIndexDim0 = scanIt.GetBeginIndex()[0];
 
-  scanMem.fixedA = NumericTraits<QueueRealType>::ZeroValue();
-  scanMem.movingA = NumericTraits<QueueRealType>::ZeroValue();
-  scanMem.sFixedMoving = NumericTraits<QueueRealType>::ZeroValue();
-  scanMem.sFixedFixed = NumericTraits<QueueRealType>::ZeroValue();
-  scanMem.sMovingMoving = NumericTraits<QueueRealType>::ZeroValue();
+  scanMem.fixedA = QueueRealType{};
+  scanMem.movingA = QueueRealType{};
+  scanMem.sFixedMoving = QueueRealType{};
+  scanMem.sFixedFixed = QueueRealType{};
+  scanMem.sMovingMoving = QueueRealType{};
 
   scanMem.fixedImageGradient.Fill(0.0);
   scanMem.movingImageGradient.Fill(0.0);
@@ -538,7 +538,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     if (!(sFixedFixed > NumericTraits<LocalRealType>::epsilon() &&
           sMovingMoving > NumericTraits<LocalRealType>::epsilon()))
     {
-      deriv.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+      deriv.Fill(DerivativeValueType{});
       return;
     }
 
@@ -563,7 +563,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
     for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
     {
-      deriv[par] = NumericTraits<DerivativeValueType>::ZeroValue();
+      deriv[par] = DerivativeValueType{};
       for (ImageDimensionType dim = 0; dim < TImageToImageMetric::MovingImageDimension; ++dim)
       {
         deriv[par] += derivWRTImage[dim] * jacobian(dim, par);

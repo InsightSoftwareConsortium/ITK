@@ -66,7 +66,7 @@ itkVTKImageIO2Test2(int argc, char * argv[])
       switch (cnt * 3 % 5)
       {
         case 0:
-          i.Set(itk::NumericTraits<PixelType>::ZeroValue());
+          i.Set(PixelType{});
           break;
         case 1:
           i.Set(itk::NumericTraits<PixelType>::OneValue());

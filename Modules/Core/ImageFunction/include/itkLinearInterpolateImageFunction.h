@@ -517,7 +517,7 @@ private:
     const typename TInputImage::PixelType &   tempPixel = inputImagePtr->GetPixel(idx);
     const unsigned int                        sizeOfVarLengthVector = tempPixel.GetSize();
     tempZeros.SetSize(sizeOfVarLengthVector);
-    tempZeros.Fill(NumericTraits<RealTypeScalarRealType>::ZeroValue());
+    tempZeros.Fill(RealTypeScalarRealType{});
   }
 
   template <typename RealTypeScalarRealType>
@@ -525,7 +525,7 @@ private:
   MakeZeroInitializer(const TInputImage * const itkNotUsed(inputImagePtr), RealTypeScalarRealType & tempZeros) const
   {
     // All other cases
-    tempZeros = NumericTraits<RealTypeScalarRealType>::ZeroValue();
+    tempZeros = RealTypeScalarRealType{};
   }
 };
 } // end namespace itk

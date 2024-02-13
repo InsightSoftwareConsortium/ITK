@@ -573,7 +573,7 @@ protected:
   TimeStepType
   CalculateChange() override
   {
-    return NumericTraits<TimeStepType>::ZeroValue();
+    return TimeStepType{};
   }
 
   /** This method does the actual work of calculating change over a region

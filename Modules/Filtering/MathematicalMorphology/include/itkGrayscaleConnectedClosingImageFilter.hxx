@@ -29,7 +29,7 @@ template <typename TInputImage, typename TOutputImage>
 GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>::GrayscaleConnectedClosingImageFilter()
 
 {
-  m_Seed.Fill(NumericTraits<typename InputImageIndexType::OffsetValueType>::ZeroValue());
+  m_Seed.Fill(typename InputImageIndexType::OffsetValueType{});
   m_FullyConnected = false;
 }
 

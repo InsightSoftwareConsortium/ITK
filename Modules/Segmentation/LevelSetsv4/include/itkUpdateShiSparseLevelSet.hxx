@@ -26,8 +26,8 @@ namespace itk
 
 template <unsigned int VDimension, typename TEquationContainer>
 UpdateShiSparseLevelSet<VDimension, TEquationContainer>::UpdateShiSparseLevelSet()
-  : m_CurrentLevelSetId(NumericTraits<IdentifierType>::ZeroValue())
-  , m_RMSChangeAccumulator(NumericTraits<LevelSetOutputRealType>::ZeroValue())
+  : m_CurrentLevelSetId(IdentifierType{})
+  , m_RMSChangeAccumulator(LevelSetOutputRealType{})
 {
   this->m_Offset.Fill(0);
   this->m_OutputLevelSet = LevelSetType::New();
@@ -95,7 +95,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Update()
     for (typename NeighborhoodIteratorType::Iterator i = neighIt.Begin(); !i.IsAtEnd(); ++i)
     {
       LevelSetOutputType tempValue = i.Get();
-      if (tempValue > NumericTraits<LevelSetOutputType>::ZeroValue())
+      if (tempValue > LevelSetOutputType{})
       {
         toBeDeleted = false;
         break;
@@ -140,7 +140,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Update()
     for (typename NeighborhoodIteratorType::Iterator i = neighIt.Begin(); !i.IsAtEnd(); ++i)
     {
       LevelSetOutputType tempValue = i.Get();
-      if (tempValue < NumericTraits<LevelSetOutputType>::ZeroValue())
+      if (tempValue < LevelSetOutputType{})
       {
         toBeDeleted = false;
         break;
@@ -212,7 +212,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::UpdateLayerPlusOne()
     // update the level set
     LevelSetOutputRealType update = termContainer->Evaluate(inputIndex);
 
-    if (update < NumericTraits<LevelSetOutputRealType>::ZeroValue())
+    if (update < LevelSetOutputRealType{})
     {
       if (Con(currentIndex, currentValue, update))
       {
@@ -310,7 +310,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::UpdateLayerMinusOne()
     // update for the current level set
     LevelSetOutputRealType update = termContainer->Evaluate(inputIndex);
 
-    if (update > NumericTraits<LevelSetOutputRealType>::ZeroValue())
+    if (update > LevelSetOutputRealType{})
     {
       if (Con(currentIndex, currentValue, update))
       {
@@ -404,7 +404,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Con(const LevelSetInput
 
       LevelSetOutputRealType neighborUpdate = termContainer->Evaluate(tempIdx + this->m_Offset);
 
-      if (neighborUpdate * currentUpdate > NumericTraits<LevelSetOutputType>::ZeroValue())
+      if (neighborUpdate * currentUpdate > LevelSetOutputType{})
       {
         return true;
       }

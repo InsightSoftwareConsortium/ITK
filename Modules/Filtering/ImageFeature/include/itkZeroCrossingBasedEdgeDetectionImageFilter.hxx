@@ -32,7 +32,7 @@ ZeroCrossingBasedEdgeDetectionImageFilter<TInputImage, TOutputImage>::ZeroCrossi
 {
   m_Variance.Fill(1.0);
   m_MaximumError.Fill(0.01);
-  m_BackgroundValue = NumericTraits<OutputImagePixelType>::ZeroValue();
+  m_BackgroundValue = OutputImagePixelType{};
   m_ForegroundValue = NumericTraits<OutputImagePixelType>::OneValue();
 }
 

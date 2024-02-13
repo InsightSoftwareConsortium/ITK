@@ -27,7 +27,7 @@ ThinPlateSplineKernelTransform<TParametersValueType, VDimension>::ComputeG(const
 {
   const TParametersValueType r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits<TParametersValueType>::ZeroValue());
+  gmatrix.fill(TParametersValueType{});
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     gmatrix[i][i] = r;

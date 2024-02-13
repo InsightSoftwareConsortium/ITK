@@ -47,9 +47,9 @@ public:
 
   // *****************************************************************
   QuadEdgeMeshDecimationQuadricElementHelper()
-    : m_Coefficients(itk::NumericTraits<CoordType>::ZeroValue())
-    , m_A(PointDimension, PointDimension, itk::NumericTraits<CoordType>::ZeroValue())
-    , m_B(itk::NumericTraits<CoordType>::ZeroValue())
+    : m_Coefficients(CoordType{})
+    , m_A(PointDimension, PointDimension, CoordType{})
+    , m_B(CoordType{})
     , m_SVDAbsoluteThreshold(static_cast<CoordType>(1e-6))
     , m_SVDRelativeThreshold(static_cast<CoordType>(1e-3))
   {
@@ -58,8 +58,8 @@ public:
 
   QuadEdgeMeshDecimationQuadricElementHelper(const CoefficientVectorType & iCoefficients)
     : m_Coefficients(iCoefficients)
-    , m_A(PointDimension, PointDimension, itk::NumericTraits<CoordType>::ZeroValue())
-    , m_B(itk::NumericTraits<CoordType>::ZeroValue())
+    , m_A(PointDimension, PointDimension, CoordType{})
+    , m_B(CoordType{})
     , m_SVDAbsoluteThreshold(static_cast<CoordType>(1e-3))
     , m_SVDRelativeThreshold(static_cast<CoordType>(1e-3))
   {

@@ -25,10 +25,10 @@ namespace itk
 {
 
 VideoIOBase::VideoIOBase()
-  : m_FrameTotal(NumericTraits<SizeValueType>::ZeroValue())
-  , m_CurrentFrame(NumericTraits<SizeValueType>::ZeroValue())
-  , m_IFrameInterval(NumericTraits<SizeValueType>::ZeroValue())
-  , m_LastIFrame(NumericTraits<SizeValueType>::ZeroValue())
+  : m_FrameTotal(SizeValueType{})
+  , m_CurrentFrame(SizeValueType{})
+  , m_IFrameInterval(SizeValueType{})
+  , m_LastIFrame(SizeValueType{})
 
 {}
 

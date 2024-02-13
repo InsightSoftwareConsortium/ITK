@@ -78,7 +78,7 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
 
   for (opIter = m_StencilOperator.Begin(); opIter < opEnd; ++opIter)
   {
-    *opIter = NumericTraits<PixelType>::ZeroValue();
+    *opIter = PixelType{};
 
     RadiusValueType length = 0;
     for (j = 0; j < ImageDimension; ++j)
@@ -131,7 +131,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
 
   center = it.Size() / 2;
 
-  gradMagnitude = NumericTraits<PixelType>::ZeroValue();
+  gradMagnitude = PixelType{};
   for (j = 0; j < ImageDimension; ++j)
   {
     stride = it.GetStride((SizeValueType)j);
@@ -339,7 +339,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
   }
   theta = std::acos(gradient[2]);
 
-  if (Math::AlmostEquals(gradient[0], NumericTraits<PixelType>::ZeroValue()))
+  if (Math::AlmostEquals(gradient[0], PixelType{}))
   {
     phi = Math::pi * 0.5;
   }
@@ -412,11 +412,11 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
 
   if (avgValue < threshold)
   {
-    return (std::max(update, NumericTraits<PixelType>::ZeroValue()));
+    return (std::max(update, PixelType{}));
   }
   else
   {
-    return (std::min(update, NumericTraits<PixelType>::ZeroValue()));
+    return (std::min(update, PixelType{}));
   }
 }
 } // end namespace itk

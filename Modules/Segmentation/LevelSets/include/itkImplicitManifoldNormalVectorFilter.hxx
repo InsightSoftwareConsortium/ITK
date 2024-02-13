@@ -29,12 +29,12 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::ImplicitMan
   m_NormalFunction = nullptr;
 
   // set defaults for parameters
-  m_IsoLevelLow = NumericTraits<NodeValueType>::ZeroValue();
-  m_IsoLevelHigh = NumericTraits<NodeValueType>::ZeroValue();
+  m_IsoLevelLow = NodeValueType{};
+  m_IsoLevelHigh = NodeValueType{};
   m_MaxIteration = 25;
   m_MinVectorNorm = static_cast<NodeValueType>(1.0e-6);
   m_UnsharpMaskingFlag = false;
-  m_UnsharpMaskingWeight = NumericTraits<NodeValueType>::ZeroValue();
+  m_UnsharpMaskingWeight = NodeValueType{};
 
   // compute constants used in computations
   unsigned int j;
@@ -134,7 +134,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::InitializeN
   // Normal vector computation -- use positive quadrant of neighborhood
   for (j = 0; j < ImageDimension; ++j) // derivative axis
   {
-    normalvector[j] = NumericTraits<NodeValueType>::ZeroValue();
+    normalvector[j] = NodeValueType{};
     for (counter = 0; counter < m_NumVertex; ++counter)
     {
       position = center;
@@ -163,7 +163,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::InitializeN
   {
     for (j = 0; j < ImageDimension; ++j) // derivative axis
     {
-      derivative = NumericTraits<NodeValueType>::ZeroValue();
+      derivative = NodeValueType{};
       if (i != j)
       {
         for (counter = 0; counter < m_NumVertex; ++counter)

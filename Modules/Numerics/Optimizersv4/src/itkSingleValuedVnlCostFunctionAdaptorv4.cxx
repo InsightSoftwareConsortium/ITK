@@ -24,7 +24,7 @@ SingleValuedVnlCostFunctionAdaptorv4::SingleValuedVnlCostFunctionAdaptorv4(unsig
 {
   m_ScalesInitialized = false;
   m_Reporter = Object::New();
-  m_CachedValue = NumericTraits<MeasureType>::ZeroValue();
+  m_CachedValue = MeasureType{};
   m_CachedDerivative.Fill(0);
 }
 

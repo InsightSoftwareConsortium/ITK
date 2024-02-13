@@ -27,7 +27,7 @@ template <typename TImageType, typename TFeatureImageType>
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ShapePriorSegmentationLevelSetFunction()
 {
   m_ShapeFunction = nullptr;
-  m_ShapePriorWeight = NumericTraits<ScalarValueType>::ZeroValue();
+  m_ShapePriorWeight = ScalarValueType{};
 }
 
 template <typename TImageType, typename TFeatureImageType>
@@ -54,7 +54,7 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeUp
   PixelType value = this->Superclass::ComputeUpdate(neighborhood, gd, offset);
 
   // Add the shape prior term
-  if (m_ShapeFunction && Math::NotExactlyEquals(m_ShapePriorWeight, NumericTraits<ScalarValueType>::ZeroValue()))
+  if (m_ShapeFunction && Math::NotExactlyEquals(m_ShapePriorWeight, ScalarValueType{}))
   {
     IndexType                               idx = neighborhood.GetIndex();
     ContinuousIndex<double, ImageDimension> cdx;

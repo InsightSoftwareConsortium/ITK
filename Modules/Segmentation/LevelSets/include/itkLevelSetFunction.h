@@ -133,7 +133,7 @@ public:
   virtual ScalarValueType
   PropagationSpeed(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * = 0) const
   {
-    return NumericTraits<ScalarValueType>::ZeroValue();
+    return ScalarValueType{};
   }
 
   /** Curvature speed.  Can be used to spatially modify the effects of
@@ -239,9 +239,9 @@ public:
   {
     auto * ans = new GlobalDataStruct();
 
-    ans->m_MaxAdvectionChange = NumericTraits<ScalarValueType>::ZeroValue();
-    ans->m_MaxPropagationChange = NumericTraits<ScalarValueType>::ZeroValue();
-    ans->m_MaxCurvatureChange = NumericTraits<ScalarValueType>::ZeroValue();
+    ans->m_MaxAdvectionChange = ScalarValueType{};
+    ans->m_MaxPropagationChange = ScalarValueType{};
+    ans->m_MaxCurvatureChange = ScalarValueType{};
     return ans;
   }
 
@@ -334,10 +334,10 @@ public:
 protected:
   LevelSetFunction()
     : m_EpsilonMagnitude(static_cast<ScalarValueType>(1.0e-5))
-    , m_AdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue())
-    , m_PropagationWeight(NumericTraits<ScalarValueType>::ZeroValue())
-    , m_CurvatureWeight(NumericTraits<ScalarValueType>::ZeroValue())
-    , m_LaplacianSmoothingWeight(NumericTraits<ScalarValueType>::ZeroValue())
+    , m_AdvectionWeight(ScalarValueType{})
+    , m_PropagationWeight(ScalarValueType{})
+    , m_CurvatureWeight(ScalarValueType{})
+    , m_LaplacianSmoothingWeight(ScalarValueType{})
   {}
 
   ~LevelSetFunction() override = default;

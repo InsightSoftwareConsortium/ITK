@@ -67,7 +67,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
   std::vector<SizeValueType>::iterator        cIt;
   for (mIt = m_ThreadMatches.begin(), cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
   {
-    *mIt = NumericTraits<MeasureType>::ZeroValue();
+    *mIt = MeasureType{};
     *cIt = 0;
   }
 

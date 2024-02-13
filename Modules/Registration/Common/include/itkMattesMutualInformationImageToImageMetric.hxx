@@ -306,7 +306,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
     for (ThreadIdType workUnitID = 0; workUnitID < this->m_NumberOfWorkUnits; ++workUnitID)
     {
       this->m_MMIMetricPerThreadVariables[workUnitID].MetricDerivative.SetSize(this->GetNumberOfParameters());
-      this->m_MMIMetricPerThreadVariables[workUnitID].MetricDerivative.Fill(NumericTraits<MeasureType>::ZeroValue());
+      this->m_MMIMetricPerThreadVariables[workUnitID].MetricDerivative.Fill(MeasureType{});
     }
   }
 
@@ -699,7 +699,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
   DerivativeType &       derivative) const
 {
   // Set output values to zero
-  value = NumericTraits<MeasureType>::ZeroValue();
+  value = MeasureType{};
 
   if (this->m_UseExplicitPDFDerivatives)
   {
@@ -715,7 +715,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
     this->m_PRatioArray.Fill(0.0);
     for (ThreadIdType workUnitID = 0; workUnitID < this->m_NumberOfWorkUnits; ++workUnitID)
     {
-      this->m_MMIMetricPerThreadVariables[workUnitID].MetricDerivative.Fill(NumericTraits<MeasureType>::ZeroValue());
+      this->m_MMIMetricPerThreadVariables[workUnitID].MetricDerivative.Fill(MeasureType{});
     }
     this->m_ImplicitDerivativesSecondPass = false;
   }

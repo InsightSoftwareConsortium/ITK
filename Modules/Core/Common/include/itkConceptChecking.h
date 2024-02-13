@@ -771,7 +771,7 @@ struct HasZero
     {
       T a;
 
-      a = NumericTraits<T>::ZeroValue();
+      a = T{};
       Detail::IgnoreUnusedVariable(a);
     }
   };

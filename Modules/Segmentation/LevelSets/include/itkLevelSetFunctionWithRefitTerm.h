@@ -155,7 +155,7 @@ protected:
   virtual ScalarValueType
   OtherPropagationSpeed(const NeighborhoodType &, const FloatOffsetType &, GlobalDataStruct * = 0) const
   {
-    return NumericTraits<ScalarValueType>::ZeroValue();
+    return ScalarValueType{};
   }
 
 private:

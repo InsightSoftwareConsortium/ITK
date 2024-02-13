@@ -42,8 +42,8 @@ namespace itk
  */
 RealTimeInterval::RealTimeInterval()
 {
-  this->m_Seconds = itk::NumericTraits<SecondsDifferenceType>::ZeroValue();
-  this->m_MicroSeconds = itk::NumericTraits<MicroSecondsDifferenceType>::ZeroValue();
+  this->m_Seconds = SecondsDifferenceType{};
+  this->m_MicroSeconds = MicroSecondsDifferenceType{};
 }
 
 /**

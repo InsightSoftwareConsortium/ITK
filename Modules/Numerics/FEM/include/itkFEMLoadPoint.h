@@ -55,8 +55,8 @@ public:
 
   /** Default constructor. */
   LoadPoint()
-    : m_Point(2, NumericTraits<Float>::ZeroValue())
-    , m_ForcePoint(2, NumericTraits<Float>::ZeroValue())
+    : m_Point(2, Float{})
+    , m_ForcePoint(2, Float{})
   {
     // Default initialization of 2D point and force vector
   }

@@ -201,7 +201,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       const bool isInside = maskSO->IsInsideInWorldSpace(point);
       double     value{};
       maskSO->ValueAtInWorldSpace(point, value);
-      const bool isZero = (itk::Math::ExactlyEquals(value, itk::NumericTraits<PixelType>::ZeroValue()));
+      const bool isZero = (itk::Math::ExactlyEquals(value, PixelType{}));
       if ((isInside && isZero) || (!isInside && !isZero))
       {
         ImageType::IndexType pointIndex = image->TransformPhysicalPointToIndex(point);

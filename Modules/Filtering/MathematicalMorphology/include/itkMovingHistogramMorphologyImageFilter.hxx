@@ -25,7 +25,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram>
 MovingHistogramMorphologyImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::
   MovingHistogramMorphologyImageFilter()
-  : m_Boundary(NumericTraits<PixelType>::ZeroValue())
+  : m_Boundary(PixelType{})
 {}
 
 template <typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram>

@@ -149,7 +149,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetTotalOverlap() const -> RealTyp
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == LabelType{})
     {
       continue;
     }
@@ -200,7 +200,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap() const -> RealTyp
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == LabelType{})
     {
       continue;
     }
@@ -267,7 +267,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity() const -> Rea
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == LabelType{})
     {
       continue;
     }
@@ -310,7 +310,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError() const -> R
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == LabelType{})
     {
       continue;
     }
@@ -364,7 +364,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> R
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == LabelType{})
     {
       continue;
     }
@@ -421,7 +421,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseDiscoveryRate() const -> R
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == LabelType{})
     {
       continue;
     }

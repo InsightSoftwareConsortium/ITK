@@ -44,7 +44,7 @@ BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const Neighb
   {
     // if structuring element is positive, use the pixel under that element
     // in the image
-    if (*kernel_it > NumericTraits<KernelPixelType>::ZeroValue())
+    if (*kernel_it > KernelPixelType{})
     {
       // note we use GetPixel() on the NeighborhoodIterator in order
       // to respect boundary conditions.

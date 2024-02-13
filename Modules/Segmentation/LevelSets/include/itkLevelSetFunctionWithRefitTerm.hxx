@@ -38,7 +38,7 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::LevelSetFunctionWit
 
   this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
   m_RefitWeight = NumericTraits<ScalarValueType>::OneValue();
-  m_OtherPropagationWeight = NumericTraits<ScalarValueType>::ZeroValue();
+  m_OtherPropagationWeight = ScalarValueType{};
   m_MinVectorNorm = static_cast<ScalarValueType>(1.0e-6);
 }
 
@@ -89,7 +89,7 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
     stride[j] = neighborhood.GetStride(j);
     indicator[j] = one << j;
   }
-  curvature = NumericTraits<ScalarValueType>::ZeroValue();
+  curvature = ScalarValueType{};
 
   for (counterN = 0; counterN < m_NumVertex; ++counterN)
   {
@@ -105,7 +105,7 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
     // compute the normal vector
     for (j = 0; j < TImageType::ImageDimension; ++j) // derivative axis
     {
-      normalvector[j] = NumericTraits<ScalarValueType>::ZeroValue();
+      normalvector[j] = ScalarValueType{};
       for (counterP = 0; counterP < m_NumVertex; ++counterP)
       {
         positionP = positionN;

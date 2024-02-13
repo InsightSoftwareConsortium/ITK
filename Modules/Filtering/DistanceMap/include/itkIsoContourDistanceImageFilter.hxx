@@ -28,7 +28,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::IsoContourDistanceImageFilter()
 {
-  m_LevelSetValue = NumericTraits<InputPixelType>::ZeroValue();
+  m_LevelSetValue = InputPixelType{};
 
   m_FarValue = 10 * NumericTraits<PixelType>::OneValue();
 
@@ -204,7 +204,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
     }
     else
     {
-      outIt.Set(NumericTraits<PixelType>::ZeroValue());
+      outIt.Set(PixelType{});
     }
     ++inIt;
     ++outIt;

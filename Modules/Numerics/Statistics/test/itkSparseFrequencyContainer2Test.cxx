@@ -67,7 +67,7 @@ itkSparseFrequencyContainer2Test(int, char *[])
   container->SetToZero();
   for (unsigned int bin = 0; bin < numberOfBins; ++bin)
   {
-    if (container->GetFrequency(bin) != itk::NumericTraits<AbsoluteFrequencyType>::ZeroValue())
+    if (container->GetFrequency(bin) != AbsoluteFrequencyType{})
     {
       std::cout << "Failed !" << std::endl;
       std::cout << "Stored Frequency in bin is not zero after SetToZero() method invocation" << std::endl;

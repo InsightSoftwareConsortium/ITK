@@ -105,7 +105,7 @@ itkCompensatedSummationTest(int, char *[])
   }
 
   floatAccumulator.ResetToZero();
-  if (itk::Math::NotAlmostEquals(floatAccumulator.GetSum(), itk::NumericTraits<FloatType>::ZeroValue()))
+  if (itk::Math::NotAlmostEquals(floatAccumulator.GetSum(), FloatType{}))
   {
     std::cerr << "GetSize() did return the correct value!" << std::endl;
     return EXIT_FAILURE;

@@ -116,7 +116,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
 
   kernelImage->SetRegions(region);
   kernelImage->Allocate();
-  kernelImage->FillBuffer(itk::NumericTraits<TOutput>::ZeroValue());
+  kernelImage->FillBuffer(TOutput{});
 
   // Initially the kernel image will be an impulse at the center
   typename KernelImageType::IndexType centerIndex;
@@ -154,7 +154,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
       ++orderArray[j];
 
       // Reset kernel image
-      kernelImage->FillBuffer(itk::NumericTraits<TOutput>::ZeroValue());
+      kernelImage->FillBuffer(TOutput{});
       kernelImage->SetPixel(centerIndex, itk::NumericTraits<TOutput>::OneValue());
 
       for (unsigned int direction = 0; direction < Self::ImageDimension2; ++direction)

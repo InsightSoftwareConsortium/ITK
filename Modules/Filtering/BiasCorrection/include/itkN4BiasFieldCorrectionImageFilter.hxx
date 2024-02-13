@@ -45,7 +45,7 @@ CLANG_SUPPRESS_Wfloat_equal
   template <typename TInputImage, typename TMaskImage, typename TOutputImage>
   N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::N4BiasFieldCorrectionImageFilter()
     : m_MaskLabel(NumericTraits<MaskPixelType>::OneValue())
-    , m_CurrentConvergenceMeasurement(NumericTraits<RealType>::ZeroValue())
+    , m_CurrentConvergenceMeasurement(RealType{})
 
   {
     // implicit:
@@ -129,13 +129,13 @@ CLANG_SUPPRESS_Wfloat_equal
     for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
-           (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
+           (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
           (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
       {
         ++numberOfIncludedPixels;
         auto && logInputPixel = logInputImageBufferRange[indexValue];
 
-        if (logInputPixel > NumericTraits<typename InputImageType::PixelType>::ZeroValue())
+        if (logInputPixel > typename InputImageType::PixelType{})
         {
           logInputPixel = std::log(static_cast<RealType>(logInputPixel));
         }
@@ -278,7 +278,7 @@ CLANG_SUPPRESS_Wfloat_equal
     for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
-           (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
+           (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
           (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
       {
         RealType pixel = unsharpenedImageBufferRange[indexValue];
@@ -302,7 +302,7 @@ CLANG_SUPPRESS_Wfloat_equal
     for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
-           (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
+           (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
           (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
       {
         RealType pixel = unsharpenedImageBufferRange[indexValue];
@@ -450,7 +450,7 @@ CLANG_SUPPRESS_Wfloat_equal
     for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
-           (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
+           (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
           (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
       {
         RealType     cidx = (unsharpenedImageBufferRange[indexValue] - binMinimum) / histogramSlope;
@@ -519,7 +519,7 @@ CLANG_SUPPRESS_Wfloat_equal
     for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue, ++It)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
-           (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
+           (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
           (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
       {
         PointType point;
@@ -665,7 +665,7 @@ CLANG_SUPPRESS_Wfloat_equal
     for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
-           (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
+           (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
           (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
       {
         RealType pixel = std::exp(subtracterImageBufferRange[indexValue]);

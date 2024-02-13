@@ -319,8 +319,8 @@ VTKPolyDataMeshIO::ReadMeshInformation()
   }
 
   // Initialize number of cells
-  this->m_NumberOfCells = itk::NumericTraits<SizeValueType>::ZeroValue();
-  this->m_CellBufferSize = itk::NumericTraits<SizeValueType>::ZeroValue();
+  this->m_NumberOfCells = SizeValueType{};
+  this->m_CellBufferSize = SizeValueType{};
   MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
 
   // Searching the vtk file

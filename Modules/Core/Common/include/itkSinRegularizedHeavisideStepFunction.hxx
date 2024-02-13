@@ -34,7 +34,7 @@ SinRegularizedHeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType &
   {
     if (static_cast<RealType>(input) <= -this->GetEpsilon())
     {
-      return NumericTraits<OutputType>::ZeroValue();
+      return OutputType{};
     }
     else
     {
@@ -52,7 +52,7 @@ SinRegularizedHeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const I
 {
   if (itk::Math::abs(static_cast<RealType>(input)) >= this->GetEpsilon())
   {
-    return NumericTraits<OutputType>::ZeroValue();
+    return OutputType{};
   }
   else
   {

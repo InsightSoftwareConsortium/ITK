@@ -197,10 +197,7 @@ public:
   }
 
   /** Set the offset which labels have to start from. */
-  itkSetClampMacro(LabelOffset,
-                   OutputPixelType,
-                   NumericTraits<OutputPixelType>::ZeroValue(),
-                   NumericTraits<OutputPixelType>::max());
+  itkSetClampMacro(LabelOffset, OutputPixelType, OutputPixelType{}, NumericTraits<OutputPixelType>::max());
   itkGetConstMacro(LabelOffset, OutputPixelType);
 
 protected:

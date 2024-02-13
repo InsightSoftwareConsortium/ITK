@@ -36,8 +36,8 @@ NormalVectorDiffusionFunction<TSparseImageType>::NormalVectorDiffusionFunction()
   this->SetRadius(r);
   this->SetTimeStep(static_cast<TimeStepType>(0.5 / ImageDimension));
   m_NormalProcessType = 0;
-  m_ConductanceParameter = NumericTraits<NodeValueType>::ZeroValue();
-  m_FluxStopConstant = NumericTraits<NodeValueType>::ZeroValue();
+  m_ConductanceParameter = NodeValueType{};
+  m_FluxStopConstant = NodeValueType{};
 }
 
 template <typename TSparseImageType>
@@ -84,7 +84,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
     {
       for (j = 0; j < ImageDimension; ++j)
       {
-        CenterNode->m_Flux[i][j] = NumericTraits<NodeValueType>::ZeroValue();
+        CenterNode->m_Flux[i][j] = NodeValueType{};
       }
     }
     else
@@ -147,7 +147,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
       // now compute the intrinsic derivative
       for (j = 0; j < ImageDimension; ++j) // component axis
       {
-        DotProduct = NumericTraits<NodeValueType>::ZeroValue();
+        DotProduct = NodeValueType{};
         for (k = 0; k < ImageDimension; ++k) // derivative axis
         {
           DotProduct += (gradient[k][j] * CenterNode->m_ManifoldNormal[i][k]);
@@ -185,7 +185,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::ComputeSparseUpdate(Neighborhoo
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
-  change = NumericTraits<NormalVectorType>::ZeroValue();
+  change = NormalVectorType{};
   for (i = 0; i < ImageDimension; ++i) // flux offset axis
   {
     NextNode = it.GetNext(i);

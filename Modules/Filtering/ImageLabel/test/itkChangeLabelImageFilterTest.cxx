@@ -46,7 +46,7 @@ itkChangeLabelImageFilterTest(int, char *[])
 
   // limit to a few labels
   InputPixelType upper = 10;
-  source->SetMin(itk::NumericTraits<InputPixelType>::ZeroValue());
+  source->SetMin(InputPixelType{});
   source->SetMax(upper);
   source->SetSize(sizeArray);
 

@@ -39,7 +39,7 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>::RescaleIntensityImageFil
   : m_Scale(1.0)
   , m_Shift(0.0)
   , m_InputMinimum(NumericTraits<InputPixelType>::max())
-  , m_InputMaximum(NumericTraits<InputPixelType>::ZeroValue())
+  , m_InputMaximum(InputPixelType{})
   , m_OutputMinimum(NumericTraits<OutputPixelType>::NonpositiveMin())
   , m_OutputMaximum(NumericTraits<OutputPixelType>::max())
 {}
@@ -69,8 +69,7 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
     this->m_Scale = (static_cast<RealType>(this->m_OutputMaximum) - static_cast<RealType>(this->m_OutputMinimum)) /
                     (static_cast<RealType>(this->m_InputMaximum) - static_cast<RealType>(this->m_InputMinimum));
   }
-  else if (itk::Math::NotAlmostEquals(this->m_InputMaximum,
-                                      NumericTraits<typename NumericTraits<InputPixelType>::ValueType>::ZeroValue()))
+  else if (itk::Math::NotAlmostEquals(this->m_InputMaximum, typename NumericTraits<InputPixelType>::ValueType{}))
   {
     this->m_Scale = (static_cast<RealType>(this->m_OutputMaximum) - static_cast<RealType>(this->m_OutputMinimum)) /
                     static_cast<RealType>(this->m_InputMaximum);

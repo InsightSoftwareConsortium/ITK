@@ -78,7 +78,7 @@ ObjectByObjectLabelMapFilter<TInputImage,
   m_BI2LM->SetNumberOfWorkUnits(1);
 
   // to be sure that no one will use an uninitialized value
-  m_Label = itk::NumericTraits<InputImagePixelType>::ZeroValue();
+  m_Label = InputImagePixelType{};
 }
 
 

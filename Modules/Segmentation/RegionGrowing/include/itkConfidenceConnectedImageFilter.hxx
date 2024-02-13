@@ -39,8 +39,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::ConfidenceConnectedIm
   m_Seeds.clear();
   m_InitialNeighborhoodRadius = 1;
   m_ReplaceValue = NumericTraits<OutputImagePixelType>::OneValue();
-  m_Mean = NumericTraits<InputRealType>::ZeroValue();
-  m_Variance = NumericTraits<InputRealType>::ZeroValue();
+  m_Mean = InputRealType{};
+  m_Variance = InputRealType{};
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -137,7 +137,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
+  outputImage->FillBuffer(OutputImagePixelType{});
 
   // Compute the statistics of the seed point
 
@@ -148,8 +148,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   InputRealType lower;
   InputRealType upper;
 
-  m_Mean = itk::NumericTraits<InputRealType>::ZeroValue();
-  m_Variance = itk::NumericTraits<InputRealType>::ZeroValue();
+  m_Mean = InputRealType{};
+  m_Variance = InputRealType{};
 
   if (m_InitialNeighborhoodRadius > 0)
   {
@@ -312,8 +312,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 
     typename NumericTraits<typename InputImageType::PixelType>::RealType sum, sumOfSquares;
-    sum = NumericTraits<InputRealType>::ZeroValue();
-    sumOfSquares = NumericTraits<InputRealType>::ZeroValue();
+    sum = InputRealType{};
+    sumOfSquares = InputRealType{};
     typename TOutputImage::SizeValueType numberOfSamples = 0;
 
     SecondIteratorType sit(inputImage, secondFunction, m_Seeds);
@@ -378,7 +378,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     // upper] bounds prescribed, the pixel is added to the output
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
-    outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
+    outputImage->FillBuffer(OutputImagePixelType{});
     IteratorType thirdIt(outputImage, function, m_Seeds);
     thirdIt.GoToBegin();
     try

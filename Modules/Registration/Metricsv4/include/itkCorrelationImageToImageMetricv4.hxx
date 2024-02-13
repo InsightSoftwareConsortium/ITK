@@ -78,8 +78,8 @@ CorrelationImageToImageMetricv4<TFixedImage,
 
   Superclass::InitializeForIteration();
 
-  this->m_AverageFix = NumericTraits<MeasureType>::ZeroValue();
-  this->m_AverageMov = NumericTraits<MeasureType>::ZeroValue();
+  this->m_AverageFix = MeasureType{};
+  this->m_AverageMov = MeasureType{};
 
   // compute the average intensity of the sampled pixels
   // Invoke the pipeline in the helper threader

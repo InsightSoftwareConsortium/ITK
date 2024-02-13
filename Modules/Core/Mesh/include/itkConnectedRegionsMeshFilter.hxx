@@ -41,8 +41,8 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh>
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::ConnectedRegionsMeshFilter()
   : m_ExtractionMode(Self::LargestRegion)
-  , m_NumberOfCellsInRegion(NumericTraits<SizeValueType>::ZeroValue())
-  , m_RegionNumber(NumericTraits<IdentifierType>::ZeroValue())
+  , m_NumberOfCellsInRegion(SizeValueType{})
+  , m_RegionNumber(IdentifierType{})
 
 {
   m_ClosestPoint.Fill(0);

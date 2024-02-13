@@ -73,7 +73,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
       return EXIT_FAILURE;
     }
 
-    if (container->GetFrequency(binOutOfBound) != itk::NumericTraits<AbsoluteFrequencyType>::ZeroValue())
+    if (container->GetFrequency(binOutOfBound) != AbsoluteFrequencyType{})
     {
       std::cerr << "GetFrequency() method should have returned zero frequency since the bin index is out of bound \n"
                 << std::endl;

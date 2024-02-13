@@ -65,7 +65,7 @@ protected:
   const OutputPixelType
   GetOutputValue(OutputDomainType *, const NodeType &) const override
   {
-    return NumericTraits<OutputPixelType>::ZeroValue();
+    return OutputPixelType{};
   }
 
   unsigned char

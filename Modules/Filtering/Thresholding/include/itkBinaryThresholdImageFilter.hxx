@@ -36,7 +36,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 BinaryThresholdImageFilter<TInputImage, TOutputImage>::BinaryThresholdImageFilter()
   : m_InsideValue(NumericTraits<OutputPixelType>::max())
-  , m_OutsideValue(NumericTraits<OutputPixelType>::ZeroValue())
+  , m_OutsideValue(OutputPixelType{})
 {
   // We are going to create the object with a few default inputs to
   // hold the threshold values.

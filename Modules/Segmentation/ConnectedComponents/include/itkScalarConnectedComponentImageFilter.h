@@ -54,7 +54,7 @@ template <typename TInput>
 class SimilarPixelsFunctor
 {
 public:
-  SimilarPixelsFunctor() { m_Threshold = NumericTraits<TInput>::ZeroValue(); }
+  SimilarPixelsFunctor() { m_Threshold = TInput{}; }
 
   ~SimilarPixelsFunctor() = default;
 

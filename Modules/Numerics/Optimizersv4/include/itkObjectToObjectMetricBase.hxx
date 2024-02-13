@@ -28,7 +28,7 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::ObjectToObjectM
 {
   // Don't call SetGradientSource, to avoid valgrind warning.
   this->m_GradientSource = GradientSourceEnum::GRADIENT_SOURCE_MOVING;
-  this->m_Value = NumericTraits<MeasureType>::ZeroValue();
+  this->m_Value = MeasureType{};
 }
 
 //-------------------------------------------------------------------

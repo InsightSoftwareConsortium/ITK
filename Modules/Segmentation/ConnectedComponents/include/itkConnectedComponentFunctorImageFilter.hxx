@@ -47,7 +47,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
 
   // Set up the boundary condition to be zero padded (used on output image)
   ConstantBoundaryCondition<TOutputImage> BC;
-  BC.SetConstant(NumericTraits<OutputPixelType>::ZeroValue());
+  BC.SetConstant(OutputPixelType{});
 
   // Neighborhood iterators.  Let's use a shaped neighborhood so we can
   // restrict the access to face connected neighbors. These iterators
@@ -117,10 +117,10 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
     oit.GoToBegin();
     while (!mit.IsAtEnd())
     {
-      if (mit.Get() == NumericTraits<MaskPixelType>::ZeroValue())
+      if (mit.Get() == MaskPixelType{})
       {
         // mark pixel as unlabeled
-        oit.Set(NumericTraits<OutputPixelType>::ZeroValue());
+        oit.Set(OutputPixelType{});
       }
 
       ++mit;
@@ -144,7 +144,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
     originalLabel = label;
 
     // If the pixel is not background
-    if (label != NumericTraits<OutputPixelType>::ZeroValue())
+    if (label != OutputPixelType{})
     {
       // loop over the "previous" neighbors to find labels.  this loop
       // may establish one or more new equivalence classes
@@ -158,7 +158,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
 
         // if the previous pixel has a label, verify equivalence or
         // establish a new equivalence
-        if (neighborLabel != NumericTraits<OutputPixelType>::ZeroValue())
+        if (neighborLabel != OutputPixelType{})
         {
           // see if current pixel is connected to its neighbor
           neighborValue = isIt.Get();
@@ -225,7 +225,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   {
     label = oit.Get();
     // if pixel has a label, write out the final equivalence
-    if (label != NumericTraits<OutputPixelType>::ZeroValue())
+    if (label != OutputPixelType{})
     {
       oit.Set(eqTable->Lookup(label));
     }

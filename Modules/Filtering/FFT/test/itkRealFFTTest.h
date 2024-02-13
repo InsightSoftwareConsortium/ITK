@@ -203,7 +203,7 @@ test_fft(unsigned int * SizeOfDimensions)
     TPixel val = originalImageIterator.Value();
     TPixel val2 = inverseFFTImageIterator.Value();
     TPixel diff = itk::Math::abs(val - val2);
-    if (itk::Math::NotAlmostEquals(val, itk::NumericTraits<TPixel>::ZeroValue()))
+    if (itk::Math::NotAlmostEquals(val, TPixel{}))
     {
       diff /= itk::Math::abs(val);
     }

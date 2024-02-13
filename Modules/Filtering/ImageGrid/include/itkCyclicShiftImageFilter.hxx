@@ -28,7 +28,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 CyclicShiftImageFilter<TInputImage, TOutputImage>::CyclicShiftImageFilter()
 {
-  m_Shift.Fill(NumericTraits<OffsetValueType>::ZeroValue());
+  m_Shift.Fill(OffsetValueType{});
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 }

@@ -73,7 +73,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateScales(ScalesType & p
   {
     // For local support, we need to refill deltaParameters with zeros at each loop
     // since smoothing may change the values around the local voxel.
-    deltaParameters.Fill(NumericTraits<typename ParametersType::ValueType>::ZeroValue());
+    deltaParameters.Fill(typename ParametersType::ValueType{});
     deltaParameters[offset + i] = this->m_SmallParameterVariation;
 
     maxShift = this->ComputeMaximumVoxelShift(deltaParameters);
@@ -147,7 +147,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateStepScale(const Param
   }
   if (maxStep <= NumericTraits<FloatType>::epsilon())
   {
-    return NumericTraits<FloatType>::ZeroValue();
+    return FloatType{};
   }
   else
   {
@@ -185,7 +185,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateLocalStepScales(const
   const SizeValueType numLocals = numAllPara / numPara;
 
   localStepScales.SetSize(numLocals);
-  localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::ZeroValue());
+  localStepScales.Fill(typename ScalesType::ValueType{});
 
   const auto numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
   for (SizeValueType c = 0; c < numSamples; ++c)

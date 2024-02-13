@@ -157,7 +157,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   OutputPixelRealType                       value;
   OutputPixelRealType                       numerator;
   OutputPixelRealType                       denominator;
-  OutputPixelRealType                       zero = NumericTraits<OutputPixelType>::ZeroValue();
+  OutputPixelRealType                       zero = OutputPixelType{};
 
   realTemplateSize = static_cast<OutputPixelRealType>(templateSize);
   for (const auto & face : faceList)

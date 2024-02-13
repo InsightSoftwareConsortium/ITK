@@ -152,14 +152,14 @@ FrequencyBandImageFilter<TImageType, TFrequencyIterator>::BandPass(FrequencyIter
   {
     if (scalarFrequency < this->m_LowFrequencyThreshold || scalarFrequency > this->m_HighFrequencyThreshold)
     {
-      freqIt.Set(NumericTraits<PixelType>::ZeroValue());
+      freqIt.Set(PixelType{});
     }
   }
   else // Stop Band
   {
     if (scalarFrequency > this->m_LowFrequencyThreshold && scalarFrequency < this->m_HighFrequencyThreshold)
     {
-      freqIt.Set(NumericTraits<PixelType>::ZeroValue());
+      freqIt.Set(PixelType{});
     }
   }
 
@@ -175,7 +175,7 @@ FrequencyBandImageFilter<TImageType, TFrequencyIterator>::BandPass(FrequencyIter
       }
       else
       {
-        freqIt.Set(NumericTraits<PixelType>::ZeroValue());
+        freqIt.Set(PixelType{});
       }
     }
   }
@@ -191,7 +191,7 @@ FrequencyBandImageFilter<TImageType, TFrequencyIterator>::BandPass(FrequencyIter
       }
       else
       {
-        freqIt.Set(NumericTraits<PixelType>::ZeroValue());
+        freqIt.Set(PixelType{});
       }
     }
   }

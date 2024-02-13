@@ -605,7 +605,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
     virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;
   MetricDerivativeType metricDerivative(metricDerivativeSize);
 
-  metricDerivative.Fill(NumericTraits<typename MetricDerivativeType::ValueType>::ZeroValue());
+  metricDerivative.Fill(typename MetricDerivativeType::ValueType{});
   this->m_Metric->GetValueAndDerivative(value, metricDerivative);
 
   // Ensure that the size of the optimizer weights is the same as the
@@ -680,7 +680,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   }
 
   RealType scale = this->m_LearningRate;
-  if (maxNorm > NumericTraits<RealType>::ZeroValue())
+  if (maxNorm > RealType{})
   {
     scale /= maxNorm;
   }

@@ -71,7 +71,7 @@ public:
   {
     m_LowerThreshold = NumericTraits<TInput>::NonpositiveMin();
     m_UpperThreshold = NumericTraits<TInput>::max();
-    m_OutsideValue = NumericTraits<TOutput>::ZeroValue();
+    m_OutsideValue = TOutput{};
     m_InsideValue = NumericTraits<TOutput>::max();
   }
 
@@ -160,7 +160,7 @@ public:
   using InputPixelObjectType = SimpleDataObjectDecorator<InputPixelType>;
 
   /** Set the "outside" pixel value. The default value
-   * NumericTraits<OutputPixelType>::ZeroValue(). */
+   * OutputPixelType{}. */
   itkSetMacro(OutsideValue, OutputPixelType);
 
   /** Get the "outside" pixel value. */
