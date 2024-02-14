@@ -72,7 +72,7 @@ public:
   void
   GetDerivative(DerivativeType & derivative) const override
   {
-    derivative.Fill(itk::NumericTraits<ParametersValueType>::ZeroValue());
+    derivative.Fill(ParametersValueType{});
   }
 
   void
@@ -187,7 +187,7 @@ public:
   void
   GetDerivative(DerivativeType & derivative) const override
   {
-    derivative.Fill(itk::NumericTraits<ParametersValueType>::ZeroValue());
+    derivative.Fill(ParametersValueType{});
   }
 
   void

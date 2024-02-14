@@ -29,7 +29,7 @@ namespace itk
 
 template <typename TDisplacementField, typename TOutputImage>
 GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::GridForwardWarpImageFilter()
-  : m_BackgroundValue(NumericTraits<PixelType>::ZeroValue())
+  : m_BackgroundValue(PixelType{})
   , m_ForegroundValue(NumericTraits<PixelType>::OneValue())
 {}
 

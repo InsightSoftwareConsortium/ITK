@@ -132,7 +132,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
     // is in-bounds, so we don't do anything else if the point is out of bounds.
     if (index[dim] < start[dim] + 1 || index[dim] > (start[dim] + static_cast<OffsetValueType>(size[dim]) - 2))
     {
-      derivative[dim] = NumericTraits<OutputValueType>::ZeroValue();
+      derivative[dim] = OutputValueType{};
       continue;
     }
 
@@ -200,7 +200,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
       // bounds checking
       if (dimOutOfBounds[dim])
       {
-        componentDerivative[dim] = NumericTraits<OutputValueType>::ZeroValue();
+        componentDerivative[dim] = OutputValueType{};
         continue;
       }
 
@@ -283,7 +283,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
     neighPoint1[dim] = point[dim] - offset;
     if (!this->IsInsideBuffer(neighPoint1))
     {
-      orientedDerivative[dim] = NumericTraits<DerivativeValueType>::ZeroValue();
+      orientedDerivative[dim] = DerivativeValueType{};
       neighPoint1[dim] = point[dim];
       neighPoint2[dim] = point[dim];
       continue;
@@ -291,7 +291,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
     neighPoint2[dim] = point[dim] + offset;
     if (!this->IsInsideBuffer(neighPoint2))
     {
-      orientedDerivative[dim] = NumericTraits<DerivativeValueType>::ZeroValue();
+      orientedDerivative[dim] = DerivativeValueType{};
       neighPoint1[dim] = point[dim];
       neighPoint2[dim] = point[dim];
       continue;
@@ -347,14 +347,14 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
 
   ScalarDerivativeType componentDerivativeOut;
   ScalarDerivativeType componentDerivative;
-  componentDerivative.Fill(NumericTraits<OutputValueType>::ZeroValue());
+  componentDerivative.Fill(OutputValueType{});
 
   for (unsigned int dim = 0; dim < Self::ImageDimension; ++dim)
   {
     // initialize to quiet compiler warnings
     neighPixels[dim][0] = zeroPixel;
     neighPixels[dim][1] = zeroPixel;
-    delta[dim] = NumericTraits<PointValueType>::ZeroValue();
+    delta[dim] = PointValueType{};
     dimOutOfBounds[dim] = true;
   }
 
@@ -376,7 +376,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
 
         if (dimOutOfBounds[dim])
         {
-          componentDerivative[dim] = NumericTraits<OutputValueType>::ZeroValue();
+          componentDerivative[dim] = OutputValueType{};
           neighPoint1[dim] = point[dim];
           neighPoint2[dim] = point[dim];
           continue;
@@ -406,7 +406,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
       }
       else
       {
-        componentDerivative[dim] = NumericTraits<OutputValueType>::ZeroValue();
+        componentDerivative[dim] = OutputValueType{};
       }
     }
 
@@ -474,7 +474,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
     if (cindex[dim] < static_cast<ContinuousIndexValueType>(start[dim] + 1) ||
         cindex[dim] > static_cast<ContinuousIndexValueType>(start[dim] + static_cast<OffsetValueType>(size[dim]) - 2))
     {
-      derivative[dim] = NumericTraits<DerivativeValueType>::ZeroValue();
+      derivative[dim] = DerivativeValueType{};
       continue;
     }
 
@@ -545,7 +545,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
     {
       if (dimOutOfBounds[dim])
       {
-        componentDerivative[dim] = NumericTraits<DerivativeValueType>::ZeroValue();
+        componentDerivative[dim] = DerivativeValueType{};
         continue;
       }
 

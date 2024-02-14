@@ -387,7 +387,7 @@ public:
   CoordRepType
   GetBoundingBoxDiagonalLength2()
   {
-    return NumericTraits<CoordRepType>::ZeroValue();
+    return CoordRepType{};
   }
 
   /** Intersect the given bounding box (bounds[PointDimension*2]) with a line

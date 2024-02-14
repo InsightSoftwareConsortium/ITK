@@ -26,7 +26,7 @@ namespace itk
 {
 template <typename TInputImage, typename TGradientImage>
 RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::RobustAutomaticThresholdCalculator()
-  : m_Output(NumericTraits<InputPixelType>::ZeroValue())
+  : m_Output(InputPixelType{})
 {}
 
 template <typename TInputImage, typename TGradientImage>

@@ -120,7 +120,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   output->SetRequestedRegion(reader->GetOutput()->GetRequestedRegion());
   output->SetBufferedRegion(reader->GetOutput()->GetBufferedRegion());
   output->Allocate();
-  output->FillBuffer(itk::NumericTraits<PixelType>::ZeroValue());
+  output->FillBuffer(PixelType{});
 
 
   // Step over input and output images

@@ -320,10 +320,10 @@ protected:
     unsigned int i, j;
     TRealType    dx, sum, accum;
 
-    accum = NumericTraits<TRealType>::ZeroValue();
+    accum = TRealType{};
     for (i = 0; i < ImageDimension; ++i)
     {
-      sum = NumericTraits<TRealType>::ZeroValue();
+      sum = TRealType{};
       for (j = 0; j < VectorDimension; ++j)
       {
         dx = m_DerivativeWeights[i] * m_SqrtComponentWeights[j] * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);

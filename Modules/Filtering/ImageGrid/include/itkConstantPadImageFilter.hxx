@@ -29,7 +29,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ConstantPadImageFilter<TInputImage, TOutputImage>::ConstantPadImageFilter()
 {
-  m_InternalBoundaryCondition.SetConstant(NumericTraits<OutputImagePixelType>::ZeroValue());
+  m_InternalBoundaryCondition.SetConstant(OutputImagePixelType{});
   this->InternalSetBoundaryCondition(&m_InternalBoundaryCondition);
 }
 

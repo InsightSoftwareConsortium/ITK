@@ -117,7 +117,7 @@ public:
   {
     Superclass::Initialize(r);
 
-    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetAdvectionWeight(ScalarValueType{});
     this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }
@@ -125,7 +125,7 @@ public:
 protected:
   ShapeDetectionLevelSetFunction()
   {
-    this->SetAdvectionWeight(NumericTraits<ScalarValueType>::ZeroValue());
+    this->SetAdvectionWeight(ScalarValueType{});
     this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
   }

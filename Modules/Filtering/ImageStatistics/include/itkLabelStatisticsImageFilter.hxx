@@ -137,7 +137,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::AfterStreamedGenerateData(
     }
     else
     {
-      labelStats.m_Variance = NumericTraits<RealType>::ZeroValue();
+      labelStats.m_Variance = RealType{};
     }
 
     // sigma
@@ -323,7 +323,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMean(LabelPixelType lab
   if (mapIt == m_LabelStatistics.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<PixelType>::ZeroValue();
+    return PixelType{};
   }
   else
   {
@@ -341,7 +341,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSum(LabelPixelType labe
   if (mapIt == m_LabelStatistics.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<PixelType>::ZeroValue();
+    return PixelType{};
   }
   else
   {
@@ -359,7 +359,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSigma(LabelPixelType la
   if (mapIt == m_LabelStatistics.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<PixelType>::ZeroValue();
+    return PixelType{};
   }
   else
   {
@@ -377,7 +377,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetVariance(LabelPixelType
   if (mapIt == m_LabelStatistics.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<PixelType>::ZeroValue();
+    return PixelType{};
   }
   else
   {

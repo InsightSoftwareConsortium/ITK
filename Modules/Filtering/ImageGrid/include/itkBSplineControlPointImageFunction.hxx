@@ -171,12 +171,12 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTy
     {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
-      p[i] = NumericTraits<RealType>::ZeroValue();
+      p[i] = RealType{};
     }
 
-    if (p[i] < NumericTraits<CoordRepType>::ZeroValue() || p[i] >= NumericTraits<CoordRepType>::OneValue())
+    if (p[i] < CoordRepType{} || p[i] >= NumericTraits<CoordRepType>::OneValue())
     {
       itkExceptionMacro("The specified point " << params << " is outside the reparameterized domain [0, 1).");
     }
@@ -320,12 +320,12 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradient(const
     {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
-      p[i] = NumericTraits<RealType>::ZeroValue();
+      p[i] = RealType{};
     }
 
-    if (p[i] < NumericTraits<CoordRepType>::ZeroValue() || p[i] >= NumericTraits<CoordRepType>::OneValue())
+    if (p[i] < CoordRepType{} || p[i] >= NumericTraits<CoordRepType>::OneValue())
     {
       itkExceptionMacro("The specified point " << params << " is outside the reparameterized domain [0, 1).");
     }
@@ -488,12 +488,12 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessian(const 
     {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
-      p[i] = NumericTraits<RealType>::ZeroValue();
+      p[i] = RealType{};
     }
 
-    if (p[i] < NumericTraits<CoordRepType>::ZeroValue() || p[i] >= NumericTraits<CoordRepType>::OneValue())
+    if (p[i] < CoordRepType{} || p[i] >= NumericTraits<CoordRepType>::OneValue())
     {
       itkExceptionMacro("The specified point " << params << " is outside the reparameterized domain [0, 1).");
     }

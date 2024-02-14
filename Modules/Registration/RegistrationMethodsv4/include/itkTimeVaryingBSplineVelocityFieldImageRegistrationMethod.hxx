@@ -351,7 +351,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   TPointSet>::GetMetricDerivativePointSetForAllTimePoints(VelocityFieldPointSetType * velocityFieldPointSet,
                                                           WeightsContainerType *      velocityFieldWeights)
 {
-  this->m_CurrentMetricValue = NumericTraits<MeasureType>::ZeroValue();
+  this->m_CurrentMetricValue = MeasureType{};
 
   SizeValueType numberOfIntegrationSteps = this->m_NumberOfTimePointSamples + 2;
 
@@ -727,7 +727,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
 
   RealType value;
 
-  metricDerivative.Fill(NumericTraits<typename MetricDerivativeType::ValueType>::ZeroValue());
+  metricDerivative.Fill(typename MetricDerivativeType::ValueType{});
   this->m_Metric->GetValueAndDerivative(value, metricDerivative);
 
   this->m_CurrentMetricValue += value;

@@ -27,7 +27,7 @@ template <typename TParametersValueType>
 Rigid2DTransform<TParametersValueType>::Rigid2DTransform()
   : Superclass(ParametersDimension)
 {
-  m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
+  m_Angle = TParametersValueType{};
 }
 
 
@@ -35,7 +35,7 @@ template <typename TParametersValueType>
 Rigid2DTransform<TParametersValueType>::Rigid2DTransform(unsigned int parametersDimension)
   : Superclass(parametersDimension)
 {
-  m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
+  m_Angle = TParametersValueType{};
 }
 
 
@@ -43,7 +43,7 @@ template <typename TParametersValueType>
 Rigid2DTransform<TParametersValueType>::Rigid2DTransform(unsigned int, unsigned int parametersDimension)
   : Superclass(parametersDimension)
 {
-  m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
+  m_Angle = TParametersValueType{};
 }
 
 template <typename TParametersValueType>
@@ -176,7 +176,7 @@ void
 Rigid2DTransform<TParametersValueType>::SetIdentity()
 {
   this->Superclass::SetIdentity();
-  m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
+  m_Angle = TParametersValueType{};
 }
 
 

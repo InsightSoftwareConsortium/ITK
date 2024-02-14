@@ -28,7 +28,7 @@ ForwardDifferenceOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients(
 {
   CoefficientVector coeff(3);
 
-  coeff[0] = NumericTraits<PixelType>::ZeroValue();
+  coeff[0] = PixelType{};
   coeff[1] = -1.0 * NumericTraits<PixelType>::OneValue();
   coeff[2] = NumericTraits<PixelType>::OneValue();
 

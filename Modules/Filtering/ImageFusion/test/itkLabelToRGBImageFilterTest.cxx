@@ -61,7 +61,7 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 
   typename FilterType::OutputPixelType backgroundColor;
-  backgroundColor.Fill(itk::NumericTraits<typename FilterType::OutputPixelValueType>::ZeroValue());
+  backgroundColor.Fill(typename FilterType::OutputPixelValueType{});
   filter->SetBackgroundColor(backgroundColor);
   ITK_TEST_SET_GET_VALUE(backgroundColor, filter->GetBackgroundColor());
 

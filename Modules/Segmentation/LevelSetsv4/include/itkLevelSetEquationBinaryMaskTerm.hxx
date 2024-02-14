@@ -66,7 +66,7 @@ LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::Value(const LevelSet
   LevelSetOutputRealType value;
   if (pixel > 0)
   {
-    value = NumericTraits<LevelSetOutputRealType>::ZeroValue();
+    value = LevelSetOutputRealType{};
   }
   else
   {
@@ -85,7 +85,7 @@ LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::Value(const LevelSet
   LevelSetOutputRealType value;
   if (pixel > 0)
   {
-    value = NumericTraits<LevelSetOutputRealType>::ZeroValue();
+    value = LevelSetOutputRealType{};
   }
   else
   {

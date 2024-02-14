@@ -57,8 +57,8 @@ public:
   void
   Reinitialize()
   {
-    m_CurrentValue = NumericTraits<OutputPixelType>::ZeroValue();
-    m_PreviousValue = NumericTraits<OutputPixelType>::ZeroValue();
+    m_CurrentValue = OutputPixelType{};
+    m_PreviousValue = OutputPixelType{};
 
     this->Reset();
   }
@@ -79,8 +79,8 @@ protected:
     : Superclass()
     , m_Domain(nullptr)
   {
-    m_CurrentValue = NumericTraits<OutputPixelType>::ZeroValue();
-    m_PreviousValue = NumericTraits<OutputPixelType>::ZeroValue();
+    m_CurrentValue = OutputPixelType{};
+    m_PreviousValue = OutputPixelType{};
   }
 
   /** Destructor */

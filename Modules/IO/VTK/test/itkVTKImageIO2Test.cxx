@@ -114,7 +114,7 @@ public:
         switch (cnt % 4)
         {
           case 0:
-            i.Set(itk::NumericTraits<PixelType>::ZeroValue());
+            i.Set(PixelType{});
             break;
           case 1:
             i.Set(itk::NumericTraits<PixelType>::OneValue());
@@ -123,7 +123,7 @@ public:
             i.Set(itk::NumericTraits<PixelType>::OneValue());
             break;
           case 3:
-            i.Set(itk::NumericTraits<PixelType>::ZeroValue());
+            i.Set(PixelType{});
         }
         ++cnt;
         ++i;
@@ -234,7 +234,7 @@ public:
         {
           case 0:
             // Comparison with complex???
-            if (itk::Math::NotExactlyEquals(iter.Get(), itk::NumericTraits<PixelType>::ZeroValue()))
+            if (itk::Math::NotExactlyEquals(iter.Get(), PixelType{}))
             {
               pixelsGood = false;
             }
@@ -252,7 +252,7 @@ public:
             }
             break;
           case 3:
-            if (itk::Math::NotExactlyEquals(iter.Get(), itk::NumericTraits<PixelType>::ZeroValue()))
+            if (itk::Math::NotExactlyEquals(iter.Get(), PixelType{}))
             {
               pixelsGood = false;
             }

@@ -287,7 +287,7 @@ RegistrationParameterScalesEstimator<TMetric>::ComputeSquaredJacobianNorms(const
 
     for (SizeValueType p = 0; p < numPara; ++p)
     {
-      squareNorms[p] = NumericTraits<typename ParametersType::ValueType>::ZeroValue();
+      squareNorms[p] = typename ParametersType::ValueType{};
       for (SizeValueType d = 0; d < dim; ++d)
       {
         squareNorms[p] += jacobian[d][p] * jacobian[d][p];
@@ -300,7 +300,7 @@ RegistrationParameterScalesEstimator<TMetric>::ComputeSquaredJacobianNorms(const
 
     for (SizeValueType p = 0; p < numPara; ++p)
     {
-      squareNorms[p] = NumericTraits<typename ParametersType::ValueType>::ZeroValue();
+      squareNorms[p] = typename ParametersType::ValueType{};
       for (SizeValueType d = 0; d < dim; ++d)
       {
         squareNorms[p] += jacobian[d][p] * jacobian[d][p];

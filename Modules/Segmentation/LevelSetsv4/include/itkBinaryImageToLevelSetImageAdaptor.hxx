@@ -97,7 +97,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
 
   while (!inputIt.IsAtEnd())
   {
-    if (inputIt.Get() != NumericTraits<InputImagePixelType>::ZeroValue())
+    if (inputIt.Get() != InputImagePixelType{})
     {
       innerPart->AddIndex(inputIt.GetIndex());
       internalIt.Set(LevelSetType::MinusThreeLayer());
@@ -374,7 +374,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, ShiSparseLevelSetImage<TInput::ImageDi
 
   while (!iIt.IsAtEnd())
   {
-    if (iIt.Get() != NumericTraits<InputImagePixelType>::ZeroValue())
+    if (iIt.Get() != InputImagePixelType{})
     {
       innerPart->AddIndex(iIt.GetIndex());
       labelIt.Set(LevelSetType::MinusThreeLayer());
@@ -517,7 +517,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSparseLevelSetImage<TInput::Ima
 
   while (!inputIt.IsAtEnd())
   {
-    if (inputIt.Get() != NumericTraits<InputImagePixelType>::ZeroValue())
+    if (inputIt.Get() != InputImagePixelType{})
     {
       innerPart->AddIndex(inputIt.GetIndex());
       internalIt.Set(LevelSetType::MinusOneLayer());
@@ -576,7 +576,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSparseLevelSetImage<TInput::Ima
 
     if (ZeroSet)
     {
-      layer.insert(LayerPairType(idx, NumericTraits<LevelSetOutputType>::ZeroValue()));
+      layer.insert(LayerPairType(idx, LevelSetOutputType{}));
       this->m_InternalImage->SetPixel(idx, LevelSetType::ZeroLayer());
     }
 
@@ -632,7 +632,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSparseLevelSetImage<TInput::Ima
     {
       LayerIdType tempValue = i.Get();
 
-      if (tempValue != NumericTraits<LayerIdType>::ZeroValue())
+      if (tempValue != LayerIdType{})
       {
         if (tempValue == LevelSetType::MinusOneLayer())
         {

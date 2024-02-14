@@ -45,7 +45,7 @@ protected:
 
 
     static typename ImageType::Pointer
-    CreateImage(PixelType fillValue = itk::NumericTraits<PixelType>::ZeroValue())
+    CreateImage(PixelType fillValue = PixelType{})
     {
       auto image = ImageType::New();
 

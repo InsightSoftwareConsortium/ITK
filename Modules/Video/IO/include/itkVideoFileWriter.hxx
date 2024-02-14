@@ -95,7 +95,7 @@ VideoFileWriter<TInputVideoStream>::Write()
   }
 
   // Make sure FramesPerSecond and FourCC have been set
-  if (Math::ExactlyEquals(m_FramesPerSecond, NumericTraits<TemporalRatioType>::ZeroValue()) || m_FourCC.length() == 0)
+  if (Math::ExactlyEquals(m_FramesPerSecond, TemporalRatioType{}) || m_FourCC.length() == 0)
   {
     itkExceptionMacro("Cannot write with FramesPerSecond or FourCC unset");
   }

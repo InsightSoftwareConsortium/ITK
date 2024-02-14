@@ -621,7 +621,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetIntegratedIntensity(L
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<RealType>::ZeroValue();
+    return RealType{};
   }
   else
   {
@@ -640,7 +640,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetCentroid(LabelPixelTy
   {
     // label does not exist, return a default value
     LabelPointType emptyCentroid;
-    emptyCentroid.Fill(NumericTraits<typename LabelPointType::ValueType>::ZeroValue());
+    emptyCentroid.Fill(typename LabelPointType::ValueType{});
     return emptyCentroid;
   }
   else
@@ -661,7 +661,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetWeightedCentroid(Labe
   {
     // label does not exist, return a default value
     LabelPointType emptyCentroid;
-    emptyCentroid.Fill(NumericTraits<typename LabelPointType::ValueType>::ZeroValue());
+    emptyCentroid.Fill(typename LabelPointType::ValueType{});
     return emptyCentroid;
   }
   else
@@ -719,7 +719,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetAxesLength(LabelPixel
   {
     // label does not exist, return a default value
     LabelPointType emptyAxesLength;
-    emptyAxesLength.Fill(NumericTraits<typename AxesLengthType::ValueType>::ZeroValue());
+    emptyAxesLength.Fill(typename AxesLengthType::ValueType{});
     return emptyAxesLength;
   }
   else
@@ -756,7 +756,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEccentricity(LabelPix
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<RealType>::ZeroValue();
+    return RealType{};
   }
   else
   {
@@ -774,7 +774,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetElongation(LabelPixel
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<RealType>::ZeroValue();
+    return RealType{};
   }
   else
   {
@@ -792,7 +792,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientation(LabelPixe
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<RealType>::ZeroValue();
+    return RealType{};
   }
   else
   {
@@ -810,7 +810,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBox(LabelPixe
   if (mapIt == m_LabelGeometryMapper.end())
   {
     BoundingBoxType emptyBox;
-    emptyBox.Fill(NumericTraits<typename BoundingBoxType::ValueType>::ZeroValue());
+    emptyBox.Fill(typename BoundingBoxType::ValueType{});
     // label does not exist, return a default value
     return emptyBox;
   }
@@ -830,7 +830,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBoxVolume(Lab
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<RealType>::ZeroValue();
+    return RealType{};
   }
   else
   {
@@ -849,7 +849,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBoxSize(Label
   {
     // label does not exist, return a default value
     LabelSizeType emptySize;
-    emptySize.Fill(NumericTraits<typename LabelSizeType::SizeValueType>::ZeroValue());
+    emptySize.Fill(typename LabelSizeType::SizeValueType{});
     return emptySize;
   }
   else
@@ -891,7 +891,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxVo
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
-    return NumericTraits<RealType>::ZeroValue();
+    return RealType{};
   }
   else
   {
@@ -911,10 +911,10 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxSi
   {
     // label does not exist, return a default value
     //     LabelSizeType emptySize;
-    //     emptySize.Fill( NumericTraits<LabelSizeType::SizeValueType>::ZeroValue());
+    //     emptySize.Fill( LabelSizeType::SizeValueType{});
     //     return emptySize;
     LabelPointType emptySize;
-    emptySize.Fill(NumericTraits<typename LabelPointType::ValueType>::ZeroValue());
+    emptySize.Fill(typename LabelPointType::ValueType{});
     return emptySize;
   }
   else
@@ -935,7 +935,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxOr
   {
     // label does not exist, return a default value
     LabelPointType emptySize;
-    emptySize.Fill(NumericTraits<typename LabelPointType::ValueType>::ZeroValue());
+    emptySize.Fill(typename LabelPointType::ValueType{});
     return emptySize;
   }
   else

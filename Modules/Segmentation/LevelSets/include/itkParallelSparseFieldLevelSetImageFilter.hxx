@@ -100,7 +100,7 @@ typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Valu
 template <typename TInputImage, typename TOutputImage>
 typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
   ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::m_ValueZero =
-    NumericTraits<typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType>::ZeroValue();
+    typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType{};
 
 template <typename TInputImage, typename TOutputImage>
 typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
@@ -1067,7 +1067,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
 {
-  m_TimeStep = NumericTraits<TimeStepType>::ZeroValue();
+  m_TimeStep = TimeStepType{};
 
   MultiThreaderBase * mt = this->GetMultiThreader();
   mt->SetNumberOfWorkUnits(m_NumOfWorkUnits);
@@ -1300,7 +1300,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
     // neighborhood.  This is used by some level set functions in sampling a
     // speed, advection, or curvature term.
     if (this->m_InterpolateSurfaceLocation &&
-        Math::NotExactlyEquals((centerValue = outputIt.GetCenterPixel()), NumericTraits<ValueType>::ZeroValue()))
+        Math::NotExactlyEquals((centerValue = outputIt.GetCenterPixel()), ValueType{}))
     {
       // Surface is at the zero crossing, so distance to surface is:
       // phi(x) / norm(grad(phi)), where phi(x) is the center of the

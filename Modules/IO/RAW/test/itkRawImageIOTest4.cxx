@@ -172,7 +172,7 @@ itkRawImageIOTest4(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  value = itk::NumericTraits<PixelType>::ZeroValue();
+  value = PixelType{};
   for (unsigned int i = 0; i < numberOfPixels; ++i)
   {
     PixelType swappedValue = value;

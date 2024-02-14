@@ -79,7 +79,7 @@ protected:
     this->m_TopologicalChange = true;
     this->m_SizeCriterion = true;
     this->m_NumberOfElements = 0;
-    this->m_MeasureBound = itk::NumericTraits<MeasureType>::ZeroValue();
+    this->m_MeasureBound = MeasureType{};
   }
 
   ~QuadEdgeMeshDecimationCriterion() override = default;

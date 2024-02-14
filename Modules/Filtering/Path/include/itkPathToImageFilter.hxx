@@ -40,7 +40,7 @@ PathToImageFilter<TInputPath, TOutputImage>::PathToImageFilter()
   }
 
   m_PathValue = NumericTraits<ValueType>::OneValue();
-  m_BackgroundValue = NumericTraits<ValueType>::ZeroValue();
+  m_BackgroundValue = ValueType{};
 }
 
 /** Set the Input SpatialObject */

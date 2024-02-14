@@ -60,7 +60,7 @@ public:
   itkSetMacro(Value, typename TOutputImage::PixelType);
 
 protected:
-  DemoImageSource() { m_Value = NumericTraits<typename TOutputImage::PixelType>::ZeroValue(); }
+  DemoImageSource() { m_Value = typename TOutputImage::PixelType{}; }
   ~DemoImageSource() override = default;
 
   /** Does the real work. */

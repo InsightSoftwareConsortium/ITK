@@ -65,18 +65,17 @@ itkTimeProbeTest(int, char *[])
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
   }
-  if (localTimer.GetNumberOfStops() != itk::NumericTraits<itk::TimeProbe::CountType>::ZeroValue())
+  if (localTimer.GetNumberOfStops() != itk::TimeProbe::CountType{})
   {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
   }
-  if (itk::Math::NotExactlyEquals(localTimer.GetTotal(),
-                                  itk::NumericTraits<itk::TimeProbe::TimeStampType>::ZeroValue()))
+  if (itk::Math::NotExactlyEquals(localTimer.GetTotal(), itk::TimeProbe::TimeStampType{}))
   {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;
   }
-  if (itk::Math::NotExactlyEquals(localTimer.GetMean(), itk::NumericTraits<itk::TimeProbe::TimeStampType>::ZeroValue()))
+  if (itk::Math::NotExactlyEquals(localTimer.GetMean(), itk::TimeProbe::TimeStampType{}))
   {
     std::cerr << "Reset() failure" << std::endl;
     return EXIT_FAILURE;

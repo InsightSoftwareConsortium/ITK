@@ -139,14 +139,14 @@ public:
       , ForwardGradient("ForwardGradient")
       , BackwardGradient("BackwardGradient")
     {
-      Value.m_Value = NumericTraits<OutputType>::ZeroValue();
-      Gradient.m_Value.Fill(NumericTraits<OutputRealType>::ZeroValue());
-      Hessian.m_Value.Fill(NumericTraits<OutputRealType>::ZeroValue());
-      Laplacian.m_Value = NumericTraits<OutputRealType>::ZeroValue();
-      GradientNorm.m_Value = NumericTraits<OutputRealType>::ZeroValue();
-      MeanCurvature.m_Value = NumericTraits<OutputRealType>::ZeroValue();
-      ForwardGradient.m_Value.Fill(NumericTraits<OutputRealType>::ZeroValue());
-      BackwardGradient.m_Value.Fill(NumericTraits<OutputRealType>::ZeroValue());
+      Value.m_Value = OutputType{};
+      Gradient.m_Value.Fill(OutputRealType{});
+      Hessian.m_Value.Fill(OutputRealType{});
+      Laplacian.m_Value = OutputRealType{};
+      GradientNorm.m_Value = OutputRealType{};
+      MeanCurvature.m_Value = OutputRealType{};
+      ForwardGradient.m_Value.Fill(OutputRealType{});
+      BackwardGradient.m_Value.Fill(OutputRealType{});
     }
 
     LevelSetDataType(const LevelSetDataType & iData)

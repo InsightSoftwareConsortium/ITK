@@ -46,7 +46,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::BSplineDecomposition
     m_Scratch[i] = 0;
   }
 
-  m_DataLength.Fill(itk::NumericTraits<typename TInputImage::SizeType::SizeValueType>::ZeroValue());
+  m_DataLength.Fill(typename TInputImage::SizeType::SizeValueType{});
 }
 
 template <typename TInputImage, typename TOutputImage>

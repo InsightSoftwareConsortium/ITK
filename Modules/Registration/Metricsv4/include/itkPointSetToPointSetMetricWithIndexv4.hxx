@@ -259,7 +259,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   {
     derivative.SetSize(PointDimension * this->m_FixedTransformedPointSet->GetNumberOfPoints());
   }
-  derivative.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+  derivative.Fill(DerivativeValueType{});
 
   /*
    * Split pointset in nWorkUnits ranges and sum individually
@@ -288,7 +288,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
       MovingTransformJacobianType jacobianCache;
 
       DerivativeType threadLocalTransformDerivative(numberOfLocalParameters);
-      threadLocalTransformDerivative.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+      threadLocalTransformDerivative.Fill(DerivativeValueType{});
 
       CompensatedDerivative threadDerivativeSum(numberOfLocalParameters);
 
@@ -330,7 +330,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
         }
 
         // Map into parameter space
-        threadLocalTransformDerivative.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+        threadLocalTransformDerivative.Fill(DerivativeValueType{});
 
         if (this->m_CalculateValueAndDerivativeInTangentSpace)
         {

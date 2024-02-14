@@ -35,7 +35,7 @@ Histogram<TMeasurement, TFrequencyContainer>::Histogram()
 {
   for (unsigned int i = 0; i < this->GetMeasurementVectorSize() + 1; ++i)
   {
-    this->m_OffsetTable[i] = itk::NumericTraits<InstanceIdentifier>::ZeroValue();
+    this->m_OffsetTable[i] = InstanceIdentifier{};
   }
 }
 
@@ -45,7 +45,7 @@ Histogram<TMeasurement, TFrequencyContainer>::Size() const -> InstanceIdentifier
 {
   if (this->GetMeasurementVectorSize() == 0)
   {
-    return itk::NumericTraits<InstanceIdentifier>::ZeroValue();
+    return InstanceIdentifier{};
   }
   InstanceIdentifier size = 1;
   for (unsigned int i = 0; i < this->GetMeasurementVectorSize(); ++i)

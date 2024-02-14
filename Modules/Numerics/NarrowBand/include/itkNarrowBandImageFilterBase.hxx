@@ -85,7 +85,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::GenerateData()
   wui.ThreadFunction = nullptr;
 
   TimeStepType              timeStep;
-  std::vector<TimeStepType> timeStepList(numberOfWorkUnits, NumericTraits<TimeStepType>::ZeroValue());
+  std::vector<TimeStepType> timeStepList(numberOfWorkUnits, TimeStepType{});
   BooleanStdVectorType      validTimeStepList(numberOfWorkUnits, true);
 
   // Implement iterative loop in thread function

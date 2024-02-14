@@ -68,7 +68,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   spacing.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
 
   typename TImage::PointType origin;
-  origin.Fill(itk::NumericTraits<CoordinateRepresentationType>::ZeroValue());
+  origin.Fill(CoordinateRepresentationType{});
 
   typename TImage::DirectionType direction;
   direction.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
@@ -91,7 +91,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
     {
       if (it.GetIndex()[n] < boundary || (static_cast<itk::OffsetValueType>(size[n]) - it.GetIndex()[n]) <= boundary)
       {
-        it.Set(itk::NumericTraits<PixelType>::ZeroValue());
+        it.Set(PixelType{});
         break;
       }
     }

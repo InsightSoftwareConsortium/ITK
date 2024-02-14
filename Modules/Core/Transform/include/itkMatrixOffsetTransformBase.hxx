@@ -97,9 +97,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 {
   m_Matrix.SetIdentity();
   m_MatrixMTime.Modified();
-  m_Offset.Fill(NumericTraits<OutputVectorValueType>::ZeroValue());
-  m_Translation.Fill(NumericTraits<OutputVectorValueType>::ZeroValue());
-  m_Center.Fill(NumericTraits<InputPointValueType>::ZeroValue());
+  m_Offset.Fill(OutputVectorValueType{});
+  m_Translation.Fill(OutputVectorValueType{});
+  m_Center.Fill(InputPointValueType{});
   m_Singular = false;
   m_InverseMatrix.SetIdentity();
   m_InverseMatrixMTime = m_MatrixMTime;
@@ -206,7 +206,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
   for (unsigned int i = 0; i < VOutputDimension; ++i)
   {
-    result[i] = NumericTraits<ScalarType>::ZeroValue();
+    result[i] = ScalarType{};
     for (unsigned int j = 0; j < VInputDimension; ++j)
     {
       result[i] += inverseMatrix[j][i] * vec[j]; // Inverse transposed

@@ -57,14 +57,14 @@ public:
   void
   GetDerivative(DerivativeType & derivative) const override
   {
-    derivative.Fill(itk::NumericTraits<ParametersValueType>::ZeroValue());
+    derivative.Fill(ParametersValueType{});
   }
 
   void
   GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
   {
     value = itk::NumericTraits<MeasureType>::OneValue();
-    derivative.Fill(itk::NumericTraits<ParametersValueType>::ZeroValue());
+    derivative.Fill(ParametersValueType{});
   }
 
   unsigned int

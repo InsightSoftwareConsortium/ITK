@@ -289,7 +289,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   {
     derivativeResult.SetSize(this->GetNumberOfParameters());
   }
-  derivativeResult.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
+  derivativeResult.Fill(DerivativeValueType{});
 
   DerivativeType metricDerivative;
   MeasureType    metricValue{};

@@ -39,8 +39,7 @@ ImageMaskSpatialObject<TDimension, TPixel>::IsInsideInObjectSpace(const PointTyp
 
   const IndexType index = image->TransformPhysicalPointToIndex(point);
 
-  return Superclass::GetBufferedRegion().IsInside(index) &&
-         Math::NotExactlyEquals(image->GetPixel(index), NumericTraits<PixelType>::ZeroValue());
+  return Superclass::GetBufferedRegion().IsInside(index) && Math::NotExactlyEquals(image->GetPixel(index), PixelType{});
 }
 
 
@@ -143,7 +142,7 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() c
   const auto HasForegroundPixels = [&image](const RegionType & region) {
     for (const PixelType pixelValue : ImageRegionRange{ image, region })
     {
-      constexpr auto zeroValue = NumericTraits<PixelType>::ZeroValue();
+      constexpr auto zeroValue = PixelType{};
 
       if (pixelValue != zeroValue)
       {

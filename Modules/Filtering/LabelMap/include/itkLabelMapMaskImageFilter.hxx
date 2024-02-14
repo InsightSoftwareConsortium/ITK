@@ -30,7 +30,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 LabelMapMaskImageFilter<TInputImage, TOutputImage>::LabelMapMaskImageFilter()
   : m_Label(NumericTraits<InputImagePixelType>::OneValue())
-  , m_BackgroundValue(NumericTraits<OutputImagePixelType>::ZeroValue())
+  , m_BackgroundValue(OutputImagePixelType{})
 
 {
   this->SetNumberOfRequiredInputs(2);

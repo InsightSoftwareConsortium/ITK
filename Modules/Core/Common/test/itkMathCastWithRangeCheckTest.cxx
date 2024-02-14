@@ -84,7 +84,7 @@ DoCastWithRangeCheckTest(const T1 * = nullptr, const T2 * = nullptr)
   bool pass = true;
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>(itk::NumericTraits<T2>::NonpositiveMin());
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>(itk::NumericTraits<T2>::max());
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>(itk::NumericTraits<T2>::ZeroValue());
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>(T2{});
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>(itk::NumericTraits<T2>::OneValue());
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>(static_cast<T2>(itk::NumericTraits<T2>::OneValue() * minus_one));
 

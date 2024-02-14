@@ -44,7 +44,7 @@ BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const Neigh
   {
     // if structuring element is positive, use the pixel under that element
     // in the image
-    if (*kernel_it > NumericTraits<KernelPixelType>::ZeroValue())
+    if (*kernel_it > KernelPixelType{})
     {
       // note we use GetPixel() on the SmartNeighborhoodIterator to
       // respect boundary conditions

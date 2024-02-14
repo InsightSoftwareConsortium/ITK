@@ -44,8 +44,8 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   image1->Allocate();
   image2->Allocate();
 
-  image1->FillBuffer(itk::NumericTraits<Pixel1Type>::ZeroValue());
-  image2->FillBuffer(itk::NumericTraits<Pixel2Type>::ZeroValue());
+  image1->FillBuffer(Pixel1Type{});
+  image2->FillBuffer(Pixel2Type{});
 
   using RegionType = Image1Type::RegionType;
   RegionType region1;

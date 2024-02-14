@@ -155,7 +155,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ComputeMyBoundingB
   if (it == end)
   {
     typename BoundingBoxType::PointType pnt;
-    pnt.Fill(NumericTraits<typename BoundingBoxType::PointType::ValueType>::ZeroValue());
+    pnt.Fill(typename BoundingBoxType::PointType::ValueType{});
     this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt);
     this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
     return;

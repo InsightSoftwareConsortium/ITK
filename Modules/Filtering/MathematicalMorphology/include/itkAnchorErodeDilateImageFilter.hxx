@@ -24,7 +24,7 @@ namespace itk
 {
 template <typename TImage, typename TKernel, typename TFunction1>
 AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1>::AnchorErodeDilateImageFilter()
-  : m_Boundary(NumericTraits<InputImagePixelType>::ZeroValue())
+  : m_Boundary(InputImagePixelType{})
 {
   this->DynamicMultiThreadingOn();
 }

@@ -64,7 +64,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
 
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
   {
-    if (It.Get() != itk::NumericTraits<PixelType>::ZeroValue())
+    if (It.Get() != PixelType{})
     {
       // We extract both the 2-D location of the point
       // and the pixel value of that point.

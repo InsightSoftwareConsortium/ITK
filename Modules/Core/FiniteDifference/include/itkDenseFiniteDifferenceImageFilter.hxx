@@ -125,7 +125,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CalculateChange() -
   DenseFDThreadStruct str;
 
   str.Filter = this;
-  str.TimeStep = NumericTraits<TimeStepType>::ZeroValue(); // Not used during the
+  str.TimeStep = TimeStepType{}; // Not used during the
   // calculate change step.
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->SetSingleMethod(this->CalculateChangeThreaderCallback, &str);
@@ -136,7 +136,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CalculateChange() -
   ThreadIdType workUnitCount = this->GetMultiThreader()->GetNumberOfWorkUnits();
 
   str.TimeStepList.clear();
-  str.TimeStepList.resize(workUnitCount, NumericTraits<TimeStepType>::ZeroValue());
+  str.TimeStepList.resize(workUnitCount, TimeStepType{});
 
   str.ValidTimeStepList.clear();
   str.ValidTimeStepList.resize(workUnitCount, false);

@@ -36,7 +36,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::QuasiNewtonOptimi
   // rate estimation. it may be initialized either by calling
   // SetMaximumNewtonStepSizeInPhysicalUnits manually or by using m_ScalesEstimator
   // automatically. and the former has higher priority than the latter.
-  this->m_MaximumNewtonStepSizeInPhysicalUnits = NumericTraits<TInternalComputationValueType>::ZeroValue();
+  this->m_MaximumNewtonStepSizeInPhysicalUnits = TInternalComputationValueType{};
 
   /** Threader for Quasi-Newton method */
   using OptimizerType = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>;
@@ -259,7 +259,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ResetNewtonStep(I
   const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
 
   // Initialize Hessian to identity matrix
-  m_HessianArray[loc].Fill(NumericTraits<TInternalComputationValueType>::ZeroValue());
+  m_HessianArray[loc].Fill(TInternalComputationValueType{});
 
   for (unsigned int i = 0; i < numLocalPara; ++i)
   {
@@ -271,7 +271,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ResetNewtonStep(I
   {
     // Set to zero for invalid Newton steps.
     // They must be defined since they will be used during step scale estimation.
-    this->m_NewtonStep[offset + p] = NumericTraits<TInternalComputationValueType>::ZeroValue();
+    this->m_NewtonStep[offset + p] = TInternalComputationValueType{};
   }
 }
 

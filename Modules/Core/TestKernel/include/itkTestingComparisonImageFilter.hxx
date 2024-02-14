@@ -33,7 +33,7 @@ template <typename TInputImage, typename TOutputImage>
 ComparisonImageFilter<TInputImage, TOutputImage>::ComparisonImageFilter()
 {
   // Set the default DifferenceThreshold.
-  m_DifferenceThreshold = NumericTraits<OutputPixelType>::ZeroValue();
+  m_DifferenceThreshold = OutputPixelType{};
 
   // Set the default ToleranceRadius.
   m_ToleranceRadius = 0;
@@ -41,8 +41,8 @@ ComparisonImageFilter<TInputImage, TOutputImage>::ComparisonImageFilter()
   // Initialize statistics about difference image.
   m_MinimumDifference = NumericTraits<OutputPixelType>::max();
   m_MaximumDifference = NumericTraits<OutputPixelType>::NonpositiveMin();
-  m_MeanDifference = NumericTraits<RealType>::ZeroValue();
-  m_TotalDifference = NumericTraits<AccumulateType>::ZeroValue();
+  m_MeanDifference = RealType{};
+  m_TotalDifference = AccumulateType{};
   m_NumberOfPixelsWithDifferences = 0;
   m_IgnoreBoundaryPixels = false;
   m_VerifyInputInformation = true;
@@ -82,8 +82,8 @@ ComparisonImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   // Initialize statistics about difference image.
   m_MinimumDifference = NumericTraits<OutputPixelType>::max();
   m_MaximumDifference = NumericTraits<OutputPixelType>::NonpositiveMin();
-  m_MeanDifference = NumericTraits<RealType>::ZeroValue();
-  m_TotalDifference = NumericTraits<AccumulateType>::ZeroValue();
+  m_MeanDifference = RealType{};
+  m_TotalDifference = AccumulateType{};
   m_NumberOfPixelsWithDifferences = 0;
 
   // Resize the thread temporaries
@@ -95,7 +95,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   // Initialize the temporaries
   m_ThreadMinimumDifference.Fill(NumericTraits<OutputPixelType>::max());
   m_ThreadMaximumDifference.Fill(NumericTraits<OutputPixelType>::NonpositiveMin());
-  m_ThreadDifferenceSum.Fill(NumericTraits<AccumulateType>::ZeroValue());
+  m_ThreadDifferenceSum.Fill(AccumulateType{});
   m_ThreadNumberOfPixels.Fill(0);
 }
 
@@ -215,7 +215,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(const Out
         else
         {
           // Difference is below threshold.
-          out.Set(NumericTraits<OutputPixelType>::ZeroValue());
+          out.Set(OutputPixelType{});
         }
 
         // Update progress.
@@ -226,7 +226,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(const Out
     {
       for (out.GoToBegin(); !out.IsAtEnd(); ++out)
       {
-        out.Set(NumericTraits<OutputPixelType>::ZeroValue());
+        out.Set(OutputPixelType{});
         progress.CompletedPixel();
       }
     }

@@ -115,7 +115,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   }
   else
   {
-    measure = NumericTraits<MeasureType>::ZeroValue();
+    measure = MeasureType{};
   }
 
   return measure;
@@ -161,13 +161,13 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
+  derivative.Fill(typename DerivativeType::ValueType{});
 
   DerivativeType derivativeF(ParametersDimension);
-  derivativeF.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
+  derivativeF.Fill(typename DerivativeType::ValueType{});
 
   DerivativeType derivativeM(ParametersDimension);
-  derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
+  derivativeM.Fill(typename DerivativeType::ValueType{});
 
   ti.GoToBegin();
   // First compute the sums
@@ -298,7 +298,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
   {
     for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
-      derivative[i] = NumericTraits<MeasureType>::ZeroValue();
+      derivative[i] = MeasureType{};
     }
   }
 }
@@ -344,16 +344,16 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
+  derivative.Fill(typename DerivativeType::ValueType{});
 
   DerivativeType derivativeF(ParametersDimension);
-  derivativeF.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
+  derivativeF.Fill(typename DerivativeType::ValueType{});
 
   DerivativeType derivativeM(ParametersDimension);
-  derivativeM.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
+  derivativeM.Fill(typename DerivativeType::ValueType{});
 
   DerivativeType derivativeM1(ParametersDimension);
-  derivativeM1.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
+  derivativeM1.Fill(typename DerivativeType::ValueType{});
 
   ti.GoToBegin();
   // First compute the sums
@@ -483,9 +483,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
   {
     for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
-      derivative[i] = NumericTraits<MeasureType>::ZeroValue();
+      derivative[i] = MeasureType{};
     }
-    value = NumericTraits<MeasureType>::ZeroValue();
+    value = MeasureType{};
   }
 }
 

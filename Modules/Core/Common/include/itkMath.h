@@ -577,9 +577,7 @@ struct AlmostEqualsScalarVsComplex
   static bool
   AlmostEqualsFunction(TScalarType scalarVariable, TComplexType complexVariable)
   {
-    if (!AlmostEqualsScalarComparer(
-          complexVariable.imag(),
-          itk::NumericTraits<typename itk::NumericTraits<TComplexType>::ValueType>::ZeroValue()))
+    if (!AlmostEqualsScalarComparer(complexVariable.imag(), typename itk::NumericTraits<TComplexType>::ValueType{}))
     {
       return false;
     }

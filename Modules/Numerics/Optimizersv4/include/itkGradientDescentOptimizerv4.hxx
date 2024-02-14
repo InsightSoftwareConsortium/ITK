@@ -30,7 +30,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::GradientDesce
   , m_CurrentBestValue(NumericTraits<MeasureType>::max())
 
 {
-  this->m_PreviousGradient.Fill(NumericTraits<TInternalComputationValueType>::ZeroValue());
+  this->m_PreviousGradient.Fill(TInternalComputationValueType{});
 }
 
 template <typename TInternalComputationValueType>

@@ -91,7 +91,7 @@ public:
   {
     Self b(a.Size());
 
-    b.Fill(NumericTraits<T>::ZeroValue());
+    b.Fill(T{});
     return b;
   }
 
@@ -121,7 +121,7 @@ public:
   SetLength(Array<T> & m, const unsigned int s)
   {
     m.SetSize(s);
-    m.Fill(NumericTraits<T>::ZeroValue());
+    m.Fill(T{});
   }
 
   /** Get the length of the input array. */

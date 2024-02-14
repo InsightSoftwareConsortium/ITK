@@ -33,8 +33,8 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::FastMarchi
   , m_AlivePoints(nullptr)
   , m_TrialPoints(nullptr)
   , m_ForbiddenPoints(nullptr)
-  , m_AliveValue(NumericTraits<OutputPixelType>::ZeroValue())
-  , m_TrialValue(NumericTraits<OutputPixelType>::ZeroValue())
+  , m_AliveValue(OutputPixelType{})
+  , m_TrialValue(OutputPixelType{})
 
 {}
 
@@ -107,7 +107,7 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GenerateDa
 
   if (m_ForbiddenImage.IsNotNull())
   {
-    SetPointsFromImage(m_ForbiddenImage, Traits::Forbidden, NumericTraits<OutputPixelType>::ZeroValue());
+    SetPointsFromImage(m_ForbiddenImage, Traits::Forbidden, OutputPixelType{});
     is_ok = true;
   }
 
@@ -138,7 +138,7 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::SetPointsF
       for (it.GoToBegin(); !it.IsAtEnd(); ++it)
       {
         // Test if index value is greater than zero, if so add the node
-        if (Math::NotAlmostEquals(it.Get(), NumericTraits<ImagePixelType>::ZeroValue()))
+        if (Math::NotAlmostEquals(it.Get(), ImagePixelType{}))
         {
           nodes->push_back(NodePairType(it.GetIndex(), iValue));
         } // end if image iterator > zero
@@ -149,7 +149,7 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::SetPointsF
       for (it.GoToBegin(); !it.IsAtEnd(); ++it)
       {
         // Test if index value is greater than zero, if so add the node
-        if (Math::AlmostEquals(it.Get(), NumericTraits<ImagePixelType>::ZeroValue()))
+        if (Math::AlmostEquals(it.Get(), ImagePixelType{}))
         {
           nodes->push_back(NodePairType(it.GetIndex(), iValue));
         } // end if image iterator > zero

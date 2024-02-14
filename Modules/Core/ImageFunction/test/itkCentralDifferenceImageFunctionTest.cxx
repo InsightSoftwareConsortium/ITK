@@ -114,7 +114,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   {
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
   }
-  if (itk::Math::NotExactlyEquals(indexOutput[0], itk::NumericTraits<OutputValueType>::ZeroValue()))
+  if (itk::Math::NotExactlyEquals(indexOutput[0], OutputValueType{}))
   {
     std::cout << "ERROR: Index: " << index << " - expected result dim 0 to have value 0. " << std::endl;
     result = EXIT_FAILURE;
@@ -157,7 +157,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   {
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
   }
-  if (itk::Math::NotExactlyEquals(indexOutput[1], itk::NumericTraits<OutputValueType>::ZeroValue()))
+  if (itk::Math::NotExactlyEquals(indexOutput[1], OutputValueType{}))
   {
     std::cout << "ERROR: Index: " << index << " - expected result dim 1 to have value 0. " << std::endl;
     result = EXIT_FAILURE;

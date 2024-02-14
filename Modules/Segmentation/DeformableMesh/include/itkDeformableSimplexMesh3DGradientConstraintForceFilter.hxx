@@ -248,9 +248,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
     vpos[1] = ic[1];
     vpos[2] = ic[2];
 
-    if (Math::AlmostEquals(
-          data->normal[0],
-          itk::NumericTraits<itk::NumericTraits<SimplexMeshGeometry::CovariantVectorType>::ValueType>::ZeroValue()))
+    if (Math::AlmostEquals(data->normal[0], itk::NumericTraits<SimplexMeshGeometry::CovariantVectorType>::ValueType{}))
     {
       dp[0] = 1e-6;
     }
@@ -259,9 +257,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
       dp[0] = data->normal[0];
     }
 
-    if (Math::AlmostEquals(
-          data->normal[1],
-          itk::NumericTraits<itk::NumericTraits<SimplexMeshGeometry::CovariantVectorType>::ValueType>::ZeroValue()))
+    if (Math::AlmostEquals(data->normal[1], itk::NumericTraits<SimplexMeshGeometry::CovariantVectorType>::ValueType{}))
     {
       dp[1] = 1e-6;
     }
@@ -270,9 +266,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
       dp[1] = data->normal[1];
     }
 
-    if (Math::AlmostEquals(
-          data->normal[2],
-          itk::NumericTraits<itk::NumericTraits<SimplexMeshGeometry::CovariantVectorType>::ValueType>::ZeroValue()))
+    if (Math::AlmostEquals(data->normal[2], itk::NumericTraits<SimplexMeshGeometry::CovariantVectorType>::ValueType{}))
     {
       dp[2] = 1e-6;
     }

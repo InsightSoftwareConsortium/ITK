@@ -34,7 +34,7 @@ ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, VDimension>::Co
                                                                                        GMatrixType & gmatrix) const
 {
   const TParametersValueType r = x.GetNorm();
-  const TParametersValueType factor = (r > 1e-8) ? (-1.0 / r) : NumericTraits<TParametersValueType>::ZeroValue();
+  const TParametersValueType factor = (r > 1e-8) ? (-1.0 / r) : TParametersValueType{};
   const TParametersValueType radial = m_Alpha * r;
 
   for (unsigned int i = 0; i < VDimension; ++i)

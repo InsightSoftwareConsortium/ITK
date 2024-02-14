@@ -363,7 +363,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
     using KernelPadType = ConstantPadImageFilter<InternalImageType, InternalImageType>;
     using KernelPadPointer = typename KernelPadType::Pointer;
     KernelPadPointer kernelPadder = KernelPadType::New();
-    kernelPadder->SetConstant(NumericTraits<TInternalPrecision>::ZeroValue());
+    kernelPadder->SetConstant(TInternalPrecision{});
     kernelPadder->SetPadUpperBound(kernelUpperBound);
     kernelPadder->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     kernelPadder->SetInput(normalizeFilter->GetOutput());
@@ -378,7 +378,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
     using KernelPadType = ConstantPadImageFilter<KernelImageType, InternalImageType>;
     using KernelPadPointer = typename KernelPadType::Pointer;
     KernelPadPointer kernelPadder = KernelPadType::New();
-    kernelPadder->SetConstant(NumericTraits<TInternalPrecision>::ZeroValue());
+    kernelPadder->SetConstant(TInternalPrecision{});
     kernelPadder->SetPadUpperBound(kernelUpperBound);
     kernelPadder->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     kernelPadder->SetInput(kernel);

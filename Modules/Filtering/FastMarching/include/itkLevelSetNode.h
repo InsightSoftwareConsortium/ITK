@@ -134,7 +134,7 @@ public:
 
   /** Default constructor */
   LevelSetNode()
-    : m_Value(NumericTraits<PixelType>::ZeroValue())
+    : m_Value(PixelType{})
   {
     m_Index.Fill(0);
   }

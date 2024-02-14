@@ -113,7 +113,7 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
   {
     if (queryIndex[dim] < static_cast<IndexValueType>(m_Radius[dim]))
     {
-      searchIndex[dim] = std::max(NumericTraits<IndexValueType>::ZeroValue(), constraintIndex[dim]);
+      searchIndex[dim] = std::max(IndexValueType{}, constraintIndex[dim]);
     }
     else
     {

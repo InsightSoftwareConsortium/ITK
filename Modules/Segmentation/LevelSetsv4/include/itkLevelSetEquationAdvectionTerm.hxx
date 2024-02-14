@@ -36,7 +36,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::LevelSetEquationAdvec
   this->m_TermName = "Advection term";
   this->m_RequiredData.insert("BackwardGradient");
   this->m_RequiredData.insert("ForwardGradient");
-  this->m_DerivativeSigma = NumericTraits<LevelSetOutputRealType>::ZeroValue();
+  this->m_DerivativeSigma = LevelSetOutputRealType{};
   this->m_AutoGenerateAdvectionImage = true;
 }
 
@@ -73,7 +73,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::GenerateAdvectionImag
 
   AdvectionImagePointer gradientImage;
 
-  if (Math::NotAlmostEquals(m_DerivativeSigma, NumericTraits<LevelSetOutputRealType>::ZeroValue()))
+  if (Math::NotAlmostEquals(m_DerivativeSigma, LevelSetOutputRealType{}))
   {
     using DerivativeFilterType = GradientRecursiveGaussianImageFilter<InputImageType, AdvectionImageType>;
 
@@ -159,7 +159,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
   {
     LevelSetOutputRealType component = advectionField[dim];
 
-    if (component > NumericTraits<LevelSetOutputRealType>::ZeroValue())
+    if (component > LevelSetOutputRealType{})
     {
       oValue += component * backwardGradient[dim];
     }
@@ -185,7 +185,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
   {
     LevelSetOutputRealType component = advectionField[dim];
 
-    if (component > NumericTraits<LevelSetOutputRealType>::ZeroValue())
+    if (component > LevelSetOutputRealType{})
     {
       oValue += component * iData.BackwardGradient.m_Value[dim];
     }

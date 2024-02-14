@@ -66,7 +66,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
       switch (cnt % 4)
       {
         case 0:
-          i.Set(itk::NumericTraits<PixelType>::ZeroValue());
+          i.Set(PixelType{});
           break;
         case 1:
           i.Set(itk::NumericTraits<PixelType>::OneValue());
@@ -228,7 +228,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
       switch (cnt % 4)
       {
         case 0:
-          if (itk::Math::NotExactlyEquals(iter.Get(), itk::NumericTraits<PixelType>::ZeroValue()))
+          if (itk::Math::NotExactlyEquals(iter.Get(), PixelType{}))
           {
             pixelsGood = false;
           }

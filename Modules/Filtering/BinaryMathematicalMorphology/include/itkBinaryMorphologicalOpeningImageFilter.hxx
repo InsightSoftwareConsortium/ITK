@@ -37,7 +37,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::BinaryMorphologicalOpeningImageFilter()
 {
   m_ForegroundValue = NumericTraits<PixelType>::max();
-  m_BackgroundValue = NumericTraits<PixelType>::ZeroValue();
+  m_BackgroundValue = PixelType{};
 }
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>

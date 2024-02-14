@@ -352,7 +352,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   }
   else
   {
-    if (Math::NotAlmostEquals(principalMoments[0], itk::NumericTraits<typename VectorType::ValueType>::ZeroValue()))
+    if (Math::NotAlmostEquals(principalMoments[0], typename VectorType::ValueType{}))
     {
       const double flatnessRatio = principalMoments[1] / principalMoments[0];
       flatness = 0.0;
@@ -361,8 +361,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
         flatness = std::sqrt(flatnessRatio);
       }
     }
-    if (Math::NotAlmostEquals(principalMoments[ImageDimension - 2],
-                              itk::NumericTraits<typename VectorType::ValueType>::ZeroValue()))
+    if (Math::NotAlmostEquals(principalMoments[ImageDimension - 2], typename VectorType::ValueType{}))
     {
       const double elongationRatio = principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2];
       elongation = 0.0;

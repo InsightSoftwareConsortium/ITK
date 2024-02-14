@@ -29,8 +29,8 @@ namespace itk
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::HistogramThresholdImageFilter()
   : m_InsideValue(NumericTraits<OutputPixelType>::max())
-  , m_OutsideValue(NumericTraits<OutputPixelType>::ZeroValue())
-  , m_Threshold(NumericTraits<InputPixelType>::ZeroValue())
+  , m_OutsideValue(OutputPixelType{})
+  , m_Threshold(InputPixelType{})
   , m_MaskValue(NumericTraits<MaskPixelType>::max())
 
 {

@@ -145,7 +145,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
   {
     updateDerivative.Fill(0);
     MeasureType value{};
-    this->m_CurrentMetricValue = NumericTraits<MeasureType>::ZeroValue();
+    this->m_CurrentMetricValue = MeasureType{};
 
     // Time index zero brings the moving image closest to the fixed image
     for (IndexValueType timePoint = 0; timePoint < numberOfTimePoints; ++timePoint)
@@ -264,7 +264,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
       }
       this->m_Metric->Initialize();
 
-      metricDerivative.Fill(NumericTraits<typename MetricDerivativeType::ValueType>::ZeroValue());
+      metricDerivative.Fill(typename MetricDerivativeType::ValueType{});
       this->m_Metric->GetValueAndDerivative(value, metricDerivative);
 
       // Ensure that the size of the optimizer weights is the same as the

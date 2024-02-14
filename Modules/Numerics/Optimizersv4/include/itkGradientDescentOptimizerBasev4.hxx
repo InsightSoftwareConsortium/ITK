@@ -43,7 +43,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GradientD
   this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
 
-  this->m_MaximumStepSizeInPhysicalUnits = NumericTraits<TInternalComputationValueType>::ZeroValue();
+  this->m_MaximumStepSizeInPhysicalUnits = TInternalComputationValueType{};
 
   this->m_UseConvergenceMonitoring = true;
   this->m_ConvergenceWindowSize = 50;

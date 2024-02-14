@@ -83,10 +83,10 @@ itkMorphologicalWatershedImageFilterTest(int argc, char * argv[])
   using RescaleType = itk::IntensityWindowingImageFilter<ImageType, ImageType>;
   auto rescaler = RescaleType::New();
   rescaler->SetInput(filter->GetOutput());
-  rescaler->SetWindowMinimum(itk::NumericTraits<PixelType>::ZeroValue());
+  rescaler->SetWindowMinimum(PixelType{});
   rescaler->SetWindowMaximum(minMaxCalculator->GetMaximum());
   rescaler->SetOutputMaximum(itk::NumericTraits<PixelType>::max());
-  rescaler->SetOutputMinimum(itk::NumericTraits<PixelType>::ZeroValue());
+  rescaler->SetOutputMinimum(PixelType{});
 
   // Write output image
   using WriterType = itk::ImageFileWriter<ImageType>;

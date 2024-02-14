@@ -63,7 +63,7 @@ public:
   LogicOpBase()
   {
     m_ForegroundValue = itk::NumericTraits<TOutput>::OneValue();
-    m_BackgroundValue = itk::NumericTraits<TOutput>::ZeroValue();
+    m_BackgroundValue = TOutput{};
   }
 
   ~LogicOpBase() = default;

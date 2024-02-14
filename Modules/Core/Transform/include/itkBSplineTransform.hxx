@@ -543,7 +543,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint
     constexpr auto   supportSize = SizeType::Filled(SplineOrder + 1);
     const RegionType supportRegion(supportIndex, supportSize);
 
-    outputPoint.Fill(NumericTraits<ScalarType>::ZeroValue());
+    outputPoint.Fill(ScalarType{});
 
     using IteratorType = ImageScanlineConstIterator<ImageType>;
     IteratorType                coeffIterator[SpaceDimension];

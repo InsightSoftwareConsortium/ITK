@@ -145,7 +145,7 @@ public:
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if (itk::Math::NotAlmostEquals(B, NumericTraits<TInput2>::ZeroValue()))
+    if (itk::Math::NotAlmostEquals(B, TInput2{}))
     {
       return (TOutput)(A / B);
     }
@@ -169,7 +169,7 @@ public:
   DivideOrZeroOut()
   {
     m_Threshold = 1e-5 * NumericTraits<TDenominator>::OneValue();
-    m_Constant = NumericTraits<TOutput>::ZeroValue();
+    m_Constant = TOutput{};
   };
 
   ~DivideOrZeroOut() = default;
@@ -218,7 +218,7 @@ public:
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
-    if (B != NumericTraits<TInput2>::ZeroValue())
+    if (B != TInput2{})
     {
       return static_cast<TOutput>(A % B);
     }

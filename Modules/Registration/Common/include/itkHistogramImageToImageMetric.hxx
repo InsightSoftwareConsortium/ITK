@@ -33,7 +33,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::HistogramImageToImageMet
   m_DerivativeStepLength = 0.1;
   m_DerivativeStepLengthScales.Fill(1);
   m_UpperBoundIncreaseFactor = 0.001;
-  m_PaddingValue = NumericTraits<FixedImagePixelType>::ZeroValue();
+  m_PaddingValue = FixedImagePixelType{};
   m_Histogram = HistogramType::New();
   m_Histogram->SetMeasurementVectorSize(2);
   m_LowerBoundSetByUser = false;
@@ -194,7 +194,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const Tran
 
   // Calculate gradient.
   derivative = DerivativeType(ParametersDimension);
-  derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
+  derivative.Fill(typename DerivativeType::ValueType{});
 
   auto pHistogram = HistogramType::New();
   pHistogram->SetMeasurementVectorSize(2);

@@ -70,7 +70,7 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeightingFun
 
   MatrixType output = decoratedOutput->Get();
   output.SetSize(measurementVectorSize, measurementVectorSize);
-  output.Fill(NumericTraits<typename MatrixType::ValueType>::ZeroValue());
+  output.Fill(typename MatrixType::ValueType{});
 
   auto * decoratedMeanOutput =
     itkDynamicCastInDebugMode<MeasurementVectorDecoratedType *>(this->ProcessObject::GetOutput(1));
@@ -167,7 +167,7 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeights()
 
   MatrixType output = decoratedOutput->Get();
   output.SetSize(measurementVectorSize, measurementVectorSize);
-  output.Fill(NumericTraits<typename MatrixType::ValueType>::ZeroValue());
+  output.Fill(typename MatrixType::ValueType{});
 
   auto * decoratedMeanOutput =
     itkDynamicCastInDebugMode<MeasurementVectorDecoratedType *>(this->ProcessObject::GetOutput(1));

@@ -41,7 +41,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ContourDirec
 
   m_UseImageSpacing = true;
   m_DistanceMap = nullptr;
-  m_ContourDirectedMeanDistance = NumericTraits<RealType>::ZeroValue();
+  m_ContourDirectedMeanDistance = RealType{};
   this->DynamicMultiThreadingOff();
 }
 
@@ -124,7 +124,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::BeforeThread
   m_Count.SetSize(numberOfWorkUnits);
 
   // Initialize the temporaries
-  m_MeanDistance.Fill(NumericTraits<RealType>::ZeroValue());
+  m_MeanDistance.Fill(RealType{});
   m_Count.Fill(0);
 
   // Compute Signed distance from non-zero pixels in the second image
@@ -161,7 +161,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreade
   }
   else
   {
-    m_ContourDirectedMeanDistance = NumericTraits<RealType>::ZeroValue();
+    m_ContourDirectedMeanDistance = RealType{};
   }
 }
 
@@ -204,7 +204,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
     {
       // First test
       // If current pixel is not on, let's continue
-      if (Math::NotExactlyEquals(bit.GetCenterPixel(), NumericTraits<InputImage1PixelType>::ZeroValue()))
+      if (Math::NotExactlyEquals(bit.GetCenterPixel(), InputImage1PixelType{}))
       {
         bool bIsOnContour = false;
 
@@ -212,7 +212,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
         {
           // Second test if at least one neighbour pixel is off
           // the center pixel belongs to contour
-          if (Math::ExactlyEquals(bit.GetPixel(i), NumericTraits<InputImage1PixelType>::ZeroValue()))
+          if (Math::ExactlyEquals(bit.GetPixel(i), InputImage1PixelType{}))
           {
             bIsOnContour = true;
             break;

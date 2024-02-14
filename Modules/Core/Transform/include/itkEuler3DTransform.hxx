@@ -27,7 +27,7 @@ Euler3DTransform<TParametersValueType>::Euler3DTransform()
   : Superclass(ParametersDimension)
 {
   m_ComputeZYX = false;
-  m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::ZeroValue();
+  m_AngleX = m_AngleY = m_AngleZ = ScalarType{};
   this->m_FixedParameters.SetSize(SpaceDimension + 1);
   this->m_FixedParameters.Fill(0.0);
 }
@@ -52,7 +52,7 @@ Euler3DTransform<TParametersValueType>::Euler3DTransform(unsigned int parameters
   : Superclass(parametersDimension)
 {
   m_ComputeZYX = false;
-  m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::ZeroValue();
+  m_AngleX = m_AngleY = m_AngleZ = ScalarType{};
   this->m_FixedParameters.SetSize(SpaceDimension + 1);
   this->m_FixedParameters.Fill(0.0);
 }
@@ -192,7 +192,7 @@ Euler3DTransform<TParametersValueType>::ComputeMatrixParameters()
     }
     else
     {
-      m_AngleX = NumericTraits<ScalarType>::ZeroValue();
+      m_AngleX = ScalarType{};
       double x = this->GetMatrix()[1][1];
       double y = -this->GetMatrix()[0][1];
       m_AngleZ = std::atan2(y, x);
@@ -214,7 +214,7 @@ Euler3DTransform<TParametersValueType>::ComputeMatrixParameters()
     }
     else
     {
-      m_AngleZ = NumericTraits<ScalarType>::ZeroValue();
+      m_AngleZ = ScalarType{};
       double x = this->GetMatrix()[0][0];
       double y = this->GetMatrix()[1][0];
       m_AngleY = std::atan2(y, x);

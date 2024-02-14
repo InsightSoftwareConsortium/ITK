@@ -94,7 +94,7 @@ public:
 
   /** Constructors */
   AddPixelAccessor()
-    : m_Value(NumericTraits<TPixel>::ZeroValue())
+    : m_Value(TPixel{})
   {}
   AddPixelAccessor(const Self & apa)
     : m_Value(apa.m_Value)

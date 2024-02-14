@@ -35,7 +35,7 @@ public:
   {
     if (input)
     {
-      return NumericTraits<InputPixelType>::ZeroValue();
+      return InputPixelType{};
     }
     else
     {

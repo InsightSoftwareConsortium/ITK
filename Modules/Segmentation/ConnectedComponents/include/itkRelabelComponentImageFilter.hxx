@@ -76,7 +76,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::ParallelComputeLabels(co
       const auto inputValue = it.Get();
 
       // if the input pixel is not the background
-      if (inputValue != NumericTraits<LabelType>::ZeroValue())
+      if (inputValue != LabelType{})
       {
         // label is not currently in the map
         mapIt = localSizeMap.insert(mapIt, { inputValue, initialSize });
@@ -182,7 +182,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       // map small objects to the background
       ++NumberOfObjectsRemoved;
-      relabelMap.insert({ sizeVectorPair.first, NumericTraits<OutputPixelType>::ZeroValue() });
+      relabelMap.insert({ sizeVectorPair.first, OutputPixelType{} });
     }
     else
     {
@@ -217,7 +217,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 
   // After the objects stats are computed add in the background label so the relabelMap can be directly applied.
-  relabelMap.insert({ NumericTraits<LabelType>::ZeroValue(), NumericTraits<OutputPixelType>::ZeroValue() });
+  relabelMap.insert({ LabelType{}, OutputPixelType{} });
 
   // Second pass: walk just the output requested region and relabel
   // the necessary pixels.

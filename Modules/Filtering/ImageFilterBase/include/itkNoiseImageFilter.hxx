@@ -77,8 +77,8 @@ NoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
     while (!bit.IsAtEnd())
     {
-      sum = NumericTraits<InputRealType>::ZeroValue();
-      sumOfSquares = NumericTraits<InputRealType>::ZeroValue();
+      sum = InputRealType{};
+      sumOfSquares = InputRealType{};
       for (i = 0; i < neighborhoodSize; ++i)
       {
         value = static_cast<InputRealType>(bit.GetPixel(i));

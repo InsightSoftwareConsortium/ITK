@@ -320,14 +320,14 @@ public:
     (void)cellId;
     (void)featureId;
     (void)cellSet;
-    return NumericTraits<CellIdentifier>::ZeroValue();
+    return CellIdentifier{};
   }
 
   /** NOTE ALEX: this method do not use CellFeature and thus could be recoded */
   CellIdentifier
   GetCellNeighbors(CellIdentifier itkNotUsed(cellId), std::set<CellIdentifier> * itkNotUsed(cellSet))
   {
-    return NumericTraits<CellIdentifier>::ZeroValue();
+    return CellIdentifier{};
   }
 
   /** overloaded method for backward compatibility */

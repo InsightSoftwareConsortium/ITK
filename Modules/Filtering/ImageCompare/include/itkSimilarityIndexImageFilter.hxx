@@ -33,7 +33,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>::SimilarityIndexImageFilt
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
 
-  m_SimilarityIndex = NumericTraits<RealType>::ZeroValue();
+  m_SimilarityIndex = RealType{};
   this->DynamicMultiThreadingOff();
 }
 
@@ -103,9 +103,9 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>::BeforeThreadedGenerateDa
   m_CountOfIntersection.SetSize(numberOfWorkUnits);
 
   // Initialize the temporaries
-  m_CountOfImage1.Fill(NumericTraits<SizeValueType>::ZeroValue());
-  m_CountOfImage2.Fill(NumericTraits<SizeValueType>::ZeroValue());
-  m_CountOfIntersection.Fill(NumericTraits<SizeValueType>::ZeroValue());
+  m_CountOfImage1.Fill(SizeValueType{});
+  m_CountOfImage2.Fill(SizeValueType{});
+  m_CountOfIntersection.Fill(SizeValueType{});
 }
 
 template <typename TInputImage1, typename TInputImage2>
@@ -132,7 +132,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>::AfterThreadedGenerateDat
   // compute overlap
   if (!countImage1 && !countImage2)
   {
-    m_SimilarityIndex = NumericTraits<RealType>::ZeroValue();
+    m_SimilarityIndex = RealType{};
     return;
   }
 
@@ -155,12 +155,12 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>::ThreadedGenerateData(con
   while (!it1.IsAtEnd())
   {
     bool nonzero = false;
-    if (it1.Get() != NumericTraits<InputImage1PixelType>::ZeroValue())
+    if (it1.Get() != InputImage1PixelType{})
     {
       m_CountOfImage1[threadId]++;
       nonzero = true;
     }
-    if (Math::NotExactlyEquals(it2.Get(), NumericTraits<InputImage2PixelType>::ZeroValue()))
+    if (Math::NotExactlyEquals(it2.Get(), InputImage2PixelType{}))
     {
       m_CountOfImage2[threadId]++;
       if (nonzero)

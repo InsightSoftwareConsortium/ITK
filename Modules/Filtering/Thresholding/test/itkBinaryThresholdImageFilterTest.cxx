@@ -47,7 +47,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
 
   InputImageType::SizeValueType sizeArray[Dimension] = { 3, 3, 3 };
 
-  source->SetMin(itk::NumericTraits<InputPixelType>::ZeroValue());
+  source->SetMin(InputPixelType{});
   source->SetMax(itk::NumericTraits<InputPixelType>::max());
   source->SetSize(sizeArray);
 

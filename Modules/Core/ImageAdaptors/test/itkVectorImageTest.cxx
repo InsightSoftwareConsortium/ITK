@@ -474,7 +474,7 @@ itkVectorImageTest(int, char * argv[])
       VectorImageType::IndexType           start;
       itk::VariableLengthVector<PixelType> f(VectorLength);
       itk::VariableLengthVector<PixelType> ZeroPixel(VectorLength);
-      ZeroPixel.Fill(itk::NumericTraits<PixelType>::ZeroValue());
+      ZeroPixel.Fill(PixelType{});
       for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;

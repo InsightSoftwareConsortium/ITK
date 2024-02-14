@@ -197,7 +197,7 @@ template <typename T, unsigned int TPointDimension>
 void
 Point<T, TPointDimension>::SetToBarycentricCombination(const Self * P, const double * weights, unsigned int N)
 {
-  this->Fill(NumericTraits<T>::ZeroValue()); // put this point to null
+  this->Fill(T{}); // put this point to null
   double weightSum = 0.0;
   for (unsigned int j = 0; j < N - 1; ++j)
   {
@@ -225,7 +225,7 @@ BarycentricCombination<TPointContainer, TWeightContainer>::Evaluate(const PointC
 {
   using ValueType = typename PointType::ValueType;
   PointType barycentre;
-  barycentre.Fill(NumericTraits<ValueType>::ZeroValue()); // set to null
+  barycentre.Fill(ValueType{}); // set to null
 
   typename TPointContainer::Iterator point = points->Begin();
   typename TPointContainer::Iterator final = points->End();

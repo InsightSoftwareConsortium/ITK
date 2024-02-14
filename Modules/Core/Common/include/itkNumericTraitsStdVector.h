@@ -113,7 +113,7 @@ public:
   static const Self
   ZeroValue(const Self & a)
   {
-    Self b(a.Size(), NumericTraits<T>::ZeroValue());
+    Self b(a.Size(), T{});
     return b;
   }
 

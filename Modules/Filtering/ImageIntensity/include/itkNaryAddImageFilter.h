@@ -38,7 +38,7 @@ public:
   inline TOutput
   operator()(const std::vector<TInput> & B) const
   {
-    AccumulatorType sum = NumericTraits<TOutput>::ZeroValue();
+    AccumulatorType sum = TOutput{};
 
     for (unsigned int i = 0; i < B.size(); ++i)
     {

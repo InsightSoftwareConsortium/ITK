@@ -72,7 +72,7 @@ itkConnectedComponentImageFilterTestRGB(int argc, char * argv[])
 
   threshold->SetInput(reader->GetOutput());
   threshold->SetInsideValue(itk::NumericTraits<RGBPixelType>::OneValue());
-  threshold->SetOutsideValue(itk::NumericTraits<RGBPixelType>::ZeroValue());
+  threshold->SetOutsideValue(RGBPixelType{});
   threshold->SetLowerThreshold(threshold_low);
   threshold->SetUpperThreshold(threshold_hi);
   threshold->Update();

@@ -57,7 +57,7 @@ ColorTable<TComponent>::UseDiscreteColors()
   else
   {
     scale = NumericTraits<TComponent>::OneValue();
-    shift = NumericTraits<TComponent>::ZeroValue();
+    shift = TComponent{};
   }
 
   m_Color[0].Set((TComponent)(0.9 * scale + shift), (TComponent)(shift), (TComponent)(shift));
@@ -123,7 +123,7 @@ ColorTable<TComponent>::UseGrayColors(unsigned int n)
   else
   {
     range = NumericTraits<TComponent>::OneValue();
-    minimum = NumericTraits<TComponent>::ZeroValue();
+    minimum = TComponent{};
   }
   typename NumericTraits<TComponent>::RealType delta;
   if (m_NumberOfColors > 1)
@@ -178,7 +178,7 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
   else
   {
     scale = NumericTraits<TComponent>::OneValue();
-    shift = NumericTraits<TComponent>::ZeroValue();
+    shift = TComponent{};
   }
   // Converting from TComponent to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
@@ -238,7 +238,7 @@ ColorTable<TComponent>::UseRandomColors(unsigned int n)
   }
   else
   {
-    minimum = NumericTraits<TComponent>::ZeroValue();
+    minimum = TComponent{};
     maximum = NumericTraits<TComponent>::OneValue();
   }
   for (i = 0; i < n; ++i)

@@ -30,9 +30,9 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::SimpleContourExtractorImageFilter()
   : m_InputForegroundValue(NumericTraits<InputPixelType>::max())
-  , m_InputBackgroundValue(NumericTraits<InputPixelType>::ZeroValue())
+  , m_InputBackgroundValue(InputPixelType{})
   , m_OutputForegroundValue(NumericTraits<OutputPixelType>::max())
-  , m_OutputBackgroundValue(NumericTraits<OutputPixelType>::ZeroValue())
+  , m_OutputBackgroundValue(OutputPixelType{})
 {
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();

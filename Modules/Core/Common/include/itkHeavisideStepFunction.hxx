@@ -27,16 +27,14 @@ template <typename TInput, typename TOutput>
 auto
 HeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType & input) const -> OutputType
 {
-  return (input >= NumericTraits<InputType>::ZeroValue()) ? NumericTraits<OutputType>::OneValue()
-                                                          : NumericTraits<OutputType>::ZeroValue();
+  return (input >= InputType{}) ? NumericTraits<OutputType>::OneValue() : OutputType{};
 }
 
 template <typename TInput, typename TOutput>
 auto
 HeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const InputType & input) const -> OutputType
 {
-  return (Math::ExactlyEquals(input, NumericTraits<InputType>::ZeroValue())) ? NumericTraits<OutputType>::OneValue()
-                                                                             : NumericTraits<OutputType>::ZeroValue();
+  return (Math::ExactlyEquals(input, InputType{})) ? NumericTraits<OutputType>::OneValue() : OutputType{};
 }
 
 } // namespace itk

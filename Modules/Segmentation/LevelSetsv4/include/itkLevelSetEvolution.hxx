@@ -114,7 +114,7 @@ LevelSetEvolution<TEquationContainer, LevelSetDenseImage<TImage>>::ComputeTimeSt
   // if the time step is not globally set
   if (!this->m_UserGloballyDefinedTimeStep)
   {
-    if ((this->m_Alpha > NumericTraits<LevelSetOutputRealType>::ZeroValue()) &&
+    if ((this->m_Alpha > LevelSetOutputRealType{}) &&
         (this->m_Alpha < NumericTraits<LevelSetOutputRealType>::OneValue()))
     {
       LevelSetOutputRealType contribution = this->m_EquationContainer->ComputeCFLContribution();
@@ -182,9 +182,9 @@ LevelSetEvolution<TEquationContainer, LevelSetDenseImage<TImage>>::ReinitializeT
 
     ThresholdFilterPointer thresh = ThresholdFilterType::New();
     thresh->SetLowerThreshold(NumericTraits<LevelSetOutputType>::NonpositiveMin());
-    thresh->SetUpperThreshold(NumericTraits<LevelSetOutputType>::ZeroValue());
+    thresh->SetUpperThreshold(LevelSetOutputType{});
     thresh->SetInsideValue(NumericTraits<LevelSetOutputType>::OneValue());
-    thresh->SetOutsideValue(NumericTraits<LevelSetOutputType>::ZeroValue());
+    thresh->SetOutsideValue(LevelSetOutputType{});
     thresh->SetInput(image);
     thresh->Update();
 
@@ -291,7 +291,7 @@ LevelSetEvolution<TEquationContainer,
 {
   if (!this->m_UserGloballyDefinedTimeStep)
   {
-    if ((this->m_Alpha > NumericTraits<LevelSetOutputRealType>::ZeroValue()) &&
+    if ((this->m_Alpha > LevelSetOutputRealType{}) &&
         (this->m_Alpha < NumericTraits<LevelSetOutputRealType>::OneValue()))
     {
       LevelSetOutputRealType contribution = this->m_EquationContainer->ComputeCFLContribution();

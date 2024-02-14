@@ -135,7 +135,7 @@ public:
     bool flag = false;
     for (unsigned int i = 0; i < GetLength(a); ++i)
     {
-      if (a[i] > NumericTraits<ValueType>::ZeroValue())
+      if (a[i] > ValueType{})
       {
         flag = true;
       }
@@ -199,7 +199,7 @@ public:
     {
       itkGenericExceptionMacro("Cannot set the size of a Vector of length " << D << " to " << s);
     }
-    m.Fill(NumericTraits<T>::ZeroValue());
+    m.Fill(T{});
   }
 
   /** Return the size of the vector. */

@@ -148,7 +148,7 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighb
   // Compute update value
   for (k = 0; k < VectorDimension; ++k)
   {
-    delta[k] = NumericTraits<ScalarValueType>::ZeroValue();
+    delta[k] = ScalarValueType{};
 
     for (i = 0; i < ImageDimension; ++i)
     {

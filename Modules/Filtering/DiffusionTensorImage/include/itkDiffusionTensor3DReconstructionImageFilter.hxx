@@ -244,14 +244,13 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
         unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
       }
 
-      if (Math::NotAlmostEquals(b0, itk::NumericTraits<ReferencePixelType>::ZeroValue()) && unmaskedPixel &&
-          (b0 >= m_Threshold))
+      if (Math::NotAlmostEquals(b0, ReferencePixelType{}) && unmaskedPixel && (b0 >= m_Threshold))
       {
         for (unsigned int i = 0; i < m_NumberOfGradientDirections; ++i)
         {
           GradientPixelType b = gradientItContainer[i]->Get();
 
-          if (Math::AlmostEquals(b, itk::NumericTraits<GradientPixelType>::ZeroValue()))
+          if (Math::AlmostEquals(b, GradientPixelType{}))
           {
             B[i] = 0;
           }
@@ -338,7 +337,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
     {
       GradientVectorType b = git.Get();
 
-      typename NumericTraits<ReferencePixelType>::AccumulateType b0 = NumericTraits<ReferencePixelType>::ZeroValue();
+      typename NumericTraits<ReferencePixelType>::AccumulateType b0 = ReferencePixelType{};
 
       // Average the baseline image pixels
       for (const auto & i : baselineind)
@@ -363,12 +362,11 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
         unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
       }
 
-      if (Math::NotAlmostEquals(b0, NumericTraits<ReferencePixelType>::ZeroValue()) && unmaskedPixel &&
-          (b0 >= m_Threshold))
+      if (Math::NotAlmostEquals(b0, ReferencePixelType{}) && unmaskedPixel && (b0 >= m_Threshold))
       {
         for (unsigned int i = 0; i < m_NumberOfGradientDirections; ++i)
         {
-          if (Math::AlmostEquals(b[gradientind[i]], NumericTraits<typename GradientVectorType::ValueType>::ZeroValue()))
+          if (Math::AlmostEquals(b[gradientind[i]], typename GradientVectorType::ValueType{}))
           {
             B[i] = 0;
           }

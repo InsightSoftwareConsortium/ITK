@@ -498,7 +498,7 @@ QuadrilateralCell<TCellInterface>::EvaluateLocation(int &                     it
 
   for (unsigned int ii = 0; ii < PointDimension; ++ii)
   {
-    x[ii] = NumericTraits<CoordRepType>::ZeroValue();
+    x[ii] = CoordRepType{};
   }
 
   for (unsigned int ii = 0; ii < NumberOfPoints; ++ii)

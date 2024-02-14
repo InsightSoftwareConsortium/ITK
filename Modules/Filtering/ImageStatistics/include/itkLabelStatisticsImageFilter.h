@@ -122,18 +122,18 @@ public:
     LabelStatistics()
     {
       // initialized to the default values
-      m_Count = NumericTraits<IdentifierType>::ZeroValue();
-      m_Sum = NumericTraits<RealType>::ZeroValue();
-      m_SumOfSquares = NumericTraits<RealType>::ZeroValue();
+      m_Count = IdentifierType{};
+      m_Sum = RealType{};
+      m_SumOfSquares = RealType{};
 
       // Set such that the first pixel encountered can be compared
       m_Minimum = NumericTraits<RealType>::max();
       m_Maximum = NumericTraits<RealType>::NonpositiveMin();
 
       // Default these to zero
-      m_Mean = NumericTraits<RealType>::ZeroValue();
-      m_Sigma = NumericTraits<RealType>::ZeroValue();
-      m_Variance = NumericTraits<RealType>::ZeroValue();
+      m_Mean = RealType{};
+      m_Sigma = RealType{};
+      m_Variance = RealType{};
 
       const unsigned int imageDimension = Self::ImageDimension;
       m_BoundingBox.resize(imageDimension * 2);
@@ -149,18 +149,18 @@ public:
     LabelStatistics(int size, RealType lowerBound, RealType upperBound)
     {
       // initialized to the default values
-      m_Count = NumericTraits<IdentifierType>::ZeroValue();
-      m_Sum = NumericTraits<RealType>::ZeroValue();
-      m_SumOfSquares = NumericTraits<RealType>::ZeroValue();
+      m_Count = IdentifierType{};
+      m_Sum = RealType{};
+      m_SumOfSquares = RealType{};
 
       // Set such that the first pixel encountered can be compared
       m_Minimum = NumericTraits<RealType>::max();
       m_Maximum = NumericTraits<RealType>::NonpositiveMin();
 
       // Default these to zero
-      m_Mean = NumericTraits<RealType>::ZeroValue();
-      m_Sigma = NumericTraits<RealType>::ZeroValue();
-      m_Variance = NumericTraits<RealType>::ZeroValue();
+      m_Mean = RealType{};
+      m_Sigma = RealType{};
+      m_Variance = RealType{};
 
       const unsigned int imageDimension = Self::ImageDimension;
       m_BoundingBox.resize(imageDimension * 2);

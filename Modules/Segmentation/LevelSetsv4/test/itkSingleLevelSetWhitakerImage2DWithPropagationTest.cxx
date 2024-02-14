@@ -81,7 +81,7 @@ itkSingleLevelSetWhitakerImage2DWithPropagationTest(int argc, char * argv[])
   binary->SetRegions(input->GetLargestPossibleRegion());
   binary->CopyInformation(input);
   binary->Allocate();
-  binary->FillBuffer(itk::NumericTraits<InputPixelType>::ZeroValue());
+  binary->FillBuffer(InputPixelType{});
 
   InputImageType::RegionType region;
   InputImageType::IndexType  index;

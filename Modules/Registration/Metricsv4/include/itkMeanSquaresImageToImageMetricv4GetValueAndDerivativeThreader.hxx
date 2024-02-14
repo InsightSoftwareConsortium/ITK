@@ -43,7 +43,7 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
   /** Only the voxelwise contribution given the point pairs. */
   FixedImagePixelType diff = fixedImageValue - movingImageValue;
   const unsigned int  nComponents = NumericTraits<FixedImagePixelType>::GetLength(diff);
-  metricValueReturn = NumericTraits<MeasureType>::ZeroValue();
+  metricValueReturn = MeasureType{};
 
   for (unsigned int nc = 0; nc < nComponents; ++nc)
   {
@@ -68,7 +68,7 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
 
   for (unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); ++par)
   {
-    localDerivativeReturn[par] = NumericTraits<DerivativeValueType>::ZeroValue();
+    localDerivativeReturn[par] = DerivativeValueType{};
     for (unsigned int nc = 0; nc < nComponents; ++nc)
     {
       MeasureType diffValue = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);

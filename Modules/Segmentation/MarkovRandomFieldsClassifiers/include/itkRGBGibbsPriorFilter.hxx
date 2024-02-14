@@ -530,7 +530,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
 
   // Variable to store the modified pixel vector value.
   InputImagePixelType changedPixelVec;
-  changedPixelVec.Fill(NumericTraits<typename InputImagePixelType::ValueType>::ZeroValue());
+  changedPixelVec.Fill(typename InputImagePixelType::ValueType{});
 
   // Set a variable to store the offset index.
   LabelledImageIndexType offsetIndex3D;

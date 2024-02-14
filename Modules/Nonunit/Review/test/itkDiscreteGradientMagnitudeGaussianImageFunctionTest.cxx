@@ -126,7 +126,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
   output->SetRequestedRegion(inputImage->GetRequestedRegion());
   output->SetBufferedRegion(inputImage->GetBufferedRegion());
   output->Allocate();
-  output->FillBuffer(itk::NumericTraits<PixelType>::ZeroValue());
+  output->FillBuffer(PixelType{});
 
 
   // Step over input and output images

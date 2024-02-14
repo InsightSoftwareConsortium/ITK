@@ -152,7 +152,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   } // end if-block to check non-zero bin contribution
   else
   {
-    scalingfactor = NumericTraits<InternalComputationValueType>::ZeroValue();
+    scalingfactor = InternalComputationValueType{};
   }
 
   /* Use a pre-allocated jacobian object for efficiency */
@@ -211,7 +211,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
     rightpoint[0] = 1.0;
   }
   InternalComputationValueType delta = rightpoint[0] - leftpoint[0];
-  if (delta > NumericTraits<InternalComputationValueType>::ZeroValue())
+  if (delta > InternalComputationValueType{})
   {
     InternalComputationValueType deriv =
       this->m_ThreaderFixedImageMarginalPDFInterpolator[threadId]->Evaluate(rightpoint) -
@@ -220,7 +220,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   }
   else
   {
-    return NumericTraits<InternalComputationValueType>::ZeroValue();
+    return InternalComputationValueType{};
   }
 }
 
@@ -258,7 +258,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
     rightpoint[0] = 1.0;
   }
   InternalComputationValueType delta = rightpoint[0] - leftpoint[0];
-  if (delta > NumericTraits<InternalComputationValueType>::ZeroValue())
+  if (delta > InternalComputationValueType{})
   {
     InternalComputationValueType deriv =
       this->m_JointHistogramMIPerThreadVariables[threadId].MovingImageMarginalPDFInterpolator->Evaluate(rightpoint) -
@@ -267,7 +267,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   }
   else
   {
-    return NumericTraits<InternalComputationValueType>::ZeroValue();
+    return InternalComputationValueType{};
   }
 }
 
@@ -312,7 +312,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
 
   InternalComputationValueType delta = rightpoint[ind] - leftpoint[ind];
   InternalComputationValueType deriv{};
-  if (delta > NumericTraits<InternalComputationValueType>::ZeroValue())
+  if (delta > InternalComputationValueType{})
   {
     deriv = this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->Evaluate(rightpoint) -
             this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->Evaluate(leftpoint);

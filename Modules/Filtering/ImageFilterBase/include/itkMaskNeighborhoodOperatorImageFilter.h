@@ -147,7 +147,7 @@ public:
 
 protected:
   MaskNeighborhoodOperatorImageFilter()
-    : m_DefaultValue(NumericTraits<OutputPixelType>::ZeroValue())
+    : m_DefaultValue(OutputPixelType{})
   {}
   ~MaskNeighborhoodOperatorImageFilter() override = default;
   void

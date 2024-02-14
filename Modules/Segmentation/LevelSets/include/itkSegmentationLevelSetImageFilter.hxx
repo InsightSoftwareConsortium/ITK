@@ -36,7 +36,7 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::S
   this->SetNumberOfLayers(TInputImage::ImageDimension);
   m_SegmentationFunction = nullptr;
   m_AutoGenerateSpeedAdvection = true;
-  this->SetIsoSurfaceValue(NumericTraits<ValueType>::ZeroValue());
+  this->SetIsoSurfaceValue(ValueType{});
 
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.

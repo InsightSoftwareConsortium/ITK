@@ -125,7 +125,7 @@ BoxAccumulateFunction(const TInputImage *               inputImage,
   itk_impl_details::setConnectivityEarlyBox(&noutIt, true);
 
   ConstantBoundaryCondition<OutputImageType> oBC;
-  oBC.SetConstant(NumericTraits<OutputPixelType>::ZeroValue());
+  oBC.SetConstant(OutputPixelType{});
   noutIt.OverrideBoundaryCondition(&oBC);
   // This uses several iterators. An alternative and probably better
   // approach would be to copy the input to the output and convolve
@@ -618,7 +618,7 @@ BoxSquareAccumulateFunction(const TInputImage *               inputImage,
   itk_impl_details::setConnectivityEarlyBox(&noutIt, true);
 
   ConstantBoundaryCondition<OutputImageType> oBC;
-  oBC.SetConstant(NumericTraits<OutputPixelType>::ZeroValue());
+  oBC.SetConstant(OutputPixelType{});
   noutIt.OverrideBoundaryCondition(&oBC);
   // This uses several iterators. An alternative and probably better
   // approach would be to copy the input to the output and convolve

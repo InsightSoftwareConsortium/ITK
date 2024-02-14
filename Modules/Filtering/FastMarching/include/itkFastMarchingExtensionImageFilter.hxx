@@ -249,7 +249,7 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
       }
       else
       {
-        auxVal = NumericTraits<AuxValueType>::ZeroValue();
+        auxVal = AuxValueType{};
       }
 
       this->GetAuxiliaryImage(k)->SetPixel(index, auxVal);

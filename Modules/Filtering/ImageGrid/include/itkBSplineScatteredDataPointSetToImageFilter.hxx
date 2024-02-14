@@ -362,7 +362,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::BeforeT
       this->m_DeltaLatticePerThread[n] = PointDataImageType::New();
       this->m_DeltaLatticePerThread[n]->SetRegions(size);
       this->m_DeltaLatticePerThread[n]->Allocate();
-      this->m_DeltaLatticePerThread[n]->FillBuffer(NumericTraits<PointDataType>::ZeroValue());
+      this->m_DeltaLatticePerThread[n]->FillBuffer(PointDataType{});
     }
   }
 }
@@ -470,12 +470,12 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       {
         p[i] = static_cast<RealType>(totalNumberOfSpans) - epsilon[i];
       }
-      if (p[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(p[i]) <= epsilon[i])
+      if (p[i] < RealType{} && itk::Math::abs(p[i]) <= epsilon[i])
       {
-        p[i] = NumericTraits<RealType>::ZeroValue();
+        p[i] = RealType{};
       }
 
-      if (p[i] < NumericTraits<RealType>::ZeroValue() || p[i] >= static_cast<RealType>(totalNumberOfSpans))
+      if (p[i] < RealType{} || p[i] >= static_cast<RealType>(totalNumberOfSpans))
       {
         itkExceptionMacro("The reparameterized point component "
                           << p[i] << " is outside the corresponding parametric domain of [0, " << totalNumberOfSpans
@@ -623,12 +623,12 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       {
         U[i] = static_cast<RealType>(totalNumberOfSpans[i]) - epsilon[i];
       }
-      if (U[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(U[i]) <= epsilon[i])
+      if (U[i] < RealType{} && itk::Math::abs(U[i]) <= epsilon[i])
       {
-        U[i] = NumericTraits<RealType>::ZeroValue();
+        U[i] = RealType{};
       }
 
-      if (U[i] < NumericTraits<RealType>::ZeroValue() || U[i] >= static_cast<RealType>(totalNumberOfSpans[i]))
+      if (U[i] < RealType{} || U[i] >= static_cast<RealType>(totalNumberOfSpans[i]))
       {
         itkExceptionMacro("The collapse point component "
                           << U[i] << " is outside the corresponding parametric domain of [0, " << totalNumberOfSpans[i]
@@ -705,7 +705,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::AfterTh
     this->m_PhiLattice = PointDataImageType::New();
     this->m_PhiLattice->SetRegions(size);
     this->m_PhiLattice->Allocate();
-    this->m_PhiLattice->FillBuffer(NumericTraits<PointDataType>::ZeroValue());
+    this->m_PhiLattice->FillBuffer(PointDataType{});
 
     ImageRegionIterator<PointDataImageType> ItP(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
 
@@ -713,7 +713,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::AfterTh
     {
       PointDataType P;
       P.Fill(0);
-      if (Math::NotAlmostEquals(ItO.Get(), NumericTraits<typename PointDataType::ValueType>::ZeroValue()))
+      if (Math::NotAlmostEquals(ItO.Get(), typename PointDataType::ValueType{}))
       {
         P = ItD.Get() / ItO.Get();
         for (unsigned int i = 0; i < P.Size(); ++i)
@@ -963,12 +963,12 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       {
         U[i] = static_cast<RealType>(totalNumberOfSpans[i]) - epsilon[i];
       }
-      if (U[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(U[i]) <= epsilon[i])
+      if (U[i] < RealType{} && itk::Math::abs(U[i]) <= epsilon[i])
       {
-        U[i] = NumericTraits<RealType>::ZeroValue();
+        U[i] = RealType{};
       }
 
-      if (U[i] < NumericTraits<RealType>::ZeroValue() || U[i] >= static_cast<RealType>(totalNumberOfSpans[i]))
+      if (U[i] < RealType{} || U[i] >= static_cast<RealType>(totalNumberOfSpans[i]))
       {
         itkExceptionMacro("The collapse point component "
                           << U[i] << " is outside the corresponding parametric domain of [0, " << totalNumberOfSpans[i]

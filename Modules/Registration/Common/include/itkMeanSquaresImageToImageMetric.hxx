@@ -102,7 +102,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Paramet
 
   for (unsigned int i = 0; i < this->m_NumberOfWorkUnits; ++i)
   {
-    m_PerThread[i].m_MSE = NumericTraits<MeasureType>::ZeroValue();
+    m_PerThread[i].m_MSE = MeasureType{};
   }
 
   // Set up the parameters in the transform
@@ -196,7 +196,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   // Reset the joint pdfs to zero
   for (unsigned int i = 0; i < this->m_NumberOfWorkUnits; ++i)
   {
-    m_PerThread[i].m_MSE = NumericTraits<MeasureType>::ZeroValue();
+    m_PerThread[i].m_MSE = MeasureType{};
   }
 
   // Set output values to zero

@@ -92,7 +92,7 @@ itkMultiLevelSetWhitakerImageSubset2DTest(int, char *[])
   input->SetSpacing(spacing);
   input->SetOrigin(origin);
   input->Allocate();
-  input->FillBuffer(itk::NumericTraits<InputPixelType>::ZeroValue());
+  input->FillBuffer(InputPixelType{});
 
   index.Fill(910);
   size.Fill(80);
@@ -120,7 +120,7 @@ itkMultiLevelSetWhitakerImageSubset2DTest(int, char *[])
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
   binary->Allocate();
-  binary->FillBuffer(itk::NumericTraits<InputPixelType>::ZeroValue());
+  binary->FillBuffer(InputPixelType{});
 
   index.Fill(30);
   size.Fill(40);

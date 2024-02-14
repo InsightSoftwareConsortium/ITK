@@ -179,7 +179,7 @@ public:
     }
     else
     {
-      return NumericTraits<TInputPixel>::ZeroValue();
+      return TInputPixel{};
     }
   }
 

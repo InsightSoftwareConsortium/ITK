@@ -125,8 +125,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   std::cout << "Image of vector pixels write-read [PASSED]" << std::endl;
 
   std::cout << "Test << operator:: Vector1 = " << vector1 << "[PASSED]" << std::endl;
-  std::cout << "Test NumericTraits<Vector<double,4>>::ZeroValue() " << itk::NumericTraits<PixelType>::ZeroValue()
-            << std::endl;
+  std::cout << "Test NumericTraits<Vector<double,4>>::ZeroValue() " << PixelType{} << std::endl;
   std::cout << "Test NumericTraits <Vector <double,4 > >::OneValue() " << itk::NumericTraits<PixelType>::OneValue()
             << std::endl;
 

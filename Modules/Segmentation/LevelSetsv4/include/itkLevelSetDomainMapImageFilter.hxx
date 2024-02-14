@@ -65,7 +65,7 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::ComputeConsistentRegion
       const OutputImagePixelType segmentPixel = oIt.Get();
       const InputImagePixelType  nextPixel = iIt.Get();
 
-      if ((nextPixel != firstCornerPixelValue) || (segmentPixel != NumericTraits<OutputImagePixelType>::ZeroValue()))
+      if ((nextPixel != firstCornerPixelValue) || (segmentPixel != OutputImagePixelType{}))
       {
         const InputImageIndexType & stopIdx = iIt.GetIndex();
         InputImageSizeType          sizeOfRegion;
@@ -102,7 +102,7 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->m_OutputImage = this->GetOutput();
   this->m_OutputImage->SetBufferedRegion(region);
   this->m_OutputImage->Allocate();
-  this->m_OutputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
+  this->m_OutputImage->FillBuffer(OutputImagePixelType{});
 
   InputImageIndexType end;
 
@@ -128,7 +128,7 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     // outputPixel is null when it has not been processed yet,
     // or there is nothing to be processed
-    if ((!inputPixel.empty()) && (outputPixel == NumericTraits<OutputImagePixelType>::ZeroValue()))
+    if ((!inputPixel.empty()) && (outputPixel == OutputImagePixelType{}))
     {
       InputImageRegionType subRegion;
       InputImageSizeType   sizeOfRegion;
@@ -144,7 +144,7 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GenerateData()
 
           // Check if the input list pixels are different, or
           // the output image already has been assigned to another region
-          if ((nextPixel != inputPixel) || (currentOutputPixel != NumericTraits<OutputImagePixelType>::ZeroValue()))
+          if ((nextPixel != inputPixel) || (currentOutputPixel != OutputImagePixelType{}))
           {
             sameOverlappingLevelSetIds = false;
           }

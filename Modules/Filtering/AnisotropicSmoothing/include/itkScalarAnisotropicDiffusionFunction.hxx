@@ -64,8 +64,8 @@ ScalarAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   fit = faceList.begin();
 
   // Now do the actual processing
-  accumulator = NumericTraits<AccumulateType>::ZeroValue();
-  counter = NumericTraits<SizeValueType>::ZeroValue();
+  accumulator = AccumulateType{};
+  counter = SizeValueType{};
 
   // First process the non-boundary region
 

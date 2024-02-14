@@ -60,14 +60,13 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   ot.GoToBegin();
   for (; !it.IsAtEnd(); ++it, ++ot)
   {
-    if (Math::NotExactlyEquals(it.Get(),
-                               NumericTraits<typename ImageRegionConstIterator<TInputImage>::PixelType>::ZeroValue()))
+    if (Math::NotExactlyEquals(it.Get(), typename ImageRegionConstIterator<TInputImage>::PixelType{}))
     {
       ot.Set(NumericTraits<typename TOutputImage::PixelType>::max());
     }
     else
     {
-      ot.Set(NumericTraits<typename TOutputImage::PixelType>::ZeroValue());
+      ot.Set(typename TOutputImage::PixelType{});
     }
   }
   equivalenceTable[0] = 0;

@@ -62,7 +62,7 @@ GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
     }
     else
     {
-      img_it.Set(NumericTraits<PixelType>::ZeroValue());
+      img_it.Set(PixelType{});
     }
   }
   return image;
@@ -103,7 +103,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   using RescaleType = itk::RescaleIntensityImageFilter<ImageUCType, ImageUCType>;
   auto rescale = RescaleType::New();
   rescale->SetInput(testImg);
-  rescale->SetOutputMinimum(itk::NumericTraits<bool>::ZeroValue());
+  rescale->SetOutputMinimum(bool{});
   rescale->SetOutputMaximum(itk::NumericTraits<bool>::OneValue());
 
   using castFilterType = itk::CastImageFilter<ImageUCType, ImageBoolType>;

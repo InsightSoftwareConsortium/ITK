@@ -104,7 +104,7 @@ template <unsigned int VDimension>
 auto
 Solver<VDimension>::GetTimeStep() const -> Float
 {
-  return NumericTraits<Float>::ZeroValue();
+  return Float{};
 }
 
 template <unsigned int VDimension>

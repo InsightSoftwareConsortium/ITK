@@ -177,8 +177,8 @@ protected:
   /** Constructor */
   FastMarchingReachedTargetNodesStoppingCriterion()
     : Superclass()
-    , m_TargetOffset(NumericTraits<OutputPixelType>::ZeroValue())
-    , m_StoppingValue(NumericTraits<OutputPixelType>::ZeroValue())
+    , m_TargetOffset(OutputPixelType{})
+    , m_StoppingValue(OutputPixelType{})
   {}
 
   /** Destructor */

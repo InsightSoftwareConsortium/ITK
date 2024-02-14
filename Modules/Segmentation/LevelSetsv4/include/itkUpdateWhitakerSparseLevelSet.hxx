@@ -26,8 +26,8 @@ namespace itk
 template <unsigned int VDimension, typename TLevelSetValueType, typename TEquationContainer>
 UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>::UpdateWhitakerSparseLevelSet()
   : m_TimeStep(NumericTraits<LevelSetOutputType>::OneValue())
-  , m_RMSChangeAccumulator(NumericTraits<LevelSetOutputType>::ZeroValue())
-  , m_CurrentLevelSetId(NumericTraits<IdentifierType>::ZeroValue())
+  , m_RMSChangeAccumulator(LevelSetOutputType{})
+  , m_CurrentLevelSetId(IdentifierType{})
   , m_MinStatus(LevelSetType::MinusThreeLayer())
   , m_MaxStatus(LevelSetType::PlusThreeLayer())
 {

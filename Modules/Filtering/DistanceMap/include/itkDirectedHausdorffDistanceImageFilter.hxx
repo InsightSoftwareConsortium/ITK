@@ -111,7 +111,7 @@ void
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::BeforeThreadedGenerateData()
 {
   // initialize accumulators
-  m_MaxDistance = NumericTraits<RealType>::ZeroValue();
+  m_MaxDistance = RealType{};
   m_PixelCount = 0;
   m_Sum = 0;
 
@@ -168,11 +168,11 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DynamicThreade
   // do the work
   while (!it1.IsAtEnd())
   {
-    if (Math::NotExactlyEquals(it1.Get(), NumericTraits<InputImage1PixelType>::ZeroValue()))
+    if (Math::NotExactlyEquals(it1.Get(), InputImage1PixelType{}))
     {
       // The signed distance map is calculated, but we want the calculation based on the
       // unsigned int distance map.  Therefore, we set all distance map values less than 0 to 0.
-      const RealType val2 = std::max(static_cast<RealType>(it2.Get()), NumericTraits<RealType>::ZeroValue());
+      const RealType val2 = std::max(static_cast<RealType>(it2.Get()), RealType{});
       maxDistance = std::max(maxDistance, val2);
       sum += val2;
       ++pixelCount;

@@ -128,7 +128,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
+  outputImage->FillBuffer(OutputImagePixelType{});
 
   // Compute the statistics of the seed point
   using VectorMeanImageFunctionType = VectorMeanImageFunction<InputImageType>;
@@ -155,8 +155,8 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   covariance = CovarianceMatrixType(dimension, dimension);
   mean = MeanVectorType(dimension);
 
-  covariance.fill(NumericTraits<ComponentRealType>::ZeroValue());
-  mean.fill(NumericTraits<ComponentRealType>::ZeroValue());
+  covariance.fill(ComponentRealType{});
+  mean.fill(ComponentRealType{});
 
   using MeanFunctionVectorType = typename VectorMeanImageFunctionType::OutputType;
   using CovarianceFunctionMatrixType = typename CovarianceImageFunctionType::OutputType;
@@ -266,8 +266,8 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     covariance = CovarianceMatrixType(dimension, dimension);
     mean = MeanVectorType(dimension);
 
-    covariance.fill(NumericTraits<ComponentRealType>::ZeroValue());
-    mean.fill(NumericTraits<ComponentRealType>::ZeroValue());
+    covariance.fill(ComponentRealType{});
+    mean.fill(ComponentRealType{});
 
     SizeValueType num{};
 
@@ -319,7 +319,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     // upper] bounds prescribed, the pixel is added to the output
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
-    outputImage->FillBuffer(NumericTraits<OutputImagePixelType>::ZeroValue());
+    outputImage->FillBuffer(OutputImagePixelType{});
     IteratorType thirdIt(outputImage, m_ThresholdFunction, m_Seeds);
     thirdIt.GoToBegin();
     try

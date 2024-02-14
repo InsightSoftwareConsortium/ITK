@@ -93,7 +93,7 @@ HistogramToRunLengthFeaturesFilter<THistogram>::GenerateData()
   for (HistogramIterator hit = inputHistogram->Begin(); hit != inputHistogram->End(); ++hit)
   {
     MeasurementType frequency = hit.GetFrequency();
-    if (Math::ExactlyEquals(frequency, NumericTraits<MeasurementType>::ZeroValue()))
+    if (Math::ExactlyEquals(frequency, MeasurementType{}))
     {
       continue;
     }

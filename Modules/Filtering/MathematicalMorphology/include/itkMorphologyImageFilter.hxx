@@ -29,7 +29,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::MorphologyImageFilter()
 {
-  m_DefaultBoundaryCondition.SetConstant(NumericTraits<PixelType>::ZeroValue());
+  m_DefaultBoundaryCondition.SetConstant(PixelType{});
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();

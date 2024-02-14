@@ -224,7 +224,7 @@ template <typename T, unsigned int VDimension>
 void
 SymmetricSecondRankTensor<T, VDimension>::SetIdentity()
 {
-  this->Fill(NumericTraits<T>::ZeroValue());
+  this->Fill(T{});
   for (unsigned int i = 0; i < Dimension; ++i)
   {
     (*this)(i, i) = NumericTraits<T>::OneValue();

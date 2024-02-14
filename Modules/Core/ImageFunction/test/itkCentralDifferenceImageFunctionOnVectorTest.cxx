@@ -173,7 +173,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   }
   for (itk::SizeValueType n = 0; n < VectorLength; ++n)
   {
-    if (itk::Math::NotAlmostEquals(indexOutput(n, 0), itk::NumericTraits<OutputValueType>::ZeroValue()))
+    if (itk::Math::NotAlmostEquals(indexOutput(n, 0), OutputValueType{}))
     {
       std::cout << "ERROR: Index: " << index << " expected output dim 0 to be 0. << std::endl; " << std::endl;
       result = EXIT_FAILURE;
@@ -220,7 +220,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   }
   for (itk::SizeValueType n = 0; n < VectorLength; ++n)
   {
-    if (itk::Math::NotAlmostEquals(indexOutput(n, 1), itk::NumericTraits<OutputValueType>::ZeroValue()))
+    if (itk::Math::NotAlmostEquals(indexOutput(n, 1), OutputValueType{}))
     {
       std::cout << "ERROR: Index: " << index << " expected output dim 1 to be 0. " << std::endl;
       result = EXIT_FAILURE;

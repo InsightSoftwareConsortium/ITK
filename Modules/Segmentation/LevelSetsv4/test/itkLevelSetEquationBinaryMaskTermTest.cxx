@@ -78,7 +78,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
   binary->Allocate();
-  binary->FillBuffer(itk::NumericTraits<InputPixelType>::ZeroValue());
+  binary->FillBuffer(InputPixelType{});
 
   index.Fill(10);
   size.Fill(30);
@@ -171,8 +171,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   index[1] = 20;
 
   std::cout << maskTerm0->Evaluate(index) << std::endl;
-  if (itk::Math::NotAlmostEquals(maskTerm0->Evaluate(index),
-                                 itk::NumericTraits<BinaryMaskTermType::LevelSetOutputRealType>::ZeroValue()))
+  if (itk::Math::NotAlmostEquals(maskTerm0->Evaluate(index), BinaryMaskTermType::LevelSetOutputRealType{}))
   {
     return EXIT_FAILURE;
   }
