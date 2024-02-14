@@ -18,20 +18,14 @@
 
 // First include the header file to be tested:
 #include "itkCovariantVector.h"
+#include "itkRangeGTestUtilities.h"
 #include <gtest/gtest.h>
 
 
 // Tests that a CovariantVector that is "value-initialized" (by empty braces, `{}`) is zero-filled.
 TEST(CovariantVector, ValueInitializedIsZeroFilled)
 {
-  const auto expectZeroFilled = [](const auto & fixedArray) {
-    for (const auto element : fixedArray)
-    {
-      EXPECT_EQ(element, 0);
-    }
-  };
-
-  expectZeroFilled(itk::CovariantVector<int>{});
-  expectZeroFilled(itk::CovariantVector<float, 2>{});
-  expectZeroFilled(itk::CovariantVector<double, 4>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::CovariantVector<int>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::CovariantVector<float, 2>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::CovariantVector<double, 4>{});
 }

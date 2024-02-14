@@ -18,6 +18,7 @@
 
 // First include the header file to be tested:
 #include "itkPoint.h"
+#include "itkRangeGTestUtilities.h"
 #include <gtest/gtest.h>
 
 #include <initializer_list>
@@ -51,16 +52,9 @@ Expect_Point_can_be_constructed_by_std_array()
 // Tests that a Point that is "value-initialized" (by empty braces, `{}`) is zero-filled.
 TEST(Point, ValueInitializedIsZeroFilled)
 {
-  const auto expectZeroFilled = [](const auto & fixedArray) {
-    for (const auto element : fixedArray)
-    {
-      EXPECT_EQ(element, 0);
-    }
-  };
-
-  expectZeroFilled(itk::Point<int>{});
-  expectZeroFilled(itk::Point<float, 2>{});
-  expectZeroFilled(itk::Point<double, 4>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::Point<int>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::Point<float, 2>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::Point<double, 4>{});
 }
 
 

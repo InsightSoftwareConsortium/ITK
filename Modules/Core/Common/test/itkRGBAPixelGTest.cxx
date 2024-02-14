@@ -18,20 +18,14 @@
 
 // First include the header file to be tested:
 #include "itkRGBAPixel.h"
+#include "itkRangeGTestUtilities.h"
 #include <gtest/gtest.h>
 
 
 // Tests that a RGBAPixel that is "value-initialized" (by empty braces, `{}`) is zero-filled.
 TEST(RGBAPixel, ValueInitializedIsZeroFilled)
 {
-  const auto expectZeroFilled = [](const auto & fixedArray) {
-    for (const auto element : fixedArray)
-    {
-      EXPECT_EQ(element, 0);
-    }
-  };
-
-  expectZeroFilled(itk::RGBAPixel<>{});
-  expectZeroFilled(itk::RGBAPixel<std::uint8_t>{});
-  expectZeroFilled(itk::RGBAPixel<float>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::RGBAPixel<>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::RGBAPixel<std::uint8_t>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::RGBAPixel<float>{});
 }

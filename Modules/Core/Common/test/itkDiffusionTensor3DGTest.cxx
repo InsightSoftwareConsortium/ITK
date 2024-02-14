@@ -18,20 +18,14 @@
 
 // First include the header file to be tested:
 #include "itkDiffusionTensor3D.h"
+#include "itkRangeGTestUtilities.h"
 #include <gtest/gtest.h>
 
 
 // Tests that a DiffusionTensor3D that is "value-initialized" (by empty braces, `{}`) is zero-filled.
 TEST(DiffusionTensor3D, ValueInitializedIsZeroFilled)
 {
-  const auto expectZeroFilled = [](const auto & fixedArray) {
-    for (const auto element : fixedArray)
-    {
-      EXPECT_EQ(element, 0);
-    }
-  };
-
-  expectZeroFilled(itk::DiffusionTensor3D<int>{});
-  expectZeroFilled(itk::DiffusionTensor3D<float>{});
-  expectZeroFilled(itk::DiffusionTensor3D<double>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::DiffusionTensor3D<int>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::DiffusionTensor3D<float>{});
+  itk::RangeGTestUtilities::ExpectEachElementIsZero(itk::DiffusionTensor3D<double>{});
 }
