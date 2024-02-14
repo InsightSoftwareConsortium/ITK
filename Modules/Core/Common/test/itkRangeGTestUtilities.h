@@ -155,6 +155,18 @@ public:
     return true;
   }
 
+
+  // Checks that each element of the specified range is zero.
+  template <typename TRange>
+  static void
+  ExpectEachElementIsZero(const TRange & range)
+  {
+    for (const auto & element : range)
+    {
+      EXPECT_EQ(element, 0);
+    }
+  }
+
 private:
   template <typename TRange>
   static void
