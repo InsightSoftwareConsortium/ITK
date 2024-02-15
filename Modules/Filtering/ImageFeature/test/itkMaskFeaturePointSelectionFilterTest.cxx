@@ -24,7 +24,6 @@
 #include "itkImageFileWriter.h"
 #include "itkMaskFeaturePointSelectionFilter.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 #include "itkRGBPixel.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkTestingMacros.h"

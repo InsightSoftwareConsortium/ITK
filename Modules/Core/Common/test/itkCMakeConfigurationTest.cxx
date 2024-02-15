@@ -34,7 +34,6 @@
 #include <cstring>
 #include <sys/stat.h>
 #include <ctime>
-#include <cstring>
 #include "itkTestingMacros.h"
 
 void

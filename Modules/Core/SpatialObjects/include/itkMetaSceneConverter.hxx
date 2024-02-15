@@ -31,7 +31,6 @@
 #include "itkMetaLandmarkConverter.h"
 #include "itkMetaLineConverter.h"
 #include "itkMetaSurfaceConverter.h"
-#include "itkMetaLandmarkConverter.h"
 #include "itkMetaArrowConverter.h"
 #include "itkMetaContourConverter.h"
 

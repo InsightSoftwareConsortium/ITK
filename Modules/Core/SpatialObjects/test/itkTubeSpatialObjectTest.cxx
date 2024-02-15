@@ -24,7 +24,6 @@
 #include "itkTestingMacros.h"
 #include "itkTubeSpatialObject.h"
 #include "itkGroupSpatialObject.h"
-#include "itkTestingMacros.h"
 
 
 int

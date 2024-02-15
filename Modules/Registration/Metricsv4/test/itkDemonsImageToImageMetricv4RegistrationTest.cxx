@@ -38,9 +38,6 @@
 #include "itkImageFileWriter.h"
 
 #include <iomanip>
-
-#include "itkCommand.h"
-
 #include <iostream>
 #include <fstream>
 #include "itkTestingMacros.h"

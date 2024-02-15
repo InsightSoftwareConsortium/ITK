@@ -22,7 +22,6 @@
 #include "metaImage.h"
 #include "itkMetaConverterBase.h"
 #include "itkImageSpatialObject.h"
-#include "itkMetaConverterBase.h"
 
 namespace itk
 {

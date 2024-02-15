@@ -26,7 +26,6 @@
 #include "itkTransformFactory.h"
 #include "itkSimilarity2DTransform.h"
 #include "itkBSplineTransform.h"
-#include "itkTestingMacros.h"
 #include "itksys/SystemTools.hxx"
 
 template <typename ScalarType>
