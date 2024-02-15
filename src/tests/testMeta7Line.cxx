@@ -32,7 +32,7 @@ main(int, char *[])
 
   Line->Write("myLine.meta");
 
-  std::cout << "done" << std::endl;
+  std::cout << "done" << '\n';
   std::cout << "Reading test file ...";
 
   Line->Clear();
@@ -41,9 +41,9 @@ main(int, char *[])
   MetaLine LineRead("myLine.meta");
   MetaLine LineCopy(&LineRead);
 
-  std::cout << "PointDim = " << LineCopy.PointDim() << std::endl;
-  std::cout << "NPoints = " << LineCopy.NPoints() << std::endl;
-  std::cout << "ElementType = " << LineCopy.ElementType() << std::endl;
+  std::cout << "PointDim = " << LineCopy.PointDim() << '\n';
+  std::cout << "NPoints = " << LineCopy.NPoints() << '\n';
+  std::cout << "ElementType = " << LineCopy.ElementType() << '\n';
 
   Line->PrintInfo();
 
@@ -53,30 +53,30 @@ main(int, char *[])
   i = 0;
   while (it != list.end())
   {
-    std::cout << "Point #" << i++ << ":" << std::endl;
+    std::cout << "Point #" << i++ << ":" << '\n';
     std::cout << "position = ";
 
     for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_X[d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     std::cout << "First normal = ";
     for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[0][d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     std::cout << "Second normal = ";
     for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[1][d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     ++it;
   }
 
   delete Line;
-  std::cout << "done" << std::endl;
+  std::cout << "done" << '\n';
   return EXIT_SUCCESS;
 }

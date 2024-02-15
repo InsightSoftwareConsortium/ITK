@@ -141,15 +141,15 @@ void
 MetaMesh::PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "PointDim = " << m_PointDim << std::endl;
-  std::cout << "NPoints = " << m_NPoints << std::endl;
+  std::cout << "PointDim = " << m_PointDim << '\n';
+  std::cout << "NPoints = " << m_NPoints << '\n';
   char str[255];
   MET_TypeToString(m_PointType, str);
-  std::cout << "PointType = " << str << std::endl;
+  std::cout << "PointType = " << str << '\n';
   MET_TypeToString(m_PointDataType, str);
-  std::cout << "PointDataType = " << str << std::endl;
+  std::cout << "PointDataType = " << str << '\n';
   MET_TypeToString(m_CellDataType, str);
-  std::cout << "CellDataType = " << str << std::endl;
+  std::cout << "CellDataType = " << str << '\n';
 }
 
 void
@@ -371,7 +371,7 @@ MetaMesh::M_Read()
 
   if (!MetaObject::M_Read())
   {
-    std::cout << "MetaMesh: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaMesh: M_Read: Error parsing file" << '\n';
     return false;
   }
 
@@ -428,8 +428,8 @@ MetaMesh::M_Read()
     int gc = static_cast<int>(m_ReadStream->gcount());
     if (gc != readSize)
     {
-      std::cout << "MetaMesh: m_Read: Points not read completely" << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      std::cout << "MetaMesh: m_Read: Points not read completely" << '\n';
+      std::cout << "   ideal = " << readSize << " : actual = " << gc << '\n';
       delete[] _data;
       return false;
     }
@@ -569,7 +569,7 @@ MetaMesh::M_Read()
 
     if (!MET_Read(*m_ReadStream, &m_Fields))
     {
-      std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
+      std::cout << "MetaObject: Read: MET_Read Failed" << '\n';
       return false;
     }
 
@@ -604,8 +604,8 @@ MetaMesh::M_Read()
       int gc = static_cast<int>(m_ReadStream->gcount());
       if (gc != readSize)
       {
-        std::cout << "MetaMesh: m_Read: Cells not read completely" << std::endl;
-        std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+        std::cout << "MetaMesh: m_Read: Cells not read completely" << '\n';
+        std::cout << "   ideal = " << readSize << " : actual = " << gc << '\n';
         delete[] _data;
         return false;
       }
@@ -694,7 +694,7 @@ MetaMesh::M_Read()
 
   if (!MET_Read(*m_ReadStream, &m_Fields, '=', false, false))
   {
-    std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
+    std::cout << "MetaObject: Read: MET_Read Failed" << '\n';
     return false;
   }
 
@@ -724,8 +724,8 @@ MetaMesh::M_Read()
     int gc = static_cast<int>(m_ReadStream->gcount());
     if (gc != readSize)
     {
-      std::cout << "MetaMesh: m_Read: Cell Link not read completely" << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      std::cout << "MetaMesh: m_Read: Cell Link not read completely" << '\n';
+      std::cout << "   ideal = " << readSize << " : actual = " << gc << '\n';
       delete[] _data;
       return false;
     }
@@ -833,7 +833,7 @@ MetaMesh::M_Read()
 
   if (!MET_Read(*m_ReadStream, &m_Fields, '=', false, false))
   {
-    std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
+    std::cout << "MetaObject: Read: MET_Read Failed" << '\n';
     return false;
   }
 
@@ -856,8 +856,8 @@ MetaMesh::M_Read()
   auto gc = static_cast<unsigned int>(m_ReadStream->gcount());
   if (gc != pointDataSize)
   {
-    std::cout << "MetaMesh: m_Read: PointData not read completely" << std::endl;
-    std::cout << "   ideal = " << pointDataSize << " : actual = " << gc << std::endl;
+    std::cout << "MetaMesh: m_Read: PointData not read completely" << '\n';
+    std::cout << "   ideal = " << pointDataSize << " : actual = " << gc << '\n';
     delete[] _data;
     return false;
   }
@@ -959,7 +959,7 @@ MetaMesh::M_Read()
     }
     else // assume double
     {
-      std::cerr << "Warning: Mesh point data type not known - assuming double" << std::endl;
+      std::cerr << "Warning: Mesh point data type not known - assuming double" << '\n';
       double val = alignedBuffer.doublefloatingpoint;
       pd = new MeshData<double>();
       MET_SwapByteIfSystemMSB(&val, MET_DOUBLE);
@@ -997,7 +997,7 @@ MetaMesh::M_Read()
 
   if (!MET_Read(*m_ReadStream, &m_Fields, '=', false, false))
   {
-    std::cout << "MetaObject: Read: MET_Read Failed" << std::endl;
+    std::cout << "MetaObject: Read: MET_Read Failed" << '\n';
     return false;
   }
 
@@ -1021,8 +1021,8 @@ MetaMesh::M_Read()
   auto gcCell = static_cast<unsigned int>(m_ReadStream->gcount());
   if (gcCell != cellDataSize)
   {
-    std::cout << "MetaMesh: m_Read: data not read completely" << std::endl;
-    std::cout << "   ideal = " << cellDataSize << " : actual = " << gcCell << std::endl;
+    std::cout << "MetaMesh: m_Read: data not read completely" << '\n';
+    std::cout << "   ideal = " << cellDataSize << " : actual = " << gcCell << '\n';
     delete[] _data;
     delete[] _celldata;
     return false;
@@ -1123,7 +1123,7 @@ MetaMesh::M_Read()
     }
     else
     {
-      std::cerr << "Warning: Mesh point data type not known - assuming double" << std::endl;
+      std::cerr << "Warning: Mesh point data type not known - assuming double" << '\n';
       double val = alignedBuffer.doublefloatingpoint;
       cd = new MeshData<double>();
       MET_SwapByteIfSystemMSB(&val, MET_DOUBLE);
@@ -1150,7 +1150,7 @@ MetaMesh::M_Write()
 {
   if (!MetaObject::M_Write())
   {
-    std::cout << "MetaMesh: M_Write: Error parsing file" << std::endl;
+    std::cout << "MetaMesh: M_Write: Error parsing file" << '\n';
     return false;
   }
 
@@ -1162,20 +1162,21 @@ MetaMesh::M_Write()
     int                           elementSize;
     MET_SizeOfType(m_PointType, &elementSize);
 
-    char * data = new char[(m_NDims)*m_NPoints * elementSize + m_NPoints * sizeof(int)];
+    const size_t dataSize = (m_NDims)*m_NPoints * elementSize + m_NPoints * sizeof(int);
+    char * data = new char[dataSize];
     int    i = 0;
     int    d;
     while (it != itEnd)
     {
       int pntId = (*it)->m_Id;
       MET_SwapByteIfSystemMSB(&pntId, MET_INT);
-      MET_DoubleToValue(static_cast<double>(pntId), MET_INT, data, i++);
+      MET_DoubleToValueN(static_cast<double>(pntId), MET_INT, data, dataSize, i++);
 
       for (d = 0; d < m_NDims; d++)
       {
         float pntX = (*it)->m_X[d];
         MET_SwapByteIfSystemMSB(&pntX, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(pntX), m_PointType, data, i++);
+        MET_DoubleToValueN(static_cast<double>(pntX), m_PointType, data, dataSize, i++);
       }
       ++it;
     }
@@ -1195,7 +1196,7 @@ MetaMesh::M_Write()
       {
         *m_WriteStream << (*it)->m_X[d] << " ";
       }
-      *m_WriteStream << std::endl;
+      *m_WriteStream << '\n';
       ++it;
     }
   }
@@ -1227,7 +1228,7 @@ MetaMesh::M_Write()
 
       if (!MetaObject::M_Write())
       {
-        std::cout << "MetaMesh: M_Write: Error parsing file" << std::endl;
+        std::cout << "MetaMesh: M_Write: Error parsing file" << '\n';
         return false;
       }
 
@@ -1235,7 +1236,8 @@ MetaMesh::M_Write()
       if (m_BinaryData)
       {
         auto         totalCellsSize = static_cast<unsigned int>(m_CellListArray[i]->size() * (MET_CellSize[i] + 1));
-        char *       data = new char[totalCellsSize * sizeof(int)];
+        const size_t dataSize = totalCellsSize * sizeof(int);
+        char *       data = new char[dataSize];
         unsigned int d;
         int          j = 0;
         CellListType::const_iterator it = m_CellListArray[i]->begin();
@@ -1244,13 +1246,13 @@ MetaMesh::M_Write()
         {
           int cellId = (*it)->m_Id;
           MET_SwapByteIfSystemMSB(&cellId, MET_INT);
-          MET_DoubleToValue(static_cast<double>(cellId), MET_INT, data, j++);
+          MET_DoubleToValueN(static_cast<double>(cellId), MET_INT, data, dataSize, j++);
 
           for (d = 0; d < (*it)->m_Dim; d++)
           {
             int pntId = (*it)->m_PointsId[d];
             MET_SwapByteIfSystemMSB(&pntId, MET_INT);
-            MET_DoubleToValue(static_cast<double>(pntId), MET_INT, data, j++);
+            MET_DoubleToValueN(static_cast<double>(pntId), MET_INT, data, dataSize, j++);
           }
           ++it;
         }
@@ -1272,7 +1274,7 @@ MetaMesh::M_Write()
             *m_WriteStream << (*it)->m_PointsId[d] << " ";
           }
 
-          *m_WriteStream << std::endl;
+          *m_WriteStream << '\n';
           ++it;
         }
       }
@@ -1312,14 +1314,15 @@ MetaMesh::M_Write()
 
     if (!MetaObject::M_Write())
     {
-      std::cout << "MetaMesh: M_Write: Error parsing file" << std::endl;
+      std::cout << "MetaMesh: M_Write: Error parsing file" << '\n';
       return false;
     }
 
     /** Then copy all cell links */
     if (m_BinaryData)
     {
-      char *                           data = new char[cellLinksSize * sizeof(int)];
+      const size_t                     dataSize = cellLinksSize * sizeof(int);
+      char *                           data = new char[dataSize];
       int                              j = 0;
       CellLinkListType::const_iterator it = m_CellLinks.begin();
       CellLinkListType::const_iterator itEnd = m_CellLinks.end();
@@ -1327,11 +1330,11 @@ MetaMesh::M_Write()
       {
         int clId = (*it)->m_Id;
         MET_SwapByteIfSystemMSB(&clId, MET_INT);
-        MET_DoubleToValue(static_cast<double>(clId), MET_INT, data, j++);
+        MET_DoubleToValueN(static_cast<double>(clId), MET_INT, data, dataSize, j++);
 
         int linkSize = static_cast<int>((*it)->m_Links.size());
         MET_SwapByteIfSystemMSB(&linkSize, MET_INT);
-        MET_DoubleToValue(static_cast<double>(linkSize), MET_INT, data, j++);
+        MET_DoubleToValueN(static_cast<double>(linkSize), MET_INT, data, dataSize, j++);
 
         std::list<int>::const_iterator it2 = (*it)->m_Links.begin();
         std::list<int>::const_iterator it2End = (*it)->m_Links.end();
@@ -1339,7 +1342,7 @@ MetaMesh::M_Write()
         {
           int links = (*it2);
           MET_SwapByteIfSystemMSB(&links, MET_INT);
-          MET_DoubleToValue(static_cast<double>(links), MET_INT, data, j++);
+          MET_DoubleToValueN(static_cast<double>(links), MET_INT, data, dataSize, j++);
           ++it2;
         }
         ++it;
@@ -1364,7 +1367,7 @@ MetaMesh::M_Write()
           *m_WriteStream << (*it2) << " ";
           ++it2;
         }
-        *m_WriteStream << std::endl;
+        *m_WriteStream << '\n';
         ++it;
       }
     }
@@ -1400,7 +1403,7 @@ MetaMesh::M_Write()
 
     if (!MetaObject::M_Write())
     {
-      std::cout << "MetaMesh: M_Write: Error parsing file" << std::endl;
+      std::cout << "MetaMesh: M_Write: Error parsing file" << '\n';
       return false;
     }
 
@@ -1447,7 +1450,7 @@ MetaMesh::M_Write()
 
     if (!MetaObject::M_Write())
     {
-      std::cout << "MetaMesh: M_Write: Error parsing file" << std::endl;
+      std::cout << "MetaMesh: M_Write: Error parsing file" << '\n';
       return false;
     }
 

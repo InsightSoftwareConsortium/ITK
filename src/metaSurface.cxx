@@ -32,10 +32,10 @@ SurfacePnt::SurfacePnt(int dim)
     m_V[i] = 0;
   }
   // Color is red by default
-  m_Color[0] = 1.0f;
-  m_Color[1] = 0.0f;
-  m_Color[2] = 0.0f;
-  m_Color[3] = 1.0f;
+  m_Color[0] = 1.0F;
+  m_Color[1] = 0.0F;
+  m_Color[2] = 0.0F;
+  m_Color[3] = 1.0F;
 }
 
 SurfacePnt::~SurfacePnt()
@@ -92,11 +92,11 @@ void
 MetaSurface::PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "PointDim = " << m_PointDim << std::endl;
-  std::cout << "NPoints = " << m_NPoints << std::endl;
+  std::cout << "PointDim = " << m_PointDim << '\n';
+  std::cout << "NPoints = " << m_NPoints << '\n';
   char str[255];
   MET_TypeToString(m_ElementType, str);
-  std::cout << "ElementType = " << str << std::endl;
+  std::cout << "ElementType = " << str << '\n';
 }
 
 void
@@ -235,7 +235,7 @@ MetaSurface::M_Read()
 
   if (!MetaObject::M_Read())
   {
-    std::cout << "MetaSurface: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaSurface: M_Read: Error parsing file" << '\n';
     return false;
   }
 
@@ -287,8 +287,8 @@ MetaSurface::M_Read()
     int gc = static_cast<int>(m_ReadStream->gcount());
     if (gc != readSize)
     {
-      std::cout << "MetaSurface: m_Read: data not read completely" << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      std::cout << "MetaSurface: m_Read: data not read completely" << '\n';
+      std::cout << "   ideal = " << readSize << " : actual = " << gc << '\n';
       delete[] _data;
       return false;
     }
@@ -400,7 +400,7 @@ MetaSurface::M_Write()
 
   if (!MetaObject::M_Write())
   {
-    std::cout << "MetaSurface: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaSurface: M_Read: Error parsing file" << '\n';
     return false;
   }
 
@@ -413,7 +413,8 @@ MetaSurface::M_Write()
     int                           elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
 
-    char * data = new char[(m_NDims * 2 + 4) * m_NPoints * elementSize];
+    const size_t dataSize = (m_NDims * 2 + 4) * m_NPoints * elementSize;
+    char * data = new char[dataSize];
     int    i = 0;
     int    d;
     while (it != itEnd)
@@ -422,21 +423,21 @@ MetaSurface::M_Write()
       {
         float x = (*it)->m_X[d];
         MET_SwapByteIfSystemMSB(&x, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(x), m_ElementType, data, i++);
+        MET_DoubleToValueN(static_cast<double>(x), m_ElementType, data, dataSize, i++);
       }
 
       for (d = 0; d < m_NDims; d++)
       {
         float v = (*it)->m_V[d];
         MET_SwapByteIfSystemMSB(&v, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(v), m_ElementType, data, i++);
+        MET_DoubleToValueN(static_cast<double>(v), m_ElementType, data, dataSize, i++);
       }
 
       for (d = 0; d < 4; d++)
       {
         float c = (*it)->m_Color[d];
         MET_SwapByteIfSystemMSB(&c, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(c), m_ElementType, data, i++);
+        MET_DoubleToValueN(static_cast<double>(c), m_ElementType, data, dataSize, i++);
       }
 
       ++it;
@@ -469,7 +470,7 @@ MetaSurface::M_Write()
         *m_WriteStream << (*it)->m_Color[d] << " ";
       }
 
-      *m_WriteStream << std::endl;
+      *m_WriteStream << '\n';
       ++it;
     }
   }

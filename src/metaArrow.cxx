@@ -64,13 +64,13 @@ void
 MetaArrow::PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "Length = " << M_Length << std::endl;
+  std::cout << "Length = " << M_Length << '\n';
   std::cout << "Direction = ";
   for (int i = 0; i < m_NDims; i++)
   {
     std::cout << M_Direction[i] << " ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 }
 
 void
@@ -192,7 +192,7 @@ MetaArrow::M_Read()
 
   if (!MetaObject::M_Read())
   {
-    std::cout << "MetaArrow: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaArrow: M_Read: Error parsing file" << '\n';
     return false;
   }
 

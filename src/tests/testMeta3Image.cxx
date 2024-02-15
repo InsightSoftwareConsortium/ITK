@@ -17,7 +17,7 @@ main(int, char *[])
   {
     if (i != tIm.ElementData(i))
     {
-      std::cout << "Assigned Element Values Maintained: FAIL" << std::endl;
+      std::cout << "Assigned Element Values Maintained: FAIL" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -31,7 +31,7 @@ main(int, char *[])
   {
     if (i != tIm.ElementData(i))
     {
-      std::cout << "Read Element Values: FAIL" << std::endl;
+      std::cout << "Read Element Values: FAIL" << '\n';
       return EXIT_FAILURE;
     }
   }

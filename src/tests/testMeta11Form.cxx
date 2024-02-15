@@ -38,19 +38,19 @@ main(int, char *[])
   tObj.AddUserField("MyArray", MET_INT_ARRAY, 3, myarray);
   tObj.AddUserField("MyMatrix", MET_FLOAT_MATRIX, 2, myMatrix);
 
-  std::cout << "Read: " << std::endl;
+  std::cout << "Read: " << '\n';
   tObj.Read();
-  std::cout << "PrintInfo: " << std::endl;
+  std::cout << "PrintInfo: " << '\n';
   tObj.PrintInfo();
 
-  std::cout << "Check fields: " << std::endl;
+  std::cout << "Check fields: " << '\n';
   char * name = static_cast<char *>(tObj.GetUserField("MyName"));
   if (!strcmp(name, "Julien"))
   {
-    std::cout << "MyName: FAIL" << std::endl;
+    std::cout << "MyName: FAIL" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "MyName: " << name << std::endl;
+  std::cout << "MyName: " << name << '\n';
   delete[] name;
 
   int * array = static_cast<int *>(tObj.GetUserField("MyArray"));
@@ -59,11 +59,11 @@ main(int, char *[])
   {
     if (array[i] != i + 1)
     {
-      std::cout << "MyArray: FAIL" << std::endl;
+      std::cout << "MyArray: FAIL" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "MyArray: PASS" << std::endl;
+  std::cout << "MyArray: PASS" << '\n';
   delete[] array;
 
   auto * matrix = static_cast<float *>(tObj.GetUserField("MyMatrix"));
@@ -71,11 +71,11 @@ main(int, char *[])
   {
     if (matrix[i] != i)
     {
-      std::cout << "MyMatrix: FAIL" << std::endl;
+      std::cout << "MyMatrix: FAIL" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "MyMatrix: PASS" << std::endl;
+  std::cout << "MyMatrix: PASS" << '\n';
   delete[] matrix;
 
   tObj.Clear();
@@ -90,6 +90,6 @@ main(int, char *[])
   tObj.Read();
   tObj.PrintInfo();
 
-  std::cout << "PASSED!" << std::endl;
+  std::cout << "PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

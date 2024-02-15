@@ -326,63 +326,102 @@ MET_ValueToDouble(MET_ValueEnumType _type, const void * _data, std::streamoff _i
 }
 
 bool
-MET_DoubleToValue(double _value, MET_ValueEnumType _type, void * _data, std::streamoff _index)
+MET_DoubleToValueN(double _value, MET_ValueEnumType _type, void * _data, size_t _dataSize, std::streamoff _index)
 {
   switch (_type)
   {
     case MET_ASCII_CHAR:
     case MET_CHAR:
     case MET_CHAR_ARRAY:
-      (static_cast<MET_CHAR_TYPE *>(_data))[_index] = static_cast<MET_CHAR_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_CHAR_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_CHAR_TYPE>(_value);
       return true;
+    }
     case MET_UCHAR:
     case MET_UCHAR_ARRAY:
-      (static_cast<MET_UCHAR_TYPE *>(_data))[_index] = static_cast<MET_UCHAR_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_UCHAR_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_UCHAR_TYPE>(_value);
       return true;
+    }
     case MET_SHORT:
     case MET_SHORT_ARRAY:
-      (static_cast<MET_SHORT_TYPE *>(_data))[_index] = static_cast<MET_SHORT_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_SHORT_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_SHORT_TYPE>(_value);
       return true;
+    }
     case MET_USHORT:
     case MET_USHORT_ARRAY:
-      (static_cast<MET_USHORT_TYPE *>(_data))[_index] = static_cast<MET_USHORT_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_USHORT_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_USHORT_TYPE>(_value);
       return true;
+    }
     case MET_INT:
     case MET_INT_ARRAY:
-      (static_cast<MET_INT_TYPE *>(_data))[_index] = static_cast<MET_INT_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_INT_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_INT_TYPE>(_value);
       return true;
+    }
     case MET_LONG:
     case MET_LONG_ARRAY:
-      (static_cast<MET_LONG_TYPE *>(_data))[_index] = static_cast<MET_LONG_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_LONG_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_LONG_TYPE>(_value);
       return true;
+    }
     case MET_UINT:
     case MET_UINT_ARRAY:
-      (static_cast<MET_UINT_TYPE *>(_data))[_index] = static_cast<MET_UINT_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_UINT_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_UINT_TYPE>(_value);
       return true;
+    }
     case MET_ULONG:
     case MET_ULONG_ARRAY:
-      (static_cast<MET_ULONG_TYPE *>(_data))[_index] = static_cast<MET_ULONG_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_ULONG_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_ULONG_TYPE>(_value);
       return true;
+    }
     case MET_LONG_LONG:
     case MET_LONG_LONG_ARRAY:
-      (static_cast<MET_LONG_LONG_TYPE *>(_data))[_index] = static_cast<MET_LONG_LONG_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_LONG_LONG_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_LONG_LONG_TYPE>(_value);
       return true;
+    }
     case MET_ULONG_LONG:
     case MET_ULONG_LONG_ARRAY:
-      (static_cast<MET_ULONG_LONG_TYPE *>(_data))[_index] = static_cast<MET_ULONG_LONG_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_ULONG_LONG_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_ULONG_LONG_TYPE>(_value);
       return true;
+    }
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
     case MET_FLOAT_MATRIX:
-      (static_cast<MET_FLOAT_TYPE *>(_data))[_index] = static_cast<MET_FLOAT_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_FLOAT_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_FLOAT_TYPE>(_value);
       return true;
+    }
     case MET_DOUBLE:
     case MET_DOUBLE_ARRAY:
-      (static_cast<MET_DOUBLE_TYPE *>(_data))[_index] = static_cast<MET_DOUBLE_TYPE>(_value);
+    {
+      auto ptr = static_cast<MET_DOUBLE_TYPE *>(_data);
+      ptr[_index] = static_cast<MET_DOUBLE_TYPE>(_value);
       return true;
+    }
     case MET_STRING:
-      sprintf(&((static_cast<MET_ASCII_CHAR_TYPE *>(_data))[_index]), "%f", _value);
+    {
+      auto ptr = static_cast<MET_ASCII_CHAR_TYPE *>(_data);
+      snprintf(&(ptr[_index]), _dataSize - _index, "%f", _value);
       return true;
+    }
     case MET_NONE:
     case MET_OTHER:
     default:
@@ -391,11 +430,19 @@ MET_DoubleToValue(double _value, MET_ValueEnumType _type, void * _data, std::str
 }
 
 bool
-MET_ValueToValue(MET_ValueEnumType _fromType,
+MET_DoubleToValue(double _value, MET_ValueEnumType _type, void * _data, std::streamoff _index)
+{
+  // We don't know the buffer size, so just use a big number.
+  return MET_DoubleToValueN(_value, _type, _data, SIZE_MAX, _index);
+}
+
+bool
+MET_ValueToValueN(MET_ValueEnumType _fromType,
                  const void *      _fromData,
                  std::streamoff    _index,
                  MET_ValueEnumType _toType,
                  void *            _toData,
+                 size_t            _toDataSize,
                  double            _fromMin,
                  double            _fromMax,
                  double            _toMin,
@@ -420,61 +467,124 @@ MET_ValueToValue(MET_ValueEnumType _fromType,
     case MET_ASCII_CHAR:
     case MET_CHAR:
     case MET_CHAR_ARRAY:
-      ((static_cast<MET_CHAR_TYPE *>(_toData))[_index]) = static_cast<MET_CHAR_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_CHAR_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_CHAR_TYPE>(tf);
       return true;
+    }
     case MET_UCHAR:
     case MET_UCHAR_ARRAY:
-      ((static_cast<MET_UCHAR_TYPE *>(_toData))[_index]) = static_cast<MET_UCHAR_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_UCHAR_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_UCHAR_TYPE>(tf);
       return true;
+    }
     case MET_SHORT:
     case MET_SHORT_ARRAY:
-      ((static_cast<MET_SHORT_TYPE *>(_toData))[_index]) = static_cast<MET_SHORT_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_SHORT_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_SHORT_TYPE>(tf);
       return true;
+    }
     case MET_USHORT:
     case MET_USHORT_ARRAY:
-      ((static_cast<MET_USHORT_TYPE *>(_toData))[_index]) = static_cast<MET_USHORT_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_USHORT_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_USHORT_TYPE>(tf);
       return true;
+    }
     case MET_INT:
     case MET_INT_ARRAY:
-      ((static_cast<MET_INT_TYPE *>(_toData))[_index]) = static_cast<MET_INT_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_INT_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_INT_TYPE>(tf);
       return true;
+    }
     case MET_LONG:
     case MET_LONG_ARRAY:
-      ((static_cast<MET_LONG_TYPE *>(_toData))[_index]) = static_cast<MET_LONG_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_LONG_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_LONG_TYPE>(tf);
       return true;
+    }
     case MET_UINT:
     case MET_UINT_ARRAY:
-      ((static_cast<MET_UINT_TYPE *>(_toData))[_index]) = static_cast<MET_UINT_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_UINT_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_UINT_TYPE>(tf);
       return true;
+    }
     case MET_ULONG:
     case MET_ULONG_ARRAY:
-      ((static_cast<MET_ULONG_TYPE *>(_toData))[_index]) = static_cast<MET_ULONG_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_ULONG_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_ULONG_TYPE>(tf);
       return true;
+    }
     case MET_LONG_LONG:
     case MET_LONG_LONG_ARRAY:
-      ((static_cast<MET_LONG_LONG_TYPE *>(_toData))[_index]) = static_cast<MET_LONG_LONG_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_LONG_LONG_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_LONG_LONG_TYPE>(tf);
       return true;
+    }
     case MET_ULONG_LONG:
     case MET_ULONG_LONG_ARRAY:
-      ((static_cast<MET_ULONG_LONG_TYPE *>(_toData))[_index]) = static_cast<MET_ULONG_LONG_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_ULONG_LONG_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_ULONG_LONG_TYPE>(tf);
       return true;
+    }
     case MET_DOUBLE:
     case MET_DOUBLE_ARRAY:
-      ((static_cast<MET_DOUBLE_TYPE *>(_toData))[_index]) = static_cast<MET_DOUBLE_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_DOUBLE_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_DOUBLE_TYPE>(tf);
       return true;
+    }
     case MET_FLOAT:
     case MET_FLOAT_ARRAY:
     case MET_FLOAT_MATRIX:
-      ((static_cast<MET_FLOAT_TYPE *>(_toData))[_index]) = static_cast<MET_FLOAT_TYPE>(tf);
+    {
+      auto ptr = static_cast<MET_FLOAT_TYPE *>(_toData);
+      ptr[_index] = static_cast<MET_FLOAT_TYPE>(tf);
       return true;
+    }
     case MET_STRING:
-      sprintf(&((static_cast<MET_ASCII_CHAR_TYPE *>(_toData))[_index]), "%f", tf);
+    {
+      auto ptr = static_cast<MET_ASCII_CHAR_TYPE *>(_toData);
+      snprintf(&(ptr[_index]), _toDataSize - _index, "%f", tf);
       return true;
+    }
     case MET_NONE:
     case MET_OTHER:
     default:
       return false;
   }
+}
+
+bool
+MET_ValueToValue(MET_ValueEnumType _fromType,
+                 const void *      _fromData,
+                 std::streamoff    _index,
+                 MET_ValueEnumType _toType,
+                 void *            _toData,
+                 double            _fromMin,
+                 double            _fromMax,
+                 double            _toMin,
+                 double            _toMax)
+{
+  // We don't know the buffer size, so just use a big number.
+  return MET_ValueToValueN(_fromType,
+                          _fromData,
+                          _index,
+                          _toType,
+                          _toData,
+                          SIZE_MAX,
+                          _fromMin,
+                          _fromMax,
+                          _toMin,
+                          _toMax);
 }
 
 // Uncompress a stream given an uncompressedSeekPosition
@@ -491,7 +601,7 @@ MET_UncompressStream(std::ifstream *            stream,
   std::streampos currentPos = stream->tellg();
   if (currentPos == std::streampos(-1))
   {
-    std::cout << "MET_UncompressStream: ERROR Stream is not valid!" << std::endl;
+    std::cout << "MET_UncompressStream: ERROR Stream is not valid!" << '\n';
     return -1;
   }
 
@@ -540,7 +650,7 @@ MET_UncompressStream(std::ifstream *            stream,
     {
       if ((*it).uncompressedOffset - uncompressedSeekPosition > compressionTable->bufferSize)
       {
-        std::cout << "ERROR: Cannot go backward by more than the buffer size (1000)" << std::endl;
+        std::cout << "ERROR: Cannot go backward by more than the buffer size (1000)" << '\n';
         return 0;
       }
 
@@ -777,7 +887,7 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
       {
         if (err != Z_STREAM_END && err != Z_BUF_ERROR) // Z_BUF_ERROR means there is still data to uncompress,
         {                                              // but no space left in buffer; non-fatal
-          std::cerr << "Uncompress failed" << std::endl;
+          std::cerr << "Uncompress failed" << '\n';
         }
         break;
       }
@@ -908,7 +1018,7 @@ MET_SetFileSuffix(std::string & _fName, const std::string & _suf)
     }
     else
     {
-      suffixStart = &_suf[0];
+      suffixStart = _suf.data();
     }
     _fName.resize(static_cast<unsigned long>(i));
     _fName.append(suffixStart);
@@ -981,7 +1091,7 @@ MET_SkipToVal(std::istream & fp)
 
   if (fp.eof())
   {
-    std::cerr << "Incomplete file record definition" << std::endl;
+    std::cerr << "Incomplete file record definition" << '\n';
     return false;
   }
 
@@ -998,7 +1108,7 @@ MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
   {
     if ((*fieldIter)->required && !(*fieldIter)->defined)
     {
-      std::cerr << (*fieldIter)->name << " required and not defined." << std::endl;
+      std::cerr << (*fieldIter)->name << " required and not defined." << '\n';
       return false;
     }
   }
@@ -1029,7 +1139,7 @@ readFloatValue(std::istream & fp,
       }
       catch (std::istream::failure & e)
       {
-        std::cerr << "Error in readFloatValue\n" << e.what() << std::endl;
+        std::cerr << "Error in readFloatValue\n" << e.what() << '\n';
         return false;
       }
     }
@@ -1093,7 +1203,7 @@ MET_Read(std::istream &                       fp,
           if (!(*fields)[(*fieldIter)->dependsOn]->defined)
           {
             std::cerr << (*fieldIter)->name << " defined prior to defining ";
-            std::cerr << (*fields)[(*fieldIter)->dependsOn]->name << std::endl;
+            std::cerr << (*fields)[(*fieldIter)->dependsOn]->name << '\n';
             return false;
           }
         }
@@ -1191,7 +1301,7 @@ MET_Read(std::istream &                       fp,
             {
               if ((*fieldIter)->length <= 0)
               {
-                std::cerr << "Arrays must have dependency or pre-specified lengths" << std::endl;
+                std::cerr << "Arrays must have dependency or pre-specified lengths" << '\n';
                 return false;
               }
               for (j = 0; j < static_cast<size_t>((*fieldIter)->length); j++)
@@ -1225,7 +1335,7 @@ MET_Read(std::istream &                       fp,
             {
               if ((*fieldIter)->length <= 0)
               {
-                std::cerr << "Arrays must have dependency or pre-specified lengths" << std::endl;
+                std::cerr << "Arrays must have dependency or pre-specified lengths" << '\n';
                 return false;
               }
               for (j = 0; j < static_cast<size_t>((*fieldIter)->length); j++)
@@ -1261,7 +1371,7 @@ MET_Read(std::istream &                       fp,
             {
               if ((*fieldIter)->length <= 0)
               {
-                std::cerr << "Arrays must have dependency or pre-specified lengths" << std::endl;
+                std::cerr << "Arrays must have dependency or pre-specified lengths" << '\n';
                 return false;
               }
               for (j = 0; j < static_cast<size_t>((*fieldIter)->length) * (*fieldIter)->length; j++)
@@ -1311,7 +1421,7 @@ MET_Read(std::istream &                       fp,
       {
         if (display_warnings)
         {
-          std::cerr << "Skipping unrecognized field " << s << std::endl;
+          std::cerr << "Skipping unrecognized field " << s << '\n';
         }
         fp.getline(s, 500);
       }
@@ -1354,13 +1464,13 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
     {
       case MET_NONE:
       {
-        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " " << std::endl;
+        fp << (*fieldIter)->name << " " << MET_SeperatorChar << " " << '\n';
         break;
       }
       case MET_ASCII_CHAR:
       {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << static_cast<MET_CHAR_TYPE>((*fieldIter)->value[0]) << std::endl;
+        fp << static_cast<MET_CHAR_TYPE>((*fieldIter)->value[0]) << '\n';
         break;
       }
       case MET_CHAR:
@@ -1369,7 +1479,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_INT:
       {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << static_cast<MET_LONG_TYPE>((*fieldIter)->value[0]) << std::endl;
+        fp << static_cast<MET_LONG_TYPE>((*fieldIter)->value[0]) << '\n';
         break;
       }
       case MET_LONG_LONG:
@@ -1382,7 +1492,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
         std::cerr << "  Writing as double instead."
                   << "  Loss of precision results." << std::endl;
 #else
-        fp << static_cast<MET_LONG_LONG_TYPE>((*fieldIter)->value[0]) << std::endl;
+        fp << static_cast<MET_LONG_LONG_TYPE>((*fieldIter)->value[0]) << '\n';
 #endif
         break;
       }
@@ -1392,7 +1502,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_ULONG:
       {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << static_cast<MET_ULONG_TYPE>((*fieldIter)->value[0]) << std::endl;
+        fp << static_cast<MET_ULONG_TYPE>((*fieldIter)->value[0]) << '\n';
         break;
       }
       case MET_ULONG_LONG:
@@ -1402,7 +1512,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
         // NOTE: you cannot use __int64 in an ostream in MSV6 or HPUX
         fp << convert_ulonglong_to_string((MET_ULONG_LONG_TYPE)((*fieldIter)->value[0])) << std::endl;
 #else
-        fp << static_cast<MET_ULONG_LONG_TYPE>((*fieldIter)->value[0]) << std::endl;
+        fp << static_cast<MET_ULONG_LONG_TYPE>((*fieldIter)->value[0]) << '\n';
 #endif
         break;
       }
@@ -1410,7 +1520,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
       case MET_DOUBLE:
       {
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
-        fp << static_cast<MET_DOUBLE_TYPE>((*fieldIter)->value[0]) << std::endl;
+        fp << static_cast<MET_DOUBLE_TYPE>((*fieldIter)->value[0]) << '\n';
         break;
       }
       case MET_STRING:
@@ -1420,7 +1530,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
           std::cerr << "Warning:";
           std::cerr << "The field " << (*fieldIter)->name << "has zero length. "
                     << "Refusing to write empty string value.";
-          std::cerr << std::endl;
+          std::cerr << '\n';
         }
         fp << (*fieldIter)->name << " " << MET_SeperatorChar << " ";
         if ((*fieldIter)->dependsOn >= 0)
@@ -1430,11 +1540,11 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
             std::cerr << "Warning:";
             std::cerr << "length and dependsOn values not equal"
                       << " in write";
-            std::cerr << std::endl;
+            std::cerr << '\n';
           }
         }
         fp.write(reinterpret_cast<char *>((*fieldIter)->value), (*fieldIter)->length);
-        fp << std::endl;
+        fp << '\n';
         break;
       }
       case MET_CHAR_ARRAY:
@@ -1450,14 +1560,14 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
             std::cerr << "Warning: ";
             std::cerr << "Length and dependsOn values not equal"
                       << " in write";
-            std::cerr << std::endl;
+            std::cerr << '\n';
           }
         }
         for (j = 0; j < (*fieldIter)->length; j++)
         {
           fp << " " << static_cast<MET_LONG_TYPE>((*fieldIter)->value[j]);
         }
-        fp << std::endl;
+        fp << '\n';
         break;
       }
       case MET_LONG_LONG_ARRAY:
@@ -1470,7 +1580,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
             std::cerr << "Warning: ";
             std::cerr << "Length and dependsOn values not equal"
                       << " in write";
-            std::cerr << std::endl;
+            std::cerr << '\n';
           }
         }
         for (j = 0; j < (*fieldIter)->length; j++)
@@ -1486,7 +1596,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
           fp << " " << static_cast<MET_LONG_LONG_TYPE>((*fieldIter)->value[j]);
 #endif
         }
-        fp << std::endl;
+        fp << '\n';
         break;
       }
 
@@ -1503,14 +1613,14 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
             std::cerr << "Warning: ";
             std::cerr << "Length and dependsOn values not equal"
                       << " in write";
-            std::cerr << std::endl;
+            std::cerr << '\n';
           }
         }
         for (j = 0; j < (*fieldIter)->length; j++)
         {
           fp << " " << static_cast<MET_ULONG_TYPE>((*fieldIter)->value[j]);
         }
-        fp << std::endl;
+        fp << '\n';
         break;
       }
       case MET_ULONG_LONG_ARRAY:
@@ -1523,7 +1633,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
             std::cerr << "Warning: ";
             std::cerr << "Length and dependsOn values not equal"
                       << " in write";
-            std::cerr << std::endl;
+            std::cerr << '\n';
           }
         }
         for (j = 0; j < (*fieldIter)->length; j++)
@@ -1539,7 +1649,7 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
           fp << " " << static_cast<MET_ULONG_LONG_TYPE>((*fieldIter)->value[j]);
 #endif
         }
-        fp << std::endl;
+        fp << '\n';
         break;
       }
 
@@ -1553,14 +1663,14 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
           {
             std::cerr << "Warning: ";
             std::cerr << "length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            std::cerr << '\n';
           }
         }
         for (j = 0; j < (*fieldIter)->length; j++)
         {
           fp << " " << (*fieldIter)->value[j];
         }
-        fp << std::endl;
+        fp << '\n';
         break;
       }
       case MET_FLOAT_MATRIX:
@@ -1572,14 +1682,14 @@ MET_Write(std::ostream & fp, std::vector<MET_FieldRecordType *> * fields, char _
           {
             std::cerr << "Warning: ";
             std::cerr << "length and dependsOn values not equal in write";
-            std::cerr << std::endl;
+            std::cerr << '\n';
           }
         }
         for (j = 0; j < (*fieldIter)->length * (*fieldIter)->length; j++)
         {
           fp << " " << (*fieldIter)->value[j];
         }
-        fp << std::endl;
+        fp << '\n';
         break;
       }
       case MET_OTHER:

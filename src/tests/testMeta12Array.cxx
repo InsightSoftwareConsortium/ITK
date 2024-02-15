@@ -40,7 +40,7 @@ main(int, char *[])
   tObj_ascii.PrintInfo();
   tObj_binary.PrintInfo();
 
-  std::cout << "PASSED!" << std::endl;
+  std::cout << "PASSED!" << '\n';
 
   return EXIT_SUCCESS;
 }
