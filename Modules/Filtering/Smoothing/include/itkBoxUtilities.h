@@ -26,7 +26,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkOffset.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkShapedNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
 /*

@@ -21,7 +21,6 @@
 
 #include "itkObject.h"
 #include "itkImageIOBase.h"
-#include "ITKIOImageBaseExport.h"
 
 namespace itk
 {

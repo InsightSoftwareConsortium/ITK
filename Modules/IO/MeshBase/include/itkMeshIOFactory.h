@@ -21,7 +21,6 @@
 
 #include "itkObject.h"
 #include "itkMeshIOBase.h"
-#include "ITKIOMeshBaseExport.h"
 
 namespace itk
 {

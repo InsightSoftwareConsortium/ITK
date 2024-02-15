@@ -22,7 +22,6 @@
 #include "itkTimeProbe.h"
 #include "itkConfigure.h"
 #include "itksys/SystemTools.hxx"
-#include "itkMutexLock.h"
 
 struct SharedThreadData
 {

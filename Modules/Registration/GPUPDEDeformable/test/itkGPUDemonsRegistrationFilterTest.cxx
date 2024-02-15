@@ -39,7 +39,6 @@
 #include "itkGPUImage.h"
 #include "itkGPUKernelManager.h"
 #include "itkGPUContextManager.h"
-#include "itkGPUDemonsRegistrationFilter.h"
 #include "itkMacro.h"
 #include "itkTestingMacros.h"
 

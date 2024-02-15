@@ -22,7 +22,6 @@
 #include "itkCompositeTransform.h"
 #include "itkCompositeTransformIOHelper.h"
 #include "itkVersion.h"
-#include "itkMINCTransformIO.h"
 #include "itkMINCImageIO.h"
 #include "itkMINCImageIOFactory.h"
 #include "itkImageFileReader.h"

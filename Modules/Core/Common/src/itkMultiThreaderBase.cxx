@@ -43,7 +43,6 @@
 #include <algorithm> // For clamp.
 #include <iostream>
 #include <string>
-#include <algorithm>
 #include <cctype>
 #include <utility> // For move.
 
