@@ -740,13 +740,17 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     }
   }
 
+#if !defined(__wasi__) && !defined(__EMSCRIPTEN__)
   static std::mutex mutexLock;
+#endif
   if (withinReq) // else we should not write it
   {
     seqIt.GoToBegin();
     // writing through one RLEImage iterator invalidates all the others
     // so this whole writing loop needs to be serialized
+#if !defined(__wasi__) && !defined(__EMSCRIPTEN__)
     std::lock_guard<std::mutex> mutexHolder(mutexLock);
+#endif
     ImageRegionIterator<TImage> outIt(out, outRegion);
     while (!outIt.IsAtEnd())
     {
