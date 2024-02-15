@@ -74,7 +74,7 @@ void
 MetaScene::PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "Number of Objects = " << m_NObjects << std::endl;
+  std::cout << "Number of Objects = " << m_NObjects << '\n';
 }
 
 void
@@ -134,13 +134,13 @@ MetaObject::M_Destroy();
 
   if (!m_ReadStream->rdbuf()->is_open())
   {
-    std::cout << "MetaScene: Read: Cannot open file" << std::endl;
+    std::cout << "MetaScene: Read: Cannot open file" << '\n';
     return false;
   }
 
   if (!M_Read())
   {
-    std::cout << "MetaScene: Read: Cannot parse file" << std::endl;
+    std::cout << "MetaScene: Read: Cannot parse file" << '\n';
     m_ReadStream->close();
     return false;
   }
@@ -464,7 +464,7 @@ MetaScene::M_Read()
 
   if (!MetaObject::M_Read())
   {
-    std::cout << "MetaScene: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaScene: M_Read: Error parsing file" << '\n';
     return false;
   }
 
@@ -486,7 +486,7 @@ MetaScene::M_Write()
 {
   if (!MetaObject::M_Write())
   {
-    std::cout << "MetaScene: M_Write: Error parsing file" << std::endl;
+    std::cout << "MetaScene: M_Write: Error parsing file" << '\n';
     return false;
   }
 

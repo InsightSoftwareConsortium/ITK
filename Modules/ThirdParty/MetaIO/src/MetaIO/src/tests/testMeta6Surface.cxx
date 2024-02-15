@@ -28,7 +28,7 @@ main(int, char *[])
 
   surface->Write("mySurface.meta");
 
-  std::cout << "done" << std::endl;
+  std::cout << "done" << '\n';
   std::cout << "Reading ASCII test file ...";
 
   surface->Clear();
@@ -44,18 +44,18 @@ main(int, char *[])
     {
       std::cout << (*it)->m_X[d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[d] << " ";
     }
 
-    std::cout << std::endl;
-    for (unsigned int d = 0; d < 4; d++)
+    std::cout << '\n';
+    for (float d : (*it)->m_Color)
     {
-      std::cout << (*it)->m_Color[d] << " ";
+      std::cout << d << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     ++it;
   }
 
@@ -64,7 +64,7 @@ main(int, char *[])
   surface->ElementType(MET_FLOAT);
   surface->Write("mySurface.meta");
 
-  std::cout << "done" << std::endl;
+  std::cout << "done" << '\n';
   std::cout << "Reading Binary test file ...";
 
   surface->Clear();
@@ -80,16 +80,16 @@ main(int, char *[])
     {
       std::cout << (*it)->m_X[d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     ++it;
   }
 
   delete surface;
-  std::cout << "done" << std::endl;
+  std::cout << "done" << '\n';
   return EXIT_SUCCESS;
 }

@@ -37,10 +37,10 @@ ContourControlPnt::ContourControlPnt(int dim)
     m_V[i] = 0;
   }
   // Color is red by default
-  m_Color[0] = 1.0f;
-  m_Color[1] = 0.0f;
-  m_Color[2] = 0.0f;
-  m_Color[3] = 1.0f;
+  m_Color[0] = 1.0F;
+  m_Color[1] = 0.0F;
+  m_Color[2] = 0.0F;
+  m_Color[3] = 1.0F;
 }
 
 ContourControlPnt::~ContourControlPnt()
@@ -94,12 +94,12 @@ void
 MetaContour::PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "ControlPointDim = " << m_ControlPointDim << std::endl;
-  std::cout << "NControlPoints = " << m_NControlPoints << std::endl;
-  std::cout << "InterpolatedPointDim = " << m_InterpolatedPointDim << std::endl;
-  std::cout << "NInterpolatedPoints = " << m_NInterpolatedPoints << std::endl;
-  std::cout << "Display Orientation = " << m_DisplayOrientation << std::endl;
-  std::cout << "Attached to Slice = " << m_AttachedToSlice << std::endl;
+  std::cout << "ControlPointDim = " << m_ControlPointDim << '\n';
+  std::cout << "NControlPoints = " << m_NControlPoints << '\n';
+  std::cout << "InterpolatedPointDim = " << m_InterpolatedPointDim << '\n';
+  std::cout << "NInterpolatedPoints = " << m_NInterpolatedPoints << '\n';
+  std::cout << "Display Orientation = " << m_DisplayOrientation << '\n';
+  std::cout << "Attached to Slice = " << m_AttachedToSlice << '\n';
 }
 
 void
@@ -329,7 +329,7 @@ MetaContour::M_Read()
 
   if (!MetaObject::M_Read())
   {
-    std::cout << "MetaContour: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaContour: M_Read: Error parsing file" << '\n';
     return false;
   }
 
@@ -397,8 +397,8 @@ MetaContour::M_Read()
     int gc = static_cast<int>(m_ReadStream->gcount());
     if (gc != readSize)
     {
-      std::cout << "MetaContour: m_Read: data not read completely" << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      std::cout << "MetaContour: m_Read: data not read completely" << '\n';
+      std::cout << "   ideal = " << readSize << " : actual = " << gc << '\n';
       delete[] _data;
       return false;
     }
@@ -597,8 +597,8 @@ MetaContour::M_Read()
       int gc = static_cast<int>(m_ReadStream->gcount());
       if (gc != readSize)
       {
-        std::cout << "MetaContour: m_Read: data not read completely" << std::endl;
-        std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+        std::cout << "MetaContour: m_Read: data not read completely" << '\n';
+        std::cout << "   ideal = " << readSize << " : actual = " << gc << '\n';
         delete[] _data;
         return false;
       }
@@ -708,7 +708,7 @@ MetaContour::M_Write()
 
   if (!MetaObject::M_Write())
   {
-    std::cout << "MetaContour: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaContour: M_Read: Error parsing file" << '\n';
     return false;
   }
 
@@ -718,41 +718,42 @@ MetaContour::M_Write()
     ControlPointListType::const_iterator it = m_ControlPointsList.begin();
     ControlPointListType::const_iterator itEnd = m_ControlPointsList.end();
 
-    char * data = new char[(m_NDims * 3 + 5) * m_NControlPoints * 4];
+    const size_t dataSize = (m_NDims * 3 + 5) * m_NControlPoints * 4;
+    char * data = new char[dataSize];
     int    i = 0;
     int    d;
     while (it != itEnd)
     {
       unsigned int id = (*it)->m_Id;
       MET_SwapByteIfSystemMSB(&id, MET_UINT);
-      MET_DoubleToValue(static_cast<double>(id), MET_UINT, data, i++);
+      MET_DoubleToValueN(static_cast<double>(id), MET_UINT, data, dataSize, i++);
 
       for (d = 0; d < m_NDims; d++)
       {
         float pntX = (*it)->m_X[d];
         MET_SwapByteIfSystemMSB(&pntX, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(pntX), MET_FLOAT, data, i++);
+        MET_DoubleToValueN(static_cast<double>(pntX), MET_FLOAT, data, dataSize, i++);
       }
 
       for (d = 0; d < m_NDims; d++)
       {
         float pntX = (*it)->m_XPicked[d];
         MET_SwapByteIfSystemMSB(&pntX, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(pntX), MET_FLOAT, data, i++);
+        MET_DoubleToValueN(static_cast<double>(pntX), MET_FLOAT, data, dataSize, i++);
       }
 
       for (d = 0; d < m_NDims; d++)
       {
         float pntX = (*it)->m_V[d];
         MET_SwapByteIfSystemMSB(&pntX, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(pntX), MET_FLOAT, data, i++);
+        MET_DoubleToValueN(static_cast<double>(pntX), MET_FLOAT, data, dataSize, i++);
       }
 
       for (d = 0; d < 4; d++)
       {
         float pntX = (*it)->m_Color[d];
         MET_SwapByteIfSystemMSB(&pntX, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(pntX), MET_FLOAT, data, i++);
+        MET_DoubleToValueN(static_cast<double>(pntX), MET_FLOAT, data, dataSize, i++);
       }
       ++it;
     }
@@ -790,7 +791,7 @@ MetaContour::M_Write()
       {
         *m_WriteStream << (*it)->m_Color[d] << " ";
       }
-      *m_WriteStream << std::endl;
+      *m_WriteStream << '\n';
       ++it;
     }
   }
@@ -831,26 +832,27 @@ MetaContour::M_Write()
     InterpolatedPointListType::const_iterator it = m_InterpolatedPointsList.begin();
     InterpolatedPointListType::const_iterator itEnd = m_InterpolatedPointsList.end();
 
-    char * data = new char[(m_NDims + 5) * m_NInterpolatedPoints * 4];
+    const size_t dataSize = (m_NDims + 5) * m_NInterpolatedPoints * 4;
+    char * data = new char[dataSize];
     int    i = 0;
     int    d;
     while (it != itEnd)
     {
       unsigned int id = (*it)->m_Id;
       MET_SwapByteIfSystemMSB(&id, MET_UINT);
-      MET_DoubleToValue(static_cast<double>(id), MET_UINT, data, i++);
+      MET_DoubleToValueN(static_cast<double>(id), MET_UINT, data, dataSize, i++);
 
       for (d = 0; d < m_NDims; d++)
       {
         float x = (*it)->m_X[d];
         MET_SwapByteIfSystemMSB(&x, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(x), MET_FLOAT, data, i++);
+        MET_DoubleToValueN(static_cast<double>(x), MET_FLOAT, data, dataSize, i++);
       }
       for (d = 0; d < 4; d++)
       {
         float x = (*it)->m_Color[d];
         MET_SwapByteIfSystemMSB(&x, MET_FLOAT);
-        MET_DoubleToValue(static_cast<double>(x), MET_FLOAT, data, i++);
+        MET_DoubleToValueN(static_cast<double>(x), MET_FLOAT, data, dataSize, i++);
       }
       ++it;
     }
@@ -878,7 +880,7 @@ MetaContour::M_Write()
       {
         *m_WriteStream << (*it)->m_Color[d] << " ";
       }
-      *m_WriteStream << std::endl;
+      *m_WriteStream << '\n';
       ++it;
     }
   }

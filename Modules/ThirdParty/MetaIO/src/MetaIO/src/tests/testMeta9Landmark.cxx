@@ -5,12 +5,12 @@
 int
 main(int, char *[])
 {
-  std::cout << "Creating test file ..." << std::endl;
+  std::cout << "Creating test file ..." << '\n';
   MetaLandmark Landmark(3);
   Landmark.ID(0);
   LandmarkPnt * pnt;
 
-  std::cout << "Allocating points..." << std::endl;
+  std::cout << "Allocating points..." << '\n';
   unsigned int i;
   for (i = 0; i < 10; i++)
   {
@@ -21,28 +21,28 @@ main(int, char *[])
     Landmark.GetPoints().push_back(pnt);
   }
 
-  std::cout << "Writing test file ..." << std::endl;
+  std::cout << "Writing test file ..." << '\n';
 
   Landmark.BinaryData(true);
   Landmark.ElementType(MET_FLOAT);
   Landmark.Write("Landmarks.meta");
 
-  std::cout << "  done" << std::endl;
+  std::cout << "  done" << '\n';
 
-  std::cout << "Reading test file ..." << std::endl;
+  std::cout << "Reading test file ..." << '\n';
   Landmark.Read("Landmarks.meta");
   MetaLandmark landmarkRead("Landmarks.meta");
   MetaLandmark landmarkCopy(&landmarkRead);
 
-  std::cout << "PointDim = " << landmarkCopy.PointDim() << std::endl;
-  std::cout << "NPoints = " << landmarkCopy.NPoints() << std::endl;
-  std::cout << "ElementType = " << landmarkCopy.ElementType() << std::endl;
+  std::cout << "PointDim = " << landmarkCopy.PointDim() << '\n';
+  std::cout << "NPoints = " << landmarkCopy.NPoints() << '\n';
+  std::cout << "ElementType = " << landmarkCopy.ElementType() << '\n';
 
-  std::cout << "  done" << std::endl;
+  std::cout << "  done" << '\n';
 
   Landmark.PrintInfo();
 
-  std::cout << "Accessing pointlist..." << std::endl;
+  std::cout << "Accessing pointlist..." << '\n';
 
   MetaLandmark::PointListType                 plist = Landmark.GetPoints();
   MetaLandmark::PointListType::const_iterator it = plist.begin();
@@ -54,10 +54,10 @@ main(int, char *[])
       std::cout << (*it)->m_X[d] << " ";
     }
 
-    std::cout << std::endl;
+    std::cout << '\n';
     ++it;
   }
 
-  std::cout << "done" << std::endl;
+  std::cout << "done" << '\n';
   return EXIT_SUCCESS;
 }

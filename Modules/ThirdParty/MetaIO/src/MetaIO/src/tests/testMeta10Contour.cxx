@@ -5,13 +5,13 @@
 int
 main(int, char *[])
 {
-  std::cout << "Creating test file ..." << std::endl;
+  std::cout << "Creating test file ..." << '\n';
   MetaContour Contour(3);
   Contour.ID(0);
   Contour.Name("First Contour");
   ContourControlPnt * pnt;
 
-  std::cout << "Allocating points..." << std::endl;
+  std::cout << "Allocating points..." << '\n';
   unsigned int i;
   for (i = 0; i < 10; i++)
   {
@@ -39,20 +39,20 @@ main(int, char *[])
     Contour.GetInterpolatedPoints().push_back(pntI);
   }
 
-  std::cout << "Writing test file ..." << std::endl;
+  std::cout << "Writing test file ..." << '\n';
   Contour.BinaryData(true);
   Contour.Write("Contours.meta");
 
-  std::cout << "  done" << std::endl;
+  std::cout << "  done" << '\n';
 
-  std::cout << "Reading test file ..." << std::endl;
+  std::cout << "Reading test file ..." << '\n';
   Contour.Read("Contours.meta");
 
-  std::cout << "  done" << std::endl;
+  std::cout << "  done" << '\n';
 
   Contour.PrintInfo();
 
-  std::cout << "Accessing pointlist..." << std::endl;
+  std::cout << "Accessing pointlist..." << '\n';
 
   MetaContour::ControlPointListType                 plist = Contour.GetControlPoints();
   MetaContour::ControlPointListType::const_iterator it = plist.begin();
@@ -73,7 +73,7 @@ main(int, char *[])
     {
       std::cout << (*it)->m_V[d] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     ++it;
   }
 
@@ -89,10 +89,10 @@ main(int, char *[])
       std::cout << (*iti)->m_X[d] << " ";
     }
 
-    std::cout << std::endl;
+    std::cout << '\n';
     ++iti;
   }
 
-  std::cout << "done" << std::endl;
+  std::cout << "done" << '\n';
   return 0;
 }

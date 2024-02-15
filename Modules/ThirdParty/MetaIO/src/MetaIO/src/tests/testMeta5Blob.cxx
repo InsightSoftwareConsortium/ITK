@@ -6,15 +6,15 @@ int
 main(int, char *[])
 {
 
-  std::cout << "Testing default constructor ..." << std::endl;
+  std::cout << "Testing default constructor ..." << '\n';
   MetaBlob blob1;
 
-  std::cout << "Creating test file ..." << std::endl;
+  std::cout << "Creating test file ..." << '\n';
   MetaBlob blob(3);
   blob.ID(0);
   BlobPnt * pnt;
 
-  std::cout << "Allocating points..." << std::endl;
+  std::cout << "Allocating points..." << '\n';
   unsigned int i;
   for (i = 0; i < 10; i++)
   {
@@ -25,28 +25,28 @@ main(int, char *[])
     blob.GetPoints().push_back(pnt);
   }
 
-  std::cout << "Writing test file ..." << std::endl;
+  std::cout << "Writing test file ..." << '\n';
 
   blob.BinaryData(true);
   blob.ElementType(MET_FLOAT);
   blob.Write("myCNC.meta");
 
-  std::cout << "  done" << std::endl;
+  std::cout << "  done" << '\n';
 
-  std::cout << "Reading test file ..." << std::endl;
+  std::cout << "Reading test file ..." << '\n';
   MetaBlob blobRead("myCNC.meta"); // coverage
   blob.Read("myCNC.meta");
   MetaBlob blobCopy(&blob);
 
-  std::cout << "NPoints = " << blobCopy.NPoints() << std::endl;
-  std::cout << "PointDim = " << blobCopy.PointDim() << std::endl;
-  std::cout << "ElementType = " << blobCopy.ElementType() << std::endl;
+  std::cout << "NPoints = " << blobCopy.NPoints() << '\n';
+  std::cout << "PointDim = " << blobCopy.PointDim() << '\n';
+  std::cout << "ElementType = " << blobCopy.ElementType() << '\n';
 
-  std::cout << "  done" << std::endl;
+  std::cout << "  done" << '\n';
 
   blob.PrintInfo();
 
-  std::cout << "Accessing pointlist..." << std::endl;
+  std::cout << "Accessing pointlist..." << '\n';
 
   MetaBlob::PointListType                 plist = blob.GetPoints();
   MetaBlob::PointListType::const_iterator it = plist.begin();
@@ -58,10 +58,10 @@ main(int, char *[])
       std::cout << (*it)->m_X[d] << " ";
     }
 
-    std::cout << std::endl;
+    std::cout << '\n';
     ++it;
   }
 
-  std::cout << "done" << std::endl;
+  std::cout << "done" << '\n';
   return EXIT_SUCCESS;
 }

@@ -71,12 +71,12 @@ void
 MetaTubeGraph::PrintInfo() const
 {
   MetaObject::PrintInfo();
-  std::cout << "Root = " << m_Root << std::endl;
-  std::cout << "PointDim = " << m_PointDim << std::endl;
-  std::cout << "NPoints = " << m_NPoints << std::endl;
+  std::cout << "Root = " << m_Root << '\n';
+  std::cout << "PointDim = " << m_PointDim << '\n';
+  std::cout << "NPoints = " << m_NPoints << '\n';
   char str[255];
   MET_TypeToString(m_ElementType, str);
-  std::cout << "ElementType = " << str << std::endl;
+  std::cout << "ElementType = " << str << '\n';
 }
 
 void
@@ -265,7 +265,7 @@ MetaTubeGraph::M_Read()
 
   if (!MetaObject::M_Read())
   {
-    std::cout << "MetaTubeGraph: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaTubeGraph: M_Read: Error parsing file" << '\n';
     return false;
   }
 
@@ -352,8 +352,8 @@ MetaTubeGraph::M_Read()
     int gc = static_cast<int>(m_ReadStream->gcount());
     if (gc != readSize)
     {
-      std::cout << "MetaLine: m_Read: data not read completely" << std::endl;
-      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
+      std::cout << "MetaLine: m_Read: data not read completely" << '\n';
+      std::cout << "   ideal = " << readSize << " : actual = " << gc << '\n';
       delete[] _data;
       return false;
     }
@@ -464,7 +464,7 @@ MetaTubeGraph::M_Write()
 
   if (!MetaObject::M_Write())
   {
-    std::cout << "MetaTubeGraph: M_Read: Error parsing file" << std::endl;
+    std::cout << "MetaTubeGraph: M_Read: Error parsing file" << '\n';
     return false;
   }
 
@@ -476,20 +476,21 @@ MetaTubeGraph::M_Write()
     int                           elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
 
-    char * data = new char[(m_NDims * m_NDims + 3) * m_NPoints * elementSize];
+    const size_t dataSize = (m_NDims * m_NDims + 3) * m_NPoints * elementSize;
+    char * data = new char[dataSize];
     int    i = 0;
     int    d;
     while (it != itEnd)
     {
-      MET_DoubleToValue(static_cast<double>((*it)->m_GraphNode), m_ElementType, data, i++);
+      MET_DoubleToValueN(static_cast<double>((*it)->m_GraphNode), m_ElementType, data, dataSize, i++);
 
-      MET_DoubleToValue(static_cast<double>((*it)->m_R), m_ElementType, data, i++);
+      MET_DoubleToValueN(static_cast<double>((*it)->m_R), m_ElementType, data, dataSize, i++);
 
-      MET_DoubleToValue(static_cast<double>((*it)->m_P), m_ElementType, data, i++);
+      MET_DoubleToValueN(static_cast<double>((*it)->m_P), m_ElementType, data, dataSize, i++);
 
       for (d = 0; d < m_NDims * m_NDims; d++)
       {
-        MET_DoubleToValue(static_cast<double>((*it)->m_T[d]), m_ElementType, data, i++);
+        MET_DoubleToValueN(static_cast<double>((*it)->m_T[d]), m_ElementType, data, dataSize, i++);
       }
 
       ++it;
@@ -518,7 +519,7 @@ MetaTubeGraph::M_Write()
         *m_WriteStream << (*it)->m_T[d] << " ";
       }
 
-      *m_WriteStream << std::endl;
+      *m_WriteStream << '\n';
 
       ++it;
     }

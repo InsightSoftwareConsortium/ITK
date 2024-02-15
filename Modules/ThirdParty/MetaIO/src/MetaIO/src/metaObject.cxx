@@ -226,7 +226,7 @@ MetaObject::CopyInfo(const MetaObject * _object)
 {
   if (NDims() != _object->NDims())
   {
-    std::cout << "MetaObject: CopyInfo: Warning: NDims not same size" << std::endl;
+    std::cout << "MetaObject: CopyInfo: Warning: NDims not same size" << '\n';
   }
 
   FileName(_object->FileName());
@@ -362,81 +362,81 @@ MetaObject::PrintInfo() const
   int i;
   int j;
 
-  std::cout << "FileName = _" << m_FileName << "_" << std::endl;
-  std::cout << "Comment = _" << m_Comment << "_" << std::endl;
-  std::cout << "ObjectType = _" << m_ObjectTypeName << "_" << std::endl;
-  std::cout << "ObjectSubType = _" << m_ObjectSubTypeName << "_" << std::endl;
-  std::cout << "NDims = " << m_NDims << std::endl;
-  std::cout << "Name = " << m_Name << std::endl;
-  std::cout << "ID = " << m_ID << std::endl;
-  std::cout << "ParentID = " << m_ParentID << std::endl;
-  std::cout << "AcquisitionDate = " << m_AcquisitionDate << std::endl;
+  std::cout << "FileName = _" << m_FileName << "_" << '\n';
+  std::cout << "Comment = _" << m_Comment << "_" << '\n';
+  std::cout << "ObjectType = _" << m_ObjectTypeName << "_" << '\n';
+  std::cout << "ObjectSubType = _" << m_ObjectSubTypeName << "_" << '\n';
+  std::cout << "NDims = " << m_NDims << '\n';
+  std::cout << "Name = " << m_Name << '\n';
+  std::cout << "ID = " << m_ID << '\n';
+  std::cout << "ParentID = " << m_ParentID << '\n';
+  std::cout << "AcquisitionDate = " << m_AcquisitionDate << '\n';
   if (m_CompressedData)
   {
-    std::cout << "CompressedData = True" << std::endl;
+    std::cout << "CompressedData = True" << '\n';
   }
   else
   {
-    std::cout << "CompressedData = False" << std::endl;
+    std::cout << "CompressedData = False" << '\n';
   }
-  std::cout << "m_CompressedDataSize = " << m_CompressedDataSize << std::endl;
+  std::cout << "m_CompressedDataSize = " << m_CompressedDataSize << '\n';
   if (m_BinaryData)
   {
-    std::cout << "BinaryData = True" << std::endl;
+    std::cout << "BinaryData = True" << '\n';
   }
   else
   {
-    std::cout << "BinaryData = False" << std::endl;
+    std::cout << "BinaryData = False" << '\n';
   }
   if (m_BinaryData && m_BinaryDataByteOrderMSB)
   {
-    std::cout << "BinaryDataByteOrderMSB = True" << std::endl;
+    std::cout << "BinaryDataByteOrderMSB = True" << '\n';
   }
   else
   {
-    std::cout << "BinaryDataByteOrderMSB = False" << std::endl;
+    std::cout << "BinaryDataByteOrderMSB = False" << '\n';
   }
   std::cout << "Color = ";
   for (i = 0; i < 4; i++)
   {
     std::cout << m_Color[i] << " ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   std::cout << "Offset = ";
   for (i = 0; i < m_NDims; i++)
   {
     std::cout << m_Offset[i] << " ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   std::cout << "TransformMatrix = ";
-  std::cout << std::endl;
+  std::cout << '\n';
   for (i = 0; i < m_NDims; i++)
   {
     for (j = 0; j < m_NDims; j++)
     {
       std::cout << m_TransformMatrix[i * m_NDims + j] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   std::cout << "CenterOfRotation = ";
-  std::cout << std::endl;
+  std::cout << '\n';
   for (i = 0; i < m_NDims; i++)
   {
     std::cout << m_CenterOfRotation[i] << " ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   std::cout << "ElementSpacing = ";
   for (i = 0; i < m_NDims; i++)
   {
     std::cout << m_ElementSpacing[i] << " ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
-  std::cout << "DistanceUnits = " << this->DistanceUnitsName() << std::endl;
+  std::cout << "DistanceUnits = " << this->DistanceUnitsName() << '\n';
 
   // Print User's fields :
   auto                                itw = m_UserDefinedWriteFields.begin();
@@ -478,17 +478,17 @@ MetaObject::PrintInfo() const
     }
     else if ((*it)->type == MET_FLOAT_MATRIX)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
       for (i = 0; i < (*it)->length * (*it)->length; i++)
       {
         printf("%f ", (*it)->value[i]);
         if (i == (*it)->length - 1)
         {
-          std::cout << std::endl;
+          std::cout << '\n';
         }
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 
     ++itw;
     ++itr;
@@ -1030,10 +1030,10 @@ MetaObject::Clear()
   memset(m_Color, 0, sizeof(m_Color));
 
   m_ID = -1;
-  m_Color[0] = 1.0f;
-  m_Color[1] = 1.0f;
-  m_Color[2] = 1.0f;
-  m_Color[3] = 1.0f; // white by default
+  m_Color[0] = 1.0F;
+  m_Color[1] = 1.0F;
+  m_Color[2] = 1.0F;
+  m_Color[3] = 1.0F; // white by default
   m_ParentID = -1;
   strcpy(m_AcquisitionDate, "");
   m_BinaryData = false;
@@ -1075,15 +1075,15 @@ MetaObject::M_Destroy();
 
   if (_nDims > 10)
   {
-    std::cout << "MetaObject: Initialize: Warning: Number of dimensions limited to 10" << std::endl
-              << "Resetting number of dimensions to 10" << std::endl;
+    std::cout << "MetaObject: Initialize: Warning: Number of dimensions limited to 10" << '\n'
+              << "Resetting number of dimensions to 10" << '\n';
     _nDims = 10;
   }
 
   if (_nDims < 0)
   {
-    std::cout << "MetaObject: Initialize: Warning: Number of dimensions must be >= 0" << std::endl
-              << "Resetting number of dimensions to 0" << std::endl;
+    std::cout << "MetaObject: Initialize: Warning: Number of dimensions must be >= 0" << '\n'
+              << "Resetting number of dimensions to 0" << '\n';
     _nDims = 0;
   }
 
@@ -1408,7 +1408,7 @@ MetaObject::M_Read()
 
   if (!MET_Read(*m_ReadStream, &m_Fields, '=', false, true, &m_AdditionalReadFields))
   {
-    std::cerr << "MetaObject: Read: MET_Read Failed" << std::endl;
+    std::cerr << "MetaObject: Read: MET_Read Failed" << '\n';
     return false;
   }
 
@@ -1696,7 +1696,7 @@ MetaObject::M_Write()
 
   if (!MET_Write(*m_WriteStream, &m_Fields))
   {
-    std::cerr << "MetaObject: Write: MET_Write Failed" << std::endl;
+    std::cerr << "MetaObject: Write: MET_Write Failed" << '\n';
     return false;
   }
 
@@ -1773,18 +1773,20 @@ MetaObject ::GetUserField(const char * _name)
       else if ((*it)->type == MET_FLOAT_MATRIX)
       {
         const unsigned int numMatrixElements = itLength * itLength;
-        out = new char[numMatrixElements * eSize];
+        const size_t outSize = numMatrixElements * eSize;
+        out = new char[outSize];
         for (unsigned int i = 0; i < numMatrixElements; i++)
         {
-          MET_DoubleToValue((*it)->value[i], (*it)->type, out, i);
+          MET_DoubleToValueN((*it)->value[i], (*it)->type, out, outSize, i);
         }
       }
       else
       {
-        out = new char[itLength * eSize];
+        const size_t outSize = itLength * eSize;
+        out = new char[outSize];
         for (unsigned int i = 0; i < itLength; i++)
         {
-          MET_DoubleToValue((*it)->value[i], (*it)->type, out, i);
+          MET_DoubleToValueN((*it)->value[i], (*it)->type, out, outSize, i);
         }
       }
       return out;
