@@ -1,3 +1,7 @@
+if(WASI OR EMSCRIPTEN)
+  # Avoid RLEImage dependency for wasm builds
+  return()
+endif()
 itk_module_test()
 
 set(
