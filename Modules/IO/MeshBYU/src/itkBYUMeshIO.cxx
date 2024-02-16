@@ -167,12 +167,12 @@ BYUMeshIO::ReadMeshInformation()
   // Set default point pixel component and point pixel type
   this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
   this->m_PointPixelType = IOPixelEnum::SCALAR;
-  this->m_NumberOfPointPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
+  this->m_NumberOfPointPixelComponents = 1;
 
   // Set default cell pixel component and point pixel type
   this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
   this->m_CellPixelType = IOPixelEnum::SCALAR;
-  this->m_NumberOfCellPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
+  this->m_NumberOfCellPixelComponents = 1;
 
   inputFile.close();
 }
