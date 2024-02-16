@@ -768,6 +768,24 @@ public:
   bool
   VerifyRequestedRegion() override;
 
+  /** Checks whether the images' pixels with the same index occupy the same physical space.
+   * Compares the origin, spacing, and direction for equality within provided tolerances.
+   * There is no check for valid regions in between the images. */
+  bool
+  IsCongruentImageGeometry(const ImageBase * otherImage, double coordinateTolerance, double directionTolerance) const;
+
+  /** Check whether this image and the other image have the same grid in physical space.
+   * Compares largest possible regions for equality, and the origin, spacing,
+   * and direction cosines for equality within provided tolerances.
+   * See also: ImageToImageFilter, namely:
+   * https://github.com/InsightSoftwareConsortium/ITK/blob/v5.3.0/Modules/Core/Common/include/itkImageToImageFilter.h#L78-L92
+   * https://github.com/InsightSoftwareConsortium/ITK/blob/v5.3.0/Modules/Core/Common/src/itkImageToImageFilterCommon.cxx#L26-L27
+   */
+  bool
+  IsSameImageGeometryAs(const ImageBase * otherImage,
+                        double            coordinateTolerance = 1e-6,
+                        double            directionTolerance = 1e-6) const;
+
   /** INTERNAL This method is used internally by filters to copy meta-data from
    * the output to the input. Users should not have a need to use this method.
    *
