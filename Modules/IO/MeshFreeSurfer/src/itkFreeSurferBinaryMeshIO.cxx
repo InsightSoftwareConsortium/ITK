@@ -216,12 +216,12 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
 
   // Set default point pixel component and point pixel type
   this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-  this->m_NumberOfPointPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
+  this->m_NumberOfPointPixelComponents = 1;
   this->m_PointPixelType = IOPixelEnum::SCALAR;
 
   // Set default cell pixel component and point pixel type
   this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-  this->m_NumberOfCellPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
+  this->m_NumberOfCellPixelComponents = 1;
   this->m_CellPixelType = IOPixelEnum::SCALAR;
 
   CloseFile();
