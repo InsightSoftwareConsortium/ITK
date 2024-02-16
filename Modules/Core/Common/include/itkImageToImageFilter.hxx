@@ -184,10 +184,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CO
       const SpacePrecisionType coordinateTol =
         itk::Math::abs(this->m_CoordinateTolerance * inputPtr1->GetSpacing()[0]); // use first dimension spacing
 
-      if (!inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) ||
-          !inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol) ||
-          !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix().as_ref(),
-                                                                      this->m_DirectionTolerance))
+      if (!inputPtr1->IsCongruentImageGeometry(inputPtrN, m_CoordinateTolerance, m_DirectionTolerance))
       {
         std::ostringstream originString, spacingString, directionString;
         if (!inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol))
