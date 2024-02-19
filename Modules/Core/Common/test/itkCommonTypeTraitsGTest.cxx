@@ -60,6 +60,21 @@ TEST(CommonTypeTraits, PointIsPOD)
   EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
 
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+TEST(CommonTypeTraits, RGBAPixelIsPOD)
+{
+  using T = itk::RGBAPixel<unsigned int>;
+  EXPECT_TRUE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
+}
+
+TEST(CommonTypeTraits, RGBPixelIsPOD)
+{
+  using T = itk::RGBPixel<unsigned int>;
+  EXPECT_TRUE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
+}
+#else
 TEST(CommonTypeTraits, RGBAPixelIsNotPOD)
 {
   using T = itk::RGBAPixel<unsigned int>;
@@ -75,6 +90,7 @@ TEST(CommonTypeTraits, RGBPixelIsNotPOD)
   EXPECT_FALSE(std::is_trivial_v<T>);
   EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
+#endif
 
 TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD)
 {
