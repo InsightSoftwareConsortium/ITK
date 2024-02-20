@@ -82,19 +82,19 @@ str = str
                 }
         }
 
-  // transform smart pointers in raw pointers
+        // transform smart pointers into raw pointers
         %typemap(out) class_name##_Pointer {
           // get the raw pointer from the smart pointer
           class_name * ptr = $1;
                 // always tell SWIG_NewPointerObj we're the owner
                 $result = SWIG_NewPointerObj((void *) ptr, $descriptor(class_name *), 1);
-                // register the object, it it exists
+                // register the object, if it exists
                 if (ptr) {
                         ptr->Register();
                 }
         }
 
-  // transform smart pointers in raw pointers
+        // transform smart pointers into raw pointers
         %typemap(out) class_name##_Pointer & {
           // get the raw pointer from the smart pointer
           class_name * ptr = *$1;
@@ -999,70 +999,70 @@ str = str
             }
             $1 = &itks;
         }
-}
-
-%typemap(typecheck) type & {
-    void *ptr;
-    if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) == -1
-        && !PySequence_Check($input) ) {
-        _v = 0;
-        PyErr_Clear();
-    } else {
-        _v = 1;
     }
-}
 
-%typemap(in) type (type itks) {
-    type * s;
-    if ((SWIG_ConvertPtr($input,(void **)(&s),$descriptor(type *), 0)) == -1) {
-        PyErr_Clear();
-        itks = type( PyObject_Length($input) );
-        for (unsigned int i =0; i < itks.Size(); i++) {
-            PyObject *o = PySequence_GetItem($input,i);
-            if (PyInt_Check(o)) {
-                itks[i] = (value_type)PyInt_AsLong(o);
-            } else if (PyFloat_Check(o)) {
-                itks[i] = (value_type)PyFloat_AsDouble(o);
-            } else {
-                Py_DECREF(o);
-                PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
-                return NULL;
-            }
-            Py_DECREF(o);
+    %typemap(typecheck) type & {
+        void *ptr;
+        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) == -1
+            && !PySequence_Check($input) ) {
+            _v = 0;
+            PyErr_Clear();
+        } else {
+            _v = 1;
         }
-        $1 = itks;
     }
-}
 
-%typemap(typecheck) type {
-    void *ptr;
-    if (SWIG_ConvertPtr($input, &ptr, $descriptor(type *), 0) == -1
-        && !PySequence_Check($input) ) {
-        _v = 0;
-        PyErr_Clear();
-    } else {
-        _v = 1;
+    %typemap(in) type (type itks) {
+        type * s;
+        if ((SWIG_ConvertPtr($input,(void **)(&s),$descriptor(type *), 0)) == -1) {
+            PyErr_Clear();
+            itks = type( PyObject_Length($input) );
+            for (unsigned int i =0; i < itks.Size(); i++) {
+                PyObject *o = PySequence_GetItem($input,i);
+                if (PyInt_Check(o)) {
+                    itks[i] = (value_type)PyInt_AsLong(o);
+                } else if (PyFloat_Check(o)) {
+                    itks[i] = (value_type)PyFloat_AsDouble(o);
+                } else {
+                    Py_DECREF(o);
+                    PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
+                    return NULL;
+                }
+                Py_DECREF(o);
+            }
+            $1 = itks;
+        }
     }
-}
 
-%extend type {
-    value_type __getitem__(unsigned long dim) {
-        if (dim >= self->Size()) { throw std::out_of_range("type index out of range."); }
-        return self->operator[]( dim );
+    %typemap(typecheck) type {
+        void *ptr;
+        if (SWIG_ConvertPtr($input, &ptr, $descriptor(type *), 0) == -1
+            && !PySequence_Check($input) ) {
+            _v = 0;
+            PyErr_Clear();
+        } else {
+            _v = 1;
+        }
     }
-    void __setitem__(unsigned long dim, value_type v) {
-        if (dim >= self->Size()) { throw std::out_of_range("type index out of range."); }
-        self->operator[]( dim ) = v;
+
+    %extend type {
+        value_type __getitem__(unsigned long dim) {
+            if (dim >= self->Size()) { throw std::out_of_range("type index out of range."); }
+            return self->operator[]( dim );
+        }
+        void __setitem__(unsigned long dim, value_type v) {
+            if (dim >= self->Size()) { throw std::out_of_range("type index out of range."); }
+            self->operator[]( dim ) = v;
+        }
+        unsigned int __len__() {
+            return self->Size();
+        }
+        std::string __repr__() {
+            std::ostringstream msg;
+            msg << "swig_name (" << *self << ")";
+            return msg.str();
+        }
     }
-    unsigned int __len__() {
-        return self->Size();
-    }
-    std::string __repr__() {
-        std::ostringstream msg;
-        msg << "swig_name (" << *self << ")";
-        return msg.str();
-    }
-}
 
 %enddef
 
