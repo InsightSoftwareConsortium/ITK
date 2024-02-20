@@ -29,6 +29,7 @@
 #define itkIntensityWindowingImageFilter_hxx
 
 #include "itkMinimumMaximumImageCalculator.h"
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -58,10 +59,7 @@ IntensityWindowingImageFilter<TInputImage, TOutputImage>::SetWindowLevel(const I
   }
 
   tmp2 = static_cast<InputRealType>(level) + (static_cast<InputRealType>(window) / 2.0);
-  if (tmp2 > NumericTraits<InputPixelType>::max())
-  {
-    tmp2 = NumericTraits<InputPixelType>::max();
-  }
+  tmp2 = std::min<InputRealType>(tmp2, NumericTraits<InputPixelType>::max());
 
   this->m_WindowMinimum = static_cast<InputPixelType>(tmp1);
   this->m_WindowMaximum = static_cast<InputPixelType>(tmp2);

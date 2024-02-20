@@ -27,6 +27,7 @@
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"
 #include "itkPrintHelper.h"
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -272,10 +273,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
   }
-  if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
-  {
-    upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
-  }
+  upper = std::min(upper, static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()));
 
   function->ThresholdBetween(static_cast<InputImagePixelType>(lower), static_cast<InputImagePixelType>(upper));
 
@@ -359,10 +357,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
     }
-    if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
-    {
-      upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
-    }
+    upper = std::min(upper, static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()));
 
     function->ThresholdBetween(static_cast<InputImagePixelType>(lower), static_cast<InputImagePixelType>(upper));
 

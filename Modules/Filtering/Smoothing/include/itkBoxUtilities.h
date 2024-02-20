@@ -27,6 +27,7 @@
 #include "itkOffset.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+#include <algorithm> // For min.
 
 /*
  *
@@ -358,10 +359,7 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
             if (unitCorners[k][j] > 0)
             {
               // leading edge - crop it
-              if (thisCorner[j] > static_cast<OffsetValueType>(regionLimit[j]))
-              {
-                thisCorner[j] = static_cast<OffsetValueType>(regionLimit[j]);
-              }
+              thisCorner[j] = std::min(thisCorner[j], static_cast<OffsetValueType>(regionLimit[j]));
             }
             else
             {
@@ -551,10 +549,7 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
             if (unitCorners[k][j] > 0)
             {
               // leading edge - crop it
-              if (thisCorner[j] > static_cast<OffsetValueType>(regionLimit[j]))
-              {
-                thisCorner[j] = static_cast<OffsetValueType>(regionLimit[j]);
-              }
+              thisCorner[j] = std::min(thisCorner[j], static_cast<OffsetValueType>(regionLimit[j]));
             }
             else
             {
