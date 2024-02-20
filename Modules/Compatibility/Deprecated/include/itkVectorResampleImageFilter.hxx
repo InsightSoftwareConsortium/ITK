@@ -22,6 +22,7 @@
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include <algorithm> // For max.
 
 namespace itk
 {
@@ -215,18 +216,12 @@ VectorResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType>
 
   if (m_Transform)
   {
-    if (latestTime < m_Transform->GetMTime())
-    {
-      latestTime = m_Transform->GetMTime();
-    }
+    latestTime = std::max(latestTime, m_Transform->GetMTime());
   }
 
   if (m_Interpolator)
   {
-    if (latestTime < m_Interpolator->GetMTime())
-    {
-      latestTime = m_Interpolator->GetMTime();
-    }
+    latestTime = std::max(latestTime, m_Interpolator->GetMTime());
   }
 
   return latestTime;

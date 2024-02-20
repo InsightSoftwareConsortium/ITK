@@ -18,6 +18,7 @@
 #ifndef itkRegistrationParameterScalesFromShiftBase_hxx
 #define itkRegistrationParameterScalesFromShiftBase_hxx
 
+#include <algorithm> // For max.
 
 namespace itk
 {
@@ -140,10 +141,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateStepScale(const Param
   FloatType maxStep{};
   for (typename ParametersType::SizeValueType p = 0; p < step.GetSize(); ++p)
   {
-    if (maxStep < itk::Math::abs(step[p]))
-    {
-      maxStep = itk::Math::abs(step[p]);
-    }
+    maxStep = std::max(maxStep, itk::Math::abs(step[p]));
   }
   if (maxStep <= NumericTraits<FloatType>::epsilon())
   {

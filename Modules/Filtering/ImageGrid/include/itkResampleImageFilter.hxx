@@ -27,6 +27,7 @@
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkImageAlgorithm.h"
 
+#include <algorithm>   // For max.
 #include <type_traits> // For is_same.
 
 namespace itk
@@ -642,10 +643,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   if (m_Interpolator)
   {
-    if (latestTime < m_Interpolator->GetMTime())
-    {
-      latestTime = m_Interpolator->GetMTime();
-    }
+    latestTime = std::max(latestTime, m_Interpolator->GetMTime());
   }
 
   return latestTime;

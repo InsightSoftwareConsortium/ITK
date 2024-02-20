@@ -23,6 +23,7 @@
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkResampleImageFilter.h"
+#include <algorithm> // For max.
 
 namespace itk
 {
@@ -317,10 +318,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GetMTime() const
 
   if (m_KernelTransform)
   {
-    if (latestTime < m_KernelTransform->GetMTime())
-    {
-      latestTime = m_KernelTransform->GetMTime();
-    }
+    latestTime = std::max(latestTime, m_KernelTransform->GetMTime());
   }
 
   return latestTime;
