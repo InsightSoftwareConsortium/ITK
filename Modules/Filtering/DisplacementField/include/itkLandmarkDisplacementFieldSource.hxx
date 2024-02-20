@@ -20,6 +20,7 @@
 
 #include "itkProgressReporter.h"
 #include "itkThinPlateSplineKernelTransform.h"
+#include <algorithm> // For max.
 
 namespace itk
 {
@@ -190,26 +191,17 @@ LandmarkDisplacementFieldSource<TOutputImage>::GetMTime() const
 
   if (m_KernelTransform)
   {
-    if (latestTime < m_KernelTransform->GetMTime())
-    {
-      latestTime = m_KernelTransform->GetMTime();
-    }
+    latestTime = std::max(latestTime, m_KernelTransform->GetMTime());
   }
 
   if (m_SourceLandmarks)
   {
-    if (latestTime < m_SourceLandmarks->GetMTime())
-    {
-      latestTime = m_SourceLandmarks->GetMTime();
-    }
+    latestTime = std::max(latestTime, m_SourceLandmarks->GetMTime());
   }
 
   if (m_TargetLandmarks)
   {
-    if (latestTime < m_TargetLandmarks->GetMTime())
-    {
-      latestTime = m_TargetLandmarks->GetMTime();
-    }
+    latestTime = std::max(latestTime, m_TargetLandmarks->GetMTime());
   }
   return latestTime;
 }

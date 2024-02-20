@@ -28,6 +28,8 @@
 #ifndef itkBoundingBox_hxx
 #define itkBoundingBox_hxx
 
+#include <algorithm> // For max.
+
 namespace itk
 {
 /**
@@ -328,10 +330,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Get
 
   if (m_PointsContainer)
   {
-    if (latestTime < m_PointsContainer->GetMTime())
-    {
-      latestTime = m_PointsContainer->GetMTime();
-    }
+    latestTime = std::max(latestTime, m_PointsContainer->GetMTime());
   }
   return latestTime;
 }

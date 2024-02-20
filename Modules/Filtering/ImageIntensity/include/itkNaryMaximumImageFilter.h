@@ -20,6 +20,7 @@
 
 #include "itkNaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
+#include <algorithm> // For max.
 
 namespace itk
 {
@@ -45,10 +46,7 @@ public:
 
     for (unsigned int i = 0; i < B.size(); ++i)
     {
-      if (A < static_cast<OutputValueType>(B[i]))
-      {
-        A = static_cast<OutputValueType>(B[i]);
-      }
+      A = std::max(A, static_cast<OutputValueType>(B[i]));
     }
     return A;
   }
