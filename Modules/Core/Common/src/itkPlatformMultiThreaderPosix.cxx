@@ -30,6 +30,7 @@
 #include "itkObjectFactory.h"
 #include "itksys/SystemTools.hxx"
 #include <unistd.h>
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -46,10 +47,7 @@ PlatformMultiThreader::MultipleMethodExecute()
   pthread_t process_id[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
-  if (m_NumberOfWorkUnits > MultiThreaderBase::GetGlobalMaximumNumberOfThreads())
-  {
-    m_NumberOfWorkUnits = MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
-  }
+  m_NumberOfWorkUnits = std::min(m_NumberOfWorkUnits, MultiThreaderBase::GetGlobalMaximumNumberOfThreads());
   for (ThreadIdType thread_loop = 0; thread_loop < m_NumberOfWorkUnits; ++thread_loop)
   {
     if (m_MultipleMethod[thread_loop] == (ThreadFunctionType) nullptr)

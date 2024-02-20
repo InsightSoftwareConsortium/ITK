@@ -32,6 +32,7 @@
 
 #include "itkWindows.h"
 #include <process.h>
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -44,10 +45,7 @@ PlatformMultiThreader::MultipleMethodExecute()
   HANDLE processId[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
-  if (m_NumberOfWorkUnits > MultiThreaderBase::GetGlobalMaximumNumberOfThreads())
-  {
-    m_NumberOfWorkUnits = MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
-  }
+  m_NumberOfWorkUnits = std::min(m_NumberOfWorkUnits, MultiThreaderBase::GetGlobalMaximumNumberOfThreads());
   for (threadCount = 0; threadCount < m_NumberOfWorkUnits; ++threadCount)
   {
     if (m_MultipleMethod[threadCount] == nullptr)
