@@ -21,7 +21,7 @@
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageScanlineConstIterator.h"
 #include "itkTotalProgressReporter.h"
-#include <algorithm> // For min.
+#include <algorithm> // For min and max.
 
 namespace itk
 {
@@ -89,10 +89,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::MergeMap(MapType & m1, Map
       for (unsigned int ii = 0; ii < (ImageDimension * 2); ii += 2)
       {
         labelStats.m_BoundingBox[ii] = std::min(labelStats.m_BoundingBox[ii], m2_value.second.m_BoundingBox[ii]);
-        if (labelStats.m_BoundingBox[ii + 1] < m2_value.second.m_BoundingBox[ii + 1])
-        {
-          labelStats.m_BoundingBox[ii + 1] = m2_value.second.m_BoundingBox[ii + 1];
-        }
+        labelStats.m_BoundingBox[ii + 1] =
+          std::max(labelStats.m_BoundingBox[ii + 1], m2_value.second.m_BoundingBox[ii + 1]);
       }
 
       // if enabled, update the histogram for this label
@@ -221,10 +219,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::ThreadedStreamedGenerateDa
       {
         const IndexType & index = it.GetIndex();
         labelStats.m_BoundingBox[i] = std::min(labelStats.m_BoundingBox[i], index[i / 2]);
-        if (labelStats.m_BoundingBox[i + 1] < index[i / 2])
-        {
-          labelStats.m_BoundingBox[i + 1] = index[i / 2];
-        }
+        labelStats.m_BoundingBox[i + 1] = std::max(labelStats.m_BoundingBox[i + 1], index[i / 2]);
       }
 
       labelStats.m_Sum += value;

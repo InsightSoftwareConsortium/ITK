@@ -23,6 +23,7 @@
 #include "itkMeanSampleFilter.h"
 #include "itkCovarianceSampleFilter.h"
 #include "itkImageMaskSpatialObject.h"
+#include <algorithm> // For max.
 
 namespace itk
 {
@@ -173,10 +174,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
         indMin[i] = indMax[i];
         indMax[i] = tmpI;
       }
-      if (indMin[i] < imageIndex[i])
-      {
-        indMin[i] = imageIndex[i];
-      }
+      indMin[i] = std::max(indMin[i], imageIndex[i]);
       size[i] = indMax[i] - indMin[i] + 1;
       if (indMin[i] + size[i] < imageIndex[i] + imageSize[i])
       {

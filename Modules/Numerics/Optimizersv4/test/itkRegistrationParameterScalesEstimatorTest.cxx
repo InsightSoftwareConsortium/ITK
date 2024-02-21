@@ -19,6 +19,7 @@
 #include "itkImageToImageMetricv4.h"
 
 #include "itkAffineTransform.h"
+#include <algorithm> // For max.
 
 /**
  *  \class RegistrationParameterScalesEstimatorTestMetric for test.
@@ -183,10 +184,7 @@ public:
 
       for (itk::SizeValueType p = 0; p < numPara; ++p)
       {
-        if (norms[p] < squaredNorms[p])
-        {
-          norms[p] = squaredNorms[p];
-        }
+        norms[p] = std::max(norms[p], squaredNorms[p]);
       }
     } // for numSamples
 

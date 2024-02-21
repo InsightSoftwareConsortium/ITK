@@ -25,7 +25,7 @@
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "itkCastImageFilter.h"
-#include <algorithm> // For min.
+#include <algorithm> // For min and max.
 
 namespace itk
 {
@@ -259,10 +259,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::ComputeJacobianWit
       difIndex[1][col] -= 1;
       difIndex[2][col] += 1;
       difIndex[3][col] += 2;
-      if (difIndex[0][col] < startingIndex[col])
-      {
-        difIndex[0][col] = startingIndex[col];
-      }
+      difIndex[0][col] = std::max(difIndex[0][col], startingIndex[col]);
       difIndex[3][col] = std::min(difIndex[3][col], upperIndex[col]);
 
       OutputVectorType pixDisp[4];

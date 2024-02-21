@@ -209,10 +209,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::ComputeMaximumVoxelShift(cons
   FloatType maxShift{};
   for (SizeValueType s = 0; s < sampleShifts.size(); ++s)
   {
-    if (maxShift < sampleShifts[s])
-    {
-      maxShift = sampleShifts[s];
-    }
+    maxShift = std::max(maxShift, sampleShifts[s]);
   }
 
   return maxShift;

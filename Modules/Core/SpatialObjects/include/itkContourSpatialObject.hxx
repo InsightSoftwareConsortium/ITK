@@ -19,7 +19,7 @@
 #define itkContourSpatialObject_hxx
 
 #include "itkNumericTraits.h"
-#include <algorithm> // For min.
+#include <algorithm> // For min and max.
 
 namespace itk
 {
@@ -83,10 +83,7 @@ ContourSpatialObject<TDimension>::GetOrientationInObjectSpace() const
     for (unsigned int i = 0; i < TDimension; ++i)
     {
       minPnt[i] = std::min(minPnt[i], curpoint[i]);
-      if (maxPnt[i] < curpoint[i])
-      {
-        maxPnt[i] = curpoint[i];
-      }
+      maxPnt[i] = std::max(maxPnt[i], curpoint[i]);
     }
     ++it;
   }
