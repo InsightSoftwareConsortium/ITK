@@ -84,16 +84,19 @@ public:
   {
     IndexType nindex;
 
+    const IndexType startIndex = this->GetStartIndex();
+    const IndexType endIndex = this->GetEndIndex();
+
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       nindex[j] = Math::RoundHalfIntegerUp<IndexValueType>(index[j]);
-      if (nindex[j] < this->GetStartIndex()[j])
+      if (nindex[j] < startIndex[j])
       {
-        nindex[j] = this->GetStartIndex()[j];
+        nindex[j] = startIndex[j];
       }
-      else if (nindex[j] > this->GetEndIndex()[j])
+      else if (nindex[j] > endIndex[j])
       {
-        nindex[j] = this->GetEndIndex()[j];
+        nindex[j] = endIndex[j];
       }
     }
     return static_cast<OutputType>(this->GetInputImage()->GetPixel(nindex));
@@ -111,15 +114,18 @@ public:
   {
     IndexType nindex;
 
+    const IndexType startIndex = this->GetStartIndex();
+    const IndexType endIndex = this->GetEndIndex();
+
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      if (index[j] < this->GetStartIndex()[j])
+      if (index[j] < startIndex[j])
       {
-        nindex[j] = this->GetStartIndex()[j];
+        nindex[j] = startIndex[j];
       }
-      else if (index[j] > this->GetEndIndex()[j])
+      else if (index[j] > endIndex[j])
       {
-        nindex[j] = this->GetEndIndex()[j];
+        nindex[j] = endIndex[j];
       }
       else
       {
