@@ -21,6 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkMetaImageIO.h"
 #include "itkTestingMacros.h"
+#include <algorithm> // For min.
 
 int
 itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
@@ -53,7 +54,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
   ImageType::SizeType   fullsize;
   ImageType::IndexType  index;
 
-  unsigned int numberOfPieces = 10;
+  itk::SizeValueType numberOfPieces = 10;
 
   // We decide how we want to read the image and we split accordingly
   // The image is read slice by slice
@@ -65,10 +66,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
   size[1] = fullsize[1];
   size[2] = 0;
 
-  if (numberOfPieces > fullsize[2])
-  {
-    numberOfPieces = fullsize[2];
-  }
+  numberOfPieces = std::min(numberOfPieces, fullsize[2]);
   unsigned int zsize = fullsize[2] / numberOfPieces;
 
   // Setup the writer

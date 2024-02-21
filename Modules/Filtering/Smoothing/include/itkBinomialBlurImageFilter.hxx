@@ -23,6 +23,7 @@
 #include "itkImageRegion.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionReverseIterator.h"
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -79,10 +80,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
     }
 
     inputSize[i] += m_Repetitions;
-    if (inputSize[i] > inputLargestPossibleRegionSize[i])
-    {
-      inputSize[i] = inputLargestPossibleRegionSize[i];
-    }
+    inputSize[i] = std::min(inputSize[i], inputLargestPossibleRegionSize[i]);
   }
 
   inputRegion.SetIndex(inputIndex);

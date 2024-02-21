@@ -21,6 +21,7 @@
 #include "itkConceptChecking.h"
 
 #include "itkMath.h"
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -77,10 +78,7 @@ LinearInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateUnoptimized(cons
         ++(neighIndex[dim]);
         // Take care of the case where the pixel is just
         // in the outer upper boundary of the image grid.
-        if (neighIndex[dim] > this->m_EndIndex[dim])
-        {
-          neighIndex[dim] = this->m_EndIndex[dim];
-        }
+        neighIndex[dim] = std::min(neighIndex[dim], this->m_EndIndex[dim]);
         overlap *= distance[dim];
       }
       else

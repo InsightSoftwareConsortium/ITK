@@ -22,6 +22,7 @@
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTotalProgressReporter.h"
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -50,10 +51,7 @@ GridImageSource<TOutputImage>::BeforeThreadedGenerateData()
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    if (this->m_GridOffset[i] > this->m_GridSpacing[i])
-    {
-      this->m_GridOffset[i] = this->m_GridSpacing[i];
-    }
+    this->m_GridOffset[i] = std::min(this->m_GridOffset[i], this->m_GridSpacing[i]);
     PixelArrayType pixels = m_PixelArrays->CreateElementAt(i);
     pixels.set_size(this->GetSize()[i]);
     pixels.fill(1);

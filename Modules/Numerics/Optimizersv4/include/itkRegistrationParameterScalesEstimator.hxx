@@ -23,6 +23,7 @@
 #include "itkPointSet.h"
 #include "itkObjectToObjectMetric.h"
 #include "itkPrintHelper.h"
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -59,10 +60,7 @@ RegistrationParameterScalesEstimator<TMetric>::EstimateMaximumStepSize() -> Floa
 
   for (SizeValueType d = 0; d < dim; ++d)
   {
-    if (minSpacing > spacing[d])
-    {
-      minSpacing = spacing[d];
-    }
+    minSpacing = std::min(minSpacing, spacing[d]);
   }
 
   return minSpacing;
