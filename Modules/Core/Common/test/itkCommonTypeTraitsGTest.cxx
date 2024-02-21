@@ -74,6 +74,13 @@ TEST(CommonTypeTraits, RGBPixelIsPOD)
   EXPECT_TRUE(std::is_trivial_v<T>);
   EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
+
+TEST(CommonTypeTraits, SymmetricSecondRankTensorIsPOD)
+{
+  using T = itk::SymmetricSecondRankTensor<float, 3>;
+  EXPECT_TRUE(std::is_trivial_v<T>);
+  EXPECT_TRUE(std::is_standard_layout_v<T>);
+}
 #else
 TEST(CommonTypeTraits, RGBAPixelIsNotPOD)
 {
@@ -90,7 +97,6 @@ TEST(CommonTypeTraits, RGBPixelIsNotPOD)
   EXPECT_FALSE(std::is_trivial_v<T>);
   EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
-#endif
 
 TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD)
 {
@@ -99,6 +105,7 @@ TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD)
   EXPECT_FALSE(std::is_trivial_v<T>);
   EXPECT_TRUE(std::is_standard_layout_v<T>);
 }
+#endif
 
 /************ Second Generation FixedArray *************/
 /* Derived from Point */

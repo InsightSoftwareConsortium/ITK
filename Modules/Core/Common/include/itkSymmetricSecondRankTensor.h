@@ -104,7 +104,11 @@ public:
 
   /** Default-constructor.
    * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  SymmetricSecondRankTensor() = default;
+#else
   SymmetricSecondRankTensor() { this->Fill(0); }
+#endif
 
   SymmetricSecondRankTensor(const ComponentType & r) { this->Fill(r); }
 
