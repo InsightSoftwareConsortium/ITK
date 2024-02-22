@@ -21,6 +21,7 @@
 #include "itkZeroFluxNeumannPadImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkTestingMacros.h"
+#include <algorithm> // For clamp.
 
 using ShortImage = itk::Image<short, 2>;
 using FloatImage = itk::Image<float, 2>;
@@ -57,14 +58,8 @@ VerifyFilterOutput(const ShortImage * inputImage, const FloatImage * outputImage
       ShortImage::IndexType borderIdx = idx;
       for (unsigned int i = 0; i < ShortImage::ImageDimension; ++i)
       {
-        if (borderIdx[i] < inputIndex[i])
-        {
-          borderIdx[i] = inputIndex[i];
-        }
-        else if (borderIdx[i] > inputIndex[i] + static_cast<ShortImage::IndexValueType>(inputSize[i]) - 1)
-        {
-          borderIdx[i] = inputIndex[i] + inputSize[i] - 1;
-        }
+        borderIdx[i] = std::clamp(
+          borderIdx[i], inputIndex[i], inputIndex[i] + static_cast<ShortImage::IndexValueType>(inputSize[i]) - 1);
       }
 
       if (itk::Math::NotAlmostEquals(outputIterator.Get(), inputImage->GetPixel(borderIdx)))
