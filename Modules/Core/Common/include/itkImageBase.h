@@ -242,6 +242,14 @@ public:
   virtual void
   Allocate(bool initialize = false);
 
+  /** Allocates the pixel buffer of the image, zero-initializing its pixels. `AllocateInitialized()` is equivalent to
+   * `Allocate(true)`. It is just intended to make the code more readable. */
+  void
+  AllocateInitialized()
+  {
+    return this->Allocate(true);
+  }
+
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
