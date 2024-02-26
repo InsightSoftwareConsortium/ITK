@@ -19,6 +19,7 @@
 #define itkNearestNeighborExtrapolateImageFunction_h
 
 #include "itkExtrapolateImageFunction.h"
+#include <algorithm> // For clamp.
 
 namespace itk
 {
@@ -84,17 +85,12 @@ public:
   {
     IndexType nindex;
 
+    const IndexType startIndex = this->GetStartIndex();
+    const IndexType endIndex = this->GetEndIndex();
+
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      nindex[j] = Math::RoundHalfIntegerUp<IndexValueType>(index[j]);
-      if (nindex[j] < this->GetStartIndex()[j])
-      {
-        nindex[j] = this->GetStartIndex()[j];
-      }
-      else if (nindex[j] > this->GetEndIndex()[j])
-      {
-        nindex[j] = this->GetEndIndex()[j];
-      }
+      nindex[j] = std::clamp(Math::RoundHalfIntegerUp<IndexValueType>(index[j]), startIndex[j], endIndex[j]);
     }
     return static_cast<OutputType>(this->GetInputImage()->GetPixel(nindex));
   }
@@ -111,20 +107,12 @@ public:
   {
     IndexType nindex;
 
+    const IndexType startIndex = this->GetStartIndex();
+    const IndexType endIndex = this->GetEndIndex();
+
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      if (index[j] < this->GetStartIndex()[j])
-      {
-        nindex[j] = this->GetStartIndex()[j];
-      }
-      else if (index[j] > this->GetEndIndex()[j])
-      {
-        nindex[j] = this->GetEndIndex()[j];
-      }
-      else
-      {
-        nindex[j] = index[j];
-      }
+      nindex[j] = std::clamp(index[j], startIndex[j], endIndex[j]);
     }
     return static_cast<OutputType>(this->GetInputImage()->GetPixel(nindex));
   }
