@@ -58,7 +58,7 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
   region.SetSize(size);
 
   binaryMask->SetRegions(region);
-  binaryMask->Allocate(true); // initialize buffer to zero
+  binaryMask->AllocateInitialized();
 
   size[0] = 60;
   size[1] = 60;

@@ -81,12 +81,12 @@ itkImageAlgorithmCopyTest2(int, char *[])
 
   auto image2 = Short3DImageType::New();
   image2->SetRegions(region);
-  image2->Allocate(true); // initialize buffer to zero
+  image2->AllocateInitialized();
 
 
   auto image3 = Float3DImageType::New();
   image3->SetRegions(region);
-  image3->Allocate(true); // initialize buffer to zero
+  image3->AllocateInitialized();
 
   std::cout << "Copying two images of same type" << std::endl;
   itk::ImageAlgorithm::Copy(image1.GetPointer(), image2.GetPointer(), region, region);

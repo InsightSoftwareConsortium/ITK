@@ -40,7 +40,7 @@ itkBinaryThresholdImageFunctionTest(int, char *[])
   region.SetSize(size);
 
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer to zero
+  image->AllocateInitialized();
 
   for (unsigned int i = 0; i < FloatImage::ImageDimension; ++i)
   {

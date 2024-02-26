@@ -120,8 +120,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
       this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetRegions(jointPDFRegion);
       this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetOrigin(origin);
       this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetSpacing(spacing);
-      // NOTE: true = initialize to zero
-      this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->Allocate(true);
+      this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->AllocateInitialized();
     }
   }
 
@@ -183,7 +182,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     {
       this->m_MattesAssociate->m_JointPDFDerivatives = JointPDFDerivativesType::New();
       this->m_MattesAssociate->m_JointPDFDerivatives->SetRegions(jointPDFDerivativesRegion);
-      this->m_MattesAssociate->m_JointPDFDerivatives->Allocate(true);
+      this->m_MattesAssociate->m_JointPDFDerivatives->AllocateInitialized();
     }
     else
     {

@@ -39,7 +39,7 @@ makeTestableScalarImage(typename InternalImageType::Pointer internalImage, std::
   OutputImageType::Pointer outputImage = OutputImageType::New();
   outputImage->CopyInformation(internalImage);
   outputImage->SetRegions(internalImage->GetBufferedRegion());
-  outputImage->Allocate(true);
+  outputImage->AllocateInitialized();
 
   auto myiterator = itk::ImageRegionConstIterator<InternalImageType>(internalImage, internalImage->GetBufferedRegion());
   auto myOutiterator = itk::ImageRegionIterator<OutputImageType>(outputImage, outputImage->GetBufferedRegion());

@@ -43,7 +43,7 @@ itkImageDuplicatorTest(int, char *[])
     std::cout << "Creating simulated image: ";
     auto m_Image = ImageType::New();
     m_Image->SetRegions(region);
-    m_Image->Allocate(true); // initialize buffer to zero
+    m_Image->AllocateInitialized();
 
     itk::ImageRegionIterator<ImageType> it(m_Image, region);
     it.GoToBegin();

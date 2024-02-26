@@ -84,8 +84,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   region.SetIndex(idx);
 
   inImage->SetRegions(region);
-  inImage->Allocate(true); // initialize buffer
-                           // to zero
+  inImage->AllocateInitialized();
 
   SizeType szConstraint;
   szConstraint[0] = 23;

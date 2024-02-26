@@ -52,7 +52,7 @@ Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero(
   const auto image = itk::Image<TPixel, VImageDimension>::New();
 
   image->SetRegions(imageRegion);
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   EXPECT_EQ(ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(*image).GetSize(), itk::Size<VImageDimension>{});
 }
@@ -87,9 +87,7 @@ Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the
   const auto image = itk::Image<TPixel, VImageDimension>::New();
 
   image->SetRegions(imageRegion);
-
-  // Initialize all pixels to zero.
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   const itk::ImageRegionIndexRange<VImageDimension> indexRange{ imageRegion };
 
@@ -250,7 +248,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
   // Create an image filled with zero valued pixels.
   const auto image = ImageType::New();
   image->SetRegions(SizeType::Filled(8));
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   constexpr itk::IndexValueType indexValue{ 4 };
   image->SetPixel({ { indexValue, indexValue } }, 1);
@@ -277,7 +275,7 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
   // Create an image filled with zero valued pixels.
   const auto image = ImageType::New();
   image->SetRegions(SizeType::Filled(10));
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   // Set the value of a pixel to non-zero.
   constexpr itk::IndexValueType indexValue{ 8 };
@@ -316,7 +314,7 @@ TEST(ImageMaskSpatialObject, CornerPointIsNotInsideMaskOfZeroValues)
   // Create a mask image, and fill the image with zero vales.
   const auto image = itk::Image<unsigned char>::New();
   image->SetRegions(itk::Size<>{ { 2, 2 } });
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   const auto imageMaskSpatialObject = itk::ImageMaskSpatialObject<2>::New();
   imageMaskSpatialObject->SetImage(image);
@@ -336,7 +334,7 @@ TEST(ImageMaskSpatialObject, IsInsideInWorldSpaceOverloads)
   // Create a mask image.
   const auto maskImage = MaskImageType::New();
   maskImage->SetRegions(itk::Size<imageDimension>::Filled(2));
-  maskImage->Allocate(true);
+  maskImage->AllocateInitialized();
   maskImage->SetPixel({}, MaskPixelType{ 1 });
   maskImage->SetSpacing(itk::MakeFilled<MaskImageType::SpacingType>(0.5));
 
@@ -372,7 +370,7 @@ TEST(ImageMaskSpatialObject, StoresRegionsFromMaskImage)
       // Create a mask image.
       const auto maskImage = MaskImageType::New();
       maskImage->SetRegions(RegionType{ IndexType::Filled(indexValue), SizeType::Filled(sizeValue) });
-      maskImage->Allocate(true);
+      maskImage->AllocateInitialized();
 
       const auto imageMaskSpatialObject = ImageMaskSpatialObjectType::New();
       imageMaskSpatialObject->SetImage(maskImage);

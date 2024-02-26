@@ -199,7 +199,7 @@ itkAdaptorComparisonTest(int, char *[])
   auto vector_image = VectorImageType::New();
 
   scalar_image->SetRegions(region);
-  scalar_image->Allocate(true); // initialize buffer to zero
+  scalar_image->AllocateInitialized();
 
   vector_image->SetRegions(region);
   vector_image->Allocate();

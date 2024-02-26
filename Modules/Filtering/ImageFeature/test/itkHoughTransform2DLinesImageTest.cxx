@@ -50,7 +50,7 @@ Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black()
   const auto                image = ImageType::New();
   const ImageType::SizeType size = { { 32, 32 } };
   image->SetRegions(size);
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   const auto filter = FilterType::New();
   filter->SetInput(image);
@@ -81,7 +81,7 @@ Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero()
   };
   const ImageType::SizeType size = { { sizeX, sizeY } };
   image->SetRegions(size);
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   // Place some line segment in the image.
   for (itk::IndexValueType x = 1; x < (sizeX - 1); ++x)
@@ -150,7 +150,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   region.SetIndex(index);
 
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer to zero
+  image->AllocateInitialized();
 
   // Create a line
   constexpr unsigned int lines = 1;

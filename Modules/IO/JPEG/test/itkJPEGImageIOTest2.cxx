@@ -52,8 +52,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
   region.SetIndex(start);
 
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer
-                         // to zero
+  image->AllocateInitialized();
 
   ImageType::SpacingType spacing;
 

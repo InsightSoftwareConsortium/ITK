@@ -177,7 +177,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   outputImagePtr->SetRequestedRegion(inputImagePtr->GetRequestedRegion());
   outputImagePtr->SetBufferedRegion(inputImagePtr->GetBufferedRegion());
   outputImagePtr->SetLargestPossibleRegion(inputImagePtr->GetLargestPossibleRegion());
-  outputImagePtr->Allocate(true); // initialize buffer to zero
+  outputImagePtr->AllocateInitialized();
 
   InputImageConstIteratorType inputIt(inputImagePtr, inputImagePtr->GetLargestPossibleRegion());
   OutputImageIteratorType     outputIt(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
@@ -328,7 +328,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   itkDebugMacro("Projection image origin:" << origin);
 
   projectionImagePtr->SetRegions(projectionRegion);
-  projectionImagePtr->Allocate(true); // initialize buffer to zero
+  projectionImagePtr->AllocateInitialized();
 
   using ProjectionImageIteratorType = ImageRegionIterator<ProjectionImageType>;
   ProjectionImageIteratorType projectionIt(projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion());

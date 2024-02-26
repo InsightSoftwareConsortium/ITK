@@ -50,7 +50,7 @@ itkImageMaskSpatialObjectTest(int, char *[])
   region.SetIndex(index);
 
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer to zero
+  image->AllocateInitialized();
 
   ImageType::RegionType insideRegion;
   ImageType::SizeType   insideSize = { { 30, 30, 30 } };

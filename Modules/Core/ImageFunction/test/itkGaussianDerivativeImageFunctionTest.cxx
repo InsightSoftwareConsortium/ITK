@@ -42,7 +42,7 @@ TestGaussianDerivativeImageFunction()
   region.SetSize(size);
 
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer to zero
+  image->AllocateInitialized();
 
   // Fill the image with a straight line
   for (unsigned int i = 0; i < 50; ++i)

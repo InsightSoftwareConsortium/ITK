@@ -72,7 +72,7 @@ itkGPUImageTest(int argc, char * argv[])
 
   dest = ItkImage1f::New();
   dest->SetRegions(region);
-  dest->Allocate(true); // initialize buffer to zero
+  dest->AllocateInitialized();
 
   // check pixel value
   ItkImage1f::IndexType idx;

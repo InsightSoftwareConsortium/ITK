@@ -170,7 +170,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
     ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
     region.SetIndex(0, 10);
     image->SetRegions(region);
-    image->Allocate(true);
+    image->AllocateInitialized();
   }
 
   ImageType::SpacingType spacing;

@@ -72,8 +72,7 @@ CreateMaskImage()
 
   MaskImageType::RegionType region(start, size);
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer
-                         // to zero
+  image->AllocateInitialized();
 
   MaskImageType::IndexType startMask;
   MaskImageType::SizeType  sizeMask;
@@ -114,8 +113,7 @@ CreateLargerMaskImage()
 
   MaskImageType::RegionType region(start, size);
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer
-                         // to zero
+  image->AllocateInitialized();
   return image;
 }
 

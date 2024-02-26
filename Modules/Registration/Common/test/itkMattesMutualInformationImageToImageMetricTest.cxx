@@ -134,14 +134,12 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   auto imgMovingMask = MovingImageType::New();
   imgMovingMask->CopyInformation(imgMoving);
   imgMovingMask->SetRegions(region);
-  imgMovingMask->Allocate(true); // initialize
-                                 // buffer to zero
+  imgMovingMask->AllocateInitialized();
 
   auto imgFixedMask = FixedImageType::New();
   imgFixedMask->CopyInformation(imgFixed);
   imgFixedMask->SetRegions(region);
-  imgFixedMask->Allocate(true); // initialize
-                                // buffer to zero
+  imgFixedMask->AllocateInitialized();
 
   int NumberFixedImageMaskVoxels = 0;
   { // Set up a mask that only has every 10th voxel listed is used in

@@ -190,8 +190,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   pRegion.SetSize(pSize);
   pRegion.SetIndex(pStart);
   projectionLine->SetRegions(pRegion);
-  projectionLine->Allocate(true); // initialize
-                                  // buffer to zero
+  projectionLine->AllocateInitialized();
 
   ProjectionLineType::IndexType pIdx;
   const unsigned int            pLineHalfShift = pSize[0] - inputROISize[m_RDirection] / 2;
@@ -220,8 +219,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   auto FFTSlice = FFTSliceType::New();
   FFTSlice->SetRegions(FFTSliceRegion);
-  FFTSlice->Allocate(true); // initialize
-                            // buffer to zero
+  FFTSlice->AllocateInitialized();
 
   FFTSliceIteratorType    FFTSliceIt(FFTSlice, FFTSliceRegion);
   FFTSliceType::IndexType sIdx;

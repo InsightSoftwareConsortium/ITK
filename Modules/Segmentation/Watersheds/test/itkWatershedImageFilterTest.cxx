@@ -53,7 +53,7 @@ itkWatershedImageFilterTest(int, char *[])
 
   auto longimage2D = LongImageType2D::New();
   longimage2D->SetRegions(region);
-  longimage2D->Allocate(true); // initialize buffer to zero
+  longimage2D->AllocateInitialized();
 
   itk::ImageRegionIterator<ImageType2D> it2D(image2D, image2D->GetRequestedRegion());
 
