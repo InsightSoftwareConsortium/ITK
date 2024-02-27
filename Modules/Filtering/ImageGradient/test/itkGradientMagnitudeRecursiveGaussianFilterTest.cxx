@@ -71,9 +71,8 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   region.SetIndex(start);
   region.SetSize(size);
 
-  // initialize the image with default-valued pixels (in this case, 0.0)
   inputImage->SetRegions(region);
-  inputImage->Allocate(true);
+  inputImage->AllocateInitialized();
 
   // Set the metadata for the image
   myImageType::PointType     origin;

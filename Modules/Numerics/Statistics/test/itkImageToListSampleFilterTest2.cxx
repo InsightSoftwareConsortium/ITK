@@ -61,8 +61,7 @@ itkImageToListSampleFilterTest2(int, char *[])
 
   auto maskImage = MaskImageType::New();
   maskImage->SetRegions(region);
-  maskImage->Allocate(true); // initialize
-                             // buffer to zero
+  maskImage->AllocateInitialized();
   MaskImageType::IndexType startMask;
   MaskImageType::SizeType  sizeMask;
 

@@ -281,7 +281,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     region.SetSize(size);
 
     image->SetRegions(region);
-    image->Allocate(true); // initialize buffer to zero
+    image->AllocateInitialized();
 
     using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
     IteratorType  iter(image, image->GetBufferedRegion());

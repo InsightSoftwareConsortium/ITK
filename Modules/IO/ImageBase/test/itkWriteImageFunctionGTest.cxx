@@ -49,7 +49,7 @@ struct ITKWriteImageFunctionTest : public ::testing::Test
 
     image->SetRegions(region);
 
-    image->Allocate(true);
+    image->AllocateInitialized();
     return image;
   }
 };

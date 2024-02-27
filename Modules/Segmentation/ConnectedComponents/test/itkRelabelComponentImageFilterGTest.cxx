@@ -141,7 +141,7 @@ TEST(RelabelComponentImageFilter, big_zero)
   typename ImageType::RegionType region;
   region.SetSize({ { 512, 512, 512 } });
   image->SetRegions(region);
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   auto filter = itk::RelabelComponentImageFilter<ImageType, ImageType>::New();
   filter->SetInput(image);

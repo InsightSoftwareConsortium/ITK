@@ -125,7 +125,7 @@ CreateSmallImage()
   imageSize.Fill(0);
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
-  image->Allocate(true);
+  image->AllocateInitialized();
   return image;
 }
 
@@ -623,7 +623,7 @@ TEST(ShapedImageNeighborhoodRange, SupportsVectorImage)
   const typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
-  image->Allocate(true);
+  image->AllocateInitialized();
   PixelType fillPixelValue(vectorLength);
   fillPixelValue.Fill(42);
   image->FillBuffer(fillPixelValue);
@@ -1006,7 +1006,7 @@ TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
 
   const auto image = ImageType::New();
   image->SetRegions(bufferedRegion);
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   // Set a 'magic value' at the begin of the buffered region.
   const ImageType::PixelType   magicPixelValue = 42;

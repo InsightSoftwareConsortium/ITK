@@ -31,8 +31,7 @@ CreateImagex(LocalImageType::Pointer & image)
   LocalImageType::RegionType region(start, size);
 
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer
-                         // to zero
+  image->AllocateInitialized();
 }
 
 int

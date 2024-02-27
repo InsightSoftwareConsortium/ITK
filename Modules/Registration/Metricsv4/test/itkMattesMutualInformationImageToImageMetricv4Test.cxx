@@ -141,12 +141,12 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   auto imgMovingMask = MovingImageType::New();
   imgMovingMask->CopyInformation(imgMoving);
   imgMovingMask->SetRegions(region);
-  imgMovingMask->Allocate(true); // initialize buffer to zero
+  imgMovingMask->AllocateInitialized();
 
   auto imgFixedMask = FixedImageType::New();
   imgFixedMask->CopyInformation(imgFixed);
   imgFixedMask->SetRegions(region);
-  imgFixedMask->Allocate(true); // initialize buffer to zero
+  imgFixedMask->AllocateInitialized();
 
   {
     {

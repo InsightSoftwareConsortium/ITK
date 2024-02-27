@@ -48,8 +48,7 @@ itkImageFileWriterTest2(int argc, char * argv[])
   region.SetIndex(index);
 
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer
-                         // to zero
+  image->AllocateInitialized();
 
   image->TransformIndexToPhysicalPoint(index, originalPoint);
   std::cout << "Original Starting Index: " << index << std::endl;

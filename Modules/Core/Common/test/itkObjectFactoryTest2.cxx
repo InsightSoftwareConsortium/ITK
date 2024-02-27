@@ -78,11 +78,11 @@ ReallocateImage()
   SizeType size = { { 5, 3 } };
 
   testImage->SetRegions(size);
-  testImage->Allocate(true); // initialize buffer to zero
+  testImage->AllocateInitialized();
 
   SizeType size2 = { { 100, 100 } };
   testImage->SetRegions(size2);
-  testImage->Allocate(true); // initialize buffer to zero
+  testImage->AllocateInitialized();
 }
 
 int

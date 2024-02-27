@@ -103,7 +103,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
   m_RadiusImage->SetOrigin(inputImage->GetOrigin());
   m_RadiusImage->SetSpacing(inputImage->GetSpacing());
   m_RadiusImage->SetDirection(inputImage->GetDirection());
-  m_RadiusImage->Allocate(true); // initialize buffer to zero
+  m_RadiusImage->AllocateInitialized();
 
   ImageRegionConstIteratorWithIndex<InputImageType> image_it(inputImage, inputImage->GetRequestedRegion());
 

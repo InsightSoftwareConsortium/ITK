@@ -144,7 +144,7 @@ CreateSmallImage()
   imageSize.Fill(0);
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
-  image->Allocate(true);
+  image->AllocateInitialized();
   return image;
 }
 
@@ -538,7 +538,7 @@ TEST(ImageBufferRange, SupportsVectorImage)
   const typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
-  image->Allocate(true);
+  image->AllocateInitialized();
   PixelType fillPixelValue(vectorLength);
   fillPixelValue.Fill(42);
   image->FillBuffer(fillPixelValue);

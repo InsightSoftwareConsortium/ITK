@@ -58,8 +58,7 @@ itkGaussianRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   region.SetIndex(idx);
 
   inImage->SetRegions(region);
-  inImage->Allocate(true); // initialize buffer
-                           // to zero
+  inImage->AllocateInitialized();
 
   auto sample = AdaptorType::New();
   sample->SetImage(inImage);

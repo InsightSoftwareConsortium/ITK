@@ -258,7 +258,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   kmeansLabelImage->SetSpacing(maskReader->GetOutput()->GetSpacing());
   kmeansLabelImage->SetDirection(maskReader->GetOutput()->GetDirection());
   kmeansLabelImage->SetOrigin(maskReader->GetOutput()->GetOrigin());
-  kmeansLabelImage->Allocate(true);
+  kmeansLabelImage->AllocateInitialized();
 
   using LabelMapStatisticsFilterType = itk::LabelStatisticsImageFilter<LabelImageType, LabelImageType>;
   auto statisticsNonBrainFilter = LabelMapStatisticsFilterType::New();

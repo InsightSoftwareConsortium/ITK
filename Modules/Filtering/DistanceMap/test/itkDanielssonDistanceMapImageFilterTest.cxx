@@ -46,7 +46,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetRegions(region2D);
-  inputImage2D->Allocate(true);
+  inputImage2D->AllocateInitialized();
 
   // Set pixel (4,4) with the value 1
   // and pixel (1,6) with the value 2

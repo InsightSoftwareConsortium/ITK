@@ -471,7 +471,7 @@ TEST(ImageRegionRange, SupportsVectorImage)
   const typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
-  image->Allocate(true);
+  image->AllocateInitialized();
   PixelType fillPixelValue(vectorLength);
   fillPixelValue.Fill(42);
   image->FillBuffer(fillPixelValue);
@@ -634,7 +634,7 @@ TEST(ImageRegionRange, ThrowsInReleaseWhenIterationRegionIsOutsideBufferedRegion
   const SizeType  imageSize{ { 3, 4 } };
 
   image->SetRegions(RegionType{ imageIndex, imageSize });
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   Check_Range_constructor_throws_ExceptionObject_when_iteration_region_is_outside_of_buffered_region(
     *image, RegionType{ imageIndex, imageSize + SizeType::Filled(1) });

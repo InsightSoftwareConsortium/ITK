@@ -252,7 +252,7 @@ TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
   SizeType   imageSize;
   imageSize.Fill(1);
   image->SetRegions(imageSize);
-  image->Allocate(true);
+  image->AllocateInitialized();
 
   // Create a radius, (just) large enough for all offsets activated below here.
   SizeType radius;

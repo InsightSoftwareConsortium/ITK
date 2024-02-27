@@ -40,9 +40,7 @@ RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::CreateHeavisideFunc
   this->m_HeavisideFunctionOfLevelSetImage = InputImageType::New();
   this->m_HeavisideFunctionOfLevelSetImage->CopyInformation(image);
   this->m_HeavisideFunctionOfLevelSetImage->SetRegions(region);
-  this->m_HeavisideFunctionOfLevelSetImage->Allocate(true); // initialize
-                                                            // buffer
-                                                            // to zero
+  this->m_HeavisideFunctionOfLevelSetImage->AllocateInitialized();
 
   const InputPointType origin = image->GetOrigin();
 

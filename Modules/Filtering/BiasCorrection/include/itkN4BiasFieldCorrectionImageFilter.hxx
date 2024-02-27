@@ -156,7 +156,7 @@ CLANG_SUPPRESS_Wfloat_equal
     RealImagePointer logBiasField = RealImageType::New();
     logBiasField->CopyInformation(inputImage);
     logBiasField->SetRegions(inputImage->GetLargestPossibleRegion());
-    logBiasField->Allocate(true); // initialize buffer to zero
+    logBiasField->AllocateInitialized();
 
     RealImagePointer logSharpenedImage = RealImageType::New();
     logSharpenedImage->CopyInformation(inputImage);

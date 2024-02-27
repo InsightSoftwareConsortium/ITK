@@ -45,7 +45,7 @@ itkNiftiWriteCoerceOrthogonalDirectionTest(int argc, char * argv[])
   region.SetIndex(startIndex);
   auto image1 = ImageType::New();
   image1->SetRegions(region);
-  image1->Allocate(true);
+  image1->AllocateInitialized();
 
   ImageType::DirectionType mat1;
   mat1.SetIdentity();

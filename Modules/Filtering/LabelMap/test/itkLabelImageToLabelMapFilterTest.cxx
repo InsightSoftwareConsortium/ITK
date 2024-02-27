@@ -31,7 +31,7 @@ zeroSizeCase()
   auto p_image = ImageType::New();
 
   // The image region is empty by default: do not set any region to it and allocate memory
-  p_image->Allocate(true);
+  p_image->AllocateInitialized();
 
   p_filter->SetInput(p_image);
   p_filter->Update();

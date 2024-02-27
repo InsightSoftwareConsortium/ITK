@@ -48,7 +48,7 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
   region.SetSize(size);
 
   inputImage->SetRegions(region);
-  inputImage->Allocate(true); // initialize buffer to zero
+  inputImage->AllocateInitialized();
 
   InputImageType::DirectionType direction;
   direction[0][0] = 1.0;
