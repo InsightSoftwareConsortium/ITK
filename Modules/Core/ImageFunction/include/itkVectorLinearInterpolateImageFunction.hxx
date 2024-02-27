@@ -20,6 +20,7 @@
 
 
 #include "itkMath.h"
+#include <algorithm> // For min and max.
 
 namespace itk
 {
@@ -72,10 +73,7 @@ VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuo
         neighIndex[dim] = baseIndex[dim] + 1;
         // Take care of the case where the pixel is just
         // in the outer upper boundary of the image grid.
-        if (neighIndex[dim] > this->m_EndIndex[dim])
-        {
-          neighIndex[dim] = this->m_EndIndex[dim];
-        }
+        neighIndex[dim] = std::min(neighIndex[dim], this->m_EndIndex[dim]);
         overlap *= distance[dim];
       }
       else
@@ -83,10 +81,7 @@ VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuo
         neighIndex[dim] = baseIndex[dim];
         // Take care of the case where the pixel is just
         // in the outer lower boundary of the image grid.
-        if (neighIndex[dim] < this->m_StartIndex[dim])
-        {
-          neighIndex[dim] = this->m_StartIndex[dim];
-        }
+        neighIndex[dim] = std::max(neighIndex[dim], this->m_StartIndex[dim]);
         overlap *= 1.0 - distance[dim];
       }
       upper >>= 1;

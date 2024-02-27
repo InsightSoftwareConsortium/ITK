@@ -26,6 +26,7 @@
 #include "itkAffineTransform.h"
 #include "itkResampleImageFilter.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
+#include <algorithm> // For min and max.
 
 namespace itk
 {
@@ -219,15 +220,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     for (unsigned int i = 0; i < (2 * ImageDimension); i += 2)
     {
       // Update min
-      if (mapIt->second.m_BoundingBox[i] > index[i / 2])
-      {
-        mapIt->second.m_BoundingBox[i] = index[i / 2];
-      }
+      mapIt->second.m_BoundingBox[i] = std::min(mapIt->second.m_BoundingBox[i], index[i / 2]);
       // Update max
-      if (mapIt->second.m_BoundingBox[i + 1] < index[i / 2])
-      {
-        mapIt->second.m_BoundingBox[i + 1] = index[i / 2];
-      }
+      mapIt->second.m_BoundingBox[i + 1] = std::max(mapIt->second.m_BoundingBox[i + 1], index[i / 2]);
     }
 
     // VOLUME

@@ -20,6 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegion.h"
 #include "itkConstSliceIterator.h"
+#include <algorithm> // For min.
 
 namespace itk
 {
@@ -106,10 +107,7 @@ ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType reg
         }
 
         // Boundary region cannot be outside the region to process
-        if (fSize[j] > rSize[j])
-        {
-          fSize[j] = rSize[j];
-        }
+        fSize[j] = std::min(fSize[j], rSize[j]);
       }
       // avoid unsigned overflow if the non-boundary region is too small to
       // process
