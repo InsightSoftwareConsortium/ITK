@@ -127,11 +127,7 @@ template <typename T, unsigned int TPointDimension>
 vnl_vector<T>
 Point<T, TPointDimension>::GetVnlVector() const
 {
-  // Return a vector_ref<>.  This will be automatically converted to a
-  // vnl_vector<>.  We have to use a const_cast<> which would normally
-  // be prohibited in a const method, but it is safe to do here
-  // because the cast to vnl_vector<> will ultimately copy the data.
-  return vnl_vector_ref<T>(TPointDimension, const_cast<T *>(this->GetDataPointer()));
+  return vnl_vector<T>(this->GetDataPointer(), TPointDimension);
 }
 
 template <typename T, unsigned int TPointDimension>
