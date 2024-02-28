@@ -99,7 +99,9 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
   m_MatrixMTime.Modified();
   m_Offset.Fill(OutputVectorValueType{});
   m_Translation.Fill(OutputVectorValueType{});
-  m_Center.Fill(InputPointValueType{});
+  // Fixed parameters must be preserved when setting the transform to identity
+  // the center is part of the stationary fixed parameters
+  // and should not be modified by SetIdentity. m_Center.Fill(InputPointValueType{});
   m_Singular = false;
   m_InverseMatrix.SetIdentity();
   m_InverseMatrixMTime = m_MatrixMTime;

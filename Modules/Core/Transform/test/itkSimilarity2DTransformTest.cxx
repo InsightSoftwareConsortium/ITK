@@ -156,6 +156,7 @@ itkSimilarity2DTransformTest(int, char *[])
   }
 
   // 15 degrees in radians
+  transform->SetCenter({}); // Explicitly reset center to default values
   transform->SetIdentity();
   const double angle = 15.0 * std::atan(1.0f) / 45.0;
   const double sinth = std::sin(angle);
