@@ -422,8 +422,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::VerifyFixedParamet
       originString << "InverseDisplacementField Spacing: " << inverseFieldSpacing
                    << ", DisplacementField Spacing: " << fieldSpacing << std::endl;
     }
-    if (!inverseFieldDirection.GetVnlMatrix().as_ref().is_equal(fieldDirection.GetVnlMatrix().as_ref(),
-                                                                directionTolerance))
+    if (!inverseFieldDirection.GetVnlMatrix().is_equal(fieldDirection.GetVnlMatrix(), directionTolerance))
     {
       unequalDirections = true;
       originString << "InverseDisplacementField Direction: " << inverseFieldDirection

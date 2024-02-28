@@ -388,8 +388,8 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateInputReq
     this->m_DefFieldSameInformation =
       (outputPtr->GetOrigin().GetVnlVector().is_equal(fieldPtr->GetOrigin().GetVnlVector(), coordinateTol)) &&
       (outputPtr->GetSpacing().GetVnlVector().is_equal(fieldPtr->GetSpacing().GetVnlVector(), coordinateTol)) &&
-      (outputPtr->GetDirection().GetVnlMatrix().as_ref().is_equal(fieldPtr->GetDirection().GetVnlMatrix().as_ref(),
-                                                                  this->GetDirectionTolerance()));
+      (outputPtr->GetDirection().GetVnlMatrix().is_equal(fieldPtr->GetDirection().GetVnlMatrix(),
+                                                         this->GetDirectionTolerance()));
 
     if (this->m_DefFieldSameInformation)
     {

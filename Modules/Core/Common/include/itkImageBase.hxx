@@ -414,8 +414,7 @@ ImageBase<VImageDimension>::IsCongruentImageGeometry(const ImageBase * otherImag
 
   return this->GetOrigin().GetVnlVector().is_equal(otherImage->GetOrigin().GetVnlVector(), coordinateTol) &&
          this->GetSpacing().GetVnlVector().is_equal(otherImage->GetSpacing().GetVnlVector(), coordinateTol) &&
-         this->GetDirection().GetVnlMatrix().as_ref().is_equal(otherImage->GetDirection().GetVnlMatrix().as_ref(),
-                                                               directionTolerance);
+         this->GetDirection().GetVnlMatrix().is_equal(otherImage->GetDirection().GetVnlMatrix(), directionTolerance);
 }
 
 

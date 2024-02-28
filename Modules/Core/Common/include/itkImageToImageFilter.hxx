@@ -203,8 +203,8 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CO
                         << " Spacing: " << inputPtrN->GetSpacing() << std::endl;
           spacingString << "\tTolerance: " << coordinateTol << std::endl;
         }
-        if (!inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(
-              inputPtrN->GetDirection().GetVnlMatrix().as_ref(), this->m_DirectionTolerance))
+        if (!inputPtr1->GetDirection().GetVnlMatrix().is_equal(inputPtrN->GetDirection().GetVnlMatrix(),
+                                                               this->m_DirectionTolerance))
         {
           directionString.setf(std::ios::scientific);
           directionString.precision(7);
