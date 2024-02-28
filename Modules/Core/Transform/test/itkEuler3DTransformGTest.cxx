@@ -33,3 +33,18 @@ TEST(Euler3DTransform, SetFixedParametersThrowsWhenSizeIsLessThanInputSpaceDimen
     ASSERT_THROW(transform->SetFixedParameters(fixedParameters), itk::ExceptionObject);
   }
 }
+
+TEST(Euler3DTransform, TestSetGetCenterAfterSetIdentity)
+{
+  using EulerTransformType = itk::Euler3DTransform<>;
+
+  // Testing preservation of the center of rotation
+  auto                        eulerTransformWithCenter = EulerTransformType::New();
+  const itk::Point<double, 3> centerOfRotation({ 200, 400, 300 });
+  eulerTransformWithCenter->SetCenter(centerOfRotation);
+  EXPECT_EQ(eulerTransformWithCenter->GetCenter(), centerOfRotation);
+  eulerTransformWithCenter->SetIdentity();
+  // The center of rotation should be preserved when the transform is set to identity.
+  // Reseting a transform to identity should not affect the FixedParameters.
+  EXPECT_EQ(eulerTransformWithCenter->GetCenter(), centerOfRotation);
+}
