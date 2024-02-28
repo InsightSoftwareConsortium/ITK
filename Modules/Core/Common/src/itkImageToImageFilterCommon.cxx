@@ -23,8 +23,8 @@ namespace itk
 
 namespace
 {
-double globalDefaultCoordinateTolerance = 1.0e-6;
-double globalDefaultDirectionTolerance = 1.0e-6;
+double globalDefaultCoordinateTolerance = DefaultImageCoordinateTolerance;
+double globalDefaultDirectionTolerance = DefaultImageDirectionTolerance;
 } // namespace
 
 void
