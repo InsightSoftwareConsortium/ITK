@@ -44,6 +44,15 @@
 namespace itk
 {
 
+/** The default tolerance when comparing the geometry of two images.
+ *
+ * The value was chosen based on precisions of file formats such as DICOM,
+ * to enable interoperability with images saved to file formats with higher precision.
+ */
+inline constexpr double DefaultImageCoordinateTolerance = 1e-6;
+inline constexpr double DefaultImageDirectionTolerance = 1e-6;
+
+
 /** \class ImageBase
  * \brief Base class for templated image classes.
  *
@@ -791,8 +800,8 @@ public:
    */
   bool
   IsSameImageGeometryAs(const ImageBase * otherImage,
-                        double            coordinateTolerance = 1e-6,
-                        double            directionTolerance = 1e-6) const;
+                        double            coordinateTolerance = DefaultImageCoordinateTolerance,
+                        double            directionTolerance = DefaultImageDirectionTolerance) const;
 
   /** INTERNAL This method is used internally by filters to copy meta-data from
    * the output to the input. Users should not have a need to use this method.

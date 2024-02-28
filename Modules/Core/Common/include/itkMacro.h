@@ -485,6 +485,7 @@ OutputWindowDisplayGenericOutputText(const char *);
 
 extern ITKCommon_EXPORT void
 OutputWindowDisplayDebugText(const char *);
+
 } // end namespace itk
 
 // The itkDebugStatement is to be used to protect code that is only used in the itkDebugMacro
