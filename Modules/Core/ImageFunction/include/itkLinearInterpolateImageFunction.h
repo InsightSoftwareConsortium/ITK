@@ -133,8 +133,7 @@ private:
   EvaluateOptimized(const Dispatch<1> &, const ContinuousIndexType & index) const
   {
     IndexType basei;
-    basei[0] = Math::Floor<IndexValueType>(index[0]);
-    basei[0] = std::max(basei[0], this->m_StartIndex[0]);
+    basei[0] = std::max(Math::Floor<IndexValueType>(index[0]), this->m_StartIndex[0]);
 
     const InternalComputationType & distance = index[0] - static_cast<InternalComputationType>(basei[0]);
 
@@ -160,12 +159,10 @@ private:
   {
     IndexType basei;
 
-    basei[0] = Math::Floor<IndexValueType>(index[0]);
-    basei[0] = std::max(basei[0], this->m_StartIndex[0]);
+    basei[0] = std::max(Math::Floor<IndexValueType>(index[0]), this->m_StartIndex[0]);
     const InternalComputationType & distance0 = index[0] - static_cast<InternalComputationType>(basei[0]);
 
-    basei[1] = Math::Floor<IndexValueType>(index[1]);
-    basei[1] = std::max(basei[1], this->m_StartIndex[1]);
+    basei[1] = std::max(Math::Floor<IndexValueType>(index[1]), this->m_StartIndex[1]);
     const InternalComputationType & distance1 = index[1] - static_cast<InternalComputationType>(basei[1]);
 
     const TInputImage * const inputImagePtr = this->GetInputImage();
@@ -230,16 +227,13 @@ private:
   EvaluateOptimized(const Dispatch<3> &, const ContinuousIndexType & index) const
   {
     IndexType basei;
-    basei[0] = Math::Floor<IndexValueType>(index[0]);
-    basei[0] = std::max(basei[0], this->m_StartIndex[0]);
+    basei[0] = std::max(Math::Floor<IndexValueType>(index[0]), this->m_StartIndex[0]);
     const InternalComputationType & distance0 = index[0] - static_cast<InternalComputationType>(basei[0]);
 
-    basei[1] = Math::Floor<IndexValueType>(index[1]);
-    basei[1] = std::max(basei[1], this->m_StartIndex[1]);
+    basei[1] = std::max(Math::Floor<IndexValueType>(index[1]), this->m_StartIndex[1]);
     const InternalComputationType & distance1 = index[1] - static_cast<InternalComputationType>(basei[1]);
 
-    basei[2] = Math::Floor<IndexValueType>(index[2]);
-    basei[2] = std::max(basei[2], this->m_StartIndex[2]);
+    basei[2] = std::max(Math::Floor<IndexValueType>(index[2]), this->m_StartIndex[2]);
     const InternalComputationType & distance2 = index[2] - static_cast<InternalComputationType>(basei[2]);
 
     const TInputImage * const inputImagePtr = this->GetInputImage();
