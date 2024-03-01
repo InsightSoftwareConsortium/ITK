@@ -81,7 +81,7 @@ public:
   LightObject::Pointer
   CreateAnother() const override;
 
-  /** Standard part of all itk objects. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Object);
 
   /** Turn debugging output on.  */

@@ -89,7 +89,7 @@ public:
   using InputPixelType = typename TInputImage::PixelType;
   using InputValueType = typename InputPixelType::ValueType;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TensorFractionalAnisotropyImageFilter);
 
   /** Method for creation through the object factory. */

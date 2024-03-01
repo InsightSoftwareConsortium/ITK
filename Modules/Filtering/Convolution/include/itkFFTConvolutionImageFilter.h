@@ -72,7 +72,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information ( and related methods ) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FFTConvolutionImageFilter);
 
   /** Dimensionality of input and output data is assumed to be the same. */

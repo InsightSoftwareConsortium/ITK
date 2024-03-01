@@ -60,7 +60,7 @@ public:
   using typename Superclass::IndexType;
   using typename Superclass::ContinuousIndexType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(NeighborhoodOperatorImageFunction);
 
   /** Dimension of the underlying image. */

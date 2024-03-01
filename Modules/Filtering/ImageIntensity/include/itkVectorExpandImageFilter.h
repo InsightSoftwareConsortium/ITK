@@ -90,7 +90,7 @@ public:
   using OutputImagePointer = typename TOutputImage::Pointer;
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VectorExpandImageFilter);
 
   /** ImageDimension enumeration */

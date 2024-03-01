@@ -49,7 +49,7 @@ public:
 
   using typename Superclass::OutputImagePixelType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(NoiseBaseImageFilter);
 
   /** Set/Get the seed for random initialization  */

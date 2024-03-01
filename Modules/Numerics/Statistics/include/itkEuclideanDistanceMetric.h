@@ -47,7 +47,7 @@ public:
 
   using typename Superclass::OriginType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(EuclideanDistanceMetric);
 
   /** Method for creation through the object factory. */

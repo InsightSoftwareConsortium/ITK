@@ -56,7 +56,7 @@ public:
   /** Type used for representing point components  */
   using CoordinateRepresentationType = Superclass::ParametersValueType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PointSetToPointSetMetric);
 
   /**  Type of the moving Pointset. */

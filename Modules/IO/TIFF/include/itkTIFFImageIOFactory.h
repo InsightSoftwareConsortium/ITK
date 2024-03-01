@@ -55,7 +55,7 @@ public:
   {
     return new TIFFImageIOFactory;
   }
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TIFFImageIOFactory);
 
   /** Register one factory of this type  */

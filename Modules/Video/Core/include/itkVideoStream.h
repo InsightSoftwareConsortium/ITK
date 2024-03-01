@@ -82,7 +82,7 @@ public:
 
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VideoStream);
 
   /** Safely expand the internal ring buffer. */

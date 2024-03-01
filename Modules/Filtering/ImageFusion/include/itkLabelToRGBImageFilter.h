@@ -73,7 +73,7 @@ public:
   using LabelPixelType = typename TLabelImage::PixelType;
   using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LabelToRGBImageFilter);
 
   /** Method for creation through the object factory. */

@@ -124,7 +124,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MergeLabelMapFilter);
 
 #if !defined(ITK_LEGACY_REMOVE)

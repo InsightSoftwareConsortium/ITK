@@ -79,7 +79,7 @@ public:
   using LabelPixelType = typename TLabelImage::PixelType;
   using InputPixelType = typename TInputImage::PixelType;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LabelOverlayImageFilter);
 
   /** Method for creation through the object factory. */

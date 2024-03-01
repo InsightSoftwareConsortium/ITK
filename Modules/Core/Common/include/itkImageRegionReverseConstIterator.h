@@ -142,7 +142,7 @@ public:
    *  representations. */
   using typename Superclass::AccessorType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageRegionReverseConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */

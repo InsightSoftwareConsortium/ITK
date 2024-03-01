@@ -60,7 +60,7 @@ public:
 
   using TriangleType = TriangleHelper<OutputPointType>;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DiscreteCurvatureQuadEdgeMeshFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

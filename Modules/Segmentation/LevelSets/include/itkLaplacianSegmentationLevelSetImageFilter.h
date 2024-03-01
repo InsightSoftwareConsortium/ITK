@@ -119,7 +119,7 @@ public:
   /** Type of the segmentation function */
   using LaplacianFunctionType = LaplacianSegmentationLevelSetFunction<OutputImageType, FeatureImageType>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LaplacianSegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */

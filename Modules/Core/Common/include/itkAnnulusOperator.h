@@ -82,7 +82,7 @@ public:
   using typename Superclass::OffsetType;
   using SpacingType = Vector<double, TDimension>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(AnnulusOperator);
 
   /** Create the operator. The radius of the operator is determined automatically. */

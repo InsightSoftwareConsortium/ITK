@@ -98,7 +98,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GrayscaleGeodesicErodeImageFilter);
 
   /** Set/Get the marker image. The marker image must be pixelwise

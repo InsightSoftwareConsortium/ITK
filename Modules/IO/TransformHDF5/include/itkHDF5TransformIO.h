@@ -101,7 +101,7 @@ public:
 
   using ConstTransformListType = typename TransformIOBaseTemplate<ParametersValueType>::ConstTransformListType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(HDF5TransformIOTemplate);
   itkNewMacro(Self);
 

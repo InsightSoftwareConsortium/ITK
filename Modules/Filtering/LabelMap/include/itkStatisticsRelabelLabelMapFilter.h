@@ -68,7 +68,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(StatisticsRelabelLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

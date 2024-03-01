@@ -75,7 +75,7 @@ public:
   static constexpr RegionEnum ITK_STRUCTURED_REGION = RegionEnum::ITK_STRUCTURED_REGION;
 #endif
 
-  /** Standard part of all itk objects. */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(Region);
 
   /** Subclasses must return a region type describing whether the region

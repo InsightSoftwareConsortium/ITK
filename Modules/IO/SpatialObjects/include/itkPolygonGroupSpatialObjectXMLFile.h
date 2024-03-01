@@ -48,7 +48,7 @@ public:
   using PolygonPointType = SpatialObjectPoint<3>;
   using PolygonPointListType = std::vector<PolygonPointType>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PolygonGroupSpatialObjectXMLFileReader);
 
   /** Method for creation through the object factory. */
@@ -98,7 +98,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PolygonGroupSpatialObjectXMLFileWriter);
 
   using GroupType = GroupSpatialObject<3>;

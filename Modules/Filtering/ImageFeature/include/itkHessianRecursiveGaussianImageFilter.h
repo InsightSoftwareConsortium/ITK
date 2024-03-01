@@ -106,7 +106,7 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
   using OutputComponentType = typename PixelTraits<OutputPixelType>::ValueType;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(HessianRecursiveGaussianImageFilter);
 
   /** Method for creation through the object factory. */

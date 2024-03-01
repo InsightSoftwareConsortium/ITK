@@ -124,7 +124,7 @@ public:
   using GeodesicActiveContourFunctionType = GeodesicActiveContourLevelSetFunction<OutputImageType, FeatureImageType>;
   using GeodesicActiveContourFunctionPointer = typename GeodesicActiveContourFunctionType::Pointer;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GeodesicActiveContourLevelSetImageFilter);
 
   /** Method for creation through the object factory */

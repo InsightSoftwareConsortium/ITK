@@ -55,7 +55,7 @@ public:
   {
     return new JPEGImageIOFactory;
   }
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(JPEGImageIOFactory);
 
   /** Register one factory of this type  */

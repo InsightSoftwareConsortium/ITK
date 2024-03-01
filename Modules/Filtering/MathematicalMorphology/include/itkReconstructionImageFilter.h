@@ -95,7 +95,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ReconstructionImageFilter);
 
   /** Set/Get the marker image. Traditionally, the marker image must

@@ -71,7 +71,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ChangeLabelLabelMapFilter);
 
   using ChangeMapType = typename std::map<PixelType, PixelType>;

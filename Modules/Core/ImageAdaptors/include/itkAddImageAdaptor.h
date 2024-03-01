@@ -49,7 +49,7 @@ public:
 
   using PixelType = typename TImage::PixelType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(AddImageAdaptor);
 
   /** Method for creation through the object factory. */

@@ -63,7 +63,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageSpatialObject);
 
   /** Reset the spatial object to its initial condition, yet preserves

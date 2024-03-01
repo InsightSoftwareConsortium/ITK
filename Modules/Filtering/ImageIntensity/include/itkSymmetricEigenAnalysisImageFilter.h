@@ -258,7 +258,7 @@ public:
     return this->GetFunctor().GetOrderEigenValuesBy();
   }
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SymmetricEigenAnalysisImageFilter);
 
   /** Method for creation through the object factory. */
@@ -354,7 +354,7 @@ public:
     this->GetFunctor().OrderEigenValuesBy(order);
   }
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SymmetricEigenAnalysisFixedDimensionImageFilter);
 
   /** Method for creation through the object factory. */

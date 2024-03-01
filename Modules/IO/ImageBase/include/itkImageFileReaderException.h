@@ -31,7 +31,7 @@ namespace itk
 class ITKIOImageBase_EXPORT ImageFileReaderException : public ExceptionObject
 {
 public:
-  /** Run-time information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageFileReaderException);
 
   /** Constructor. */

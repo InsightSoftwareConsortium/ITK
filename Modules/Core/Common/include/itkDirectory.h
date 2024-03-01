@@ -56,7 +56,7 @@ public:
     return n;
   }
 
-  /** Return the class name as a string. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Directory);
 
   /** Load the specified directory and load the names of the files

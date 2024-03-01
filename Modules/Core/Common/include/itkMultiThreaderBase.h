@@ -118,7 +118,7 @@ public:
   static Pointer
   New();
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MultiThreaderBase);
 
   /** Get/Set the number of threads to use. It will be clamped to the range

@@ -70,7 +70,7 @@ public:
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
 
-  /** Run-time information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(CurvatureAnisotropicDiffusionImageFilter);
 
   /** Extract superclass information. */

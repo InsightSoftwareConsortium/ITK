@@ -313,7 +313,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionItpackSparseMatrixSbagn() noexcept override;
 
-  /** Type related information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionItpackSparseMatrixSbagn);
 };
 
@@ -344,7 +344,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionItpackSparseMatrixSbsij() noexcept override;
 
-  /** Type related information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionItpackSparseMatrixSbsij);
 };
 } // end namespace fem

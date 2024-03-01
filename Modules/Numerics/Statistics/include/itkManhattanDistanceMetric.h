@@ -48,7 +48,7 @@ public:
 
   using typename Superclass::MeasurementVectorSizeType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ManhattanDistanceMetric);
 
   /** Method for creation through the object factory. */

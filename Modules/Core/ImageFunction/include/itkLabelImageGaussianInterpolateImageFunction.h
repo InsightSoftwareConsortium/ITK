@@ -81,7 +81,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using InputPixelType = typename TInputImage::PixelType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LabelImageGaussianInterpolateImageFunction);
 
   /** Method for creation through the object factory. */

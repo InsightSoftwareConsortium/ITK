@@ -83,7 +83,7 @@ public:
   using FixedParametersValueType = double;
   using FixedParametersType = OptimizerParameters<FixedParametersValueType>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TransformBaseTemplate);
 
   /** The number of parameters can potentially be very large,

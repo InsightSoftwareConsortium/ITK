@@ -111,7 +111,7 @@ public:
   using CovarianceMatrixType = typename ThresholdFunctionType::CovarianceMatrixType;
   using ScalarValueType = typename ThresholdFunctionType::ScalarValueType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VectorThresholdSegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */

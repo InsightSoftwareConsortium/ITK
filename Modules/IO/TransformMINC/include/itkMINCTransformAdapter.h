@@ -64,7 +64,7 @@ public:
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MINCTransformAdapter);
 
   /** Dimension of the domain space. */

@@ -51,7 +51,7 @@ public:
   itkCellCommonTypedefs(LineCell);
   itkCellInheritedTypedefs(TCellInterface);
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LineCell);
 
   /** The type of boundary for this lines's vertices. */

@@ -62,7 +62,7 @@ public:
     MeasurementVectorType */
   using MeasurementVectorSizeType = unsigned int;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DistanceMetric);
 
   using OriginType = Array<double>;

@@ -77,7 +77,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LabelMapToRGBImageFilter);
 
   /** Set/Get the rgb functor - defaults to a reasonable set of colors.

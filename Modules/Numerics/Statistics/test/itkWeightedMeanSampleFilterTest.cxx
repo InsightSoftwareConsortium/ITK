@@ -35,7 +35,7 @@ public:
 
   using ConstPointer = itk::SmartPointer<const Self>;
 
-  /** Standard macros. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(WeightedMeanTestFunction);
   itkNewMacro(Self);
 

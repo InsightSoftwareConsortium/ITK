@@ -73,7 +73,7 @@ public:
   using Self = DerivativeOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DerivativeOperator);
 
   /** Type alias support for pixel real type.*/

@@ -36,7 +36,7 @@ public:
   /** Has to have empty throw(). */
   ~ImageSeriesWriterException() noexcept override;
 
-  /** Run-time information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageSeriesWriterException);
 
   /** Constructor. */
@@ -95,7 +95,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageSeriesWriter);
 
   /** Some convenient type alias. */

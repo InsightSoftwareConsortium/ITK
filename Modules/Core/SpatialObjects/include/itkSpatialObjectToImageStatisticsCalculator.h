@@ -48,7 +48,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SpatialObjectToImageStatisticsCalculator);
 
   /** Type definitions for the input image. */

@@ -222,7 +222,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PhilipsPAR);
 
   // Reads the PAR file parameters in "parFile" and stores the PAR parameters in

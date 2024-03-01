@@ -59,7 +59,7 @@ public:
   using MatrixType = typename MatrixOffsetTransformBaseType::MatrixType;
   using OffsetType = typename MatrixOffsetTransformBaseType::OffsetType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MINCTransformIOTemplate);
   itkNewMacro(Self);
 

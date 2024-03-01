@@ -71,7 +71,7 @@ public:
   DataObjectError &
   operator=(const DataObjectError & orig) noexcept;
 
-  /** Standard type macro */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DataObjectError);
 
   /** Set the data object that is throwing this exception. */
@@ -129,7 +129,7 @@ public:
   InvalidRequestedRegionError &
   operator=(const InvalidRequestedRegionError & orig) noexcept;
 
-  /** Standard type macro */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(InvalidRequestedRegionError);
 
 protected:
@@ -300,7 +300,7 @@ public:
 
   using DataObjectIdentifierType = std::string;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DataObject);
 
   /** Method for creation through the object factory. */

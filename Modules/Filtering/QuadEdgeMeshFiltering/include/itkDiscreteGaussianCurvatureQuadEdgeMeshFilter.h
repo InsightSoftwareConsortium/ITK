@@ -63,7 +63,7 @@ public:
   using typename Superclass::OutputCurvatureType;
   using typename Superclass::TriangleType;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DiscreteGaussianCurvatureQuadEdgeMeshFilter);
 
   /** New macro for creation of through a Smart Pointer   */

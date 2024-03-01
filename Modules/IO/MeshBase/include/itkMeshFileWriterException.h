@@ -35,7 +35,7 @@ public:
   /** Has to have empty throw(). */
   ~MeshFileWriterException() noexcept override;
 
-  /** Run-time information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MeshFileWriterException);
 
   /** Constructor. */

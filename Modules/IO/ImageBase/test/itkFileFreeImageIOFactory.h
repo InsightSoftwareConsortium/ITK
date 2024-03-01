@@ -50,7 +50,7 @@ public:
     return new FileFreeImageIOFactory;
   }
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FileFreeImageIOFactory);
 
   /** Register one factory of this type  */

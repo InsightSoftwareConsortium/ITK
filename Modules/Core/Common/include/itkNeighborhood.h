@@ -63,7 +63,7 @@ public:
   /** External support for dimensionality. */
   static constexpr unsigned int NeighborhoodDimension = VDimension;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(Neighborhood);
 
   /** External support for pixel type. */

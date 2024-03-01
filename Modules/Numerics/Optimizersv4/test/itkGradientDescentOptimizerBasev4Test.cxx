@@ -127,7 +127,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GradientDescentOptimizerBasev4TestOptimizer);
 
   /* Provide an override for the pure virtual StartOptimization */

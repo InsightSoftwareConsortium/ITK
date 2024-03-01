@@ -77,7 +77,7 @@ public:
   using MapStorageType = InformationValueType;
   using MapType = std::map<MapKeyType, MapStorageType>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BuildInformation);
 
   /** Returns the global instance */

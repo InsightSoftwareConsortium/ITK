@@ -99,7 +99,7 @@ public:
 
   using CirclesListSizeType = typename CirclesListType::size_type;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(HoughTransform2DCirclesImageFilter);
 
   /** Method for creation through the object factory. */

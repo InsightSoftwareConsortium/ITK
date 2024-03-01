@@ -130,7 +130,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MultiLabelSTAPLEImageFilter);
 
   /** Extract some information from the image types.  Dimensionality

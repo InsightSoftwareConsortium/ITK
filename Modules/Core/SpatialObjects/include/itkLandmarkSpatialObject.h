@@ -60,7 +60,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Method for creation through the object factory. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LandmarkSpatialObject);
 
 protected:

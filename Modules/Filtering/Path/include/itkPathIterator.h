@@ -94,7 +94,7 @@ public:
   using typename Superclass::PathInputType;
   using typename Superclass::PathOutputType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PathIterator);
 
   /** Set the pixel value */

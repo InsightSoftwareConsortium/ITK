@@ -65,7 +65,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SmoothingQuadEdgeMeshFilter);
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);

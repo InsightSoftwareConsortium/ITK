@@ -35,7 +35,7 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DerefError);
 };
 

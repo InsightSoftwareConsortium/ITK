@@ -41,7 +41,7 @@ public:
 
   using ValueType = TValue;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TreeContainerBase);
 
   /** Set the root element.

@@ -76,7 +76,7 @@ public:
   using typename Superclass::InternalComplexImageType;
   using typename Superclass::InternalComplexImagePointerType;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(IterativeDeconvolutionImageFilter);
 
   /** Set/get the number of iterations. */

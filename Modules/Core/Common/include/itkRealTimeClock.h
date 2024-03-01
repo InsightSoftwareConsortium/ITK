@@ -44,7 +44,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Method for defining the name of the class */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RealTimeClock);
 
   /** Method for creation through the object factory */

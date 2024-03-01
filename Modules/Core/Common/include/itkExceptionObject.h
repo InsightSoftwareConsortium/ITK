@@ -86,7 +86,7 @@ public:
   virtual bool
   operator==(const ExceptionObject & orig) const;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(ExceptionObject);
 
   /** Print exception information.  This method can be overridden by
@@ -158,7 +158,7 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MemoryAllocationError);
 };
 
@@ -173,7 +173,7 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RangeError);
 };
 
@@ -189,7 +189,7 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(InvalidArgumentError);
 };
 
@@ -204,7 +204,7 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(IncompatibleOperandsError);
 };
 
@@ -238,7 +238,7 @@ public:
     this->SetDescription("Filter execution was aborted by an external request");
   }
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ProcessAborted);
 };
 } // end namespace itk

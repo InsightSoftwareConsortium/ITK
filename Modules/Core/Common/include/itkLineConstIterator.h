@@ -102,7 +102,7 @@ public:
    *  representations. */
   using AccessorType = typename TImage::AccessorType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(LineConstIterator);
 
   /** Get the dimension (size) of the index. */

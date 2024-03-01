@@ -64,7 +64,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GrayscaleMorphologicalClosingImageFilter);
 
   /** Image related type alias. */

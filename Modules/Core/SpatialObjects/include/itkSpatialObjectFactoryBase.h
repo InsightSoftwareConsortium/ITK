@@ -58,7 +58,7 @@ public:
   const char *
   GetDescription() const override;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SpatialObjectFactoryBase);
 
   /** Method for class instantiation. */

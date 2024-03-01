@@ -71,7 +71,7 @@ public:
   /** Method for creation. */
   itkNewMacro(Self);
 
-  /** Run-time type information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FastMutexLock);
 
   /** Lock the itkFastMutexLock. */

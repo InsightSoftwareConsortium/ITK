@@ -93,7 +93,7 @@ public:
   using Self = ClassifierBase;
   using Superclass = LightProcessObject;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ClassifierBase);
 
   /** Sets the number of classes. */

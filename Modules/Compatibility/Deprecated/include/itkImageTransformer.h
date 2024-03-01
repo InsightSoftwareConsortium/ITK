@@ -71,7 +71,7 @@ public:
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageTransformer);
 
   /** Some convenient type alias. */

@@ -64,7 +64,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Run-time type information ( and related methods ) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ConvolutionImageFilterBase);
 
   /** Dimensionality of input and output data is assumed to be the same. */

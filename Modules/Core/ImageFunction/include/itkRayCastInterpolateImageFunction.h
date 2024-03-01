@@ -75,7 +75,7 @@ public:
 
   using InterpolatorPointer = typename InterpolatorType::Pointer;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RayCastInterpolateImageFunction);
 
   /** Method for creation through the object factory. */

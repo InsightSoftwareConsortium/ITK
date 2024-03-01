@@ -63,7 +63,7 @@ public:
   using Superclass = LightProcessObject;
   using Pointer = SmartPointer<Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TransformIOBaseTemplate);
 
   /** Transform types */

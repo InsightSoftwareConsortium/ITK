@@ -66,7 +66,7 @@ public:
 
   using SizeType = typename RegionType::SizeType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GaborImageSource);
 
   /** Method for creation through the object factory. */

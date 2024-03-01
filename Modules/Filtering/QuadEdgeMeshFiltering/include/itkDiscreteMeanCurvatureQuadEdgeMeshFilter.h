@@ -62,7 +62,7 @@ public:
 
   using typename Superclass::TriangleType;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DiscreteMeanCurvatureQuadEdgeMeshFilter);
 
   /** New macro for creation of through a Smart Pointer   */

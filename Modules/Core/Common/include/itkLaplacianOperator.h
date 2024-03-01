@@ -71,7 +71,7 @@ public:
   using Self = LaplacianOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LaplacianOperator);
 
   using typename Superclass::SizeType;

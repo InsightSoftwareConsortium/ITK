@@ -57,7 +57,7 @@ public:
   /** Default destructor. */
   virtual ~SpatialObjectPoint() = default;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(SpatialObjectPoint);
 
   using Self = SpatialObjectPoint;

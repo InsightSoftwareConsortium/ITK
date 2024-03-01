@@ -45,7 +45,7 @@ public:
   using FixedParametersType = typename TransformType::FixedParametersType;
   using FixedParametersValueType = typename TransformType::FixedParametersValueType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TxtTransformIOTemplate);
   itkNewMacro(Self);
 

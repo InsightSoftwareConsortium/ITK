@@ -107,7 +107,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PhasedArray3DSpecialCoordinatesImage);
 
   /** Pixel type alias support Used to declare pixel type in filters

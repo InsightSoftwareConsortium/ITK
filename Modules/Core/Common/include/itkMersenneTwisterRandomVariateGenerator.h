@@ -135,7 +135,7 @@ public:
 
   using IntegerType = uint32_t;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MersenneTwisterRandomVariateGenerator);
 
   /** \brief Method for creation through the object factory.

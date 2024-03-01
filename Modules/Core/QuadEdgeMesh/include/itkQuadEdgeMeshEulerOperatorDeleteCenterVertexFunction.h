@@ -44,7 +44,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction);
 
   /** Type of QuadEdge with which to apply slicing. */

@@ -40,7 +40,7 @@ public:
 
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ScalarChanAndVeseLevelSetFunctionTestHelper);
 
   using typename Superclass::ScalarValueType;
@@ -85,7 +85,7 @@ public:
 
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ScalarChanAndVeseLevelSetFunctionSharedDataHelper);
 
   unsigned long m_FunctionCount;

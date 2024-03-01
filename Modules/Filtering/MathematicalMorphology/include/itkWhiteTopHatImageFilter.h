@@ -84,7 +84,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(WhiteTopHatImageFilter);
 
   /** A safe border is added to input image to avoid borders effects

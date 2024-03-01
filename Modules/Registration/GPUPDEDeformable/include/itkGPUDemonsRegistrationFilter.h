@@ -85,7 +85,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GPUDemonsRegistrationFilter);
 
   /** Inherit types from GPUSuperclass. */
@@ -177,7 +177,7 @@ public:
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GPUDemonsRegistrationFilterFactory);
 
   /** Register one factory of this type  */

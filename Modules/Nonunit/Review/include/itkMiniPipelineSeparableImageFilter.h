@@ -60,7 +60,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MiniPipelineSeparableImageFilter);
 
   /** Image related type alias. */

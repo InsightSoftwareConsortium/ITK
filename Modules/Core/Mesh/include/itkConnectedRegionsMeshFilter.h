@@ -74,7 +74,7 @@ public:
 
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ConnectedRegionsMeshFilter);
 
   /**

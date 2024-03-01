@@ -96,7 +96,7 @@ public:
   class UnknownType
   {};
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MeshIOBase);
 
   /** Set/Get the name of the file to be read. */

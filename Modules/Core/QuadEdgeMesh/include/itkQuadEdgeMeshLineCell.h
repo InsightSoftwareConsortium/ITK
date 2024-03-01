@@ -94,7 +94,7 @@ public:
   using QEDual = typename QEType::DualType;
 
 public:
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadEdgeMeshLineCell);
 
   // accessor to the new QEGeom link that replaces now inheritance.

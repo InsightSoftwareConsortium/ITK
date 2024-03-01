@@ -54,7 +54,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMException() noexcept override;
 
-  /** Type related information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMException);
 };
 
@@ -78,7 +78,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionIO() noexcept override;
 
-  /** Type related information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionIO);
 };
 
@@ -108,7 +108,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionWrongClass() noexcept override;
 
-  /** Type related information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionWrongClass);
 };
 
@@ -132,7 +132,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionObjectNotFound() noexcept override;
 
-  /** Type related information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionObjectNotFound);
 
   /**
@@ -163,7 +163,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionSolution() noexcept override;
 
-  /** Type related information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionSolution);
 };
 } // end namespace fem

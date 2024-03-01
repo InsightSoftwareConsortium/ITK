@@ -77,7 +77,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BinaryReconstructionLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

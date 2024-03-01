@@ -72,7 +72,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(OtsuMultipleThresholdsImageFilter);
 
   /** Image pixel value type alias. */

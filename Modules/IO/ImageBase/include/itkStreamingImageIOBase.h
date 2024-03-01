@@ -59,7 +59,7 @@ public:
   using Superclass = ImageIOBase;
   using Pointer = SmartPointer<Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(StreamingImageIOBase);
 
   // see super class for documentation

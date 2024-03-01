@@ -71,7 +71,7 @@ public:
   /** Region type taken from the superclass */
   using RegionType = Superclass::RegionEnum;
 
-  /** Standard part of all itk objects. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageIORegion);
 
   /** Dimension of the image available at run time. */

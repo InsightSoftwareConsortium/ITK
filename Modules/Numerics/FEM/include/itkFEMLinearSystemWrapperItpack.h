@@ -775,7 +775,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionItpackSolver() noexcept override = default;
 
-  /** Type related information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionItpackSolver);
 };
 } // end namespace fem

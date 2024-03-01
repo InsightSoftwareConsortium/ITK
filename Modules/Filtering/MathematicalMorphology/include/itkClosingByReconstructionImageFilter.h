@@ -83,7 +83,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ClosingByReconstructionImageFilter);
 
   /** Set kernel (structuring element). */

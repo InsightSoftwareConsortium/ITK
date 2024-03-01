@@ -43,7 +43,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = Object;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadEdgeMeshDecimationCriterion);
 
   using MeshType = TMesh;
@@ -122,7 +122,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(NumberOfPointsCriterion);
 
   /** New macro for creation of through a Smart Pointer   */
@@ -166,7 +166,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(NumberOfFacesCriterion);
 
   /** New macro for creation of through a Smart Pointer   */
@@ -213,7 +213,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MaxMeasureBoundCriterion);
 
   /** New macro for creation of through a Smart Pointer   */
@@ -262,7 +262,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MinMeasureBoundCriterion);
 
   /** New macro for creation of through a Smart Pointer   */

@@ -461,7 +461,7 @@ public:
 
 #endif
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(CellInterface);
 
 public:

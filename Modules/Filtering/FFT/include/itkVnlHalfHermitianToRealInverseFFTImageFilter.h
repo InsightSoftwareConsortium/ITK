@@ -71,7 +71,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VnlHalfHermitianToRealInverseFFTImageFilter);
 
   /** Extract the dimensionality of the images. They must be the

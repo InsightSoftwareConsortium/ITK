@@ -56,7 +56,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VectorGradientNDAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */

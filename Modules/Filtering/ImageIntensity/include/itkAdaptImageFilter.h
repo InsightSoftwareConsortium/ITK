@@ -151,7 +151,7 @@ public:
   /** Typedef for the accessor type */
   using AccessorType = TAccessor;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(AdaptImageFilter);
 
   /** Get the accessor. This is a convenience method so the user */

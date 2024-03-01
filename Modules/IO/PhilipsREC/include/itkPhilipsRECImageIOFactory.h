@@ -61,7 +61,7 @@ public:
     return new PhilipsRECImageIOFactory;
   }
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PhilipsRECImageIOFactory);
 
   /** Register one factory of this type  */

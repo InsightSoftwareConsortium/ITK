@@ -63,7 +63,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FastApproximateRankImageFilter);
 
   /** Image related type alias. */
