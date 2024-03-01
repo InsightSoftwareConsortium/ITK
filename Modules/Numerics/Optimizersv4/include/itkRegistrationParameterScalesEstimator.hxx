@@ -60,7 +60,7 @@ RegistrationParameterScalesEstimator<TMetric>::EstimateMaximumStepSize() -> Floa
 
   for (SizeValueType d = 0; d < dim; ++d)
   {
-    minSpacing = std::min(minSpacing, spacing[d]);
+    minSpacing = std::min<FloatType>(minSpacing, spacing[d]);
   }
 
   return minSpacing;
