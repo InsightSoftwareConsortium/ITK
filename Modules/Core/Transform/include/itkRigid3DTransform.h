@@ -68,7 +68,7 @@ public:
   /** Run-time type information (and related methods).   */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Rigid3DTransform);
 
   /** Dimension of the space. */

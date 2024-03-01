@@ -56,7 +56,7 @@ public:
   /** Standard class type alias. */
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ComplexBSplineInterpolateImageFunction);
 
   /** New macro for creation of through a Smart Pointer */

@@ -103,7 +103,7 @@ public:
   using OutputImageType = TOutputImage;
   using OutputPixelType = typename OutputImageType::PixelType;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MeanProjectionImageFilter);
 
   /** Method for creation through the object factory. */

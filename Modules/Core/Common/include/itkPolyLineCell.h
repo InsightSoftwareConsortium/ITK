@@ -47,7 +47,7 @@ public:
   itkCellCommonTypedefs(PolyLineCell);
   itkCellInheritedTypedefs(TCellInterface);
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PolyLineCell);
 
   /** The type of boundary for this lines's vertices. */

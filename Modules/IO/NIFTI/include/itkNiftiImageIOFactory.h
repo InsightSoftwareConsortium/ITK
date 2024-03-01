@@ -51,7 +51,7 @@ public:
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(NiftiImageIOFactory);
 
   /** Register one factory of this type  */

@@ -62,7 +62,7 @@ public:
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SimplexMeshAdaptTopologyFilter);
 
   using InputMeshType = TInputMesh;

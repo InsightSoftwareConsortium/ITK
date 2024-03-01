@@ -178,7 +178,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(OrientImageFilter);
 
   /** Set/Get the orientation codes to define the coordinate transform. */

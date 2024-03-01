@@ -45,7 +45,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SingleValuedNonLinearVnlOptimizer);
 
   /** Command observer that will interact with the ITKVNL cost-function

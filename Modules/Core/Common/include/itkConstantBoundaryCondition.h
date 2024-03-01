@@ -72,7 +72,7 @@ public:
   using Self = ConstantBoundaryCondition;
   using Superclass = ImageBoundaryCondition<TInputImage, TOutputImage>;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ConstantBoundaryCondition);
 
   /** Extract information from the image type */

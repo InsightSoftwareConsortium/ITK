@@ -45,7 +45,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(TestImage);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TestImage);
 
   // Methods from itkObject
@@ -68,7 +68,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(TestImage2);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TestImage2);
 
   // Methods from itkObject
@@ -101,7 +101,7 @@ public:
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TestFactory);
 
   /** Register one factory of this type  */

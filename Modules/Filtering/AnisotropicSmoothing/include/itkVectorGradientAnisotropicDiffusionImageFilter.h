@@ -73,7 +73,7 @@ public:
   /** Instantiation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VectorGradientAnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */

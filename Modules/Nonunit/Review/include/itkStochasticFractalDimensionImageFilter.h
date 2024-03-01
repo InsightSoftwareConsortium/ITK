@@ -74,7 +74,7 @@ public:
   using MaskImageType = TMaskImage;
   using OutputImageType = TOutputImage;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(StochasticFractalDimensionImageFilter);
 
   /** Set/Get the input mask image that will constraint the computation of the

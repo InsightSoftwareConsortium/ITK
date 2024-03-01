@@ -82,7 +82,7 @@ public:
   /** Smart pointer type alias support  */
   using Pointer = SmartPointer<Self>;
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TobogganImageFilter);
 
   /** Method for creation through the object factory. */

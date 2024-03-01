@@ -65,7 +65,7 @@ public:
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Element2DC0LinearQuadrilateralStrain);
 
   /** CreateAnother method will clone the existing instance of this type,

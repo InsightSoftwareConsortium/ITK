@@ -62,7 +62,7 @@ public:
   using Self = ZeroFluxNeumannBoundaryCondition;
   using Superclass = ImageBoundaryCondition<TInputImage, TOutputImage>;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ZeroFluxNeumannBoundaryCondition);
 
   /** Extract information from the image type. */

@@ -163,7 +163,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Macro that provides the GetNameOfClass() method */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SigmoidImageFilter);
 
   void

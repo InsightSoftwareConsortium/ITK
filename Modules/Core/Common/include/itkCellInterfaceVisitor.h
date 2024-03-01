@@ -54,7 +54,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using CellIdentifier = typename TCellTraits::CellIdentifier;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(CellInterfaceVisitor);
 
   /** This method is called by each cell as it visits this visitor. */
@@ -112,7 +112,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(CellInterfaceVisitorImplementation);
 
   /** Call the static method GetTopologyId for the CellTopology type that

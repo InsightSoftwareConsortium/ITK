@@ -103,7 +103,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MagnitudeAndPhaseToComplexImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

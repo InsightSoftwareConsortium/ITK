@@ -55,7 +55,7 @@ public:
 
   using ImageType = Image<TPixel, VDimension>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageKernelOperator);
 
   /** Set the image kernel. Only images with odd size in all

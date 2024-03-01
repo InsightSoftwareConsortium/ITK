@@ -59,7 +59,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using SampleType = TSample;
 
-  /** Standard Macros */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(StandardDeviationPerComponentSampleFilter);
   itkNewMacro(Self);
 

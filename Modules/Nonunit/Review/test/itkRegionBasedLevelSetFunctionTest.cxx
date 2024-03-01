@@ -39,7 +39,7 @@ public:
 
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RegionBasedLevelSetFunctionTestHelper);
 
   using typename Superclass::ScalarValueType;
@@ -89,7 +89,7 @@ public:
 
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RegionBasedLevelSetFunctionSharedDataHelper);
 
   unsigned long m_FunctionCount;

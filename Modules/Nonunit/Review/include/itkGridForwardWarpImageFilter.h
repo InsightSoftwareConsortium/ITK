@@ -70,7 +70,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GridForwardWarpImageFilter);
 
   /** Typedef to describe the output image region type. */

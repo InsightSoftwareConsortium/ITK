@@ -78,7 +78,7 @@ public:
   /** Default constructor. */
   ImageBoundaryCondition() = default;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(ImageBoundaryCondition);
 
   /** Utility for printing the boundary condition. */

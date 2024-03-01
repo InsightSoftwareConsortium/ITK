@@ -47,7 +47,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Run-time type information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GPUAnisotropicDiffusionImageFilter);
 
   /** Capture information from the superclass. */

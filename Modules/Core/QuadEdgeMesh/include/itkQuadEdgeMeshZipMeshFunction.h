@@ -44,7 +44,7 @@ public:
   using Superclass = QuadEdgeMeshFunctionBase<TMesh, typename TQEType::OriginRefType>;
 
   itkNewMacro(Self);
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadEdgeMeshZipMeshFunction);
 
   /** Type of QuadEdge with which to apply slicing. */

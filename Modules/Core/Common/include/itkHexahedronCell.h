@@ -58,7 +58,7 @@ public:
   itkCellCommonTypedefs(HexahedronCell);
   itkCellInheritedTypedefs(TCellInterface);
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(HexahedronCell);
 
   /** The type of boundary for this triangle's vertices. */

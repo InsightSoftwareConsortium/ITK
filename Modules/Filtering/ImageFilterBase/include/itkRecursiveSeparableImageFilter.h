@@ -60,7 +60,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Type macro that defines a name for this class. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RecursiveSeparableImageFilter);
 
   /** Smart pointer type alias support  */

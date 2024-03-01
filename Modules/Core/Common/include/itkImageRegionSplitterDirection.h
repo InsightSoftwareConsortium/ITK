@@ -45,7 +45,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageRegionSplitterDirection);
 
   /** Get the direction in which not to split the image.*

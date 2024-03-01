@@ -73,7 +73,7 @@ public:
 
   // itkNewMacro() is not provided since this is an abstract class.
 
-  /** Run-time type information (and related methods) */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ScalarRegionBasedLevelSetFunction);
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;

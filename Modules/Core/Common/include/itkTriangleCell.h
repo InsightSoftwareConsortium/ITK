@@ -54,7 +54,7 @@ public:
   itkCellCommonTypedefs(TriangleCell);
   itkCellInheritedTypedefs(TCellInterface);
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(TriangleCell);
 
   /** The type of boundary for this triangle's vertices. */

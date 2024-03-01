@@ -51,7 +51,7 @@ public:
   using Self = ForwardDifferenceOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ForwardDifferenceOperator);
 
   /** Type alias support for pixel type. */

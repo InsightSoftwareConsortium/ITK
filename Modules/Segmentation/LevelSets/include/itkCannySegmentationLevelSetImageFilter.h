@@ -151,7 +151,7 @@ public:
 
   using ScalarValueType = typename CannyFunctionType::ScalarValueType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(CannySegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */

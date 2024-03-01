@@ -60,7 +60,7 @@ public:
   using typename Superclass::NeighborhoodType;
   using typename Superclass::TimeStepType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ScalarAnisotropicDiffusionFunction);
 
   void

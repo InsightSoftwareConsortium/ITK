@@ -66,7 +66,7 @@ public:
    * that generated it. */
   virtual ~OpenCVVideoCapture() {}
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(OpenCVVideoCapture);
 
   // Open, close functionality

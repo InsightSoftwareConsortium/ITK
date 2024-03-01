@@ -52,7 +52,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RegularSphereMeshSource);
 
   /** Hold on to the type information specified by the template parameters. */

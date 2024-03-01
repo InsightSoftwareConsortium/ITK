@@ -129,7 +129,7 @@ public:
   using OutputImageRegionType = typename TOutputImage::RegionType;
   using InputImageRegionType = typename TInputImage::RegionType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(CannyEdgeDetectionImageFilter);
 
   /** ImageDimension constant. */

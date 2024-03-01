@@ -135,7 +135,7 @@ public:
   using typename Superclass::PixelType;
   using typename Superclass::AccessorType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageRegionConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */

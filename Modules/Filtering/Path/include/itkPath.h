@@ -65,7 +65,7 @@ public:
   /** Path dimension. The dimension of a path is fixed at construction. */
   static constexpr unsigned int PathDimension = VDimension;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Path);
 
   /** Input type */

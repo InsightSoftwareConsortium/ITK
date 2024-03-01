@@ -165,7 +165,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(IntensityWindowingImageFilter);
 
   /** Set/Get the values of the maximum and minimum

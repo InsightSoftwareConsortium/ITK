@@ -45,7 +45,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = LevelSetImage<IndexType, VDimension, TOutput>;
 
-  /** Run-time type information */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DiscreteLevelSetImage);
 
   static constexpr unsigned int Dimension = Superclass::Dimension;

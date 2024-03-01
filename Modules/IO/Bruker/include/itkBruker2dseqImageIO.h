@@ -90,7 +90,7 @@ public:
   /** New macro for creation of through a SmartPointer. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Bruker2dseqImageIO);
 
   /** Determine if the necessary files exist to read the specified 2dseq file.

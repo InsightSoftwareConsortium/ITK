@@ -61,7 +61,7 @@ public:
   /** Work around MSVC bug (including ByteSwapper.h in a templated class). */
   using OStreamType = std::ostream;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ByteSwapper);
 
   /** Query the machine Endian-ness. */

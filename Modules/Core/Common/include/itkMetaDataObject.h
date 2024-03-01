@@ -86,7 +86,7 @@ public:
   /** Method for creation through the object factory. */
   itkFactorylessNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MetaDataObject);
 
   /**

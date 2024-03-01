@@ -77,7 +77,7 @@ public:
   /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ShiftScaleImageFilter);
 
   /** Set/Get the amount to Shift each Pixel. The shift is followed by a Scale.

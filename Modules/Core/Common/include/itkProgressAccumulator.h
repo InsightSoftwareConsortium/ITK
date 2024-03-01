@@ -53,7 +53,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ProgressAccumulator);
 
   /** Get the total progress accumulated by this object */

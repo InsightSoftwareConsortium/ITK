@@ -51,7 +51,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RobustAutomaticThresholdCalculator);
 
   /** Extract the dimension of the image. */

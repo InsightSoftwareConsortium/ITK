@@ -73,7 +73,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VectorContainer);
 
   /** Convenient type alias for the iterator and const iterator. */

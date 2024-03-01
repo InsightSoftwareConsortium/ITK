@@ -100,7 +100,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MatrixIndexSelectionImageFilter);
 
   /** Method for creation through the object factory. */

@@ -55,7 +55,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MapContainer);
 
   /** Save the template parameters. */

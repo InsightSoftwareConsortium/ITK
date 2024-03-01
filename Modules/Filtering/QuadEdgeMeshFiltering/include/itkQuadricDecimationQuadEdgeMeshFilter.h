@@ -40,7 +40,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadricDecimationQuadEdgeMeshFilter);
 
   /** New macro for creation of through a Smart Pointer   */

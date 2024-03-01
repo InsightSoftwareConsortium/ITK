@@ -59,7 +59,7 @@ public:
   /** Method for creation through object factory */
   itkNewMacro(Self);
 
-  /** Run-time type information */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LevelSetEquationPropagationTerm);
 
   using typename Superclass::InputImageType;

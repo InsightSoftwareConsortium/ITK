@@ -80,7 +80,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MINCImageIO);
 
   /** Right now MINC supports up to 3D with multiple components */

@@ -71,7 +71,7 @@ public:
   /** Method for creation through object factory */
   itkNewMacro(Self);
 
-  /** Run-time type information */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BinaryImageToLevelSetImageAdaptor);
 
   using InputImageType = TInputImage;
@@ -131,7 +131,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = BinaryImageToLevelSetImageAdaptorBase<TInput, TOutput>;
 
-  /** Run-time type information */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BinaryImageToSparseLevelSetImageAdaptorBase);
 
   using typename Superclass::InputImageType;
@@ -206,7 +206,7 @@ public:
   /** Method for creation through object factory */
   itkNewMacro(Self);
 
-  /** Run-time type information */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BinaryImageToLevelSetImageAdaptor);
 
   using typename Superclass::InputImageType;
@@ -290,7 +290,7 @@ public:
   /** Method for creation through object factory */
   itkNewMacro(Self);
 
-  /** Run-time type information */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BinaryImageToLevelSetImageAdaptor);
 
   using typename Superclass::InputImageType;
@@ -371,7 +371,7 @@ public:
   /** Method for creation through object factory */
   itkNewMacro(Self);
 
-  /** Run-time type information */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BinaryImageToLevelSetImageAdaptor);
 
   using typename Superclass::InputImageType;

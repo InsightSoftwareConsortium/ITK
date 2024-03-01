@@ -212,7 +212,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using MutexType = std::mutex;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FFTWGlobalConfiguration);
 
   /** Get the mutex that protects calls to FFTW functions. */

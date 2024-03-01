@@ -103,7 +103,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LabelMapOverlayImageFilter);
 
   /** Set the feature image */

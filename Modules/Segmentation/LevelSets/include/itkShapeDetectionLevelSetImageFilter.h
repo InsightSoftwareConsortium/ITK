@@ -124,7 +124,7 @@ public:
   using ShapeDetectionFunctionType = ShapeDetectionLevelSetFunction<OutputImageType, FeatureImageType>;
   using ShapeDetectionFunctionPointer = typename ShapeDetectionFunctionType::Pointer;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ShapeDetectionLevelSetImageFilter);
 
   /** Method for creation through the object factory */

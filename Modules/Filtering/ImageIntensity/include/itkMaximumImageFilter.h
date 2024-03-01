@@ -94,7 +94,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MaximumImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

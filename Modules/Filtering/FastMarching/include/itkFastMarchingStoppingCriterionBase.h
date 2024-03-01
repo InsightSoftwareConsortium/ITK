@@ -50,7 +50,7 @@ public:
   using OutputDomainType = typename Traits::OutputDomainType;
   using OutputDomainPointer = typename Traits::OutputDomainPointer;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FastMarchingStoppingCriterionBase);
 
   /** Reinitialize internal values. */

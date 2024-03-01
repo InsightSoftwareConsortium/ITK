@@ -56,7 +56,7 @@ public:
   using Self = MeshRegion;
   using Superclass = Region;
 
-  /** Standard part of all itk objects. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MeshRegion);
 
   /** Constructor.  MeshRegion is a lightweight object and is not reference

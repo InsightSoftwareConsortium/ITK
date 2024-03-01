@@ -60,7 +60,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImportImageContainer);
 
   /** Get the pointer from which the image data is imported. */

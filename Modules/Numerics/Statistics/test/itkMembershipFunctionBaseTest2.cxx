@@ -39,7 +39,7 @@ public:
 
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Standard macros */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MyMembershipFunctionBase);
 
   /** Method for creation through the object factory. */

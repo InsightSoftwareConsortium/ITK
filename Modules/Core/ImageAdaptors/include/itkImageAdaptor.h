@@ -71,7 +71,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using ConstWeakPointer = WeakPointer<const Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageAdaptor);
 
   /** Typedef of unadapted image */

@@ -49,7 +49,7 @@ public:
   itkCellCommonTypedefs(QuadraticTriangleCell);
   itkCellInheritedTypedefs(TCellInterface);
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadraticTriangleCell);
 
   /** The type of boundary for this triangle's vertices. */

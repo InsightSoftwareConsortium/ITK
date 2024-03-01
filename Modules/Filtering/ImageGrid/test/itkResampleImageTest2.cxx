@@ -46,7 +46,7 @@ public:
   /** New macro for creation of through a smart pointer. */
   itkSimpleNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(NonlinearAffineTransform);
 
   /** Override this. See test below. */

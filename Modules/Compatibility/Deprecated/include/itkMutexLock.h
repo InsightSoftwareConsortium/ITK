@@ -130,7 +130,7 @@ public:
   /** Method for creation. */
   itkNewMacro(Self);
 
-  /** Run-time information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MutexLock);
 
   /** Lock the itkMutexLock. */

@@ -38,7 +38,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Derived1);
 
   itkNewMacro(Derived1);
@@ -76,7 +76,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Derived2);
 
   itkNewMacro(Derived2);

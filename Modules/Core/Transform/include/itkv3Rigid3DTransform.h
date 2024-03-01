@@ -72,7 +72,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Rigid3DTransform);
 
   /** New macro for creation of through a Smart Pointer   */

@@ -63,7 +63,7 @@ public:
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BSplineInterpolationWeightFunction);
 
   /** Space dimension. */

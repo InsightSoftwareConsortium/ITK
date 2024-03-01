@@ -58,7 +58,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(CSVArray2DDataObject);
 
   /* Vector type alias. */

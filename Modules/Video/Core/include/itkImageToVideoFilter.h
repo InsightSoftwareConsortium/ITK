@@ -79,7 +79,7 @@ public:
 
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageToVideoFilter);
 
   /** Set the input Image for this process object */

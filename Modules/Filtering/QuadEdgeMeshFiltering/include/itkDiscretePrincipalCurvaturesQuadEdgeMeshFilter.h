@@ -59,7 +59,7 @@ public:
 
   using typename Superclass::TriangleType;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DiscretePrincipalCurvaturesQuadEdgeMeshFilter);
 
   using CoefficientType = ConformalMatrixCoefficients<OutputMeshType>;

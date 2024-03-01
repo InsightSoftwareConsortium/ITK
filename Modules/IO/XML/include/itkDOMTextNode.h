@@ -51,7 +51,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DOMTextNode);
 
   /** Functions to set/get the enclosed text of this node. */

@@ -42,7 +42,7 @@ public:
   using Self = PeriodicBoundaryCondition;
   using Superclass = ImageBoundaryCondition<TInputImage, TOutputImage>;
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PeriodicBoundaryCondition);
 
   /** Extract information from the image type. */

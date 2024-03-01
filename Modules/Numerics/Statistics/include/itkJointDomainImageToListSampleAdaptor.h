@@ -107,7 +107,7 @@ public:
   using PointType = typename ImageJointDomainTraitsType::PointType;
   using CoordinateRepType = typename ImageJointDomainTraitsType::CoordinateRepType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(JointDomainImageToListSampleAdaptor);
 
   /** Method for creation through the object factory. */

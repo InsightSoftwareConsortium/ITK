@@ -62,7 +62,7 @@ public:
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
 
-  /** Run-time class information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GPUGradientAnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */

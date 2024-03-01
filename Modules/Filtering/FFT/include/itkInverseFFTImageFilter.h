@@ -67,7 +67,7 @@ public:
 
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(InverseFFTImageFilter);
 
   /** Customized object creation methods that support configuration-based

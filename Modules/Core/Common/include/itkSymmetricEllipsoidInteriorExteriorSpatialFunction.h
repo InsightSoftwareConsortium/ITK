@@ -52,7 +52,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time information. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SymmetricEllipsoidInteriorExteriorSpatialFunction);
 
   /** Input type for the function. */

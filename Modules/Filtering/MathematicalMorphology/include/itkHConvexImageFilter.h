@@ -72,7 +72,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Runtime information support. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(HConvexImageFilter);
 
   /** Set/Get the height that a local maximum must be above the local

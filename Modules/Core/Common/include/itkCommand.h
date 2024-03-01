@@ -53,7 +53,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Command);
 
   /** Abstract method that defines the action to be taken by the command. */
@@ -99,7 +99,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MemberCommand);
 
   /**  Set the callback function along with the object that it will
@@ -173,7 +173,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ReceptorMemberCommand);
 
   /**  Set the callback function along with the object that it will
@@ -236,7 +236,7 @@ public:
   using Self = SimpleMemberCommand;
   using Pointer = SmartPointer<Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SimpleMemberCommand);
 
   /** Method for creation through the object factory. */
@@ -300,7 +300,7 @@ public:
   using Self = SimpleConstMemberCommand;
   using Pointer = SmartPointer<Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SimpleConstMemberCommand);
 
   /** Method for creation through the object factory. */
@@ -366,7 +366,7 @@ public:
   using Self = CStyleCommand;
   using Pointer = SmartPointer<Self>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(CStyleCommand);
 
   /** Method for creation through the object factory. */
@@ -424,7 +424,7 @@ public:
 
   using FunctionObjectType = std::function<void(const EventObject &)>;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FunctionCommand);
 
   /** Method for creation through the object factory. */

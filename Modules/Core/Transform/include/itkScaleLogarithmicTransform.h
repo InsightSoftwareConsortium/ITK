@@ -46,7 +46,7 @@ public:
   /** New macro for creation of through a smart pointer. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ScaleLogarithmicTransform);
 
   /** Dimension of the domain space. */

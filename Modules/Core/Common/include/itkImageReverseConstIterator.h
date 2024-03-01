@@ -96,7 +96,7 @@ public:
    * access to the dimension of the image that the iterator walks. */
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(ImageReverseConstIterator);
 
   /** Index type alias support */

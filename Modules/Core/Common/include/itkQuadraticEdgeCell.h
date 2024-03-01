@@ -46,7 +46,7 @@ public:
   itkCellCommonTypedefs(QuadraticEdgeCell);
   itkCellInheritedTypedefs(TCellInterface);
 
-  /** Standard part of every itk Object. */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadraticEdgeCell);
 
   /** The type of boundary for this lines's vertices. */

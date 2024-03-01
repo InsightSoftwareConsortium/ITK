@@ -154,7 +154,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(AutomaticTopologyMeshSource);
 
   /** Add the point p0 if it's not already there, and return its ID. */

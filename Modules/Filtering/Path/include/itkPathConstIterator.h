@@ -130,7 +130,7 @@ public:
   /** Path ND Output Type, which is not necessarily an index type */
   using PathOutputType = typename PathType::OutputType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(PathConstIterator);
 
   /** Get the dimension (size) of the index. */

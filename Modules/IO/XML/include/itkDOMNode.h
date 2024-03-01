@@ -64,7 +64,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(DOMNode);
 
   /** Container to return all or a subset of the children of a DOM node. */

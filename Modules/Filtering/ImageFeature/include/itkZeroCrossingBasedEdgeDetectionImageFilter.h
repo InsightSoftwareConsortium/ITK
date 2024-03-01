@@ -100,7 +100,7 @@ public:
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  /** Run-time type information (and related methods).   */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ZeroCrossingBasedEdgeDetectionImageFilter);
 
   /** ImageDimension enumeration   */

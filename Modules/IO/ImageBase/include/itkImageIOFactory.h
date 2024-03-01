@@ -41,7 +41,7 @@ public:
 
   /** Class Methods used to interface with the registered factories */
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageIOFactory);
 
   /** Convenient type alias. */

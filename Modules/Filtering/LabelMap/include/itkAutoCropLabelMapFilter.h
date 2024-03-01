@@ -64,7 +64,7 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(AutoCropLabelMapFilter);
 
   /** Superclass type alias. */

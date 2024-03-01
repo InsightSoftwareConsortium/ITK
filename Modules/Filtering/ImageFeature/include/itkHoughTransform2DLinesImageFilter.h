@@ -101,7 +101,7 @@ public:
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename InputImageType::RegionType;
 
-  /** Run-time type information (and related methods). */
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(HoughTransform2DLinesImageFilter);
 
   /** Method for creation through the object factory. */
