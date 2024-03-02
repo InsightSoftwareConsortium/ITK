@@ -69,9 +69,14 @@ namespace itk
  * of [0.5 1 4] along with a step length of 2 will cause the optimizer
  * to search the metric space on a grid with x,y,z spacing of [1 2 8].
  *
- * Physical dimensions of the grid are influenced by both the scales and
- * the number of steps along each dimension, a side of the region is
- * stepLength*(2*numberOfSteps[d]+1)*scaling[d].
+ * The number of samples for each dimension of the parameter grid are
+ * influenced by both the scales and the number of steps along each
+ * dimension:
+ *
+ * parameter_samples[d] = stepLength*(2*numberOfSteps[d]+1)*scaling[d]
+ *
+ * start_parameter[d] = - stepLength * scaling[d] * numberOfSteps[d]
+ *   end_parameter[d] = + stepLength * scaling[d] * numberOfSteps[d]
  *
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
