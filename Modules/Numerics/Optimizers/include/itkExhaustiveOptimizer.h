@@ -36,7 +36,7 @@ namespace itk
  * is. An example is given below, where it is desired to plot the metric
  * space with respect to translations along x, y and z in a 3D registration
  * application:
- *     Here it is assumed that the transform is Euler3DTransform.
+ *     Here it is assumed that the transform is TranslationTransform.
  *
    \code
     OptimizerType::StepsType steps( m_Transform->GetNumberOfParameters() );
