@@ -183,7 +183,8 @@ public:
    * define so lbfgs.h uses the correct version
    **/
   using PrecisionType = double;
-
+  static_assert(std::is_same<TInternalComputationValueType, double>::value,
+                "LBFGS2Optimizerv4Template only supports double precision");
   /** Standard "Self" type alias. */
   using Self = LBFGS2Optimizerv4Template;
   using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
@@ -518,8 +519,7 @@ private:
   /**
    * itkGradientDecentOptimizerv4Template specific non supported methods.
    */
-  void
-  SetMinimumConvergenceValue(double) override
+  void SetMinimumConvergenceValue(PrecisionType) override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
   };
@@ -527,11 +527,11 @@ private:
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
   };
-  const double &
+  const PrecisionType &
   GetConvergenceValue() const override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
-    static double value = 0;
+    static PrecisionType value{};
     return value;
   };
 
