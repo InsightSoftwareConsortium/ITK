@@ -27,15 +27,11 @@ operator<<(std::ostream & out, const LBFGS2Optimizerv4Enums::LineSearchMethod va
     switch (value)
     {
       case LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_DEFAULT:
-        return "itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_DEFAULT";
-        //                case LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_MORETHUENTE:
-        //                    return "itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_MORETHUENTE";
+        return "itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_DEFAULT (LINESEARCH_MORETHUENTE)";
       case LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_ARMIJO:
         return "itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_ARMIJO";
       case LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING:
-        return "itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING";
-        //                case LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_WOLFE:
-        //                    return "itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_WOLFE";
+        return "itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING (LINESEARCH_BACKTRACKING_WOLFE)";
       case LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_STRONG_WOLFE:
         return "itk::LBFGS2Optimizerv4Enums::LineSearchMethod::LINESEARCH_BACKTRACKING_STRONG_WOLFE";
       default:
