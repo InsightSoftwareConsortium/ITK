@@ -191,7 +191,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
     hdr->coordinateOrientation =
       itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
   }
-  // RGEDEBUG(std::sprintf (debugbuf, "Plane = %d\n", hdr->imagePlane); cerr <<
+  // RGEDEBUG(std::snprintf (debugbuf, sizeof(debugbuf), "Plane = %d\n", hdr->imagePlane); cerr <<
   // debugbuf;)
 
   /* Get the Scan Matrix from the IMAGE Header */
@@ -261,7 +261,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TE * 2, (char *)&intTmp, sizeof(int));
 
   hdr->TE = MvtSunf(intTmp);
-  //  RGEDEBUG(std::sprintf (debugbuf, "TE = %f\n", hdr->TE); cerr << debugbuf;)
+  //  RGEDEBUG(std::snprintf (debugbuf, sizeof(debugbuf), "TE = %f\n", hdr->TE); cerr << debugbuf;)
 
   /* Get TI from the IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TI * 2, (char *)&intTmp, sizeof(int));
@@ -326,7 +326,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
 
   /* Get the Number of Images from the IMAGE Header */
   this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NUMSLICES * 2, &(hdr->numberOfSlices));
-  //  RGEDEBUG(std::sprintf (debugbuf, "Number of SLices = %d\n",
+  //  RGEDEBUG(std::snprintf (debugbuf, sizeof(debugbuf), "Number of SLices = %d\n",
   // hdr->numberOfSlices); cerr << debugbuf;)
 
   //    status = stat (imageFile, &statBuf);
