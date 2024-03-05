@@ -519,8 +519,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   // std::cout << boundingBox << "  " << lRegion << "  " << elRegion << std::endl;
   // now initialize the image
   lineImage->SetRegions(elRegion);
-  lineImage->Allocate();
-  lineImage->FillBuffer(VectorLineType());
+  lineImage->AllocateInitialized();
 
   // std::cout << "lineContainer.size(): " << lineContainer.size() << std::endl;
 

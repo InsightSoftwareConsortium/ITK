@@ -64,8 +64,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Zero the output
   outputImage->SetBufferedRegion(outputImage->GetRequestedRegion());
-  outputImage->Allocate();
-  outputImage->FillBuffer(z);
+  outputImage->AllocateInitialized();
 
   using InputIterator = ImageRegionConstIterator<InputImageType>;
   using OutputIterator = ImageRegionConstIterator<OutputImageType>;

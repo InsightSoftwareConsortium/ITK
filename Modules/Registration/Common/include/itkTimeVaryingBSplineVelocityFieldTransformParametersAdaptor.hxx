@@ -267,16 +267,13 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
   using UpsampleFilterType = ResampleImageFilter<ComponentImageType, ComponentImageType, ParametersValueType>;
   using DecompositionFilterType = BSplineDecompositionImageFilter<ComponentImageType, ComponentImageType>;
 
-  constexpr VectorType zeroVector{};
-
   TimeVaryingVelocityFieldControlPointLatticePointer requiredLattice =
     TimeVaryingVelocityFieldControlPointLatticeType::New();
   requiredLattice->SetRegions(requiredLatticeSize);
   requiredLattice->SetOrigin(requiredLatticeOrigin);
   requiredLattice->SetSpacing(requiredLatticeSpacing);
   requiredLattice->SetDirection(requiredLatticeDirection);
-  requiredLattice->Allocate();
-  requiredLattice->FillBuffer(zeroVector);
+  requiredLattice->AllocateInitialized();
 
   // Loop over dimension: each direction is upsampled separately.
   for (SizeValueType j = 0; j < TotalDimension - 1; ++j)

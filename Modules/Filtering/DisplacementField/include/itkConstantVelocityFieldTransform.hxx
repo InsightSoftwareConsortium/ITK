@@ -184,16 +184,12 @@ ConstantVelocityFieldTransform<TParametersValueType, VDimension>::SetFixedParame
     }
   }
 
-  PixelType zeroDisplacement;
-  zeroDisplacement.Fill(0.0);
-
   auto velocityField = ConstantVelocityFieldType::New();
   velocityField->SetSpacing(spacing);
   velocityField->SetOrigin(origin);
   velocityField->SetDirection(direction);
   velocityField->SetRegions(size);
-  velocityField->Allocate();
-  velocityField->FillBuffer(zeroDisplacement);
+  velocityField->AllocateInitialized();
 
   this->SetConstantVelocityField(velocityField);
 }

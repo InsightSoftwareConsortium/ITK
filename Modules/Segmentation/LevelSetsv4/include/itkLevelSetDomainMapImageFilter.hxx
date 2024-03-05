@@ -101,8 +101,7 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   this->m_OutputImage = this->GetOutput();
   this->m_OutputImage->SetBufferedRegion(region);
-  this->m_OutputImage->Allocate();
-  this->m_OutputImage->FillBuffer(OutputImagePixelType{});
+  this->m_OutputImage->AllocateInitialized();
 
   InputImageIndexType end;
 

@@ -109,8 +109,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
   region.SetSize(size);
 
   kernelImage->SetRegions(region);
-  kernelImage->Allocate();
-  kernelImage->FillBuffer(TOutput{});
+  kernelImage->AllocateInitialized();
 
   // Initially the kernel image will be an impulse at the center
   typename KernelImageType::IndexType centerIndex;
