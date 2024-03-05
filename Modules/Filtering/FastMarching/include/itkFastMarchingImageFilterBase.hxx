@@ -454,8 +454,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     m_ConnectedComponentImage->SetSpacing(m_OutputSpacing);
     m_ConnectedComponentImage->SetRegions(m_BufferedRegion);
     m_ConnectedComponentImage->SetDirection(m_OutputDirection);
-    m_ConnectedComponentImage->Allocate();
-    m_ConnectedComponentImage->FillBuffer(0);
+    m_ConnectedComponentImage->AllocateInitialized();
   }
 
   // Allocate memory for the PointTypeImage

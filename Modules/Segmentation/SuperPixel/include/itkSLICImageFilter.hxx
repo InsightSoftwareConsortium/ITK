@@ -673,8 +673,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::GenerateData()
     m_MarkerImage = MarkerImageType::New();
     m_MarkerImage->CopyInformation(inputImage);
     m_MarkerImage->SetBufferedRegion(region);
-    m_MarkerImage->Allocate();
-    m_MarkerImage->FillBuffer(NumericTraits<typename MarkerImageType::PixelType>::Zero);
+    m_MarkerImage->AllocateInitialized();
 
 
     this->GetMultiThreader()->ParallelizeArray(

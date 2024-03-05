@@ -204,8 +204,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
 
   auto cumulativeImage = CumulativeImageType::New();
   cumulativeImage->SetRegions(inputImage->GetBufferedRegion());
-  cumulativeImage->Allocate();
-  cumulativeImage->FillBuffer(InternalRealType{});
+  cumulativeImage->AllocateInitialized();
   // The output's information must match the input's information
   cumulativeImage->CopyInformation(this->GetInput());
 

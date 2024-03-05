@@ -127,8 +127,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Zero the output
   OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
-  outputImage->Allocate();
-  outputImage->FillBuffer(OutputImagePixelType{});
+  outputImage->AllocateInitialized();
 
   // Compute the statistics of the seed point
   using VectorMeanImageFunctionType = VectorMeanImageFunction<InputImageType>;

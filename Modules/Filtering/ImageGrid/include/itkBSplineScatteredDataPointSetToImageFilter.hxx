@@ -356,13 +356,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::BeforeT
     {
       this->m_OmegaLatticePerThread[n] = RealImageType::New();
       this->m_OmegaLatticePerThread[n]->SetRegions(size);
-      this->m_OmegaLatticePerThread[n]->Allocate();
-      this->m_OmegaLatticePerThread[n]->FillBuffer(0.0);
+      this->m_OmegaLatticePerThread[n]->AllocateInitialized();
 
       this->m_DeltaLatticePerThread[n] = PointDataImageType::New();
       this->m_DeltaLatticePerThread[n]->SetRegions(size);
-      this->m_DeltaLatticePerThread[n]->Allocate();
-      this->m_DeltaLatticePerThread[n]->FillBuffer(PointDataType{});
+      this->m_DeltaLatticePerThread[n]->AllocateInitialized();
     }
   }
 }
@@ -426,8 +424,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   }
   RealImagePointer neighborhoodWeightImage = RealImageType::New();
   neighborhoodWeightImage->SetRegions(size);
-  neighborhoodWeightImage->Allocate();
-  neighborhoodWeightImage->FillBuffer(0.0);
+  neighborhoodWeightImage->AllocateInitialized();
 
   ImageRegionIteratorWithIndex<RealImageType> ItW(neighborhoodWeightImage,
                                                   neighborhoodWeightImage->GetRequestedRegion());
@@ -704,8 +701,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::AfterTh
     }
     this->m_PhiLattice = PointDataImageType::New();
     this->m_PhiLattice->SetRegions(size);
-    this->m_PhiLattice->Allocate();
-    this->m_PhiLattice->FillBuffer(PointDataType{});
+    this->m_PhiLattice->AllocateInitialized();
 
     ImageRegionIterator<PointDataImageType> ItP(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
 

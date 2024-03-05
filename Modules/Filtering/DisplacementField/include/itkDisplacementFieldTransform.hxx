@@ -516,16 +516,12 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::SetFixedParameters
     }
   }
 
-  PixelType zeroDisplacement;
-  zeroDisplacement.Fill(0.0);
-
   auto displacementField = DisplacementFieldType::New();
   displacementField->SetSpacing(spacing);
   displacementField->SetOrigin(origin);
   displacementField->SetDirection(direction);
   displacementField->SetRegions(size);
-  displacementField->Allocate();
-  displacementField->FillBuffer(zeroDisplacement);
+  displacementField->AllocateInitialized();
 
   this->SetDisplacementField(displacementField);
 
@@ -536,8 +532,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::SetFixedParameters
     inverseDisplacementField->SetOrigin(origin);
     inverseDisplacementField->SetDirection(direction);
     inverseDisplacementField->SetRegions(size);
-    inverseDisplacementField->Allocate();
-    inverseDisplacementField->FillBuffer(zeroDisplacement);
+    inverseDisplacementField->AllocateInitialized();
 
     this->SetInverseDisplacementField(inverseDisplacementField);
   }

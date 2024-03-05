@@ -161,8 +161,7 @@ public:
         image->SetBufferedRegion(otherImage->GetBufferedRegion());
         image->SetRequestedRegion(otherImage->GetRequestedRegion());
         image->SetLargestPossibleRegion(otherImage->GetLargestPossibleRegion());
-        image->Allocate();
-        image->FillBuffer(OutputPixelType{});
+        image->AllocateInitialized();
 
         temp_ls->SetImage(image);
         newContainer[it->first] = temp_ls;

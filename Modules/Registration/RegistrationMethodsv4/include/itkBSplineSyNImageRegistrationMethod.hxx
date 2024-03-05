@@ -243,15 +243,12 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
 
   if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
   {
-    constexpr DisplacementVectorType zeroVector{};
-
     VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
 
     metricGradientField = DisplacementFieldType::New();
     metricGradientField->CopyInformation(virtualDomainImage);
     metricGradientField->SetRegions(virtualDomainImage->GetLargestPossibleRegion());
-    metricGradientField->Allocate();
-    metricGradientField->FillBuffer(zeroVector);
+    metricGradientField->AllocateInitialized();
 
     this->m_Metric->SetFixedObject(fixedPointSets[0]);
     this->m_Metric->SetMovingObject(movingPointSets[0]);

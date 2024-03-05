@@ -48,8 +48,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner,
     this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->CopyInformation(this->m_Associate->m_JointPDF);
     this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->SetRegions(
       this->m_Associate->m_JointPDF->GetLargestPossibleRegion());
-    this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->Allocate();
-    this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->FillBuffer(SizeValueType{});
+    this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->AllocateInitialized();
     this->m_JointHistogramMIPerThreadVariables[i].JointHistogramCount = SizeValueType{};
   }
 }

@@ -106,8 +106,7 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     OutputImageRegionType region = outputImage->GetRequestedRegion();
     outputImage->SetBufferedRegion(region);
-    outputImage->Allocate();
-    outputImage->FillBuffer(OutputPixelType{});
+    outputImage->AllocateInitialized();
 
     using FunctionType = BinaryThresholdImageFunction<OutputImageType>;
     using IteratorType = FloodFilledImageFunctionConditionalConstIterator<OutputImageType, FunctionType>;

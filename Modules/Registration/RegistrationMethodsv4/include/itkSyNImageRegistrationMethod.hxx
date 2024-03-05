@@ -72,19 +72,15 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
       VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
 
-      constexpr DisplacementVectorType zeroVector{};
-
       auto fixedDisplacementField = DisplacementFieldType::New();
       fixedDisplacementField->CopyInformation(virtualDomainImage);
       fixedDisplacementField->SetRegions(virtualDomainImage->GetBufferedRegion());
-      fixedDisplacementField->Allocate();
-      fixedDisplacementField->FillBuffer(zeroVector);
+      fixedDisplacementField->AllocateInitialized();
 
       auto fixedInverseDisplacementField = DisplacementFieldType::New();
       fixedInverseDisplacementField->CopyInformation(virtualDomainImage);
       fixedInverseDisplacementField->SetRegions(virtualDomainImage->GetBufferedRegion());
-      fixedInverseDisplacementField->Allocate();
-      fixedInverseDisplacementField->FillBuffer(zeroVector);
+      fixedInverseDisplacementField->AllocateInitialized();
 
       this->m_FixedToMiddleTransform->SetDisplacementField(fixedDisplacementField);
       this->m_FixedToMiddleTransform->SetInverseDisplacementField(fixedInverseDisplacementField);
@@ -92,14 +88,12 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       auto movingDisplacementField = DisplacementFieldType::New();
       movingDisplacementField->CopyInformation(virtualDomainImage);
       movingDisplacementField->SetRegions(virtualDomainImage->GetBufferedRegion());
-      movingDisplacementField->Allocate();
-      movingDisplacementField->FillBuffer(zeroVector);
+      movingDisplacementField->AllocateInitialized();
 
       auto movingInverseDisplacementField = DisplacementFieldType::New();
       movingInverseDisplacementField->CopyInformation(virtualDomainImage);
       movingInverseDisplacementField->SetRegions(virtualDomainImage->GetBufferedRegion());
-      movingInverseDisplacementField->Allocate();
-      movingInverseDisplacementField->FillBuffer(zeroVector);
+      movingInverseDisplacementField->AllocateInitialized();
 
       this->m_MovingToMiddleTransform->SetDisplacementField(movingDisplacementField);
       this->m_MovingToMiddleTransform->SetInverseDisplacementField(movingInverseDisplacementField);
@@ -572,13 +566,10 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   if (this->m_DownsampleImagesForMetricDerivatives &&
       this->m_Metric->GetMetricCategory() != ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
   {
-    const DisplacementVectorType zeroVector{};
-
     auto identityField = DisplacementFieldType::New();
     identityField->CopyInformation(virtualDomainImage);
     identityField->SetRegions(virtualDomainImage->GetLargestPossibleRegion());
-    identityField->Allocate();
-    identityField->FillBuffer(zeroVector);
+    identityField->AllocateInitialized();
 
     DisplacementFieldTransformPointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
     identityDisplacementFieldTransform->SetDisplacementField(identityField);
