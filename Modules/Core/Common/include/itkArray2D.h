@@ -53,6 +53,10 @@ public:
   /** Constructs a matrix of the specified number of rows and columns. */
   Array2D(unsigned int numberOfRows, unsigned int numberOfCols);
 
+  /** Constructs a matrix of the specified number of rows and columns, with each element having the specified initial
+   * value. */
+  Array2D(unsigned int numberOfRows, unsigned int numberOfCols, const TValue & initialValue);
+
   /** Copy-constructor. */
   Array2D(const Self & array);
 
