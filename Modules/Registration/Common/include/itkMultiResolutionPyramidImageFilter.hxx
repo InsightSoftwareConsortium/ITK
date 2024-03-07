@@ -59,9 +59,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetNumberOfLevels(
   }
 
   // resize the schedules
-  ScheduleType temp(m_NumberOfLevels, ImageDimension);
-  temp.Fill(0);
-  m_Schedule = temp;
+  m_Schedule = ScheduleType(m_NumberOfLevels, ImageDimension, 0);
 
   // determine initial shrink factor
   unsigned int startfactor = 1;

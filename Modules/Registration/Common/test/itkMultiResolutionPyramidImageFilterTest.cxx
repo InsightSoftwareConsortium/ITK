@@ -258,9 +258,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   pyramid->SetStartingShrinkFactors(factors.Begin());
 
   // check the schedule;
-  ScheduleType temp(numLevels, ImageDimension);
-  temp.Fill(0);
-  schedule = temp;
+  schedule = ScheduleType(numLevels, ImageDimension, 0);
   for (k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
@@ -409,9 +407,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   schedule.Fill(0);
   pyramid->SetSchedule(schedule);
 
-  ScheduleType temp2(pyramid->GetNumberOfLevels() - 1, ImageDimension);
-  temp2.Fill(1);
-  pyramid->SetSchedule(temp2);
+  pyramid->SetSchedule(ScheduleType(pyramid->GetNumberOfLevels() - 1, ImageDimension, 1));
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
