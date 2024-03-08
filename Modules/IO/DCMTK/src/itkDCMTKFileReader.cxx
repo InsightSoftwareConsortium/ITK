@@ -1172,7 +1172,12 @@ DCMTKFileReader::GetDimensions(unsigned short & rows, unsigned short & columns) 
 int
 DCMTKFileReader::GetSpacing(double * const spacing) const
 {
-  double _spacing[3];
+  spacing[0] = 1.0;
+  spacing[1] = 1.0;
+  spacing[2] = 1.0;
+
+  double _spacing[3] = { 1.0, 1.0, 1.0 };
+  bool   _have_val[3] = { false, false, false };
   //
   // There are several tags that can have spacing, and we're going
   // from most to least desirable, starting with PixelSpacing, which
@@ -1182,9 +1187,16 @@ DCMTKFileReader::GetSpacing(double * const spacing) const
 
   // first, shared function groups sequence, then
   // per-frame groups sequence
-  _spacing[0] = _spacing[1] = _spacing[2] = 0.0;
-  int rval(EXIT_SUCCESS);
 
+  int rval = EXIT_SUCCESS;
+  /*
+   * According Dicom standard (DICOM PS3.6 2016b - Data Dictionary)
+   * (0028, 0030) indicates physical X,Y spacing inside a slice;
+   * (0018, 0088) indicates physical Z spacing between slices;
+   *  which above are also consistent with dcm2niix software.
+   *  when we can not get (0018, 0088), we should compute spacing
+   * from the planes' positions (TODO, see PR 112).
+   * */
   rval = this->GetElementDS<double>(0x0028, 0x0030, 2, _spacing, false);
   if (rval != EXIT_SUCCESS)
   {
@@ -1196,31 +1208,26 @@ DCMTKFileReader::GetSpacing(double * const spacing) const
       rval = this->GetElementDS<double>(0x0018, 0x2010, 2, &_spacing[0], false);
     }
   }
-
   if (rval == EXIT_SUCCESS)
   {
     // slice thickness
     spacing[0] = _spacing[1];
     spacing[1] = _spacing[0];
-    /*
-     * According Dicom standard (DICOM PS3.6 2016b - Data Dictionary)
-     * (0028, 0030) indicates physical X,Y spacing inside a slice;
-     * (0018, 0088) indicates physical Z spacing between slices;
-     *  which above are also consistent with Dcom2iix software.
-     *  when we can not get (0018, 0088), we should compute spacing
-     * from the planes' positions (TODO, see PR 112).
-     * */
-    if (GetElementDS<double>(0x0018, 0x0088, 1, &_spacing[2], false) == EXIT_SUCCESS)
-    {
-      spacing[2] = _spacing[2];
-    }
-    else
-    {
-      // punt, thicknes of 1
-      spacing[2] = 1.0;
-    }
-    return rval;
+    _have_val[0] = true;
+    _have_val[1] = true;
   }
+
+  if (GetElementDS<double>(0x0018, 0x0088, 1, &_spacing[2], false) == EXIT_SUCCESS)
+  {
+    spacing[2] = _spacing[2];
+    _have_val[2] = true;
+  }
+
+  if (_have_val[0] && _have_val[1] && _have_val[2])
+  {
+    return EXIT_SUCCESS;
+  }
+
   // this is for multiframe images -- preferentially use the shared
   // functional group, and then the per-frame functional group
   unsigned short candidateSequences[2] = {
@@ -1250,26 +1257,43 @@ DCMTKFileReader::GetSpacing(double * const spacing) const
            *  when we can not get (0018, 0088), we should compute spacing
            * from the planes' positions (TODO, see PR 112).
            * */
-          if (subSequence.GetElementDS<double>(0x0028, 0x0030, 2, _spacing, false) == EXIT_SUCCESS)
+          if (!(_have_val[0] && _have_val[1]))
           {
-            spacing[0] = _spacing[1];
-            spacing[1] = _spacing[0];
+            if (subSequence.GetElementDS<double>(0x0028, 0x0030, 2, _spacing, false) == EXIT_SUCCESS)
+            {
+              spacing[0] = _spacing[1];
+              spacing[1] = _spacing[0];
+              _have_val[0] = true;
+              _have_val[1] = true;
+            }
+          }
+          if (!_have_val[2])
+          {
             if (subSequence.GetElementDS<double>(0x0018, 0x0088, 1, &_spacing[2], false) == EXIT_SUCCESS)
             {
               spacing[2] = _spacing[2];
+              _have_val[2] = true;
             }
-            else
-            {
-              // punt, zSpace of 1
-              spacing[2] = 1.0;
-            }
-            break;
+          }
+          if (_have_val[0] && _have_val[1] && _have_val[2])
+          {
+            return EXIT_SUCCESS;
           }
         }
       }
     }
   }
-  return rval;
+
+  if (_have_val[0] && _have_val[1] && _have_val[2])
+  {
+    return EXIT_SUCCESS;
+  }
+
+  // not all (or no) spacing values could be found.
+  spacing[0] = _spacing[0];
+  spacing[1] = _spacing[1];
+  spacing[2] = _spacing[2];
+  return EXIT_FAILURE;
 }
 
 int

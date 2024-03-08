@@ -310,6 +310,18 @@ itk_add_test(
   DATA{Input/JPEGBaseline1DicomTest.dcm}
   ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_JPEGBaseline1.mha
   rgb)
+itk_add_test(
+  NAME
+  itkGDCMImageReadWriteTest_MultiFrameMRIZSpacing
+  COMMAND
+  ITKIOGDCMTestDriver
+  --compare
+  DATA{Baseline/itkGDCMImageReadWriteTest_MultiFrameMRIZSpacingBaseline.mha}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_MultiFrameMRIZSpacing.mha
+  itkGDCMImageReadWriteTest
+  DATA{Input/MultiFrameMRIZSpacing.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_MultiFrameMRIZSpacing.mha
+  scalar)
 
 itk_add_test(
   NAME
