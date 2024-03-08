@@ -185,3 +185,6 @@ itk_add_test(
   COMMAND
   ITKImageGradientTestDriver
   itkDifferenceOfGaussiansGradientTest)
+
+set(ITKImageGradientGTests itkGradientImageFilterGTest.cxx)
+creategoogletestdriver(ITKImageGradient "${ITKImageGradient-Test_LIBRARIES}" "${ITKImageGradientGTests}")
