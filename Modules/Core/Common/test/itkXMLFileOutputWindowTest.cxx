@@ -134,5 +134,5 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
   const std::string test3Message{ status ? "TEST THREE PASSED" : "TEST THREE FAILED" };
   std::cout << test3Message << "\n\n" << std::endl;
 
-  return (status == true) ? EXIT_SUCCESS : EXIT_FAILURE;
+  return status ? EXIT_SUCCESS : EXIT_FAILURE;
 }

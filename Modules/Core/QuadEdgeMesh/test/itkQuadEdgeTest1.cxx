@@ -1236,7 +1236,7 @@ itkQuadEdgeTest1(int, char *[])
     quadEdge1->SetOnext(nullptr);
     quadEdge1c->IsEdgeInOnextRing(nullptr);
 
-    if (quadEdge1c->IsEdgeInOnextRing(quadEdge6) == true)
+    if (quadEdge1c->IsEdgeInOnextRing(quadEdge6))
     {
       std::cerr << "Error in IsEdgeInOnextRing() A" << std::endl;
       return EXIT_FAILURE;
@@ -1249,7 +1249,7 @@ itkQuadEdgeTest1(int, char *[])
     quadEdge4->SetOnext(quadEdge5);
     quadEdge5->SetOnext(quadEdge1);
 
-    if (quadEdge1c->IsEdgeInOnextRing(quadEdge6) == true)
+    if (quadEdge1c->IsEdgeInOnextRing(quadEdge6))
     {
       std::cerr << "Error in IsEdgeInOnextRing() B" << std::endl;
       return EXIT_FAILURE;
@@ -1327,7 +1327,7 @@ itkQuadEdgeTest1(int, char *[])
 #ifndef NDEBUG
     quadEdgeA1c->IsLnextGivenSizeCyclic(3); // testing null case
 
-    if (quadEdgeA1c->IsLnextGivenSizeCyclic(3) == true)
+    if (quadEdgeA1c->IsLnextGivenSizeCyclic(3))
     {
       std::cerr << "Error in IsLnextGivenSizeCyclic() A" << std::endl;
       return EXIT_FAILURE;
@@ -1425,7 +1425,7 @@ itkQuadEdgeTest1(int, char *[])
     }
 
     // Check a wrong period on purpose
-    if (quadEdgeA1c->IsLnextGivenSizeCyclic(4) == true)
+    if (quadEdgeA1c->IsLnextGivenSizeCyclic(4))
     {
       std::cerr << "Error in IsLnextGivenSizeCyclic() C" << std::endl;
       return EXIT_FAILURE;

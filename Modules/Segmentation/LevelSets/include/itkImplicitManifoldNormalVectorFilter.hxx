@@ -223,7 +223,7 @@ template <typename TInputImage, typename TSparseOutputImage>
 void
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::PostProcessOutput()
 {
-  if (m_UnsharpMaskingFlag == true)
+  if (m_UnsharpMaskingFlag)
   {
     typename NodeListType::Pointer       nodelist = this->GetOutput()->GetNodeList();
     typename NodeListType::Iterator      it = nodelist->Begin();

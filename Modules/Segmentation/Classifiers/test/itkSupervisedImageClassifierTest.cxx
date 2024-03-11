@@ -414,7 +414,7 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   } // end while
 
-  if (passTest == true)
+  if (passTest)
   {
     std::cout << "Supervised Classifier Test Passed" << std::endl;
   }

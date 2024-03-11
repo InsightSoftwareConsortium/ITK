@@ -78,7 +78,7 @@ SynchronizeList(FactoryListType & output, FactoryListType & input, bool internal
     }
     if (pos == -1)
     {
-      if (internal == true)
+      if (internal)
       {
         itk::ObjectFactoryBase::RegisterFactoryInternal(factory);
       }

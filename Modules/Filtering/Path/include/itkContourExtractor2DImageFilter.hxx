@@ -628,7 +628,7 @@ void
 ContourExtractor2DImageFilter<TInputImage>::ClearRequestedRegion()
 {
   itkDebugMacro("Clearing RequestedRegion.");
-  if (this->m_UseCustomRegion == true)
+  if (this->m_UseCustomRegion)
   {
     this->m_UseCustomRegion = false;
     this->Modified();

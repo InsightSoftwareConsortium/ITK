@@ -193,7 +193,7 @@ itkSplineKernelTransformTest(int, char *[])
     source2Dit++;
     target2Dit++;
   }
-  if (tps2D->IsLinear() == true) // NOTE TPS is never linear!
+  if (tps2D->IsLinear()) // NOTE TPS is never linear!
   {
     std::cout << "ERROR:  2D TPS reports as being a linear transform." << std::endl;
     return EXIT_FAILURE;

@@ -68,7 +68,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  if (this->m_UseInputImageExtremaForScaling == true)
+  if (this->m_UseInputImageExtremaForScaling)
   {
     ImageRegionConstIterator<InputImageType> It(this->GetInput(), this->GetInput()->GetRequestedRegion());
 

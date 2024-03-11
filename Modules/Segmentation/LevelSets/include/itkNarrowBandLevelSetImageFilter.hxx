@@ -89,7 +89,7 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
 
   // A positive speed value causes surface expansion, the opposite of the
   // default.  Flip the sign of the propagation and advection weights.
-  if (m_ReverseExpansionDirection == true)
+  if (m_ReverseExpansionDirection)
   {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
   }
@@ -110,7 +110,7 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
   Superclass::GenerateData();
 
   // Reset all the signs of the weights.
-  if (m_ReverseExpansionDirection == true)
+  if (m_ReverseExpansionDirection)
   {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
   }

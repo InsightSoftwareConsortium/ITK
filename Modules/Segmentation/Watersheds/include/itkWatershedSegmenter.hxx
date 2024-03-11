@@ -274,7 +274,7 @@ CLANG_PRAGMA_POP
   // flat-region connectivity) and constructs the appropriate Boundary
   // data structures.
   //
-  if (m_DoBoundaryAnalysis == true)
+  if (m_DoBoundaryAnalysis)
   {
     this->InitializeBoundary();
     this->AnalyzeBoundaryFlow(thresholdImage, flatRegions, maximum + NumericTraits<InputPixelType>::OneValue());
@@ -312,13 +312,13 @@ CLANG_PRAGMA_POP
   this->UpdateSegmentTable(thresholdImage, thresholdImage->GetRequestedRegion());
   this->UpdateProgress(0.6);
 
-  if (m_DoBoundaryAnalysis == true)
+  if (m_DoBoundaryAnalysis)
   {
     this->CollectBoundaryInformation(flatRegions);
   }
   this->UpdateProgress(0.7);
 
-  if (m_SortEdgeLists == true)
+  if (m_SortEdgeLists)
   {
     this->GetSegmentTable()->SortEdgeLists();
   }
@@ -561,7 +561,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
             isSteepest = false;
           }
 
-          if (isSteepest == true)
+          if (isSteepest)
           {
             // Label this pixel. It will be safely treated as a local
             // minimum by the rest of the segmentation algorithm.

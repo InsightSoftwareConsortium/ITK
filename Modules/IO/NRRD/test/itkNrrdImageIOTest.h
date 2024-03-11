@@ -120,7 +120,7 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
   try
   {
     writer->SetFileName(fn.c_str());
-    if (compression == true)
+    if (compression)
     {
       writer->UseCompressionOn();
     }

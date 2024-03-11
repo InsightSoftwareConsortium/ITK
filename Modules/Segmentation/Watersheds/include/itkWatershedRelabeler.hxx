@@ -71,7 +71,7 @@ Relabeler<TScalar, TImageDimension>::GenerateData()
   //
   // Extract the merges up the requested level
   //
-  if (tree->Empty() == true)
+  if (tree->Empty())
   {
     // itkWarningMacro("Empty input.  No relabeling was done.");
     return;

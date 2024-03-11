@@ -252,7 +252,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 
   // The use of FixedImageIndexes and the use of FixedImageRegion
   // are mutually exclusive, so they should not both be checked.
-  if (this->m_UseFixedImageIndexes == true)
+  if (this->m_UseFixedImageIndexes)
   {
     if (this->m_FixedImageIndexes.empty())
     {

@@ -79,14 +79,14 @@ TestIntegersAreSame(const T1 & v1, const T2 & v2)
     std::cout << v2 << std::endl;
     testPassStatus = EXIT_FAILURE;
   }
-  if (itk::Math::AlmostEquals(v2, v1) == true)
+  if (itk::Math::AlmostEquals(v2, v1))
   {
     std::cout << "Error in "
               << "itk::Math::AlmostEquals(v2, v1) " << std::endl;
     std::cout << __FILE__ << ' ' << __LINE__ << ' ' << v2 << " == " << v1 << std::endl;
     testPassStatus = EXIT_FAILURE;
   }
-  if (itk::Math::AlmostEquals(v1, v2) == true)
+  if (itk::Math::AlmostEquals(v1, v2))
   {
     std::cout << "Error in "
               << "itk::Math::AlmostEquals(v1, v2) " << std::endl;
@@ -606,22 +606,21 @@ main(int, char *[])
     constexpr double d = 1.01;
 
     // Test AlmostEquals()
-    if (itk::Math::AlmostEquals(f, d) == true || itk::Math::AlmostEquals(d, f) == true)
+    if (itk::Math::AlmostEquals(f, d) || itk::Math::AlmostEquals(d, f))
     {
       std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     if (itk::Math::AlmostEquals(f, sc) == false || itk::Math::AlmostEquals(sc, f) == false ||
         itk::Math::AlmostEquals(1.0, 1.0f) == false || itk::Math::AlmostEquals(1.1, 1.1f) == false ||
-        itk::Math::AlmostEquals(1, 1.0) == false || itk::Math::AlmostEquals(2.0, 1.0) == true ||
-        itk::Math::AlmostEquals(1, 2) == true)
+        itk::Math::AlmostEquals(1, 1.0) == false || itk::Math::AlmostEquals(2.0, 1.0) || itk::Math::AlmostEquals(1, 2))
     {
       std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
 
     // Test ExactlyEquals()  it should detect normal inequalities
-    if (itk::Math::ExactlyEquals(f, d) == true || itk::Math::ExactlyEquals(d, f) == true)
+    if (itk::Math::ExactlyEquals(f, d) || itk::Math::ExactlyEquals(d, f))
     {
       std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;

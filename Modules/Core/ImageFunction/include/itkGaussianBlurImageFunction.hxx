@@ -187,7 +187,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
     gaussianOperator.SetMaximumError(m_MaximumError[direction]);
     gaussianOperator.SetMaximumKernelWidth(m_MaximumKernelWidth);
 
-    if ((m_UseImageSpacing == true) && (this->GetInputImage()))
+    if (m_UseImageSpacing && (this->GetInputImage()))
     {
       if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
       {
@@ -371,7 +371,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
     {
       typename GaussianFunctionType::InputType pt;
       pt[0] = gaussianNeighborhood.GetOffset(i)[direction] - offset[direction];
-      if ((m_UseImageSpacing == true) && (this->GetInputImage()))
+      if (m_UseImageSpacing && (this->GetInputImage()))
       {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
         {

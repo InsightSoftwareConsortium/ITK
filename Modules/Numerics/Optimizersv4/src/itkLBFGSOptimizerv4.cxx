@@ -41,7 +41,7 @@ LBFGSOptimizerv4::PrintSelf(std::ostream & os, Indent indent) const
 void
 LBFGSOptimizerv4::VerboseOn()
 {
-  if (m_Verbose == true)
+  if (m_Verbose)
   {
     return;
   }

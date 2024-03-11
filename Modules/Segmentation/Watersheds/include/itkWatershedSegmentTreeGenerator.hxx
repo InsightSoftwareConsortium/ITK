@@ -79,12 +79,12 @@ SegmentTreeGenerator<TScalar>::GenerateData()
   typename SegmentTableType::Pointer input = this->GetInputSegmentTable();
   auto                               mergeList = SegmentTreeType::New();
   auto                               seg = SegmentTableType::New();
-  if (m_ConsumeInput == true) // do not copy input
+  if (m_ConsumeInput) // do not copy input
   {
     input->Modified();
     input->SortEdgeLists();
 
-    if (m_Merge == true)
+    if (m_Merge)
     {
       this->MergeEquivalencies();
     }
@@ -96,7 +96,7 @@ SegmentTreeGenerator<TScalar>::GenerateData()
   {
     seg->Copy(*input); // copy the input
     seg->SortEdgeLists();
-    if (m_Merge == true)
+    if (m_Merge)
     {
       this->MergeEquivalencies();
     }

@@ -235,7 +235,7 @@ template <typename TMesh, typename TQEType>
 TQEType *
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedQuadEdge(QEType * e)
 {
-  QEType * temp = (e->IsIsolated() == true) ? e->GetSym() : e;
+  QEType * temp = (e->IsIsolated()) ? e->GetSym() : e;
   QEType * rebuildEdge = temp->GetOprev();
 
   m_OldPointID = temp->GetSym()->GetOrigin();
@@ -296,7 +296,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QETy
   // turn around the face (left or right one) while edges are on the border
   // and push them into a stack (which will be used to delete properly all
   // elements )
-  QEType * temp = (iWasLeftFace == true) ? e : e_sym;
+  QEType * temp = iWasLeftFace ? e : e_sym;
   QEType * e_it = temp;
 
   oToBeDeleted.push(e_it);

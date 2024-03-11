@@ -51,7 +51,7 @@ LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Valu
   -> LevelSetOutputRealType
 {
   // MeanCurvature has should be computed by this point.
-  itkAssertInDebugAndIgnoreInReleaseMacro(iData.MeanCurvature.m_Computed == true);
+  itkAssertInDebugAndIgnoreInReleaseMacro(iData.MeanCurvature.m_Computed);
 
   if (!m_UseCurvatureImage)
   {

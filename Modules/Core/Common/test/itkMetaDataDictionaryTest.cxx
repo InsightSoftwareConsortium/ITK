@@ -31,7 +31,7 @@ itkMetaDataDictionaryTest(int, char *[])
   {
     float      tempfloat = 0.0;
     const bool IsValidReturn = itk::ExposeMetaData<float>(MyDictionary, "ASimpleFloatInitalized", tempfloat);
-    if (IsValidReturn == true)
+    if (IsValidReturn)
     {
       std::cout << tempfloat << std::endl;
     }
@@ -158,7 +158,7 @@ itkMetaDataDictionaryTest(int, char *[])
     std::cerr << "Failed to erase ASimpleFloatChanged" << std::endl;
     return EXIT_FAILURE;
   }
-  if (MyDictionary.Erase("itk") == true)
+  if (MyDictionary.Erase("itk"))
   {
     std::cerr << "Failed erase itk" << std::endl;
     return EXIT_FAILURE;

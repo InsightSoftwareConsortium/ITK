@@ -248,7 +248,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
       }
     }
 
-    if (m_CalculatePixelIndices == true)
+    if (m_CalculatePixelIndices)
     {
       // Pixel location list
       mapIt->second.m_PixelIndices.push_back(index);
@@ -401,16 +401,16 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     // We can add pi because the orientation of the major axis is symmetric about the origin.
     mapIt->second.m_Orientation = orientation < 0.0 ? orientation + itk::Math::pi : orientation;
 
-    if (m_CalculateOrientedBoundingBox == true)
+    if (m_CalculateOrientedBoundingBox)
     {
       // Calculate the oriented bounding box using the eigenvectors.
       CalculateOrientedBoundingBoxVertices(eig, mapIt->second);
     }
-    if (m_CalculateOrientedLabelRegions == true)
+    if (m_CalculateOrientedLabelRegions)
     {
       CalculateOrientedImage<TLabelImage, TIntensityImage>(eig, mapIt->second, true, this->GetInput());
     }
-    if (m_CalculateOrientedIntensityRegions == true)
+    if (m_CalculateOrientedIntensityRegions)
     {
       // If there is no intensity input defined, the oriented
       // intensity regions cannot be calculated.

@@ -375,7 +375,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActi
           break;
         }
       }
-      if (bounds_status == true)
+      if (bounds_status)
       {
         // Here record the histogram information
         m_GlobalZHistogram[center_index[m_SplitAxis]]++;
@@ -413,7 +413,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActi
             }
 
             statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), layer_number, bounds_status);
-            if (bounds_status == true) // In bounds
+            if (bounds_status) // In bounds
             {
               node = m_LayerNodeStore->Borrow();
               node->m_Index = offset_index;
@@ -453,7 +453,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructLaye
       {
         statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), to, boundary_status);
 
-        if (boundary_status == true) // in bounds
+        if (boundary_status) // in bounds
         {
           node = m_LayerNodeStore->Borrow();
           node->m_Index = statusIt.GetIndex() + m_NeighborList.GetNeighborhoodOffset(i);
@@ -613,7 +613,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLaye
         found_neighbor_flag = true;
       }
     }
-    if (found_neighbor_flag == true)
+    if (found_neighbor_flag)
     {
       // Set the new value using the smallest magnitude
       // found in our "from" neighbors.
@@ -1200,7 +1200,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
     }
 
     // The active layer is too small => stop iterating
-    if (this->m_Stop == true)
+    if (this->m_Stop)
     {
       return;
     }
@@ -1221,7 +1221,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
     {
       this->CheckLoadBalance();
 
-      if (this->m_BoundaryChanged == true)
+      if (this->m_BoundaryChanged)
       {
         // the situation at this point in time:
         // the OPTIMAL boundaries (that divide work equally) have changed but ...
@@ -1522,7 +1522,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedUpdat
           break;
         }
       }
-      if (flag == true)
+      if (flag)
       {
         ++layerIt;
         continue;
@@ -1559,7 +1559,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedUpdat
           break;
         }
       }
-      if (flag == true)
+      if (flag)
       {
         ++layerIt;
         continue;
@@ -2087,7 +2087,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPropa
         found_neighbor_flag = true;
       }
     }
-    if (found_neighbor_flag == true)
+    if (found_neighbor_flag)
     {
       // Set the new value using the smallest magnitude found in our "from"
       // neighbors

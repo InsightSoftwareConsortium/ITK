@@ -51,7 +51,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateInputR
     // Determine the size of the operator in this dimension.  Note that the
     // Gaussian is built as a 1D operator in each of the specified directions.
     oper.SetDirection(i);
-    if (m_UseImageSpacing == true)
+    if (m_UseImageSpacing)
     {
       oper.SetSpacing(this->GetInput()->GetSpacing()[i]);
     }
@@ -157,7 +157,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
     // Set up the operator for this dimension
     oper[reverse_i].SetDirection(i);
     oper[reverse_i].SetOrder(m_Order[i]);
-    if (m_UseImageSpacing == true)
+    if (m_UseImageSpacing)
     {
       // convert the variance from physical units to pixels
       double s = localInput->GetSpacing()[i];

@@ -166,7 +166,7 @@ GPUDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 
     // Set up the operator for this dimension
     oper[reverse_i].SetDirection(i);
-    if (this->GetUseImageSpacing() == true)
+    if (this->GetUseImageSpacing())
     {
       if (localInput->GetSpacing()[i] == 0.0)
       {

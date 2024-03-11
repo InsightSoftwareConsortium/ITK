@@ -163,7 +163,7 @@ public:
       if (it.GetIndex() == firstNegativeIndex)
       {
         // abs value should be equal to largest freq for odd images
-        if (m_ImageIsOdd == true && m_LargestFrequency != it.GetFrequency() && -m_LargestFrequency != it.GetFrequency())
+        if (m_ImageIsOdd && m_LargestFrequency != it.GetFrequency() && -m_LargestFrequency != it.GetFrequency())
         {
           std::cout << " Frequency value is wrong." << it.GetFrequency() << " should be: " << m_LargestFrequency
                     << std::endl;

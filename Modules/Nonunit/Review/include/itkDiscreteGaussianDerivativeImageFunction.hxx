@@ -74,7 +74,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
     m_OperatorArray[direction].SetMaximumKernelWidth(m_MaximumKernelWidth);
     m_OperatorArray[direction].SetMaximumError(m_MaximumError);
 
-    if ((m_UseImageSpacing == true) && (this->GetInputImage()))
+    if (m_UseImageSpacing && (this->GetInputImage()))
     {
       if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
       {

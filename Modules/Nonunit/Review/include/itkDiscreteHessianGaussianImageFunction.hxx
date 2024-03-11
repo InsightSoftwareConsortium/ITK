@@ -77,7 +77,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
       m_OperatorArray[idx].SetMaximumKernelWidth(m_MaximumKernelWidth);
       m_OperatorArray[idx].SetMaximumError(m_MaximumError);
 
-      if ((m_UseImageSpacing == true) && (this->GetInputImage()))
+      if (m_UseImageSpacing && (this->GetInputImage()))
       {
         m_OperatorArray[idx].SetSpacing(this->GetInputImage()->GetSpacing()[direction]);
       }

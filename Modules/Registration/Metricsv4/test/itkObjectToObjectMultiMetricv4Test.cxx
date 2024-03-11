@@ -436,7 +436,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
 
 
   // Expect return false because of point set metrics
-  if (multiVariateMetric->SupportsArbitraryVirtualDomainSamples() == true)
+  if (multiVariateMetric->SupportsArbitraryVirtualDomainSamples())
   {
     std::cerr << "Expected SupportsArbitraryVirtualDomainSamples() to return true, but got false. " << std::endl;
     return EXIT_FAILURE;

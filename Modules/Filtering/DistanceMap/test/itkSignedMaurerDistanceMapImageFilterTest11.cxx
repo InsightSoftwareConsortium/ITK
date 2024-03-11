@@ -137,7 +137,7 @@ itkSignedMaurerDistanceMapImageFilterTest11(int, char *[])
     return EXIT_FAILURE;
   }
 
-  if (filter2D->GetSquaredDistance() == true)
+  if (filter2D->GetSquaredDistance())
   {
     std::cerr << "filter2D->GetSquaredDistance() == true and it should not be" << std::endl;
     return EXIT_FAILURE;

@@ -31,11 +31,11 @@ static_assert(
   ValueType{ false } == false,
   "The value type of BooleanStdVectorType should be allowed as a conditional expression, evaluating to false.");
 static_assert(
-  ValueType{ true } == true,
+  ValueType{ true },
   "The value type of BooleanStdVectorType should be allowed as a conditional expression, evaluating to true.");
 static_assert(bool{ ValueType{ false } } == false,
               "The value type of BooleanStdVectorType should support a lossless round-trip from bool value false.");
-static_assert(bool{ ValueType{ true } } == true,
+static_assert(bool{ ValueType{ true } },
               "The value type of BooleanStdVectorType should support a lossless round-trip from bool value true.");
 static_assert(std::is_same_v<decltype(*itk::BooleanStdVectorType{}.data()), ValueType &>,
               "BooleanStdVectorType should have a valid data() member function (unlike std::vector<bool>).");
