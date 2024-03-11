@@ -27,7 +27,6 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>::FiniteDifferenceImageFilter()
 {
-  m_UseImageSpacing = true;
   m_ElapsedIterations = 0;
   m_DifferenceFunction = nullptr;
   m_NumberOfIterations = NumericTraits<IdentifierType>::max();

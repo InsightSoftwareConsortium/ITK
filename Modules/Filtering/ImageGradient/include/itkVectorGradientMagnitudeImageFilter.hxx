@@ -33,7 +33,6 @@ namespace itk
 template <typename TInputImage, typename TRealType, typename TOutputImage>
 VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::VectorGradientMagnitudeImageFilter()
 {
-  m_UseImageSpacing = true;
   m_UsePrincipleComponents = true;
   m_RequestedNumberOfWorkUnits = this->GetNumberOfWorkUnits();
   this->DynamicMultiThreadingOn();

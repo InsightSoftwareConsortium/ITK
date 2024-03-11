@@ -197,7 +197,7 @@ private:
   unsigned int m_FilterDimensionality{};
 
   /** Flag to indicate whether to use image spacing */
-  bool m_UseImageSpacing{};
+  bool m_UseImageSpacing{ true };
 
   /** Neighborhood Image Function */
   GaussianFunctionPointer m_GaussianFunction{};

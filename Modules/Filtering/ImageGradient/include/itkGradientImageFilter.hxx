@@ -34,7 +34,6 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
 {
   // default boundary condition
   m_BoundaryCondition = new ZeroFluxNeumannBoundaryCondition<TInputImage>();
-  this->m_UseImageSpacing = true;
   this->m_UseImageDirection = true;
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();

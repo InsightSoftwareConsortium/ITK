@@ -39,7 +39,6 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ContourDirec
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
 
-  m_UseImageSpacing = true;
   m_DistanceMap = nullptr;
   m_ContourDirectedMeanDistance = RealType{};
   this->DynamicMultiThreadingOff();

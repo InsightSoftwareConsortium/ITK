@@ -52,7 +52,6 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
   m_NumberOfPixelsProcessed = 0L;
   m_RMSChange = NumericTraits<double>::max();
   m_SumOfSquaredChange = 0.0;
-  m_UseImageSpacing = true;
 
   m_MovingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
   m_MovingImageSmoothingFilter->SetSigma(m_GradientSmoothingStandardDeviations);

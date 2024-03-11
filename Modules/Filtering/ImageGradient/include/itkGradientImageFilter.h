@@ -219,7 +219,7 @@ private:
   }
 
 
-  bool m_UseImageSpacing{};
+  bool m_UseImageSpacing{ true };
 
   // flag to take or not the image direction into account
   // when computing the derivatives.

@@ -34,7 +34,6 @@ template <typename TInputImage, typename TRealType, typename TOutputImage>
 DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>::
   DisplacementFieldJacobianDeterminantFilter()
 {
-  m_UseImageSpacing = true;
   m_RequestedNumberOfWorkUnits = this->GetNumberOfWorkUnits();
   m_NeighborhoodRadius.Fill(1);
   m_DerivativeWeights.Fill(1.0);
