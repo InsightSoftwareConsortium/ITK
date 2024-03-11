@@ -76,7 +76,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 
   // Only reset the weights if they were previously set to the image spacing,
   // otherwise, the user may have provided their own weightings.
-  if (f == false && m_UseImageSpacing == true)
+  if (f == false && m_UseImageSpacing)
   {
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -145,7 +145,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   // Set the weights on the derivatives.
   // Are we using image spacing in the calculations?  If so we must update now
   // in case our input image has changed.
-  if (m_UseImageSpacing == true)
+  if (m_UseImageSpacing)
   {
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {

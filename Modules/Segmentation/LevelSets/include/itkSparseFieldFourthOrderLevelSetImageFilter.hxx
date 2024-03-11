@@ -133,7 +133,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
     }
   } // end counter
 
-  if (flag == true)
+  if (flag)
   {
     curvature = ValueType{};
   }

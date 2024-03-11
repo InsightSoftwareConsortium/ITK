@@ -779,7 +779,7 @@ FFTWGlobalConfiguration::SetReadWisdomCache(const bool v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_ReadWisdomCache = v;
-  if (v == true)
+  if (v)
   {
     ImportDefaultWisdomFile();
   }

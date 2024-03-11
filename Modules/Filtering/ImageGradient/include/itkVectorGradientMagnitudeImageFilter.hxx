@@ -71,7 +71,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::SetUse
 
   // Only reset the weights if they were previously set to the image spacing,
   // otherwise, the user may have provided their own weightings.
-  if (f == false && m_UseImageSpacing == true)
+  if (f == false && m_UseImageSpacing)
   {
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -150,7 +150,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
   // Set the weights on the derivatives.
   // Are we using image spacing in the calculations?  If so we must update now
   // in case our input image has changed.
-  if (m_UseImageSpacing == true)
+  if (m_UseImageSpacing)
   {
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -165,7 +165,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
   // If using the principle components method, then force this filter to use a
   // single thread because vnl eigensystem objects are not thread-safe.  3D
   // data is ok because we have a special solver.
-  if (m_UsePrincipleComponents == true && ImageDimension != 3)
+  if (m_UsePrincipleComponents && ImageDimension != 3)
   {
     m_RequestedNumberOfWorkUnits = this->GetNumberOfWorkUnits();
     this->SetNumberOfWorkUnits(1);
@@ -213,7 +213,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    if (m_UsePrincipleComponents == true)
+    if (m_UsePrincipleComponents)
     {
       if (ImageDimension == 3)
       { // Use the specialized eigensolve which can be threaded

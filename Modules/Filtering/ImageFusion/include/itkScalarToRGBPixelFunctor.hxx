@@ -50,7 +50,7 @@ ScalarToRGBPixelFunctor<TScalar>::operator()(const TScalar & v) const -> RGBPixe
   TScalar      buf = v;
   const auto * bytes = reinterpret_cast<const unsigned char *>(&buf);
 
-  if (this->m_UseMSBForHashing == true)
+  if (this->m_UseMSBForHashing)
   { // swap bytes
     // always swap regardless of system endianness
     if (ByteSwapper<TScalar>::SystemIsBigEndian())

@@ -77,7 +77,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
       m_OperatorArray[idx].SetMaximumKernelWidth(m_MaximumKernelWidth);
       m_OperatorArray[idx].SetMaximumError(m_MaximumError);
 
-      if ((m_UseImageSpacing == true) && (this->GetInputImage()))
+      if (m_UseImageSpacing && (this->GetInputImage()))
       {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
         {

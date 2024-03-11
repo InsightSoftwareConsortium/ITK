@@ -274,7 +274,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ProcessStatusList(Lay
       if (neighbor_status == SearchForStatus)
       { // mark this pixel so we don't add it twice.
         statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), m_StatusChanging, bounds_status);
-        if (bounds_status == true)
+        if (bounds_status)
         {
           node = m_LayerNodeStore->Borrow();
           node->m_Value = statusIt.GetIndex() + m_NeighborList.GetNeighborhoodOffset(i);
@@ -358,7 +358,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
           break;
         }
       }
-      if (flag == true)
+      if (flag)
       {
         ++layerIt;
         ++updateIt;
@@ -409,7 +409,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
           break;
         }
       }
-      if (flag == true)
+      if (flag)
       {
         ++layerIt;
         ++updateIt;
@@ -725,7 +725,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActiveLayer(
           }
 
           statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), layer_number, bounds_status);
-          if (bounds_status == true) // In bounds.
+          if (bounds_status) // In bounds.
           {
             node = m_LayerNodeStore->Borrow();
             node->m_Value = offset_index;
@@ -762,7 +762,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructLayer(Status
       if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i)) == m_StatusNull)
       {
         statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), to, boundary_status);
-        if (boundary_status == true) // in bounds
+        if (boundary_status) // in bounds
         {
           node = m_LayerNodeStore->Borrow();
           node->m_Value = statusIt.GetIndex() + m_NeighborList.GetNeighborhoodOffset(i);
@@ -1069,7 +1069,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLayerValues(
         found_neighbor_flag = true;
       }
     }
-    if (found_neighbor_flag == true)
+    if (found_neighbor_flag)
     {
       // Set the new value using the smallest distance
       // found in our "from" neighbors.

@@ -27,18 +27,18 @@ itkMetaProgrammingLibraryTest(int, char *[])
   using namespace itk::mpl;
 
   // Or between constants
-  static_assert(OrC<true, true, true>::Value == true, "Unit test failed");
-  static_assert(OrC<true, true, false>::Value == true, "Unit test failed");
-  static_assert(OrC<true, false, true>::Value == true, "Unit test failed");
-  static_assert(OrC<true, false, false>::Value == true, "Unit test failed");
-  static_assert(OrC<false, true, true>::Value == true, "Unit test failed");
-  static_assert(OrC<false, true, false>::Value == true, "Unit test failed");
-  static_assert(OrC<false, false, true>::Value == true, "Unit test failed");
+  static_assert(OrC<true, true, true>::Value, "Unit test failed");
+  static_assert(OrC<true, true, false>::Value, "Unit test failed");
+  static_assert(OrC<true, false, true>::Value, "Unit test failed");
+  static_assert(OrC<true, false, false>::Value, "Unit test failed");
+  static_assert(OrC<false, true, true>::Value, "Unit test failed");
+  static_assert(OrC<false, true, false>::Value, "Unit test failed");
+  static_assert(OrC<false, false, true>::Value, "Unit test failed");
   static_assert(OrC<false, false, false>::Value == false, "Unit test failed");
 
-  static_assert(OrC<true, true>::Value == true, "Unit test failed");
-  static_assert(OrC<true, false>::Value == true, "Unit test failed");
-  static_assert(OrC<false, true>::Value == true, "Unit test failed");
+  static_assert(OrC<true, true>::Value, "Unit test failed");
+  static_assert(OrC<true, false>::Value, "Unit test failed");
+  static_assert(OrC<false, true>::Value, "Unit test failed");
   static_assert(OrC<false, false>::Value == false, "Unit test failed");
 
   // Or between types
@@ -57,7 +57,7 @@ itkMetaProgrammingLibraryTest(int, char *[])
   static_assert(std::is_same_v<Or<FalseType, FalseType>::Type, FalseType>, "Unit test failed");
 
   // And between constants
-  static_assert(AndC<true, true>::Value == true, "Unit test failed");
+  static_assert(AndC<true, true>::Value, "Unit test failed");
   static_assert(AndC<true, false>::Value == false, "Unit test failed");
   static_assert(AndC<false, true>::Value == false, "Unit test failed");
   static_assert(AndC<false, false>::Value == false, "Unit test failed");
@@ -70,8 +70,8 @@ itkMetaProgrammingLibraryTest(int, char *[])
 
   // Xor between constants
   static_assert(XorC<true, true>::Value == false, "Unit test failed");
-  static_assert(XorC<true, false>::Value == true, "Unit test failed");
-  static_assert(XorC<false, true>::Value == true, "Unit test failed");
+  static_assert(XorC<true, false>::Value, "Unit test failed");
+  static_assert(XorC<false, true>::Value, "Unit test failed");
   static_assert(XorC<false, false>::Value == false, "Unit test failed");
 
   // Xor between types
@@ -82,7 +82,7 @@ itkMetaProgrammingLibraryTest(int, char *[])
 
   // Not between constants
   static_assert(NotC<true>::Value == false, "Unit test failed");
-  static_assert(NotC<false>::Value == true, "Unit test failed");
+  static_assert(NotC<false>::Value, "Unit test failed");
 
   // Not between types
   static_assert(std::is_same_v<Not<TrueType>::Type, FalseType>, "Unit test failed");

@@ -95,7 +95,7 @@ DerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   oper.CreateDirectional();
   oper.FlipAxes();
 
-  if (m_UseImageSpacing == true)
+  if (m_UseImageSpacing)
   {
     if (this->GetInput()->GetSpacing()[m_Direction] == 0.0)
     {

@@ -81,7 +81,7 @@ LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
   -> LevelSetOutputRealType
 {
   // Laplacian should be computed by this point.
-  itkAssertInDebugAndIgnoreInReleaseMacro(iData.Laplacian.m_Computed == true);
+  itkAssertInDebugAndIgnoreInReleaseMacro(iData.Laplacian.m_Computed);
 
   LevelSetOutputRealType laplacian = iData.Laplacian.m_Value;
 

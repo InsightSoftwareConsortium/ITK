@@ -131,7 +131,7 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
     return EXIT_FAILURE;
   }
 
-  if (filter2D->GetSquaredDistance() == true)
+  if (filter2D->GetSquaredDistance())
   {
     std::cerr << "filter2D->GetSquaredDistance() == true & it should not" << std::endl;
     return EXIT_FAILURE;

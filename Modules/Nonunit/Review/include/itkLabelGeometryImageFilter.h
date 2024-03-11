@@ -257,8 +257,8 @@ public:
     // turned off if any of these flags are turned on.
     if (value == false)
     {
-      if ((this->m_CalculateOrientedBoundingBox == true) || (this->m_CalculateOrientedLabelRegions == true) ||
-          (this->m_CalculateOrientedIntensityRegions == true))
+      if ((this->m_CalculateOrientedBoundingBox) || (this->m_CalculateOrientedLabelRegions) ||
+          (this->m_CalculateOrientedIntensityRegions))
       {
         // We cannot change the value, so return.
         return;
@@ -285,7 +285,7 @@ public:
 
     // CalculateOrientedBoundingBox needs
     // CalculatePixelIndices to be turned on.
-    if (value == true)
+    if (value)
     {
       this->SetCalculatePixelIndices(true);
     }
@@ -303,7 +303,7 @@ public:
 
       // CalculateOrientedLabelImage needs
       // CalculateOrientedBoundingBox to be turned on.
-      if (value == true)
+      if (value)
       {
         SetCalculateOrientedBoundingBox(true);
       }
@@ -322,7 +322,7 @@ public:
 
       // CalculateOrientedIntensityImage needs
       // CalculateOrientedBoundingBox to be turned on.
-      if (value == true)
+      if (value)
       {
         this->SetCalculateOrientedBoundingBox(true);
       }

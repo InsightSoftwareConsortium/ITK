@@ -134,7 +134,7 @@ itkTimeStampTest(int, char *[])
           // been used
           const itk::ModifiedTimeType index = helper.timestamps[k].GetMTime() - min_mtime;
 
-          if (istimestamped[index] == true)
+          if (istimestamped[index])
           {
             iter_success = false;
             std::cerr << helper.timestamps[k].GetMTime() << " was used twice as a timestamp!" << std::endl;

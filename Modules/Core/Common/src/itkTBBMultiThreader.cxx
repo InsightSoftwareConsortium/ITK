@@ -182,7 +182,7 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
   {
     // The following if statement is primarily used to ensure use of
     // is_splittable_in_proportion to avoid unused variable warning.
-    if (TBBImageRegionSplitter::is_splittable_in_proportion == true)
+    if (TBBImageRegionSplitter::is_splittable_in_proportion)
     {
       *this = region; // most things will be the same
       for (int d = static_cast<int>(this->GetImageDimension()) - 1; d >= 0;

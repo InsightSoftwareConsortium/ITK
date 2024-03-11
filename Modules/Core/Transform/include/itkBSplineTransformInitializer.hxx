@@ -238,7 +238,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   this->m_Transform->SetTransformDomainOrigin(transformDomainOrigin);
   this->m_Transform->SetTransformDomainPhysicalDimensions(transformDomainPhysicalDimensions);
   this->m_Transform->SetTransformDomainDirection(transformDomainDirection);
-  if (this->m_SetTransformDomainMeshSizeViaInitializer == true)
+  if (this->m_SetTransformDomainMeshSizeViaInitializer)
   {
     this->m_Transform->SetTransformDomainMeshSize(this->m_TransformDomainMeshSize);
   }
@@ -254,7 +254,7 @@ BSplineTransformInitializer<TTransform, TImage>::PrintSelf(std::ostream & os, In
 
   itkPrintSelfObjectMacro(Transform);
 
-  if (this->m_SetTransformDomainMeshSizeViaInitializer == true)
+  if (this->m_SetTransformDomainMeshSizeViaInitializer)
   {
     os << indent << "Transform domain mesh size: " << this->m_TransformDomainMeshSize << std::endl;
   }

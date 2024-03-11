@@ -119,7 +119,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
     // The operator has default values for its direction (0) and its order (1).
     op[i].CreateDirectional();
 
-    if (m_UseImageSpacing == true)
+    if (m_UseImageSpacing)
     {
       if (this->GetInput()->GetSpacing()[i] == 0.0)
       {

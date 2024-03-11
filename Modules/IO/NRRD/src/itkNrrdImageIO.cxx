@@ -1099,7 +1099,7 @@ NrrdImageIO::Write(const void * buffer)
   }
 
   // set encoding for data: compressed (raw), (uncompressed) raw, or ascii
-  if (this->GetUseCompression() == true && this->m_NrrdCompressionEncoding != nullptr &&
+  if (this->GetUseCompression() && this->m_NrrdCompressionEncoding != nullptr &&
       this->m_NrrdCompressionEncoding->available())
   {
     nio->encoding = this->m_NrrdCompressionEncoding;

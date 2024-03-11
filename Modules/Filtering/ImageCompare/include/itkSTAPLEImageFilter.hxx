@@ -244,7 +244,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
       flag = true;
     }
 
-    if (flag == true)
+    if (flag)
     {
       break;
     }

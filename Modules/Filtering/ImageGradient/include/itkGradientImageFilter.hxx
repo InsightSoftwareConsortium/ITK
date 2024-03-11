@@ -126,7 +126,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
     op[i].FlipAxes();
 
     // Take into account the pixel spacing if necessary
-    if (m_UseImageSpacing == true)
+    if (m_UseImageSpacing)
     {
       if (this->GetInput()->GetSpacing()[i] == 0.0)
       {
