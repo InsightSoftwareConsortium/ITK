@@ -46,3 +46,4 @@ endif()
 set(Python3_ROOT_DIR
     ${Python3_ROOT_DIR}
     CACHE PATH "Which installation or virtual environment of Python to use" FORCE)
+mark_as_advanced(Python3_ROOT_DIR)
