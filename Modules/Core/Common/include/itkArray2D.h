@@ -25,12 +25,9 @@
 namespace itk
 {
 /** \class Array2D
- *  \brief Array2D class representing a 2D array with size defined
- *  at construction time.
+ *  \brief Array2D class representing a 2D array.
  *
  * This class derives from the vnl_matrix<> class.
- * Its size is assigned at construction time (run time) and can not be
- * changed afterwards.
  *
  * The class is templated over the type of the elements.
  *
@@ -50,14 +47,27 @@ public:
   using Self = Array2D;
   using VnlMatrixType = vnl_matrix<TValue>;
 
+  /** Default-constructor. Creates a matrix of size zero (0 rows and 0 columns). */
   Array2D() = default;
+
+  /** Constructs a matrix of the specified number of rows and columns. */
   Array2D(unsigned int numberOfRows, unsigned int numberOfCols);
+
+  /** Constructs a matrix of the specified number of rows and columns, with each element having the specified initial
+   * value. */
+  Array2D(unsigned int numberOfRows, unsigned int numberOfCols, const TValue & initialValue);
+
+  /** Copy-constructor. */
   Array2D(const Self & array);
+
+  /** Converting constructor. Implicitly converts the specified matrix to an Array2D. */
   Array2D(const VnlMatrixType & matrix);
 
+  /** Copy-assignment operator. */
   Self &
   operator=(const Self & array);
 
+  /** Assigns the specified matrix to an Array2D. */
   Self &
   operator=(const VnlMatrixType & matrix);
 
@@ -85,8 +95,7 @@ public:
   void
   SetSize(unsigned int m, unsigned int n);
 
-  /** This destructor is not virtual for performance reasons. However, this
-   * means that subclasses cannot allocate memory. */
+  /** Destructor. */
   ~Array2D() override = default;
 };
 
