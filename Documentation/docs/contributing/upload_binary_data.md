@@ -33,7 +33,7 @@ adopting Web3, we gain:
 - **Scalability**
 - **Sustainability**
 
-Contributors to the ITK upload their data through an a simple web app
+Contributors to the ITK upload their data through a simple web app
 that utilizes an easy-to-use, permissionless, free service, [web3.storage].
 
 Data used in the ITK Git repository is periodically tracked in a
