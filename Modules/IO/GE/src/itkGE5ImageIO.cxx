@@ -170,13 +170,6 @@ SwapPixHdr(Ge5xPixelHeader * hdr)
 GEImageHeader *
 GE5ImageIO::ReadHeader(const char * FileNameToRead)
 {
-  //#define VERBOSE_DEBUGGING
-#if defined(VERBOSE_DEBUGGING)
-#  define RGEDEBUG(x) x
-#else
-#  define RGEDEBUG(x)
-#endif
-
   Ge5xPixelHeader imageHdr; // GE 5x Header
   GEImageHeader * curImage;
   bool            pixelHdrFlag;
