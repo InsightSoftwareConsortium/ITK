@@ -25,6 +25,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
 #include "itkTotalProgressReporter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -141,7 +142,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
 
   // Set the iterator radius to one, which is the value of the first
   // coordinate of the operator radius.
-  const auto radius = Size<InputImageDimension>::Filled(1);
+  static constexpr auto radius = Size<InputImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
@@ -153,10 +154,12 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   // Initialize the x_slice array
   ConstNeighborhoodIterator<InputImageType> nit(radius, inputImage, faceList.front());
 
-  std::slice          x_slice[InputImageDimension];
-  const SizeValueType center = nit.Size() / 2;
+  std::slice x_slice[InputImageDimension];
   for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
+    static constexpr SizeValueType neighborhoodSize = Math::UnsignedPower(3, InputImageDimension);
+    static constexpr SizeValueType center = neighborhoodSize / 2;
+
     x_slice[i] = std::slice(center - nit.GetStride(i), op[i].GetSize()[0], nit.GetStride(i));
   }
 

@@ -103,8 +103,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   typename InputImageType::ConstPointer input = this->GetInput();
 
   // Calculate iterator radius
-  Size<ImageDimension> radius;
-  radius.Fill(1);
+  static constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        bC;
@@ -135,7 +134,9 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    const SizeValueType center = bit.Size() / 2;
+    static constexpr SizeValueType neighborhoodSize = Math::UnsignedPower(3, ImageDimension);
+    static constexpr SizeValueType center = neighborhoodSize / 2;
+
     while (!bit.IsAtEnd())
     {
       this_one = bit.GetPixel(center);
