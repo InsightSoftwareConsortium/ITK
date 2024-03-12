@@ -51,23 +51,23 @@ ThresholdImageFilter<TImage>::ThresholdImageFilter()
 
 template <typename TImage>
 void
-ThresholdImageFilter<TImage>::ThresholdAbove(const PixelType & thresh)
+ThresholdImageFilter<TImage>::ThresholdAbove(const PixelType & threshold)
 {
-  if (Math::NotExactlyEquals(m_Upper, thresh) || m_Lower > NumericTraits<PixelType>::NonpositiveMin())
+  if (Math::NotExactlyEquals(m_Upper, threshold) || m_Lower > NumericTraits<PixelType>::NonpositiveMin())
   {
     m_Lower = NumericTraits<PixelType>::NonpositiveMin();
-    m_Upper = thresh;
+    m_Upper = threshold;
     this->Modified();
   }
 }
 
 template <typename TImage>
 void
-ThresholdImageFilter<TImage>::ThresholdBelow(const PixelType & thresh)
+ThresholdImageFilter<TImage>::ThresholdBelow(const PixelType & threshold)
 {
-  if (Math::NotExactlyEquals(m_Lower, thresh) || m_Upper < NumericTraits<PixelType>::max())
+  if (Math::NotExactlyEquals(m_Lower, threshold) || m_Upper < NumericTraits<PixelType>::max())
   {
-    m_Lower = thresh;
+    m_Lower = threshold;
     m_Upper = NumericTraits<PixelType>::max();
     this->Modified();
   }

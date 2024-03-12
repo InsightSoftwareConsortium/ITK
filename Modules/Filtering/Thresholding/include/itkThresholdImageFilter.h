@@ -37,11 +37,11 @@ namespace itk
 /**
  * \class ThresholdImageFilter
  * \brief Set image values to a user-specified value if they are below,
- * above, or between simple threshold values.
+ * above, or outside threshold values.
  *
  * ThresholdImageFilter sets image values to a user-specified "outside"
- * value (by default, "black") if the image values are below, above, or
- * between simple threshold values.
+ * value (by default, zero) if the image values are below, above, or
+ * outside threshold values.
  *
  * The available methods are:
  *
@@ -103,15 +103,15 @@ public:
   /** Get the "outside" pixel value. */
   itkGetConstMacro(OutsideValue, PixelType);
 
-  /** The values greater than or equal to the value are set to OutsideValue. */
+  /** The values greater than `threshold` are set to OutsideValue. */
   void
-  ThresholdAbove(const PixelType & thresh);
+  ThresholdAbove(const PixelType & threshold);
 
-  /** The values less than or equal to the value are set to OutsideValue. */
+  /** The values less than `threshold` are set to OutsideValue. */
   void
-  ThresholdBelow(const PixelType & thresh);
+  ThresholdBelow(const PixelType & threshold);
 
-  /** The values outside the range are set to OutsideValue. */
+  /** The values outside the closed range are set to OutsideValue. */
   void
   ThresholdOutside(const PixelType & lower, const PixelType & upper);
 
