@@ -51,7 +51,6 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::BSplin
   m_SplineOrder = 0;
   unsigned int SplineOrder = 3;
   this->SetSplineOrder(SplineOrder);
-  this->m_UseImageDirection = true;
 }
 
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>

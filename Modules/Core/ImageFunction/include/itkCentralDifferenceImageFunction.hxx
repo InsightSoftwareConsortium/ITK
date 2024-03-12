@@ -26,8 +26,6 @@ namespace itk
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::CentralDifferenceImageFunction()
 {
-  this->m_UseImageDirection = true;
-
   using LinearInterpolatorType = LinearInterpolateImageFunction<TInputImage, TCoordRep>;
   this->m_Interpolator = LinearInterpolatorType::New();
 }

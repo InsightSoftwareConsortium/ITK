@@ -24,9 +24,7 @@ namespace itk
 
 template <typename TInputImage, typename TCoordRep>
 VectorCentralDifferenceImageFunction<TInputImage, TCoordRep>::VectorCentralDifferenceImageFunction()
-{
-  this->m_UseImageDirection = true;
-}
+{}
 
 template <typename TInputImage, typename TCoordRep>
 void
