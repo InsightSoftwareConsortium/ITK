@@ -43,7 +43,6 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Dani
 
   m_SquaredDistance = false;
   m_InputIsBinary = false;
-  m_UseImageSpacing = true;
 }
 
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>

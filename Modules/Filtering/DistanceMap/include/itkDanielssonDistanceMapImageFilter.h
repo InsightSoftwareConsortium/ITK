@@ -211,7 +211,7 @@ protected:
 private:
   bool m_SquaredDistance{};
   bool m_InputIsBinary{};
-  bool m_UseImageSpacing{};
+  bool m_UseImageSpacing{ true };
 
   SpacingType m_InputSpacingCache{};
 };

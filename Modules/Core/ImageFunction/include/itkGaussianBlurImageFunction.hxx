@@ -36,7 +36,6 @@ GaussianBlurImageFunction<TInputImage, TOutput>::GaussianBlurImageFunction()
     m_MaximumKernelWidth = 32;
     m_Extent[i] = 1.0f;
   }
-  m_UseImageSpacing = true;
 
   m_GaussianFunction = GaussianFunctionType::New();
   m_GaussianFunction->SetMean(mean);

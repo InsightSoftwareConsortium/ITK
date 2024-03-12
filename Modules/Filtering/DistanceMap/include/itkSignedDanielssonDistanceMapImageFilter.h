@@ -233,7 +233,7 @@ protected:
 
 private:
   bool m_SquaredDistance{};
-  bool m_UseImageSpacing{};
+  bool m_UseImageSpacing{ true };
   bool m_InsideIsPositive{}; // ON is treated as inside pixels
 };                           // end of SignedDanielssonDistanceMapImageFilter
                              // class

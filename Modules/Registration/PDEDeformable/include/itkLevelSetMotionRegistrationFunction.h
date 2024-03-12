@@ -284,7 +284,7 @@ private:
   /** Mutex lock to protect modification to metric. */
   mutable std::mutex m_MetricCalculationMutex{};
 
-  bool m_UseImageSpacing{};
+  bool m_UseImageSpacing{ true };
 };
 } // end namespace itk
 

@@ -155,7 +155,7 @@ protected:
 
 private:
   RealType m_MeanDistance{};
-  bool     m_UseImageSpacing{};
+  bool     m_UseImageSpacing{ true };
 }; // end of class
 } // end namespace itk
 

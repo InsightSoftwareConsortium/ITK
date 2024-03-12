@@ -175,7 +175,7 @@ private:
   Array<RealType>       m_MeanDistance{};
   Array<IdentifierType> m_Count{};
   RealType              m_ContourDirectedMeanDistance{};
-  bool                  m_UseImageSpacing{};
+  bool                  m_UseImageSpacing{ true };
 };
 } // end namespace itk
 

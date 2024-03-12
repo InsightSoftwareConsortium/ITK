@@ -32,7 +32,6 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::HausdorffDistanceImage
 
   m_HausdorffDistance = RealType{};
   m_AverageHausdorffDistance = RealType{};
-  m_UseImageSpacing = true;
 }
 
 template <typename TInputImage1, typename TInputImage2>

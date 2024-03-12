@@ -260,7 +260,7 @@ protected:
   WeightsType m_HalfDerivativeWeights{};
 
 private:
-  bool m_UseImageSpacing{};
+  bool m_UseImageSpacing{ true };
 
   ThreadIdType m_RequestedNumberOfWorkUnits{};
 

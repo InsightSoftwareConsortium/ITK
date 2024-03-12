@@ -494,7 +494,7 @@ protected:
   ComponentWeightsType m_SqrtComponentWeights = ComponentWeightsType::Filled(1);
 
 private:
-  bool m_UseImageSpacing{};
+  bool m_UseImageSpacing{ true };
   bool m_UsePrincipleComponents{};
 
   ThreadIdType m_RequestedNumberOfWorkUnits{};
