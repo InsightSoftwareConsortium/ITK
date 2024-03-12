@@ -51,12 +51,9 @@ CMakeLists.txt   whitespace=tab-in-indent,no-lf-at-eof our-cmake-style
 *                     hooks-max-size=100000
 Modules/Numerics/FEM/src/dsrc2c.c hooks-max-size=260000
 Modules/ThirdParty/** hooks-max-size=300000 hooks.style=
-Modules/ThirdParty/NIFTI/src/nifti/nifti2/nifti2_io.c hooks-max-size=400000
 Modules/ThirdParty/ZLIB/src/itkzlib-ng/crc32_braid_tbl.h hooks-max-size=700000
 Modules/Filtering/Denoising/include/itkPatchBasedDenoisingImageFilter.hxx hooks-max-size=120000
 Documentation/docs/releases/* hooks-max-size=300000
-Utilities/Doxygen/doxygen.config.in       hooks-max-size=150000
-Wrapping/Generators/Doc/doxygen.config.in hooks-max-size=150000
 
 # VNL-specific .gitattributes should go into Modules/ThirdParty/VNL/.gitattributes
 # GDCM-specific .gitattributes should go into Modules/ThirdParty/GDCM/src/gdcm/.gitattributes
