@@ -32,16 +32,8 @@ namespace itk
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType>::GradientImageFilter()
 {
-  // default boundary condition
-  m_BoundaryCondition = new ZeroFluxNeumannBoundaryCondition<TInputImage>();
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
-}
-
-template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>
-GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType>::~GradientImageFilter()
-{
-  delete m_BoundaryCondition;
 }
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
@@ -49,8 +41,7 @@ void
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::OverrideBoundaryCondition(
   ImageBoundaryCondition<TInputImage> * boundaryCondition)
 {
-  delete m_BoundaryCondition;
-  m_BoundaryCondition = boundaryCondition;
+  m_BoundaryCondition.reset(boundaryCondition);
 }
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>
@@ -165,7 +156,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   {
     nit = ConstNeighborhoodIterator<InputImageType>(radius, inputImage, face);
     ImageRegionIterator<OutputImageType> it(outputImage, face);
-    nit.OverrideBoundaryCondition(m_BoundaryCondition);
+    nit.OverrideBoundaryCondition(m_BoundaryCondition.get());
     nit.GoToBegin();
 
     while (!nit.IsAtEnd())
@@ -220,7 +211,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   os << indent << "BoundaryCondition: ";
   if (m_BoundaryCondition != nullptr)
   {
-    os << m_BoundaryCondition << std::endl;
+    os << m_BoundaryCondition.get() << std::endl;
   }
   else
   {
