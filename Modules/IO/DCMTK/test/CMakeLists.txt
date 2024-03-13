@@ -212,6 +212,16 @@ itk_add_test(
   itkDCMTKImageIONoPreambleTest
   DATA{Input/NoPreambleDicomTest.dcm})
 
+# Re-use the test driver to ensure that CanReadFile returns true for a file
+# with a preamble.
+itk_add_test(
+  NAME
+  itkDCMTKImageIOPreambleCanReadTest
+  COMMAND
+  ITKIODCMTKTestDriver
+  itkDCMTKImageIONoPreambleTest
+  DATA{Input/preamble.dcm})
+
 itk_add_test(
   NAME itkDCMTKImageIOSpacingTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOSpacingTest
