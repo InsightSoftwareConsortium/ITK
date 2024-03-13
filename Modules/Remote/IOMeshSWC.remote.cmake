@@ -49,3 +49,4 @@ itk_fetch_module(
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKIOMeshSWC.git
   GIT_TAG 6375295e7802c6a064c90d11f48b3ea238ac8d76
   )
+mark_as_advanced(FORCE Module_IOMeshSWC)
