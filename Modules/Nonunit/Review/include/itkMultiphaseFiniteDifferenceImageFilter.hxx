@@ -45,9 +45,11 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
     unsigned int i;
     if (m_UseImageSpacing)
     {
+      const auto & spacing = m_LevelSet[0]->GetSpacing();
+
       for (i = 0; i < ImageDimension; ++i)
       {
-        coeffs[i] = 1.0 / m_LevelSet[0]->GetSpacing()[i];
+        coeffs[i] = 1.0 / spacing[i];
       }
     }
     else

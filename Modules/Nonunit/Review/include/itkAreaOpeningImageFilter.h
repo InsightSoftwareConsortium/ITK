@@ -105,11 +105,13 @@ protected:
     this->m_AttributeValuePerPixel = 1;
     if (m_UseImageSpacing)
     {
+      const auto & spacing = this->GetInput()->GetSpacing();
+
       // compute pixel size
       double psize = 1.0;
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        psize *= this->GetInput()->GetSpacing()[i];
+        psize *= spacing[i];
       }
       this->m_AttributeValuePerPixel = static_cast<AttributeType>(psize);
       // std::cout << "m_AttributeValuePerPixel: " <<

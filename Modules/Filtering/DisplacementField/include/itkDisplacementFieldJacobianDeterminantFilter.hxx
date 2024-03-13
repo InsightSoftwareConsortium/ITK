@@ -146,13 +146,15 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   // in case our input image has changed.
   if (m_UseImageSpacing)
   {
+    const auto & spacing = this->GetInput()->GetSpacing();
+
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      if (static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) == 0.0)
+      if (static_cast<TRealType>(spacing[i]) == 0.0)
       {
         itkExceptionMacro("Image spacing in dimension " << i << " is zero.");
       }
-      m_DerivativeWeights[i] = static_cast<TRealType>(1.0 / static_cast<TRealType>(this->GetInput()->GetSpacing()[i]));
+      m_DerivativeWeights[i] = static_cast<TRealType>(1.0 / static_cast<TRealType>(spacing[i]));
       m_HalfDerivativeWeights[i] = 0.5 * m_DerivativeWeights[i];
     }
   }

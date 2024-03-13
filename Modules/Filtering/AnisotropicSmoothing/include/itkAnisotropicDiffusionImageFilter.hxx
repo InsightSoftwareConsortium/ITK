@@ -51,12 +51,14 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::InitializeIteration(
   double minSpacing;
   if (this->GetUseImageSpacing())
   {
-    minSpacing = this->GetInput()->GetSpacing()[0];
+    const auto & spacing = this->GetInput()->GetSpacing();
+
+    minSpacing = spacing[0];
     for (unsigned int i = 1; i < ImageDimension; ++i)
     {
-      if (this->GetInput()->GetSpacing()[i] < minSpacing)
+      if (spacing[i] < minSpacing)
       {
-        minSpacing = this->GetInput()->GetSpacing()[i];
+        minSpacing = spacing[i];
       }
     }
   }

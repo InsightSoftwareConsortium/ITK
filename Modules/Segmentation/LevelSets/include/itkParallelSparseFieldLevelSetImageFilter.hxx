@@ -473,10 +473,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeAct
 
   if (this->GetUseImageSpacing())
   {
+    const auto & spacing = this->GetInput()->GetSpacing();
+
     SpacePrecisionType minSpacing = NumericTraits<SpacePrecisionType>::max();
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
+      minSpacing = std::min(minSpacing, spacing[i]);
     }
     MIN_NORM *= minSpacing;
   }
@@ -1267,10 +1269,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
   ValueType                                              MIN_NORM = 1.0e-6;
   if (this->GetUseImageSpacing())
   {
+    const auto & spacing = this->GetInput()->GetSpacing();
+
     SpacePrecisionType minSpacing = NumericTraits<SpacePrecisionType>::max();
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
+      minSpacing = std::min(minSpacing, spacing[i]);
     }
     MIN_NORM *= minSpacing;
   }
