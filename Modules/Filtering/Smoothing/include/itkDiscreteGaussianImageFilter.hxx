@@ -87,12 +87,14 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelVarianceArray()
       itkExceptionMacro("Could not get kernel variance! UseImageSpacing is ON but no input image was provided");
     }
 
+    const auto & spacing = this->GetInput()->GetSpacing();
+
     ArrayType adjustedVariance;
     // Adjusted variance = var / (spacing ^ 2)
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       // convert the variance from physical units to pixels
-      double s = this->GetInput()->GetSpacing()[dim];
+      double s = spacing[dim];
       s = s * s;
       adjustedVariance[dim] = m_Variance[dim] / s;
     }

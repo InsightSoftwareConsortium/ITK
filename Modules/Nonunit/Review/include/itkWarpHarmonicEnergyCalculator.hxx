@@ -75,13 +75,15 @@ WarpHarmonicEnergyCalculator<TInputImage>::Compute()
   // in case our input image has changed.
   if (m_UseImageSpacing)
   {
+    const auto & spacing = m_Image->GetSpacing();
+
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      if (m_Image->GetSpacing()[i] <= 0.0)
+      if (spacing[i] <= 0.0)
       {
         itkExceptionMacro("Image spacing in dimension " << i << " is zero.");
       }
-      m_DerivativeWeights[i] = 1.0 / static_cast<double>(m_Image->GetSpacing()[i]);
+      m_DerivativeWeights[i] = 1.0 / static_cast<double>(spacing[i]);
     }
   }
 
