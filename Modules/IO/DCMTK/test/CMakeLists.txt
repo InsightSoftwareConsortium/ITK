@@ -60,6 +60,28 @@ itk_add_test(
 
 itk_add_test(
   NAME
+  itkDCMTKImageIOTest5
+  COMMAND
+  ITKIODCMTKTestDriver
+  itkDCMTKImageIOTest
+  DATA{Input/preamble.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest5.dcm
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest5.png
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest5.dcm)
+
+itk_add_test(
+  NAME
+  itkDCMTKImageIOTest6
+  COMMAND
+  ITKIODCMTKTestDriver
+  itkDCMTKImageIOTest
+  DATA{Input/no_preamble.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest6.dcm
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest6.png
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest6.dcm)
+
+itk_add_test(
+  NAME
   itkDCMTKSeriesReadImageWrite
   COMMAND
   ITKIODCMTKTestDriver
@@ -189,6 +211,16 @@ itk_add_test(
   ITKIODCMTKTestDriver
   itkDCMTKImageIONoPreambleTest
   DATA{Input/NoPreambleDicomTest.dcm})
+
+# Re-use the test driver to ensure that CanReadFile returns true for a file
+# with a preamble.
+itk_add_test(
+  NAME
+  itkDCMTKImageIOPreambleCanReadTest
+  COMMAND
+  ITKIODCMTKTestDriver
+  itkDCMTKImageIONoPreambleTest
+  DATA{Input/preamble.dcm})
 
 itk_add_test(
   NAME itkDCMTKImageIOSpacingTest
