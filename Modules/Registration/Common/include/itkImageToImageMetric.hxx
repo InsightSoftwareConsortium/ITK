@@ -335,13 +335,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
   //  Otherwise, we instantiate an external central difference
   //  derivative calculator.
   //
-  m_InterpolatorIsBSpline = true;
-
   auto * testPtr = dynamic_cast<BSplineInterpolatorType *>(this->m_Interpolator.GetPointer());
   if (!testPtr)
   {
-    m_InterpolatorIsBSpline = false;
-
     m_DerivativeCalculator = DerivativeFunctionType::New();
     m_DerivativeCalculator->UseImageDirectionOn();
 
@@ -359,6 +355,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
     m_DerivativeCalculator = nullptr;
     itkDebugMacro("Interpolator is BSpline");
   }
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  m_InterpolatorIsBSpline = m_BSplineInterpolator != nullptr;
+#endif
 
   //
   //  Check if the transform is of type BSplineTransform.
@@ -839,7 +839,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPoint(unsigned int      
       sampleOk = sampleOk && m_MovingImageMask->IsInsideInWorldSpace(mappedPoint);
     }
 
-    if (m_InterpolatorIsBSpline)
+    if (m_BSplineInterpolator)
     {
       // Check if mapped point inside image buffer
       sampleOk = sampleOk && m_BSplineInterpolator->IsInsideBuffer(mappedPoint);
@@ -951,7 +951,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPointWithDerivatives(uns
       sampleOk = sampleOk && m_MovingImageMask->IsInsideInWorldSpace(mappedPoint);
     }
 
-    if (m_InterpolatorIsBSpline)
+    if (m_BSplineInterpolator)
     {
       // Check if mapped point inside image buffer
       sampleOk = sampleOk && m_BSplineInterpolator->IsInsideBuffer(mappedPoint);
@@ -980,7 +980,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::ComputeImageDerivatives(const Mov
                                                                        ImageDerivativesType &       gradient,
                                                                        ThreadIdType                 threadId) const
 {
-  if (m_InterpolatorIsBSpline)
+  if (m_BSplineInterpolator)
   {
     // Computed moving image gradient using derivative BSpline kernel.
     gradient = m_BSplineInterpolator->EvaluateDerivative(mappedPoint, threadId);
@@ -1301,7 +1301,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
     os << "(null)" << std::endl;
   }
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   os << indent << "InterpolatorIsBSpline: " << (m_InterpolatorIsBSpline ? "On" : "Off") << std::endl;
+#endif
 
   itkPrintSelfObjectMacro(BSplineInterpolator);
   itkPrintSelfObjectMacro(DerivativeCalculator);
