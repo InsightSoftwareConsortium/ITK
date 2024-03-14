@@ -537,8 +537,13 @@ protected:
                                 ImageDerivativesType & movingImageGradient,
                                 ThreadIdType           threadId) const;
 
-  /** Boolean to indicate if the interpolator BSpline. */
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Boolean to indicate if the interpolator BSpline.
+  \deprecated `m_InterpolatorIsBSpline` is intended to be removed, in the future. Please use `m_BSplineInterpolator`
+  instead. For example, `if (m_InterpolatorIsBSpline)` may be rewritten as `if (m_BSplineInterpolator)`. */
   bool m_InterpolatorIsBSpline{ false };
+#endif
+
   /** Pointer to BSplineInterpolator. */
   typename BSplineInterpolatorType::Pointer m_BSplineInterpolator{};
 
