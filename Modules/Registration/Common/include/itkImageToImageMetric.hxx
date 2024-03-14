@@ -370,12 +370,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
   //  [3] Precomputing the indices of the parameters within the
   //      the support region of each sample point.
   //
-  m_TransformIsBSpline = true;
-
   auto * testPtr2 = dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer());
   if (!testPtr2)
   {
-    m_TransformIsBSpline = false;
     m_BSplineTransform = nullptr;
     itkDebugMacro("Transform is not BSplineDeformable");
   }
@@ -386,7 +383,11 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
     itkDebugMacro("Transform is BSplineDeformable");
   }
 
-  if (this->m_TransformIsBSpline)
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  m_TransformIsBSpline = m_BSplineTransform != nullptr;
+#endif
+
+  if (m_BSplineTransform)
   {
     // First, deallocate memory that may have been used from previous run of the Metric
     this->m_BSplineTransformWeightsArray.SetSize(1, 1);
@@ -772,7 +773,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPoint(unsigned int      
     transform = this->m_Transform;
   }
 
-  if (!m_TransformIsBSpline)
+  if (!m_BSplineTransform)
   {
     // Use generic transform to compute mapped position
     mappedPoint = transform->TransformPoint(m_FixedImageSamples[sampleNumber].point);
@@ -882,7 +883,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPointWithDerivatives(uns
     transform = this->m_Transform;
   }
 
-  if (!m_TransformIsBSpline)
+  if (!m_BSplineTransform)
   {
     // Use generic transform to compute mapped position
     mappedPoint = transform->TransformPoint(m_FixedImageSamples[sampleNumber].point);
@@ -1257,7 +1258,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   os << indent << "UseSequentialSampling: " << (m_UseSequentialSampling ? "On" : "Off") << std::endl;
   os << indent << "ReseedIterator: " << (m_ReseedIterator ? "On" : "Off") << std::endl;
   os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   os << indent << "TransformIsBSpline: " << (m_TransformIsBSpline ? "On" : "Off") << std::endl;
+#endif
 
   os << indent
      << "NumBSplineWeights: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumBSplineWeights)
