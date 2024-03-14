@@ -911,7 +911,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputePDF
     precomputedWeight = this->m_PRatioArray[pdfFixedIndex][pdfMovingIndex];
   }
 
-  if (!this->m_TransformIsBSpline)
+  if (!this->m_BSplineTransform)
   {
     /**
      * Generic version which works for all transforms.
