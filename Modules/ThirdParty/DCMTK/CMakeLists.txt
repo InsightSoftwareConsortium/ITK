@@ -78,18 +78,8 @@ else(DCMTK_USE_ICU)
      )
 endif()
 
-if(APPLE)
-  # Character set conversion creates linking errors on MacOS. We disable
-  # `iconv` which is likely going to be found on the system by DCMTK, and
-  # that is going to create linking errors.
-  list(APPEND
-      CHARSET_CONVERSION_ARGS
-        -DDCMTK_WITH_ICONV:BOOL=OFF
-      )
-endif()
-
 set(_ITKDCMTK_LIB_NAMES dcmdata dcmimage dcmimgle dcmjpeg dcmjpls
-    dcmnet dcmpstat dcmqrdb dcmsr dcmtls ijg12 ijg16 ijg8 oflog ofstd)
+    dcmnet dcmpstat dcmqrdb dcmsr dcmtls ijg12 ijg16 ijg8 oflog ofstd oficonv)
 if(WIN32)
   set(ITKDCMTK_LIBDEP_WIN iphlpapi ws2_32 netapi32 wsock32)
 endif()
@@ -337,6 +327,7 @@ endforeach()
     -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
     -DCMAKE_INSTALL_LIBDIR:PATH=${CMAKE_INSTALL_LIBDIR}
     -DCMAKE_INSTALL_BINDIR:PATH=${CMAKE_INSTALL_BINDIR}
+    -DDCMTK_ENABLE_BUILTIN_OFICONV_DATA:BOOL=${DCMTK_ENABLE_BUILTIN_OFICONV_DATA}
     ${CHARSET_CONVERSION_ARGS}
     DEPENDS ${JPEG_DEPENDENCY} ${PNG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICU_DEPENDENCY}
     BUILD_BYPRODUCTS ${DCMTK_BYPRODUCTS}
