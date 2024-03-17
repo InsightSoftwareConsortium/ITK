@@ -188,12 +188,8 @@ readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in it
     }
   } while (groupNo == 2);
 
-#if defined(NDEBUG)
-  std::ostringstream itkmsg;
-  itkmsg << "No DICOM magic number found, but the file appears to be DICOM without a preamble.\n"
-         << "Proceeding without caution.";
-  itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
-#endif
+  itkDebugMacro(<< "No DICOM magic number found, but the file appears to be DICOM without a preamble.");
+
   return true;
 }
 
