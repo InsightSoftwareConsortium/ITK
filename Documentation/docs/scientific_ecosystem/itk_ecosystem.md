@@ -17,6 +17,9 @@ its natural boundaries:
   elegant Python interface for visualization on the web platform to
   interactively generate insights into multidimensional images, point
   sets, and geometry.
+- [SimpleITK](https://simpleitk.org/) is a simplified programming interface
+  to ITK. It supports interfaces for multiple programming languages including
+  C++, Python, R, Java, C#, Lua, Ruby and TCL.
 - [scikit-build](https://scikit-build.org) is a Python build system for
   CPython C/C++/Fortran/Cython extensions using [CMake](https://cmake.org).
 
