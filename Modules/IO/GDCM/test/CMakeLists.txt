@@ -397,7 +397,7 @@ function(AddComplianceTest fileName)
     --compareCoordinateTolerance
     0.001
     --compare
-    DATA{Baseline/Lily.png}
+    DATA{Baseline/Lily.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_${fileName}.mha
     itkGDCMImageReadWriteTest
     DATA{Input/Lily/${fileName}.dcm}
