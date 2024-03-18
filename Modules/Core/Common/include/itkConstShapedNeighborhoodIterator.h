@@ -374,8 +374,15 @@ public:
   /** Add non-zero neighborhood offsets to the active list. The
    * radius of the neighborhood must match the radius of the shaped
    * iterator */
+  template <typename TNeighborPixel>
   void
-  CreateActiveListFromNeighborhood(const NeighborhoodType &);
+  CreateActiveListFromNeighborhood(const Neighborhood<TNeighborPixel, Self::Dimension> &);
+  void
+  CreateActiveListFromNeighborhood(const NeighborhoodType & neighborhood)
+  {
+    // just delegate to the templated version
+    this->CreateActiveListFromNeighborhood<PixelType>(neighborhood);
+  }
 
   /** Reimplements the operator++ method so that only active pixel locations
    * are updated. */
