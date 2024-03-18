@@ -93,8 +93,8 @@ public:
   using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<TInputImage>;
 
   /** Set/get the boundary condition. */
-  itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
-  itkGetConstMacro(BoundaryCondition, BoundaryConditionPointerType);
+  itkSetMacro(BoundaryCondition, BoundaryConditionType *);
+  itkGetConstMacro(BoundaryCondition, BoundaryConditionType *);
 
   /** Set/get the image kernel. */
   itkSetInputMacro(KernelImage, KernelImageType);
@@ -157,7 +157,7 @@ private:
   bool m_Normalize{ false };
 
   DefaultBoundaryConditionType m_DefaultBoundaryCondition{};
-  BoundaryConditionPointerType m_BoundaryCondition{};
+  BoundaryConditionType *      m_BoundaryCondition{};
 
   OutputRegionModeEnum m_OutputRegionMode{ ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME };
 };

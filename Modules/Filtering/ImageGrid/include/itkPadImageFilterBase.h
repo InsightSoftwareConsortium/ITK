@@ -86,8 +86,8 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Set/get the boundary condition. */
-  itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
-  itkGetConstMacro(BoundaryCondition, BoundaryConditionPointerType);
+  itkSetMacro(BoundaryCondition, BoundaryConditionType *);
+  itkGetConstMacro(BoundaryCondition, BoundaryConditionType *);
 
 protected:
   PadImageFilterBase();
@@ -110,10 +110,10 @@ protected:
 
   /** Method for subclasses to set the boundary condition. */
   void
-  InternalSetBoundaryCondition(const BoundaryConditionPointerType boundaryCondition);
+  InternalSetBoundaryCondition(BoundaryConditionType * const boundaryCondition);
 
 private:
-  BoundaryConditionPointerType m_BoundaryCondition{};
+  BoundaryConditionType * m_BoundaryCondition{};
 };
 
 } // end namespace itk
