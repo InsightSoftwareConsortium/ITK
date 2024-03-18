@@ -27,6 +27,7 @@ itk_module(
   ITKTestKernel
   ITKMesh
   ITKImageIntensity
+  ITKMathematicalMorphology
   ITKIOImageBase
   DESCRIPTION
   "${DOCUMENTATION}")

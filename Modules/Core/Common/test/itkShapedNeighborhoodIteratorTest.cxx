@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkShapedNeighborhoodIterator.h"
+#include "itkFlatStructuringElement.h"
 
 int
 itkShapedNeighborhoodIteratorTest(int, char *[])
@@ -190,6 +191,18 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
     std::cout << it.GetPixel(off) << std::endl;
   }
   std::cout << it.GetPixel(off) << std::endl;
+
+  println("Testing interoperability with FlatStructuringElement");
+  using StructuringElementType = itk::FlatStructuringElement<4>;
+  const StructuringElementType::RadiusType       radius2 = StructuringElementType::RadiusType::Filled(2);
+  const StructuringElementType                   kernel = StructuringElementType::Cross(radius2);
+  itk::ShapedNeighborhoodIterator<TestImageType> iterator(radius2, img, img->GetBufferedRegion());
+  iterator.CreateActiveListFromNeighborhood(kernel);
+  iterator.SetLocation(loc);
+  for (ci = iterator.Begin(); ci != iterator.End(); ++ci)
+  {
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+  }
 
   println("testing operator=");
   itk::ShapedNeighborhoodIterator<TestImageType> oeIt;

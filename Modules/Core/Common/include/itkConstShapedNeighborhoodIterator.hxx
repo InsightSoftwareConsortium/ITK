@@ -113,9 +113,10 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::DeactivateIndex(Nei
 }
 
 template <typename TImage, typename TBoundaryCondition>
+template <typename TNeighborPixel>
 void
 ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::CreateActiveListFromNeighborhood(
-  const NeighborhoodType & neighborhood)
+  const Neighborhood<TNeighborPixel, Self::Dimension> & neighborhood)
 {
   if (this->GetRadius() != neighborhood.GetRadius())
   {
@@ -123,8 +124,8 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::CreateActiveListFro
                                                           << ") does not equal radius of neighborhood("
                                                           << neighborhood.GetRadius() << ')');
   }
-  typename NeighborhoodType::ConstIterator nit;
-  NeighborIndexType                        idx = 0;
+  typename Neighborhood<TNeighborPixel, Self::Dimension>::ConstIterator nit;
+  NeighborIndexType                                                     idx = 0;
   for (nit = neighborhood.Begin(); nit != neighborhood.End(); ++nit, ++idx)
   {
     if (*nit)
