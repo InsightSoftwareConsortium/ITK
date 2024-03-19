@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,13 +26,14 @@
  * This test was originally taken from the tests for the itkBilateralImageFilter
  * and modified for the itkFastBilateralImageFilter.
  */
-int itkFastBilateralImageFilterTest2(int ac, char* av[] )
+int
+itkFastBilateralImageFilterTest2(int ac, char * av[])
 {
-  if(ac < 3)
-    {
+  if (ac < 3)
+  {
     std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
     return EXIT_FAILURE;
-    }
+  }
 
   using PixelType = unsigned char;
   const unsigned int dimension = 2;
@@ -41,7 +42,7 @@ int itkFastBilateralImageFilterTest2(int ac, char* av[] )
   input->SetFileName(av[1]);
 
   // Create a filter
-  using FilterType = itk::FastBilateralImageFilter<ImageType,ImageType>;
+  using FilterType = itk::FastBilateralImageFilter<ImageType, ImageType>;
 
   auto filter = FilterType::New();
 
@@ -49,16 +50,16 @@ int itkFastBilateralImageFilterTest2(int ac, char* av[] )
 
   // these settings reduce the amount of noise by a factor of 10
   // when the original signal to noise level is 5
-  filter->SetDomainSigma( 4.0 );
-  filter->SetRangeSigma( 50.0 );
+  filter->SetDomainSigma(4.0);
+  filter->SetRangeSigma(50.0);
 
 
   // Test itkSetVectorMacro
   double domainSigma[dimension];
   for (unsigned int i = 0; i < dimension; i++)
-    {
-      domainSigma[i] = 4.0;
-    }
+  {
+    domainSigma[i] = 4.0;
+  }
   filter->SetDomainSigma(domainSigma);
 
   // Test itkGetMacro
@@ -66,27 +67,27 @@ int itkFastBilateralImageFilterTest2(int ac, char* av[] )
   std::cout << "filter->GetRangeSigma(): " << filter->GetRangeSigma() << std::endl;
 
   try
-    {
+  {
     input->Update();
     filter->Update();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
-    }
+  }
   catch (...)
-    {
+  {
     std::cerr << "Some other exception occurred" << std::endl;
     return -2;
-    }
+  }
 
   // Generate test image
   itk::ImageFileWriter<ImageType>::Pointer writer;
-    writer = itk::ImageFileWriter<ImageType>::New();
-    writer->SetInput( filter->GetOutput() );
-    writer->SetFileName( av[2] );
-    writer->Update();
+  writer = itk::ImageFileWriter<ImageType>::New();
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(av[2]);
+  writer->Update();
 
   return EXIT_SUCCESS;
 }
