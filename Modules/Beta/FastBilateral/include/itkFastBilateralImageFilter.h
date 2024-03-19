@@ -151,16 +151,16 @@ protected:
    * the BilateralImageFilter, the FastBilateralImageFilter needs
    * an amount of padding in each dimension based on the domain sigma.
    */
-  virtual void
-  GenerateInputRequestedRegion();
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Standard pipline method */
   void
-  GenerateData();
+  GenerateData() override;
 
   /** Method to print member variables to an output stream */
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The type of image to use as the higher dimensional grid.
    * The blurring is performed on this image type. */
