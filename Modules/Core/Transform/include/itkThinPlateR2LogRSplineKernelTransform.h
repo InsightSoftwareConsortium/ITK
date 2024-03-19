@@ -74,6 +74,14 @@ public:
   using typename Superclass::OutputCovariantVectorType;
   using typename Superclass::PointsIterator;
 
+  /** Return an inverse of this transform. */
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
+  InverseTransformBasePointer
+  GetInverseTransform() const override
+  {
+    return Superclass::InvertTransform(*this);
+  }
+
 protected:
   ThinPlateR2LogRSplineKernelTransform() = default;
   ~ThinPlateR2LogRSplineKernelTransform() override = default;

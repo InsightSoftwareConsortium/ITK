@@ -504,6 +504,40 @@ KernelTransform<TParametersValueType, VDimension>::GetFixedParameters() const ->
 
 
 template <typename TParametersValueType, unsigned int VDimension>
+template <typename TTransform>
+bool
+KernelTransform<TParametersValueType, VDimension>::GetInverse(TTransform * inverseTransform) const
+{
+  if (!inverseTransform)
+  {
+    return false;
+  }
+
+  inverseTransform->m_Stiffness = m_Stiffness;
+
+  if (m_SourceLandmarks->GetNumberOfPoints() > 0 || m_TargetLandmarks->GetNumberOfPoints() > 0)
+  {
+    // make a deep copy of the source and target landmarks
+    const auto sourceLandmarks = PointSetType::New();
+    const auto targetLandmarks = PointSetType::New();
+
+    sourceLandmarks->GetPoints()->CastToSTLContainer() = m_SourceLandmarks->GetPoints()->CastToSTLConstContainer();
+    targetLandmarks->GetPoints()->CastToSTLContainer() = m_TargetLandmarks->GetPoints()->CastToSTLConstContainer();
+
+    // inversion comes from reversing the landmarks
+    inverseTransform->m_SourceLandmarks = targetLandmarks;
+    inverseTransform->m_TargetLandmarks = sourceLandmarks;
+
+    inverseTransform->UpdateParameters();
+    inverseTransform->ComputeWMatrix();
+  }
+
+  inverseTransform->Modified();
+
+  return true;
+}
+
+template <typename TParametersValueType, unsigned int VDimension>
 void
 KernelTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
