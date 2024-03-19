@@ -225,6 +225,25 @@ public:
     return Self::TransformCategoryEnum::Spline;
   }
 
+  /** Returns a boolean indicating whether it is possible or not to compute the
+   * inverse of this current Transform. If it is possible, then the inverse of
+   * the transform is returned in the inverseTransform variable passed by the
+   * user. Inverting is possible if the variable is not a null pointer.
+   */
+  bool
+  GetInverse(Self * inverseTransform) const;
+
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override
+  {
+    Pointer inv = New();
+    this->GetInverse(inv);
+    return inv;
+  }
+
   /** Stiffness of the spline.  A stiffness of zero results in the
    * standard interpolating spline.  A non-zero stiffness allows the
    * spline to approximate rather than interpolate the landmarks.
