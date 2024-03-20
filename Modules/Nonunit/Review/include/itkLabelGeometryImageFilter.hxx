@@ -288,7 +288,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         // FIRST ORDER WEIGHTED RAW MOMENTS
-        mapIt->second.m_FirstOrderWeightedRawMoments[i] += index[i] * (typename LabelIndexType::IndexValueType)value;
+        mapIt->second.m_FirstOrderWeightedRawMoments[i] += index[i] * value;
       }
 
       ++it;
@@ -344,9 +344,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
       }
       else
       {
-        mapIt->second.m_WeightedCentroid[i] =
-          static_cast<typename LabelPointType::ValueType>(mapIt->second.m_FirstOrderWeightedRawMoments[i]) /
-          mapIt->second.m_Sum;
+        mapIt->second.m_WeightedCentroid[i] = mapIt->second.m_FirstOrderWeightedRawMoments[i] / mapIt->second.m_Sum;
       }
     }
 
