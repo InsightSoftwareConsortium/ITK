@@ -288,7 +288,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         // FIRST ORDER WEIGHTED RAW MOMENTS
-        mapIt->second.m_FirstOrderWeightedRawMoments[i] += index[i] * (typename LabelIndexType::IndexValueType)value;
+        mapIt->second.m_FirstOrderWeightedRawMoments[i] += index[i] * value;
       }
 
       ++it;
