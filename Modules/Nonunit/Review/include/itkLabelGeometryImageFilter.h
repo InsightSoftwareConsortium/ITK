@@ -214,7 +214,7 @@ public:
     LabelPointType                          m_WeightedCentroid;
     SizeValueType                           m_ZeroOrderMoment;
     IndexArrayType                          m_FirstOrderRawMoments;
-    IndexArrayType                          m_FirstOrderWeightedRawMoments;
+    AxesLengthType                          m_FirstOrderWeightedRawMoments;
     SizeValueType                           m_FirstOrderRawCrossMoment;
     RealType                                m_FirstOrderCentralCrossMoment;
     MatrixType                              m_SecondOrderRawMoments;

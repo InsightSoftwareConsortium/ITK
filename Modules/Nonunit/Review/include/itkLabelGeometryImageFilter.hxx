@@ -344,9 +344,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
       }
       else
       {
-        mapIt->second.m_WeightedCentroid[i] =
-          static_cast<typename LabelPointType::ValueType>(mapIt->second.m_FirstOrderWeightedRawMoments[i]) /
-          mapIt->second.m_Sum;
+        mapIt->second.m_WeightedCentroid[i] = mapIt->second.m_FirstOrderWeightedRawMoments[i] / mapIt->second.m_Sum;
       }
     }
 
