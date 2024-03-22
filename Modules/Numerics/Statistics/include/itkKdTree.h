@@ -747,7 +747,7 @@ public:
   Search(const MeasurementVectorType &, double, InstanceIdentifierVectorType &) const;
 
   /** Returns true if the intermediate k-nearest neighbors exist within
-   * the the bounding box defined by the lowerBound and the
+   * the bounding box defined by the lowerBound and the
    * upperBound. Otherwise returns false. Returns false if the ball
    * defined by the distance between the query point and the farthest
    * neighbor touch the surface of the bounding box. */

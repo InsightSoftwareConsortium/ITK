@@ -489,8 +489,8 @@ public:
    * LargestPossibleRegion (unless it was dimensionally clipped) and
    * greater or equal to the RequestedRegion
    *
-   * the resulting IORegion may be a greater dimensions the the
-   * requested IORegion, if the the derived class is unable to read
+   * the resulting IORegion may be a greater dimensions the
+   * requested IORegion, if the derived class is unable to read
    * the requested region. For example if the file has a size of [ 10,
    * 10, 10] but the requested region is [10, 10] the return may be 3 dimensions.
    */

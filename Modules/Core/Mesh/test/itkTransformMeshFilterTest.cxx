@@ -137,7 +137,7 @@ itkTransformMeshFilterTest(int, char *[])
   std::cout << "Output Mesh from WithBaseTransform has " << outputMeshFromWithBase->GetNumberOfPoints() << "   points "
             << std::endl;
 
-  // Get the the point container
+  // Get the point container
   MeshType::PointsContainerPointer transformedPoints = outputMesh->GetPoints();
 
   MeshType::PointsContainerPointer transformedPointsFromWithBase = outputMeshFromWithBase->GetPoints();

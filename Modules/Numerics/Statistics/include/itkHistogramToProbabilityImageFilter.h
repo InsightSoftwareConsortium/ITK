@@ -33,7 +33,7 @@ namespace itk
  *  where \f$q_I\f$ is the frequency of measurement vector, I.
  *
  * This is the frequency of a measurement vector by the sum of all frequencies =
- * Probability of the the measurement vector
+ * Probability of the measurement vector
  *
  * The output image is of type float.
  *

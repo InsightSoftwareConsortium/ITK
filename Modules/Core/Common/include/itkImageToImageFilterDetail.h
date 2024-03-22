@@ -295,7 +295,7 @@ ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1,
  * This function object is used by the default implementation of
  * ImageToImageFilter::GenerateInputRequestedRegion(). It can also
  * be used in routines like ImageSource::ThreadedGenerateData()
- * where a filter may need to map the the output region for a
+ * where a filter may need to map the output region for a
  * particular thread to an input region.
  *
  * This copier uses a "dispatch pattern" to call one of three

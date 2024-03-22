@@ -43,7 +43,7 @@ namespace itk
  * no convergence checking is done.
  * The first four components of p are assumed to be the four components
  * of the quaternion. After each update, the quaternion is normalized to
- * have a magnitude of one. This ensures the the transform is purely rigid.
+ * have a magnitude of one. This ensures the transform is purely rigid.
  *
  * \sa GradientDescentOptimizer
  * \ingroup Numerics Optimizers

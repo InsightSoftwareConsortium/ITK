@@ -846,7 +846,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
     m_Data[ThreadId].m_ZHistogram[i] = 0;
   }
 
-  // Every thread must have its own copy of the the GlobalData struct.
+  // Every thread must have its own copy of the GlobalData struct.
   m_Data[ThreadId].globalData = this->GetDifferenceFunction()->GetGlobalDataPointer();
 
   //

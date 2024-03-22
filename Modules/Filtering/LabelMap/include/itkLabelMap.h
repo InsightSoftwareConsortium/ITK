@@ -279,7 +279,7 @@ public:
   GetLabels() const;
 
   /**
-   * Return the the label objects available in the label map
+   * Return the label objects available in the label map
    */
   LabelObjectVectorType
   GetLabelObjects() const;

@@ -129,7 +129,7 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   // Get the Smart Pointer to the Filter Output
   MeshType::Pointer outputMesh = filter->GetOutput();
 
-  // Get the the point container
+  // Get the point container
   MeshType::PointsContainer::Iterator beginPoint = outputMesh->GetPoints()->Begin();
 
   MeshType::PointsContainer::Iterator endPoint = outputMesh->GetPoints()->End();

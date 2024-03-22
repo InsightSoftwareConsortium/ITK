@@ -828,8 +828,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CommonGetV
 
   // NOTE: Since the m_ThreaderFixedImageMarginalPDF is the sum of mass
   // in the fixed image dimension, accumulating these values gives the
-  // same answer as computing the the sum of individual values over
-  // the the entire histogram.  IMPORTANT NOTICE: THIS MAKES AN
+  // same answer as computing the sum of individual values over
+  // the entire histogram.  IMPORTANT NOTICE: THIS MAKES AN
   // ASSUMPTION OF CONSERVATION OF MASS OF THE BSPLINE SMOOTHING.  The
   // sum of all the values should equal the number of samples being
   // used, since each sample contributes only one sample somewhere in

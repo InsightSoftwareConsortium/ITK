@@ -275,7 +275,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
   std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
 
-  // Get the the point container
+  // Get the point container
   MeshType::PointsContainerPointer transformedPoints = outputMesh->GetPoints();
 
 

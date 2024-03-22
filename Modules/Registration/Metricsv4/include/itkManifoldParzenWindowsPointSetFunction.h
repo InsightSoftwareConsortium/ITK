@@ -96,7 +96,7 @@ public:
   itkGetConstMacro(CovarianceKNeighborhood, unsigned int);
 
   /**
-   * Set the evaluation K neighborhood.  To evaluate the the manifold parzen
+   * Set the evaluation K neighborhood.  To evaluate the manifold parzen
    * windows function, one could sum the value contributed by each Gaussian or
    * to speed calculation, we could sum the value contributed by the nearest
    * K Gaussians.  Default = 50.

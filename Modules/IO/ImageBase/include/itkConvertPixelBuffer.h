@@ -96,7 +96,7 @@ protected:
                               size_t                 size);
 
   /** Convert to RGB output. */
-  /** Each RGB output component is set the the
+  /** Each RGB output component is set the
    * input Gray value. */
   static void
   ConvertGrayToRGB(const InputPixelType * inputData, OutputPixelType * outputData, size_t size);

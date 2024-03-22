@@ -319,7 +319,7 @@ TEST_F(ShapeLabelMapFixture, 3D_T2x2x2_Spacing)
   EXPECT_NEAR(19.36, labelObject->GetPhysicalSize(), 1e-10);
   // Because the sign of the Eigen vectors is not
   // unique, therefore the axes may not always point in the same
-  // direction making origin not unique. Therefore we check the expected origin the the list of vertices.
+  // direction making origin not unique. Therefore we check the expected origin the list of vertices.
   EXPECT_TRUE(Utils::TestListHasPoint(labelObject->GetOrientedBoundingBoxVertices(), itk::MakePoint(4.5, 9.35, 23.1)));
   // labelObject->GetPrincipalAxes(); omitted
   ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(0.25, 0.3025, 1.21), labelObject->GetPrincipalMoments(), 1e-4);

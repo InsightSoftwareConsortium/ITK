@@ -342,7 +342,7 @@ public:
 
   /** \brief Increment the progress of the process object.
    *
-   * Atomically add the the current progress and may invoke observers of the ProgressEvent. Progress is represented in
+   * Atomically add the current progress and may invoke observers of the ProgressEvent. Progress is represented in
    * [0.0,1.0] or percentage. This method will invoke the ProgressEvent when called by the same as the pipeline.
    *
    * Multiple threads may call this method and the total progress will be atomically incremented.
