@@ -66,7 +66,7 @@ template <typename TOutputImage>
 int
 ImageSeriesReader<TOutputImage>::ComputeMovingDimensionIndex(ReaderType * reader)
 {
-  // This method computes the the dimension index which we are going
+  // This method computes the dimension index which we are going
   // to be moving in for slices
 
   unsigned int movingDimension = reader->GetImageIO()->GetNumberOfDimensions();

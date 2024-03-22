@@ -465,7 +465,7 @@ ProcessObject::SetOutput(const DataObjectIdentifierType & name, DataObject * out
     this->SetOutput(key, newOutput);
 
     // If we had an output object before, copy the requested region
-    // ivars and release data flag to the the new output
+    // ivars and release data flag to the new output
     if (oldOutput)
     {
       newOutput->SetRequestedRegion(oldOutput);

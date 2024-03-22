@@ -84,7 +84,7 @@ namespace itk
  * ConfidenceWeight should be left to the default of 1.0.
  *
  * You must provide a foreground value using SetForegroundValue that the STAPLE
- * algorithm will use to identify positively classified pixels in the the input
+ * algorithm will use to identify positively classified pixels in the input
  * images.  All other values in the image will be treated as background values.
  * For example, if your input segmentations consist of 1's everywhere inside
  * the segmented region, then use SetForegroundValue(1).

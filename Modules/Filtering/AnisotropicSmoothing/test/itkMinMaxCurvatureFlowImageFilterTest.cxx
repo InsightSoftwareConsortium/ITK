@@ -52,7 +52,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,
  * This file tests the functionality of the MinMaxCurvatureFlowImageFilter.
  * The test uses a binary image of a circle/sphere with intensity value
  * of 0 (black). The background is white ( intensity = 255 ).
- * X% salt and pepper noise is added to the the input image. Specifically,
+ * X% salt and pepper noise is added to the input image. Specifically,
  * X% of the pixels is replaced with a value chosen from a uniform
  * distribution between 0 and 255.
  *

@@ -128,7 +128,7 @@ public:
   bool
   VerifyDownStreamFilterExecutedPropagation();
 
-  /** Verifies the the GenerateData executed the expected number of
+  /** Verifies the GenerateData executed the expected number of
    * times.
    *
    * If expectedNumber is positive then the number of updates must

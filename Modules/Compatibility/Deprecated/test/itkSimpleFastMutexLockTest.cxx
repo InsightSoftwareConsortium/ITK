@@ -57,7 +57,7 @@ itkSimpleFastMutexLockTest(int, char *[])
     }
     nblock.Unlock();
     nblock.Lock();
-    // Ensure the the TryLock() does not cause a deadlock.
+    // Ensure the TryLock() does not cause a deadlock.
     // If the lock isn't recursive, it will block forever and the CTest
     // timeout will cause the test to fail.
     nblock.Unlock();

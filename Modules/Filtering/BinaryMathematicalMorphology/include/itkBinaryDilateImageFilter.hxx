@@ -355,7 +355,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // Third Stage
   // traverse structure of border and SE CCs, and paint output image
 
-  // Let's consider the the set of the ON elements of the input image as X.
+  // Let's consider the set of the ON elements of the input image as X.
   //
   // Let's consider the structuring element as B = {B0, B1, ..., Bn},
   // where Bi denotes a connected component of B.

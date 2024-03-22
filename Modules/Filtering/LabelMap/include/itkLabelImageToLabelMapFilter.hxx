@@ -116,7 +116,7 @@ LabelImageToLabelMapFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
       }
       else
       {
-        // go the the next pixel
+        // go the next pixel
         ++it;
       }
     }

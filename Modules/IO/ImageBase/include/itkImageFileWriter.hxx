@@ -278,7 +278,7 @@ ImageFileWriter<TInputImage>::Write()
     InputImageRegionType streamRegion;
     ImageIORegionAdaptor<TInputImage::ImageDimension>::Convert(streamIORegion, streamRegion, largestRegion.GetIndex());
 
-    // execute the the upstream pipeline with the requested
+    // execute the upstream pipeline with the requested
     // region for streaming
     nonConstInput->SetRequestedRegion(streamRegion);
     nonConstInput->PropagateRequestedRegion();

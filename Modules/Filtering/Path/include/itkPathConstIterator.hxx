@@ -63,7 +63,7 @@ template <typename TImage, typename TPath>
 void
 PathConstIterator<TImage, TPath>::GoToBegin()
 {
-  // Go the the beginning
+  // Go the beginning
   m_CurrentPathPosition = m_Path->StartOfInput();
 
   // But don't visit the first index twice for closed paths (unless told to)

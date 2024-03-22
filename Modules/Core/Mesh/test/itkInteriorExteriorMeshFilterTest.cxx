@@ -114,7 +114,7 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
   MeshType::Pointer outputMesh = filter->GetOutput();
 
 
-  // Get the the point container
+  // Get the point container
   MeshType::PointsContainerPointer transformedPoints = outputMesh->GetPoints();
 
 

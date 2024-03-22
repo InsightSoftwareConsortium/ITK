@@ -123,7 +123,7 @@ itkConstrainedValueDifferenceImageFilterTest(int argc, char * argv[])
   // Execute the filter
   filter->Update();
 
-  // Get the the filter output
+  // Get the filter output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Write the result image

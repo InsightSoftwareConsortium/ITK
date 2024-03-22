@@ -40,7 +40,7 @@ namespace itk
  * possible, and so m_Origin and m_Spacing should be ignored.  They exist only
  * to allow the possibility of running a "spatially-aware" filter in raw index
  * space, as if the SpecialCoordinatesImage data was laid out on a regular grid.
- * Note that this may or may not produce useful results, and it is up the the
+ * Note that this may or may not produce useful results, and it is up the
  * user to determine the appropriateness of running a filter designed for normal
  * images on special-coordinates images.
  *

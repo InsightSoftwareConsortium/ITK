@@ -53,7 +53,7 @@ namespace itk
  * covariance vector A*A' where A is a matrix with p x t, p = number of
  * pixels or voxels in each images and t = number of training images, we
  * calculate the eigen vectors of the inner product matrix A'*A. The resulting
- * eigen vectors (E) are then multiplied with the the matrix A to get the
+ * eigen vectors (E) are then multiplied with the matrix A to get the
  * principal components. The covariance matrix has a dimension of p x p. Since
  * number of pixels in any image being typically very high the eigen
  * decomposition becomes computationally expensive. The inner product on the

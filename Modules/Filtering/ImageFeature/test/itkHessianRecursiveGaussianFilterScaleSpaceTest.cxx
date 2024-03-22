@@ -71,7 +71,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
   scales[2] = 3.0;
   scales[3] = 5.0;
 
-  // changing the size of the object with the the size of the
+  // changing the size of the object with the size of the
   // gaussian should produce the same results
   for (double objectSize : scales)
   {
