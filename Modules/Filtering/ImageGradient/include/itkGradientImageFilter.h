@@ -227,7 +227,7 @@ private:
   // when computing the derivatives.
   bool m_UseImageDirection{ true };
 
-  // allow setting the the m_BoundaryCondition
+  // allow setting the m_BoundaryCondition
   std::unique_ptr<ImageBoundaryCondition<TInputImage, TInputImage>> m_BoundaryCondition{
     std::make_unique<ZeroFluxNeumannBoundaryCondition<TInputImage>>()
   };
