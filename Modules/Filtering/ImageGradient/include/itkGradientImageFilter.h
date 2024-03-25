@@ -145,6 +145,10 @@ public:
   void
   OverrideBoundaryCondition(BoundaryConditionType * boundaryCondition);
 
+  /** Allows to change the default boundary condition */
+  void
+  OverrideBoundaryCondition(std::unique_ptr<BoundaryConditionType> boundaryCondition);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputValueType>));
