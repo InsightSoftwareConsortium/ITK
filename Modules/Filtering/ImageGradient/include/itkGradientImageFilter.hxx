@@ -45,6 +45,14 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>
   m_BoundaryCondition.reset(boundaryCondition);
 }
 
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
+void
+GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::OverrideBoundaryCondition(
+  std::unique_ptr<BoundaryConditionType> boundaryCondition)
+{
+  m_BoundaryCondition = std::move(boundaryCondition);
+}
+
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>
 void
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType>::GenerateInputRequestedRegion()
