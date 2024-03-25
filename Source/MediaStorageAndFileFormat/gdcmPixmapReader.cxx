@@ -306,8 +306,12 @@ static void DoIconImage(const DataSet& rootds, Pixmap& image)
           unsigned long check =
             (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
             * el_us3.GetValue(2) / 8;
-          assert( check == lut_raw->GetLength() || 2 * check == lut_raw->GetLength()
-            || check + 1 == lut_raw->GetLength() ); (void)check;
+          if(!( check == lut_raw->GetLength() || 2 * check == lut_raw->GetLength()
+            || check + 1 == lut_raw->GetLength() )) {
+          gdcmErrorMacro( "Icon Sequence is invalid. Giving up" );
+          pixeldata.Clear();
+          return;
+	  }
           }
         else if( ds.FindDataElement( seglut ) )
           {

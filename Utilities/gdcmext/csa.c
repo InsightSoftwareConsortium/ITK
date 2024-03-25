@@ -89,8 +89,15 @@ static void setup_buffer(struct app *self, void *output, const void *input,
   self->out->write = stream_write;
 }
 
+//#define CSA_DEBUG
+
+#ifdef CSA_DEBUG
+#define ERROR_RETURN(X, Y) \
+  if ((X) != (Y)) assert(0);
+#else
 #define ERROR_RETURN(X, Y) \
   if ((X) != (Y)) return false
+#endif
 
 static size_t fread_mirror(void *ptr, size_t size, size_t nmemb,
                            struct app *self) {
@@ -214,16 +221,18 @@ static bool read_info(struct app *self, struct csa_info *i) {
   s = fread_mirror(&i->vm, sizeof i->vm, 1, self);
   ERROR_RETURN(s, 1);
   // vm == 115301884 seems to be ok...
-  assert(i->vm < 0x6df5dfd);
+  ERROR_RETURN(i->vm < 0x6df5dfd, true);
   // vr
   s = fread_mirror(i->vr, sizeof *i->vr, sizeof i->vr / sizeof *i->vr, self);
   ERROR_RETURN(s, 4);
   {
     const char *s = i->vr;
-    assert(s[0] >= 'A' && s[0] <= 'Z');
-    assert(s[1] >= 'A' && s[1] <= 'Z');
-    assert(s[2] == 0);
-    if (self->csa_type == SV10) assert(s[3] == 0);
+    ERROR_RETURN(s[0] >= 'A' && s[0] <= 'Z', true);
+    ERROR_RETURN(s[1] >= 'A' && s[1] <= 'Z', true);
+    ERROR_RETURN(s[2], 0);
+    if (self->csa_type == SV10) {
+      ERROR_RETURN(s[3], 0);
+    }
   }
   // syngodt (signed)
   s = fread_mirror(&i->syngodt, sizeof i->syngodt, 1, self);
@@ -250,15 +259,15 @@ static bool read_data(struct app *self, struct csa_item_data *d) {
     uint32_t unused;
     s = fread_mirror(&unused, sizeof unused, 1, self);
     ERROR_RETURN(s, 1);
-    assert(unused == d->len || unused == 0x4d || unused == 0xcd);
+    ERROR_RETURN(unused == d->len || unused == 0x4d || unused == 0xcd, true);
   }
 
   if (d->len != 0) {
     const uint32_t padding_len = (4 - d->len % 4) % 4;
     const uint32_t padded_len = ((d->len + 3u) / 4u) * 4u;  // (len + 3) & ~0x03
     assert(padded_len == d->len + padding_len);             // programmer error
-    d->buffer = (char *)realloc(d->buffer, padded_len);
     assert(padded_len != 0);
+    d->buffer = (char *)realloc(d->buffer, padded_len);
     ERROR_RETURN(d->buffer != NULL, true);
     s = fread_mirror(d->buffer, sizeof *d->buffer, padded_len, self);
     ERROR_RETURN(s, padded_len);

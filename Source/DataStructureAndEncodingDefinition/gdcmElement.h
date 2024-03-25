@@ -473,7 +473,7 @@ public:
     assert( _is ); // Is stream valid ?
     _is.read( reinterpret_cast<char*>(data+0), type_size);
     for(unsigned long i=1; i<length; ++i) {
-      assert( _is );
+      if( _is )
       _is.read( reinterpret_cast<char*>(data+i), type_size );
     }
     //ByteSwap<T>::SwapRangeFromSwapCodeIntoSystem(data,
@@ -489,7 +489,7 @@ public:
     assert( _is ); // Is stream valid ?
     _is.read( reinterpret_cast<char*>(data+0), type_size);
     for(unsigned long i=1; i<length; ++i) {
-      assert( _is );
+      if( _is )
       _is.read( reinterpret_cast<char*>(data+i), type_size );
     }
     //ByteSwap<T>::SwapRangeFromSwapCodeIntoSystem(data,
