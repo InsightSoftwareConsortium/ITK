@@ -141,9 +141,12 @@ public:
   }
 #endif
 
-  /** Allows to change the default boundary condition */
-  void
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Allows to change the default boundary condition
+   * \note This filter takes ownership of the specified boundary condition object. */
+  [[deprecated("Deprecated in favor of `OverrideBoundaryCondition(std::unique_ptr<BoundaryConditionType>)`.")]] void
   OverrideBoundaryCondition(BoundaryConditionType * boundaryCondition);
+#endif
 
   /** Allows to change the default boundary condition */
   void
