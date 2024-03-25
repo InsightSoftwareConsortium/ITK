@@ -40,7 +40,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
 void
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::OverrideBoundaryCondition(
-  ImageBoundaryCondition<TInputImage> * boundaryCondition)
+  BoundaryConditionType * boundaryCondition)
 {
   m_BoundaryCondition.reset(boundaryCondition);
 }
