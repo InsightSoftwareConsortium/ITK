@@ -421,6 +421,7 @@ bool ImageChangeTransferSyntax::Change()
     if( !b )
       {
       gdcmErrorMacro( "Error in getting buffer from input image." );
+      delete bv0;
       return false;
       }
     pixeldata.SetValue( *bv0 );

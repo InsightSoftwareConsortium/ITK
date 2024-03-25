@@ -48,6 +48,7 @@ namespace gdcm
 bool ImageHelper::ForceRescaleInterceptSlope = false;
 bool ImageHelper::PMSRescaleInterceptSlope = true;
 bool ImageHelper::ForcePixelSpacing = false;
+bool ImageHelper::SecondaryCaptureImagePlaneModule = false;
 
 static bool GetOriginValueFromSequence(const DataSet& ds, const Tag& tfgs, std::vector<double> &ori)
 {
@@ -205,6 +206,7 @@ static bool ComputeZSpacingFromIPP(const DataSet &ds, double &zspacing)
   double normal[3];
   DirectionCosines dc( cosines.data() );
   dc.Cross( normal );
+  DirectionCosines::Normalize(normal);
 
   // For each item
   SequenceOfItems::SizeType nitems = sqi->GetNumberOfItems();
@@ -577,7 +579,7 @@ std::vector<double> ImageHelper::GetOriginValue(File const & f)
 
   // else
   const Tag timagepositionpatient(0x0020, 0x0032);
-  if( ms != MediaStorage::SecondaryCaptureImageStorage && ds.FindDataElement( timagepositionpatient ) )
+  if( (ms != MediaStorage::SecondaryCaptureImageStorage || SecondaryCaptureImagePlaneModule) && ds.FindDataElement( timagepositionpatient ) )
     {
     const DataElement& de = ds.GetDataElement( timagepositionpatient );
     Attribute<0x0020,0x0032> at = {{0,0,0}}; // default value if empty
@@ -729,7 +731,7 @@ std::vector<double> ImageHelper::GetDirectionCosinesValue(File const & f)
     }
 
   dircos.resize( 6 );
-  if( ms == MediaStorage::SecondaryCaptureImageStorage || !GetDirectionCosinesFromDataSet(ds, dircos) )
+  if( (ms == MediaStorage::SecondaryCaptureImageStorage && !SecondaryCaptureImagePlaneModule) || !GetDirectionCosinesFromDataSet(ds, dircos) )
     {
     dircos[0] = 1;
     dircos[1] = 0;
@@ -771,6 +773,16 @@ void ImageHelper::SetForcePixelSpacing(bool b)
 bool ImageHelper::GetForcePixelSpacing()
 {
   return ForcePixelSpacing;
+}
+
+void ImageHelper::SetSecondaryCaptureImagePlaneModule(bool b)
+{
+  SecondaryCaptureImagePlaneModule = b;
+}
+
+bool ImageHelper::GetSecondaryCaptureImagePlaneModule()
+{
+  return SecondaryCaptureImagePlaneModule;
 }
 
 bool GetRescaleInterceptSlopeValueFromDataSet(const DataSet& ds, std::vector<double> & interceptslope)
@@ -1187,7 +1199,7 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
 	// Case is: MAGNETOM Prisma / syngo MR XA30A with MFSPLIT
         interceptslope[0] = dummy[0];
         interceptslope[1] = dummy[1];
-        gdcmWarningMacro( "Forcing Modality LUT used for MR Image Storage: [" << dummy[0] << "," << dummy[1] << "]" );
+        gdcmDebugMacro( "Forcing Modality LUT used for MR Image Storage: [" << dummy[0] << "," << dummy[1] << "]" );
         }
         }
       }
@@ -1263,6 +1275,14 @@ Tag ImageHelper::GetSpacingTagFromMediaStorage(MediaStorage const &ms)
     t = Tag(0x3002,0x0011); // ImagePlanePixelSpacing
     break;
   case MediaStorage::SecondaryCaptureImageStorage:
+    if( ImageHelper::SecondaryCaptureImagePlaneModule ) {
+      // Make SecondaryCaptureImagePlaneModule act as ForcePixelSpacing
+      // This is different from Basic Pixel Spacing Calibration Macro Attributes
+      t = Tag(0x0028,0x0030);
+    } else {
+      t = Tag(0x0018,0x2010);
+    }
+    break;
   case MediaStorage::MultiframeSingleBitSecondaryCaptureImageStorage:
   case MediaStorage::MultiframeGrayscaleByteSecondaryCaptureImageStorage:
   case MediaStorage::MultiframeGrayscaleWordSecondaryCaptureImageStorage:
@@ -2027,6 +2047,7 @@ void ImageHelper::SetOriginValue(DataSet & ds, const Image & image)
 
     double normal[3];
     dc.Cross( normal );
+    DirectionCosines::Normalize(normal);
 
     for(unsigned int i = 0; i < dimz; ++i )
       {
@@ -2896,6 +2917,7 @@ MediaStorage ImageHelper::ComputeMediaStorageFromModality(const char *modality,
       || pi == PhotometricInterpretation::YBR_RCT
       || pi == PhotometricInterpretation::YBR_ICT
       || pi == PhotometricInterpretation::YBR_PARTIAL_420
+      || pi == PhotometricInterpretation::YBR_FULL /* PI when coming from other gdcm filter */
       || pi == PhotometricInterpretation::YBR_FULL_422 ) &&
       pixeltype.GetBitsAllocated() == 8 &&
       pixeltype.GetBitsStored() == 8 &&

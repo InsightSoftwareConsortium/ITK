@@ -49,6 +49,9 @@ public:
   /// Normalize in-place
   static void Normalize(double v[3]);
 
+  /// Return norm of the vector
+  static double Norm(const double v[3]);
+
   /// Make the class behave like a const double *
   operator const double* () const { return Values; }
 

@@ -538,10 +538,12 @@ struct Cleaner::impl {
   bool AllMissingPrivateCreator;
   bool AllGroupLength;
   bool AllIllegal;
+  bool WhenScrubFails;
   impl()
       : AllMissingPrivateCreator(true),
         AllGroupLength(true),
-        AllIllegal(true) {}
+        AllIllegal(true),
+        WhenScrubFails(false) {}
 
   enum ACTION { NONE, EMPTY, REMOVE, SCRUB };
   enum ACTION ComputeAction(File const &file, DataSet &ds,
@@ -668,6 +670,10 @@ struct Cleaner::impl {
   bool RemoveMissingPrivateCreator(Tag const & /*t*/) { return false; }
   void RemoveAllGroupLength(bool remove) { AllGroupLength = remove; }
   void RemoveAllIllegal(bool remove) { AllIllegal = remove; }
+  void EmptyWhenScrubFails(bool empty) { WhenScrubFails = empty; }
+
+  bool CleanCSAImage(DataSet &ds, const DataElement &de);
+  bool CleanCSASeries(DataSet &ds, const DataElement &de);
 };
 
 static VR ComputeDictVR(File &file, DataSet &ds, DataElement const &de) {
@@ -840,7 +846,7 @@ static inline bool bs_is_signature(const ByteValue *bv, const char *str) {
   return false;
 }
 
-static bool CleanCSAImage(DataSet &ds, const DataElement &de) {
+bool Cleaner::impl::CleanCSAImage(DataSet &ds, const DataElement &de) {
   const ByteValue *bv = de.GetByteValue();
   // fast path:
   if (!bv) return true;
@@ -888,6 +894,13 @@ static bool CleanCSAImage(DataSet &ds, const DataElement &de) {
       gdcmDebugMacro("Zero-out CSA header");
       return true;
     }
+    // fallback logic:
+    if (WhenScrubFails && is_signature(bv, sv10)) {
+      // so SV10 header has been identified, but we failed to 'scrub', let's
+      // empty it:
+      ds.Replace(clean);
+      return true;
+    }
     gdcmErrorMacro("Failure to call CleanCSAImage");
     return false;
   }
@@ -900,7 +913,7 @@ static bool CleanCSAImage(DataSet &ds, const DataElement &de) {
   return true;
 }
 
-static bool CleanCSASeries(DataSet &ds, const DataElement &de) {
+bool Cleaner::impl::CleanCSASeries(DataSet &ds, const DataElement &de) {
   const ByteValue *bv = de.GetByteValue();
   // fast path:
   if (!bv) return true;
@@ -942,6 +955,13 @@ static bool CleanCSASeries(DataSet &ds, const DataElement &de) {
       return true;
     } else if (isAllZero(bv->GetPointer(), bv->GetLength())) {
       gdcmDebugMacro("Zero-out CSA header");
+      return true;
+    }
+    // fallback logic:
+    if (WhenScrubFails && is_signature(bv, sv10)) {
+      // so SV10 header has been identified, but we failed to 'scrub', let's
+      // empty it:
+      ds.Replace(clean);
       return true;
     }
     gdcmErrorMacro("Failure to call CleanCSASeries");
@@ -1065,8 +1085,8 @@ static bool IsDPathInSet(std::set<DPath> const &aset, DPath const dpath) {
 }
 
 Cleaner::impl::ACTION Cleaner::impl::ComputeAction(
-    File const & /*file*/, DataSet &ds, const DataElement &de, VR const &ref_dict_vr,
-    const std::string &tag_path) {
+    File const & /*file*/, DataSet &ds, const DataElement &de,
+    VR const &ref_dict_vr, const std::string &tag_path) {
   const Tag &tag = de.GetTag();
   // Group Length & Illegal cannot be preserved so it is safe to do them now:
   if (tag.IsGroupLength()) {
@@ -1302,6 +1322,9 @@ void Cleaner::RemoveAllGroupLength(bool remove) {
   pimpl->RemoveAllGroupLength(remove);
 }
 void Cleaner::RemoveAllIllegal(bool remove) { pimpl->RemoveAllIllegal(remove); }
+void Cleaner::EmptyWhenScrubFails(bool empty) {
+  pimpl->EmptyWhenScrubFails(empty);
+}
 
 bool Cleaner::Clean() {
   DataSet &ds = F->GetDataSet();

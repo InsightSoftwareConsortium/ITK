@@ -287,6 +287,96 @@ bool SplitMosaicFilter::ComputeMOSAICSliceNormal( double slicenormalvector[3], b
   return snvfound;
 }
 
+bool SplitMosaicFilter::ComputeMOSAICImagePositionPatient( double ret[3], 
+    const double ipp[6],
+    const double dircos[6],
+    const double pixelspacing[3],
+    const unsigned int image_dims[3] ,
+    const unsigned int mosaic_dims[3] , bool inverted)
+{
+  CSAHeader csa;
+  DataSet& ds = GetFile().GetDataSet();
+  DirectionCosines dc( dircos );
+  dc.Normalize();
+  const double *dircos_normalized = dc;
+  const double *x = dircos_normalized;
+  const double *y = dircos_normalized + 3;
+
+  double ipp_csa[3] = {};
+  bool hasIppCsa = false;
+  MrProtocol mrprot;
+  // https://www.nmr.mgh.harvard.edu/~greve/dicom-unpack
+  if( csa.GetMrProtocol(ds, mrprot) ) 
+  {
+    MrProtocol::SliceArray sa;
+    bool b = mrprot.GetSliceArray(sa);
+    if( b ) {
+      size_t size = sa.Slices.size();
+      if( size ) {
+        // two cases:
+        if( size == mosaic_dims[2] ) {
+          // all mosaic have there own slice position, simply need to pick the right one
+          // Handle inverted case:
+          size_t index = inverted ? size - 1 : 0;
+          MrProtocol::Slice & slice = sa.Slices[index];
+          MrProtocol::Vector3 & p = slice.Position;
+          double pos[3];
+          pos[0] = p.dSag;
+          pos[1] = p.dCor;
+          pos[2] = p.dTra;
+          for(int i = 0; i < 3; ++i ) {
+            ipp_csa[i] = pos[i] - mosaic_dims[0] / 2. * pixelspacing[0] * x[i] - mosaic_dims[1] / 2. * pixelspacing[1] * y[i];
+          }
+          hasIppCsa = true;
+        } else if( size == 1 /*&& mosaic_dims[2] % 2 == 0*/) {
+          // there is a single SliceArray but multiple mosaics, assume this is exactly the center one
+          double z[3]={};
+          dc.Cross(z);
+          DirectionCosines::Normalize(z);
+          size_t index = 0;
+          MrProtocol::Slice & slice = sa.Slices[index];
+          MrProtocol::Vector3 & p = slice.Position;
+          double pos[3];
+          pos[0] = p.dSag;
+          pos[1] = p.dCor;
+          pos[2] = p.dTra;
+          for(int i = 0; i < 3; ++i ) {
+            ipp_csa[i] = pos[i] - mosaic_dims[0] / 2. * pixelspacing[0] * x[i] - mosaic_dims[1] / 2. * pixelspacing[1] * y[i]
+              - (mosaic_dims[2] - 1) / 2. * pixelspacing[2] * z[i];
+          }
+          hasIppCsa = true;
+        } else {
+          gdcmWarningMacro( "Inconsistent SliceArray: " << size << " vs expected: " << mosaic_dims[2] );
+        }
+      }
+    }
+  }
+
+  // https://nipy.org/nibabel/dicom/dicom_mosaic.html#dicom-mosaic
+  double ipp_dcm[3] = {};
+  {
+    for(int i = 0; i < 3; ++i ) {
+      ipp_dcm[i] = ipp[i] + (image_dims[0]  - mosaic_dims[0]) / 2. * pixelspacing[0] * x[i] +
+        (image_dims[1]  - mosaic_dims[1]) / 2. * pixelspacing[1] * y[i] ;
+    }
+  }
+  if(hasIppCsa ) {
+    double diff[3];
+    for(int i = 0; i < 3; ++i ) {
+      diff[i] = ipp_dcm[i] - ipp_csa[i];
+    }
+    double n = DirectionCosines::Norm(diff);
+    if( n > 1e-4 ) {
+      gdcmWarningMacro( "Inconsistent values for IPP/CSA: (" << ipp_dcm[0] << "," << ipp_dcm[1] << "," << ipp_dcm[2] << ") vs (" << ipp_csa[0] << "," << ipp_csa[1] << "," << ipp_csa[2] << ")" );
+    }
+  }
+  // no error set origin:
+  for(int i = 0; i < 3; ++i )
+    ret[i] = ipp_dcm[i];
+
+  return true;
+}
+
 bool SplitMosaicFilter::ComputeMOSAICSlicePosition( double pos[3], bool )
 {
   CSAHeader csa;
@@ -301,25 +391,6 @@ bool SplitMosaicFilter::ComputeMOSAICSlicePosition( double pos[3], bool )
 
   size_t size = sa.Slices.size();
   if( !size ) return false;
-#if 0
-  {
-    double z[3];
-    for( int i = 0; i < size; ++i )
-    {
-      MrProtocol::Slice & slice = sa.Slices[i];
-      MrProtocol::Vector3 & p = slice.Position;
-      z[0] = p.dSag;
-      z[1] = p.dCor;
-      z[2] = p.dTra;
-      const double snv_dot = DirectionCosines::Dot( slicenormalvector, z );
-      if( (1. - snv_dot) < 1e-6 )
-      {
-        gdcmErrorMacro("Invalid direction found");
-        return false;
-      }
-    }
-  }
-#endif
 
   size_t index = 0;
   MrProtocol::Slice & slice = sa.Slices[index];
@@ -342,7 +413,7 @@ bool SplitMosaicFilter::Split()
     return false;
     }
   const unsigned int div = (unsigned int )ceil(sqrt( (double)dims[2]) );
-  bool inverted;
+  bool inverted = false;
   double normal[3];
   bool hasOriginCSA = true;
   bool hasNormalCSA = true;
@@ -353,13 +424,21 @@ bool SplitMosaicFilter::Split()
   }
   (void)hasNormalCSA;
   double origin[3];
+  const Image &inputimage = GetImage();
+#if 0
   if( !ComputeMOSAICSlicePosition( origin, inverted ) )
   {
     gdcmWarningMacro( "Origin will not be accurate" );
     hasOriginCSA = false;
   }
+#else
+  if(!ComputeMOSAICImagePositionPatient( origin, inputimage.GetOrigin(), inputimage.GetDirectionCosines(), inputimage.GetSpacing(), inputimage.GetDimensions(), dims, inverted ))
+  {
+    gdcmWarningMacro( "Origin will not be accurate" );
+    hasOriginCSA = false;
+  }
+#endif
 
-  const Image &inputimage = GetImage();
   if( inputimage.GetPixelFormat() != PixelFormat::UINT16 )
     {
     gdcmErrorMacro( "Expecting UINT16 PixelFormat" );

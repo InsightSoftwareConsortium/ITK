@@ -910,7 +910,8 @@ bool check_mapping(uint32_t syngodt, const char *vr)
 {
   static const unsigned int max = sizeof(mapping) / sizeof(equ);
   const equ *p = mapping;
-  assert( syngodt <= mapping[max-1].syngodt ); (void)max;
+  if( syngodt > mapping[max-1].syngodt ) return false;
+  assert( syngodt <= mapping[max-1].syngodt );
   while(p->syngodt < syngodt )
     {
     //std::cout << "mapping:" << p->vr << std::endl;
@@ -1098,6 +1099,11 @@ bool CSAHeader::LoadFromDataElement(DataElement const &de)
     char vr[4];
     ss.read(vr, 4);
     // In dataset without magic signature (OLD FORMAT) vr[3] is garbage...
+    if( vr[2] != 0 )
+    {
+      gdcmErrorMacro( "Garbage data. Stopping CSA parsing." );
+      return false;
+    }
     assert( /*vr[3] == 0 &&*/ vr[2] == 0 );
     csael.SetVR( VR::GetVRTypeFromFile(vr) );
     //std::cout << "VR " << vr << ", ";
@@ -1131,8 +1137,10 @@ bool CSAHeader::LoadFromDataElement(DataElement const &de)
       uint32_t item_xx[4];
       ss.read((char*)&item_xx, 4*sizeof(uint32_t));
       SwapperNoOp::SwapArray(item_xx,4);
+      if( item_xx[2] != 77 && item_xx[2] != 205 ) return false;
       assert( item_xx[2] == 77 || item_xx[2] == 205 );
       uint32_t len = item_xx[1]; // 2nd element
+      if( item_xx[0] != item_xx[1] || item_xx[1] != item_xx[3] ) return false;
       assert( item_xx[0] == item_xx[1] && item_xx[1] == item_xx[3] );
       if( len )
         {
