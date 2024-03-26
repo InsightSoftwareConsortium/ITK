@@ -446,17 +446,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::GetInverseTransform() const -> InverseTransformBasePointer
 {
-  /* This method can't be defined in Superclass because of the call to New() */
-  Pointer inverseTransform = New();
-
-  if (this->GetInverse(inverseTransform))
-  {
-    return inverseTransform.GetPointer();
-  }
-  else
-  {
-    return nullptr;
-  }
+  return Superclass::InvertTransform(*this);
 }
 
 

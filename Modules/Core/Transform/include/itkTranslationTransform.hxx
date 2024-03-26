@@ -171,9 +171,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 TranslationTransform<TParametersValueType, VDimension>::GetInverseTransform() const -> InverseTransformBasePointer
 {
-  Pointer inv = New();
-
-  return GetInverse(inv) ? inv.GetPointer() : nullptr;
+  return Superclass::InvertTransform(*this);
 }
 
 

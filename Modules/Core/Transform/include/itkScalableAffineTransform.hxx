@@ -144,9 +144,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 ScalableAffineTransform<TParametersValueType, VDimension>::GetInverseTransform() const -> InverseTransformBasePointer
 {
-  Pointer inv = New();
-
-  return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
+  return Superclass::InvertTransform(*this);
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
