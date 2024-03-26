@@ -13,7 +13,8 @@ set(ITKIOGDCMTests
     itkGDCMImageOrientationPatientTest.cxx
     itkGDCMLoadImageSpacingTest.cxx
     itkGDCMLegacyMultiFrameTest.cxx
-    itkGDCMImageIONoPreambleTest.cxx)
+    itkGDCMImageIONoPreambleTest.cxx
+    itkGDCMImageIO32bitsStoredTest.cxx)
 
 createtestdriver(ITKIOGDCM "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")
 
@@ -264,6 +265,14 @@ itk_add_test(
   ITKIOGDCMTestDriver
   itkGDCMImageIONoPreambleTest
   DATA{Input/preamble.dcm})
+
+itk_add_test(
+  NAME
+  itkGDCMImageIO32bitsStoredTest
+  COMMAND
+  ITKIOGDCMTestDriver
+  itkGDCMImageIO32bitsStoredTest
+  DATA{Input/image32bitsStoredTest.dcm})
 
 itk_add_test(
   NAME

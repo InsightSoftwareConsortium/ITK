@@ -28,6 +28,7 @@
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include "dcmtk/dcmjpeg/djdecode.h"
 #include "dcmtk/dcmjpls/djdecode.h"
+#include "dcmtk/dcmdata/dcmetinf.h"
 #include "dcmtk/dcmdata/dcrledrg.h"
 #include "dcmtk/oflog/oflog.h"
 
@@ -35,18 +36,95 @@ namespace
 {
 
 /**
- * Helper function to test for 128 byte dicom preamble
+ * Helper function to test if the file is in standard DICOM file format
+ * (128-byte dicom preamble followed by "DICM" magic word).
  * @param file A stream to test if the file is dicom like
  * @return true if the stream has a dicom preamble
  */
-static bool
-readPreambleDicom(std::ifstream & file)
+bool
+isPreambleDicom(std::ifstream & file)
 {
-  char preamble[132] = "";
+  file.seekg(0, std::ios::beg);
+  std::vector<char> buffer(DCM_PreambleLen + DCM_MagicLen);
+  file.read(&buffer[0], buffer.size());
+  if (!file)
+  {
+    return false;
+  }
+  const char * magicReadFromFile = &buffer[DCM_PreambleLen];
+  return strncmp(magicReadFromFile, DCM_Magic, DCM_MagicLen) == 0;
+}
 
-  file.read(preamble, sizeof(preamble));
+/**
+ * Helper function to test for old non-standard DICOM file format
+ * (that does not have preamble).
+ * @param file A stream to test if the file is dicom like
+ * @return true if the structure of the file is dicom like
+ */
+bool
+isNoPreambleDicom(std::ifstream & file) // NOTE: Similar function is in itkGDCMImageIO.cxx
+{
+  file.seekg(0, std::ios::beg);
 
-  return (preamble[128] == 'D' && preamble[129] == 'I' && preamble[130] == 'C' && preamble[131] == 'M');
+  // Adapted from https://stackoverflow.com/questions/2381983/c-how-to-read-parts-of-a-file-dicom
+  /* This heuristic tries to determine if the file follows the basic structure of a dicom file organization.
+   * Any file that begins with the a byte sequence
+   * where groupNo matches below will be then read several SOP Instance sections.
+   */
+
+  unsigned short groupNo = 0xFFFF;
+  unsigned short tagElementNo = 0xFFFF;
+  do
+  {
+    file.read(reinterpret_cast<char *>(&groupNo), sizeof(unsigned short));
+    itk::ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&groupNo);
+    file.read(reinterpret_cast<char *>(&tagElementNo), sizeof(unsigned short));
+    itk::ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&tagElementNo);
+
+    if (groupNo != 0x0002 && groupNo != 0x0008) // Only groupNo 2 & 8 are supported without preambles
+    {
+      return false;
+    }
+
+    char vrcode[3] = { '\0', '\0', '\0' };
+    file.read(vrcode, 2);
+
+    long              length = std::numeric_limits<long>::max();
+    const std::string vr{ vrcode };
+    if (vr == "AE" || vr == "AS" || vr == "AT" || vr == "CS" || vr == "DA" || vr == "DS" || vr == "DT" || vr == "FL" ||
+        vr == "FD" || vr == "IS" || vr == "LO" || vr == "PN" || vr == "SH" || vr == "SL" || vr == "SS" || vr == "ST" ||
+        vr == "TM" || vr == "UI" || vr == "UL" || vr == "US")
+    {
+      // Explicit VR (value representation stored in the file)
+      unsigned short uslength = 0;
+      file.read(reinterpret_cast<char *>(&uslength), sizeof(unsigned short));
+      itk::ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&uslength);
+      length = uslength;
+    }
+    else
+    {
+      // Implicit VR (value representation not stored in the file)
+      char lengthChars[4] = { vrcode[0], vrcode[1], '\0', '\0' };
+      file.read(lengthChars + 2, 2);
+
+      auto * uilength = reinterpret_cast<unsigned int *>(lengthChars);
+      itk::ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(uilength);
+
+      length = (*uilength);
+    }
+    if (length <= 0)
+    {
+      return false;
+    }
+    file.ignore(length);
+    if (file.eof())
+    {
+      return false;
+    }
+  } while (groupNo == 2);
+
+  itkDebugMacro(<< "No DICOM magic number found, but the file appears to be DICOM without a preamble.");
+  return true;
 }
 
 } // end anonymous namespace
@@ -151,81 +229,6 @@ DCMTKImageIO::~DCMTKImageIO()
   DcmRLEDecoderRegistration::cleanup();
 }
 
-/**
- * Helper function to test for some dicom like formatting.
- * @param file A stream to test if the file is dicom like
- * @return true if the structure of the file is dicom like
- */
-static bool
-readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in itkGDCMImageIO.cxx
-{
-  // Adapted from https://stackoverflow.com/questions/2381983/c-how-to-read-parts-of-a-file-dicom
-  /* This heuristic tries to determine if the file follows the basic structure of a dicom file organization.
-   * Any file that begins with the a byte sequence
-   * where groupNo matches below will be then read several SOP Instance sections.
-   */
-
-  unsigned short groupNo = 0xFFFF;
-  unsigned short tagElementNo = 0xFFFF;
-  do
-  {
-    file.read(reinterpret_cast<char *>(&groupNo), sizeof(unsigned short));
-    ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&groupNo);
-    file.read(reinterpret_cast<char *>(&tagElementNo), sizeof(unsigned short));
-    ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&tagElementNo);
-
-    if (groupNo != 0x0002 && groupNo != 0x0008) // Only groupNo 2 & 8 are supported without preambles
-    {
-      return false;
-    }
-
-    char vrcode[3] = { '\0', '\0', '\0' };
-    file.read(vrcode, 2);
-
-    long              length = std::numeric_limits<long>::max();
-    const std::string vr{ vrcode };
-    if (vr == "AE" || vr == "AS" || vr == "AT" || vr == "CS" || vr == "DA" || vr == "DS" || vr == "DT" || vr == "FL" ||
-        vr == "FD" || vr == "IS" || vr == "LO" || vr == "PN" || vr == "SH" || vr == "SL" || vr == "SS" || vr == "ST" ||
-        vr == "TM" || vr == "UI" || vr == "UL" || vr == "US")
-    {
-      // Explicit VR (value representation stored in the file)
-      unsigned short uslength = 0;
-      file.read(reinterpret_cast<char *>(&uslength), sizeof(unsigned short));
-      ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&uslength);
-      length = uslength;
-    }
-    else
-    {
-      // Implicit VR (value representation not stored in the file)
-      char lengthChars[4] = { vrcode[0], vrcode[1], '\0', '\0' };
-      file.read(lengthChars + 2, 2);
-
-      auto * uilength = reinterpret_cast<unsigned int *>(lengthChars);
-      ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(uilength);
-
-      length = (*uilength);
-    }
-    if (length <= 0)
-    {
-      return false;
-    }
-    file.ignore(length);
-    if (file.eof())
-    {
-      return false;
-    }
-  } while (groupNo == 2);
-
-#if defined(NDEBUG)
-  std::ostringstream itkmsg;
-  itkmsg << "No DICOM magic number found, but the file appears to be DICOM without a preamble.\n"
-         << "Proceeding without caution.";
-  itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
-#endif
-  return true;
-}
-
-
 bool
 DCMTKImageIO::CanReadFile(const char * filename)
 {
@@ -241,7 +244,6 @@ DCMTKImageIO::CanReadFile(const char * filename)
   {
     std::ifstream file;
 
-    // look for a preamble
     try
     {
       this->OpenFileForReading(file, filename);
@@ -250,11 +252,11 @@ DCMTKImageIO::CanReadFile(const char * filename)
     {
       return false;
     }
-    const bool hasdicompreamble = readPreambleDicom(file);
-    file.seekg(0, std::ios::beg);
-    const bool hasdicomsig = readNoPreambleDicom(file);
+    // check if standard DICOM file (with preamble)
+    // or non-standard DICOM file (without preamble)
+    const bool isDICOM = isPreambleDicom(file) || isNoPreambleDicom(file);
     file.close();
-    if (!hasdicomsig && !hasdicompreamble)
+    if (!isDICOM)
     {
       return false;
     }
