@@ -606,6 +606,16 @@ protected:
   PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(const InputDiffusionTensor3DType &,
                                                                  const InverseJacobianPositionType &) const;
 
+  /** Returns the inverse of the specified transform. Returns null if it cannot invert the transform. Helper function
+   * for the implementation of `GetInverseTransform()` in derived transform classes. */
+  template <typename TTransform>
+  static InverseTransformBasePointer
+  InvertTransform(const TTransform & transform)
+  {
+    const auto inverse = TTransform::New();
+    return transform.GetInverse(inverse) ? inverse.GetPointer() : nullptr;
+  }
+
 private:
   std::string m_InputSpaceName{};
   std::string m_OutputSpaceName{};
