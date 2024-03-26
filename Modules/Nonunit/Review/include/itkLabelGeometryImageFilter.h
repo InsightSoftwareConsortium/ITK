@@ -381,9 +381,6 @@ public:
   SizeValueType
   GetVolume(LabelPixelType label) const;
 
-  /** Return the number of pixels for all labels. */
-  // std::vector< SizeValueType > GetAllCounts() const;
-
   /** Return the computed integrated pixel intensity for a label. */
   RealType
   GetIntegratedIntensity(LabelPixelType label) const;
