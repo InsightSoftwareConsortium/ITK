@@ -219,8 +219,11 @@ EquipmentManufacturer::Type EquipmentManufacturer::Compute(DataSet const& ds) {
     manu.SetFromDataSet(ds);
     manufacturer = manu.GetValue().Trim();
     // TODO: contributing equipement ?
-  } else {
+  } 
+  if( manufacturer.empty() )
+  {
     // MFSPLIT export seems to remove the attribute completely:
+    // or in some case make it empty
     manufacturer = GetPrivateTagValueOrEmpty<VR::SH, VM::VM1>(
         ds, PrivateTag(0x0021, 0x0022, "SIEMENS MR SDS 01"));
   }

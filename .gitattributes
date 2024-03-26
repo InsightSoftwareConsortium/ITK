@@ -52,6 +52,7 @@ CMakeLists.txt   whitespace=tab-in-indent,no-lf-at-eof our-cmake-style
 Modules/Numerics/FEM/src/dsrc2c.c hooks-max-size=260000
 Modules/ThirdParty/** hooks-max-size=300000 hooks.style=
 Modules/ThirdParty/ZLIB/src/itkzlib-ng/crc32_braid_tbl.h hooks-max-size=700000
+Modules/ThirdParty/GDCM/src/gdcm/Source/DataDictionary/privatedicts.xml hooks-max-size=400000
 Modules/Filtering/Denoising/include/itkPatchBasedDenoisingImageFilter.hxx hooks-max-size=120000
 Documentation/docs/releases/* hooks-max-size=300000
 

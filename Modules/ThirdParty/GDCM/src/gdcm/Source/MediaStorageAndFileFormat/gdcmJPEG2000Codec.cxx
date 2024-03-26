@@ -826,8 +826,13 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
 
     // ELSCINT1_JP2vsJ2K.dcm
     // -> prec = 12, bpp = 0, sgnd = 0
-    //assert( wr == Dimensions[0] );
-    //assert( hr == Dimensions[1] );
+    if( wr != Dimensions[0] || hr != Dimensions[1] ) {
+	    gdcmErrorMacro("Invalid dimension");
+	    delete[] raw;
+    opj_destroy_codec(dinfo);
+  opj_image_destroy(image);
+    return std::pair<char*,size_t>(nullptr,0);
+    }
     if( comp->sgnd != PF.GetPixelRepresentation() )
       {
       PF.SetPixelRepresentation( (uint16_t)comp->sgnd );

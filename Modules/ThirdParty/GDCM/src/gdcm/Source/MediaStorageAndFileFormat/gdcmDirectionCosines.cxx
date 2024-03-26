@@ -98,15 +98,20 @@ double DirectionCosines::Dot() const
 }
 
 // static function is within gdcm:: namespace, so should not pollute too much on UNIX
-static inline double Norm(const double x[3])
+static inline double NormImpl(const double x[3])
 {
   return sqrt(x[0]*x[0] + x[1]*x[1] + x[2]*x[2]);
+}
+
+double DirectionCosines::Norm(const double v[3])
+{
+  return NormImpl(v);
 }
 
 void DirectionCosines::Normalize(double v[3])
 {
   double den;
-  if ( (den = Norm(v)) != 0.0 )
+  if ( (den = NormImpl(v)) != 0.0 )
     {
     for (int i=0; i < 3; i++)
       {
@@ -119,7 +124,7 @@ void DirectionCosines::Normalize()
 {
   double *x = Values;
   double den;
-  if ( (den = Norm(x)) != 0.0 )
+  if ( (den = NormImpl(x)) != 0.0 )
     {
     for (int i=0; i < 3; i++)
       {
@@ -127,7 +132,7 @@ void DirectionCosines::Normalize()
       }
     }
   x = Values+3;
-  if ( (den = Norm(x)) != 0.0 )
+  if ( (den = NormImpl(x)) != 0.0 )
     {
     for (int i=0; i < 3; i++)
       {

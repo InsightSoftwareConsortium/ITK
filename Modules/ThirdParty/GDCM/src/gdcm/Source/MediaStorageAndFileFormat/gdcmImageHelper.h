@@ -85,6 +85,13 @@ public:
   static void SetForcePixelSpacing(bool);
   static bool GetForcePixelSpacing();
 
+  /// Opt into Image Plane Module for Secondary Capture Image Storage
+  /// Enable reading Image Position Patient (IPP), Image Orientation Patient
+  /// (IOP) and Pixel Spacing (0028,0030)
+  /// This is a custom extension for some existing dataset (academic)
+  static void SetSecondaryCaptureImagePlaneModule(bool);
+  static bool GetSecondaryCaptureImagePlaneModule();
+
   /// This function checks tags (0x0028, 0x0010) and (0x0028, 0x0011) for the
   /// rows and columns of the image in pixels (as opposed to actual distances).
   /// The output is {col , row}
@@ -156,6 +163,7 @@ private:
   static bool ForceRescaleInterceptSlope;
   static bool PMSRescaleInterceptSlope;
   static bool ForcePixelSpacing;
+  static bool SecondaryCaptureImagePlaneModule;
 };
 
 } // end namespace gdcm

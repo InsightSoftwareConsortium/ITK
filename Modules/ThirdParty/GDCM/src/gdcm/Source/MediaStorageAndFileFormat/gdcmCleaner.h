@@ -65,6 +65,9 @@ class GDCM_EXPORT Cleaner : public Subject {
   /// Should I remove all illegal attribute. Default: true
   void RemoveAllIllegal(bool remove);
 
+  /// Should I empty instead of scrub upon failure
+  void EmptyWhenScrubFails(bool empty);
+
   /// main loop
   bool Clean();
 

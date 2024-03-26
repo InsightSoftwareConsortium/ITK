@@ -280,6 +280,19 @@ itk_add_test(
 
 itk_add_test(
   NAME
+  itkGDCMImageReadWriteTest_SC_RGB
+  COMMAND
+  ITKIOGDCMTestDriver
+  --compare
+  DATA{Baseline/itkGDCMImageReadWriteTest_SC_RGB.nrrd}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_SC_RGB.nrrd
+  itkGDCMImageReadWriteTest
+  DATA{Input/visible-male-rgb-slice.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_SC_RGB.nrrd
+  rgb)
+
+itk_add_test(
+  NAME
   itkGDCM_ComplianceTestRGB_JPEG2000ICT
   COMMAND
   ITKIOGDCMTestDriver
@@ -397,7 +410,7 @@ function(AddComplianceTest fileName)
     --compareCoordinateTolerance
     0.001
     --compare
-    DATA{Baseline/Lily.png}
+    DATA{Baseline/Lily.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_${fileName}.mha
     itkGDCMImageReadWriteTest
     DATA{Input/Lily/${fileName}.dcm}

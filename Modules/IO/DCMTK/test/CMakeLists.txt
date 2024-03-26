@@ -184,6 +184,18 @@ itk_add_test(
 
 itk_add_test(
   NAME
+  itkDCMTKRGBImageIOColorImageSpatialMetadataTest
+  COMMAND
+  ITKIODCMTKTestDriver
+  --compare
+  DATA{Baseline/itkDCMTKColorImageSpatialMetadata.nrrd}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImageSpatialMetadata.nrrd
+  itkDCMTKRGBImageIOTest
+  DATA{Input/visible-male-rgb-slice.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImageSpatialMetadata.nrrd)
+
+itk_add_test(
+  NAME
   ITKDCMTKLoggerTest
   COMMAND
   ITKIODCMTKTestDriver

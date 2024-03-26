@@ -130,7 +130,10 @@ void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
 
   if( !IncompleteLUT )
     {
-    assert( Internal->RGB.size() == 3*Internal->Length[type]*(BitSample/8) );
+    if( Internal->RGB.size() != 3*Internal->Length[type]*(BitSample/8) ) {
+      gdcmErrorMacro( "Invalid length for LUT data" );
+      return;
+    }
     }
   // Too funny: 05115014-mr-siemens-avanto-syngo-with-palette-icone.dcm
   // There is pseudo PALETTE_COLOR LUT in the Icon, if one look carefully the LUT values
