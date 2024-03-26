@@ -463,9 +463,7 @@ auto
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::GetInverseTransform() const
   -> InverseTransformBasePointer
 {
-  auto inv = InverseTransformType::New();
-
-  return GetInverse(inv) ? inv.GetPointer() : nullptr;
+  return Superclass::InvertTransform(*this);
 }
 
 

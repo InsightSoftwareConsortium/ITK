@@ -124,8 +124,7 @@ public:
   InverseTransformBasePointer
   GetInverseTransform() const override
   {
-    Pointer inv = New();
-    return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
+    return Superclass::InvertTransform(*this);
   }
 
 protected:

@@ -93,15 +93,7 @@ auto
 ConstantVelocityFieldTransform<TParametersValueType, VDimension>::GetInverseTransform() const
   -> InverseTransformBasePointer
 {
-  Pointer inverseTransform = New();
-  if (this->GetInverse(inverseTransform))
-  {
-    return inverseTransform.GetPointer();
-  }
-  else
-  {
-    return nullptr;
-  }
+  return Superclass::InvertTransform(*this);
 }
 
 template <typename TParametersValueType, unsigned int VDimension>

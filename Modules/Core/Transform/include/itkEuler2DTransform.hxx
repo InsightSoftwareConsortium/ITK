@@ -65,9 +65,7 @@ template <typename TParametersValueType>
 auto
 Euler2DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
 {
-  Pointer inv = New();
-
-  return GetInverse(inv) ? inv.GetPointer() : nullptr;
+  return Superclass::InvertTransform(*this);
 }
 
 // Create and return an inverse transformation

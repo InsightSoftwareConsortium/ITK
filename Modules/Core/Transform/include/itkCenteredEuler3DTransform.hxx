@@ -194,9 +194,7 @@ template <typename TParametersValueType>
 auto
 CenteredEuler3DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
 {
-  Pointer inv = New();
-
-  return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
+  return Superclass::InvertTransform(*this);
 }
 
 // Print self
