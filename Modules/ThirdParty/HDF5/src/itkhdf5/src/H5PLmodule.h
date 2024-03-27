@@ -23,13 +23,43 @@
  *      reporting macros.
  */
 #define H5PL_MODULE
-#define H5_MY_PKG      H5PL
-#define H5_MY_PKG_ERR  H5E_PLUGIN
-#define H5_MY_PKG_INIT YES
+#define H5_MY_PKG     H5PL
+#define H5_MY_PKG_ERR H5E_PLUGIN
 
-/**\defgroup H5PL H5PL
- * \brief Plugins
- * \todo Describe what programmatically controlling dynamically loaded plugins (H5PL) is all about
+/** \page H5PL_UG The HDF5 Plugins
+ * @todo Under Construction
+ */
+
+/**
+ * \defgroup H5PL Dynamically-loaded Plugins (H5PL)
+ *
+ * Use the functions in this module to manage the loading behavior of HDF5
+ * plugins.
+ *
+ * <table>
+ * <tr><th>Create</th><th>Read</th></tr>
+ * <tr valign="top">
+ *   <td>
+ *   \snippet H5PL_examples.c create
+ *   </td>
+ *   <td>
+ *   \snippet H5PL_examples.c read
+ *   </td>
+ * <tr><th>Update</th><th>Delete</th></tr>
+ * <tr valign="top">
+ *   <td>
+ *   \snippet H5PL_examples.c update
+ *   </td>
+ *   <td>
+ *   \snippet H5PL_examples.c delete
+ *   </td>
+ * </tr>
+ * </table>
+ *
+ * \attention The loading behavior of HDF5 plugins can be controlled via the
+ *            functions described below and certain environment variables, such
+ *            as \c HDF5_PLUGIN_PRELOAD  and \c HDF5_PLUGIN_PATH.
+ *
  */
 
 #endif /* H5PLmodule_H */

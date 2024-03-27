@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -72,14 +71,13 @@ H5Ddebug(hid_t dset_id)
 
     /* Check args */
     if (NULL == (dset = (H5D_t *)H5VL_object_verify(dset_id, H5I_DATASET)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a dataset")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a dataset");
 
     /* Print B-tree information */
     if (H5D_CHUNKED == dset->shared->layout.type)
         (void)H5D__chunk_dump_index(dset, stdout);
     else if (H5D_CONTIGUOUS == dset->shared->layout.type)
-        HDfprintf(stdout, "    %-10s %" PRIuHADDR "\n",
-                  "Address:", dset->shared->layout.storage.u.contig.addr);
+        fprintf(stdout, "    %-10s %" PRIuHADDR "\n", "Address:", dset->shared->layout.storage.u.contig.addr);
 
 done:
     FUNC_LEAVE_API(ret_value)

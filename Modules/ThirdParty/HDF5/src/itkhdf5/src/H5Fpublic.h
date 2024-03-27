@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -17,10 +16,9 @@
 #ifndef H5Fpublic_H
 #define H5Fpublic_H
 
-/* Public header files needed by this file */
-#include "H5public.h"
-#include "H5ACpublic.h"
-#include "H5Ipublic.h"
+#include "H5public.h"   /* Generic Functions                        */
+#include "H5ACpublic.h" /* Metadata Cache                           */
+#include "H5Ipublic.h"  /* Identifiers                              */
 
 /* When this header is included from a private header, don't make calls to H5check() */
 #undef H5CHECK
@@ -84,7 +82,7 @@
     (0x0020u) /**< Restrict search to objects opened through current file ID                                 \
                    (as opposed to objects opened through any file ID accessing this file) */
 
-#define H5F_FAMILY_DEFAULT (hsize_t)0
+#define H5F_FAMILY_DEFAULT 0 /* (hsize_t) */
 
 #ifdef H5_HAVE_PARALLEL
 /**
@@ -108,7 +106,7 @@ typedef enum H5F_scope_t {
 /**
  * Unlimited file size for H5Pset_external()
  */
-#define H5F_UNLIMITED ((hsize_t)(-1L))
+#define H5F_UNLIMITED HSIZE_UNDEF
 
 /**
  * How does file close behave?
@@ -126,17 +124,17 @@ typedef enum H5F_close_degree_t {
 //! <!-- [H5F_info2_t_snip] -->
 typedef struct H5F_info2_t {
     struct {
-        unsigned version;        /**< Superblock version # */
+        unsigned version;        /**< Superblock version number */
         hsize_t  super_size;     /**< Superblock size */
         hsize_t  super_ext_size; /**< Superblock extension size */
     } super;
     struct {
-        unsigned version;   /**< Version # of file free space management */
+        unsigned version;   /**< Version number of file free space management */
         hsize_t  meta_size; /**< Free space manager metadata size */
         hsize_t  tot_space; /**< Amount of free space in the file */
     } free;
     struct {
-        unsigned     version;   /**< Version # of shared object header info */
+        unsigned     version;   /**< Version number of shared object header info */
         hsize_t      hdr_size;  /**< Shared object header message header size */
         H5_ih_info_t msgs_info; /**< Shared object header message index & heap size */
     } sohm;
@@ -189,10 +187,11 @@ typedef enum H5F_libver_t {
     H5F_LIBVER_V18      = 1, /**< Use the latest v18 format for storing objects */
     H5F_LIBVER_V110     = 2, /**< Use the latest v110 format for storing objects */
     H5F_LIBVER_V112     = 3, /**< Use the latest v112 format for storing objects */
-    H5F_LIBVER_NBOUNDS
+    H5F_LIBVER_V114     = 4, /**< Use the latest v114 format for storing objects */
+    H5F_LIBVER_NBOUNDS       /**< Sentinel */
 } H5F_libver_t;
 
-#define H5F_LIBVER_LATEST H5F_LIBVER_V112
+#define H5F_LIBVER_LATEST H5F_LIBVER_V114
 
 /**
  * File space handling strategy
@@ -352,6 +351,17 @@ H5_DLL htri_t H5Fis_accessible(const char *container_name, hid_t fapl_id);
  */
 H5_DLL hid_t H5Fcreate(const char *filename, unsigned flags, hid_t fcpl_id, hid_t fapl_id);
 /**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Fcreate}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL hid_t H5Fcreate_async(const char *app_file, const char *app_func, unsigned app_line,
+                             const char *filename, unsigned flags, hid_t fcpl_id, hid_t fapl_id, hid_t es_id);
+#else
+H5_DLL hid_t H5Fcreate_async(const char *filename, unsigned flags, hid_t fcpl_id, hid_t fapl_id, hid_t es_id);
+#endif
+/**
  * \ingroup H5F
  *
  * \brief Opens an existing HDF5 file
@@ -386,7 +396,7 @@ H5_DLL hid_t H5Fcreate(const char *filename, unsigned flags, hid_t fcpl_id, hid_
  *          opened.
  *
  *          The \p fapl_id parameter specifies the file access property list.
- *          Use of #H5P_DEFAULT specifies that default I/O access properties
+ *          The use of #H5P_DEFAULT specifies that default I/O access properties
  *          are to be used.
  *
  *          The \p flags parameter specifies whether the file will be opened in
@@ -445,6 +455,17 @@ H5_DLL hid_t H5Fcreate(const char *filename, unsigned flags, hid_t fcpl_id, hid_
  */
 H5_DLL hid_t H5Fopen(const char *filename, unsigned flags, hid_t fapl_id);
 /**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Fopen}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL hid_t H5Fopen_async(const char *app_file, const char *app_func, unsigned app_line,
+                           const char *filename, unsigned flags, hid_t access_plist, hid_t es_id);
+#else
+H5_DLL hid_t H5Fopen_async(const char *filename, unsigned flags, hid_t access_plist, hid_t es_id);
+#endif
+/**
  * \ingroup H5F
  *
  * \brief Returns a new identifier for a previously-opened HDF5 file
@@ -471,6 +492,17 @@ H5_DLL hid_t H5Fopen(const char *filename, unsigned flags, hid_t fapl_id);
  */
 H5_DLL hid_t H5Freopen(hid_t file_id);
 /**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Freopen}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL hid_t H5Freopen_async(const char *app_file, const char *app_func, unsigned app_line, hid_t file_id,
+                             hid_t es_id);
+#else
+H5_DLL hid_t H5Freopen_async(hid_t file_id, hid_t es_id);
+#endif
+/**
  * \ingroup H5F
  *
  * \brief Flushes all buffers associated with a file to storage
@@ -496,13 +528,24 @@ H5_DLL hid_t H5Freopen(hid_t file_id);
  * \snippet H5F_examples.c flush
  *
  * \attention HDF5 does not possess full control over buffering. H5Fflush()
- *            flushes the internal HDF5 buffers then asks the operating system
+ *            flushes the internal HDF5 buffers and then asks the operating system
  *            (the OS) to flush the system buffers for the open files. After
  *            that, the OS is responsible for ensuring that the data is
  *            actually flushed to disk.
  *
  */
 H5_DLL herr_t H5Fflush(hid_t object_id, H5F_scope_t scope);
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Fflush}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Fflush_async(const char *app_file, const char *app_func, unsigned app_line, hid_t object_id,
+                             H5F_scope_t scope, hid_t es_id);
+#else
+H5_DLL herr_t H5Fflush_async(hid_t object_id, H5F_scope_t scope, hid_t es_id);
+#endif
 /**
  * \ingroup H5F
  *
@@ -523,7 +566,7 @@ H5_DLL herr_t H5Fflush(hid_t object_id, H5F_scope_t scope);
  * \snippet H5F_examples.c minimal
  *
  * \note \Bold{Delayed close:} Note the following deviation from the
- *       above-described behavior. If H5Fclose() is called for a file but one
+ *       above-described behavior. If H5Fclose() is called for a file, but one
  *       or more objects within the file remain open, those objects will remain
  *       accessible until they are individually closed. Thus, if the dataset
  *       \c data_sample is open when H5Fclose() is called for the file
@@ -532,7 +575,7 @@ H5_DLL herr_t H5Fflush(hid_t object_id, H5F_scope_t scope);
  *       automatically closed once all objects in the file have been closed.\n
  *       Be warned, however, that there are circumstances where it is not
  *       possible to delay closing a file. For example, an MPI-IO file close is
- *       a collective call; all of the processes that opened the file must
+ *       a collective call; all of the processes that open the file must
  *       close it collectively. The file cannot be closed at some time in the
  *       future by each process in an independent fashion. Another example is
  *       that an application using an AFS token-based file access privilege may
@@ -547,6 +590,17 @@ H5_DLL herr_t H5Fflush(hid_t object_id, H5F_scope_t scope);
  *
  */
 H5_DLL herr_t H5Fclose(hid_t file_id);
+/**
+ * --------------------------------------------------------------------------
+ * \ingroup ASYNC
+ * \async_variant_of{H5Fclose}
+ */
+#ifndef H5_DOXYGEN
+H5_DLL herr_t H5Fclose_async(const char *app_file, const char *app_func, unsigned app_line, hid_t file_id,
+                             hid_t es_id);
+#else
+H5_DLL herr_t H5Fclose_async(hid_t file_id, hid_t es_id);
+#endif
 /**
  * \ingroup H5F
  *
@@ -902,7 +956,7 @@ H5_DLL herr_t H5Fincrement_filesize(hid_t file_id, hsize_t increment);
  * \file_id
  * \param[out] buf_ptr Pointer to the buffer into which the image of the
  *                     HDF5 file is to be copied. If \p buf_ptr is NULL,
- *                     no data will be copied but the function’s return value
+ *                     no data will be copied but the function's return value
  *                     will still indicate the buffer size required (or a
  *                     negative value on error).
  * \param[out] buf_len Size of the supplied buffer
@@ -919,7 +973,7 @@ H5_DLL herr_t H5Fincrement_filesize(hid_t file_id, hsize_t increment);
  *          file image. So if the file size is unknown, it can be safely
  *          determined with an initial H5Fget_file_image() call with buf_ptr
  *          set to NULL. The file image can then be retrieved with a second
- *          H5Fget_file_image() call with \p buf_len set to the initial call’s
+ *          H5Fget_file_image() call with \p buf_len set to the initial call's
  *          return value.
  *
  *          While the current file size can also be retrieved with
@@ -990,7 +1044,7 @@ H5_DLL herr_t H5Fget_mdc_config(hid_t file_id, H5AC_cache_config_t *config_ptr);
  * \since 1.8.0
  *
  */
-H5_DLL herr_t H5Fset_mdc_config(hid_t file_id, H5AC_cache_config_t *config_ptr);
+H5_DLL herr_t H5Fset_mdc_config(hid_t file_id, const H5AC_cache_config_t *config_ptr);
 /**
  * \ingroup MDC
  *
@@ -1117,7 +1171,7 @@ H5_DLL ssize_t H5Fget_name(hid_t obj_id, char *name, size_t size);
 /**
  * \ingroup H5F
  *
- * \brief Retrieves name of file to which object belongs
+ * \brief Retrieves global file information
  *
  * \fgdta_obj_id
  * \param[out] file_info Buffer for global file information
@@ -1265,7 +1319,7 @@ H5_DLL herr_t H5Fget_metadata_read_retry_info(hid_t file_id, H5F_retry_info_t *i
  *              on a system that is not atomic.
  *          \li Turn off usage of the library's accumulator to avoid possible
  *              ordering problem on a system that is not atomic.
- *          \li Perform a flush of the file’s data buffers and metadata to set
+ *          \li Perform a flush of the file's data buffers and metadata to set
  *              a consistent state for starting SWMR write operations.
  *
  *          Library objects are groups, datasets, and committed datatypes. For
@@ -1304,7 +1358,7 @@ H5_DLL herr_t H5Fstart_swmr_write(hid_t file_id);
  *          \snippet this H5F_sect_info_t_snip
  *
  *          This routine retrieves free-space section information for \p nsects
- *          sections or at most the maximum number of sections in the specified
+ *          sections or, at most, the maximum number of sections in the specified
  *          free-space manager. If the number of sections is not known, a
  *          preliminary H5Fget_free_sections() call can be made by setting \p
  *          sect_info to NULL and the total number of free-space sections for
@@ -1335,7 +1389,7 @@ H5_DLL ssize_t H5Fget_free_sections(hid_t file_id, H5F_mem_t type, size_t nsects
  * \return \herr_t
  *
  * \details H5Fclear_elink_file_cache() evicts all the cached child files in
- *          the specified file’s external file cache, causing them to be closed
+ *          the specified file's external file cache, causing them to be closed
  *          if there is nothing else holding them open.
  *
  *          H5Fclear_elink_file_cache() does not close the cache itself;
@@ -1514,12 +1568,6 @@ H5_DLL herr_t H5Fstop_mdc_logging(hid_t file_id);
  */
 H5_DLL herr_t H5Fget_mdc_logging_status(hid_t file_id, hbool_t *is_enabled, hbool_t *is_currently_logging);
 /**
- * \ingroup SWMR
- *
- * \todo UFO?
- */
-H5_DLL herr_t H5Fformat_convert(hid_t fid);
-/**
  * \ingroup H5F
  *
  * \brief Resets the page buffer statistics
@@ -1570,7 +1618,7 @@ H5_DLL herr_t H5Fget_page_buffering_stats(hid_t file_id, unsigned accesses[2], u
  * \brief Obtains information about a cache image if it exists
  *
  * \file_id
- * \param[out] image_addr Offset of the cache image if it exists, or \c HADDR_UNDEF if it does not
+ * \param[out] image_addr Offset of the cache image if it exists, or #HADDR_UNDEF if it does not
  * \param[out] image_size Length of the cache image if it exists, or 0 if it does not
  * \returns \herr_t
  *
@@ -1612,7 +1660,7 @@ H5_DLL herr_t H5Fget_mdc_image_info(hid_t file_id, haddr_t *image_addr, hsize_t 
  *          file_id. This setting is used to inform the library to create
  *          minimized dataset object headers when \c TRUE.
  *
- *          The setting's value is returned in the boolean pointer minimize.
+ *          The setting's value is returned in the boolean pointer minimized.
  *
  * \since 1.10.5
  *
@@ -1741,6 +1789,33 @@ H5_DLL herr_t H5Fset_mpi_atomicity(hid_t file_id, hbool_t flag);
 H5_DLL herr_t H5Fget_mpi_atomicity(hid_t file_id, hbool_t *flag);
 #endif /* H5_HAVE_PARALLEL */
 
+/// \cond DEV
+/* Internal API routines */
+H5_DLL herr_t H5Fformat_convert(hid_t fid);
+/// \endcond
+
+/// \cond DEV
+/* API Wrappers for async routines */
+/* (Must be defined _after_ the function prototype) */
+/* (And must only defined when included in application code, not the library) */
+#ifndef H5F_MODULE
+#define H5Fcreate_async(...) H5Fcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Fopen_async(...)   H5Fopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Freopen_async(...) H5Freopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Fflush_async(...)  H5Fflush_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Fclose_async(...)  H5Fclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+
+/* Define "wrapper" versions of function calls, to allow compile-time values to
+ *      be passed in by language wrapper or library layer on top of HDF5.
+ */
+#define H5Fcreate_async_wrap H5_NO_EXPAND(H5Fcreate_async)
+#define H5Fopen_async_wrap   H5_NO_EXPAND(H5Fopen_async)
+#define H5Freopen_async_wrap H5_NO_EXPAND(H5Freopen_async)
+#define H5Fflush_async_wrap  H5_NO_EXPAND(H5Fflush_async)
+#define H5Fclose_async_wrap  H5_NO_EXPAND(H5Fclose_async)
+#endif /* H5F_MODULE */
+/// \endcond
+
 /* Symbols defined for compatibility with previous versions of the HDF5 API.
  *
  * Use of these symbols is deprecated.
@@ -1769,7 +1844,7 @@ typedef struct H5F_info1_t {
 /**
  * \ingroup H5F
  *
- * \brief Retrieves name of file to which object belongs
+ * \brief Retrieves global file information
  *
  * \fgdta_obj_id
  * \param[out] file_info Buffer for global file information
@@ -1811,7 +1886,7 @@ H5_DLL herr_t H5Fget_info1(hid_t obj_id, H5F_info1_t *file_info);
 /**
  * \ingroup H5F
  *
- * \brief Sets thelatest version of the library to be used for writing objects
+ * \brief Sets the latest version of the library to be used for writing objects
  *
  * \file_id
  * \param[in] latest_format Latest format flag
@@ -1820,6 +1895,7 @@ H5_DLL herr_t H5Fget_info1(hid_t obj_id, H5F_info1_t *file_info);
  *
  * \deprecated When?
  *
+ * \todo In which version was this function introduced?
  * \todo In which version was this function deprecated?
  *
  */
@@ -1838,6 +1914,7 @@ H5_DLL herr_t H5Fset_latest_format(hid_t file_id, hbool_t latest_format);
  * \details H5Fis_hdf5() determines whether a file is in the HDF5 format.
  *
  * \todo In which version was this function deprecated?
+ * \todo In which version was this function introduced?
  *
  */
 H5_DLL htri_t H5Fis_hdf5(const char *file_name);

@@ -45,11 +45,6 @@
  *     ```
  *     ...in destination buffer.
  *
- * TODO: put documentation in a consistent place and point to it from here.
- *
- * Programmer: Jacob Smith
- *             2017-11-30
- *
  *****************************************************************************/
 
 #include "H5private.h" /* Generic Functions        */
@@ -179,7 +174,7 @@
  * HTTP header fields, of particular use when composing an
  * "S3 Canonical Request" for authentication.
  *
- * - The creation of a Canoncial Request involves:
+ * - The creation of a Canonical Request involves:
  *     - convert field names to lower case
  *     - sort by this lower-case name
  *     - convert ": " name-value separator in HTTP string to ":"
@@ -249,10 +244,10 @@
  */
 typedef struct hrb_node_t {
     unsigned long      magic;
-    char *             name;
-    char *             value;
-    char *             cat;
-    char *             lowername;
+    char              *name;
+    char              *value;
+    char              *cat;
+    char              *lowername;
     struct hrb_node_t *next;
 } hrb_node_t;
 #define S3COMMS_HRB_NODE_MAGIC 0x7F5757UL
@@ -325,12 +320,12 @@ typedef struct hrb_node_t {
  */
 typedef struct {
     unsigned long magic;
-    char *        body;
+    char         *body;
     size_t        body_len;
-    hrb_node_t *  first_header;
-    char *        resource;
-    char *        verb;
-    char *        version;
+    hrb_node_t   *first_header;
+    char         *resource;
+    char         *verb;
+    char         *version;
 } hrb_t;
 #define S3COMMS_HRB_MAGIC 0x6DCC84UL
 
@@ -388,11 +383,11 @@ typedef struct {
  */
 typedef struct {
     unsigned long magic;
-    char *        scheme; /* required */
-    char *        host;   /* required */
-    char *        port;
-    char *        path;
-    char *        query;
+    char         *scheme; /* required */
+    char         *host;   /* required */
+    char         *port;
+    char         *path;
+    char         *query;
 } parsed_url_t;
 #define S3COMMS_PARSED_URL_MAGIC 0x21D0DFUL
 
@@ -459,7 +454,7 @@ typedef struct {
  *
  *     Pointer to NULL-terminated string for "secret" access id to S3 resource.
  *
- *     Requred to authenticate.
+ *     Required to authenticate.
  *
  * `signing_key` (unsigned char *)
  *
@@ -470,19 +465,20 @@ typedef struct {
  *     which may be re-used for several (up to seven (7)) days from creation?
  *     Computed once upon file open.
  *
- *     Requred to authenticate.
+ *     Required to authenticate.
  *
  *----------------------------------------------------------------------------
  */
 typedef struct {
     unsigned long  magic;
-    CURL *         curlhandle;
+    CURL          *curlhandle;
     size_t         filesize;
-    char *         httpverb;
-    parsed_url_t * purl;
-    char *         region;
-    char *         secret_id;
+    char          *httpverb;
+    parsed_url_t  *purl;
+    char          *region;
+    char          *secret_id;
     unsigned char *signing_key;
+    char          *token;
 } s3r_t;
 
 #define S3COMMS_S3R_MAGIC 0x44d8d79
@@ -514,7 +510,7 @@ H5_DLL herr_t H5FD_s3comms_s3r_close(s3r_t *handle);
 H5_DLL size_t H5FD_s3comms_s3r_get_filesize(s3r_t *handle);
 
 H5_DLL s3r_t *H5FD_s3comms_s3r_open(const char url[], const char region[], const char id[],
-                                    const unsigned char signing_key[]);
+                                    const unsigned char signing_key[], const char token[]);
 
 H5_DLL herr_t H5FD_s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest);
 

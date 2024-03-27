@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -20,8 +19,9 @@
 #ifndef H5Iprivate_H
 #define H5Iprivate_H
 
-/* Include package's public header */
+/* Include package's public headers */
 #include "H5Ipublic.h"
+#include "H5Idevelop.h"
 
 /* Private headers needed by this file */
 #include "H5private.h"
@@ -70,7 +70,9 @@ H5_DLL int        H5I_get_ref(hid_t id, hbool_t app_ref);
 H5_DLL int        H5I_inc_ref(hid_t id, hbool_t app_ref);
 H5_DLL int        H5I_dec_ref(hid_t id);
 H5_DLL int        H5I_dec_app_ref(hid_t id);
+H5_DLL int        H5I_dec_app_ref_async(hid_t id, void **token);
 H5_DLL int        H5I_dec_app_ref_always_close(hid_t id);
+H5_DLL int        H5I_dec_app_ref_always_close_async(hid_t id, void **token);
 H5_DLL int        H5I_dec_type_ref(H5I_type_t type);
 H5_DLL herr_t     H5I_find_id(const void *object, H5I_type_t type, hid_t *id /*out*/);
 
@@ -85,10 +87,10 @@ H5_DLL herr_t     H5I_find_id(const void *object, H5I_type_t type, hid_t *id /*o
  */
 
 /* Functions that manipulate objects */
-H5_DLL void * H5I_object(hid_t id);
-H5_DLL void * H5I_object_verify(hid_t id, H5I_type_t type);
-H5_DLL void * H5I_remove(hid_t id);
-H5_DLL void * H5I_subst(hid_t id, const void *new_object);
+H5_DLL void  *H5I_object(hid_t id);
+H5_DLL void  *H5I_object_verify(hid_t id, H5I_type_t type);
+H5_DLL void  *H5I_remove(hid_t id);
+H5_DLL void  *H5I_subst(hid_t id, const void *new_object);
 H5_DLL htri_t H5I_is_file_object(hid_t id);
 
 /* ID registration functions */

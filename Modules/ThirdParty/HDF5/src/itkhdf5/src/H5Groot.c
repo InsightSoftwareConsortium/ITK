@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -14,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:		H5Groot.c
- *			Apr  8 2009
- *			Neil Fortner
  *
  * Purpose:		Functions for operating on the root group.
  *
@@ -81,9 +78,6 @@
  *
  *		Failure:	NULL
  *
- * Programmer:	Robb Matzke
- *              Tuesday, October 13, 1998
- *
  *-------------------------------------------------------------------------
  */
 H5G_t *
@@ -92,17 +86,17 @@ H5G_rootof(H5F_t *f)
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
-    HDassert(f);
-    HDassert(f->shared);
+    assert(f);
+    assert(f->shared);
 
     /* Walk to top of mounted files */
     while (f->parent)
         f = f->parent;
 
     /* Sanity check */
-    HDassert(f);
-    HDassert(f->shared);
-    HDassert(f->shared->root_grp);
+    assert(f);
+    assert(f->shared);
+    assert(f->shared->root_grp);
 
     /* Check to see if the root group was opened through a different
      * "top" file, and switch it to point at the current "top" file.
@@ -125,9 +119,6 @@ H5G_rootof(H5F_t *f)
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Robb Matzke
- *		Aug 11 1997
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -143,26 +134,26 @@ H5G_mkroot(H5F_t *f, hbool_t create_root)
     FUNC_ENTER_NOAPI(FAIL)
 
     /* check args */
-    HDassert(f);
-    HDassert(f->shared);
-    HDassert(f->shared->sblock);
+    assert(f);
+    assert(f->shared);
+    assert(f->shared->sblock);
 
     /* Check if the root group is already initialized */
     if (f->shared->root_grp)
-        HGOTO_DONE(SUCCEED)
+        HGOTO_DONE(SUCCEED);
 
     /* Create information needed for group nodes */
     if (H5G__node_init(f) < 0)
-        HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to create group node info")
+        HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to create group node info");
 
     /*
      * Create the group pointer
      */
     if (NULL == (f->shared->root_grp = H5FL_CALLOC(H5G_t)))
-        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed");
     if (NULL == (f->shared->root_grp->shared = H5FL_CALLOC(H5G_shared_t))) {
         f->shared->root_grp = H5FL_FREE(H5G_t, f->shared->root_grp);
-        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed");
     } /* end if */
 
     /* Initialize the root_loc structure to point to fields in the newly created
@@ -181,24 +172,24 @@ H5G_mkroot(H5F_t *f, hbool_t create_root)
         gcrt_info.gcpl_id    = f->shared->fcpl_id;
         gcrt_info.cache_type = H5G_NOTHING_CACHED;
         if (H5G__obj_create(f, &gcrt_info, root_loc.oloc /*out*/) < 0)
-            HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to create group entry")
+            HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to create group entry");
         if (1 != H5O_link(root_loc.oloc, 1))
-            HGOTO_ERROR(H5E_SYM, H5E_LINKCOUNT, FAIL, "internal error (wrong link count)")
+            HGOTO_ERROR(H5E_SYM, H5E_LINKCOUNT, FAIL, "internal error (wrong link count)");
 
         /* Decrement refcount on root group's object header in memory */
         if (H5O_dec_rc_by_loc(root_loc.oloc) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_CANTDEC, FAIL,
-                        "unable to decrement refcount on root group's object header")
+                        "unable to decrement refcount on root group's object header");
 
         /* Mark superblock dirty, so root group info is flushed */
         sblock_dirty = TRUE;
 
         /* Create the root group symbol table entry */
-        HDassert(!f->shared->sblock->root_ent);
+        assert(!f->shared->sblock->root_ent);
         if (f->shared->sblock->super_vers < HDF5_SUPERBLOCK_VERSION_2) {
             /* Allocate space for the root group symbol table entry */
             if (NULL == (f->shared->sblock->root_ent = (H5G_entry_t *)H5MM_calloc(sizeof(H5G_entry_t))))
-                HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "can't allocate space for symbol table entry")
+                HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "can't allocate space for symbol table entry");
 
             /* Initialize the root group symbol table entry */
             f->shared->sblock->root_ent->type = gcrt_info.cache_type;
@@ -217,7 +208,7 @@ H5G_mkroot(H5F_t *f, hbool_t create_root)
          * Open the root object as a group.
          */
         if (H5O_open(root_loc.oloc) < 0)
-            HGOTO_ERROR(H5E_SYM, H5E_CANTOPENOBJ, FAIL, "unable to open root group")
+            HGOTO_ERROR(H5E_SYM, H5E_CANTOPENOBJ, FAIL, "unable to open root group");
 
         /* Actions to take if the symbol table information is cached */
         if (f->shared->sblock->root_ent && f->shared->sblock->root_ent->type == H5G_CACHED_STAB) {
@@ -225,7 +216,7 @@ H5G_mkroot(H5F_t *f, hbool_t create_root)
              * not exist.  This can happen if, for example, an external link is
              * added to the root group. */
             if ((stab_exists = H5O_msg_exists(root_loc.oloc, H5O_STAB_ID)) < 0)
-                HGOTO_ERROR(H5E_SYM, H5E_CANTGET, FAIL, "can't check if symbol table message exists")
+                HGOTO_ERROR(H5E_SYM, H5E_CANTGET, FAIL, "can't check if symbol table message exists");
 
             /* Remove the cache if the stab does not exist */
             if (!stab_exists)
@@ -243,7 +234,7 @@ H5G_mkroot(H5F_t *f, hbool_t create_root)
                 /* Check if the symbol table message is valid, and replace with the
                  * cached symbol table if necessary */
                 if (H5G__stab_valid(root_loc.oloc, &cached_stab) < 0)
-                    HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "unable to verify symbol table")
+                    HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "unable to verify symbol table");
             } /* end if */
 #endif        /* H5_STRICT_FORMAT_CHECKS */
         }     /* end if */
@@ -262,12 +253,12 @@ H5G_mkroot(H5F_t *f, hbool_t create_root)
          * to use the latest version while the superblock is an old version.
          * If stab_exists is not -1 then we have already checked. */
         if (stab_exists == -1 && (stab_exists = H5O_msg_exists(root_loc.oloc, H5O_STAB_ID)) < 0)
-            HGOTO_ERROR(H5E_SYM, H5E_CANTGET, FAIL, "can't check if symbol table message exists")
+            HGOTO_ERROR(H5E_SYM, H5E_CANTGET, FAIL, "can't check if symbol table message exists");
 
         if (stab_exists) {
             /* Read the root group's symbol table message */
             if (NULL == H5O_msg_read(root_loc.oloc, H5O_STAB_ID, &stab))
-                HGOTO_ERROR(H5E_SYM, H5E_BADMESG, FAIL, "unable to read symbol table message")
+                HGOTO_ERROR(H5E_SYM, H5E_BADMESG, FAIL, "unable to read symbol table message");
 
             /* Update the root group symbol table entry */
             f->shared->sblock->root_ent->type                  = H5G_CACHED_STAB;
@@ -288,7 +279,7 @@ H5G_mkroot(H5F_t *f, hbool_t create_root)
      * exists.  Don't count either the superblock extension or the root group
      * in the number of open objects in the file.
      */
-    HDassert((1 == f->nopen_objs) || (2 == f->nopen_objs && HADDR_UNDEF != f->shared->sblock->ext_addr));
+    assert((1 == f->nopen_objs) || (2 == f->nopen_objs && HADDR_UNDEF != f->shared->sblock->ext_addr));
     f->nopen_objs--;
 
 done:
@@ -309,7 +300,7 @@ done:
     /* Mark superblock dirty in cache, if necessary */
     if (sblock_dirty)
         if (H5AC_mark_entry_dirty(f->shared->sblock) < 0)
-            HDONE_ERROR(H5E_FILE, H5E_CANTMARKDIRTY, FAIL, "unable to mark superblock as dirty")
+            HDONE_ERROR(H5E_FILE, H5E_CANTMARKDIRTY, FAIL, "unable to mark superblock as dirty");
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G_mkroot() */
@@ -324,9 +315,6 @@ done:
  * Return:	Success:    Non-negative
  *		Failure:    Negative
  *
- * Programmer:	James Laird
- *		Tuesday, September 7, 2004
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -335,8 +323,8 @@ H5G_root_free(H5G_t *grp)
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    HDassert(grp && grp->shared);
-    HDassert(grp->shared->fo_count > 0);
+    assert(grp && grp->shared);
+    assert(grp->shared->fo_count > 0);
 
     /* Free the path */
     H5G_name_free(&(grp->path));
@@ -355,9 +343,6 @@ H5G_root_free(H5G_t *grp)
  * Return:	Success:	Non-negative
  * 		Failure:	Negative
  *
- * Programmer:	Quincey Koziol
- *		Mar  5 2007
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -368,18 +353,18 @@ H5G_root_loc(H5F_t *f, H5G_loc_t *loc)
 
     FUNC_ENTER_NOAPI(FAIL)
 
-    HDassert(f);
-    HDassert(loc);
+    assert(f);
+    assert(loc);
 
     /* Retrieve the root group for the file */
     root_grp = H5G_rootof(f);
-    HDassert(root_grp);
+    assert(root_grp);
 
     /* Build the group location for the root group */
     if (NULL == (loc->oloc = H5G_oloc(root_grp)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to get object location for root group")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to get object location for root group");
     if (NULL == (loc->path = H5G_nameof(root_grp)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to get path for root group")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to get path for root group");
 
     /* Patch up root group's object location to reflect this file */
     /* (Since the root group info is only stored once for files which

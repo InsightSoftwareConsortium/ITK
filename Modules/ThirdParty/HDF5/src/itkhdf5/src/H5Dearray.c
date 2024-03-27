@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -11,14 +10,11 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Programmer:      Quincey Koziol
- *                  Tuesday, January 27, 2009
- *
+/*
  * Purpose:     Extensible array indexed (chunked) I/O functions.  The chunks
  *              are given a single-dimensional index which is used as the
  *              offset in an extensible array that maps a chunk coordinate to
  *              a disk address.
- *
  */
 
 /****************/
@@ -72,7 +68,7 @@ typedef struct H5D_earray_it_ud_t {
     H5D_chunk_rec_t       chunk_rec; /* Generic chunk record for callback */
     hbool_t               filtered;  /* Whether the chunks are filtered */
     H5D_chunk_cb_func_t   cb;        /* Chunk callback routine */
-    void *                udata;     /* User data for chunk callback routine */
+    void                 *udata;     /* User data for chunk callback routine */
 } H5D_earray_it_ud_t;
 
 /* Native extensible array element for chunks w/filters */
@@ -90,13 +86,13 @@ static int H5D__earray_idx_iterate_cb(hsize_t idx, const void *_elmt, void *_uda
 static int H5D__earray_idx_delete_cb(const H5D_chunk_rec_t *chunk_rec, void *_udata);
 
 /* Extensible array class callbacks for chunks w/o filters */
-static void * H5D__earray_crt_context(void *udata);
+static void  *H5D__earray_crt_context(void *udata);
 static herr_t H5D__earray_dst_context(void *ctx);
 static herr_t H5D__earray_fill(void *nat_blk, size_t nelmts);
 static herr_t H5D__earray_encode(void *raw, const void *elmt, size_t nelmts, void *ctx);
 static herr_t H5D__earray_decode(const void *raw, void *elmt, size_t nelmts, void *ctx);
 static herr_t H5D__earray_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const void *elmt);
-static void * H5D__earray_crt_dbg_context(H5F_t *f, haddr_t obj_addr);
+static void  *H5D__earray_crt_dbg_context(H5F_t *f, haddr_t obj_addr);
 static herr_t H5D__earray_dst_dbg_context(void *dbg_ctx);
 
 /* Extensible array class callbacks for chunks w/filters */
@@ -207,29 +203,26 @@ H5FL_DEFINE_STATIC(H5D_earray_ctx_ud_t);
  * Return:      Success:    non-NULL
  *              Failure:    NULL
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static void *
 H5D__earray_crt_context(void *_udata)
 {
-    H5D_earray_ctx_t *   ctx;                                   /* Extensible array callback context */
+    H5D_earray_ctx_t    *ctx;                                   /* Extensible array callback context */
     H5D_earray_ctx_ud_t *udata = (H5D_earray_ctx_ud_t *)_udata; /* User data for extensible array context */
-    void *               ret_value = NULL;                      /* Return value */
+    void                *ret_value = NULL;                      /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
-    HDassert(udata);
-    HDassert(udata->f);
-    HDassert(udata->chunk_size > 0);
+    assert(udata);
+    assert(udata->f);
+    assert(udata->chunk_size > 0);
 
     /* Allocate new context structure */
     if (NULL == (ctx = H5FL_MALLOC(H5D_earray_ctx_t)))
         HGOTO_ERROR(H5E_DATASET, H5E_CANTALLOC, NULL,
-                    "can't allocate extensible array client callback context")
+                    "can't allocate extensible array client callback context");
 
     /* Initialize the context */
     ctx->file_addr_len = H5F_SIZEOF_ADDR(udata->f);
@@ -256,9 +249,6 @@ done:
  * Return:      Success:    non-NULL
  *              Failure:    NULL
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -266,10 +256,10 @@ H5D__earray_dst_context(void *_ctx)
 {
     H5D_earray_ctx_t *ctx = (H5D_earray_ctx_t *)_ctx; /* Extensible array callback context */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(ctx);
+    assert(ctx);
 
     /* Release context structure */
     ctx = H5FL_FREE(H5D_earray_ctx_t, ctx);
@@ -285,9 +275,6 @@ H5D__earray_dst_context(void *_ctx)
  * Return:    Success:    non-negative
  *        Failure:    negative
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, January 27, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -295,11 +282,11 @@ H5D__earray_fill(void *nat_blk, size_t nelmts)
 {
     haddr_t fill_val = H5D_EARRAY_FILL; /* Value to fill elements with */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(nat_blk);
-    HDassert(nelmts);
+    assert(nat_blk);
+    assert(nelmts);
 
     H5VM_array_fill(nat_blk, &fill_val, H5EA_CLS_CHUNK->nat_elmt_size, nelmts);
 
@@ -314,24 +301,21 @@ H5D__earray_fill(void *nat_blk, size_t nelmts)
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, January 27, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_encode(void *raw, const void *_elmt, size_t nelmts, void *_ctx)
 {
     H5D_earray_ctx_t *ctx  = (H5D_earray_ctx_t *)_ctx; /* Extensible array callback context */
-    const haddr_t *   elmt = (const haddr_t *)_elmt;   /* Convenience pointer to native elements */
+    const haddr_t    *elmt = (const haddr_t *)_elmt;   /* Convenience pointer to native elements */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(raw);
-    HDassert(elmt);
-    HDassert(nelmts);
-    HDassert(ctx);
+    assert(raw);
+    assert(elmt);
+    assert(nelmts);
+    assert(ctx);
 
     /* Encode native elements into raw elements */
     while (nelmts) {
@@ -357,24 +341,21 @@ H5D__earray_encode(void *raw, const void *_elmt, size_t nelmts, void *_ctx)
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_decode(const void *_raw, void *_elmt, size_t nelmts, void *_ctx)
 {
     H5D_earray_ctx_t *ctx  = (H5D_earray_ctx_t *)_ctx; /* Extensible array callback context */
-    haddr_t *         elmt = (haddr_t *)_elmt;         /* Convenience pointer to native elements */
-    const uint8_t *   raw  = (const uint8_t *)_raw;    /* Convenience pointer to raw elements */
+    haddr_t          *elmt = (haddr_t *)_elmt;         /* Convenience pointer to native elements */
+    const uint8_t    *raw  = (const uint8_t *)_raw;    /* Convenience pointer to raw elements */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(raw);
-    HDassert(elmt);
-    HDassert(nelmts);
+    assert(raw);
+    assert(elmt);
+    assert(nelmts);
 
     /* Decode raw elements into native elements */
     while (nelmts) {
@@ -400,9 +381,6 @@ H5D__earray_decode(const void *_raw, void *_elmt, size_t nelmts, void *_ctx)
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -410,15 +388,15 @@ H5D__earray_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const void 
 {
     char temp_str[128]; /* Temporary string, for formatting */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(stream);
-    HDassert(elmt);
+    assert(stream);
+    assert(elmt);
 
     /* Print element */
-    HDsprintf(temp_str, "Element #%" PRIuHSIZE ":", idx);
-    HDfprintf(stream, "%*s%-*s %" PRIuHADDR "\n", indent, "", fwidth, temp_str, *(const haddr_t *)elmt);
+    HDsnprintf(temp_str, sizeof(temp_str), "Element #%" PRIuHSIZE ":", idx);
+    fprintf(stream, "%*s%-*s %" PRIuHADDR "\n", indent, "", fwidth, temp_str, *(const haddr_t *)elmt);
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5D__earray_debug() */
@@ -431,9 +409,6 @@ H5D__earray_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const void 
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -441,12 +416,12 @@ H5D__earray_filt_fill(void *nat_blk, size_t nelmts)
 {
     H5D_earray_filt_elmt_t fill_val = H5D_EARRAY_FILT_FILL; /* Value to fill elements with */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(nat_blk);
-    HDassert(nelmts);
-    HDassert(sizeof(fill_val) == H5EA_CLS_FILT_CHUNK->nat_elmt_size);
+    assert(nat_blk);
+    assert(nelmts);
+    assert(sizeof(fill_val) == H5EA_CLS_FILT_CHUNK->nat_elmt_size);
 
     H5VM_array_fill(nat_blk, &fill_val, H5EA_CLS_FILT_CHUNK->nat_elmt_size, nelmts);
 
@@ -461,26 +436,23 @@ H5D__earray_filt_fill(void *nat_blk, size_t nelmts)
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_filt_encode(void *_raw, const void *_elmt, size_t nelmts, void *_ctx)
 {
-    H5D_earray_ctx_t *            ctx = (H5D_earray_ctx_t *)_ctx; /* Extensible array callback context */
-    uint8_t *                     raw = (uint8_t *)_raw;          /* Convenience pointer to raw elements */
+    H5D_earray_ctx_t             *ctx = (H5D_earray_ctx_t *)_ctx; /* Extensible array callback context */
+    uint8_t                      *raw = (uint8_t *)_raw;          /* Convenience pointer to raw elements */
     const H5D_earray_filt_elmt_t *elmt =
         (const H5D_earray_filt_elmt_t *)_elmt; /* Convenience pointer to native elements */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(raw);
-    HDassert(elmt);
-    HDassert(nelmts);
-    HDassert(ctx);
+    assert(raw);
+    assert(elmt);
+    assert(nelmts);
+    assert(ctx);
 
     /* Encode native elements into raw elements */
     while (nelmts) {
@@ -508,25 +480,22 @@ H5D__earray_filt_encode(void *_raw, const void *_elmt, size_t nelmts, void *_ctx
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_filt_decode(const void *_raw, void *_elmt, size_t nelmts, void *_ctx)
 {
-    H5D_earray_ctx_t *      ctx = (H5D_earray_ctx_t *)_ctx; /* Extensible array callback context */
+    H5D_earray_ctx_t       *ctx = (H5D_earray_ctx_t *)_ctx; /* Extensible array callback context */
     H5D_earray_filt_elmt_t *elmt =
         (H5D_earray_filt_elmt_t *)_elmt;        /* Convenience pointer to native elements */
     const uint8_t *raw = (const uint8_t *)_raw; /* Convenience pointer to raw elements */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(raw);
-    HDassert(elmt);
-    HDassert(nelmts);
+    assert(raw);
+    assert(elmt);
+    assert(nelmts);
 
     /* Decode raw elements into native elements */
     while (nelmts) {
@@ -554,9 +523,6 @@ H5D__earray_filt_decode(const void *_raw, void *_elmt, size_t nelmts, void *_ctx
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -566,16 +532,16 @@ H5D__earray_filt_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const 
         (const H5D_earray_filt_elmt_t *)_elmt; /* Convenience pointer to native elements */
     char temp_str[128];                        /* Temporary string, for formatting */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(stream);
-    HDassert(elmt);
+    assert(stream);
+    assert(elmt);
 
     /* Print element */
-    HDsprintf(temp_str, "Element #%" PRIuHSIZE ":", idx);
-    HDfprintf(stream, "%*s%-*s {%" PRIuHADDR ", %u, %0x}\n", indent, "", fwidth, temp_str, elmt->addr,
-              elmt->nbytes, elmt->filter_mask);
+    HDsnprintf(temp_str, sizeof(temp_str), "Element #%" PRIuHSIZE ":", idx);
+    fprintf(stream, "%*s%-*s {%" PRIuHADDR ", %u, %0x}\n", indent, "", fwidth, temp_str, elmt->addr,
+            elmt->nbytes, elmt->filter_mask);
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5D__earray_filt_debug() */
@@ -589,8 +555,6 @@ H5D__earray_filt_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const 
  * Return:      Success:    non-NULL
  *              Failure:    NULL
  *
- * Programmer:  Vailin Choi; July 2010
- *
  *-------------------------------------------------------------------------
  */
 static void *
@@ -600,18 +564,18 @@ H5D__earray_crt_dbg_context(H5F_t *f, haddr_t obj_addr)
     H5O_loc_t            obj_loc;            /* Pointer to an object's location */
     hbool_t              obj_opened = FALSE; /* Flag to indicate that the object header was opened */
     H5O_layout_t         layout;             /* Layout message */
-    void *               ret_value = NULL;   /* Return value */
+    void                *ret_value = NULL;   /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
-    HDassert(f);
-    HDassert(H5F_addr_defined(obj_addr));
+    assert(f);
+    assert(H5_addr_defined(obj_addr));
 
     /* Allocate context for debugging callback */
     if (NULL == (dbg_ctx = H5FL_MALLOC(H5D_earray_ctx_ud_t)))
         HGOTO_ERROR(H5E_DATASET, H5E_CANTALLOC, NULL,
-                    "can't allocate extensible array client callback context")
+                    "can't allocate extensible array client callback context");
 
     /* Set up the object header location info */
     H5O_loc_reset(&obj_loc);
@@ -620,16 +584,16 @@ H5D__earray_crt_dbg_context(H5F_t *f, haddr_t obj_addr)
 
     /* Open the object header where the layout message resides */
     if (H5O_open(&obj_loc) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, NULL, "can't open object header")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, NULL, "can't open object header");
     obj_opened = TRUE;
 
     /* Read the layout message */
     if (NULL == H5O_msg_read(&obj_loc, H5O_LAYOUT_ID, &layout))
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, NULL, "can't get layout info")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, NULL, "can't get layout info");
 
     /* close the object header */
     if (H5O_close(&obj_loc, NULL) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, NULL, "can't close object header")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, NULL, "can't close object header");
 
     /* Create user data */
     dbg_ctx->f          = f;
@@ -648,7 +612,7 @@ done:
         /* Close object header */
         if (obj_opened)
             if (H5O_close(&obj_loc, NULL) < 0)
-                HDONE_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, NULL, "can't close object header")
+                HDONE_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, NULL, "can't close object header");
     } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -663,8 +627,6 @@ done:
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Vailin Choi; July 2010
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -673,10 +635,10 @@ H5D__earray_dst_dbg_context(void *_dbg_ctx)
     H5D_earray_ctx_ud_t *dbg_ctx =
         (H5D_earray_ctx_ud_t *)_dbg_ctx; /* Context for extensible array callback */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
-    HDassert(dbg_ctx);
+    assert(dbg_ctx);
 
     /* Release context structure */
     dbg_ctx = H5FL_FREE(H5D_earray_ctx_ud_t, dbg_ctx);
@@ -693,32 +655,29 @@ H5D__earray_dst_dbg_context(void *_dbg_ctx)
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, June  2, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_idx_depend(const H5D_chk_idx_info_t *idx_info)
 {
-    H5O_t *             oh = NULL;           /* Object header */
+    H5O_t              *oh = NULL;           /* Object header */
     H5O_loc_t           oloc;                /* Temporary object header location for dataset */
     H5AC_proxy_entry_t *oh_proxy;            /* Dataset's object header proxy */
     herr_t              ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(H5F_INTENT(idx_info->f) & H5F_ACC_SWMR_WRITE);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(H5D_CHUNK_IDX_EARRAY == idx_info->layout->idx_type);
-    HDassert(idx_info->storage);
-    HDassert(H5D_CHUNK_IDX_EARRAY == idx_info->storage->idx_type);
-    HDassert(H5F_addr_defined(idx_info->storage->idx_addr));
-    HDassert(idx_info->storage->u.earray.ea);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(H5F_INTENT(idx_info->f) & H5F_ACC_SWMR_WRITE);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(H5D_CHUNK_IDX_EARRAY == idx_info->layout->idx_type);
+    assert(idx_info->storage);
+    assert(H5D_CHUNK_IDX_EARRAY == idx_info->storage->idx_type);
+    assert(H5_addr_defined(idx_info->storage->idx_addr));
+    assert(idx_info->storage->u.earray.ea);
 
     /* Set up object header location for dataset */
     H5O_loc_reset(&oloc);
@@ -727,21 +686,21 @@ H5D__earray_idx_depend(const H5D_chk_idx_info_t *idx_info)
 
     /* Get header */
     if (NULL == (oh = H5O_protect(&oloc, H5AC__READ_ONLY_FLAG, TRUE)))
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTPROTECT, FAIL, "unable to protect object header")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTPROTECT, FAIL, "unable to protect object header");
 
     /* Retrieve the dataset's object header proxy */
     if (NULL == (oh_proxy = H5O_get_proxy(oh)))
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "unable to get dataset object header proxy")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "unable to get dataset object header proxy");
 
     /* Make the extensible array a child flush dependency of the dataset's object header */
     if (H5EA_depend(idx_info->storage->u.earray.ea, oh_proxy) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTDEPEND, FAIL,
-                    "unable to create flush dependency on object header proxy")
+                    "unable to create flush dependency on object header proxy");
 
 done:
     /* Release the object header from the cache */
     if (oh && H5O_unprotect(&oloc, oh, H5AC__NO_FLAGS_SET) < 0)
-        HDONE_ERROR(H5E_DATASET, H5E_CANTUNPROTECT, FAIL, "unable to release object header")
+        HDONE_ERROR(H5E_DATASET, H5E_CANTUNPROTECT, FAIL, "unable to release object header");
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5D__earray_idx_depend() */
@@ -759,9 +718,6 @@ done:
  * Return:      Success:    non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -770,18 +726,18 @@ H5D__earray_idx_open(const H5D_chk_idx_info_t *idx_info)
     H5D_earray_ctx_ud_t udata;               /* User data for extensible array open call */
     herr_t              ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(H5D_CHUNK_IDX_EARRAY == idx_info->layout->idx_type);
-    HDassert(idx_info->storage);
-    HDassert(H5D_CHUNK_IDX_EARRAY == idx_info->storage->idx_type);
-    HDassert(H5F_addr_defined(idx_info->storage->idx_addr));
-    HDassert(NULL == idx_info->storage->u.earray.ea);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(H5D_CHUNK_IDX_EARRAY == idx_info->layout->idx_type);
+    assert(idx_info->storage);
+    assert(H5D_CHUNK_IDX_EARRAY == idx_info->storage->idx_type);
+    assert(H5_addr_defined(idx_info->storage->idx_addr));
+    assert(NULL == idx_info->storage->u.earray.ea);
 
     /* Set up the user data */
     udata.f          = idx_info->f;
@@ -790,13 +746,13 @@ H5D__earray_idx_open(const H5D_chk_idx_info_t *idx_info)
     /* Open the extensible array for the chunk index */
     if (NULL ==
         (idx_info->storage->u.earray.ea = H5EA_open(idx_info->f, idx_info->storage->idx_addr, &udata)))
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "can't open extensible array")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "can't open extensible array");
 
     /* Check for SWMR writes to the file */
     if (H5F_INTENT(idx_info->f) & H5F_ACC_SWMR_WRITE)
         if (H5D__earray_idx_depend(idx_info) < 0)
             HGOTO_ERROR(H5E_DATASET, H5E_CANTDEPEND, FAIL,
-                        "unable to create flush dependency on object header")
+                        "unable to create flush dependency on object header");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -808,9 +764,6 @@ done:
  * Purpose:     Initialize the indexing information for a dataset.
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  Quincey Koziol
- *              Wednesday, May 27, 2009
  *
  *-------------------------------------------------------------------------
  */
@@ -824,20 +777,20 @@ H5D__earray_idx_init(const H5D_chk_idx_info_t *idx_info, const H5S_t *space, had
     unsigned u;                          /* Local index variable */
     herr_t   ret_value = SUCCEED;        /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(idx_info->storage);
-    HDassert(space);
-    HDassert(H5F_addr_defined(dset_ohdr_addr));
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(idx_info->storage);
+    assert(space);
+    assert(H5_addr_defined(dset_ohdr_addr));
 
     /* Get the dim info for dataset */
     if ((sndims = H5S_get_simple_extent_dims(space, NULL, max_dims)) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get dataspace dimensions")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get dataspace dimensions");
     H5_CHECKED_ASSIGN(ndims, unsigned, sndims, int);
 
     /* Find the rank of the unlimited dimension */
@@ -847,7 +800,7 @@ H5D__earray_idx_init(const H5D_chk_idx_info_t *idx_info, const H5S_t *space, had
         if (H5S_UNLIMITED == max_dims[u]) {
             /* Check if we've already found an unlimited dimension */
             if (unlim_dim >= 0)
-                HGOTO_ERROR(H5E_DATASET, H5E_ALREADYINIT, FAIL, "already found unlimited dimension")
+                HGOTO_ERROR(H5E_DATASET, H5E_ALREADYINIT, FAIL, "already found unlimited dimension");
 
             /* Set the unlimited dimension */
             unlim_dim = (int)u;
@@ -856,7 +809,7 @@ H5D__earray_idx_init(const H5D_chk_idx_info_t *idx_info, const H5S_t *space, had
 
     /* Check if we didn't find an unlimited dimension */
     if (unlim_dim < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_UNINITIALIZED, FAIL, "didn't find unlimited dimension")
+        HGOTO_ERROR(H5E_DATASET, H5E_UNINITIALIZED, FAIL, "didn't find unlimited dimension");
 
     /* Set the unlimited dimension for the layout's future use */
     idx_info->layout->u.earray.unlim_dim = (unsigned)unlim_dim;
@@ -881,9 +834,6 @@ done:
  * Return:      Non-negative on success (with the LAYOUT argument initialized
  *              and ready to write to an object header). Negative on failure.
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, January 27, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -893,16 +843,16 @@ H5D__earray_idx_create(const H5D_chk_idx_info_t *idx_info)
     H5D_earray_ctx_ud_t udata;               /* User data for extensible array create call */
     herr_t              ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(idx_info->storage);
-    HDassert(!H5F_addr_defined(idx_info->storage->idx_addr));
-    HDassert(NULL == idx_info->storage->u.earray.ea);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(idx_info->storage);
+    assert(!H5_addr_defined(idx_info->storage->idx_addr));
+    assert(NULL == idx_info->storage->u.earray.ea);
 
     /* General parameters */
     if (idx_info->pline->nused > 0) {
@@ -923,15 +873,15 @@ H5D__earray_idx_create(const H5D_chk_idx_info_t *idx_info)
         cparam.raw_elmt_size = (uint8_t)H5F_SIZEOF_ADDR(idx_info->f);
     } /* end else */
     cparam.max_nelmts_bits = idx_info->layout->u.earray.cparam.max_nelmts_bits;
-    HDassert(cparam.max_nelmts_bits > 0);
+    assert(cparam.max_nelmts_bits > 0);
     cparam.idx_blk_elmts = idx_info->layout->u.earray.cparam.idx_blk_elmts;
-    HDassert(cparam.idx_blk_elmts > 0);
+    assert(cparam.idx_blk_elmts > 0);
     cparam.sup_blk_min_data_ptrs = idx_info->layout->u.earray.cparam.sup_blk_min_data_ptrs;
-    HDassert(cparam.sup_blk_min_data_ptrs > 0);
+    assert(cparam.sup_blk_min_data_ptrs > 0);
     cparam.data_blk_min_elmts = idx_info->layout->u.earray.cparam.data_blk_min_elmts;
-    HDassert(cparam.data_blk_min_elmts > 0);
+    assert(cparam.data_blk_min_elmts > 0);
     cparam.max_dblk_page_nelmts_bits = idx_info->layout->u.earray.cparam.max_dblk_page_nelmts_bits;
-    HDassert(cparam.max_dblk_page_nelmts_bits > 0);
+    assert(cparam.max_dblk_page_nelmts_bits > 0);
 
     /* Set up the user data */
     udata.f          = idx_info->f;
@@ -939,17 +889,17 @@ H5D__earray_idx_create(const H5D_chk_idx_info_t *idx_info)
 
     /* Create the extensible array for the chunk index */
     if (NULL == (idx_info->storage->u.earray.ea = H5EA_create(idx_info->f, &cparam, &udata)))
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "can't create extensible array")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "can't create extensible array");
 
     /* Get the address of the extensible array in file */
     if (H5EA_get_addr(idx_info->storage->u.earray.ea, &(idx_info->storage->idx_addr)) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't query extensible array address")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't query extensible array address");
 
     /* Check for SWMR writes to the file */
     if (H5F_INTENT(idx_info->f) & H5F_ACC_SWMR_WRITE)
         if (H5D__earray_idx_depend(idx_info) < 0)
             HGOTO_ERROR(H5E_DATASET, H5E_CANTDEPEND, FAIL,
-                        "unable to create flush dependency on object header")
+                        "unable to create flush dependency on object header");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -962,20 +912,17 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static hbool_t
 H5D__earray_idx_is_space_alloc(const H5O_storage_chunk_t *storage)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Check args */
-    HDassert(storage);
+    assert(storage);
 
-    FUNC_LEAVE_NOAPI((hbool_t)H5F_addr_defined(storage->idx_addr))
+    FUNC_LEAVE_NOAPI((hbool_t)H5_addr_defined(storage->idx_addr))
 } /* end H5D__earray_idx_is_space_alloc() */
 
 /*-------------------------------------------------------------------------
@@ -984,8 +931,6 @@ H5D__earray_idx_is_space_alloc(const H5O_storage_chunk_t *storage)
  * Purpose:     Insert chunk address into the indexing structure.
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  Vailin Choi; May 2014
  *
  *-------------------------------------------------------------------------
  */
@@ -996,22 +941,22 @@ H5D__earray_idx_insert(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *udata
     H5EA_t *ea;                  /* Pointer to extensible array structure */
     herr_t  ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(idx_info->storage);
-    HDassert(H5F_addr_defined(idx_info->storage->idx_addr));
-    HDassert(udata);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(idx_info->storage);
+    assert(H5_addr_defined(idx_info->storage->idx_addr));
+    assert(udata);
 
     /* Check if the extensible array is open yet */
     if (NULL == idx_info->storage->u.earray.ea) {
         /* Open the extensible array in file */
         if (H5D__earray_idx_open(idx_info) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array");
     }
     else /* Patch the top level file pointer contained in ea if needed */
         H5EA_patch_file(idx_info->storage->u.earray.ea, idx_info->f);
@@ -1019,10 +964,10 @@ H5D__earray_idx_insert(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *udata
     /* Set convenience pointer to extensible array structure */
     ea = idx_info->storage->u.earray.ea;
 
-    if (!H5F_addr_defined(udata->chunk_block.offset))
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTALLOC, FAIL, "The chunk should have allocated already")
+    if (!H5_addr_defined(udata->chunk_block.offset))
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTALLOC, FAIL, "The chunk should have allocated already");
     if (udata->chunk_idx != (udata->chunk_idx & 0xffffffff)) /* negative value */
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "chunk index must be less than 2^32")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "chunk index must be less than 2^32");
 
     /* Check for filters on chunks */
     if (idx_info->pline->nused > 0) {
@@ -1034,12 +979,12 @@ H5D__earray_idx_insert(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *udata
 
         /* Set the info for the chunk */
         if (H5EA_set(ea, udata->chunk_idx, &elmt) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "can't set chunk info")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "can't set chunk info");
     } /* end if */
     else {
         /* Set the address for the chunk */
         if (H5EA_set(ea, udata->chunk_idx, &udata->chunk_block.offset) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "can't set chunk address")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "can't set chunk address");
     } /* end else */
 
 done:
@@ -1055,9 +1000,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1067,22 +1009,22 @@ H5D__earray_idx_get_addr(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *uda
     hsize_t idx;                 /* Array index of chunk */
     herr_t  ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(idx_info->storage);
-    HDassert(H5F_addr_defined(idx_info->storage->idx_addr));
-    HDassert(udata);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(idx_info->storage);
+    assert(H5_addr_defined(idx_info->storage->idx_addr));
+    assert(udata);
 
     /* Check if the extensible array is open yet */
     if (NULL == idx_info->storage->u.earray.ea) {
         /* Open the extensible array in file */
         if (H5D__earray_idx_open(idx_info) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array");
     }
     else /* Patch the top level file pointer contained in ea if needed */
         H5EA_patch_file(idx_info->storage->u.earray.ea, idx_info->f);
@@ -1120,7 +1062,7 @@ H5D__earray_idx_get_addr(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *uda
 
         /* Get the information for the chunk */
         if (H5EA_get(ea, idx, &elmt) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk info")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk info");
 
         /* Set the info for the chunk */
         udata->chunk_block.offset = elmt.addr;
@@ -1130,14 +1072,14 @@ H5D__earray_idx_get_addr(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *uda
     else {
         /* Get the address for the chunk */
         if (H5EA_get(ea, idx, &udata->chunk_block.offset) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk address")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk address");
 
         /* Update the other (constant) information for the chunk */
         udata->chunk_block.length = idx_info->layout->size;
         udata->filter_mask        = 0;
     } /* end else */
 
-    if (!H5F_addr_defined(udata->chunk_block.offset))
+    if (!H5_addr_defined(udata->chunk_block.offset))
         udata->chunk_block.length = 0;
 
 done:
@@ -1152,18 +1094,15 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Thursday, July 23, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_idx_resize(H5O_layout_chunk_t *layout)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Check args */
-    HDassert(layout);
+    assert(layout);
 
     /* "Swizzle" constant dimensions for this dataset */
     if (layout->u.earray.unlim_dim > 0) {
@@ -1201,8 +1140,6 @@ H5D__earray_idx_resize(H5O_layout_chunk_t *layout)
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Vailin Choi; Feb 2015
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1213,7 +1150,7 @@ H5D__earray_idx_iterate_cb(hsize_t H5_ATTR_UNUSED idx, const void *_elmt, void *
     int                 curr_dim;                             /* Current dimension */
     int                 ret_value = H5_ITER_CONT;             /* Return value */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Compose generic chunk record for callback */
     if (udata->filtered) {
@@ -1227,13 +1164,13 @@ H5D__earray_idx_iterate_cb(hsize_t H5_ATTR_UNUSED idx, const void *_elmt, void *
         udata->chunk_rec.chunk_addr = *(const haddr_t *)_elmt;
 
     /* Make "generic chunk" callback */
-    if (H5F_addr_defined(udata->chunk_rec.chunk_addr))
+    if (H5_addr_defined(udata->chunk_rec.chunk_addr))
         if ((ret_value = (udata->cb)(&udata->chunk_rec, udata->udata)) < 0)
             HERROR(H5E_DATASET, H5E_CALLBACK, "failure in generic chunk iterator callback");
 
     /* Update coordinates of chunk in dataset */
     ndims = udata->common.layout->ndims - 1;
-    HDassert(ndims > 0);
+    assert(ndims > 0);
     curr_dim = (int)(ndims - 1);
     while (curr_dim >= 0) {
         /* Increment coordinate in current dimension */
@@ -1264,35 +1201,32 @@ H5D__earray_idx_iterate_cb(hsize_t H5_ATTR_UNUSED idx, const void *_elmt, void *
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static int
 H5D__earray_idx_iterate(const H5D_chk_idx_info_t *idx_info, H5D_chunk_cb_func_t chunk_cb, void *chunk_udata)
 {
-    H5EA_t *    ea;                       /* Pointer to extensible array structure */
+    H5EA_t     *ea;                       /* Pointer to extensible array structure */
     H5EA_stat_t ea_stat;                  /* Extensible array statistics */
     int         ret_value = H5_ITER_CONT; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(idx_info->storage);
-    HDassert(H5F_addr_defined(idx_info->storage->idx_addr));
-    HDassert(chunk_cb);
-    HDassert(chunk_udata);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(idx_info->storage);
+    assert(H5_addr_defined(idx_info->storage->idx_addr));
+    assert(chunk_cb);
+    assert(chunk_udata);
 
     /* Check if the extensible array is open yet */
     if (NULL == idx_info->storage->u.earray.ea) {
         /* Open the extensible array in file */
         if (H5D__earray_idx_open(idx_info) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array");
     }
     else /* Patch the top level file pointer contained in ea if needed */
         H5EA_patch_file(idx_info->storage->u.earray.ea, idx_info->f);
@@ -1302,16 +1236,16 @@ H5D__earray_idx_iterate(const H5D_chk_idx_info_t *idx_info, H5D_chunk_cb_func_t 
 
     /* Get the extensible array statistics */
     if (H5EA_get_stats(ea, &ea_stat) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't query extensible array statistics")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't query extensible array statistics");
 
     if (ea_stat.stored.max_idx_set > 0) {
         H5D_earray_it_ud_t udata; /* User data for iteration callback */
 
         /* Initialize userdata */
-        HDmemset(&udata, 0, sizeof udata);
+        memset(&udata, 0, sizeof udata);
         udata.common.layout  = idx_info->layout;
         udata.common.storage = idx_info->storage;
-        HDmemset(&udata.chunk_rec, 0, sizeof(udata.chunk_rec));
+        memset(&udata.chunk_rec, 0, sizeof(udata.chunk_rec));
         udata.filtered = (idx_info->pline->nused > 0);
         if (!udata.filtered) {
             udata.chunk_rec.nbytes      = idx_info->layout->size;
@@ -1336,9 +1270,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1348,26 +1279,26 @@ H5D__earray_idx_remove(const H5D_chk_idx_info_t *idx_info, H5D_chunk_common_ud_t
     hsize_t idx;                 /* Array index of chunk */
     herr_t  ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(idx_info->storage);
-    HDassert(H5F_addr_defined(idx_info->storage->idx_addr));
-    HDassert(udata);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(idx_info->storage);
+    assert(H5_addr_defined(idx_info->storage->idx_addr));
+    assert(udata);
 
     /* Check if the extensible array is open yet */
     if (NULL == idx_info->storage->u.earray.ea) {
         /* Open the extensible array in file */
         if (H5D__earray_idx_open(idx_info) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array");
     }
     else /* Patch the top level file pointer contained in ea if needed */
         if (H5EA_patch_file(idx_info->storage->u.earray.ea, idx_info->f) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch earray file pointer")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch earray file pointer");
 
     /* Set convenience pointer to extensible array structure */
     ea = idx_info->storage->u.earray.ea;
@@ -1400,14 +1331,14 @@ H5D__earray_idx_remove(const H5D_chk_idx_info_t *idx_info, H5D_chunk_common_ud_t
 
         /* Get the info about the chunk for the index */
         if (H5EA_get(ea, idx, &elmt) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk info")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk info");
 
         /* Remove raw data chunk from file if not doing SWMR writes */
-        HDassert(H5F_addr_defined(elmt.addr));
+        assert(H5_addr_defined(elmt.addr));
         if (!(H5F_INTENT(idx_info->f) & H5F_ACC_SWMR_WRITE)) {
             H5_CHECK_OVERFLOW(elmt.nbytes, /*From: */ uint32_t, /*To: */ hsize_t);
             if (H5MF_xfree(idx_info->f, H5FD_MEM_DRAW, elmt.addr, (hsize_t)elmt.nbytes) < 0)
-                HGOTO_ERROR(H5E_DATASET, H5E_CANTFREE, FAIL, "unable to free chunk")
+                HGOTO_ERROR(H5E_DATASET, H5E_CANTFREE, FAIL, "unable to free chunk");
         } /* end if */
 
         /* Reset the info about the chunk for the index */
@@ -1415,27 +1346,27 @@ H5D__earray_idx_remove(const H5D_chk_idx_info_t *idx_info, H5D_chunk_common_ud_t
         elmt.nbytes      = 0;
         elmt.filter_mask = 0;
         if (H5EA_set(ea, idx, &elmt) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "unable to reset chunk info")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "unable to reset chunk info");
     } /* end if */
     else {
         haddr_t addr = HADDR_UNDEF; /* Chunk address */
 
         /* Get the address of the chunk for the index */
         if (H5EA_get(ea, idx, &addr) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk address")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk address");
 
         /* Remove raw data chunk from file if not doing SWMR writes */
-        HDassert(H5F_addr_defined(addr));
+        assert(H5_addr_defined(addr));
         if (!(H5F_INTENT(idx_info->f) & H5F_ACC_SWMR_WRITE)) {
             H5_CHECK_OVERFLOW(idx_info->layout->size, /*From: */ uint32_t, /*To: */ hsize_t);
             if (H5MF_xfree(idx_info->f, H5FD_MEM_DRAW, addr, (hsize_t)idx_info->layout->size) < 0)
-                HGOTO_ERROR(H5E_DATASET, H5E_CANTFREE, FAIL, "unable to free chunk")
+                HGOTO_ERROR(H5E_DATASET, H5E_CANTFREE, FAIL, "unable to free chunk");
         } /* end if */
 
         /* Reset the address of the chunk for the index */
         addr = HADDR_UNDEF;
         if (H5EA_set(ea, idx, &addr) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "unable to reset chunk address")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "unable to reset chunk address");
     } /* end else */
 
 done:
@@ -1450,9 +1381,6 @@ done:
  * Return:      Success:    Non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1461,18 +1389,18 @@ H5D__earray_idx_delete_cb(const H5D_chunk_rec_t *chunk_rec, void *_udata)
     H5F_t *f         = (H5F_t *)_udata; /* User data for callback */
     int    ret_value = H5_ITER_CONT;    /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
-    HDassert(chunk_rec);
-    HDassert(H5F_addr_defined(chunk_rec->chunk_addr));
-    HDassert(chunk_rec->nbytes > 0);
-    HDassert(f);
+    assert(chunk_rec);
+    assert(H5_addr_defined(chunk_rec->chunk_addr));
+    assert(chunk_rec->nbytes > 0);
+    assert(f);
 
     /* Remove raw data chunk from file */
     H5_CHECK_OVERFLOW(chunk_rec->nbytes, /*From: */ uint32_t, /*To: */ hsize_t);
     if (H5MF_xfree(f, H5FD_MEM_DRAW, chunk_rec->chunk_addr, (hsize_t)chunk_rec->nbytes) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTFREE, H5_ITER_ERROR, "unable to free chunk")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTFREE, H5_ITER_ERROR, "unable to free chunk");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -1491,9 +1419,6 @@ done:
  * Return:      Success:    Non-negative
  *              Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Thursday, January 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1501,26 +1426,26 @@ H5D__earray_idx_delete(const H5D_chk_idx_info_t *idx_info)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(idx_info->storage);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(idx_info->storage);
 
     /* Check if the index data structure has been allocated */
-    if (H5F_addr_defined(idx_info->storage->idx_addr)) {
+    if (H5_addr_defined(idx_info->storage->idx_addr)) {
         H5D_earray_ctx_ud_t ctx_udata; /* User data for extensible array open call */
 
         /* Iterate over the chunk addresses in the extensible array, deleting each chunk */
         if (H5D__earray_idx_iterate(idx_info, H5D__earray_idx_delete_cb, idx_info->f) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_BADITER, FAIL, "unable to iterate over chunk addresses")
+            HGOTO_ERROR(H5E_DATASET, H5E_BADITER, FAIL, "unable to iterate over chunk addresses");
 
         /* Close extensible array */
         if (H5EA_close(idx_info->storage->u.earray.ea) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array");
         idx_info->storage->u.earray.ea = NULL;
 
         /* Set up the context user data */
@@ -1529,11 +1454,11 @@ H5D__earray_idx_delete(const H5D_chk_idx_info_t *idx_info)
 
         /* Delete extensible array */
         if (H5EA_delete(idx_info->f, idx_info->storage->idx_addr, &ctx_udata) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTDELETE, FAIL, "unable to delete chunk extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTDELETE, FAIL, "unable to delete chunk extensible array");
         idx_info->storage->idx_addr = HADDR_UNDEF;
     } /* end if */
     else
-        HDassert(NULL == idx_info->storage->u.earray.ea);
+        assert(NULL == idx_info->storage->u.earray.ea);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -1546,9 +1471,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1556,34 +1478,34 @@ H5D__earray_idx_copy_setup(const H5D_chk_idx_info_t *idx_info_src, const H5D_chk
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
-    HDassert(idx_info_src);
-    HDassert(idx_info_src->f);
-    HDassert(idx_info_src->pline);
-    HDassert(idx_info_src->layout);
-    HDassert(idx_info_src->storage);
-    HDassert(idx_info_dst);
-    HDassert(idx_info_dst->f);
-    HDassert(idx_info_dst->pline);
-    HDassert(idx_info_dst->layout);
-    HDassert(idx_info_dst->storage);
-    HDassert(!H5F_addr_defined(idx_info_dst->storage->idx_addr));
+    assert(idx_info_src);
+    assert(idx_info_src->f);
+    assert(idx_info_src->pline);
+    assert(idx_info_src->layout);
+    assert(idx_info_src->storage);
+    assert(idx_info_dst);
+    assert(idx_info_dst->f);
+    assert(idx_info_dst->pline);
+    assert(idx_info_dst->layout);
+    assert(idx_info_dst->storage);
+    assert(!H5_addr_defined(idx_info_dst->storage->idx_addr));
 
     /* Check if the source extensible array is open yet */
     if (NULL == idx_info_src->storage->u.earray.ea)
         /* Open the extensible array in file */
         if (H5D__earray_idx_open(idx_info_src) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array");
 
     /* Set copied metadata tag */
-    H5_BEGIN_TAG(H5AC__COPIED_TAG);
+    H5_BEGIN_TAG(H5AC__COPIED_TAG)
 
     /* Create the extensible array that describes chunked storage in the dest. file */
     if (H5D__earray_idx_create(idx_info_dst) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "unable to initialize chunked storage")
-    HDassert(H5F_addr_defined(idx_info_dst->storage->idx_addr));
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "unable to initialize chunked storage");
+    assert(H5_addr_defined(idx_info_dst->storage->idx_addr));
 
     /* Reset metadata tag */
     H5_END_TAG
@@ -1599,9 +1521,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1609,20 +1528,20 @@ H5D__earray_idx_copy_shutdown(H5O_storage_chunk_t *storage_src, H5O_storage_chun
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
-    HDassert(storage_src);
-    HDassert(storage_src->u.earray.ea);
-    HDassert(storage_dst);
-    HDassert(storage_dst->u.earray.ea);
+    assert(storage_src);
+    assert(storage_src->u.earray.ea);
+    assert(storage_dst);
+    assert(storage_dst->u.earray.ea);
 
     /* Close extensible arrays */
     if (H5EA_close(storage_src->u.earray.ea) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array");
     storage_src->u.earray.ea = NULL;
     if (H5EA_close(storage_dst->u.earray.ea) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array");
     storage_dst->u.earray.ea = NULL;
 
 done:
@@ -1637,39 +1556,36 @@ done:
  * Return:      Success:        Non-negative
  *              Failure:        negative
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_idx_size(const H5D_chk_idx_info_t *idx_info, hsize_t *index_size)
 {
-    H5EA_t *    ea;                  /* Pointer to extensible array structure */
+    H5EA_t     *ea;                  /* Pointer to extensible array structure */
     H5EA_stat_t ea_stat;             /* Extensible array statistics */
     herr_t      ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->pline);
-    HDassert(idx_info->layout);
-    HDassert(idx_info->storage);
-    HDassert(H5F_addr_defined(idx_info->storage->idx_addr));
-    HDassert(index_size);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->pline);
+    assert(idx_info->layout);
+    assert(idx_info->storage);
+    assert(H5_addr_defined(idx_info->storage->idx_addr));
+    assert(index_size);
 
     /* Open the extensible array in file */
     if (H5D__earray_idx_open(idx_info) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't open extensible array");
 
     /* Set convenience pointer to extensible array structure */
     ea = idx_info->storage->u.earray.ea;
 
     /* Get the extensible array statistics */
     if (H5EA_get_stats(ea, &ea_stat) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't query extensible array statistics")
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't query extensible array statistics");
 
     /* Set the size of the extensible array */
     *index_size = ea_stat.computed.hdr_size + ea_stat.computed.index_blk_size +
@@ -1678,7 +1594,7 @@ H5D__earray_idx_size(const H5D_chk_idx_info_t *idx_info, hsize_t *index_size)
 done:
     if (idx_info->storage->u.earray.ea) {
         if (H5EA_close(idx_info->storage->u.earray.ea) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array");
         idx_info->storage->u.earray.ea = NULL;
     } /* end if */
 
@@ -1692,18 +1608,15 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_idx_reset(H5O_storage_chunk_t *storage, hbool_t reset_addr)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Check args */
-    HDassert(storage);
+    assert(storage);
 
     /* Reset index info */
     if (reset_addr) {
@@ -1722,21 +1635,18 @@ H5D__earray_idx_reset(H5O_storage_chunk_t *storage, hbool_t reset_addr)
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5D__earray_idx_dump(const H5O_storage_chunk_t *storage, FILE *stream)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Check args */
-    HDassert(storage);
-    HDassert(stream);
+    assert(storage);
+    assert(stream);
 
-    HDfprintf(stream, "    Address: %" PRIuHADDR "\n", storage->idx_addr);
+    fprintf(stream, "    Address: %" PRIuHADDR "\n", storage->idx_addr);
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5D__earray_idx_dump() */
@@ -1748,9 +1658,6 @@ H5D__earray_idx_dump(const H5O_storage_chunk_t *storage, FILE *stream)
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Saturday, January 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1758,23 +1665,23 @@ H5D__earray_idx_dest(const H5D_chk_idx_info_t *idx_info)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
-    HDassert(idx_info);
-    HDassert(idx_info->f);
-    HDassert(idx_info->storage);
+    assert(idx_info);
+    assert(idx_info->f);
+    assert(idx_info->storage);
 
     /* Check if the extensible array is open */
     if (idx_info->storage->u.earray.ea) {
 
         /* Patch the top level file pointer contained in ea if needed */
         if (H5EA_patch_file(idx_info->storage->u.earray.ea, idx_info->f) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch earray file pointer")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch earray file pointer");
 
         /* Close extensible array */
         if (H5EA_close(idx_info->storage->u.earray.ea) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "unable to close extensible array");
         idx_info->storage->u.earray.ea = NULL;
     } /* end if */
 

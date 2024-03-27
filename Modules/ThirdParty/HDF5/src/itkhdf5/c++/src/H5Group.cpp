@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -44,7 +43,6 @@ using std::endl;
 //--------------------------------------------------------------------------
 // Function:    Group default constructor
 ///\brief       Default constructor: creates a stub Group.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 Group::Group() : H5Object(), CommonFG(), id(H5I_INVALID_HID)
 {
@@ -54,7 +52,6 @@ Group::Group() : H5Object(), CommonFG(), id(H5I_INVALID_HID)
 // Function:    Group copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
 ///\param       original - IN: Original group to copy
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 Group::Group(const Group &original) : H5Object(), CommonFG(), id(original.id)
 {
@@ -66,7 +63,6 @@ Group::Group(const Group &original) : H5Object(), CommonFG(), id(original.id)
 ///\brief       Closes an object, which was opened with Group::getObjId
 ///
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - March, 2017
 //--------------------------------------------------------------------------
 void
 Group::closeObjId(hid_t obj_id) const
@@ -80,7 +76,6 @@ Group::closeObjId(hid_t obj_id) const
 //--------------------------------------------------------------------------
 // Function:    Group::getLocId
 // Purpose:     Get the id of this group
-// Programmer   Binh-Minh Ribler - 2000
 // Description
 //              This function is a redefinition of CommonFG::getLocId.  It
 //              is used by CommonFG member functions to get the file id.
@@ -99,7 +94,6 @@ Group::getLocId() const
 // Function:    Group overloaded constructor
 ///\brief       Creates a Group object using the id of an existing group.
 ///\param       existing_id - IN: Id of an existing group
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 Group::Group(const hid_t existing_id) : H5Object(), CommonFG(), id(existing_id)
 {
@@ -117,7 +111,6 @@ Group::Group(const hid_t existing_id) : H5Object(), CommonFG(), id(existing_id)
 ///\par Description
 ///             \c obj can be DataSet, Group, or named DataType, that
 ///             is a datatype that has been named by DataType::commit.
-// Programmer   Binh-Minh Ribler - Oct, 2006
 //--------------------------------------------------------------------------
 Group::Group(const H5Location &loc, const void *ref, H5R_type_t ref_type, const PropList &plist)
     : H5Object(), CommonFG(), id(H5I_INVALID_HID)
@@ -130,7 +123,6 @@ Group::Group(const H5Location &loc, const void *ref, H5R_type_t ref_type, const 
 ///\brief       Returns the number of objects in this group.
 ///\return      Number of objects
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - January, 2003
 //--------------------------------------------------------------------------
 hsize_t
 Group::getNumObjs() const
@@ -154,7 +146,6 @@ Group::getNumObjs() const
 ///             This function opens an object in a group or file, using
 ///             H5Oopen.  Thus, an object can be opened without knowing
 ///             the object's type.
-// Programmer   Binh-Minh Ribler - March, 2017
 //--------------------------------------------------------------------------
 hid_t
 Group::getObjId(const char *obj_name, const PropList &plist) const
@@ -174,7 +165,6 @@ Group::getObjId(const char *obj_name, const PropList &plist) const
 ///\param       plist    - IN: Access property list for the link pointing to
 ///                            the object
 ///\exception   H5::FileIException or H5::GroupIException
-// Programmer   Binh-Minh Ribler - March, 2017
 //--------------------------------------------------------------------------
 hid_t
 Group::getObjId(const H5std_string &obj_name, const PropList &plist) const
@@ -192,7 +182,6 @@ Group::getObjId(const H5std_string &obj_name, const PropList &plist) const
 //              AbstractDS and Attribute are moved out of H5Object.  In
 //              addition, member IdComponent::id is moved into subclasses, and
 //              IdComponent::getId now becomes pure virtual function.
-// Programmer   Binh-Minh Ribler - May, 2008
 //--------------------------------------------------------------------------
 hid_t
 Group::getId() const
@@ -208,10 +197,9 @@ Group::getId() const
 ///\exception   H5::IdComponentException when the attempt to close the HDF5
 ///             object fails
 // Description:
-//              The underlaying reference counting in the C library ensures
+//              The underlying reference counting in the C library ensures
 //              that the current valid id of this object is properly closed.
 //              Then the object's id is reset to the new id.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 Group::p_setId(const hid_t new_id)
@@ -233,7 +221,6 @@ Group::p_setId(const hid_t new_id)
 ///\brief       Closes this group.
 ///
 ///\exception   H5::GroupIException
-// Programmer   Binh-Minh Ribler - Mar 9, 2005
 //--------------------------------------------------------------------------
 void
 Group::close()
@@ -259,7 +246,6 @@ Group::close()
 //              proper exception can be thrown for file or group.  The
 //              "Group::" will be inserted to indicate the function called is
 //              an implementation of Group.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 Group::throwException(const H5std_string &func_name, const H5std_string &msg) const
@@ -272,7 +258,6 @@ Group::throwException(const H5std_string &func_name, const H5std_string &msg) co
 //--------------------------------------------------------------------------
 // Function:    Group destructor
 ///\brief       Properly terminates access to this group.
-// Programmer   Binh-Minh Ribler - 2000
 // Modification
 //              - Replaced resetIdComponent() with decRefCount() to use C
 //              library ID reference counting mechanism - BMR, Feb 20, 2005

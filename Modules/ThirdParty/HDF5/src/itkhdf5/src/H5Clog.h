@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -82,7 +81,7 @@ struct H5C_log_info_t {
     hbool_t                enabled; /* Was the logging set up? */
     hbool_t                logging; /* Are we currently logging? */
     const H5C_log_class_t *cls;     /* Callbacks for writing log messages */
-    void *                 udata;   /* Log-specific data */
+    void                  *udata;   /* Log-specific data */
 };
 
 /*****************************/
@@ -133,7 +132,7 @@ H5_DLL herr_t H5C_log_write_remove_entry_msg(H5C_t *cache, const H5C_cache_entry
                                              herr_t fxn_ret_value);
 
 /* Logging-specific setup functions */
-H5_DLL herr_t H5C_log_json_set_up(H5C_log_info_t *log_info, const char log_location[], int mpi_rank);
-H5_DLL herr_t H5C_log_trace_set_up(H5C_log_info_t *log_info, const char log_location[], int mpi_rank);
+H5_DLL herr_t H5C__log_json_set_up(H5C_log_info_t *log_info, const char log_location[], int mpi_rank);
+H5_DLL herr_t H5C__log_trace_set_up(H5C_log_info_t *log_info, const char log_location[], int mpi_rank);
 
 #endif /* H5Clog_H */

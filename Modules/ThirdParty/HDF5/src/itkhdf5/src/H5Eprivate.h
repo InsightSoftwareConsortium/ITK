@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -31,16 +30,20 @@ typedef struct H5E_t H5E_t;
  * error number, the minor error number, and a description of the error.
  */
 #define HERROR(maj_id, min_id, ...)                                                                          \
-    H5E_printf_stack(NULL, __FILE__, FUNC, __LINE__, H5E_ERR_CLS_g, maj_id, min_id, __VA_ARGS__)
+    do {                                                                                                     \
+        H5E_printf_stack(NULL, __FILE__, __func__, __LINE__, H5E_ERR_CLS_g, maj_id, min_id, __VA_ARGS__);    \
+    } while (0)
 
 /*
  * HCOMMON_ERROR macro, used by HDONE_ERROR and HGOTO_ERROR
  * (Shouldn't need to be used outside this header file)
  */
 #define HCOMMON_ERROR(maj, min, ...)                                                                         \
-    HERROR(maj, min, __VA_ARGS__);                                                                           \
-    err_occurred = TRUE;                                                                                     \
-    err_occurred = err_occurred; /* Shut GCC warnings up! */
+    do {                                                                                                     \
+        HERROR(maj, min, __VA_ARGS__);                                                                       \
+        err_occurred = TRUE;                                                                                 \
+        err_occurred = err_occurred; /* Shut GCC warnings up! */                                             \
+    } while (0)
 
 /*
  * HDONE_ERROR macro, used to facilitate error reporting between a
@@ -52,10 +55,10 @@ typedef struct H5E_t H5E_t;
  *      without jumping to any labels)
  */
 #define HDONE_ERROR(maj, min, ret_val, ...)                                                                  \
-    {                                                                                                        \
+    do {                                                                                                     \
         HCOMMON_ERROR(maj, min, __VA_ARGS__);                                                                \
         ret_value = ret_val;                                                                                 \
-    }
+    } while (0)
 
 /*
  * HGOTO_ERROR macro, used to facilitate error reporting between a
@@ -65,21 +68,21 @@ typedef struct H5E_t H5E_t;
  * control branches to the `done' label.
  */
 #define HGOTO_ERROR(maj, min, ret_val, ...)                                                                  \
-    {                                                                                                        \
+    do {                                                                                                     \
         HCOMMON_ERROR(maj, min, __VA_ARGS__);                                                                \
-        HGOTO_DONE(ret_val)                                                                                  \
-    }
+        HGOTO_DONE(ret_val);                                                                                 \
+    } while (0)
 
 /*
  * HGOTO_ERROR_TAG macro, used like HGOTO_ERROR between H5_BEGIN_TAG and
  * H5_END_TAG statements.  Resets the metadata tag before leaving the function.
  */
 #define HGOTO_ERROR_TAG(maj, min, ret_val, ...)                                                              \
-    {                                                                                                        \
+    do {                                                                                                     \
         H5AC_tag(prv_tag, NULL);                                                                             \
         HCOMMON_ERROR(maj, min, __VA_ARGS__);                                                                \
-        HGOTO_DONE(ret_val)                                                                                  \
-    }
+        HGOTO_DONE(ret_val);                                                                                 \
+    } while (0)
 
 /*
  * HGOTO_DONE macro, used to facilitate normal return between a FUNC_ENTER()
@@ -88,20 +91,20 @@ typedef struct H5E_t H5E_t;
  * the `done' label.
  */
 #define HGOTO_DONE(ret_val)                                                                                  \
-    {                                                                                                        \
+    do {                                                                                                     \
         ret_value = ret_val;                                                                                 \
         goto done;                                                                                           \
-    }
+    } while (0)
 
 /*
  * HGOTO_DONE_TAG macro, used like HGOTO_DONE between H5_BEGIN_TAG and
  * H5_END_TAG statements.  Resets the metadata tag before leaving the function.
  */
 #define HGOTO_DONE_TAG(ret_val)                                                                              \
-    {                                                                                                        \
+    do {                                                                                                     \
         H5AC_tag(prv_tag, NULL);                                                                             \
-        HGOTO_DONE(ret_val)                                                                                  \
-    }
+        HGOTO_DONE(ret_val);                                                                                 \
+    } while (0)
 
 /*
  * Macros handling system error messages as described in C standard.
@@ -179,53 +182,6 @@ extern int  H5E_mpi_error_str_len;
         HGOTO_ERROR(H5E_INTERNAL, H5E_MPI, retcode, "%s: MPI error string is '%s'", str, H5E_mpi_error_str); \
     }
 #endif /* H5_HAVE_PARALLEL */
-
-/******************************************************************************/
-/* Revisions to Error Macros, to go with Revisions to FUNC_ENTER/LEAVE Macros */
-/******************************************************************************/
-
-/*
- * H5E_PRINTF macro, used to facilitate error reporting between a BEGIN_FUNC()
- * and an END_FUNC() within a function body.  The arguments are the minor
- * error number, a description of the error (as a printf-like format string),
- * and an optional set of arguments for the printf format arguments.
- */
-#define H5E_PRINTF(...)                                                                                      \
-    H5E_printf_stack(NULL, __FILE__, FUNC, __LINE__, H5E_ERR_CLS_g, H5_MY_PKG_ERR, __VA_ARGS__)
-
-/*
- * H5_LEAVE macro, used to facilitate control flow between a
- * BEGIN_FUNC() and an END_FUNC() within a function body.  The argument is
- * the return value.
- * The return value is assigned to a variable `ret_value' and control branches
- * to the `catch_except' label, if we're not already past it.
- */
-#define H5_LEAVE(v)                                                                                          \
-    {                                                                                                        \
-        ret_value = v;                                                                                       \
-        if (!past_catch)                                                                                     \
-            goto catch_except;                                                                               \
-    }
-
-/*
- * H5E_THROW macro, used to facilitate error reporting between a
- * FUNC_ENTER() and a FUNC_LEAVE() within a function body.  The arguments are
- * the minor error number, and an error string.
- * The return value is assigned to a variable `ret_value' and control branches
- * to the `catch_except' label, if we're not already past it.
- */
-#define H5E_THROW(...)                                                                                       \
-    {                                                                                                        \
-        H5E_PRINTF(__VA_ARGS__);                                                                             \
-        H5_LEAVE(fail_value)                                                                                 \
-    }
-
-/* Macro for "catching" flow of control when an error occurs.  Note that the
- *      H5_LEAVE macro won't jump back here once it's past this point.
- */
-#define CATCH                                                                                                \
-catch_except:;                                                                                               \
-    past_catch = TRUE;
 
 /* Library-private functions defined in H5E package */
 H5_DLL herr_t H5E_init(void);

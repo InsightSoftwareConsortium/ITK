@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -10,11 +9,6 @@
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-/*
- * Programmer:  Raymond Lu
- *              Jan 3, 2003
- */
 
 #include "H5Zmodule.h" /* This source code file is part of the H5Z module */
 
@@ -50,16 +44,13 @@ const H5Z_class2_t H5Z_FLETCHER32[1] = {{
  * Return:	Success: Size of buffer filtered
  *		Failure: 0
  *
- * Programmer:	Raymond Lu
- *              Jan 3, 2003
- *
  *-------------------------------------------------------------------------
  */
 static size_t
 H5Z__filter_fletcher32(unsigned flags, size_t H5_ATTR_UNUSED cd_nelmts,
                        const unsigned H5_ATTR_UNUSED cd_values[], size_t nbytes, size_t *buf_size, void **buf)
 {
-    void *         outbuf = NULL; /* Pointer to new buffer */
+    void          *outbuf = NULL; /* Pointer to new buffer */
     unsigned char *src    = (unsigned char *)(*buf);
     uint32_t       fletcher;          /* Checksum value */
     uint32_t       reversed_fletcher; /* Possible wrong checksum value */
@@ -67,9 +58,9 @@ H5Z__filter_fletcher32(unsigned flags, size_t H5_ATTR_UNUSED cd_nelmts,
     uint8_t        tmp;
     size_t         ret_value = 0; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
-    HDassert(sizeof(uint32_t) >= 4);
+    assert(sizeof(uint32_t) >= 4);
 
     if (flags & H5Z_FLAG_REVERSE) { /* Read */
         /* Do checksum if it's enabled for read; otherwise skip it
@@ -109,7 +100,7 @@ H5Z__filter_fletcher32(unsigned flags, size_t H5_ATTR_UNUSED cd_nelmts,
 
             /* Verify computed checksum matches stored checksum */
             if (stored_fletcher != fletcher && stored_fletcher != reversed_fletcher)
-                HGOTO_ERROR(H5E_STORAGE, H5E_READERROR, 0, "data error detected by Fletcher32 checksum")
+                HGOTO_ERROR(H5E_STORAGE, H5E_READERROR, 0, "data error detected by Fletcher32 checksum");
         }
 
         /* Set return values */
@@ -124,7 +115,7 @@ H5Z__filter_fletcher32(unsigned flags, size_t H5_ATTR_UNUSED cd_nelmts,
 
         if (NULL == (outbuf = H5MM_malloc(nbytes + FLETCHER_LEN)))
             HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, 0,
-                        "unable to allocate Fletcher32 checksum destination buffer")
+                        "unable to allocate Fletcher32 checksum destination buffer");
 
         dst = (unsigned char *)outbuf;
 

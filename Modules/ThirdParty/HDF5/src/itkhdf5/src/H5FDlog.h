@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -12,15 +11,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Quincey Koziol
- *              Monday, April 17, 2000
- *
  * Purpose:	The public header file for the log driver.
  */
 #ifndef H5FDlog_H
 #define H5FDlog_H
 
-#define H5FD_LOG (H5FD_log_init())
+#define H5FD_LOG       (H5FDperform_init(H5FD_log_init))
+#define H5FD_LOG_VALUE H5_VFD_LOG
 
 /* Flags for H5Pset_fapl_log() */
 /* Flags for tracking 'meta' operations (truncate) */

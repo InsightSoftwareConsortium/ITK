@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -28,19 +27,24 @@
 /* PacketTable superclass       */
 /********************************/
 
+/* Null constructor
+ * Sets table_id to "invalid"
+ */
+PacketTable::PacketTable() : table_id{H5I_INVALID_HID}
+{
+}
+
 /* "Open" Constructor
  * Opens an existing packet table, which can contain either fixed-length or
  * variable-length packets.
  */
-PacketTable::PacketTable(hid_t fileID, const char *name)
+PacketTable::PacketTable(hid_t fileID, const char *name) : table_id{H5PTopen(fileID, name)}
 {
-    table_id = H5PTopen(fileID, name);
 }
 
 /* "Open" Constructor - will be deprecated because of char* name */
-PacketTable::PacketTable(hid_t fileID, char *name)
+PacketTable::PacketTable(hid_t fileID, char *name) : table_id{H5PTopen(fileID, name)}
 {
-    table_id = H5PTopen(fileID, name);
 }
 
 /* Destructor
@@ -57,12 +61,9 @@ PacketTable::~PacketTable()
  * any trouble making or opening the packet table.
  */
 bool
-PacketTable::IsValid()
+PacketTable::IsValid() const
 {
-    if (H5PTis_valid(table_id) == 0)
-        return true;
-    else
-        return false;
+    return H5PTis_valid(table_id) == 0;
 }
 
 /* IsVariableLength
@@ -70,7 +71,7 @@ PacketTable::IsValid()
  * and 0, otherwise.  Returns -1 if the table is invalid (not open).
  */
 int
-PacketTable::IsVariableLength()
+PacketTable::IsVariableLength() const
 {
     return H5PTis_varlen(table_id);
 }
@@ -79,7 +80,7 @@ PacketTable::IsVariableLength()
  * Sets the index to point to the first packet in the packet table
  */
 void
-PacketTable::ResetIndex()
+PacketTable::ResetIndex() const
 {
     H5PTcreate_index(table_id);
 }
@@ -89,7 +90,7 @@ PacketTable::ResetIndex()
  * Returns 0 on success, negative on failure (if index is out of bounds)
  */
 int
-PacketTable::SetIndex(hsize_t index)
+PacketTable::SetIndex(hsize_t index) const
 {
     return H5PTset_index(table_id, index);
 }
@@ -99,7 +100,7 @@ PacketTable::SetIndex(hsize_t index)
  * Returns 0 on success, negative on failure (if index is out of bounds)
  */
 hsize_t
-PacketTable::GetIndex(int &error)
+PacketTable::GetIndex(int &error) const
 {
     hsize_t index;
 
@@ -116,7 +117,7 @@ PacketTable::GetIndex(int &error)
  * error is set to negative.
  */
 hsize_t
-PacketTable::GetPacketCount(int &error)
+PacketTable::GetPacketCount(int &error) const
 {
     hsize_t npackets;
 
@@ -128,7 +129,7 @@ PacketTable::GetPacketCount(int &error)
  * Returns the identifier of the packet table
  */
 hid_t
-PacketTable::GetTableId()
+PacketTable::GetTableId() const
 {
     return table_id;
 }
@@ -140,7 +141,7 @@ PacketTable::GetTableId()
  * the desired functionality cannot be performed via the packet table ID.
  */
 hid_t
-PacketTable::GetDatatype()
+PacketTable::GetDatatype() const
 {
     return H5PTget_type(table_id);
 }
@@ -152,7 +153,7 @@ PacketTable::GetDatatype()
  * the desired functionality cannot be performed via the packet table ID.
  */
 hid_t
-PacketTable::GetDataset()
+PacketTable::GetDataset() const
 {
     return H5PTget_dataset(table_id);
 }
@@ -164,7 +165,7 @@ PacketTable::GetDataset()
  * Returns 0 on success, negative on error.
  */
 int
-PacketTable::FreeBuff(size_t numStructs, hvl_t *buffer)
+PacketTable::FreeBuff(size_t numStructs, hvl_t *buffer) const
 {
     return H5PTfree_vlen_buff(table_id, numStructs, buffer);
 }
@@ -271,7 +272,7 @@ FL_PacketTable::GetPackets(hsize_t startIndex, hsize_t endIndex, void *data)
     if (startIndex > endIndex)
         return -1;
 
-    return H5PTread_packets(table_id, startIndex, (size_t)(endIndex - startIndex + 1), data);
+    return H5PTread_packets(table_id, startIndex, static_cast<size_t>(endIndex - startIndex + 1), data);
 }
 
 /* GetNextPacket (single packet)

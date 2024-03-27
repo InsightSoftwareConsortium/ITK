@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -17,103 +16,130 @@
 #ifndef H5Spublic_H
 #define H5Spublic_H
 
-/* Public headers needed by this file */
-#include "H5public.h"
-#include "H5Ipublic.h"
+#include "H5public.h"  /* Generic Functions                        */
+#include "H5Ipublic.h" /* Identifiers                              */
 
-/* Define atomic datatypes */
-#define H5S_ALL       (hid_t)0
-#define H5S_UNLIMITED HSIZE_UNDEF
+/* Define special dataspaces for dataset I/O operations */
 
-/* Define user-level maximum number of dimensions */
+/**
+ * Used with @ref H5Dread and @ref H5Dwrite to indicate that the entire
+ * dataspace will be selected. In the case of a file dataspace, this means
+ * that the entire file dataspace, as defined by the dataset's dimensions,
+ * will be selected. In the case of a memory dataspace, this means that
+ * the specified file dataspace will also be used for the memory dataspace.
+ * Used in place of a file or memory dataspace @ref hid_t value.
+ */
+#define H5S_ALL 0
+
+/**
+ * Indicates that the buffer provided in a call to @ref H5Dread or @ref H5Dwrite
+ * is a single contiguous block of memory, with the same number of elements
+ * as the file dataspace. Used in place of a memory dataspace @ref hid_t value.
+ */
+#define H5S_BLOCK 1
+
+/**
+ * Used with @ref H5Dread and @ref H5Dwrite to indicate that the file dataspace
+ * selection was set via @ref H5Pset_dataset_io_hyperslab_selection calls.
+ * Used in place of a file dataspace @ref hid_t value.
+ */
+#define H5S_PLIST 2
+
+#define H5S_UNLIMITED HSIZE_UNDEF /**< Value for 'unlimited' dimensions */
+
+/**
+ * The maximum dataspace rank or number of dimensions
+ */
 #define H5S_MAX_RANK 32
 
 /* Flags for selection iterators */
 #define H5S_SEL_ITER_GET_SEQ_LIST_SORTED                                                                     \
-    0x0001 /* Retrieve elements from iterator                                                                \
-            * in increasing offset order, for                                                                \
-            * each call to retrieve sequences.                                                               \
-            * Currently, this only applies to                                                                \
-            * point selections, as hyperslab                                                                 \
-            * selections are always returned                                                                 \
-            * in increasing offset order.                                                                    \
-            *                                                                                                \
-            * Note that the order is only                                                                    \
-            * increasing for each call to                                                                    \
-            * get_seq_list, the next set of                                                                  \
-            * sequences could start with an                                                                  \
-            * earlier offset than the previous                                                               \
-            * one.                                                                                           \
+    0x0001 /**< Retrieve elements from iterator in increasing offset order, for                              \
+            * each call to retrieve sequences. Currently, this only applies to                               \
+            * point selections, as hyperslab selections are always returned in                               \
+            * increasing offset order. Note that the order is only increasing                                \
+            * for each call to H5Sget_seq_list(), the next set of sequences                                  \
+            * could start with an earlier offset than the previous one.                                      \
             */
 #define H5S_SEL_ITER_SHARE_WITH_DATASPACE                                                                    \
-    0x0002 /* Don't copy the dataspace                                                                       \
-            * selection when creating the                                                                    \
-            * selection iterator.                                                                            \
-            *                                                                                                \
-            * This can improve performance                                                                   \
-            * of creating the iterator, but                                                                  \
-            * the dataspace _MUST_NOT_ be                                                                    \
-            * modified or closed until the                                                                   \
-            * selection iterator is closed                                                                   \
-            * or the iterator's behavior                                                                     \
-            * will be undefined.                                                                             \
+    0x0002 /**< Don't copy the dataspace selection when creating the selection                               \
+            * iterator. This can improve performance of creating the iterator,                               \
+            * but the dataspace \Bold{MUST NOT} be modified or closed until the                              \
+            * selection iterator is closed or the iterator's behavior will be                                \
+            * undefined.                                                                                     \
             */
 
-/* Different types of dataspaces */
+/**
+ * Types of dataspaces
+ */
 typedef enum H5S_class_t {
-    H5S_NO_CLASS = -1, /*error                                      */
-    H5S_SCALAR   = 0,  /*scalar variable                            */
-    H5S_SIMPLE   = 1,  /*simple dataspace                           */
-    H5S_NULL     = 2   /*null dataspace                             */
+    H5S_NO_CLASS = -1, /**< Error                                      */
+    H5S_SCALAR   = 0,  /**< Singleton (scalar)                         */
+    H5S_SIMPLE   = 1,  /**< Regular grid                               */
+    H5S_NULL     = 2   /**< Empty set                                  */
 } H5S_class_t;
 
-/* Different ways of combining selections */
+/**
+ * Different ways of combining selections
+ */
 typedef enum H5S_seloper_t {
-    H5S_SELECT_NOOP = -1, /* error                                     */
-    H5S_SELECT_SET  = 0,  /* Select "set" operation              */
-    H5S_SELECT_OR,        /* Binary "or" operation for hyperslabs
+    H5S_SELECT_NOOP = -1, /**< Error                                     */
+    H5S_SELECT_SET  = 0,  /**< Select "set" operation 		             */
+    H5S_SELECT_OR,        /**< Binary "or" operation for hyperslabs
                            * (add new selection to existing selection)
+                           * \code
                            * Original region:  AAAAAAAAAA
                            * New region:             BBBBBBBBBB
                            * A or B:           CCCCCCCCCCCCCCCC
+                           * \endcode
                            */
-    H5S_SELECT_AND,       /* Binary "and" operation for hyperslabs
+    H5S_SELECT_AND,       /**< Binary "and" operation for hyperslabs
                            * (only leave overlapped regions in selection)
+                           * \code
                            * Original region:  AAAAAAAAAA
                            * New region:             BBBBBBBBBB
                            * A and B:                CCCC
+                           * \endcode
                            */
-    H5S_SELECT_XOR,       /* Binary "xor" operation for hyperslabs
+    H5S_SELECT_XOR,       /**< Binary "xor" operation for hyperslabs
                            * (only leave non-overlapped regions in selection)
+                           * \code
                            * Original region:  AAAAAAAAAA
                            * New region:             BBBBBBBBBB
                            * A xor B:          CCCCCC    CCCCCC
+                           * \endcode
                            */
-    H5S_SELECT_NOTB,      /* Binary "not" operation for hyperslabs
+    H5S_SELECT_NOTB,      /**< Binary "not" operation for hyperslabs
                            * (only leave non-overlapped regions in original selection)
+                           * \code
                            * Original region:  AAAAAAAAAA
                            * New region:             BBBBBBBBBB
                            * A not B:          CCCCCC
+                           * \endcode
                            */
-    H5S_SELECT_NOTA,      /* Binary "not" operation for hyperslabs
+    H5S_SELECT_NOTA,      /**< Binary "not" operation for hyperslabs
                            * (only leave non-overlapped regions in new selection)
+                           * \code
                            * Original region:  AAAAAAAAAA
                            * New region:             BBBBBBBBBB
                            * B not A:                    CCCCCC
+                           * \endcode
                            */
-    H5S_SELECT_APPEND,    /* Append elements to end of point selection */
-    H5S_SELECT_PREPEND,   /* Prepend elements to beginning of point selection */
-    H5S_SELECT_INVALID    /* Invalid upper bound on selection operations */
+    H5S_SELECT_APPEND,    /**< Append elements to end of point selection */
+    H5S_SELECT_PREPEND,   /**< Prepend elements to beginning of point selection */
+    H5S_SELECT_INVALID    /**< Invalid upper bound on selection operations */
 } H5S_seloper_t;
 
-/* Enumerated type for the type of selection */
+/**
+ * Selection type
+ */
 typedef enum {
-    H5S_SEL_ERROR      = -1, /* Error            */
-    H5S_SEL_NONE       = 0,  /* Nothing selected         */
-    H5S_SEL_POINTS     = 1,  /* Points / elements selected    */
-    H5S_SEL_HYPERSLABS = 2,  /* Hyperslab selected           */
-    H5S_SEL_ALL        = 3,  /* Entire extent selected    */
-    H5S_SEL_N                /*THIS MUST BE LAST        */
+    H5S_SEL_ERROR      = -1, /**< Error                                 */
+    H5S_SEL_NONE       = 0,  /**< Empty selection                       */
+    H5S_SEL_POINTS     = 1,  /**< Set of points                         */
+    H5S_SEL_HYPERSLABS = 2,  /**< Hyperslab                             */
+    H5S_SEL_ALL        = 3,  /**< Everything	                        */
+    H5S_SEL_N                /**< Sentinel \internal THIS MUST BE LAST	*/
 } H5S_sel_type;
 
 #ifdef __cplusplus
@@ -858,9 +884,9 @@ H5_DLL hid_t H5Ssel_iter_create(hid_t spaceid, size_t elmt_size, unsigned flags)
  *
  * \space_id{sel_iter_id}
  * \param[in]  maxseq   Maximum number of sequences to retrieve
- * \param[in]  maxbytes Maximum number of bytes to retrieve in sequences
+ * \param[in]  maxelmts Maximum number of elements to retrieve in sequences
  * \param[out] nseq     Number of sequences retrieved
- * \param[out] nbytes   Number of bytes retrieved, in all sequences
+ * \param[out] nelmts   Number of elements retrieved, in all sequences
  * \param[out] off      Array of sequence offsets
  * \param[out] len      Array of sequence lengths
  *
@@ -877,9 +903,9 @@ H5_DLL hid_t H5Ssel_iter_create(hid_t spaceid, size_t elmt_size, unsigned flags)
  *          #H5S_SEL_ITER_GET_SEQ_LIST_SORTED flag is passed to
  *          H5Ssel_iter_create() for a point selection.
  *
- *          \p maxseq and \p maxbytes specify the most sequences or bytes
+ *          \p maxseq and \p maxelmts specify the most sequences or elements
  *          possible to place into the \p off and \p len arrays. \p nseq and
- *          \p nbytes return the actual number of sequences and bytes put
+ *          \p nelmts return the actual number of sequences and elements put
  *          into the arrays.
  *
  *          Each call to H5Ssel_iter_get_seq_list() will retrieve the next
@@ -891,13 +917,13 @@ H5_DLL hid_t H5Ssel_iter_create(hid_t spaceid, size_t elmt_size, unsigned flags)
  *          the iterator was created from (which can be retrieved with
  *          H5Sget_select_npoints().  When there are no further sequences of
  *          elements to retrieve, calls to this routine will set \p nseq
- *          and \p nbytes to zero.
+ *          and \p nelmts to zero.
  *
  * \since 1.12.0
  *
  */
-H5_DLL herr_t H5Ssel_iter_get_seq_list(hid_t sel_iter_id, size_t maxseq, size_t maxbytes, size_t *nseq,
-                                       size_t *nbytes, hsize_t *off, size_t *len);
+H5_DLL herr_t H5Ssel_iter_get_seq_list(hid_t sel_iter_id, size_t maxseq, size_t maxelmts, size_t *nseq,
+                                       size_t *nelmts, hsize_t *off, size_t *len);
 /**
  * \ingroup H5S
  *
@@ -1000,7 +1026,7 @@ H5_DLL herr_t H5Sselect_copy(hid_t dst_id, hid_t src_id);
  *          The \p coord parameter is a pointer to a buffer containing a
  *          serialized 2-dimensional array of size \p num_elements by the
  *          rank of the dataspace. The array lists dataset elements in the
- *          point selection; that is, it’s a list of of zero-based values
+ *          point selection; that is, it's a list of zero-based values
  *          specifying the coordinates in the dataset of the selected
  *          elements. The order of the element coordinates in the \p coord
  *          array specifies the order in which the array elements are
@@ -1042,7 +1068,7 @@ H5_DLL herr_t H5Sselect_copy(hid_t dst_id, hid_t src_id);
  *
  *          In the 1D case, we will be selecting five points and a 1D
  *          dataspace has rank 1, so the selection will be described in a
- *          5-by-1 array. To select the 1st, 14th, 17th, 23rd, 8th elements
+ *          5-by-1 array. To select the 1st, 14th, 17th, 23rd and 8th elements
  *          of the dataset, the selection array would be as follows
  *          (remembering that point coordinates are zero-based):
  *          \n      0
@@ -1314,20 +1340,13 @@ H5_DLL herr_t H5Sset_extent_none(hid_t space_id);
  * \details H5Sset_extent_simple() sets or resets the size of an existing
  *          dataspace.
  *
- *          \p rank is the dimensionality, or number of dimensions, of the
- *          dataspace.
- *
- *          \p dims is an array of size \p rank which contains the new size
+ *          \p dims is an array of size \p rank that contains the new size
  *          of each dimension in the dataspace. \p max is an array of size
- *          \p rank which contains the maximum size of each dimension in
+ *          \p rank that contains the maximum size of each dimension in
  *          the dataspace.
  *
  *          Any previous extent is removed from the dataspace, the dataspace
  *          type is set to #H5S_SIMPLE, and the extent is set as specified.
- *
- *          Note that a dataset must be chunked if \p dims does not equal
- *          \p max.
- *
  *
  * \version 1.4.0 Fortran subroutine was introduced.
  * \since 1.0.0

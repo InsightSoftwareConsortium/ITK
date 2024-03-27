@@ -1,5 +1,5 @@
 #[[ ITK --start
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.16.3)
 # ITK --stop ]]
 
 message(STATUS "Check for existence of ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")

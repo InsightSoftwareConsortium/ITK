@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -14,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:         H5HLprivate.h
- *                  Jul 16 1997
- *                  Robb Matzke
  *
  * Purpose:         Private declarations for the H5HL (local heap) package.
  *
@@ -53,12 +50,12 @@ typedef struct H5HL_t H5HL_t;
 /*
  * Library prototypes
  */
-H5_DLL herr_t H5HL_create(H5F_t *f, size_t size_hint, haddr_t *addr /*out*/);
-H5_DLL herr_t H5HL_delete(H5F_t *f, haddr_t addr);
-H5_DLL herr_t H5HL_get_size(H5F_t *f, haddr_t addr, size_t *size);
-H5_DLL herr_t H5HL_heapsize(H5F_t *f, haddr_t addr, hsize_t *heap_size);
-H5_DLL herr_t H5HL_insert(H5F_t *f, H5HL_t *heap, size_t size, const void *buf, size_t *offset);
-H5_DLL void * H5HL_offset_into(const H5HL_t *heap, size_t offset);
+H5_DLL herr_t  H5HL_create(H5F_t *f, size_t size_hint, haddr_t *addr /*out*/);
+H5_DLL herr_t  H5HL_delete(H5F_t *f, haddr_t addr);
+H5_DLL herr_t  H5HL_get_size(H5F_t *f, haddr_t addr, size_t *size);
+H5_DLL herr_t  H5HL_heapsize(H5F_t *f, haddr_t addr, hsize_t *heap_size);
+H5_DLL herr_t  H5HL_insert(H5F_t *f, H5HL_t *heap, size_t size, const void *buf, size_t *offset);
+H5_DLL void   *H5HL_offset_into(const H5HL_t *heap, size_t offset);
 H5_DLL H5HL_t *H5HL_protect(H5F_t *f, haddr_t addr, unsigned flags);
 H5_DLL herr_t  H5HL_remove(H5F_t *f, H5HL_t *heap, size_t offset, size_t size);
 H5_DLL herr_t  H5HL_unprotect(H5HL_t *heap);
@@ -66,4 +63,4 @@ H5_DLL herr_t  H5HL_unprotect(H5HL_t *heap);
 /* Debugging routines for dumping file structures */
 H5_DLL herr_t H5HL_debug(H5F_t *f, haddr_t addr, FILE *stream, int indent, int fwidth);
 
-#endif
+#endif /* H5HLprivate_H */

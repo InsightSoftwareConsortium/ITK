@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -14,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:   H5Cprivate.h
- *            6/3/04
- *            John Mainzer
  *
  * Purpose:   Constants and typedefs available to the rest of the
  *            library.
@@ -43,8 +40,6 @@
 /* This sanity checking constant was picked out of the air.  Increase
  * or decrease it if appropriate.  Its purposes is to detect corrupt
  * object sizes, so it probably doesn't matter if it is a bit big.
- *
- *                    JRM - 5/17/04
  */
 #define H5C_MAX_ENTRY_SIZE ((size_t)(32 * 1024 * 1024))
 
@@ -89,10 +84,6 @@
  */
 #define H5C__DEFAULT_MAX_CACHE_SIZE ((size_t)(4 * 1024 * 1024))
 #define H5C__DEFAULT_MIN_CLEAN_SIZE ((size_t)(2 * 1024 * 1024))
-
-/* Values for cache entry magic field */
-#define H5C__H5C_CACHE_ENTRY_T_MAGIC     0x005CAC0A
-#define H5C__H5C_CACHE_ENTRY_T_BAD_MAGIC 0xDeadBeef
 
 /* Cache configuration validation definitions */
 #define H5C_RESIZE_CFG__VALIDATE_GENERAL      0x1
@@ -207,20 +198,24 @@
 #define H5C__UPDATE_PAGE_BUFFER_FLAG        0x40000 /* Set during parallel I/O */
 
 /* Debugging/sanity checking/statistics settings */
-#ifndef NDEBUG
-#define H5C_DO_SANITY_CHECKS         1
-#define H5C_DO_SLIST_SANITY_CHECKS   0
-#define H5C_DO_TAGGING_SANITY_CHECKS 1
-#define H5C_DO_EXTREME_SANITY_CHECKS 0
-#else /* NDEBUG */
-/* With rare execptions, the following defines should be set
- * to 0 if NDEBUG is defined
+/* #define H5C_DO_SANITY_CHECKS */
+/* #define H5C_DO_SLIST_SANITY_CHECKS */
+/* #define H5C_DO_TAGGING_SANITY_CHECKS */
+/* #define H5C_DO_EXTREME_SANITY_CHECKS */
+
+/*
+ * If not already set externally (e.g., from the build
+ * system), set a few debugging options for debug builds.
  */
-#define H5C_DO_SANITY_CHECKS         0
-#define H5C_DO_SLIST_SANITY_CHECKS   0
-#define H5C_DO_TAGGING_SANITY_CHECKS 0
-#define H5C_DO_EXTREME_SANITY_CHECKS 0
-#endif /* NDEBUG */
+#ifndef NDEBUG
+#ifndef H5C_DO_SANITY_CHECKS
+#define H5C_DO_SANITY_CHECKS
+#endif
+
+#ifndef H5C_DO_TAGGING_SANITY_CHECKS
+#define H5C_DO_TAGGING_SANITY_CHECKS
+#endif
+#endif
 
 /* Cork actions: cork/uncork/get cork status of an object */
 #define H5C__SET_CORK   0x1
@@ -884,7 +879,7 @@ typedef herr_t (*H5C_get_fsf_size_t)(const void *thing, hsize_t *fsf_size_ptr);
 /* Metadata cache client class definition */
 typedef struct H5C_class_t {
     int                              id;
-    const char *                     name;
+    const char                      *name;
     H5FD_mem_t                       mem_type;
     unsigned                         flags;
     H5C_get_initial_load_size_func_t get_initial_load_size;
@@ -924,7 +919,7 @@ typedef herr_t (*H5C_log_flush_func_t)(H5C_t *cache_ptr, haddr_t addr, hbool_t w
  * instead would apply unnecessary constraints on flushes under normal
  * operating circumstances.
  *
- * As of this writing, all metadata entries pretaining to data sets and
+ * As of this writing, all metadata entries pertaining to data sets and
  * groups must be flushed first, and are thus assigned to the outermost
  * ring.
  *
@@ -974,27 +969,6 @@ typedef int H5C_ring_t;
  * All other fields are managed by the cache.
  *
  * The fields of this structure are discussed individually below:
- *
- *                        JRM - 4/26/04
- *
- * magic:    Unsigned 32 bit integer that must always be set to
- *              H5C__H5C_CACHE_ENTRY_T_MAGIC when the entry is valid.
- *              The field must be set to H5C__H5C_CACHE_ENTRY_T_BAD_MAGIC
- *              just before the entry is freed.
- *
- *              This is necessary, as the LRU list can be changed out
- *              from under H5C__make_space_in_cache() by the serialize
- *              callback which may change the size of an existing entry,
- *              and/or load a new entry while serializing the target entry.
- *
- *              This in turn can cause a recursive call to
- *              H5C__make_space_in_cache() which may either flush or evict
- *              the next entry that the first invocation of that function
- *              was about to examine.
- *
- *              The magic field allows H5C__make_space_in_cache() to
- *              detect this case, and re-start its scan from the bottom
- *              of the LRU when this situation occurs.
  *
  * cache_ptr:    Pointer to the cache that this entry is contained within.
  *
@@ -1097,15 +1071,9 @@ typedef int H5C_ring_t;
  *           be unpinned (and possibly unprotected) during the
  *           flush.
  *
- *                               JRM -- 3/16/06
- *
  * in_slist:    Boolean flag indicating whether the entry is in the skip list
- *        As a general rule, entries are placed in the list when they
- *              are marked dirty.  However they may remain in the list after
- *              being flushed.
- *
- *              Update: Dirty entries are now removed from the skip list
- *            when they are flushed.
+ *        As a general rule, entries are placed in the list when they are
+ *        marked dirty.
  *
  * flush_marker:  Boolean flag indicating that the entry is to be flushed
  *        the next time H5C_flush_cache() is called with the
@@ -1113,24 +1081,13 @@ typedef int H5C_ring_t;
  *        the entry is flushed for whatever reason.
  *
  * flush_me_last:  Boolean flag indicating that this entry should not be
- *        flushed from the cache until all other entries without
- *              the flush_me_last flag set have been flushed.
+ *        flushed from the cache until all other entries without the
+ *        flush_me_last flag set have been flushed.
  *
- *        Note:
- *
- *        At this time, the flush_me_last
- *              flag will only be applied to one entry, the superblock,
- *              and the code utilizing these flags is protected with HDasserts
- *              to enforce this. This restraint can certainly be relaxed in
- *              the future if the the need for multiple entries getting flushed
- *              last or collectively arises, though the code allowing for that
- *              will need to be expanded and tested appropriately if that
- *              functionality is desired.
- *
- *        Update: There are now two possible last entries
- *                       (superblock and file driver info message).  This
- *                       number will probably increase as we add superblock
- *                       messages.   JRM -- 11/18/14
+ *        Note: At this time, the flush_me_last flag will only be applied to
+ *              two types of entries: the superblock and the file driver info
+ *              message.  The code utilizing these flags is protected with
+ *              asserts to enforce this.
  *
  * clear_on_unprotect:  Boolean flag used only in PHDF5.  When H5C is used
  *        to implement the metadata cache In the parallel case, only
@@ -1224,8 +1181,6 @@ typedef int H5C_ring_t;
  * Entries in the cache are indexed by a more or less conventional hash table.
  * If there are multiple entries in any hash bin, they are stored in a doubly
  * linked list.
- *
- * Addendum:  JRM -- 10/14/15
  *
  * We have come to scan all entries in the cache frequently enough that
  * the cost of doing so by scanning the hash table has become unacceptable.
@@ -1428,7 +1383,7 @@ typedef int H5C_ring_t;
  *        with no flush dependency children.
  *
  *        Since the image_fd_height is used to order entries in the
- *        cache image so that fd parents preceed fd children, for
+ *        cache image so that fd parents precede fd children, for
  *        purposes of this field, and entry is at flush dependency
  *        level 0 if it either has no children, or if all of its
  *        children are not in the cache image.
@@ -1543,7 +1498,7 @@ typedef int H5C_ring_t;
  *        number of times each entry is serialized during cache
  *        serialization.  While no entry should be serialized more than
  *        once in any serialization call, throw an assertion if any
- *        flush depencency parent is serialized more than once during
+ *        flush dependency parent is serialized more than once during
  *        a single cache serialization.
  *
  *        This is a debugging field, and thus is maintained only if
@@ -1590,11 +1545,10 @@ typedef int H5C_ring_t;
  *
  ****************************************************************************/
 typedef struct H5C_cache_entry_t {
-    uint32_t           magic;
-    H5C_t *            cache_ptr;
+    H5C_t             *cache_ptr;
     haddr_t            addr;
     size_t             size;
-    void *             image_ptr;
+    void              *image_ptr;
     hbool_t            image_up_to_date;
     const H5C_class_t *type;
     hbool_t            is_dirty;
@@ -1666,7 +1620,7 @@ typedef struct H5C_cache_entry_t {
     /* fields supporting tag lists */
     struct H5C_cache_entry_t *tl_next;
     struct H5C_cache_entry_t *tl_prev;
-    struct H5C_tag_info_t *   tag_info;
+    struct H5C_tag_info_t    *tag_info;
 
 #if H5C_COLLECT_CACHE_ENTRY_STATS
     /* cache entry stats fields */
@@ -1687,13 +1641,6 @@ typedef struct H5C_cache_entry_t {
  * of H5C_cache_entry_t.
  *
  * The fields of this structure are discussed individually below:
- *
- *                        JRM - 8/5/15
- *
- * magic:    Unsigned 32 bit integer that must always be set to
- *              H5C_IMAGE_ENTRY_T_MAGIC when the entry is valid.
- *              The field must be set to H5C_IMAGE_ENTRY_T_BAD_MAGIC
- *              just before the entry is freed.
  *
  * addr:    Base address of the cache entry on disk.
  *
@@ -1734,7 +1681,7 @@ typedef struct H5C_cache_entry_t {
  *              with no flush dependency children.
  *
  *              Since the image_fd_height is used to order entries in the
- *              cache image so that fd parents preceed fd children, for
+ *              cache image so that fd parents precede fd children, for
  *              purposes of this field, an entry is at flush dependency
  *              level 0 if it either has no children, or if all of its
  *              children are not in the cache image.
@@ -1818,11 +1765,8 @@ typedef struct H5C_cache_entry_t {
  *               callbacks must be used to update this image before it is
  *               written to disk
  *
- *
  ****************************************************************************/
-
 typedef struct H5C_image_entry_t {
-    uint32_t   magic;
     haddr_t    addr;
     size_t     size;
     H5C_ring_t ring;
@@ -1832,10 +1776,10 @@ typedef struct H5C_image_entry_t {
     hbool_t    is_dirty;
     unsigned   image_fd_height;
     uint64_t   fd_parent_count;
-    haddr_t *  fd_parent_addrs;
+    haddr_t   *fd_parent_addrs;
     uint64_t   fd_child_count;
     uint64_t   fd_dirty_child_count;
-    void *     image_ptr;
+    void      *image_ptr;
 } H5C_image_entry_t;
 
 /****************************************************************************
@@ -1852,7 +1796,7 @@ typedef struct H5C_image_entry_t {
  *    H5C_auto_size_ctl_t passed to the cache must have a known
  *    version number, or an error will be flagged.
  *
- * report_fcn:  Pointer to the function that is to be called to report
+ * rpt_fcn:  Pointer to the function that is to be called to report
  *    activities each time the auto cache resize code is executed.  If the
  *    field is NULL, no call is made.
  *
@@ -1975,10 +1919,6 @@ typedef struct H5C_image_entry_t {
  *      performance, however the above flash increment algorithm will not be
  *      triggered.
  *
- *      Hopefully, the add space algorithm detailed above will be sufficient
- *      for the performance problems encountered to date.  However, we should
- *      expect to revisit the issue.
- *
  * flash_multiple: Double containing the multiple described above in the
  *      H5C_flash_incr__add_space section of the discussion of the
  *      flash_incr_mode section.  This field is ignored unless flash_incr_mode
@@ -2045,8 +1985,8 @@ typedef struct H5C_image_entry_t {
  *    The field is a double containing the multiplier used to derive the
  *    new cache size from the old if a cache size decrement is triggered.
  *    The decrement must be in the range 0.0 (in which case the cache will
- *      try to contract to its minimum size) to 1.0 (in which case the
- *      cache will never shrink).
+ *    try to contract to its minimum size) to 1.0 (in which case the
+ *    cache will never shrink).
  *
  * apply_max_decrement:  Boolean flag used to determine whether decrements
  *    in cache size are to be limited by the max_decrement field.
@@ -2161,7 +2101,7 @@ typedef struct H5C_auto_size_ctl_t {
  *      H5AC__CACHE_IMAGE__ENTRY_AGEOUT__MAX (100).
  *
  *      H5AC__CACHE_IMAGE__ENTRY_AGEOUT__NONE means that no limit
- *      is imposed on number of times a prefeteched entry can appear
+ *      is imposed on number of times a prefetched entry can appear
  *      in subsequent cache images.
  *
  *      A value of 0 prevents prefetched entries from being included
@@ -2177,7 +2117,7 @@ typedef struct H5C_auto_size_ctl_t {
  *      equivalent of H5AC__CACHE_IMAGE__ENTRY_AGEOUT__NONE.
  *
  * flags: Unsigned integer containing flags controlling which aspects of the
- *    cache image functinality is actually executed.  The primary impetus
+ *    cache image functionality is actually executed.  The primary impetus
  *    behind this field is to allow development of tests for partial
  *    implementations that will require little if any modification to run
  *    with the full implementation.  In normal operation, all flags should
@@ -2221,7 +2161,7 @@ typedef enum H5C_log_style_t { H5C_LOG_STYLE_JSON, H5C_LOG_STYLE_TRACE } H5C_log
 /***************************************/
 
 H5_DLL H5C_t *H5C_create(size_t max_cache_size, size_t min_clean_size, int max_type_id,
-                         const H5C_class_t *const * class_table_ptr,
+                         const H5C_class_t *const  *class_table_ptr,
                          H5C_write_permitted_func_t check_write_permitted, hbool_t write_permitted,
                          H5C_log_flush_func_t log_flush, void *aux_ptr);
 H5_DLL void   H5C_def_auto_resize_rpt_fcn(H5C_t *cache_ptr, int32_t version, double hit_rate,
@@ -2236,23 +2176,21 @@ H5_DLL herr_t H5C_flush_tagged_entries(H5F_t *f, haddr_t tag);
 H5_DLL herr_t H5C_evict_tagged_entries(H5F_t *f, haddr_t tag, hbool_t match_global);
 H5_DLL herr_t H5C_expunge_tag_type_metadata(H5F_t *f, haddr_t tag, int type_id, unsigned flags);
 H5_DLL herr_t H5C_get_tag(const void *thing, /*OUT*/ haddr_t *tag);
-#if H5C_DO_TAGGING_SANITY_CHECKS
+#ifdef H5C_DO_TAGGING_SANITY_CHECKS
 herr_t H5C_verify_tag(int id, haddr_t tag);
 #endif
 H5_DLL herr_t H5C_flush_to_min_clean(H5F_t *f);
 H5_DLL herr_t H5C_get_cache_auto_resize_config(const H5C_t *cache_ptr, H5C_auto_size_ctl_t *config_ptr);
-H5_DLL herr_t H5C_get_cache_image_config(const H5C_t *cache_ptr, H5C_cache_image_ctl_t *config_ptr);
-H5_DLL herr_t H5C_get_cache_size(H5C_t *cache_ptr, size_t *max_size_ptr, size_t *min_clean_size_ptr,
+H5_DLL herr_t H5C_get_cache_size(const H5C_t *cache_ptr, size_t *max_size_ptr, size_t *min_clean_size_ptr,
                                  size_t *cur_size_ptr, uint32_t *cur_num_entries_ptr);
-H5_DLL herr_t H5C_get_cache_flush_in_progress(H5C_t *cache_ptr, hbool_t *flush_in_progress_ptr);
-H5_DLL herr_t H5C_get_cache_hit_rate(H5C_t *cache_ptr, double *hit_rate_ptr);
+H5_DLL herr_t H5C_get_cache_flush_in_progress(const H5C_t *cache_ptr, hbool_t *flush_in_progress_ptr);
+H5_DLL herr_t H5C_get_cache_hit_rate(const H5C_t *cache_ptr, double *hit_rate_ptr);
 H5_DLL herr_t H5C_get_entry_status(const H5F_t *f, haddr_t addr, size_t *size_ptr, hbool_t *in_cache_ptr,
                                    hbool_t *is_dirty_ptr, hbool_t *is_protected_ptr, hbool_t *is_pinned_ptr,
                                    hbool_t *is_corked_ptr, hbool_t *is_flush_dep_parent_ptr,
                                    hbool_t *is_flush_dep_child_ptr, hbool_t *image_up_to_date_ptr);
 H5_DLL herr_t H5C_get_evictions_enabled(const H5C_t *cache_ptr, hbool_t *evictions_enabled_ptr);
-H5_DLL void * H5C_get_aux_ptr(const H5C_t *cache_ptr);
-H5_DLL herr_t H5C_image_stats(H5C_t *cache_ptr, hbool_t print_header);
+H5_DLL void  *H5C_get_aux_ptr(const H5C_t *cache_ptr);
 H5_DLL herr_t H5C_insert_entry(H5F_t *f, const H5C_class_t *type, haddr_t addr, void *thing,
                                unsigned int flags);
 H5_DLL herr_t H5C_load_cache_image_on_next_protect(H5F_t *f, haddr_t addr, hsize_t len, hbool_t rw);
@@ -2264,7 +2202,7 @@ H5_DLL herr_t H5C_move_entry(H5C_t *cache_ptr, const H5C_class_t *type, haddr_t 
 H5_DLL herr_t H5C_pin_protected_entry(void *thing);
 H5_DLL herr_t H5C_prep_for_file_close(H5F_t *f);
 H5_DLL herr_t H5C_create_flush_dependency(void *parent_thing, void *child_thing);
-H5_DLL void * H5C_protect(H5F_t *f, const H5C_class_t *type, haddr_t addr, void *udata, unsigned flags);
+H5_DLL void  *H5C_protect(H5F_t *f, const H5C_class_t *type, haddr_t addr, void *udata, unsigned flags);
 H5_DLL herr_t H5C_reset_cache_hit_rate_stats(H5C_t *cache_ptr);
 H5_DLL herr_t H5C_resize_entry(void *thing, size_t new_size);
 H5_DLL herr_t H5C_set_cache_auto_resize_config(H5C_t *cache_ptr, H5C_auto_size_ctl_t *config_ptr);
@@ -2290,7 +2228,7 @@ H5_DLL herr_t   H5C_unsettle_ring(H5F_t *f, H5C_ring_t ring);
 H5_DLL herr_t   H5C_remove_entry(void *thing);
 H5_DLL herr_t   H5C_cache_image_status(H5F_t *f, hbool_t *load_ci_ptr, hbool_t *write_ci_ptr);
 H5_DLL hbool_t  H5C_cache_image_pending(const H5C_t *cache_ptr);
-H5_DLL herr_t   H5C_get_mdc_image_info(H5C_t *cache_ptr, haddr_t *image_addr, hsize_t *image_len);
+H5_DLL herr_t   H5C_get_mdc_image_info(const H5C_t *cache_ptr, haddr_t *image_addr, hsize_t *image_len);
 
 /* Logging functions */
 H5_DLL herr_t H5C_start_logging(H5C_t *cache);

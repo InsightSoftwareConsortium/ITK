@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -36,7 +35,6 @@ namespace H5 {
 //--------------------------------------------------------------------------
 // Function:    AbstractDs default constructor
 ///\brief       Default constructor
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 AbstractDs::AbstractDs()
 {
@@ -45,7 +43,6 @@ AbstractDs::AbstractDs()
 //--------------------------------------------------------------------------
 // Function:    AbstractDs default constructor
 ///\brief       Creates an AbstractDs instance using an existing id.
-// Programmer   Binh-Minh Ribler - 2000
 //
 // *** Deprecation warning ***
 // This constructor is no longer appropriate because the data member "id" had
@@ -61,7 +58,6 @@ AbstractDs::AbstractDs()
 ///             object, which can be a dataset or an attribute.
 ///\return      Datatype class identifier
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5T_class_t
 AbstractDs::getTypeClass() const
@@ -108,7 +104,6 @@ AbstractDs::getTypeClass() const
 ///             can be a dataset or an attribute.
 ///\return      DataType instance
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DataType
 AbstractDs::getDataType() const
@@ -136,7 +131,6 @@ AbstractDs::getDataType() const
 ///             can be a dataset or an attribute.
 ///\return      ArrayType instance
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Jul, 2005
 //--------------------------------------------------------------------------
 ArrayType
 AbstractDs::getArrayType() const
@@ -166,7 +160,6 @@ AbstractDs::getArrayType() const
 ///             can be a dataset or an attribute.
 ///\return      CompType instance
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 CompType
 AbstractDs::getCompType() const
@@ -194,7 +187,6 @@ AbstractDs::getCompType() const
 ///             can be a dataset or an attribute.
 ///\return      EnumType instance
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 EnumType
 AbstractDs::getEnumType() const
@@ -222,7 +214,6 @@ AbstractDs::getEnumType() const
 ///             can be a dataset or an attribute.
 ///\return      IntType instance
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 IntType
 AbstractDs::getIntType() const
@@ -250,7 +241,6 @@ AbstractDs::getIntType() const
 ///             which can be a dataset or an attribute.
 ///\return      FloatType instance
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FloatType
 AbstractDs::getFloatType() const
@@ -278,7 +268,6 @@ AbstractDs::getFloatType() const
 ///             can be a dataset or an attribute.
 ///\return      StrType instance
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 StrType
 AbstractDs::getStrType() const
@@ -302,11 +291,10 @@ AbstractDs::getStrType() const
 
 //--------------------------------------------------------------------------
 // Function:    AbstractDs::getVarLenType
-///\brief       Returns the floating-point datatype of this abstract dataset,
+///\brief       Returns the variable length datatype of this abstract dataset,
 ///             which can be a dataset or an attribute.
 ///\return      VarLenType instance
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Jul, 2005
 //--------------------------------------------------------------------------
 VarLenType
 AbstractDs::getVarLenType() const
@@ -331,7 +319,6 @@ AbstractDs::getVarLenType() const
 //--------------------------------------------------------------------------
 // Function:    AbstractDs destructor
 ///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 AbstractDs::~AbstractDs()
 {

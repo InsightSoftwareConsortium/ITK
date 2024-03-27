@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -14,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:		H5Glink.c
- *			Nov 13 2006
- *			Quincey Koziol
  *
  * Purpose:		Functions for handling links in groups.
  *
@@ -87,15 +84,12 @@ static int H5G__link_cmp_corder_dec(const void *lnk1, const void *lnk2);
  *              as equal, their order in the sorted array is undefined.
  *              (i.e. same as strcmp())
  *
- * Programmer:	Quincey Koziol
- *		Sep  5 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
 H5G__link_cmp_name_inc(const void *lnk1, const void *lnk2)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     FUNC_LEAVE_NOAPI(HDstrcmp(((const H5O_link_t *)lnk1)->name, ((const H5O_link_t *)lnk2)->name))
 } /* end H5G__link_cmp_name_inc() */
@@ -112,15 +106,12 @@ H5G__link_cmp_name_inc(const void *lnk1, const void *lnk2)
  *              as equal, their order in the sorted array is undefined.
  *              (i.e. opposite strcmp())
  *
- * Programmer:	Quincey Koziol
- *		Sep 25 2006
- *
  *-------------------------------------------------------------------------
  */
 static int
 H5G__link_cmp_name_dec(const void *lnk1, const void *lnk2)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     FUNC_LEAVE_NOAPI(HDstrcmp(((const H5O_link_t *)lnk2)->name, ((const H5O_link_t *)lnk1)->name))
 } /* end H5G__link_cmp_name_dec() */
@@ -136,9 +127,6 @@ H5G__link_cmp_name_dec(const void *lnk1, const void *lnk2)
  *              equal to, or greater than the second.  If two members compare
  *              as equal, their order in the sorted array is undefined.
  *
- * Programmer:	Quincey Koziol
- *		Nov  6 2006
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -146,7 +134,7 @@ H5G__link_cmp_corder_inc(const void *lnk1, const void *lnk2)
 {
     int ret_value = -1; /* Return value */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     if (((const H5O_link_t *)lnk1)->corder < ((const H5O_link_t *)lnk2)->corder)
         ret_value = -1;
@@ -169,9 +157,6 @@ H5G__link_cmp_corder_inc(const void *lnk1, const void *lnk2)
  *              equal to, or greater than the first.  If two members compare
  *              as equal, their order in the sorted array is undefined.
  *
- * Programmer:	Quincey Koziol
- *		Nov  6 2006
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -179,7 +164,7 @@ H5G__link_cmp_corder_dec(const void *lnk1, const void *lnk2)
 {
     int ret_value = -1; /* Return value */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     if (((const H5O_link_t *)lnk1)->corder < ((const H5O_link_t *)lnk2)->corder)
         ret_value = 1;
@@ -198,9 +183,6 @@ H5G__link_cmp_corder_dec(const void *lnk1, const void *lnk2)
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Quincey Koziol
- *		Sep 16 2006
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -212,28 +194,28 @@ H5G__ent_to_link(H5O_link_t *lnk, const H5HL_t *heap, const H5G_entry_t *ent, co
     FUNC_ENTER_PACKAGE
 
     /* check arguments */
-    HDassert(lnk);
-    HDassert(heap);
-    HDassert(ent);
-    HDassert(name);
+    assert(lnk);
+    assert(heap);
+    assert(ent);
+    assert(name);
 
     /* Set (default) common info for link */
     lnk->cset         = H5F_DEFAULT_CSET;
     lnk->corder       = 0;
     lnk->corder_valid = FALSE; /* Creation order not valid for this link */
     if ((lnk->name = H5MM_xstrdup(name)) == NULL)
-        HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to duplicate link name")
+        HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to duplicate link name");
 
     /* Object is a symbolic or hard link */
     if (ent->type == H5G_CACHED_SLINK) {
         const char *s; /* Pointer to link value */
 
         if ((s = (const char *)H5HL_offset_into(heap, ent->cache.slink.lval_offset)) == NULL)
-            HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to get symbolic link name")
+            HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to get symbolic link name");
 
         /* Copy the link value */
         if ((lnk->u.soft.name = H5MM_xstrdup(s)) == NULL)
-            HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to duplicate symbolic link name")
+            HGOTO_ERROR(H5E_LINK, H5E_CANTGET, FAIL, "unable to duplicate symbolic link name");
 
         dup_soft = TRUE;
 
@@ -265,9 +247,6 @@ done:
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Quincey Koziol
- *              Tuesday, November  7 2006
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -278,8 +257,8 @@ H5G_link_to_info(const H5O_loc_t *link_loc, const H5O_link_t *lnk, H5L_info2_t *
     FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
-    HDassert(link_loc);
-    HDassert(lnk);
+    assert(link_loc);
+    assert(lnk);
 
     /* Get information from the link */
     if (info) {
@@ -293,7 +272,7 @@ H5G_link_to_info(const H5O_loc_t *link_loc, const H5O_link_t *lnk, H5L_info2_t *
                 /* Serialize the address into a VOL token */
                 if (H5VL_native_addr_to_token(link_loc->file, H5I_FILE, lnk->u.hard.addr, &info->u.token) < 0)
                     HGOTO_ERROR(H5E_LINK, H5E_CANTSERIALIZE, FAIL,
-                                "can't serialize address into object token")
+                                "can't serialize address into object token");
                 break;
 
             case H5L_TYPE_SOFT:
@@ -307,7 +286,7 @@ H5G_link_to_info(const H5O_loc_t *link_loc, const H5O_link_t *lnk, H5L_info2_t *
                 const H5L_class_t *link_class; /* User-defined link class */
 
                 if (lnk->type < H5L_TYPE_UD_MIN || lnk->type > H5L_TYPE_MAX)
-                    HGOTO_ERROR(H5E_LINK, H5E_BADTYPE, FAIL, "unknown link class")
+                    HGOTO_ERROR(H5E_LINK, H5E_BADTYPE, FAIL, "unknown link class");
 
                 /* User-defined link; call its query function to get the link udata size. */
                 /* Get the link class for this type of link.  It's okay if the class
@@ -325,7 +304,7 @@ H5G_link_to_info(const H5O_loc_t *link_loc, const H5O_link_t *lnk, H5L_info2_t *
                     if ((cb_ret = (link_class->query_func)(lnk->name, lnk->u.ud.udata, lnk->u.ud.size, NULL,
                                                            (size_t)0)) < 0)
                         HGOTO_ERROR(H5E_LINK, H5E_CALLBACK, FAIL,
-                                    "query buffer size callback returned failure")
+                                    "query buffer size callback returned failure");
 
                     info->u.val_size = (size_t)cb_ret;
                 } /* end if */
@@ -346,9 +325,6 @@ done:
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Quincey Koziol
- *              Monday, November 20 2006
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -359,9 +335,9 @@ H5G__link_to_loc(const H5G_loc_t *grp_loc, const H5O_link_t *lnk, H5G_loc_t *obj
     FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(grp_loc);
-    HDassert(lnk);
-    HDassert(obj_loc);
+    assert(grp_loc);
+    assert(lnk);
+    assert(obj_loc);
 
     /*
      * Build location from the link
@@ -369,11 +345,11 @@ H5G__link_to_loc(const H5G_loc_t *grp_loc, const H5O_link_t *lnk, H5G_loc_t *obj
 
     /* Check for unknown library-internal link */
     if (lnk->type > H5L_TYPE_BUILTIN_MAX && lnk->type < H5L_TYPE_UD_MIN)
-        HGOTO_ERROR(H5E_SYM, H5E_UNSUPPORTED, FAIL, "unknown link type")
+        HGOTO_ERROR(H5E_SYM, H5E_UNSUPPORTED, FAIL, "unknown link type");
 
     /* Build object's group hier. location */
     if (H5G_name_set(grp_loc->path, obj_loc->path, lnk->name) < 0)
-        HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "cannot set name")
+        HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "cannot set name");
 
     /* Set the object location, if it's a hard link set the address also */
     obj_loc->oloc->file         = grp_loc->oloc->file;
@@ -392,9 +368,6 @@ done:
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Quincey Koziol
- *              Nov 20, 2006
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -405,32 +378,32 @@ H5G__link_sort_table(H5G_link_table_t *ltable, H5_index_t idx_type, H5_iter_orde
     FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity check */
-    HDassert(ltable);
+    assert(ltable);
 
     /* Can't sort when empty since the links table will be NULL */
     if (0 == ltable->nlinks)
         HGOTO_DONE(ret_value);
 
     /* This should never be NULL if the number of links is non-zero */
-    HDassert(ltable->lnks);
+    assert(ltable->lnks);
 
     /* Pick appropriate sorting routine */
     if (idx_type == H5_INDEX_NAME) {
         if (order == H5_ITER_INC)
-            HDqsort(ltable->lnks, ltable->nlinks, sizeof(H5O_link_t), H5G__link_cmp_name_inc);
+            qsort(ltable->lnks, ltable->nlinks, sizeof(H5O_link_t), H5G__link_cmp_name_inc);
         else if (order == H5_ITER_DEC)
-            HDqsort(ltable->lnks, ltable->nlinks, sizeof(H5O_link_t), H5G__link_cmp_name_dec);
+            qsort(ltable->lnks, ltable->nlinks, sizeof(H5O_link_t), H5G__link_cmp_name_dec);
         else
-            HDassert(order == H5_ITER_NATIVE);
+            assert(order == H5_ITER_NATIVE);
     } /* end if */
     else {
-        HDassert(idx_type == H5_INDEX_CRT_ORDER);
+        assert(idx_type == H5_INDEX_CRT_ORDER);
         if (order == H5_ITER_INC)
-            HDqsort(ltable->lnks, ltable->nlinks, sizeof(H5O_link_t), H5G__link_cmp_corder_inc);
+            qsort(ltable->lnks, ltable->nlinks, sizeof(H5O_link_t), H5G__link_cmp_corder_inc);
         else if (order == H5_ITER_DEC)
-            HDqsort(ltable->lnks, ltable->nlinks, sizeof(H5O_link_t), H5G__link_cmp_corder_dec);
+            qsort(ltable->lnks, ltable->nlinks, sizeof(H5O_link_t), H5G__link_cmp_corder_dec);
         else
-            HDassert(order == H5_ITER_NATIVE);
+            assert(order == H5_ITER_NATIVE);
     } /* end else */
 
 done:
@@ -446,9 +419,6 @@ done:
  * Return:	Success:        Non-negative
  *		Failure:	Negative
  *
- * Programmer:	Quincey Koziol
- *	        Nov 20, 2006
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -461,15 +431,15 @@ H5G__link_iterate_table(const H5G_link_table_t *ltable, hsize_t skip, hsize_t *l
     FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity check */
-    HDassert(ltable);
-    HDassert(op);
+    assert(ltable);
+    assert(op);
 
     /* Skip over links, if requested */
     if (last_lnk)
         *last_lnk += skip;
 
     /* Iterate over link messages */
-    H5_CHECKED_ASSIGN(u, size_t, skip, hsize_t)
+    H5_CHECKED_ASSIGN(u, size_t, skip, hsize_t);
     for (; u < ltable->nlinks && !ret_value; u++) {
         /* Make the callback */
         ret_value = (op)(&(ltable->lnks[u]), op_data);
@@ -494,9 +464,6 @@ H5G__link_iterate_table(const H5G_link_table_t *ltable, hsize_t skip, hsize_t *l
  * Return:	Success:        Non-negative
  *		Failure:	Negative
  *
- * Programmer:	Quincey Koziol
- *	        Sep  6, 2005
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -508,20 +475,20 @@ H5G__link_release_table(H5G_link_table_t *ltable)
     FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(ltable);
+    assert(ltable);
 
     /* Release link info, if any */
     if (ltable->nlinks > 0) {
         /* Free link message information */
         for (u = 0; u < ltable->nlinks; u++)
             if (H5O_msg_reset(H5O_LINK_ID, &(ltable->lnks[u])) < 0)
-                HGOTO_ERROR(H5E_SYM, H5E_CANTFREE, FAIL, "unable to release link message")
+                HGOTO_ERROR(H5E_SYM, H5E_CANTFREE, FAIL, "unable to release link message");
 
         /* Free table of links */
         H5MM_xfree(ltable->lnks);
     } /* end if */
     else
-        HDassert(ltable->lnks == NULL);
+        assert(ltable->lnks == NULL);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -535,9 +502,6 @@ done:
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Quincey Koziol
- *		Nov 13 2006
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -549,13 +513,13 @@ H5G__link_name_replace(H5F_t *file, H5RS_str_t *grp_full_path_r, const H5O_link_
     FUNC_ENTER_PACKAGE
 
     /* check arguments */
-    HDassert(file);
+    assert(file);
 
     /* Search the open IDs and replace names for unlinked object */
     if (grp_full_path_r) {
         obj_path_r = H5G_build_fullpath_refstr_str(grp_full_path_r, lnk->name);
         if (H5G_name_replace(lnk, H5G_NAME_DELETE, file, obj_path_r, NULL, NULL) < 0)
-            HGOTO_ERROR(H5E_SYM, H5E_CANTDELETE, FAIL, "unable to replace name")
+            HGOTO_ERROR(H5E_SYM, H5E_CANTDELETE, FAIL, "unable to replace name");
     }
 
 done:
