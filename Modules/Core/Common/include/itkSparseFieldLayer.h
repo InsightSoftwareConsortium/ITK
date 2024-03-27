@@ -21,6 +21,7 @@
 #include "itkObjectFactory.h"
 #include "itkObject.h"
 #include <vector>
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -217,7 +218,7 @@ public:
   PopFront()
   {
     m_HeadNode->Next = m_HeadNode->Next->Next;
-    m_HeadNode->Next->Previous = m_HeadNode;
+    m_HeadNode->Next->Previous = m_HeadNode.get();
     m_Size -= 1;
   }
 
@@ -226,7 +227,7 @@ public:
   PushFront(NodeType * n)
   {
     n->Next = m_HeadNode->Next;
-    n->Previous = m_HeadNode;
+    n->Previous = m_HeadNode.get();
     m_HeadNode->Next->Previous = n;
     m_HeadNode->Next = n;
     m_Size += 1;
@@ -260,14 +261,14 @@ public:
   Iterator
   End()
   {
-    return Iterator(m_HeadNode);
+    return Iterator(m_HeadNode.get());
   }
 
   /** Returns a const iterator pointing one node past the end of the list. */
   ConstIterator
   End() const
   {
-    return ConstIterator(m_HeadNode);
+    return ConstIterator(m_HeadNode.get());
   }
 
   /** Returns TRUE if the list is empty, FALSE otherwise. Executes in constant
@@ -275,7 +276,7 @@ public:
   bool
   Empty() const
   {
-    if (m_HeadNode->Next == m_HeadNode)
+    if (m_HeadNode->Next == m_HeadNode.get())
     {
       return true;
     }
@@ -297,15 +298,15 @@ public:
 
 protected:
   SparseFieldLayer();
-  ~SparseFieldLayer() override;
+  ~SparseFieldLayer() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The anchor node of the list.  m_HeadNode->Next is the first node in the
    *  list. If m_HeadNode->Next == m_HeadNode, then the list is empty. */
-  NodeType *   m_HeadNode{};
-  unsigned int m_Size{};
+  const std::unique_ptr<NodeType> m_HeadNode{ std::make_unique<NodeType>() };
+  unsigned int                    m_Size{};
 };
 } // end namespace itk
 
