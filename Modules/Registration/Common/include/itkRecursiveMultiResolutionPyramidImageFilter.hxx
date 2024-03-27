@@ -231,8 +231,8 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
   using OutputPixelType = typename TOutputImage::PixelType;
   using OperatorType = GaussianOperator<OutputPixelType, ImageDimension>;
 
-  auto * oper = new OperatorType;
-  oper->SetMaximumError(this->GetMaximumError());
+  OperatorType oper;
+  oper.SetMaximumError(this->GetMaximumError());
 
   using SizeType = typename OutputImageType::SizeType;
   using IndexType = typename OutputImageType::IndexType;
@@ -265,10 +265,10 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
       // take into account smoothing component
       if (factors[idim] > 1)
       {
-        oper->SetDirection(idim);
-        oper->SetVariance(itk::Math::sqr(0.5 * static_cast<float>(factors[idim])));
-        oper->CreateDirectional();
-        radius[idim] = oper->GetRadius()[idim];
+        oper.SetDirection(idim);
+        oper.SetVariance(itk::Math::sqr(0.5 * static_cast<float>(factors[idim])));
+        oper.CreateDirectional();
+        radius[idim] = oper.GetRadius()[idim];
       }
       else
       {
@@ -298,10 +298,10 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
       // take into account smoothing component
       if (factors[idim] > 1)
       {
-        oper->SetDirection(idim);
-        oper->SetVariance(itk::Math::sqr(0.5 * static_cast<float>(factors[idim])));
-        oper->CreateDirectional();
-        radius[idim] = oper->GetRadius()[idim];
+        oper.SetDirection(idim);
+        oper.SetVariance(itk::Math::sqr(0.5 * static_cast<float>(factors[idim])));
+        oper.CreateDirectional();
+        radius[idim] = oper.GetRadius()[idim];
       }
       else
       {
@@ -328,9 +328,6 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
 
     this->GetOutput(ilevel)->SetRequestedRegion(requestedRegion);
   }
-
-  // clean up
-  delete oper;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -369,7 +366,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
   using OutputPixelType = typename TOutputImage::PixelType;
   using OperatorType = GaussianOperator<OutputPixelType, ImageDimension>;
 
-  auto * oper = new OperatorType;
+  OperatorType oper;
 
   typename TInputImage::SizeType radius;
 
@@ -378,17 +375,16 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
 
   for (idim = 0; idim < TInputImage::ImageDimension; ++idim)
   {
-    oper->SetDirection(idim);
-    oper->SetVariance(itk::Math::sqr(0.5 * static_cast<float>(this->GetSchedule()[refLevel][idim])));
-    oper->SetMaximumError(this->GetMaximumError());
-    oper->CreateDirectional();
-    radius[idim] = oper->GetRadius()[idim];
+    oper.SetDirection(idim);
+    oper.SetVariance(itk::Math::sqr(0.5 * static_cast<float>(this->GetSchedule()[refLevel][idim])));
+    oper.SetMaximumError(this->GetMaximumError());
+    oper.CreateDirectional();
+    radius[idim] = oper.GetRadius()[idim];
     if (this->GetSchedule()[refLevel][idim] <= 1)
     {
       radius[idim] = 0;
     }
   }
-  delete oper;
 
   inputRequestedRegion.PadByRadius(radius);
 
