@@ -721,20 +721,6 @@ macro(itk_wrap_simple_type wrap_class swig_name)
       "${cpp_name}< ${template_params} > ")
   endif()
 
-  if("${cpp_name}" STREQUAL "itk::PCAShapeSignedDistanceFunction"
-     AND NOT
-         "${swig_name}"
-         MATCHES
-         "Pointer$")
-
-    set(import_text "%include ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/itkImage_ext.i\n")
-    string(FIND ${ITK_WRAP_PYTHON_SWIG_EXT} ${import_text} pos)
-    if(${pos} EQUAL -1)
-      string(PREPEND ITK_WRAP_PYTHON_SWIG_EXT "${import_text}")
-    endif()
-    unset(import_text)
-  endif()
-
   if("${cpp_name}" STREQUAL "itk::Index")
     add_python_seq_typemap("${swig_name}" "${template_params}")
   endif()

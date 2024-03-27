@@ -8,6 +8,7 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   # `double` because of OptimizerParameters is hardcoded as templated
   # over `double` in parent class `ShapeSignedDistanceFunction`.
   foreach(t ${types})
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_STD_VEC_RAW_TO_SMARTPTR_TYPEMAP(itkImage${ITKM_${t}}${d}, itkImage${ITKM_${t}}${d}_Pointer)\n")
     itk_wrap_template("${ITKM_D}${d}${ITKM_I${t}${d}}" "${ITKT_D},${d},${ITKT_I${t}${d}}")
   endforeach()
 endforeach()
