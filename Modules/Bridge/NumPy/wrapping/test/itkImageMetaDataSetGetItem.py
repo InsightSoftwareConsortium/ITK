@@ -18,12 +18,6 @@
 
 import sys
 import numpy as np
-from distutils.version import StrictVersion as VS
-
-if VS(np.__version__) < VS("1.15.0"):
-    print("NumPy 1.15.0 or greater is required")
-    sys.exit(0)
-
 import itk
 
 if len(sys.argv) < 2:

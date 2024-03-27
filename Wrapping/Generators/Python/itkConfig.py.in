@@ -51,7 +51,15 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
     # False values are n, no, f, false, off and 0.
     # Raises ValueError if val is anything else.
     from os import environ as _environ
-    from distutils.util import strtobool as _strtobool
+    def _strtobool(val: str) -> bool:
+        val = val.lower()
+        if val in ("y", "yes", "t", "true", "on", "1"):
+            return 1
+        elif val in ("n", "no", "f", "false", "off", "0"):
+            return 0
+        else:
+            raise ValueError(f"invalid truth value {val}")
+
 
     try:
         _StringDefault: str = _environ.get(environment_var, default_string)
