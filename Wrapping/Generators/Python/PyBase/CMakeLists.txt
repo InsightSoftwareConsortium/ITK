@@ -56,16 +56,6 @@ add_python_config_template(
   "ios_base"
   "")
 add_python_config_template(
-  "ios_base_sync_with_stdio"
-  "std::ios_base_sync_with_stdio"
-  "ios_base_sync_with_stdio"
-  "")
-add_python_config_template(
-  "ios_base_xalloc"
-  "std::ios_base_xalloc"
-  "ios_base_xalloc"
-  "")
-add_python_config_template(
   "iostream"
   "std::iostream"
   "iostream"
