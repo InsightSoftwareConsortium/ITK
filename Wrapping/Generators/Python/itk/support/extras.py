@@ -1165,6 +1165,24 @@ def imwrite(
     The writer is instantiated with the image type of the image in
     parameter (or, again, with the output image of the filter in parameter).
     """
+
+    # Check if output path exists
+    msg = ""
+    if not os.path.isdir(os.path.dirname(filename)):
+        msg += "\nThe output dir doesn't exist. \n" + f"Filename = {filename}"
+        raise RuntimeError(
+            f"Could not create IO object for writing file {filename}" + msg
+        )
+    # Check if path contains unsupported special characters
+    else:
+        try:
+            filename.encode('ascii')
+        except UnicodeEncodeError:
+            msg += "\nThe output path contains not supported special characters. \n" + f"Filename = {filename}"
+            raise RuntimeError(
+                f"Could not create IO object for writing file {filename}" + msg
+            )
+
     import itk
 
     img = itk.output(image_or_filter)
