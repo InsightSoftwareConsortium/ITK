@@ -130,7 +130,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of image and Buffer.");
     PyBuffer_Release(&pyBuffer);
-    Py_DECREF(shapeseq);
+    SWIG_Py_DECREF(shapeseq);
     return nullptr;
   }
 
@@ -169,7 +169,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   output->SetPixelContainer(importer);
   output->SetNumberOfComponentsPerPixel(numberOfComponents);
 
-  Py_DECREF(shapeseq);
+  SWIG_Py_DECREF(shapeseq);
   PyBuffer_Release(&pyBuffer);
 
   return output;

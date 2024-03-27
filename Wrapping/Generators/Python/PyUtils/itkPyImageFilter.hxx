@@ -32,12 +32,12 @@ PyImageFilter<TInputImage, TOutputImage>::~PyImageFilter()
 {
   if (this->m_GenerateDataCallable)
   {
-    Py_DECREF(this->m_GenerateDataCallable);
+    SWIG_Py_DECREF(this->m_GenerateDataCallable);
   }
   this->m_GenerateDataCallable = nullptr;
   if (this->m_GenerateInputRequestedRegionCallable)
   {
-    Py_DECREF(this->m_GenerateInputRequestedRegionCallable);
+    SWIG_Py_DECREF(this->m_GenerateInputRequestedRegionCallable);
   }
   this->m_GenerateInputRequestedRegionCallable = nullptr;
 }
@@ -51,7 +51,7 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateData(PyObject * o)
     if (this->m_GenerateDataCallable)
     {
       // get rid of our reference
-      Py_DECREF(this->m_GenerateDataCallable);
+      SWIG_Py_DECREF(this->m_GenerateDataCallable);
     }
 
     // store the new object
@@ -62,7 +62,7 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateData(PyObject * o)
     {
       // take out reference (so that the calling code doesn't
       // have to keep a binding to the callable around)
-      Py_INCREF(this->m_GenerateDataCallable);
+      SWIG_Py_INCREF(this->m_GenerateDataCallable);
     }
   }
 }
@@ -77,7 +77,7 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateOutputInformation(PyObjec
     if (this->m_GenerateOutputInformationCallable)
     {
       // get rid of our reference
-      Py_DECREF(this->m_GenerateOutputInformationCallable);
+      SWIG_Py_DECREF(this->m_GenerateOutputInformationCallable);
     }
 
     // store the new object
@@ -88,7 +88,7 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateOutputInformation(PyObjec
     {
       // take out reference (so that the calling code doesn't
       // have to keep a binding to the callable around)
-      Py_INCREF(this->m_GenerateOutputInformationCallable);
+      SWIG_Py_INCREF(this->m_GenerateOutputInformationCallable);
     }
   }
 }
@@ -103,7 +103,7 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyEnlargeOutputRequestedRegion(PyOb
     if (this->m_EnlargeOutputRequestedRegionCallable)
     {
       // get rid of our reference
-      Py_DECREF(this->m_EnlargeOutputRequestedRegionCallable);
+      SWIG_Py_DECREF(this->m_EnlargeOutputRequestedRegionCallable);
     }
 
     // store the new object
@@ -114,7 +114,7 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyEnlargeOutputRequestedRegion(PyOb
     {
       // take out reference (so that the calling code doesn't
       // have to keep a binding to the callable around)
-      Py_INCREF(this->m_EnlargeOutputRequestedRegionCallable);
+      SWIG_Py_INCREF(this->m_EnlargeOutputRequestedRegionCallable);
     }
   }
 }
@@ -129,7 +129,7 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateInputRequestedRegion(PyOb
     if (this->m_GenerateInputRequestedRegionCallable)
     {
       // get rid of our reference
-      Py_DECREF(this->m_GenerateInputRequestedRegionCallable);
+      SWIG_Py_DECREF(this->m_GenerateInputRequestedRegionCallable);
     }
 
     // store the new object
@@ -140,7 +140,7 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateInputRequestedRegion(PyOb
     {
       // take out reference (so that the calling code doesn't
       // have to keep a binding to the callable around)
-      Py_INCREF(this->m_GenerateInputRequestedRegionCallable);
+      SWIG_Py_INCREF(this->m_GenerateInputRequestedRegionCallable);
     }
   }
 }
@@ -159,11 +159,11 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
     PyObject * args = PyTuple_Pack(1, this->m_Self);
     result = PyObject_Call(this->m_GenerateOutputInformationCallable, args, (PyObject *)NULL);
-    Py_DECREF(args);
+    SWIG_Py_DECREF(args);
 
     if (result)
     {
-      Py_DECREF(result);
+      SWIG_Py_DECREF(result);
     }
     else
     {
@@ -191,12 +191,12 @@ PyImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObjec
     PyObject * pyDataObject = PyObject_CallMethod(this->m_Self, "GetOutput", (const char *)NULL);
     PyObject * args = PyTuple_Pack(2, this->m_Self, pyDataObject);
     PyObject * result = PyObject_Call(this->m_EnlargeOutputRequestedRegionCallable, args, (PyObject *)NULL);
-    Py_DECREF(args);
-    Py_DECREF(pyDataObject);
+    SWIG_Py_DECREF(args);
+    SWIG_Py_DECREF(pyDataObject);
 
     if (result)
     {
-      Py_DECREF(result);
+      SWIG_Py_DECREF(result);
     }
     else
     {
@@ -224,11 +224,11 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
     PyObject * args = PyTuple_Pack(1, this->m_Self);
     result = PyObject_Call(this->m_GenerateInputRequestedRegionCallable, args, (PyObject *)NULL);
-    Py_DECREF(args);
+    SWIG_Py_DECREF(args);
 
     if (result)
     {
-      Py_DECREF(result);
+      SWIG_Py_DECREF(result);
     }
     else
     {
@@ -261,11 +261,11 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     PyObject * args = PyTuple_Pack(1, this->m_Self);
     result = PyObject_Call(this->m_GenerateDataCallable, args, (PyObject *)NULL);
-    Py_DECREF(args);
+    SWIG_Py_DECREF(args);
 
     if (result)
     {
-      Py_DECREF(result);
+      SWIG_Py_DECREF(result);
     }
     else
     {
