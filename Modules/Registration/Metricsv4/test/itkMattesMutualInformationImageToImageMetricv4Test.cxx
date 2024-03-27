@@ -49,7 +49,10 @@
  */
 template <typename TImage, typename TInterpolator>
 int
-TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bool useSampling, const size_t imageSize)
+TestMattesMetricWithAffineTransform(TInterpolator * const interpolator,
+                                    const bool            useSampling,
+                                    const size_t          imageSize,
+                                    const bool            initializeFixedImage = true)
 {
 
   //------------------------------------------------------------
@@ -86,7 +89,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
 
   auto imgFixed = FixedImageType::New();
   imgFixed->SetRegions(region);
-  imgFixed->Allocate();
+  imgFixed->Allocate(true);
   imgFixed->SetSpacing(imgSpacing);
   imgFixed->SetOrigin(imgOrigin);
 
@@ -122,6 +125,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
       ++ri;
     }
   }
+  if (initializeFixedImage)
   {
     TargetIteratorType ti(imgFixed, region);
     ti.GoToBegin();
@@ -462,6 +466,14 @@ itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
   if (failed)
   {
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    return EXIT_FAILURE;
+  }
+  bool initializeFixedImage = false;
+  failed = TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(
+    linearInterpolator, useSampling, imageSize, initializeFixedImage);
+  if (failed)
+  {
+    std::cout << "Test failed when all fixed image pixels have the same value" << std::endl;
     return EXIT_FAILURE;
   }
   useSampling = true;
