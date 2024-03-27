@@ -54,7 +54,7 @@ HDF5ImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   // just prints out the pointer value.
-  os << indent << "H5File: " << m_H5File << std::endl;
+  os << indent << "H5File: " << m_H5File.get() << std::endl;
 }
 
 //
@@ -639,8 +639,7 @@ HDF5ImageIO::ResetToInitialState()
     if (m_H5File != nullptr)
     {
       m_H5File->close();
-      delete m_H5File;
-      m_H5File = nullptr;
+      m_H5File.reset();
     }
   }
 
@@ -649,8 +648,7 @@ HDF5ImageIO::ResetToInitialState()
     if (m_VoxelDataSet != nullptr)
     {
       m_VoxelDataSet->close();
-      delete m_VoxelDataSet;
-      m_VoxelDataSet = nullptr;
+      m_VoxelDataSet.reset();
     }
   }
   // Need to reset m_ImageInformationWritten so that
@@ -666,8 +664,8 @@ HDF5ImageIO::ReadImageInformation()
   try
   {
     this->ResetToInitialState();
-    m_H5File = new H5::H5File(this->GetFileName(), H5F_ACC_RDONLY);
-    m_VoxelDataSet = new H5::DataSet();
+    m_H5File = std::make_unique<H5::H5File>(this->GetFileName(), H5F_ACC_RDONLY);
+    m_VoxelDataSet = std::make_unique<H5::DataSet>();
 
     // not sure what to do with this initially
     // eventually it will be needed if the file versions change
@@ -1034,8 +1032,8 @@ HDF5ImageIO::WriteImageInformation()
 #  error The selected version of HDF5 library does not support setting backwards compatibility at run-time.\
   Please use a different version of HDF5, e.g. the one bundled with ITK (by setting ITK_USE_SYSTEM_HDF5 to OFF).
 #endif
-    m_H5File = new H5::H5File(this->GetFileName(), H5F_ACC_TRUNC, H5::FileCreatPropList::DEFAULT, fapl);
-    m_VoxelDataSet = new H5::DataSet();
+    m_H5File = std::make_unique<H5::H5File>(this->GetFileName(), H5F_ACC_TRUNC, H5::FileCreatPropList::DEFAULT, fapl);
+    m_VoxelDataSet = std::make_unique<H5::DataSet>();
 
     this->WriteString(ItkVersion, Version::GetITKVersion());
 
