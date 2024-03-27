@@ -28,9 +28,79 @@
 #ifndef itkMetaDataObject_hxx
 #define itkMetaDataObject_hxx
 
+#include <type_traits>
+#include <iterator>
+
+template <typename T, typename = void>
+inline constexpr bool is_iterable_print_v = false;
+// Specialize for std::vector<T> and std::vector<std::vector<T>>
+template <typename T>
+inline constexpr bool is_iterable_print_v<std::vector<T>, std::void_t<>> = true;
+template <typename T>
+inline constexpr bool is_iterable_print_v<std::vector<std::vector<T>>, std::void_t<>> = true;
 
 namespace itk
 {
+template <typename TIterable>
+void
+printIterable(std::ostream & os, const TIterable & iterable)
+{
+  if constexpr (is_iterable_print_v<TIterable>)
+  {
+    os << "[";
+    auto begin = std::begin(iterable);
+    auto end = std::end(iterable);
+    for (auto it = begin; it != end; ++it)
+    {
+      if (it != begin)
+      {
+        os << ", ";
+      }
+      printIterable(os, *it);
+    }
+    os << "]";
+  }
+  else
+  {
+    // Handle non-iterable types
+    os << iterable;
+  }
+}
+
+template <typename MetaDataObjectType>
+void
+MetaDataObject<MetaDataObjectType>::PrintValue(std::ostream & os) const
+{
+  if constexpr (is_iterable_print_v<MetaDataObjectType>)
+  {
+    os << "[";
+    auto begin = std::begin(m_MetaDataObjectValue);
+    auto end = std::end(m_MetaDataObjectValue);
+    for (auto it = begin; it != end; ++it)
+    {
+      if (it != begin)
+      {
+        os << ", ";
+      }
+      printIterable(os, *it);
+    }
+    os << "]";
+  }
+  else
+  {
+    os << m_MetaDataObjectValue;
+  }
+}
+
+template <typename MetaDataObjectType>
+void
+MetaDataObject<MetaDataObjectType>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  os << indent;
+  this->PrintValue(os);
+  os << std::endl;
+}
+
 template <typename MetaDataObjectType>
 const char *
 MetaDataObject<MetaDataObjectType>::GetMetaDataObjectTypeName() const
@@ -59,12 +129,6 @@ MetaDataObject<MetaDataObjectType>::SetMetaDataObjectValue(const MetaDataObjectT
   Self::Assign(m_MetaDataObjectValue, newValue);
 }
 
-template <typename MetaDataObjectType>
-void
-MetaDataObject<MetaDataObjectType>::Print(std::ostream & os) const
-{
-  Superclass::Print(os);
-}
 
 } // end namespace itk
 

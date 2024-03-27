@@ -44,6 +44,8 @@ testMetaData(const TMetaData & value)
   std::cout << "The metadata's type name is: " << metaDataObject->GetMetaDataObjectTypeName() << std::endl;
   std::cout << "The metadata object: " << std::endl;
   metaDataObject->Print(std::cout);
+  std::cout << "The metadata value only: " << std::endl;
+  metaDataObject->PrintValue(std::cout);
 
   std::cout << std::endl << std::endl;
 
@@ -68,6 +70,17 @@ itkMetaDataObjectTest(int, char *[])
   result += testMetaData<float>(-24);
   result += testMetaData<double>(-24);
   result += testMetaData<std::string>("I T K");
+  // Exercise printing of std::vector<T> and std::vector<std::vector<T>>
+  // These two types are special cased in itk::MetaDataObject::PrintValue()
+  auto v3 = std::vector<double>{ 1.0, 2.0, 3.0 };
+  result += testMetaData<std::vector<double>>(v3);
+  result += testMetaData<std::vector<std::vector<double>>>(std::vector<std::vector<double>>{ v3, v3 });
+  // Exercise itk::Array
+  auto a3 = itk::Array<double>(3, 5.0);
+  result += testMetaData<itk::Array<double>>(a3);
+  // Exercise itk::Matrix
+  auto m3 = itk::Matrix<double, 3, 3>();
+  result += testMetaData<itk::Matrix<double, 3, 3>>(m3);
 
   using ImageType = itk::Image<unsigned short, 3>;
   ImageType::Pointer image = nullptr;

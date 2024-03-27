@@ -86,17 +86,16 @@ public:
     return !(lhs == rhs);
   }
 
+protected:
+  MetaDataObjectBase();
+  ~MetaDataObjectBase() override;
 
   /**
    * Defines the default behavior for printing out this element
    * \param os An output stream
    */
-  virtual void
-  Print(std::ostream & os) const;
-
-protected:
-  MetaDataObjectBase();
-  ~MetaDataObjectBase() override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   virtual bool
