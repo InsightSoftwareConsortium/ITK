@@ -29,6 +29,9 @@
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkImageRegionIterator.h"
 
+#include <memory> // For unique_ptr.
+
+
 namespace itk
 {
 /**
@@ -154,7 +157,7 @@ protected:
   MRIBiasEnergyFunction();
 
   /** Destructor. */
-  ~MRIBiasEnergyFunction() override;
+  ~MRIBiasEnergyFunction() override = default;
 
 private:
   /** Bias field object pointer. */
@@ -170,7 +173,7 @@ private:
   ImageRegionType m_Region{};
 
   /** Internal energy function object pointer. */
-  InternalEnergyFunction * m_InternalEnergyFunction{};
+  std::unique_ptr<InternalEnergyFunction> m_InternalEnergyFunction;
 
   /** Sampling factors */
   SamplingFactorType m_SamplingFactor{};
