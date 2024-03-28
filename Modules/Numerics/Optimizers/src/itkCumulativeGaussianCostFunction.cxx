@@ -21,29 +21,19 @@
 
 namespace itk
 {
-CumulativeGaussianCostFunction::CumulativeGaussianCostFunction()
-{
-  // Initial values for fit error and range dimension.
-  m_RangeDimension = 0;
-  m_OriginalDataArray = new MeasureType();
-  m_MeasurePointer = new MeasureType();
-}
+CumulativeGaussianCostFunction::CumulativeGaussianCostFunction() = default;
 
-CumulativeGaussianCostFunction::~CumulativeGaussianCostFunction()
-{
-  delete m_OriginalDataArray;
-  delete m_MeasurePointer;
-}
+CumulativeGaussianCostFunction::~CumulativeGaussianCostFunction() = default;
 
 void
 CumulativeGaussianCostFunction::SetOriginalDataArray(MeasureType * setOriginalDataArray)
 {
   // Set the original data array.
-  m_OriginalDataArray->SetSize(m_RangeDimension);
+  m_OriginalDataArray.SetSize(m_RangeDimension);
 
   for (int i = 0; i < static_cast<int>(setOriginalDataArray->GetNumberOfElements()); ++i)
   {
-    m_OriginalDataArray->put(i, setOriginalDataArray->get(i));
+    m_OriginalDataArray.put(i, setOriginalDataArray->get(i));
   }
 }
 
@@ -51,7 +41,7 @@ double
 CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
 {
   // Use root mean square error as a measure of fit quality.
-  unsigned int numberOfElements = m_OriginalDataArray->GetNumberOfElements();
+  unsigned int numberOfElements = m_OriginalDataArray.GetNumberOfElements();
 
   if (numberOfElements != setTestArray->GetNumberOfElements())
   {
@@ -60,7 +50,7 @@ CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
   double fitError = 0.0;
   for (int i = 0; i < static_cast<int>(numberOfElements); ++i)
   {
-    fitError += std::pow((setTestArray->get(i) - m_OriginalDataArray->get(i)), 2);
+    fitError += std::pow((setTestArray->get(i) - m_OriginalDataArray.get(i)), 2);
   }
   return (std::sqrt((1 / numberOfElements) * fitError));
 }
@@ -167,18 +157,18 @@ CumulativeGaussianCostFunction::GetValue(const ParametersType & parameters) cons
 CumulativeGaussianCostFunction::MeasureType *
 CumulativeGaussianCostFunction::GetValuePointer(ParametersType & parameters)
 {
-  m_MeasurePointer->SetSize(m_RangeDimension);
+  m_MeasurePointer.SetSize(m_RangeDimension);
 
   for (unsigned int i = 0; i < m_RangeDimension; ++i)
   {
-    m_MeasurePointer->put(
+    m_MeasurePointer.put(
       i,
       parameters.get(2) +
         ((parameters.get(3) - parameters.get(2)) *
          (EvaluateCumulativeGaussian((i - parameters.get(0)) / (parameters.get(1) * std::sqrt(2.0))) + 1) / 2));
   }
 
-  return m_MeasurePointer;
+  return &m_MeasurePointer;
 }
 
 unsigned int
@@ -209,28 +199,14 @@ CumulativeGaussianCostFunction::PrintSelf(std::ostream & os, Indent indent) cons
   Superclass::PrintSelf(os, indent);
 
   os << indent << "OriginalDataArray: ";
-  if (m_OriginalDataArray != nullptr)
-  {
-    os << *m_OriginalDataArray << std::endl;
-  }
-  else
-  {
-    os << "(null)" << std::endl;
-  }
+  os << m_OriginalDataArray << std::endl;
 
   os << indent << "RangeDimension: " << m_RangeDimension << std::endl;
 
   os << indent << "Measure: " << m_Measure << std::endl;
 
   os << indent << "MeasurePointer: ";
-  if (m_MeasurePointer != nullptr)
-  {
-    os << *m_MeasurePointer << std::endl;
-  }
-  else
-  {
-    os << "(null)" << std::endl;
-  }
+  os << m_MeasurePointer << std::endl;
 
   os << indent << "Parameters: " << m_Parameters << std::endl;
 }
