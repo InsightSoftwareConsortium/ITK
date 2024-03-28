@@ -23,6 +23,7 @@
 #include <fstream>
 #include "itkImageIOBase.h"
 #include <cstdio>
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -100,7 +101,7 @@ private:
   std::ofstream m_Ofstream{};
   bool          m_IsCompressed{};
 
-  GiplImageIOInternals * m_Internal{};
+  const std::unique_ptr<GiplImageIOInternals> m_Internal;
 };
 } // end namespace itk
 
