@@ -29,14 +29,23 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR ST
       "bdf82ad5281dfdba4b24c83b0d15c76e83cd58c6c78ecfc7a449f869f524d12fad9ad7f517995f864c2c00e61e7cd04132a442038197b92821b4011673a7d4fe"
   )
   set(swiglinux_cid "bafybeihp7hk4ljxuf7duqzei2h7y7xshzyhahxaot5mapv2xevkvwuci5m")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
   set(swig_version_min 4.2.0)
   set(ITK_SWIG_VERSION 2024-03-26-master)
   set(swig_cmake_version 4.3.0)
-  set(swigmacos_hash
+  if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+    set(swigmacos_hash
       "96eec93fd9e1df35813f8cc194a8811c8c84f265284c1515ec81aa7e696aee2c952f426e5155c011c163376e76245f5d7f479525f0d1ea8396524629ed6b8aec"
-  )
-  set(swigmacos_cid "bafybeialov6ur5q2yli4mtclrvqoirk2nsteum3vgnswjypquwejwomxnm")
+    )
+    set(swigmacos_cid "bafybeialov6ur5q2yli4mtclrvqoirk2nsteum3vgnswjypquwejwomxnm")
+    set(swigmacos_arch "arm64")
+  else()
+    set(swigmacos_hash
+      "169760d2a34c2a95a907e80d93c1dc7ebc33a7dd34eb7ed7a9841866db3e25f7d7e93bf49ea28db01843aca5c2c6712756c1f01f6531d6ee027dc6eb293d95d7"
+    )
+    set(swigmacos_cid "bafybeifkl5wfscum7pnsjdmwhshrv5v6srilinkrftunq5g4gqzgqmyqf4")
+    set(swigmacos_arch "amd64")
+  endif()
 else()
   set(ITK_SWIG_VERSION 2024-03-26-master)
   set(swig_version_min 4.2.0)
@@ -48,8 +57,8 @@ if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${ITK_SWIG_VERSION}/bin/swig.exe")
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-amd64-${ITK_SWIG_VERSION}/bin/swig")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigmacos-arm64-${ITK_SWIG_VERSION}/bin/swig")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${ITK_SWIG_VERSION}/bin/swig")
 else()
   # follow the standard EP_PREFIX locations
   set(swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build)
@@ -128,7 +137,7 @@ else()
       set(SWIG_DIR
           ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-amd64-${SWIG_VERSION}/share/swig/${swig_cmake_version}
           CACHE FILEPATH "swig directory.")
-    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
       # If we are building ITK
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(SWIG)
@@ -136,16 +145,16 @@ else()
       ExternalProject_Add(
         swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swigmacos_hash}/download"
-            "https://dweb.link/ipfs/${swigmacos_cid}/swigmacos-arm64-${SWIG_VERSION}.zip"
-            "https://itk.mypinata.cloud/ipfs/${swigmacos_cid}/swigmacos-arm64-${SWIG_VERSION}.zip"
-            "https://w3s.link/ipfs/${swigmacos_cid}/swigmacos-arm64-${SWIG_VERSION}.zip"
+            "https://dweb.link/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
+            "https://itk.mypinata.cloud/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
+            "https://w3s.link/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
         URL_HASH SHA512=${swigmacos_hash}
-        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigmacos-arm64-${SWIG_VERSION}
+        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND "" ${download_extract_timestamp_flag})
       set(SWIG_DIR
-          ${CMAKE_CURRENT_BINARY_DIR}/swigmacos-arm64-${SWIG_VERSION}/share/swig/${swig_cmake_version}
+          ${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}/share/swig/${swig_cmake_version}
           CACHE FILEPATH "swig directory.")
     else()
       # build swig as an external project
