@@ -73,9 +73,8 @@ public:
 #define GIPL_MAGIC_NUMBER2 0x2ae389b8
 
 GiplImageIO::GiplImageIO()
+  : m_Internal(std::make_unique<GiplImageIOInternals>())
 {
-  m_Internal = new GiplImageIOInternals;
-  m_Internal->m_GzFile = nullptr;
   m_ByteOrder = IOByteOrderEnum::BigEndian;
   m_IsCompressed = false;
 }
@@ -94,7 +93,6 @@ GiplImageIO::~GiplImageIO()
   {
     m_Ifstream.close();
   }
-  delete m_Internal;
 }
 
 bool
