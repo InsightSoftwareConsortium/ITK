@@ -123,7 +123,6 @@ isNoPreambleDicom(std::ifstream & file) // NOTE: Similar function is in itkGDCMI
     }
   } while (groupNo == 2);
 
-  itkDebugMacro(<< "No DICOM magic number found, but the file appears to be DICOM without a preamble.");
   return true;
 }
 
