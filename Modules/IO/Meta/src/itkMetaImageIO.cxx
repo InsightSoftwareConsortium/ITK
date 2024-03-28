@@ -23,6 +23,7 @@
 #include "itkMath.h"
 #include "itkSingleton.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "metaImageUtils.h"
 
 namespace itk
 {
@@ -404,6 +405,12 @@ MetaImageIO::ReadImageInformation()
 
   std::string classname(this->GetNameOfClass());
   EncapsulateMetaData<std::string>(thisMetaDict, ITK_InputFilterName, classname);
+
+  // metaImage has a Modality tag which is not stored as part of its
+  // metadata dictionary
+  std::string modality;
+  MET_ImageModalityToString(m_MetaImage.Modality(), modality);
+  EncapsulateMetaData<std::string>(thisMetaDict, "Modality", modality);
   //
   // save the metadatadictionary in the MetaImage header.
   // NOTE: The MetaIO library only supports typeless strings as metadata
