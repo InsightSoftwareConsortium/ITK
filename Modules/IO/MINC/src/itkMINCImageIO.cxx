@@ -238,17 +238,8 @@ MINCImageIO::CloseVolume()
 }
 
 MINCImageIO::MINCImageIO()
-  : m_MINCPImpl(new MINCImageIOPImpl)
+  : m_MINCPImpl(std::make_unique<MINCImageIOPImpl>())
 {
-  m_MINCPImpl->m_NDims = 0;
-  m_MINCPImpl->m_DimensionName = nullptr;
-  m_MINCPImpl->m_DimensionSize = nullptr;
-  m_MINCPImpl->m_DimensionStart = nullptr;
-  m_MINCPImpl->m_DimensionStep = nullptr;
-  m_MINCPImpl->m_MincFileDims = nullptr;
-  m_MINCPImpl->m_MincApparentDims = nullptr;
-  m_MINCPImpl->m_Volume = nullptr;
-
   for (auto & dimensionIndex : m_MINCPImpl->m_DimensionIndices)
   {
     dimensionIndex = -1;
@@ -285,7 +276,6 @@ MINCImageIO::MINCImageIO()
 MINCImageIO::~MINCImageIO()
 {
   this->CloseVolume();
-  delete m_MINCPImpl;
 }
 
 void
@@ -295,7 +285,7 @@ MINCImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MINCPImpl: " << m_MINCPImpl << std::endl;
+  os << indent << "MINCPImpl: " << m_MINCPImpl.get() << std::endl;
   os << indent << "DirectionCosines: " << m_DirectionCosines << std::endl;
 }
 
