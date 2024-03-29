@@ -11,18 +11,21 @@ endif()
 
 option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_SWIG)
+
 # Minimal swig version
+set(swig_version_min 4.2.0)
+# Version used in vendored binary or source build configured in this file.
+set(ITK_SWIG_VERSION 2024-03-26-master)
+
 if(WIN32)
-  set(swig_version_min 4.2.0)
-  set(ITK_SWIG_VERSION 2024-03-26-master)
   set(swig_cmake_version 4.3.0)
   set(swigwin_hash
       "cec9eeebfec7f2a8ccf7b166a11cf8dbbc5e1eacca35563e4f0882b2b261658f394f6607243813d7083e7e2a2bbec23c5cf8b4dd92ad85838c6eb971f3833715"
   )
   set(swigwin_cid "bafybeibljxzip2irc3q3w5qlh2ae5ns27xpi7mo6iskxni45dcmwtk2x6a")
+
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${ITK_SWIG_VERSION}/bin/swig.exe")
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
-  set(swig_version_min 4.2.0)
-  set(ITK_SWIG_VERSION 2024-03-26-master)
   set(swig_cmake_version 4.3.0)
   if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
     set(swiglinux_hash
@@ -37,9 +40,9 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR S
     set(swiglinux_cid "bafybeihp7hk4ljxuf7duqzei2h7y7xshzyhahxaot5mapv2xevkvwuci5m")
     set(swiglinux_arch "amd64")
   endif()
+
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${ITK_SWIG_VERSION}/bin/swig")
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
-  set(swig_version_min 4.2.0)
-  set(ITK_SWIG_VERSION 2024-03-26-master)
   set(swig_cmake_version 4.3.0)
   if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
     set(swigmacos_hash
@@ -54,20 +57,14 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     set(swigmacos_cid "bafybeifkl5wfscum7pnsjdmwhshrv5v6srilinkrftunq5g4gqzgqmyqf4")
     set(swigmacos_arch "amd64")
   endif()
-else()
-  set(ITK_SWIG_VERSION 2024-03-26-master)
-  set(swig_version_min 4.2.0)
-  set(swig_hash "9292f6786abed379278b8024f91b91f293f1be9764fe3c1a19023f7891c4e40587f965680ac6a595a5610cfb6650a73fd2f3932a83d5effad83f351fa70810a9")
-  set(swig_cid "bafybeib56uexrqtccgzxjgmlammjii5ntwush4732kbkr6okbtjhzcmvia")
-endif()
 
-if(WIN32)
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${ITK_SWIG_VERSION}/bin/swig.exe")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${ITK_SWIG_VERSION}/bin/swig")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${ITK_SWIG_VERSION}/bin/swig")
 else()
+  # Build from source
+
+  set(swig_hash "9292f6786abed379278b8024f91b91f293f1be9764fe3c1a19023f7891c4e40587f965680ac6a595a5610cfb6650a73fd2f3932a83d5effad83f351fa70810a9")
+  set(swig_cid "bafybeib56uexrqtccgzxjgmlammjii5ntwush4732kbkr6okbtjhzcmvia")
+
   # follow the standard EP_PREFIX locations
   set(swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build)
   set(swig_source_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig)
