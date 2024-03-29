@@ -11,7 +11,6 @@ endif()
 
 option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_SWIG)
-
 # Minimal swig version
 if(WIN32)
   set(swig_version_min 4.2.0)
@@ -21,14 +20,23 @@ if(WIN32)
       "cec9eeebfec7f2a8ccf7b166a11cf8dbbc5e1eacca35563e4f0882b2b261658f394f6607243813d7083e7e2a2bbec23c5cf8b4dd92ad85838c6eb971f3833715"
   )
   set(swigwin_cid "bafybeibljxzip2irc3q3w5qlh2ae5ns27xpi7mo6iskxni45dcmwtk2x6a")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
   set(swig_version_min 4.2.0)
   set(ITK_SWIG_VERSION 2024-03-26-master)
   set(swig_cmake_version 4.3.0)
-  set(swiglinux_hash
-      "bdf82ad5281dfdba4b24c83b0d15c76e83cd58c6c78ecfc7a449f869f524d12fad9ad7f517995f864c2c00e61e7cd04132a442038197b92821b4011673a7d4fe"
-  )
-  set(swiglinux_cid "bafybeihp7hk4ljxuf7duqzei2h7y7xshzyhahxaot5mapv2xevkvwuci5m")
+  if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
+    set(swiglinux_hash
+        "9a3cfa330235ac78799c7401299506db5ea7459314b781bf27f2db8ddb582508ec5b15c2fa96fc241d5b832c4f702cd9ef043a61e37a574cac7ca78e4aba8f78"
+    )
+    set(swiglinux_cid "bafybeiaa2xv7oxnvaz6qupdaykgwakldrmahk54n2pp2z2ianuvq57uvmy")
+    set(swiglinux_arch "arm64")
+  else()
+    set(swiglinux_hash
+        "bdf82ad5281dfdba4b24c83b0d15c76e83cd58c6c78ecfc7a449f869f524d12fad9ad7f517995f864c2c00e61e7cd04132a442038197b92821b4011673a7d4fe"
+    )
+    set(swiglinux_cid "bafybeihp7hk4ljxuf7duqzei2h7y7xshzyhahxaot5mapv2xevkvwuci5m")
+    set(swiglinux_arch "amd64")
+  endif()
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
   set(swig_version_min 4.2.0)
   set(ITK_SWIG_VERSION 2024-03-26-master)
@@ -55,8 +63,8 @@ endif()
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${ITK_SWIG_VERSION}/bin/swig.exe")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-amd64-${ITK_SWIG_VERSION}/bin/swig")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${ITK_SWIG_VERSION}/bin/swig")
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${ITK_SWIG_VERSION}/bin/swig")
 else()
@@ -118,7 +126,7 @@ else()
         BUILD_COMMAND ""
         INSTALL_COMMAND "" ${download_extract_timestamp_flag})
       set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${SWIG_VERSION}/bin)
-    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
       # If we are building ITK
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(SWIG)
@@ -126,16 +134,16 @@ else()
       ExternalProject_Add(
         swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swiglinux_hash}/download"
-            "https://dweb.link/ipfs/${swiglinux_cid}/swiglinux-amd64-${SWIG_VERSION}.zip"
-            "https://itk.mypinata.cloud/ipfs/${swiglinux_cid}/swiglinux-amd64-${SWIG_VERSION}.zip"
-            "https://w3s.link/ipfs/${swiglinux_cid}/swiglinux-amd64-${SWIG_VERSION}.zip"
+            "https://dweb.link/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
+            "https://itk.mypinata.cloud/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
+            "https://w3s.link/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
         URL_HASH SHA512=${swiglinux_hash}
-        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-amd64-${SWIG_VERSION}
+        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND "" ${download_extract_timestamp_flag})
       set(SWIG_DIR
-          ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-amd64-${SWIG_VERSION}/share/swig/${swig_cmake_version}
+          ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}/share/swig/${swig_cmake_version}
           CACHE FILEPATH "swig directory.")
     elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
       # If we are building ITK
