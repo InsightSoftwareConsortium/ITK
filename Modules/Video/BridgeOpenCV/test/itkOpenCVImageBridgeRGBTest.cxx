@@ -153,7 +153,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   auto reader = ReaderType::New();
   reader->SetFileName(argv1);
 
-  ITK_TRY_EXPECT_NO_EXCEPTIION(reader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   typename ImageType::Pointer baselineImage = reader->GetOutput();
