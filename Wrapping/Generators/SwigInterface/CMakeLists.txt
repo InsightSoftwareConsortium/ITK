@@ -13,34 +13,57 @@ option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an externa
 mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 
 # Minimal swig version
-if(WIN32)
-  set(swig_version_min 4.0.2)
-  set(ITK_SWIG_VERSION 4.0.2)
-  set(swigwin_hash
-      "b8f105f9b9db6acc1f6e3741990915b533cd1bc206eb9645fd6836457fd30789b7229d2e3219d8e35f2390605ade0fbca493ae162ec3b4bc4e428b57155db03d"
-  )
-  set(swigwin_cid "bafybeifxmwvuck7gda6inwgl24cslv4m34uv3dgedvv2b62ctpbwz6sfoy")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
-  set(swig_version_min 4.0.2)
-  set(ITK_SWIG_VERSION 4.0.2)
-  set(swiglinux_hash
-      "811a96b1223ef062e93c82d9848d74ae4b9dd42edeb2b32292aaa0be357ebabc2c2ba71ec5ee3fda83fb892e9b21266a249469aa66c23e2339dbd07bb48ad6c6"
-  )
-  set(swiglinux_cid "bafybeihacajysw4jwrfkffuzvnlv4ees4eqoydl7ftw2o2nmciru6wky6e")
-else()
-  set(ITK_SWIG_VERSION 4.0.2)
-  set(swig_version_min 4.0.2)
-  set(swig_hash
-      "05e7da70ce6d9a733b96c0bcfa3c1b82765bd859f48c74759bbf4bb1467acb1809caa310cba5e2b3280cd704fca249eaa0624821dffae1d2a75097c7f55d14ed"
-  )
-  set(swig_cid "bafybeihguuzirrzzfkwzln42dbq34fare5cnlmpigvyfqitiw3rshwsjie")
-endif()
+set(swig_version_min 4.2.0)
+# Version used in vendored binary or source build configured in this file.
+set(ITK_SWIG_VERSION 2024-03-26-master)
 
 if(WIN32)
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${ITK_SWIG_VERSION}/bin/swig")
+  set(swig_cmake_version 4.3.0)
+  set(swigwin_hash
+      "cec9eeebfec7f2a8ccf7b166a11cf8dbbc5e1eacca35563e4f0882b2b261658f394f6607243813d7083e7e2a2bbec23c5cf8b4dd92ad85838c6eb971f3833715"
+  )
+  set(swigwin_cid "bafybeibljxzip2irc3q3w5qlh2ae5ns27xpi7mo6iskxni45dcmwtk2x6a")
+
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${ITK_SWIG_VERSION}/bin/swig.exe")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
+  set(swig_cmake_version 4.3.0)
+  if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
+    set(swiglinux_hash
+        "9a3cfa330235ac78799c7401299506db5ea7459314b781bf27f2db8ddb582508ec5b15c2fa96fc241d5b832c4f702cd9ef043a61e37a574cac7ca78e4aba8f78"
+    )
+    set(swiglinux_cid "bafybeiaa2xv7oxnvaz6qupdaykgwakldrmahk54n2pp2z2ianuvq57uvmy")
+    set(swiglinux_arch "arm64")
+  else()
+    set(swiglinux_hash
+        "bdf82ad5281dfdba4b24c83b0d15c76e83cd58c6c78ecfc7a449f869f524d12fad9ad7f517995f864c2c00e61e7cd04132a442038197b92821b4011673a7d4fe"
+    )
+    set(swiglinux_cid "bafybeihp7hk4ljxuf7duqzei2h7y7xshzyhahxaot5mapv2xevkvwuci5m")
+    set(swiglinux_arch "amd64")
+  endif()
+
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${ITK_SWIG_VERSION}/bin/swig")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
+  set(swig_cmake_version 4.3.0)
+  if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+    set(swigmacos_hash
+      "96eec93fd9e1df35813f8cc194a8811c8c84f265284c1515ec81aa7e696aee2c952f426e5155c011c163376e76245f5d7f479525f0d1ea8396524629ed6b8aec"
+    )
+    set(swigmacos_cid "bafybeialov6ur5q2yli4mtclrvqoirk2nsteum3vgnswjypquwejwomxnm")
+    set(swigmacos_arch "arm64")
+  else()
+    set(swigmacos_hash
+      "169760d2a34c2a95a907e80d93c1dc7ebc33a7dd34eb7ed7a9841866db3e25f7d7e93bf49ea28db01843aca5c2c6712756c1f01f6531d6ee027dc6eb293d95d7"
+    )
+    set(swigmacos_cid "bafybeifkl5wfscum7pnsjdmwhshrv5v6srilinkrftunq5g4gqzgqmyqf4")
+    set(swigmacos_arch "amd64")
+  endif()
+
+  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${ITK_SWIG_VERSION}/bin/swig")
 else()
+  # Build from source
+
+  set(swig_hash "9292f6786abed379278b8024f91b91f293f1be9764fe3c1a19023f7891c4e40587f965680ac6a595a5610cfb6650a73fd2f3932a83d5effad83f351fa70810a9")
+  set(swig_cid "bafybeib56uexrqtccgzxjgmlammjii5ntwush4732kbkr6okbtjhzcmvia")
 
   # follow the standard EP_PREFIX locations
   set(swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build)
@@ -91,16 +114,16 @@ else()
       ExternalProject_Add(
         swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swigwin_hash}/download"
-            "https://dweb.link/ipfs/${swigwin_cid}/swigwin-4.0.2.zip"
-            "https://itk.mypinata.cloud/ipfs/${swigwin_cid}/swigwin-4.0.2.zip"
-            "https://w3s.link/ipfs/${swigwin_cid}/swigwin-4.0.2.zip"
+            "https://dweb.link/ipfs/${swigwin_cid}/swigwin-amd64-${SWIG_VERSION}.zip"
+            "https://itk.mypinata.cloud/ipfs/${swigwin_cid}/swigwin-amd64-${SWIG_VERSION}.zip"
+            "https://w3s.link/ipfs/${swigwin_cid}/swigwin-amd64-${SWIG_VERSION}.zip"
         URL_HASH SHA512=${swigwin_hash}
-        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
+        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND "" ${download_extract_timestamp_flag})
-      set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
-    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+      set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${SWIG_VERSION}/bin)
+    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
       # If we are building ITK
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(SWIG)
@@ -108,94 +131,74 @@ else()
       ExternalProject_Add(
         swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swiglinux_hash}/download"
-            "https://dweb.link/ipfs/${swiglinux_cid}/swiglinux-4.0.2.tar.gz"
-            "https://itk.mypinata.cloud/ipfs/${swiglinux_cid}/swiglinux-4.0.2.tar.gz"
-            "https://w3s.link/ipfs/${swiglinux_cid}/swiglinux-4.0.2.tar.gz"
+            "https://dweb.link/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
+            "https://itk.mypinata.cloud/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
+            "https://w3s.link/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
         URL_HASH SHA512=${swiglinux_hash}
-        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${SWIG_VERSION}
+        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND "" ${download_extract_timestamp_flag})
       set(SWIG_DIR
-          ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${SWIG_VERSION}/share/swig/${SWIG_VERSION}
+          ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}/share/swig/${swig_cmake_version}
+          CACHE FILEPATH "swig directory.")
+    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
+      # If we are building ITK
+      if(ITK_BINARY_DIR)
+        itk_download_attempt_check(SWIG)
+      endif()
+      ExternalProject_Add(
+        swig
+        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swigmacos_hash}/download"
+            "https://dweb.link/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
+            "https://itk.mypinata.cloud/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
+            "https://w3s.link/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
+        URL_HASH SHA512=${swigmacos_hash}
+        SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND ""
+        INSTALL_COMMAND "" ${download_extract_timestamp_flag})
+      set(SWIG_DIR
+          ${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}/share/swig/${swig_cmake_version}
           CACHE FILEPATH "swig directory.")
     else()
-      # From PCRE configure
-      # Some influential environment variables:
-      #  CC          C compiler command
-      #  CFLAGS      C compiler flags
-      #  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
-      #              nonstandard directory <lib dir>
-      #  LIBS        libraries to pass to the linker, e.g. -l<library>
-      #  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
-      #              you have headers in a nonstandard directory <include dir>
-      #  CXX         C++ compiler command
-      #  CXXFLAGS    C++ compiler flags
-      #  CPP         C preprocessor
-      #  CXXCPP      C++ preprocessor
-
       # build swig as an external project
 
       # If we are building ITK
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(PCRE)
       endif()
-      set(pcre_env)
+      set(compiler_information)
       if(NOT CMAKE_CROSSCOMPILING)
-        set(pcre_env
-            env
-            "AR=${CMAKE_AR}"
-            "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
-            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
-            "LDFLAGS=$ENV{LDFLAGS}"
-            "LIBS=$ENV{LIBS}"
-            "CPPFLAGS=$ENV{CPPFLAGS}"
-            "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
-            "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
-            "CPP=$ENV{CPP}"
-            "CXXPP=$ENV{CXXPP}")
-        if(APPLE)
-          # If building on OS X, the compiler must know what version of the OS X SDK to use
-          # without SDKROOT set, configuring PCRE fails.  The deployment target is set to
-          # ensure the built library is compatible with the correct OS X version.  This may
-          # not be strictly necessary for configure, but the compiler determines which
-          # header files to use based on both of these settings.  Adding it for safety.
-          set(pcre_env ${pcre_env} "SDKROOT=${CMAKE_OSX_SYSROOT}"
-                       "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
-        endif()
-      endif()
-      set(extra_external_project_commands)
-      if(APPLE)
-        # If building on OS X, we have to set the SDKROOT and DEPOLYMENT_TARGET environment variables
-        # so that XCode's compilers know which version of the OS X SDK to use.
-        list(
-          APPEND
-          extra_external_project_commands
-          BUILD_COMMAND
-          env
-          "SDKROOT=${CMAKE_OSX_SYSROOT}"
-          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-          make
-          INSTALL_COMMAND
-          env
-          "SDKROOT=${CMAKE_OSX_SYSROOT}"
-          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-          make
-          install)
+        set(CMAKE_CXX_COMPILER_LAUNCHER_FLAG -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${CMAKE_CXX_COMPILER_LAUNCHER})
+        set(CMAKE_C_COMPILER_LAUNCHER_FLAG -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_C_COMPILER_LAUNCHER})
+        set(compiler_information
+            -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
+            ${CMAKE_CXX_COMPILER_LAUNCHER_FLAG}
+            "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
+            -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
+            ${CMAKE_C_COMPILER_LAUNCHER_FLAG}
+            "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w")
       endif()
       set(pcre_hash
-          "abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb"
+          "e1183226ea3e56a1c7ec97e2c7d7ad5a163b9b576930c997e6ac4c26f1c92fc7e9491b5b297b1dd68d43432f7fbbddcc6207a189beb37ef158ad68bad5598988"
       )
-      set(pcre_cid "bafybeibat55kr3wwfytqx5qser3jhej67fek4wpeypdy5ybxfa3zjbvx3a")
+      set(pcre_cid "bafybeicnpyjts3vq4lpdfhktr5qioq4qdifmtjkbemyyqpkayxjsqtwz74")
       ExternalProject_Add(
         PCRE
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${pcre_hash}/download"
-            "https://dweb.link/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
-            "https://itk.pinata.cloud/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
-            "https://w3s.link/ipfs/${pcre_cid}/pcre-8.44.tar.gz"
+            "https://dweb.link/ipfs/${pcre_cid}/pcre-10.43.tar.gz"
+            "https://itk.pinata.cloud/ipfs/${pcre_cid}/pcre-10.43.tar.gz"
+            "https://w3s.link/ipfs/${pcre_cid}/pcre-10.43.tar.gz"
         URL_HASH SHA512=${pcre_hash}
-        CONFIGURE_COMMAND ${pcre_env} ../PCRE/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE --enable-shared=no
-                          ${extra_external_project_commands} ${download_extract_timestamp_flag})
+        CMAKE_GENERATOR "${CMAKE_GENERATOR}"
+        CMAKE_CACHE_ARGS
+          ${compiler_information}
+          -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+          -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+        INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/PCRE2
+        ${download_extract_timestamp_flag}
+        )
 
       # swig uses bison find it by cmake and pass it down
       find_package(BISON)
@@ -204,90 +207,9 @@ else()
           CACHE STRING "Flags used by bison")
       mark_as_advanced(BISON_FLAGS)
 
-      # From SWIG configure
-      # Some influential environment variables:
-      #  CC          C compiler command
-      #  CFLAGS      C compiler flags
-      #  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
-      #              nonstandard directory <lib dir>
-      #  LIBS        libraries to pass to the linker, e.g. -l<library>
-      #  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
-      #              you have headers in a nonstandard directory <include dir>
-      #  CXX         C++ compiler command
-      #  CXXFLAGS    C++ compiler flags
-      #  CPP         C preprocessor
-      #  PCRE_CONFIG config script used for pcre
-      #  PCRE_CFLAGS CFLAGS used for pcre
-      #  PCRE_LIBS   LIBS used for pcre
-      #  YACC        The `Yet Another C Compiler' implementation to use. Defaults to
-      #              the first program found out of: `bison -y', `byacc', `yacc'.
-      #  YFLAGS      The list of arguments that will be passed by default to $YACC.
-      #              This script will default YFLAGS to the empty string to avoid a
-      #              default value of `-d' given by some make applications.
-
       # If we are building ITK
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(SWIG)
-      endif()
-      # Swig configure step
-      # Run in a CMake script because it will be flagged as a false-positive
-      # warning when executed with CTEST_USE_LAUNCHERS
-      set(swig_env)
-      if(NOT CMAKE_CROSSCOMPILING)
-        set(swig_env
-            "
-set(ENV{CC} \"${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}\")
-set(ENV{CFLAGS} \"${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w\")
-set(ENV{LDFLAGS} \"$ENV{LDFLAGS}\")
-set(ENV{LIBS} \"$ENV{LIBS}\")
-set(ENV{CPPFLAGS} \"$ENV{CPPFLAGS}\")
-set(ENV{CXX} \"${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}\")
-set(ENV{CXXFLAGS} \"${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w\")
-set(ENV{CPP} \"$ENV{CPP}\")
-set(ENV{YACC} \"${BISON_EXECUTABLE}\")
-set(ENV{YFLAGS} \"${BISON_FLAGS}\")
-")
-      endif()
-      set(_swig_configure_script ${CMAKE_CURRENT_BINARY_DIR}/swig_configure_step.cmake)
-      file(
-        WRITE ${_swig_configure_script}
-        "
-      ${swig_env}
-execute_process(COMMAND ../swig/configure
-        \"--prefix=${CMAKE_CURRENT_BINARY_DIR}/swig\"
-        \"--with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE\"
-  WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build\"
-  RESULT_VARIABLE result
-  OUTPUT_VARIABLE output
-  ERROR_VARIABLE error
-  )
-
-set(output_file \"${CMAKE_CURRENT_BINARY_DIR}/swig_configure_output.txt\")
-file(WRITE \${output_file} \${output})
-
-set(error_file \"${CMAKE_CURRENT_BINARY_DIR}/swig_configure_error.txt\")
-file(WRITE \${error_file} \${error})
-
-if(NOT \${result} EQUAL 0)
-  message(STATUS \"Swig configure errors detected - See below.\n\${output}\n\${error}\")
-  message(FATAL_ERROR \"Swig configure error. See \${output_file} and \${error_file}\")
-endif()
-
-message(STATUS \"Swig configure successfully completed.\")
-")
-      set(extra_swig_configure_env)
-      if(APPLE)
-        # If building on OS X, the compiler must know what version of the OS X SDK to use
-        # without SDKROOT set, configuring swig fails.  The deployment target is set to
-        # ensure the built library is compatible with the correct OS X version.  This may
-        # not be strictly necessary for configure, but the compiler determines which
-        # header files to use based on both of these settings.  Adding it for safety.
-        list(
-          APPEND
-          extra_swig_configure_env
-          env
-          "SDKROOT=${CMAKE_OSX_SYSROOT}"
-          "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
       endif()
 
       ExternalProject_Add(
@@ -297,9 +219,15 @@ message(STATUS \"Swig configure successfully completed.\")
             "https://itk.pinata.cloud/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
             "https://w3s.link/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
         URL_HASH SHA512=${swig_hash}
-        CONFIGURE_COMMAND ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
-                          ${extra_external_project_commands}
-        DEPENDS PCRE ${download_extract_timestamp_flag})
+        CMAKE_GENERATOR "${CMAKE_GENERATOR}"
+        CMAKE_CACHE_ARGS
+          ${compiler_information}
+          -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+          -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+          -DPCRE2_DIR:PATH=${CMAKE_CURRENT_BINARY_DIR}/PCRE2
+        INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig
+        DEPENDS PCRE ${download_extract_timestamp_flag}
+        )
     endif()
 
     set(SWIG_DIR

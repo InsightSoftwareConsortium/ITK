@@ -274,7 +274,7 @@ macro(
   add_custom_command(
     OUTPUT ${cpp_file} ${python_file}
     COMMAND
-      ${swig_command} -c++ -python -O -features autodoc=2 -py3 -doxygen -Werror
+      ${swig_command} -c++ -python -fastdispatch -fvirtual -features autodoc=2 -doxygen -Werror
       -w302 # Identifier 'name' redefined (ignored)
       -w303 # %extend defined for an undeclared class 'name' (to avoid warning about customization in pyBase.i)
       -w312 # Unnamed nested class not currently supported (ignored)
@@ -406,7 +406,7 @@ macro(itk_end_wrap_submodule_python group_name)
     PyImport_AddModule(\"itk._${base_name}Python\");
     PyObject * ${base_name}Module = PyInit__${base_name}Python();
     PyDict_SetItemString(sysModules, \"itk._${base_name}Python\", ${base_name}Module);
-    Py_DECREF( ${base_name}Module);
+    SWIG_Py_DECREF( ${base_name}Module);
     }
 ")
 
