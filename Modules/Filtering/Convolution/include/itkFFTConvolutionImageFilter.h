@@ -107,7 +107,6 @@ public:
 
   /** Typedef to describe the boundary condition. */
   using typename Superclass::BoundaryConditionType;
-  using typename Superclass::BoundaryConditionPointerType;
 
   itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
   itkGetMacro(SizeGreatestPrimeFactor, SizeValueType);

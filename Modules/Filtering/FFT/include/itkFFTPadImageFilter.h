@@ -95,7 +95,6 @@ public:
 
   /** Typedef to describe the boundary condition. */
   using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TOutputImage>;
-  using BoundaryConditionPointerType = BoundaryConditionType *;
   using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>;
 
 protected:

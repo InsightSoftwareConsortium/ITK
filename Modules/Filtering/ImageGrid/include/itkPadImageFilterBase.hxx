@@ -128,7 +128,7 @@ PadImageFilterBase<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 template <typename TInputImage, typename TOutputImage>
 void
 PadImageFilterBase<TInputImage, TOutputImage>::InternalSetBoundaryCondition(
-  const BoundaryConditionPointerType boundaryCondition)
+  BoundaryConditionType * const boundaryCondition)
 {
   m_BoundaryCondition = boundaryCondition;
 }
