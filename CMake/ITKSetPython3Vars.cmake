@@ -21,7 +21,7 @@ if(PYTHON_DEVELOPMENT_REQUIRED)
     set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
   endif()
   # set(Python3_FIND_REGISTRY LAST) # default is FIRST. Do we need/want this?
-  find_package(Python3 ${PYTHON_REQUIRED_VERSION} COMPONENTS Interpreter Development)
+  find_package(Python3 ${PYTHON_REQUIRED_VERSION} COMPONENTS Interpreter Development.Module ${SKBUILD_SABI_COMPONENT})
   if(DEFINED _specified_Python3_EXECUTABLE)
     set(Python3_EXECUTABLE
         ${_specified_Python3_EXECUTABLE}
