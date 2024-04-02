@@ -147,8 +147,8 @@ public:
   itkSetMacro(FilterDimensionality, unsigned int);
 
   /** Set/get the boundary condition. */
-  itkSetMacro(InputBoundaryCondition, InputBoundaryConditionPointerType);
-  itkGetConstMacro(InputBoundaryCondition, InputBoundaryConditionPointerType);
+  itkSetMacro(InputBoundaryCondition, BoundaryConditionType *);
+  itkGetConstMacro(InputBoundaryCondition, BoundaryConditionType *);
   itkSetMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
   itkGetConstMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
 
@@ -387,7 +387,7 @@ private:
 
   /** Pointer to a persistent boundary condition object used
    ** for the image iterator. */
-  InputBoundaryConditionPointerType m_InputBoundaryCondition{};
+  BoundaryConditionType * m_InputBoundaryCondition{};
 
   /** Default boundary condition */
   InputDefaultBoundaryConditionType m_InputDefaultBoundaryCondition{};

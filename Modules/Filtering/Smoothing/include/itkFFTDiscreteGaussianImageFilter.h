@@ -124,7 +124,6 @@ public:
 
   /** Typedef to describe the boundary condition. */
   using typename Superclass::BoundaryConditionType;
-  using typename Superclass::InputBoundaryConditionPointerType;
   using typename Superclass::InputDefaultBoundaryConditionType;
   using typename Superclass::RealBoundaryConditionPointerType;
   using typename Superclass::RealDefaultBoundaryConditionType;
@@ -144,7 +143,7 @@ public:
   /** Overridden accessors for unused parameters */
 
   void
-  SetInputBoundaryCondition(const InputBoundaryConditionPointerType) override;
+  SetInputBoundaryCondition(BoundaryConditionType *) override;
 
   itkSetMacro(KernelSource, FFTDiscreteGaussianImageFilterEnums::KernelSource);
   itkGetConstMacro(KernelSource, FFTDiscreteGaussianImageFilterEnums::KernelSource);
