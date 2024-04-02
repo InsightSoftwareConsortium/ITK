@@ -48,7 +48,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
 void
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::OverrideBoundaryCondition(
-  std::unique_ptr<BoundaryConditionType> boundaryCondition)
+  std::unique_ptr<BoundaryConditionType> && boundaryCondition)
 {
   m_BoundaryCondition = std::move(boundaryCondition);
 }

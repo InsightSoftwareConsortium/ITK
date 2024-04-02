@@ -147,7 +147,7 @@ public:
 
   /** Allows to change the default boundary condition */
   void
-  OverrideBoundaryCondition(std::unique_ptr<BoundaryConditionType> boundaryCondition);
+  OverrideBoundaryCondition(std::unique_ptr<BoundaryConditionType> && boundaryCondition);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
