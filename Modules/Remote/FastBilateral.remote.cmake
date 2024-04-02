@@ -50,5 +50,5 @@ Insight Journal article:
 https://insight-journal.org/browse/publication/692"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKFastBilateral.git
-  GIT_TAG 4ee88117a0200f203bff6b48a66231dddf23fce3
+  GIT_TAG f524fcf4bbb574ed2554aa6e993b0d9946fa8b79
   )
