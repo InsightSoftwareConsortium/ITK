@@ -18,6 +18,7 @@
 #  include "metaEvent.h"
 
 #  include <string>
+#include <set>
 
 #  ifdef _MSC_VER
 #    pragma warning(disable : 4251)
@@ -33,6 +34,26 @@ class METAIO_EXPORT MetaObject
 {
   // PROTECTED
 protected:
+  std::set<std::string> m_ReservedKeywords = {
+    "ObjectType",
+    "ObjectSubType",
+    "NDims",
+    "Offset",
+    "Position",
+    "Origin",
+    "TransformMatrix",
+    "CenterOfRotation",
+    "AnatomicalOrientation",
+    "DistanceUnits",
+    "ElementSpacing",
+    "Color",
+    "AcquisitionDate",
+    "BinaryData",
+    "BinaryDataByteOrderMSB",
+    "CompressedData",
+    "CompressionLevel"
+  };
+
   typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
 
   std::ifstream * m_ReadStream;
@@ -85,6 +106,9 @@ protected:
 
   static void M_Destroy();
 
+  void
+  AddReservedKeywords(std::set<std::string> additionalKeywords);
+
   virtual void
   M_SetupReadFields();
 
@@ -114,6 +138,9 @@ public:
   explicit MetaObject(unsigned int dim);
 
   virtual ~MetaObject();
+
+  std::set<std::string>
+  GetReservedKeywords() const;
 
   void
   FileName(const char * _fileName);
@@ -382,6 +409,12 @@ public:
                bool              _required = true,
                int               _dependsOn = -1)
   {
+    // if given field name is one of the reserved keywords,
+    // don't add it
+    if(m_ReservedKeywords.find(std::string(_fieldName)) != m_ReservedKeywords.end())
+    {
+    return false;
+    }
     // don't add the same field twice. In the unlikely event
     // a field of the same name gets added more than once,
     // over-write the existing FieldRecord

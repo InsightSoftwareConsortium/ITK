@@ -87,6 +87,20 @@ MetaObject::M_Destroy();
 }
 
 
+std::set<std::string>
+MetaObject::GetReservedKeywords() const
+{
+  return m_ReservedKeywords;
+}
+
+
+void
+MetaObject::AddReservedKeywords(std::set<std::string> additionalKeywords)
+{
+  m_ReservedKeywords.insert(additionalKeywords.begin(), additionalKeywords.end());
+}
+
+
 // Clear Fields only, if the pointer is in the UserField list it is not deleted.
 void
 MetaObject::ClearFields()

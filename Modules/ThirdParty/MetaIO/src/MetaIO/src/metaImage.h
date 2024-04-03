@@ -351,6 +351,8 @@ public:
 
   // PROTECTED
 protected:
+  static std::set<std::string> m_ImageReservedKeywords;
+
   MET_ImageModalityEnumType m_Modality;
 
 

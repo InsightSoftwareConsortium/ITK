@@ -22,6 +22,13 @@ main(int, char *[])
     }
   }
 
+  // user field cannot use reserved keywords
+  char m[] = { 'C', 'T', '\0' };
+  if(tIm.AddUserField("Modality", MET_STRING, 3, m))
+  {
+    return EXIT_FAILURE;
+  }
+
   tIm.Write("test.mha");
   tIm.PrintInfo();
 
