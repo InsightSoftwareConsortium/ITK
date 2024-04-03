@@ -24,16 +24,9 @@ namespace itk
 template <typename TNodeType>
 SparseFieldLayer<TNodeType>::SparseFieldLayer()
 {
-  m_HeadNode = new NodeType;
-  m_HeadNode->Next = m_HeadNode;
-  m_HeadNode->Previous = m_HeadNode;
+  m_HeadNode->Next = m_HeadNode.get();
+  m_HeadNode->Previous = m_HeadNode.get();
   m_Size = 0;
-}
-
-template <typename TNodeType>
-SparseFieldLayer<TNodeType>::~SparseFieldLayer()
-{
-  delete m_HeadNode;
 }
 
 template <typename TNodeType>
@@ -42,7 +35,7 @@ SparseFieldLayer<TNodeType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "HeadNode: " << m_HeadNode << std::endl;
+  os << indent << "HeadNode: " << m_HeadNode.get() << std::endl;
   os << indent << "Size: " << m_Size << std::endl;
 }
 
