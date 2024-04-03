@@ -84,6 +84,16 @@ namespace METAIO_NAMESPACE
 // 1 Gigabyte is the maximum chunk to read/write in on function call
 static const std::streamoff MaxIOChunk = 1024 * 1024 * 1024;
 
+std::set<std::string> MetaImage::m_ImageReservedKeywords = {
+    "Modality",
+    "DimSize",
+    "SequenceID",
+    "ElementSizeValid",
+    "ElementSize",
+    "ElementType",
+    "ElementDataFileName",
+ };
+
 //
 // MetaImage Constructors
 //
@@ -91,6 +101,7 @@ MetaImage::MetaImage()
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
+  AddReservedKeywords(m_ImageReservedKeywords);
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = nullptr;
   m_CompressionTable->buffer = nullptr;
@@ -102,6 +113,7 @@ MetaImage::MetaImage(const char * _headerName)
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
+  AddReservedKeywords(m_ImageReservedKeywords);
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = nullptr;
   m_CompressionTable->buffer = nullptr;
@@ -115,6 +127,7 @@ MetaImage::MetaImage(MetaImage * _im)
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
+  AddReservedKeywords(m_ImageReservedKeywords);
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = nullptr;
   m_CompressionTable->buffer = nullptr;
@@ -164,6 +177,7 @@ MetaImage::MetaImage(int               _nDims,
                      int               _elementNumberOfChannels,
                      void *            _elementData)
 {
+  AddReservedKeywords(m_ImageReservedKeywords);
   // Only consider at most 10 element of spacing:
   // See MetaObject::InitializeEssential(_nDims)
   double tmpElementSpacing[10];
@@ -183,6 +197,7 @@ MetaImage::MetaImage(int               _nDims,
                      int               _elementNumberOfChannels,
                      void *            _elementData)
 {
+  AddReservedKeywords(m_ImageReservedKeywords);
   InitHelper(_nDims, _dimSize, _elementSpacing, _elementType, _elementNumberOfChannels, _elementData);
 }
 
@@ -197,6 +212,7 @@ MetaImage::MetaImage(int               _x,
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
+  AddReservedKeywords(m_ImageReservedKeywords);
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = nullptr;
   m_CompressionTable->buffer = nullptr;
@@ -233,6 +249,7 @@ MetaImage::MetaImage(int               _x,
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
+  AddReservedKeywords(m_ImageReservedKeywords);
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = nullptr;
   m_CompressionTable->buffer = nullptr;
@@ -2834,7 +2851,6 @@ MetaImage::ReadROIStream(int *           _indexMin,
           }
           delete[] wrds;
           delete readStreamTemp;
-          return false;
           return false;
         }
 
