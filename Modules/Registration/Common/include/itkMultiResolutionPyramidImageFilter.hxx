@@ -501,7 +501,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
   using OutputPixelType = typename TOutputImage::PixelType;
   using OperatorType = GaussianOperator<OutputPixelType, ImageDimension>;
 
-  auto * oper = new OperatorType;
+  OperatorType oper;
 
   typename TInputImage::SizeType radius;
 
@@ -510,13 +510,12 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
 
   for (idim = 0; idim < TInputImage::ImageDimension; ++idim)
   {
-    oper->SetDirection(idim);
-    oper->SetVariance(itk::Math::sqr(0.5 * static_cast<float>(m_Schedule[refLevel][idim])));
-    oper->SetMaximumError(m_MaximumError);
-    oper->CreateDirectional();
-    radius[idim] = oper->GetRadius()[idim];
+    oper.SetDirection(idim);
+    oper.SetVariance(itk::Math::sqr(0.5 * static_cast<float>(m_Schedule[refLevel][idim])));
+    oper.SetMaximumError(m_MaximumError);
+    oper.CreateDirectional();
+    radius[idim] = oper.GetRadius()[idim];
   }
-  delete oper;
 
   inputRequestedRegion.PadByRadius(radius);
 

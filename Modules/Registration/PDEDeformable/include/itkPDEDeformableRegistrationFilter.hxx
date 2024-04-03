@@ -302,8 +302,8 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   using OperatorType = GaussianOperator<ScalarType, ImageDimension>;
   using SmootherType = VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
-  auto * oper = new OperatorType;
-  auto   smoother = SmootherType::New();
+  OperatorType oper;
+  auto         smoother = SmootherType::New();
 
   using PixelContainerPointer = typename DisplacementFieldType::PixelContainerPointer;
   PixelContainerPointer swapPtr;
@@ -314,15 +314,15 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     // smooth along this dimension
-    oper->SetDirection(j);
+    oper.SetDirection(j);
     double variance = itk::Math::sqr(m_StandardDeviations[j]);
-    oper->SetVariance(variance);
-    oper->SetMaximumError(m_MaximumError);
-    oper->SetMaximumKernelWidth(m_MaximumKernelWidth);
-    oper->CreateDirectional();
+    oper.SetVariance(variance);
+    oper.SetMaximumError(m_MaximumError);
+    oper.SetMaximumKernelWidth(m_MaximumKernelWidth);
+    oper.CreateDirectional();
 
     // todo: make sure we only smooth within the buffered region
-    smoother->SetOperator(*oper);
+    smoother->SetOperator(oper);
     smoother->SetInput(field);
     smoother->Update();
 
@@ -339,8 +339,6 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   // graft the output back to this filter
   m_TempField->SetPixelContainer(field->GetPixelContainer());
   this->GraftOutput(smoother->GetOutput());
-
-  delete oper;
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
