@@ -8,14 +8,13 @@
 # implementation gives preference to active virtualenvs.
 
 cmake_policy(SET CMP0094 NEW) # makes FindPython3 prefer activated virtualenv Python to latest version
-set(PYTHON_REQUIRED_VERSION 3.7)
+set(PYTHON_REQUIRED_VERSION 3.8)
 set(Python_ADDITIONAL_VERSIONS
     3.12
     3.11
     3.10
     3.9
-    3.8
-    3.7)
+    3.8)
 if(PYTHON_DEVELOPMENT_REQUIRED)
   if(DEFINED Python3_EXECUTABLE) # if already specified
     set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
