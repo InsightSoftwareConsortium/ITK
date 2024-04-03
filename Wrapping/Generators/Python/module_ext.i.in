@@ -8,4 +8,9 @@
 #define SWIGPY_SLICEOBJECT PyObject
 %}
 
+%insert("begin") %{
+// Needed by SWIG for free/malloc, but not included by Python.h with recent versions of the Stable ABI
+#include "stdlib.h"
+%}
+
 @ITK_WRAP_PYTHON_SWIG_EXT@

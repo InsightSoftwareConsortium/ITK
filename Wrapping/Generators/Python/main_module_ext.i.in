@@ -4,6 +4,11 @@
 @ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS@
 %}
 
+%insert("begin") %{
+// Needed by SWIG for free/malloc, but not included by Python.h with recent versions of the Stable ABI
+#include "stdlib.h"
+%}
+
 %pythoncode %{
 swig = {}
 @ITK_WRAP_PYTHON_LIBRARY_IMPORTS@

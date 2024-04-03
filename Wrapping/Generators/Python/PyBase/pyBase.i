@@ -1,5 +1,10 @@
 %module(package="itk") pyBasePython
 
+%insert("begin") %{
+// Needed by SWIG for free/malloc, but not included by Python.h with recent versions of the Stable ABI
+#include "stdlib.h"
+%}
+
 %pythonbegin %{
 from . import _ITKPyBasePython
 import collections
