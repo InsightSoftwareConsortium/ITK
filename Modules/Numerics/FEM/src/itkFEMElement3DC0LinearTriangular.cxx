@@ -258,15 +258,14 @@ Element3DC0LinearTriangular::JacobianDeterminant(const VectorType & /*HACK pt*/,
 void
 Element3DC0LinearTriangular::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ) const
 {
-  MatrixType * pJlocal = nullptr;
+  MatrixType jlocal{};
 
   // If Jacobian was not provided, we
   // need to compute it here
   if (pJ == nullptr)
   {
-    pJlocal = new MatrixType();
-    this->Jacobian(pt, *pJlocal);
-    pJ = pJlocal;
+    this->Jacobian(pt, jlocal);
+    pJ = &jlocal;
   }
 
   //  invJ=vnl_svd_inverse<Float>(*pJ);
@@ -294,8 +293,6 @@ std::cout << (invJ) << std::endl;
 
 std::cout << " invJ2 " << std::endl;
 std::cout << (invJ2) << std::endl;*/
-
-  delete pJlocal;
 }
 
 void

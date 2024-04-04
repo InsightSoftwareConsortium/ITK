@@ -165,22 +165,18 @@ Element2DC0LinearTriangular::GetLocalFromGlobalCoordinates(const VectorType & gl
 Element2DC0LinearTriangular::Float
 Element2DC0LinearTriangular::JacobianDeterminant(const VectorType & pt, const MatrixType * pJ) const
 {
-
-  MatrixType * pJlocal = nullptr;
+  MatrixType jlocal{};
 
   // If Jacobian was not provided, we
   // need to compute it here
   if (pJ == nullptr)
   {
-    pJlocal = new MatrixType();
-    this->Jacobian(pt, *pJlocal);
-    pJ = pJlocal;
+    this->Jacobian(pt, jlocal);
+    pJ = &jlocal;
   }
 
   Float det = (((*pJ)[1][0] - (*pJ)[0][0]) * ((*pJ)[2][1] - (*pJ)[0][1])) -
               (((*pJ)[0][1] - (*pJ)[1][1]) * ((*pJ)[0][0] - (*pJ)[2][0]));
-
-  delete pJlocal;
 
   return det;
 }
@@ -188,15 +184,14 @@ Element2DC0LinearTriangular::JacobianDeterminant(const VectorType & pt, const Ma
 void
 Element2DC0LinearTriangular::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ) const
 {
-  MatrixType * pJlocal = nullptr;
+  MatrixType jlocal{};
 
   // If Jacobian was not provided, we
   // need to compute it here
   if (pJ == nullptr)
   {
-    pJlocal = new MatrixType();
-    this->Jacobian(pt, *pJlocal);
-    pJ = pJlocal;
+    this->Jacobian(pt, jlocal);
+    pJ = &jlocal;
   }
 
   // Note that inverse of Jacobian is not quadratic matrix
@@ -210,8 +205,6 @@ Element2DC0LinearTriangular::JacobianInverse(const VectorType & pt, MatrixType &
   invJ[1][0] = idet * ((*pJ)[2][0] - (*pJ)[1][0]);
   invJ[1][1] = idet * ((*pJ)[0][0] - (*pJ)[2][0]);
   invJ[1][2] = idet * ((*pJ)[1][0] - (*pJ)[0][0]);
-
-  delete pJlocal;
 }
 
 void
