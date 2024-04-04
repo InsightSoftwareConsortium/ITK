@@ -54,7 +54,7 @@ HDF5ImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   // just prints out the pointer value.
-  os << indent << "H5File: " << this->m_H5File << std::endl;
+  os << indent << "H5File: " << m_H5File.get() << std::endl;
 }
 
 //
@@ -267,7 +267,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const bool value)
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
   H5::PredType  scalarType = H5::PredType::NATIVE_HBOOL;
-  H5::DataSet   scalarSet = this->m_H5File->createDataSet(path, scalarType, scalarSpace);
+  H5::DataSet   scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
   //
   // HDF5 can't distinguish
   // between bool and int datasets
@@ -290,7 +290,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const long value)
   H5::DataSpace scalarSpace(1, &numScalars);
   H5::PredType  scalarType = H5::PredType::NATIVE_INT;
   H5::PredType  attrType = H5::PredType::NATIVE_HBOOL;
-  H5::DataSet   scalarSet = this->m_H5File->createDataSet(path, scalarType, scalarSpace);
+  H5::DataSet   scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
   //
   // HDF5 can't distinguish
   // between long and int datasets
@@ -313,7 +313,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const unsigned long value)
   H5::DataSpace scalarSpace(1, &numScalars);
   H5::PredType  scalarType = H5::PredType::NATIVE_UINT;
   H5::PredType  attrType = H5::PredType::NATIVE_HBOOL;
-  H5::DataSet   scalarSet = this->m_H5File->createDataSet(path, scalarType, scalarSpace);
+  H5::DataSet   scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
   //
   // HDF5 can't distinguish
   // between unsigned long and unsigned int datasets
@@ -336,7 +336,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const long long value)
   H5::DataSpace scalarSpace(1, &numScalars);
   H5::PredType  scalarType = H5::PredType::STD_I64LE;
   H5::PredType  attrType = H5::PredType::NATIVE_HBOOL;
-  H5::DataSet   scalarSet = this->m_H5File->createDataSet(path, scalarType, scalarSpace);
+  H5::DataSet   scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
   //
   // HDF5 can't distinguish
   // between long and long long datasets
@@ -358,7 +358,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const unsigned long long valu
   H5::DataSpace scalarSpace(1, &numScalars);
   H5::PredType  scalarType = H5::PredType::STD_U64LE;
   H5::PredType  attrType = H5::PredType::NATIVE_HBOOL;
-  H5::DataSet   scalarSet = this->m_H5File->createDataSet(path, scalarType, scalarSpace);
+  H5::DataSet   scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
   //
   // HDF5 can't distinguish
   // between unsigned long and unsigned long long
@@ -380,7 +380,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const TScalar & value)
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
   H5::PredType  scalarType = GetType<TScalar>();
-  H5::DataSet   scalarSet = this->m_H5File->createDataSet(path, scalarType, scalarSpace);
+  H5::DataSet   scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
   scalarSet.write(&value, scalarType);
   scalarSet.close();
 }
@@ -390,7 +390,7 @@ TScalar
 HDF5ImageIO::ReadScalar(const std::string & DataSetName)
 {
   hsize_t       dim[1];
-  H5::DataSet   scalarSet = this->m_H5File->openDataSet(DataSetName);
+  H5::DataSet   scalarSet = m_H5File->openDataSet(DataSetName);
   H5::DataSpace Space = scalarSet.getSpace();
 
   if (Space.getSimpleExtentNdims() != 1)
@@ -418,7 +418,7 @@ HDF5ImageIO::WriteString(const std::string & path, const std::string & value)
   hsize_t       numStrings(1);
   H5::DataSpace strSpace(1, &numStrings);
   H5::StrType   strType(H5::PredType::C_S1, H5T_VARIABLE);
-  H5::DataSet   strSet = this->m_H5File->createDataSet(path, strType, strSpace);
+  H5::DataSet   strSet = m_H5File->createDataSet(path, strType, strSpace);
   strSet.write(value, strType);
   strSet.close();
 }
@@ -437,7 +437,7 @@ HDF5ImageIO::ReadString(const std::string & path)
   hsize_t       numStrings(1);
   H5::DataSpace strSpace(1, &numStrings);
   H5::StrType   strType(H5::PredType::C_S1, H5T_VARIABLE);
-  H5::DataSet   strSet = this->m_H5File->openDataSet(path);
+  H5::DataSet   strSet = m_H5File->openDataSet(path);
   strSet.read(rval, strType, strSpace);
   strSet.close();
   return rval;
@@ -450,7 +450,7 @@ HDF5ImageIO::WriteVector(const std::string & path, const std::vector<TScalar> & 
   hsize_t       dim(vec.size());
   H5::DataSpace vecSpace(1, &dim);
   H5::PredType  vecType = GetType<TScalar>();
-  H5::DataSet   vecSet = this->m_H5File->createDataSet(path, vecType, vecSpace);
+  H5::DataSet   vecSet = m_H5File->createDataSet(path, vecType, vecSpace);
   vecSet.write(vec.data(), vecType);
   vecSet.close();
 }
@@ -461,7 +461,7 @@ HDF5ImageIO::ReadVector(const std::string & DataSetName)
 {
   std::vector<TScalar> vec;
   hsize_t              dim[1];
-  H5::DataSet          vecSet = this->m_H5File->openDataSet(DataSetName);
+  H5::DataSet          vecSet = m_H5File->openDataSet(DataSetName);
   H5::DataSpace        Space = vecSet.getSpace();
 
   if (Space.getSimpleExtentNdims() != 1)
@@ -495,7 +495,7 @@ HDF5ImageIO::WriteDirections(const std::string & path, const std::vector<std::ve
   }
 
   H5::DataSpace dirSpace(2, dim);
-  H5::DataSet   dirSet = this->m_H5File->createDataSet(path, H5::PredType::NATIVE_DOUBLE, dirSpace);
+  H5::DataSet   dirSet = m_H5File->createDataSet(path, H5::PredType::NATIVE_DOUBLE, dirSpace);
   dirSet.write(buf.get(), H5::PredType::NATIVE_DOUBLE);
   dirSet.close();
 }
@@ -504,7 +504,7 @@ std::vector<std::vector<double>>
 HDF5ImageIO::ReadDirections(const std::string & path)
 {
   std::vector<std::vector<double>> rval;
-  H5::DataSet                      dirSet = this->m_H5File->openDataSet(path);
+  H5::DataSet                      dirSet = m_H5File->openDataSet(path);
   H5::DataSpace                    dirSpace = dirSet.getSpace();
   hsize_t                          dim[2];
   if (dirSpace.getSimpleExtentNdims() != 2)
@@ -636,28 +636,26 @@ HDF5ImageIO::ResetToInitialState()
 {
   // close the H5 File
   {
-    if (this->m_H5File != nullptr)
+    if (m_H5File != nullptr)
     {
-      this->m_H5File->close();
-      delete this->m_H5File;
-      this->m_H5File = nullptr;
+      m_H5File->close();
+      m_H5File.reset();
     }
   }
 
   // close the dataset
   {
-    if (this->m_VoxelDataSet != nullptr)
+    if (m_VoxelDataSet != nullptr)
     {
       m_VoxelDataSet->close();
-      delete m_VoxelDataSet;
-      this->m_VoxelDataSet = nullptr;
+      m_VoxelDataSet.reset();
     }
   }
   // Need to reset m_ImageInformationWritten so that
   // the IO object is returned to
   // a state similar to constructing
   // anew.
-  this->m_ImageInformationWritten = false;
+  m_ImageInformationWritten = false;
 }
 
 void
@@ -666,8 +664,8 @@ HDF5ImageIO::ReadImageInformation()
   try
   {
     this->ResetToInitialState();
-    this->m_H5File = new H5::H5File(this->GetFileName(), H5F_ACC_RDONLY);
-    this->m_VoxelDataSet = new H5::DataSet();
+    m_H5File = std::make_unique<H5::H5File>(this->GetFileName(), H5F_ACC_RDONLY);
+    m_VoxelDataSet = std::make_unique<H5::DataSet>();
 
     // not sure what to do with this initially
     // eventually it will be needed if the file versions change
@@ -675,7 +673,7 @@ HDF5ImageIO::ReadImageInformation()
     // std::string hdfVersion = this->ReadString(HDFVersion);
 
     std::string groupName(ImageGroup);
-    // H5::Group imageGroup(this->m_H5File->openGroup(groupName));
+    // H5::Group imageGroup(m_H5File->openGroup(groupName));
     groupName += "/0";
 
     std::string DirectionsName(groupName);
@@ -686,7 +684,7 @@ HDF5ImageIO::ReadImageInformation()
     auto numDims = static_cast<int>(directions.size());
     this->SetNumberOfDimensions(numDims);
 
-    // H5::Group instanceGroup(this->m_H5File->openGroup(groupName));
+    // H5::Group instanceGroup(m_H5File->openGroup(groupName));
     std::string OriginName(groupName);
     OriginName += Origin;
     this->m_Origin = this->ReadVector<double>(OriginName);
@@ -717,8 +715,8 @@ HDF5ImageIO::ReadImageInformation()
 
     std::string VoxelDataName(groupName);
     VoxelDataName += VoxelData;
-    *(this->m_VoxelDataSet) = this->m_H5File->openDataSet(VoxelDataName);
-    H5::DataSet   imageSet = *(this->m_VoxelDataSet);
+    *(m_VoxelDataSet) = m_H5File->openDataSet(VoxelDataName);
+    H5::DataSet   imageSet = *(m_VoxelDataSet);
     H5::DataSpace imageSpace = imageSet.getSpace();
     //
     // set the componentType
@@ -745,14 +743,14 @@ HDF5ImageIO::ReadImageInformation()
     std::string MetaDataGroupName(groupName);
     MetaDataGroupName += MetaDataName;
     MetaDataGroupName += "/";
-    H5::Group metaGroup(this->m_H5File->openGroup(MetaDataGroupName));
+    H5::Group metaGroup(m_H5File->openGroup(MetaDataGroupName));
     for (unsigned int i = 0; i < metaGroup.getNumObjs(); ++i)
     {
       H5std_string name = metaGroup.getObjnameByIdx(i);
 
       std::string localMetaDataName(MetaDataGroupName);
       localMetaDataName += name;
-      H5::DataSet   metaDataSet = this->m_H5File->openDataSet(localMetaDataName);
+      H5::DataSet   metaDataSet = m_H5File->openDataSet(localMetaDataName);
       H5::DataType  metaDataType = metaDataSet.getDataType();
       H5::DataSpace metaDataSpace = metaDataSet.getSpace();
       if (metaDataSpace.getSimpleExtentNdims() != 1)
@@ -964,12 +962,12 @@ HDF5ImageIO::Read(void * buffer)
   ImageIORegion::SizeType  size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
 
-  H5::DataType  voxelType = this->m_VoxelDataSet->getDataType();
-  H5::DataSpace imageSpace = this->m_VoxelDataSet->getSpace();
+  H5::DataType  voxelType = m_VoxelDataSet->getDataType();
+  H5::DataSpace imageSpace = m_VoxelDataSet->getSpace();
 
   H5::DataSpace dspace;
   this->SetupStreaming(&imageSpace, &dspace);
-  this->m_VoxelDataSet->read(buffer, voxelType, dspace, imageSpace);
+  m_VoxelDataSet->read(buffer, voxelType, dspace, imageSpace);
 }
 
 template <typename TType>
@@ -1015,7 +1013,7 @@ HDF5ImageIO::WriteImageInformation()
   //
   // guard so that image information is only written once
   // if WriteImageInformation followed by Write
-  if (this->m_ImageInformationWritten)
+  if (m_ImageInformationWritten)
   {
     return;
   }
@@ -1034,16 +1032,16 @@ HDF5ImageIO::WriteImageInformation()
 #  error The selected version of HDF5 library does not support setting backwards compatibility at run-time.\
   Please use a different version of HDF5, e.g. the one bundled with ITK (by setting ITK_USE_SYSTEM_HDF5 to OFF).
 #endif
-    this->m_H5File = new H5::H5File(this->GetFileName(), H5F_ACC_TRUNC, H5::FileCreatPropList::DEFAULT, fapl);
-    this->m_VoxelDataSet = new H5::DataSet();
+    m_H5File = std::make_unique<H5::H5File>(this->GetFileName(), H5F_ACC_TRUNC, H5::FileCreatPropList::DEFAULT, fapl);
+    m_VoxelDataSet = std::make_unique<H5::DataSet>();
 
     this->WriteString(ItkVersion, Version::GetITKVersion());
 
     this->WriteString(HDFVersion, H5_VERS_INFO);
     std::string groupName(ImageGroup);
-    this->m_H5File->createGroup(groupName);
+    m_H5File->createGroup(groupName);
     groupName += "/0";
-    this->m_H5File->createGroup(groupName);
+    m_H5File->createGroup(groupName);
     std::string OriginName(groupName);
     OriginName += Origin;
     this->WriteVector(OriginName, this->m_Origin);
@@ -1096,10 +1094,10 @@ HDF5ImageIO::WriteImageInformation()
     std::string VoxelDataName(ImageGroup);
     VoxelDataName += "/0";
     VoxelDataName += VoxelData;
-    *(this->m_VoxelDataSet) = this->m_H5File->createDataSet(VoxelDataName, dataType, imageSpace, plist);
+    *(m_VoxelDataSet) = m_H5File->createDataSet(VoxelDataName, dataType, imageSpace, plist);
     std::string MetaDataGroupName(groupName);
     MetaDataGroupName += MetaDataName;
-    this->m_H5File->createGroup(MetaDataGroupName);
+    m_H5File->createGroup(MetaDataGroupName);
     //
     // MetaData.
     MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
@@ -1263,7 +1261,7 @@ HDF5ImageIO::WriteImageInformation()
   }
   //
   // only write image information once.
-  this->m_ImageInformationWritten = true;
+  m_ImageInformationWritten = true;
 }
 
 /**
@@ -1294,7 +1292,7 @@ HDF5ImageIO::Write(const void * buffer)
     H5::PredType  dataType = ComponentToPredType(this->GetComponentType());
     H5::DataSpace dspace;
     this->SetupStreaming(&imageSpace, &dspace);
-    this->m_VoxelDataSet->write(buffer, dataType, dspace, imageSpace);
+    m_VoxelDataSet->write(buffer, dataType, dspace, imageSpace);
   }
   // catch failure caused by the H5File operations
   catch (const H5::FileIException & error)
