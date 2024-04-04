@@ -270,15 +270,14 @@ Element::InterpolateSolutionN(const VectorType & pt,
 void
 Element::Jacobian(const VectorType & pt, MatrixType & J, const MatrixType * pshapeD) const
 {
-  MatrixType * pshapeDlocal = nullptr;
+  MatrixType shapeDlocal{};
 
   // If derivatives of shape functions were not provided, we
   // need to compute them here
   if (pshapeD == nullptr)
   {
-    pshapeDlocal = new MatrixType();
-    this->ShapeFunctionDerivatives(pt, *pshapeDlocal);
-    pshapeD = pshapeDlocal;
+    this->ShapeFunctionDerivatives(pt, shapeDlocal);
+    pshapeD = &shapeDlocal;
   }
 
   const unsigned int Nn = pshapeD->columns();
@@ -292,30 +291,23 @@ Element::Jacobian(const VectorType & pt, MatrixType & J, const MatrixType * psha
   }
 
   J = (*pshapeD) * coords;
-
-  // Destroy local copy of derivatives of shape functions, if
-  // they were computed.
-  delete pshapeDlocal;
 }
 
 Element::Float
 Element::JacobianDeterminant(const VectorType & pt, const MatrixType * pJ) const
 {
-  MatrixType * pJlocal = nullptr;
+  MatrixType jlocal{};
 
   // If Jacobian was not provided, we
   // need to compute it here
   if (pJ == nullptr)
   {
-    pJlocal = new MatrixType();
-    this->Jacobian(pt, *pJlocal);
-    pJ = pJlocal;
+    this->Jacobian(pt, jlocal);
+    pJ = &jlocal;
   }
 
   //  Float det=vnl_svd<Float>(*pJ).determinant_magnitude();
   Float det = vnl_qr<Float>(*pJ).determinant();
-
-  delete pJlocal;
 
   return det;
 }
@@ -323,21 +315,18 @@ Element::JacobianDeterminant(const VectorType & pt, const MatrixType * pJ) const
 void
 Element::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ) const
 {
-  MatrixType * pJlocal = nullptr;
+  MatrixType jlocal{};
 
   // If Jacobian was not provided, we
   // need to compute it here
   if (pJ == nullptr)
   {
-    pJlocal = new MatrixType();
-    this->Jacobian(pt, *pJlocal);
-    pJ = pJlocal;
+    this->Jacobian(pt, jlocal);
+    pJ = &jlocal;
   }
 
   //  invJ=vnl_svd_inverse<Float>(*pJ);
   invJ = vnl_qr<Float>(*pJ).inverse();
-
-  delete pJlocal;
 }
 
 void
@@ -346,34 +335,29 @@ Element::ShapeFunctionGlobalDerivatives(const VectorType & pt,
                                         const MatrixType * pJ,
                                         const MatrixType * pshapeD) const
 {
-  MatrixType * pshapeDlocal = nullptr;
-  MatrixType * pJlocal = nullptr;
+  MatrixType shapeDlocal{};
+  MatrixType jlocal{};
 
   // If derivatives of shape functions were not provided, we
   // need to compute them here
   if (pshapeD == nullptr)
   {
-    pshapeDlocal = new MatrixType();
-    this->ShapeFunctionDerivatives(pt, *pshapeDlocal);
-    pshapeD = pshapeDlocal;
+    this->ShapeFunctionDerivatives(pt, shapeDlocal);
+    pshapeD = &shapeDlocal;
   }
 
   // If Jacobian was not provided, we
   // need to compute it here
   if (pJ == nullptr)
   {
-    pJlocal = new MatrixType();
-    this->Jacobian(pt, *pJlocal, pshapeD);
-    pJ = pJlocal;
+    this->Jacobian(pt, jlocal, pshapeD);
+    pJ = &jlocal;
   }
 
   MatrixType invJ;
   this->JacobianInverse(pt, invJ, pJ);
 
   shapeDgl = invJ * (*pshapeD);
-
-  delete pJlocal;
-  delete pshapeDlocal;
 }
 
 Element::VectorType
