@@ -396,6 +396,11 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 
   # build all the c++ files from this module in a common lib
   if(NOT TARGET ${lib})
+    set(development_component "Development.Module")
+    if(ITK_USE_PYTHON_LIMITED_API)
+      set(development_component "Development.SABIModule")
+    endif()
+    find_package(Python3 COMPONENTS Interpreter ${development_component} REQUIRED)
     add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
     set_target_properties(${lib} PROPERTIES PREFIX "_")
 
@@ -405,13 +410,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     endif()
     # extension is not the same on windows
     if(WIN32)
-      # normally need *.pyd
-      # python_d requires libraries named *_d.pyd
-      if (ITK_USE_PYTHON_LIMITED_API)
-        set_target_properties(${lib} PROPERTIES SUFFIX .abi3.pyd)
-      else()
-        set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
-      endif()
+      set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
       set_target_properties(${lib} PROPERTIES DEBUG_POSTFIX "_d")
 
       if(MSVC)
@@ -434,13 +433,17 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
       unset(ipo_is_supported)
     endif()
 
-    # Python Limited API
+    # Python Limited API / Stable ABI
     if (ITK_USE_PYTHON_LIMITED_API)
       target_compile_definitions(${lib} PUBLIC -DPy_LIMITED_API=0x03110000)
     endif()
     # Link the modules together
     target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
-    itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${Python3_LIBRARIES})
+    if (ITK_USE_PYTHON_LIMITED_API)
+      itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${Python3_SABI_LIBRARIES})
+    else()
+      itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${Python3_LIBRARIES})
+    endif()
 
     if(USE_COMPILER_HIDDEN_VISIBILITY)
       # Prefer to use target properties supported by newer cmake
