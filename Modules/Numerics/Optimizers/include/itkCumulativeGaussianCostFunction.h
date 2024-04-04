@@ -120,15 +120,15 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Pointer to the original data array. */
-  MeasureType * m_OriginalDataArray{};
+  /** The original data array. */
+  MeasureType m_OriginalDataArray{};
 
   /** Number of data samples. */
-  unsigned int m_RangeDimension{};
+  unsigned int m_RangeDimension{ 0 };
 
   /** Different arrays. */
   mutable MeasureType    m_Measure{};
-  mutable MeasureType *  m_MeasurePointer{};
+  mutable MeasureType    m_MeasurePointer{};
   mutable ParametersType m_Parameters{};
 };
 } // end namespace itk
