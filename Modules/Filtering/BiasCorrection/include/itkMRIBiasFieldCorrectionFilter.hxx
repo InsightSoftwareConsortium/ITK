@@ -39,14 +39,7 @@ void
 MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::InitializeDistributions(Array<double> classMeans,
                                                                                Array<double> classSigmas)
 {
-  m_InternalEnergyFunction = new InternalEnergyFunction(classMeans, classSigmas);
-}
-
-template <typename TImage, typename TImageMask, typename TBiasField>
-MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::~MRIBiasEnergyFunction()
-{
-  delete m_InternalEnergyFunction;
-  m_InternalEnergyFunction = nullptr;
+  m_InternalEnergyFunction = std::make_unique<InternalEnergyFunction>(classMeans, classSigmas);
 }
 
 template <typename TImage, typename TImageMask, typename TBiasField>
