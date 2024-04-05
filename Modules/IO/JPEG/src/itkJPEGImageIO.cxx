@@ -470,7 +470,7 @@ JPEGImageIO::Write(const void * buffer)
 }
 
 void
-JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
+JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
 {
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(fileName.c_str(), "wb");
