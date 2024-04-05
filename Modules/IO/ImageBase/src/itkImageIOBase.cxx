@@ -35,7 +35,8 @@ void
 ImageIOBase::Reset(const bool)
 {
   m_Initialized = false;
-  m_FileName = "";
+  m_FilePath = PathType{};
+  m_NonConstFileName = "";
   m_NumberOfComponents = 1;
   for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
@@ -1159,7 +1160,8 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "FileName: " << this->GetFileName() << std::endl;
+  os << indent << "PathName: " << this->GetFilePath() << std::endl;
   os << indent << "IOFileEnum: " << this->GetFileTypeAsString(m_FileType) << std::endl;
   os << indent << "IOByteOrderEnum: " << this->GetByteOrderAsString(m_ByteOrder) << std::endl;
   os << indent << "IORegion: " << std::endl;

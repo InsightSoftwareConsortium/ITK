@@ -20,6 +20,7 @@
 #include "ITKIOImageBaseExport.h"
 
 #include "itkIOConfigure.h"
+#include "itkPathType.h"
 
 #include "itkLightProcessObject.h"
 #include "itkIndent.h"
@@ -89,8 +90,38 @@ public:
   itkOverrideGetNameOfClassMacro(ImageIOBase);
 
   /** Set/Get the name of the file to be read. */
-  itkSetStringMacro(FileName);
-  itkGetStringMacro(FileName);
+  virtual void
+  SetFilePath(const PathType & filepath)
+  {
+    if (m_FilePath != filepath)
+    {
+      m_FilePath = filepath;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+      m_NonConstFileName = filepath.string();
+#endif
+      this->Modified();
+    }
+  }
+  itkGetConstReferenceMacro(FilePath, PathType);
+
+  /** Set/Get the name of the file to be read as a c-string or string. */
+  virtual void
+  SetFileName(const char * filename)
+  {
+    this->SetFilePath(PathType(filename));
+  }
+  virtual void
+  SetFileName(const std::string & filename)
+  {
+    this->SetFilePath(PathType(filename));
+  }
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  virtual const char *
+  GetFileName() const
+  {
+    return this->m_FileName.c_str();
+  }
+#endif
 
   /** Types for managing image size and image index components. */
   using IndexValueType = itk::IndexValueType;
@@ -710,8 +741,14 @@ protected:
   /** Does the ImageIOBase object have enough info to be of use? */
   bool m_Initialized{};
 
+private:
+  std::string m_NonConstFileName{};
+
+protected:
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   /** Filename to read */
-  std::string m_FileName{};
+  const std::string & m_FileName{ m_NonConstFileName };
+#endif
 
   /** Stores the number of components per pixel. This will be 1 for
    * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images. */
@@ -893,6 +930,9 @@ private:
 
   ArrayOfExtensionsType m_SupportedReadExtensions{};
   ArrayOfExtensionsType m_SupportedWriteExtensions{};
+
+
+  PathType m_FilePath{};
 };
 
 /** Utility function for writing RAW bytes */
