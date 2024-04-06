@@ -38,8 +38,9 @@ namespace itk
  * the X, Y and Z axis. The last 3 parameters defines the translation in each
  * dimension.
  *
- * The serialization of the fixed parameters is an array of 3 elements defining
- * the center of rotation.
+ * The serialization of the fixed parameters is an array of 4 elements.
+ * The first 3 elements define the center of rotation.  The final
+ * element indicates the status of ComputeZYX (i.e. 1.0 if true, 0.0 if false).
  *
  * \ingroup ITKTransform
  */
