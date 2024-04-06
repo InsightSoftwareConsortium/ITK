@@ -83,11 +83,11 @@ namespace itk
  * values are estimated at discrete position or bins.
  * The number of bins used can be set via SetNumberOfHistogramBins().
  * To handle data with arbitrary magnitude and dynamic range,
- * the image intensity is scale such that any contribution to the
+ * the image intensity is scaled such that any contribution to the
  * histogram will fall into a valid bin.
  *
- * One the PDF's have been constructed, the mutual information
- * is obtained by doubling summing over the discrete PDF values.
+ * Once the PDF's have been constructed, the mutual information
+ * is obtained by double summing over the discrete PDF values.
  *
  *
  * Notes:
