@@ -219,8 +219,6 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
   using scalarType = typename TOutputImage::PixelType;
   typename TOutputImage::Pointer image = this->GetOutput(0);
 
-  ImageRegionIterator<TOutputImage> it(image, outputRegionForThread);
-
   TotalProgressReporter progress(this, image->GetRequestedRegion().GetNumberOfPixels());
 
   IndexValueType indSeed = outputRegionForThread.GetIndex(0);
@@ -231,17 +229,15 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
 
   // Random number seed
   unsigned int sample_seed = 12345 + indSeed;
-  double       u;
-  double       rnd;
 
-  auto dMin = static_cast<double>(m_Min);
-  auto dMax = static_cast<double>(m_Max);
+  const auto dMin = static_cast<double>(m_Min);
+  const auto dMax = static_cast<double>(m_Max);
 
-  for (; !it.IsAtEnd(); ++it)
+  for (ImageRegionIterator<TOutputImage> it(image, outputRegionForThread); !it.IsAtEnd(); ++it)
   {
     sample_seed = (sample_seed * 16807) % 2147483647L;
-    u = static_cast<double>(sample_seed) / 2147483711UL;
-    rnd = (1.0 - u) * dMin + u * dMax;
+    const double u = static_cast<double>(sample_seed) / 2147483711UL;
+    const double rnd = (1.0 - u) * dMin + u * dMax;
 
     it.Set((scalarType)rnd);
     progress.CompletedPixel();
