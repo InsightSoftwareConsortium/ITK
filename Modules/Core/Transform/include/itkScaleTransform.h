@@ -31,6 +31,10 @@ namespace itk
  * but with a large difference in performance since the affine transform will
  * use a matrix multiplication using a diagonal matrix.
  *
+ * The ND Parameters represent the scale in each dimension.
+ * The ND FixedParameters represent the fixed point (i.e. center point) from
+ * which scaling originates.
+ *
  * \ingroup ITKTransform
  *
  * \sphinx
