@@ -209,6 +209,7 @@ set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 add_executable(itkMathTest itkMathTest.cxx)
+target_link_options(itkMathTest PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
 itk_module_target_label(itkMathTest)
 target_link_libraries(itkMathTest LINK_PUBLIC ${ITKCommon_LIBRARIES})
 itk_add_test(
@@ -218,6 +219,7 @@ itk_add_test(
   itkMathTest)
 
 add_executable(itkSystemInformation itkSystemInformation.cxx)
+target_link_options(itkSystemInformation PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
 itk_module_target_label(itkSystemInformation)
 target_link_libraries(itkSystemInformation LINK_PUBLIC ${ITKCommon_LIBRARIES})
 itk_add_test(
@@ -1767,6 +1769,7 @@ if(NOT ITK_BUILD_SHARED_LIBS
        ".*-static.*")
   macro(BuildSharedTestLibrary _name _type)
     add_library(SharedTestLibrary${_name} ${_type} SharedTestLibrary${_name}.cxx)
+    target_link_options(SharedTestLibrary${_name} PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
     itk_module_target_label(SharedTestLibrary${_name})
     target_link_libraries(SharedTestLibrary${_name} LINK_PUBLIC ${ITKCommon_LIBRARIES})
     set_property(TARGET SharedTestLibrary${_name} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
@@ -1784,6 +1787,7 @@ if(NOT ITK_BUILD_SHARED_LIBS
   buildsharedtestlibrary(A SHARED)
   buildsharedtestlibrary(B SHARED)
   add_executable(itkObjectFactoryBasePrivateDestructor itkObjectFactoryBasePrivateDestructor.cxx)
+  target_link_options(itkObjectFactoryBasePrivateDestructor PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
   itk_module_target_label(itkObjectFactoryBasePrivateDestructor)
   target_link_libraries(
     itkObjectFactoryBasePrivateDestructor

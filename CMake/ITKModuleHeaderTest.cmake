@@ -86,6 +86,7 @@ macro(itk_module_headertest _name)
                 ${${_name}_SOURCE_DIR} ${${_name}_BINARY_DIR} ${MAXIMUM_NUMBER_OF_HEADERS} ${_test_num})
       add_executable(${_test_name} ${_header_test_src})
       target_link_libraries(${_test_name} PUBLIC ${${_name}_LIBRARIES} itksys)
+      target_link_options(${_test_name} PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
 
       add_dependencies(${_name}-all ${_test_name})
       math(EXPR _test_num "${_test_num} + 1")
