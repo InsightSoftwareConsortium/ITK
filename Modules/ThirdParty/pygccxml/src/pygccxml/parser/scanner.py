@@ -334,7 +334,7 @@ class scanner_t(xml.sax.handler.ContentHandler):
                 self.__update_membership(attrs)
                 self.__read_attributes(obj, attrs)
 
-            elif utils.is_str(obj):
+            elif isinstance(obj, str):
 
                 self.__files[element_id] = os.path.normpath(obj)
 

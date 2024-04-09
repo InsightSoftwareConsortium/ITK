@@ -187,7 +187,7 @@ class project_reader_t(object):
         self.__dcache = None
         if isinstance(cache, declarations_cache.cache_base_t):
             self.__dcache = cache
-        elif utils.is_str(cache):
+        elif isinstance(cache, str):
             self.__dcache = declarations_cache.file_cache_t(cache)
         else:
             self.__dcache = declarations_cache.dummy_cache_t()
@@ -221,7 +221,7 @@ class project_reader_t(object):
 
         fnames = []
         for f in files:
-            if utils.is_str(f):
+            if isinstance(f, str):
                 fnames.append(f)
             elif isinstance(f, file_configuration_t):
                 if f.content_type in (
