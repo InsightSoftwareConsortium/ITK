@@ -28,8 +28,8 @@ upstream_sha="ce011e1bc57248d205cfda60dd51b3182acbe106"
 # EDIT THIS SCRIPT to change the hash tag at which to begin the
 # next update...
 #
-# This merge was done on: August 23rd, 2023
-git branch pygccxml-upstream 6637e8709b7779d19cd6089d3c25b193fd794b7c
+# This merge was done on: April 9th, 2024
+git branch pygccxml-upstream b39a0bbb81bf02fc6541131b331f36254b3971d4
 
 #
 # Make a temp directory to handle the import of the upstream source
