@@ -507,7 +507,7 @@ def is_std_string(type_):
 
     """
 
-    if utils.is_str(type_):
+    if isinstance(type_, str):
         return type_ in string_equivalences
 
     type_ = remove_alias(type_)
@@ -522,7 +522,7 @@ def is_std_wstring(type_):
 
     """
 
-    if utils.is_str(type_):
+    if isinstance(type_, str):
         return type_ in wstring_equivalences
 
     type_ = remove_alias(type_)
@@ -537,7 +537,7 @@ def is_std_ostream(type_):
 
     """
 
-    if utils.is_str(type_):
+    if isinstance(type_, str):
         return type_ in ostream_equivalences
 
     type_ = remove_alias(type_)
@@ -552,7 +552,7 @@ def is_std_wostream(type_):
 
     """
 
-    if utils.is_str(type_):
+    if isinstance(type_, str):
         return type_ in wostream_equivalences
 
     type_ = remove_alias(type_)
