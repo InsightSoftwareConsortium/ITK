@@ -4,14 +4,11 @@ on: [push,pull_request]
 
 jobs:
   cxx-build-workflow:
-    uses: thewtex/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-cxx.yml@e7c959441f1e513e8dedf380202e553f3aacf124
-    with:
-      itk-git-tag: 877acbac082d5d8132e3d66f13732914b6408ef7
+    uses: thewtex/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-cxx.yml@v5.4rc03-arm-wheels
 
   python-build-workflow:
-    uses: thewtex/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-package-python.yml@e7c959441f1e513e8dedf380202e553f3aacf124
+    uses: thewtex/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-package-python.yml@v5.4rc03-arm-wheels
     with:
       test-notebooks: false
-      itk-python-package-tag: e80c3754b472f16e61756f3988cf876c2a7bf097
     secrets:
       pypi_password: ${{ secrets.pypi_password }}
