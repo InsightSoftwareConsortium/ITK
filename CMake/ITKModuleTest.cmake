@@ -70,6 +70,7 @@ EM_ASM(
     LINK_PUBLIC
     ${KIT_LIBS}
     ${ITKTestKernel_LIBRARIES})
+  target_link_options(${KIT}TestDriver PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
   itk_module_target_label(${KIT}TestDriver)
 endmacro()
 
@@ -240,6 +241,7 @@ function(
     ${KIT_LIBS}
     GTest::GTest
     GTest::Main)
+  target_link_options(${exe} PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
   itk_module_target_label(${exe})
 
   include(GoogleTest)

@@ -16,6 +16,7 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 # temporary solution for all print tests. Each module should have its own print test later.
 add_executable(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)
+target_link_options(itkAlgorithmsPrintTest PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
 itk_module_target_label(itkAlgorithmsPrintTest)
 target_link_libraries(itkAlgorithmsPrintTest LINK_PUBLIC ${ITKIntegratedTest-Test_LIBRARIES})
 itk_add_test(
@@ -25,6 +26,7 @@ itk_add_test(
   itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest2 itkAlgorithmsPrintTest2.cxx)
+target_link_options(itkAlgorithmsPrintTest2 PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
 itk_module_target_label(itkAlgorithmsPrintTest2)
 target_link_libraries(itkAlgorithmsPrintTest2 LINK_PUBLIC ${ITKIntegratedTest-Test_LIBRARIES})
 itk_add_test(
@@ -34,6 +36,7 @@ itk_add_test(
   itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest3 itkAlgorithmsPrintTest3.cxx)
+target_link_options(itkAlgorithmsPrintTest3 PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
 itk_module_target_label(itkAlgorithmsPrintTest3)
 target_link_libraries(itkAlgorithmsPrintTest3 LINK_PUBLIC ${ITKIntegratedTest-Test_LIBRARIES})
 itk_add_test(
@@ -43,6 +46,7 @@ itk_add_test(
   itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest4 itkAlgorithmsPrintTest4.cxx)
+target_link_options(itkAlgorithmsPrintTest4 PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
 itk_module_target_label(itkAlgorithmsPrintTest4)
 target_link_libraries(itkAlgorithmsPrintTest4 LINK_PUBLIC ${ITKIntegratedTest-Test_LIBRARIES})
 itk_add_test(

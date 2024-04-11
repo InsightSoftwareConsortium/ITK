@@ -440,6 +440,7 @@ endforeach()
 
 # Test header files circular dependencies
 add_executable(ITKFFTTestCircularDependency itkTestCircularDependency.cxx)
+target_link_options(ITKFFTTestCircularDependency PRIVATE "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
 target_link_libraries(ITKFFTTestCircularDependency ${ITKFFT-Test_LIBRARIES})
 itk_add_test(
   NAME
