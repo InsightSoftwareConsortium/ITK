@@ -264,20 +264,10 @@ namespace itk
 #  define itkExposeEnumValue(name) static_cast<int>(name)
 #endif
 
-// Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
-// use it analogously to "break;".  The trailing semi-colon is required.
-#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
-#  if (__GNUC__ >= 7)
-#    define ITK_FALLTHROUGH __attribute__((fallthrough))
-#  endif
-#elif defined(__has_warning)
-#  if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
-#    define ITK_FALLTHROUGH [[clang::fallthrough]]
-#  endif
-#endif
-
-#ifndef ITK_FALLTHROUGH
-#  define ITK_FALLTHROUGH ((void)0)
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  define ITK_FALLTHROUGH [[fallthrough]]
+#else
+#  define ITK_FALLTHROUGH static_assert(false, "ERROR: ITK_FALLTHROUGH must be replaced with [[fallthrough]]")
 #endif
 
 /** Define two object creation methods.  The first method, New(),
