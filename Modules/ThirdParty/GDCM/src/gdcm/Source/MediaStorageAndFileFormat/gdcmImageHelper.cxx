@@ -1278,6 +1278,9 @@ Tag ImageHelper::GetSpacingTagFromMediaStorage(MediaStorage const &ms)
     if( ImageHelper::SecondaryCaptureImagePlaneModule ) {
       // Make SecondaryCaptureImagePlaneModule act as ForcePixelSpacing
       // This is different from Basic Pixel Spacing Calibration Macro Attributes
+      //
+      // Per the note: https://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_A.8.html#sect_A.8.1.3
+      gdcmWarningMacro( "FIXME: Multiple tags can identify Secondary Capture spacing. This function should not be used for Secondary Capture data." );
       t = Tag(0x0028,0x0030);
     } else {
       t = Tag(0x0018,0x2010);
@@ -1471,7 +1474,25 @@ std::vector<double> ImageHelper::GetSpacingValue(File const & f)
       }
     }
 
-  Tag spacingtag = GetSpacingTagFromMediaStorage(ms);
+  Tag spacingtag = Tag(0xffff,0xffff);
+  if( ms == MediaStorage::SecondaryCaptureImageStorage && SecondaryCaptureImagePlaneModule )
+    {
+    // See the note: https://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_A.8.html#sect_A.8.1.3
+    if( ds.FindDataElement( Tag(0x0028,0x0030) ) )
+      {
+      // Type 1C in 'SC Image' (for calibrated images)
+      spacingtag = Tag(0x0028,0x0030);
+      }
+    else if( ds.FindDataElement( Tag(0x0018,0x2010) ) )
+      {
+      // Type 3 in 'SC Image'
+      spacingtag = Tag(0x0018,0x2010);
+      }
+    }
+  else
+    {
+    spacingtag = GetSpacingTagFromMediaStorage(ms);
+    }
   if( spacingtag != Tag(0xffff,0xffff) && ds.FindDataElement( spacingtag ) && !ds.GetDataElement( spacingtag ).IsEmpty() )
     {
     const DataElement& de = ds.GetDataElement( spacingtag );
