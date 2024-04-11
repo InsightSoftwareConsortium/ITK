@@ -88,6 +88,20 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4Rescaled.mha)
 itk_add_test(
   NAME
+  itkGDCMImageIOSecondaryCaptureSpacingTest
+  COMMAND
+  ITKIOGDCMTestDriver
+  --compare
+  DATA{Baseline/itkGDCMImageIOSecondaryCaptureSpacingTestBaseline.mha}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTest.mha
+  itkGDCMImageIOTest
+  DATA{Input/image_slice0.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTest.dcm
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTest.mha
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTestRescaled.dcm
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTestRescaled.mha)
+itk_add_test(
+  NAME
   itkGDCMImageIOTest5
   COMMAND
   ITKIOGDCMTestDriver
