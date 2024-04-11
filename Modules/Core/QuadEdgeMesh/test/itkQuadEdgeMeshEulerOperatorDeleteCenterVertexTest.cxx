@@ -82,7 +82,13 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char * argv[])
   }
   std::cout << "OK" << std::endl;
 
-  (void)deleteCenterVertex->GetNameOfClass();
+  const std::string className = deleteCenterVertex->GetNameOfClass();
+  const std::string requiredClassName{ "QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction" };
+  if (className != requiredClassName)
+  {
+    std::cout << className << " != " << requiredClassName << std::endl;
+    return EXIT_FAILURE;
+  }
 
   deleteCenterVertex->SetInput(mesh);
   std::cout << "     "
