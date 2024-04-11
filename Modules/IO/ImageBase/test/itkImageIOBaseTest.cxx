@@ -25,12 +25,6 @@
 
 // Specific ImageIO test
 
-// Macro to check that two arrays have the same size at compile time. It doesn't compile if they don't
-// as it tries to create an array of size(-1)
-// https://scaryreasoner.wordpress.com/2009/02/28/checking-sizeof-at-compile-time/
-#define CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(array1, array2) \
-  ((void)sizeof(char[1 - 2 * !!(std::size(array1) - std::size(array2))]))
-
 int
 itkImageIOBaseTest(int, char *[])
 {
@@ -168,8 +162,12 @@ itkImageIOBaseTest(int, char *[])
                                              "complex",
                                              "fixed_array",
                                              "matrix" };
-    CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(listComponentTypeString, listComponentType);
-    CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(listIOPixelType, listIOPixelTypeString);
+    // Compile time verification that the array lengths are correct for type and name
+    static_assert(std::size(listComponentType) == std::size(listComponentTypeString),
+                  "listComponentType and listComponentTypeString must be same length");
+    static_assert(std::size(listIOPixelType) == std::size(listIOPixelTypeString),
+                  "listIOPixelType and listIOPixelTypeString must be same length");
+
     constexpr size_t listComponentSize = std::size(listComponentType);
     constexpr size_t listPixelSize = std::size(listIOPixelType);
     { // Test the static version of the string <-> type conversions
