@@ -77,8 +77,9 @@ public:
 
 template <unsigned int TDimension>
 int
-ImageRegistration(int itkNotUsed(argc), char * argv[])
+ImageRegistration(int argc, char * argv[])
 {
+  ITK_TEST_EXPECT_TRUE(argc == 4);
   const unsigned int ImageDimension = TDimension;
 
 

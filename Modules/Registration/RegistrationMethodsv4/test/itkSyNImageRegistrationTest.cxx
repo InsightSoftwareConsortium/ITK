@@ -111,7 +111,7 @@ template <unsigned int TDimension>
 int
 PerformDisplacementFieldImageRegistration(int argc, char * argv[])
 {
-  if (argc != 4)
+  if (argc != 5)
   {
     std::cout << "ERROR: incorrect number of arguments" << std::endl;
     return EXIT_FAILURE;
