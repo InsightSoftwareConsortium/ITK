@@ -113,7 +113,7 @@ itkFloatingPointExceptionsAbortOrExit()
   }
 }
 
-void
+[[maybe_unused]] void
 itkFloatingPointExceptionsNotSupported()
 {
   std::cerr << "FloatingPointExceptions are not supported on this platform." << std::endl;

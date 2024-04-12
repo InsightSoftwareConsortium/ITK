@@ -25,11 +25,10 @@
 #ifndef itkSingletonMacro_h
 #define itkSingletonMacro_h
 
-#define itkInitGlobalsMacro(VarName)                       \
-  {                                                        \
-    static auto * staticGlobals = Get##VarName##Pointer(); \
-    (void)staticGlobals;                                   \
-  }                                                        \
+#define itkInitGlobalsMacro(VarName)                                        \
+  {                                                                         \
+    [[maybe_unused]] static auto * staticGlobals = Get##VarName##Pointer(); \
+  }                                                                         \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkGetGlobalDeclarationMacro(Type, VarName) static Type * Get##VarName##Pointer()

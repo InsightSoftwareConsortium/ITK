@@ -218,12 +218,10 @@ public:
     {};
 
     // Factory registration, made thread-safe by "magic statics" (as introduced with C++11).
-    static const FactoryRegistration staticFactoryRegistration = [] {
+    [[maybe_unused]] static const FactoryRegistration staticFactoryRegistration = [] {
       RegisterFactoryInternal(TFactory::New());
       return FactoryRegistration{};
     }();
-
-    (void)staticFactoryRegistration;
   }
 
   /** Initialize the static members of ObjectFactoryBase. */
