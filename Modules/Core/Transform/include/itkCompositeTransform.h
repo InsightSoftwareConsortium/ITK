@@ -42,11 +42,11 @@ namespace itk
  * Example:
  * A user wants to optimize two Affine transforms together, then add a
  * Deformation Field (DF) transform, and optimize it separately.
- * He first adds the two Affines, then runs the optimization and both Affines
- * transforms are optimized. Next, he adds the DF transform and calls
+ * They first add the two Affines, then run the optimization and both Affines
+ * transform parameters are optimized. Next, they add the DF transform and call
  * SetOnlyMostRecentTransformToOptimizeOn, which clears the optimization flags
  * for both of the affine transforms, and leaves the flag set only for the DF
- * transform, since it was the last transform added. Now he runs the
+ * transform, since it was the last transform added. Now they run the
  * optimization and only the DF transform is optimized, but the affines are
  * included in the transformation during the optimization.
  *
