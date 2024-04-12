@@ -165,7 +165,6 @@ FloatingPointExceptions::Enable()
   sigaction(SIGFPE, &act, nullptr);
 #  endif
   FloatingPointExceptions::m_PimplGlobals->m_Enabled = true;
-  (void)itkFloatingPointExceptionsNotSupported; // avoid unused-function warning
 #else
   itkFloatingPointExceptionsNotSupported();
 #endif

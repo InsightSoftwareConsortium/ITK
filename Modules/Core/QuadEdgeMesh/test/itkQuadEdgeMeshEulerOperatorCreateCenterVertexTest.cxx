@@ -74,7 +74,7 @@ itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest(int, char *[])
   std::cout << "OK" << std::endl;
 #endif
 
-  (void)createCenterVertex->GetNameOfClass();
+  [[maybe_unused]] const std::string name_of_class = createCenterVertex->GetNameOfClass();
 
   createCenterVertex->SetInput(mesh);
 #ifndef NDEBUG

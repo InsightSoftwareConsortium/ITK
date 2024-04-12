@@ -151,10 +151,8 @@ public:
   struct NeverReallocate : AllocateRootPolicy
   {
     bool
-    operator()(unsigned int newSize, unsigned int oldSize) const
+    operator()([[maybe_unused]] unsigned int newSize, [[maybe_unused]] unsigned int oldSize) const
     {
-      (void)newSize;
-      (void)oldSize;
       itkAssertInDebugAndIgnoreInReleaseMacro(newSize == oldSize &&
                                               "SetSize is expected to never change the VariableLengthVector size...");
       return true;

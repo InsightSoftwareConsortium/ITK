@@ -73,7 +73,7 @@ TransformFactoryBase::RegisterDefaultTransforms()
   // make sure that the factory instance has
   // been created. All normal paths to this method
   // already do this but this makes certain sure it's done
-  (void)TransformFactoryBase::GetFactory();
+  [[maybe_unused]] auto currentFactory = TransformFactoryBase::GetFactory();
 
   if (!TransformFactoryBasePrivate::DefaultTransformsRegistered)
   {

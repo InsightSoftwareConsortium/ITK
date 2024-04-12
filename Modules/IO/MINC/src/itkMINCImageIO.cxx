@@ -34,8 +34,6 @@ extern "C"
   void
   MINCIOFreeTmpDimHandle(unsigned int size, midimhandle_t * ptr)
   {
-    int          error = 0;
-    unsigned int x = 0;
     if (!ptr)
     {
       /*
@@ -46,16 +44,14 @@ extern "C"
 #endif
       return;
     }
-    for (; x < size; ++x)
+    for (unsigned int x = 0; x < size; ++x)
     {
-      error = mifree_dimension_handle(ptr[x]);
+      [[maybe_unused]] int error = mifree_dimension_handle(ptr[x]);
 #ifndef NDEBUG
       if (error != MI_NOERROR)
       {
         printf("MINCIOFreeTmpDimHandle: mifree_dimension_handle(ptr[%u]) returned %d", x, error);
       }
-#else
-      (void)error;
 #endif
     }
   }
