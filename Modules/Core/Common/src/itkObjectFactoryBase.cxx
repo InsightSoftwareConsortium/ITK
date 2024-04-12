@@ -348,7 +348,7 @@ using ITK_LOAD_FUNCTION = ObjectFactoryBase * (*)();
  * lower case for LibExtension values.
  */
 inline bool
-NameIsSharedLibrary(const char * name)
+NameIsSharedLibrary([[maybe_unused]] const char * name)
 {
 #ifdef ITK_DYNAMIC_LOADING
   std::string extension = itksys::DynamicLoader::LibExtension();
@@ -368,7 +368,6 @@ NameIsSharedLibrary(const char * name)
     return true;
   }
 #else // ITK_DYNAMIC_LOADING
-  (void)name;
   itkGenericExceptionMacro("ITK was not built with support for dynamic loading.");
 #endif
   return false;

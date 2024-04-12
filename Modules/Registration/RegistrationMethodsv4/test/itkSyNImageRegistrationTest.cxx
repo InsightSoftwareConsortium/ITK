@@ -109,8 +109,13 @@ public:
 
 template <unsigned int TDimension>
 int
-PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
+PerformDisplacementFieldImageRegistration(int argc, char * argv[])
 {
+  if (argc != 4)
+  {
+    std::cout << "ERROR: incorrect number of arguments" << std::endl;
+    return EXIT_FAILURE;
+  }
   const unsigned int ImageDimension = TDimension;
 
   using PixelType = double;

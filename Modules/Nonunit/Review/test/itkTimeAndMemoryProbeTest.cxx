@@ -21,11 +21,8 @@
 #include <iostream>
 
 int
-itkTimeAndMemoryProbeTest(int argc, char * argv[])
+itkTimeAndMemoryProbeTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  (void)argc;
-  (void)argv;
-
   itk::TimeProbe                 timeProbe;
   itk::MemoryProbesCollectorBase memoryProbes;
 

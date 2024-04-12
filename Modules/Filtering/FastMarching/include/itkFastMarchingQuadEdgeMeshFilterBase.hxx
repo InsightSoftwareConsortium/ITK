@@ -376,7 +376,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::ComputeUpdate(const OutputV
 template <typename TInput, typename TOutput>
 bool
 FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::UnfoldTriangle(OutputMeshType *                  oMesh,
-                                                                    const OutputPointIdentifierType & iId,
+                                                                    const OutputPointIdentifierType & itkNotUsed(iId),
                                                                     const OutputPointType &           iP,
                                                                     const OutputPointIdentifierType & iId1,
                                                                     const OutputPointType &           iP1,
@@ -388,8 +388,6 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::UnfoldTriangle(OutputMeshTy
                                                                     OutputVectorRealType &            oDot2,
                                                                     OutputPointIdentifierType &       oId) const
 {
-  (void)iId;
-
   OutputVectorType     Edge1 = iP1 - iP;
   OutputVectorRealType Norm1 = Edge1.GetNorm();
 
@@ -569,11 +567,9 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::UnfoldTriangle(OutputMeshTy
 
 template <typename TInput, typename TOutput>
 bool
-FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::CheckTopology(OutputMeshType * oMesh, const NodeType & iNode)
+FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::CheckTopology(OutputMeshType * itkNotUsed(oMesh),
+                                                                   const NodeType & itkNotUsed(iNode))
 {
-  (void)oMesh;
-  (void)iNode;
-
   return true;
 }
 

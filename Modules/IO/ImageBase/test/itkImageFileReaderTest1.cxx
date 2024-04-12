@@ -21,7 +21,7 @@
 
 
 int
-itkImageFileReaderTest1(int itkNotUsed(argc), char * argv[])
+itkImageFileReaderTest1(int argc, char * argv[])
 {
 
   using ImageNDType = itk::Image<short, 2>;

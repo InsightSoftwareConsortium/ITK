@@ -241,13 +241,12 @@ private:
 class I18nIfstream : public std::istream
 {
 public:
-  I18nIfstream(const char * str, std::ios_base::openmode mode = std::ios_base::in)
+  I18nIfstream(const char * str, std::ios_base::openmode itkNotused(mode) = std::ios_base::in)
     : std::istream(0)
     , m_fd(I18nOpenForReading(str))
     , m_buf(m_fd)
   {
     ///\todo better handle mode flag
-    (void)mode;
     this->rdbuf(&m_buf);
   }
 

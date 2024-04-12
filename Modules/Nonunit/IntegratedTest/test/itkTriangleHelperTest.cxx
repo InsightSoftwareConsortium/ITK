@@ -20,11 +20,8 @@
 #include <iostream>
 
 int
-itkTriangleHelperTest(int argc, char * argv[])
+itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  (void)argc;
-  (void)argv;
-
   constexpr unsigned int Dimension = 3;
   using CoordRepType = double;
   using PointType = itk::Point<CoordRepType, Dimension>;

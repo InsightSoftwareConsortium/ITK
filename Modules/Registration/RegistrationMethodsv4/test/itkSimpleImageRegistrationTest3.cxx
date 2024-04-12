@@ -118,8 +118,13 @@ public:
 
 template <unsigned int TDimension>
 int
-PerformCompositeImageRegistration(int itkNotUsed(argc), char * argv[])
+PerformCompositeImageRegistration(int argc, char * argv[])
 {
+  if (argc != 4)
+  {
+    std::cout << "ERROR: incorrect number of arguments" << std::endl;
+    return EXIT_FAILURE;
+  }
   const unsigned int ImageDimension = TDimension;
 
   using PixelType = double;

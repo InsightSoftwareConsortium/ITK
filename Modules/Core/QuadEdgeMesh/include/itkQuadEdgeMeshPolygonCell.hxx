@@ -160,14 +160,11 @@ QuadEdgeMeshPolygonCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimensi
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
 bool
-QuadEdgeMeshPolygonCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
-                                                            CellFeatureIdentifier cellId,
-                                                            CellAutoPointer &     cell)
+QuadEdgeMeshPolygonCell<TCellInterface>::GetBoundaryFeature(int                   itkNotUsed(dimension),
+                                                            CellFeatureIdentifier itkNotUsed(cellId),
+                                                            CellAutoPointer &     itkNotUsed(cell))
 {
   /// \todo
-  (void)dimension;
-  (void)cellId;
-  (void)cell;
   return (false);
 }
 
