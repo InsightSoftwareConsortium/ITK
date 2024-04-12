@@ -560,19 +560,19 @@ Bruker2dseqImageIO::Read(void * buffer)
   switch (this->m_ComponentType)
   {
     case IOComponentEnum::CHAR:
-      ITK_FALLTHROUGH;
+      [[fallthrough]];
     case IOComponentEnum::UCHAR:
-      ITK_FALLTHROUGH;
+      [[fallthrough]];
     case IOComponentEnum::SHORT:
-      ITK_FALLTHROUGH;
+      [[fallthrough]];
     case IOComponentEnum::USHORT:
-      ITK_FALLTHROUGH;
+      [[fallthrough]];
     case IOComponentEnum::INT:
-      ITK_FALLTHROUGH;
+      [[fallthrough]];
     case IOComponentEnum::UINT:
-      ITK_FALLTHROUGH;
+      [[fallthrough]];
     case IOComponentEnum::LONG:
-      ITK_FALLTHROUGH;
+      [[fallthrough]];
     case IOComponentEnum::ULONG:
       itkExceptionMacro("Must have float pixels to rescale");
     case IOComponentEnum::FLOAT:
