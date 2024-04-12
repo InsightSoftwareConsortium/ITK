@@ -35,10 +35,10 @@ else()
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
 
     set(_castxml_hash
-        d0bfdfba48a21b665a8267e56f4cd3d00810d17510eb4905e2bd0f2c045d264c03b624448ba5262d3cd8ae9be6546fc2b86f69b0f146777afc208aadd025334c
+        953bbaac7b3eabe31fa14ec18119d91989672a210e3844bb612bca7e83008305d9c46fe2c9fbef5c8fd1bc8282bc638960c5083e502e16209eb4973bca3cda8c
     )
     set(_castxml_url
-        "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-linux-aarch64.tar.gz"
+        "https://data.kitware.com/api/v1/file/6617cf3c2357cf6b55ca8dd3/download"
     )
     set(_download_castxml_binaries 1)
 
