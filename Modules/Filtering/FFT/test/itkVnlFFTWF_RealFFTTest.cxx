@@ -27,7 +27,7 @@
 // template argument and the size of these dimensions are taken from
 // the array. The data types used are float and double.
 int
-itkVnlFFTWF_RealFFTTest(int argc, char * argv[])
+itkVnlFFTWF_RealFFTTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
   using ImageF1 = itk::Image<float, 1>;
   using ImageF2 = itk::Image<float, 2>;
@@ -47,9 +47,6 @@ itkVnlFFTWF_RealFFTTest(int argc, char * argv[])
   std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase() << std::endl;
   std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
 #  endif
-  // Avoid unused parameter warnings.
-  (void)argc;
-  (void)argv;
 
   unsigned int SizeOfDimensions1[] = { 4, 4, 4 };
   unsigned int SizeOfDimensions2[] = { 3, 5, 4 };

@@ -107,8 +107,7 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   // Ensure we can build with a different output image type.
   using OutputImageType = itk::Image<double, Dimension>;
   using FFTPadWithOutputType = itk::FFTPadImageFilter<ImageType, OutputImageType>;
-  auto fftPadWithOutput = FFTPadWithOutputType::New();
-  (void)fftPadWithOutput;
+  [[maybe_unused]] auto fftPadWithOutput = FFTPadWithOutputType::New();
 
   return EXIT_SUCCESS;
 }

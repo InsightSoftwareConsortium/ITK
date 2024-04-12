@@ -22,11 +22,8 @@
 #include "itkTestingMacros.h"
 
 int
-itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char * argv[])
+itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  (void)argc;
-  (void)argv;
-
   using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
   using QEType = MeshType::QEType;

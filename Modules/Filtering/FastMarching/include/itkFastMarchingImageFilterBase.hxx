@@ -264,12 +264,10 @@ FastMarchingImageFilterBase<TInput, TOutput>::GetInternalNodesUsed(OutputImageTy
 
 template <typename TInput, typename TOutput>
 double
-FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *            oImage,
+FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *            itkNotUsed(oImage),
                                                     const NodeType &             iNode,
                                                     InternalNodeStructureArray & iNeighbors) const
 {
-  (void)oImage;
-
   // Sort the local list
   std::sort(iNeighbors.Begin(), iNeighbors.End());
 

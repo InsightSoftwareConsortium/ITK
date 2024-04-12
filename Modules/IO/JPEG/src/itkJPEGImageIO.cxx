@@ -38,7 +38,7 @@ struct itk_jpeg_error_mgr
 
 extern "C"
 {
-  METHODDEF(void) itk_jpeg_error_exit(j_common_ptr cinfo)
+  METHODDEF(void) itk_jpeg_error_exit([[maybe_unused]] j_common_ptr cinfo)
   {
     /* cinfo->err really points to an itk_jpeg_error_mgr struct, so coerce pointer
      */
@@ -58,8 +58,6 @@ extern "C"
     char buffer[JMSG_LENGTH_MAX + 1];
     (*cinfo->err->format_message)(cinfo, buffer);
     printf("%s\n", buffer);
-#else
-    (void)cinfo;
 #endif
   }
 }

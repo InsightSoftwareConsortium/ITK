@@ -337,10 +337,8 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Splice(QEPrimal * a, QEPrimal * b) ->
  */
 template <typename TPixel, unsigned int VDimension, typename TTraits>
 void
-QuadEdgeMesh<TPixel, VDimension, TTraits>::SetCell(CellIdentifier cId, CellAutoPointer & cell)
+QuadEdgeMesh<TPixel, VDimension, TTraits>::SetCell(CellIdentifier itkNotUsed(cId), CellAutoPointer & cell)
 {
-  (void)cId;
-
   // NOTE ALEX: should add some checking to be sure everything went fine
   EdgeCellType *    qe;
   PolygonCellType * pe;

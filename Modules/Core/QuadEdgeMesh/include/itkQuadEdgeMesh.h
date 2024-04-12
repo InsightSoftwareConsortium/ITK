@@ -216,10 +216,8 @@ public:
    * https://public.kitware.com/pipermail/insight-users/2005-April/012613.html
    */
   void
-  CopyInformation(const DataObject * data) override
-  {
-    (void)data;
-  }
+  CopyInformation(const DataObject * itkNotUsed(data)) override
+  {}
   void
   Graft(const DataObject * data) override;
 
@@ -235,25 +233,20 @@ public:
 #if !defined(ITK_WRAPPING_PARSER)
   /** overloaded method for backward compatibility */
   void
-  SetBoundaryAssignments(int dimension, BoundaryAssignmentsContainer * container)
-  {
-    (void)dimension;
-    (void)container;
-  }
+  SetBoundaryAssignments(int itkNotUsed(dimension), BoundaryAssignmentsContainer * itkNotUsed(container))
+  {}
 
   /** overloaded method for backward compatibility */
   BoundaryAssignmentsContainerPointer
-  GetBoundaryAssignments(int dimension)
+  GetBoundaryAssignments(int itkNotUsed(dimension))
   {
-    (void)dimension;
     return (nullptr);
   }
 
   /** overloaded method for backward compatibility */
   const BoundaryAssignmentsContainerPointer
-  GetBoundaryAssignments(int dimension) const
+  GetBoundaryAssignments(int itkNotUsed(dimension)) const
   {
-    (void)dimension;
     return (nullptr);
   }
 
@@ -261,66 +254,48 @@ public:
 
   /** overloaded method for backward compatibility */
   void
-  SetBoundaryAssignment(int                   dimension,
-                        CellIdentifier        cellId,
-                        CellFeatureIdentifier featureId,
-                        CellIdentifier        boundaryId)
-  {
-    (void)dimension;
-    (void)cellId;
-    (void)featureId;
-    (void)boundaryId;
-  }
+  SetBoundaryAssignment(int                   itkNotUsed(dimension),
+                        CellIdentifier        itkNotUsed(cellId),
+                        CellFeatureIdentifier itkNotUsed(featureId),
+                        CellIdentifier        itkNotUsed(boundaryId))
+  {}
 
   /** overloaded method for backward compatibility */
   bool
-  GetBoundaryAssignment(int                   dimension,
-                        CellIdentifier        cellId,
-                        CellFeatureIdentifier featureId,
-                        CellIdentifier *      boundaryId) const
+  GetBoundaryAssignment(int                   itkNotUsed(dimension),
+                        CellIdentifier        itkNotUsed(cellId),
+                        CellFeatureIdentifier itkNotUsed(featureId),
+                        CellIdentifier *      itkNotUsed(boundaryId))
   {
-    (void)dimension;
-    (void)cellId;
-    (void)featureId;
-    (void)boundaryId;
     return (false); // ALEX: is it the good way?
   }
 
   /** overloaded method for backward compatibility */
   bool
-  RemoveBoundaryAssignment(int dimension, CellIdentifier cellId, CellFeatureIdentifier featureId)
+  RemoveBoundaryAssignment(int                   itkNotUsed(dimension),
+                           CellIdentifier        itkNotUsed(cellId),
+                           CellFeatureIdentifier itkNotUsed(featureId))
   {
-    (void)dimension;
-    (void)cellId;
-    (void)featureId;
     return (false); // ALEX: is it the good way?
   }
 
   /** overloaded method for backward compatibility */
   bool
-  GetCellBoundaryFeature(int                   dimension,
-                         CellIdentifier        cellId,
-                         CellFeatureIdentifier featureId,
-                         CellAutoPointer &     cellAP) const
+  GetCellBoundaryFeature(int                   itkNotUsed(dimension),
+                         CellIdentifier        itkNotUsed(cellId),
+                         CellFeatureIdentifier itkNotUsed(featureId),
+                         CellAutoPointer &     itkNotUsed(cellAP)) const
   {
-    (void)dimension;
-    (void)cellId;
-    (void)featureId;
-    (void)cellAP;
     return (false);
   }
 
   /** overloaded method for backward compatibility */
   CellIdentifier
-  GetCellBoundaryFeatureNeighbors(int                        dimension,
-                                  CellIdentifier             cellId,
-                                  CellFeatureIdentifier      featureId,
-                                  std::set<CellIdentifier> * cellSet)
+  GetCellBoundaryFeatureNeighbors(int                        itkNotUsed(dimension),
+                                  CellIdentifier             itkNotUsed(cellId),
+                                  CellFeatureIdentifier      itkNotUsed(featureId),
+                                  std::set<CellIdentifier> * itkNotUsed(cellSet))
   {
-    (void)dimension;
-    (void)cellId;
-    (void)featureId;
-    (void)cellSet;
     return CellIdentifier{};
   }
 
@@ -333,15 +308,11 @@ public:
 
   /** overloaded method for backward compatibility */
   bool
-  GetAssignedCellBoundaryIfOneExists(int                   dimension,
-                                     CellIdentifier        cellId,
-                                     CellFeatureIdentifier featureId,
-                                     CellAutoPointer &     cellAP) const
+  GetAssignedCellBoundaryIfOneExists(int                   itkNotUsed(dimension),
+                                     CellIdentifier        itkNotUsed(cellId),
+                                     CellFeatureIdentifier itkNotUsed(featureId),
+                                     CellAutoPointer &     itkNotUsed(cellAP)) const
   {
-    (void)dimension;
-    (void)cellId;
-    (void)featureId;
-    (void)cellAP;
     return (false); // ALEX: is it the good way?
   }
 

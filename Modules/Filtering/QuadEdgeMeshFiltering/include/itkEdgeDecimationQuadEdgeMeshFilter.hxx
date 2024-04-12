@@ -273,10 +273,10 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::JoinVertexFailed(
 
 template <typename TInput, typename TOutput, typename TCriterion>
 void
-EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::DeletePoint(const OutputPointIdentifier & iIdToBeDeleted,
-                                                                           const OutputPointIdentifier & iRemaining)
+EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::DeletePoint(
+  const OutputPointIdentifier & iIdToBeDeleted,
+  const OutputPointIdentifier & itkNotUsed(iRemaining))
 {
-  (void)iRemaining;
   this->GetOutput()->DeletePoint(iIdToBeDeleted);
 }
 

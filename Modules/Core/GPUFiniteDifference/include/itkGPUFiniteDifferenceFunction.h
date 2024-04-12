@@ -89,7 +89,7 @@ public:
   PixelType
   ComputeUpdate(const NeighborhoodType & itkNotUsed(neighborhood),
                 void *                   itkNotUsed(globalData),
-                const FloatOffsetType &  itkNotUsed(offset = FloatOffsetType(0.0))) override
+                const FloatOffsetType &  itkNotUsed(offset) = FloatOffsetType(0.0)) override
   {
     PixelType pix{};
     return pix;

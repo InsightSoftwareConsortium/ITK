@@ -190,9 +190,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 
 
     using OutputImageType = ImageFastMarching::OutputDomainType;
-    OutputImageType::Pointer output = fmm->GetOutput();
-
-    (void)output;
+    [[maybe_unused]] OutputImageType::Pointer output = fmm->GetOutput();
   }
   else if (useMeshVsImage == 1)
   {
@@ -208,9 +206,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 
 
     using OutputMeshType = MeshFastMarching::OutputDomainType;
-    OutputMeshType::Pointer output = fmm->GetOutput();
-
-    (void)output;
+    [[maybe_unused]] OutputMeshType::Pointer output = fmm->GetOutput();
   }
 
   // Test streaming enumeration for FastMarchingTraitsEnums::TopologyCheck elements
