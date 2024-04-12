@@ -75,8 +75,9 @@ public:
 
 template <unsigned int TDimension>
 int
-PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
+PerformBSplineSyNImageRegistration(int argc, char * argv[])
 {
+  ITK_TEST_EXPECT_TRUE(argc == 4);
   const unsigned int ImageDimension = TDimension;
 
   using PixelType = double;

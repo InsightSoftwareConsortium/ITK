@@ -23,7 +23,7 @@
 int
 itkImageFileReaderTest1(int argc, char * argv[])
 {
-
+  ITK_TEST_EXPECT_TRUE(argc == 1);
   using ImageNDType = itk::Image<short, 2>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
 
