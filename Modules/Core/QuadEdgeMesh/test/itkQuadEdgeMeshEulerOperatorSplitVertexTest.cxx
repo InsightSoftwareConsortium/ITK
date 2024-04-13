@@ -19,6 +19,7 @@
 #include "itkQuadEdgeMeshEulerOperatorSplitVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
+#include "itkTestingMacros.h"
 
 int
 itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
@@ -51,13 +52,8 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   }
   std::cout << "OK" << std::endl;
 
-  const std::string className = splitVertex->GetNameOfClass();
-  const std::string requiredClassName{ "QuadEdgeMeshEulerOperatorSplitVertexFunction" };
-  if (className != requiredClassName)
-  {
-    std::cout << className << " != " << requiredClassName << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL((const std::string) "QuadEdgeMeshEulerOperatorSplitVertexFunction",
+                        (const std::string)splitVertex->GetNameOfClass());
 
   splitVertex->SetInput(mesh);
   std::cout << "     "

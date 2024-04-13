@@ -83,13 +83,9 @@ itkQuadEdgeMeshEulerOperatorJoinFacetTest(int, char *[])
   std::cout << "OK" << std::endl;
 #endif
 
-  const std::string className = joinFacet->GetNameOfClass();
-  const std::string requiredClassName{ "QuadEdgeMeshEulerOperatorJoinFacetFunction" };
-  if (className != requiredClassName)
-  {
-    std::cout << className << " != " << requiredClassName << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL((const std::string) "QuadEdgeMeshEulerOperatorJoinFacetFunction",
+                        (const std::string)joinFacet->GetNameOfClass());
+
   joinFacet->SetInput(mesh);
 
 #ifndef NDEBUG
