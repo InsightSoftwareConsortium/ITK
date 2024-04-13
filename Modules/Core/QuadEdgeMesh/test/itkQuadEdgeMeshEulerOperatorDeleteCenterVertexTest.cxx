@@ -19,6 +19,7 @@
 #include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
+#include "itkTestingMacros.h"
 
 int
 itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char * argv[])
@@ -82,13 +83,8 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char * argv[])
   }
   std::cout << "OK" << std::endl;
 
-  const std::string className = deleteCenterVertex->GetNameOfClass();
-  const std::string requiredClassName{ "QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction" };
-  if (className != requiredClassName)
-  {
-    std::cout << className << " != " << requiredClassName << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL((const std::string) "QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction",
+                        (const std::string)deleteCenterVertex->GetNameOfClass());
 
   deleteCenterVertex->SetInput(mesh);
   std::cout << "     "

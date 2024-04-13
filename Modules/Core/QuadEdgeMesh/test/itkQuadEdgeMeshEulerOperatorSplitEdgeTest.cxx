@@ -18,6 +18,7 @@
 
 #include "itkQuadEdgeMeshEulerOperatorSplitEdgeFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
+#include "itkTestingMacros.h"
 
 int
 itkQuadEdgeMeshEulerOperatorSplitEdgeTest(int, char *[])
@@ -48,13 +49,9 @@ itkQuadEdgeMeshEulerOperatorSplitEdgeTest(int, char *[])
   }
   std::cout << "OK" << std::endl;
 
-  const std::string className = splitEdge->GetNameOfClass();
-  const std::string requiredClassName{ "QuadEdgeMeshEulerOperatorSplitEdgeFunction" };
-  if (className != requiredClassName)
-  {
-    std::cout << className << " != " << requiredClassName << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL((const std::string) "QuadEdgeMeshEulerOperatorSplitEdgeFunction",
+                        (const std::string)splitEdge->GetNameOfClass());
+
   splitEdge->SetInput(mesh);
   std::cout << "     "
             << "Test No QE Input";
