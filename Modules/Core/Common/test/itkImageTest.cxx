@@ -49,8 +49,7 @@ itkImageTest(int, char *[])
 {
 
   using Image = itk::Image<float, 2>;
-  auto                image = Image::New();
-  Image::ConstPointer myconstptr = image;
+  auto image = Image::New();
   image->DebugOn();
   const char * const knownStringName = "My First Image For Testing.";
   image->SetObjectName(knownStringName);
@@ -232,6 +231,17 @@ itkImageTest(int, char *[])
   {
     std::cerr << "Graft test failed." << std::endl;
     return EXIT_FAILURE;
+  }
+
+  // Test that a const pointer can be instantiated from a non-const pointer
+  Image::ConstPointer myconstptr = image;
+  if (!image->IsCongruentImageGeometry(myconstptr, 0.0, 0.0))
+  {
+    std::cerr << "Image compare to self fails IsCongruentImageGeometry" << std::endl;
+  }
+  if (!image->IsSameImageGeometryAs(myconstptr, 0.0, 0.0))
+  {
+    std::cerr << "Image compare to self fails IsSameImageGeometryAs" << std::endl;
   }
 
   return (EXIT_SUCCESS);
