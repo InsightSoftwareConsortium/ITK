@@ -998,7 +998,7 @@ def dict_from_transform(transform: "itkt.TransformBase") -> Dict:
         )
         in_transform_dict["inputDimension"] = int(current_transform_type_split[2])
         in_transform_dict["outputDimension"] = int(current_transform_type_split[3])
-        in_transform_dict["transformName"] = current_transform_type_split[0]
+        in_transform_dict["transformType"] = current_transform_type_split[0]
 
         in_transform_dict["inputSpaceName"] = current_transform.GetInputSpaceName()
         in_transform_dict["outputSpaceName"] = current_transform.GetOutputSpaceName()
@@ -1062,21 +1062,21 @@ def transform_from_dict(transform_dict: Dict) -> "itkt.TransformBase":
 
         # No template parameter needed for transforms having 2D or 3D name
         # Also for some selected transforms
-        if special_transform_check(transform_dict[i]["transformName"]):
-            transform_template = getattr(itk, transform_dict[i]["transformName"])
+        if special_transform_check(transform_dict[i]["transformType"]):
+            transform_template = getattr(itk, transform_dict[i]["transformType"])
             transform = transform_template[data_type].New()
         # Currently only BSpline Transform has 3 template parameters
         # For future extensions the information will have to be encoded in
-        # the transformName variable. The transform object once added in a
+        # the transformType variable. The transform object once added in a
         # composite transform lose the information for other template parameters ex. BSpline.
         # The Spline order is fixed as 3 here.
-        elif transform_dict[i]["transformName"] == "BSplineTransform":
-            transform_template = getattr(itk, transform_dict[i]["transformName"])
+        elif transform_dict[i]["transformType"] == "BSplineTransform":
+            transform_template = getattr(itk, transform_dict[i]["transformType"])
             transform = transform_template[
                 data_type, transform_dict[i]["inputDimension"], 3
             ].New()
         else:
-            transform_template = getattr(itk, transform_dict[i]["transformName"])
+            transform_template = getattr(itk, transform_dict[i]["transformType"])
             if len(transform_template.items()[0][0]) > 2:
                 transform = transform_template[
                     data_type, transform_dict[i]["inputDimension"], transform_dict[i]["outputDimension"]
