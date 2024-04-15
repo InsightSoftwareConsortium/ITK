@@ -36,7 +36,7 @@ transforms_to_test = [
 keys_to_test1 = [
     "name",
     "parametersValueType",
-    "transformName",
+    "transformType",
     "inputDimension",
     "outputDimension",
     "inputSpaceName",
