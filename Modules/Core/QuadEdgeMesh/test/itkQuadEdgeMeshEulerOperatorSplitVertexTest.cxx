@@ -52,8 +52,8 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   }
   std::cout << "OK" << std::endl;
 
-  ITK_TEST_EXPECT_EQUAL((const std::string) "QuadEdgeMeshEulerOperatorSplitVertexFunction",
-                        (const std::string)splitVertex->GetNameOfClass());
+  ITK_TEST_EXPECT_EQUAL(std::string_view("QuadEdgeMeshEulerOperatorSplitVertexFunction"),
+                        std::string_view(splitVertex->GetNameOfClass()));
 
   splitVertex->SetInput(mesh);
   std::cout << "     "
