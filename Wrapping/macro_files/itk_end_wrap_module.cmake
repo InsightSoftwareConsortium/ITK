@@ -435,7 +435,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 
     # Python Limited API / Stable ABI
     if (ITK_USE_PYTHON_LIMITED_API)
-      target_compile_definitions(${lib} PUBLIC -DPy_LIMITED_API=0x03110000)
+      target_compile_definitions(${lib} PUBLIC -DPy_LIMITED_API=0x030b0000)
     endif()
     # Link the modules together
     target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
