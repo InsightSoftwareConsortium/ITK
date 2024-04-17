@@ -190,12 +190,12 @@ itkImageTest(int, char *[])
   volume->SetRegions(cuboid);
 
   using ProjectionTransformType = TestTransform<Image3D::ImageDimension>;
-  ProjectionTransformType * projectionTrasform = new ProjectionTransformType;
+  ProjectionTransformType * projectionTransform = new ProjectionTransformType;
 
   Image::RegionType rectangleRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
-    volume->GetLargestPossibleRegion(), volume.GetPointer(), imageRef.GetPointer(), projectionTrasform);
+    volume->GetLargestPossibleRegion(), volume.GetPointer(), imageRef.GetPointer(), projectionTransform);
 
-  delete projectionTrasform;
+  delete projectionTransform;
   Image::IndexType correctRectangleIndex;
   correctRectangleIndex.Fill(0);
   Image::SizeType correctRectangleSize;
@@ -209,12 +209,12 @@ itkImageTest(int, char *[])
   }
 
   using TestIdentityTransformType = TestTransform<Image::ImageDimension>;
-  TestIdentityTransformType * testIdentityTrasform = new TestIdentityTransformType;
+  TestIdentityTransformType * testIdentityTransform = new TestIdentityTransformType;
 
   Image::RegionType tesBoxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
-    image->GetLargestPossibleRegion(), image.GetPointer(), imageRef.GetPointer(), testIdentityTrasform);
+    image->GetLargestPossibleRegion(), image.GetPointer(), imageRef.GetPointer(), testIdentityTransform);
 
-  delete testIdentityTrasform;
+  delete testIdentityTransform;
 
   if (!(tesBoxRegion.GetIndex() == correctIndex) || !(tesBoxRegion.GetSize() == correctSize))
   {
