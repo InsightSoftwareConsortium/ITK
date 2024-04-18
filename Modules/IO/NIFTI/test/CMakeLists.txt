@@ -13,6 +13,7 @@ set(ITKIONIFTITests
     itkNiftiImageIOTest11.cxx
     itkNiftiImageIOTest12.cxx
     itkNiftiImageIOTest13.cxx
+    itkNiftiImageIOTest14.cxx
     itkNiftiLargeImageRegionReadTest.cxx
     itkNiftiReadAnalyzeTest.cxx
     itkNiftiReadWriteDirectionTest.cxx
@@ -244,6 +245,28 @@ itk_add_test(
   ITKIONIFTITestDriver
   itkNiftiImageIOTest13
   DATA{Input/SmallVoxels_AffinePrecision.nii.gz})
+
+itk_add_test(
+  NAME
+  itkNiftiSpatialTemporalUnitsTest
+  COMMAND
+  ITKIONIFTITestDriver
+  itkNiftiImageIOTest14
+  ${ITK_TEST_OUTPUT_DIR}
+  DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
+  DATA{Input/xyzt_units_test_scl.nii.gz}
+  )
+
+itk_add_test(
+  NAME
+  itkNiftiSpatialTemporalUnitsTest2
+  COMMAND
+  ITKIONIFTITestDriver
+  itkNiftiImageIOTest14
+  ${ITK_TEST_OUTPUT_DIR}
+  DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
+  DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
+  )
 
 itk_add_test(
   NAME
