@@ -18,7 +18,6 @@
 
 // First include the header file to be tested:
 #include "itkImage.h"
-#include "itkImageDuplicator.h"
 #include <gtest/gtest.h>
 
 namespace
@@ -207,12 +206,11 @@ TEST(Image, FillBufferOfNonEqualityComparableType)
 }
 
 template <typename ImageType>
-typename ImageType::Pointer generate_image(std::array<typename ImageType::SizeValueType, 2> size)
+typename ImageType::Pointer
+generate_image(typename ImageType::SizeType size)
 {
-  const auto                           image = ImageType::New();
-  itk::Size<ImageType::ImageDimension> itkSize;
-  std::copy(size.begin(), size.end(), itkSize.begin());
-  image->SetRegions(itkSize);
+  const auto image = ImageType::New();
+  image->SetRegions(size);
   image->Allocate();
   return image;
 }
@@ -231,7 +229,6 @@ TEST(Image, IsXImageGeometry)
   EXPECT_TRUE(image2->IsCongruentImageGeometry(image1.GetPointer(), tol, tol));
   EXPECT_TRUE(image1->IsSameImageGeometryAs(image2.GetPointer()));
   EXPECT_TRUE(image2->IsSameImageGeometryAs(image1.GetPointer()));
-
 
   image2 = generate_image<ImageType>({ 2, 3 });
   EXPECT_TRUE(image1->IsCongruentImageGeometry(image2.GetPointer(), tol, tol));
