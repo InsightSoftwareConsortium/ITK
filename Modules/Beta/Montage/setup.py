@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 from os import sys
 
 try:
@@ -13,7 +12,7 @@ except ImportError:
 
 setup(
     name='itk-montage',
-    version='0.8.1',
+    version='0.8.2',
     author='Dženan Zukić, Matt McCormick',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
@@ -48,9 +47,9 @@ setup(
     keywords='ITK InsightToolkit Montage Image-stitching Image-montage',
     url=r'https://github.com/InsightSoftwareConsortium/ITKMontage',
     install_requires=[
-        r'itk-core>=v5.3.0',
-        r'itk-filtering>=v5.3.0',
-        r'itk-io>=v5.3.0',
+        r'itk-core>=v5.4rc4',
+        r'itk-filtering>=v5.4rc4',
+        r'itk-io>=v5.4rc4',
         r'numpy'
     ]
     )
