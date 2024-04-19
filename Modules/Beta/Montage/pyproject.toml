@@ -1,0 +1,112 @@
+[build-system]
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "itk-montage"
+version = "0.8.2"
+description = "Montaging for microscopy imaging files."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    { name = "Dženan Zukić", email = "dzenan.zukic@kitware.com" },
+    { name = "Matt McCormick", email = "matt.mccormick@kitware.com" },
+]
+keywords = [
+    "itk",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: Android",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: C++",
+    "Programming Language :: Python",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Software Development :: Libraries",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "itk-core>=5.4rc4",
+    "itk-filtering>=5.4rc4",
+    "itk-io>=5.4rc4",
+    "numpy",
+]
+
+[project.urls]
+Download = "https://github.com/InsightSoftwareConsortium/ITKMontage"
+Homepage = "https://github.com/InsightSoftwareConsortium/ITKMontage"
+
+[tool.scikit-build]
+# The versions of CMake to allow. If CMake is not present on the system or does
+# not pass this specifier, it will be downloaded via PyPI if possible. An empty
+# string will disable this check.
+cmake.version = ">=3.16.3"
+
+# A list of args to pass to CMake when configuring the project. Setting this in
+# config or envvar will override toml. See also ``cmake.define``.
+cmake.args = []
+
+# A table of defines to pass to CMake when configuring the project. Additive.
+cmake.define = {}
+
+# Verbose printout when building.
+cmake.verbose = true
+
+# The build type to use when building the project. Valid options are: "Debug",
+# "Release", "RelWithDebInfo", "MinSizeRel", "", etc.
+cmake.build-type = "Release"
+
+# The source directory to use when building the project. Currently only affects
+# the native builder (not the setuptools plugin).
+cmake.source-dir = "."
+
+# The versions of Ninja to allow. If Ninja is not present on the system or does
+# not pass this specifier, it will be downloaded via PyPI if possible. An empty
+# string will disable this check.
+ninja.version = ">=1.11"
+
+# The logging level to display, "DEBUG", "INFO", "WARNING", and "ERROR" are
+# possible options.
+logging.level = "INFO"
+
+# Files to include in the SDist even if they are skipped by default. Supports
+# gitignore syntax.
+sdist.include = []
+
+# Files to exclude from the SDist even if they are included by default. Supports
+# gitignore syntax.
+sdist.exclude = []
+
+# A list of license files to include in the wheel. Supports glob patterns.
+wheel.license-files = ["LICEN[CS]E*",]
+
+# Target the platlib or the purelib. If not set, the default is to target the
+# platlib if wheel.cmake is true, and the purelib otherwise.
+wheel.platlib = "false"
+
+# If CMake is less than this value, backport a copy of FindPython. Set to 0
+# disable this, or the empty string.
+backport.find-python = "3.26.1"
+
+# Select the editable mode to use. Can be "redirect" (default) or "inplace".
+editable.mode = "redirect"
+
+# Rebuild the project when the package is imported. The build-directory must be
+# set.
+editable.rebuild = false
+
+# If set, this will provide a method for scikit-build-core backward compatibility.
+minimum-version = "0.8.2"
+
+# The build directory. Defaults to a temporary directory, but can be set.
+build-dir = "build/{wheel_tag}"
