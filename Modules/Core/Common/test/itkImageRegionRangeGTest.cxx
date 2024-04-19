@@ -628,13 +628,10 @@ TEST(ImageRegionRange, ThrowsInReleaseWhenIterationRegionIsOutsideBufferedRegion
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
-  const auto image = ImageType::New();
-
   const IndexType imageIndex{ { -1, -2 } };
   const SizeType  imageSize{ { 3, 4 } };
 
-  image->SetRegions(RegionType{ imageIndex, imageSize });
-  image->AllocateInitialized();
+  const auto image = ImageType::CreateInitialized({ imageIndex, imageSize });
 
   Check_Range_constructor_throws_ExceptionObject_when_iteration_region_is_outside_of_buffered_region(
     *image, RegionType{ imageIndex, imageSize + SizeType::Filled(1) });

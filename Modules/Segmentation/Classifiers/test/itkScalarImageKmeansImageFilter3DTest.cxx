@@ -253,12 +253,10 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
 
   /* Now remap the labels - background first followed by brain */
   using LabelImageType = KMeansFilterType::OutputImageType;
-  auto kmeansLabelImage = LabelImageType::New();
-  kmeansLabelImage->SetRegions(maskReader->GetOutput()->GetLargestPossibleRegion());
+  auto kmeansLabelImage = LabelImageType::CreateInitialized(maskReader->GetOutput()->GetLargestPossibleRegion());
   kmeansLabelImage->SetSpacing(maskReader->GetOutput()->GetSpacing());
   kmeansLabelImage->SetDirection(maskReader->GetOutput()->GetDirection());
   kmeansLabelImage->SetOrigin(maskReader->GetOutput()->GetOrigin());
-  kmeansLabelImage->AllocateInitialized();
 
   using LabelMapStatisticsFilterType = itk::LabelStatisticsImageFilter<LabelImageType, LabelImageType>;
   auto statisticsNonBrainFilter = LabelMapStatisticsFilterType::New();

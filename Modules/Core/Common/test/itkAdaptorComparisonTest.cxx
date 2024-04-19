@@ -195,11 +195,9 @@ itkAdaptorComparisonTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  auto scalar_image = ScalarImageType::New();
-  auto vector_image = VectorImageType::New();
+  auto scalar_image = ScalarImageType::CreateInitialized(region);
 
-  scalar_image->SetRegions(region);
-  scalar_image->AllocateInitialized();
+  auto vector_image = VectorImageType::New();
 
   vector_image->SetRegions(region);
   vector_image->Allocate();

@@ -46,19 +46,13 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
 
   // create a mask the size of the input file
   using MaskImageType = itk::Image<unsigned char, Dimension>;
-  auto                      mask1 = MaskImageType::New();
-  auto                      mask2 = MaskImageType::New();
   MaskImageType::RegionType region;
   MaskImageType::SizeType   size;
   MaskImageType::IndexType  index;
 
   region = input->GetOutput()->GetBufferedRegion();
-  mask1->SetRegions(region);
-  mask1->AllocateInitialized();
-
-  mask2->SetRegions(region);
-  mask2->AllocateInitialized();
-
+  auto mask1 = MaskImageType::CreateInitialized(region);
+  auto mask2 = MaskImageType::CreateInitialized(region);
 
   size = region.GetSize();
   index = region.GetIndex();

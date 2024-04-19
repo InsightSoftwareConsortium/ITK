@@ -49,7 +49,6 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   using SamplerType = itk::Statistics::UniformRandomSpatialNeighborSubsampler<AdaptorType, RegionType>;
   using WriterType = itk::ImageFileWriter<FloatImage>;
 
-  auto                          inImage = FloatImage::New();
   typename SizeType::value_type regionSizeVal = 35;
   SizeType                      sz;
   sz.Fill(regionSizeVal);
@@ -59,8 +58,7 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   region.SetSize(sz);
   region.SetIndex(idx);
 
-  inImage->SetRegions(region);
-  inImage->AllocateInitialized();
+  auto inImage = FloatImage::CreateInitialized(region);
 
   auto sample = AdaptorType::New();
   sample->SetImage(inImage);

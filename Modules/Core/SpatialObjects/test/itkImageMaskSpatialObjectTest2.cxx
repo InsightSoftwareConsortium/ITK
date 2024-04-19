@@ -51,7 +51,15 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   // Also explicitly uses nonzero origin, non identity scales
   // to fully test the commonly encountered cases from the real world
 
-  auto image = ImageType::New();
+  const ImageType::SizeType size = { { 50, 50, 50 } };
+
+  constexpr unsigned int     index_offset = 6543;
+  const ImageType::IndexType index = { { index_offset, index_offset, index_offset } };
+
+  ImageType::RegionType region;
+  region.SetSize(size);
+  region.SetIndex(index);
+  auto image = ImageType::CreateInitialized(region);
 
   // Set the direction for a non-oriented image
   // to better test the frequently encountered case
@@ -61,8 +69,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   const ImageType::DirectionType direction = tfm->GetMatrix();
   image->SetDirection(direction);
 
-  const ImageType::SizeType size = { { 50, 50, 50 } };
-  ImageType::PointType      origin;
+  ImageType::PointType origin;
   origin[0] = 1.51;
   origin[1] = 2.10;
   origin[2] = -300;
@@ -73,14 +80,6 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   spacing[1] = 0.7;
   spacing[2] = 1.1;
   image->SetSpacing(spacing);
-  constexpr unsigned int     index_offset = 6543;
-  const ImageType::IndexType index = { { index_offset, index_offset, index_offset } };
-
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
-  image->SetRegions(region);
-  image->AllocateInitialized();
 
   ImageType::RegionType  insideRegion;
   constexpr unsigned int INSIDE_SIZE = 30;

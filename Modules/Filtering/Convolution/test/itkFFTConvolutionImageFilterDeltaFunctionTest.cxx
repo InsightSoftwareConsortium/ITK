@@ -54,9 +54,7 @@ itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 
   // Set up delta function image
   ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  auto                  deltaFunctionImage = ImageType::New();
-  deltaFunctionImage->SetRegions(region);
-  deltaFunctionImage->AllocateInitialized();
+  auto                  deltaFunctionImage = ImageType::CreateInitialized(region);
 
   // Set the middle pixel (rounded up) to 1
   ImageType::IndexType middleIndex;

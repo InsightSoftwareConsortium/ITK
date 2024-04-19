@@ -65,10 +65,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   fixedImageSize.Fill(128);
 
   // Create fixed image
-  auto fixedImage = FixedImageType::New();
-  fixedImage->SetRegions(fixedImageSize);
-  fixedImage->AllocateInitialized();
-  fixedImage->Update();
+  auto fixedImage = FixedImageType::CreateInitialized(fixedImageSize);
 
   FixedImageIteratorType fixedIt(fixedImage, fixedImage->GetBufferedRegion());
   for (fixedIt.GoToBegin(); !fixedIt.IsAtEnd(); ++fixedIt)
@@ -84,9 +81,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   movingImageSize.Fill(128);
 
   // Create moving image
-  auto movingImage = MovingImageType::New();
-  movingImage->SetRegions(movingImageSize);
-  movingImage->AllocateInitialized();
+  auto movingImage = MovingImageType::CreateInitialized(movingImageSize);
   movingImage->Update();
 
   MovingImageIteratorType movingIt(movingImage, movingImage->GetBufferedRegion());
@@ -160,14 +155,8 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   //
   metric->ComputeGradient();
 
-  auto xGradImage = GradientImageType::New();
-  xGradImage->SetRegions(movingImageSize);
-  xGradImage->AllocateInitialized();
-  xGradImage->Update();
-
-  auto yGradImage = GradientImageType::New();
-  yGradImage->SetRegions(movingImageSize);
-  yGradImage->AllocateInitialized();
+  auto xGradImage = GradientImageType::CreateInitialized(movingImageSize);
+  auto yGradImage = GradientImageType::CreateInitialized(movingImageSize);
   yGradImage->Update();
 
   GradientImageIteratorType xGradIt(xGradImage, xGradImage->GetBufferedRegion());

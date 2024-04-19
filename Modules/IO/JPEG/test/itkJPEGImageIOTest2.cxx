@@ -36,8 +36,6 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  auto image = ImageType::New();
-
   ImageType::RegionType region;
   ImageType::IndexType  start;
   ImageType::SizeType   size;
@@ -51,8 +49,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(start);
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   ImageType::SpacingType spacing;
 

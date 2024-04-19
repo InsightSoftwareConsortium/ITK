@@ -83,11 +83,7 @@ void
 Expect_allocated_initialized_image_equal_to_itself()
 {
   using SizeType = typename TImage::SizeType;
-
-  const auto image = TImage::New();
-  image->SetRegions(SizeType::Filled(2));
-  image->AllocateInitialized();
-
+  const auto image = TImage::CreateInitialized(SizeType::Filled(2));
   Expect_equal_to_itself(*image);
 }
 
@@ -98,13 +94,8 @@ Expect_unequal_when_sizes_differ()
 {
   using SizeType = typename TImage::SizeType;
 
-  const auto image1 = TImage::New();
-  image1->SetRegions(SizeType::Filled(2));
-  image1->AllocateInitialized();
-
-  const auto image2 = TImage::New();
-  image2->SetRegions(SizeType::Filled(3));
-  image2->AllocateInitialized();
+  const auto image1 = TImage::CreateInitialized(SizeType::Filled(2));
+  const auto image2 = TImage::CreateInitialized(SizeType::Filled(3));
 
   Expect_unequal(*image1, *image2);
 }

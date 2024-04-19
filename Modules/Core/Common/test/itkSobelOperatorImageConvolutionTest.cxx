@@ -64,9 +64,7 @@ DoConvolution(typename ImageType::Pointer inputImage, unsigned long int directio
 
   NeighborhoodIteratorType it(radius, inputImage, inputImage->GetRequestedRegion());
 
-  auto outputImage = ImageType::New();
-  outputImage->SetRegions(inputImage->GetRequestedRegion());
-  outputImage->AllocateInitialized();
+  auto outputImage = ImageType::CreateInitialized(inputImage->GetRequestedRegion());
 
   IteratorType                             out(outputImage, inputImage->GetRequestedRegion());
   itk::NeighborhoodInnerProduct<ImageType> innerProduct;
