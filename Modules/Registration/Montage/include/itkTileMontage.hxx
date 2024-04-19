@@ -114,6 +114,7 @@ TileMontage<TImageType, TCoordinate>::SetMontageSize(SizeType montageSize)
     m_FFTCache.resize(m_LinearMontageSize);
     m_Tiles.resize(m_LinearMontageSize);
     m_CurrentAdjustments.resize(m_LinearMontageSize);
+    m_TileReliabilities.resize(m_LinearMontageSize);
     m_TransformCandidates.resize(ImageDimension * m_LinearMontageSize); // adjacency along each dimension
     m_CandidateConfidences.resize(ImageDimension * m_LinearMontageSize);
     this->Modified();
@@ -228,6 +229,19 @@ TileMontage<TImageType, TCoordinate>::LinearIndexTonDIndex(DataObject::DataObjec
   itkAssertOrThrowMacro(linearIndex < stride,
                         "Linear tile index " << linearIndex << " exceeds total montage size " << stride);
   return ind;
+}
+
+template <typename TImageType, typename TCoordinate>
+auto
+TileMontage<TImageType, TCoordinate>::ReferenceLinearIndex(DataObjectPointerArraySizeType candidateIndex) const
+  -> DataObjectPointerArraySizeType
+{
+  SizeValueType linIndex = candidateIndex % m_LinearMontageSize;
+  TileIndexType currentIndex = this->LinearIndexTonDIndex(linIndex);
+  TileIndexType referenceIndex = currentIndex;
+  unsigned      dim = candidateIndex / m_LinearMontageSize;
+  referenceIndex[dim] = currentIndex[dim] - 1;
+  return this->nDIndexToLinearIndex(referenceIndex);
 }
 
 template <typename TImageType, typename TCoordinate>
@@ -421,11 +435,7 @@ TileMontage<TImageType, TCoordinate>::OptimizeTiles()
     if (!m_TransformCandidates[i].empty())
     {
       SizeValueType linIndex = i % m_LinearMontageSize;
-      TileIndexType currentIndex = this->LinearIndexTonDIndex(linIndex);
-      TileIndexType referenceIndex = currentIndex;
-      unsigned      dim = i / m_LinearMontageSize;
-      referenceIndex[dim] = currentIndex[dim] - 1;
-      SizeValueType refLinearIndex = this->nDIndexToLinearIndex(referenceIndex);
+      SizeValueType refLinearIndex = this->ReferenceLinearIndex(i);
 
       // construct equation: -c*refLinearIndex + c*linIndex = c*candidateOffset, c=confidence
       const float & confidence = m_CandidateConfidences[i][0];
@@ -526,6 +536,8 @@ TileMontage<TImageType, TCoordinate>::OptimizeTiles()
       std::cout << "\nresiduals:\n";
     }
 
+    m_TileReliabilities.clear();
+    m_TileReliabilities.resize(m_LinearMontageSize, 0.0); // reset all to zero
     for (SizeValueType i = 0; i < m_NumberOfPairs; i++)
     {
       TCoordinate residual = 0;
@@ -568,6 +580,67 @@ TileMontage<TImageType, TCoordinate>::OptimizeTiles()
       {
         maxCost = cost;
         maxIndex = i;
+      }
+
+      // accumulate costs into tile reliabilities
+      SizeValueType linIndex = candidateIndex % m_LinearMontageSize;
+      SizeValueType refLinearIndex = this->ReferenceLinearIndex(candidateIndex);
+      m_TileReliabilities[linIndex] += cost;
+      m_TileReliabilities[refLinearIndex] += cost;
+    }
+    if (this->GetDebug())
+    {
+      std::cout << std::endl;
+    }
+
+    // now convert costs into reliabilities
+    float minReliabilityCost = std::numeric_limits<float>::max();
+    float maxReliabilityCost = 0.0;
+    // first divide by number of registrations
+    for (SizeValueType i = 0; i < m_LinearMontageSize; ++i)
+    {
+      TileIndexType nDIndex = LinearIndexTonDIndex(i);
+      unsigned      regCount = 2 * Dimension; // for tiles in the middle
+      // now reduce this by one for each dimension's edge this finds itself on
+      for (unsigned d = 0; d < Dimension; ++d)
+      {
+        if (nDIndex[d] == 0 || nDIndex[d] == m_MontageSize[d] - 1)
+        {
+          --regCount;
+        }
+      }
+      assert(regCount >= 1); // every tile must have participated in at least on registration
+      m_TileReliabilities[i] /= regCount;
+      if (m_TileReliabilities[i] < minReliabilityCost)
+      {
+        minReliabilityCost = m_TileReliabilities[i];
+      }
+      if (m_TileReliabilities[i] > maxReliabilityCost)
+      {
+        maxReliabilityCost = m_TileReliabilities[i];
+      }
+    }
+    if (this->GetDebug())
+    {
+      std::cout << "Reliabilities:";
+    }
+    // now transform costs into (0.0, 1.0] reliability range
+    for (SizeValueType i = 0; i < m_LinearMontageSize; ++i)
+    {
+      // map minReliabilityCost to 1.0 reliability; map maxReliabilityCost to near zero (min/max)
+      float sourceRange = maxReliabilityCost - minReliabilityCost;
+      float newMin = minReliabilityCost / maxReliabilityCost;
+      float targetRange = 1.0 - newMin;
+      float fraction = (maxReliabilityCost - m_TileReliabilities[i]) / sourceRange;
+      m_TileReliabilities[i] = newMin + fraction * (targetRange);
+      if (this->GetDebug())
+      {
+        if (i % m_MontageSize[0] == 0)
+        {
+          std::cout << '\n';
+        }
+        std::cout << std::fixed << std::setprecision(4);
+        std::cout << " " << std::setw(6) << m_TileReliabilities[i];
       }
     }
     if (this->GetDebug())

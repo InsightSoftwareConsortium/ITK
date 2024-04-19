@@ -203,6 +203,24 @@ public:
     return static_cast<TransformOutputType *>(this->GetOutput(this->nDIndexToLinearIndex(position)))->Get();
   }
 
+  /** Reliability of each tile, highest normalized to 1.0. */
+  using TileReliabilities = std::vector<float>;
+
+  /** Tile reliability, from 0.0 (lowest) to 1.0 (highest).
+   * This can be used to judge successfulness of registration to adjacent tiles. */
+  itkGetConstReferenceMacro(TileReliabilities, TileReliabilities);
+  float
+  GetTileReliability(DataObjectPointerArraySizeType linearIndex) const
+  {
+    return m_TileReliabilities[linearIndex];
+  }
+  float
+  GetTileReliability(TileIndexType nDIndex) const
+  {
+    DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex(nDIndex);
+    return GetTileReliability(linearIndex);
+  }
+
 protected:
   TileMontage();
   ~TileMontage() override = default;
@@ -241,6 +259,8 @@ protected:
   nDIndexToLinearIndex(TileIndexType nDIndex) const;
   TileIndexType
   LinearIndexTonDIndex(DataObjectPointerArraySizeType linearIndex) const;
+  DataObjectPointerArraySizeType
+  ReferenceLinearIndex(DataObjectPointerArraySizeType candidateIndex) const;
 
   /** Register a pair of images with given indices. Handles FFTcaching. */
   void
@@ -301,6 +321,7 @@ private:
   std::vector<OffsetVector>      m_TransformCandidates; // to adjacent tiles
   std::vector<ConfidencesType>   m_CandidateConfidences;
   std::vector<TranslationOffset> m_CurrentAdjustments;
+  std::vector<float>             m_TileReliabilities;
 
   typename PCMOptimizerType::PeakInterpolationMethodEnum m_PeakInterpolationMethod =
     PCMOptimizerType::PeakInterpolationMethodEnum::Parabolic;
