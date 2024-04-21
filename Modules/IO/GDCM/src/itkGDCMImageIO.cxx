@@ -280,8 +280,12 @@ GDCMImageIO::Read(void * pointer)
   inputFileStream.close();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(gdcm::ImageHelper::GetForceRescaleInterceptSlope());
+// Only available in newer versions
+#if (!defined(ITK_USE_SYSTEM_GDCM) || \
+     ((GDCM_MAJOR_VERSION == 3 && GDCM_MINOR_VERSION == 0 && GDCM_BUILD_VERSION > 23) || GDCM_MAJOR_VERSION > 3))
   // Secondary capture image orientation patient and image position patient support
   itkAssertInDebugAndIgnoreInReleaseMacro(gdcm::ImageHelper::GetSecondaryCaptureImagePlaneModule());
+#endif
   gdcm::ImageReader reader;
   reader.SetFileName(m_FileName.c_str());
   if (!reader.Read())
@@ -450,8 +454,12 @@ GDCMImageIO::InternalReadImageInformation()
 
   // In general this should be relatively safe to assume
   gdcm::ImageHelper::SetForceRescaleInterceptSlope(true);
+// Only available in newer versions
+#if (!defined(ITK_USE_SYSTEM_GDCM) || \
+     ((GDCM_MAJOR_VERSION == 3 && GDCM_MINOR_VERSION == 0 && GDCM_BUILD_VERSION > 23) || GDCM_MAJOR_VERSION > 3))
   // Secondary capture image orientation patient and image position patient support
   gdcm::ImageHelper::SetSecondaryCaptureImagePlaneModule(true);
+#endif
 
   gdcm::ImageReader reader;
   reader.SetFileName(m_FileName.c_str());
