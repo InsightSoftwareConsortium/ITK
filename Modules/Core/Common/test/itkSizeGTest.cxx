@@ -85,6 +85,10 @@ static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk
                 itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::Size<1>>(),
               "Check constexpr begin() and end() of Size.");
 
+static_assert(itk::RangeGTestUtilities::IsDistanceFromFrontToBackPlusOneEqualToSize(itk::Size<>()) &&
+                itk::RangeGTestUtilities::IsDistanceFromFrontToBackPlusOneEqualToSize(itk::Size<1>()),
+              "Check that `distance(&front, &back) + 1` is equal to `size`");
+
 
 // Tests that itk::Size::Filled(value) returns an itk::Size with the
 // specified value for each element.
