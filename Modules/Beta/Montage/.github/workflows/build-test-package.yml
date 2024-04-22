@@ -4,14 +4,13 @@ on: [push,pull_request]
 
 jobs:
   cxx-build-workflow:
-    uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-cxx.yml@246883ef3828fc00219145aeec9efa67b9889d0b
+    uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-cxx.yml@b223658f3ab10680ab2ec3286d070b9601ea6ef1
     with:
       cmake-options: "Module_Montage_BUILD_EXAMPLES:BOOL=ON"
 
   python-build-workflow:
-    uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-package-python.yml@246883ef3828fc00219145aeec9efa67b9889d0b
+    uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-package-python.yml@b223658f3ab10680ab2ec3286d070b9601ea6ef1
     with:
-      manylinux-platforms: '["_2_28-x64","2014-x64"]'
       test-notebooks: true
     secrets:
       pypi_password: ${{ secrets.pypi_password }}
