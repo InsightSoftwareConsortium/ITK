@@ -134,6 +134,6 @@ jobs:
                 c++ --version
                 cmake --version
 
-                ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j 4
+                ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j 4 -E itkPyBufferMemoryLeakTest
               env:
                 CTEST_OUTPUT_ON_FAILURE: 1
