@@ -74,10 +74,16 @@ def remote_repository(remote_spec):
 
 
 def remote_tag(remote_spec):
+    use_next_line = False
     for line in remote_spec.split("\n"):
+        if use_next_line:
+            return line.split(')')[0].strip()
         split = line.split()
         try:
             tag_index = split.index("GIT_TAG")
+            if len(split) < 2:
+                use_next_line = True
+                continue
             return split[tag_index + 1].strip()
         except ValueError:
             continue
