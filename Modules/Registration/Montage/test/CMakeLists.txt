@@ -494,17 +494,14 @@ itk_add_test(NAME itkMontageGroundTruthMake${tempDir}
   COMMAND MontageTestDriver
   itkMontageTruthCreator DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr,DzZ_T1_orig.raw.gz} ${outDir} 3 6 3 25 15 50
   )
-set(regressionPart "")
-if (Module_Montage_EnableFailingTests)
-  set(regressionPart --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha)
-endif()
 itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
   COMMAND MontageTestDriver
   # a lot of tolerances are required because the reconstruction is not perfect
     --compareRadiusTolerance 1
     --compareIntensityTolerance 128
     --compareNumberOfPixelsTolerance 300
-  ${regressionPart}
+    --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr}
+      ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
   itkMontageTest
     ${outDir}
     ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
@@ -558,19 +555,17 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       0 1 1 5 0 0 1 0 1
     )
 
-  if (Module_Montage_EnableFailingTests)
-    itk_add_test(NAME itkMontagePCMFiles36_088
-      COMMAND MontageTestDriver
-      itkMontagePCMTestFiles
-        ${rawPrefix}088.tif
-        ${rawPrefix}089.tif
-        ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
-        81.28
-        0.0
-        0.0
-        0.0
-    )
-  endif() # Module_Montage_EnableFailingTests
+  itk_add_test(NAME itkMontagePCMFiles36_088
+    COMMAND MontageTestDriver
+    itkMontagePCMTestFiles
+      ${rawPrefix}088.tif
+      ${rawPrefix}089.tif
+      ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
+      81.28
+      0.0
+      0.0
+      0.0
+  )
 endif()
 
 if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36/Ti-7Al_Region #1_10_Mosaic_36_p323.tif")
