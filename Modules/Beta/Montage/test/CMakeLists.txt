@@ -294,6 +294,7 @@ AddTestTi64raw(3)
 AddTestTi64raw(4)
 
 option(Module_Montage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
+# we should remove this option once we resolve https://github.com/InsightSoftwareConsortium/ITK/issues/4613
 
 # have uniform options for GroundTruthTests
 set(varyingPaddingMethods 0)
@@ -306,7 +307,7 @@ set(allowDrift 1)
 set(positionTolerance 0)
 set(writeImage 1)
   
-function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
+function(GroundTruthTest2D tempDir inputFile intensityTolerance) # other command-line parameters
   set(outDir ${TESTING_OUTPUT_PATH}/${tempDir}/)
   file(MAKE_DIRECTORY ${outDir})
   itk_add_test(NAME itkMontageGroundTruthMake${tempDir}
@@ -321,9 +322,8 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
 
   itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
     COMMAND MontageTestDriver
-    # these tolerances only work for small uchar cases
     --compareRadiusTolerance 1
-    --compareIntensityTolerance 16
+    --compareIntensityTolerance ${intensityTolerance}
     --compareNumberOfPixelsTolerance 1500
     ${regressionPart}
     itkMontageTest
@@ -344,13 +344,13 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
     PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
 endfunction()
 
-GroundTruthTest2D(10-129 DATA{Input/10-129-C_2/10-129-C_2_p00.jpg} 6 4 15 25)
-GroundTruthTest2D(run2 DATA{Input/05MAR09_run2_64-Raw/05MAR09_run2_64-Raw_p0.bmp} 4 5 15 10)
-GroundTruthTest2D(MediumCarbonSteel DATA{Input/MediumCarbonSteel/1701701_000000_Fused.tif} 11 3 20 20)
-GroundTruthTest2D(MNML3 DATA{Input/MNML_3_200x_701/MNML-3-ITK.png} 4 5 5 5)
-GroundTruthTest2D(MNML5 DATA{Input/MNML_5_500x_101/MNML_5-ITK.png} 6 9 5 5)
-GroundTruthTest2D(VisibleHuman DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png} 5 4 15 15)
-GroundTruthTest2D(OMC14 DATA{Input/OMC/FlatField/14/OMC14-ITK.tif} 8 6 10 10)
+GroundTruthTest2D(10-129 DATA{Input/10-129-C_2/10-129-C_2_p00.jpg} 16 6 4 15 25)
+GroundTruthTest2D(run2 DATA{Input/05MAR09_run2_64-Raw/05MAR09_run2_64-Raw_p0.bmp} 16 4 5 15 10)
+GroundTruthTest2D(MediumCarbonSteel DATA{Input/MediumCarbonSteel/1701701_000000_Fused.tif} 4096 11 3 20 20)
+GroundTruthTest2D(MNML3 DATA{Input/MNML_3_200x_701/MNML-3-ITK.png} 16 4 5 5 5)
+GroundTruthTest2D(MNML5 DATA{Input/MNML_5_500x_101/MNML_5-ITK.png} 16 6 9 5 5)
+GroundTruthTest2D(VisibleHuman DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png} 16 5 4 15 15)
+GroundTruthTest2D(OMC14 DATA{Input/OMC/FlatField/14/OMC14-ITK.tif} 4096 8 6 10 10)
 
 
 itk_add_test(NAME itkMontage-10-129-C_2
