@@ -115,8 +115,24 @@ public:
 
   bool
   GetTagScalarValue(const std::string & tag, double & value) const;
+  double
+  GetTagScalarValue(const std::string & tag) const
+  {
+    double value = 0;
+    this->GetTagScalarValue(tag, value);
+    return value;
+  }
+
   bool
   GetTagStringValue(const std::string & tag, std::string & value) const;
+  std::string
+  GetTagStringValue(const std::string & tag) const
+  {
+    std::string value = "";
+    this->GetTagStringValue(tag, value);
+    return value;
+  }
+
 
   std::map<std::string, double> &
   GetTagScalarDictionary();
