@@ -35,6 +35,13 @@ namespace itk
  *
  * Determines registrations which can be used to resample a mosaic into a single image.
  *
+ * This deals with n-dimensional rectangular arrays of image tiles.
+ * Arbitrarily shaped tile arrays (e.g. circular) are not directly supported.
+ * A possible (untested) workaround is adding all-zero (black) tiles around the shape
+ * to make a regular rectangular tile array (2D, 3D, or nD).
+ *
+ * Take a look a documentation of parameters, most influential of which is PositionTolerance.
+ *
  * \author Dženan Zukić, dzenan.zukic@kitware.com
  *
  * \ingroup Montage
@@ -111,6 +118,7 @@ public:
   /** Set/Get absolute registration threshold.
    * The maximum allowed residual error for a registration pair during
    * global optimization. Expressed in number of pixels. Default: 1.0.
+   * Reasonable values are from around 0.8 to around 1.5.
    * When a registration pair exceeds the threshold, it is replaced by
    * the next best candidate for that pair. If all canidates are
    * exhausted, the registration pair is assumed to have no translation.
@@ -121,6 +129,7 @@ public:
   /** Set/Get relative registration threshold.
    * The maximum allowed deviation for a registration pair during global
    * optimization. Expressed in multiples of standard deviation. Default: 3.0.
+   * Reasonable values are from around 2 to around 5.
    * The deviation is calculated by taking the translations of all the
    * registration pairs, while assuming zero mean. This implies expectation
    * that deviations from expected positions for all registration pairs
@@ -131,7 +140,10 @@ public:
   /** Set/Get tile positioning precision.
    * Get/Set expected maximum linear translation needed, in pixels.
    * Zero (the default) means unknown, and allows translations
-   * up to about half the image size.*/
+   * up to about half the image size.
+   * This is an important parameter for reliability of pair-wise registrations,
+   * but it is microscope-dependent so we cannot have a restrictive default.
+   */
   itkSetMacro(PositionTolerance, SizeValueType);
   itkGetConstMacro(PositionTolerance, SizeValueType);
 
@@ -145,7 +157,7 @@ public:
 
   /** Set/Get obligatory padding.
    * If set, padding of this many pixels is added on both beginning and end
-   * sides of each dimension of the image. */
+   * sides of each dimension of the image. Default value of 8 is usually fine. */
   virtual void
   SetObligatoryPadding(const SizeType pad)
   {
@@ -157,11 +169,13 @@ public:
   }
   itkGetConstMacro(ObligatoryPadding, SizeType);
 
-  /** Set/Get the padding method. */
+  /** Set/Get the padding method.
+   * The default (MirrorWithExponentialDecay) is usually the best. */
   itkSetEnumMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
   itkGetConstMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
 
-  /** Set/Get the peak interpolation method. */
+  /** Set/Get the peak interpolation method.
+   * The default (Parabolic) is usually the best. */
   itkSetEnumMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
   itkGetConstMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
 
@@ -203,11 +217,12 @@ public:
     return static_cast<TransformOutputType *>(this->GetOutput(this->nDIndexToLinearIndex(position)))->Get();
   }
 
-  /** Reliability of each tile, highest normalized to 1.0. */
+  /** Reliability of each tile, highest normalized to 1.0.*/
   using TileReliabilities = std::vector<float>;
 
   /** Tile reliability, from 0.0 (lowest) to 1.0 (highest).
-   * This can be used to judge successfulness of registration to adjacent tiles. */
+   * This can be used to judge successfulness of registration to adjacent tiles.
+   * The lowest reliability is usually around 0.01 to 0.1. */
   itkGetConstReferenceMacro(TileReliabilities, TileReliabilities);
   float
   GetTileReliability(DataObjectPointerArraySizeType linearIndex) const
