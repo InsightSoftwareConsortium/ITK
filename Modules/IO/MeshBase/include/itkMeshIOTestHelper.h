@@ -39,16 +39,18 @@
 // Define a local macro for variable to command testing to avoid including
 // itkTestingMacros.h, which causes link issues as the module hosting this
 // file is not a testing module.
-#define LOCAL_ITK_TEST_SET_GET_VALUE(variable, command)                 \
-  CLANG_PRAGMA_PUSH                                                     \
-  CLANG_SUPPRESS_Wfloat_equal if (variable != command) CLANG_PRAGMA_POP \
-  {                                                                     \
-    std::cerr << "Error in " << #command << std::endl;                  \
-    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
-    std::cerr << "Expected " << variable << std::endl;                  \
-    std::cerr << "but got  " << command << std::endl;                   \
-    return EXIT_FAILURE;                                                \
-  }                                                                     \
+#define LOCAL_ITK_TEST_SET_GET_VALUE(variable, command)               \
+  ITK_GCC_PRAGMA_PUSH                                                 \
+  ITK_GCC_SUPPRESS_Wfloat_equal                                       \
+  if (variable != command)                                            \
+  {                                                                   \
+    std::cerr << "Error in " << #command << std::endl;                \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl; \
+    std::cerr << "Expected " << variable << std::endl;                \
+    std::cerr << "but got  " << command << std::endl;                 \
+    return EXIT_FAILURE;                                              \
+  }                                                                   \
+  ITK_GCC_PRAGMA_POP                                                  \
   ITK_MACROEND_NOOP_STATEMENT
 
 

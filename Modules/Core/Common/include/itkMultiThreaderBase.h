@@ -242,11 +242,11 @@ CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wcpp14_extensions
   // clang-format on
 #  ifdef ITK_LEGACY_SILENT
-    struct ThreadInfoStruct
+  struct ThreadInfoStruct
 #  else
-    struct [[deprecated("Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0")]] ThreadInfoStruct
+  struct [[deprecated("Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0")]] ThreadInfoStruct
 #  endif
-      // clang-format off
+    // clang-format off
 CLANG_PRAGMA_POP
 INTEL_PRAGMA_WARN_POP
   // clang-format on

@@ -39,11 +39,16 @@
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 #define IPLSetMacroDeclaration(name, type) virtual void Set##name(const type _arg);
 
-#define IPLSetMacroDefinition(class, name, type)                                                        \
-  void class ::Set##name(const type _arg)                                                               \
-  {                                                                                                     \
-    CLANG_PRAGMA_PUSH                                                                                   \
-    CLANG_SUPPRESS_Wfloat_equal if (this->m_##name != _arg) CLANG_PRAGMA_POP { this->m_##name = _arg; } \
+#define IPLSetMacroDefinition(class, name, type) \
+  void class ::Set##name(const type _arg)        \
+  {                                              \
+    ITK_GCC_PRAGMA_PUSH                          \
+    ITK_GCC_SUPPRESS_Wfloat_equal                \
+    if (this->m_##name != _arg)                  \
+    {                                            \
+      this->m_##name = _arg;                     \
+    }                                            \
+    ITK_GCC_PRAGMA_POP                           \
   }
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */

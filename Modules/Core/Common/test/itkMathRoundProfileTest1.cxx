@@ -26,20 +26,25 @@ itkMathRoundTestHelperFunction(double x)
   return static_cast<int>(x >= 0. ? x : (itk::Math::ExactlyEquals(x, static_cast<int>(x)) ? x : x - 1.));
 }
 
-#define itkRoundMacro(x, y)                                                                  \
-  if (x >= 0.5)                                                                              \
-  {                                                                                          \
-    y = static_cast<int>(x + 0.5);                                                           \
-  }                                                                                          \
-  else                                                                                       \
-  {                                                                                          \
-    CLANG_PRAGMA_PUSH                                                                        \
-    CLANG_SUPPRESS_Wfloat_equal if ((x + 0.5) == static_cast<int>(x + 0.5)) CLANG_PRAGMA_POP \
-    {                                                                                        \
-      y = static_cast<int>(x + 0.5);                                                         \
-    }                                                                                        \
-    else { y = static_cast<int>(x - 0.5); }                                                  \
-  }                                                                                          \
+#define itkRoundMacro(x, y)                     \
+  if (x >= 0.5)                                 \
+  {                                             \
+    y = static_cast<int>(x + 0.5);              \
+  }                                             \
+  else                                          \
+  {                                             \
+    ITK_GCC_PRAGMA_PUSH                         \
+    ITK_GCC_SUPPRESS_Wfloat_equal               \
+    if ((x + 0.5) == static_cast<int>(x + 0.5)) \
+    {                                           \
+      y = static_cast<int>(x + 0.5);            \
+    }                                           \
+    else                                        \
+    {                                           \
+      y = static_cast<int>(x - 0.5);            \
+    }                                           \
+    ITK_GCC_PRAGMA_POP                          \
+  }                                             \
   ITK_MACROEND_NOOP_STATEMENT
 
 int

@@ -146,6 +146,16 @@ Standard:        Cpp11
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
+  - ITK_GCC_PRAGMA_PUSH
+  - ITK_GCC_PRAGMA_POP
+  - ITK_GCC_SUPPRESS_Wfloat_equal
+  - ITK_GCC_SUPPRESS_Wformat_nonliteral
+  - CLANG_PRAGMA_PUSH
+  - CLANG_PRAGMA_POP
+  - CLANG_SUPPRESS_Wcpp14_extensions
+  - INTEL_PRAGMA_WARN_PUSH
+  - INTEL_PRAGMA_WARN_POP
+  - INTEL_SUPPRESS_warning_1292
 TabWidth:        2
 UseTab:          Never
 ...

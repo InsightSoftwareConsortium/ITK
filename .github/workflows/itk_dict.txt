@@ -44,7 +44,6 @@ Crofton's
 Cuadra
 Cz
 DDataFrameobject
-Dz
 Dasarathy
 Deref
 Dij
@@ -55,6 +54,7 @@ Dxx
 Dyx
 Dyy
 Dyz
+Dz
 Dzx
 Dzy
 Dzz
@@ -74,13 +74,13 @@ Fletch
 Freesurfer
 Frenet
 GEAdw
+GPUSuperclass's
 Gao
 Gibbsian
+Gifti
 Golby
 Graphviz
 Greenleaf
-Gifti
-GPUSuperclass's
 Guillen
 Haar
 Hackathon
@@ -95,11 +95,11 @@ Hilden
 Hiraki
 Hirschberg
 Hostname
-Intelli
 IOregion
 ITKIOMeshGifti
 ITKImageToIplImage
 ITKOptimizersv
+Intelli
 Irfan
 Irix
 Isocenter
@@ -740,6 +740,7 @@ ponderation
 posn
 postcondition
 posteriori
+pragmas
 preallocated
 precalculate
 precalculating

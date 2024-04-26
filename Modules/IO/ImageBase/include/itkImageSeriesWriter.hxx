@@ -140,7 +140,10 @@ ImageSeriesWriter<TInputImage, TOutputImage>::GenerateNumericFileNames()
 
   for (unsigned int slice = 0; slice < numberOfFiles; ++slice)
   {
+    ITK_GCC_PRAGMA_PUSH
+    ITK_GCC_SUPPRESS_Wformat_nonliteral
     snprintf(fileName, IOCommon::ITK_MAXPATHLEN + 1, m_SeriesFormat.c_str(), fileNumber);
+    ITK_GCC_PRAGMA_POP
     m_FileNames.push_back(fileName);
     fileNumber += this->m_IncrementIndex;
   }

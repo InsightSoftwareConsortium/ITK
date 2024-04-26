@@ -25,9 +25,10 @@
 #define CHECK_FOR_VALUE(a, b)                                                            \
   {                                                                                      \
     double eps = 4.0 * itk::NumericTraits<double>::epsilon();                            \
-    CLANG_PRAGMA_PUSH                                                                    \
-    CLANG_SUPPRESS_Wfloat_equal eps = (b == 0.0) ? eps : itk::Math::abs(b * eps);        \
-    CLANG_PRAGMA_POP                                                                     \
+    ITK_GCC_PRAGMA_PUSH                                                                  \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                                        \
+    eps = (b == 0.0) ? eps : itk::Math::abs(b * eps);                                    \
+    ITK_GCC_PRAGMA_POP                                                                   \
     if (itk::Math::abs(a - b) > eps)                                                     \
     {                                                                                    \
       std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl; \

@@ -99,18 +99,27 @@ namespace itk
 // to be quoted.
 #define ITK_PRAGMA(x) _Pragma(#x)
 
-// The clang compiler has many useful non-default compiler warnings
-// that tend to have a high false positive rate.
-// The following set of defines allows us to suppress false positives
-// and still track down suspicious code
+// The GCC/Clang compilers have many useful non-default compiler warnings
+// that tend to have a high false positive rate or are otherwise not always appropriate.
+// The following set of defines allows us to suppress instances of said warnings.
+
+// For GCC and Clang (Clang also identifies itself as GCC, and supports these pragmas):
+#if defined(__GNUC__)
+#  define ITK_GCC_PRAGMA_PUSH ITK_PRAGMA(GCC diagnostic push)
+#  define ITK_GCC_PRAGMA_POP ITK_PRAGMA(GCC diagnostic pop)
+#  define ITK_GCC_SUPPRESS_Wfloat_equal ITK_PRAGMA(GCC diagnostic ignored "-Wfloat-equal")
+#  define ITK_GCC_SUPPRESS_Wformat_nonliteral ITK_PRAGMA(GCC diagnostic ignored "-Wformat-nonliteral")
+#else
+#  define ITK_GCC_PRAGMA_PUSH
+#  define ITK_GCC_PRAGMA_POP
+#  define ITK_GCC_SUPPRESS_Wfloat_equal
+#  define ITK_GCC_SUPPRESS_Wformat_nonliteral
+#endif
+
+// For Clang only (and not GCC):
 #if defined(__clang__) && defined(__has_warning)
 #  define CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
 #  define CLANG_PRAGMA_POP ITK_PRAGMA(clang diagnostic pop)
-#  if __has_warning("-Wfloat-equal")
-#    define CLANG_SUPPRESS_Wfloat_equal ITK_PRAGMA(clang diagnostic ignored "-Wfloat-equal")
-#  else
-#    define CLANG_SUPPRESS_Wfloat_equal
-#  endif
 #  if __has_warning("-Wc++14-extensions")
 #    define CLANG_SUPPRESS_Wcpp14_extensions ITK_PRAGMA(clang diagnostic ignored "-Wc++14-extensions")
 #  else
@@ -119,7 +128,6 @@ namespace itk
 #else
 #  define CLANG_PRAGMA_PUSH
 #  define CLANG_PRAGMA_POP
-#  define CLANG_SUPPRESS_Wfloat_equal
 #  define CLANG_SUPPRESS_Wcpp14_extensions
 #endif
 
@@ -878,13 +886,13 @@ compilers.
     itkDebugMacro("setting input " #name " to " << _arg);                                                           \
     const DecoratorType * oldInput =                                                                                \
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetInput(#name));                       \
-    CLANG_PRAGMA_PUSH                                                                                               \
-    CLANG_SUPPRESS_Wfloat_equal                                                                                     \
+    ITK_GCC_PRAGMA_PUSH                                                                                                 \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                                                                       \
     if (oldInput && oldInput->Get() == _arg)                                                                        \
     {                                                                                                               \
       return;                                                                                                       \
     }                                                                                                               \
-    CLANG_PRAGMA_POP                                                                                                \
+    ITK_GCC_PRAGMA_POP                                                                                                  \
     auto newInput = DecoratorType::New();                                                                           \
     newInput->Set(_arg);                                                                                            \
     this->Set##name##Input(newInput);                                                                               \
@@ -982,17 +990,17 @@ compilers.
 /** Set built-in type or regular C++ type.  Creates member Set"name"() (e.g., SetVisibility()); */
 // clang-format off
 #define itkSetMacro(name, type)                     \
-  virtual void Set##name(type _arg)           \
+  virtual void Set##name(type _arg)                 \
   {                                                 \
     itkDebugMacro("setting " #name " to " << _arg); \
-    CLANG_PRAGMA_PUSH                               \
-    CLANG_SUPPRESS_Wfloat_equal                     \
+    ITK_GCC_PRAGMA_PUSH                                 \
+    ITK_GCC_SUPPRESS_Wfloat_equal                       \
     if (this->m_##name != _arg)                     \
     {                                               \
-      this->m_##name = std::move(_arg);                        \
+      this->m_##name = std::move(_arg);             \
       this->Modified();                             \
     }                                               \
-    CLANG_PRAGMA_POP                                \
+    ITK_GCC_PRAGMA_POP                                  \
   }                                                 \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
@@ -1080,14 +1088,14 @@ compilers.
   {                                                                             \
     const type temp_extrema = (_arg <= min ? min : (_arg >= max ? max : _arg)); \
     itkDebugMacro("setting " << #name " to " << _arg);                          \
-    CLANG_PRAGMA_PUSH                                                           \
-    CLANG_SUPPRESS_Wfloat_equal                                                 \
+    ITK_GCC_PRAGMA_PUSH                                                             \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                                   \
     if (this->m_##name != temp_extrema)                                         \
     {                                                                           \
       this->m_##name = temp_extrema;                                            \
       this->Modified();                                                         \
     }                                                                           \
-    CLANG_PRAGMA_POP                                                            \
+    ITK_GCC_PRAGMA_POP                                                              \
   }                                                                             \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
@@ -1208,13 +1216,13 @@ compilers.
     unsigned int i;                          \
     for (i = 0; i < count; ++i)              \
     {                                        \
-      CLANG_PRAGMA_PUSH                      \
-      CLANG_SUPPRESS_Wfloat_equal            \
+      ITK_GCC_PRAGMA_PUSH                        \
+      ITK_GCC_SUPPRESS_Wfloat_equal              \
       if (data[i] != this->m_##name[i])      \
       {                                      \
         break;                               \
       }                                      \
-      CLANG_PRAGMA_POP                       \
+      ITK_GCC_PRAGMA_POP                         \
     }                                        \
     if (i < count)                           \
     {                                        \

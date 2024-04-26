@@ -175,18 +175,13 @@ Segmenter<TInputImage>::GenerateData()
   Self::MinMax(input, regionToProcess, minimum, maximum);
   // cap the maximum in the image so that we can always define a pixel
   // value that is one greater than the maximum value in the image.
-  if (std::is_integral_v<InputPixelType>
-        // clang-format off
-CLANG_PRAGMA_PUSH
-CLANG_SUPPRESS_Wfloat_equal
-      // clang-format on
-      && maximum == NumericTraits<InputPixelType>::max())
-    // clang-format off
-CLANG_PRAGMA_POP
-    // clang-format on
-    {
-      maximum -= NumericTraits<InputPixelType>::OneValue();
-    }
+  ITK_GCC_PRAGMA_PUSH
+  ITK_GCC_SUPPRESS_Wfloat_equal
+  if (std::is_integral_v<InputPixelType> && maximum == NumericTraits<InputPixelType>::max())
+  {
+    maximum -= NumericTraits<InputPixelType>::OneValue();
+  }
+  ITK_GCC_PRAGMA_POP
   // threshold the image.
   Self::Threshold(thresholdImage,
                   input,
@@ -1197,16 +1192,21 @@ Segmenter<TInputImage>::Threshold(InputImageTypePointer destination,
     while (!dIt.IsAtEnd())
     {
       InputPixelType tmp = sIt.Get();
+      ITK_GCC_PRAGMA_PUSH
+      ITK_GCC_SUPPRESS_Wfloat_equal
       if (tmp < threshold)
       {
         dIt.Set(threshold);
       }
-      CLANG_PRAGMA_PUSH
-      CLANG_SUPPRESS_Wfloat_equal else if (tmp == NumericTraits<InputPixelType>::max()) CLANG_PRAGMA_POP
+      else if (tmp == NumericTraits<InputPixelType>::max())
       {
         dIt.Set(tmp - NumericTraits<InputPixelType>::OneValue());
       }
-      else { dIt.Set(tmp); }
+      else
+      {
+        dIt.Set(tmp);
+      }
+      ITK_GCC_PRAGMA_POP
       ++dIt;
       ++sIt;
     }
