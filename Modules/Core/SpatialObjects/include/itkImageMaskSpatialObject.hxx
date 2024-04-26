@@ -21,6 +21,7 @@
 #include "itkIntTypes.h" // For uintmax_t.
 #include "itkMath.h"
 #include "itkImageRegionRange.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -29,6 +30,9 @@ template <unsigned int TDimension, typename TPixel>
 ImageMaskSpatialObject<TDimension, TPixel>::ImageMaskSpatialObject()
 {
   this->SetTypeName("ImageMaskSpatialObject");
+
+  m_UseMaskValue = false;
+  m_MaskValue = NumericTraits<PixelType>::OneValue();
 }
 
 template <unsigned int TDimension, typename TPixel>
@@ -38,6 +42,12 @@ ImageMaskSpatialObject<TDimension, TPixel>::IsInsideInObjectSpace(const PointTyp
   const ImageType * const image = this->GetImage();
 
   const IndexType index = image->TransformPhysicalPointToIndex(point);
+
+  if (this->m_UseMaskValue == true)
+  {
+    return Superclass::GetBufferedRegion().IsInside(index) &&
+           Math::ExactlyEquals(image->GetPixel(index), this->m_MaskValue);
+  }
 
   return Superclass::GetBufferedRegion().IsInside(index) && Math::NotExactlyEquals(image->GetPixel(index), PixelType{});
 }
@@ -123,6 +133,9 @@ ImageMaskSpatialObject<TDimension, TPixel>::InternalClone() const
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
   }
 
+  rval->SetMaskValue(this->GetMaskValue());
+  rval->SetUseMaskValue(this->GetUseMaskValue());
+
   return loPtr;
 }
 
@@ -130,7 +143,9 @@ template <unsigned int TDimension, typename TPixel>
 auto
 ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() const -> RegionType
 {
-  const ImagePointer imagePointer = this->GetImage();
+  ImagePointer imagePointer = this->GetImage();
+  bool         useMaskValue = this->GetUseMaskValue();
+  PixelType    maskValue = this->GetMaskValue();
 
   if (imagePointer == nullptr)
   {
@@ -139,12 +154,12 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() c
 
   const ImageType & image = *imagePointer;
 
-  const auto HasForegroundPixels = [&image](const RegionType & region) {
+  const auto HasForegroundPixels = [&image, useMaskValue, maskValue](const RegionType & region) {
     for (const PixelType pixelValue : ImageRegionRange{ image, region })
     {
       constexpr auto zeroValue = PixelType{};
 
-      if (pixelValue != zeroValue)
+      if (pixelValue != zeroValue && (useMaskValue == false || pixelValue == maskValue))
       {
         return true;
       }

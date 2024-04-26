@@ -33,9 +33,10 @@ namespace itk
  * Image Registration Metrics.
  *
  * \note The bounding box of an image mask is defined in such a way that
- * any point whose nearest pixel has a non-zero value is inside the
- * bounding box. When all the pixels of an image are zero, the bounding box
- * of the image mask is empty, and its bounds are all zero.
+ * any point whose nearest pixel has a non-zero value (or matches the
+ * specified mask value) is inside the bounding box. When all the pixels of
+ * an image are zero, the bounding box of the image mask is empty, and
+ * its bounds are all zero.
  *
  * \sa ImageSpatialObject SpatialObject CompositeSpatialObject
  * \ingroup ITKSpatialObjects
@@ -74,13 +75,25 @@ public:
 
   /** Test whether a point is inside the object.
    *
-   * A point is inside the image mask when the value of its nearest pixel is non-zero.
+   * A point is inside the image mask when the value of its nearest pixel is
+   * non-zero or matches the Mask_Value value.
    *
    * For computational speed purposes, it is faster if the method does not  check the name of the class and the
    * current depth.
    */
   bool
   IsInsideInObjectSpace(const PointType & point) const override;
+
+  /** Specify the value in the mask image that defines the object.
+   * You must also call SetUseMaskValue(true) to enable the use
+   * of the mask value, otherwise the value is ignored and any
+   * non-zero value in the mask is used to define the object. */
+  itkSetMacro(MaskValue, PixelType);
+  itkGetConstReferenceMacro(MaskValue, PixelType);
+
+  itkBooleanMacro(UseMaskValue);
+  itkSetMacro(UseMaskValue, bool);
+  itkGetConstReferenceMacro(UseMaskValue, bool);
 
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
@@ -118,6 +131,10 @@ protected:
 
   typename LightObject::Pointer
   InternalClone() const override;
+
+private:
+  bool      m_UseMaskValue{};
+  PixelType m_MaskValue{};
 };
 } // end of namespace itk
 
