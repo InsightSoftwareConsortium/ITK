@@ -33,8 +33,9 @@ WatershedImageFilter<TInputImage>::SetThreshold(double val)
     val = 1.0;
   }
 
-  CLANG_PRAGMA_PUSH
-  CLANG_SUPPRESS_Wfloat_equal if (val != m_Threshold) CLANG_PRAGMA_POP
+  ITK_GCC_PRAGMA_PUSH
+  ITK_GCC_SUPPRESS_Wfloat_equal
+  if (val != m_Threshold)
   {
     m_Threshold = val;
     m_Segmenter->SetThreshold(m_Threshold);
@@ -42,6 +43,7 @@ WatershedImageFilter<TInputImage>::SetThreshold(double val)
     m_ThresholdChanged = true;
     this->Modified();
   }
+  ITK_GCC_PRAGMA_POP
 }
 
 template <typename TInputImage>
@@ -57,8 +59,9 @@ WatershedImageFilter<TInputImage>::SetLevel(double val)
     val = 1.0;
   }
 
-  CLANG_PRAGMA_PUSH
-  CLANG_SUPPRESS_Wfloat_equal if (val != m_Level) CLANG_PRAGMA_POP
+  ITK_GCC_PRAGMA_PUSH
+  ITK_GCC_SUPPRESS_Wfloat_equal
+  if (val != m_Level)
   {
     m_Level = val;
     m_TreeGenerator->SetFloodLevel(m_Level);
@@ -67,6 +70,7 @@ WatershedImageFilter<TInputImage>::SetLevel(double val)
     m_LevelChanged = true;
     this->Modified();
   }
+  ITK_GCC_PRAGMA_POP
 }
 
 template <typename TInputImage>

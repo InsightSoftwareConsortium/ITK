@@ -724,9 +724,10 @@ template <typename TInput1, typename TInput2>
 inline bool
 ExactlyEquals(const TInput1 & x1, const TInput2 & x2)
 {
-  CLANG_PRAGMA_PUSH
-  CLANG_SUPPRESS_Wfloat_equal return x1 == x2;
-  CLANG_PRAGMA_POP
+  ITK_GCC_PRAGMA_PUSH
+  ITK_GCC_SUPPRESS_Wfloat_equal
+  return x1 == x2;
+  ITK_GCC_PRAGMA_POP
 }
 
 // The NotExactlyEquals function

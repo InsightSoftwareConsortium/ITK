@@ -304,10 +304,11 @@ struct EqualityComparable
     void
     constraints()
     {
-      CLANG_PRAGMA_PUSH
-      CLANG_SUPPRESS_Wfloat_equal Detail::RequireBooleanExpression(a == b);
+      ITK_GCC_PRAGMA_PUSH
+      ITK_GCC_SUPPRESS_Wfloat_equal
+      Detail::RequireBooleanExpression(a == b);
       Detail::RequireBooleanExpression(a != b);
-      CLANG_PRAGMA_POP
+      ITK_GCC_PRAGMA_POP
     }
 
     T1 a;
@@ -331,10 +332,11 @@ struct Comparable
       Detail::RequireBooleanExpression(a > b);
       Detail::RequireBooleanExpression(a <= b);
       Detail::RequireBooleanExpression(a >= b);
-      CLANG_PRAGMA_PUSH
-      CLANG_SUPPRESS_Wfloat_equal Detail::RequireBooleanExpression(a == b);
+      ITK_GCC_PRAGMA_PUSH
+      ITK_GCC_SUPPRESS_Wfloat_equal
+      Detail::RequireBooleanExpression(a == b);
       Detail::RequireBooleanExpression(a != b);
-      CLANG_PRAGMA_POP
+      ITK_GCC_PRAGMA_POP
     }
 
     T1 a;

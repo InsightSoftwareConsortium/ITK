@@ -86,12 +86,12 @@ namespace Detail
 ////////////////////////////////////////
 // Base versions
 
-CLANG_PRAGMA_PUSH
-CLANG_SUPPRESS_Wfloat_equal
+ITK_GCC_PRAGMA_PUSH
+ITK_GCC_SUPPRESS_Wfloat_equal
 
-  template <typename TReturn, typename TInput>
-  inline TReturn
-  RoundHalfIntegerToEven_base(TInput x)
+template <typename TReturn, typename TInput>
+inline TReturn
+RoundHalfIntegerToEven_base(TInput x)
 {
   if (NumericTraits<TInput>::IsNonnegative(x))
   {
@@ -135,7 +135,7 @@ Ceil_base(TInput x)
   return (NumericTraits<TInput>::IsNegative(x)) ? r : (x == static_cast<TInput>(r) ? r : r + static_cast<TReturn>(1));
 }
 
-CLANG_PRAGMA_POP
+ITK_GCC_PRAGMA_POP
 
 ////////////////////////////////////////
 // 32 bits versions
