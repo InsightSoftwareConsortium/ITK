@@ -366,11 +366,14 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdReverseCopy)
   itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   const unsigned int numberOfNeighborhoodPixels = 3;
+  ASSERT_EQ(numberOfNeighborhoodPixels, range.size());
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
-  std::vector<PixelType>       reversedStdVector1(numberOfNeighborhoodPixels);
-  std::vector<PixelType>       reversedStdVector2(numberOfNeighborhoodPixels);
-  std::vector<PixelType>       reversedStdVector3(numberOfNeighborhoodPixels);
+  ASSERT_EQ(stdVector.size(), numberOfNeighborhoodPixels);
+
+  std::vector<PixelType> reversedStdVector1(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector2(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector3(numberOfNeighborhoodPixels);
 
   // Checks bidirectionality of the ShapedImageNeighborhoodRange iterators!
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
@@ -911,12 +914,15 @@ TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   RangeType range{ *image, location, offsets };
 
-  const unsigned int numberOfNeighborhoodPixels = 3;
+  constexpr unsigned int numberOfNeighborhoodPixels = 3;
+  ASSERT_EQ(numberOfNeighborhoodPixels, range.size());
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
-  std::vector<PixelType>       reversedStdVector1(numberOfNeighborhoodPixels);
-  std::vector<PixelType>       reversedStdVector2(numberOfNeighborhoodPixels);
-  std::vector<PixelType>       reversedStdVector3(numberOfNeighborhoodPixels);
+  ASSERT_EQ(stdVector.size(), numberOfNeighborhoodPixels);
+
+  std::vector<PixelType> reversedStdVector1(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector2(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector3(numberOfNeighborhoodPixels);
 
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
 
