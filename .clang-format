@@ -152,7 +152,6 @@ StatementMacros:
   - ITK_GCC_SUPPRESS_Wformat_nonliteral
   - CLANG_PRAGMA_PUSH
   - CLANG_PRAGMA_POP
-  - CLANG_SUPPRESS_Wcpp14_extensions
   - INTEL_PRAGMA_WARN_PUSH
   - INTEL_PRAGMA_WARN_POP
   - INTEL_SUPPRESS_warning_1292
