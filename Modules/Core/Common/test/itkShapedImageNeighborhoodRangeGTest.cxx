@@ -350,7 +350,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdVectorConstructor)
 // second argument of std::reverse (which requires bidirectional iterators).
 TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdReverseCopy)
 {
-  using PixelType = unsigned char;
+  using PixelType = unsigned short;
   using ImageType = itk::Image<PixelType>;
   enum
   {
@@ -900,7 +900,7 @@ TEST(ShapedImageNeighborhoodRange, SupportsSubscript)
 
 TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
 {
-  using PixelType = unsigned char;
+  using PixelType = unsigned short;
   using ImageType = itk::Image<PixelType>;
   using RangeType = itk::ShapedImageNeighborhoodRange<ImageType>;
   enum
