@@ -458,11 +458,13 @@ TEST(ShapedImageNeighborhoodRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
   const itk::Size<ImageType::ImageDimension>                radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
-  RangeType range{ *image, location, offsets };
+  RangeType           range{ *image, location, offsets };
+  constexpr PixelType reference_value = 42;
 
   for (const PixelType pixel : range)
   {
-    EXPECT_NE(pixel, 42);
+    // Initially not set to reference value
+    EXPECT_NE(pixel, reference_value);
   }
 
   // Note: instead of 'iterator::reference', you may also type 'auto&&', but
@@ -474,12 +476,12 @@ TEST(ShapedImageNeighborhoodRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
   // https://bugs.llvm.org/show_bug.cgi?id=37392
   for (RangeType::iterator::reference pixel : range)
   {
-    pixel = 42;
+    pixel = reference_value;
   }
 
   for (const PixelType pixel : range)
   {
-    EXPECT_EQ(pixel, 42);
+    EXPECT_EQ(pixel, reference_value);
   }
 }
 
