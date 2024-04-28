@@ -119,11 +119,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   outputPtr->SetLargestPossibleRegion(m_OutputImageRegion);
 
   // Set the output spacing and origin
-  const ImageBase<InputImageDimension> * phyData;
-
-  phyData = dynamic_cast<const ImageBase<InputImageDimension> *>(this->GetInput());
-
-  if (phyData)
+  if (this->GetInput())
   {
     // Copy what we can from the image from spacing and origin of the input
     // This logic needs to be augmented with logic that select which
