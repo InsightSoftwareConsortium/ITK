@@ -66,6 +66,9 @@ namespace itk
  *  by Padfield D., Miller J
  *  https://www.insight-journal.org/browse/publication/301
  *
+ * \sa LabelStatisticsImageFilter
+ * \sa LabelImageToShapeLabelMapFilter
+ *
  * \ingroup ITKReview
  *
  * \sphinx
