@@ -51,9 +51,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3(int, char *[])
     region.SetIndex(1, 0);
     region.SetIndex(2, 0);
 
-    auto inputImage = ImageType::New();
-    inputImage->SetRegions(region);
-    inputImage->AllocateInitialized();
+    auto inputImage = ImageType::CreateInitialized(region);
 
     itk::ImageLinearIteratorWithIndex<ImageType> it(inputImage, region);
 

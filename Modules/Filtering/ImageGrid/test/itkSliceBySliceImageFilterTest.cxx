@@ -165,13 +165,11 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   // spacing. We are setting the input image to have a non-zero
   // starting index.
   //
-  auto image = ImageType::New();
-  {
+  auto image = ImageType::CreateInitialized([&reader] {
     ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
     region.SetIndex(0, 10);
-    image->SetRegions(region);
-    image->AllocateInitialized();
-  }
+    return region;
+  }());
 
   ImageType::SpacingType spacing;
   ImageType::PointType   origin;

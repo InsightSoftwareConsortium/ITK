@@ -62,9 +62,7 @@ test(int testIdx)
   region2D.SetSize(size2D);
   region2D.SetIndex(index2D);
 
-  auto inputImage2D = myImageType2D1::New();
-  inputImage2D->SetRegions(region2D);
-  inputImage2D->AllocateInitialized();
+  auto inputImage2D = myImageType2D1::CreateInitialized(region2D);
 
   if (!testIdx)
   {

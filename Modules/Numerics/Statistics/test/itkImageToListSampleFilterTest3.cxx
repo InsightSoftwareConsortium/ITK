@@ -67,9 +67,7 @@ itkImageToListSampleFilterTest3(int, char *[])
     ++it;
   }
 
-  auto maskImage = MaskImageType::New();
-  maskImage->SetRegions(region);
-  maskImage->AllocateInitialized();
+  auto maskImage = MaskImageType::CreateInitialized(region);
 
   MaskImageType::IndexType startMask;
   MaskImageType::SizeType  sizeMask;

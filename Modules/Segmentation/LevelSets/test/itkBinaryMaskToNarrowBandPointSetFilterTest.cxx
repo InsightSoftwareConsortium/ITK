@@ -42,8 +42,6 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
   //
   //  Initialize an image with a white square in a black background
   //
-  auto binaryMask = BinaryMaskImageType::New();
-
   BinaryMaskImageType::SizeType   size;
   BinaryMaskImageType::IndexType  index;
   BinaryMaskImageType::RegionType region;
@@ -57,8 +55,7 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  binaryMask->SetRegions(region);
-  binaryMask->AllocateInitialized();
+  auto binaryMask = BinaryMaskImageType::CreateInitialized(region);
 
   size[0] = 60;
   size[1] = 60;

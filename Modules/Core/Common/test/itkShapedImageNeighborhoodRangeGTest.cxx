@@ -1004,9 +1004,7 @@ TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
 
   const ImageType::RegionType bufferedRegion{ arbitraryIndex, imageSize };
 
-  const auto image = ImageType::New();
-  image->SetRegions(bufferedRegion);
-  image->AllocateInitialized();
+  const auto image = ImageType::CreateInitialized(bufferedRegion);
 
   // Set a 'magic value' at the begin of the buffered region.
   const ImageType::PixelType   magicPixelValue = 42;

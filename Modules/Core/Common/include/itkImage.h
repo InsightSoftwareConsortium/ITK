@@ -189,6 +189,16 @@ public:
   void
   Allocate(bool initializePixels = false) override;
 
+  /** Creates an image with the specified region. Allocates its pixel buffer, zero-initializing its pixels. */
+  static Pointer
+  CreateInitialized(const RegionType & region)
+  {
+    const auto image = Image::New();
+    image->SetRegions(region);
+    image->AllocateInitialized();
+    return image;
+  }
+
   /** Restore the data object to its initial state. This means releasing
    * memory. */
   void

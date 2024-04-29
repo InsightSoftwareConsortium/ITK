@@ -42,8 +42,18 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   using PixelType = ImageMaskSpatialObjectType::PixelType;
   using ImageType = itk::Image<PixelType, VDimension>;
 
-  auto                 image = ImageType::New();
-  ImageType::SizeType  size = { { 5, 5, 5 } };
+  ImageType::SizeType size = { { 5, 5, 5 } };
+
+  ImageType::IndexType index;
+  index.Fill(0);
+
+  ImageType::RegionType region;
+
+  region.SetSize(size);
+  region.SetIndex(index);
+
+  auto image = ImageType::CreateInitialized(region);
+
   ImageType::PointType origin;
   origin.Fill(0);
   image->SetOrigin(origin);
@@ -52,22 +62,12 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   spacing.Fill(1);
   image->SetSpacing(spacing);
 
-  ImageType::IndexType index;
-  index.Fill(0);
-
   ImageType::DirectionType direction;
   direction.Fill(0.0);
   direction[0][1] = 1;
   direction[1][0] = 1;
   direction[2][2] = 1;
   image->SetDirection(direction);
-
-  ImageType::RegionType region;
-
-  region.SetSize(size);
-  region.SetIndex(index);
-  image->SetRegions(region);
-  image->AllocateInitialized();
 
   auto imageMaskSpatialObject = ImageMaskSpatialObjectType::New();
   imageMaskSpatialObject->SetImage(image);

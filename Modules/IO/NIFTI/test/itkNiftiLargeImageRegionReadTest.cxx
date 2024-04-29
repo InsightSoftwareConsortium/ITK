@@ -53,9 +53,7 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
   region.SetSize(size);
 
   {
-    auto image = ImageType::New();
-    image->SetRegions(region);
-    image->AllocateInitialized();
+    auto image = ImageType::CreateInitialized(region);
     itk::WriteImage(image, fname);
   }
 

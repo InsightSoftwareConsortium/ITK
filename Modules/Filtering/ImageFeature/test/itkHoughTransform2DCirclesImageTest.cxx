@@ -55,12 +55,10 @@ Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero()
   using ImageType = itk::Image<PixelType>;
 
   // Create an image that has at least one circle.
-  const auto                image = ImageType::New();
   const ImageType::SizeType size = { { 64, 64 } };
-  image->SetRegions(size);
-  image->AllocateInitialized();
-  const unsigned int center[] = { 16, 16 };
-  constexpr double   radius = 7.0;
+  const auto                image = ImageType::CreateInitialized(size);
+  const unsigned int        center[] = { 16, 16 };
+  constexpr double          radius = 7.0;
   CreateCircle<ImageType>(image, center, radius);
 
   using FilterType = itk::HoughTransform2DCirclesImageFilter<PixelType, PixelType, PixelType>;
@@ -256,12 +254,10 @@ Test_Center_IsInside_SpatialObject_from_GetCircles()
 {
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType>;
-  const auto                image = ImageType::New();
   const ImageType::SizeType imageSize = { { 16, 32 } };
-  image->SetRegions(imageSize);
-  image->AllocateInitialized();
-  const double center[] = { 6.0, 9.0 };
-  const double radius = 1.0;
+  const auto                image = ImageType::CreateInitialized(imageSize);
+  const double              center[] = { 6.0, 9.0 };
+  const double              radius = 1.0;
   CreateCircle<ImageType>(image, center, radius);
 
   using FilterType = itk::HoughTransform2DCirclesImageFilter<PixelType, unsigned int, double>;
@@ -312,8 +308,6 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create a black image
-  auto image = ImageType::New();
-
   ImageType::RegionType region;
 
   ImageType::SizeType size;
@@ -325,8 +319,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   // Create 3 circles
   constexpr unsigned int circles = 3;
@@ -352,9 +345,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   }
 
   // Allocate Hough Space image (accumulator)
-  auto m_HoughSpaceImage = ImageType::New();
-  m_HoughSpaceImage->SetRegions(region);
-  m_HoughSpaceImage->AllocateInitialized();
+  auto m_HoughSpaceImage = ImageType::CreateInitialized(region);
 
   // Apply gradient filter to the input image
   using CastingFilterType = itk::CastImageFilter<ImageType, HoughImageType>;

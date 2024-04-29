@@ -59,8 +59,6 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   using mySizeType = itk::Size<myDimension>;
   using myRegionType = itk::ImageRegion<myDimension>;
 
-  auto inputImage = myImageType::New();
-
   mySizeType size;
   size.Fill(8);
 
@@ -71,8 +69,7 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   region.SetIndex(start);
   region.SetSize(size);
 
-  inputImage->SetRegions(region);
-  inputImage->AllocateInitialized();
+  auto inputImage = myImageType::CreateInitialized(region);
 
   // Set the metadata for the image
   myImageType::PointType     origin;

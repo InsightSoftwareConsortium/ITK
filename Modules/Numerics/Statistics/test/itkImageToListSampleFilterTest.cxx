@@ -63,7 +63,6 @@ CreateImage()
 static MaskImageType::Pointer
 CreateMaskImage()
 {
-  auto                     image = MaskImageType::New();
   MaskImageType::IndexType start;
   MaskImageType::SizeType  size;
 
@@ -71,8 +70,7 @@ CreateMaskImage()
   size.Fill(10);
 
   MaskImageType::RegionType region(start, size);
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto                      image = MaskImageType::CreateInitialized(region);
 
   MaskImageType::IndexType startMask;
   MaskImageType::SizeType  sizeMask;
@@ -100,8 +98,6 @@ CreateMaskImage()
 static MaskImageType::Pointer
 CreateLargerMaskImage()
 {
-  auto image = MaskImageType::New();
-
   MaskImageType::IndexType start;
   MaskImageType::SizeType  size;
 
@@ -112,9 +108,7 @@ CreateLargerMaskImage()
   size[1] = 17;
 
   MaskImageType::RegionType region(start, size);
-  image->SetRegions(region);
-  image->AllocateInitialized();
-  return image;
+  return MaskImageType::CreateInitialized(region);
 }
 
 

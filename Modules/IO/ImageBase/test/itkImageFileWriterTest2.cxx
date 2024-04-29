@@ -33,7 +33,6 @@ itkImageFileWriterTest2(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageNDType>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
 
-  auto                    image = ImageNDType::New();
   ImageNDType::RegionType region;
   ImageNDType::IndexType  index;
   ImageNDType::SizeType   size;
@@ -47,8 +46,7 @@ itkImageFileWriterTest2(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageNDType::CreateInitialized(region);
 
   image->TransformIndexToPhysicalPoint(index, originalPoint);
   std::cout << "Original Starting Index: " << index << std::endl;

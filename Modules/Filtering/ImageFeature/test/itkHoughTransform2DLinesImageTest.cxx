@@ -47,10 +47,8 @@ Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black()
   using FilterType = itk::HoughTransform2DLinesImageFilter<PixelType, double>;
 
   // Create a black input image for the filter.
-  const auto                image = ImageType::New();
   const ImageType::SizeType size = { { 32, 32 } };
-  image->SetRegions(size);
-  image->AllocateInitialized();
+  const auto                image = ImageType::CreateInitialized(size);
 
   const auto filter = FilterType::New();
   filter->SetInput(image);
@@ -73,15 +71,13 @@ Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero()
   using ImageType = itk::Image<PixelType>;
 
   // Create an image.
-  const auto image = ImageType::New();
   enum
   {
     sizeX = 32,
     sizeY = 32
   };
   const ImageType::SizeType size = { { sizeX, sizeY } };
-  image->SetRegions(size);
-  image->AllocateInitialized();
+  const auto                image = ImageType::CreateInitialized(size);
 
   // Place some line segment in the image.
   for (itk::IndexValueType x = 1; x < (sizeX - 1); ++x)
@@ -136,8 +132,6 @@ itkHoughTransform2DLinesImageTest(int, char *[])
 
 
   // Create a line image with one line
-  auto image = ImageType::New();
-
   ImageType::RegionType region;
 
   ImageType::SizeType size;
@@ -149,8 +143,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   // Create a line
   constexpr unsigned int lines = 1;

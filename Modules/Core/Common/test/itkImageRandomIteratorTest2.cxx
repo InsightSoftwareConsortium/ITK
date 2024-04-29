@@ -43,8 +43,6 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto image = ImageType::New();
-
   ImageType::SizeType size;
 
   size[0] = 1000;
@@ -59,8 +57,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
   region.SetIndex(start);
   region.SetSize(size);
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   using RandomIteratorType = itk::ImageRandomIteratorWithIndex<ImageType>;
 

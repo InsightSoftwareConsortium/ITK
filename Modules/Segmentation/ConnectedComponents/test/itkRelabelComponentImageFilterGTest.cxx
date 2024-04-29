@@ -137,11 +137,9 @@ TEST(RelabelComponentImageFilter, big_zero)
   using PixelType = unsigned short;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  auto                           image = ImageType::New();
   typename ImageType::RegionType region;
   region.SetSize({ { 512, 512, 512 } });
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   auto filter = itk::RelabelComponentImageFilter<ImageType, ImageType>::New();
   filter->SetInput(image);

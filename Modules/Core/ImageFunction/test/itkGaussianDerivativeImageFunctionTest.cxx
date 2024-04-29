@@ -29,7 +29,6 @@ TestGaussianDerivativeImageFunction()
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create and allocate the image
-  auto                           image = ImageType::New();
   typename ImageType::SizeType   size;
   typename ImageType::IndexType  start;
   typename ImageType::RegionType region;
@@ -41,8 +40,7 @@ TestGaussianDerivativeImageFunction()
   region.SetIndex(start);
   region.SetSize(size);
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   // Fill the image with a straight line
   for (unsigned int i = 0; i < 50; ++i)
