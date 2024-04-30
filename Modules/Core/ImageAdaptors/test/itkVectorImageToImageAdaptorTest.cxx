@@ -51,9 +51,7 @@ itkVectorImageToImageAdaptorTest(int, char *[])
   start.Fill(0);
   size.Fill(50);
 
-  VectorImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  VectorImageType::RegionType region{ start, size };
   vectorImage->SetVectorLength(VectorLength);
   vectorImage->SetRegions(region);
   vectorImage->Allocate();

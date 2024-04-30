@@ -55,9 +55,7 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   sz.Fill(regionSizeVal);
   IndexType idx;
   idx.Fill(0);
-  RegionType region;
-  region.SetSize(sz);
-  region.SetIndex(idx);
+  RegionType region{ idx, sz };
 
   inImage->SetRegions(region);
   inImage->AllocateInitialized();

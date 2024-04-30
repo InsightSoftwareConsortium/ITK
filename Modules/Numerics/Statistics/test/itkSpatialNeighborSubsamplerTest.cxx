@@ -79,9 +79,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   sz.Fill(25);
   IndexType idx;
   idx.Fill(0);
-  RegionType region;
-  region.SetSize(sz);
-  region.SetIndex(idx);
+  RegionType region{ idx, sz };
 
   inImage->SetRegions(region);
   inImage->AllocateInitialized();
@@ -92,9 +90,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   IndexType idxConstraint;
   idxConstraint[0] = 0;
   idxConstraint[1] = 5;
-  RegionType regionConstraint;
-  regionConstraint.SetSize(szConstraint);
-  regionConstraint.SetIndex(idxConstraint);
+  RegionType regionConstraint{ idxConstraint, szConstraint };
 
   auto sample = AdaptorType::New();
   sample->SetImage(inImage);
@@ -164,9 +160,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   IndexType validStart;
   validStart[0] = 0;
   validStart[1] = 5;
-  RegionType validRegion;
-  validRegion.SetSize(validSz);
-  validRegion.SetIndex(validStart);
+  RegionType validRegion{ validStart, validSz };
 
   IteratorType it(inImage, region);
   it.GoToBegin();

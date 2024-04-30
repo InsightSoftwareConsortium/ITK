@@ -40,9 +40,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   /* Allocate the 2D image */
   myImageType2D1::SizeType   size2D = { { 9, 9 } };
   myImageType2D1::IndexType  index2D = { { 0, 0 } };
-  myImageType2D1::RegionType region2D;
-  region2D.SetSize(size2D);
-  region2D.SetIndex(index2D);
+  myImageType2D1::RegionType region2D{ index2D, size2D };
 
   auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetRegions(region2D);
@@ -190,10 +188,8 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   using ImageType3D = itk::Image<float, 3>;
   ImageType3D::SizeType   size3D = { { 200, 200, 200 } };
   ImageType3D::IndexType  index3D = { { 0, 0 } };
-  ImageType3D::RegionType region3D;
-  region3D.SetSize(size3D);
-  region3D.SetIndex(index3D);
-  auto inputImage3D = ImageType3D::New();
+  ImageType3D::RegionType region3D{ index3D, size3D };
+  auto                    inputImage3D = ImageType3D::New();
   inputImage3D->SetRegions(region3D);
   inputImage3D->Allocate();
   inputImage3D->FillBuffer(1);
@@ -207,9 +203,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
     foregroundSize[i] = 5;
     foregroundIndex[i] = (size3D[i] / 2) - foregroundSize[i] / 2;
   }
-  ImageType3D::RegionType foregroundRegion;
-  foregroundRegion.SetSize(foregroundSize);
-  foregroundRegion.SetIndex(foregroundIndex);
+  ImageType3D::RegionType foregroundRegion{ foregroundIndex, foregroundSize };
 
   itk::ImageRegionIteratorWithIndex<ImageType3D> it3D(inputImage3D, foregroundRegion);
   for (it3D.GoToBegin(); !it3D.IsAtEnd(); ++it3D)

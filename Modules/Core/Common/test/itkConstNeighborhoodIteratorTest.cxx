@@ -37,9 +37,7 @@ GetTestImage(int d1, int d2, int d3, int d4)
   itk::Index<4> origND;
   origND.Fill(0);
 
-  itk::ImageRegion<4> RegionND;
-  RegionND.SetSize(sizeND);
-  RegionND.SetIndex(origND);
+  itk::ImageRegion<4> RegionND{ origND, sizeND };
 
   auto imageND = TestImageType::New();
   imageND->SetRegions(RegionND);

@@ -58,9 +58,7 @@ MakeImage(const int count, T pixel)
   size[0] = count;
   size[1] = count;
   size[2] = count;
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  RegionType region{ index, size };
 
   testImage->SetRegions(region);
   testImage->Allocate();

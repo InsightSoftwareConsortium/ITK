@@ -47,9 +47,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   InputImagePointerType image = InputImageType::New();
   ImageIndexType        index = { { 0, 0, 0 } };
   ImageSizeType         size = { { 13, 13, 9 } };
-  ImageRegionType       region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageRegionType       region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->SetAzimuthAngularSeparation(5.0 * 2.0 * itk::Math::pi / 360.0);

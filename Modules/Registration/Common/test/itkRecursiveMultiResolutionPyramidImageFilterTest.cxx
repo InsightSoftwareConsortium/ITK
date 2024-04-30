@@ -97,9 +97,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   InputImageType::SizeType   size = { { 100, 100, 40 } };
   InputImageType::IndexType  index = { { 0, 0, 0 } };
-  InputImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  InputImageType::RegionType region{ index, size };
 
   auto imgTarget = InputImageType::New();
   imgTarget->SetRegions(region);

@@ -65,9 +65,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   ImageType::IndexType startIndex;
   startIndex.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(startIndex);
+  ImageType::RegionType region{ startIndex, imageSize };
 
 
   // set up the random number generator

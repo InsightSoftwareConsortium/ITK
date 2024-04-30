@@ -76,9 +76,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   constexpr unsigned int     index_offset = 6543;
   const ImageType::IndexType index = { { index_offset, index_offset, index_offset } };
 
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, size };
   image->SetRegions(region);
   image->AllocateInitialized();
 

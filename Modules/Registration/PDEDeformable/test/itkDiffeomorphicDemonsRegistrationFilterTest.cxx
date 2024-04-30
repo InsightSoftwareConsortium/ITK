@@ -139,9 +139,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   IndexType index;
   index.Fill(0);
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  RegionType region{ index, size };
 
   DirectionType direction;
   direction.SetIdentity();

@@ -48,10 +48,8 @@ MakeCheckerboard()
   ImageType::SpacingType spacing;
   spacing[0] = spacing[1] = spacing[2] = 1.0;
   ImageType::IndexType  index = { { 0, 0, 0 } };
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
-  ImageType::Pointer image;
+  ImageType::RegionType region{ index, size };
+  ImageType::Pointer    image;
   AllocateImageFromRegionAndSpacing(ImageType, image, region, spacing);
   image->FillBuffer(0.0);
   for (IteratorType it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
@@ -80,10 +78,8 @@ MakeDisplacementField()
   DisplacementFieldType::SpacingType    spacing;
   spacing[0] = spacing[1] = spacing[2] = 16.0 / static_cast<double>(TImageIndexSpaceSize);
   DisplacementFieldType::IndexType  index = { { 0, 0, 0 } };
-  DisplacementFieldType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
-  DisplacementFieldType::Pointer image;
+  DisplacementFieldType::RegionType region{ index, size };
+  DisplacementFieldType::Pointer    image;
   AllocateImageFromRegionAndSpacing(DisplacementFieldType, image, region, spacing);
   for (IteratorType it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
   {

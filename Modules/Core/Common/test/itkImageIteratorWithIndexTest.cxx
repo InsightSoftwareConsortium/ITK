@@ -46,9 +46,7 @@ public:
     typename ImageType::IndexType start;
     start.Fill(0);
 
-    typename ImageType::RegionType region;
-    region.SetSize(size);
-    region.SetIndex(start);
+    typename ImageType::RegionType region{ start, size };
 
     m_Image->SetRegions(region);
     m_Image->Allocate();

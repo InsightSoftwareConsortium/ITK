@@ -135,9 +135,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // InputImageType::SizeType size = {{101,101,41}};
   InputImageType::SizeType   size = { { 128, 132, 48 } };
   InputImageType::IndexType  index = { { 0, 0, 0 } };
-  InputImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  InputImageType::RegionType region{ index, size };
 
   InputImageType::SpacingType spacing;
   spacing[0] = 0.5;

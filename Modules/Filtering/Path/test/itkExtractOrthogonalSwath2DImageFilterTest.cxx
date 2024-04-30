@@ -61,9 +61,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   ImageType::SizeType size;
   size[0] = 128;
   size[1] = 128;
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  ImageType::RegionType region{ start, size };
   inputImage->SetRegions(region);
   double spacing[ImageType::ImageDimension];
   spacing[0] = 1.0;

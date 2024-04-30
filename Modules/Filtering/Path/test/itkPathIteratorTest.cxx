@@ -48,9 +48,7 @@ itkPathIteratorTest(int, char *[])
   ImageType::SizeType size;
   size[0] = 128;
   size[1] = 128;
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  ImageType::RegionType region{ start, size };
   image->SetRegions(region);
   double spacing[ImageType::ImageDimension];
   spacing[0] = 1.0;

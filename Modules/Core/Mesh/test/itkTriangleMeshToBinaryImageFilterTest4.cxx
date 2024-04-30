@@ -87,9 +87,7 @@ itkTriangleMeshToBinaryImageFilterTest4(int argc, char * argv[])
 
 
   ImageType::IndexType  index3D = { { 0, 0, 0 } };
-  ImageType::RegionType region3D;
-  region3D.SetSize(size);
-  region3D.SetIndex(index3D);
+  ImageType::RegionType region3D{ index3D, size };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(region3D);

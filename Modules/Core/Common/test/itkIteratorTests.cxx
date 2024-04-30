@@ -43,9 +43,7 @@ itkIteratorTests(int, char *[])
   ScalarImage::IndexType regionStartIndex3D = { { 5, 5, 5 } };
 
 
-  ScalarImage::RegionType region;
-  region.SetSize(imageSize3D);
-  region.SetIndex(startIndex3D);
+  ScalarImage::RegionType region{ startIndex3D, imageSize3D };
   o3->SetLargestPossibleRegion(region);
   region.SetSize(bufferSize3D);
   region.SetIndex(bufferStartIndex3D);

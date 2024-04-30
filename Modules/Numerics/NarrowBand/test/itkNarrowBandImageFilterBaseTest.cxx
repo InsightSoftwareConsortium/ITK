@@ -128,9 +128,7 @@ itkNarrowBandImageFilterBaseTest(int argc, char * argv[])
 
   ImageType::SizeType   size = { { 64, 64 } };
   ImageType::IndexType  index = { { 0, 0 } };
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, size };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(region);

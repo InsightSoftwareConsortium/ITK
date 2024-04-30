@@ -83,9 +83,7 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
   IndexType start;
   start.Fill(0);
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  RegionType region{ start, size };
 
   ImagePointerType image = ImageType::New();
   image->SetRegions(region);

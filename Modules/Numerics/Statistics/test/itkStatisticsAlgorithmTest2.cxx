@@ -114,9 +114,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
   ImageType::IndexType index;
   index.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, size };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);

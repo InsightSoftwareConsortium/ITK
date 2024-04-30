@@ -64,9 +64,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   SizeType size;
   size.Fill(3);
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  RegionType region{ start, size };
 
   image->SetRegions(region);
   image->Allocate();

@@ -67,9 +67,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     using ReferenceSizeType = ReferenceRegionType::SizeType;
     ReferenceSizeType   sizeReferenceImage = { { 4, 4, 4 } };
     ReferenceIndexType  indexReferenceImage = { { 0, 0, 0 } };
-    ReferenceRegionType regionReferenceImage;
-    regionReferenceImage.SetSize(sizeReferenceImage);
-    regionReferenceImage.SetIndex(indexReferenceImage);
+    ReferenceRegionType regionReferenceImage{ indexReferenceImage, sizeReferenceImage };
     referenceImage->SetRegions(regionReferenceImage);
     referenceImage->Allocate();
     referenceImage->FillBuffer(100);
@@ -97,9 +95,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       auto               gradientImage = GradientImageType::New();
       GradientSizeType   sizeGradientImage = { { 4, 4, 4 } };
       GradientIndexType  indexGradientImage = { { 0, 0, 0 } };
-      GradientRegionType regionGradientImage;
-      regionGradientImage.SetSize(sizeGradientImage);
-      regionGradientImage.SetIndex(indexGradientImage);
+      GradientRegionType regionGradientImage{ indexGradientImage, sizeGradientImage };
       gradientImage->SetRegions(regionGradientImage);
       gradientImage->Allocate();
 

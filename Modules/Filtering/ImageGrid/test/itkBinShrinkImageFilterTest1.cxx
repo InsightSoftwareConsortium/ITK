@@ -34,9 +34,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   // fill in an image
   InputImageType::IndexType  index = { { 100, 100 } };
   InputImageType::SizeType   size = { { 12, 20 } };
-  InputImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  InputImageType::RegionType region{ index, size };
   sourceImage->SetRegions(region);
   sourceImage->Allocate();
 

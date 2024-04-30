@@ -46,9 +46,7 @@ itkResampleImageTest(int, char *[])
   ImagePointerType image = ImageType::New();
   ImageIndexType   index = { { 0, 0 } };
   ImageSizeType    size = { { 18, 12 } };
-  ImageRegionType  region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageRegionType  region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->Allocate();

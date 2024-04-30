@@ -144,9 +144,7 @@ itkResampleImageTest8(int, char *[])
   InputImagePointerType inputImage = InputImageType::New();
   InputImageIndexType   inputIndex = { { 0, 0 } };
   InputImageSizeType    inputSize = { { 18, 12 } };
-  InputImageRegionType  inputRegion;
-  inputRegion.SetSize(inputSize);
-  inputRegion.SetIndex(inputIndex);
+  InputImageRegionType  inputRegion{ inputIndex, inputSize };
   inputImage->SetLargestPossibleRegion(inputRegion);
   inputImage->SetBufferedRegion(inputRegion);
   inputImage->Allocate();

@@ -119,9 +119,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   typename RegionType::IndexType regionIndex;
   regionIndex.Fill(0);
 
-  RegionType region;
-  region.SetSize(regionSize);
-  region.SetIndex(regionIndex);
+  RegionType region{ regionIndex, regionSize };
 
   auto displacementField = FieldType::New();
   displacementField->SetOrigin(origin);
@@ -236,9 +234,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   // one that doesn't match the displacement field.
   typename RegionType::SizeType badSize;
   badSize.Fill(static_cast<itk::SizeValueType>(pointMax / 2.0));
-  RegionType badRegion;
-  badRegion.SetSize(badSize);
-  badRegion.SetIndex(regionIndex);
+  RegionType badRegion{ regionIndex, badSize };
   metric->SetVirtualDomain(spacing, origin, direction, badRegion);
   ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());
 

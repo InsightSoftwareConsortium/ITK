@@ -323,9 +323,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 
   auto im = ImageType::New();
 
-  typename ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  typename ImageType::RegionType region{ index, size };
   im->SetRegions(region);
   im->SetSpacing(spacing);
   im->SetOrigin(origin);
@@ -589,9 +587,7 @@ MINCReadWriteTestVector(const char * fileName,
   auto im = ImageType::New();
 
   // itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion,spacing);
-  typename ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  typename ImageType::RegionType region{ index, size };
   im->SetRegions(region);
   im->SetSpacing(spacing);
   im->SetOrigin(origin);
