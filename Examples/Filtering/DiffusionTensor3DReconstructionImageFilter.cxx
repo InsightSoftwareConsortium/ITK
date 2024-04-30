@@ -250,14 +250,15 @@ main(int argc, char * argv[])
       if (DiffusionVectors->ElementAt(i).two_norm() <=
           0.0) // this is a reference image
       {
-        std::string fn("ReferenceImage%d.mhd");
-        snprintf(filename, sizeof(filename), fn.c_str(), referenceImageIndex);
+        snprintf(filename,
+                 sizeof(filename),
+                 "ReferenceImage%d.mhd",
+                 referenceImageIndex);
         ++referenceImageIndex;
       }
       else
       {
-        std::string fn("Gradient%d.mhd");
-        snprintf(filename, sizeof(filename), fn.c_str(), i);
+        snprintf(filename, sizeof(filename), "Gradient%d.mhd", i);
       }
       gradientWriter->SetFileName(filename);
       gradientWriter->Update();
