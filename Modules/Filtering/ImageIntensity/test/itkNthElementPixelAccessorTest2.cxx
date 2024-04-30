@@ -68,9 +68,7 @@ itkNthElementPixelAccessorTest2(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  VectorImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  VectorImageType::RegionType region{ index, size };
 
   auto vectorImage = VectorImageType::New();
 

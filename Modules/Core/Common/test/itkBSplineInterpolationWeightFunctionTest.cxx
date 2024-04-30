@@ -276,9 +276,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
     using ImageType = itk::Image<char, SpaceDimension>;
     auto                  image = ImageType::New();
-    ImageType::RegionType region;
-    region.SetIndex(startIndex);
-    region.SetSize(size);
+    ImageType::RegionType region{ startIndex, size };
 
     image->SetRegions(region);
     image->AllocateInitialized();

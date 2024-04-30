@@ -56,9 +56,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   InputImageType::IndexType index;
   index.Fill(0);
 
-  InputImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  InputImageType::RegionType region{ index, size };
 
   // Binary initialization
   auto binary = InputImageType::New();
@@ -83,9 +81,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
     index[1] = 0;
     size.Fill(10);
 
-    InputImageType::RegionType region1;
-    region1.SetIndex(index);
-    region1.SetSize(size);
+    InputImageType::RegionType region1{ index, size };
 
     regionVector[i] = region1;
 

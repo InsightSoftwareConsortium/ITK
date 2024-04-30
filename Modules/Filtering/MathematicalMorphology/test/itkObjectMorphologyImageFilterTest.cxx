@@ -65,9 +65,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   index[1] = 0;
   index[2] = 0;
 
-  myRegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  myRegionType region{ index, size };
 
   // Initialize Image
   inputImage->SetRegions(region);

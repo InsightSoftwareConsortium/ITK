@@ -64,9 +64,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  ImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  ImageType::RegionType region{ index, size };
 
   auto image = ImageType::New();
 

@@ -45,11 +45,9 @@ itkJoinSeriesImageFilterTest(int, char *[])
   using OutputImageType = itk::Image<PixelType, 4>;
 
   // Expected result
-  OutputImageType::IndexType  expectedIndex = { { 1, 2, 0, 0 } };
-  OutputImageType::SizeType   expectedSize = { { 8, 5, 4, 1 } };
-  OutputImageType::RegionType expectedRegion;
-  expectedRegion.SetIndex(expectedIndex);
-  expectedRegion.SetSize(expectedSize);
+  OutputImageType::IndexType   expectedIndex = { { 1, 2, 0, 0 } };
+  OutputImageType::SizeType    expectedSize = { { 8, 5, 4, 1 } };
+  OutputImageType::RegionType  expectedRegion{ expectedIndex, expectedSize };
   OutputImageType::SpacingType expectedSpacing;
   expectedSpacing[0] = 1.1;
   expectedSpacing[1] = 1.2;
@@ -62,12 +60,10 @@ itkJoinSeriesImageFilterTest(int, char *[])
   expectedOrigin[3] = 0.0;
 
   // Create the input images
-  int                        numInputs = 4;
-  InputImageType::IndexType  index = { { 1, 2 } };
-  InputImageType::SizeType   size = { { 8, 5 } };
-  InputImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  int                         numInputs = 4;
+  InputImageType::IndexType   index = { { 1, 2 } };
+  InputImageType::SizeType    size = { { 8, 5 } };
+  InputImageType::RegionType  region{ index, size };
   constexpr double            spacingValue = 1.3;
   InputImageType::SpacingType spacing;
   spacing[0] = 1.1;

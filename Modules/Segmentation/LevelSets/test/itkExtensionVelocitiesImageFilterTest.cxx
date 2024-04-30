@@ -220,9 +220,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   centerIndex.Fill(50 - 8);
   ImageType::SizeType centerSize;
   centerSize.Fill(17);
-  ImageType::RegionType centerRegion;
-  centerRegion.SetIndex(centerIndex);
-  centerRegion.SetSize(centerSize);
+  ImageType::RegionType centerRegion{ centerIndex, centerSize };
 
   iter = Iterator(difference->GetOutput(), centerRegion);
   iter.GoToBegin();

@@ -81,9 +81,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   start.Fill(0);
 
 
-  myRegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  myRegionType region{ start, size };
 
   float spacing[3];
   spacing[0] = 1.0;

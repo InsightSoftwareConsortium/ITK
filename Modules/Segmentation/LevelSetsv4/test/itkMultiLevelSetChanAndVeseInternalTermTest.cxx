@@ -57,9 +57,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   size[0] = 10;
   size[1] = 10;
 
-  ImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  ImageType::RegionType region{ index, size };
 
   PixelType value = 0.;
 

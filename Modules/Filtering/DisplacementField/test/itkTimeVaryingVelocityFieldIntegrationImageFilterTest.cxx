@@ -181,9 +181,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   ImportFilterType::IndexType start;
   start.Fill(0);
 
-  ImportFilterType::RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  ImportFilterType::RegionType region{ start, size };
 
   importFilter->SetRegion(region);
 

@@ -45,9 +45,7 @@ itkSymmetricSecondRankTensorImageReadTest(int argc, char * argv[])
   MatrixImageType::IndexType start;
   start.Fill(0);
 
-  MatrixImageType::RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  MatrixImageType::RegionType region{ start, size };
 
   matrixImage->SetRegions(region);
   matrixImage->Allocate();

@@ -168,9 +168,7 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
   size[1] = std::stoi(argv[15]);
   size[2] = std::stoi(argv[16]);
 
-  ROIFilterType::RegionType requestedRegion;
-  requestedRegion.SetIndex(start);
-  requestedRegion.SetSize(size);
+  ROIFilterType::RegionType requestedRegion{ start, size };
 
   ROIFilter->SetRegionOfInterest(requestedRegion);
 

@@ -49,9 +49,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   unsigned long        numberOfSamples = 10;
   ImageType::IndexType start0;
   start0.Fill(0);
-  ImageType::RegionType region0;
-  region0.SetIndex(start0);
-  region0.SetSize(size0);
+  ImageType::RegionType region0{ start0, size0 };
   myImage->SetRegions(region0);
   myImage->Allocate();
   // Make the priority image
@@ -62,9 +60,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   prioritySize[2] = 50;
   PriorityImageType::IndexType priorityStart;
   priorityStart.Fill(0);
-  PriorityImageType::RegionType priorityRegion;
-  priorityRegion.SetIndex(priorityStart);
-  priorityRegion.SetSize(prioritySize);
+  PriorityImageType::RegionType priorityRegion{ priorityStart, prioritySize };
   priorityImage->SetRegions(priorityRegion);
   priorityImage->Allocate();
   // we will make most of this image ones, with a small region of
@@ -86,10 +82,8 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   subsize[0] = 3;
   subsize[1] = 4;
   subsize[2] = 5;
-  PriorityImageType::RegionType subregion;
-  subregion.SetIndex(substart);
-  subregion.SetSize(subsize);
-  PriorityIteratorType subit(priorityImage, subregion);
+  PriorityImageType::RegionType subregion{ substart, subsize };
+  PriorityIteratorType          subit(priorityImage, subregion);
   subit.GoToBegin();
   while (!subit.IsAtEnd())
   {
@@ -241,10 +235,8 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
     size[0] = 11;
     size[1] = 12;
     size[2] = 13;
-    ImageType::RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
-    RandomIteratorType cbot(myImage, region);
+    ImageType::RegionType region{ start, size };
+    RandomIteratorType    cbot(myImage, region);
     cbot.SetNumberOfSamples(numberOfSamples); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
     while (!cbot.IsAtEnd())
@@ -280,9 +272,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
     size[0] = 11;
     size[1] = 12;
     size[2] = 13;
-    ImageType::RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
+    ImageType::RegionType   region{ start, size };
     RandomConstIteratorType cbot(myImage, region);
     cbot.SetNumberOfSamples(numberOfSamples);
     cbot.GoToBegin();

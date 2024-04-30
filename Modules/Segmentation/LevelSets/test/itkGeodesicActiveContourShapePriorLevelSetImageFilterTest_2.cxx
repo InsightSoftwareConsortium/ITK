@@ -121,9 +121,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   ImageType::SizeType rectSize;
   rectSize[0] = 80;
   rectSize[1] = 10;
-  ImageType::RegionType rectRegion;
-  rectRegion.SetIndex(rectStart);
-  rectRegion.SetSize(rectSize);
+  ImageType::RegionType rectRegion{ rectStart, rectSize };
 
   using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator it(inputImage, rectRegion);
