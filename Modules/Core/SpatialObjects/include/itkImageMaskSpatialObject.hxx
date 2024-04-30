@@ -21,7 +21,6 @@
 #include "itkIntTypes.h" // For uintmax_t.
 #include "itkMath.h"
 #include "itkImageRegionRange.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -30,9 +29,6 @@ template <unsigned int TDimension, typename TPixel>
 ImageMaskSpatialObject<TDimension, TPixel>::ImageMaskSpatialObject()
 {
   this->SetTypeName("ImageMaskSpatialObject");
-
-  m_UseMaskValue = false;
-  m_MaskValue = NumericTraits<PixelType>::OneValue();
 }
 
 template <unsigned int TDimension, typename TPixel>
@@ -43,13 +39,12 @@ ImageMaskSpatialObject<TDimension, TPixel>::IsInsideInObjectSpace(const PointTyp
 
   const IndexType index = image->TransformPhysicalPointToIndex(point);
 
-  if (this->m_UseMaskValue == true)
-  {
-    return Superclass::GetBufferedRegion().IsInside(index) &&
-           Math::ExactlyEquals(image->GetPixel(index), this->m_MaskValue);
-  }
+  const bool is_inside = Superclass::GetBufferedRegion().IsInside(index);
 
-  return Superclass::GetBufferedRegion().IsInside(index) && Math::NotExactlyEquals(image->GetPixel(index), PixelType{});
+  const auto background_zero = PixelType{};
+
+  return is_inside && ((m_UseMaskValue == true && Math::ExactlyEquals(image->GetPixel(index), this->m_MaskValue)) ||
+                       (m_UseMaskValue == false && Math::NotExactlyEquals(image->GetPixel(index), background_zero)));
 }
 
 
@@ -143,9 +138,9 @@ template <unsigned int TDimension, typename TPixel>
 auto
 ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() const -> RegionType
 {
-  ImagePointer imagePointer = this->GetImage();
-  bool         useMaskValue = this->GetUseMaskValue();
-  PixelType    maskValue = this->GetMaskValue();
+  const ImagePointer imagePointer = this->GetImage();
+  const bool         useMaskValue = this->GetUseMaskValue();
+  const PixelType    maskValue = this->GetMaskValue();
 
   if (imagePointer == nullptr)
   {

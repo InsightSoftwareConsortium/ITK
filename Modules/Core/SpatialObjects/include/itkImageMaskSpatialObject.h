@@ -18,6 +18,7 @@
 #ifndef itkImageMaskSpatialObject_h
 #define itkImageMaskSpatialObject_h
 
+#include "itkNumericTraits.h"
 #include "itkImageSpatialObject.h"
 #include "itkImageSliceConstIteratorWithIndex.h"
 
@@ -133,8 +134,8 @@ protected:
   InternalClone() const override;
 
 private:
-  bool      m_UseMaskValue{};
-  PixelType m_MaskValue{};
+  bool      m_UseMaskValue{ false };
+  PixelType m_MaskValue{ NumericTraits<PixelType>::OneValue() };
 };
 } // end of namespace itk
 
