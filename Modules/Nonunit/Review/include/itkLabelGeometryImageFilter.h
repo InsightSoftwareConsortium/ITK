@@ -66,6 +66,8 @@ namespace itk
  *  by Padfield D., Miller J
  *  https://www.insight-journal.org/browse/publication/301
  *
+ * This class contains computational inefficiencies and bugs such as some attributes are not computed with respect to
+ * image geometry, consider using these supported alternatives:
  * \sa LabelStatisticsImageFilter
  * \sa LabelImageToShapeLabelMapFilter
  *
@@ -76,7 +78,9 @@ namespace itk
  * \endsphinx
  */
 template <typename TLabelImage, typename TIntensityImage = TLabelImage>
-class ITK_TEMPLATE_EXPORT LabelGeometryImageFilter : public ImageToImageFilter<TLabelImage, TIntensityImage>
+class ITK_TEMPLATE_EXPORT
+  [[deprecated("This class contains known computational bugs. See class documentation for details.")]]
+  LabelGeometryImageFilter : public ImageToImageFilter<TLabelImage, TIntensityImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(LabelGeometryImageFilter);
