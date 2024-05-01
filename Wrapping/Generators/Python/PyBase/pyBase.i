@@ -430,7 +430,7 @@ str = str
                 Return keys related to the transform's metadata.
                 These keys are used in the dictionary resulting from dict(transform).
                 """
-                result = ['name', 'inputDimension', 'outputDimension', 'inputSpaceName', 'outputSpaceName', 'numberOfParameters', 'numberOfFixedParameters', 'parameters', 'fixedParameters']
+                result = ['transformType', 'name', 'inputSpaceName', 'outputSpaceName', 'numberOfParameters', 'numberOfFixedParameters', 'parameters', 'fixedParameters']
                 return result
 
             def __getitem__(self, key):
@@ -438,7 +438,7 @@ str = str
                 import itk
                 if isinstance(key, str):
                     state = itk.dict_from_transform(self)
-                    return state[0][key]
+                    return state[key]
 
             def __setitem__(self, key, value):
                 if isinstance(key, str):
@@ -474,7 +474,6 @@ str = str
             def __setstate__(self, state):
                 """Set object state, necessary for serialization with pickle."""
                 import itk
-                import numpy as np
                 deserialized = itk.transform_from_dict(state)
                 self.__dict__['this'] = deserialized
             %}
