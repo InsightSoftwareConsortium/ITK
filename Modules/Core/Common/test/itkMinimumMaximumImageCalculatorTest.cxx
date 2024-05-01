@@ -99,9 +99,7 @@ itkMinimumMaximumImageCalculatorTest(int, char *[])
   // Set the region over which perform the computations
   itk::Size<3>                     regionSize = { { 4, 4, 4 } };
   itk::Index<3>                    idx = { { 0, 0, 0 } };
-  MinMaxCalculatorType::RegionType computationRegion;
-  computationRegion.SetSize(regionSize);
-  computationRegion.SetIndex(idx);
+  MinMaxCalculatorType::RegionType computationRegion{ idx, regionSize };
 
   calculator->SetRegion(computationRegion);
 

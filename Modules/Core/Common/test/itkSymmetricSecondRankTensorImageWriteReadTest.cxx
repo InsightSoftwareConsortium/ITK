@@ -43,9 +43,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int argc, char * argv[])
   TensorImageType::IndexType start;
   start.Fill(0);
 
-  TensorImageType::RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  TensorImageType::RegionType region{ start, size };
 
   tensorImageInput->SetRegions(region);
   tensorImageInput->Allocate();

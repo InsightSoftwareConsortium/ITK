@@ -71,9 +71,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   size.Fill(32);
   typename ImageType::IndexType index;
   index.Fill(0);
-  typename ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  typename ImageType::RegionType region{ index, size };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(region);

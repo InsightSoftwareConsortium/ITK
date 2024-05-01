@@ -82,9 +82,7 @@ itkMultiLevelSetShiImageSubset2DTest(int, char *[])
   InputImageType::IndexType index;
   index.Fill(0);
 
-  InputImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  InputImageType::RegionType region{ index, size };
 
   // Input initialization
   auto input = InputImageType::New();

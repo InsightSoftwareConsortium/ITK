@@ -40,9 +40,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   // Create an image with stripes to label
   InputImageType::IndexType  index = { { 0, 0 } };
   InputImageType::SizeType   size = { { 32, 32 } };
-  InputImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  InputImageType::RegionType region{ index, size };
 
   auto inputImage = InputImageType::New();
   inputImage->SetLargestPossibleRegion(region);

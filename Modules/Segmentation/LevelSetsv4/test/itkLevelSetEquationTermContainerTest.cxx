@@ -82,9 +82,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   InputImageType::IndexType index;
   index.Fill(0);
 
-  InputImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  InputImageType::RegionType region{ index, size };
 
   // Binary initialization
   auto binary = InputImageType::New();

@@ -51,10 +51,8 @@ CreateAxialImage()
 {
   const ImageType::SizeType imageSize = { { 4, 4, 4 } };
   ImageType::IndexType      imageIndex = { { 0, 0, 0 } };
-  ImageType::RegionType     region;
-  region.SetSize(imageSize);
-  region.SetIndex(imageIndex);
-  auto img = ImageType::New();
+  ImageType::RegionType     region{ imageIndex, imageSize };
+  auto                      img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
 
@@ -103,10 +101,8 @@ CreateCoronalImage()
 {
   const ImageType::SizeType imageSize = { { 4, 4, 4 } };
   ImageType::IndexType      imageIndex = { { 0, 0, 0 } };
-  ImageType::RegionType     region;
-  region.SetSize(imageSize);
-  region.SetIndex(imageIndex);
-  auto img = ImageType::New();
+  ImageType::RegionType     region{ imageIndex, imageSize };
+  auto                      img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
 

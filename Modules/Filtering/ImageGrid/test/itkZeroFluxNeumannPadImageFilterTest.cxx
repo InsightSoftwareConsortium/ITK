@@ -172,9 +172,7 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
   // Fill in a test image
   ShortImage::IndexType  inputIndex = { { 0, 0 } };
   ShortImage::SizeType   inputSize = { { 8, 12 } };
-  ShortImage::RegionType inputRegion;
-  inputRegion.SetSize(inputSize);
-  inputRegion.SetIndex(inputIndex);
+  ShortImage::RegionType inputRegion{ inputIndex, inputSize };
   inputImage->SetLargestPossibleRegion(inputRegion);
   inputImage->SetBufferedRegion(inputRegion);
   inputImage->Allocate();

@@ -42,9 +42,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   size.Fill(imageSize);
   ImageType::IndexType index;
   index.Fill(0);
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType::RegionType  region{ index, size };
   ImageType::SpacingType spacing;
   spacing.Fill(1.0);
   ImageType::PointType origin;

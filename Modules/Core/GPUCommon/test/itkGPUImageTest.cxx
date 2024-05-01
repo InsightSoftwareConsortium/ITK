@@ -55,9 +55,7 @@ itkGPUImageTest(int argc, char * argv[])
   ItkImage1f::SizeType size;
   size[0] = width;
   size[1] = height;
-  ItkImage1f::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  ItkImage1f::RegionType region{ start, size };
 
   // create
   srcA = ItkImage1f::New();

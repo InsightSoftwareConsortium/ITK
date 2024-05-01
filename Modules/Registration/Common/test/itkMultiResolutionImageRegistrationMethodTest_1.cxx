@@ -123,9 +123,7 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
 
   FixedImageType::SizeType   size = { { 100, 100, 40 } };
   FixedImageType::IndexType  index = { { 0, 0, 0 } };
-  FixedImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  FixedImageType::RegionType region{ index, size };
 
   fixedImage->SetRegions(region);
   fixedImage->Allocate();

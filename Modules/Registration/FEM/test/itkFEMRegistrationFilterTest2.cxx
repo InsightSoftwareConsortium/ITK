@@ -118,9 +118,7 @@ itkFEMRegistrationFilterTest2(int argc, char * argv[])
   IndexType index;
   index.Fill(0);
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  RegionType region{ index, size };
 
   auto movingImage = InputImageType::New();
   auto fixedImage = InputImageType::New();

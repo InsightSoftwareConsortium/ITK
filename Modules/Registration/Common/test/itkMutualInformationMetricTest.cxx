@@ -50,9 +50,7 @@ itkMutualInformationMetricTest(int, char *[])
 
   MovingImageType::SizeType   size = { { 100, 100 } };
   MovingImageType::IndexType  index = { { 0, 0 } };
-  MovingImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  MovingImageType::RegionType region{ index, size };
 
   auto imgMoving = MovingImageType::New();
   imgMoving->SetRegions(region);

@@ -270,9 +270,7 @@ itkCenteredTransformInitializerTest(int, char *[])
     index[1] = 0;
     index[2] = 0;
 
-    RegionType region;
-    region.SetSize(size);
-    region.SetIndex(index);
+    RegionType region{ index, size };
 
 
     auto fixedImage = FixedImageType::New();
@@ -337,13 +335,9 @@ itkCenteredTransformInitializerTest(int, char *[])
     movingIndex[1] = 20;
     movingIndex[2] = 30;
 
-    RegionType fixedRegion;
-    fixedRegion.SetSize(size);
-    fixedRegion.SetIndex(fixedIndex);
+    RegionType fixedRegion{ fixedIndex, size };
 
-    RegionType movingRegion;
-    movingRegion.SetSize(size);
-    movingRegion.SetIndex(movingIndex);
+    RegionType movingRegion{ movingIndex, size };
 
     using VersorType = itk::Versor<itk::SpacePrecisionType>;
     VersorType x;

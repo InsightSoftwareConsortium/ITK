@@ -80,9 +80,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  myRegionType region{ start, size };
 
   const float spacing[3] = { 1.0, 1.0, 1.0 };
 

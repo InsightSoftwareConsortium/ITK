@@ -61,9 +61,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
 
   typename MovingImageType::SizeType   size = { { 100, 100 } };
   typename MovingImageType::IndexType  index = { { 0, 0 } };
-  typename MovingImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  typename MovingImageType::RegionType region{ index, size };
 
   typename MovingImageType::SpacingType imgSpacing;
   imgSpacing[0] = 3.0;
@@ -462,9 +460,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
 
   typename MovingImageType::SizeType   size = { { 100, 100 } };
   typename MovingImageType::IndexType  index = { { 0, 0 } };
-  typename MovingImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  typename MovingImageType::RegionType region{ index, size };
 
   typename MovingImageType::SpacingType imgSpacing;
   imgSpacing[0] = 1.5;

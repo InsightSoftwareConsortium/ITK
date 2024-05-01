@@ -46,9 +46,7 @@ itkImageRandomIteratorTest(int, char *[])
   ImageType::IndexType start0;
   start0.Fill(0);
 
-  ImageType::RegionType region0;
-  region0.SetIndex(start0);
-  region0.SetSize(size0);
+  ImageType::RegionType region0{ start0, size0 };
 
   myImage->SetRegions(region0);
   myImage->Allocate();
@@ -220,9 +218,7 @@ itkImageRandomIteratorTest(int, char *[])
     size[1] = 12;
     size[2] = 13;
 
-    ImageType::RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
+    ImageType::RegionType region{ start, size };
 
     RandomIteratorType cbot(myImage, region);
 
@@ -268,9 +264,7 @@ itkImageRandomIteratorTest(int, char *[])
     size[1] = 12;
     size[2] = 13;
 
-    ImageType::RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
+    ImageType::RegionType region{ start, size };
 
     RandomConstIteratorType cbot(myImage, region);
 

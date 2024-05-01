@@ -174,9 +174,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   size3D.Fill(10);
   ImageType3D::IndexType start3D;
   start3D.Fill(0);
-  ImageType3D::RegionType region3D;
-  region3D.SetSize(size3D);
-  region3D.SetIndex(start3D);
+  ImageType3D::RegionType region3D{ start3D, size3D };
 
   volume->SetRegions(region3D);
   volume->Allocate();
@@ -220,9 +218,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   size2D.Fill(10);
   ImageType2D::IndexType start2D;
   start2D.Fill(0);
-  ImageType2D::RegionType region2D;
-  region2D.SetSize(size2D);
-  region2D.SetIndex(start2D);
+  ImageType2D::RegionType region2D{ start2D, size2D };
 
   image->SetRegions(region2D);
   image->Allocate();
@@ -265,9 +261,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   size1D.Fill(10);
   ImageType1D::IndexType start1D;
   start1D.Fill(0);
-  ImageType1D::RegionType region1D;
-  region1D.SetSize(size1D);
-  region1D.SetIndex(start1D);
+  ImageType1D::RegionType region1D{ start1D, size1D };
   line->SetRegions(region1D);
 
   line->Allocate();

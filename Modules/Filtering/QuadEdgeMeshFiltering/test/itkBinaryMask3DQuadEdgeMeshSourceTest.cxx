@@ -58,9 +58,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   IndexType start;
   start.Fill(0);
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  RegionType region{ start, size };
 
   auto image = ImageType::New();
 

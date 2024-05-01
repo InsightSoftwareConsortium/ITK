@@ -58,9 +58,7 @@ test(int testIdx)
   myImageType2D1::IndexType index2D;
   index2D.Fill(0);
 
-  myImageType2D1::RegionType region2D;
-  region2D.SetSize(size2D);
-  region2D.SetIndex(index2D);
+  myImageType2D1::RegionType region2D{ index2D, size2D };
 
   auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetRegions(region2D);

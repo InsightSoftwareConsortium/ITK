@@ -38,9 +38,7 @@ itkShrinkImageStreamingTest(int, char *[])
   // fill in an image
   ShortImage::IndexType  index = { { 100, 100 } };
   ShortImage::SizeType   size = { { 8, 12 } };
-  ShortImage::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ShortImage::RegionType region{ index, size };
   sourceImage->SetRegions(region);
   sourceImage->Allocate();
 

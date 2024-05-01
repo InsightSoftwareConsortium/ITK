@@ -67,9 +67,7 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   myIndexType start;
   start.Fill(0);
 
-  myRegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  myRegionType region{ start, size };
 
   inputImage->SetRegions(region);
   inputImage->AllocateInitialized();

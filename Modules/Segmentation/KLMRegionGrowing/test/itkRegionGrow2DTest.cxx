@@ -244,9 +244,7 @@ test_regiongrowKLM1D()
   ImageType::IndexType index;
   index.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -830,9 +828,7 @@ test_regiongrowKLM2D()
   ImageType::IndexType index;
   index.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -1283,9 +1279,7 @@ test_regiongrowKLM3D()
   ImageType::IndexType index;
   index.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -1788,9 +1782,7 @@ test_regiongrowKLM4D()
   ImageType::IndexType index;
   index.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);

@@ -28,10 +28,8 @@ CreateRandomImage()
 {
   const ImageType::SizeType  imageSize = { { 4, 4, 4 } };
   const ImageType::IndexType imageIndex = { { 0, 0, 0 } };
-  ImageType::RegionType      region;
-  region.SetSize(imageSize);
-  region.SetIndex(imageIndex);
-  auto img = ImageType::New();
+  ImageType::RegionType      region{ imageIndex, imageSize };
+  auto                       img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
   itk::ImageRegionIterator<ImageType> ri(img, region);

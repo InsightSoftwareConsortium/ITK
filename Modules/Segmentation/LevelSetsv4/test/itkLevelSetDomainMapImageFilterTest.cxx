@@ -40,9 +40,7 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
   size[0] = 10;
   size[1] = 10;
 
-  InputImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  InputImageType::RegionType region{ index, size };
 
   ListPixelType l;
 

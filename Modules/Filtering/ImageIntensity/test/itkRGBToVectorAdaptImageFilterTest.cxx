@@ -70,9 +70,7 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  RGBImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  RGBImageType::RegionType region{ index, size };
 
   auto myImage = RGBImageType::New();
 

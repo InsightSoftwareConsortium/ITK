@@ -61,9 +61,7 @@ itkChangeRegionLabelMapFilterTest1(int argc, char * argv[])
   ChangeType::SizeType size;
   size[0] = std::stoi(argv[5]);
   size[1] = std::stoi(argv[6]);
-  ChangeType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(idx);
+  ChangeType::RegionType region{ idx, size };
   change->SetRegion(region);
   itk::SimpleFilterWatcher watcher6(change, "filter");
 

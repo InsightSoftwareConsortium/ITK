@@ -67,9 +67,7 @@ itkSquaredDifferenceImageFilterTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  myRegionType region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

@@ -65,9 +65,7 @@ itkImageScanlineIteratorTest1(int, char *[])
   ImageType::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
 
-  ImageType::RegionType region;
-  region.SetSize(imageSize3D);
-  region.SetIndex(startIndex3D);
+  ImageType::RegionType region{ startIndex3D, imageSize3D };
   o3->SetLargestPossibleRegion(region);
   region.SetSize(bufferSize3D);
   region.SetIndex(bufferStartIndex3D);

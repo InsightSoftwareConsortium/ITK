@@ -40,9 +40,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   ImageType::IndexType start;
   start.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  ImageType::RegionType region{ start, size };
 
   myImage->SetRegions(region);
   myImage->Allocate();

@@ -735,9 +735,7 @@ set2DInterpData(ImageType2D::Pointer imgPtr)
   ImageType2D::IndexType index;
   index.Fill(10);
 
-  ImageType2D::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType2D::RegionType region{ index, size };
 
   imgPtr->SetRegions(region);
   imgPtr->Allocate();

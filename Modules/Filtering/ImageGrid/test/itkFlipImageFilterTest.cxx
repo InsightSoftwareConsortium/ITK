@@ -43,9 +43,7 @@ itkFlipImageFilterTest(int argc, char * argv[])
   // Define a small input image
   ImageType::IndexType  index = { { 10, 20, 30 } };
   ImageType::SizeType   size = { { 5, 4, 3 } };
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, size };
 
   ImageType::SpacingType spacing;
   spacing[0] = 1.1;

@@ -66,9 +66,7 @@ itkAbortProcessObjectTest(int, char *[])
   // fill in an image
   const ShortImage::IndexType index = { { 0, 0 } };
   const ShortImage::SizeType  size = { { 100, 100 } };
-  ShortImage::RegionType      region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ShortImage::RegionType      region{ index, size };
   img->SetRegions(region);
   img->Allocate();
 
@@ -89,9 +87,7 @@ itkAbortProcessObjectTest(int, char *[])
   // fill in an image
   ShortImage::IndexType  extractIndex = { { 0, 0 } };
   ShortImage::SizeType   extractSize = { { 99, 99 } };
-  ShortImage::RegionType extractRegion;
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  ShortImage::RegionType extractRegion{ extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
 
   itk::CStyleCommand::Pointer progressCmd = itk::CStyleCommand::New();

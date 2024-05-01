@@ -59,9 +59,7 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
   myIndexType start;
   start.Fill(0);
 
-  myRegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  myRegionType region{ start, size };
 
   // Initialize Image A
   inputImage->SetRegions(region);
@@ -89,9 +87,7 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
   start[2] = 2;
 
   // Create one iterator for an internal region
-  myRegionType innerRegion;
-  innerRegion.SetSize(size);
-  innerRegion.SetIndex(start);
+  myRegionType   innerRegion{ start, size };
   myIteratorType itb(inputImage, innerRegion);
 
   // Initialize the content the internal region

@@ -65,9 +65,7 @@ itkImageAdaptorTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  myImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  myImageType::RegionType region{ index, size };
 
   auto myImage = myImageType::New();
 

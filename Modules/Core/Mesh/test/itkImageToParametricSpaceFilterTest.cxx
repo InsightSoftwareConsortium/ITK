@@ -70,9 +70,7 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   size[0] = 10;
   size[1] = 10;
 
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  ImageType::RegionType region{ start, size };
 
   imageX->SetRegions(region);
   imageY->SetRegions(region);

@@ -62,9 +62,7 @@ itkImageIteratorTest(int, char *[])
   itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
 
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::RegionType region;
-  region.SetSize(imageSize3D);
-  region.SetIndex(startIndex3D);
+  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::RegionType region{ startIndex3D, imageSize3D };
   o3->SetRegions(region);
   o3->SetOrigin(origin3D);
   o3->SetSpacing(spacing3D);

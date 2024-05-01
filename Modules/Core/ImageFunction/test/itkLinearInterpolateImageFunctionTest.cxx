@@ -67,9 +67,7 @@ RunLinearInterpolateTest()
   constexpr int dimMaxLength = 3;
   size.Fill(dimMaxLength);
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  RegionType region{ start, size };
 
   image->SetRegions(region);
   image->Allocate();

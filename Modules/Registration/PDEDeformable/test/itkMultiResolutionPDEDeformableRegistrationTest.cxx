@@ -173,9 +173,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   index.Fill(0);
   index[0] = 3;
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  RegionType region{ index, size };
 
   ImageType::PointType origin;
   origin.Fill(0.0);

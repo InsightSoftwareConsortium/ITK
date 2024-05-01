@@ -274,9 +274,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   RegionType::IndexType regionIndex;
   regionIndex.Fill(0);
 
-  RegionType region;
-  region.SetSize(regionSize);
-  region.SetIndex(regionIndex);
+  RegionType region{ regionIndex, regionSize };
 
   auto displacementField = FieldType::New();
   displacementField->SetOrigin(origin);

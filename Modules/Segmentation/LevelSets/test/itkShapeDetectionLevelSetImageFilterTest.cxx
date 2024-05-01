@@ -64,9 +64,7 @@ itkShapeDetectionLevelSetImageFilterTest(int, char *[])
   squareStart.Fill(20);
   ImageType::SizeType squareSize;
   squareSize.Fill(60);
-  ImageType::RegionType squareRegion;
-  squareRegion.SetIndex(squareStart);
-  squareRegion.SetSize(squareSize);
+  ImageType::RegionType squareRegion{ squareStart, squareSize };
 
   using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator it(inputImage, squareRegion);

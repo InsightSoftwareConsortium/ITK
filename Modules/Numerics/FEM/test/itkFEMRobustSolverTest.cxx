@@ -269,9 +269,7 @@ itkFEMRobustSolverTest(int, char *[])
   InterpolationGridType::IndexType start;
   start[0] = 0;
   start[1] = 0;
-  InterpolationGridType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  InterpolationGridType::RegionType region{ start, size };
   solver->SetRegion(region);
 
   InterpolationGridType::DirectionType direction;

@@ -127,9 +127,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   IndexType index;
   index.Fill(0);
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  RegionType region{ index, size };
 
   auto moving = ImageType::New();
   auto fixed = ImageType::New();

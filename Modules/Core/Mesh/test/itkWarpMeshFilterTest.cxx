@@ -69,9 +69,7 @@ itkWarpMeshFilterTest(int, char *[])
   size[1] = 25;
   size[2] = 25;
 
-  DisplacementFieldType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  DisplacementFieldType::RegionType region{ start, size };
 
   deformationField->SetRegions(region);
 

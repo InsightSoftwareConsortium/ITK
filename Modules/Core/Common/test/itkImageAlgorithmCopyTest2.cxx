@@ -69,9 +69,7 @@ itkImageAlgorithmCopyTest2(int, char *[])
   RegionType::SizeType size;
   size.Fill(64);
 
-  RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  RegionType region{ index, size };
 
 
   auto image1 = Short3DImageType::New();
