@@ -120,15 +120,16 @@ namespace itk
 #if defined(__clang__) && defined(__has_warning)
 #  define CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
 #  define CLANG_PRAGMA_POP ITK_PRAGMA(clang diagnostic pop)
-#  if __has_warning("-Wc++14-extensions")
-#    define CLANG_SUPPRESS_Wcpp14_extensions ITK_PRAGMA(clang diagnostic ignored "-Wc++14-extensions")
-#  else
-#    define CLANG_SUPPRESS_Wcpp14_extensions
-#  endif
 #else
 #  define CLANG_PRAGMA_PUSH
 #  define CLANG_PRAGMA_POP
-#  define CLANG_SUPPRESS_Wcpp14_extensions
+#endif
+
+#if !defined(ITK_LEGACY_REMOVE)
+// Issue warning if deprecated preprocessor flag is used.
+#  define CLANG_SUPPRESS_Wcpp14_extensions                                                                \
+    [[deprecated("Remove deprecated CLANG_SUPPRESS_Wcpp14_extensions c++14 warning suppression")]] void * \
+      CLANG_SUPPRESS_Wcpp14_extensions = nullptr;
 #endif
 
 // Intel compiler convenience macros

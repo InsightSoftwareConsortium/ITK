@@ -350,7 +350,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdVectorConstructor)
 // second argument of std::reverse (which requires bidirectional iterators).
 TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdReverseCopy)
 {
-  using PixelType = unsigned char;
+  using PixelType = unsigned short;
   using ImageType = itk::Image<PixelType>;
   enum
   {
@@ -366,11 +366,14 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdReverseCopy)
   itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
   const unsigned int numberOfNeighborhoodPixels = 3;
+  ASSERT_EQ(numberOfNeighborhoodPixels, range.size());
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
-  std::vector<PixelType>       reversedStdVector1(numberOfNeighborhoodPixels);
-  std::vector<PixelType>       reversedStdVector2(numberOfNeighborhoodPixels);
-  std::vector<PixelType>       reversedStdVector3(numberOfNeighborhoodPixels);
+  ASSERT_EQ(stdVector.size(), numberOfNeighborhoodPixels);
+
+  std::vector<PixelType> reversedStdVector1(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector2(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector3(numberOfNeighborhoodPixels);
 
   // Checks bidirectionality of the ShapedImageNeighborhoodRange iterators!
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
@@ -455,11 +458,13 @@ TEST(ShapedImageNeighborhoodRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
   const itk::Size<ImageType::ImageDimension>                radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
-  RangeType range{ *image, location, offsets };
+  RangeType           range{ *image, location, offsets };
+  constexpr PixelType reference_value = 42;
 
   for (const PixelType pixel : range)
   {
-    EXPECT_NE(pixel, 42);
+    // Initially not set to reference value
+    EXPECT_NE(pixel, reference_value);
   }
 
   // Note: instead of 'iterator::reference', you may also type 'auto&&', but
@@ -471,12 +476,12 @@ TEST(ShapedImageNeighborhoodRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
   // https://bugs.llvm.org/show_bug.cgi?id=37392
   for (RangeType::iterator::reference pixel : range)
   {
-    pixel = 42;
+    pixel = reference_value;
   }
 
   for (const PixelType pixel : range)
   {
-    EXPECT_EQ(pixel, 42);
+    EXPECT_EQ(pixel, reference_value);
   }
 }
 
@@ -895,7 +900,7 @@ TEST(ShapedImageNeighborhoodRange, SupportsSubscript)
 
 TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
 {
-  using PixelType = unsigned char;
+  using PixelType = unsigned short;
   using ImageType = itk::Image<PixelType>;
   using RangeType = itk::ShapedImageNeighborhoodRange<ImageType>;
   enum
@@ -911,12 +916,15 @@ TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   RangeType range{ *image, location, offsets };
 
-  const unsigned int numberOfNeighborhoodPixels = 3;
+  constexpr unsigned int numberOfNeighborhoodPixels = 3;
+  ASSERT_EQ(numberOfNeighborhoodPixels, range.size());
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
-  std::vector<PixelType>       reversedStdVector1(numberOfNeighborhoodPixels);
-  std::vector<PixelType>       reversedStdVector2(numberOfNeighborhoodPixels);
-  std::vector<PixelType>       reversedStdVector3(numberOfNeighborhoodPixels);
+  ASSERT_EQ(stdVector.size(), numberOfNeighborhoodPixels);
+
+  std::vector<PixelType> reversedStdVector1(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector2(numberOfNeighborhoodPixels);
+  std::vector<PixelType> reversedStdVector3(numberOfNeighborhoodPixels);
 
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
 

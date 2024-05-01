@@ -136,7 +136,7 @@ public:
   SizeValueType
   GetRadius(DimensionValueType n) const
   {
-    return m_Radius[n];
+    return m_Radius.at(n);
   }
 
   /** Returns the size (total length) of the neighborhood along
@@ -144,7 +144,7 @@ public:
   SizeValueType
   GetSize(DimensionValueType n) const
   {
-    return m_Size[n];
+    return m_Size.at(n);
   }
 
   /** Returns the size (total length of sides) of the neighborhood. */

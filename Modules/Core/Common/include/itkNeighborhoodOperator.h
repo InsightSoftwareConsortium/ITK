@@ -93,6 +93,11 @@ public:
   void
   SetDirection(const unsigned long direction)
   {
+    if (direction >= VDimension)
+    {
+      itkExceptionMacro(<< " Can not set direction " << direction << " greater than dimensionality of neighborhood "
+                        << VDimension);
+    }
     m_Direction = direction;
   }
 

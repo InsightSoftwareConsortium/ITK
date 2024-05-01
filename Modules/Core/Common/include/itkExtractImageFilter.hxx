@@ -62,7 +62,6 @@ ExtractImageFilter<TInputImage, TOutputImage>::SetExtractionRegion(InputImageReg
                 "InputImageDimension must be greater than OutputImageDimension");
   m_ExtractionRegion = extractRegion;
 
-  unsigned int        nonzeroSizeCount = 0;
   InputImageSizeType  inputSize = extractRegion.GetSize();
   OutputImageSizeType outputSize;
   outputSize.Fill(0);
@@ -73,12 +72,16 @@ ExtractImageFilter<TInputImage, TOutputImage>::SetExtractionRegion(InputImageReg
    * check to see if the number of non-zero entries in the extraction region
    * matches the number of dimensions in the output image.
    */
+  unsigned int nonzeroSizeCount = 0;
   for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     if (inputSize[i])
     {
-      outputSize[nonzeroSizeCount] = inputSize[i];
-      outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
+      if (nonzeroSizeCount < OutputImageDimension)
+      {
+        outputSize[nonzeroSizeCount] = inputSize[i];
+        outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
+      }
       ++nonzeroSizeCount;
     }
   }
@@ -116,11 +119,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   outputPtr->SetLargestPossibleRegion(m_OutputImageRegion);
 
   // Set the output spacing and origin
-  const ImageBase<InputImageDimension> * phyData;
-
-  phyData = dynamic_cast<const ImageBase<InputImageDimension> *>(this->GetInput());
-
-  if (phyData)
+  if (this->GetInput())
   {
     // Copy what we can from the image from spacing and origin of the input
     // This logic needs to be augmented with logic that select which

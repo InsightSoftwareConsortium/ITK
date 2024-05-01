@@ -157,7 +157,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Befor
   srad.Fill(typename RadiusType::SizeValueType{});
   for (unsigned int i = 0, j = 0; i < ImageDimension; ++i)
   {
-    if (j != static_cast<unsigned int>(m_SliceDimension))
+    if (j != static_cast<unsigned int>(m_SliceDimension) && (j < (ImageDimension - 1)))
     {
       srad[j] = m_ContourThickness[i];
       ++j;
