@@ -20,7 +20,7 @@
             if source:
                 source.UpdateLargestPossibleRegion()
 
-        itksize = image.GetLargestPossibleRegion().GetSize()
+        itksize = image.GetBufferedRegion().GetSize()
         dim     = len(itksize)
         shape   = [int(itksize[idx]) for idx in range(dim)]
 
