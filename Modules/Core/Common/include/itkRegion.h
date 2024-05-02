@@ -90,6 +90,13 @@ public:
   Region() = default;
   virtual ~Region() = default;
 
+  Region(const Region &) = default;
+  Region &
+  operator=(const Region &) = default;
+  Region(Region &&) = default;
+  Region &
+  operator=(Region &&) = default;
+
 protected:
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
