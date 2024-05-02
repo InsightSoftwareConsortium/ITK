@@ -639,6 +639,10 @@ macro(itk_wrap_simple_type wrap_class swig_name)
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_POINTSET_CLASS(${swig_name})\n\n")
   endif()
 
+  if("${cpp_name}" STREQUAL "itk::PolyLineParametricPath")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_POLYLINEPARAMETRICPATH_CLASS(${swig_name})\n\n")
+  endif()
+
   if("${cpp_name}" STREQUAL "itk::Mesh")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_MESH_CLASS(${swig_name})\n\n")
   endif()

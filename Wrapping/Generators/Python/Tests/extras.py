@@ -242,6 +242,20 @@ pointset.SetPointData(mesh.GetPointData())
 pointset_dict = itk.dict_from_pointset(pointset)
 pointset_back = itk.pointset_from_dict(pointset_dict)
 
+polyline = itk.PolyLineParametricPath[dim].New()
+polyline.AddVertex([0.0, 0.0])
+polyline.AddVertex([1.0, 1.0])
+polyline.AddVertex([4.0, 3.0])
+polyline_dict = itk.dict_from_polyline(polyline)
+polyline_back = itk.polyline_from_dict(polyline_dict)
+original_vertices = itk.array_from_vector_container(polyline.GetVertexList())
+back_vertices = itk.array_from_vector_container(polyline_back.GetVertexList())
+assert np.allclose(original_vertices, back_vertices)
+
+serialize_deserialize = pickle.loads(pickle.dumps(polyline))
+back_vertices = itk.array_from_vector_container(serialize_deserialize.GetVertexList())
+assert np.allclose(original_vertices, back_vertices)
+
 # test search
 res = itk.search("Index")
 assert res[0] == "Index"

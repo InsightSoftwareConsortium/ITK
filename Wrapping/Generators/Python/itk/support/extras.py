@@ -103,6 +103,8 @@ __all__ = [
     "dict_from_mesh",
     "pointset_from_dict",
     "dict_from_pointset",
+    "polyline_from_dict",
+    "dict_from_polyline",
     "transform_from_dict",
     "dict_from_transform",
     "transformwrite",
@@ -993,6 +995,29 @@ def dict_from_pointset(pointset: "itkt.PointSet") -> Dict:
         pointData=point_data_numpy,
     )
 
+def polyline_from_dict(polyline_dict: Dict) -> "itkt.PolylineParametricPath":
+    """Deserialize an dictionary representing an itk.PolylineParametricPath object."""
+    import itk
+
+    vertex_list = polyline_dict["vertexList"]
+    dimension = vertex_list.shape[1]
+    polyline = itk.PolyLineParametricPath[dimension].New()
+    polyline.SetObjectName(polyline_dict["name"])
+    for vertex in vertex_list:
+        polyline.AddVertex(vertex)
+
+    return polyline
+
+def dict_from_polyline(polyline: "itkt.PolylineParametricPath") -> Dict:
+    """Serialize a Python itk.PolylineParametricPath object to a pickable Python dictionary."""
+    import itk
+
+    vertex_list = polyline.GetVertexList()
+    vertex_list_array = itk.array_from_vector_container(vertex_list)
+    return dict(
+        name=polyline.GetObjectName(),
+        vertexList=vertex_list_array,
+    )
 
 def dict_from_transform(transform: Union["itkt.TransformBase", List["itkt.TransformBase"]]) -> Union[List[Dict], Dict]:
     """Serialize a Python itk.Transform object to a pickable Python dictionary.
