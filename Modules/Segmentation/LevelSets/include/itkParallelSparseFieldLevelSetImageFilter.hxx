@@ -768,14 +768,13 @@ void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAllocateData(ThreadIdType ThreadId)
 {
   static constexpr float SAFETY_FACTOR = 4.0;
-  unsigned int           i, j;
 
   m_Data[ThreadId].m_Semaphore[0] = 0;
   m_Data[ThreadId].m_Semaphore[1] = 0;
 
   // Allocate the layers for the sparse field.
   m_Data[ThreadId].m_Layers.reserve(2 * m_NumberOfLayers + 1);
-  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     m_Data[ThreadId].m_Layers.push_back(LayerType::New());
   }
@@ -787,11 +786,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
 
   // Layers used as buffers for transferring pixels during load balancing
   m_Data[ThreadId].m_LoadTransferBufferLayers = new LayerListType[2 * m_NumberOfLayers + 1];
-  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     m_Data[ThreadId].m_LoadTransferBufferLayers[i].reserve(m_NumOfWorkUnits);
 
-    for (j = 0; j < m_NumOfWorkUnits; ++j)
+    for (unsigned int j = 0; j < m_NumOfWorkUnits; ++j)
     {
       m_Data[ThreadId].m_LoadTransferBufferLayers[i].push_back(LayerType::New());
     }
@@ -810,7 +809,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   m_Data[ThreadId].m_RMSChange = m_ValueZero;
 
   // UpLists and Downlists
-  for (i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     m_Data[ThreadId].UpList[i] = LayerType::New();
     m_Data[ThreadId].DownList[i] = LayerType::New();
@@ -824,15 +823,15 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   // for the Downlists
   m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1] = new LayerPointerType *[m_NumberOfLayers + 1];
 
-  for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (unsigned int i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i] = new LayerPointerType[m_NumOfWorkUnits];
     m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i] = new LayerPointerType[m_NumOfWorkUnits];
   }
 
-  for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (unsigned int i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
-    for (j = 0; j < m_NumOfWorkUnits; ++j)
+    for (unsigned int j = 0; j < m_NumOfWorkUnits; ++j)
     {
       m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i][j] = LayerType::New();
       m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i][j] = LayerType::New();
@@ -841,7 +840,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
 
   // Local histogram for every thread (used during Iterate() )
   m_Data[ThreadId].m_ZHistogram = new int[m_ZSize];
-  for (i = 0; i < m_ZSize; ++i)
+  for (unsigned int i = 0; i < m_ZSize; ++i)
   {
     m_Data[ThreadId].m_ZHistogram[i] = 0;
   }
