@@ -772,8 +772,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   m_Data[ThreadId].m_Semaphore[0] = 0;
   m_Data[ThreadId].m_Semaphore[1] = 0;
 
+  const std::size_t bufferLayerSize = 2 * m_NumberOfLayers + 1;
   // Allocate the layers for the sparse field.
-  m_Data[ThreadId].m_Layers.reserve(2 * m_NumberOfLayers + 1);
+  m_Data[ThreadId].m_Layers.reserve(bufferLayerSize);
   for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     m_Data[ThreadId].m_Layers.push_back(LayerType::New());
@@ -785,7 +786,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   }
 
   // Layers used as buffers for transferring pixels during load balancing
-  m_Data[ThreadId].m_LoadTransferBufferLayers = new LayerListType[2 * m_NumberOfLayers + 1];
+
+  m_Data[ThreadId].m_LoadTransferBufferLayers = new LayerListType[bufferLayerSize];
   for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     m_Data[ThreadId].m_LoadTransferBufferLayers[i].reserve(m_NumOfWorkUnits);
@@ -802,8 +804,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
 
   // The SAFETY_FACTOR simple ensures that the number of nodes created
   // is larger than those required to start with for each thread.
-  auto nodeNum =
-    static_cast<unsigned int>(SAFETY_FACTOR * m_Layers[0]->Size() * (2 * m_NumberOfLayers + 1) / m_NumOfWorkUnits);
+  auto nodeNum = static_cast<unsigned int>(SAFETY_FACTOR * m_Layers[0]->Size() * (bufferLayerSize) / m_NumOfWorkUnits);
 
   m_Data[ThreadId].m_LayerNodeStore->Reserve(nodeNum);
   m_Data[ThreadId].m_RMSChange = m_ValueZero;
