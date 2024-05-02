@@ -348,6 +348,9 @@ transform_back = itk.transform_from_dict(transform_dict)
 transform_dict = itk.dict_from_transform(transforms)
 transform_back = itk.transform_from_dict(transform_dict)
 
+# Write single transform
+itk.transformwrite(transforms[0], sys.argv[7], compression=True)
+
 # pipeline, auto_pipeline and templated class are tested in other files
 
 # BridgeNumPy
