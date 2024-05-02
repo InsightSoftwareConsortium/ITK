@@ -1309,7 +1309,7 @@ NiftiImageIO::ReadImageInformation()
   //
   // set up the dimension stuff
   double spacingscale = 1.0; // default to mm
-  switch (XYZT_TO_SPACE(this->m_NiftiImage->xyz_units))
+  switch (this->m_NiftiImage->xyz_units)
   {
     case NIFTI_UNITS_METER:
       spacingscale = 1e3;
@@ -1322,7 +1322,7 @@ NiftiImageIO::ReadImageInformation()
       break;
   }
   double timingscale = 1.0; // Default to seconds
-  switch (XYZT_TO_TIME(this->m_NiftiImage->xyz_units))
+  switch (this->m_NiftiImage->time_units)
   {
     case NIFTI_UNITS_SEC:
       timingscale = 1.0;
@@ -1393,7 +1393,7 @@ NiftiImageIO::ReadImageInformation()
   EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
 
   // set the image orientation
-  this->SetImageIOOrientationFromNIfTI(dims);
+  this->SetImageIOOrientationFromNIfTI(dims, spacingscale, timingscale);
 
   // Set the metadata.
   this->SetImageIOMetadataFromNIfTI();
@@ -1503,13 +1503,14 @@ NiftiImageIO::WriteImageInformation()
   //                   dim[2] is required for 2-D volumes,
   //                   dim[3] for 3-D volumes, etc.
   this->m_NiftiImage->nvox = 1;
-  // Spacial dims in ITK are given in mm.
+  // Spatial dims in ITK are given in mm.
   // If 4D assume 4thD is in SECONDS, for all of ITK.
   // NOTE: Due to an ambiguity in the nifti specification, some developers
   // external tools believe that the time units must be set, even if there
-  // is only one dataset.  Having the time specified for a purly spatial
+  // is only one dataset.  Having the time specified for a purely spatial
   // image has no consequence, so go ahead and set it to seconds.
-  this->m_NiftiImage->xyz_units = static_cast<int>(NIFTI_UNITS_MM | NIFTI_UNITS_SEC);
+  this->m_NiftiImage->xyz_units = static_cast<int>(NIFTI_UNITS_MM);
+  this->m_NiftiImage->time_units = static_cast<int>(NIFTI_UNITS_SEC);
   this->m_NiftiImage->dim[7] = this->m_NiftiImage->nw = 1;
   this->m_NiftiImage->dim[6] = this->m_NiftiImage->nv = 1;
   this->m_NiftiImage->dim[5] = this->m_NiftiImage->nu = 1;
@@ -1537,6 +1538,9 @@ NiftiImageIO::WriteImageInformation()
     case 4:
       this->m_NiftiImage->dim[4] = this->m_NiftiImage->nt = this->GetDimensions(3);
       this->m_NiftiImage->pixdim[4] = this->m_NiftiImage->dt = static_cast<float>(this->GetSpacing(3));
+      // Add time origin here because it is not set with the spatial origin in
+      // SetNIfTIOrientationFromImageIO
+      this->m_NiftiImage->toffset = static_cast<float>(this->GetOrigin(3));
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[4];
       [[fallthrough]];
     case 3:
@@ -1861,7 +1865,7 @@ IsAffine(const mat44 & nifti_mat)
 } // namespace
 
 void
-NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
+NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacingscale, double timingscale)
 {
   typedef SpatialOrientationAdapter OrientAdapterType;
   // in the case of an Analyze75 file, use old analyze orient method.
@@ -1929,7 +1933,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
     // so check it first.
     // Commonly the 4x4 double precision dicom information is stored in
     // the 4x4 single precision sform fields, and that original representation
-    // is converted (with lossy conversoin) into the qform representation.
+    // is converted (with lossy conversion) into the qform representation.
     const bool qform_sform_are_similar = [=]() -> bool {
       vnl_matrix_fixed<float, 4, 4> sto_xyz{ &(this->m_NiftiImage->sto_xyz.m[0][0]) };
       vnl_matrix_fixed<float, 4, 4> qto_xyz{ &(this->m_NiftiImage->qto_xyz.m[0][0]) };
@@ -2122,14 +2126,18 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
 
   //
   // set origin
-  m_Origin[0] = -theMat.m[0][3];
+  m_Origin[0] = -theMat.m[0][3] * spacingscale;
   if (dims > 1)
   {
-    m_Origin[1] = -theMat.m[1][3];
+    m_Origin[1] = -theMat.m[1][3] * spacingscale;
   }
   if (dims > 2)
   {
-    m_Origin[2] = theMat.m[2][3];
+    m_Origin[2] = theMat.m[2][3] * spacingscale;
+  }
+  if (dims > 3)
+  {
+    m_Origin[3] = this->m_NiftiImage->toffset * timingscale;
   }
 
   const int           max_defined_orientation_dims = (dims > 3) ? 3 : dims;
@@ -2364,7 +2372,7 @@ NiftiImageIO::Write(const void * buffer)
                                         // so will destructor of the image that really owns it.
     if (nifti_write_status)
     {
-      itkExceptionMacro("ERROR: nifti library failed to write image" << this->GetFileName());
+      itkExceptionMacro("ERROR: nifti library failed to write image: " << this->GetFileName());
     }
   }
   else /// Image intent is vector image
@@ -2469,7 +2477,7 @@ NiftiImageIO::Write(const void * buffer)
     this->m_NiftiImage->data = nullptr; // if left pointing to data buffer
     if (nifti_write_status)
     {
-      itkExceptionMacro("ERROR: nifti library failed to write image" << this->GetFileName());
+      itkExceptionMacro("ERROR: nifti library failed to write image: " << this->GetFileName());
     }
   }
 }

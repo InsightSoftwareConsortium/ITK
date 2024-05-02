@@ -256,7 +256,7 @@ private:
   SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned short dims);
 
   void
-  SetImageIOOrientationFromNIfTI(unsigned short dims);
+  SetImageIOOrientationFromNIfTI(unsigned short dims, double spacingscale, double timingscale);
 
   void
   SetImageIOMetadataFromNIfTI();
