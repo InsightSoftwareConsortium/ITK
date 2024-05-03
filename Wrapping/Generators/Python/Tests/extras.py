@@ -343,6 +343,11 @@ assert np.allclose(parameters, baseline_parameters)
 parameters = np.asarray(transforms[0].GetParameters())
 assert np.allclose(parameters, np.array(baseline_additional_transform_params))
 
+transform_dict = itk.dict_from_transform(transforms[0])
+transform_back = itk.transform_from_dict(transform_dict)
+transform_dict = itk.dict_from_transform(transforms)
+transform_back = itk.transform_from_dict(transform_dict)
+
 # pipeline, auto_pipeline and templated class are tested in other files
 
 # BridgeNumPy
