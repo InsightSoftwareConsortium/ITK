@@ -90,7 +90,7 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     }
   }
 
-  const char * output_test_fn = "xyzt_units_output_check.nii";
+  const std::string output_test_fn = std::string(test_dir) + "/xyzt_units_output_check.nii";
 
   // set the origin of time to a non-zero value
   auto newOrigin = ImageType::PointType();
@@ -100,15 +100,16 @@ itkNiftiImageIOTest14(int argc, char * argv[])
   newOrigin[3] = 2.0;
   test_image->SetOrigin(newOrigin);
 
-  itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(test_image, std::string(output_test_fn));
+  itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(test_image, output_test_fn);
 
-  bool fileHasCorrectXYZTTUnits = false;
-  bool fileHasCorrectTimeOrigin = false;
+  bool metadataHasCorrectXYZTTUnits = false;
+  bool metadataHasCorrectToffset = false;
+  bool imageHasCorrectTimeOrigin = false;
 
   try
   {
     // read the image back in
-    ImageType::Pointer image_from_disk = itk::IOTestHelper::ReadImage<ImageType>(std::string(output_test_fn));
+    ImageType::Pointer image_from_disk = itk::IOTestHelper::ReadImage<ImageType>(output_test_fn);
 
     // check the metadata for xyzt_units and toffset
     itk::MetaDataDictionary & dictionary = image_from_disk->GetMetaDataDictionary();
@@ -118,28 +119,27 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     {
       std::cerr << "toffset not found in metadata" << std::endl;
     }
-    if (!itk::Math::FloatAlmostEqual(std::stod(toffset), 2.0, 4, 1e-6))
+    if (itk::Math::FloatAlmostEqual(std::stod(toffset), 2.0, 4, 1e-6))
     {
-      fileHasCorrectTimeOrigin = true;
+      metadataHasCorrectToffset = true;
     }
     else
     {
-      std::cerr << "toffset not set correctly in metadata" << std::endl;
-      fileHasCorrectTimeOrigin = false;
+      std::cerr << "toffset: " << std::stod(toffset) << " is not set correctly in metadata" << std::endl;
+      metadataHasCorrectToffset = false;
     }
 
     auto read_origin = test_image->GetOrigin();
 
-    if (!itk::Math::FloatAlmostEqual(read_origin[3], 2.0, 4, 1e-6))
+    if (itk::Math::FloatAlmostEqual(read_origin[3], 2.0, 4, 1e-6))
     {
-      std::cerr << "Time origin not read back correctly from toffset field" << std::endl;
-      fileHasCorrectTimeOrigin = false;
+      imageHasCorrectTimeOrigin = true;
     }
     else
     {
-      fileHasCorrectTimeOrigin = true;
+      std::cerr << "Time origin not read back correctly from toffset field" << std::endl;
+      imageHasCorrectTimeOrigin = false;
     }
-
 
     std::string xyzt_units;
     if (!itk::ExposeMetaData<std::string>(dictionary, "xyzt_units", xyzt_units))
@@ -148,22 +148,23 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     }
     if (xyzt_units == "10")
     {
-      fileHasCorrectXYZTTUnits = true;
+      metadataHasCorrectXYZTTUnits = true;
     }
     else
     {
       std::cerr << "xyzt_units not set correctly in metadata" << std::endl;
-      fileHasCorrectXYZTTUnits = false;
+      metadataHasCorrectXYZTTUnits = false;
     }
   }
   catch (...)
   {
     std::cerr << "Exception caught while reading image back in" << std::endl;
+    throw;
   }
 
-  itk::IOTestHelper::Remove(output_test_fn);
+  itk::IOTestHelper::Remove(output_test_fn.c_str());
 
-  if (fileHasCorrectXYZTTUnits && fileHasCorrectTimeOrigin)
+  if (metadataHasCorrectXYZTTUnits && metadataHasCorrectToffset && imageHasCorrectTimeOrigin)
   {
     return EXIT_SUCCESS;
   }
