@@ -55,6 +55,13 @@ public:
 
   /** Has to have empty throw(). */
   ~ImageFileWriterException() noexcept override;
+
+  ImageFileWriterException(const ImageFileWriterException &) = default;
+  ImageFileWriterException(ImageFileWriterException &&) = default;
+  ImageFileWriterException &
+  operator=(const ImageFileWriterException &) = default;
+  ImageFileWriterException &
+  operator=(ImageFileWriterException &&) = default;
 };
 
 /** \class ImageFileWriter

@@ -49,6 +49,13 @@ public:
                           unsigned int        line,
                           const char *        message = "Error in IO",
                           const char *        loc = "Unknown");
+
+  MeshFileReaderException(const MeshFileReaderException &) = default;
+  MeshFileReaderException(MeshFileReaderException &&) = default;
+  MeshFileReaderException &
+  operator=(const MeshFileReaderException &) = default;
+  MeshFileReaderException &
+  operator=(MeshFileReaderException &&) = default;
 };
 } // end namespace itk
 

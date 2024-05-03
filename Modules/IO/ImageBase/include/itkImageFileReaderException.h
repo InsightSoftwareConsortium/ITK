@@ -52,6 +52,13 @@ public:
 
   /** Has to have empty throw(). */
   ~ImageFileReaderException() noexcept override;
+
+  ImageFileReaderException(const ImageFileReaderException &) = default;
+  ImageFileReaderException(ImageFileReaderException &&) = default;
+  ImageFileReaderException &
+  operator=(const ImageFileReaderException &) = default;
+  ImageFileReaderException &
+  operator=(ImageFileReaderException &&) = default;
 };
 } // namespace itk
 #endif // itkImageFileReaderException_h
