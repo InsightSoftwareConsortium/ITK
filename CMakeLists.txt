@@ -17,7 +17,7 @@ endif()
 #----------------------------------------------------------------------------
 
 project(GDCM
-  VERSION 3.0.23
+  VERSION 3.0.24
   LANGUAGES CXX C
 )
 ## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
@@ -564,6 +564,7 @@ if(APPLE)
   if(GDCM_USE_COREFOUNDATION_LIBRARY)
     find_library(COREFOUNDATION_LIBRARY CoreFoundation )
   endif()
+  mark_as_advanced(COREFOUNDATION_LIBRARY)
 endif()
 
 #-----------------------------------------------------------------------------
