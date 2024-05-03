@@ -789,12 +789,15 @@ def dict_from_image(image: "itkt.Image") -> Dict:
 
     pixel_arr = itk.array_from_image(image)
     imageType = wasm_type_from_image_type(image)
+    buffered_region = image.GetBufferedRegion()
+    bufferedRegion = { "index": tuple(buffered_region.GetIndex()), "size": tuple(buffered_region.GetSize())}
     return dict(
         imageType=imageType,
         name=image.GetObjectName(),
         origin=tuple(image.GetOrigin()),
         spacing=tuple(image.GetSpacing()),
-        size=tuple(image.GetBufferedRegion().GetSize()),
+        size=tuple(image.GetLargestPossibleRegion().GetSize()),
+        bufferedRegion=bufferedRegion,
         direction=np.asarray(image.GetDirection()),
         data=pixel_arr,
     )
@@ -808,10 +811,20 @@ def image_from_dict(image_dict: Dict) -> "itkt.Image":
     if image_dict["data"] is None:
         image = ImageType.New()
         image.SetRegions(image_dict["size"])
+        if "bufferedRegion" in image_dict:
+            buffered_region = itk.ImageRegion[image.GetImageDimension()]()
+            buffered_region.SetIndex(image_dict["bufferedRegion"]["index"])
+            buffered_region.SetSize(image_dict["bufferedRegion"]["size"])
+            image.SetBufferedRegion(buffered_region)
         image.Allocate(True)
     else:
         image = itk.PyBuffer[ImageType].GetImageViewFromArray(image_dict["data"])
         image.SetRegions(image_dict["size"])
+        if "bufferedRegion" in image_dict:
+            buffered_region = itk.ImageRegion[image.GetImageDimension()]()
+            buffered_region.SetIndex(image_dict["bufferedRegion"]["index"])
+            buffered_region.SetSize(image_dict["bufferedRegion"]["size"])
+            image.SetBufferedRegion(buffered_region)
     image.SetOrigin(image_dict["origin"])
     image.SetSpacing(image_dict["spacing"])
     image.SetDirection(image_dict["direction"])

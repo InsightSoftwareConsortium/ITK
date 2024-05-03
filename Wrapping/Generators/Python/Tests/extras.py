@@ -224,6 +224,14 @@ image_back = itk.image_from_dict(image_dict)
 diff = itk.comparison_image_filter(image.astype(itk.F), image_back.astype(itk.F))
 assert np.sum(diff) == 0
 
+
+largest_region = itk.ImageRegion[2]([0, 0], [1024, 1024])
+image.SetLargestPossibleRegion(largest_region)
+image_dict = itk.dict_from_image(image)
+image_back = itk.image_from_dict(image_dict)
+diff = itk.comparison_image_filter(image.astype(itk.F), image_back.astype(itk.F))
+assert np.sum(diff) == 0
+
 mesh_dict = itk.dict_from_mesh(mesh)
 mesh_back = itk.mesh_from_dict(mesh_dict)
 
