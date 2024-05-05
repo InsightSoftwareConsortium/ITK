@@ -271,7 +271,7 @@ bool SplitMosaicFilter::ComputeMOSAICSliceNormal( double slicenormalvector[3], b
     }
     else if( fabs(-1. - snv_dot) < 1e-6 )
     {
-      gdcmWarningMacro("SliceNormalVector is opposite direction");
+      gdcmDebugMacro("SliceNormalVector is opposite direction");
       inverted = true;
     }
     else
@@ -298,6 +298,10 @@ bool SplitMosaicFilter::ComputeMOSAICImagePositionPatient( double ret[3],
   DataSet& ds = GetFile().GetDataSet();
   DirectionCosines dc( dircos );
   dc.Normalize();
+  double z[3]={};
+  dc.Cross (z);
+  DirectionCosines::Normalize(z);
+
   const double *dircos_normalized = dc;
   const double *x = dircos_normalized;
   const double *y = dircos_normalized + 3;
@@ -315,9 +319,8 @@ bool SplitMosaicFilter::ComputeMOSAICImagePositionPatient( double ret[3],
       if( size ) {
         // two cases:
         if( size == mosaic_dims[2] ) {
-          // all mosaic have there own slice position, simply need to pick the right one
-          // Handle inverted case:
-          size_t index = inverted ? size - 1 : 0;
+          // all mosaic have there own slice position, always pick the first one for computation:
+          size_t index = 0;
           MrProtocol::Slice & slice = sa.Slices[index];
           MrProtocol::Vector3 & p = slice.Position;
           double pos[3];
@@ -327,12 +330,13 @@ bool SplitMosaicFilter::ComputeMOSAICImagePositionPatient( double ret[3],
           for(int i = 0; i < 3; ++i ) {
             ipp_csa[i] = pos[i] - mosaic_dims[0] / 2. * pixelspacing[0] * x[i] - mosaic_dims[1] / 2. * pixelspacing[1] * y[i];
           }
+          int mult = mosaic_dims[2] % 2;
+          if( inverted ) {
+            ipp_csa[2] = ipp_csa[2] + mult * pixelspacing[2];
+          }
           hasIppCsa = true;
         } else if( size == 1 /*&& mosaic_dims[2] % 2 == 0*/) {
           // there is a single SliceArray but multiple mosaics, assume this is exactly the center one
-          double z[3]={};
-          dc.Cross(z);
-          DirectionCosines::Normalize(z);
           size_t index = 0;
           MrProtocol::Slice & slice = sa.Slices[index];
           MrProtocol::Vector3 & p = slice.Position;
@@ -358,6 +362,12 @@ bool SplitMosaicFilter::ComputeMOSAICImagePositionPatient( double ret[3],
     for(int i = 0; i < 3; ++i ) {
       ipp_dcm[i] = ipp[i] + (image_dims[0]  - mosaic_dims[0]) / 2. * pixelspacing[0] * x[i] +
         (image_dims[1]  - mosaic_dims[1]) / 2. * pixelspacing[1] * y[i] ;
+    }
+    // When SNV inverted, first slice is actually the last one:
+    if( inverted ) {
+      for(int i = 0; i < 3; ++i ) {
+        ipp_dcm[i] = ipp_dcm[i] - z[i] * pixelspacing[2] * (mosaic_dims[2] - 1);
+      }
     }
   }
   if(hasIppCsa ) {

@@ -129,6 +129,7 @@ public:
 
   /// Set/Get Spacing from/to a File
   static std::vector<double> GetSpacingValue(File const & f);
+  /// \warning You need to call SetSpacingValue after SetOriginValue / SetDirectionCosinesValue
   static void SetSpacingValue(DataSet & ds, const std::vector<double> & spacing);
 
   /// DO NOT USE
