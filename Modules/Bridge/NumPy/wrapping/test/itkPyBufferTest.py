@@ -197,6 +197,19 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         self.assertEqual(vectorndarr.dtype, convertedvectorImage.dtype)
         self.assertTupleEqual(vectorndarr.shape, convertedvectorImage.shape)
 
+        vectorImage = VectorImageType.New()
+        vectorImage.SetRegions(region)
+        vectorImage.SetNumberOfComponentsPerPixel(1)
+        vectorImage.Allocate()
+        vectorndarr = itk.PyBuffer[VectorImageType].GetArrayViewFromImage(vectorImage)
+
+        convertedvectorImage = itk.PyBuffer[VectorImageType].GetImageViewFromArray(
+            vectorndarr, is_vector=True
+        )
+        self.assertEqual(vectorndarr.ndim, convertedvectorImage.ndim)
+        self.assertEqual(vectorndarr.dtype, convertedvectorImage.dtype)
+        self.assertTupleEqual(vectorndarr.shape, convertedvectorImage.shape)
+
     def test_NumPyBridge_itkRGBImage(self):
         "Try to convert an RGB ITK image to NumPy array view"
 
