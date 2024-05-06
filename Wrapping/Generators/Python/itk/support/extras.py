@@ -1466,7 +1466,7 @@ def transformread(filename: fileiotype) -> List["itkt.TransformBase"]:
 
 
 def transformwrite(
-    transforms: List["itkt.TransformBase"],
+    transforms: Union["itkt.TransformBase", List["itkt.TransformBase"]],
     filename: fileiotype,
     compression: bool = False,
 ) -> None:
@@ -1475,8 +1475,8 @@ def transformwrite(
     Parameters
     ----------
 
-    transforms: list of itk.TransformBaseTemplate[itk.D]
-        Python list of the transforms to write.
+    transforms: single transform or list of transforms
+        Single transform or Python list of itk.TransformBaseTemplate[itk.D]'s to write.
 
     filename:
         Path to the transform file (typically a .h5 file).
@@ -1489,6 +1489,8 @@ def transformwrite(
     writer = itk.TransformFileWriterTemplate[itk.D].New()
     writer.SetFileName(f"{filename}")
     writer.SetUseCompression(compression)
+    if not isinstance(transforms, list):
+        transforms = [transforms]
     for transform in transforms:
         writer.AddTransform(transform)
     writer.Update()
