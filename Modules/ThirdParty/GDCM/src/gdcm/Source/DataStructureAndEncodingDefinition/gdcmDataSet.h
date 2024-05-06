@@ -209,13 +209,9 @@ public:
 
   // DUMB: this only search within the level of the current DataSet
   bool FindDataElement(const Tag &t) const {
-    const DataElement r(t);
-    //ConstIterator it = DES.find(r);
-    if( DES.find(r) != DES.end() )
-      {
-      return true;
-      }
-    return false;
+    const auto it = GetDataElement(t);
+    // Return if tag is found
+    return it != GetDEEnd();
     }
 
   // WARNING:

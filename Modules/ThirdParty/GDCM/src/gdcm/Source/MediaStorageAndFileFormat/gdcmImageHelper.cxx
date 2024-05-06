@@ -48,6 +48,7 @@ namespace gdcm
 bool ImageHelper::ForceRescaleInterceptSlope = false;
 bool ImageHelper::PMSRescaleInterceptSlope = true;
 bool ImageHelper::ForcePixelSpacing = false;
+// By default, this is off, if you want behavior documented in DICOM CP 2330, turn it on
 bool ImageHelper::SecondaryCaptureImagePlaneModule = false;
 
 static bool GetOriginValueFromSequence(const DataSet& ds, const Tag& tfgs, std::vector<double> &ori)
@@ -1279,8 +1280,7 @@ Tag ImageHelper::GetSpacingTagFromMediaStorage(MediaStorage const &ms)
       // Make SecondaryCaptureImagePlaneModule act as ForcePixelSpacing
       // This is different from Basic Pixel Spacing Calibration Macro Attributes
       //
-      // Per the note: https://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_A.8.html#sect_A.8.1.3
-      gdcmWarningMacro( "FIXME: Multiple tags can identify Secondary Capture spacing. This function should not be used for Secondary Capture data." );
+      gdcmDebugMacro( "FIXME: Multiple tags can identify Secondary Capture spacing. This function should not be used for Secondary Capture data." );
       t = Tag(0x0028,0x0030);
     } else {
       t = Tag(0x0018,0x2010);
@@ -1375,6 +1375,13 @@ Warning - Dicom dataset contains attributes not present in standard DICOM IOD - 
   case MediaStorage::UltrasoundMultiFrameImageStorageRetired:
   // SC:
   case MediaStorage::SecondaryCaptureImageStorage:
+    // (0018,0088) DS [3]                                      #   2, 1 SpacingBetweenSlices
+    if( ImageHelper::SecondaryCaptureImagePlaneModule ) {
+    t = Tag(0x0018,0x0088);
+    } else {
+    t = Tag(0xffff,0xffff);
+    }
+    break;
   case MediaStorage::MultiframeSingleBitSecondaryCaptureImageStorage:
   case MediaStorage::MultiframeGrayscaleByteSecondaryCaptureImageStorage:
   case MediaStorage::MultiframeGrayscaleWordSecondaryCaptureImageStorage:
@@ -1993,7 +2000,7 @@ void ImageHelper::SetOriginValue(DataSet & ds, const Image & image)
   ms.SetFromDataSet(ds);
   assert( MediaStorage::IsImage( ms ) );
 
-  if( ms == MediaStorage::SecondaryCaptureImageStorage )
+  if( ms == MediaStorage::SecondaryCaptureImageStorage && !ImageHelper::SecondaryCaptureImagePlaneModule )
     {
     // https://sourceforge.net/p/gdcm/bugs/322/
     // default behavior is simply to pass
@@ -2007,6 +2014,7 @@ void ImageHelper::SetOriginValue(DataSet & ds, const Image & image)
    && ms != MediaStorage::PETImageStorage
    //&& ms != MediaStorage::ComputedRadiographyImageStorage
    && ms != MediaStorage::SegmentationStorage
+   && ms != MediaStorage::SecondaryCaptureImageStorage /* CP 2330 */
    && ms != MediaStorage::MultiframeSingleBitSecondaryCaptureImageStorage
    && ms != MediaStorage::MultiframeGrayscaleByteSecondaryCaptureImageStorage
    && ms != MediaStorage::MultiframeGrayscaleWordSecondaryCaptureImageStorage
@@ -2144,7 +2152,7 @@ void ImageHelper::SetDirectionCosinesValue(DataSet & ds, const std::vector<doubl
   ms.SetFromDataSet(ds);
   assert( MediaStorage::IsImage( ms ) );
 
-  if( ms == MediaStorage::SecondaryCaptureImageStorage )
+  if( ms == MediaStorage::SecondaryCaptureImageStorage && !ImageHelper::SecondaryCaptureImagePlaneModule )
     {
     // https://sourceforge.net/p/gdcm/bugs/322/
     // default behavior is simply to pass
@@ -2157,6 +2165,7 @@ void ImageHelper::SetDirectionCosinesValue(DataSet & ds, const std::vector<doubl
    && ms != MediaStorage::RTDoseStorage
    && ms != MediaStorage::PETImageStorage
    //&& ms != MediaStorage::ComputedRadiographyImageStorage
+   && ms != MediaStorage::SecondaryCaptureImageStorage /* CP 2330 */
    && ms != MediaStorage::MultiframeSingleBitSecondaryCaptureImageStorage
    && ms != MediaStorage::MultiframeGrayscaleByteSecondaryCaptureImageStorage
    && ms != MediaStorage::MultiframeGrayscaleWordSecondaryCaptureImageStorage
