@@ -40,8 +40,8 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@itk-wasm/dam": "^1.1.0",
+    "@itk-wasm/dam": "^1.1.1",
     "@thewtex/setup-micromamba": "^1.9.7",
-    "itk-wasm": "^1.0.0-b.165"
+    "itk-wasm": "^1.0.0-b.173"
   }
 }
