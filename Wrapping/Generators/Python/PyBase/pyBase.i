@@ -514,8 +514,10 @@ str = str
             def ndim(self):
                 """Equivalent to the np.ndarray ndim attribute when converted
                 to an image with itk.array_view_from_image."""
+                import itk
+
                 spatial_dims = self.GetImageDimension()
-                if self.GetNumberOfComponentsPerPixel() > 1:
+                if self.GetNumberOfComponentsPerPixel() > 1 or isinstance(self, itk.VectorImage):
                     return spatial_dims + 1
                 else:
                     return spatial_dims
@@ -524,11 +526,13 @@ str = str
             def shape(self):
                 """Equivalent to the np.ndarray shape attribute when converted
                 to an image with itk.array_view_from_image."""
+                import itk
+
                 itksize = self.GetLargestPossibleRegion().GetSize()
                 dim = len(itksize)
                 result = [int(itksize[idx]) for idx in range(dim)]
 
-                if(self.GetNumberOfComponentsPerPixel() > 1):
+                if self.GetNumberOfComponentsPerPixel() > 1 or isinstance(self, itk.VectorImage):
                     result = [self.GetNumberOfComponentsPerPixel(), ] + result
                 # ITK is C-order. The shape needs to be reversed unless we are a view on
                 # a NumPy array that is Fortran-order.

@@ -9,6 +9,7 @@
         i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
         algorithms in NumPy / SciPy.
         """
+        import itk
 
         if image.GetBufferPointer() is None:
             return None
@@ -24,7 +25,7 @@
         dim     = len(itksize)
         shape   = [int(itksize[idx]) for idx in range(dim)]
 
-        if(image.GetNumberOfComponentsPerPixel() > 1):
+        if image.GetNumberOfComponentsPerPixel() > 1 or isinstance(image, itk.VectorImage):
             shape = [image.GetNumberOfComponentsPerPixel(), ] + shape
 
         if keep_axes == False:
