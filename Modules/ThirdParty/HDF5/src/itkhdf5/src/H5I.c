@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -41,13 +40,13 @@
 
 typedef struct {
     H5I_search_func_t app_cb;  /* Application's callback routine */
-    void *            app_key; /* Application's "key" (user data) */
-    void *            ret_obj; /* Object to return */
+    void             *app_key; /* Application's "key" (user data) */
+    void             *ret_obj; /* Object to return */
 } H5I_search_ud_t;
 
 typedef struct {
     H5I_iterate_func_t op;      /* Application's callback routine */
-    void *             op_data; /* Application's user data */
+    void              *op_data; /* Application's user data */
 } H5I_iterate_pub_ud_t;
 
 /********************/
@@ -711,7 +710,7 @@ void *
 H5Isearch(H5I_type_t type, H5I_search_func_t func, void *key)
 {
     H5I_search_ud_t udata;            /* Context for iteration */
-    void *          ret_value = NULL; /* Return value */
+    void           *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API(NULL)
     H5TRACE3("*x", "Itx*x", type, func, key);
@@ -779,7 +778,7 @@ H5I__iterate_pub_cb(void H5_ATTR_UNUSED *obj, hid_t id, void *_udata)
 /*-------------------------------------------------------------------------
  * Function:    H5Iiterate
  *
- * Purpose:     Call the callback funciton op for each member of the id
+ * Purpose:     Call the callback function op for each member of the id
  *              type type.  op takes as parameters the id and a
  *              passthrough of op_data, and returns an herr_t.  A positive
  *              return from op will cause the iteration to stop and
@@ -890,7 +889,7 @@ done:
 ssize_t
 H5Iget_name(hid_t id, char *name /*out*/, size_t size)
 {
-    H5VL_object_t *   vol_obj = NULL; /* Object stored in ID */
+    H5VL_object_t    *vol_obj = NULL; /* Object stored in ID */
     H5VL_loc_params_t loc_params;
     ssize_t           ret_value = -1; /* Return value */
 

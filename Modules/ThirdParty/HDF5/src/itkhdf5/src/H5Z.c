@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -599,14 +598,9 @@ H5Z__flush_file_cb(void *obj_ptr, hid_t H5_ATTR_UNUSED obj_id, void H5_ATTR_PARA
     /* Do a global flush if the file is opened for write */
     if (H5F_ACC_RDWR & H5F_INTENT(f)) {
 
-/* When parallel HDF5 is defined, check for collective metadata reads on this
- *      file and set the flag for metadata I/O in the API context.  -QAK, 2018/02/14
- */
 #ifdef H5_HAVE_PARALLEL
         /* Check if MPIO driver is used */
         if (H5F_HAS_FEATURE(f, H5FD_FEAT_HAS_MPI)) {
-            H5P_coll_md_read_flag_t coll_md_read; /* Do all metadata reads collectively */
-
             /* Sanity check for collectively calling H5Zunregister, if requested */
             /* (Sanity check assumes that a barrier on one file's comm
              *  is sufficient (i.e. that there aren't different comms for
@@ -626,13 +620,8 @@ H5Z__flush_file_cb(void *obj_ptr, hid_t H5_ATTR_UNUSED obj_id, void H5_ATTR_PARA
                 /* Set the "sanity checked" flag */
                 object->sanity_checked = TRUE;
             } /* end if */
-
-            /* Check whether to use the collective metadata read DXPL */
-            coll_md_read = H5F_COLL_MD_READ(f);
-            if (H5P_USER_TRUE == coll_md_read)
-                H5CX_set_coll_metadata_read(TRUE);
-        } /* end if */
-#endif    /* H5_HAVE_PARALLEL */
+        }     /* end if */
+#endif        /* H5_HAVE_PARALLEL */
 
         /* Call the flush routine for mounted file hierarchies */
         if (H5F_flush_mounts((H5F_t *)obj_ptr) < 0)
@@ -837,7 +826,7 @@ H5Z__prepare_prelude_callback_dcpl(hid_t dcpl_id, hid_t type_id, H5Z_prelude_typ
             /* Check if the chunks have filters */
             if (dcpl_pline.nused > 0) {
                 hsize_t chunk_dims[H5O_LAYOUT_NDIMS]; /* Size of chunk dimensions */
-                H5S_t * space;                        /* Dataspace describing chunk */
+                H5S_t  *space;                        /* Dataspace describing chunk */
                 size_t  u;                            /* Local index variable */
 
                 /* Create a dataspace for a chunk & set the extent */
@@ -1303,7 +1292,7 @@ H5Z_pipeline(const H5O_pline_t *pline, unsigned flags, unsigned *filter_mask /*i
     int           fclass_idx;    /* Index of filter class in global table */
     H5Z_class2_t *fclass = NULL; /* Filter class pointer */
 #ifdef H5Z_DEBUG
-    H5Z_stats_t * fstats = NULL; /* Filter stats pointer */
+    H5Z_stats_t  *fstats = NULL; /* Filter stats pointer */
     H5_timer_t    timer;         /* Timer for filter operations */
     H5_timevals_t times;         /* Elapsed time for each operation */
 #endif
@@ -1506,7 +1495,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function: H5Z_filter_in_pline
  *
- * Purpose:  Check wheter a filter is in the filter pipeline using the
+ * Purpose:  Check whether a filter is in the filter pipeline using the
  *           filter ID.  This function is very similar to H5Z_filter_info
  *
  * Return:   TRUE   - found filter

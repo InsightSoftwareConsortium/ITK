@@ -39,7 +39,7 @@ typedef union H5PL_key_t {
         H5VL_get_connector_kind_t kind; /* Kind of VOL lookup to do */
         union {
             H5VL_class_value_t value; /* VOL connector value */
-            const char *       name;  /* VOL connector name */
+            const char        *name;  /* VOL connector name */
         } u;
     } vol;
 } H5PL_key_t;

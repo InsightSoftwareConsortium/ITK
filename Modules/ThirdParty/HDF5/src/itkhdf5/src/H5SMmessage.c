@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -178,7 +177,7 @@ herr_t
 H5SM__message_compare(const void *rec1, const void *rec2, int *result)
 {
     const H5SM_mesg_key_t *key       = (const H5SM_mesg_key_t *)rec1;
-    const H5SM_sohm_t *    mesg      = (const H5SM_sohm_t *)rec2;
+    const H5SM_sohm_t     *mesg      = (const H5SM_sohm_t *)rec2;
     herr_t                 ret_value = SUCCEED;
 
     FUNC_ENTER_PACKAGE
@@ -279,7 +278,7 @@ done:
 herr_t
 H5SM__message_encode(uint8_t *raw, const void *_nrecord, void *_ctx)
 {
-    H5SM_bt2_ctx_t *   ctx     = (H5SM_bt2_ctx_t *)_ctx; /* Callback context structure */
+    H5SM_bt2_ctx_t    *ctx     = (H5SM_bt2_ctx_t *)_ctx; /* Callback context structure */
     const H5SM_sohm_t *message = (const H5SM_sohm_t *)_nrecord;
 
     FUNC_ENTER_PACKAGE_NOERR
@@ -323,7 +322,7 @@ herr_t
 H5SM__message_decode(const uint8_t *raw, void *_nrecord, void *_ctx)
 {
     H5SM_bt2_ctx_t *ctx     = (H5SM_bt2_ctx_t *)_ctx; /* Callback context structure */
-    H5SM_sohm_t *   message = (H5SM_sohm_t *)_nrecord;
+    H5SM_sohm_t    *message = (H5SM_sohm_t *)_nrecord;
 
     FUNC_ENTER_PACKAGE_NOERR
 

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -82,7 +81,7 @@ struct H5C_log_info_t {
     hbool_t                enabled; /* Was the logging set up? */
     hbool_t                logging; /* Are we currently logging? */
     const H5C_log_class_t *cls;     /* Callbacks for writing log messages */
-    void *                 udata;   /* Log-specific data */
+    void                  *udata;   /* Log-specific data */
 };
 
 /*****************************/

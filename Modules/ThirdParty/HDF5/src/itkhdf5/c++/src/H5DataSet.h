@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -78,20 +77,20 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
     // The memory and file dataspaces and the transferring property list
     // can be defaults.
     void read(void *buf, const DataType &mem_type, const DataSpace &mem_space = DataSpace::ALL,
-              const DataSpace &          file_space = DataSpace::ALL,
+              const DataSpace           &file_space = DataSpace::ALL,
               const DSetMemXferPropList &xfer_plist = DSetMemXferPropList::DEFAULT) const;
     void read(H5std_string &buf, const DataType &mem_type, const DataSpace &mem_space = DataSpace::ALL,
-              const DataSpace &          file_space = DataSpace::ALL,
+              const DataSpace           &file_space = DataSpace::ALL,
               const DSetMemXferPropList &xfer_plist = DSetMemXferPropList::DEFAULT) const;
 
     // Writes the buffered data to this dataset.
     // The memory and file dataspaces and the transferring property list
     // can be defaults.
     void write(const void *buf, const DataType &mem_type, const DataSpace &mem_space = DataSpace::ALL,
-               const DataSpace &          file_space = DataSpace::ALL,
+               const DataSpace           &file_space = DataSpace::ALL,
                const DSetMemXferPropList &xfer_plist = DSetMemXferPropList::DEFAULT) const;
     void write(const H5std_string &buf, const DataType &mem_type, const DataSpace &mem_space = DataSpace::ALL,
-               const DataSpace &          file_space = DataSpace::ALL,
+               const DataSpace           &file_space = DataSpace::ALL,
                const DSetMemXferPropList &xfer_plist = DSetMemXferPropList::DEFAULT) const;
 
     // Iterates the selected elements in the specified dataspace - not implemented in C++ style yet

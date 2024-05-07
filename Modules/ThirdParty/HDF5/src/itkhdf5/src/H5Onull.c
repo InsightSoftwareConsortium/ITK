@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -31,7 +30,7 @@ const H5O_msg_class_t H5O_MSG_NULL[1] = {{
     H5O_NULL_ID, /*message id number             */
     "null",      /*message name for debugging    */
     0,           /*native message size           */
-    0,           /* messages are sharable?       */
+    0,           /* messages are shareable?       */
     NULL,        /*no decode method              */
     NULL,        /*no encode method              */
     NULL,        /*no copy method                */

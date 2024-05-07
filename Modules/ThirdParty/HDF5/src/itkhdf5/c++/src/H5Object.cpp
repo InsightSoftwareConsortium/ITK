@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -11,9 +10,9 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <cstring>
 #include <string>
 
-#include "H5private.h" // for HDmemset
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -45,9 +44,12 @@ namespace H5 {
 extern "C" {
 
 static herr_t
-userAttrOpWrpr(H5_ATTR_UNUSED hid_t loc_id, const char *attr_name, H5_ATTR_UNUSED const H5A_info_t *ainfo,
-               void *op_data)
+userAttrOpWrpr(hid_t loc_id, const char *attr_name, const H5A_info_t *ainfo, void *op_data)
 {
+    // Unused
+    (void)loc_id;
+    (void)ainfo;
+
     H5std_string       s_attr_name = H5std_string(attr_name);
     UserData4Aiterate *myData      = reinterpret_cast<UserData4Aiterate *>(op_data);
     myData->op(*myData->location, s_attr_name, myData->opData);
@@ -57,9 +59,11 @@ userAttrOpWrpr(H5_ATTR_UNUSED hid_t loc_id, const char *attr_name, H5_ATTR_UNUSE
 // userVisitOpWrpr interfaces between the user's function and the
 // C library function H5Ovisit3
 static herr_t
-userVisitOpWrpr(H5_ATTR_UNUSED hid_t obj_id, const char *attr_name, const H5O_info2_t *obj_info,
-                void *op_data)
+userVisitOpWrpr(hid_t obj_id, const char *attr_name, const H5O_info2_t *obj_info, void *op_data)
 {
+    // Unused
+    (void)obj_id;
+
     H5std_string    s_attr_name = H5std_string(attr_name);
     UserData4Visit *myData      = reinterpret_cast<UserData4Visit *>(op_data);
     int             status      = myData->op(*myData->obj, s_attr_name, obj_info, myData->opData);
@@ -482,7 +486,7 @@ H5Object::getObjName() const
     H5std_string obj_name; // object name to return
 
     // Preliminary call to get the size of the object name
-    ssize_t name_size = H5Iget_name(getId(), NULL, static_cast<size_t>(0));
+    ssize_t name_size = H5Iget_name(getId(), NULL, 0);
 
     // If H5Iget_name failed, throw exception
     if (name_size < 0) {
@@ -493,8 +497,9 @@ H5Object::getObjName() const
     }
     // Object's name exists, retrieve it
     else if (name_size > 0) {
-        char *name_C = new char[name_size + 1]; // temporary C-string
-        HDmemset(name_C, 0, name_size + 1);     // clear buffer
+        // Create buffer for C string
+        char *name_C = new char[name_size + 1];
+        memset(name_C, 0, name_size + 1);
 
         // Use overloaded function
         name_size = getObjName(name_C, name_size + 1);
@@ -534,8 +539,9 @@ H5Object::getObjName(H5std_string &obj_name, size_t len) const
     }
     // If length is provided, get that number of characters in name
     else {
-        char *name_C = new char[len + 1]; // temporary C-string
-        HDmemset(name_C, 0, len + 1);     // clear buffer
+        // Create buffer for C string
+        char *name_C = new char[len + 1];
+        memset(name_C, 0, len + 1);
 
         // Use overloaded function
         name_size = getObjName(name_C, len + 1);

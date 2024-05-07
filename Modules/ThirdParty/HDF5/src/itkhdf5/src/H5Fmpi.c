@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -31,11 +30,12 @@
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"   /* Generic Functions			*/
-#include "H5Eprivate.h"  /* Error handling		  	*/
-#include "H5Fpkg.h"      /* File access				*/
-#include "H5FDprivate.h" /* File drivers				*/
-#include "H5Iprivate.h"  /* IDs			  		*/
+#include "H5private.h"   /* Generic Functions                               */
+#include "H5CXprivate.h" /* API Contexts                                    */
+#include "H5Eprivate.h"  /* Error handling                                  */
+#include "H5Fpkg.h"      /* File access                                     */
+#include "H5FDprivate.h" /* File drivers                                    */
+#include "H5Iprivate.h"  /* IDs                                             */
 
 #include "H5VLnative_private.h" /* Native VOL connector                     */
 
@@ -361,7 +361,7 @@ H5F_mpi_retrieve_comm(hid_t loc_id, hid_t acspl_id, MPI_Comm *mpi_comm)
        attached to the loc_id */
     if (H5I_INVALID_HID != loc_id) {
         H5G_loc_t loc;
-        H5F_t *   f = NULL;
+        H5F_t    *f = NULL;
 
         /* Retrieve the file structure */
         if (H5G_loc(loc_id, &loc) < 0)
@@ -391,4 +391,189 @@ H5F_mpi_retrieve_comm(hid_t loc_id, hid_t acspl_id, MPI_Comm *mpi_comm)
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5F_mpi_retrieve_comm */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5F_get_coll_metadata_reads
+ *
+ * Purpose:     Determines whether collective metadata reads should be
+ *              performed. This routine is meant to be the single source of
+ *              truth for the collective metadata reads status, as it
+ *              coordinates between the file-global flag and the flag set
+ *              for the current operation in the current API context.
+ *
+ * Return:      TRUE/FALSE (can't fail)
+ *
+ *-------------------------------------------------------------------------
+ */
+hbool_t
+H5F_get_coll_metadata_reads(const H5F_t *file)
+{
+    H5P_coll_md_read_flag_t file_flag = H5P_USER_FALSE;
+    hbool_t                 ret_value = FALSE;
+
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
+
+    HDassert(file && file->shared);
+
+    /* Retrieve the file-global flag */
+    file_flag = H5F_COLL_MD_READ(file);
+
+    /* If file flag is set to H5P_FORCE_FALSE, exit early
+     * with FALSE, since collective metadata reads have
+     * been explicitly disabled somewhere in the library.
+     */
+    if (H5P_FORCE_FALSE == file_flag)
+        ret_value = FALSE;
+    else {
+        /* If file flag is set to H5P_USER_TRUE, ignore
+         * any settings in the API context. A file-global
+         * setting of H5P_USER_TRUE for collective metadata
+         * reads should ignore any settings on an Access
+         * Property List for an individual operation.
+         */
+        if (H5P_USER_TRUE == file_flag)
+            ret_value = TRUE;
+        else {
+            /* Get the collective metadata reads flag from
+             * the current API context.
+             */
+            ret_value = H5CX_get_coll_metadata_read();
+        }
+    }
+
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5F_get_coll_metadata_reads() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5F_set_coll_metadata_reads
+ *
+ * Purpose:     Used to temporarily modify the collective metadata reads
+ *              status. This is useful for cases where either:
+ *
+ *              * Collective metadata reads are enabled, but need to be
+ *                disabled for an operation about to occur that may trigger
+ *                an independent metadata read (such as only rank 0 doing
+ *                something)
+ *
+ *              * Metadata reads are currently independent, but it is
+ *                guaranteed that the application has maintained
+ *                collectivity at the interface level (e.g., an operation
+ *                that modifies metadata is being performed). In this case,
+ *                it should be safe to enable collective metadata reads,
+ *                barring any internal library issues that may occur
+ *
+ *              After completion, the `file_flag` parameter will be set to
+ *              the previous value of the file-global collective metadata
+ *              reads flag. The `context_flag` parameter will be set to the
+ *              previous value of the API context's collective metadata
+ *              reads flag. Another call to this routine should be made to
+ *              restore these values (see below warning).
+ *
+ * !! WARNING !!
+ *              It is dangerous to modify the collective metadata reads
+ *              status, as this can cause crashes, hangs and corruption in
+ *              the HDF5 file when improperly done. Therefore, the
+ *              `file_flag` and `context_flag` parameters are both
+ *              mandatory, and it is assumed that the caller will guarantee
+ *              these settings are restored with another call to this
+ *              routine once the bracketed operation is complete.
+ * !! WARNING !!
+ *
+ * Return:      Nothing
+ *
+ *-------------------------------------------------------------------------
+ */
+void
+H5F_set_coll_metadata_reads(H5F_t *file, H5P_coll_md_read_flag_t *file_flag, hbool_t *context_flag)
+{
+    H5P_coll_md_read_flag_t prev_file_flag    = H5P_USER_FALSE;
+    hbool_t                 prev_context_flag = FALSE;
+
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
+
+    HDassert(file && file->shared);
+    HDassert(file_flag);
+    HDassert(context_flag);
+
+    /* Save old state */
+    prev_file_flag    = H5F_COLL_MD_READ(file);
+    prev_context_flag = H5CX_get_coll_metadata_read();
+
+    /* Set new desired state */
+    if (prev_file_flag != *file_flag) {
+        file->shared->coll_md_read = *file_flag;
+        *file_flag                 = prev_file_flag;
+    }
+    if (prev_context_flag != *context_flag) {
+        H5CX_set_coll_metadata_read(*context_flag);
+        *context_flag = prev_context_flag;
+    }
+
+    FUNC_LEAVE_NOAPI_VOID
+} /* end H5F_set_coll_metadata_reads() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5F_mpi_get_file_block_type
+ *
+ * Purpose:     Creates an MPI derived datatype for communicating an
+ *              H5F_block_t structure. If `commit` is specified as TRUE,
+ *              the resulting datatype will be committed and ready for
+ *              use in communication. Otherwise, the type is only suitable
+ *              for building other derived types.
+ *
+ *              If TRUE is returned through `new_type_derived`, this lets
+ *              the caller know that the datatype has been derived and
+ *              should be freed with MPI_Type_free once it is no longer
+ *              needed.
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5F_mpi_get_file_block_type(hbool_t commit, MPI_Datatype *new_type, hbool_t *new_type_derived)
+{
+    MPI_Datatype types[2];
+    MPI_Aint     displacements[2];
+    int          block_lengths[2];
+    int          field_count;
+    int          mpi_code;
+    herr_t       ret_value = SUCCEED;
+
+    FUNC_ENTER_NOAPI(FAIL)
+
+    HDassert(new_type);
+    HDassert(new_type_derived);
+
+    *new_type_derived = FALSE;
+
+    field_count = 2;
+    HDassert(field_count == sizeof(types) / sizeof(MPI_Datatype));
+
+    block_lengths[0] = 1;
+    block_lengths[1] = 1;
+    displacements[0] = offsetof(H5F_block_t, offset);
+    displacements[1] = offsetof(H5F_block_t, length);
+    types[0]         = HADDR_AS_MPI_TYPE;
+    types[1]         = HSIZE_AS_MPI_TYPE;
+    if (MPI_SUCCESS !=
+        (mpi_code = MPI_Type_create_struct(field_count, block_lengths, displacements, types, new_type)))
+        HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_struct failed", mpi_code)
+    *new_type_derived = TRUE;
+
+    if (commit && MPI_SUCCESS != (mpi_code = MPI_Type_commit(new_type)))
+        HMPI_GOTO_ERROR(FAIL, "MPI_Type_commit failed", mpi_code)
+
+done:
+    if (ret_value < 0) {
+        if (*new_type_derived) {
+            if (MPI_SUCCESS != (mpi_code = MPI_Type_free(new_type)))
+                HMPI_DONE_ERROR(FAIL, "MPI_Type_free failed", mpi_code)
+            *new_type_derived = FALSE;
+        }
+    }
+
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5F_mpi_get_file_block_type() */
+
 #endif /* H5_HAVE_PARALLEL */

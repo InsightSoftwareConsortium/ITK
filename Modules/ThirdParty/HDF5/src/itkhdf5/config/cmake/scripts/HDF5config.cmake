@@ -11,8 +11,8 @@
 #
 #############################################################################################
 ### ${CTEST_SCRIPT_ARG} is of the form OPTION=VALUE                                       ###
-### BUILD_GENERATOR required [Unix, VS2019, VS201964, VS2017, VS201764, VS2015, VS201564] ###
-### ctest -S HDF5config.cmake,BUILD_GENERATOR=VS201764 -C Release -VV -O hdf5.log         ###
+### BUILD_GENERATOR required [Unix, VS2022, VS202264, VS2019, VS201964]                   ###
+### ctest -S HDF5config.cmake,BUILD_GENERATOR=VS202264 -C Release -VV -O hdf5.log         ###
 #############################################################################################
 
 #[[ ITK --start
@@ -25,21 +25,21 @@ cmake_minimum_required (VERSION 3.12)
 #     BUILD_GENERATOR - The cmake build generator:
 #            MinGW     * MinGW Makefiles
 #            Unix      * Unix Makefiles
+#            VS2022    * Visual Studio 17 2022
+#            VS202264  * Visual Studio 17 2022
 #            VS2019    * Visual Studio 16 2019
 #            VS201964  * Visual Studio 16 2019
 #            VS2017    * Visual Studio 15 2017
 #            VS201764  * Visual Studio 15 2017 Win64
 #            VS2015    * Visual Studio 14 2015
 #            VS201564  * Visual Studio 14 2015 Win64
-#            VS2013    * Visual Studio 12 2013
-#            VS201364  * Visual Studio 12 2013 Win64
 #
 #     INSTALLDIR  -  root folder where hdf5 is installed
 #     CTEST_CONFIGURATION_TYPE  - Release, Debug, etc
 #     CTEST_SOURCE_NAME  -  source folder
 ##############################################################################
 
-set (CTEST_SOURCE_VERSION "1.12.1")
+set (CTEST_SOURCE_VERSION "1.12.3")
 set (CTEST_SOURCE_VERSEXT "")
 
 ##############################################################################
@@ -70,7 +70,7 @@ endif ()
 
 # build generator must be defined
 if (NOT DEFINED BUILD_GENERATOR)
-  message (FATAL_ERROR "BUILD_GENERATOR must be defined - Unix, VS2019, VS201964, VS2017, or VS201764, VS2015, VS201564")
+  message (FATAL_ERROR "BUILD_GENERATOR must be defined - Unix, VS2022, VS202264, VS2019, VS201964")
 endif ()
 
 ###################################################################
@@ -81,7 +81,7 @@ set (CTEST_CONFIGURATION_TYPE "$ENV{CMAKE_CONFIG_TYPE}")
 
 if (NOT DEFINED INSTALLDIR)
   if (WIN32)
-    set (INSTALLDIR "C:/Program Files/HDF_Group/HDF5/${CTEST_SOURCE_VERSION}")
+    set (INSTALLDIR "%ProgramFiles%/HDF_Group/HDF5/${CTEST_SOURCE_VERSION}")
   else ()
     set (INSTALLDIR "${CTEST_SCRIPT_DIRECTORY}/HDF_Group/HDF5/${CTEST_SOURCE_VERSION}")
   endif ()
@@ -107,12 +107,24 @@ endif ()
 #########       Following describes compiler           ############
 if (NOT DEFINED HPC)
   if (NOT DEFINED BUILD_GENERATOR)
-    message (FATAL_ERROR "BUILD_GENERATOR must be defined - Unix, VS2019, VS201964, VS2017, or VS201764, VS2015, VS201564")
+    message (FATAL_ERROR "BUILD_GENERATOR must be defined - Unix, VS2022, VS202264, VS2019, VS201964")
   endif ()
   if (WIN32 AND NOT MINGW)
     set (SITE_OS_NAME "Windows")
     set (SITE_OS_VERSION "WIN10")
-    if (BUILD_GENERATOR STREQUAL "VS201964")
+    if (BUILD_GENERATOR STREQUAL "VS202264")
+      set (CTEST_CMAKE_GENERATOR "Visual Studio 17 2022")
+      set (CMAKE_GENERATOR_ARCHITECTURE "x64")
+      set (SITE_OS_BITS "64")
+      set (SITE_COMPILER_NAME "vs2022")
+      set (SITE_COMPILER_VERSION "17")
+    elseif (BUILD_GENERATOR STREQUAL "VS2022")
+      set (CTEST_CMAKE_GENERATOR "Visual Studio 17 2022")
+      set (CMAKE_GENERATOR_ARCHITECTURE "Win32")
+      set (SITE_OS_BITS "32")
+      set (SITE_COMPILER_NAME "vs2022")
+      set (SITE_COMPILER_VERSION "17")
+    elseif (BUILD_GENERATOR STREQUAL "VS201964")
       set (CTEST_CMAKE_GENERATOR "Visual Studio 16 2019")
       set (CMAKE_GENERATOR_ARCHITECTURE "x64")
       set (SITE_OS_BITS "64")
@@ -165,10 +177,10 @@ if (NOT DEFINED HPC)
       set (SITE_COMPILER_NAME "vs2012")
       set (SITE_COMPILER_VERSION "11")
     else ()
-      message (FATAL_ERROR "Invalid BUILD_GENERATOR must be - Unix, VS2019, VS201964, VS2017, or VS201764, VS2015, VS201564")
+      message (FATAL_ERROR "Invalid BUILD_GENERATOR must be - Unix, VS2022, VS202264, VS2019, VS201964")
     endif ()
   ##  Set the following to unique id your computer  ##
-    set (CTEST_SITE "WIN7${BUILD_GENERATOR}.XXXX")
+    set (CTEST_SITE "WIN10${BUILD_GENERATOR}.XXXX")
   else ()
     if (MINGW)
       set (CTEST_CMAKE_GENERATOR "MinGW Makefiles")
@@ -177,7 +189,7 @@ if (NOT DEFINED HPC)
     endif ()
   ##  Set the following to unique id your computer  ##
     if (APPLE)
-     set (CTEST_SITE "MAC.XXXX")
+      set (CTEST_SITE "MAC.XXXX")
     else ()
       set (CTEST_SITE "LINUX.XXXX")
     endif ()

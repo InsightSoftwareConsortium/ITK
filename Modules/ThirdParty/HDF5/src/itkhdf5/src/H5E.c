@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -81,10 +80,11 @@ static ssize_t    H5E__get_class_name(const H5E_cls_t *cls, char *name, size_t s
 static int        H5E__close_msg_cb(void *obj_ptr, hid_t obj_id, void *udata);
 static herr_t     H5E__close_msg(H5E_msg_t *err);
 static H5E_msg_t *H5E__create_msg(H5E_cls_t *cls, H5E_type_t msg_type, const char *msg);
-static H5E_t *    H5E__get_current_stack(void);
+static H5E_t     *H5E__get_current_stack(void);
 static herr_t     H5E__set_current_stack(H5E_t *estack);
 static herr_t     H5E__close_stack(H5E_t *err_stack);
 static ssize_t    H5E__get_num(const H5E_t *err_stack);
+static herr_t     H5E__print2(hid_t err_stack, FILE *stream);
 
 /*********************/
 /* Package Variables */
@@ -325,10 +325,10 @@ H5E__set_default_auto(H5E_t *stk)
 #endif /* H5_USE_16_API_DEFAULT */
 
     stk->auto_op.func1 = stk->auto_op.func1_default = (H5E_auto1_t)H5Eprint1;
-    stk->auto_op.func2 = stk->auto_op.func2_default = (H5E_auto2_t)H5Eprint2;
+    stk->auto_op.func2 = stk->auto_op.func2_default = (H5E_auto2_t)H5E__print2;
     stk->auto_op.is_default                         = TRUE;
 #else  /* H5_NO_DEPRECATED_SYMBOLS */
-    stk->auto_op.func2 = (H5E_auto2_t)H5Eprint2;
+    stk->auto_op.func2 = (H5E_auto2_t)H5E__print2;
 #endif /* H5_NO_DEPRECATED_SYMBOLS */
 
     stk->auto_data = NULL;
@@ -637,7 +637,7 @@ H5E__get_class_name(const H5E_cls_t *cls, char *name, size_t size)
 
     /* Set the user's buffer, if provided */
     if (name) {
-        HDstrncpy(name, cls->cls_name, MIN((size_t)(len + 1), size));
+        HDstrncpy(name, cls->cls_name, size);
         if ((size_t)len >= size)
             name[size - 1] = '\0';
     } /* end if */
@@ -719,7 +719,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:    H5E__close_msg
  *
- * Purpose:     Private function to close an error messge.
+ * Purpose:     Private function to close an error message.
  *
  * Return:      SUCCEED/FAIL
  *
@@ -959,10 +959,10 @@ done:
 static H5E_t *
 H5E__get_current_stack(void)
 {
-    H5E_t *  current_stack;      /* Pointer to the current error stack */
-    H5E_t *  estack_copy = NULL; /* Pointer to new error stack to return */
+    H5E_t   *current_stack;      /* Pointer to the current error stack */
+    H5E_t   *estack_copy = NULL; /* Pointer to new error stack to return */
     unsigned u;                  /* Local index variable */
-    H5E_t *  ret_value = NULL;   /* Return value */
+    H5E_t   *ret_value = NULL;   /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -1078,7 +1078,7 @@ done:
 static herr_t
 H5E__set_current_stack(H5E_t *estack)
 {
-    H5E_t *  current_stack;       /* Default error stack */
+    H5E_t   *current_stack;       /* Default error stack */
     unsigned u;                   /* Local index variable */
     herr_t   ret_value = SUCCEED; /* Return value */
 
@@ -1209,7 +1209,7 @@ H5E__close_stack(H5E_t *estack)
 ssize_t
 H5Eget_num(hid_t error_stack_id)
 {
-    H5E_t * estack;    /* Error stack to operate on */
+    H5E_t  *estack;    /* Error stack to operate on */
     ssize_t ret_value; /* Return value */
 
     /* Don't clear the error stack! :-) */
@@ -1338,8 +1338,8 @@ H5Epush2(hid_t err_stack, const char *file, const char *func, unsigned line, hid
          hid_t min_id, const char *fmt, ...)
 {
     va_list ap;                   /* Varargs info */
-    H5E_t * estack;               /* Pointer to error stack to modify */
-    char *  tmp        = NULL;    /* Buffer to place formatted description in */
+    H5E_t  *estack;               /* Pointer to error stack to modify */
+    char   *tmp        = NULL;    /* Buffer to place formatted description in */
     hbool_t va_started = FALSE;   /* Whether the variable argument list is open */
     herr_t  ret_value  = SUCCEED; /* Return value */
 
@@ -1446,12 +1446,36 @@ done:
 herr_t
 H5Eprint2(hid_t err_stack, FILE *stream)
 {
-    H5E_t *estack;              /* Error stack to operate on */
     herr_t ret_value = SUCCEED; /* Return value */
 
     /* Don't clear the error stack! :-) */
     FUNC_ENTER_API_NOCLEAR(FAIL)
     /*NO TRACE*/
+
+    /* Print error stack */
+    if ((ret_value = H5E__print2(err_stack, stream)) < 0)
+        HGOTO_ERROR(H5E_ERROR, H5E_CANTLIST, FAIL, "can't display error stack")
+
+done:
+    FUNC_LEAVE_API(ret_value)
+} /* end H5Eprint2() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5E__print2
+ *
+ * Purpose:     Internal helper routine for H5Eprint2.
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *
+ *-------------------------------------------------------------------------
+ */
+static herr_t
+H5E__print2(hid_t err_stack, FILE *stream)
+{
+    H5E_t *estack;              /* Error stack to operate on */
+    herr_t ret_value = SUCCEED; /* Return value */
+
+    FUNC_ENTER_STATIC
 
     /* Need to check for errors */
     if (err_stack == H5E_DEFAULT) {
@@ -1472,8 +1496,8 @@ H5Eprint2(hid_t err_stack, FILE *stream)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTLIST, FAIL, "can't display error stack")
 
 done:
-    FUNC_LEAVE_API(ret_value)
-} /* end H5Eprint2() */
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5E__print2() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5Ewalk2
@@ -1491,7 +1515,7 @@ done:
 herr_t
 H5Ewalk2(hid_t err_stack, H5E_direction_t direction, H5E_walk2_t stack_func, void *client_data)
 {
-    H5E_t *       estack;              /* Error stack to operate on */
+    H5E_t        *estack;              /* Error stack to operate on */
     H5E_walk_op_t op;                  /* Operator for walking error stack */
     herr_t        ret_value = SUCCEED; /* Return value */
 
@@ -1541,7 +1565,7 @@ done:
 herr_t
 H5Eget_auto2(hid_t estack_id, H5E_auto2_t *func, void **client_data)
 {
-    H5E_t *       estack;              /* Error stack to operate on */
+    H5E_t        *estack;              /* Error stack to operate on */
     H5E_auto_op_t op;                  /* Error stack function */
     herr_t        ret_value = SUCCEED; /* Return value */
 
@@ -1604,7 +1628,7 @@ done:
 herr_t
 H5Eset_auto2(hid_t estack_id, H5E_auto2_t func, void *client_data)
 {
-    H5E_t *       estack;              /* Error stack to operate on */
+    H5E_t        *estack;              /* Error stack to operate on */
     H5E_auto_op_t op;                  /* Error stack operator */
     herr_t        ret_value = SUCCEED; /* Return value */
 

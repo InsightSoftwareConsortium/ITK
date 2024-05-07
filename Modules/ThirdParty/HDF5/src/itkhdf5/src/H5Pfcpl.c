@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -696,7 +695,7 @@ static herr_t
 H5P__fcrt_btree_rank_enc(const void *value, void **_pp, size_t *size)
 {
     const unsigned *btree_k = (const unsigned *)value; /* Create local alias for values */
-    uint8_t **      pp      = (uint8_t **)_pp;
+    uint8_t       **pp      = (uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -741,7 +740,7 @@ H5P__fcrt_btree_rank_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P__fcrt_btree_rank_dec(const void **_pp, void *_value)
 {
-    unsigned *      btree_k = (unsigned *)_value;
+    unsigned       *btree_k = (unsigned *)_value;
     const uint8_t **pp      = (const uint8_t **)_pp;
     unsigned        enc_size;            /* Size of encoded property */
     unsigned        u;                   /* Local index variable */
@@ -983,7 +982,7 @@ static herr_t
 H5P__fcrt_shmsg_index_types_enc(const void *value, void **_pp, size_t *size)
 {
     const unsigned *type_flags = (const unsigned *)value; /* Create local alias for values */
-    uint8_t **      pp         = (uint8_t **)_pp;
+    uint8_t       **pp         = (uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -1029,7 +1028,7 @@ H5P__fcrt_shmsg_index_types_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P__fcrt_shmsg_index_types_dec(const void **_pp, void *_value)
 {
-    unsigned *      type_flags = (unsigned *)_value;
+    unsigned       *type_flags = (unsigned *)_value;
     const uint8_t **pp         = (const uint8_t **)_pp;
     unsigned        enc_size;            /* Size of encoded property */
     unsigned        u;                   /* Local index variable */
@@ -1074,7 +1073,7 @@ static herr_t
 H5P__fcrt_shmsg_index_minsize_enc(const void *value, void **_pp, size_t *size)
 {
     const unsigned *minsizes = (const unsigned *)value; /* Create local alias for values */
-    uint8_t **      pp       = (uint8_t **)_pp;
+    uint8_t       **pp       = (uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -1120,7 +1119,7 @@ H5P__fcrt_shmsg_index_minsize_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P__fcrt_shmsg_index_minsize_dec(const void **_pp, void *_value)
 {
-    unsigned *      minsizes = (unsigned *)_value;
+    unsigned       *minsizes = (unsigned *)_value;
     const uint8_t **pp       = (const uint8_t **)_pp;
     unsigned        enc_size;            /* Size of encoded property */
     unsigned        u;                   /* Local index variable */
@@ -1389,7 +1388,7 @@ static herr_t
 H5P__fcrt_fspace_strategy_dec(const void **_pp, void *_value)
 {
     H5F_fspace_strategy_t *strategy = (H5F_fspace_strategy_t *)_value; /* Free-space strategy */
-    const uint8_t **       pp       = (const uint8_t **)_pp;
+    const uint8_t        **pp       = (const uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
 

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -27,7 +26,6 @@
 #include "H5DataType.h"
 #include "H5AtomType.h"
 #include "H5PredType.h"
-#include "H5private.h"
 
 namespace H5 {
 
@@ -90,8 +88,12 @@ PredType::operator=(const PredType &rhs)
 // These dummy functions do not inherit from DataType - they'll
 // throw an DataTypeIException if invoked.
 void
-PredType::commit(H5_ATTR_UNUSED H5Location &loc, H5_ATTR_UNUSED const char *name)
+PredType::commit(H5Location &loc, const char *name)
 {
+    // Unused
+    (void)loc;
+    (void)name;
+
     throw DataTypeIException("PredType::commit",
                              "Error: Attempted to commit a predefined datatype.  Invalid operation!");
 }
@@ -246,63 +248,32 @@ PredType *PredType::NATIVE_INT32_;
 PredType *PredType::NATIVE_UINT32_;
 PredType *PredType::NATIVE_INT64_;
 PredType *PredType::NATIVE_UINT64_;
+
 // LEAST types
-#if H5_SIZEOF_INT_LEAST8_T != 0
 PredType *PredType::NATIVE_INT_LEAST8_;
-#endif /* H5_SIZEOF_INT_LEAST8_T */
-#if H5_SIZEOF_UINT_LEAST8_T != 0
 PredType *PredType::NATIVE_UINT_LEAST8_;
-#endif /* H5_SIZEOF_UINT_LEAST8_T */
 
-#if H5_SIZEOF_INT_LEAST16_T != 0
 PredType *PredType::NATIVE_INT_LEAST16_;
-#endif /* H5_SIZEOF_INT_LEAST16_T */
-#if H5_SIZEOF_UINT_LEAST16_T != 0
 PredType *PredType::NATIVE_UINT_LEAST16_;
-#endif /* H5_SIZEOF_UINT_LEAST16_T */
 
-#if H5_SIZEOF_INT_LEAST32_T != 0
 PredType *PredType::NATIVE_INT_LEAST32_;
-#endif /* H5_SIZEOF_INT_LEAST32_T */
-#if H5_SIZEOF_UINT_LEAST32_T != 0
 PredType *PredType::NATIVE_UINT_LEAST32_;
-#endif /* H5_SIZEOF_UINT_LEAST32_T */
 
-#if H5_SIZEOF_INT_LEAST64_T != 0
 PredType *PredType::NATIVE_INT_LEAST64_;
-#endif /* H5_SIZEOF_INT_LEAST64_T */
-#if H5_SIZEOF_UINT_LEAST64_T != 0
 PredType *PredType::NATIVE_UINT_LEAST64_;
-#endif /* H5_SIZEOF_UINT_LEAST64_T */
 
 // FAST types
-#if H5_SIZEOF_INT_FAST8_T != 0
 PredType *PredType::NATIVE_INT_FAST8_;
-#endif /* H5_SIZEOF_INT_FAST8_T */
-#if H5_SIZEOF_UINT_FAST8_T != 0
 PredType *PredType::NATIVE_UINT_FAST8_;
-#endif /* H5_SIZEOF_UINT_FAST8_T */
 
-#if H5_SIZEOF_INT_FAST16_T != 0
 PredType *PredType::NATIVE_INT_FAST16_;
-#endif /* H5_SIZEOF_INT_FAST16_T */
-#if H5_SIZEOF_UINT_FAST16_T != 0
 PredType *PredType::NATIVE_UINT_FAST16_;
-#endif /* H5_SIZEOF_UINT_FAST16_T */
 
-#if H5_SIZEOF_INT_FAST32_T != 0
 PredType *PredType::NATIVE_INT_FAST32_;
-#endif /* H5_SIZEOF_INT_FAST32_T */
-#if H5_SIZEOF_UINT_FAST32_T != 0
 PredType *PredType::NATIVE_UINT_FAST32_;
-#endif /* H5_SIZEOF_UINT_FAST32_T */
 
-#if H5_SIZEOF_INT_FAST64_T != 0
 PredType *PredType::NATIVE_INT_FAST64_;
-#endif /* H5_SIZEOF_INT_FAST64_T */
-#if H5_SIZEOF_UINT_FAST64_T != 0
 PredType *PredType::NATIVE_UINT_FAST64_;
-#endif /* H5_SIZEOF_UINT_FAST64_T */
 
 //--------------------------------------------------------------------------
 // Function:    PredType::getPredTypes
@@ -434,31 +405,29 @@ PredType::makePredTypes()
     MIPS_F32_ = new PredType(H5T_MIPS_F32);
     MIPS_F64_ = new PredType(H5T_MIPS_F64);
 
-    NATIVE_CHAR_   = new PredType(H5T_NATIVE_CHAR);
-    NATIVE_INT_    = new PredType(H5T_NATIVE_INT);
-    NATIVE_FLOAT_  = new PredType(H5T_NATIVE_FLOAT);
-    NATIVE_SCHAR_  = new PredType(H5T_NATIVE_SCHAR);
-    NATIVE_UCHAR_  = new PredType(H5T_NATIVE_UCHAR);
-    NATIVE_SHORT_  = new PredType(H5T_NATIVE_SHORT);
-    NATIVE_USHORT_ = new PredType(H5T_NATIVE_USHORT);
-    NATIVE_UINT_   = new PredType(H5T_NATIVE_UINT);
-    NATIVE_LONG_   = new PredType(H5T_NATIVE_LONG);
-    NATIVE_ULONG_  = new PredType(H5T_NATIVE_ULONG);
-    NATIVE_LLONG_  = new PredType(H5T_NATIVE_LLONG);
-    NATIVE_ULLONG_ = new PredType(H5T_NATIVE_ULLONG);
-    NATIVE_DOUBLE_ = new PredType(H5T_NATIVE_DOUBLE);
-#if H5_SIZEOF_LONG_DOUBLE != 0
+    NATIVE_CHAR_    = new PredType(H5T_NATIVE_CHAR);
+    NATIVE_INT_     = new PredType(H5T_NATIVE_INT);
+    NATIVE_FLOAT_   = new PredType(H5T_NATIVE_FLOAT);
+    NATIVE_SCHAR_   = new PredType(H5T_NATIVE_SCHAR);
+    NATIVE_UCHAR_   = new PredType(H5T_NATIVE_UCHAR);
+    NATIVE_SHORT_   = new PredType(H5T_NATIVE_SHORT);
+    NATIVE_USHORT_  = new PredType(H5T_NATIVE_USHORT);
+    NATIVE_UINT_    = new PredType(H5T_NATIVE_UINT);
+    NATIVE_LONG_    = new PredType(H5T_NATIVE_LONG);
+    NATIVE_ULONG_   = new PredType(H5T_NATIVE_ULONG);
+    NATIVE_LLONG_   = new PredType(H5T_NATIVE_LLONG);
+    NATIVE_ULLONG_  = new PredType(H5T_NATIVE_ULLONG);
+    NATIVE_DOUBLE_  = new PredType(H5T_NATIVE_DOUBLE);
     NATIVE_LDOUBLE_ = new PredType(H5T_NATIVE_LDOUBLE);
-#endif
-    NATIVE_B8_     = new PredType(H5T_NATIVE_B8);
-    NATIVE_B16_    = new PredType(H5T_NATIVE_B16);
-    NATIVE_B32_    = new PredType(H5T_NATIVE_B32);
-    NATIVE_B64_    = new PredType(H5T_NATIVE_B64);
-    NATIVE_OPAQUE_ = new PredType(H5T_NATIVE_OPAQUE);
-    NATIVE_HSIZE_  = new PredType(H5T_NATIVE_HSIZE);
-    NATIVE_HSSIZE_ = new PredType(H5T_NATIVE_HSSIZE);
-    NATIVE_HERR_   = new PredType(H5T_NATIVE_HERR);
-    NATIVE_HBOOL_  = new PredType(H5T_NATIVE_HBOOL);
+    NATIVE_B8_      = new PredType(H5T_NATIVE_B8);
+    NATIVE_B16_     = new PredType(H5T_NATIVE_B16);
+    NATIVE_B32_     = new PredType(H5T_NATIVE_B32);
+    NATIVE_B64_     = new PredType(H5T_NATIVE_B64);
+    NATIVE_OPAQUE_  = new PredType(H5T_NATIVE_OPAQUE);
+    NATIVE_HSIZE_   = new PredType(H5T_NATIVE_HSIZE);
+    NATIVE_HSSIZE_  = new PredType(H5T_NATIVE_HSSIZE);
+    NATIVE_HERR_    = new PredType(H5T_NATIVE_HERR);
+    NATIVE_HBOOL_   = new PredType(H5T_NATIVE_HBOOL);
 
     NATIVE_INT8_   = new PredType(H5T_NATIVE_INT8);
     NATIVE_UINT8_  = new PredType(H5T_NATIVE_UINT8);
@@ -469,63 +438,31 @@ PredType::makePredTypes()
     NATIVE_INT64_  = new PredType(H5T_NATIVE_INT64);
     NATIVE_UINT64_ = new PredType(H5T_NATIVE_UINT64);
 
-// LEAST types
-#if H5_SIZEOF_INT_LEAST8_T != 0
-    NATIVE_INT_LEAST8_ = new PredType(H5T_NATIVE_INT_LEAST8);
-#endif /* H5_SIZEOF_INT_LEAST8_T */
-#if H5_SIZEOF_UINT_LEAST8_T != 0
+    // LEAST types
+    NATIVE_INT_LEAST8_  = new PredType(H5T_NATIVE_INT_LEAST8);
     NATIVE_UINT_LEAST8_ = new PredType(H5T_NATIVE_UINT_LEAST8);
-#endif /* H5_SIZEOF_UINT_LEAST8_T */
 
-#if H5_SIZEOF_INT_LEAST16_T != 0
-    NATIVE_INT_LEAST16_ = new PredType(H5T_NATIVE_INT_LEAST16);
-#endif /* H5_SIZEOF_INT_LEAST16_T */
-#if H5_SIZEOF_UINT_LEAST16_T != 0
+    NATIVE_INT_LEAST16_  = new PredType(H5T_NATIVE_INT_LEAST16);
     NATIVE_UINT_LEAST16_ = new PredType(H5T_NATIVE_UINT_LEAST16);
-#endif /* H5_SIZEOF_UINT_LEAST16_T */
 
-#if H5_SIZEOF_INT_LEAST32_T != 0
-    NATIVE_INT_LEAST32_ = new PredType(H5T_NATIVE_INT_LEAST32);
-#endif /* H5_SIZEOF_INT_LEAST32_T */
-#if H5_SIZEOF_UINT_LEAST32_T != 0
+    NATIVE_INT_LEAST32_  = new PredType(H5T_NATIVE_INT_LEAST32);
     NATIVE_UINT_LEAST32_ = new PredType(H5T_NATIVE_UINT_LEAST32);
-#endif /* H5_SIZEOF_UINT_LEAST32_T */
 
-#if H5_SIZEOF_INT_LEAST64_T != 0
-    NATIVE_INT_LEAST64_ = new PredType(H5T_NATIVE_INT_LEAST64);
-#endif /* H5_SIZEOF_INT_LEAST64_T */
-#if H5_SIZEOF_UINT_LEAST64_T != 0
+    NATIVE_INT_LEAST64_  = new PredType(H5T_NATIVE_INT_LEAST64);
     NATIVE_UINT_LEAST64_ = new PredType(H5T_NATIVE_UINT_LEAST64);
-#endif /* H5_SIZEOF_UINT_LEAST64_T */
 
-// FAST types
-#if H5_SIZEOF_INT_FAST8_T != 0
-    NATIVE_INT_FAST8_ = new PredType(H5T_NATIVE_INT_FAST8);
-#endif /* H5_SIZEOF_INT_FAST8_T */
-#if H5_SIZEOF_UINT_FAST8_T != 0
+    // FAST types
+    NATIVE_INT_FAST8_  = new PredType(H5T_NATIVE_INT_FAST8);
     NATIVE_UINT_FAST8_ = new PredType(H5T_NATIVE_UINT_FAST8);
-#endif /* H5_SIZEOF_UINT_FAST8_T */
 
-#if H5_SIZEOF_INT_FAST16_T != 0
-    NATIVE_INT_FAST16_ = new PredType(H5T_NATIVE_INT_FAST16);
-#endif /* H5_SIZEOF_INT_FAST16_T */
-#if H5_SIZEOF_UINT_FAST16_T != 0
+    NATIVE_INT_FAST16_  = new PredType(H5T_NATIVE_INT_FAST16);
     NATIVE_UINT_FAST16_ = new PredType(H5T_NATIVE_UINT_FAST16);
-#endif /* H5_SIZEOF_UINT_FAST16_T */
 
-#if H5_SIZEOF_INT_FAST32_T != 0
-    NATIVE_INT_FAST32_ = new PredType(H5T_NATIVE_INT_FAST32);
-#endif /* H5_SIZEOF_INT_FAST32_T */
-#if H5_SIZEOF_UINT_FAST32_T != 0
+    NATIVE_INT_FAST32_  = new PredType(H5T_NATIVE_INT_FAST32);
     NATIVE_UINT_FAST32_ = new PredType(H5T_NATIVE_UINT_FAST32);
-#endif /* H5_SIZEOF_UINT_FAST32_T */
 
-#if H5_SIZEOF_INT_FAST64_T != 0
-    NATIVE_INT_FAST64_ = new PredType(H5T_NATIVE_INT_FAST64);
-#endif /* H5_SIZEOF_INT_FAST64_T */
-#if H5_SIZEOF_UINT_FAST64_T != 0
+    NATIVE_INT_FAST64_  = new PredType(H5T_NATIVE_INT_FAST64);
     NATIVE_UINT_FAST64_ = new PredType(H5T_NATIVE_UINT_FAST64);
-#endif /* H5_SIZEOF_UINT_FAST64_T */
 
 } // makePredTypes
 
@@ -655,63 +592,31 @@ PredType::deleteConstants()
     delete NATIVE_INT64_;
     delete NATIVE_UINT64_;
 
-// LEAST types
-#if H5_SIZEOF_INT_LEAST8_T != 0
+    // LEAST types
     delete NATIVE_INT_LEAST8_;
-#endif /* H5_SIZEOF_INT_LEAST8_T */
-#if H5_SIZEOF_UINT_LEAST8_T != 0
     delete NATIVE_UINT_LEAST8_;
-#endif /* H5_SIZEOF_UINT_LEAST8_T */
 
-#if H5_SIZEOF_INT_LEAST16_T != 0
     delete NATIVE_INT_LEAST16_;
-#endif /* H5_SIZEOF_INT_LEAST16_T */
-#if H5_SIZEOF_UINT_LEAST16_T != 0
     delete NATIVE_UINT_LEAST16_;
-#endif /* H5_SIZEOF_UINT_LEAST16_T */
 
-#if H5_SIZEOF_INT_LEAST32_T != 0
     delete NATIVE_INT_LEAST32_;
-#endif /* H5_SIZEOF_INT_LEAST32_T */
-#if H5_SIZEOF_UINT_LEAST32_T != 0
     delete NATIVE_UINT_LEAST32_;
-#endif /* H5_SIZEOF_UINT_LEAST32_T */
 
-#if H5_SIZEOF_INT_LEAST64_T != 0
     delete NATIVE_INT_LEAST64_;
-#endif /* H5_SIZEOF_INT_LEAST64_T */
-#if H5_SIZEOF_UINT_LEAST64_T != 0
     delete NATIVE_UINT_LEAST64_;
-#endif /* H5_SIZEOF_UINT_LEAST64_T */
 
-// FAST types
-#if H5_SIZEOF_INT_FAST8_T != 0
+    // FAST types
     delete NATIVE_INT_FAST8_;
-#endif /* H5_SIZEOF_INT_FAST8_T */
-#if H5_SIZEOF_UINT_FAST8_T != 0
     delete NATIVE_UINT_FAST8_;
-#endif /* H5_SIZEOF_UINT_FAST8_T */
 
-#if H5_SIZEOF_INT_FAST16_T != 0
     delete NATIVE_INT_FAST16_;
-#endif /* H5_SIZEOF_INT_FAST16_T */
-#if H5_SIZEOF_UINT_FAST16_T != 0
     delete NATIVE_UINT_FAST16_;
-#endif /* H5_SIZEOF_UINT_FAST16_T */
 
-#if H5_SIZEOF_INT_FAST32_T != 0
     delete NATIVE_INT_FAST32_;
-#endif /* H5_SIZEOF_INT_FAST32_T */
-#if H5_SIZEOF_UINT_FAST32_T != 0
     delete NATIVE_UINT_FAST32_;
-#endif /* H5_SIZEOF_UINT_FAST32_T */
 
-#if H5_SIZEOF_INT_FAST64_T != 0
     delete NATIVE_INT_FAST64_;
-#endif /* H5_SIZEOF_INT_FAST64_T */
-#if H5_SIZEOF_UINT_FAST64_T != 0
     delete NATIVE_UINT_FAST64_;
-#endif /* H5_SIZEOF_UINT_FAST64_T */
 
     delete PREDTYPE_CONST_;
     PREDTYPE_CONST_ = 0;
@@ -845,62 +750,30 @@ const PredType &PredType::NATIVE_INT64  = *NATIVE_INT64_;
 const PredType &PredType::NATIVE_UINT64 = *NATIVE_UINT64_;
 
 // LEAST types
-#if H5_SIZEOF_INT_LEAST8_T != 0
-const PredType &PredType::NATIVE_INT_LEAST8 = *NATIVE_INT_LEAST8_;
-#endif /* H5_SIZEOF_INT_LEAST8_T */
-#if H5_SIZEOF_UINT_LEAST8_T != 0
+const PredType &PredType::NATIVE_INT_LEAST8  = *NATIVE_INT_LEAST8_;
 const PredType &PredType::NATIVE_UINT_LEAST8 = *NATIVE_UINT_LEAST8_;
-#endif /* H5_SIZEOF_UINT_LEAST8_T */
 
-#if H5_SIZEOF_INT_LEAST16_T != 0
-const PredType &PredType::NATIVE_INT_LEAST16 = *NATIVE_INT_LEAST16_;
-#endif /* H5_SIZEOF_INT_LEAST16_T */
-#if H5_SIZEOF_UINT_LEAST16_T != 0
+const PredType &PredType::NATIVE_INT_LEAST16  = *NATIVE_INT_LEAST16_;
 const PredType &PredType::NATIVE_UINT_LEAST16 = *NATIVE_UINT_LEAST16_;
-#endif /* H5_SIZEOF_UINT_LEAST16_T */
 
-#if H5_SIZEOF_INT_LEAST32_T != 0
-const PredType &PredType::NATIVE_INT_LEAST32 = *NATIVE_INT_LEAST32_;
-#endif /* H5_SIZEOF_INT_LEAST32_T */
-#if H5_SIZEOF_UINT_LEAST32_T != 0
+const PredType &PredType::NATIVE_INT_LEAST32  = *NATIVE_INT_LEAST32_;
 const PredType &PredType::NATIVE_UINT_LEAST32 = *NATIVE_UINT_LEAST32_;
-#endif /* H5_SIZEOF_UINT_LEAST32_T */
 
-#if H5_SIZEOF_INT_LEAST64_T != 0
-const PredType &PredType::NATIVE_INT_LEAST64 = *NATIVE_INT_LEAST64_;
-#endif /* H5_SIZEOF_INT_LEAST64_T */
-#if H5_SIZEOF_UINT_LEAST64_T != 0
+const PredType &PredType::NATIVE_INT_LEAST64  = *NATIVE_INT_LEAST64_;
 const PredType &PredType::NATIVE_UINT_LEAST64 = *NATIVE_UINT_LEAST64_;
-#endif /* H5_SIZEOF_UINT_LEAST64_T */
 
 // FAST types
-#if H5_SIZEOF_INT_FAST8_T != 0
-const PredType &PredType::NATIVE_INT_FAST8 = *NATIVE_INT_FAST8_;
-#endif /* H5_SIZEOF_INT_FAST8_T */
-#if H5_SIZEOF_UINT_FAST8_T != 0
+const PredType &PredType::NATIVE_INT_FAST8  = *NATIVE_INT_FAST8_;
 const PredType &PredType::NATIVE_UINT_FAST8 = *NATIVE_UINT_FAST8_;
-#endif /* H5_SIZEOF_UINT_FAST8_T */
 
-#if H5_SIZEOF_INT_FAST16_T != 0
-const PredType &PredType::NATIVE_INT_FAST16 = *NATIVE_INT_FAST16_;
-#endif /* H5_SIZEOF_INT_FAST16_T */
-#if H5_SIZEOF_UINT_FAST16_T != 0
+const PredType &PredType::NATIVE_INT_FAST16  = *NATIVE_INT_FAST16_;
 const PredType &PredType::NATIVE_UINT_FAST16 = *NATIVE_UINT_FAST16_;
-#endif /* H5_SIZEOF_UINT_FAST16_T */
 
-#if H5_SIZEOF_INT_FAST32_T != 0
-const PredType &PredType::NATIVE_INT_FAST32 = *NATIVE_INT_FAST32_;
-#endif /* H5_SIZEOF_INT_FAST32_T */
-#if H5_SIZEOF_UINT_FAST32_T != 0
+const PredType &PredType::NATIVE_INT_FAST32  = *NATIVE_INT_FAST32_;
 const PredType &PredType::NATIVE_UINT_FAST32 = *NATIVE_UINT_FAST32_;
-#endif /* H5_SIZEOF_UINT_FAST32_T */
 
-#if H5_SIZEOF_INT_FAST64_T != 0
-const PredType &PredType::NATIVE_INT_FAST64 = *NATIVE_INT_FAST64_;
-#endif /* H5_SIZEOF_INT_FAST64_T */
-#if H5_SIZEOF_UINT_FAST64_T != 0
+const PredType &PredType::NATIVE_INT_FAST64  = *NATIVE_INT_FAST64_;
 const PredType &PredType::NATIVE_UINT_FAST64 = *NATIVE_UINT_FAST64_;
-#endif /* H5_SIZEOF_UINT_FAST64_T */
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
@@ -916,7 +789,7 @@ September 2015:
         classes, such as PropList, PredType, DataSpace, etc...  Previously,
         these global constants were declared statically and the C++ library used
         a constant, called PredType::AtExit, to detect when all the global
-        contants are destroyed then close the C library (H5close).  This method
+        constants are destroyed then close the C library (H5close).  This method
         relied on the order of the constants being created and destroyed and
         that PredType constants be the last to be destroyed.  In September
         2015, it was recognized that the order in which the global constants were

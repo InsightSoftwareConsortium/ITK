@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -31,12 +30,9 @@
 class H5_HLCPPDLL PacketTable {
   public:
     /* Null constructor
-     * Sets table_id to "invalid"
+     * Sets table_id to H5I_INVALID_HID
      */
-    PacketTable()
-    {
-        table_id = H5I_INVALID_HID;
-    }
+    PacketTable();
 
     /* "Open" Constructor
      * Opens an existing packet table, which can contain either fixed-length or
