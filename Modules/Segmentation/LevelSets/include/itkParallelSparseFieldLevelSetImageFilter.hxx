@@ -839,12 +839,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
     }
   }
 
-  // Local histogram for every thread (used during Iterate() )
-  m_Data[ThreadId].m_ZHistogram = new int[m_ZSize];
-  for (unsigned int i = 0; i < m_ZSize; ++i)
-  {
-    m_Data[ThreadId].m_ZHistogram[i] = 0;
-  }
+  // Local histogram for every thread (used during Iterate()), initialized to zeros.
+  m_Data[ThreadId].m_ZHistogram = new int[m_ZSize]();
 
   // Every thread must have its own copy of the GlobalData struct.
   m_Data[ThreadId].globalData = this->GetDifferenceFunction()->GetGlobalDataPointer();
