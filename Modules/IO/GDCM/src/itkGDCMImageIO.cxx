@@ -647,9 +647,8 @@ GDCMImageIO::InternalReadImageInformation()
     {
       std::vector<double> sp;
       gdcm::Tag           spacingTag(0x0028, 0x0030);
-      if (ds.FindDataElement(spacingTag) && !ds.GetDataElement(spacingTag).IsEmpty())
+      if (const gdcm::DataElement & de = ds.GetDataElement(spacingTag); !de.IsEmpty())
       {
-        gdcm::DataElement                            de = ds.GetDataElement(spacingTag);
         std::stringstream                            m_Ss;
         gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
         const gdcm::ByteValue *                      bv = de.GetByteValue();
