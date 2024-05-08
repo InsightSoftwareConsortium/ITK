@@ -405,6 +405,20 @@ namespace itk
 #endif
 
 
+/** Explicitly "defaults" the copy constructor, copy assignment operator, move constructor, and move assignment operator
+of the specified class. Especially meant to address compiler warnings like:
+ - "warning: definition of implicit copy assignment operator for '<TypeName>' is deprecated because it has a
+user-declared destructor [-Wdeprecated]" (Mac10.13-AppleClang)
+ - "warning C5267: definition of implicit copy constructor for '<TypeName>' is deprecated because it has a user-provided
+destructor." (Visual Studio 2022/MSVC)
+  Intended to be used in the public section of a class. */
+#define ITK_DEFAULT_COPY_AND_MOVE(TypeName)         \
+  TypeName(const TypeName &) = default;             \
+  TypeName & operator=(const TypeName &) = default; \
+  TypeName(TypeName &&) = default;                  \
+  TypeName & operator=(TypeName &&) = default
+
+
 // When ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR is defined, ITK uses
 // the ability for operator!= to be rewritten automatically in terms of
 // operator==, as introduced with C++20. This macro is experimental. It may be

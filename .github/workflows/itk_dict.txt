@@ -224,6 +224,7 @@ Vkept
 Vox
 Wachowiak
 Wanlin
+Wdeprecated
 Wi
 Wtautological
 Xu
