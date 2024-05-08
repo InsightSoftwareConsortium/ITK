@@ -32,6 +32,8 @@ namespace itk
 class ITKIOMeshBase_EXPORT MeshFileWriterException : public ExceptionObject
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(MeshFileWriterException);
+
   /** Has to have empty throw(). */
   ~MeshFileWriterException() noexcept override;
 
@@ -49,13 +51,6 @@ public:
                           unsigned int        line,
                           const char *        message = "Error in IO",
                           const char *        loc = "Unknown");
-
-  MeshFileWriterException(const MeshFileWriterException &) = default;
-  MeshFileWriterException(MeshFileWriterException &&) = default;
-  MeshFileWriterException &
-  operator=(const MeshFileWriterException &) = default;
-  MeshFileWriterException &
-  operator=(MeshFileWriterException &&) = default;
 };
 } // end namespace itk
 

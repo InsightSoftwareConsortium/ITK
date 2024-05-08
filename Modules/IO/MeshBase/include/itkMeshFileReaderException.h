@@ -32,6 +32,8 @@ namespace itk
 class ITKIOMeshBase_EXPORT MeshFileReaderException : public ExceptionObject
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(MeshFileReaderException);
+
   /** Has to have empty throw(). */
   ~MeshFileReaderException() noexcept override;
 
@@ -49,13 +51,6 @@ public:
                           unsigned int        line,
                           const char *        message = "Error in IO",
                           const char *        loc = "Unknown");
-
-  MeshFileReaderException(const MeshFileReaderException &) = default;
-  MeshFileReaderException(MeshFileReaderException &&) = default;
-  MeshFileReaderException &
-  operator=(const MeshFileReaderException &) = default;
-  MeshFileReaderException &
-  operator=(MeshFileReaderException &&) = default;
 };
 } // end namespace itk
 

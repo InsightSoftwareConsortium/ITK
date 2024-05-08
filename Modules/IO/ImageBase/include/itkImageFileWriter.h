@@ -34,6 +34,8 @@ namespace itk
 class ITKIOImageBase_EXPORT ImageFileWriterException : public ExceptionObject
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(ImageFileWriterException);
+
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageFileWriterException);
 
@@ -55,13 +57,6 @@ public:
 
   /** Has to have empty throw(). */
   ~ImageFileWriterException() noexcept override;
-
-  ImageFileWriterException(const ImageFileWriterException &) = default;
-  ImageFileWriterException(ImageFileWriterException &&) = default;
-  ImageFileWriterException &
-  operator=(const ImageFileWriterException &) = default;
-  ImageFileWriterException &
-  operator=(ImageFileWriterException &&) = default;
 };
 
 /** \class ImageFileWriter

@@ -31,6 +31,8 @@ namespace itk
 class ITKIOImageBase_EXPORT ImageFileReaderException : public ExceptionObject
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(ImageFileReaderException);
+
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageFileReaderException);
 
@@ -52,13 +54,6 @@ public:
 
   /** Has to have empty throw(). */
   ~ImageFileReaderException() noexcept override;
-
-  ImageFileReaderException(const ImageFileReaderException &) = default;
-  ImageFileReaderException(ImageFileReaderException &&) = default;
-  ImageFileReaderException &
-  operator=(const ImageFileReaderException &) = default;
-  ImageFileReaderException &
-  operator=(ImageFileReaderException &&) = default;
 };
 } // namespace itk
 #endif // itkImageFileReaderException_h
