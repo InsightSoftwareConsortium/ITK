@@ -45,6 +45,8 @@ namespace itk
 class ITKCommon_EXPORT RealTimeStamp
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(RealTimeStamp);
+
   using Self = RealTimeStamp;
 
   friend class RealTimeClock;
@@ -54,13 +56,6 @@ public:
 
   /** Destructor */
   ~RealTimeStamp();
-
-  RealTimeStamp(const RealTimeStamp &) = default;
-  RealTimeStamp &
-  operator=(const RealTimeStamp &) = default;
-  RealTimeStamp(RealTimeStamp &&) = default;
-  RealTimeStamp &
-  operator=(RealTimeStamp &&) = default;
 
   /** Native type used to represent the time in different time units. */
   using TimeRepresentationType = RealTimeInterval::TimeRepresentationType;
