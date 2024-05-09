@@ -135,13 +135,11 @@ itkStochasticFractalDimensionImageFilterTest(int argc, char * argv[])
 
   switch (imageDimension)
   {
-    case 2:
-    {
+    case 2: {
       StochasticFractalDimensionImageFilterTest::Helper<2>::Run(argc, argv);
       break;
     }
-    case 3:
-    {
+    case 3: {
       StochasticFractalDimensionImageFilterTest::Helper<3>::Run(argc, argv);
       break;
     }

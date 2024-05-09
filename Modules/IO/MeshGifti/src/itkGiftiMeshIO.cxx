@@ -37,7 +37,11 @@ public:
 
   operator gifti_image *() { return m_ptr; }
 
-  gifti_image * operator->() { return m_ptr; }
+  gifti_image *
+  operator->()
+  {
+    return m_ptr;
+  }
 };
 
 
@@ -483,8 +487,7 @@ GiftiMeshIO::ReadCells(void * buffer)
     {
       switch (this->m_CellComponentType)
       {
-        case IOComponentEnum::CHAR:
-        {
+        case IOComponentEnum::CHAR: {
           this->WriteCellsBuffer(static_cast<char *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<char *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -492,8 +495,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::UCHAR:
-        {
+        case IOComponentEnum::UCHAR: {
           this->WriteCellsBuffer(static_cast<unsigned char *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned char *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -501,8 +503,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::USHORT:
-        {
+        case IOComponentEnum::USHORT: {
           this->WriteCellsBuffer(static_cast<unsigned short *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned short *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -510,8 +511,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::SHORT:
-        {
+        case IOComponentEnum::SHORT: {
           this->WriteCellsBuffer(static_cast<short *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<short *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -519,8 +519,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::UINT:
-        {
+        case IOComponentEnum::UINT: {
           this->WriteCellsBuffer(static_cast<unsigned int *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned int *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -528,8 +527,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::INT:
-        {
+        case IOComponentEnum::INT: {
           this->WriteCellsBuffer(static_cast<int *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<int *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -537,8 +535,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::ULONG:
-        {
+        case IOComponentEnum::ULONG: {
           this->WriteCellsBuffer(static_cast<unsigned long *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned long *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -546,8 +543,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::LONG:
-        {
+        case IOComponentEnum::LONG: {
           this->WriteCellsBuffer(static_cast<long *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<long *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -555,8 +551,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::LONGLONG:
-        {
+        case IOComponentEnum::LONGLONG: {
           this->WriteCellsBuffer(static_cast<long long *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<long long *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -564,8 +559,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::ULONGLONG:
-        {
+        case IOComponentEnum::ULONGLONG: {
           this->WriteCellsBuffer(static_cast<unsigned long long *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<unsigned long long *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -573,8 +567,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::FLOAT:
-        {
+        case IOComponentEnum::FLOAT: {
           this->WriteCellsBuffer(static_cast<float *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<float *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -582,8 +575,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::DOUBLE:
-        {
+        case IOComponentEnum::DOUBLE: {
           this->WriteCellsBuffer(static_cast<double *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<double *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -591,8 +583,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        case IOComponentEnum::LDOUBLE:
-        {
+        case IOComponentEnum::LDOUBLE: {
           this->WriteCellsBuffer(static_cast<long double *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<long double *>(buffer),
                                  CellGeometryEnum::TRIANGLE_CELL,
@@ -600,8 +591,7 @@ GiftiMeshIO::ReadCells(void * buffer)
                                  this->m_NumberOfCells);
           break;
         }
-        default:
-        {
+        default: {
           gifti_free_image(m_GiftiImage);
           itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
         }
@@ -1065,91 +1055,77 @@ GiftiMeshIO::WritePoints(void * buffer)
     {
       switch (this->m_PointComponentType)
       {
-        case IOComponentEnum::UCHAR:
-        {
+        case IOComponentEnum::UCHAR: {
           ConvertBuffer(static_cast<unsigned char *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case IOComponentEnum::CHAR:
-        {
+        case IOComponentEnum::CHAR: {
           ConvertBuffer(
             static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case IOComponentEnum::USHORT:
-        {
+        case IOComponentEnum::USHORT: {
           ConvertBuffer(static_cast<unsigned short *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case IOComponentEnum::SHORT:
-        {
+        case IOComponentEnum::SHORT: {
           ConvertBuffer(
             static_cast<short *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case IOComponentEnum::UINT:
-        {
+        case IOComponentEnum::UINT: {
           ConvertBuffer(static_cast<unsigned int *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case IOComponentEnum::INT:
-        {
+        case IOComponentEnum::INT: {
           ConvertBuffer(
             static_cast<int *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case IOComponentEnum::ULONG:
-        {
+        case IOComponentEnum::ULONG: {
           ConvertBuffer(static_cast<unsigned long *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case IOComponentEnum::LONG:
-        {
+        case IOComponentEnum::LONG: {
           ConvertBuffer(
             static_cast<long *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case IOComponentEnum::ULONGLONG:
-        {
+        case IOComponentEnum::ULONGLONG: {
           ConvertBuffer(static_cast<unsigned long long *>(buffer),
                         static_cast<float *>(m_GiftiImage->darray[ii]->data),
                         pointsBufferSize);
           break;
         }
-        case IOComponentEnum::LONGLONG:
-        {
+        case IOComponentEnum::LONGLONG: {
           ConvertBuffer(
             static_cast<long long *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case IOComponentEnum::FLOAT:
-        {
+        case IOComponentEnum::FLOAT: {
           ConvertBuffer(
             static_cast<float *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case IOComponentEnum::DOUBLE:
-        {
+        case IOComponentEnum::DOUBLE: {
           ConvertBuffer(
             static_cast<double *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        case IOComponentEnum::LDOUBLE:
-        {
+        case IOComponentEnum::LDOUBLE: {
           ConvertBuffer(
             static_cast<long double *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
           break;
         }
-        default:
-        {
+        default: {
           gifti_free_image(m_GiftiImage);
           itkExceptionMacro("Unknown point component type" << std::endl);
         }
@@ -1168,80 +1144,66 @@ GiftiMeshIO::WriteCells(void * buffer)
     {
       switch (this->m_CellComponentType)
       {
-        case IOComponentEnum::UCHAR:
-        {
+        case IOComponentEnum::UCHAR: {
           this->ReadCellsBuffer(static_cast<unsigned char *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::CHAR:
-        {
+        case IOComponentEnum::CHAR: {
           this->ReadCellsBuffer(static_cast<char *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::USHORT:
-        {
+        case IOComponentEnum::USHORT: {
           this->ReadCellsBuffer(static_cast<unsigned short *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::SHORT:
-        {
+        case IOComponentEnum::SHORT: {
           this->ReadCellsBuffer(static_cast<short *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::UINT:
-        {
+        case IOComponentEnum::UINT: {
           this->ReadCellsBuffer(static_cast<unsigned int *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::INT:
-        {
+        case IOComponentEnum::INT: {
           this->ReadCellsBuffer(static_cast<int *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::ULONG:
-        {
+        case IOComponentEnum::ULONG: {
           this->ReadCellsBuffer(static_cast<unsigned long *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::LONG:
-        {
+        case IOComponentEnum::LONG: {
           this->ReadCellsBuffer(static_cast<long *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::ULONGLONG:
-        {
+        case IOComponentEnum::ULONGLONG: {
           this->ReadCellsBuffer(static_cast<unsigned long long *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::LONGLONG:
-        {
+        case IOComponentEnum::LONGLONG: {
           this->ReadCellsBuffer(static_cast<long long *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::FLOAT:
-        {
+        case IOComponentEnum::FLOAT: {
           this->ReadCellsBuffer(static_cast<float *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::DOUBLE:
-        {
+        case IOComponentEnum::DOUBLE: {
           this->ReadCellsBuffer(static_cast<double *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::LDOUBLE:
-        {
+        case IOComponentEnum::LDOUBLE: {
           this->ReadCellsBuffer(static_cast<long double *>(buffer),
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        default:
-        {
+        default: {
           gifti_free_image(m_GiftiImage);
           itkExceptionMacro("Unknown cell component type" << std::endl);
         }
@@ -1264,93 +1226,79 @@ GiftiMeshIO::WritePointData(void * buffer)
         const SizeValueType pointDataBufferSize = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
         switch (this->m_PointPixelComponentType)
         {
-          case IOComponentEnum::UCHAR:
-          {
+          case IOComponentEnum::UCHAR: {
             ConvertBuffer(static_cast<unsigned char *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
-          {
+          case IOComponentEnum::CHAR: {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::USHORT:
-          {
+          case IOComponentEnum::USHORT: {
             ConvertBuffer(static_cast<unsigned short *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::SHORT:
-          {
+          case IOComponentEnum::SHORT: {
             ConvertBuffer(
               static_cast<short *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::UINT:
-          {
+          case IOComponentEnum::UINT: {
             ConvertBuffer(static_cast<unsigned int *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::INT:
-          {
+          case IOComponentEnum::INT: {
             ConvertBuffer(
               static_cast<int *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::ULONG:
-          {
+          case IOComponentEnum::ULONG: {
             ConvertBuffer(static_cast<unsigned long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::LONG:
-          {
+          case IOComponentEnum::LONG: {
             ConvertBuffer(
               static_cast<long *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::ULONGLONG:
-          {
+          case IOComponentEnum::ULONGLONG: {
             ConvertBuffer(static_cast<unsigned long long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::LONGLONG:
-          {
+          case IOComponentEnum::LONGLONG: {
             ConvertBuffer(static_cast<long long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::FLOAT:
-          {
+          case IOComponentEnum::FLOAT: {
             ConvertBuffer(
               static_cast<float *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::DOUBLE:
-          {
+          case IOComponentEnum::DOUBLE: {
             ConvertBuffer(
               static_cast<double *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::LDOUBLE:
-          {
+          case IOComponentEnum::LDOUBLE: {
             ConvertBuffer(static_cast<long double *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          default:
-          {
+          default: {
             gifti_free_image(m_GiftiImage);
             itkExceptionMacro("Unknown point data pixel component type" << std::endl);
           }
@@ -1365,93 +1313,79 @@ GiftiMeshIO::WritePointData(void * buffer)
 
         switch (this->m_PointPixelComponentType)
         {
-          case IOComponentEnum::UCHAR:
-          {
+          case IOComponentEnum::UCHAR: {
             ConvertBuffer(static_cast<unsigned char *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
-          {
+          case IOComponentEnum::CHAR: {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::USHORT:
-          {
+          case IOComponentEnum::USHORT: {
             ConvertBuffer(static_cast<unsigned short *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::SHORT:
-          {
+          case IOComponentEnum::SHORT: {
             ConvertBuffer(
               static_cast<short *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::UINT:
-          {
+          case IOComponentEnum::UINT: {
             ConvertBuffer(static_cast<unsigned int *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::INT:
-          {
+          case IOComponentEnum::INT: {
             ConvertBuffer(
               static_cast<int *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::ULONG:
-          {
+          case IOComponentEnum::ULONG: {
             ConvertBuffer(static_cast<unsigned long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::LONG:
-          {
+          case IOComponentEnum::LONG: {
             ConvertBuffer(
               static_cast<long *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::ULONGLONG:
-          {
+          case IOComponentEnum::ULONGLONG: {
             ConvertBuffer(static_cast<unsigned long long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::LONGLONG:
-          {
+          case IOComponentEnum::LONGLONG: {
             ConvertBuffer(static_cast<long long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::FLOAT:
-          {
+          case IOComponentEnum::FLOAT: {
             ConvertBuffer(
               static_cast<float *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::DOUBLE:
-          {
+          case IOComponentEnum::DOUBLE: {
             ConvertBuffer(
               static_cast<double *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::LDOUBLE:
-          {
+          case IOComponentEnum::LDOUBLE: {
             ConvertBuffer(static_cast<long double *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           pointDataBufferSize);
             break;
           }
-          default:
-          {
+          default: {
             gifti_free_image(m_GiftiImage);
             itkExceptionMacro("Unknown point data pixel component type" << std::endl);
           }
@@ -1475,93 +1409,79 @@ GiftiMeshIO::WriteCellData(void * buffer)
         const SizeValueType cellDataBufferSize = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
         switch (this->m_CellPixelComponentType)
         {
-          case IOComponentEnum::UCHAR:
-          {
+          case IOComponentEnum::UCHAR: {
             ConvertBuffer(static_cast<unsigned char *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
-          {
+          case IOComponentEnum::CHAR: {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::USHORT:
-          {
+          case IOComponentEnum::USHORT: {
             ConvertBuffer(static_cast<unsigned short *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::SHORT:
-          {
+          case IOComponentEnum::SHORT: {
             ConvertBuffer(
               static_cast<short *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::UINT:
-          {
+          case IOComponentEnum::UINT: {
             ConvertBuffer(static_cast<unsigned int *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::INT:
-          {
+          case IOComponentEnum::INT: {
             ConvertBuffer(
               static_cast<int *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::ULONG:
-          {
+          case IOComponentEnum::ULONG: {
             ConvertBuffer(static_cast<unsigned long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::LONG:
-          {
+          case IOComponentEnum::LONG: {
             ConvertBuffer(
               static_cast<long *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::ULONGLONG:
-          {
+          case IOComponentEnum::ULONGLONG: {
             ConvertBuffer(static_cast<unsigned long long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::LONGLONG:
-          {
+          case IOComponentEnum::LONGLONG: {
             ConvertBuffer(static_cast<long long *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::FLOAT:
-          {
+          case IOComponentEnum::FLOAT: {
             ConvertBuffer(
               static_cast<float *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::DOUBLE:
-          {
+          case IOComponentEnum::DOUBLE: {
             ConvertBuffer(
               static_cast<double *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::LDOUBLE:
-          {
+          case IOComponentEnum::LDOUBLE: {
             ConvertBuffer(static_cast<long double *>(buffer),
                           static_cast<float *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          default:
-          {
+          default: {
             gifti_free_image(m_GiftiImage);
             itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
           }
@@ -1576,92 +1496,78 @@ GiftiMeshIO::WriteCellData(void * buffer)
 
         switch (this->m_CellPixelComponentType)
         {
-          case IOComponentEnum::UCHAR:
-          {
+          case IOComponentEnum::UCHAR: {
             ConvertBuffer(static_cast<unsigned char *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
-          {
+          case IOComponentEnum::CHAR: {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::USHORT:
-          {
+          case IOComponentEnum::USHORT: {
             ConvertBuffer(static_cast<unsigned short *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::SHORT:
-          {
+          case IOComponentEnum::SHORT: {
             ConvertBuffer(
               static_cast<short *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::UINT:
-          {
+          case IOComponentEnum::UINT: {
             ConvertBuffer(static_cast<unsigned int *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::INT:
-          {
+          case IOComponentEnum::INT: {
             ConvertBuffer(
               static_cast<int *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::ULONG:
-          {
+          case IOComponentEnum::ULONG: {
             ConvertBuffer(static_cast<unsigned long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::LONG:
-          {
+          case IOComponentEnum::LONG: {
             ConvertBuffer(
               static_cast<long *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::ULONGLONG:
-          {
+          case IOComponentEnum::ULONGLONG: {
             ConvertBuffer(static_cast<unsigned long long *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::LONGLONG:
-          {
+          case IOComponentEnum::LONGLONG: {
             ConvertBuffer(
               static_cast<long long *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::FLOAT:
-          {
+          case IOComponentEnum::FLOAT: {
             ConvertBuffer(
               static_cast<float *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::DOUBLE:
-          {
+          case IOComponentEnum::DOUBLE: {
             ConvertBuffer(
               static_cast<double *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::LDOUBLE:
-          {
+          case IOComponentEnum::LDOUBLE: {
             ConvertBuffer(static_cast<long double *>(buffer),
                           static_cast<int *>(m_GiftiImage->darray[ii]->data),
                           cellDataBufferSize);
             break;
           }
-          default:
-          {
+          default: {
             gifti_free_image(m_GiftiImage);
             itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
           }

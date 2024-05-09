@@ -834,8 +834,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSP: {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_RL);
         break;
       }
@@ -846,8 +845,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSP: {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_LR);
         break;
       }
@@ -858,8 +856,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_AIL:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_AIR:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASL:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASR:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASR: {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_AP);
         break;
       }
@@ -870,8 +867,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PIL:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PIR:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSL:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSR:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSR: {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_PA);
         break;
       }
@@ -882,8 +878,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRP: {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_IS);
         break;
       }
@@ -894,8 +889,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP: {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_SI);
         break;
       }
@@ -909,8 +903,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP: {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_RL);
         break;
       }
@@ -921,8 +914,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLP: {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_LR);
         break;
       }
@@ -933,8 +925,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAL:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAR:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAL:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAR:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAR: {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_AP);
         break;
       }
@@ -946,8 +937,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPL:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPR:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPL:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPR:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPR: {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_PA);
         break;
       }
@@ -958,8 +948,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIP: {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_IS);
         break;
       }
@@ -970,8 +959,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSP: {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_SI);
         break;
       }
@@ -985,8 +973,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAR:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPR:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAR:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPR:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPR: {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_RL);
         break;
       }
@@ -997,8 +984,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAL:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPL:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAL:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPL:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPL: {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_LR);
         break;
       }
@@ -1009,8 +995,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRA:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLA:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRA:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRA: {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_AP);
         break;
       }
@@ -1021,8 +1006,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRP:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLP:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP: {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_PA);
         break;
       }
@@ -1034,8 +1018,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LAI:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LPI:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RAI:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPI:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPI: {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_IS);
         break;
       }
@@ -1046,8 +1029,7 @@ MetaImageIO::Write(const void * buffer)
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LAS:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LPS:
       case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RAS:
-      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPS:
-      {
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPS: {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_SI);
         break;
       }

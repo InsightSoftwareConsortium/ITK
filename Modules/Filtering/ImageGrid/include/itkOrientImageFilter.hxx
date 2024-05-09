@@ -346,7 +346,7 @@ OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
   return false;
 }
 
-//#define DefinedDebugOrient
+// #define DefinedDebugOrient
 #if defined(DefinedDebugOrient)
 #  define DEBUG_EXECUTE(X) X
 
@@ -453,8 +453,7 @@ SO_OrientationToString(SO_OrientationType in)
       return std::string("AIL");
     case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ASL:
       return "ASL";
-    default:
-    {
+    default: {
       std::stringstream x;
       x << (in & 0xff) << ", " << ((in >> 8) & 0xff) << ", " << ((in >> 16) && 0xff);
       return x.str();

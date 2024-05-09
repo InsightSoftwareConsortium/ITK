@@ -55,9 +55,10 @@ FlatStructuringElement<VDimension>::GeneratePolygon(TStructuringElement &, TRadi
 }
 
 template <unsigned int VDimension>
-void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<2> & res,
-                                                         itk::Size<2>                     radius,
-                                                         unsigned int                     lines)
+void
+FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<2> & res,
+                                                    itk::Size<2>                     radius,
+                                                    unsigned int                     lines)
 {
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
@@ -126,9 +127,10 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
 //    O[2] = k3 * std::sin(theta);
 
 template <unsigned int VDimension>
-void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<3> & res,
-                                                         itk::Size<3>                     radius,
-                                                         unsigned int                     lines)
+void
+FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<3> & res,
+                                                    itk::Size<3>                     radius,
+                                                    unsigned int                     lines)
 {
   res.SetRadius(radius);
   res.SetDecomposable(true);
@@ -146,8 +148,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
   }
   switch (faces)
   {
-    case 12:
-    {
+    case 12: {
       // dodecahedron
       float        phi = (1.0 + std::sqrt(5.0)) / 2.0;
       float        b = 1.0 / phi;
@@ -351,8 +352,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       }
     }
     break;
-    case 14:
-    {
+    case 14: {
       // cube with the corners cut off
       LType3 A;
       // The axes
@@ -401,8 +401,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       res.AddLine(A);
     }
     break;
-    case 20:
-    {
+    case 20: {
       // Icosahedron
       float        phi = (1.0 + std::sqrt(5.0)) / 2.0;
       float        a = 0.5;
@@ -717,8 +716,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       }
     }
     break;
-    case 32:
-    {
+    case 32: {
       iterations = 1;
       // 2 iterations leads to 128 faces, which is too many
       // subdivision of octahedron

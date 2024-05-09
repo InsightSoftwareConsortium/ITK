@@ -190,15 +190,18 @@ public:
    * Performs the inner product of two covariant vectors.
    * \warning This is equivalent to the scalar product only if the reference
    * system has orthogonal axis and equal scales.  */
-  ValueType operator*(const Self & other) const;
+  ValueType
+  operator*(const Self & other) const;
 
   /** operator*.  Performs the scalar product with a vector (contravariant).
    * This scalar product is invariant under affine transformations */
-  ValueType operator*(const Vector<T, VVectorDimension> & other) const;
+  ValueType
+  operator*(const Vector<T, VVectorDimension> & other) const;
 
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
-  inline Self operator*(const ValueType & val) const
+  inline Self
+  operator*(const ValueType & val) const
   {
     Self result;
 
@@ -259,7 +262,8 @@ public:
 /** Premultiply Operator for product of a vector and a scalar.
  *  CovariantVector< T, N >  =  T * CovariantVector< T,N > */
 template <typename T, unsigned int VVectorDimension>
-inline CovariantVector<T, VVectorDimension> operator*(const T & scalar, const CovariantVector<T, VVectorDimension> & v)
+inline CovariantVector<T, VVectorDimension>
+operator*(const T & scalar, const CovariantVector<T, VVectorDimension> & v)
 {
   return v.operator*(scalar);
 }
@@ -267,8 +271,8 @@ inline CovariantVector<T, VVectorDimension> operator*(const T & scalar, const Co
 /** Performs the scalar product of a covariant with a contravariant.
  * This scalar product is invariant under affine transformations */
 template <typename T, unsigned int VVectorDimension>
-inline T operator*(const Vector<T, VVectorDimension> &          contravariant,
-                   const CovariantVector<T, VVectorDimension> & covariant)
+inline T
+operator*(const Vector<T, VVectorDimension> & contravariant, const CovariantVector<T, VVectorDimension> & covariant)
 {
   return covariant.operator*(contravariant);
 }

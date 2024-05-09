@@ -124,8 +124,8 @@ FastMarchingImageFilterBase<TInput, TOutput>::SetOutputValue(OutputImageType *  
 
 template <typename TInput, typename TOutput>
 auto
-FastMarchingImageFilterBase<TInput, TOutput>::GetOutputValue(OutputImageType * oImage, const NodeType & iNode) const
-  -> const OutputPixelType
+FastMarchingImageFilterBase<TInput, TOutput>::GetOutputValue(OutputImageType * oImage,
+                                                             const NodeType &  iNode) const -> const OutputPixelType
 {
   return oImage->GetPixel(iNode);
 }

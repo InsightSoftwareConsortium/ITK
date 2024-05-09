@@ -965,8 +965,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
     switch (this->m_MetricSamplingStrategy)
     {
-      case MetricSamplingStrategyEnum::REGULAR:
-      {
+      case MetricSamplingStrategyEnum::REGULAR: {
         const auto sampleCount =
           static_cast<unsigned long>(std::ceil(1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel]));
         unsigned long count =
@@ -995,8 +994,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         }
         break;
       }
-      case MetricSamplingStrategyEnum::RANDOM:
-      {
+      case MetricSamplingStrategyEnum::RANDOM: {
         const unsigned long totalVirtualDomainVoxels = virtualDomainRegion.GetNumberOfPixels();
         const auto          sampleCount =
           static_cast<unsigned long>(static_cast<float>(totalVirtualDomainVoxels) *
@@ -1029,8 +1027,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         }
         break;
       }
-      default:
-      {
+      default: {
         itkExceptionMacro("Invalid sampling strategy requested.");
       }
     }

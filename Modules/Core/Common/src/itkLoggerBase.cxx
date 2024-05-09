@@ -77,14 +77,12 @@ LoggerBase::BuildFormattedEntry(PriorityLevelEnum level, std::string const & con
 
   switch (this->m_TimeStampFormat)
   {
-    case TimeStampFormatEnum::REALVALUE:
-    {
+    case TimeStampFormatEnum::REALVALUE: {
       s.precision(30);
       s << m_Clock->GetTimeInSeconds();
       break;
     }
-    case TimeStampFormatEnum::HUMANREADABLE:
-    {
+    case TimeStampFormatEnum::HUMANREADABLE: {
       s << itksys::SystemTools::GetCurrentDateTime(this->m_HumanReadableFormat.c_str());
       break;
     }

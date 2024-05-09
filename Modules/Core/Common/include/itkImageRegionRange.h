@@ -225,7 +225,11 @@ private:
 
 
     /**  Returns a reference to the current pixel. */
-    reference operator*() const noexcept { return *m_BufferIterator; }
+    reference
+    operator*() const noexcept
+    {
+      return *m_BufferIterator;
+    }
 
     /** Prefix increment ('++it'). */
     QualifiedIterator &
@@ -458,7 +462,7 @@ public:
 
 // Deduction guide to avoid compiler warnings (-wctad-maybe-unsupported) when using class template argument deduction.
 template <typename TImage>
-ImageRegionRange(TImage &)->ImageRegionRange<TImage>;
+ImageRegionRange(TImage &) -> ImageRegionRange<TImage>;
 
 } // namespace itk
 

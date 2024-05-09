@@ -93,7 +93,9 @@ itkTestObjectSubClass::New()
 
 // This SHOULD NOT be used in ITK, all functions
 // should take raw pointers as arguments
-void TestUpCastPointer(itkTestObject::Pointer) {}
+void
+TestUpCastPointer(itkTestObject::Pointer)
+{}
 
 // Test a function that takes an itkTestObject raw pointer
 void

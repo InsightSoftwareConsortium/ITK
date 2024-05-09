@@ -415,7 +415,7 @@ itkSimilarity2DTransformTest(int, char *[])
           std::cerr << " [ FAILED ] " << std::endl;
           return EXIT_FAILURE;
         } // if
-      }   // for j
+      } // for j
 
     } // for k
 
@@ -574,7 +574,7 @@ itkSimilarity2DTransformTest(int, char *[])
           std::cerr << " [ FAILED ] " << std::endl;
           return EXIT_FAILURE;
         } // if
-      }   // for j
+      } // for j
 
     } // for k
 

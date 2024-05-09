@@ -121,7 +121,11 @@ public:
     std::sort(m_Permutation, m_Permutation + m_Size);
   }
 
-  SizeValueType operator[](SizeValueType i) const { return m_Permutation[i].m_Index; }
+  SizeValueType
+  operator[](SizeValueType i) const
+  {
+    return m_Permutation[i].m_Index;
+  }
 
   ~RandomPermutation() { delete[] m_Permutation; }
 

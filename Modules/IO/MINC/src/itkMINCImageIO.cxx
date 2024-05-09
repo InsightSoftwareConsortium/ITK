@@ -629,7 +629,7 @@ MINCImageIO::ReadImageInformation()
       else
       {
         this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix,
-      }                                          // tensor etc)
+      } // tensor etc)
       break;
     case MI_CLASS_INT:
       if (numberOfComponents == 1)
@@ -639,7 +639,7 @@ MINCImageIO::ReadImageInformation()
       else
       {
         this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix,
-      }                                          // tensor etc)
+      } // tensor etc)
       break;
     case MI_CLASS_LABEL:
       if (numberOfComponents == 1)
@@ -776,8 +776,7 @@ MINCImageIO::ReadImageInformation()
           {
             switch (att_data_type)
             {
-              case MI_TYPE_STRING:
-              {
+              case MI_TYPE_STRING: {
                 const auto tmp = make_unique_for_overwrite<char[]>(att_length + 1);
                 if (miget_attr_values(
                       m_MINCPImpl->m_Volume, att_data_type, group_name, attribute, att_length + 1, tmp.get()) ==
@@ -787,8 +786,7 @@ MINCImageIO::ReadImageInformation()
                 }
               }
               break;
-              case MI_TYPE_FLOAT:
-              {
+              case MI_TYPE_FLOAT: {
                 Array<float> tmp(att_length);
                 if (miget_attr_values(
                       m_MINCPImpl->m_Volume, att_data_type, group_name, attribute, att_length, tmp.data_block()) ==
@@ -809,8 +807,7 @@ MINCImageIO::ReadImageInformation()
                 }
               }
               break;
-              case MI_TYPE_DOUBLE:
-              {
+              case MI_TYPE_DOUBLE: {
                 Array<double> tmp(att_length);
                 if (miget_attr_values(
                       m_MINCPImpl->m_Volume, att_data_type, group_name, attribute, att_length, tmp.data_block()) ==
@@ -827,8 +824,7 @@ MINCImageIO::ReadImageInformation()
                 }
               }
               break;
-              case MI_TYPE_INT:
-              {
+              case MI_TYPE_INT: {
                 Array<int> tmp(att_length);
                 if (miget_attr_values(
                       m_MINCPImpl->m_Volume, att_data_type, group_name, attribute, att_length, tmp.data_block()) ==

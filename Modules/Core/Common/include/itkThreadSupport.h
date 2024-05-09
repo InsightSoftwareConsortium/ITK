@@ -107,8 +107,8 @@ struct ConditionVariableType
                            // threads to wake up and
                            // release the semaphore
 
-  int m_WasBroadcast;                       // Used as boolean. Keeps track of whether
-                                            // we were broadcasting or signaling
+  int m_WasBroadcast; // Used as boolean. Keeps track of whether
+                      // we were broadcasting or signaling
 #endif
 };
 

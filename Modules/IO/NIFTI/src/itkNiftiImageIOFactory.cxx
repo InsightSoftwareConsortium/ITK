@@ -48,7 +48,7 @@ NiftiImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIONIFTI_EXPORT
-     NiftiImageIOFactoryRegister__Private()
+NiftiImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<NiftiImageIOFactory>();
 }

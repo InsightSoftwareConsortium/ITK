@@ -532,8 +532,7 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
       bitDepth = 16;
       break;
 
-    default:
-    {
+    default: {
       // IMPORTANT: The itkExceptionMacro() cannot be used here due to a bug in
       // Visual
       //            Studio 7.1 in release mode. That compiler will corrupt the

@@ -44,7 +44,7 @@ BMPImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOBMP_EXPORT
-     BMPImageIOFactoryRegister__Private()
+BMPImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<BMPImageIOFactory>();
 }

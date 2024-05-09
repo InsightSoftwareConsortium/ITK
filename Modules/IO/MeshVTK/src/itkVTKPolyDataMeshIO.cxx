@@ -744,68 +744,55 @@ VTKPolyDataMeshIO::ReadMeshInformation()
 }
 
 #define CASE_INVOKE_BY_TYPE(function, param)                    \
-  case IOComponentEnum::UCHAR:                                  \
-  {                                                             \
+  case IOComponentEnum::UCHAR: {                                \
     function(param, static_cast<unsigned char *>(buffer));      \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::CHAR:                                   \
-  {                                                             \
+  case IOComponentEnum::CHAR: {                                 \
     function(param, static_cast<char *>(buffer));               \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::USHORT:                                 \
-  {                                                             \
+  case IOComponentEnum::USHORT: {                               \
     function(param, static_cast<unsigned short *>(buffer));     \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::SHORT:                                  \
-  {                                                             \
+  case IOComponentEnum::SHORT: {                                \
     function(param, static_cast<short *>(buffer));              \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::UINT:                                   \
-  {                                                             \
+  case IOComponentEnum::UINT: {                                 \
     function(param, static_cast<unsigned int *>(buffer));       \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::INT:                                    \
-  {                                                             \
+  case IOComponentEnum::INT: {                                  \
     function(param, static_cast<int *>(buffer));                \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::ULONG:                                  \
-  {                                                             \
+  case IOComponentEnum::ULONG: {                                \
     function(param, static_cast<unsigned long *>(buffer));      \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::LONG:                                   \
-  {                                                             \
+  case IOComponentEnum::LONG: {                                 \
     function(param, static_cast<long *>(buffer));               \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::ULONGLONG:                              \
-  {                                                             \
+  case IOComponentEnum::ULONGLONG: {                            \
     function(param, static_cast<unsigned long long *>(buffer)); \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::LONGLONG:                               \
-  {                                                             \
+  case IOComponentEnum::LONGLONG: {                             \
     function(param, static_cast<long long *>(buffer));          \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::FLOAT:                                  \
-  {                                                             \
+  case IOComponentEnum::FLOAT: {                                \
     function(param, static_cast<float *>(buffer));              \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::DOUBLE:                                 \
-  {                                                             \
+  case IOComponentEnum::DOUBLE: {                               \
     function(param, static_cast<double *>(buffer));             \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::LDOUBLE:                                \
-  {                                                             \
+  case IOComponentEnum::LDOUBLE: {                              \
     function(param, static_cast<long double *>(buffer));        \
     break;                                                      \
   }
@@ -838,8 +825,7 @@ VTKPolyDataMeshIO::ReadPoints(void * buffer)
     {
       CASE_INVOKE_BY_TYPE(ReadPointsBufferAsASCII, inputFile)
 
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown point component type");
       }
     }
@@ -850,8 +836,7 @@ VTKPolyDataMeshIO::ReadPoints(void * buffer)
     {
       CASE_INVOKE_BY_TYPE(ReadPointsBufferAsBINARY, inputFile)
 
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown point component type");
       }
     }
@@ -1081,8 +1066,7 @@ VTKPolyDataMeshIO::ReadPointData(void * buffer)
     {
       CASE_INVOKE_BY_TYPE(ReadPointDataBufferAsASCII, inputFile)
 
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown point pixel component");
       }
     }
@@ -1093,8 +1077,7 @@ VTKPolyDataMeshIO::ReadPointData(void * buffer)
     {
       CASE_INVOKE_BY_TYPE(ReadPointDataBufferAsBINARY, inputFile)
 
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown point pixel component");
       }
     }
@@ -1135,8 +1118,7 @@ VTKPolyDataMeshIO::ReadCellData(void * buffer)
     {
       CASE_INVOKE_BY_TYPE(ReadCellDataBufferAsASCII, inputFile)
 
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown cell pixel component");
       }
     }
@@ -1147,8 +1129,7 @@ VTKPolyDataMeshIO::ReadCellData(void * buffer)
     {
       CASE_INVOKE_BY_TYPE(ReadCellDataBufferAsBINARY, inputFile)
 
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown cell pixel component");
       }
     }
@@ -1210,68 +1191,55 @@ VTKPolyDataMeshIO::WriteMeshInformation()
 }
 
 #define CASE_INVOKE_WITH_COMPONENT_TYPE(function)                                      \
-  case IOComponentEnum::UCHAR:                                                         \
-  {                                                                                    \
+  case IOComponentEnum::UCHAR: {                                                       \
     function(outputFile, static_cast<unsigned char *>(buffer), " unsigned_char");      \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::CHAR:                                                          \
-  {                                                                                    \
+  case IOComponentEnum::CHAR: {                                                        \
     function(outputFile, static_cast<char *>(buffer), " char");                        \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::USHORT:                                                        \
-  {                                                                                    \
+  case IOComponentEnum::USHORT: {                                                      \
     function(outputFile, static_cast<unsigned short *>(buffer), " unsigned_short");    \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::SHORT:                                                         \
-  {                                                                                    \
+  case IOComponentEnum::SHORT: {                                                       \
     function(outputFile, static_cast<short *>(buffer), " short");                      \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::UINT:                                                          \
-  {                                                                                    \
+  case IOComponentEnum::UINT: {                                                        \
     function(outputFile, static_cast<unsigned int *>(buffer), " unsigned_int");        \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::INT:                                                           \
-  {                                                                                    \
+  case IOComponentEnum::INT: {                                                         \
     function(outputFile, static_cast<int *>(buffer), " int");                          \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::ULONG:                                                         \
-  {                                                                                    \
+  case IOComponentEnum::ULONG: {                                                       \
     function(outputFile, static_cast<unsigned long *>(buffer), " unsigned_long");      \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::LONG:                                                          \
-  {                                                                                    \
+  case IOComponentEnum::LONG: {                                                        \
     function(outputFile, static_cast<long *>(buffer), " long");                        \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::ULONGLONG:                                                     \
-  {                                                                                    \
+  case IOComponentEnum::ULONGLONG: {                                                   \
     function(outputFile, static_cast<unsigned long long *>(buffer), " vtktypeuint64"); \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::LONGLONG:                                                      \
-  {                                                                                    \
+  case IOComponentEnum::LONGLONG: {                                                    \
     function(outputFile, static_cast<long long *>(buffer), " vtktypeint64");           \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::FLOAT:                                                         \
-  {                                                                                    \
+  case IOComponentEnum::FLOAT: {                                                       \
     function(outputFile, static_cast<float *>(buffer), " float");                      \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::DOUBLE:                                                        \
-  {                                                                                    \
+  case IOComponentEnum::DOUBLE: {                                                      \
     function(outputFile, static_cast<double *>(buffer), " double");                    \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::LDOUBLE:                                                       \
-  {                                                                                    \
+  case IOComponentEnum::LDOUBLE: {                                                     \
     function(outputFile, static_cast<long double *>(buffer), " long_double");          \
     break;                                                                             \
   }
@@ -1332,80 +1300,67 @@ VTKPolyDataMeshIO::WritePoints(void * buffer)
 }
 
 #define CASE_UPDATE_AND_WRITE(function)                               \
-  case IOComponentEnum::UCHAR:                                        \
-  {                                                                   \
+  case IOComponentEnum::UCHAR: {                                      \
     UpdateCellInformation(static_cast<unsigned char *>(buffer));      \
     function(outputFile, static_cast<unsigned char *>(buffer));       \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::CHAR:                                         \
-  {                                                                   \
+  case IOComponentEnum::CHAR: {                                       \
     UpdateCellInformation(static_cast<char *>(buffer));               \
     function(outputFile, static_cast<char *>(buffer));                \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::USHORT:                                       \
-  {                                                                   \
+  case IOComponentEnum::USHORT: {                                     \
     UpdateCellInformation(static_cast<unsigned short *>(buffer));     \
     function(outputFile, static_cast<unsigned short *>(buffer));      \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::SHORT:                                        \
-  {                                                                   \
+  case IOComponentEnum::SHORT: {                                      \
     UpdateCellInformation(static_cast<short *>(buffer));              \
     function(outputFile, static_cast<short *>(buffer));               \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::UINT:                                         \
-  {                                                                   \
+  case IOComponentEnum::UINT: {                                       \
     UpdateCellInformation(static_cast<unsigned int *>(buffer));       \
     function(outputFile, static_cast<unsigned int *>(buffer));        \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::INT:                                          \
-  {                                                                   \
+  case IOComponentEnum::INT: {                                        \
     UpdateCellInformation(static_cast<int *>(buffer));                \
     function(outputFile, static_cast<int *>(buffer));                 \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::ULONG:                                        \
-  {                                                                   \
+  case IOComponentEnum::ULONG: {                                      \
     UpdateCellInformation(static_cast<unsigned long *>(buffer));      \
     function(outputFile, static_cast<unsigned long *>(buffer));       \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::LONG:                                         \
-  {                                                                   \
+  case IOComponentEnum::LONG: {                                       \
     UpdateCellInformation(static_cast<long *>(buffer));               \
     function(outputFile, static_cast<long *>(buffer));                \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::ULONGLONG:                                    \
-  {                                                                   \
+  case IOComponentEnum::ULONGLONG: {                                  \
     UpdateCellInformation(static_cast<unsigned long long *>(buffer)); \
     function(outputFile, static_cast<unsigned long long *>(buffer));  \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::LONGLONG:                                     \
-  {                                                                   \
+  case IOComponentEnum::LONGLONG: {                                   \
     UpdateCellInformation(static_cast<long long *>(buffer));          \
     function(outputFile, static_cast<long long *>(buffer));           \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::FLOAT:                                        \
-  {                                                                   \
+  case IOComponentEnum::FLOAT: {                                      \
     UpdateCellInformation(static_cast<float *>(buffer));              \
     function(outputFile, static_cast<float *>(buffer));               \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::DOUBLE:                                       \
-  {                                                                   \
+  case IOComponentEnum::DOUBLE: {                                     \
     UpdateCellInformation(static_cast<double *>(buffer));             \
     function(outputFile, static_cast<double *>(buffer));              \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::LDOUBLE:                                      \
-  {                                                                   \
+  case IOComponentEnum::LDOUBLE: {                                    \
     UpdateCellInformation(static_cast<long double *>(buffer));        \
     function(outputFile, static_cast<long double *>(buffer));         \
     break;                                                            \

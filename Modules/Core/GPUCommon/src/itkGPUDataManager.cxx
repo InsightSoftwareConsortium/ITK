@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkGPUDataManager.h"
-//#define VERBOSE
+// #define VERBOSE
 
 namespace itk
 {

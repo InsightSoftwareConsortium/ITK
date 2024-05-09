@@ -56,7 +56,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKSmoothing_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const FFTDiscreteGaussianImageFilterEnums::KernelSource value);
+operator<<(std::ostream & out, const FFTDiscreteGaussianImageFilterEnums::KernelSource value);
 
 /**
  * \class FFTDiscreteGaussianImageFilter

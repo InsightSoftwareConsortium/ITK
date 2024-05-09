@@ -348,85 +348,71 @@ FreeSurferBinaryMeshIO::WritePoints(void * buffer)
   // Write points
   switch (this->m_PointComponentType)
   {
-    case IOComponentEnum::UCHAR:
-    {
+    case IOComponentEnum::UCHAR: {
       WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
-    {
+    case IOComponentEnum::CHAR: {
       WritePoints(static_cast<char *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::USHORT:
-    {
+    case IOComponentEnum::USHORT: {
       WritePoints(static_cast<unsigned short *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::SHORT:
-    {
+    case IOComponentEnum::SHORT: {
       WritePoints(static_cast<short *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::UINT:
-    {
+    case IOComponentEnum::UINT: {
       WritePoints(static_cast<unsigned int *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::INT:
-    {
+    case IOComponentEnum::INT: {
       WritePoints(static_cast<int *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::ULONG:
-    {
+    case IOComponentEnum::ULONG: {
       WritePoints(static_cast<unsigned long *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::LONG:
-    {
+    case IOComponentEnum::LONG: {
       WritePoints(static_cast<long *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::ULONGLONG:
-    {
+    case IOComponentEnum::ULONGLONG: {
       WritePoints(static_cast<unsigned long long *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::LONGLONG:
-    {
+    case IOComponentEnum::LONGLONG: {
       WritePoints(static_cast<long long *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::FLOAT:
-    {
+    case IOComponentEnum::FLOAT: {
       WritePoints(static_cast<float *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::DOUBLE:
-    {
+    case IOComponentEnum::DOUBLE: {
       WritePoints(static_cast<double *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::LDOUBLE:
-    {
+    case IOComponentEnum::LDOUBLE: {
       WritePoints(static_cast<long double *>(buffer), outputFile);
 
       break;
     }
-    default:
-    {
+    default: {
       itkExceptionMacro("Unknown point pixel component type" << std::endl);
     }
   }
@@ -456,73 +442,59 @@ FreeSurferBinaryMeshIO::WriteCells(void * buffer)
   // Write triangles
   switch (this->m_CellComponentType)
   {
-    case IOComponentEnum::UCHAR:
-    {
+    case IOComponentEnum::UCHAR: {
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
-    {
+    case IOComponentEnum::CHAR: {
       WriteCells(static_cast<char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::USHORT:
-    {
+    case IOComponentEnum::USHORT: {
       WriteCells(static_cast<unsigned short *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::SHORT:
-    {
+    case IOComponentEnum::SHORT: {
       WriteCells(static_cast<short *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::UINT:
-    {
+    case IOComponentEnum::UINT: {
       WriteCells(static_cast<unsigned int *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::INT:
-    {
+    case IOComponentEnum::INT: {
       WriteCells(static_cast<int *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::ULONG:
-    {
+    case IOComponentEnum::ULONG: {
       WriteCells(static_cast<unsigned long *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::LONG:
-    {
+    case IOComponentEnum::LONG: {
       WriteCells(static_cast<long *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::ULONGLONG:
-    {
+    case IOComponentEnum::ULONGLONG: {
       WriteCells(static_cast<unsigned long long *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::LONGLONG:
-    {
+    case IOComponentEnum::LONGLONG: {
       WriteCells(static_cast<long long *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::FLOAT:
-    {
+    case IOComponentEnum::FLOAT: {
       WriteCells(static_cast<float *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::DOUBLE:
-    {
+    case IOComponentEnum::DOUBLE: {
       WriteCells(static_cast<double *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::LDOUBLE:
-    {
+    case IOComponentEnum::LDOUBLE: {
       WriteCells(static_cast<long double *>(buffer), outputFile);
       break;
     }
-    default:
-    {
+    default: {
       itkExceptionMacro("Unknown cell component type" << std::endl);
     }
   }
@@ -552,85 +524,71 @@ FreeSurferBinaryMeshIO::WritePointData(void * buffer)
   // Write point data
   switch (this->m_PointPixelComponentType)
   {
-    case IOComponentEnum::UCHAR:
-    {
+    case IOComponentEnum::UCHAR: {
       WritePointData(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
-    {
+    case IOComponentEnum::CHAR: {
       WritePointData(static_cast<char *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::USHORT:
-    {
+    case IOComponentEnum::USHORT: {
       WritePointData(static_cast<unsigned short *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::SHORT:
-    {
+    case IOComponentEnum::SHORT: {
       WritePointData(static_cast<short *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::UINT:
-    {
+    case IOComponentEnum::UINT: {
       WritePointData(static_cast<unsigned int *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::INT:
-    {
+    case IOComponentEnum::INT: {
       WritePointData(static_cast<int *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::ULONG:
-    {
+    case IOComponentEnum::ULONG: {
       WritePointData(static_cast<unsigned long *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::LONG:
-    {
+    case IOComponentEnum::LONG: {
       WritePointData(static_cast<long *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::ULONGLONG:
-    {
+    case IOComponentEnum::ULONGLONG: {
       WritePointData(static_cast<unsigned long long *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::LONGLONG:
-    {
+    case IOComponentEnum::LONGLONG: {
       WritePointData(static_cast<long long *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::FLOAT:
-    {
+    case IOComponentEnum::FLOAT: {
       WritePointData(static_cast<float *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::DOUBLE:
-    {
+    case IOComponentEnum::DOUBLE: {
       WritePointData(static_cast<double *>(buffer), outputFile);
 
       break;
     }
-    case IOComponentEnum::LDOUBLE:
-    {
+    case IOComponentEnum::LDOUBLE: {
       WritePointData(static_cast<long double *>(buffer), outputFile);
 
       break;
     }
-    default:
-    {
+    default: {
       itkExceptionMacro("Unknown point data pixel component type" << std::endl);
     }
   }

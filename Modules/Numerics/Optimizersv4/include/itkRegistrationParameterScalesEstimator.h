@@ -54,7 +54,7 @@ public:
 using SamplingStrategyEnum = RegistrationParameterScalesEstimatorEnums::SamplingStrategy;
 // Define how to print enumeration
 extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const RegistrationParameterScalesEstimatorEnums::SamplingStrategy value);
+operator<<(std::ostream & out, const RegistrationParameterScalesEstimatorEnums::SamplingStrategy value);
 
 /**
  * \class RegistrationParameterScalesEstimator

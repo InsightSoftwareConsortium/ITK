@@ -622,8 +622,8 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::FindFirstUnusedCellIndex() -> CellIde
  */
 template <typename TPixel, unsigned int VDimension, typename TTraits>
 auto
-QuadEdgeMesh<TPixel, VDimension, TTraits>::AddEdge(const PointIdentifier & orgPid, const PointIdentifier & destPid)
-  -> QEPrimal *
+QuadEdgeMesh<TPixel, VDimension, TTraits>::AddEdge(const PointIdentifier & orgPid,
+                                                   const PointIdentifier & destPid) -> QEPrimal *
 {
   // Make sure the points are different
   if (orgPid == destPid)
@@ -1116,8 +1116,8 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::FindEdge(const PointIdentifier & pid0
  */
 template <typename TPixel, unsigned int VDimension, typename TTraits>
 auto
-QuadEdgeMesh<TPixel, VDimension, TTraits>::FindEdge(const PointIdentifier & pid0, const PointIdentifier & pid1) const
-  -> QEPrimal *
+QuadEdgeMesh<TPixel, VDimension, TTraits>::FindEdge(const PointIdentifier & pid0,
+                                                    const PointIdentifier & pid1) const -> QEPrimal *
 {
   QEPrimal * initialEdge = this->GetPoint(pid0).GetEdge();
 
@@ -1237,8 +1237,8 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFaceWithSecurePointList(const Poin
  */
 template <typename TPixel, unsigned int VDimension, typename TTraits>
 auto
-QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFaceWithSecurePointList(const PointIdList & points, bool CheckEdges)
-  -> QEPrimal *
+QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFaceWithSecurePointList(const PointIdList & points,
+                                                                      bool                CheckEdges) -> QEPrimal *
 {
   const auto numberOfPoints = static_cast<PointIdentifier>(points.size());
 

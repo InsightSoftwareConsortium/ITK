@@ -95,9 +95,11 @@ public:
   TPixel &
   GetPixel(const IndexType & index);
 
-  const TPixel & operator[](const IndexType & index) const;
+  const TPixel &
+  operator[](const IndexType & index) const;
 
-  TPixel & operator[](const IndexType & index);
+  TPixel &
+  operator[](const IndexType & index);
 
   /** Explicit synchronize CPU/GPU buffers */
   void

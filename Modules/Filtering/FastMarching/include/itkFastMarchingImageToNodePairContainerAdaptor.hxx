@@ -142,7 +142,7 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::SetPointsF
         {
           nodes->push_back(NodePairType(it.GetIndex(), iValue));
         } // end if image iterator > zero
-      }   // end for each pixel
+      } // end for each pixel
     }
     else
     {
@@ -153,7 +153,7 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::SetPointsF
         {
           nodes->push_back(NodePairType(it.GetIndex(), iValue));
         } // end if image iterator > zero
-      }   // end for each pixel
+      } // end for each pixel
     }
 
     switch (iLabel)

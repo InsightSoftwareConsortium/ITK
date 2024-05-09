@@ -43,7 +43,7 @@ checkAlphaExists()
   utf8_str.append(1, '\xCE');
   utf8_str.append(1, '\xB1');
   utf8_str += ".txt";
-  FILE *      tmp = fopen(utf8_str.c_str(), "r");
+  FILE * tmp = fopen(utf8_str.c_str(), "r");
 #endif
   if (tmp != nullptr)
   {

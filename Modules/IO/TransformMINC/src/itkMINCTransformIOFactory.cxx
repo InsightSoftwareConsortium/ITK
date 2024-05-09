@@ -61,7 +61,7 @@ MINCTransformIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOTransformMINC_EXPORT
-     MINCTransformIOFactoryRegister__Private()
+MINCTransformIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<MINCTransformIOFactory>();
 

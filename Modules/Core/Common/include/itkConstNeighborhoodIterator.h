@@ -173,7 +173,7 @@ public:
   /** Returns the N-dimensional index of the iterator's position in
    * the image. */
   ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex() const ITK_ITERATOR_FINAL
+  GetIndex() const ITK_ITERATOR_FINAL
   {
     return m_Loop;
   }
@@ -187,11 +187,11 @@ public:
   /** Function that "dereferences" a ConstNeighborhoodIterator,
    * returning a Neighborhood of pixel values. */
   ITK_ITERATOR_VIRTUAL NeighborhoodType
-                       GetNeighborhood() const ITK_ITERATOR_FINAL;
+  GetNeighborhood() const ITK_ITERATOR_FINAL;
 
   /** Returns the pixel value located at a linear array location i. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetPixel(const NeighborIndexType i) const ITK_ITERATOR_FINAL
+  GetPixel(const NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
     if (!m_NeedToUseBoundaryCondition || this->InBounds())
     {
@@ -212,12 +212,12 @@ public:
    * image. Sets "IsInBounds" to false if the location is outside the
    * image and the pixel value returned is a boundary condition. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetPixel(NeighborIndexType i, bool & IsInBounds) const ITK_ITERATOR_FINAL;
+  GetPixel(NeighborIndexType i, bool & IsInBounds) const ITK_ITERATOR_FINAL;
 
   /** Returns the pixel value located at the itk::Offset o from the center of
       the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetPixel(const OffsetType & o) const ITK_ITERATOR_FINAL
+  GetPixel(const OffsetType & o) const ITK_ITERATOR_FINAL
   {
     bool inbounds;
 
@@ -230,7 +230,7 @@ public:
    * image. Sets "IsInBounds" to false if the offset is outside the
    * image and the pixel value returned is a boundary condition. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetPixel(const OffsetType & o, bool & IsInBounds) const ITK_ITERATOR_FINAL
+  GetPixel(const OffsetType & o, bool & IsInBounds) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetNeighborhoodIndex(o), IsInBounds));
   }
@@ -239,7 +239,7 @@ public:
    *  center in the positive specified "axis" direction. No bounds checking
    *  is done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetNext(const unsigned int axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
+  GetNext(const unsigned int axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() + (i * this->GetStride(axis))));
   }
@@ -248,7 +248,7 @@ public:
    *  center in the specified positive axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetNext(const unsigned int axis) const ITK_ITERATOR_FINAL
+  GetNext(const unsigned int axis) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() + this->GetStride(axis)));
   }
@@ -257,7 +257,7 @@ public:
    *  center in the negative specified "axis" direction. No bounds checking
    *  is done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetPrevious(const unsigned int axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
+  GetPrevious(const unsigned int axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() - (i * this->GetStride(axis))));
   }
@@ -266,7 +266,7 @@ public:
    *  center in the specified negative axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetPrevious(const unsigned int axis) const ITK_ITERATOR_FINAL
+  GetPrevious(const unsigned int axis) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() - this->GetStride(axis)));
   }
@@ -274,7 +274,7 @@ public:
   /** Returns the image index for neighbor pixel at offset o from the center of
       the neighborhood. */
   ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex(const OffsetType & o) const ITK_ITERATOR_FINAL
+  GetIndex(const OffsetType & o) const ITK_ITERATOR_FINAL
   {
     return (this->GetIndex() + o);
   }
@@ -282,7 +282,7 @@ public:
   /** Returns the image index for neighbor pixel at index i in the
       neighborhood. */
   ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex(NeighborIndexType i) const ITK_ITERATOR_FINAL
+  GetIndex(NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
     return (this->GetIndex() + this->GetOffset(i));
   }

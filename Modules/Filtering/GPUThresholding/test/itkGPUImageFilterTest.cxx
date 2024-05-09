@@ -22,7 +22,7 @@
  * This program creates a GPU Mean filter and a CPU threshold filter using
  * object factory framework and test pipelining of GPU and CPU filters.
  */
-//#include "pathToOpenCLSourceCode.h"
+// #include "pathToOpenCLSourceCode.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

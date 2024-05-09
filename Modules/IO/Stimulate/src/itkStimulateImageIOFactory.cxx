@@ -54,7 +54,7 @@ StimulateImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOStimulate_EXPORT
-     StimulateImageIOFactoryRegister__Private()
+StimulateImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<StimulateImageIOFactory>();
 }

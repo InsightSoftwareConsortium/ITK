@@ -65,7 +65,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GetOutput() const -> const Sa
 
 template <typename TImage>
 typename ScalarImageToCooccurrenceListSampleFilter<TImage>::DataObjectPointer
-  ScalarImageToCooccurrenceListSampleFilter<TImage>::MakeOutput(DataObjectPointerArraySizeType)
+ScalarImageToCooccurrenceListSampleFilter<TImage>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return SampleType::New().GetPointer();
 }

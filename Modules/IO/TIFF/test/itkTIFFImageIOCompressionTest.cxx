@@ -181,28 +181,23 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
     case itk::IOPixelEnum::SCALAR:
       switch (componentType)
       {
-        case itk::IOComponentEnum::UCHAR:
-        {
+        case itk::IOComponentEnum::UCHAR: {
           using PixelType = unsigned char;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::CHAR:
-        {
+        case itk::IOComponentEnum::CHAR: {
           using PixelType = char;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::USHORT:
-        {
+        case itk::IOComponentEnum::USHORT: {
           using PixelType = unsigned short;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::SHORT:
-        {
+        case itk::IOComponentEnum::SHORT: {
           using PixelType = short;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::FLOAT:
-        {
+        case itk::IOComponentEnum::FLOAT: {
           using PixelType = float;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
@@ -215,28 +210,23 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
     case itk::IOPixelEnum::RGB:
       switch (componentType)
       {
-        case itk::IOComponentEnum::UCHAR:
-        {
+        case itk::IOComponentEnum::UCHAR: {
           using PixelType = itk::RGBPixel<unsigned char>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::CHAR:
-        {
+        case itk::IOComponentEnum::CHAR: {
           using PixelType = itk::RGBPixel<char>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::USHORT:
-        {
+        case itk::IOComponentEnum::USHORT: {
           using PixelType = itk::RGBPixel<unsigned short>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::SHORT:
-        {
+        case itk::IOComponentEnum::SHORT: {
           using PixelType = itk::RGBPixel<short>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::FLOAT:
-        {
+        case itk::IOComponentEnum::FLOAT: {
           using PixelType = itk::RGBPixel<float>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
@@ -249,28 +239,23 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
     case itk::IOPixelEnum::RGBA:
       switch (componentType)
       {
-        case itk::IOComponentEnum::UCHAR:
-        {
+        case itk::IOComponentEnum::UCHAR: {
           using PixelType = itk::RGBAPixel<unsigned char>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::CHAR:
-        {
+        case itk::IOComponentEnum::CHAR: {
           using PixelType = itk::RGBAPixel<char>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::USHORT:
-        {
+        case itk::IOComponentEnum::USHORT: {
           using PixelType = itk::RGBAPixel<unsigned short>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::SHORT:
-        {
+        case itk::IOComponentEnum::SHORT: {
           using PixelType = itk::RGBAPixel<short>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
-        case itk::IOComponentEnum::FLOAT:
-        {
+        case itk::IOComponentEnum::FLOAT: {
           using PixelType = itk::RGBAPixel<float>;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }

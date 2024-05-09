@@ -193,8 +193,16 @@ public:
   }
 
   /** Pass-through data access methods to the buffer. */
-  TPixel &       operator[](NeighborIndexType i) { return m_DataBuffer[i]; }
-  const TPixel & operator[](NeighborIndexType i) const { return m_DataBuffer[i]; }
+  TPixel &
+  operator[](NeighborIndexType i)
+  {
+    return m_DataBuffer[i];
+  }
+  const TPixel &
+  operator[](NeighborIndexType i) const
+  {
+    return m_DataBuffer[i];
+  }
   TPixel &
   GetElement(NeighborIndexType i)
   {
@@ -249,8 +257,16 @@ public:
   }
 
   /** Get pixel value by offset */
-  TPixel &       operator[](const OffsetType & o) { return this->operator[](this->GetNeighborhoodIndex(o)); }
-  const TPixel & operator[](const OffsetType & o) const { return this->operator[](this->GetNeighborhoodIndex(o)); }
+  TPixel &
+  operator[](const OffsetType & o)
+  {
+    return this->operator[](this->GetNeighborhoodIndex(o));
+  }
+  const TPixel &
+  operator[](const OffsetType & o) const
+  {
+    return this->operator[](this->GetNeighborhoodIndex(o));
+  }
 
   /** Returns the itk::Offset from the center of the Neighborhood to
       the requested neighbor index. */

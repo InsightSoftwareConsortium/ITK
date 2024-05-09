@@ -87,8 +87,8 @@ SampleClassifierFilter<TSample>::SetMembershipFunctionsWeightsArray(
 }
 
 template <typename TSample>
-typename SampleClassifierFilter<TSample>::DataObjectPointer SampleClassifierFilter<TSample>::MakeOutput(
-  DataObjectPointerArraySizeType)
+typename SampleClassifierFilter<TSample>::DataObjectPointer
+SampleClassifierFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return MembershipSampleType::New().GetPointer();
 }

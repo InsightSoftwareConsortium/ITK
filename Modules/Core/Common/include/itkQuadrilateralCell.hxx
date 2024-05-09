@@ -91,8 +91,7 @@ QuadrilateralCell<TCellInterface>::GetBoundaryFeature(int                   dime
 {
   switch (dimension)
   {
-    case 0:
-    {
+    case 0: {
       VertexAutoPointer vertexPointer;
       if (this->GetVertex(featureId, vertexPointer))
       {
@@ -101,8 +100,7 @@ QuadrilateralCell<TCellInterface>::GetBoundaryFeature(int                   dime
       }
       break;
     }
-    case 1:
-    {
+    case 1: {
       EdgeAutoPointer edgePointer;
       if (this->GetEdge(featureId, edgePointer))
       {

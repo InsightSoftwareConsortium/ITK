@@ -81,8 +81,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
   const std::string typeNameString = Superclass::GetTypeNameString();
   switch (get_transform_type(xfm))
   {
-    case LINEAR:
-    {
+    case LINEAR: {
       VIO_Transform * lin = get_linear_transform_ptr(xfm);
 
       TransformPointer transform;
@@ -117,8 +116,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
 
       break;
     }
-    case CONCATENATED_TRANSFORM:
-    {
+    case CONCATENATED_TRANSFORM: {
       for (int i = get_n_concated_transforms(xfm) - 1; i >= 0; --i)
       {
         this->ReadOneTransform(get_nth_general_transform(xfm, i));
@@ -131,8 +129,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
     case USER_TRANSFORM:
       itkExceptionMacro("Reading USER_TRANSFORM transform is not supported yet");
       break;
-    case GRID_TRANSFORM:
-    {
+    case GRID_TRANSFORM: {
       if (xfm->displacement_volume_file)
       {
         using DisplacementFieldTransformType = DisplacementFieldTransform<TParametersValueType, 3>;

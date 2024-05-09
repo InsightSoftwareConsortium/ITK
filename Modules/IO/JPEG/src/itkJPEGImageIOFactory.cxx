@@ -44,7 +44,7 @@ JPEGImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOJPEG_EXPORT
-     JPEGImageIOFactoryRegister__Private()
+JPEGImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<JPEGImageIOFactory>();
 }

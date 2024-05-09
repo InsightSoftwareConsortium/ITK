@@ -139,7 +139,7 @@ public:
   /** Returns the N-dimensional index of the iterator's position in
    * the image. */
   ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex() const ITK_ITERATOR_FINAL
+  GetIndex() const ITK_ITERATOR_FINAL
   {
     return m_Loop;
   }
@@ -147,7 +147,7 @@ public:
   /** Returns the image index for neighbor pixel at offset o from the center of
       the neighborhood. */
   ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex(const OffsetType & o) const ITK_ITERATOR_FINAL
+  GetIndex(const OffsetType & o) const ITK_ITERATOR_FINAL
   {
     return (this->GetIndex() + o);
   }
@@ -155,7 +155,7 @@ public:
   /** Returns the image index for neighbor pixel at index i in the
       neighborhood. */
   ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex(NeighborIndexType i) const ITK_ITERATOR_FINAL
+  GetIndex(NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
     return (this->GetIndex() + this->GetOffset(i));
   }

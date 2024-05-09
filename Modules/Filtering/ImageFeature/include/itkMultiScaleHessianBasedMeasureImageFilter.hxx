@@ -285,14 +285,12 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
 
   switch (m_SigmaStepMethod)
   {
-    case Self::SigmaStepMethodEnum::EquispacedSigmaSteps:
-    {
+    case Self::SigmaStepMethodEnum::EquispacedSigmaSteps: {
       const double stepSize = std::max(1e-10, (m_SigmaMaximum - m_SigmaMinimum) / (m_NumberOfSigmaSteps - 1));
       sigmaValue = m_SigmaMinimum + stepSize * scaleLevel;
       break;
     }
-    case Self::SigmaStepMethodEnum::LogarithmicSigmaSteps:
-    {
+    case Self::SigmaStepMethodEnum::LogarithmicSigmaSteps: {
       const double stepSize =
         std::max(1e-10, (std::log(m_SigmaMaximum) - std::log(m_SigmaMinimum)) / (m_NumberOfSigmaSteps - 1));
       sigmaValue = std::exp(std::log(m_SigmaMinimum) + stepSize * scaleLevel);

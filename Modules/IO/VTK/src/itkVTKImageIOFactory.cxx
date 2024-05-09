@@ -54,7 +54,7 @@ VTKImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOVTK_EXPORT
-     VTKImageIOFactoryRegister__Private()
+VTKImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<VTKImageIOFactory>();
 }

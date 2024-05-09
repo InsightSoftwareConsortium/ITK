@@ -172,8 +172,8 @@ protected:
   // This was observed in at least gcc 4.8 and 5.4.0, and
   // AppleClang 7.0.2 and 8.0.0. Probably others too.
   // "= default" doesn't gain us much, so just don't use it here.
-  TransformBaseTemplate(){};
-  ~TransformBaseTemplate() override{};
+  TransformBaseTemplate() {};
+  ~TransformBaseTemplate() override {};
 #else
   TransformBaseTemplate() = default;
   ~TransformBaseTemplate() override = default;

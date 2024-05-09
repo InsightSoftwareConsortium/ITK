@@ -484,7 +484,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
                                            TGradientImagePixelType,
                                            TTensorPixelType,
                                            TMaskImageType>::AddGradientImage(const GradientDirectionType &
-                                                                                                       gradientDirection,
+                                                                               gradientDirection,
                                                                              const GradientImageType * gradientImage)
 {
   // Make sure crazy users did not call both AddGradientImage and
@@ -520,7 +520,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
                                            TGradientImagePixelType,
                                            TTensorPixelType,
                                            TMaskImageType>::SetGradientImage(GradientDirectionContainerType *
-                                                                                                        gradientDirection,
+                                                                               gradientDirection,
                                                                              const GradientImagesType * gradientImage)
 {
   // Make sure crazy users did not call both AddGradientImage and

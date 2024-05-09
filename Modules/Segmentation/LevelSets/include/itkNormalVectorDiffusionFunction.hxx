@@ -167,7 +167,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
         CenterNode->m_Flux[i] = flux;
       }
     } // end if-else PreviousNode==0
-  }   // end flux offset axis
+  } // end flux offset axis
 }
 
 template <typename TSparseImageType>

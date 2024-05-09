@@ -28,8 +28,9 @@ namespace NeighborhoodAlgorithm
 {
 template <typename TImage>
 auto
-ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType regionToProcess, RadiusType radius)
-  -> Result
+ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img,
+                                              RegionType     regionToProcess,
+                                              RadiusType     radius) -> Result
 {
   // Analyze the regionToProcess to determine if any of its faces are
   // along a buffer boundary (we have no data in the buffer for pixels
@@ -164,8 +165,9 @@ ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType reg
 
 template <typename TImage>
 auto
-ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType regionToProcess, RadiusType radius)
-  -> FaceListType
+ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img,
+                                                 RegionType     regionToProcess,
+                                                 RadiusType     radius) -> FaceListType
 {
   const auto result = Compute(*img, regionToProcess, radius);
 

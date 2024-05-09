@@ -132,8 +132,9 @@ TriangleHelper<TPoint>::ComputeBarycenter(const CoordRepType & iA1,
 
 template <typename TPoint>
 auto
-TriangleHelper<TPoint>::ComputeAngle(const PointType & iP1, const PointType & iP2, const PointType & iP3)
-  -> CoordRepType
+TriangleHelper<TPoint>::ComputeAngle(const PointType & iP1,
+                                     const PointType & iP2,
+                                     const PointType & iP3) -> CoordRepType
 {
   VectorType v21 = iP1 - iP2;
   VectorType v23 = iP3 - iP2;
@@ -159,16 +160,18 @@ TriangleHelper<TPoint>::ComputeAngle(const PointType & iP1, const PointType & iP
 
 template <typename TPoint>
 auto
-TriangleHelper<TPoint>::ComputeGravityCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3)
-  -> PointType
+TriangleHelper<TPoint>::ComputeGravityCenter(const PointType & iP1,
+                                             const PointType & iP2,
+                                             const PointType & iP3) -> PointType
 {
   return ComputeBarycenter(1., iP1, 1., iP2, 1., iP3);
 }
 
 template <typename TPoint>
 auto
-TriangleHelper<TPoint>::ComputeCircumCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3)
-  -> PointType
+TriangleHelper<TPoint>::ComputeCircumCenter(const PointType & iP1,
+                                            const PointType & iP2,
+                                            const PointType & iP3) -> PointType
 {
   PointType oPt;
 
@@ -224,8 +227,9 @@ TriangleHelper<TPoint>::ComputeArea(const PointType & iP1, const PointType & iP2
 
 template <typename TPoint>
 auto
-TriangleHelper<TPoint>::ComputeMixedArea(const PointType & iP1, const PointType & iP2, const PointType & iP3)
-  -> CoordRepType
+TriangleHelper<TPoint>::ComputeMixedArea(const PointType & iP1,
+                                         const PointType & iP2,
+                                         const PointType & iP3) -> CoordRepType
 {
   using TriangleType = TriangleHelper<TPoint>;
 

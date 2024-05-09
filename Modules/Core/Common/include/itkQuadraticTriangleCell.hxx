@@ -88,8 +88,7 @@ QuadraticTriangleCell<TCellInterface>::GetBoundaryFeature(int                   
 {
   switch (dimension)
   {
-    case 0:
-    {
+    case 0: {
       VertexAutoPointer vertexPointer;
       if (this->GetVertex(featureId, vertexPointer))
       {
@@ -98,8 +97,7 @@ QuadraticTriangleCell<TCellInterface>::GetBoundaryFeature(int                   
       }
       break;
     }
-    case 1:
-    {
+    case 1: {
       EdgeAutoPointer edgePointer;
       if (this->GetEdge(featureId, edgePointer))
       {

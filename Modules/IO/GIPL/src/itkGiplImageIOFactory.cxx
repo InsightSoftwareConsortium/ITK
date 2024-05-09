@@ -44,7 +44,7 @@ GiplImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOGIPL_EXPORT
-     GiplImageIOFactoryRegister__Private()
+GiplImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<GiplImageIOFactory>();
 }

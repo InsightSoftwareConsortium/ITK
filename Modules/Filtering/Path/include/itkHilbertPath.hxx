@@ -131,16 +131,18 @@ HilbertPath<TIndexValue, VDimension>::GetBitRange(const PathIndexType x,
 
 template <typename TIndexValue, unsigned int VDimension>
 auto
-HilbertPath<TIndexValue, VDimension>::GetLeftBitRotation(PathIndexType x, PathIndexType i, const PathIndexType width)
-  -> PathIndexType
+HilbertPath<TIndexValue, VDimension>::GetLeftBitRotation(PathIndexType       x,
+                                                         PathIndexType       i,
+                                                         const PathIndexType width) -> PathIndexType
 {
   return (((x << (i % width)) | (x >> (width - (i % width)))) & ((1 << width) - 1));
 }
 
 template <typename TIndexValue, unsigned int VDimension>
 auto
-HilbertPath<TIndexValue, VDimension>::GetRightBitRotation(PathIndexType x, PathIndexType i, const PathIndexType width)
-  -> PathIndexType
+HilbertPath<TIndexValue, VDimension>::GetRightBitRotation(PathIndexType       x,
+                                                          PathIndexType       i,
+                                                          const PathIndexType width) -> PathIndexType
 {
   return (((x >> (i % width)) | (x << (width - (i % width)))) & ((1 << width) - 1));
 }
@@ -194,8 +196,8 @@ HilbertPath<TIndexValue, VDimension>::GetInverseGrayCode(const PathIndexType x) 
 
 template <typename TIndexValue, unsigned int VDimension>
 auto
-HilbertPath<TIndexValue, VDimension>::GetTrailingSetBits(const PathIndexType x, const PathIndexType width)
-  -> PathIndexType
+HilbertPath<TIndexValue, VDimension>::GetTrailingSetBits(const PathIndexType x,
+                                                         const PathIndexType width) -> PathIndexType
 {
   PathIndexType i = 0;
   PathIndexType y = x;

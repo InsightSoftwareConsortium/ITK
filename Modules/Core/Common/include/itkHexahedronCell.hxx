@@ -103,8 +103,7 @@ HexahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimensi
 {
   switch (dimension)
   {
-    case 0:
-    {
+    case 0: {
       VertexAutoPointer vertexPointer;
       if (this->GetVertex(featureId, vertexPointer))
       {
@@ -113,8 +112,7 @@ HexahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimensi
       }
       break;
     }
-    case 1:
-    {
+    case 1: {
       EdgeAutoPointer edgePointer;
       if (this->GetEdge(featureId, edgePointer))
       {
@@ -123,8 +121,7 @@ HexahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimensi
       }
       break;
     }
-    case 2:
-    {
+    case 2: {
       FaceAutoPointer facePointer;
       if (this->GetFace(featureId, facePointer))
       {

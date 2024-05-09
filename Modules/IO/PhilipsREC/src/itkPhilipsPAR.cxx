@@ -463,8 +463,7 @@ PhilipsPAR::GetPARVersion(std::string parFile)
       case '3':
         ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V3;
         break;
-      case '4':
-      {
+      case '4': {
         if ((currentLine.length() == 63) || (currentLine[63]) != '.')
         {
           ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4;
@@ -549,8 +548,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
   // Parse PAR file according to version.
   switch (pPar->ResToolsVersion)
   {
-    case RESEARCH_IMAGE_EXPORT_TOOL_V3:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V3: {
       struct image_info_defV3 tempInfo;
       struct image_info_defV3 tempInfo1;
       float                   fovAP, fovFH, fovRL;
@@ -1041,8 +1039,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
 
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2: {
       struct image_info_defV4 tempInfo;
       struct image_info_defV4 tempInfo1;
       float                   fovAP, fovFH, fovRL;
@@ -1579,8 +1576,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
     }
     break;
 
-    default:
-    {
+    default: {
       pPar->problemreading = 1;
       std::ostringstream message;
       message << "ReadPAR: Unknown PAR version";
@@ -1639,8 +1635,7 @@ PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
 
   switch (ResToolsVersion)
   {
-    case RESEARCH_IMAGE_EXPORT_TOOL_V3:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V3: {
       struct image_info_defV3            tempInfo;
       PhilipsPAR::PARSliceIndexImageType sliceAndType;
       int                                lineIncrement = 89;
@@ -1655,8 +1650,7 @@ PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4: {
       struct image_info_defV4            tempInfo;
       PhilipsPAR::PARSliceIndexImageType sliceAndType;
       int                                lineIncrement = 92;
@@ -1671,8 +1665,7 @@ PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1: {
       struct image_info_defV4            tempInfo;
       PhilipsPAR::PARSliceIndexImageType sliceAndType;
       int                                lineIncrement = 99;
@@ -1687,8 +1680,7 @@ PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2: {
       struct image_info_defV4            tempInfo;
       PhilipsPAR::PARSliceIndexImageType sliceAndType;
       int                                lineIncrement = 101;
@@ -1722,8 +1714,7 @@ PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
 
   switch (ResToolsVersion)
   {
-    case RESEARCH_IMAGE_EXPORT_TOOL_V3:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V3: {
       struct image_info_defV3               tempInfo;
       PhilipsPAR::PARSliceIndexScanSequence sliceAndSequence;
       int                                   lineIncrement = 89;
@@ -1738,8 +1729,7 @@ PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4: {
       struct image_info_defV4               tempInfo;
       PhilipsPAR::PARSliceIndexScanSequence sliceAndSequence;
       int                                   lineIncrement = 92;
@@ -1754,8 +1744,7 @@ PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1: {
       struct image_info_defV4               tempInfo;
       PhilipsPAR::PARSliceIndexScanSequence sliceAndSequence;
       int                                   lineIncrement = 99;
@@ -1770,8 +1759,7 @@ PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2: {
       struct image_info_defV4               tempInfo;
       PhilipsPAR::PARSliceIndexScanSequence sliceAndSequence;
       int                                   lineIncrement = 101;
@@ -1808,8 +1796,7 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
 
   switch (parParam.ResToolsVersion)
   {
-    case RESEARCH_IMAGE_EXPORT_TOOL_V3:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V3: {
       struct image_info_defV3 tempInfo;
       for (int scanIndex = 0; scanIndex < parParam.num_scanning_sequences; ++scanIndex)
       {
@@ -1839,8 +1826,7 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4: {
       struct image_info_defV4 tempInfo;
       for (int scanIndex = 0; scanIndex < parParam.num_scanning_sequences; ++scanIndex)
       {
@@ -1870,8 +1856,7 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1: {
       struct image_info_defV4 tempInfo;
       for (int scanIndex = 0; scanIndex < parParam.num_scanning_sequences; ++scanIndex)
       {
@@ -1901,8 +1886,7 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2: {
       struct image_info_defV4 tempInfo;
       for (int scanIndex = 0; scanIndex < parParam.num_scanning_sequences; ++scanIndex)
       {
@@ -1961,8 +1945,7 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
 
   switch (ResToolsVersion)
   {
-    case RESEARCH_IMAGE_EXPORT_TOOL_V3:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V3: {
       struct image_info_defV3      tempInfo;
       PhilipsPAR::PARRescaleValues rescale;
       int                          imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
@@ -1983,8 +1966,7 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4: {
       struct image_info_defV4      tempInfo;
       PhilipsPAR::PARRescaleValues rescale;
       int                          imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
@@ -2005,8 +1987,7 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1: {
       struct image_info_defV4      tempInfo;
       PhilipsPAR::PARRescaleValues rescale;
       int                          imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
@@ -2027,8 +2008,7 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
       }
     }
     break;
-    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
-    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2: {
       struct image_info_defV4      tempInfo;
       PhilipsPAR::PARRescaleValues rescale;
       int                          imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };

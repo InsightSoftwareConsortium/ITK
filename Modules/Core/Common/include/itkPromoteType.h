@@ -112,17 +112,28 @@ struct PromoteType
   static Details::Identity<2>::Type & Check(typename Details::SizeToType<2, TA, TB>::Type, T);
 
   // Common numeric types
-  static Details::Identity<3>::Type &  Check(typename Details::SizeToType<3, TA, TB>::Type, int);
-  static Details::Identity<4>::Type &  Check(typename Details::SizeToType<4, TA, TB>::Type, int);
-  static Details::Identity<5>::Type &  Check(typename Details::SizeToType<5, TA, TB>::Type, int);
-  static Details::Identity<6>::Type &  Check(typename Details::SizeToType<6, TA, TB>::Type, int);
-  static Details::Identity<7>::Type &  Check(typename Details::SizeToType<7, TA, TB>::Type, int);
-  static Details::Identity<8>::Type &  Check(typename Details::SizeToType<8, TA, TB>::Type, int);
-  static Details::Identity<9>::Type &  Check(typename Details::SizeToType<9, TA, TB>::Type, int);
-  static Details::Identity<10>::Type & Check(typename Details::SizeToType<10, TA, TB>::Type, int);
-  static Details::Identity<11>::Type & Check(typename Details::SizeToType<11, TA, TB>::Type, int);
-  static Details::Identity<12>::Type & Check(typename Details::SizeToType<12, TA, TB>::Type, int);
-  static Details::Identity<13>::Type & Check(typename Details::SizeToType<13, TA, TB>::Type, int);
+  static Details::Identity<3>::Type &
+  Check(typename Details::SizeToType<3, TA, TB>::Type, int);
+  static Details::Identity<4>::Type &
+  Check(typename Details::SizeToType<4, TA, TB>::Type, int);
+  static Details::Identity<5>::Type &
+  Check(typename Details::SizeToType<5, TA, TB>::Type, int);
+  static Details::Identity<6>::Type &
+  Check(typename Details::SizeToType<6, TA, TB>::Type, int);
+  static Details::Identity<7>::Type &
+  Check(typename Details::SizeToType<7, TA, TB>::Type, int);
+  static Details::Identity<8>::Type &
+  Check(typename Details::SizeToType<8, TA, TB>::Type, int);
+  static Details::Identity<9>::Type &
+  Check(typename Details::SizeToType<9, TA, TB>::Type, int);
+  static Details::Identity<10>::Type &
+  Check(typename Details::SizeToType<10, TA, TB>::Type, int);
+  static Details::Identity<11>::Type &
+  Check(typename Details::SizeToType<11, TA, TB>::Type, int);
+  static Details::Identity<12>::Type &
+  Check(typename Details::SizeToType<12, TA, TB>::Type, int);
+  static Details::Identity<13>::Type &
+  Check(typename Details::SizeToType<13, TA, TB>::Type, int);
 
 public:
   /** Type result of operations between \c TA and \c TB.

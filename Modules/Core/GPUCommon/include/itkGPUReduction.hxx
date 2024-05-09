@@ -20,7 +20,7 @@
 
 #include "itkMacro.h"
 
-//#define CPU_VERIFY
+// #define CPU_VERIFY
 
 namespace itk
 {

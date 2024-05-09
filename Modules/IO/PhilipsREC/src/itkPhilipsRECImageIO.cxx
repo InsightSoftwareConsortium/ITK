@@ -759,7 +759,7 @@ PhilipsRECImageIO::ReadImageInformation()
       direction[columns][rows] = dir[columns][rows];
     }
   }
-//#define DEBUG_ORIENTATION
+// #define DEBUG_ORIENTATION
 #ifdef DEBUG_ORIENTATION
   std::cout << "Direction cosines = " << direction << std::endl << "Spacing = " << spacing << std::endl;
 #endif

@@ -563,8 +563,7 @@ BMPImageIO::ReadImageInformation()
   {
     case 1:
     case 4:
-    case 8:
-    {
+    case 8: {
       if (this->GetExpandRGBPalette())
       {
         this->SetNumberOfComponents(3);
@@ -578,14 +577,12 @@ BMPImageIO::ReadImageInformation()
       }
       break;
     }
-    case 24:
-    {
+    case 24: {
       this->SetNumberOfComponents(3);
       m_PixelType = IOPixelEnum::RGB;
       break;
     }
-    case 32:
-    {
+    case 32: {
       this->SetNumberOfComponents(4);
       m_PixelType = IOPixelEnum::RGBA;
       break;
@@ -600,8 +597,7 @@ BMPImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
-    case IOComponentEnum::CHAR:
-    {
+    case IOComponentEnum::CHAR: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char *)buffer, numberOfPixels);
@@ -612,8 +608,7 @@ BMPImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       }
       break;
     }
-    case IOComponentEnum::UCHAR:
-    {
+    case IOComponentEnum::UCHAR: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian((unsigned char *)buffer, numberOfPixels);
@@ -624,8 +619,7 @@ BMPImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       }
       break;
     }
-    case IOComponentEnum::SHORT:
-    {
+    case IOComponentEnum::SHORT: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<short>::SwapRangeFromSystemToLittleEndian((short *)buffer, numberOfPixels);
@@ -636,8 +630,7 @@ BMPImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       }
       break;
     }
-    case IOComponentEnum::USHORT:
-    {
+    case IOComponentEnum::USHORT: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian((unsigned short *)buffer, numberOfPixels);

@@ -121,8 +121,7 @@ itkTopHatImageFilterTest(int argc, char * argv[])
 
   switch (std::stoi(argv[3]))
   {
-    case 0:
-    {
+    case 0: {
       // Create the filter
       using BlackFilterType = itk::BlackTopHatImageFilter<ImageType, ImageType, KernelType>;
       auto filter = BlackFilterType::New();
@@ -136,8 +135,7 @@ itkTopHatImageFilterTest(int argc, char * argv[])
 
       break;
     }
-    case 1:
-    {
+    case 1: {
       // Create the filter
       using WhiteFilterType = itk::WhiteTopHatImageFilter<ImageType, ImageType, KernelType>;
       auto filter = WhiteFilterType::New();

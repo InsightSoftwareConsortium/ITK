@@ -26,7 +26,8 @@ namespace itk
  *  Product by a Vector
  */
 template <typename T, unsigned int VRows, unsigned int VColumns>
-Vector<T, VRows> Matrix<T, VRows, VColumns>::operator*(const Vector<T, VColumns> & vect) const
+Vector<T, VRows>
+Matrix<T, VRows, VColumns>::operator*(const Vector<T, VColumns> & vect) const
 {
   Vector<T, VRows> result;
   for (unsigned int r = 0; r < VRows; ++r)
@@ -45,7 +46,8 @@ Vector<T, VRows> Matrix<T, VRows, VColumns>::operator*(const Vector<T, VColumns>
  *  Product by a Point
  */
 template <typename T, unsigned int VRows, unsigned int VColumns>
-Point<T, VRows> Matrix<T, VRows, VColumns>::operator*(const Point<T, VColumns> & pnt) const
+Point<T, VRows>
+Matrix<T, VRows, VColumns>::operator*(const Point<T, VColumns> & pnt) const
 {
   Point<T, VRows> result;
   for (unsigned int r = 0; r < VRows; ++r)
@@ -64,7 +66,8 @@ Point<T, VRows> Matrix<T, VRows, VColumns>::operator*(const Point<T, VColumns> &
  *  Product by a vnl_vector_fixed
  */
 template <typename T, unsigned int VRows, unsigned int VColumns>
-vnl_vector_fixed<T, VRows> Matrix<T, VRows, VColumns>::operator*(const vnl_vector_fixed<T, VColumns> & inVNLvect) const
+vnl_vector_fixed<T, VRows>
+Matrix<T, VRows, VColumns>::operator*(const vnl_vector_fixed<T, VColumns> & inVNLvect) const
 {
   vnl_vector_fixed<T, VRows> result;
   for (unsigned int r = 0; r < VRows; ++r)
@@ -83,7 +86,8 @@ vnl_vector_fixed<T, VRows> Matrix<T, VRows, VColumns>::operator*(const vnl_vecto
  *  Product by a CovariantVector
  */
 template <typename T, unsigned int VRows, unsigned int VColumns>
-CovariantVector<T, VRows> Matrix<T, VRows, VColumns>::operator*(const CovariantVector<T, VColumns> & covect) const
+CovariantVector<T, VRows>
+Matrix<T, VRows, VColumns>::operator*(const CovariantVector<T, VColumns> & covect) const
 {
   CovariantVector<T, VRows> result;
   for (unsigned int r = 0; r < VRows; ++r)
@@ -102,7 +106,8 @@ CovariantVector<T, VRows> Matrix<T, VRows, VColumns>::operator*(const CovariantV
  *  Product by a matrix
  */
 template <typename T, unsigned int VRows, unsigned int VColumns>
-Matrix<T, VRows, VColumns> Matrix<T, VRows, VColumns>::operator*(const CompatibleSquareMatrixType & matrix) const
+Matrix<T, VRows, VColumns>
+Matrix<T, VRows, VColumns>::operator*(const CompatibleSquareMatrixType & matrix) const
 {
   const Self result(m_Matrix * matrix.GetVnlMatrix());
   return result;
@@ -184,7 +189,8 @@ Matrix<T, VRows, VColumns>::operator-=(const Self & matrix)
  *  Product by a vnl_matrix
  */
 template <typename T, unsigned int VRows, unsigned int VColumns>
-vnl_matrix<T> Matrix<T, VRows, VColumns>::operator*(const vnl_matrix<T> & matrix) const
+vnl_matrix<T>
+Matrix<T, VRows, VColumns>::operator*(const vnl_matrix<T> & matrix) const
 {
   return m_Matrix * matrix;
 }
@@ -213,7 +219,8 @@ Matrix<T, VRows, VColumns>::operator*=(const vnl_matrix<T> & matrix)
  *  Product by a vnl_vector
  */
 template <typename T, unsigned int VRows, unsigned int VColumns>
-vnl_vector<T> Matrix<T, VRows, VColumns>::operator*(const vnl_vector<T> & vc) const
+vnl_vector<T>
+Matrix<T, VRows, VColumns>::operator*(const vnl_vector<T> & vc) const
 {
   return m_Matrix * vc;
 }

@@ -131,7 +131,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKDeformableMesh_EXPORT std::ostream &
-                                operator<<(std::ostream & out, const DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE value);
+operator<<(std::ostream & out, const DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE value);
 /**
  * \class DeformableSimplexMesh3DGradientConstraintForceFilter
  * \brief

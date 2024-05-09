@@ -682,8 +682,7 @@ protected:
     outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << '\n';
     switch (this->m_PointPixelType)
     {
-      case IOPixelEnum::SCALAR:
-      {
+      case IOPixelEnum::SCALAR: {
         outputFile << "SCALARS ";
         ExposeMetaData<StringType>(metaDic, "pointScalarDataName", dataName);
         outputFile << dataName << "  ";
@@ -692,24 +691,21 @@ protected:
       case IOPixelEnum::OFFSET:
       case IOPixelEnum::POINT:
       case IOPixelEnum::COVARIANTVECTOR:
-      case IOPixelEnum::VECTOR:
-      {
+      case IOPixelEnum::VECTOR: {
         outputFile << "VECTORS ";
         ExposeMetaData<StringType>(metaDic, "pointVectorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
       case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
-      case IOPixelEnum::DIFFUSIONTENSOR3D:
-      {
+      case IOPixelEnum::DIFFUSIONTENSOR3D: {
         outputFile << "TENSORS ";
         ExposeMetaData<StringType>(metaDic, "pointTensorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
       case IOPixelEnum::ARRAY:
-      case IOPixelEnum::VARIABLELENGTHVECTOR:
-      {
+      case IOPixelEnum::VARIABLELENGTHVECTOR: {
         outputFile << "COLOR_SCALARS ";
         ExposeMetaData<StringType>(metaDic, "pointColorScalarDataName", dataName);
         outputFile << dataName << "  ";
@@ -717,8 +713,7 @@ protected:
           outputFile, buffer, this->m_NumberOfPointPixelComponents, this->m_NumberOfPointPixels);
         return;
       }
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown point pixel type");
       }
     }
@@ -813,8 +808,7 @@ protected:
     outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << '\n';
     switch (this->m_PointPixelType)
     {
-      case IOPixelEnum::SCALAR:
-      {
+      case IOPixelEnum::SCALAR: {
         outputFile << "SCALARS ";
         ExposeMetaData<StringType>(metaDic, "pointScalarDataName", dataName);
         outputFile << dataName << "  ";
@@ -823,24 +817,21 @@ protected:
       case IOPixelEnum::OFFSET:
       case IOPixelEnum::POINT:
       case IOPixelEnum::COVARIANTVECTOR:
-      case IOPixelEnum::VECTOR:
-      {
+      case IOPixelEnum::VECTOR: {
         outputFile << "VECTORS ";
         ExposeMetaData<StringType>(metaDic, "pointVectorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
       case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
-      case IOPixelEnum::DIFFUSIONTENSOR3D:
-      {
+      case IOPixelEnum::DIFFUSIONTENSOR3D: {
         outputFile << "TENSORS ";
         ExposeMetaData<StringType>(metaDic, "pointTensorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
       case IOPixelEnum::ARRAY:
-      case IOPixelEnum::VARIABLELENGTHVECTOR:
-      {
+      case IOPixelEnum::VARIABLELENGTHVECTOR: {
         outputFile << "COLOR_SCALARS ";
         ExposeMetaData<StringType>(metaDic, "pointColorScalarDataName", dataName);
         outputFile << dataName << "  ";
@@ -848,8 +839,7 @@ protected:
           outputFile, buffer, this->m_NumberOfPointPixelComponents, this->m_NumberOfPointPixels);
         return;
       }
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown point pixel type");
       }
     }
@@ -876,8 +866,7 @@ protected:
     outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << '\n';
     switch (this->m_CellPixelType)
     {
-      case IOPixelEnum::SCALAR:
-      {
+      case IOPixelEnum::SCALAR: {
         outputFile << "SCALARS ";
         ExposeMetaData<StringType>(metaDic, "cellScalarDataName", dataName);
         outputFile << dataName << "  ";
@@ -886,24 +875,21 @@ protected:
       case IOPixelEnum::OFFSET:
       case IOPixelEnum::POINT:
       case IOPixelEnum::COVARIANTVECTOR:
-      case IOPixelEnum::VECTOR:
-      {
+      case IOPixelEnum::VECTOR: {
         outputFile << "VECTORS ";
         ExposeMetaData<StringType>(metaDic, "cellVectorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
       case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
-      case IOPixelEnum::DIFFUSIONTENSOR3D:
-      {
+      case IOPixelEnum::DIFFUSIONTENSOR3D: {
         outputFile << "TENSORS ";
         ExposeMetaData<StringType>(metaDic, "cellTensorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
       case IOPixelEnum::ARRAY:
-      case IOPixelEnum::VARIABLELENGTHVECTOR:
-      {
+      case IOPixelEnum::VARIABLELENGTHVECTOR: {
         outputFile << "COLOR_SCALARS ";
         ExposeMetaData<StringType>(metaDic, "cellColorScalarDataName", dataName);
         outputFile << dataName << "  ";
@@ -911,8 +897,7 @@ protected:
           outputFile, buffer, this->m_NumberOfCellPixelComponents, this->m_NumberOfCellPixels);
         return;
       }
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown cell pixel type");
       }
     }
@@ -1003,8 +988,7 @@ protected:
     outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << '\n';
     switch (this->m_CellPixelType)
     {
-      case IOPixelEnum::SCALAR:
-      {
+      case IOPixelEnum::SCALAR: {
         outputFile << "SCALARS ";
         ExposeMetaData<StringType>(metaDic, "cellScalarDataName", dataName);
         outputFile << dataName << "  ";
@@ -1013,24 +997,21 @@ protected:
       case IOPixelEnum::OFFSET:
       case IOPixelEnum::POINT:
       case IOPixelEnum::COVARIANTVECTOR:
-      case IOPixelEnum::VECTOR:
-      {
+      case IOPixelEnum::VECTOR: {
         outputFile << "VECTORS ";
         ExposeMetaData<StringType>(metaDic, "cellVectorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
       case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
-      case IOPixelEnum::DIFFUSIONTENSOR3D:
-      {
+      case IOPixelEnum::DIFFUSIONTENSOR3D: {
         outputFile << "TENSORS ";
         ExposeMetaData<StringType>(metaDic, "cellTensorDataName", dataName);
         outputFile << dataName << "  ";
         break;
       }
       case IOPixelEnum::ARRAY:
-      case IOPixelEnum::VARIABLELENGTHVECTOR:
-      {
+      case IOPixelEnum::VARIABLELENGTHVECTOR: {
         outputFile << "COLOR_SCALARS ";
         ExposeMetaData<StringType>(metaDic, "cellColorScalarDataName", dataName);
         outputFile << dataName << "  ";
@@ -1038,8 +1019,7 @@ protected:
           outputFile, buffer, this->m_NumberOfCellPixelComponents, this->m_NumberOfCellPixels);
         return;
       }
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown cell pixel type");
       }
     }

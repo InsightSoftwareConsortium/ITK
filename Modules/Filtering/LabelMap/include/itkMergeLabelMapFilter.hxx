@@ -38,28 +38,23 @@ MergeLabelMapFilter<TImage>::GenerateData()
 
   switch (this->m_Method)
   {
-    case ChoiceMethodEnum::KEEP:
-    {
+    case ChoiceMethodEnum::KEEP: {
       this->MergeWithKeep();
       break;
     }
-    case ChoiceMethodEnum::AGGREGATE:
-    {
+    case ChoiceMethodEnum::AGGREGATE: {
       this->MergeWithAggregate();
       break;
     }
-    case ChoiceMethodEnum::PACK:
-    {
+    case ChoiceMethodEnum::PACK: {
       this->MergeWithPack();
       break;
     }
-    case ChoiceMethodEnum::STRICT:
-    {
+    case ChoiceMethodEnum::STRICT: {
       this->MergeWithStrict();
       break;
     }
-    default:
-    {
+    default: {
       itkExceptionMacro("No such method: " << this->m_Method);
     }
   }

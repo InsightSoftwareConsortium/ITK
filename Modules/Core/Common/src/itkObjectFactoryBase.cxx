@@ -256,7 +256,7 @@ ObjectFactoryBase::LoadDynamicFactories()
 #  ifdef _WIN32
   char PathSeparator = ';';
 #  else
-  char       PathSeparator = ':';
+  char PathSeparator = ':';
 #  endif
 
   const std::string itk_autoload_env{ "ITK_AUTOLOAD_PATH" };
@@ -554,8 +554,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
   //
   switch (where)
   {
-    case InsertionPositionEnum::INSERT_AT_BACK:
-    {
+    case InsertionPositionEnum::INSERT_AT_BACK: {
       if (position)
       {
         itkGenericExceptionMacro(
@@ -564,8 +563,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
       m_PimplGlobals->m_RegisteredFactories.push_back(factory);
       break;
     }
-    case InsertionPositionEnum::INSERT_AT_FRONT:
-    {
+    case InsertionPositionEnum::INSERT_AT_FRONT: {
       if (position)
       {
         itkGenericExceptionMacro(
@@ -574,8 +572,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
       m_PimplGlobals->m_RegisteredFactories.push_front(factory);
       break;
     }
-    case InsertionPositionEnum::INSERT_AT_POSITION:
-    {
+    case InsertionPositionEnum::INSERT_AT_POSITION: {
       const size_t numberOfFactories = m_PimplGlobals->m_RegisteredFactories.size();
       if (position < numberOfFactories)
       {

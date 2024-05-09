@@ -86,8 +86,7 @@ QuadraticEdgeCell<TCellInterface>::GetBoundaryFeature(int                   dime
 {
   switch (dimension)
   {
-    case 0:
-    {
+    case 0: {
       VertexAutoPointer vertexPointer;
       if (this->GetVertex(featureId, vertexPointer))
       {

@@ -175,8 +175,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetDistance(PointIdentifier id
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddEdge(PointIdentifier startPointId, PointIdentifier endPointId)
-  -> CellIdentifier
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddEdge(PointIdentifier startPointId,
+                                                          PointIdentifier endPointId) -> CellIdentifier
 {
   CellAutoPointer NewCellPointer(new LineType, true);
   CellIdentifier  edgeId = m_LastCellId;

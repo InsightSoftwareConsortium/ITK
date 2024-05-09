@@ -44,7 +44,7 @@ MetaImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMeta_EXPORT
-     MetaImageIOFactoryRegister__Private()
+MetaImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<MetaImageIOFactory>();
 }

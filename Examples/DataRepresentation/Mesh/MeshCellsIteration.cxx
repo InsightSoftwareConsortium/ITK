@@ -272,32 +272,28 @@ main(int, char *[])
     CellType * cell = cellIterator.Value();
     switch (cell->GetType())
     {
-      case itk::CellGeometryEnum::VERTEX_CELL:
-      {
+      case itk::CellGeometryEnum::VERTEX_CELL: {
         std::cout << "VertexCell : " << std::endl;
         auto * line = dynamic_cast<VertexType *>(cell);
         std::cout << "dimension = " << line->GetDimension() << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;
       }
-      case itk::CellGeometryEnum::LINE_CELL:
-      {
+      case itk::CellGeometryEnum::LINE_CELL: {
         std::cout << "LineCell : " << std::endl;
         auto * line = dynamic_cast<LineType *>(cell);
         std::cout << "dimension = " << line->GetDimension() << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;
       }
-      case itk::CellGeometryEnum::TRIANGLE_CELL:
-      {
+      case itk::CellGeometryEnum::TRIANGLE_CELL: {
         std::cout << "TriangleCell : " << std::endl;
         auto * line = dynamic_cast<TriangleType *>(cell);
         std::cout << "dimension = " << line->GetDimension() << std::endl;
         std::cout << "# points  = " << line->GetNumberOfPoints() << std::endl;
         break;
       }
-      default:
-      {
+      default: {
         std::cout << "Cell with more than three points" << std::endl;
         std::cout << "dimension = " << cell->GetDimension() << std::endl;
         std::cout << "# points  = " << cell->GetNumberOfPoints() << std::endl;

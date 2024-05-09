@@ -121,8 +121,8 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::SetCurrentEnergy(double e)
 
 template <typename TMoving, typename TFixed>
 auto
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(ElementContainerType * el, Float step)
-  -> Float
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(ElementContainerType * el,
+                                                                           Float                  step) -> Float
 {
   Float energy = 0.0, defe = 0.0;
 

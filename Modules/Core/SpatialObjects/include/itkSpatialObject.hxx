@@ -720,8 +720,8 @@ SpatialObject<TDimension>::GetChildren(unsigned int depth, const std::string & n
 
 template <unsigned int TDimension>
 auto
-SpatialObject<TDimension>::GetConstChildren(unsigned int depth, const std::string & name) const
-  -> ChildrenConstListType *
+SpatialObject<TDimension>::GetConstChildren(unsigned int        depth,
+                                            const std::string & name) const -> ChildrenConstListType *
 {
   auto * childrenSO = new ChildrenConstListType;
 

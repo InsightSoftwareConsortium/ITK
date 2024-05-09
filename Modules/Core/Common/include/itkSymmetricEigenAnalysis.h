@@ -709,8 +709,9 @@ private:
    * @return an unsigned int with no information value (no error code in EigenLib) */
   template <typename QMatrix>
   auto
-  ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A, TVector & EigenValues, bool) const
-    -> decltype(GetPointerToMatrixData(A), 1U)
+  ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A,
+                                         TVector &       EigenValues,
+                                         bool) const -> decltype(GetPointerToMatrixData(A), 1U)
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);
@@ -1056,8 +1057,9 @@ private:
    * @return an unsigned int with no information value (no error code in EigenLib) */
   template <typename QMatrix>
   auto
-  ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A, TVector & EigenValues, bool) const
-    -> decltype(GetPointerToMatrixData(A), 1U)
+  ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A,
+                                         TVector &       EigenValues,
+                                         bool) const -> decltype(GetPointerToMatrixData(A), 1U)
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);

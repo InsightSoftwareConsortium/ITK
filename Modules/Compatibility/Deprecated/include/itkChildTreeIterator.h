@@ -64,7 +64,7 @@ public:
     if (this != &iterator)
     {
       Superclass::operator=(iterator);
-      auto &      it = static_cast<ChildTreeIterator<TTreeType> &>(iterator);
+      auto & it = static_cast<ChildTreeIterator<TTreeType> &>(iterator);
       m_ListPosition = it.m_ListPosition;
       m_ParentNode = it.m_ParentNode;
     }

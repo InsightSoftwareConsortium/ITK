@@ -161,7 +161,7 @@ private:
 };
 
 const std::string ITKIOTransformHDF5_EXPORT
-                  GetTransformName(int);
+GetTransformName(int);
 
 /** This helps to meet backward compatibility */
 using HDF5TransformIO = HDF5TransformIOTemplate<double>;

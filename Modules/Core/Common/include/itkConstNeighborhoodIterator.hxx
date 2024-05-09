@@ -144,8 +144,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::IndexInBounds(const Neigh
 
 template <typename TImage, typename TBoundaryCondition>
 auto
-ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexType n, bool & IsInBounds) const
-  -> PixelType
+ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexType n,
+                                                                bool &            IsInBounds) const -> PixelType
 {
   // If the region the iterator is walking (padded by the neighborhood size)
   // never bumps up against the bounds of the buffered region, then don't

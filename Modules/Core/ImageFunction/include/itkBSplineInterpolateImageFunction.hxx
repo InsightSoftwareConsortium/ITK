@@ -179,8 +179,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
 
   switch (splineOrder)
   {
-    case 3:
-    {
+    case 3: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         w = x[n] - static_cast<double>(EvaluateIndex[n][1]);
@@ -191,16 +190,14 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
       }
       break;
     }
-    case 0:
-    {
+    case 0: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         weights[n][0] = 1; // implements nearest neighbor
       }
       break;
     }
-    case 1:
-    {
+    case 1: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         w = x[n] - static_cast<double>(EvaluateIndex[n][0]);
@@ -209,8 +206,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
       }
       break;
     }
-    case 2:
-    {
+    case 2: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         /* x */
@@ -221,8 +217,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
       }
       break;
     }
-    case 4:
-    {
+    case 4: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         /* x */
@@ -241,8 +236,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
       }
       break;
     }
-    case 5:
-    {
+    case 5: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         /* x */
@@ -265,8 +259,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
       }
       break;
     }
-    default:
-    {
+    default: {
       // SplineOrder not implemented yet.
       ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
@@ -298,8 +291,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
   {
     // Calculates B(splineOrder) ( (x + 1/2) - xi) -
     //            B(splineOrder -1)( (x - 1/2) - xi)
-    case -1:
-    {
+    case -1: {
       // Why would we want to do this?
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
@@ -307,8 +299,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
       }
       break;
     }
-    case 0:
-    {
+    case 0: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         weights[n][0] = -1.0;
@@ -316,8 +307,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
       }
       break;
     }
-    case 1:
-    {
+    case 1: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         w = x[n] + 0.5 - static_cast<double>(EvaluateIndex[n][1]);
@@ -330,8 +320,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
       }
       break;
     }
-    case 2:
-    {
+    case 2: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][2]);
@@ -346,8 +335,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
       }
       break;
     }
-    case 3:
-    {
+    case 3: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         w = x[n] + 0.5 - static_cast<double>(EvaluateIndex[n][2]);
@@ -364,8 +352,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
       }
       break;
     }
-    case 4:
-    {
+    case 4: {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][3]);
@@ -390,8 +377,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
       }
       break;
     }
-    default:
-    {
+    default: {
       // SplineOrder not implemented yet.
       ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);

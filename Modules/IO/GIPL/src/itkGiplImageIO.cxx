@@ -614,8 +614,7 @@ GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
-    case IOComponentEnum::CHAR:
-    {
+    case IOComponentEnum::CHAR: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char *)buffer, numberOfPixels);
@@ -626,8 +625,7 @@ GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       }
       break;
     }
-    case IOComponentEnum::UCHAR:
-    {
+    case IOComponentEnum::UCHAR: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian((unsigned char *)buffer, numberOfPixels);
@@ -638,8 +636,7 @@ GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       }
       break;
     }
-    case IOComponentEnum::SHORT:
-    {
+    case IOComponentEnum::SHORT: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<short>::SwapRangeFromSystemToLittleEndian((short *)buffer, numberOfPixels);
@@ -650,8 +647,7 @@ GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       }
       break;
     }
-    case IOComponentEnum::USHORT:
-    {
+    case IOComponentEnum::USHORT: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian((unsigned short *)buffer, numberOfPixels);
@@ -662,8 +658,7 @@ GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       }
       break;
     }
-    case IOComponentEnum::FLOAT:
-    {
+    case IOComponentEnum::FLOAT: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<float>::SwapRangeFromSystemToLittleEndian((float *)buffer, numberOfPixels);
@@ -674,8 +669,7 @@ GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
       }
       break;
     }
-    case IOComponentEnum::DOUBLE:
-    {
+    case IOComponentEnum::DOUBLE: {
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
         ByteSwapper<double>::SwapRangeFromSystemToLittleEndian((double *)buffer, numberOfPixels);

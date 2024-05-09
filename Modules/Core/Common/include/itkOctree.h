@@ -149,7 +149,8 @@ public:
                   const unsigned int ysize,
                   const unsigned int zsize) override;
 
-  void BuildFromImage(Image<TPixel, 3> * fromImage);
+  void
+  BuildFromImage(Image<TPixel, 3> * fromImage);
 
   Octree();
   ~Octree() override;

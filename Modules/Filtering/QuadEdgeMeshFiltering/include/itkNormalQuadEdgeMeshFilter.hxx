@@ -158,12 +158,10 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
         switch (m_Weight)
         {
           default:
-          case WeightEnum::GOURAUD:
-          {
+          case WeightEnum::GOURAUD: {
             return static_cast<OutputVertexNormalComponentType>(1.);
           }
-          case WeightEnum::THURMER:
-          {
+          case WeightEnum::THURMER: {
             // this implementation may be included inside itkTriangle
             switch (internal_id)
             {
@@ -195,8 +193,7 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
             }
             return static_cast<OutputVertexNormalComponentType>(std::acos(u * v));
           }
-          case WeightEnum::AREA:
-          {
+          case WeightEnum::AREA: {
             return static_cast<OutputVertexNormalComponentType>(TriangleType::ComputeArea(pt[0], pt[1], pt[2]));
           }
         }

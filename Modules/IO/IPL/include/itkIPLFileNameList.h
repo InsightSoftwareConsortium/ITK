@@ -55,7 +55,10 @@
 #define IPLGetMacroDeclaration(name, type) virtual type Get##name();
 
 #define IPLGetMacroDefinition(class, name, type) \
-  type class ::Get##name() { return this->m_##name; }
+  type class ::Get##name()                       \
+  {                                              \
+    return this->m_##name;                       \
+  }
 
 namespace itk
 {
@@ -162,7 +165,8 @@ public:
     return m_List.end();
   }
 
-  IPLFileSortInfo * operator[](unsigned int __n)
+  IPLFileSortInfo *
+  operator[](unsigned int __n)
   {
     auto it = begin();
     auto itend = end();

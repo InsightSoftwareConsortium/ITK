@@ -99,11 +99,19 @@ public:
 
   /** Returns the element at position n of the slice. Sets the
    * iterator to point to position n. */
-  const TPixel & operator[](SizeValueType n) { return this->Loc(m_Pos = n); }
+  const TPixel &
+  operator[](SizeValueType n)
+  {
+    return this->Loc(m_Pos = n);
+  }
 
   /** Dereferences the iterator, returning the value that it points
    * to. */
-  const TPixel & operator*() { return Loc(m_Pos); }
+  const TPixel &
+  operator*()
+  {
+    return Loc(m_Pos);
+  }
 
   /** Returns the logical && of the boolean == of two slice iterator positions,
    * stride, and start locations. */

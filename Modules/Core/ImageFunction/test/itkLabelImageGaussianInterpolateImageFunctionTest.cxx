@@ -106,9 +106,9 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     std::cerr << "Parameters were not returned correctly." << std::endl;
   }
 
-  //########################
-  // Now check the results
-  // The ImageSizeToCompute
+  // ########################
+  //  Now check the results
+  //  The ImageSizeToCompute
   constexpr unsigned char       default_background_value = 17;
   const itk::IndexValueType     large_xSize = 5 + 1;
   constexpr itk::IndexValueType large_ySize = 5;

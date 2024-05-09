@@ -481,7 +481,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
         derivative[i] += (fixedGradientsB[bsamples][i] - fixedGradientsA[asamples][i]) * weight;
       }
     } // end of sample A loop
-  }   // end of sample B loop
+  } // end of sample B loop
 
   const double threshold = -0.1 * nsamp * std::log(m_MinProbability);
   if (dLogSumMoving > threshold || dLogSumFixed > threshold || dLogSumJoint > threshold)

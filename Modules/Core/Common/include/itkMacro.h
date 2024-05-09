@@ -324,8 +324,11 @@ namespace itk
   }                                                       \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define itkCreateAnotherMacro(x)                                                               \
-  ::itk::LightObject::Pointer CreateAnother() const override { return x::New().GetPointer(); } \
+#define itkCreateAnotherMacro(x)                             \
+  ::itk::LightObject::Pointer CreateAnother() const override \
+  {                                                          \
+    return x::New().GetPointer();                            \
+  }                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkCloneMacro(x)                                                  \
@@ -346,7 +349,7 @@ namespace itk
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSimpleFactoryOnlyNewMacro(x)                                                                 \
-  static auto New()->Pointer                                                                            \
+  static auto New() -> Pointer                                                                          \
   {                                                                                                     \
     Pointer smartPtr = ::itk::ObjectFactory<x>::Create();                                               \
     if (smartPtr == nullptr)                                                                            \
@@ -423,8 +426,11 @@ namespace itk
 #else
 // For C++14 and C++17, this macro defines an operator!= member function that
 // just calls the corresponding operator== member function.
-#  define ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TypeName)                                 \
-    bool operator!=(const TypeName & other) const { return !(this->operator==(other)); } \
+#  define ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TypeName) \
+    bool operator!=(const TypeName & other) const        \
+    {                                                    \
+      return !(this->operator==(other));                 \
+    }                                                    \
     ITK_MACROEND_NOOP_STATEMENT
 #endif
 
@@ -1012,23 +1018,32 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */
-#define itkGetMacro(name, type)                       \
-  virtual type Get##name() { return this->m_##name; } \
+#define itkGetMacro(name, type) \
+  virtual type Get##name()      \
+  {                             \
+    return this->m_##name;      \
+  }                             \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine. */
-#define itkGetConstMacro(name, type)                        \
-  virtual type Get##name() const { return this->m_##name; } \
+#define itkGetConstMacro(name, type) \
+  virtual type Get##name() const     \
+  {                                  \
+    return this->m_##name;           \
+  }                                  \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine.
  * This versions returns a const reference to the variable. */
-#define itkGetConstReferenceMacro(name, type)                       \
-  virtual const type & Get##name() const { return this->m_##name; } \
+#define itkGetConstReferenceMacro(name, type) \
+  virtual const type & Get##name() const      \
+  {                                           \
+    return this->m_##name;                    \
+  }                                           \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
@@ -1051,39 +1066,48 @@ compilers.
  * This should be use when the type is an enum. It is use to avoid warnings on
  * some compilers with non specified enum types passed to
  * itkDebugMacro. */
-#define itkGetEnumMacro(name, type)                         \
-  virtual type Get##name() const { return this->m_##name; } \
+#define itkGetEnumMacro(name, type) \
+  virtual type Get##name() const    \
+  {                                 \
+    return this->m_##name;          \
+  }                                 \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Set character string.  Creates member Set"name"()
  * (e.g., SetFilename(char *)). The macro assumes that
  * the class member (name) is declared a type std::string. */
-#define itkSetStringMacro(name)                                                       \
-  virtual void Set##name(const char * _arg)                                           \
-  {                                                                                   \
-    if (_arg && (_arg == this->m_##name))                                             \
-    {                                                                                 \
-      return;                                                                         \
-    }                                                                                 \
-    if (_arg)                                                                         \
-    {                                                                                 \
-      this->m_##name = _arg;                                                          \
-    }                                                                                 \
-    else                                                                              \
-    {                                                                                 \
-      this->m_##name = "";                                                            \
-    }                                                                                 \
-    this->Modified();                                                                 \
-  }                                                                                   \
-  virtual void Set##name(const std::string & _arg) { this->Set##name(_arg.c_str()); } \
+#define itkSetStringMacro(name)                    \
+  virtual void Set##name(const char * _arg)        \
+  {                                                \
+    if (_arg && (_arg == this->m_##name))          \
+    {                                              \
+      return;                                      \
+    }                                              \
+    if (_arg)                                      \
+    {                                              \
+      this->m_##name = _arg;                       \
+    }                                              \
+    else                                           \
+    {                                              \
+      this->m_##name = "";                         \
+    }                                              \
+    this->Modified();                              \
+  }                                                \
+  virtual void Set##name(const std::string & _arg) \
+  {                                                \
+    this->Set##name(_arg.c_str());                 \
+  }                                                \
   ITK_MACROEND_NOOP_STATEMENT
 
 
 /** Get character string.  Creates member Get"name"()
  * (e.g., SetFilename(char *)). The macro assumes that
  * the class member (name) is declared as a type std::string. */
-#define itkGetStringMacro(name)                                             \
-  virtual const char * Get##name() const { return this->m_##name.c_str(); } \
+#define itkGetStringMacro(name)          \
+  virtual const char * Get##name() const \
+  {                                      \
+    return this->m_##name.c_str();       \
+  }                                      \
   ITK_MACROEND_NOOP_STATEMENT
 
 // clang-format off
@@ -1149,8 +1173,11 @@ compilers.
 
 /** Get a raw const pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()). */
-#define itkGetConstObjectMacro(name, type)                                       \
-  virtual const type * Get##name() const { return this->m_##name.GetPointer(); } \
+#define itkGetConstObjectMacro(name, type) \
+  virtual const type * Get##name() const   \
+  {                                        \
+    return this->m_##name.GetPointer();    \
+  }                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
 
@@ -1166,19 +1193,28 @@ compilers.
       purposeful_error("itkGetObjectMacro should be replaced with itkGetModifiableObjectMacro."); \
     }
 
-#  define itkGetModifiableObjectMacro(name, type)                                \
-    virtual type * GetModifiable##name() { return this->m_##name.GetPointer(); } \
+#  define itkGetModifiableObjectMacro(name, type) \
+    virtual type * GetModifiable##name()          \
+    {                                             \
+      return this->m_##name.GetPointer();         \
+    }                                             \
     itkGetConstObjectMacro(name, type)
 
 #else // defined ( ITK_FUTURE_LEGACY_REMOVE )
 /** Get a raw pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()). */
-#  define itkGetObjectMacro(name, type)                                \
-    virtual type * Get##name() { return this->m_##name.GetPointer(); } \
+#  define itkGetObjectMacro(name, type)   \
+    virtual type * Get##name()            \
+    {                                     \
+      return this->m_##name.GetPointer(); \
+    }                                     \
     ITK_MACROEND_NOOP_STATEMENT
-#  define itkGetModifiableObjectMacro(name, type)                                \
-    virtual type * GetModifiable##name() { return this->m_##name.GetPointer(); } \
-    itkGetConstObjectMacro(name, type);                                          \
+#  define itkGetModifiableObjectMacro(name, type) \
+    virtual type * GetModifiable##name()          \
+    {                                             \
+      return this->m_##name.GetPointer();         \
+    }                                             \
+    itkGetConstObjectMacro(name, type);           \
     itkGetObjectMacro(name, type)
 #endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
 
@@ -1188,8 +1224,11 @@ compilers.
 
 /** Get a const reference to a smart pointer to an object.
  * Creates the member Get"name"() (e.g., GetPoints()). */
-#define itkGetConstReferenceObjectMacro(name, type)                                   \
-  virtual const typename type::Pointer & Get##name() const { return this->m_##name; } \
+#define itkGetConstReferenceObjectMacro(name, type)        \
+  virtual const typename type::Pointer & Get##name() const \
+  {                                                        \
+    return this->m_##name;                                 \
+  }                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Set const pointer to object; uses Object reference counting methodology.
@@ -1209,9 +1248,15 @@ compilers.
 
 /** Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
  * Set method must be defined to use this macro. */
-#define itkBooleanMacro(name)                        \
-  virtual void name##On() { this->Set##name(true); } \
-  virtual void name##Off() { this->Set##name(false); }
+#define itkBooleanMacro(name) \
+  virtual void name##On()     \
+  {                           \
+    this->Set##name(true);    \
+  }                           \
+  virtual void name##Off()    \
+  {                           \
+    this->Set##name(false);   \
+  }
 
 // clang-format off
 /** General set vector macro creates a single method that copies specified
@@ -1245,8 +1290,11 @@ compilers.
 
 /** Get vector macro. Returns pointer to type (i.e., array of type).
  * This is for efficiency. */
-#define itkGetVectorMacro(name, type, count)                  \
-  virtual type * Get##name() const { return this->m_##name; } \
+#define itkGetVectorMacro(name, type, count) \
+  virtual type * Get##name() const           \
+  {                                          \
+    return this->m_##name;                   \
+  }                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 /**\def itkGPUKernelClassMacro
@@ -1271,7 +1319,10 @@ compilers.
   }
 
 #define itkGetOpenCLSourceFromKernelMacro(kernel) \
-  static const char * GetOpenCLSource() { return kernel::GetOpenCLSource(); }
+  static const char * GetOpenCLSource()           \
+  {                                               \
+    return kernel::GetOpenCLSource();             \
+  }
 
 // A useful macro in the PrintSelf method for printing member variables
 // which are pointers to object based on the LightObject class.

@@ -153,14 +153,12 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
 {
   switch (idx)
   {
-    case 0:
-    {
+    case 0: {
       return DisplacementsType::New().GetPointer();
     }
     break;
 
-    case 1:
-    {
+    case 1: {
       return SimilaritiesType::New().GetPointer();
     }
     break;

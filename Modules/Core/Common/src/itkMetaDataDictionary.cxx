@@ -51,13 +51,15 @@ MetaDataDictionary::Print(std::ostream & os) const
   }
 }
 
-MetaDataObjectBase::Pointer & MetaDataDictionary::operator[](const std::string & key)
+MetaDataObjectBase::Pointer &
+MetaDataDictionary::operator[](const std::string & key)
 {
   MakeUnique();
   return (*m_Dictionary)[key];
 }
 
-const MetaDataObjectBase * MetaDataDictionary::operator[](const std::string & key) const
+const MetaDataObjectBase *
+MetaDataDictionary::operator[](const std::string & key) const
 {
   auto iter = m_Dictionary->find(key);
   if (iter == m_Dictionary->end())

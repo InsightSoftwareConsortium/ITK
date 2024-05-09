@@ -44,7 +44,7 @@ TIFFImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOTIFF_EXPORT
-     TIFFImageIOFactoryRegister__Private()
+TIFFImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<TIFFImageIOFactory>();
 }

@@ -45,7 +45,8 @@ JointDomainImageToListSampleAdaptor<TImage>::Size() const -> InstanceIdentifier
 }
 
 template <typename TImage>
-inline auto JointDomainImageToListSampleAdaptor<TImage>::GetFrequency(InstanceIdentifier) const -> AbsoluteFrequencyType
+inline auto
+JointDomainImageToListSampleAdaptor<TImage>::GetFrequency(InstanceIdentifier) const -> AbsoluteFrequencyType
 {
   if (m_Image.IsNull())
   {

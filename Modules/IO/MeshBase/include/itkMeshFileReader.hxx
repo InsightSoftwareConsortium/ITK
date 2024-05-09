@@ -131,8 +131,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
     auto type = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
     switch (type)
     {
-      case CellGeometryEnum::VERTEX_CELL:
-      {
+      case CellGeometryEnum::VERTEX_CELL: {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputVertexCellType::NumberOfPoints)
         {
@@ -149,8 +148,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case CellGeometryEnum::LINE_CELL:
-      {
+      case CellGeometryEnum::LINE_CELL: {
         // for polylines will be loaded as individual edges.
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints < 2)
@@ -170,8 +168,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
         break;
       }
-      case CellGeometryEnum::POLYLINE_CELL:
-      {
+      case CellGeometryEnum::POLYLINE_CELL: {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints < 2)
         {
@@ -190,8 +187,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case CellGeometryEnum::TRIANGLE_CELL:
-      {
+      case CellGeometryEnum::TRIANGLE_CELL: {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputTriangleCellType::NumberOfPoints)
         {
@@ -209,8 +205,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case CellGeometryEnum::QUADRILATERAL_CELL:
-      {
+      case CellGeometryEnum::QUADRILATERAL_CELL: {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadrilateralCellType::NumberOfPoints)
         {
@@ -228,8 +223,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case CellGeometryEnum::POLYGON_CELL:
-      {
+      case CellGeometryEnum::POLYGON_CELL: {
         // For polyhedron, if the number of points is 3, then we treat it as
         // triangle cell
         OutputCellAutoPointer cell;
@@ -256,8 +250,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case CellGeometryEnum::TETRAHEDRON_CELL:
-      {
+      case CellGeometryEnum::TETRAHEDRON_CELL: {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputTetrahedronCellType::NumberOfPoints)
         {
@@ -275,8 +268,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case CellGeometryEnum::HEXAHEDRON_CELL:
-      {
+      case CellGeometryEnum::HEXAHEDRON_CELL: {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputHexahedronCellType::NumberOfPoints)
         {
@@ -294,8 +286,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case CellGeometryEnum::QUADRATIC_EDGE_CELL:
-      {
+      case CellGeometryEnum::QUADRATIC_EDGE_CELL: {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadraticEdgeCellType::NumberOfPoints)
         {
@@ -313,8 +304,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      case CellGeometryEnum::QUADRATIC_TRIANGLE_CELL:
-      {
+      case CellGeometryEnum::QUADRATIC_TRIANGLE_CELL: {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints != OutputQuadraticTriangleCellType::NumberOfPoints)
         {
@@ -332,8 +322,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         output->SetCell(id++, cell);
         break;
       }
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown cell type");
       }
     }
@@ -511,74 +500,60 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   {
     switch (m_MeshIO->GetPointComponentType())
     {
-      case IOComponentEnum::CHAR:
-      {
+      case IOComponentEnum::CHAR: {
         Self::ReadPointsUsingMeshIO<char>();
         break;
       }
-      case IOComponentEnum::UCHAR:
-      {
+      case IOComponentEnum::UCHAR: {
         Self::ReadPointsUsingMeshIO<unsigned char>();
         break;
       }
-      case IOComponentEnum::SHORT:
-      {
+      case IOComponentEnum::SHORT: {
         Self::ReadPointsUsingMeshIO<short>();
         break;
       }
-      case IOComponentEnum::USHORT:
-      {
+      case IOComponentEnum::USHORT: {
         Self::ReadPointsUsingMeshIO<unsigned short>();
         break;
       }
-      case IOComponentEnum::INT:
-      {
+      case IOComponentEnum::INT: {
         Self::ReadPointsUsingMeshIO<int>();
         break;
       }
-      case IOComponentEnum::UINT:
-      {
+      case IOComponentEnum::UINT: {
         Self::ReadPointsUsingMeshIO<unsigned int>();
         break;
       }
-      case IOComponentEnum::LONG:
-      {
+      case IOComponentEnum::LONG: {
         Self::ReadPointsUsingMeshIO<long>();
         break;
       }
-      case IOComponentEnum::ULONG:
-      {
+      case IOComponentEnum::ULONG: {
         Self::ReadPointsUsingMeshIO<unsigned long>();
         break;
       }
-      case IOComponentEnum::LONGLONG:
-      {
+      case IOComponentEnum::LONGLONG: {
         Self::ReadPointsUsingMeshIO<long long>();
         break;
       }
-      case IOComponentEnum::ULONGLONG:
-      {
+      case IOComponentEnum::ULONGLONG: {
         Self::ReadPointsUsingMeshIO<unsigned long long>();
         break;
       }
-      case IOComponentEnum::FLOAT:
-      {
+      case IOComponentEnum::FLOAT: {
         Self::ReadPointsUsingMeshIO<float>();
         break;
       }
-      case IOComponentEnum::DOUBLE:
-      {
+      case IOComponentEnum::DOUBLE: {
         Self::ReadPointsUsingMeshIO<double>();
         break;
       }
-      case IOComponentEnum::LDOUBLE:
-      {
+      case IOComponentEnum::LDOUBLE: {
         Self::ReadPointsUsingMeshIO<long double>();
         break;
       }
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown point component type");
       }
     }
@@ -589,74 +564,60 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   {
     switch (m_MeshIO->GetCellComponentType())
     {
-      case IOComponentEnum::CHAR:
-      {
+      case IOComponentEnum::CHAR: {
         Self::ReadCellsUsingMeshIO<char>();
         break;
       }
-      case IOComponentEnum::UCHAR:
-      {
+      case IOComponentEnum::UCHAR: {
         Self::ReadCellsUsingMeshIO<unsigned char>();
         break;
       }
-      case IOComponentEnum::SHORT:
-      {
+      case IOComponentEnum::SHORT: {
         Self::ReadCellsUsingMeshIO<short>();
         break;
       }
-      case IOComponentEnum::USHORT:
-      {
+      case IOComponentEnum::USHORT: {
         Self::ReadCellsUsingMeshIO<unsigned short>();
         break;
       }
-      case IOComponentEnum::INT:
-      {
+      case IOComponentEnum::INT: {
         Self::ReadCellsUsingMeshIO<int>();
         break;
       }
-      case IOComponentEnum::UINT:
-      {
+      case IOComponentEnum::UINT: {
         Self::ReadCellsUsingMeshIO<unsigned int>();
         break;
       }
-      case IOComponentEnum::LONG:
-      {
+      case IOComponentEnum::LONG: {
         Self::ReadCellsUsingMeshIO<long>();
         break;
       }
-      case IOComponentEnum::ULONG:
-      {
+      case IOComponentEnum::ULONG: {
         Self::ReadCellsUsingMeshIO<unsigned long>();
         break;
       }
-      case IOComponentEnum::LONGLONG:
-      {
+      case IOComponentEnum::LONGLONG: {
         Self::ReadCellsUsingMeshIO<long long>();
         break;
       }
-      case IOComponentEnum::ULONGLONG:
-      {
+      case IOComponentEnum::ULONGLONG: {
         Self::ReadCellsUsingMeshIO<unsigned long long>();
         break;
       }
-      case IOComponentEnum::FLOAT:
-      {
+      case IOComponentEnum::FLOAT: {
         Self::ReadCellsUsingMeshIO<float>();
         break;
       }
-      case IOComponentEnum::DOUBLE:
-      {
+      case IOComponentEnum::DOUBLE: {
         Self::ReadCellsUsingMeshIO<double>();
         break;
       }
-      case IOComponentEnum::LDOUBLE:
-      {
+      case IOComponentEnum::LDOUBLE: {
         Self::ReadCellsUsingMeshIO<long double>();
         break;
       }
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-      default:
-      {
+      default: {
         itkExceptionMacro("Unknown cell component type");
       }
     }

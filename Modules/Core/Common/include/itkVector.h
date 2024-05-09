@@ -198,11 +198,13 @@ public:
 
   /** Vector operator*.  Performs the inner product of two vectors.
    * this is also known as the scalar product. */
-  ValueType operator*(const Self & other) const;
+  ValueType
+  operator*(const Self & other) const;
 
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
-  inline Self operator*(const ValueType & value) const
+  inline Self
+  operator*(const ValueType & value) const
   {
     Self result;
 
@@ -293,7 +295,8 @@ public:
 /** Premultiply Operator for product of a vector and a scalar.
  *  Vector< T, N >  =  T * Vector< T,N > */
 template <typename T, unsigned int VVectorDimension>
-inline Vector<T, VVectorDimension> operator*(const T & scalar, const Vector<T, VVectorDimension> & v)
+inline Vector<T, VVectorDimension>
+operator*(const T & scalar, const Vector<T, VVectorDimension> & v)
 {
   return v.operator*(scalar);
 }

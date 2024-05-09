@@ -570,8 +570,9 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const PointType & p0, const Po
 
 template <typename TOutputMesh>
 auto
-AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const PointType & p0, const PointType & p1, const PointType & p2)
-  -> IdentifierType
+AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const PointType & p0,
+                                                      const PointType & p1,
+                                                      const PointType & p2) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(3);
   pointIDs[0] = AddPoint(p0);
@@ -644,8 +645,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const CoordinateType * p0) -
 
 template <typename TOutputMesh>
 auto
-AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const CoordinateType * p0, const CoordinateType * p1)
-  -> IdentifierType
+AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const CoordinateType * p0,
+                                                  const CoordinateType * p1) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(2);
   pointIDs[0] = AddPoint(p0);

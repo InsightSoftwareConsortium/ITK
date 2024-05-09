@@ -726,95 +726,83 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
 {
   switch (ctype)
   {
-    case IOComponentEnum::UCHAR:
-    {
+    case IOComponentEnum::UCHAR: {
       using Type = const unsigned char *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
-    case IOComponentEnum::CHAR:
-    {
+    case IOComponentEnum::CHAR: {
       using Type = const char *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::USHORT:
-    {
+    case IOComponentEnum::USHORT: {
       using Type = const unsigned short *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::SHORT:
-    {
+    case IOComponentEnum::SHORT: {
       using Type = const short *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::UINT:
-    {
+    case IOComponentEnum::UINT: {
       using Type = const unsigned int *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::INT:
-    {
+    case IOComponentEnum::INT: {
       using Type = const int *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::ULONG:
-    {
+    case IOComponentEnum::ULONG: {
       using Type = const unsigned long *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::LONG:
-    {
+    case IOComponentEnum::LONG: {
       using Type = const long *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::ULONGLONG:
-    {
+    case IOComponentEnum::ULONGLONG: {
       using Type = const unsigned long long *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::LONGLONG:
-    {
+    case IOComponentEnum::LONGLONG: {
       using Type = const long long *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::FLOAT:
-    {
+    case IOComponentEnum::FLOAT: {
       using Type = const float *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::DOUBLE:
-    {
+    case IOComponentEnum::DOUBLE: {
       using Type = const double *;
       auto buf = static_cast<Type>(buffer);
       WriteBuffer(os, buf, numComp);
@@ -847,84 +835,72 @@ ImageIOBase::ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentEnum
 {
   switch (ctype)
   {
-    case IOComponentEnum::UCHAR:
-    {
+    case IOComponentEnum::UCHAR: {
       auto * buf = static_cast<unsigned char *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
-    case IOComponentEnum::CHAR:
-    {
+    case IOComponentEnum::CHAR: {
       auto * buf = static_cast<char *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::USHORT:
-    {
+    case IOComponentEnum::USHORT: {
       auto * buf = static_cast<unsigned short *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::SHORT:
-    {
+    case IOComponentEnum::SHORT: {
       auto * buf = static_cast<short *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::UINT:
-    {
+    case IOComponentEnum::UINT: {
       auto * buf = static_cast<unsigned int *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::INT:
-    {
+    case IOComponentEnum::INT: {
       auto * buf = static_cast<int *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::ULONG:
-    {
+    case IOComponentEnum::ULONG: {
       auto * buf = static_cast<unsigned long *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::LONG:
-    {
+    case IOComponentEnum::LONG: {
       auto * buf = static_cast<long *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::ULONGLONG:
-    {
+    case IOComponentEnum::ULONGLONG: {
       auto * buf = static_cast<unsigned long long *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::LONGLONG:
-    {
+    case IOComponentEnum::LONGLONG: {
       auto * buf = static_cast<long long *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::FLOAT:
-    {
+    case IOComponentEnum::FLOAT: {
       auto * buf = static_cast<float *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;
 
-    case IOComponentEnum::DOUBLE:
-    {
+    case IOComponentEnum::DOUBLE: {
       auto * buf = static_cast<double *>(buffer);
       ReadBuffer(is, buf, numComp);
     }

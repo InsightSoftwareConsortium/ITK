@@ -133,8 +133,7 @@ MRCImageIO::ReadImageInformation()
   // fixed types defined by header
   switch (header.mode)
   {
-    case MRCHeaderObject::MRCHEADER_MODE_INT8:
-    {
+    case MRCHeaderObject::MRCHEADER_MODE_INT8: {
       // There has been some confusion and inconsistency whether this
       // mode is signed or unsigned, but now MRC2014 clearly defines it
       // as signed.
@@ -150,22 +149,19 @@ MRCImageIO::ReadImageInformation()
       this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     }
-    case MRCHeaderObject::MRCHEADER_MODE_IN16:
-    {
+    case MRCHeaderObject::MRCHEADER_MODE_IN16: {
       this->SetComponentType(IOComponentEnum::SHORT);
       this->SetNumberOfComponents(1);
       this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     }
-    case MRCHeaderObject::MRCHEADER_MODE_FLOAT:
-    {
+    case MRCHeaderObject::MRCHEADER_MODE_FLOAT: {
       this->SetComponentType(IOComponentEnum::FLOAT);
       this->SetNumberOfComponents(1);
       this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     }
-    case MRCHeaderObject::MRCHEADER_MODE_COMPLEX_INT16:
-    {
+    case MRCHeaderObject::MRCHEADER_MODE_COMPLEX_INT16: {
       // ITK does not support short complex well
       // but if the program has gotten this far we can just write it out
       this->SetComponentType(IOComponentEnum::SHORT);
@@ -173,29 +169,25 @@ MRCImageIO::ReadImageInformation()
       this->SetPixelType(IOPixelEnum::COMPLEX);
       break;
     }
-    case MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT:
-    {
+    case MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT: {
       this->SetComponentType(IOComponentEnum::FLOAT);
       this->SetNumberOfComponents(2);
       this->SetPixelType(IOPixelEnum::COMPLEX);
       break;
     }
-    case MRCHeaderObject::MRCHEADER_MODE_UINT16:
-    {
+    case MRCHeaderObject::MRCHEADER_MODE_UINT16: {
       this->SetComponentType(IOComponentEnum::USHORT);
       this->SetNumberOfComponents(1);
       this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     }
-    case MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE:
-    {
+    case MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE: {
       this->SetComponentType(IOComponentEnum::UCHAR);
       this->SetNumberOfComponents(3);
       this->SetPixelType(IOPixelEnum::RGB);
       break;
     }
-    default:
-    {
+    default: {
       itkExceptionMacro("Unrecognized mode");
     }
   }
@@ -470,26 +462,22 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
 
   switch (header.mode)
   {
-    case 0:
-    {
+    case 0: {
       // scalar unsigned char
       this->UpdateHeaderWithMinMaxMean(static_cast<const unsigned char *>(bufferBegin));
       break;
     }
-    case 1:
-    {
+    case 1: {
       // scalar short
       this->UpdateHeaderWithMinMaxMean(static_cast<const short *>(bufferBegin));
       break;
     }
-    case 2:
-    {
+    case 2: {
       // scalar float
       this->UpdateHeaderWithMinMaxMean(static_cast<const float *>(bufferBegin));
       break;
     }
-    case 3:
-    {
+    case 3: {
       // complex short
 
       // What is the best way to map complex to float?
@@ -499,8 +487,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
       m_MRCHeader->m_Header.amean = 0.0f;
       break;
     }
-    case 4:
-    {
+    case 4: {
       // complex float
 
       // What is the best way to map complex to float?
@@ -510,14 +497,12 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
       m_MRCHeader->m_Header.amean = 0.0f;
       break;
     }
-    case 6:
-    {
+    case 6: {
       // scalar unsigned short
       this->UpdateHeaderWithMinMaxMean(static_cast<const unsigned short *>(bufferBegin));
       break;
     }
-    case 16:
-    {
+    case 16: {
       // RGB of unsigned char
 
       // just set resonable values
@@ -526,8 +511,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
       m_MRCHeader->m_Header.amean = 127.5f;
       break;
     }
-    default:
-    {
+    default: {
       itkExceptionMacro("Unrecognized mode");
     }
   }

@@ -232,7 +232,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
 
       progress.CompletedPixel();
     } // end while loop
-  }   // end else
+  } // end else
 
   time.Stop();
   m_Time = time.GetMean();

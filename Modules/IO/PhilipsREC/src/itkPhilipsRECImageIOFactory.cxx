@@ -59,7 +59,7 @@ PhilipsRECImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOPhilipsREC_EXPORT
-     PhilipsRECImageIOFactoryRegister__Private()
+PhilipsRECImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<PhilipsRECImageIOFactory>();
 }

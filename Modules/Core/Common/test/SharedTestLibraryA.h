@@ -23,6 +23,6 @@
 #include <itkImage.h>
 
 void SharedTestLibraryA_EXPORT
-     bar();
+bar();
 
 #endif

@@ -55,7 +55,7 @@ VTKPolyDataMeshIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMeshVTK_EXPORT
-     VTKPolyDataMeshIOFactoryRegister__Private()
+VTKPolyDataMeshIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<VTKPolyDataMeshIOFactory>();
 }

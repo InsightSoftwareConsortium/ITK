@@ -169,8 +169,8 @@ struct SYSTEM_PROCESSES
   ULONG pad4;
   ULONG pad5;
 #    else
-  ULONG  ProcessId;
-  ULONG  InheritedFromProcessId;
+  ULONG ProcessId;
+  ULONG InheritedFromProcessId;
 #    endif
   ULONG       HandleCount;
   ULONG       Reserved2[2];

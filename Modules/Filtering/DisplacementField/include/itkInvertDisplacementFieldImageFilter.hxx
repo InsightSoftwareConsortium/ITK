@@ -109,7 +109,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   float oldProgress = 0.0f;
 
-  while (iteration++ < this->m_MaximumNumberOfIterations && this->m_MaxErrorNorm > this->m_MaxErrorToleranceThreshold &&
+  while (iteration++<this->m_MaximumNumberOfIterations && this->m_MaxErrorNorm> this->m_MaxErrorToleranceThreshold &&
          this->m_MeanErrorNorm > this->m_MeanErrorToleranceThreshold)
   {
     itkDebugMacro("Iteration " << iteration << ": mean error norm = " << this->m_MeanErrorNorm

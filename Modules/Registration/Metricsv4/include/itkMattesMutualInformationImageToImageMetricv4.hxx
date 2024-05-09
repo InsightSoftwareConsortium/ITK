@@ -415,9 +415,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
             }
           }
         } // end if( jointPDFValue > closeToZero && movingImageMarginalPDF > closeToZero )
-      }   // end for-loop over moving index
-    }     // end conditional for fixedMarginalPDF > close to zero
-  }       // end for-loop over fixed index
+      } // end for-loop over moving index
+    } // end conditional for fixedMarginalPDF > close to zero
+  } // end for-loop over fixed index
 
   // Apply the pRatio and sum the per-window derivative
   // contributions, in the local-support case.

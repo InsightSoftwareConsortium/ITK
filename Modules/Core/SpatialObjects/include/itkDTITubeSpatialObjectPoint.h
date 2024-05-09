@@ -45,7 +45,7 @@ to translate the enum to a string */
 };
 // Define how to print enumeration
 extern ITKSpatialObjects_EXPORT std::ostream &
-                                operator<<(std::ostream & out, const DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField value);
+operator<<(std::ostream & out, const DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField value);
 /**
  * \class DTITubeSpatialObjectPoint
  * \brief Point used for a tube definition

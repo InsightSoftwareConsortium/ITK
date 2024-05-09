@@ -283,7 +283,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
     os << indent << "NoiseModelEnum::POISSON" << std::endl;
   }
   else
-  {}
+  {
+  }
 
   os << indent << "SmoothingWeight: " << m_SmoothingWeight << std::endl;
   os << indent << "NoiseModelFidelityWeight: " << m_NoiseModelFidelityWeight << std::endl;
@@ -306,7 +307,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
     os << indent << "ComponentSpace: RIEMANNIAN" << std::endl;
   }
   else
-  {}
+  {
+  }
 
   if (m_ManualReinitialization)
   {

@@ -858,7 +858,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorsSupportRandomAccess)
     static_assert(std::is_convertible_v<decltype(a > b), bool>, "Return type tested");
     static_assert(std::is_convertible_v<decltype(a >= b), bool>, "Return type tested");
     static_assert(std::is_convertible_v<decltype(a <= b), bool>, "Return type tested");
-    EXPECT_EQ(a<b, b - a> 0);
+    EXPECT_EQ(a < b, b - a > 0);
     EXPECT_EQ(a > b, b < a);
     EXPECT_EQ(a >= b, !(a < b));
     EXPECT_EQ(a <= b, !(b < a));

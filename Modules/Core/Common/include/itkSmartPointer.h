@@ -103,11 +103,23 @@ public:
   ~SmartPointer() { this->UnRegister(); }
 
   /** Overload operator ->  */
-  ObjectType * operator->() const noexcept { return m_Pointer; }
+  ObjectType *
+  operator->() const noexcept
+  {
+    return m_Pointer;
+  }
 
-  ObjectType & operator*() const noexcept { return *m_Pointer; }
+  ObjectType &
+  operator*() const noexcept
+  {
+    return *m_Pointer;
+  }
 
-  explicit operator bool() const noexcept { return m_Pointer != nullptr; }
+  explicit
+  operator bool() const noexcept
+  {
+    return m_Pointer != nullptr;
+  }
 
   /** Return pointer to object.  */
   operator ObjectType *() const noexcept { return m_Pointer; }
@@ -160,7 +172,8 @@ public:
     return *this;
   }
 
-  SmartPointer & operator=(std::nullptr_t) noexcept
+  SmartPointer &
+  operator=(std::nullptr_t) noexcept
   {
     this->UnRegister();
     this->m_Pointer = nullptr;

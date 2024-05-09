@@ -251,14 +251,12 @@ itkBSplineTransformTest3(int argc, char * argv[])
   int status = 0;
   switch (numberOfThreads)
   {
-    case 0:
-    {
+    case 0: {
       // Don't invoke MultiThreader at all.
       status |= BSplineTransformTest3Helper<3>::RunTest(argc, argv);
       break;
     }
-    default:
-    {
+    default: {
       // Use MultiThreader with argv[6] threads
       itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(numberOfThreads);
       itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numberOfThreads);

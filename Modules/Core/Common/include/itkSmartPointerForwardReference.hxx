@@ -54,7 +54,8 @@ SmartPointerForwardReference<T>::~SmartPointerForwardReference()
 
 //----------------------------------------------------------------------------
 template <typename T>
-T * SmartPointerForwardReference<T>::operator->() const
+T *
+SmartPointerForwardReference<T>::operator->() const
 {
   return m_Pointer;
 }
