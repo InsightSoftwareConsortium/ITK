@@ -83,7 +83,7 @@ endif ()
 # Option for ZLib support
 #-----------------------------------------------------------------------------
 if (FALSE) # XXX(kitware): Hardcode settings.
-option (HDF5_ENABLE_Z_LIB_SUPPORT "Enable Zlib Filters" ON)
+option (HDF5_ENABLE_Z_LIB_SUPPORT "Enable Zlib Filters" OFF)
 else ()
 set(HDF5_ENABLE_Z_LIB_SUPPORT ON)
 mark_as_advanced (HDF5_ENABLE_Z_LIB_SUPPORT)
