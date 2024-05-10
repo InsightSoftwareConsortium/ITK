@@ -39,11 +39,10 @@ namespace itk
 template <typename TOutputImage>
 ImageSource<TOutputImage>::ImageSource()
 {
-  // Create the output. We use static_cast<> here because we know the default
-  // output must be of type TOutputImage
-  typename TOutputImage::Pointer output = static_cast<TOutputImage *>(this->MakeOutput(0).GetPointer());
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, output.GetPointer());
+
+  // Equivalent to SetNthOutput(0, MakeOutput(0)); in this case, calling MakeOutput is not necessary.
+  this->ProcessObject::SetNthOutput(0, TOutputImage::New());
 
 #if defined(ITKV4_COMPATIBILITY)
   m_DynamicMultiThreading = false;
