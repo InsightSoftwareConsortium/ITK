@@ -32,19 +32,18 @@ itkNiftiImageIOTest14(int argc, char * argv[])
   // images should have the same size, spacing, and origin, but may have different units
   if (argc != 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " test_dir ref_image test_image" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " output_test_fn ref_image test_image" << std::endl;
     return EXIT_FAILURE;
   }
 
-  // first arg is output dir
-  char * test_dir = argv[1];
-  itksys::SystemTools::ChangeDirectory(test_dir);
+  // first arg is the output test filename
+  const char * output_test_fn = argv[1];
 
-  // second arg is reference image in mm and sec
-  char * ref_image_fn = argv[2];
+  // second arg is the reference image in mm and sec
+  const char * ref_image_fn = argv[2];
 
   // third arg is the test image in different units
-  char * test_image_fn = argv[3];
+  const char * test_image_fn = argv[3];
 
   constexpr unsigned int Dimension = 4;
 
@@ -89,8 +88,6 @@ itkNiftiImageIOTest14(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-
-  const std::string output_test_fn = std::string(test_dir) + "/xyzt_units_output_check.nii";
 
   // set the origin of time to a non-zero value
   auto newOrigin = ImageType::PointType();
@@ -161,8 +158,6 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     std::cerr << "Exception caught while reading image back in" << std::endl;
     throw;
   }
-
-  itk::IOTestHelper::Remove(output_test_fn.c_str());
 
   if (metadataHasCorrectXYZTTUnits && metadataHasCorrectToffset && imageHasCorrectTimeOrigin)
   {
