@@ -61,10 +61,9 @@ PreFillDirection();
 
 template <typename T>
 int
-MakeNiftiImage()
+MakeNiftiImage(const char * filename)
 {
   using ImageType = itk::Image<T, 3>;
-  const char * filename = "test.nii";
   // Allocate Images
   enum
   {
