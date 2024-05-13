@@ -32,7 +32,7 @@ namespace itk
 class FrustumSpatialFunctionEnums
 {
 public:
-  /** \class RotationPlane
+  /**
    *  \ingroup ITKCommon
    */
   enum class RotationPlane : uint8_t

@@ -119,7 +119,7 @@ permuteColumnsWithSortIndices(QMatrix & eigenVectors, const std::vector<int> & i
 class SymmetricEigenAnalysisEnums
 {
 public:
-  /** \class EigenValueOrder
+  /**
    * \ingroup ITKCommon
    * Order of eigen values
    * OrderByValue:      lambda_1 < lambda_2 < ....

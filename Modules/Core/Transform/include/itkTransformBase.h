@@ -39,7 +39,7 @@ namespace itk
 class TransformBaseTemplateEnums
 {
 public:
-  /** \class TransformCategory
+  /**
    * \ingroup ITKTransform
    * */
   enum class TransformCategory : uint8_t

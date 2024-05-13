@@ -34,7 +34,7 @@ namespace itk
 class ObjectStoreEnums
 {
 public:
-  /** \class GrowthStrategy
+  /**
    * \ingroup ITKCommon
    * Type of memory allocation strategy */
   enum class GrowthStrategy : uint8_t

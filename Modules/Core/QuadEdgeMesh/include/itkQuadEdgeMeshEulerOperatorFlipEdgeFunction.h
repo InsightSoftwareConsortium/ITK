@@ -32,7 +32,7 @@ namespace itk
 class QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums
 {
 public:
-  /*** \class EdgeStatusType
+  /**
    * \ingroup ITKQuadEdgeMesh
    * Status of edge
    */
