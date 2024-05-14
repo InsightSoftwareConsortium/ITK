@@ -155,7 +155,8 @@ template <typename T, unsigned int TVectorDimension>
 void
 Vector<T, TVectorDimension>::SetVnlVector(const vnl_vector<T> & v)
 {
-  for (unsigned int i = 0; i < v.size(); ++i)
+  const unsigned int elements_to_copy = std::min<unsigned int>(TVectorDimension, v.size());
+  for (unsigned int i = 0; i < elements_to_copy; ++i)
   {
     (*this)[i] = v(i);
   }

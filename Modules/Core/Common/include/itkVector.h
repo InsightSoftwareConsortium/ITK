@@ -90,7 +90,8 @@ public:
     return VVectorDimension;
   }
 
-  /** Set a vnl_vector_ref referencing the same memory block. */
+  /** Copy values from the vnl_vector input to the internal memory block.  The minimum of
+   *  VVectorDimension and vnl_vector::size() elements are copied. */
   void
   SetVnlVector(const vnl_vector<T> &);
 
