@@ -1149,6 +1149,16 @@ private:
 
   static void
   ReadComponentsAsASCII(std::ifstream & inputFile, double * const buffer, const SizeValueType numberOfComponents);
+
+  template <typename TOffset>
+  void
+  ReadCellsBufferAsBINARYOffsetType(std::ifstream & inputFile, void * buffer);
+
+  template <typename TOffset, typename TConnectivity>
+  void
+  ReadCellsBufferAsBINARYConnectivityType(std::ifstream & inputFile, void * buffer);
+
+  uint8_t m_ReadMeshVersionMajor{ 4 };
 };
 } // end namespace itk
 
