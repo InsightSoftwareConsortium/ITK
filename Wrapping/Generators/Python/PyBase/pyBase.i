@@ -738,6 +738,50 @@ str = str
 
 %enddef
 
+%define DECL_PYTHON_POLYLINEPARAMETRICPATH_CLASS(swig_name)
+    %extend swig_name {
+        %pythoncode %{
+            def keys(self):
+                """
+                Return keys related to the polyline's metadata.
+                These keys are used in the dictionary resulting from dict(polyline).
+                """
+                result = ['name', 'vertexList']
+                return result
+
+            def __getitem__(self, key):
+                """Access metadata keys, see help(pointset.keys), for string keys."""
+                import itk
+                if isinstance(key, str):
+                    state = itk.dict_from_polyline(self)
+                    return state[key]
+
+            def __setitem__(self, key, value):
+                if isinstance(key, str):
+                    import numpy as np
+                    if key == 'name':
+                        self.SetObjectName(value)
+                    elif key == 'vertexList':
+                        self.GetVertexList().Initialize()
+                        for vertex in value:
+                            polyline.AddVertex(vertex)
+
+            def __getstate__(self):
+                """Get object state, necessary for serialization with pickle."""
+                import itk
+                state = itk.dict_from_polyline(self)
+                return state
+
+            def __setstate__(self, state):
+                """Set object state, necessary for serialization with pickle."""
+                import itk
+                deserialized = itk.polyline_from_dict(state)
+                self.__dict__['this'] = deserialized
+            %}
+    }
+
+%enddef
+
 %define DECL_PYTHON_MESH_CLASS(swig_name)
     %extend swig_name {
         %pythoncode %{

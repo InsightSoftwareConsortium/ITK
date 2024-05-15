@@ -57,6 +57,7 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   file(READ ${CMAKE_CURRENT_BINARY_DIR}/PyVectorContainerBuffer.i.temp PyBufferInterfaceTemp)
   file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i ${PyBufferInterfaceTemp})
 
+  set(ElementType D)
   itk_wrap_template("${ITKM_UI}${ITKM_CID${d}}" "${ITKT_UI},${ITKT_CID${d}}")
   set(PyVectorContainerTypes ${ITKM_UI}${ITKM_CID${d}})
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/PyVectorContainerBuffer.i.in
