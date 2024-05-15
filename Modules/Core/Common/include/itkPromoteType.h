@@ -82,7 +82,8 @@ ITK_ASSOCIATE(13, long double);
 /** Helper class to deduce, in C++98, the resulting type of an operation between two input types.
  * \tparam TA Input type 1
  * \tparam TB Input type 2
- * \return \c Type the resulting type compatible with \c TA and \c TB.
+ *
+ * \c Type the resulting type compatible with \c TA and \c TB.
  *
  * In order to support user defined type, specialize \c
  * itk::PromoteType<> in consequence. For instance, to support type promotion

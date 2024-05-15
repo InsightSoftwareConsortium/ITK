@@ -113,7 +113,7 @@ public:
    * This policy, when used from \c VariableLengthVector::SetSize(), always
    * implies that the previous internal buffer will be reallocated. Even if
    * enough memory was available.
-   * \return true (always)
+   * Returns true (always)
    *
    * \sa \c itk::VariableLengthVector::SetSize
    * \sa \c NeverReallocate
@@ -138,8 +138,7 @@ public:
    *
    * The typical use case of this policy is to make sure a \c
    * VariableLengthVector is not a proxy object.
-   * \return false (always)
-   *
+   * Returns false (always)
    * \pre <tt>oldSize == newSize</tt>, checked by assertion
    *
    * \sa \c itk::VariableLengthVector::SetSize
