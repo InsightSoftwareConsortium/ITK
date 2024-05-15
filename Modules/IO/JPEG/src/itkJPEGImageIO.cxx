@@ -408,7 +408,7 @@ JPEGImageIO::ReadImageInformation()
         }
         break;
       }
-      // else fallthrough
+      [[fallthrough]];
     default:
       m_PixelType = IOPixelEnum::VECTOR;
       this->SetNumberOfComponents(cinfo.output_components);
