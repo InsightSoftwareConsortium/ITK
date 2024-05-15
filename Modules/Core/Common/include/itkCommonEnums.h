@@ -204,8 +204,8 @@ public:
 };
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, MeshEnums::MeshClassCellsAllocationMethod value);
-/** \class OctreeEnums
- * \brief
+/**
+ * \class OctreeEnums
  * \ingroup ITKCommon
  */
 class OctreeEnums

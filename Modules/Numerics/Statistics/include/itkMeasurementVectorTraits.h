@@ -33,7 +33,6 @@ namespace itk
 namespace Statistics
 {
 /** \class MeasurementVectorTraits
- * \brief
  * \ingroup Statistics
  * \ingroup ITKStatistics
  */
@@ -410,7 +409,6 @@ public:
 };
 
 /** \class MeasurementVectorTraitsTypes
- * \brief
  * \ingroup Statistics
  * \ingroup ITKStatistics
  */
