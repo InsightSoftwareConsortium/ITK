@@ -75,4 +75,23 @@ target_link_libraries(main PUBLIC Eigen3::Eigen)
 #define ITK_EIGEN(x) ITK_EIGEN_STR(itkeigen/Eigen/x)
 #endif
 
+// Disable these warnings which occur only in Eigen and not elsewhere in ITK.
+#if defined(__clang__) && defined(__has_warning)
+  #if __has_warning("-Walloca")
+    #pragma clang diagnostic ignored "-Walloca"
+  #endif
+  #if __has_warning("-Wused-but-marked-unused")
+    #pragma clang diagnostic ignored "-Wused-but-marked-unused"
+  #endif
+  #if __has_warning("-Wunused-template")
+    #pragma clang diagnostic ignored "-Wunused-template"
+  #endif
+  #if __has_warning("-Wmissing-noreturn")
+    #pragma clang diagnostic ignored "-Wmissing-noreturn"
+  #endif
+  #if __has_warning("-Wzero-as-null-pointer-constant")
+    #pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
+  #endif
+#endif
+
 #endif
