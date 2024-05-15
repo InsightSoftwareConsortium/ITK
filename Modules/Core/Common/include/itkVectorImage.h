@@ -181,7 +181,7 @@ public:
      \endcode
    *
    * \sa Image::Rebind
-   * \deprecated Use template alias RebindImageType instead
+   * Deprecated: Use template alias RebindImageType instead
    */
   template <typename UPixelType, unsigned int VUImageDimension = VImageDimension>
   struct Rebind

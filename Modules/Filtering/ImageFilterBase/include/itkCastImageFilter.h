@@ -31,7 +31,7 @@ namespace Functor
 {
 /** \class Cast
  *
- *  \deprecated This functor is no longer used by the CastImageFilter.
+ * Deprecated: This functor is no longer used by the CastImageFilter.
  * \ingroup ITKImageFilterBase
  */
 
