@@ -29,6 +29,39 @@
 #include "itkGrayscaleDilateImageFilter.h"
 #include "itkObjectByObjectLabelMapFilter.h"
 
+template <typename TLabelMap>
+int
+CheckLabelMapOverlap(TLabelMap * labelMap)
+{
+  int exitCode = EXIT_SUCCESS;
+
+  for (auto & labelObject : labelMap->GetLabelObjects())
+  {
+    // Manually check each label object against all other label objects, to ensure that no two label objects share an
+    // index.
+    for (itk::SizeValueType lineNumber = 0; lineNumber < labelObject->GetNumberOfLines(); ++lineNumber)
+    {
+      auto line = labelObject->GetLine(lineNumber);
+      auto idx = line.GetIndex();
+      ITK_TEST_EXPECT_TRUE(line.GetLength() <= labelObject->GetNumberOfPixels());
+      for (itk::SizeValueType lengthIndex = 0; lengthIndex < line.GetLength(); ++lengthIndex)
+      {
+        for (auto & checkObject : labelMap->GetLabelObjects())
+        {
+          if (checkObject != labelObject && checkObject->HasIndex(idx))
+          {
+            std::cerr << "Label: " << int(labelObject->GetLabel()) << " and " << int(checkObject->GetLabel())
+                      << " has index " << idx << std::endl;
+            exitCode = EXIT_FAILURE;
+          }
+        }
+        ++idx[0];
+      }
+    }
+  }
+  return exitCode;
+}
+
 int
 itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 {
@@ -123,6 +156,15 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(unique, "filter");
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(unique->Update());
+
+  int exitCode = CheckLabelMapOverlap(unique->GetOutput());
+
+  if (exitCode == EXIT_FAILURE)
+  {
+    std::cerr << "Overlap detected in the label map." << std::endl;
+  }
+
   using LabelMapToImageFilterType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto labelMapToImageFilter = LabelMapToImageFilterType::New();
   labelMapToImageFilter->SetInput(unique->GetOutput());
@@ -144,5 +186,5 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  return EXIT_SUCCESS;
+  return exitCode;
 }

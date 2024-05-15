@@ -177,6 +177,8 @@ protected:
         }
       }
 
+      assert(newMainLine || (!newMainLine && idx[0] >= prevIdx[0]));
+
       if (newMainLine)
       {
         // just push the line
