@@ -42,7 +42,7 @@ itkQuadEdgeMeshEulerOperatorSplitEdgeTest(int, char *[])
   auto splitEdge = SplitEdge::New();
   std::cout << "     "
             << "Test No Mesh Input";
-  if (splitEdge->Evaluate((QEType *)0))
+  if (splitEdge->Evaluate((QEType *)nullptr))
   {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;

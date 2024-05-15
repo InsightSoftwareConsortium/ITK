@@ -97,7 +97,7 @@ public:
   {}
 
   void
-  Initialize() throw() override
+  Initialize() noexcept override
   {}
 
   void
