@@ -16,8 +16,25 @@ itk_add_test(
   COMMAND
   ITKIOMeshVTKTestDriver
   itkMeshFileReadWriteTest
-  DATA{Baseline/sphere.vtk}
+  DATA{Input/sphere.vtk}
   ${ITK_TEST_OUTPUT_DIR}/sphere00.vtk)
+itk_add_test(
+  NAME
+  itkMeshFileReadWriteTest01
+  COMMAND
+  ITKIOMeshVTKTestDriver
+  itkMeshFileReadWriteTest
+  DATA{Input/sphere_51.vtk}
+  ${ITK_TEST_OUTPUT_DIR}/sphere_51_01.vtk)
+itk_add_test(
+  NAME
+  itkMeshFileReadWriteTest02
+  COMMAND
+  ITKIOMeshVTKTestDriver
+  itkMeshFileReadWriteTest
+  DATA{Input/sphere_51_b.vtk}
+  ${ITK_TEST_OUTPUT_DIR}/sphere_51_b_02.vtk
+  binary)
 itk_add_test(
   NAME
   itkMeshFileReadWriteVectorAttributeTest
@@ -81,7 +98,7 @@ itk_add_test(
   COMMAND
   ITKIOMeshVTKTestDriver
   itkVTKPolyDataMeshIOTest
-  DATA{Baseline/sphere.vtk}
+  DATA{Input/sphere.vtk}
   ${ITK_TEST_OUTPUT_DIR}/sphere_a.vtk
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
   ${ITK_TEST_OUTPUT_DIR}/ascii2asciivtk2mhaHeadMRVolume.mha
@@ -102,7 +119,7 @@ itk_add_test(
   COMMAND
   ITKIOMeshVTKTestDriver
   itkVTKPolyDataMeshIOTest
-  DATA{Baseline/sphere.vtk}
+  DATA{Input/sphere.vtk}
   ${ITK_TEST_OUTPUT_DIR}/sphere_b.vtk
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
   ${ITK_TEST_OUTPUT_DIR}/ascii2binaryvtk2mhaHeadMRVolume.mha

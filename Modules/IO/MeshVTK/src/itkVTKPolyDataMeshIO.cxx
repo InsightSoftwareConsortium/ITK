@@ -271,6 +271,32 @@ VTKPolyDataMeshIO::ReadMeshInformation()
   unsigned int numLine = 0;
   std::string  line;
 
+  std::getline(inputFile, line, '\n');
+  ++numLine;
+  size_t versionPos = line.find("Version ");
+  if (versionPos != std::string::npos)
+  {
+    std::string versionString = line.substr(versionPos + 8);
+    // Split the version string by "."
+    std::vector<std::string> versionTokens;
+    std::istringstream       iss(versionString);
+    std::string              token;
+    while (std::getline(iss, token, '.'))
+    {
+      versionTokens.push_back(token);
+    }
+
+    // Populate m_ReadMeshVersionMajor
+    if (!versionTokens.empty())
+    {
+      this->m_ReadMeshVersionMajor = std::stoi(versionTokens[0]);
+    }
+  }
+  else
+  {
+    itkExceptionMacro("Invalid VTK file format: missing Version");
+  }
+
   // Read vtk file header (the first 3 lines)
   while (!inputFile.eof() && numLine < 3)
   {
@@ -368,10 +394,20 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       unsigned int numberOfVertexIndices;
       ss >> numberOfVertices;
       ss >> numberOfVertexIndices;
-      this->m_NumberOfCells += numberOfVertices;
-      this->m_CellBufferSize += numberOfVertexIndices;
-      EncapsulateMetaData<unsigned int>(metaDic, "numberOfVertices", numberOfVertices);
-      EncapsulateMetaData<unsigned int>(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
+      if (this->m_ReadMeshVersionMajor >= 5)
+      {
+        this->m_NumberOfCells += numberOfVertices - 1;
+        this->m_CellBufferSize += numberOfVertexIndices + numberOfVertices - 1;
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfVertexOffsets", numberOfVertices);
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfVertexConnectivity", numberOfVertexIndices);
+      }
+      else
+      {
+        this->m_NumberOfCells += numberOfVertices;
+        this->m_CellBufferSize += numberOfVertexIndices;
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfVertices", numberOfVertices);
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
+      }
 
       // Check whether numberOfVertices and numberOfVertexIndices are correct
       if (numberOfVertices < 1)
@@ -405,10 +441,20 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       unsigned int numberOfLineIndices;
       ss >> numberOfLines;
       ss >> numberOfLineIndices;
-      this->m_NumberOfCells += numberOfLines;
-      this->m_CellBufferSize += numberOfLineIndices;
-      EncapsulateMetaData<unsigned int>(metaDic, "numberOfLines", numberOfLines);
-      EncapsulateMetaData<unsigned int>(metaDic, "numberOfLineIndices", numberOfLineIndices);
+      if (this->m_ReadMeshVersionMajor >= 5)
+      {
+        this->m_NumberOfCells += numberOfLines - 1;
+        this->m_CellBufferSize += numberOfLineIndices + numberOfLines - 1;
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfLinesOffsets", numberOfLines);
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfLinesConnectivity", numberOfLineIndices);
+      }
+      else
+      {
+        this->m_NumberOfCells += numberOfLines;
+        this->m_CellBufferSize += numberOfLineIndices;
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfLines", numberOfLines);
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfLineIndices", numberOfLineIndices);
+      }
 
       // Check whether numberOfPolylines and numberOfPolylineIndices are correct
       if (numberOfLines < 1)
@@ -442,10 +488,20 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       unsigned int numberOfPolygonIndices;
       ss >> numberOfPolygons;
       ss >> numberOfPolygonIndices;
-      this->m_NumberOfCells += numberOfPolygons;
-      this->m_CellBufferSize += numberOfPolygonIndices;
-      EncapsulateMetaData<unsigned int>(metaDic, "numberOfPolygons", numberOfPolygons);
-      EncapsulateMetaData<unsigned int>(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
+      if (this->m_ReadMeshVersionMajor >= 5)
+      {
+        this->m_NumberOfCells += numberOfPolygons - 1;
+        this->m_CellBufferSize += numberOfPolygonIndices + numberOfPolygons - 1;
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfPolygonsOffsets", numberOfPolygons);
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfPolygonsConnectivity", numberOfPolygonIndices);
+      }
+      else
+      {
+        this->m_NumberOfCells += numberOfPolygons;
+        this->m_CellBufferSize += numberOfPolygonIndices;
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfPolygons", numberOfPolygons);
+        EncapsulateMetaData<unsigned int>(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
+      }
 
       // Check whether numberOfPolygons and numberOfPolygonIndices are correct
       if (numberOfPolygons < 1)
@@ -733,6 +789,32 @@ VTKPolyDataMeshIO::ReadMeshInformation()
         this->m_UpdateCellData = true;
       }
     }
+    else if (line.find("OFFSETS") != std::string::npos)
+    {
+      // define string stream and put line into it
+      StringStreamType ss;
+      ss << line;
+
+      // Get each item
+      ss >> item; // "should be OFFSETS"
+      std::string offsetsType;
+      ss >> offsetsType;
+
+      EncapsulateMetaData<std::string>(metaDic, "offsetsType", offsetsType);
+    }
+    else if (line.find("CONNECTIVITY") != std::string::npos)
+    {
+      // define string stream and put line into it
+      StringStreamType ss;
+      ss << line;
+
+      // Get each item
+      ss >> item; // "should be CONNECTIVITY"
+      std::string connectivityType;
+      ss >> connectivityType;
+
+      EncapsulateMetaData<std::string>(metaDic, "connectivityType", connectivityType);
+    }
   }
 
   if (this->m_CellBufferSize)
@@ -896,7 +978,7 @@ VTKPolyDataMeshIO::ReadCells(void * buffer)
   }
   else
   {
-    itkExceptionMacro("Unkonw file type");
+    itkExceptionMacro("Unknown file type");
   }
 
   inputFile.close();
@@ -913,66 +995,442 @@ VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buff
   using GeometryIntegerType = unsigned int;
   auto * data = static_cast<GeometryIntegerType *>(buffer);
 
+  if (this->m_ReadMeshVersionMajor >= 5)
+  {
+    while (!inputFile.eof())
+    {
+      std::getline(inputFile, line, '\n');
+      if (line.find("VERTICES") != std::string::npos)
+      {
+        unsigned int numberOfVertexOffsets = 0;
+        unsigned int numberOfVertexConnectivity = 0;
+        ExposeMetaData<unsigned int>(metaDic, "numberOfVertexOffsets", numberOfVertexOffsets);
+        ExposeMetaData<unsigned int>(metaDic, "numberOfVertexConnectivity", numberOfVertexConnectivity);
+
+        std::vector<GeometryIntegerType> offsets(numberOfVertexOffsets);
+        std::vector<GeometryIntegerType> connectivity(numberOfVertexConnectivity);
+
+        std::getline(inputFile, line, '\n');
+        if (line.find("OFFSETS") == std::string::npos)
+        {
+          itkExceptionMacro("Expected OFFSETS keyword in the VTK file");
+        }
+        GeometryIntegerType offset = 0;
+        for (unsigned int ii = 0; ii < numberOfVertexOffsets; ++ii)
+        {
+          inputFile >> offset;
+          offsets[ii] = offset;
+        }
+
+        std::getline(inputFile, line, '\n');
+        if (line.find("CONNECTIVITY") == std::string::npos)
+        {
+          std::getline(inputFile, line, '\n');
+        }
+        if (line.find("CONNECTIVITY") == std::string::npos)
+        {
+          itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
+        }
+        GeometryIntegerType connectivityValue = 0;
+        for (unsigned int ii = 0; ii < numberOfVertexConnectivity; ++ii)
+        {
+          inputFile >> connectivityValue;
+          connectivity[ii] = connectivityValue;
+        }
+
+        numPoints = 1;
+        for (unsigned int ii = 0; ii < numberOfVertexOffsets - 1; ++ii)
+        {
+          data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::VERTEX_CELL);
+          data[index++] = numPoints;
+          data[index++] = connectivity[offsets[ii]];
+        }
+      }
+      else if (line.find("LINES") != std::string::npos)
+      {
+        unsigned int numberOfLinesOffsets = 0;
+        unsigned int numberOfLinesConnectivity = 0;
+        ExposeMetaData<unsigned int>(metaDic, "numberOfLinesOffsets", numberOfLinesOffsets);
+        ExposeMetaData<unsigned int>(metaDic, "numberOfLinesConnectivity", numberOfLinesConnectivity);
+
+        std::vector<GeometryIntegerType> offsets(numberOfLinesOffsets);
+        std::vector<GeometryIntegerType> connectivity(numberOfLinesConnectivity);
+
+        std::getline(inputFile, line, '\n');
+        if (line.find("OFFSETS") == std::string::npos)
+        {
+          itkExceptionMacro("Expected OFFSETS keyword in the VTK file");
+        }
+        GeometryIntegerType offset = 0;
+        for (unsigned int ii = 0; ii < numberOfLinesOffsets; ++ii)
+        {
+          inputFile >> offset;
+          offsets[ii] = offset;
+        }
+
+        std::getline(inputFile, line, '\n');
+        if (line.find("CONNECTIVITY") == std::string::npos)
+        {
+          std::getline(inputFile, line, '\n');
+        }
+        if (line.find("CONNECTIVITY") == std::string::npos)
+        {
+          itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
+        }
+        GeometryIntegerType connectivityValue = 0;
+        for (unsigned int ii = 0; ii < numberOfLinesConnectivity; ++ii)
+        {
+          inputFile >> connectivityValue;
+          connectivity[ii] = connectivityValue;
+        }
+
+        for (unsigned int ii = 0; ii < numberOfLinesConnectivity - 1; ++ii)
+        {
+          numPoints = offsets[ii + 1] - offsets[ii];
+          if (numPoints == 2)
+          {
+            data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::LINE_CELL);
+          }
+          else
+          {
+            // Use POLYLINE_CELL when more than 2 points are present
+            data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYLINE_CELL);
+          }
+          data[index++] = numPoints;
+          for (unsigned int jj = 0; jj < numPoints; ++jj)
+          {
+            data[index++] = connectivity[offsets[ii] + jj];
+          }
+        }
+      }
+      else if (line.find("POLYGONS") != std::string::npos)
+      {
+        unsigned int numberOfPolygonsOffsets = 0;
+        unsigned int numberOfPolygonsConnectivity = 0;
+        ExposeMetaData<unsigned int>(metaDic, "numberOfPolygonsOffsets", numberOfPolygonsOffsets);
+        ExposeMetaData<unsigned int>(metaDic, "numberOfPolygonsConnectivity", numberOfPolygonsConnectivity);
+
+        std::vector<GeometryIntegerType> offsets(numberOfPolygonsOffsets);
+        std::vector<GeometryIntegerType> connectivity(numberOfPolygonsConnectivity);
+
+        std::getline(inputFile, line, '\n');
+        if (line.find("OFFSETS") == std::string::npos)
+        {
+          itkExceptionMacro("Expected OFFSETS keyword in the VTK file");
+        }
+        GeometryIntegerType offset = 0;
+        for (unsigned int ii = 0; ii < numberOfPolygonsOffsets; ++ii)
+        {
+          inputFile >> offset;
+          offsets[ii] = offset;
+        }
+
+        std::getline(inputFile, line, '\n');
+        if (line.find("CONNECTIVITY") == std::string::npos)
+        {
+          std::getline(inputFile, line, '\n');
+        }
+        if (line.find("CONNECTIVITY") == std::string::npos)
+        {
+          itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
+        }
+        GeometryIntegerType connectivityValue = 0;
+        for (unsigned int ii = 0; ii < numberOfPolygonsConnectivity; ++ii)
+        {
+          inputFile >> connectivityValue;
+          connectivity[ii] = connectivityValue;
+        }
+
+        for (unsigned int ii = 0; ii < numberOfPolygonsOffsets - 1; ++ii)
+        {
+          numPoints = offsets[ii + 1] - offsets[ii];
+          data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYGON_CELL);
+          data[index++] = numPoints;
+          for (unsigned int jj = 0; jj < numPoints; ++jj)
+          {
+            data[index++] = connectivity[offsets[ii] + jj];
+          }
+        }
+      }
+    }
+  }
+  else
+  {
+    while (!inputFile.eof())
+    {
+      std::getline(inputFile, line, '\n');
+      if (line.find("VERTICES") != std::string::npos)
+      {
+        unsigned int numberOfVertices = 0;
+        ExposeMetaData<unsigned int>(metaDic, "numberOfVertices", numberOfVertices);
+
+        for (unsigned int ii = 0; ii < numberOfVertices; ++ii)
+        {
+          inputFile >> numPoints;
+          data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::VERTEX_CELL);
+          data[index++] = numPoints;
+          for (unsigned int jj = 0; jj < numPoints; ++jj)
+          {
+            inputFile >> data[index++];
+          }
+        }
+      }
+      else if (line.find("LINES") != std::string::npos)
+      {
+        unsigned int numberOfLines = 0;
+        ExposeMetaData<unsigned int>(metaDic, "numberOfLines", numberOfLines);
+
+        for (unsigned int ii = 0; ii < numberOfLines; ++ii)
+        {
+          inputFile >> numPoints;
+          if (numPoints == 2)
+          {
+            data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::LINE_CELL);
+          }
+          else
+          {
+            // Use POLYLINE_CELL when more than 2 points are present
+            data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYLINE_CELL);
+          }
+          data[index++] = numPoints;
+          for (unsigned int jj = 0; jj < numPoints; ++jj)
+          {
+            inputFile >> data[index++];
+          }
+        }
+      }
+      else if (line.find("POLYGONS") != std::string::npos)
+      {
+        unsigned int numberOfPolygons = 0;
+        ExposeMetaData<unsigned int>(metaDic, "numberOfPolygons", numberOfPolygons);
+
+        for (unsigned int ii = 0; ii < numberOfPolygons; ++ii)
+        {
+          inputFile >> numPoints;
+
+          data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYGON_CELL);
+          data[index++] = numPoints;
+          for (unsigned int jj = 0; jj < numPoints; ++jj)
+          {
+            inputFile >> data[index++];
+          }
+        }
+      }
+    }
+  }
+}
+
+template <typename TOffset, typename TConnectivity>
+void
+VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & inputFile, void * buffer)
+{
+  using OffsetType = TOffset;
+  using ConnectivityType = TConnectivity;
+  using GeometryIntegerType = unsigned int;
+
+  std::string          line;
+  MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+  unsigned int         numPoints; // number of point in each cell
+
+  auto * outputBuffer = static_cast<unsigned int *>(buffer);
   while (!inputFile.eof())
   {
     std::getline(inputFile, line, '\n');
     if (line.find("VERTICES") != std::string::npos)
     {
-      unsigned int numberOfVertices = 0;
-      ExposeMetaData<unsigned int>(metaDic, "numberOfVertices", numberOfVertices);
-
-      for (unsigned int ii = 0; ii < numberOfVertices; ++ii)
+      GeometryIntegerType numberOfVertexOffsets = 0;
+      GeometryIntegerType numberOfVertexConnectivity = 0;
+      ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfVertexOffsets", numberOfVertexOffsets);
+      ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfVertexConnectivity", numberOfVertexConnectivity);
+      // OFFSETS line
+      std::getline(inputFile, line, '\n');
+      const auto inputOffsetsBuffer = make_unique_for_overwrite<OffsetType[]>(numberOfVertexOffsets);
+      void *     pvOffsets = inputOffsetsBuffer.get();
+      auto *     startBufferOffsets = static_cast<char *>(pvOffsets);
+      inputFile.read(startBufferOffsets, numberOfVertexOffsets * sizeof(OffsetType));
+      auto * dataOffsets = static_cast<OffsetType *>(pvOffsets);
+      if (itk::ByteSwapper<OffsetType>::SystemIsLittleEndian())
       {
-        inputFile >> numPoints;
-        data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::VERTEX_CELL);
-        data[index++] = numPoints;
-        for (unsigned int jj = 0; jj < numPoints; ++jj)
-        {
-          inputFile >> data[index++];
-        }
+        itk::ByteSwapper<OffsetType>::SwapRangeFromSystemToBigEndian(dataOffsets, numberOfVertexOffsets);
+      }
+
+      // CONNECTIVITY line
+      std::getline(inputFile, line, '\n');
+      if (line.find("CONNECTIVITY") == std::string::npos)
+      {
+        std::getline(inputFile, line, '\n');
+      }
+      if (line.find("CONNECTIVITY") == std::string::npos)
+      {
+        itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
+      }
+      const auto inputConnectivityBuffer = make_unique_for_overwrite<ConnectivityType[]>(numberOfVertexConnectivity);
+      void *     pvConnectivity = inputOffsetsBuffer.get();
+      auto *     startBufferConnectivity = static_cast<char *>(pvConnectivity);
+      inputFile.read(startBufferConnectivity, numberOfVertexConnectivity * sizeof(ConnectivityType));
+      auto * dataConnectivity = static_cast<ConnectivityType *>(pvConnectivity);
+      if (itk::ByteSwapper<ConnectivityType>::SystemIsLittleEndian())
+      {
+        itk::ByteSwapper<ConnectivityType>::SwapRangeFromSystemToBigEndian(dataConnectivity,
+                                                                           numberOfVertexConnectivity);
+      }
+
+      numPoints = 1;
+      for (unsigned int ii = 0; ii < numberOfVertexOffsets - 1; ++ii)
+      {
+        *outputBuffer = static_cast<GeometryIntegerType>(CellGeometryEnum::VERTEX_CELL);
+        outputBuffer++;
+        *outputBuffer = numPoints;
+        outputBuffer++;
+        *outputBuffer = dataConnectivity[dataOffsets[ii]];
+        outputBuffer++;
       }
     }
     else if (line.find("LINES") != std::string::npos)
     {
-      unsigned int numberOfLines = 0;
-      ExposeMetaData<unsigned int>(metaDic, "numberOfLines", numberOfLines);
-
-      for (unsigned int ii = 0; ii < numberOfLines; ++ii)
+      GeometryIntegerType numberOfLinesOffsets = 0;
+      GeometryIntegerType numberOfLinesConnectivity = 0;
+      ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfLinesOffsets", numberOfLinesOffsets);
+      ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfLinesConnectivity", numberOfLinesConnectivity);
+      // OFFSETS line
+      std::getline(inputFile, line, '\n');
+      const auto inputOffsetsBuffer = make_unique_for_overwrite<OffsetType[]>(numberOfLinesOffsets);
+      void *     pvOffsets = inputOffsetsBuffer.get();
+      auto *     startBufferOffsets = static_cast<char *>(pvOffsets);
+      inputFile.read(startBufferOffsets, numberOfLinesOffsets * sizeof(OffsetType));
+      auto * dataOffsets = static_cast<OffsetType *>(pvOffsets);
+      if (itk::ByteSwapper<OffsetType>::SystemIsLittleEndian())
       {
-        inputFile >> numPoints;
+        itk::ByteSwapper<OffsetType>::SwapRangeFromSystemToBigEndian(dataOffsets, numberOfLinesOffsets);
+      }
+
+      // CONNECTIVITY line
+      std::getline(inputFile, line, '\n');
+      if (line.find("CONNECTIVITY") == std::string::npos)
+      {
+        std::getline(inputFile, line, '\n');
+      }
+      if (line.find("CONNECTIVITY") == std::string::npos)
+      {
+        itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
+      }
+      const auto inputConnectivityBuffer = make_unique_for_overwrite<ConnectivityType[]>(numberOfLinesConnectivity);
+      void *     pvConnectivity = inputOffsetsBuffer.get();
+      auto *     startBufferConnectivity = static_cast<char *>(pvConnectivity);
+      inputFile.read(startBufferConnectivity, numberOfLinesConnectivity * sizeof(ConnectivityType));
+      auto * dataConnectivity = static_cast<ConnectivityType *>(pvConnectivity);
+      if (itk::ByteSwapper<ConnectivityType>::SystemIsLittleEndian())
+      {
+        itk::ByteSwapper<ConnectivityType>::SwapRangeFromSystemToBigEndian(dataConnectivity, numberOfLinesConnectivity);
+      }
+
+      numPoints = 2;
+      for (unsigned int ii = 0; ii < numberOfLinesConnectivity - 1; ++ii)
+      {
+        numPoints = dataOffsets[ii + 1] - dataOffsets[ii];
         if (numPoints == 2)
         {
-          data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::LINE_CELL);
+          *outputBuffer = static_cast<GeometryIntegerType>(CellGeometryEnum::LINE_CELL);
+          outputBuffer++;
         }
         else
         {
           // Use POLYLINE_CELL when more than 2 points are present
-          data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYLINE_CELL);
+          *outputBuffer = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYLINE_CELL);
+          outputBuffer++;
         }
-        data[index++] = numPoints;
+        *outputBuffer = numPoints;
+        outputBuffer++;
         for (unsigned int jj = 0; jj < numPoints; ++jj)
         {
-          inputFile >> data[index++];
+          *outputBuffer = dataConnectivity[dataOffsets[ii] + jj];
+          outputBuffer++;
         }
       }
     }
     else if (line.find("POLYGONS") != std::string::npos)
     {
-      unsigned int numberOfPolygons = 0;
-      ExposeMetaData<unsigned int>(metaDic, "numberOfPolygons", numberOfPolygons);
-
-      for (unsigned int ii = 0; ii < numberOfPolygons; ++ii)
+      GeometryIntegerType numberOfPolygonsOffsets = 0;
+      GeometryIntegerType numberOfPolygonsConnectivity = 0;
+      ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfPolygonsOffsets", numberOfPolygonsOffsets);
+      ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfPolygonsConnectivity", numberOfPolygonsConnectivity);
+      // OFFSETS line
+      std::getline(inputFile, line, '\n');
+      const auto inputOffsetsBuffer = make_unique_for_overwrite<OffsetType[]>(numberOfPolygonsOffsets);
+      void *     pvOffsets = inputOffsetsBuffer.get();
+      auto *     startBufferOffsets = static_cast<char *>(pvOffsets);
+      inputFile.read(startBufferOffsets, numberOfPolygonsOffsets * sizeof(OffsetType));
+      auto * dataOffsets = static_cast<OffsetType *>(pvOffsets);
+      if (itk::ByteSwapper<OffsetType>::SystemIsLittleEndian())
       {
-        inputFile >> numPoints;
+        itk::ByteSwapper<OffsetType>::SwapRangeFromSystemToBigEndian(dataOffsets, numberOfPolygonsOffsets);
+      }
 
-        data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYGON_CELL);
-        data[index++] = numPoints;
+      // CONNECTIVITY line
+      std::getline(inputFile, line, '\n');
+      if (line.find("CONNECTIVITY") == std::string::npos)
+      {
+        std::getline(inputFile, line, '\n');
+      }
+      if (line.find("CONNECTIVITY") == std::string::npos)
+      {
+        itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
+      }
+      const auto inputConnectivityBuffer = make_unique_for_overwrite<ConnectivityType[]>(numberOfPolygonsConnectivity);
+      void *     pvConnectivity = inputConnectivityBuffer.get();
+      auto *     startBufferConnectivity = static_cast<char *>(pvConnectivity);
+      inputFile.read(startBufferConnectivity, numberOfPolygonsConnectivity * sizeof(ConnectivityType));
+      auto * dataConnectivity = static_cast<ConnectivityType *>(pvConnectivity);
+      if (itk::ByteSwapper<ConnectivityType>::SystemIsLittleEndian())
+      {
+        itk::ByteSwapper<ConnectivityType>::SwapRangeFromSystemToBigEndian(dataConnectivity,
+                                                                           numberOfPolygonsConnectivity);
+      }
+
+      numPoints = 1;
+      for (unsigned int ii = 0; ii < numberOfPolygonsOffsets - 1; ++ii)
+      {
+        numPoints = dataOffsets[ii + 1] - dataOffsets[ii];
+        *outputBuffer = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYGON_CELL);
+        outputBuffer++;
+        *outputBuffer = numPoints;
+        outputBuffer++;
         for (unsigned int jj = 0; jj < numPoints; ++jj)
         {
-          inputFile >> data[index++];
+          *outputBuffer = dataConnectivity[dataOffsets[ii] + jj];
+          outputBuffer++;
         }
       }
     }
+  }
+}
+
+template <typename TOffset>
+void
+VTKPolyDataMeshIO::ReadCellsBufferAsBINARYOffsetType(std::ifstream & inputFile, void * buffer)
+{
+  using OffsetType = TOffset;
+
+  MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+  std::string          connectivityType;
+  ExposeMetaData<std::string>(metaDic, "connectivityType", connectivityType);
+  const auto connectivityComponentType = this->GetComponentTypeFromString(connectivityType);
+  switch (connectivityComponentType)
+  {
+    case IOComponentEnum::INT:
+      ReadCellsBufferAsBINARYConnectivityType<OffsetType, int32_t>(inputFile, buffer);
+      break;
+    case IOComponentEnum::UINT:
+      ReadCellsBufferAsBINARYConnectivityType<OffsetType, uint32_t>(inputFile, buffer);
+      break;
+    case IOComponentEnum::ULONGLONG:
+      ReadCellsBufferAsBINARYConnectivityType<OffsetType, uint64_t>(inputFile, buffer);
+      break;
+    case IOComponentEnum::LONGLONG:
+      ReadCellsBufferAsBINARYConnectivityType<OffsetType, int64_t>(inputFile, buffer);
+      break;
+    default:
+      itkExceptionMacro("Unknown connectivity component type");
   }
 }
 
@@ -984,71 +1442,97 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARY(std::ifstream & inputFile, void * buf
     return;
   }
 
-  const auto inputBuffer = make_unique_for_overwrite<unsigned int[]>(this->m_CellBufferSize - this->m_NumberOfCells);
-  void *     pv = inputBuffer.get();
-  auto *     startBuffer = static_cast<char *>(pv);
-  auto *     outputBuffer = static_cast<unsigned int *>(buffer);
-
-  std::string          line;
+  using GeometryIntegerType = unsigned int;
   MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
 
-  while (!inputFile.eof())
+  if (this->m_ReadMeshVersionMajor >= 5)
   {
-    std::getline(inputFile, line, '\n');
-    if (line.find("VERTICES") != std::string::npos)
+    std::string offsetsType;
+    ExposeMetaData<std::string>(metaDic, "offsetsType", offsetsType);
+    const auto offsetComponentType = this->GetComponentTypeFromString(offsetsType);
+    switch (offsetComponentType)
     {
-      unsigned int numberOfVertices = 0;
-      unsigned int numberOfVertexIndices = 0;
-      ExposeMetaData<unsigned int>(metaDic, "numberOfVertices", numberOfVertices);
-      ExposeMetaData<unsigned int>(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
-      inputFile.read(startBuffer, numberOfVertexIndices * sizeof(unsigned int));
-
-      pv = startBuffer;
-      auto * data = static_cast<unsigned int *>(pv);
-      if (itk::ByteSwapper<unsigned int>::SystemIsLittleEndian())
-      {
-        itk::ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian(data, numberOfVertexIndices);
-      }
-      this->WriteCellsBuffer(data, outputBuffer, CellGeometryEnum::VERTEX_CELL, numberOfVertices);
-      startBuffer += numberOfVertexIndices * sizeof(unsigned int);
-      outputBuffer += (numberOfVertexIndices + numberOfVertices) * sizeof(unsigned int);
+      case IOComponentEnum::INT:
+        ReadCellsBufferAsBINARYOffsetType<int32_t>(inputFile, buffer);
+        break;
+      case IOComponentEnum::UINT:
+        ReadCellsBufferAsBINARYOffsetType<uint32_t>(inputFile, buffer);
+        break;
+      case IOComponentEnum::ULONGLONG:
+        ReadCellsBufferAsBINARYOffsetType<uint64_t>(inputFile, buffer);
+        break;
+      case IOComponentEnum::LONGLONG:
+        ReadCellsBufferAsBINARYOffsetType<int64_t>(inputFile, buffer);
+        break;
+      default:
+        itkExceptionMacro("Unknown offset component type");
     }
-    else if (line.find("LINES") != std::string::npos)
+  }
+  else
+  {
+    std::string line;
+    const auto  inputBuffer = make_unique_for_overwrite<unsigned int[]>(this->m_CellBufferSize - this->m_NumberOfCells);
+    void *      pv = inputBuffer.get();
+    auto *      startBuffer = static_cast<char *>(pv);
+    auto *      outputBuffer = static_cast<unsigned int *>(buffer);
+    while (!inputFile.eof())
     {
-      unsigned int numberOfLines = 0;
-      unsigned int numberOfLineIndices = 0;
-      ExposeMetaData<unsigned int>(metaDic, "numberOfLines", numberOfLines);
-      ExposeMetaData<unsigned int>(metaDic, "numberOfLineIndices", numberOfLineIndices);
-      inputFile.read(startBuffer, numberOfLineIndices * sizeof(unsigned int));
-
-      pv = startBuffer;
-      auto * data = static_cast<unsigned int *>(pv);
-      if (itk::ByteSwapper<unsigned int>::SystemIsLittleEndian())
+      std::getline(inputFile, line, '\n');
+      if (line.find("VERTICES") != std::string::npos)
       {
-        itk::ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian(data, numberOfLineIndices);
-      }
-      this->WriteCellsBuffer(data, outputBuffer, CellGeometryEnum::LINE_CELL, numberOfLines);
-      startBuffer += numberOfLineIndices * sizeof(unsigned int);
-      outputBuffer += (numberOfLineIndices + numberOfLines) * sizeof(unsigned int);
-    }
-    else if (line.find("POLYGONS") != std::string::npos)
-    {
-      unsigned int numberOfPolygons = 0;
-      unsigned int numberOfPolygonIndices = 0;
-      ExposeMetaData<unsigned int>(metaDic, "numberOfPolygons", numberOfPolygons);
-      ExposeMetaData<unsigned int>(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
-      inputFile.read(startBuffer, numberOfPolygonIndices * sizeof(unsigned int));
+        GeometryIntegerType numberOfVertices = 0;
+        GeometryIntegerType numberOfVertexIndices = 0;
+        ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfVertices", numberOfVertices);
+        ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
+        inputFile.read(startBuffer, numberOfVertexIndices * sizeof(GeometryIntegerType));
 
-      pv = startBuffer;
-      auto * data = static_cast<unsigned int *>(pv);
-      if (itk::ByteSwapper<unsigned int>::SystemIsLittleEndian())
+        pv = startBuffer;
+        auto * data = static_cast<GeometryIntegerType *>(pv);
+        if (itk::ByteSwapper<GeometryIntegerType>::SystemIsLittleEndian())
+        {
+          itk::ByteSwapper<GeometryIntegerType>::SwapRangeFromSystemToBigEndian(data, numberOfVertexIndices);
+        }
+        this->WriteCellsBuffer(data, outputBuffer, CellGeometryEnum::VERTEX_CELL, numberOfVertices);
+        startBuffer += numberOfVertexIndices * sizeof(GeometryIntegerType);
+        outputBuffer += (numberOfVertexIndices + numberOfVertices) * sizeof(GeometryIntegerType);
+      }
+      else if (line.find("LINES") != std::string::npos)
       {
-        itk::ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian(data, numberOfPolygonIndices);
-      }
+        GeometryIntegerType numberOfLines = 0;
+        GeometryIntegerType numberOfLineIndices = 0;
+        ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfLines", numberOfLines);
+        ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfLineIndices", numberOfLineIndices);
+        inputFile.read(startBuffer, numberOfLineIndices * sizeof(GeometryIntegerType));
 
-      this->WriteCellsBuffer(data, outputBuffer, CellGeometryEnum::POLYGON_CELL, numberOfPolygons);
-      startBuffer += numberOfPolygonIndices * sizeof(unsigned int);
-      outputBuffer += (numberOfPolygonIndices + numberOfPolygons) * sizeof(unsigned int);
+        pv = startBuffer;
+        auto * data = static_cast<GeometryIntegerType *>(pv);
+        if (itk::ByteSwapper<GeometryIntegerType>::SystemIsLittleEndian())
+        {
+          itk::ByteSwapper<GeometryIntegerType>::SwapRangeFromSystemToBigEndian(data, numberOfLineIndices);
+        }
+        this->WriteCellsBuffer(data, outputBuffer, CellGeometryEnum::LINE_CELL, numberOfLines);
+        startBuffer += numberOfLineIndices * sizeof(GeometryIntegerType);
+        outputBuffer += (numberOfLineIndices + numberOfLines) * sizeof(GeometryIntegerType);
+      }
+      else if (line.find("POLYGONS") != std::string::npos)
+      {
+        GeometryIntegerType numberOfPolygons = 0;
+        GeometryIntegerType numberOfPolygonIndices = 0;
+        ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfPolygons", numberOfPolygons);
+        ExposeMetaData<GeometryIntegerType>(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
+        inputFile.read(startBuffer, numberOfPolygonIndices * sizeof(GeometryIntegerType));
+
+        pv = startBuffer;
+        auto * data = static_cast<GeometryIntegerType *>(pv);
+        if (itk::ByteSwapper<GeometryIntegerType>::SystemIsLittleEndian())
+        {
+          itk::ByteSwapper<GeometryIntegerType>::SwapRangeFromSystemToBigEndian(data, numberOfPolygonIndices);
+        }
+
+        this->WriteCellsBuffer(data, outputBuffer, CellGeometryEnum::POLYGON_CELL, numberOfPolygons);
+        startBuffer += numberOfPolygonIndices * sizeof(GeometryIntegerType);
+        outputBuffer += (numberOfPolygonIndices + numberOfPolygons) * sizeof(GeometryIntegerType);
+      }
     }
   }
 }
