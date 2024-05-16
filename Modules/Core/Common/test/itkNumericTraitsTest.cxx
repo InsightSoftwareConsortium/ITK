@@ -17,9 +17,11 @@
  *=========================================================================*/
 
 #if !defined(ITK_LEGACY_REMOVE)
+#  ifdef _MSC_VER
 // Suppress MSVC warnings from VS2022, saying: "warning C4996: 'std::complex<T>::complex': warning STL4037: The effect
 // of instantiating the template std::complex for any type other than float, double, or long double is unspecified."
-#  define _SILENCE_NONFLOATING_COMPLEX_DEPRECATION_WARNING
+#    define _SILENCE_NONFLOATING_COMPLEX_DEPRECATION_WARNING
+#  endif
 #endif
 
 #include <iostream>

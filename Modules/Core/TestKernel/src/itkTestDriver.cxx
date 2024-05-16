@@ -84,10 +84,8 @@
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
 #  define ITK_TEST_DRIVER_PATH_SEP ';'
-#  define ITK_TEST_DRIVER_PATH_SLASH '\\'
 #else
 #  define ITK_TEST_DRIVER_PATH_SEP ':'
-#  define ITK_TEST_DRIVER_PATH_SLASH '/'
 #endif
 
 
