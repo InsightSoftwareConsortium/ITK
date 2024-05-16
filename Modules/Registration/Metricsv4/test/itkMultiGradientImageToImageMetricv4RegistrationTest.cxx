@@ -57,9 +57,14 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
+  bool         useSubSampling = true;
   if (argc >= 5)
   {
     numberOfIterations = std::stoi(argv[4]);
+  }
+  if (argc >= 6)
+  {
+    useSubSampling = std::stoi(argv[5]);
   }
   std::cout << " iterations " << numberOfIterations << std::endl;
 
@@ -113,7 +118,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   metric->SetNumberOfHistogramBins(20);
   auto metric2 = MetricType2::New();
 
-  if (false)
+  if (!useSubSampling)
   {
     std::cout << "Dense sampling." << std::endl;
     metric->SetUseSampledPointSet(false);
@@ -142,7 +147,6 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
     metric2->SetUseSampledPointSet(true);
     std::cout << "Testing metric with point set..." << std::endl;
   }
-
   metric->SetFixedImage(fixedImage);
   metric->SetMovingImage(movingImage);
   metric->SetFixedTransform(identityTransform);

@@ -57,6 +57,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 2;
   unsigned int numberOfDisplacementIterations = 2;
+  bool         useScalesEstimator = true;
   if (argc >= 5)
   {
     numberOfIterations = std::stoi(argv[4]);
@@ -64,6 +65,10 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   if (argc >= 6)
   {
     numberOfDisplacementIterations = std::stoi(argv[5]);
+  }
+  if (argc >= 7)
+  {
+    useScalesEstimator = std::stoi(argv[6]);
   }
   std::cout << " iterations " << numberOfIterations << " displacementIterations " << numberOfDisplacementIterations
             << std::endl;
@@ -204,7 +209,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   RegistrationParameterScalesFromShiftType::ScalesType displacementScales(
     displacementTransform->GetNumberOfLocalParameters());
   displacementScales.Fill(1);
-  if (false)
+  if (!useScalesEstimator)
   {
     optimizer->SetScales(displacementScales);
   }
@@ -212,6 +217,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   {
     optimizer->SetScalesEstimator(shiftScaleEstimator);
   }
+
   optimizer->SetMetric(metric);
   optimizer->SetNumberOfIterations(numberOfDisplacementIterations);
   try
