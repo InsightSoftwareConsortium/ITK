@@ -101,9 +101,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "itkResampleImageFilter.h"
 #include "itkDisplacementFieldTransform.h"
 
-
+namespace
+{
 unsigned int RmsCounter = 0;
 double       MaxRmsE[4] = { 0.8, 0.75, 0.4, 0.2 };
+} // namespace
 
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.

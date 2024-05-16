@@ -21,8 +21,11 @@
 #include "itkConfigure.h"
 #include <mutex>
 
+namespace
+{
 std::shared_ptr<std::mutex> sharedMutex;
 bool                        debugPrint = false;
+} // namespace
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 execute(void * ptr)

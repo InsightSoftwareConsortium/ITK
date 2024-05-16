@@ -194,7 +194,7 @@ protected:
  * Static list of CallRecord items representing the stack trace of
  * calls to GenerateData and TemporalStreamingGenerateData
  */
-std::vector<CallRecord> m_CallStack;
+static std::vector<CallRecord> m_CallStack;
 
 /**
  * \class DummyTemporalDataObject
