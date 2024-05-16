@@ -4,8 +4,8 @@ itk_wrap_include("itkSymmetricSecondRankTensor.h")
 
 itk_wrap_simple_class("itk::SymmetricEigenAnalysisEnums")
 
-itk_wrap_class("itk::SymmetricEigenAnalysisImageFilter" POINTER_WITH_2_SUPERCLASSES)
+itk_wrap_class("itk::SymmetricEigenAnalysisImageFilter" POINTER_WITH_SUPERCLASS)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  itk_wrap_template("${ITKM_ISSRT${ITKM_D}${d}${d}}" "${ITKT_ISSRT${ITKM_D}${d}${d}}")
+  itk_wrap_template("${ITKM_ISSRT${ITKM_D}${d}${d}}I${ITKM_CV${ITKM_D}${d}}${d}" "${ITKT_ISSRT${ITKM_D}${d}${d}}, itk::Image< ${ITKT_CV${ITKM_D}${d}}, ${d} >")
 endforeach()
 itk_end_wrap_class()

@@ -1,4 +1,5 @@
 itk_wrap_include("itkPhasedArray3DSpecialCoordinatesImage.h")
+itk_wrap_include("itkSymmetricSecondRankTensor.h")
 itk_wrap_class("itk::InPlaceImageFilter" POINTER)
 # VectorImage <-> scalar
 unique(to_types "UC;${WRAP_ITK_SCALAR}")
@@ -47,6 +48,12 @@ foreach(t ${WRAP_ITK_SCALAR})
     itk_wrap_template("I${ITKM_${t}}3PA3DSCI${ITKM_${ut}}"
                       "itk::Image< ${ITKT_${t}}, 3 >, itk::PhasedArray3DSpecialCoordinatesImage< ${ITKT_${ut}} >")
   endforeach()
+endforeach()
+
+# SymmetricSecondRankTensor
+# SymmetricEigenAnalysisImageFilter
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  itk_wrap_template("${ITKM_ISSRT${ITKM_D}${d}${d}}I${ITKM_CV${ITKM_D}${d}}${d}" "${ITKT_ISSRT${ITKM_D}${d}${d}}, itk::Image< ${ITKT_CV${ITKM_D}${d}}, ${d} >")
 endforeach()
 
 itk_end_wrap_class()
