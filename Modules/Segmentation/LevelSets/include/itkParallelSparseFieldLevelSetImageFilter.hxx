@@ -1265,7 +1265,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
   typename FiniteDifferenceFunctionType::Pointer         df = this->GetDifferenceFunction();
   typename FiniteDifferenceFunctionType::FloatOffsetType offset;
   ValueType                                              norm_grad_phi_squared, dx_forward, dx_backward;
-  ValueType                                              centerValue, forwardValue, backwardValue;
+  ValueType                                              centerValue = 0.0, forwardValue, backwardValue;
   ValueType                                              MIN_NORM = 1.0e-6;
   if (this->GetUseImageSpacing())
   {
