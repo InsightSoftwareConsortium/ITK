@@ -8,7 +8,7 @@ if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "${GDCM_MAX_VALIDATED_CMAKE_VERSION}")
 else()
   set(GDCM_CMAKE_POLICY_VERSION "${GDCM_MAX_VALIDATED_CMAKE_VERSION}")
 endif()
-cmake_policy(VERSION ${GDCM_CMAKE_POLICY_VERSION}) 
+cmake_policy(VERSION ${GDCM_CMAKE_POLICY_VERSION})
 
 # GDCM version 3.0.0 will only support C++11 and greater
 if(CMAKE_CXX_STANDARD EQUAL "98" )
@@ -23,7 +23,7 @@ project(GDCM
 ## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
 set(PROJECT_DESCRIPTION "GDCM - Grassroots DICOM. GDCM is yet another DICOM library.")
 
-## Set aliases for backwards compatibility.  GDCM_VERSION_XXX are configured by the project() command 
+## Set aliases for backwards compatibility.  GDCM_VERSION_XXX are configured by the project() command
 set(GDCM_MAJOR_VERSION ${GDCM_VERSION_MAJOR})
 set(GDCM_MINOR_VERSION ${GDCM_VERSION_MINOR})
 set(GDCM_BUILD_VERSION ${GDCM_VERSION_PATCH})
@@ -564,7 +564,10 @@ if(APPLE)
   if(GDCM_USE_COREFOUNDATION_LIBRARY)
     find_library(COREFOUNDATION_LIBRARY CoreFoundation )
   endif()
-  mark_as_advanced(COREFOUNDATION_LIBRARY)
+  mark_as_advanced(
+    GDCM_USE_COREFOUNDATION_LIBRARY
+    COREFOUNDATION_LIBRARY
+    )
 endif()
 
 #-----------------------------------------------------------------------------

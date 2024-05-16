@@ -199,6 +199,7 @@ function(itk_fetch_module _name _description)
 
   if(NOT DEFINED Module_${_name})
     option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" OFF)
+    mark_as_advanced(Module_${_name})
   else()
     # If Module_${_name} is set manually, put its value in the CACHE
     option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" ${Module_${_name}})
@@ -206,10 +207,8 @@ function(itk_fetch_module _name _description)
 
   if(${MODULE_COMPLIANCE_LEVEL} GREATER_EQUAL ${ITK_MINIMUM_COMPLIANCE_LEVEL})
     set(Module_${_name}_VALID ON)
-    mark_as_advanced(CLEAR Module_${_name})
   else()
     set(Module_${_name}_VALID OFF)
-    mark_as_advanced(FORCE Module_${_name})
   endif()
   # message(INFO " MODULE_VALID Module_${_name}:${Module_${_name}_VALID}:${MODULE_COMPLIANCE_LEVEL}>=${ITK_MINIMUM_COMPLIANCE_LEVEL}")
 
