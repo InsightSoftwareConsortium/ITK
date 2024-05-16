@@ -15,8 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#define ITK_LEGACY_TEST
+#ifndef ITK_LEGACY_REMOVE
+#  define ITK_LEGACY_TEST
+#endif
 #include "itkGTest.h"
 #include "itkBSplineTransform.h"
 
