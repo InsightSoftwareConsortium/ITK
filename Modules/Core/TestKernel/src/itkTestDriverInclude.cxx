@@ -38,9 +38,12 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkTestingHashImageFilter.h"
 
+namespace
+{
 RegressionTestParameters  regressionTestParameters;
 std::vector<HashPairType> hashTestList;
 RedirectOutputParameters  redirectOutputParameters;
+} // namespace
 
 RegressionTestParameters &
 GetRegressionTestParameters()

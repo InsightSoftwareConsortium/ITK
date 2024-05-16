@@ -48,7 +48,10 @@ PSOTest2();
 int
 PSOTest3();
 
+namespace
+{
 bool verboseFlag = false;
+}
 
 /**
  * The particle swarm optimizer is a stochastic algorithm. Consequentially, we run

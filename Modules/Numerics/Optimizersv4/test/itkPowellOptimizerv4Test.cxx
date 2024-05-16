@@ -19,7 +19,10 @@
 #include "itkPowellOptimizerv4.h"
 #include "itkTestingMacros.h"
 
+namespace
+{
 int POWELL_CALLS_TO_GET_VALUE = 0;
+}
 
 /**
  *  The objective function is the quadratic form:
