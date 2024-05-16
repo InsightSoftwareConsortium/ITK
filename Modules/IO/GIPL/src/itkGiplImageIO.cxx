@@ -40,34 +40,34 @@ public:
 #define GIPL_INT 32
 #define GIPL_FLOAT 64
 #define GIPL_DOUBLE 65
-#define GIPL_C_SHORT 144
-#define GIPL_C_INT 160
-#define GIPL_C_FLOAT 192
-#define GIPL_C_DOUBLE 193
-#define GIPL_SURFACE 200
-#define GIPL_POLYGON 201
+// #define GIPL_C_SHORT 144
+// #define GIPL_C_INT 160
+// #define GIPL_C_FLOAT 192
+// #define GIPL_C_DOUBLE 193
+// #define GIPL_SURFACE 200
+// #define GIPL_POLYGON 201
 
 /*  ORIENTATION DEFINITIONS (flag1)  */
 
-#define UNDEFINED 0
-#define UNDEFINED_PROJECTION 1
-#define AP_PROJECTION 2
-#define LATERAL_PROJECTION 3
-#define OBLIQUE_PROJECTION 4
-#define UNDEFINED_TOMO 8
-#define AXIAL 9
-#define CORONAL 10
-#define SAGITTAL 11
-#define OBLIQUE_TOMO 12
+// #define UNDEFINED 0
+// #define UNDEFINED_PROJECTION 1
+// #define AP_PROJECTION 2
+// #define LATERAL_PROJECTION 3
+// #define OBLIQUE_PROJECTION 4
+// #define UNDEFINED_TOMO 8
+// #define AXIAL 9
+// #define CORONAL 10
+// #define SAGITTAL 11
+// #define OBLIQUE_TOMO 12
 
 /*  FORMAT DEFINITIONS  */
 
-#define FORMAT_GIPL 0
-#define FORMAT_GIPL_STRING "Gipl"
-#define FORMAT_MAYO 1
-#define FORMAT_MAYO_STRING "Mayo"
-#define FORMAT_NM_IGE 2
-#define FORMAT_NM_IGE_STRING "Starcam"
+// #define FORMAT_GIPL 0
+// #define FORMAT_GIPL_STRING "Gipl"
+// #define FORMAT_MAYO 1
+// #define FORMAT_MAYO_STRING "Mayo"
+// #define FORMAT_NM_IGE 2
+// #define FORMAT_NM_IGE_STRING "Starcam"
 
 #define GIPL_MAGIC_NUMBER 0xefffe9b0
 #define GIPL_MAGIC_NUMBER2 0x2ae389b8
