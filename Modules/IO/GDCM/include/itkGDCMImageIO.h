@@ -43,7 +43,6 @@
 namespace itk
 {
 /** \class GDCMImageIOEnums
- * \brief
  * \ingroup ITKIOGDCM
  */
 class GDCMImageIOEnums
