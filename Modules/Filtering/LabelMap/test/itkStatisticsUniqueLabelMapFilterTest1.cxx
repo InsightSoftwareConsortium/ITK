@@ -65,13 +65,11 @@ CheckLabelMapOverlap(TLabelMap * labelMap)
 int
 itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 {
-  // ToDo: remove dilationOutput once the JIRA issue 3370 has been solved
-  // Then, argc != 6
-  if (argc != 7)
+  if (argc != 6)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input feature output dilationOutput";
+    std::cerr << " input feature output";
     std::cerr << " reverseOrdering attribute";
     std::cerr << std::endl;
     return EXIT_FAILURE;
@@ -79,9 +77,8 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   const char *       inputImage = argv[1];
   const char *       featureImage = argv[2];
   const char *       outputImage = argv[3];
-  const char *       dilationOutput = argv[4];
-  const bool         reverseOrdering = std::stoi(argv[5]);
-  const unsigned int attribute = std::stoi(argv[6]);
+  const bool         reverseOrdering = std::stoi(argv[4]);
+  const unsigned int attribute = std::stoi(argv[5]);
 
   constexpr unsigned int Dimension = 2;
 
@@ -176,13 +173,6 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   writer->UseCompressionOn();
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
-
-
-  // WARNING: TEMPORARY: JIRA ISSUE 3370
-  // Writing an additional output of just the dilated label
-  writer->SetInput(grayscaleDilateFilter->GetOutput());
-  writer->SetFileName(dilationOutput);
-  writer->UseCompressionOn();
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
