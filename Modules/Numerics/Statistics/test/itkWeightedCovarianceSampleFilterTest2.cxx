@@ -20,7 +20,6 @@
 #include "itkListSample.h"
 
 constexpr unsigned int MeasurementVectorSize2 = 3;
-unsigned int           counter2 = 0;
 
 using MeasurementVectorType2 = itk::Array<float>;
 
