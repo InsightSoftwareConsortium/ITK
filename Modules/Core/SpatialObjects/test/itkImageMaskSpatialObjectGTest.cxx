@@ -17,7 +17,9 @@
  *=========================================================================*/
 
 // Enable testing legacy member function GetAxisAlignedBoundingBoxRegion()
-#define ITK_LEGACY_TEST
+#ifndef ITK_LEGACY_REMOVE
+#  define ITK_LEGACY_TEST
+#endif
 
 // First include the header file to be tested:
 #include "itkImageMaskSpatialObject.h"

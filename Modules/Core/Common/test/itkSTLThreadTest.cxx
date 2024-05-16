@@ -15,8 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#define ITK_LEGACY_TEST // so deprecation warnings are not triggered by this test
+#ifndef ITK_LEGACY_REMOVE
+#  define ITK_LEGACY_TEST // so deprecation warnings are not triggered by this test
+#endif
 #include "itkPlatformMultiThreader.h"
 
 namespace itkSTLThreadTestImpl
