@@ -24,9 +24,9 @@
 // Data definitions
 #define IMGWIDTH 16
 #define IMGHEIGHT 1
-#define NFRAMES 1
-#define NUMBANDS 2
-#define NDIMENSION 3
+// #define NFRAMES 1
+// #define NUMBANDS 2
+// #define NDIMENSION 3
 
 #define CDBKWIDTH 4
 #define CDBKHEIGHT 1
