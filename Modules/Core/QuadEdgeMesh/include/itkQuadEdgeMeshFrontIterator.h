@@ -32,7 +32,7 @@
   using FrontIterator = QuadEdgeMeshFrontIterator<MeshTypeArg, QEPrimalType>;                                         \
   using ConstFrontIterator = QuadEdgeMeshConstFrontIterator<MeshTypeArg, QEPrimalType>;                               \
                                                                                                                       \
-  virtual FrontIterator BeginFront(QEPrimalType * seed = (QEPrimalType *)0)                                           \
+  virtual FrontIterator BeginFront(QEPrimalType * seed = (QEPrimalType *)nullptr)                                     \
   {                                                                                                                   \
     return (FrontIterator(this, true, seed));                                                                         \
   }                                                                                                                   \
