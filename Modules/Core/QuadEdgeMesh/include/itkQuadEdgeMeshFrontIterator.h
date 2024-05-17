@@ -43,7 +43,7 @@
                                                                                                                       \
   virtual ConstFrontIterator EndFront() const { return (ConstFrontIterator(this, false)); }                           \
                                                                                                                       \
-  virtual FrontDualIterator BeginDualFront(QEDualType * seed = (QEDualType *)0)                                       \
+  virtual FrontDualIterator BeginDualFront(QEDualType * seed = (QEDualType *)nullptr)                                       \
   {                                                                                                                   \
     return (FrontDualIterator(this, true, seed));                                                                     \
   }                                                                                                                   \

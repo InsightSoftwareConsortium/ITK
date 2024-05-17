@@ -129,12 +129,33 @@ TEST(SmartPointer, EmptyAndNull)
   cptr = nullptr;
   EXPECT_TRUE(cptr.IsNull());
 
-  // NOLINTNEXTLINE(modernize-use-nullptr)
+  // NOLINTNEXTLINE(modernize-use-nullptr) (With warning suppression)
+  #if defined(__clang__) && defined(__has_warning)
+    #if __has_warning("-Warc-performSelector-leaks")
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    #endif
+  #endif
   ptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
+  #if defined(__clang__) && defined(__has_warning)
+    #if __has_warning("-Warc-performSelector-leaks")
+        #pragma clang diagnostic pop
+    #endif
+  #endif
   EXPECT_TRUE(ptr.IsNull());
 
-  // NOLINTNEXTLINE(modernize-use-nullptr)
+  // NOLINTNEXTLINE(modernize-use-nullptr) (With Warning supressions)
+  #if defined(__clang__) && defined(__has_warning)
+    #if __has_warning("-Warc-performSelector-leaks")
+        #pragma clang diagnostic pop
+    #endif
+  #endif
   cptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
+  #if defined(__clang__) && defined(__has_warning)
+    #if __has_warning("-Warc-performSelector-leaks")
+        #pragma clang diagnostic pop
+    #endif
+  #endif
   EXPECT_TRUE(cptr.IsNull());
 
 
