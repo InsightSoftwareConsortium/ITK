@@ -23,7 +23,8 @@
 #include "itksys/SystemTools.hxx"
 #include "itkTestDriverIncludeRequiredFactories.h"
 
-#define STRING(s) #s
+#define _STRING(s) #s
+#define TOSTRING(s) _STRING(s)
 
 namespace
 {
@@ -34,7 +35,7 @@ struct ITKWriteImageFunctionTest : public ::testing::Test
   SetUp() override
   {
     RegisterRequiredFactories();
-    itksys::SystemTools::ChangeDirectory(STRING(ITK_TEST_OUTPUT_DIR_STR));
+    itksys::SystemTools::ChangeDirectory(TOSTRING(ITK_TEST_OUTPUT_DIR));
   }
   using ImageType = itk::Image<float, 2>;
   using RegionType = ImageType::RegionType;
