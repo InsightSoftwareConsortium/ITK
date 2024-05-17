@@ -75,27 +75,12 @@ public:
    * object */
   using InstanceIdentifierHolder = std::vector<InstanceIdentifier>;
 
-// Disable clang warning false positive.
-// <https://llvm.org/bugs/show_bug.cgi?id=22582>
-#if defined(__clang__) && defined(__has_warning)
-#  if __has_warning("-Winconsistent-missing-override")
-#    pragma clang diagnostic push
-#    pragma clang diagnostic ignored "-Winconsistent-missing-override"
-#  endif
-#endif
-
   /** Get the Id Holder */
   const InstanceIdentifierHolder &
   GetIdHolder() const
   {
     return this->m_IdHolder;
   }
-
-#if defined(__clang__) && defined(__has_warning)
-#  if __has_warning("-Winconsistent-missing-override")
-#    pragma clang diagnostic pop
-#  endif
-#endif
 
   /** Plug in the actual sample data */
   void
