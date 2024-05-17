@@ -209,7 +209,7 @@ extern ITKImageIntensity_EXPORT std::ostream &
  *
  * \ingroup ITKImageIntensity
  */
-template <typename TInputImage, typename TOutputImage = TInputImage>
+template <typename TInputImage, typename TOutputImage>
 class SymmetricEigenAnalysisImageFilter
   : public UnaryFunctorImageFilter<
       TInputImage,
