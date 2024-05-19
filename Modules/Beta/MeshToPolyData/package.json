@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "npm scripts to generate itk-wasm artifacts.",
   "private": true,
+  "packageManager": "pnpm@9.1.1",
   "type": "module",
   "itk-wasm": {
-    "emscripten-docker-image": "itkwasm/emscripten:20231217-40780708",
-    "wasi-docker-image": "itkwasm/wasi:20231217-40780708",
+    "emscripten-docker-image": "itkwasm/emscripten:20240517-32a1ffd9",
+    "wasi-docker-image": "itkwasm/wasi:20240517-32a1ffd9",
     "typescript-package-name": "@itk-wasm/mesh-to-poly-data",
     "typescript-output-dir": "wasm/typescript",
     "python-package-name": "itkwasm-mesh-to-poly-data",
@@ -40,8 +41,8 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@itk-wasm/dam": "^1.1.0",
+    "@itk-wasm/dam": "^1.1.1",
     "@thewtex/setup-micromamba": "^1.9.7",
-    "itk-wasm": "^1.0.0-b.165"
+    "itk-wasm": "^1.0.0-b.175"
   }
 }
