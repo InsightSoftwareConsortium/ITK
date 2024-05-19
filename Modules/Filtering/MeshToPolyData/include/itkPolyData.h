@@ -77,7 +77,7 @@ public:
   PointsContainer * GetPoints();
   const PointsContainer * GetPoints() const;
 
-  /** Lines in format [1 pointIndex1 1 pointIndex2 1 pointIndex3 ... ] */
+  /** Vertices in format [1 pointIndex1 1 pointIndex2 1 pointIndex3 ... ] */
   void SetVertices(CellsContainer *);
   CellsContainer * GetVertices();
   const CellsContainer* GetVertices() const;
