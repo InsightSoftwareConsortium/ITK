@@ -440,7 +440,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::PropagateConnectedWave()
           }
         }
       } // if visited
-    }   // for all cells in wave
+    } // for all cells in wave
 
     tmpWave = m_Wave;
     m_Wave = m_Wave2;

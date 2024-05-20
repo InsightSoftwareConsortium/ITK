@@ -256,18 +256,15 @@ itkBSplineDeformableTransformTest2(int argc, char * argv[])
 
   switch (splineOrder)
   {
-    case 1:
-    {
+    case 1: {
       status |= BSplineDeformableTransformTest2Helper<1>::RunTest(argc, argv);
       break;
     }
-    case 2:
-    {
+    case 2: {
       status |= BSplineDeformableTransformTest2Helper<2>::RunTest(argc, argv);
       break;
     }
-    case 3:
-    {
+    case 3: {
       status |= BSplineDeformableTransformTest2Helper<3>::RunTest(argc, argv);
       break;
     }

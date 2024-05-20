@@ -47,7 +47,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKCOMMON_DEPRECATED_EXPORT std::ostream &
-                                   operator<<(std::ostream & out, const TreeIteratorBaseEnums::TreeIteratorBaseNode value);
+operator<<(std::ostream & out, const TreeIteratorBaseEnums::TreeIteratorBaseNode value);
 /** \class TreeIteratorBase
  *  \brief This class provides the base implementation for tree iterators.
  *

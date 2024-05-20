@@ -22,7 +22,7 @@ namespace itk
 {
 
 template <>
-std::ostream & operator<<<double>(std::ostream & os, const Array<double> & arr)
+std::ostream & operator<< <double>(std::ostream & os, const Array<double> & arr)
 {
   os << '[';
   const size_t length = arr.size();
@@ -40,7 +40,7 @@ std::ostream & operator<<<double>(std::ostream & os, const Array<double> & arr)
 }
 
 template <>
-std::ostream & operator<<<float>(std::ostream & os, const Array<float> & arr)
+std::ostream & operator<< <float>(std::ostream & os, const Array<float> & arr)
 {
   os << '[';
   const size_t length = arr.size();
@@ -58,7 +58,7 @@ std::ostream & operator<<<float>(std::ostream & os, const Array<float> & arr)
 }
 
 template <>
-std::ostream & operator<<<double>(std::ostream & os, const Array2D<double> & arr)
+std::ostream & operator<< <double>(std::ostream & os, const Array2D<double> & arr)
 {
   const unsigned int numberOfRows = arr.rows();
   const unsigned int numberOfColumns = arr.cols();
@@ -82,7 +82,7 @@ std::ostream & operator<<<double>(std::ostream & os, const Array2D<double> & arr
 }
 
 template <>
-std::ostream & operator<<<float>(std::ostream & os, const Array2D<float> & arr)
+std::ostream & operator<< <float>(std::ostream & os, const Array2D<float> & arr)
 {
   const unsigned int numberOfRows = arr.rows();
   const unsigned int numberOfColumns = arr.cols();

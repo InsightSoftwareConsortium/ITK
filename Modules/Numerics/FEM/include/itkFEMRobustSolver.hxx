@@ -1060,7 +1060,7 @@ RobustSolver<VDimension>::InitializeInterpolationGrid()
         iter.Set(element);
       }
     } // next point in region
-  }   // next element
+  } // next element
 }
 
 } // end namespace fem

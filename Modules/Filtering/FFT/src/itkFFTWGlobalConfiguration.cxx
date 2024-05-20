@@ -45,7 +45,7 @@ namespace itk
 struct FFTWGlobalConfigurationGlobals
 {
   FFTWGlobalConfigurationGlobals()
-    : m_Instance(nullptr){};
+    : m_Instance(nullptr) {};
 
   FFTWGlobalConfiguration::Pointer m_Instance;
   std::mutex                       m_CreationMutex;

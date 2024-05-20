@@ -23,11 +23,23 @@
 #undef min
 #undef max
 
-#define itkNUMERIC_TRAITS_MIN_MAX_MACRO()                                                     \
-  static constexpr ValueType min(ValueType) { return std::numeric_limits<ValueType>::min(); } \
-  static constexpr ValueType max(ValueType) { return std::numeric_limits<ValueType>::max(); } \
-  static constexpr ValueType min() { return std::numeric_limits<ValueType>::min(); }          \
-  static constexpr ValueType max() { return std::numeric_limits<ValueType>::max(); }
+#define itkNUMERIC_TRAITS_MIN_MAX_MACRO()         \
+  static constexpr ValueType min(ValueType)       \
+  {                                               \
+    return std::numeric_limits<ValueType>::min(); \
+  }                                               \
+  static constexpr ValueType max(ValueType)       \
+  {                                               \
+    return std::numeric_limits<ValueType>::max(); \
+  }                                               \
+  static constexpr ValueType min()                \
+  {                                               \
+    return std::numeric_limits<ValueType>::min(); \
+  }                                               \
+  static constexpr ValueType max()                \
+  {                                               \
+    return std::numeric_limits<ValueType>::max(); \
+  }
 
 #include <limits> // for std::numeric_limits
 #include <complex>
@@ -1798,8 +1810,16 @@ public:
   {
     return val == Zero;
   }
-  static constexpr bool IsNegative(ValueType) { return false; }
-  static constexpr bool IsNonnegative(ValueType) { return true; }
+  static constexpr bool
+  IsNegative(ValueType)
+  {
+    return false;
+  }
+  static constexpr bool
+  IsNonnegative(ValueType)
+  {
+    return true;
+  }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
   static constexpr bool IsComplex = false;
@@ -1891,8 +1911,16 @@ public:
   {
     return std::numeric_limits<ValueType>::max();
   }
-  static constexpr Self min(Self) { return min(); }
-  static constexpr Self max(Self) { return max(); }
+  static constexpr Self
+  min(Self)
+  {
+    return min();
+  }
+  static constexpr Self
+  max(Self)
+  {
+    return max();
+  }
   static constexpr ValueType
   epsilon()
   {

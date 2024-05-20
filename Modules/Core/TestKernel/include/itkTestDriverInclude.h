@@ -160,6 +160,6 @@ extern std::map<std::string, int>
 RegressionTestBaselines(char * baselineFilename);
 
 // Needed for explicit instantiate
-//#include "itkTestingComparisonImageFilter.hxx"
+// #include "itkTestingComparisonImageFilter.hxx"
 
 #endif

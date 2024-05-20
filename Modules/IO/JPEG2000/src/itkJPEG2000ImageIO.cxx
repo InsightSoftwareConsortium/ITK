@@ -182,8 +182,7 @@ JPEG2000ImageIO::ReadImageInformation()
 
   switch (this->m_Internal->m_DecompressionParameters.decod_format)
   {
-    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT):
-    {
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT): {
       /* JPEG-2000 codestream */
 
       /* get a decoder handle */
@@ -198,8 +197,7 @@ JPEG2000ImageIO::ReadImageInformation()
       }
       break;
     }
-    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT):
-    {
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT): {
       /* JPEG 2000 compressed image data */
       /* get a decoder handle */
       this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JP2);
@@ -213,8 +211,7 @@ JPEG2000ImageIO::ReadImageInformation()
       }
       break;
     }
-    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT):
-    {
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT): {
       /* JPEG 2000, JPIP */
       /* get a decoder handle */
       this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JPT);
@@ -393,8 +390,7 @@ JPEG2000ImageIO::Read(void * buffer)
   /* ---------------------- */
   switch (this->m_Internal->m_DecompressionParameters.decod_format)
   {
-    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT):
-    {
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT): {
       /* JPEG-2000 codestream */
       /* get a decoder handle */
       this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_J2K);
@@ -406,8 +402,7 @@ JPEG2000ImageIO::Read(void * buffer)
       }
       break;
     }
-    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT):
-    {
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT): {
       /* JPEG 2000 compressed image data */
       /* get a decoder handle */
       this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JP2);
@@ -419,8 +414,7 @@ JPEG2000ImageIO::Read(void * buffer)
       }
       break;
     }
-    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT):
-    {
+    case static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT): {
       /* JPEG 2000, JPIP */
       /* get a decoder handle */
       this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JPT);

@@ -58,7 +58,8 @@ ImageSource<TOutputImage>::ImageSource()
 }
 
 template <typename TOutputImage>
-ProcessObject::DataObjectPointer ImageSource<TOutputImage>::MakeOutput(ProcessObject::DataObjectPointerArraySizeType)
+ProcessObject::DataObjectPointer
+ImageSource<TOutputImage>::MakeOutput(ProcessObject::DataObjectPointerArraySizeType)
 {
   return TOutputImage::New().GetPointer();
 }

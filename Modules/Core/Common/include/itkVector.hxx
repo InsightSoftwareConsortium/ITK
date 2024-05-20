@@ -195,7 +195,8 @@ operator>>(std::istream & is, Vector<T, TVectorDimension> & vct)
 }
 
 template <typename T, unsigned int TVectorDimension>
-typename Vector<T, TVectorDimension>::ValueType Vector<T, TVectorDimension>::operator*(const Self & other) const
+typename Vector<T, TVectorDimension>::ValueType
+Vector<T, TVectorDimension>::operator*(const Self & other) const
 {
   typename NumericTraits<T>::AccumulateType value = T{};
   for (unsigned int i = 0; i < TVectorDimension; ++i)

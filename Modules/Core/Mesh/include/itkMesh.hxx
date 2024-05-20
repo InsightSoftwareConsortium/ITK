@@ -743,8 +743,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
-Mesh<TPixelType, VDimension, TMeshTraits>::GetCellNeighbors(CellIdentifier cellId, std::set<CellIdentifier> * cellSet)
-  -> CellIdentifier
+Mesh<TPixelType, VDimension, TMeshTraits>::GetCellNeighbors(CellIdentifier             cellId,
+                                                            std::set<CellIdentifier> * cellSet) -> CellIdentifier
 {
   /**
    * Sanity check on mesh status.
@@ -1014,22 +1014,19 @@ Mesh<TPixelType, VDimension, TMeshTraits>::ReleaseCellsMemory()
   {
     switch (m_CellsAllocationMethod)
     {
-      case MeshClassCellsAllocationMethodEnum::CellsAllocationMethodUndefined:
-      {
+      case MeshClassCellsAllocationMethodEnum::CellsAllocationMethodUndefined: {
         // The user forgot to tell the mesh about how he allocated
         // the cells. No responsible guess can be made here. Call for help.
         itkGenericExceptionMacro("Cells Allocation Method was not specified. See SetCellsAllocationMethod()");
         break;
       }
-      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsStaticArray:
-      {
+      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsStaticArray: {
         // The cells will be naturally destroyed when
         // the original array goes out of scope.
         itkDebugMacro("CellsAllocatedAsStaticArray ");
         break;
       }
-      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsADynamicArray:
-      {
+      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedAsADynamicArray: {
         // the pointer to the first Cell is assumed to be the
         // base pointer of the array
         CellsContainerIterator first = m_CellsContainer->Begin();
@@ -1039,8 +1036,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::ReleaseCellsMemory()
         itkDebugMacro("CellsAllocatedAsADynamicArray");
         break;
       }
-      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell:
-      {
+      case MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell: {
         itkDebugMacro("CellsAllocatedDynamicallyCellByCell start");
         // It is assumed that every cell was allocated independently.
         // A Cell iterator is created for going through the cells

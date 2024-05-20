@@ -82,38 +82,32 @@ XMLFileOutputWindow::DisplayXML(const char * tag, const char * text)
   {
     switch (*s)
     {
-      case '&':
-      {
+      case '&': {
         strcat(x, "&amp;");
         x += 5;
         break;
       }
-      case '"':
-      {
+      case '"': {
         strcat(x, "&quot;");
         x += 6;
         break;
       }
-      case '\'':
-      {
+      case '\'': {
         strcat(x, "&apos;");
         x += 6;
         break;
       }
-      case '<':
-      {
+      case '<': {
         strcat(x, "&lt;");
         x += 4;
         break;
       }
-      case '>':
-      {
+      case '>': {
         strcat(x, "&gt;");
         x += 4;
         break;
       }
-      default:
-      {
+      default: {
         *x = *s;
         ++x;
         *x = '\0'; // explicitly terminate the new string

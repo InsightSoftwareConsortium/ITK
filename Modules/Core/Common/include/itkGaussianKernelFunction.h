@@ -64,7 +64,7 @@ public:
 
 protected:
   GaussianKernelFunction()
-    : m_Factor(TRealValueType{ 1.0 } / std::sqrt(TRealValueType{ 2.0 * itk::Math::pi })){};
+    : m_Factor(TRealValueType{ 1.0 } / std::sqrt(TRealValueType{ 2.0 * itk::Math::pi })) {};
   ~GaussianKernelFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override

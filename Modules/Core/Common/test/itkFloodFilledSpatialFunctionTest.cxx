@@ -101,23 +101,19 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
 
     switch (strat)
     {
-      case 0:
-      {
+      case 0: {
         sfi.SetOriginInclusionStrategy();
       }
       break;
-      case 1:
-      {
+      case 1: {
         sfi.SetCenterInclusionStrategy();
       }
       break;
-      case 2:
-      {
+      case 2: {
         sfi.SetCompleteInclusionStrategy();
       }
       break;
-      case 3:
-      {
+      case 3: {
         sfi.SetIntersectInclusionStrategy();
       }
     } // end switch inclusion strategy

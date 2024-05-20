@@ -237,13 +237,21 @@ public:
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  TPixel & operator[](const IndexType & index) { return this->GetPixel(index); }
+  TPixel &
+  operator[](const IndexType & index)
+  {
+    return this->GetPixel(index);
+  }
 
   /** \brief Access a pixel. This version can only be an rvalue.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const TPixel & operator[](const IndexType & index) const { return this->GetPixel(index); }
+  const TPixel &
+  operator[](const IndexType & index) const
+  {
+    return this->GetPixel(index);
+  }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */

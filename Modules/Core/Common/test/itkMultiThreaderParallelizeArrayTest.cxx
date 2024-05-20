@@ -70,8 +70,7 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
   auto progressPO = SomeProcessObject::New();
   auto showProgress = ShowProgress::New();
   progressPO->AddObserver(itk::ProgressEvent(), showProgress);
-  mt->ParallelizeArray(
-    1, size, [&vec](int i) { vec[i] = i; }, progressPO);
+  mt->ParallelizeArray(1, size, [&vec](int i) { vec[i] = i; }, progressPO);
 
   int result = EXIT_SUCCESS;
   if (vec[0] != 0)

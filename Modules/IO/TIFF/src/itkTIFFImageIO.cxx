@@ -439,8 +439,7 @@ TIFFImageIO::ReadImageInformation()
       this->SetNumberOfComponents(m_InternalImage->m_SamplesPerPixel);
       this->SetPixelType(IOPixelEnum::RGB);
       break;
-    case TIFFImageIO::PALETTE_RGB:
-    {
+    case TIFFImageIO::PALETTE_RGB: {
       if (this->GetExpandRGBPalette())
       {
         this->SetNumberOfComponents(3);
@@ -868,18 +867,18 @@ typedef enum
 } ITK_TIFF_MOC_TIFFSetGetFieldType;
 struct _TIFFField
 {
-  uint32_t field_tag;                              /* field's tag */
-  short field_readcount;                           /* read count/TIFF_VARIABLE/TIFF_SPP */
-  short field_writecount;                          /* write count/TIFF_VARIABLE */
-  TIFFDataType field_type;                         /* type of associated data */
-  uint32_t reserved;                               /* reserved for future extension */
-  ITK_TIFF_MOC_TIFFSetGetFieldType set_field_type; /* type to be passed to TIFFSetField */
-  ITK_TIFF_MOC_TIFFSetGetFieldType get_field_type; /* type to be passed to TIFFGetField */
-  unsigned short field_bit;                        /* bit in fieldsset bit vector */
-  unsigned char field_oktochange;                  /* if true, can change while writing */
-  unsigned char field_passcount;                   /* if true, pass dir count on set */
-  char * field_name;                               /* ASCII name */
-  TIFFFieldArray * field_subfields;                /* if field points to child ifds, child ifd field definition array */
+  uint32_t                         field_tag;        /* field's tag */
+  short                            field_readcount;  /* read count/TIFF_VARIABLE/TIFF_SPP */
+  short                            field_writecount; /* write count/TIFF_VARIABLE */
+  TIFFDataType                     field_type;       /* type of associated data */
+  uint32_t                         reserved;         /* reserved for future extension */
+  ITK_TIFF_MOC_TIFFSetGetFieldType set_field_type;   /* type to be passed to TIFFSetField */
+  ITK_TIFF_MOC_TIFFSetGetFieldType get_field_type;   /* type to be passed to TIFFGetField */
+  unsigned short                   field_bit;        /* bit in fieldsset bit vector */
+  unsigned char                    field_oktochange; /* if true, can change while writing */
+  unsigned char                    field_passcount;  /* if true, pass dir count on set */
+  char *                           field_name;       /* ASCII name */
+  TIFFFieldArray * field_subfields; /* if field points to child ifds, child ifd field definition array */
 };
 namespace itk
 {
@@ -1387,8 +1386,7 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
     case TIFFImageIO::RGB_:
       inc = m_InternalImage->m_SamplesPerPixel;
       break;
-    case TIFFImageIO::PALETTE_RGB:
-    {
+    case TIFFImageIO::PALETTE_RGB: {
       if (GetExpandRGBPalette())
       {
         inc = 3;

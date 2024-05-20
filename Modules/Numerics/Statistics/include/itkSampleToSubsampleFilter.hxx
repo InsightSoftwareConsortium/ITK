@@ -50,8 +50,8 @@ SampleToSubsampleFilter<TSample>::GetInput() const -> const SampleType *
 }
 
 template <typename TSample>
-typename SampleToSubsampleFilter<TSample>::DataObjectPointer SampleToSubsampleFilter<TSample>::MakeOutput(
-  DataObjectPointerArraySizeType)
+typename SampleToSubsampleFilter<TSample>::DataObjectPointer
+SampleToSubsampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return SubsampleType::New().GetPointer();
 }

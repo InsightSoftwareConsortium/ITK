@@ -200,51 +200,43 @@ TestDriverInvokeProcess(const ArgumentsList & args)
   int state = itksysProcess_GetState(process);
   switch (state)
   {
-    case itksysProcess_State_Error:
-    {
+    case itksysProcess_State_Error: {
       std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << std::endl;
       itksysProcess_Delete(process);
       return 1;
     }
-    case itksysProcess_State_Exception:
-    {
+    case itksysProcess_State_Exception: {
       std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << std::endl;
       itksysProcess_Delete(process);
       return 1;
     }
-    case itksysProcess_State_Executing:
-    {
+    case itksysProcess_State_Executing: {
       // this is not a possible state after itksysProcess_WaitForExit
       std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << std::endl;
       itksysProcess_Delete(process);
       return 1;
     }
-    case itksysProcess_State_Exited:
-    {
+    case itksysProcess_State_Exited: {
       // this is the normal case - it is treated later
       break;
     }
-    case itksysProcess_State_Expired:
-    {
+    case itksysProcess_State_Expired: {
       // this is not a possible state after itksysProcess_WaitForExit
       std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << std::endl;
       itksysProcess_Delete(process);
       return 1;
     }
-    case itksysProcess_State_Killed:
-    {
+    case itksysProcess_State_Killed: {
       std::cerr << "itkTestDriver: The process has been killed." << std::endl;
       itksysProcess_Delete(process);
       return 1;
     }
-    case itksysProcess_State_Disowned:
-    {
+    case itksysProcess_State_Disowned: {
       std::cerr << "itkTestDriver: Process disowned." << std::endl;
       itksysProcess_Delete(process);
       return 1;
     }
-    default:
-    {
+    default: {
       // this is not a possible state after itksysProcess_WaitForExit
       std::cerr << "itkTestDriver: Internal error: unknown State." << std::endl;
       itksysProcess_Delete(process);

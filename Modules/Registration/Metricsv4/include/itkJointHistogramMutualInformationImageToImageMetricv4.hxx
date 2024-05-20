@@ -379,7 +379,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
       }
       total_mi += local_mi;
     } // over jh bins 2
-  }   // over jh bins 1
+  } // over jh bins 1
   return (-1.0 * total_mi.GetSum() / this->m_Log2);
 }
 

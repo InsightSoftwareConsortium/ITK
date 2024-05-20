@@ -191,21 +191,18 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     {
       switch (m_DirectionCollapseStrategy)
       {
-        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
-        {
+        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY: {
           outputDirection.SetIdentity();
         }
         break;
-        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
-        {
+        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX: {
           if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
           {
             itkExceptionMacro("Invalid submatrix extracted for collapsed direction.");
           }
         }
         break;
-        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
-        {
+        case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS: {
           if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
           {
             outputDirection.SetIdentity();
@@ -213,8 +210,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         }
         break;
         case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
-        default:
-        {
+        default: {
           itkExceptionMacro(
             << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
             << "Set with either myfilter->SetDirectionCollapseToIdentity() or "

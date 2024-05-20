@@ -95,7 +95,8 @@ ProcessObject::MakeOutput(const DataObjectIdentifierType & name)
 }
 
 
-DataObject::Pointer ProcessObject::MakeOutput(DataObjectPointerArraySizeType)
+DataObject::Pointer
+ProcessObject::MakeOutput(DataObjectPointerArraySizeType)
 {
   return static_cast<DataObject *>(DataObject::New().GetPointer());
 }

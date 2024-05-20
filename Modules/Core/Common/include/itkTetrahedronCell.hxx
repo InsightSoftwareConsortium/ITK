@@ -214,8 +214,7 @@ TetrahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimens
 {
   switch (dimension)
   {
-    case 0:
-    {
+    case 0: {
       VertexAutoPointer vertexPointer;
       if (this->GetVertex(featureId, vertexPointer))
       {
@@ -224,8 +223,7 @@ TetrahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimens
       }
       break;
     }
-    case 1:
-    {
+    case 1: {
       EdgeAutoPointer edgePointer;
       if (this->GetEdge(featureId, edgePointer))
       {
@@ -234,8 +232,7 @@ TetrahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimens
       }
       break;
     }
-    case 2:
-    {
+    case 2: {
       FaceAutoPointer facePointer;
       if (this->GetFace(featureId, facePointer))
       {

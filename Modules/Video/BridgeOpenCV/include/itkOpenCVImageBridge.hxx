@@ -50,8 +50,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage * in)
   auto out = ImageType::New();
 
 #define CONVERSION_CASE(iplInputDepthID, itkOutputPixelType)                                          \
-  case (iplInputDepthID):                                                                             \
-  {                                                                                                   \
+  case (iplInputDepthID): {                                                                           \
     static_assert((iplInputDepthID) <= NumericTraits<DepthIDType>::max() &&                           \
                     (iplInputDepthID) >= NumericTraits<DepthIDType>::min(),                           \
                   "Invalid IPL depth ID: " #iplInputDepthID);                                         \
@@ -68,8 +67,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage * in)
     CONVERSION_CASE(IPL_DEPTH_32S, int)
     CONVERSION_CASE(IPL_DEPTH_32F, float)
     CONVERSION_CASE(IPL_DEPTH_64F, double)
-    default:
-    {
+    default: {
       itkGenericExceptionMacro("Unknown OpenCV type");
     }
   }
@@ -92,8 +90,7 @@ OpenCVImageBridge::CVMatToITKImage(const cv::Mat & in)
   auto out = ImageType::New();
 
 #define CONVERSION_CASE(inputDepthID, itkOutputPixelType)                          \
-  case (inputDepthID):                                                             \
-  {                                                                                \
+  case (inputDepthID): {                                                           \
     static_assert((inputDepthID) <= NumericTraits<DepthIDType>::max() &&           \
                     (inputDepthID) >= NumericTraits<DepthIDType>::min(),           \
                   "Invalid Mat depth ID: " #inputDepthID);                         \
@@ -110,8 +107,7 @@ OpenCVImageBridge::CVMatToITKImage(const cv::Mat & in)
     CONVERSION_CASE(CV_32S, int)
     CONVERSION_CASE(CV_32F, float)
     CONVERSION_CASE(CV_64F, double)
-    default:
-    {
+    default: {
       itkGenericExceptionMacro("Unknown OpenCV type");
     }
   }

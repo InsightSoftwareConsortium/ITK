@@ -50,7 +50,7 @@ GiftiMeshIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMeshGifti_EXPORT
-     GiftiMeshIOFactoryRegister__Private()
+GiftiMeshIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<GiftiMeshIOFactory>();
 }

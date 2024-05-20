@@ -169,7 +169,7 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
         this->m_AuxImages[k]->SetPixel(node.GetIndex(), auxVec[k]);
       }
     } // end container loop
-  }   // if AuxAliveValues set
+  } // if AuxAliveValues set
 
   if (m_AuxTrialValues)
   {
@@ -193,7 +193,7 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
         this->m_AuxImages[k]->SetPixel(node.GetIndex(), auxVec[k]);
       }
     } // end container loop
-  }   // if AuxTrialValues set
+  } // if AuxTrialValues set
 }
 
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension, typename TSpeedImage>

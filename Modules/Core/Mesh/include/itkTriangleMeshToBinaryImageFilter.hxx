@@ -376,8 +376,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
       case CellGeometryEnum::LINE_CELL:
         break;
       case CellGeometryEnum::TRIANGLE_CELL:
-      case CellGeometryEnum::POLYGON_CELL:
-      {
+      case CellGeometryEnum::POLYGON_CELL: {
         coords.clear();
         while (pointIt != nextCell->PointIdsEnd())
         {

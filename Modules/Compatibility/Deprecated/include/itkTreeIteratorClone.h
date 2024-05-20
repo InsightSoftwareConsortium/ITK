@@ -74,7 +74,11 @@ public:
   }
 
   /** Overload operator ->  */
-  ObjectType * operator->() const { return m_Pointer; }
+  ObjectType *
+  operator->() const
+  {
+    return m_Pointer;
+  }
 
   /** Test if the pointer has been initialized */
   bool

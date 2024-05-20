@@ -54,7 +54,7 @@ LSMImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOLSM_EXPORT
-     LSMImageIOFactoryRegister__Private()
+LSMImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<LSMImageIOFactory>();
 }

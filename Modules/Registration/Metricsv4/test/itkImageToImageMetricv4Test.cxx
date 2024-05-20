@@ -522,7 +522,7 @@ itkImageToImageMetricv4Test(int, char ** const)
         computeNewTruthValues = false;
       }
     } // loop through permutations
-  }   // loop thru # of threads
+  } // loop thru # of threads
 
 
   // Test that non-overlapping images will generate a warning

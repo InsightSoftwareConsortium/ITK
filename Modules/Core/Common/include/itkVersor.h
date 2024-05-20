@@ -158,7 +158,8 @@ public:
 
   /** Versor operator*.  Performs the composition of two versors.
    * this operation is NOT commutative. */
-  Self operator*(const Self & v) const;
+  Self
+  operator*(const Self & v) const;
 
   /** Versor operator/.  Performs the division of two versors. */
   Self

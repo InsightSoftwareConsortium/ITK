@@ -24,14 +24,13 @@ AlignConsecutiveDeclarations: true
 AlignEscapedNewlines: Left
 AlignOperands:   true
 AlignTrailingComments: true
-# clang 9.0 AllowAllArgumentsOnNextLine: true
-# clang 9.0 AllowAllConstructorInitializersOnNextLine: true
+AllowAllArgumentsOnNextLine: true
+AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Inline
-# clang 9.0 AllowShortLambdasOnASingleLine: All
-# clang 9.0 features AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
@@ -42,7 +41,7 @@ BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBraces: Custom
 BraceWrapping:
-  # clang 9.0 feature AfterCaseLabel:  false
+  AfterCaseLabel:  false
   AfterClass:      true
   AfterControlStatement: true
   AfterEnum:       true

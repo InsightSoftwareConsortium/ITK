@@ -265,7 +265,7 @@ protected:
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
 ImageScanlineConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
-  ->ImageScanlineConstIterator<std::remove_const_t<TImage>>;
+  -> ImageScanlineConstIterator<std::remove_const_t<TImage>>;
 
 } // end namespace itk
 

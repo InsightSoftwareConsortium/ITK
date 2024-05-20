@@ -58,7 +58,7 @@ TxtTransformIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOTransformInsightLegacy_EXPORT
-     TxtTransformIOFactoryRegister__Private()
+TxtTransformIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<TxtTransformIOFactory>();
 }

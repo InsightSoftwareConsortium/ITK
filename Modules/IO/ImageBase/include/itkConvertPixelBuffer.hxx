@@ -52,8 +52,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   switch (OutputConvertTraits::GetNumberOfComponents())
   {
     // output number of components is 1
-    case 1:
-    {
+    case 1: {
       switch (inputNumberOfComponents)
       {
         case 1:
@@ -72,8 +71,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
       break;
     }
     // handle the complex case
-    case 2:
-    {
+    case 2: {
       switch (inputNumberOfComponents)
       {
         case 1:
@@ -90,8 +88,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
     }
 
     // output number of components is 3 RGB
-    case 3:
-    {
+    case 3: {
       switch (inputNumberOfComponents)
       {
         case 1:
@@ -109,8 +106,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
       break;
     }
     // output number of components is 4 RGBA
-    case 4:
-    {
+    case 4: {
       switch (inputNumberOfComponents)
       {
         case 1:
@@ -128,8 +124,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
       break;
     }
     // output number of components is 6 (SymmetricSecondRankTensor)
-    case 6:
-    {
+    case 6: {
       switch (inputNumberOfComponents)
       {
         case 6:
@@ -145,8 +140,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
       }
       break;
     }
-    default:
-    {
+    default: {
       if (inputNumberOfComponents == static_cast<int>(OutputConvertTraits::GetNumberOfComponents()))
       {
         ConvertVectorToVector(inputData, inputNumberOfComponents, outputData, size);

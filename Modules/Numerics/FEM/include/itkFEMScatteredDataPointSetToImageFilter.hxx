@@ -473,8 +473,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
     switch (cell->GetType())
     {
-      case itk::CellGeometryEnum::TRIANGLE_CELL:
-      {
+      case itk::CellGeometryEnum::TRIANGLE_CELL: {
         auto triangleEle = FEM2DTriangleType::New();
 
         auto * triangleCell = static_cast<TriangleType *>(cell);
@@ -497,8 +496,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         break;
       }
 
-      case itk::CellGeometryEnum::TETRAHEDRON_CELL:
-      {
+      case itk::CellGeometryEnum::TETRAHEDRON_CELL: {
         auto tetrahedronEle = FEMTetrahedronType::New();
 
         auto * tetrahedron = static_cast<TetrahedronType *>(cell);
@@ -522,8 +520,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         break;
       }
 
-      case itk::CellGeometryEnum::QUADRILATERAL_CELL:
-      {
+      case itk::CellGeometryEnum::QUADRILATERAL_CELL: {
         auto quadrilateralEle = FEM2DQuadrilateralType::New();
 
         // use Cell and Ele to distinguish itk element and FEM element
@@ -548,8 +545,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         break;
       }
 
-      case itk::CellGeometryEnum::HEXAHEDRON_CELL:
-      {
+      case itk::CellGeometryEnum::HEXAHEDRON_CELL: {
         auto hexahedronEle = FEMHexahedronType::New();
 
         auto * hexahedron = static_cast<HexahedronType *>(cell);
@@ -573,8 +569,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         break;
       }
 
-      default:
-      {
+      default: {
         itkExceptionMacro("Do not support element type: " << cell->GetType());
         break;
       }

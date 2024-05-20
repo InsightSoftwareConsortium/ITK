@@ -73,7 +73,7 @@ public:
   DisplayText(const char *) override;
 
   static LRESULT APIENTRY
-                 WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+  WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 protected:
   Win32OutputWindow() = default;

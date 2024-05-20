@@ -138,8 +138,16 @@ public:
     ConstIterator(const Iterator & it)
       : m_Iterator(it.m_Iterator)
     {}
-    ConstIterator & operator*() { return *this; }
-    ConstIterator * operator->() { return this; }
+    ConstIterator &
+    operator*()
+    {
+      return *this;
+    }
+    ConstIterator *
+    operator->()
+    {
+      return this;
+    }
     ConstIterator &
     operator++()
     {
@@ -211,8 +219,16 @@ public:
     {}
     ~Iterator() = default;
 
-    Iterator & operator*() { return *this; }
-    Iterator * operator->() { return this; }
+    Iterator &
+    operator*()
+    {
+      return *this;
+    }
+    Iterator *
+    operator->()
+    {
+      return this;
+    }
 
     Iterator &
     operator++()

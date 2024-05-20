@@ -273,7 +273,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
         thinImage->SetPixel(*pixelsToDeleteIt, 0);
       }
     } // end step loop
-  }   // end noChange while loop
+  } // end noChange while loop
 
   itkDebugMacro("ComputeThinImage End");
 }

@@ -94,8 +94,8 @@ GetCastTypeName()
 // static_cast_is_well_defined function returns true if the result of the static cast is well defined
 // and false if the result is undefined.
 template <typename TInput, typename TOutput>
-static std::enable_if_t<std::is_integral_v<TOutput> && std::is_integral_v<TInput>, bool> static_cast_is_well_defined(
-  TInput)
+static std::enable_if_t<std::is_integral_v<TOutput> && std::is_integral_v<TInput>, bool>
+static_cast_is_well_defined(TInput)
 {
   return true; // casting from int to int types employes deterministic 2's complement behavior
 }
@@ -104,7 +104,7 @@ template <typename TInput, typename TOutput>
 static std::enable_if_t<std::is_floating_point_v<TOutput> &&
                           (std::is_floating_point_v<TInput> || std::is_integral_v<TInput>),
                         bool>
-  static_cast_is_well_defined(TInput)
+static_cast_is_well_defined(TInput)
 {
   return true; // Floating point to floating point static casts are always consistently defined.
 }

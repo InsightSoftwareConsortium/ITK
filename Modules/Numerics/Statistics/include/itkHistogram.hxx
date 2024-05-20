@@ -71,16 +71,16 @@ Histogram<TMeasurement, TFrequencyContainer>::GetSize(unsigned int dimension) co
 
 template <typename TMeasurement, typename TFrequencyContainer>
 auto
-Histogram<TMeasurement, TFrequencyContainer>::GetBinMin(unsigned int dimension, InstanceIdentifier nbin) const
-  -> const MeasurementType &
+Histogram<TMeasurement, TFrequencyContainer>::GetBinMin(unsigned int       dimension,
+                                                        InstanceIdentifier nbin) const -> const MeasurementType &
 {
   return m_Min[dimension][nbin];
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>
 auto
-Histogram<TMeasurement, TFrequencyContainer>::GetBinMax(unsigned int dimension, InstanceIdentifier nbin) const
-  -> const MeasurementType &
+Histogram<TMeasurement, TFrequencyContainer>::GetBinMax(unsigned int       dimension,
+                                                        InstanceIdentifier nbin) const -> const MeasurementType &
 {
   return m_Max[dimension][nbin];
 }
@@ -329,7 +329,7 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
       mid = begin + (end - begin) / 2;
       median = m_Min[dim][mid];
     } // end of while
-  }   // end of for()
+  } // end of for()
   return true;
 }
 
@@ -552,16 +552,16 @@ Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(const IndexType & ind
 
 template <typename TMeasurement, typename TFrequencyContainer>
 auto
-Histogram<TMeasurement, TFrequencyContainer>::GetMeasurement(InstanceIdentifier n, unsigned int dimension) const
-  -> MeasurementType
+Histogram<TMeasurement, TFrequencyContainer>::GetMeasurement(InstanceIdentifier n,
+                                                             unsigned int       dimension) const -> MeasurementType
 {
   return static_cast<MeasurementType>((m_Min[dimension][n] + m_Max[dimension][n]) / 2);
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>
 auto
-Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(InstanceIdentifier n, unsigned int dimension) const
-  -> AbsoluteFrequencyType
+Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(InstanceIdentifier n,
+                                                           unsigned int       dimension) const -> AbsoluteFrequencyType
 {
   InstanceIdentifier nextOffset = this->m_OffsetTable[dimension + 1];
   InstanceIdentifier current = this->m_OffsetTable[dimension] * n;

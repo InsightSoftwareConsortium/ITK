@@ -205,7 +205,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodStep()
         }
       }
     } // end left/right neighbor loop
-  }   // end check all neighbors
+  } // end check all neighbors
 
   // Now that all the potential neighbors have been
   // inserted we can get rid of the pixel in the front

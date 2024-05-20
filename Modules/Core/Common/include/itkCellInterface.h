@@ -30,7 +30,10 @@
 // to define the Accept and GetTopologyId virtuals used
 // by the MultiVisitor class
 #define itkCellVisitMacro(TopologyId)                                                                          \
-  static constexpr CellGeometryEnum GetTopologyId() { return TopologyId; }                                     \
+  static constexpr CellGeometryEnum GetTopologyId()                                                            \
+  {                                                                                                            \
+    return TopologyId;                                                                                         \
+  }                                                                                                            \
   virtual void Accept(CellIdentifier cellid, typename CellInterface<PixelType, CellTraits>::MultiVisitor * mv) \
     override                                                                                                   \
   {                                                                                                            \
@@ -381,7 +384,11 @@ public:
    * Array is ordered (xmin, xmax,  ymin, ymax, ....).  A pointer to the
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);". */
-  CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return nullptr; }
+  CoordRepType *
+  GetBoundingBox(CoordRepType[PointDimension * 2])
+  {
+    return nullptr;
+  }
 
   /** Compute the square of the diagonal length of the bounding box. */
   CoordRepType
@@ -402,11 +409,12 @@ public:
    *     (returned through "t" pointer).
    *
    * Returns whether an intersection exists. */
-  virtual bool IntersectBoundingBoxWithLine(CoordRepType[PointDimension * 2],
-                                            CoordRepType[PointDimension],
-                                            CoordRepType[PointDimension],
-                                            CoordRepType[PointDimension],
-                                            CoordRepType *)
+  virtual bool
+  IntersectBoundingBoxWithLine(CoordRepType[PointDimension * 2],
+                               CoordRepType[PointDimension],
+                               CoordRepType[PointDimension],
+                               CoordRepType[PointDimension],
+                               CoordRepType *)
   {
     return bool();
   }

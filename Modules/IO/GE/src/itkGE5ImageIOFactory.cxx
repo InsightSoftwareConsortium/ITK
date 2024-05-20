@@ -48,7 +48,7 @@ GE5ImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOGE_EXPORT
-     GE5ImageIOFactoryRegister__Private()
+GE5ImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<GE5ImageIOFactory>();
 }

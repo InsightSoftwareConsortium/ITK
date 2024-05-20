@@ -44,11 +44,11 @@ template <>
 const std::complex<short> NumericTraits<std::complex<short>>::One = std::complex<short>(1, 0);
 
 template <>
-const std::complex<unsigned short> NumericTraits<std::complex<unsigned short>>::Zero = std::complex<unsigned short>(0,
-                                                                                                                    0);
+const std::complex<unsigned short> NumericTraits<std::complex<unsigned short>>::Zero =
+  std::complex<unsigned short>(0, 0);
 template <>
-const std::complex<unsigned short> NumericTraits<std::complex<unsigned short>>::One = std::complex<unsigned short>(1,
-                                                                                                                   0);
+const std::complex<unsigned short> NumericTraits<std::complex<unsigned short>>::One =
+  std::complex<unsigned short>(1, 0);
 
 template <>
 const std::complex<int> NumericTraits<std::complex<int>>::Zero = std::complex<int>(0, 0);
@@ -66,11 +66,11 @@ template <>
 const std::complex<long> NumericTraits<std::complex<long>>::One = std::complex<long>(1L, 0L);
 
 template <>
-const std::complex<unsigned long> NumericTraits<std::complex<unsigned long>>::Zero = std::complex<unsigned long>(0UL,
-                                                                                                                 0UL);
+const std::complex<unsigned long> NumericTraits<std::complex<unsigned long>>::Zero =
+  std::complex<unsigned long>(0UL, 0UL);
 template <>
-const std::complex<unsigned long> NumericTraits<std::complex<unsigned long>>::One = std::complex<unsigned long>(1UL,
-                                                                                                                0UL);
+const std::complex<unsigned long> NumericTraits<std::complex<unsigned long>>::One =
+  std::complex<unsigned long>(1UL, 0UL);
 #endif // !defined(ITK_LEGACY_REMOVE)
 
 template <>

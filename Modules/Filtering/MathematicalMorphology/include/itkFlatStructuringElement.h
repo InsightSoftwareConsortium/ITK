@@ -237,9 +237,11 @@ private:
 
   template <typename TStructuringElement, typename TRadius>
   static void
-              GeneratePolygon(TStructuringElement & res, TRadius radius, unsigned int lines);
-  static void GeneratePolygon(itk::FlatStructuringElement<2> & res, itk::Size<2> radius, unsigned int lines);
-  static void GeneratePolygon(itk::FlatStructuringElement<3> & res, itk::Size<3> radius, unsigned int lines);
+  GeneratePolygon(TStructuringElement & res, TRadius radius, unsigned int lines);
+  static void
+  GeneratePolygon(itk::FlatStructuringElement<2> & res, itk::Size<2> radius, unsigned int lines);
+  static void
+  GeneratePolygon(itk::FlatStructuringElement<3> & res, itk::Size<3> radius, unsigned int lines);
 
   using LType2 = Vector<float, 2>;
 

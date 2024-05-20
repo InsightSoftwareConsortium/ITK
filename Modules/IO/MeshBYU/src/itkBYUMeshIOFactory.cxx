@@ -53,7 +53,7 @@ BYUMeshIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMeshBYU_EXPORT
-     BYUMeshIOFactoryRegister__Private()
+BYUMeshIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<BYUMeshIOFactory>();
 }

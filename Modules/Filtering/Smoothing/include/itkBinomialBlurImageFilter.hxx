@@ -227,8 +227,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
 
         ++tempReverseIt;
       } // end walk the image backwards
-    }   // end dimension loop
-  }     // end number of repetitions loop
+    } // end dimension loop
+  } // end number of repetitions loop
 
   // Now, copy the temporary image to the output image. Note that the temp
   // buffer iterator walks a region defined by the output

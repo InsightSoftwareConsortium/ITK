@@ -121,7 +121,7 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
     // return ( int ) ( IS_NEG ( x ) ? x - .5 : x + .5 );
     //}
     //
-    //#define IS_NEG( x ) ( ( x ) < -DBL_EPSILON )
+    // #define IS_NEG( x ) ( ( x ) < -DBL_EPSILON )
     //
 
     // Shift the mean by the minimum to have the range start at zero,

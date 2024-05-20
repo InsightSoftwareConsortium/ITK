@@ -80,7 +80,7 @@ public:
     itk::MultiResolutionImageRegistrationMethod<itk::Image<float, 3>, itk::Image<float, 3>>>;
 
   SimpleMultiResolutionImageRegistrationUI2(TRegistration * ptr)
-    : Superclass(ptr){};
+    : Superclass(ptr) {};
   ~SimpleMultiResolutionImageRegistrationUI2() override = default;
 
   void

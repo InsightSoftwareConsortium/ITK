@@ -47,7 +47,11 @@ public:
   {}
 
   /** Supports implicit conversion to `bool`. */
-  constexpr operator bool() const { return m_Value; }
+  constexpr
+  operator bool() const
+  {
+    return m_Value;
+  }
 
 private:
   bool m_Value = false;

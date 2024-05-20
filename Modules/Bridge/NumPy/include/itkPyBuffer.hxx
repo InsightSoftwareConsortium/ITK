@@ -70,8 +70,9 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 
 template <class TImage>
 auto
-PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent)
-  -> const OutputImagePointer
+PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr,
+                                         PyObject * shape,
+                                         PyObject * numOfComponent) -> const OutputImagePointer
 {
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;

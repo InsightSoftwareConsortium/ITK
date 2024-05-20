@@ -49,7 +49,7 @@ public:
 
 // Define how to print enumeration
 extern ITKRegionGrowing_EXPORT std::ostream &
-                               operator<<(std::ostream & out, const ConnectedThresholdImageFilterEnums::Connectivity value);
+operator<<(std::ostream & out, const ConnectedThresholdImageFilterEnums::Connectivity value);
 /**
  * \class ConnectedThresholdImageFilter
  * \brief Label pixels that are connected to a seed and lie within a range of values

@@ -28,8 +28,8 @@ const typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::Neig
 
 template <typename TImageType, typename TSparseImageType>
 const typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ScalarValueType
-  LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::m_DimConst = static_cast<ScalarValueType>(2.0 /
-                                                                                                         m_NumVertex);
+  LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::m_DimConst =
+    static_cast<ScalarValueType>(2.0 / m_NumVertex);
 
 template <typename TImageType, typename TSparseImageType>
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::LevelSetFunctionWithRefitTerm()
@@ -125,7 +125,7 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
           normalvector[j] -= neighborhood.GetPixel(positionP) * neighborhoodScales[j];
         }
       } // end counterP
-    }   // end derivative axis
+    } // end derivative axis
     normalvector = normalvector / (m_MinVectorNorm + normalvector.GetNorm());
     // add normal to curvature computation
     for (j = 0; j < TImageType::ImageDimension; ++j) // derivative axis
@@ -139,7 +139,7 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
         curvature += normalvector[j] * neighborhoodScales[j];
       }
     } // end derivative axis
-  }   // end counterN
+  } // end counterN
 
   curvature *= m_DimConst;
 

@@ -212,8 +212,9 @@ private:
   PointType3D
   ComputeCentroid(const LandmarkPointContainer);
 
-  void CreateMatrix(itk::Matrix<ParametersValueType, 4, 4> &,
-                    const itk::Matrix<ParametersValueType, ImageDimension, ImageDimension>);
+  void
+  CreateMatrix(itk::Matrix<ParametersValueType, 4, 4> &,
+               const itk::Matrix<ParametersValueType, ImageDimension, ImageDimension>);
 
   FixedImagePointer      m_ReferenceImage{};
   TransformPointer       m_Transform{};

@@ -201,21 +201,18 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // length cosine vector, reset the directions to identity.
   switch (m_DirectionCollaspeStrategy)
   {
-    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY:
-    {
+    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOIDENTITY: {
       outputDirection.SetIdentity();
     }
     break;
-    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX:
-    {
+    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOSUBMATRIX: {
       if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
       {
         itkExceptionMacro("Invalid submatrix extracted for collapsed direction.");
       }
     }
     break;
-    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS:
-    {
+    case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOGUESS: {
       if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
       {
         outputDirection.SetIdentity();
@@ -223,8 +220,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     }
     break;
     case TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
-    default:
-    {
+    default: {
       itkExceptionMacro(
         << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
         << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "

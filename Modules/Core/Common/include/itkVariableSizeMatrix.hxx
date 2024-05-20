@@ -31,7 +31,8 @@ VariableSizeMatrix<T>::VariableSizeMatrix(unsigned int rows, unsigned int cols)
  *  Product by a Vector
  */
 template <typename T>
-Array<T> VariableSizeMatrix<T>::operator*(const Array<T> & vect) const
+Array<T>
+VariableSizeMatrix<T>::operator*(const Array<T> & vect) const
 {
   unsigned int rows = this->Rows();
   unsigned int cols = this->Cols();
@@ -59,7 +60,8 @@ Array<T> VariableSizeMatrix<T>::operator*(const Array<T> & vect) const
  *  Product by a matrix
  */
 template <typename T>
-VariableSizeMatrix<T> VariableSizeMatrix<T>::operator*(const Self & matrix) const
+VariableSizeMatrix<T>
+VariableSizeMatrix<T>::operator*(const Self & matrix) const
 {
   if (this->Cols() != matrix.Rows())
   {
@@ -188,7 +190,8 @@ VariableSizeMatrix<T>::operator-()
  *  Product by a vnl_matrix
  */
 template <typename T>
-vnl_matrix<T> VariableSizeMatrix<T>::operator*(const vnl_matrix<T> & matrix) const
+vnl_matrix<T>
+VariableSizeMatrix<T>::operator*(const vnl_matrix<T> & matrix) const
 {
   return m_Matrix * matrix;
 }
@@ -217,7 +220,8 @@ VariableSizeMatrix<T>::operator*=(const vnl_matrix<T> & matrix)
  *  Product by a vnl_vector
  */
 template <typename T>
-vnl_vector<T> VariableSizeMatrix<T>::operator*(const vnl_vector<T> & vc) const
+vnl_vector<T>
+VariableSizeMatrix<T>::operator*(const vnl_vector<T> & vc) const
 {
   return m_Matrix * vc;
 }

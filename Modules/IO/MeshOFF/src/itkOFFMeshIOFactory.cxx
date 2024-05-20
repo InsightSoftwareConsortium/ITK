@@ -49,7 +49,7 @@ OFFMeshIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMeshOFF_EXPORT
-     OFFMeshIOFactoryRegister__Private()
+OFFMeshIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<OFFMeshIOFactory>();
 }

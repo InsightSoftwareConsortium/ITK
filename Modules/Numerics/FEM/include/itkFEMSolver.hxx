@@ -871,7 +871,7 @@ Solver<VDimension>::FillInterpolationGrid()
         iter.Set(e);
       }
     } // next point in region
-  }   // next element
+  } // next element
 }
 
 template <unsigned int VDimension>

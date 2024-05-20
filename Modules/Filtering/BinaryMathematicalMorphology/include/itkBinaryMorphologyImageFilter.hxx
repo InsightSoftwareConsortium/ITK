@@ -197,7 +197,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
           }
         }
       } // while ( !propagQueue.empty() )
-    }   // if( kernelImageItIndex.Get() )
+    } // if( kernelImageItIndex.Get() )
 
     ++kernelImageItIndex;
     ++kernel_it;
@@ -300,7 +300,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
         }
       }
     } // for( kernelOnElementsIt = kernelOnElements.begin(); ...
-  }   // for( ii = 0; ii < adjNeigh.Size(); ++ii )
+  } // for( ii = 0; ii < adjNeigh.Size(); ++ii )
 
   // For the particular case of the m_KernelDifferenceSets at the
   // center of the kernel ( the difference set is theoretically empty

@@ -27,7 +27,7 @@
 
 namespace itk
 {
-//#define ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING
+// #define ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING
 #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
 namespace
 {
@@ -404,7 +404,11 @@ public:
 
   operator nifti_image *() { return m_ptr; }
 
-  nifti_image * operator->() { return m_ptr; }
+  nifti_image *
+  operator->()
+  {
+    return m_ptr;
+  }
 };
 
 
@@ -1706,8 +1710,7 @@ NiftiImageIO::WriteImageInformation()
       this->m_NiftiImage->nbyper = 8;
       break;
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-    default:
-    {
+    default: {
       itkExceptionMacro("More than one component per pixel not supported");
     }
   }
@@ -1736,8 +1739,7 @@ NiftiImageIO::WriteImageInformation()
         case IOComponentEnum::DOUBLE:
           this->m_NiftiImage->datatype = NIFTI_TYPE_COMPLEX128;
           break;
-        default:
-        {
+        default: {
           itkExceptionMacro("Only float or double precision complex type supported");
         }
       }

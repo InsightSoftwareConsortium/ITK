@@ -156,7 +156,8 @@ public:
   operator-=(const Self & r);
 
   /** Arithmetic operations between tensors and scalars */
-  Self operator*(const RealValueType & r) const;
+  Self
+  operator*(const RealValueType & r) const;
 
   Self
   operator/(const RealValueType & r) const;

@@ -45,7 +45,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKFastMarching_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition value);
+operator<<(std::ostream & out, const FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition value);
 /**
  * \class FastMarchingReachedTargetNodesStoppingCriterion
  * \brief Stopping criterion for FastMarchingFilterBase.

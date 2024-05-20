@@ -44,7 +44,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKImageFeature_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod value);
+operator<<(std::ostream & out, const MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod value);
 
 /** \class MultiScaleHessianBasedMeasureImageFilter
  * \brief A filter to enhance structures using Hessian eigensystem-based

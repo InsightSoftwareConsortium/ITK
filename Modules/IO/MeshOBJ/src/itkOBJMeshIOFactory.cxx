@@ -49,7 +49,7 @@ OBJMeshIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMeshOBJ_EXPORT
-     OBJMeshIOFactoryRegister__Private()
+OBJMeshIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<OBJMeshIOFactory>();
 }

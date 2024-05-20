@@ -37,9 +37,17 @@ template <typename TNodeType>
 class ITK_TEMPLATE_EXPORT ConstSparseFieldLayerIterator
 {
 public:
-  const TNodeType & operator*() const { return *m_Pointer; }
+  const TNodeType &
+  operator*() const
+  {
+    return *m_Pointer;
+  }
 
-  const TNodeType * operator->() const { return m_Pointer; }
+  const TNodeType *
+  operator->() const
+  {
+    return m_Pointer;
+  }
 
   const TNodeType *
   GetPointer() const
@@ -104,9 +112,17 @@ public:
     : Superclass(p)
   {}
 
-  TNodeType & operator*() { return *this->m_Pointer; }
+  TNodeType &
+  operator*()
+  {
+    return *this->m_Pointer;
+  }
 
-  TNodeType * operator->() { return this->m_Pointer; }
+  TNodeType *
+  operator->()
+  {
+    return this->m_Pointer;
+  }
 
   TNodeType *
   GetPointer()

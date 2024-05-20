@@ -63,7 +63,11 @@ public:
   {}
 
   /** Overload operator ->.  */
-  ObjectType * operator->() const { return m_Pointer; }
+  ObjectType *
+  operator->() const
+  {
+    return m_Pointer;
+  }
 
   /** Return pointer to object.  */
   operator ObjectType *() const { return m_Pointer; }

@@ -292,28 +292,23 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::CollapsePhiLattice(Po
       RealType B = 0.0;
       switch (this->m_SplineOrder[dimension])
       {
-        case 0:
-        {
+        case 0: {
           B = this->m_KernelOrder0->Evaluate(v);
           break;
         }
-        case 1:
-        {
+        case 1: {
           B = this->m_KernelOrder1->Evaluate(v);
           break;
         }
-        case 2:
-        {
+        case 2: {
           B = this->m_KernelOrder2->Evaluate(v);
           break;
         }
-        case 3:
-        {
+        case 3: {
           B = this->m_KernelOrder3->Evaluate(v);
           break;
         }
-        default:
-        {
+        default: {
           B = this->m_Kernel[dimension]->Evaluate(v);
           break;
         }

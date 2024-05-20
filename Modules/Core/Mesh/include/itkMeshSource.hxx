@@ -37,7 +37,8 @@ MeshSource<TOutputMesh>::MeshSource()
 }
 
 template <typename TOutputMesh>
-typename MeshSource<TOutputMesh>::DataObjectPointer MeshSource<TOutputMesh>::MakeOutput(DataObjectPointerArraySizeType)
+typename MeshSource<TOutputMesh>::DataObjectPointer
+MeshSource<TOutputMesh>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return TOutputMesh::New().GetPointer();
 }

@@ -44,7 +44,7 @@ struct TrueType
   using Type = TrueType;
 
   static constexpr ValueType Value = true;
-                             operator ValueType() { return Value; }
+  operator ValueType() { return Value; }
 };
 
 /** borrowed from `<type_traits>`.
@@ -56,7 +56,7 @@ struct FalseType
   using ValueType = bool;
   using Type = FalseType;
   static constexpr ValueType Value = false;
-                             operator ValueType() { return Value; }
+  operator ValueType() { return Value; }
 };
 
 /** MPL \c if control-statement.

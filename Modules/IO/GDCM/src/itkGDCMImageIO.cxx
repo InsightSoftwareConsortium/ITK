@@ -643,8 +643,7 @@ GDCMImageIO::InternalReadImageInformation()
     case gdcm::MediaStorage::UltrasoundMultiFrameImageStorage:
     case gdcm::MediaStorage::UltrasoundImageStorage: // ??
     case gdcm::MediaStorage::UltrasoundImageStorageRetired:
-    case gdcm::MediaStorage::UltrasoundMultiFrameImageStorageRetired:
-    {
+    case gdcm::MediaStorage::UltrasoundMultiFrameImageStorageRetired: {
       std::vector<double> sp;
       gdcm::Tag           spacingTag(0x0028, 0x0030);
       if (ds.FindDataElement(spacingTag) && !ds.GetDataElement(spacingTag).IsEmpty())
@@ -679,8 +678,7 @@ GDCMImageIO::InternalReadImageInformation()
       spacing[2] = 1.0; // punt?
     }
     break;
-    default:
-    {
+    default: {
       const double * sp;
       sp = image.GetSpacing();
       spacing[0] = sp[0];

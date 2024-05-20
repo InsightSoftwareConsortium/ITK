@@ -44,7 +44,7 @@ GDCMImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOGDCM_EXPORT
-     GDCMImageIOFactoryRegister__Private()
+GDCMImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<GDCMImageIOFactory>();
 }

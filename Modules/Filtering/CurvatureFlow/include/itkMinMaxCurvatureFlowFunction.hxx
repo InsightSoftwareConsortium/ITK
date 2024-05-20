@@ -117,8 +117,8 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
 
 template <typename TImage>
 auto
-MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, const NeighborhoodType & it) const
-  -> PixelType
+MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &,
+                                                      const NeighborhoodType & it) const -> PixelType
 {
   PixelType threshold{};
 
@@ -214,8 +214,8 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
 
 template <typename TImage>
 auto
-MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<2> &, const NeighborhoodType & it) const
-  -> PixelType
+MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<2> &,
+                                                      const NeighborhoodType & it) const -> PixelType
 {
   constexpr unsigned int imageDimension = 2;
 
@@ -276,8 +276,8 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<2> &, const
 
 template <typename TImage>
 auto
-MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const NeighborhoodType & it) const
-  -> PixelType
+MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &,
+                                                      const NeighborhoodType & it) const -> PixelType
 {
   constexpr unsigned int imageDimension = 3;
 

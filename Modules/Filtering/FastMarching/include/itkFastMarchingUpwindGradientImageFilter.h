@@ -47,7 +47,7 @@ public:
 };
 /** Define how to print enumeration values. */
 extern ITKFastMarching_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const FastMarchingUpwindGradientImageFilterEnums::TargetCondition value);
+operator<<(std::ostream & out, const FastMarchingUpwindGradientImageFilterEnums::TargetCondition value);
 
 
 /**

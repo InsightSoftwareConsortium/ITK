@@ -461,7 +461,7 @@ extern ITKCommon_EXPORT std::ostream &
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const SpatialOrientationEnums::CoordinateMajornessTerms value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const SpatialOrientationEnums::ValidCoordinateOrientations value);
+operator<<(std::ostream & out, const SpatialOrientationEnums::ValidCoordinateOrientations value);
 
 #ifndef ITK_LEGACY_REMOVE
 namespace SpatialOrientation

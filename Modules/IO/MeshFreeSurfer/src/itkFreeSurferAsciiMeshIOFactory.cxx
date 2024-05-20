@@ -53,7 +53,7 @@ FreeSurferAsciiMeshIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMeshFreeSurfer_EXPORT
-     FreeSurferAsciiMeshIOFactoryRegister__Private()
+FreeSurferAsciiMeshIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<FreeSurferAsciiMeshIOFactory>();
 }

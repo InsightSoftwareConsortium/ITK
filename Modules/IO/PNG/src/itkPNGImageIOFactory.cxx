@@ -44,7 +44,7 @@ PNGImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOPNG_EXPORT
-     PNGImageIOFactoryRegister__Private()
+PNGImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<PNGImageIOFactory>();
 }

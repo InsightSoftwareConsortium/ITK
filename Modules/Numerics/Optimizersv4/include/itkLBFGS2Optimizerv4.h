@@ -519,11 +519,13 @@ private:
   /**
    * itkGradientDecentOptimizerv4Template specific non supported methods.
    */
-  void SetMinimumConvergenceValue(PrecisionType) override
+  void
+  SetMinimumConvergenceValue(PrecisionType) override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
   };
-  void SetConvergenceWindowSize(SizeValueType) override
+  void
+  SetConvergenceWindowSize(SizeValueType) override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
   };

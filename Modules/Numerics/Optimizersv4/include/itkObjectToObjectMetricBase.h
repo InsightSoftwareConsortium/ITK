@@ -59,9 +59,9 @@ public:
 };
 // Define how to print enumeration
 extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const ObjectToObjectMetricBaseTemplateEnums::GradientSource value);
+operator<<(std::ostream & out, const ObjectToObjectMetricBaseTemplateEnums::GradientSource value);
 extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const ObjectToObjectMetricBaseTemplateEnums::MetricCategory value);
+operator<<(std::ostream & out, const ObjectToObjectMetricBaseTemplateEnums::MetricCategory value);
 /**
  * \class ObjectToObjectMetricBaseTemplate
  * \brief Base class for all object-to-object similarity metrics added in ITKv4.

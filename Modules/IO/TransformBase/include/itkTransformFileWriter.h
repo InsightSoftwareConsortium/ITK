@@ -137,10 +137,10 @@ ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 /** Declare specializations */
 template <>
 void ITKIOTransformBase_TEMPLATE_EXPORT
-     TransformFileWriterTemplate<double>::PushBackTransformList(const Object * transObj);
+TransformFileWriterTemplate<double>::PushBackTransformList(const Object * transObj);
 template <>
 void ITKIOTransformBase_TEMPLATE_EXPORT
-     TransformFileWriterTemplate<float>::PushBackTransformList(const Object * transObj);
+TransformFileWriterTemplate<float>::PushBackTransformList(const Object * transObj);
 
 ITK_GCC_PRAGMA_DIAG_POP()
 

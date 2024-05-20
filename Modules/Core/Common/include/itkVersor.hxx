@@ -79,7 +79,8 @@ Versor<T>::operator*=(const Self & v)
 }
 
 template <typename T>
-Versor<T> Versor<T>::operator*(const Self & v) const
+Versor<T>
+Versor<T>::operator*(const Self & v) const
 {
   Self result;
 

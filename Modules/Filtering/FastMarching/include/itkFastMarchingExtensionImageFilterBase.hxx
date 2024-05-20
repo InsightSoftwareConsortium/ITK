@@ -166,7 +166,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
       ++pointsIter;
       ++auxIter;
     } // end container while
-  }   // if AuxAliveValues set
+  } // if AuxAliveValues set
 
   if (m_AuxiliaryTrialValues)
   {
@@ -190,7 +190,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
       ++pointsIter;
       ++auxIter;
     } // end container loop
-  }   // if AuxTrialValues set
+  } // if AuxTrialValues set
 }
 
 template <typename TInput, typename TOutput, typename TAuxValue, unsigned int VAuxDimension>

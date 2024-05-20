@@ -745,7 +745,7 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
       }
       foundMinMax = true;
     } // end for each pixel in the region
-  }   // end for each region
+  } // end for each region
   if (foundMinMax)
   {
     threadData.validNorms[0] = 1;
@@ -1143,8 +1143,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeLogMapAndWeigh
 
 template <typename TInputImage, typename TOutputImage>
 auto
-PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddEuclideanUpdate(const RealType & a, const RealType & b)
-  -> RealType
+PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddEuclideanUpdate(const RealType & a,
+                                                                              const RealType & b) -> RealType
 {
   RealType result = m_ZeroPixel;
 
@@ -1751,7 +1751,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
                                     (3.0 * distancePatchEntropySquared / pow(sigmaKernel, 4.0)));
         }
       } // end for each independent pixel component
-    }   // end for each selected patch
+    } // end for each selected patch
 
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
     {
@@ -1786,8 +1786,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
                                              itk::Math::sqr(probPatchEntropyFirstDerivative[ic] / probPatchEntropy[ic]);
         }
       } // end if independent component hasn't converged yet
-    }   // end for each independent component
-  }     // end for each pixel in the sample
+    } // end for each independent component
+  } // end for each pixel in the sample
 
   for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
   {
@@ -2030,13 +2030,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
         const PixelType out = outputIt.Get();
         switch (this->GetNoiseModel())
         {
-          case Superclass::NoiseModelEnum::NOMODEL:
-          {
+          case Superclass::NoiseModelEnum::NOMODEL: {
             // Do nothing
             break;
           }
-          case Superclass::NoiseModelEnum::GAUSSIAN:
-          {
+          case Superclass::NoiseModelEnum::GAUSSIAN: {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
               const RealValueType gradientFidelity = 2.0 * (this->GetComponent(in, pc) - this->GetComponent(out, pc));
@@ -2046,8 +2044,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
             }
             break;
           }
-          case Superclass::NoiseModelEnum::RICIAN:
-          {
+          case Superclass::NoiseModelEnum::RICIAN: {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
               const PixelValueType inVal = this->GetComponent(in, pc);
@@ -2066,8 +2063,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
             }
             break;
           }
-          case Superclass::NoiseModelEnum::POISSON:
-          {
+          case Superclass::NoiseModelEnum::POISSON: {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
               const PixelValueType inVal = this->GetComponent(in, pc);
@@ -2084,8 +2080,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
             }
             break;
           }
-          default:
-          {
+          default: {
             itkExceptionMacro("Unexpected noise model " << this->GetNoiseModel() << " specified.");
             break;
           }
@@ -2110,7 +2105,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
 
       progress.CompletedPixel();
     } // end for each pixel in the sample
-  }   // end for each face in the face list
+  } // end for each face in the face list
   return threadData;
 }
 

@@ -96,7 +96,7 @@ BoundaryResolver<TPixelType, TDimension>::GenerateOutputRequestedRegion(DataObje
 
 template <typename TPixelType, unsigned int TDimension>
 typename BoundaryResolver<TPixelType, TDimension>::DataObjectPointer
-  BoundaryResolver<TPixelType, TDimension>::MakeOutput(DataObjectPointerArraySizeType)
+BoundaryResolver<TPixelType, TDimension>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return EquivalencyTable::New().GetPointer();
 }

@@ -75,7 +75,7 @@ SampleToHistogramFilter<TSample, THistogram>::GraftOutput(DataObject * graft)
 
 template <typename TSample, typename THistogram>
 typename SampleToHistogramFilter<TSample, THistogram>::DataObjectPointer
-  SampleToHistogramFilter<TSample, THistogram>::MakeOutput(DataObjectPointerArraySizeType)
+SampleToHistogramFilter<TSample, THistogram>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return HistogramType::New().GetPointer();
 }

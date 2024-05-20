@@ -396,7 +396,8 @@ VTKImageIO::ReadHeaderSize(std::ifstream & file)
         file.seekg(pos);
       }
       else
-      {}
+      {
+      }
     } // found scalars
   }
 
@@ -467,15 +468,13 @@ VTKImageIO::ReadBufferAsASCII(std::istream &              is,
 
     switch (ctype)
     {
-      case IOComponentEnum::FLOAT:
-      {
+      case IOComponentEnum::FLOAT: {
         auto * buf = static_cast<float *>(buffer);
         ReadTensorBuffer(is, buf, numComp);
       }
       break;
 
-      case IOComponentEnum::DOUBLE:
-      {
+      case IOComponentEnum::DOUBLE: {
         auto * buf = static_cast<double *>(buffer);
         ReadTensorBuffer(is, buf, numComp);
       }
@@ -786,16 +785,14 @@ VTKImageIO::WriteBufferAsASCII(std::ostream &              os,
   {
     switch (ctype)
     {
-      case IOComponentEnum::FLOAT:
-      {
+      case IOComponentEnum::FLOAT: {
         using Type = const float *;
         auto buf = static_cast<Type>(buffer);
         WriteTensorBuffer(os, buf, numComp, this->GetNumberOfComponents());
       }
       break;
 
-      case IOComponentEnum::DOUBLE:
-      {
+      case IOComponentEnum::DOUBLE: {
         using Type = const double *;
         auto buf = static_cast<Type>(buffer);
         WriteTensorBuffer(os, buf, numComp, this->GetNumberOfComponents());
@@ -864,8 +861,7 @@ VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream &                 os
 
   switch (this->GetNumberOfComponents())
   {
-    case 3:
-    {
+    case 3: {
       pixelSize = componentSize * 3;
       while (bytesRemaining)
       {
@@ -884,8 +880,7 @@ VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream &                 os
 
       break;
     }
-    case 6:
-    {
+    case 6: {
       pixelSize = componentSize * 6;
       while (bytesRemaining)
       {

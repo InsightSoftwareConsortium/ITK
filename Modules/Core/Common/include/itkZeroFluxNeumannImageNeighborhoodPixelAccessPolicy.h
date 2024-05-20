@@ -67,9 +67,9 @@ private:
   GetClampedIndexValue(const IndexValueType indexValue, const ImageSizeValueType imageSizeValue) noexcept
   {
     return (indexValue <= 0) ? 0
-                             : (static_cast<ImageSizeValueType>(indexValue) < imageSizeValue)
-                                 ? indexValue
-                                 : static_cast<IndexValueType>(imageSizeValue - 1);
+           : (static_cast<ImageSizeValueType>(indexValue) < imageSizeValue)
+             ? indexValue
+             : static_cast<IndexValueType>(imageSizeValue - 1);
   }
 
   // Private helper function. Calculates and returns the index value of the

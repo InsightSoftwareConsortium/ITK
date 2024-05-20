@@ -96,13 +96,13 @@ LightObject::operator new[](size_t n)
 void
 LightObject::operator delete(void * m)
 {
-  delete[](char *) m;
+  delete[] (char *)m;
 }
 
 void
 LightObject::operator delete[](void * m, size_t)
 {
-  delete[](char *) m;
+  delete[] (char *)m;
 }
 
 #endif

@@ -104,7 +104,11 @@ public:
   /**
    * Easy access to members of stored object
    */
-  typename T::Pointer operator->() const { return m_Data; }
+  typename T::Pointer
+  operator->() const
+  {
+    return m_Data;
+  }
 
   /**
    * Dereferencing operator provides automatic conversion from

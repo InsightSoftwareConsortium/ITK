@@ -302,20 +302,16 @@ ColorTable<TComponent>::GetColorComponent(unsigned int c, char rgb)
   {
     switch (rgb)
     {
-      case 'r':
-      {
+      case 'r': {
         return m_Color[c][0];
       }
-      case 'g':
-      {
+      case 'g': {
         return m_Color[c][1];
       }
-      case 'b':
-      {
+      case 'b': {
         return m_Color[c][2];
       }
-      default:
-      {
+      default: {
         return 0;
       }
     }

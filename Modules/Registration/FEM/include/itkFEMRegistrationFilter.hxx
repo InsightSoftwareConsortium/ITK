@@ -765,7 +765,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
           }
         }
       } // end of for loops
-    }   // end of elt array loop
+    } // end of elt array loop
   }
 
   // Ensure that the values are exact at the nodes. They won't necessarily be unless we use this code.

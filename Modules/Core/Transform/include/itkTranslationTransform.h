@@ -253,7 +253,7 @@ protected:
 private:
   JacobianType     m_IdentityJacobian{};
   OutputVectorType m_Offset{}; // Offset of the transformation
-};                             // class TranslationTransform
+}; // class TranslationTransform
 
 // Back transform a point
 template <typename TParametersValueType, unsigned int VDimension>

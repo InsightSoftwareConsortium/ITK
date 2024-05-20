@@ -57,7 +57,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKRegistrationMethodsv4_EXPORT std::ostream &
-                                       operator<<(std::ostream & out, const ImageRegistrationMethodv4Enums::MetricSamplingStrategy value);
+operator<<(std::ostream & out, const ImageRegistrationMethodv4Enums::MetricSamplingStrategy value);
 
 /** \class ImageRegistrationMethodv4
  * \brief Interface method for the current registration framework.

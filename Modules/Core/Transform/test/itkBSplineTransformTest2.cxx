@@ -232,18 +232,15 @@ itkBSplineTransformTest2(int argc, char * argv[])
 
   switch (splineOrder)
   {
-    case 1:
-    {
+    case 1: {
       status |= BSplineTransformTest2Helper<1>::RunTest(argc, argv);
       break;
     }
-    case 2:
-    {
+    case 2: {
       status |= BSplineTransformTest2Helper<2>::RunTest(argc, argv);
       break;
     }
-    case 3:
-    {
+    case 3: {
       status |= BSplineTransformTest2Helper<3>::RunTest(argc, argv);
       break;
     }

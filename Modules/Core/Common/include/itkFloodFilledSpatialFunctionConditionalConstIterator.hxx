@@ -51,8 +51,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
   switch (m_InclusionStrategy)
   {
     // Origin
-    case 0:
-    {
+    case 0: {
       // Get the physical location of this index
       this->m_Image->TransformIndexToPhysicalPoint(index, position);
 
@@ -62,8 +61,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
     break;
 
     // Center
-    case 1:
-    {
+    case 1: {
       // The center of the pixel is the index provided in the function
       // call converted to a continuous index with an offset of 0.5
       // along each dimension
@@ -83,8 +81,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
     break;
 
     // Complete
-    case 2:
-    {
+    case 2: {
       // This is unfortunately a little complicated...
       // We want to examine whether or not all of the corners of this pixel
       // are within the spatial function. For a pixel at (0,0) with a spacing
@@ -147,8 +144,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
     break;
 
     // Intersect
-    case 3:
-    {
+    case 3: {
       // The notes for the previous case apply here as well
       // The only difference is that we return true if any of the
       // generated indices are true

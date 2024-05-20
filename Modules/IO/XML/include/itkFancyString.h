@@ -213,18 +213,18 @@ private:
 /////////////////////////////////////////////////////////////////////////////
 
 bool ITKIOXML_EXPORT
-     operator!=(itk::FancyString & s, const std::string &);
+operator!=(itk::FancyString & s, const std::string &);
 bool ITKIOXML_EXPORT
-     operator!=(itk::FancyString & s, const char *);
+operator!=(itk::FancyString & s, const char *);
 bool ITKIOXML_EXPORT
-     operator!=(itk::FancyString & s, const itk::FancyString &);
+operator!=(itk::FancyString & s, const itk::FancyString &);
 
 bool ITKIOXML_EXPORT
-     operator==(itk::FancyString & s, const std::string &);
+operator==(itk::FancyString & s, const std::string &);
 bool ITKIOXML_EXPORT
-     operator==(itk::FancyString & s, const char *);
+operator==(itk::FancyString & s, const char *);
 bool ITKIOXML_EXPORT
-     operator==(itk::FancyString & s, const itk::FancyString &);
+operator==(itk::FancyString & s, const itk::FancyString &);
 
 namespace itk
 {

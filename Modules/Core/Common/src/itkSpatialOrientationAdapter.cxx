@@ -71,21 +71,18 @@ SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
 
     switch (max_c)
     {
-      case 0:
-      {
+      case 0: {
         // When the dominant axis sign is positive, assign the coordinate for the direction we are increasing away from.
         terms[max_r] =
           (max_sgn == 1) ? SpatialOrientationTerms::ITK_COORDINATE_Right : SpatialOrientationTerms::ITK_COORDINATE_Left;
         break;
       }
-      case 1:
-      {
+      case 1: {
         terms[max_r] = (max_sgn == 1) ? SpatialOrientationTerms::ITK_COORDINATE_Anterior
                                       : SpatialOrientationTerms::ITK_COORDINATE_Posterior;
         break;
       }
-      case 2:
-      {
+      case 2: {
         terms[max_r] = (max_sgn == 1) ? SpatialOrientationTerms::ITK_COORDINATE_Inferior
                                       : SpatialOrientationTerms::ITK_COORDINATE_Superior;
         break;

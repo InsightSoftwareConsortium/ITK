@@ -1060,8 +1060,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Initiali
 
   switch (m_TraversalDirection)
   {
-    case TraversalDirectionEnum::TRANSVERSE_IN_X:
-    {
+    case TraversalDirectionEnum::TRANSVERSE_IN_X: {
       if ((Ix >= 0) && (Ix < m_NumberOfVoxelsInX) && (Iy >= 0) && (Iy + 1 < m_NumberOfVoxelsInY) && (Iz >= 0) &&
           (Iz + 1 < m_NumberOfVoxelsInZ))
       {
@@ -1093,8 +1092,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Initiali
       break;
     }
 
-    case TraversalDirectionEnum::TRANSVERSE_IN_Y:
-    {
+    case TraversalDirectionEnum::TRANSVERSE_IN_Y: {
       if ((Ix >= 0) && (Ix + 1 < m_NumberOfVoxelsInX) && (Iy >= 0) && (Iy < m_NumberOfVoxelsInY) && (Iz >= 0) &&
           (Iz + 1 < m_NumberOfVoxelsInZ))
       {
@@ -1126,8 +1124,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Initiali
       break;
     }
 
-    case TraversalDirectionEnum::TRANSVERSE_IN_Z:
-    {
+    case TraversalDirectionEnum::TRANSVERSE_IN_Z: {
       if ((Ix >= 0) && (Ix + 1 < m_NumberOfVoxelsInX) && (Iy >= 0) && (Iy + 1 < m_NumberOfVoxelsInY) && (Iz >= 0) &&
           (Iz < m_NumberOfVoxelsInZ))
       {
@@ -1159,8 +1156,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Initiali
       break;
     }
 
-    default:
-    {
+    default: {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
       err.SetDescription("The ray traversal direction is unset "
@@ -1224,26 +1220,22 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::GetCurre
 
   switch (m_TraversalDirection)
   {
-    case TraversalDirectionEnum::TRANSVERSE_IN_X:
-    {
+    case TraversalDirectionEnum::TRANSVERSE_IN_X: {
       y = m_Position3Dvox[1].GetSum() - std::floor(m_Position3Dvox[1].GetSum());
       z = m_Position3Dvox[2].GetSum() - std::floor(m_Position3Dvox[2].GetSum());
       break;
     }
-    case TraversalDirectionEnum::TRANSVERSE_IN_Y:
-    {
+    case TraversalDirectionEnum::TRANSVERSE_IN_Y: {
       y = m_Position3Dvox[0].GetSum() - std::floor(m_Position3Dvox[0].GetSum());
       z = m_Position3Dvox[2].GetSum() - std::floor(m_Position3Dvox[2].GetSum());
       break;
     }
-    case TraversalDirectionEnum::TRANSVERSE_IN_Z:
-    {
+    case TraversalDirectionEnum::TRANSVERSE_IN_Z: {
       y = m_Position3Dvox[0].GetSum() - std::floor(m_Position3Dvox[0].GetSum());
       z = m_Position3Dvox[1].GetSum() - std::floor(m_Position3Dvox[1].GetSum());
       break;
     }
-    default:
-    {
+    default: {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
       err.SetDescription("The ray traversal direction is unset "

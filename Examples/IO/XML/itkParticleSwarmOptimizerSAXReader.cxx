@@ -282,7 +282,7 @@ ParticleSwarmOptimizerSAXReader::ProcessBoundAttributes(
         }
       }
     } // end if
-  }   // end for
+  } // end for
 }
 
 /** Search for and return a particular attribute from the attribute list. */

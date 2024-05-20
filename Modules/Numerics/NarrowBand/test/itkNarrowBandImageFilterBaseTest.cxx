@@ -77,9 +77,9 @@ protected:
     typename ImageType::IndexType  tl = this->GetInput()->GetRequestedRegion().GetIndex();
     typename Superclass::IndexType in;
 
-    for (in [0] = 32 + tl[0]; in[0] < tl[0] + static_cast<long>(sz[0]); in[0]++)
+    for (in[0] = 32 + tl[0]; in[0] < tl[0] + static_cast<long>(sz[0]); in[0]++)
     {
-      for (in [1] = tl[1] + 32; in[1] < tl[1] + static_cast<long>(sz[1]); in[1]++)
+      for (in[1] = tl[1] + 32; in[1] < tl[1] + static_cast<long>(sz[1]); in[1]++)
       {
         this->InsertNarrowBandNode(in);
       }

@@ -235,8 +235,8 @@ private:
   bool m_SquaredDistance{};
   bool m_UseImageSpacing{ true };
   bool m_InsideIsPositive{}; // ON is treated as inside pixels
-};                           // end of SignedDanielssonDistanceMapImageFilter
-                             // class
+}; // end of SignedDanielssonDistanceMapImageFilter
+   // class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

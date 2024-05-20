@@ -114,7 +114,7 @@ EquivalenceRelabeler<TScalar, TImageDimension>::PrintSelf(std::ostream & os, Ind
 
 template <typename TScalar, unsigned int TImageDimension>
 typename EquivalenceRelabeler<TScalar, TImageDimension>::DataObjectPointer
-  EquivalenceRelabeler<TScalar, TImageDimension>::MakeOutput(DataObjectPointerArraySizeType)
+EquivalenceRelabeler<TScalar, TImageDimension>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return ImageType::New().GetPointer();
 }

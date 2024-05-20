@@ -53,7 +53,7 @@ FreeSurferBinaryMeshIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMeshFreeSurfer_EXPORT
-     FreeSurferBinaryMeshIOFactoryRegister__Private()
+FreeSurferBinaryMeshIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<FreeSurferBinaryMeshIOFactory>();
 }

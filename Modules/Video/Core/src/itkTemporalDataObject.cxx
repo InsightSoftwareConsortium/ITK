@@ -210,16 +210,13 @@ TemporalDataObject::RequestedRegionIsOutsideOfTheBufferedRegion()
 
   switch (m_TemporalUnit)
   {
-    case TemporalUnitEnum::Frame:
-    {
+    case TemporalUnitEnum::Frame: {
       return frameFlag;
     }
-    case TemporalUnitEnum::RealTime:
-    {
+    case TemporalUnitEnum::RealTime: {
       return realTimeFlag;
     }
-    case TemporalUnitEnum::FrameAndRealTime:
-    {
+    case TemporalUnitEnum::FrameAndRealTime: {
       return frameFlag || realTimeFlag;
     }
     default:
@@ -239,16 +236,13 @@ TemporalDataObject::VerifyRequestedRegion()
   realTimeFlag &= m_RequestedTemporalRegion.GetRealDuration() <= m_LargestPossibleTemporalRegion.GetRealDuration();
   switch (m_TemporalUnit)
   {
-    case TemporalUnitEnum::Frame:
-    {
+    case TemporalUnitEnum::Frame: {
       return frameFlag;
     }
-    case TemporalUnitEnum::RealTime:
-    {
+    case TemporalUnitEnum::RealTime: {
       return realTimeFlag;
     }
-    case TemporalUnitEnum::FrameAndRealTime:
-    {
+    case TemporalUnitEnum::FrameAndRealTime: {
       return frameFlag && realTimeFlag;
     }
     default:

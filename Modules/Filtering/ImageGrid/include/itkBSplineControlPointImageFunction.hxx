@@ -205,28 +205,23 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTy
       CoordRepType B = 1.0;
       switch (this->m_SplineOrder[i])
       {
-        case 0:
-        {
+        case 0: {
           B = this->m_KernelOrder0->Evaluate(u);
           break;
         }
-        case 1:
-        {
+        case 1: {
           B = this->m_KernelOrder1->Evaluate(u);
           break;
         }
-        case 2:
-        {
+        case 2: {
           B = this->m_KernelOrder2->Evaluate(u);
           break;
         }
-        case 3:
-        {
+        case 3: {
           B = this->m_KernelOrder3->Evaluate(u);
           break;
         }
-        default:
-        {
+        default: {
           B = this->m_Kernel[i]->Evaluate(u);
           break;
         }
@@ -369,28 +364,23 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradient(const
         {
           switch (this->m_SplineOrder[i])
           {
-            case 0:
-            {
+            case 0: {
               B = this->m_KernelOrder0->Evaluate(u);
               break;
             }
-            case 1:
-            {
+            case 1: {
               B = this->m_KernelOrder1->Evaluate(u);
               break;
             }
-            case 2:
-            {
+            case 2: {
               B = this->m_KernelOrder2->Evaluate(u);
               break;
             }
-            case 3:
-            {
+            case 3: {
               B = this->m_KernelOrder3->Evaluate(u);
               break;
             }
-            default:
-            {
+            default: {
               B = this->m_Kernel[i]->Evaluate(u);
               break;
             }
@@ -544,28 +534,23 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessian(const 
           {
             switch (this->m_SplineOrder[i])
             {
-              case 0:
-              {
+              case 0: {
                 B = this->m_KernelOrder0->Evaluate(u);
                 break;
               }
-              case 1:
-              {
+              case 1: {
                 B = this->m_KernelOrder1->Evaluate(u);
                 break;
               }
-              case 2:
-              {
+              case 2: {
                 B = this->m_KernelOrder2->Evaluate(u);
                 break;
               }
-              case 3:
-              {
+              case 3: {
                 B = this->m_KernelOrder3->Evaluate(u);
                 break;
               }
-              default:
-              {
+              default: {
                 B = this->m_Kernel[i]->Evaluate(u);
                 break;
               }

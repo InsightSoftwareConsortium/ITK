@@ -121,12 +121,14 @@ public:
   // cannot be exported. This causes problems when building DLL's.
   // Here we inherit privately from std::map and provide a simple
   // API. The implementation will be in the DLL.
-  MetaDataObjectBase::Pointer & operator[](const std::string &);
+  MetaDataObjectBase::Pointer &
+  operator[](const std::string &);
 
   // \brief Get a constant point to a DataObject
   //
   // If the key does not exist then nullptr is returned.
-  const MetaDataObjectBase * operator[](const std::string &) const;
+  const MetaDataObjectBase *
+  operator[](const std::string &) const;
 
   const MetaDataObjectBase *
   Get(const std::string &) const;

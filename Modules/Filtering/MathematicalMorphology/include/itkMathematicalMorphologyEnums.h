@@ -50,7 +50,7 @@ public:
 
 /** Define how to print enumeration values. */
 extern ITKMathematicalMorphology_EXPORT std::ostream &
-                                        operator<<(std::ostream & out, const MathematicalMorphologyEnums::Algorithm value);
+operator<<(std::ostream & out, const MathematicalMorphologyEnums::Algorithm value);
 
 } // end namespace itk
 

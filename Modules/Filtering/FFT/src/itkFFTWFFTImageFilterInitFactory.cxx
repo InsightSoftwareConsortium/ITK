@@ -60,7 +60,7 @@ FFTWFFTImageFilterInitFactory::RegisterFactories()
 // DO NOT CALL DIRECTLY.
 // TODO CMake parsing currently does not allow "InitFactory"
 void ITKFFT_EXPORT
-     FFTWFFTImageFilterInitFactoryRegister__Private()
+FFTWFFTImageFilterInitFactoryRegister__Private()
 {
   FFTWFFTImageFilterInitFactory::RegisterFactories();
 }

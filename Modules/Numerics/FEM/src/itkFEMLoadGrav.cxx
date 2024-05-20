@@ -49,7 +49,8 @@ LoadGravConst::CreateAnother() const
   return smartPtr;
 }
 
-vnl_vector<Element::Float> LoadGravConst::GetGravitationalForceAtPoint(vnl_vector<Element::Float>)
+vnl_vector<Element::Float>
+LoadGravConst::GetGravitationalForceAtPoint(vnl_vector<Element::Float>)
 {
   return m_GravityForce;
 }

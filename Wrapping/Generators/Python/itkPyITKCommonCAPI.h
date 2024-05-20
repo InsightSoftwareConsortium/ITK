@@ -51,7 +51,7 @@ extern "C"
   /* This section is used when compiling ITKCommonPython.cpp */
 
   static _ITKCommonPython_GetGlobalSingletonIndex_RETURN _ITKCommonPython_GetInstance
-                                                         _ITKCommonPython_GetGlobalSingletonIndex_PROTO;
+    _ITKCommonPython_GetGlobalSingletonIndex_PROTO;
 
 #else
 /* This section is used in modules that use _ITKCommonPython's C API */

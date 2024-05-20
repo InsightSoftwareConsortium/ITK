@@ -37,8 +37,7 @@ ShapePositionLabelMapFilter<TImage>::ThreadedProcessLabelObject(LabelObjectType 
 {
   switch (m_Attribute)
   {
-    case LabelObjectType::CENTROID:
-    {
+    case LabelObjectType::CENTROID: {
       using AccessorType = typename Functor::CentroidLabelObjectAccessor<LabelObjectType>;
       AccessorType accessor;
       this->TemplatedThreadedProcessLabelObject(accessor, true, labelObject);

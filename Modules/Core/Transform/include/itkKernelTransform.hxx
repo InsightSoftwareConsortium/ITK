@@ -79,7 +79,7 @@ KernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorTyp
 
 template <typename TParametersValueType, unsigned int VDimension>
 const typename KernelTransform<TParametersValueType, VDimension>::GMatrixType &
-  KernelTransform<TParametersValueType, VDimension>::ComputeReflexiveG(PointsIterator) const
+KernelTransform<TParametersValueType, VDimension>::ComputeReflexiveG(PointsIterator) const
 {
   m_GMatrix.fill(TParametersValueType{});
   m_GMatrix.fill_diagonal(m_Stiffness);

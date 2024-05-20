@@ -42,7 +42,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer value);
+operator<<(std::ostream & out, const GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer value);
 
 /** \class GradientDescentOptimizer
  * \brief Implement a gradient descent optimizer
@@ -192,7 +192,7 @@ private:
 
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionGradientDescentOptimizerEnum value);
+operator<<(std::ostream & out, const GradientDescentOptimizer::StopConditionGradientDescentOptimizerEnum value);
 
 } // end namespace itk
 

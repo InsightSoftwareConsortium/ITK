@@ -326,13 +326,11 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeTransform()
   switch (this->m_TransformType)
   {
     default:
-    case BorderTransformEnum::SQUARE_BORDER_TRANSFORM:
-    {
+    case BorderTransformEnum::SQUARE_BORDER_TRANSFORM: {
       this->ArcLengthSquareTransform();
       break;
     }
-    case BorderTransformEnum::DISK_BORDER_TRANSFORM:
-    {
+    case BorderTransformEnum::DISK_BORDER_TRANSFORM: {
       this->DiskTransform();
       break;
     }

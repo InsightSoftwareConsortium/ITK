@@ -47,7 +47,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKPDEDeformableRegistration_EXPORT std::ostream &
-                                           operator<<(std::ostream & out, const ESMDemonsRegistrationFunctionEnums::Gradient value);
+operator<<(std::ostream & out, const ESMDemonsRegistrationFunctionEnums::Gradient value);
 /**
  * \class ESMDemonsRegistrationFunction
  *

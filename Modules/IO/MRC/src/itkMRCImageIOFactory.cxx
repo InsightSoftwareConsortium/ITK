@@ -54,7 +54,7 @@ MRCImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMRC_EXPORT
-     MRCImageIOFactoryRegister__Private()
+MRCImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<MRCImageIOFactory>();
 }

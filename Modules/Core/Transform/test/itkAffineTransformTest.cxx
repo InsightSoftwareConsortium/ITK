@@ -556,7 +556,7 @@ itkAffineTransformTest(int, char *[])
   std::cout << jaffJacobian << std::endl;
 
   double                     data[] = { 5, 10, 15, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,  0,  5, 10, 15,
-                    0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
+                                        0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
   vnl_matrix<double>         vnlData(data, 3, 12);
   Affine3DType::JacobianType expectedJacobian(vnlData);
   for (unsigned int i = 0; i < 3; ++i)

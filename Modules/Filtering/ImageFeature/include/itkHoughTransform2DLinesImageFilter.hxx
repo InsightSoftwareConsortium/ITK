@@ -64,9 +64,9 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GenerateOut
   // Compute the size of the output image
   Size<2> size;
 
-  size[0] = (SizeValueType)(
-    std::sqrt(m_AngleResolution * m_AngleResolution +
-              input->GetLargestPossibleRegion().GetSize()[0] * input->GetLargestPossibleRegion().GetSize()[0]));
+  size[0] = (SizeValueType)(std::sqrt(m_AngleResolution * m_AngleResolution +
+                                      input->GetLargestPossibleRegion().GetSize()[0] *
+                                        input->GetLargestPossibleRegion().GetSize()[0]));
   size[1] = (SizeValueType)m_AngleResolution;
   const typename InputImageType::RegionType region(input->GetLargestPossibleRegion().GetIndex(), size);
 

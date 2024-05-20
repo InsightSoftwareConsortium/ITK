@@ -54,7 +54,7 @@ BioRadImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOBioRad_EXPORT
-     BioRadImageIOFactoryRegister__Private()
+BioRadImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<BioRadImageIOFactory>();
 }

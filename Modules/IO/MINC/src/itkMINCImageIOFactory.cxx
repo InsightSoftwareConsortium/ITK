@@ -44,7 +44,7 @@ MINCImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOMINC_EXPORT
-     MINCImageIOFactoryRegister__Private()
+MINCImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<MINCImageIOFactory>();
 }

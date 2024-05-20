@@ -69,8 +69,7 @@ TriangleCell<TCellInterface>::GetBoundaryFeature(int                   dimension
 {
   switch (dimension)
   {
-    case 0:
-    {
+    case 0: {
       VertexAutoPointer vertexPointer;
       if (this->GetVertex(featureId, vertexPointer))
       {
@@ -79,8 +78,7 @@ TriangleCell<TCellInterface>::GetBoundaryFeature(int                   dimension
       }
       break;
     }
-    case 1:
-    {
+    case 1: {
       EdgeAutoPointer edgePointer;
       if (this->GetEdge(featureId, edgePointer))
       {

@@ -150,7 +150,8 @@ ExampleImageFilter<TInputImage, TOutputImage>::Execute(const DispatchBase &)
  * instantiation.
  */
 template <typename TInputImage, typename TOutputImage>
-void ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<2>)
+void
+ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<2>)
 {
   std::cout << "2d-specific Execute() has been called." << std::endl;
 
@@ -170,7 +171,8 @@ void ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<2>)
  * instantiation.
  */
 template <typename TInputImage, typename TOutputImage>
-void ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<3>)
+void
+ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<3>)
 {
   std::cout << "3d-specific Execute() has been called." << std::endl;
 
@@ -190,7 +192,8 @@ void ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<3>)
  * fail to compile.
  */
 template <typename TInputImage, typename TOutputImage>
-void ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<0>)
+void
+ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<0>)
 {
   // this_should_not_have_been_instantiated();
   throw std::string("The 0-Dispatch method should not have been called.");

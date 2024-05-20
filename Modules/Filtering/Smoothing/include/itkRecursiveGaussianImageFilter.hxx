@@ -123,8 +123,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
 
   switch (m_Order)
   {
-    case GaussianOrderEnum::ZeroOrder:
-    {
+    case GaussianOrderEnum::ZeroOrder: {
       // Approximation of convolution with a gaussian.
       ComputeNCoefficients(
         sigmad, A1[0], B1[0], W1, L1, A2[0], B2[0], W2, L2, this->m_N0, this->m_N1, this->m_N2, this->m_N3, SN, DN, EN);
@@ -138,8 +137,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       this->ComputeRemainingCoefficients(symmetric);
       break;
     }
-    case GaussianOrderEnum::FirstOrder:
-    {
+    case GaussianOrderEnum::FirstOrder: {
       if (this->GetNormalizeAcrossScale())
       {
         across_scale_normalization = m_Sigma;
@@ -161,8 +159,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       this->ComputeRemainingCoefficients(symmetric);
       break;
     }
-    case GaussianOrderEnum::SecondOrder:
-    {
+    case GaussianOrderEnum::SecondOrder: {
       if (this->GetNormalizeAcrossScale())
       {
         across_scale_normalization = itk::Math::sqr(m_Sigma);
@@ -198,8 +195,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       this->ComputeRemainingCoefficients(symmetric);
       break;
     }
-    default:
-    {
+    default: {
       itkExceptionMacro("Unknown Order");
     }
   }

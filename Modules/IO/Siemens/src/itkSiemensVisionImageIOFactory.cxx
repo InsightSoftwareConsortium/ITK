@@ -51,7 +51,7 @@ SiemensVisionImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOSiemens_EXPORT
-     SiemensVisionImageIOFactoryRegister__Private()
+SiemensVisionImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<SiemensVisionImageIOFactory>();
 }

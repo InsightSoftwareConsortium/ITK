@@ -101,11 +101,19 @@ public:
 
 
     /**  Returns a reference to the current index. */
-    reference operator*() const noexcept { return m_Index; }
+    reference
+    operator*() const noexcept
+    {
+      return m_Index;
+    }
 
 
     /**  Returns a pointer to the current index. */
-    pointer operator->() const noexcept { return &(**this); }
+    pointer
+    operator->() const noexcept
+    {
+      return &(**this);
+    }
 
 
     /** Prefix increment ('++it'). */
@@ -250,10 +258,18 @@ public:
     struct ZeroIndex
     {
       // The "index" operator.
-      constexpr IndexValueType operator[](unsigned int) const { return 0; }
+      constexpr IndexValueType
+      operator[](unsigned int) const
+      {
+        return 0;
+      }
 
       // Implicitly converts to a default-initialized itk::Index<N>.
-      constexpr operator IndexType() const { return IndexType(); }
+      constexpr
+      operator IndexType() const
+      {
+        return IndexType();
+      }
     };
 
 
