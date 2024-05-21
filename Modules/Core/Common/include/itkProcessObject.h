@@ -920,6 +920,20 @@ protected:
     return static_cast<uint32_t>(temp);
   };
 
+
+  /** Sets the required number of outputs, and creates each of them by MakeOutput. */
+  template <typename TSourceObject>
+  static void
+  MakeRequiredOutputs(TSourceObject & sourceObject, const DataObjectPointerArraySizeType numberOfRequiredOutputs)
+  {
+    sourceObject.ProcessObject::SetNumberOfRequiredOutputs(numberOfRequiredOutputs);
+
+    for (unsigned int i{}; i < numberOfRequiredOutputs; ++i)
+    {
+      sourceObject.ProcessObject::SetNthOutput(i, sourceObject.TSourceObject::MakeOutput(i));
+    }
+  }
+
   /** These ivars are made protected so filters like itkStreamingImageFilter
    * can access them directly. */
 
