@@ -201,7 +201,7 @@ public:
 
   /** Remove the observer with this tag value. */
   void
-  RemoveObserver(unsigned long tag);
+  RemoveObserver(unsigned long tag) const;
 
   /** Remove all observers . */
   void
