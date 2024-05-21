@@ -1354,13 +1354,9 @@ Segmenter<TInputImage>::Segmenter()
   m_SortEdgeLists = true;
   m_Connectivity.direction = nullptr;
   m_Connectivity.index = nullptr;
-  typename OutputImageType::Pointer  img = static_cast<OutputImageType *>(this->MakeOutput(0).GetPointer());
-  typename SegmentTableType::Pointer st = static_cast<SegmentTableType *>(this->MakeOutput(1).GetPointer());
-  typename BoundaryType::Pointer     bd = static_cast<BoundaryType *>(this->MakeOutput(2).GetPointer());
-  this->SetNumberOfRequiredOutputs(3);
-  this->ProcessObject::SetNthOutput(0, img.GetPointer());
-  this->ProcessObject::SetNthOutput(1, st.GetPointer());
-  this->ProcessObject::SetNthOutput(2, bd.GetPointer());
+
+  // Make the outputs (OutputImage, SegmentTable, Boundary).
+  ProcessObject::MakeRequiredOutputs(*this, 3);
 
   // Allocate memory for connectivity
   m_Connectivity.size = 2 * ImageDimension;
