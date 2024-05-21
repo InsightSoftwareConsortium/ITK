@@ -58,6 +58,9 @@ using std::uintmax_t;
 using std::intptr_t;
 using std::uintptr_t;
 
+using std::size_t;
+using std::ptrdiff_t;
+
 
 #if defined(ITK_USE_64BITS_IDS) && ((ULLONG_MAX != ULONG_MAX) || (LLONG_MAX != LONG_MAX))
 
