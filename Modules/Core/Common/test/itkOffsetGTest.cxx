@@ -24,3 +24,7 @@
 static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::Offset<>>() &&
                 itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::Offset<1>>(),
               "Check constexpr begin() and end() of Offset.");
+
+static_assert(itk::RangeGTestUtilities::IsDistanceFromFrontToBackPlusOneEqualToSize(itk::Offset<>()) &&
+                itk::RangeGTestUtilities::IsDistanceFromFrontToBackPlusOneEqualToSize(itk::Offset<1>()),
+              "Check that `distance(&front, &back) + 1` is equal to `size`");

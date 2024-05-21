@@ -369,25 +369,25 @@ public:
     return m_InternalArray[pos];
   }
 
-  reference
+  constexpr reference
   front()
   {
     return *begin();
   }
 
-  const_reference
+  constexpr const_reference
   front() const
   {
     return *begin();
   }
 
-  reference
+  constexpr reference
   back()
   {
     return VDimension ? *(end() - 1) : *end();
   }
 
-  const_reference
+  constexpr const_reference
   back() const
   {
     return VDimension ? *(end() - 1) : *end();

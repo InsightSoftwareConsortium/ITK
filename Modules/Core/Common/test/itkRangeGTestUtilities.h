@@ -156,6 +156,15 @@ public:
   }
 
 
+  // Tells if `distance(&front, &back) + 1` is equal to `size`, for the specified container.
+  template <typename TContainer>
+  static constexpr bool
+  IsDistanceFromFrontToBackPlusOneEqualToSize(const TContainer & container)
+  {
+    return std::distance(&container.front(), &container.back()) + 1 == container.size();
+  }
+
+
   // Checks that each element of the specified range is zero.
   template <typename TRange>
   static void
