@@ -27,11 +27,13 @@ namespace itk
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::EigenAnalysis2DImageFilter()
 {
+  constexpr unsigned int numberOfRequiredOutputs{ 3 };
   this->SetNumberOfRequiredInputs(3);
-  this->SetNumberOfRequiredOutputs(3);
-  this->SetNthOutput(0, this->MakeOutput(0));
-  this->SetNthOutput(1, this->MakeOutput(1));
-  this->SetNthOutput(2, this->MakeOutput(2));
+  this->SetNumberOfRequiredOutputs(numberOfRequiredOutputs);
+  for (unsigned int i{}; i < numberOfRequiredOutputs; ++i)
+  {
+    ProcessObject::SetNthOutput(i, Self::MakeOutput(i));
+  }
   static_assert(EigenVectorType::Dimension == 2, "Error: PixelType of EigenVector Image must have exactly 2 elements!");
 }
 

@@ -30,16 +30,14 @@ namespace itk
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
 DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::DanielssonDistanceMapImageFilter()
 {
-  this->SetNumberOfRequiredOutputs(3);
+  constexpr unsigned int numberOfRequiredOutputs{ 3 };
+  this->SetNumberOfRequiredOutputs(numberOfRequiredOutputs);
 
-  // distance map
-  this->SetNthOutput(0, this->MakeOutput(0));
-
-  // voronoi map
-  this->SetNthOutput(1, this->MakeOutput(1));
-
-  // distance vectors
-  this->SetNthOutput(2, this->MakeOutput(2));
+  // distance map, voronoi map, distance vectors
+  for (unsigned int i{}; i < numberOfRequiredOutputs; ++i)
+  {
+    ProcessObject::SetNthOutput(i, Self::MakeOutput(i));
+  }
 
   m_SquaredDistance = false;
   m_InputIsBinary = false;

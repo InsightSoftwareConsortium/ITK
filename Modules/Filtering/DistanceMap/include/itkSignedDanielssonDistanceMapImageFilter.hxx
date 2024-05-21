@@ -32,16 +32,14 @@ template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
 SignedDanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::
   SignedDanielssonDistanceMapImageFilter()
 {
-  this->SetNumberOfRequiredOutputs(3);
+  constexpr unsigned int numberOfRequiredOutputs{ 3 };
+  this->SetNumberOfRequiredOutputs(numberOfRequiredOutputs);
 
-  // distance map
-  this->SetNthOutput(0, static_cast<OutputImageType *>(this->MakeOutput(0).GetPointer()));
-
-  // voronoi map
-  this->SetNthOutput(1, static_cast<VoronoiImageType *>(this->MakeOutput(1).GetPointer()));
-
-  // distance vectors
-  this->SetNthOutput(2, static_cast<VectorImageType *>(this->MakeOutput(2).GetPointer()));
+  // distance map, voronoi map, distance vectors
+  for (unsigned int i{}; i < numberOfRequiredOutputs; ++i)
+  {
+    ProcessObject::SetNthOutput(i, Self::MakeOutput(i));
+  }
 
   // Default values
   this->m_SquaredDistance = false; // Should we remove this ?
