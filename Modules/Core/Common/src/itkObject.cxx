@@ -493,7 +493,7 @@ Object::GetCommand(unsigned long tag)
 }
 
 void
-Object::RemoveObserver(unsigned long tag)
+Object::RemoveObserver(unsigned long tag) const
 {
   if (this->m_SubjectImplementation)
   {
