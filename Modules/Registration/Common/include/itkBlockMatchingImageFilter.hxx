@@ -39,13 +39,8 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   this->m_BlockRadius.Fill(2);
   this->m_SearchRadius.Fill(3);
 
-  // make the outputs
-  this->ProcessObject::SetNumberOfRequiredOutputs(2);
-  typename DisplacementsType::Pointer displacements =
-    static_cast<DisplacementsType *>(this->MakeOutput(0).GetPointer());
-  this->SetNthOutput(0, displacements.GetPointer());
-  typename SimilaritiesType::Pointer similarities = static_cast<SimilaritiesType *>(this->MakeOutput(1).GetPointer());
-  this->SetNthOutput(1, similarities.GetPointer());
+  // Make the outputs (Displacements, Similarities).
+  ProcessObject::MakeRequiredOutputs(*this, 2);
 
   // all inputs are required
   this->SetPrimaryInputName("FeaturePoints");
