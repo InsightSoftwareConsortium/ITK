@@ -160,12 +160,12 @@ public:
     return dynamic_cast<SimilaritiesType *>(this->ProcessObject::GetOutput(1));
   }
 
-protected:
   /** MakeOutput is provided for handling multiple outputs */
   using Superclass::MakeOutput;
   DataObject::Pointer
   MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
 
+protected:
   /** We need to create our own GenerateOutputInformation because the
    * default version from ProcessObject result in a dynamic_cast of the input
    * pointer to the output pointer type in PointSet::CopyInformation.  This does
