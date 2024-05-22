@@ -140,7 +140,7 @@ static constexpr float float_sqrteps = vnl_math::float_sqrteps;
  *  \warning We assume that the rounding mode is not changed from the default
  *  one (or at least that it is always restored to the default one).
  */
-itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven);
+itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven)
 
 /** \brief Round towards nearest integer
  *
@@ -164,7 +164,7 @@ itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven);
  *  the default one (or at least that it is always restored to the
  *  default one).
  */
-itkTemplateFloatingToIntegerMacro(RoundHalfIntegerUp);
+itkTemplateFloatingToIntegerMacro(RoundHalfIntegerUp)
 
 /** \brief Round towards nearest integer (This is a synonym for RoundHalfIntegerUp)
  *
@@ -192,7 +192,7 @@ Round(TInput x)
  *  the default one (or at least that it is always restored to the
  *  default one).
  */
-itkTemplateFloatingToIntegerMacro(Floor);
+itkTemplateFloatingToIntegerMacro(Floor)
 
 /** \brief Round towards plus infinity
  *
@@ -204,7 +204,7 @@ itkTemplateFloatingToIntegerMacro(Floor);
  *  the default one (or at least that it is always restored to the
  *  default one).
  */
-itkTemplateFloatingToIntegerMacro(Ceil);
+itkTemplateFloatingToIntegerMacro(Ceil)
 
 #undef itkTemplateFloatingToIntegerMacro
 

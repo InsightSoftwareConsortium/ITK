@@ -155,6 +155,7 @@ StatementMacros:
   - INTEL_PRAGMA_WARN_PUSH
   - INTEL_PRAGMA_WARN_POP
   - INTEL_SUPPRESS_warning_1292
+  - itkTemplateFloatingToIntegerMacro
 TabWidth:        2
 UseTab:          Never
 ...
