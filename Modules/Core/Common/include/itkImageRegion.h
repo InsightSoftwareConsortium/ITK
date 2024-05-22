@@ -36,11 +36,11 @@
 #include <type_traits> // For conditional and integral_constant.
 #include <utility>     // For tuple_element and tuple_size.
 
-// Macro added to each `ImageRegion` member function that overrides a virtual member function of `Region`. In the
-// future, `ImageRegion` will no longer inherit from `Region`, so then those `ImageRegion` member functions will no
-// longer override.
-#ifdef ITK_FUTURE_LEGACY_REMOVE
-#  define itkRegionOverrideMacro // nothing (in the future)
+// Macro added to each `ImageRegion` member function that overrides a virtual member function of `Region`, when legacy
+// support is enabled. Without legacy support, `ImageRegion` will no longer inherit from `Region`, so then those
+// `ImageRegion` member functions will no longer override.
+#ifdef ITK_LEGACY_REMOVE
+#  define itkRegionOverrideMacro // nothing
 #else
 #  define itkRegionOverrideMacro override
 #endif
@@ -78,8 +78,8 @@ class ITK_TEMPLATE_EXPORT ImageBase;
  */
 template <unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT ImageRegion final
-#ifndef ITK_FUTURE_LEGACY_REMOVE
-  // This inheritance is to be removed in the future.
+#ifndef ITK_LEGACY_REMOVE
+  // This inheritance is only there when legacy support is enabled.
   : public Region
 #endif
 {
@@ -87,7 +87,7 @@ public:
   /** Standard class type aliases. */
   using Self = ImageRegion;
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   using Superclass = Region;
 #endif
 
