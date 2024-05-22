@@ -73,6 +73,26 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner, T
     {
       pointIsValid =
         this->m_Associate->TransformAndEvaluateMovingPoint(virtualPoint, mappedMovingPoint, movingImageValue);
+
+      /** Add the paired intensity points to the joint histogram */
+      if (pointIsValid)
+      {
+        JointPDFPointType jointPDFpoint;
+        this->m_Associate->ComputeJointPDFPoint(fixedImageValue, movingImageValue, jointPDFpoint);
+        const auto jointPDFIndex =
+          m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->TransformPhysicalPointToIndex(jointPDFpoint);
+        if (this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->GetBufferedRegion().IsInside(
+              jointPDFIndex))
+        {
+          typename JointHistogramType::PixelType jointHistogramPixel;
+          jointHistogramPixel =
+            this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->GetPixel(jointPDFIndex);
+          ++jointHistogramPixel;
+          this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->SetPixel(jointPDFIndex,
+                                                                                        jointHistogramPixel);
+          this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogramCount++;
+        }
+      }
     }
   }
   catch (const ExceptionObject & exc)
@@ -82,25 +102,6 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner, T
     msg += exc.what();
     ExceptionObject err(__FILE__, __LINE__, msg);
     throw err;
-  }
-
-  /** Add the paired intensity points to the joint histogram */
-  if (pointIsValid)
-  {
-    JointPDFPointType jointPDFpoint;
-    this->m_Associate->ComputeJointPDFPoint(fixedImageValue, movingImageValue, jointPDFpoint);
-    const auto jointPDFIndex =
-      m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->TransformPhysicalPointToIndex(jointPDFpoint);
-    if (this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->GetBufferedRegion().IsInside(
-          jointPDFIndex))
-    {
-      typename JointHistogramType::PixelType jointHistogramPixel;
-      jointHistogramPixel =
-        this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->GetPixel(jointPDFIndex);
-      ++jointHistogramPixel;
-      this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->SetPixel(jointPDFIndex, jointHistogramPixel);
-      this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogramCount++;
-    }
   }
 }
 

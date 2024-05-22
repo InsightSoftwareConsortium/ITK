@@ -93,7 +93,7 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
   using RegionType = FilterType::RegionType;
   using LabelPixelType = FilterType::LabelPixelType;
 
-  LabelPixelType labelValue;
+  LabelPixelType labelValue = 0.0;
 
   std::cout << "There are " << numberOfLabels << " labels" << std::endl;
   std::cout << "There are " << numberOfObjects << " objects" << std::endl;

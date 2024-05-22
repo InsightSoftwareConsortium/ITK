@@ -189,6 +189,16 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
         {
           pointIsValid =
             this->m_ANTSAssociate->TransformAndEvaluateMovingPoint(virtualPoint, mappedMovingPoint, movingImageValue);
+
+          if (pointIsValid)
+          {
+            sumFixed2 += fixedImageValue * fixedImageValue;
+            sumMoving2 += movingImageValue * movingImageValue;
+            sumFixed += fixedImageValue;
+            sumMoving += movingImageValue;
+            sumFixedMoving += fixedImageValue * movingImageValue;
+            count += NumericTraits<LocalRealType>::OneValue();
+          }
         }
       }
       catch (const ExceptionObject & exc)
@@ -197,17 +207,6 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
         std::string msg("Caught exception: \n");
         msg += exc.what();
         throw ExceptionObject(__FILE__, __LINE__, msg);
-      }
-
-
-      if (pointIsValid)
-      {
-        sumFixed2 += fixedImageValue * fixedImageValue;
-        sumMoving2 += movingImageValue * movingImageValue;
-        sumFixed += fixedImageValue;
-        sumMoving += movingImageValue;
-        sumFixedMoving += fixedImageValue * movingImageValue;
-        count += NumericTraits<LocalRealType>::OneValue();
       }
     } // for indct
 
@@ -273,6 +272,16 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       {
         pointIsValid =
           this->m_ANTSAssociate->TransformAndEvaluateMovingPoint(virtualPoint, mappedMovingPoint, movingImageValue);
+
+        if (pointIsValid)
+        {
+          sumFixed2 += fixedImageValue * fixedImageValue;
+          sumMoving2 += movingImageValue * movingImageValue;
+          sumFixed += fixedImageValue;
+          sumMoving += movingImageValue;
+          sumFixedMoving += fixedImageValue * movingImageValue;
+          count += NumericTraits<LocalRealType>::OneValue();
+        }
       }
     }
     catch (const ExceptionObject & exc)
@@ -281,15 +290,6 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       std::string msg("Caught exception: \n");
       msg += exc.what();
       throw ExceptionObject(__FILE__, __LINE__, msg);
-    }
-    if (pointIsValid)
-    {
-      sumFixed2 += fixedImageValue * fixedImageValue;
-      sumMoving2 += movingImageValue * movingImageValue;
-      sumFixed += fixedImageValue;
-      sumMoving += movingImageValue;
-      sumFixedMoving += fixedImageValue * movingImageValue;
-      count += NumericTraits<LocalRealType>::OneValue();
     }
   }
   scanMem.QsumFixed2.push_back(sumFixed2);
@@ -466,6 +466,27 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
           this->m_ANTSAssociate->ComputeMovingImageGradientAtPoint(mappedMovingPoint, movingImageGradient);
         }
       }
+      if (pointIsValid)
+      {
+        scanMem.fixedA = fixedImageValue - fixedMean;
+        scanMem.movingA = movingImageValue - movingMean;
+        scanMem.sFixedMoving = sFixedMoving;
+        scanMem.sFixedFixed = sFixedFixed;
+        scanMem.sMovingMoving = sMovingMoving;
+
+        if (this->m_ANTSAssociate->GetComputeDerivative() && this->m_ANTSAssociate->GetGradientSourceIncludesFixed())
+        {
+          scanMem.fixedImageGradient = fixedImageGradient;
+        }
+        if (this->m_ANTSAssociate->GetComputeDerivative() && this->m_ANTSAssociate->GetGradientSourceIncludesMoving())
+        {
+          scanMem.movingImageGradient = movingImageGradient;
+        }
+
+        scanMem.mappedFixedPoint = mappedFixedPoint;
+        scanMem.mappedMovingPoint = mappedMovingPoint;
+        scanMem.virtualPoint = virtualPoint;
+      }
     }
   }
   catch (const ExceptionObject & exc)
@@ -476,27 +497,6 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     throw ExceptionObject(__FILE__, __LINE__, msg);
   }
 
-  if (pointIsValid)
-  {
-    scanMem.fixedA = fixedImageValue - fixedMean;
-    scanMem.movingA = movingImageValue - movingMean;
-    scanMem.sFixedMoving = sFixedMoving;
-    scanMem.sFixedFixed = sFixedFixed;
-    scanMem.sMovingMoving = sMovingMoving;
-
-    if (this->m_ANTSAssociate->GetComputeDerivative() && this->m_ANTSAssociate->GetGradientSourceIncludesFixed())
-    {
-      scanMem.fixedImageGradient = fixedImageGradient;
-    }
-    if (this->m_ANTSAssociate->GetComputeDerivative() && this->m_ANTSAssociate->GetGradientSourceIncludesMoving())
-    {
-      scanMem.movingImageGradient = movingImageGradient;
-    }
-
-    scanMem.mappedFixedPoint = mappedFixedPoint;
-    scanMem.mappedMovingPoint = mappedMovingPoint;
-    scanMem.virtualPoint = virtualPoint;
-  }
 
   return pointIsValid;
 }
