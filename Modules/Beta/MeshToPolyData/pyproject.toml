@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "itk-meshtopolydata"
-version = "0.12.0"
+version = "0.11.0"
 description = "Convert an ITK Mesh to a simple data structure compatible with vtkPolyData."
 readme = "README.rst"
 license = {file = "LICENSE"}
