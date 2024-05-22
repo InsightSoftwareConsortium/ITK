@@ -104,7 +104,10 @@ public:
 
   /** Typedef to describe the boundary condition. */
   using BoundaryConditionType = ImageBoundaryCondition<TInputImage>;
-  using InputBoundaryConditionPointerType = BoundaryConditionType *;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputBoundaryConditionPointerType [[deprecated("Please just use `BoundaryConditionType *` instead!")]] =
+    BoundaryConditionType *;
+#endif
   using InputDefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<TInputImage>;
   using RealBoundaryConditionPointerType = ImageBoundaryCondition<RealOutputImageType> *;
   using RealDefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<RealOutputImageType>;
@@ -147,8 +150,8 @@ public:
   itkSetMacro(FilterDimensionality, unsigned int);
 
   /** Set/get the boundary condition. */
-  itkSetMacro(InputBoundaryCondition, InputBoundaryConditionPointerType);
-  itkGetConstMacro(InputBoundaryCondition, InputBoundaryConditionPointerType);
+  itkSetMacro(InputBoundaryCondition, BoundaryConditionType *);
+  itkGetConstMacro(InputBoundaryCondition, BoundaryConditionType *);
   itkSetMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
   itkGetConstMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
 
@@ -387,7 +390,7 @@ private:
 
   /** Pointer to a persistent boundary condition object used
    ** for the image iterator. */
-  InputBoundaryConditionPointerType m_InputBoundaryCondition{};
+  BoundaryConditionType * m_InputBoundaryCondition{};
 
   /** Default boundary condition */
   InputDefaultBoundaryConditionType m_InputDefaultBoundaryCondition{};

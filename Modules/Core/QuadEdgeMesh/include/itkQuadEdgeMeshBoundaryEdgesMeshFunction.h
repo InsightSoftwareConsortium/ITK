@@ -35,7 +35,7 @@ namespace itk
  */
 template <typename TMesh>
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction
-  : public FunctionBase<TMesh, typename TMesh::EdgeListPointerType>
+  : public FunctionBase<TMesh, typename TMesh::EdgeListType *>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshBoundaryEdgesMeshFunction);
@@ -44,7 +44,7 @@ public:
   using Self = QuadEdgeMeshBoundaryEdgesMeshFunction;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  using Superclass = FunctionBase<TMesh, typename TMesh::EdgeListPointerType>;
+  using Superclass = FunctionBase<TMesh, typename TMesh::EdgeListType *>;
 
   // Types in superclass:
   using typename Superclass::InputType;

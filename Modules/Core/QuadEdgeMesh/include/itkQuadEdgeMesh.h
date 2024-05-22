@@ -152,8 +152,9 @@ public:
   /** Auxiliary types. */
   using PointIdList = std::vector<PointIdentifier>;
   using EdgeListType = std::list<QEPrimal *>;
-  using EdgeListPointerType = EdgeListType *;
-
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using EdgeListPointerType [[deprecated("Please just use `EdgeListType *` instead!")]] = EdgeListType *;
+#endif
   using MeshClassCellsAllocationMethodEnum = itk::MeshEnums::MeshClassCellsAllocationMethod;
 
   /** Reserved PointIdentifier designated to represent the absence of Point */

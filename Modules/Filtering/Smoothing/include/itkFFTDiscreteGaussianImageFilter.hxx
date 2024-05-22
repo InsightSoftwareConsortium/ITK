@@ -67,8 +67,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
 
 template <typename TInputImage, typename TOutputImage>
 void
-FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::SetInputBoundaryCondition(
-  const InputBoundaryConditionPointerType)
+FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::SetInputBoundaryCondition(BoundaryConditionType *)
 {
   itkWarningMacro("FFTDiscreteGaussianImageFilter ignores InputBoundaryCondition, use RealBoundaryCondition instead");
 }

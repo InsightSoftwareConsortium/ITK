@@ -271,8 +271,10 @@ public:
   virtual void
   Graft(const Self * imgData);
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   /** Convenient type alias. */
-  using InternalPixelPointerType = InternalPixelType *;
+  using InternalPixelPointerType [[deprecated("Please just use `InternalPixelType *` instead!")]] = InternalPixelType *;
+#endif
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
