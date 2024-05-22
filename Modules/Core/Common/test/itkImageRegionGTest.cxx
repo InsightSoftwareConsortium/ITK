@@ -32,11 +32,13 @@ CheckTrivialCopyabilityOfImageRegion()
 {
   constexpr bool isImageRegionTriviallyCopyable{ std::is_trivially_copyable_v<itk::ImageRegion<VDimension>> };
 
-#ifdef ITK_FUTURE_LEGACY_REMOVE
-  static_assert(isImageRegionTriviallyCopyable, "In the future, ImageRegion<VDimension> should be trivially copyable.");
+#ifdef ITK_LEGACY_REMOVE
+  static_assert(isImageRegionTriviallyCopyable,
+                "When legacy support is removed, ImageRegion<VDimension> should be trivially copyable.");
   return isImageRegionTriviallyCopyable;
 #else
-  static_assert(!isImageRegionTriviallyCopyable, "ImageRegion<VDimension> should *not* be trivially copyable.");
+  static_assert(!isImageRegionTriviallyCopyable,
+                "When legacy support is enabled, ImageRegion<VDimension> should *not* be trivially copyable.");
   return !isImageRegionTriviallyCopyable;
 #endif
 }
