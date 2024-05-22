@@ -115,17 +115,6 @@ public:
 protected:
   BSplineInterpolationWeightFunction() = default;
   ~BSplineInterpolationWeightFunction() override = default;
-
-private:
-  /** Lookup table type. */
-  using TableType = FixedArray<IndexType, NumberOfWeights>;
-
-  /** Table mapping linear offset to indices. */
-  const TableType m_OffsetToIndexTable{ [] {
-    TableType     table;
-    std::copy_n(ZeroBasedIndexRange<SpaceDimension>(SupportSize).cbegin(), NumberOfWeights, table.begin());
-    return table;
-  }() };
 };
 } // end namespace itk
 

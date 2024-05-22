@@ -47,6 +47,18 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Ev
   WeightsType &               weights,
   IndexType &                 startIndex) const
 {
+  static constexpr auto offsetToIndexTable = [] {
+    FixedArray<IndexType, NumberOfWeights> table{};
+    auto                                   indexIterator = ZeroBasedIndexRange<SpaceDimension>(SupportSize).cbegin();
+
+    for (size_t i{}; i < NumberOfWeights; ++i)
+    {
+      table[i] = *indexIterator;
+      ++indexIterator;
+    }
+    return table;
+  }();
+
   unsigned int j, k;
 
   // Find the starting index of the support region
@@ -77,7 +89,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Ev
 
     for (j = 0; j < SpaceDimension; ++j)
     {
-      weights[k] *= weights1D[j][m_OffsetToIndexTable[k][j]];
+      weights[k] *= weights1D[j][offsetToIndexTable[k][j]];
     }
   }
 }
