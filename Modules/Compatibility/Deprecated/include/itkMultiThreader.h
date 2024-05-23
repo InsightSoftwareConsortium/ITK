@@ -19,30 +19,6 @@
 #ifndef itkMultiThreader_h
 #define itkMultiThreader_h
 
-#if !defined(ITK_LEGACY_REMOVE)
-#  include "itkMultiThreaderBase.h"
-#  include "itkPlatformMultiThreader.h"
-namespace itk
-{
-/** Since ITK 5.0 MultiThreader has been split into a class hierarchy.
- *  Most of the time you will want to replace it by MultiThreaderBase.
- *
- *  Additionally, call this->DynamicMultiThreadingOff(); prior to Update()
- *  (for example in constructor) if any of the following is true:
- *  - Your filter needs a constant, in-advance known number of threads
- *  - Your filter uses threadId parameter in ThreadedGenerateData()
- *  - Your filter uses a custom region splitting method */
-using MultiThreader = MultiThreaderBase;
-
-
-/** Replace it by PlatformMultiThreader if any of the following is true:
- *  - Your filter uses cross-thread synchronization e.g. itkBarrier
- *  - Your filter uses MultipleMethodExecute()
- *  - Your filter uses SpawnThread/TerminateThread. */
-// using MultiThreader = PlatformMultiThreader;
-} // namespace itk
-#else // ITK_LEGACY_REMOVE
-#  error itkMultiThreader.h is a legacy file since ITK 5.0 and will be removed in the future.
-#endif // ITK_LEGACY_REMOVE
+#error itkMultiThreader.h is a legacy file since ITK 5.0. Its original content is removed after ITK 5.4.
 
 #endif // itkMultiThreader_h
