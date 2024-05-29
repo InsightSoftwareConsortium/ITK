@@ -91,11 +91,11 @@ template <unsigned int VDimension>
 void
 ExpectRangeIsEmptyWhenRegionSizeIsZero()
 {
-  const itk::Size<VDimension> zeroSize{ { 0 } };
+  static constexpr itk::Size<VDimension> zeroSize{ { 0 } };
 
   // Test when both the region index and the region size are zero:
-  EXPECT_TRUE(ZeroBasedIndexRange<VDimension>{ zeroSize }.empty());
-  EXPECT_TRUE(ImageRegionIndexRange<VDimension>{ zeroSize }.empty());
+  static_assert(ZeroBasedIndexRange<VDimension>{ zeroSize }.empty());
+  static_assert(ImageRegionIndexRange<VDimension>{ zeroSize }.empty());
 
   // Now do the test for an arbitrary (random) region index:
   const itk::Index<VDimension>       randomRegionIndex = GenerateRandomIndex<VDimension>();
@@ -143,12 +143,12 @@ TEST(IndexRange, EquivalentBeginOrEndIteratorsCompareEqual)
 {
   using RangeType = IndexRange<2, true>;
 
-  RangeType range(RangeType::SizeType{ { 1, 2 } });
+  static constexpr RangeType range(RangeType::SizeType{ { 1, 2 } });
 
-  const RangeType::iterator       begin = range.begin();
-  const RangeType::iterator       end = range.end();
-  const RangeType::const_iterator cbegin = range.cbegin();
-  const RangeType::const_iterator cend = range.cend();
+  static constexpr RangeType::iterator       begin = range.begin();
+  static constexpr RangeType::iterator       end = range.end();
+  static constexpr RangeType::const_iterator cbegin = range.cbegin();
+  static constexpr RangeType::const_iterator cend = range.cend();
 
   // An iterator object compares equal to itself:
   EXPECT_EQ(begin, begin);
@@ -175,10 +175,9 @@ TEST(IndexRange, EquivalentBeginOrEndIteratorsCompareEqual)
 TEST(IndexRange, BeginAndEndDoNotCompareEqualWhenSizeIsGreaterThanZero)
 {
   using RangeType = IndexRange<2, true>;
-  RangeType range(RangeType::SizeType{ { 1, 2 } });
+  static constexpr RangeType range(RangeType::SizeType{ { 1, 2 } });
 
-  EXPECT_TRUE(!range.empty());
-  EXPECT_FALSE(range.empty());
+  static_assert(!range.empty());
 
   EXPECT_FALSE(range.begin() == range.end());
   EXPECT_NE(range.begin(), range.end());
@@ -190,7 +189,7 @@ TEST(IndexRange, BeginAndEndDoNotCompareEqualWhenSizeIsGreaterThanZero)
 TEST(IndexRange, IteratorsCanBePassedToStdVectorConstructor)
 {
   using RangeType = IndexRange<2, true>;
-  RangeType range(RangeType::SizeType{ { 1, 2 } });
+  static constexpr RangeType range(RangeType::SizeType{ { 1, 2 } });
 
   // Easily store all indices of an IndexRange in an std::vector:
   const std::vector<RangeType::IndexType> stdVector(range.begin(), range.end());
@@ -206,9 +205,9 @@ TEST(IndexRange, IteratorsCanBePassedToStdReverseCopy)
 {
   using RangeType = IndexRange<2, true>;
   using IndexType = RangeType::IndexType;
-  RangeType range(RangeType::SizeType{ { 2, 3 } });
+  static constexpr RangeType range(RangeType::SizeType{ { 2, 3 } });
 
-  const unsigned int numberOfIndices = range.size();
+  static constexpr unsigned int numberOfIndices = range.size();
 
   const std::vector<IndexType> stdVector(range.begin(), range.end());
   std::vector<IndexType>       reversedStdVector1(numberOfIndices);
@@ -237,7 +236,7 @@ TEST(IndexRange, IteratorsCanBePassedToStdForEach)
 {
   using RangeType = IndexRange<2, true>;
   using IndexType = RangeType::IndexType;
-  RangeType range(RangeType::SizeType{ { 2, 3 } });
+  static constexpr RangeType range(RangeType::SizeType{ { 2, 3 } });
 
   std::for_each(range.begin(), range.end(), [](const IndexType index) { EXPECT_TRUE(index >= IndexType()); });
 }
@@ -249,7 +248,7 @@ TEST(IndexRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 {
   using RangeType = IndexRange<2, true>;
   using IndexType = RangeType::IndexType;
-  RangeType range(RangeType::SizeType{ { 2, 3 } });
+  static constexpr RangeType range(RangeType::SizeType{ { 2, 3 } });
 
   for (auto && index : range)
   {
@@ -266,14 +265,14 @@ TEST(IndexRange, SupportsImageRegion)
   using IndexType = ImageRegionIndexRangeType::IndexType;
   using RegionType = itk::ImageRegion<Dimension>;
 
-  const RegionType::SizeType  size = { { 2, 3 } };
-  const RegionType::IndexType regionIndex = { { 4, 5 } };
-  const RegionType            imageRegion{ regionIndex, size };
+  static constexpr RegionType::SizeType  size = { { 2, 3 } };
+  static constexpr RegionType::IndexType regionIndex = { { 4, 5 } };
+  const RegionType                       imageRegion{ regionIndex, size };
 
   // Default index range, beginning at [0, 0].
-  const ZeroBasedIndexRange<Dimension> indexRange(size);
-  const auto                           beginOfIndexRange = indexRange.cbegin();
-  const auto                           endOfIndexRange = indexRange.cend();
+  static constexpr ZeroBasedIndexRange<Dimension> indexRange(size);
+  static constexpr auto                           beginOfIndexRange = indexRange.cbegin();
+  static constexpr auto                           endOfIndexRange = indexRange.cend();
 
   const ImageRegionIndexRangeType imageRegionIndexRange(imageRegion);
 
