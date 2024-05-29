@@ -85,7 +85,6 @@ OctreeNode::SetBranch(OctreeNodeBranch * NewBranch)
 
 /**
  * \brief Determines if the current node is colored
- * \param void
  * \return  bool true if this node is colored
  */
 bool

@@ -31,11 +31,6 @@ namespace itk
  *
  * HexahedronCell represents a hexahedron, more precisely, a cuboid, for a Mesh.
  *
- * \tparam TPixelType The type associated with a point, cell, or boundary
- * for use in storing its data.
- *
- * \tparam TCellTraits Type information of mesh containing cell.
- *
  * \todo When reviewing this class, the documentation of the  template
  * parameters MUST be fixed.
  *

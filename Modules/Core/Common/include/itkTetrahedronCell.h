@@ -29,10 +29,6 @@ namespace itk
 /** \class TetrahedronCell
  *  \brief TetrahedronCell represents a tetrahedron for a Mesh.
  *
- * \tparam TPixelType The type associated with a point, cell, or boundary
- * for use in storing its data.
- *
- * \tparam TCellTraits Type information of mesh containing cell.
  * \ingroup MeshObjects
  * \ingroup ITKCommon
  */
