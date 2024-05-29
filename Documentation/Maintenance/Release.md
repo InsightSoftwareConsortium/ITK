@@ -204,7 +204,7 @@ Archive ExternalData
 --------------------
 
 More background on the testing data can be found in the
-[Contributing Upload Binary Data][../docs/contributing/upload_binary_data.md) documentation.
+[Contributing Upload Binary Data](../docs/contributing/upload_binary_data.md) documentation.
 
 The following steps archive data for release on various resources. Both
 [datalad] and [@web3-storage/w3cli] should be installed locally. And the [kubo]
@@ -290,13 +290,17 @@ If the [pinata] pinning service is not already available, create it:
 ```bash
 ipfs pin remote service add pinata https://api.pinata.cloud/psa/ PINATA_JWT
 ```
+Where `PINATA_JWT` is the secret key associated to an API key at the
+InsightSoftwareConsortium workspace in pinata.
 
 Then pin the root CID locally and on Pinata:
 
 ```bash
-ipfs pin add /ipfs/bafy<rest-of-cid>
+ipfs pin add /ipfs/bafy<rest-of-cid> --progress
 ipfs pin remote add --service=pinata --name=ITKData-ITK-v<itk-release-version> /ipfs/bafy<rest-of-cid>
 ```
+
+The command `ipfs pin add` requires `ipfs daemon` to be running, and can take some time.
 
 ### Pin the CID on Kitware's ipfs server
 
