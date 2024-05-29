@@ -277,8 +277,8 @@ public:
   GetMemoryUsage(const char * filter, const char * token = "Size");
 
 protected:
-  std::string m_MapFilePath{}; //< location of the last loaded Map file
-  TMapData    m_MapData{};     //< data of the loaded smap file
+  std::string m_MapFilePath{}; // location of the last loaded Map file
+  TMapData    m_MapData{};     // data of the loaded smap file
 };
 
 /** \class SmapsFileParser
