@@ -647,7 +647,8 @@ OutputWindowDisplayDebugText(const char *);
 //
 // See below for what to do for the method definition.
 #if defined(ITK_LEGACY_REMOVE)
-#  define itkLegacyMacro(method) /* no ';' */
+#  define itkLegacyMacro(method) \
+    static_assert(true, "Compile time eliminated. Used to require a semi-colon at end of macro.")
 #else
 #  if defined(ITK_LEGACY_SILENT) || defined(ITK_LEGACY_TEST)
 //   Provide legacy methods with no warnings.

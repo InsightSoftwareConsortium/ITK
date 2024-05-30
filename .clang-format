@@ -162,6 +162,7 @@ StatementMacros:
   - itkNUMERIC_TRAITS_MIN_MAX_MACRO
   - itkTemplateFloatingToIntegerMacro
   - itkPadStruct
+  - itkLegacyMacro
 TabWidth:        2
 UseTab:          Never
 ...
