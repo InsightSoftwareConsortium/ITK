@@ -93,21 +93,15 @@ public:
 
   virtual ~IPLFileSortInfo();
 
-  IPLSetMacroDeclaration(ImageFileName, std::string);
-  IPLGetMacroDeclaration(ImageFileName, std::string);
-  IPLSetMacroDeclaration(SliceLocation, float);
-  IPLGetMacroDeclaration(SliceLocation, float);
-  IPLSetMacroDeclaration(SliceOffset, int);
-  IPLGetMacroDeclaration(SliceOffset, int);
-  IPLSetMacroDeclaration(EchoNumber, int);
-  IPLGetMacroDeclaration(EchoNumber, int);
-  IPLSetMacroDeclaration(ImageNumber, int);
-  IPLGetMacroDeclaration(ImageNumber, int);
-  IPLSetMacroDeclaration(Data, void *);
-  IPLGetMacroDeclaration(Data, const void *);
+  IPLSetMacroDeclaration(ImageFileName, std::string)
+  IPLGetMacroDeclaration(ImageFileName, std::string) IPLSetMacroDeclaration(SliceLocation, float)
+  IPLGetMacroDeclaration(SliceLocation, float) IPLSetMacroDeclaration(SliceOffset, int)
+  IPLGetMacroDeclaration(SliceOffset, int) IPLSetMacroDeclaration(EchoNumber, int)
+  IPLGetMacroDeclaration(EchoNumber, int) IPLSetMacroDeclaration(ImageNumber, int)
+  IPLGetMacroDeclaration(ImageNumber, int) IPLSetMacroDeclaration(Data, void *)
+  IPLGetMacroDeclaration(Data, const void *)
 
-private:
-  std::string  m_ImageFileName{};
+    private : std::string m_ImageFileName{};
   float        m_SliceLocation{};
   int          m_SliceOffset{};
   int          m_EchoNumber{};

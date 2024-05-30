@@ -163,6 +163,8 @@ StatementMacros:
   - itkTemplateFloatingToIntegerMacro
   - itkPadStruct
   - itkLegacyMacro
+  - IPLSetMacroDeclaration
+  - IPLGetMacroDeclaration
 TabWidth:        2
 UseTab:          Never
 ...
