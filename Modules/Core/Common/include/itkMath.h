@@ -204,7 +204,7 @@ itkTemplateFloatingToIntegerMacro(Floor);
  *  the default one (or at least that it is always restored to the
  *  default one).
  */
-itkTemplateFloatingToIntegerMacro(Ceil);
+itkTemplateFloatingToIntegerMacro(Ceil)
 
 #undef itkTemplateFloatingToIntegerMacro
 

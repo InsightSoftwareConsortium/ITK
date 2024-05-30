@@ -154,7 +154,7 @@ public:
                    InterpolationWeightType *) override;
 
   /** Visitor interface */
-  itkCellVisitMacro(CellGeometryEnum::HEXAHEDRON_CELL);
+  itkCellVisitMacro(CellGeometryEnum::HEXAHEDRON_CELL)
 
 protected:
   /** Store the number of points needed for a hexahedron. */

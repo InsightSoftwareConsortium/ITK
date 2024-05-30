@@ -103,7 +103,7 @@ public:
   inline itkQEDefineIteratorGeomMethodsMacro(InvDnext);
 
   /** QE macros. */
-  itkQEAccessorsMacro(Superclass, Self, DualType);
+  itkQEAccessorsMacro(Superclass, Self, DualType)
 
 public:
   GeometricalQuadEdge();

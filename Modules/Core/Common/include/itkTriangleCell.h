@@ -165,7 +165,7 @@ public:
                    InterpolationWeightType *) override;
 
   /** Cell visitor interface. */
-  itkCellVisitMacro(CellGeometryEnum::TRIANGLE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::TRIANGLE_CELL)
 
   /** Compute Area to a TriangleCell given a PointsContainer. */
   CoordRepType

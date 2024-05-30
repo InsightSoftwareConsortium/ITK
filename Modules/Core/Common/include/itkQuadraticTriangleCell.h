@@ -119,7 +119,7 @@ public:
   GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Cell visitor interface. */
-  itkCellVisitMacro(CellGeometryEnum::QUADRATIC_TRIANGLE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::QUADRATIC_TRIANGLE_CELL)
 
   /** Given the parametric coordinates of a point in the cell
    *  determine the value of its Shape Functions

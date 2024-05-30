@@ -125,7 +125,7 @@ public:
   GetPointId();
 
   /** Cell visitor interface */
-  itkCellVisitMacro(CellGeometryEnum::VERTEX_CELL);
+  itkCellVisitMacro(CellGeometryEnum::VERTEX_CELL)
 
   /** Evaluate the position of a given point */
   bool

@@ -393,7 +393,7 @@ public:
   static constexpr char ITKCommon_EXPORT Zero = 0;
   static constexpr char ITKCommon_EXPORT One = 1;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
 
   static constexpr char
   NonpositiveMin()
@@ -621,7 +621,7 @@ public:
   static constexpr unsigned char ITKCommon_EXPORT Zero = 0;
   static constexpr unsigned char ITKCommon_EXPORT One = 1;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
 
   static constexpr unsigned char
   NonpositiveMin()
@@ -724,7 +724,7 @@ public:
   static constexpr short ITKCommon_EXPORT Zero = 0;
   static constexpr short ITKCommon_EXPORT One = 1;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr short
   NonpositiveMin()
   {
@@ -827,7 +827,7 @@ public:
   static constexpr unsigned short ITKCommon_EXPORT Zero = 0;
   static constexpr unsigned short ITKCommon_EXPORT One = 1;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr unsigned short
   NonpositiveMin()
   {
@@ -929,7 +929,7 @@ public:
   static constexpr int ITKCommon_EXPORT Zero = 0;
   static constexpr int ITKCommon_EXPORT One = 1;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr int
   NonpositiveMin()
   {
@@ -1154,7 +1154,7 @@ public:
   static constexpr long ITKCommon_EXPORT Zero = 0L;
   static constexpr long ITKCommon_EXPORT One = 1L;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr long
   NonpositiveMin()
   {
@@ -1257,7 +1257,7 @@ public:
   static constexpr unsigned long ITKCommon_EXPORT Zero = 0UL;
   static constexpr unsigned long ITKCommon_EXPORT One = 1UL;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr unsigned long
   NonpositiveMin()
   {
@@ -1361,7 +1361,7 @@ public:
   static constexpr float ITKCommon_EXPORT Zero = 0.0f;
   static constexpr float ITKCommon_EXPORT One = 1.0f;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr float
   NonpositiveMin()
   {
@@ -1464,7 +1464,7 @@ public:
   static constexpr double ITKCommon_EXPORT Zero = 0.0;
   static constexpr double ITKCommon_EXPORT One = 1.0;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr double
   NonpositiveMin()
   {
@@ -1575,7 +1575,7 @@ public:
   static constexpr long double ITKCommon_EXPORT Zero = 0.0;
   static constexpr long double ITKCommon_EXPORT One = 1.0;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr long double
   NonpositiveMin()
   {
@@ -1679,7 +1679,7 @@ public:
   static constexpr ValueType ITKCommon_EXPORT Zero = 0LL;
   static constexpr ValueType ITKCommon_EXPORT One = 1LL;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr ValueType
   NonpositiveMin()
   {
@@ -1782,7 +1782,7 @@ public:
   static constexpr ValueType ITKCommon_EXPORT Zero = 0ULL;
   static constexpr ValueType ITKCommon_EXPORT One = 1ULL;
 
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO()
   static constexpr ValueType
   NonpositiveMin()
   {

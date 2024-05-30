@@ -169,7 +169,7 @@ public:
 
 #if !defined(ITK_WRAPPING_PARSER)
   /** FrontIterator definitions */
-  itkQEDefineFrontIteratorMethodsMacro(Self);
+  itkQEDefineFrontIteratorMethodsMacro(Self)
 #endif
 
 public:

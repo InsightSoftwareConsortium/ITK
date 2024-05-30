@@ -115,7 +115,7 @@ public:
   GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
 
   /** Visitor interface */
-  itkCellVisitMacro(CellGeometryEnum::POLYLINE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::POLYLINE_CELL)
 
   void
   InitializePoints(PointIdentifier numberOfPoints)

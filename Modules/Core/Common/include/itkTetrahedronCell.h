@@ -165,7 +165,7 @@ public:
   GetFace(CellFeatureIdentifier, FaceAutoPointer &);
 
   /** Visitor interface. */
-  itkCellVisitMacro(CellGeometryEnum::TETRAHEDRON_CELL);
+  itkCellVisitMacro(CellGeometryEnum::TETRAHEDRON_CELL)
 
   bool
   EvaluatePosition(CoordRepType *,

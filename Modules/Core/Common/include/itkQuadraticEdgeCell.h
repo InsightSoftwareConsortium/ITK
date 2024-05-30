@@ -106,7 +106,7 @@ public:
   GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
 
   /** Visitor interface */
-  itkCellVisitMacro(CellGeometryEnum::QUADRATIC_EDGE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::QUADRATIC_EDGE_CELL)
 
   QuadraticEdgeCell() = default;
 

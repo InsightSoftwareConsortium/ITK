@@ -156,6 +156,12 @@ StatementMacros:
   - INTEL_PRAGMA_WARN_POP
   - INTEL_SUPPRESS_warning_1292
   - itkBooleanMacro
+  - itkQEDefineFrontIteratorMethodsMacro
+  - itkQEAccessorsMacro
+  - itkCellVisitMacro
+  - itkNUMERIC_TRAITS_MIN_MAX_MACRO
+  - itkTemplateFloatingToIntegerMacro
+  - itkPadStruct
 TabWidth:        2
 UseTab:          Never
 ...

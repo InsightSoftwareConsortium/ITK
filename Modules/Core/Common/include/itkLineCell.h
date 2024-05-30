@@ -111,7 +111,7 @@ public:
   GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
 
   /** Visitor interface */
-  itkCellVisitMacro(CellGeometryEnum::LINE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::LINE_CELL)
 
   LineCell() = default;
 

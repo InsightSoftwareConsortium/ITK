@@ -130,7 +130,7 @@ public:
                    InterpolationWeightType * weight) override;
 
   /** Visitor interface */
-  itkCellVisitMacro(CellGeometryEnum::QUADRILATERAL_CELL);
+  itkCellVisitMacro(CellGeometryEnum::QUADRILATERAL_CELL)
 
   /** Constructor and destructor */
   QuadrilateralCell() = default;

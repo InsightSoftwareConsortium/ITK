@@ -189,7 +189,7 @@ protected:
   };
   itkPadStruct(ITK_CACHE_LINE_ALIGNMENT,
                GetValueAndDerivativePerThreadStruct,
-               PaddedGetValueAndDerivativePerThreadStruct);
+               PaddedGetValueAndDerivativePerThreadStruct)
   itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,
                     PaddedGetValueAndDerivativePerThreadStruct,
                     AlignedGetValueAndDerivativePerThreadStruct);

@@ -77,7 +77,7 @@ public:
   using EdgeInfoDQ = std::deque<EdgeInfo>;
 
   /** Need to add POLYGON_CELL into CellInterface. */
-  itkCellVisitMacro(CellGeometryEnum::POLYGON_CELL);
+  itkCellVisitMacro(CellGeometryEnum::POLYGON_CELL)
 
   /** Implement the standard CellInterface. */
   CellGeometryEnum

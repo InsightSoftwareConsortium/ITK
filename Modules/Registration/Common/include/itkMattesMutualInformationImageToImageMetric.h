@@ -358,7 +358,7 @@ private:
   };
 
 #if !defined(ITK_WRAPPING_PARSER)
-  itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, MMIMetricPerThreadStruct, PaddedMMIMetricPerThreadStruct);
+  itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, MMIMetricPerThreadStruct, PaddedMMIMetricPerThreadStruct)
   itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT, PaddedMMIMetricPerThreadStruct, AlignedMMIMetricPerThreadStruct);
   // Due to a bug in older version of Visual Studio where std::vector resize
   // uses a value instead of a const reference, this must be a pointer.
