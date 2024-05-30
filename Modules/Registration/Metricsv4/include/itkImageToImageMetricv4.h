@@ -454,13 +454,13 @@ public:
   /** Set/Get flag to use a domain sampling point set */
   itkSetMacro(UseSampledPointSet, bool);
   itkGetConstReferenceMacro(UseSampledPointSet, bool);
-  itkBooleanMacro(UseSampledPointSet);
+  itkBooleanMacro(UseSampledPointSet)
 
   /** Set/Get flag to indicate of the VirtualSampledPointSet is set
    * over the FixedSampledPointSet*/
   itkSetMacro(UseVirtualSampledPointSet, bool);
   itkGetConstReferenceMacro(UseVirtualSampledPointSet, bool);
-  itkBooleanMacro(UseVirtualSampledPointSet);
+  itkBooleanMacro(UseVirtualSampledPointSet)
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** UseFixedSampledPointSet is deprecated and has been replaced
@@ -488,12 +488,12 @@ public:
    * for fixed image. */
   itkSetMacro(UseFixedImageGradientFilter, bool);
   itkGetConstReferenceMacro(UseFixedImageGradientFilter, bool);
-  itkBooleanMacro(UseFixedImageGradientFilter);
+  itkBooleanMacro(UseFixedImageGradientFilter)
 
   /** Set/Get gradient computation via an image filter. */
   itkSetMacro(UseMovingImageGradientFilter, bool);
   itkGetConstReferenceMacro(UseMovingImageGradientFilter, bool);
-  itkBooleanMacro(UseMovingImageGradientFilter);
+  itkBooleanMacro(UseMovingImageGradientFilter)
 
   /** Get number of work units to used in the most recent
    * evaluation.  Only valid after GetValueAndDerivative() or
@@ -571,7 +571,7 @@ public:
    * of this truncation are highly dependent on the derivative magnitudes. */
   itkSetMacro(UseFloatingPointCorrection, bool);
   itkGetConstReferenceMacro(UseFloatingPointCorrection, bool);
-  itkBooleanMacro(UseFloatingPointCorrection);
+  itkBooleanMacro(UseFloatingPointCorrection)
 
   /** Set/Get the floating point resolution used optionally by the derivatives.
    * If this is set, for example to 1e5, then the derivative will have precision up to 5

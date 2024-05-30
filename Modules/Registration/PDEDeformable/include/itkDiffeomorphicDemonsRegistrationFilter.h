@@ -139,7 +139,7 @@ public:
    *  s <- s o (Id + u) instead of s <- s o exp(u) */
   itkSetMacro(UseFirstOrderExp, bool);
   itkGetConstMacro(UseFirstOrderExp, bool);
-  itkBooleanMacro(UseFirstOrderExp);
+  itkBooleanMacro(UseFirstOrderExp)
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a

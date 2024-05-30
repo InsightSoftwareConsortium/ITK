@@ -201,7 +201,7 @@ public:
   /* Use input field to define the B-spline domain. */
   itkSetMacro(UseInputFieldToDefineTheBSplineDomain, bool);
   itkGetConstMacro(UseInputFieldToDefineTheBSplineDomain, bool);
-  itkBooleanMacro(UseInputFieldToDefineTheBSplineDomain);
+  itkBooleanMacro(UseInputFieldToDefineTheBSplineDomain)
 
   /**
    * Set the spline order defining the bias field estimate.  Default = 3.
@@ -265,14 +265,14 @@ public:
   /**
    * Estimate the inverse field instead of the forward field.  Default = false.
    */
-  itkBooleanMacro(EstimateInverse);
+  itkBooleanMacro(EstimateInverse)
   itkSetMacro(EstimateInverse, bool);
   itkGetConstMacro(EstimateInverse, bool);
 
   /**
    * Enforce stationary boundary conditions.  Default = false.
    */
-  itkBooleanMacro(EnforceStationaryBoundary);
+  itkBooleanMacro(EnforceStationaryBoundary)
   itkSetMacro(EnforceStationaryBoundary, bool);
   itkGetConstMacro(EnforceStationaryBoundary, bool);
 

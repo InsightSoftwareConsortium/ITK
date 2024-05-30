@@ -151,7 +151,7 @@ public:
    * sigma. When automatic is "off", the kernel size is whatever is
    * specified by the user.
    * \sa SetRadius() */
-  itkBooleanMacro(AutomaticKernelSize);
+  itkBooleanMacro(AutomaticKernelSize)
   itkGetConstMacro(AutomaticKernelSize, bool);
   itkSetMacro(AutomaticKernelSize, bool);
 

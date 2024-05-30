@@ -122,7 +122,7 @@ public:
   itkGetConstReferenceMacro(SquaredDistance, bool);
 
   /** Set On/Off if the distance is squared. */
-  itkBooleanMacro(SquaredDistance);
+  itkBooleanMacro(SquaredDistance)
 
   /** Set if the inside represents positive values in the signed distance
    *  map. By convention ON pixels are treated as inside pixels.*/
@@ -135,7 +135,7 @@ public:
   /** Set if the inside represents positive values in the signed distance
    * map. By convention ON pixels are treated as inside pixels. Default is
    * true.                             */
-  itkBooleanMacro(InsideIsPositive);
+  itkBooleanMacro(InsideIsPositive)
 
   /** Set if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);
@@ -144,7 +144,7 @@ public:
   itkGetConstReferenceMacro(UseImageSpacing, bool);
 
   /** Set On/Off whether spacing is used. */
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
   /**
    * Set the background value which defines the object.  Usually this

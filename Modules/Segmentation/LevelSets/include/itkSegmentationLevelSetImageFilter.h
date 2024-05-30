@@ -316,7 +316,7 @@ public:
    * set. */
   itkSetMacro(ReverseExpansionDirection, bool);
   itkGetConstMacro(ReverseExpansionDirection, bool);
-  itkBooleanMacro(ReverseExpansionDirection);
+  itkBooleanMacro(ReverseExpansionDirection)
 
   /** Turn On/Off automatic generation of Speed and Advection terms when Update
       is called.  If set to Off, the Speed and Advection images must be set
@@ -325,7 +325,7 @@ public:
       to updating the filter. */
   itkSetMacro(AutoGenerateSpeedAdvection, bool);
   itkGetConstMacro(AutoGenerateSpeedAdvection, bool);
-  itkBooleanMacro(AutoGenerateSpeedAdvection);
+  itkBooleanMacro(AutoGenerateSpeedAdvection)
 
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and

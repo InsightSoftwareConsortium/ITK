@@ -101,7 +101,7 @@ public:
    */
   itkSetMacro(ClearPipelineOnGenerateOutputInformation, bool);
   itkGetMacro(ClearPipelineOnGenerateOutputInformation, bool);
-  itkBooleanMacro(ClearPipelineOnGenerateOutputInformation);
+  itkBooleanMacro(ClearPipelineOnGenerateOutputInformation)
 
 
   /** This a meta verify method to check expected pipeline execution

@@ -208,7 +208,7 @@ public:
   /** Set the compression On or Off */
   itkSetMacro(UseCompression, bool);
   itkGetConstReferenceMacro(UseCompression, bool);
-  itkBooleanMacro(UseCompression);
+  itkBooleanMacro(UseCompression)
 
 protected:
   ImageSeriesWriter();

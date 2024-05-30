@@ -279,7 +279,7 @@ public:
   // macros for Histogram enables
   itkSetMacro(UseHistograms, bool);
   itkGetConstMacro(UseHistograms, bool);
-  itkBooleanMacro(UseHistograms);
+  itkBooleanMacro(UseHistograms)
 
 
   virtual const ValidLabelValuesContainerType &

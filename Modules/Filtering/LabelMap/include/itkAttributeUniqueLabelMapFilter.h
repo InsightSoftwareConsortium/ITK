@@ -97,7 +97,7 @@ public:
    */
   itkSetMacro(ReverseOrdering, bool);
   itkGetConstReferenceMacro(ReverseOrdering, bool);
-  itkBooleanMacro(ReverseOrdering);
+  itkBooleanMacro(ReverseOrdering)
 
 protected:
   AttributeUniqueLabelMapFilter();

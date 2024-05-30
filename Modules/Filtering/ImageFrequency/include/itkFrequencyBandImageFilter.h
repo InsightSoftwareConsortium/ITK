@@ -125,18 +125,18 @@ public:
    * independent of m_PassBand */
   itkSetMacro(PassLowFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassLowFrequencyThreshold, bool);
-  itkBooleanMacro(PassLowFrequencyThreshold);
+  itkBooleanMacro(PassLowFrequencyThreshold)
 
   /** The pixel values that correspond to m_HighFrequencyThreshold are passed to the output image,
    * independent of m_PassBand */
   itkSetMacro(PassHighFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassHighFrequencyThreshold, bool);
-  itkBooleanMacro(PassHighFrequencyThreshold);
+  itkBooleanMacro(PassHighFrequencyThreshold)
 
   /** True: the band is a PassBand. False: StopBand **/
   itkSetMacro(PassBand, bool);
   itkGetConstReferenceMacro(PassBand, bool);
-  itkBooleanMacro(PassBand);
+  itkBooleanMacro(PassBand)
 
   /**
    * Utility method equivalent to:
@@ -166,19 +166,19 @@ public:
    * the frequency vector. */
   itkSetMacro(RadialBand, bool);
   itkGetConstReferenceMacro(RadialBand, bool);
-  itkBooleanMacro(RadialBand);
+  itkBooleanMacro(RadialBand)
 
   /** Control if negative frequencies with absolute value equal to low frequency threshold are passing.
    * Only effective when RadialBand is false **/
   itkSetMacro(PassNegativeLowFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassNegativeLowFrequencyThreshold, bool);
-  itkBooleanMacro(PassNegativeLowFrequencyThreshold);
+  itkBooleanMacro(PassNegativeLowFrequencyThreshold)
 
   /** Control if negative frequencies with absolute value equal to high frequency threshold are passing.
    * Only effective when RadialBand is false **/
   itkSetMacro(PassNegativeHighFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassNegativeHighFrequencyThreshold, bool);
-  itkBooleanMacro(PassNegativeHighFrequencyThreshold);
+  itkBooleanMacro(PassNegativeHighFrequencyThreshold)
 
 
 protected:

@@ -305,14 +305,14 @@ public:
    */
   itkSetMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool);
   itkGetConstMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool);
-  itkBooleanMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms);
+  itkBooleanMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms)
 
   /**
    *
    */
   itkSetMacro(CalculateValueAndDerivativeInTangentSpace, bool);
   itkGetConstMacro(CalculateValueAndDerivativeInTangentSpace, bool);
-  itkBooleanMacro(CalculateValueAndDerivativeInTangentSpace);
+  itkBooleanMacro(CalculateValueAndDerivativeInTangentSpace)
 
 protected:
   PointSetToPointSetMetricWithIndexv4();

@@ -263,7 +263,7 @@ public:
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   itkSetMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
   itkGetConstReferenceMacro(UseImageSpacing, bool);
 
   /** Set/Get the maximum error allowed in the solution.  This may not be
@@ -279,13 +279,13 @@ public:
   /** Set/Get the state of the filter. */
   itkSetMacro(InitializedState, bool);
   itkGetConstReferenceMacro(InitializedState, bool);
-  itkBooleanMacro(InitializedState);
+  itkBooleanMacro(InitializedState)
 
   /** Require the filter to be manually reinitialized (by calling
       SetInitializedStateOff() */
   itkSetMacro(ManualReinitialization, bool);
   itkGetConstReferenceMacro(ManualReinitialization, bool);
-  itkBooleanMacro(ManualReinitialization);
+  itkBooleanMacro(ManualReinitialization)
 
   /** Set the number of elapsed iterations of the filter. */
   itkSetMacro(ElapsedIterations, unsigned int);

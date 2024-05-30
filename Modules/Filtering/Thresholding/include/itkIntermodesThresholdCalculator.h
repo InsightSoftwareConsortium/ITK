@@ -83,7 +83,7 @@ public:
   peaks is used. Default is "On". */
   itkSetMacro(UseInterMode, bool);
   itkGetConstMacro(UseInterMode, bool);
-  itkBooleanMacro(UseInterMode);
+  itkBooleanMacro(UseInterMode)
 
 protected:
   IntermodesThresholdCalculator()

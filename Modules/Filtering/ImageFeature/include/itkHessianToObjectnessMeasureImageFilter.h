@@ -108,7 +108,7 @@ public:
     absolute eigenvalue */
   itkSetMacro(ScaleObjectnessMeasure, bool);
   itkGetConstMacro(ScaleObjectnessMeasure, bool);
-  itkBooleanMacro(ScaleObjectnessMeasure);
+  itkBooleanMacro(ScaleObjectnessMeasure)
 
   /** Set/Get the dimensionality of the object (0: points (blobs),
    * 1: lines (vessels), 2: planes (plate-like structures), 3: hyper-planes.
@@ -120,7 +120,7 @@ public:
     false. Default is "On" (equivalent to vesselness). */
   itkSetMacro(BrightObject, bool);
   itkGetConstMacro(BrightObject, bool);
-  itkBooleanMacro(BrightObject);
+  itkBooleanMacro(BrightObject)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

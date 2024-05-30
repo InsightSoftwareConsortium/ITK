@@ -100,7 +100,7 @@ public:
   /** Methods to configure the cost function. */
   itkGetConstReferenceMacro(Maximize, bool);
   itkSetMacro(Maximize, bool);
-  itkBooleanMacro(Maximize);
+  itkBooleanMacro(Maximize)
   bool
   GetMinimize() const
   {

@@ -159,7 +159,7 @@ public:
   /** Set/Get whether the bins at the edges of the histogram extend to +/- infinity. */
   itkGetConstMacro(ClipBinsAtEnds, bool);
   itkSetMacro(ClipBinsAtEnds, bool);
-  itkBooleanMacro(ClipBinsAtEnds);
+  itkBooleanMacro(ClipBinsAtEnds)
 
   /** Returns true if the given index is out of bound meaning one of index
    * is not between [0, last index] */

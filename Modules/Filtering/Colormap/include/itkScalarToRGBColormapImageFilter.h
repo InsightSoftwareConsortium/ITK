@@ -191,7 +191,7 @@ public:
    * these values can be set in the colormap manually. */
   itkSetMacro(UseInputImageExtremaForScaling, bool);
   itkGetConstMacro(UseInputImageExtremaForScaling, bool);
-  itkBooleanMacro(UseInputImageExtremaForScaling);
+  itkBooleanMacro(UseInputImageExtremaForScaling)
 
 protected:
   ScalarToRGBColormapImageFilter();

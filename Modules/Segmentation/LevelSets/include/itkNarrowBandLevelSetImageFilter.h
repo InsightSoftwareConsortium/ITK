@@ -269,7 +269,7 @@ public:
    * set. */
   itkSetMacro(ReverseExpansionDirection, bool);
   itkGetConstMacro(ReverseExpansionDirection, bool);
-  itkBooleanMacro(ReverseExpansionDirection);
+  itkBooleanMacro(ReverseExpansionDirection)
 
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and

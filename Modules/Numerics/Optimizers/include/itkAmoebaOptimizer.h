@@ -112,7 +112,7 @@ public:
    * simplex as [x0[0], x0[1], ..., x0[i]+InitialSimplexDelta[i], ...,
    * x0[d-1]]. */
   itkSetMacro(AutomaticInitialSimplex, bool);
-  itkBooleanMacro(AutomaticInitialSimplex);
+  itkBooleanMacro(AutomaticInitialSimplex)
   itkGetConstMacro(AutomaticInitialSimplex, bool);
 
   /** Set/Get the mode that determines if we want to use multiple runs of the
@@ -122,7 +122,7 @@ public:
    * that from the previous iteration.
    */
   itkSetMacro(OptimizeWithRestarts, bool);
-  itkBooleanMacro(OptimizeWithRestarts);
+  itkBooleanMacro(OptimizeWithRestarts)
   itkGetConstMacro(OptimizeWithRestarts, bool);
 
   /** Set/Get the deltas that are used to define the initial simplex

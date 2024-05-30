@@ -115,7 +115,7 @@ public:
    */
   itkGetConstMacro(Exclude, bool);
   itkSetMacro(Exclude, bool);
-  itkBooleanMacro(Exclude);
+  itkBooleanMacro(Exclude)
 
   /** Clear the attribute set, and add the attribute passed in parameter */
   void

@@ -104,7 +104,7 @@ public:
    * value is false. */
   itkSetMacro(Average, bool);
   itkGetConstMacro(Average, bool);
-  itkBooleanMacro(Average);
+  itkBooleanMacro(Average)
 
 protected:
   AccumulateImageFilter();

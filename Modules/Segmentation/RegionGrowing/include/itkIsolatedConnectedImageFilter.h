@@ -192,7 +192,7 @@ public:
   /** Set/Get whether to find an upper threshold (separating two dark
    * regions) or a lower threshold (separating two bright regions). */
   itkSetMacro(FindUpperThreshold, bool);
-  itkBooleanMacro(FindUpperThreshold);
+  itkBooleanMacro(FindUpperThreshold)
   itkGetConstReferenceMacro(FindUpperThreshold, bool);
 
   /** Get the flag that tells whether the algorithm failed to find a

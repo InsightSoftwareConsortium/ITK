@@ -86,7 +86,7 @@ public:
    * of the dimensions has an odd size. */
   itkSetMacro(Inverse, bool);
   itkGetConstReferenceMacro(Inverse, bool);
-  itkBooleanMacro(Inverse);
+  itkBooleanMacro(Inverse)
 
 protected:
   FFTShiftImageFilter();

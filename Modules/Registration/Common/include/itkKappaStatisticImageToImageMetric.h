@@ -120,7 +120,7 @@ public:
    * (ComplementOn). When using an optimizer that minimizes
    * metric values use ComplementOn(). */
   itkSetMacro(Complement, bool);
-  itkBooleanMacro(Complement);
+  itkBooleanMacro(Complement)
   itkGetConstMacro(Complement, bool);
 
 protected:

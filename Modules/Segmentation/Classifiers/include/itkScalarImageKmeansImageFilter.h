@@ -135,7 +135,7 @@ public:
    * only for display. The default value is false. */
   itkSetMacro(UseNonContiguousLabels, bool);
   itkGetConstReferenceMacro(UseNonContiguousLabels, bool);
-  itkBooleanMacro(UseNonContiguousLabels);
+  itkBooleanMacro(UseNonContiguousLabels)
 
   /** Set Region method to constrain classification to a certain region */
   void

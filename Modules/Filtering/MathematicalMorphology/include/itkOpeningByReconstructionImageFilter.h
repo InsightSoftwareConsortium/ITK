@@ -102,7 +102,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
   /**
    * Set/Get whether the original intensities of the image retained for
@@ -110,7 +110,7 @@ public:
    * the output pixel contrast will be reduced. */
   itkSetMacro(PreserveIntensities, bool);
   itkGetConstReferenceMacro(PreserveIntensities, bool);
-  itkBooleanMacro(PreserveIntensities);
+  itkBooleanMacro(PreserveIntensities)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

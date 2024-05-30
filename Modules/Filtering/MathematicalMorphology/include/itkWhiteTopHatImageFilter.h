@@ -91,7 +91,7 @@ public:
    * and remove it once the closing is done */
   itkSetMacro(SafeBorder, bool);
   itkGetConstReferenceMacro(SafeBorder, bool);
-  itkBooleanMacro(SafeBorder);
+  itkBooleanMacro(SafeBorder)
 
   /** Set/Get the backend filter class. */
   itkSetMacro(Algorithm, AlgorithmEnum);
@@ -99,7 +99,7 @@ public:
 
   itkSetMacro(ForceAlgorithm, bool);
   itkGetConstReferenceMacro(ForceAlgorithm, bool);
-  itkBooleanMacro(ForceAlgorithm);
+  itkBooleanMacro(ForceAlgorithm)
 
 protected:
   WhiteTopHatImageFilter();

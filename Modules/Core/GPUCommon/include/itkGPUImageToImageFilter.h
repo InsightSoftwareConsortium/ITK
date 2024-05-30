@@ -73,7 +73,7 @@ public:
   // macro to set if GPU is used
   itkSetMacro(GPUEnabled, bool);
   itkGetConstMacro(GPUEnabled, bool);
-  itkBooleanMacro(GPUEnabled);
+  itkBooleanMacro(GPUEnabled)
 
   void
   GenerateData() override;

@@ -115,13 +115,13 @@ public:
   /** Set/Get the use of valley emphasis. Default is false. */
   itkSetMacro(ValleyEmphasis, bool);
   itkGetConstReferenceMacro(ValleyEmphasis, bool);
-  itkBooleanMacro(ValleyEmphasis);
+  itkBooleanMacro(ValleyEmphasis)
 
   /** Should the threshold value be mid-point of the bin or the maximum?
    * Default is to return bin maximum. */
   itkSetMacro(ReturnBinMidpoint, bool);
   itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
-  itkBooleanMacro(ReturnBinMidpoint);
+  itkBooleanMacro(ReturnBinMidpoint)
 
   /** Get the computed threshold. */
   const ThresholdVectorType &

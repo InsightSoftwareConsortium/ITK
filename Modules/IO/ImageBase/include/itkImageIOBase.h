@@ -258,7 +258,7 @@ public:
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
-  itkBooleanMacro(UseCompression);
+  itkBooleanMacro(UseCompression)
 
   /** \brief Set/Get a compression level hint
    *
@@ -286,12 +286,12 @@ public:
   /** Set/Get a boolean to use streaming while reading or not. */
   itkSetMacro(UseStreamedReading, bool);
   itkGetConstMacro(UseStreamedReading, bool);
-  itkBooleanMacro(UseStreamedReading);
+  itkBooleanMacro(UseStreamedReading)
 
   /** Set/Get a boolean to use streaming while writing or not. */
   itkSetMacro(UseStreamedWriting, bool);
   itkGetConstMacro(UseStreamedWriting, bool);
-  itkBooleanMacro(UseStreamedWriting);
+  itkBooleanMacro(UseStreamedWriting)
 
   /** Set/Get a boolean to perform RGB palette expansion.
    * If true, palette image is read as RGB,
@@ -299,13 +299,13 @@ public:
    * A RGB image is always read as RGB.*/
   itkSetMacro(ExpandRGBPalette, bool);
   itkGetConstMacro(ExpandRGBPalette, bool);
-  itkBooleanMacro(ExpandRGBPalette);
+  itkBooleanMacro(ExpandRGBPalette)
 
   /** Set/Get a boolean to include a color palette while writing
    * the image file. Applies only for scalar Pixels*/
   itkSetMacro(WritePalette, bool);
   itkGetConstMacro(WritePalette, bool);
-  itkBooleanMacro(WritePalette);
+  itkBooleanMacro(WritePalette)
 
   /** Determine whether a palletized image file has been read as a scalar image
    *  plus a color palette.

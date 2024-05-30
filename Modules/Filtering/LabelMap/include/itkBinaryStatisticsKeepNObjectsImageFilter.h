@@ -100,7 +100,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -137,7 +137,7 @@ public:
    */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
-  itkBooleanMacro(ReverseOrdering);
+  itkBooleanMacro(ReverseOrdering)
 
   /**
    * Set/Get the attribute to use to select the object to keep. The default

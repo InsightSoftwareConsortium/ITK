@@ -98,7 +98,7 @@ public:
    * complex part. Default is false. */
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstMacro(CalculateImaginaryPart, bool);
-  itkBooleanMacro(CalculateImaginaryPart);
+  itkBooleanMacro(CalculateImaginaryPart)
 
 protected:
   GaborKernelFunction()

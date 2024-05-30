@@ -104,7 +104,7 @@ public:
    * Default is to return bin maximum. */
   itkSetMacro(ReturnBinMidpoint, bool);
   itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
-  itkBooleanMacro(ReturnBinMidpoint);
+  itkBooleanMacro(ReturnBinMidpoint)
 
 protected:
   OtsuThresholdImageFilter() { this->SetCalculator(CalculatorType::New()); }

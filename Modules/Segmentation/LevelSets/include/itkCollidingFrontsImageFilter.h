@@ -145,11 +145,11 @@ public:
 
   itkSetMacro(ApplyConnectivity, bool);
   itkGetConstMacro(ApplyConnectivity, bool);
-  itkBooleanMacro(ApplyConnectivity);
+  itkBooleanMacro(ApplyConnectivity)
 
   itkSetMacro(StopOnTargets, bool);
   itkGetConstMacro(StopOnTargets, bool);
-  itkBooleanMacro(StopOnTargets);
+  itkBooleanMacro(StopOnTargets)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

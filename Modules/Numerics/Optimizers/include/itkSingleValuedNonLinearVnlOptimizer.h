@@ -70,7 +70,7 @@ public:
    * -1.0. */
   itkGetConstReferenceMacro(Maximize, bool);
   itkSetMacro(Maximize, bool);
-  itkBooleanMacro(Maximize);
+  itkBooleanMacro(Maximize)
   bool
   GetMinimize() const
   {

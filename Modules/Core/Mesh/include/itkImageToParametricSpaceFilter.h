@@ -96,7 +96,7 @@ public:
    * an operator=(). Default value = true */
   itkSetMacro(ComputeIndices, bool);
   itkGetConstMacro(ComputeIndices, bool);
-  itkBooleanMacro(ComputeIndices);
+  itkBooleanMacro(ComputeIndices)
 
 protected:
   ImageToParametricSpaceFilter();

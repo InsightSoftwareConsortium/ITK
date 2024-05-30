@@ -78,7 +78,7 @@ public:
   /** Set/Get whether or not to normalize the Gaussian. Default is false. */
   itkSetMacro(Normalized, bool);
   itkGetConstMacro(Normalized, bool);
-  itkBooleanMacro(Normalized);
+  itkBooleanMacro(Normalized)
 
   /** Set/Get the standard deviation in each direction. */
   itkSetMacro(Sigma, ArrayType);

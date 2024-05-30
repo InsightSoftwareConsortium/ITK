@@ -141,7 +141,7 @@ public:
    * Normalize covariance by the sum of the weights of the nearest neighbors.
    * Default = true.
    */
-  itkBooleanMacro(Normalize);
+  itkBooleanMacro(Normalize)
 
   /**
    * Construct covariances using the local neighborhood point set structure.
@@ -162,7 +162,7 @@ public:
    * Otherwise, the Gaussian for each point is characterized by the value
    * of m_RegularizationSigma.  Default = true.
    */
-  itkBooleanMacro(UseAnisotropicCovariances);
+  itkBooleanMacro(UseAnisotropicCovariances)
 
   /** Set the input point set */
   void

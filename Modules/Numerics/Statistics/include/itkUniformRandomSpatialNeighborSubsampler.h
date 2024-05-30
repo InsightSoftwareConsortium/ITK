@@ -112,7 +112,7 @@ public:
     }
   }
 
-  itkBooleanMacro(UseClockForSeed);
+  itkBooleanMacro(UseClockForSeed)
   itkGetConstMacro(UseClockForSeed, bool);
 
   virtual void

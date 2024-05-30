@@ -400,14 +400,14 @@ public:
    */
   itkSetMacro(UseLandmarks, bool);
   itkGetMacro(UseLandmarks, bool);
-  itkBooleanMacro(UseLandmarks);
+  itkBooleanMacro(UseLandmarks)
 
   /**
    * Get/Set Use of the mass matrix in FEM solution. This should be true.
    */
   itkSetMacro(UseMassMatrix, bool);
   itkGetMacro(UseMassMatrix, bool);
-  itkBooleanMacro(UseMassMatrix);
+  itkBooleanMacro(UseMassMatrix)
 
   /**
    * Get/Set the energy below which we decide the solution has converged.
@@ -471,7 +471,7 @@ public:
    */
   itkSetMacro(UseNormalizedGradient, bool);
   itkGetMacro(UseNormalizedGradient, bool);
-  itkBooleanMacro(UseNormalizedGradient);
+  itkBooleanMacro(UseNormalizedGradient)
 
   /**
    * Get/Set the number of iterations before regridding is employed.
@@ -553,7 +553,7 @@ public:
    */
   itkSetMacro(CreateMeshFromImage, bool);
   itkGetMacro(CreateMeshFromImage, bool);
-  itkBooleanMacro(CreateMeshFromImage);
+  itkBooleanMacro(CreateMeshFromImage)
 
   /** Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);

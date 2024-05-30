@@ -119,7 +119,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
   // only set after completion
   itkGetConstReferenceMacro(NumberOfObjects, SizeValueType);

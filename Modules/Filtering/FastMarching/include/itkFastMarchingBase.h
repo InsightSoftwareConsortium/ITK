@@ -228,7 +228,7 @@ public:
 
   /** Get the Collect Points flag. */
   itkGetConstReferenceMacro(CollectPoints, bool);
-  itkBooleanMacro(CollectPoints);
+  itkBooleanMacro(CollectPoints)
 
 protected:
   /** \brief Constructor */

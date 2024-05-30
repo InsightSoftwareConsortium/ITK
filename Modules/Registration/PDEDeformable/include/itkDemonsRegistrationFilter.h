@@ -112,7 +112,7 @@ public:
    * for computing the displacement field updates. */
   itkSetMacro(UseMovingImageGradient, bool);
   itkGetConstMacro(UseMovingImageGradient, bool);
-  itkBooleanMacro(UseMovingImageGradient);
+  itkBooleanMacro(UseMovingImageGradient)
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a

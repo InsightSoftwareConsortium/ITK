@@ -351,7 +351,7 @@ public:
   }
 
   itkGetConstReferenceMacro(ReleaseDataFlag, bool);
-  itkBooleanMacro(ReleaseDataFlag);
+  itkBooleanMacro(ReleaseDataFlag)
 
   /** Turn on/off a flag to control whether every object releases its data
    * after being used by a filter. Being a global flag, it controls the

@@ -107,7 +107,7 @@ public:
    * components. Defaults to off. */
   itkSetMacro(Normalize, bool);
   itkGetConstMacro(Normalize, bool);
-  itkBooleanMacro(Normalize);
+  itkBooleanMacro(Normalize)
 
   /** Reverse compatibility for enumerations */
   using OutputRegionModeEnum = ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion;

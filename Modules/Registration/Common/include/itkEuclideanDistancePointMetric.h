@@ -113,7 +113,7 @@ public:
    *  of distances^4 instead of the sum of distances^2. Default is false. */
   itkSetMacro(ComputeSquaredDistance, bool);
   itkGetConstMacro(ComputeSquaredDistance, bool);
-  itkBooleanMacro(ComputeSquaredDistance);
+  itkBooleanMacro(ComputeSquaredDistance)
 
 protected:
   EuclideanDistancePointMetric();

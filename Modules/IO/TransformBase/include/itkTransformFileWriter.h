@@ -83,12 +83,12 @@ public:
   /** Set/Get the write mode (append/overwrite) for the filter. */
   itkSetMacro(AppendMode, bool);
   itkGetConstMacro(AppendMode, bool);
-  itkBooleanMacro(AppendMode);
+  itkBooleanMacro(AppendMode)
 
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
-  itkBooleanMacro(UseCompression);
+  itkBooleanMacro(UseCompression)
 
   /** Set/Get the input transform to write */
   void

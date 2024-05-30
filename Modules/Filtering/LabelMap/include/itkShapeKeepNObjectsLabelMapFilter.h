@@ -89,7 +89,7 @@ public:
    */
   itkSetMacro(ReverseOrdering, bool);
   itkGetConstReferenceMacro(ReverseOrdering, bool);
-  itkBooleanMacro(ReverseOrdering);
+  itkBooleanMacro(ReverseOrdering)
 
   /**
    * Set/Get the number of objects to keep

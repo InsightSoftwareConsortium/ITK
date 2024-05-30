@@ -154,7 +154,7 @@ public:
   // Set/get compute number of exp. integration steps automatically
   itkSetMacro(CalculateNumberOfIntegrationStepsAutomatically, bool);
   itkGetConstMacro(CalculateNumberOfIntegrationStepsAutomatically, bool);
-  itkBooleanMacro(CalculateNumberOfIntegrationStepsAutomatically);
+  itkBooleanMacro(CalculateNumberOfIntegrationStepsAutomatically)
 
   /**
    * Set the lower time bound defining the integration domain of the transform.

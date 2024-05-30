@@ -67,7 +67,7 @@ public:
    * Default is to return bin maximum. */
   itkSetMacro(ReturnBinMidpoint, bool);
   itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
-  itkBooleanMacro(ReturnBinMidpoint);
+  itkBooleanMacro(ReturnBinMidpoint)
 
   /** for backward compatibility. Update() should be preferred. */
   void

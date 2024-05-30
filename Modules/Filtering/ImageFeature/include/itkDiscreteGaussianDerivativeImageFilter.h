@@ -169,14 +169,14 @@ public:
       image in its calculations. Default is ImageSpacingOn. */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
    * Normalized derivatives are obtained multiplying by the scale
    * parameter t. */
   itkSetMacro(NormalizeAcrossScale, bool);
   itkGetConstMacro(NormalizeAcrossScale, bool);
-  itkBooleanMacro(NormalizeAcrossScale);
+  itkBooleanMacro(NormalizeAcrossScale)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

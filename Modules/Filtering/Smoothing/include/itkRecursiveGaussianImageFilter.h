@@ -178,7 +178,7 @@ public:
      */
   itkSetMacro(NormalizeAcrossScale, bool);
   itkGetConstMacro(NormalizeAcrossScale, bool);
-  itkBooleanMacro(NormalizeAcrossScale);
+  itkBooleanMacro(NormalizeAcrossScale)
 
   /** Set/Get the Order of the Gaussian to convolve with.
       \li ZeroOrder is equivalent to convolving with a Gaussian.  This

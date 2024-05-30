@@ -133,14 +133,14 @@ public:
    */
   itkSetMacro(Negated, bool);
   itkGetConstReferenceMacro(Negated, bool);
-  itkBooleanMacro(Negated);
+  itkBooleanMacro(Negated)
 
   /**
    * Set/Get whether the image size should be adjusted to the masked image or not.
    */
   itkSetMacro(Crop, bool);
   itkGetConstReferenceMacro(Crop, bool);
-  itkBooleanMacro(Crop);
+  itkBooleanMacro(Crop)
 
   /**
    * Set/Get the border added to the mask before the crop. The default is 0 on

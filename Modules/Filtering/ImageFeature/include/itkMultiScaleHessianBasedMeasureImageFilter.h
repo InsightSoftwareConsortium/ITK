@@ -157,7 +157,7 @@ public:
    */
   itkSetMacro(NonNegativeHessianBasedMeasure, bool);
   itkGetConstMacro(NonNegativeHessianBasedMeasure, bool);
-  itkBooleanMacro(NonNegativeHessianBasedMeasure);
+  itkBooleanMacro(NonNegativeHessianBasedMeasure)
 
   using SigmaStepMethodEnum = MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod;
 #if !defined(ITK_LEGACY_REMOVE)
@@ -193,13 +193,13 @@ public:
    *  each pixel for the best vesselness response */
   itkSetMacro(GenerateScalesOutput, bool);
   itkGetConstMacro(GenerateScalesOutput, bool);
-  itkBooleanMacro(GenerateScalesOutput);
+  itkBooleanMacro(GenerateScalesOutput)
 
   /** Methods to turn on/off flag to generate an image with hessian values at
    *  each pixel for the best vesselness response */
   itkSetMacro(GenerateHessianOutput, bool);
   itkGetConstMacro(GenerateHessianOutput, bool);
-  itkBooleanMacro(GenerateHessianOutput);
+  itkBooleanMacro(GenerateHessianOutput)
 
   /** This is overloaded to create the Scales and Hessian output images */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;

@@ -108,7 +108,7 @@ public:
 
   itkSetMacro(IsForbiddenImageBinaryMask, bool);
   itkGetConstMacro(IsForbiddenImageBinaryMask, bool);
-  itkBooleanMacro(IsForbiddenImageBinaryMask);
+  itkBooleanMacro(IsForbiddenImageBinaryMask)
 
   /** \brief Get resulting Alive Points container*/
   NodePairContainerType *

@@ -128,7 +128,7 @@ public:
    */
   itkSetMacro(PrintParameters, bool);
   itkGetMacro(PrintParameters, bool);
-  itkBooleanMacro(PrintParameters);
+  itkBooleanMacro(PrintParameters)
 
 
 protected:

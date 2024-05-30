@@ -178,19 +178,19 @@ public:
   /** Preserve the original DICOM UIDs of the input files. */
   itkSetMacro(KeepOriginalUID, bool);
   itkGetConstMacro(KeepOriginalUID, bool);
-  itkBooleanMacro(KeepOriginalUID);
+  itkBooleanMacro(KeepOriginalUID)
 
   /** Parse and load any private tags in the DICOM file. Loading DICOM
    * files is faster when private tags are not needed. Default is false. */
   itkSetMacro(LoadPrivateTags, bool);
   itkGetConstMacro(LoadPrivateTags, bool);
-  itkBooleanMacro(LoadPrivateTags);
+  itkBooleanMacro(LoadPrivateTags)
 
   /** Convert Y'CbCr (YBR_FULL, YBR_FULL_422) to RGB. Default is true,
    * not required for YBR_RCT and YBR_ICT. */
   itkSetMacro(ReadYBRtoRGB, bool);
   itkGetConstMacro(ReadYBRtoRGB, bool);
-  itkBooleanMacro(ReadYBRtoRGB);
+  itkBooleanMacro(ReadYBRtoRGB)
 
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
   /** Convenience methods to query patient information and scanner

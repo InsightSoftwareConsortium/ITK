@@ -77,7 +77,7 @@ public:
   /** Set the type of tube end-type: false = flat, true = rounded */
   itkSetMacro(EndRounded, bool);
   itkGetConstMacro(EndRounded, bool);
-  itkBooleanMacro(EndRounded);
+  itkBooleanMacro(EndRounded)
 
   /** Compute the tangents and normals of the centerline of the tube. */
   bool
@@ -108,7 +108,7 @@ public:
    *  tube network in the scene */
   itkGetConstMacro(Root, bool);
 
-  itkBooleanMacro(Root);
+  itkBooleanMacro(Root)
 
   /** Test whether a point is inside the object: returns true if the point is inside the tube, false otherwise.
    *

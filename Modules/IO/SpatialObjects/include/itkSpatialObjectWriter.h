@@ -79,7 +79,7 @@ public:
 
   itkSetMacro(BinaryPoints, bool);
   itkGetConstMacro(BinaryPoints, bool);
-  itkBooleanMacro(BinaryPoints);
+  itkBooleanMacro(BinaryPoints)
 
   void
   SetTransformPrecision(unsigned int precision);
@@ -90,7 +90,7 @@ public:
   /** Set/Get if the images should be written in a different file */
   itkSetMacro(WriteImagesInSeparateFile, bool);
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
-  itkBooleanMacro(WriteImagesInSeparateFile);
+  itkBooleanMacro(WriteImagesInSeparateFile)
 
   /** Add a converter for a new MetaObject/SpatialObject type */
   void

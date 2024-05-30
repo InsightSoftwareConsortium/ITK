@@ -459,16 +459,16 @@ public:
   itkGetConstMacro(CellBufferSize, SizeValueType);
   itkSetMacro(UpdatePoints, bool);
   itkGetConstMacro(UpdatePoints, bool);
-  itkBooleanMacro(UpdatePoints);
+  itkBooleanMacro(UpdatePoints)
   itkSetMacro(UpdateCells, bool);
   itkGetConstMacro(UpdateCells, bool);
-  itkBooleanMacro(UpdateCells);
+  itkBooleanMacro(UpdateCells)
   itkSetMacro(UpdatePointData, bool);
   itkGetConstMacro(UpdatePointData, bool);
-  itkBooleanMacro(UpdatePointData);
+  itkBooleanMacro(UpdatePointData)
   itkSetMacro(UpdateCellData, bool);
   itkGetConstMacro(UpdateCellData, bool);
-  itkBooleanMacro(UpdateCellData);
+  itkBooleanMacro(UpdateCellData)
 
   unsigned int
   GetComponentSize(IOComponentEnum componentType) const;
@@ -527,7 +527,7 @@ public:
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
-  itkBooleanMacro(UseCompression);
+  itkBooleanMacro(UseCompression)
 
   /** Convenience method returns the IOFileEnum as a string. This can be
    * used for writing output files. */

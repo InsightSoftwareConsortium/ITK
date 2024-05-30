@@ -143,7 +143,7 @@ public:
    *  weights provided via the SetPatchWeights method.
    */
   itkSetMacro(UseSmoothDiscPatchWeights, bool);
-  itkBooleanMacro(UseSmoothDiscPatchWeights);
+  itkBooleanMacro(UseSmoothDiscPatchWeights)
   itkGetConstMacro(UseSmoothDiscPatchWeights, bool);
 
   /** Set/Get initial kernel bandwidth estimate.
@@ -164,7 +164,7 @@ public:
   /** Set/Get flag indicating whether conditional derivatives should be used
     estimating sigma. */
   itkSetMacro(ComputeConditionalDerivatives, bool);
-  itkBooleanMacro(ComputeConditionalDerivatives);
+  itkBooleanMacro(ComputeConditionalDerivatives)
   itkGetConstMacro(ComputeConditionalDerivatives, bool);
 
   /** Set/Get flag indicating whether the fast algorithm for tensor computations should be used.
@@ -181,7 +181,7 @@ public:
    *  performance.
    */
   itkSetMacro(UseFastTensorComputations, bool);
-  itkBooleanMacro(UseFastTensorComputations);
+  itkBooleanMacro(UseFastTensorComputations)
   itkGetConstMacro(UseFastTensorComputations, bool);
 
   /** Maximum number of Newton-Raphson iterations for sigma update. */

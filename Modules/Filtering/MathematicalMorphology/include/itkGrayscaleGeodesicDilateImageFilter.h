@@ -123,7 +123,7 @@ public:
    * to "reconstruction by dilation". Default is off. */
   itkSetMacro(RunOneIteration, bool);
   itkGetConstMacro(RunOneIteration, bool);
-  itkBooleanMacro(RunOneIteration);
+  itkBooleanMacro(RunOneIteration)
 
   /** Get the number of iterations used to produce the current
    * output. */
@@ -137,7 +137,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

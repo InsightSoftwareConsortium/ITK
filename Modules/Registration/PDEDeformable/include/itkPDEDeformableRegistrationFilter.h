@@ -155,7 +155,7 @@ public:
    * deviations are specified with SetStandardDeviations() */
   itkSetMacro(SmoothDisplacementField, bool);
   itkGetConstMacro(SmoothDisplacementField, bool);
-  itkBooleanMacro(SmoothDisplacementField);
+  itkBooleanMacro(SmoothDisplacementField)
 
   using StandardDeviationsType = FixedArray<double, ImageDimension>;
 
@@ -177,7 +177,7 @@ public:
    * deviations are specified with SetUpdateFieldStandardDeviations() */
   itkSetMacro(SmoothUpdateField, bool);
   itkGetConstMacro(SmoothUpdateField, bool);
-  itkBooleanMacro(SmoothUpdateField);
+  itkBooleanMacro(SmoothUpdateField)
 
   /** Set the Gaussian smoothing standard deviations for the update
    * field. The values are set with respect to pixel coordinates. */

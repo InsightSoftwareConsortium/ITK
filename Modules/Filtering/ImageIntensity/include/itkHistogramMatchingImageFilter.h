@@ -145,7 +145,7 @@ public:
    * used. */
   itkSetMacro(ThresholdAtMeanIntensity, bool);
   itkGetConstMacro(ThresholdAtMeanIntensity, bool);
-  itkBooleanMacro(ThresholdAtMeanIntensity);
+  itkBooleanMacro(ThresholdAtMeanIntensity)
 
   /** Set/Get if the reference histogram is regenerated from
    * the supplied ReferenceImage (true) or supplied directly
@@ -158,7 +158,7 @@ public:
    */
   itkSetMacro(GenerateReferenceHistogramFromImage, bool);
   itkGetConstMacro(GenerateReferenceHistogramFromImage, bool);
-  itkBooleanMacro(GenerateReferenceHistogramFromImage);
+  itkBooleanMacro(GenerateReferenceHistogramFromImage)
 
   /** This filter requires all of the input to be in the buffer. */
   void

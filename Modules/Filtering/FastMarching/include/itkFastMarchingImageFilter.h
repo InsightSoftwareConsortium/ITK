@@ -334,7 +334,7 @@ public:
 
   /** Get the Const Collect Points flag. */
   itkGetConstReferenceMacro(CollectPoints, bool);
-  itkBooleanMacro(CollectPoints);
+  itkBooleanMacro(CollectPoints)
 
   /** Get the container of Processed Points. If the CollectPoints flag
    * is set, the algorithm collects a container of all processed nodes.
@@ -372,7 +372,7 @@ public:
   itkGetConstReferenceMacro(OutputOrigin, OutputPointType);
   itkSetMacro(OverrideOutputInformation, bool);
   itkGetConstReferenceMacro(OverrideOutputInformation, bool);
-  itkBooleanMacro(OverrideOutputInformation);
+  itkBooleanMacro(OverrideOutputInformation)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

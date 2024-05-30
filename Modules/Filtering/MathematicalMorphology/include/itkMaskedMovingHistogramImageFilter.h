@@ -143,7 +143,7 @@ public:
   SetGenerateOutputMask(bool);
 
   itkGetConstMacro(GenerateOutputMask, bool);
-  itkBooleanMacro(GenerateOutputMask);
+  itkBooleanMacro(GenerateOutputMask)
 
   /** ConfigureHistogram can be used to configure the histogram. The default version just does nothing. */
   virtual void

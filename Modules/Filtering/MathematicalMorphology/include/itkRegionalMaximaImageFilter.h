@@ -92,7 +92,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
   /**
    * Set/Get the value in the output image to consider as "foreground".
@@ -114,7 +114,7 @@ public:
    */
   itkSetMacro(FlatIsMaxima, bool);
   itkGetConstMacro(FlatIsMaxima, bool);
-  itkBooleanMacro(FlatIsMaxima);
+  itkBooleanMacro(FlatIsMaxima)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

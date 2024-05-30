@@ -129,7 +129,7 @@ public:
   /** Set/Get if the distance should be squared. */
   itkSetMacro(SquaredDistance, bool);
   itkGetConstReferenceMacro(SquaredDistance, bool);
-  itkBooleanMacro(SquaredDistance);
+  itkBooleanMacro(SquaredDistance)
 
   /** Set/Get if the input is binary. If this variable is set, each
    * nonzero pixel in the input image will be given a unique numeric
@@ -138,12 +138,12 @@ public:
    * different nonzero pixels, then you need not set this.  */
   itkSetMacro(InputIsBinary, bool);
   itkGetConstReferenceMacro(InputIsBinary, bool);
-  itkBooleanMacro(InputIsBinary);
+  itkBooleanMacro(InputIsBinary)
 
   /** Set/Get if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
   /** Get Voronoi Map
    * This map shows for each pixel what object is closest to it.

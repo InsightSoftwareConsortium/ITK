@@ -90,7 +90,7 @@ public:
    */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
 protected:
   AreaClosingImageFilter() { m_UseImageSpacing = true; }

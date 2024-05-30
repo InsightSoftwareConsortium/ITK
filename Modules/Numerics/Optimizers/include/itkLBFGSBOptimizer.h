@@ -112,7 +112,7 @@ public:
   SetTrace(bool flag);
 
   itkGetMacro(Trace, bool);
-  itkBooleanMacro(Trace);
+  itkBooleanMacro(Trace)
 
   /** Set the lower bound value for each variable. */
   virtual void

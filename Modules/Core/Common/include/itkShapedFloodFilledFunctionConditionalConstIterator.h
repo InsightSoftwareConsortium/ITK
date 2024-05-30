@@ -239,7 +239,7 @@ public:
   bool
   GetFullyConnected() const;
 
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
   virtual const SeedsContainerType &
   GetSeeds() const

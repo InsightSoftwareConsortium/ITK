@@ -158,7 +158,7 @@ public:
    */
   itkSetMacro(TransformForward, bool);
   itkGetConstMacro(TransformForward, bool);
-  itkBooleanMacro(TransformForward);
+  itkBooleanMacro(TransformForward)
 
   /** Get/Set a point set for virtual domain sampling. */
 #ifndef ITK_FUTURE_LEGACY_REMOVE

@@ -129,7 +129,7 @@ public:
   void
   SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
-  itkBooleanMacro(NormalizeAcrossScale);
+  itkBooleanMacro(NormalizeAcrossScale)
 
   /** Set the number of work units to create. */
   void

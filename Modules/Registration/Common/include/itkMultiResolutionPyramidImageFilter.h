@@ -211,7 +211,7 @@ public:
 
   itkSetMacro(UseShrinkImageFilter, bool);
   itkGetConstMacro(UseShrinkImageFilter, bool);
-  itkBooleanMacro(UseShrinkImageFilter);
+  itkBooleanMacro(UseShrinkImageFilter)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

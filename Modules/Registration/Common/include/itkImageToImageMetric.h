@@ -215,7 +215,7 @@ public:
   /** Set/Get gradient computation. */
   itkSetMacro(ComputeGradient, bool);
   itkGetConstReferenceMacro(ComputeGradient, bool);
-  itkBooleanMacro(ComputeGradient);
+  itkBooleanMacro(ComputeGradient)
 
   /** Computes the gradient image and assigns it to m_GradientImage */
   virtual void
@@ -338,7 +338,7 @@ public:
    * preserve backward compatibility with previous versions of ITK. */
   itkSetMacro(UseCachingOfBSplineWeights, bool);
   itkGetConstReferenceMacro(UseCachingOfBSplineWeights, bool);
-  itkBooleanMacro(UseCachingOfBSplineWeights);
+  itkBooleanMacro(UseCachingOfBSplineWeights)
 
   using MultiThreaderType = MultiThreaderBase;
   /** Get the Threader. */

@@ -181,7 +181,7 @@ public:
 
   /** Get the GenerateGradientImage flag. */
   itkGetConstReferenceMacro(GenerateGradientImage, bool);
-  itkBooleanMacro(GenerateGradientImage);
+  itkBooleanMacro(GenerateGradientImage)
 
   /** Set how long (in terms of arrival times) after targets are reached the
    * front must stop.  This is useful to ensure that the level set of target

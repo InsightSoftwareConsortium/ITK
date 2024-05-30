@@ -100,7 +100,7 @@ public:
    */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
-  itkBooleanMacro(ReverseOrdering);
+  itkBooleanMacro(ReverseOrdering)
 
 protected:
   AttributeOpeningLabelMapFilter();

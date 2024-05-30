@@ -202,7 +202,7 @@ public:
   void
   SetUseImageSpacing(bool);
   itkGetConstMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Set the derivative weights according to the spacing of the input image
@@ -250,7 +250,7 @@ public:
       derivatives squared.  Default is UsePrincipleComponents = true. */
   itkSetMacro(UsePrincipleComponents, bool);
   itkGetConstMacro(UsePrincipleComponents, bool);
-  itkBooleanMacro(UsePrincipleComponents);
+  itkBooleanMacro(UsePrincipleComponents)
 
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** \deprecated Use VectorGradientMagnitudeImageFilter::UsePrincipleComponentsOn instead. */

@@ -71,7 +71,7 @@ public:
   itkOverrideGetNameOfClassMacro(GenerateImageSource);
 
   itkSetMacro(UseReferenceImage, bool);
-  itkBooleanMacro(UseReferenceImage);
+  itkBooleanMacro(UseReferenceImage)
   itkGetConstMacro(UseReferenceImage, bool);
 
   /**

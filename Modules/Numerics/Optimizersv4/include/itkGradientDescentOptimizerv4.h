@@ -131,7 +131,7 @@ public:
    */
   itkSetMacro(DoEstimateLearningRateAtEachIteration, bool);
   itkGetConstReferenceMacro(DoEstimateLearningRateAtEachIteration, bool);
-  itkBooleanMacro(DoEstimateLearningRateAtEachIteration);
+  itkBooleanMacro(DoEstimateLearningRateAtEachIteration)
 
   /** Option to use ScalesEstimator for learning rate estimation
    * only *once*, during first iteration. The estimation overrides the
@@ -142,7 +142,7 @@ public:
    */
   itkSetMacro(DoEstimateLearningRateOnce, bool);
   itkGetConstReferenceMacro(DoEstimateLearningRateOnce, bool);
-  itkBooleanMacro(DoEstimateLearningRateOnce);
+  itkBooleanMacro(DoEstimateLearningRateOnce)
 
   /** Minimum convergence value for convergence checking.
    *  The convergence checker calculates convergence value by fitting to
@@ -183,7 +183,7 @@ public:
    */
   itkSetMacro(ReturnBestParametersAndValue, bool);
   itkGetConstReferenceMacro(ReturnBestParametersAndValue, bool);
-  itkBooleanMacro(ReturnBestParametersAndValue);
+  itkBooleanMacro(ReturnBestParametersAndValue)
 
   /** Start and run the optimization. */
   void

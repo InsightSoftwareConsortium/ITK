@@ -139,7 +139,7 @@ public:
   /* Should we force the boundary to have zero displacement? */
   itkSetMacro(EnforceBoundaryCondition, bool);
   itkGetMacro(EnforceBoundaryCondition, bool);
-  itkBooleanMacro(EnforceBoundaryCondition);
+  itkBooleanMacro(EnforceBoundaryCondition)
 
 protected:
   /** Constructor */

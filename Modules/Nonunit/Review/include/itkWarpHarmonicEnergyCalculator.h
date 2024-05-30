@@ -100,7 +100,7 @@ public:
   void
   SetUseImageSpacing(bool);
   itkGetConstMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
   using WeightsType = FixedArray<double, ImageDimension>;
 

@@ -279,7 +279,7 @@ public:
     this->m_FrequencySpacing[0] = 1.0 / (this->m_Image->GetSpacing()[0] * size_estimated);
   }
   itkGetMacro(ActualXDimensionIsOdd, bool);
-  itkBooleanMacro(ActualXDimensionIsOdd);
+  itkBooleanMacro(ActualXDimensionIsOdd)
 
 private:
   /** Calculate Nyquist frequency index (m_LargestPositiveFrequencyIndex), Min/Max indices from LargestPossibleRegion.

@@ -118,7 +118,7 @@ public:
    * set to false for the opposite direction. */
   itkGetConstMacro(Polarity, bool);
   itkSetMacro(Polarity, bool);
-  itkBooleanMacro(Polarity);
+  itkBooleanMacro(Polarity)
 
 protected:
   ConicShellInteriorExteriorSpatialFunction() = default;

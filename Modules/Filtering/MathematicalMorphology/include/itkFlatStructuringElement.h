@@ -212,7 +212,7 @@ public:
   {
     m_RadiusIsParametric = flag;
   }
-  itkBooleanMacro(RadiusIsParametric);
+  itkBooleanMacro(RadiusIsParametric)
 
   /** Create a FlatStructureElement from a bool
    *  image. Image must be odd in all dimensions.*/

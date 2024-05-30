@@ -127,7 +127,7 @@ public:
   /** enable/disable tensor computations */
   itkSetMacro(ComputeStructureTensors, bool);
   itkGetMacro(ComputeStructureTensors, bool);
-  itkBooleanMacro(ComputeStructureTensors);
+  itkBooleanMacro(ComputeStructureTensors)
 
   /** set fraction of eligible points to select */
   itkSetClampMacro(SelectFraction, double, 0, 1);

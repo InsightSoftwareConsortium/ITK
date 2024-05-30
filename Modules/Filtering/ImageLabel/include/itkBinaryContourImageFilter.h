@@ -107,7 +107,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
   /**
    * Set/Get the background value used to mark the pixels not on the border of the

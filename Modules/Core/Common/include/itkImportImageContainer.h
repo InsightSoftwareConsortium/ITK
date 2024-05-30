@@ -149,7 +149,7 @@ public:
    *  \warning Improper use of these methods will result in memory leaks */
   itkSetMacro(ContainerManageMemory, bool);
   itkGetConstMacro(ContainerManageMemory, bool);
-  itkBooleanMacro(ContainerManageMemory);
+  itkBooleanMacro(ContainerManageMemory)
 
 protected:
   ImportImageContainer() = default;

@@ -91,7 +91,7 @@ public:
    * off. */
   itkSetMacro(NarrowBanding, bool);
   itkGetConstMacro(NarrowBanding, bool);
-  itkBooleanMacro(NarrowBanding);
+  itkBooleanMacro(NarrowBanding)
 
   /** Set/Get the input narrow bandwidth. The default value is 12. */
   itkSetClampMacro(InputNarrowBandwidth, double, 0.0, NumericTraits<double>::max());

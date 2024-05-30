@@ -177,7 +177,7 @@ public:
   /** Method to set UsePixelContainer flag */
   itkSetMacro(UsePixelContainer, bool);
   itkGetConstMacro(UsePixelContainer, bool);
-  itkBooleanMacro(UsePixelContainer);
+  itkBooleanMacro(UsePixelContainer)
 
   //  void PrintSelf(std::ostream& os, Indent indent) const override;
 

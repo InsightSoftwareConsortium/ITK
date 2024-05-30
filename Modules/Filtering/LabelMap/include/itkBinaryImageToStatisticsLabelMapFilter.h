@@ -92,7 +92,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -122,7 +122,7 @@ public:
    */
   itkSetMacro(ComputeFeretDiameter, bool);
   itkGetConstReferenceMacro(ComputeFeretDiameter, bool);
-  itkBooleanMacro(ComputeFeretDiameter);
+  itkBooleanMacro(ComputeFeretDiameter)
 
   /**
    * Set/Get whether the perimeter should be computed or not. The default value
@@ -130,7 +130,7 @@ public:
    */
   itkSetMacro(ComputePerimeter, bool);
   itkGetConstReferenceMacro(ComputePerimeter, bool);
-  itkBooleanMacro(ComputePerimeter);
+  itkBooleanMacro(ComputePerimeter)
 
   /** Set the feature image */
   void
@@ -169,7 +169,7 @@ public:
    */
   itkSetMacro(ComputeHistogram, bool);
   itkGetConstReferenceMacro(ComputeHistogram, bool);
-  itkBooleanMacro(ComputeHistogram);
+  itkBooleanMacro(ComputeHistogram)
 
   /**
    * Set/Get the number of bins in the histogram. Note that the histogram is used

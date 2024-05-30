@@ -97,7 +97,7 @@ public:
    * Default value is false. */
   itkSetMacro(SubtractMean, bool);
   itkGetConstReferenceMacro(SubtractMean, bool);
-  itkBooleanMacro(SubtractMean);
+  itkBooleanMacro(SubtractMean)
 
 protected:
   NormalizedCorrelationImageToImageMetric();

@@ -289,7 +289,7 @@ public:
    *  applications may not use this value and can safely turn the flag off. */
   itkSetMacro(InterpolateSurfaceLocation, bool);
   itkGetConstMacro(InterpolateSurfaceLocation, bool);
-  itkBooleanMacro(InterpolateSurfaceLocation);
+  itkBooleanMacro(InterpolateSurfaceLocation)
 
   void
   SetFunctionCount(const IdCellType & n)

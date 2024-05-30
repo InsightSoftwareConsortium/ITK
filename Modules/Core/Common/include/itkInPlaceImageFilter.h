@@ -112,7 +112,7 @@ public:
    * image type match. */
   itkSetMacro(InPlace, bool);
   itkGetConstMacro(InPlace, bool);
-  itkBooleanMacro(InPlace);
+  itkBooleanMacro(InPlace)
 
   /** Can the filter run in place? To do so, the filter's first input
    * and output must have the same dimension and pixel type. This

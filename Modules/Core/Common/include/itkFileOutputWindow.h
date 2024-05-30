@@ -69,7 +69,7 @@ public:
   /** Set/Get the buffer flushing mode */
   itkSetMacro(Flush, bool);
   itkGetConstMacro(Flush, bool);
-  itkBooleanMacro(Flush);
+  itkBooleanMacro(Flush)
 
   /** Setting append will cause the log file to be
    * opened in append mode.  Otherwise, if the log file exists,
@@ -77,7 +77,7 @@ public:
    * is created. */
   itkSetMacro(Append, bool);
   itkGetConstMacro(Append, bool);
-  itkBooleanMacro(Append);
+  itkBooleanMacro(Append)
 
 protected:
   FileOutputWindow();

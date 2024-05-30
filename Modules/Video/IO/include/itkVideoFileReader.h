@@ -84,7 +84,7 @@ public:
    * frame for the largest possible temporal region */
   itkSetMacro(IFrameSafe, bool);
   itkGetMacro(IFrameSafe, bool);
-  itkBooleanMacro(IFrameSafe);
+  itkBooleanMacro(IFrameSafe)
 
   /** Set up the output information */
   void

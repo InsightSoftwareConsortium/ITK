@@ -92,7 +92,7 @@ public:
   /** Convert gradient to a unit length vector */
   itkSetMacro(UseUnitLengthGradient, bool);
   itkGetConstMacro(UseUnitLengthGradient, bool);
-  itkBooleanMacro(UseUnitLengthGradient);
+  itkBooleanMacro(UseUnitLengthGradient)
 
   /** Start optimization. */
   void

@@ -101,7 +101,7 @@ public:
      peaks is used. */
   itkSetMacro(UseInterMode, bool);
   itkGetConstReferenceMacro(UseInterMode, bool);
-  itkBooleanMacro(UseInterMode);
+  itkBooleanMacro(UseInterMode)
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;

@@ -265,7 +265,7 @@ public:
     this->m_ActualXDimensionIsOdd = value;
   };
   itkGetMacro(ActualXDimensionIsOdd, bool);
-  itkBooleanMacro(ActualXDimensionIsOdd);
+  itkBooleanMacro(ActualXDimensionIsOdd)
 
 private:
   /** Calculate Nyquist frequency index (m_LargestPositiveFrequencyIndex), Min/Max indices from LargestPossibleRegion.

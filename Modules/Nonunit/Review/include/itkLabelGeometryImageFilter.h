@@ -253,7 +253,7 @@ public:
 
   // Macros for enabling the calculation of additional features.
   itkGetMacro(CalculatePixelIndices, bool);
-  itkBooleanMacro(CalculatePixelIndices);
+  itkBooleanMacro(CalculatePixelIndices)
   void SetCalculatePixelIndices(const bool value)
   {
     // CalculateOrientedBoundingBox, CalculateOrientedLabelImage, and
@@ -279,7 +279,7 @@ public:
   }
 
   itkGetMacro(CalculateOrientedBoundingBox, bool);
-  itkBooleanMacro(CalculateOrientedBoundingBox);
+  itkBooleanMacro(CalculateOrientedBoundingBox)
   void SetCalculateOrientedBoundingBox(const bool value)
   {
     if (this->m_CalculateOrientedBoundingBox != value)
@@ -297,7 +297,7 @@ public:
   }
 
   itkGetMacro(CalculateOrientedLabelRegions, bool);
-  itkBooleanMacro(CalculateOrientedLabelRegions);
+  itkBooleanMacro(CalculateOrientedLabelRegions)
   void SetCalculateOrientedLabelRegions(const bool value)
   {
     if (this->m_CalculateOrientedLabelRegions != value)
@@ -315,7 +315,7 @@ public:
   }
 
   itkGetMacro(CalculateOrientedIntensityRegions, bool);
-  itkBooleanMacro(CalculateOrientedIntensityRegions);
+  itkBooleanMacro(CalculateOrientedIntensityRegions)
   void SetCalculateOrientedIntensityRegions(const bool value)
   {
     if (this->m_CalculateOrientedIntensityRegions != value)

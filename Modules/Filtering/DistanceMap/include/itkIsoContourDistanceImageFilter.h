@@ -120,7 +120,7 @@ public:
    * off. */
   itkSetMacro(NarrowBanding, bool);
   itkGetConstMacro(NarrowBanding, bool);
-  itkBooleanMacro(NarrowBanding);
+  itkBooleanMacro(NarrowBanding)
 
   /** Set/Get the narrowband. */
   void

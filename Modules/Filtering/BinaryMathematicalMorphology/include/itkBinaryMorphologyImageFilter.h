@@ -175,7 +175,7 @@ public:
    */
   itkSetMacro(BoundaryToForeground, bool);
   itkGetConstReferenceMacro(BoundaryToForeground, bool);
-  itkBooleanMacro(BoundaryToForeground);
+  itkBooleanMacro(BoundaryToForeground)
 
   /** Set kernel (structuring element). */
   void

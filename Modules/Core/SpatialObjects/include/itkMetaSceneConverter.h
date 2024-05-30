@@ -86,7 +86,7 @@ public:
   /** Set if the points should be saved in binary/ASCII */
   itkSetMacro(BinaryPoints, bool);
   itkGetConstMacro(BinaryPoints, bool);
-  itkBooleanMacro(BinaryPoints);
+  itkBooleanMacro(BinaryPoints)
 
   /** set/get the precision for writing out numbers as plain text */
   itkSetMacro(TransformPrecision, unsigned int);
@@ -95,7 +95,7 @@ public:
   /** Set if the images should be written in different files */
   itkSetMacro(WriteImagesInSeparateFile, bool);
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
-  itkBooleanMacro(WriteImagesInSeparateFile);
+  itkBooleanMacro(WriteImagesInSeparateFile)
 
   /** add new SpatialObject/MetaObject converters at runtime
    *

@@ -92,7 +92,7 @@ public:
   itkSetMacro(MaskValue, PixelType);
   itkGetConstReferenceMacro(MaskValue, PixelType);
 
-  itkBooleanMacro(UseMaskValue);
+  itkBooleanMacro(UseMaskValue)
   itkSetMacro(UseMaskValue, bool);
   itkGetConstReferenceMacro(UseMaskValue, bool);
 

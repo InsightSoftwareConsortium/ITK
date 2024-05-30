@@ -258,7 +258,7 @@ public:
    *  Defaults to false.
    */
   itkSetMacro(KernelBandwidthEstimation, bool);
-  itkBooleanMacro(KernelBandwidthEstimation);
+  itkBooleanMacro(KernelBandwidthEstimation)
   itkGetConstMacro(KernelBandwidthEstimation, bool);
 
   /** Set/Get the update frequency for the kernel bandwidth estimation.
@@ -285,7 +285,7 @@ public:
    * Defaults to false.
    */
   itkSetMacro(AlwaysTreatComponentsAsEuclidean, bool);
-  itkBooleanMacro(AlwaysTreatComponentsAsEuclidean);
+  itkBooleanMacro(AlwaysTreatComponentsAsEuclidean)
   itkGetConstMacro(AlwaysTreatComponentsAsEuclidean, bool);
 
   /** Set the state of the filter to INITIALIZED. */
@@ -308,7 +308,7 @@ public:
    * SetStateToUninitialized(). */
   itkSetMacro(ManualReinitialization, bool);
   itkGetConstReferenceMacro(ManualReinitialization, bool);
-  itkBooleanMacro(ManualReinitialization);
+  itkBooleanMacro(ManualReinitialization)
 
 protected:
   PatchBasedDenoisingBaseImageFilter();

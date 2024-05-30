@@ -214,7 +214,7 @@ public:
    */
   itkSetMacro(DoEstimateScales, bool);
   itkGetConstReferenceMacro(DoEstimateScales, bool);
-  itkBooleanMacro(DoEstimateScales);
+  itkBooleanMacro(DoEstimateScales)
 
   /** Set the number of work units to use when threading.
    * The default is the global default number of work units

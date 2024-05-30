@@ -123,7 +123,7 @@ public:
       this->RecomputeGaussianKernel();
     }
   }
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
   itkGetMacro(UseImageSpacing, bool);
 
   /** The variance for the discrete Gaussian kernel. Sets the variance

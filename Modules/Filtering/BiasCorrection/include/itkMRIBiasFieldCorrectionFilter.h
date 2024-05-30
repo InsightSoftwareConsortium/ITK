@@ -327,7 +327,7 @@ public:
    * internally uses log intensity values for every calculation. */
   itkSetMacro(BiasFieldMultiplicative, bool);
   itkGetConstMacro(BiasFieldMultiplicative, bool);
-  itkBooleanMacro(BiasFieldMultiplicative);
+  itkBooleanMacro(BiasFieldMultiplicative)
 
 #if defined(ITK_LEGACY_REMOVE)
   /** If the bias field is multiplicative, it returns true. */
@@ -344,7 +344,7 @@ public:
    * input images). */
   itkSetMacro(UsingInterSliceIntensityCorrection, bool);
   itkGetConstMacro(UsingInterSliceIntensityCorrection, bool);
-  itkBooleanMacro(UsingInterSliceIntensityCorrection);
+  itkBooleanMacro(UsingInterSliceIntensityCorrection)
 
   /** Set/Get the slab correction flag. If the flag is true, inter-slice
    * intensity correction and bias field correction will be performed slab by
@@ -353,7 +353,7 @@ public:
    * should be buffered. */
   itkSetMacro(UsingSlabIdentification, bool);
   itkGetConstMacro(UsingSlabIdentification, bool);
-  itkBooleanMacro(UsingSlabIdentification);
+  itkBooleanMacro(UsingSlabIdentification)
 
   itkSetMacro(SlabBackgroundMinimumThreshold, InputImagePixelType);
   itkGetConstReferenceMacro(SlabBackgroundMinimumThreshold, InputImagePixelType);
@@ -371,13 +371,13 @@ public:
    * is true). */
   itkSetMacro(UsingBiasFieldCorrection, bool);
   itkGetConstMacro(UsingBiasFieldCorrection, bool);
-  itkBooleanMacro(UsingBiasFieldCorrection);
+  itkBooleanMacro(UsingBiasFieldCorrection)
 
   /** Set/Get the flag. If the flag is true, the output image (corrected image)
    * will be created when this filter is updated (default value is true). */
   itkSetMacro(GeneratingOutput, bool);
   itkGetConstMacro(GeneratingOutput, bool);
-  itkBooleanMacro(GeneratingOutput);
+  itkBooleanMacro(GeneratingOutput)
 
   /** Sets the direction of slicing.
    * 0 - x axis, 1 - y axis, 2 - z axis */

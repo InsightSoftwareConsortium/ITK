@@ -97,7 +97,7 @@ public:
    * MaximumNumberOfIterations ) */
   itkSetMacro(AutomaticNumberOfIterations, bool);
   itkGetConstMacro(AutomaticNumberOfIterations, bool);
-  itkBooleanMacro(AutomaticNumberOfIterations);
+  itkBooleanMacro(AutomaticNumberOfIterations)
 
   /** If ComputeInverse is on, the filter will compute the exponential
    * of the opposite (minus) of the input vector field. The output displacement
@@ -106,7 +106,7 @@ public:
    * each other. */
   itkSetMacro(ComputeInverse, bool);
   itkGetConstMacro(ComputeInverse, bool);
-  itkBooleanMacro(ComputeInverse);
+  itkBooleanMacro(ComputeInverse)
 
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

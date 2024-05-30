@@ -116,7 +116,7 @@ public:
   /** Set the stream On or Off */
   itkSetMacro(UseStreaming, bool);
   itkGetConstReferenceMacro(UseStreaming, bool);
-  itkBooleanMacro(UseStreaming);
+  itkBooleanMacro(UseStreaming)
 
 protected:
   ImageFileReader();

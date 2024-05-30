@@ -66,7 +66,7 @@ public:
   /** Set/Get the direction in which to reflect the data. Default is "Off". */
   itkSetMacro(MaximallyConnected, bool);
   itkGetConstMacro(MaximallyConnected, bool);
-  itkBooleanMacro(MaximallyConnected);
+  itkBooleanMacro(MaximallyConnected)
 
 protected:
   PathToChainCodePathFilter();

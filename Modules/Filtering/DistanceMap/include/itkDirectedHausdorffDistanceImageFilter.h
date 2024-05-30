@@ -128,7 +128,7 @@ public:
   /** Set/Get if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
   /** Return the computed directed Hausdorff distance. */
   itkGetConstMacro(DirectedHausdorffDistance, RealType);

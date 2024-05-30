@@ -159,14 +159,14 @@ public:
    * Default is true for all but char types */
   itkSetMacro(AutoMinimumMaximum, bool);
   itkGetConstMacro(AutoMinimumMaximum, bool);
-  itkBooleanMacro(AutoMinimumMaximum);
+  itkBooleanMacro(AutoMinimumMaximum)
 
   /** Do you want the output to be masked by the mask used in
    * histogram construction. Only relevant if masking is in
    * use. Default is true. */
   itkSetMacro(MaskOutput, bool);
   itkGetConstMacro(MaskOutput, bool);
-  itkBooleanMacro(MaskOutput);
+  itkBooleanMacro(MaskOutput)
 
   /** The value in the mask image, if used, indicating voxels that
   should be included. Default is the max of pixel type, as in the

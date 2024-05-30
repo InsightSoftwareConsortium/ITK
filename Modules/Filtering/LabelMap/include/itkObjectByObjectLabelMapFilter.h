@@ -164,7 +164,7 @@ public:
    */
   itkSetMacro(KeepLabels, bool);
   itkGetMacro(KeepLabels, bool);
-  itkBooleanMacro(KeepLabels);
+  itkBooleanMacro(KeepLabels)
 
   /** If PadSize is not zero, the image produce for each object will be padded.
    * The default value is 1 on all the dimensions.
@@ -178,7 +178,7 @@ public:
    */
   itkSetMacro(ConstrainPaddingToImage, bool);
   itkGetMacro(ConstrainPaddingToImage, bool);
-  itkBooleanMacro(ConstrainPaddingToImage);
+  itkBooleanMacro(ConstrainPaddingToImage)
 
   /** Set/Get whether the internal image produced by OutputFilter should be interpreted
    * as a binary image in which the filter have to search for connected components. If
@@ -187,7 +187,7 @@ public:
    */
   itkSetMacro(BinaryInternalOutput, bool);
   itkGetMacro(BinaryInternalOutput, bool);
-  itkBooleanMacro(BinaryInternalOutput);
+  itkBooleanMacro(BinaryInternalOutput)
 
   /** The foreground value used internally to represent the object in the image passed to
    * InputFilter, and to read the data produced by OutputFilter, if BinaryInternalOutput

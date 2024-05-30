@@ -66,7 +66,7 @@ public:
     this->m_MeasureBound = bound;
   }
 
-  itkBooleanMacro(TopologicalChange);
+  itkBooleanMacro(TopologicalChange)
   itkGetConstMacro(TopologicalChange, bool);
   itkSetMacro(TopologicalChange, bool);
 

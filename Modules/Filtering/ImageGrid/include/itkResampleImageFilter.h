@@ -267,7 +267,7 @@ public:
   /** Turn on/off whether a specified reference image should be used to define
    *  the output information. */
   itkSetMacro(UseReferenceImage, bool);
-  itkBooleanMacro(UseReferenceImage);
+  itkBooleanMacro(UseReferenceImage)
   itkGetConstMacro(UseReferenceImage, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

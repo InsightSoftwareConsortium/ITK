@@ -169,12 +169,12 @@ public:
    * parameter t. */
   itkSetMacro(NormalizeAcrossScale, bool);
   itkGetConstMacro(NormalizeAcrossScale, bool);
-  itkBooleanMacro(NormalizeAcrossScale);
+  itkBooleanMacro(NormalizeAcrossScale)
 
   /** Set/Get the flag for using image spacing when calculating derivatives. */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
   /** Set/Get a limit for growth of the kernel. Small maximum error values with
    *  large variances will yield very large kernel sizes. This value can be

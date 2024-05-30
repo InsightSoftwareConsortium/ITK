@@ -87,7 +87,7 @@ public:
 
   itkSetMacro(ChangeBackgroundValue, bool);
   itkGetConstMacro(ChangeBackgroundValue, bool);
-  itkBooleanMacro(ChangeBackgroundValue);
+  itkBooleanMacro(ChangeBackgroundValue)
 
 protected:
   ShiftScaleLabelMapFilter();

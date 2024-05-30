@@ -71,8 +71,8 @@ public:
   /** Set macros */
   itkSetMacro(HasColumnHeaders, bool);
   itkSetMacro(HasRowHeaders, bool);
-  itkBooleanMacro(HasColumnHeaders);
-  itkBooleanMacro(HasRowHeaders);
+  itkBooleanMacro(HasColumnHeaders)
+  itkBooleanMacro(HasRowHeaders)
 
   /** Get macros for Column and Row headers. */
   itkGetConstMacro(HasColumnHeaders, bool);

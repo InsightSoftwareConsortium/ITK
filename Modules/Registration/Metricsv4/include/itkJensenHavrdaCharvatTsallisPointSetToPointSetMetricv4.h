@@ -176,7 +176,7 @@ public:
    * Get/set whether or not anisotropic covariances are determined for each
    * Gaussian.  Default = false.
    */
-  itkBooleanMacro(UseAnisotropicCovariances);
+  itkBooleanMacro(UseAnisotropicCovariances)
 
   /**
    * Set the size of the covariance neighborhood used to construct the

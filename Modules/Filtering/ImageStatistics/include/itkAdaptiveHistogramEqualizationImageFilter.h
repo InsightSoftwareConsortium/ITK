@@ -135,7 +135,7 @@ public:
     }
   }
   itkGetConstMacro(UseLookupTable, bool);
-  itkBooleanMacro(UseLookupTable);
+  itkBooleanMacro(UseLookupTable)
 #endif
 
   void

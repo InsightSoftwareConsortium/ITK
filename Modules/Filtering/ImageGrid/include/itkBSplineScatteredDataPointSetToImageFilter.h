@@ -276,7 +276,7 @@ public:
    * describe the continuous B-spline object. */
   itkSetMacro(GenerateOutputImage, bool);
   itkGetConstReferenceMacro(GenerateOutputImage, bool);
-  itkBooleanMacro(GenerateOutputImage);
+  itkBooleanMacro(GenerateOutputImage)
 
   /** Get the control point lattice produced by the fitting process. */
   PointDataImagePointer

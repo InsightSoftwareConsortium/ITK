@@ -120,7 +120,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
   /**
    * Perform a padding of the image internally to increase the performance
@@ -129,7 +129,7 @@ public:
    */
   itkSetMacro(UseInternalCopy, bool);
   itkGetConstReferenceMacro(UseInternalCopy, bool);
-  itkBooleanMacro(UseInternalCopy);
+  itkBooleanMacro(UseInternalCopy)
 
 protected:
   ReconstructionImageFilter();

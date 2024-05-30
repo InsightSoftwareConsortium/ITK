@@ -106,7 +106,7 @@ public:
   /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
    *  physical space. Default  is UseImageSpacingOn. */
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */

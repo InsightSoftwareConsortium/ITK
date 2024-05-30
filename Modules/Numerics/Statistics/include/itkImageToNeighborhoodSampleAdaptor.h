@@ -135,7 +135,7 @@ public:
   itkGetConstMacro(UseImageRegion, bool);
 
   /** Convenience methods to turn on/off the UseImageRegion flag */
-  itkBooleanMacro(UseImageRegion);
+  itkBooleanMacro(UseImageRegion)
 
 
   /** returns the number of measurement vectors in this container */

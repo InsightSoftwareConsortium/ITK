@@ -105,7 +105,7 @@ public:
    */
   itkSetMacro(ComputeFeretDiameter, bool);
   itkGetConstReferenceMacro(ComputeFeretDiameter, bool);
-  itkBooleanMacro(ComputeFeretDiameter);
+  itkBooleanMacro(ComputeFeretDiameter)
 
   /**
    * Set/Get whether the perimeter should be computed or not.
@@ -113,7 +113,7 @@ public:
    */
   itkSetMacro(ComputePerimeter, bool);
   itkGetConstReferenceMacro(ComputePerimeter, bool);
-  itkBooleanMacro(ComputePerimeter);
+  itkBooleanMacro(ComputePerimeter)
 
   /**
    * Set/Get whether the oriented bounding box should be
@@ -122,7 +122,7 @@ public:
    */
   itkSetMacro(ComputeOrientedBoundingBox, bool);
   itkGetConstReferenceMacro(ComputeOrientedBoundingBox, bool);
-  itkBooleanMacro(ComputeOrientedBoundingBox);
+  itkBooleanMacro(ComputeOrientedBoundingBox)
 
   /** Set the label image */
   void

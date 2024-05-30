@@ -184,7 +184,7 @@ public:
    * Defaults to false. */
   itkSetMacro(UseMaskLabel, bool);
   itkGetConstMacro(UseMaskLabel, bool);
-  itkBooleanMacro(UseMaskLabel);
+  itkBooleanMacro(UseMaskLabel)
 
   /**
    * Set confidence image function.  If a confidence image is specified,

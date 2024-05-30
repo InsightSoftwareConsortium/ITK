@@ -85,7 +85,7 @@ public:
 
   /** Was the original truncated dimension size odd? */
   itkSetGetDecoratedInputMacro(ActualXDimensionIsOdd, bool);
-  itkBooleanMacro(ActualXDimensionIsOdd);
+  itkBooleanMacro(ActualXDimensionIsOdd)
 
   /* Return the preferred greatest prime factor supported for the input image
    * size. Defaults to 2 as many implementations work only for sizes that are

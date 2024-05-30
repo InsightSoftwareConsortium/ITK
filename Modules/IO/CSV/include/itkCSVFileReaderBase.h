@@ -117,9 +117,9 @@ public:
   /** Boolean macros for setting HasRowHeaders, HasColumnHeaders and
    *  UseStringDelimiterCharacter. They can conveniently be set by appending
    *  On() or Off() to each of the variable names. */
-  itkBooleanMacro(HasRowHeaders);
-  itkBooleanMacro(HasColumnHeaders);
-  itkBooleanMacro(UseStringDelimiterCharacter);
+  itkBooleanMacro(HasRowHeaders)
+  itkBooleanMacro(HasColumnHeaders)
+  itkBooleanMacro(UseStringDelimiterCharacter)
 
   /** Counts the number of rows and columns in a file and prepares the file
    * for iterative reading using the GetNextField() method. */

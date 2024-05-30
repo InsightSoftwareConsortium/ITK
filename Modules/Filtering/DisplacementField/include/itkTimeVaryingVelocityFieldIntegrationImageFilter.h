@@ -154,7 +154,7 @@ public:
    */
   itkSetMacro(TimeBoundsAsRates, bool);
   itkGetConstMacro(TimeBoundsAsRates, bool);
-  itkBooleanMacro(TimeBoundsAsRates);
+  itkBooleanMacro(TimeBoundsAsRates)
 
 protected:
   TimeVaryingVelocityFieldIntegrationImageFilter();

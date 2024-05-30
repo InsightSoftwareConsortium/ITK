@@ -118,7 +118,7 @@ public:
    */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
-  itkBooleanMacro(ReverseOrdering);
+  itkBooleanMacro(ReverseOrdering)
 
   /**
    * Set/Get the attribute to use to select the object to keep. The default

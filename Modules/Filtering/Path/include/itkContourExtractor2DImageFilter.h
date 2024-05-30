@@ -157,19 +157,19 @@ public:
    * gradient. (See class documentation.) */
   itkSetMacro(ReverseContourOrientation, bool);
   itkGetConstReferenceMacro(ReverseContourOrientation, bool);
-  itkBooleanMacro(ReverseContourOrientation);
+  itkBooleanMacro(ReverseContourOrientation)
 
   /** Control whether high- or low-valued pixels are vertex-connected.
    * Default is for low-valued pixels to be vertex-connected.
    * (See class documentation.) */
   itkSetMacro(VertexConnectHighPixels, bool);
   itkGetConstReferenceMacro(VertexConnectHighPixels, bool);
-  itkBooleanMacro(VertexConnectHighPixels);
+  itkBooleanMacro(VertexConnectHighPixels)
 
   /** Return contours for all distinct labels */
   itkSetMacro(LabelContours, bool);
   itkGetConstReferenceMacro(LabelContours, bool);
-  itkBooleanMacro(LabelContours);
+  itkBooleanMacro(LabelContours)
 
   /** Control whether the largest possible input region is used, or if a
    * custom requested region is to be used. */

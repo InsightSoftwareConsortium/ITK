@@ -241,7 +241,7 @@ public:
     this->m_ActualXDimensionIsOdd = value;
   };
   itkGetMacro(ActualXDimensionIsOdd, bool);
-  itkBooleanMacro(ActualXDimensionIsOdd);
+  itkBooleanMacro(ActualXDimensionIsOdd)
 
 private:
   /** Calculate m_ZeroFrequencyIndex, and frequency spacing/origin.

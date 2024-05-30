@@ -198,7 +198,7 @@ public:
    */
   itkSetMacro(ConvertRASVectors, bool);
   itkGetConstMacro(ConvertRASVectors, bool);
-  itkBooleanMacro(ConvertRASVectors);
+  itkBooleanMacro(ConvertRASVectors)
 
   /** Enable conversion of vector coordinates between RAS coordinate system (in NIFTI file) and
    * LPS (ITK convention) when reading or writing a "displacement vector" file (intent code: 1006).
@@ -217,12 +217,12 @@ public:
    */
   itkSetMacro(ConvertRASDisplacementVectors, bool);
   itkGetConstMacro(ConvertRASDisplacementVectors, bool);
-  itkBooleanMacro(ConvertRASDisplacementVectors);
+  itkBooleanMacro(ConvertRASDisplacementVectors)
 
   /** Allow to read nifti files with non-orthogonal sform*/
   itkSetMacro(SFORM_Permissive, bool);
   itkGetConstMacro(SFORM_Permissive, bool);
-  itkBooleanMacro(SFORM_Permissive);
+  itkBooleanMacro(SFORM_Permissive)
 
 protected:
   NiftiImageIO();

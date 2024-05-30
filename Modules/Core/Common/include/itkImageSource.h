@@ -397,7 +397,7 @@ protected:
    * thus enabling custom region splitting methods. */
   itkGetConstMacro(DynamicMultiThreading, bool);
   itkSetMacro(DynamicMultiThreading, bool);
-  itkBooleanMacro(DynamicMultiThreading);
+  itkBooleanMacro(DynamicMultiThreading)
 
   bool m_DynamicMultiThreading{};
 };

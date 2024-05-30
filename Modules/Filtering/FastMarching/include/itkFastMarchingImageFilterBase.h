@@ -157,7 +157,7 @@ public:
   itkGetConstReferenceMacro(OutputOrigin, OutputPointType);
   itkSetMacro(OverrideOutputInformation, bool);
   itkGetConstReferenceMacro(OverrideOutputInformation, bool);
-  itkBooleanMacro(OverrideOutputInformation);
+  itkBooleanMacro(OverrideOutputInformation)
 
 protected:
   FastMarchingImageFilterBase();

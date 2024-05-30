@@ -80,7 +80,7 @@ public:
 
   /** Was the original truncated dimension size in the x-dimension odd? */
   itkSetGetDecoratedInputMacro(ActualXDimensionIsOdd, bool);
-  itkBooleanMacro(ActualXDimensionIsOdd);
+  itkBooleanMacro(ActualXDimensionIsOdd)
 
 protected:
   HalfToFullHermitianImageFilter();

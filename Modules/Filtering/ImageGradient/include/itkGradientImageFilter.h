@@ -116,7 +116,7 @@ public:
    * voxel space. Default is On. */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
@@ -161,7 +161,7 @@ public:
    */
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
-  itkBooleanMacro(UseImageDirection);
+  itkBooleanMacro(UseImageDirection)
 
 protected:
   GradientImageFilter();

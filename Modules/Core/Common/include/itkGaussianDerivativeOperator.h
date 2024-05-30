@@ -136,7 +136,7 @@ public:
   {
     return m_NormalizeAcrossScale;
   }
-  itkBooleanMacro(NormalizeAcrossScale);
+  itkBooleanMacro(NormalizeAcrossScale)
 
   /** Set/Get the variance of the Gaussian kernel.
    *

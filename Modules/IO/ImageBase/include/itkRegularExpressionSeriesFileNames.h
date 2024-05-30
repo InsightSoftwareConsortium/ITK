@@ -103,7 +103,7 @@ public:
    * submatch alphabetically. */
   itkSetMacro(NumericSort, bool);
   itkGetConstMacro(NumericSort, bool);
-  itkBooleanMacro(NumericSort);
+  itkBooleanMacro(NumericSort)
 
   /** Returns a vector containing the series' file names. The file
    * names are sorted by the sub expression selected by the SubMatch id. */

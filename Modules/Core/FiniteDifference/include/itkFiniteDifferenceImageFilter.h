@@ -189,7 +189,7 @@ public:
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   itkSetMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
   itkGetConstReferenceMacro(UseImageSpacing, bool);
 
   /** Set/Get the maximum error allowed in the solution.  This may not be
@@ -206,7 +206,7 @@ public:
       SetStateToUninitialized() */
   itkSetMacro(ManualReinitialization, bool);
   itkGetConstReferenceMacro(ManualReinitialization, bool);
-  itkBooleanMacro(ManualReinitialization);
+  itkBooleanMacro(ManualReinitialization)
 
   itkSetMacro(IsInitialized, bool);
   itkGetMacro(IsInitialized, bool);

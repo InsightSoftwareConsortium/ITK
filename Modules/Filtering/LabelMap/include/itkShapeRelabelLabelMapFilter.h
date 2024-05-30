@@ -91,7 +91,7 @@ public:
    */
   itkSetMacro(ReverseOrdering, bool);
   itkGetConstReferenceMacro(ReverseOrdering, bool);
-  itkBooleanMacro(ReverseOrdering);
+  itkBooleanMacro(ReverseOrdering)
 
   /**
    * Set/Get the attribute to use.

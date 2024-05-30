@@ -138,7 +138,7 @@ public:
    * range of output type. Default: On. */
   itkSetMacro(Clamp, bool);
   itkGetConstMacro(Clamp, bool);
-  itkBooleanMacro(Clamp);
+  itkBooleanMacro(Clamp)
 
 protected:
   UnsharpMaskImageFilter();

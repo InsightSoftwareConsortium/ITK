@@ -113,7 +113,7 @@ public:
   itkGetModifiableObjectMacro(ReferenceImage, TInputImage);
 
   itkSetMacro(UseReferenceImage, bool);
-  itkBooleanMacro(UseReferenceImage);
+  itkBooleanMacro(UseReferenceImage)
   itkGetConstMacro(UseReferenceImage, bool);
 
   /** Specify a new data spacing explicitly.  The default is to
@@ -174,7 +174,7 @@ public:
    *      OutputSpacing. */
 
   itkSetMacro(ChangeSpacing, bool);
-  itkBooleanMacro(ChangeSpacing);
+  itkBooleanMacro(ChangeSpacing)
   itkGetConstMacro(ChangeSpacing, bool);
 
   /** Change the Origin of the output image. If false, the output
@@ -184,7 +184,7 @@ public:
    *      OutputOrigin. */
 
   itkSetMacro(ChangeOrigin, bool);
-  itkBooleanMacro(ChangeOrigin);
+  itkBooleanMacro(ChangeOrigin)
   itkGetConstMacro(ChangeOrigin, bool);
 
   /** Change the direction of the output image. If false, the output
@@ -194,20 +194,20 @@ public:
    *  OutputDirection. */
 
   itkSetMacro(ChangeDirection, bool);
-  itkBooleanMacro(ChangeDirection);
+  itkBooleanMacro(ChangeDirection)
   itkGetConstMacro(ChangeDirection, bool);
 
   /** Change the BufferedRegion of the output image. */
 
   itkSetMacro(ChangeRegion, bool);
-  itkBooleanMacro(ChangeRegion);
+  itkBooleanMacro(ChangeRegion)
   itkGetConstMacro(ChangeRegion, bool);
 
   /** Set the Origin of the output so that image coordinate (0,0,0)
    * lies at the Center of the Image.  This will override
    * SetOutputOrigin. */
   itkSetMacro(CenterImage, bool);
-  itkBooleanMacro(CenterImage);
+  itkBooleanMacro(CenterImage)
   itkGetConstMacro(CenterImage, bool);
 
   /** Apply changes to the output image information. */

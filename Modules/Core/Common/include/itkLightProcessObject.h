@@ -95,7 +95,7 @@ public:
   itkGetConstReferenceMacro(AbortGenerateData, bool);
 
   /** Turn on and off the AbortGenerateData flag. */
-  itkBooleanMacro(AbortGenerateData);
+  itkBooleanMacro(AbortGenerateData)
 
   /** Set the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning

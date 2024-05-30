@@ -56,7 +56,7 @@ public:
    *  If set to On, data will be stored in the file in binary format; if set
    *  to Off, data will be stored in ascii format.
    *  Default is Off. */
-  itkBooleanMacro(Binary);
+  itkBooleanMacro(Binary)
   itkSetMacro(Binary, bool);
   itkGetConstMacro(Binary, bool);
 

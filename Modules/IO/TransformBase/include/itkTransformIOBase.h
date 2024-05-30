@@ -127,12 +127,12 @@ public:
   /** Set the writer to append to the specified file */
   itkSetMacro(AppendMode, bool);
   itkGetConstMacro(AppendMode, bool);
-  itkBooleanMacro(AppendMode);
+  itkBooleanMacro(AppendMode)
 
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
-  itkBooleanMacro(UseCompression);
+  itkBooleanMacro(UseCompression)
 
   /** The transform type has a string representation used when reading
    * and writing transform files.  In the case where a double-precision

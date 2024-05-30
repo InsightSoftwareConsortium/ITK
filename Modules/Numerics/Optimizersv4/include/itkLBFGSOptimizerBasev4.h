@@ -119,7 +119,7 @@ public:
   SetTrace(bool flag);
 
   itkGetConstMacro(Trace, bool);
-  itkBooleanMacro(Trace);
+  itkBooleanMacro(Trace)
 
   /** Set/Get the maximum number of function evaluations allowed. */
   virtual void

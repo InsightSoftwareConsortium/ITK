@@ -169,7 +169,7 @@ public:
    */
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
-  itkBooleanMacro(UseImageDirection);
+  itkBooleanMacro(UseImageDirection)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

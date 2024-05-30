@@ -208,7 +208,7 @@ public:
    * SetGivenCoordinateOrientation method to establish the
    * orientation. For compatibility with the original API, the default value
    * is Off. */
-  itkBooleanMacro(UseImageDirection);
+  itkBooleanMacro(UseImageDirection)
   itkGetConstMacro(UseImageDirection, bool);
   itkSetMacro(UseImageDirection, bool);
 

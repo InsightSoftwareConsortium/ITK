@@ -118,13 +118,13 @@ public:
    * from last to first */
   itkSetMacro(ReverseOrder, bool);
   itkGetConstMacro(ReverseOrder, bool);
-  itkBooleanMacro(ReverseOrder);
+  itkBooleanMacro(ReverseOrder)
 
   /** Do we want to force orthogonal direction cosines? On by default.
    * Turning it off enables proper reading of DICOM series with gantry tilt. */
   itkSetMacro(ForceOrthogonalDirection, bool);
   itkGetConstMacro(ForceOrthogonalDirection, bool);
-  itkBooleanMacro(ForceOrthogonalDirection);
+  itkBooleanMacro(ForceOrthogonalDirection)
 
   /** Set/Get the ImageIO helper class. By default, the
    * ImageSeriesReader uses the factory mechanism of the
@@ -144,7 +144,7 @@ public:
    */
   itkSetMacro(MetaDataDictionaryArrayUpdate, bool);
   itkGetConstMacro(MetaDataDictionaryArrayUpdate, bool);
-  itkBooleanMacro(MetaDataDictionaryArrayUpdate);
+  itkBooleanMacro(MetaDataDictionaryArrayUpdate)
 
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
@@ -167,7 +167,7 @@ public:
   /** Set the stream On or Off */
   itkSetMacro(UseStreaming, bool);
   itkGetConstReferenceMacro(UseStreaming, bool);
-  itkBooleanMacro(UseStreaming);
+  itkBooleanMacro(UseStreaming)
 
   /** Set the relative threshold for issuing warnings about non-uniform sampling */
   itkSetMacro(SpacingWarningRelThreshold, double);

@@ -123,7 +123,7 @@ public:
    */
   itkSetMacro(ComputeHistogram, bool);
   itkGetConstReferenceMacro(ComputeHistogram, bool);
-  itkBooleanMacro(ComputeHistogram);
+  itkBooleanMacro(ComputeHistogram)
 
   /**
    * Set/Get the number of bins in the histogram. Note that the histogram is used

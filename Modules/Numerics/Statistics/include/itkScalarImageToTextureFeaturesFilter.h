@@ -211,7 +211,7 @@ public:
 
   itkGetConstMacro(FastCalculations, bool);
   itkSetMacro(FastCalculations, bool);
-  itkBooleanMacro(FastCalculations);
+  itkBooleanMacro(FastCalculations)
 
 protected:
   ScalarImageToTextureFeaturesFilter();

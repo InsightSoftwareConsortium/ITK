@@ -179,7 +179,7 @@ public:
   void
   SetUseImageSpacing(bool);
   itkGetConstMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
+  itkBooleanMacro(UseImageSpacing)
 
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Set the derivative weights according to the spacing of the input image

@@ -123,7 +123,7 @@ public:
    * messages. */
   itkSetMacro(PromptUser, bool);
   itkGetConstMacro(PromptUser, bool);
-  itkBooleanMacro(PromptUser);
+  itkBooleanMacro(PromptUser)
 
 protected:
   OutputWindow();

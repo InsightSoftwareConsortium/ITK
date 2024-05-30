@@ -299,7 +299,7 @@ public:
   itkGetConstReferenceMacro(AbortGenerateData, bool);
 
   /** \brief Turn on and off the AbortGenerateData flag. */
-  itkBooleanMacro(AbortGenerateData);
+  itkBooleanMacro(AbortGenerateData)
 
   /** \deprecated
    * Set the execution progress of a process object. The progress is
@@ -488,7 +488,7 @@ public:
    * utilization. Default value is on. */
   itkSetMacro(ReleaseDataBeforeUpdateFlag, bool);
   itkGetConstReferenceMacro(ReleaseDataBeforeUpdateFlag, bool);
-  itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
+  itkBooleanMacro(ReleaseDataBeforeUpdateFlag)
 
   /** Get/Set the number of work units to create when executing. */
   itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
@@ -893,7 +893,7 @@ protected:
    * updated in derived filters.
    */
   itkGetConstMacro(ThreaderUpdateProgress, bool);
-  itkBooleanMacro(ThreaderUpdateProgress);
+  itkBooleanMacro(ThreaderUpdateProgress)
   virtual void
   SetThreaderUpdateProgress(bool arg);
 

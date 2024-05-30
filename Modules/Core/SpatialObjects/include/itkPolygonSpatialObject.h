@@ -77,7 +77,7 @@ public:
   /** Get if the contour is closed */
   itkGetConstMacro(IsClosed, bool);
 
-  itkBooleanMacro(IsClosed);
+  itkBooleanMacro(IsClosed)
 
   /** Method returns area of polygon described by points */
   double

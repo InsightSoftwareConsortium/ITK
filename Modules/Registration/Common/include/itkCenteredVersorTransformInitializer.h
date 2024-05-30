@@ -88,7 +88,7 @@ public:
    * initial rotation that will align them. */
   itkSetMacro(ComputeRotation, bool);
   itkGetMacro(ComputeRotation, bool);
-  itkBooleanMacro(ComputeRotation);
+  itkBooleanMacro(ComputeRotation)
 
 protected:
   CenteredVersorTransformInitializer();

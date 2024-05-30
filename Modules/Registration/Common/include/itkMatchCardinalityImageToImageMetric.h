@@ -121,7 +121,7 @@ public:
    * or mismatches. The default is to measure matches
    * (MeasureMatchesOn). */
   itkSetMacro(MeasureMatches, bool);
-  itkBooleanMacro(MeasureMatches);
+  itkBooleanMacro(MeasureMatches)
   itkGetConstMacro(MeasureMatches, bool);
 
   /** Return the multithreader used by this class. */

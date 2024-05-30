@@ -93,7 +93,7 @@ public:
    * convergence.*/
   itkSetMacro(InitializeNormalDistribution, bool);
   itkGetMacro(InitializeNormalDistribution, bool);
-  itkBooleanMacro(InitializeNormalDistribution);
+  itkBooleanMacro(InitializeNormalDistribution)
 
   /**
    * Specify the initial swarm. Useful for evaluating PSO variants. If the
@@ -112,7 +112,7 @@ public:
    */
   itkSetMacro(PrintSwarm, bool);
   itkGetMacro(PrintSwarm, bool);
-  itkBooleanMacro(PrintSwarm);
+  itkBooleanMacro(PrintSwarm)
 
   /** Start optimization. */
   void
@@ -184,7 +184,7 @@ public:
    * generator. Default is Off. */
   itkSetMacro(UseSeed, bool);
   itkGetMacro(UseSeed, bool);
-  itkBooleanMacro(UseSeed);
+  itkBooleanMacro(UseSeed)
 
   /** Get the function value for the current position.
    *  NOTE: This value is only valid during and after the execution of the

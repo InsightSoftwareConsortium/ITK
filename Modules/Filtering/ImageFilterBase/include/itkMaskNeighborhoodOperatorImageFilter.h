@@ -132,7 +132,7 @@ public:
   itkGetConstReferenceMacro(UseDefaultValue, bool);
 
   /** Turn on and off the UseDefaultValue flag. */
-  itkBooleanMacro(UseDefaultValue);
+  itkBooleanMacro(UseDefaultValue)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

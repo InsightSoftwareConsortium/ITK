@@ -137,7 +137,7 @@ public:
    */
   itkSetMacro(InitializationPerturbation, bool);
   itkGetMacro(InitializationPerturbation, bool);
-  itkBooleanMacro(InitializationPerturbation);
+  itkBooleanMacro(InitializationPerturbation)
 
 
   /** \brief Post processing step to enforce superpixel morphology.
@@ -149,7 +149,7 @@ public:
    */
   itkSetMacro(EnforceConnectivity, bool);
   itkGetMacro(EnforceConnectivity, bool);
-  itkBooleanMacro(EnforceConnectivity);
+  itkBooleanMacro(EnforceConnectivity)
 
 
   /** \brief Get the current average cluster residual.

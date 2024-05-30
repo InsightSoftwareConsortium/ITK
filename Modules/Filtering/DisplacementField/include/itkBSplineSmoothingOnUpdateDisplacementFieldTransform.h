@@ -173,7 +173,7 @@ public:
   /**
    * Enforce stationary boundaries.  Important for diffeomorphic transforms.
    */
-  itkBooleanMacro(EnforceStationaryBoundary);
+  itkBooleanMacro(EnforceStationaryBoundary)
   itkSetMacro(EnforceStationaryBoundary, bool);
   itkGetConstMacro(EnforceStationaryBoundary, bool);
 

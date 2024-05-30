@@ -97,7 +97,7 @@ public:
 
   itkSetMacro(UseCurvatureImage, bool);
   itkGetMacro(UseCurvatureImage, bool);
-  itkBooleanMacro(UseCurvatureImage);
+  itkBooleanMacro(UseCurvatureImage)
 
   /** Neighborhood radius type */
   using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<InputImageType>;

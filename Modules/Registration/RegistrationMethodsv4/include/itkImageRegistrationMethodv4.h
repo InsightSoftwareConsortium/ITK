@@ -431,7 +431,7 @@ public:
    */
   itkSetMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits, bool);
   itkGetConstMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits, bool);
-  itkBooleanMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits);
+  itkBooleanMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits)
 
   /** Make a DataObject of the correct type to be used as the specified output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
@@ -480,14 +480,14 @@ public:
    */
   itkSetMacro(InPlace, bool);
   itkGetConstMacro(InPlace, bool);
-  itkBooleanMacro(InPlace);
+  itkBooleanMacro(InPlace)
 
   /**
    * Initialize the current linear transform to be optimized with the center of the
    * previous transform in the queue.  This provides a much better initialization than
    * the default origin.
    */
-  itkBooleanMacro(InitializeCenterOfLinearOutputTransform);
+  itkBooleanMacro(InitializeCenterOfLinearOutputTransform)
   itkSetMacro(InitializeCenterOfLinearOutputTransform, bool);
   itkGetConstMacro(InitializeCenterOfLinearOutputTransform, bool);
 

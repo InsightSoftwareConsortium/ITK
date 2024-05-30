@@ -136,7 +136,7 @@ public:
    */
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
-  itkBooleanMacro(UseImageDirection);
+  itkBooleanMacro(UseImageDirection)
 
 protected:
   VectorCentralDifferenceImageFunction();

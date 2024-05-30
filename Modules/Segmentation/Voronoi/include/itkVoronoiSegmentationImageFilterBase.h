@@ -141,7 +141,7 @@ public:
       sessions. The setting of OutputBoundary determines the type of output. */
   itkSetMacro(InteractiveSegmentation, bool);
   itkGetConstMacro(InteractiveSegmentation, bool);
-  itkBooleanMacro(InteractiveSegmentation);
+  itkBooleanMacro(InteractiveSegmentation)
 
   /** Set/Get the mean deviation. */
   itkSetMacro(MeanDeviation, double);

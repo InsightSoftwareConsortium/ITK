@@ -201,7 +201,7 @@ public:
   /** Set the compression On or Off */
   itkSetMacro(UseCompression, bool);
   itkGetConstReferenceMacro(UseCompression, bool);
-  itkBooleanMacro(UseCompression);
+  itkBooleanMacro(UseCompression)
 
   /** Set the compression level. \sa ImageIOBase for details.
    * Set to a negative number to use ImageIO's default compression level. */
@@ -216,7 +216,7 @@ public:
    *  the ImageIO object. */
   itkSetMacro(UseInputMetaDataDictionary, bool);
   itkGetConstReferenceMacro(UseInputMetaDataDictionary, bool);
-  itkBooleanMacro(UseInputMetaDataDictionary);
+  itkBooleanMacro(UseInputMetaDataDictionary)
 
 protected:
   ImageFileWriter() = default;

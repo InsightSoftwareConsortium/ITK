@@ -108,7 +108,7 @@ public:
 
   /** Get the narrowbanding flag. */
   itkGetConstMacro(NarrowBanding, bool);
-  itkBooleanMacro(NarrowBanding);
+  itkBooleanMacro(NarrowBanding)
 
   /** Set/Get the input narrowband. A narrowband is represented as
    * a VectorContainer of LevelSetNodes. */

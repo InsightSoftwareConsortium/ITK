@@ -218,7 +218,7 @@ public:
    * number of parameters, such as, BSplineTransforms. */
   itkSetMacro(UseExplicitPDFDerivatives, bool);
   itkGetConstReferenceMacro(UseExplicitPDFDerivatives, bool);
-  itkBooleanMacro(UseExplicitPDFDerivatives);
+  itkBooleanMacro(UseExplicitPDFDerivatives)
 
   /** The marginal PDFs are stored as std::vector. */
   using PDFValueType = double; // NOTE:  floating point precision is not as stable.  Double precision proves faster and

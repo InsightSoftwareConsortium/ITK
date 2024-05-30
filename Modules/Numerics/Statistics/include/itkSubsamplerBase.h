@@ -85,7 +85,7 @@ public:
    */
   itkSetMacro(CanSelectQuery, bool);
   itkGetConstReferenceMacro(CanSelectQuery, bool);
-  itkBooleanMacro(CanSelectQuery);
+  itkBooleanMacro(CanSelectQuery)
 
   /** Provide an interface to set the seed.
    *  The seed value will be used by subclasses where appropriate.

@@ -90,7 +90,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
   /**
    * Set/Get the value in the output image to consider as "foreground".
@@ -112,7 +112,7 @@ public:
    */
   itkSetMacro(FlatIsMinima, bool);
   itkGetConstMacro(FlatIsMinima, bool);
-  itkBooleanMacro(FlatIsMinima);
+  itkBooleanMacro(FlatIsMinima)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

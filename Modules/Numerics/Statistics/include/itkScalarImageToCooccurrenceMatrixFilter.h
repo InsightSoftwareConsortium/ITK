@@ -158,7 +158,7 @@ public:
     total frequency). Normalization is off by default. */
   itkSetMacro(Normalize, bool);
   itkGetConstMacro(Normalize, bool);
-  itkBooleanMacro(Normalize);
+  itkBooleanMacro(Normalize)
 
   /** Method to set/get the image */
   using Superclass::SetInput;

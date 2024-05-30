@@ -94,7 +94,7 @@ public:
    * part. Default is false. */
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstReferenceMacro(CalculateImaginaryPart, bool);
-  itkBooleanMacro(CalculateImaginaryPart);
+  itkBooleanMacro(CalculateImaginaryPart)
 
 protected:
   GaborImageSource();

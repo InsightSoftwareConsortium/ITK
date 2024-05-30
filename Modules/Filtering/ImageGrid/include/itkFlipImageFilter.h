@@ -91,7 +91,7 @@ public:
   /** Controls how the output origin is computed. If FlipAboutOrigin is
    * "On", the flip will occur about the origin of the axis, otherwise,
    * the flip will occur about the center of the axis. Default is "On". */
-  itkBooleanMacro(FlipAboutOrigin);
+  itkBooleanMacro(FlipAboutOrigin)
   itkGetConstMacro(FlipAboutOrigin, bool);
   itkSetMacro(FlipAboutOrigin, bool);
 

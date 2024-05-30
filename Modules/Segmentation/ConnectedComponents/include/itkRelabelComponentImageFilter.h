@@ -175,7 +175,7 @@ public:
    * If false, initial order of labels is kept. */
   itkSetMacro(SortByObjectSize, bool);
   itkGetConstMacro(SortByObjectSize, bool);
-  itkBooleanMacro(SortByObjectSize);
+  itkBooleanMacro(SortByObjectSize)
 
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is

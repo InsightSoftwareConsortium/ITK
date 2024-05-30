@@ -76,7 +76,7 @@ public:
    */
   itkSetMacro(VerifyInputInformation, bool);
   itkGetConstMacro(VerifyInputInformation, bool);
-  itkBooleanMacro(VerifyInputInformation);
+  itkBooleanMacro(VerifyInputInformation)
 
   /** Set/Get the maximum distance away to look for a matching pixel.
       Default is 0. */
@@ -93,7 +93,7 @@ public:
    *    Default = false */
   itkSetMacro(IgnoreBoundaryPixels, bool);
   itkGetConstMacro(IgnoreBoundaryPixels, bool);
-  itkBooleanMacro(IgnoreBoundaryPixels);
+  itkBooleanMacro(IgnoreBoundaryPixels)
 
   /** Get statistical attributes for those pixels which exceed the
    * tolerance and radius parameters */

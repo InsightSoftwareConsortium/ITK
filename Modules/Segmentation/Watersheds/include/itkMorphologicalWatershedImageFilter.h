@@ -93,7 +93,7 @@ public:
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
-  itkBooleanMacro(FullyConnected);
+  itkBooleanMacro(FullyConnected)
 
   /**
    * Set/Get whether the watershed pixel must be marked or not. Default
@@ -102,7 +102,7 @@ public:
    */
   itkSetMacro(MarkWatershedLine, bool);
   itkGetConstReferenceMacro(MarkWatershedLine, bool);
-  itkBooleanMacro(MarkWatershedLine);
+  itkBooleanMacro(MarkWatershedLine)
 
   /**
    */

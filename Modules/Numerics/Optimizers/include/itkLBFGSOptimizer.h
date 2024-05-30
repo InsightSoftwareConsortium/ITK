@@ -125,7 +125,7 @@ public:
   SetTrace(bool flag);
 
   itkGetMacro(Trace, bool);
-  itkBooleanMacro(Trace);
+  itkBooleanMacro(Trace)
 
   /** Set/Get the maximum number of function evaluations allowed. */
   virtual void

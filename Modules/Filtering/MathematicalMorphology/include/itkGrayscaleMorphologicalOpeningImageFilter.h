@@ -125,7 +125,7 @@ public:
    * and remove it once the closing is done */
   itkSetMacro(SafeBorder, bool);
   itkGetConstReferenceMacro(SafeBorder, bool);
-  itkBooleanMacro(SafeBorder);
+  itkBooleanMacro(SafeBorder)
 
 protected:
   GrayscaleMorphologicalOpeningImageFilter();

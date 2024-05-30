@@ -102,7 +102,7 @@ public:
    * image was odd. **/
   itkSetMacro(ActualXDimensionIsOdd, bool);
   itkGetConstReferenceMacro(ActualXDimensionIsOdd, bool);
-  itkBooleanMacro(ActualXDimensionIsOdd);
+  itkBooleanMacro(ActualXDimensionIsOdd)
 
   /** Returns factor with which the current frequency should be multiplied. */
   using ConstRefFunctionType = double(const FrequencyIteratorType &);

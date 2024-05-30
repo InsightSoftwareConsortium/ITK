@@ -141,7 +141,7 @@ public:
    * Must be set before the call to SetInputDirectory(). */
   itkSetMacro(Recursive, bool);
   itkGetConstMacro(Recursive, bool);
-  itkBooleanMacro(Recursive);
+  itkBooleanMacro(Recursive)
 
   /** Use additional series information such as ProtocolName
    *   and SeriesName to identify when a single SeriesUID contains
@@ -175,7 +175,7 @@ public:
    */
   itkSetMacro(LoadSequences, bool);
   itkGetConstMacro(LoadSequences, bool);
-  itkBooleanMacro(LoadSequences);
+  itkBooleanMacro(LoadSequences)
 
   /** Parse any private tags in the DICOM file. Defaults to false
    * to skip private tags. This makes loading DICOM files faster when
@@ -183,7 +183,7 @@ public:
    */
   itkSetMacro(LoadPrivateTags, bool);
   itkGetConstMacro(LoadPrivateTags, bool);
-  itkBooleanMacro(LoadPrivateTags);
+  itkBooleanMacro(LoadPrivateTags)
 
 protected:
   GDCMSeriesFileNames();

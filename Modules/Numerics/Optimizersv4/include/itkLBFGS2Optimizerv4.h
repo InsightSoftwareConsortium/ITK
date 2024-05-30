@@ -459,7 +459,7 @@ public:
    */
   itkSetMacro(EstimateScalesAtEachIteration, bool);
   itkGetConstReferenceMacro(EstimateScalesAtEachIteration, bool);
-  itkBooleanMacro(EstimateScalesAtEachIteration);
+  itkBooleanMacro(EstimateScalesAtEachIteration)
 
 protected:
   LBFGS2Optimizerv4Template();
