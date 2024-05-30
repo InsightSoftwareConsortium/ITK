@@ -19,14 +19,14 @@
       "name": "King, Brad"
     },
     {
-      "affiliation": "Mayo Clinic, Mayo Clinic Graduate School for Biomedical Sciences",
-      "name": "Blezek, Daniel",
-      "orcid": "0000-0002-6498-6273"
-    },
-    {
       "affiliation": "University of Iowa",
       "name": "Johnson, Hans",
       "orcid": "0000-0001-9513-2660"
+    },
+    {
+      "affiliation": "Mayo Clinic, Mayo Clinic Graduate School for Biomedical Sciences",
+      "name": "Blezek, Daniel",
+      "orcid": "0000-0002-6498-6273"
     },
     {
       "name": "Lowekamp, Bradley"
@@ -46,6 +46,19 @@
       "name": "Cates, Josh"
     },
     {
+      "name": "Dekker, Niels"
+    },
+    {
+      "affiliation": "Universit\u00e9 de Sherbrooke",
+      "name": "Legarreta, Jon Haitz",
+      "orcid": "0000-0002-9661-1396"
+    },
+    {
+      "affiliation": "Kitware Inc, University of Siegen",
+      "name": "Zuki\u0107, D\u017eenan",
+      "orcid": "0000-0002-9546-9703"
+    },
+    {
       "affiliation": "Allen Institute for Brain Science",
       "name": "Ng, Lydia",
       "orcid": "0000-0002-7499-3514"
@@ -55,11 +68,6 @@
     },
     {
       "name": "Gelas, Arnaud"
-    },
-    {
-      "affiliation": "Kitware Inc, University of Siegen",
-      "name": "Zuki\u0107, D\u017eenan",
-      "orcid": "0000-0002-9546-9703"
     },
     {
       "name": "Malaterre, Mathieu"
@@ -81,9 +89,6 @@
       "orcid": "0000-0002-7862-8856"
     },
     {
-      "name": "Dekker, Niels"
-    },
-    {
       "name": "Budin, Francois"
     },
     {
@@ -94,11 +99,6 @@
     {
       "affiliation": "Kitware Inc",
       "name": "Schroeder, Will"
-    },
-    {
-      "affiliation": "Universit\u00e9 de Sherbrooke",
-      "name": "Legarreta, Jon Haitz",
-      "orcid": "0000-0002-9661-1396"
     },
     {
       "name": "Liu, Xiaoxiao"
@@ -114,13 +114,13 @@
       "orcid": "0000-0001-9475-3756"
     },
     {
+      "name": "McBride, Sean"
+    },
+    {
       "name": "Noe, Aljaz"
     },
     {
       "name": "Popoff, Michka"
-    },
-    {
-      "name": "McBride, Sean"
     },
     {
       "name": "Hart, Gabe"
@@ -134,15 +134,15 @@
       "name": "Sundaram, Tessa"
     },
     {
+      "affiliation": "University of Iowa",
+      "name": "Johnson, Hans",
+      "orcid": "0000-0001-9513-2660"
+    },
+    {
       "name": "Gouaillard, Alexandre"
     },
     {
       "name": "Stauffer, Michael"
-    },
-    {
-      "affiliation": "University of Iowa",
-      "name": "Johnson, Hans",
-      "orcid": "0000-0001-9513-2660"
     },
     {
       "affiliation": "University of California Irvine, University of Virginia, Washington University in Saint Louis, Brigham Young University",
@@ -174,6 +174,10 @@
       "name": "Quammen, Cory"
     },
     {
+      "name": "Hernandez-Cerdan, Pablo",
+      "orcid": "0000-0002-1689-3451"
+    },
+    {
       "name": "Jin, Yinpeng"
     },
     {
@@ -184,10 +188,6 @@
     },
     {
       "name": "Jae Kang, Hyun"
-    },
-    {
-      "name": "Hernandez-Cerdan, Pablo",
-      "orcid": "0000-0002-1689-3451"
     },
     {
       "affiliation": "Kitware Inc",
@@ -214,12 +214,12 @@
       "name": "Doria, David"
     },
     {
-      "name": "Kindlmann, Gordon"
-    },
-    {
       "affiliation": "Kitware Inc",
       "name": "Fillion-Robin, Jean-Christophe",
       "orcid": "0000-0002-9688-8950"
+    },
+    {
+      "name": "Kindlmann, Gordon"
     },
     {
       "affiliation": "Kitware Inc",
@@ -231,14 +231,14 @@
       "name": "Cole, David"
     },
     {
+      "name": "S. FONOV, Vladimir"
+    },
+    {
       "affiliation": "Kitware Inc",
       "name": "Turner, Wes"
     },
     {
       "name": "Chen, Sophie"
-    },
-    {
-      "name": "S. FONOV, Vladimir"
     },
     {
       "name": "Tasdizen, Tolga"
@@ -260,6 +260,9 @@
       "name": "Mosaliganti, Kishore"
     },
     {
+      "name": "Isakov, Mihail"
+    },
+    {
       "name": "Chandra, Parag"
     },
     {
@@ -275,6 +278,11 @@
       "name": "Zhuge, Ying"
     },
     {
+      "affiliation": "University of Lyon, CREATIS",
+      "name": "Rit, Simon",
+      "orcid": "0000-0003-2530-1013"
+    },
+    {
       "affiliation": "Tufts University School of Medicine",
       "name": "Vigneault, Davis",
       "orcid": "0000-0003-3798-9812"
@@ -282,11 +290,6 @@
     {
       "affiliation": "Kitware Inc",
       "name": "Martin, Ken"
-    },
-    {
-      "affiliation": "University of Lyon, CREATIS",
-      "name": "Rit, Simon",
-      "orcid": "0000-0003-2530-1013"
     },
     {
       "name": "Xue, Xinwei"
@@ -302,9 +305,6 @@
     },
     {
       "name": "Wyman, Brad"
-    },
-    {
-      "name": "Isakov, Mihail"
     },
     {
       "name": "Chang, Wilson"
@@ -337,6 +337,10 @@
       "name": "Venkatram, Raghu"
     },
     {
+      "name": "Yaniv, Ziv",
+      "orcid": "0000-0003-0315-7727"
+    },
+    {
       "name": "Zygmunt, Kris"
     },
     {
@@ -344,10 +348,6 @@
     },
     {
       "name": "Davis, Brad"
-    },
-    {
-      "name": "Yaniv, Ziv",
-      "orcid": "0000-0003-0315-7727"
     },
     {
       "name": "Antiga, Luca"
