@@ -54,8 +54,7 @@ namespace ImageToImageFilterDetail
 struct DispatchBase
 {};
 
-/** \struct BooleanDispatch
- * \brief Templated class to produce a unique type "true" and "false".
+/** \brief Templated class to produce a unique type "true" and "false".
  *
  * BooleanDispatch is a templated class that produce a unique type for
  * for "true" and for "false".  These types may be used to decide which
@@ -65,8 +64,7 @@ template <bool>
 struct BooleanDispatch
 {};
 
-/** \struct IntDispatch
- * \brief Templated class to produce a unique type for each integer
+/** \brief Templated class to produce a unique type for each integer
  *
  * IntDispatch is a templated class that produces a unique
  * type for each integer.  IntDispatch is typically
@@ -77,8 +75,7 @@ template <int>
 struct IntDispatch : public DispatchBase
 {};
 
-/** \struct UnsignedIntDispatch
- * \brief Templated class to produce a unique type for each unsigned integer (usually a dimension).
+/** \brief Templated class to produce a unique type for each unsigned integer (usually a dimension).
  *
  * UnsignedIntDispatch is a templated class that produces a unique
  * type for each unsigned integer.  UnsignedIntDispatch is typically
@@ -95,8 +92,7 @@ template <unsigned int>
 struct UnsignedIntDispatch : public DispatchBase
 {};
 
-/** \struct BinaryBooleanDispatch
- * \brief Templated class to produce a unique type for a pairing of booleans.
+/** \brief Templated class to produce a unique type for a pairing of booleans.
  *
  * BinaryBooleanDispatch is a templated class that produces a unique type
  * for each pairing of two boolean values ((true, true), (true, false),
@@ -111,8 +107,7 @@ struct BinaryBooleanDispatch
   using SecondType = BooleanDispatch<B2>;
 };
 
-/** \struct BinaryIntDispatch
- * \brief Templated class to produce a unique type for a pairing of integers.
+/** \brief Templated class to produce a unique type for a pairing of integers.
  *
  * IntBooleanDispatch is a templated class that produces a unique type
  * for each pairing of two integer values.
@@ -126,8 +121,7 @@ struct BinaryIntDispatch
   using SecondType = IntDispatch<D2>;
 };
 
-/** \struct BinaryUnsignedIntDispatch
- * \brief Templated class to produce a unique type for a pairing of unsigned integers (usually two dimensions).
+/** \brief Templated class to produce a unique type for a pairing of unsigned integers (usually two dimensions).
  *
  * BinaryUnsignedIntDispatch is a templated class that produces a
  * unique type for a pairing of unsigned integers.

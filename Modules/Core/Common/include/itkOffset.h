@@ -26,9 +26,7 @@
 namespace itk
 {
 
-/**
- * \struct Offset
- * \brief Represent a n-dimensional offset between two n-dimensional indexes of n-dimensional image.
+/** \brief Represent a n-dimensional offset between two n-dimensional indexes of n-dimensional image.
  *
  * Offset is a templated class to represent a multi-dimensional offset,
  * i.e. (i,j,k,...). Offset is templated over the dimension of the space.
