@@ -48,6 +48,8 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
   m_MatrixMTime.Modified();
   std::copy_n(offset.begin(), VOutputDimension, m_Translation.begin());
   this->ComputeMatrixParameters();
+  this->m_FixedParameters.SetSize(VInputDimension);
+  this->m_FixedParameters.Fill(0.0);
 }
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
