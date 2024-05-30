@@ -62,20 +62,20 @@ struct Identity
     using Type = Typed;                 \
   };
 
-ITK_ASSOCIATE(1, TA);
-ITK_ASSOCIATE(2, TB);
+ITK_ASSOCIATE(1, TA)
+ITK_ASSOCIATE(2, TB)
 
-ITK_ASSOCIATE(3, short);
-ITK_ASSOCIATE(4, unsigned short);
-ITK_ASSOCIATE(5, int);
-ITK_ASSOCIATE(6, unsigned int);
-ITK_ASSOCIATE(7, long);
-ITK_ASSOCIATE(8, unsigned long);
-ITK_ASSOCIATE(9, long long);
-ITK_ASSOCIATE(10, unsigned long long);
-ITK_ASSOCIATE(11, float);
-ITK_ASSOCIATE(12, double);
-ITK_ASSOCIATE(13, long double);
+ITK_ASSOCIATE(3, short)
+ITK_ASSOCIATE(4, unsigned short)
+ITK_ASSOCIATE(5, int)
+ITK_ASSOCIATE(6, unsigned int)
+ITK_ASSOCIATE(7, long)
+ITK_ASSOCIATE(8, unsigned long)
+ITK_ASSOCIATE(9, long long)
+ITK_ASSOCIATE(10, unsigned long long)
+ITK_ASSOCIATE(11, float)
+ITK_ASSOCIATE(12, double)
+ITK_ASSOCIATE(13, long double)
 #undef ITK_ASSOCIATE
 } // namespace Details
 
