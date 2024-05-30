@@ -170,7 +170,7 @@ public:
   {
     m_Threshold = 1e-5 * NumericTraits<TDenominator>::OneValue();
     m_Constant = TOutput{};
-  };
+  }
 
   ~DivideOrZeroOut() = default;
 

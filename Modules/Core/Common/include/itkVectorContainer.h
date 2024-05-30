@@ -244,7 +244,7 @@ public:
       m_Pos += n;
       m_Iter += n;
       return *this;
-    };
+    }
 
     /** Get the index into the VectorContainer associated with this iterator.
      */
@@ -335,7 +335,7 @@ public:
       m_Pos += n;
       m_Iter += n;
       return *this;
-    };
+    }
 
     difference_type
     operator-(const ConstIterator & r) const

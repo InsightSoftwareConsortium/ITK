@@ -495,9 +495,15 @@ public:
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 
 #if !defined(ITK_LEGACY_REMOVE) || defined(ITKV4_COMPATIBILITY)
-  itkLegacyMacro(void SetNumberOfThreads(ThreadIdType count)) { this->SetNumberOfWorkUnits(count); }
+  itkLegacyMacro(void SetNumberOfThreads(ThreadIdType count))
+  {
+    this->SetNumberOfWorkUnits(count);
+  }
 
-  itkLegacyMacro(ThreadIdType GetNumberOfThreads() const) { return this->GetNumberOfWorkUnits(); }
+  itkLegacyMacro(ThreadIdType GetNumberOfThreads() const)
+  {
+    return this->GetNumberOfWorkUnits();
+  }
 #endif // !ITK_LEGACY_REMOVE
 
   /** Return the multithreader used by this class. */
@@ -905,7 +911,7 @@ protected:
   progressFixedToFloat(uint32_t fixed)
   {
     return static_cast<double>(fixed) / static_cast<double>(std::numeric_limits<uint32_t>::max());
-  };
+  }
 
   /**
    * Internal method convert floating point progress [0.0, 1.0] to internal integer representation. Values outside the
@@ -924,7 +930,7 @@ protected:
     }
     double temp = static_cast<double>(f) * std::numeric_limits<uint32_t>::max();
     return static_cast<uint32_t>(temp);
-  };
+  }
 
   /** These ivars are made protected so filters like itkStreamingImageFilter
    * can access them directly. */
