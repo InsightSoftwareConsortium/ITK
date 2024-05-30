@@ -154,7 +154,8 @@ protected:
   /** Default superclass implementation ensures that input images
    * occupy same physical space. This is not needed for this filter. */
   void
-  VerifyInputInformation() ITKv5_CONST override{};
+  VerifyInputInformation() ITKv5_CONST override
+  {}
 
 private:
   bool m_Normalize{ false };
