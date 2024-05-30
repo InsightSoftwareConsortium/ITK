@@ -2,4 +2,5 @@ test/*\.cxx Namespace Disable
 test/itkAttributePositionLabelMapFilterTest1.cxx Namespace Disable
 test/itkShapeLabelMapFilterGTest.cxx Namespace Disable
 test/itkStatisticsLabelMapFilterGTest.cxx Namespace Disable
+test/itkUniqueLabelMapFiltersGTest.cxx Namespace Disable
 test/itkShapeLabelObjectAccessorsTest1.cxx SemicolonSpace Disable
