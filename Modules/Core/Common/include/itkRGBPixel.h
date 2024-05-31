@@ -77,11 +77,7 @@ public:
 
   /** Default-constructor.
    * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
-#ifdef ITK_FUTURE_LEGACY_REMOVE
   RGBPixel() = default;
-#else
-  RGBPixel() { this->Fill(0); }
-#endif
 
   /** Explicit constructor to fill Red=Blue=Green= r. */
   explicit RGBPixel(const ComponentType & r) { this->Fill(r); }

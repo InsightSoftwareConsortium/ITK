@@ -78,11 +78,7 @@ public:
 
   /** Default-constructor.
    * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
-#ifdef ITK_FUTURE_LEGACY_REMOVE
   RGBAPixel() = default;
-#else
-  RGBAPixel() { this->Fill(0); }
-#endif
 
   /** Pass-through constructor for the Array base class. */
   template <typename TRGBAPixelValueType>
