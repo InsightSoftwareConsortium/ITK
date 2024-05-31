@@ -1364,15 +1364,9 @@ compilers.
  * With ITKv5 several methods for Image Iterators have been
  * devirtualized for performance reasons. These definitions may help
  * provide legacy compatibility, or help  detecting derived iterators
- * relying on the virtual  interface. Compatibility for derived
- * classes can be achieved with defining ITKV4_COMPATIBILITY. Code
- * should be migrated to no longer rely on the old virtual interface.
+ * relying on the virtual  interface.
  */
-#if defined(ITKV4_COMPATIBILITY)
-#  define ITK_ITERATOR_VIRTUAL virtual
-#  define ITK_ITERATOR_OVERRIDE override
-#  define ITK_ITERATOR_FINAL
-#elif !defined(ITK_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE)
 #  define ITK_ITERATOR_VIRTUAL virtual
 #  define ITK_ITERATOR_OVERRIDE override
 #  define ITK_ITERATOR_FINAL final

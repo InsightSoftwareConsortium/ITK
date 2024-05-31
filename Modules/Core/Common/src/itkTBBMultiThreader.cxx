@@ -47,14 +47,10 @@ namespace itk
 TBBMultiThreader::TBBMultiThreader()
 {
   ThreadIdType defaultThreads = std::max(1u, GetGlobalDefaultNumberOfThreads());
-#if defined(ITKV4_COMPATIBILITY)
-  m_NumberOfWorkUnits = defaultThreads;
-#else
   if (defaultThreads > 1) // one work unit for only one thread
   {
     m_NumberOfWorkUnits = 16 * defaultThreads;
   }
-#endif
 }
 
 TBBMultiThreader::~TBBMultiThreader() = default;

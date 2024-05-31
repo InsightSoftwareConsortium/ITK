@@ -325,20 +325,16 @@ cmake_dependent_option(
   OFF
   "NOT ITK_LEGACY_REMOVE"
   OFF)
-# The disabling of legacy code, and the ITKv4 compatibility option can not both be
-# requested. If removal of legacy code is requested, then ITKV4_COMPATIBILITY must
-# be off.
-cmake_dependent_option(
-  ITKV4_COMPATIBILITY
-  "Enable LEGACY compatibility with ITK4.x when possible."
-  OFF
-  "NOT ITK_LEGACY_REMOVE"
-  OFF)
+
 mark_as_advanced(
   ITK_LEGACY_SILENT
   ITK_LEGACY_REMOVE
   ITK_FUTURE_LEGACY_REMOVE
-  ITKV4_COMPATIBILITY)
+  )
+
+if(ITKV4_COMPATIBILITY)
+  message(FATAL_ERROR "ITKV4_COMPATIBILITY is removed starting in ITK version 6.0, this option is no longer valid.")
+endif()
 
 if(ITKV3_COMPATIBILITY)
   message(FATAL_ERROR "ITKV3_COMPATIBILITY is removed starting in ITK version 5.0, this option is no longer valid.")
