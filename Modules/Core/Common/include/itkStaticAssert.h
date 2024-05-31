@@ -19,19 +19,8 @@
 #ifndef itkStaticAssert_h
 #define itkStaticAssert_h
 
-#include "itkMacro.h"
-
-#if !defined(ITK_LEGACY_REMOVE)
-/** Static assertion.
- * This macro will use C++11 \c static_assert() keyword.
- * \param expr compile-time expression to check
- * \param str  string literal that will appear as compiler error if \c expr is \c false.
- * \ingroup ITKCommon
- */
-#  define itkStaticAssert(expr, str) static_assert(expr, str)
-#else
-#  define itkStaticAssert(expr, str) Use C++ 11 static_assert directly
-#endif
+// This is no longer needed as C++11 provides this support directly
+#define itkStaticAssert(expr, str) static_assert(false, "Use C++ 11 static_assert directly")
 
 // TODO: remove this file entirely in the future (e.g. with ITKv6)
 

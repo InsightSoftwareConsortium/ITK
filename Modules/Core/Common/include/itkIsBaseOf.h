@@ -18,39 +18,6 @@
 #ifndef itkIsBaseOf_h
 #define itkIsBaseOf_h
 
-#include <type_traits>
-
-#include "itkMacro.h"
-
-#if !defined(ITK_LEGACY_REMOVE)
-
-namespace itk
-{
-/// \cond HIDE_META_PROGRAMMING
-namespace mpl
-{
-/** Traits that emulates \c std::is_base_of<>.
- * \tparam TBase base type
- * \tparam TDerived derived type
- * \return (in \c Value) whether \c TDerived inherits (publicly) from \c TBase
- * (directly, or indirectly)
- * \author The definition provided follows the code snippet available in Andrei
- * Alexandrescu's <em>Modern C++ Design</em>.
- * \ingroup MetaProgrammingLibrary
- * \ingroup ITKCommon
- */
-template <typename TBase, typename TDerived>
-struct IsBaseOf
-{
-  static constexpr bool Value = std::is_base_of_v<const TDerived *, const TBase *>;
-};
-} // end namespace mpl
-
-/// \endcond
-} // end namespace itk
-
-#else // ITK_LEGACY_REMOVE
-#  error Use C++ 11 std::is_base_of directly
-#endif
+#error Use C++ 11 std::is_base_of directly
 
 #endif // itkIsBaseOf_h
