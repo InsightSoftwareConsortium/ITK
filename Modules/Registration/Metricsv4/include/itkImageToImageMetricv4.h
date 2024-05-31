@@ -407,7 +407,7 @@ public:
   itkGetModifiableObjectMacro(MovingInterpolator, MovingInterpolatorType);
 
   /** Set/Get the moving image mask. */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual void
   SetMovingImageMask(MovingImageMaskType * const arg)
   {
@@ -420,7 +420,7 @@ public:
   itkGetConstObjectMacro(MovingImageMask, MovingImageMaskType);
 
   /** Set/Get the fixed image mask. */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual void
   SetFixedImageMask(FixedImageMaskType * const arg)
   {
@@ -435,7 +435,7 @@ public:
   /** Set/Get the fixed image domain sampling point set
    * See main documentation regarding using fixed vs virtual domain
    * for the point set. */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual void
   SetFixedSampledPointSet(FixedSampledPointSetType * const arg)
   {

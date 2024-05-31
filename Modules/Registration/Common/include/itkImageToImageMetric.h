@@ -172,7 +172,7 @@ public:
   itkGetConstReferenceMacro(FixedImageRegion, FixedImageRegionType);
 
   /** Set/Get the moving image mask. */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual void
   SetMovingImageMask(MovingImageMaskType * const arg)
   {
@@ -185,7 +185,7 @@ public:
   itkGetConstObjectMacro(MovingImageMask, MovingImageMaskType);
 
   /** Set/Get the fixed image mask. */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual void
   SetFixedImageMask(FixedImageMaskType * const arg)
   {
@@ -459,7 +459,7 @@ protected:
    * only inspecting the parameters within the support region
    * of a mapped point.  */
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   /** Boolean to indicate if the transform is BSpline deformable.
   \deprecated `m_TransformIsBSpline` is intended to be removed, in the future. Please use `m_BSplineTransform`
   instead. For example, `if (m_TransformIsBSpline)` may be rewritten as `if (m_BSplineTransform)`. */
@@ -541,7 +541,7 @@ protected:
                                 ImageDerivativesType & movingImageGradient,
                                 ThreadIdType           threadId) const;
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   /** Boolean to indicate if the interpolator BSpline.
   \deprecated `m_InterpolatorIsBSpline` is intended to be removed, in the future. Please use `m_BSplineInterpolator`
   instead. For example, `if (m_InterpolatorIsBSpline)` may be rewritten as `if (m_BSplineInterpolator)`. */

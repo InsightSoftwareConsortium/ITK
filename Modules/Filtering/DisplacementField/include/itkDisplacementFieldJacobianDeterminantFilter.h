@@ -181,7 +181,7 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
 
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE)
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the Jacobian
       determinant in the space in which the data was acquired. Default

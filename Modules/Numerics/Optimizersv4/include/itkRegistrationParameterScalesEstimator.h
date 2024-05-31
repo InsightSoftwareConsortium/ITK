@@ -161,7 +161,7 @@ public:
   itkBooleanMacro(TransformForward);
 
   /** Get/Set a point set for virtual domain sampling. */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual void
   SetVirtualDomainPointSet(VirtualPointSetType * const arg)
   {

@@ -240,7 +240,7 @@ public:
   void
   SetSingleMethodAndExecute(ThreadFunctionType func, void * data);
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   // `TemplatedThreadingFunctorType` was previously used to declare the `funcP` parameter of `ParallelizeImageRegion`
   // and `ParallelizeImageRegionRestrictDirection` template member functions.
   template <unsigned int VDimension>

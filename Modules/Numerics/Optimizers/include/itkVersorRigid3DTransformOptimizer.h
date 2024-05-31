@@ -21,7 +21,7 @@
 #include "itkVersorTransformOptimizer.h"
 
 // At some point in the distant future, remove support for VersorRigid3DTransformOptimizer
-// #if defined(ITK_FUTURE_LEGACY_REMOVE)
+// #if defined(ITK_LEGACY_REMOVE)
 // #warning "itkVersorRigid3DTransformOptimizer is identical to itkVersorTransformOptimizer, please replace"
 // #else
 namespace itk

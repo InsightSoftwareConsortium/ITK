@@ -94,7 +94,7 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
 
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn.
       \deprecated Use GradientMagnitudeImageFilter::UseImageSpacingOn instead. */

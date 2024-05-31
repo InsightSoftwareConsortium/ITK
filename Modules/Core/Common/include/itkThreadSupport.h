@@ -50,7 +50,7 @@ using MutexType = pthread_mutex_t;
 using FastMutexType = pthread_mutex_t;
 using ThreadFunctionType = void * (*)(void *);
 using ThreadProcessIdType = pthread_t;
-#  if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  if !defined(ITK_LEGACY_REMOVE)
 constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
 #  endif
 using ITK_THREAD_RETURN_TYPE = void *;
@@ -65,7 +65,7 @@ using MutexType = HANDLE;
 using FastMutexType = CRITICAL_SECTION;
 using ThreadFunctionType = unsigned int(__stdcall *)(void *);
 using ThreadProcessIdType = HANDLE;
-#  if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  if !defined(ITK_LEGACY_REMOVE)
 static const ThreadProcessIdType ITK_DEFAULT_THREAD_ID = INVALID_HANDLE_VALUE;
 #  endif
 using ITK_THREAD_RETURN_TYPE = unsigned int;
@@ -80,7 +80,7 @@ using MutexType = int;
 using FastMutexType = int;
 using ThreadFunctionType = void (*)(void *);
 using ThreadProcessIdType = int;
-#  if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  if !defined(ITK_LEGACY_REMOVE)
 constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
 #  endif
 using ITK_THREAD_RETURN_TYPE = void;
@@ -129,7 +129,7 @@ using itk::ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION;
 #endif
 
 // For backwards compatibility
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE)
 using itk::ITK_MAX_THREADS;
 using itk::ITK_DEFAULT_THREAD_ID;
 #endif

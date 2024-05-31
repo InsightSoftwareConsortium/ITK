@@ -23,7 +23,7 @@
 #include <map>
 #include <functional>
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
 /** \brief A function which does nothing
  * \deprecated Preferably use the C++ `[[maybe_unused]]` attribute instead!
  *
@@ -69,7 +69,7 @@ public:
     this->SetGlobalInstancePrivate(globalName, GlobalObject{ global, std::move(deleteFunc) });
   }
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   template <typename T>
   [[deprecated("Prefer calling the SetGlobalInstance(globalName, global, deleteFunc) overload (without the unused func "
                "parameter)!")]] bool
@@ -139,7 +139,7 @@ Singleton(const char * globalName, std::function<void()> deleteFunc)
 }
 
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
 template <typename T>
 [[deprecated("Prefer calling the Singleton(globalName, deleteFunc) overload (without the unused func parameter)!")]] T *
 Singleton(const char * globalName, std::function<void(void *)> itkNotUsed(func), std::function<void()> deleteFunc)

@@ -104,7 +104,7 @@ public:
 
   /** Typedef to describe the boundary condition. */
   using BoundaryConditionType = ImageBoundaryCondition<TInputImage>;
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   using InputBoundaryConditionPointerType [[deprecated("Please just use `BoundaryConditionType *` instead!")]] =
     BoundaryConditionType *;
 #endif
@@ -286,7 +286,7 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
 
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
    *  ImageSpacingOn.

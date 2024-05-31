@@ -228,7 +228,7 @@ public:
   }
 };
 
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE)
 
 /**
  * \class ModulusTransform

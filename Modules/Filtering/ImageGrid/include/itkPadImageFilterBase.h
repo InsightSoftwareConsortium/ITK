@@ -77,7 +77,7 @@ public:
 
   /** Typedef to describe the boundary condition. */
   using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TOutputImage>;
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   using BoundaryConditionPointerType [[deprecated("Please just use `BoundaryConditionType *` instead!")]] =
     BoundaryConditionType *;
 #endif

@@ -324,7 +324,7 @@ public:
    * `SetObjectToWorldTransform(transform)`
    * \note This member function is not meant to be overridden. In the future, it may not be declared `virtual` anymore.
    */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual
 #endif
     bool
@@ -339,7 +339,7 @@ public:
    * `SetObjectToWorldTransform(transform)`
    * \note This member function is not meant to be overridden. In the future, it may not be declared `virtual` anymore.
    */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual
 #endif
     bool
@@ -356,7 +356,7 @@ public:
    * `SetObjectToWorldTransform(transform)`
    * \note This member function is not meant to be overridden. In the future, it may not be declared `virtual` anymore.
    */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual
 #endif
     bool
@@ -378,7 +378,7 @@ public:
    * `SetObjectToWorldTransform(transform)`
    * \note This member function is not meant to be overridden. In the future, it may not be declared `virtual` anymore.
    */
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_LEGACY_REMOVE
   virtual
 #endif
     void
