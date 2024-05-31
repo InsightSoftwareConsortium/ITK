@@ -36,18 +36,9 @@
 #include <type_traits> // For conditional and integral_constant.
 #include <utility>     // For tuple_element and tuple_size.
 
-// Macro added to each `ImageRegion` member function that overrides a virtual member function of `Region`, when legacy
-// support is enabled. Without legacy support, `ImageRegion` will no longer inherit from `Region`, so then those
-// `ImageRegion` member functions will no longer override.
-#ifdef ITK_LEGACY_REMOVE
-#  define itkRegionOverrideMacro // nothing
-#else
-#  define itkRegionOverrideMacro override
-#endif
-
 namespace itk
 {
-// Forward declaration of ImageBase so it can be declared a friend
+// Forward declaration of ImageBase, so it can be declared a friend
 // (needed for PrintSelf mechanism)
 template <unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT ImageBase;
@@ -85,7 +76,7 @@ public:
 
   /** Standard part of all itk objects. */
   const char *
-  GetNameOfClass() const itkRegionOverrideMacro
+  GetNameOfClass() const
   {
     return "ImageRegion";
   }
@@ -121,14 +112,14 @@ public:
 
   /** Return the region type. Images are described with structured regions. */
   Region::RegionEnum
-  GetRegionType() const itkRegionOverrideMacro
+  GetRegionType() const
   {
     return Region::RegionEnum::ITK_STRUCTURED_REGION;
   }
 
   /** Print the region. */
   void
-  Print(std::ostream & os, Indent indent = 0) const itkRegionOverrideMacro;
+  Print(std::ostream & os, Indent indent = 0) const;
 
   /** Constructor. ImageRegion is a lightweight object that is not reference
    * counted, so the constructor is public. Its two data members are filled
@@ -137,7 +128,7 @@ public:
 
   /** Destructor. ImageRegion is a lightweight object that is not reference
    * counted, so the destructor is public. */
-  ~ImageRegion() itkRegionOverrideMacro = default;
+  ~ImageRegion() = default;
 
   /** Copy constructor. ImageRegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
@@ -392,7 +383,7 @@ protected:
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
   void
-  PrintSelf(std::ostream & os, Indent indent) const itkRegionOverrideMacro;
+  PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   IndexType m_Index = { { 0 } };
@@ -452,8 +443,6 @@ struct tuple_element<VTupleIndex, itk::ImageRegion<VImageDimension>>
 #  pragma GCC diagnostic pop
 #endif
 } // namespace std
-
-#undef itkRegionOverrideMacro
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageRegion.hxx"
