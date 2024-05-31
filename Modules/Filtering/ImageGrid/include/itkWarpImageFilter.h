@@ -251,7 +251,7 @@ protected:
    * \sa ProcessObject::VerifyInputInformation
    */
   void
-  VerifyInputInformation() ITKv5_CONST override;
+  VerifyInputInformation() const override;
 
   /** This function should be in an interpolator but none of the ITK
    * interpolators at this point handle edge conditions properly

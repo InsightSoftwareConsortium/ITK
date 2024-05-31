@@ -56,7 +56,7 @@ UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::GenerateI
 
 template <typename TInputImage, typename TOutputImage, typename TInternalPrecision>
 void
-UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::VerifyPreconditions() ITKv5_CONST
+UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
   if (m_Threshold < 0.0)

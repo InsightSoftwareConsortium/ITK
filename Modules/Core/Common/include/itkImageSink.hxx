@@ -167,7 +167,7 @@ ImageSink<TInputImage>::GenerateNthInputRequestedRegion(unsigned int inputReques
 
 template <typename TInputImage>
 void
-ImageSink<TInputImage>::VerifyInputInformation() ITKv5_CONST
+ImageSink<TInputImage>::VerifyInputInformation() const
 {
   using ImageBaseType = const ImageBase<InputImageDimension>;
 

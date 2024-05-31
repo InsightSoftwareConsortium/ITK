@@ -111,7 +111,7 @@ FrequencyBandImageFilter<TImageType, TFrequencyIterator>::SetFrequencyThresholds
 
 template <typename TImageType, typename TFrequencyIterator>
 void
-FrequencyBandImageFilter<TImageType, TFrequencyIterator>::VerifyPreconditions() ITKv5_CONST
+FrequencyBandImageFilter<TImageType, TFrequencyIterator>::VerifyPreconditions() const
 {
   this->Superclass::VerifyPreconditions();
 

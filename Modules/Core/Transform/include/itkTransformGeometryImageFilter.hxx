@@ -36,7 +36,7 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::TransformGeometryImageF
 
 template <typename TInputImage, typename TOutputImage>
 void
-TransformGeometryImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() ITKv5_CONST
+TransformGeometryImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
 

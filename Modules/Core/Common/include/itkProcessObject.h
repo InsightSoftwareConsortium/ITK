@@ -782,7 +782,7 @@ protected:
    *
    */
   virtual void
-  VerifyPreconditions() ITKv5_CONST;
+  VerifyPreconditions() const;
 
   /** \brief Verifies that the inputs meta-data is consistent and valid
    * for continued execution of the pipeline, throws an exception if
@@ -795,7 +795,7 @@ protected:
    *
    */
   virtual void
-  VerifyInputInformation() ITKv5_CONST;
+  VerifyInputInformation() const;
 
   /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is

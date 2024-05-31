@@ -145,7 +145,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
 
 template <typename TInputImage, typename TOutputImage>
 void
-ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
+ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 {
 
   using ImageBaseType = const ImageBase<InputImageDimension>;

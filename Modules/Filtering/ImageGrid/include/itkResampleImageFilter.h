@@ -185,7 +185,7 @@ public:
   /* See superclass for doxygen. This method adds the additional check
    * that the output space is set */
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
@@ -288,7 +288,7 @@ protected:
    * \sa ProcessObject::VerifyInputInformation
    */
   void
-  VerifyInputInformation() ITKv5_CONST override
+  VerifyInputInformation() const override
   {}
 
   /** ResampleImageFilter produces an image which is a different size
