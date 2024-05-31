@@ -104,13 +104,6 @@ public:
   RegisterFactoryInternal(ObjectFactoryBase *);
 
   using InsertionPositionEnum = ObjectFactoryEnums::InsertionPosition;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr InsertionPositionEnum INSERT_AT_FRONT = InsertionPositionEnum::INSERT_AT_FRONT;
-  static constexpr InsertionPositionEnum INSERT_AT_BACK = InsertionPositionEnum::INSERT_AT_BACK;
-  static constexpr InsertionPositionEnum INSERT_AT_POSITION = InsertionPositionEnum::INSERT_AT_POSITION;
-#endif
 
   /** Register a factory so it can be used to create itk objects.
    *

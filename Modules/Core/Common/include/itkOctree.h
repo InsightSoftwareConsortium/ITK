@@ -46,15 +46,6 @@ public:
 
   using OctreeEnum = OctreeEnums::Octree;
 
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr OctreeEnum UNKNOWN_PLANE = OctreeEnum::UNKNOWN_PLANE;
-  static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITAL_PLANE;
-  static constexpr OctreeEnum CORONAL_PLANE = OctreeEnum::CORONAL_PLANE;
-  static constexpr OctreeEnum TRANSVERSE_PLANE = OctreeEnum::TRANSVERSE_PLANE;
-#endif
-
   /** Get the actual tree base
    *
    * Returns the tree, or 0 if the Octree isn't built yet
@@ -180,16 +171,6 @@ public:
 
   unsigned int
   GetDepth() override;
-
-  /***
-   * Exposes enum values for backwards compatibility
-   * */
-#if !defined(ITK_LEGACY_REMOVE)
-  static constexpr OctreeEnum UNKNOWN_PLANE = OctreeEnum::UNKNOWN_PLANE;
-  static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITAL_PLANE;
-  static constexpr OctreeEnum CORONAL_PLANE = OctreeEnum::CORONAL_PLANE;
-  static constexpr OctreeEnum TRANSVERSE_PLANE = OctreeEnum::TRANSVERSE_PLANE;
-#endif
 
   OctreeNode *
   GetTree() override;

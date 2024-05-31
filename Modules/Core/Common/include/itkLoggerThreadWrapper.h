@@ -85,15 +85,6 @@ public:
 
   using OperationEnum = LoggerThreadWrapperEnums::Operation;
 
-#if !defined(ITK_LEGACY_REMOVE)
-  using LoggerThreadWrapperOperationType = OperationEnum;
-
-  static constexpr OperationEnum SET_PRIORITY_LEVEL = OperationEnum::SET_PRIORITY_LEVEL;
-  static constexpr OperationEnum SET_LEVEL_FOR_FLUSHING = OperationEnum::SET_LEVEL_FOR_FLUSHING;
-  static constexpr OperationEnum ADD_LOG_OUTPUT = OperationEnum::ADD_LOG_OUTPUT;
-  static constexpr OperationEnum WRITE = OperationEnum::WRITE;
-#endif
-
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs */

@@ -61,12 +61,6 @@ public:
   virtual ~FloatingPointExceptions() = default;
 
   using ExceptionActionEnum = FloatingPointExceptionsEnums::ExceptionAction;
-#if !defined(ITK_LEGACY_REMOVE)
-  /**Exposes enum values at class level for backwards compatibility*/
-  using ExceptionAction = ExceptionActionEnum;
-  static constexpr ExceptionActionEnum ABORT = ExceptionActionEnum::ABORT;
-  static constexpr ExceptionActionEnum EXIT = ExceptionActionEnum::EXIT;
-#endif
 
   /** Enable floating point exceptions.
    *

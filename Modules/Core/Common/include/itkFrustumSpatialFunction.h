@@ -86,12 +86,6 @@ public:
 
   /** Rotate the frustum in the XZ or the YZ plane. */
   using FrustumRotationPlaneType = RotationPlaneEnum;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr FrustumRotationPlaneType RotateInXZPlane = RotationPlaneEnum::RotateInXZPlane;
-  static constexpr FrustumRotationPlaneType RotateInYZPlane = RotationPlaneEnum::RotateInYZPlane;
-#endif
 
   /** Evaluates the function at a given position. */
   OutputType

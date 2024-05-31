@@ -92,28 +92,11 @@ public:
   using OutputType = MultipleLogOutput::OutputType;
 
   using PriorityLevelEnum = LoggerBaseEnums::PriorityLevel;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr PriorityLevelEnum MUSTFLUSH = PriorityLevelEnum::MUSTFLUSH;
-  static constexpr PriorityLevelEnum FATAL = PriorityLevelEnum::FATAL;
-  static constexpr PriorityLevelEnum CRITICAL = PriorityLevelEnum::CRITICAL;
-  static constexpr PriorityLevelEnum WARNING = PriorityLevelEnum::WARNING;
-  static constexpr PriorityLevelEnum INFO = PriorityLevelEnum::INFO;
-  static constexpr PriorityLevelEnum DEBUG = PriorityLevelEnum::DEBUG;
-  static constexpr PriorityLevelEnum NOTSET = PriorityLevelEnum::NOTSET;
-#endif
 
   itkSetStringMacro(Name);
   itkGetStringMacro(Name);
 
   using TimeStampFormatEnum = LoggerBaseEnums::TimeStampFormat;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr TimeStampFormatEnum REALVALUE = TimeStampFormatEnum::REALVALUE;
-  static constexpr TimeStampFormatEnum HUMANREADABLE = TimeStampFormatEnum::HUMANREADABLE;
-#endif
 
   /** Set/Get the type of format used for reporting the time stamp of a given
    * log message. The main options are REALVALUE and HUMANREADABLE.

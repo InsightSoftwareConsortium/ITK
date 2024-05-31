@@ -156,13 +156,6 @@ Int2EigenValueOrderEnum(const uint8_t value)
   itkGenericExceptionMacro("Error: Invalid value for conversion.");
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-/** Enables reverse compatibility for enumeration values */
-static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
-static constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
-static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
-#endif
-
 /** \class SymmetricEigenAnalysis
  * \brief Find Eigen values of a real 2D symmetric matrix. It
  * serves as a thread-safe alternative to the class:
@@ -752,17 +745,6 @@ template <unsigned int VDimension, typename TMatrix, typename TVector, typename 
 class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysisFixedDimension
 {
 public:
-#if !defined(ITK_LEGACY_REMOVE)
-  /** Enables reverse compatibility for enumeration values */
-  using EigenValueOrderType = EigenValueOrderEnum;
-#endif
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
-  static constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
-  static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
-#endif
 
   using MatrixType = TMatrix;
   using EigenMatrixType = TEigenMatrix;

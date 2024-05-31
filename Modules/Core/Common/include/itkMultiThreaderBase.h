@@ -158,15 +158,6 @@ public:
   itkLegacyMacro(static bool GetGlobalDefaultUseThreadPool());
 
   using ThreaderEnum = MultiThreaderBaseEnums::Threader;
-#if !defined(ITK_LEGACY_REMOVE)
-  using ThreaderType = ThreaderEnum;
-  static constexpr ThreaderEnum Platform = ThreaderEnum::Platform;
-  static constexpr ThreaderEnum First = ThreaderEnum::First;
-  static constexpr ThreaderEnum Pool = ThreaderEnum::Pool;
-  static constexpr ThreaderEnum TBB = ThreaderEnum::TBB;
-  static constexpr ThreaderEnum Last = ThreaderEnum::Last;
-  static constexpr ThreaderEnum Unknown = ThreaderEnum::Unknown;
-#endif
 
   /** Convert a threader name into its enum type. */
   static ThreaderEnum
@@ -280,15 +271,6 @@ ITK_GCC_PRAGMA_DIAG_POP()
     ThreadFunctionType ThreadFunction;
     using ThreadExitCodeEnum = MultiThreaderBaseEnums::ThreadExitCode;
     ThreadExitCodeEnum ThreadExitCode;
-#if !defined(ITK_LEGACY_REMOVE)
-    using ThreadExitCodeType = ThreadExitCodeEnum;
-    static constexpr ThreadExitCodeEnum SUCCESS = ThreadExitCodeEnum::SUCCESS;
-    static constexpr ThreadExitCodeEnum ITK_EXCEPTION = ThreadExitCodeEnum::ITK_EXCEPTION;
-    static constexpr ThreadExitCodeEnum ITK_PROCESS_ABORTED_EXCEPTION =
-      ThreadExitCodeEnum::ITK_PROCESS_ABORTED_EXCEPTION;
-    static constexpr ThreadExitCodeEnum STD_EXCEPTION = ThreadExitCodeEnum::STD_EXCEPTION;
-    static constexpr ThreadExitCodeEnum UNKNOWN = ThreadExitCodeEnum::UNKNOWN;
-#endif
   };
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using

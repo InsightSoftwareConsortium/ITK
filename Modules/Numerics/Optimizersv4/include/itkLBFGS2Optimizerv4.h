@@ -164,18 +164,6 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(LBFGS2Optimizerv4Template);
 
   using LineSearchMethodEnum = LBFGS2Optimizerv4Enums::LineSearchMethod;
-#if !defined(ITK_LEGACY_REMOVE)
-  /**Exposes enums values for backwards compatibility*/
-  static constexpr LineSearchMethodEnum LINESEARCH_DEFAULT = LineSearchMethodEnum::LINESEARCH_DEFAULT;
-  static constexpr LineSearchMethodEnum LINESEARCH_MORETHUENTE = LineSearchMethodEnum::LINESEARCH_MORETHUENTE;
-  static constexpr LineSearchMethodEnum LINESEARCH_BACKTRACKING_ARMIJO =
-    LineSearchMethodEnum::LINESEARCH_BACKTRACKING_ARMIJO;
-  static constexpr LineSearchMethodEnum LINESEARCH_BACKTRACKING = LineSearchMethodEnum::LINESEARCH_BACKTRACKING;
-  static constexpr LineSearchMethodEnum LINESEARCH_BACKTRACKING_WOLFE =
-    LineSearchMethodEnum::LINESEARCH_BACKTRACKING_WOLFE;
-  static constexpr LineSearchMethodEnum LINESEARCH_BACKTRACKING_STRONG_WOLFE =
-    LineSearchMethodEnum::LINESEARCH_BACKTRACKING_STRONG_WOLFE;
-#endif
 
   /**
    * TODO: currently only double is used in lbfgs need to figure

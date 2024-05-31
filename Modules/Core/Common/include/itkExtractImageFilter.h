@@ -152,19 +152,6 @@ public:
 
   using DirectionCollapseStrategyEnum = ExtractImageFilterEnums::DirectionCollapseStrategy;
   /** Backwards compatibility for enum values */
-#if !defined(ITK_LEGACY_REMOVE)
-  using DIRECTIONCOLLAPSESTRATEGY = DirectionCollapseStrategyEnum;
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOUNKOWN =
-    DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOUNKOWN;
-  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOIDENTITY =
-    DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOIDENTITY;
-  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOSUBMATRIX =
-    DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOSUBMATRIX;
-  static constexpr DIRECTIONCOLLAPSESTRATEGY DIRECTIONCOLLAPSETOGUESS =
-    DIRECTIONCOLLAPSESTRATEGY::DIRECTIONCOLLAPSETOGUESS;
-#endif
 
   /**
    * Set the strategy to be used to collapse physical space dimensions.

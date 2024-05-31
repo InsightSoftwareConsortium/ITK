@@ -105,12 +105,7 @@ public:
   using FreeListType = std::vector<ObjectType *>;
 
   using GrowthStrategyEnum = ObjectStoreEnums::GrowthStrategy;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr GrowthStrategyEnum LINEAR_GROWTH = GrowthStrategyEnum::LINEAR_GROWTH;
-  static constexpr GrowthStrategyEnum EXPONENTIAL_GROWTH = GrowthStrategyEnum::EXPONENTIAL_GROWTH;
-#endif
+
   /** Borrow a pointer to an object from the memory store. */
   ObjectType *
   Borrow();

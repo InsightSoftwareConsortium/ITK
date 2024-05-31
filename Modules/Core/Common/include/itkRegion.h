@@ -71,11 +71,6 @@ public:
   using Self = Region;
 
   using RegionEnum = ObjectEnums::RegionEnum;
-#if !defined(ITK_LEGACY_REMOVE)
-  /**Exposes enums values for backwards compatibility*/
-  static constexpr RegionEnum ITK_UNSTRUCTURED_REGION = RegionEnum::ITK_UNSTRUCTURED_REGION;
-  static constexpr RegionEnum ITK_STRUCTURED_REGION = RegionEnum::ITK_STRUCTURED_REGION;
-#endif
 
   /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(Region);

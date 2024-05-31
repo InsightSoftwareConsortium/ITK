@@ -59,18 +59,6 @@ public:
   virtual ~OctreeNode();
 
   using LeafIdentifierEnum = OctreeEnums::LeafIdentifier;
-#if !defined(ITK_LEGACY_REMOVE)
-  // We need to expose the enum values at the class level
-  // for backwards compatibility
-  static constexpr LeafIdentifierEnum ZERO = LeafIdentifierEnum::ZERO;
-  static constexpr LeafIdentifierEnum ONE = LeafIdentifierEnum::ONE;
-  static constexpr LeafIdentifierEnum TWO = LeafIdentifierEnum::TWO;
-  static constexpr LeafIdentifierEnum THREE = LeafIdentifierEnum::THREE;
-  static constexpr LeafIdentifierEnum FOUR = LeafIdentifierEnum::FOUR;
-  static constexpr LeafIdentifierEnum FIVE = LeafIdentifierEnum::FIVE;
-  static constexpr LeafIdentifierEnum SIX = LeafIdentifierEnum::SIX;
-  static constexpr LeafIdentifierEnum SEVEN = LeafIdentifierEnum::SEVEN;
-#endif
 
   /**
    * Returns the value of the specified Child for this OctreeNode
