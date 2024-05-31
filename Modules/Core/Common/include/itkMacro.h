@@ -80,17 +80,7 @@ namespace itk
  *  */
 #define ITK_NOOP_STATEMENT static_assert(true, "")
 
-
-#if defined(ITK_FUTURE_LEGACY_REMOVE)
-
-#  define ITK_MACROEND_NOOP_STATEMENT ITK_NOOP_STATEMENT
-#else
-/* NOTE:  The ITK_MACROEND_NOOP_STATEMENT must be defined to nothing
- * in order to maintain backwards compatibility with earlier macro
- * uses that may or may not have ';' after the macro is used. */
-/* Purposefully empty */
-#  define ITK_MACROEND_NOOP_STATEMENT
-#endif
+#define ITK_MACROEND_NOOP_STATEMENT ITK_NOOP_STATEMENT
 // clang-format on
 
 // Define ITK_PRAGMA macro.
