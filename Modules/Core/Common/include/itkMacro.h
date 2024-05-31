@@ -68,29 +68,28 @@ namespace itk
 #define itkNotUsed(x)
 
 // clang-format off
-
 /** The `static_assert(true, "")`  idiom is commonly employed for
  *  C++11 or greater to ensure that it is compile-time only
  *  check that can not be part of the binary file.
- *  This allows a macro to be used anywhere that a statement
- *  is expected, and to enforce consistent use of ; after
- *  a macro. The static_assert is a constexpr that can be used
- *  in places where raw statements (i.e. 'do{} while(0)') are
+ *
+ *  The ITK_NOOP_STATEMENT idiom allows a macro to be used anywhere
+ *  that a statement is expected, and to enforce consistent use of
+ *  ';' after a macro. The static_assert is a constexpr that can be
+ *  used in places where raw statements (i.e. 'do{} while(0)') are
  *  not allowed (i.e. after class member function definitions).
  *  */
 #define ITK_NOOP_STATEMENT static_assert(true, "")
 
-
-#if defined(ITK_FUTURE_LEGACY_REMOVE)
-
-#  define ITK_MACROEND_NOOP_STATEMENT ITK_NOOP_STATEMENT
-#else
-/* NOTE:  The ITK_MACROEND_NOOP_STATEMENT must be defined to nothing
- * in order to maintain backwards compatibility with earlier macro
- * uses that may or may not have ';' after the macro is used. */
-/* Purposefully empty */
-#  define ITK_MACROEND_NOOP_STATEMENT
-#endif
+/* NOTE:  The ITK_MACROEND_NOOP_STATEMENT is used at the end
+ * of ITK supported macros to ensure that when the macro
+ * is used in the codebase that the line must have ';' after
+ * the macro is used. This makes formatting visually similar
+ * to functions, and greatly improves the clang-format
+ * behaviors for indentation.  This also assists
+ * modern IDE's and removes 1000's of warnings about
+ * unused statements or unnecessary ';' when macros are
+ * used. */
+#define ITK_MACROEND_NOOP_STATEMENT ITK_NOOP_STATEMENT
 // clang-format on
 
 // Define ITK_PRAGMA macro.
