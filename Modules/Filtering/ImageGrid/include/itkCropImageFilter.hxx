@@ -58,7 +58,7 @@ CropImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
 template <typename TInputImage, typename TOutputImage>
 void
-CropImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
+CropImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 {
   Superclass::VerifyInputInformation();
 

@@ -1327,7 +1327,7 @@ ProcessObject::PropagateResetPipeline()
 
 
 void
-ProcessObject::VerifyPreconditions() ITKv5_CONST
+ProcessObject::VerifyPreconditions() const
 {
   /**
    * Make sure that all the required named inputs are there and non null
@@ -1356,7 +1356,7 @@ ProcessObject::VerifyPreconditions() ITKv5_CONST
 
 
 void
-ProcessObject::VerifyInputInformation() ITKv5_CONST
+ProcessObject::VerifyInputInformation() const
 {}
 
 

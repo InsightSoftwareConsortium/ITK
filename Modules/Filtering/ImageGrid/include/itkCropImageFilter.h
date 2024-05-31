@@ -113,7 +113,7 @@ protected:
   GenerateOutputInformation() override;
 
   void
-  VerifyInputInformation() ITKv5_CONST override;
+  VerifyInputInformation() const override;
 
 private:
   SizeType m_UpperBoundaryCropSize{};

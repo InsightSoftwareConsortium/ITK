@@ -60,7 +60,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::os
 
 template <typename TLevelSet, typename TSpeedImage>
 void
-FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::VerifyPreconditions() ITKv5_CONST
+FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
 

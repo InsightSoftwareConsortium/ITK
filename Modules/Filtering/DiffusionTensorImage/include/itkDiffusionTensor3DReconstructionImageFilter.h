@@ -312,7 +312,7 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   /** Enables backwards compatibility for enum values */
   using GradientImageTypeEnumeration = DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat;

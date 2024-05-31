@@ -21,3 +21,11 @@ re-flagged as `ITK_LEGACY_REMOVE`. There have been some other
 deprecations and API changes. The new behavior is activated by setting
 `ITK_LEGACY_REMOVE` to `ON`. By default, compatibility with v5 is retained
 (`ITK_LEGACY_REMOVE=OFF`).
+
+
+Require modern C++ language feature use
+---------------------------------------
+
+Many backward compatible/ forward enabling compiler features are now required to be used.
+
+Replace `ITKv5_CONST` with `const`

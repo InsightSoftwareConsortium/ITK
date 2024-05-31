@@ -167,7 +167,7 @@ protected:
   /* See superclass for doxygen. This methods additionally checks that
    * the number of means is not 0. */
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
 private:
   using MeansContainer = std::vector<RealPixelType>;

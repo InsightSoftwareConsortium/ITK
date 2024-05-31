@@ -135,7 +135,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;

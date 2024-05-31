@@ -179,7 +179,7 @@ protected:
    * \sa ProcessObject::VerifyInputInformation
    */
   void
-  VerifyInputInformation() ITKv5_CONST override
+  VerifyInputInformation() const override
   {}
 
 private:

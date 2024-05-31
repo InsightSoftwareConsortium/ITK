@@ -154,7 +154,7 @@ protected:
 
 
   void
-  VerifyInputInformation() ITKv5_CONST override;
+  VerifyInputInformation() const override;
 
 private:
   IndexType m_Start{};

@@ -201,7 +201,7 @@ protected:
   GenerateData() override;
 
   void
-  VerifyPreconditions() ITKv5_CONST override
+  VerifyPreconditions() const override
   {
     Superclass::VerifyPreconditions();
     if (m_Calculator.IsNull())

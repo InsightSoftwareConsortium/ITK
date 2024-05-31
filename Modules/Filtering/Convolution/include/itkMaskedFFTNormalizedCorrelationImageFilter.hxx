@@ -600,7 +600,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::VerifyInputInformation() ITKv5_CONST
+MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::VerifyInputInformation() const
 {
   // Call the superclass' implementation of this method.
   Superclass::VerifyInputInformation();

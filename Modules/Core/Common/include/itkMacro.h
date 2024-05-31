@@ -1373,11 +1373,11 @@ compilers.
 #  define ITK_ITERATOR_FINAL
 #endif
 
-#if defined(ITKV4_COMPATIBILITY)
-// A macro for methods which are const in ITKv5, but not in ITKv4
-#  define ITKv5_CONST
+#if defined(ITK_LEGACY_REMOVE)
+// A macro for methods which are const in ITKv5 and ITKv6 require const for functions
+#  define ITKv5_CONST static_assert(false, "ERROR: ITKv5_CONST must be replaced with 'const'")
 #else
-// A macro for methods which are const in ITKv5, but not in ITKv4
+// A macro for methods which are const in after ITKv4
 #  define ITKv5_CONST const
 #endif
 

@@ -141,7 +141,7 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
   void
-  VerifyInputInformation() ITKv5_CONST override;
+  VerifyInputInformation() const override;
   void
   GenerateData() override;
 };

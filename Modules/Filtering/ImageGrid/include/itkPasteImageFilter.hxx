@@ -78,7 +78,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::GenerateInputRequeste
 
 template <typename TInputImage, typename TSourceImage, typename TOutputImage>
 void
-PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::VerifyPreconditions() ITKv5_CONST
+PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
 

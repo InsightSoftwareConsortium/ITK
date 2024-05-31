@@ -246,7 +246,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   void
   Initialize(LevelSetImageType *) override;

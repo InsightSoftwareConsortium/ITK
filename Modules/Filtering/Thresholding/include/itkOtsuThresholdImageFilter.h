@@ -119,7 +119,7 @@ protected:
   }
 
   void
-  VerifyPreconditions() ITKv5_CONST override
+  VerifyPreconditions() const override
   {
     Superclass::VerifyPreconditions();
     if (dynamic_cast<const CalculatorType *>(Superclass::GetCalculator()) == nullptr)

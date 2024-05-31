@@ -110,7 +110,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
 template <typename TInputImage, typename TOutputImage, typename THistogramMeasurement>
 void
-HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::VerifyPreconditions() ITKv5_CONST
+HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
 

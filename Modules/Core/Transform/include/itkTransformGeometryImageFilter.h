@@ -155,7 +155,7 @@ protected:
   GenerateOutputInformation() override;
 
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   void
   GenerateData() override;

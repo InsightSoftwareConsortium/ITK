@@ -265,7 +265,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
 
 template <typename TInputImage, typename TOutputImage>
 void
-ComparisonImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
+ComparisonImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 {
   if (m_VerifyInputInformation)
   {

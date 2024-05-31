@@ -54,7 +54,7 @@ SliceBySliceImageFilter<TInputImage,
                         TInputFilter,
                         TOutputFilter,
                         TInternalInputImageType,
-                        TInternalOutputImageType>::VerifyInputInformation() ITKv5_CONST
+                        TInternalOutputImageType>::VerifyInputInformation() const
 {
 
   Superclass::VerifyInputInformation();

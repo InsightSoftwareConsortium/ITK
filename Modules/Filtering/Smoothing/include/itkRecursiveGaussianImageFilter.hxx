@@ -323,7 +323,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeRemainingCoeffic
 
 template <typename TInputImage, typename TOutputImage>
 void
-RecursiveGaussianImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() ITKv5_CONST
+RecursiveGaussianImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
 {
   this->Superclass::VerifyPreconditions();
 
