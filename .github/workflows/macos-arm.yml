@@ -101,7 +101,7 @@ jobs:
               run: |
                 set -x
                 python3 -m pip install ninja
-                python3 -m pip install numpy
+                python3 -m pip install --upgrade --pre numpy
 
             - name: Download dashboard script and testing data
               run: |
