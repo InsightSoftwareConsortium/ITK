@@ -42,7 +42,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::SetImageRegion(const Im
 
 template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() ITKv5_CONST
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
 {
   this->Superclass::VerifyPreconditions();
 

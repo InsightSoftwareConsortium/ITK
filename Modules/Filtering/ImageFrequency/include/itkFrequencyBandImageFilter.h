@@ -188,7 +188,7 @@ protected:
 
   /* Checks the logic of FrequencyThresholds. */
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   /* This is the box functor, which implements the filter's behavior. */
   void

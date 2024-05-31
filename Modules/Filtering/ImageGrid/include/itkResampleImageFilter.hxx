@@ -102,7 +102,7 @@ template <typename TInputImage,
           typename TTransformPrecisionType>
 void
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
-  VerifyPreconditions() ITKv5_CONST
+  VerifyPreconditions() const
 {
   this->Superclass::VerifyPreconditions();
   const ReferenceImageBaseType * const referenceImage = this->GetReferenceImage();

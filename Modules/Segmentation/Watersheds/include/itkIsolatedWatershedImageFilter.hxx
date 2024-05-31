@@ -61,7 +61,7 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedR
 
 template <typename TInputImage, typename TOutputImage>
 void
-IsolatedWatershedImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
+IsolatedWatershedImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 {
   Superclass::VerifyInputInformation();
 

@@ -302,7 +302,7 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
 template <class TInputImage, class TOutputImage>
 void
-SliceImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
+SliceImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 {
 
   Superclass::VerifyInputInformation();

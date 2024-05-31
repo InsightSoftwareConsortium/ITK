@@ -107,7 +107,7 @@ public:
 
   /** Verifies the preconditions of this filter. */
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   /** Method for evaluating the implicit function over the image. */
   void

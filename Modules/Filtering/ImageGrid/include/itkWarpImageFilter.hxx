@@ -100,7 +100,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::SetOutputParamet
 
 template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
-WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::VerifyInputInformation() ITKv5_CONST
+WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::VerifyInputInformation() const
 {
   if (ImageDimension != GetDisplacementField()->GetNumberOfComponentsPerPixel())
   {

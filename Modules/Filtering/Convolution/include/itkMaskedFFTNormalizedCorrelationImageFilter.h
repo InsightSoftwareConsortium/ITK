@@ -248,7 +248,7 @@ protected:
 
   /** Overlap the VerifyInputInformation method */
   void
-  VerifyInputInformation() ITKv5_CONST override;
+  VerifyInputInformation() const override;
 
   /** Standard pipeline method.*/
   void
