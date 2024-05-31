@@ -236,19 +236,10 @@ ImageSource<TOutputImage>::GenerateData()
 // The execute method created by the subclass.
 template <typename TOutputImage>
 void
-ImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageRegionType &
-#if !defined(ITK_LEGACY_REMOVE)
-                                                  region
-#endif
-                                                ,
-                                                ThreadIdType)
+ImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageRegionType & itkNotUsed(region), ThreadIdType)
 {
-#if !defined(ITK_LEGACY_REMOVE)
-  this->DynamicThreadedGenerateData(region);
-#else
   itkExceptionMacro("With DynamicMultiThreadingOff subclass should override this method. The signature of "
                     "ThreadedGenerateData() has been changed in ITK v4 to use the new ThreadIdType.");
-#endif
 }
 
 // The execute method created by the subclass.

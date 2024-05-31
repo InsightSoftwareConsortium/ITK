@@ -83,12 +83,7 @@ ImageBase<VImageDimension>::SetSpacing(const SpacingType & spacing)
     if (spacing[i] < 0.0)
     {
       constexpr char message[] = "Negative spacing is not supported and may result in undefined behavior.\n";
-#if !defined(ITK_LEGACY_REMOVE)
-      itkWarningMacro(<< message << "Proceeding to set spacing to " << spacing);
-      break;
-#else
       itkExceptionMacro(<< message << "Refusing to change spacing from " << this->m_Spacing << " to " << spacing);
-#endif
     }
   }
 

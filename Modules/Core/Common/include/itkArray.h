@@ -81,20 +81,11 @@ public:
    * memory when this object is destroyed. */
   Array(ValueType * datain, SizeValueType sz, bool LetArrayManageMemory = false);
 
-#if defined(ITK_LEGACY_REMOVE)
   /** Constructor that initializes array with contents from a user supplied
    * const buffer. The pointer to the buffer and the length is specified. By default,
    * the array does a deep copy of the const pointer data, so the array class also
    * manages memory. */
   Array(const ValueType * datain, SizeValueType sz);
-
-#else // defined ( ITK_LEGACY_REMOVE )
-  /** Constructor that initializes array with contents from a user supplied
-   * buffer. The pointer to the buffer and the length is specified. The array
-   * does a deep copy of the const pointer data, so the array class also
-   * manages memory. The 3rd argument is only for backward compatibility. */
-  Array(const ValueType * datain, SizeValueType sz, bool LetArrayManageMemory = false);
-#endif
 
   /** Constructor to initialize an array from another of any data type */
   template <typename TArrayValue>
@@ -186,14 +177,6 @@ public:
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array() override;
-
-#if !defined(ITK_LEGACY_REMOVE)
-  void
-  swap(Array & other)
-  {
-    this->Swap(other);
-  }
-#endif
 
   void
   Swap(Array & other)

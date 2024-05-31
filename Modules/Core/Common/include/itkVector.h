@@ -107,20 +107,12 @@ public:
    * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   Vector() = default;
 
-#if !defined(ITK_LEGACY_REMOVE)
-  /** Constructor to initialize entire vector to one value.
-   * \warning Not intended to convert a scalar value into
-   * a Vector filled with that value.
-   * \deprecated */
-  Vector(const ValueType & r);
-#else
   /** Constructor to initialize entire vector to one value,
    * if explicitly invoked. */
   explicit Vector(const ValueType & r);
 
   /** Prevents copy-initialization from `nullptr`, as well as from `0` (NULL). */
   Vector(std::nullptr_t) = delete;
-#endif
 
   /** Pass-through constructor for the Array base class. */
   template <typename TVectorValueType>

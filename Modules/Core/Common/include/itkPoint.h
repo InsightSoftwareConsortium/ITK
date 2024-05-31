@@ -100,7 +100,6 @@ public:
     : BaseArray(r)
   {}
 
-#if defined(ITK_LEGACY_REMOVE)
   /** Prevents copy-initialization from `nullptr`, as well as from `0` (NULL). */
   Point(std::nullptr_t) = delete;
 
@@ -112,17 +111,6 @@ public:
   explicit Point(const ValueType & v)
     : BaseArray(v)
   {}
-#else
-  /** Pass-through constructors for single values
-   * \note ITK_LEGACY_REMOVE=ON will disallow implicit conversion from a single value. */
-  template <typename TPointValueType>
-  Point(const TPointValueType & v)
-    : BaseArray(v)
-  {}
-  Point(const ValueType & v)
-    : BaseArray(v)
-  {}
-#endif
 
   /** Explicit constructor for std::array. */
   explicit Point(const std::array<ValueType, VPointDimension> & stdArray)

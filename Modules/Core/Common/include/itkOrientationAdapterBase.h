@@ -28,44 +28,6 @@
 #ifndef itkOrientationAdapterBase_h
 #define itkOrientationAdapterBase_h
 
-#if !defined(ITK_LEGACY_REMOVE)
-#  include "itkImageBase.h"
-
-namespace itk
-{
-/** \class OrientationAdapterBase
- *  \brief base class that converts Orientation representations to direction cosines.
- *
- * OrientationAdapterBase is a pure virtual base class that defines the
- * member function signatures for any subclass that concretely defines the
- * conversion relation between a method of representing orientation, and the
- * direction cosines managed in itk::ImageBase.
- * \ingroup ITKCommon
- */
-template <typename OrientationType, unsigned int Dimension = 3>
-class ITK_TEMPLATE_EXPORT [[deprecated("Since ITK 5.3 use SpatialOrientationAdapter.")]] OrientationAdapterBase
-{
-public:
-  /** type alias for matching ImageBase */
-  using ImageType = ImageBase<Dimension>;
-
-  /** type alias for matching Direction Cosines type */
-  using DirectionType = typename ImageType::DirectionType;
-
-  /** Convert direction cosines to the Orientation type */
-  virtual OrientationType FromDirectionCosines(const DirectionType & Dir) = 0;
-
-  /** Convert Orientation type direction cosines */
-  virtual DirectionType ToDirectionCosines(const OrientationType & Orient) = 0;
-
-protected:
-  /** destructor, to silence "virtual class has non-virtual destructor()"
-    warnings */
-  virtual ~OrientationAdapterBase() = default;
-};
-} // namespace itk
-#else // ITK_LEGACY_REMOVE
-#  error itkOrientationAdapterBase.h is a legacy file since ITK 5.3 and will be removed in the future.
-#endif // ITK_LEGACY_REMOVE
+#error itkOrientationAdapterBase.h is a legacy file since ITK 5.3 and is removed in the ITKv6.
 
 #endif // itkOrientationAdapterBase_h

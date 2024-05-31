@@ -50,12 +50,6 @@ public:
   /** Standard class types. */
   using Self = SingletonIndex;
 
-#ifndef ITK_LEGACY_REMOVE
-  using SingletonData [[deprecated("The internal representation of the singleton data is private, and may not "
-                                   "correspond with SingletonData anymore.")]] =
-    std::map<std::string, std::tuple<void *, std::function<void(void *)>, std::function<void()>>>;
-#endif
-
   // obtain a global registered in the singleton index under the
   // globalName, if unknown then nullptr will be returned.
   template <typename T>

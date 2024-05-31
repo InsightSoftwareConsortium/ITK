@@ -82,10 +82,6 @@ public:
   /** Get the data object that is throwing this exception. */
   const DataObject *
   GetDataObject() const noexcept;
-#if !defined(ITK_LEGACY_REMOVE)
-  DataObject *
-  GetDataObject() noexcept;
-#endif
 
 protected:
   /** Print exception information.  This method can be overridden by

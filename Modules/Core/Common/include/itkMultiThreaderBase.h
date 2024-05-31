@@ -206,57 +206,6 @@ public:
   static ThreadIdType
   GetGlobalDefaultNumberOfThreads();
 
-#if !defined(ITK_LEGACY_REMOVE)
-  /** Get/Set the number of threads to use.
-   * DEPRECATED! Use WorkUnits and MaximumNumberOfThreads instead. */
-  itkLegacyMacro(virtual void SetNumberOfThreads(ThreadIdType numberOfThreads))
-  {
-    this->SetMaximumNumberOfThreads(numberOfThreads);
-    this->SetNumberOfWorkUnits(this->GetMaximumNumberOfThreads()); // Might be clamped
-  }
-  itkLegacyMacro(virtual ThreadIdType GetNumberOfThreads()) { return this->GetNumberOfWorkUnits(); }
-
-  /** This is the structure that is passed to the thread that is
-   * created from the SingleMethodExecute. It is passed in as a void *,
-   * and it is up to the method to cast correctly and extract the information.
-   * The ThreadID is a number between 0 and NumberOfThreads-1 that
-   * indicates the id of this thread. The UserData is the
-   * (void *)arg passed into the SetSingleMethod.
-   *
-   * DEPRECATED! Use WorkUnitInfo instead. */
-  // clang-format off
-ITK_GCC_PRAGMA_DIAG_PUSH()
-ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
-INTEL_PRAGMA_WARN_PUSH
-INTEL_SUPPRESS_warning_1292
-  // clang-format on
-#  ifdef ITK_LEGACY_SILENT
-  struct ThreadInfoStruct
-#  else
-  struct [[deprecated("Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0")]] ThreadInfoStruct
-#  endif
-    // clang-format off
-INTEL_PRAGMA_WARN_POP
-  // clang-format on
-  {
-    ThreadIdType       ThreadID;
-    ThreadIdType       NumberOfThreads;
-    void *             UserData;
-    ThreadFunctionType ThreadFunction;
-    enum
-    {
-      SUCCESS,
-      ITK_EXCEPTION,
-      ITK_PROCESS_ABORTED_EXCEPTION,
-      STD_EXCEPTION,
-      UNKNOWN
-    } ThreadExitCode;
-  };
-  // clang-format off
-ITK_GCC_PRAGMA_DIAG_POP()
-  // clang-format on
-#endif // ITK_LEGACY_REMOVE
-
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
    * and it is up to the method to cast correctly and extract the information.

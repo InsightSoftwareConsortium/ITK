@@ -104,14 +104,6 @@ public:
   virtual void
   Evaluate(const ContinuousIndexType & index, WeightsType & weights, IndexType & startIndex) const;
 
-#if !defined(ITK_LEGACY_REMOVE)
-  /** Get support region size. */
-  itkLegacyMacro(SizeType GetSupportSize() const) { return Self::SupportSize; };
-
-  /** Get number of weights. */
-  itkLegacyMacro(unsigned int GetNumberOfWeights() const) { return Self::NumberOfWeights; }
-#endif
-
 protected:
   BSplineInterpolationWeightFunction() = default;
   ~BSplineInterpolationWeightFunction() override = default;

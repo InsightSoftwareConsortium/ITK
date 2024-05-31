@@ -78,18 +78,10 @@ class ITK_TEMPLATE_EXPORT ImageBase;
  */
 template <unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT ImageRegion final
-#ifndef ITK_LEGACY_REMOVE
-  // This inheritance is only there when legacy support is enabled.
-  : public Region
-#endif
 {
 public:
   /** Standard class type aliases. */
   using Self = ImageRegion;
-
-#ifndef ITK_LEGACY_REMOVE
-  using Superclass = Region;
-#endif
 
   /** Standard part of all itk objects. */
   const char *

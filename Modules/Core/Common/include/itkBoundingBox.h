@@ -198,12 +198,9 @@ protected:
 
 private:
   PointsContainerConstPointer m_PointsContainer{};
-#if !defined(ITK_LEGACY_REMOVE)
-  PointsContainerPointer m_CornersContainer{ PointsContainer::New() };
-#endif
-  mutable BoundsArrayType m_Bounds{};
-  mutable TimeStamp       m_BoundsMTime{}; // The last time the bounds
-                                           // were computed.
+  mutable BoundsArrayType     m_Bounds{};
+  mutable TimeStamp           m_BoundsMTime{}; // The last time the bounds
+                                               // were computed.
 };
 } // end namespace itk
 

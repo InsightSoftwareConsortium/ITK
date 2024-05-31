@@ -101,15 +101,6 @@ public:
     return this->m_DuplicateImage.GetPointer();
   }
 
-#if !defined(ITK_LEGACY_REMOVE)
-  // This interface was exposed in ITKv4 when the itkGetModifiableObjectMacro was used
-  virtual ImageType *
-  GetModifiableOutput()
-  {
-    return this->m_DuplicateImage.GetPointer();
-  }
-#endif
-
   /** Compute of the input image. */
   void
   Update();

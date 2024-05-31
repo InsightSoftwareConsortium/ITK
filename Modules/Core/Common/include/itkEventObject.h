@@ -153,49 +153,6 @@ operator<<(std::ostream & os, const EventObject & e)
   itk::EventObject * classname::MakeObject() const { return new classname; } \
   static_assert(true, "Compile time eliminated. Used to require a semi-colon at end of macro.")
 
-#if !defined(ITK_LEGACY_REMOVE)
-// Support Pre 2015 code bases
-
-// This macro duplicates some of the declaration and definition
-// macro code. The purpose is to provide a backward compatibility API
-// for ITK applications.
-// NOTE: New applications should use itkEventMacroDeclaration (in a
-// .h file) and itkEventMacroDefinition (in a compiled .cxx
-// file). This new approach guarantees that only one copy of the
-// implementation will be present.
-//
-#  define itkEventMacro(classname, super)                  \
-    /** \class classname */                                \
-    class ITKEvent_EXPORT classname : public super         \
-    {                                                      \
-    public:                                                \
-      using Self = classname;                              \
-      using Superclass = super;                            \
-      classname() {}                                       \
-      virtual ~classname() {}                              \
-      virtual const char *                                 \
-      GetEventName() const                                 \
-      {                                                    \
-        return #classname;                                 \
-      }                                                    \
-      virtual bool                                         \
-      CheckEvent(const itk::EventObject * e) const         \
-      {                                                    \
-        return (dynamic_cast<const Self *>(e) != nullptr); \
-      }                                                    \
-      virtual itk::EventObject *                           \
-      MakeObject() const                                   \
-      {                                                    \
-        return new Self;                                   \
-      }                                                    \
-      classname(const Self & s)                            \
-        : super(s){};                                      \
-                                                           \
-    private:                                               \
-      void                                                 \
-      operator=(const Self &);                             \
-    };
-#endif
 /**
  *      Declare some common ITK events
  */

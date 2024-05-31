@@ -108,26 +108,6 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Com
   return result;
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-/** Compute and get the corners of the bounding box */
-template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-auto
-BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetCorners() -> const PointsContainer *
-{
-  m_CornersContainer->clear();
-  m_CornersContainer->Reserve(NumberOfCorners);
-
-  SizeValueType index = 0;
-  for (const PointType & pnt : this->ComputeCorners())
-  {
-    m_CornersContainer->SetElement(index++, pnt);
-  }
-
-  return m_CornersContainer.GetPointer();
-}
-#endif
-
-
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
 bool
 BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::ComputeBoundingBox() const
@@ -343,23 +323,6 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Dee
 
   // Connect the same points container into the clone
   clone->SetPoints(this->m_PointsContainer);
-
-#if !defined(ITK_LEGACY_REMOVE)
-  // Copy the corners into the clone.
-  clone->m_CornersContainer->clear();
-
-  PointsContainerConstIterator itr = this->m_CornersContainer->Begin();
-  PointsContainerConstIterator end = this->m_CornersContainer->End();
-
-  clone->m_CornersContainer->Reserve(this->m_CornersContainer->Size());
-  PointsContainerIterator dest = clone->m_CornersContainer->Begin();
-
-  while (itr != end)
-  {
-    dest.Value() = itr.Value();
-    ++itr;
-  }
-#endif
 
   // Copy the bounds into the clone
   for (unsigned int i = 0; i < 2 * PointDimension; ++i)

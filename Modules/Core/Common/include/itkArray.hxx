@@ -58,24 +58,12 @@ Array<TValue>::Array(ValueType * datain, SizeValueType sz, bool LetArrayManageMe
   vnl_vector<TValue>::num_elmts = sz;
 }
 
-#if defined(ITK_LEGACY_REMOVE)
 template <typename TValue>
 Array<TValue>::Array(const ValueType * datain, SizeValueType sz)
   : vnl_vector<TValue>(datain, sz)
 // The vnl vector copy constructor creates new memory
 // no matter the setting of let array manage memory of rhs
 {}
-
-#else // defined ( ITK_LEGACY_REMOVE )
-template <typename TValue>
-Array<TValue>::Array(const ValueType * datain, SizeValueType sz, bool /* LetArrayManageMemory */)
-  : /* NOTE: The 3rd argument "LetArrayManageMemory, was never valid to use, but is
-     * preserved to maintain backwards compatibility*/
-  vnl_vector<TValue>(datain, sz)
-// The vnl vector copy constructor creates new memory
-// no matter the setting of let array manage memory of rhs
-{}
-#endif
 
 template <typename TValue>
 Array<TValue>::~Array()

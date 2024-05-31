@@ -183,14 +183,6 @@ public:
     return m_Pointer;
   }
 
-#if !defined(ITK_LEGACY_REMOVE)
-  void
-  swap(SmartPointer & other) noexcept
-  {
-    this->Swap(other);
-  }
-#endif
-
   void
   Swap(SmartPointer & other) noexcept
   {

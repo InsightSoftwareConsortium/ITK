@@ -81,38 +81,6 @@ FixedArray<TValue, VLength>::End() const -> ConstIterator
   return ConstIterator(m_InternalArray + VLength);
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-
-template <typename TValue, unsigned int VLength>
-auto
-FixedArray<TValue, VLength>::rBegin() -> ReverseIterator
-{
-  return ReverseIterator(m_InternalArray + VLength);
-}
-
-template <typename TValue, unsigned int VLength>
-auto
-FixedArray<TValue, VLength>::rBegin() const -> ConstReverseIterator
-{
-  return ConstReverseIterator(m_InternalArray + VLength);
-}
-
-template <typename TValue, unsigned int VLength>
-auto
-FixedArray<TValue, VLength>::rEnd() -> ReverseIterator
-{
-  return ReverseIterator(m_InternalArray);
-}
-
-template <typename TValue, unsigned int VLength>
-auto
-FixedArray<TValue, VLength>::rEnd() const -> ConstReverseIterator
-{
-  return ConstReverseIterator(m_InternalArray);
-}
-
-#endif // defined ( ITK_LEGACY_REMOVE )
-
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::Size() const -> SizeType

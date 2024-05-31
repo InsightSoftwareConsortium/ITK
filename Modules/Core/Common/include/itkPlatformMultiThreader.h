@@ -64,43 +64,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PlatformMultiThreader);
 
-#if !defined(ITK_LEGACY_REMOVE)
-  /** Set/Get the maximum number of threads to use when multithreading.  It
-   * will be clamped to the range [ 1, ITK_MAX_THREADS ] because several arrays
-   * are already statically allocated using the ITK_MAX_THREADS number.
-   * Therefore the caller of this method should check that the requested number
-   * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
-  itkLegacyMacro(static void SetGlobalMaximumNumberOfThreads(ThreadIdType val))
-  {
-    itkGenericOutputMacro("Warning: SetGlobalMaximumNumberOfThreads should now be called on itk::MultiThreaderBase. It "
-                          "can affect all MultiThreaderBase's derived classes in ITK");
-    Superclass::SetGlobalMaximumNumberOfThreads(val);
-  }
-  itkLegacyMacro(static ThreadIdType GetGlobalMaximumNumberOfThreads())
-  {
-    itkGenericOutputMacro("Warning: GetGlobalMaximumNumberOfThreads should now be called on itk::MultiThreaderBase. It "
-                          "can affect all MultiThreaderBase's derived classes in ITK");
-    return Superclass::GetGlobalMaximumNumberOfThreads();
-  }
-
-  /** Set/Get the value which is used to initialize the NumberOfThreads in the
-   * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
-   * Therefore the caller of this method should check that the requested number
-   * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
-  itkLegacyMacro(static void SetGlobalDefaultNumberOfThreads(ThreadIdType val))
-  {
-    itkGenericOutputMacro("Warning: SetGlobalDefaultNumberOfThreads should now be called on itk::MultiThreaderBase. It "
-                          "can affect all MultiThreaderBase's derived classes in ITK");
-    Superclass::SetGlobalDefaultNumberOfThreads(val);
-  }
-  itkLegacyMacro(static ThreadIdType GetGlobalDefaultNumberOfThreads())
-  {
-    itkGenericOutputMacro("Warning: GetGlobalDefaultNumberOfThreads should now be called on itk::MultiThreaderBase. It "
-                          "can affect all MultiThreaderBase's derived classes in ITK");
-    return Superclass::GetGlobalDefaultNumberOfThreads();
-  }
-#endif
-
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfWorkUnits threads. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
@@ -165,14 +128,6 @@ private:
   std::shared_ptr<std::mutex> m_SpawnedThreadActiveFlagMutex[ITK_MAX_THREADS]{};
   ThreadProcessIdType         m_SpawnedThreadProcessID[ITK_MAX_THREADS]{};
   WorkUnitInfo                m_SpawnedThreadInfoArray[ITK_MAX_THREADS]{};
-
-#if !defined(ITK_LEGACY_REMOVE)
-  /** The methods to invoke. */
-  ThreadFunctionType m_MultipleMethod[ITK_MAX_THREADS]{};
-
-  /** Internal storage of the data. */
-  void * m_MultipleData[ITK_MAX_THREADS]{};
-#endif
 
   /** spawn a new thread for the SingleMethod */
   ThreadProcessIdType

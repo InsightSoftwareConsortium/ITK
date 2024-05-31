@@ -196,10 +196,6 @@ class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysis
 {
 public:
   using EigenValueOrderEnum = itk::EigenValueOrderEnum;
-#if !defined(ITK_LEGACY_REMOVE)
-  /** Enables reverse compatibility for enumeration values */
-  using EigenValueOrderType = EigenValueOrderEnum;
-#endif
 
   SymmetricEigenAnalysis() = default;
 
@@ -745,7 +741,6 @@ template <unsigned int VDimension, typename TMatrix, typename TVector, typename 
 class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysisFixedDimension
 {
 public:
-
   using MatrixType = TMatrix;
   using EigenMatrixType = TEigenMatrix;
   using VectorType = TVector;

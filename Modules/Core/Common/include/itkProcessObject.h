@@ -301,22 +301,6 @@ public:
   /** \brief Turn on and off the AbortGenerateData flag. */
   itkBooleanMacro(AbortGenerateData);
 
-  /** \deprecated
-   * Set the execution progress of a process object. The progress is
-   * a floating number in [0,1] with 0 meaning no progress and 1 meaning
-   * the filter has completed execution.  The ProgressEvent is NOT
-   * invoked.
-   * This method is deprecated because filters should not be calling
-   * SetProgress directly but should be using UpdateProgress or IncrementProgress instead.
-   */
-#if !defined(ITK_LEGACY_REMOVE)
-  void
-  SetProgress(float progress)
-  {
-    m_Progress = progressFloatToFixed(progress);
-  }
-#endif
-
   /** \brief Get the execution progress of a process object.
    *
    * The progress is a floating number in [0,1] with 0 meaning no

@@ -87,34 +87,6 @@ public:
   void
   UnregisterAllFilters();
 
-  /**
-   * \deprecated
-   * Reset the progress accumulator.  This method should not be necessary
-   * because this functionality is already present in the filter
-   * constructor.
-   */
-#if !defined(ITK_LEGACY_REMOVE)
-  void
-  ResetProgress();
-#endif
-
-  /**
-   * \deprecated
-   * Reset the filter progress but keep the accumulated progress.
-   * This method is deprecated because the ProgressAccumulator
-   * now internally checks if a filter has been restarted and updates
-   * the accumulated progress automatically.
-   * This method also used to have the unfortunate side effect of forcing
-   * filters to rerun even if their parameters and input had not changed.
-   * This is because it called SetProgress(0) on the filters, which
-   * triggered a ModifiedTime and thus caused the filters to rerun.
-   * To avoid this behavior, the implementation of this method is now empty.
-   */
-#if !defined(ITK_LEGACY_REMOVE)
-  void
-  ResetFilterProgressAndKeepAccumulatedProgress();
-#endif
-
 protected:
   ProgressAccumulator();
   ~ProgressAccumulator() override;
