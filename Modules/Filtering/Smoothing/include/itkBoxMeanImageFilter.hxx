@@ -64,32 +64,9 @@ BoxMeanImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   accImage->SetRegions(accumRegion);
   accImage->Allocate();
 
-#if defined(ITKV4_COMPATIBILITY)
-  // Dummy reporter for compatibility
-  ProgressReporter progress(this, 1, 2 * accumRegion.GetNumberOfPixels());
-#endif
-
-  BoxAccumulateFunction<TInputImage, AccumImageType>(inputImage,
-                                                     accImage,
-                                                     accumRegion,
-                                                     accumRegion
-#if defined(ITKV4_COMPATIBILITY)
-                                                     ,
-                                                     progress);
-#else
-  );
-#endif
-  BoxMeanCalculatorFunction<AccumImageType, TOutputImage>(accImage.GetPointer(),
-                                                          outputImage,
-                                                          accumRegion,
-                                                          outputRegionForThread,
-                                                          this->GetRadius()
-#if defined(ITKV4_COMPATIBILITY)
-                                                            ,
-                                                          progress);
-#else
-  );
-#endif
+  BoxAccumulateFunction<TInputImage, AccumImageType>(inputImage, accImage, accumRegion, accumRegion);
+  BoxMeanCalculatorFunction<AccumImageType, TOutputImage>(
+    accImage.GetPointer(), outputImage, accumRegion, outputRegionForThread, this->GetRadius());
 }
 } // end namespace itk
 #endif

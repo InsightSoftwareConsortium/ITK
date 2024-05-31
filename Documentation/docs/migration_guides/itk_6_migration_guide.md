@@ -22,6 +22,10 @@ deprecations and API changes. The new behavior is activated by setting
 `ITK_LEGACY_REMOVE` to `ON`. By default, compatibility with v5 is retained
 (`ITK_LEGACY_REMOVE=OFF`).
 
+Remove support for ITKv4 interfaces
+-----------------------------------
+
+ITKV4_COMPATIBILITY is no longer a supported option.
 
 Require modern C++ language feature use
 ---------------------------------------

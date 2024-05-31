@@ -62,13 +62,7 @@ itkOtsuThresholdImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, OtsuThresholdImageFilter, HistogramThresholdImageFilter);
 
-
-#if defined(ITKV4_COMPATIBILITY)
-  ITK_TEST_EXPECT_TRUE(filter->GetReturnBinMidpoint());
-#else
   ITK_TEST_EXPECT_TRUE(!filter->GetReturnBinMidpoint());
-#endif
-
 
   auto numberOfHistogramBins = static_cast<itk::SizeValueType>(std::stoi(argv[3]));
   filter->SetNumberOfHistogramBins(numberOfHistogramBins);
