@@ -32,4 +32,8 @@ Require modern C++ language feature use
 
 Many backward compatible/ forward enabling compiler features are now required to be used.
 
-Replace `ITKv5_CONST` with `const`
+* `ITKv5_CONST` must be replaced with `const`
+* `ITK_ITERATOR_VIRTUAL` must be replaced with `virtual`
+* `ITK_ITERATOR_OVERRIDE` must be replaced with `override`
+* `ITK_ITERATOR_FINAL` must be replaced with `final`
+* `ITK_DELETE_FUNCTION` must be replaced with `delete`

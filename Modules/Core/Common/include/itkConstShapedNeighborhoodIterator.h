@@ -122,7 +122,7 @@ public:
       this->GoToBegin();
     }
 
-    ITK_ITERATOR_VIRTUAL ~ConstIterator() = default;
+    virtual ~ConstIterator() = default;
 
     ConstIterator &
     operator=(const ConstIterator & o)
@@ -326,13 +326,13 @@ public:
   /** Add/Remove a neighborhood offset (from the center of the neighborhood)
    *  to/from the active list.  Active list offsets are the only locations
    *  updated and accessible through the iterator.  */
-  ITK_ITERATOR_VIRTUAL void
-  ActivateOffset(const OffsetType & off) ITK_ITERATOR_FINAL
+  virtual void
+  ActivateOffset(const OffsetType & off) final
   {
     this->ActivateIndex(Superclass::GetNeighborhoodIndex(off));
   }
-  ITK_ITERATOR_VIRTUAL void
-  DeactivateOffset(const OffsetType & off) ITK_ITERATOR_FINAL
+  virtual void
+  DeactivateOffset(const OffsetType & off) final
   {
     this->DeactivateIndex(Superclass::GetNeighborhoodIndex(off));
   }
@@ -350,8 +350,8 @@ public:
   }
 
   /** Removes all active pixels from this neighborhood. */
-  ITK_ITERATOR_VIRTUAL void
-  ClearActiveList() ITK_ITERATOR_FINAL
+  virtual void
+  ClearActiveList() final
   {
     m_ActiveIndexList.clear();
     m_CenterIsActive = false;
@@ -422,9 +422,9 @@ protected:
       argument is an index location calculated as an offset into a linear
       array which represents the image region defined by the radius of this
       iterator, with the smallest dimension as the fastest increasing index. */
-  ITK_ITERATOR_VIRTUAL void ActivateIndex(NeighborIndexType) ITK_ITERATOR_FINAL;
+  virtual void ActivateIndex(NeighborIndexType) final;
 
-  ITK_ITERATOR_VIRTUAL void DeactivateIndex(NeighborIndexType) ITK_ITERATOR_FINAL;
+  virtual void DeactivateIndex(NeighborIndexType) final;
 
 
   bool          m_CenterIsActive{ false };

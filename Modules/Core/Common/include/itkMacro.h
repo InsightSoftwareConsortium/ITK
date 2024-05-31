@@ -239,17 +239,6 @@ namespace itk
 #  endif
 #endif
 
-
-//-*-*-*
-// The following deprecations should be removed in ITKV6 and later
-// NOTE DEPRECATED should be ITK_NOEXCEPT
-#define ITK_NOEXCEPT_OR_THROW error "Replace ITK_NOEXCEPT_OR_THROW with ITK_NOEXCEPT"
-// NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
-#if !defined(ITK_LEGACY_REMOVE)
-#  define ITK_DELETE_FUNCTION = delete
-#else
-#  define ITK_DELETE_FUNCTION error "Replace ITK_DELETE_FUNCTION with = delete"
-#endif
 //-*-*-*
 
 // DEPRECATED: These macros are left here for compatibility with remote modules.
@@ -1158,7 +1147,7 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 
 
-#if defined(ITK_FUTURE_LEGACY_REMOVE)
+#if defined(ITK_LEGACY_REMOVE)
 // In the future, the itkGetObjectMacro will be deprecated with the ITK_LEGACY_REMOVE
 // flag.  For now, this very advanced feature is only available
 // through manual setting of a compiler define -DITK_FUTURE_LEGACY_REMOVE
@@ -1349,25 +1338,12 @@ compilers.
   }                                                                                                                   \
   ITK_MACROEND_NOOP_STATEMENT
 
-
-/** Defines to provide compatibility with derived iterators.
- *
- * With ITKv5 several methods for Image Iterators have been
- * devirtualized for performance reasons. These definitions may help
- * provide legacy compatibility, or help  detecting derived iterators
- * relying on the virtual  interface. Compatibility for derived
- * classes can be achieved with defining ITKV4_COMPATIBILITY. Code
- * should be migrated to no longer rely on the old virtual interface.
- */
-#if !defined(ITK_LEGACY_REMOVE)
-#  define ITK_ITERATOR_VIRTUAL virtual
-#  define ITK_ITERATOR_OVERRIDE override
-#  define ITK_ITERATOR_FINAL final
-#else
-#  define ITK_ITERATOR_VIRTUAL
-#  define ITK_ITERATOR_OVERRIDE
-#  define ITK_ITERATOR_FINAL
-#endif
+// The following deprecations are removed in ITKV6 and later
+#define ITK_ITERATOR_VIRTUAL static_assert(false, "ERROR: ITK_ITERATOR_VIRTUAL must be replaced with 'virtual'")
+#define ITK_ITERATOR_OVERRIDE static_assert(false, "ERROR: ITK_ITERATOR_OVERRIDE must be replaced with 'override'")
+#define ITK_ITERATOR_FINAL static_assert(false, "ERROR: ITK_ITERATOR_FINAL must be replaced with 'final'")
+#define ITK_DELETE_FUNCTION static_assert(false, "ERROR: ITK_DELETE_FUNCTION must be replaced with 'delete'")
+#define ITK_NOEXCEPT_OR_THROW static_assert(false, "ERROR: ITK_NOEXCEPT_OR_THROW must be replaced with 'ITK_NOEXCEPT'")
 
 #if defined(ITK_LEGACY_REMOVE)
 // A macro for methods which are const in ITKv5 and ITKv6 require const for functions
@@ -1409,14 +1385,10 @@ itkDynamicCastInDebugMode(TSource x)
 #endif
 }
 
-#ifdef ITK_LEGACY_REMOVE
-#  if __cplusplus >= 202002L
-#    define ITK_NODISCARD(message) [[nodiscard(message)]]
-#  else
-#    define ITK_NODISCARD(message) [[nodiscard]]
-#  endif
+#if __cplusplus >= 202002L
+#  define ITK_NODISCARD(message) [[nodiscard(message)]]
 #else
-#  define ITK_NODISCARD(message)
+#  define ITK_NODISCARD(message) [[nodiscard]]
 #endif
 
 // Defines which used to be in itk_compiler_detection.h

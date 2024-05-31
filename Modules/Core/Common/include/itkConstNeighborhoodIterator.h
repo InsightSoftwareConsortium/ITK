@@ -172,8 +172,8 @@ public:
 
   /** Returns the N-dimensional index of the iterator's position in
    * the image. */
-  ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex() const ITK_ITERATOR_FINAL
+  virtual IndexType
+  GetIndex() const final
   {
     return m_Loop;
   }
@@ -186,12 +186,12 @@ public:
 
   /** Function that "dereferences" a ConstNeighborhoodIterator,
    * returning a Neighborhood of pixel values. */
-  ITK_ITERATOR_VIRTUAL NeighborhoodType
-                       GetNeighborhood() const ITK_ITERATOR_FINAL;
+  virtual NeighborhoodType
+  GetNeighborhood() const final;
 
   /** Returns the pixel value located at a linear array location i. */
-  ITK_ITERATOR_VIRTUAL PixelType
-                       GetPixel(const NeighborIndexType i) const ITK_ITERATOR_FINAL
+  virtual PixelType
+  GetPixel(const NeighborIndexType i) const final
   {
     if (!m_NeedToUseBoundaryCondition || this->InBounds())
     {
@@ -211,13 +211,13 @@ public:
    * image and the pixel value returned is an actual pixel in the
    * image. Sets "IsInBounds" to false if the location is outside the
    * image and the pixel value returned is a boundary condition. */
-  ITK_ITERATOR_VIRTUAL PixelType
-                       GetPixel(NeighborIndexType i, bool & IsInBounds) const ITK_ITERATOR_FINAL;
+  virtual PixelType
+  GetPixel(NeighborIndexType i, bool & IsInBounds) const final;
 
   /** Returns the pixel value located at the itk::Offset o from the center of
       the neighborhood. */
-  ITK_ITERATOR_VIRTUAL PixelType
-                       GetPixel(const OffsetType & o) const ITK_ITERATOR_FINAL
+  virtual PixelType
+  GetPixel(const OffsetType & o) const final
   {
     bool inbounds;
 
@@ -229,8 +229,8 @@ public:
    * image and the pixel value returned is an actual pixel in the
    * image. Sets "IsInBounds" to false if the offset is outside the
    * image and the pixel value returned is a boundary condition. */
-  ITK_ITERATOR_VIRTUAL PixelType
-                       GetPixel(const OffsetType & o, bool & IsInBounds) const ITK_ITERATOR_FINAL
+  virtual PixelType
+  GetPixel(const OffsetType & o, bool & IsInBounds) const final
   {
     return (this->GetPixel(this->GetNeighborhoodIndex(o), IsInBounds));
   }
@@ -238,8 +238,8 @@ public:
   /** Returns the pixel value located i pixels distant from the neighborhood
    *  center in the positive specified "axis" direction. No bounds checking
    *  is done on the size of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL PixelType
-                       GetNext(const unsigned int axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
+  virtual PixelType
+  GetNext(const unsigned int axis, NeighborIndexType i) const final
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() + (i * this->GetStride(axis))));
   }
@@ -247,8 +247,8 @@ public:
   /** Returns the pixel value located one pixel distant from the neighborhood
    *  center in the specified positive axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL PixelType
-                       GetNext(const unsigned int axis) const ITK_ITERATOR_FINAL
+  virtual PixelType
+  GetNext(const unsigned int axis) const final
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() + this->GetStride(axis)));
   }
@@ -256,8 +256,8 @@ public:
   /** Returns the pixel value located i pixels distant from the neighborhood
    *  center in the negative specified "axis" direction. No bounds checking
    *  is done on the size of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL PixelType
-                       GetPrevious(const unsigned int axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
+  virtual PixelType
+  GetPrevious(const unsigned int axis, NeighborIndexType i) const final
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() - (i * this->GetStride(axis))));
   }
@@ -265,24 +265,24 @@ public:
   /** Returns the pixel value located one pixel distant from the neighborhood
    *  center in the specified negative axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL PixelType
-                       GetPrevious(const unsigned int axis) const ITK_ITERATOR_FINAL
+  virtual PixelType
+  GetPrevious(const unsigned int axis) const final
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() - this->GetStride(axis)));
   }
 
   /** Returns the image index for neighbor pixel at offset o from the center of
       the neighborhood. */
-  ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex(const OffsetType & o) const ITK_ITERATOR_FINAL
+  virtual IndexType
+  GetIndex(const OffsetType & o) const final
   {
     return (this->GetIndex() + o);
   }
 
   /** Returns the image index for neighbor pixel at index i in the
       neighborhood. */
-  ITK_ITERATOR_VIRTUAL IndexType
-                       GetIndex(NeighborIndexType i) const ITK_ITERATOR_FINAL
+  virtual IndexType
+  GetIndex(NeighborIndexType i) const final
   {
     return (this->GetIndex() + this->GetOffset(i));
   }
@@ -326,31 +326,31 @@ public:
   }
 
   /** Method for rewinding the iterator to its beginning pixel. */
-  ITK_ITERATOR_VIRTUAL void
-  GoToBegin() ITK_ITERATOR_FINAL;
+  virtual void
+  GoToBegin() final;
 
   /** Method for sending the iterator to one past the last pixel in its
    * region. */
-  ITK_ITERATOR_VIRTUAL void
-  GoToEnd() ITK_ITERATOR_FINAL;
+  virtual void
+  GoToEnd() final;
 
   /** Initializes the iterator to walk a particular image and a particular
    * region of that image. */
-  ITK_ITERATOR_VIRTUAL void
-  Initialize(const SizeType & radius, const ImageType * ptr, const RegionType & region) ITK_ITERATOR_FINAL;
+  virtual void
+  Initialize(const SizeType & radius, const ImageType * ptr, const RegionType & region) final;
 
   /** Method for determining whether the iterator is at the
    * beginning of its iteration region. */
-  ITK_ITERATOR_VIRTUAL bool
-  IsAtBegin() const ITK_ITERATOR_FINAL
+  virtual bool
+  IsAtBegin() const final
   {
     return (this->GetCenterPointer() == m_Begin);
   }
 
   /** Method for determining whether the iterator has reached the
    * end of its iteration region. */
-  ITK_ITERATOR_VIRTUAL bool
-  IsAtEnd() const ITK_ITERATOR_FINAL
+  virtual bool
+  IsAtEnd() const final
   {
     if (this->GetCenterPointer() > m_End)
     {
@@ -486,16 +486,16 @@ public:
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
    * a subclass of ImageBoundaryCondition. */
-  ITK_ITERATOR_VIRTUAL void
-  OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i) ITK_ITERATOR_FINAL
+  virtual void
+  OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i) final
   {
     m_BoundaryCondition = i;
   }
 
   /** Resets the boundary condition to the internal, default conditions
    * specified by the template parameter. */
-  ITK_ITERATOR_VIRTUAL void
-  ResetBoundaryCondition() ITK_ITERATOR_FINAL
+  virtual void
+  ResetBoundaryCondition() final
   {
     m_BoundaryCondition = &m_InternalBoundaryCondition;
   }
@@ -540,14 +540,14 @@ public:
   }
 
   /** Set the region to iterate over. */
-  ITK_ITERATOR_VIRTUAL void
-  SetRegion(const RegionType & region) ITK_ITERATOR_FINAL;
+  virtual void
+  SetRegion(const RegionType & region) final;
 
 protected:
   /** Default method for setting the coordinate location of the iterator.
    * Loop indices correspond to the actual Image region index. */
-  ITK_ITERATOR_VIRTUAL void
-  SetLoop(const IndexType & p) ITK_ITERATOR_FINAL
+  virtual void
+  SetLoop(const IndexType & p) final
   {
     m_Loop = p;
     m_IsInBoundsValid = false;
@@ -556,28 +556,28 @@ protected:
   /** Method for setting internal loop boundaries.  This
    * method must be defined in each subclass because
    * each subclass may handle loop boundaries differently. */
-  ITK_ITERATOR_VIRTUAL void
-  SetBound(const SizeType &) ITK_ITERATOR_FINAL;
+  virtual void
+  SetBound(const SizeType &) final;
 
   /** Default method for setting the values of the internal pointers
    * to itk::Image memory buffer locations.  This method should
    * generally only be called when the iterator is initialized.
    * \sa SetLocation */
-  ITK_ITERATOR_VIRTUAL void
-  SetPixelPointers(const IndexType &) ITK_ITERATOR_FINAL;
+  virtual void
+  SetPixelPointers(const IndexType &) final;
 
   /** Default method for setting the index of the first pixel in the
    * iteration region. */
-  ITK_ITERATOR_VIRTUAL void
-  SetBeginIndex(const IndexType & start) ITK_ITERATOR_FINAL
+  virtual void
+  SetBeginIndex(const IndexType & start) final
   {
     m_BeginIndex = start;
   }
 
   /** Default method for setting the index of the first pixel in the
    * iteration region. */
-  ITK_ITERATOR_VIRTUAL void
-  SetEndIndex() ITK_ITERATOR_FINAL;
+  virtual void
+  SetEndIndex() final;
 
   /** The starting index for iteration within the itk::Image region
    * on which this ConstNeighborhoodIterator is defined. */
