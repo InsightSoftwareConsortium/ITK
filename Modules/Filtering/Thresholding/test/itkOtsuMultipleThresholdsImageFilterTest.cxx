@@ -72,11 +72,7 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
 
   // Set up the filter parameters
 
-#if defined(ITKV4_COMPATIBILITY)
-  ITK_TEST_EXPECT_TRUE(filter->GetReturnBinMidpoint());
-#else
   ITK_TEST_EXPECT_TRUE(!filter->GetReturnBinMidpoint());
-#endif
 
   filter->ReturnBinMidpointOff();
 

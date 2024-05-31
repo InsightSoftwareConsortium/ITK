@@ -155,11 +155,7 @@ private:
   OutputPixelType     m_LabelOffset{};
   ThresholdVectorType m_Thresholds{};
   bool                m_ValleyEmphasis{ false };
-#if defined(ITKV4_COMPATIBILITY)
-  bool m_ReturnBinMidpoint{ true };
-#else
-  bool m_ReturnBinMidpoint{ false };
-#endif
+  bool                m_ReturnBinMidpoint{ false };
 };
 } // end namespace itk
 

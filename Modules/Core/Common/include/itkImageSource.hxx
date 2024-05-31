@@ -45,11 +45,7 @@ ImageSource<TOutputImage>::ImageSource()
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
-#if defined(ITKV4_COMPATIBILITY)
-  m_DynamicMultiThreading = false;
-#else
   m_DynamicMultiThreading = true;
-#endif
 
   // Set the default behavior of an image source to NOT release its
   // output bulk data prior to GenerateData() in case that bulk data
@@ -287,21 +283,6 @@ ImageSource<TOutputImage>::ThreaderCallback(void * arg)
   if (workUnitID < total)
   {
     str->Filter->ThreadedGenerateData(splitRegion, workUnitID);
-#if defined(ITKV4_COMPATIBILITY)
-    if (str->Filter->GetAbortGenerateData())
-    {
-      std::string    msg;
-      ProcessAborted e(__FILE__, __LINE__);
-      msg += "Object " + std::string(str->Filter->GetNameOfClass()) + ": AbortGenerateData was set!";
-      e.SetDescription(msg);
-      throw e;
-    }
-    else if (!str->Filter->GetDynamicMultiThreading() // progress reporting is not done in MultiThreaders
-             && str->Filter->GetProgress() == 0.0f) // and progress was not set after at least the first chunk finished
-    {
-      str->Filter->UpdateProgress(static_cast<float>(workUnitID + 1) / total); // this will be the only progress update
-    }
-#endif
   }
   // else don't use this thread. Threads were not split conveniently.
   return ITK_THREAD_RETURN_DEFAULT_VALUE;

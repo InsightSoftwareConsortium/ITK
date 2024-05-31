@@ -26,9 +26,6 @@ set(ITK_VERSION_MAJOR "@ITK_VERSION_MAJOR@")
 set(ITK_VERSION_MINOR "@ITK_VERSION_MINOR@")
 set(ITK_VERSION_PATCH "@ITK_VERSION_PATCH@")
 
-# If ITK was built with version 4 compatibility features.
-set(ITKV4_COMPATIBILITY "@ITKV4_COMPATIBILITY@")
-
 # Remove all legacy code completely.
 set(ITK_LEGACY_REMOVE "@ITK_LEGACY_REMOVE@")
 

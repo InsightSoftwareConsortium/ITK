@@ -71,7 +71,6 @@
 #endif
 #cmakedefine ITK_DYNAMIC_LOADING
 
-#cmakedefine ITKV4_COMPATIBILITY
 #cmakedefine ITK_LEGACY_REMOVE
 #cmakedefine ITK_LEGACY_SILENT
 #cmakedefine ITK_FUTURE_LEGACY_REMOVE
