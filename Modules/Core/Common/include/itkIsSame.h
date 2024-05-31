@@ -18,44 +18,7 @@
 #ifndef itkIsSame_h
 #define itkIsSame_h
 
-#include "itkMacro.h"
-
-#if !defined(ITK_LEGACY_REMOVE)
-
-#  include "itkMetaProgrammingLibrary.h"
-
-namespace itk
-{
-/// \cond HIDE_META_PROGRAMMING
-namespace mpl
-{
-
-/** Tells whether two types are identical.
- * \ingroup MetaProgrammingLibrary
- * \ingroup ITKCommon
- */
-template <typename, typename>
-struct IsSame : public FalseType
-{};
-
-/// \cond SPECIALIZATION_IMPLEMENTATION
-template <typename T>
-struct IsSame<T, T> : public TrueType
-{};
-/// \endcond
-
-} // end namespace mpl
-
-// itk::IsSame have move to itk::mpl
-// Expect them to be deprecated.
-using mpl::IsSame;
-
-/// \endcond
-
-} // end namespace itk
-
-#else // ITK_LEGACY_REMOVE
-#  error Use C++ 11 std::is_same directly
-#endif
+// This file is no longer needed, C++11 provides support directly
+#error Use C++ 11 std::is_same directly
 
 #endif // itkIsSame_h
