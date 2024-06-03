@@ -36,7 +36,7 @@
 #-- ### Please document here any justification for the criteria above
 #       This outdated code is not recommended for use. It is not optimized or rigourously tested
 #       This module has not received updates or testing for many many years
-#       Core developers should *NOT* expend energy or resources keeping this codebase consistent with ITK
+#       Core developers should *NOT* expend energy or resources keeping this code base consistent with ITK
 
 if(NOT ITK_LEGACY_REMOVE
    AND ITKV4_COMPATIBILITY
