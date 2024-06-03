@@ -1,6 +1,6 @@
 # ITK ecosystem
 
-Together with the core ITK codebase, a number of other projects and
+Together with the core ITK code base, a number of other projects and
 frameworks are maintained allowing to leverage the power of ITK beyond
 its natural boundaries:
 

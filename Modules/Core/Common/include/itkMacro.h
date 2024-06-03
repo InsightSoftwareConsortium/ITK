@@ -82,7 +82,7 @@ namespace itk
 
 /* NOTE:  The ITK_MACROEND_NOOP_STATEMENT is used at the end
  * of ITK supported macros to ensure that when the macro
- * is used in the codebase that the line must have ';' after
+ * is used in the code base that the line must have ';' after
  * the macro is used. This makes formatting visually similar
  * to functions, and greatly improves the clang-format
  * behaviors for indentation.  This also assists

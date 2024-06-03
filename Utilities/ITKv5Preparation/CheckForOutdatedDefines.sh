@@ -1,7 +1,7 @@
 #!/bin/bash
 # \author Hans J. Johnson
 #
-# This script simply checks a codebase for pre-processor
+# This script simply checks a code base for pre-processor
 # macros that have been deprecated since ITKv5.
 #
 # This is intended to assist developers with
