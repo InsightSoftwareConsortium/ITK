@@ -9,6 +9,8 @@ Require modern C++ language feature use
 ---------------------------------------
 Many backward compatible/ forward enabling compiler features are now required to be used.
 
+Replace `ITKv5_CONST` with `const`
+
 Remove support for ITKv4 interfaces
 -----------------------------------
 
