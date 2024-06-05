@@ -1,10 +1,9 @@
 [build-system]
-requires = ["scikit-build-core"]
+requires = ["scikit-build-core", "setuptools_scm>=8"]
 build-backend = "scikit_build_core.build"
 
 [project]
 name = "itk-cuberille"
-version = "2.6.0"
 description = "Cuberille implicit surface polygonization to generate meshes from images."
 readme = "README.rst"
 license = {file = "LICENSE"}
@@ -39,10 +38,17 @@ dependencies = [
     "itk-io == 5.4.*",
     "numpy",
 ]
+dynamic = ["version"]
 
 [project.urls]
 Download = "https://github.com/InsightSoftwareConsortium/ITKCuberille"
 Homepage = "https://github.com/InsightSoftwareConsortium/ITKCuberille"
+
+[tool.setuptools_scm]
+# Intentionally blank to use the default behavior without warnings.
+
+[tool.scikit-build.metadata]
+version.provider = "scikit_build_core.metadata.setuptools_scm"
 
 [tool.scikit-build]
 # The versions of CMake to allow. If CMake is not present on the system or does
