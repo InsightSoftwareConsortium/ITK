@@ -2,7 +2,6 @@
 ## (Use double hashes for copyright notice so that automake treats it as
 ## comments and does not pass it to Makefile.in)
 ## Copyright by The HDF Group.
-## Copyright by the Board of Trustees of the University of Illinois.
 ## All rights reserved.
 ##
 ## This file is part of HDF5.  The full HDF5 copyright notice, including
@@ -16,8 +15,8 @@
 # See libtool versioning documentation online.
 # After making changes, run bin/reconfigure to update other configure related
 # files like Makefile.in.
-LT_VERS_INTERFACE = 201
-LT_VERS_AGE = 1
+LT_VERS_INTERFACE = 203
+LT_VERS_AGE = 3
 LT_VERS_REVISION = 0
 
 ## If the API changes *at all*, increment LT_VERS_INTERFACE and
@@ -39,31 +38,31 @@ LT_VERS_REVISION = 0
 ## the effects of the H5_V1_x_COMPAT flag.
 ##
 ## Version numbers for wrapper shared library files.
-LT_CXX_VERS_INTERFACE = 201
-LT_CXX_VERS_REVISION = 0
-LT_CXX_VERS_AGE = 1
+LT_CXX_VERS_INTERFACE = 202
+LT_CXX_VERS_REVISION = 1
+LT_CXX_VERS_AGE = 2
 
 LT_F_VERS_INTERFACE = 201
-LT_F_VERS_REVISION = 0
+LT_F_VERS_REVISION = 2
 LT_F_VERS_AGE = 1
 
-LT_HL_VERS_INTERFACE = 200
+LT_HL_VERS_INTERFACE = 201
 LT_HL_VERS_REVISION = 1
-LT_HL_VERS_AGE = 0
+LT_HL_VERS_AGE = 1
 
-LT_HL_CXX_VERS_INTERFACE = 200
+LT_HL_CXX_VERS_INTERFACE = 201
 LT_HL_CXX_VERS_REVISION = 1
-LT_HL_CXX_VERS_AGE = 0
+LT_HL_CXX_VERS_AGE = 1
 
 LT_HL_F_VERS_INTERFACE = 200
-LT_HL_F_VERS_REVISION = 1
+LT_HL_F_VERS_REVISION = 3
 LT_HL_F_VERS_AGE = 0
 
-LT_JAVA_VERS_INTERFACE = 201
+LT_JAVA_VERS_INTERFACE = 202
 LT_JAVA_VERS_REVISION = 0
-LT_JAVA_VERS_AGE = 1
+LT_JAVA_VERS_AGE = 2
 
 LT_TOOLS_VERS_INTERFACE = 201
-LT_TOOLS_VERS_REVISION = 0
+LT_TOOLS_VERS_REVISION = 2
 LT_TOOLS_VERS_AGE = 1
 

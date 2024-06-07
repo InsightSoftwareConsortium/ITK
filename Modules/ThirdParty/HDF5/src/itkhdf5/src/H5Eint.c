@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -47,7 +46,7 @@
 
 /* Printing information */
 typedef struct H5E_print_t {
-    FILE *    stream;
+    FILE     *stream;
     H5E_cls_t cls;
 } H5E_print_t;
 
@@ -129,7 +128,7 @@ H5E__get_msg(const H5E_msg_t *msg, H5E_type_t *type, char *msg_str, size_t size)
 
     /* Copy the message into the user's buffer, if given */
     if (msg_str) {
-        HDstrncpy(msg_str, msg->msg, MIN((size_t)(len + 1), size));
+        HDstrncpy(msg_str, msg->msg, size);
         if ((size_t)len >= size)
             msg_str[size - 1] = '\0';
     } /* end if */
@@ -181,12 +180,12 @@ static herr_t
 H5E__walk1_cb(int n, H5E_error1_t *err_desc, void *client_data)
 {
     H5E_print_t *eprint = (H5E_print_t *)client_data;
-    FILE *       stream;                             /* I/O stream to print output to */
-    H5E_cls_t *  cls_ptr;                            /* Pointer to error class */
-    H5E_msg_t *  maj_ptr;                            /* Pointer to major error info */
-    H5E_msg_t *  min_ptr;                            /* Pointer to minor error info */
-    const char * maj_str   = "No major description"; /* Major error description */
-    const char * min_str   = "No minor description"; /* Minor error description */
+    FILE        *stream;                             /* I/O stream to print output to */
+    H5E_cls_t   *cls_ptr;                            /* Pointer to error class */
+    H5E_msg_t   *maj_ptr;                            /* Pointer to major error info */
+    H5E_msg_t   *min_ptr;                            /* Pointer to minor error info */
+    const char  *maj_str   = "No major description"; /* Major error description */
+    const char  *min_str   = "No minor description"; /* Minor error description */
     unsigned     have_desc = 1; /* Flag to indicate whether the error has a "real" description */
     herr_t       ret_value = SUCCEED;
 
@@ -304,12 +303,12 @@ static herr_t
 H5E__walk2_cb(unsigned n, const H5E_error2_t *err_desc, void *client_data)
 {
     H5E_print_t *eprint = (H5E_print_t *)client_data;
-    FILE *       stream;                             /* I/O stream to print output to */
-    H5E_cls_t *  cls_ptr;                            /* Pointer to error class */
-    H5E_msg_t *  maj_ptr;                            /* Pointer to major error info */
-    H5E_msg_t *  min_ptr;                            /* Pointer to minor error info */
-    const char * maj_str   = "No major description"; /* Major error description */
-    const char * min_str   = "No minor description"; /* Minor error description */
+    FILE        *stream;                             /* I/O stream to print output to */
+    H5E_cls_t   *cls_ptr;                            /* Pointer to error class */
+    H5E_msg_t   *maj_ptr;                            /* Pointer to major error info */
+    H5E_msg_t   *min_ptr;                            /* Pointer to minor error info */
+    const char  *maj_str   = "No major description"; /* Major error description */
+    const char  *min_str   = "No minor description"; /* Minor error description */
     unsigned     have_desc = 1; /* Flag to indicate whether the error has a "real" description */
     herr_t       ret_value = SUCCEED;
 
@@ -651,7 +650,7 @@ H5E_printf_stack(H5E_t *estack, const char *file, const char *func, unsigned lin
                  hid_t min_id, const char *fmt, ...)
 {
     va_list ap;                   /* Varargs info */
-    char *  tmp        = NULL;    /* Buffer to place formatted description in */
+    char   *tmp        = NULL;    /* Buffer to place formatted description in */
     hbool_t va_started = FALSE;   /* Whether the variable argument list is open */
     herr_t  ret_value  = SUCCEED; /* Return value */
 

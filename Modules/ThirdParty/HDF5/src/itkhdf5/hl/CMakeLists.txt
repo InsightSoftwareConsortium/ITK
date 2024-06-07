@@ -1,7 +1,16 @@
-#[[ ITK --start
 cmake_minimum_required (VERSION 3.12)
-# ITK --stop ]]
 project (HDF5_HL C)
+
+#-----------------------------------------------------------------------------
+# Option to use new-style references with dimension scale APIs
+#-----------------------------------------------------------------------------
+option (HDF5_DIMENSION_SCALES_NEW_REF  "Use new-style references with dimension scale APIs" OFF)
+# ITK --start
+mark_as_advanced (HDF5_DIMENSION_SCALES_NEW_REF)
+# ITK --stop
+if (HDF5_DIMENSION_SCALES_NEW_REF)
+  set (H5_DIMENSION_SCALES_WITH_NEW_REF 1)
+endif ()
 
 #-----------------------------------------------------------------------------
 # List Source files
@@ -10,7 +19,7 @@ project (HDF5_HL C)
 add_subdirectory (src)
 
 #[[ ITK --start
-#-- Build the High level Tools
+# Build HDF5 Tools
 if (HDF5_BUILD_TOOLS)
   add_subdirectory (tools)
 endif ()
@@ -19,6 +28,7 @@ endif ()
 if (HDF5_BUILD_EXAMPLES)
   add_subdirectory (examples)
 endif ()
+
 #-- Build the Unit testing if requested
 if (BUILD_TESTING AND HDF5_TEST_SERIAL)
   add_subdirectory (test)

@@ -222,7 +222,7 @@ H5VL__native_term(void)
  * Purpose:     Query the connector class.
  *
  * Note:        This routine is in this file so that it can return the address
- *              of the staticly declared class struct.
+ *              of the statically declared class struct.
  *
  * Returns:     SUCCEED (Can't fail)
  *
@@ -258,7 +258,7 @@ herr_t
 H5VL_native_get_file_addr_len(hid_t loc_id, size_t *addr_len)
 {
     H5I_type_t vol_obj_type = H5I_BADID; /* Object type of loc_id */
-    void *     vol_obj      = NULL;      /* VOL Object of loc_id */
+    void      *vol_obj      = NULL;      /* VOL Object of loc_id */
     herr_t     ret_value    = SUCCEED;   /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -296,7 +296,7 @@ done:
 herr_t
 H5VL__native_get_file_addr_len(void *obj, H5I_type_t obj_type, size_t *addr_len)
 {
-    H5F_t *file      = NULL; /* File stuct pointer */
+    H5F_t *file      = NULL; /* File struct pointer */
     herr_t ret_value = SUCCEED;
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -329,7 +329,7 @@ herr_t
 H5VLnative_addr_to_token(hid_t loc_id, haddr_t addr, H5O_token_t *token)
 {
     H5I_type_t vol_obj_type = H5I_BADID; /* Object type of loc_id */
-    void *     vol_obj      = NULL;      /* VOL Object of loc_id */
+    void      *vol_obj      = NULL;      /* VOL Object of loc_id */
     herr_t     ret_value    = SUCCEED;   /* Return value         */
 
     FUNC_ENTER_API(FAIL)
@@ -423,7 +423,7 @@ herr_t
 H5VLnative_token_to_addr(hid_t loc_id, H5O_token_t token, haddr_t *addr)
 {
     H5I_type_t vol_obj_type = H5I_BADID; /* Object type of loc_id */
-    void *     vol_obj      = NULL;      /* VOL Object of loc_id */
+    void      *vol_obj      = NULL;      /* VOL Object of loc_id */
     herr_t     ret_value    = SUCCEED;   /* Return value         */
 
     FUNC_ENTER_API(FAIL)

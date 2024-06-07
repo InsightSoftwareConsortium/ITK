@@ -14,26 +14,27 @@
 #ifndef H5_CONFIG_H_
 #define H5_CONFIG_H_
 
-/* Define if the Windows virtual file driver should be compiled */
+/* Define if this is a Windows machine */
 #cmakedefine H5_HAVE_WINDOWS @H5_HAVE_WINDOWS@
 
 /* Define if using MinGW */
 #cmakedefine H5_HAVE_MINGW @H5_HAVE_MINGW@
 
-/* Define if on the Windows platform and default WIN32 API */
+/* Define if on the Windows platform and using the Win32 API */
 #cmakedefine H5_HAVE_WIN32_API @H5_HAVE_WIN32_API@
 
 /* Define if using a Windows compiler (i.e. Visual Studio) */
 #cmakedefine H5_HAVE_VISUAL_STUDIO @H5_HAVE_VISUAL_STUDIO@
-
-/* Define if C++ compiler recognizes offsetof */
-#cmakedefine H5_CXX_HAVE_OFFSETOF @CXX_HAVE_OFFSETOF@
 
 /* Define the default plugins path to compile */
 #cmakedefine H5_DEFAULT_PLUGINDIR "@H5_DEFAULT_PLUGINDIR@"
 
 /* Define if dev_t is a scalar */
 #cmakedefine H5_DEV_T_IS_SCALAR @H5_DEV_T_IS_SCALAR@
+
+/* Define if your system is IBM ppc64le and cannot convert some long double
+   values correctly. */
+#cmakedefine H5_DISABLE_SOME_LDOUBLE_CONV @H5_DISABLE_SOME_LDOUBLE_CONV@
 
 /* Define to dummy `main' function (if any) required to link to the Fortran
    libraries. */
@@ -70,13 +71,13 @@
 /* Define Fortran compiler ID */
 #define H5_Fortran_COMPILER_ID @CMAKE_Fortran_COMPILER_ID@
 
+/* Define number of valid Fortran INTEGER KINDs (must be defined before F_IKIND)*/
+#cmakedefine H5_H5CONFIG_F_NUM_IKIND @H5_H5CONFIG_F_NUM_IKIND@
+
 /* Define valid Fortran INTEGER KINDs */
 #cmakedefine H5_H5CONFIG_F_IKIND @H5_H5CONFIG_F_IKIND@
 
-/* Define number of valid Fortran INTEGER KINDs */
-#cmakedefine H5_H5CONFIG_F_NUM_IKIND @H5_H5CONFIG_F_NUM_IKIND@
-
-/* Define number of valid Fortran REAL KINDs */
+/* Define number of valid Fortran REAL KINDs (must be defined before F_RKIND) */
 #cmakedefine H5_H5CONFIG_F_NUM_RKIND @H5_H5CONFIG_F_NUM_RKIND@
 
 /* Define valid Fortran REAL KINDs */
@@ -111,7 +112,7 @@
 #cmakedefine H5_HAVE_CODESTACK @H5_HAVE_CODESTACK@
 
 /* Define to 1 if you have the <curl/curl.h> header file. */
-#cmakedefine H5_HAVE_CURL_H @H5_HAVE_CURL_H@
+#cmakedefine H5_HAVE_CURL_CURL_H @H5_HAVE_CURL_H@
 
 /* Define if Darwin or Mac OS X */
 #cmakedefine H5_HAVE_DARWIN @H5_HAVE_DARWIN@
@@ -303,11 +304,17 @@
 /* Define if we have parallel support */
 #cmakedefine H5_HAVE_PARALLEL @H5_HAVE_PARALLEL@
 
+/* Define if we have support for writing to filtered datasets in parallel */
+#cmakedefine H5_HAVE_PARALLEL_FILTERED_WRITES @H5_HAVE_PARALLEL_FILTERED_WRITES@
+
 /* Define if both pread and pwrite exist. */
 #cmakedefine H5_HAVE_PREADWRITE @H5_HAVE_PREADWRITE@
 
 /* Define to 1 if you have the <pthread.h> header file. */
 #cmakedefine H5_HAVE_PTHREAD_H @H5_HAVE_PTHREAD_H@
+
+/* Define to 1 if you have the <pwd.h> header file. */
+#cmakedefine H5_HAVE_PWD_H @H5_HAVE_PWD_H@
 
 /* Define to 1 if you have the <quadmath.h> header file. */
 #cmakedefine H5_HAVE_QUADMATH_H @H5_HAVE_QUADMATH_H@
@@ -358,7 +365,7 @@
 /* Define to 1 if you have the `stat64' function. */
 #cmakedefine H5_HAVE_STAT64 @H5_HAVE_STAT64@
 
-/* Define if `struct stat' has the `st_blocks' field */
+/* Define if struct stat has the st_blocks field */
 #cmakedefine H5_HAVE_STAT_ST_BLOCKS @H5_HAVE_STAT_ST_BLOCKS@
 
 /* Define to 1 if you have the <stdbool.h> header file. */
@@ -492,6 +499,9 @@
 /* Define if the high-level library headers should be included in hdf5.h */
 #cmakedefine H5_INCLUDE_HL @H5_INCLUDE_HL@
 
+/* Define if new-style references should be used with dimension scales */
+#cmakedefine H5_DIMENSION_SCALES_WITH_NEW_REF @H5_DIMENSION_SCALES_WITH_NEW_REF@
+
 /* Define if your system can convert long double to (unsigned) long long
    values correctly. */
 #cmakedefine H5_LDOUBLE_TO_LLONG_ACCURATE @H5_LDOUBLE_TO_LLONG_ACCURATE@
@@ -507,9 +517,6 @@
 /* Define if your system can convert (unsigned) long to long double values
    with special algorithm. */
 #cmakedefine H5_LONG_TO_LDOUBLE_SPECIAL @H5_LONG_TO_LDOUBLE_SPECIAL@
-
-/* Define if your system is power6 and cannot convert some long double values. */
-#cmakedefine H5_DISABLE_SOME_LDOUBLE_CONV @H5_DISABLE_SOME_LDOUBLE_CONV@
 
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #cmakedefine H5_LT_OBJDIR @H5_LT_OBJDIR@
@@ -755,7 +762,7 @@
 /* Version number of package */
 #define H5_VERSION "@HDF5_PACKAGE_VERSION_STRING@"
 
-/* Data accuracy is prefered to speed during data conversions */
+/* Data accuracy is preferred to speed during data conversions */
 #cmakedefine H5_WANT_DATA_ACCURACY @H5_WANT_DATA_ACCURACY@
 
 /* Check exception handling functions during data conversions */

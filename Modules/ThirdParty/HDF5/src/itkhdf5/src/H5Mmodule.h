@@ -27,8 +27,22 @@
 #define H5_MY_PKG_INIT YES
 
 /**
- * \defgroup H5M H5M
- * \brief Map Interface
+ * \page H5M_UG The HDF5 VOL Data Mapping
+ * \Bold{The HDF5 Data Mapping can only be used with the HDF5 VOL connectors that
+ * implement map objects.} The native HDF5 library does not support this feature.
+ *
+ * \section sec_map The HDF5 Map Object
+ *
+ * \todo Describe the map life cycle.
+ *
+ * \todo How does MAPL fit into \ref subsubsec_plist_class.
+ *
+ * Previous Chapter \ref sec_vol - Next Chapter \ref sec_addition
+ *
+ */
+
+/**
+ * \defgroup H5M VOL Mapping (H5M)
  *
  * \details \Bold{The interface can only be used with the HDF5 VOL connectors that
  *          implement map objects.} The native HDF5 library does not support this

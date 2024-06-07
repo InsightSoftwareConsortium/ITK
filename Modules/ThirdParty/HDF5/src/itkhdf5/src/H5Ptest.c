@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -57,7 +56,7 @@ char *
 H5P__get_class_path_test(hid_t pclass_id)
 {
     H5P_genclass_t *pclass;           /* Property class to query */
-    char *          ret_value = NULL; /* Return value */
+    char           *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 

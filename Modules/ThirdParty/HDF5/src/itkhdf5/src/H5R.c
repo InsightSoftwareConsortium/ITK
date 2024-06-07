@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -69,10 +68,10 @@
 herr_t
 H5Rcreate_object(hid_t loc_id, const char *name, hid_t oapl_id, H5R_ref_t *ref_ptr)
 {
-    H5VL_object_t *       vol_obj = NULL;                 /* Object of loc_id */
+    H5VL_object_t        *vol_obj = NULL;                 /* Object of loc_id */
     H5I_type_t            obj_type;                       /* Object type of loc_id */
     hid_t                 file_id      = H5I_INVALID_HID; /* File ID */
-    H5VL_object_t *       vol_obj_file = NULL;            /* Object of file_id */
+    H5VL_object_t        *vol_obj_file = NULL;            /* Object of file_id */
     H5VL_loc_params_t     loc_params;                     /* Location parameters */
     H5O_token_t           obj_token = {0};                /* Object token */
     H5VL_file_cont_info_t cont_info = {H5VL_CONTAINER_INFO_VERSION, 0, 0, 0};
@@ -157,14 +156,14 @@ done:
 herr_t
 H5Rcreate_region(hid_t loc_id, const char *name, hid_t space_id, hid_t oapl_id, H5R_ref_t *ref_ptr)
 {
-    H5VL_object_t *       vol_obj = NULL;                 /* Object of loc_id */
+    H5VL_object_t        *vol_obj = NULL;                 /* Object of loc_id */
     H5I_type_t            obj_type;                       /* Object type of loc_id */
     hid_t                 file_id      = H5I_INVALID_HID; /* File ID */
-    H5VL_object_t *       vol_obj_file = NULL;            /* Object of file_id */
+    H5VL_object_t        *vol_obj_file = NULL;            /* Object of file_id */
     H5VL_loc_params_t     loc_params;                     /* Location parameters */
     H5O_token_t           obj_token = {0};                /* Object token */
     H5VL_file_cont_info_t cont_info = {H5VL_CONTAINER_INFO_VERSION, 0, 0, 0};
-    struct H5S_t *        space     = NULL;    /* Pointer to dataspace containing region */
+    struct H5S_t         *space     = NULL;    /* Pointer to dataspace containing region */
     herr_t                ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -249,10 +248,10 @@ done:
 herr_t
 H5Rcreate_attr(hid_t loc_id, const char *name, const char *attr_name, hid_t oapl_id, H5R_ref_t *ref_ptr)
 {
-    H5VL_object_t *       vol_obj = NULL;                 /* Object of loc_id */
+    H5VL_object_t        *vol_obj = NULL;                 /* Object of loc_id */
     H5I_type_t            obj_type;                       /* Object type of loc_id */
     hid_t                 file_id      = H5I_INVALID_HID; /* File ID */
-    H5VL_object_t *       vol_obj_file = NULL;            /* Object of file_id */
+    H5VL_object_t        *vol_obj_file = NULL;            /* Object of file_id */
     H5VL_loc_params_t     loc_params;                     /* Location parameters */
     H5O_token_t           obj_token = {0};                /* Object token */
     H5VL_file_cont_info_t cont_info = {H5VL_CONTAINER_INFO_VERSION, 0, 0, 0};
@@ -461,11 +460,11 @@ hid_t
 H5Ropen_object(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t oapl_id)
 {
     hid_t             loc_id;                       /* Reference location ID */
-    H5VL_object_t *   vol_obj = NULL;               /* Object of loc_id */
+    H5VL_object_t    *vol_obj = NULL;               /* Object of loc_id */
     H5VL_loc_params_t loc_params;                   /* Location parameters */
     H5O_token_t       obj_token = {0};              /* Object token */
     H5I_type_t        opened_type;                  /* Opened object type */
-    void *            opened_obj = NULL;            /* Opened object */
+    void             *opened_obj = NULL;            /* Opened object */
     hid_t             ret_value  = H5I_INVALID_HID; /* Return value */
 
     FUNC_ENTER_API(H5I_INVALID_HID)
@@ -534,13 +533,13 @@ hid_t
 H5Ropen_region(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t oapl_id)
 {
     hid_t             loc_id;                          /* Reference location ID */
-    H5VL_object_t *   vol_obj = NULL;                  /* Object of loc_id */
+    H5VL_object_t    *vol_obj = NULL;                  /* Object of loc_id */
     H5VL_loc_params_t loc_params;                      /* Location parameters */
     H5O_token_t       obj_token = {0};                 /* Object token */
     H5I_type_t        opened_type;                     /* Opened object type */
-    void *            opened_obj    = NULL;            /* Opened object */
+    void             *opened_obj    = NULL;            /* Opened object */
     hid_t             opened_obj_id = H5I_INVALID_HID; /* Opened object ID */
-    H5S_t *           space         = NULL;            /* Dataspace pointer (copy) */
+    H5S_t            *space         = NULL;            /* Dataspace pointer (copy) */
     hid_t             space_id      = H5I_INVALID_HID; /* Dataspace ID */
     hid_t             ret_value     = H5I_INVALID_HID; /* Return value */
 
@@ -629,13 +628,13 @@ hid_t
 H5Ropen_attr(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t aapl_id)
 {
     hid_t             loc_id;                          /* Reference location ID */
-    H5VL_object_t *   vol_obj = NULL;                  /* Object of loc_id */
+    H5VL_object_t    *vol_obj = NULL;                  /* Object of loc_id */
     H5VL_loc_params_t loc_params;                      /* Location parameters */
     H5O_token_t       obj_token = {0};                 /* Object token */
     H5I_type_t        opened_type;                     /* Opened object type */
-    void *            opened_obj    = NULL;            /* Opened object */
+    void             *opened_obj    = NULL;            /* Opened object */
     hid_t             opened_obj_id = H5I_INVALID_HID; /* Opened object ID */
-    void *            opened_attr   = NULL;            /* Opened attribute */
+    void             *opened_attr   = NULL;            /* Opened attribute */
     hid_t             ret_value     = H5I_INVALID_HID; /* Return value */
 
     FUNC_ENTER_API(H5I_INVALID_HID)
@@ -727,7 +726,7 @@ herr_t
 H5Rget_obj_type3(H5R_ref_t *ref_ptr, hid_t rapl_id, H5O_type_t *obj_type)
 {
     hid_t             loc_id;              /* Reference location ID */
-    H5VL_object_t *   vol_obj = NULL;      /* Object of loc_id */
+    H5VL_object_t    *vol_obj = NULL;      /* Object of loc_id */
     H5VL_loc_params_t loc_params;          /* Location parameters */
     H5O_token_t       obj_token = {0};     /* Object token */
     herr_t            ret_value = SUCCEED; /* Return value */
@@ -836,7 +835,7 @@ ssize_t
 H5Rget_obj_name(H5R_ref_t *ref_ptr, hid_t rapl_id, char *buf, size_t size)
 {
     hid_t             loc_id;          /* Reference location ID */
-    H5VL_object_t *   vol_obj = NULL;  /* Object of loc_id */
+    H5VL_object_t    *vol_obj = NULL;  /* Object of loc_id */
     H5VL_loc_params_t loc_params;      /* Location parameters */
     H5O_token_t       obj_token = {0}; /* Object token */
     ssize_t           ret_value = 0;   /* Return value */

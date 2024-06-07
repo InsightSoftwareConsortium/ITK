@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -239,8 +238,8 @@ hid_t
 H5Mcreate(hid_t loc_id, const char *name, hid_t key_type_id, hid_t val_type_id, hid_t lcpl_id, hid_t mcpl_id,
           hid_t mapl_id)
 {
-    void *            map     = NULL; /* New map's info */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *map     = NULL; /* New map's info */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -322,8 +321,8 @@ done:
 hid_t
 H5Mcreate_anon(hid_t loc_id, hid_t key_type_id, hid_t val_type_id, hid_t mcpl_id, hid_t mapl_id)
 {
-    void *            map     = NULL; /* map object from VOL connector */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *map     = NULL; /* map object from VOL connector */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -353,7 +352,7 @@ H5Mcreate_anon(hid_t loc_id, hid_t key_type_id, hid_t val_type_id, hid_t mcpl_id
                       H5P_LINK_CREATE_DEFAULT, key_type_id, val_type_id, mcpl_id, mapl_id, &map) < 0)
         HGOTO_ERROR(H5E_MAP, H5E_CANTINIT, H5I_INVALID_HID, "unable to create map")
 
-    /* Get an atom for the map */
+    /* Get an ID for the map */
     if ((ret_value = H5VL_register(H5I_MAP, map, vol_obj->connector, TRUE)) < 0)
         HGOTO_ERROR(H5E_MAP, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register map")
 
@@ -384,8 +383,8 @@ done:
 hid_t
 H5Mopen(hid_t loc_id, const char *name, hid_t mapl_id)
 {
-    void *            map     = NULL; /* map object from VOL connector */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *map     = NULL; /* map object from VOL connector */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -415,7 +414,7 @@ H5Mopen(hid_t loc_id, const char *name, hid_t mapl_id)
                       mapl_id, &map) < 0)
         HGOTO_ERROR(H5E_MAP, H5E_CANTOPENOBJ, H5I_INVALID_HID, "unable to open map")
 
-    /* Register an atom for the map */
+    /* Register an ID for the map */
     if ((ret_value = H5VL_register(H5I_MAP, map, vol_obj->connector, TRUE)) < 0)
         HGOTO_ERROR(H5E_MAP, H5E_CANTREGISTER, H5I_INVALID_HID, "can't register map atom")
 
@@ -839,7 +838,7 @@ done:
 herr_t
 H5Miterate(hid_t map_id, hsize_t *idx, hid_t key_mem_type_id, H5M_iterate_t op, void *op_data, hid_t dxpl_id)
 {
-    H5VL_object_t *   vol_obj = NULL;
+    H5VL_object_t    *vol_obj = NULL;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -913,7 +912,7 @@ herr_t
 H5Miterate_by_name(hid_t loc_id, const char *map_name, hsize_t *idx, hid_t key_mem_type_id, H5M_iterate_t op,
                    void *op_data, hid_t dxpl_id, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj = NULL;
+    H5VL_object_t    *vol_obj = NULL;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -976,7 +975,7 @@ done:
 herr_t
 H5Mdelete(hid_t map_id, hid_t key_mem_type_id, const void *key, hid_t dxpl_id)
 {
-    H5VL_object_t *   vol_obj = NULL;
+    H5VL_object_t    *vol_obj = NULL;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 

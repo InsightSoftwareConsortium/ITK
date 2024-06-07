@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -148,7 +147,7 @@ typedef enum H5T_pad_t {
     H5T_PAD_ONE        = 1,  /**< always set to one               */
     H5T_PAD_BACKGROUND = 2,  /**< set to background value         */
 
-    H5T_NPAD = 3 /**< sentinal: THIS MUST BE LAST     */
+    H5T_NPAD = 3 /**< sentinel: THIS MUST BE LAST     */
 } H5T_pad_t;
 //! <!-- [H5T_pad_t_snip] -->
 
@@ -178,7 +177,7 @@ typedef struct H5T_cdata_t {
     H5T_cmd_t command;  /**< what should the conversion function do?    */
     H5T_bkg_t need_bkg; /**< is the background buffer needed?	     */
     hbool_t   recalc;   /**< recalculate private data		     */
-    void *    priv;     /**< private data				     */
+    void     *priv;     /**< private data				     */
 } H5T_cdata_t;
 //! <!-- [H5T_cdata_t_snip] -->
 
@@ -196,9 +195,9 @@ typedef enum H5T_pers_t {
  */
 //! <!-- [H5T_direction_t_snip] -->
 typedef enum H5T_direction_t {
-    H5T_DIR_DEFAULT = 0, /**< default direction is inscendent        */
-    H5T_DIR_ASCEND  = 1, /**< in inscendent order                    */
-    H5T_DIR_DESCEND = 2  /**< in descendent order                    */
+    H5T_DIR_DEFAULT = 0, /**< default direction is ascending         */
+    H5T_DIR_ASCEND  = 1, /**< in ascending order                     */
+    H5T_DIR_DESCEND = 2  /**< in descending order                    */
 } H5T_direction_t;
 //! <!-- [H5T_direction_t_snip] -->
 
@@ -237,7 +236,7 @@ typedef enum H5T_conv_ret_t {
  */
 typedef struct {
     size_t len; /**< Length of VL data (in base type units) */
-    void * p;   /**< Pointer to VL data */
+    void  *p;   /**< Pointer to VL data */
 } hvl_t;
 
 /* Variable Length String information */
@@ -279,7 +278,7 @@ typedef herr_t (*H5T_conv_t)(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, siz
  * \returns Valid callback function return values are #H5T_CONV_ABORT,
  *          #H5T_CONV_UNHANDLED and #H5T_CONV_HANDLED.
  *
- * \details If an exception like overflow happenes during conversion, this
+ * \details If an exception like overflow happens during conversion, this
  *          function is called if it's registered through H5Pset_type_conv_cb().
  *
  */
@@ -850,13 +849,11 @@ H5_DLLVAR hid_t H5T_VAX_F64_g;
  * C-style \Code{double}
  */
 #define H5T_NATIVE_DOUBLE (H5OPEN H5T_NATIVE_DOUBLE_g)
-#if H5_SIZEOF_LONG_DOUBLE != 0
 /**
  * \ingroup PDTNAT
  * C-style \Code{long double}
  */
 #define H5T_NATIVE_LDOUBLE (H5OPEN H5T_NATIVE_LDOUBLE_g)
-#endif
 /**
  * \ingroup PDTNAT
  * HDF5 8-bit bitfield based on native types
@@ -919,9 +916,7 @@ H5_DLLVAR hid_t H5T_NATIVE_LLONG_g;
 H5_DLLVAR hid_t H5T_NATIVE_ULLONG_g;
 H5_DLLVAR hid_t H5T_NATIVE_FLOAT_g;
 H5_DLLVAR hid_t H5T_NATIVE_DOUBLE_g;
-#if H5_SIZEOF_LONG_DOUBLE != 0
 H5_DLLVAR hid_t H5T_NATIVE_LDOUBLE_g;
-#endif
 H5_DLLVAR hid_t H5T_NATIVE_B8_g;
 H5_DLLVAR hid_t H5T_NATIVE_B16_g;
 H5_DLLVAR hid_t H5T_NATIVE_B32_g;
@@ -1087,7 +1082,7 @@ H5_DLLVAR hid_t H5T_NATIVE_UINT_FAST64_g;
  *          When creating a fixed-length string datatype, \p size will
  *          be the length of the string in bytes. The length of the
  *          string in characters will depend on i the encoding used; see
- *          H5Pset_char_encoding().
+ *          #H5Pset_char_encoding.
  *
  *          ENUMs created with this function have a signed native integer
  *          base datatype.  Use H5Tenum_create() if a different integer base
@@ -1204,7 +1199,7 @@ H5_DLL herr_t H5Tlock(hid_t type_id);
  *          the link(s) by which the new committed datatype is accessed and
  *          the creation of any intermediate groups that may be missing.
  *
- *          Once commited, this datatype may be used to define the datatype
+ *          Once committed, this datatype may be used to define the datatype
  *          of any other dataset or attribute in the file.
  *
  *          This function will not accept a datatype that cannot actually hold
@@ -1214,7 +1209,7 @@ H5_DLL herr_t H5Tlock(hid_t type_id);
  *          Committed datatypes are sometimes referred to as named datatypes.
  *
  * \version 1.8.7 Function modified in this release to reject datatypes that
- *          will not accomodate actual data, such as a compound datatype
+ *          will not accommodate actual data, such as a compound datatype
  *          with no fields or an enumerated datatype with no members.
  *
  * \since 1.8.0
@@ -1292,7 +1287,7 @@ H5_DLL hid_t H5Topen2(hid_t loc_id, const char *name, hid_t tapl_id);
  *          fields and enumerated datatypes with no members.
  *
  * \version 1.8.7 Function modified in this release to reject datatypes that
- *                will not accomodate actual data, such as a compound datatype
+ *                will not accommodate actual data, such as a compound datatype
  *                with no fields or an enumerated datatype with no members.
  *
  * \since 1.2.0
@@ -2065,7 +2060,7 @@ H5_DLL H5T_pad_t H5Tget_inpad(hid_t type_id);
  */
 H5_DLL H5T_str_t H5Tget_strpad(hid_t type_id);
 /**
- * \ingroup COMPOUND ENUM
+ * \ingroup COMPENUM
  *
  * \brief Retrieves the number of elements in a compound or enumeration datatype
  *
@@ -2082,7 +2077,7 @@ H5_DLL H5T_str_t H5Tget_strpad(hid_t type_id);
  */
 H5_DLL int H5Tget_nmembers(hid_t type_id);
 /**
- * \ingroup COMPOUND ENUM
+ * \ingroup COMPENUM
  *
  * \brief Retrieves the name of a compound or enumeration datatype member
  *
@@ -2109,7 +2104,7 @@ H5_DLL int H5Tget_nmembers(hid_t type_id);
  */
 H5_DLL char *H5Tget_member_name(hid_t type_id, unsigned membno);
 /**
- * \ingroup COMPOUND ENUM
+ * \ingroup COMPENUM
  *
  * \brief Retrieves the index of a compound or enumeration datatype member
  *
@@ -2685,7 +2680,6 @@ H5_DLL herr_t H5Tset_cset(hid_t type_id, H5T_cset_t cset);
  */
 H5_DLL herr_t H5Tset_strpad(hid_t type_id, H5T_str_t strpad);
 
-/* Type conversion database */
 /**
  * \ingroup CONV
  *
