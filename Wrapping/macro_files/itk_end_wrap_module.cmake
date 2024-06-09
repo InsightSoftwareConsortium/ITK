@@ -391,8 +391,9 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
   if(ITK_WRAP_PYTHON_VERSION VERSION_GREATER_EQUAL 3.11)
     set(use_python_limited_api_default 1)
   endif()
-  set(ITK_USE_PYTHON_LIMITED_API ${use_python_limited_api_default} CACHE BOOL "Use Python's limited API for Python minor version compatibility.")
+  set(ITK_USE_PYTHON_LIMITED_API ${use_python_limited_api_default} CACHE BOOL "Use Python's limited API for Python minor version compatibility." FORCE)
   mark_as_advanced(ITK_USE_PYTHON_LIMITED_API)
+  unset(use_python_limited_api_default)
 
   # build all the c++ files from this module in a common lib
   if(NOT TARGET ${lib})
