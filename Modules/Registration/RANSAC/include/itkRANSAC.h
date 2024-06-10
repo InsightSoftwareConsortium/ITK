@@ -206,7 +206,7 @@ private:
     }
   };
 
-  static ITK_THREAD_RETURN_TYPE
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   RANSACThreadCallback(void * arg);
 
   // number of threads used in computing the RANSAC hypotheses
