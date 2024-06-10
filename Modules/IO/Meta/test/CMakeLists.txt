@@ -52,17 +52,22 @@ itk_add_test(
   itkMetaImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeList.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.mhd)
-itk_add_test(
-  NAME
-  itkMetaImageIOTestListWithFilenameSpaces
-  COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestListWithFilenameSpaces.mhd
-  itkMetaImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/MetaIO/Small\ Ramp\ Volume\ List.mhd,Small\ Ramp\ Volume\ 01.tif,Small\ Ramp\ Volume\ 02.tif,Small\ Ramp\ Volume\ 03.tif,Small\ Ramp\ Volume\ 04.tif,Small\ Ramp\ Volume\ 05.tif,Small\ Ramp\ Volume\ 06.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestListWithFilenameSpaces.mhd)
+
+# Suppress on FreeBSD, `man make` says "There is no way of escaping a space character in a filename" and indeed make will fail here because of the spaces in the filenames.
+if(NOT (CMAKE_SYSTEM_NAME MATCHES "FreeBSD" AND CMAKE_GENERATOR STREQUAL "Unix Makefiles"))
+  itk_add_test(
+    NAME
+    itkMetaImageIOTestListWithFilenameSpaces
+    COMMAND
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestListWithFilenameSpaces.mhd
+    itkMetaImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/MetaIO/Small\ Ramp\ Volume\ List.mhd,Small\ Ramp\ Volume\ 01.tif,Small\ Ramp\ Volume\ 02.tif,Small\ Ramp\ Volume\ 03.tif,Small\ Ramp\ Volume\ 04.tif,Small\ Ramp\ Volume\ 05.tif,Small\ Ramp\ Volume\ 06.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestListWithFilenameSpaces.mhd)
+endif()
+
 itk_add_test(
   NAME
   itkMetaImageIOTestRegEx
@@ -74,17 +79,22 @@ itk_add_test(
   itkMetaImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeRegEx.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.mhd)
-itk_add_test(
-  NAME
-  itkMetaImageIOTestRegExWithFilenameSpaces
-  COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegExWithFilenameSpaces.mhd
-  itkMetaImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/MetaIO/Small\ Ramp\ Volume\ Reg\ Ex.mhd,Small\ Ramp\ Volume\ 01.tif,Small\ Ramp\ Volume\ 02.tif,Small\ Ramp\ Volume\ 03.tif,Small\ Ramp\ Volume\ 04.tif,Small\ Ramp\ Volume\ 05.tif,Small\ Ramp\ Volume\ 06.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegExWithFilenameSpaces.mhd)
+
+# Suppress on FreeBSD, `man make` says "There is no way of escaping a space character in a filename" and indeed make will fail here because of the spaces in the filenames.
+if(NOT (CMAKE_SYSTEM_NAME MATCHES "FreeBSD" AND CMAKE_GENERATOR STREQUAL "Unix Makefiles"))
+  itk_add_test(
+    NAME
+    itkMetaImageIOTestRegExWithFilenameSpaces
+    COMMAND
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegExWithFilenameSpaces.mhd
+    itkMetaImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/MetaIO/Small\ Ramp\ Volume\ Reg\ Ex.mhd,Small\ Ramp\ Volume\ 01.tif,Small\ Ramp\ Volume\ 02.tif,Small\ Ramp\ Volume\ 03.tif,Small\ Ramp\ Volume\ 04.tif,Small\ Ramp\ Volume\ 05.tif,Small\ Ramp\ Volume\ 06.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegExWithFilenameSpaces.mhd)
+endif()
+
 itk_add_test(
   NAME
   itkMetaImageIOTest2
