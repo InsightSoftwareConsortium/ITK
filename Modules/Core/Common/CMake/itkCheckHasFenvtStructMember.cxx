@@ -21,13 +21,12 @@
 int
 main()
 {
-  [[maybe_unused]] fenv_t fenv;
 #if defined(ITK_CHECK_FENV_T_CONTROL)
-  [[maybe_unused]] const auto tempSize = sizeof(fenv.__control);
+  static_assert(sizeof(fenv_t().__control) > 0);
 #elif defined(ITK_CHECK_FENV_T_CONTROL_WORD)
-  [[maybe_unused]] const auto tempSize = sizeof(fenv.__control_word);
+  static_assert(sizeof(fenv_t().__control_word) > 0);
 #elif defined(ITK_CHECK_FENV_T_CW)
-  [[maybe_unused]] const auto tempSize = sizeof(fenv.__cw);
+  static_assert(sizeof(fenv_t().__cw) > 0);
 #else
 #  error \
     "Unknown fenv_t struct member test: Make sure to specify a compile definition of the form -DITK_CHECK_FENV_T_xxx"
