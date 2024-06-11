@@ -658,7 +658,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
   Sol.set_size(ImageDimension);
   Gpt.set_size(ImageDimension);
 
-  if (ImageDimension == 2)
+  if constexpr (ImageDimension == 2)
   {
     Element::ConstPointer eltp;
     for (; !fieldIter.IsAtEnd(); ++fieldIter)
@@ -697,7 +697,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
     }
   }
 
-  if (ImageDimension == 3)
+  if constexpr (ImageDimension == 3)
   {
     // FIXME SHOULD BE 2.0 over meshpixperelt
     rstep = 1.25 / (static_cast<double>(m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]));

@@ -176,7 +176,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 
   // Create a chain of filters
-  if (ImageDimension == 1)
+  if constexpr (ImageDimension == 1)
   {
     // Use just a single filter
     SingleFilterPointer singleFilter = SingleFilterType::New();
@@ -212,7 +212,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     // Middle filters convolves from real to real
     std::vector<IntermediateFilterPointer> intermediateFilters;
-    if (ImageDimension > 2)
+    if constexpr (ImageDimension > 2)
     {
       const unsigned int max_dim = ImageDimension - 1;
       for (unsigned int i = 1; i != max_dim; ++i)
@@ -239,7 +239,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
     LastFilterPointer lastFilter = LastFilterType::New();
     lastFilter->SetOperator(oper[ImageDimension - 1]);
     lastFilter->ReleaseDataFlagOn();
-    if (ImageDimension > 2)
+    if constexpr (ImageDimension > 2)
     {
       const unsigned int temp_dim = ImageDimension - 3;
       lastFilter->SetInput(intermediateFilters[temp_dim]->GetOutput());

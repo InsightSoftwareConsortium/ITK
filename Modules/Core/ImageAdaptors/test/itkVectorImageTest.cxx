@@ -864,7 +864,7 @@ itkVectorImageTest(int, char * argv[])
         failed = true;
       }
 
-      if (Dimension == 3)
+      if constexpr (Dimension == 3)
       {
 
         //

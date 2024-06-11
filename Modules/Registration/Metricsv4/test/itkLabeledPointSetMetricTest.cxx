@@ -59,7 +59,7 @@ itkLabeledPointSetMetricTestRun()
     PointType fixedPoint;
     fixedPoint[0] = pointSetRadius * std::cos(theta);
     fixedPoint[1] = pointSetRadius * std::sin(theta);
-    if (Dimension > 2)
+    if constexpr (Dimension > 2)
     {
       fixedPoint[2] = pointSetRadius * std::sin(theta);
     }
@@ -69,7 +69,7 @@ itkLabeledPointSetMetricTestRun()
     PointType movingPoint;
     movingPoint[0] = fixedPoint[0] + offset[0];
     movingPoint[1] = fixedPoint[1] + offset[1];
-    if (Dimension > 2)
+    if constexpr (Dimension > 2)
     {
       movingPoint[2] = fixedPoint[2] + offset[2];
     }
@@ -158,7 +158,7 @@ itkLabeledPointSetMetricTestRun()
       moving_str1 << sourcePoint[d] << ' ';
       moving_str2 << targetPoint[d] << ' ';
     }
-    if (Dimension < 3)
+    if constexpr (Dimension < 3)
     {
       moving_str1 << "0 ";
       moving_str2 << "0 ";

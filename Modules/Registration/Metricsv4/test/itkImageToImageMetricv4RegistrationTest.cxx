@@ -52,7 +52,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   // Create two simple images
   itk::SizeValueType   ImageSize = 100;
   itk::OffsetValueType boundary = 6;
-  if (Dimension == 3)
+  if constexpr (Dimension == 3)
   {
     ImageSize = 60;
     boundary = 4;

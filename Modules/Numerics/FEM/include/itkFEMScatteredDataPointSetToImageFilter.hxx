@@ -171,11 +171,11 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
     return;
   }
 
-  if (ImageDimension == 2)
+  if constexpr (ImageDimension == 2)
   {
     this->Generate2DQuadrilateralMesh();
   }
-  else if (ImageDimension == 3)
+  else if constexpr (ImageDimension == 3)
   {
     this->Generate3DHexahedralMesh();
   }

@@ -51,13 +51,13 @@ public:
   {
     VectorType oCross;
 
-    if (Dimension > 2)
+    if constexpr (Dimension > 2)
     {
       oCross[0] = iU[1] * iV[2] - iV[1] * iU[2];
       oCross[1] = iV[0] * iU[2] - iU[0] * iV[2];
       oCross[2] = iU[0] * iV[1] - iV[0] * iU[1];
 
-      if (Dimension > 3)
+      if constexpr (Dimension > 3)
       {
         for (unsigned int dim = 3; dim < Dimension; ++dim)
         {

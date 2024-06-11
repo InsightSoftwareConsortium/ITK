@@ -278,7 +278,7 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     {
       pnt->AddField("v1x", it->GetNormal1InObjectSpace()[0]);
       pnt->AddField("v1y", it->GetNormal1InObjectSpace()[1]);
-      if (VDimension == 3)
+      if constexpr (VDimension == 3)
       {
         pnt->AddField("v1z", it->GetNormal1InObjectSpace()[2]);
       }
@@ -288,7 +288,7 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     {
       pnt->AddField("v2x", it->GetNormal2InObjectSpace()[0]);
       pnt->AddField("v2y", it->GetNormal2InObjectSpace()[1]);
-      if (VDimension == 3)
+      if constexpr (VDimension == 3)
       {
         pnt->AddField("v2z", it->GetNormal2InObjectSpace()[2]);
       }
@@ -298,7 +298,7 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     {
       pnt->AddField("tx", it->GetTangentInObjectSpace()[0]);
       pnt->AddField("ty", it->GetTangentInObjectSpace()[1]);
-      if (VDimension == 3)
+      if constexpr (VDimension == 3)
       {
         pnt->AddField("tz", it->GetTangentInObjectSpace()[2]);
       }

@@ -81,7 +81,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
     Transform<TTransformPrecisionType, Self::OutputImageDimension, Self::OutputImageDimension>;
   typename IdentityTransformType::Pointer defaultTransform =
     IdentityTransform<TTransformPrecisionType, OutputImageDimension>::New();
-  if (InputImageDimension == OutputImageDimension)
+  if constexpr (InputImageDimension == OutputImageDimension)
   {
     using DecoratorType = DataObjectDecorator<IdentityTransformType>;
     auto decoratedInput = DecoratorType::New();
@@ -597,7 +597,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method
-  if (InputImageDimension == OutputImageDimension)
+  if constexpr (InputImageDimension == OutputImageDimension)
   {
     Superclass::GenerateOutputInformation();
   }

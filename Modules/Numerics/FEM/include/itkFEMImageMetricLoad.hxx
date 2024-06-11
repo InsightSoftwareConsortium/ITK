@@ -621,7 +621,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
     tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(regionRadius[k]) / 2;
   }
 
-  if (ImageDimension == 2)
+  if constexpr (ImageDimension == 2)
   {
     double measure[3][3];
     for (int row = -1; row < 2; ++row)
@@ -670,7 +670,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
       }
     }
   }
-  else if (ImageDimension == 3)
+  else if constexpr (ImageDimension == 3)
   {
     double measure3D[3][3][3];
     for (int row = -1; row < 2; ++row)

@@ -521,7 +521,7 @@ operator<<(std::ostream & os, const Index<VDimension> & obj)
   {
     os << obj[i] << ", ";
   }
-  if (VDimension >= 1)
+  if constexpr (VDimension >= 1)
   {
     os << obj[VDimension - 1];
   }

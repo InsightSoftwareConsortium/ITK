@@ -112,7 +112,7 @@ MetaLandmarkConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObject
     landmarkMO->GetPoints().push_back(pnt);
   }
 
-  if (VDimension == 2)
+  if constexpr (VDimension == 2)
   {
     landmarkMO->PointDim("x y red green blue alpha");
   }

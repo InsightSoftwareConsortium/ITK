@@ -123,11 +123,11 @@ MetaSurfaceConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     surfaceMO->GetPoints().push_back(pnt);
   }
 
-  if (VDimension == 2)
+  if constexpr (VDimension == 2)
   {
     surfaceMO->PointDim("x y v1 v2 red green blue alpha");
   }
-  else if (VDimension == 3)
+  else if constexpr (VDimension == 3)
   {
     surfaceMO->PointDim("x y z v1 v2 v3 red green blue alpha");
   }

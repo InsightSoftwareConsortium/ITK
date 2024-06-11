@@ -71,7 +71,7 @@ runGPUImageFilterTest(const std::string & inFile, const std::string & outFile)
   typename InputImageType::SizeType indexRadius;
   indexRadius[0] = 2; // radius along x
   indexRadius[1] = 2; // radius along y
-  if (VImageDimension > 2)
+  if constexpr (VImageDimension > 2)
   {
     indexRadius[2] = 2; // radius along z
   }

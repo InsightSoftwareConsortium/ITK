@@ -291,7 +291,7 @@ public:
 protected:
   MINCTransformAdapter()
   {
-    if (VInputDimension != 3 || VOutputDimension != 3)
+    if constexpr (VInputDimension != 3 || VOutputDimension != 3)
     {
       itkExceptionMacro("MINC transform is currently implemented only for 3D to 3D.");
     }
