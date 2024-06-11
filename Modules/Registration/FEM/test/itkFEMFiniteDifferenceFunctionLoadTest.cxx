@@ -132,7 +132,7 @@ CreateMesh(InputImageType * image, unsigned int elementWidth = 1)
   meshFilter->SetInput(image);
   meshFilter->SetPixelsPerElement(pixelsPerElement);
   auto material = MaterialType::New();
-  if (ImageDimension == 2)
+  if constexpr (ImageDimension == 2)
   {
     auto element = Element2DType::New();
     element->SetMaterial(material);

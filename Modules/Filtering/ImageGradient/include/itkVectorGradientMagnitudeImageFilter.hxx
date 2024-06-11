@@ -216,7 +216,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
 
     if (m_UsePrincipleComponents)
     {
-      if (ImageDimension == 3)
+      if constexpr (ImageDimension == 3)
       { // Use the specialized eigensolve which can be threaded
         while (!bit.IsAtEnd())
         {

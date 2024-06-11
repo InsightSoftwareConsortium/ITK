@@ -345,7 +345,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
   double elongation = 0;
   double flatness = 0;
-  if (ImageDimension < 2)
+  if constexpr (ImageDimension < 2)
   {
     elongation = 1;
     flatness = 1;

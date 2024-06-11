@@ -61,7 +61,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   fixedPoint[0] = pointMax / 2.0;
   fixedPoint[1] = pointMax / 2.0;
   fixedPoints->SetPoint(4, fixedPoint);
-  if (Dimension == 3)
+  if constexpr (Dimension == 3)
   {
     fixedPoint[0] = pointMax / 2.0;
     fixedPoint[1] = pointMax / 2.0;
@@ -80,7 +80,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
     fixedPoint = fixedPoints->GetPoint(n);
     movingPoint[0] = fixedPoint[0] + (n + 1) * 0.5;
     movingPoint[1] = fixedPoint[1] - (n + 2) * 0.5;
-    if (Dimension == 3)
+    if constexpr (Dimension == 3)
     {
       movingPoint[2] = fixedPoint[2] + (n + 3) * 0.5;
     }

@@ -570,13 +570,13 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
   // Initialize indices if this->m_TopologyCheck is activated
   if (this->m_TopologyCheck != Superclass::TopologyCheckEnum::Nothing)
   {
-    if (ImageDimension == 2)
+    if constexpr (ImageDimension == 2)
     {
       InitializeIndices2D();
     }
     else
     {
-      if (ImageDimension == 3)
+      if constexpr (ImageDimension == 3)
       {
         InitializeIndices3D();
       }
@@ -596,7 +596,7 @@ bool
 FastMarchingImageFilterBase<TInput, TOutput>::DoesVoxelChangeViolateWellComposedness(const NodeType & idx) const
 {
   bool isChangeWellComposed = false;
-  if (ImageDimension == 2)
+  if constexpr (ImageDimension == 2)
   {
     isChangeWellComposed = this->IsChangeWellComposed2D(idx);
   }

@@ -54,11 +54,11 @@ vnl_matrix<double> inline CalculateRotationMatrix(const vnl_symmetric_eigensyste
   // can fix this by making one of them negative.  Make the last
   // eigenvector (with smallest eigenvalue) negative.
   float matrixDet;
-  if (VDimension == 2)
+  if constexpr (VDimension == 2)
   {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1]);
   }
-  else if (VDimension == 3)
+  else if constexpr (VDimension == 3)
   {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1], rotationMatrix[2]);
   }

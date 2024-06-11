@@ -57,7 +57,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
   fixedPoint[0] = 0.0;
   fixedPoint[1] = pointMax;
   fixedPoints->SetPoint(2, fixedPoint);
-  if (Dimension == 3)
+  if constexpr (Dimension == 3)
   {
     fixedPoint[0] = 0.0;
     fixedPoint[1] = 0.0;
@@ -86,7 +86,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
       movingPoint[0] = fixedPoint[0] + 0.25;
       movingPoint[1] = fixedPoint[1];
     }
-    if (Dimension == 3)
+    if constexpr (Dimension == 3)
     {
       movingPoint[2] = fixedPoint[2] + 0.75;
     }
@@ -178,7 +178,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
     {
       derivativeTest[0] = derivativeTest[0] + tempDerivative[0];
       derivativeTest[1] = derivativeTest[1] + tempDerivative[1];
-      if (Dimension == 3)
+      if constexpr (Dimension == 3)
       {
         derivativeTest[2] = derivativeTest[2] + tempDerivative[2];
       }

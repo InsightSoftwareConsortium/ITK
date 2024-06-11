@@ -167,7 +167,7 @@ std::ostream &
 operator<<(std::ostream & os, const Vector<T, TVectorDimension> & vct)
 {
   os << '[';
-  if (TVectorDimension == 1)
+  if constexpr (TVectorDimension == 1)
   {
     os << vct[0];
   }

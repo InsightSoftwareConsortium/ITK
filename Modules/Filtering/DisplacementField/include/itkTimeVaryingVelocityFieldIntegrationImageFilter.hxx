@@ -35,7 +35,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField,
   this->m_NumberOfTimePoints = 0;
   this->SetNumberOfRequiredInputs(1);
 
-  if (InputImageDimension - 1 != OutputImageDimension)
+  if constexpr (InputImageDimension - 1 != OutputImageDimension)
   {
     itkExceptionMacro("The time-varying velocity field (input) should have "
                       << "dimensionality of 1 greater than the deformation field (output). ");

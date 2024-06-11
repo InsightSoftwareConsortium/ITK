@@ -32,7 +32,7 @@ itkGaborImageSourceTestHelper(char * outputFilename, bool calculcateImaginaryPar
   using GaborSourceType = itk::GaborImageSource<ImageType>;
   auto gaborImage = GaborSourceType::New();
 
-  if (ImageDimension == 2)
+  if constexpr (ImageDimension == 2)
   {
     typename ImageType::SizeType size;
     size.Fill(64 * 4);
@@ -40,7 +40,7 @@ itkGaborImageSourceTestHelper(char * outputFilename, bool calculcateImaginaryPar
   }
 
   typename GaborSourceType::ArrayType sigma;
-  if (ImageDimension == 2)
+  if constexpr (ImageDimension == 2)
   {
     sigma[0] = 2.0;
     sigma[1] = 5.0;

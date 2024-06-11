@@ -263,7 +263,7 @@ std::ostream &
 operator<<(std::ostream & os, const Point<T, TPointDimension> & vct)
 {
   os << '[';
-  if (TPointDimension == 1)
+  if constexpr (TPointDimension == 1)
   {
     os << vct[0];
   }

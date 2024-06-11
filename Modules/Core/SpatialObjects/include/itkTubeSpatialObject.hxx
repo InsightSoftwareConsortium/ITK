@@ -427,7 +427,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
 
     // Compute the normal
     CovariantVectorType n1;
-    if (TDimension == 2)
+    if constexpr (TDimension == 2)
     {
       // The normal to the tangent in 2D is the orthogonal direction to the tangent.
       n1[0] = t[1];
@@ -447,7 +447,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
       ((TubePointType *)(this->GetPoint(it1)))->SetNormal1InObjectSpace(n1);
       prevN1 = n1;
     }
-    else if (TDimension == 3)
+    else if constexpr (TDimension == 3)
     {
       // The normal to the tangent in 3D is the cross product of adjacent tangent directions.
       n1[0] = t[1] * t2[2] - t[2] * t2[1];

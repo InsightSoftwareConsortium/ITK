@@ -217,7 +217,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Because the output of last filter in the mini-pipeline is not
   // pipelined the data must be manually released
-  if (ImageDimension > 1)
+  if constexpr (ImageDimension > 1)
   {
     m_SmoothingFilters[ImageDimension - 2]->GetOutput()->ReleaseData();
   }

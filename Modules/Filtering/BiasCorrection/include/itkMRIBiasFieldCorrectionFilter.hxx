@@ -192,7 +192,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::MRIBiasFiel
 {
   m_NormalVariateGenerator->Initialize(time(nullptr));
 
-  if (ImageDimension == 3)
+  if constexpr (ImageDimension == 3)
   {
     m_UsingInterSliceIntensityCorrection = true;
     m_SlicingDirection = 2;

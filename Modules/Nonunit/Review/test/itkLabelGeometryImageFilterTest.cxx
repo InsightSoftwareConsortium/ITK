@@ -166,7 +166,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
 
     matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetCentroid(labelValue)[0];
     matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetCentroid(labelValue)[1];
-    if (VDimension == 3)
+    if constexpr (VDimension == 3)
     {
       matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetCentroid(labelValue)[2];
     }
@@ -176,7 +176,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
     }
     matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetWeightedCentroid(labelValue)[0];
     matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetWeightedCentroid(labelValue)[1];
-    if (VDimension == 3)
+    if constexpr (VDimension == 3)
     {
       matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetWeightedCentroid(labelValue)[2];
     }

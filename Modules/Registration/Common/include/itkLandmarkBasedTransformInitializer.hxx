@@ -348,7 +348,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   }
 
   // Sanity check
-  if (ImageDimension != 3)
+  if constexpr (ImageDimension != 3)
   {
     itkExceptionMacro("Transform is VersorRigid3DTransform and Fixed image dimension is not 3");
   }
@@ -480,7 +480,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   }
 
   // Sanity check for dimension.
-  if (ImageDimension != 3)
+  if constexpr (ImageDimension != 3)
   {
     itkExceptionMacro("Transform is Similiarity3DTransform and Fixed image dimension is not 3");
   }
@@ -628,7 +628,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     itkExceptionMacro("Rigid2DTransformType Expected but transform is " << this->m_Transform->GetNameOfClass());
   }
   // Sanity check.
-  if (ImageDimension != 2)
+  if constexpr (ImageDimension != 2)
   {
     itkExceptionMacro("Transform is Rigid2DTransform and Fixed image dimension is not 2");
   }

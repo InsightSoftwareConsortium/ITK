@@ -133,7 +133,7 @@ NeighborhoodAlgorithmTest()
   region.SetIndex(ind);
 
   size.Fill(5);
-  if (VDimension > 1)
+  if constexpr (VDimension > 1)
   {
     size[VDimension - 1] = 1;
   }
@@ -184,7 +184,7 @@ NeighborhoodAlgorithmTest()
     return false;
   }
 
-  if (VDimension == 2)
+  if constexpr (VDimension == 2)
   {
     ind[0] = 0;
     ind[1] = 249;

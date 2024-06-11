@@ -194,7 +194,7 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
       PointType v2 = this->m_Points[identifier[1]].GetPositionInObjectSpace();
       PointType v3 = this->m_Points[identifier[2]].GetPositionInObjectSpace();
 
-      if (TDimension == 3)
+      if constexpr (TDimension == 3)
       {
         double coa = -(v1[1] * (v2[2] - v3[2]) + v2[1] * (v3[2] - v1[2]) + v3[1] * (v1[2] - v2[2]));
         double cob = -(v1[2] * (v2[0] - v3[0]) + v2[2] * (v3[0] - v1[0]) + v3[2] * (v1[0] - v2[0]));

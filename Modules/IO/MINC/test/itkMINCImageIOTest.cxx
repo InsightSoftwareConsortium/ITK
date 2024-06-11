@@ -333,7 +333,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 
   mat.SetIdentity();
 
-  if (VDimension == 3)
+  if constexpr (VDimension == 3)
   { // there are problems with 4D direction cosines!
     // 30deg rotation
     mat[1][1] = mat[0][0] = 0.866025403784439;
@@ -598,7 +598,7 @@ MINCReadWriteTestVector(const char * fileName,
 
   mat.SetIdentity();
 
-  if (VDimension == 3)
+  if constexpr (VDimension == 3)
   { // there are problems with 4D direction cosines!
     // 30deg rotation
     mat[1][1] = mat[0][0] = 0.866025403784439;

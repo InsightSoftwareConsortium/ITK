@@ -464,7 +464,7 @@ operator<<(std::ostream & os, const Offset<VDimension> & ind)
   {
     os << ind[i] << ", ";
   }
-  if (VDimension >= 1)
+  if constexpr (VDimension >= 1)
   {
     os << ind[VDimension - 1];
   }

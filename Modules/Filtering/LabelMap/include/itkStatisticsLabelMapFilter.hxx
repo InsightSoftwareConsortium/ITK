@@ -266,7 +266,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
       principalAxes[ImageDimension - 1][i] *= std::real(det);
     }
 
-    if (ImageDimension < 2)
+    if constexpr (ImageDimension < 2)
     {
       elongation = 1;
       flatness = 1;

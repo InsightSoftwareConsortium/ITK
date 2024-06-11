@@ -51,7 +51,7 @@ PadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent i
 
   os << indent << "Output Pad Lower Bounds: [";
 
-  if (ImageDimension >= 1)
+  if constexpr (ImageDimension >= 1)
   {
     os << m_PadLowerBound[0];
   }
@@ -62,7 +62,7 @@ PadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent i
   os << ']' << std::endl;
 
   os << indent << "Output Pad Upper Bounds: [";
-  if (ImageDimension >= 1)
+  if constexpr (ImageDimension >= 1)
   {
     os << m_PadUpperBound[0];
   }

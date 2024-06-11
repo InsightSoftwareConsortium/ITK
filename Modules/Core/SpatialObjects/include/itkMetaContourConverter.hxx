@@ -172,11 +172,11 @@ MetaContourConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     contourMO->GetControlPoints().push_back(pnt);
   }
 
-  if (VDimension == 2)
+  if constexpr (VDimension == 2)
   {
     contourMO->ControlPointDim("id x y xp yp v1 v2 r g b a");
   }
-  else if (VDimension == 3)
+  else if constexpr (VDimension == 3)
   {
     contourMO->ControlPointDim("id x y z xp yp zp v1 v2 v3 r gn be a");
   }
@@ -201,11 +201,11 @@ MetaContourConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     contourMO->GetInterpolatedPoints().push_back(pnt);
   }
 
-  if (VDimension == 2)
+  if constexpr (VDimension == 2)
   {
     contourMO->InterpolatedPointDim("id x y r g b a");
   }
-  else if (VDimension == 3)
+  else if constexpr (VDimension == 3)
   {
     contourMO->InterpolatedPointDim("id x y z r g b a");
   }

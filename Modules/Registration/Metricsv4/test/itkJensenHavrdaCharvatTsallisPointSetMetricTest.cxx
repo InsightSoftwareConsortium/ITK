@@ -60,7 +60,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     // simplistic point set test:
     //    fixedPoint[0] = 1;
     //    fixedPoint[1] = 1;
-    if (Dimension > 2)
+    if constexpr (Dimension > 2)
     {
       fixedPoint[2] = radius * std::sin(theta);
       //      fixedPoint[2] = 1;
@@ -70,7 +70,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     PointType movingPoint;
     movingPoint[0] = fixedPoint[0] + offset[0];
     movingPoint[1] = fixedPoint[1] + offset[1];
-    if (Dimension > 2)
+    if constexpr (Dimension > 2)
     {
       movingPoint[2] = fixedPoint[2] + offset[2];
     }
@@ -88,8 +88,6 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
   unsigned int numberOfAlphaValues = 6;
   float        alphaValues[] = { 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f };
-  float        metricValues2D[] = { 0.143842f, -0.0129571f, -0.00105768f, -0.000115118f, -1.40956e-05f, -1.84099e-06f };
-  float metricValues3D[] = { 0.175588f, -0.0086854f, -0.000475248f, -3.46729e-05f, -2.84585e-06f, -2.49151e-07f };
 
   unsigned int evaluationKNeighborhood = 50;
   auto         useAnisotropicCovariances = false;
@@ -153,15 +151,21 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
       }
     }
 
-    if (Dimension == 2)
+    if constexpr (Dimension == 2)
     {
+      static constexpr float metricValues2D[] = { 0.143842f,     -0.0129571f,   -0.00105768f,
+                                                  -0.000115118f, -1.40956e-05f, -1.84099e-06f };
+
       if (itk::Math::abs(value - metricValues2D[i]) > 0.01)
       {
         std::cerr << "calculated value is different than expected." << std::endl;
       }
     }
-    else if (Dimension == 3)
+    else if constexpr (Dimension == 3)
     {
+      static constexpr float metricValues3D[] = { 0.175588f,     -0.0086854f,   -0.000475248f,
+                                                  -3.46729e-05f, -2.84585e-06f, -2.49151e-07f };
+
       if (itk::Math::abs(value - metricValues3D[i]) > 0.01)
       {
         std::cerr << "calculated value is different than expected." << std::endl;
@@ -205,7 +209,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
         moving_str1 << sourcePoint[d] << ' ';
         moving_str2 << targetPoint[d] << ' ';
       }
-      if (Dimension < 3)
+      if constexpr (Dimension < 3)
       {
         moving_str1 << "0 ";
         moving_str2 << "0 ";

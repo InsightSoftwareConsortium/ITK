@@ -36,7 +36,7 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUScalarAnisotropicDiffusionFunc
   // load GPU kernel
   std::ostringstream defines;
 
-  if (ImageDimension > 3 || ImageDimension < 1)
+  if constexpr (ImageDimension > 3 || ImageDimension < 1)
   {
     itkExceptionMacro("GPUScalarAnisotropicDiffusionFunction supports 1/2/3D image.");
   }

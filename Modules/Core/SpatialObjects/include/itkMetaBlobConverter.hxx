@@ -114,7 +114,7 @@ MetaBlobConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType
     Blob->GetPoints().push_back(pnt);
   }
 
-  if (VDimension == 2)
+  if constexpr (VDimension == 2)
   {
     Blob->PointDim("x y red green blue alpha");
   }

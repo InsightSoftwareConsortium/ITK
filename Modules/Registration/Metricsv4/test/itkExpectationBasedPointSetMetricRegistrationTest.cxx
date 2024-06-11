@@ -115,7 +115,7 @@ itkExpectationBasedPointSetMetricRegistrationTest(int argc, char * argv[])
     float     radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
-    if (Dimension > 2)
+    if constexpr (Dimension > 2)
     {
       fixedPoint[2] = radius * std::sin(theta);
     }
@@ -124,7 +124,7 @@ itkExpectationBasedPointSetMetricRegistrationTest(int argc, char * argv[])
     PointType movingPoint;
     movingPoint[0] = fixedPoint[0] + offset[0];
     movingPoint[1] = fixedPoint[1] + offset[1];
-    if (Dimension > 2)
+    if constexpr (Dimension > 2)
     {
       movingPoint[2] = fixedPoint[2] + offset[2];
     }
