@@ -88,15 +88,16 @@ public:
 
   itkTypeMacro(RANSAC, Object);
   /** New method for creating an object using a factory. */
-  itkNewMacro(Self)
+  itkNewMacro(Self);
 
-    /**
-     * Set/Get the number of threads used by the RANSAC implementation.
-     *
-     * @param numberOfThreads Number of threads the algorithm uses. Valid values
-     *                        are in [1, #cores].
-     */
-    void SetNumberOfThreads(unsigned int numberOfThreads);
+  /**
+   * Set/Get the number of threads used by the RANSAC implementation.
+   *
+   * @param numberOfThreads Number of threads the algorithm uses. Valid values
+   *                        are in [1, #cores].
+   */
+  void
+  SetNumberOfThreads(unsigned int numberOfThreads);
   void
   SetMaxIteration(unsigned int maxIteration);
   unsigned int
@@ -206,7 +207,7 @@ private:
     }
   };
 
-  static ITK_THREAD_RETURN_TYPE
+  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   RANSACThreadCallback(void * arg);
 
   // number of threads used in computing the RANSAC hypotheses

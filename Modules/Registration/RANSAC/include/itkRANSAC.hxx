@@ -173,9 +173,8 @@ RANSAC<T, SType, TTransform>::Compute(std::vector<SType> & parameters, double de
   // STEP2: create the threads that generate hypotheses and test
   itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(this->numberOfThreads);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
-  threader->SetSingleMethod(RANSAC<T, SType, TTransform>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
-  threader->SingleMethodExecute();
+  threader->SetSingleMethodAndExecute(RANSAC<T, SType, TTransform>::RANSACThreadCallback, this);
 
   auto transform = TTransform::New();
 
