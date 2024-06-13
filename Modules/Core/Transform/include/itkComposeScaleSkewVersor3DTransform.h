@@ -152,7 +152,10 @@ public:
 
 protected:
   ComposeScaleSkewVersor3DTransform();
-  ComposeScaleSkewVersor3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+#if !defined(ITK_LEGACY_REMOVE)
+  [[deprecated("Removed unused constructor")]] ComposeScaleSkewVersor3DTransform(const MatrixType &       matrix,
+                                                                                 const OutputVectorType & offset);
+#endif
   ComposeScaleSkewVersor3DTransform(unsigned int parametersDimension);
   ~ComposeScaleSkewVersor3DTransform() override = default;
 

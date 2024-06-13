@@ -37,12 +37,14 @@ VersorTransform<TParametersValueType>::VersorTransform(unsigned int parametersDi
   m_Versor.SetIdentity();
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 template <typename TParametersValueType>
 VersorTransform<TParametersValueType>::VersorTransform(const MatrixType & matrix, const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {
   this->ComputeMatrixParameters(); // called in MatrixOffset baseclass
 }
+#endif
 
 template <typename TParametersValueType>
 void

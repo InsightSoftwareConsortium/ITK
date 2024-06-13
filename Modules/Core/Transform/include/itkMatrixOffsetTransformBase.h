@@ -507,7 +507,10 @@ protected:
    * to values specified by the caller.  If the arguments are
    * omitted, then the MatrixOffsetTransformBase is initialized to an identity
    * transformation in the appropriate number of dimensions. */
-  MatrixOffsetTransformBase(const MatrixType & matrix, const OutputVectorType & offset);
+#if !defined(ITK_LEGACY_REMOVE)
+  [[deprecated("Removed unused constructor")]] MatrixOffsetTransformBase(const MatrixType &       matrix,
+                                                                         const OutputVectorType & offset);
+#endif
   explicit MatrixOffsetTransformBase(unsigned int paramDims = ParametersDimension);
 
   /** Destroy an MatrixOffsetTransformBase object */

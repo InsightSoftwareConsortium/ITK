@@ -135,7 +135,10 @@ public:
   ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 protected:
-  QuaternionRigidTransform(const MatrixType & matrix, const OutputVectorType & offset);
+#if !defined(ITK_LEGACY_REMOVE)
+  [[deprecated("Removed unused constructor")]] QuaternionRigidTransform(const MatrixType &       matrix,
+                                                                        const OutputVectorType & offset);
+#endif
   QuaternionRigidTransform(unsigned int parametersDimension);
   QuaternionRigidTransform();
   ~QuaternionRigidTransform() override = default;

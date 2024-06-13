@@ -37,6 +37,7 @@ ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform(unsigned in
   m_Scale.Fill(1.0);
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 // Constructor with arguments
 template <typename TParametersValueType>
 ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform(const MatrixType &       matrix,
@@ -45,6 +46,7 @@ ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform(const Matri
 {
   this->ComputeMatrixParameters();
 }
+#endif
 
 // Directly set the matrix
 template <typename TParametersValueType>

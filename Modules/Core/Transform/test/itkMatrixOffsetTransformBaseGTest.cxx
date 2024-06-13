@@ -77,31 +77,3 @@ TEST(MatrixOffsetTransformBase, SetFixedParametersThrowsWhenSizeIsLessThanNDimen
   Assert_SetFixedParameters_throws_when_size_is_less_than_NDimensions<3>();
   Assert_SetFixedParameters_throws_when_size_is_less_than_NDimensions<4>();
 }
-
-// Check that fixed parameters are set to default values during construction.
-TEST(MatrixOffsetTransformBase, CreateWithMatrixAndOffset)
-{
-  class DerivedTransform : public itk::MatrixOffsetTransformBase<>
-  {
-  public:
-    ITK_DISALLOW_COPY_AND_MOVE(DerivedTransform);
-
-    static auto
-    Create()
-    {
-      // Indirectly call the `MatrixOffsetTransformBase(const MatrixType &, const OutputVectorType &)` constructor.
-      const itk::SmartPointer<DerivedTransform> ptr = new DerivedTransform(MatrixType(), OutputVectorType());
-      ptr->UnRegister();
-      return ptr;
-    }
-
-  private:
-    // Inherit the constructors of MatrixOffsetTransformBase:
-    using itk::MatrixOffsetTransformBase<>::MatrixOffsetTransformBase;
-  };
-
-  const auto                                  transform = DerivedTransform::Create();
-  const DerivedTransform::FixedParametersType expectedFixedParameters(DerivedTransform::InputSpaceDimension, 0);
-
-  EXPECT_EQ(transform->GetFixedParameters(), expectedFixedParameters);
-}

@@ -140,7 +140,10 @@ public:
   ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 protected:
-  Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+#if !defined(ITK_LEGACY_REMOVE)
+  [[deprecated("Removed unused constructor")]] Similarity3DTransform(const MatrixType &       matrix,
+                                                                     const OutputVectorType & offset);
+#endif
   Similarity3DTransform(unsigned int paramDim);
   Similarity3DTransform();
   ~Similarity3DTransform() override = default;
