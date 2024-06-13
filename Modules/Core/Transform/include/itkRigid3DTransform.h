@@ -156,7 +156,10 @@ public:
 
 
 protected:
-  Rigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
+#if !defined(ITK_LEGACY_REMOVE)
+  [[deprecated("Removed unused constructor")]] Rigid3DTransform(const MatrixType &       matrix,
+                                                                const OutputVectorType & offset);
+#endif
   Rigid3DTransform(unsigned int paramDim);
   Rigid3DTransform();
   ~Rigid3DTransform() override = default;

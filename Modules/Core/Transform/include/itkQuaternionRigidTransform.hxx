@@ -39,6 +39,7 @@ QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(unsigne
                                               // std::cos(t/2)
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 // Constructor with explicit arguments
 template <typename TParametersValueType>
 QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(const MatrixType &       matrix,
@@ -47,6 +48,7 @@ QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(const M
 {
   this->ComputeMatrixParameters();
 }
+#endif
 
 // Print self
 template <typename TParametersValueType>

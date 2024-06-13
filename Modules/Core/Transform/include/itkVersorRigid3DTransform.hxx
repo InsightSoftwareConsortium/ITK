@@ -33,12 +33,14 @@ VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(unsigned in
   : Superclass(paramDim)
 {}
 
+#if !defined(ITK_LEGACY_REMOVE)
 // Constructor with arguments
 template <typename TParametersValueType>
 VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(const MatrixType &       matrix,
                                                                      const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {}
+#endif
 
 // Set Parameters
 template <typename TParametersValueType>

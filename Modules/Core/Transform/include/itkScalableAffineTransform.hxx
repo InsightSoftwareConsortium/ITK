@@ -59,6 +59,7 @@ ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransfo
   }
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 template <typename TParametersValueType, unsigned int VDimension>
 ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransform(const MatrixType &       matrix,
                                                                                    const OutputVectorType & offset)
@@ -70,6 +71,7 @@ ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransfo
     m_MatrixScale[i] = 1;
   }
 }
+#endif
 
 template <typename TParametersValueType, unsigned int VDimension>
 void

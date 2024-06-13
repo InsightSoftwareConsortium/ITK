@@ -37,6 +37,7 @@ Similarity3DTransform<TParametersValueType>::Similarity3DTransform(unsigned int 
   , m_Scale(1.0)
 {}
 
+#if !defined(ITK_LEGACY_REMOVE)
 // Constructor with arguments
 template <typename TParametersValueType>
 Similarity3DTransform<TParametersValueType>::Similarity3DTransform(const MatrixType &       matrix,
@@ -44,6 +45,7 @@ Similarity3DTransform<TParametersValueType>::Similarity3DTransform(const MatrixT
   : Superclass(matrix, offset)
   , m_Scale(1.0)
 {}
+#endif
 
 // / Set the parameters to the IdentityTransform
 template <typename TParametersValueType>

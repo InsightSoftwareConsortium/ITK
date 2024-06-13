@@ -40,6 +40,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::ScaleSkewVersor3DTransform(uns
   m_Skew.Fill(0.0);
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 // Constructor with arguments
 template <typename TParametersValueType>
 ScaleSkewVersor3DTransform<TParametersValueType>::ScaleSkewVersor3DTransform(const MatrixType &       matrix,
@@ -48,6 +49,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::ScaleSkewVersor3DTransform(con
 {
   this->ComputeMatrixParameters();
 }
+#endif
 
 // Directly set the matrix
 template <typename TParametersValueType>

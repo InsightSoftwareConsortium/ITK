@@ -43,6 +43,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComposeScaleSkewVersor3
   m_Skew.Fill(0.0);
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 // Constructor with arguments
 template <typename TParametersValueType>
 ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComposeScaleSkewVersor3DTransform(
@@ -52,6 +53,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComposeScaleSkewVersor3
 {
   this->ComputeMatrixParameters();
 }
+#endif
 
 // Directly set the matrix
 template <typename TParametersValueType>
