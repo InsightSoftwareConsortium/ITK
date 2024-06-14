@@ -60,6 +60,8 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ConstNeighborhoodIteratorWithOnlyIndex : public Neighborhood<char, TImage::ImageDimension>
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(ConstNeighborhoodIteratorWithOnlyIndex);
+
   /** Type used to refer to space dimensions */
   using DimensionValueType = unsigned int;
 
@@ -94,16 +96,9 @@ public:
   /** Virtual destructor */
   ~ConstNeighborhoodIteratorWithOnlyIndex() override = default;
 
-  /** Copy constructor */
-  ConstNeighborhoodIteratorWithOnlyIndex(const ConstNeighborhoodIteratorWithOnlyIndex &);
-
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
   ConstNeighborhoodIteratorWithOnlyIndex(const SizeType & radius, const ImageType * ptr, const RegionType & region);
-
-  /** Assignment operator */
-  Self &
-  operator=(const Self & orig);
 
   /** Standard itk print method */
   void
