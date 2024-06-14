@@ -128,29 +128,6 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::GetBoundingBoxAsImageRegion() co
 
 
 template <typename TImage>
-ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ConstNeighborhoodIteratorWithOnlyIndex(const Self & orig)
-  : Neighborhood<DummyNeighborhoodPixelType, Dimension>(orig)
-{
-  m_Bound = orig.m_Bound;
-  m_BeginIndex = orig.m_BeginIndex;
-  m_ConstImage = orig.m_ConstImage;
-  m_EndIndex = orig.m_EndIndex;
-  m_Loop = orig.m_Loop;
-  m_Region = orig.m_Region;
-
-  m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
-  for (DimensionValueType i = 0; i < Dimension; ++i)
-  {
-    m_InBounds[i] = orig.m_InBounds[i];
-  }
-  m_IsInBoundsValid = orig.m_IsInBoundsValid;
-  m_IsInBounds = orig.m_IsInBounds;
-
-  m_InnerBoundsLow = orig.m_InnerBoundsLow;
-  m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
-}
-
-template <typename TImage>
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ConstNeighborhoodIteratorWithOnlyIndex(const SizeType &   radius,
                                                                                        const ImageType *  ptr,
                                                                                        const RegionType & region)
@@ -233,36 +210,6 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::Initialize(const SizeType &   ra
 
   m_IsInBoundsValid = false;
   m_IsInBounds = false;
-}
-
-template <typename TImage>
-ConstNeighborhoodIteratorWithOnlyIndex<TImage> &
-ConstNeighborhoodIteratorWithOnlyIndex<TImage>::operator=(const Self & orig)
-{
-  if (this != &orig)
-  {
-    Superclass::operator=(orig);
-
-    m_Bound = orig.m_Bound;
-    m_ConstImage = orig.m_ConstImage;
-    m_EndIndex = orig.m_EndIndex;
-    m_Loop = orig.m_Loop;
-    m_Region = orig.m_Region;
-    m_BeginIndex = orig.m_BeginIndex;
-
-    m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
-
-    m_InnerBoundsLow = orig.m_InnerBoundsLow;
-    m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
-
-    for (DimensionValueType i = 0; i < Dimension; ++i)
-    {
-      m_InBounds[i] = orig.m_InBounds[i];
-    }
-    m_IsInBoundsValid = orig.m_IsInBoundsValid;
-    m_IsInBounds = orig.m_IsInBounds;
-  }
-  return *this;
 }
 
 template <typename TImage>
