@@ -26,14 +26,6 @@ namespace itk
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageIterator<TImage>::ImageIterator(const Self & it)
-  : ImageConstIterator<TImage>(it)
-{}
-
-//----------------------------------------------------------------------
-//  Constructor
-//----------------------------------------------------------------------
-template <typename TImage>
 ImageIterator<TImage>::ImageIterator(TImage * ptr, const RegionType & region)
   : ImageConstIterator<TImage>(ptr, region)
 {}
@@ -52,17 +44,6 @@ ImageIterator<TImage>::ImageIterator(const ImageConstIterator<TImage> & it)
 template <typename TImage>
 ImageIterator<TImage> &
 ImageIterator<TImage>::operator=(const ImageConstIterator<TImage> & it)
-{
-  this->ImageConstIterator<TImage>::operator=(it);
-  return *this;
-}
-
-//----------------------------------------------------------------------
-//    Assignment Operator
-//----------------------------------------------------------------------
-template <typename TImage>
-ImageIterator<TImage> &
-ImageIterator<TImage>::operator=(const Self & it)
 {
   this->ImageConstIterator<TImage>::operator=(it);
   return *this;
