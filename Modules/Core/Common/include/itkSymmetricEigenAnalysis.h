@@ -38,7 +38,7 @@ const TValueType *
 GetPointerToMatrixData(const vnl_matrix_fixed<TValueType, VRows, VColumns> & inputMatrix)
 {
   return inputMatrix.data_block();
-};
+}
 template <typename TValueType>
 const TValueType *
 GetPointerToMatrixData(const vnl_matrix<TValueType> & inputMatrix)
@@ -51,7 +51,7 @@ const TValueType *
 GetPointerToMatrixData(const itk::Matrix<TValueType, VRows, VColumns> & inputMatrix)
 {
   return inputMatrix.GetVnlMatrix().data_block();
-};
+}
 
 /** Sort input to be ordered by magnitude, and returns container with the
  * permutations required for the sorting.

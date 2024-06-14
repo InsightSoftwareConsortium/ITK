@@ -522,24 +522,24 @@ private:
   void SetMinimumConvergenceValue(PrecisionType) override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
-  };
+  }
   void SetConvergenceWindowSize(SizeValueType) override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
-  };
+  }
   const PrecisionType &
   GetConvergenceValue() const override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
     static PrecisionType value{};
     return value;
-  };
+  }
 
   void
   AdvanceOneStep() override
   {
     itkWarningMacro("LBFGS2Optimizerv4Template does not implement single step advance");
-  };
+  }
 };
 
 

@@ -696,7 +696,7 @@ OutputWindowDisplayDebugText(const char *);
   struct newtype : public oldtype                                         \
   {                                                                       \
     char _StructPadding[mincachesize - (sizeof(oldtype) % mincachesize)]; \
-  };
+  }
 
 //
 // itkAlignedTypedef is a macro which creates a new type to make a

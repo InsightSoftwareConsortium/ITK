@@ -210,7 +210,7 @@ private:
                                      const PixelType & pixel) const override
   {
     return this->GetLocalNeighborhoodValue(point, pixel);
-  };
+  }
 
   LocalDerivativeType
   GetLocalNeighborhoodDerivativeWithIndex(const PointIdentifier &,
@@ -218,7 +218,7 @@ private:
                                           const PixelType & pixel) const override
   {
     return this->GetLocalNeighborhoodDerivative(point, pixel);
-  };
+  }
 
   void
   GetLocalNeighborhoodValueAndDerivativeWithIndex(const PointIdentifier &,
@@ -228,7 +228,7 @@ private:
                                                   const PixelType &     pixel) const override
   {
     this->GetLocalNeighborhoodValueAndDerivative(point, measure, derivative, pixel);
-  };
+  }
 };
 } // end namespace itk
 

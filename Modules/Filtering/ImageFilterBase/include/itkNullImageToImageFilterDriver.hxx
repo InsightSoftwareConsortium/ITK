@@ -48,7 +48,7 @@ class NullImageToImageFilterDriver
 {
 public:
   NullImageToImageFilterDriver()
-    : m_Filter(nullptr){};
+    : m_Filter(nullptr){}
 
   using ImageSizeType = typename TInputImage::SizeType;
   using InputPixelType = typename TInputImage::PixelType;

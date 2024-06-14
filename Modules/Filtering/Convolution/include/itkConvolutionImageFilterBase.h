@@ -154,7 +154,7 @@ protected:
   /** Default superclass implementation ensures that input images
    * occupy same physical space. This is not needed for this filter. */
   void
-  VerifyInputInformation() const override{};
+  VerifyInputInformation() const override{}
 
 private:
   bool m_Normalize{ false };
