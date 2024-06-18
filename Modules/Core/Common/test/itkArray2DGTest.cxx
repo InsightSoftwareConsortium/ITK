@@ -20,7 +20,15 @@
 #include "itkArray2D.h"
 #include <gtest/gtest.h>
 #include <limits>
+#include <type_traits> // For is_nothrow_move_constructible_v and is_nothrow_move_assignable_v.
 
+
+static_assert(std::is_nothrow_move_constructible_v<itk::Array2D<int>> &&
+                std::is_nothrow_move_constructible_v<itk::Array2D<double>>,
+              "Array2D should have a `noexcept` move-constructor!");
+static_assert(std::is_nothrow_move_assignable_v<itk::Array2D<int>> &&
+                std::is_nothrow_move_assignable_v<itk::Array2D<double>>,
+              "Array2D should have a `noexcept` move-assignment operator!");
 
 // Tests that Array2D may be constructed with an initial value for each element.
 TEST(Array2D, ConstructorSupportsInitialValue)
@@ -50,4 +58,55 @@ TEST(Array2D, ConstructorSupportsInitialValue)
     checkConstructor(0, 0, initialValue);
     checkConstructor(1, 2, initialValue);
   }
+}
+
+
+// Tests that when move-constructing an Array2D, the data is "taken" from the original, and "moved" to the newly
+// constructed object.
+TEST(Array2D, MoveConstruct)
+{
+  const auto checkMoveConstruct = [](auto && original) {
+    const auto * const * const originalDataArray{ original.data_array() };
+    const unsigned int         originalSize{ original.size() };
+
+    const auto moveConstructed = std::move(original);
+
+    // After the "move", the move-constructed object has retrieved the original data.
+    EXPECT_EQ(moveConstructed.data_array(), originalDataArray);
+    EXPECT_EQ(moveConstructed.size(), originalSize);
+
+    // After the "move", the original is left empty.
+    EXPECT_EQ(original.data_array(), nullptr);
+    EXPECT_EQ(original.size(), 0U);
+  };
+
+  checkMoveConstruct(itk::Array2D<int>());
+  checkMoveConstruct(itk::Array2D<int>(1U, 1U));
+  checkMoveConstruct(itk::Array2D<double>(1U, 2U));
+}
+
+
+// Tests that when move-assigning an Array2D, the data is "taken" from the original, and "moved" to the target of the
+// move-assignment.
+TEST(Array2D, MoveAssign)
+{
+  const auto checkMoveAssign = [](auto original) {
+    const auto * const * const originalDataArray{ original.data_array() };
+    const unsigned int         originalSize{ original.size() };
+
+    decltype(original) moveAssigmentTarget;
+    moveAssigmentTarget = std::move(original);
+
+    // After the "move", the target of the move-assignment has retrieved the original data.
+    EXPECT_EQ(moveAssigmentTarget.data_array(), originalDataArray);
+    EXPECT_EQ(moveAssigmentTarget.size(), originalSize);
+
+    // After the "move", the original is left empty.
+    EXPECT_EQ(original.data_array(), nullptr);
+    EXPECT_EQ(original.size(), 0U);
+  };
+
+  checkMoveAssign(itk::Array2D<int>());
+  checkMoveAssign(itk::Array2D<int>(1U, 1U));
+  checkMoveAssign(itk::Array2D<double>(1U, 2U));
 }
