@@ -60,12 +60,32 @@ public:
   /** Copy-constructor. */
   Array2D(const Self & array);
 
+  /** Move-constructor.
+   * \note This move-constructor is `noexcept`, even while the move-constructor of its base class (`vnl_matrix`) is not
+   * `noexcept`, because unlike `vnl_matrix`, `Array2D` always manages its own memory. */
+  Array2D(Self && array) noexcept
+    : vnl_matrix<TValue>(std::move(array))
+  {
+    // Note: GCC <= 9.5 does not yet support "defaulting" (`= default`) this `noexcept` move-constructor.
+  }
+
   /** Converting constructor. Implicitly converts the specified matrix to an Array2D. */
   Array2D(const VnlMatrixType & matrix);
 
   /** Copy-assignment operator. */
   Self &
   operator=(const Self & array);
+
+  /** Move-assignment operator.
+   * \note This move-assignment operator is `noexcept`, even while the move-assignment operator of its base class
+   * (`vnl_matrix`) is not `noexcept`, because unlike `vnl_matrix`, `Array2D` always manages its own memory. */
+  Self &
+  operator=(Self && array) noexcept
+  {
+    // Note: GCC <= 9.5 does not yet support "defaulting" (`= default`) this `noexcept` move-assignment operator.
+    this->VnlMatrixType::operator=(std::move(array));
+    return *this;
+  }
 
   /** Assigns the specified matrix to an Array2D. */
   Self &
