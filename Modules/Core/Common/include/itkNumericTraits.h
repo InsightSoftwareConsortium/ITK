@@ -27,7 +27,8 @@
   static constexpr ValueType min(ValueType) { return std::numeric_limits<ValueType>::min(); } \
   static constexpr ValueType max(ValueType) { return std::numeric_limits<ValueType>::max(); } \
   static constexpr ValueType min() { return std::numeric_limits<ValueType>::min(); }          \
-  static constexpr ValueType max() { return std::numeric_limits<ValueType>::max(); }
+  static constexpr ValueType max() { return std::numeric_limits<ValueType>::max(); }          \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #include <limits> // for std::numeric_limits
 #include <complex>

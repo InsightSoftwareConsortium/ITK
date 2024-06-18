@@ -204,7 +204,8 @@ public:
     MakeFilled<GENERIC_ARRAY<T, D>>(NumericTraits<T>::Zero);                            \
   template <>                                                                           \
   ITKCommon_EXPORT const GENERIC_ARRAY<T, D> NumericTraits<GENERIC_ARRAY<T, D>>::One =  \
-    MakeFilled<GENERIC_ARRAY<T, D>>(NumericTraits<T>::One);
+    MakeFilled<GENERIC_ARRAY<T, D>>(NumericTraits<T>::One);                             \
+  ITK_MACROEND_NOOP_STATEMENT
 
 //
 // List here the array dimension specializations of these static
