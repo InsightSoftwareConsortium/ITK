@@ -90,6 +90,19 @@ public:
    *  therefore we use here a large capacity integer. */
   using NumberOfParametersType = IdentifierType;
 
+  /* For storing the  name of InputSpace */
+  itkSetMacro(InputSpaceName, std::string);
+  itkGetConstReferenceMacro(InputSpaceName, std::string);
+
+  /** For storing the  name of InputSpace/OutputSpace.
+
+  InputSpaceName, OutputSpaceName provide identifiers for the world spaces
+  that the transform applied to and the direction of the spatial transformation.
+  The direction of the transform goes from the input space to output space.
+  Typical values include the names of an atlas or a dataset. */
+  itkSetMacro(OutputSpaceName, std::string);
+  itkGetConstReferenceMacro(OutputSpaceName, std::string);
+
   /** Return the number of parameters that completely define the Transform  */
   virtual NumberOfParametersType
   GetNumberOfParameters() const = 0;
@@ -178,6 +191,10 @@ protected:
   TransformBaseTemplate() = default;
   ~TransformBaseTemplate() override = default;
 #endif
+
+private:
+  std::string m_InputSpaceName{};
+  std::string m_OutputSpaceName{};
 };
 
 /** This helps to meet backward compatibility */

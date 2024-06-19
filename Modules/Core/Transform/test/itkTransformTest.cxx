@@ -317,6 +317,12 @@ public:
     transform->SetOutputSpaceName("test_outputspace");
     ITK_TEST_EXPECT_EQUAL(std::string("test_outputspace"), transform->GetOutputSpaceName());
 
+    transform->itk::TransformBase::SetInputSpaceName("test_inputspace");
+    ITK_TEST_EXPECT_EQUAL(std::string("test_inputspace"), transform->itk::TransformBase::GetInputSpaceName());
+
+    transform->itk::TransformBase::SetOutputSpaceName("test_outputspace");
+    ITK_TEST_EXPECT_EQUAL(std::string("test_outputspace"), transform->itk::TransformBase::GetOutputSpaceName());
+
     // Test streaming enumeration for TransformBaseTemplateEnums::TransformCategory elements
     const std::set<itk::TransformBaseTemplateEnums::TransformCategory> allTransformCategory{
       itk::TransformBaseTemplateEnums::TransformCategory::UnknownTransformCategory,

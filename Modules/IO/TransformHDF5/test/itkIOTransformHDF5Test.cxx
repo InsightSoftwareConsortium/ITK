@@ -241,6 +241,8 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
     while (lit != list->end())
     {
       (*lit)->Print(std::cout);
+      std::cout << "Input space name: " << (*lit)->GetInputSpaceName() << std::endl;
+      std::cout << "Output space name: " << (*lit)->GetOutputSpaceName() << std::endl;
       ++lit;
     }
   }
