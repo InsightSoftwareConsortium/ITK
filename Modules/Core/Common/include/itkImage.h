@@ -171,7 +171,7 @@ public:
    * example usage:
    * using OutputImageType = typename ImageType::template Rebind< float >::Type;
    *
-   * \deprecated Use RebindImageType instead
+   * Deprecated: Use RebindImageType instead
    */
   template <typename UPixelType, unsigned int VUImageDimension = VImageDimension>
   struct Rebind

@@ -494,7 +494,7 @@ public:
   }
 
 protected:
-  /** \deprecated Use GetInverse for public API instead.
+  /** Deprecated: Use GetInverse for public API instead.
    * Method will eventually be made a protected member function */
   const InverseMatrixType &
   GetInverseMatrix() const;

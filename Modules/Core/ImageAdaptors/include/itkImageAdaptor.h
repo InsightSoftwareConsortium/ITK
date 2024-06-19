@@ -132,7 +132,7 @@ public:
    * example usage:
    * using OutputImageType = typename ImageAdaptorType::template Rebind< float >::Type;
    *
-   * \deprecated Use RebindImageType instead
+   * Deprecated: Use RebindImageType instead
    */
   template <typename UPixelType, unsigned int UImageDimension = TImage::ImageDimension>
   struct Rebind

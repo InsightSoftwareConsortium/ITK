@@ -111,7 +111,7 @@ public:
   /** Constructor to initialize entire vector to one value.
    * \warning Not intended to convert a scalar value into
    * a Vector filled with that value.
-   * \deprecated */
+   * Deprecated */
   Vector(const ValueType & r);
 #else
   /** Constructor to initialize entire vector to one value,
