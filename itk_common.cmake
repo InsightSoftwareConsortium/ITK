@@ -498,11 +498,38 @@ while(NOT dashboard_done)
   endif()
 endwhile()
 
-if(NOT ${configure_return} EQUAL 0 OR
-   NOT ${build_return} EQUAL 0 OR
-   NOT ${build_errors} EQUAL 0 OR
-   NOT ${build_warnings} EQUAL 0 OR
-   NOT ${test_return} EQUAL 0)
+set(ci_completed_successfully 0)
+if(NOT ${configure_return} EQUAL 0)
+  message(WARNING
+	  "configure_return did not complete without warnings, errors, or failures.")
+  set(ci_completed_successfully 1)
+endif()
+
+if(NOT ${build_return} EQUAL 0)
+  message(WARNING
+    "build_return did not complete without warnings, errors, or failures.")
+  set(ci_completed_successfully 1)
+endif()
+
+if(NOT ${build_errors} EQUAL 0)
+  message(WARNING
+    "build_errors did not complete without warnings, errors, or failures.")
+  set(ci_completed_successfully 1)
+endif()
+
+if(NOT ${build_warnings} EQUAL 0)
+  message(WARNING
+    "build_warnings did not complete without warnings, errors, or failures.")
+  set(ci_completed_successfully 1)
+endif()
+
+if(NOT ${test_return} EQUAL 0)
+  message(WARNING
+    "test_return did not complete without warnings, errors, or failures.")
+  set(ci_completed_successfully 1)
+endif()
+
+if(NOT ${ci_completed_successfully} EQUAL 0)
   message(FATAL_ERROR
-    "Build did not complete without warnings, errors, or failures.")
+    "ci_completed_successfully did not complete without warnings, errors, or failures.")
 endif()
