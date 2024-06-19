@@ -1715,6 +1715,7 @@ endif()
 
 set(ITKCommonGTests
     itkArray2DGTest.cxx
+    itkArrayGTest.cxx
     itkAggregateTypesGTest.cxx
     itkBitCastGTest.cxx
     itkBooleanStdVectorGTest.cxx

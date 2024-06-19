@@ -62,6 +62,15 @@ public:
    *  setting for memory management. */
   Array(const Array &);
 
+  /** Move-constructor.
+   * \note This move-constructor is `noexcept`, even while the move-constructor of its base class (`vnl_vector`) is not
+   * `noexcept`, because unlike `vnl_vector`, `Array` always manages its own memory. */
+  Array(Self && array) noexcept
+    : vnl_vector<TValue>(std::move(array))
+  {
+    // Note: GCC <= 9.5 does not yet support "defaulting" (`= default`) this `noexcept` move-constructor.
+  }
+
   /** Construct from a VnlVectorType */
   explicit Array(const VnlVectorType &);
 
@@ -117,6 +126,17 @@ public:
   /** Copy operator */
   Self &
   operator=(const Self & rhs);
+
+  /** Move-assignment operator.
+   * \note This move-assignment operator is `noexcept`, even while the move-assignment operator of its base class
+   * (`vnl_vector`) is not `noexcept`, because unlike `vnl_vector`, `Array` always manages its own memory. */
+  Self &
+  operator=(Self && array) noexcept
+  {
+    // Note: GCC <= 9.5 does not yet support "defaulting" (`= default`) this `noexcept` move-assignment operator.
+    this->VnlVectorType::operator=(std::move(array));
+    return *this;
+  }
 
   Self &
   operator=(const VnlVectorType & rhs);
