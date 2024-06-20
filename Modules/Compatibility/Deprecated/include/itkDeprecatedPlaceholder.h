@@ -15,35 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkConditionVariable.h"
+#ifndef itkDeprecatedPlaceholder_h
+#define itkDeprecatedPlaceholder_h
 
-namespace itk
-{
-ConditionVariable::ConditionVariable()
-{
-  pthread_cond_init(&m_ConditionVariable.m_ConditionVariable, nullptr);
-}
+#include <itkMacro.h>
 
-ConditionVariable::~ConditionVariable()
-{
-  pthread_cond_destroy(&m_ConditionVariable.m_ConditionVariable);
-}
-
-void
-ConditionVariable::Signal()
-{
-  pthread_cond_signal(&m_ConditionVariable.m_ConditionVariable);
-}
-
-void
-ConditionVariable::Broadcast()
-{
-  pthread_cond_broadcast(&m_ConditionVariable.m_ConditionVariable);
-}
-
-void
-ConditionVariable::Wait(SimpleMutexLock * mutex)
-{
-  pthread_cond_wait(&m_ConditionVariable.m_ConditionVariable, &mutex->GetMutexLock());
-}
-} // end of namespace itk
+extern std::string
+dummy_deprecated_function_placeholder();
+#endif

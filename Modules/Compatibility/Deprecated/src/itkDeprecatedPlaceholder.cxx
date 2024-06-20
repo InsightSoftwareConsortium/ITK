@@ -15,22 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/*=========================================================================
- *
- *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
- *
- *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
- *
- *  For complete copyright, license and disclaimer of warranty information
- *  please refer to the NOTICE file at the top of the ITK source tree.
- *
- *=========================================================================*/
-#include "itkSimpleFastMutexLock.h"
+#include <itkDeprecatedPlaceholder.h>
+#include <string>
 
-#if defined(ITK_USE_PTHREADS)
-#  include "itkSimpleFastMutexLockPThreads.cxx"
-#elif defined(ITK_USE_WIN32_THREADS)
-#  include "itkSimpleFastMutexLockWinThreads.cxx"
-#else
-#  include "itkSimpleFastMutexLockNoThreads.cxx"
-#endif
+// This small placeholder is needed to retain the
+// infrastructure for future deprecated code
+// in ITKv6
+std::string
+dummy_deprecated_function_placeholder()
+{
+  return std::string(ITK_VERSION_STRING);
+}
