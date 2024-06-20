@@ -26,3 +26,31 @@ and related classes; atomic primitives, mutexes and related classes which are
 now part of C++ standard; specialized Vector filters - specialized versions are
 no longer needed, as regular filters can work with vector images. For details, see
 [ITKv5 Migration Guide](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/migration_guides/itk_5_migration_guide.md).
+
+Prefer standard CXX language features rather than ITK macros
+-------------------------------------------------------------
+
+Replace ITK aliases (left column) with CXX standard feature (right column)
+
+```txt
+ITK_FALLTHROUGH                   [[fallthrough]]
+ITK_DELETE_FUNCTION               = delete
+ITK_CONSTEXPR_FUNC                constexpr
+ITK_CONSTEXPR_VAR                 constexpr
+
+ITK_ALIGNAS(X)                    alignas(X)
+ITK_ALIGNOF(X)                    alignof(X)
+ITK_DEPRECATED                    [[deprecated]]
+ITK_DEPRECATED_MSG(MSG)           [[deprecated(MSG)]]
+ITK_CONSTEXPR                     constexpr
+ITK_DELETED_FUNCTION              = delete
+ITK_EXTERN_TEMPLATE               extern
+ITK_FINAL                         final
+ITK_NOEXCEPT                      noexcept
+ITK_NOEXCEPT_EXPR(X)              noexcept(X)
+ITK_NULLPTR                       nullptr
+ITK_OVERRIDE                      override
+ITK_STATIC_ASSERT(X)              static_assert(X, #X)
+ITK_STATIC_ASSERT_MSG(X, MSG)     static_assert(X, MSG)
+ITK_THREAD_LOCAL                  thread_local
+```

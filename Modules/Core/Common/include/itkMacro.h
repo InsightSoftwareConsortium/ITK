@@ -249,41 +249,6 @@ namespace itk
 #endif
 
 
-//-*-*-*
-// The following deprecations should be removed in ITKV6 and later
-// NOTE DEPRECATED should be ITK_NOEXCEPT
-#define ITK_NOEXCEPT_OR_THROW error "Replace ITK_NOEXCEPT_OR_THROW with ITK_NOEXCEPT"
-// NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
-#if !defined(ITK_LEGACY_REMOVE)
-#  define ITK_DELETE_FUNCTION = delete
-#else
-#  define ITK_DELETE_FUNCTION error "Replace ITK_DELETE_FUNCTION with = delete"
-#endif
-//-*-*-*
-
-// DEPRECATED: These macros are left here for compatibility with remote modules.
-// Once they have been removed from all known remote modules, this code should
-// be removed.
-#if defined(ITK_FUTURE_LEGACY_REMOVE)
-#  define ITK_CONSTEXPR_FUNC "Replace ITK_CONSTEXPR_FUNC with constexpr"
-#  define ITK_CONSTEXPR_VAR "Replace ITK_CONSTEXPR_VAR with constexpr"
-/** Exposes enum value as an int*/
-#  define itkExposeEnumValue(name) static_cast<int>(name)
-// Future remove#  define itkExposeEnumValue(name) "Replace type of  " #  name " with proper enumeration instead of
-// integer."
-#else
-#  define ITK_CONSTEXPR_FUNC constexpr
-#  define ITK_CONSTEXPR_VAR constexpr
-/** Exposes enum value as an int*/
-#  define itkExposeEnumValue(name) static_cast<int>(name)
-#endif
-
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
-#  define ITK_FALLTHROUGH [[fallthrough]]
-#else
-#  define ITK_FALLTHROUGH static_assert(false, "ERROR: ITK_FALLTHROUGH must be replaced with [[fallthrough]]")
-#endif
-
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class, potentially deferring to a factory.
  * The second method, CreateAnother(), creates an object from an
@@ -1416,31 +1381,80 @@ itkDynamicCastInDebugMode(TSource x)
 #endif
 }
 
-#ifdef ITK_LEGACY_REMOVE
-#  if __cplusplus >= 202002L
-#    define ITK_NODISCARD(message) [[nodiscard(message)]]
-#  else
-#    define ITK_NODISCARD(message) [[nodiscard]]
-#  endif
+#if __cplusplus >= 202002L
+#  define ITK_NODISCARD(message) [[nodiscard(message)]]
 #else
-#  define ITK_NODISCARD(message)
+#  define ITK_NODISCARD(message) [[nodiscard]]
 #endif
 
+//-*-*-*
+
+#if defined(ITK_LEGACY_REMOVE)
+#  define itkExposeEnumValue(name) \
+    static_assert(false, "ERROR: Replace static_cast<int>(name) with with proper enumeration instead of integer")
+
+#  define ITK_NOEXCEPT_OR_THROW static_assert(false, "Replace ITK_NOEXCEPT_OR_THROW with ITK_NOEXCEPT")
+
+#  define ITK_DELETE_FUNCTION static_assert(false, "ERROR: ITK_DELETE_FUNCTION must be replaced with `= delete`"
+#  define ITK_CONSTEXPR_FUNC static_assert(false, "ERROR: ITK_CONSTEXPR_FUNC must be replaced with 'constexpr'")
+#  define ITK_CONSTEXPR_VAR static_assert(false, "ERROR: ITK_CONSTEXPR_VAR must be replaced with 'constexpr'")
+
+#  define ITK_FALLTHROUGH static_assert(false, "ERROR: ITK_FALLTHROUGH must be replaced with '[[fallthrough]]'")
+
 // Defines which used to be in itk_compiler_detection.h
-#define ITK_ALIGNAS(X) alignas(X)
-#define ITK_ALIGNOF(X) alignof(X)
-#define ITK_DEPRECATED [[deprecated]]
-#define ITK_DEPRECATED_MSG(MSG) [[deprecated(MSG)]]
-#define ITK_CONSTEXPR constexpr
-#define ITK_DELETED_FUNCTION = delete
-#define ITK_EXTERN_TEMPLATE extern
-#define ITK_FINAL final
-#define ITK_NOEXCEPT noexcept
-#define ITK_NOEXCEPT_EXPR(X) noexcept(X)
-#define ITK_NULLPTR nullptr
-#define ITK_OVERRIDE override
-#define ITK_STATIC_ASSERT(X) static_assert(X, #X)
-#define ITK_STATIC_ASSERT_MSG(X, MSG) static_assert(X, MSG)
-#define ITK_THREAD_LOCAL thread_local
+#  define ITK_ALIGNAS static_assert(false, "ERROR: ITK_ALIGNAS must be replaced with 'alignas'")
+#  define ITK_ALIGNOF static_assert(false, "ERROR: ITK_ALIGNOF must be replaced with 'alignof'")
+#  define ITK_DEPRECATED static_assert(false, "ERROR: ITK_DEPRECATED must be replaced with '[[deprecated]]'")
+#  define ITK_DEPRECATED_MSG \
+    static_assert(false, "ERROR: ITK_DEPRECATED_MSG must be replaced with '[[deprecated(MSG)]]'")
+#  define ITK_CONSTEXPR static_assert(false, "ERROR: ITK_CONSTEXPR must be replaced with 'constexpr'")
+#  define ITK_DELETED_FUNCTION static_assert(false, "ERROR: ITK_DELETED_FUNCTION must be replaced with '= delete'")
+#  define ITK_EXTERN_TEMPLATE static_assert(false, "ERROR: ITK_EXTERN_TEMPLATE must be replaced with 'extern'")
+#  define ITK_FINAL static_assert(false, "ERROR: ITK_FINAL must be replaced with 'final'")
+#  define ITK_NOEXCEPT static_assert(false, "ERROR: ITK_NOEXCEPT must be replaced with 'noexcept'")
+#  define ITK_NOEXCEPT_EXPR static_assert(false, "ERROR: ITK_NOEXCEPT_EXPR must be replaced with 'noexcept'")
+#  define ITK_NULLPTR static_assert(false, "ERROR: ITK_NULLPTR must be replaced with 'nullptr'")
+#  define ITK_OVERRIDE static_assert(false, "ERROR: ITK_OVERRIDE must be replaced with 'override'")
+#  define ITK_STATIC_ASSERT static_assert(false, "ERROR: ITK_STATIC_ASSERT must be replaced with 'static_assert'")
+#  define ITK_STATIC_ASSERT_MSG \
+    static_assert(false, "ERROR: ITK_STATIC_ASSERT_MSG must be replaced with 'static_assert'")
+#  define ITK_THREAD_LOCAL static_assert(false, "ERROR: ITK_THREAD_LOCAL must be replaced with 'thread_local'")
+
+#else
+// DEPRECATED: These macros are left here for compatibility with remote modules.
+// Once they have been removed from all known remote modules, this code should
+// be removed.
+
+// Future remove `#define itkExposeEnumValue(name)`
+// "Replace type of  `name` with proper enumeration instead of integer.
+#  define itkExposeEnumValue(name) static_cast<int>(name)
+
+
+#  define ITK_NOEXCEPT_OR_THROW ITK_NOEXCEPT
+
+#  define ITK_FALLTHROUGH [[fallthrough]]
+
+#  define ITK_DELETE_FUNCTION = delete
+
+#  define ITK_CONSTEXPR_FUNC constexpr
+#  define ITK_CONSTEXPR_VAR constexpr
+
+// Defines which used to be in itk_compiler_detection.h
+#  define ITK_ALIGNAS(X) alignas(X)
+#  define ITK_ALIGNOF(X) alignof(X)
+#  define ITK_DEPRECATED [[deprecated]]
+#  define ITK_DEPRECATED_MSG(MSG) [[deprecated(MSG)]]
+#  define ITK_CONSTEXPR constexpr
+#  define ITK_DELETED_FUNCTION = delete
+#  define ITK_EXTERN_TEMPLATE extern
+#  define ITK_FINAL final
+#  define ITK_NOEXCEPT noexcept
+#  define ITK_NOEXCEPT_EXPR(X) noexcept(X)
+#  define ITK_NULLPTR nullptr
+#  define ITK_OVERRIDE override
+#  define ITK_STATIC_ASSERT(X) static_assert(X, #  X)
+#  define ITK_STATIC_ASSERT_MSG(X, MSG) static_assert(X, MSG)
+#  define ITK_THREAD_LOCAL thread_local
+#endif
 
 #endif // end of itkMacro.h
