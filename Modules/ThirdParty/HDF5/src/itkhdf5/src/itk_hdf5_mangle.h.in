@@ -9,13 +9,13 @@ ITK.
 
 The following command was used to obtain the symbol list on macOS:
 
-Mac: nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print substr($3, 2); }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort -u
+Mac: nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print substr($3, 2); }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort -u > mac_hdf5_mangle.txt
 
 The following command was used to obtain the symbol list on Linux:
 
 Linux:
 export LC_COLLATE=POSIX
-nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort -u
+nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort -u > linux_hdf5_mangle.txt
 
 Explanation:
 export sets environmental variable LC_COLLATE to POSIX so sorting deals with the underscores correctly.
@@ -34,7 +34,9 @@ dumpbin /symbols *hdf5* > symbol_table.txt (Must be done from the Visual Studio 
 Then execute the following in Git Bash:
 
 export LC_COLLATE=POSIX
-cat symbol_table.txt | grep -E "(UNDEF|SECT).*External" | grep -i "H5\w" | awk '{print $(NF) }' | awk '!/@MANGLE_PREFIX@_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ @MANGLE_PREFIX@_\1 ' | sed 's/^/#define /' | sort -u
+cat symbol_table.txt | dos2unix | grep -E "(UNDEF|SECT).*External" | grep -i "H5\w" | awk '{print $(NF) }' | awk '!/@MANGLE_PREFIX@_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ @MANGLE_PREFIX@_\1 ' | sed 's/^/#define /' | sort -u > win_hdf5_mangle.txt
+
+Initial content at the beginning of the file and some invalid entries at the end will need to be manually removed.
 
 For the bash commands:
 
@@ -51,9 +53,15 @@ and add the symbols to the list below.
 
 Note that running the above procedure will give somewhat different results on
 different platforms and also with different build options. When updating this file
-one should run the procudure on all major platforms and in both debug and release builds,
+one should run the procedure on all major platforms and in both debug and release builds,
 and merge the results. Or at the very least, be wary of removing symbols just because they
 were not output in your environment.
+
+Merge with:
+
+cat *mangle.txt | sort -u | uniq > /tmp/new_symbols.txt
+
+Where *mangle.txt includes the results per platform from above along with an old_hdf5_mangle.txt with the current contents of this file.
 
 After building, note any duplicate symbol warnings and remove corresponding definitions that are delegated to versioned definitions,
 e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_info2
