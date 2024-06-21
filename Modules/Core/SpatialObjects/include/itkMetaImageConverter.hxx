@@ -28,7 +28,10 @@ template <unsigned int VDimension, typename PixelType, typename TSpatialObjectTy
 auto
 MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::CreateMetaObject() -> MetaObjectType *
 {
-  return dynamic_cast<MetaObjectType *>(new ImageMetaObjectType);
+  MetaObjectType * mo = dynamic_cast<MetaObjectType *>(new ImageMetaObjectType);
+  mo->APIVersion(1);
+  mo->FileFormatVersion(1);
+  return mo;
 }
 
 template <unsigned int VDimension, typename PixelType, typename TSpatialObjectType>
@@ -47,14 +50,19 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::AllocateImage(con
 
   using SizeType = typename ImageType::SizeType;
   using SpacingType = typename ImageType::SpacingType;
+  using DirectionType = typename ImageType::DirectionType;
+  using PointType = typename ImageType::PointType;
   using RegionType = typename ImageType::RegionType;
 
-  SizeType    size;
-  SpacingType spacing;
+  SizeType      size;
+  PointType     origin;
+  SpacingType   spacing;
+  DirectionType direction;
 
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     size[i] = image->DimSize()[i];
+    origin[i] = image->ElementOrigin()[i];
     if (Math::ExactlyEquals(image->ElementSpacing()[i], typename SpacingType::ValueType{}))
     {
       spacing[i] = 1;
@@ -63,11 +71,17 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::AllocateImage(con
     {
       spacing[i] = image->ElementSpacing()[i];
     }
+    for (unsigned int j = 0; j < VDimension; ++j)
+    {
+      direction[i][j] = image->ElementDirection(i, j);
+    }
   }
 
   const RegionType region(size);
   rval->SetRegions(region);
+  rval->SetOrigin(origin);
   rval->SetSpacing(spacing);
+  rval->SetDirection(direction);
   rval->Allocate();
   return rval;
 }
@@ -87,8 +101,9 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::MetaObjectToSpati
 
   ImageSpatialObjectPointer imageSO = ImageSpatialObjectType::New();
 
-
   typename ImageType::Pointer myImage = this->AllocateImage(imageMO);
+
+  MetaObjectToSpatialObjectBase(imageMO, imageSO);
 
   itk::ImageRegionIteratorWithIndex<ImageType> it(myImage, myImage->GetLargestPossibleRegion());
   for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
@@ -97,9 +112,6 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::MetaObjectToSpati
   }
 
   imageSO->SetImage(myImage);
-  imageSO->SetId(imageMO->ID());
-  imageSO->SetParentId(imageMO->ParentID());
-  imageSO->GetProperty().SetName(imageMO->Name());
 
   return imageSO.GetPointer();
 }
@@ -121,16 +133,30 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
 
   ImageConstPointer SOImage = imageSO->GetImage();
 
-  float spacing[VDimension];
-  int   size[VDimension];
+  int    size[VDimension];
+  double spacing[VDimension];
+  double direction[VDimension * VDimension];
+  double origin[VDimension];
 
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     size[i] = SOImage->GetLargestPossibleRegion().GetSize()[i];
     spacing[i] = SOImage->GetSpacing()[i];
+    origin[i] = SOImage->GetOrigin()[i];
+    for (unsigned int j = 0; j < VDimension; ++j)
+    {
+      direction[i * VDimension + j] = SOImage->GetDirection()[i][j];
+    }
   }
 
   auto * imageMO = new MetaImage(VDimension, size, spacing, MET_GetPixelType(typeid(PixelType)));
+  imageMO->APIVersion(1);
+  imageMO->FileFormatVersion(1);
+
+  SpatialObjectToMetaObjectBase(imageSO, imageMO);
+
+  imageMO->ElementOrigin(origin);
+  imageMO->ElementDirection(direction);
 
   itk::ImageRegionConstIterator<ImageType> it(SOImage, SOImage->GetLargestPossibleRegion());
   for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
@@ -138,11 +164,8 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
     imageMO->ElementData(i, it.Get());
   }
 
-  imageMO->ID(imageSO->GetId());
   imageMO->BinaryData(true);
-
   imageMO->ElementDataFileName("LOCAL");
-
   imageMO->ObjectSubTypeName(this->GetMetaObjectSubType());
 
   if (this->GetWriteImagesInSeparateFile())
@@ -160,6 +183,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
       imageMO->ElementDataFileName(filename.c_str());
     }
   }
+
   return imageMO;
 }
 
