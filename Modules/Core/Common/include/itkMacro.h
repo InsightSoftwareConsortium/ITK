@@ -501,7 +501,7 @@ OutputWindowDisplayDebugText(const char *);
  * but not necessarily fatal.) Example usage looks like:
  * itkWarningMacro("this is warning info" << this->SomeVariable); */
 #define itkWarningMacro(x)                                                   \
-    {                                                                        \
+  {                                                                          \
     if (::itk::Object::GetGlobalWarningDisplay())                            \
     {                                                                        \
       std::ostringstream itkmsg;                                             \
@@ -509,8 +509,8 @@ OutputWindowDisplayDebugText(const char *);
              << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
       ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());           \
     }                                                                        \
-    }                                                                        \
-    ITK_MACROEND_NOOP_STATEMENT
+  }                                                                          \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 #define itkWarningStatement(x) x
@@ -873,13 +873,13 @@ compilers.
     itkDebugMacro("setting input " #name " to " << _arg);                                                           \
     const DecoratorType * oldInput =                                                                                \
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetInput(#name));                       \
-    ITK_GCC_PRAGMA_PUSH                                                                                                 \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                                                                       \
+    ITK_GCC_PRAGMA_PUSH                                                                                             \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                                                                   \
     if (oldInput && oldInput->Get() == _arg)                                                                        \
     {                                                                                                               \
       return;                                                                                                       \
     }                                                                                                               \
-    ITK_GCC_PRAGMA_POP                                                                                                  \
+    ITK_GCC_PRAGMA_POP                                                                                              \
     auto newInput = DecoratorType::New();                                                                           \
     newInput->Set(_arg);                                                                                            \
     this->Set##name##Input(newInput);                                                                               \
@@ -980,14 +980,14 @@ compilers.
   virtual void Set##name(type _arg)                 \
   {                                                 \
     itkDebugMacro("setting " #name " to " << _arg); \
-    ITK_GCC_PRAGMA_PUSH                                 \
-    ITK_GCC_SUPPRESS_Wfloat_equal                       \
+    ITK_GCC_PRAGMA_PUSH                             \
+    ITK_GCC_SUPPRESS_Wfloat_equal                   \
     if (this->m_##name != _arg)                     \
     {                                               \
       this->m_##name = std::move(_arg);             \
       this->Modified();                             \
     }                                               \
-    ITK_GCC_PRAGMA_POP                                  \
+    ITK_GCC_PRAGMA_POP                              \
   }                                                 \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
@@ -1075,14 +1075,14 @@ compilers.
   {                                                                             \
     const type temp_extrema = (_arg <= min ? min : (_arg >= max ? max : _arg)); \
     itkDebugMacro("setting " << #name " to " << _arg);                          \
-    ITK_GCC_PRAGMA_PUSH                                                             \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                                   \
+    ITK_GCC_PRAGMA_PUSH                                                         \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                               \
     if (this->m_##name != temp_extrema)                                         \
     {                                                                           \
       this->m_##name = temp_extrema;                                            \
       this->Modified();                                                         \
     }                                                                           \
-    ITK_GCC_PRAGMA_POP                                                              \
+    ITK_GCC_PRAGMA_POP                                                          \
   }                                                                             \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
@@ -1211,7 +1211,7 @@ compilers.
       {                                      \
         break;                               \
       }                                      \
-      ITK_GCC_PRAGMA_POP                         \
+      ITK_GCC_PRAGMA_POP                     \
     }                                        \
     if (i < count)                           \
     {                                        \
@@ -1235,8 +1235,7 @@ compilers.
  * Construct a non-templatized helper class that
  * provides the GPU kernel source code as a const char*
  */
-#define itkGPUKernelClassMacro(kernel) class itkGPUKernelMacro(kernel) \
-  ITK_MACROEND_NOOP_STATEMENT
+#define itkGPUKernelClassMacro(kernel) class itkGPUKernelMacro(kernel) ITK_MACROEND_NOOP_STATEMENT
 
 /**\def itkGPUKernelMacro
  * Equivalent to the original `itkGPUKernelClassMacro(kernel)` macro, but
@@ -1251,11 +1250,11 @@ compilers.
     kernel() = delete;                     \
     ~kernel() = delete;                    \
     static const char * GetOpenCLSource(); \
-}                                          \
-ITK_MACROEND_NOOP_STATEMENT
+  }                                        \
+  ITK_MACROEND_NOOP_STATEMENT
 
-#define itkGetOpenCLSourceFromKernelMacro(kernel)                              \
-  static const char * GetOpenCLSource() { return kernel::GetOpenCLSource(); }  \
+#define itkGetOpenCLSourceFromKernelMacro(kernel)                             \
+  static const char * GetOpenCLSource() { return kernel::GetOpenCLSource(); } \
   ITK_MACROEND_NOOP_STATEMENT
 
 // A useful macro in the PrintSelf method for printing member variables
