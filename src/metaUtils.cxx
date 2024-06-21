@@ -590,7 +590,7 @@ MET_ValueToValue(MET_ValueEnumType _fromType,
 // Uncompress a stream given an uncompressedSeekPosition
 METAIO_EXPORT
 std::streamoff
-MET_UncompressStream(std::ifstream *            stream,
+MET_UncompressStream(METAIO_STREAM::ifstream *            stream,
                      std::streamoff             uncompressedSeekPosition,
                      unsigned char *            uncompressedData,
                      std::streamoff             uncompressedDataSize,
@@ -1909,6 +1909,66 @@ MET_SwapByteIfSystemMSB(void * val, MET_ValueEnumType _type)
     }
   }
 }
+
+
+void MET_PrintFieldRecord(std::ostream & _fp, MET_FieldRecordType * _mf)
+{
+  if (_mf == nullptr)
+  {
+    _fp << "NULL Field Record" << '\n';
+    return;
+  }
+  _fp << "Name = " << _mf->name << '\n';
+  _fp << "Type = " << MET_ValueTypeName[_mf->type] << '\n';
+  _fp << "Defined = " << _mf->defined << '\n';
+  _fp << "Length = " << _mf->length << '\n';
+  _fp << "DependsOn = " << _mf->dependsOn << '\n';
+  _fp << "Required = " << _mf->required << '\n';
+  _fp << "TerminateRead = " << _mf->terminateRead << '\n';
+  _fp << "Value = ";
+  if (!_mf->defined)
+  {
+    _fp << "Undefined" << '\n';
+    return;
+  }
+  if (_mf->type == MET_STRING)
+  {
+    _fp << reinterpret_cast<char *>(_mf->value) << '\n';
+  }
+  else if (_mf->type == MET_ASCII_CHAR || _mf->type == MET_CHAR || _mf->type == MET_UCHAR ||
+           _mf->type == MET_SHORT || _mf->type == MET_USHORT || _mf->type == MET_LONG ||
+           _mf->type == MET_ULONG || _mf->type == MET_INT || _mf->type == MET_UINT ||
+           _mf->type == MET_FLOAT || _mf->type == MET_DOUBLE)
+  {
+    _fp << _mf->name << " : " << _mf->value[0] << '\n';
+  }
+  else if (_mf->type == MET_CHAR_ARRAY || _mf->type == MET_UCHAR_ARRAY || _mf->type == MET_SHORT_ARRAY ||
+           _mf->type == MET_USHORT_ARRAY || _mf->type == MET_INT_ARRAY || _mf->type == MET_UINT_ARRAY ||
+           _mf->type == MET_FLOAT_ARRAY || _mf->type == MET_DOUBLE_ARRAY)
+  {
+    _fp << _mf->value[0];
+    for (int i = 1; i < _mf->length; i++)
+    {
+      _fp << ", " << _mf->value[i];
+    }
+    _fp << '\n';
+  }
+  else if (_mf->type == MET_FLOAT_MATRIX)
+  {
+    _fp << '\n';
+    int count = 0;
+    for (int i = 0; i < _mf->length; i++)
+    {
+      _fp << _mf->value[count++];
+      for (int j = 1; j < _mf->length; j++)
+      {
+        _fp << ", " << _mf->value[count++];
+      }
+      _fp << '\n';
+    }
+  }
+}
+
 
 #if (METAIO_USE_NAMESPACE)
 };
