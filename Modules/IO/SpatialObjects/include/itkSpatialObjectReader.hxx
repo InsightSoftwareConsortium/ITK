@@ -43,6 +43,20 @@ SpatialObjectReader<VDimension, PixelType, TMeshTraits>::Update()
   }
 }
 
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
+void
+SpatialObjectReader<VDimension, PixelType, TMeshTraits>::SetMetaIOVersion(unsigned int ver)
+{
+  m_MetaToSpatialConverter->SetMetaIOVersion(ver);
+}
+
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
+unsigned int
+SpatialObjectReader<VDimension, PixelType, TMeshTraits>::GetMetaIOVersion(void) const
+{
+  return m_MetaToSpatialConverter->GetMetaIOVersion();
+}
+
 /** Add a converter for a new MetaObject/SpatialObject type */
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void
