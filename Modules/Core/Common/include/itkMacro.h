@@ -481,7 +481,6 @@ OutputWindowDisplayDebugText(const char *);
 #  define itkDebugStatement(x) ITK_NOOP_STATEMENT
 #else
 #  define itkDebugMacro(x)                                                     \
-    do                                                                         \
     {                                                                          \
       using namespace ::itk::print_helper; /* for ostream << std::vector<T> */ \
       if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())        \
@@ -491,8 +490,8 @@ OutputWindowDisplayDebugText(const char *);
                << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
         ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());             \
       }                                                                        \
-    } while (0)
-
+    }                                                                          \
+    ITK_MACROEND_NOOP_STATEMENT
 // The itkDebugStatement is to be used to protect code that is only
 // used in the itkDebugMacro
 #  define itkDebugStatement(x) x
@@ -502,8 +501,7 @@ OutputWindowDisplayDebugText(const char *);
  * but not necessarily fatal.) Example usage looks like:
  * itkWarningMacro("this is warning info" << this->SomeVariable); */
 #define itkWarningMacro(x)                                                   \
-  do                                                                         \
-  {                                                                          \
+    {                                                                        \
     if (::itk::Object::GetGlobalWarningDisplay())                            \
     {                                                                        \
       std::ostringstream itkmsg;                                             \
@@ -511,7 +509,9 @@ OutputWindowDisplayDebugText(const char *);
              << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
       ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());           \
     }                                                                        \
-  } while (0)
+    }                                                                        \
+    ITK_MACROEND_NOOP_STATEMENT
+
 
 #define itkWarningStatement(x) x
 
