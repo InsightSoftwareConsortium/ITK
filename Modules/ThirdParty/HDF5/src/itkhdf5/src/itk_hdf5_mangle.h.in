@@ -9,13 +9,13 @@ ITK.
 
 The following command was used to obtain the symbol list on macOS:
 
-Mac: nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print substr($3, 2); }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort -u
+Mac: nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print substr($3, 2); }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort -u > mac_hdf5_mangle.txt
 
 The following command was used to obtain the symbol list on Linux:
 
 Linux:
 export LC_COLLATE=POSIX
-nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort -u
+nm -g lib/libitkhdf5* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/@MANGLE_PREFIX@_/, ""); print }' | sed 's/\(.*\)/#define \1\ @MANGLE_PREFIX@_\1/' | sort -u > linux_hdf5_mangle.txt
 
 Explanation:
 export sets environmental variable LC_COLLATE to POSIX so sorting deals with the underscores correctly.
@@ -34,7 +34,9 @@ dumpbin /symbols *hdf5* > symbol_table.txt (Must be done from the Visual Studio 
 Then execute the following in Git Bash:
 
 export LC_COLLATE=POSIX
-cat symbol_table.txt | grep -E "(UNDEF|SECT).*External" | grep -i "H5\w" | awk '{print $(NF) }' | awk '!/@MANGLE_PREFIX@_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ @MANGLE_PREFIX@_\1 ' | sed 's/^/#define /' | sort -u
+cat symbol_table.txt | dos2unix | grep -E "(UNDEF|SECT).*External" | grep -i "H5\w" | awk '{print $(NF) }' | awk '!/@MANGLE_PREFIX@_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ @MANGLE_PREFIX@_\1 ' | sed 's/^/#define /' | sort -u > win_hdf5_mangle.txt
+
+Initial content at the beginning of the file and some invalid entries at the end will need to be manually removed.
 
 For the bash commands:
 
@@ -51,9 +53,15 @@ and add the symbols to the list below.
 
 Note that running the above procedure will give somewhat different results on
 different platforms and also with different build options. When updating this file
-one should run the procudure on all major platforms and in both debug and release builds,
+one should run the procedure on all major platforms and in both debug and release builds,
 and merge the results. Or at the very least, be wary of removing symbols just because they
 were not output in your environment.
+
+Merge with:
+
+cat *mangle.txt | sort -u | uniq > /tmp/new_symbols.txt
+
+Where *mangle.txt includes the results per platform from above along with an old_hdf5_mangle.txt with the current contents of this file.
 
 After building, note any duplicate symbol warnings and remove corresponding definitions that are delegated to versioned definitions,
 e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_info2
@@ -126,24 +134,29 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5AC_SUPERBLOCK @MANGLE_PREFIX@_H5AC_SUPERBLOCK
 #define H5AC__init_package @MANGLE_PREFIX@_H5AC__init_package
 #define H5AC_cache_image_pending @MANGLE_PREFIX@_H5AC_cache_image_pending
+#define H5AC_cache_is_clean @MANGLE_PREFIX@_H5AC_cache_is_clean
 #define H5AC_cork @MANGLE_PREFIX@_H5AC_cork
 #define H5AC_create @MANGLE_PREFIX@_H5AC_create
 #define H5AC_create_flush_dependency @MANGLE_PREFIX@_H5AC_create_flush_dependency
 #define H5AC_dest @MANGLE_PREFIX@_H5AC_dest
 #define H5AC_destroy_flush_dependency @MANGLE_PREFIX@_H5AC_destroy_flush_dependency
+#define H5AC_dump_cache @MANGLE_PREFIX@_H5AC_dump_cache
 #define H5AC_evict @MANGLE_PREFIX@_H5AC_evict
 #define H5AC_evict_tagged_metadata @MANGLE_PREFIX@_H5AC_evict_tagged_metadata
 #define H5AC_expunge_entry @MANGLE_PREFIX@_H5AC_expunge_entry
 #define H5AC_expunge_tag_type_metadata @MANGLE_PREFIX@_H5AC_expunge_tag_type_metadata
 #define H5AC_flush @MANGLE_PREFIX@_H5AC_flush
+#define H5AC_flush_dependency_exists @MANGLE_PREFIX@_H5AC_flush_dependency_exists
 #define H5AC_flush_tagged_metadata @MANGLE_PREFIX@_H5AC_flush_tagged_metadata
 #define H5AC_get_cache_auto_resize_config @MANGLE_PREFIX@_H5AC_get_cache_auto_resize_config
 #define H5AC_get_cache_flush_in_progress @MANGLE_PREFIX@_H5AC_get_cache_flush_in_progress
 #define H5AC_get_cache_hit_rate @MANGLE_PREFIX@_H5AC_get_cache_hit_rate
 #define H5AC_get_cache_size @MANGLE_PREFIX@_H5AC_get_cache_size
+#define H5AC_get_entry_ptr_from_addr @MANGLE_PREFIX@_H5AC_get_entry_ptr_from_addr
 #define H5AC_get_entry_ring @MANGLE_PREFIX@_H5AC_get_entry_ring
 #define H5AC_get_entry_status @MANGLE_PREFIX@_H5AC_get_entry_status
 #define H5AC_get_mdc_image_info @MANGLE_PREFIX@_H5AC_get_mdc_image_info
+#define H5AC_get_serialization_in_progress @MANGLE_PREFIX@_H5AC_get_serialization_in_progress
 #define H5AC_get_tag @MANGLE_PREFIX@_H5AC_get_tag
 #define H5AC_ignore_tags @MANGLE_PREFIX@_H5AC_ignore_tags
 #define H5AC_init @MANGLE_PREFIX@_H5AC_init
@@ -181,6 +194,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5AC_unsettle_ring @MANGLE_PREFIX@_H5AC_unsettle_ring
 #define H5AC_validate_cache_image_config @MANGLE_PREFIX@_H5AC_validate_cache_image_config
 #define H5AC_validate_config @MANGLE_PREFIX@_H5AC_validate_config
+#define H5AC_verify_entry_type @MANGLE_PREFIX@_H5AC_verify_entry_type
 #define H5A_BT2_CORDER @MANGLE_PREFIX@_H5A_BT2_CORDER
 #define H5A_BT2_NAME @MANGLE_PREFIX@_H5A_BT2_NAME
 #define H5A__attr_copy_file @MANGLE_PREFIX@_H5A__attr_copy_file
@@ -934,8 +948,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5E_init @MANGLE_PREFIX@_H5E_init
 #define H5E_init_g @MANGLE_PREFIX@_H5E_init_g
 #define H5E_printf_stack @MANGLE_PREFIX@_H5E_printf_stack
-#define H5E_t @MANGLE_PREFIX@_H5E_t
 #define H5E_stack_g @MANGLE_PREFIX@_H5E_stack_g
+#define H5E_t @MANGLE_PREFIX@_H5E_t
 #define H5E_term_package @MANGLE_PREFIX@_H5E_term_package
 #define H5Eauto_is_v2 @MANGLE_PREFIX@_H5Eauto_is_v2
 #define H5Eclear1 @MANGLE_PREFIX@_H5Eclear1
@@ -1750,8 +1764,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5I_remove @MANGLE_PREFIX@_H5I_remove
 #define H5I_subst @MANGLE_PREFIX@_H5I_subst
 #define H5I_term_package @MANGLE_PREFIX@_H5I_term_package
-#define H5I_type_info_t @MANGLE_PREFIX@_H5I_type_info_t
 #define H5I_type_info_array_g @MANGLE_PREFIX@_H5I_type_info_array_g
+#define H5I_type_info_t @MANGLE_PREFIX@_H5I_type_info_t
 #define H5I_type_t @MANGLE_PREFIX@_H5I_type_t
 #define H5Iclear_type @MANGLE_PREFIX@_H5Iclear_type
 #define H5Idec_ref @MANGLE_PREFIX@_H5Idec_ref
@@ -3806,8 +3820,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_chunk_elmts_blk_free_list @MANGLE_PREFIX@_H5_chunk_elmts_blk_free_list
 #define H5_chunk_image_blk_free_list @MANGLE_PREFIX@_H5_chunk_image_blk_free_list
 #define H5_combine_path @MANGLE_PREFIX@_H5_combine_path
-#define H5_debug_t @MANGLE_PREFIX@_H5_debug_t
 #define H5_debug_g @MANGLE_PREFIX@_H5_debug_g
+#define H5_debug_t @MANGLE_PREFIX@_H5_debug_t
 #define H5_direct_block_blk_free_list @MANGLE_PREFIX@_H5_direct_block_blk_free_list
 #define H5_ea_native_elmt_blk_free_list @MANGLE_PREFIX@_H5_ea_native_elmt_blk_free_list
 #define H5_expand_windows_env_vars @MANGLE_PREFIX@_H5_expand_windows_env_vars
