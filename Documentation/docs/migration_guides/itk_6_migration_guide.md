@@ -54,3 +54,46 @@ ITK_STATIC_ASSERT(X)              static_assert(X, #X)
 ITK_STATIC_ASSERT_MSG(X, MSG)     static_assert(X, MSG)
 ITK_THREAD_LOCAL                  thread_local
 ```
+
+Removed ITKv5 migration/maintenance scripts
+-----------------------
+
+The following scripts used for migrating to ITKv5 were removed from the ITKv6.
+
+```sh
+  CheckForOutdatedDefines.sh
+  EnumPrintFunction.py
+  Move_DISALLOW_COPY_to_public_section.cpp
+  ReplaceITK_NULLPTRMacroNames.sh
+  ReplaceITK_OVERRIDEMacroNames.sh
+  ReplaceitkGetObjectMacro.sh
+  UpdateAllC++Headers.sh
+  UseNativeC++Syntax.sh
+  misc-unused-parameters.sh
+  modernize-loop-convert.sh
+  modernize-pass-by-value.sh
+  modernize-return-braced-init-list.sh
+  modernize-use-auto.sh
+  modernize-use-bool-literals.sh
+  modernize-use-default-member-init.sh
+  modernize-use-emplace.sh
+  modernize-use-equals-default.sh
+  modernize-use-equals-delete.sh
+  modernize-use-nullptr.sh
+  modernize-use-override.sh
+  performance-general.sh
+  prefer-type-alias-over-typedef.sh
+  prefer_constexpr_for_const_literals.sh
+  readability-container-size-empty.sh
+  replaceClassWithTypename.py
+  replace_itkStaticConstMacro.sh
+  replace_vnl_math_XXX.sh
+```
+
+Accessing outdated ITKv5 migration scripts
+------------------------------------------
+
+```
+git worktree add .../ITKv5.4 v5.4.0
+ls ../ITKv5/Utilities/ITKv5Preparation
+```
