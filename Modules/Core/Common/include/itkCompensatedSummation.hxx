@@ -65,25 +65,6 @@ CompensatedSummation<TFloat>::CompensatedSummation(const TFloat value)
 {}
 
 template <typename TFloat>
-CompensatedSummation<TFloat>::CompensatedSummation(const Self & rhs)
-{
-  this->m_Sum = rhs.m_Sum;
-  this->m_Compensation = rhs.m_Compensation;
-}
-
-template <typename TFloat>
-auto
-CompensatedSummation<TFloat>::operator=(const Self & rhs) -> Self &
-{
-  if (this != &rhs)
-  {
-    this->m_Sum = rhs.m_Sum;
-    this->m_Compensation = rhs.m_Compensation;
-  }
-  return *this;
-}
-
-template <typename TFloat>
 void
 CompensatedSummation<TFloat>::AddElement(const FloatType & element)
 {
