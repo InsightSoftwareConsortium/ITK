@@ -80,10 +80,10 @@ public:
   CompensatedSummation(FloatType value);
 
   /** Copy constructor. */
-  CompensatedSummation(const Self & rhs);
+  CompensatedSummation(const Self &) = default;
   /** Assignment operator. */
   Self &
-  operator=(const Self & rhs);
+  operator=(const Self &) = default;
 
   /** Add an element to the sum. */
   void
