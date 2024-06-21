@@ -25,26 +25,6 @@
 namespace itk
 {
 template <typename T>
-Versor<T>::Versor(const Self & v)
-{
-  m_X = v.m_X;
-  m_Y = v.m_Y;
-  m_Z = v.m_Z;
-  m_W = v.m_W;
-}
-
-template <typename T>
-Versor<T> &
-Versor<T>::operator=(const Self & v)
-{
-  m_X = v.m_X;
-  m_Y = v.m_Y;
-  m_Z = v.m_Z;
-  m_W = v.m_W;
-  return *this;
-}
-
-template <typename T>
 void
 Versor<T>::SetIdentity()
 {

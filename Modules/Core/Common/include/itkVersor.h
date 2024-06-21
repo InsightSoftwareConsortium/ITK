@@ -37,6 +37,8 @@ namespace itk
  * versor. For this reason, addition is not defined in this class, even
  * though it is a valid operation between quaternions.
  *
+ * \note Its special member functions are implicitly defaulted, following the C++ "Rule of Zero".
+ *
  * \ingroup Geometry
  * \ingroup DataRepresentation
  *
@@ -107,17 +109,6 @@ public:
    */
   void
   Set(T x, T y, T z, T w);
-
-  /** Default constructor creates a null versor
-   * (representing 0 degrees  rotation). */
-  Versor() = default;
-
-  /** Copy constructor.  */
-  Versor(const Self & v);
-
-  /** Assignment operator =.  Copy the versor argument. */
-  Self &
-  operator=(const Self & v);
 
   /** Composition operator *=.  Compose the current versor
    * with the operand and store the result in the current
