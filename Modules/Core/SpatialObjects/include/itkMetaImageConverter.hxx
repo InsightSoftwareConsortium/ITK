@@ -103,7 +103,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::MetaObjectToSpati
 
   typename ImageType::Pointer myImage = this->AllocateImage(imageMO);
 
-  MetaObjectToSpatialObjectBase(imageMO, imageSO);
+  this->MetaObjectToSpatialObjectBase(imageMO, imageSO);
 
   itk::ImageRegionIteratorWithIndex<ImageType> it(myImage, myImage->GetLargestPossibleRegion());
   for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
@@ -153,7 +153,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
   imageMO->APIVersion(1);
   imageMO->FileFormatVersion(1);
 
-  SpatialObjectToMetaObjectBase(imageSO, imageMO);
+  this->SpatialObjectToMetaObjectBase(imageSO, imageMO);
 
   imageMO->ElementOrigin(origin);
   imageMO->ElementDirection(direction);
