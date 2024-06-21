@@ -752,7 +752,8 @@ compilers.
   for (unsigned int i = 0; i < NumberOfIterations; ++i)                                                   \
   {                                                                                                       \
     DestinationArray[i] = static_cast<DestinationElementType>(SourceArray[i]);                            \
-  }
+  }                                                                                                       \
+  ITK_MACROEND_NOOP_STATEMENT
 
 //--------------------------------------------------------------------------------
 // Macro that generates an unrolled for loop for rounding and assigning
@@ -768,7 +769,8 @@ compilers.
   for (unsigned int i = 0; i < NumberOfIterations; ++i)                                                           \
   {                                                                                                               \
     DestinationArray[i] = ::itk::Math::Round<DestinationElementType>(SourceArray[i]);                             \
-  }
+  }                                                                                                               \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // end of Template Meta Programming helper macros
 
@@ -1142,7 +1144,8 @@ compilers.
     virtual type * Get##name()                                                                    \
     {                                                                                             \
       purposeful_error("itkGetObjectMacro should be replaced with itkGetModifiableObjectMacro."); \
-    }
+    }                                                                                             \
+    ITK_MACROEND_NOOP_STATEMENT
 
 #  define itkGetModifiableObjectMacro(name, type)                                \
     virtual type * GetModifiable##name() { return this->m_##name.GetPointer(); } \
@@ -1187,9 +1190,10 @@ compilers.
 
 /** Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
  * Set method must be defined to use this macro. */
-#define itkBooleanMacro(name)                        \
-  virtual void name##On() { this->Set##name(true); } \
-  virtual void name##Off() { this->Set##name(false); }
+#define itkBooleanMacro(name)                          \
+  virtual void name##On() { this->Set##name(true); }   \
+  virtual void name##Off() { this->Set##name(false); } \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // clang-format off
 /** General set vector macro creates a single method that copies specified
@@ -1231,7 +1235,8 @@ compilers.
  * Construct a non-templatized helper class that
  * provides the GPU kernel source code as a const char*
  */
-#define itkGPUKernelClassMacro(kernel) class itkGPUKernelMacro(kernel)
+#define itkGPUKernelClassMacro(kernel) class itkGPUKernelMacro(kernel) \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /**\def itkGPUKernelMacro
  * Equivalent to the original `itkGPUKernelClassMacro(kernel)` macro, but
@@ -1246,10 +1251,12 @@ compilers.
     kernel() = delete;                     \
     ~kernel() = delete;                    \
     static const char * GetOpenCLSource(); \
-  }
+}                                          \
+ITK_MACROEND_NOOP_STATEMENT
 
-#define itkGetOpenCLSourceFromKernelMacro(kernel) \
-  static const char * GetOpenCLSource() { return kernel::GetOpenCLSource(); }
+#define itkGetOpenCLSourceFromKernelMacro(kernel)                              \
+  static const char * GetOpenCLSource() { return kernel::GetOpenCLSource(); }  \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // A useful macro in the PrintSelf method for printing member variables
 // which are pointers to object based on the LightObject class.
