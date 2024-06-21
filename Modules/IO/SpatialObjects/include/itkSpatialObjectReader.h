@@ -63,6 +63,12 @@ public:
   void
   Update();
 
+  /** Set the version of MetaIO to use */
+  void
+  SetMetaIOVersion(unsigned int ver);
+  unsigned int
+  GetMetaIOVersion(void) const;
+
   /** Set the filename  */
   itkSetStringMacro(FileName);
 
