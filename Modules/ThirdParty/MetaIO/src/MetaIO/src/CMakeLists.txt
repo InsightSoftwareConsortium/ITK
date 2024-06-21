@@ -122,15 +122,14 @@ else ()
     ${sources}
     ${headers}
   )
+  if (METAIO_FOR_ITK)
+    target_link_libraries(${METAIO_TARGET} PUBLIC
+      itksys
+    )
+  endif (METAIO_FOR_ITK)
 endif ()
 
 include_regular_expression("^.*$")
-
-# Need nsl to resolve gethostbyname on SunOS-5.8
-# and socket also
-if(CMAKE_SYSTEM MATCHES "SunOS.*")
-  target_link_libraries(${METAIO_TARGET} PRIVATE socket nsl)
-endif()
 
 target_link_libraries(${METAIO_TARGET} PUBLIC
   ${METAIO_LIBXML2_LIBRARIES}

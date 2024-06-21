@@ -349,7 +349,7 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
 // Uncompress a stream given an uncompressedSeekPosition
 METAIO_EXPORT
 std::streamoff
-MET_UncompressStream(std::ifstream *            stream,
+MET_UncompressStream(METAIO_STREAM::ifstream *            stream,
                      std::streamoff             uncompressedSeekPosition,
                      unsigned char *            uncompressedData,
                      std::streamoff             uncompressedDataSize,
@@ -441,6 +441,10 @@ MET_Read(std::istream &                       fp,
          bool                                 display_warnings = true,
          std::vector<MET_FieldRecordType *> * newFields = nullptr);
 
+
+METAIO_EXPORT
+void
+MET_PrintFieldRecord(std::ostream & _fp, MET_FieldRecordType * _mf);
 
 METAIO_EXPORT
 std::string
