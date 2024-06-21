@@ -58,7 +58,7 @@ public:
   Array2D(unsigned int numberOfRows, unsigned int numberOfCols, const TValue & initialValue);
 
   /** Copy-constructor. */
-  Array2D(const Self & array);
+  Array2D(const Self &) = default;
 
   /** Move-constructor.
    * \note This move-constructor is `noexcept`, even while the move-constructor of its base class (`vnl_matrix`) is not
@@ -74,7 +74,7 @@ public:
 
   /** Copy-assignment operator. */
   Self &
-  operator=(const Self & array);
+  operator=(const Self &) = default;
 
   /** Move-assignment operator.
    * \note This move-assignment operator is `noexcept`, even while the move-assignment operator of its base class
