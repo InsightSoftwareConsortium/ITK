@@ -38,19 +38,6 @@ Array2D<TValue>::Array2D(const VnlMatrixType & matrix)
 {}
 
 template <typename TValue>
-Array2D<TValue>::Array2D(const Self & array)
-  : vnl_matrix<TValue>(array)
-{}
-
-template <typename TValue>
-Array2D<TValue> &
-Array2D<TValue>::operator=(const Self & array)
-{
-  this->VnlMatrixType::operator=(array);
-  return *this;
-}
-
-template <typename TValue>
 Array2D<TValue> &
 Array2D<TValue>::operator=(const VnlMatrixType & matrix)
 {
