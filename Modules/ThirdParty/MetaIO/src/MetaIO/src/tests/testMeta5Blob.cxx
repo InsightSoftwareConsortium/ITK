@@ -20,8 +20,8 @@ main(int, char *[])
   {
     pnt = new BlobPnt(3);
     pnt->m_X[0] = static_cast<float>(0.2);
-    pnt->m_X[1] = i;
-    pnt->m_X[2] = i;
+    pnt->m_X[1] = static_cast<float>(i);
+    pnt->m_X[2] = static_cast<float>(i);
     blob.GetPoints().push_back(pnt);
   }
 

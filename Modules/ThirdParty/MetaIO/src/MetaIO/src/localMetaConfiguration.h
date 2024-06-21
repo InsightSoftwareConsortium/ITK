@@ -21,26 +21,30 @@
 
 #include "metaIOConfig.h"
 
-#if defined(METAIO_FOR_ITK) || !defined(METAIO_FOR_VTK)
+#if defined(METAIO_FOR_ITK)
 // ITK
 
 #  define METAIO_USE_NAMESPACE 0
 #  define METAIO_NAMESPACE ITKMetaIO
+#  define METAIO_STREAM itksys
 
-#  include "itk_zlib.h"
+#  include <itksys/FStream.hxx>
+#  include <itk_zlib.h>
 
 #  include <iostream>
 #  include <fstream>
 
 #  define METAIO_EXPORT
 
-#else
+#elif defined(METAIO_FOR_VTK)
 // VTK
 
 #  define METAIO_USE_NAMESPACE 1
 #  define METAIO_NAMESPACE vtkmetaio
+#  define METAIO_STREAM vtksys
 
-#  include "vtk_zlib.h"
+#  include <vtksys/FStream.hxx>
+#  include <vtk_zlib.h>
 
 #  include <iostream>
 #  include <fstream>
@@ -57,5 +61,18 @@
 #    define METAIO_EXPORT
 #  endif
 
-// end VTK/ITK
+#else
+// Independent of ITK and VTK
+
+#  define METAIO_USE_NAMESPACE 0
+#  define METAIO_NAMESPACE metaio
+#  define METAIO_STREAM std
+
+#  include "itk_zlib.h"
+
+#  include <iostream>
+#  include <fstream>
+
+#  define METAIO_EXPORT
+
 #endif

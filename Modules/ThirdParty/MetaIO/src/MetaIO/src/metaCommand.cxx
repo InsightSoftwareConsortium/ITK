@@ -1363,7 +1363,7 @@ MetaCommand::ExportGAD(bool dynamic)
   std::string filename = m_Name;
   filename += ".gad.xml";
 
-  std::ofstream file;
+  METAIO_STREAM::ofstream file;
 #ifdef __sgi
   file.open(filename.c_str(), std::ios::out);
 #else

@@ -15,14 +15,15 @@ main(int, char *[])
   {
     pnt = new LinePnt(3);
     pnt->m_X[0] = static_cast<float>(0.2);
-    pnt->m_X[1] = i;
-    pnt->m_X[2] = i;
+    float i_f = static_cast<float>(i);
+    pnt->m_X[1] = i_f;
+    pnt->m_X[2] = i_f;
     pnt->m_V[0][0] = static_cast<float>(0.3);
-    pnt->m_V[0][1] = i;
-    pnt->m_V[0][2] = i;
+    pnt->m_V[0][1] = i_f;
+    pnt->m_V[0][2] = i_f;
     pnt->m_V[1][0] = static_cast<float>(0.4);
-    pnt->m_V[1][1] = i + 1;
-    pnt->m_V[1][2] = i + 1;
+    pnt->m_V[1][1] = i_f + 1;
+    pnt->m_V[1][2] = i_f + 1;
     Line->GetPoints().push_back(pnt);
   }
 
