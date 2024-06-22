@@ -1330,31 +1330,6 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 
 
-/** Defines to provide compatibility with derived iterators.
- *
- * With ITKv5 several methods for Image Iterators have been
- * devirtualized for performance reasons. These definitions may help
- * provide legacy compatibility, or help  detecting derived iterators
- * relying on the virtual  interface.
- */
-#if !defined(ITK_LEGACY_REMOVE)
-#  define ITK_ITERATOR_VIRTUAL virtual
-#  define ITK_ITERATOR_OVERRIDE override
-#  define ITK_ITERATOR_FINAL final
-#else
-#  define ITK_ITERATOR_VIRTUAL
-#  define ITK_ITERATOR_OVERRIDE
-#  define ITK_ITERATOR_FINAL
-#endif
-
-#if defined(ITK_LEGACY_REMOVE)
-// A macro for methods which are const in ITKv5 and ITKv6 require const for functions
-#  define ITKv5_CONST static_assert(false, "ERROR: ITKv5_CONST must be replaced with 'const'")
-#else
-// A macro for methods which are const in after ITKv4
-#  define ITKv5_CONST const
-#endif
-
 #define itkExceptionObject_h
 #include "itkExceptionObject.h"
 #undef itkExceptionObject_h
@@ -1426,6 +1401,13 @@ itkDynamicCastInDebugMode(TSource x)
     static_assert(false, "ERROR: ITK_STATIC_ASSERT_MSG must be replaced with 'static_assert'")
 #  define ITK_THREAD_LOCAL static_assert(false, "ERROR: ITK_THREAD_LOCAL must be replaced with 'thread_local'")
 
+// A macro for methods which are const in ITKv5 and ITKv6 require const for functions
+#  define ITKv5_CONST static_assert(false, "ERROR: ITKv5_CONST must be replaced with 'const'")
+
+#  define ITK_ITERATOR_VIRTUAL static_assert(false, "ERROR: ITK_ITERATOR_VIRTUAL must be removed'")
+#  define ITK_ITERATOR_OVERRIDE static_assert(false, "ERROR: ITK_ITERATOR_OVERRIDE must be removed")
+#  define ITK_ITERATOR_FINAL static_assert(false, "ERROR: ITK_ITERATOR_FINAL must be removed")
+
 #else
 // DEPRECATED: These macros are left here for compatibility with remote modules.
 // Once they have been removed from all known remote modules, this code should
@@ -1461,6 +1443,13 @@ itkDynamicCastInDebugMode(TSource x)
 #  define ITK_STATIC_ASSERT(X) static_assert(X, #  X)
 #  define ITK_STATIC_ASSERT_MSG(X, MSG) static_assert(X, MSG)
 #  define ITK_THREAD_LOCAL thread_local
+
+// A macro for methods which are const in after ITKv4
+#  define ITKv5_CONST const
+
+#  define ITK_ITERATOR_VIRTUAL  /*purposefully empty for ITKv6, iterators are not virtual for performance reasons*/
+#  define ITK_ITERATOR_OVERRIDE /*purposefully empty for ITKv6, iterators are not virtual for performance reasons*/
+#  define ITK_ITERATOR_FINAL    /*purposefully empty for ITKv6, iterators are not virtual for performance reasons*/
 #endif
 
 #endif // end of itkMacro.h

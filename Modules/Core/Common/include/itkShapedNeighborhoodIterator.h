@@ -186,7 +186,7 @@ public:
       : ConstIterator(s)
     {}
 
-    ~Iterator() ITK_ITERATOR_OVERRIDE = default;
+    ~Iterator() = default;
     Iterator &
     operator=(const Iterator & o)
     {
