@@ -65,7 +65,6 @@ MetaArrowConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType *
     arrowSO->SetPositionInObjectSpace(positionInObjectSpace);
   }
 
-  std::cout << directionInObjectSpace << std::endl;
   arrowSO->SetDirectionInObjectSpace(directionInObjectSpace);
 
   arrowSO->Update();
