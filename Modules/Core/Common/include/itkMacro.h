@@ -1387,6 +1387,17 @@ itkDynamicCastInDebugMode(TSource x)
 #endif
 }
 
+#if defined(__GNUC__) && ((__clang_major__ <= 8) || (!defined(__clang__) && (__GNUC__ <= 5)))
+// A bug in some versions of the GCC and Clang compilers
+// result in an ICE or linker error when "= default" is requested.
+// This was observed in at least gcc 4.8 and 5.4.0, and
+// AppleClang 7.0.2 and 8.0.0. Probably others too.
+// "= default" doesn't gain us much, so just don't use it here.
+#  define ITK_LINKER_FAILURE_WITH_EQUAL_DEFUALT
+#else
+#  undef ITK_LINKER_FAILURE_WITH_EQUAL_DEFUALT
+#endif
+
 #if __cplusplus >= 202002L
 #  define ITK_NODISCARD(message) [[nodiscard(message)]]
 #else
