@@ -262,8 +262,8 @@ public:
   }
 
   /** Returns the central pixel of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL void
-  SetCenterPixel(const PixelType & p) ITK_ITERATOR_FINAL
+  void
+  SetCenterPixel(const PixelType & p)
   {
     this->m_NeighborhoodAccessorFunctor.Set(this->operator[]((this->Size()) >> 1), p);
   }
@@ -271,23 +271,23 @@ public:
   /** Virtual function that replaces the pixel values in the image
    * neighborhood that are pointed to by this NeighborhoodIterator with
    * the pixel values contained in a Neighborhood. */
-  ITK_ITERATOR_VIRTUAL void
-  SetNeighborhood(const NeighborhoodType &) ITK_ITERATOR_FINAL;
+  void
+  SetNeighborhood(const NeighborhoodType &);
 
   /** Special SetPixel method which quietly ignores out-of-bounds attempts.
    *  Sets status TRUE if pixel has been set, FALSE otherwise.  */
-  ITK_ITERATOR_VIRTUAL void
-  SetPixel(const unsigned int i, const PixelType & v, bool & status) ITK_ITERATOR_FINAL;
+  void
+  SetPixel(const unsigned int i, const PixelType & v, bool & status);
 
   /** Set the pixel at the ith location. */
-  ITK_ITERATOR_VIRTUAL void
-  SetPixel(const unsigned int i, const PixelType & v) ITK_ITERATOR_FINAL;
+  void
+  SetPixel(const unsigned int i, const PixelType & v);
 
   //  { *(this->operator[](i)) = v; }
 
   /** Set the pixel at offset o from the neighborhood center */
-  ITK_ITERATOR_VIRTUAL void
-  SetPixel(const OffsetType o, const PixelType & v) ITK_ITERATOR_FINAL
+  void
+  SetPixel(const OffsetType o, const PixelType & v)
   {
     this->SetPixel(this->GetNeighborhoodIndex(o), v);
   }
@@ -296,8 +296,8 @@ public:
   /** Sets the pixel value located i pixels distant from the neighborhood center in
       the positive specified "axis" direction. No bounds checking is done on
       the size of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL void
-  SetNext(const unsigned int axis, const unsigned int i, const PixelType & v) ITK_ITERATOR_FINAL
+  void
+  SetNext(const unsigned int axis, const unsigned int i, const PixelType & v)
   {
     this->SetPixel(this->GetCenterNeighborhoodIndex() + (i * this->GetStride(axis)), v);
   }
@@ -305,8 +305,8 @@ public:
   /** Sets the pixel value located one pixel distant from the neighborhood center in
       the specified positive axis direction. No bounds checking is done on the
       size of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL void
-  SetNext(const unsigned int axis, const PixelType & v) ITK_ITERATOR_FINAL
+  void
+  SetNext(const unsigned int axis, const PixelType & v)
   {
     this->SetPixel(this->GetCenterNeighborhoodIndex() + this->GetStride(axis), v);
   }
@@ -314,8 +314,8 @@ public:
   /** Sets the pixel value located i pixels distant from the neighborhood center in
       the negative specified "axis" direction. No bounds checking is done on
       the size of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL void
-  SetPrevious(const unsigned int axis, const unsigned int i, const PixelType & v) ITK_ITERATOR_FINAL
+  void
+  SetPrevious(const unsigned int axis, const unsigned int i, const PixelType & v)
   {
     this->SetPixel(this->GetCenterNeighborhoodIndex() - (i * this->GetStride(axis)), v);
   }
@@ -323,8 +323,8 @@ public:
   /** Sets the pixel value located one pixel distant from the neighborhood center in
       the specified negative axis direction. No bounds checking is done on the
       size of the neighborhood. */
-  ITK_ITERATOR_VIRTUAL void
-  SetPrevious(const unsigned int axis, const PixelType & v) ITK_ITERATOR_FINAL
+  void
+  SetPrevious(const unsigned int axis, const PixelType & v)
   {
     this->SetPixel(this->GetCenterNeighborhoodIndex() - this->GetStride(axis), v);
   }
