@@ -1,8 +1,9 @@
 FastBilateral
 =================================
 
-.. image:: https://github.com/InsightSoftwareConsortium/FastBilateral/workflows/Build,%20test,%20package/badge.svg
-    :alt:    Build Status
+.. image:: https://github.com/InsightSoftwareConsortium/ITKFastBilateral/actions/workflows/build-test-package.yml/badge.svg
+    :target: https://github.com/InsightSoftwareConsortium/ITKFastBilateral/actions/workflows/build-test-package.yml
+    :alt: Build Status
 
 .. image:: https://img.shields.io/pypi/v/itk-fastbilateral.svg
     :target: https://pypi.python.org/pypi/itk-fastbilateral
