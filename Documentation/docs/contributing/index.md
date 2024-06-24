@@ -306,7 +306,12 @@ After a feature topic has been reviewed and approved in GitHub, ITK
 maintainers will merge it into the upstream repository via the GitHub user
 interface.
 
-(*If the merge conflicts follow the printed instructions to resolve them.*)
+If the merge conflicts follow the printed instructions to resolve them.
+
+If a new contributor has not learned how to amend and force-push updates to
+their branch into logical commits (preferred), maintainers should use the
+*Squash and merge* button on the pull request to consolidate patches into
+logical commits.
 
 For bug fixes that are ready to be included in the next patch release, make a
 comment on the pull request which states the topic should be merged to the
