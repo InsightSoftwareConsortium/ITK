@@ -31,6 +31,20 @@ SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::SpatialObjectWriter()
   m_MetaToSpatialConverter = MetaSceneConverterType::New();
 }
 
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
+void
+SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::SetMetaIOVersion(unsigned int ver)
+{
+  m_MetaToSpatialConverter->SetMetaIOVersion(ver);
+}
+
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
+unsigned int
+SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::GetMetaIOVersion(void) const
+{
+  return m_MetaToSpatialConverter->GetMetaIOVersion();
+}
+
 /** Set the precision at which the transform should be written */
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void

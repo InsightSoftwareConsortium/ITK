@@ -51,63 +51,6 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::MetaSceneConverter()
 }
 
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
-void
-MetaSceneConverter<VDimension, PixelType, TMeshTraits>::SetTransform(MetaObject * obj, const TransformType * transform)
-{
-  typename SpatialObjectType::TransformType::InputPointType center = transform->GetCenter();
-  typename SpatialObjectType::TransformType::MatrixType     matrix = transform->GetMatrix();
-  typename SpatialObjectType::TransformType::OffsetType     offset = transform->GetOffset();
-
-  unsigned int p = 0;
-  for (unsigned int row = 0; row < VDimension; ++row)
-  {
-    for (unsigned int col = 0; col < VDimension; ++col)
-    {
-      m_Orientation[p++] = matrix[row][col];
-    }
-  }
-
-  for (unsigned int i = 0; i < VDimension; ++i)
-  {
-    m_Position[i] = offset[i];
-    m_CenterOfRotation[i] = center[i];
-  }
-
-  obj->CenterOfRotation(m_CenterOfRotation);
-  obj->TransformMatrix(m_Orientation);
-  obj->Offset(m_Position);
-  obj->SetDoublePrecision(m_TransformPrecision);
-}
-
-template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
-void
-MetaSceneConverter<VDimension, PixelType, TMeshTraits>::SetTransform(SpatialObjectType * so, const MetaObject * meta)
-{
-  typename SpatialObjectType::TransformType::InputPointType center;
-  typename SpatialObjectType::TransformType::MatrixType     matrix;
-  typename SpatialObjectType::TransformType::OffsetType     offset;
-
-  unsigned int p = 0;
-  for (unsigned int row = 0; row < VDimension; ++row)
-  {
-    for (unsigned int col = 0; col < VDimension; ++col)
-    {
-      matrix[row][col] = (meta->Orientation())[p++];
-    }
-  }
-
-  for (unsigned int i = 0; i < VDimension; ++i)
-  {
-    offset[i] = (meta->Position())[i];
-    center[i] = (meta->CenterOfRotation())[i];
-  }
-
-  so->GetModifiableObjectToParentTransform()->SetCenter(center);
-  so->GetModifiableObjectToParentTransform()->SetMatrix(matrix);
-  so->GetModifiableObjectToParentTransform()->SetOffset(offset);
-}
-
-template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 auto
 MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateSpatialObjectScene(MetaScene * mScene)
   -> SpatialObjectPointer
@@ -204,7 +147,6 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateSpatialObjectScene
       }
       currentSO = converterIt->second->MetaObjectToSpatialObject(*it);
     }
-    this->SetTransform(currentSO, *it);
     int tmpParentId = currentSO->GetParentId();
     if (soScene != nullptr)
     {
@@ -232,6 +174,7 @@ auto
 MetaSceneConverter<VDimension, PixelType, TMeshTraits>::ReadMeta(const std::string & name) -> SpatialObjectPointer
 {
   auto * mScene = new MetaScene;
+  mScene->APIVersion(m_MetaIOVersion);
 
   if (m_Event)
   {
@@ -250,15 +193,10 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
                                                                         const std::string &       name)
 {
   auto * metaScene = new MetaScene(VDimension);
+  metaScene->APIVersion(m_MetaIOVersion);
+  metaScene->FileFormatVersion(m_MetaIOVersion);
 
   metaScene->BinaryData(m_BinaryPoints);
-
-  float spacing[VDimension];
-  for (unsigned int i = 0; i < VDimension; ++i)
-  {
-    spacing[i] = 1;
-  }
-  metaScene->ElementSpacing(spacing);
 
   using ListType = typename SpatialObjectType::ChildrenConstListType;
 
@@ -343,17 +281,6 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
       }
       currentMeta = converterIt->second->SpatialObjectToMetaObject(*it);
     }
-    if ((*it)->GetParent())
-    {
-      currentMeta->ParentID((*it)->GetParent()->GetId());
-    }
-    currentMeta->Name((*it)->GetProperty().GetName().c_str());
-    currentMeta->Color((*it)->GetProperty().GetRed(),
-                       (*it)->GetProperty().GetGreen(),
-                       (*it)->GetProperty().GetBlue(),
-                       (*it)->GetProperty().GetAlpha());
-
-    this->SetTransform(currentMeta, (*it)->GetObjectToParentTransform());
     metaScene->AddObject(currentMeta);
     ++it;
   }

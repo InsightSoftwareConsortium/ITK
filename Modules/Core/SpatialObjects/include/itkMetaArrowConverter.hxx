@@ -41,6 +41,8 @@ MetaArrowConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType *
   }
   ArrowSpatialObjectPointer arrowSO = ArrowSpatialObjectType::New();
 
+  this->MetaObjectToSpatialObjectBase(mo, arrowSO);
+
   float lengthInObjectSpace = metaArrow->Length();
   arrowSO->SetLengthInObjectSpace(lengthInObjectSpace);
 
@@ -53,17 +55,18 @@ MetaArrowConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType *
     positionInObjectSpace[i] = metaPosition[i];
     directionInObjectSpace[i] = metaDirection[i];
   }
-  arrowSO->SetPositionInObjectSpace(positionInObjectSpace);
+  if (mo->APIVersion() == 1)
+  {
+    // if not using new API, then the position is already stored as Offset.
+    // Really not certain how to handle the old case since it produced a bug...with
+    //    position being stored in the Offset and the Position!  But then the WorldPosition
+    //    would compose offset with position, which would be wrong...   It really never
+    //    worked correctly...
+    arrowSO->SetPositionInObjectSpace(positionInObjectSpace);
+  }
+
   arrowSO->SetDirectionInObjectSpace(directionInObjectSpace);
 
-  // convert the other fields
-  arrowSO->GetProperty().SetName(metaArrow->Name());
-  arrowSO->SetId(metaArrow->ID());
-  arrowSO->SetParentId(metaArrow->ParentID());
-  arrowSO->GetProperty().SetRed(metaArrow->Color()[0]);
-  arrowSO->GetProperty().SetGreen(metaArrow->Color()[1]);
-  arrowSO->GetProperty().SetBlue(metaArrow->Color()[2]);
-  arrowSO->GetProperty().SetAlpha(metaArrow->Color()[3]);
   arrowSO->Update();
 
   return arrowSO.GetPointer();
@@ -81,13 +84,13 @@ MetaArrowConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectTyp
   }
 
   auto * mo = new MetaArrow(VDimension);
+  mo->APIVersion(1);
+  mo->FileFormatVersion(1);
+
+  this->SpatialObjectToMetaObjectBase(spatialObject, mo);
 
   float metaLength = arrowSO->GetLengthInObjectSpace();
-
-  if (arrowSO->GetParent())
-  {
-    mo->ParentID(arrowSO->GetParent()->GetId());
-  }
+  mo->Length(metaLength);
 
   // convert position and direction
   double                                 metaPosition[VDimension];
@@ -101,15 +104,6 @@ MetaArrowConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectTyp
   }
   mo->Position(metaPosition);
   mo->Direction(metaDirection);
-
-  // convert the rest of the parameters
-  mo->Length(metaLength);
-  mo->ID(arrowSO->GetId());
-
-  mo->Color(arrowSO->GetProperty().GetRed(),
-            arrowSO->GetProperty().GetGreen(),
-            arrowSO->GetProperty().GetBlue(),
-            arrowSO->GetProperty().GetAlpha());
 
   return mo;
 }
