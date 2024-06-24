@@ -27,7 +27,15 @@
 // template argument and the size of these dimensions are taken from
 // the array. The data types used are float and double.
 int
-itkVnlFFTWF_RealFFTTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
+itkVnlFFTWF_RealFFTTest(
+#  ifndef ITK_USE_CUFFTW
+  int    argc,
+  char * argv[]
+#  else
+  int    itkNotUsed(argc),
+  char * itkNotUsed(argv)[]
+#  endif
+)
 {
   using ImageF1 = itk::Image<float, 1>;
   using ImageF2 = itk::Image<float, 2>;
