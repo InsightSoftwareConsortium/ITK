@@ -361,7 +361,7 @@ namespace itk
   TypeName(TypeName &&) = delete;                  \
   TypeName & operator=(TypeName &&) = delete
 
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_REMOVE)
 #  define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName) ITK_DISALLOW_COPY_AND_MOVE(TypeName)
 #else
 #  define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName) \
@@ -1463,4 +1463,4 @@ itkDynamicCastInDebugMode(TSource x)
 #  define ITK_THREAD_LOCAL thread_local
 #endif
 
-#endif // end of itkMacro.h
+#endif // itkMacro_h
