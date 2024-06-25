@@ -43,27 +43,6 @@ TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint()
 }
 
 template <unsigned int TPointDimension>
-TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint(const TubeSpatialObjectPoint & other)
-  : Superclass(other)
-{
-  this->SetRadiusInObjectSpace(other.GetRadiusInObjectSpace());
-  this->SetTangentInObjectSpace(other.GetTangentInObjectSpace());
-  this->SetNormal1InObjectSpace(other.GetNormal1InObjectSpace());
-  this->SetNormal2InObjectSpace(other.GetNormal2InObjectSpace());
-
-  this->SetRidgeness(other.GetRidgeness());
-  this->SetMedialness(other.GetMedialness());
-  this->SetBranchness(other.GetBranchness());
-  this->SetCurvature(other.GetCurvature());
-  this->SetLevelness(other.GetLevelness());
-  this->SetRoundness(other.GetRoundness());
-  this->SetIntensity(other.GetIntensity());
-  this->SetAlpha1(other.GetAlpha1());
-  this->SetAlpha2(other.GetAlpha2());
-  this->SetAlpha3(other.GetAlpha3());
-}
-
-template <unsigned int TPointDimension>
 double
 TubeSpatialObjectPoint<TPointDimension>::GetRadiusInWorldSpace() const
 {
@@ -203,32 +182,6 @@ TubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent ind
   os << indent << "RadiusInObjectSpace: " << m_RadiusInObjectSpace << std::endl;
 }
 
-template <unsigned int TPointDimension>
-auto
-TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint & rhs) -> Self &
-{
-  if (this != &rhs)
-  {
-    Superclass::operator=(rhs);
-
-    this->SetRadiusInObjectSpace(rhs.GetRadiusInObjectSpace());
-    this->SetTangentInObjectSpace(rhs.GetTangentInObjectSpace());
-    this->SetNormal1InObjectSpace(rhs.GetNormal1InObjectSpace());
-    this->SetNormal2InObjectSpace(rhs.GetNormal2InObjectSpace());
-
-    this->SetRidgeness(rhs.GetRidgeness());
-    this->SetMedialness(rhs.GetMedialness());
-    this->SetBranchness(rhs.GetBranchness());
-    this->SetCurvature(rhs.GetCurvature());
-    this->SetLevelness(rhs.GetLevelness());
-    this->SetRoundness(rhs.GetRoundness());
-    this->SetIntensity(rhs.GetIntensity());
-    this->SetAlpha1(rhs.GetAlpha1());
-    this->SetAlpha2(rhs.GetAlpha2());
-    this->SetAlpha3(rhs.GetAlpha3());
-  }
-  return *this;
-}
 } // end namespace itk
 
 #endif

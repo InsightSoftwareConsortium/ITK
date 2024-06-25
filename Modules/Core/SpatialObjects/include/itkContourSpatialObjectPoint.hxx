@@ -30,14 +30,6 @@ ContourSpatialObjectPoint<TPointDimension>::ContourSpatialObjectPoint()
 }
 
 template <unsigned int TPointDimension>
-ContourSpatialObjectPoint<TPointDimension>::ContourSpatialObjectPoint(const ContourSpatialObjectPoint & other)
-  : Superclass(other)
-{
-  this->m_NormalInObjectSpace = other.GetNormalInObjectSpace();
-  this->m_PickedPointInObjectSpace = other.GetPickedPointInObjectSpace();
-}
-
-template <unsigned int TPointDimension>
 void
 ContourSpatialObjectPoint<TPointDimension>::SetPickedPointInObjectSpace(const PointType & point)
 {
@@ -63,19 +55,6 @@ auto
 ContourSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const -> const CovariantVectorType &
 {
   return m_NormalInObjectSpace;
-}
-
-template <unsigned int TPointDimension>
-auto
-ContourSpatialObjectPoint<TPointDimension>::operator=(const ContourSpatialObjectPoint & rhs) -> Self &
-{
-  if (this != &rhs)
-  {
-    Superclass::operator=(rhs);
-    this->m_NormalInObjectSpace = rhs.GetNormalInObjectSpace();
-    this->m_PickedPointInObjectSpace = rhs.GetPickedPointInObjectSpace();
-  }
-  return *this;
 }
 
 template <unsigned int TPointDimension>

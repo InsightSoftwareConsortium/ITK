@@ -37,24 +37,6 @@ DTITubeSpatialObjectPoint<TPointDimension>::DTITubeSpatialObjectPoint()
 }
 
 template <unsigned int TPointDimension>
-DTITubeSpatialObjectPoint<TPointDimension>::DTITubeSpatialObjectPoint(const DTITubeSpatialObjectPoint & other)
-  : Superclass(other)
-{
-  m_Fields.clear();
-  const FieldListType & fields = other.GetFields();
-  auto                  it = fields.begin();
-  while (it != fields.end())
-  {
-    this->AddField(it->first.c_str(), it->second);
-    ++it;
-  }
-  for (unsigned int i = 0; i < 6; ++i)
-  {
-    m_TensorMatrix[i] = other.m_TensorMatrix[i];
-  }
-}
-
-template <unsigned int TPointDimension>
 void
 DTITubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -173,28 +155,6 @@ DTITubeSpatialObjectPoint<TPointDimension>::GetField(DTITubeSpatialObjectPointFi
   return -1;
 }
 
-template <unsigned int TPointDimension>
-auto
-DTITubeSpatialObjectPoint<TPointDimension>::operator=(const DTITubeSpatialObjectPoint & rhs) -> Self &
-{
-  if (this != &rhs)
-  {
-    Superclass::operator=(rhs);
-    m_Fields.clear();
-    const FieldListType & fields = rhs.GetFields();
-    auto                  it = fields.begin();
-    while (it != fields.end())
-    {
-      this->AddField(it->first.c_str(), it->second);
-      ++it;
-    }
-    for (unsigned int i = 0; i < 6; ++i)
-    {
-      m_TensorMatrix[i] = rhs.m_TensorMatrix[i];
-    }
-  }
-  return *this;
-}
 } // end namespace itk
 
 #endif
