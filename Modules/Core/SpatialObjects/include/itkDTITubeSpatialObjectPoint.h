@@ -60,6 +60,8 @@ template <unsigned int TPointDimension = 3>
 class ITK_TEMPLATE_EXPORT DTITubeSpatialObjectPoint : public TubeSpatialObjectPoint<TPointDimension>
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(DTITubeSpatialObjectPoint);
+
   using Self = DTITubeSpatialObjectPoint;
   using Superclass = TubeSpatialObjectPoint<TPointDimension>;
   using PointType = Point<double, TPointDimension>;
@@ -82,9 +84,6 @@ public:
   /** Constructor. This one defines the number of dimensions in the
    * DTITubeSpatialObjectPoint */
   DTITubeSpatialObjectPoint();
-
-  /** Copy Constructor */
-  DTITubeSpatialObjectPoint(const DTITubeSpatialObjectPoint & other);
 
   /** Default destructor. */
   ~DTITubeSpatialObjectPoint() override = default;
@@ -116,10 +115,6 @@ public:
   {
     return m_TensorMatrix;
   }
-
-  /** Copy one DTITubeSpatialObjectPoint to another. */
-  Self &
-  operator=(const DTITubeSpatialObjectPoint & rhs);
 
   /** Add a field to the point list. */
   void

@@ -39,6 +39,8 @@ template <unsigned int TPointDimension = 3>
 class ITK_TEMPLATE_EXPORT TubeSpatialObjectPoint : public SpatialObjectPoint<TPointDimension>
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(TubeSpatialObjectPoint);
+
   using Self = TubeSpatialObjectPoint;
   using Superclass = SpatialObjectPoint<TPointDimension>;
   using PointType = Point<double, TPointDimension>;
@@ -48,9 +50,6 @@ public:
   /** Constructor. This one defines the number of dimensions in the
    * TubeSpatialObjectPoint */
   TubeSpatialObjectPoint();
-
-  /** Copy Constructor */
-  TubeSpatialObjectPoint(const TubeSpatialObjectPoint & other);
 
   /** Default destructor. */
   ~TubeSpatialObjectPoint() override = default;
@@ -262,10 +261,6 @@ public:
   {
     return m_Alpha3;
   }
-
-  /** Copy one TubeSpatialObjectPoint to another */
-  Self &
-  operator=(const TubeSpatialObjectPoint & rhs);
 
 protected:
   VectorType          m_TangentInObjectSpace{};

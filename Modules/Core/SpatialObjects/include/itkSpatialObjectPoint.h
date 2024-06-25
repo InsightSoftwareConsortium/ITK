@@ -44,15 +44,14 @@ template <unsigned int TPointDimension = 3>
 class ITK_TEMPLATE_EXPORT SpatialObjectPoint
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(SpatialObjectPoint);
+
   using PointDimensionType = unsigned int;
 
   static constexpr PointDimensionType PointDimension = TPointDimension;
 
   /** Constructor. */
   SpatialObjectPoint();
-
-  /** Copy Constructor. */
-  SpatialObjectPoint(const SpatialObjectPoint & other);
 
   /** Default destructor. */
   virtual ~SpatialObjectPoint() = default;
@@ -127,10 +126,6 @@ public:
    *    spatialObject's objectToWorld transform */
   PointType
   GetPositionInWorldSpace() const;
-
-  /** Copy one SpatialObjectPoint to another */
-  Self &
-  operator=(const SpatialObjectPoint & rhs);
 
   /** Set/Get color of the point */
   void

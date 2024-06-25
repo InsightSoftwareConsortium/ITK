@@ -38,6 +38,8 @@ template <unsigned int TPointDimension = 3>
 class ITK_TEMPLATE_EXPORT ContourSpatialObjectPoint : public SpatialObjectPoint<TPointDimension>
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(ContourSpatialObjectPoint);
+
   using Self = ContourSpatialObjectPoint;
   using Superclass = SpatialObjectPoint<TPointDimension>;
   using PointType = Point<double, TPointDimension>;
@@ -46,9 +48,6 @@ public:
   /** Constructor. This one defines the number of dimensions
    *  in the ContourSpatialObjectPoint */
   ContourSpatialObjectPoint();
-
-  /** Copy Constructor */
-  ContourSpatialObjectPoint(const ContourSpatialObjectPoint & other);
 
   /** Default destructor. */
   ~ContourSpatialObjectPoint() override = default;
@@ -68,10 +67,6 @@ public:
   /** Set the normal : N-D case. */
   void
   SetNormalInObjectSpace(const CovariantVectorType & normal);
-
-  /** Copy a surface point to another. */
-  Self &
-  operator=(const ContourSpatialObjectPoint & rhs);
 
 protected:
   void
