@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkOptimizer.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
