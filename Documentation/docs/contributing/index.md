@@ -306,25 +306,42 @@ After a feature topic has been reviewed and approved in GitHub, ITK
 maintainers will merge it into the upstream repository via the GitHub user
 interface.
 
-(*If the merge conflicts follow the printed instructions to resolve them.*)
+If the merge conflicts follow the printed instructions to resolve them.
+
+If a new contributor has not learned how to amend and force-push updates to
+their branch into logical commits (preferred), maintainers should use the
+*Squash and merge* button on the pull request to consolidate patches into
+logical commits.
 
 For bug fixes that are ready to be included in the next patch release, make a
 comment on the pull request which states the topic should be merged to the
-`release` branch.
+`release` and `release-X.X` maintenance branch, where `X.X` are the current
+maintenance version, e.g. `5.4`.
 
 Here are the recommended steps to merge a topic to both `release` and `master`
 branches, assuming the topic branch is forked off the `release` branch:
 
 ```bash
-git checkout release
+git checkout release-X.X
+git pull --ff-only upstream/release-X.X
 git merge --no-ff my-topic
-git push upstream release
+git push upstream release-X.X
 ```
 
-and do:
+then:
+
+```bash
+git checkout release
+git pull --ff-only upstream/release
+git merge --no-ff release-X.X
+git push upstream release-X.X
+```
+
+then:
 
 ```bash
 git checkout master
+git pull --ff-only upstream/master
 git merge --no-ff release
 git push upstream master
 ```
