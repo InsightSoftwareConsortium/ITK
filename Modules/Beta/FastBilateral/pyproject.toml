@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "itk-fastbilateral"
-version = "0.1.0"
+version = "1.0.0"
 description = "Faster implementation of the itkBilateralImageFilter. From the insight journal submission: https://www.insight-journal.org/browse/publication/692"
 readme = "README.rst"
 license = {file = "LICENSE"}
