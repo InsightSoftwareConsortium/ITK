@@ -1,3 +1,6 @@
 test/.*\.cxx Namespace Disable
 itkTestingMacros\.h Namespace Disable
 itkFilterWatcher\.h Namespace Disable
+itkTestingExtractSliceImageFilter\.h Comments Disable
+itkTestingHashImageFilter\.h Comments Disable
+itkComplexToComplexFFTImageFilter\.h Comments Disable
