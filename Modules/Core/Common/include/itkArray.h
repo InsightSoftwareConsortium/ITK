@@ -196,7 +196,7 @@ public:
 #endif
 
   void
-  Swap(Array & other)
+  Swap(Array & other) noexcept
   {
     using std::swap;
     this->VnlVectorType::swap(other);
@@ -236,7 +236,7 @@ ITKCommon_EXPORT std::ostream & operator<<<float>(std::ostream & os, const Array
 
 template <typename T>
 inline void
-swap(Array<T> & a, Array<T> & b)
+swap(Array<T> & a, Array<T> & b) noexcept
 {
   a.Swap(b);
 }
