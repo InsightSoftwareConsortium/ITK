@@ -31,7 +31,7 @@
 namespace itk
 {}
 
-// Better name demanging for gcc
+// Better name demangling for gcc
 #if defined(__GNUC__) && !defined(__EMSCRIPTEN__)
 #  define GCC_USEDEMANGLE
 #endif
