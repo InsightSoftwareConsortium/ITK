@@ -25,7 +25,7 @@
 #include "itkImageAlgorithm.h"
 #include <type_traits>
 
-// Better name demanging for gcc
+// Better name demangling for gcc
 #if defined(__GNUC__) && !defined(__EMSCRIPTEN__)
 #  define GCC_USEDEMANGLE
 #endif
