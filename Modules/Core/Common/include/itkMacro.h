@@ -1235,7 +1235,9 @@ compilers.
  * Construct a non-templatized helper class that
  * provides the GPU kernel source code as a const char*
  */
-#define itkGPUKernelClassMacro(kernel) class itkGPUKernelMacro(kernel) ITK_MACROEND_NOOP_STATEMENT
+#define itkGPUKernelClassMacro(kernel) \
+  class itkGPUKernelMacro(kernel);     \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /**\def itkGPUKernelMacro
  * Equivalent to the original `itkGPUKernelClassMacro(kernel)` macro, but
@@ -1250,7 +1252,7 @@ compilers.
     kernel() = delete;                     \
     ~kernel() = delete;                    \
     static const char * GetOpenCLSource(); \
-  }                                        \
+  };                                       \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkGetOpenCLSourceFromKernelMacro(kernel)                             \
