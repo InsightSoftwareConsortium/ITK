@@ -32,7 +32,7 @@ namespace itk
 std::string &
 StringTools::Trim(std::string & str, const std::string & dislike)
 {
-  return StringTools::TrimRight(StringTools::TrimLeft(str, dislike), dislike);
+  return TrimRight(TrimLeft(str, dislike), dislike);
 }
 
 /** Method to trim the spaces or user-specified characters on left end of a string. */
@@ -41,7 +41,7 @@ StringTools::TrimLeft(std::string & str, const std::string & dislike)
 {
   if (!str.empty())
   {
-    std::string::size_type pos = str.find_first_not_of(dislike);
+    const auto pos = str.find_first_not_of(dislike);
     if (pos != std::string::npos)
     {
       if (pos > 0)
@@ -54,7 +54,6 @@ StringTools::TrimLeft(std::string & str, const std::string & dislike)
       str.clear();
     }
   }
-
   return str;
 }
 
@@ -64,7 +63,7 @@ StringTools::TrimRight(std::string & str, const std::string & dislike)
 {
   if (!str.empty())
   {
-    std::string::size_type pos = str.find_last_not_of(dislike);
+    auto pos = str.find_last_not_of(dislike);
     if (pos != std::string::npos)
     {
       if ((++pos) < str.size())
@@ -107,14 +106,14 @@ StringTools::Split(const std::string & s, std::string & lpart, std::string & rpa
   if (pos != std::string::npos)
   {
     lpart = s.substr(0, pos);
-    StringTools::Trim(lpart);
+    Trim(lpart);
     rpart = s.substr(pos + 1);
-    StringTools::Trim(rpart);
+    Trim(rpart);
   }
   else
   {
     lpart = s;
-    StringTools::Trim(lpart);
+    Trim(lpart);
     rpart = "";
   }
 }
@@ -130,13 +129,13 @@ StringTools::Split(const std::string & s, std::vector<std::string> & result, con
     if (pos != std::string::npos)
     {
       std::string front = str.substr(0, pos);
-      StringTools::Trim(front);
+      Trim(front);
       result.push_back(front);
       str = str.substr(pos + 1);
     }
     else
     {
-      StringTools::Trim(str);
+      Trim(str);
       result.push_back(str);
       str = ""; // no more text to split
     }
@@ -157,7 +156,7 @@ StringTools::Split(const std::string & s, std::map<std::string, std::string> & r
   {
     std::string value;
     std::string key;
-    StringTools::Split(item, key, value);
+    Split(item, key, value);
     result[key] = value;
   }
 }
@@ -180,10 +179,7 @@ StringTools::MatchWith(const std::string & s1, const std::string & s2, bool igno
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+    return false;
   }
 
   // compare considering case
@@ -191,10 +187,7 @@ StringTools::MatchWith(const std::string & s1, const std::string & s2, bool igno
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 
 /** Method to test whether a string starts with a user-given sub-string. */
@@ -215,10 +208,7 @@ StringTools::StartWith(const std::string & s1, const std::string & s2, bool igno
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+    return false;
   }
 
   // if case must be considered
@@ -226,10 +216,7 @@ StringTools::StartWith(const std::string & s1, const std::string & s2, bool igno
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 
 /** Method to test whether a string ends with a user-given sub-string. */
@@ -252,10 +239,7 @@ StringTools::EndWith(const std::string & s1, const std::string & s2, bool ignore
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+    return false;
   }
 
   // if case must be considered
@@ -263,10 +247,7 @@ StringTools::EndWith(const std::string & s1, const std::string & s2, bool ignore
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 
 /** Method to test whether a string contains a user-given sub-string. */
@@ -287,10 +268,7 @@ StringTools::ContainSub(const std::string & s1, const std::string & s2, bool ign
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+    return false;
   }
 
   // if case must be considered
@@ -298,10 +276,7 @@ StringTools::ContainSub(const std::string & s1, const std::string & s2, bool ign
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 
 } // namespace itk
