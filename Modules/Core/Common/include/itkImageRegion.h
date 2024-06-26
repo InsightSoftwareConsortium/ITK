@@ -424,11 +424,11 @@ operator<<(std::ostream & os, const ImageRegion<VImageDimension> & region);
 
 namespace std
 {
-#if defined(__clang__)
-#  pragma GCC diagnostic push
-// Old Clang compiler versions (before Clang 7.0.0) produced some unimportant warnings, like: "warning: 'tuple_size'
-// defined as a struct template here but previously declared as a class template"
-#  pragma GCC diagnostic ignored "-Wmismatched-tags"
+#if defined(__clang__) && defined(__apple_build_version__) && (__clang_major__ <= 10)
+#  pragma clang diagnostic push
+// Old AppleClang 10.0.0 (Xcode 10.1, newest on macOS 10.13) produced some unimportant warnings, like:
+// "warning: 'tuple_size' defined as a struct template here but previously declared as a class template"
+#  pragma clang diagnostic ignored "-Wmismatched-tags"
 #endif
 
 // NOLINTBEGIN(cert-dcl58-cpp)
@@ -456,8 +456,8 @@ struct tuple_element<VTupleIndex, itk::ImageRegion<VImageDimension>>
 
 // NOLINTEND(cert-dcl58-cpp)
 
-#if defined(__clang__)
-#  pragma GCC diagnostic pop
+#if defined(__clang__) && defined(__apple_build_version__) && (__clang_major__ <= 10)
+#  pragma clang diagnostic pop
 #endif
 } // namespace std
 
