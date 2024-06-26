@@ -434,6 +434,10 @@ HDF5TransformIOTemplate<TParametersValueType>::Write()
 
     ConstTransformListType & transformList = this->GetWriteTransformList();
 
+    if (transformList.empty())
+    {
+      itkExceptionMacro(<< "No transforms to write");
+    }
     std::string compositeTransformType = transformList.front()->GetTransformTypeAsString();
 
     CompositeTransformIOHelperTemplate<TParametersValueType> helper;
