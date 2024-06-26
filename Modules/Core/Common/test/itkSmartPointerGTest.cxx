@@ -129,34 +129,17 @@ TEST(SmartPointer, EmptyAndNull)
   cptr = nullptr;
   EXPECT_TRUE(cptr.IsNull());
 
-#if defined(__clang__) && defined(__has_warning)
-#  if __has_warning("-Wzero-as-null-pointer-constant")
-#    pragma clang diagnostic push
-#    pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
-#  endif
-#endif
+ITK_CLANG_PRAGMA_PUSH
+ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
+
   // NOLINTNEXTLINE(modernize-use-nullptr)
   ptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
-#if defined(__clang__) && defined(__has_warning)
-#  if __has_warning("-Wzero-as-null-pointer-constant")
-#    pragma clang diagnostic pop
-#  endif
-#endif
   EXPECT_TRUE(ptr.IsNull());
 
-#if defined(__clang__) && defined(__has_warning)
-#  if __has_warning("-Wzero-as-null-pointer-constant")
-#    pragma clang diagnostic push
-#    pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
-#  endif
-#endif
   // NOLINTNEXTLINE(modernize-use-nullptr)
   cptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
-#if defined(__clang__) && defined(__has_warning)
-#  if __has_warning("-Wzero-as-null-pointer-constant")
-#    pragma clang diagnostic pop
-#  endif
-#endif
+ITK_CLANG_PRAGMA_POP
+
   EXPECT_TRUE(cptr.IsNull());
 
 
