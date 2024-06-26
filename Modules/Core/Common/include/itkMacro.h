@@ -175,38 +175,38 @@ namespace itk
  * MSVC++ 14.2 _MSC_VER == 1920 (Visual Studio 2019 Version 16.0)
  */
 #if defined(_MSC_VER) && (_MSC_VER < 1920)
-#  error "MSVC versions before Visual Studio 2019 are not supported under ITKv5.4"
+#  error "MSVC versions before Visual Studio 2019 are not supported"
 #endif
 #if defined(__SUNPRO_CC) && (__SUNPRO_CC < 0x5140)
-#  error "SUNPro C++ < 5.14.0 is not supported under ITKv5 and above"
+#  error "SUNPro C++ < 5.14.0 is not supported"
 #endif
 #if defined(__CYGWIN__)
-#  error "The Cygwin compiler is not supported in ITKv4 and above"
+#  error "The Cygwin compiler is not supported"
 #endif
 #if defined(__BORLANDC__)
-#  error "The Borland C compiler is not supported in ITKv4 and above"
+#  error "The Borland C compiler is not supported"
 #endif
 #if defined(__MWERKS__)
-#  error "The MetroWerks compiler is not supported in ITKv4 and above"
+#  error "The MetroWerks compiler is not supported"
 #endif
 #if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER) && (__GNUC__ < 7)
-#  error "GCC < 7 is not supported under ITKv5.4"
+#  error "GCC < 7 is not supported"
 #endif
 #if defined(__sgi)
 // This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
 // TODO: At some future point, it may be necessary to
 // define a minimum __sgi version that will work.
-#  error "The SGI compiler is not supported under ITKv4 and above"
+#  error "The SGI compiler is not supported"
 #endif
 #if defined(__APPLE__)
 #  if defined(__clang__) && (__cplusplus < 201703L)
-#    error "Apple LLVM compiling with a standard less than C++17 is not supported under ITKv5.4"
+#    error "Apple LLVM compiling with a standard less than C++17 is not supported"
 #  endif
 #elif defined(__clang__) && (__clang_major__ < 5)
-#  error "Clang < 5 is not supported under ITKv5.4"
+#  error "Clang < 5 is not supported"
 #endif
 #if defined(__INTEL_COMPILER) && (__INTEL_COMPILER < 1910)
-#  error "Intel C++ < 19.1 is not supported under ITKv5.4"
+#  error "Intel C++ < 19.1 is not supported4"
 #endif
 
 // Setup symbol exports
