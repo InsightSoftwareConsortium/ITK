@@ -29,15 +29,7 @@ template <typename TMatrix>
 void
 Expect_Matrix_default_constructor_zero_initializes_all_elements()
 {
-#ifndef __clang__
-  // Clang versions before 3.9.0 reject the `const` here (erroneously).
-  // Mac10.10-AppleClang-dbg-x86_64-static produced an error message on an
-  // attempt to build ITK 5 from the master branch (2021-03-31), saying:
-  // > error: default initialization of an object of const type
-  // > 'const itk::Matrix' without a user-provided default constructor
-  const
-#endif
-    TMatrix defaultConstructedMatrix;
+  const TMatrix defaultConstructedMatrix;
 
   for (unsigned int row{}; row < TMatrix::RowDimensions; ++row)
   {
