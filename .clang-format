@@ -151,6 +151,7 @@ StatementMacros:
   - ITK_GCC_SUPPRESS_Wfloat_equal
   - ITK_GCC_SUPPRESS_Wformat_nonliteral
   - ITK_GCC_SUPPRESS_Warray_bounds
+  - ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
   - CLANG_PRAGMA_PUSH
   - CLANG_PRAGMA_POP
   - INTEL_PRAGMA_WARN_PUSH
