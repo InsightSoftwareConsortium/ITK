@@ -18,7 +18,7 @@
 
 #include "itkStringTools.h"
 
-#include <algorithm> // std::transform()
+#include <algorithm> // std::for_each()
 #include <cctype>    // std::toupper(), std::tolower()
 
 namespace itk
@@ -84,8 +84,10 @@ StringTools::TrimRight(std::string & str, const std::string & dislike)
 std::string &
 StringTools::ToUpperCase(std::string & str)
 {
-  // explicit cast needed to resolve ambiguity
-  std::transform(str.begin(), str.end(), str.begin(), (int (*)(int))std::toupper);
+  // https://en.cppreference.com/w/cpp/string/byte/toupper with std algorithms
+  std::for_each(str.begin(), str.end(), [](std::string::value_type & c) -> void {
+    c = static_cast<std::string::value_type>(std::toupper(c));
+  });
   return str;
 }
 
@@ -93,8 +95,10 @@ StringTools::ToUpperCase(std::string & str)
 std::string &
 StringTools::ToLowerCase(std::string & str)
 {
-  // explicit cast needed to resolve ambiguity
-  std::transform(str.begin(), str.end(), str.begin(), (int (*)(int))std::tolower);
+  // https://en.cppreference.com/w/cpp/string/byte/tolower with std algorithms
+  std::for_each(str.begin(), str.end(), [](std::string::value_type & c) -> void {
+    c = static_cast<std::string::value_type>(std::tolower(c));
+  });
   return str;
 }
 
