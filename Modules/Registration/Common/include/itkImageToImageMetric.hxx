@@ -991,7 +991,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::ComputeImageDerivatives(const Mov
     if (m_ComputeGradient)
     {
       const ContinuousIndex<double, MovingImageDimension> tempIndex =
-        m_MovingImage->template TransformPhysicalPointToContinuousIndex<double>(mappedPoint);
+        m_MovingImage->TransformPhysicalPointToContinuousIndex(mappedPoint);
       MovingImageIndexType mappedIndex;
       mappedIndex.CopyWithRound(tempIndex);
       gradient = m_GradientImage->GetPixel(mappedIndex);
