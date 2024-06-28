@@ -85,16 +85,9 @@ GaborImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  if (this->GetCalculateImaginaryPart())
-  {
-    os << indent << "Calculate complex part: true " << std::endl;
-  }
-  else
-  {
-    os << indent << "Calculate complex part: false " << std::endl;
-  }
+  os << indent << "CalculateImaginaryPart: " << (m_CalculateImaginaryPart ? "On" : "Off") << std::endl;
   os << indent << "Frequency: " << this->GetFrequency() << std::endl;
-  os << indent << "Phase offset: " << m_PhaseOffset << std::endl;
+  os << indent << "PhaseOffset: " << m_PhaseOffset << std::endl;
   os << indent << "Sigma: " << this->GetSigma() << std::endl;
   os << indent << "Mean: " << this->GetMean() << std::endl;
 }

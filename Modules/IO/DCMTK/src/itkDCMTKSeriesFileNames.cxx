@@ -210,41 +210,10 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "SeriesUIDs[" << i << "]: " << m_SeriesUIDs[i] << std::endl;
   }
 
-  if (m_UseSeriesDetails)
-  {
-    os << indent << "UseSeriesDetails: True" << std::endl;
-  }
-  else
-  {
-    os << indent << "UseSeriesDetails: False" << std::endl;
-  }
-
-  if (m_Recursive)
-  {
-    os << indent << "Recursive: True" << std::endl;
-  }
-  else
-  {
-    os << indent << "Recursive: False" << std::endl;
-  }
-
-  if (m_LoadSequences)
-  {
-    os << indent << "LoadSequences: True" << std::endl;
-  }
-  else
-  {
-    os << indent << "LoadSequences: False" << std::endl;
-  }
-
-  if (m_LoadPrivateTags)
-  {
-    os << indent << "LoadPrivateTags: True" << std::endl;
-  }
-  else
-  {
-    os << indent << "LoadPrivateTags: False" << std::endl;
-  }
+  os << indent << "UseSeriesDetails: " << (m_UseSeriesDetails ? "On" : "Off") << std::endl;
+  os << indent << "Recursive: " << (m_Recursive ? "On" : "Off") << std::endl;
+  os << indent << "LoadSequences: " << (m_LoadSequences ? "On" : "Off") << std::endl;
+  os << indent << "LoadPrivateTags: " << (m_LoadPrivateTags ? "On" : "Off") << std::endl;
 }
 
 void

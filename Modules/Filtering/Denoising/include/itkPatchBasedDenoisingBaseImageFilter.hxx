@@ -257,65 +257,17 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
 
   os << indent << "State: " << m_State << std::endl;
   os << indent << "PatchRadius: " << m_PatchRadius << std::endl;
-  if (m_KernelBandwidthEstimation)
-  {
-    os << indent << "KernelBandwidthEstimation: On" << std::endl;
-  }
-  else
-  {
-    os << indent << "KernelBandwidthEstimation: Off" << std::endl;
-  }
-
+  os << indent << "KernelBandwidthEstimation: " << (m_KernelBandwidthEstimation ? "On" : "Off") << std::endl;
   os << indent << "KernelBandwidthUpdateFrequency: " << m_KernelBandwidthUpdateFrequency << std::endl;
   os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
   os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
-
-  if (m_NoiseModel == NoiseModelEnum::GAUSSIAN)
-  {
-    os << indent << "NoiseModelEnum::GAUSSIAN" << std::endl;
-  }
-  else if (m_NoiseModel == NoiseModelEnum::RICIAN)
-  {
-    os << indent << "NoiseModelEnum::RICIAN" << std::endl;
-  }
-  else if (m_NoiseModel == NoiseModelEnum::POISSON)
-  {
-    os << indent << "NoiseModelEnum::POISSON" << std::endl;
-  }
-  else
-  {}
-
+  os << indent << "NoiseModel: " << m_NoiseModel << std::endl;
   os << indent << "SmoothingWeight: " << m_SmoothingWeight << std::endl;
   os << indent << "NoiseModelFidelityWeight: " << m_NoiseModelFidelityWeight << std::endl;
-
-  if (m_AlwaysTreatComponentsAsEuclidean)
-  {
-    os << indent << "AlwaysTreatComponentsAsEuclidean: On" << std::endl;
-  }
-  else
-  {
-    os << indent << "AlwaysTreatComponentsAsEuclidean: Off" << std::endl;
-  }
-
-  if (m_ComponentSpace == Self::ComponentSpaceEnum::EUCLIDEAN)
-  {
-    os << indent << "ComponentSpace: EUCLIDEAN" << std::endl;
-  }
-  else if (m_ComponentSpace == Self::ComponentSpaceEnum::RIEMANNIAN)
-  {
-    os << indent << "ComponentSpace: RIEMANNIAN" << std::endl;
-  }
-  else
-  {}
-
-  if (m_ManualReinitialization)
-  {
-    os << indent << "ManualReinitialization: On" << std::endl;
-  }
-  else
-  {
-    os << indent << "ManualReinitialization: Off" << std::endl;
-  }
+  os << indent << "AlwaysTreatComponentsAsEuclidean: " << (m_AlwaysTreatComponentsAsEuclidean ? "On" : "Off")
+     << std::endl;
+  os << indent << "ComponentSpace: " << m_ComponentSpace << std::endl;
+  os << indent << "ManualReinitialization: " << (m_ManualReinitialization ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 

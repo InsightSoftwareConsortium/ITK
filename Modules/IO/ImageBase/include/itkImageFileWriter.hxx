@@ -385,40 +385,16 @@ ImageFileWriter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "File Name: " << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;
+  os << indent << "FileName: " << m_FileName << std::endl;
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "IO Region: " << m_PasteIORegion << '\n';
-  os << indent << "Number of Stream Divisions: " << m_NumberOfStreamDivisions << '\n';
-  os << indent << "CompressionLevel: " << m_CompressionLevel << '\n';
-
-  if (m_UseCompression)
-  {
-    os << indent << "Compression: On\n";
-  }
-  else
-  {
-    os << indent << "Compression: Off\n";
-  }
-
-  if (m_UseInputMetaDataDictionary)
-  {
-    os << indent << "UseInputMetaDataDictionary: On\n";
-  }
-  else
-  {
-    os << indent << "UseInputMetaDataDictionary: Off\n";
-  }
-
-  if (m_FactorySpecifiedImageIO)
-  {
-    os << indent << "FactorySpecifiedmageIO: On\n";
-  }
-  else
-  {
-    os << indent << "FactorySpecifiedmageIO: Off\n";
-  }
+  os << indent << "PasteIORegion: " << m_PasteIORegion << std::endl;
+  os << indent << "NumberOfStreamDivisions: " << m_NumberOfStreamDivisions << std::endl;
+  os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
+  os << indent << "UseCompression: " << (m_UseCompression ? "On" : "Off") << std::endl;
+  os << indent << "UseInputMetaDataDictionary: " << (m_UseInputMetaDataDictionary ? "On" : "Off") << std::endl;
+  os << indent << "FactorySpecifiedImageIO: " << (m_FactorySpecifiedImageIO ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 

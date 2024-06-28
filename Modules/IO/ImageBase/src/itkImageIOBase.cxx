@@ -1164,9 +1164,9 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "IOByteOrderEnum: " << this->GetByteOrderAsString(m_ByteOrder) << std::endl;
   os << indent << "IORegion: " << std::endl;
   m_IORegion.Print(os, indent.GetNextIndent());
-  os << indent << "Number of Components/Pixel: " << m_NumberOfComponents << '\n';
-  os << indent << "Pixel Type: " << this->GetPixelTypeAsString(m_PixelType) << std::endl;
-  os << indent << "Component Type: " << this->GetComponentTypeAsString(m_ComponentType) << std::endl;
+  os << indent << "NumberOfComponents/Pixel: " << m_NumberOfComponents << std::endl;
+  os << indent << "PixeType: " << this->GetPixelTypeAsString(m_PixelType) << std::endl;
+  os << indent << "ComponentType: " << this->GetComponentTypeAsString(m_ComponentType) << std::endl;
   os << indent << "Dimensions: " << m_Dimensions << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
@@ -1175,57 +1175,15 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   {
     os << indent << direction << std::endl;
   }
-  if (m_UseCompression)
-  {
-    os << indent << "UseCompression: On" << std::endl;
-  }
-  else
-  {
-    os << indent << "UseCompression: Off" << std::endl;
-  }
+  os << indent << "UseCompression: " << (m_UseCompression ? "On" : "Off") << std::endl;
   os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
   os << indent << "MaximumCompressionLevel: " << m_MaximumCompressionLevel << std::endl;
   os << indent << "Compressor: " << m_Compressor << std::endl;
-  if (m_UseStreamedReading)
-  {
-    os << indent << "UseStreamedReading: On" << std::endl;
-  }
-  else
-  {
-    os << indent << "UseStreamedReading: Off" << std::endl;
-  }
-  if (m_UseStreamedWriting)
-  {
-    os << indent << "UseStreamedWriting: On" << std::endl;
-  }
-  else
-  {
-    os << indent << "UseStreamedWriting: Off" << std::endl;
-  }
-  if (m_ExpandRGBPalette)
-  {
-    os << indent << "ExpandRGBPalette: On" << std::endl;
-  }
-  else
-  {
-    os << indent << "ExpandRGBPalette: Off" << std::endl;
-  }
-  if (m_IsReadAsScalarPlusPalette)
-  {
-    os << indent << "IsReadAsScalarPlusPalette: True" << std::endl;
-  }
-  else
-  {
-    os << indent << "IsReadAsScalarPlusPalette: False" << std::endl;
-  }
-  if (m_WritePalette)
-  {
-    os << indent << "WritePalette: On" << std::endl;
-  }
-  else
-  {
-    os << indent << "WritePalette: Off" << std::endl;
-  }
+  os << indent << "UseStreamedReading: " << (m_UseStreamedReading ? "On" : "Off") << std::endl;
+  os << indent << "UseStreamedWriting: " << (m_UseStreamedWriting ? "On" : "Off") << std::endl;
+  os << indent << "ExpandRGBPalette: " << (m_ExpandRGBPalette ? "On" : "Off") << std::endl;
+  os << indent << "IsReadAsScalarPlusPalette: " << (m_IsReadAsScalarPlusPalette ? "On" : "Off") << std::endl;
+  os << indent << "WritePalette: " << (m_WritePalette ? "On" : "Off") << std::endl;
 }
 
 } // namespace itk
