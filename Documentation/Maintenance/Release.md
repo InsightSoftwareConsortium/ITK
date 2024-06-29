@@ -412,6 +412,11 @@ git push upstream $major_minor
 Add any new remote modules to nightly builds. Some builds may be difficult to add
 due to third-party dependencies.
 
+When a new ITK version is released, experience has shown that the remote
+module packages are not binary compatible across ITK major or minor releases.
+Thus, remote module versions should be bumped into a new major version when
+requiring a new ITK major or minor version. The process described below
+ensures appropriate versioning and compatibility of the remotes with ITK.
 
 Update Remote Modules
 ---------------------
