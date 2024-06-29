@@ -418,13 +418,13 @@ protected:
   RequiresMovingPointsLocator() const
   {
     return true;
-  };
+  }
 
   virtual bool
   RequiresFixedPointsLocator() const
   {
     return true;
-  };
+  }
 
   /**
    * Function to be defined in the appropriate derived classes.  Calculates

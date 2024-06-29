@@ -39,7 +39,8 @@
     {                                                                                                          \
       v->VisitFromCell(cellid, this);                                                                          \
     }                                                                                                          \
-  }
+  }                                                                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // Define a macro for the common type alias required by the
 // classes deriving form CellInterface (included).

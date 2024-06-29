@@ -60,7 +60,7 @@ struct Identity
   struct SizeToType<VTypeEnum, TA, TB>  \
   {                                     \
     using Type = Typed;                 \
-  };
+  }
 
 ITK_ASSOCIATE(1, TA);
 ITK_ASSOCIATE(2, TB);

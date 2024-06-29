@@ -239,7 +239,7 @@ public:
   SetActualXDimensionIsOdd(bool value)
   {
     this->m_ActualXDimensionIsOdd = value;
-  };
+  }
   itkGetMacro(ActualXDimensionIsOdd, bool);
   itkBooleanMacro(ActualXDimensionIsOdd);
 
