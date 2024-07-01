@@ -144,6 +144,7 @@ private:
   {
     auto converter = TConverter::New();
     // needed just for Image & ImageMask
+    converter->SetMetaIOVersion(m_MetaIOVersion);
     converter->SetWriteImagesInSeparateFile(this->m_WriteImagesInSeparateFile);
     return converter->SpatialObjectToMetaObject(so);
   }
@@ -152,6 +153,7 @@ private:
   MetaObjectToSpatialObject(const MetaObject * mo)
   {
     auto converter = TConverter::New();
+    converter->SetMetaIOVersion(m_MetaIOVersion);
     return converter->MetaObjectToSpatialObject(mo);
   }
   void
