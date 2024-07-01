@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -58,7 +57,7 @@
 static herr_t H5HG__cache_heap_get_initial_load_size(void *udata, size_t *image_len);
 static herr_t H5HG__cache_heap_get_final_load_size(const void *_image, size_t image_len, void *udata,
                                                    size_t *actual_len);
-static void * H5HG__cache_heap_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
+static void  *H5HG__cache_heap_deserialize(const void *image, size_t len, void *udata, hbool_t *dirty);
 static herr_t H5HG__cache_heap_image_len(const void *thing, size_t *image_len);
 static herr_t H5HG__cache_heap_serialize(const H5F_t *f, void *image, size_t len, void *thing);
 static herr_t H5HG__cache_heap_free_icr(void *thing);
@@ -231,12 +230,12 @@ done:
 static void *
 H5HG__cache_heap_deserialize(const void *_image, size_t len, void *_udata, hbool_t H5_ATTR_UNUSED *dirty)
 {
-    H5F_t *      f    = (H5F_t *)_udata; /* File pointer -- obtained from user data */
+    H5F_t       *f    = (H5F_t *)_udata; /* File pointer -- obtained from user data */
     H5HG_heap_t *heap = NULL;            /* New global heap */
-    uint8_t *    image;                  /* Pointer to image to decode */
+    uint8_t     *image;                  /* Pointer to image to decode */
     size_t       max_idx = 0;            /* Maximum heap object index seen */
     size_t       nalloc;                 /* Number of objects allocated */
-    void *       ret_value = NULL;       /* Return value */
+    void        *ret_value = NULL;       /* Return value */
 
     FUNC_ENTER_STATIC
 

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -48,7 +47,7 @@
 typedef struct {
     hbool_t encode;       /* Whether the property list should be encoded */
     size_t *enc_size_ptr; /* Pointer to size of encoded buffer */
-    void ** pp;           /* Pointer to encoding buffer pointer */
+    void  **pp;           /* Pointer to encoding buffer pointer */
 } H5P_enc_iter_ud_t;
 
 /********************/
@@ -333,7 +332,7 @@ H5P__encode_cb(H5P_genprop_t *prop, void *_udata)
         /* Encode (or not, if the 'encode' flag is off) the property's name */
         prop_name_len = HDstrlen(prop->name) + 1;
         if (udata->encode) {
-            HDstrncpy((char *)*(udata->pp), prop->name, prop_name_len);
+            HDstrcpy((char *)*(udata->pp), prop->name);
             *(uint8_t **)(udata->pp) += prop_name_len;
         } /* end if */
         *(udata->enc_size_ptr) += prop_name_len;
@@ -376,7 +375,7 @@ herr_t
 H5P__encode(const H5P_genplist_t *plist, hbool_t enc_all_prop, void *buf, size_t *nalloc)
 {
     H5P_enc_iter_ud_t udata;                 /* User data for property iteration callback */
-    uint8_t *         p = (uint8_t *)buf;    /* Temporary pointer to encoding buffer */
+    uint8_t          *p = (uint8_t *)buf;    /* Temporary pointer to encoding buffer */
     int               idx;                   /* Index of property to start at */
     size_t            encode_size = 0;       /* Size of buffer needed to encode properties */
     hbool_t           encode      = TRUE;    /* Whether the property list should be encoded */
@@ -442,7 +441,7 @@ done:
 herr_t
 H5P__decode_size_t(const void **_pp, void *_value)
 {
-    size_t *        value = (size_t *)_value; /* Property value to return */
+    size_t         *value = (size_t *)_value; /* Property value to return */
     const uint8_t **pp    = (const uint8_t **)_pp;
     uint64_t        enc_value; /* Decoded property value */
     unsigned        enc_size;  /* Size of encoded property */
@@ -482,7 +481,7 @@ H5P__decode_size_t(const void **_pp, void *_value)
 herr_t
 H5P__decode_hsize_t(const void **_pp, void *_value)
 {
-    hsize_t *       value = (hsize_t *)_value; /* Property value to return */
+    hsize_t        *value = (hsize_t *)_value; /* Property value to return */
     const uint8_t **pp    = (const uint8_t **)_pp;
     uint64_t        enc_value; /* Decoded property value */
     unsigned        enc_size;  /* Size of encoded property */
@@ -522,7 +521,7 @@ H5P__decode_hsize_t(const void **_pp, void *_value)
 herr_t
 H5P__decode_unsigned(const void **_pp, void *_value)
 {
-    unsigned *      value = (unsigned *)_value; /* Property value to return */
+    unsigned       *value = (unsigned *)_value; /* Property value to return */
     const uint8_t **pp    = (const uint8_t **)_pp;
     unsigned        enc_size;            /* Size of encoded property */
     herr_t          ret_value = SUCCEED; /* Return value */
@@ -561,7 +560,7 @@ done:
 herr_t
 H5P__decode_uint8_t(const void **_pp, void *_value)
 {
-    uint8_t *       value     = (uint8_t *)_value; /* Property value to return */
+    uint8_t        *value     = (uint8_t *)_value; /* Property value to return */
     const uint8_t **pp        = (const uint8_t **)_pp;
     herr_t          ret_value = SUCCEED; /* Return value */
 
@@ -594,7 +593,7 @@ H5P__decode_uint8_t(const void **_pp, void *_value)
 herr_t
 H5P__decode_hbool_t(const void **_pp, void *_value)
 {
-    hbool_t *       value     = (hbool_t *)_value; /* Property value to return */
+    hbool_t        *value     = (hbool_t *)_value; /* Property value to return */
     const uint8_t **pp        = (const uint8_t **)_pp;
     herr_t          ret_value = SUCCEED; /* Return value */
 
@@ -627,7 +626,7 @@ H5P__decode_hbool_t(const void **_pp, void *_value)
 herr_t
 H5P__decode_double(const void **_pp, void *_value)
 {
-    double *        value = (double *)_value; /* Property value to return */
+    double         *value = (double *)_value; /* Property value to return */
     const uint8_t **pp    = (const uint8_t **)_pp;
     unsigned        enc_size;            /* Size of encoded property */
     herr_t          ret_value = SUCCEED; /* Return value */
@@ -663,7 +662,7 @@ done:
         on failure.
  DESCRIPTION
      Decodes a property list from a binary buffer. The contents of the buffer
-     contain the values for the correponding properties of the plist. The decode
+     contain the values for the corresponding properties of the plist. The decode
      callback of a certain property decodes its value from the buffer and sets it
      in the property list.
  GLOBAL VARIABLES
@@ -676,9 +675,9 @@ done:
 hid_t
 H5P__decode(const void *buf)
 {
-    H5P_genplist_t * plist;                            /* Property list to decode into */
-    void *           value_buf = NULL;                 /* Pointer to buffer to use when decoding values */
-    const uint8_t *  p         = (const uint8_t *)buf; /* Current pointer into buffer */
+    H5P_genplist_t  *plist;                            /* Property list to decode into */
+    void            *value_buf = NULL;                 /* Pointer to buffer to use when decoding values */
+    const uint8_t   *p         = (const uint8_t *)buf; /* Current pointer into buffer */
     H5P_plist_type_t type;                             /* Type of encoded property list */
     hid_t            plist_id       = -1;              /* ID of new property list */
     size_t           value_buf_size = 0;               /* Size of current value buffer */
@@ -713,7 +712,7 @@ H5P__decode(const void *buf)
     /* Loop over encoded properties, deserializing their values */
     while (p) {
         H5P_genprop_t *prop; /* Pointer to property with same name */
-        const char *   name; /* Pointer to property list name */
+        const char    *name; /* Pointer to property list name */
 
         /* Check for end of serialized list of properties */
         if (0 == *p)

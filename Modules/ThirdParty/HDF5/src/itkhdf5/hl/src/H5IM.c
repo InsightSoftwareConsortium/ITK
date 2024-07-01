@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -650,7 +649,7 @@ out:
 /*-------------------------------------------------------------------------
  * Function: H5IMunlink_palette
  *
- * Purpose: This function dettaches a palette from an existing image dataset
+ * Purpose: This function detaches a palette from an existing image dataset
  *
  * Return: Success: 0, Failure: -1
  *
@@ -1066,7 +1065,7 @@ H5IMis_image(hid_t loc_id, const char *dset_name)
     int     has_class;
     hid_t   atid;
     hid_t   aid = -1;
-    char *  attr_data;    /* Name of attribute */
+    char   *attr_data;    /* Name of attribute */
     hsize_t storage_size; /* Size of storage for attribute */
     herr_t  ret;
 
@@ -1166,7 +1165,7 @@ H5IMis_palette(hid_t loc_id, const char *dset_name)
     int     has_class;
     hid_t   atid;
     hid_t   aid = -1;
-    char *  attr_data;    /* Name of attribute */
+    char   *attr_data;    /* Name of attribute */
     hsize_t storage_size; /* Size of storage for attribute */
     herr_t  ret;
 

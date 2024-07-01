@@ -12,7 +12,7 @@
 ## This file should be placed in the root directory of your project.
 ## Then modify the CMakeLists.txt file in the root directory of your
 ## project to incorporate the testing dashboard.
-## # The following are required to uses Dart and the Cdash dashboard
+## # The following are required to use Dart and the CDash dashboard
 ##   ENABLE_TESTING()
 ##   INCLUDE(CTest)
 set (CTEST_PROJECT_NAME "HDF5")
@@ -34,7 +34,7 @@ else ()
   if (CDASH_LOCAL)
     set (CTEST_DROP_LOCATION "/submit.php?project=HDF5112")
   else ()
-    set (CTEST_DROP_LOCATION "/submit.php?project=HDF5")
+    set (CTEST_DROP_LOCATION "/submit.php?project=HDF5112")
   endif ()
 endif ()
 set (CTEST_DROP_SITE_CDASH TRUE)

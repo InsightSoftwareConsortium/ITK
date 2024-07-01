@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -78,7 +77,7 @@ H5HG_debug(H5F_t *f, haddr_t addr, FILE *stream, int indent, int fwidth)
     unsigned     u, nused, maxobj;
     unsigned     j, k;
     H5HG_heap_t *h         = NULL;
-    uint8_t *    p         = NULL;
+    uint8_t     *p         = NULL;
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)

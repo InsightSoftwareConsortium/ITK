@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -75,7 +74,7 @@ typedef struct H5D_btree_key_t {
 typedef struct H5D_btree_it_ud_t {
     H5D_chunk_common_ud_t common; /* Common info for B-tree user data (must be first) */
     H5D_chunk_cb_func_t   cb;     /* Chunk callback routine */
-    void *                udata;  /* User data for chunk callback routine */
+    void                 *udata;  /* User data for chunk callback routine */
 } H5D_btree_it_ud_t;
 
 /* B-tree callback info for debugging */
@@ -97,7 +96,7 @@ static int H5D__btree_idx_iterate_cb(H5F_t *f, const void *left_key, haddr_t add
                                      void *_udata);
 
 /* B-tree callbacks */
-static H5UC_t *  H5D__btree_get_shared(const H5F_t *f, const void *_udata);
+static H5UC_t   *H5D__btree_get_shared(const H5F_t *f, const void *_udata);
 static herr_t    H5D__btree_new_node(H5F_t *f, H5B_ins_t, void *_lt_key, void *_udata, void *_rt_key,
                                      haddr_t *addr_p /*out*/);
 static int       H5D__btree_cmp2(void *_lt_key, void *_udata, void *_rt_key);
@@ -241,7 +240,7 @@ H5D__btree_new_node(H5F_t H5_ATTR_NDEBUG_UNUSED *f, H5B_ins_t op, void *_lt_key,
 {
     H5D_btree_key_t *lt_key = (H5D_btree_key_t *)_lt_key;
     H5D_btree_key_t *rt_key = (H5D_btree_key_t *)_rt_key;
-    H5D_chunk_ud_t * udata  = (H5D_chunk_ud_t *)_udata;
+    H5D_chunk_ud_t  *udata  = (H5D_chunk_ud_t *)_udata;
     unsigned         u;
     herr_t           ret_value = SUCCEED; /* Return value */
 
@@ -307,8 +306,8 @@ H5D__btree_new_node(H5F_t H5_ATTR_NDEBUG_UNUSED *f, H5B_ins_t op, void *_lt_key,
 static int
 H5D__btree_cmp2(void *_lt_key, void *_udata, void *_rt_key)
 {
-    H5D_btree_key_t *      lt_key    = (H5D_btree_key_t *)_lt_key;
-    H5D_btree_key_t *      rt_key    = (H5D_btree_key_t *)_rt_key;
+    H5D_btree_key_t       *lt_key    = (H5D_btree_key_t *)_lt_key;
+    H5D_btree_key_t       *rt_key    = (H5D_btree_key_t *)_rt_key;
     H5D_chunk_common_ud_t *udata     = (H5D_chunk_common_ud_t *)_udata;
     int                    ret_value = -1; /* Return value */
 
@@ -355,8 +354,8 @@ H5D__btree_cmp2(void *_lt_key, void *_udata, void *_rt_key)
 static int
 H5D__btree_cmp3(void *_lt_key, void *_udata, void *_rt_key)
 {
-    H5D_btree_key_t *      lt_key    = (H5D_btree_key_t *)_lt_key;
-    H5D_btree_key_t *      rt_key    = (H5D_btree_key_t *)_rt_key;
+    H5D_btree_key_t       *lt_key    = (H5D_btree_key_t *)_lt_key;
+    H5D_btree_key_t       *rt_key    = (H5D_btree_key_t *)_rt_key;
     H5D_chunk_common_ud_t *udata     = (H5D_chunk_common_ud_t *)_udata;
     int                    ret_value = 0;
 
@@ -418,7 +417,7 @@ H5D__btree_cmp3(void *_lt_key, void *_udata, void *_rt_key)
 static htri_t
 H5D__btree_found(H5F_t H5_ATTR_UNUSED *f, haddr_t addr, const void *_lt_key, void *_udata)
 {
-    H5D_chunk_ud_t *       udata  = (H5D_chunk_ud_t *)_udata;
+    H5D_chunk_ud_t        *udata  = (H5D_chunk_ud_t *)_udata;
     const H5D_btree_key_t *lt_key = (const H5D_btree_key_t *)_lt_key;
     unsigned               u;
     htri_t                 ret_value = TRUE; /* Return value */
@@ -519,7 +518,7 @@ H5D__btree_insert(H5F_t H5_ATTR_NDEBUG_UNUSED *f, haddr_t H5_ATTR_NDEBUG_UNUSED 
     H5D_btree_key_t *lt_key = (H5D_btree_key_t *)_lt_key;
     H5D_btree_key_t *md_key = (H5D_btree_key_t *)_md_key;
     H5D_btree_key_t *rt_key = (H5D_btree_key_t *)_rt_key;
-    H5D_chunk_ud_t * udata  = (H5D_chunk_ud_t *)_udata;
+    H5D_chunk_ud_t  *udata  = (H5D_chunk_ud_t *)_udata;
     int              cmp;
     unsigned         u;
     H5B_ins_t        ret_value = H5B_INS_ERROR; /* Return value */
@@ -638,7 +637,7 @@ static herr_t
 H5D__btree_decode_key(const H5B_shared_t *shared, const uint8_t *raw, void *_key)
 {
     const H5O_layout_chunk_t *layout;                        /* Chunk layout description */
-    H5D_btree_key_t *         key = (H5D_btree_key_t *)_key; /* Pointer to decoded key */
+    H5D_btree_key_t          *key = (H5D_btree_key_t *)_key; /* Pointer to decoded key */
     hsize_t                   tmp_offset;                    /* Temporary coordinate offset, from file */
     unsigned                  u;                             /* Local index variable */
     herr_t                    ret_value = SUCCEED;           /* Return value */
@@ -662,7 +661,8 @@ H5D__btree_decode_key(const H5B_shared_t *shared, const uint8_t *raw, void *_key
 
         /* Retrieve coordinate offset */
         UINT64DECODE(raw, tmp_offset);
-        HDassert(0 == (tmp_offset % layout->dim[u]));
+        if (0 != (tmp_offset % layout->dim[u]))
+            HGOTO_ERROR(H5E_DATASET, H5E_BADVALUE, FAIL, "bad coordinate offset");
 
         /* Convert to a scaled offset */
         key->scaled[u] = tmp_offset / layout->dim[u];
@@ -688,7 +688,7 @@ static herr_t
 H5D__btree_encode_key(const H5B_shared_t *shared, uint8_t *raw, const void *_key)
 {
     const H5O_layout_chunk_t *layout; /* Chunk layout description */
-    const H5D_btree_key_t *   key = (const H5D_btree_key_t *)_key;
+    const H5D_btree_key_t    *key = (const H5D_btree_key_t *)_key;
     hsize_t                   tmp_offset; /* Temporary coordinate offset, from file */
     unsigned                  u;          /* Local index variable */
 
@@ -793,7 +793,7 @@ done:
 static herr_t
 H5D__btree_shared_create(const H5F_t *f, H5O_storage_chunk_t *store, const H5O_layout_chunk_t *layout)
 {
-    H5B_shared_t *      shared;              /* Shared B-tree node info */
+    H5B_shared_t       *shared;              /* Shared B-tree node info */
     H5O_layout_chunk_t *my_layout = NULL;    /* Pointer to copy of layout info */
     size_t              sizeof_rkey;         /* Size of raw (disk) key	     */
     herr_t              ret_value = SUCCEED; /* Return value */
@@ -1030,7 +1030,7 @@ static int
 H5D__btree_idx_iterate_cb(H5F_t H5_ATTR_UNUSED *f, const void *_lt_key, haddr_t addr,
                           const void H5_ATTR_UNUSED *_rt_key, void *_udata)
 {
-    H5D_btree_it_ud_t *    udata  = (H5D_btree_it_ud_t *)_udata;      /* User data */
+    H5D_btree_it_ud_t     *udata  = (H5D_btree_it_ud_t *)_udata;      /* User data */
     const H5D_btree_key_t *lt_key = (const H5D_btree_key_t *)_lt_key; /* B-tree key for chunk */
     H5D_chunk_rec_t        chunk_rec;                                 /* Generic chunk record for callback */
     int                    ret_value = -1;                            /* Return value */

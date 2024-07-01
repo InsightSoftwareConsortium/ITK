@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -12,7 +11,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Module Info: This module contains commond functionality for fields in
+ * Module Info: This module contains command functionality for fields in
  *      enumerated & compound datatypes in the H5T interface.
  */
 
@@ -121,7 +120,7 @@ char *
 H5Tget_member_name(hid_t type_id, unsigned membno)
 {
     H5T_t *dt = NULL;
-    char * ret_value;
+    char  *ret_value;
 
     FUNC_ENTER_API(NULL)
     H5TRACE2("*s", "iIu", type_id, membno);
@@ -215,7 +214,7 @@ done:
 int
 H5Tget_member_index(hid_t type_id, const char *name)
 {
-    H5T_t *  dt        = NULL;
+    H5T_t   *dt        = NULL;
     int      ret_value = FAIL;
     unsigned i;
 

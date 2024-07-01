@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -25,11 +24,6 @@
 
 #ifndef H5EAprivate_H
 #define H5EAprivate_H
-
-/* Include package's public header */
-#ifdef NOT_YET
-#include "H5EApublic.h"
-#endif /* NOT_YET */
 
 /* Private headers needed by this file */
 #include "H5ACprivate.h" /* Metadata cache               */
@@ -60,13 +54,13 @@ typedef enum H5EA_cls_id_t {
  */
 typedef struct H5EA_class_t {
     H5EA_cls_id_t id;            /* ID of Extensible Array class, as found in file */
-    const char *  name;          /* Name of class (for debugging) */
+    const char   *name;          /* Name of class (for debugging) */
     size_t        nat_elmt_size; /* Size of native (memory) element */
 
     /* Extensible array client callback methods */
     void *(*crt_context)(void *udata); /* Create context for other callbacks */
     herr_t (*dst_context)(void *ctx);  /* Destroy context */
-    herr_t (*fill)(void * nat_blk,
+    herr_t (*fill)(void  *nat_blk,
                    size_t nelmts); /* Fill array of elements with encoded form of "missing element" value */
     herr_t (*encode)(void *raw, const void *elmt, size_t nelmts,
                      void *ctx); /* Encode elements from native form to disk storage form */

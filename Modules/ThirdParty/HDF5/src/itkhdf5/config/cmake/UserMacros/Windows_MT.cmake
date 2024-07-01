@@ -47,6 +47,7 @@ endmacro ()
 
 #-----------------------------------------------------------------------------
 option (BUILD_STATIC_CRT_LIBS "Build With Static CRT Libraries" OFF)
+mark_as_advanced (BUILD_STATIC_CRT_LIBS)
 if (BUILD_STATIC_CRT_LIBS)
   TARGET_STATIC_CRT_FLAGS ()
 endif ()

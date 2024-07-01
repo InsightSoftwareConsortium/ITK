@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -24,7 +23,7 @@
 
 /* Local typedefs */
 typedef struct H5VM_memcpy_ud_t {
-    unsigned char *      dst; /* Pointer to destination buffer */
+    unsigned char       *dst; /* Pointer to destination buffer */
     const unsigned char *src; /* Pointer to source buffer */
 } H5VM_memcpy_ud_t;
 
@@ -441,7 +440,7 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
                 void *_dst, const hsize_t *src_size, const hsize_t *src_offset, const void *_src)
 {
     const uint8_t *src = (const uint8_t *)_src;  /*cast for ptr arithmtc */
-    uint8_t *      dst = (uint8_t *)_dst;        /*cast for ptr arithmtc */
+    uint8_t       *dst = (uint8_t *)_dst;        /*cast for ptr arithmtc */
     hsize_t        size[H5VM_HYPER_NDIMS];       /*a modifiable _size	*/
     hsize_t        src_stride[H5VM_HYPER_NDIMS]; /*source stride info	*/
     hsize_t        dst_stride[H5VM_HYPER_NDIMS]; /*dest stride info	*/
@@ -653,7 +652,7 @@ herr_t
 H5VM_stride_copy(unsigned n, hsize_t elmt_size, const hsize_t *size, const hsize_t *dst_stride, void *_dst,
                  const hsize_t *src_stride, const void *_src)
 {
-    uint8_t *      dst = (uint8_t *)_dst;       /*cast for ptr arithmetic*/
+    uint8_t       *dst = (uint8_t *)_dst;       /*cast for ptr arithmetic*/
     const uint8_t *src = (const uint8_t *)_src; /*cast for ptr arithmetic*/
     hsize_t        idx[H5VM_HYPER_NDIMS];       /*1-origin indices	*/
     hsize_t        nelmts;                      /*num elements to copy	*/
@@ -719,7 +718,7 @@ herr_t
 H5VM_stride_copy_s(unsigned n, hsize_t elmt_size, const hsize_t *size, const hssize_t *dst_stride, void *_dst,
                    const hssize_t *src_stride, const void *_src)
 {
-    uint8_t *      dst = (uint8_t *)_dst;       /*cast for ptr arithmetic*/
+    uint8_t       *dst = (uint8_t *)_dst;       /*cast for ptr arithmetic*/
     const uint8_t *src = (const uint8_t *)_src; /*cast for ptr arithmetic*/
     hsize_t        idx[H5VM_HYPER_NDIMS];       /*1-origin indices	*/
     hsize_t        nelmts;                      /*num elements to copy	*/
@@ -784,7 +783,7 @@ H5VM__stride_copy2(hsize_t nelmts, hsize_t elmt_size, unsigned dst_n, const hsiz
                    const hsize_t *dst_stride, void *_dst, unsigned src_n, const hsize_t *src_size,
                    const hsize_t *src_stride, const void *_src)
 {
-    uint8_t *      dst = (uint8_t *)_dst;
+    uint8_t       *dst = (uint8_t *)_dst;
     const uint8_t *src = (const uint8_t *)_src;
     hsize_t        dst_idx[H5VM_HYPER_NDIMS];
     hsize_t        src_idx[H5VM_HYPER_NDIMS];
@@ -1244,7 +1243,7 @@ H5VM_chunk_index_scaled(unsigned ndims, const hsize_t *coord, const uint32_t *ch
  * Function:	H5VM_opvv
  *
  * Purpose:     Perform an operation on a source & destination sequences
- *              of offset/length pairs.  Each set of sequnces has an array
+ *              of offset/length pairs.  Each set of sequences has an array
  *              of lengths, an array of offsets, the maximum number of
  *              sequences and the current sequence to start at in the sequence.
  *
@@ -1269,7 +1268,7 @@ H5VM_opvv(size_t dst_max_nseq, size_t *dst_curr_seq, size_t dst_len_arr[], hsize
 {
     hsize_t *max_dst_off_ptr, *max_src_off_ptr; /* Pointers to max. source and destination offset locations */
     hsize_t *dst_off_ptr, *src_off_ptr;         /* Pointers to source and destination offset arrays */
-    size_t * dst_len_ptr, *src_len_ptr;         /* Pointers to source and destination length arrays */
+    size_t  *dst_len_ptr, *src_len_ptr;         /* Pointers to source and destination length arrays */
     hsize_t  tmp_dst_off, tmp_src_off;          /* Temporary source and destination offset values */
     size_t   tmp_dst_len, tmp_src_len;          /* Temporary source and destination length values */
     size_t   acc_len;                           /* Accumulated length of sequences */
@@ -1471,11 +1470,11 @@ H5VM_memcpyvv(void *_dst, size_t dst_max_nseq, size_t *dst_curr_seq, size_t dst_
               hsize_t dst_off_arr[], const void *_src, size_t src_max_nseq, size_t *src_curr_seq,
               size_t src_len_arr[], hsize_t src_off_arr[])
 {
-    unsigned char *      dst;                   /* Destination buffer pointer */
+    unsigned char       *dst;                   /* Destination buffer pointer */
     const unsigned char *src;                   /* Source buffer pointer */
     hsize_t *max_dst_off_ptr, *max_src_off_ptr; /* Pointers to max. source and destination offset locations */
     hsize_t *dst_off_ptr, *src_off_ptr;         /* Pointers to source and destination offset arrays */
-    size_t * dst_len_ptr, *src_len_ptr;         /* Pointers to source and destination length arrays */
+    size_t  *dst_len_ptr, *src_len_ptr;         /* Pointers to source and destination length arrays */
     size_t   tmp_dst_len;                       /* Temporary dest. length value */
     size_t   tmp_src_len;                       /* Temporary source length value */
     size_t   acc_len;                           /* Accumulated length of sequences */

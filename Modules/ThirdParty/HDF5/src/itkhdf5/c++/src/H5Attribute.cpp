@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -11,10 +10,11 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <string>
 
-#include "H5private.h" // for HDfree
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -313,7 +313,7 @@ Attribute::getName() const
     H5std_string attr_name; // attribute name to return
 
     // Preliminary call to get the size of the attribute name
-    ssize_t name_size = H5Aget_name(id, static_cast<size_t>(0), NULL);
+    ssize_t name_size = H5Aget_name(id, 0, NULL);
 
     // If H5Aget_name failed, throw exception
     if (name_size < 0) {
@@ -324,8 +324,9 @@ Attribute::getName() const
     }
     // Attribute's name exists, retrieve it
     else if (name_size > 0) {
-        char *name_C = new char[name_size + 1]; // temporary C-string
-        HDmemset(name_C, 0, name_size + 1);     // clear buffer
+        // Create buffer for C string
+        char *name_C = new char[name_size + 1];
+        memset(name_C, 0, name_size + 1);
 
         // Use overloaded function
         name_size = getName(name_C, name_size + 1);
@@ -336,6 +337,7 @@ Attribute::getName() const
         // Clean up resource
         delete[] name_C;
     }
+
     // Return attribute's name
     return (attr_name);
 }
@@ -393,8 +395,9 @@ Attribute::getName(H5std_string &attr_name, size_t len) const
     }
     // If length is provided, get that number of characters in name
     else {
-        char *name_C = new char[len + 1]; // temporary C-string
-        HDmemset(name_C, 0, len + 1);     // clear buffer
+        // Create buffer for C string
+        char *name_C = new char[len + 1];
+        memset(name_C, 0, len + 1);
 
         // Use overloaded function
         name_size = getName(name_C, len + 1);
@@ -511,7 +514,7 @@ Attribute::p_read_fixed_len(const DataType &mem_type, H5std_string &strg) const
 
     // If there is data, allocate buffer and read it.
     if (attr_size > 0) {
-        char * strg_C    = new char[attr_size + 1];
+        char  *strg_C    = new char[attr_size + 1];
         herr_t ret_value = H5Aread(id, mem_type.getId(), strg_C);
         if (ret_value < 0) {
             delete[] strg_C; // de-allocate for fixed-len string
@@ -551,7 +554,7 @@ Attribute::p_read_variable_len(const DataType &mem_type, H5std_string &strg) con
 
     // Get string from the C char* and release resource allocated by C API
     strg = strg_C;
-    HDfree(strg_C);
+    free(strg_C);
 }
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -562,7 +565,7 @@ Attribute::p_read_variable_len(const DataType &mem_type, H5std_string &strg) con
 ///\exception   H5::IdComponentException when the attempt to close the HDF5
 ///             object fails
 // Description:
-//              The underlaying reference counting in the C library ensures
+//              The underlying reference counting in the C library ensures
 //              that the current valid id of this object is properly closed.
 //              Then the object's id is reset to the new id.
 // Programmer   Binh-Minh Ribler - 2000

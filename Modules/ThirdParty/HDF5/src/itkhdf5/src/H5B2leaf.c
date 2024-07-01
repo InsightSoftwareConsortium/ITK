@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -17,7 +16,7 @@
  *			Dec 01 2016
  *			Quincey Koziol
  *
- * Purpose:		Routines for managing v2 B-tree leaf ndoes.
+ * Purpose:		Routines for managing v2 B-tree leaf nodes.
  *
  *-------------------------------------------------------------------------
  */
@@ -173,8 +172,8 @@ H5B2_leaf_t *
 H5B2__protect_leaf(H5B2_hdr_t *hdr, void *parent, H5B2_node_ptr_t *node_ptr, hbool_t shadow, unsigned flags)
 {
     H5B2_leaf_cache_ud_t udata;            /* User-data for callback */
-    H5B2_leaf_t *        leaf;             /* v2 B-tree leaf node */
-    H5B2_leaf_t *        ret_value = NULL; /* Return value */
+    H5B2_leaf_t         *leaf;             /* v2 B-tree leaf node */
+    H5B2_leaf_t         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -609,8 +608,8 @@ H5B2__swap_leaf(H5B2_hdr_t *hdr, uint16_t depth, H5B2_internal_t *internal, unsi
 {
     const H5AC_class_t *child_class;              /* Pointer to child node's class info */
     haddr_t             child_addr = HADDR_UNDEF; /* Address of child node */
-    void *              child      = NULL;        /* Pointer to child node */
-    uint8_t *           child_native;             /* Pointer to child's native records */
+    void               *child      = NULL;        /* Pointer to child node */
+    uint8_t            *child_native;             /* Pointer to child's native records */
     herr_t              ret_value = SUCCEED;      /* Return value */
 
     FUNC_ENTER_PACKAGE

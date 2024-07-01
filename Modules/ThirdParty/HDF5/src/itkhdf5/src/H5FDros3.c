@@ -193,7 +193,7 @@ typedef struct H5FD_ros3_t {
     H5FD_t           pub;
     H5FD_ros3_fapl_t fa;
     haddr_t          eoa;
-    s3r_t *          s3r_handle;
+    s3r_t           *s3r_handle;
 #if ROS3_STATS
     ros3_statsbin meta[ROS3_STATS_BIN_COUNT + 1];
     ros3_statsbin raw[ROS3_STATS_BIN_COUNT + 1];
@@ -215,8 +215,8 @@ typedef struct H5FD_ros3_t {
 
 /* Prototypes */
 static herr_t  H5FD__ros3_term(void);
-static void *  H5FD__ros3_fapl_get(H5FD_t *_file);
-static void *  H5FD__ros3_fapl_copy(const void *_old_fa);
+static void   *H5FD__ros3_fapl_get(H5FD_t *_file);
+static void   *H5FD__ros3_fapl_copy(const void *_old_fa);
 static herr_t  H5FD__ros3_fapl_free(void *_fa);
 static H5FD_t *H5FD__ros3_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
 static herr_t  H5FD__ros3_close(H5FD_t *_file);
@@ -326,8 +326,12 @@ H5FD_ros3_init(void)
     HDfprintf(stdout, "H5FD_ros3_init() called.\n");
 #endif
 
-    if (H5I_VFL != H5I_get_type(H5FD_ROS3_g))
+    if (H5I_VFL != H5I_get_type(H5FD_ROS3_g)) {
         H5FD_ROS3_g = H5FD_register(&H5FD_ros3_g, sizeof(H5FD_class_t), FALSE);
+        if (H5I_INVALID_HID == H5FD_ROS3_g) {
+            HGOTO_ERROR(H5E_ATOM, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register ros3");
+        }
+    }
 
 #if ROS3_STATS
     /* pre-compute statsbin boundaries
@@ -376,7 +380,7 @@ H5FD__ros3_term(void)
  * Function:    H5Pset_fapl_ros3
  *
  * Purpose:     Modify the file access property list to use the H5FD_ROS3
- *              driver defined in this source file.  All driver specfic
+ *              driver defined in this source file.  All driver specific
  *              properties are passed in as a pointer to a suitably
  *              initialized instance of H5FD_ros3_fapl_t
  *
@@ -419,16 +423,16 @@ done:
  * Function:    H5FD__ros3_validate_config()
  *
  * Purpose:     Test to see if the supplied instance of H5FD_ros3_fapl_t
- *              contains internally consistant data.  Return SUCCEED if so,
+ *              contains internally consistent data.  Return SUCCEED if so,
  *              and FAIL otherwise.
  *
- *              Note the difference between internally consistant and
+ *              Note the difference between internally consistent and
  *              correct.  As we will have to try to access the target
  *              object to determine whether the supplied data is correct,
- *              we will settle for internal consistancy at this point
+ *              we will settle for internal consistency at this point
  *
  * Return:      SUCCEED if instance of H5FD_ros3_fapl_t contains internally
- *              consistant data, FAIL otherwise.
+ *              consistent data, FAIL otherwise.
  *
  * Programmer:  Jacob Smith
  *              9/10/17
@@ -475,7 +479,7 @@ herr_t
 H5Pget_fapl_ros3(hid_t fapl_id, H5FD_ros3_fapl_t *fa_dst)
 {
     const H5FD_ros3_fapl_t *fa_src    = NULL;
-    H5P_genplist_t *        plist     = NULL;
+    H5P_genplist_t         *plist     = NULL;
     herr_t                  ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
@@ -524,9 +528,9 @@ done:
 static void *
 H5FD__ros3_fapl_get(H5FD_t *_file)
 {
-    H5FD_ros3_t *     file      = (H5FD_ros3_t *)_file;
+    H5FD_ros3_t      *file      = (H5FD_ros3_t *)_file;
     H5FD_ros3_fapl_t *fa        = NULL;
-    void *            ret_value = NULL;
+    void             *ret_value = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -566,8 +570,8 @@ static void *
 H5FD__ros3_fapl_copy(const void *_old_fa)
 {
     const H5FD_ros3_fapl_t *old_fa    = (const H5FD_ros3_fapl_t *)_old_fa;
-    H5FD_ros3_fapl_t *      new_fa    = NULL;
-    void *                  ret_value = NULL;
+    H5FD_ros3_fapl_t       *new_fa    = NULL;
+    void                   *ret_value = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -700,13 +704,13 @@ done:
 static H5FD_t *
 H5FD__ros3_open(const char *url, unsigned flags, hid_t fapl_id, haddr_t maxaddr)
 {
-    H5FD_ros3_t *    file = NULL;
-    struct tm *      now  = NULL;
+    H5FD_ros3_t     *file = NULL;
+    struct tm       *now  = NULL;
     char             iso8601now[ISO8601_SIZE];
     unsigned char    signing_key[SHA256_DIGEST_LENGTH];
-    s3r_t *          handle = NULL;
+    s3r_t           *handle = NULL;
     H5FD_ros3_fapl_t fa;
-    H5FD_t *         ret_value = NULL;
+    H5FD_t          *ret_value = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -739,7 +743,7 @@ H5FD__ros3_open(const char *url, unsigned flags, hid_t fapl_id, haddr_t maxaddr)
     if (fa.authenticate == TRUE) {
         /* compute signing key (part of AWS/S3 REST API)
          * can be re-used by user/key for 7 days after creation.
-         * find way to re-use/share
+         * find way to reuse/share
          */
         now = gmnow();
         HDassert(now != NULL);
@@ -849,7 +853,7 @@ static herr_t
 ros3_fprint_stats(FILE *stream, const H5FD_ros3_t *file)
 {
     herr_t             ret_value    = SUCCEED;
-    parsed_url_t *     purl         = NULL;
+    parsed_url_t      *purl         = NULL;
     unsigned           i            = 0;
     unsigned long      count_meta   = 0;
     unsigned long      count_raw    = 0;
@@ -861,7 +865,7 @@ ros3_fprint_stats(FILE *stream, const H5FD_ros3_t *file)
     unsigned long long max_raw      = 0;
     unsigned long long bytes_raw    = 0;
     unsigned long long bytes_meta   = 0;
-    double             re_dub       = 0.0; /* re-usable double variable */
+    double             re_dub       = 0.0; /* reusable double variable */
     unsigned           suffix_i     = 0;
     const char         suffixes[]   = {' ', 'K', 'M', 'G', 'T', 'P'};
 
@@ -1156,8 +1160,8 @@ done:
 static int
 H5FD__ros3_cmp(const H5FD_t *_f1, const H5FD_t *_f2)
 {
-    const H5FD_ros3_t * f1        = (const H5FD_ros3_t *)_f1;
-    const H5FD_ros3_t * f2        = (const H5FD_ros3_t *)_f2;
+    const H5FD_ros3_t  *f1        = (const H5FD_ros3_t *)_f1;
+    const H5FD_ros3_t  *f2        = (const H5FD_ros3_t *)_f2;
     const parsed_url_t *purl1     = NULL;
     const parsed_url_t *purl2     = NULL;
     int                 ret_value = 0;

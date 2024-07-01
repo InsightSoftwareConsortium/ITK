@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -26,10 +25,6 @@
 
 /* Public headers needed by this file */
 #include "H5public.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 enum H5C_cache_incr_mode {
     H5C_incr__off,
@@ -61,7 +56,4 @@ enum H5C_cache_decr_mode {
     /**<Automatic cache size decrease is enabled using the ageout with hit rate threshold algorithm.*/
 };
 
-#ifdef __cplusplus
-}
-#endif
 #endif

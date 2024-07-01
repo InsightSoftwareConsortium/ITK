@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -113,15 +112,15 @@ H5_trace(const double *returning, const char *func, const char *type, ...)
 {
     va_list           ap;
     char              buf[64], *rest;
-    const char *      argname;
+    const char       *argname;
     int               argno = 0, ptr, asize_idx;
     hssize_t          asize[16];
     hssize_t          i;
-    void *            vp                  = NULL;
-    FILE *            out                 = H5_debug_g.trace;
+    void             *vp                  = NULL;
+    FILE             *out                 = H5_debug_g.trace;
     static hbool_t    is_first_invocation = TRUE;
-    H5_timer_t        function_timer      = {{0}, {0}, {0}, FALSE};
-    H5_timevals_t     function_times;
+    H5_timer_t        function_timer;
+    H5_timevals_t     function_times = {0.0, 0.0, 0.0};
     static H5_timer_t running_timer;
     H5_timevals_t     running_times;
     static int        current_depth   = 0;
@@ -132,6 +131,10 @@ H5_trace(const double *returning, const char *func, const char *type, ...)
     if (!out)
         return 0.0F; /*tracing is off*/
     HDva_start(ap, type);
+
+    /* Initialize the timer for this function */
+    if (H5_debug_g.ttimes)
+        H5_timer_init(&function_timer);
 
     if (H5_debug_g.ttop) {
         if (returning) {
@@ -156,11 +159,10 @@ H5_trace(const double *returning, const char *func, const char *type, ...)
         H5_timer_init(&running_timer);
         H5_timer_start(&running_timer);
     } /* end if */
-    if (H5_debug_g.ttimes) {
-        /* start the timer for this function */
-        H5_timer_init(&function_timer);
+
+    /* Start the timer for this function */
+    if (H5_debug_g.ttimes)
         H5_timer_start(&function_timer);
-    } /* end if */
 
     /* Print the first part of the line.  This is the indication of the
      * nesting depth followed by the function name and either start of
@@ -1286,10 +1288,8 @@ H5_trace(const double *returning, const char *func, const char *type, ...)
                                     HDfprintf(out, "H5T_NATIVE_FLOAT");
                                 else if (obj == H5T_NATIVE_DOUBLE_g)
                                     HDfprintf(out, "H5T_NATIVE_DOUBLE");
-#if H5_SIZEOF_LONG_DOUBLE != 0
                                 else if (obj == H5T_NATIVE_LDOUBLE_g)
                                     HDfprintf(out, "H5T_NATIVE_LDOUBLE");
-#endif
                                 else if (obj == H5T_IEEE_F32BE_g)
                                     HDfprintf(out, "H5T_IEEE_F32BE");
                                 else if (obj == H5T_IEEE_F32LE_g)
@@ -1869,7 +1869,7 @@ H5_trace(const double *returning, const char *func, const char *type, ...)
                 } /* end if */
                 else {
                     hid_t           pclass_id  = HDva_arg(ap, hid_t);
-                    char *          class_name = NULL;
+                    char           *class_name = NULL;
                     H5P_genclass_t *pclass;
 
                     /* Get the class name and print it */

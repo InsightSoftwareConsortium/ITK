@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -49,7 +48,7 @@
 typedef struct H5B_t {
     H5AC_info_t cache_info; /* Information for H5AC cache functions */
                             /* _must_ be first field in structure */
-    H5UC_t * rc_shared;     /*ref-counted shared info         */
+    H5UC_t  *rc_shared;     /*ref-counted shared info         */
     unsigned level;         /*node level                 */
     unsigned nchildren;     /*number of child pointers         */
     haddr_t  left;          /*address of left sibling         */
@@ -60,9 +59,9 @@ typedef struct H5B_t {
 
 /* Callback info for loading a B-tree node into the cache */
 typedef struct H5B_cache_ud_t {
-    H5F_t *                   f;         /* File that B-tree node is within   */
+    H5F_t                    *f;         /* File that B-tree node is within   */
     const struct H5B_class_t *type;      /* Type of tree                 */
-    H5UC_t *                  rc_shared; /* Ref-counted shared info         */
+    H5UC_t                   *rc_shared; /* Ref-counted shared info         */
 } H5B_cache_ud_t;
 
 /*****************************/

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -79,7 +78,7 @@ herr_t
 H5C_dump_cache(H5C_t *cache_ptr, const char *cache_name)
 {
     H5C_cache_entry_t *entry_ptr;
-    H5SL_t *           slist_ptr = NULL;
+    H5SL_t            *slist_ptr = NULL;
     int                i;                   /* Local index variable */
     herr_t             ret_value = SUCCEED; /* Return value */
 
@@ -275,7 +274,7 @@ H5C_dump_cache_skip_list(H5C_t *cache_ptr, char *calling_fcn)
     herr_t             ret_value = SUCCEED; /* Return value */
     int                i;
     H5C_cache_entry_t *entry_ptr = NULL;
-    H5SL_node_t *      node_ptr  = NULL;
+    H5SL_node_t       *node_ptr  = NULL;
 
     FUNC_ENTER_NOAPI_NOERR
 
@@ -844,9 +843,9 @@ H5C_stats__reset(H5C_t H5_ATTR_UNUSED *cache_ptr)
  *          If either the parent or the child is not in the metadata
  *          cache, the function sets *fd_exists_ptr to FALSE.
  *
- *          If both are in the cache, the childs list of parents is
+ *          If both are in the cache, the child's list of parents is
  *          searched for the proposed parent.  If the proposed parent
- *          is found in the childs parent list, the function sets
+ *          is found in the child's parent list, the function sets
  *          *fd_exists_ptr to TRUE.  In all other non-error cases,
  *          the function sets *fd_exists_ptr FALSE.
  *
