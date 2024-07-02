@@ -34,7 +34,7 @@ namespace itk
 class ContourSpatialObjectEnums
 {
 public:
-  /*** \class InterpolationMethodEnum
+  /**
    * \ingroup ITKSpatialObjects
    * Hold interpolation method type
    */

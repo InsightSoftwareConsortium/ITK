@@ -30,7 +30,7 @@ namespace itk
 class FloatingPointExceptionsEnums
 {
 public:
-  /** \class ExceptionAction
+  /**
    * \ingroup ITKCommon
    * defines what should happen when exceptions occur */
   enum class ExceptionAction : uint8_t

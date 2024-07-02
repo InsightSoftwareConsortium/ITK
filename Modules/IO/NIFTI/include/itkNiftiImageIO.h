@@ -35,7 +35,7 @@ namespace itk
 class NiftiImageIOEnums
 {
 public:
-  /** \class Analyze75Flavor
+  /**
    * \ingroup ITKIONIFTI
    * Enum used to define the way to treat legacy Analyze75 files.
    */

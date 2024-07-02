@@ -34,7 +34,7 @@ namespace Statistics
 class ExpectationMaximizationMixtureModelEstimatorEnums
 {
 public:
-  /** \class TERMINATION_CODE
+  /**
    * \ingroup ITKStatistics
    * Termination status after running optimization */
   enum class TERMINATION_CODE : uint8_t

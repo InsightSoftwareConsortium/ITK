@@ -35,7 +35,6 @@ class HistogramToTextureFeaturesFilterEnums
 {
 public:
   /**
-   * \class TextureFeature
    * \ingroup ITKStatistics
    * Texture feature types
    */

@@ -46,7 +46,7 @@ namespace itk
 class SpatialOrientationEnums
 {
 public:
-  /** \class CoordinateTerms
+  /**
    *
    * Coordinate orientation codes have a place-value organization such that
    * an ImageDimension-al sequence of subcodes says both which varies fastest
@@ -70,7 +70,7 @@ public:
                                   // ITK_COORDINATE_Future=17
   };
 
-  /** \class CoordinateMajornessTerms
+  /**
    *
    * These code place values have to be far enough apart to
    * separate the CoordinateTerms above.
@@ -92,7 +92,7 @@ public:
     ITK_COORDINATE_TertiaryMinor = 16
   };
 
-  /** \class CoordinateMajornessTerms
+  /**
    *
    * Adding time IN GENERAL would make these 8 x 6 = 48 triples into 16
    * x 24 = 384 4-tuples.

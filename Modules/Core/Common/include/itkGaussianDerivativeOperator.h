@@ -35,7 +35,6 @@ class GaussianDerivativeOperatorEnums
 {
 public:
   /**
-   * \class InterpolationMode
    * \ingroup ITKCommon
    * Interpolation modes
    */

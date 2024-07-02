@@ -37,7 +37,7 @@ namespace itk
 class LoggerThreadWrapperEnums
 {
 public:
-  /** \class Operation
+  /**
    * \ingroup ITKCommon
    * Definition of types of operations for LoggerThreadWrapper.
    */

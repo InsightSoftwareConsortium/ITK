@@ -33,7 +33,7 @@ namespace itk
 class IOCommonEnums
 {
 public:
-  /** \class AtomicPixel
+  /**
    * \ingroup IOFilters
    * \ingroup ITKIOImageBase
    * enumerated constants for the different data types

@@ -35,7 +35,6 @@ class HistogramToRunLengthFeaturesFilterEnums
 {
 public:
   /**
-   * \class RunLengthFeature
    * \ingroup ITKStatistics
    * Run-length feature types.
    */

@@ -32,10 +32,10 @@ class DTITubeSpatialObjectPointEnums
 {
 public:
   /**
-* \class DTITubeSpatialObjectPointField
-* \ingroup ITKSpatialObjects
-* If you add a type here you need to modify the TranslateEnumToChar
-to translate the enum to a string */
+  *
+  * \ingroup ITKSpatialObjects
+  * If you add a type here you need to modify the TranslateEnumToChar
+  to translate the enum to a string */
   enum class DTITubeSpatialObjectPointField : uint8_t
   {
     FA = 0,

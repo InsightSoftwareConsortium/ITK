@@ -34,7 +34,6 @@ class ComplexToComplexFFTImageFilterEnums
 {
 public:
   /**
-   * \class TransformDirection
    * \ingroup ITKFFT
    * \ingroup FourierTransform
    * */

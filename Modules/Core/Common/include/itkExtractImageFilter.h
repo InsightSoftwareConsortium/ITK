@@ -35,7 +35,7 @@ namespace itk
 class ExtractImageFilterEnums
 {
 public:
-  /** \class DirectionCollapseStrategy
+  /**
    * \ingroup ITKCommon
    * Strategy to be used to collapse physical space dimensions
    */

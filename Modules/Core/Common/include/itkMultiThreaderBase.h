@@ -53,7 +53,7 @@ namespace itk
 class MultiThreaderBaseEnums
 {
 public:
-  /** \class Threader
+  /**
    * \ingroup ITKCommon
    * Currently supported types of multi-threader implementations.
    * Last will change with additional implementations.
@@ -68,7 +68,7 @@ public:
     Unknown = -1
   };
 
-  /** \class ThreadExitCode
+  /**
    * \ingroup ITKCommon
    */
   enum class ThreadExitCode : uint8_t

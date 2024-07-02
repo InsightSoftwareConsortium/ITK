@@ -32,7 +32,6 @@ class ConvolutionImageFilterBaseEnums
 {
 public:
   /**
-   * \class ConvolutionImageFilterOutputRegion
    * \ingroup ITKConvolution
    * Output region mode type enumeration
    */
