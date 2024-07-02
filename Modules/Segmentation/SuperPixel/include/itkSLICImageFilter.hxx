@@ -802,11 +802,11 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::RelabelConnectedRegi
     labelIt.SetLocation(idx);
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      for (const auto &nIdx : { center + stride[j], center - stride[j] })
+      for (const auto & nIdx : { center + stride[j], center - stride[j] })
       {
         // When run in threaded mode, requiredLabel is the same as outputLabel and only the marker images is modified.
         // The label image must be checked first to avoid race conditions with the marker image.
-        if (labelIt.GetPixel(nIdx) == requiredLabel && markerIter.GetPixel(nIdx) == 0 )
+        if (labelIt.GetPixel(nIdx) == requiredLabel && markerIter.GetPixel(nIdx) == 0)
         {
           indexStack.push_back(labelIt.GetIndex(nIdx));
           markerIter.SetPixel(nIdx, 1);
