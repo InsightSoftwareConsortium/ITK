@@ -281,6 +281,8 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
       }
       currentMeta = converterIt->second->SpatialObjectToMetaObject(*it);
     }
+    currentMeta->APIVersion(m_MetaIOVersion);
+    currentMeta->FileFormatVersion(m_MetaIOVersion);
     metaScene->AddObject(currentMeta);
     ++it;
   }
