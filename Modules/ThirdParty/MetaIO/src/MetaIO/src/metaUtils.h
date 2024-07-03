@@ -455,7 +455,7 @@ std::string
 MET_ReadType(std::istream & _fp);
 
 METAIO_EXPORT
-char *
+std::string
 MET_ReadSubType(std::istream & _fp);
 
 #  if (METAIO_USE_NAMESPACE)

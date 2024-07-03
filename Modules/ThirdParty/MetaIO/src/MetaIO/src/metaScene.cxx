@@ -166,10 +166,10 @@ MetaScene::Read(const char * _headerName)
     }
 
     const std::string objectType = MET_ReadType(*m_ReadStream);
-    if (!strncmp(objectType.c_str(), "Tube", 4) || ((objectType.empty()) && !strcmp(suf, "tre")))
+    if (objectType.find("Tube") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "tre")))
     {
-      char * subtype = MET_ReadSubType(*m_ReadStream);
-      if (!strncmp(subtype, "Vessel", 6))
+    const std::string subtype = MET_ReadSubType(*m_ReadStream);
+      if (subtype.find("Vessel") != std::string::npos)
       {
         auto * vesseltube = new MetaVesselTube();
         vesseltube->APIVersion(m_APIVersion);
@@ -177,7 +177,7 @@ MetaScene::Read(const char * _headerName)
         vesseltube->ReadStream(m_NDims, m_ReadStream);
         m_ObjectList.push_back(vesseltube);
       }
-      else if (!strncmp(subtype, "DTI", 3))
+      else if (subtype.find("DTI") != std::string::npos)
       {
         auto * dtitube = new MetaDTITube();
         dtitube->APIVersion(m_APIVersion);
@@ -193,10 +193,9 @@ MetaScene::Read(const char * _headerName)
         tube->ReadStream(m_NDims, m_ReadStream);
         m_ObjectList.push_back(tube);
       }
-      delete[] subtype;
     }
 
-    else if (!strncmp(objectType.c_str(), "Transform", 9))
+    else if (objectType.find("Transform") != std::string::npos)
     {
       auto * transform = new MetaTransform();
       transform->APIVersion(m_APIVersion);
@@ -205,7 +204,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(transform);
     }
 
-    else if (!strncmp(objectType.c_str(), "TubeGraph", 9))
+    else if (objectType.find("TubeGraph") != std::string::npos)
     {
       auto * tubeGraph = new MetaTubeGraph();
       tubeGraph->APIVersion(m_APIVersion);
@@ -214,7 +213,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(tubeGraph);
     }
 
-    else if (!strncmp(objectType.c_str(), "Ellipse", 7) || ((objectType.empty()) && !strcmp(suf, "elp")))
+    else if (objectType.find("Ellipse") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "elp")))
     {
       auto * ellipse = new MetaEllipse();
       ellipse->APIVersion(m_APIVersion);
@@ -223,7 +222,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(ellipse);
     }
 
-    else if (!strncmp(objectType.c_str(), "Contour", 7) || ((objectType.empty()) && !strcmp(suf, "ctr")))
+    else if (objectType.find("Contour") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "ctr")))
     {
       auto * contour = new MetaContour();
       contour->APIVersion(m_APIVersion);
@@ -232,7 +231,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(contour);
     }
 
-    else if (!strncmp(objectType.c_str(), "Arrow", 5))
+    else if (objectType.find("Arrow") != std::string::npos)
     {
       auto * arrow = new MetaArrow();
       arrow->APIVersion(m_APIVersion);
@@ -241,7 +240,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(arrow);
     }
 
-    else if (!strncmp(objectType.c_str(), "Gaussian", 8) || ((objectType.empty()) && !strcmp(suf, "gau")))
+    else if (objectType.find("Gaussian") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "gau")))
     {
       auto * gaussian = new MetaGaussian();
       gaussian->APIVersion(m_APIVersion);
@@ -250,7 +249,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(gaussian);
     }
 
-    else if (!strncmp(objectType.c_str(), "Image", 5) ||
+    else if (objectType.find("Image") != std::string::npos ||
              ((objectType.empty()) && (!strcmp(suf, "mhd") || !strcmp(suf, "mha"))))
     {
       auto * image = new MetaImage();
@@ -261,7 +260,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(image);
     }
 
-    else if (!strncmp(objectType.c_str(), "Blob", 4) || ((objectType.empty()) && !strcmp(suf, "blb")))
+    else if (objectType.find("Blob") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "blb")))
     {
       auto * blob = new MetaBlob();
       blob->APIVersion(m_APIVersion);
@@ -270,7 +269,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(blob);
     }
 
-    else if (!strncmp(objectType.c_str(), "Landmark", 8) || ((objectType.empty()) && !strcmp(suf, "ldm")))
+    else if (objectType.find("Landmark") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "ldm")))
     {
       auto * landmark = new MetaLandmark();
       landmark->APIVersion(m_APIVersion);
@@ -279,7 +278,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(landmark);
     }
 
-    else if (!strncmp(objectType.c_str(), "Surface", 5) || ((objectType.empty()) && !strcmp(suf, "suf")))
+    else if (objectType.find("Surface") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "suf")))
     {
       auto * surface = new MetaSurface();
       surface->APIVersion(m_APIVersion);
@@ -288,7 +287,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(surface);
     }
 
-    else if (!strncmp(objectType.c_str(), "Line", 4) || ((objectType.empty()) && !strcmp(suf, "lin")))
+    else if (objectType.find("Line") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "lin")))
     {
       auto * line = new MetaLine();
       line->APIVersion(m_APIVersion);
@@ -297,7 +296,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(line);
     }
 
-    else if (!strncmp(objectType.c_str(), "Group", 5) || ((objectType.empty()) && !strcmp(suf, "grp")))
+    else if (objectType.find("Group") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "grp")))
     {
       auto * group = new MetaGroup();
       group->APIVersion(m_APIVersion);
@@ -306,7 +305,7 @@ MetaScene::Read(const char * _headerName)
       m_ObjectList.push_back(group);
     }
 
-    else if (!strncmp(objectType.c_str(), "AffineTransform", 15) || ((objectType.empty()) && !strcmp(suf, "trn")))
+    else if (objectType.find("AffineTransform") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "trn")))
     {
       auto * group = new MetaGroup();
       group->APIVersion(m_APIVersion);
@@ -314,7 +313,7 @@ MetaScene::Read(const char * _headerName)
       group->ReadStream(m_NDims, m_ReadStream);
       m_ObjectList.push_back(group);
     }
-    else if (!strncmp(objectType.c_str(), "Mesh", 4) || ((objectType.empty()) && !strcmp(suf, "msh")))
+    else if (objectType.find("Mesh") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "msh")))
     {
       auto * mesh = new MetaMesh();
       mesh->APIVersion(m_APIVersion);
@@ -322,7 +321,7 @@ MetaScene::Read(const char * _headerName)
       mesh->ReadStream(m_NDims, m_ReadStream);
       m_ObjectList.push_back(mesh);
     }
-    else if (!strncmp(objectType.c_str(), "FEMObject", 9) || ((objectType.empty()) && !strcmp(suf, "fem")))
+    else if (objectType.find("FEMObject") != std::string::npos || ((objectType.empty()) && !strcmp(suf, "fem")))
     {
       auto * femobject = new MetaFEMObject();
       femobject->APIVersion(m_APIVersion);
@@ -438,6 +437,10 @@ MetaScene::M_SetupWriteFields()
 
   MET_FieldRecordType * mF;
 
+  mF = new MET_FieldRecordType;
+  MET_InitWriteField(mF, "ObjectType", MET_STRING, strlen(m_ObjectTypeName), m_ObjectTypeName);
+  m_Fields.push_back(mF);
+
   if (m_FileFormatVersion > 0)
   {
     mF = new MET_FieldRecordType;
@@ -451,10 +454,6 @@ MetaScene::M_SetupWriteFields()
     MET_InitWriteField(mF, "Comment", MET_STRING, strlen(m_Comment), m_Comment);
     m_Fields.push_back(mF);
   }
-
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "ObjectType", MET_STRING, strlen(m_ObjectTypeName), m_ObjectTypeName);
-  m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NDims", MET_INT, m_NDims);
