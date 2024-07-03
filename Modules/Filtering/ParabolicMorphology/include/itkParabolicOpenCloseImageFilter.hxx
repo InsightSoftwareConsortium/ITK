@@ -40,24 +40,6 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ParabolicOpenC
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
   // needs to be selected according to erosion/dilation
-  if (DoOpen)
-  {
-    // erosion then dilation
-    m_Extreme1 = NumericTraits<PixelType>::max();
-    m_Extreme2 = NumericTraits<PixelType>::NonpositiveMin();
-    m_MagnitudeSign1 = -1;
-    m_MagnitudeSign2 = 1;
-  }
-  else
-  {
-    // dilation then erosion
-    m_Extreme1 = NumericTraits<PixelType>::NonpositiveMin();
-    m_Extreme2 = NumericTraits<PixelType>::max();
-    m_MagnitudeSign1 = 1;
-    m_MagnitudeSign2 = -1;
-  }
-  m_Extreme = m_Extreme1;
-  m_MagnitudeSign = m_MagnitudeSign1;
   m_UseImageSpacing = false;
   m_ParabolicAlgorithm = INTERSECTION;
   m_Stage = 1; // indicate whether we are on the first pass or the
@@ -208,9 +190,6 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::GenerateData()
     m_CurrentDimension = d;
     multithreader->SingleMethodExecute();
   }
-  // swap over the parameters controlling erosion/dilation
-  m_Extreme = m_Extreme2;
-  m_MagnitudeSign = m_MagnitudeSign2;
 
   // multithread the execution - stage 2
   m_Stage = 2;
@@ -220,9 +199,6 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::GenerateData()
     multithreader->SingleMethodExecute();
   }
 
-  // swap them back
-  m_Extreme = m_Extreme1;
-  m_MagnitudeSign = m_MagnitudeSign1;
   m_Stage = 1;
 
 #if 0
@@ -323,15 +299,13 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
         unsigned long LineLength = region.GetSize()[0];
         RealType      image_scale = this->GetInput()->GetSpacing()[0];
 
-        doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, !DoOpen>(
+        doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, !DoOpen>(
           inputIterator,
           outputIterator,
           *progress,
           LineLength,
           0,
-          this->m_MagnitudeSign,
           this->m_UseImageSpacing,
-          this->m_Extreme,
           image_scale,
           this->m_Scale[0],
           m_ParabolicAlgorithm);
@@ -360,15 +334,13 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
         unsigned long LineLength = region.GetSize()[m_CurrentDimension];
         RealType      image_scale = this->GetInput()->GetSpacing()[m_CurrentDimension];
 
-        doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, !DoOpen>(
+        doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, !DoOpen>(
           inputIteratorStage2,
           outputIterator,
           *progress,
           LineLength,
           m_CurrentDimension,
-          this->m_MagnitudeSign,
           this->m_UseImageSpacing,
-          this->m_Extreme,
           image_scale,
           this->m_Scale[m_CurrentDimension],
           m_ParabolicAlgorithm);
@@ -384,15 +356,13 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
       unsigned long LineLength = region.GetSize()[m_CurrentDimension];
       RealType      image_scale = this->GetInput()->GetSpacing()[m_CurrentDimension];
 
-      doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, DoOpen>(
+      doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, DoOpen>(
         inputIteratorStage2,
         outputIterator,
         *progress,
         LineLength,
         m_CurrentDimension,
-        this->m_MagnitudeSign,
         this->m_UseImageSpacing,
-        this->m_Extreme,
         image_scale,
         this->m_Scale[m_CurrentDimension],
         m_ParabolicAlgorithm);

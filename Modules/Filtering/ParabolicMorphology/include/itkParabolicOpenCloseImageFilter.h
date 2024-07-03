@@ -167,13 +167,6 @@ protected:
 private:
   RadiusType m_Scale;
 
-  typename TInputImage::PixelType m_Extreme;
-  typename TInputImage::PixelType m_Extreme1;
-  typename TInputImage::PixelType m_Extreme2;
-
-  int  m_MagnitudeSign;
-  int  m_MagnitudeSign1;
-  int  m_MagnitudeSign2;
   int  m_CurrentDimension;
   int  m_Stage;
   bool m_UseImageSpacing;

@@ -200,9 +200,6 @@ protected:
 private:
   RadiusType m_Scale;
 
-  typename TInputImage::PixelType m_Extreme;
-
-  int m_MagnitudeSign;
   int m_CurrentDimension;
 };
 } // end namespace itk
