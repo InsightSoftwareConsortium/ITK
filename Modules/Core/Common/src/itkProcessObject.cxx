@@ -1268,8 +1268,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
   }
 
   os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << std::endl;
-  os << indent << "Number Of Work Units: " << m_NumberOfWorkUnits << std::endl;
-  os << indent << "ReleaseDataFlag: " << (this->GetReleaseDataFlag() ? "On" : "Off") << std::endl;
+  os << indent << "NumberOfWorkUnits: " << m_NumberOfWorkUnits << std::endl;
   os << indent << "ReleaseDataBeforeUpdateFlag: " << (m_ReleaseDataBeforeUpdateFlag ? "On" : "Off") << std::endl;
   os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On" : "Off") << std::endl;
   os << indent << "Progress: " << progressFixedToFloat(m_Progress) << std::endl;
