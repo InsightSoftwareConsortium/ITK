@@ -183,7 +183,7 @@ MET_ReadType(std::istream & _fp)
 //
 // Read the subtype of the object
 //
-char *
+std::string
 MET_ReadSubType(std::istream & _fp)
 {
   std::streampos                     pos = _fp.tellg();
@@ -193,25 +193,23 @@ MET_ReadSubType(std::istream & _fp)
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
   mF->required = false;
   fields.push_back(mF);
+  mF = new MET_FieldRecordType;
+  MET_InitReadField(mF, "ObjectSubType", MET_STRING, false);
+  mF->required = false;
+  fields.push_back(mF);
 
   MET_Read(_fp, &fields, '=', true);
-
-  // Find the line right after the ObjectType
-  char s[1024];
-  _fp.getline(s, 500);
-  std::string value = s;
-  size_t      position = value.find('=');
-  if (position != std::string::npos)
-  {
-    value = value.substr(position + 2, value.size() - position);
-  }
   _fp.seekg(pos);
 
-  char * ret = new char[value.size() + 1];
-  strncpy(ret, value.c_str(), value.size());
-  ret[value.size()] = '\0';
+  if (mF->defined)
+  {
+    std::string value = reinterpret_cast<char *>(mF->value);
+    delete mF;
+    return value;
+  }
+
   delete mF;
-  return ret;
+  return std::string();
 }
 
 
@@ -1165,6 +1163,7 @@ MET_Read(std::istream &                       fp,
 
   MET_SeperatorChar = _met_SeperatorChar;
 
+  unsigned int linecount = 0;
   while (!fp.eof())
   {
     int i = 0;
@@ -1426,7 +1425,7 @@ MET_Read(std::istream &                       fp,
         fp.getline(s, 500);
       }
     }
-    if (oneLine)
+    if (oneLine && ++linecount > 3)
     {
       return MET_IsComplete(fields);
     }
