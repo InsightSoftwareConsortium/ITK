@@ -525,7 +525,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::SingleThreadedConnec
 
   std::vector<IndexType> indexStack;
 
-  // Next we relabel the remaining regions ( defined by having the a
+  // Next we relabel the remaining regions ( defined by having the
   // label id ) not connected to the SuperPixel centroids. If the
   // region is larger than the minimum superpixel size than it gets
   // a new label, otherwise it just gets the previously encountered
@@ -791,7 +791,10 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::RelabelConnectedRegi
   indexStack.clear();
   indexStack.push_back(seed);
   m_MarkerImage->SetPixel(seed, 1);
-  outputImage->SetPixel(seed, outputLabel);
+  if (requiredLabel != outputLabel)
+  {
+    outputImage->SetPixel(seed, outputLabel);
+  }
 
   size_t indexStackCount = 0;
   while (indexStackCount < indexStack.size())
