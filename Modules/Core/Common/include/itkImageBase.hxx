@@ -528,16 +528,18 @@ ImageBase<VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "Origin: " << this->GetOrigin() << std::endl;
 
-  os << indent << "Direction: " << std::endl << this->GetDirection() << std::endl;
+
+  os << indent << "Direction: " << std::endl;
+  this->GetDirection().PrintSelf(os, indent.GetNextIndent());
 
   os << indent << "IndexToPointMatrix: " << std::endl;
-  os << this->m_IndexToPhysicalPoint << std::endl;
+  this->m_IndexToPhysicalPoint.PrintSelf(os, indent.GetNextIndent());
 
   os << indent << "PointToIndexMatrix: " << std::endl;
-  os << this->m_PhysicalPointToIndex << std::endl;
+  this->m_PhysicalPointToIndex.PrintSelf(os, indent.GetNextIndent());
 
   os << indent << "Inverse Direction: " << std::endl;
-  os << this->GetInverseDirection() << std::endl;
+  this->m_InverseDirection.PrintSelf(os, indent.GetNextIndent());
 }
 
 } // end namespace itk
