@@ -35,6 +35,8 @@ totalAPI = 0
 exclude = [
     # The following class API could be updated.
     "GDCMSeriesFileNames",
+    "TileMontage",
+    "PhaseCorrelationOptimizer",  # from Montage remote module
     "HistogramToRunLengthFeaturesFilter",
     "HistogramToTextureFeaturesFilter",
     "ScalarImageToRunLengthFeaturesFilter",
