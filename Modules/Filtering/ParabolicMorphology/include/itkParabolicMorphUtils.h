@@ -25,10 +25,13 @@
 namespace itk
 {
 // contact point algorithm
-template <typename LineBufferType, typename RealType, bool doDilate>
+template <typename LineBufferType, typename RealType, typename TInputPixel, bool doDilate>
 void
-DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType magnitude, const RealType m_Extreme)
+DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType magnitude)
 {
+  static constexpr RealType extreme =
+    doDilate ? NumericTraits<TInputPixel>::NonpositiveMin() : NumericTraits<TInputPixel>::max();
+
   // contact point algorithm
   long koffset = 0, newcontact = 0; // how far away the search starts.
 
@@ -37,8 +40,7 @@ DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType m
   // negative half of the parabola
   for (long pos = 0; pos < LineLength; pos++)
   {
-    auto BaseVal = (RealType)m_Extreme; // the base value for
-                                        // comparison
+    auto BaseVal = extreme; // the base value for comparison
     for (long krange = koffset; krange <= 0; krange++)
     {
       // difference needs to be paramaterised
@@ -57,7 +59,7 @@ DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType m
   koffset = newcontact = 0;
   for (long pos = LineLength - 1; pos >= 0; pos--)
   {
-    auto BaseVal = (RealType)m_Extreme; // the base value for comparison
+    auto BaseVal = extreme; // the base value for comparison
     for (long krange = koffset; krange >= 0; krange--)
     {
       RealType T = tmpLineBuf[pos + krange] - magnitude * krange * krange;
@@ -177,16 +179,19 @@ DoLineIntAlg(LineBufferType &  LineBuf,
   }
 }
 
-template <typename TInIter, typename TOutIter, typename RealType, typename OutputPixelType, bool doDilate>
+template <typename TInIter,
+          typename TOutIter,
+          typename RealType,
+          typename TInputPixel,
+          typename OutputPixelType,
+          bool doDilate>
 void
 doOneDimension(TInIter &          inputIterator,
                TOutIter &         outputIterator,
                ProgressReporter & progress,
                const long         LineLength,
                const unsigned     direction,
-               const int          m_MagnitudeSign,
                const bool         m_UseImageSpacing,
-               const RealType     m_Extreme,
                const RealType     image_scale,
                const RealType     Sigma,
                int                ParabolicAlgorithmChoice)
@@ -225,10 +230,11 @@ doOneDimension(TInIter &          inputIterator,
   {
     // using the contact point algorithm
 
-    //  const RealType magnitude = m_MagnitudeSign * 1.0/(2.0 *
+    //  const RealType magnitude = magnitudeSign * 1.0/(2.0 *
     //  Sigma/(iscale*iscale));
     // restructure equation to reduce numerical error
-    const RealType magnitudeCP = (m_MagnitudeSign * iscale * iscale) / (2.0 * Sigma);
+    constexpr int  magnitudeSign = doDilate ? 1 : -1;
+    const RealType magnitudeCP = (magnitudeSign * iscale * iscale) / (2.0 * Sigma);
 
     LineBufferType LineBuf(LineLength);
     LineBufferType tmpLineBuf(LineLength);
@@ -251,7 +257,7 @@ doOneDimension(TInIter &          inputIterator,
         ++inputIterator;
       }
 
-      DoLineCP<LineBufferType, RealType, doDilate>(LineBuf, tmpLineBuf, magnitudeCP, m_Extreme);
+      DoLineCP<LineBufferType, RealType, TInputPixel, doDilate>(LineBuf, tmpLineBuf, magnitudeCP);
       // copy the line back
       unsigned int j = 0;
       while (!outputIterator.IsAtEndOfLine())

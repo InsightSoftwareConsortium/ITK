@@ -38,19 +38,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ParabolicE
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
-  // needs to be selected according to erosion/dilation
 
-  if (doDilate)
-  {
-    //    m_Extreme = NumericTraits<PixelType>::min();
-    m_Extreme = NumericTraits<PixelType>::NonpositiveMin();
-    m_MagnitudeSign = 1;
-  }
-  else
-  {
-    m_Extreme = NumericTraits<PixelType>::max();
-    m_MagnitudeSign = -1;
-  }
   m_UseImageSpacing = false;
   m_ParabolicAlgorithm = INTERSECTION;
 
@@ -249,15 +237,13 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
       unsigned long LineLength = region.GetSize()[0];
       RealType      image_scale = this->GetInput()->GetSpacing()[0];
 
-      doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, doDilate>(
+      doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, doDilate>(
         inputIterator,
         outputIterator,
         *progress,
         LineLength,
         0,
-        this->m_MagnitudeSign,
         this->m_UseImageSpacing,
-        this->m_Extreme,
         image_scale,
         this->m_Scale[0],
         m_ParabolicAlgorithm);
@@ -288,15 +274,13 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
       // RealType magnitude = 1.0/(2.0 * m_Scale[dd]);
       RealType image_scale = this->GetInput()->GetSpacing()[m_CurrentDimension];
 
-      doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, doDilate>(
+      doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, doDilate>(
         inputIteratorStage2,
         outputIterator,
         *progress,
         LineLength,
         m_CurrentDimension,
-        this->m_MagnitudeSign,
         this->m_UseImageSpacing,
-        this->m_Extreme,
         image_scale,
         this->m_Scale[m_CurrentDimension],
         m_ParabolicAlgorithm);
