@@ -258,12 +258,12 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
   }
   float progressPerDimension = 1.0 / ImageDimension;
 
-  auto * progress = new ProgressReporter(this,
-                                         threadId,
-                                         NumberOfRows[m_CurrentDimension],
-                                         30,
-                                         m_CurrentDimension * progressPerDimension,
-                                         progressPerDimension);
+  ProgressReporter progress(this,
+                            threadId,
+                            NumberOfRows[m_CurrentDimension],
+                            30,
+                            m_CurrentDimension * progressPerDimension,
+                            progressPerDimension);
 
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
   using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
@@ -302,7 +302,7 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
         doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, !DoOpen>(
           inputIterator,
           outputIterator,
-          *progress,
+          progress,
           LineLength,
           0,
           this->m_UseImageSpacing,
@@ -337,7 +337,7 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
         doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, !DoOpen>(
           inputIteratorStage2,
           outputIterator,
-          *progress,
+          progress,
           LineLength,
           m_CurrentDimension,
           this->m_UseImageSpacing,
@@ -359,7 +359,7 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
       doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, DoOpen>(
         inputIteratorStage2,
         outputIterator,
-        *progress,
+        progress,
         LineLength,
         m_CurrentDimension,
         this->m_UseImageSpacing,

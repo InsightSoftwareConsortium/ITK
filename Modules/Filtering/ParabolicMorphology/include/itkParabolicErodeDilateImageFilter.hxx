@@ -199,13 +199,12 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
   }
   float progressPerDimension = 1.0 / ImageDimension;
 
-  auto * progress = new ProgressReporter(this,
-                                         threadId,
-                                         NumberOfRows[m_CurrentDimension],
-                                         30,
-                                         m_CurrentDimension * progressPerDimension,
-                                         progressPerDimension);
-
+  ProgressReporter progress(this,
+                            threadId,
+                            NumberOfRows[m_CurrentDimension],
+                            30,
+                            m_CurrentDimension * progressPerDimension,
+                            progressPerDimension);
 
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
   using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
@@ -240,7 +239,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
       doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, doDilate>(
         inputIterator,
         outputIterator,
-        *progress,
+        progress,
         LineLength,
         0,
         this->m_UseImageSpacing,
@@ -277,7 +276,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGe
       doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, PixelType, OutputPixelType, doDilate>(
         inputIteratorStage2,
         outputIterator,
-        *progress,
+        progress,
         LineLength,
         m_CurrentDimension,
         this->m_UseImageSpacing,
