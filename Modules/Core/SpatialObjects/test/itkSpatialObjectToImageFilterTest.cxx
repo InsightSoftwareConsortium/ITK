@@ -55,7 +55,6 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imageFilter, SpatialObjectToImageFilter, ImageSource);
 
-
   imageFilter->SetInput(ellipse);
 
   SpatialObjectToImageFilterType::ValueType insideValue = 2;
@@ -106,6 +105,16 @@ itkSpatialObjectToImageFilterTest(int, char *[])
     }
   }
 
+  const auto spacing_vector_result = imageFilter->GetSpacingVector();
+  for (unsigned int i = 0; i < 2; ++i)
+  {
+    if (spacing_vector_result[i] != 1.0)
+    {
+      std::cout << "[FAILURE]" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
   std::cout << "[PASSED]" << std::endl;
 
   // Testing Origin
@@ -131,6 +140,18 @@ itkSpatialObjectToImageFilterTest(int, char *[])
       return EXIT_FAILURE;
     }
   }
+
+  const auto origin_point_result = imageFilter->GetOriginPoint();
+
+  for (unsigned int i = 0; i < 2; ++i)
+  {
+    if (origin_point_result[i] != 0.0)
+    {
+      std::cout << "[FAILURE]" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
 
   std::cout << "[PASSED]" << std::endl;
 
@@ -176,6 +197,9 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_BOOLEAN(imageFilter, UseObjectValue, useObjectValue);
 
   imageFilter->Update();
+
+  std::cout << "Print filter info:" << std::endl;
+  std::cout << imageFilter << std::endl;
 
   std::cout << "Testing SetUseObjectValue: ";
 

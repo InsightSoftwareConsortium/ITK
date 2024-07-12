@@ -121,6 +121,9 @@ public:
   virtual const double *
   GetSpacing() const;
 
+  virtual const SpacingType &
+  GetSpacingVector() const;
+
   /** Directions of the output image. The
    * direction is for oriented images. */
   virtual void
@@ -163,6 +166,9 @@ public:
   virtual const double *
   GetOrigin() const;
 
+  virtual const PointType &
+  GetOriginPoint() const;
+
   /** The index of the output image. The index is the pixel
    * coordinates of the image region.
    * \sa GetSize() */
@@ -201,6 +207,9 @@ protected:
   double        m_Spacing[OutputImageDimension]{};
   double        m_Origin[OutputImageDimension]{};
   DirectionType m_Direction{};
+
+  mutable SpacingType m_SpacingVector{};
+  mutable PointType   m_OriginPoint{};
 
   unsigned int m_ChildrenDepth{};
 
