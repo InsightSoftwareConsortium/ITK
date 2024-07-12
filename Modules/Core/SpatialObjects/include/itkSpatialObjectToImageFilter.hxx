@@ -37,7 +37,9 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SpatialObjectToIm
   for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     m_Spacing[i] = 1.0;
+    m_SpacingVector[i] = 1.0;
     m_Origin[i] = 0.;
+    m_OriginPoint[i] = 0.;
   }
 
   m_InsideValue = 0;
@@ -164,6 +166,17 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetSpacing() cons
   return m_Spacing;
 }
 
+template <typename TInputSpatialObject, typename TOutputImage>
+const typename TOutputImage::SpacingType &
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetSpacingVector() const
+{
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
+  {
+    m_SpacingVector[i] = m_Spacing[i];
+  }
+  return m_SpacingVector;
+}
+
 
 template <typename TInputSpatialObject, typename TOutputImage>
 void
@@ -240,6 +253,17 @@ const double *
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetOrigin() const
 {
   return m_Origin;
+}
+
+template <typename TInputSpatialObject, typename TOutputImage>
+const typename TOutputImage::PointType &
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetOriginPoint() const
+{
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
+  {
+    m_OriginPoint[i] = m_Origin[i];
+  }
+  return m_OriginPoint;
 }
 
 
@@ -370,8 +394,28 @@ void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Size : " << m_Size << std::endl;
   os << indent << "Index : " << m_Index << std::endl;
+  os << indent << "Size : " << m_Size << std::endl;
+
+  os << indent << "Spacing : " << m_Spacing[0];
+  for (unsigned int i = 1; i < OutputImageDimension; ++i)
+  {
+    os << ", " << m_Spacing[i];
+  }
+  os << std::endl;
+
+  os << indent << "SpacingVector : " << m_SpacingVector << std::endl;
+
+  os << indent << "Origin : " << m_Origin[0];
+  for (unsigned int i = 1; i < OutputImageDimension; ++i)
+  {
+    os << ", " << m_Origin[i];
+  }
+  os << std::endl;
+
+  os << indent << "OriginPoint : " << m_OriginPoint << std::endl;
+
+  os << indent << "Direction : " << m_Direction << std::endl;
   os << indent << "Children depth : " << m_ChildrenDepth << std::endl;
   os << indent << "Inside Value : " << m_InsideValue << std::endl;
   os << indent << "Outside Value : " << m_OutsideValue << std::endl;
