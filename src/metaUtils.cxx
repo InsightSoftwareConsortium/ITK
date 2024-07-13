@@ -166,7 +166,7 @@ MET_ReadType(std::istream & _fp)
   mF->terminateRead = true;
   fields.push_back(mF);
 
-  MET_Read(_fp, &fields, '=', true);
+  MET_Read(_fp, &fields, '=', true, false);
   _fp.seekg(pos);
 
   if (mF->defined)
@@ -198,7 +198,7 @@ MET_ReadSubType(std::istream & _fp)
   mF->required = false;
   fields.push_back(mF);
 
-  MET_Read(_fp, &fields, '=', true);
+  MET_Read(_fp, &fields, '=', true, false);
   _fp.seekg(pos);
 
   if (mF->defined)
