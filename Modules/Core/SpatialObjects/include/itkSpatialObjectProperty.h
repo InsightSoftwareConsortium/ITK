@@ -91,18 +91,12 @@ public:
   GetAlpha() const;
 
   void
-  SetName(const std::string & name)
+  SetName(std::string name)
   {
-    m_Name = name;
+    m_Name = std::move(name);
   }
 
-  std::string &
-  GetName()
-  {
-    return m_Name;
-  }
-
-  const std::string &
+  std::string
   GetName() const
   {
     return m_Name;
@@ -111,7 +105,7 @@ public:
   void
   SetTagScalarValue(const std::string & tag, double value);
   void
-  SetTagStringValue(const std::string & tag, const std::string & value);
+  SetTagStringValue(const std::string & tag, std::string value);
 
   bool
   GetTagScalarValue(const std::string & tag, double & value) const;

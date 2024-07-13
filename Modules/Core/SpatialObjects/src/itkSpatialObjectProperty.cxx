@@ -102,7 +102,7 @@ SpatialObjectProperty::SetTagScalarValue(const std::string & tag, double value)
 }
 
 void
-SpatialObjectProperty::SetTagStringValue(const std::string & tag, const std::string & value)
+SpatialObjectProperty::SetTagStringValue(const std::string & tag, std::string value)
 {
   m_StringDictionary[tag] = value;
 }
