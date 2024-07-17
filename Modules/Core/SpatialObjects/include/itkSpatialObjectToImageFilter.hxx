@@ -394,39 +394,32 @@ void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Index : " << m_Index << std::endl;
-  os << indent << "Size : " << m_Size << std::endl;
+  os << indent << "Index: " << m_Index << std::endl;
+  os << indent << "Size: " << m_Size << std::endl;
 
-  os << indent << "Spacing : " << m_Spacing[0];
+  os << indent << "Spacing: " << m_Spacing[0];
   for (unsigned int i = 1; i < OutputImageDimension; ++i)
   {
     os << ", " << m_Spacing[i];
   }
   os << std::endl;
 
-  os << indent << "SpacingVector : " << m_SpacingVector << std::endl;
+  os << indent << "SpacingVector: " << m_SpacingVector << std::endl;
 
-  os << indent << "Origin : " << m_Origin[0];
+  os << indent << "Origin: " << m_Origin[0];
   for (unsigned int i = 1; i < OutputImageDimension; ++i)
   {
     os << ", " << m_Origin[i];
   }
   os << std::endl;
 
-  os << indent << "OriginPoint : " << m_OriginPoint << std::endl;
+  os << indent << "OriginPoint: " << m_OriginPoint << std::endl;
 
-  os << indent << "Direction : " << m_Direction << std::endl;
-  os << indent << "Children depth : " << m_ChildrenDepth << std::endl;
-  os << indent << "Inside Value : " << m_InsideValue << std::endl;
-  os << indent << "Outside Value : " << m_OutsideValue << std::endl;
-  if (m_UseObjectValue)
-  {
-    os << indent << "Using Object Value : ON" << std::endl;
-  }
-  else
-  {
-    os << indent << "Using Object Value : OFF" << std::endl;
-  }
+  os << indent << "Direction: " << m_Direction << std::endl;
+  os << indent << "ChildrenDepth: " << m_ChildrenDepth << std::endl;
+  os << indent << "InsideValue: " << m_InsideValue << std::endl;
+  os << indent << "OutsideValue: " << m_OutsideValue << std::endl;
+  itkPrintSelfBooleanMacro(UseObjectValue);
 }
 } // end namespace itk
 
