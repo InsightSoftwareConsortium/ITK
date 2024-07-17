@@ -6,11 +6,20 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+import os
 from datetime import date
 
 project = 'ITK'
 copyright = f'{date.today().year}, NumFOCUS'
 author = 'Insight Software Consortium'
+
+# Define the canonical URL if you are using a custom domain on Read the Docs
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "docs.itk.org")
+
+html_context = {}
+# Tell Jinja2 templates the build is running on Read the Docs
+if os.environ.get("READTHEDOCS", "") == "True":
+    html_context["READTHEDOCS"] = True
 
 extensions = [
     'sphinx.ext.napoleon',
