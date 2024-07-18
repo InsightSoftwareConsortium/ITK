@@ -34,7 +34,6 @@ class ExtractSliceImageFilterEnums
 {
 public:
   /**
-   * \class TestExtractSliceImageFilterCollapseStrategy
    * \ingroup ITKTestKernel
    */
   enum class TestExtractSliceImageFilterCollapseStrategy : uint8_t

@@ -1,2 +1,3 @@
 itkConvertPixelBuffer\.hxx Namespace Disable
 test/itkWriteImageFunctionGTest.cxx Namespace Disable
+itkIOCommon\.h Comments Disable

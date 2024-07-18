@@ -35,7 +35,7 @@ namespace itk
 class LoggerBaseEnums
 {
 public:
-  /** \class PriorityLevel
+  /**
    *  \ingroup ITKCommon
    * Definition of types of messages. These codes will be used to regulate
    * the level of detail of messages reported to the final outputs
@@ -51,7 +51,7 @@ public:
     NOTSET
   };
 
-  /** \class TimeStampFormat
+  /**
    * \ingroup ITKCommon
    * Select the type of format for reporting time stamps */
   enum class TimeStampFormat : uint8_t

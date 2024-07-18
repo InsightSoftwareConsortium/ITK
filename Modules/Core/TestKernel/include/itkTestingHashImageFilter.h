@@ -33,7 +33,7 @@ namespace Testing
 class HashImageFilterEnums
 {
 public:
-  /** \class HashFunction
+  /**
    * \ingroup ITKTestKernel
    * Describes the hash function
    */

@@ -1,3 +1,6 @@
 test/.*\.cxx Namespace Disable
 test/itkMeasurementVectorTraitsTest\.cxx Operator Disable
 itkStatisticsTypesTest\.cxx Typedefs Disable
+itkExpectationMaximizationMixtureModelEstimator\.h Comments Disable
+itkHistogramToRunLengthFeaturesFilter\.h Comments Disable
+itkHistogramToTextureFeaturesFilter\.h Comments Disable

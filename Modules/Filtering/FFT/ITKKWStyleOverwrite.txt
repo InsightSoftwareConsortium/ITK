@@ -8,3 +8,4 @@ itkVnlForwardFFTImageFilter.h IfNDefDefine Disable
 itkVnlHalfHermitianToRealInverseFFTImageFilter.h IfNDefDefine Disable
 itkVnlInverseFFTImageFilter.h IfNDefDefine Disable
 itkVnlRealToHalfHermitianForwardFFTImageFilter.h IfNDefDefine Disable
+itkComplexToComplexFFTImageFilter.h Comments Disable
