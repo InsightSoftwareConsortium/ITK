@@ -1,9 +1,6 @@
-set(AnalyzeObjectLabelMap_SRC
+set(AnalyzeObjectLabelMap_SRCS
   itkAnalyzeObjectLabelMapImageIO.cxx
   itkAnalyzeObjectLabelMapImageIOFactory.cxx
   itkAnalyzeObjectEntry.cxx)
 
-add_library(AnalyzeObjectLabelMap ${AnalyzeObjectLabelMap_SRC})
-
-target_link_libraries(AnalyzeObjectLabelMap ${ITKIOImageBase_LIBRARIES})
-itk_module_target(AnalyzeObjectLabelMap)
+itk_module_add_library(AnalyzeObjectLabelMap ${AnalyzeObjectLabelMap_SRCS})
