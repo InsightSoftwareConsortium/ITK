@@ -3,7 +3,7 @@ requires = ["scikit-build-core"]
 build-backend = "scikit_build_core.build"
 
 [project]
-name = "itk-analyzeobjectmapiO"
+name = "itk-analyzeobjectmap"
 version = "6.0.0"
 description = "ITK `ImageIO` class to read or write the AnalyzeObjectMap image format"
 readme = "README.md"
