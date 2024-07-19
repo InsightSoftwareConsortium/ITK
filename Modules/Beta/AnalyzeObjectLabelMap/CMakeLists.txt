@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.16.2)
-
-project(AnalyzeObjectLabelMap
-  VERSION 5.1.0       #Version should track with ITK
-  LANGUAGES CXX)
+project(AnalyzeObjectLabelMap)
 
 set(AnalyzeObjectLabelMap_LIBRARIES AnalyzeObjectLabelMap)
 
