@@ -1,4 +1,4 @@
-itkAnalyzeObjectMap
+ITKAnalyzeObjectMap
 ===================
 
 A repository for the itkAnalyzeObjectMap reading/writing class
