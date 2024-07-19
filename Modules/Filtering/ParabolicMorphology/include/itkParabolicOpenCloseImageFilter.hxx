@@ -242,28 +242,21 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenera
   ThreadIdType                  threadId)
 {
   // compute the number of rows first, so we can setup a progress reporter
-  typename std::vector<unsigned int> NumberOfRows;
-  InputSizeType                      size = outputRegionForThread.GetSize();
+  unsigned int  numberOfRows = 1;
+  InputSizeType size = outputRegionForThread.GetSize();
 
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int d = 0; d < InputImageDimension; ++d)
   {
-    NumberOfRows.push_back(1);
-    for (unsigned int d = 0; d < InputImageDimension; d++)
+    if (d != m_CurrentDimension)
     {
-      if (d != i)
-      {
-        NumberOfRows[i] *= size[d];
-      }
+      numberOfRows *= size[d];
     }
   }
+
   float progressPerDimension = 1.0 / ImageDimension;
 
-  ProgressReporter progress(this,
-                            threadId,
-                            NumberOfRows[m_CurrentDimension],
-                            30,
-                            m_CurrentDimension * progressPerDimension,
-                            progressPerDimension);
+  ProgressReporter progress(
+    this, threadId, numberOfRows, 30, m_CurrentDimension * progressPerDimension, progressPerDimension);
 
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
   using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
