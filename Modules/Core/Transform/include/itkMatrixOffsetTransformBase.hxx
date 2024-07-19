@@ -60,18 +60,8 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 {
   Superclass::PrintSelf(os, indent);
 
-  unsigned int i, j;
-
   os << indent << "Matrix: " << std::endl;
-  for (i = 0; i < VInputDimension; ++i)
-  {
-    os << indent.GetNextIndent();
-    for (j = 0; j < VOutputDimension; ++j)
-    {
-      os << m_Matrix[i][j] << ' ';
-    }
-    os << std::endl;
-  }
+  this->m_Matrix.PrintSelf(os, indent.GetNextIndent());
 
   os << indent << "Offset: " << m_Offset << std::endl;
   os << indent << "Center: " << m_Center << std::endl;
@@ -81,15 +71,8 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 
   const auto & inverseMatrix = this->GetInverseMatrix();
 
-  for (i = 0; i < VInputDimension; ++i)
-  {
-    os << indent.GetNextIndent();
-    for (j = 0; j < VOutputDimension; ++j)
-    {
-      os << inverseMatrix[i][j] << ' ';
-    }
-    os << std::endl;
-  }
+  inverseMatrix.PrintSelf(os, indent.GetNextIndent());
+
   os << indent << "Singular: " << m_Singular << std::endl;
 }
 
