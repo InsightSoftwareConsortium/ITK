@@ -10,5 +10,5 @@ A repository for the itkAnalyzeObjectMap reading/writing class
 for ITK.
 
 Full description can be found in the article:
-https://hdl.handle.net/1926/593
+https://doi.org/10.54294/w2jytv
 
