@@ -40,7 +40,7 @@ PrintK1(SolverType * S, int s);
 int
 itkFEMElement3DTest(int argc, char * argv[])
 {
-  if (argc != 3)
+  if (argc != 2)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
