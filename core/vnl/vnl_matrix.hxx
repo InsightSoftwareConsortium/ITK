@@ -1095,7 +1095,7 @@ bool vnl_matrix<T>::is_equal(vnl_matrix<T> const& rhs, double tol) const
 
   for (unsigned int i = 0; i < this->rows(); ++i)
     for (unsigned int j = 0; j < this->columns(); ++j)
-      if (vnl_math::abs(this->data[i][j] - rhs.data[i][j]) > tol)
+      if (!(vnl_math::abs(this->data[i][j] - rhs.data[i][j]) <= tol))
         return false;                                    // difference greater than tol
 
   return true;
