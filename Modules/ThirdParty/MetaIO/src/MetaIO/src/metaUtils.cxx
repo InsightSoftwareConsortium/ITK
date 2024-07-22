@@ -162,7 +162,6 @@ MET_ReadType(std::istream & _fp)
   std::vector<MET_FieldRecordType *> fields;
   auto *                             mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
-  mF->required = false;
   mF->terminateRead = true;
   fields.push_back(mF);
 
@@ -190,12 +189,8 @@ MET_ReadSubType(std::istream & _fp)
   std::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType *              mF;
   mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "ObjectType", MET_STRING, false);
-  mF->required = false;
-  fields.push_back(mF);
-  mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectSubType", MET_STRING, false);
-  mF->required = false;
+  mF->terminateRead = true;
   fields.push_back(mF);
 
   MET_Read(_fp, &fields, '=', true, false);
