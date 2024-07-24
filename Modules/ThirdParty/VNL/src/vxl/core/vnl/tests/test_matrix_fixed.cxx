@@ -407,6 +407,12 @@ test_float()
   TEST("m.update([4],1,1)",
        ((m3 = 4), (m.update(m3, 1, 1)), (m(0, 0) == 0 && m(0, 1) == -2 && m(1, 0) == 2 && m(1, 1) == 4)),
        true);
+
+  constexpr auto quiet_NaN = std::numeric_limits<float>::quiet_NaN();
+  TEST("vnl_float_2x2 { NaN, ... } != { 0.0f, ... }", vnl_float_2x2(quiet_NaN) != vnl_float_2x2(0.0f), true);
+  TEST("vnl_float_2x2 { NaN, ... } is_equal { 0.0f, ... } is false",
+       vnl_float_2x2(quiet_NaN).is_equal(vnl_float_2x2(0.0f), 0.0f),
+       false);
 }
 
 static void
