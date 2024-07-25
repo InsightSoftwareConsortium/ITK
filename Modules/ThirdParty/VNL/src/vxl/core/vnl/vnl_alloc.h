@@ -104,7 +104,7 @@ class VNL_EXPORT vnl_alloc
     }
     *my_free_list = result -> free_list_link;
     return result;
-  };
+  }
 
   /* p may not be 0 */
   static void deallocate(void *p, std::size_t n)

@@ -142,6 +142,19 @@ vnl_vector_fixed<T,n>::assert_finite_internal() const
 }
 
 template <class T, unsigned int n>
+bool vnl_vector_fixed<T,n>::is_equal(vnl_vector_fixed<T,n> const& rhs, double tol) const
+{
+  if (this == &rhs)                                         //Same object ? => equal.
+    return true;
+
+  for (size_t i = 0; i < n; ++i)
+    if (!(vnl_math::abs(this->data_[i] - rhs.data_[i]) <= tol)) //Element different ?
+      return false;
+
+  return true;
+}
+
+template <class T, unsigned int n>
 void
 vnl_vector_fixed<T,n>::print(std::ostream& s) const
 {
