@@ -113,14 +113,16 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
                                                           const DomainType & domain,
                                                           const ThreadIdType threadId)
 {
-  /* call base method */
-  /* Store the casted pointer to avoid dynamic casting in tight loops. */
-  this->m_ANTSAssociate = dynamic_cast<TNeighborhoodCorrelationMetric *>(this->m_Associate);
-  if (this->m_ANTSAssociate == nullptr)
-  {
-    itkExceptionMacro("Dynamic casting of associate pointer failed.");
-  }
+  std::call_once(this->m_ANTSAssociateOnceFlag, [this]() {
+    /* Store the casted pointer to avoid dynamic casting in tight loops. */
+    this->m_ANTSAssociate = dynamic_cast<TNeighborhoodCorrelationMetric *>(this->m_Associate);
+    if (this->m_ANTSAssociate == nullptr)
+    {
+      itkExceptionMacro("Dynamic casting of associate pointer failed.");
+    }
+  });
 
+  /* call base method */
   Superclass::ThreadedExecution(domain, threadId);
 }
 
