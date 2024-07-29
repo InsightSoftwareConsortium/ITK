@@ -102,7 +102,6 @@ set(ITKCommon1Tests
     itkNumberToStringTest.cxx
     itkTimeProbeTest.cxx
     itkTimeProbeTest2.cxx
-    itkSpatialOrientationTest.cxx
     itkStdStreamStateSaveTest.cxx
     itkVersionTest.cxx
     VNLSparseLUSolverTraitsTest.cxx
@@ -492,12 +491,6 @@ itk_add_test(
   COMMAND
   ITKCommon1TestDriver
   itkBSplineKernelFunctionTest)
-itk_add_test(
-  NAME
-  itkSpatialOrientationTest
-  COMMAND
-  ITKCommon1TestDriver
-  itkSpatialOrientationTest)
 itk_add_test(
   NAME
   VNLSparseLUSolverTraitsTest
@@ -1757,8 +1750,7 @@ set(ITKCommonGTests
     itkVectorGTest.cxx
     itkWeakPointerGTest.cxx
     itkCommonTypeTraitsGTest.cxx
-    itkMetaDataDictionaryGTest.cxx
-    itkSpatialOrientationAdaptorGTest.cxx)
+    itkMetaDataDictionaryGTest.cxx)
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
 # test this case.

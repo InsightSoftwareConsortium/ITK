@@ -36,8 +36,6 @@ set(ITKImageGridTests
     itkOrientedImageProfileTest1.cxx
     itkOrientedImageProfileTest2.cxx
     itkOrientedImageProfileTest3.cxx
-    itkOrientImageFilterTest.cxx
-    itkOrientImageFilterTest2.cxx
     itkWarpImageFilterTest.cxx
     itkWarpImageFilterTest2.cxx
     itkWarpVectorImageFilterTest.cxx
@@ -458,19 +456,7 @@ itk_add_test(
   COMMAND
   ITKImageGridTestDriver
   itkOrientedImageProfileTest3)
-itk_add_test(
-  NAME
-  itkOrientImageFilterTest
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientImageFilterTest
-  0)
-itk_add_test(
-  NAME
-  itkOrientImageFilterTest2
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientImageFilterTest2)
+
 itk_add_test(
   NAME
   itkWarpImageFilterTest
