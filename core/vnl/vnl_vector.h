@@ -476,7 +476,7 @@ class VNL_EXPORT vnl_vector
   this->data= indata ;
   this->num_elmts = nelmts;
   this->m_LetArrayManageMemory = manage_own_memory;
-  };
+  }
 //#endif
 
   void assert_size_internal(size_t sz) const;

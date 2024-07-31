@@ -703,7 +703,7 @@ class VNL_EXPORT vnl_matrix_fixed
 #endif
   operator const vnl_matrix_ref<T>() const { return  this->as_ref(); }
 #endif
-  explicit operator vnl_matrix<T>() const { return this->as_matrix(); };
+  explicit operator vnl_matrix<T>() const { return this->as_matrix(); }
 
 
   //----------------------------------------------------------------------
