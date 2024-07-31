@@ -31,7 +31,6 @@
 
 #include <mutex>
 #include "itkProcessObject.h"
-#include "itkSpatialOrientation.h"
 #include <cstring>
 #include "itkMath.h"
 

@@ -16,6 +16,9 @@
  *
  *=========================================================================*/
 #include "itkDICOMOrientation.h"
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#include "itkSpatialOrientationAdapter.h"
+#endif
 
 namespace itk
 {
@@ -45,6 +48,13 @@ DICOMOrientation::DICOMOrientation(std::string str)
     m_Value = iter->second;
   }
 }
+
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+DICOMOrientation::DICOMOrientation(LegacyOrientationType legacyOrientation)
+: DICOMOrientation(SpatialOrientationAdapter::ToDirectionCosines(legacyOrientation))
+{}
+#endif
 
 
 const std::string &

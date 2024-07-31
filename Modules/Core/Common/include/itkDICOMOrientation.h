@@ -20,6 +20,9 @@
 
 #include "ITKCommonExport.h"
 #include "itkImageBase.h"
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#include "itkSpatialOrientation.h"
+#endif
 #include <map>
 #include <string>
 
@@ -43,6 +46,9 @@ public:
   using DirectionType = typename ImageBase<Dimension>::DirectionType;
   constexpr static unsigned int ImageDimension = Dimension;
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using LegacyOrientationType = SpatialOrientationEnums::ValidCoordinateOrientations;
+#endif
 
   enum class CoordinateEnum : uint8_t
   {
@@ -161,6 +167,15 @@ public:
   DICOMOrientation(OrientationEnum orientation)
     : m_Value(orientation)
   {}
+
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** \brief Conversion from Legacy SpatialOrientation
+   *
+   * @param legacyOrientation
+   */
+  DICOMOrientation(LegacyOrientationType legacyOrientation);
+#endif
 
   explicit DICOMOrientation(const DirectionType & d)
     : m_Value(DirectionCosinesToOrientation(d))

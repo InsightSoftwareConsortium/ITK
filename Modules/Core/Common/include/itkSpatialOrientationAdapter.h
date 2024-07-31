@@ -94,11 +94,11 @@ public:
   SpatialOrientationAdapter() = default;
 
   /** convert from direction cosines. */
-  OrientationType
+  static OrientationType
   FromDirectionCosines(const DirectionType & Dir);
 
   /** convert to direction cosines. */
-  DirectionType
+  static DirectionType
   ToDirectionCosines(const OrientationType & Or);
 };
 } // namespace itk
