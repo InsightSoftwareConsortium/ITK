@@ -443,6 +443,9 @@ class VNL_EXPORT vnl_vector_fixed
   //: Return true iff the size is zero.
   bool empty() const { return n==0; }
 
+  //:  Return true if all elements of the two vectors are equal, within given tolerance
+  bool is_equal(vnl_vector_fixed const& rhs, double tol) const;
+
   //: Return true if *this == v
   bool operator_eq (vnl_vector_fixed<T,n> const& v) const
   {

@@ -354,7 +354,7 @@ vnl_amoebaFit::amoeba(vnl_vector<double> & x, std::vector<vnl_amoeba_SimplexCorn
     if (verbose)
     {
       char buf[16383];
-      std::sprintf(buf, "iter %5d: %s ", cnt, how);
+      std::snprintf(buf, sizeof(buf), "iter %5d: %s ", cnt, how);
       std::cerr << buf;
       if (verbose == 2)
         std::cerr << "\nFirst corner: " << simplex[0].v;
