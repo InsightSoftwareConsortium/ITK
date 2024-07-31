@@ -715,6 +715,7 @@ orthonormality
 opencl
 openjpeg
 oper
+osterior
 outJacobian's
 outdir
 oversegmentation
@@ -942,6 +943,7 @@ unsmoothed
 unvisited
 upcast
 updatable
+uperior
 uplist
 uplists
 upsampled
