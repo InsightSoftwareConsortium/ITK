@@ -30,6 +30,7 @@
 #include "ITKIOIPLExport.h"
 
 #include "itkIOCommon.h"
+#include "itkDICOMOrientation.h"
 
 enum GE_PANE_STRUCT
 {
@@ -72,27 +73,27 @@ struct GEImageHeader
   float brhcA;
   float brhcS;
 
-  short acqXsize;
-  short acqYsize;
-  short frequencyDir;
-  char  scanner[16];
-  char  pulseSequence[128]; // Needs to be at least 65 for seimens vision
-  char  patientId[32];
-  char  scanId[32];
-  char  name[64];
-  char  date[32];
-  short imageXsize;
-  short imageYsize;
-  float imageXres;
-  float imageYres;
-  itk::SpatialOrientationEnums::ValidCoordinateOrientations coordinateOrientation;
-  short                                                     numberOfSlices;
-  short                                                     offset;
-  char                                                      filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
-  char                                                      hospital[35];
-  char                                                      modality[4];
-  short                                                     imagesPerSlice;
-  short turboFactor; // This is only relevant for the geADW image format, but
-                     // is put here for convenience
+  short                                  acqXsize;
+  short                                  acqYsize;
+  short                                  frequencyDir;
+  char                                   scanner[16];
+  char                                   pulseSequence[128]; // Needs to be at least 65 for seimens vision
+  char                                   patientId[32];
+  char                                   scanId[32];
+  char                                   name[64];
+  char                                   date[32];
+  short                                  imageXsize;
+  short                                  imageYsize;
+  float                                  imageXres;
+  float                                  imageYres;
+  itk::DICOMOrientation::OrientationEnum coordinateOrientation{ itk::DICOMOrientation::OrientationEnum::INVALID };
+  short                                  numberOfSlices;
+  short                                  offset;
+  char                                   filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
+  char                                   hospital[35];
+  char                                   modality[4];
+  short                                  imagesPerSlice;
+  short                                  turboFactor; // This is only relevant for the geADW image format, but
+                                                      // is put here for convenience
 };
 #endif

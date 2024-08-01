@@ -369,20 +369,24 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   switch (GE_Plane)
   {
     case GE_CORONAL:
-      curImage->coordinateOrientation =
-        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
+      curImage->coordinateOrientation = DICOMOrientation( DICOMOrientation::CoordinateEnum::RightToLeft,
+                                                         DICOMOrientation::CoordinateEnum::SuperiorToInferior,
+                                                         DICOMOrientation::CoordinateEnum::PosteriorToAnterior);
       break;
     case GE_SAGITTAL:
-      curImage->coordinateOrientation =
-        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
+      curImage->coordinateOrientation = DICOMOrientation( DICOMOrientation::CoordinateEnum::AnteriorToPosterior,
+                                                         DICOMOrientation::CoordinateEnum::InferiorToSuperior,
+                                                          DICOMOrientation::CoordinateEnum::RightToLeft);
       break;
     case GE_AXIAL:
-      curImage->coordinateOrientation =
-        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
+      curImage->coordinateOrientation = DICOMOrientation( DICOMOrientation::CoordinateEnum::RightToLeft,
+                                                         DICOMOrientation::CoordinateEnum::AnteriorToPosterior,
+                                                         DICOMOrientation::CoordinateEnum::InferiorToSuperior);
       break;
     default:
-      curImage->coordinateOrientation =
-        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
+      curImage->coordinateOrientation = DICOMOrientation( DICOMOrientation::CoordinateEnum::RightToLeft,
+                                                         DICOMOrientation::CoordinateEnum::SuperiorToInferior,
+                                                         DICOMOrientation::CoordinateEnum::PosteriorToAnterior);
       break;
   }
 

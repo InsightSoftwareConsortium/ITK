@@ -19,7 +19,7 @@
 #include "itkImageFileWriter.h"
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
-#include "itkSpatialOrientationAdapter.h"
+#include "itkDICOMOrientation.h"
 #include "itkTestingMacros.h"
 
 int
@@ -47,8 +47,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   inputImage->Allocate();
   inputImage->FillBuffer(0);
 
-  inputImage->SetDirection(itk::SpatialOrientationAdapter().ToDirectionCosines(
-    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP));
+  inputImage->SetDirection(itk::DICOMOrientation("LSA").GetAsDirection());
 
   // Add some metadata in the dictionary
   itk::MetaDataDictionary & inputDictionary = inputImage->GetMetaDataDictionary();

@@ -29,7 +29,7 @@
 #include "itkIOCommon.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
-#include "itkSpatialOrientationAdapter.h"
+#include "itkDICOMOrientation.h"
 #include "itksys/SystemTools.hxx"
 #include "itk_zlib.h"
 #include <fstream>
@@ -713,7 +713,7 @@ PhilipsRECImageIO::ReadImageInformation()
   AffineMatrix spacing;
   spacing.SetIdentity();
 
-  SpatialOrientationEnums::ValidCoordinateOrientations coord_orient;
+  DICOMOrientation coord_orient;
 
   switch (par.sliceorient)
   {
@@ -747,7 +747,7 @@ PhilipsRECImageIO::ReadImageInformation()
       spacing[2][2] = par.vox[1];
   }
 
-  SpatialOrientationAdapter::DirectionType dir = SpatialOrientationAdapter().ToDirectionCosines(coord_orient);
+  DICOMOrientation::DirectionType dir = coord_orient.GetAsDirection();
 
   AffineMatrix direction;
   direction.SetIdentity();
