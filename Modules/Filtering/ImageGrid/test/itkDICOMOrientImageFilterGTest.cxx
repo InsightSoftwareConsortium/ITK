@@ -325,3 +325,39 @@ TEST(DICOMOrientImageFilter, InvalidOrientation)
   EXPECT_THROW(filter->Update(), itk::ExceptionObject);
   EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetInputCoordinateOrientation());
 }
+
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#include "itkSpatialOrientation.h"
+
+TEST(DICOMOrientImageFilter, LegacyInteroperability)
+{
+  using ImageType = itk::Image<uint32_t, 3>;
+
+
+  auto sourceFilter = itk::RandomImageSource<ImageType>::New();
+  sourceFilter->SetMin(-1000);
+  sourceFilter->SetMax(1000);
+  sourceFilter->SetSize({ 5, 6, 7 });
+  sourceFilter->UpdateLargestPossibleRegion();
+
+  using OrientFilterType = itk::DICOMOrientImageFilter<ImageType>;
+  using PermuiteArrayType = OrientFilterType::PermuteOrderArrayType;
+  using FlipArrayType = OrientFilterType::FlipAxesArrayType;
+  auto filter = OrientFilterType::New();
+  filter->SetInput(sourceFilter->GetOutput());
+
+  filter->UpdateLargestPossibleRegion();
+  CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
+
+  // Legacy compatibility for setting the desired orientation for SpatialOrientationEnums
+  // This is done through implicit conversion to the DICOMOrientation class
+  filter->SetDesiredCoordinateOrientation(itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI);
+  filter->UpdateLargestPossibleRegion();
+  CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
+  EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ 0, 1, 2 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 0, 0, 0 }));
+}
+#endif

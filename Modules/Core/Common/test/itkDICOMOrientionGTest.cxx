@@ -204,3 +204,25 @@ TEST(DICOMOrientation, OrientationToDirectionCosines)
   d(0, 2) = 1;
   EXPECT_EQ(d, DICOMOrientation::OrientationToDirectionCosines(OE::SPL));
 }
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#include "itkSpatialOrientation.h"
+TEST(DICOMOrientation, LegacyInteroperability)
+{
+
+  using OE = itk::DICOMOrientation::OrientationEnum;
+  using SOE = itk::SpatialOrientationEnums::ValidCoordinateOrientations;
+
+  // byte for byte compatibility, may assist with migration of bindings when types are not strictly enforced.
+  static_assert( int(SOE::ITK_COORDINATE_ORIENTATION_RAI) == int(OE::LPS) );
+  static_assert( int(SOE::ITK_COORDINATE_ORIENTATION_LPS) == int(OE::RAI) );
+  static_assert( int(SOE::ITK_COORDINATE_ORIENTATION_RSA) == int(OE::LIP) );
+  static_assert( int(SOE::ITK_COORDINATE_ORIENTATION_ASL) == int(OE::PIR) );
+
+  itk::DICOMOrientation itk_rai(SOE::ITK_COORDINATE_ORIENTATION_RAI);
+  EXPECT_EQ( itk_rai, OE::LPS);
+  EXPECT_EQ( itk_rai.GetAsOrientation(), OE::LPS);
+  EXPECT_EQ( itk_rai.GetAsString(), "LPS");
+
+}
+#endif

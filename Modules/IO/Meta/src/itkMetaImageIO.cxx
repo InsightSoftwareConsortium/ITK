@@ -825,12 +825,12 @@ MetaImageIO::Write(const void * buffer)
     // the MetaIO enum which has from/to orientation defined.
     const std::map<DICOMOrientation::CoordinateEnum, int> axisToMetOrientation
       {
-        { DICOMOrientation::CoordinateEnum::Left, MET_ORIENTATION_RL },
-        { DICOMOrientation::CoordinateEnum::Right, MET_ORIENTATION_LR },
-        { DICOMOrientation::CoordinateEnum::Posterior, MET_ORIENTATION_AP },
-        { DICOMOrientation::CoordinateEnum::Anterior, MET_ORIENTATION_PA },
-        { DICOMOrientation::CoordinateEnum::Superior, MET_ORIENTATION_IS },
-        { DICOMOrientation::CoordinateEnum::Inferior, MET_ORIENTATION_SI }
+        { DICOMOrientation::CoordinateEnum::RightToLeft, MET_ORIENTATION_RL },
+        { DICOMOrientation::CoordinateEnum::LeftToRight, MET_ORIENTATION_LR },
+        { DICOMOrientation::CoordinateEnum::AnteriorToPosterior, MET_ORIENTATION_AP },
+        { DICOMOrientation::CoordinateEnum::PosteriorToAnterior, MET_ORIENTATION_PA },
+        { DICOMOrientation::CoordinateEnum::InferiorToSuperior, MET_ORIENTATION_IS },
+        { DICOMOrientation::CoordinateEnum::SuperiorToInferior, MET_ORIENTATION_SI }
       };
 
     m_MetaImage.AnatomicalOrientation(0, axisToMetOrientation.at(coordOrient.GetPrimaryTerm()));

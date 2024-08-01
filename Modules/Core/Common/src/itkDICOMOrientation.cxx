@@ -211,15 +211,15 @@ DICOMOrientation::DirectionCosinesToOrientation(const DirectionType & dir)
       case 0: {
         // When the dominant axis sign is positive, assign the coordinate for the direction we are increasing towards.
         // ITK is in LPS, so that is the positive direction
-        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::Left : CoordinateEnum::Right;
+        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::RightToLeft : CoordinateEnum::LeftToRight;
         break;
       }
       case 1: {
-        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::Posterior : CoordinateEnum::Anterior;
+        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::AnteriorToPosterior : CoordinateEnum::PosteriorToAnterior;
         break;
       }
       case 2: {
-        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::Superior : CoordinateEnum::Inferior;
+        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::InferiorToSuperior : CoordinateEnum::SuperiorToInferior;
         break;
       }
       default:
@@ -246,17 +246,17 @@ DICOMOrientation::OrientationToDirectionCosines(OrientationEnum orientationEnum)
 
     switch (terms[i])
     {
-      case CoordinateEnum::Left:
-      case CoordinateEnum::Right:
-        direction[0][i] = 1 * sign;
+      case CoordinateEnum::LeftToRight:
+      case CoordinateEnum::RightToLeft:
+        direction[0][i] = -1 * sign;
         break;
-      case CoordinateEnum::Anterior:
-      case CoordinateEnum::Posterior:
+      case CoordinateEnum::AnteriorToPosterior:
+      case CoordinateEnum::PosteriorToAnterior:
         direction[1][i] = 1 * sign;
         break;
-      case CoordinateEnum::Inferior:
-      case CoordinateEnum::Superior:
-        direction[2][i] = 1 * sign;
+      case CoordinateEnum::InferiorToSuperior:
+      case CoordinateEnum::SuperiorToInferior:
+        direction[2][i] = -1 * sign;
         break;
       case CoordinateEnum::UNKNOWN:
         break;

@@ -117,6 +117,12 @@ public:
     SetDesiredCoordinateOrientation(DICOMOrientation::DirectionCosinesToOrientation(DesiredDirection));
   }
 
+  inline void
+    SetDesiredCoordinateOrientation(const DICOMOrientation &orientation)
+  {
+    SetDesiredCoordinateOrientation(OrientationEnum(orientation));
+  }
+
 
   /** Get axes permute order.
    *

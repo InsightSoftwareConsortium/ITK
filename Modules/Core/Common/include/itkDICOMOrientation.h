@@ -53,12 +53,18 @@ public:
   enum class CoordinateEnum : uint8_t
   {
     UNKNOWN = 0,
-    Right = 2, // 0b0010
-    Left = 3,
+    Left = 2,  ///< 0b0010
+    RightToLeft = 2,
+    Right = 3,
+    LeftToRight = 3,
     Anterior = 4,  ///< front - 0b0100
+    PosteriorToAnterior = 4,
     Posterior = 5, ///< back
-    Inferior = 8,  ///< bottom - 0b1000
-    Superior = 9   ///< above
+    AnteriorToPosterior = 5,
+    Superior = 8,   ///< above - 0b1000
+    InferiorToSuperior = 8,
+    Inferior = 9,  ///< bottom
+    SuperiorToInferior = 9,
   };
 
 private:
