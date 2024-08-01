@@ -30,7 +30,7 @@
 #include "itkNiftiImageIO.h"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
-#include "itkSpatialOrientationAdapter.h"
+#include "itkDICOMOrientation.h"
 #include "itkDiffusionTensor3D.h"
 #include "itkAffineTransform.h"
 #include "itkVector.h"
@@ -228,8 +228,9 @@ template <typename ImageType>
 typename ImageType::DirectionType
 CORDirCosines()
 {
-  typename itk::SpatialOrientationAdapter::DirectionType CORdir = itk::SpatialOrientationAdapter().ToDirectionCosines(
-    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP);
+  auto CORdir = itk::DICOMOrientation ( itk::DICOMOrientation::CoordinateEnum::RightToLeft,
+                                      itk::DICOMOrientation::CoordinateEnum::InferiorToSuperior,
+                                      itk::DICOMOrientation::CoordinateEnum::PosteriorToAnterior).GetAsDirection();
   typename ImageType::DirectionType dir;
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
   {

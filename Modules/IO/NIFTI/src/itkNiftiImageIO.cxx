@@ -18,7 +18,7 @@
 #include "itkNiftiImageIO.h"
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
-#include "itkSpatialOrientationAdapter.h"
+#include "itkDICOMOrientation.h"
 #include <nifti1_io.h>
 #include "itkNiftiImageIOConfigurePrivate.h"
 #include "itkMakeUniqueForOverwrite.h"
@@ -1867,7 +1867,6 @@ IsAffine(const mat44 & nifti_mat)
 void
 NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacingscale, double timingscale)
 {
-  typedef SpatialOrientationAdapter OrientAdapterType;
   // in the case of an Analyze75 file, use old analyze orient method.
   // but this could be a nifti file without qform and sform
   if (this->m_NiftiImage->qform_code == NIFTI_XFORM_UNKNOWN && this->m_NiftiImage->sform_code == NIFTI_XFORM_UNKNOWN)
@@ -1886,32 +1885,46 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
         this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4 &&
         this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning)
     { // only do this for Analyze file format
-      SpatialOrientationAdapter::OrientationType orient;
+      DICOMOrientation orient(DICOMOrientation::OrientationEnum::INVALID);
       switch (this->m_NiftiImage->analyze75_orient)
       {
         case a75_transverse_unflipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPI;
+          orient = DICOMOrientation(DICOMOrientation::CoordinateEnum::RightToLeft,
+                                    DICOMOrientation::CoordinateEnum::PosteriorToAnterior,
+                                    DICOMOrientation::CoordinateEnum::InferiorToSuperior);
           break;
         case a75_sagittal_unflipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIR;
+          orient = DICOMOrientation( DICOMOrientation::CoordinateEnum::PosteriorToAnterior,
+                                    DICOMOrientation::CoordinateEnum::InferiorToSuperior,
+                                    DICOMOrientation::CoordinateEnum::RightToLeft);
           break;
         case a75_coronal_unflipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
+          orient = DICOMOrientation( DICOMOrientation::CoordinateEnum::RightToLeft,
+                                    DICOMOrientation::CoordinateEnum::InferiorToSuperior,
+                                    DICOMOrientation::CoordinateEnum::PosteriorToAnterior);
           break;
         case a75_transverse_flipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
+          orient = DICOMOrientation( DICOMOrientation::CoordinateEnum::RightToLeft,
+                                    DICOMOrientation::CoordinateEnum::AnteriorToPosterior,
+                                    DICOMOrientation::CoordinateEnum::InferiorToSuperior);
           break;
         case a75_sagittal_flipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIL;
+          orient = DICOMOrientation( DICOMOrientation::CoordinateEnum::PosteriorToAnterior,
+                                    DICOMOrientation::CoordinateEnum::InferiorToSuperior,
+                                    DICOMOrientation::CoordinateEnum::LeftToRight);
           break;
         case a75_coronal_flipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
+          orient = DICOMOrientation( DICOMOrientation::CoordinateEnum::RightToLeft,
+                                    DICOMOrientation::CoordinateEnum::SuperiorToInferior,
+                                    DICOMOrientation::CoordinateEnum::PosteriorToAnterior);
           break;
         case a75_orient_unknown:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
+          orient = DICOMOrientation( DICOMOrientation::CoordinateEnum::RightToLeft,
+                                    DICOMOrientation::CoordinateEnum::InferiorToSuperior,
+                                    DICOMOrientation::CoordinateEnum::PosteriorToAnterior);
           break;
       }
-      const SpatialOrientationAdapter::DirectionType dir = OrientAdapterType().ToDirectionCosines(orient);
+     const auto dir = orient.GetAsDirection();
       const int                                      max_defined_orientation_dims = (dims > 3) ? 3 : dims;
       for (int d = 0; d < max_defined_orientation_dims; ++d)
       {
