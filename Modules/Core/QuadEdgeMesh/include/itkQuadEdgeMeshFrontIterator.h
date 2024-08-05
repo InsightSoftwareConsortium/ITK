@@ -101,6 +101,7 @@ protected:
   class FrontAtom
   {
   public:
+
     FrontAtom(QEType * e = (QEType *)0, const CoordRepType c = 0)
       : m_Edge(e)
       , m_Cost(c)
@@ -150,6 +151,7 @@ public:
   QuadEdgeMeshFrontBaseIterator(MeshType * mesh = (MeshType *)nullptr,
                                 bool       start = true,
                                 QEType *   seed = (QEType *)nullptr);
+
   virtual ~QuadEdgeMeshFrontBaseIterator();
 
   Self &
@@ -239,16 +241,20 @@ public:
   using typename Superclass::QEType;
 
 public:
+
   /** Object creation methods. */
   QuadEdgeMeshFrontIterator(MeshType * mesh = (MeshType *)0, bool start = true, QEType * seed = (QEType *)nullptr)
     : Superclass(mesh, start, seed)
   {}
+
   ~QuadEdgeMeshFrontIterator() override = default;
+
   QEType *
   Value()
   {
     return (this->m_CurrentEdge);
   }
+
 };
 
 /**

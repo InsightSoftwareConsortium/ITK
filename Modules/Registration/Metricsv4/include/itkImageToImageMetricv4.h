@@ -469,6 +469,7 @@ public:
   itkLegacyMacro(virtual bool GetUseFixedSampledPointSet() const) { return this->GetUseSampledPointSet(); }
   itkLegacyMacro(virtual void UseFixedSampledPointSetOn()) { return this->UseSampledPointSetOn(); }
   itkLegacyMacro(virtual void UseFixedSampledPointSetOff()) { return this->UseSampledPointSetOff(); }
+
 #endif
 
 
@@ -528,6 +529,7 @@ public:
     this->SetMaximumNumberOfWorkUnits(count);
   }
   itkLegacyMacro(virtual ThreadIdType GetMaximumNumberOfThreads() const) { return this->GetMaximumNumberOfWorkUnits(); }
+
 #endif // !ITK_LEGACY_REMOVE
 
 
@@ -855,6 +857,7 @@ private:
   itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedImagePixelValueType>));
   itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingImagePixelValueType>));
 #endif // ITK_USE_CONCEPT_CHECKING
+
 };
 } // namespace itk
 

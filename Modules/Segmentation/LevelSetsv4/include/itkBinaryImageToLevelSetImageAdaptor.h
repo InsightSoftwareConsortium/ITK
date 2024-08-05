@@ -268,6 +268,7 @@ private:
   /** Fill layers adjacent to the zero level set (i.e. layer -1 and +1 )*/
   void
   FindPlusOneMinusOneLayer();
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////

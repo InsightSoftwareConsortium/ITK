@@ -67,6 +67,7 @@ public:
       : label(l)
       , height(s)
     {}
+
     IdentifierType label;
     ScalarType     height;
 
@@ -83,6 +84,7 @@ public:
         return false;
       }
     }
+
   };
 
   /** Structure for storing lists of adjacencies (edges) and their

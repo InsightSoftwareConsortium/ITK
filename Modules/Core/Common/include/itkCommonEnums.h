@@ -164,6 +164,7 @@ using IOFileModeType = CommonEnums::IOFileMode;
 using IOByteOrderType = CommonEnums::IOByteOrder;
 using CellGeometryType = CommonEnums::CellGeometry;
 #endif
+
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, IOPixelEnum value);
