@@ -31,17 +31,17 @@ namespace itk
  *  This code was taken from the Insight Journal paper:
  *
  *      "Cell Tracking using Coupled Active Surfaces for Nuclei and Membranes"
- *      https://www.insight-journal.org/browse/publication/642
+ *      https://doi.org/10.54294/wvwmf8
  *
  *  That is based on the papers:
  *
  *      "Level Set Segmentation: Active Contours without edge"
- *      https://www.insight-journal.org/browse/publication/322
+ *      https://doi.org/10.54294/8jk6oy
  *
  *      and
  *
  *      "Level set segmentation using coupled active surfaces"
- *      https://www.insight-journal.org/browse/publication/323
+ *      https://doi.org/10.54294/23ugmy
  *
  *
  * \ingroup ITKCommon

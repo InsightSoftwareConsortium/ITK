@@ -33,7 +33,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "Support for Streaming the JPEG2000 File Format"
  * by Mosaliganti K., Ibanez L., Megason S
- * https://www.insight-journal.org/browse/publication/741
+ * https://doi.org/10.54294/bo53br
  *
  *
  *  JPEG2000 offers a large collection of interesting features including:

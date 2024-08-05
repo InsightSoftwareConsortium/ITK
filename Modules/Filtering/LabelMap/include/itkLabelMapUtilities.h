@@ -23,7 +23,7 @@
  * This code was contributed in the Insight Journal paper:
  * "Label object representation and manipulation with ITK"
  * by Lehmann G.
- * https://www.insight-journal.org/browse/publication/176
+ * https://doi.org/10.54294/q6auw4
  *
  */
 

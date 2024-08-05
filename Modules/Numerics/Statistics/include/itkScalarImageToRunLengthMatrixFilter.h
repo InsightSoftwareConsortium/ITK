@@ -93,7 +93,7 @@ namespace Statistics
  * NumericTraits class is the same, and thus cannot hold any larger values,
  * this would cause a float overflow.
  *
- * IJ article: https://www.insight-journal.org/browse/publication/231
+ * IJ article: https://doi.org/10.54294/ex0itu
  *
  * \sa ScalarImageToRunLengthFeaturesFilter
  * \sa HistogramToRunLengthFeaturesFilter

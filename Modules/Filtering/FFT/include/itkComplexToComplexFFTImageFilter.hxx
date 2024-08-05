@@ -25,7 +25,7 @@
  * official view of NCRR or NIH.
  *
  * This class was taken from the Insight Journal paper:
- * https://www.insight-journal.org/browse/publication/128
+ * https://doi.org/10.54294/h4j7t7
  *
  */
 #ifndef itkComplexToComplexFFTImageFilter_hxx

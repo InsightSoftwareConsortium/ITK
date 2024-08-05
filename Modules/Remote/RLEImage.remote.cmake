@@ -47,7 +47,7 @@ itk_fetch_module(
   "Run-length encoded memory compression scheme for an itk::Image.
 
 Insight Journal article:
-https://www.insight-journal.org/browse/publication/978
+https://doi.org/10.54294/t82x76
 
 This work is supported by NIH grant R01 EB014346
 'Continued development and maintenance of the ITK-SNAP 3D image segmentation software'."

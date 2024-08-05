@@ -38,7 +38,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "FFT Complex to Complex filters and helper classes"
  * by Warfield S.
- * https://www.insight-journal.org/browse/publication/128
+ * https://doi.org/10.54294/h4j7t7
  *
  * \author Simon K. Warfield simon.warfield\@childrens.harvard.edu
  *

@@ -50,7 +50,7 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * https://www.insight-journal.org/browse/publication/122
+ * https://doi.org/10.54294/4mx7kk
  *
  * \sa QuadEdge
  *

@@ -33,7 +33,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "MINC2.0 IO Support for ITK"
  * by Baghdadi L.
- * https://www.insight-journal.org/browse/publication/88
+ * https://doi.org/10.54294/j8lsa6
  *
  * And Modified by Vladimir S. FONOV during ITK-MINC Hackathon
  *

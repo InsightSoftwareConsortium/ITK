@@ -23,7 +23,7 @@
  * This code was contributed in the Insight Journal paper:
  * "ContourExtractor2DImageFilter: A subpixel-precision image isocontour extraction filter."
  * by Pincus Z.
- * https://www.insight-journal.org/browse/publication/72
+ * https://doi.org/10.54294/olkmog
  *
  */
 

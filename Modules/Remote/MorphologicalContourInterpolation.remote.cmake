@@ -47,7 +47,7 @@ itk_fetch_module(
   "nD morphological contour interpolation
 
 Insight Journal article:
-https://www.insight-journal.org/browse/publication/977
+https://doi.org/10.54294/achtrg
 
 An ITK-based implementation of morphological contour interpolation based off the paper:
 Albu AB, Beugeling T, Laurendeau D.

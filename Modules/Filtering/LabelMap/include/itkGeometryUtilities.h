@@ -29,7 +29,7 @@ namespace itk
  * \brief Groups some utility functions related to geometry
  *
  * This implementation was taken from the Insight Journal paper:
- * https://www.insight-journal.org/browse/publication/176
+ * https://doi.org/10.54294/q6auw4
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

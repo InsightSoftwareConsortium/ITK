@@ -32,7 +32,7 @@ namespace itk
  *
  * "Image Kernel Convolution"
  * by Tustison N., Gee J.
- * https://www.insight-journal.org/browse/publication/208
+ * https://doi.org/10.54294/e292kx
  *
  *
  * \note ImageKernelOperator does not have any user-declared "special member function",

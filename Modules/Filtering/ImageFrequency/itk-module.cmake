@@ -5,7 +5,7 @@ and filters to apply band pass filters based on frequency.
 A more detailed description can be found in the Insight Journal article::
 
 Cerdan, P.H. \"ITK Wavelet Module\".
-  https://www.insight-journal.org/browse/publication/986
+  https://doi.org/10.54294/0e1c0748fe24
   September, 2016.
 ")
 

@@ -36,7 +36,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "Finding regional extrema - methods and performance"
  * by Beare R., Lehmann G.
- * https://www.insight-journal.org/browse/publication/65
+ * https://doi.org/10.54294/hva3gz
  *
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.

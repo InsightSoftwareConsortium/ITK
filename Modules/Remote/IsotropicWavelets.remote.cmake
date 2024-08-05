@@ -48,7 +48,7 @@ itk_fetch_module(
 A more detailed description can be found in the Insight Journal article::
 
 Cerdan, P.H. \"Steerable Isotropic Wavelets for Multiscale and Phase Analysis\".
-  https://www.insight-journal.org/browse/publication/986
+  https://doi.org/10.54294/0e1c0748fe24
   November, 2016.
 "
   # Upstream repository was transferred from phcerdan to InsightSoftwareConsortium

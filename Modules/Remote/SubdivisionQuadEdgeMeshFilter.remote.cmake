@@ -48,7 +48,7 @@ itk_fetch_module(
 See the following Insight Journal's publication:
 
   Wanlin Zhu, \"Triangle Mesh Subdivision\"
-  https://www.insight-journal.org/browse/publication/831"
+  https://doi.org/10.54294/vw0ke0"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/itkSubdivisionQuadEdgeMeshFilter
   GIT_TAG 6e30c49f7ef9a5b4854bff39834f9d7e181130aa
