@@ -28,7 +28,7 @@
  * official view of NCRR or NIH.
  *
  * Contributed to the Insight Journal paper:
- * https://insight-journal.org/midas/handle.php?handle=1926/326
+ * https://doi.org/10.54294/h4j7t7
  *
  */
 
