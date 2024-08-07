@@ -77,7 +77,7 @@ extern ITKIOJPEG2000_EXPORT std::ostream &
  * This code was contributed in the Insight Journal paper:
  * "Support for Streaming the JPEG2000 File Format"
  * by Mosaliganti K., Ibanez L., Megason S
- * https://www.insight-journal.org/browse/publication/741
+ * https://doi.org/10.54294/bo53br
  *
  *
  *  \ingroup IOFilters

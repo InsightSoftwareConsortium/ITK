@@ -49,7 +49,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "N-D C^k B-Spline Scattered Data Approximation"
  * by Nicholas J. Tustison, James C. Gee
- * https://www.insight-journal.org/browse/publication/57
+ * https://doi.org/10.54294/0d55to
  *
  * \author Nicholas J. Tustison
  * \ingroup ITKImageGrid

@@ -45,7 +45,7 @@ namespace itk
  *
  * "FFT Based Convolution"
  * by Gaetan Lehmann
- * https://www.insight-journal.org/browse/publication/717
+ * https://doi.org/10.54294/0iky0u
  *
  * \ingroup ITKConvolution
  * \sa ConvolutionImageFilter

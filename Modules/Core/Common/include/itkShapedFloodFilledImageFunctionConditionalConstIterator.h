@@ -28,7 +28,7 @@ namespace itk
  *        access to pixels.
  *
  * Contributed as a paper to the Insight Journal:
- * https://www.insight-journal.org/browse/publication/204
+ * https://doi.org/10.54294/iei8xt
  *
  * \ingroup ImageIterators
  *

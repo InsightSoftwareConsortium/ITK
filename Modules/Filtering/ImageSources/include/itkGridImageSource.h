@@ -49,7 +49,7 @@ namespace itk
  * \author Tustison N., Avants B., Gee J. University of Pennsylvania
  *
  * This implementation was taken from the Insight Journal paper:
- * https://www.insight-journal.org/browse/publication/140
+ * https://doi.org/10.54294/ze1ssz
  *
  * \ingroup DataSources
  * \ingroup ITKImageSources

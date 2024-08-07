@@ -107,7 +107,7 @@ extern ITKQuadEdgeMeshFiltering_EXPORT std::ostream &
  * \tparam TOutputMesh Output Mesh Type
  * \tparam TSolverTraits Linear Sparse Solver Traits see VNLIterativeSparseSolverTraits and VNLSparseLUSolverTraits
  *
- *  For details, see https://www.insight-journal.org/browse/publication/890
+ *  For details, see https://doi.org/10.54294/s91axg
  *
  *  \ingroup ITKQuadEdgeMeshFiltering
  */

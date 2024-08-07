@@ -37,7 +37,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "Robust Automatic Threshold Selection"
  * by Lehmann G.
- * https://www.insight-journal.org/browse/publication/134
+ * https://doi.org/10.54294/7w23qz
  *
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.

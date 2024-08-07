@@ -70,7 +70,7 @@ extern ITKPDEDeformableRegistration_EXPORT std::ostream &
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  *
  * This implementation was taken from the Insight Journal paper:
- * https://www.insight-journal.org/browse/publication/154
+ * https://doi.org/10.54294/ux2obj
  *
  * \sa SymmetricForcesDemonsRegistrationFunction
  * \sa SymmetricForcesDemonsRegistrationFilter

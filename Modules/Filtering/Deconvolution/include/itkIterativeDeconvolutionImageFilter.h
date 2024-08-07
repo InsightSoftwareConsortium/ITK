@@ -44,7 +44,7 @@ namespace itk
  *
  * "Deconvolution: infrastructure and reference algorithms"
  * by Gaetan Lehmann
- * https://www.insight-journal.org/browse/publication/753
+ * https://doi.org/10.54294/tvgfv1
  *
  * \ingroup ITKDeconvolution
  */

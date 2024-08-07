@@ -33,7 +33,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "Introducing Dice, Jaccard, and Other Label Overlap Measures To ITK"
  * by Nicholas J. Tustison, James C. Gee
- * https://www.insight-journal.org/browse/publication/707
+ * https://doi.org/10.54294/1vixgg
  *
  * \author Nicholas J. Tustison
  * \sa LabelOverlapMeasuresImageFilter

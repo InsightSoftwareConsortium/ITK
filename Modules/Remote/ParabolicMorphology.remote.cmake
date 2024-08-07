@@ -46,7 +46,7 @@ itk_fetch_module(
   "Classes performing morphology using parabolic functions.
   Fast distance transforms and binary erosions/dilations/openings/closings
   by spheres, sharpenings and grayscale operations.
-  https://www.insight-journal.org/browse/publication/228"
+  https://doi.org/10.54294/aq68pt"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKParabolicMorphology.git
   GIT_TAG 4cfb99d9688184f579bf4fae4c8cf99ea61bb8e5

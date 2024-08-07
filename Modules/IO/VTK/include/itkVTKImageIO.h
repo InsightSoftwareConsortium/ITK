@@ -41,7 +41,7 @@ namespace itk
  *  \brief ImageIO class for reading VTK images
  *
  * This implementation was taken from the Insight Journal:
- * https://www.insight-journal.org/browse/publication/729
+ * https://doi.org/10.54294/olkmog9
  *
  * \ingroup IOFilters
  *

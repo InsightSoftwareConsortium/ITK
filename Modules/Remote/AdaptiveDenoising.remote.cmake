@@ -48,12 +48,12 @@ itk_fetch_module(
   and non-local super-resolution.
   Tustison N., Avants B., Wang H., Xie L., Coupe P., Yushkevich P., Manjon J.
   Insight Journal.
-  https://insight-journal.org/browse/publication/982.
+  https://doi.org/10.54294/ywuouh.
   Two Luis Miguel fans walk into a bar in Nagoya ---> (yada, yada, yada)
   ---> an ITK-implementation of a popular patch-based denoising filter.
   Tustison N., Manjon J.V.
   Insight Journal.
-  https://insight-journal.org/browse/publication/979.
+  https://doi.org/10.54294/9f5wt3.
   "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/ntustison/ITKAdaptiveDenoising.git

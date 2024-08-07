@@ -64,7 +64,7 @@ namespace itk
  *  This filter was contributed in the Insight Journal paper:
  *  "A Label Geometry Image Filter for Multiple Object Measurement"
  *  by Padfield D., Miller J
- *  https://www.insight-journal.org/browse/publication/301
+ *  https://doi.org/10.54294/saa3nn
  *
  * This class contains computational inefficiencies and bugs such as some attributes are not computed with respect to
  * image geometry, consider using these supported alternatives:

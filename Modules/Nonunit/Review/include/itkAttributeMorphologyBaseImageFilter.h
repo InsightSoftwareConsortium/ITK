@@ -43,7 +43,7 @@ namespace itk
  *
  * "Grayscale morphological attribute operations"
  * by Beare R.
- * https://www.insight-journal.org/browse/publication/203
+ * https://doi.org/10.54294/ifvjls
  *
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *

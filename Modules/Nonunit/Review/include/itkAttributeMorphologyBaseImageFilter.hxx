@@ -31,7 +31,7 @@
  *
  * "Grayscale morphological attribute operations"
  * by Beare R.
- * https://www.insight-journal.org/browse/publication/203
+ * https://doi.org/10.54294/ifvjls
  *
  */
 

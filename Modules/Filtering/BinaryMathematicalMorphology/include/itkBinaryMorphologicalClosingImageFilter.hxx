@@ -30,7 +30,7 @@
  * This code was contributed in the Insight Journal paper:
  * "Binary morphological closing and opening image filters"
  * by Lehmann G.
- * https://www.insight-journal.org/browse/publication/58
+ * https://doi.org/10.54294/bcwtvq
  *
  */
 

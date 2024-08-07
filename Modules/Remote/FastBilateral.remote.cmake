@@ -47,7 +47,7 @@ itk_fetch_module(
   "A Fast Approximation to the Bilateral Filter for ITK
 
 Insight Journal article:
-https://insight-journal.org/browse/publication/692"
+https://doi.org/10.54294/noo5vc"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKFastBilateral.git
   GIT_TAG f524fcf4bbb574ed2554aa6e993b0d9946fa8b79

@@ -91,7 +91,7 @@ namespace itk
  * must be set at the filter level.
  *
  * This class was contributed to the Insight Journal by Zachary Pincus.
- * https://www.insight-journal.org/browse/publication/72
+ * https://doi.org/10.54294/olkmog
  *
  * \sa Image
  * \sa Path
