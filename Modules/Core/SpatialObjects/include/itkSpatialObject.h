@@ -682,7 +682,7 @@ public:
                    const)
   {
     return IsInsideInObjectSpace(point, depth, name);
-  };
+  }
 #endif
 
 protected:
