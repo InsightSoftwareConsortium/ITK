@@ -26,7 +26,7 @@ namespace itk
  * \author Burstein, Pablo D.; Yushkevich, Paul; Gee, James C.
  *
  * This implementation was contributed as a paper to the Insight Journal
- * https://insight-journal.org/midas/handle.php?handle=1926/303
+ * https://doi.org/10.54294/k9nj7c
  *
  */
 
