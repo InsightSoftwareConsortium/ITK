@@ -322,18 +322,10 @@ str = str
 
     %pythonprepend itkObject::AddObserver %{
         import itk
-        if len(args) == 3 and not issubclass(args[2].__class__, itk.Command) and callable(args[2]):
-            args = list(args)
+        if not issubclass(cmd.__class__, itk.Command) and callable(cmd):
             pycommand = itk.PyCommand.New()
-            pycommand.SetCommandCallable( args[2] )
-            args[2] = pycommand
-            args = tuple(args)
-        elif len(args) == 2 and not issubclass(args[1].__class__, itk.Command) and callable(args[1]):
-            args = list(args)
-            pycommand = itk.PyCommand.New()
-            pycommand.SetCommandCallable( args[1] )
-            args[1] = pycommand
-            args = tuple(args)
+            pycommand.SetCommandCallable( cmd )
+            cmd = pycommand
     %}
 
 %enddef
