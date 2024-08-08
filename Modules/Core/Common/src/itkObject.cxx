@@ -457,13 +457,6 @@ Object::GetGlobalWarningDisplay()
 }
 
 unsigned long
-Object::AddObserver(const EventObject & event, Command * cmd)
-{
-  const auto & thisAsConst = *this;
-  return thisAsConst.AddObserver(event, cmd);
-}
-
-unsigned long
 Object::AddObserver(const EventObject & event, Command * cmd) const
 {
   if (!this->m_SubjectImplementation)
