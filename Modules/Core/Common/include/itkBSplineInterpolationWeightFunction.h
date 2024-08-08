@@ -106,7 +106,7 @@ public:
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** Get support region size. */
-  itkLegacyMacro(SizeType GetSupportSize() const) { return Self::SupportSize; };
+  itkLegacyMacro(SizeType GetSupportSize() const) { return Self::SupportSize; }
 
   /** Get number of weights. */
   itkLegacyMacro(unsigned int GetNumberOfWeights() const) { return Self::NumberOfWeights; }
