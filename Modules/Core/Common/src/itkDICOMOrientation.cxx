@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkDICOMOrientation.h"
 #ifndef ITK_FUTURE_LEGACY_REMOVE
-#include "itkSpatialOrientationAdapter.h"
+#  include "itkSpatialOrientationAdapter.h"
 #endif
 
 namespace itk
@@ -33,7 +33,10 @@ DICOMOrientation::DICOMOrientation(CoordinateEnum primary, CoordinateEnum second
   }
   else
   {
-    m_Value = static_cast<OrientationEnum>(toOrientation(primary, secondary, tertiary));
+    m_Value = static_cast<OrientationEnum>(
+      (static_cast<uint32_t>(primary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) +
+      (static_cast<uint32_t>(secondary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) +
+      (static_cast<uint32_t>(tertiary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor)));
   }
 }
 
@@ -52,7 +55,7 @@ DICOMOrientation::DICOMOrientation(std::string str)
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 DICOMOrientation::DICOMOrientation(LegacyOrientationType legacyOrientation)
-: DICOMOrientation(SpatialOrientationAdapter::ToDirectionCosines(legacyOrientation))
+  : DICOMOrientation(SpatialOrientationAdapter::ToDirectionCosines(legacyOrientation))
 {}
 #endif
 
@@ -176,19 +179,19 @@ DICOMOrientation::DirectionCosinesToOrientation(const DirectionType & dir)
   // but it is DIFFERENT in the meaning of direction in terms of sign-ness.
   CoordinateEnum terms[3] = { CoordinateEnum::UNKNOWN, CoordinateEnum::UNKNOWN, CoordinateEnum::UNKNOWN };
 
-  std::multimap< double, std::pair<unsigned, unsigned> > value_to_idx;
-  for (unsigned int c = 0; c < 3; ++c )
+  std::multimap<double, std::pair<unsigned, unsigned>> value_to_idx;
+  for (unsigned int c = 0; c < 3; ++c)
+  {
+    for (unsigned int r = 0; r < 3; ++r)
     {
-    for (unsigned int r = 0; r < 3; ++r )
-      {
-      value_to_idx.emplace(std::abs(dir[c][r]), std::make_pair(c,r));
-      }
+      value_to_idx.emplace(std::abs(dir[c][r]), std::make_pair(c, r));
     }
+  }
 
   for (unsigned i = 0; i < 3; ++i)
-    {
+  {
 
-    auto max_idx = value_to_idx.rbegin()->second;
+    auto               max_idx = value_to_idx.rbegin()->second;
     const unsigned int max_c = max_idx.first;
     const unsigned int max_r = max_idx.second;
 
@@ -196,29 +199,32 @@ DICOMOrientation::DirectionCosinesToOrientation(const DirectionType & dir)
 
     for (auto it = value_to_idx.begin(); it != value_to_idx.end();)
     {
-    if (it->second.first == max_c || it->second.second == max_r)
+      if (it->second.first == max_c || it->second.second == max_r)
       {
-      value_to_idx.erase(it++);
+        value_to_idx.erase(it++);
       }
-    else
+      else
       {
-      ++it;
+        ++it;
       }
     }
 
     switch (max_c)
     {
-      case 0: {
+      case 0:
+      {
         // When the dominant axis sign is positive, assign the coordinate for the direction we are increasing towards.
         // ITK is in LPS, so that is the positive direction
         terms[max_r] = (max_sgn == 1) ? CoordinateEnum::RightToLeft : CoordinateEnum::LeftToRight;
         break;
       }
-      case 1: {
+      case 1:
+      {
         terms[max_r] = (max_sgn == 1) ? CoordinateEnum::AnteriorToPosterior : CoordinateEnum::PosteriorToAnterior;
         break;
       }
-      case 2: {
+      case 2:
+      {
         terms[max_r] = (max_sgn == 1) ? CoordinateEnum::InferiorToSuperior : CoordinateEnum::SuperiorToInferior;
         break;
       }
@@ -227,7 +233,7 @@ DICOMOrientation::DirectionCosinesToOrientation(const DirectionType & dir)
     }
   }
 
-  return static_cast<OrientationEnum>(toOrientation(terms[0], terms[1], terms[2]));
+  return DICOMOrientation(terms[0], terms[1], terms[2]);
 }
 
 
