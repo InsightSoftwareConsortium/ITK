@@ -86,10 +86,6 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
     RAISE_EXCEPTION();
   }
   auto * hdr = new GEImageHeader;
-  if (hdr == nullptr)
-  {
-    RAISE_EXCEPTION();
-  }
   // Set modality to UNKNOWN
   strcpy(hdr->modality, "UNK");
 
