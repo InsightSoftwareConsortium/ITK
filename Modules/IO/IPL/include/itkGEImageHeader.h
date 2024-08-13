@@ -86,7 +86,7 @@ struct GEImageHeader
   short                                  imageYsize;
   float                                  imageXres;
   float                                  imageYres;
-  itk::DICOMOrientation::OrientationEnum coordinateOrientation{ itk::DICOMOrientation::OrientationEnum::INVALID };
+  itk::DICOMOrientation::OrientationEnum coordinateOrientation; // uint32_t
   short                                  numberOfSlices;
   short                                  offset;
   char                                   filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
