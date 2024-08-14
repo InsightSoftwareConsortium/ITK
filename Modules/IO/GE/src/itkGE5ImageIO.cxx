@@ -181,13 +181,6 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   }
 
   curImage = new GEImageHeader;
-  if (curImage == nullptr)
-  {
-    itkExceptionMacro("GE5ImageIO failed to create a GEImageHeader while reading " << FileNameToRead << " ."
-                                                                                   << std::endl
-                                                                                   << "Reason: "
-                                                                                   << "new GEImageHeader failed.");
-  }
   memset(curImage, 0, sizeof(GEImageHeader));
 
   std::ifstream f;

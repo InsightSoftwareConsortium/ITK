@@ -101,10 +101,6 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
     RAISE_EXCEPTION();
   }
   auto * hdr = new GEImageHeader;
-  if (hdr == nullptr)
-  {
-    RAISE_EXCEPTION();
-  }
   //
   // Next, can you open it?
   std::ifstream f;
