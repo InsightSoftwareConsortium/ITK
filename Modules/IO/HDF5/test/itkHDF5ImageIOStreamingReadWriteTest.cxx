@@ -77,7 +77,7 @@ protected:
       const typename TOutputImage::PixelType pixel(idx[2] * 100 + idx[1] * 10 + idx[0]);
       it.Set(pixel);
     }
-  };
+  }
 
 private:
   typename TOutputImage::PixelType m_Value;

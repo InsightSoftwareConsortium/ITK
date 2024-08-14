@@ -44,7 +44,7 @@ protected:
   {
     // mark used to avoid warnings
     (void)&Self::Clone;
-  };
+  }
 
 public:
   void

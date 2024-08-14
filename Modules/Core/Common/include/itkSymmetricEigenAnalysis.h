@@ -44,7 +44,7 @@ const TValueType *
 GetPointerToMatrixData(const vnl_matrix<TValueType> & inputMatrix)
 {
   return inputMatrix.data_block();
-};
+}
 
 template <typename TValueType, unsigned int VRows, unsigned int VColumns>
 const TValueType *
