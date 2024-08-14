@@ -74,7 +74,7 @@ public:
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** Approximate the normals of the surface. */
-  itkLegacyMacro(bool Approximate3DNormals());
+  itkLegacyMacro(bool Approximate3DNormals();)
 #endif
 
   /** Compute the normals to the surface from neighboring points. */

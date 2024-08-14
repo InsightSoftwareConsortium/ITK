@@ -122,7 +122,7 @@ public:
   ComputeCorners() const;
 
   /** Compute and return the corners of the bounding box */
-  itkLegacyMacro(const PointsContainer * GetCorners());
+  itkLegacyMacro(const PointsContainer * GetCorners();)
 
   /** Method that actually computes bounding box. */
   bool

@@ -347,7 +347,7 @@ protected:
   /** Cast pixel from interpolator output to PixelType. */
   itkLegacyMacro(virtual PixelType CastPixelWithBoundsChecking(const InterpolatorOutputType value,
                                                                const ComponentType          minComponent,
-                                                               const ComponentType          maxComponent) const);
+                                                               const ComponentType          maxComponent) const;)
 
 private:
   static PixelComponentType

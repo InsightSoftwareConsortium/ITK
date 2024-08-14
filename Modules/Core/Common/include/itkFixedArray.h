@@ -321,16 +321,16 @@ ITK_GCC_PRAGMA_POP
   End() const;
 
   /** Get a begin ReverseIterator. */
-  itkLegacyMacro(ReverseIterator rBegin());
+  itkLegacyMacro(ReverseIterator rBegin();)
 
   /** Get a begin ConstReverseIterator. */
-  itkLegacyMacro(ConstReverseIterator rBegin() const);
+  itkLegacyMacro(ConstReverseIterator rBegin() const;)
 
   /** Get an end ReverseIterator. */
-  itkLegacyMacro(ReverseIterator rEnd());
+  itkLegacyMacro(ReverseIterator rEnd();)
 
   /** Get an end ConstReverseIterator. */
-  itkLegacyMacro(ConstReverseIterator rEnd() const);
+  itkLegacyMacro(ConstReverseIterator rEnd() const;)
 
   constexpr const_iterator
   cbegin() const noexcept

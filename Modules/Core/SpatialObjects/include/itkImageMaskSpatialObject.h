@@ -116,7 +116,7 @@ public:
   /** Compute axis aligned bounding box from the image mask.
    * \note With ITK 5.0, this function is superseded by `ComputeMyBoundingBoxInIndexSpace()`
    */
-  itkLegacyMacro(RegionType GetAxisAlignedBoundingBoxRegion() const);
+  itkLegacyMacro(RegionType GetAxisAlignedBoundingBoxRegion() const;)
 
 #endif
 
