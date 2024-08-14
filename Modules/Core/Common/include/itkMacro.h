@@ -625,7 +625,7 @@ OutputWindowDisplayDebugText(const char *);
 // declared in their class.  Example usage:
 //
 //   // \deprecated Replaced by MyOtherMethod() as of ITK 2.0.
-//   itkLegacyMacro(void MyMethod());
+//   itkLegacyMacro(void MyMethod();)
 //
 // See below for what to do for the method definition.
 #if defined(ITK_LEGACY_REMOVE)
@@ -633,10 +633,10 @@ OutputWindowDisplayDebugText(const char *);
 #else
 #  if defined(ITK_LEGACY_SILENT) || defined(ITK_LEGACY_TEST)
 //   Provide legacy methods with no warnings.
-#    define itkLegacyMacro(method) method
+#    define itkLegacyMacro(method) method /* no ';' */
 #  else
 //   Request compile-time warnings for uses of deprecated methods.
-#    define itkLegacyMacro(method) [[deprecated]] method
+#    define itkLegacyMacro(method) [[deprecated]] method /* no ';' */
 #  endif
 #endif
 

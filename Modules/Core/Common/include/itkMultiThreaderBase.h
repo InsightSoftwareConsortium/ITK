@@ -154,8 +154,8 @@ public:
    * starting threads.
    *
    * Deprecated: use Get/Set GlobalDefaultThreader. */
-  itkLegacyMacro(static void SetGlobalDefaultUseThreadPool(const bool GlobalDefaultUseThreadPool));
-  itkLegacyMacro(static bool GetGlobalDefaultUseThreadPool());
+  itkLegacyMacro(static void SetGlobalDefaultUseThreadPool(const bool GlobalDefaultUseThreadPool);)
+  itkLegacyMacro(static bool GetGlobalDefaultUseThreadPool();)
 
   using ThreaderEnum = MultiThreaderBaseEnums::Threader;
 #if !defined(ITK_LEGACY_REMOVE)

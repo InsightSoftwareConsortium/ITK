@@ -530,7 +530,7 @@ public:
                       << this->GetNameOfClass());
   }
   itkLegacyMacro(virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian)
-                   const);
+                   const;)
 
 
   /** This provides the ability to get a local jacobian value
@@ -541,7 +541,7 @@ public:
   virtual void
   ComputeInverseJacobianWithRespectToPosition(const InputPointType & pnt, InverseJacobianPositionType & jacobian) const;
   itkLegacyMacro(virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
-                                                                          JacobianType &         jacobian) const);
+                                                                          JacobianType &         jacobian) const;)
 
   /** Apply this transform to an image without resampling.
    *

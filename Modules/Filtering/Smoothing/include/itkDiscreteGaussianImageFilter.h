@@ -316,8 +316,8 @@ public:
    * This parameter was introduced to reduce the memory used by images
    * internally, at the cost of performance.
    */
-  itkLegacyMacro(unsigned int GetInternalNumberOfStreamDivisions() const);
-  itkLegacyMacro(void SetInternalNumberOfStreamDivisions(unsigned int));
+  itkLegacyMacro(unsigned int GetInternalNumberOfStreamDivisions() const;)
+  itkLegacyMacro(void SetInternalNumberOfStreamDivisions(unsigned int);)
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
