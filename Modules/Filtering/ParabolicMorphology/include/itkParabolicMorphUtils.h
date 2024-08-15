@@ -243,7 +243,6 @@ doOneDimension(TInIter &          inputIterator,
     inputIterator.GoToBegin();
     outputIterator.GoToBegin();
 
-    unsigned count = 0;
     while (!inputIterator.IsAtEnd() && !outputIterator.IsAtEnd())
     {
       // process this direction
@@ -266,7 +265,6 @@ doOneDimension(TInIter &          inputIterator,
         ++outputIterator;
       }
 
-      ++count;
       // now onto the next line
       inputIterator.NextLine();
       outputIterator.NextLine();
@@ -289,7 +287,6 @@ doOneDimension(TInIter &          inputIterator,
     inputIterator.GoToBegin();
     outputIterator.GoToBegin();
 
-    unsigned count = 0;
     while (!inputIterator.IsAtEnd() && !outputIterator.IsAtEnd())
     {
       // process this direction
@@ -312,7 +309,6 @@ doOneDimension(TInIter &          inputIterator,
         ++outputIterator;
       }
 
-      ++count;
       // now onto the next line
       inputIterator.NextLine();
       outputIterator.NextLine();
