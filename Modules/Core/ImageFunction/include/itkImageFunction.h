@@ -112,7 +112,7 @@ public:
 
   /** Evaluate the function at specified Point position.
    * Subclasses must provide this method. */
-  TOutput
+  OutputType
   Evaluate(const PointType & point) const override = 0;
 
   /** Evaluate the function at specified Index position.

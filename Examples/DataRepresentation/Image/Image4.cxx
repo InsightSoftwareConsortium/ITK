@@ -441,7 +441,8 @@ main(int, char *[])
   // SoftwareGuide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MatrixType = itk::Matrix<double, Dimension, Dimension>;
+  using MatrixType =
+    itk::Matrix<itk::SpacePrecisionType, Dimension, Dimension>;
   MatrixType SpacingMatrix;
   SpacingMatrix.Fill(0.0F);
 
