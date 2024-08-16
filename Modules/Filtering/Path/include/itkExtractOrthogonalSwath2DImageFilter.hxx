@@ -163,7 +163,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
   ProgressReporter progress(this, 0, outputRegion.GetNumberOfPixels());
 
   using OutputIterator = ImageRegionIteratorWithIndex<ImageType>;
-  using InterpolatorType = LinearInterpolateImageFunction<ImageType, double>;
+  using InterpolatorType = LinearInterpolateImageFunction<ImageType, itk::SpacePrecisionType>;
 
   ImageIndexType                      index;
   double                              orthogonalOffset;
