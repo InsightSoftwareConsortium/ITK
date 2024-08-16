@@ -114,9 +114,9 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits<PixelType>::ValueType;
   using TileConfig = itk::TileConfiguration<Dimension>;
-  using PointType = itk::Point<double, Dimension>;
-  using VectorType = itk::Vector<double, Dimension>;
-  using TransformType = itk::TranslationTransform<double, Dimension>;
+  using PointType = itk::Point<itk::SpacePrecisionType, Dimension>;
+  using VectorType = itk::Vector<itk::SpacePrecisionType, Dimension>;
+  using TransformType = itk::TranslationTransform<itk::SpacePrecisionType, Dimension>;
   using ScalarImageType = itk::Image<ScalarPixelType, Dimension>;
   using OriginalImageType = itk::Image<PixelType, Dimension>; // possibly RGB instead of scalar
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ScalarImageType, ScalarImageType>;

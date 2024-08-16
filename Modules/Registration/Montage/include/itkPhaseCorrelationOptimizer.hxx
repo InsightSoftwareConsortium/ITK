@@ -546,8 +546,8 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
             ratio = (y0 + y2) / (2 * y1);
             if (offsetIndex > 0) // clip to -0.999... to 0.999... range
             {
-              ratio = std::min(ratio, 1.0 - std::numeric_limits<OffsetScalarType>::epsilon());
-              ratio = std::max(ratio, -1.0 + std::numeric_limits<OffsetScalarType>::epsilon());
+              ratio = std::min(ratio, 1.0f - std::numeric_limits<OffsetScalarType>::epsilon());
+              ratio = std::max(ratio, -1.0f + std::numeric_limits<OffsetScalarType>::epsilon());
             }
             omega = std::acos(ratio);
             theta = std::atan((y0 - y2) / (2 * y1 * std::sin(omega)));
