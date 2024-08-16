@@ -43,7 +43,7 @@ resampleMontage(const itk::TileConfiguration<Dimension> & actualTiles,
                 const std::string &                       outFilename)
 {
   using TileConfig = itk::TileConfiguration<Dimension>;
-  using TransformType = itk::TranslationTransform<double, Dimension>;
+  using TransformType = itk::TranslationTransform<itk::SpacePrecisionType, Dimension>;
   using OriginalImageType = itk::Image<PixelType, Dimension>; // possibly RGB instead of scalar
   typename OriginalImageType::SpacingType sp;
   typename TransformType::ConstPointer    identity = TransformType::New();

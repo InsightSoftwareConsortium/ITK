@@ -349,7 +349,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
 {
   using TileConfig = itk::TileConfiguration<Dimension>;
   using ScalarPixelType = typename itk::NumericTraits<PixelType>::ValueType;
-  using TransformType = itk::TranslationTransform<double, Dimension>;
+  using TransformType = itk::TranslationTransform<itk::SpacePrecisionType, Dimension>;
   using ScalarImageType = itk::Image<ScalarPixelType, Dimension>;
   using OriginalImageType = itk::Image<PixelType, Dimension>; // possibly RGB instead of scalar
   using BiasFieldType = LogBiasFieldType<Dimension>;

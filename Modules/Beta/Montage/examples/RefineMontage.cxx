@@ -41,7 +41,7 @@ refineMontage(const itk::TileConfiguration<Dimension> & stageTiles,
               const std::string &                       inputPath)
 {
   using TileConfig = itk::TileConfiguration<Dimension>;
-  using TransformType = itk::TranslationTransform<double, Dimension>;
+  using TransformType = itk::TranslationTransform<itk::SpacePrecisionType, Dimension>;
   using ScalarImageType = itk::Image<PixelType, Dimension>;
   typename ScalarImageType::SpacingType sp;
   sp.Fill(1.0);

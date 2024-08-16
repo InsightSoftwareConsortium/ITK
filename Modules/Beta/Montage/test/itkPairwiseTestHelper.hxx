@@ -135,13 +135,13 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
 
     phaseCorrelationMethod->Update();
 
-    using TransformType = itk::TranslationTransform<double, Dimension>;
+    using TransformType = itk::TranslationTransform<itk::SpacePrecisionType, Dimension>;
     static_assert(std::is_same<TransformType, typename PhaseCorrelationMethodType::TransformType>::value,
                   "PhaseCorrelationMethod's TransformType is expected to be a TranslationTransform");
     const TransformType * regTr = phaseCorrelationMethod->GetOutput()->Get();
 
     // calculate error
-    using VectorType = itk::Vector<double, Dimension>;
+    using VectorType = itk::Vector<itk::SpacePrecisionType, Dimension>;
     VectorType tr = regTr->GetOffset(); // translation measured by registration
     for (unsigned d = 0; d < Dimension; d++)
     {
