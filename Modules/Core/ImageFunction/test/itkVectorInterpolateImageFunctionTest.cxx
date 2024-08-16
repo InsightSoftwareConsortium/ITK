@@ -30,7 +30,7 @@ enum
 };
 using PixelType = itk::Vector<unsigned short, VectorDimension>;
 using ImageType = itk::Image<PixelType, ImageDimension>;
-using CoordRepType = double;
+using CoordRepType = itk::SpacePrecisionType;
 using InterpolatorType = itk::VectorLinearInterpolateImageFunction<ImageType, CoordRepType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
