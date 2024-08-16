@@ -68,7 +68,7 @@ protected:
   {
     this->DynamicMultiThreadingOn();
     this->ThreaderUpdateProgressOff();
-  };
+  }
   ~PhysicalPointImageSource() override = default;
 
   void

@@ -33,7 +33,7 @@
  */
 template <typename T>
 [[deprecated("Preferably use the C++ `[[maybe_unused]]` attribute instead!")]] inline void
-Unused(const T &){};
+Unused(const T &){}
 #endif
 
 namespace itk
