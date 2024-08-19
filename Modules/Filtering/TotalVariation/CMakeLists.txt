@@ -41,6 +41,7 @@ if(TotalVariation_proxTV_USE_EIGEN)
   set(
     ${PROJECT_NAME}_EXPORT_CODE_INSTALL
     "${${PROJECT_NAME}_EXPORT_CODE_INSTALL}
+find_package(OpenMP)
 set(Eigen3_DIR \"${Eigen3_DIR}\")
 find_package(Eigen3 REQUIRED CONFIG)
 "
@@ -49,6 +50,7 @@ find_package(Eigen3 REQUIRED CONFIG)
     ${PROJECT_NAME}_EXPORT_CODE_BUILD
     "${${PROJECT_NAME}_EXPORT_CODE_BUILD}
 if(NOT ITK_BINARY_DIR)
+  find_package(OpenMP)
   set(Eigen3_DIR \"${Eigen3_DIR}\")
   find_package(Eigen3 REQUIRED CONFIG)
 endif()
@@ -73,6 +75,7 @@ if(ITK_USE_SYSTEM_proxTV)
     ${PROJECT_NAME}_EXPORT_CODE_BUILD
     "${${PROJECT_NAME}_EXPORT_CODE_BUILD}
 if(NOT ITK_BINARY_DIR)
+  find_package(OpenMP)
   set(proxTV_DIR \"${proxTV_DIR_BUILD}\")
   find_package(proxTV REQUIRED CONFIG)
 endif()
@@ -138,6 +141,7 @@ endif()
 set(
   ${PROJECT_NAME}_EXPORT_CODE_INSTALL
   "${${PROJECT_NAME}_EXPORT_CODE_INSTALL}
+find_package(OpenMP)
 set(proxTV_DIR \"${proxTV_DIR_INSTALL}\")
 find_package(proxTV REQUIRED CONFIG)
 "
