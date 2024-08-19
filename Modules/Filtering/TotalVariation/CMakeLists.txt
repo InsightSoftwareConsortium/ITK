@@ -127,10 +127,7 @@ else() # build proxTV here with the selected Eigen3
   endif()
   # end proxTV options
 
-  if(NOT proxtv_fetch_POPULATED)
-    FetchContent_Populate(proxTV_fetch)
-    add_subdirectory(${proxtv_fetch_SOURCE_DIR} ${proxtv_fetch_BINARY_DIR})
-  endif()
+  FetchContent_MakeAvailable(proxTV_fetch)
   # proxTV will generate a target proxTV::proxTV when using find_package,
   # or a library proxTV when using add_subdirectory
   set(_proxTV_lib proxTV) # proxTV generated in subdirectory
