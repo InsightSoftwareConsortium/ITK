@@ -35,7 +35,7 @@ template< typename TPixel, typename TCellPixel = TPixel >
 class ITK_TEMPLATE_EXPORT PolyData: public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolyData);
+  ITK_DISALLOW_COPY_AND_MOVE(PolyData);
 
   using Self = PolyData;
   using Superclass = DataObject;

@@ -39,7 +39,7 @@ template <typename TInputPolyData>
 class PolyDataToMeshFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolyDataToMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PolyDataToMeshFilter);
 
   /** Standard class typedefs. */
   using Self = PolyDataToMeshFilter<TInputPolyData>;
