@@ -38,7 +38,7 @@ template< typename TInputImage, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT ImageToPointSetFilter: public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToPointSetFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToPointSetFilter);
 
   /** Standard class type alias. */
   using Self = ImageToPointSetFilter;

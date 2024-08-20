@@ -58,7 +58,7 @@ template< typename TInputMesh >
 class MeshToPolyDataFilter: public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshToPolyDataFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MeshToPolyDataFilter);
 
   static constexpr unsigned int PointDimension = TInputMesh::PointDimension;
 
