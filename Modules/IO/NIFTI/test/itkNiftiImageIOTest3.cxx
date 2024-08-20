@@ -148,6 +148,8 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
     itk::MetaDataDictionary & dictionary = vi->GetMetaDataDictionary();
     itk::EncapsulateMetaData<std::string>(dictionary, "intent_code", intentCode);
   }
+  std::string description("text description of file content");
+  itk::EncapsulateMetaData<std::string>(vi->GetMetaDataDictionary(), "ITK_FileNotes", description);
   try
   {
     itk::IOTestHelper::WriteImage<VectorImageType, itk::NiftiImageIO>(vi, fname);
@@ -190,6 +192,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   {
     const itk::MetaDataDictionary & dictionary = readback->GetMetaDataDictionary();
     std::string                     readIntentCode;
+    std::string                     readDescription;
     if (itk::ExposeMetaData<std::string>(dictionary, "intent_code", readIntentCode))
     {
       if (readIntentCode != intentCode)
@@ -201,6 +204,19 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
     else
     {
       std::cout << "The read image should have an intent_code in its dictionary" << std::endl;
+      same = false;
+    }
+    if (itk::ExposeMetaData<std::string>(dictionary, "ITK_FileNotes", readDescription))
+    {
+      if (readDescription != description)
+      {
+        std::cout << "ITK_FileNotes is different: " << readDescription << " != " << description << std::endl;
+        same = false;
+      }
+    }
+    else
+    {
+      std::cout << "The read image should have a ITK_FileNotes (nifti descrip field) in its dictionary" << std::endl;
       same = false;
     }
   }
