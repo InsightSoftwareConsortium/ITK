@@ -1776,6 +1776,17 @@ NiftiImageIO::WriteImageInformation()
       strcpy(this->m_NiftiImage->aux_file, temp.c_str());
     }
   }
+  if (itk::ExposeMetaData<std::string>(thisDic, "ITK_FileNotes", temp))
+  {
+    if (temp.length() > 79)
+    {
+      itkExceptionMacro("ITK_FileNotes (Nifti descrip field) too long, Nifti limit is 79 characters");
+    }
+    else
+    {
+      strcpy(this->m_NiftiImage->descrip, temp.c_str());
+    }
+  }
 
   // Enable RAS conversion based on metadata and flags
   this->m_ConvertRAS = (m_ConvertRASVectors && this->m_NiftiImage->intent_code == NIFTI_INTENT_VECTOR) ||
