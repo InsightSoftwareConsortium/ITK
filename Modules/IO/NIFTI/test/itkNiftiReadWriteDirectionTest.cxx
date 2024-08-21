@@ -67,8 +67,8 @@ template <typename TImage>
 bool
 CheckRotation(typename TImage::Pointer img)
 {
-  vnl_matrix_fixed<double, 3, 3>       rotation = img->GetDirection().GetVnlMatrix().extract(3, 3, 0, 0);
-  const vnl_matrix_fixed<double, 3, 3> candidate_identity = rotation * rotation.transpose();
+  vnl_matrix_fixed<itk::SpacePrecisionType, 3, 3> rotation = img->GetDirection().GetVnlMatrix().extract(3, 3, 0, 0);
+  const vnl_matrix_fixed<itk::SpacePrecisionType, 3, 3> candidate_identity = rotation * rotation.transpose();
   return candidate_identity.is_identity(1.0e-4);
 }
 

@@ -77,7 +77,7 @@ public:
   static constexpr unsigned int ImageDimension2 = ImageDimension;
 #endif
 
-  using ContinuousIndexType = ContinuousIndex<SpacePrecisionType, Self::ImageDimension>;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   using NeighborhoodType = Neighborhood<InputPixelType, Self::ImageDimension>;
   using OperatorNeighborhoodType = Neighborhood<TOutput, Self::ImageDimension>;
@@ -96,7 +96,7 @@ public:
 
   /** Point type alias support */
   // using PointType = Point< TOutput, Self::ImageDimension >;
-  using PointType = typename InputImageType::PointType;
+  using PointType = typename Superclass::PointType;
 
   /** Evaluate the function at the specified point. */
   OutputType

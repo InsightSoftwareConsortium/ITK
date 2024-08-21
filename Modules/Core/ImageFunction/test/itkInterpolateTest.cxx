@@ -25,7 +25,7 @@
 
 using SizeType = itk::Size<3>;
 using ImageType = itk::Image<unsigned short, 3>;
-using CoordRepType = double;
+using CoordRepType = itk::SpacePrecisionType;
 using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
