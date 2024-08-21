@@ -128,7 +128,7 @@ itkNiftiImageIOTest14(int argc, char * argv[])
 
     auto read_origin = test_image->GetOrigin();
 
-    if (itk::Math::FloatAlmostEqual(read_origin[3], 2.0, 4, 1e-6))
+    if (itk::Math::FloatAlmostEqual<itk::SpacePrecisionType>(read_origin[3], 2.0, 4, 1e-6))
     {
       imageHasCorrectTimeOrigin = true;
     }

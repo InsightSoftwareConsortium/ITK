@@ -847,7 +847,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeOrientedBoundingBox(LabelObject
   // iterate over all corners (2^D) of the pixel
   for (unsigned int p = 0; p < 1u << ImageDimension; ++p)
   {
-    Vector<double, ImageDimension> spacingAxis(0.5 * spacing);
+    Vector<double, ImageDimension> spacingAxis(spacing * 0.5);
 
     // permute signs of spacing vector components, based on a bit of p
     // to component of spacingAxis mapping
