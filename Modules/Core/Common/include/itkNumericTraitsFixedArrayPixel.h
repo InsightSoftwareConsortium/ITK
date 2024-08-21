@@ -221,7 +221,8 @@ public:
   itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, 7);             \
   itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, 8);             \
   itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, 9);             \
-  itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, 10);
+  itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, 10);            \
+  ITK_MACROEND_NOOP_STATEMENT
 } // end namespace itk
 
 #endif // itkNumericTraitsFixedArrayPixel_h

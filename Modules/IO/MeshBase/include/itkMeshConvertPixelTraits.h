@@ -170,15 +170,15 @@ ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(double);
     {                                                                   \
       return pixel[0];                                                  \
     }                                                                   \
-  };
+  }
 
 
 // Define traits for Offset<> from dimensions 1 to 5
-ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(1)
-ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(2)
-ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(3)
-ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(4)
-ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
+ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(1);
+ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(2);
+ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(3);
+ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(4);
+ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5);
 
 //
 //  Default traits for the pixel types deriving from FixedArray<>
@@ -216,7 +216,7 @@ ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
     {                                                                                 \
       return pixel[0];                                                                \
     }                                                                                 \
-  };
+  }
 
 //
 //
@@ -225,12 +225,13 @@ ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
 //
 //
 #define ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, Type) \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 1)              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 2)              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 3)              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 4)              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 5)              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 6)
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 1);             \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 2);             \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 3);             \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 4);             \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 5);             \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 6);             \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(ArrayType)          \
   ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, char);               \
@@ -245,7 +246,8 @@ ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
   ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, long long);          \
   ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned long long); \
   ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, float);              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, double);
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, double);             \
+  ITK_MACROEND_NOOP_STATEMENT
 
 ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(Vector);
 ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(CovariantVector);
@@ -298,7 +300,7 @@ ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(FixedArray);
     {                                                                              \
       return pixel[0][0];                                                          \
     }                                                                              \
-  };
+  }
 
 //
 //
@@ -306,12 +308,13 @@ ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(FixedArray);
 //
 //
 #define ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, Type) \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 1, 1)           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 2, 2)           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 3, 3)           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 4, 4)           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 5, 5)           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 6, 6)
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 1, 1);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 2, 2);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 3, 3);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 4, 4);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 5, 5);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 6, 6);          \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(ArrayType)          \
   ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, char);               \
@@ -326,7 +329,8 @@ ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(FixedArray);
   ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, long long);          \
   ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned long long); \
   ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, float);              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, double);
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, double);             \
+  ITK_MACROEND_NOOP_STATEMENT
 
 //
 // Add here other classes that derive from Matrix or that have the same API
@@ -389,7 +393,7 @@ ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(Matrix);
     {                                                                   \
       return std::norm(pixel);                                          \
     }                                                                   \
-  };
+  }
 
 ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(float);
 ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(double);
@@ -426,7 +430,7 @@ ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(double);
     {                                                                   \
       return pixel[0];                                                  \
     }                                                                   \
-  };
+  }
 
 #define ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE_ALL_TYPES_MACRO(ArrayType) \
   ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, char);                \
@@ -441,7 +445,8 @@ ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(double);
   ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, long long);           \
   ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned long long);  \
   ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, float);               \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, double);
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, double);              \
+  ITK_MACROEND_NOOP_STATEMENT
 
 ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE_ALL_TYPES_MACRO(Array);
 ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE_ALL_TYPES_MACRO(VariableLengthVector);
