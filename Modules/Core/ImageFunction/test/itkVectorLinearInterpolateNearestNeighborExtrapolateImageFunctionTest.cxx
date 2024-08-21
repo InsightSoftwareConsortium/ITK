@@ -31,7 +31,7 @@ enum
 };
 using PixelType = itk::Vector<unsigned short, VectorDimension>;
 using ImageType = itk::Image<PixelType, ImageDimension>;
-using CoordRepType = double;
+using CoordRepType = itk::SpacePrecisionType;
 
 using InterpolatorType = itk::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<ImageType, CoordRepType>;
 

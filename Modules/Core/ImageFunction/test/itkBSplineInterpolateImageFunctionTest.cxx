@@ -35,7 +35,7 @@
 
 
 using InputPixelType = double;
-using CoordRepType = double;
+using CoordRepType = itk::SpacePrecisionType;
 
 // Set up for 1D Images
 enum

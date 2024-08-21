@@ -56,7 +56,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   // Set the direction for a non-oriented image
   // to better test the frequently encountered case
   // Use non axis aligned image directions
-  itk::Euler3DTransform<double>::Pointer tfm = itk::Euler3DTransform<double>::New();
+  auto tfm = itk::Euler3DTransform<itk::SpacePrecisionType>::New();
   tfm->SetRotation(30.0 * itk::Math::pi_over_180, 15.0 * itk::Math::pi_over_180, 10.0 * itk::Math::pi_over_180);
   const ImageType::DirectionType direction = tfm->GetMatrix();
   image->SetDirection(direction);

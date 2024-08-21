@@ -34,10 +34,10 @@ TEST(SpatialOrientationAdaptor, test1)
   EXPECT_EQ(itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI,
             adapter.FromDirectionCosines(d1));
 
-  const double  data[] = { 0.5986634407395047, 0.22716302314740483, -0.768113953548866,
-                          0.5627936241740271, 0.563067040943212,   0.6051601804419384,
-                          0.5699696670095713, -0.794576911518317,  0.20924175102261847 };
-  DirectionType d2{ DirectionType::InternalMatrixType{ data } };
+  const itk::SpacePrecisionType data[] = { 0.5986634407395047, 0.22716302314740483, -0.768113953548866,
+                                           0.5627936241740271, 0.563067040943212,   0.6051601804419384,
+                                           0.5699696670095713, -0.794576911518317,  0.20924175102261847 };
+  DirectionType                 d2{ DirectionType::InternalMatrixType{ data } };
   EXPECT_EQ(itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL,
             adapter.FromDirectionCosines(d2));
 }
