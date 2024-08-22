@@ -146,8 +146,8 @@ public:
     m_SpanEndOffset = 0;
   }
 
-  /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
+  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
+   * the iterator at the begin of the region. */
   ImageRegionConstIterator(const ImageType * ptr, const RegionType & region)
     : ImageConstIterator<TImage>(ptr, region)
   {

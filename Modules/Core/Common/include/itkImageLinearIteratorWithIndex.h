@@ -86,8 +86,8 @@ public:
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageLinearIteratorWithIndex() = default;
 
-  /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
+  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
+   * the iterator at the begin of the region. */
   ImageLinearIteratorWithIndex(ImageType * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
