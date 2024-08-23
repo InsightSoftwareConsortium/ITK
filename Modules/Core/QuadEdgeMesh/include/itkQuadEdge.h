@@ -110,7 +110,9 @@
                                                                                                  \
   const pt * GetInvRnext() const { return (dynamic_cast<const pt *>(this->st::GetInvRnext())); } \
                                                                                                  \
-  const pt * GetInvDnext() const { return (dynamic_cast<const pt *>(this->st::GetInvDnext())); }
+  const pt * GetInvDnext() const { return (dynamic_cast<const pt *>(this->st::GetInvDnext())); } \
+                                                                                                 \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
 {

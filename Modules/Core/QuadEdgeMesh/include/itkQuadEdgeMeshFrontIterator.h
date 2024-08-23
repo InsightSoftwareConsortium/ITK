@@ -55,7 +55,9 @@
                                                                                                                       \
   virtual FrontDualIterator EndDualFront() { return (FrontDualIterator(this, false)); }                               \
                                                                                                                       \
-  virtual ConstFrontDualIterator EndDualFront() const { return (ConstFrontDualIterator(this, false)); }
+  virtual ConstFrontDualIterator EndDualFront() const { return (ConstFrontDualIterator(this, false)); }               \
+                                                                                                                      \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
 {
