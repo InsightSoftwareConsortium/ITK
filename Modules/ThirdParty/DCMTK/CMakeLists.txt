@@ -78,8 +78,10 @@ else(DCMTK_USE_ICU)
      )
 endif()
 
-set(_ITKDCMTK_LIB_NAMES dcmdata dcmimage dcmimgle dcmjpeg dcmjpls
-    dcmnet dcmpstat dcmqrdb dcmsr dcmtls ijg12 ijg16 ijg8 oflog ofstd oficonv)
+set(_ITKDCMTK_LIB_NAMES dcmdata dcmpstat dcmsr dcmqrdb dcmimgle
+  dcmimage dcmjpeg dcmjpls dcmnet
+  dcmwlm dcmrt dcmiod dcmfg
+  dcmseg dcmpmap ijg12 ijg16 ijg8 oflog ofstd oficonv)
 if(WIN32)
   set(ITKDCMTK_LIBDEP_WIN iphlpapi ws2_32 netapi32 wsock32)
 endif()

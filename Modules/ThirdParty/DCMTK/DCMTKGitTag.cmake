@@ -16,4 +16,7 @@ set(DCMTK_GIT_REPOSITORY "https://github.com/InsightSoftwareConsortium/DCMTK.git
  #Matt McCormick (1):
        #Support CMAKE_CROSSCOMPILING_EMULATOR # pushed upstream in https://github.com/DCMTK/dcmtk/pull/94
 
-set(DCMTK_GIT_TAG "bed2645624b30823189b1afa0d0feb8c8964847e") # 20240311_DCMTK_PATCHES_FOR_ITK
+ #Shreeraj Jadhav (1):
+       #ENH: Replace HTML_HYPERLINK_PREFIX_FOR_CGI with std::string argument
+
+set(DCMTK_GIT_TAG "8197ee21a2e17be65b72508dca9a91d4d60725aa") # 20240311_DCMTK_PATCHES_FOR_ITK-1
