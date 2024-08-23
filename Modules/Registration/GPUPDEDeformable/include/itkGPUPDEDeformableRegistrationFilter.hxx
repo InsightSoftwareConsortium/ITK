@@ -90,21 +90,15 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   }
 
   os << indent << "SmoothingKernels: ";
-  if (m_SmoothingKernels != nullptr)
+  for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    for (unsigned d = 0; d < ImageDimension; ++d)
-    {
-      os << indent.GetNextIndent() << m_SmoothingKernels[d] << std::endl;
-    }
+    os << indent.GetNextIndent() << m_SmoothingKernels[d] << std::endl;
   }
 
   os << indent << "GPUSmoothingKernels: ";
-  if (m_GPUSmoothingKernels != nullptr)
+  for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    for (unsigned d = 0; d < ImageDimension; ++d)
-    {
-      os << indent.GetNextIndent() << m_GPUSmoothingKernels[d] << std::endl;
-    }
+    os << indent.GetNextIndent() << m_GPUSmoothingKernels[d] << std::endl;
   }
 
   os << indent << "UpdateFieldSmoothingKernelSizes: ";
@@ -114,21 +108,15 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   }
 
   os << indent << "UpdateFieldSmoothingKernels: ";
-  if (m_UpdateFieldSmoothingKernels != nullptr)
+  for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    for (unsigned d = 0; d < ImageDimension; ++d)
-    {
-      os << indent.GetNextIndent() << m_UpdateFieldSmoothingKernels[d] << std::endl;
-    }
+    os << indent.GetNextIndent() << m_UpdateFieldSmoothingKernels[d] << std::endl;
   }
 
   os << indent << "UpdateFieldGPUSmoothingKernels: ";
-  if (m_UpdateFieldGPUSmoothingKernels != nullptr)
+  for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    for (unsigned d = 0; d < ImageDimension; ++d)
-    {
-      os << indent.GetNextIndent() << m_UpdateFieldGPUSmoothingKernels[d] << std::endl;
-    }
+    os << indent.GetNextIndent() << m_UpdateFieldGPUSmoothingKernels[d] << std::endl;
   }
 
   os << indent << "ImageSizes: ";
