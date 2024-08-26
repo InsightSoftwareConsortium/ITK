@@ -847,54 +847,11 @@ TIFFImageIO::InternalWrite(const void * buffer)
 }
 
 
+// TIFF >= 4.0.3 is required for the following code.
 // With the TIFF 4.0 (aka bigtiff ) interface the tiff field structure
 // was renamed and became an opaque type requiring function to
-// access. The follow are some macros for portable access.
-#ifdef ITK_TIFF_HAS_TIFFFieldReadCount
-#  define itkTIFFFieldName(TIFFField) TIFFFieldName(TIFFField)
-#  define itkTIFFFieldReadCount(TIFFField) TIFFFieldReadCount(TIFFField)
-#  define itkTIFFFieldPassCount(TIFFField) TIFFFieldPassCount(TIFFField)
-#  define itkTIFFFieldDataType(TIFFField) TIFFFieldDataType(TIFFField)
-#  define itkTIFFField TIFFField
-#elif defined(ITK_TIFF_HAS_TIFFField)
-} // end namespace itk
-/// Tiff 4.0.0-4.0.2 had _TIFFField as a private structure, but missing the
-/// required access mehods added in 4.0.3, This is a copy of the
-/// structure from tiff_dir.h.
-typedef enum
-{
-  ITK_TIFF_MOC_1 = 0,
-  ITK_TIFF_MOC_2 = 51
-} ITK_TIFF_MOC_TIFFSetGetFieldType;
-struct _TIFFField
-{
-  uint32_t field_tag;                              /* field's tag */
-  short field_readcount;                           /* read count/TIFF_VARIABLE/TIFF_SPP */
-  short field_writecount;                          /* write count/TIFF_VARIABLE */
-  TIFFDataType field_type;                         /* type of associated data */
-  uint32_t reserved;                               /* reserved for future extension */
-  ITK_TIFF_MOC_TIFFSetGetFieldType set_field_type; /* type to be passed to TIFFSetField */
-  ITK_TIFF_MOC_TIFFSetGetFieldType get_field_type; /* type to be passed to TIFFGetField */
-  unsigned short field_bit;                        /* bit in fieldsset bit vector */
-  unsigned char field_oktochange;                  /* if true, can change while writing */
-  unsigned char field_passcount;                   /* if true, pass dir count on set */
-  char * field_name;                               /* ASCII name */
-  TIFFFieldArray * field_subfields;                /* if field points to child ifds, child ifd field definition array */
-};
-namespace itk
-{
-#  define itkTIFFFieldName(TIFFField) ((TIFFField)->field_name)
-#  define itkTIFFFieldReadCount(TIFFField) ((TIFFField)->field_readcount)
-#  define itkTIFFFieldPassCount(TIFFField) ((TIFFField)->field_passcount)
-#  define itkTIFFFieldDataType(TIFFField) ((TIFFField)->field_type)
-#  define itkTIFFField TIFFField
-#else // libtiff version 3
-#  define itkTIFFFieldName(TIFFField) ((TIFFField)->field_name)
-#  define itkTIFFFieldReadCount(TIFFFieldInfo) ((TIFFFieldInfo)->field_readcount)
-#  define itkTIFFFieldPassCount(TIFFFieldInfo) ((TIFFFieldInfo)->field_passcount)
-#  define itkTIFFFieldDataType(TIFFFieldInfo) ((TIFFFieldInfo)->field_type)
-#  define itkTIFFField TIFFFieldInfo
-#endif
+// access.
+
 
 namespace
 {
@@ -943,7 +900,7 @@ TIFFImageIO::CanFindTIFFTag(unsigned int t)
 
   ttag_t tag = t; // 32bits integer
 
-  const itkTIFFField * fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+  const TIFFField * fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
   if (fld == nullptr)
   {
@@ -963,26 +920,26 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
   ttag_t tag = t;
   void * raw_data = nullptr;
 
-  const itkTIFFField * fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+  const TIFFField * fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
   if (fld == nullptr)
   {
     itkExceptionMacro("fld is nullptr");
   }
 
-  if (!itkTIFFFieldPassCount(fld))
+  if (!TIFFFieldPassCount(fld))
   {
     return nullptr;
   }
 
   int ret = 0;
-  if (itkTIFFFieldReadCount(fld) == TIFF_VARIABLE2)
+  if (TIFFFieldReadCount(fld) == TIFF_VARIABLE2)
   {
     uint32_t cnt;
     ret = TIFFGetField(m_InternalImage->m_Image, tag, &cnt, &raw_data);
     value_count = cnt;
   }
-  else if (itkTIFFFieldReadCount(fld) == TIFF_VARIABLE)
+  else if (TIFFFieldReadCount(fld) == TIFF_VARIABLE)
   {
     uint16_t cnt;
     ret = TIFFGetField(m_InternalImage->m_Image, tag, &cnt, &raw_data);
@@ -995,7 +952,7 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
   }
   else
   {
-    if (itkTIFFFieldDataType(fld) != TIFF_BYTE)
+    if (TIFFFieldDataType(fld) != TIFF_BYTE)
     {
       itkExceptionMacro("Tag is not of type TIFF_BYTE");
     }
@@ -1112,7 +1069,7 @@ TIFFImageIO::ReadTIFFTags()
 
     uint32_t tag = TIFFGetTagListEntry(m_InternalImage->m_Image, i);
 
-    const itkTIFFField * field = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+    const TIFFField * field = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
     if (field == nullptr)
     {
@@ -1120,14 +1077,14 @@ TIFFImageIO::ReadTIFFTags()
     }
 
 
-    const char * field_name = itkTIFFFieldName(field);
+    const char * field_name = TIFFFieldName(field);
     int          value_count = 0;
 
 
-    const int read_count = itkTIFFFieldReadCount(field);
+    const int read_count = TIFFFieldReadCount(field);
 
     // check if tag required count argument with GetField
-    if (itkTIFFFieldPassCount(field))
+    if (TIFFFieldPassCount(field))
     {
       if (read_count == TIFF_VARIABLE2)
       {
@@ -1163,7 +1120,7 @@ TIFFImageIO::ReadTIFFTags()
         value_count = read_count;
       }
 
-      if (itkTIFFFieldDataType(field) == TIFF_ASCII || read_count == TIFF_VARIABLE || read_count == TIFF_VARIABLE2 ||
+      if (TIFFFieldDataType(field) == TIFF_ASCII || read_count == TIFF_VARIABLE || read_count == TIFF_VARIABLE2 ||
           read_count == TIFF_SPP || value_count > 1)
       {
         if (TIFFGetField(m_InternalImage->m_Image, tag, &raw_data) != 1)
@@ -1173,7 +1130,7 @@ TIFFImageIO::ReadTIFFTags()
       }
       else
       {
-        const size_t dataSize = itkTIFFDataSize(itkTIFFFieldDataType(field));
+        const size_t dataSize = itkTIFFDataSize(TIFFFieldDataType(field));
         raw_data = _TIFFmalloc(static_cast<tmsize_t>(dataSize * static_cast<size_t>(value_count)));
         mem_alloc = true;
         if (TIFFGetField(m_InternalImage->m_Image, tag, raw_data) != 1)
@@ -1188,8 +1145,8 @@ TIFFImageIO::ReadTIFFTags()
       continue;
     }
 
-    itkDebugMacro("TiffInfo tag " << field_name << '(' << tag << "): " << itkTIFFFieldDataType(field) << ' '
-                                  << value_count << ' ' << raw_data);
+    itkDebugMacro("TiffInfo tag " << field_name << '(' << tag << "): " << TIFFFieldDataType(field) << ' ' << value_count
+                                  << ' ' << raw_data);
 
 
 #define itkEncapsulate(T1, T2)                                                         \
@@ -1211,7 +1168,7 @@ TIFFImageIO::ReadTIFFTags()
 
     try
     {
-      switch (itkTIFFFieldDataType(field))
+      switch (TIFFFieldDataType(field))
       {
         case TIFF_ASCII:
           if (value_count > 1)
@@ -1259,7 +1216,7 @@ TIFFImageIO::ReadTIFFTags()
         case TIFF_SRATIONAL:
         case TIFF_UNDEFINED:
         default:
-          itkWarningMacro(<< field_name << " has unsupported data type (" << itkTIFFFieldDataType(field)
+          itkWarningMacro(<< field_name << " has unsupported data type (" << TIFFFieldDataType(field)
                           << ") for meta-data dictionary.");
           break;
       }
