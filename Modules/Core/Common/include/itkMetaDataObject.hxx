@@ -28,6 +28,7 @@
 #ifndef itkMetaDataObject_hxx
 #define itkMetaDataObject_hxx
 
+#include "itkMetaDataObjectDetail.h"
 
 namespace itk
 {
@@ -59,26 +60,6 @@ MetaDataObject<MetaDataObjectType>::SetMetaDataObjectValue(const MetaDataObjectT
   Self::Assign(m_MetaDataObjectValue, newValue);
 }
 
-namespace
-{
-template <class T, class = void>
-struct has_Print : std::false_type
-{};
-
-template <class T>
-struct has_Print<T, std::void_t<decltype(std::declval<T>().Print(std::declval<std::ostream &>()))>> : std::true_type
-{};
-
-template <class T, class = void>
-struct has_output_operator : std::false_type
-{};
-
-template <class T>
-struct has_output_operator<T, std::void_t<decltype(std::declval<std::ostream &>() << std::declval<T>())>>
-  : std::true_type
-{};
-} // namespace
-
 template <typename MetaDataObjectType>
 void
 MetaDataObject<MetaDataObjectType>::Print(std::ostream & os) const
@@ -86,11 +67,11 @@ MetaDataObject<MetaDataObjectType>::Print(std::ostream & os) const
   // future c++20 feature
   // constexpr bool hasPrint = false; requires( const &MetaDataObjectType obj ) { obj.Print(os); };
 
-  if constexpr (has_Print<MetaDataObjectType>::value)
+  if constexpr (MetaDataObjectDetail::has_Print<MetaDataObjectType>::value)
   {
     m_MetaDataObjectValue.Print(os);
   }
-  else if constexpr (has_output_operator<MetaDataObjectType>::value)
+  else if constexpr (MetaDataObjectDetail::has_output_operator<MetaDataObjectType>::value)
   {
     os << m_MetaDataObjectValue;
   }
