@@ -27,7 +27,7 @@ namespace itk
 {
 
 /** \class LabelOverlapMeasuresImageFilter
- * \brief Computes overlap measures between the set same set of labels of
+ * \brief Computes overlap measures between the same set of labels of
  * pixels of two images. Background is assumed to be 0.
  *
  * This code was contributed in the Insight Journal paper:
