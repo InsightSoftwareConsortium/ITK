@@ -27,8 +27,11 @@
 #include "itkFFTShiftImageFilter.h"
 #include "itkFrequencyBandImageFilter.h" // Simplest of frequency filters for testing
 #include "itkFrequencyFFTLayoutImageRegionConstIteratorWithIndex.h"
-#include "itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.h"
+#include "itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h"
+#include "itkFrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex.h"
 #include "itkFrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex.h"
+#include "itkFrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex.h"
+#include "itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.h"
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingComparisonImageFilter.h"
@@ -51,6 +54,49 @@ protected:
     RegisterRequiredFactories();
   }
 };
+
+
+template <typename TIterator>
+void
+CheckConstructedAtBegin()
+{
+  using ImageType = typename TIterator::ImageType;
+  using IndexType = typename TIterator::IndexType;
+  using SizeType = typename TIterator::SizeType;
+  using RegionType = typename TIterator::RegionType;
+
+  const auto image = ImageType::New();
+
+  // Use a small image size, so that the unit test won't take a long time.
+  static constexpr itk::SizeValueType imageSizeValue{ 4 };
+
+  image->SetRegions(SizeType::Filled(imageSizeValue));
+  image->Allocate();
+
+  // Check various regions, specified by the following `indexValue` and `sizeValue` combinations:
+  for (const itk::IndexValueType indexValue : { 0, 1 })
+  {
+    for (const auto sizeValue : { itk::SizeValueType{ 1 }, imageSizeValue - 1 })
+    {
+      const RegionType imageRegion(IndexType::Filled(indexValue), SizeType::Filled(sizeValue));
+
+      const TIterator iterator(image, imageRegion);
+      TIterator       iteratorThatGoesToBegin = iterator;
+      iteratorThatGoesToBegin.GoToBegin();
+      EXPECT_EQ(iterator, iteratorThatGoesToBegin);
+    }
+  }
+}
+
+
+template <template <typename> typename... TIteratorTemplate>
+void
+CheckIteratorsConstructedAtBegin()
+{
+  (CheckConstructedAtBegin<TIteratorTemplate<itk::Image<int>>>(), ...);
+  (CheckConstructedAtBegin<TIteratorTemplate<itk::Image<double, 3>>>(), ...);
+}
+
 } // namespace
 
 template <typename TOutputImageType>
@@ -213,6 +259,19 @@ compareAllTypesOfIterators(typename TImageType::Pointer image, double difference
   bool fullAndHermitian = compareImages<ImageType>(filteredHermitianImage, filteredImage, differenceHermitianThreshold);
   EXPECT_TRUE(fullAndHermitian);
 }
+
+
+// Checks that an iterator that is just constructed by `IteratorType(image, region)` is at the begin.
+TEST_F(FrequencyIterators, AreConstructedAtBegin)
+{
+  CheckIteratorsConstructedAtBegin<itk::FrequencyFFTLayoutImageRegionConstIteratorWithIndex,
+                                   itk::FrequencyFFTLayoutImageRegionIteratorWithIndex,
+                                   itk::FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex,
+                                   itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex,
+                                   itk::FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex,
+                                   itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex>();
+}
+
 
 TEST_F(FrequencyIterators, Even3D)
 {
