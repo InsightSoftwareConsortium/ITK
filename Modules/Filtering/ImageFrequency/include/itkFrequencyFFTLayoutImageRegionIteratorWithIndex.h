@@ -88,8 +88,8 @@ public:
     : FrequencyFFTLayoutImageRegionConstIteratorWithIndex<TImage>()
   {}
 
-  /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
+  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
+   * the iterator at the begin of the region. */
   FrequencyFFTLayoutImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
     : FrequencyFFTLayoutImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {}
