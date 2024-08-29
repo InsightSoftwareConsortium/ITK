@@ -88,8 +88,8 @@ public:
     : FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>()
   {}
 
-  /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. */
+  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
+   * the iterator at the begin of the region. */
   FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
     : FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {}
