@@ -37,10 +37,6 @@ namespace itk
  * This filter is templated over a TFrequencyIterator depending on the
  * frequency layout of the input image.
  *
- * Images in the dual space can be acquired experimentally, from scattering experiments or other techniques.
- * In that case use FrequencyImageRegionIteratorWithIndex because
- * the layout of dual space images is the same as spatial domain images.
- *
  * Frequency-domain images can be computed from any spatial-domain applying a Fourier Transform.
  * If ForwardFFTImageFilter was used, template this filter with
  * the FrequencyFFTLayoutImageRegionIteratorWithIndex.
