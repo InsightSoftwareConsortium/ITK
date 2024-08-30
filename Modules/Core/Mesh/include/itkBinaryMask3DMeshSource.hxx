@@ -1037,11 +1037,6 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
   InputImageIterator it3(m_InputImage, m_RegionOfInterest);
   InputImageIterator it4(m_InputImage, m_RegionOfInterest);
 
-  it1.GoToBegin();
-  it2.GoToBegin();
-  it3.GoToBegin();
-  it4.GoToBegin();
-
   InputImageSizeType inputImageSize = m_RegionOfInterest.GetSize();
   m_ImageWidth = inputImageSize[0];
   m_ImageHeight = inputImageSize[1];

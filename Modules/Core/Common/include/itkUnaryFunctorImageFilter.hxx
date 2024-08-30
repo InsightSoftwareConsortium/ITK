@@ -88,8 +88,6 @@ UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGe
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
 
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
   while (!inputIt.IsAtEnd())
   {
     while (!inputIt.IsAtEndOfLine())
