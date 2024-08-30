@@ -191,9 +191,6 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ThreadedApplyUpdate
   ImageRegionIterator<UpdateBufferType> u(m_UpdateBuffer, regionToProcess);
   ImageRegionIterator<OutputImageType>  o(this->GetOutput(), regionToProcess);
 
-  u.GoToBegin();
-  o.GoToBegin();
-
   while (!u.IsAtEnd())
   {
     o.Value() += static_cast<PixelType>(u.Value() * dt); // no adaptor
@@ -259,7 +256,6 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ThreadedCalculateCh
     UpdateIteratorType       bU(m_UpdateBuffer, *fIt);
 
     bD.GoToBegin();
-    bU.GoToBegin();
     while (!bD.IsAtEnd())
     {
       bU.Value() = df->ComputeUpdate(bD, globalData);

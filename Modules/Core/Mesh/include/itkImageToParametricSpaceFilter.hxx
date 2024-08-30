@@ -108,7 +108,6 @@ ImageToParametricSpaceFilter<TInputImage, TOutputMesh>::GenerateData()
 
     PointsContainerIterator point = points->Begin();
 
-    itr.GoToBegin();
     while (!itr.IsAtEnd())
     {
       (point.Value())[component] = itr.Get();
@@ -123,7 +122,6 @@ ImageToParametricSpaceFilter<TInputImage, TOutputMesh>::GenerateData()
     PointDataContainerIterator data = pointData->Begin();
     image = this->GetInput(0);
     ImageRegionConstIteratorWithIndex<InputImageType> itr(image, image->GetRequestedRegion());
-    itr.GoToBegin();
     while (!itr.IsAtEnd())
     {
       //  The data at each point is the index
