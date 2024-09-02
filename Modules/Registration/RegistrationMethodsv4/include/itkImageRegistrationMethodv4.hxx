@@ -101,25 +101,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   // Default to a 3-level image registration: force the initialization of the ivars that depend on the number of levels.
   this->SetNumberOfLevels(3);
 
-  this->m_ShrinkFactorsPerLevel.resize(this->m_NumberOfLevels);
-  ShrinkFactorsPerDimensionContainerType shrinkFactors;
-  shrinkFactors.Fill(2);
-  this->m_ShrinkFactorsPerLevel[0] = shrinkFactors;
-  shrinkFactors.Fill(1);
-  this->m_ShrinkFactorsPerLevel[1] = shrinkFactors;
-  shrinkFactors.Fill(1);
-  this->m_ShrinkFactorsPerLevel[2] = shrinkFactors;
-
-  this->m_SmoothingSigmasPerLevel.SetSize(this->m_NumberOfLevels);
-  this->m_SmoothingSigmasPerLevel[0] = 2;
-  this->m_SmoothingSigmasPerLevel[1] = 1;
-  this->m_SmoothingSigmasPerLevel[2] = 0;
-
   this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits = true;
 
   this->m_ReseedIterator = false;
-  this->m_RandomSeed = Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed();
-  this->m_CurrentRandomSeed = this->m_RandomSeed;
+  this->SetMetricSamplingSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed());
 
   this->m_MetricSamplingStrategy = MetricSamplingStrategyEnum::NONE;
   this->m_MetricSamplingPercentagePerLevel.SetSize(this->m_NumberOfLevels);
@@ -418,10 +403,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       this->m_VirtualDomainImage->Allocate();
     }
 
-    this->m_FixedImageMasks.clear();
-    this->m_FixedImageMasks.resize(this->m_NumberOfMetrics);
-    this->m_MovingImageMasks.clear();
-    this->m_MovingImageMasks.resize(this->m_NumberOfMetrics);
+    this->ClearImageMasks();
 
     for (SizeValueType n = 0; n < this->m_NumberOfMetrics; ++n)
     {
@@ -588,14 +570,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   // Although this isn't necessary, we want to leave the option for
   // changing the point sets per level.
 
-  this->m_FixedSmoothImages.clear();
-  this->m_FixedSmoothImages.resize(this->m_NumberOfMetrics);
-  this->m_MovingSmoothImages.clear();
-  this->m_MovingSmoothImages.resize(this->m_NumberOfMetrics);
-  this->m_FixedPointSets.clear();
-  this->m_FixedPointSets.resize(this->m_NumberOfMetrics);
-  this->m_MovingPointSets.clear();
-  this->m_MovingPointSets.resize(this->m_NumberOfMetrics);
+  this->ClearRegistrationEntities();
 
   for (SizeValueType n = 0; n < this->m_NumberOfMetrics; ++n)
   {
@@ -739,6 +714,43 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
 }
 
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ClearImageMasks()
+{
+  this->m_FixedImageMasks.clear();
+  this->m_FixedImageMasks.resize(this->m_NumberOfMetrics);
+  this->m_MovingImageMasks.clear();
+  this->m_MovingImageMasks.resize(this->m_NumberOfMetrics);
+}
+
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ClearRegistrationEntities()
+{
+  this->ClearPointSets();
+  this->ClearSmoothingImages();
+}
+
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ClearSmoothingImages()
+{
+  this->m_FixedSmoothImages.clear();
+  this->m_FixedSmoothImages.resize(this->m_NumberOfMetrics);
+  this->m_MovingSmoothImages.clear();
+  this->m_MovingSmoothImages.resize(this->m_NumberOfMetrics);
+}
+
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ClearPointSets()
+{
+  this->m_FixedPointSets.clear();
+  this->m_FixedPointSets.resize(this->m_NumberOfMetrics);
+  this->m_MovingPointSets.clear();
+  this->m_MovingPointSets.resize(this->m_NumberOfMetrics);
+}
 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
@@ -888,6 +900,91 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
     this->Modified();
   }
+
+  this->InitializeToLevels(m_NumberOfLevels, false, false);
+  this->InitializeToLevels(m_NumberOfLevels, true, true);
+}
+
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::InitializeToLevels(
+  const SizeValueType numberOfLevels,
+  const bool          decreasingConsecutiveShrinkFactors,
+  const bool          decreasingConsecutiveSmoothingSigmas)
+{
+  this->m_NumberOfLevels = numberOfLevels;
+
+  // Set default transform adaptors which don't do anything to the input transform
+  // Similarly, fill in some default values for the shrink factors, smoothing sigmas,
+  // and learning rates.
+
+
+  // Check why this is not initialized in the constructor
+  this->m_TransformParametersAdaptorsPerLevel.clear();
+  for (SizeValueType level = 0; level < this->m_NumberOfLevels; ++level)
+  {
+    this->m_TransformParametersAdaptorsPerLevel.push_back(nullptr);
+  }
+
+  this->m_ShrinkFactorsPerLevel.resize(this->m_NumberOfLevels);
+  if (!decreasingConsecutiveShrinkFactors)
+  {
+    auto shrinkFactors = ShrinkFactorsArrayType(this->m_NumberOfLevels);
+    shrinkFactors.Fill(1);
+    this->SetShrinkFactorsPerLevel(shrinkFactors);
+
+    // Check against the below
+    for (SizeValueType level = 0; level < this->m_NumberOfLevels; ++level)
+    {
+      ShrinkFactorsPerDimensionContainerType shrinkFactors1;
+      shrinkFactors1.Fill(1);
+      this->SetShrinkFactorsPerDimension(level, shrinkFactors1);
+    }
+  }
+  else
+  {
+    ShrinkFactorsPerDimensionContainerType shrinkFactors;
+    shrinkFactors.Fill(m_NumberOfLevels - 1);
+    this->SetShrinkFactorsPerDimension(0, shrinkFactors);
+
+    auto shrinkFactors2 = ShrinkFactorsArrayType(this->m_NumberOfLevels);
+    for (SizeValueType level = 1; level < this->m_NumberOfLevels; ++level)
+    {
+      shrinkFactors.Fill(1);
+      this->SetShrinkFactorsPerDimension(level, shrinkFactors);
+    }
+
+    // Check against the below
+    ShrinkFactorsPerDimensionContainerType shrinkFactors1;
+    shrinkFactors1.Fill(2);
+    this->m_ShrinkFactorsPerLevel[0] = shrinkFactors1;
+    shrinkFactors1.Fill(1);
+    this->m_ShrinkFactorsPerLevel[1] = shrinkFactors1;
+    shrinkFactors1.Fill(1);
+    this->m_ShrinkFactorsPerLevel[2] = shrinkFactors1;
+  }
+
+
+  this->m_SmoothingSigmasPerLevel.SetSize(this->m_NumberOfLevels);
+  if (!decreasingConsecutiveSmoothingSigmas)
+  {
+    this->m_SmoothingSigmasPerLevel.Fill(1.0);
+  }
+  else
+  {
+    for (SizeValueType level = 0; level < this->m_NumberOfLevels; ++level)
+    {
+      this->m_SmoothingSigmasPerLevel[level] = m_NumberOfLevels - level - 1;
+    }
+
+    // Check against the below
+    // this->m_SmoothingSigmasPerLevel[0] = 2;
+    // this->m_SmoothingSigmasPerLevel[1] = 1;
+    // this->m_SmoothingSigmasPerLevel[2] = 0;
+  }
+
+  this->m_MetricSamplingPercentagePerLevel.SetSize(this->m_NumberOfLevels);
+  this->m_MetricSamplingPercentagePerLevel.Fill(1.0);
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
@@ -1286,12 +1383,19 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   if (m_ReseedIterator || m_RandomSeed != seed)
   {
     m_ReseedIterator = false;
-    m_RandomSeed = seed;
-    m_CurrentRandomSeed = seed;
+    this->SetMetricSamplingSeed(seed);
     this->Modified();
   }
 }
 
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetMetricSamplingSeed(
+  int seed)
+{
+  m_RandomSeed = seed;
+  m_CurrentRandomSeed = seed;
+}
 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
