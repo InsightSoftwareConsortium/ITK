@@ -29,6 +29,14 @@
 
 namespace
 {
+// Tells whether GetImageDimension() returns ImageDimension, for all of the specified values of VImageDimension.
+template <unsigned int... VImageDimension>
+constexpr bool GetImageDimension_returns_ImageDimension{ (
+  (itk::ImageBase<VImageDimension>::GetImageDimension() == VImageDimension) && ...) };
+
+static_assert(GetImageDimension_returns_ImageDimension<2, 3, 4>, "GetImageDimension() should return ImageDimension.");
+
+
 template <typename T1, typename T2>
 void
 Expect_same_type_and_equal_value(T1 && value1, T2 && value2)
