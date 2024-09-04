@@ -136,7 +136,7 @@ public:
   virtual ~ImageConstIteratorWithOnlyIndex() = default;
 
   /** Get the dimension (size) of the index. */
-  static unsigned int
+  static constexpr unsigned int
   GetImageDimension()
   {
     return ImageDimension;

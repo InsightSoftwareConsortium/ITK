@@ -174,8 +174,8 @@ public:
   void
   Initialize() override;
 
-  /** Image dimension. The dimension of an image is fixed at construction. */
-  static unsigned int
+  /** Image dimension. The dimension of an image is fixed at compile-time. */
+  static constexpr unsigned int
   GetImageDimension()
   {
     return VImageDimension;
