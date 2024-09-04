@@ -105,8 +105,8 @@ public:
       in which case the SliceDimension is also one dimensional. */
   static constexpr unsigned int SliceDimension = ImageDimension - (ImageDimension > 1);
 
-  /** Dimension of the image available at run time. */
-  static unsigned int
+  /** Dimension of the image available at compile-time and at run time. */
+  static constexpr unsigned int
   GetImageDimension()
   {
     return ImageDimension;
