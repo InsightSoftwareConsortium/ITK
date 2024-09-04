@@ -4,12 +4,12 @@ on: [push,pull_request]
 
 jobs:
   cxx-build-workflow:
-    uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-cxx.yml@v5.4.0
+    uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-cxx.yml@41f4e23ad1a405bcd83c7dc312f118ca8ea66b43
     with:
       cmake-options: "Module_Montage_BUILD_EXAMPLES:BOOL=ON"
 
   python-build-workflow:
-    uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-package-python.yml@v5.4.0
+    uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-package-python.yml@41f4e23ad1a405bcd83c7dc312f118ca8ea66b43
     with:
       test-notebooks: true
     secrets:
