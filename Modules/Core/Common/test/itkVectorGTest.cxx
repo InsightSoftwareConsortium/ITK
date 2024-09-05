@@ -22,8 +22,9 @@
 #include <gtest/gtest.h>
 
 #include <initializer_list>
-#include <iterator>    // For begin and end.
-#include <numeric>     // For iota.
+#include <iterator> // For begin and end.
+#include <numeric>  // For iota.
+#include <random>
 #include <type_traits> // For is_same.
 
 namespace
@@ -84,4 +85,23 @@ TEST(Vector, Make)
   const auto itkVector = itk::MakeVector(1, 2, 3, 4);
   const auto values = { 1, 2, 3, 4 };
   EXPECT_TRUE(std::equal(itkVector.begin(), itkVector.end(), values.begin(), values.end()));
+}
+
+
+// Tests that for an itk::Vector `v`, `v.GetNorm()` is equal to `v.GetVnlVector().magnitude()`.
+TEST(Vector, NormEqualsVnlVectorMagnitude)
+{
+  std::mt19937 randomEngine{};
+  const auto getRandomNumber = [&randomEngine] { return std::uniform_real_distribution<>{ -1.0, 1.0 }(randomEngine); };
+
+  using VectorType = itk::Vector<double>;
+
+  for (const auto & itkVector : { VectorType(),
+                                  itk::MakeVector(0.0, 0.0, 1.0),
+                                  itk::MakeFilled<VectorType>(1.0),
+                                  itk::MakeFilled<VectorType>(getRandomNumber()),
+                                  itk::MakeVector(getRandomNumber(), getRandomNumber(), getRandomNumber()) })
+  {
+    EXPECT_EQ(itkVector.GetNorm(), itkVector.GetVnlVector().magnitude());
+  }
 }
