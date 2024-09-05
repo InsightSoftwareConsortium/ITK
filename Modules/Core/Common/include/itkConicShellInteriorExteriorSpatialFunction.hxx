@@ -41,7 +41,6 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const In
   VectorType vecOriginToTest = position - m_Origin;
 
   // Compute the length of this vector
-  // double vecDistance = vecOriginToTest.GetVnlVector().magnitude();
   double vecDistance = vecOriginToTest.GetNorm();
 
   // Check to see if this an allowed distance
