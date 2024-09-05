@@ -241,7 +241,7 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  /** Returns the Euclidean Norm of the vector  */
+  /** Returns the Euclidean Norm of the vector (also referred to as its "magnitude"). */
   RealValueType
   GetNorm() const;
 
