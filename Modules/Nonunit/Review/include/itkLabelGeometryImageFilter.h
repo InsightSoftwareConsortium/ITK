@@ -78,9 +78,11 @@ namespace itk
  * \endsphinx
  */
 template <typename TLabelImage, typename TIntensityImage = TLabelImage>
-class ITK_TEMPLATE_EXPORT [[deprecated(
-  "This class contains known computational bugs. See class documentation for details.")]] LabelGeometryImageFilter
-  : public ImageToImageFilter<TLabelImage, TIntensityImage>
+class ITK_TEMPLATE_EXPORT
+#if !defined(ITK_LEGACY_SILENT)
+  [[deprecated("This class contains known computational bugs. See class documentation for details.")]]
+#endif
+  LabelGeometryImageFilter : public ImageToImageFilter<TLabelImage, TIntensityImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(LabelGeometryImageFilter);
