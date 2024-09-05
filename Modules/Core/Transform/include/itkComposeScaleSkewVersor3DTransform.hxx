@@ -248,7 +248,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrixParameters
   scaleV[0] = M(0, 0);
   scaleV[1] = M(1, 0);
   scaleV[2] = M(2, 0);
-  m_Scale[0] = scaleV.GetVnlVector().magnitude();
+  m_Scale[0] = scaleV.GetNorm();
   M(0, 0) /= m_Scale[0];
   M(1, 0) /= m_Scale[0];
   M(2, 0) /= m_Scale[0];
@@ -260,7 +260,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrixParameters
   scaleV[0] = M(0, 1);
   scaleV[1] = M(1, 1);
   scaleV[2] = M(2, 1);
-  m_Scale[1] = scaleV.GetVnlVector().magnitude();
+  m_Scale[1] = scaleV.GetNorm();
   M(0, 1) /= m_Scale[1];
   M(1, 1) /= m_Scale[1];
   M(2, 1) /= m_Scale[1];
@@ -274,7 +274,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrixParameters
   scaleV[0] = M(0, 2);
   scaleV[1] = M(1, 2);
   scaleV[2] = M(2, 2);
-  m_Scale[2] = scaleV.GetVnlVector().magnitude();
+  m_Scale[2] = scaleV.GetNorm();
   M(0, 2) /= m_Scale[2];
   M(1, 2) /= m_Scale[2];
   M(2, 2) /= m_Scale[2];
