@@ -53,7 +53,7 @@ ScalarToRGBPixelFunctor<TScalar>::operator()(const TScalar & v) const -> RGBPixe
   if (this->m_UseMSBForHashing)
   { // swap bytes
     // always swap regardless of system endianness
-    if (ByteSwapper<TScalar>::SystemIsBigEndian())
+    if constexpr (ByteSwapper<TScalar>::SystemIsBigEndian())
     {
       ByteSwapper<TScalar>::SwapFromSystemToLittleEndian(&buf);
     }

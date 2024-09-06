@@ -226,7 +226,7 @@ protected:
         /**  Load the point coordinates into the itk::Mesh */
         SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
         inputFile.read(reinterpret_cast<char *>(buffer), numberOfComponents * sizeof(T));
-        if (itk::ByteSwapper<T>::SystemIsLittleEndian())
+        if constexpr (itk::ByteSwapper<T>::SystemIsLittleEndian())
         {
           itk::ByteSwapper<T>::SwapRangeFromSystemToBigEndian(buffer, numberOfComponents);
         }
@@ -324,7 +324,7 @@ protected:
         /** for VECTORS or NORMALS or TENSORS, we could read them directly */
         SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
         inputFile.read(reinterpret_cast<char *>(buffer), numberOfComponents * sizeof(T));
-        if (itk::ByteSwapper<T>::SystemIsLittleEndian())
+        if constexpr (itk::ByteSwapper<T>::SystemIsLittleEndian())
         {
           itk::ByteSwapper<T>::SwapRangeFromSystemToBigEndian(buffer, numberOfComponents);
         }
@@ -415,7 +415,7 @@ protected:
         /** For VECTORS or NORMALS or TENSORS, we could read them directly */
         SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
         inputFile.read(reinterpret_cast<char *>(buffer), numberOfComponents * sizeof(T));
-        if (itk::ByteSwapper<T>::SystemIsLittleEndian())
+        if constexpr (itk::ByteSwapper<T>::SystemIsLittleEndian())
         {
           itk::ByteSwapper<T>::SwapRangeFromSystemToBigEndian(buffer, numberOfComponents);
         }

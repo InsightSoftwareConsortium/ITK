@@ -355,7 +355,7 @@ MRCImageIO::UpdateHeaderFromImageIO()
   // magic number
   memcpy(header.cmap, magicMAP, 4);
 
-  if (ByteSwapper<void *>::SystemIsBigEndian())
+  if constexpr (ByteSwapper<void *>::SystemIsBigEndian())
   {
     header.stamp[0] = 17;
     header.stamp[1] = 17;

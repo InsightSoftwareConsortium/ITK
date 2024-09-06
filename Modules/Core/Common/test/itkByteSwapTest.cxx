@@ -38,16 +38,16 @@ itkByteSwapTest(int, char *[])
 
   // Try to swap a char
 
-  if (itk::ByteSwapper<int>::SystemIsBigEndian() == itk::ByteSwapper<int>::SystemIsLE())
+  if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian() == itk::ByteSwapper<int>::SystemIsLE())
   {
     return EXIT_FAILURE;
   }
-  if (itk::ByteSwapper<int>::SystemIsBE() == itk::ByteSwapper<int>::SystemIsLittleEndian())
+  if constexpr (itk::ByteSwapper<int>::SystemIsBE() == itk::ByteSwapper<int>::SystemIsLittleEndian())
   {
     return EXIT_FAILURE;
   }
 
-  if (itk::ByteSwapper<int>::SystemIsBigEndian())
+  if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian())
   {
     itk::ByteSwapper<unsigned char>::SwapFromSystemToLittleEndian(&uc);
     itk::ByteSwapper<unsigned char>::SwapFromSystemToLittleEndian(&uc);
@@ -63,7 +63,7 @@ itkByteSwapTest(int, char *[])
   }
   std::cout << "Passed unsigned char: " << uc << std::endl;
 
-  if (itk::ByteSwapper<int>::SystemIsBE())
+  if constexpr (itk::ByteSwapper<int>::SystemIsBE())
   {
     itk::ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&us);
     itk::ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&us);
@@ -79,7 +79,7 @@ itkByteSwapTest(int, char *[])
   }
   std::cout << "Passed unsigned short: " << us << std::endl;
 
-  if (itk::ByteSwapper<int>::SystemIsBigEndian())
+  if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian())
   {
     itk::ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&ui);
     itk::ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&ui);
@@ -98,7 +98,7 @@ itkByteSwapTest(int, char *[])
 
   try
   {
-    if (itk::ByteSwapper<long>::SystemIsBigEndian())
+    if constexpr (itk::ByteSwapper<long>::SystemIsBigEndian())
     {
       itk::ByteSwapper<unsigned long>::SwapFromSystemToLittleEndian(&ul);
       itk::ByteSwapper<unsigned long>::SwapFromSystemToLittleEndian(&ul);
@@ -123,7 +123,7 @@ itkByteSwapTest(int, char *[])
 
   try
   {
-    if (itk::ByteSwapper<long>::SystemIsBigEndian())
+    if constexpr (itk::ByteSwapper<long>::SystemIsBigEndian())
     {
       itk::ByteSwapper<unsigned long long>::SwapFromSystemToLittleEndian(&ull);
       itk::ByteSwapper<unsigned long long>::SwapFromSystemToLittleEndian(&ull);
@@ -147,7 +147,7 @@ itkByteSwapTest(int, char *[])
 
   try
   {
-    if (itk::ByteSwapper<int>::SystemIsBigEndian())
+    if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian())
     {
       itk::ByteSwapper<float>::SwapFromSystemToLittleEndian(&f);
       itk::ByteSwapper<float>::SwapFromSystemToLittleEndian(&f);
@@ -172,7 +172,7 @@ itkByteSwapTest(int, char *[])
 
   try
   {
-    if (itk::ByteSwapper<int>::SystemIsBigEndian())
+    if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian())
     {
       itk::ByteSwapper<double>::SwapFromSystemToLittleEndian(&d);
       itk::ByteSwapper<double>::SwapFromSystemToLittleEndian(&d);

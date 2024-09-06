@@ -387,7 +387,7 @@ PhilipsRECImageIO::PhilipsRECImageIO()
   // Start out with file byte order == system byte order
   // this will be changed if we're reading a file to whatever
   // the file actually contains.
-  if (ByteSwapper<int>::SystemIsBigEndian())
+  if constexpr (ByteSwapper<int>::SystemIsBigEndian())
   {
     this->m_MachineByteOrder = this->m_ByteOrder = IOByteOrderEnum::BigEndian;
   }

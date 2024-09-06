@@ -962,7 +962,7 @@ VTKImageIO::Write(const void * buffer)
     }
 
     // the binary data must be written in big endian format
-    if (!ByteSwapper<uint16_t>::SystemIsBigEndian())
+    if constexpr (!ByteSwapper<uint16_t>::SystemIsBigEndian())
     {
       // only swap  when needed
       switch (this->GetComponentSize())
@@ -1012,7 +1012,7 @@ VTKImageIO::Write(const void * buffer)
     else // binary
     {
       // the binary data must be written in big endian format
-      if (!ByteSwapper<uint16_t>::SystemIsBigEndian())
+      if constexpr (!ByteSwapper<uint16_t>::SystemIsBigEndian())
       {
         // only swap  when needed
         switch (this->GetComponentSize())
