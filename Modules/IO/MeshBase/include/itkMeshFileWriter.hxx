@@ -31,16 +31,6 @@
 namespace itk
 {
 template <typename TInputMesh>
-MeshFileWriter<TInputMesh>::MeshFileWriter()
-{
-  m_MeshIO = nullptr;
-  m_UseCompression = false;
-  m_FactorySpecifiedMeshIO = false;
-  m_UserSpecifiedMeshIO = false;
-  m_FileTypeIsBINARY = false;
-}
-
-template <typename TInputMesh>
 void
 MeshFileWriter<TInputMesh>::SetInput(const InputMeshType * input)
 {

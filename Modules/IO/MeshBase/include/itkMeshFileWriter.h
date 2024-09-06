@@ -142,7 +142,7 @@ public:
   itkBooleanMacro(UseCompression);
 
 protected:
-  MeshFileWriter();
+  MeshFileWriter() = default;
   ~MeshFileWriter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -177,13 +177,11 @@ protected:
 
 private:
   std::string         m_FileName{};
-  MeshIOBase::Pointer m_MeshIO{};
-  bool                m_UserSpecifiedMeshIO{}; // track whether the MeshIO is
-                                               // user specified
-  bool m_FactorySpecifiedMeshIO{};             // track whether the factory
-                                               // mechanism set the MeshIO
-  bool m_UseCompression{};
-  bool m_FileTypeIsBINARY{};
+  MeshIOBase::Pointer m_MeshIO{ nullptr };
+  bool                m_UserSpecifiedMeshIO{ false };    // track whether the MeshIO is user specified
+  bool                m_FactorySpecifiedMeshIO{ false }; // track whether the factory mechanism set the MeshIO
+  bool                m_UseCompression{ false };
+  bool                m_FileTypeIsBINARY{ false };
 };
 
 
