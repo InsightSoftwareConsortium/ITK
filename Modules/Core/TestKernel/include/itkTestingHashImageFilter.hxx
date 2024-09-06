@@ -88,11 +88,8 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
 
     // Possible byte swap so we always calculate on little endian data
     const auto ByteSwapBigEndian = [buffer, numberOfValues] {
-      if (Swapper::SystemIsBigEndian())
-      {
-        Swapper::SwapRangeFromSystemToLittleEndian(static_cast<ValueType *>(const_cast<void *>(buffer)),
-                                                   static_cast<typename Swapper::BufferSizeType>(numberOfValues));
-      }
+      Swapper::SwapRangeFromSystemToLittleEndian(static_cast<ValueType *>(const_cast<void *>(buffer)),
+                                                 static_cast<typename Swapper::BufferSizeType>(numberOfValues));
     };
 
     ByteSwapBigEndian();
