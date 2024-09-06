@@ -216,6 +216,7 @@ assert type(mesh) == itk.Mesh[itk.F, 3]
 
 itk.meshwrite(mesh, sys.argv[5])
 itk.meshwrite(mesh, sys.argv[5], compression=True)
+itk.meshwrite(mesh, sys.argv[5], binary=True)
 
 # smoke test wasm / Python / NumPy conversion
 

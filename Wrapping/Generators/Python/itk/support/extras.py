@@ -1389,7 +1389,7 @@ def imread(
 
 
 def meshwrite(
-    mesh: "itkt.Mesh", filename: fileiotype, compression: bool = False
+    mesh: "itkt.Mesh", filename: fileiotype, compression: bool = False, binary: bool = False
 ) -> None:
     """Write a mesh to a file.
 
@@ -1404,6 +1404,8 @@ def meshwrite(
     writer = itk.MeshFileWriter[type(mesh)].New(
         Input=mesh, FileName=f"{filename}", UseCompression=compression
     )
+    if binary:
+        writer.SetFileTypeAsBINARY()
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
