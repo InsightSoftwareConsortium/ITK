@@ -35,35 +35,6 @@
 namespace itk
 {
 // The following are the public methods --------------------------------
-//
-// Machine definitions
-#ifdef CMAKE_WORDS_BIGENDIAN
-template <typename T>
-bool
-ByteSwapper<T>::SystemIsBigEndian()
-{
-  return true;
-}
-template <typename T>
-bool
-ByteSwapper<T>::SystemIsLittleEndian()
-{
-  return false;
-}
-#else
-template <typename T>
-bool
-ByteSwapper<T>::SystemIsBigEndian()
-{
-  return false;
-}
-template <typename T>
-bool
-ByteSwapper<T>::SystemIsLittleEndian()
-{
-  return true;
-}
-#endif
 
 //------Big Endian methods----------------------------------------------
 

@@ -65,18 +65,24 @@ public:
   itkOverrideGetNameOfClassMacro(ByteSwapper);
 
   /** Query the machine Endian-ness. */
-  static bool
-  SystemIsBigEndian();
+  static constexpr bool
+  SystemIsBigEndian()
+  {
+    return m_SystemIsBigEndian;
+  }
 
-  static bool
+  static constexpr bool
   SystemIsBE()
   {
     return SystemIsBigEndian();
   }
-  static bool
-  SystemIsLittleEndian();
+  static constexpr bool
+  SystemIsLittleEndian()
+  {
+    return !m_SystemIsBigEndian;
+  }
 
-  static bool
+  static constexpr bool
   SystemIsLE()
   {
     return SystemIsLittleEndian();
@@ -183,6 +189,15 @@ protected:
    * words to swap and write. */
   static void
   SwapWrite8Range(const void * ptr, BufferSizeType num, OStreamType * fp);
+
+private:
+  static constexpr bool m_SystemIsBigEndian{
+#ifdef CMAKE_WORDS_BIGENDIAN
+    true
+#else
+    false
+#endif
+  };
 };
 } // end namespace itk
 
