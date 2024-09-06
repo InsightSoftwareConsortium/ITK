@@ -635,14 +635,14 @@ protected:
 
     if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
-      if (itk::ByteSwapper<T>::SystemIsLittleEndian())
+      if constexpr (itk::ByteSwapper<T>::SystemIsLittleEndian())
       {
         itk::ByteSwapper<T>::SwapRangeFromSystemToBigEndian(buffer, numberOfComponents);
       }
     }
     else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
-      if (itk::ByteSwapper<T>::SystemIsBigEndian())
+      if constexpr (itk::ByteSwapper<T>::SystemIsBigEndian())
       {
         itk::ByteSwapper<T>::SwapRangeFromSystemToLittleEndian(buffer, numberOfComponents);
       }

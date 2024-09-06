@@ -196,7 +196,7 @@ MRCHeaderObject::swapHeader(bool bigEndian)
   using Int32Swapper = itk::ByteSwapper<int32_t>;
   using Int16Swapper = itk::ByteSwapper<int16_t>;
 
-  if (FloatSwapper::SystemIsBigEndian())
+  if constexpr (FloatSwapper::SystemIsBigEndian())
   {
     this->m_Header.stamp[0] = 17;
   }
