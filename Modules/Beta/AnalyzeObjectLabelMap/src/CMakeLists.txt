@@ -4,3 +4,4 @@ set(AnalyzeObjectLabelMap_SRCS
   itkAnalyzeObjectEntry.cxx)
 
 itk_module_add_library(AnalyzeObjectLabelMap ${AnalyzeObjectLabelMap_SRCS})
+
