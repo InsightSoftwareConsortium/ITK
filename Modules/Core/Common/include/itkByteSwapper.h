@@ -64,7 +64,8 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ByteSwapper);
 
-  /** Query the machine Endian-ness. */
+  /** Query the machine Endian-ness.
+  \note C++20 also allows querying the endianness, by using its enum class `std::endian`. */
   static constexpr bool
   SystemIsBigEndian()
   {
