@@ -96,11 +96,13 @@ public:
     m_Name = name;
   }
 
+#if !defined(ITK_WRAPPING_PARSER)
   std::string &
   GetName()
   {
     return m_Name;
   }
+#endif
 
   const std::string &
   GetName() const
@@ -123,15 +125,13 @@ public:
     return value;
   }
 
+
+#if !defined(ITK_WRAPPING_PARSER)
   bool
   GetTagStringValue(const std::string & tag, std::string & value) const;
+#endif
   std::string
-  GetTagStringValue(const std::string & tag) const
-  {
-    std::string value = "";
-    this->GetTagStringValue(tag, value);
-    return value;
-  }
+  GetTagStringValue(const std::string & tag) const;
 
 
   std::map<std::string, double> &
