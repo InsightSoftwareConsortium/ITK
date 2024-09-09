@@ -1,2 +1,133 @@
 [tool.black]
 line-length = 88
+
+[tool.pixi.project]
+name = "ITK"
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64", "win-64"]
+
+[tool.pixi.tasks]
+clean = { cmd = "git clean -fdx", description = "Clean the repository" }
+
+[tool.pixi.dependencies]
+python = ">=3.12.0,<3.13"
+
+[tool.pixi.feature.cxx.dependencies]
+cmake = ">=3.30.2,<4"
+cxx-compiler = ">=1.7.0,<2"
+ninja = ">=1.12.1,<2"
+
+[tool.pixi.feature.python.dependencies]
+pytest = "*"
+numpy = ">=2.1.2,<3"
+
+[tool.pixi.feature.cxx.tasks.configure]
+cmd = '''cmake
+  -Bbuild
+  -S.
+  -GNinja
+  -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+  -DBUILD_TESTING:BOOL=ON'''
+description = "Configure ITK"
+outputs = ["build/CMakeFiles/"]
+
+[tool.pixi.feature.cxx.tasks.build]
+cmd = "cmake --build build"
+description = "Build ITK"
+outputs = ["build/lib/**"]
+depends-on = ["configure"]
+
+[tool.pixi.feature.cxx.tasks.test]
+cmd = "ctest -j3 --test-dir build"
+description = "Test ITK"
+depends-on = ["build"]
+
+[tool.pixi.feature.cxx.tasks.configure-debug]
+cmd = '''cmake
+  -Bbuild-debug
+  -S.
+  -GNinja
+  -DCMAKE_BUILD_TYPE:STRING=Debug
+  -DBUILD_TESTING:BOOL=ON'''
+description = "Configure ITK - Debug"
+outputs = ["build-debug/CMakeFiles/"]
+
+[tool.pixi.feature.cxx.tasks.build-debug]
+cmd = "cmake --build build-debug"
+description = "Build ITK - Debug"
+outputs = ["build-debug/lib/**"]
+depends-on = ["configure-debug"]
+
+[tool.pixi.feature.cxx.tasks.test-debug]
+cmd = "ctest -j3 --test-dir build-debug"
+description = "Test ITK - Debug"
+depends-on = ["build-debug"]
+
+[tool.pixi.feature.cxx.tasks.configure-release]
+cmd = '''cmake
+  -Bbuild-release
+  -S.
+  -GNinja
+  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DBUILD_TESTING:BOOL=ON'''
+description = "Configure ITK - Release"
+outputs = ["build-release/CMakeFiles/"]
+
+[tool.pixi.feature.cxx.tasks.build-release]
+cmd = "cmake --build build-release"
+description = "Build ITK - Release"
+outputs = ["build-release/lib/**"]
+depends-on = ["configure-release"]
+
+[tool.pixi.feature.cxx.tasks.test-release]
+cmd = "ctest -j3 --test-dir build-release"
+description = "Test ITK - Release"
+depends-on = ["build-release"]
+
+[tool.pixi.feature.python.tasks.configure-python]
+cmd = '''cmake
+  -Bbuild-python
+  -S.
+  -GNinja
+  -DITK_WRAP_PYTHON:BOOL=ON
+  -DCMAKE_BUILD_TYPE:STRING=Release
+  -DBUILD_TESTING:BOOL=ON'''
+description = "Configure ITK Python"
+outputs = ["build/CMakeFiles/"]
+
+[tool.pixi.feature.python.tasks.build-python]
+cmd = "cmake --build build-python"
+description = "Build ITK Python"
+outputs = ["build/lib/**"]
+depends-on = ["configure-python"]
+
+[tool.pixi.feature.python.tasks.test-python]
+cmd = "ctest -j3 --test-dir build-python"
+description = "Test ITK Python"
+depends-on = ["build-python"]
+
+[tool.pixi.feature.python.tasks.configure-debug-python]
+cmd = '''cmake
+  -Bbuild-debug-python
+  -S.
+  -GNinja
+  -DITK_WRAP_PYTHON:BOOL=ON
+  -DCMAKE_BUILD_TYPE:STRING=Debug
+  -DBUILD_TESTING:BOOL=ON'''
+description = "Configure ITK Python - Debug"
+outputs = ["build-debug/CMakeFiles/"]
+
+[tool.pixi.feature.python.tasks.build-debug-python]
+cmd = "cmake --build build-debug-python"
+description = "Build ITK - Debug"
+outputs = ["build-debug/lib/**"]
+depends-on = ["configure-debug-python"]
+
+[tool.pixi.feature.python.tasks.test-debug-python]
+cmd = "ctest -j3 --test-dir build-debug-python"
+description = "Test ITK Python - Debug"
+depends-on = ["build-debug-python"]
+
+[tool.pixi.environments]
+cxx = ["cxx"]
+python = ["python", "cxx"]
