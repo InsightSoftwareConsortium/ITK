@@ -137,6 +137,15 @@ SpatialObjectProperty::GetTagStringValue(const std::string & tag, std::string & 
   }
 }
 
+
+std::string
+SpatialObjectProperty::GetTagStringValue(const std::string & tag) const
+{
+  std::string value = "";
+  this->GetTagStringValue(tag, value);
+  return value;
+}
+
 std::map<std::string, double> &
 SpatialObjectProperty::GetTagScalarDictionary()
 {
