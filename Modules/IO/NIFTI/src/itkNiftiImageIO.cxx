@@ -18,7 +18,7 @@
 #include "itkNiftiImageIO.h"
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
-#include "itkSpatialOrientationAdapter.h"
+#include "itkAnatomicalOrientation.h"
 #include <nifti1_io.h>
 #include "itkNiftiImageIOConfigurePrivate.h"
 #include "itkMakeUniqueForOverwrite.h"
@@ -1878,7 +1878,6 @@ IsAffine(const mat44 & nifti_mat)
 void
 NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacingscale, double timingscale)
 {
-  typedef SpatialOrientationAdapter OrientAdapterType;
   // in the case of an Analyze75 file, use old analyze orient method.
   // but this could be a nifti file without qform and sform
   if (this->m_NiftiImage->qform_code == NIFTI_XFORM_UNKNOWN && this->m_NiftiImage->sform_code == NIFTI_XFORM_UNKNOWN)
@@ -1897,33 +1896,47 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
         this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4 &&
         this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning)
     { // only do this for Analyze file format
-      SpatialOrientationAdapter::OrientationType orient;
+      AnatomicalOrientation orient(AnatomicalOrientation::ToEnum::INVALID);
       switch (this->m_NiftiImage->analyze75_orient)
       {
         case a75_transverse_unflipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPI;
+          orient = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                         AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior,
+                                         AnatomicalOrientation::CoordinateEnum::InferiorToSuperior);
           break;
         case a75_sagittal_unflipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIR;
+          orient = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior,
+                                         AnatomicalOrientation::CoordinateEnum::InferiorToSuperior,
+                                         AnatomicalOrientation::CoordinateEnum::RightToLeft);
           break;
         case a75_coronal_unflipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
+          orient = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                         AnatomicalOrientation::CoordinateEnum::InferiorToSuperior,
+                                         AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior);
           break;
         case a75_transverse_flipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
+          orient = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                         AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+                                         AnatomicalOrientation::CoordinateEnum::InferiorToSuperior);
           break;
         case a75_sagittal_flipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIL;
+          orient = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior,
+                                         AnatomicalOrientation::CoordinateEnum::InferiorToSuperior,
+                                         AnatomicalOrientation::CoordinateEnum::LeftToRight);
           break;
         case a75_coronal_flipped:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
+          orient = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                         AnatomicalOrientation::CoordinateEnum::SuperiorToInferior,
+                                         AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior);
           break;
         case a75_orient_unknown:
-          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
+          orient = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                         AnatomicalOrientation::CoordinateEnum::InferiorToSuperior,
+                                         AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior);
           break;
       }
-      const SpatialOrientationAdapter::DirectionType dir = OrientAdapterType().ToDirectionCosines(orient);
-      const int                                      max_defined_orientation_dims = (dims > 3) ? 3 : dims;
+      const auto dir = orient.GetAsDirection();
+      const int  max_defined_orientation_dims = (dims > 3) ? 3 : dims;
       for (int d = 0; d < max_defined_orientation_dims; ++d)
       {
         std::vector<double> direction(dims, 0.0);
