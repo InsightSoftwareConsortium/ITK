@@ -1,3 +1,6 @@
+set(types "${WRAP_ITK_SCALAR}")
+itk_wrap_include("itkGPUImage.h")
+
 itk_wrap_class("itk::DiscreteGaussianImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
