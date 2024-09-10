@@ -23,7 +23,7 @@ foreach(from ${from_types})
 endforeach()
 itk_end_wrap_class()
 
-itk_wrap_class("itk::CastImageFilter" POINTER)
+itk_wrap_class("itk::CastImageFilter" POINTER_WITH_SUPERCLASS)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   # Add from == to pixel type first for preference
   foreach(to ${to_types})
@@ -183,7 +183,7 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
 endforeach()
 itk_end_wrap_class()
 
-itk_wrap_class("itk::GPUCastImageFilter" POINTER)
+itk_wrap_class("itk::GPUCastImageFilter" POINTER_WITH_SUPERCLASS)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   # Add from == to pixel type first for preference
   foreach(to ${to_types})
