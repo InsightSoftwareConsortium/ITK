@@ -67,7 +67,7 @@ class ITK_TEMPLATE_EXPORT FrequencyImageRegionIteratorWithIndex
 public:
   /** Standard class type alias. */
   using Self = FrequencyImageRegionIteratorWithIndex;
-  using Superclass = ImageRegionIteratorWithIndex<TImage>;
+  using Superclass = FrequencyImageRegionConstIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
