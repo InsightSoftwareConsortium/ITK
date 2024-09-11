@@ -87,7 +87,7 @@ struct GEImageHeader
   float imageXres;
   float imageYres;
 
-  itk::AnatomicalOrientation::ToEnum coordinateOrientation; // uint32_t
+  itk::AnatomicalOrientation::PositiveEnum coordinateOrientation; // uint32_t
 
   short numberOfSlices;
   short offset;

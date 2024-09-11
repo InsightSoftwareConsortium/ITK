@@ -1896,7 +1896,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
         this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4 &&
         this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning)
     { // only do this for Analyze file format
-      AnatomicalOrientation orient(AnatomicalOrientation::ToEnum::INVALID);
+      AnatomicalOrientation orient(AnatomicalOrientation::PositiveEnum::INVALID);
       switch (this->m_NiftiImage->analyze75_orient)
       {
         case a75_transverse_unflipped:

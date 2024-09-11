@@ -45,7 +45,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   inputImage->Allocate();
   inputImage->FillBuffer(0);
 
-  inputImage->SetDirection(itk::AnatomicalOrientation::CreateFromToStringEncoding("LSA").GetAsDirection());
+  inputImage->SetDirection(itk::AnatomicalOrientation::CreateFromPositiveStringEncoding("LSA").GetAsDirection());
 
   // Add some metadata in the dictionary
   itk::MetaDataDictionary & inputDictionary = inputImage->GetMetaDataDictionary();
