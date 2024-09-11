@@ -29,11 +29,11 @@ AnatomicalOrientation::AnatomicalOrientation(CoordinateEnum primary, CoordinateE
   if (SameOrientationAxes(primary, secondary) || SameOrientationAxes(primary, tertiary) ||
       SameOrientationAxes(secondary, tertiary))
   {
-    m_Value = ToEnum::INVALID;
+    m_Value = PositiveEnum::INVALID;
   }
   else
   {
-    m_Value = static_cast<ToEnum>(
+    m_Value = static_cast<PositiveEnum>(
       (static_cast<uint32_t>(primary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) +
       (static_cast<uint32_t>(secondary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) +
       (static_cast<uint32_t>(tertiary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor)));
@@ -48,13 +48,13 @@ AnatomicalOrientation::AnatomicalOrientation(LegacyOrientationType legacyOrienta
 }
 #endif
 
-AnatomicalOrientation::AnatomicalOrientation(AnatomicalOrientation::FromEnum fromOrientation)
-  : m_Value(ToEnum(uint32_t(fromOrientation)))
+AnatomicalOrientation::AnatomicalOrientation(AnatomicalOrientation::NegativeEnum fromOrientation)
+  : m_Value(PositiveEnum(uint32_t(fromOrientation)))
 {}
 
 
 std::string
-AnatomicalOrientation::GetAsToStringEncoding() const
+AnatomicalOrientation::GetAsPositiveStringEncoding() const
 {
 
   // a lambda function to convert a CoordinateEnum to a char
@@ -78,7 +78,7 @@ AnatomicalOrientation::GetAsToStringEncoding() const
     }
   };
 
-  if (m_Value == ToEnum::INVALID)
+  if (m_Value == PositiveEnum::INVALID)
   {
     return "INVALID";
   }
@@ -88,30 +88,30 @@ AnatomicalOrientation::GetAsToStringEncoding() const
 
 
 std::string
-AnatomicalOrientation::GetAsFromStringEncoding() const
+AnatomicalOrientation::GetAsNegativeStringEncoding() const
 {
-  return ConvertStringEncoding(GetAsToStringEncoding());
+  return ConvertStringEncoding(GetAsPositiveStringEncoding());
 }
 
 
 AnatomicalOrientation
-AnatomicalOrientation::CreateFromToStringEncoding(std::string str)
+AnatomicalOrientation::CreateFromPositiveStringEncoding(std::string str)
 {
   std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
-  const std::map<std::string, typename AnatomicalOrientation::ToEnum> & stringToCode = GetStringToCode();
-  auto                                                                  iter = stringToCode.find(str);
+  const std::map<std::string, typename AnatomicalOrientation::PositiveEnum> & stringToCode = GetStringToCode();
+  auto                                                                        iter = stringToCode.find(str);
   if (iter == stringToCode.end())
   {
-    return AnatomicalOrientation(ToEnum::INVALID);
+    return AnatomicalOrientation(PositiveEnum::INVALID);
   }
   return AnatomicalOrientation(iter->second);
 }
 
 AnatomicalOrientation
-AnatomicalOrientation::CreateFromFromStringEncoding(std::string str)
+AnatomicalOrientation::CreateFromNegativeStringEncoding(std::string str)
 {
-  return AnatomicalOrientation::CreateFromToStringEncoding(ConvertStringEncoding(str));
+  return AnatomicalOrientation::CreateFromPositiveStringEncoding(ConvertStringEncoding(str));
 }
 
 
@@ -156,36 +156,39 @@ AnatomicalOrientation::GetCoordinateTerm(CoordinateMajornessTermsEnum cmt) const
 }
 
 
-const std::map<typename AnatomicalOrientation::ToEnum, std::string> &
+const std::map<typename AnatomicalOrientation::PositiveEnum, std::string> &
 AnatomicalOrientation::GetCodeToString()
 {
-  auto createCodeToString = []() -> std::map<ToEnum, std::string> {
-    std::map<ToEnum, std::string> orientToString;
+  auto createCodeToString = []() -> std::map<PositiveEnum, std::string> {
+    std::map<PositiveEnum, std::string> orientToString;
 
-    for (auto code : { ToEnum::RIP, ToEnum::LIP, ToEnum::RSP, ToEnum::LSP, ToEnum::RIA, ToEnum::LIA, ToEnum::RSA,
-                       ToEnum::LSA, ToEnum::IRP, ToEnum::ILP, ToEnum::SRP, ToEnum::SLP, ToEnum::IRA, ToEnum::ILA,
-                       ToEnum::SRA, ToEnum::SLA, ToEnum::RPI, ToEnum::LPI, ToEnum::RAI, ToEnum::LAI, ToEnum::RPS,
-                       ToEnum::LPS, ToEnum::RAS, ToEnum::LAS, ToEnum::PRI, ToEnum::PLI, ToEnum::ARI, ToEnum::ALI,
-                       ToEnum::PRS, ToEnum::PLS, ToEnum::ARS, ToEnum::ALS, ToEnum::IPR, ToEnum::SPR, ToEnum::IAR,
-                       ToEnum::SAR, ToEnum::IPL, ToEnum::SPL, ToEnum::IAL, ToEnum::SAL, ToEnum::PIR, ToEnum::PSR,
-                       ToEnum::AIR, ToEnum::ASR, ToEnum::PIL, ToEnum::PSL, ToEnum::AIL, ToEnum::ASL, ToEnum::INVALID })
+    for (auto code : { PositiveEnum::RIP, PositiveEnum::LIP, PositiveEnum::RSP, PositiveEnum::LSP,    PositiveEnum::RIA,
+                       PositiveEnum::LIA, PositiveEnum::RSA, PositiveEnum::LSA, PositiveEnum::IRP,    PositiveEnum::ILP,
+                       PositiveEnum::SRP, PositiveEnum::SLP, PositiveEnum::IRA, PositiveEnum::ILA,    PositiveEnum::SRA,
+                       PositiveEnum::SLA, PositiveEnum::RPI, PositiveEnum::LPI, PositiveEnum::RAI,    PositiveEnum::LAI,
+                       PositiveEnum::RPS, PositiveEnum::LPS, PositiveEnum::RAS, PositiveEnum::LAS,    PositiveEnum::PRI,
+                       PositiveEnum::PLI, PositiveEnum::ARI, PositiveEnum::ALI, PositiveEnum::PRS,    PositiveEnum::PLS,
+                       PositiveEnum::ARS, PositiveEnum::ALS, PositiveEnum::IPR, PositiveEnum::SPR,    PositiveEnum::IAR,
+                       PositiveEnum::SAR, PositiveEnum::IPL, PositiveEnum::SPL, PositiveEnum::IAL,    PositiveEnum::SAL,
+                       PositiveEnum::PIR, PositiveEnum::PSR, PositiveEnum::AIR, PositiveEnum::ASR,    PositiveEnum::PIL,
+                       PositiveEnum::PSL, PositiveEnum::AIL, PositiveEnum::ASL, PositiveEnum::INVALID })
     {
-      orientToString[code] = AnatomicalOrientation(code).GetAsToStringEncoding();
+      orientToString[code] = AnatomicalOrientation(code).GetAsPositiveStringEncoding();
     }
 
     return orientToString;
   };
-  static const std::map<ToEnum, std::string> codeToString = createCodeToString();
+  static const std::map<PositiveEnum, std::string> codeToString = createCodeToString();
   return codeToString;
 }
 
-const std::map<std::string, AnatomicalOrientation::ToEnum> &
+const std::map<std::string, AnatomicalOrientation::PositiveEnum> &
 AnatomicalOrientation::GetStringToCode()
 {
 
-  auto createStringToCode = []() -> std::map<std::string, ToEnum> {
-    std::map<std::string, ToEnum>         stringToCode;
-    const std::map<ToEnum, std::string> & codeToString = GetCodeToString();
+  auto createStringToCode = []() -> std::map<std::string, PositiveEnum> {
+    std::map<std::string, PositiveEnum>         stringToCode;
+    const std::map<PositiveEnum, std::string> & codeToString = GetCodeToString();
 
     for (const auto & kv : codeToString)
     {
@@ -194,13 +197,13 @@ AnatomicalOrientation::GetStringToCode()
     return stringToCode;
   };
 
-  static const std::map<std::string, AnatomicalOrientation::ToEnum> stringToCode = createStringToCode();
+  static const std::map<std::string, AnatomicalOrientation::PositiveEnum> stringToCode = createStringToCode();
   return stringToCode;
 }
 
 
-typename AnatomicalOrientation::ToEnum
-AnatomicalOrientation::DirectionCosinesToOrientation(const DirectionType & dir)
+AnatomicalOrientation::PositiveEnum
+AnatomicalOrientation::ConvertDirectionToPositiveEnum(const DirectionType & dir)
 {
   // NOTE: This method was based off of itk::SpatialObjectAdaptor::FromDirectionCosines
   // but it is DIFFERENT in the meaning of direction in terms of sign-ness.
@@ -265,7 +268,7 @@ AnatomicalOrientation::DirectionCosinesToOrientation(const DirectionType & dir)
 
 
 typename AnatomicalOrientation::DirectionType
-AnatomicalOrientation::OrientationToDirectionCosines(ToEnum orientationEnum)
+AnatomicalOrientation::ConvertPositiveEnumToDirection(PositiveEnum orientationEnum)
 {
   const AnatomicalOrientation o(orientationEnum);
 
@@ -323,15 +326,15 @@ operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum va
 }
 
 std::ostream &
-operator<<(std::ostream & out, typename AnatomicalOrientation::ToEnum value)
+operator<<(std::ostream & out, typename AnatomicalOrientation::PositiveEnum value)
 {
-  return (out << AnatomicalOrientation(value).GetAsToStringEncoding());
+  return (out << AnatomicalOrientation(value).GetAsPositiveStringEncoding());
 }
 
 std::ostream &
-operator<<(std::ostream & out, typename AnatomicalOrientation::FromEnum value)
+operator<<(std::ostream & out, typename AnatomicalOrientation::NegativeEnum value)
 {
-  return (out << AnatomicalOrientation(value).GetAsFromStringEncoding());
+  return (out << AnatomicalOrientation(value).GetAsNegativeStringEncoding());
 }
 
 std::ostream &

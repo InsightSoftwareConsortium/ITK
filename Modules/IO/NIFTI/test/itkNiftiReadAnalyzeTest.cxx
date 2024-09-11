@@ -184,11 +184,11 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
 {
   std::string hdrName(argv[1]);
   hdrName += "/littleEndian_";
-  hdrName += expected_code.GetAsToStringEncoding();
+  hdrName += expected_code.GetAsPositiveStringEncoding();
   hdrName += ".hdr";
   std::string imgName(argv[1]);
   imgName += "/littleEndian_";
-  imgName += expected_code.GetAsToStringEncoding();
+  imgName += expected_code.GetAsPositiveStringEncoding();
   imgName += ".img";
 
   // hack the header to have proper orientation code
@@ -253,8 +253,8 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
   if (orientation_code != expected_code)
   {
     std::cerr << "Analyze orientation " << static_cast<int>(hist_orient_code) << std::endl;
-    std::cerr << "expected orientation " << expected_code.GetAsToStringEncoding() << " but found "
-              << orientation_code.GetAsToStringEncoding() << std::endl;
+    std::cerr << "expected orientation " << expected_code.GetAsPositiveStringEncoding() << " but found "
+              << orientation_code.GetAsPositiveStringEncoding() << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -264,7 +264,7 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
             << "negative x step:" << (flip_x ? "true" : "false") << std::endl
             << "Origin   :" << img->GetOrigin() << std::endl
             << "Spacing  :" << img->GetSpacing() << std::endl
-            << "Code     :" << orientation_code.GetAsToStringEncoding() << std::endl
+            << "Code     :" << orientation_code.GetAsPositiveStringEncoding() << std::endl
             << "Direction:" << img->GetDirection() << std::endl;
 
   return EXIT_SUCCESS;
