@@ -62,7 +62,7 @@ public:
     SuperiorToInferior = 9,  ///< foot
   };
 
-private:
+protected:
   enum class CoordinateMajornessTermsEnum : uint8_t
   {
     PrimaryMinor = 0,
@@ -80,7 +80,7 @@ private:
   GetCoordinateTerm(CoordinateMajornessTermsEnum cmt) const;
 
 public:
-  enum class ToEnum : uint32_t
+  enum class PositiveEnum : uint32_t
 
   {
     INVALID = 0,
@@ -236,7 +236,7 @@ public:
                              CoordinateEnum::RightToLeft>
   };
 
-  enum class FromEnum : uint32_t
+  enum class NegativeEnum : uint32_t
 
   {
     INVALID = 0,
@@ -400,7 +400,7 @@ public:
    */
   AnatomicalOrientation(CoordinateEnum primary, CoordinateEnum secondary, CoordinateEnum tertiary);
 
-  AnatomicalOrientation(ToEnum orientation)
+  AnatomicalOrientation(PositiveEnum orientation)
     : m_Value(orientation)
   {}
 
@@ -416,30 +416,33 @@ public:
   AnatomicalOrientation(LegacyOrientationType legacyOrientation);
 #endif
 
-  AnatomicalOrientation(FromEnum orientation);
+  AnatomicalOrientation(NegativeEnum orientation);
 
   explicit AnatomicalOrientation(const DirectionType & d)
-    : m_Value(DirectionCosinesToOrientation(d))
+    : m_Value(ConvertDirectionToPositiveEnum(d))
   {}
 
-  operator ToEnum() const { return m_Value; }
-
-  std::string
-  GetAsToStringEncoding() const;
-
-  std::string
-  GetAsFromStringEncoding() const;
+  static AnatomicalOrientation
+  CreateFromPositiveStringEncoding(std::string str);
 
   static AnatomicalOrientation
-  CreateFromToStringEncoding(std::string str);
+  CreateFromNegativeStringEncoding(std::string str);
 
-  static AnatomicalOrientation
-  CreateFromFromStringEncoding(std::string str);
+  operator PositiveEnum() const { return m_Value; }
 
-  /** An involution to convert between "to" and "from" single character encoding strings.
+
+  std::string
+  GetAsPositiveStringEncoding() const;
+
+  std::string
+  GetAsNegativeStringEncoding() const;
+
+  /** An involution to convert between "positive" and "negative" single character encoding strings.
    *
    * For example the string "RAS" is converted to "LPI" and vice versa.
    *
+   * The input maybe upper or lower case, while the output is always upper case.
+   * There is not check that the input is a valid encoding.
    *
    * */
   static std::string
@@ -448,13 +451,19 @@ public:
   DirectionType
   GetAsDirection() const
   {
-    return OrientationToDirectionCosines(m_Value);
+    return ConvertPositiveEnumToDirection(m_Value);
   }
 
-  ToEnum
-  GetAsOrientation() const
+  PositiveEnum
+  GetAsPositiveOrientation() const
   {
     return m_Value;
+  }
+
+  NegativeEnum
+  GetAsNegativeOrientation() const
+  {
+    return NegativeEnum(uint32_t(this->m_Value));
   }
 
   CoordinateEnum
@@ -488,34 +497,33 @@ public:
     return (static_cast<uint8_t>(a) & AxisField) == (static_cast<uint8_t>(b) & AxisField);
   }
 
-  /** \brief Return the closest orientation for a direction cosine matrix. */
-  static ToEnum
-  DirectionCosinesToOrientation(const DirectionType & dir);
-
-  /** \brief Return the direction cosine matrix for a orientation. */
-  static DirectionType OrientationToDirectionCosines(ToEnum);
-
 
   friend ITKCommon_EXPORT std::ostream &
-                          operator<<(std::ostream & out, ToEnum value);
+                          operator<<(std::ostream & out, PositiveEnum value);
+
+protected:
+  /** \brief Return the direction cosine matrix for a orientation. */
+  static DirectionType ConvertPositiveEnumToDirection(PositiveEnum);
 
 
-private:
-  // Private methods to create the maps, these will only be called once.
+  /** \brief Return the closest orientation for a direction cosine matrix. */
+  static PositiveEnum
+  ConvertDirectionToPositiveEnum(const DirectionType & dir);
+
 
   /** \brief Return the global instance of the map from orientation enum to strings.
    *
    * The implementation uses a function static local variable so the global is created only if needed, only once.
    */
-  static const std::map<ToEnum, std::string> &
+  static const std::map<PositiveEnum, std::string> &
   GetCodeToString();
 
   /** \brief Return the global instance of the map from string to orientation enum.
    */
-  static const std::map<std::string, ToEnum> &
+  static const std::map<std::string, PositiveEnum> &
   GetStringToCode();
 
-  ToEnum m_Value;
+  PositiveEnum m_Value;
 };
 
 
@@ -523,7 +531,7 @@ ITKCommon_EXPORT std::ostream &
                  operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum value);
 
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & out, typename AnatomicalOrientation::ToEnum value);
+                 operator<<(std::ostream & out, typename AnatomicalOrientation::PositiveEnum value);
 
 ITKCommon_EXPORT std::ostream &
                  operator<<(std::ostream & out, const AnatomicalOrientation & orientation);
