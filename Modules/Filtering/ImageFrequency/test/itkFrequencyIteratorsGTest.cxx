@@ -26,6 +26,8 @@
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 #include "itkFFTShiftImageFilter.h"
 #include "itkFrequencyBandImageFilter.h" // Simplest of frequency filters for testing
+#include "itkFrequencyImageRegionConstIteratorWithIndex.h"
+#include "itkFrequencyImageRegionIteratorWithIndex.h"
 #include "itkFrequencyFFTLayoutImageRegionConstIteratorWithIndex.h"
 #include "itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h"
 #include "itkFrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex.h"
@@ -264,7 +266,9 @@ compareAllTypesOfIterators(typename TImageType::Pointer image, double difference
 // Checks that an iterator that is just constructed by `IteratorType(image, region)` is at the begin.
 TEST_F(FrequencyIterators, AreConstructedAtBegin)
 {
-  CheckIteratorsConstructedAtBegin<itk::FrequencyFFTLayoutImageRegionConstIteratorWithIndex,
+  CheckIteratorsConstructedAtBegin<itk::FrequencyImageRegionConstIteratorWithIndex,
+                                   itk::FrequencyImageRegionIteratorWithIndex,
+                                   itk::FrequencyFFTLayoutImageRegionConstIteratorWithIndex,
                                    itk::FrequencyFFTLayoutImageRegionIteratorWithIndex,
                                    itk::FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex,
                                    itk::FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex,
