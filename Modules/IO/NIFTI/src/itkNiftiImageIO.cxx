@@ -2097,7 +2097,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
 
         if (svd.singularities() == 0)
         {
-          mat = svd.V() * svd.U().conjugate_transpose();
+          mat = svd.U() * svd.V().conjugate_transpose();
           mat44 _mat;
 
           for (int i = 0; i < 3; ++i)
