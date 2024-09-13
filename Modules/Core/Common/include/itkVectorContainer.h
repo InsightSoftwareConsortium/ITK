@@ -561,6 +561,18 @@ protected:
     , VectorType(first, last)
   {}
 };
+
+
+/** Makes a VectorContainer that has a copy of the specified `std::vector`. */
+template <typename TElement>
+auto
+MakeVectorContainer(std::vector<TElement> stdVector)
+{
+  auto vectorContainer = VectorContainer<SizeValueType, TElement>::New();
+  vectorContainer->CastToSTLContainer() = std::move(stdVector);
+  return vectorContainer;
+}
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
