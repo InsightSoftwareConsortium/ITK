@@ -205,9 +205,11 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   if (!itk::ExposeMetaData<std::string>(dictionary, "ITK_sform_corrected", temp) || temp != "YES")
   {
     std::cerr << "ITK_sform_corrected metadata flag was not properly set" << std::endl;
-    std::cerr << " expected YES, recieved:" << temp.c_str() << std::endl;
+    std::cerr << " expected YES, received:" << temp.c_str() << std::endl;
     return EXIT_FAILURE;
   }
+
+  itksys::SystemTools::PutEnv("ITK_NIFTI_SFORM_PERMISSIVE=NO");
 
   // check the resulting rotation matrix is orthogonal
   if (!CheckRotation<TestImageType>(inputImageNonOrthoSform))
@@ -215,6 +217,32 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
     std::cerr << "Rotation matrix after correcting is not orthgonal" << std::endl;
     return EXIT_FAILURE;
   }
+
+  // check similarity between direction without shear (argv[2]) and direction with shear (argv[4])
+  // inputImageNoQformDirection should be somewhat similar to inputImageNonOrthoSformDirection
+  // the shear in the test data is pretty large, so they are off by a bit, but check angle to catch rotation flips
+  // introduced by previous bugs
+  auto inputImageNonOrthoSformDirection = inputImageNonOrthoSform->GetDirection();
+
+  // compare the direction matrices
+  auto nonOrthoDirectionInv = inputImageNonOrthoSformDirection.GetTranspose();
+
+  // Compute R_relative = R1 * R2^-1
+  auto rRelative = inputImageNoQformDirection * nonOrthoDirectionInv;
+
+  // Calculate the trace of the relative rotation matrix
+  double trace = rRelative[0][0] + rRelative[1][1] + rRelative[2][2];
+
+  // Calculate the angle of rotation between the two matrices
+  double angle = std::acos((trace - 1.0) / 2.0);
+
+  if (angle > 0.15)
+  {
+    std::cerr << "Error: direction matrices are not similar" << std::endl;
+    std::cerr << "angle: " << angle << std::endl;
+    return EXIT_FAILURE;
+  }
+
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
