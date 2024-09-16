@@ -224,7 +224,10 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/LPSLabels_noqform.nii.gz}
   DATA{${ITK_DATA_ROOT}/Input/LPSLabels_nosform.nii.gz}
   DATA{${ITK_DATA_ROOT}/Input/NonOrthoSform.nii.gz}
-  ${ITK_TEST_OUTPUT_DIR})
+  ${ITK_TEST_OUTPUT_DIR}
+  8.0 # Tolerance in degrees for direction recovered from non-orthogonal sform
+  )
+
 
 itk_add_test(
   NAME
@@ -236,7 +239,9 @@ itk_add_test(
   DATA{Input/SmallVoxels_noqform.nii.gz}
   DATA{Input/SmallVoxels_nosform.nii.gz}
   DATA{Input/SmallVoxelsNonOrthoSform.nii.gz}
-  ${ITK_TEST_OUTPUT_DIR})
+  ${ITK_TEST_OUTPUT_DIR}
+  4.0 # Tolerance in degrees for direction recovered from non-orthogonal sform
+  )
 
 itk_add_test(
   NAME
