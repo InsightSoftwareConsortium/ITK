@@ -169,6 +169,10 @@ public:
   void
   SetPoints(PointsVectorContainer *);
 
+  /** Sets the points by specifying its coordinates. */
+  void
+  SetPointsByCoordinates(const std::vector<CoordRepType> & coordinates);
+
   /** Get the points container. */
   PointsContainer *
   GetPoints();

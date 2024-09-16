@@ -1748,6 +1748,7 @@ set(ITKCommonGTests
     itkOffsetGTest.cxx
     itkOptimizerParametersGTest.cxx
     itkPointGTest.cxx
+    itkPointSetGTest.cxx
     itkRGBAPixelGTest.cxx
     itkRGBPixelGTest.cxx
     itkShapedImageNeighborhoodRangeGTest.cxx
