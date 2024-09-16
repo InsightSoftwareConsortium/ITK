@@ -81,6 +81,56 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsVectorContainer *
   this->Modified();
 }
 
+
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+PointSet<TPixelType, VDimension, TMeshTraits>::SetPointsByCoordinates(const std::vector<CoordRepType> & coordinates)
+{
+  itkDebugMacro("Setting the points to the specified coordinates");
+
+  const size_t numberOfCoordinates = coordinates.size();
+
+  if (numberOfCoordinates % PointDimension != 0)
+  {
+    itkExceptionMacro("Number of specified coordinates incompatible with the point dimension");
+  }
+
+  const size_t numberOfPoints = numberOfCoordinates / PointDimension;
+
+  if (m_PointsContainer == nullptr)
+  {
+    m_PointsContainer = PointsContainer::New();
+  }
+
+  using STLContainerType = typename PointsContainer::STLContainerType;
+
+  STLContainerType & points = m_PointsContainer->CastToSTLContainer();
+  points.clear();
+
+  if constexpr (std::is_same_v<STLContainerType, std::vector<PointType>>)
+  {
+    // STLContainerType is either an std::vector or an std::map. Only when it is an std::vector, it should be resized.
+    // std::map does not have a resize function.
+    points.resize(numberOfPoints);
+  }
+  else
+  {
+    static_assert(std::is_same_v<STLContainerType, std::map<PointIdentifier, PointType>>);
+  }
+
+  auto coordinateIterator = coordinates.cbegin();
+
+  for (PointIdentifier pointIdentifier{}; pointIdentifier < numberOfPoints; ++pointIdentifier)
+  {
+    PointType & point = points[pointIdentifier];
+    std::copy_n(coordinateIterator, PointDimension, point.begin());
+    coordinateIterator += PointDimension;
+  }
+
+  this->Modified();
+}
+
+
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() -> PointsContainer *
