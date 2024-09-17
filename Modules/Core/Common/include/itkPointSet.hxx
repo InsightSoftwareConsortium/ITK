@@ -73,6 +73,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsVectorContainer *
   {
     itkExceptionMacro("Number of entries in given 1d array incompatible with the point dimension");
   }
+
+  // Note: this cast is unsafe. It may lead to undefined behavior.
   auto * pointsPtr = reinterpret_cast<PointsContainer *>(points);
 
   m_PointsContainer = pointsPtr;
