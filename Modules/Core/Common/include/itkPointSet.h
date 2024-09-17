@@ -164,7 +164,8 @@ public:
   void
   SetPoints(PointsContainer *);
 
-  /** Set the points container using a 1D vector. */
+  /** Set the points container using a 1D vector.
+  \warning This member function is unsafe. It may just work, but it may also lead to undefined behavior. */
   void
   SetPoints(PointsVectorContainer *);
 
