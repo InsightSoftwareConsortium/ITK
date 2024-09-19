@@ -28,7 +28,8 @@
 #ifndef itkByteSwapper_hxx
 #define itkByteSwapper_hxx
 #include "itkMakeUniqueForOverwrite.h"
-#include <algorithm> // For swap.
+#include <algorithm> // For for_each_n and swap.
+#include <cstddef>   // For byte.
 #include <memory>
 #include <cstring>
 
@@ -44,24 +45,9 @@ template <typename T>
 void
 ByteSwapper<T>::SwapFromSystemToBigEndian([[maybe_unused]] T * p)
 {
-  if constexpr (!m_SystemIsBigEndian)
+  if constexpr (!m_SystemIsBigEndian && sizeof(T) > 1)
   {
-    switch (sizeof(T))
-    {
-      case 1:
-        return;
-      case 2:
-        Self::Swap2(p);
-        return;
-      case 4:
-        Self::Swap4(p);
-        return;
-      case 8:
-        Self::Swap8(p);
-        return;
-      default:
-        itkGenericExceptionMacro("Cannot swap number of bytes requested");
-    }
+    SwapBytes(*p);
   }
 }
 
@@ -69,24 +55,9 @@ template <typename T>
 void
 ByteSwapper<T>::SwapRangeFromSystemToBigEndian([[maybe_unused]] T * p, [[maybe_unused]] BufferSizeType num)
 {
-  if constexpr (!m_SystemIsBigEndian)
+  if constexpr (!m_SystemIsBigEndian && sizeof(T) > 1)
   {
-    switch (sizeof(T))
-    {
-      case 1:
-        return;
-      case 2:
-        Self::Swap2Range(p, num);
-        return;
-      case 4:
-        Self::Swap4Range(p, num);
-        return;
-      case 8:
-        Self::Swap8Range(p, num);
-        return;
-      default:
-        itkGenericExceptionMacro("Cannot swap number of bytes requested");
-    }
+    std::for_each_n(p, num, [](T & element) { SwapBytes(element); });
   }
 }
 
@@ -127,24 +98,9 @@ template <typename T>
 void
 ByteSwapper<T>::SwapFromSystemToLittleEndian([[maybe_unused]] T * p)
 {
-  if constexpr (m_SystemIsBigEndian)
+  if constexpr (m_SystemIsBigEndian && sizeof(T) > 1)
   {
-    switch (sizeof(T))
-    {
-      case 1:
-        return;
-      case 2:
-        Self::Swap2(p);
-        return;
-      case 4:
-        Self::Swap4(p);
-        return;
-      case 8:
-        Self::Swap8(p);
-        return;
-      default:
-        itkGenericExceptionMacro("Cannot swap number of bytes requested");
-    }
+    SwapBytes(*p);
   }
 }
 
@@ -152,24 +108,9 @@ template <typename T>
 void
 ByteSwapper<T>::SwapRangeFromSystemToLittleEndian([[maybe_unused]] T * p, [[maybe_unused]] BufferSizeType num)
 {
-  if constexpr (m_SystemIsBigEndian)
+  if constexpr (m_SystemIsBigEndian && sizeof(T) > 1)
   {
-    switch (sizeof(T))
-    {
-      case 1:
-        return;
-      case 2:
-        Self::Swap2Range(p, num);
-        return;
-      case 4:
-        Self::Swap4Range(p, num);
-        return;
-      case 8:
-        Self::Swap8Range(p, num);
-        return;
-      default:
-        itkGenericExceptionMacro("Cannot swap number of bytes requested");
-    }
+    std::for_each_n(p, num, [](T & element) { SwapBytes(element); });
   }
 }
 
@@ -369,6 +310,33 @@ ByteSwapper<T>::SwapWrite8Range(const void * ptr, BufferSizeType num, OStreamTyp
     }
   }
 }
+
+
+// The following member function is private:
+
+template <typename T>
+void
+ByteSwapper<T>::SwapBytes(T & value)
+{
+  static constexpr size_t numberOfBytes = sizeof(T);
+
+  // Historically (from ITK v1.2.0, March 2003) the following number of bytes are supported:
+  if constexpr (numberOfBytes == 2 || numberOfBytes == 4 || numberOfBytes == 8)
+  {
+    // When the value is an integer, the following code is equivalent to `value = std::byteswap(value)`, in C++26:
+    auto * const bytes = reinterpret_cast<std::byte *>(&value);
+
+    for (size_t i{}; i < (numberOfBytes / 2); ++i)
+    {
+      std::swap(bytes[i], bytes[(numberOfBytes - 1) - i]);
+    }
+  }
+  else
+  {
+    itkGenericExceptionMacro("Cannot swap number of bytes requested");
+  }
+}
+
 } // end namespace itk
 
 #endif

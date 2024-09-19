@@ -277,6 +277,7 @@ btw
 buf
 bugfix
 bw
+byteswap
 byu
 bzip
 calc

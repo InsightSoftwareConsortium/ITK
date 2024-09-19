@@ -192,6 +192,11 @@ protected:
   SwapWrite8Range(const void * ptr, BufferSizeType num, OStreamType * fp);
 
 private:
+  /** Swaps the bytes of the specified argument in-place. Assumes that its number of bytes is either 2, 4, or 8.
+   * Otherwise, it throws an exception. */
+  static void
+  SwapBytes(T &);
+
   static constexpr bool m_SystemIsBigEndian{
 #ifdef CMAKE_WORDS_BIGENDIAN
     true
