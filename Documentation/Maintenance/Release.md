@@ -33,7 +33,7 @@ When releasing a new ITK version, the following steps are be taken:
     * Tag the ITK repository
     * Bump ITKPythonPackage's version
   * **Generate tarballs**
-    * Generate the *InsightToolkit* and *InsightData* tarballs.
+    * Generate the *ITK* and *InsightData* tarballs.
     * Tarballs are tested locally.
     * Generate Python packages and ITKPythonBuilds.
     * Tarballs are posted to [ITK GitHub Releases].
