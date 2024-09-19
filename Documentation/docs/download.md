@@ -25,8 +25,8 @@ Additionally, wheels for external modules are available through the Python Packa
 
 **Library Sources**
 
-- [InsightToolkit-5.3.0.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.tar.gz)
-- [InsightToolkit-5.3.0.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.zip)
+- [ITK-5.3.0.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.tar.gz)
+- [ITK-5.3.0.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.zip)
 
 **Testing Data**
 
@@ -66,8 +66,8 @@ pip install --pre --upgrade itk
 
 **Library Sources**
 
-- [InsightToolkit-5.4rc01.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightToolkit-5.4rc01.tar.gz)
-- [InsightToolkit-5.4rc01.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightToolkit-5.4rc01.zip)
+- [ITK-5.4rc01.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightToolkit-5.4rc01.tar.gz)
+- [ITK-5.4rc01.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightToolkit-5.4rc01.zip)
 
 **Testing Data**
 
