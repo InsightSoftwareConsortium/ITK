@@ -82,7 +82,7 @@ public:
   /** AuxVarType type alias support */
   using AuxValueType = TAuxValue;
   using AuxValueVectorType = Vector<AuxValueType, AuxDimension>;
-  using AuxValueContainerType = VectorContainer<IdentifierType, AuxValueVectorType>;
+  using AuxValueContainerType = VectorContainer<AuxValueVectorType>;
 
   using AuxValueContainerPointer = typename AuxValueContainerType::Pointer;
   using AuxValueContainerConstIterator = typename AuxValueContainerType::ConstIterator;

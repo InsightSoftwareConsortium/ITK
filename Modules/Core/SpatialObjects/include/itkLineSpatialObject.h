@@ -60,7 +60,7 @@ public:
   using typename Superclass::PointType;
   using typename Superclass::TransformType;
   using typename Superclass::BoundingBoxType;
-  using PointContainerType = VectorContainer<IdentifierType, PointType>;
+  using PointContainerType = VectorContainer<PointType>;
   using PointContainerPointer = SmartPointer<PointContainerType>;
 
   /** Method for creation through the object factory. */

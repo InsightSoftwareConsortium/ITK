@@ -38,7 +38,7 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template <typename TPointsContainer = VectorContainer<IdentifierType, Point<float, 3>>>
+template <typename TPointsContainer = VectorContainer<Point<float, 3>>>
 class ITK_TEMPLATE_EXPORT PointsLocator : public Object
 {
 public:

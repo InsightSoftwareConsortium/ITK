@@ -184,7 +184,7 @@ public:
   using CellDataContainer = typename MeshTraits::CellDataContainer;
 
   /** For improving Python support for Triangle Meshes **/
-  using CellsVectorContainer = typename itk::VectorContainer<IdentifierType, IdentifierType>;
+  using CellsVectorContainer = typename itk::VectorContainer<IdentifierType>;
   using CellsVectorContainerPointer = typename CellsVectorContainer::Pointer;
 
   /** Used to support geometric operations on the toolkit. */

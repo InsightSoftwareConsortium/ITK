@@ -53,7 +53,7 @@ public:
   using typename Superclass::PointType;
   using typename Superclass::BoundingBoxType;
 
-  using PointContainerType = VectorContainer<IdentifierType, PointType>;
+  using PointContainerType = VectorContainer<PointType>;
   using PointContainerPointer = typename PointContainerType::Pointer;
 
   /** Method for creation through the object factory. */
