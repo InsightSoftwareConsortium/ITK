@@ -587,7 +587,7 @@ template <typename TElement>
 auto
 MakeVectorContainer(std::vector<TElement> stdVector)
 {
-  auto vectorContainer = VectorContainer<SizeValueType, TElement>::New();
+  auto vectorContainer = VectorContainer<TElement>::New();
   vectorContainer->CastToSTLContainer() = std::move(stdVector);
   return vectorContainer;
 }

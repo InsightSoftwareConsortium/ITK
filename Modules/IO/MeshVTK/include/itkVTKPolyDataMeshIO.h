@@ -56,7 +56,7 @@ public:
   using StringVectorType = std::vector<StringType>;
   using StringStreamType = std::stringstream;
   using PointIdVector = std::vector<SizeValueType>;
-  using PolylinesContainerType = VectorContainer<SizeValueType, PointIdVector>;
+  using PolylinesContainerType = VectorContainer<PointIdVector>;
   using PolylinesContainerPointer = PolylinesContainerType::Pointer;
 
   /** Method for creation through the object factory. */
