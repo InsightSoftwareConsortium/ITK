@@ -96,7 +96,10 @@ public:
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** \deprecated Return the type of pixel used */
-  itkLegacyMacro(const char * GetPixelTypeName()) { return m_PixelType.c_str(); }
+  itkLegacyMacro(const char * GetPixelTypeName())
+  {
+    return m_PixelType.c_str();
+  }
 #endif
 
   /** Set/Get the precision for the IsInsideInObjectSpace function.

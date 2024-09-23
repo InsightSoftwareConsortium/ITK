@@ -85,7 +85,10 @@ public:
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** Compute the tangents and normals of the centerline of the tube. */
-  itkLegacyMacro(bool ComputeTangentAndNormals()) { return ComputeTangentsAndNormals(); }
+  itkLegacyMacro(bool ComputeTangentAndNormals())
+  {
+    return ComputeTangentsAndNormals();
+  }
 #endif
 
   /** Remove duplicate points. */

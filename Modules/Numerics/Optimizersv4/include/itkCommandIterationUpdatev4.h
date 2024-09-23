@@ -135,7 +135,7 @@ protected:
   /**
    * Constructor
    */
-  CommandIterationUpdatev4(){}
+  CommandIterationUpdatev4() {}
 
 private:
   /**
