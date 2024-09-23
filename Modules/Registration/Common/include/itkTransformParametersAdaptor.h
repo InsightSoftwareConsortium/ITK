@@ -107,7 +107,8 @@ public:
 
   /** Initialize the transform using the specified fixed parameters */
   void
-  AdaptTransformParameters() override{}
+  AdaptTransformParameters() override
+  {}
 
 protected:
   TransformParametersAdaptor() = default;

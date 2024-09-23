@@ -116,7 +116,10 @@ public:
   }
 
 #if !defined(ITK_LEGACY_REMOVE)
-  itkLegacyMacro(const char * GetPixelTypeName()) { return m_PixelType.c_str(); }
+  itkLegacyMacro(const char * GetPixelTypeName())
+  {
+    return m_PixelType.c_str();
+  }
 #endif
 
   /** Set/Get the interpolator. */

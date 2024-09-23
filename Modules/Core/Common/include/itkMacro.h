@@ -121,7 +121,8 @@ namespace itk
 #if defined(__clang__) && defined(__has_warning)
 #  define ITK_CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
 #  define ITK_CLANG_PRAGMA_POP ITK_PRAGMA(clang diagnostic pop)
-#  define ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant ITK_PRAGMA(clang diagnostic ignored "-Wzero-as-null-pointer-constant")
+#  define ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant \
+    ITK_PRAGMA(clang diagnostic ignored "-Wzero-as-null-pointer-constant")
 #else
 #  define ITK_CLANG_PRAGMA_PUSH
 #  define ITK_CLANG_PRAGMA_POP

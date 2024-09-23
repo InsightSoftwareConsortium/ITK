@@ -260,12 +260,12 @@ public:
 
   /** Allow the FixedArray to be indexed normally.  No bounds checking is done.
    */
-// false positive warnings with GCC
-ITK_GCC_PRAGMA_PUSH
-ITK_GCC_SUPPRESS_Warray_bounds
+  // false positive warnings with GCC
+  ITK_GCC_PRAGMA_PUSH
+  ITK_GCC_SUPPRESS_Warray_bounds
   constexpr reference       operator[](unsigned int index) { return m_InternalArray[index]; }
   constexpr const_reference operator[](unsigned int index) const { return m_InternalArray[index]; }
-ITK_GCC_PRAGMA_POP
+  ITK_GCC_PRAGMA_POP
 
   /** Set/Get element methods are more convenient in wrapping languages */
   void

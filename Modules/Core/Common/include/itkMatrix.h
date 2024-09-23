@@ -306,20 +306,20 @@ public:
     swap(this->m_Matrix, other.m_Matrix);
   }
 
-   inline void PrintSelf(std::ostream & os, Indent indent) const
-   {
-      os << indent << "Matrix (" << VRows << "x" << VColumns << ")\n";
-      for (unsigned int r = 0; r < VRows; ++r)
+  inline void
+  PrintSelf(std::ostream & os, Indent indent) const
+  {
+    os << indent << "Matrix (" << VRows << "x" << VColumns << ")\n";
+    for (unsigned int r = 0; r < VRows; ++r)
+    {
+      os << indent << "  ";
+      for (unsigned int c = 0; c < VColumns; ++c)
       {
-        os << indent << "  ";
-        for (unsigned int c = 0; c < VColumns; ++c)
-        {
-          os << m_Matrix(r, c) << " ";
-        }
-        os << "\n";
+        os << m_Matrix(r, c) << " ";
       }
-
-   }
+      os << "\n";
+    }
+  }
 
 private:
   InternalMatrixType m_Matrix{};

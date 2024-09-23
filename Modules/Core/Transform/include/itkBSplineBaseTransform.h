@@ -257,7 +257,10 @@ public:
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** Get number of weights. */
-  itkLegacyMacro(unsigned long GetNumberOfWeights() const) { return m_WeightsFunction->GetNumberOfWeights(); }
+  itkLegacyMacro(unsigned long GetNumberOfWeights() const)
+  {
+    return m_WeightsFunction->GetNumberOfWeights();
+  }
 #endif
 
   /** Method to transform a vector -

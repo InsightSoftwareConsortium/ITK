@@ -129,8 +129,8 @@ TEST(SmartPointer, EmptyAndNull)
   cptr = nullptr;
   EXPECT_TRUE(cptr.IsNull());
 
-ITK_CLANG_PRAGMA_PUSH
-ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
+  ITK_CLANG_PRAGMA_PUSH
+  ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
 
   // NOLINTNEXTLINE(modernize-use-nullptr)
   ptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
@@ -138,7 +138,7 @@ ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
 
   // NOLINTNEXTLINE(modernize-use-nullptr)
   cptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
-ITK_CLANG_PRAGMA_POP
+  ITK_CLANG_PRAGMA_POP
 
   EXPECT_TRUE(cptr.IsNull());
 

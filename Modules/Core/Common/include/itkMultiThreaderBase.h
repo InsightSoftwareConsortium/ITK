@@ -223,7 +223,10 @@ public:
     this->SetMaximumNumberOfThreads(numberOfThreads);
     this->SetNumberOfWorkUnits(this->GetMaximumNumberOfThreads()); // Might be clamped
   }
-  itkLegacyMacro(virtual ThreadIdType GetNumberOfThreads()) { return this->GetNumberOfWorkUnits(); }
+  itkLegacyMacro(virtual ThreadIdType GetNumberOfThreads())
+  {
+    return this->GetNumberOfWorkUnits();
+  }
 
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,

@@ -465,10 +465,22 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   /** UseFixedSampledPointSet is deprecated and has been replaced
    * with UseSampledPointsSet. */
-  itkLegacyMacro(virtual void SetUseFixedSampledPointSet(bool v)) { this->SetUseSampledPointSet(v); }
-  itkLegacyMacro(virtual bool GetUseFixedSampledPointSet() const) { return this->GetUseSampledPointSet(); }
-  itkLegacyMacro(virtual void UseFixedSampledPointSetOn()) { return this->UseSampledPointSetOn(); }
-  itkLegacyMacro(virtual void UseFixedSampledPointSetOff()) { return this->UseSampledPointSetOff(); }
+  itkLegacyMacro(virtual void SetUseFixedSampledPointSet(bool v))
+  {
+    this->SetUseSampledPointSet(v);
+  }
+  itkLegacyMacro(virtual bool GetUseFixedSampledPointSet() const)
+  {
+    return this->GetUseSampledPointSet();
+  }
+  itkLegacyMacro(virtual void UseFixedSampledPointSetOn())
+  {
+    return this->UseSampledPointSetOn();
+  }
+  itkLegacyMacro(virtual void UseFixedSampledPointSetOff())
+  {
+    return this->UseSampledPointSetOff();
+  }
 #endif
 
 
@@ -515,7 +527,10 @@ public:
    * GetValue() has been called.
    *
    * NOTE: deprecated. Use GetNumberOfWorkUnitsUsed() */
-  itkLegacyMacro(virtual ThreadIdType GetNumberOfThreadsUsed() const) { return this->GetNumberOfWorkUnitsUsed(); }
+  itkLegacyMacro(virtual ThreadIdType GetNumberOfThreadsUsed() const)
+  {
+    return this->GetNumberOfWorkUnitsUsed();
+  }
 
   /** Set number of threads to use. This the maximum number of threads to use
    * when multithreaded.  The actual number of threads used (may be less than
@@ -527,7 +542,10 @@ public:
   {
     this->SetMaximumNumberOfWorkUnits(count);
   }
-  itkLegacyMacro(virtual ThreadIdType GetMaximumNumberOfThreads() const) { return this->GetMaximumNumberOfWorkUnits(); }
+  itkLegacyMacro(virtual ThreadIdType GetMaximumNumberOfThreads() const)
+  {
+    return this->GetMaximumNumberOfWorkUnits();
+  }
 #endif // !ITK_LEGACY_REMOVE
 
 

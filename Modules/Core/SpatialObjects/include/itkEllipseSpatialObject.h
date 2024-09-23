@@ -100,13 +100,25 @@ public:
   using Superclass::IsInsideInObjectSpace;
 
 #if !defined(ITK_LEGACY_REMOVE)
-  itkLegacyMacro(void SetRadius(double radius)) { this->SetRadiusInObjectSpace(radius); }
+  itkLegacyMacro(void SetRadius(double radius))
+  {
+    this->SetRadiusInObjectSpace(radius);
+  }
 
-  itkLegacyMacro(void SetRadius(ArrayType radii)) { this->SetRadiusInObjectSpace(radii); }
+  itkLegacyMacro(void SetRadius(ArrayType radii))
+  {
+    this->SetRadiusInObjectSpace(radii);
+  }
 
-  itkLegacyMacro(ArrayType GetRadius() const) { return this->GetRadiusInObjectSpace(); }
+  itkLegacyMacro(ArrayType GetRadius() const)
+  {
+    return this->GetRadiusInObjectSpace();
+  }
 
-  itkLegacyMacro(void SetRadiiInObjectSpace(ArrayType radii)) { this->SetRadiusInObjectSpace(radii); }
+  itkLegacyMacro(void SetRadiiInObjectSpace(ArrayType radii))
+  {
+    this->SetRadiusInObjectSpace(radii);
+  }
 #endif
 protected:
   /** Get the boundaries of a specific object.  This function needs to
