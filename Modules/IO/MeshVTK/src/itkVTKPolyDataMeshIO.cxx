@@ -655,6 +655,50 @@ VTKPolyDataMeshIO::ReadMeshInformation()
         this->m_NumberOfPointPixelComponents = this->m_PointDimension * (this->m_PointDimension + 1) / 2;
         this->m_UpdatePointData = true;
       }
+      if (line.find("FIELD") != std::string::npos)
+      {
+        StringStreamType sss;
+        sss << line;
+
+        sss >> item; // should be "FIELD"
+        if (item == "FIELD")
+        {
+          sss >> item; // field data name (e.g. "FieldData")
+          sss >> item; // number of field data arrays
+          const int numArrays = std::stoi(item);
+          if (numArrays >= 1)
+          {
+            // Read the first field data array header.
+            // Additional arrays are silently skipped.
+            std::getline(inputFile, line, '\n');
+
+            StringStreamType fieldStream;
+            fieldStream << line;
+            fieldStream >> item; // array name
+
+            fieldStream >> item; // numComponents
+            const unsigned int numComponents = std::stoi(item);
+
+            fieldStream >> item; // numTuples
+            const unsigned int numTuples = std::stoi(item);
+
+            fieldStream >> item; // data type
+            const IOComponentEnum componentType = this->GetComponentTypeFromString(item);
+
+            if (this->m_NumberOfPoints == numTuples)
+            {
+              this->m_NumberOfPointPixelComponents = numComponents;
+              this->m_PointPixelType = IOPixelEnum::VARIABLELENGTHVECTOR;
+              this->m_PointPixelComponentType = componentType;
+              if (this->m_PointPixelComponentType == IOComponentEnum::UNKNOWNCOMPONENTTYPE)
+              {
+                itkExceptionMacro("Unknown point pixel component type");
+              }
+              this->m_UpdatePointData = true;
+            }
+          }
+        }
+      }
     }
     else if (line.find("CELL_DATA") != std::string::npos)
     {
@@ -787,6 +831,50 @@ VTKPolyDataMeshIO::ReadMeshInformation()
         this->m_CellPixelType = IOPixelEnum::SYMMETRICSECONDRANKTENSOR;
         this->m_NumberOfCellPixelComponents = this->m_PointDimension * (this->m_PointDimension + 1) / 2;
         this->m_UpdateCellData = true;
+      }
+      if (line.find("FIELD") != std::string::npos)
+      {
+        StringStreamType sss;
+        sss << line;
+
+        sss >> item; // should be "FIELD"
+        if (item == "FIELD")
+        {
+          sss >> item; // field data name (e.g. "FieldData")
+          sss >> item; // number of field data arrays
+          const int numArrays = std::stoi(item);
+          if (numArrays >= 1)
+          {
+            // Read the first field data array header.
+            // Additional arrays are silently skipped.
+            std::getline(inputFile, line, '\n');
+
+            StringStreamType fieldStream;
+            fieldStream << line;
+            fieldStream >> item; // array name
+
+            fieldStream >> item; // numComponents
+            const unsigned int numComponents = std::stoi(item);
+
+            fieldStream >> item; // numTuples
+            const unsigned int numTuples = std::stoi(item);
+
+            fieldStream >> item; // data type
+            const IOComponentEnum componentType = this->GetComponentTypeFromString(item);
+
+            if (this->m_NumberOfCells == numTuples)
+            {
+              this->m_NumberOfCellPixelComponents = numComponents;
+              this->m_CellPixelType = IOPixelEnum::VARIABLELENGTHVECTOR;
+              this->m_CellPixelComponentType = componentType;
+              if (this->m_CellPixelComponentType == IOComponentEnum::UNKNOWNCOMPONENTTYPE)
+              {
+                itkExceptionMacro("Unknown cell pixel component type");
+              }
+              this->m_UpdateCellData = true;
+            }
+          }
+        }
       }
     }
     else if (line.find("OFFSETS") != std::string::npos)
