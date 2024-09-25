@@ -63,13 +63,10 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;
 
-  Py_ssize_t bufferLength;
-  Py_buffer  pyBuffer;
+  Py_buffer pyBuffer;
   memset(&pyBuffer, 0, sizeof(Py_buffer));
 
   size_t numberOfElements = 1;
-
-  const void * buffer;
 
   unsigned int dimension = 0;
 
@@ -81,11 +78,9 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
     PyBuffer_Release(&pyBuffer);
     return nullptr;
   }
-  else
-  {
-    bufferLength = pyBuffer.len;
-    buffer = pyBuffer.buf;
-  }
+
+  const Py_ssize_t   bufferLength = pyBuffer.len;
+  const void * const buffer = pyBuffer.buf;
 
   obj = shape;
   shapeseq = PySequence_Fast(obj, "expected sequence");

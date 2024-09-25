@@ -75,15 +75,12 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;
 
-  Py_ssize_t bufferLength;
-  Py_buffer  pyBuffer;
+  Py_buffer pyBuffer;
   memset(&pyBuffer, 0, sizeof(Py_buffer));
 
   SizeType      size;
   SizeType      sizeFortran;
   SizeValueType numberOfPixels = 1;
-
-  const void * buffer;
 
   long         numberOfComponents = 1;
   unsigned int dimension = 0;
@@ -96,11 +93,10 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
     PyBuffer_Release(&pyBuffer);
     return nullptr;
   }
-  else
-  {
-    bufferLength = pyBuffer.len;
-    buffer = pyBuffer.buf;
-  }
+
+  const Py_ssize_t bufferLength = pyBuffer.len;
+  void * const     buffer = pyBuffer.buf;
+
   PyBuffer_Release(&pyBuffer);
 
   shapeseq = PySequence_Fast(shape, "expected sequence");
