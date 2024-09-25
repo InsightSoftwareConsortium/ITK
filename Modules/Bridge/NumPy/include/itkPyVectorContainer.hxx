@@ -40,13 +40,13 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
 
   DataType * buffer = vector->CastToSTLContainer().data();
 
-  void * vectorBuffer = (void *)(buffer);
+  void * vectorBuffer = buffer;
 
   // Computing the length of data
   Py_ssize_t len = vector->Size();
   len *= sizeof(DataType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, NULL, (void *)vectorBuffer, len, 0, PyBUF_CONTIG);
+  res = PyBuffer_FillInfo(&pyBuffer, NULL, vectorBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);

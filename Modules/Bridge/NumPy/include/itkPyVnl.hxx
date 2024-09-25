@@ -40,13 +40,13 @@ PyVnl<TElement>::_GetArrayViewFromVnlVector(VectorType * vector)
 
   DataType * buffer = vector->data_block();
 
-  void * vectorBuffer = (void *)(buffer);
+  void * vectorBuffer = buffer;
 
   // Computing the length of data
   Py_ssize_t len = vector->size();
   len *= sizeof(DataType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, NULL, (void *)vectorBuffer, len, 0, PyBUF_CONTIG);
+  res = PyBuffer_FillInfo(&pyBuffer, NULL, vectorBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
@@ -124,13 +124,13 @@ PyVnl<TElement>::_GetArrayViewFromVnlMatrix(MatrixType * matrix)
 
   DataType * buffer = matrix->data_block();
 
-  void * matrixBuffer = (void *)(buffer);
+  void * matrixBuffer = buffer;
 
   // Computing the length of data
   Py_ssize_t len = matrix->size();
   len *= sizeof(DataType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, NULL, (void *)matrixBuffer, len, 0, PyBUF_CONTIG);
+  res = PyBuffer_FillInfo(&pyBuffer, NULL, matrixBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
