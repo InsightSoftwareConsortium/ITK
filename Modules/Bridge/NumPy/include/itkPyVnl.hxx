@@ -95,8 +95,8 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
     PyBuffer_Release(&pyBuffer);
     return VectorType();
   }
-  DataType * data = (DataType *)buffer;
-  VectorType output(data, numberOfElements);
+  const auto * const data = static_cast<const DataType *>(buffer);
+  VectorType         output(data, numberOfElements);
   PyBuffer_Release(&pyBuffer);
 
   return output;
@@ -180,8 +180,8 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
     return MatrixType();
   }
 
-  DataType * data = (DataType *)buffer;
-  MatrixType output(data, size[0], size[1]);
+  const auto * const data = static_cast<const DataType *>(buffer);
+  MatrixType         output(data, size[0], size[1]);
   PyBuffer_Release(&pyBuffer);
 
   return output;
