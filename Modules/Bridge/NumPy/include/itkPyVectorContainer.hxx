@@ -31,8 +31,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
   Py_buffer  pyBuffer;
   memset(&pyBuffer, 0, sizeof(Py_buffer));
 
-  size_t elementSize = sizeof(DataType);
-  int    res = 0;
+  int res = 0;
 
   if (!vector)
   {
@@ -45,7 +44,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
 
   // Computing the length of data
   Py_ssize_t len = vector->Size();
-  len *= elementSize;
+  len *= sizeof(DataType);
 
   res = PyBuffer_FillInfo(&pyBuffer, NULL, (void *)vectorBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
@@ -74,8 +73,6 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
 
   unsigned int dimension = 0;
 
-
-  size_t elementSize = sizeof(DataType);
   size_t len = 1;
 
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_CONTIG) == -1)
@@ -97,7 +94,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
   numberOfElements = (size_t)PyInt_AsLong(item);
 
-  len = numberOfElements * elementSize;
+  len = numberOfElements * sizeof(DataType);
   if (bufferLength != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of vector and Buffer.");
