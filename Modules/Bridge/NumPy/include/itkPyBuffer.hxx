@@ -33,7 +33,6 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
   memset(&pyBuffer, 0, sizeof(Py_buffer));
 
   Py_ssize_t len = 1;
-  size_t     pixelSize = sizeof(ComponentType);
   int        res = 0;
 
   if (!image)
@@ -58,7 +57,7 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
   }
 
   len *= numberOfComponents;
-  len *= pixelSize;
+  len *= sizeof(ComponentType);
 
   res = PyBuffer_FillInfo(&pyBuffer, NULL, (void *)itkImageBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
@@ -89,8 +88,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   long         numberOfComponents = 1;
   unsigned int dimension = 0;
 
-
-  size_t pixelSize = sizeof(ComponentType);
   size_t len = 1;
 
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ND | PyBUF_ANY_CONTIGUOUS) == -1)
@@ -125,7 +122,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
     isFortranContiguous = true;
   }
 
-  len = numberOfPixels * numberOfComponents * pixelSize;
+  len = numberOfPixels * numberOfComponents * sizeof(ComponentType);
   if (bufferLength != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of image and Buffer.");
