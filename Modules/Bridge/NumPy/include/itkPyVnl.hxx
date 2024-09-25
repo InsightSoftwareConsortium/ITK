@@ -62,13 +62,10 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;
 
-  Py_ssize_t bufferLength;
-  Py_buffer  pyBuffer;
+  Py_buffer pyBuffer;
   memset(&pyBuffer, 0, sizeof(Py_buffer));
 
   size_t numberOfElements = 1;
-
-  const void * buffer;
 
   unsigned int dimension = 0;
 
@@ -80,11 +77,9 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
     PyBuffer_Release(&pyBuffer);
     return VectorType();
   }
-  else
-  {
-    bufferLength = pyBuffer.len;
-    buffer = pyBuffer.buf;
-  }
+
+  const Py_ssize_t   bufferLength = pyBuffer.len;
+  const void * const buffer = pyBuffer.buf;
 
   obj = shape;
   shapeseq = PySequence_Fast(obj, "expected sequence");
@@ -146,13 +141,10 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;
 
-  Py_ssize_t bufferLength;
-  Py_buffer  pyBuffer;
+  Py_buffer pyBuffer;
   memset(&pyBuffer, 0, sizeof(Py_buffer));
 
   size_t numberOfElements = 1;
-
-  const void * buffer;
 
   unsigned int dimension = 0;
 
@@ -165,11 +157,9 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
     PyBuffer_Release(&pyBuffer);
     return MatrixType();
   }
-  else
-  {
-    bufferLength = pyBuffer.len;
-    buffer = pyBuffer.buf;
-  }
+
+  const Py_ssize_t   bufferLength = pyBuffer.len;
+  const void * const buffer = pyBuffer.buf;
 
   obj = shape;
   shapeseq = PySequence_Fast(obj, "expected sequence");
