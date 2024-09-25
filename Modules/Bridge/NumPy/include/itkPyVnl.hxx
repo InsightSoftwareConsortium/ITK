@@ -91,7 +91,7 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
   dimension = PySequence_Size(obj);
 
   item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
-  numberOfElements = (size_t)PyInt_AsLong(item);
+  numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
 
   len = numberOfElements * sizeof(DataType);
   if (bufferLength != len)
