@@ -20,7 +20,7 @@
 
 #include "itkNumericTraits.h"
 
-namespace itk
+namespace itk::detail
 {
 
 template <typename TElementIdentifier, typename TElement>
@@ -183,6 +183,6 @@ template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer<TElementIdentifier, TElement>::Squeeze()
 {}
-} // end namespace itk
+} // namespace itk::detail
 
 #endif
