@@ -63,7 +63,7 @@ ByteSwapper<T>::SwapRangeFromSystemToBigEndian([[maybe_unused]] T * p, [[maybe_u
 
 template <typename T>
 void
-ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(const T * p, int num, OStreamType * fp)
+ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(const T * p, int num, std::ostream * fp)
 {
   if constexpr (m_SystemIsBigEndian)
   {
@@ -116,7 +116,7 @@ ByteSwapper<T>::SwapRangeFromSystemToLittleEndian([[maybe_unused]] T * p, [[mayb
 
 template <typename T>
 void
-ByteSwapper<T>::SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, OStreamType * fp)
+ByteSwapper<T>::SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, std::ostream * fp)
 {
   if constexpr (m_SystemIsBigEndian)
   {
@@ -175,7 +175,7 @@ ByteSwapper<T>::Swap2Range(void * ptr, BufferSizeType num)
 // Swap bunch of bytes. Num is the number of four byte words to swap.
 template <typename T>
 void
-ByteSwapper<T>::SwapWrite2Range(const void * ptr, BufferSizeType num, OStreamType * fp)
+ByteSwapper<T>::SwapWrite2Range(const void * ptr, BufferSizeType num, std::ostream * fp)
 {
   BufferSizeType chunkSize = 1000000;
   if (num < chunkSize)
@@ -228,7 +228,7 @@ ByteSwapper<T>::Swap4Range(void * ptr, BufferSizeType num)
 // Swap bunch of bytes. Num is the number of four byte words to swap.
 template <typename T>
 void
-ByteSwapper<T>::SwapWrite4Range(const void * ptr, BufferSizeType num, OStreamType * fp)
+ByteSwapper<T>::SwapWrite4Range(const void * ptr, BufferSizeType num, std::ostream * fp)
 {
   BufferSizeType chunkSize = 1000000;
 
@@ -286,7 +286,7 @@ ByteSwapper<T>::Swap8Range(void * ptr, BufferSizeType num)
 // Swap bunch of bytes. Num is the number of four byte words to swap.
 template <typename T>
 void
-ByteSwapper<T>::SwapWrite8Range(const void * ptr, BufferSizeType num, OStreamType * fp)
+ByteSwapper<T>::SwapWrite8Range(const void * ptr, BufferSizeType num, std::ostream * fp)
 {
   BufferSizeType chunkSize = 1000000;
   if (num < chunkSize)

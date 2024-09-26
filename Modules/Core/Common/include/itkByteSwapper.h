@@ -58,8 +58,12 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Work around MSVC bug (including ByteSwapper.h in a templated class). */
-  using OStreamType = std::ostream;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Work around old MSVC bug (including ByteSwapper.h in a templated class). */
+  using OStreamType
+    [[deprecated("ByteSwapper::OStreamType is deprecated from ITK 6. Just use `std::ostream` instead!")]] =
+      std::ostream;
+#endif
 
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ByteSwapper);
@@ -117,7 +121,7 @@ public:
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
   static void
-  SwapWriteRangeFromSystemToBigEndian(const T * p, int num, OStreamType * fp);
+  SwapWriteRangeFromSystemToBigEndian(const T * p, int num, std::ostream * fp);
 
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping
@@ -143,7 +147,7 @@ public:
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
   static void
-  SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, OStreamType * fp);
+  SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, std::ostream * fp);
 
 protected:
   ByteSwapper() = default;
@@ -161,7 +165,7 @@ protected:
   /** Swap and write a range of two-byte words. Num is the number of two-byte
    * words to swap and write. */
   static void
-  SwapWrite2Range(const void * ptr, BufferSizeType num, OStreamType * fp);
+  SwapWrite2Range(const void * ptr, BufferSizeType num, std::ostream * fp);
 
   /** Swap four bytes. */
   static void
@@ -175,7 +179,7 @@ protected:
   /** Swap and write a range of four-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void
-  SwapWrite4Range(const void * ptr, BufferSizeType num, OStreamType * fp);
+  SwapWrite4Range(const void * ptr, BufferSizeType num, std::ostream * fp);
 
   /** Swap 8 bytes. */
   static void
@@ -189,7 +193,7 @@ protected:
   /** Swap and write a range of 8-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void
-  SwapWrite8Range(const void * ptr, BufferSizeType num, OStreamType * fp);
+  SwapWrite8Range(const void * ptr, BufferSizeType num, std::ostream * fp);
 
 private:
   /** Swaps the bytes of the specified argument in-place. Assumes that its number of bytes is either 2, 4, or 8.
