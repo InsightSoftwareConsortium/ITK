@@ -20,6 +20,8 @@
 #include <fstream>
 #include "itkMINCTransformIOFactory.h"
 #include "itkMINCImageIOFactory.h"
+#include "itkMINCTransformIO.h"
+#include "itkMINCImageIO.h"
 #include "itkTransformFileWriter.h"
 #include "itkTransformFileReader.h"
 #include "itkAffineTransform.h"
@@ -34,6 +36,7 @@
 static constexpr int point_counter = 1000;
 using TransformFileReader = itk::TransformFileReaderTemplate<double>;
 using TransformFileWriter = itk::TransformFileWriterTemplate<double>;
+using MINCTransformIO = itk::MINCTransformIO;
 
 template <typename T>
 void
@@ -57,8 +60,10 @@ RandomPoint(vnl_random & randgen, itk::Point<T, 3> & pix, double _max = itk::Num
 
 
 static int
-check_linear(const char * linear_transform)
+check_linear(const char * linear_transform, bool ras_to_lps)
 {
+  std::cout << "check_linear, ras_to_lps=" << ras_to_lps << std::endl << std::endl;
+
   int testStatus = EXIT_SUCCESS;
 
   using AffineTransformType = itk::AffineTransform<double, 3>;
@@ -88,24 +93,26 @@ check_linear(const char * linear_transform)
 
   TransformFileWriter::Pointer writer;
   TransformFileReader::Pointer reader;
+  MINCTransformIO::Pointer     mincIO = MINCTransformIO::New();
+  mincIO->SetRAStoLPS(ras_to_lps);
 
   reader = TransformFileReader::New();
   writer = TransformFileWriter::New();
+  writer->SetTransformIO(mincIO);
+  reader->SetTransformIO(mincIO);
+
   writer->AddTransform(affine);
 
   writer->SetFileName(linear_transform);
   reader->SetFileName(linear_transform);
 
-  // Testing writing std::cout << "Testing write : ";
-  affine->Print(std::cout);
+  // affine->Print(std::cout);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
-
 
   std::cout << "Testing read : " << std::endl;
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
-
 
   TransformFileReader::TransformListType list = *reader->GetTransformList();
   ITK_TEST_EXPECT_EQUAL("AffineTransform_double_3_3", list.front()->GetTransformTypeAsString());
@@ -113,7 +120,7 @@ check_linear(const char * linear_transform)
   AffineTransformType::Pointer affine2 = static_cast<AffineTransformType *>(list.front().GetPointer());
 
   std::cout << "Read transform : " << std::endl;
-  affine2->Print(std::cout);
+  // affine2->Print(std::cout);
 
   vnl_random randgen(12345678);
 
@@ -133,7 +140,8 @@ check_linear(const char * linear_transform)
     double expectedDiff = 0.0;
     if (!itk::Math::FloatAlmostEqual(expectedDiff, (v1 - v2).GetSquaredNorm(), 10, tolerance))
     {
-      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Test failed!"
+                << "  In " __FILE__ ", line " << __LINE__ << std::endl;
       std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
       std::cerr << "Expected value " << v1;
       std::cerr << " differs from " << v2;
@@ -147,8 +155,9 @@ check_linear(const char * linear_transform)
 }
 
 static int
-check_nonlinear_double(const char * nonlinear_transform)
+check_nonlinear_double(const char * nonlinear_transform, bool ras_to_lps)
 {
+  std::cout << "check_nonlinear_double, ras_to_lps=" << ras_to_lps << std::endl << std::endl;
   int testStatus = EXIT_SUCCESS;
 
   constexpr double tolerance = 1e-5;
@@ -198,13 +207,18 @@ check_nonlinear_double(const char * nonlinear_transform)
 
   disp->SetDisplacementField(field);
 
-  disp->Print(std::cout);
+  // disp->Print(std::cout);
 
   TransformFileWriter::Pointer nlwriter;
   TransformFileReader::Pointer nlreader;
+  MINCTransformIO::Pointer     mincIO = MINCTransformIO::New();
+  mincIO->SetRAStoLPS(ras_to_lps);
 
   nlreader = TransformFileReader::New();
   nlwriter = TransformFileWriter::New();
+  nlreader->SetTransformIO(mincIO);
+  nlwriter->SetTransformIO(mincIO);
+
   nlwriter->AddTransform(disp);
   nlwriter->SetFileName(nonlinear_transform);
   nlreader->SetFileName(nonlinear_transform);
@@ -219,7 +233,6 @@ check_nonlinear_double(const char * nonlinear_transform)
   std::cout << "Testing read of non linear transform (double): " << std::endl;
 
   ITK_TRY_EXPECT_NO_EXCEPTION(nlreader->Update());
-
 
   std::cout << "[PASSED]" << std::endl;
 
@@ -240,7 +253,8 @@ check_nonlinear_double(const char * nonlinear_transform)
     {
       if (it.Value() != it2.Value())
       {
-        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Test failed!"
+                  << "  In " __FILE__ ", line " << __LINE__ << std::endl;
         std::cerr << "Error in pixel value" << std::endl;
         std::cerr << "Expected value " << it.Value();
         std::cerr << " differs from " << it2.Value() << std::endl;
@@ -255,7 +269,8 @@ check_nonlinear_double(const char * nonlinear_transform)
       double expectedDiff = 0.0;
       if (!itk::Math::FloatAlmostEqual(expectedDiff, (it.Value() - it2.Value()).GetSquaredNorm(), 10, tolerance))
       {
-        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Test failed!"
+                  << "  In " __FILE__ ", line " << __LINE__ << std::endl;
         std::cerr << "Error in pixel value" << std::endl;
         std::cerr << "Expected value " << it.Value();
         std::cerr << " differs from " << it2.Value();
@@ -270,14 +285,18 @@ check_nonlinear_double(const char * nonlinear_transform)
 
 
 static int
-check_nonlinear_float(const char * nonlinear_transform)
+check_nonlinear_float(const char * nonlinear_transform, bool ras_to_lps)
 {
+
+  std::cout << "check_nonlinear_float, ras_to_lps=" << ras_to_lps << std::endl << std::endl;
+
   int testStatus = EXIT_SUCCESS;
 
   double tolerance = 1e-5;
 
   using TransformFileWriterFloat = itk::TransformFileWriterTemplate<float>;
   using TransformFileReaderFloat = itk::TransformFileReaderTemplate<float>;
+  using MINCTransformIOFloat = itk::MINCTransformIOTemplate<float>;
 
   using DisplacementFieldTransform = itk::DisplacementFieldTransform<float, 3>;
   using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
@@ -324,13 +343,19 @@ check_nonlinear_float(const char * nonlinear_transform)
 
   disp->SetDisplacementField(field);
 
-  disp->Print(std::cout);
+  // disp->Print(std::cout);
 
   TransformFileWriterFloat::Pointer nlwriter;
   TransformFileReaderFloat::Pointer nlreader;
 
   nlreader = TransformFileReaderFloat::New();
   nlwriter = TransformFileWriterFloat::New();
+
+  MINCTransformIOFloat::Pointer mincIO = MINCTransformIOFloat::New();
+  mincIO->SetRAStoLPS(ras_to_lps);
+  nlreader->SetTransformIO(mincIO);
+  nlwriter->SetTransformIO(mincIO);
+
   nlwriter->AddTransform(disp);
   nlwriter->SetFileName(nonlinear_transform);
   nlreader->SetFileName(nonlinear_transform);
@@ -366,7 +391,8 @@ check_nonlinear_float(const char * nonlinear_transform)
     {
       if (it.Value() != it2.Value())
       {
-        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Test failed!"
+                  << "  In " __FILE__ ", line " << __LINE__ << std::endl;
         std::cerr << "Error in pixel value" << std::endl;
         std::cerr << "Expected value " << it.Value();
         std::cerr << " differs from " << it2.Value() << std::endl;
@@ -381,7 +407,8 @@ check_nonlinear_float(const char * nonlinear_transform)
       double expectedDiff = 0.0;
       if (!itk::Math::FloatAlmostEqual(expectedDiff, (it.Value() - it2.Value()).GetSquaredNorm(), 10, tolerance))
       {
-        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Test failed!"
+                  << "  In " __FILE__ ", line " << __LINE__ << std::endl;
         std::cerr << "Error in pixel value" << std::endl;
         std::cerr << "Expected value " << it.Value();
         std::cerr << " differs from " << it2.Value();
@@ -395,8 +422,11 @@ check_nonlinear_float(const char * nonlinear_transform)
 }
 
 static int
-secondTest()
+secondTest(bool ras_to_lps)
 {
+  std::cout << "secondTest, ras_to_lps=" << ras_to_lps << std::endl << std::endl;
+
+  // rotation of 30 degrees around X axis
   std::filebuf fb;
   fb.open("Rotation.xfm", std::ios::out);
   std::ostream os(&fb);
@@ -410,24 +440,25 @@ secondTest()
 
   TransformFileReader::Pointer reader;
   reader = TransformFileReader::New();
+  MINCTransformIO::Pointer mincIO = MINCTransformIO::New();
+  mincIO->SetRAStoLPS(ras_to_lps);
+  reader->SetTransformIO(mincIO);
   reader->SetFileName("Rotation.xfm");
-
   reader->Update();
 
   const TransformFileReader::TransformListType * list = reader->GetTransformList();
-  auto                                           lit = list->begin();
-  while (lit != list->end())
-  {
-    (*lit)->Print(std::cout);
-    lit++;
-  }
+
+  ITK_TEST_EXPECT_EQUAL(1, list->size());
+
   return EXIT_SUCCESS;
 }
 
 
 static int
-check_composite(const char * transform_file)
+check_composite(const char * transform_file, bool ras_to_lps)
 {
+  std::cout << "check_composite, ras_to_lps=" << ras_to_lps << std::endl << std::endl;
+
   int testStatus = EXIT_SUCCESS;
 
   using AffineTransformType = itk::AffineTransform<double, 3>;
@@ -464,22 +495,26 @@ check_composite(const char * transform_file)
   TransformFileWriter::Pointer writer;
   TransformFileReader::Pointer reader;
 
+  MINCTransformIO::Pointer mincIO = MINCTransformIO::New();
+  mincIO->SetRAStoLPS(ras_to_lps);
+
   reader = TransformFileReader::New();
   writer = TransformFileWriter::New();
+  reader->SetTransformIO(mincIO);
+  writer->SetTransformIO(mincIO);
+
   writer->AddTransform(compositeTransform);
 
   writer->SetFileName(transform_file);
   reader->SetFileName(transform_file);
 
-  compositeTransform->Print(std::cout);
+  // compositeTransform->Print(std::cout);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
-
 
   std::cout << "Testing read : " << std::endl;
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
-
 
   TransformFileReader::TransformListType list = *reader->GetTransformList();
 
@@ -489,7 +524,7 @@ check_composite(const char * transform_file)
   AffineTransformType::Pointer affine_xfm = static_cast<AffineTransformType *>(list.front().GetPointer());
 
   std::cout << "Read transform : " << std::endl;
-  affine_xfm->Print(std::cout);
+  // affine_xfm->(std::cout);
 
   vnl_random randgen(12345678);
 
@@ -509,7 +544,8 @@ check_composite(const char * transform_file)
     double expectedDiff = 0.0;
     if (!itk::Math::FloatAlmostEqual(expectedDiff, (v1 - v2).GetSquaredNorm(), 10, tolerance))
     {
-      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Test failed!"
+                << "  In " __FILE__ ", line " << __LINE__ << std::endl;
       std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
       std::cerr << "Expected value " << v1;
       std::cerr << " differs from " << v2;
@@ -523,8 +559,10 @@ check_composite(const char * transform_file)
 }
 
 static int
-check_composite2(const char * transform_file, const char * transform_grid_file)
+check_composite2(const char * transform_file, const char * transform_grid_file, bool ras_to_lps)
 {
+  std::cout << "check_composite2, ras_to_lps=" << ras_to_lps << std::endl << std::endl;
+
   int testStatus = EXIT_SUCCESS;
 
   constexpr double tolerance = 1e-5;
@@ -532,7 +570,11 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   std::filebuf fb;
   fb.open(transform_file, std::ios::out);
   std::ostream os(&fb);
-  std::cout << "Testing reading of composite transform" << std::endl << std::endl << std::endl << std::endl;
+  std::cout << "Testing reading of composite transform, ras_to_lps=" << ras_to_lps << std::endl
+            << std::endl
+            << std::endl
+            << std::endl;
+
   // create concatenation of two transforms:
   // nonlinear grid with shift by 1
   // rotation by 45 deg
@@ -555,7 +597,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
 
   auto field = DisplacementFieldType::New();
 
-  // create zero displacement field
+  // create displacement field in MINC space (always)
   DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
   DisplacementFieldType::IndexType startIndex3D = { { 0, 0, 0 } };
 
@@ -579,27 +621,35 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   using MincWriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
   auto writer = MincWriterType::New();
+  auto mincImageIO = itk::MINCImageIO::New();
+  mincImageIO->SetRAStoLPS(false);
+  writer->SetImageIO(mincImageIO);
+
+
   // expecting .mnc here
   writer->SetFileName(transform_grid_file);
-
   writer->SetInput(field);
-
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  // NOW, read back with RAS to LPS conversion
 
   TransformFileReader::Pointer reader;
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
 
   reader = TransformFileReader::New();
+
+  MINCTransformIO::Pointer mincIO = MINCTransformIO::New();
+  mincIO->SetRAStoLPS(ras_to_lps);
+  reader->SetTransformIO(mincIO);
   reader->SetFileName(transform_file);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-
   const TransformFileReader::TransformListType * list = reader->GetTransformList();
   ITK_TEST_EXPECT_EQUAL(2, list->size());
 
-  std::cout << "Reading back transforms : " << list->size() << std::endl << std::endl;
+  std::cout << "Reading back transforms : " << list->size() << std::endl;
 
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
   using TransformType = itk::Transform<double, 3>;
@@ -607,35 +657,45 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   auto _xfm = CompositeTransformType::New();
   for (const auto & it : *list)
   {
-    it->Print(std::cout);
-    std::cout << std::endl;
     _xfm->AddTransform(static_cast<TransformType *>(it.GetPointer()));
   }
   std::cout << std::endl;
   std::cout << std::endl;
   std::cout << std::endl;
 
-  _xfm->Print(std::cout);
-
   std::cout << "Testing that transformations is expected ..." << std::endl;
 
   CompositeTransformType::InputPointType  pnt;
   CompositeTransformType::OutputPointType v, v2;
 
-  pnt[0] = 1.0;
+  if (ras_to_lps)
+  {
+    pnt[0] = -1.0;
+  }
+  else
+  {
+    pnt[0] = 1.0;
+  }
   pnt[1] = pnt[2] = 0.0;
   // expected transform: shift by 1 , rotate by 45 deg
-  v2[0] = v2[1] = sqrt(2);
+  if (ras_to_lps)
+  {
+    v2[0] = v2[1] = -sqrt(2);
+  }
+  else
+  {
+    v2[0] = v2[1] = sqrt(2);
+  }
   v2[2] = 0.0;
 
   v = _xfm->TransformPoint(pnt);
-
   std::cout << "In:" << pnt << " Out:" << v << std::endl;
 
   double expectedDiff = 0.0;
   if (!itk::Math::FloatAlmostEqual(expectedDiff, (v - v2).GetSquaredNorm(), 10, tolerance))
   {
-    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Test failed!"
+              << "  In " __FILE__ ", line " << __LINE__ << std::endl;
     std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
     std::cerr << "Expected value " << v2;
     std::cerr << " differs from " << v;
@@ -654,7 +714,6 @@ itkIOTransformMINCTest(int argc, char * argv[])
 {
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCImageIOFactory::New(),
                                           itk::ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_FRONT);
-
   if (argc > 1)
   {
     itksys::SystemTools::ChangeDirectory(argv[1]);
@@ -662,14 +721,23 @@ itkIOTransformMINCTest(int argc, char * argv[])
   itk::TransformFactory<itk::DisplacementFieldTransform<double, 3>>::RegisterTransform();
   itk::TransformFactory<itk::DisplacementFieldTransform<float, 3>>::RegisterTransform();
 
-  int result1 = check_linear("itkIOTransformMINCTestTransformLinear.xfm");
-  int result2 = check_nonlinear_double("itkIOTransformMINCTestTransformNonLinear.xfm");
-  int result3 = check_nonlinear_float("itkIOTransformMINCTestTransformNonLinear_float.xfm");
-  int result4 = secondTest();
-  int result5 = check_composite("itkIOTransformMINCTestTransformComposite.xfm");
-  int result6 = check_composite2("itkIOTransformMINCTestTransformComposite2.xfm",
-                                 "itkIOTransformMINCTestTransformComposite2_grid_0.mnc");
+  bool result = true;
+  for (bool ras_to_lps : { false, true })
+  {
+    std::cout << "RAS to LPS=" << ras_to_lps << std::endl << std::endl << std::endl;
 
-  return !(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS && result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS &&
-           result5 == EXIT_SUCCESS && result6 == EXIT_SUCCESS);
+    bool result1 = check_linear("itkIOTransformMINCTestTransformLinear.xfm", ras_to_lps) == EXIT_SUCCESS;
+    bool result2 = check_nonlinear_double("itkIOTransformMINCTestTransformNonLinear.xfm", ras_to_lps) == EXIT_SUCCESS;
+    bool result3 =
+      check_nonlinear_float("itkIOTransformMINCTestTransformNonLinear_float.xfm", ras_to_lps) == EXIT_SUCCESS;
+    bool result4 = secondTest(ras_to_lps) == EXIT_SUCCESS;
+    bool result5 = check_composite("itkIOTransformMINCTestTransformComposite.xfm", ras_to_lps) == EXIT_SUCCESS;
+    bool result6 = check_composite2("itkIOTransformMINCTestTransformComposite2.xfm",
+                                    "itkIOTransformMINCTestTransformComposite2_grid_0.mnc",
+                                    ras_to_lps) == EXIT_SUCCESS;
+
+    result = result && result1 && result2 && result3 && result4 && result5 && result6;
+  }
+
+  return result ? EXIT_SUCCESS : EXIT_FAILURE;
 }
