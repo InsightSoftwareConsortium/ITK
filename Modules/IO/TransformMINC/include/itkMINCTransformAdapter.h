@@ -39,6 +39,7 @@ namespace itk
 /** \class MINCTransformAdapter
  * \ingroup  ITKIOTransformMINC
  * \brief ITK wrapper around MINC general transform functions, supports all the transformations that MINC XFM supports
+ *        note, this wrapper does not take into account RAS to LPS conversion flag, and always assumes MINC convention
  *
  * \author Vladimir S. FONOV
  *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012

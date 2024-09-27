@@ -27,6 +27,7 @@
 #include "itkDisplacementFieldTransform.h"
 #include "itkIOTestHelper.h"
 #include "itkMINCTransformAdapter.h"
+#include "itkMINCTransformIO.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
@@ -82,8 +83,12 @@ compare_linear(const char * linear_transform)
   affine->Scale(1.2);
 
   itk::TransformFileWriter::Pointer writer;
+  itk::MINCTransformIO::Pointer     mincIO = itk::MINCTransformIO::New();
+  // MINC standard is always LPS
+  mincIO->SetRAStoLPS(false);
 
   writer = itk::TransformFileWriter::New();
+  writer->SetTransformIO(mincIO);
   writer->AddTransform(affine);
   writer->SetFileName(linear_transform);
 
@@ -112,7 +117,7 @@ compare_linear(const char * linear_transform)
 
       if ((v1 - v2).GetSquaredNorm() > tolerance)
       {
-        std::cout << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
+        std::cout << "Original Coordinate (" << v1 << ") doesn't match read-in Coordinate (" << v2 << " ) "
                   << " in " << linear_transform << " at " << pnt << std::endl;
         return EXIT_FAILURE;
       }
@@ -179,8 +184,12 @@ compare_nonlinear_double(const char * nonlinear_transform)
   disp->SetDisplacementField(field);
 
   itk::TransformFileWriter::Pointer nlwriter;
+  itk::MINCTransformIO::Pointer     mincIO = itk::MINCTransformIO::New();
+  // MINC standard is always LPS
+  mincIO->SetRAStoLPS(false);
 
   nlwriter = itk::TransformFileWriter::New();
+  nlwriter->SetTransformIO(mincIO);
   nlwriter->AddTransform(disp);
   nlwriter->SetFileName(nonlinear_transform);
 
