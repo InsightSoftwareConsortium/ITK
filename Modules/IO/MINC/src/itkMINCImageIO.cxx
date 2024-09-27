@@ -449,8 +449,14 @@ MINCImageIO::ReadImageInformation()
   int numberOfComponents = 1;
   int usable_dimensions = 0;
 
-  Matrix<double, 3, 3> dir_cos{};
-  dir_cos.SetIdentity();
+  auto dir_cos = Matrix<double, 3, 3>::GetIdentity();
+
+  // Conversion matrix for MINC PositiveCoordinateOrientation RAS (RightToLeft,AnteriorToPosterior,SuperiorToInferior)
+  // to ITK PositiveCoordinateOrientation LPS (LeftToRight,PosteriorToInferior,SuperiortoInferior)
+  auto RAS_tofrom_LPS = Matrix<double, 3, 3>::GetIdentity();
+  RAS_tofrom_LPS(0, 0) = -1.0;
+  RAS_tofrom_LPS(1, 1) = -1.0;
+  std::vector<double> dir_cos_temp(3);
 
   Vector<double, 3> origin{};
   Vector<double, 3> o_origin{};
@@ -486,11 +492,27 @@ MINCImageIO::ReadImageInformation()
       sep[i - 1] = _sep;
 
       this->SetDimensions(i - 1, static_cast<unsigned int>(_sz));
-      this->SetDirection(i - 1, _dir);
       this->SetSpacing(i - 1, _sep);
 
       ++usable_dimensions;
     }
+  }
+
+  // Transform MINC PositiveCoordinateOrientation RAS coordinates to
+  // internal ITK PositiveCoordinateOrientation LPS Coordinates
+  dir_cos = RAS_tofrom_LPS * dir_cos;
+
+  // Transform origin coordinates
+  o_origin = dir_cos * origin;
+
+  for (int i = 0; i < spatial_dimension_count; ++i)
+  {
+    this->SetOrigin(i, o_origin[i]);
+    for (unsigned int j = 0; j < 3; j++)
+    {
+      dir_cos_temp[j] = dir_cos[j][i];
+    }
+    this->SetDirection(i, dir_cos_temp);
   }
 
   if (m_MINCPImpl->m_DimensionIndices[0] != -1) // have vector dimension
@@ -523,13 +545,6 @@ MINCImageIO::ReadImageInformation()
   if (miset_apparent_dimension_order(m_MINCPImpl->m_Volume, usable_dimensions, m_MINCPImpl->m_MincApparentDims) < 0)
   {
     itkExceptionMacro(" Can't set apparent dimension order!");
-  }
-
-  o_origin = dir_cos * origin;
-
-  for (int i = 0; i < spatial_dimension_count; ++i)
-  {
-    this->SetOrigin(i, o_origin[i]);
   }
 
   miclass_t volume_data_class;
@@ -948,6 +963,13 @@ MINCImageIO::WriteImageInformation()
   dircosmatrix.set_identity();
   vnl_vector<double> origin(nDims);
 
+  // MINC stores direction cosines in PositiveCoordinateOrientation RAS
+  // need to convert to PositiveCoordinateOrientation LPS for ITK
+  vnl_matrix<double> RAS_tofrom_LPS(nDims, nDims);
+  RAS_tofrom_LPS.set_identity();
+  RAS_tofrom_LPS(0, 0) = -1.0;
+  RAS_tofrom_LPS(1, 1) = -1.0;
+
   for (unsigned int i = 0; i < nDims; ++i)
   {
     for (unsigned int j = 0; j < nDims; ++j)
@@ -959,6 +981,9 @@ MINCImageIO::WriteImageInformation()
 
   const vnl_matrix<double> inverseDirectionCosines{ vnl_matrix_inverse<double>(dircosmatrix).as_matrix() };
   origin *= inverseDirectionCosines; // transform to minc convention
+
+  // Convert ITK direction cosines from PositiveCoordinateOrientation LPS to PositiveCoordinateOrientation RAS
+  dircosmatrix *= RAS_tofrom_LPS;
 
   for (unsigned int i = 0; i < nDims; ++i)
   {
