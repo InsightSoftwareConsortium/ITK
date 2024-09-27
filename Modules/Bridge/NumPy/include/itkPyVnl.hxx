@@ -27,7 +27,7 @@ template <class TElement>
 PyObject *
 PyVnl<TElement>::_GetArrayViewFromVnlVector(VectorType * vector)
 {
-  PyObject * memoryView = NULL;
+  PyObject * memoryView = nullptr;
   Py_buffer  pyBuffer{};
 
   int res = 0;
@@ -45,7 +45,7 @@ PyVnl<TElement>::_GetArrayViewFromVnlVector(VectorType * vector)
   Py_ssize_t len = vector->size();
   len *= sizeof(DataType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, NULL, vectorBuffer, len, 0, PyBUF_CONTIG);
+  res = PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
@@ -57,9 +57,9 @@ template <class TElement>
 auto
 PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> const VectorType
 {
-  PyObject * obj = NULL;
-  PyObject * shapeseq = NULL;
-  PyObject * item = NULL;
+  PyObject * obj = nullptr;
+  PyObject * shapeseq = nullptr;
+  PyObject * item = nullptr;
 
   Py_buffer pyBuffer{};
 
@@ -104,7 +104,7 @@ template <class TElement>
 PyObject *
 PyVnl<TElement>::_GetArrayViewFromVnlMatrix(MatrixType * matrix)
 {
-  PyObject * memoryView = NULL;
+  PyObject * memoryView = nullptr;
   Py_buffer  pyBuffer{};
 
   int res = 0;
@@ -122,7 +122,7 @@ PyVnl<TElement>::_GetArrayViewFromVnlMatrix(MatrixType * matrix)
   Py_ssize_t len = matrix->size();
   len *= sizeof(DataType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, NULL, matrixBuffer, len, 0, PyBUF_CONTIG);
+  res = PyBuffer_FillInfo(&pyBuffer, nullptr, matrixBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
@@ -134,9 +134,9 @@ template <class TElement>
 auto
 PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> const MatrixType
 {
-  PyObject * obj = NULL;
-  PyObject * shapeseq = NULL;
-  PyObject * item = NULL;
+  PyObject * obj = nullptr;
+  PyObject * shapeseq = nullptr;
+  PyObject * item = nullptr;
 
   Py_buffer pyBuffer{};
 

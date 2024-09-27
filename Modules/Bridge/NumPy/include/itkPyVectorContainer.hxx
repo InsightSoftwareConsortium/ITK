@@ -27,7 +27,7 @@ template <typename TElementIdentifier, typename TElement>
 PyObject *
 PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_container(VectorContainerType * vector)
 {
-  PyObject * memoryView = NULL;
+  PyObject * memoryView = nullptr;
   Py_buffer  pyBuffer{};
 
   int res = 0;
@@ -45,7 +45,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
   Py_ssize_t len = vector->Size();
   len *= sizeof(DataType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, NULL, vectorBuffer, len, 0, PyBUF_CONTIG);
+  res = PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
@@ -58,9 +58,9 @@ auto
 PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(PyObject * arr, PyObject * shape) -> const
   typename VectorContainerType::Pointer
 {
-  PyObject * obj = NULL;
-  PyObject * shapeseq = NULL;
-  PyObject * item = NULL;
+  PyObject * obj = nullptr;
+  PyObject * shapeseq = nullptr;
+  PyObject * item = nullptr;
 
   Py_buffer pyBuffer{};
 
