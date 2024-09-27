@@ -28,8 +28,7 @@ PyObject *
 PyVnl<TElement>::_GetArrayViewFromVnlVector(VectorType * vector)
 {
   PyObject * memoryView = NULL;
-  Py_buffer  pyBuffer;
-  memset(&pyBuffer, 0, sizeof(Py_buffer));
+  Py_buffer  pyBuffer{};
 
   int res = 0;
 
@@ -62,8 +61,7 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;
 
-  Py_buffer pyBuffer;
-  memset(&pyBuffer, 0, sizeof(Py_buffer));
+  Py_buffer pyBuffer{};
 
   size_t numberOfElements = 1;
 
@@ -107,8 +105,7 @@ PyObject *
 PyVnl<TElement>::_GetArrayViewFromVnlMatrix(MatrixType * matrix)
 {
   PyObject * memoryView = NULL;
-  Py_buffer  pyBuffer;
-  memset(&pyBuffer, 0, sizeof(Py_buffer));
+  Py_buffer  pyBuffer{};
 
   int res = 0;
 
@@ -141,8 +138,7 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;
 
-  Py_buffer pyBuffer;
-  memset(&pyBuffer, 0, sizeof(Py_buffer));
+  Py_buffer pyBuffer{};
 
   size_t numberOfElements = 1;
 
