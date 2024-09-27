@@ -28,8 +28,7 @@ PyObject *
 PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_container(VectorContainerType * vector)
 {
   PyObject * memoryView = NULL;
-  Py_buffer  pyBuffer;
-  memset(&pyBuffer, 0, sizeof(Py_buffer));
+  Py_buffer  pyBuffer{};
 
   int res = 0;
 
@@ -63,8 +62,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;
 
-  Py_buffer pyBuffer;
-  memset(&pyBuffer, 0, sizeof(Py_buffer));
+  Py_buffer pyBuffer{};
 
   size_t numberOfElements = 1;
 

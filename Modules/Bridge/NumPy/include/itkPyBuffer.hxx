@@ -29,8 +29,7 @@ PyObject *
 PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 {
   PyObject * memoryView = NULL;
-  Py_buffer  pyBuffer;
-  memset(&pyBuffer, 0, sizeof(Py_buffer));
+  Py_buffer  pyBuffer{};
 
   Py_ssize_t len = 1;
   int        res = 0;
@@ -75,8 +74,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   PyObject * shapeseq = NULL;
   PyObject * item = NULL;
 
-  Py_buffer pyBuffer;
-  memset(&pyBuffer, 0, sizeof(Py_buffer));
+  Py_buffer pyBuffer{};
 
   SizeType      size;
   SizeType      sizeFortran;
