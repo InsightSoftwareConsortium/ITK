@@ -33,6 +33,8 @@ namespace itk
 /** \class MINCTransformIOTemplate
  *
  * \brief Read and write transforms in MINC format (.xfm).
+ *        Takes into account PositiveCoordinateOrientation RAS to PositiveCoordinateOrientation LPS conversion
+ *        flag to convert from internal MINC to ITK conventions and back, if enabled.
  *
  * \author Vladimir S. FONOV
  *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
@@ -80,6 +82,11 @@ public:
   void
   Write() override;
 
+  /** Set to automatically convert from RAS PositiveCoordinateOrientation to LPS PositiveCoordinateOrientation*/
+  itkSetMacro(RAStoLPS, bool);
+  itkGetConstMacro(RAStoLPS, bool);
+  itkBooleanMacro(RAStoLPS);
+
 protected:
   MINCTransformIOTemplate();
   ~MINCTransformIOTemplate() override;
@@ -98,7 +105,8 @@ private:
                     int &                                serial);
 
   void
-  ReadOneTransform(VIO_General_transform * xfm);
+       ReadOneTransform(VIO_General_transform * xfm);
+  bool m_RAStoLPS;
 };
 
 /** This helps to meet backward compatibility */

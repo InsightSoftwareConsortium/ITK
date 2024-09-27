@@ -372,6 +372,10 @@ mark_as_advanced(ITK_NIFTI_IO_ANALYZE_FLAVOR)
 option(ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT "Allow non-orthogonal rotation matrix in NIFTI sform by default" OFF)
 mark_as_advanced(ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT)
 
+# Automatically convert MINC coordinate system from PositiveCoordinateOrientation RAS to PositiveCoordinateOrientation LPS
+option(ITK_MINC_IO_RAS_TO_LPS "Convert MINC coordinate system from PositiveCoordinateOrientation RAS to PositiveCoordinateOrientation LPS by default" ON)
+
+mark_as_advanced(ITK_MINC_IO_RAS_TO_LPS)
 #-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
 # ITK_USE_REVIEW is deprecated, only kept for backward compatibility
