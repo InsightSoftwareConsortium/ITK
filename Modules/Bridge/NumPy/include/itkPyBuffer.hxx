@@ -28,7 +28,7 @@ template <class TImage>
 PyObject *
 PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 {
-  PyObject * memoryView = NULL;
+  PyObject * memoryView = nullptr;
   Py_buffer  pyBuffer{};
 
   Py_ssize_t len = 1;
@@ -58,7 +58,7 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
   len *= numberOfComponents;
   len *= sizeof(ComponentType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, NULL, itkImageBuffer, len, 0, PyBUF_CONTIG);
+  res = PyBuffer_FillInfo(&pyBuffer, nullptr, itkImageBuffer, len, 0, PyBUF_CONTIG);
   memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
@@ -71,8 +71,8 @@ auto
 PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent)
   -> const OutputImagePointer
 {
-  PyObject * shapeseq = NULL;
-  PyObject * item = NULL;
+  PyObject * shapeseq = nullptr;
+  PyObject * item = nullptr;
 
   Py_buffer pyBuffer{};
 
@@ -111,7 +111,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   }
 
   bool isFortranContiguous = false;
-  if (pyBuffer.strides != NULL && pyBuffer.itemsize == pyBuffer.strides[0])
+  if (pyBuffer.strides != nullptr && pyBuffer.itemsize == pyBuffer.strides[0])
   {
     isFortranContiguous = true;
   }
