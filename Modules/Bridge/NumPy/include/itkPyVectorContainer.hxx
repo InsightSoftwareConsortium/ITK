@@ -27,10 +27,7 @@ template <typename TElementIdentifier, typename TElement>
 PyObject *
 PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_container(VectorContainerType * vector)
 {
-  PyObject * memoryView = nullptr;
-  Py_buffer  pyBuffer{};
-
-  int res = 0;
+  Py_buffer pyBuffer{};
 
   if (!vector)
   {
@@ -45,8 +42,8 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
   Py_ssize_t len = vector->Size();
   len *= sizeof(DataType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
-  memoryView = PyMemoryView_FromBuffer(&pyBuffer);
+  const int        res = PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
+  PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
 
@@ -58,17 +55,7 @@ auto
 PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(PyObject * arr, PyObject * shape) -> const
   typename VectorContainerType::Pointer
 {
-  PyObject * obj = nullptr;
-  PyObject * shapeseq = nullptr;
-  PyObject * item = nullptr;
-
   Py_buffer pyBuffer{};
-
-  size_t numberOfElements = 1;
-
-  unsigned int dimension = 0;
-
-  size_t len = 1;
 
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_CONTIG) == -1)
   {
@@ -80,14 +67,14 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
-  obj = shape;
-  shapeseq = PySequence_Fast(obj, "expected sequence");
-  dimension = PySequence_Size(obj);
+  PyObject * const   obj = shape;
+  PyObject * const   shapeseq = PySequence_Fast(obj, "expected sequence");
+  const unsigned int dimension = PySequence_Size(obj);
 
-  item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
-  numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
+  PyObject *   item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
+  const size_t numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
 
-  len = numberOfElements * sizeof(DataType);
+  const size_t len = numberOfElements * sizeof(DataType);
   if (bufferLength != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of vector and Buffer.");

@@ -28,11 +28,9 @@ template <class TImage>
 PyObject *
 PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 {
-  PyObject * memoryView = nullptr;
-  Py_buffer  pyBuffer{};
+  Py_buffer pyBuffer{};
 
   Py_ssize_t len = 1;
-  int        res = 0;
 
   if (!image)
   {
@@ -58,8 +56,8 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
   len *= numberOfComponents;
   len *= sizeof(ComponentType);
 
-  res = PyBuffer_FillInfo(&pyBuffer, nullptr, itkImageBuffer, len, 0, PyBUF_CONTIG);
-  memoryView = PyMemoryView_FromBuffer(&pyBuffer);
+  const int        res = PyBuffer_FillInfo(&pyBuffer, nullptr, itkImageBuffer, len, 0, PyBUF_CONTIG);
+  PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
 
@@ -71,7 +69,6 @@ auto
 PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent)
   -> const OutputImagePointer
 {
-  PyObject * shapeseq = nullptr;
   PyObject * item = nullptr;
 
   Py_buffer pyBuffer{};
@@ -79,11 +76,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   SizeType      size;
   SizeType      sizeFortran;
   SizeValueType numberOfPixels = 1;
-
-  long         numberOfComponents = 1;
-  unsigned int dimension = 0;
-
-  size_t len = 1;
 
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ND | PyBUF_ANY_CONTIGUOUS) == -1)
   {
@@ -97,10 +89,10 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
 
   PyBuffer_Release(&pyBuffer);
 
-  shapeseq = PySequence_Fast(shape, "expected sequence");
-  dimension = PySequence_Size(shape);
+  PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
+  const unsigned int dimension = PySequence_Size(shape);
 
-  numberOfComponents = PyInt_AsLong(numOfComponent);
+  const long numberOfComponents = PyInt_AsLong(numOfComponent);
 
   for (unsigned int i = 0; i < dimension; ++i)
   {
@@ -116,7 +108,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
     isFortranContiguous = true;
   }
 
-  len = numberOfPixels * numberOfComponents * sizeof(ComponentType);
+  const size_t len = numberOfPixels * numberOfComponents * sizeof(ComponentType);
   if (bufferLength != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of image and Buffer.");
