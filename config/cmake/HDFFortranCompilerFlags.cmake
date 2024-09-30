@@ -10,9 +10,7 @@
 # help@hdfgroup.org.
 #
 
-if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-  message (VERBOSE "Warnings Configuration: default Fortran: ${CMAKE_Fortran_FLAGS}")
-endif ()
+message (VERBOSE "Warnings Configuration: default Fortran: ${CMAKE_Fortran_FLAGS}")
 
 #-----------------------------------------------------------------------------
 # Option to allow the user to disable compiler warnings
@@ -24,6 +22,8 @@ if (HDF5_DISABLE_COMPILER_WARNINGS)
   if (MSVC)
     set (HDF5_WARNINGS_BLOCKED 1)
     if (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+      set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /warn:none")
+    elseif (CMAKE_Fortran_COMPILER_ID MATCHES "IntelLLVM")
       set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /warn:none")
     endif ()
   endif ()
@@ -43,7 +43,7 @@ if (HDF5_DISABLE_COMPILER_WARNINGS)
 endif ()
 
 #-----------------------------------------------------------------------------
-# HDF5 library compile options
+# HDF5 library compile options - to be made available to all targets
 #-----------------------------------------------------------------------------
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_Fortran_COMPILER_VERSION VERSION_LESS 10.0)
   if (HDF5_ENABLE_BUILD_DIAGS)
@@ -54,10 +54,29 @@ if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_Fortran_COMPILER_VERS
   endif ()
 endif ()
 
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "NAG")
+    message (STATUS "... Select IEEE floating-point mode full")
+    list (APPEND HDF5_CMAKE_Fortran_FLAGS "-ieee=full")
+endif ()
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "NVHPC")
+  if (NOT ${HDF_CFG_NAME} MATCHES "Debug" AND NOT ${HDF_CFG_NAME} MATCHES "Developer")
+    set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Mnoframe")
+    if (NOT ${HDF_CFG_NAME} MATCHES "RelWithDebInfo")
+      set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -s")
+    endif ()
+  else ()
+    set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Mbounds -Mchkptr -Mdclchk -g")
+  endif ()
+endif ()
+
 if (NOT MSVC AND NOT MINGW)
   # General flags
   if (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
-    ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/intel-warnings/ifort-general")
+    if (_INTEL_WINDOWS)
+      ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/intel-warnings/classic/win-ifort-general")
+    else ()
+      ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/intel-warnings/classic/ifort-general")
+    endif()
     list (APPEND HDF5_CMAKE_Fortran_FLAGS "-free")
   elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/gnu-warnings/gfort-general")
@@ -72,12 +91,17 @@ if (NOT MSVC AND NOT MINGW)
     else ()
       list (APPEND HDF5_CMAKE_Fortran_FLAGS "-std=f2008")
     endif ()
+  elseif (CMAKE_Fortran_COMPILER_ID MATCHES "IntelLLVM")
+    if (_INTEL_WINDOWS)
+      ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/intel-warnings/oneapi/win-ifort-general")
+    else ()
+      ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/intel-warnings/oneapi/ifort-general")
+    endif()
+    list (APPEND HDF5_CMAKE_Fortran_FLAGS "-free")
   elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "PGI")
     list (APPEND HDF5_CMAKE_Fortran_FLAGS "-Mfreeform" "-Mdclchk" "-Mstandard" "-Mallocatable=03")
   endif ()
-  if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-    message (VERBOSE "HDF5_CMAKE_Fortran_FLAGS=${HDF5_CMAKE_Fortran_FLAGS}")
-  endif ()
+  message (VERBOSE "HDF5_CMAKE_Fortran_FLAGS=${HDF5_CMAKE_Fortran_FLAGS}")
 
   if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     # Append more extra warning flags that only gcc 4.8+ knows about
@@ -124,7 +148,10 @@ if (NOT MSVC AND NOT MINGW)
   endif ()
 else ()
   if (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
-    ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/intel-warnings/win-ifort-general")
+    ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/intel-warnings/classic/win-ifort-general")
+    list (APPEND HDF5_CMAKE_Fortran_FLAGS "/stand:f03" "/free")
+  elseif (CMAKE_Fortran_COMPILER_ID MATCHES "IntelLLVM")
+    ADD_H5_FLAGS (HDF5_CMAKE_Fortran_FLAGS "${HDF5_SOURCE_DIR}/config/intel-warnings/oneapi/win-ifort-general")
     list (APPEND HDF5_CMAKE_Fortran_FLAGS "/stand:f03" "/free")
   endif ()
 endif ()

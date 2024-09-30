@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Quincey Koziol
- *              Friday, January 30, 2004
- *
  * Purpose:	The public header file for common items for all MPI VFL drivers
  */
 #ifndef H5FDmpi_H

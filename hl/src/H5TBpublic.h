@@ -17,7 +17,7 @@
 extern "C" {
 #endif
 
-/** \page H5TB_UG The HDF5 High Level Table
+/** \page H5TB_UG HDF5 High Level Table
  * @todo Under Construction
  */
 

@@ -17,7 +17,7 @@
 extern "C" {
 #endif
 
-/** \page H5IM_UG The HDF5 High Level Images
+/** \page H5IM_UG HDF5 High Level Images
  * @todo Under Construction
  */
 

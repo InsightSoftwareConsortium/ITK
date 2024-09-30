@@ -13,10 +13,8 @@
 /*-------------------------------------------------------------------------
  *
  * Created:         H5HLprivate.h
- *                  Jul 16 1997
- *                  Robb Matzke
  *
- * Purpose:         Private declarations for the H5HL (local heap) package.
+ * Purpose:         Private declarations for the H5HL (local heap) package
  *
  *-------------------------------------------------------------------------
  */
@@ -27,14 +25,6 @@
 #include "H5private.h"   /* Generic Functions                */
 #include "H5ACprivate.h" /* Metadata cache                   */
 #include "H5Fprivate.h"  /* File access                      */
-
-/*
- * Feature: Define H5HL_DEBUG on the compiler command line if you want to
- *          enable diagnostic messages from this layer.
- */
-#ifdef NDEBUG
-#undef H5HL_DEBUG
-#endif
 
 #define H5HL_ALIGN(X) ((((unsigned)X) + 7) & (unsigned)(~0x07)) /* align on 8-byte boundary   */
 
@@ -54,6 +44,7 @@ typedef struct H5HL_t H5HL_t;
  */
 H5_DLL herr_t  H5HL_create(H5F_t *f, size_t size_hint, haddr_t *addr /*out*/);
 H5_DLL herr_t  H5HL_delete(H5F_t *f, haddr_t addr);
+H5_DLL size_t  H5HL_heap_get_size(const H5HL_t *heap);
 H5_DLL herr_t  H5HL_get_size(H5F_t *f, haddr_t addr, size_t *size);
 H5_DLL herr_t  H5HL_heapsize(H5F_t *f, haddr_t addr, hsize_t *heap_size);
 H5_DLL herr_t  H5HL_insert(H5F_t *f, H5HL_t *heap, size_t size, const void *buf, size_t *offset);

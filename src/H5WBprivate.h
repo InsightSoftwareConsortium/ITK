@@ -13,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:		H5WBprivate.h
- *			Jun 26 2007
- *			Quincey Koziol
  *
  * Purpose:		Private header for library accessible wrapped buffer routines.
  *

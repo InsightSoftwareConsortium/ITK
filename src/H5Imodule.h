@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Quincey Koziol
- *              Saturday, September 12, 2015
- *
  * Purpose:     This file contains declarations which define macros for the
  *              H5I package.  Including this header means that the source file
  *              is part of the H5I package.
@@ -25,11 +22,10 @@
  * reporting macros.
  */
 #define H5I_MODULE
-#define H5_MY_PKG      H5I
-#define H5_MY_PKG_ERR  H5E_ATOM
-#define H5_MY_PKG_INIT NO
+#define H5_MY_PKG     H5I
+#define H5_MY_PKG_ERR H5E_ID
 
-/** \page H5I_UG The HDF5 Identifiers
+/** \page H5I_UG HDF5 Identifiers
  * @todo Under Construction
  */
 

@@ -11,12 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:	Quincey Koziol
- *		Monday, January 31, 2005
- *
- * Purpose:	This file contains declarations which are visible only within
- *		the H5B2 package.  Source files outside the H5B2 package should
- *		include H5B2private.h instead.
+ * Purpose: This file contains declarations which are visible only within
+ *          the H5B2 package.  Source files outside the H5B2 package should
+ *          include H5B2private.h instead.
  */
 #if !(defined H5B2_FRIEND || defined H5B2_MODULE)
 #error "Do not include this file outside the H5B2 package!"
@@ -164,7 +161,7 @@ typedef struct H5B2_hdr_t {
     size_t            hdr_size;       /* Size of the B-tree header on disk */
     size_t            rc;             /* Reference count of nodes using this header */
     size_t            file_rc;        /* Reference count of files using this header */
-    hbool_t           pending_delete; /* B-tree is pending deletion */
+    bool              pending_delete; /* B-tree is pending deletion */
     uint8_t           sizeof_size;    /* Size of file sizes */
     uint8_t           sizeof_addr;    /* Size of file addresses */
     H5B2_remove_t     remove_op;      /* Callback operator for deleting B-tree */
@@ -176,7 +173,7 @@ typedef struct H5B2_hdr_t {
     void             *max_native_rec; /* Pointer to maximum native record                  */
 
     /* SWMR / Flush dependency information (not stored) */
-    hbool_t             swmr_write; /* Whether we are doing SWMR writes */
+    bool                swmr_write; /* Whether we are doing SWMR writes */
     H5AC_proxy_entry_t *top_proxy;  /* 'Top' proxy cache entry for all B-tree entries */
     void               *parent;     /* Pointer to 'top' proxy flush dependency
                                      * parent, if it exists, otherwise NULL.
@@ -352,14 +349,14 @@ H5_DLL herr_t      H5B2__hdr_unprotect(H5B2_hdr_t *hdr, unsigned cache_flags);
 H5_DLL herr_t      H5B2__hdr_delete(H5B2_hdr_t *hdr);
 
 /* Routines for operating on leaf nodes */
-H5_DLL H5B2_leaf_t *H5B2__protect_leaf(H5B2_hdr_t *hdr, void *parent, H5B2_node_ptr_t *node_ptr,
-                                       hbool_t shadow, unsigned flags);
+H5_DLL H5B2_leaf_t *H5B2__protect_leaf(H5B2_hdr_t *hdr, void *parent, H5B2_node_ptr_t *node_ptr, bool shadow,
+                                       unsigned flags);
 H5_DLL herr_t       H5B2__swap_leaf(H5B2_hdr_t *hdr, uint16_t depth, H5B2_internal_t *internal,
                                     unsigned *internal_flags_ptr, unsigned idx, void *swap_loc);
 
 /* Routines for operating on internal nodes */
 H5_DLL H5B2_internal_t *H5B2__protect_internal(H5B2_hdr_t *hdr, void *parent, H5B2_node_ptr_t *node_ptr,
-                                               uint16_t depth, hbool_t shadow, unsigned flags);
+                                               uint16_t depth, bool shadow, unsigned flags);
 
 /* Routines for allocating nodes */
 H5_DLL herr_t H5B2__split_root(H5B2_hdr_t *hdr);
@@ -405,14 +402,14 @@ H5_DLL herr_t H5B2__neighbor_leaf(H5B2_hdr_t *hdr, H5B2_node_ptr_t *curr_node_pt
                                   void *op_data);
 
 /* Routines for removing records */
-H5_DLL herr_t H5B2__remove_internal(H5B2_hdr_t *hdr, hbool_t *depth_decreased, void *swap_loc,
-                                    void *swap_parent, uint16_t depth, H5AC_info_t *parent_cache_info,
+H5_DLL herr_t H5B2__remove_internal(H5B2_hdr_t *hdr, bool *depth_decreased, void *swap_loc, void *swap_parent,
+                                    uint16_t depth, H5AC_info_t *parent_cache_info,
                                     unsigned *parent_cache_info_flags_ptr, H5B2_nodepos_t curr_pos,
                                     H5B2_node_ptr_t *curr_node_ptr, void *udata, H5B2_remove_t op,
                                     void *op_data);
 H5_DLL herr_t H5B2__remove_leaf(H5B2_hdr_t *hdr, H5B2_node_ptr_t *curr_node_ptr, H5B2_nodepos_t curr_pos,
                                 void *parent, void *udata, H5B2_remove_t op, void *op_data);
-H5_DLL herr_t H5B2__remove_internal_by_idx(H5B2_hdr_t *hdr, hbool_t *depth_decreased, void *swap_loc,
+H5_DLL herr_t H5B2__remove_internal_by_idx(H5B2_hdr_t *hdr, bool *depth_decreased, void *swap_loc,
                                            void *swap_parent, uint16_t depth, H5AC_info_t *parent_cache_info,
                                            unsigned        *parent_cache_info_flags_ptr,
                                            H5B2_node_ptr_t *curr_node_ptr, H5B2_nodepos_t curr_pos, hsize_t n,

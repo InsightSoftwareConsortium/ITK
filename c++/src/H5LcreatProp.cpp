@@ -184,13 +184,4 @@ LinkCreatPropList::getCharEncoding() const
     return (encoding);
 }
 
-//--------------------------------------------------------------------------
-// Function:    LinkCreatPropList destructor
-///\brief       Noop destructor
-// December, 2016
-//--------------------------------------------------------------------------
-LinkCreatPropList::~LinkCreatPropList()
-{
-}
-
 } // namespace H5

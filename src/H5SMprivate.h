@@ -11,11 +11,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:	James Laird
- *		Thursday, March 2, 2006
- *
- * Purpose:	This file contains private declarations for the H5SM
- *              shared object header messages module.
+ * Purpose: This file contains private declarations for the H5SM
+ *          shared object header messages module.
  */
 #ifndef H5SMprivate_H
 #define H5SMprivate_H

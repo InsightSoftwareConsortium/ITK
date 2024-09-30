@@ -10,9 +10,7 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Programmer:  Quincey Koziol
- *              Saturday May 31, 2003
- *
+/*
  * Purpose:	Generic Property Testing Functions
  */
 
@@ -24,7 +22,6 @@
 #include "H5Eprivate.h" /* Error handling		  	*/
 #include "H5Iprivate.h" /* IDs			  		*/
 #include "H5Ppkg.h"     /* Property lists		  	*/
-#include "H5Dprivate.h" /* Dataset		  		*/
 
 /* Local variables */
 
@@ -66,7 +63,7 @@ H5P__get_class_path_test(hid_t pclass_id)
 
     /* Get the property list class path */
     if (NULL == (ret_value = H5P__get_class_path(pclass)))
-        HGOTO_ERROR(H5E_PLIST, H5E_NOTFOUND, NULL, "unable to query full path of class")
+        HGOTO_ERROR(H5E_PLIST, H5E_NOTFOUND, NULL, "unable to query full path of class");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -108,9 +105,9 @@ H5P__open_class_path_test(const char *path)
     if (NULL == (pclass = H5P__open_class_path(path)))
         HGOTO_ERROR(H5E_PLIST, H5E_NOTFOUND, H5I_INVALID_HID, "unable to find class with full path");
 
-    /* Get an atom for the class */
-    if ((ret_value = H5I_register(H5I_GENPROP_CLS, pclass, TRUE)) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to atomize property list class");
+    /* Get an ID for the class */
+    if ((ret_value = H5I_register(H5I_GENPROP_CLS, pclass, true)) < 0)
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register property list class");
 
 done:
     if (H5I_INVALID_HID == ret_value && pclass)

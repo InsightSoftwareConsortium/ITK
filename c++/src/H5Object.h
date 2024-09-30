@@ -105,7 +105,7 @@ class H5_DLLCPP H5Object : public H5Location {
     void removeAttr(const H5std_string &name) const;
 
     // Returns an identifier.
-    virtual hid_t getId() const H5_OVERRIDE = 0;
+    virtual hid_t getId() const override = 0;
 
     // Gets the name of this HDF5 object, i.e., Group, DataSet, or
     // DataType.
@@ -121,10 +121,10 @@ class H5_DLLCPP H5Object : public H5Location {
 
     // Sets the identifier of this object to a new value. - this one
     // doesn't increment reference count
-    virtual void p_setId(const hid_t new_id) H5_OVERRIDE = 0;
+    virtual void p_setId(const hid_t new_id) override = 0;
 
     // Noop destructor.
-    virtual ~H5Object() H5_OVERRIDE;
+    virtual ~H5Object() override = default;
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 

@@ -30,7 +30,7 @@ typedef herr_t (*H5DS_iterate_t)(hid_t dset, unsigned dim, hid_t scale, void *vi
 extern "C" {
 #endif
 
-/** \page H5DS_UG The HDF5 High Level Dimension Scales
+/** \page H5DS_UG HDF5 High Level Dimension Scales
  * @todo Under Construction
  */
 
@@ -117,7 +117,7 @@ H5_HLDLL herr_t H5DSwith_new_ref(hid_t obj_id, hbool_t *with_new_ref);
  *
  *          Entries are created in the #DIMENSION_LIST and
  *          #REFERENCE_LIST attributes, as defined in section 4.2 of
- *          <a href="https://support.hdfgroup.org/HDF5/doc/HL/H5DS_Spec.pdf">
+ *          <a href="https://docs.hdfgroup.org/documentation/HDF5/HL/H5DS_Spec.pdf">
  *          HDF5 Dimension Scale Specification</a>.
  *
  *          Fails if:
@@ -147,7 +147,7 @@ H5_HLDLL herr_t H5DSattach_scale(hid_t did, hid_t dsid, unsigned int idx);
  *          dimension \p idx of dataset \p did. This deletes the entries in the
  *          #DIMENSION_LIST and #REFERENCE_LIST attributes,
  *          as defined in section 4.2 of
- *          <a href="https://support.hdfgroup.org/HDF5/doc/HL/H5DS_Spec.pdf">
+ *          <a href="https://support.hdfgroup.org/releases/hdf5/documentation/hdf5_topics/H5DS_Spec.pdf">
  *          HDF5 Dimension Scale Specification</a>.
  *
  *          Fails if:
@@ -180,7 +180,7 @@ H5_HLDLL herr_t H5DSdetach_scale(hid_t did, hid_t dsid, unsigned int idx);
  *          as defined above. Creates the CLASS attribute, set to the value
  *          "DIMENSION_SCALE" and an empty #REFERENCE_LIST attribute,
  *          as described in
- *          <a href="https://support.hdfgroup.org/HDF5/doc/HL/H5DS_Spec.pdf">
+ *          <a href="https://support.hdfgroup.org/releases/hdf5/documentation/hdf5_topics/H5DS_Spec.pdf">
  *          HDF5 Dimension Scale Specification</a>.
  *          (PDF, see section 4.2).
  *

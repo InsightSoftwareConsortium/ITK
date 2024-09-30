@@ -37,7 +37,6 @@ ObjCreatPropList *ObjCreatPropList::DEFAULT_ = 0;
 //              If ObjCreatPropList::DEFAULT_ already points to an allocated
 //              object, throw a PropListIException.  This scenario should not
 //              happen.
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 ObjCreatPropList *
 ObjCreatPropList::getConstant()
@@ -64,7 +63,6 @@ ObjCreatPropList::getConstant()
 // Purpose:     Deletes the constant object that ObjCreatPropList::DEFAULT_
 //              points to.
 // exception    H5::PropListIException
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 void
 ObjCreatPropList::deleteConstants()
@@ -82,7 +80,6 @@ const ObjCreatPropList &ObjCreatPropList::DEFAULT = *getConstant();
 //--------------------------------------------------------------------------
 // Function:    Default Constructor
 ///\brief       Creates a file access property list
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 ObjCreatPropList::ObjCreatPropList() : PropList(H5P_OBJECT_CREATE)
 {
@@ -92,7 +89,6 @@ ObjCreatPropList::ObjCreatPropList() : PropList(H5P_OBJECT_CREATE)
 // Function:    ObjCreatPropList copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
 ///\param       original - IN: ObjCreatPropList instance to copy
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 ObjCreatPropList::ObjCreatPropList(const ObjCreatPropList &original) : PropList(original)
 {
@@ -102,7 +98,6 @@ ObjCreatPropList::ObjCreatPropList(const ObjCreatPropList &original) : PropList(
 // Function:    ObjCreatPropList overloaded constructor
 ///\brief       Creates a file access property list using the id of an
 ///             existing one.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 ObjCreatPropList::ObjCreatPropList(const hid_t plist_id) : PropList(plist_id)
 {
@@ -120,7 +115,6 @@ ObjCreatPropList::ObjCreatPropList(const hid_t plist_id) : PropList(plist_id)
 ///             If \c max_compact is set to 0, dense storage will be used.
 ///             For more detail about on attribute storage, please refer to the
 ///             H5Pset_attr_phase_change API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - September 2015
 //--------------------------------------------------------------------------
 void
 ObjCreatPropList::setAttrPhaseChange(unsigned max_compact, unsigned min_dense) const
@@ -143,7 +137,6 @@ ObjCreatPropList::setAttrPhaseChange(unsigned max_compact, unsigned min_dense) c
 ///             If \c max_compact is set to 0, dense storage will be used.
 ///             For more detail about on attribute storage, please refer to the
 ///             H5Pget_attr_phase_change API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - September 2015
 //--------------------------------------------------------------------------
 void
 ObjCreatPropList::getAttrPhaseChange(unsigned &max_compact, unsigned &min_dense) const
@@ -172,7 +165,6 @@ ObjCreatPropList::getAttrPhaseChange(unsigned &max_compact, unsigned &min_dense)
 ///             creation time and to build the index later.
 ///             For detail, please refer to the H5Pset_attr_creation_order API
 ///             in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - September 2015
 //--------------------------------------------------------------------------
 void
 ObjCreatPropList::setAttrCrtOrder(unsigned crt_order_flags) const
@@ -194,7 +186,6 @@ ObjCreatPropList::setAttrCrtOrder(unsigned crt_order_flags) const
 ///             creation order is neither tracked not indexed.
 ///             For detail, please refer to the H5Pget_attr_creation_order API
 ///             in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - September 2015
 //--------------------------------------------------------------------------
 unsigned
 ObjCreatPropList::getAttrCrtOrder() const
@@ -206,15 +197,6 @@ ObjCreatPropList::getAttrCrtOrder() const
         throw PropListIException("ObjCreatPropList::getAttrCrtOrder", "H5Pget_attr_creation_order failed");
     }
     return (crt_order_flags);
-}
-
-//--------------------------------------------------------------------------
-// Function:    ObjCreatPropList destructor
-///\brief       Noop destructor
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-ObjCreatPropList::~ObjCreatPropList()
-{
 }
 
 } // namespace H5

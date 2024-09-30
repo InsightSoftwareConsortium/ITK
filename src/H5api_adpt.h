@@ -13,7 +13,6 @@
 /*
  * H5api_adpt.h
  * Used for the HDF5 dll project
- * Created by Patrick Lu on 1/12/99
  */
 #ifndef H5API_ADPT_H
 #define H5API_ADPT_H

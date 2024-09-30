@@ -11,12 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:	Quincey Koziol
- *		Saturday, September 12, 2015
- *
- * Purpose:	This file contains declarations which define macros for the
- *		H5Z package.  Including this header means that the source file
- *		is part of the H5Z package.
+ * Purpose: This file contains declarations which define macros for the
+ *          H5Z package.  Including this header means that the source file
+ *          is part of the H5Z package.
  */
 #ifndef H5Zmodule_H
 #define H5Zmodule_H
@@ -25,11 +22,10 @@
  *      reporting macros.
  */
 #define H5Z_MODULE
-#define H5_MY_PKG      H5Z
-#define H5_MY_PKG_ERR  H5E_PLINE
-#define H5_MY_PKG_INIT YES
+#define H5_MY_PKG     H5Z
+#define H5_MY_PKG_ERR H5E_PLINE
 
-/** \page H5Z_UG The HDF5 Filters
+/** \page H5Z_UG HDF5 Filters
  * @todo Under Construction
  */
 
@@ -85,7 +81,7 @@
  *
  * The HDF5 library does not support filters for contiguous datasets because of
  * the difficulty of implementing random access for partial I/O. Compact dataset
- * filters are not supported because it would not produce significant results.
+ * filters are not supported because they would not produce significant results.
  *
  * Filter identifiers for the filters distributed with the HDF5
  * Library are as follows:
@@ -106,7 +102,7 @@
  * Custom filters that have been registered with the library will have
  * additional unique identifiers.
  *
- * See \ref_dld_filters for more information on how an HDF5 application can
+ * See \ref sec_filter_plugins for more information on how an HDF5 application can
  * apply a filter that is not registered with the HDF5 library.
  *
  * \defgroup H5ZPRE Predefined Filters

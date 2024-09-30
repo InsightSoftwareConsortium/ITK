@@ -44,7 +44,7 @@ class H5_DLLCPP CompType : public DataType {
 
     // Returns a CompType object via DataType* by decoding the binary
     // object description of this type.
-    virtual DataType *decode() const H5_OVERRIDE;
+    virtual DataType *decode() const override;
 
     // Returns the type class of the specified member of this compound
     // datatype.  It provides to the user a way of knowing what type
@@ -107,13 +107,13 @@ class H5_DLLCPP CompType : public DataType {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("CompType");
     }
 
     // Noop destructor.
-    virtual ~CompType() H5_OVERRIDE;
+    virtual ~CompType() override = default;
 
   private:
     // Contains common code that is used by the member functions

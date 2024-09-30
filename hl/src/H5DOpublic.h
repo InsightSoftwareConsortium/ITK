@@ -17,7 +17,7 @@
 extern "C" {
 #endif
 
-/** \page H5DO_UG The HDF5 High Level Optimizations
+/** \page H5DO_UG HDF5 High Level Optimizations
  * @todo Under Construction
  */
 
@@ -29,7 +29,7 @@ extern "C" {
  * HDF5 functions described is this section are implemented in the HDF5 High-level
  * library as optimized functions. These functions generally require careful setup
  * and testing as they enable an application to bypass portions of the HDF5
- * library’s I/O pipeline for performance purposes.
+ * library's I/O pipeline for performance purposes.
  *
  * These functions are distributed in the standard HDF5 distribution and are
  * available any time the HDF5 High-level library is available.
@@ -113,7 +113,7 @@ H5_HLDLL herr_t H5DOappend(hid_t dset_id, hid_t dxpl_id, unsigned axis, size_t e
  * \param[in] dxpl_id       Transfer property list identifier for
  *                          this I/O operation
  * \param[in] filters       Mask for identifying the filters in use
- * \param[in] offset        Logical position of the chunk’s first element
+ * \param[in] offset        Logical position of the chunk's first element
  *                          in the dataspace
  * \param[in] data_size     Size of the actual data to be written in bytes
  * \param[in] buf           Buffer containing data to be written to the chunk
@@ -131,7 +131,7 @@ H5_HLDLL herr_t H5DOappend(hid_t dset_id, hid_t dxpl_id, unsigned axis, size_t e
  *          logical \p offset in a chunked dataset \p dset_id from the application
  *          memory buffer \p buf to the dataset in the file. Typically, the data
  *          in \p buf is preprocessed in memory by a custom transformation, such as
- *          compression. The chunk will bypass the library’s internal data
+ *          compression. The chunk will bypass the library's internal data
  *          transfer pipeline, including filters, and will be written directly to the file.
  *
  *          \p dxpl_id is a data transfer property list identifier.
@@ -139,12 +139,12 @@ H5_HLDLL herr_t H5DOappend(hid_t dset_id, hid_t dxpl_id, unsigned axis, size_t e
  *          \p filters is a mask providing a record of which filters are used
  *          with the chunk. The default value of the mask is zero (\c 0),
  *          indicating that all enabled filters are applied. A filter is skipped
- *          if the bit corresponding to the filter’s position in the pipeline
+ *          if the bit corresponding to the filter's position in the pipeline
  *          (<tt>0 ≤ position < 32</tt>) is turned on. This mask is saved
  *          with the chunk in the file.
  *
  *          \p offset is an array specifying the logical position of the first
- *          element of the chunk in the dataset’s dataspace. The length of the
+ *          element of the chunk in the dataset's dataspace. The length of the
  *          offset array must equal the number of dimensions, or rank, of the
  *          dataspace. The values in \p offset must not exceed the dimension limits
  *          and must specify a point that falls on a dataset chunk boundary.
@@ -161,7 +161,7 @@ H5_HLDLL herr_t H5DOappend(hid_t dset_id, hid_t dxpl_id, unsigned axis, size_t e
  *              from one datatype to another, and the filter pipeline to write the chunk.
  *              Developers should have experience with these processes before
  *              using this function. Please see
- *              <a href="https://portal.hdfgroup.org/display/HDF5/Using+the+Direct+Chunk+Write+Function">
+ *              <a href="https://\DOCURL/advanced_topics/UsingDirectChunkWrite.pdf">
  *              Using the Direct Chunk Write Function</a>
  *              for more information.
  *
@@ -189,7 +189,7 @@ H5_HLDLL herr_t H5DOwrite_chunk(hid_t dset_id, hid_t dxpl_id, uint32_t filters, 
  * \param[in] dset_id           Identifier for the dataset to be read
  * \param[in] dxpl_id           Transfer property list identifier for
  *                              this I/O operation
- * \param[in] offset            Logical position of the chunk’s first
+ * \param[in] offset            Logical position of the chunk's first
                                 element in the dataspace
  * \param[in,out] filters       Mask for identifying the filters used
  *                              with the chunk
@@ -209,7 +209,7 @@ H5_HLDLL herr_t H5DOwrite_chunk(hid_t dset_id, hid_t dxpl_id, uint32_t filters, 
  *          by its logical \p offset in a chunked dataset \p dset_id
  *          from the dataset in the file into the application memory
  *          buffer \p buf. The data in \p buf is read directly from the file
- *          bypassing the library’s internal data transfer pipeline,
+ *          bypassing the library's internal data transfer pipeline,
  *          including filters.
  *
  *          \p dxpl_id is a data transfer property list identifier.
@@ -217,11 +217,11 @@ H5_HLDLL herr_t H5DOwrite_chunk(hid_t dset_id, hid_t dxpl_id, uint32_t filters, 
  *          The mask \p filters indicates which filters are used with the
  *          chunk when written. A zero value indicates that all enabled filters
  *          are applied on the chunk. A filter is skipped if the bit corresponding
- *          to the filter’s position in the pipeline
+ *          to the filter's position in the pipeline
  *          (<tt>0 ≤ position < 32</tt>) is turned on.
  *
  *          \p offset is an array specifying the logical position of the first
- *          element of the chunk in the dataset’s dataspace. The length of the
+ *          element of the chunk in the dataset's dataspace. The length of the
  *          offset array must equal the number of dimensions, or rank, of the
  *          dataspace. The values in \p offset must not exceed the dimension
  *          limits and must specify a point that falls on a dataset chunk boundary.

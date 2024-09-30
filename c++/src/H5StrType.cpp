@@ -37,7 +37,6 @@ namespace H5 {
 //--------------------------------------------------------------------------
 // Function:    StrType default constructor
 ///\brief       Default constructor: Creates a stub string datatype
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 StrType::StrType() : AtomType()
 {
@@ -48,7 +47,6 @@ StrType::StrType() : AtomType()
 ///\brief       Creates a string datatype using a predefined type.
 ///\param       pred_type - IN: Predefined datatype
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 StrType::StrType(const PredType &pred_type) : AtomType()
 {
@@ -74,7 +72,6 @@ StrType::StrType(const PredType &pred_type) : AtomType()
 // Note
 //              The use of this constructor can be shortened by using
 //              its overloaded below as StrType(0, size).
-// Programmer   Binh-Minh Ribler - 2000
 // Modification
 //              Planned for removal. -BMR, 2005/12/02
 //              Removed from documentation. -BMR, 2016/03/07
@@ -101,7 +98,6 @@ StrType::StrType(const PredType &pred_type, const size_t &size) : AtomType()
 ///             StrType atype(PredType::C_S1, size)
 // Note
 //              This constructor replaced the previous one.
-// Programmer   Binh-Minh Ribler - Nov 28, 2005
 //--------------------------------------------------------------------------
 StrType::StrType(const int dummy, const size_t &size) : AtomType()
 {
@@ -119,7 +115,6 @@ StrType::StrType(const int dummy, const size_t &size) : AtomType()
 ///\brief       Creates an StrType object using the id of an existing datatype.
 ///\param       existing_id - IN: Id of an existing datatype
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 StrType::StrType(const hid_t existing_id) : AtomType(existing_id)
 {
@@ -128,7 +123,6 @@ StrType::StrType(const hid_t existing_id) : AtomType(existing_id)
 //--------------------------------------------------------------------------
 // Function:    StrType copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 StrType::StrType(const StrType &original) : AtomType(original)
 {
@@ -139,7 +133,6 @@ StrType::StrType(const StrType &original) : AtomType(original)
 ///\brief       Gets the string datatype of the specified dataset
 ///\param       dataset - IN: Dataset that this string datatype associates with
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 StrType::StrType(const DataSet &dataset) : AtomType()
 {
@@ -158,7 +151,6 @@ StrType::StrType(const DataSet &dataset) : AtomType()
 ///\param       loc        - IN: Location of the type
 ///\param       dtype_name - IN: String type name
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Dec 2016
 // Description
 //              In 1.10.1, this constructor was introduced and may replace the
 //              existing function CommonFG::openStrType(const char*) to
@@ -177,7 +169,6 @@ StrType::StrType(const H5Location &loc, const char *dtype_name) : AtomType()
 ///\param       loc        - IN: Location of the type
 ///\param       dtype_name - IN: String type name
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Dec 2016
 // Description
 //              In 1.10.1, this constructor was introduced and may replace the
 //              existing function CommonFG::openStrType(const H5std_string&)
@@ -195,7 +186,6 @@ StrType::StrType(const H5Location &loc, const H5std_string &dtype_name) : AtomTy
 ///             binary object description of this type.
 ///
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Aug 2017
 //--------------------------------------------------------------------------
 DataType *
 StrType::decode() const
@@ -225,7 +215,6 @@ StrType::decode() const
 ///     and usability problems. See the C API entry H5Pset_char_encoding for
 ///     more information.
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5T_cset_t
 StrType::getCset() const
@@ -252,7 +241,6 @@ StrType::getCset() const
 ///     and usability problems. See the C API entry H5Pset_char_encoding for
 ///     more information.
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 StrType::setCset(H5T_cset_t cset) const
@@ -271,7 +259,6 @@ StrType::setCset(H5T_cset_t cset) const
 ///             \li \c H5T_STR_NULLPAD (0) - Pad with zeros
 ///             \li \c H5T_STR_SPACEPAD (0) - pad with spaces (as FORTRAN does)
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5T_str_t
 StrType::getStrpad() const
@@ -293,7 +280,6 @@ StrType::getStrpad() const
 ///\par Description
 ///             For information, please refer to the H5Tset_strpad API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 StrType::setStrpad(H5T_str_t strpad) const
@@ -302,15 +288,6 @@ StrType::setStrpad(H5T_str_t strpad) const
     if (ret_value < 0) {
         throw DataTypeIException("StrType::setStrpad", "H5Tset_strpad failed");
     }
-}
-
-//--------------------------------------------------------------------------
-// Function:    StrType destructor
-///\brief       Properly terminates access to this string datatype.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-StrType::~StrType()
-{
 }
 
 } // namespace H5

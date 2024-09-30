@@ -43,7 +43,7 @@ class H5_DLLCPP ObjCreatPropList : public PropList {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("ObjCreatPropList");
     }
@@ -56,7 +56,7 @@ class H5_DLLCPP ObjCreatPropList : public PropList {
     ObjCreatPropList(const hid_t plist_id);
 
     // Noop destructor
-    virtual ~ObjCreatPropList() H5_OVERRIDE;
+    virtual ~ObjCreatPropList() override = default;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

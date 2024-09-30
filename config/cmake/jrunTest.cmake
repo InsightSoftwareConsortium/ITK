@@ -150,7 +150,7 @@ if (NOT TEST_SKIP_COMPARE)
       if (NOT TEST_SORT_COMPARE)
         # now compare the output with the reference
         execute_process (
-            COMMAND ${CMAKE_COMMAND} -E compare_files ${CMAKE_IGNORE_EOL} ${TEST_FOLDER}/${TEST_OUTPUT} ${TEST_FOLDER}/${TEST_REFERENCE}
+            COMMAND ${CMAKE_COMMAND} -E compare_files --ignore-eol ${TEST_FOLDER}/${TEST_OUTPUT} ${TEST_FOLDER}/${TEST_REFERENCE}
             RESULT_VARIABLE TEST_COMPARE_RESULT
         )
       else ()
@@ -220,7 +220,7 @@ if (NOT TEST_SKIP_COMPARE)
 
       # now compare the error output with the error reference
       execute_process (
-          COMMAND ${CMAKE_COMMAND} -E compare_files ${CMAKE_IGNORE_EOL} ${TEST_FOLDER}/${TEST_OUTPUT}.err ${TEST_FOLDER}/${TEST_ERRREF}
+          COMMAND ${CMAKE_COMMAND} -E compare_files --ignore-eol ${TEST_FOLDER}/${TEST_OUTPUT}.err ${TEST_FOLDER}/${TEST_ERRREF}
           RESULT_VARIABLE TEST_ERRREF_RESULT
       )
       if (TEST_ERRREF_RESULT)

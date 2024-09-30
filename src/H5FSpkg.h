@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Quincey Koziol
- *              Tuesday, May  2, 2006
- *
  * Purpose:     This file contains declarations which are visible only within
  *              the H5FS package.  Source files outside the H5FS package should
  *              include H5FSprivate.h instead.
@@ -129,7 +126,7 @@ typedef struct H5FS_sinfo_t {
     H5FS_bin_t *bins; /* Array of lists of lists of free sections   */
 
     /* Computed/cached values */
-    hbool_t  dirty;             /* Whether this info in memory is out of sync w/info in file */
+    bool     dirty;             /* Whether this info in memory is out of sync w/info in file */
     unsigned nbins;             /* Number of bins                             */
     size_t   serial_size;       /* Total size of all serializable sections    */
     size_t   tot_size_count;    /* Total number of differently sized sections */
@@ -174,10 +171,10 @@ struct H5FS_t {
     haddr_t       addr;             /* Address of free space header on disk       */
     size_t        hdr_size;         /* Size of free space header on disk          */
     H5FS_sinfo_t *sinfo;            /* Section information                        */
-    hbool_t       swmr_write;       /* Flag indicating the file is opened with SWMR-write access */
+    bool          swmr_write;       /* Flag indicating the file is opened with SWMR-write access */
     unsigned      sinfo_lock_count; /* # of times the section info has been locked */
-    hbool_t       sinfo_protected;  /* Whether the section info was protected when locked */
-    hbool_t       sinfo_modified;   /* Whether the section info has been modified while locked */
+    bool          sinfo_protected;  /* Whether the section info was protected when locked */
+    bool          sinfo_modified;   /* Whether the section info has been modified while locked */
     unsigned      sinfo_accmode;    /* Access mode for protecting the section info */
                                     /* must be either H5C__NO_FLAGS_SET (i.e r/w)  */
     /* or H5AC__READ_ONLY_FLAG (i.e. r/o).         */

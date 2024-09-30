@@ -11,12 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:	Quincey Koziol
- *		Thursday, January  3, 2008
- *
- * Purpose:	This file contains declarations which are visible only within
- *		the H5FD package.  Source files outside the H5FD package should
- *		include H5FDprivate.h instead.
+ * Purpose: This file contains declarations which are visible only within
+ *          the H5FD package.  Source files outside the H5FD package should
+ *          include H5FDprivate.h instead.
  */
 #if !(defined H5FD_FRIEND || defined H5FD_MODULE)
 #error "Do not include this file outside the H5FD package!"
@@ -51,7 +48,7 @@ H5_DLL herr_t  H5FD__free_real(H5FD_t *file, H5FD_mem_t type, haddr_t addr, hsiz
 
 /* Testing functions */
 #ifdef H5FD_TESTING
-H5_DLL hbool_t H5FD__supports_swmr_test(const char *vfd_name);
+H5_DLL bool H5FD__supports_swmr_test(const char *vfd_name);
 #endif /* H5FD_TESTING */
 
 #endif /* H5FDpkg_H */

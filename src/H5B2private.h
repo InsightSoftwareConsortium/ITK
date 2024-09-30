@@ -13,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:		H5B2private.h
- *			Jan 31 2005
- *			Quincey Koziol
  *
  * Purpose:		Private header for library accessible B-tree routines.
  *
@@ -66,7 +64,7 @@ typedef int (*H5B2_operator_t)(const void *record, void *op_data);
 typedef herr_t (*H5B2_found_t)(const void *record, void *op_data);
 
 /* Define the 'modify' callback function pointer for H5B2_modify() */
-typedef herr_t (*H5B2_modify_t)(void *record, void *op_data, hbool_t *changed);
+typedef herr_t (*H5B2_modify_t)(void *record, void *op_data, bool *changed);
 
 /* Define the 'remove' callback function pointer for H5B2_remove() & H5B2_delete() */
 typedef herr_t (*H5B2_remove_t)(const void *record, void *op_data);
@@ -130,7 +128,7 @@ H5_DLL H5B2_t *H5B2_open(H5F_t *f, haddr_t addr, void *ctx_udata);
 H5_DLL herr_t  H5B2_get_addr(const H5B2_t *bt2, haddr_t *addr /*out*/);
 H5_DLL herr_t  H5B2_insert(H5B2_t *bt2, void *udata);
 H5_DLL herr_t  H5B2_iterate(H5B2_t *bt2, H5B2_operator_t op, void *op_data);
-H5_DLL htri_t  H5B2_find(H5B2_t *bt2, void *udata, H5B2_found_t op, void *op_data);
+H5_DLL herr_t  H5B2_find(H5B2_t *bt2, void *udata, bool *found, H5B2_found_t op, void *op_data);
 H5_DLL herr_t  H5B2_index(H5B2_t *bt2, H5_iter_order_t order, hsize_t idx, H5B2_found_t op, void *op_data);
 H5_DLL herr_t  H5B2_neighbor(H5B2_t *bt2, H5B2_compare_t range, void *udata, H5B2_found_t op, void *op_data);
 H5_DLL herr_t  H5B2_modify(H5B2_t *bt2, void *udata, H5B2_modify_t op, void *op_data);

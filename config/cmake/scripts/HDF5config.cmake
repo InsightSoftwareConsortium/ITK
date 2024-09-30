@@ -15,7 +15,7 @@
 ### ctest -S HDF5config.cmake,BUILD_GENERATOR=VS202264 -C Release -VV -O hdf5.log         ###
 #############################################################################################
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.18)
 ############################################################################
 # Usage:
 #     ctest -S HDF5config.cmake,OPTION=VALUE -C Release -VV -O test.log
@@ -37,15 +37,15 @@ cmake_minimum_required (VERSION 3.12)
 #     CTEST_SOURCE_NAME  -  source folder
 ##############################################################################
 
-set (CTEST_SOURCE_VERSION "1.12.3")
+set (CTEST_SOURCE_VERSION "1.14.5")
 set (CTEST_SOURCE_VERSEXT "")
 
 ##############################################################################
 # handle input parameters to script.
 #BUILD_GENERATOR - which CMake generator to use, required
-#INSTALLDIR - HDF5-1.12.x root folder
+#INSTALLDIR - HDF5-1.14.x root folder
 #CTEST_CONFIGURATION_TYPE - Release, Debug, RelWithDebInfo
-#CTEST_SOURCE_NAME - name of source folder; HDF5-1.12.x
+#CTEST_SOURCE_NAME - name of source folder; HDF5-1.14.x
 #MODEL - CDash group name
 #HPC - run alternate configurations for HPC machines; sbatch, bsub, raybsub, qsub
 #MPI - enable MPI
@@ -178,7 +178,9 @@ if (NOT DEFINED HPC)
       message (FATAL_ERROR "Invalid BUILD_GENERATOR must be - Unix, VS2022, VS202264, VS2019, VS201964")
     endif ()
   ##  Set the following to unique id your computer  ##
-    set (CTEST_SITE "WIN10${BUILD_GENERATOR}.XXXX")
+    if(NOT DEFINED CTEST_SITE)
+      set (CTEST_SITE "WIN10${BUILD_GENERATOR}-${CTEST_SITE_EXT}")
+    endif()
   else ()
     if (MINGW)
       set (CTEST_CMAKE_GENERATOR "MinGW Makefiles")
@@ -187,9 +189,13 @@ if (NOT DEFINED HPC)
     endif ()
   ##  Set the following to unique id your computer  ##
     if (APPLE)
-      set (CTEST_SITE "MAC.XXXX")
+      if(NOT DEFINED CTEST_SITE)
+        set (CTEST_SITE "MAC-${CTEST_SITE_EXT}")
+      endif()
     else ()
-      set (CTEST_SITE "LINUX.XXXX")
+      if(NOT DEFINED CTEST_SITE)
+        set (CTEST_SITE "LINUX-${CTEST_SITE_EXT}")
+      endif()
     endif ()
     if (APPLE)
       execute_process (COMMAND xcrun --find cc OUTPUT_VARIABLE XCODE_CC OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -217,7 +223,7 @@ endif ()
 #####       Following controls source update                  #####
 #set (LOCAL_UPDATE "TRUE")
 set (REPOSITORY_URL "https://github.com/HDFGroup/hdf5.git")
-set (REPOSITORY_BRANCH "hdf5_1_12")
+set (REPOSITORY_BRANCH "hdf5_1_14")
 
 #uncomment to use a compressed source file: *.tar on linux or mac *.zip on windows
 #set(CTEST_USE_TAR_SOURCE "${CTEST_SOURCE_VERSION}")

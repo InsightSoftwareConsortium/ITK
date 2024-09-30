@@ -11,7 +11,7 @@ BraceWrapping:
 BreakBeforeBraces: Stroustrup
 BreakAfterJavaFieldAnnotations: true
 BreakStringLiterals: true
-ColumnLimit:     110    # Update $max_trace_macro_line_len in bin/trace also
+ColumnLimit:     110
 IndentWidth:     4
 ---
 Language:        Cpp
@@ -65,28 +65,37 @@ ObjCBlockIndentWidth: 4
 ReflowComments:  true
 SortIncludes:    false
 StatementMacros:
+  - CATCH
+  - END_MEMBERS
   - FUNC_ENTER_API
-  - FUNC_LEAVE_API
+  - FUNC_ENTER_API_NAMECHECK_ONLY
+  - FUNC_ENTER_NOAPI
+  - FUNC_ENTER_NOAPI_NOERR
+  - FUNC_ENTER_NOAPI_NOINIT
   - FUNC_ENTER_NOAPI_NOINIT_NOERR
+  - FUNC_ENTER_PACKAGE
+  - FUNC_LEAVE_API
+  - FUNC_LEAVE_API_NAMECHECK_ONLY
   - FUNC_LEAVE_NOAPI
-  - H5_BEGIN_TAG
-  - HGOTO_DONE_TAG
-  - H5_END_TAG
-  - HSYS_DONE_ERROR
-  - HSYS_GOTO_ERROR
-  - HDONE_ERROR
-  - HERROR
-  - H5_LEAVE
+  - FUNC_LEAVE_NOAPI_NOFS
+  - H5E_END_TRY
   - H5E_PRINTF
   - H5E_THROW
-  - HGOTO_DONE
-  - HGOTO_ERROR
-  - HMPI_ERROR
-  - HMPI_DONE_ERROR
-  - HMPI_GOTO_ERROR
+  - H5_BEGIN_TAG
+  - H5_END_TAG
   - H5_GCC_DIAG_OFF
   - H5_GCC_DIAG_ON
-  - CATCH
+  - H5_CLANG_DIAG_OFF
+  - H5_CLANG_DIAG_ON
+  - H5_GCC_CLANG_DIAG_OFF
+  - H5_GCC_CLANG_DIAG_ON
+  - H5_LEAVE
+  - HGOTO_DONE
+  - HMPI_DONE_ERROR
+  - HMPI_ERROR
+  - HMPI_GOTO_ERROR
+  - HSYS_DONE_ERROR
+  - HSYS_GOTO_ERROR
 #llvm10: TypenameMacros:
 #llvm10:   - STACK_OF
 #llvm10:   - LIST
