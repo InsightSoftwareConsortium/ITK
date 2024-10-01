@@ -65,7 +65,7 @@ template <typename T>
 void
 ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(const T * p, int num, std::ostream * fp)
 {
-  if constexpr (m_SystemIsBigEndian)
+  if constexpr (m_SystemIsBigEndian || sizeof(T) == 1)
   {
     num *= sizeof(T);
     fp->write(reinterpret_cast<const char *>(p), num);
@@ -74,8 +74,6 @@ ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(const T * p, int num, std::o
   {
     switch (sizeof(T))
     {
-      case 1:
-        return;
       case 2:
         Self::SwapWrite2Range(p, num, fp);
         return;
@@ -118,12 +116,10 @@ template <typename T>
 void
 ByteSwapper<T>::SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, std::ostream * fp)
 {
-  if constexpr (m_SystemIsBigEndian)
+  if constexpr (m_SystemIsBigEndian && sizeof(T) > 1)
   {
     switch (sizeof(T))
     {
-      case 1:
-        return;
       case 2:
         Self::SwapWrite2Range(p, num, fp);
         return;
