@@ -209,7 +209,7 @@ public:
   ObjectSizeType
   GetSizeOfObjectInPixels(LabelType obj) const
   {
-    if (obj > 0 && obj <= m_NumberOfObjects)
+    if (obj > 0 && static_cast<SizeValueType>(obj) <= m_NumberOfObjects)
     {
       return m_SizeOfObjectsInPixels[obj - 1];
     }
@@ -225,7 +225,7 @@ public:
   float
   GetSizeOfObjectInPhysicalUnits(LabelType obj) const
   {
-    if (obj > 0 && obj <= m_NumberOfObjects)
+    if (obj > 0 && static_cast<SizeValueType>(obj) <= m_NumberOfObjects)
     {
       return m_SizeOfObjectsInPhysicalUnits[obj - 1];
     }
