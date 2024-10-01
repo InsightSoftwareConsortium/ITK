@@ -38,118 +38,11 @@ void
 PointSet<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number Of Points: " << this->GetNumberOfPoints() << std::endl;
-
-  os << indent << "Requested Number Of Regions: " << m_RequestedNumberOfRegions << std::endl;
-  os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
-  os << indent << "Buffered Region: " << m_BufferedRegion << std::endl;
-  os << indent << "Maximum Number Of Regions: " << m_MaximumNumberOfRegions << std::endl;
   os << indent << "Point Data Container pointer: "
      << ((this->m_PointDataContainer) ? this->m_PointDataContainer.GetPointer() : nullptr) << std::endl;
   os << indent
      << "Size of Point Data Container: " << ((this->m_PointDataContainer) ? this->m_PointDataContainer->Size() : 0)
      << std::endl;
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsContainer * points)
-{
-  itkDebugMacro("setting Points container to " << points);
-  if (m_PointsContainer != points)
-  {
-    m_PointsContainer = points;
-    this->Modified();
-  }
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsVectorContainer * points)
-{
-
-  itkDebugMacro("setting Points container to " << points);
-  if (points->Size() % PointDimension != 0)
-  {
-    itkExceptionMacro("Number of entries in given 1d array incompatible with the point dimension");
-  }
-
-  // Note: this cast is unsafe. It may lead to undefined behavior.
-  auto * pointsPtr = reinterpret_cast<PointsContainer *>(points);
-
-  m_PointsContainer = pointsPtr;
-  this->Modified();
-}
-
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::SetPointsByCoordinates(const std::vector<CoordRepType> & coordinates)
-{
-  itkDebugMacro("Setting the points to the specified coordinates");
-
-  const size_t numberOfCoordinates = coordinates.size();
-
-  if (numberOfCoordinates % PointDimension != 0)
-  {
-    itkExceptionMacro("Number of specified coordinates incompatible with the point dimension");
-  }
-
-  const size_t numberOfPoints = numberOfCoordinates / PointDimension;
-
-  if (m_PointsContainer == nullptr)
-  {
-    m_PointsContainer = PointsContainer::New();
-  }
-
-  using STLContainerType = typename PointsContainer::STLContainerType;
-
-  STLContainerType & points = m_PointsContainer->CastToSTLContainer();
-  points.clear();
-
-  if constexpr (std::is_same_v<STLContainerType, std::vector<PointType>>)
-  {
-    // STLContainerType is either an std::vector or an std::map. Only when it is an std::vector, it should be resized.
-    // std::map does not have a resize function.
-    points.resize(numberOfPoints);
-  }
-  else
-  {
-    static_assert(std::is_same_v<STLContainerType, std::map<PointIdentifier, PointType>>);
-  }
-
-  auto coordinateIterator = coordinates.cbegin();
-
-  for (PointIdentifier pointIdentifier{}; pointIdentifier < numberOfPoints; ++pointIdentifier)
-  {
-    PointType & point = points[pointIdentifier];
-    std::copy_n(coordinateIterator, PointDimension, point.begin());
-    coordinateIterator += PointDimension;
-  }
-
-  this->Modified();
-}
-
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-auto
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() -> PointsContainer *
-{
-  itkDebugMacro("Starting GetPoints()");
-  if (!m_PointsContainer)
-  {
-    this->SetPoints(PointsContainer::New());
-  }
-  itkDebugMacro("returning Points container of " << m_PointsContainer);
-  return m_PointsContainer;
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-auto
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() const -> const PointsContainer *
-{
-  itkDebugMacro("returning Points container of " << m_PointsContainer);
-  return m_PointsContainer.GetPointer();
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -182,66 +75,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData() const -> const Poi
 {
   itkDebugMacro("returning PointData container of " << m_PointDataContainer);
   return m_PointDataContainer.GetPointer();
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::SetPoint(PointIdentifier ptId, PointType point)
-{
-  /**
-   * Make sure a points container exists.
-   */
-  if (!m_PointsContainer)
-  {
-    this->SetPoints(PointsContainer::New());
-  }
-
-  /**
-   * Insert the point into the container with the given identifier.
-   */
-  m_PointsContainer->InsertElement(ptId, point);
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-bool
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPoint(PointIdentifier ptId, PointType * point) const
-{
-  /**
-   * If the points container doesn't exist, then the point doesn't either.
-   */
-  if (!m_PointsContainer)
-  {
-    return false;
-  }
-
-  /**
-   * Ask the container if the point identifier exists.
-   */
-  return m_PointsContainer->GetElementIfIndexExists(ptId, point);
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-auto
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPoint(PointIdentifier ptId) const -> PointType
-{
-  /**
-   * If the points container doesn't exist, then the point doesn't either.
-   */
-  if (!m_PointsContainer)
-  {
-    itkExceptionMacro("Point container doesn't exist.");
-  }
-
-  /**
-   * Ask the container if the point identifier exists.
-   */
-  PointType point;
-  bool      exist = m_PointsContainer->GetElementIfIndexExists(ptId, &point);
-  if (!exist)
-  {
-    itkExceptionMacro("Point id doesn't exist: " << ptId);
-  }
-  return point;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -283,77 +116,13 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData(PointIdentifier ptId
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-PointSet<TPixelType, VDimension, TMeshTraits>::PassStructure(Self *)
-{
-  // IMPLEMENT ME
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-auto
-PointSet<TPixelType, VDimension, TMeshTraits>::GetNumberOfPoints() const -> PointIdentifier
-{
-  if (m_PointsContainer)
-  {
-    return m_PointsContainer->Size();
-  }
-  return 0;
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
 PointSet<TPixelType, VDimension, TMeshTraits>::Initialize()
 {
   Superclass::Initialize();
 
-  m_PointsContainer = nullptr;
   m_PointDataContainer = nullptr;
 }
 
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::UpdateOutputInformation()
-{
-  this->Superclass::UpdateOutputInformation();
-
-  // Now we should know what our largest possible region is. If our
-  // requested region was not set yet, (or has been set to something
-  // invalid - with no data in it ) then set it to the largest
-  // possible region.
-  if (m_RequestedRegion == -1 && m_RequestedNumberOfRegions == 0)
-  {
-    this->SetRequestedRegionToLargestPossibleRegion();
-  }
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegionToLargestPossibleRegion()
-{
-  m_RequestedNumberOfRegions = 1;
-  m_RequestedRegion = 0;
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::CopyInformation(const DataObject * data)
-{
-  const auto * pointSet = dynamic_cast<const PointSet *>(data);
-
-  if (!pointSet)
-  {
-    // pointer could not be cast back down
-    itkExceptionMacro("itk::PointSet::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                                                                      << typeid(PointSet *).name());
-  }
-
-  m_MaximumNumberOfRegions = pointSet->GetMaximumNumberOfRegions();
-
-  m_NumberOfRegions = pointSet->m_NumberOfRegions;
-  m_RequestedNumberOfRegions = pointSet->m_RequestedNumberOfRegions;
-  m_BufferedRegion = pointSet->m_BufferedRegion;
-  m_RequestedRegion = pointSet->m_RequestedRegion;
-}
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
@@ -367,82 +136,13 @@ PointSet<TPixelType, VDimension, TMeshTraits>::Graft(const DataObject * data)
   if (!pointSet)
   {
     // pointer could not be cast back down
-    itkExceptionMacro("itk::PointSet::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                                                                      << typeid(Self *).name());
+    itkExceptionMacro("itk::PointSet::Graft() cannot cast " << typeid(data).name() << " to " << typeid(Self *).name());
   }
 
-  this->SetPoints(pointSet->m_PointsContainer);
+  this->SetPoints(pointSet->Superclass::m_PointsContainer);
   this->SetPointData(pointSet->m_PointDataContainer);
 }
 
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegion(const DataObject * data)
-{
-  const auto * pointSet = dynamic_cast<const Self *>(data);
-
-  if (pointSet)
-  {
-    // only copy the RequestedRegion if the parameter is another PointSet
-    m_RequestedRegion = pointSet->m_RequestedRegion;
-    m_RequestedNumberOfRegions = pointSet->m_RequestedNumberOfRegions;
-  }
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegion(const RegionType & region)
-{
-  if (m_RequestedRegion != region)
-  {
-    m_RequestedRegion = region;
-  }
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-void
-PointSet<TPixelType, VDimension, TMeshTraits>::SetBufferedRegion(const RegionType & region)
-{
-  if (m_BufferedRegion != region)
-  {
-    m_BufferedRegion = region;
-    this->Modified();
-  }
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-bool
-PointSet<TPixelType, VDimension, TMeshTraits>::RequestedRegionIsOutsideOfTheBufferedRegion()
-{
-  if (m_RequestedRegion != m_BufferedRegion || m_RequestedNumberOfRegions != m_NumberOfRegions)
-  {
-    return true;
-  }
-
-  return false;
-}
-
-template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-bool
-PointSet<TPixelType, VDimension, TMeshTraits>::VerifyRequestedRegion()
-{
-  bool retval = true;
-
-  // Are we asking for more regions than we can get?
-  if (m_RequestedNumberOfRegions > m_MaximumNumberOfRegions)
-  {
-    itkExceptionMacro("Cannot break object into " << m_RequestedNumberOfRegions << ". The limit is "
-                                                  << m_MaximumNumberOfRegions);
-  }
-
-  if (m_RequestedRegion >= m_RequestedNumberOfRegions || m_RequestedRegion < 0)
-  {
-    itkExceptionMacro("Invalid update region " << m_RequestedRegion << ". Must be between 0 and "
-                                               << m_RequestedNumberOfRegions - 1);
-  }
-
-  return retval;
-}
 } // end namespace itk
 
 #endif
