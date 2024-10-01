@@ -72,20 +72,7 @@ ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(const T * p, int num, std::o
   }
   else
   {
-    switch (sizeof(T))
-    {
-      case 2:
-        Self::SwapWrite2Range(p, num, fp);
-        return;
-      case 4:
-        Self::SwapWrite4Range(p, num, fp);
-        return;
-      case 8:
-        Self::SwapWrite8Range(p, num, fp);
-        return;
-      default:
-        itkGenericExceptionMacro("Cannot swap number of bytes requested");
-    }
+    SwapWriteRange(p, num, *fp);
   }
 }
 
@@ -118,20 +105,7 @@ ByteSwapper<T>::SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, std
 {
   if constexpr (m_SystemIsBigEndian && sizeof(T) > 1)
   {
-    switch (sizeof(T))
-    {
-      case 2:
-        Self::SwapWrite2Range(p, num, fp);
-        return;
-      case 4:
-        Self::SwapWrite4Range(p, num, fp);
-        return;
-      case 8:
-        Self::SwapWrite8Range(p, num, fp);
-        return;
-      default:
-        itkGenericExceptionMacro("Cannot swap number of bytes requested");
-    }
+    SwapWriteRange(p, num, *fp);
   }
   else
   {
@@ -308,7 +282,7 @@ ByteSwapper<T>::SwapWrite8Range(const void * ptr, BufferSizeType num, std::ostre
 }
 
 
-// The following member function is private:
+// The following member functions are private:
 
 template <typename T>
 void
@@ -330,6 +304,27 @@ ByteSwapper<T>::SwapBytes(T & value)
   else
   {
     itkGenericExceptionMacro("Cannot swap number of bytes requested");
+  }
+}
+
+template <typename T>
+void
+ByteSwapper<T>::SwapWriteRange(const T * buffer, SizeValueType numberOfElements, std::ostream & outputStream)
+{
+  auto chunkSize = std::min(numberOfElements, SizeValueType{ 1000000 });
+
+  const auto chunk = make_unique_for_overwrite<T[]>(chunkSize);
+
+  while (numberOfElements > 0)
+  {
+    std::copy_n(buffer, chunkSize, chunk.get());
+    std::for_each_n(chunk.get(), chunkSize, [](T & element) { SwapBytes(element); });
+
+    outputStream.write(reinterpret_cast<const char *>(chunk.get()),
+                       static_cast<std::streamsize>(chunkSize * sizeof(T)));
+    buffer += chunkSize;
+    numberOfElements -= chunkSize;
+    chunkSize = std::min(numberOfElements, chunkSize);
   }
 }
 
