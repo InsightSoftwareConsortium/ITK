@@ -409,13 +409,12 @@ BioRadImageIO::Write(const void * buffer)
   }
 
   // Write the BioRad header information
-  bioradheader header, *p;
-  p = &header;
+  bioradheader   header{};
+  bioradheader * p = &header;
   if (sizeof(header) != BIORAD_HEADER_LENGTH)
   {
     itkExceptionMacro("Problem of alignement on your platform");
   }
-  memset(p, 0, BIORAD_HEADER_LENGTH); // Set everything to zero
   // In particular `notes' needs to be set to zero to indicate there is no notes
   header.nx = static_cast<unsigned short>(m_Dimensions[0]);
   header.ny = static_cast<unsigned short>(m_Dimensions[1]);

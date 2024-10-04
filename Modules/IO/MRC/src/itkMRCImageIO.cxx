@@ -342,9 +342,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const TPixelType * bufferBegin)
 void
 MRCImageIO::UpdateHeaderFromImageIO()
 {
-  MRCHeaderObject::Header header;
-
-  memset(&header, 0, sizeof(MRCHeaderObject::Header));
+  MRCHeaderObject::Header header{};
 
   itkAssertOrThrowMacro(this->GetNumberOfDimensions() != 0, "Invalid Dimension for Writting");
   if (this->GetNumberOfDimensions() > 3)

@@ -447,9 +447,7 @@ template <unsigned int VDimension>
 Offset<VDimension>
 Offset<VDimension>::GetBasisOffset(unsigned int dim)
 {
-  Self ind;
-
-  memset(ind.m_InternalArray, 0, sizeof(OffsetValueType) * VDimension);
+  Self ind{};
   ind.m_InternalArray[dim] = 1;
   return ind;
 }

@@ -219,8 +219,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
   {
     if (matrixOffsetTransform)
     {
-      VIO_Transform lin;
-      memset(&lin, 0, sizeof(VIO_Transform));
+      VIO_Transform lin{};
 
       MatrixType matrix = matrixOffsetTransform->GetMatrix();
       OffsetType offset = matrixOffsetTransform->GetOffset();
