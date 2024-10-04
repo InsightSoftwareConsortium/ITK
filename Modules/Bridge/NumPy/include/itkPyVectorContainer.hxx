@@ -18,6 +18,7 @@
 #ifndef itkPyVectorContainer_hxx
 #define itkPyVectorContainer_hxx
 
+#include <memory> // For unique_ptr.
 #include <stdexcept>
 
 namespace itk
@@ -61,6 +62,9 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
     return nullptr;
   }
 
+  [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
+                                                                                                  &PyBuffer_Release);
+
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
@@ -75,7 +79,6 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of vector and Buffer.");
-    PyBuffer_Release(&pyBuffer);
     return nullptr;
   }
   const auto * const data = static_cast<const DataType *>(buffer);
@@ -85,7 +88,6 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   {
     output->SetElement(ii, data[ii]);
   }
-  PyBuffer_Release(&pyBuffer);
 
   return output;
 }

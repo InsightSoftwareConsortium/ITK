@@ -18,6 +18,7 @@
 #ifndef itkPyVnl_hxx
 #define itkPyVnl_hxx
 
+#include <memory> // For unique_ptr.
 #include <stdexcept>
 
 namespace itk
@@ -60,6 +61,9 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
     return VectorType();
   }
 
+  [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
+                                                                                                  &PyBuffer_Release);
+
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
@@ -74,12 +78,10 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of vector and Buffer.");
-    PyBuffer_Release(&pyBuffer);
     return VectorType();
   }
   const auto * const data = static_cast<const DataType *>(buffer);
   VectorType         output(data, numberOfElements);
-  PyBuffer_Release(&pyBuffer);
 
   return output;
 }
@@ -127,6 +129,9 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
     return MatrixType();
   }
 
+  [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
+                                                                                                  &PyBuffer_Release);
+
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
@@ -145,13 +150,11 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of matrix and Buffer.");
-    PyBuffer_Release(&pyBuffer);
     return MatrixType();
   }
 
   const auto * const data = static_cast<const DataType *>(buffer);
   MatrixType         output(data, size[0], size[1]);
-  PyBuffer_Release(&pyBuffer);
 
   return output;
 }

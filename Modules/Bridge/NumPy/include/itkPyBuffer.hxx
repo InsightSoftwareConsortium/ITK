@@ -20,6 +20,7 @@
 
 
 #include "itkImportImageContainer.h"
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -81,10 +82,11 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
     return nullptr;
   }
 
+  [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
+                                                                                                  &PyBuffer_Release);
+
   const Py_ssize_t bufferLength = pyBuffer.len;
   void * const     buffer = pyBuffer.buf;
-
-  PyBuffer_Release(&pyBuffer);
 
   PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
   const unsigned int dimension = PySequence_Size(shape);
@@ -109,7 +111,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of image and Buffer.");
-    PyBuffer_Release(&pyBuffer);
     SWIG_Py_DECREF(shapeseq);
     return nullptr;
   }
@@ -150,7 +151,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   output->SetNumberOfComponentsPerPixel(numberOfComponents);
 
   SWIG_Py_DECREF(shapeseq);
-  PyBuffer_Release(&pyBuffer);
 
   return output;
 }
