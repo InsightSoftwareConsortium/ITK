@@ -56,7 +56,7 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
   len *= numberOfComponents;
   len *= sizeof(ComponentType);
 
-  const int        res = PyBuffer_FillInfo(&pyBuffer, nullptr, itkImageBuffer, len, 0, PyBUF_CONTIG);
+  PyBuffer_FillInfo(&pyBuffer, nullptr, itkImageBuffer, len, 0, PyBUF_CONTIG);
   PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
   PyBuffer_Release(&pyBuffer);
