@@ -75,7 +75,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   const size_t numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
 
   const size_t len = numberOfElements * sizeof(DataType);
-  if (bufferLength != len)
+  if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of vector and Buffer.");
     PyBuffer_Release(&pyBuffer);

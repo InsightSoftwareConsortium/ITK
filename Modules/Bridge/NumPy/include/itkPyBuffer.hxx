@@ -109,7 +109,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   }
 
   const size_t len = numberOfPixels * numberOfComponents * sizeof(ComponentType);
-  if (bufferLength != len)
+  if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of image and Buffer.");
     PyBuffer_Release(&pyBuffer);

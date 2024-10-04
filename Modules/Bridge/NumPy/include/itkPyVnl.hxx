@@ -74,7 +74,7 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
   const size_t     numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
 
   const size_t len = numberOfElements * sizeof(DataType);
-  if (bufferLength != len)
+  if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of vector and Buffer.");
     PyBuffer_Release(&pyBuffer);
@@ -148,7 +148,7 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
   }
 
   const size_t len = numberOfElements * sizeof(DataType);
-  if (bufferLength != len)
+  if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of matrix and Buffer.");
     PyBuffer_Release(&pyBuffer);
