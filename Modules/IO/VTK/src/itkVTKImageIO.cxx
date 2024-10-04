@@ -858,9 +858,7 @@ VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream &                 os
   std::streamsize bytesRemaining = num;
   const SizeType  componentSize = this->GetComponentSize();
   SizeType        pixelSize;
-  char            zero[1024];
-
-  memset(zero, 0, 1024);
+  constexpr char  zero[1024]{};
 
   switch (this->GetNumberOfComponents())
   {
