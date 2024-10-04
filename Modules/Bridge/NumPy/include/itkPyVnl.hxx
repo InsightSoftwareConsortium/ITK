@@ -45,8 +45,6 @@ PyVnl<TElement>::_GetArrayViewFromVnlVector(VectorType * vector)
   PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
   PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
-  PyBuffer_Release(&pyBuffer);
-
   return memoryView;
 }
 
@@ -108,8 +106,6 @@ PyVnl<TElement>::_GetArrayViewFromVnlMatrix(MatrixType * matrix)
 
   PyBuffer_FillInfo(&pyBuffer, nullptr, matrixBuffer, len, 0, PyBUF_CONTIG);
   PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
-
-  PyBuffer_Release(&pyBuffer);
 
   return memoryView;
 }

@@ -45,8 +45,6 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
   PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
   PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
 
-  PyBuffer_Release(&pyBuffer);
-
   return memoryView;
 }
 
