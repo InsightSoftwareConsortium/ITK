@@ -180,8 +180,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
                                                         << "Reason: " << reason);
   }
 
-  curImage = new GEImageHeader;
-  memset(curImage, 0, sizeof(GEImageHeader));
+  curImage = new GEImageHeader();
 
   std::ifstream f;
   this->OpenFileForReading(f, FileNameToRead);

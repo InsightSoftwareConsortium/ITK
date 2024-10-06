@@ -38,11 +38,7 @@ itkFixedArrayTest2(int, char *[])
   // Declare an array of nelements FixedArray
   // and add a small margin to play with pointers
   // but not map outside the allocated memory
-  auto * vec = new ArrayType[nelements + 8];
-
-  // Fill it up with zeros
-  memset(vec, 0, (nelements + 8) * sizeof(ArrayType));
-
+  auto * vec = new ArrayType[nelements + 8]();
 
   // Display the alignment of the array
   std::cout << "Initial alignment: " << (((size_t)vec) & 7) << '\n';
