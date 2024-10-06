@@ -27,6 +27,12 @@
 #include "itkTestingMacros.h"
 
 
+using SignedPixelType = signed short;
+
+// Explicit template instantiation to test compile-time support of signed types
+template class itk::RelabelComponentImageFilter<itk::Image<SignedPixelType>, itk::Image<SignedPixelType>>;
+
+
 int
 itkRelabelComponentImageFilterTest(int argc, char * argv[])
 {
