@@ -526,7 +526,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
   }
 
   // Zero out struct.
-  memset((void *)pPar, 0, sizeof(struct par_parameter));
+  *pPar = {};
   // Need to set strings to UNDEFINED to avoid segmentation faults.
   strcpy(pPar->patient_name, UNDEFINED);
   strcpy(pPar->exam_name, UNDEFINED);
