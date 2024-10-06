@@ -177,10 +177,7 @@ MRCHeaderObject::IsOriginalHeaderBigEndian() const
 }
 
 MRCHeaderObject::MRCHeaderObject()
-
-
 {
-  memset(&this->m_Header, 0, sizeof(Header));
   this->m_BigEndianHeader = ByteSwapper<void *>::SystemIsBE();
 }
 
