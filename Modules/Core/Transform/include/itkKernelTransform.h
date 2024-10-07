@@ -125,7 +125,7 @@ public:
   using PointIdentifier = typename PointSetType::PointIdentifier;
 
   /** VectorSet type alias. */
-  using VectorSetType = itk::VectorContainer<SizeValueType, InputVectorType>;
+  using VectorSetType = itk::VectorContainer<InputVectorType>;
   using VectorSetPointer = typename VectorSetType::Pointer;
 
   /** Get/Set the source landmarks list, which we will denote \f$ p \f$. */

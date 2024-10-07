@@ -101,7 +101,7 @@ public:
   using TransformPointer = typename TransformType::Pointer;
   using TransformConstPointer = const TransformType *;
 
-  using VectorContainerType = VectorContainer<IdentifierType, PointType>;
+  using VectorContainerType = VectorContainer<PointType>;
 
   using BoundingBoxType = BoundingBox<IdentifierType, VDimension, ScalarType, VectorContainerType>;
   using BoundingBoxPointer = typename BoundingBoxType::Pointer;

@@ -91,7 +91,7 @@ public:
   using ArrayType = FixedArray<RealType, Self::ImageDimension>;
   using BoolArrayType = FixedArray<bool, Self::ImageDimension>;
   using PixelArrayType = vnl_vector<RealType>;
-  using PixelArrayContainerType = VectorContainer<SizeValueType, PixelArrayType>;
+  using PixelArrayContainerType = VectorContainer<PixelArrayType>;
 
   /** Set/Get kernel function used to create the grid. */
   itkSetObjectMacro(KernelFunction, KernelFunctionType);

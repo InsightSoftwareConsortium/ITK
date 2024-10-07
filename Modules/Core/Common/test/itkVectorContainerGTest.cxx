@@ -27,9 +27,9 @@
 using TestedElementIdentifierType = size_t;
 
 // Test template instantiations for various TElement template arguments:
-template class itk::VectorContainer<TestedElementIdentifierType, int>;
-template class itk::VectorContainer<TestedElementIdentifierType, bool>;
-template class itk::VectorContainer<TestedElementIdentifierType, std::string>;
+template class itk::detail::VectorContainer<TestedElementIdentifierType, int>;
+template class itk::detail::VectorContainer<TestedElementIdentifierType, bool>;
+template class itk::detail::VectorContainer<TestedElementIdentifierType, std::string>;
 
 
 namespace

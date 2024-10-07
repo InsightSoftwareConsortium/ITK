@@ -60,7 +60,7 @@ public:
   using OutputPixelType = typename OutputDomainType::PixelType;
 
   using NodePairType = NodePair<NodeType, OutputPixelType>;
-  using NodePairContainerType = VectorContainer<IdentifierType, NodePairType>;
+  using NodePairContainerType = VectorContainer<NodePairType>;
   using NodePairContainerPointer = typename NodePairContainerType::Pointer;
   using NodePairContainerIterator = typename NodePairContainerType::Iterator;
   using NodePairContainerConstIterator = typename NodePairContainerType::ConstIterator;

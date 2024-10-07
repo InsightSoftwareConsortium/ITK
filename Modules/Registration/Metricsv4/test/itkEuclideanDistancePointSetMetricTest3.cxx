@@ -33,8 +33,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
 {
   using PointSetType = itk::PointSet<float, Dimension>;
   using PointType = typename PointSetType::PointType;
-  using IdentifierType = itk::IdentifierType;
-  using PointsContainerType = itk::VectorContainer<IdentifierType, PointType>;
+  using PointsContainerType = itk::VectorContainer<PointType>;
   using PointsLocatorType = itk::PointsLocator<PointsContainerType>;
   auto pointsLocator = PointsLocatorType::New();
 
