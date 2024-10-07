@@ -50,7 +50,7 @@ itkPointSetTest(int, char *[])
    */
   PointSet::Pointer pset(PointSet::New());
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(pset, PointSet, DataObject);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(pset, PointSet, PointSetBase);
 
 
   // Test point container existence exception
