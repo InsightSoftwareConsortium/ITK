@@ -18,6 +18,7 @@
 #ifndef itkPyVnl_hxx
 #define itkPyVnl_hxx
 
+#include <memory> // For unique_ptr.
 #include <stdexcept>
 
 namespace itk
@@ -42,10 +43,8 @@ PyVnl<TElement>::_GetArrayViewFromVnlVector(VectorType * vector)
   Py_ssize_t len = vector->size();
   len *= sizeof(DataType);
 
-  const int        res = PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
+  PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
   PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
-
-  PyBuffer_Release(&pyBuffer);
 
   return memoryView;
 }
@@ -59,9 +58,11 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_CONTIG) == -1)
   {
     PyErr_SetString(PyExc_RuntimeError, "Cannot get an instance of NumPy array.");
-    PyBuffer_Release(&pyBuffer);
     return VectorType();
   }
+
+  [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
+                                                                                                  &PyBuffer_Release);
 
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
@@ -74,15 +75,13 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
   const size_t     numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
 
   const size_t len = numberOfElements * sizeof(DataType);
-  if (bufferLength != len)
+  if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of vector and Buffer.");
-    PyBuffer_Release(&pyBuffer);
     return VectorType();
   }
   const auto * const data = static_cast<const DataType *>(buffer);
   VectorType         output(data, numberOfElements);
-  PyBuffer_Release(&pyBuffer);
 
   return output;
 }
@@ -106,10 +105,8 @@ PyVnl<TElement>::_GetArrayViewFromVnlMatrix(MatrixType * matrix)
   Py_ssize_t len = matrix->size();
   len *= sizeof(DataType);
 
-  const int        res = PyBuffer_FillInfo(&pyBuffer, nullptr, matrixBuffer, len, 0, PyBUF_CONTIG);
+  PyBuffer_FillInfo(&pyBuffer, nullptr, matrixBuffer, len, 0, PyBUF_CONTIG);
   PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
-
-  PyBuffer_Release(&pyBuffer);
 
   return memoryView;
 }
@@ -129,9 +126,11 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_CONTIG) == -1)
   {
     PyErr_SetString(PyExc_RuntimeError, "Cannot get an instance of NumPy array.");
-    PyBuffer_Release(&pyBuffer);
     return MatrixType();
   }
+
+  [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
+                                                                                                  &PyBuffer_Release);
 
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
@@ -148,16 +147,14 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
   }
 
   const size_t len = numberOfElements * sizeof(DataType);
-  if (bufferLength != len)
+  if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of matrix and Buffer.");
-    PyBuffer_Release(&pyBuffer);
     return MatrixType();
   }
 
   const auto * const data = static_cast<const DataType *>(buffer);
   MatrixType         output(data, size[0], size[1]);
-  PyBuffer_Release(&pyBuffer);
 
   return output;
 }

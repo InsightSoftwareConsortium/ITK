@@ -18,6 +18,7 @@
 #ifndef itkPyVectorContainer_hxx
 #define itkPyVectorContainer_hxx
 
+#include <memory> // For unique_ptr.
 #include <stdexcept>
 
 namespace itk
@@ -42,10 +43,8 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
   Py_ssize_t len = vector->Size();
   len *= sizeof(DataType);
 
-  const int        res = PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
+  PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
   PyObject * const memoryView = PyMemoryView_FromBuffer(&pyBuffer);
-
-  PyBuffer_Release(&pyBuffer);
 
   return memoryView;
 }
@@ -60,9 +59,11 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_CONTIG) == -1)
   {
     PyErr_SetString(PyExc_RuntimeError, "Cannot get an instance of NumPy array.");
-    PyBuffer_Release(&pyBuffer);
     return nullptr;
   }
+
+  [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
+                                                                                                  &PyBuffer_Release);
 
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
@@ -75,10 +76,9 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   const size_t numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
 
   const size_t len = numberOfElements * sizeof(DataType);
-  if (bufferLength != len)
+  if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
     PyErr_SetString(PyExc_RuntimeError, "Size mismatch of vector and Buffer.");
-    PyBuffer_Release(&pyBuffer);
     return nullptr;
   }
   const auto * const data = static_cast<const DataType *>(buffer);
@@ -88,7 +88,6 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   {
     output->SetElement(ii, data[ii]);
   }
-  PyBuffer_Release(&pyBuffer);
 
   return output;
 }
