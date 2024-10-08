@@ -162,7 +162,7 @@ template <>
 class NumericTraits<std::string>
 {
 public:
-  static const std::string
+  static std::string
   ZeroValue()
   {
     return std::string("");

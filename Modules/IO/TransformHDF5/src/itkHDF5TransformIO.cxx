@@ -495,7 +495,7 @@ const std::string HDF5CommonPathNames::OSVersion("/OSVersion");
 // Since (for now) transforms are ordered in a file, but
 // not named, I name them by their order in the file,
 // beginning with zero.
-const std::string
+std::string
 GetTransformName(int i)
 {
   std::stringstream s;

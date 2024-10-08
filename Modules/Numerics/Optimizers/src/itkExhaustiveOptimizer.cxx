@@ -184,7 +184,7 @@ ExhaustiveOptimizer::IncrementIndex(ParametersType & newPosition)
   }
 }
 
-const std::string
+std::string
 ExhaustiveOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();

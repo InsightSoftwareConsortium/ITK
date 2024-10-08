@@ -87,7 +87,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetMetricValues
 template <typename TInternalComputationValueType>
 auto
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetStopConditionDescription() const
-  -> const StopConditionReturnStringType
+  -> StopConditionReturnStringType
 {
   return this->m_StopConditionDescription.str();
 }

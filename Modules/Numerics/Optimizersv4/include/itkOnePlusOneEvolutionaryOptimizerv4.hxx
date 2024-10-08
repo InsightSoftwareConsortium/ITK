@@ -275,7 +275,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
 }
 
 template <typename TInternalComputationValueType>
-const std::string
+std::string
 OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();

@@ -39,7 +39,7 @@ AmoebaOptimizer::AmoebaOptimizer()
 AmoebaOptimizer::~AmoebaOptimizer() = default;
 
 
-const std::string
+std::string
 AmoebaOptimizer::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();

@@ -260,7 +260,7 @@ LBFGSOptimizer::GetOptimizer()
   return m_VnlOptimizer.get();
 }
 
-const std::string
+std::string
 LBFGSOptimizer::GetStopConditionDescription() const
 {
   m_StopConditionDescription.str("");

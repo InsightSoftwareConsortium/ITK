@@ -198,7 +198,7 @@ LevenbergMarquardtOptimizer::GetOptimizer() const
   return m_VnlOptimizer.get();
 }
 
-const std::string
+std::string
 LevenbergMarquardtOptimizer::GetStopConditionDescription() const
 {
   std::ostringstream reason, outcome;

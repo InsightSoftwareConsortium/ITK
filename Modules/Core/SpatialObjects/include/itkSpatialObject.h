@@ -147,7 +147,7 @@ public:
   itkSetMacro(TypeName, std::string);
 
   /** Get the typename of the SpatialObject */
-  virtual const std::string
+  virtual std::string
   GetTypeName() const
   {
     return m_TypeName;

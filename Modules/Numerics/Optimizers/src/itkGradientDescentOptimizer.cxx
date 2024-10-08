@@ -29,7 +29,7 @@ GradientDescentOptimizer::GradientDescentOptimizer()
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
 }
 
-const std::string
+std::string
 GradientDescentOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();

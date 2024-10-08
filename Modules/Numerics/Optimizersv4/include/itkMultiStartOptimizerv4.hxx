@@ -111,7 +111,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::InstantiateLocalOp
 template <typename TInternalComputationValueType>
 auto
 MultiStartOptimizerv4Template<TInternalComputationValueType>::GetStopConditionDescription() const
-  -> const StopConditionReturnStringType
+  -> StopConditionReturnStringType
 {
   return this->m_StopConditionDescription.str();
 }

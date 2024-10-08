@@ -203,7 +203,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::IncrementIndex(ParametersT
 }
 
 template <typename TInternalComputationValueType>
-const std::string
+std::string
 ExhaustiveOptimizerv4<TInternalComputationValueType>::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();

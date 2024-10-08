@@ -217,7 +217,7 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::UpdateProgress(
 }
 
 template <typename TInternalComputationValueType>
-const typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::StopConditionReturnStringType
+typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::StopConditionReturnStringType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetStopConditionDescription() const
 {
   switch (m_StatusCode)

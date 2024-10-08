@@ -374,7 +374,7 @@ LBFGSBOptimizerHelper::report_iter()
   }
 }
 
-const std::string
+std::string
 LBFGSBOptimizer::GetStopConditionDescription() const
 {
   std::ostringstream stopConditionDescription;

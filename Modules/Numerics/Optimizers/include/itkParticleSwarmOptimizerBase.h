@@ -193,7 +193,7 @@ public:
   GetValue() const;
 
   /** Get the reason for termination */
-  const std::string
+  std::string
   GetStopConditionDescription() const override;
 
   /** Print the swarm information to the given output stream. Each line

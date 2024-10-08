@@ -237,7 +237,7 @@ RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
   this->InvokeEvent(IterationEvent());
 }
 
-const std::string
+std::string
 RegularStepGradientDescentBaseOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();

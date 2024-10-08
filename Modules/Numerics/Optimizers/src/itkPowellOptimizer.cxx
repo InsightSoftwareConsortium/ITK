@@ -527,7 +527,7 @@ PowellOptimizer::StartOptimization()
 /**
  *
  */
-const std::string
+std::string
 PowellOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();

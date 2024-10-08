@@ -127,7 +127,7 @@ public:
   ResumeOptimization();
 
   /** Get the reason for termination */
-  const StopConditionReturnStringType
+  StopConditionReturnStringType
   GetStopConditionDescription() const override;
 
   /** Get the list of parameters over which to search.  */

@@ -374,7 +374,7 @@ CumulativeGaussianOptimizer::VerticalBestShift(MeasureType * originalArray, Meas
   return (c / size);
 }
 
-const std::string
+std::string
 CumulativeGaussianOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();

@@ -92,7 +92,7 @@ public:
   PrintArray(MeasureType * array);
 
   /** Report the reason for stopping. */
-  const std::string
+  std::string
   GetStopConditionDescription() const override;
 
 protected:

@@ -287,7 +287,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
  *
  */
 
-const std::string
+std::string
 OnePlusOneEvolutionaryOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
