@@ -24,8 +24,33 @@
 
 #include "itk_tiff.h"
 
+#include "itksys/SystemTools.hxx"
+
 namespace itk
 {
+
+TIFFErrorHandler _ITKTIFFsavedWarningHandler = nullptr;
+
+// This warning handler suppresses log messages starting with "Unknown field with tag" because these kind of messages
+// are harmless (they just mean that the TIFF file contains custom tags) and they would flood the console when reading images
+// that contains hundreds of frames, hiding actual errors or relevant warnings.
+static void
+ITKTIFFTagNotFoundSuppressWarningHandler(const char * module, const char * fmt, va_list ap)
+{
+  if (fmt != nullptr)
+  {
+    if (itksys::SystemTools::StringStartsWith(fmt, "Unknown field with tag"))
+    {
+      // ignore unknown field warnings
+      return;
+    }
+  }
+  // call the saved warning handler
+  if (_ITKTIFFsavedWarningHandler != nullptr)
+  {
+    _ITKTIFFsavedWarningHandler(module, fmt, ap);
+  }
+}
 
 bool
 TIFFImageIO::CanReadFile(const char * file)
@@ -40,16 +65,18 @@ TIFFImageIO::CanReadFile(const char * file)
   }
 
   // Now check if this is a valid TIFF image
-  TIFFErrorHandler save = TIFFSetErrorHandler(nullptr);
-  int              res = m_InternalImage->Open(file);
-  if (res)
+  TIFFErrorHandler savedErrorHandler = TIFFSetErrorHandler(nullptr);
+  TIFFErrorHandler savedWarningHandler = TIFFSetWarningHandler(ITKTIFFTagNotFoundSuppressWarningHandler);
+  _ITKTIFFsavedWarningHandler = savedWarningHandler;
+  bool success = (m_InternalImage->Open(file) != 0);
+  if (!success)
   {
-    TIFFSetErrorHandler(save);
-    return true;
+    m_InternalImage->Clean();
   }
-  m_InternalImage->Clean();
-  TIFFSetErrorHandler(save);
-  return false;
+  TIFFSetErrorHandler(savedErrorHandler);
+  TIFFSetWarningHandler(savedWarningHandler);
+  _ITKTIFFsavedWarningHandler = nullptr;
+  return success;
 }
 
 void
@@ -152,6 +179,9 @@ TIFFImageIO::ReadVolume(void * buffer)
   const size_t width{ m_InternalImage->m_Width };
   const size_t height{ m_InternalImage->m_Height };
 
+  TIFFErrorHandler savedWarningHandler = TIFFSetWarningHandler(ITKTIFFTagNotFoundSuppressWarningHandler);
+  _ITKTIFFsavedWarningHandler = savedWarningHandler;
+
   for (uint16_t page = 0; page < m_InternalImage->m_NumberOfPages; ++page)
   {
     if (m_InternalImage->m_IgnoredSubFiles > 0)
@@ -175,6 +205,9 @@ TIFFImageIO::ReadVolume(void * buffer)
 
     TIFFReadDirectory(m_InternalImage->m_Image);
   }
+
+  TIFFSetWarningHandler(savedWarningHandler);
+  _ITKTIFFsavedWarningHandler = nullptr;
 }
 
 void
