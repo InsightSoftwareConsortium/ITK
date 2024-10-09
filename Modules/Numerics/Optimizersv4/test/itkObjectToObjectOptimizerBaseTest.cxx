@@ -135,7 +135,7 @@ public:
   }
 
   /** Stop condition return string type */
-  const StopConditionReturnStringType
+  StopConditionReturnStringType
   GetStopConditionDescription() const override
   {
     return std::string("Placeholder test return string");

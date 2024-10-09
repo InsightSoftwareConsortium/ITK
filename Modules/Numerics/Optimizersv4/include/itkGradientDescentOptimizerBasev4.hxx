@@ -81,7 +81,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
 template <typename TInternalComputationValueType>
 auto
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GetStopConditionDescription() const
-  -> const StopConditionReturnStringType
+  -> StopConditionReturnStringType
 {
   return this->m_StopConditionDescription.str();
 }

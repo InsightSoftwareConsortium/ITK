@@ -133,7 +133,7 @@ ParticleSwarmOptimizerBase::GetValue() const
 }
 
 
-const std::string
+std::string
 ParticleSwarmOptimizerBase::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();

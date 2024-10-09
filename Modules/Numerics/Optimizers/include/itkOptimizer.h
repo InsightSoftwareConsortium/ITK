@@ -88,7 +88,7 @@ public:
   {}
 
   /** Get the reason for termination */
-  virtual const std::string
+  virtual std::string
   GetStopConditionDescription() const;
 
 protected:

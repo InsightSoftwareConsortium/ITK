@@ -86,7 +86,7 @@ public:
   MeasureType
   GetValue() const;
 
-  const std::string
+  std::string
   GetStopConditionDescription() const override;
 
 protected:

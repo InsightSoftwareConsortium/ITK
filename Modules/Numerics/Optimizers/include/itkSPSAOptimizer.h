@@ -251,7 +251,7 @@ public:
   itkGetConstMacro(Tolerance, double);
 
   /** Get the reason for termination */
-  const std::string
+  std::string
   GetStopConditionDescription() const override;
 
 protected:

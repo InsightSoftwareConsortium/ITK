@@ -113,7 +113,7 @@ public:
   ResumeOptimization() override;
 
   /** Get the reason for termination */
-  const StopConditionReturnStringType
+  StopConditionReturnStringType
   GetStopConditionDescription() const override;
 
   /** Get the list of optimizers currently held. */

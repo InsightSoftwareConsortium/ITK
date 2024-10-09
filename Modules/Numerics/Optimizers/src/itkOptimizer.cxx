@@ -72,7 +72,7 @@ Optimizer::SetCurrentPosition(const ParametersType & param)
   this->Modified();
 }
 
-const std::string
+std::string
 Optimizer::GetStopConditionDescription() const
 {
   std::ostringstream description;

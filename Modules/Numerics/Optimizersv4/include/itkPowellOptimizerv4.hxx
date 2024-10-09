@@ -528,7 +528,7 @@ PowellOptimizerv4<TInternalComputationValueType>::StartOptimization(bool /* doOn
 }
 
 template <typename TInternalComputationValueType>
-const std::string
+std::string
 PowellOptimizerv4<TInternalComputationValueType>::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();

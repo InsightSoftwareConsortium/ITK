@@ -152,7 +152,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetOptimizer() -> InternalOptim
 }
 
 template <typename TInternalVnlOptimizerType>
-const std::string
+std::string
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetStopConditionDescription() const
 {
   m_StopConditionDescription.str("");

@@ -38,7 +38,7 @@ AmoebaOptimizerv4::AmoebaOptimizerv4()
 AmoebaOptimizerv4::~AmoebaOptimizerv4() = default;
 
 
-const std::string
+std::string
 AmoebaOptimizerv4::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();

@@ -168,7 +168,7 @@ public:
   GetValue() const;
 
   /** Get the reason for termination */
-  const std::string
+  std::string
   GetStopConditionDescription() const override;
 
 protected:

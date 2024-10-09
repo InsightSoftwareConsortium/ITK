@@ -160,7 +160,7 @@ public:
 
   /** Get Stop condition. */
   itkGetConstReferenceMacro(StopCondition, StopConditionGradientDescentOptimizerEnum);
-  const std::string
+  std::string
   GetStopConditionDescription() const override;
 
   /** Get Gradient condition. */

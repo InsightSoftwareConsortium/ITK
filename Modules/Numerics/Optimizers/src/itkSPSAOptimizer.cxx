@@ -393,7 +393,7 @@ SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double i
   this->SetSa(initialStepSize * std::pow(m_A + 1.0, m_Alpha) / averageAbsoluteGradient.max_value());
 }
 
-const std::string
+std::string
 SPSAOptimizer::GetStopConditionDescription() const
 {
   std::ostringstream reason;

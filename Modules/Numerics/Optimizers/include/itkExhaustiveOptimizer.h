@@ -131,7 +131,7 @@ public:
   itkGetConstReferenceMacro(MaximumNumberOfIterations, SizeValueType);
 
   /** Get the reason for termination */
-  const std::string
+  std::string
   GetStopConditionDescription() const override;
 
 protected:

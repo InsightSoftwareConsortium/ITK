@@ -146,7 +146,7 @@ public:
   itkGetConstMacro(FunctionConvergenceTolerance, double);
 
   /** Report the reason for stopping. */
-  const std::string
+  std::string
   GetStopConditionDescription() const override;
 
   /** Return Current Value */

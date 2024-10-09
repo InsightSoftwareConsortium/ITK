@@ -265,7 +265,7 @@ public:
   StartOptimization(bool doOnlyInitialization = false);
 
   /** Stop condition return string type */
-  virtual const StopConditionReturnStringType
+  virtual StopConditionReturnStringType
   GetStopConditionDescription() const = 0;
 
   /** Returns true if derived optimizer supports using scales.

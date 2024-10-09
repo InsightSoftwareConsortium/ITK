@@ -118,7 +118,7 @@ public:
   StopOptimization();
 
   /** Get the reason for termination */
-  const StopConditionReturnStringType
+  StopConditionReturnStringType
   GetStopConditionDescription() const override;
 
   /** Modify the gradient in place, to advance the optimization.
