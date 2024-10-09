@@ -509,6 +509,43 @@ KernelTransform<TParametersValueType, VDimension>::GetFixedParameters() const ->
 
 
 template <typename TParametersValueType, unsigned int VDimension>
+bool
+KernelTransform<TParametersValueType, VDimension>::GetInverse(Self * inverseTransform) const
+{
+  if (!inverseTransform)
+  {
+    return false;
+  }
+
+  auto deepCopyLandmarks = [](const typename PointSetType::ConstPointer source,
+                              typename PointSetType::Pointer            destination) {
+    typename PointSetType::PointsContainer::ConstIterator sourceIt = source->GetPoints()->Begin();
+
+    typename PointSetType::PointIdentifier i{ 0 };
+    while (sourceIt != source->GetPoints()->End())
+    {
+      destination->SetPoint(i, sourceIt->Value());
+      ++i;
+      ++sourceIt;
+    }
+  };
+
+  // make a deep copy of the source and target landmarks
+  typename PointSetType::Pointer sourceLandmarks = PointSetType::New();
+  typename PointSetType::Pointer targetLandmarks = PointSetType::New();
+  deepCopyLandmarks(this->GetSourceLandmarks(), sourceLandmarks);
+  deepCopyLandmarks(this->GetTargetLandmarks(), targetLandmarks);
+
+  // inversion comes from reversing the landmarks
+  inverseTransform->SetSourceLandmarks(targetLandmarks);
+  inverseTransform->SetTargetLandmarks(sourceLandmarks);
+  inverseTransform->SetStiffness(this->GetStiffness());
+  inverseTransform->ComputeWMatrix();
+
+  return true;
+}
+
+template <typename TParametersValueType, unsigned int VDimension>
 void
 KernelTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
