@@ -459,6 +459,14 @@ MINCImageIO::ReadImageInformation()
   dir_cos.Fill(0.0);
   dir_cos.SetIdentity();
 
+  // Conversion matrix for RAS (RightToLeft,AnteriorToPosterior,SuperiorToInferior)
+  // to LPS (LeftToRight,PosteriorToInferior,SuperiortoInferior)
+  Matrix<double, 3, 3> RAS_tofrom_LPS;
+  RAS_tofrom_LPS.SetIdentity();
+  RAS_tofrom_LPS(0, 0) = -1.0;
+  RAS_tofrom_LPS(1, 1) = -1.0;
+  std::vector<double> dir_cos_temp(3);
+
   Vector<double, 3> origin, sep;
   Vector<double, 3> o_origin;
   origin.Fill(0.0);
@@ -494,11 +502,26 @@ MINCImageIO::ReadImageInformation()
       sep[i - 1] = _sep;
 
       this->SetDimensions(i - 1, static_cast<unsigned int>(_sz));
-      this->SetDirection(i - 1, _dir);
       this->SetSpacing(i - 1, _sep);
 
       ++usable_dimensions;
     }
+  }
+
+  // Transform MINC RAS coordinates to internal ITK LPS Coordinates
+  dir_cos = RAS_tofrom_LPS * dir_cos;
+
+  // Transform origin coordinates
+  o_origin = dir_cos * origin;
+
+  for (int i = 0; i < spatial_dimension_count; ++i)
+  {
+    this->SetOrigin(i, o_origin[i]);
+    for (unsigned int j = 0; j < 3; j++)
+    {
+      dir_cos_temp[j] = dir_cos[j][i];
+    }
+    this->SetDirection(i, dir_cos_temp);
   }
 
   if (m_MINCPImpl->m_DimensionIndices[0] != -1) // have vector dimension
@@ -531,13 +554,6 @@ MINCImageIO::ReadImageInformation()
   if (miset_apparent_dimension_order(m_MINCPImpl->m_Volume, usable_dimensions, m_MINCPImpl->m_MincApparentDims) < 0)
   {
     itkExceptionMacro(" Can't set apparent dimension order!");
-  }
-
-  o_origin = dir_cos * origin;
-
-  for (int i = 0; i < spatial_dimension_count; ++i)
-  {
-    this->SetOrigin(i, o_origin[i]);
   }
 
   miclass_t volume_data_class;
@@ -959,6 +975,12 @@ MINCImageIO::WriteImageInformation()
   dircosmatrix.set_identity();
   vnl_vector<double> origin(nDims);
 
+  // MINC stores direction cosines in RAS, need to convert to LPS for ITK
+  vnl_matrix<double> RAS_tofrom_LPS(nDims, nDims);
+  RAS_tofrom_LPS.set_identity();
+  RAS_tofrom_LPS(0, 0) = -1.0;
+  RAS_tofrom_LPS(1, 1) = -1.0;
+
   for (unsigned int i = 0; i < nDims; ++i)
   {
     for (unsigned int j = 0; j < nDims; ++j)
@@ -970,6 +992,9 @@ MINCImageIO::WriteImageInformation()
 
   const vnl_matrix<double> inverseDirectionCosines{ vnl_matrix_inverse<double>(dircosmatrix).as_matrix() };
   origin *= inverseDirectionCosines; // transform to minc convention
+
+  // Convert ITK direction cosines from LPS to RAS convention
+  dircosmatrix *= RAS_tofrom_LPS;
 
   for (unsigned int i = 0; i < nDims; ++i)
   {
@@ -1441,7 +1466,7 @@ MINCImageIO::Write(const void * buffer)
   {
     itkExceptionMacro(" Can not set real value hyperslab!!\n");
   }
-  // TODO: determine what to do if we are streming
+  // TODO: determine what to do if we are streaming
   this->CloseVolume();
 }
 
