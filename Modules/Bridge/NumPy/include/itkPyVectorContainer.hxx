@@ -51,7 +51,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
 
 template <typename TElementIdentifier, typename TElement>
 auto
-PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(PyObject * arr, PyObject * shape) -> const
+PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(PyObject * arr, PyObject * shape) ->
   typename VectorContainerType::Pointer
 {
   Py_buffer pyBuffer{};

@@ -75,7 +75,7 @@ public:
   /**
    * Get an ITK image from a Python array
    */
-  static const OutputImagePointer
+  static OutputImagePointer
   _GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent);
 };
 
