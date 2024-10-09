@@ -51,7 +51,7 @@ PyVnl<TElement>::_GetArrayViewFromVnlVector(VectorType * vector)
 
 template <class TElement>
 auto
-PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> VectorType
+PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * const shape) -> VectorType
 {
   Py_buffer pyBuffer{};
 
@@ -67,9 +67,8 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> Vec
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
-  PyObject * const   obj = shape;
-  PyObject * const   shapeseq = PySequence_Fast(obj, "expected sequence");
-  const unsigned int dimension = PySequence_Size(obj);
+  PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
+  const unsigned int dimension = PySequence_Size(shape);
 
   PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
   const size_t     numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
@@ -113,7 +112,7 @@ PyVnl<TElement>::_GetArrayViewFromVnlMatrix(MatrixType * matrix)
 
 template <class TElement>
 auto
-PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> MatrixType
+PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * const shape) -> MatrixType
 {
   PyObject * item = nullptr;
 
@@ -135,9 +134,8 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> Mat
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
-  PyObject * const   obj = shape;
-  PyObject * const   shapeseq = PySequence_Fast(obj, "expected sequence");
-  const unsigned int dimension = PySequence_Size(obj);
+  PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
+  const unsigned int dimension = PySequence_Size(shape);
 
   for (unsigned int i = 0; i < 2; ++i)
   {
