@@ -21,7 +21,7 @@ itk_end_wrap_class()
 
 itk_wrap_class("itk::PointSetBase" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  itk_wrap_template("MC${ITKM_IT}QEMPF${d}" "itk::MapContainer< ${ITKT_IT}, itk::QuadEdgeMeshPoint< float, ${d} > >")
+  itk_wrap_template("MC${ITKM_IT}QEMP${ITKM_F}${d}" "itk::MapContainer< ${ITKT_IT}, itk::QuadEdgeMeshPoint< float, ${d}, itk::GeometricalQuadEdge< ${ITKT_IT},${ITKT_IT},bool,bool,true > > >")
 endforeach()
 itk_end_wrap_class()
 
