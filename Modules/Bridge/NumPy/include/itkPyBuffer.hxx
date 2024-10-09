@@ -68,8 +68,6 @@ auto
 PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent)
   -> OutputImagePointer
 {
-  PyObject * item = nullptr;
-
   Py_buffer pyBuffer{};
 
   SizeType      size;
@@ -95,7 +93,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
 
   for (unsigned int i = 0; i < dimension; ++i)
   {
-    item = PySequence_Fast_GET_ITEM(shapeseq, i);
+    PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, i);
     size[i] = static_cast<SizeValueType>(PyInt_AsLong(item));
     sizeFortran[dimension - 1 - i] = static_cast<SizeValueType>(PyInt_AsLong(item));
     numberOfPixels *= size[i];

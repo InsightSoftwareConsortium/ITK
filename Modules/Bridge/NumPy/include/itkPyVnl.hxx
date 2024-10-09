@@ -114,8 +114,6 @@ template <class TElement>
 auto
 PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * const shape) -> MatrixType
 {
-  PyObject * item = nullptr;
-
   Py_buffer pyBuffer{};
 
   size_t numberOfElements = 1;
@@ -139,7 +137,7 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * const shape) 
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    item = PySequence_Fast_GET_ITEM(shapeseq, i);
+    PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, i);
     size[i] = static_cast<unsigned int>(PyInt_AsLong(item));
     numberOfElements *= size[i];
   }
