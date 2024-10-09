@@ -63,7 +63,7 @@ public:
   /**
    * Get a vnl vector from a Python array
    */
-  static const VectorType
+  static VectorType
   _GetVnlVectorFromArray(PyObject * arr, PyObject * shape);
 
   /**
@@ -75,7 +75,7 @@ public:
   /**
    * Get a vnl matrix from a Python array
    */
-  static const MatrixType
+  static MatrixType
   _GetVnlMatrixFromArray(PyObject * arr, PyObject * shape);
 };
 

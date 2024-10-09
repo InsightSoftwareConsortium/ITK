@@ -61,7 +61,7 @@ public:
   /**
    * Get a vnl vector from a Python array
    */
-  static const typename VectorContainerType::Pointer
+  static typename VectorContainerType::Pointer
   _vector_container_from_array(PyObject * arr, PyObject * shape);
 };
 
