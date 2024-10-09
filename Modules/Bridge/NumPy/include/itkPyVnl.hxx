@@ -80,9 +80,7 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * const shape) 
     return VectorType();
   }
   const auto * const data = static_cast<const DataType *>(buffer);
-  VectorType         output(data, numberOfElements);
-
-  return output;
+  return VectorType(data, numberOfElements);
 }
 
 template <class TElement>
@@ -150,9 +148,7 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * const shape) 
   }
 
   const auto * const data = static_cast<const DataType *>(buffer);
-  MatrixType         output(data, size[0], size[1]);
-
-  return output;
+  return MatrixType(data, size[0], size[1]);
 }
 
 
