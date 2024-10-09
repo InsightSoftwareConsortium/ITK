@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -75,10 +74,10 @@ static int H5I__id_dump_cb(void *_item, void *_key, void *_udata);
 static int
 H5I__id_dump_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_udata)
 {
-    H5I_id_info_t *   info   = (H5I_id_info_t *)_item; /* Pointer to the ID node */
+    H5I_id_info_t    *info   = (H5I_id_info_t *)_item; /* Pointer to the ID node */
     H5I_type_t        type   = *(H5I_type_t *)_udata;  /* User data */
     const H5G_name_t *path   = NULL;                   /* Path to file object */
-    const void *      object = NULL;                   /* Pointer to VOL connector object */
+    void             *object = NULL;                   /* Pointer to VOL connector object */
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -94,7 +93,7 @@ H5I__id_dump_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_udata)
 
             object = H5VL_object_data(vol_obj);
             if (H5_VOL_NATIVE == vol_obj->connector->cls->value)
-                path = H5G_nameof((const H5G_t *)object);
+                path = H5G_nameof(object);
             break;
         }
 
@@ -103,7 +102,7 @@ H5I__id_dump_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_udata)
 
             object = H5VL_object_data(vol_obj);
             if (H5_VOL_NATIVE == vol_obj->connector->cls->value)
-                path = H5D_nameof((const H5D_t *)object);
+                path = H5D_nameof(object);
             break;
         }
 
@@ -111,10 +110,10 @@ H5I__id_dump_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_udata)
             const H5T_t *dt = (const H5T_t *)info->object;
 
             H5_GCC_DIAG_OFF("cast-qual")
-            object = (void *)H5T_get_actual_type((H5T_t *)dt); /* Casting away const OK - QAK */
+            object = (void *)H5T_get_actual_type((H5T_t *)dt);
             H5_GCC_DIAG_ON("cast-qual")
 
-            path = H5T_nameof((const H5T_t *)object);
+            path = H5T_nameof(object);
             break;
         }
 

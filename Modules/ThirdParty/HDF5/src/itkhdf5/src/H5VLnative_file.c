@@ -46,7 +46,7 @@ H5VL__native_file_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t 
                          hid_t H5_ATTR_UNUSED dxpl_id, void H5_ATTR_UNUSED **req)
 {
     H5F_t *new_file  = NULL;
-    void * ret_value = NULL;
+    void  *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 
@@ -88,7 +88,7 @@ H5VL__native_file_open(const char *name, unsigned flags, hid_t fapl_id, hid_t H5
                        void H5_ATTR_UNUSED **req)
 {
     H5F_t *new_file  = NULL;
-    void * ret_value = NULL;
+    void  *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 
@@ -139,7 +139,7 @@ H5VL__native_file_get(void *obj, H5VL_file_get_t get_type, hid_t H5_ATTR_UNUSED 
         /* H5Fget_access_plist */
         case H5VL_FILE_GET_FAPL: {
             H5P_genplist_t *new_plist; /* New property list */
-            hid_t *         plist_id = HDva_arg(arguments, hid_t *);
+            hid_t          *plist_id = HDva_arg(arguments, hid_t *);
 
             f = (H5F_t *)obj;
 
@@ -155,7 +155,7 @@ H5VL__native_file_get(void *obj, H5VL_file_get_t get_type, hid_t H5_ATTR_UNUSED 
         /* H5Fget_create_plist */
         case H5VL_FILE_GET_FCPL: {
             H5P_genplist_t *plist; /* Property list */
-            hid_t *         plist_id = HDva_arg(arguments, hid_t *);
+            hid_t          *plist_id = HDva_arg(arguments, hid_t *);
 
             f = (H5F_t *)obj;
             if (NULL == (plist = (H5P_genplist_t *)H5I_object(f->shared->fcpl_id)))
@@ -212,8 +212,8 @@ H5VL__native_file_get(void *obj, H5VL_file_get_t get_type, hid_t H5_ATTR_UNUSED 
         case H5VL_FILE_GET_NAME: {
             H5I_type_t type = (H5I_type_t)HDva_arg(arguments, int); /* enum work-around */
             size_t     size = HDva_arg(arguments, size_t);
-            char *     name = HDva_arg(arguments, char *);
-            ssize_t *  ret  = HDva_arg(arguments, ssize_t *);
+            char      *name = HDva_arg(arguments, char *);
+            ssize_t   *ret  = HDva_arg(arguments, ssize_t *);
             size_t     len;
 
             if (H5VL_native_get_file_struct(obj, type, &f) < 0)
@@ -252,7 +252,7 @@ H5VL__native_file_get(void *obj, H5VL_file_get_t get_type, hid_t H5_ATTR_UNUSED 
         case H5VL_FILE_GET_OBJ_IDS: {
             unsigned types     = HDva_arg(arguments, unsigned);
             size_t   max_objs  = HDva_arg(arguments, size_t);
-            hid_t *  oid_list  = HDva_arg(arguments, hid_t *);
+            hid_t   *oid_list  = HDva_arg(arguments, hid_t *);
             ssize_t *ret       = HDva_arg(arguments, ssize_t *);
             size_t   obj_count = 0; /* Number of opened objects */
 
@@ -296,7 +296,7 @@ H5VL__native_file_specific(void *obj, H5VL_file_specific_t specific_type, hid_t 
         case H5VL_FILE_FLUSH: {
             H5I_type_t  type  = (H5I_type_t)HDva_arg(arguments, int);  /* enum work-around */
             H5F_scope_t scope = (H5F_scope_t)HDva_arg(arguments, int); /* enum work-around */
-            H5F_t *     f     = NULL;                                  /* File to flush */
+            H5F_t      *f     = NULL;                                  /* File to flush */
 
             /* Get the file for the object */
             if (H5VL_native_get_file_struct(obj, type, &f) < 0)
@@ -343,7 +343,7 @@ H5VL__native_file_specific(void *obj, H5VL_file_specific_t specific_type, hid_t 
         case H5VL_FILE_MOUNT: {
             H5I_type_t  type    = (H5I_type_t)HDva_arg(arguments, int); /* enum work-around */
             const char *name    = HDva_arg(arguments, const char *);
-            H5F_t *     child   = HDva_arg(arguments, H5F_t *);
+            H5F_t      *child   = HDva_arg(arguments, H5F_t *);
             hid_t       fmpl_id = HDva_arg(arguments, hid_t);
             H5G_loc_t   loc;
 
@@ -377,7 +377,7 @@ H5VL__native_file_specific(void *obj, H5VL_file_specific_t specific_type, hid_t 
         case H5VL_FILE_IS_ACCESSIBLE: {
             hid_t       fapl_id = HDva_arg(arguments, hid_t);
             const char *name    = HDva_arg(arguments, const char *);
-            htri_t *    result  = HDva_arg(arguments, htri_t *);
+            htri_t     *result  = HDva_arg(arguments, htri_t *);
 
             /* Call private routine */
             if ((*result = H5F__is_hdf5(name, fapl_id)) < 0)
@@ -394,7 +394,7 @@ H5VL__native_file_specific(void *obj, H5VL_file_specific_t specific_type, hid_t 
 
         /* Check if two files are the same */
         case H5VL_FILE_IS_EQUAL: {
-            H5F_t *  file2    = (H5F_t *)HDva_arg(arguments, void *);
+            H5F_t   *file2    = (H5F_t *)HDva_arg(arguments, void *);
             hbool_t *is_equal = HDva_arg(arguments, hbool_t *);
 
             if (!obj || !file2)
@@ -453,7 +453,7 @@ H5VL__native_file_optional(void *obj, H5VL_file_optional_t optional_type, hid_t 
 
         /* H5Fget_file_image */
         case H5VL_NATIVE_FILE_GET_FILE_IMAGE: {
-            void *   buf_ptr = HDva_arg(arguments, void *);
+            void    *buf_ptr = HDva_arg(arguments, void *);
             ssize_t *ret     = HDva_arg(arguments, ssize_t *);
             size_t   buf_len = HDva_arg(arguments, size_t);
 
@@ -478,7 +478,7 @@ H5VL__native_file_optional(void *obj, H5VL_file_optional_t optional_type, hid_t 
         /* H5Fget_free_sections */
         case H5VL_NATIVE_FILE_GET_FREE_SECTIONS: {
             H5F_sect_info_t *sect_info = HDva_arg(arguments, H5F_sect_info_t *);
-            ssize_t *        ret       = HDva_arg(arguments, ssize_t *);
+            ssize_t         *ret       = HDva_arg(arguments, ssize_t *);
             H5F_mem_t        type      = (H5F_mem_t)HDva_arg(arguments, int); /* enum work-around */
             size_t           nsects    = HDva_arg(arguments, size_t);
 
@@ -528,10 +528,10 @@ H5VL__native_file_optional(void *obj, H5VL_file_optional_t optional_type, hid_t 
 
         /* H5Fget_mdc_size */
         case H5VL_NATIVE_FILE_GET_MDC_SIZE: {
-            size_t * max_size_ptr        = HDva_arg(arguments, size_t *);
-            size_t * min_clean_size_ptr  = HDva_arg(arguments, size_t *);
-            size_t * cur_size_ptr        = HDva_arg(arguments, size_t *);
-            int *    cur_num_entries_ptr = HDva_arg(arguments, int *);
+            size_t  *max_size_ptr        = HDva_arg(arguments, size_t *);
+            size_t  *min_clean_size_ptr  = HDva_arg(arguments, size_t *);
+            size_t  *cur_size_ptr        = HDva_arg(arguments, size_t *);
+            int     *cur_num_entries_ptr = HDva_arg(arguments, int *);
             uint32_t cur_num_entries;
 
             /* Go get the size data */
@@ -813,29 +813,35 @@ H5VL__native_file_close(void *file, hid_t H5_ATTR_UNUSED dxpl_id, void H5_ATTR_U
     FUNC_ENTER_PACKAGE
 
     /* This routine should only be called when a file ID's ref count drops to zero */
-    HDassert(H5F_ID_EXISTS(f));
+    HDassert(f->shared == NULL || H5F_ID_EXISTS(f));
 
-    /* Flush file if this is the last reference to this id and we have write
-     * intent, unless it will be flushed by the "shared" file being closed.
-     * This is only necessary to replicate previous behaviour, and could be
-     * disabled by an option/property to improve performance.
-     */
-    if ((H5F_NREFS(f) > 1) && (H5F_INTENT(f) & H5F_ACC_RDWR)) {
-        /* Get the file ID corresponding to the H5F_t struct */
-        if (H5I_find_id(f, H5I_FILE, &file_id) < 0 || H5I_INVALID_HID == file_id)
-            HGOTO_ERROR(H5E_ATOM, H5E_CANTGET, FAIL, "invalid atom")
+    if (f->shared == NULL)
+        f = H5FL_FREE(H5F_t, f);
 
-        /* Get the number of references outstanding for this file ID */
-        if ((nref = H5I_get_ref(file_id, FALSE)) < 0)
-            HGOTO_ERROR(H5E_ATOM, H5E_CANTGET, FAIL, "can't get ID ref count")
-        if (nref == 1)
-            if (H5F__flush(f) < 0)
-                HGOTO_ERROR(H5E_CACHE, H5E_CANTFLUSH, FAIL, "unable to flush cache")
-    } /* end if */
+    else {
 
-    /* Close the file */
-    if (H5F__close(f) < 0)
-        HGOTO_ERROR(H5E_FILE, H5E_CANTDEC, FAIL, "can't close file")
+        /* Flush file if this is the last reference to this id and we have write
+         * intent, unless it will be flushed by the "shared" file being closed.
+         * This is only necessary to replicate previous behaviour, and could be
+         * disabled by an option/property to improve performance.
+         */
+        if ((H5F_NREFS(f) > 1) && (H5F_INTENT(f) & H5F_ACC_RDWR)) {
+            /* Get the file ID corresponding to the H5F_t struct */
+            if (H5I_find_id(f, H5I_FILE, &file_id) < 0 || H5I_INVALID_HID == file_id)
+                HGOTO_ERROR(H5E_ATOM, H5E_CANTGET, FAIL, "invalid atom")
+
+            /* Get the number of references outstanding for this file ID */
+            if ((nref = H5I_get_ref(file_id, FALSE)) < 0)
+                HGOTO_ERROR(H5E_ATOM, H5E_CANTGET, FAIL, "can't get ID ref count")
+            if (nref == 1)
+                if (H5F__flush(f) < 0)
+                    HGOTO_ERROR(H5E_CACHE, H5E_CANTFLUSH, FAIL, "unable to flush cache")
+        } /* end if */
+
+        /* Close the file */
+        if (H5F__close(f) < 0)
+            HGOTO_ERROR(H5E_FILE, H5E_CANTDEC, FAIL, "can't close file")
+    }
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

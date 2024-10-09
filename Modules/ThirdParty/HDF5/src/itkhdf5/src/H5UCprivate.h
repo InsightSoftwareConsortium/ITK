@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -41,7 +40,7 @@ typedef herr_t (*H5UC_free_func_t)(void *o);
 
 /* Typedef for reference counted objects */
 typedef struct H5UC_t {
-    void *           o;         /* Object to be reference counted */
+    void            *o;         /* Object to be reference counted */
     size_t           n;         /* Reference count of number of pointers sharing object */
     H5UC_free_func_t free_func; /* Function to free object */
 } H5UC_t;

@@ -537,6 +537,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5DSiterate_scales @MANGLE_PREFIX@_H5DSiterate_scales
 #define H5DSset_label @MANGLE_PREFIX@_H5DSset_label
 #define H5DSset_scale @MANGLE_PREFIX@_H5DSset_scale
+#define H5DSwith_new_ref @MANGLE_PREFIX@_H5DSwith_new_ref
 #define H5D_BT2 @MANGLE_PREFIX@_H5D_BT2
 #define H5D_BT2_FILT @MANGLE_PREFIX@_H5D_BT2_FILT
 #define H5D_COPS_BT2 @MANGLE_PREFIX@_H5D_COPS_BT2
@@ -564,9 +565,16 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5D__chunk_dump_index @MANGLE_PREFIX@_H5D__chunk_dump_index
 #define H5D__chunk_file_alloc @MANGLE_PREFIX@_H5D__chunk_file_alloc
 #define H5D__chunk_format_convert @MANGLE_PREFIX@_H5D__chunk_format_convert
+#define H5D__chunk_index_empty @MANGLE_PREFIX@_H5D__chunk_index_empty
 #define H5D__chunk_is_data_cached @MANGLE_PREFIX@_H5D__chunk_is_data_cached
+#define H5D__chunk_is_partial_edge_chunk @MANGLE_PREFIX@_H5D__chunk_is_partial_edge_chunk
 #define H5D__chunk_is_space_alloc @MANGLE_PREFIX@_H5D__chunk_is_space_alloc
+#define H5D__chunk_iter @MANGLE_PREFIX@_H5D__chunk_iter
 #define H5D__chunk_lookup @MANGLE_PREFIX@_H5D__chunk_lookup
+#define H5D__chunk_mem_alloc @MANGLE_PREFIX@_H5D__chunk_mem_alloc
+#define H5D__chunk_mem_free @MANGLE_PREFIX@_H5D__chunk_mem_free
+#define H5D__chunk_mem_realloc @MANGLE_PREFIX@_H5D__chunk_mem_realloc
+#define H5D__chunk_mem_xfree @MANGLE_PREFIX@_H5D__chunk_mem_xfree
 #define H5D__chunk_prune_by_extent @MANGLE_PREFIX@_H5D__chunk_prune_by_extent
 #define H5D__chunk_set_info @MANGLE_PREFIX@_H5D__chunk_set_info
 #define H5D__chunk_set_sizes @MANGLE_PREFIX@_H5D__chunk_set_sizes
@@ -656,6 +664,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5D_nameof @MANGLE_PREFIX@_H5D_nameof
 #define H5D_oloc @MANGLE_PREFIX@_H5D_oloc
 #define H5D_open @MANGLE_PREFIX@_H5D_open
+#define H5D_select_io_mem @MANGLE_PREFIX@_H5D_select_io_mem
 #define H5D_term_package @MANGLE_PREFIX@_H5D_term_package
 #define H5D_top_term_package @MANGLE_PREFIX@_H5D_top_term_package
 #define H5D_virtual_check_mapping_post @MANGLE_PREFIX@_H5D_virtual_check_mapping_post
@@ -664,6 +673,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5D_virtual_free_parsed_name @MANGLE_PREFIX@_H5D_virtual_free_parsed_name
 #define H5D_virtual_parse_source_name @MANGLE_PREFIX@_H5D_virtual_parse_source_name
 #define H5D_virtual_update_min_dims @MANGLE_PREFIX@_H5D_virtual_update_min_dims
+#define H5Dchunk_iter @MANGLE_PREFIX@_H5Dchunk_iter
 #define H5Dclose @MANGLE_PREFIX@_H5Dclose
 #define H5Dcreate1 @MANGLE_PREFIX@_H5Dcreate1
 #define H5Dcreate2 @MANGLE_PREFIX@_H5Dcreate2
@@ -1813,6 +1823,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5LTget_attribute_string @MANGLE_PREFIX@_H5LTget_attribute_string
 #define H5LTget_attribute_uchar @MANGLE_PREFIX@_H5LTget_attribute_uchar
 #define H5LTget_attribute_uint @MANGLE_PREFIX@_H5LTget_attribute_uint
+#define H5LTget_attribute_ullong @MANGLE_PREFIX@_H5LTget_attribute_ullong
 #define H5LTget_attribute_ulong @MANGLE_PREFIX@_H5LTget_attribute_ulong
 #define H5LTget_attribute_ushort @MANGLE_PREFIX@_H5LTget_attribute_ushort
 #define H5LTget_dataset_info @MANGLE_PREFIX@_H5LTget_dataset_info
@@ -1845,6 +1856,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5LTset_attribute_string @MANGLE_PREFIX@_H5LTset_attribute_string
 #define H5LTset_attribute_uchar @MANGLE_PREFIX@_H5LTset_attribute_uchar
 #define H5LTset_attribute_uint @MANGLE_PREFIX@_H5LTset_attribute_uint
+#define H5LTset_attribute_ullong @MANGLE_PREFIX@_H5LTset_attribute_ullong
 #define H5LTset_attribute_ulong @MANGLE_PREFIX@_H5LTset_attribute_ulong
 #define H5LTset_attribute_ushort @MANGLE_PREFIX@_H5LTset_attribute_ushort
 #define H5LTtext_to_dtype @MANGLE_PREFIX@_H5LTtext_to_dtype
@@ -3654,6 +3666,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5VLobject @MANGLE_PREFIX@_H5VLobject
 #define H5VLobject_copy @MANGLE_PREFIX@_H5VLobject_copy
 #define H5VLobject_get @MANGLE_PREFIX@_H5VLobject_get
+#define H5VLobject_is_native @MANGLE_PREFIX@_H5VLobject_is_native
 #define H5VLobject_open @MANGLE_PREFIX@_H5VLobject_open
 #define H5VLobject_optional @MANGLE_PREFIX@_H5VLobject_optional
 #define H5VLobject_specific @MANGLE_PREFIX@_H5VLobject_specific
@@ -3827,6 +3840,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_expand_windows_env_vars @MANGLE_PREFIX@_H5_expand_windows_env_vars
 #define H5_fa_native_elmt_blk_free_list @MANGLE_PREFIX@_H5_fa_native_elmt_blk_free_list
 #define H5_fa_page_init_blk_free_list @MANGLE_PREFIX@_H5_fa_page_init_blk_free_list
+#define H5_get_option @MANGLE_PREFIX@_H5_get_option
 #define H5_get_time @MANGLE_PREFIX@_H5_get_time
 #define H5_get_utf16_str @MANGLE_PREFIX@_H5_get_utf16_str
 #define H5_get_win32_times @MANGLE_PREFIX@_H5_get_win32_times
@@ -3847,6 +3861,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_native_block_blk_free_list @MANGLE_PREFIX@_H5_native_block_blk_free_list
 #define H5_now @MANGLE_PREFIX@_H5_now
 #define H5_now_usec @MANGLE_PREFIX@_H5_now_usec
+#define H5_opterr @MANGLE_PREFIX@_H5_opterr
+#define H5_optind @MANGLE_PREFIX@_H5_optind
 #define H5_page_elmts_blk_free_list @MANGLE_PREFIX@_H5_page_elmts_blk_free_list
 #define H5_page_init_blk_free_list @MANGLE_PREFIX@_H5_page_init_blk_free_list
 #define H5_sieve_buf_blk_free_list @MANGLE_PREFIX@_H5_sieve_buf_blk_free_list
@@ -4103,6 +4119,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define UNIX_D64BE_ @MANGLE_PREFIX@_UNIX_D64BE_
 #define UNIX_D64LE @MANGLE_PREFIX@_UNIX_D64LE
 #define UNIX_D64LE_ @MANGLE_PREFIX@_UNIX_D64LE_
+#define VERS_RELEASE_EXCEPTIONS @MANGLE_PREFIX@_VERS_RELEASE_EXCEPTIONS
+#define VERS_RELEASE_EXCEPTIONS_SIZE @MANGLE_PREFIX@_VERS_RELEASE_EXCEPTIONS_SIZE
 #define Wflock @MANGLE_PREFIX@_Wflock
 #define Wgetlogin @MANGLE_PREFIX@_Wgetlogin
 #define Wgettimeofday @MANGLE_PREFIX@_Wgettimeofday

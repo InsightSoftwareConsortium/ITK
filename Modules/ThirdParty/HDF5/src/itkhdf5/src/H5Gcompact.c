@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -40,7 +39,7 @@ typedef struct {
 /* User data for deleting a link in the link messages */
 typedef struct {
     /* downward */
-    H5F_t *     file;            /* File that object header is located within */
+    H5F_t      *file;            /* File that object header is located within */
     H5RS_str_t *grp_full_path_r; /* Full path for group of link */
     const char *name;            /* Link name to search for */
 } H5G_iter_rm_t;
@@ -80,7 +79,7 @@ static herr_t
 H5G__compact_build_table_cb(const void *_mesg, unsigned H5_ATTR_UNUSED idx, void *_udata)
 {
     const H5O_link_t *lnk       = (const H5O_link_t *)_mesg; /* Pointer to link */
-    H5G_iter_bt_t *   udata     = (H5G_iter_bt_t *)_udata;   /* 'User data' passed in */
+    H5G_iter_bt_t    *udata     = (H5G_iter_bt_t *)_udata;   /* 'User data' passed in */
     herr_t            ret_value = H5_ITER_CONT;              /* Return value */
 
     FUNC_ENTER_STATIC
@@ -263,7 +262,7 @@ static herr_t
 H5G__compact_remove_common_cb(const void *_mesg, unsigned H5_ATTR_UNUSED idx, void *_udata)
 {
     const H5O_link_t *lnk       = (const H5O_link_t *)_mesg; /* Pointer to link */
-    H5G_iter_rm_t *   udata     = (H5G_iter_rm_t *)_udata;   /* 'User data' passed in */
+    H5G_iter_rm_t    *udata     = (H5G_iter_rm_t *)_udata;   /* 'User data' passed in */
     herr_t            ret_value = H5_ITER_CONT;              /* Return value */
 
     FUNC_ENTER_STATIC
@@ -419,7 +418,7 @@ done:
  * Function:    H5G__compact_lookup_cb
  *
  * Purpose:     Callback routine for searching 'link' messages for a particular
- *              name & gettting object location for it
+ *              name & getting object location for it
  *
  * Return:      SUCCEED/FAIL
  *
@@ -432,7 +431,7 @@ static herr_t
 H5G__compact_lookup_cb(const void *_mesg, unsigned H5_ATTR_UNUSED idx, void *_udata)
 {
     const H5O_link_t *lnk       = (const H5O_link_t *)_mesg; /* Pointer to link */
-    H5G_iter_lkp_t *  udata     = (H5G_iter_lkp_t *)_udata;  /* 'User data' passed in */
+    H5G_iter_lkp_t   *udata     = (H5G_iter_lkp_t *)_udata;  /* 'User data' passed in */
     herr_t            ret_value = H5_ITER_CONT;              /* Return value */
 
     FUNC_ENTER_STATIC

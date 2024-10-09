@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -40,8 +39,8 @@
 /********************/
 
 static htri_t     H5O__dtype_isa(const H5O_t *loc);
-static void *     H5O__dtype_open(const H5G_loc_t *obj_loc, H5I_type_t *opened_type);
-static void *     H5O__dtype_create(H5F_t *f, void *_crt_info, H5G_loc_t *obj_loc);
+static void      *H5O__dtype_open(const H5G_loc_t *obj_loc, H5I_type_t *opened_type);
+static void      *H5O__dtype_create(H5F_t *f, void *_crt_info, H5G_loc_t *obj_loc);
 static H5O_loc_t *H5O__dtype_get_oloc(hid_t obj_id);
 
 /*********************/
@@ -120,7 +119,7 @@ static void *
 H5O__dtype_open(const H5G_loc_t *obj_loc, H5I_type_t *opened_type)
 {
     H5T_t *type      = NULL; /* Datatype opened */
-    void * ret_value = NULL; /* Return value */
+    void  *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -159,7 +158,7 @@ static void *
 H5O__dtype_create(H5F_t *f, void *_crt_info, H5G_loc_t *obj_loc)
 {
     H5T_obj_create_t *crt_info  = (H5T_obj_create_t *)_crt_info; /* Named datatype creation parameters */
-    void *            ret_value = NULL;                          /* Return value */
+    void             *ret_value = NULL;                          /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -201,8 +200,8 @@ done:
 static H5O_loc_t *
 H5O__dtype_get_oloc(hid_t obj_id)
 {
-    H5T_t *    type      = NULL; /* Datatype opened */
-    H5T_t *    dt        = NULL;
+    H5T_t     *type      = NULL; /* Datatype opened */
+    H5T_t     *dt        = NULL;
     H5O_loc_t *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC

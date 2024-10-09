@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -160,7 +159,7 @@ const H5P_libclass_t H5P_CLS_LACC[1] = {{
 
 /* Property value defaults */
 static const size_t H5L_def_nlinks_g = H5L_ACS_NLINKS_DEF; /* Default number of soft links to traverse */
-static const char * H5L_def_elink_prefix_g =
+static const char  *H5L_def_elink_prefix_g =
     H5L_ACS_ELINK_PREFIX_DEF;                                     /* Default external link prefix string */
 static const hid_t    H5L_def_fapl_id_g = H5L_ACS_ELINK_FAPL_DEF; /* Default fapl for external link access */
 static const unsigned H5L_def_elink_flags_g =
@@ -337,8 +336,8 @@ done:
 static herr_t
 H5P__lacc_elink_fapl_enc(const void *value, void **_pp, size_t *size)
 {
-    const hid_t *   elink_fapl = (const hid_t *)value; /* Property to encode */
-    uint8_t **      pp         = (uint8_t **)_pp;
+    const hid_t    *elink_fapl = (const hid_t *)value; /* Property to encode */
+    uint8_t       **pp         = (uint8_t **)_pp;
     H5P_genplist_t *fapl_plist;                 /* Pointer to property list */
     hbool_t         non_default_fapl = FALSE;   /* Whether the FAPL is non-default */
     size_t          fapl_size        = 0;       /* FAPL's encoded size */
@@ -408,7 +407,7 @@ done:
 static herr_t
 H5P__lacc_elink_fapl_dec(const void **_pp, void *_value)
 {
-    hid_t *         elink_fapl = (hid_t *)_value; /* The elink FAPL value */
+    hid_t          *elink_fapl = (hid_t *)_value; /* The elink FAPL value */
     const uint8_t **pp         = (const uint8_t **)_pp;
     hbool_t         non_default_fapl;    /* Whether the FAPL is non-default */
     herr_t          ret_value = SUCCEED; /* Return value */
@@ -542,8 +541,8 @@ done:
 static int
 H5P__lacc_elink_fapl_cmp(const void *value1, const void *value2, size_t H5_ATTR_UNUSED size)
 {
-    const hid_t *   fapl1 = (const hid_t *)value1;
-    const hid_t *   fapl2 = (const hid_t *)value2;
+    const hid_t    *fapl1 = (const hid_t *)value1;
+    const hid_t    *fapl2 = (const hid_t *)value2;
     H5P_genplist_t *obj1, *obj2; /* Property lists to compare */
     int             ret_value = 0;
 
@@ -685,7 +684,7 @@ static herr_t
 H5P__lacc_elink_pref_enc(const void *value, void **_pp, size_t *size)
 {
     const char *elink_pref = *(const char *const *)value;
-    uint8_t **  pp         = (uint8_t **)_pp;
+    uint8_t   **pp         = (uint8_t **)_pp;
     size_t      len        = 0;
     uint64_t    enc_value;
     unsigned    enc_size;
@@ -739,7 +738,7 @@ H5P__lacc_elink_pref_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P__lacc_elink_pref_dec(const void **_pp, void *_value)
 {
-    char **         elink_pref = (char **)_value;
+    char          **elink_pref = (char **)_value;
     const uint8_t **pp         = (const uint8_t **)_pp;
     size_t          len;
     uint64_t        enc_value; /* Decoded property value */
@@ -1024,7 +1023,7 @@ ssize_t
 H5Pget_elink_prefix(hid_t plist_id, char *prefix, size_t size)
 {
     H5P_genplist_t *plist;     /* Property list pointer */
-    char *          my_prefix; /* Library's copy of the prefix */
+    char           *my_prefix; /* Library's copy of the prefix */
     size_t          len;       /* Length of prefix string */
     ssize_t         ret_value; /* Return value */
 
@@ -1044,7 +1043,7 @@ H5Pget_elink_prefix(hid_t plist_id, char *prefix, size_t size)
         /* Copy to user's buffer, if given */
         len = HDstrlen(my_prefix);
         if (prefix) {
-            HDstrncpy(prefix, my_prefix, MIN(len + 1, size));
+            HDstrncpy(prefix, my_prefix, size);
             if (len >= size)
                 prefix[size - 1] = '\0';
         } /* end if */

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -11,9 +10,9 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <cstring>
 #include <string>
 
-#include "H5private.h" // for HDmemset
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -220,7 +219,7 @@ H5std_string
 EnumType::nameOf(void *value, size_t size) const
 {
     char *name_C = new char[size + 1]; // temporary C-string for C API
-    HDmemset(name_C, 0, size + 1);     // clear buffer
+    memset(name_C, 0, size + 1);
 
     // Calls C routine H5Tenum_nameof to get the name of the specified enum type
     herr_t ret_value = H5Tenum_nameof(id, value, name_C, size);

@@ -62,7 +62,7 @@
 herr_t
 H5VL__native_blob_put(void *obj, const void *buf, size_t size, void *blob_id, void H5_ATTR_UNUSED *ctx)
 {
-    H5F_t *  f  = (H5F_t *)obj;       /* Retrieve file pointer */
+    H5F_t   *f  = (H5F_t *)obj;       /* Retrieve file pointer */
     uint8_t *id = (uint8_t *)blob_id; /* Pointer to blob ID */
     H5HG_t   hobjid;                  /* New VL sequence's heap ID */
     herr_t   ret_value = SUCCEED;     /* Return value */
@@ -101,7 +101,7 @@ done:
 herr_t
 H5VL__native_blob_get(void *obj, const void *blob_id, void *buf, size_t size, void H5_ATTR_UNUSED *ctx)
 {
-    H5F_t *        f  = (H5F_t *)obj;             /* Retrieve file pointer */
+    H5F_t         *f  = (H5F_t *)obj;             /* Retrieve file pointer */
     const uint8_t *id = (const uint8_t *)blob_id; /* Pointer to the disk blob ID */
     H5HG_t         hobjid;                        /* Global heap ID for sequence */
     size_t         hobj_size = 0;                 /* Global heap object size returned from H5HG_read() */
@@ -159,7 +159,7 @@ H5VL__native_blob_specific(void *obj, void *blob_id, H5VL_blob_specific_t specif
     switch (specific_type) {
         case H5VL_BLOB_GETSIZE: {
             const uint8_t *id   = (const uint8_t *)blob_id; /* Pointer to the blob ID */
-            size_t *       size = HDva_arg(arguments, size_t *);
+            size_t        *size = HDva_arg(arguments, size_t *);
             H5HG_t         hobjid; /* blob's heap ID */
 
             /* Get heap information */
@@ -179,7 +179,7 @@ H5VL__native_blob_specific(void *obj, void *blob_id, H5VL_blob_specific_t specif
 
         case H5VL_BLOB_ISNULL: {
             const uint8_t *id     = (const uint8_t *)blob_id; /* Pointer to the blob ID */
-            hbool_t *      isnull = HDva_arg(arguments, hbool_t *);
+            hbool_t       *isnull = HDva_arg(arguments, hbool_t *);
             haddr_t        addr; /* Sequence's heap address */
 
             /* Get the heap address */

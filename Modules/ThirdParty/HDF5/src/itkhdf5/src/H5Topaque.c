@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -70,7 +69,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:	H5Tget_tag
  *
- * Purpose:	Get tha tag associated with an opaque datatype.
+ * Purpose:	Get the tag associated with an opaque datatype.
  *
  * Return:	A pointer to an allocated string. The caller should free
  *              the string. NULL is returned for errors.
@@ -84,7 +83,7 @@ char *
 H5Tget_tag(hid_t type_id)
 {
     H5T_t *dt = NULL;
-    char * ret_value;
+    char  *ret_value;
 
     FUNC_ENTER_API(NULL)
     H5TRACE1("*s", "i", type_id);

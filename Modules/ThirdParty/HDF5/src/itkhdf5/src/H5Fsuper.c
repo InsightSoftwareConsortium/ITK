@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -317,10 +316,10 @@ herr_t
 H5F__super_read(H5F_t *f, H5P_genplist_t *fa_plist, hbool_t initial_read)
 {
     H5AC_ring_t               orig_ring = H5AC_RING_INV;
-    H5F_super_t *             sblock    = NULL; /* Superblock structure */
+    H5F_super_t              *sblock    = NULL; /* Superblock structure */
     H5F_superblock_cache_ud_t udata;            /* User data for cache callbacks */
-    H5P_genplist_t *          c_plist;          /* File creation property list  */
-    H5FD_t *                  file;             /* File driver pointer */
+    H5P_genplist_t           *c_plist;          /* File creation property list  */
+    H5FD_t                   *file;             /* File driver pointer */
     unsigned sblock_flags = H5AC__NO_FLAGS_SET; /* flags used in superblock unprotect call      */
     haddr_t  super_addr;                        /* Absolute address of superblock */
     haddr_t  eof;                               /* End of file address */
@@ -374,7 +373,7 @@ H5F__super_read(H5F_t *f, H5P_genplist_t *fa_plist, hbool_t initial_read)
         if (0 == mpi_rank) {
             herr_t status;
 
-            /* Try detecting file's siganture */
+            /* Try detecting file's signature */
             /* (Don't leave before Bcast, to avoid hang on error) */
             H5E_BEGIN_TRY
             {
@@ -466,7 +465,7 @@ H5F__super_read(H5F_t *f, H5P_genplist_t *fa_plist, hbool_t initial_read)
      *
      * After upgrading low_bound, the library will check to ensure that the
      * superblock version does not exceed the version allowed by high_bound.
-     * Otherise fail file open.
+     * Otherwise fail file open.
      *
      * For details, please see RFC:Setting Bounds for Object Creation in HDF5 1.10.0.
      */
@@ -627,7 +626,7 @@ H5F__super_read(H5F_t *f, H5P_genplist_t *fa_plist, hbool_t initial_read)
 
     /* Decode the optional driver information block */
     if (H5F_addr_defined(sblock->driver_addr)) {
-        H5O_drvinfo_t *         drvinfo;             /* Driver info */
+        H5O_drvinfo_t          *drvinfo;             /* Driver info */
         H5F_drvrinfo_cache_ud_t drvrinfo_udata;      /* User data for metadata callbacks */
         unsigned drvinfo_flags = H5AC__NO_FLAGS_SET; /* Flags used in driver info block unprotect call */
 
@@ -686,7 +685,9 @@ H5F__super_read(H5F_t *f, H5P_genplist_t *fa_plist, hbool_t initial_read)
         /* Sanity check - superblock extension should only be defined for
          *      superblock version >= 2.
          */
-        HDassert(sblock->super_vers >= HDF5_SUPERBLOCK_VERSION_2);
+        if (sblock->super_vers < HDF5_SUPERBLOCK_VERSION_2)
+            HGOTO_ERROR(H5E_FILE, H5E_BADVALUE, FAIL,
+                        "invalid superblock - extension message should not be defined for version < 2")
 
         /* Check for superblock extension being located "outside" the stored
          *      'eoa' value, which can occur with the split/multi VFD.
@@ -1042,7 +1043,7 @@ done:
                 HDONE_ERROR(H5E_FILE, H5E_CANTUNPIN, FAIL, "unable to unpin driver info")
 
             /* Evict the driver info block from the cache */
-            if (H5AC_expunge_entry(f, H5AC_DRVRINFO, sblock->driver_addr, H5AC__NO_FLAGS_SET) < 0)
+            if (sblock && H5AC_expunge_entry(f, H5AC_DRVRINFO, sblock->driver_addr, H5AC__NO_FLAGS_SET) < 0)
                 HDONE_ERROR(H5E_FILE, H5E_CANTEXPUNGE, FAIL, "unable to expunge driver info block")
         } /* end if */
 
@@ -1086,8 +1087,9 @@ H5F__super_init(H5F_t *f)
         FALSE;             /* Whether the driver info block has been inserted into the metadata cache */
     H5P_genplist_t *plist; /* File creation property list                */
     H5AC_ring_t     orig_ring = H5AC_RING_INV;
-    hsize_t         userblock_size;                           /* Size of userblock, in bytes                */
-    hsize_t         superblock_size;                          /* Size of superblock, in bytes               */
+    hsize_t         userblock_size;      /* Size of userblock, in bytes                */
+    hsize_t         superblock_size = 0; /* Size of superblock, in bytes               */
+    haddr_t         superblock_addr = HADDR_UNDEF;
     size_t          driver_size;                              /* Size of driver info block (bytes)          */
     unsigned        super_vers = HDF5_SUPERBLOCK_VERSION_DEF; /* Superblock version for file */
     H5O_loc_t       ext_loc;                                  /* Superblock extension object location */
@@ -1287,7 +1289,7 @@ H5F__super_init(H5F_t *f)
     f->shared->sblock = sblock;
 
     /* Allocate space for the superblock */
-    if (HADDR_UNDEF == H5MF_alloc(f, H5FD_MEM_SUPER, superblock_size))
+    if (HADDR_UNDEF == (superblock_addr = H5MF_alloc(f, H5FD_MEM_SUPER, superblock_size)))
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "file allocation failed for superblock")
 
     /* set the drvinfo filed to NULL -- will overwrite this later if needed */
@@ -1478,6 +1480,19 @@ done:
 
         /* Check if the superblock has been allocated yet */
         if (sblock) {
+            if (non_default_fs_settings && H5F_addr_defined(superblock_addr)) {
+                /*
+                 * For non-default free-space settings, the allocation of
+                 * space in the file for the superblock may have have allocated
+                 * memory for the free-space manager and inserted it into the
+                 * metadata cache. Clean that up before returning or we may fail
+                 * to close the file later due to the metadata cache's metadata
+                 * free space manager ring (H5AC_RING_MDFSM) not being clean.
+                 */
+                if (H5MF_try_close(f) < 0)
+                    HDONE_ERROR(H5E_FILE, H5E_CANTFREE, FAIL, "can't close file free space manager");
+            }
+
             /* Check if we've cached it already */
             if (sblock_in_cache) {
                 /* Unpin superblock in cache */
@@ -1491,7 +1506,7 @@ done:
             else
                 /* Free superblock */
                 if (H5F__super_free(sblock) < 0)
-                HDONE_ERROR(H5E_FILE, H5E_CANTFREE, FAIL, "unable to destroy superblock")
+                    HDONE_ERROR(H5E_FILE, H5E_CANTFREE, FAIL, "unable to destroy superblock")
 
             /* Reset variables in file structure */
             f->shared->sblock = NULL;

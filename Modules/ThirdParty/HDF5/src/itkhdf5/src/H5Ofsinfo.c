@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -31,10 +30,10 @@
 #include "H5Opkg.h"      /* Object headers       */
 
 /* PRIVATE PROTOTYPES */
-static void * H5O__fsinfo_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
+static void  *H5O__fsinfo_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
                                  size_t p_size, const uint8_t *p);
 static herr_t H5O__fsinfo_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
-static void * H5O__fsinfo_copy(const void *_mesg, void *_dest);
+static void  *H5O__fsinfo_copy(const void *_mesg, void *_dest);
 static size_t H5O__fsinfo_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
 static herr_t H5O__fsinfo_free(void *mesg);
 static herr_t H5O__fsinfo_debug(H5F_t *f, const void *_mesg, FILE *stream, int indent, int fwidth);
@@ -44,7 +43,7 @@ const H5O_msg_class_t H5O_MSG_FSINFO[1] = {{
     H5O_FSINFO_ID,        /* message id number                 */
     "fsinfo",             /* message name for debugging        */
     sizeof(H5O_fsinfo_t), /* native message size               */
-    0,                    /* messages are sharable?            */
+    0,                    /* messages are shareable?            */
     H5O__fsinfo_decode,   /* decode message                    */
     H5O__fsinfo_encode,   /* encode message                    */
     H5O__fsinfo_copy,     /* copy the native value             */
@@ -90,12 +89,13 @@ H5FL_DEFINE_STATIC(H5O_fsinfo_t);
  */
 static void *
 H5O__fsinfo_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUSED mesg_flags,
-                   unsigned H5_ATTR_UNUSED *ioflags, size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
+                   unsigned H5_ATTR_UNUSED *ioflags, size_t p_size, const uint8_t *p)
 {
-    H5O_fsinfo_t * fsinfo = NULL;    /* File space info message */
-    H5F_mem_page_t ptype;            /* Memory type for iteration */
-    unsigned       vers;             /* message version */
-    void *         ret_value = NULL; /* Return value */
+    H5O_fsinfo_t  *fsinfo = NULL; /* File space info message */
+    H5F_mem_page_t ptype;         /* Memory type for iteration */
+    unsigned       vers;          /* message version */
+    const uint8_t *p_end     = p + p_size;
+    void          *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -135,8 +135,12 @@ H5O__fsinfo_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNU
                 fsinfo->threshold = threshold;
                 if (HADDR_UNDEF == (fsinfo->eoa_pre_fsm_fsalloc = H5F_get_eoa(f, H5FD_MEM_DEFAULT)))
                     HGOTO_ERROR(H5E_FILE, H5E_CANTGET, NULL, "unable to get file size")
-                for (type = H5FD_MEM_SUPER; type < H5FD_MEM_NTYPES; type++)
+                for (type = H5FD_MEM_SUPER; type < H5FD_MEM_NTYPES; type++) {
+                    if (p + H5_SIZEOF_HADDR_T > p_end)
+                        HGOTO_ERROR(H5E_FILE, H5E_CANTDECODE, NULL,
+                                    "ran off end of input buffer while decoding")
                     H5F_addr_decode(f, &p, &(fsinfo->fs_addr[type - 1]));
+                }
                 break;
 
             case H5F_FILE_SPACE_ALL:
@@ -170,7 +174,7 @@ H5O__fsinfo_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNU
         H5F_DECODE_LENGTH(f, p, fsinfo->threshold);     /* Free-space section threshold */
 
         H5F_DECODE_LENGTH(f, p, fsinfo->page_size); /* File space page size */
-        UINT16DECODE(p, fsinfo->pgend_meta_thres);  /* Page end metdata threshold */
+        UINT16DECODE(p, fsinfo->pgend_meta_thres);  /* Page end metadata threshold */
         H5F_addr_decode(f, &p,
                         &(fsinfo->eoa_pre_fsm_fsalloc)); /* EOA before free-space header and section info */
 
@@ -251,8 +255,8 @@ static void *
 H5O__fsinfo_copy(const void *_mesg, void *_dest)
 {
     const H5O_fsinfo_t *fsinfo    = (const H5O_fsinfo_t *)_mesg;
-    H5O_fsinfo_t *      dest      = (H5O_fsinfo_t *)_dest;
-    void *              ret_value = NULL; /* Return value */
+    H5O_fsinfo_t       *dest      = (H5O_fsinfo_t *)_dest;
+    void               *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 

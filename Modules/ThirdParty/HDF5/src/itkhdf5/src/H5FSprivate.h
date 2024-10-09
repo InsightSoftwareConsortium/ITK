@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -100,7 +99,7 @@ typedef struct H5FS_section_class_t {
     const unsigned type;        /* Type of free space section */
     size_t         serial_size; /* Size of serialized form of section */
     unsigned       flags;       /* Class flags */
-    void *         cls_private; /* Class private information */
+    void          *cls_private; /* Class private information */
 
     /* Class methods */
     herr_t (*init_cls)(struct H5FS_section_class_t *,
@@ -116,7 +115,7 @@ typedef struct H5FS_section_class_t {
         const struct H5FS_section_class_t *, const uint8_t *, haddr_t, hsize_t,
         unsigned *); /* Routine to deserialize a buffer into a "live" section */
     htri_t (*can_merge)(const H5FS_section_info_t *, const H5FS_section_info_t *,
-                        void *); /* Routine to determine if two nodes are mergable */
+                        void *); /* Routine to determine if two nodes are mergeable */
     herr_t (*merge)(H5FS_section_info_t **, H5FS_section_info_t *, void *); /* Routine to merge two nodes */
     htri_t (*can_shrink)(const H5FS_section_info_t *,
                          void *);                     /* Routine to determine if node can shrink container */

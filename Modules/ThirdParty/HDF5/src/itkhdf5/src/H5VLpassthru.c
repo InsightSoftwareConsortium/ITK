@@ -45,7 +45,7 @@
 /* Macros */
 /**********/
 
-/* Whether to display log messge when callback is invoked */
+/* Whether to display log message when callback is invoked */
 /* (Uncomment to enable) */
 /* #define ENABLE_PASSTHRU_LOGGING */
 
@@ -94,24 +94,24 @@ static herr_t H5VL_pass_through_init(hid_t vipl_id);
 static herr_t H5VL_pass_through_term(void);
 
 /* VOL info callbacks */
-static void * H5VL_pass_through_info_copy(const void *info);
+static void  *H5VL_pass_through_info_copy(const void *info);
 static herr_t H5VL_pass_through_info_cmp(int *cmp_value, const void *info1, const void *info2);
 static herr_t H5VL_pass_through_info_free(void *info);
 static herr_t H5VL_pass_through_info_to_str(const void *info, char **str);
 static herr_t H5VL_pass_through_str_to_info(const char *str, void **info);
 
 /* VOL object wrap / retrieval callbacks */
-static void * H5VL_pass_through_get_object(const void *obj);
+static void  *H5VL_pass_through_get_object(const void *obj);
 static herr_t H5VL_pass_through_get_wrap_ctx(const void *obj, void **wrap_ctx);
-static void * H5VL_pass_through_wrap_object(void *obj, H5I_type_t obj_type, void *wrap_ctx);
-static void * H5VL_pass_through_unwrap_object(void *obj);
+static void  *H5VL_pass_through_wrap_object(void *obj, H5I_type_t obj_type, void *wrap_ctx);
+static void  *H5VL_pass_through_unwrap_object(void *obj);
 static herr_t H5VL_pass_through_free_wrap_ctx(void *obj);
 
 /* Attribute callbacks */
-static void * H5VL_pass_through_attr_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
+static void  *H5VL_pass_through_attr_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
                                             hid_t type_id, hid_t space_id, hid_t acpl_id, hid_t aapl_id,
                                             hid_t dxpl_id, void **req);
-static void * H5VL_pass_through_attr_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
+static void  *H5VL_pass_through_attr_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
                                           hid_t aapl_id, hid_t dxpl_id, void **req);
 static herr_t H5VL_pass_through_attr_read(void *attr, hid_t mem_type_id, void *buf, hid_t dxpl_id,
                                           void **req);
@@ -127,10 +127,10 @@ static herr_t H5VL_pass_through_attr_optional(void *obj, H5VL_attr_optional_t op
 static herr_t H5VL_pass_through_attr_close(void *attr, hid_t dxpl_id, void **req);
 
 /* Dataset callbacks */
-static void * H5VL_pass_through_dataset_create(void *obj, const H5VL_loc_params_t *loc_params,
+static void  *H5VL_pass_through_dataset_create(void *obj, const H5VL_loc_params_t *loc_params,
                                                const char *name, hid_t lcpl_id, hid_t type_id, hid_t space_id,
                                                hid_t dcpl_id, hid_t dapl_id, hid_t dxpl_id, void **req);
-static void * H5VL_pass_through_dataset_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
+static void  *H5VL_pass_through_dataset_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
                                              hid_t dapl_id, hid_t dxpl_id, void **req);
 static herr_t H5VL_pass_through_dataset_read(void *dset, hid_t mem_type_id, hid_t mem_space_id,
                                              hid_t file_space_id, hid_t plist_id, void *buf, void **req);
@@ -160,9 +160,9 @@ static herr_t H5VL_pass_through_datatype_optional(void *obj, H5VL_datatype_optio
 static herr_t H5VL_pass_through_datatype_close(void *dt, hid_t dxpl_id, void **req);
 
 /* File callbacks */
-static void * H5VL_pass_through_file_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id,
+static void  *H5VL_pass_through_file_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id,
                                             hid_t dxpl_id, void **req);
-static void * H5VL_pass_through_file_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id,
+static void  *H5VL_pass_through_file_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id,
                                           void **req);
 static herr_t H5VL_pass_through_file_get(void *file, H5VL_file_get_t get_type, hid_t dxpl_id, void **req,
                                          va_list arguments);
@@ -173,10 +173,10 @@ static herr_t H5VL_pass_through_file_optional(void *file, H5VL_file_optional_t o
 static herr_t H5VL_pass_through_file_close(void *file, hid_t dxpl_id, void **req);
 
 /* Group callbacks */
-static void * H5VL_pass_through_group_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
+static void  *H5VL_pass_through_group_create(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
                                              hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id,
                                              void **req);
-static void * H5VL_pass_through_group_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
+static void  *H5VL_pass_through_group_open(void *obj, const H5VL_loc_params_t *loc_params, const char *name,
                                            hid_t gapl_id, hid_t dxpl_id, void **req);
 static herr_t H5VL_pass_through_group_get(void *obj, H5VL_group_get_t get_type, hid_t dxpl_id, void **req,
                                           va_list arguments);
@@ -206,7 +206,7 @@ static herr_t H5VL_pass_through_link_optional(void *obj, H5VL_link_optional_t op
                                               void **req, va_list arguments);
 
 /* Object callbacks */
-static void * H5VL_pass_through_object_open(void *obj, const H5VL_loc_params_t *loc_params,
+static void  *H5VL_pass_through_object_open(void *obj, const H5VL_loc_params_t *loc_params,
                                             H5I_type_t *opened_type, hid_t dxpl_id, void **req);
 static herr_t H5VL_pass_through_object_copy(void *src_obj, const H5VL_loc_params_t *src_loc_params,
                                             const char *src_name, void *dst_obj,
@@ -532,7 +532,7 @@ static void *
 H5VL_pass_through_info_copy(const void *_info)
 {
     const H5VL_pass_through_info_t *info = (const H5VL_pass_through_info_t *)_info;
-    H5VL_pass_through_info_t *      new_info;
+    H5VL_pass_through_info_t       *new_info;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL INFO Copy\n");
@@ -644,7 +644,7 @@ H5VL_pass_through_info_to_str(const void *_info, char **str)
 {
     const H5VL_pass_through_info_t *info              = (const H5VL_pass_through_info_t *)_info;
     H5VL_class_value_t              under_value       = (H5VL_class_value_t)-1;
-    char *                          under_vol_string  = NULL;
+    char                           *under_vol_string  = NULL;
     size_t                          under_vol_str_len = 0;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
@@ -660,16 +660,13 @@ H5VL_pass_through_info_to_str(const void *_info, char **str)
         under_vol_str_len = strlen(under_vol_string);
 
     /* Allocate space for our info */
-    *str = (char *)H5allocate_memory(32 + under_vol_str_len, (hbool_t)0);
+    size_t strSize = 32 + under_vol_str_len;
+    *str           = (char *)H5allocate_memory(strSize, (hbool_t)0);
     assert(*str);
 
-    /* Encode our info
-     * Normally we'd use snprintf() here for a little extra safety, but that
-     * call had problems on Windows until recently. So, to be as platform-independent
-     * as we can, we're using sprintf() instead.
-     */
-    sprintf(*str, "under_vol=%u;under_info={%s}", (unsigned)under_value,
-            (under_vol_string ? under_vol_string : ""));
+    /* Encode our info */
+    snprintf(*str, strSize, "under_vol=%u;under_info={%s}", (unsigned)under_value,
+             (under_vol_string ? under_vol_string : ""));
 
     return 0;
 } /* end H5VL_pass_through_info_to_str() */
@@ -689,9 +686,9 @@ H5VL_pass_through_str_to_info(const char *str, void **_info)
 {
     H5VL_pass_through_info_t *info;
     unsigned                  under_vol_value;
-    const char *              under_vol_info_start, *under_vol_info_end;
+    const char               *under_vol_info_start, *under_vol_info_end;
     hid_t                     under_vol_id;
-    void *                    under_vol_info = NULL;
+    void                     *under_vol_info = NULL;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL INFO String To Info\n");
@@ -762,7 +759,7 @@ H5VL_pass_through_get_object(const void *obj)
 static herr_t
 H5VL_pass_through_get_wrap_ctx(const void *obj, void **wrap_ctx)
 {
-    const H5VL_pass_through_t *   o = (const H5VL_pass_through_t *)obj;
+    const H5VL_pass_through_t    *o = (const H5VL_pass_through_t *)obj;
     H5VL_pass_through_wrap_ctx_t *new_wrap_ctx;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
@@ -797,8 +794,8 @@ static void *
 H5VL_pass_through_wrap_object(void *obj, H5I_type_t obj_type, void *_wrap_ctx)
 {
     H5VL_pass_through_wrap_ctx_t *wrap_ctx = (H5VL_pass_through_wrap_ctx_t *)_wrap_ctx;
-    H5VL_pass_through_t *         new_obj;
-    void *                        under;
+    H5VL_pass_through_t          *new_obj;
+    void                         *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL WRAP Object\n");
@@ -829,7 +826,7 @@ static void *
 H5VL_pass_through_unwrap_object(void *obj)
 {
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL UNWRAP Object\n");
@@ -898,7 +895,7 @@ H5VL_pass_through_attr_create(void *obj, const H5VL_loc_params_t *loc_params, co
 {
     H5VL_pass_through_t *attr;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL ATTRIBUTE Create\n");
@@ -935,7 +932,7 @@ H5VL_pass_through_attr_open(void *obj, const H5VL_loc_params_t *loc_params, cons
 {
     H5VL_pass_through_t *attr;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL ATTRIBUTE Open\n");
@@ -1154,7 +1151,7 @@ H5VL_pass_through_dataset_create(void *obj, const H5VL_loc_params_t *loc_params,
 {
     H5VL_pass_through_t *dset;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL DATASET Create\n");
@@ -1191,7 +1188,7 @@ H5VL_pass_through_dataset_open(void *obj, const H5VL_loc_params_t *loc_params, c
 {
     H5VL_pass_through_t *dset;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL DATASET Open\n");
@@ -1419,7 +1416,7 @@ H5VL_pass_through_datatype_commit(void *obj, const H5VL_loc_params_t *loc_params
 {
     H5VL_pass_through_t *dt;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL DATATYPE Commit\n");
@@ -1456,7 +1453,7 @@ H5VL_pass_through_datatype_open(void *obj, const H5VL_loc_params_t *loc_params, 
 {
     H5VL_pass_through_t *dt;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL DATATYPE Open\n");
@@ -1622,9 +1619,9 @@ H5VL_pass_through_file_create(const char *name, unsigned flags, hid_t fcpl_id, h
                               void **req)
 {
     H5VL_pass_through_info_t *info;
-    H5VL_pass_through_t *     file;
+    H5VL_pass_through_t      *file;
     hid_t                     under_fapl_id;
-    void *                    under;
+    void                     *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL FILE Create\n");
@@ -1678,9 +1675,9 @@ static void *
 H5VL_pass_through_file_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_pass_through_info_t *info;
-    H5VL_pass_through_t *     file;
+    H5VL_pass_through_t      *file;
     hid_t                     under_fapl_id;
-    void *                    under;
+    void                     *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL FILE Open\n");
@@ -1799,7 +1796,7 @@ H5VL_pass_through_file_specific(void *file, H5VL_file_specific_t specific_type, 
     /* Unpack arguments to get at the child file pointer when mounting a file */
     if (specific_type == H5VL_FILE_MOUNT) {
         H5I_type_t           loc_type;
-        const char *         name;
+        const char          *name;
         H5VL_pass_through_t *child_file;
         hid_t                plist_id;
 
@@ -1820,8 +1817,8 @@ H5VL_pass_through_file_specific(void *file, H5VL_file_specific_t specific_type, 
     else if (specific_type == H5VL_FILE_IS_ACCESSIBLE || specific_type == H5VL_FILE_DELETE) {
         H5VL_pass_through_info_t *info;
         hid_t                     fapl_id, under_fapl_id;
-        const char *              name;
-        htri_t *                  ret;
+        const char               *name;
+        htri_t                   *ret;
 
         /* Get the arguments for the 'is accessible' check */
         fapl_id = va_arg(arguments, hid_t);
@@ -1967,7 +1964,7 @@ H5VL_pass_through_group_create(void *obj, const H5VL_loc_params_t *loc_params, c
 {
     H5VL_pass_through_t *group;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL GROUP Create\n");
@@ -2004,7 +2001,7 @@ H5VL_pass_through_group_open(void *obj, const H5VL_loc_params_t *loc_params, con
 {
     H5VL_pass_through_t *group;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL GROUP Open\n");
@@ -2208,7 +2205,7 @@ H5VL_pass_through_link_create(H5VL_link_create_type_t create_type, void *obj,
 
     /* Fix up the link target object for hard link creation */
     if (H5VL_LINK_CREATE_HARD == create_type) {
-        void *             cur_obj;
+        void              *cur_obj;
         H5VL_loc_params_t *cur_params;
 
         /* Retrieve the object & loc params for the link target */
@@ -2443,7 +2440,7 @@ H5VL_pass_through_object_open(void *obj, const H5VL_loc_params_t *loc_params, H5
 {
     H5VL_pass_through_t *new_obj;
     H5VL_pass_through_t *o = (H5VL_pass_through_t *)obj;
-    void *               under;
+    void                *under;
 
 #ifdef ENABLE_PASSTHRU_LOGGING
     printf("------- PASS THROUGH VOL OBJECT Open\n");
@@ -2799,8 +2796,8 @@ H5VL_pass_through_request_specific(void *obj, H5VL_request_specific_t specific_t
 
         /* Can only use a request to invoke the underlying VOL connector when there's >0 requests */
         if (req_count > 0) {
-            void **              req_array;
-            void **              under_req_array;
+            void               **req_array;
+            void               **under_req_array;
             uint64_t             timeout;
             H5VL_pass_through_t *o;
             size_t               u; /* Local index variable */
@@ -2821,7 +2818,7 @@ H5VL_pass_through_request_specific(void *obj, H5VL_request_specific_t specific_t
 
             /* Release requests that have completed */
             if (H5VL_REQUEST_WAITANY == specific_type) {
-                size_t *       idx;    /* Pointer to the index of completed request */
+                size_t        *idx;    /* Pointer to the index of completed request */
                 H5ES_status_t *status; /* Pointer to the request's status */
 
                 /* Retrieve the remaining arguments */
@@ -2843,8 +2840,8 @@ H5VL_pass_through_request_specific(void *obj, H5VL_request_specific_t specific_t
                 } /* end if */
             }     /* end if */
             else if (H5VL_REQUEST_WAITSOME == specific_type) {
-                size_t *       outcount;          /* # of completed requests */
-                unsigned *     array_of_indices;  /* Array of indices for completed requests */
+                size_t        *outcount;          /* # of completed requests */
+                unsigned      *array_of_indices;  /* Array of indices for completed requests */
                 H5ES_status_t *array_of_statuses; /* Array of statuses for completed requests */
 
                 /* Retrieve the remaining arguments */
