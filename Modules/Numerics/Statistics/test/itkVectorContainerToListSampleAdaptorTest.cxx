@@ -25,7 +25,7 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
 
   using VectorType = itk::Vector<double, 5>;
 
-  using ContainerType = itk::VectorContainer<unsigned int, VectorType>;
+  using ContainerType = itk::VectorContainer<VectorType>;
 
   using AdaptorType = itk::Statistics::VectorContainerToListSampleAdaptor<ContainerType>;
 

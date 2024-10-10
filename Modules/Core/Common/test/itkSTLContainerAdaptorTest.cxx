@@ -37,7 +37,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
     std::cout << "Testing the VectorContainer " << std::endl;
 
-    using VectorContainerType = itk::VectorContainer<IndexType, ElementType>;
+    using VectorContainerType = itk::VectorContainer<ElementType>;
 
     auto vectorContainer = VectorContainerType::New();
 
