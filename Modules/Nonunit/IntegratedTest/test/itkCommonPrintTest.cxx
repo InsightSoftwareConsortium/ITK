@@ -426,8 +426,7 @@ itkCommonPrintTest(int, char *[])
     itk::VarianceImageFunction<InputType, float>::New();
   std::cout << "------------VarianceImageFunction" << VarianceImageFunctionObj;
 
-  itk::VectorContainer<unsigned long, PointType>::Pointer VectorContainerObj =
-    itk::VectorContainer<unsigned long, PointType>::New();
+  itk::VectorContainer<PointType>::Pointer VectorContainerObj = itk::VectorContainer<PointType>::New();
   std::cout << "------------VectorContainer" << VectorContainerObj;
 
   itk::VectorImage<float, 3>::Pointer VectorImageObj = itk::VectorImage<float, 3>::New();

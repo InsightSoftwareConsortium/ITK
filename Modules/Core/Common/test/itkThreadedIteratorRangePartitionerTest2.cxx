@@ -27,7 +27,7 @@ class IteratorRangeDomainThreaderAssociate
 public:
   using Self = IteratorRangeDomainThreaderAssociate;
 
-  using DomainContainerType = itk::VectorContainer<unsigned int, int>;
+  using DomainContainerType = itk::VectorContainer<int>;
   using DomainContainerPointer = DomainContainerType::Pointer;
   using ThreadedPartitionerType = itk::ThreadedIteratorRangePartitioner<DomainContainerType::ConstIterator>;
 
