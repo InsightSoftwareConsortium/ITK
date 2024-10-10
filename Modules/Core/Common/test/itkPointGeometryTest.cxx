@@ -265,7 +265,7 @@ itkPointGeometryTest(int, char *[])
     const double           tolerance = 1e-10;
     PointType              combination;
     constexpr unsigned int NP = 3;
-    using VectorOfPoints = itk::VectorContainer<unsigned long, PointType>;
+    using VectorOfPoints = itk::VectorContainer<PointType>;
     auto points = VectorOfPoints::New();
     points->Reserve(NP);
     constexpr double K = 12.0;

@@ -23,13 +23,10 @@
 #include <cstdlib>
 #include <string>
 
-// The tested ElementIdentifier type.
-using TestedElementIdentifierType = size_t;
-
 // Test template instantiations for various TElement template arguments:
-template class itk::detail::VectorContainer<TestedElementIdentifierType, int>;
-template class itk::detail::VectorContainer<TestedElementIdentifierType, bool>;
-template class itk::detail::VectorContainer<TestedElementIdentifierType, std::string>;
+template class itk::detail::VectorContainer<itk::SizeValueType, int>;
+template class itk::detail::VectorContainer<itk::SizeValueType, bool>;
+template class itk::detail::VectorContainer<itk::SizeValueType, std::string>;
 
 
 namespace
@@ -42,11 +39,11 @@ AssertSameType()
 }
 
 
-template <typename TElementIdentifier, typename TElement>
+template <typename TElement>
 constexpr bool
 AssertVectorContainerHasSamePublicNestedTypesAsStdVector()
 {
-  using VectorContainerType = itk::VectorContainer<TElementIdentifier, TElement>;
+  using VectorContainerType = itk::VectorContainer<TElement>;
   using StdVectorType = std::vector<TElement>;
 
   // Check the list of nested types of `std::vector` from section [vector.overview] of the C++ Standard Working Draft of
@@ -68,15 +65,15 @@ AssertVectorContainerHasSamePublicNestedTypesAsStdVector()
 }
 
 
-static_assert(AssertVectorContainerHasSamePublicNestedTypesAsStdVector<TestedElementIdentifierType, int>());
-static_assert(AssertVectorContainerHasSamePublicNestedTypesAsStdVector<TestedElementIdentifierType, bool>());
+static_assert(AssertVectorContainerHasSamePublicNestedTypesAsStdVector<int>());
+static_assert(AssertVectorContainerHasSamePublicNestedTypesAsStdVector<bool>());
 
 
-template <typename TElementIdentifier, typename TElement>
+template <typename TElement>
 void
-ExpectContainerHasValueOfCreatedElementAtIdentifier(const TElementIdentifier identifier, const TElement value)
+ExpectContainerHasValueOfCreatedElementAtIdentifier(const itk::SizeValueType identifier, const TElement value)
 {
-  const auto vectorContainer = itk::VectorContainer<TElementIdentifier, TElement>::New();
+  const auto vectorContainer = itk::VectorContainer<TElement>::New();
 
   vectorContainer->CreateElementAt(identifier) = value;
 
@@ -90,7 +87,7 @@ ExpectContainerHasValueOfCreatedElementAtIdentifier(const TElementIdentifier ide
 TEST(VectorContainer, HasValueOfCreatedElementAtIdentifier)
 {
   // Just pick a "pseudo-random" (magic) number as ElementIdentifier.
-  constexpr TestedElementIdentifierType magicIdentifier = 42;
+  constexpr itk::SizeValueType magicIdentifier = 42;
 
   ExpectContainerHasValueOfCreatedElementAtIdentifier(magicIdentifier, true);
   ExpectContainerHasValueOfCreatedElementAtIdentifier(magicIdentifier, false);

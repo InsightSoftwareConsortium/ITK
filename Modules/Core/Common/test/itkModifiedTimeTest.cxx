@@ -24,7 +24,7 @@ itkModifiedTimeTest(int, char *[])
 {
 
   using Point = itk::Point<double, 3>;
-  using PointsContainer = itk::VectorContainer<unsigned long, Point>;
+  using PointsContainer = itk::VectorContainer<Point>;
   using BoundingBox = itk::BoundingBox<unsigned long, 3, double, PointsContainer>;
 
   Point p, q, r;

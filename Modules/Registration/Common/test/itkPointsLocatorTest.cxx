@@ -138,7 +138,7 @@ itkPointsLocatorTest(int, char *[])
   constexpr unsigned int PointDimension = 3;
   using PointType = itk::Point<float, PointDimension>;
 
-  using VectorContainerType = itk::VectorContainer<unsigned int, PointType>;
+  using VectorContainerType = itk::VectorContainer<PointType>;
   using MapContainerType = itk::MapContainer<unsigned int, PointType>;
 
   std::cout << "VectorContainerType" << std::endl;

@@ -19,7 +19,7 @@
 #include "itkVectorContainer.h"
 #include "itkTestingMacros.h"
 
-using ContainerType = itk::VectorContainer<size_t, double>;
+using ContainerType = itk::VectorContainer<double>;
 
 int
 itkVectorContainerTest(int, char *[])

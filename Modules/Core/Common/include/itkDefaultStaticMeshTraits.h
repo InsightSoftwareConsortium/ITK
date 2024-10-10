@@ -96,7 +96,7 @@ public:
 
   /** The container type for use in storing points.  It must conform to
    * the IndexedContainer interface. */
-  using PointsContainer = VectorContainer<PointIdentifier, PointType>;
+  using PointsContainer = VectorContainer<PointType>;
 
   /** The container type that will be used to store boundary links
    * back to cells.  This must conform to the STL "set" interface. */
@@ -114,7 +114,7 @@ public:
 
   /** The container type for use in storing cells.  It must conform to
    * the IndexedContainer interface. */
-  using CellsContainer = VectorContainer<CellIdentifier, CellType *>;
+  using CellsContainer = VectorContainer<CellType *>;
 
   /** The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface. */
@@ -122,15 +122,15 @@ public:
 
   /** The container type for use in storing point links back to cells.
    * It must conform to the IndexedContainer interface. */
-  using CellLinksContainer = VectorContainer<PointIdentifier, PointCellLinksContainer>;
+  using CellLinksContainer = VectorContainer<PointCellLinksContainer>;
 
   /** The container type for use in storing point data.  It must conform to
    * the IndexedContainer interface. */
-  using PointDataContainer = VectorContainer<PointIdentifier, PixelType>;
+  using PointDataContainer = VectorContainer<PixelType>;
 
   /** The container type for use in storing cell data.  It must conform to
    * the IndexedContainer interface. */
-  using CellDataContainer = VectorContainer<CellIdentifier, CellPixelType>;
+  using CellDataContainer = VectorContainer<CellPixelType>;
 };
 } // end namespace itk
 

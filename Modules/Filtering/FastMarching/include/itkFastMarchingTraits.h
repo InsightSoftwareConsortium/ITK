@@ -66,7 +66,7 @@ public:
   using NodePairContainerConstIterator = typename NodePairContainerType::ConstIterator;
 
   /*
-  using NodeContainerType = VectorContainer< IdentifierType, NodeType >;
+  using NodeContainerType = VectorContainer<NodeType>;
   using NodeContainerPointer = typename NodeContainerType::Pointer;
   using NodeContainerIterator = typename NodeContainerType::Iterator;
   using NodeContainerConstIterator = typename NodeContainerType::ConstIterator;
