@@ -32,7 +32,7 @@ namespace itk
  * Here's a usage example of STLContainerAdaptor:
  *
    \code
-       itk::STLContainerAdaptor<itk::VectorContainer<size_t, ElementType>> vecAdaptor(aContainer);
+       itk::STLContainerAdaptor<itk::VectorContainer<ElementType>> vecAdaptor(aContainer);
        std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
        // do things with vec ...
        // upon return from function, vecAdaptor is destroyed and aContainer is Modified()
