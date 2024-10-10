@@ -21,6 +21,7 @@
 
 #include <type_traits>
 #include <utility>
+#include <iosfwd>
 
 namespace itk
 {
