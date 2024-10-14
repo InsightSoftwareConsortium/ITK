@@ -60,8 +60,7 @@ RunLinearInterpolateTest()
   auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
-  IndexType start;
-  start.Fill(0);
+  IndexType start{};
 
   SizeType      size;
   constexpr int dimMaxLength = 3;

@@ -66,8 +66,7 @@ itkBSplineResampleImageFunctionTest(int, char *[])
 
   /** Compare 10 values at random points. */
 
-  ImageType::IndexType Last;
-  Last.Fill(0);
+  ImageType::IndexType Last{};
   Last[0] = randImage->GetLargestPossibleRegion().GetSize()[0] - 1;
   ImageType::PointType LastPhysicalLocation;
   randImage->TransformIndexToPhysicalPoint(Last, LastPhysicalLocation);

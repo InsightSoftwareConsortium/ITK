@@ -76,9 +76,8 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;
 
-  auto      mySphereMeshSource = SphereMeshSourceType::New();
-  PointType center;
-  center.Fill(0);
+  auto                 mySphereMeshSource = SphereMeshSourceType::New();
+  PointType            center{};
   PointType::ValueType scaleInit_1[Dimension] = { 5, 5, 5 };
   VectorType           scale = scaleInit_1;
 

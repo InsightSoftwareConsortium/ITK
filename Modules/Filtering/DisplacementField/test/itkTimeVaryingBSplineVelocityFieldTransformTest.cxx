@@ -60,9 +60,8 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   integrator->SetUpperTimeBound(0.75);
   integrator->Update();
 
-  DisplacementFieldType::IndexType index;
-  index.Fill(0);
-  VectorType displacementPixel;
+  DisplacementFieldType::IndexType index{};
+  VectorType                       displacementPixel;
 
   // This integration should result in a constant image of value
   // 0.75 * 0.1 - 0.3 * 0.1 = 0.045 with ~epsilon deviation

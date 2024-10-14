@@ -87,8 +87,7 @@ itkHalfToFullHermitianImageFilterTest(int argc, char * argv[])
   }
 
   // Test that the full image has the Hermitian property.
-  ComplexImageType::IndexType conjugateRegionIndex;
-  conjugateRegionIndex.Fill(0);
+  ComplexImageType::IndexType conjugateRegionIndex{};
   conjugateRegionIndex[0] = static_cast<ComplexImageType::IndexValueType>(fftSize[0]) + indexShift[0];
   conjugateRegionIndex[1] = indexShift[1];
   ComplexImageType::SizeType conjugateRegionSize(size);

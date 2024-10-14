@@ -397,8 +397,7 @@ ASSERT(v[0] == 13.0 && v[1] == 18.0 && v[2] == 23.0, "On-the-fly conversion fail
 
 {
   // Testing empty vectors
-  FloatVariableLengthVectorType v1;
-  v1.Fill(0);
+  FloatVariableLengthVectorType v1{};
   FloatVariableLengthVectorType v2 = v1;
   v1 = v2;
 

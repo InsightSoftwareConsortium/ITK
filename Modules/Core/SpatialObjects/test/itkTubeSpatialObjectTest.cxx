@@ -122,8 +122,7 @@ itkTubeSpatialObjectTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  TubeType::CovariantVectorType expectedDerivative;
-  expectedDerivative.Fill(0);
+  TubeType::CovariantVectorType expectedDerivative{};
 
   if (expectedDerivative != derivative)
   {

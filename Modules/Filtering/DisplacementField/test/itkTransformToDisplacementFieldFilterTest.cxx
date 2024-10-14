@@ -73,8 +73,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   // Create output information.
   SizeType size;
   size.Fill(20);
-  IndexType index;
-  index.Fill(0);
+  IndexType   index{};
   SpacingType spacing;
   spacing.Fill(0.7);
   OriginType origin;

@@ -49,8 +49,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
 
   VectorImageType::SizeType size;
   size.Fill(100);
-  VectorImageType::PointType origin;
-  origin.Fill(0);
+  VectorImageType::PointType   origin{};
   VectorImageType::SpacingType spacing;
   spacing.Fill(1);
   VectorImageType::DirectionType direction;
@@ -164,8 +163,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   ncps.Fill(4);
   filter->SetNumberOfControlPoints(ncps);
   filter->SetNumberOfLevels(3);
-  FilterType::ArrayType close;
-  close.Fill(0);
+  FilterType::ArrayType close{};
   filter->SetCloseDimension(close);
 
 

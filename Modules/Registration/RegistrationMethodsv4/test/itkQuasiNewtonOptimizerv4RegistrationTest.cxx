@@ -118,8 +118,7 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
             << "fixedImage->GetBufferedRegion(): " << fixedImage->GetBufferedRegion() << std::endl;
   field->Allocate();
   // Fill it with 0's
-  typename DisplacementTransformType::OutputVectorType zeroVector;
-  zeroVector.Fill(0);
+  typename DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
   // Assign to transform
   displacementTransform->SetDisplacementField(field);

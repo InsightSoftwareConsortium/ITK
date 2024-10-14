@@ -29,8 +29,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   loc[2] = 2;
   loc[3] = 1;
 
-  itk::NeighborhoodIterator<TestImageType>::IndexType zeroIDX;
-  zeroIDX.Fill(0);
+  itk::NeighborhoodIterator<TestImageType>::IndexType zeroIDX{};
 
   itk::NeighborhoodIterator<TestImageType>::RadiusType radius;
   radius[0] = radius[1] = radius[2] = radius[3] = 1;

@@ -64,9 +64,7 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   ImagePointer imageZ = ImageType::New();
 
   ImageType::SizeType  size;
-  ImageType::IndexType start;
-
-  start.Fill(0);
+  ImageType::IndexType start{};
   size[0] = 10;
   size[1] = 10;
 

@@ -216,8 +216,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   // create images
   ImageType::Pointer    fixedImage = nullptr, movingImage = nullptr;
-  ImageType::OffsetType imageShift;
-  imageShift.Fill(0);
+  ImageType::OffsetType imageShift{};
   ObjectToObjectMultiMetricv4RegistrationTestCreateImages<ImageType>(fixedImage, movingImage, imageShift);
 
   using CorrelationMetricType = itk::CorrelationImageToImageMetricv4<ImageType, ImageType>;
@@ -231,8 +230,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   std::cout << std::endl << "*** Single image metric: " << std::endl;
   CorrelationMetricType::MeasureType    singleValueResult = 0.0;
-  CorrelationMetricType::DerivativeType singleDerivativeResult;
-  singleDerivativeResult.Fill(0);
+  CorrelationMetricType::DerivativeType singleDerivativeResult{};
   ObjectToObjectMultiMetricv4RegistrationTestRun<CorrelationMetricType>(
     correlationMetric, numberOfIterations, singleValueResult, singleDerivativeResult, 1.0, true);
 
@@ -252,8 +250,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   translationTransform->SetIdentity();
 
   CorrelationMetricType::MeasureType    multiValueResult = 0.0;
-  CorrelationMetricType::DerivativeType multiDerivativeResult;
-  multiDerivativeResult.Fill(0);
+  CorrelationMetricType::DerivativeType multiDerivativeResult{};
   ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
     multiMetric, numberOfIterations, multiValueResult, multiDerivativeResult, 1.0, true);
 

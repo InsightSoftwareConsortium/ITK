@@ -62,8 +62,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   // Create the 9x9 input image
   ImageType::SizeType size;
   size.Fill(9);
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType  index{};
   ImageType::RegionType region{ index, size };
   inputImage->SetRegions(region);
   inputImage->Allocate();

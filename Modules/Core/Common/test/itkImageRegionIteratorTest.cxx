@@ -135,8 +135,7 @@ itkImageRegionIteratorTest(int, char *[])
   {
     // Create an image
     using TestImageType = itk::Image<int, 2>;
-    TestImageType::IndexType imageCorner;
-    imageCorner.Fill(0);
+    TestImageType::IndexType imageCorner{};
 
     TestImageType::SizeType imageSize;
     imageSize.Fill(3);
@@ -165,8 +164,7 @@ itkImageRegionIteratorTest(int, char *[])
     }
 
     // Setup and iterate over the first region
-    TestImageType::IndexType region1Start;
-    region1Start.Fill(0);
+    TestImageType::IndexType region1Start{};
 
     TestImageType::SizeType regionSize;
     regionSize.Fill(2);

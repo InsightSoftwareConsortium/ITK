@@ -114,9 +114,7 @@ CreateEmptyFrame()
 
   FrameType::RegionType largestRegion;
   FrameType::SizeType   sizeLR;
-  FrameType::IndexType  startLR;
-
-  startLR.Fill(0);
+  FrameType::IndexType  startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
   largestRegion.SetSize(sizeLR);
@@ -239,8 +237,7 @@ itkVideoSourceTest(int, char *[])
     // get set
     if (region.GetNumberOfPixels() > 0)
     {
-      FrameType::IndexType idx;
-      idx.Fill(0);
+      FrameType::IndexType idx{};
       if (frame->GetPixel(idx) == 1)
       {
         std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;

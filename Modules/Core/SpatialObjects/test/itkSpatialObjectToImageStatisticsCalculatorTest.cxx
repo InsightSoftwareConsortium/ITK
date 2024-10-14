@@ -142,8 +142,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   size3D[0] = 50;
   size3D[1] = 50;
   size3D[2] = 3;
-  IndexType start;
-  start.Fill(0);
+  IndexType  start{};
   RegionType region3D;
   region3D.SetIndex(start);
   region3D.SetSize(size3D);

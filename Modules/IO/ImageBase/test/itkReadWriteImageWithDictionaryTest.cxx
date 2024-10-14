@@ -40,8 +40,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
 
   ImageType::SizeType size;
   size.Fill(16);
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType  index{};
   ImageType::RegionType region{ index, size };
   inputImage->SetRegions(region);
   inputImage->Allocate();

@@ -417,8 +417,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   {
     // Create an image
     using ChangeRegionTestImageType = itk::Image<int, 2>;
-    ChangeRegionTestImageType::IndexType imageCorner;
-    imageCorner.Fill(0);
+    ChangeRegionTestImageType::IndexType imageCorner{};
 
     ChangeRegionTestImageType::SizeType imageSize;
     imageSize.Fill(4);

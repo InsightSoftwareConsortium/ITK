@@ -53,8 +53,7 @@ CreateInputFrame(InputPixelType val)
 
   InputFrameType::RegionType largestRegion;
   InputFrameType::SizeType   sizeLR;
-  InputFrameType::IndexType  startLR;
-  startLR.Fill(0);
+  InputFrameType::IndexType  startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
   largestRegion.SetSize(sizeLR);

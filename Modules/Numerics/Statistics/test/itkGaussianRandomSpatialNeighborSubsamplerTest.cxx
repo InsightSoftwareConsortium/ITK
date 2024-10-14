@@ -51,8 +51,7 @@ itkGaussianRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   auto     inImage = FloatImage::New();
   SizeType sz;
   sz.Fill(35);
-  IndexType idx;
-  idx.Fill(0);
+  IndexType  idx{};
   RegionType region{ idx, sz };
 
   inImage->SetRegions(region);

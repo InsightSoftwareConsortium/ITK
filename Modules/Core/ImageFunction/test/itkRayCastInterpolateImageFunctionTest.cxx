@@ -42,9 +42,8 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 
   /* Allocate a simple test image */
   auto      image = ImageType::New();
-  IndexType start;
-  start.Fill(0);
-  SizeType size;
+  IndexType start{};
+  SizeType  size;
   size[0] = 30;
   size[1] = 30;
   size[2] = 30;

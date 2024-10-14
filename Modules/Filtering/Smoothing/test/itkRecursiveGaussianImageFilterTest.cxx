@@ -58,8 +58,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     size[1] = 100;
     size[2] = 100;
 
-    myIndexType start;
-    start.Fill(0);
+    myIndexType start{};
 
     myRegionType region{ start, size };
 

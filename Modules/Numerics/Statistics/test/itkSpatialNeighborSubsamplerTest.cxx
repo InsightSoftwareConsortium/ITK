@@ -77,8 +77,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   auto     inImage = ImageType::New();
   SizeType sz;
   sz.Fill(25);
-  IndexType idx;
-  idx.Fill(0);
+  IndexType  idx{};
   RegionType region{ idx, sz };
 
   inImage->SetRegions(region);

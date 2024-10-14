@@ -76,8 +76,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
 
   FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
-  itk::Index<2> index;
-  index.Fill(0);
+  itk::Index<2> index{};
 
   AlivePoints->push_back(NodePairType(index + offset0, 0.));
 

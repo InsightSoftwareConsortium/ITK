@@ -53,8 +53,7 @@ itkRawImageIOTest3(int argc, char * argv[])
   size[1] = 293;
 
   ImageType::RegionType region;
-  ImageType::IndexType  index;
-  index.Fill(0);
+  ImageType::IndexType  index{};
 
   region.SetIndex(index);
   region.SetSize(size);

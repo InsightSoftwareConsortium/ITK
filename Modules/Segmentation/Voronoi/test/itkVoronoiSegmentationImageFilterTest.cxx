@@ -46,8 +46,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
 
   auto                   inputImage = UShortImage::New();
   UShortImage::SizeType  size = { { width, height } };
-  UShortImage::IndexType index;
-  index.Fill(0);
+  UShortImage::IndexType index{};
 
   UShortImage::RegionType region;
 

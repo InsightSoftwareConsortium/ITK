@@ -34,8 +34,7 @@ itkVectorMagnitudeImageFilterTest(int, char *[])
   VectorImageType::SizeType size;
   size.Fill(3);
 
-  VectorImageType::IndexType start;
-  start.Fill(0);
+  VectorImageType::IndexType start{};
 
   VectorImageType::RegionType region(start, size);
 

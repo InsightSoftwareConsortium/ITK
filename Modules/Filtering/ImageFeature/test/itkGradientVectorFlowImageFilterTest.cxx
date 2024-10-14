@@ -61,8 +61,7 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   size[0] = 128;
   size[1] = 128;
 
-  myIndexType start;
-  start.Fill(0);
+  myIndexType start{};
 
   myRegionType region{ start, size };
 

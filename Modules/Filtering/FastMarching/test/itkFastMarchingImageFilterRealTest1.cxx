@@ -86,8 +86,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
-  itk::Index<Dimension> index;
-  index.Fill(0);
+  itk::Index<Dimension> index{};
 
   node_pair.SetValue(0.0);
   node_pair.SetNode(index + offset0);

@@ -140,8 +140,7 @@ typename TImage::Pointer
 CreateSmallImage()
 {
   const auto                image = TImage::New();
-  typename TImage::SizeType imageSize;
-  imageSize.Fill(0);
+  typename TImage::SizeType imageSize{};
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
   image->AllocateInitialized();

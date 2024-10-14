@@ -41,8 +41,7 @@ itkImageLinearIteratorTest(int, char *[])
   size0[1] = 100;
   size0[2] = 100;
 
-  ImageType::IndexType start0;
-  start0.Fill(0);
+  ImageType::IndexType start0{};
 
   ImageType::RegionType region0{ start0, size0 };
 

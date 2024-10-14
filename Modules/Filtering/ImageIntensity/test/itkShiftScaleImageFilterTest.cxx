@@ -37,8 +37,7 @@ itkShiftScaleImageFilterTest(int, char *[])
   TestInputImage::RegionType region;
   TestInputImage::SizeType   size;
   size.Fill(64);
-  TestInputImage::IndexType index;
-  index.Fill(0);
+  TestInputImage::IndexType index{};
 
   region.SetIndex(index);
   region.SetSize(size);

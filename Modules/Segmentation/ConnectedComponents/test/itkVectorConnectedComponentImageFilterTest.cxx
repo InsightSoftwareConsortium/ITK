@@ -52,8 +52,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   ImageType::RegionType region;
   ImageType::SizeType   size;
   size.Fill(100);
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType index{};
 
   region.SetSize(size);
   region.SetIndex(index);

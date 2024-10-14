@@ -74,8 +74,7 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
 
   ImageType::IndexType index;
 
-  OutputType total;
-  total.Fill(0);
+  OutputType total{};
 
   std::cout << "UseImageDirection: " << function->GetUseImageDirection() << std::endl;
 

@@ -22,8 +22,7 @@ using LocalImageType = itk::Image<int, 2>;
 void
 CreateImagex(LocalImageType::Pointer & image)
 {
-  LocalImageType::IndexType start;
-  start.Fill(0);
+  LocalImageType::IndexType start{};
 
   LocalImageType::SizeType size;
   size.Fill(10);

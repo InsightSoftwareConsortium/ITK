@@ -66,8 +66,7 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  VecImageType::IndexType index;
-  index.Fill(0);
+  VecImageType::IndexType  index{};
   VecImageType::RegionType region;
 
   region.SetSize(vecImgSize);

@@ -111,8 +111,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
   ImageType::SizeType size;
   size.Fill(5);
 
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType index{};
 
   ImageType::RegionType region{ index, size };
 

@@ -52,8 +52,7 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
     constexpr int                dimLength = 20;
     typename FieldType::SizeType size;
     size.Fill(dimLength);
-    typename FieldType::IndexType start;
-    start.Fill(0);
+    typename FieldType::IndexType  start{};
     typename FieldType::RegionType region{ start, size };
     knownField->SetRegions(region);
 

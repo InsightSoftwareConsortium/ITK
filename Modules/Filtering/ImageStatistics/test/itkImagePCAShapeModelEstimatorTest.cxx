@@ -69,8 +69,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
-  InputImageType::IndexType index;
-  index.Fill(0);
+  InputImageType::IndexType  index{};
   InputImageType::RegionType region;
 
   region.SetSize(inputImageSize);

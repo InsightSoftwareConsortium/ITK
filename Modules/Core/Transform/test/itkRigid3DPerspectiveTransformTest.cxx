@@ -62,14 +62,12 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(transform, Rigid3DPerspectiveTransform, Transform);
 
 
-    typename TransformType::OffsetType fixedOffset;
-    fixedOffset.Fill(0);
+    typename TransformType::OffsetType fixedOffset{};
 
     transform->SetFixedOffset(fixedOffset);
     ITK_TEST_SET_GET_VALUE(fixedOffset, transform->GetFixedOffset());
 
-    typename TransformType::InputPointType centerOfRotation;
-    centerOfRotation.Fill(0);
+    typename TransformType::InputPointType centerOfRotation{};
     transform->SetCenterOfRotation(centerOfRotation);
     ITK_TEST_SET_GET_VALUE(centerOfRotation, transform->GetCenterOfRotation());
 

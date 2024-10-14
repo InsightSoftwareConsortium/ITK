@@ -71,8 +71,7 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  VecImageType::IndexType index;
-  index.Fill(0);
+  VecImageType::IndexType  index{};
   VecImageType::RegionType region;
 
   region.SetSize(vecImgSize);
@@ -177,8 +176,7 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  ClassImageType::IndexType classindex;
-  classindex.Fill(0);
+  ClassImageType::IndexType classindex{};
 
   ClassImageType::RegionType classregion;
 

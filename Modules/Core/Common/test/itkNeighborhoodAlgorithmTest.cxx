@@ -97,8 +97,7 @@ NeighborhoodAlgorithmTest()
   using IndexType = typename ImageType::IndexType;
   using SizeType = typename ImageType::SizeType;
 
-  IndexType ind;
-  ind.Fill(0);
+  IndexType ind{};
 
   SizeType size;
   size.Fill(5);

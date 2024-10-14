@@ -29,8 +29,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage(int d1, int d2, int d3
   sizeND[2] = d3;
   sizeND[3] = d4;
 
-  itk::Index<4> origND;
-  origND.Fill(0);
+  itk::Index<4> origND{};
 
   itk::ImageRegion<4> RegionND{ origND, sizeND };
 

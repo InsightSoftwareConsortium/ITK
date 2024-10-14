@@ -39,8 +39,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   auto                  image = ImageType::New();
   ImageType::RegionType region;
   ImageType::SizeType   size;
-  ImageType::IndexType  index;
-  index.Fill(0);
+  ImageType::IndexType  index{};
   size.Fill(5);
   region.SetIndex(index);
   region.SetSize(size);
@@ -53,8 +52,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   ImageIterator iter(image, region);
 
   unsigned int          count = 0;
-  MeasurementVectorType temp;
-  temp.Fill(0);
+  MeasurementVectorType temp{};
 
   // fill the image
   while (!iter.IsAtEnd())

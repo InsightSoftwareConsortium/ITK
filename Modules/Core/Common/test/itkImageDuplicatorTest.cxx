@@ -33,8 +33,7 @@ itkImageDuplicatorTest(int, char *[])
   size[0] = 10;
   size[1] = 20;
   size[2] = 30;
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType index{};
   region.SetSize(size);
   region.SetIndex(index);
 

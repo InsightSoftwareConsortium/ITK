@@ -52,8 +52,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
   unsigned long numberOfSamples = size[0] * size[1];
 
-  ImageType::IndexType start;
-  start.Fill(0);
+  ImageType::IndexType start{};
 
   ImageType::RegionType region{ start, size };
 

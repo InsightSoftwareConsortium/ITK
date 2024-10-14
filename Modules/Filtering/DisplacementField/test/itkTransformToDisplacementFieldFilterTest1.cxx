@@ -74,8 +74,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   // Create input image.
   SizeType size;
   size.Fill(24);
-  IndexType index;
-  index.Fill(0);
+  IndexType   index{};
   SpacingType spacing;
   spacing[0] = 1.1;
   spacing[1] = 2.2;
@@ -134,8 +133,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   }
 
   // Set Output information.
-  IndexType outputIndex;
-  outputIndex.Fill(0);
+  IndexType   outputIndex{};
   SpacingType outputSpacing;
   SizeType    outputSize;
   outputSize.Fill(24);
