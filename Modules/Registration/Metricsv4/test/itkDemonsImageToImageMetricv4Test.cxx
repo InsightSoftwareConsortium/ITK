@@ -38,13 +38,11 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
 
   ImageType::SizeType size;
   size.Fill(imageSize);
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType   index{};
   ImageType::RegionType  region{ index, size };
   ImageType::SpacingType spacing;
   spacing.Fill(1.0);
-  ImageType::PointType origin;
-  origin.Fill(0);
+  ImageType::PointType     origin{};
   ImageType::DirectionType direction;
   direction.SetIdentity();
 
@@ -100,8 +98,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   field->CopyInformation(fixedImage);
   field->Allocate();
-  DisplacementTransformType::OutputVectorType zeroVector;
-  zeroVector.Fill(0);
+  DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
   displacementTransform->SetDisplacementField(field);
   displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(5);

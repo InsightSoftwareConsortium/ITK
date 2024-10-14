@@ -57,8 +57,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   field->SetRegions(region);
   field->Allocate();
 
-  FieldType::PixelType zeroVector;
-  zeroVector.Fill(0);
+  FieldType::PixelType zeroVector{};
   field->FillBuffer(zeroVector);
 
   displacementTransform->SetConstantVelocityField(field);

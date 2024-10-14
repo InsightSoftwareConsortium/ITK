@@ -566,8 +566,7 @@ RegressionTestHelper(const char *       testImageFilename,
     using ExtractType = itk::Testing::ExtractSliceImageFilter<OutputType, DiffOutputType>;
     using WriterType = itk::ImageFileWriter<DiffOutputType>;
     using RegionType = itk::ImageRegion<ITK_TEST_DIMENSION_MAX>;
-    OutputType::SizeType size;
-    size.Fill(0);
+    OutputType::SizeType size{};
 
     auto rescale = RescaleType::New();
     rescale->SetOutputMinimum(itk::NumericTraits<unsigned char>::NonpositiveMin());
@@ -578,8 +577,7 @@ RegressionTestHelper(const char *       testImageFilename,
 
     // Get the center slice of the image,  In 3D, the first slice
     // is often a black slice with little debugging information.
-    OutputType::IndexType index;
-    index.Fill(0);
+    OutputType::IndexType index{};
     for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; ++i)
     {
       index[i] = size[i] / 2; // NOTE: Integer Divide used to get approximately
@@ -914,8 +912,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
 
   // Get the center slice of the image,  In 3D, the first slice
   // is often a black slice with little debugging information.
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType index{};
   for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; ++i)
   {
     index[i] = size[i] / 2; // NOTE: Integer Divide used to get approximately

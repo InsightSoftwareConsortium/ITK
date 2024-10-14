@@ -49,8 +49,7 @@ itkGradientRecursiveGaussianFilterTest2(int, char *[])
   mySizeType size;
   size[0] = 64;
 
-  myIndexType start;
-  start.Fill(0);
+  myIndexType start{};
 
   myRegionType region{ start, size };
 

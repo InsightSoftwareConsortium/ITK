@@ -123,8 +123,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   SizeType                 size;
   size.SetSize(sizeArray);
 
-  IndexType index;
-  index.Fill(0);
+  IndexType index{};
 
   RegionType region{ index, size };
 

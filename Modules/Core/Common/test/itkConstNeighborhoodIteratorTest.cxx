@@ -34,8 +34,7 @@ GetTestImage(int d1, int d2, int d3, int d4)
   sizeND[2] = d3;
   sizeND[3] = d4;
 
-  itk::Index<4> origND;
-  origND.Fill(0);
+  itk::Index<4> origND{};
 
   itk::ImageRegion<4> RegionND{ origND, sizeND };
 
@@ -318,8 +317,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   {
     // Create an image
     using ChangeRegionTestImageType = itk::Image<int, 2>;
-    ChangeRegionTestImageType::IndexType imageCorner;
-    imageCorner.Fill(0);
+    ChangeRegionTestImageType::IndexType imageCorner{};
 
     ChangeRegionTestImageType::SizeType imageSize;
     imageSize.Fill(4);

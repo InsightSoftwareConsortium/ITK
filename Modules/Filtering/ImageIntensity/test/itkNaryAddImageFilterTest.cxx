@@ -35,8 +35,7 @@ InitializeImage(ImageType * image, const typename ImageType::PixelType & value)
   typename ImageType::SizeType size;
   size.Fill(2);
 
-  typename ImageType::IndexType start;
-  start.Fill(0);
+  typename ImageType::IndexType start{};
 
   typename ImageType::RegionType region{ start, size };
 

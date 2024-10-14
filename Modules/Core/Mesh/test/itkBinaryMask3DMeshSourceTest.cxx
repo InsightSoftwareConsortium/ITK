@@ -80,8 +80,7 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
   size[1] = 128;
   size[2] = 128;
 
-  IndexType start;
-  start.Fill(0);
+  IndexType start{};
 
   RegionType region{ start, size };
 

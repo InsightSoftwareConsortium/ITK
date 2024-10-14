@@ -122,9 +122,8 @@ itkImageTest(int, char *[])
   direction.SetIdentity();
   image->SetDirection(direction);
   Image::RegionType region;
-  Image::IndexType  index;
-  index.Fill(0);
-  Image::SizeType size;
+  Image::IndexType  index{};
+  Image::SizeType   size;
   size.Fill(4);
   region.SetIndex(index);
   region.SetSize(size);
@@ -133,8 +132,7 @@ itkImageTest(int, char *[])
   auto               imageRef = Image::New();
   Image::SpacingType spacingRef;
   spacingRef.Fill(2);
-  Image::PointType originRef;
-  originRef.Fill(0);
+  Image::PointType     originRef{};
   Image::DirectionType directionRef;
   directionRef.SetIdentity();
   imageRef->SetSpacing(spacingRef);
@@ -155,9 +153,8 @@ itkImageTest(int, char *[])
                                                                           image.GetPointer(),
                                                                           imageRef.GetPointer(),
                                                                           static_cast<TransformType *>(nullptr));
-  Image::IndexType  correctIndex;
-  correctIndex.Fill(0);
-  Image::SizeType correctSize;
+  Image::IndexType  correctIndex{};
+  Image::SizeType   correctSize;
   correctSize.Fill(3);
   if (!(boxRegion.GetIndex() == correctIndex) || !(boxRegion.GetSize() == correctSize))
   {
@@ -170,8 +167,7 @@ itkImageTest(int, char *[])
   auto                 volume = Image3D::New();
   Image3D::SpacingType spacingVol;
   spacingVol.Fill(1);
-  Image3D::PointType originVol;
-  originVol.Fill(0);
+  Image3D::PointType     originVol{};
   Image3D::DirectionType directionVol;
   directionVol.SetIdentity();
   volume->SetSpacing(spacingVol);
@@ -179,9 +175,8 @@ itkImageTest(int, char *[])
   volume->SetDirection(directionVol);
 
   Image3D::RegionType cuboid;
-  Image3D::IndexType  indexCuboid;
-  indexCuboid.Fill(0);
-  Image3D::SizeType sizeCuboid;
+  Image3D::IndexType  indexCuboid{};
+  Image3D::SizeType   sizeCuboid;
   sizeCuboid[0] = 1;
   sizeCuboid[1] = 2;
   sizeCuboid[2] = 3;
@@ -196,9 +191,8 @@ itkImageTest(int, char *[])
     volume->GetLargestPossibleRegion(), volume.GetPointer(), imageRef.GetPointer(), projectionTransform);
 
   delete projectionTransform;
-  Image::IndexType correctRectangleIndex;
-  correctRectangleIndex.Fill(0);
-  Image::SizeType correctRectangleSize;
+  Image::IndexType correctRectangleIndex{};
+  Image::SizeType  correctRectangleSize;
   correctRectangleSize[0] = 1;
   correctRectangleSize[1] = 2;
   if (!(rectangleRegion.GetIndex() == correctRectangleIndex) || !(rectangleRegion.GetSize() == correctRectangleSize))

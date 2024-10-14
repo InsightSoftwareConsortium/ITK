@@ -67,9 +67,8 @@ itkTernaryOperatorImageFilterTest(int, char *[])
   using MaskImageType = itk::Image<MaskPixelType, ImageDimension>;
   using GrayImageType = itk::Image<GrayPixelType, ImageDimension>;
 
-  MaskImageType::IndexType origin;
-  origin.Fill(0);
-  MaskImageType::SizeType size;
+  MaskImageType::IndexType origin{};
+  MaskImageType::SizeType  size;
   size.Fill(20);
   MaskImageType::RegionType region(origin, size);
 

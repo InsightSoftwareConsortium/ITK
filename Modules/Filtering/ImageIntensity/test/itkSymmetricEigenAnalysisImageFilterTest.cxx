@@ -119,8 +119,7 @@ public:
     size[1] = 8;
     size[2] = 8;
 
-    IndexType start;
-    start.Fill(0);
+    IndexType start{};
 
     RegionType region;
     region.SetIndex(start);
@@ -227,8 +226,7 @@ public:
     size[1] = 8;
     size[2] = 8;
 
-    IndexType start;
-    start.Fill(0);
+    IndexType start{};
 
     RegionType region;
     region.SetIndex(start);

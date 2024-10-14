@@ -45,9 +45,7 @@ CreateInputFrame(InputPixelType val)
 
   InputFrameType::RegionType largestRegion;
   InputFrameType::SizeType   sizeLR;
-  InputFrameType::IndexType  startLR;
-
-  startLR.Fill(0);
+  InputFrameType::IndexType  startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
   largestRegion.SetSize(sizeLR);
@@ -250,8 +248,7 @@ itkVideoToVideoFilterTest(int, char *[])
     }
 
     // Make sure nothing set outside of requested spatial region
-    OutputFrameType::IndexType idx;
-    idx.Fill(0);
+    OutputFrameType::IndexType idx{};
     if (frame->GetRequestedRegion().IsInside(idx))
     {
       std::cerr << "Filter set pixel outside of requested region" << std::endl;

@@ -49,8 +49,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
   size[0] = 20;
   size[1] = 4;
 
-  IndexType start;
-  start.Fill(0);
+  IndexType start{};
 
   RegionType region;
   region.SetIndex(start);

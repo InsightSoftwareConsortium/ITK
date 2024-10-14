@@ -55,8 +55,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
 
   FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
-  itk::Index<2> index;
-  index.Fill(0);
+  itk::Index<2> index{};
 
   node_pair.SetValue(0.0);
   node_pair.SetNode(index + offset0);

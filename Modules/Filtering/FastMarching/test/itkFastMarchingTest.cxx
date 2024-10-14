@@ -80,8 +80,7 @@ itkFastMarchingTest(int argc, char * argv[])
 
   FloatImage::OffsetType offset0 = { { 28, 35 } };
 
-  itk::Index<2> index;
-  index.Fill(0);
+  itk::Index<2> index{};
 
   node.SetValue(0.0);
   node.SetIndex(index + offset0);

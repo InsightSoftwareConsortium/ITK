@@ -62,8 +62,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
   ImageType::SizeType imageSize = { { ImageWidth, ImageHeight } };
 
-  ImageType::IndexType startIndex;
-  startIndex.Fill(0);
+  ImageType::IndexType startIndex{};
 
   ImageType::RegionType region{ startIndex, imageSize };
 

@@ -142,8 +142,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
 
   // Compare 10 values at random points.
 
-  ImageType::IndexType last;
-  last.Fill(0);
+  ImageType::IndexType last{};
   last[0] = randImage->GetLargestPossibleRegion().GetSize()[0] - 1;
   ImageType::PointType lastPhysicalLocation;
   randImage->TransformIndexToPhysicalPoint(last, lastPhysicalLocation);

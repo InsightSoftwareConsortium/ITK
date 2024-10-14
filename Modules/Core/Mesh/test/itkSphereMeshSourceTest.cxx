@@ -31,8 +31,7 @@ itkSphereMeshSourceTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mySphereMeshSource, SphereMeshSource, MeshSource);
 
 
-  fPointType center;
-  center.Fill(0);
+  fPointType            center{};
   fPointType::ValueType scaleInit[3] = { 1, 1, 1 };
   fPointType            scale = scaleInit;
 

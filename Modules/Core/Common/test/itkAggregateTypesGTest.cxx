@@ -287,10 +287,8 @@ public:
 
     //============ Test Copy with Round/Cast Type ====================================
     {
-      AggregateType known3s{ { 3, 3, 3, 3 } };
-      AggregateType threes;
-
-      threes.Fill(0);
+      AggregateType         known3s{ { 3, 3, 3, 3 } };
+      AggregateType         threes{};
       AggregateType         known4s{ { 4, 4, 4, 4 } };
       itk::Point<double, 4> p1;
       p1.Fill(3.5);

@@ -82,8 +82,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 
   ImageVectorPointer imageOfVectors = ImageVectorType::New();
 
-  IndexType start;
-  start.Fill(0);
+  IndexType start{};
 
   SizeType      size;
   constexpr int dimLength = 3;

@@ -122,8 +122,7 @@ test_RegionGrowKLMExceptionHandling()
   ImageType5D::SizeType imageSize5D;
   imageSize5D.Fill(sizeLen);
 
-  ImageType5D::IndexType index5D;
-  index5D.Fill(0);
+  ImageType5D::IndexType index5D{};
 
   ImageType5D::RegionType region5D;
 
@@ -241,8 +240,7 @@ test_regiongrowKLM1D()
   ImageType::SizeType imageSize;
   imageSize.Fill(numPixels);
 
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType index{};
 
   ImageType::RegionType region{ index, imageSize };
 
@@ -825,8 +823,7 @@ test_regiongrowKLM2D()
   imageSize[1] = 20;
   unsigned int numPixels = 200;
 
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType index{};
 
   ImageType::RegionType region{ index, imageSize };
 
@@ -1276,8 +1273,7 @@ test_regiongrowKLM3D()
   imageSize[2] = 3;
   unsigned int numPixels = 10 * 20 * 3;
 
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType index{};
 
   ImageType::RegionType region{ index, imageSize };
 
@@ -1779,8 +1775,7 @@ test_regiongrowKLM4D()
   imageSize[3] = 7 * multVal;
   unsigned int numPixels = imageSize[0] * imageSize[1] * imageSize[2] * imageSize[3];
 
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType index{};
 
   ImageType::RegionType region{ index, imageSize };
 

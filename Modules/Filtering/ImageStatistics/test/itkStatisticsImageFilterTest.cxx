@@ -50,8 +50,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   FloatImage::RegionType region;
   FloatImage::SizeType   size;
   size.Fill(64);
-  FloatImage::IndexType index;
-  index.Fill(0);
+  FloatImage::IndexType index{};
 
   region.SetIndex(index);
   region.SetSize(size);

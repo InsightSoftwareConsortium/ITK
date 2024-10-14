@@ -111,8 +111,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  TubeType::CovariantVectorType expectedDerivative;
-  expectedDerivative.Fill(0);
+  TubeType::CovariantVectorType expectedDerivative{};
 
   if (expectedDerivative != derivative)
   {
@@ -556,8 +555,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
     pOriginal.SetAlpha3(11.0);
 
     // itk::DTITubeSpatialObjectTest.cxx
-    itk::DiffusionTensor3D<float> tensor;
-    tensor.Fill(0);
+    itk::DiffusionTensor3D<float> tensor{};
     pOriginal.SetTensorMatrix(tensor);
 
     // Copy

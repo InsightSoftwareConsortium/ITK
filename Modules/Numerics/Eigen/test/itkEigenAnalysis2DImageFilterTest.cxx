@@ -60,8 +60,7 @@ class EigenAnalysis2DImageFilterTester
     mySizeType size;
     size.Fill(2);
 
-    myIndexType start;
-    start.Fill(0);
+    myIndexType start{};
 
     myRegionType region{ start, size };
 

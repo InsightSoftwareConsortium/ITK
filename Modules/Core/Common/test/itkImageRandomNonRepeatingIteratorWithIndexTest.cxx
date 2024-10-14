@@ -46,9 +46,8 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   size0[0] = 50;
   size0[1] = 50;
   size0[2] = 50;
-  unsigned long        numberOfSamples = 10;
-  ImageType::IndexType start0;
-  start0.Fill(0);
+  unsigned long         numberOfSamples = 10;
+  ImageType::IndexType  start0{};
   ImageType::RegionType region0{ start0, size0 };
   myImage->SetRegions(region0);
   myImage->Allocate();
@@ -58,8 +57,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   prioritySize[0] = 50;
   prioritySize[1] = 50;
   prioritySize[2] = 50;
-  PriorityImageType::IndexType priorityStart;
-  priorityStart.Fill(0);
+  PriorityImageType::IndexType  priorityStart{};
   PriorityImageType::RegionType priorityRegion{ priorityStart, prioritySize };
   priorityImage->SetRegions(priorityRegion);
   priorityImage->Allocate();

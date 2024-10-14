@@ -58,8 +58,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
-  IndexType start;
-  start.Fill(0);
+  IndexType start{};
 
   SizeType size;
   size.Fill(3);
@@ -130,8 +129,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
   interpolator->SetInputImage(image);
 
-  typename ImageType::SizeType radius;
-  radius.Fill(0);
+  typename ImageType::SizeType radius{};
   for (unsigned int d = 0; d < Dimension; ++d)
   {
     ITK_TEST_SET_GET_VALUE(radius[d], interpolator->GetRadius()[d]);

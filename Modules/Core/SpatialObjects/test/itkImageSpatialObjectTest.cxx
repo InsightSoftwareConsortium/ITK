@@ -71,8 +71,7 @@ itkImageSpatialObjectTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imageSO, ImageSpatialObject, SpatialObject);
 
 
-  typename ImageSpatialObject::IndexType sliceNumber;
-  sliceNumber.Fill(0);
+  typename ImageSpatialObject::IndexType sliceNumber{};
   imageSO->SetSliceNumber(sliceNumber);
   ITK_TEST_SET_GET_VALUE(sliceNumber, imageSO->GetSliceNumber());
 

@@ -107,9 +107,8 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
 
   integrator->Update();
 
-  DisplacementFieldType::IndexType index;
-  index.Fill(0);
-  VectorType displacement;
+  DisplacementFieldType::IndexType index{};
+  VectorType                       displacement;
 
   auto inverseIntegrator = IntegratorType::New();
 
@@ -178,8 +177,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   size[1] = 3;
   size[2] = 401;
   size[3] = 61;
-  ImportFilterType::IndexType start;
-  start.Fill(0);
+  ImportFilterType::IndexType start{};
 
   ImportFilterType::RegionType region{ start, size };
 

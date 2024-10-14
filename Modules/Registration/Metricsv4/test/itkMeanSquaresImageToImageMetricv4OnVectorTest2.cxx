@@ -36,13 +36,11 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
 
   typename ImageType::SizeType size;
   size.Fill(imageSize);
-  typename ImageType::IndexType index;
-  index.Fill(0);
+  typename ImageType::IndexType   index{};
   typename ImageType::RegionType  region{ index, size };
   typename ImageType::SpacingType spacing;
   spacing.Fill(1.0);
-  typename ImageType::PointType origin;
-  origin.Fill(0);
+  typename ImageType::PointType     origin{};
   typename ImageType::DirectionType direction;
   direction.SetIdentity();
 
@@ -153,8 +151,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
     itk::MeanSquaresImageToImageMetricv4<VectorImageType, VectorImageType, VectorImageType, double, MetricTraitsType>;
 
   VectorMetricType::MeasureType    vectorMeasure = 0.0;
-  VectorMetricType::DerivativeType vectorDerivative;
-  vectorDerivative.Fill(0);
+  VectorMetricType::DerivativeType vectorDerivative{};
 
   itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<VectorMetricType>(vectorMeasure, vectorDerivative);
   std::cout << "vectorMeasure: " << vectorMeasure << " vectorDerivative: " << vectorDerivative << std::endl;
@@ -164,8 +161,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   using ScalarMetricType = itk::MeanSquaresImageToImageMetricv4<ScalarImageType, ScalarImageType, ScalarImageType>;
 
   ScalarMetricType::MeasureType    scalarMeasure = 0.0;
-  ScalarMetricType::DerivativeType scalarDerivative;
-  scalarDerivative.Fill(0);
+  ScalarMetricType::DerivativeType scalarDerivative{};
 
   itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<ScalarMetricType>(scalarMeasure, scalarDerivative);
   std::cout << "scalarMeasure: " << scalarMeasure << " scalarDerivative: " << scalarDerivative << std::endl;

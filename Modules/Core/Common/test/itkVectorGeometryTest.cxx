@@ -152,8 +152,7 @@ itkVectorGeometryTest(int, char *[])
     vv[1] = 3;
     vv[2] = 5;
 
-    VectorType vw;
-    vw.Fill(0);
+    VectorType vw{};
 
     if (vv == vw)
     {

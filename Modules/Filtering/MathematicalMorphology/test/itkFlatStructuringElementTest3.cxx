@@ -31,8 +31,7 @@ SEToFile(const TSEType & e, const std::string & fname)
 
   auto img = ImageType::New();
 
-  typename ImageType::IndexType start;
-  start.Fill(0);
+  typename ImageType::IndexType start{};
 
   typename ImageType::SizeType size;
   for (unsigned int i = 0; i < Dimension; ++i)

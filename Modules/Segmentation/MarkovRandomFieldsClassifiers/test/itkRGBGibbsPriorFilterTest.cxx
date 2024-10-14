@@ -89,8 +89,7 @@ itkRGBGibbsPriorFilterTest(int, char *[])
 
   VecImageType::SizeType vecImgSize = { { ImageWidth, ImageHeight, NumFrames } };
 
-  VecImageType::IndexType index;
-  index.Fill(0);
+  VecImageType::IndexType index{};
 
   VecImageType::RegionType region;
 
@@ -138,8 +137,7 @@ itkRGBGibbsPriorFilterTest(int, char *[])
 
   ClassImageType::SizeType classImgSize = { { ImageWidth, ImageHeight, NumFrames } };
 
-  ClassImageType::IndexType classindex;
-  classindex.Fill(0);
+  ClassImageType::IndexType classindex{};
 
   ClassImageType::RegionType classregion;
 

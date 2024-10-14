@@ -38,8 +38,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char *[])
   constexpr int           Seed = 42;
   ImageType::SizeType     size;
   size.Fill(N);
-  ImageType::IndexType start;
-  start.Fill(0);
+  ImageType::IndexType  start{};
   ImageType::RegionType region{ start, size };
   auto                  myImage = ImageType::New();
   myImage->SetRegions(region);

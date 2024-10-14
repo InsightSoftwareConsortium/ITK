@@ -167,8 +167,7 @@ itkThresholdImageFilterTest(int, char *[])
     PixelType outsideValue = 99;
     threshold->SetOutsideValue(outsideValue);
     ITK_TEST_SET_GET_VALUE(outsideValue, threshold->GetOutsideValue());
-    IntImage1DType::IndexType index;
-    index.Fill(0);
+    IntImage1DType::IndexType index{};
 
     PixelType lower = itk::NumericTraits<PixelType>::NonpositiveMin();
     threshold->SetLower(lower);

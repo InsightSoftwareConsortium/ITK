@@ -116,8 +116,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   typename RegionType::SizeType regionSize;
   regionSize.Fill(static_cast<itk::SizeValueType>(pointMax + 1.0));
 
-  typename RegionType::IndexType regionIndex;
-  regionIndex.Fill(0);
+  typename RegionType::IndexType regionIndex{};
 
   RegionType region{ regionIndex, regionSize };
 
@@ -127,8 +126,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   displacementField->SetSpacing(spacing);
   displacementField->SetRegions(region);
   displacementField->Allocate();
-  typename DisplacementFieldTransformType::OutputVectorType zeroVector;
-  zeroVector.Fill(0);
+  typename DisplacementFieldTransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
   displacementTransform->SetDisplacementField(displacementField);
 

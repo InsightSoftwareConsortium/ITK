@@ -55,8 +55,7 @@ test(int testIdx)
   myImageType2D1::SizeType size2D;
   size2D.Fill(9);
 
-  myImageType2D1::IndexType index2D;
-  index2D.Fill(0);
+  myImageType2D1::IndexType index2D{};
 
   myImageType2D1::RegionType region2D{ index2D, size2D };
 

@@ -66,8 +66,7 @@ itkConstantPadImageTest(int, char *[])
   float constant = 13.3f;
   constantPad->SetConstant(constant);
   // check the method using the SizeType rather than the simple table type.
-  ShortImage::SizeType stfactors;
-  stfactors.Fill(0);
+  ShortImage::SizeType stfactors{};
   constantPad->SetPadLowerBound(stfactors);
   constantPad->SetPadUpperBound(stfactors);
   constantPad->SetPadBound(stfactors);

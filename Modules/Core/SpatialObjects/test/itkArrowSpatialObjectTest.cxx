@@ -50,8 +50,7 @@ itkArrowSpatialObjectTest(int, char *[])
   // Testing the direction of the arrow
   std::cout << "Testing direction : ";
 
-  ArrowType::VectorType direction;
-  direction.Fill(0);
+  ArrowType::VectorType direction{};
   direction[1] = 1.0;
 
   myArrow->SetDirectionInObjectSpace(direction);

@@ -79,8 +79,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   spacing[0] = 1.0;
   spacing[1] = 1.0;
 
-  InputImageType::IndexType index;
-  index.Fill(0);
+  InputImageType::IndexType index{};
 
   InputImageType::RegionType region{ index, size };
 

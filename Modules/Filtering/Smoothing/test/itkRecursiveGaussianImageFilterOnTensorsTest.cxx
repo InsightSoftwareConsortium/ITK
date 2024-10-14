@@ -51,8 +51,7 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
   // Create the 9x9 input image
   ImageType::SizeType size;
   size.Fill(9);
-  ImageType::IndexType index;
-  index.Fill(0);
+  ImageType::IndexType  index{};
   ImageType::RegionType region{ index, size };
   auto                  inputImage = ImageType::New();
   inputImage->SetRegions(region);

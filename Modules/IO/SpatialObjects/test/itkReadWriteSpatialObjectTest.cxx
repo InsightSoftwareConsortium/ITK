@@ -272,8 +272,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   RegionType region;
   region.SetSize(size);
-  itk::Index<3> zeroIndex;
-  zeroIndex.Fill(0);
+  itk::Index<3> zeroIndex{};
   region.SetIndex(zeroIndex);
   itkImage->SetRegions(region);
   itkImage->SetSpacing(spacing);

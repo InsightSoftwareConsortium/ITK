@@ -32,8 +32,7 @@ AverageTestCopy(typename TImage::SizeType & size)
   typename ImageType::RegionType region;
 
 
-  typename ImageType::IndexType index;
-  index.Fill(0);
+  typename ImageType::IndexType index{};
   region.SetSize(size);
   region.SetIndex(index);
 

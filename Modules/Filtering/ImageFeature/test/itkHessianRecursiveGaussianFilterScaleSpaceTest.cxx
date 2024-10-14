@@ -42,8 +42,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
   size.Fill(21);
   size[0] = 401;
 
-  IndexType start;
-  start.Fill(0);
+  IndexType start{};
 
   RegionType region;
   region.SetIndex(start);

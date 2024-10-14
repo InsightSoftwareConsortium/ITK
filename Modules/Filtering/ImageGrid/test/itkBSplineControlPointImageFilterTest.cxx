@@ -47,9 +47,8 @@ BSpline(int argc, char * argv[])
 
   // Reconstruction of the scalar field from the control points
 
-  typename ScalarFieldType::PointType origin;
-  origin.Fill(0);
-  typename ScalarFieldType::SizeType size;
+  typename ScalarFieldType::PointType origin{};
+  typename ScalarFieldType::SizeType  size;
   size.Fill(100);
   typename ScalarFieldType::SpacingType spacing;
   spacing.Fill(1.0);

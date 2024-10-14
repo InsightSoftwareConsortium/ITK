@@ -79,9 +79,8 @@ itkGaussianImageSourceTest(int argc, char * argv[])
 
   // Test SetReferenceImage from GenerateImageSource base class.
   auto                 referenceImage = ImageType::New();
-  ImageType::IndexType startIndex;
-  startIndex.Fill(0);
-  ImageType::SizeType referenceSize;
+  ImageType::IndexType startIndex{};
+  ImageType::SizeType  referenceSize;
   referenceSize.SetSize(size);
   ImageType::RegionType region(startIndex, referenceSize);
   referenceImage->SetRegions(region);

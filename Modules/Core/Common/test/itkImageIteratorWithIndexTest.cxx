@@ -43,8 +43,7 @@ public:
     typename ImageType::SizeType size;
     size.Fill(100);
 
-    typename ImageType::IndexType start;
-    start.Fill(0);
+    typename ImageType::IndexType start{};
 
     typename ImageType::RegionType region{ start, size };
 

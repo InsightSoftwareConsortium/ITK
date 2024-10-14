@@ -94,8 +94,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
-  itk::Index<Dimension> index;
-  index.Fill(0);
+  itk::Index<Dimension> index{};
   index += offset0;
 
   aliveImage->SetPixel(index, 1.0);

@@ -49,8 +49,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   Mesh2dType::PointType point2d;
   point2d.Fill(1);
 
-  Mesh2dType::PixelType pixel2d;
-  pixel2d.Fill(0);
+  Mesh2dType::PixelType pixel2d{};
 
   auto mesh2d = Mesh2dType::New();
   mesh2d->SetPoint(0, point2d);
@@ -91,8 +90,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   Mesh3dType::PointType point3d;
   point3d.Fill(1);
 
-  Mesh3dType::PixelType pixel3d;
-  pixel3d.Fill(0);
+  Mesh3dType::PixelType pixel3d{};
 
   auto mesh3d = Mesh3dType::New();
   mesh3d->SetPoint(0, point3d);

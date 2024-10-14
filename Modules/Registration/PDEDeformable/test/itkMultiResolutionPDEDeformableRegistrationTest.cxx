@@ -169,8 +169,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   size.Fill(256);
   size[1] = 251;
 
-  IndexType index;
-  index.Fill(0);
+  IndexType index{};
   index[0] = 3;
 
   RegionType region{ index, size };

@@ -47,8 +47,7 @@ itkCompose3DCovariantVectorImageFilterTest(int, char *[])
   size[1] = 2;
   size[2] = 2;
 
-  IndexType start;
-  start.Fill(0);
+  IndexType start{};
 
   RegionType region;
   region.SetIndex(start);

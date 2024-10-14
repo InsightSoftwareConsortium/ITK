@@ -40,8 +40,7 @@ template <typename TImage>
 void
 ComputeFastIndex(TImage * image, unsigned int count, unsigned int repeat)
 {
-  typename TImage::IndexType index;
-  index.Fill(0);
+  typename TImage::IndexType               index{};
   const typename TImage::IndexType &       bufferedRegionIndex = image->GetBufferedRegion().GetIndex();
   const typename TImage::OffsetValueType * offsetTable = image->GetOffsetTable();
 

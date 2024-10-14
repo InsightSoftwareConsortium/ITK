@@ -54,8 +54,7 @@ itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   displacementField->SetDirection(direction);
   displacementField->Allocate();
 
-  TransformType::OutputVectorType zeroVector;
-  zeroVector.Fill(0);
+  TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
 

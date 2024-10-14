@@ -42,9 +42,7 @@ public:
 
     typename ImageType::RegionType region;
     typename ImageType::SizeType   size;
-    typename ImageType::IndexType  start;
-
-    start.Fill(0);
+    typename ImageType::IndexType  start{};
     size[0] = 16; // To fill the range of 8 bits image
     size[1] = 16;
 

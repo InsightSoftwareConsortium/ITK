@@ -59,8 +59,7 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
   size[1] = imageSize;
   size[2] = imageSize;
 
-  myIndexType start;
-  start.Fill(0);
+  myIndexType start{};
 
   myRegionType region{ start, size };
 
