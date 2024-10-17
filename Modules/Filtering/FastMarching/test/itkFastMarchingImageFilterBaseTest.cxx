@@ -62,8 +62,7 @@ FastMarchingImageFilterBaseTestFunction()
   fastMarchingFilter->SetOutputDirection(outputDirection);
   ITK_TEST_SET_GET_VALUE(outputDirection, fastMarchingFilter->GetOutputDirection());
 
-  typename FastMarchingImageFilterType::OutputPointType outputOrigin;
-  outputOrigin.Fill(0.0);
+  typename FastMarchingImageFilterType::OutputPointType outputOrigin{};
   fastMarchingFilter->SetOutputOrigin(outputOrigin);
   ITK_TEST_SET_GET_VALUE(outputOrigin, fastMarchingFilter->GetOutputOrigin());
 

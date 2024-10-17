@@ -176,8 +176,7 @@ check_nonlinear_double(const char * nonlinear_transform)
   field->SetOrigin(origin);
   field->Allocate();
 
-  DisplacementFieldType::PixelType zeroDisplacement;
-  zeroDisplacement.Fill(0.0);
+  DisplacementFieldType::PixelType zeroDisplacement{};
   field->FillBuffer(zeroDisplacement);
 
   vnl_random                                      randgen(12345678);
@@ -303,8 +302,7 @@ check_nonlinear_float(const char * nonlinear_transform)
   field->SetOrigin(origin);
   field->Allocate();
 
-  DisplacementFieldType::PixelType zeroDisplacement;
-  zeroDisplacement.Fill(0.0);
+  DisplacementFieldType::PixelType zeroDisplacement{};
   field->FillBuffer(zeroDisplacement);
 
   vnl_random                                      randgen(12345678);
@@ -574,8 +572,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   field->SetOrigin(origin);
   field->Allocate();
 
-  DisplacementFieldType::PixelType displacement;
-  displacement.Fill(0.0);
+  DisplacementFieldType::PixelType displacement{};
   displacement[0] = 1.0;
   field->FillBuffer(displacement);
 

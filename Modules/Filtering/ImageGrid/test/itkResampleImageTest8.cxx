@@ -193,8 +193,7 @@ itkResampleImageTest8(int, char *[])
   resample->SetOutputStartIndex(outputIndex);
   ITK_TEST_SET_GET_VALUE(outputIndex, resample->GetOutputStartIndex());
 
-  OutputImageType::PointType origin;
-  origin.Fill(0.0);
+  OutputImageType::PointType origin{};
   resample->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
 

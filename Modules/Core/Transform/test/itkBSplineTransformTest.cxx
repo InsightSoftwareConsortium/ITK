@@ -59,8 +59,7 @@ itkBSplineTransformTest1()
    */
 
   using OriginType = TransformType::OriginType;
-  OriginType origin;
-  origin.Fill(0.0);
+  OriginType origin{};
 
   using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
   PhysicalDimensionsType dimensions;
@@ -615,8 +614,7 @@ itkBSplineTransformTest3()
    */
 
   using OriginType = TransformType::OriginType;
-  OriginType origin;
-  origin.Fill(0.0);
+  OriginType origin{};
 
   using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
   PhysicalDimensionsType dimensions;

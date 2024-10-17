@@ -45,8 +45,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
 
   // Create a few points and apply a small offset to make the moving points
   auto      pointMax = static_cast<float>(1.0);
-  PointType fixedPoint;
-  fixedPoint.Fill(0.0);
+  PointType fixedPoint{};
   fixedPoint[0] = 0.0;
   fixedPoint[1] = 0.0;
   fixedPoints->SetPoint(0, fixedPoint);

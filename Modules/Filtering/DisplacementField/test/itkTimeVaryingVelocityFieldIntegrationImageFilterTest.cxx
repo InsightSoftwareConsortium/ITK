@@ -45,8 +45,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   using DisplacementFieldType = itk::Image<VectorType, 3>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, 4>;
 
-  TimeVaryingVelocityFieldType::PointType origin;
-  origin.Fill(0.0);
+  TimeVaryingVelocityFieldType::PointType origin{};
 
   TimeVaryingVelocityFieldType::SpacingType spacing;
   spacing.Fill(2.0);

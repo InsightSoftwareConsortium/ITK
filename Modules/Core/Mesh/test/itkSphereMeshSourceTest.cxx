@@ -54,8 +54,7 @@ itkSphereMeshSourceTest(int, char *[])
   //  itk::Mesh<float>::PointsContainer::Iterator   m_output = myoutput->Begin();
 
   IPT * pt_ptr;
-  IPT   pt;
-  pt.Fill(0.0);
+  IPT   pt{};
   pt_ptr = &pt;
 
   for (int i = 0; i < 12; ++i)

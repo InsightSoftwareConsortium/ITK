@@ -43,8 +43,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;
 
-  PointType center;
-  center.Fill(0.0);
+  PointType center{};
 
   VectorType scale;
   scale.Fill(1.0);
@@ -62,8 +61,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
 
   MeshType::Pointer myMesh = mySphereMeshSource->GetOutput();
 
-  PointType pt;
-  pt.Fill(0.);
+  PointType pt{};
 
   myMesh->Print(std::cout);
 

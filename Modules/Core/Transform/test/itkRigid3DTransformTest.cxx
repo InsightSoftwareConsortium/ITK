@@ -310,8 +310,7 @@ itkRigid3DTransformTest(int, char *[])
 
     rotation->SetMatrix(mrotation);
 
-    TransformType::OffsetType ioffset;
-    ioffset.Fill(0.0f);
+    TransformType::OffsetType ioffset{};
 
     rotation->SetOffset(ioffset);
 

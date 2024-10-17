@@ -28,8 +28,7 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   using VectorType = PointType::VectorType;
   using TriangleHelperType = itk::TriangleHelper<PointType>;
 
-  PointType Org;
-  Org.Fill(0.);
+  PointType Org{};
 
   PointType a;
   a[0] = 1.;

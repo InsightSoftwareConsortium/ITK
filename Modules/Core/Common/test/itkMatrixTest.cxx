@@ -33,8 +33,7 @@ itkMatrixTest(int, char *[])
 
   using vnlVectorType = vnl_vector_fixed<NumericType, 3>;
 
-  MatrixType matrix;
-  matrix.Fill(0.0);
+  MatrixType matrix{};
   matrix.SetIdentity();
 
   VectorType v1;

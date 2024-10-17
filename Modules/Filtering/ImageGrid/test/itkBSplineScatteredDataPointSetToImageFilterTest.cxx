@@ -123,8 +123,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(ncps, filter->GetNumberOfControlPoints());
 
 
-  FilterType::ArrayType close;
-  close.Fill(0u);
+  FilterType::ArrayType close{};
   filter->SetCloseDimension(close);
   ITK_TEST_SET_GET_VALUE(close, filter->GetCloseDimension());
 

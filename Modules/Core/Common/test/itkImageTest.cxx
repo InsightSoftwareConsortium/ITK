@@ -31,8 +31,7 @@ public:
   OutputPointType
   TransformPoint(const InputPointType & inputPoint) const
   {
-    OutputPointType outputPoint;
-    outputPoint.Fill(0.0);
+    OutputPointType outputPoint{};
     // if InputPoint Dimension < 2 then embed point in 2D space
     // else project the point to 2D space.
     for (unsigned int d = 0; d < std::min(inputPoint.GetPointDimension(), outputPoint.GetPointDimension()); ++d)

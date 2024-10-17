@@ -53,8 +53,7 @@ itkImageMaskSpatialObjectTest3(int, char *[])
 
   ImageType::IndexType index{};
 
-  ImageType::DirectionType direction;
-  direction.Fill(0.0);
+  ImageType::DirectionType direction{};
   direction[0][1] = 1;
   direction[1][0] = 1;
   direction[2][2] = 1;

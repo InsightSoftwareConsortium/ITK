@@ -174,8 +174,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   RegionType region{ index, size };
 
-  ImageType::PointType origin;
-  origin.Fill(0.0);
+  ImageType::PointType origin{};
   origin[0] = 0.8;
 
   ImageType::SpacingType spacing;
@@ -222,8 +221,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  VectorType zeroVec;
-  zeroVec.Fill(0.0);
+  VectorType zeroVec{};
   FillImage<FieldType>(initField, zeroVec);
 
   //----------------------------------------------------------------

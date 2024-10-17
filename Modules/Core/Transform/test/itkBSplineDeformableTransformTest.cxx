@@ -61,8 +61,7 @@ itkBSplineDeformableTransformTest1()
    */
 
   using OriginType = TransformType::OriginType;
-  OriginType origin;
-  origin.Fill(0.0);
+  OriginType origin{};
 
   using RegionType = TransformType::RegionType;
   RegionType           region;
@@ -598,8 +597,7 @@ itkBSplineDeformableTransformTest3()
    */
 
   using OriginType = TransformType::OriginType;
-  OriginType origin;
-  origin.Fill(0.0);
+  OriginType origin{};
 
   using RegionType = TransformType::RegionType;
   RegionType           region;

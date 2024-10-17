@@ -162,8 +162,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  VectorType zeroVec;
-  zeroVec.Fill(0.0);
+  VectorType zeroVec{};
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;
