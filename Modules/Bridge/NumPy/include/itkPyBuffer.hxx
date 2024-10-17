@@ -97,11 +97,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
     numberOfPixels *= size[i];
   }
 
-  bool isFortranContiguous = false;
-  if (pyBuffer.strides != nullptr && pyBuffer.itemsize == pyBuffer.strides[0])
-  {
-    isFortranContiguous = true;
-  }
+  const bool isFortranContiguous = pyBuffer.strides != nullptr && pyBuffer.itemsize == pyBuffer.strides[0];
 
   const size_t len = numberOfPixels * numberOfComponents * sizeof(ComponentType);
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
