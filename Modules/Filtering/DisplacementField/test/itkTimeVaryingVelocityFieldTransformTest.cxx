@@ -32,8 +32,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   using DisplacementFieldType = itk::Image<VectorType, ComponentDimension>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, VelocityFieldDimension>;
 
-  TimeVaryingVelocityFieldType::PointType origin;
-  origin.Fill(0.0);
+  TimeVaryingVelocityFieldType::PointType origin{};
 
   TimeVaryingVelocityFieldType::SpacingType spacing;
   spacing.Fill(2.0);

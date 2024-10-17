@@ -44,8 +44,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   // Create a few points and apply a small offset to make the moving points
   auto      pointMax = static_cast<float>(100.0);
-  PointType fixedPoint;
-  fixedPoint.Fill(0.0);
+  PointType fixedPoint{};
   fixedPoint[0] = 0.0;
   fixedPoint[1] = 0.0;
   fixedPoints->SetPoint(0, fixedPoint);
@@ -103,15 +102,13 @@ itkEuclideanDistancePointSetMetricTest2Run()
   typename FieldType::SpacingType spacing;
   spacing.Fill(1.0);
 
-  typename FieldType::DirectionType direction;
-  direction.Fill(0.0);
+  typename FieldType::DirectionType direction{};
   for (unsigned int d = 0; d < Dimension; ++d)
   {
     direction[d][d] = 1.0;
   }
 
-  typename FieldType::PointType origin;
-  origin.Fill(0.0);
+  typename FieldType::PointType origin{};
 
   typename RegionType::SizeType regionSize;
   regionSize.Fill(static_cast<itk::SizeValueType>(pointMax + 1.0));

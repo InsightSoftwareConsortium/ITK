@@ -156,8 +156,7 @@ compare_nonlinear_double(const char * nonlinear_transform)
   field->SetOrigin(origin);
   field->Allocate();
 
-  DisplacementFieldType::PixelType zeroDisplacement;
-  zeroDisplacement.Fill(0.0);
+  DisplacementFieldType::PixelType zeroDisplacement{};
   field->FillBuffer(zeroDisplacement);
 
   vnl_random                                               randgen(12345678);

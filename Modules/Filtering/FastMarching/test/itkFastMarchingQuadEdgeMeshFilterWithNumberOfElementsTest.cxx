@@ -44,8 +44,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
 
   using FastMarchingType = itk::FastMarchingQuadEdgeMeshFilterBase<MeshType, MeshType>;
 
-  MeshType::PointType center;
-  center.Fill(0.);
+  MeshType::PointType center{};
 
   using SphereSourceType = itk::RegularSphereMeshSource<MeshType>;
   auto sphere_filter = SphereSourceType::New();

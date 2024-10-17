@@ -153,8 +153,7 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
   //
   // Test with a change in image direction
   //
-  myImageType::DirectionType direction;
-  direction.Fill(0.0);
+  myImageType::DirectionType direction{};
   direction[0][0] = -1.0;
   direction[1][1] = -1.0;
   direction[2][2] = -1.0;
