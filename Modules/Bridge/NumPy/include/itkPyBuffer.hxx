@@ -32,8 +32,6 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 {
   Py_buffer pyBuffer{};
 
-  Py_ssize_t len = 1;
-
   if (!image)
   {
     throw std::runtime_error("Input image is null");
@@ -47,16 +45,9 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
   void * itkImageBuffer = buffer;
 
   // Computing the length of data
-  const int numberOfComponents = image->GetNumberOfComponentsPerPixel();
-  SizeType  size = image->GetBufferedRegion().GetSize();
-
-  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
-  {
-    len *= size[dim];
-  }
-
-  len *= numberOfComponents;
-  len *= sizeof(ComponentType);
+  const unsigned int  numberOfComponents = image->GetNumberOfComponentsPerPixel();
+  const SizeValueType numberOfPixels = image->GetBufferedRegion().GetNumberOfPixels();
+  const auto          len = static_cast<Py_ssize_t>(numberOfPixels * numberOfComponents * sizeof(ComponentType));
 
   PyBuffer_FillInfo(&pyBuffer, nullptr, itkImageBuffer, len, 0, PyBUF_CONTIG);
   return PyMemoryView_FromBuffer(&pyBuffer);
@@ -69,8 +60,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
 {
   Py_buffer pyBuffer{};
 
-  SizeType      size;
-  SizeValueType numberOfPixels = 1;
+  SizeType size;
 
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ND | PyBUF_ANY_CONTIGUOUS) == -1)
   {
@@ -93,8 +83,9 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   {
     PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, i);
     size[i] = static_cast<SizeValueType>(PyInt_AsLong(item));
-    numberOfPixels *= size[i];
   }
+
+  const SizeValueType numberOfPixels = size.CalculateProductOfElements();
 
   const bool isFortranContiguous = pyBuffer.strides != nullptr && pyBuffer.itemsize == pyBuffer.strides[0];
 
