@@ -142,8 +142,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   spacing[1] = 2.7;
   spacing[2] = 7.5;
 
-  InputImageType::DirectionType direction;
-  direction.Fill(0.0);
+  InputImageType::DirectionType direction{};
   direction[0][1] = -1;
   direction[1][2] = 1;
   direction[2][0] = 1;

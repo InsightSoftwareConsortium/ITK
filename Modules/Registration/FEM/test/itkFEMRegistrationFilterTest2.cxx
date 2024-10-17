@@ -162,8 +162,7 @@ itkFEMRegistrationFilterTest2(int argc, char * argv[])
   FillWithCircle<InputImageType>(movingImage, center, radius, fgnd, bgnd);
 
   // Fill initial deformation with zero vectors
-  DeformationFieldVectorType zeroVec;
-  zeroVec.Fill(0.0);
+  DeformationFieldVectorType zeroVec{};
   FillImage<DeformationFieldImageType>(initField, zeroVec);
 
 

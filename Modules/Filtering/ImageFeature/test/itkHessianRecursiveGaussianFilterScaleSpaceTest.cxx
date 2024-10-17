@@ -102,8 +102,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
     HessianImageType::Pointer outputImage = filter->GetOutput();
 
     // Get the value at the center of the image, the location of the peak of the Gaussian
-    PointType center;
-    center.Fill(0.0);
+    PointType center{};
 
     IndexType centerIndex = outputImage->TransformPhysicalPointToIndex(center);
 
@@ -157,8 +156,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
     HessianImageType::Pointer outputImage = filter->GetOutput();
 
     // Get the value at the center of the image, the location of the peak of the Gaussian
-    PointType center;
-    center.Fill(0.0);
+    PointType center{};
 
     IndexType centerIndex = outputImage->TransformPhysicalPointToIndex(center);
 

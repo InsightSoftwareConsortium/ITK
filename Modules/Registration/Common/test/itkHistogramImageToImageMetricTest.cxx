@@ -191,10 +191,8 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
   std::cout << "Exercise the SetLowerBound() and SetUpperBound() methods " << std::endl;
 
-  MetricType::MeasurementVectorType lowerBound;
-  lowerBound.Fill(0.0);
-  MetricType::MeasurementVectorType upperBound;
-  upperBound.Fill(0.0);
+  MetricType::MeasurementVectorType lowerBound{};
+  MetricType::MeasurementVectorType upperBound{};
 
   metric->SetLowerBound(lowerBound);
   metric->SetUpperBound(upperBound);

@@ -287,8 +287,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   using VectorType = itk::Vector<double, Dimension>;
 
-  VectorType zero;
-  zero.Fill(0.0);
+  VectorType zero{};
 
   using RegionType = itk::ImageRegion<Dimension>;
   RegionType region;

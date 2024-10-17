@@ -269,8 +269,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
     using FieldType = DisplacementTransformType::DisplacementFieldType;
     using VectorType = itk::Vector<double, Dimension>;
 
-    VectorType zero;
-    zero.Fill(0.0);
+    VectorType zero{};
 
     auto field = FieldType::New();
     field->SetRegions(fixedImage->GetBufferedRegion());

@@ -102,14 +102,12 @@ itkTransformGeometryImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(inputImage = itk::ReadImage<ImageType>(argv[1]));
 
   // Set up transforms
-  ImageType::PointType center;
-  center.Fill(0.0);
+  ImageType::PointType center{};
   center[0] = 2.0; // In mm along X (RL-axis)
   center[1] = 5.0; // In mm along Y (AP-axis)
   center[2] = 7.0; // In mm along Z (IS-axis)
 
-  itk::Vector<double, Dimension> translation;
-  translation.Fill(0.);
+  itk::Vector<double, Dimension> translation{};
   translation[0] = 10.0; // In mm along X (RL-axis)
   translation[1] = 15.0; // In mm along Y (AP-axis)
   translation[2] = 20.0; // In mm along Z (IS-axis)

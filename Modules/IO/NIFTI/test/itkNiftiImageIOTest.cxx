@@ -25,8 +25,7 @@ template <>
 itk::ImageBase<1>::DirectionType
 PreFillDirection<1>()
 {
-  itk::ImageBase<1>::DirectionType myDirection;
-  myDirection.Fill(0.0);
+  itk::ImageBase<1>::DirectionType myDirection{};
   myDirection[0][0] = -1.0;
   return myDirection;
 }
@@ -35,8 +34,7 @@ template <>
 itk::ImageBase<2>::DirectionType
 PreFillDirection<2>()
 {
-  itk::ImageBase<2>::DirectionType myDirection;
-  myDirection.Fill(0.0);
+  itk::ImageBase<2>::DirectionType myDirection{};
   myDirection[0][1] = 1.0;
   myDirection[1][0] = -1.0;
   return myDirection;
@@ -46,8 +44,7 @@ template <>
 itk::ImageBase<3>::DirectionType
 PreFillDirection<3>()
 {
-  itk::ImageBase<3>::DirectionType myDirection;
-  myDirection.Fill(0.0);
+  itk::ImageBase<3>::DirectionType myDirection{};
   myDirection[0][2] = 1.0;
   myDirection[1][0] = -1.0;
   myDirection[2][1] = 1.0;
@@ -58,8 +55,7 @@ template <>
 itk::ImageBase<4>::DirectionType
 PreFillDirection<4>()
 {
-  itk::ImageBase<4>::DirectionType myDirection;
-  myDirection.Fill(0.0);
+  itk::ImageBase<4>::DirectionType myDirection{};
   myDirection[0][2] = 1.0;
   myDirection[1][0] = -1.0;
   myDirection[2][1] = 1.0;

@@ -57,8 +57,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
   points->Reserve(100);
   pointdata->Reserve(100);
 
-  MeshType::PointType p;
-  p.Fill(0.);
+  MeshType::PointType p{};
 
   int k = 0;
 

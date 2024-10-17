@@ -215,8 +215,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   typename ImageType::RegionType  region{ virtualIndex, size };
   typename ImageType::SpacingType spacing;
   spacing.Fill(1.0);
-  typename ImageType::PointType origin;
-  origin.Fill(0.0);
+  typename ImageType::PointType     origin{};
   typename ImageType::DirectionType direction;
   direction.SetIdentity();
 

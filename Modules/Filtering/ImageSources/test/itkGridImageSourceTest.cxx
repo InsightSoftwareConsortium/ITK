@@ -59,8 +59,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   ImageType::SizeType imageSize;
   imageSize.Fill(size);
 
-  ImageType::PointType origin;
-  origin.Fill(0.0);
+  ImageType::PointType origin{};
 
   ImageType::SpacingType imageSpacing;
   imageSpacing.Fill(1.0);

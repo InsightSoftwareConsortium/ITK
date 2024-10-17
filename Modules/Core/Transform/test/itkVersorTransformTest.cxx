@@ -440,8 +440,7 @@ itkVersorTransformTest(int, char *[])
 
     // Check the computed parameters
 
-    VectorType axis;
-    axis.Fill(0.0);
+    VectorType axis{};
     axis[2] = 1.0;
     VersorType v;
     v.Set(axis, a);

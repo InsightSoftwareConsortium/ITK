@@ -214,8 +214,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     rotation->SetIdentity();
     rotation->SetRotation(qrotation);
 
-    TransformType::OffsetType ioffset;
-    ioffset.Fill(0.0f);
+    TransformType::OffsetType ioffset{};
 
     // rotation->ComputeOffset();
 

@@ -144,8 +144,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
   size[0] = 1000;
   size[1] = 100;
 
-  ImageType::PointType origin;
-  origin.Fill(0.0);
+  ImageType::PointType origin{};
 
   filter->SetSize(size);
   filter->SetOrigin(origin);

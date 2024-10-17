@@ -101,8 +101,7 @@ InternalTest(int argc, char * argv[])
   imageIterator.GoToBegin();
 
   using PointType = typename InputMeshType::PointType;
-  PointType point;
-  point.Fill(0.);
+  PointType point{};
 
   using PointDataContainer = typename InputMeshType::PointDataContainer;
   using PointDataContainerPointer = typename InputMeshType::PointDataContainerPointer;

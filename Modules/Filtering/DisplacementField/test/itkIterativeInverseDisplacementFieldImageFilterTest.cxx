@@ -65,8 +65,7 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   DisplacementFieldType::SpacingType spacing;
   spacing.Fill(1.0);
 
-  DisplacementFieldType::PointType origin;
-  origin.Fill(0.0);
+  DisplacementFieldType::PointType origin{};
 
   DisplacementFieldType::RegionType region;
   DisplacementFieldType::SizeType   size;

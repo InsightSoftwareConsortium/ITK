@@ -54,8 +54,7 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   image->SetRegions(region);
   image->Allocate();
 
-  PointType origin;
-  origin.Fill(0.0);
+  PointType origin{};
 
   SpacingType spacing;
   spacing.Fill(1.0);

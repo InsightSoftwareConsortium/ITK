@@ -107,8 +107,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     auto translation = TransformType::New();
     translation->SetFocalDistance(focal);
 
-    TransformType::OffsetType ioffset;
-    ioffset.Fill(0.0);
+    TransformType::OffsetType ioffset{};
 
     translation->SetOffset(ioffset);
     ITK_TEST_SET_GET_VALUE(ioffset, translation->GetOffset());
@@ -170,8 +169,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     auto rigid = TransformType::New();
     rigid->SetFocalDistance(focal);
 
-    TransformType::OffsetType ioffset;
-    ioffset.Fill(0.0);
+    TransformType::OffsetType ioffset{};
 
     rigid->SetOffset(ioffset);
 
