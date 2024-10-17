@@ -111,12 +111,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
     std::reverse(size.begin(), size.end());
   }
 
-  PointType origin;
-  origin.Fill(0.0);
-
-  SpacingType spacing;
-  spacing.Fill(1.0);
-
   using InternalPixelType = typename TImage::InternalPixelType;
   using ImporterType = ImportImageContainer<SizeValueType, InternalPixelType>;
   auto           importer = ImporterType::New();
@@ -126,8 +120,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
 
   OutputImagePointer output = TImage::New();
   output->SetRegions(size);
-  output->SetOrigin(origin);
-  output->SetSpacing(spacing);
   output->SetPixelContainer(importer);
   output->SetNumberOfComponentsPerPixel(numberOfComponents);
 
