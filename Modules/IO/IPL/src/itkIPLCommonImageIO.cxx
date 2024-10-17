@@ -19,7 +19,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkIPLCommonImageIO.h"
 #include "itkByteSwapper.h"
-#include "itkSpatialOrientationAdapter.h"
+#include "itkDICOMOrientation.h"
 #include "itkDirectory.h"
 #include "itkMetaDataObject.h"
 #include <iostream>
@@ -256,9 +256,7 @@ IPLCommonImageIO::ReadImageInformation()
 
   //
   // set direction cosines
-  using OrientAdapterType = SpatialOrientationAdapter;
-  SpatialOrientationAdapter::DirectionType dir =
-    OrientAdapterType().ToDirectionCosines(m_ImageHeader->coordinateOrientation);
+  DICOMOrientation::DirectionType dir = DICOMOrientation(m_ImageHeader->coordinateOrientation).GetAsDirection();
   std::vector<double> dirx(3, 0), diry(3, 0), dirz(3, 0);
   dirx[0] = dir[0][0];
   dirx[1] = dir[1][0];

@@ -749,6 +749,8 @@ set(ITKImageGridGTests
     itkResampleImageFilterGTest.cxx
     itkSliceImageFilterTest.cxx
     itkTileImageFilterGTest.cxx
-    itkPasteImageFilterGTest.cxx)
+    itkPasteImageFilterGTest.cxx
+    itkDICOMOrientImageFilterGTest.cxx
+)
 
 creategoogletestdriver(ITKImageGrid "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridGTests}")
