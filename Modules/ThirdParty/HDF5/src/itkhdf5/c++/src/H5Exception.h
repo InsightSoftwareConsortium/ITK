@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -41,9 +40,9 @@ class H5_DLLCPP Exception {
 
     // Returns the detailed message set at the time the exception is thrown
     H5std_string getDetailMsg() const;
-    const char * getCDetailMsg() const; // C string of detailed message
+    const char  *getCDetailMsg() const; // C string of detailed message
     H5std_string getFuncName() const;   // function name as a string object
-    const char * getCFuncName() const;  // function name as a char string
+    const char  *getCFuncName() const;  // function name as a char string
 
     // Turns on the automatic error printing.
     static void setAutoPrint(H5E_auto2_t &func, void *client_data);

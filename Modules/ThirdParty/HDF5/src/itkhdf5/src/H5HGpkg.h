@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -127,13 +126,13 @@ struct H5HG_heap_t {
                                  /* have been used at some time and the */
                                  /* correct new index should be searched for */
     struct H5F_shared_t *shared; /* shared file */
-    H5HG_obj_t *         obj;    /*array of object descriptions	*/
+    H5HG_obj_t          *obj;    /*array of object descriptions	*/
 };
 
 /******************************/
 /* Package Private Prototypes */
 /******************************/
-H5_DLL herr_t H5HG__free(H5HG_heap_t *heap);
+H5_DLL herr_t       H5HG__free(H5HG_heap_t *heap);
 H5_DLL H5HG_heap_t *H5HG__protect(H5F_t *f, haddr_t addr, unsigned flags);
 
 #endif /* H5HGpkg_H */

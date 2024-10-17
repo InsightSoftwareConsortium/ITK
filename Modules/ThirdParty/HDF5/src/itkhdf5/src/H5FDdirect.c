@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -120,8 +119,8 @@ typedef struct H5FD_direct_t {
 
 /* Prototypes */
 static herr_t  H5FD__direct_term(void);
-static void *  H5FD__direct_fapl_get(H5FD_t *file);
-static void *  H5FD__direct_fapl_copy(const void *_old_fa);
+static void   *H5FD__direct_fapl_get(H5FD_t *file);
+static void   *H5FD__direct_fapl_copy(const void *_old_fa);
 static H5FD_t *H5FD__direct_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
 static herr_t  H5FD__direct_close(H5FD_t *_file);
 static int     H5FD__direct_cmp(const H5FD_t *_f1, const H5FD_t *_f2);
@@ -191,7 +190,7 @@ DESCRIPTION
 static herr_t
 H5FD__init_package(void)
 {
-    char * lock_env_var = NULL; /* Environment variable pointer */
+    char  *lock_env_var = NULL; /* Environment variable pointer */
     herr_t ret_value    = SUCCEED;
 
     FUNC_ENTER_STATIC
@@ -233,8 +232,11 @@ H5FD_direct_init(void)
 
     FUNC_ENTER_NOAPI(H5I_INVALID_HID)
 
-    if (H5I_VFL != H5I_get_type(H5FD_DIRECT_g))
+    if (H5I_VFL != H5I_get_type(H5FD_DIRECT_g)) {
         H5FD_DIRECT_g = H5FD_register(&H5FD_direct_g, sizeof(H5FD_class_t), FALSE);
+        if (H5I_INVALID_HID == H5FD_DIRECT_g)
+            HGOTO_ERROR(H5E_ATOM, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register direct");
+    }
 
     /* Set return value */
     ret_value = H5FD_DIRECT_g;
@@ -283,7 +285,7 @@ H5FD__direct_term(void)
 herr_t
 H5Pset_fapl_direct(hid_t fapl_id, size_t boundary, size_t block_size, size_t cbuf_size)
 {
-    H5P_genplist_t *   plist; /* Property list pointer */
+    H5P_genplist_t    *plist; /* Property list pointer */
     H5FD_direct_fapl_t fa;
     herr_t             ret_value;
 
@@ -339,7 +341,7 @@ herr_t
 H5Pget_fapl_direct(hid_t fapl_id, size_t *boundary /*out*/, size_t *block_size /*out*/,
                    size_t *cbuf_size /*out*/)
 {
-    H5P_genplist_t *          plist; /* Property list pointer */
+    H5P_genplist_t           *plist; /* Property list pointer */
     const H5FD_direct_fapl_t *fa;
     herr_t                    ret_value = SUCCEED; /* Return value */
 
@@ -384,7 +386,7 @@ static void *
 H5FD__direct_fapl_get(H5FD_t *_file)
 {
     H5FD_direct_t *file      = (H5FD_direct_t *)_file;
-    void *         ret_value = NULL; /* Return value */
+    void          *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -412,7 +414,7 @@ static void *
 H5FD__direct_fapl_copy(const void *_old_fa)
 {
     const H5FD_direct_fapl_t *old_fa = (const H5FD_direct_fapl_t *)_old_fa;
-    H5FD_direct_fapl_t *      new_fa = H5MM_calloc(sizeof(H5FD_direct_fapl_t));
+    H5FD_direct_fapl_t       *new_fa = H5MM_calloc(sizeof(H5FD_direct_fapl_t));
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -445,7 +447,7 @@ H5FD__direct_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxad
 {
     int                       o_flags;
     int                       fd   = (-1);
-    H5FD_direct_t *           file = NULL;
+    H5FD_direct_t            *file = NULL;
     const H5FD_direct_fapl_t *fa;
 #ifdef H5_HAVE_WIN32_API
     HFILE                              filehandle;
@@ -453,8 +455,8 @@ H5FD__direct_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxad
 #endif
     h5_stat_t       sb;
     H5P_genplist_t *plist; /* Property list */
-    void *          buf1, *buf2;
-    H5FD_t *        ret_value = NULL;
+    void           *buf1, *buf2;
+    H5FD_t         *ret_value = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -852,7 +854,7 @@ H5FD__direct_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_U
     hbool_t        _must_align = TRUE;
     herr_t         ret_value   = SUCCEED; /* Return value */
     size_t         alloc_size;
-    void *         copy_buf = NULL, *p2;
+    void          *copy_buf = NULL, *p2;
     size_t         _boundary;
     size_t         _fbsize;
     size_t         _cbsize;
@@ -1032,8 +1034,8 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
     hbool_t        _must_align = TRUE;
     herr_t         ret_value   = SUCCEED; /* Return value */
     size_t         alloc_size;
-    void *         copy_buf = NULL, *p1;
-    const void *   p3;
+    void          *copy_buf = NULL, *p1;
+    const void    *p3;
     size_t         _boundary;
     size_t         _fbsize;
     size_t         _cbsize;

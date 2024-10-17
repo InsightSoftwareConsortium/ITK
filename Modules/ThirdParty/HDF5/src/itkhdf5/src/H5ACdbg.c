@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -197,11 +196,11 @@ done:
  *              If either the parent or the child is not in the metadata
  *              cache, the function sets *fd_exists_ptr to FALSE.
  *
- *              If both are in the cache, the childs list of parents is
+ *              If both are in the cache, the child's list of parents is
  *              searched for the proposed parent.  If the proposed parent
- *              is found in the childs parent list, the function sets
+ *              is found in the child's parent list, the function sets
  *              *fd_exists_ptr to TRUE.  In all other non-error cases,
- *              the function sets *fd_exists_ptr FALSE.
+ *              the function sets *fd_exists_ptr to FALSE.
  *
  * Return:      SUCCEED on success/FAIL on failure.  Note that
  *              *fd_exists_ptr is undefined on failure.
@@ -299,7 +298,7 @@ done:
 hbool_t
 H5AC_get_serialization_in_progress(H5F_t *f)
 {
-    H5C_t * cache_ptr;
+    H5C_t  *cache_ptr;
     hbool_t ret_value = FALSE; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
@@ -337,7 +336,7 @@ H5AC_get_serialization_in_progress(H5F_t *f)
 hbool_t
 H5AC_cache_is_clean(const H5F_t *f, H5AC_ring_t inner_ring)
 {
-    H5C_t * cache_ptr;
+    H5C_t  *cache_ptr;
     hbool_t ret_value = FALSE; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR

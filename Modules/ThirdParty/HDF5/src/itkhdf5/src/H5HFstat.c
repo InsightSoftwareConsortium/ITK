@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -116,7 +115,7 @@ herr_t
 H5HF_size(const H5HF_t *fh, hsize_t *heap_size)
 {
     H5HF_hdr_t *hdr;                 /* Fractal heap header */
-    H5B2_t *    bt2       = NULL;    /* v2 B-tree handle for index */
+    H5B2_t     *bt2       = NULL;    /* v2 B-tree handle for index */
     hsize_t     meta_size = 0;       /* free space storage size */
     herr_t      ret_value = SUCCEED; /* Return value */
 

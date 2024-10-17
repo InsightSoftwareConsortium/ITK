@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -15,7 +14,6 @@
 static const char *FileHeader = "\n\
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n\
  * Copyright by The HDF Group.                                               *\n\
- * Copyright by the Board of Trustees of the University of Illinois.         *\n\
  * All rights reserved.                                                      *\n\
  *                                                                           *\n\
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *\n\
@@ -142,7 +140,7 @@ static void
 print_header(void)
 {
     time_t      now = HDtime(NULL);
-    struct tm * tm  = HDlocaltime(&now);
+    struct tm  *tm  = HDlocaltime(&now);
     char        real_name[30];
     char        host_name[256];
     int         i;
@@ -164,7 +162,7 @@ information about the library build configuration\n";
 #ifdef H5_HAVE_GETPWUID
     {
         size_t n;
-        char * comma;
+        char  *comma;
 
         if ((pwd = HDgetpwuid(HDgetuid()))) {
             if ((comma = HDstrchr(pwd->pw_gecos, ','))) {

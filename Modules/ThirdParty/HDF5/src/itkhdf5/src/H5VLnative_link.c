@@ -49,7 +49,7 @@ H5VL__native_link_create(H5VL_link_create_type_t create_type, void *obj, const H
         case H5VL_LINK_CREATE_HARD: {
             H5G_loc_t          cur_loc;
             H5G_loc_t          link_loc;
-            void *             cur_obj    = HDva_arg(arguments, void *);
+            void              *cur_obj    = HDva_arg(arguments, void *);
             H5VL_loc_params_t *cur_params = HDva_arg(arguments, H5VL_loc_params_t *);
 
             if (NULL != cur_obj && H5G_loc_real(cur_obj, cur_params->obj_type, &cur_loc) < 0)
@@ -87,7 +87,7 @@ H5VL__native_link_create(H5VL_link_create_type_t create_type, void *obj, const H
         }
 
         case H5VL_LINK_CREATE_SOFT: {
-            char *    target_name = HDva_arg(arguments, char *);
+            char     *target_name = HDva_arg(arguments, char *);
             H5G_loc_t link_loc; /* Group location for new link */
 
             if (H5G_loc_real(obj, loc_params->obj_type, &link_loc) < 0)
@@ -103,7 +103,7 @@ H5VL__native_link_create(H5VL_link_create_type_t create_type, void *obj, const H
         case H5VL_LINK_CREATE_UD: {
             H5G_loc_t  link_loc; /* Group location for new link */
             H5L_type_t link_type  = (H5L_type_t)HDva_arg(arguments, int);
-            void *     udata      = HDva_arg(arguments, void *);
+            void      *udata      = HDva_arg(arguments, void *);
             size_t     udata_size = HDva_arg(arguments, size_t);
 
             if (H5G_loc_real(obj, loc_params->obj_type, &link_loc) < 0)
@@ -253,7 +253,7 @@ H5VL__native_link_get(void *obj, const H5VL_loc_params_t *loc_params, H5VL_link_
 
         /* H5Lget_name_by_idx */
         case H5VL_LINK_GET_NAME: {
-            char *   name = HDva_arg(arguments, char *);
+            char    *name = HDva_arg(arguments, char *);
             size_t   size = HDva_arg(arguments, size_t);
             ssize_t *ret  = HDva_arg(arguments, ssize_t *);
 
@@ -269,7 +269,7 @@ H5VL__native_link_get(void *obj, const H5VL_loc_params_t *loc_params, H5VL_link_
 
         /* H5Lget_val/H5Lget_val_by_idx */
         case H5VL_LINK_GET_VAL: {
-            void * buf  = HDva_arg(arguments, void *);
+            void  *buf  = HDva_arg(arguments, void *);
             size_t size = HDva_arg(arguments, size_t);
 
             /* Get the link information */
@@ -318,7 +318,7 @@ H5VL__native_link_specific(void *obj, const H5VL_loc_params_t *loc_params, H5VL_
 
     switch (specific_type) {
         case H5VL_LINK_EXISTS: {
-            htri_t *  ret = HDva_arg(arguments, htri_t *);
+            htri_t   *ret = HDva_arg(arguments, htri_t *);
             H5G_loc_t loc;
 
             if (H5G_loc_real(obj, loc_params->obj_type, &loc) < 0)
@@ -335,9 +335,9 @@ H5VL__native_link_specific(void *obj, const H5VL_loc_params_t *loc_params, H5VL_
             hbool_t         recursive = (hbool_t)HDva_arg(arguments, unsigned);
             H5_index_t      idx_type  = (H5_index_t)HDva_arg(arguments, int);      /* enum work-around */
             H5_iter_order_t order     = (H5_iter_order_t)HDva_arg(arguments, int); /* enum work-around */
-            hsize_t *       idx_p     = HDva_arg(arguments, hsize_t *);
+            hsize_t        *idx_p     = HDva_arg(arguments, hsize_t *);
             H5L_iterate2_t  op        = HDva_arg(arguments, H5L_iterate2_t);
-            void *          op_data   = HDva_arg(arguments, void *);
+            void           *op_data   = HDva_arg(arguments, void *);
 
             /* Get the location */
             if (H5G_loc_real(obj, loc_params->obj_type, &loc) < 0)

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -51,7 +50,7 @@ typedef struct H5FD_core_region_t {
  */
 typedef struct H5FD_core_t {
     H5FD_t         pub;              /* public stuff, must be first          */
-    char *         name;             /* for equivalence testing              */
+    char          *name;             /* for equivalence testing              */
     unsigned char *mem;              /* the underlying memory                */
     haddr_t        eoa;              /* end of allocated region              */
     haddr_t        eof;              /* current allocated size               */
@@ -91,7 +90,7 @@ typedef struct H5FD_core_t {
 #endif                                        /* H5_HAVE_WIN32_API */
     hbool_t                     dirty;        /* changes not saved?       */
     H5FD_file_image_callbacks_t fi_callbacks; /* file image callbacks     */
-    H5SL_t *                    dirty_list;   /* dirty parts of the file  */
+    H5SL_t                     *dirty_list;   /* dirty parts of the file  */
 } H5FD_core_t;
 
 /* Driver-specific file access properties */
@@ -131,7 +130,7 @@ static herr_t  H5FD__core_add_dirty_region(H5FD_core_t *file, haddr_t start, had
 static herr_t  H5FD__core_destroy_dirty_list(H5FD_core_t *file);
 static herr_t  H5FD__core_write_to_bstore(H5FD_core_t *file, haddr_t addr, size_t size);
 static herr_t  H5FD__core_term(void);
-static void *  H5FD__core_fapl_get(H5FD_t *_file);
+static void   *H5FD__core_fapl_get(H5FD_t *_file);
 static H5FD_t *H5FD__core_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
 static herr_t  H5FD__core_close(H5FD_t *_file);
 static int     H5FD__core_cmp(const H5FD_t *_f1, const H5FD_t *_f2);
@@ -388,7 +387,7 @@ H5FD__core_write_to_bstore(H5FD_core_t *file, haddr_t addr, size_t size)
                         "write to backing store failed: time = %s, filename = '%s', file descriptor = %d, "
                         "errno = %d, error message = '%s', ptr = %p, total write size = %llu, bytes this "
                         "sub-write = %llu, bytes actually written = %llu, offset = %llu",
-                        HDctime(&mytime), file->name, file->fd, myerrno, HDstrerror(myerrno), ptr,
+                        HDctime(&mytime), file->name, file->fd, myerrno, HDstrerror(myerrno), (void *)ptr,
                         (unsigned long long)size, (unsigned long long)bytes_in,
                         (unsigned long long)bytes_wrote, (unsigned long long)offset);
         } /* end if */
@@ -417,7 +416,7 @@ done:
 static herr_t
 H5FD__init_package(void)
 {
-    char * lock_env_var = NULL; /* Environment variable pointer */
+    char  *lock_env_var = NULL; /* Environment variable pointer */
     herr_t ret_value    = SUCCEED;
 
     FUNC_ENTER_STATIC
@@ -508,7 +507,7 @@ H5FD__core_term(void)
 herr_t
 H5Pset_core_write_tracking(hid_t plist_id, hbool_t is_enabled, size_t page_size)
 {
-    H5P_genplist_t *        plist;               /* Property list pointer */
+    H5P_genplist_t         *plist;               /* Property list pointer */
     H5FD_core_fapl_t        fa;                  /* Core VFD info */
     const H5FD_core_fapl_t *old_fa;              /* Old core VFD info */
     herr_t                  ret_value = SUCCEED; /* Return value */
@@ -559,7 +558,7 @@ done:
 herr_t
 H5Pget_core_write_tracking(hid_t plist_id, hbool_t *is_enabled, size_t *page_size)
 {
-    H5P_genplist_t *        plist;               /* Property list pointer */
+    H5P_genplist_t         *plist;               /* Property list pointer */
     const H5FD_core_fapl_t *fa;                  /* Core VFD info */
     herr_t                  ret_value = SUCCEED; /* Return value */
 
@@ -601,7 +600,7 @@ done:
 herr_t
 H5Pset_fapl_core(hid_t fapl_id, size_t increment, hbool_t backing_store)
 {
-    H5P_genplist_t * plist;               /* Property list pointer */
+    H5P_genplist_t  *plist;               /* Property list pointer */
     H5FD_core_fapl_t fa;                  /* Core VFD info */
     herr_t           ret_value = SUCCEED; /* Return value */
 
@@ -642,7 +641,7 @@ done:
 herr_t
 H5Pget_fapl_core(hid_t fapl_id, size_t *increment /*out*/, hbool_t *backing_store /*out*/)
 {
-    H5P_genplist_t *        plist;               /* Property list pointer */
+    H5P_genplist_t         *plist;               /* Property list pointer */
     const H5FD_core_fapl_t *fa;                  /* Core VFD info */
     herr_t                  ret_value = SUCCEED; /* Return value */
 
@@ -681,9 +680,9 @@ done:
 static void *
 H5FD__core_fapl_get(H5FD_t *_file)
 {
-    H5FD_core_t *     file = (H5FD_core_t *)_file;
+    H5FD_core_t      *file = (H5FD_core_t *)_file;
     H5FD_core_fapl_t *fa;               /* Core VFD info */
-    void *            ret_value = NULL; /* Return value */
+    void             *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -721,16 +720,16 @@ static H5FD_t *
 H5FD__core_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr)
 {
     int                     o_flags;
-    H5FD_core_t *           file = NULL;
+    H5FD_core_t            *file = NULL;
     const H5FD_core_fapl_t *fa   = NULL;
-    H5P_genplist_t *        plist; /* Property list pointer */
+    H5P_genplist_t         *plist; /* Property list pointer */
 #ifdef H5_HAVE_WIN32_API
     struct _BY_HANDLE_FILE_INFORMATION fileinfo;
 #endif
     h5_stat_t              sb;
     int                    fd = -1;
     H5FD_file_image_info_t file_image_info;
-    H5FD_t *               ret_value = NULL; /* Return value */
+    H5FD_t                *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -916,8 +915,8 @@ H5FD__core_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr
                             "file read failed: time = %s, filename = '%s', file descriptor = %d, errno = %d, "
                             "error message = '%s', file->mem = %p, total read size = %llu, bytes this "
                             "sub-read = %llu, bytes actually read = %llu, offset = %llu",
-                            HDctime(&mytime), file->name, file->fd, myerrno, HDstrerror(myerrno), file->mem,
-                            (unsigned long long)size, (unsigned long long)bytes_in,
+                            HDctime(&mytime), file->name, file->fd, myerrno, HDstrerror(myerrno),
+                            (void *)file->mem, (unsigned long long)size, (unsigned long long)bytes_in,
                             (unsigned long long)bytes_read, (unsigned long long)offset);
                     } /* end if */
 
@@ -1510,7 +1509,7 @@ done:
  *              Addendum -- 12/2/11
  *              For file images opened with the core file driver, it is
  *              necessary that we avoid reallocating the core file driver's
- *              buffer uneccessarily.
+ *              buffer unnecessarily.
  *
  *              To this end, I have made the following functional changes
  *              to this function.

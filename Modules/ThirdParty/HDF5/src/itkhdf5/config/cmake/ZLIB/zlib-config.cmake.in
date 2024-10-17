@@ -1,0 +1,58 @@
+#-----------------------------------------------------------------------------
+# ZLIB Config file for compiling against ZLIB build directory
+#-----------------------------------------------------------------------------
+@PACKAGE_INIT@
+
+string(TOUPPER @ZLIB_PACKAGE@ ZLIB_PACKAGE_NAME)
+
+set (${ZLIB_PACKAGE_NAME}_VALID_COMPONENTS static shared)
+
+#-----------------------------------------------------------------------------
+# User Options
+#-----------------------------------------------------------------------------
+set (${ZLIB_PACKAGE_NAME}_BUILD_SHARED_LIBS    @BUILD_SHARED_LIBS@)
+set (${ZLIB_PACKAGE_NAME}_EXPORT_LIBRARIES     @ZLIB_LIBRARIES_TO_EXPORT@)
+
+#-----------------------------------------------------------------------------
+# Directories
+#-----------------------------------------------------------------------------
+set (${ZLIB_PACKAGE_NAME}_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+
+set (${ZLIB_PACKAGE_NAME}_SHARE_DIR "@PACKAGE_SHARE_INSTALL_DIR@")
+set_and_check (${ZLIB_PACKAGE_NAME}_BUILD_DIR "@PACKAGE_CURRENT_BUILD_DIR@")
+
+#-----------------------------------------------------------------------------
+# Version Strings
+#-----------------------------------------------------------------------------
+set (${ZLIB_PACKAGE_NAME}_VERSION_STRING @ZLIB_VERSION_STRING@)
+set (${ZLIB_PACKAGE_NAME}_VERSION_MAJOR  @ZLIB_VERSION_MAJOR@)
+set (${ZLIB_PACKAGE_NAME}_VERSION_MINOR  @ZLIB_VERSION_MINOR@)
+
+#-----------------------------------------------------------------------------
+# Don't include targets if this file is being picked up by another
+# project which has already built ZLIB as a subproject
+#-----------------------------------------------------------------------------
+if (NOT TARGET "@ZLIB_PACKAGE@")
+  include (@PACKAGE_SHARE_INSTALL_DIR@/@ZLIB_PACKAGE@@ZLIB_PACKAGE_EXT@-targets.cmake)
+endif ()
+
+# Handle default component(static) :
+if (NOT ${ZLIB_PACKAGE_NAME}_FIND_COMPONENTS)
+    set (${ZLIB_PACKAGE_NAME}_FIND_COMPONENTS static)
+    set (${ZLIB_PACKAGE_NAME}_FIND_REQUIRED_static true)
+endif ()
+
+# Handle requested components:
+list (REMOVE_DUPLICATES ${ZLIB_PACKAGE_NAME}_FIND_COMPONENTS)
+foreach (comp IN LISTS ${ZLIB_PACKAGE_NAME}_FIND_COMPONENTS)
+    list (FIND ${ZLIB_PACKAGE_NAME}_EXPORT_LIBRARIES "@ZLIB_LIB_CORENAME@-${comp}" HAVE_COMP)
+    if (${HAVE_COMP} LESS 0)
+      set (${ZLIB_PACKAGE_NAME}_${comp}_FOUND 0)
+    else ()
+      set (${ZLIB_PACKAGE_NAME}_${comp}_FOUND 1)
+      string(TOUPPER ${ZLIB_PACKAGE_NAME}_${comp}_LIBRARY COMP_LIBRARY)
+      set (${COMP_LIBRARY} ${${COMP_LIBRARY}} @ZLIB_LIB_CORENAME@-${comp})
+    endif ()
+endforeach ()
+
+check_required_components (${ZLIB_PACKAGE_NAME})

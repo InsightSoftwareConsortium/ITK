@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -120,7 +119,7 @@ extern "C" {
  *
  * \since 1.8.0
  *
- * \see H5Gopen2(), H5Gclose()
+ * \see H5Gopen2()
  *
  */
 H5_DLL hid_t H5Gcreate2(hid_t loc_id, const char *name, hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id);
@@ -167,7 +166,7 @@ H5_DLL hid_t H5Gcreate2(hid_t loc_id, const char *name, hid_t lcpl_id, hid_t gcp
  *          H5Gclose() when the group is no longer needed so that resource
  *          leaks will not develop.
  *
- * \see H5Olink(), H5Dcreate(), Using Identifiers
+ * \see H5Olink(), H5Gcreate()
  *
  * \since 1.8.0
  *
@@ -199,7 +198,7 @@ H5_DLL hid_t H5Gcreate_anon(hid_t loc_id, hid_t gcpl_id, hid_t gapl_id);
  *
  * \since 1.8.0
  *
- * \see H5Gcreate2(), H5Gclose()
+ * \see H5Gcreate2()
  *
  */
 H5_DLL hid_t H5Gopen2(hid_t loc_id, const char *name, hid_t gapl_id);
@@ -218,11 +217,9 @@ H5_DLL hid_t H5Gopen2(hid_t loc_id, const char *name, hid_t gapl_id);
  *          property list associated with the group specified by \p group_id.
  *
  *          The creation property list identifier should be released with
- *          H5Gclose() to prevent resource leaks.
+ *          H5Pclose() to prevent resource leaks.
  *
  * \since 1.8.0
- *
- * \see H5Gcreate2(), H5Gclose()
  *
  */
 H5_DLL hid_t H5Gget_create_plist(hid_t group_id);
@@ -249,8 +246,6 @@ H5_DLL hid_t H5Gget_create_plist(hid_t group_id);
  * \storage_type
  *
  * \since 1.8.0
- *
- * \see H5Gcreate2(), H5Gclose()
  *
  */
 H5_DLL herr_t H5Gget_info(hid_t loc_id, H5G_info_t *ginfo);
@@ -283,8 +278,6 @@ H5_DLL herr_t H5Gget_info(hid_t loc_id, H5G_info_t *ginfo);
  * \storage_type
  *
  * \since 1.8.0
- *
- * \see H5Gcreate2(), H5Gclose()
  *
  */
 H5_DLL herr_t H5Gget_info_by_name(hid_t loc_id, const char *name, H5G_info_t *ginfo, hid_t lapl_id);
@@ -331,8 +324,6 @@ H5_DLL herr_t H5Gget_info_by_name(hid_t loc_id, const char *name, H5G_info_t *gi
  *
  * \since 1.8.0
  *
- * \see H5Gcreate2(), H5Gclose()
- *
  */
 H5_DLL herr_t H5Gget_info_by_idx(hid_t loc_id, const char *group_name, H5_index_t idx_type,
                                  H5_iter_order_t order, hsize_t n, H5G_info_t *ginfo, hid_t lapl_id);
@@ -360,8 +351,6 @@ H5_DLL herr_t H5Gget_info_by_idx(hid_t loc_id, const char *group_name, H5_index_
  *
  * \since 1.8.0
  *
- * \see H5Gcreate2(), H5Gclose()
- *
  */
 H5_DLL herr_t H5Gflush(hid_t group_id);
 
@@ -384,8 +373,6 @@ H5_DLL herr_t H5Gflush(hid_t group_id);
  *          with the same identifier.
  *
  * \since 1.8.0
- *
- * \see H5Gcreate2(), H5Gclose()
  *
  */
 H5_DLL herr_t H5Grefresh(hid_t group_id);
@@ -660,7 +647,7 @@ H5_DLL herr_t H5Glink2(hid_t cur_loc_id, const char *cur_name, H5G_link_t type, 
  *
  * \attention Exercise care in moving groups as it is possible to render data in
  *            a file inaccessible with H5Gmove(). See The Group Interface in the
- *            HDF5 User's Guide.
+ *            \ref UG.
  *
  * \version 1.8.0 Function deprecated in this release.
  *
@@ -691,7 +678,7 @@ H5_DLL herr_t H5Gmove(hid_t src_loc_id, const char *src_name, const char *dst_na
  *
  * \attention Exercise care in moving groups as it is possible to render data in
  *            a file inaccessible with H5Gmove2(). See The Group Interface in the
- *            HDF5 User's Guide.
+ *            \ref UG.
  *
  * \version 1.8.0 Function deprecated in this release.
  *
@@ -725,14 +712,14 @@ H5_DLL herr_t H5Gmove2(hid_t src_loc_id, const char *src_name, hid_t dst_loc_id,
  *          any object identifier is open for the object, the space will not be
  *          released until after the object identifier is closed.
  *
- *          Note that space identified as freespace is available for re-use only
+ *          Note that space identified as freespace is available for reuse only
  *          as long as the file remains open; once a file has been closed, the
  *          HDF5 library loses track of freespace. See “Freespace Management” in
- *          the HDF5 User's Guide for further details.
+ *          the \ref UG for further details.
  *
  * \attention Exercise care in moving groups as it is possible to render data in
  *            a file inaccessible with H5Gunlink(). See The Group Interface in the
- *            HDF5 User's Guide.
+ *            \ref UG.
  *
  * \version 1.8.0 Function deprecated in this release.
  *
@@ -1038,7 +1025,7 @@ H5_DLL herr_t H5Gget_objinfo(hid_t loc_id, const char *name, hbool_t follow_link
  *          actual object name length, the object name is truncated to
  *          \Code{max_size - 1} characters.
  *
- *          Note that if the size of the object's name is unkown, a preliminary
+ *          Note that if the size of the object's name is unknown, a preliminary
  *          call to H5Gget_objname_by_idx() with \p name set to \c NULL will
  *          return the length of the object's name. A second call to
  *          H5Gget_objname_by_idx() can then be used to retrieve the actual

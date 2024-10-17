@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -11,6 +10,7 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
@@ -32,7 +32,6 @@
 #include "H5DataType.h"
 #include "H5AtomType.h"
 #include "H5PredType.h"
-#include "H5private.h"
 #include "H5AbstractDs.h"
 #include "H5DataSet.h"
 #include "H5Attribute.h"
@@ -78,7 +77,6 @@ DataType::DataType(const hid_t existing_id) : H5Object(), id(existing_id), encod
 //--------------------------------------------------------------------------
 DataType::DataType(const H5T_class_t type_class, size_t size) : H5Object(), encoded_buf(NULL), buf_size(0)
 {
-    // Call C routine to create the new datatype
     id = H5Tcreate(type_class, size);
     if (id < 0) {
         throw DataTypeIException("DataType constructor", "H5Tcreate failed");
@@ -148,7 +146,6 @@ DataType::DataType(const DataType &original) : H5Object(), id(original.id), enco
 //--------------------------------------------------------------------------
 DataType::DataType(const PredType &pred_type) : H5Object(), encoded_buf(NULL), buf_size(0)
 {
-    // Call C routine to copy the datatype
     id = H5Tcopy(pred_type.getId());
     if (id < 0)
         throw DataTypeIException("DataType constructor", "H5Tcopy failed");
@@ -318,8 +315,9 @@ DataType::encode()
 
     // Allocate buffer and call C function again to encode
     if (buf_size > 0) {
-        encoded_buf = (unsigned char *)HDcalloc((size_t)1, buf_size);
-        ret_value   = H5Tencode(id, encoded_buf, &buf_size);
+        encoded_buf = (unsigned char *)calloc((size_t)1, buf_size);
+
+        ret_value = H5Tencode(id, encoded_buf, &buf_size);
         if (ret_value < 0) {
             throw DataTypeIException("DataType::encode", "H5Tencode failed");
         }
@@ -340,10 +338,7 @@ DataType::encode()
 bool
 DataType::hasBinaryDesc() const
 {
-    if (encoded_buf != NULL)
-        return true;
-    else
-        return false;
+    return encoded_buf != NULL;
 }
 
 //--------------------------------------------------------------------------
@@ -932,7 +927,7 @@ DataType::p_opentype(const H5Location &loc, const char *dtype_name) const
 ///\exception   H5::IdComponentException when the attempt to close the HDF5
 ///             object fails
 // Description:
-//              The underlaying reference counting in the C library ensures
+//              The underlying reference counting in the C library ensures
 //              that the current valid id of this object is properly closed.
 //              Then the object's id is reset to the new id.
 // Programmer   Binh-Minh Ribler - 2000
@@ -972,7 +967,7 @@ DataType::close()
 
         // Free and reset buffer of encoded object description if it's been used
         if (encoded_buf != NULL) {
-            HDfree(encoded_buf);
+            free(encoded_buf);
             buf_size = 0;
         }
     }
@@ -988,7 +983,7 @@ DataType::close()
 //              - Replaced decRefCount with close() to let the C library
 //                handle the reference counting - BMR, Jun 1, 2006
 //              - Added the use of H5CPP_EXITED to terminate the HDF5 library
-//                and elimiate previous memory leaks.  See comments in the
+//                and eliminate previous memory leaks.  See comments in the
 //                header file "H5PredType.h" for details. - BMR, Mar 30, 2012
 //              - Major re-implementation of the global constants was done
 //                to avoid relying on the order of the creation and deletion

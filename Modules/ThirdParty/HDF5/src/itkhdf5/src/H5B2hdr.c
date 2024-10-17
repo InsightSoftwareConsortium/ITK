@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -507,8 +506,8 @@ H5B2_hdr_t *
 H5B2__hdr_protect(H5F_t *f, haddr_t hdr_addr, void *ctx_udata, unsigned flags)
 {
     H5B2_hdr_cache_ud_t udata;            /* User data for cache callbacks */
-    H5B2_hdr_t *        hdr       = NULL; /* v2 B-tree header */
-    H5B2_hdr_t *        ret_value = NULL; /* Return value */
+    H5B2_hdr_t         *hdr       = NULL; /* v2 B-tree header */
+    H5B2_hdr_t         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 

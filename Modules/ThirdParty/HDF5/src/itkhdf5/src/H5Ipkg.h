@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -28,15 +27,6 @@
 
 /* Get package's private header */
 #include "H5Iprivate.h"
-
-/* uthash is an external, header-only hash table implementation.
- *
- * We include the file directly in src/ and #define a few functions
- * to use our internal memory calls.
- */
-#define uthash_malloc(sz)    H5MM_malloc(sz)
-#define uthash_free(ptr, sz) H5MM_free(ptr) /* Ignoring sz is intentional */
-#include "uthash.h"
 
 /**************************/
 /* Package Private Macros */
@@ -85,8 +75,8 @@ typedef struct H5I_type_info_t {
     unsigned           init_count;   /* # of times this type has been initialized */
     uint64_t           id_count;     /* Current number of IDs held */
     uint64_t           nextid;       /* ID to use for the next object */
-    H5I_id_info_t *    last_id_info; /* Info for most recent ID looked up */
-    H5I_id_info_t *    hash_table;   /* Hash table pointer for this ID type */
+    H5I_id_info_t     *last_id_info; /* Info for most recent ID looked up */
+    H5I_id_info_t     *hash_table;   /* Hash table pointer for this ID type */
 } H5I_type_info_t;
 
 /*****************************/
@@ -109,10 +99,10 @@ H5_DLLVAR int H5I_next_type_g;
 /* Package Private Prototypes */
 /******************************/
 
-H5_DLL int   H5I__destroy_type(H5I_type_t type);
-H5_DLL void *H5I__remove_verify(hid_t id, H5I_type_t type);
-H5_DLL int   H5I__inc_type_ref(H5I_type_t type);
-H5_DLL int   H5I__get_type_ref(H5I_type_t type);
+H5_DLL int            H5I__destroy_type(H5I_type_t type);
+H5_DLL void          *H5I__remove_verify(hid_t id, H5I_type_t type);
+H5_DLL int            H5I__inc_type_ref(H5I_type_t type);
+H5_DLL int            H5I__get_type_ref(H5I_type_t type);
 H5_DLL H5I_id_info_t *H5I__find_id(hid_t id);
 
 /* Testing functions */

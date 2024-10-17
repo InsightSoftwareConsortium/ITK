@@ -48,10 +48,10 @@ H5VL__native_attr_create(void *obj, const H5VL_loc_params_t *loc_params, const c
     H5G_loc_t loc;     /* Object location */
     H5G_loc_t obj_loc; /* Location used to open group */
     hbool_t   loc_found = FALSE;
-    H5T_t *   type, *dt; /* Datatype to use for attribute */
-    H5S_t *   space;     /* Dataspace to use for attribute */
-    H5A_t *   attr      = NULL;
-    void *    ret_value = NULL;
+    H5T_t    *type, *dt; /* Datatype to use for attribute */
+    H5S_t    *space;     /* Dataspace to use for attribute */
+    H5A_t    *attr      = NULL;
+    void     *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 
@@ -104,18 +104,22 @@ done:
  *-------------------------------------------------------------------------
  */
 void *
-H5VL__native_attr_open(void *obj, const H5VL_loc_params_t *loc_params, const char *attr_name,
-                       hid_t H5_ATTR_UNUSED aapl_id, hid_t H5_ATTR_UNUSED dxpl_id, void H5_ATTR_UNUSED **req)
+H5VL__native_attr_open(void *obj, const H5VL_loc_params_t *loc_params, const char *attr_name, hid_t aapl_id,
+                       hid_t H5_ATTR_UNUSED dxpl_id, void H5_ATTR_UNUSED **req)
 {
-    H5G_loc_t loc;         /* Object location */
-    H5A_t *   attr = NULL; /* Attribute opened */
-    void *    ret_value;
+    H5P_genplist_t *plist;
+    H5G_loc_t       loc;         /* Object location */
+    H5A_t          *attr = NULL; /* Attribute opened */
+    void           *ret_value;
 
     FUNC_ENTER_PACKAGE
 
     /* check arguments */
     if (H5G_loc_real(obj, loc_params->obj_type, &loc) < 0)
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "not a file or file object")
+
+    if (NULL == (plist = H5P_object_verify(aapl_id, H5P_ATTRIBUTE_ACCESS)))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "AAPL is not an attribute access property list")
 
     if (loc_params->type == H5VL_OBJECT_BY_SELF) {
         /* H5Aopen */
@@ -257,9 +261,9 @@ H5VL__native_attr_get(void *obj, H5VL_attr_get_t get_type, hid_t H5_ATTR_UNUSED 
         case H5VL_ATTR_GET_NAME: {
             const H5VL_loc_params_t *loc_params = HDva_arg(arguments, const H5VL_loc_params_t *);
             size_t                   buf_size   = HDva_arg(arguments, size_t);
-            char *                   buf        = HDva_arg(arguments, char *);
-            ssize_t *                ret_val    = HDva_arg(arguments, ssize_t *);
-            H5A_t *                  attr       = NULL;
+            char                    *buf        = HDva_arg(arguments, char *);
+            ssize_t                 *ret_val    = HDva_arg(arguments, ssize_t *);
+            H5A_t                   *attr       = NULL;
 
             if (H5VL_OBJECT_BY_SELF == loc_params->type) {
                 attr = (H5A_t *)obj;
@@ -304,8 +308,8 @@ H5VL__native_attr_get(void *obj, H5VL_attr_get_t get_type, hid_t H5_ATTR_UNUSED 
         /* H5Aget_info */
         case H5VL_ATTR_GET_INFO: {
             const H5VL_loc_params_t *loc_params = HDva_arg(arguments, const H5VL_loc_params_t *);
-            H5A_info_t *             ainfo      = HDva_arg(arguments, H5A_info_t *);
-            H5A_t *                  attr       = NULL;
+            H5A_info_t              *ainfo      = HDva_arg(arguments, H5A_info_t *);
+            H5A_t                   *attr       = NULL;
 
             if (H5VL_OBJECT_BY_SELF == loc_params->type) {
                 attr = (H5A_t *)obj;
@@ -313,7 +317,7 @@ H5VL__native_attr_get(void *obj, H5VL_attr_get_t get_type, hid_t H5_ATTR_UNUSED 
                     HGOTO_ERROR(H5E_ARGS, H5E_CANTGET, FAIL, "can't get attribute info")
             }
             else if (H5VL_OBJECT_BY_NAME == loc_params->type) {
-                char *    attr_name = HDva_arg(arguments, char *);
+                char     *attr_name = HDva_arg(arguments, char *);
                 H5G_loc_t loc;
 
                 /* check arguments */
@@ -363,7 +367,7 @@ H5VL__native_attr_get(void *obj, H5VL_attr_get_t get_type, hid_t H5_ATTR_UNUSED 
 
         case H5VL_ATTR_GET_STORAGE_SIZE: {
             hsize_t *ret  = HDva_arg(arguments, hsize_t *);
-            H5A_t *  attr = (H5A_t *)obj;
+            H5A_t   *attr = (H5A_t *)obj;
 
             /* Set return value */
             *ret = attr->shared->data_size;
@@ -431,7 +435,7 @@ H5VL__native_attr_specific(void *obj, const H5VL_loc_params_t *loc_params, H5VL_
 
         case H5VL_ATTR_EXISTS: {
             const char *attr_name = HDva_arg(arguments, const char *);
-            htri_t *    ret       = HDva_arg(arguments, htri_t *);
+            htri_t     *ret       = HDva_arg(arguments, htri_t *);
 
             if (loc_params->type == H5VL_OBJECT_BY_SELF) { /* H5Aexists */
                 /* Check if the attribute exists */
@@ -451,9 +455,9 @@ H5VL__native_attr_specific(void *obj, const H5VL_loc_params_t *loc_params, H5VL_
         case H5VL_ATTR_ITER: {
             H5_index_t      idx_type = (H5_index_t)HDva_arg(arguments, int);      /* enum work-around */
             H5_iter_order_t order    = (H5_iter_order_t)HDva_arg(arguments, int); /* enum work-around */
-            hsize_t *       idx      = HDva_arg(arguments, hsize_t *);
+            hsize_t        *idx      = HDva_arg(arguments, hsize_t *);
             H5A_operator2_t op       = HDva_arg(arguments, H5A_operator2_t);
-            void *          op_data  = HDva_arg(arguments, void *);
+            void           *op_data  = HDva_arg(arguments, void *);
 
             if (loc_params->type == H5VL_OBJECT_BY_SELF) { /* H5Aiterate2 */
                 /* Iterate over attributes */
@@ -521,9 +525,9 @@ H5VL__native_attr_optional(void H5_ATTR_UNUSED *obj, H5VL_attr_optional_t opt_ty
 #ifndef H5_NO_DEPRECATED_SYMBOLS
         case H5VL_NATIVE_ATTR_ITERATE_OLD: {
             hid_t           loc_id   = HDva_arg(arguments, hid_t);
-            unsigned *      attr_num = HDva_arg(arguments, unsigned *);
+            unsigned       *attr_num = HDva_arg(arguments, unsigned *);
             H5A_operator1_t op       = HDva_arg(arguments, H5A_operator1_t);
-            void *          op_data  = HDva_arg(arguments, void *);
+            void           *op_data  = HDva_arg(arguments, void *);
 
             /* Call the actual iteration routine */
             if ((ret_value = H5A__iterate_old(loc_id, attr_num, op, op_data)) < 0)

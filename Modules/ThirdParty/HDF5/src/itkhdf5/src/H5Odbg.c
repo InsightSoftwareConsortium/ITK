@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -155,7 +154,7 @@ H5O__assert(const H5O_t *oh)
         if (H5O_NULL_ID == curr_msg->type->id)
             free_space += curr_tot_size;
         else if (H5O_CONT_ID == curr_msg->type->id) {
-            H5O_cont_t *                  cont        = (H5O_cont_t *)curr_msg->native;
+            H5O_cont_t                   *cont        = (H5O_cont_t *)curr_msg->native;
             hbool_t H5_ATTR_NDEBUG_UNUSED found_chunk = FALSE; /* Found a chunk that matches */
 
             HDassert(cont);
@@ -512,7 +511,7 @@ done:
 herr_t
 H5O_debug(H5F_t *f, haddr_t addr, FILE *stream, int indent, int fwidth)
 {
-    H5O_t *   oh = NULL;           /* Object header to display */
+    H5O_t    *oh = NULL;           /* Object header to display */
     H5O_loc_t loc;                 /* Object location for object to delete */
     herr_t    ret_value = SUCCEED; /* Return value */
 

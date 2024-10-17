@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -32,7 +31,7 @@
 /* Information about open objects in a file */
 typedef struct H5FO_open_obj_t {
     haddr_t addr;    /* Address of object header for object */
-    void *  obj;     /* Pointer to the object            */
+    void   *obj;     /* Pointer to the object            */
     hbool_t deleted; /* Flag to indicate that the object was deleted from the file */
 } H5FO_open_obj_t;
 
@@ -109,7 +108,7 @@ void *
 H5FO_opened(const H5F_t *f, haddr_t addr)
 {
     H5FO_open_obj_t *open_obj;  /* Information about open object */
-    void *           ret_value; /* Return value */
+    void            *ret_value; /* Return value */
 
     FUNC_ENTER_NOAPI_NOERR
 

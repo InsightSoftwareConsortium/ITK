@@ -44,7 +44,7 @@ H5VL__native_object_open(void *obj, const H5VL_loc_params_t *loc_params, H5I_typ
                          hid_t H5_ATTR_UNUSED dxpl_id, void H5_ATTR_UNUSED **req)
 {
     H5G_loc_t loc;
-    void *    ret_value = NULL;
+    void     *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 
@@ -172,7 +172,7 @@ H5VL__native_object_get(void *obj, const H5VL_loc_params_t *loc_params, H5VL_obj
         /* Object name */
         case H5VL_OBJECT_GET_NAME: {
             ssize_t *ret  = HDva_arg(arguments, ssize_t *);
-            char *   name = HDva_arg(arguments, char *);
+            char    *name = HDva_arg(arguments, char *);
             size_t   size = HDva_arg(arguments, size_t);
 
             if (loc_params->type == H5VL_OBJECT_BY_SELF) {
@@ -374,7 +374,7 @@ H5VL__native_object_specific(void *obj, const H5VL_loc_params_t *loc_params,
             H5_index_t      idx_type = (H5_index_t)HDva_arg(arguments, int);      /* enum work-around */
             H5_iter_order_t order    = (H5_iter_order_t)HDva_arg(arguments, int); /* enum work-around */
             H5O_iterate2_t  op       = HDva_arg(arguments, H5O_iterate2_t);
-            void *          op_data  = HDva_arg(arguments, void *);
+            void           *op_data  = HDva_arg(arguments, void *);
             unsigned        fields   = HDva_arg(arguments, unsigned);
 
             /* Call internal object visitation routine */
@@ -448,7 +448,7 @@ H5VL__native_object_optional(void *obj, H5VL_object_optional_t optional_type, hi
     switch (optional_type) {
         /* H5Oget_comment / H5Oget_comment_by_name */
         case H5VL_NATIVE_OBJECT_GET_COMMENT: {
-            char *   comment = HDva_arg(arguments, char *);
+            char    *comment = HDva_arg(arguments, char *);
             size_t   bufsize = HDva_arg(arguments, size_t);
             ssize_t *ret     = HDva_arg(arguments, ssize_t *);
 
@@ -509,7 +509,7 @@ H5VL__native_object_optional(void *obj, H5VL_object_optional_t optional_type, hi
         /* H5Oare_mdc_flushes_disabled */
         case H5VL_NATIVE_OBJECT_ARE_MDC_FLUSHES_DISABLED: {
             H5O_loc_t *oloc         = loc.oloc;
-            hbool_t *  are_disabled = (hbool_t *)HDva_arg(arguments, hbool_t *);
+            hbool_t   *are_disabled = (hbool_t *)HDva_arg(arguments, hbool_t *);
 
             if (H5O_are_mdc_flushes_disabled(oloc, are_disabled) < 0)
                 HGOTO_ERROR(H5E_OHDR, H5E_CANTGET, FAIL, "unable to determine metadata cache cork status");

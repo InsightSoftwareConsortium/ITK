@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -144,21 +143,21 @@ typedef enum {
 /* User data for free space manager section callbacks */
 typedef struct H5MF_sect_ud_t {
     /* Down */
-    H5F_t *    f;                     /* Pointer to file to operate on */
+    H5F_t     *f;                     /* Pointer to file to operate on */
     H5FD_mem_t alloc_type;            /* Type of memory being allocated */
     hbool_t    allow_sect_absorb;     /* Whether sections are allowed to absorb a block aggregator */
     hbool_t    allow_eoa_shrink_only; /* Whether shrinking eoa is allowed only for the section */
 
     /* Up */
     H5MF_shrink_type_t shrink; /* Type of shrink operation to perform */
-    H5F_blk_aggr_t *   aggr;   /* Aggregator block to operate on */
+    H5F_blk_aggr_t    *aggr;   /* Aggregator block to operate on */
 } H5MF_sect_ud_t;
 
 /* Information about the current free-space manager to use */
 typedef struct H5MF_fs_t {
     H5F_fs_state_t *fs_state;
-    haddr_t *       fs_addr;
-    H5FS_t **       fs_man;
+    haddr_t        *fs_addr;
+    H5FS_t        **fs_man;
     hsize_t         align_thres; /* Threshold for alignment              */
     hsize_t         alignment;   /* Alignment                            */
 } H5MF_fs_t;

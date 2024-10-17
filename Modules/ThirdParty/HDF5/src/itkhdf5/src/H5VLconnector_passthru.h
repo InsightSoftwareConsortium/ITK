@@ -63,10 +63,10 @@ H5_DLL herr_t H5VLreset_lib_state(void);
 H5_DLL herr_t H5VLfree_lib_state(void *state);
 
 /* Pass-through callbacks */
-H5_DLL void * H5VLget_object(void *obj, hid_t connector_id);
+H5_DLL void  *H5VLget_object(void *obj, hid_t connector_id);
 H5_DLL herr_t H5VLget_wrap_ctx(void *obj, hid_t connector_id, void **wrap_ctx);
-H5_DLL void * H5VLwrap_object(void *obj, H5I_type_t obj_type, hid_t connector_id, void *wrap_ctx);
-H5_DLL void * H5VLunwrap_object(void *obj, hid_t connector_id);
+H5_DLL void  *H5VLwrap_object(void *obj, H5I_type_t obj_type, hid_t connector_id, void *wrap_ctx);
+H5_DLL void  *H5VLunwrap_object(void *obj, hid_t connector_id);
 H5_DLL herr_t H5VLfree_wrap_ctx(void *wrap_ctx, hid_t connector_id);
 
 /* Public wrappers for generic callbacks */
@@ -83,10 +83,10 @@ H5_DLL herr_t H5VLconnector_info_to_str(const void *info, hid_t connector_id, ch
 H5_DLL herr_t H5VLconnector_str_to_info(const char *str, hid_t connector_id, void **info);
 
 /* Public wrappers for attribute callbacks */
-H5_DLL void * H5VLattr_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLattr_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                               const char *attr_name, hid_t type_id, hid_t space_id, hid_t acpl_id,
                               hid_t aapl_id, hid_t dxpl_id, void **req);
-H5_DLL void * H5VLattr_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLattr_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                             const char *name, hid_t aapl_id, hid_t dxpl_id, void **req);
 H5_DLL herr_t H5VLattr_read(void *attr, hid_t connector_id, hid_t dtype_id, void *buf, hid_t dxpl_id,
                             void **req);
@@ -102,10 +102,10 @@ H5_DLL herr_t H5VLattr_optional(void *obj, hid_t connector_id, H5VL_attr_optiona
 H5_DLL herr_t H5VLattr_close(void *attr, hid_t connector_id, hid_t dxpl_id, void **req);
 
 /* Public wrappers for dataset callbacks */
-H5_DLL void * H5VLdataset_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLdataset_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                                  const char *name, hid_t lcpl_id, hid_t type_id, hid_t space_id, hid_t dcpl_id,
                                  hid_t dapl_id, hid_t dxpl_id, void **req);
-H5_DLL void * H5VLdataset_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLdataset_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                                const char *name, hid_t dapl_id, hid_t dxpl_id, void **req);
 H5_DLL herr_t H5VLdataset_read(void *dset, hid_t connector_id, hid_t mem_type_id, hid_t mem_space_id,
                                hid_t file_space_id, hid_t plist_id, void *buf, void **req);
@@ -120,10 +120,10 @@ H5_DLL herr_t H5VLdataset_optional(void *obj, hid_t connector_id, H5VL_dataset_o
 H5_DLL herr_t H5VLdataset_close(void *dset, hid_t connector_id, hid_t dxpl_id, void **req);
 
 /* Public wrappers for named datatype callbacks */
-H5_DLL void * H5VLdatatype_commit(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLdatatype_commit(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                                   const char *name, hid_t type_id, hid_t lcpl_id, hid_t tcpl_id, hid_t tapl_id,
                                   hid_t dxpl_id, void **req);
-H5_DLL void * H5VLdatatype_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLdatatype_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                                 const char *name, hid_t tapl_id, hid_t dxpl_id, void **req);
 H5_DLL herr_t H5VLdatatype_get(void *dt, hid_t connector_id, H5VL_datatype_get_t get_type, hid_t dxpl_id,
                                void **req, va_list arguments);
@@ -134,9 +134,9 @@ H5_DLL herr_t H5VLdatatype_optional(void *obj, hid_t connector_id, H5VL_datatype
 H5_DLL herr_t H5VLdatatype_close(void *dt, hid_t connector_id, hid_t dxpl_id, void **req);
 
 /* Public wrappers for file callbacks */
-H5_DLL void * H5VLfile_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id, hid_t dxpl_id,
+H5_DLL void  *H5VLfile_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id, hid_t dxpl_id,
                               void **req);
-H5_DLL void * H5VLfile_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id, void **req);
+H5_DLL void  *H5VLfile_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id, void **req);
 H5_DLL herr_t H5VLfile_get(void *file, hid_t connector_id, H5VL_file_get_t get_type, hid_t dxpl_id,
                            void **req, va_list arguments);
 H5_DLL herr_t H5VLfile_specific(void *obj, hid_t connector_id, H5VL_file_specific_t specific_type,
@@ -146,10 +146,10 @@ H5_DLL herr_t H5VLfile_optional(void *obj, hid_t connector_id, H5VL_file_optiona
 H5_DLL herr_t H5VLfile_close(void *file, hid_t connector_id, hid_t dxpl_id, void **req);
 
 /* Public wrappers for group callbacks */
-H5_DLL void * H5VLgroup_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLgroup_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                                const char *name, hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id,
                                void **req);
-H5_DLL void * H5VLgroup_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLgroup_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                              const char *name, hid_t gapl_id, hid_t dxpl_id, void **req);
 H5_DLL herr_t H5VLgroup_get(void *obj, hid_t connector_id, H5VL_group_get_t get_type, hid_t dxpl_id,
                             void **req, va_list arguments);
@@ -178,7 +178,7 @@ H5_DLL herr_t H5VLlink_optional(void *obj, hid_t connector_id, H5VL_link_optiona
                                 void **req, va_list arguments);
 
 /* Public wrappers for object callbacks */
-H5_DLL void * H5VLobject_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
+H5_DLL void  *H5VLobject_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id,
                               H5I_type_t *opened_type, hid_t dxpl_id, void **req);
 H5_DLL herr_t H5VLobject_copy(void *src_obj, const H5VL_loc_params_t *loc_params1, const char *src_name,
                               void *dst_obj, const H5VL_loc_params_t *loc_params2, const char *dst_name,

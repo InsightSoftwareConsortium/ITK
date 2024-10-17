@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -94,10 +93,10 @@ H5FL_EXTERN(H5VL_object_t);
 herr_t
 H5Tcommit2(hid_t loc_id, const char *name, hid_t type_id, hid_t lcpl_id, hid_t tcpl_id, hid_t tapl_id)
 {
-    void *            data    = NULL; /* VOL-managed datatype data */
-    H5VL_object_t *   new_obj = NULL; /* VOL object that holds the datatype object and the VOL info */
-    H5T_t *           dt      = NULL; /* High level datatype object that wraps the VOL object */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *data    = NULL; /* VOL-managed datatype data */
+    H5VL_object_t    *new_obj = NULL; /* VOL object that holds the datatype object and the VOL info */
+    H5T_t            *dt      = NULL; /* High level datatype object that wraps the VOL object */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -258,10 +257,10 @@ done:
 herr_t
 H5Tcommit_anon(hid_t loc_id, hid_t type_id, hid_t tcpl_id, hid_t tapl_id)
 {
-    void *            dt      = NULL; /* datatype object created by VOL connector */
-    H5VL_object_t *   new_obj = NULL; /* VOL object that holds the datatype object and the VOL info */
-    H5T_t *           type    = NULL; /* Datatype created */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *dt      = NULL; /* datatype object created by VOL connector */
+    H5VL_object_t    *new_obj = NULL; /* VOL object that holds the datatype object and the VOL info */
+    H5T_t            *type    = NULL; /* Datatype created */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -556,8 +555,8 @@ done:
 hid_t
 H5Topen2(hid_t loc_id, const char *name, hid_t tapl_id)
 {
-    void *            dt      = NULL; /* datatype object created by VOL connector */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *dt      = NULL; /* datatype object created by VOL connector */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -820,13 +819,13 @@ done:
 H5T_t *
 H5T__open_name(const H5G_loc_t *loc, const char *name)
 {
-    H5T_t *    dt = NULL;         /* Datatype opened in file */
+    H5T_t     *dt = NULL;         /* Datatype opened in file */
     H5G_name_t path;              /* Datatype group hier. path */
     H5O_loc_t  oloc;              /* Datatype object location */
     H5G_loc_t  type_loc;          /* Group object for datatype */
     H5O_type_t obj_type;          /* Type of object at location */
     hbool_t    obj_found = FALSE; /* Object at 'name' found */
-    H5T_t *    ret_value = NULL;  /* Return value */
+    H5T_t     *ret_value = NULL;  /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -887,8 +886,8 @@ H5T_t *
 H5T_open(const H5G_loc_t *loc)
 {
     H5T_shared_t *shared_fo = NULL;
-    H5T_t *       dt        = NULL;
-    H5T_t *       ret_value = NULL; /* Return value */
+    H5T_t        *dt        = NULL;
+    H5T_t        *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1085,9 +1084,9 @@ H5T_t *
 H5T_construct_datatype(H5VL_object_t *vol_obj)
 {
     ssize_t nalloc;
-    void *  buf       = NULL;
-    H5T_t * dt        = NULL; /* datatype object from VOL connector */
-    H5T_t * ret_value = NULL;
+    void   *buf       = NULL;
+    H5T_t  *dt        = NULL; /* datatype object from VOL connector */
+    H5T_t  *ret_value = NULL;
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1173,7 +1172,7 @@ H5T_get_actual_type(H5T_t *dt)
 /*-------------------------------------------------------------------------
  * Function:    H5T_save_refresh_state
  *
- * Purpose:     Save state for datatype reconstuction after a refresh.
+ * Purpose:     Save state for datatype reconstruction after a refresh.
  *
  * Return:      SUCCEED/FAIL
  *
@@ -1213,7 +1212,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:    H5T_restore_refresh_state
  *
- * Purpose:     Restore state for datatype reconstuction after a refresh.
+ * Purpose:     Restore state for datatype reconstruction after a refresh.
  *
  * Return:      SUCCEED/FAIL
  *

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -34,10 +33,10 @@
 #include "H5Opkg.h"      /* Object headers			*/
 
 /* PRIVATE PROTOTYPES */
-static void * H5O__linfo_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
+static void  *H5O__linfo_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
                                 size_t p_size, const uint8_t *p);
 static herr_t H5O__linfo_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
-static void * H5O__linfo_copy(const void *_mesg, void *_dest);
+static void  *H5O__linfo_copy(const void *_mesg, void *_dest);
 static size_t H5O__linfo_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
 static herr_t H5O__linfo_free(void *_mesg);
 static herr_t H5O__linfo_delete(H5F_t *f, H5O_t *open_oh, void *_mesg);
@@ -53,7 +52,7 @@ const H5O_msg_class_t H5O_MSG_LINFO[1] = {{
     H5O_LINFO_ID,              /*message id number             */
     "linfo",                   /*message name for debugging    */
     sizeof(H5O_linfo_t),       /*native message size           */
-    0,                         /* messages are sharable?       */
+    0,                         /* messages are shareable?       */
     H5O__linfo_decode,         /*decode message                */
     H5O__linfo_encode,         /*encode message                */
     H5O__linfo_copy,           /*copy the native value         */
@@ -83,9 +82,9 @@ const H5O_msg_class_t H5O_MSG_LINFO[1] = {{
 /* Data exchange structure to use when copying links from src to dst */
 typedef struct {
     const H5O_loc_t *src_oloc;  /* Source object location */
-    H5O_loc_t *      dst_oloc;  /* Destination object location */
-    H5O_linfo_t *    dst_linfo; /* Destination object's link info message */
-    H5O_copy_t *     cpy_info;  /* Information for copy operation */
+    H5O_loc_t       *dst_oloc;  /* Destination object location */
+    H5O_linfo_t     *dst_linfo; /* Destination object's link info message */
+    H5O_copy_t      *cpy_info;  /* Information for copy operation */
 } H5O_linfo_postcopy_ud_t;
 
 /* Declare a free list to manage the H5O_linfo_t struct */
@@ -106,11 +105,13 @@ H5FL_DEFINE_STATIC(H5O_linfo_t);
  */
 static void *
 H5O__linfo_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUSED mesg_flags,
-                  unsigned H5_ATTR_UNUSED *ioflags, size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
+                  unsigned H5_ATTR_UNUSED *ioflags, size_t p_size, const uint8_t *p)
 {
-    H5O_linfo_t * linfo = NULL;     /* Link info */
-    unsigned char index_flags;      /* Flags for encoding link index info */
-    void *        ret_value = NULL; /* Return value */
+    const uint8_t *p_end = p + p_size - 1;         /* End of the p buffer */
+    H5O_linfo_t   *linfo = NULL;                   /* Link info */
+    unsigned char  index_flags;                    /* Flags for encoding link index info */
+    uint8_t        addr_size = H5F_SIZEOF_ADDR(f); /* Temp var */
+    void          *ret_value = NULL;               /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -118,13 +119,17 @@ H5O__linfo_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUS
     HDassert(f);
     HDassert(p);
 
+    /* Check input buffer before decoding version and index flags */
+    if (H5_IS_BUFFER_OVERFLOW(p, 2, p_end))
+        HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
+
     /* Version of message */
     if (*p++ != H5O_LINFO_VERSION)
         HGOTO_ERROR(H5E_OHDR, H5E_CANTLOAD, NULL, "bad version number for message")
 
     /* Allocate space for message */
     if (NULL == (linfo = H5FL_MALLOC(H5O_linfo_t)))
-        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
+        HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, NULL, "memory allocation failed")
 
     /* Get the index flags for the group */
     index_flags = *p++;
@@ -137,10 +142,17 @@ H5O__linfo_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUS
     linfo->nlinks = HSIZET_MAX;
 
     /* Max. link creation order value for the group, if tracked */
-    if (linfo->track_corder)
+    if (linfo->track_corder) {
+        if (H5_IS_BUFFER_OVERFLOW(p, 8, p_end))
+            HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
         INT64DECODE(p, linfo->max_corder)
+    }
     else
         linfo->max_corder = 0;
+
+    /* Check input buffer before decoding the next two addresses */
+    if (H5_IS_BUFFER_OVERFLOW(p, addr_size + addr_size, p_end))
+        HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
 
     /* Address of fractal heap to store "dense" links */
     H5F_addr_decode(f, &p, &(linfo->fheap_addr));
@@ -149,8 +161,11 @@ H5O__linfo_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUS
     H5F_addr_decode(f, &p, &(linfo->name_bt2_addr));
 
     /* Address of v2 B-tree to index creation order of links, if there is one */
-    if (linfo->index_corder)
+    if (linfo->index_corder) {
+        if (H5_IS_BUFFER_OVERFLOW(p, addr_size, p_end))
+            HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
         H5F_addr_decode(f, &p, &(linfo->corder_bt2_addr));
+    }
     else
         linfo->corder_bt2_addr = HADDR_UNDEF;
 
@@ -235,8 +250,8 @@ static void *
 H5O__linfo_copy(const void *_mesg, void *_dest)
 {
     const H5O_linfo_t *linfo     = (const H5O_linfo_t *)_mesg;
-    H5O_linfo_t *      dest      = (H5O_linfo_t *)_dest;
-    void *             ret_value = NULL; /* Return value */
+    H5O_linfo_t       *dest      = (H5O_linfo_t *)_dest;
+    void              *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -367,10 +382,10 @@ H5O__linfo_copy_file(H5F_t H5_ATTR_UNUSED *file_src, void *native_src, H5F_t *fi
                      hbool_t H5_ATTR_UNUSED *recompute_size, unsigned H5_ATTR_UNUSED *mesg_flags,
                      H5O_copy_t *cpy_info, void *_udata)
 {
-    H5O_linfo_t *       linfo_src = (H5O_linfo_t *)native_src;
-    H5O_linfo_t *       linfo_dst = NULL;
+    H5O_linfo_t        *linfo_src = (H5O_linfo_t *)native_src;
+    H5O_linfo_t        *linfo_dst = NULL;
     H5G_copy_file_ud_t *udata     = (H5G_copy_file_ud_t *)_udata;
-    void *              ret_value = NULL; /* Return value */
+    void               *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC_TAG(H5AC__COPIED_TAG)
 
@@ -485,7 +500,7 @@ H5O__linfo_post_copy_file(const H5O_loc_t *src_oloc, const void *mesg_src, H5O_l
                           void *mesg_dst, unsigned H5_ATTR_UNUSED *mesg_flags, H5O_copy_t *cpy_info)
 {
     const H5O_linfo_t *linfo_src = (const H5O_linfo_t *)mesg_src;
-    H5O_linfo_t *      linfo_dst = (H5O_linfo_t *)mesg_dst;
+    H5O_linfo_t       *linfo_dst = (H5O_linfo_t *)mesg_dst;
     herr_t             ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC

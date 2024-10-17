@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -159,7 +158,7 @@ H5G__traverse_ud(const H5G_loc_t *grp_loc /*in,out*/, const H5O_link_t *lnk, H5G
     H5G_name_t         grp_path_copy;
     H5O_loc_t          grp_oloc_copy;
     H5G_loc_t          new_loc; /* Group location for newly opened external object */
-    H5G_t *            grp;
+    H5G_t             *grp;
     hid_t              cur_grp   = (-1);
     herr_t             ret_value = SUCCEED; /* Return value */
 
@@ -191,7 +190,7 @@ H5G__traverse_ud(const H5G_loc_t *grp_loc /*in,out*/, const H5O_link_t *lnk, H5G
 
         /* User-defined callback function */
 #ifndef H5_NO_DEPRECATED_SYMBOLS
-    /* (Backwardly compatible with v0 H5L_class_t traverssal callback) */
+    /* (Backward-compatible with v0 H5L_class_t traversal callback) */
     if (link_class->version == H5L_LINK_CLASS_T_VERS_0)
         cb_return = (((const H5L_class_0_t *)link_class)->trav_func)(lnk->name, cur_grp, lnk->u.ud.udata,
                                                                      lnk->u.ud.size, H5CX_get_lapl());
@@ -470,8 +469,8 @@ H5G__traverse_real(const H5G_loc_t *_loc, const char *name, unsigned target, H5G
     H5G_own_loc_t own_loc = H5G_OWN_NONE; /* Enum to indicate whether callback took ownership of locations*/
     hbool_t       group_copy = FALSE;     /* Flag to indicate that the group entry is copied */
     char          comp_buf[1024];         /* Temporary buffer for path components */
-    char *        comp;                   /* Pointer to buffer for path components */
-    H5WB_t *      wb        = NULL;       /* Wrapped buffer for temporary buffer */
+    char         *comp;                   /* Pointer to buffer for path components */
+    H5WB_t       *wb        = NULL;       /* Wrapped buffer for temporary buffer */
     hbool_t       last_comp = FALSE; /* Flag to indicate that a component is the last component in the name */
     herr_t        ret_value = SUCCEED; /* Return value */
 
@@ -592,7 +591,7 @@ H5G__traverse_real(const H5G_loc_t *_loc, const char *name, unsigned target, H5G
         /* Check for last component in name provided */
         if (last_comp) {
             H5O_link_t *cb_lnk; /* Pointer to link info for callback */
-            H5G_loc_t * cb_loc; /* Pointer to object location for callback */
+            H5G_loc_t  *cb_loc; /* Pointer to object location for callback */
 
             /* Set callback parameters appropriately, based on link being found */
             if (lookup_status) {

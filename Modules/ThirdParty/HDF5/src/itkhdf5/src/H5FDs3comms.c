@@ -81,7 +81,7 @@
  */
 struct s3r_datastruct {
     unsigned long magic;
-    char *        data;
+    char         *data;
     size_t        size;
 };
 #define S3COMMS_CALLBACK_DATASTRUCT_MAGIC 0x28c2b2ul
@@ -209,11 +209,11 @@ herr_t
 H5FD_s3comms_hrb_node_set(hrb_node_t **L, const char *name, const char *value)
 {
     size_t      i          = 0;
-    char *      valuecpy   = NULL;
-    char *      namecpy    = NULL;
+    char       *valuecpy   = NULL;
+    char       *namecpy    = NULL;
     size_t      namelen    = 0;
-    char *      lowername  = NULL;
-    char *      nvcat      = NULL;
+    char       *lowername  = NULL;
+    char       *nvcat      = NULL;
     hrb_node_t *node_ptr   = NULL;
     hrb_node_t *new_node   = NULL;
     hbool_t     is_looking = TRUE;
@@ -579,7 +579,7 @@ done:
  *
  *    Headers list at `first_header` is not touched.
  *
- *    - Programmer should re-use or destroy `first_header` pointer
+ *    - Programmer should reuse or destroy `first_header` pointer
  *      (hrb_node_t *) as suits their purposes.
  *    - Recommend fetching prior to destroy()
  *      e.g., `reuse_node = hrb_to_die->first_header; destroy(hrb_to_die);`
@@ -662,12 +662,12 @@ hrb_t *
 H5FD_s3comms_hrb_init_request(const char *_verb, const char *_resource, const char *_http_version)
 {
     hrb_t *request   = NULL;
-    char * res       = NULL;
+    char  *res       = NULL;
     size_t reslen    = 0;
     hrb_t *ret_value = NULL;
-    char * verb      = NULL;
+    char  *verb      = NULL;
     size_t verblen   = 0;
-    char * vrsn      = NULL;
+    char  *vrsn      = NULL;
     size_t vrsnlen   = 0;
 
     FUNC_ENTER_NOAPI_NOINIT
@@ -875,11 +875,11 @@ herr_t
 H5FD_s3comms_s3r_getsize(s3r_t *handle)
 {
     uintmax_t             content_length = 0;
-    CURL *                curlh          = NULL;
-    char *                end            = NULL;
-    char *                headerresponse = NULL;
+    CURL                 *curlh          = NULL;
+    char                 *end            = NULL;
+    char                 *headerresponse = NULL;
     struct s3r_datastruct sds            = {S3COMMS_CALLBACK_DATASTRUCT_MAGIC, NULL, 0};
-    char *                start          = NULL;
+    char                 *start          = NULL;
     herr_t                ret_value      = SUCCEED;
 
     FUNC_ENTER_NOAPI_NOINIT
@@ -1026,10 +1026,10 @@ s3r_t *
 H5FD_s3comms_s3r_open(const char *url, const char *region, const char *id, const unsigned char *signing_key)
 {
     size_t        tmplen    = 0;
-    CURL *        curlh     = NULL;
-    s3r_t *       handle    = NULL;
+    CURL         *curlh     = NULL;
+    s3r_t        *handle    = NULL;
     parsed_url_t *purl      = NULL;
-    s3r_t *       ret_value = NULL;
+    s3r_t        *ret_value = NULL;
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -1205,14 +1205,14 @@ done:
 herr_t
 H5FD_s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest)
 {
-    CURL *             curlh         = NULL;
+    CURL              *curlh         = NULL;
     CURLcode           p_status      = CURLE_OK;
     struct curl_slist *curlheaders   = NULL;
-    hrb_node_t *       headers       = NULL;
-    hrb_node_t *       node          = NULL;
-    struct tm *        now           = NULL;
-    char *             rangebytesstr = NULL;
-    hrb_t *            request       = NULL;
+    hrb_node_t        *headers       = NULL;
+    hrb_node_t        *node          = NULL;
+    struct tm         *now           = NULL;
+    char              *rangebytesstr = NULL;
+    hrb_t             *request       = NULL;
     int                ret           = 0; /* working variable to check  */
                                           /* return value of HDsnprintf  */
     struct s3r_datastruct *sds       = NULL;
@@ -1555,7 +1555,7 @@ struct tm *
 gmnow(void)
 {
     time_t     now;
-    time_t *   now_ptr   = &now;
+    time_t    *now_ptr   = &now;
     struct tm *ret_value = NULL;
 
     /* Doctor assert, checks against error in time() */
@@ -1933,7 +1933,7 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
     unsigned buffer_i      = 0;
     unsigned setting_i     = 0;
     int      found_setting = 0;
-    char *   line_buffer   = &(buffer[0]);
+    char    *line_buffer   = &(buffer[0]);
 
     FUNC_ENTER_STATIC
 
@@ -2050,7 +2050,7 @@ H5FD_s3comms_load_aws_profile(const char *profile_name, char *key_id_out, char *
                               char *aws_region_out)
 {
     herr_t ret_value = SUCCEED;
-    FILE * credfile  = NULL;
+    FILE  *credfile  = NULL;
     char   awspath[117];
     char   filepath[128];
     int    ret = 0;
@@ -2196,8 +2196,8 @@ herr_t
 H5FD_s3comms_parse_url(const char *str, parsed_url_t **_purl)
 {
     parsed_url_t *purl      = NULL; /* pointer to new structure */
-    const char *  tmpstr    = NULL; /* working pointer in string */
-    const char *  curstr    = str;  /* "start" pointer in string */
+    const char   *tmpstr    = NULL; /* working pointer in string */
+    const char   *curstr    = str;  /* "start" pointer in string */
     long int      len       = 0;    /* substring length */
     long int      urllen    = 0;    /* length of passed-in url string */
     unsigned int  i         = 0;
@@ -2527,7 +2527,7 @@ done:
  *     Create AWS4 "Signing Key" from secret key, AWS region, and timestamp.
  *
  *     Sequentially runs HMAC_SHA256 on strings in specified order,
- *     generating re-usable checksum (according to documentation, valid for
+ *     generating reusable checksum (according to documentation, valid for
  *     7 days from time given).
  *
  *     `secret` is `access key id` for targeted service/bucket/resource.
@@ -2559,7 +2559,7 @@ done:
 herr_t
 H5FD_s3comms_signing_key(unsigned char *md, const char *secret, const char *region, const char *iso8601now)
 {
-    char *        AWS4_secret     = NULL;
+    char         *AWS4_secret     = NULL;
     size_t        AWS4_secret_len = 0;
     unsigned char datekey[SHA256_DIGEST_LENGTH];
     unsigned char dateregionkey[SHA256_DIGEST_LENGTH];
