@@ -20,7 +20,6 @@
 #include "itkImageFileReaderException.h"
 
 #include "ITKIOImageBaseExport.h"
-
 #include "itkImageIOBase.h"
 #include "itkImageSource.h"
 #include "itkMacro.h"
