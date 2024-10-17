@@ -80,11 +80,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   }
   const auto * const data = static_cast<const DataType *>(buffer);
   auto               output = VectorContainerType::New();
-  output->resize(numberOfElements);
-  for (size_t ii = 0; ii < numberOfElements; ++ii)
-  {
-    output->SetElement(ii, data[ii]);
-  }
+  output->assign(data, data + numberOfElements);
 
   return output;
 }
