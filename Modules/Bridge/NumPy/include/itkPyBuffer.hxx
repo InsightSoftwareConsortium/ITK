@@ -20,7 +20,8 @@
 
 
 #include "itkImportImageContainer.h"
-#include <memory> // For unique_ptr.
+#include <algorithm> // For reverse.
+#include <memory>    // For unique_ptr.
 
 namespace itk
 {
@@ -69,7 +70,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   Py_buffer pyBuffer{};
 
   SizeType      size;
-  SizeType      sizeFortran;
   SizeValueType numberOfPixels = 1;
 
   if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ND | PyBUF_ANY_CONTIGUOUS) == -1)
@@ -93,7 +93,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   {
     PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, i);
     size[i] = static_cast<SizeValueType>(PyInt_AsLong(item));
-    sizeFortran[dimension - 1 - i] = static_cast<SizeValueType>(PyInt_AsLong(item));
     numberOfPixels *= size[i];
   }
 
@@ -107,19 +106,9 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
     return nullptr;
   }
 
-  IndexType start;
-  start.Fill(0);
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
   if (isFortranContiguous)
   {
-    region.SetSize(sizeFortran);
-  }
-  else
-  {
-    region.SetSize(size);
+    std::reverse(size.begin(), size.end());
   }
 
   PointType origin;
@@ -136,7 +125,7 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   importer->SetImportPointer(data, numberOfPixels, importImageFilterWillOwnTheBuffer);
 
   OutputImagePointer output = TImage::New();
-  output->SetRegions(region);
+  output->SetRegions(size);
   output->SetOrigin(origin);
   output->SetSpacing(spacing);
   output->SetPixelContainer(importer);
