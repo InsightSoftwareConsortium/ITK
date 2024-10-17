@@ -27,11 +27,10 @@ template <typename TInputImage, typename TOutputMesh>
 ImageToMeshFilter<TInputImage, TOutputMesh>::ImageToMeshFilter()
 {
   this->ProcessObject::SetNumberOfRequiredInputs(1);
-
-  OutputMeshPointer output = dynamic_cast<OutputMeshType *>(this->MakeOutput(0).GetPointer());
-
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, output.GetPointer());
+
+  // Equivalent to SetNthOutput(0, MakeOutput(0)); in this case, calling MakeOutput is not necessary.
+  this->ProcessObject::SetNthOutput(0, OutputMeshType::New());
 }
 
 /**
