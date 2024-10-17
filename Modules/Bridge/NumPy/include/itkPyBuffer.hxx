@@ -39,17 +39,14 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 
   image->Update();
 
-  ComponentType * buffer =
-    const_cast<ComponentType *>(reinterpret_cast<const ComponentType *>(image->GetBufferPointer()));
-
-  void * itkImageBuffer = buffer;
+  void * const buffer = image->GetBufferPointer();
 
   // Computing the length of data
   const unsigned int  numberOfComponents = image->GetNumberOfComponentsPerPixel();
   const SizeValueType numberOfPixels = image->GetBufferedRegion().GetNumberOfPixels();
   const auto          len = static_cast<Py_ssize_t>(numberOfPixels * numberOfComponents * sizeof(ComponentType));
 
-  PyBuffer_FillInfo(&pyBuffer, nullptr, itkImageBuffer, len, 0, PyBUF_CONTIG);
+  PyBuffer_FillInfo(&pyBuffer, nullptr, buffer, len, 0, PyBUF_CONTIG);
   return PyMemoryView_FromBuffer(&pyBuffer);
 }
 
