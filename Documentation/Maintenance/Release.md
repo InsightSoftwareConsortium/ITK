@@ -414,9 +414,12 @@ due to third-party dependencies.
 
 When a new ITK version is released, experience has shown that the remote
 module packages are not binary compatible across ITK major or minor releases.
-Thus, remote module versions should be bumped into a new major version when
-requiring a new ITK major or minor version. The process described below
-ensures appropriate versioning and compatibility of the remotes with ITK.
+While we attempt to maintain API compatibility between ITK minor releases, the
+ABI generally changes. This can be due to features and bug fixes in the ITK
+source code, but there are also usually build system changes that cause ABI
+changes. Thus, remote module versions should be bumped into a new major
+version when requiring a new ITK major or minor version. The process described
+below ensures appropriate versioning and compatibility of the remotes with ITK.
 
 Update Remote Modules
 ---------------------
