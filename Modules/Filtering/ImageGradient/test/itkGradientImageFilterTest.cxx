@@ -89,7 +89,7 @@ itkGradientImageFilterTest(int argc, char * argv[])
 
   using PeriodicBoundaryType = itk::PeriodicBoundaryCondition<InputImageType2>;
   // Test the OverrideBoundaryCondition setting;
-  filter2->OverrideBoundaryCondition(new PeriodicBoundaryType);
+  filter2->OverrideBoundaryCondition(std::make_unique<PeriodicBoundaryType>());
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter2, GradientImageFilter, ImageToImageFilter);
 
