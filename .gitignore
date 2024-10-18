@@ -46,3 +46,6 @@ Testing/Temporary/
 
 # CMake user presets
 CMakeUserPresets.json
+# pixi environments
+.pixi
+*.egg-info
