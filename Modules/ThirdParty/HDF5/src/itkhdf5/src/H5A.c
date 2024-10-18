@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -260,8 +259,8 @@ H5A_term_package(void)
 hid_t
 H5Acreate2(hid_t loc_id, const char *attr_name, hid_t type_id, hid_t space_id, hid_t acpl_id, hid_t aapl_id)
 {
-    void *            attr    = NULL; /* Attribute created            */
-    H5VL_object_t *   vol_obj = NULL; /* Object of loc_id             */
+    void             *attr    = NULL; /* Attribute created            */
+    H5VL_object_t    *vol_obj = NULL; /* Object of loc_id             */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID; /* Return value                 */
 
@@ -344,8 +343,8 @@ hid_t
 H5Acreate_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, hid_t type_id, hid_t space_id,
                   hid_t acpl_id, hid_t aapl_id, hid_t lapl_id)
 {
-    void *            attr    = NULL; /* attr object from VOL connector */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *attr    = NULL; /* attr object from VOL connector */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -420,8 +419,8 @@ done:
 hid_t
 H5Aopen(hid_t loc_id, const char *attr_name, hid_t aapl_id)
 {
-    void *            attr    = NULL; /* attr object from VOL connector */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *attr    = NULL; /* attr object from VOL connector */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID;
 
@@ -490,8 +489,8 @@ done:
 hid_t
 H5Aopen_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, hid_t aapl_id, hid_t lapl_id)
 {
-    void *            attr    = NULL; /* attr object from VOL connector */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *attr    = NULL; /* attr object from VOL connector */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID;
 
@@ -568,8 +567,8 @@ hid_t
 H5Aopen_by_idx(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_iter_order_t order, hsize_t n,
                hid_t aapl_id, hid_t lapl_id)
 {
-    void *            attr    = NULL; /* Attribute opened */
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    void             *attr    = NULL; /* Attribute opened */
+    H5VL_object_t    *vol_obj = NULL; /* object of loc_id */
     H5VL_loc_params_t loc_params;
     hid_t             ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -642,8 +641,8 @@ done:
 herr_t
 H5Awrite(hid_t attr_id, hid_t dtype_id, const void *buf)
 {
-    H5VL_object_t *vol_obj;   /* Attribute object for ID */
-    herr_t         ret_value; /* Return value */
+    H5VL_object_t *vol_obj;             /* Attribute object for ID */
+    herr_t         ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "ii*x", attr_id, dtype_id, buf);
@@ -685,13 +684,13 @@ done:
         This function reads a complete attribute from disk.
 --------------------------------------------------------------------------*/
 herr_t
-H5Aread(hid_t attr_id, hid_t dtype_id, void *buf)
+H5Aread(hid_t attr_id, hid_t dtype_id, void *buf /*out*/)
 {
-    H5VL_object_t *vol_obj;   /* Attribute object for ID */
-    herr_t         ret_value; /* Return value */
+    H5VL_object_t *vol_obj;             /* Attribute object for ID */
+    herr_t         ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "ii*x", attr_id, dtype_id, buf);
+    H5TRACE3("e", "iix", attr_id, dtype_id, buf);
 
     /* Check arguments */
     if (NULL == (vol_obj = (H5VL_object_t *)H5I_object_verify(attr_id, H5I_ATTR)))
@@ -849,14 +848,14 @@ done:
     properly terminate the string.
 --------------------------------------------------------------------------*/
 ssize_t
-H5Aget_name(hid_t attr_id, size_t buf_size, char *buf)
+H5Aget_name(hid_t attr_id, size_t buf_size, char *buf /*out*/)
 {
-    H5VL_object_t *   vol_obj = NULL; /* Attribute object for ID */
+    H5VL_object_t    *vol_obj = NULL; /* Attribute object for ID */
     H5VL_loc_params_t loc_params;
     ssize_t           ret_value = -1;
 
     FUNC_ENTER_API((-1))
-    H5TRACE3("Zs", "iz*s", attr_id, buf_size, buf);
+    H5TRACE3("Zs", "izx", attr_id, buf_size, buf);
 
     /* check arguments */
     if (NULL == (vol_obj = (H5VL_object_t *)H5I_object_verify(attr_id, H5I_ATTR)))
@@ -898,7 +897,7 @@ ssize_t
 H5Aget_name_by_idx(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_iter_order_t order, hsize_t n,
                    char *name /*out*/, size_t size, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj;
+    H5VL_object_t    *vol_obj;
     H5VL_loc_params_t loc_params;
     ssize_t           ret_value; /* Return value */
 
@@ -995,14 +994,14 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5Aget_info(hid_t attr_id, H5A_info_t *ainfo)
+H5Aget_info(hid_t attr_id, H5A_info_t *ainfo /*out*/)
 {
-    H5VL_object_t *   vol_obj;
+    H5VL_object_t    *vol_obj;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE2("e", "i*x", attr_id, ainfo);
+    H5TRACE2("e", "ix", attr_id, ainfo);
 
     /* Check args */
     if (NULL == (vol_obj = (H5VL_object_t *)H5I_object_verify(attr_id, H5I_ATTR)))
@@ -1036,15 +1035,15 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5Aget_info_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, H5A_info_t *ainfo,
+H5Aget_info_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, H5A_info_t *ainfo /*out*/,
                     hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj;
+    H5VL_object_t    *vol_obj;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE5("e", "i*s*s*xi", loc_id, obj_name, attr_name, ainfo, lapl_id);
+    H5TRACE5("e", "i*s*sxi", loc_id, obj_name, attr_name, ainfo, lapl_id);
 
     /* Check args */
     if (H5I_ATTR == H5I_get_type(loc_id))
@@ -1094,14 +1093,14 @@ done:
  */
 herr_t
 H5Aget_info_by_idx(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_iter_order_t order, hsize_t n,
-                   H5A_info_t *ainfo, hid_t lapl_id)
+                   H5A_info_t *ainfo /*out*/, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj;
+    H5VL_object_t    *vol_obj;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE7("e", "i*sIiIoh*xi", loc_id, obj_name, idx_type, order, n, ainfo, lapl_id);
+    H5TRACE7("e", "i*sIiIohxi", loc_id, obj_name, idx_type, order, n, ainfo, lapl_id);
 
     /* Check args */
     if (H5I_ATTR == H5I_get_type(loc_id))
@@ -1175,7 +1174,7 @@ H5Arename(hid_t loc_id, const char *old_name, const char *new_name)
 
     /* Avoid thrashing things if the names are the same */
     if (HDstrcmp(old_name, new_name)) {
-        H5VL_object_t *   vol_obj;
+        H5VL_object_t    *vol_obj;
         H5VL_loc_params_t loc_params;
 
         loc_params.type     = H5VL_OBJECT_BY_SELF;
@@ -1232,7 +1231,7 @@ H5Arename_by_name(hid_t loc_id, const char *obj_name, const char *old_attr_name,
 
     /* Avoid thrashing things if the names are the same */
     if (HDstrcmp(old_attr_name, new_attr_name)) {
-        H5VL_object_t *   vol_obj;
+        H5VL_object_t    *vol_obj;
         H5VL_loc_params_t loc_params;
 
         /* Verify access property list and set up collective metadata if appropriate */
@@ -1279,7 +1278,7 @@ done:
     if all attributes were processed.
 
  DESCRIPTION
-        This function interates over the attributes of dataset or group
+        This function iterates over the attributes of dataset or group
     specified with 'loc_id' & 'obj_name'.  For each attribute of the object,
     the 'op_data' and some additional information (specified below) are passed
     to the 'op' function.  The iteration begins with the '*idx'
@@ -1300,17 +1299,17 @@ done:
             attribute.
 --------------------------------------------------------------------------*/
 herr_t
-H5Aiterate2(hid_t loc_id, H5_index_t idx_type, H5_iter_order_t order, hsize_t *idx, H5A_operator2_t op,
-            void *op_data)
+H5Aiterate2(hid_t loc_id, H5_index_t idx_type, H5_iter_order_t order, hsize_t *idx /*in_out */,
+            H5A_operator2_t op, void *op_data)
 {
-    H5VL_object_t *   vol_obj = NULL; /* object of loc_id */
+    H5VL_object_t    *vol_obj = NULL; /* Object for loc_id */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE6("e", "iIiIo*hx*x", loc_id, idx_type, order, idx, op, op_data);
 
-    /* check arguments */
+    /* Check arguments */
     if (H5I_ATTR == H5I_get_type(loc_id))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "location is not valid for an attribute")
     if (idx_type <= H5_INDEX_UNKNOWN || idx_type >= H5_INDEX_N)
@@ -1318,10 +1317,11 @@ H5Aiterate2(hid_t loc_id, H5_index_t idx_type, H5_iter_order_t order, hsize_t *i
     if (order <= H5_ITER_UNKNOWN || order >= H5_ITER_N)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid iteration order specified")
 
+    /* Set the location access parameters */
     loc_params.type     = H5VL_OBJECT_BY_SELF;
     loc_params.obj_type = H5I_get_type(loc_id);
 
-    /* get the loc object */
+    /* Get the loc object */
     if (NULL == (vol_obj = H5VL_vol_object(loc_id)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "invalid location identifier")
 
@@ -1357,7 +1357,7 @@ done:
     if all attributes were processed.
 
  DESCRIPTION
-        This function interates over the attributes of dataset or group
+        This function iterates over the attributes of dataset or group
     specified with 'loc_id' & 'obj_name'.  For each attribute of the object,
     the 'op_data' and some additional information (specified below) are passed
     to the 'op' function.  The iteration begins with the '*idx'
@@ -1379,9 +1379,9 @@ done:
 --------------------------------------------------------------------------*/
 herr_t
 H5Aiterate_by_name(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_iter_order_t order,
-                   hsize_t *idx, H5A_operator2_t op, void *op_data, hid_t lapl_id)
+                   hsize_t *idx /*in_out */, H5A_operator2_t op, void *op_data, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj = NULL; /* Object location */
+    H5VL_object_t    *vol_obj = NULL; /* Object location */
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -1402,6 +1402,7 @@ H5Aiterate_by_name(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_i
     if (H5CX_set_apl(&lapl_id, H5P_CLS_LACC, loc_id, FALSE) < 0)
         HGOTO_ERROR(H5E_ATTR, H5E_CANTSET, FAIL, "can't set access property list info")
 
+    /* Set the location access parameters */
     loc_params.type                         = H5VL_OBJECT_BY_NAME;
     loc_params.obj_type                     = H5I_get_type(loc_id);
     loc_params.loc_data.loc_by_name.name    = obj_name;
@@ -1437,7 +1438,7 @@ done:
 herr_t
 H5Adelete(hid_t loc_id, const char *name)
 {
-    H5VL_object_t *   vol_obj = NULL;
+    H5VL_object_t    *vol_obj = NULL;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -1492,7 +1493,7 @@ done:
 herr_t
 H5Adelete_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj;
+    H5VL_object_t    *vol_obj;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -1511,7 +1512,7 @@ H5Adelete_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, hid
     if (H5CX_set_apl(&lapl_id, H5P_CLS_LACC, loc_id, TRUE) < 0)
         HGOTO_ERROR(H5E_ATTR, H5E_CANTSET, FAIL, "can't set access property list info")
 
-    /* Fill in location struct fields */
+    /* Set the location access parameters */
     loc_params.type                         = H5VL_OBJECT_BY_NAME;
     loc_params.loc_data.loc_by_name.name    = obj_name;
     loc_params.loc_data.loc_by_name.lapl_id = lapl_id;
@@ -1558,7 +1559,7 @@ herr_t
 H5Adelete_by_idx(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_iter_order_t order, hsize_t n,
                  hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj;
+    H5VL_object_t    *vol_obj;
     H5VL_loc_params_t loc_params;
     herr_t            ret_value = SUCCEED; /* Return value */
 
@@ -1648,7 +1649,7 @@ done:
 htri_t
 H5Aexists(hid_t obj_id, const char *attr_name)
 {
-    H5VL_object_t *   vol_obj;
+    H5VL_object_t    *vol_obj;
     H5VL_loc_params_t loc_params;
     htri_t            ret_value; /* Return value */
 
@@ -1683,7 +1684,7 @@ done:
  * Purpose:	Checks if an attribute with a given name exists on an object.
  *
  * Return:	Success:	TRUE/FALSE
- * 		Failure:	Negative
+ * 		    Failure:	Negative
  *
  * Programmer:	Quincey Koziol
  *              Thursday, November 1, 2007
@@ -1693,7 +1694,7 @@ done:
 htri_t
 H5Aexists_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, hid_t lapl_id)
 {
-    H5VL_object_t *   vol_obj;
+    H5VL_object_t    *vol_obj;
     H5VL_loc_params_t loc_params;
     htri_t            ret_value; /* Return value */
 

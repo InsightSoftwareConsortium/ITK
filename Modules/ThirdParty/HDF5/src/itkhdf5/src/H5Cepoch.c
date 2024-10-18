@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -54,7 +53,7 @@ static herr_t H5C__epoch_marker_get_initial_load_size(void *udata_ptr, size_t *i
 static herr_t H5C__epoch_marker_get_final_load_size(const void *image_ptr, size_t image_len_ptr,
                                                     void *udata_ptr, size_t *actual_len);
 static htri_t H5C__epoch_marker_verify_chksum(const void *image_ptr, size_t len, void *udata_ptr);
-static void * H5C__epoch_marker_deserialize(const void *image_ptr, size_t len, void *udata,
+static void  *H5C__epoch_marker_deserialize(const void *image_ptr, size_t len, void *udata,
                                             hbool_t *dirty_ptr);
 static herr_t H5C__epoch_marker_image_len(const void *thing, size_t *image_len_ptr);
 static herr_t H5C__epoch_marker_pre_serialize(H5F_t *f, void *thing, haddr_t addr, size_t len,
@@ -64,7 +63,7 @@ static herr_t H5C__epoch_marker_serialize(const H5F_t *f, void *image_ptr, size_
 static herr_t H5C__epoch_marker_notify(H5C_notify_action_t action, void *thing);
 static herr_t H5C__epoch_marker_free_icr(void *thing);
 static herr_t H5C__epoch_marker_fsf_size(const void H5_ATTR_UNUSED *thing,
-                                         hsize_t H5_ATTR_UNUSED *fsf_size_ptr);
+                                         hsize_t H5_ATTR_UNUSED    *fsf_size_ptr);
 
 /*********************/
 /* Package Variables */

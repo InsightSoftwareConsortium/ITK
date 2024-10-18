@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -70,7 +69,7 @@ typedef struct H5D_farray_it_ud_t {
     H5D_chunk_rec_t       chunk_rec; /* Generic chunk record for callback */
     hbool_t               filtered;  /* Whether the chunks are filtered */
     H5D_chunk_cb_func_t   cb;        /* Chunk callback routine */
-    void *                udata;     /* User data for chunk callback routine */
+    void                 *udata;     /* User data for chunk callback routine */
 } H5D_farray_it_ud_t;
 
 /* Native fixed array element for chunks w/filters */
@@ -89,13 +88,13 @@ static int H5D__farray_idx_iterate_cb(hsize_t idx, const void *_elmt, void *_uda
 static int H5D__farray_idx_delete_cb(const H5D_chunk_rec_t *chunk_rec, void *_udata);
 
 /* Fixed array class callbacks for chunks w/o filters */
-static void * H5D__farray_crt_context(void *udata);
+static void  *H5D__farray_crt_context(void *udata);
 static herr_t H5D__farray_dst_context(void *ctx);
 static herr_t H5D__farray_fill(void *nat_blk, size_t nelmts);
 static herr_t H5D__farray_encode(void *raw, const void *elmt, size_t nelmts, void *ctx);
 static herr_t H5D__farray_decode(const void *raw, void *elmt, size_t nelmts, void *ctx);
 static herr_t H5D__farray_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const void *elmt);
-static void * H5D__farray_crt_dbg_context(H5F_t *f, haddr_t obj_addr);
+static void  *H5D__farray_crt_dbg_context(H5F_t *f, haddr_t obj_addr);
 static herr_t H5D__farray_dst_dbg_context(void *dbg_ctx);
 
 /* Fixed array class callbacks for chunks w/filters */
@@ -214,9 +213,9 @@ H5FL_DEFINE_STATIC(H5D_farray_ctx_ud_t);
 static void *
 H5D__farray_crt_context(void *_udata)
 {
-    H5D_farray_ctx_t *   ctx;                                       /* Fixed array callback context */
+    H5D_farray_ctx_t    *ctx;                                       /* Fixed array callback context */
     H5D_farray_ctx_ud_t *udata     = (H5D_farray_ctx_ud_t *)_udata; /* User data for fixed array context */
-    void *               ret_value = NULL;                          /* Return value */
+    void                *ret_value = NULL;                          /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -321,7 +320,7 @@ static herr_t
 H5D__farray_encode(void *raw, const void *_elmt, size_t nelmts, void *_ctx)
 {
     H5D_farray_ctx_t *ctx  = (H5D_farray_ctx_t *)_ctx; /* Fixed array callback context */
-    const haddr_t *   elmt = (const haddr_t *)_elmt;   /* Convenience pointer to native elements */
+    const haddr_t    *elmt = (const haddr_t *)_elmt;   /* Convenience pointer to native elements */
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -364,8 +363,8 @@ static herr_t
 H5D__farray_decode(const void *_raw, void *_elmt, size_t nelmts, void *_ctx)
 {
     H5D_farray_ctx_t *ctx  = (H5D_farray_ctx_t *)_ctx; /* Fixed array callback context */
-    haddr_t *         elmt = (haddr_t *)_elmt;         /* Convenience pointer to native elements */
-    const uint8_t *   raw  = (const uint8_t *)_raw;    /* Convenience pointer to raw elements */
+    haddr_t          *elmt = (haddr_t *)_elmt;         /* Convenience pointer to native elements */
+    const uint8_t    *raw  = (const uint8_t *)_raw;    /* Convenience pointer to raw elements */
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -415,7 +414,7 @@ H5D__farray_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const void 
     HDassert(elmt);
 
     /* Print element */
-    HDsprintf(temp_str, "Element #%" PRIuHSIZE ":", idx);
+    HDsnprintf(temp_str, sizeof(temp_str), "Element #%" PRIuHSIZE ":", idx);
     HDfprintf(stream, "%*s%-*s %" PRIuHADDR "\n", indent, "", fwidth, temp_str, *(const haddr_t *)elmt);
 
     FUNC_LEAVE_NOAPI(SUCCEED)
@@ -442,7 +441,7 @@ H5D__farray_crt_dbg_context(H5F_t *f, haddr_t obj_addr)
     H5O_loc_t            obj_loc;            /* Pointer to an object's location */
     hbool_t              obj_opened = FALSE; /* Flag to indicate that the object header was opened */
     H5O_layout_t         layout;             /* Layout message */
-    void *               ret_value = NULL;   /* Return value */
+    void                *ret_value = NULL;   /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -571,8 +570,8 @@ H5D__farray_filt_fill(void *nat_blk, size_t nelmts)
 static herr_t
 H5D__farray_filt_encode(void *_raw, const void *_elmt, size_t nelmts, void *_ctx)
 {
-    H5D_farray_ctx_t *            ctx = (H5D_farray_ctx_t *)_ctx; /* Fixed array callback context */
-    uint8_t *                     raw = (uint8_t *)_raw;          /* Convenience pointer to raw elements */
+    H5D_farray_ctx_t             *ctx = (H5D_farray_ctx_t *)_ctx; /* Fixed array callback context */
+    uint8_t                      *raw = (uint8_t *)_raw;          /* Convenience pointer to raw elements */
     const H5D_farray_filt_elmt_t *elmt =
         (const H5D_farray_filt_elmt_t *)_elmt; /* Convenience pointer to native elements */
 
@@ -618,7 +617,7 @@ H5D__farray_filt_encode(void *_raw, const void *_elmt, size_t nelmts, void *_ctx
 static herr_t
 H5D__farray_filt_decode(const void *_raw, void *_elmt, size_t nelmts, void *_ctx)
 {
-    H5D_farray_ctx_t *      ctx = (H5D_farray_ctx_t *)_ctx; /* Fixed array callback context */
+    H5D_farray_ctx_t       *ctx = (H5D_farray_ctx_t *)_ctx; /* Fixed array callback context */
     H5D_farray_filt_elmt_t *elmt =
         (H5D_farray_filt_elmt_t *)_elmt;        /* Convenience pointer to native elements */
     const uint8_t *raw = (const uint8_t *)_raw; /* Convenience pointer to raw elements */
@@ -675,7 +674,7 @@ H5D__farray_filt_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const 
     HDassert(elmt);
 
     /* Print element */
-    HDsprintf(temp_str, "Element #%" PRIuHSIZE ":", idx);
+    HDsnprintf(temp_str, sizeof(temp_str), "Element #%" PRIuHSIZE ":", idx);
     HDfprintf(stream, "%*s%-*s {%" PRIuHADDR ", %u, %0x}\n", indent, "", fwidth, temp_str, elmt->addr,
               elmt->nbytes, elmt->filter_mask);
 
@@ -699,7 +698,7 @@ H5D__farray_filt_debug(FILE *stream, int indent, int fwidth, hsize_t idx, const 
 static herr_t
 H5D__farray_idx_depend(const H5D_chk_idx_info_t *idx_info)
 {
-    H5O_t *             oh = NULL;           /* Object header */
+    H5O_t              *oh = NULL;           /* Object header */
     H5O_loc_t           oloc;                /* Temporary object header location for dataset */
     H5AC_proxy_entry_t *oh_proxy;            /* Dataset's object header proxy */
     herr_t              ret_value = SUCCEED; /* Return value */
@@ -1151,7 +1150,7 @@ H5D__farray_idx_iterate_cb(hsize_t H5_ATTR_UNUSED idx, const void *_elmt, void *
 static int
 H5D__farray_idx_iterate(const H5D_chk_idx_info_t *idx_info, H5D_chunk_cb_func_t chunk_cb, void *chunk_udata)
 {
-    H5FA_t *    fa;               /* Pointer to fixed array structure */
+    H5FA_t     *fa;               /* Pointer to fixed array structure */
     H5FA_stat_t fa_stat;          /* Fixed array statistics */
     int         ret_value = FAIL; /* Return value */
 
@@ -1247,7 +1246,7 @@ H5D__farray_idx_remove(const H5D_chk_idx_info_t *idx_info, H5D_chunk_common_ud_t
     }
     else /* Patch the top level file pointer contained in fa if needed */
         if (H5FA_patch_file(idx_info->storage->u.farray.fa, idx_info->f) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch fixed array file pointer")
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTOPENOBJ, FAIL, "can't patch fixed array file pointer")
 
     /* Set convenience pointer to fixed array structure */
     fa = idx_info->storage->u.farray.fa;
@@ -1503,7 +1502,7 @@ done:
 static herr_t
 H5D__farray_idx_size(const H5D_chk_idx_info_t *idx_info, hsize_t *index_size)
 {
-    H5FA_t *    fa;                  /* Pointer to fixed array structure */
+    H5FA_t     *fa;                  /* Pointer to fixed array structure */
     H5FA_stat_t fa_stat;             /* Fixed array statistics */
     herr_t      ret_value = SUCCEED; /* Return value */
 

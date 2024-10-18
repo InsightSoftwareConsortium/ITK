@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -24,7 +23,7 @@
 
 /* Struct for tracking "shared" file structs */
 typedef struct H5F_sfile_node_t {
-    H5F_shared_t *           shared; /* Pointer to "shared" file struct */
+    H5F_shared_t            *shared; /* Pointer to "shared" file struct */
     struct H5F_sfile_node_t *next;   /* Pointer to next node */
 } H5F_sfile_node_t;
 
@@ -136,7 +135,7 @@ H5F_shared_t *
 H5F__sfile_search(H5FD_t *lf)
 {
     H5F_sfile_node_t *curr;             /* Current shared file node */
-    H5F_shared_t *    ret_value = NULL; /* Return value */
+    H5F_shared_t     *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE_NOERR
 

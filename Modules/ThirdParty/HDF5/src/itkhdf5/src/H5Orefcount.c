@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -30,10 +29,10 @@
 #include "H5Opkg.h"      /* Object headers			*/
 
 /* PRIVATE PROTOTYPES */
-static void * H5O__refcount_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
+static void  *H5O__refcount_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
                                    size_t p_size, const uint8_t *p);
 static herr_t H5O__refcount_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
-static void * H5O__refcount_copy(const void *_mesg, void *_dest);
+static void  *H5O__refcount_copy(const void *_mesg, void *_dest);
 static size_t H5O__refcount_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
 static herr_t H5O__refcount_free(void *_mesg);
 static herr_t H5O__refcount_pre_copy_file(H5F_t *file_src, const void *mesg_src, hbool_t *deleted,
@@ -45,7 +44,7 @@ const H5O_msg_class_t H5O_MSG_REFCOUNT[1] = {{
     H5O_REFCOUNT_ID,             /*message id number             */
     "refcount",                  /*message name for debugging    */
     sizeof(H5O_refcount_t),      /*native message size           */
-    0,                           /* messages are sharable?       */
+    0,                           /* messages are shareable?       */
     H5O__refcount_decode,        /*decode message                */
     H5O__refcount_encode,        /*encode message                */
     H5O__refcount_copy,          /*copy the native value         */
@@ -89,7 +88,7 @@ H5O__refcount_decode(H5F_t H5_ATTR_UNUSED *f, H5O_t H5_ATTR_UNUSED *open_oh,
                      size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5O_refcount_t *refcount  = NULL; /* Reference count */
-    void *          ret_value = NULL; /* Return value */
+    void           *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -170,8 +169,8 @@ static void *
 H5O__refcount_copy(const void *_mesg, void *_dest)
 {
     const H5O_refcount_t *refcount  = (const H5O_refcount_t *)_mesg;
-    H5O_refcount_t *      dest      = (H5O_refcount_t *)_dest;
-    void *                ret_value = NULL; /* Return value */
+    H5O_refcount_t       *dest      = (H5O_refcount_t *)_dest;
+    void                 *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 

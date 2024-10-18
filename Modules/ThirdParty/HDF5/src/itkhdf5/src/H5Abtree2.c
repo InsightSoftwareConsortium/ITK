@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -51,11 +50,11 @@
  */
 typedef struct H5A_fh_ud_cmp_t {
     /* downward */
-    H5F_t *                         f;             /* Pointer to file that fractal heap is in */
-    const char *                    name;          /* Name of attribute to compare      */
+    H5F_t                          *f;             /* Pointer to file that fractal heap is in */
+    const char                     *name;          /* Name of attribute to compare      */
     const H5A_dense_bt2_name_rec_t *record;        /* v2 B-tree record for attribute */
     H5A_bt2_found_t                 found_op;      /* Callback when correct attribute is found */
-    void *                          found_op_data; /* Callback data when correct attribute is found */
+    void                           *found_op_data; /* Callback data when correct attribute is found */
 
     /* upward */
     int cmp; /* Comparison of two attribute names */
@@ -148,7 +147,7 @@ static herr_t
 H5A__dense_fh_name_cmp(const void *obj, size_t obj_len, void *_udata)
 {
     H5A_fh_ud_cmp_t *udata = (H5A_fh_ud_cmp_t *)_udata; /* User data for 'op' callback */
-    H5A_t *          attr  = NULL;                      /* Pointer to attribute created from heap object */
+    H5A_t           *attr  = NULL;                      /* Pointer to attribute created from heap object */
     hbool_t took_ownership = FALSE;   /* Whether the "found" operator took ownership of the attribute */
     herr_t  ret_value      = SUCCEED; /* Return value */
 
@@ -177,7 +176,7 @@ H5A__dense_fh_name_cmp(const void *obj, size_t obj_len, void *_udata)
     } /* end if */
 
 done:
-    /* Release the space allocated for the attrbute */
+    /* Release the space allocated for the attribute */
     if (attr && !took_ownership)
         H5O_msg_free(H5O_ATTR_ID, attr);
 
@@ -200,7 +199,7 @@ done:
 static herr_t
 H5A__dense_btree2_name_store(void *_nrecord, const void *_udata)
 {
-    const H5A_bt2_ud_ins_t *  udata   = (const H5A_bt2_ud_ins_t *)_udata;
+    const H5A_bt2_ud_ins_t   *udata   = (const H5A_bt2_ud_ins_t *)_udata;
     H5A_dense_bt2_name_rec_t *nrecord = (H5A_dense_bt2_name_rec_t *)_nrecord;
 
     FUNC_ENTER_STATIC_NOERR
@@ -231,7 +230,7 @@ H5A__dense_btree2_name_store(void *_nrecord, const void *_udata)
 static herr_t
 H5A__dense_btree2_name_compare(const void *_bt2_udata, const void *_bt2_rec, int *result)
 {
-    const H5A_bt2_ud_common_t *     bt2_udata = (const H5A_bt2_ud_common_t *)_bt2_udata;
+    const H5A_bt2_ud_common_t      *bt2_udata = (const H5A_bt2_ud_common_t *)_bt2_udata;
     const H5A_dense_bt2_name_rec_t *bt2_rec   = (const H5A_dense_bt2_name_rec_t *)_bt2_rec;
     herr_t                          ret_value = SUCCEED; /* Return value */
 
@@ -248,7 +247,7 @@ H5A__dense_btree2_name_compare(const void *_bt2_udata, const void *_bt2_rec, int
         *result = 1;
     else {
         H5A_fh_ud_cmp_t fh_udata; /* User data for fractal heap 'op' callback */
-        H5HF_t *        fheap;    /* Fractal heap handle to use for finding object */
+        H5HF_t         *fheap;    /* Fractal heap handle to use for finding object */
 
         /* Sanity check */
         HDassert(bt2_udata->name_hash == bt2_rec->hash);
@@ -386,7 +385,7 @@ H5A__dense_btree2_name_debug(FILE *stream, int indent, int fwidth, const void *_
 static herr_t
 H5A__dense_btree2_corder_store(void *_nrecord, const void *_udata)
 {
-    const H5A_bt2_ud_ins_t *    udata   = (const H5A_bt2_ud_ins_t *)_udata;
+    const H5A_bt2_ud_ins_t     *udata   = (const H5A_bt2_ud_ins_t *)_udata;
     H5A_dense_bt2_corder_rec_t *nrecord = (H5A_dense_bt2_corder_rec_t *)_nrecord;
 
     FUNC_ENTER_STATIC_NOERR
@@ -416,7 +415,7 @@ H5A__dense_btree2_corder_store(void *_nrecord, const void *_udata)
 static herr_t
 H5A__dense_btree2_corder_compare(const void *_bt2_udata, const void *_bt2_rec, int *result)
 {
-    const H5A_bt2_ud_common_t *       bt2_udata = (const H5A_bt2_ud_common_t *)_bt2_udata;
+    const H5A_bt2_ud_common_t        *bt2_udata = (const H5A_bt2_ud_common_t *)_bt2_udata;
     const H5A_dense_bt2_corder_rec_t *bt2_rec   = (const H5A_dense_bt2_corder_rec_t *)_bt2_rec;
 
     FUNC_ENTER_STATIC_NOERR

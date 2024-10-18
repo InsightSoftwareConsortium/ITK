@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -248,7 +247,7 @@ typedef H5Z_cb_return_t (*H5Z_filter_func_t)(H5Z_filter_t filter, void *buf, siz
  */
 typedef struct H5Z_cb_t {
     H5Z_filter_func_t func;
-    void *            op_data;
+    void             *op_data;
 } H5Z_cb_t;
 
 #ifdef __cplusplus
@@ -372,7 +371,7 @@ typedef struct H5Z_class2_t {
     H5Z_filter_t         id;              /**< Filter ID number                             */
     unsigned             encoder_present; /**< Does this filter have an encoder?            */
     unsigned             decoder_present; /**< Does this filter have a decoder?             */
-    const char *         name;            /**< Comment for debugging                        */
+    const char          *name;            /**< Comment for debugging                        */
     H5Z_can_apply_func_t can_apply;       /**< The "can apply" callback for a filter        */
     H5Z_set_local_func_t set_local;       /**< The "set local" callback for a filter        */
     H5Z_func_t           filter;          /**< The actual filter function                   */
@@ -445,7 +444,7 @@ typedef struct H5Z_class2_t {
  *          H5Z_class2_t, depending on the needs of the application. To affect
  *          only this macro, H5Z_class_t_vers may be defined to either 1 or 2.
  *          Otherwise, it will behave in the same manner as other API
- *          compatibility macros. See API Compatibility Macros in HDF5 for more
+ *          compatibility macros. \see \ref api-compat-macros for more
  *          information. H5Z_class1_t matches the #H5Z_class_t structure that is
  *          used in the 1.6.x versions of the HDF5 library.
  *
@@ -675,7 +674,7 @@ H5_DLL herr_t H5Zget_filter_info(H5Z_filter_t filter, unsigned int *filter_confi
 //! <!-- [H5Z_class1_t_snip] -->
 typedef struct H5Z_class1_t {
     H5Z_filter_t         id;        /**< Filter ID number			     */
-    const char *         name;      /**< Comment for debugging		     */
+    const char          *name;      /**< Comment for debugging		     */
     H5Z_can_apply_func_t can_apply; /**< The "can apply" callback for a filter */
     H5Z_set_local_func_t set_local; /**< The "set local" callback for a filter */
     H5Z_func_t           filter;    /**< The actual filter function		     */
@@ -687,4 +686,5 @@ typedef struct H5Z_class1_t {
 #ifdef __cplusplus
 }
 #endif
-#endif
+
+#endif /* _H5Zpublic_H */

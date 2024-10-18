@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -542,10 +541,10 @@ H5R__get_loc_id(const H5R_ref_priv_t *ref)
 hid_t
 H5R__reopen_file(H5R_ref_priv_t *ref, hid_t fapl_id)
 {
-    H5P_genplist_t *      plist;           /* Property list for FAPL */
-    void *                new_file = NULL; /* File object opened */
+    H5P_genplist_t       *plist;           /* Property list for FAPL */
+    void                 *new_file = NULL; /* File object opened */
     H5VL_connector_prop_t connector_prop;  /* Property for VOL connector ID & info     */
-    H5VL_object_t *       vol_obj = NULL;  /* VOL object for file */
+    H5VL_object_t        *vol_obj = NULL;  /* VOL object for file */
     hbool_t               supported;       /* Whether 'post open' operation is supported by VOL connector */
     hid_t                 ret_value = H5I_INVALID_HID;
 
@@ -1143,7 +1142,7 @@ H5R__encode_obj_token(const H5O_token_t *obj_token, size_t token_size, unsigned 
         /* Encode token */
         H5MM_memcpy(p, obj_token, token_size);
     }
-    *nalloc = token_size + H5_SIZEOF_UINT8_T;
+    *nalloc = token_size + sizeof(uint8_t);
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5R__encode_obj_token() */
@@ -1171,7 +1170,7 @@ H5R__decode_obj_token(const unsigned char *buf, size_t *nbytes, H5O_token_t *obj
     HDassert(token_size);
 
     /* Don't decode if buffer size isn't big enough */
-    if (*nbytes < H5_SIZEOF_UINT8_T)
+    if (*nbytes < sizeof(uint8_t))
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTDECODE, FAIL, "Buffer size is too small")
 
     /* Get token size */
@@ -1185,7 +1184,7 @@ H5R__decode_obj_token(const unsigned char *buf, size_t *nbytes, H5O_token_t *obj
     /* Decode token */
     H5MM_memcpy(obj_token, p, *token_size);
 
-    *nbytes = (size_t)(*token_size + H5_SIZEOF_UINT8_T);
+    *nbytes = (size_t)(*token_size + sizeof(uint8_t));
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -1218,7 +1217,7 @@ H5R__encode_region(H5S_t *space, unsigned char *buf, size_t *nalloc)
                     "Cannot determine amount of space needed for serializing selection")
 
     /* Don't encode if buffer size isn't big enough or buffer is empty */
-    if (buf && *nalloc >= ((size_t)buf_size + 2 * H5_SIZEOF_UINT32_T)) {
+    if (buf && *nalloc >= ((size_t)buf_size + 2 * sizeof(uint32_t))) {
         int rank;
         p = (uint8_t *)buf;
 
@@ -1234,7 +1233,7 @@ H5R__encode_region(H5S_t *space, unsigned char *buf, size_t *nalloc)
         if (H5S_SELECT_SERIALIZE(space, (unsigned char **)&p) < 0)
             HGOTO_ERROR(H5E_REFERENCE, H5E_CANTENCODE, FAIL, "can't serialize selection")
     } /* end if */
-    *nalloc = (size_t)buf_size + 2 * H5_SIZEOF_UINT32_T;
+    *nalloc = (size_t)buf_size + 2 * sizeof(uint32_t);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -1253,9 +1252,10 @@ static herr_t
 H5R__decode_region(const unsigned char *buf, size_t *nbytes, H5S_t **space_ptr)
 {
     const uint8_t *p        = (const uint8_t *)buf;
+    const uint8_t *p_end    = p + *nbytes - 1;
     size_t         buf_size = 0;
     unsigned       rank;
-    H5S_t *        space;
+    H5S_t         *space;
     herr_t         ret_value = SUCCEED;
 
     FUNC_ENTER_STATIC
@@ -1265,16 +1265,16 @@ H5R__decode_region(const unsigned char *buf, size_t *nbytes, H5S_t **space_ptr)
     HDassert(space_ptr);
 
     /* Don't decode if buffer size isn't big enough */
-    if (*nbytes < (2 * H5_SIZEOF_UINT32_T))
+    if (*nbytes < (2 * sizeof(uint32_t)))
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTDECODE, FAIL, "Buffer size is too small")
 
     /* Decode the selection size */
     UINT32DECODE(p, buf_size);
-    buf_size += H5_SIZEOF_UINT32_T;
+    buf_size += sizeof(uint32_t);
 
     /* Decode the extent rank */
     UINT32DECODE(p, rank);
-    buf_size += H5_SIZEOF_UINT32_T;
+    buf_size += sizeof(uint32_t);
 
     /* Don't decode if buffer size isn't big enough */
     if (*nbytes < buf_size)
@@ -1285,7 +1285,11 @@ H5R__decode_region(const unsigned char *buf, size_t *nbytes, H5S_t **space_ptr)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTDECODE, FAIL, "Buffer size is too small")
     if (H5S_set_extent_simple(space, rank, NULL, NULL) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTSET, FAIL, "can't set extent rank for selection")
-    if (H5S_SELECT_DESERIALIZE(&space, &p) < 0)
+
+    if (p - 1 > p_end)
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTDECODE, FAIL, "Ran off end of buffer while decoding")
+
+    if (H5S_SELECT_DESERIALIZE(&space, &p, (size_t)(p_end - p + 1)) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTDECODE, FAIL, "can't deserialize selection")
 
     *nbytes    = buf_size;
@@ -1350,7 +1354,7 @@ H5R__decode_string(const unsigned char *buf, size_t *nbytes, char **string_ptr)
 {
     const uint8_t *p = (const uint8_t *)buf;
     size_t         string_len;
-    char *         string    = NULL;
+    char          *string    = NULL;
     herr_t         ret_value = SUCCEED;
 
     FUNC_ENTER_STATIC
@@ -1548,8 +1552,9 @@ H5R__decode_token_region_compat(H5F_t *f, const unsigned char *buf, size_t *nbyt
     unsigned char *data  = NULL;
     H5O_token_t    token = {0};
     size_t         data_size;
-    const uint8_t *p;
-    H5S_t *        space     = NULL;
+    const uint8_t *p         = NULL;
+    const uint8_t *p_end     = NULL;
+    H5S_t         *space     = NULL;
     herr_t         ret_value = SUCCEED;
 
     FUNC_ENTER_PACKAGE
@@ -1564,7 +1569,8 @@ H5R__decode_token_region_compat(H5F_t *f, const unsigned char *buf, size_t *nbyt
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "invalid location identifier")
 
     /* Get object address */
-    p = (const uint8_t *)data;
+    p     = (const uint8_t *)data;
+    p_end = p + data_size - 1;
     H5MM_memcpy(&token, p, token_size);
     p += token_size;
 
@@ -1584,7 +1590,11 @@ H5R__decode_token_region_compat(H5F_t *f, const unsigned char *buf, size_t *nbyt
             HGOTO_ERROR(H5E_REFERENCE, H5E_NOTFOUND, FAIL, "not found")
 
         /* Unserialize the selection */
-        if (H5S_SELECT_DESERIALIZE(&space, &p) < 0)
+
+        if (p - 1 >= p_end)
+            HGOTO_ERROR(H5E_REFERENCE, H5E_CANTDECODE, FAIL, "Ran off end of buffer while deserializing")
+
+        if (H5S_SELECT_DESERIALIZE(&space, &p, (size_t)(p_end - p + 1)) < 0)
             HGOTO_ERROR(H5E_REFERENCE, H5E_CANTDECODE, FAIL, "can't deserialize selection")
 
         *space_ptr = space;

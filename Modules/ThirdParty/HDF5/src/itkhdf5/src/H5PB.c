@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -429,7 +428,7 @@ static herr_t
 H5PB__dest_cb(void *item, void H5_ATTR_UNUSED *key, void *_op_data)
 {
     H5PB_entry_t *page_entry = (H5PB_entry_t *)item; /* Pointer to page entry node */
-    H5PB_ud1_t *  op_data    = (H5PB_ud1_t *)_op_data;
+    H5PB_ud1_t   *op_data    = (H5PB_ud1_t *)_op_data;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -473,7 +472,7 @@ H5PB_dest(H5F_shared_t *f_sh)
 
     /* flush and destroy the page buffer, if it exists */
     if (f_sh->page_buf) {
-        H5PB_t *   page_buf = f_sh->page_buf;
+        H5PB_t    *page_buf = f_sh->page_buf;
         H5PB_ud1_t op_data; /* Iteration context */
 
         if (H5PB_flush(f_sh) < 0)
@@ -520,7 +519,7 @@ done:
 herr_t
 H5PB_add_new_page(H5F_shared_t *f_sh, H5FD_mem_t type, haddr_t page_addr)
 {
-    H5PB_t *      page_buf;             /* Page buffer to operate on */
+    H5PB_t       *page_buf;             /* Page buffer to operate on */
     H5PB_entry_t *page_entry = NULL;    /* Pointer to the corresponding page entry */
     herr_t        ret_value  = SUCCEED; /* Return value */
 
@@ -626,7 +625,7 @@ H5PB_update_entry(H5PB_t *page_buf, haddr_t addr, size_t size, const void *buf)
 herr_t
 H5PB_remove_entry(const H5F_shared_t *f_sh, haddr_t addr)
 {
-    H5PB_t *      page_buf;             /* Page buffer to operate on */
+    H5PB_t       *page_buf;             /* Page buffer to operate on */
     H5PB_entry_t *page_entry = NULL;    /* Pointer to the page entry being searched */
     herr_t        ret_value  = SUCCEED; /* Return value */
 
@@ -675,9 +674,9 @@ done:
 herr_t
 H5PB_read(H5F_shared_t *f_sh, H5FD_mem_t type, haddr_t addr, size_t size, void *buf /*out*/)
 {
-    H5PB_t *      page_buf;                        /* Page buffering info for this file */
+    H5PB_t       *page_buf;                        /* Page buffering info for this file */
     H5PB_entry_t *page_entry;                      /* Pointer to the corresponding page entry */
-    H5FD_t *      file;                            /* File driver pointer */
+    H5FD_t       *file;                            /* File driver pointer */
     haddr_t       first_page_addr, last_page_addr; /* Addresses of the first and last pages covered by I/O */
     haddr_t       offset;
     haddr_t       search_addr;       /* Address of current page */
@@ -877,7 +876,7 @@ H5PB_read(H5F_shared_t *f_sh, H5FD_mem_t type, haddr_t addr, size_t size, void *
             } /* end if */
             /* if not found */
             else {
-                void *  new_page_buf = NULL;
+                void   *new_page_buf = NULL;
                 size_t  page_size    = page_buf->page_size;
                 haddr_t eoa;
 
@@ -976,9 +975,9 @@ done:
 herr_t
 H5PB_write(H5F_shared_t *f_sh, H5FD_mem_t type, haddr_t addr, size_t size, const void *buf)
 {
-    H5PB_t *      page_buf;                        /* Page buffering info for this file */
+    H5PB_t       *page_buf;                        /* Page buffering info for this file */
     H5PB_entry_t *page_entry;                      /* Pointer to the corresponding page entry */
-    H5FD_t *      file;                            /* File driver pointer */
+    H5FD_t       *file;                            /* File driver pointer */
     haddr_t       first_page_addr, last_page_addr; /* Addresses of the first and last pages covered by I/O */
     haddr_t       offset;
     haddr_t       search_addr;       /* Address of current page */
@@ -1183,7 +1182,7 @@ H5PB_write(H5F_shared_t *f_sh, H5FD_mem_t type, haddr_t addr, size_t size, const
             } /* end if */
             /* If not found */
             else {
-                void * new_page_buf;
+                void  *new_page_buf;
                 size_t page_size = page_buf->page_size;
 
                 /* Make space for new entry */

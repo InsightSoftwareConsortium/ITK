@@ -12,7 +12,7 @@
 
 /*
  * Purpose:     The Virtual Object Layer as described in documentation.
- *              The pupose is to provide an abstraction on how to access the
+ *              The purpose is to provide an abstraction on how to access the
  *              underlying HDF5 container, whether in a local file with
  *              a specific file format, or remotely on other machines, etc...
  */
@@ -48,8 +48,8 @@
  * VOL connector to open a given file with.
  */
 typedef struct H5VL_file_open_find_connector_t {
-    const char *           filename;
-    const H5VL_class_t *   cls;
+    const char            *filename;
+    const H5VL_class_t    *cls;
     H5VL_connector_prop_t *connector_prop;
     hid_t                  fapl_id;
 } H5VL_file_open_find_connector_t;
@@ -61,10 +61,10 @@ typedef struct H5VL_file_open_find_connector_t {
 /********************/
 /* Local Prototypes */
 /********************/
-static void * H5VL__attr_create(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
+static void  *H5VL__attr_create(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
                                 const char *name, hid_t type_id, hid_t space_id, hid_t acpl_id, hid_t aapl_id,
                                 hid_t dxpl_id, void **req);
-static void * H5VL__attr_open(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
+static void  *H5VL__attr_open(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
                               const char *name, hid_t aapl_id, hid_t dxpl_id, void **req);
 static herr_t H5VL__attr_read(void *obj, const H5VL_class_t *cls, hid_t mem_type_id, void *buf, hid_t dxpl_id,
                               void **req);
@@ -78,10 +78,10 @@ static herr_t H5VL__attr_specific(void *obj, const H5VL_loc_params_t *loc_params
 static herr_t H5VL__attr_optional(void *obj, const H5VL_class_t *cls, H5VL_attr_optional_t opt_type,
                                   hid_t dxpl_id, void **req, va_list arguments);
 static herr_t H5VL__attr_close(void *obj, const H5VL_class_t *cls, hid_t dxpl_id, void **req);
-static void * H5VL__dataset_create(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
+static void  *H5VL__dataset_create(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
                                    const char *name, hid_t lcpl_id, hid_t type_id, hid_t space_id,
                                    hid_t dcpl_id, hid_t dapl_id, hid_t dxpl_id, void **req);
-static void * H5VL__dataset_open(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
+static void  *H5VL__dataset_open(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
                                  const char *name, hid_t dapl_id, hid_t dxpl_id, void **req);
 static herr_t H5VL__dataset_read(void *dset, const H5VL_class_t *cls, hid_t mem_type_id, hid_t mem_space_id,
                                  hid_t file_space_id, hid_t dxpl_id, void *buf, void **req);
@@ -95,10 +95,10 @@ static herr_t H5VL__dataset_specific(void *obj, const H5VL_class_t *cls,
 static herr_t H5VL__dataset_optional(void *obj, const H5VL_class_t *cls, H5VL_dataset_optional_t opt_type,
                                      hid_t dxpl_id, void **req, va_list arguments);
 static herr_t H5VL__dataset_close(void *obj, const H5VL_class_t *cls, hid_t dxpl_id, void **req);
-static void * H5VL__datatype_commit(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
+static void  *H5VL__datatype_commit(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
                                     const char *name, hid_t type_id, hid_t lcpl_id, hid_t tcpl_id,
                                     hid_t tapl_id, hid_t dxpl_id, void **req);
-static void * H5VL__datatype_open(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
+static void  *H5VL__datatype_open(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
                                   const char *name, hid_t tapl_id, hid_t dxpl_id, void **req);
 static herr_t H5VL__datatype_get(void *obj, const H5VL_class_t *cls, H5VL_datatype_get_t get_type,
                                  hid_t dxpl_id, void **req, va_list arguments);
@@ -108,9 +108,9 @@ static herr_t H5VL__datatype_specific(void *obj, const H5VL_class_t *cls,
 static herr_t H5VL__datatype_optional(void *obj, const H5VL_class_t *cls, H5VL_datatype_optional_t opt_type,
                                       hid_t dxpl_id, void **req, va_list arguments);
 static herr_t H5VL__datatype_close(void *obj, const H5VL_class_t *cls, hid_t dxpl_id, void **req);
-static void * H5VL__file_create(const H5VL_class_t *cls, const char *name, unsigned flags, hid_t fcpl_id,
+static void  *H5VL__file_create(const H5VL_class_t *cls, const char *name, unsigned flags, hid_t fcpl_id,
                                 hid_t fapl_id, hid_t dxpl_id, void **req);
-static void * H5VL__file_open(const H5VL_class_t *cls, const char *name, unsigned flags, hid_t fapl_id,
+static void  *H5VL__file_open(const H5VL_class_t *cls, const char *name, unsigned flags, hid_t fapl_id,
                               hid_t dxpl_id, void **req);
 static herr_t H5VL__file_open_find_connector_cb(H5PL_type_t plugin_type, const void *plugin_info,
                                                 void *op_data);
@@ -121,10 +121,10 @@ static herr_t H5VL__file_specific(void *obj, const H5VL_class_t *cls, H5VL_file_
 static herr_t H5VL__file_optional(void *obj, const H5VL_class_t *cls, H5VL_file_optional_t opt_type,
                                   hid_t dxpl_id, void **req, va_list arguments);
 static herr_t H5VL__file_close(void *obj, const H5VL_class_t *cls, hid_t dxpl_id, void **req);
-static void * H5VL__group_create(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
+static void  *H5VL__group_create(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
                                  const char *name, hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id,
                                  void **req);
-static void * H5VL__group_open(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
+static void  *H5VL__group_open(void *obj, const H5VL_loc_params_t *loc_params, const H5VL_class_t *cls,
                                const char *name, hid_t gapl_id, hid_t dxpl_id, void **req);
 static herr_t H5VL__group_get(void *obj, const H5VL_class_t *cls, H5VL_group_get_t get_type, hid_t dxpl_id,
                               void **req, va_list arguments);
@@ -149,7 +149,7 @@ static herr_t H5VL__link_specific(void *obj, const H5VL_loc_params_t *loc_params
                                   va_list arguments);
 static herr_t H5VL__link_optional(void *obj, const H5VL_class_t *cls, H5VL_link_optional_t opt_type,
                                   hid_t dxpl_id, void **req, va_list arguments);
-static void * H5VL__object_open(void *obj, const H5VL_loc_params_t *params, const H5VL_class_t *cls,
+static void  *H5VL__object_open(void *obj, const H5VL_loc_params_t *params, const H5VL_class_t *cls,
                                 H5I_type_t *opened_type, hid_t dxpl_id, void **req);
 static herr_t H5VL__object_copy(void *src_obj, const H5VL_loc_params_t *src_loc_params, const char *src_name,
                                 void *dst_obj, const H5VL_loc_params_t *dst_loc_params, const char *dst_name,
@@ -340,7 +340,7 @@ done:
 herr_t
 H5VL_copy_connector_info(const H5VL_class_t *connector, void **dst_info, const void *src_info)
 {
-    void * new_connector_info = NULL;    /* Copy of connector info */
+    void  *new_connector_info = NULL;    /* Copy of connector info */
     herr_t ret_value          = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -641,7 +641,7 @@ void *
 H5VLget_object(void *obj, hid_t connector_id)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE2("*x", "*xi", obj, connector_id);
@@ -779,7 +779,7 @@ void *
 H5VLwrap_object(void *obj, H5I_type_t obj_type, hid_t connector_id, void *wrap_ctx)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE4("*x", "*xIti*x", obj, obj_type, connector_id, wrap_ctx);
@@ -846,7 +846,7 @@ void *
 H5VLunwrap_object(void *obj, hid_t connector_id)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE2("*x", "*xi", obj, connector_id);
@@ -973,7 +973,7 @@ H5VL_attr_create(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *loc_para
                  hid_t type_id, hid_t space_id, hid_t acpl_id, hid_t aapl_id, hid_t dxpl_id, void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1010,7 +1010,7 @@ H5VLattr_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_
                 hid_t type_id, hid_t space_id, hid_t acpl_id, hid_t aapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE10("*x", "*x*xi*siiiii**x", obj, loc_params, connector_id, name, type_id, space_id, acpl_id,
@@ -1076,7 +1076,7 @@ H5VL_attr_open(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *loc_params
                hid_t aapl_id, hid_t dxpl_id, void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1113,7 +1113,7 @@ H5VLattr_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_id
               hid_t aapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE7("*x", "*x*xi*sii**x", obj, loc_params, connector_id, name, aapl_id, dxpl_id, req);
@@ -1790,7 +1790,7 @@ H5VL_dataset_create(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *loc_p
                     void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1829,7 +1829,7 @@ H5VLdataset_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connect
                    void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE11("*x", "*x*xi*siiiiii**x", obj, loc_params, connector_id, name, lcpl_id, type_id, space_id,
@@ -1895,7 +1895,7 @@ H5VL_dataset_open(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *loc_par
                   hid_t dapl_id, hid_t dxpl_id, void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1932,7 +1932,7 @@ H5VLdataset_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector
                  hid_t dapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE7("*x", "*x*xi*sii**x", obj, loc_params, connector_id, name, dapl_id, dxpl_id, req);
@@ -2633,7 +2633,7 @@ H5VL_datatype_commit(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *loc_
                      hid_t type_id, hid_t lcpl_id, hid_t tcpl_id, hid_t tapl_id, hid_t dxpl_id, void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -2670,7 +2670,7 @@ H5VLdatatype_commit(void *obj, const H5VL_loc_params_t *loc_params, hid_t connec
                     hid_t type_id, hid_t lcpl_id, hid_t tcpl_id, hid_t tapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE10("*x", "*x*xi*siiiii**x", obj, loc_params, connector_id, name, type_id, lcpl_id, tcpl_id,
@@ -2736,7 +2736,7 @@ H5VL_datatype_open(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *loc_pa
                    hid_t tapl_id, hid_t dxpl_id, void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -2773,7 +2773,7 @@ H5VLdatatype_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connecto
                   hid_t tapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE7("*x", "*x*xi*sii**x", obj, loc_params, connector_id, name, tapl_id, dxpl_id, req);
@@ -3269,7 +3269,7 @@ H5VL_file_create(const H5VL_connector_prop_t *connector_prop, const char *name, 
                  hid_t fapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL Class structure for callback info    */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -3298,10 +3298,10 @@ done:
 void *
 H5VLfile_create(const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id, hid_t dxpl_id, void **req)
 {
-    H5P_genplist_t *      plist;            /* Property list pointer */
+    H5P_genplist_t       *plist;            /* Property list pointer */
     H5VL_connector_prop_t connector_prop;   /* Property for VOL connector ID & info */
-    H5VL_class_t *        cls;              /* VOL connector's class struct */
-    void *                ret_value = NULL; /* Return value */
+    H5VL_class_t         *cls;              /* VOL connector's class struct */
+    void                 *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE6("*x", "*sIuiii**x", name, flags, fcpl_id, fapl_id, dxpl_id, req);
@@ -3375,9 +3375,9 @@ static herr_t
 H5VL__file_open_find_connector_cb(H5PL_type_t plugin_type, const void *plugin_info, void *op_data)
 {
     H5VL_file_open_find_connector_t *udata = (H5VL_file_open_find_connector_t *)op_data;
-    const H5VL_class_t *             cls   = (const H5VL_class_t *)plugin_info;
-    H5P_genplist_t *                 fapl_plist;
-    H5P_genplist_t *                 fapl_plist_copy;
+    const H5VL_class_t              *cls   = (const H5VL_class_t *)plugin_info;
+    H5P_genplist_t                  *fapl_plist;
+    H5P_genplist_t                  *fapl_plist_copy;
     herr_t                           status;
     htri_t                           is_accessible = FALSE;
     hid_t                            connector_id  = H5I_INVALID_HID;
@@ -3464,7 +3464,7 @@ H5VL_file_open(H5VL_connector_prop_t *connector_prop, const char *name, unsigned
                hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL Class structure for callback info    */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -3539,10 +3539,10 @@ done:
 void *
 H5VLfile_open(const char *name, unsigned flags, hid_t fapl_id, hid_t dxpl_id, void **req)
 {
-    H5P_genplist_t *      plist;            /* Property list pointer */
+    H5P_genplist_t       *plist;            /* Property list pointer */
     H5VL_connector_prop_t connector_prop;   /* Property for VOL connector ID & info */
-    H5VL_class_t *        cls;              /* VOL connector's class struct */
-    void *                ret_value = NULL; /* Return value */
+    H5VL_class_t         *cls;              /* VOL connector's class struct */
+    void                 *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE5("*x", "*sIuii**x", name, flags, fapl_id, dxpl_id, req);
@@ -3731,7 +3731,7 @@ H5VL_file_specific(const H5VL_object_t *vol_obj, H5VL_file_specific_t specific_t
     /* Special treatment of file access check & delete operations */
     /* (Retrieve the VOL connector from the FAPL, since the file isn't open) */
     if (specific_type == H5VL_FILE_IS_ACCESSIBLE || specific_type == H5VL_FILE_DELETE) {
-        H5P_genplist_t *      plist;          /* Property list pointer */
+        H5P_genplist_t       *plist;          /* Property list pointer */
         H5VL_connector_prop_t connector_prop; /* Property for VOL connector ID & info */
         va_list               tmp_args;       /* argument list passed from the API call */
         hid_t                 fapl_id;        /* File access property list for accessing the file */
@@ -4069,7 +4069,7 @@ H5VL_group_create(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *loc_par
                   hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id, void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -4106,7 +4106,7 @@ H5VLgroup_create(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector
                  hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE9("*x", "*x*xi*siiii**x", obj, loc_params, connector_id, name, lcpl_id, gcpl_id, gapl_id, dxpl_id,
@@ -4172,7 +4172,7 @@ H5VL_group_open(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *loc_param
                 hid_t gapl_id, hid_t dxpl_id, void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -4209,7 +4209,7 @@ H5VLgroup_open(void *obj, const H5VL_loc_params_t *loc_params, hid_t connector_i
                hid_t gapl_id, hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE7("*x", "*x*xi*sii**x", obj, loc_params, connector_id, name, gapl_id, dxpl_id, req);
@@ -4789,7 +4789,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:	H5VL__link_copy
  *
- * Purpose:	Copys a link from src to dst.
+ * Purpose:	Copies a link from src to dst.
  *
  * Return:      Success:    Non-negative
  *              Failure:    Negative
@@ -4820,7 +4820,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:	H5VL_link_copy
  *
- * Purpose:	Copys a link from src to dst.
+ * Purpose:	Copies a link from src to dst.
  *
  * Return:      Success:    Non-negative
  *              Failure:    Negative
@@ -5371,7 +5371,7 @@ H5VL_object_open(const H5VL_object_t *vol_obj, const H5VL_loc_params_t *params, 
                  hid_t dxpl_id, void **req)
 {
     hbool_t vol_wrapper_set = FALSE; /* Whether the VOL object wrapping context was set up */
-    void *  ret_value       = NULL;  /* Return value */
+    void   *ret_value       = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -5408,7 +5408,7 @@ H5VLobject_open(void *obj, const H5VL_loc_params_t *params, hid_t connector_id, 
                 hid_t dxpl_id, void **req)
 {
     H5VL_class_t *cls;              /* VOL connector's class struct */
-    void *        ret_value = NULL; /* Return value */
+    void         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_API_NOINIT
     H5TRACE6("*x", "*x*xi*Iti**x", obj, params, connector_id, opened_type, dxpl_id, req);
@@ -6086,7 +6086,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:    H5VL__request_wait
  *
- * Purpose:     Waits on an asychronous request through the VOL
+ * Purpose:     Waits on an asynchronous request through the VOL
  *
  * Note:	Releases the request if the operation has completed and the
  *		connector callback succeeds
@@ -6123,7 +6123,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:    H5VL_request_wait
  *
- * Purpose:     Waits on an asychronous request through the VOL
+ * Purpose:     Waits on an asynchronous request through the VOL
  *
  * Note:	Releases the request if the operation has completed and the
  *		connector callback succeeds

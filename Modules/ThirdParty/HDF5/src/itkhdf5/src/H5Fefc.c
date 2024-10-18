@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -43,8 +42,8 @@
 
 /* Structure for each entry in a file's external file cache */
 typedef struct H5F_efc_ent_t {
-    char *                name;     /* Name of the file */
-    H5F_t *               file;     /* File object */
+    char                 *name;     /* Name of the file */
+    H5F_t                *file;     /* File object */
     struct H5F_efc_ent_t *LRU_next; /* Next item in LRU list */
     struct H5F_efc_ent_t *LRU_prev; /* Previous item in LRU list */
     unsigned              nopen;    /* Number of times this file is currently opened by an EFC client */
@@ -52,14 +51,14 @@ typedef struct H5F_efc_ent_t {
 
 /* Structure for a shared file struct's external file cache */
 struct H5F_efc_t {
-    H5SL_t *       slist;      /* Skip list of cached external files */
+    H5SL_t        *slist;      /* Skip list of cached external files */
     H5F_efc_ent_t *LRU_head;   /* Head of LRU list.  This is the least recently used file */
     H5F_efc_ent_t *LRU_tail;   /* Tail of LRU list.  This is the most recently used file */
     unsigned       nfiles;     /* Size of the external file cache */
     unsigned       max_nfiles; /* Maximum size of the external file cache */
     unsigned       nrefs;      /* Number of times this file appears in another file's EFC */
     int            tag;        /* Temporary variable used by H5F__efc_try_close() */
-    H5F_shared_t * tmp_next;   /* Next file in temporary list used by H5F__efc_try_close() */
+    H5F_shared_t  *tmp_next;   /* Next file in temporary list used by H5F__efc_try_close() */
 };
 
 /* Private prototypes */
@@ -140,12 +139,12 @@ done:
 H5F_t *
 H5F__efc_open(H5F_t *parent, const char *name, unsigned flags, hid_t fcpl_id, hid_t fapl_id)
 {
-    H5F_efc_t *           efc       = NULL;  /* External file cache for parent file */
-    H5F_efc_ent_t *       ent       = NULL;  /* Entry for target file in efc */
+    H5F_efc_t            *efc       = NULL;  /* External file cache for parent file */
+    H5F_efc_ent_t        *ent       = NULL;  /* Entry for target file in efc */
     hbool_t               open_file = FALSE; /* Whether ent->file needs to be closed in case of error */
-    H5P_genplist_t *      plist;             /* Property list pointer for FAPL */
+    H5P_genplist_t       *plist;             /* Property list pointer for FAPL */
     H5VL_connector_prop_t connector_prop;    /* Property for VOL connector ID & info        */
-    H5F_t *               ret_value = NULL;  /* Return value */
+    H5F_t                *ret_value = NULL;  /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -268,7 +267,7 @@ H5F__efc_open(H5F_t *parent, const char *name, unsigned flags, hid_t fcpl_id, hi
         else
             /* Allocate new entry */
             if (NULL == (ent = H5FL_MALLOC(H5F_efc_ent_t)))
-            HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
+                HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
         /* Build new entry */
         if (NULL == (ent->name = H5MM_strdup(name)))
@@ -353,7 +352,7 @@ done:
 herr_t
 H5F_efc_close(H5F_t *parent, H5F_t *file)
 {
-    H5F_efc_t *    efc       = NULL;    /* External file cache for parent file */
+    H5F_efc_t     *efc       = NULL;    /* External file cache for parent file */
     H5F_efc_ent_t *ent       = NULL;    /* Entry for target file in efc */
     herr_t         ret_value = SUCCEED; /* Return value */
 
@@ -450,7 +449,7 @@ H5F__efc_release_real(H5F_efc_t *efc)
     /* Sanity checks */
     HDassert(efc);
 
-    /* Lock the EFC to prevent manipulation of the EFC wile we are releasing it.
+    /* Lock the EFC to prevent manipulation of the EFC while we are releasing it.
      * The EFC should never be locked when we enter this function because that
      * would require a cycle, a cycle would necessarily invoke
      * H5F__efc_try_close(), and that function checks the status of the lock
@@ -650,7 +649,7 @@ static void
 H5F__efc_try_close_tag1(H5F_shared_t *sf, H5F_shared_t **tail)
 {
     H5F_efc_ent_t *ent = NULL; /* EFC entry */
-    H5F_shared_t * esf;        /* Convenience pointer to ent->file->shared */
+    H5F_shared_t  *esf;        /* Convenience pointer to ent->file->shared */
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -723,7 +722,7 @@ static void
 H5F__efc_try_close_tag2(H5F_shared_t *sf, H5F_shared_t **tail)
 {
     H5F_efc_ent_t *ent = NULL; /* EFC entry */
-    H5F_shared_t * esf;        /* Convenience pointer to ent->file->shared */
+    H5F_shared_t  *esf;        /* Convenience pointer to ent->file->shared */
 
     FUNC_ENTER_STATIC_NOERR
 

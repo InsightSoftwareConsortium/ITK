@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -124,8 +123,8 @@ done:
 herr_t
 H5C__verify_cork_tag_test(hid_t fid, H5O_token_t tag_token, hbool_t status)
 {
-    H5F_t *                f;                   /* File Pointer */
-    H5C_t *                cache;               /* Cache Pointer */
+    H5F_t                 *f;                   /* File Pointer */
+    H5C_t                 *cache;               /* Cache Pointer */
     H5C_tag_iter_vct_ctx_t ctx;                 /* Context for iterator callback */
     haddr_t                tag;                 /* Tagged address */
     herr_t                 ret_value = SUCCEED; /* Return value */

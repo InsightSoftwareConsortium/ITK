@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -86,7 +85,7 @@
 htri_t
 H5G__is_empty_test(hid_t gid)
 {
-    H5G_t * grp            = NULL;  /* Pointer to group */
+    H5G_t  *grp            = NULL;  /* Pointer to group */
     htri_t  msg_exists     = FALSE; /* Indicate that a header message is present */
     htri_t  linfo_exists   = FALSE; /* Indicate that the 'link info' message is present */
     hbool_t api_ctx_pushed = FALSE; /* Whether API context pushed */
@@ -206,7 +205,7 @@ done:
 htri_t
 H5G__has_links_test(hid_t gid, unsigned *nmsgs)
 {
-    H5G_t * grp            = NULL;  /* Pointer to group */
+    H5G_t  *grp            = NULL;  /* Pointer to group */
     htri_t  msg_exists     = 0;     /* Indicate that a header message is present */
     hbool_t api_ctx_pushed = FALSE; /* Whether API context pushed */
     htri_t  ret_value      = TRUE;  /* Return value */
@@ -272,7 +271,7 @@ done:
 htri_t
 H5G__has_stab_test(hid_t gid)
 {
-    H5G_t * grp            = NULL;  /* Pointer to group */
+    H5G_t  *grp            = NULL;  /* Pointer to group */
     htri_t  msg_exists     = 0;     /* Indicate that a header message is present */
     hbool_t api_ctx_pushed = FALSE; /* Whether API context pushed */
     htri_t  ret_value      = TRUE;  /* Return value */
@@ -330,7 +329,7 @@ done:
 htri_t
 H5G__is_new_dense_test(hid_t gid)
 {
-    H5G_t * grp            = NULL;  /* Pointer to group */
+    H5G_t  *grp            = NULL;  /* Pointer to group */
     htri_t  msg_exists     = 0;     /* Indicate that a header message is present */
     hbool_t api_ctx_pushed = FALSE; /* Whether API context pushed */
     htri_t  ret_value      = TRUE;  /* Return value */
@@ -406,10 +405,10 @@ done:
 herr_t
 H5G__new_dense_info_test(hid_t gid, hsize_t *name_count, hsize_t *corder_count)
 {
-    H5B2_t *    bt2_name   = NULL;        /* v2 B-tree handle for name index */
-    H5B2_t *    bt2_corder = NULL;        /* v2 B-tree handle for creation order index */
+    H5B2_t     *bt2_name   = NULL;        /* v2 B-tree handle for name index */
+    H5B2_t     *bt2_corder = NULL;        /* v2 B-tree handle for creation order index */
     H5O_linfo_t linfo;                    /* Link info message */
-    H5G_t *     grp            = NULL;    /* Pointer to group */
+    H5G_t      *grp            = NULL;    /* Pointer to group */
     hbool_t     api_ctx_pushed = FALSE;   /* Whether API context pushed */
     herr_t      ret_value      = SUCCEED; /* Return value */
 
@@ -497,7 +496,7 @@ done:
 herr_t
 H5G__lheap_size_test(hid_t gid, size_t *lheap_size)
 {
-    H5G_t *    grp = NULL;               /* Pointer to group */
+    H5G_t     *grp = NULL;               /* Pointer to group */
     H5O_stab_t stab;                     /* Symbol table message	*/
     hbool_t    api_ctx_pushed = FALSE;   /* Whether API context pushed */
     herr_t     ret_value      = SUCCEED; /* Return value */
@@ -553,7 +552,7 @@ done:
 herr_t
 H5G__user_path_test(hid_t obj_id, char *user_path, size_t *user_path_len, unsigned *obj_hidden)
 {
-    void *      obj_ptr;                  /* Pointer to object for ID */
+    void       *obj_ptr;                  /* Pointer to object for ID */
     H5G_name_t *obj_path;                 /* Pointer to group hier. path for obj */
     hbool_t     api_ctx_pushed = FALSE;   /* Whether API context pushed */
     herr_t      ret_value      = SUCCEED; /* Return value */
@@ -658,7 +657,7 @@ herr_t
 H5G__verify_cached_stab_test(H5O_loc_t *grp_oloc, H5G_entry_t *ent)
 {
     H5O_stab_t stab;                /* Symbol table             */
-    H5HL_t *   heap      = NULL;    /* Pointer to local heap    */
+    H5HL_t    *heap      = NULL;    /* Pointer to local heap    */
     herr_t     ret_value = SUCCEED; /* Return value             */
 
     FUNC_ENTER_PACKAGE_TAG(grp_oloc->addr)
@@ -714,7 +713,7 @@ H5G__verify_cached_stabs_test_cb(H5F_t *f, const void H5_ATTR_UNUSED *_lt_key, h
 {
     H5G_node_t *sn = NULL;
     H5O_loc_t   targ_oloc;
-    H5O_t *     targ_oh = NULL;
+    H5O_t      *targ_oh = NULL;
     htri_t      stab_exists;
     H5O_stab_t  stab;
     unsigned    i;
@@ -805,7 +804,7 @@ done:
 herr_t
 H5G__verify_cached_stabs_test(hid_t gid)
 {
-    H5G_t *         grp = NULL; /* Group */
+    H5G_t          *grp = NULL; /* Group */
     htri_t          stab_exists;
     H5O_stab_t      stab;                     /* Symbol table message */
     H5G_bt_common_t udata     = {NULL, NULL}; /* Dummy udata so H5B_iterate doesn't freak out */

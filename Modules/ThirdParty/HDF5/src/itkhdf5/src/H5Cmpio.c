@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -164,7 +163,7 @@ H5C_apply_candidate_list(H5F_t *f, H5C_t *cache_ptr, unsigned num_candidates, ha
     unsigned           last_entry_to_flush;
     unsigned           total_entries_to_clear     = 0;
     unsigned           total_entries_to_flush     = 0;
-    unsigned *         candidate_assignment_table = NULL;
+    unsigned          *candidate_assignment_table = NULL;
     unsigned           entries_to_flush[H5C_RING_NTYPES];
     unsigned           entries_to_clear[H5C_RING_NTYPES];
     haddr_t            addr;
@@ -673,7 +672,7 @@ done:
 herr_t
 H5C_mark_entries_as_clean(H5F_t *f, unsigned ce_array_len, haddr_t *ce_array_ptr)
 {
-    H5C_t *  cache_ptr;
+    H5C_t   *cache_ptr;
     unsigned entries_cleared;
     unsigned pinned_entries_cleared;
     hbool_t  progress;
@@ -939,13 +938,13 @@ done:
 static herr_t
 H5C__collective_write(H5F_t *f)
 {
-    H5AC_t *         cache_ptr;
+    H5AC_t          *cache_ptr;
     H5FD_mpio_xfer_t orig_xfer_mode = H5FD_MPIO_COLLECTIVE;
-    void *           base_buf;
+    void            *base_buf;
     int              count;
-    int *            length_array = NULL;
-    MPI_Aint *       buf_array    = NULL;
-    MPI_Aint *       offset_array = NULL;
+    int             *length_array = NULL;
+    MPI_Aint        *buf_array    = NULL;
+    MPI_Aint        *offset_array = NULL;
     MPI_Datatype     btype        = MPI_BYTE;
     MPI_Datatype     ftype        = MPI_BYTE;
     int              mpi_code;
@@ -972,7 +971,7 @@ H5C__collective_write(H5F_t *f)
     /* Get number of entries in collective write list */
     count = (int)H5SL_count(cache_ptr->coll_write_list);
     if (count > 0) {
-        H5SL_node_t *      node;
+        H5SL_node_t       *node;
         H5C_cache_entry_t *entry_ptr;
         int                i;
 
@@ -1095,7 +1094,7 @@ done:
  *
  *              Note that this function is a modified version of
  *              H5C_flush_cache() -- any changes there may need to be
- *              reflected here and vise versa.
+ *              reflected here and vice versa.
  *
  * Return:      Non-negative on success/Negative on failure.
  *
@@ -1120,7 +1119,7 @@ H5C__flush_candidate_entries(H5F_t *f, unsigned entries_to_flush[H5C_RING_NTYPES
     uint32_t slist_len        = 0;
 #endif /* H5C_DO_SANITY_CHECKS */
     H5C_ring_t ring;
-    H5C_t *    cache_ptr;
+    H5C_t     *cache_ptr;
     herr_t     ret_value = SUCCEED;
 
     FUNC_ENTER_STATIC
@@ -1227,7 +1226,7 @@ done:
 static herr_t
 H5C__flush_candidates_in_ring(H5F_t *f, H5C_ring_t ring, unsigned entries_to_flush, unsigned entries_to_clear)
 {
-    H5C_t *  cache_ptr;
+    H5C_t   *cache_ptr;
     hbool_t  progress;
     hbool_t  restart_scan    = FALSE;
     unsigned entries_flushed = 0;

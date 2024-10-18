@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -85,7 +84,7 @@ typedef enum H5B2_compare_t {
 typedef struct H5B2_class_t H5B2_class_t;
 struct H5B2_class_t {
     H5B2_subid_t id;        /* ID of B-tree class, as found in file */
-    const char * name;      /* Name of B-tree class, for debugging */
+    const char  *name;      /* Name of B-tree class, for debugging */
     size_t       nrec_size; /* Size of native (memory) record */
 
     /* Extensible array client callback methods */

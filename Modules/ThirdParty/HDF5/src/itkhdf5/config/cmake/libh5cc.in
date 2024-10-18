@@ -1,7 +1,6 @@
-#! /bin/sh
+#!/bin/sh
 ##
 # Copyright by The HDF Group.
-# Copyright by the Board of Trustees of the University of Illinois.
 # All rights reserved.
 #
 # This file is part of HDF5.  The full HDF5 copyright notice, including
@@ -27,6 +26,27 @@ prg=$dir/$(basename -- "$prg") || exit
 printf '%s\n' "$prg"
 printf 'dir is %s\n' "$dir"
 
+
+# Show the configuration summary of the library recorded in the
+# libhdf5.settings file residing in the lib directory.
+showconfigure()
+{
+  cat $dir/lib/libhdf5.settings
+  status=$?
+}
+
 export PKG_CONFIG_PATH=$dir/lib/pkgconfig
 
-@_PKG_CONFIG_COMPILER@ `pkg-config --define-variable=prefix=$dir --cflags --libs @_PKG_CONFIG_LIBNAME@` $@
+for arg in $@ ; do
+  case "$arg" in
+    -showconfig)
+      showconfigure
+      exit $status
+      ;;
+    *)
+      @_PKG_CONFIG_COMPILER@ $@ `pkg-config --define-variable=prefix=$dir --cflags --libs @_PKG_CONFIG_LIBNAME@`
+      status=$?
+      exit $status
+      ;;
+  esac
+done
