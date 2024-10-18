@@ -161,31 +161,24 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
   switch (tmpShort)
   {
     case GE_CORONAL:
-      // hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-      // hdr->origin = itk::IOCommon::ITK_ORIGIN_SLA;
-      hdr->coordinateOrientation =
-        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
+      hdr->coordinateOrientation = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                                         AnatomicalOrientation::CoordinateEnum::SuperiorToInferior,
+                                                         AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior);
       break;
     case GE_SAGITTAL:
-      // hdr->imagePlane =
-      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
-      // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SLA;
-      hdr->coordinateOrientation =
-        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
+      hdr->coordinateOrientation = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+                                                         AnatomicalOrientation::CoordinateEnum::InferiorToSuperior,
+                                                         AnatomicalOrientation::CoordinateEnum::RightToLeft);
       break;
     case GE_AXIAL:
-      // hdr->imagePlane =
-      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
-      // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SLA;
-      hdr->coordinateOrientation =
-        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
+      hdr->coordinateOrientation = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                                         AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+                                                         AnatomicalOrientation::CoordinateEnum::InferiorToSuperior);
       break;
     default:
-      // hdr->imagePlane =
-      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-      // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SLA;
-      hdr->coordinateOrientation =
-        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
+      hdr->coordinateOrientation = AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                                         AnatomicalOrientation::CoordinateEnum::SuperiorToInferior,
+                                                         AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior);
       break;
   }
   this->GetFloatAt(f, GE_ADW_IM_LOC, &(hdr->sliceLocation));
