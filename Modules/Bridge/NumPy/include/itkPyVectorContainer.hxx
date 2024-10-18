@@ -40,8 +40,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_contain
   void * vectorBuffer = buffer;
 
   // Computing the length of data
-  Py_ssize_t len = vector->Size();
-  len *= sizeof(DataType);
+  const auto len = static_cast<Py_ssize_t>(vector->size() * sizeof(DataType));
 
   PyBuffer_FillInfo(&pyBuffer, nullptr, vectorBuffer, len, 0, PyBUF_CONTIG);
   return PyMemoryView_FromBuffer(&pyBuffer);
@@ -80,11 +79,7 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   }
   const auto * const data = static_cast<const DataType *>(buffer);
   auto               output = VectorContainerType::New();
-  output->resize(numberOfElements);
-  for (size_t ii = 0; ii < numberOfElements; ++ii)
-  {
-    output->SetElement(ii, data[ii]);
-  }
+  output->assign(data, data + numberOfElements);
 
   return output;
 }
