@@ -95,8 +95,7 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
   typename TImage::SpacingType spacing;
   spacing.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
 
-  typename TImage::PointType origin;
-  origin.Fill(CoordinateRepresentationType{});
+  typename TImage::PointType origin{};
 
   typename TImage::DirectionType direction;
   direction.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
