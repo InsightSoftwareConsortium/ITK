@@ -60,8 +60,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
   TransformType::OutputVectorType nonzeroVector;
   nonzeroVector.Fill(10.3);
 
-  DisplacementFieldType::IndexType index;
-  index.Fill(40);
+  auto index = DisplacementFieldType::IndexType::Filled(40);
   displacementField->SetPixel(index, nonzeroVector);
 
   /**

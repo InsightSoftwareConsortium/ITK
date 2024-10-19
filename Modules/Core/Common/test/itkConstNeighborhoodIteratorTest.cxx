@@ -345,8 +345,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     }
 
     // Setup and iterate over the first region
-    ChangeRegionTestImageType::IndexType region1Start;
-    region1Start.Fill(1);
+    auto region1Start = ChangeRegionTestImageType::IndexType::Filled(1);
 
     auto regionSize = ChangeRegionTestImageType::SizeType::Filled(1);
 
@@ -382,8 +381,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     }
 
     // Change iteration region
-    ChangeRegionTestImageType::IndexType region2start;
-    region2start.Fill(2);
+    auto region2start = ChangeRegionTestImageType::IndexType::Filled(2);
 
     ChangeRegionTestImageType::RegionType region2(region2start, regionSize);
 

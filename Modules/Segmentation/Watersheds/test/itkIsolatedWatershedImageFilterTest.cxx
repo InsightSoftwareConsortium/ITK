@@ -73,8 +73,7 @@ itkIsolatedWatershedImageFilterTest(int argc, char * argv[])
   ImageType::Pointer inputImage = reader->GetOutput();
 
   ImageType::RegionType region = inputImage->GetLargestPossibleRegion();
-  ImageType::IndexType  offset;
-  offset.Fill(10);
+  auto                  offset = ImageType::IndexType::Filled(10);
 
   seed1[0] = region.GetUpperIndex()[0] + offset[0];
   filter->SetSeed1(seed1);

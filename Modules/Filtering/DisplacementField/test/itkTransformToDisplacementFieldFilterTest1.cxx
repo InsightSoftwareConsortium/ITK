@@ -149,8 +149,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   auto eulerTransform = TransformType::New();
   {
     // Set the options.
-    IndexType imageCenter;
-    imageCenter.Fill(11);
+    auto      imageCenter = IndexType::Filled(11);
     PointType centerPoint;
     image->TransformIndexToPhysicalPoint(imageCenter, centerPoint);
     eulerTransform->SetCenter(centerPoint);

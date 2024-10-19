@@ -188,8 +188,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   }
 
   // Test for invalid request region.
-  ImageType::IndexType invalidIndex;
-  invalidIndex.Fill(1000);
+  auto                  invalidIndex = ImageType::IndexType::Filled(1000);
   auto                  invalidSize = ImageType::SizeType::Filled(1000);
   ImageType::RegionType invalidRequestRegion(invalidIndex, invalidSize);
   convoluter->GetOutput()->SetRequestedRegion(invalidRequestRegion);

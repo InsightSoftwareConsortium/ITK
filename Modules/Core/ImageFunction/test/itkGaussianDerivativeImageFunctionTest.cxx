@@ -94,8 +94,7 @@ TestGaussianDerivativeImageFunction()
   std::cout << "[PASSED] " << std::endl;
 
   std::cout << "Testing consistency within Index/Point/ContinuousIndex: ";
-  itk::Index<Dimension> index;
-  index.Fill(25);
+  auto                                 index = itk::Index<Dimension>::Filled(25);
   typename DoGFunctionType::OutputType gradientIndex;
   gradientIndex = DoG->EvaluateAtIndex(index);
 

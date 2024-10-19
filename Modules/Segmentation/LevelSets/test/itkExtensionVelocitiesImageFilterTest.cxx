@@ -215,8 +215,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   difference->Update();
 
   // mask out the peak at near the center point
-  ImageType::IndexType centerIndex;
-  centerIndex.Fill(50 - 8);
+  auto                  centerIndex = ImageType::IndexType::Filled(50 - 8);
   auto                  centerSize = ImageType::SizeType::Filled(17);
   ImageType::RegionType centerRegion{ centerIndex, centerSize };
 

@@ -208,8 +208,7 @@ itkImageScanlineIteratorTest1(int, char *[])
     }
 
     // Change iteration region
-    TestImageType::IndexType region2start;
-    region2start.Fill(1);
+    auto region2start = TestImageType::IndexType::Filled(1);
 
     TestImageType::RegionType region2(region2start, regionSize);
 

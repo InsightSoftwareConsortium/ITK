@@ -217,11 +217,9 @@ TEST(SliceImageFilterTests, Empty)
   SourceType::SizeValueType size[] = { 32, 32 };
   source->SetSize(size);
 
-  int                  step[ImageDimension] = { 1, 1 };
-  ImageType::IndexType start;
-  start.Fill(10);
-  ImageType::IndexType stop;
-  stop.Fill(10);
+  int  step[ImageDimension] = { 1, 1 };
+  auto start = ImageType::IndexType::Filled(10);
+  auto stop = ImageType::IndexType::Filled(10);
 
 
   ImageType::Pointer img;
@@ -255,8 +253,7 @@ TEST(SliceImageFilterTests, Coverage)
   auto filter = FilterType::New();
   std::cout << filter;
 
-  FilterType::IndexType idx;
-  idx.Fill(10);
+  auto idx = FilterType::IndexType::Filled(10);
 
   filter->SetStart(idx);
   EXPECT_EQ(idx, filter->GetStart());

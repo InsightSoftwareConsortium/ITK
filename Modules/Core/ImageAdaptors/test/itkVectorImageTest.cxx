@@ -57,8 +57,7 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   bool failed = false;
 
   using AdaptedImageType = itk::Image<PixelType, Dimension>;
-  typename AdaptedImageType::IndexType index;
-  index.Fill(10);
+  auto index = AdaptedImageType::IndexType::Filled(10);
   std::cout << "Before adaptor initialization, vectorImage->GetPixel(" << index << ")[" << componentToExtract
             << "] = " << vectorImage->GetPixel(index)[componentToExtract] << std::endl;
 
@@ -559,8 +558,7 @@ itkVectorImageTest(int, char * argv[])
           lcit.NextLine();
         }
 
-        VectorImageType::IndexType idx;
-        idx.Fill(1);
+        auto               idx = VectorImageType::IndexType::Filled(1);
         LinearIteratorType lit(vectorImage, vectorImage->GetBufferedRegion());
         lit.SetIndex(idx);
         lit.Set(f);
@@ -714,8 +712,7 @@ itkVectorImageTest(int, char * argv[])
 
       ConstNeighborhoodIteratorType::RegionType region = vectorImage->GetBufferedRegion();
       auto                                      size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
-      ConstNeighborhoodIteratorType::IndexType  index;
-      index.Fill(1);
+      auto                                      index = ConstNeighborhoodIteratorType::IndexType::Filled(1);
       region.SetIndex(index);
       region.SetSize(size);
 
@@ -754,8 +751,7 @@ itkVectorImageTest(int, char * argv[])
       // Test GoToEnd()
       cNit.GoToEnd();
       --cNit;
-      ConstNeighborhoodIteratorType::IndexType endIndex;
-      endIndex.Fill(4);
+      auto endIndex = ConstNeighborhoodIteratorType::IndexType::Filled(4);
       if (cNit.GetPixel(centerIndex) != vectorImage->GetPixel(endIndex))
       {
         std::cerr << "  GoToEnd [FAILED]" << std::endl;

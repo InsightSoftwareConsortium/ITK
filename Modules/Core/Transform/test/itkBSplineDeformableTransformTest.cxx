@@ -126,8 +126,7 @@ itkBSplineDeformableTransformTest1()
   /**
    * Populate the spline coefficients with some values.
    */
-  CoefficientImageType::IndexType index;
-  index.Fill(5);
+  auto index = CoefficientImageType::IndexType::Filled(5);
 
   coeffImage[1]->SetPixel(index, 1.0);
 
@@ -646,8 +645,7 @@ itkBSplineDeformableTransformTest3()
   /**
    * Populate the spline coefficients with some values.
    */
-  CoefficientImageType::IndexType index;
-  index.Fill(5);
+  auto index = CoefficientImageType::IndexType::Filled(5);
 
   coeffImage[1]->SetPixel(index, 1.0);
 

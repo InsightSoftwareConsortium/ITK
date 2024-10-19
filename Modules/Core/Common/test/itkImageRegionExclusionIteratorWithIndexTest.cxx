@@ -297,8 +297,7 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
   }
 
   // Test exclusion region completely outside the region.
-  IndexType exclusionStart;
-  exclusionStart.Fill(-3);
+  auto       exclusionStart = IndexType::Filled(-3);
   auto       exclusionSize = SizeType::Filled(2);
   RegionType exclusionRegion(exclusionStart, exclusionSize);
 
