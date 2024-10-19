@@ -74,8 +74,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
 
   auto originalImage = OriginalImageType::New();
 
-  ImageSizeType imageSize;
-  imageSize.Fill(20);
+  auto imageSize = ImageSizeType::Filled(20);
   originalImage->SetRegions(imageSize);
   originalImage->Allocate();
 

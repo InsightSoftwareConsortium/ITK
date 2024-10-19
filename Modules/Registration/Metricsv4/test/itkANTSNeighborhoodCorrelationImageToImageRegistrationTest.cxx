@@ -159,9 +159,8 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
 
   // The metric
   using MetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  auto                 metric = MetricType::New();
-  itk::Size<Dimension> radSize;
-  radSize.Fill(2);
+  auto metric = MetricType::New();
+  auto radSize = itk::Size<Dimension>::Filled(2);
   metric->SetRadius(radSize);
 
   // Assign images and transforms.

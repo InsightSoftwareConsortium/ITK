@@ -122,8 +122,7 @@ itkImageTest(int, char *[])
   image->SetDirection(direction);
   Image::RegionType region;
   Image::IndexType  index{};
-  Image::SizeType   size;
-  size.Fill(4);
+  auto              size = Image::SizeType::Filled(4);
   region.SetIndex(index);
   region.SetSize(size);
   image->SetRegions(region);
@@ -153,8 +152,7 @@ itkImageTest(int, char *[])
                                                                           imageRef.GetPointer(),
                                                                           static_cast<TransformType *>(nullptr));
   Image::IndexType  correctIndex{};
-  Image::SizeType   correctSize;
-  correctSize.Fill(3);
+  auto              correctSize = Image::SizeType::Filled(3);
   if (!(boxRegion.GetIndex() == correctIndex) || !(boxRegion.GetSize() == correctSize))
   {
     std::cerr << "EnlargeRegionOverBox test failed: "

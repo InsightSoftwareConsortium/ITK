@@ -72,8 +72,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
 
 
   // Create input image.
-  SizeType size;
-  size.Fill(24);
+  auto        size = SizeType::Filled(24);
   IndexType   index{};
   SpacingType spacing;
   spacing[0] = 1.1;
@@ -135,9 +134,8 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   // Set Output information.
   IndexType   outputIndex{};
   SpacingType outputSpacing;
-  SizeType    outputSize;
-  outputSize.Fill(24);
-  RegionType outputRegion{ outputIndex, outputSize };
+  auto        outputSize = SizeType::Filled(24);
+  RegionType  outputRegion{ outputIndex, outputSize };
   outputSpacing[0] = 1.0;
   outputSpacing[1] = 2.0;
   outputSpacing[2] = 3.0;

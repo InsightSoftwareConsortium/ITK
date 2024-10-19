@@ -47,8 +47,7 @@ itkRecursiveGaussianImageFilterOnVectorImageTest(int, char *[])
   vector1.Fill(1.0);
 
   // Create the 9x9 input image
-  ImageType::SizeType size;
-  size.Fill(9);
+  auto                  size = ImageType::SizeType::Filled(9);
   ImageType::IndexType  index{};
   ImageType::RegionType region{ index, size };
   auto                  inputImage = ImageType::New();

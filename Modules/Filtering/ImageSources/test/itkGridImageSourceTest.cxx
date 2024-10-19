@@ -55,9 +55,8 @@ itkGridImageSourceTest(int argc, char * argv[])
 
 
   // Specify image parameters
-  auto                size = static_cast<ImageType::SizeValueType>(std::stod(argv[2]));
-  ImageType::SizeType imageSize;
-  imageSize.Fill(size);
+  auto size = static_cast<ImageType::SizeValueType>(std::stod(argv[2]));
+  auto imageSize = ImageType::SizeType::Filled(size);
 
   ImageType::PointType origin{};
 

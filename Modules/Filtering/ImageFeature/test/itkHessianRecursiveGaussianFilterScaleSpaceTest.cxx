@@ -38,8 +38,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
 
   auto inputImage = ImageType::New();
 
-  SizeType size;
-  size.Fill(21);
+  auto size = SizeType::Filled(21);
   size[0] = 401;
 
   IndexType start{};

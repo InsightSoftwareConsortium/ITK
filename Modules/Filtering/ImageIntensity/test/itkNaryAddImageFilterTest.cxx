@@ -32,8 +32,7 @@ InitializeImage(ImageType * image, const typename ImageType::PixelType & value)
   typename ImageType::Pointer inputImage(image);
 
   // Define their size, and start index
-  typename ImageType::SizeType size;
-  size.Fill(2);
+  auto size = ImageType::SizeType::Filled(2);
 
   typename ImageType::IndexType start{};
 

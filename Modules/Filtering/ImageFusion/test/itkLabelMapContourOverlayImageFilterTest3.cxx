@@ -55,8 +55,7 @@ itkLabelMapContourOverlayImageFilterTest3(int argc, char * argv[])
   colorizer->SetFeatureImage(reader2->GetOutput());
   colorizer->SetOpacity(std::stod(argv[4]));
   colorizer->SetType(std::stoi(argv[5]));
-  ColorizerType::SizeType r;
-  r.Fill(std::stoi(argv[6]));
+  auto r = ColorizerType::SizeType::Filled(std::stoi(argv[6]));
   colorizer->SetContourThickness(r);
   r.Fill(std::stoi(argv[7]));
   colorizer->SetDilationRadius(r);

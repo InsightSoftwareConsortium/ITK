@@ -66,8 +66,7 @@ itkBSplineTransformTest1()
   dimensions.Fill(100);
 
   using MeshSizeType = TransformType::MeshSizeType;
-  MeshSizeType meshSize;
-  meshSize.Fill(10);
+  auto meshSize = MeshSizeType::Filled(10);
 
   using DirectionType = TransformType::DirectionType;
   DirectionType direction;
@@ -621,8 +620,7 @@ itkBSplineTransformTest3()
   dimensions.Fill(100);
 
   using MeshSizeType = TransformType::MeshSizeType;
-  MeshSizeType meshSize;
-  meshSize.Fill(10);
+  auto meshSize = MeshSizeType::Filled(10);
 
   using DirectionType = TransformType::DirectionType;
   DirectionType direction;

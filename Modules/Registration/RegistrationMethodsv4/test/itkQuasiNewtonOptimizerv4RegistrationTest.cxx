@@ -177,8 +177,7 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
     auto nbcMetric = ANCMetricType::New();
     metric = nbcMetric.GetPointer();
 
-    itk::Size<Dimension> radSize;
-    radSize.Fill(2);
+    auto radSize = itk::Size<Dimension>::Filled(2);
     nbcMetric->SetRadius(radSize);
   }
   else

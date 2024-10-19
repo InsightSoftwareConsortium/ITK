@@ -73,8 +73,7 @@ protected:
     {
       auto image = InputImageType::New();
 
-      typename InputImageType::SizeType imageSize;
-      imageSize.Fill(size);
+      auto imageSize = InputImageType::SizeType::Filled(size);
       image->SetRegions(typename InputImageType::RegionType(imageSize));
       image->Allocate();
       image->FillBuffer(0);

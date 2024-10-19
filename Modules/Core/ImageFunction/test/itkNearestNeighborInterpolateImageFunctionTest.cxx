@@ -60,8 +60,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
   IndexType start{};
 
-  SizeType size;
-  size.Fill(3);
+  auto size = SizeType::Filled(3);
 
   RegionType region{ start, size };
 

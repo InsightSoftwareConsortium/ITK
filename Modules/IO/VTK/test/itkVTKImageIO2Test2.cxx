@@ -51,9 +51,8 @@ itkVTKImageIO2Test2(int argc, char * argv[])
 
   {
     // allocate an 10x10x10 image
-    auto                image = ImageType::New();
-    ImageType::SizeType imageSize;
-    imageSize.Fill(10);
+    auto image = ImageType::New();
+    auto imageSize = ImageType::SizeType::Filled(10);
     image->SetRegions(imageSize);
     image->Allocate();
 

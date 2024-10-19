@@ -268,8 +268,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   FieldType::PointType origin;
   origin.Fill(static_cast<RealType>(0.0));
 
-  RegionType::SizeType regionSize;
-  regionSize.Fill(static_cast<itk::SizeValueType>(pointMax) + 1);
+  auto regionSize = RegionType::SizeType::Filled(static_cast<itk::SizeValueType>(pointMax) + 1);
 
   RegionType::IndexType regionIndex{};
 

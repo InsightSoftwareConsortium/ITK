@@ -42,8 +42,7 @@ struct Utilities
   {
     auto image = ImageType::New();
 
-    typename ImageType::SizeType imageSize;
-    imageSize.Fill(5);
+    auto imageSize = ImageType::SizeType::Filled(5);
     image->SetRegions(typename ImageType::RegionType(imageSize));
     image->Allocate();
 

@@ -54,8 +54,7 @@ itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
   filter->SetLower(0);
   filter->SetUpper(210);
   using SizeType = FilterType::InputImageSizeType;
-  SizeType radius;
-  radius.Fill(5);
+  auto radius = SizeType::Filled(5);
 
   filter->SetRadius(radius);
   filter->SetReplaceValue(255);

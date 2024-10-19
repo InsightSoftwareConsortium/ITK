@@ -56,8 +56,7 @@ itkGeodesicActiveContourLevelSetImageFilterTest(int, char *[])
 
   ImageType::IndexType squareStart;
   squareStart.Fill(20);
-  ImageType::SizeType squareSize;
-  squareSize.Fill(60);
+  auto                  squareSize = ImageType::SizeType::Filled(60);
   ImageType::RegionType squareRegion{ squareStart, squareSize };
 
   using Iterator = itk::ImageRegionIterator<ImageType>;

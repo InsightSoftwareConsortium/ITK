@@ -66,8 +66,7 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
 
   ImageType::IndexType squareStart;
   squareStart.Fill(10);
-  ImageType::SizeType squareSize;
-  squareSize.Fill(30);
+  auto                  squareSize = ImageType::SizeType::Filled(30);
   ImageType::RegionType squareRegion{ squareStart, squareSize };
 
   using Iterator = itk::ImageRegionIterator<ImageType>;

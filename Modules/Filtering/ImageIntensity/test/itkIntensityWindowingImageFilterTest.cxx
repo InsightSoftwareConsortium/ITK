@@ -35,8 +35,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   TestInputImage::RegionType region;
 
-  TestInputImage::SizeType size;
-  size.Fill(64);
+  auto size = TestInputImage::SizeType::Filled(64);
 
   TestInputImage::IndexType index{};
 

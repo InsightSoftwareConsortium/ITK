@@ -132,8 +132,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   ITK_TEST_EXPECT_EQUAL(bSplineDomainSpacing, bspliner->GetBSplineDomainSpacing());
 
   typename BSplineFilterType::SizeType::value_type bSplineDomainSizeVal = 0;
-  typename BSplineFilterType::SizeType             bSplineDomainSize;
-  bSplineDomainSize.Fill(bSplineDomainSizeVal);
+  auto bSplineDomainSize = BSplineFilterType::SizeType::Filled(bSplineDomainSizeVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainSize, bspliner->GetBSplineDomainSize());
 
   typename BSplineFilterType::DirectionType bSplineDomainDirection;

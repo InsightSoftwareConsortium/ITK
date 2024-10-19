@@ -57,8 +57,7 @@ class EigenAnalysis2DImageFilterTester
     typename myImageType::Pointer inputImage(image);
 
     // Define their size, and start index
-    mySizeType size;
-    size.Fill(2);
+    auto size = mySizeType::Filled(2);
 
     myIndexType start{};
 

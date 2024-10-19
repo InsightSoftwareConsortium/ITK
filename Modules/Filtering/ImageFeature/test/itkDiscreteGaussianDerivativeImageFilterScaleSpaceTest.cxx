@@ -45,8 +45,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   using ImageType = itk::Image<double, ImageDimension>;
   auto image = ImageType::New();
 
-  ImageType::SizeType size;
-  size.Fill(imageSize);
+  auto size = ImageType::SizeType::Filled(imageSize);
 
   image->SetRegions(ImageType::RegionType(size));
   image->Allocate();

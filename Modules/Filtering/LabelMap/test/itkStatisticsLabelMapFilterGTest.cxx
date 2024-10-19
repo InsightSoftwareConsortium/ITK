@@ -61,8 +61,7 @@ protected:
     {
       auto image = ImageType::New();
 
-      typename ImageType::SizeType imageSize;
-      imageSize.Fill(25);
+      auto imageSize = ImageType::SizeType::Filled(25);
       image->SetRegions(typename ImageType::RegionType(imageSize));
       image->Allocate();
       image->FillBuffer(0);
@@ -75,8 +74,7 @@ protected:
     {
       auto image = ImageType::New();
 
-      typename ImageType::SizeType imageSize;
-      imageSize.Fill(25);
+      auto imageSize = ImageType::SizeType::Filled(25);
       image->SetRegions(typename ImageType::RegionType(imageSize));
       image->Allocate();
       image->FillBuffer(0);
@@ -98,8 +96,7 @@ protected:
     {
       auto image = LabelImageType::New();
 
-      typename LabelImageType::SizeType imageSize;
-      imageSize.Fill(25);
+      auto imageSize = LabelImageType::SizeType::Filled(25);
       image->SetRegions(typename ImageType::RegionType(imageSize));
       image->Allocate();
       image->FillBuffer(0);

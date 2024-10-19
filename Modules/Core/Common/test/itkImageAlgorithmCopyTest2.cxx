@@ -65,8 +65,7 @@ itkImageAlgorithmCopyTest2(int, char *[])
 
 
   RegionType::IndexType index{};
-  RegionType::SizeType  size;
-  size.Fill(64);
+  auto                  size = RegionType::SizeType::Filled(64);
 
   RegionType region{ index, size };
 

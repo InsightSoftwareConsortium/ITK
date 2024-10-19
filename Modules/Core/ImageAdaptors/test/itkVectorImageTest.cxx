@@ -474,8 +474,7 @@ itkVectorImageTest(int, char * argv[])
         f[i] = i;
       }
       start.Fill(0);
-      VectorImageType::SizeType size;
-      size.Fill(11);
+      auto size = VectorImageType::SizeType::Filled(11);
       size[Dimension - 1] = 5;
       unsigned long midCtr = 1;
       for (unsigned int i = 0; i < Dimension; ++i)
@@ -586,10 +585,9 @@ itkVectorImageTest(int, char * argv[])
     // Create an image using itk::Vector
     using VectorPixelType = itk::Vector<PixelType, VectorLength>;
     using VectorImageType = itk::Image<itk::Vector<PixelType, VectorLength>, Dimension>;
-    auto                       image = VectorImageType::New();
-    VectorImageType::IndexType start{};
-    VectorImageType::SizeType  size;
-    size.Fill(5);
+    auto                        image = VectorImageType::New();
+    VectorImageType::IndexType  start{};
+    auto                        size = VectorImageType::SizeType::Filled(5);
     VectorImageType::RegionType region(start, size);
     image->SetRegions(region);
     image->Allocate();
@@ -715,9 +713,8 @@ itkVectorImageTest(int, char * argv[])
       radius.Fill(1);
 
       ConstNeighborhoodIteratorType::RegionType region = vectorImage->GetBufferedRegion();
-      ConstNeighborhoodIteratorType::SizeType   size;
-      size.Fill(4);
-      ConstNeighborhoodIteratorType::IndexType index;
+      auto                                      size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
+      ConstNeighborhoodIteratorType::IndexType  index;
       index.Fill(1);
       region.SetIndex(index);
       region.SetSize(size);

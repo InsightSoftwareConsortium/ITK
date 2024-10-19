@@ -63,8 +63,7 @@ itkLevelSetEquationChanAndVeseExternalTermTest(int argc, char * argv[])
   using InputImageIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
   // load binary mask
-  InputImageType::SizeType size;
-  size.Fill(50);
+  auto size = InputImageType::SizeType::Filled(50);
 
   InputImageType::PointType origin;
   origin[0] = 0.0;

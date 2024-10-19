@@ -108,8 +108,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
   // creates an image and allocate memory
   auto image = ImageType::New();
 
-  ImageType::SizeType size;
-  size.Fill(5);
+  auto size = ImageType::SizeType::Filled(5);
 
   ImageType::IndexType index{};
 

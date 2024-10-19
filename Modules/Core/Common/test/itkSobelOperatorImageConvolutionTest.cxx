@@ -58,8 +58,7 @@ DoConvolution(typename ImageType::Pointer inputImage, unsigned long int directio
 
   sobelOperator.SetDirection(direction);
 
-  itk::Size<Dimension> radius;
-  radius.Fill(1);
+  auto radius = itk::Size<Dimension>::Filled(1);
   sobelOperator.CreateToRadius(radius);
 
   NeighborhoodIteratorType it(radius, inputImage, inputImage->GetRequestedRegion());

@@ -109,9 +109,8 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
 
   // Set up a dummy image
   using ImageType = itk::Image<unsigned char, Dimension>;
-  auto                image = ImageType::New();
-  ImageType::SizeType size;
-  size.Fill(10);
+  auto image = ImageType::New();
+  auto size = ImageType::SizeType::Filled(10);
   image->SetRegions(size);
   image->Allocate();
   image->FillBuffer(255);

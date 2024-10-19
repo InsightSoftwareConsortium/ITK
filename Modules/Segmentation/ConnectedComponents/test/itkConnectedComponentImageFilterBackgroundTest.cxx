@@ -39,9 +39,8 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
 
   // Create an image with an arbitrary background value and a number
   // of islands with pixel values above and below the background value
-  auto                image = ImageType::New();
-  ImageType::SizeType size;
-  size.Fill(512);
+  auto image = ImageType::New();
+  auto size = ImageType::SizeType::Filled(512);
   image->SetRegions(size);
   image->Allocate();
   image->FillBuffer(0);

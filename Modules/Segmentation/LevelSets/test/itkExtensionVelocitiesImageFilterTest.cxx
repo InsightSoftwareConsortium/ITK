@@ -125,9 +125,8 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  auto                image = ImageType::New();
-  ImageType::SizeType size;
-  size.Fill(128);
+  auto                  image = ImageType::New();
+  auto                  size = ImageType::SizeType::Filled(128);
   ImageType::RegionType region(size);
 
   image->SetRegions(region);
@@ -218,8 +217,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   // mask out the peak at near the center point
   ImageType::IndexType centerIndex;
   centerIndex.Fill(50 - 8);
-  ImageType::SizeType centerSize;
-  centerSize.Fill(17);
+  auto                  centerSize = ImageType::SizeType::Filled(17);
   ImageType::RegionType centerRegion{ centerIndex, centerSize };
 
   iter = Iterator(difference->GetOutput(), centerRegion);

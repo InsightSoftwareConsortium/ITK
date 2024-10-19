@@ -119,8 +119,7 @@ test_RegionGrowKLMExceptionHandling()
   using ImageType5D = itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM5D>;
   auto image5D = ImageType5D::New();
 
-  ImageType5D::SizeType imageSize5D;
-  imageSize5D.Fill(sizeLen);
+  auto imageSize5D = ImageType5D::SizeType::Filled(sizeLen);
 
   ImageType5D::IndexType index5D{};
 
@@ -144,8 +143,7 @@ test_RegionGrowKLMExceptionHandling()
   ITK_EXERCISE_BASIC_OBJECT_METHODS(exceptionTestingFilter5D, KLMRegionGrowImageFilter, RegionGrowImageFilter);
 
 
-  KLMRegionGrowImageFilterType5D::GridSizeType gridSize5D;
-  gridSize5D.Fill(1);
+  auto gridSize5D = KLMRegionGrowImageFilterType5D::GridSizeType::Filled(1);
 
   exceptionTestingFilter5D->SetInput(image5D);
   exceptionTestingFilter5D->SetGridSize(gridSize5D);
@@ -235,10 +233,9 @@ test_regiongrowKLM1D()
 
   auto image = ImageType::New();
 
-  unsigned int        numPixels = 100;
-  unsigned int        numPixelsHalf = 50;
-  ImageType::SizeType imageSize;
-  imageSize.Fill(numPixels);
+  unsigned int numPixels = 100;
+  unsigned int numPixelsHalf = 50;
+  auto         imageSize = ImageType::SizeType::Filled(numPixels);
 
   ImageType::IndexType index{};
 
@@ -284,8 +281,7 @@ test_regiongrowKLM1D()
   ITK_EXERCISE_BASIC_OBJECT_METHODS(KLMFilter, KLMRegionGrowImageFilter, RegionGrowImageFilter);
 
 
-  KLMRegionGrowImageFilterType::GridSizeType gridSize;
-  gridSize.Fill(1);
+  auto gridSize = KLMRegionGrowImageFilterType::GridSizeType::Filled(1);
 
   KLMFilter->SetInput(image);
   KLMFilter->SetGridSize(gridSize);
@@ -869,8 +865,7 @@ test_regiongrowKLM2D()
 
   auto KLMFilter = KLMRegionGrowImageFilterType::New();
 
-  KLMRegionGrowImageFilterType::GridSizeType gridSize;
-  gridSize.Fill(1);
+  auto gridSize = KLMRegionGrowImageFilterType::GridSizeType::Filled(1);
 
   KLMFilter->SetInput(image);
   KLMFilter->SetMaximumNumberOfRegions(2);
@@ -1334,8 +1329,7 @@ test_regiongrowKLM3D()
 
   auto KLMFilter = KLMRegionGrowImageFilterType::New();
 
-  KLMRegionGrowImageFilterType::GridSizeType gridSize;
-  gridSize.Fill(1);
+  auto gridSize = KLMRegionGrowImageFilterType::GridSizeType::Filled(1);
 
   KLMFilter->SetInput(image);
   KLMFilter->SetMaximumNumberOfRegions(2);

@@ -64,9 +64,8 @@ itkBSplineDeformableTransformTest1()
   OriginType origin{};
 
   using RegionType = TransformType::RegionType;
-  RegionType           region;
-  RegionType::SizeType size;
-  size.Fill(10);
+  RegionType region;
+  auto       size = RegionType::SizeType::Filled(10);
   region.SetSize(size);
   std::cout << region << std::endl;
 
@@ -600,9 +599,8 @@ itkBSplineDeformableTransformTest3()
   OriginType origin{};
 
   using RegionType = TransformType::RegionType;
-  RegionType           region;
-  RegionType::SizeType size;
-  size.Fill(10);
+  RegionType region;
+  auto       size = RegionType::SizeType::Filled(10);
   region.SetSize(size);
   std::cout << region << std::endl;
 

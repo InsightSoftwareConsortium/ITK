@@ -82,8 +82,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   resample = itk::ResampleImageFilter<InputImageType, ImageType>::New();
   resample->SetInput(image);
 
-  ImageSizeType cubeSize;
-  cubeSize.Fill(7);
+  auto cubeSize = ImageSizeType::Filled(7);
   resample->SetSize(cubeSize);
 
   //  ImageType::SpacingType spacing;

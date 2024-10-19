@@ -38,8 +38,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   using VectorType = itk::Vector<double, vectorLength>;
   using ImageType = itk::Image<VectorType, imageDimensionality>;
 
-  ImageType::SizeType size;
-  size.Fill(imageSize);
+  auto                   size = ImageType::SizeType::Filled(imageSize);
   ImageType::IndexType   index{};
   ImageType::RegionType  region{ index, size };
   ImageType::SpacingType spacing;

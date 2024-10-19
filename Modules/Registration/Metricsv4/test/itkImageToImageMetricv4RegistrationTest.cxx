@@ -61,8 +61,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   // Declare Gaussian Sources
   using GaussianImageSourceType = itk::GaussianImageSource<TImage>;
 
-  typename TImage::SizeType size;
-  size.Fill(ImageSize);
+  auto size = TImage::SizeType::Filled(ImageSize);
 
   typename TImage::SpacingType spacing;
   spacing.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());

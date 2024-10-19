@@ -31,8 +31,7 @@ itkVectorMagnitudeImageFilterTest(int, char *[])
   using FloatImageType = itk::Image<float, 2>;
 
   // Define the size start index of the image
-  VectorImageType::SizeType size;
-  size.Fill(3);
+  auto size = VectorImageType::SizeType::Filled(3);
 
   VectorImageType::IndexType start{};
 

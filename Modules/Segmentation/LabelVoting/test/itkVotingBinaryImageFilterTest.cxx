@@ -52,8 +52,7 @@ itkVotingBinaryImageFilterTestImp(const std::string & infname,
 
   filter->SetInput(reader->GetOutput());
 
-  typename FilterType::InputSizeType R;
-  R.Fill(itk::Math::CastWithRangeCheck<itk::SizeValueType>(radius));
+  auto R = FilterType::InputSizeType::Filled(itk::Math::CastWithRangeCheck<itk::SizeValueType>(radius));
   filter->SetRadius(R);
 
   filter->SetForegroundValue(itk::Math::CastWithRangeCheck<InputPixelType>(foregroundValue));

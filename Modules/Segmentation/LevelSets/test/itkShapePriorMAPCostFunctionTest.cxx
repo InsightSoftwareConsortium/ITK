@@ -82,8 +82,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   /**
    * Create an input level set and active region container
    */
-  ImageType::SizeType size;
-  size.Fill(128);
+  auto                  size = ImageType::SizeType::Filled(128);
   ImageType::RegionType region;
   region.SetSize(size);
 

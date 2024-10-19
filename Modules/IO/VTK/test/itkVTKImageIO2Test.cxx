@@ -99,9 +99,8 @@ public:
       writer->SetImageIO(vtkIO);
 
       // allocate an 10x10x10 image
-      auto                         image = ImageType::New();
-      typename ImageType::SizeType imageSize;
-      imageSize.Fill(10);
+      auto image = ImageType::New();
+      auto imageSize = ImageType::SizeType::Filled(10);
       image->SetRegions(imageSize);
       image->Allocate();
 

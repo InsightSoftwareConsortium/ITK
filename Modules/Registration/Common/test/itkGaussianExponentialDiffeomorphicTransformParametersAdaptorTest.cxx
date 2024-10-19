@@ -35,8 +35,7 @@ itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   origin.Fill(-5.0);
 
   using SizeType = TransformType::SizeType;
-  SizeType size;
-  size.Fill(65);
+  auto size = SizeType::Filled(65);
 
   using SpacingType = TransformType::SpacingType;
   SpacingType spacing;

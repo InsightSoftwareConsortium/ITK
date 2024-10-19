@@ -36,11 +36,10 @@ itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char *[])
   using RandomConstIteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
   constexpr unsigned long N = 10;
   constexpr int           Seed = 42;
-  ImageType::SizeType     size;
-  size.Fill(N);
-  ImageType::IndexType  start{};
-  ImageType::RegionType region{ start, size };
-  auto                  myImage = ImageType::New();
+  auto                    size = ImageType::SizeType::Filled(N);
+  ImageType::IndexType    start{};
+  ImageType::RegionType   region{ start, size };
+  auto                    myImage = ImageType::New();
   myImage->SetRegions(region);
   myImage->Allocate();
   using WalkType = std::vector<ImageType::IndexType>;

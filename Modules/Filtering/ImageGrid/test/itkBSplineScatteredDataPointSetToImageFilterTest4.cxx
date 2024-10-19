@@ -47,8 +47,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
 
   using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
-  VectorImageType::SizeType size;
-  size.Fill(100);
+  auto                         size = VectorImageType::SizeType::Filled(100);
   VectorImageType::PointType   origin{};
   VectorImageType::SpacingType spacing;
   spacing.Fill(1);

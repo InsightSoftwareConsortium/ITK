@@ -71,8 +71,7 @@ itkReleaseDataFilterTest(int, char *[])
   mean1->SetInput(monitor1->GetOutput());
 
   // define the neighborhood size used for the mean filter
-  ImageType::SizeType neighRadius;
-  neighRadius.Fill(2);
+  auto neighRadius = ImageType::SizeType::Filled(2);
   mean1->SetRadius(neighRadius);
 
   auto monitor2a = MonitorFilter::New();

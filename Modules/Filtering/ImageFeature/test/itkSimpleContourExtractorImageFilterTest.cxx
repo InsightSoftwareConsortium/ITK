@@ -91,9 +91,7 @@ itkSimpleContourExtractorImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(outputBackgroundValue, filter->GetOutputBackgroundValue());
 
 
-  FilterType::InputSizeType radius;
-
-  radius.Fill(1);
+  auto radius = FilterType::InputSizeType::Filled(1);
 
   filter->SetRadius(radius);
 

@@ -34,8 +34,7 @@ itkInterpolateImageFilterTest(int, char *[])
 
   // fill images
   using SizeType = InputImageType::SizeType;
-  SizeType size;
-  size.Fill(5);
+  auto size = SizeType::Filled(5);
 
   auto image1 = InputImageType::New();
   image1->SetRegions(size);

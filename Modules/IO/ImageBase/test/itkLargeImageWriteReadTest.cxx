@@ -177,9 +177,7 @@ itkLargeImageWriteReadTest(int argc, char * argv[])
     using PixelType = unsigned short;
     using ImageType = itk::Image<PixelType, Dimension>;
 
-    ImageType::SizeType size;
-
-    size.Fill(atol(argv[2]));
+    auto size = ImageType::SizeType::Filled(atol(argv[2]));
 
     return ActualTest<ImageType>(filename, size);
   }
@@ -190,9 +188,7 @@ itkLargeImageWriteReadTest(int argc, char * argv[])
     using PixelType = unsigned short;
     using ImageType = itk::Image<PixelType, Dimension>;
 
-    ImageType::SizeType size;
-
-    size.Fill(atol(argv[2]));
+    auto size = ImageType::SizeType::Filled(atol(argv[2]));
     size[2] = atol(argv[3]);
 
     return ActualTest<ImageType>(filename, size);

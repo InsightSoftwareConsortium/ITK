@@ -132,8 +132,7 @@ itkChangeInformationImageFilterTest(int, char *[])
 
   using SizeType = itk::Size<ImageDimension>;
 
-  SizeType size;
-  size.Fill(20);
+  auto size = SizeType::Filled(20);
 
   inputImage->SetRegions(size);
   inputImage->Allocate();

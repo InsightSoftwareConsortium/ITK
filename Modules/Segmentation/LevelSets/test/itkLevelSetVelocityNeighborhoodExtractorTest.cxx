@@ -31,8 +31,7 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   using SourceType = itk::FastMarchingImageFilter<ImageType>;
   auto source = SourceType::New();
 
-  ImageType::SizeType size;
-  size.Fill(17);
+  auto size = ImageType::SizeType::Filled(17);
 
   source->SetOutputSize(size);
 

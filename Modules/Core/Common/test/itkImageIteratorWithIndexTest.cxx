@@ -40,8 +40,7 @@ public:
   {
     m_Image = ImageType::New();
 
-    typename ImageType::SizeType size;
-    size.Fill(100);
+    auto size = ImageType::SizeType::Filled(100);
 
     typename ImageType::IndexType start{};
 

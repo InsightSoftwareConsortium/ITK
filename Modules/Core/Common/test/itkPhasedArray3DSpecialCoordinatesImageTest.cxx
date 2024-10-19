@@ -35,8 +35,7 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   auto image = Image::New();
   // image->DebugOn();
   // image->GetSource();
-  SizeType size;
-  size.Fill(5); // 5x5x5 sampling of data
+  auto       size = SizeType::Filled(5); // 5x5x5 sampling of data
   RegionType region;
   region.SetSize(size);
   image->SetRegions(region);

@@ -70,9 +70,8 @@ itkImageRegistrationMethodTest(int, char *[])
   auto interpolator = InterpolatorType::New();
   auto registration = RegistrationType::New();
 
-  FixedImageType::SizeType size;
-  size.Fill(4); // the size of image have to be at least 4 in each dimension to
-                // compute gradient image inside the metric.
+  auto size = FixedImageType::SizeType::Filled(4); // the size of image have to be at least 4 in each dimension to
+                                                   // compute gradient image inside the metric.
   FixedImageType::RegionType region(size);
   fixedImage->SetRegions(region);
   fixedImage->Allocate();

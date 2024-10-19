@@ -153,9 +153,8 @@ void
 ExpectRangeIsNotEmptyForNonEmptyImage()
 {
   // First create a non-empty image:
-  const auto                image = TImage::New();
-  typename TImage::SizeType imageSize;
-  imageSize.Fill(1);
+  const auto image = TImage::New();
+  auto       imageSize = TImage::SizeType::Filled(1);
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
   image->Allocate();
@@ -178,9 +177,8 @@ void
 ExpectMakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage()
 {
   // First create a non-empty image:
-  const auto                image = TImage::New();
-  typename TImage::SizeType imageSize;
-  imageSize.Fill(1);
+  const auto image = TImage::New();
+  auto       imageSize = TImage::SizeType::Filled(1);
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
   image->Allocate();

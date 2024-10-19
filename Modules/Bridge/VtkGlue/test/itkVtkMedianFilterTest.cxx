@@ -50,9 +50,8 @@ itkVtkMedianFilterTest(int argc, char * argv[])
   reader->SetFileName(inputFilename);
 
   // Create and setup a median filter
-  auto                      medianFilter = FilterType::New();
-  FilterType::InputSizeType radius;
-  radius.Fill(2);
+  auto medianFilter = FilterType::New();
+  auto radius = FilterType::InputSizeType::Filled(2);
   if (argc > 2)
   {
     radius.Fill(std::stoi(argv[2]));
