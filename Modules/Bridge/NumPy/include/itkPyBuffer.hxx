@@ -59,9 +59,9 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
 
   SizeType size;
 
-  if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ND | PyBUF_ANY_CONTIGUOUS) == -1)
+  if (PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ANY_CONTIGUOUS) == -1)
   {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot get an instance of NumPy array.");
+    PyErr_SetString(PyExc_RuntimeError, "Cannot get a contiguous buffer from the specified NumPy array.");
     return nullptr;
   }
 
@@ -84,8 +84,6 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
 
   const SizeValueType numberOfPixels = size.CalculateProductOfElements();
 
-  const bool isFortranContiguous = pyBuffer.strides != nullptr && pyBuffer.itemsize == pyBuffer.strides[0];
-
   const size_t len = numberOfPixels * numberOfComponents * sizeof(ComponentType);
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
   {
@@ -94,9 +92,20 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
     return nullptr;
   }
 
-  if (isFortranContiguous)
+  if (PyBuffer_IsContiguous(&pyBuffer, 'C') == 0)
   {
-    std::reverse(size.begin(), size.end());
+    if (PyBuffer_IsContiguous(&pyBuffer, 'F') == 1)
+    {
+      // The buffer is Fortran contiguous (and not C-contiguous), so reverse the size elements.
+      std::reverse(size.begin(), size.end());
+    }
+    else
+    {
+      // The buffer is neither Fortran nor C-contiguous. This is unlikely to happen, because PyBUF_ANY_CONTIGUOUS was
+      // specified as argument, when retrieving the buffer. But if it _does_ happen, it's obviously an error.
+      PyErr_SetString(PyExc_RuntimeError, "The buffer should be contiguous, but it is not!");
+      return nullptr;
+    }
   }
 
   using InternalPixelType = typename TImage::InternalPixelType;
