@@ -30,13 +30,23 @@ namespace itk
 {
 
 /** \class AnatomicalOrientation
- * \brief A class to represent anatomical orientations and convert between conventions.
+ * \brief Representations of anatomical orientations and methods to convert between conventions.
  *
  *  Defines patient specific anatomical names to the XYZ axes of a 3D image.
  *
- * \todo update the details of the enum names in the docs
- *  Instances hold the patient orientation enum and allow conversion to and from enums, string and direction cosine
- * matrices. Conversions from a direction cosine matrix is approximated with the orientation of the closes axes.
+ * A class instances holds the patient orientation stored as a enumerated type. Conversion to different representations
+ * such as strings and direction cosine matrices are supported.
+ *
+ * The use of unambiguous anatomical orientation names such as "RightToLeft" is preferred, where "Right" is the
+ * "from direction" and the negative direction of the coordinates, while "Left" is the "to direction" and the positive
+ * direction. The following is an unambiguous construction of an AnatomicalOrientation object:
+ *
+ * \code
+ *  AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+ *                        AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+ *                        AnatomicalOrientation::CoordinateEnum::InferiorToSuperior);
+ * \endcode
+ *
  *
  * \ingroup ITKCommon
  */
@@ -51,15 +61,17 @@ public:
   using LegacyOrientationType = SpatialOrientationEnums::ValidCoordinateOrientations;
 #endif
 
+  // Anatomical names for an axis.
+  //
   enum class CoordinateEnum : uint8_t
   {
     UNKNOWN = 0,
     RightToLeft = 2, ///< 0b0010
     LeftToRight = 3,
-    PosteriorToAnterior = 4, ///< front - 0b0100
-    AnteriorToPosterior = 5, ///< back
-    InferiorToSuperior = 8,  ///< head - 0b1000
-    SuperiorToInferior = 9,  ///< foot
+    PosteriorToAnterior = 4, ///< to front - 0b0100
+    AnteriorToPosterior = 5, ///< to back
+    InferiorToSuperior = 8,  ///< to head - 0b1000
+    SuperiorToInferior = 9,  ///< to foot
   };
 
 protected:
@@ -80,6 +92,7 @@ protected:
   GetCoordinateTerm(CoordinateMajornessTermsEnum cmt) const;
 
 public:
+  // Enumerated acronyms based on the positive or "To" direction of the anatomical coordinates.
   enum class PositiveEnum : uint32_t
 
   {
@@ -236,6 +249,7 @@ public:
                              CoordinateEnum::RightToLeft>
   };
 
+  // Enumerated acronyms based on the negative or "From" direction of the anatomical coordinates.
   enum class NegativeEnum : uint32_t
 
   {
@@ -416,24 +430,30 @@ public:
   AnatomicalOrientation(LegacyOrientationType legacyOrientation);
 #endif
 
-  AnatomicalOrientation(NegativeEnum orientation);
-
+  /** Conversion for a Direction Cosine Matrix to the closest anatomical orientation. Any partial axis rotations are
+   *  rounded to the nearest axis, and lost in this conversion.
+   */
   explicit AnatomicalOrientation(const DirectionType & d)
     : m_Value(ConvertDirectionToPositiveEnum(d))
   {}
 
+  /** Creates a AnatomicalOrientation from a string with the PositiveEnum encoding. The string is case-insensitive. If
+   * the string is not a valid encoding then the orientation is set to INVALID.
+   */
   static AnatomicalOrientation
   CreateFromPositiveStringEncoding(std::string str);
 
+  // Same as CreateFromPositiveStringEncoding but for the NegativeEnum encoding.
   static AnatomicalOrientation
   CreateFromNegativeStringEncoding(std::string str);
 
   operator PositiveEnum() const { return m_Value; }
 
-
+  /** Returns the PositiveEnum encoding as a string. The string is always upper case. */
   std::string
   GetAsPositiveStringEncoding() const;
 
+  /** Returns the NegativeEnum encoding as a string. The string is always upper case. */
   std::string
   GetAsNegativeStringEncoding() const;
 
@@ -442,12 +462,13 @@ public:
    * For example the string "RAS" is converted to "LPI" and vice versa.
    *
    * The input maybe upper or lower case, while the output is always upper case.
-   * There is not check that the input is a valid encoding.
+   * There is no check that the input is a valid encoding.
    *
    * */
   static std::string
   ConvertStringEncoding(std::string str);
 
+  /** \brief Return the direction cosine matrix for the orientation. */
   DirectionType
   GetAsDirection() const
   {
@@ -526,12 +547,18 @@ protected:
   PositiveEnum m_Value;
 };
 
-
+/** Outputs unambiguous anatomical orientation names such as "right-to-left". */
 ITKCommon_EXPORT std::ostream &
                  operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum value);
 
+/** Outputs the PositiveEnum encoding as a string such as "LPS". */
 ITKCommon_EXPORT std::ostream &
                  operator<<(std::ostream & out, typename AnatomicalOrientation::PositiveEnum value);
+
+
+/** Outputs the NegativeEnum encoding as a string such as "RAI" */
+ITKCommon_EXPORT std::ostream &
+                 operator<<(std::ostream & out, typename AnatomicalOrientation::NegativeEnum value);
 
 ITKCommon_EXPORT std::ostream &
                  operator<<(std::ostream & out, const AnatomicalOrientation & orientation);
