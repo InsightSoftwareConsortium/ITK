@@ -24,22 +24,6 @@ namespace itk
 {
 
 
-AnatomicalOrientation::AnatomicalOrientation(CoordinateEnum primary, CoordinateEnum secondary, CoordinateEnum tertiary)
-{
-  if (SameOrientationAxes(primary, secondary) || SameOrientationAxes(primary, tertiary) ||
-      SameOrientationAxes(secondary, tertiary))
-  {
-    m_Value = PositiveEnum::INVALID;
-  }
-  else
-  {
-    m_Value = static_cast<PositiveEnum>(
-      (static_cast<uint32_t>(primary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) +
-      (static_cast<uint32_t>(secondary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) +
-      (static_cast<uint32_t>(tertiary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor)));
-  }
-}
-
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 AnatomicalOrientation::AnatomicalOrientation(LegacyOrientationType legacyOrientation)
   : AnatomicalOrientation(SpatialOrientationAdapter().ToDirectionCosines(legacyOrientation))
@@ -47,10 +31,6 @@ AnatomicalOrientation::AnatomicalOrientation(LegacyOrientationType legacyOrienta
   assert(uint32_t(legacyOrientation) == uint32_t(m_Value));
 }
 #endif
-
-AnatomicalOrientation::AnatomicalOrientation(AnatomicalOrientation::NegativeEnum fromOrientation)
-  : m_Value(PositiveEnum(uint32_t(fromOrientation)))
-{}
 
 
 std::string
