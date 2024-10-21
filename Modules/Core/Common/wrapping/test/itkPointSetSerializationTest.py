@@ -52,7 +52,7 @@ for i in range(NumberOfPoints):
 arr = itk.array_view_from_vector_container(v_point)
 points_vc = itk.vector_container_from_array(arr.flatten())
 
-point_set.SetPoints(points_vc)
+point_set.SetPointsByCoordinates(points_vc)
 
 
 # Check the serialization of mesh

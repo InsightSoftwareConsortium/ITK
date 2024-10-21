@@ -50,7 +50,7 @@ for i in range(NumberOfPoints):
 arr = itk.array_view_from_vector_container(v_point)
 points_vc = itk.vector_container_from_array(arr.flatten())
 
-mesh.SetPoints(points_vc)
+mesh.SetPointsByCoordinates(points_vc)
 
 
 # Set Cells in the Mesh as Triangle Cell
@@ -171,7 +171,7 @@ try:
 
         # Create a new ITK Mesh using data from VTK Mesh
         itk_mesh = MeshType.New()
-        itk_mesh.SetPoints(itk.vector_container_from_array(points_numpy))
+        itk_mesh.SetPointsByCoordinates(itk.vector_container_from_array(points_numpy))
         itk_mesh.SetCellsArray(itk.vector_container_from_array(polys_numpy), itk.CommonEnums.CellGeometry_TRIANGLE_CELL)
         itk_mesh.SetPointData(itk.vector_container_from_array(point_data_numpy))
         itk_mesh.SetCellData(itk.vector_container_from_array(cell_data_numpy))
