@@ -60,8 +60,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
 
   // Create the 9x9 input image
-  ImageType::SizeType size;
-  size.Fill(9);
+  auto                  size = ImageType::SizeType::Filled(9);
   ImageType::IndexType  index{};
   ImageType::RegionType region{ index, size };
   inputImage->SetRegions(region);

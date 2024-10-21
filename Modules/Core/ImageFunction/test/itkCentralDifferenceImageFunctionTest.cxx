@@ -30,9 +30,8 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                image = ImageType::New();
-  ImageType::SizeType size;
-  size.Fill(16);
+  auto                  image = ImageType::New();
+  auto                  size = ImageType::SizeType::Filled(16);
   ImageType::RegionType region(size);
 
   image->SetRegions(region);

@@ -48,9 +48,8 @@ itkTriangleMeshToBinaryImageFilterTest1(int argc, char * argv[])
   mySphereMeshSource->Update();
 
   using ImageType = itk::Image<unsigned char, 3>;
-  auto                im = ImageType::New();
-  ImageType::SizeType imSize;
-  imSize.Fill(100);
+  auto im = ImageType::New();
+  auto imSize = ImageType::SizeType::Filled(100);
   im->SetRegions(imSize);
   im->Allocate();
 

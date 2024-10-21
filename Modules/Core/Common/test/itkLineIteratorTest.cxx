@@ -44,8 +44,7 @@ itkLineIteratorTest(int argc, char * argv[])
   // Set up a test image
   ImageType::RegionType::IndexType index{};
 
-  ImageType::RegionType::SizeType size;
-  size.Fill(200);
+  auto size = ImageType::RegionType::SizeType::Filled(200);
 
   ImageType::RegionType region{ index, size };
 

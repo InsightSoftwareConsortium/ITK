@@ -121,8 +121,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // create an input level set using the sphere signed distance function
-  ImageType::SizeType size;
-  size.Fill(128);
+  auto                  size = ImageType::SizeType::Filled(128);
   ImageType::RegionType region;
   region.SetSize(size);
 

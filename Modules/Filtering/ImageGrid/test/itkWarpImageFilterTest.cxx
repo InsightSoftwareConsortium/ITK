@@ -207,14 +207,12 @@ itkWarpImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(outputDirection, warper->GetOutputDirection());
 
   typename WarperType::IndexType::value_type outputStartIndexVal = 0;
-  typename WarperType::IndexType             outputStartIndex;
-  outputStartIndex.Fill(outputStartIndexVal);
+  auto                                       outputStartIndex = WarperType::IndexType::Filled(outputStartIndexVal);
   warper->SetOutputStartIndex(outputStartIndex);
   ITK_TEST_SET_GET_VALUE(outputStartIndex, warper->GetOutputStartIndex());
 
   typename WarperType::SizeType::value_type outputSizeVal = 0;
-  typename WarperType::SizeType             outputSize;
-  outputSize.Fill(outputSizeVal);
+  auto                                      outputSize = WarperType::SizeType::Filled(outputSizeVal);
   warper->SetOutputSize(outputSize);
   ITK_TEST_SET_GET_VALUE(outputSize, warper->GetOutputSize());
 

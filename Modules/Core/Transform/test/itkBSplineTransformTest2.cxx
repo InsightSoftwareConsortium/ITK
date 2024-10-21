@@ -124,8 +124,7 @@ public:
     auto bsplineTransform = TransformType::New();
 
     using MeshSizeType = typename TransformType::MeshSizeType;
-    MeshSizeType meshSize;
-    meshSize.Fill(4);
+    auto meshSize = MeshSizeType::Filled(4);
 
     using PhysicalDimensionsType = typename TransformType::PhysicalDimensionsType;
     PhysicalDimensionsType fixedDimensions;

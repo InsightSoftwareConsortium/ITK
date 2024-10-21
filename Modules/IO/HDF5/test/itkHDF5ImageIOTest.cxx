@@ -271,8 +271,7 @@ HDF5ReadWriteTest(const char * fileName)
     success = EXIT_FAILURE;
   }
 
-  itk::Array<char> metaDataCharArray2;
-  metaDataCharArray2.Fill(char{});
+  itk::Array<char> metaDataCharArray2{};
   if (!itk::ExposeMetaData<itk::Array<char>>(metaDict2, "TestCharArray", metaDataCharArray2) ||
       metaDataCharArray2 != metaDataCharArray)
   {

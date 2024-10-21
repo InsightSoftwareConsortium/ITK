@@ -117,8 +117,7 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
   transformInitializer->SetImage(fixedImage);
   ITK_TEST_SET_GET_VALUE(fixedImage, transformInitializer->GetImage());
 
-  TransformType::MeshSizeType meshSize;
-  meshSize.Fill(4);
+  auto meshSize = TransformType::MeshSizeType::Filled(4);
 
   transformInitializer->SetTransformDomainMeshSize(meshSize);
   ITK_TEST_SET_GET_VALUE(meshSize, transformInitializer->GetTransformDomainMeshSize());

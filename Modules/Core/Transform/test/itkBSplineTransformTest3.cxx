@@ -142,8 +142,7 @@ public:
 
 
     using MeshSizeType = typename TransformType::MeshSizeType;
-    MeshSizeType meshSize;
-    meshSize.Fill(numberOfGridCells);
+    auto meshSize = MeshSizeType::Filled(numberOfGridCells);
 
     using PhysicalDimensionsType = typename TransformType::PhysicalDimensionsType;
     PhysicalDimensionsType fixedDimensions;

@@ -96,8 +96,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   std::cout << "Creating dummy image...";
   auto originalImage = OriginalImageType::New();
 
-  ImageSizeType imageSize;
-  imageSize.Fill(20);
+  auto imageSize = ImageSizeType::Filled(20);
   originalImage->SetRegions(imageSize);
   originalImage->Allocate();
 

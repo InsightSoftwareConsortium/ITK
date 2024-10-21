@@ -165,8 +165,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   std::cout << "Generate input images and initial field";
   std::cout << std::endl;
 
-  SizeType size;
-  size.Fill(256);
+  auto size = SizeType::Filled(256);
   size[1] = 251;
 
   IndexType index{};

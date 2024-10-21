@@ -85,8 +85,7 @@ itkVectorImageToImageAdaptorTest(int, char *[])
   }
 
   // test Get/SetPixel() methods
-  VectorImageToImageAdaptorType::IndexType index;
-  index.Fill(10);
+  auto index = VectorImageToImageAdaptorType::IndexType::Filled(10);
   ITK_TEST_EXPECT_EQUAL(PixelType(componentToExtract), vectorImageToImageAdaptor->GetPixel(index));
 
   PixelType v = 4.4f;

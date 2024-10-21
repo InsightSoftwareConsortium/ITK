@@ -86,8 +86,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(registration, MultiResolutionImageRegistrationMethod, ProcessObject);
 
 
-  FixedImageType::SizeType size;
-  size.Fill(8);
+  auto size = FixedImageType::SizeType::Filled(8);
 
   FixedImageType::RegionType region(size);
   fixedImage->SetRegions(region);

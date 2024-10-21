@@ -71,8 +71,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
 
   // Create output information.
-  SizeType size;
-  size.Fill(20);
+  auto        size = SizeType::Filled(20);
   IndexType   index{};
   SpacingType spacing;
   spacing.Fill(0.7);

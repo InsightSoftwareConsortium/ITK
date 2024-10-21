@@ -46,8 +46,7 @@ itkAdaptiveHistogramEqualizationImageFilterTest(int argc, char * argv[])
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  FilterType::ImageSizeType radius;
-  radius.Fill(std::stoi(argv[3]));
+  auto radius = FilterType::ImageSizeType::Filled(std::stoi(argv[3]));
 
   auto filter = FilterType::New();
 

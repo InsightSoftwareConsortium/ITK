@@ -128,8 +128,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   auto                      movingImage = MovingImageType::New();
   VirtualImageType::Pointer virtualImage = fixedImage;
 
-  MovingImageType::SizeType size;
-  size.Fill(100);
+  auto size = MovingImageType::SizeType::Filled(100);
 
   movingImage->SetRegions(size);
   fixedImage->SetRegions(size);

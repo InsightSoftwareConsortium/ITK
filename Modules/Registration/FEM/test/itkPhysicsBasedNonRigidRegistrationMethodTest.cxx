@@ -127,14 +127,12 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(nonConnectivity, filter->GetNonConnectivity());
 
   auto blockRadiusValue = static_cast<PBNRRFilterType::ImageSizeType::SizeValueType>(std::stod(argv[8]));
-  PBNRRFilterType::ImageSizeType blockRadius;
-  blockRadius.Fill(blockRadiusValue);
+  auto blockRadius = PBNRRFilterType::ImageSizeType::Filled(blockRadiusValue);
   filter->SetBlockRadius(blockRadius);
   ITK_TEST_SET_GET_VALUE(blockRadius, filter->GetBlockRadius());
 
   auto searchRadiusValue = static_cast<PBNRRFilterType::ImageSizeType::SizeValueType>(std::stod(argv[9]));
-  PBNRRFilterType::ImageSizeType searchRadius;
-  searchRadius.Fill(searchRadiusValue);
+  auto searchRadius = PBNRRFilterType::ImageSizeType::Filled(searchRadiusValue);
   filter->SetSearchRadius(searchRadius);
   ITK_TEST_SET_GET_VALUE(searchRadius, filter->GetSearchRadius());
 

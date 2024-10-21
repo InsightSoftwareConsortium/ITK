@@ -61,8 +61,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   auto transform = TransformType::New();
   auto interpolator = InterpolatorType::New();
 
-  FixedImageType::SizeType fixedImageSize;
-  fixedImageSize.Fill(128);
+  auto fixedImageSize = FixedImageType::SizeType::Filled(128);
 
   // Create fixed image
   auto fixedImage = FixedImageType::New();
@@ -80,8 +79,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
     }
   }
 
-  MovingImageType::SizeType movingImageSize;
-  movingImageSize.Fill(128);
+  auto movingImageSize = MovingImageType::SizeType::Filled(128);
 
   // Create moving image
   auto movingImage = MovingImageType::New();

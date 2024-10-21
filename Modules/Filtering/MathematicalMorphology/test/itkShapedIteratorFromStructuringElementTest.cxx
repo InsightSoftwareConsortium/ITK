@@ -24,8 +24,7 @@ CreateImagex(LocalImageType::Pointer & image)
 {
   LocalImageType::IndexType start{};
 
-  LocalImageType::SizeType size;
-  size.Fill(10);
+  auto size = LocalImageType::SizeType::Filled(10);
 
   LocalImageType::RegionType region(start, size);
 

@@ -124,8 +124,7 @@ itkImageFunctionTest(int, char *[])
 
   auto image = ImageType::New();
 
-  IndexType start;
-  start.Fill(1);
+  auto     start = IndexType::Filled(1);
   SizeType size;
   size[0] = 3;
   size[1] = 4;

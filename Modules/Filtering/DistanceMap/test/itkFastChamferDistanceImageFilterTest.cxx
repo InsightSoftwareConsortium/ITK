@@ -67,8 +67,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   using ImageType = itk::Image<PixelType, VDimension>;
   using PointType = itk::Point<double, VDimension>;
 
-  typename ImageType::SizeType size;
-  size.Fill(32);
+  auto                           size = ImageType::SizeType::Filled(32);
   typename ImageType::IndexType  index{};
   typename ImageType::RegionType region{ index, size };
 

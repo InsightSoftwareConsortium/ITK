@@ -30,14 +30,12 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   using SourceType = itk::FastMarchingImageFilter<ImageType>;
   auto source = SourceType::New();
 
-  ImageType::SizeType size;
-  size.Fill(17);
+  auto size = ImageType::SizeType::Filled(17);
 
   source->SetOutputSize(size);
 
   SourceType::NodeType node;
-  ImageType::IndexType index;
-  index.Fill(8);
+  auto                 index = ImageType::IndexType::Filled(8);
 
   node.SetIndex(index);
   node.SetValue(-4.0);

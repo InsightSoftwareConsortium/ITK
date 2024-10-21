@@ -99,11 +99,9 @@ NeighborhoodAlgorithmTest()
 
   IndexType ind{};
 
-  SizeType size;
-  size.Fill(5);
+  auto size = SizeType::Filled(5);
 
-  SizeType radius;
-  radius.Fill(1);
+  auto radius = SizeType::Filled(1);
 
   RegionType region(ind, size);
 

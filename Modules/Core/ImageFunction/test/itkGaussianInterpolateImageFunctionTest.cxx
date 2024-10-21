@@ -45,8 +45,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
 
   ImageType::IndexType start{};
 
-  ImageType::SizeType size;
-  size.Fill(3);
+  auto size = ImageType::SizeType::Filled(3);
 
   ImageType::RegionType region{ start, size };
 
@@ -69,8 +68,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
 
   interpolator->SetInputImage(image);
 
-  typename ImageType::SizeType radius;
-  radius.Fill(1);
+  auto radius = ImageType::SizeType::Filled(1);
   for (unsigned int d = 0; d < ImageType::ImageDimension; ++d)
   {
     ITK_TEST_SET_GET_VALUE(radius[d], interpolator->GetRadius()[d]);

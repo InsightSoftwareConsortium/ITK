@@ -47,9 +47,8 @@ itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
   reader->Update();
 
   using KernelType = itk::BinaryBallStructuringElement<bool, dim>;
-  KernelType           ball;
-  KernelType::SizeType ballSize;
-  ballSize.Fill(std::stoi(argv[3]));
+  KernelType ball;
+  auto       ballSize = KernelType::SizeType::Filled(std::stoi(argv[3]));
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 

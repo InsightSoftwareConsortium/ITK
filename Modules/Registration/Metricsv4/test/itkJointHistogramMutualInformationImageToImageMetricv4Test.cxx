@@ -36,8 +36,7 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  ImageType::SizeType size;
-  size.Fill(imageSize);
+  auto                   size = ImageType::SizeType::Filled(imageSize);
   ImageType::IndexType   index{};
   ImageType::RegionType  region{ index, size };
   ImageType::SpacingType spacing;

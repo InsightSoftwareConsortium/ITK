@@ -732,8 +732,7 @@ set2DInterpData(ImageType2D::Pointer imgPtr)
                         -225.6000, -84.6000,  0,         28.2000,   0,        -84.6000, -543.0000, -289.6000, -108.6000,
                         0,         36.2000,   0,         -108.6000 };
 
-  ImageType2D::IndexType index;
-  index.Fill(10);
+  auto index = ImageType2D::IndexType::Filled(10);
 
   ImageType2D::RegionType region{ index, size };
 

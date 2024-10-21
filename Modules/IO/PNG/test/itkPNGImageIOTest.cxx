@@ -170,8 +170,7 @@ itkPNGImageIOTest(int argc, char * argv[])
 
   auto volume = ImageType3D::New();
 
-  ImageType3D::SizeType size3D;
-  size3D.Fill(10);
+  auto                    size3D = ImageType3D::SizeType::Filled(10);
   ImageType3D::IndexType  start3D{};
   ImageType3D::RegionType region3D{ start3D, size3D };
 
@@ -213,8 +212,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   auto image = ImageType2D::New();
 
-  ImageType2D::SizeType size2D;
-  size2D.Fill(10);
+  auto                    size2D = ImageType2D::SizeType::Filled(10);
   ImageType2D::IndexType  start2D{};
   ImageType2D::RegionType region2D{ start2D, size2D };
 
@@ -255,8 +253,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   auto line = ImageType1D::New();
 
-  ImageType1D::SizeType size1D;
-  size1D.Fill(10);
+  auto                    size1D = ImageType1D::SizeType::Filled(10);
   ImageType1D::IndexType  start1D{};
   ImageType1D::RegionType region1D{ start1D, size1D };
   line->SetRegions(region1D);

@@ -52,9 +52,8 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   using PixelType = itk::Vector<float, VectorLength>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                         image = ImageType::New();
-  typename ImageType::SizeType size;
-  size.Fill(16);
+  auto                           image = ImageType::New();
+  auto                           size = ImageType::SizeType::Filled(16);
   typename ImageType::RegionType region(size);
 
   image->SetRegions(region);

@@ -50,8 +50,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   TimeVaryingVelocityFieldType::SpacingType spacing;
   spacing.Fill(2.0);
 
-  TimeVaryingVelocityFieldType::SizeType size;
-  size.Fill(25);
+  auto size = TimeVaryingVelocityFieldType::SizeType::Filled(25);
 
   VectorType constantVelocity;
   constantVelocity.Fill(0.1);

@@ -35,8 +35,7 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
   auto image1 = Image1Type::New();
   auto image2 = Image2Type::New();
 
-  Image1Type::SizeType size;
-  size.Fill(50);
+  auto size = Image1Type::SizeType::Filled(50);
 
   image1->SetRegions(size);
   image2->SetRegions(size);

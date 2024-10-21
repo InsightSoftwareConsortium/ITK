@@ -30,8 +30,7 @@ itkWhitakerSparseLevelSetImageTest(int, char *[])
   using LabelMapType = SparseLevelSetType::LabelMapType;
   using IndexType = LabelMapType::IndexType;
 
-  IndexType index;
-  index.Fill(3);
+  auto index = IndexType::Filled(3);
 
   auto labelMap = LabelMapType::New();
   labelMap->SetBackgroundValue(3);

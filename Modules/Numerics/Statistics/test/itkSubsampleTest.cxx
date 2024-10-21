@@ -222,8 +222,7 @@ itkSubsampleTest(int, char *[])
 
   std::cout << subsample->GetTotalFrequency() << std::endl;
 
-  ArrayPixelImageType::IndexType index;
-  index.Fill(2); // index {2, 2, 2} = instance identifier (offset from image)
+  auto index = ArrayPixelImageType::IndexType::Filled(2); // index {2, 2, 2} = instance identifier (offset from image)
   ArrayPixelImageType::PixelType     pixel = filter->GetInput()->GetPixel(index);
   ListSampleType::InstanceIdentifier ind =
     static_cast<FloatImage::OffsetValueType>(filter->GetInput()->ComputeOffset(index));

@@ -49,8 +49,7 @@ protected:
     {
       auto image = ImageType::New();
 
-      typename ImageType::SizeType imageSize;
-      imageSize.Fill(m_ImageSize);
+      auto                           imageSize = ImageType::SizeType::Filled(m_ImageSize);
       typename ImageType::RegionType region(imageSize);
       image->SetRegions(region);
       image->Allocate();

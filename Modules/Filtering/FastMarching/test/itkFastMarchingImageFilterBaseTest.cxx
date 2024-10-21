@@ -42,8 +42,7 @@ FastMarchingImageFilterBaseTestFunction()
   bool overrideOutputInformation = true;
   ITK_TEST_SET_GET_BOOLEAN(fastMarchingFilter, OverrideOutputInformation, overrideOutputInformation);
 
-  typename FastMarchingImageFilterType::OutputSizeType outputSize;
-  outputSize.Fill(32);
+  auto outputSize = FastMarchingImageFilterType::OutputSizeType::Filled(32);
   fastMarchingFilter->SetOutputSize(outputSize);
   ITK_TEST_SET_GET_VALUE(outputSize, fastMarchingFilter->GetOutputSize());
 

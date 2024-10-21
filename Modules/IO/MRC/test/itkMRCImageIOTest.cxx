@@ -51,9 +51,8 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
     using PixelType = typename ImageType::PixelType;
 
     // allocate an 10x10x10 image
-    auto                         image = ImageType::New();
-    typename ImageType::SizeType m_ImageSize;
-    m_ImageSize.Fill(10);
+    auto image = ImageType::New();
+    auto m_ImageSize = ImageType::SizeType::Filled(10);
     image->SetRegions(m_ImageSize);
     image->Allocate();
 

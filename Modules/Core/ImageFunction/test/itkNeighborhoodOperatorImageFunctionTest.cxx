@@ -66,8 +66,7 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
 
   function->SetOperator(oper);
 
-  itk::Index<3> index;
-  index.Fill(25);
+  auto index = itk::Index<3>::Filled(25);
 
   FunctionType::OutputType Blur;
 

@@ -58,8 +58,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   // Test the derivative of Gaussian image function
   auto gaussianFunction = GFunctionType::New();
   gaussianFunction->SetInputImage(image);
-  itk::Index<2> index;
-  index.Fill(25);
+  auto index = itk::Index<2>::Filled(25);
 
   // Testing Set/GetVariance()
   std::cout << "Testing Set/GetVariance(): ";

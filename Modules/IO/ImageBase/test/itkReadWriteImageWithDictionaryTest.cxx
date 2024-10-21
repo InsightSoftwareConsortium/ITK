@@ -38,8 +38,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   // Create the 16x16 input image
   auto inputImage = ImageType::New();
 
-  ImageType::SizeType size;
-  size.Fill(16);
+  auto                  size = ImageType::SizeType::Filled(16);
   ImageType::IndexType  index{};
   ImageType::RegionType region{ index, size };
   inputImage->SetRegions(region);

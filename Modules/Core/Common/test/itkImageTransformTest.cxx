@@ -46,12 +46,10 @@ TestTransform()
   typename ImageType::PointType point;
   RegionType                    region;
 
-  SizeType size;
-  size.Fill(10);
+  auto size = SizeType::Filled(10);
   region.SetSize(size);
 
-  IndexType index;
-  index.Fill(5);
+  auto index = IndexType::Filled(5);
 
   std::cout << "TransformIndexToPhysicalPoint..." << std::endl;
   orientedImage->TransformIndexToPhysicalPoint(index, point);

@@ -31,9 +31,8 @@ itkBinaryThresholdImageFunctionTest(int, char *[])
 
   auto                   image = FloatImage::New();
   FloatImage::RegionType region;
-  FloatImage::SizeType   size;
-  size.Fill(64);
-  FloatImage::IndexType index{};
+  auto                   size = FloatImage::SizeType::Filled(64);
+  FloatImage::IndexType  index{};
 
   region.SetIndex(index);
   region.SetSize(size);

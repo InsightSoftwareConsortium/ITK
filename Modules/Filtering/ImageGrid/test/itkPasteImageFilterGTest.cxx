@@ -80,8 +80,7 @@ protected:
     {
       auto image = TImage::New();
 
-      typename TImage::SizeType imageSize;
-      imageSize.Fill(size);
+      auto imageSize = TImage::SizeType::Filled(size);
       image->SetRegions(typename TImage::RegionType(imageSize));
       image->Allocate();
       image->FillBuffer(0);

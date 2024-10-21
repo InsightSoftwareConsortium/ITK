@@ -54,8 +54,7 @@ itkSobelOperatorImageFilterTest(int argc, char * argv[])
       auto direction = std::stoul(argv[2]);
       sobelOperator.SetDirection(direction);
 
-      itk::Size<Dimension> radius;
-      radius.Fill(1);
+      auto radius = itk::Size<Dimension>::Filled(1);
       sobelOperator.CreateToRadius(radius);
     }
     filter->SetOperator(sobelOperator);

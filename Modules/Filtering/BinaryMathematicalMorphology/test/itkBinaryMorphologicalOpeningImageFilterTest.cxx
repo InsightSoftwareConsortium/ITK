@@ -48,9 +48,8 @@ itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   reader->SetFileName(argv[1]);
 
   using KernelType = itk::BinaryBallStructuringElement<InputPixelType, dim>;
-  KernelType           ball;
-  KernelType::SizeType ballSize;
-  ballSize.Fill(std::stoi(argv[3]));
+  KernelType ball;
+  auto       ballSize = KernelType::SizeType::Filled(std::stoi(argv[3]));
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 

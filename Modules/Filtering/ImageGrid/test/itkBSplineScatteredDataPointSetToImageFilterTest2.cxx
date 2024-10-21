@@ -79,8 +79,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest2(int argc, char * argv[])
   // Define the parametric domain
   ImageType::SpacingType spacing;
   spacing.Fill(0.01);
-  ImageType::SizeType size;
-  size.Fill(101);
+  auto                 size = ImageType::SizeType::Filled(101);
   ImageType::PointType origin{};
 
   filter->SetSize(size);

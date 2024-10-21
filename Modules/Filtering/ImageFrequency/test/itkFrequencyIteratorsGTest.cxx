@@ -106,8 +106,7 @@ static typename TOutputImageType::Pointer
 CreateImage(unsigned int size)
 {
   using ImageType = itk::Image<char, TOutputImageType::ImageDimension>;
-  typename ImageType::SizeType imageSize;
-  imageSize.Fill(size);
+  auto imageSize = ImageType::SizeType::Filled(size);
   using RandomImageSourceType = itk::RandomImageSource<ImageType>;
   auto randomImageSource = RandomImageSourceType::New();
   randomImageSource->SetNumberOfWorkUnits(1); // to produce reproducible results

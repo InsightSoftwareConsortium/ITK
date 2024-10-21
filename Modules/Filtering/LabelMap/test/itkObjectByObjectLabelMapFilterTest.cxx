@@ -54,9 +54,8 @@ itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
 
   using KernelType = itk::FlatStructuringElement<dim>;
   using DilateType = itk::BinaryDilateImageFilter<ImageType, ImageType, KernelType>;
-  auto                 dilate = DilateType::New();
-  KernelType::SizeType rad;
-  rad.Fill(3);
+  auto dilate = DilateType::New();
+  auto rad = KernelType::SizeType::Filled(3);
   dilate->SetKernel(KernelType::Ball(rad));
 
   using ObOType = itk::ObjectByObjectLabelMapFilter<LabelMapType>;

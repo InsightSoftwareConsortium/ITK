@@ -64,9 +64,8 @@ itkBSplineDeformableTransformTest1()
   OriginType origin{};
 
   using RegionType = TransformType::RegionType;
-  RegionType           region;
-  RegionType::SizeType size;
-  size.Fill(10);
+  RegionType region;
+  auto       size = RegionType::SizeType::Filled(10);
   region.SetSize(size);
   std::cout << region << std::endl;
 
@@ -127,8 +126,7 @@ itkBSplineDeformableTransformTest1()
   /**
    * Populate the spline coefficients with some values.
    */
-  CoefficientImageType::IndexType index;
-  index.Fill(5);
+  auto index = CoefficientImageType::IndexType::Filled(5);
 
   coeffImage[1]->SetPixel(index, 1.0);
 
@@ -600,9 +598,8 @@ itkBSplineDeformableTransformTest3()
   OriginType origin{};
 
   using RegionType = TransformType::RegionType;
-  RegionType           region;
-  RegionType::SizeType size;
-  size.Fill(10);
+  RegionType region;
+  auto       size = RegionType::SizeType::Filled(10);
   region.SetSize(size);
   std::cout << region << std::endl;
 
@@ -648,8 +645,7 @@ itkBSplineDeformableTransformTest3()
   /**
    * Populate the spline coefficients with some values.
    */
-  CoefficientImageType::IndexType index;
-  index.Fill(5);
+  auto index = CoefficientImageType::IndexType::Filled(5);
 
   coeffImage[1]->SetPixel(index, 1.0);
 

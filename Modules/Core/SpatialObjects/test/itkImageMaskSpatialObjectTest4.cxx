@@ -215,8 +215,7 @@ Test2dImageMask()
 
   auto imageFilter = SpatialObjectToImageFilterType::New();
 
-  itk::Size<2> size;
-  size.Fill(10);
+  auto size = itk::Size<2>::Filled(10);
   //  The SpatialObjectToImageFilter requires that the user defines the grid
   //  parameters of the output image. This includes the number of pixels along
   //  each dimension, the pixel spacing, and image direction

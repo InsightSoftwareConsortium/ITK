@@ -61,8 +61,7 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
 
   auto inputImage = myImageType::New();
 
-  mySizeType size;
-  size.Fill(8);
+  auto size = mySizeType::Filled(8);
 
   myIndexType start{};
 

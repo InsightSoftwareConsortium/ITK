@@ -36,10 +36,7 @@ itkImageFileWriterTest(int argc, char * argv[])
   auto                    image = ImageNDType::New();
   ImageNDType::RegionType region;
   ImageNDType::IndexType  index;
-  ImageNDType::SizeType   size;
-
-
-  size.Fill(5);
+  auto                    size = ImageNDType::SizeType::Filled(5);
   index.Fill(0);
   region.SetSize(size);
   region.SetIndex(index);

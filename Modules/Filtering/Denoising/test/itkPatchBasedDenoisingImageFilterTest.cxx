@@ -207,8 +207,7 @@ doDenoising(const std::string & inputFileName,
       filter->GetNoiseModel() == FilterType::NoiseModelEnum::POISSON)
   {
     typename ImageT::IndexType::IndexValueType indexValue = 0;
-    typename ImageT::IndexType                 pixelIndex;
-    pixelIndex.Fill(indexValue);
+    auto                                       pixelIndex = ImageT::IndexType::Filled(indexValue);
 
     typename ImageT::PixelType originalPixelValue = inputImage->GetPixel(pixelIndex);
 

@@ -249,14 +249,12 @@ TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
 
   // Create a "dummy" image.
   const auto image = ImageType::New();
-  SizeType   imageSize;
-  imageSize.Fill(1);
+  auto       imageSize = SizeType::Filled(1);
   image->SetRegions(imageSize);
   image->AllocateInitialized();
 
   // Create a radius, (just) large enough for all offsets activated below here.
-  SizeType radius;
-  radius.Fill(1);
+  auto radius = SizeType::Filled(1);
 
   itk::ConstShapedNeighborhoodIterator<ImageType> shapedNeighborhoodIterator{ radius,
                                                                               image,

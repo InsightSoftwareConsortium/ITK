@@ -74,9 +74,8 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   const InputPixelType     insideValue = std::stoi(argv[1]);
   constexpr InputPixelType outsideValue = 0;
 
-  auto                     image = InputImageType::New();
-  InputImageType::SizeType size;
-  size.Fill(64);
+  auto                       image = InputImageType::New();
+  auto                       size = InputImageType::SizeType::Filled(64);
   InputImageType::RegionType region(size);
 
   image->SetRegions(region);

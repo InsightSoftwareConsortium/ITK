@@ -57,8 +57,7 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
   direction2D[0][1] = .7;
   direction2D[1][0] = .7;
   direction2D[1][1] = .5;
-  Image2DType::SizeType size2D;
-  size2D.Fill(16);
+  auto size2D = Image2DType::SizeType::Filled(16);
 
   auto src2D = RandomImageSource2DType::New();
   src2D->SetMin(0);

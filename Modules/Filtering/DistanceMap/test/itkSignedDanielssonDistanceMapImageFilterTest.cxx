@@ -52,8 +52,7 @@ test(int testIdx)
    * give the same output as DaniessonDistanceMapImageFilter  */
 
   /* Allocate the 2D image */
-  myImageType2D1::SizeType size2D;
-  size2D.Fill(9);
+  auto size2D = myImageType2D1::SizeType::Filled(9);
 
   myImageType2D1::IndexType index2D{};
 

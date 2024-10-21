@@ -209,8 +209,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
 
   using ImageType = itk::Image<double, ImageDimensionality>;
 
-  typename ImageType::SizeType size;
-  size.Fill(imageSize);
+  auto                            size = ImageType::SizeType::Filled(imageSize);
   typename ImageType::IndexType   virtualIndex{};
   typename ImageType::RegionType  region{ virtualIndex, size };
   typename ImageType::SpacingType spacing;

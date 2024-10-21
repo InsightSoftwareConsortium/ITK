@@ -74,9 +74,8 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   using SamplerType = itk::Statistics::SpatialNeighborSubsampler<AdaptorType, RegionType>;
   using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
 
-  auto     inImage = ImageType::New();
-  SizeType sz;
-  sz.Fill(25);
+  auto       inImage = ImageType::New();
+  auto       sz = SizeType::Filled(25);
   IndexType  idx{};
   RegionType region{ idx, sz };
 

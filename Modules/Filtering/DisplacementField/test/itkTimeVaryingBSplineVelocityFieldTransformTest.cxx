@@ -35,8 +35,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   TimeVaryingVelocityFieldControlPointLatticeType::SpacingType spacing;
   spacing.Fill(2.0);
 
-  TimeVaryingVelocityFieldControlPointLatticeType::SizeType size;
-  size.Fill(25);
+  auto size = TimeVaryingVelocityFieldControlPointLatticeType::SizeType::Filled(25);
 
   VectorType displacement1;
   displacement1.Fill(0.1);

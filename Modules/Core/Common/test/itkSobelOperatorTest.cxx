@@ -44,8 +44,7 @@ itkSobelOperatorTest(int, char *[])
     sobelOperator.SetDirection(direction);
     ITK_TEST_SET_GET_VALUE(direction, sobelOperator.GetDirection());
 
-    itk::Size<Dimension2D> radius;
-    radius.Fill(1);
+    auto radius = itk::Size<Dimension2D>::Filled(1);
     sobelOperator.CreateToRadius(radius);
 
     itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesHoriz{
@@ -86,8 +85,7 @@ itkSobelOperatorTest(int, char *[])
     sobelOperator.SetDirection(direction);
     ITK_TEST_SET_GET_VALUE(direction, sobelOperator.GetDirection());
 
-    itk::Size<Dimension3D> radius;
-    radius.Fill(1);
+    auto radius = itk::Size<Dimension3D>::Filled(1);
     sobelOperator.CreateToRadius(radius);
 
     itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesX{
@@ -140,8 +138,7 @@ itkSobelOperatorTest(int, char *[])
 
     unsigned long direction = 0;
     sobelOperator.SetDirection(direction);
-    itk::Size<Dimension4D> radius;
-    radius.Fill(1);
+    auto radius = itk::Size<Dimension4D>::Filled(1);
     ITK_TRY_EXPECT_EXCEPTION(sobelOperator.CreateToRadius(radius));
   }
 

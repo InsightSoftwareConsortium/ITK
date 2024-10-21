@@ -50,9 +50,8 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   // create an image of vectors
   auto                  image = ImageType::New();
   ImageType::RegionType region;
-  ImageType::SizeType   size;
-  size.Fill(100);
-  ImageType::IndexType index{};
+  auto                  size = ImageType::SizeType::Filled(100);
+  ImageType::IndexType  index{};
 
   region.SetSize(size);
   region.SetIndex(index);

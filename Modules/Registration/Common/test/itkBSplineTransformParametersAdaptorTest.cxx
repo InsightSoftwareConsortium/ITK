@@ -40,8 +40,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
   dimensions.Fill(100);
 
   using MeshSizeType = TransformType::MeshSizeType;
-  MeshSizeType meshSize;
-  meshSize.Fill(10);
+  auto meshSize = MeshSizeType::Filled(10);
 
   using DirectionType = TransformType::DirectionType;
   DirectionType direction;
@@ -70,8 +69,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
   transform->SetParameters(parameters);
 
   using CoefficientImageType = TransformType::ImageType;
-  CoefficientImageType::IndexType index;
-  index.Fill(5);
+  auto index = CoefficientImageType::IndexType::Filled(5);
   transform->GetCoefficientImages()[0]->SetPixel(index, 5.0);
 
   TransformType::InputPointType point;

@@ -44,8 +44,7 @@ sliceCallBack(itk::Object * object, const itk::EventObject &, void *)
   // std::cout << "callback! slice: " << filter->GetSliceIndex() << std::endl;
 
   // set half of the slice number as radius
-  MedianType::InputSizeType radius;
-  radius.Fill(filter->GetSliceIndex() / 2);
+  auto radius = MedianType::InputSizeType::Filled(filter->GetSliceIndex() / 2);
   median->SetRadius(radius);
 }
 

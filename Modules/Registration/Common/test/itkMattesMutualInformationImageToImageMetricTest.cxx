@@ -537,8 +537,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   {
     dimensions[dim] = imgFixed->GetSpacing()[dim] * (imgFixed->GetLargestPossibleRegion().GetSize()[dim] - 1);
   }
-  typename TransformType::MeshSizeType meshSize;
-  meshSize.Fill(4);
+  auto meshSize = TransformType::MeshSizeType::Filled(4);
 
   auto transformer = TransformType::New();
 

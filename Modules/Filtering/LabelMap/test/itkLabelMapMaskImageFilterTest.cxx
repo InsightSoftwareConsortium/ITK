@@ -119,8 +119,7 @@ itkLabelMapMaskImageFilterTest(int argc, char * argv[])
     ITK_TEST_SET_GET_VALUE(false, maskFilter->GetCrop());
   }
 
-  MaskFilterType::SizeType border;
-  border.Fill(std::stoi(argv[8]));
+  auto border = MaskFilterType::SizeType::Filled(std::stoi(argv[8]));
   maskFilter->SetCropBorder(border);
   ITK_TEST_SET_GET_VALUE(border, maskFilter->GetCropBorder());
 

@@ -79,8 +79,7 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(nonConnectivity, filter->GetNonConnectivity());
 
   auto blockRadiusValue = static_cast<typename FilterType::SizeType::SizeValueType>(std::stod(argv[4]));
-  typename FilterType::SizeType blockRadius;
-  blockRadius.Fill(blockRadiusValue);
+  auto blockRadius = FilterType::SizeType::Filled(blockRadiusValue);
   filter->SetBlockRadius(blockRadius);
   ITK_TEST_SET_GET_VALUE(blockRadius, filter->GetBlockRadius());
 

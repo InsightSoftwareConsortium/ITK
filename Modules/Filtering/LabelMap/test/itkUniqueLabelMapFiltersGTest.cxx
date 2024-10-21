@@ -80,8 +80,7 @@ protected:
       const size_t size = 25;
       auto         image = LabelImageType::New();
 
-      typename LabelImageType::SizeType imageSize;
-      imageSize.Fill(size);
+      auto imageSize = LabelImageType::SizeType::Filled(size);
       image->SetRegions(typename LabelImageType::RegionType(imageSize));
       image->Allocate();
       image->FillBuffer(0);
@@ -108,9 +107,8 @@ protected:
 
       using KernelType = itk::FlatStructuringElement<Dimension>;
       using DilateType = itk::BinaryDilateImageFilter<LabelImageType, LabelImageType, KernelType>;
-      auto                          dilate = DilateType::New();
-      typename KernelType::SizeType rad;
-      rad.Fill(dilateRadius);
+      auto dilate = DilateType::New();
+      auto rad = KernelType::SizeType::Filled(dilateRadius);
       dilate->SetKernel(KernelType::Ball(rad));
 
 

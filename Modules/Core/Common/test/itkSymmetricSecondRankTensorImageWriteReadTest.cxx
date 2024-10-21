@@ -37,8 +37,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int argc, char * argv[])
 
   auto tensorImageInput = TensorImageType::New();
 
-  TensorImageType::SizeType size;
-  size.Fill(10);
+  auto size = TensorImageType::SizeType::Filled(10);
 
   TensorImageType::IndexType start{};
 
