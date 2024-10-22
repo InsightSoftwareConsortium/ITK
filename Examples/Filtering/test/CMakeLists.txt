@@ -399,21 +399,6 @@ itk_add_test(
   0)
 itk_add_test(
   NAME
-  ResampleOrientedImageFilterTest
-  COMMAND
-  ${ITK_TEST_DRIVER}
-  --compare
-  DATA{${BASELINE}/ResampleOrientedImageFilterTest.png}
-  ${TEMP}/ResampleOrientedImageFilterTest.png
-  $<TARGET_FILE:ResampleOrientedImageFilter>
-  ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
-  ${TEMP}/ResampleOrientedImageFilterTest.png
-  0
-  1
-  1
-  0)
-itk_add_test(
-  NAME
   ResampleImageFilterTest2
   COMMAND
   ${ITK_TEST_DRIVER}

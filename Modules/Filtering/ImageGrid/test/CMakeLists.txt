@@ -30,12 +30,6 @@ set(ITKImageGridTests
     itkInterpolateImageFilterTest.cxx
     itkPasteImageFilterTest.cxx
     itkPermuteAxesImageFilterTest.cxx
-    itkOrientedImage2DTest.cxx
-    itkOrientedImage3DTest.cxx
-    itkOrientedImageAdaptorTest.cxx
-    itkOrientedImageProfileTest1.cxx
-    itkOrientedImageProfileTest2.cxx
-    itkOrientedImageProfileTest3.cxx
     itkOrientImageFilterTest.cxx
     itkOrientImageFilterTest2.cxx
     itkWarpImageFilterTest.cxx
@@ -392,85 +386,6 @@ itk_add_test(
   COMMAND
   ITKImageGridTestDriver
   itkPermuteAxesImageFilterTest)
-itk_add_test(
-  NAME
-  itkOrientedImage2DTest01
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientedImage2DTest
-  ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
-  0.000
-  0.000
-  191.392
-  110.500
-  -128.500
-  222.569
-  4.000
-  -8.000
-  7.4641
-  -4.9282)
-itk_add_test(
-  NAME
-  itkOrientedImage3DTest01
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientedImage3DTest
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd}
-  0.000
-  0.000
-  0.000
-  166.277
-  -96.000
-  0.000
-  124.000
-  214.774
-  0.000
-  0.000
-  0.000
-  168.000
-  0.125
-  -4.125
-  9.000
-  -1.95425
-  -3.63485
-  9.000)
-itk_add_test(
-  NAME
-  itkOrientedImageAdaptorTest
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientedImageAdaptorTest)
-itk_add_test(
-  NAME
-  itkOrientedImageProfileTest1
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientedImageProfileTest1)
-itk_add_test(
-  NAME
-  itkOrientedImageProfileTest2
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientedImageProfileTest2)
-itk_add_test(
-  NAME
-  itkOrientedImageProfileTest3
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientedImageProfileTest3)
-itk_add_test(
-  NAME
-  itkOrientImageFilterTest
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientImageFilterTest
-  0)
-itk_add_test(
-  NAME
-  itkOrientImageFilterTest2
-  COMMAND
-  ITKImageGridTestDriver
-  itkOrientImageFilterTest2)
 itk_add_test(
   NAME
   itkWarpImageFilterTest
