@@ -119,7 +119,7 @@ outputs = ["build-debug/CMakeFiles/"]
 
 [tool.pixi.feature.python.tasks.build-debug-python]
 cmd = "cmake --build build-debug-python"
-description = "Build ITK - Debug"
+description = "Build ITK Python - Debug"
 outputs = ["build-debug/lib/**"]
 depends-on = ["configure-debug-python"]
 
