@@ -27,7 +27,7 @@ image = itk.imread(argv[1])
 reoriented_image = itk.orient_image_filter(
     image,
     use_image_direction=True,
-    desired_coordinate_orientation=itk.SpatialOrientationEnums.ValidCoordinateOrientations_ITK_COORDINATE_ORIENTATION_LPI
+    desired_coordinate_orientation=itk.AnatomicalOrientation.PositiveEnum.RAS
     )
 
 itk.imwrite(reoriented_image, argv[2])

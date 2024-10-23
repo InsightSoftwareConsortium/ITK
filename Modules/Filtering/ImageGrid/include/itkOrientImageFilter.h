@@ -20,7 +20,7 @@
 
 #include "itkPermuteAxesImageFilter.h"
 #include "itkFlipImageFilter.h"
-#include "itkSpatialOrientationAdapter.h"
+#include "itkAnatomicalOrientation.h"
 #include <map>
 #include <string>
 
@@ -161,7 +161,7 @@ public:
   using OutputImageConstPointer = typename OutputImageType::ConstPointer;
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
-  using CoordinateOrientationCode = SpatialOrientationEnums::ValidCoordinateOrientations;
+  using CoordinateOrientationCode = AnatomicalOrientation;
 
   /** Axes permuter type. */
   using PermuterType = PermuteAxesImageFilter<TInputImage>;
@@ -189,7 +189,7 @@ public:
   inline void
   SetGivenCoordinateDirection(const typename TInputImage::DirectionType & GivenDirection)
   {
-    SetGivenCoordinateOrientation(itk::SpatialOrientationAdapter().FromDirectionCosines(GivenDirection));
+    SetGivenCoordinateOrientation(AnatomicalOrientation(GivenDirection));
   }
 
   itkGetEnumMacro(DesiredCoordinateOrientation, CoordinateOrientationCode);
@@ -199,7 +199,7 @@ public:
   inline void
   SetDesiredCoordinateDirection(const typename TOutputImage::DirectionType & DesiredDirection)
   {
-    SetDesiredCoordinateOrientation(itk::SpatialOrientationAdapter().FromDirectionCosines(DesiredDirection));
+    SetDesiredCoordinateOrientation(AnatomicalOrientation(DesiredDirection));
   }
 
   /** Controls how the GivenCoordinateOrientation is determined.
@@ -234,22 +234,25 @@ public:
   void
   SetDesiredCoordinateOrientationToAxial()
   {
-    this->SetDesiredCoordinateOrientation(
-      SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI);
+    this->SetDesiredCoordinateOrientation({ AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                            AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+                                            AnatomicalOrientation::CoordinateEnum::InferiorToSuperior });
   }
 
   void
   SetDesiredCoordinateOrientationToCoronal()
   {
-    this->SetDesiredCoordinateOrientation(
-      SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSA);
+    this->SetDesiredCoordinateOrientation({ AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                            AnatomicalOrientation::CoordinateEnum::SuperiorToInferior,
+                                            AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior });
   }
 
   void
   SetDesiredCoordinateOrientationToSagittal()
   {
-    this->SetDesiredCoordinateOrientation(
-      SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL);
+    this->SetDesiredCoordinateOrientation({ AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+                                            AnatomicalOrientation::CoordinateEnum::SuperiorToInferior,
+                                            AnatomicalOrientation::CoordinateEnum::LeftToRight });
   }
 
   /** OrientImageFilter produces an image which is a different
@@ -286,10 +289,13 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
+  void
+  VerifyPreconditions() const override;
+
   /*** Member functions used by GenerateData: */
   void
-  DeterminePermutationsAndFlips(const SpatialOrientationEnums::ValidCoordinateOrientations fixed_orient,
-                                const SpatialOrientationEnums::ValidCoordinateOrientations moving_orient);
+  DeterminePermutationsAndFlips(const CoordinateOrientationCode fixed_orient,
+                                const CoordinateOrientationCode moving_orient);
 
   /** Returns true if a permute is required. Returns false otherwise. */
   bool
@@ -305,22 +311,19 @@ protected:
   GenerateData() override;
 
 private:
-  std::string
-  GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
-
-  CoordinateOrientationCode m_GivenCoordinateOrientation{
-    SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP
-  };
+  CoordinateOrientationCode m_GivenCoordinateOrientation{ AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                                                          AnatomicalOrientation::CoordinateEnum::InferiorToSuperior,
+                                                          AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior };
   CoordinateOrientationCode m_DesiredCoordinateOrientation{
-    SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP
+    AnatomicalOrientation::CoordinateEnum::RightToLeft,
+    AnatomicalOrientation::CoordinateEnum::InferiorToSuperior,
+    AnatomicalOrientation::CoordinateEnum::PosteriorToAnterior
   };
   bool m_UseImageDirection{ false };
 
   PermuteOrderArrayType m_PermuteOrder{};
-  FlipAxesArrayType     m_FlipAxes{};
+  FlipAxesArrayType     m_FlipAxes{ false };
 
-  std::map<std::string, CoordinateOrientationCode> m_StringToCode{};
-  std::map<CoordinateOrientationCode, std::string> m_CodeToString{};
 }; // end of class
 } // end namespace itk
 

@@ -30,106 +30,6 @@ template <typename TInputImage, typename TOutputImage>
 OrientImageFilter<TInputImage, TOutputImage>::OrientImageFilter()
   : m_FlipAxes(false)
 {
-  // Map between axis string labels and spatial orientation
-  m_StringToCode["RIP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
-  m_StringToCode["LIP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP;
-  m_StringToCode["RSP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
-  m_StringToCode["LSP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSP;
-  m_StringToCode["RIA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIA;
-  m_StringToCode["LIA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIA;
-  m_StringToCode["RSA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSA;
-  m_StringToCode["LSA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSA;
-  m_StringToCode["IRP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRP;
-  m_StringToCode["ILP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILP;
-  m_StringToCode["SRP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRP;
-  m_StringToCode["SLP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLP;
-  m_StringToCode["IRA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRA;
-  m_StringToCode["ILA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILA;
-  m_StringToCode["SRA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRA;
-  m_StringToCode["SLA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLA;
-  m_StringToCode["RPI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPI;
-  m_StringToCode["LPI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPI;
-  m_StringToCode["RAI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
-  m_StringToCode["LAI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAI;
-  m_StringToCode["RPS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPS;
-  m_StringToCode["LPS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPS;
-  m_StringToCode["RAS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAS;
-  m_StringToCode["LAS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAS;
-  m_StringToCode["PRI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRI;
-  m_StringToCode["PLI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLI;
-  m_StringToCode["ARI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARI;
-  m_StringToCode["ALI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALI;
-  m_StringToCode["PRS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRS;
-  m_StringToCode["PLS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLS;
-  m_StringToCode["ARS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARS;
-  m_StringToCode["ALS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALS;
-  m_StringToCode["IPR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPR;
-  m_StringToCode["SPR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPR;
-  m_StringToCode["IAR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAR;
-  m_StringToCode["SAR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAR;
-  m_StringToCode["IPL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPL;
-  m_StringToCode["SPL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPL;
-  m_StringToCode["IAL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAL;
-  m_StringToCode["SAL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAL;
-  m_StringToCode["PIR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIR;
-  m_StringToCode["PSR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSR;
-  m_StringToCode["AIR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
-  m_StringToCode["ASR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASR;
-  m_StringToCode["PIL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIL;
-  m_StringToCode["PSL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSL;
-  m_StringToCode["AIL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIL;
-  m_StringToCode["ASL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL;
-
-  // Map between spatial orientation and axis string labels
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP] = "RIP";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP] = "LIP";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP] = "RSP";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSP] = "LSP";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIA] = "RIA";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIA] = "LIA";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSA] = "RSA";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSA] = "LSA";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRP] = "IRP";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILP] = "ILP";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRP] = "SRP";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLP] = "SLP";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRA] = "IRA";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILA] = "ILA";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRA] = "SRA";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLA] = "SLA";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPI] = "RPI";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPI] = "LPI";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI] = "RAI";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAI] = "LAI";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPS] = "RPS";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPS] = "LPS";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAS] = "RAS";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAS] = "LAS";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRI] = "PRI";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLI] = "PLI";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARI] = "ARI";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALI] = "ALI";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRS] = "PRS";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLS] = "PLS";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARS] = "ARS";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALS] = "ALS";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPR] = "IPR";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPR] = "SPR";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAR] = "IAR";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAR] = "SAR";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPL] = "IPL";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPL] = "SPL";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAL] = "IAL";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAL] = "SAL";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIR] = "PIR";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSR] = "PSR";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR] = "AIR";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASR] = "ASR";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIL] = "PIL";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSL] = "PSL";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIL] = "AIL";
-  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL] = "ASL";
-
   for (unsigned int dimension = 0; dimension < InputImageDimension; ++dimension)
   {
     this->m_PermuteOrder[dimension] = dimension;
@@ -183,46 +83,33 @@ OrientImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataO
   this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
 }
 
+
+template <typename TInputImage, typename TOutputImage>
+void
+OrientImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
+{
+  Superclass::VerifyPreconditions();
+
+  if (this->m_DesiredCoordinateOrientation == AnatomicalOrientation::PositiveEnum::INVALID)
+  {
+    itkExceptionMacro(<< "DesiredCoordinateOrientation is 'INVALID'.");
+  }
+}
+
+
 template <typename TInputImage, typename TOutputImage>
 void
 OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
-  const SpatialOrientationEnums::ValidCoordinateOrientations fixed_orient,
-  const SpatialOrientationEnums::ValidCoordinateOrientations moving_orient)
+  const CoordinateOrientationCode fixed_orient,
+  const CoordinateOrientationCode moving_orient)
 {
   // 3-dimensional version of code system only. The 3-axis testing is unrolled.
-  constexpr unsigned int NumDims = 3;        // InputImageDimension is
-                                             // regarded as 3.
-  constexpr unsigned int CodeField = 15;     // 4 bits wide
-  constexpr unsigned int CodeAxisField = 14; // 3 bits wide, above the
-                                             // 0-place bit.
+  constexpr unsigned int NumDims = 3; // InputImageDimension is
+                                      // regarded as 3.
   constexpr unsigned int CodeAxisIncreasingField = 1;
-  uint32_t               fixed_codes[NumDims];
-  uint32_t               moving_codes[NumDims];
+  auto                   fixed_codes = fixed_orient.GetTerms();
+  auto                   moving_codes = moving_orient.GetTerms();
 
-  fixed_codes[0] =
-    (static_cast<uint32_t>(fixed_orient) >>
-     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_PrimaryMinor)) &
-    CodeField;
-  fixed_codes[1] =
-    (static_cast<uint32_t>(fixed_orient) >>
-     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_SecondaryMinor)) &
-    CodeField;
-  fixed_codes[2] =
-    (static_cast<uint32_t>(fixed_orient) >>
-     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_TertiaryMinor)) &
-    CodeField;
-  moving_codes[0] =
-    (static_cast<uint32_t>(moving_orient) >>
-     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_PrimaryMinor)) &
-    CodeField;
-  moving_codes[1] =
-    (static_cast<uint32_t>(moving_orient) >>
-     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_SecondaryMinor)) &
-    CodeField;
-  moving_codes[2] =
-    (static_cast<uint32_t>(moving_orient) >>
-     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_TertiaryMinor)) &
-    CodeField;
 
   // i, j, k will be the indexes in the Majorness code of the axes to flip;
   // they encode the axes as the reader will find them, 0 is the lowest order
@@ -231,20 +118,20 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
 
   for (unsigned int i = 0; i < NumDims - 1; ++i)
   {
-    if ((fixed_codes[i] & CodeAxisField) != (moving_codes[i] & CodeAxisField))
+    if (!AnatomicalOrientation::SameOrientationAxes(fixed_codes[i], moving_codes[i]))
     {
       for (unsigned int j = 0; j < NumDims; ++j)
       {
-        if ((moving_codes[i] & CodeAxisField) == (fixed_codes[j] & CodeAxisField))
+        if (AnatomicalOrientation::SameOrientationAxes(fixed_codes[j], moving_codes[i]))
         {
           if (i == j)
           {
             // Axis i is already in place
             continue;
           }
-          else if ((moving_codes[j] & CodeAxisField) == (fixed_codes[i] & CodeAxisField))
+          else if (AnatomicalOrientation::SameOrientationAxes(fixed_codes[i], moving_codes[j]))
           {
-            // The cyclic permutation (i j) applies. Therefore the remainder
+            // The cyclic permutation (i j) applies. Therefore, the remainder
             // is (k), i.e., stationary
             m_PermuteOrder[i] = j;
             m_PermuteOrder[j] = i;
@@ -254,7 +141,7 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
             // Need to work out an (i j k) cyclic permutation
             for (unsigned int k = 0; k < NumDims; ++k)
             {
-              if ((moving_codes[j] & CodeAxisField) == (fixed_codes[k] & CodeAxisField))
+              if (AnatomicalOrientation::SameOrientationAxes(moving_codes[j], fixed_codes[k]))
               {
                 // At this point, we can pick off (i j k)
                 m_PermuteOrder[i] = k;
@@ -275,7 +162,8 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
   for (unsigned int i = 0; i < NumDims; ++i)
   {
     const unsigned int j = m_PermuteOrder[i];
-    if ((moving_codes[j] & CodeAxisIncreasingField) != (fixed_codes[i] & CodeAxisIncreasingField))
+    if ((static_cast<uint8_t>(moving_codes[j]) & CodeAxisIncreasingField) !=
+        (static_cast<uint8_t>(fixed_codes[i]) & CodeAxisIncreasingField))
     {
       m_FlipAxes[i] = true;
     }
@@ -578,7 +466,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   if (m_UseImageDirection)
   {
     // Compute the GivenOrientation from the image's direction cosines
-    this->SetGivenCoordinateOrientation(SpatialOrientationAdapter().FromDirectionCosines(inputPtr->GetDirection()));
+    this->SetGivenCoordinateOrientation(AnatomicalOrientation(inputPtr->GetDirection()));
   }
 
   using PermuteFilterType = PermuteAxesImageFilter<InputImageType>;
@@ -606,14 +494,9 @@ void
 OrientImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  std::map<CoordinateOrientationCode, std::string>::const_iterator axes;
 
-  axes = m_CodeToString.find(m_DesiredCoordinateOrientation);
-  os << indent << "Desired Coordinate Orientation: " << static_cast<long>(this->GetDesiredCoordinateOrientation())
-     << " (" << axes->second << ')' << std::endl;
-  axes = m_CodeToString.find(m_GivenCoordinateOrientation);
-  os << indent << "Given Coordinate Orientation: " << static_cast<long>(this->GetGivenCoordinateOrientation()) << " ("
-     << axes->second << ')' << std::endl;
+  os << indent << "Desired Coordinate Orientation: " << this->GetDesiredCoordinateOrientation() << std::endl;
+  os << indent << "Given Coordinate Orientation: " << this->GetGivenCoordinateOrientation() << std::endl;
   os << indent << "Use Image Direction: " << m_UseImageDirection << std::endl;
   os << indent << "Permute Axes: " << m_PermuteOrder << std::endl;
   os << indent << "Flip Axes: " << m_FlipAxes << std::endl;
