@@ -59,6 +59,24 @@ public:
   using ValueType = T;
   using ComponentType = T;
 
+  /** A pointer to the ValueType. */
+  using pointer = ValueType *;
+
+  /** A const pointer to the ValueType. */
+  using const_pointer = const ValueType *;
+
+  /** A reference to the ValueType. */
+  using reference = ValueType &;
+
+  /** A const reference to the ValueType. */
+  using const_reference = const ValueType &;
+
+  /** The return type of the non-const overloads of begin() and end(). */
+  using iterator = ValueType *;
+
+  /** The return type of cbegin() and cend(), and the const overloads of begin() and end(). */
+  using const_iterator = const ValueType *;
+
   /** Number Of Columns and Rows. */
   static constexpr unsigned int RowDimensions = VRows;
   static constexpr unsigned int ColumnDimensions = VColumns;
@@ -297,6 +315,55 @@ public:
    * and destructor) are implicitly defaulted, following the C++ "Rule of Zero".
    */
   Matrix() = default;
+
+  /** Returns the number of elements. */
+  constexpr unsigned int
+  size() const
+  {
+    return m_Matrix.size();
+  }
+
+  /** Returns an iterator to the first element. */
+  iterator
+  begin()
+  {
+    return m_Matrix.begin();
+  }
+
+  /** Returns an iterator just beyond the last element. */
+  iterator
+  end()
+  {
+    return m_Matrix.end();
+  }
+
+  /** Returns a const iterator to the first element. */
+  const_iterator
+  begin() const
+  {
+    return m_Matrix.begin();
+  }
+
+  /** Returns a const iterator just beyond the last element. */
+  const_iterator
+  end() const
+  {
+    return m_Matrix.end();
+  }
+
+  /** Returns a const iterator to the first element. */
+  const_iterator
+  cbegin() const
+  {
+    return m_Matrix.begin();
+  }
+
+  /** Returns a const iterator just beyond the last element. */
+  const_iterator
+  cend() const
+  {
+    return m_Matrix.end();
+  }
 
   void
   swap(Self & other)
