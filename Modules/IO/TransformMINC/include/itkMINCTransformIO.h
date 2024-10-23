@@ -33,7 +33,7 @@ namespace itk
 /** \class MINCTransformIOTemplate
  *
  * \brief Read and write transforms in MINC format (.xfm).
- *        Takes into accout RAS to LPS conversion flag to convert from MINC to ITK conventions
+ *        Takes into account RAS to LPS conversion flag to convert from MINC to ITK conventions
  *        and back, if enabled.
  *
  * \author Vladimir S. FONOV
