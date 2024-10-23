@@ -71,7 +71,7 @@ itkNiftiImageIOTest4(int argc, char * argv[])
 
   Test4ImageType::DirectionType dir;
   dir.SetIdentity();
-#if 1
+
   // arbitrarily rotate the unit vectors to pick random direction
   // cosines;
   vnl_random randgen(8775070);
@@ -102,10 +102,6 @@ itkNiftiImageIOTest4(int argc, char * argv[])
     }
   }
 
-#else
-  dir = itk::SpatialOrientationAdapter().ToDirectionCosines(
-    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLI);
-#endif
   test4Image->SetDirection(dir);
   std::string fname("directionsTest.nii.gz");
   try

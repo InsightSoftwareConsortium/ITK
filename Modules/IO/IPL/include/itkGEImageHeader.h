@@ -30,6 +30,7 @@
 #include "ITKIOIPLExport.h"
 
 #include "itkIOCommon.h"
+#include "itkAnatomicalOrientation.h"
 
 enum GE_PANE_STRUCT
 {
@@ -85,13 +86,15 @@ struct GEImageHeader
   short imageYsize;
   float imageXres;
   float imageYres;
-  itk::SpatialOrientationEnums::ValidCoordinateOrientations coordinateOrientation;
-  short                                                     numberOfSlices;
-  short                                                     offset;
-  char                                                      filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
-  char                                                      hospital[35];
-  char                                                      modality[4];
-  short                                                     imagesPerSlice;
+
+  itk::AnatomicalOrientation::PositiveEnum coordinateOrientation; // uint32_t
+
+  short numberOfSlices;
+  short offset;
+  char  filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
+  char  hospital[35];
+  char  modality[4];
+  short imagesPerSlice;
   short turboFactor; // This is only relevant for the geADW image format, but
                      // is put here for convenience
 };
