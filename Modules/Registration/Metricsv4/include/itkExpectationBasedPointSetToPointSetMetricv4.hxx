@@ -84,8 +84,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 
   localDerivative.Fill(0.0);
 
-  PointType weightedPoint;
-  weightedPoint.Fill(0.0);
+  PointType weightedPoint{};
 
   NeighborsIdentifierType neighborhood;
 

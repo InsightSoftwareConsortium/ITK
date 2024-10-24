@@ -47,8 +47,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::BSplineTransfo
   // dir[0][2],dir[1][2],dir[2][2]]
 
 
-  OriginType meshOrigin;
-  meshOrigin.Fill(0.0);
+  OriginType             meshOrigin{};
   PhysicalDimensionsType meshPhysical;
   meshPhysical.Fill(1.0);
 
@@ -305,8 +304,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetFixedParame
 
   // Set the origin parameters
   using PointType = typename ImageType::PointType;
-  PointType origin;
-  origin.Fill(0.0);
+  PointType origin{};
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     ScalarType gridSpacing = meshPhysical[i] / static_cast<ScalarType>(meshSize[i]);

@@ -299,9 +299,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::
   PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(const InputDiffusionTensor3DType &  inputTensor,
                                                                  const InverseJacobianPositionType & jacobian) const
 {
-  Matrix<TParametersValueType, 3, 3> matrix;
-
-  matrix.Fill(0.0);
+  Matrix<TParametersValueType, 3, 3> matrix{};
   for (unsigned int i = 0; i < 3; ++i)
   {
     matrix(i, i) = 1.0;

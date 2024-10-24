@@ -108,13 +108,11 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   // store the kernel offset list
   m_KernelOffsets = kernelOffsets;
 
-  FixedArray<SizeValueType, ImageDimension> axisCount;
-  axisCount.Fill(0);
+  FixedArray<SizeValueType, ImageDimension> axisCount{};
 
   for (unsigned int axis = 0; axis < ImageDimension; ++axis)
   {
-    OffsetType refOffset;
-    refOffset.Fill(0);
+    OffsetType refOffset{};
     for (int direction = -1; direction <= 1; direction += 2)
     {
       refOffset[axis] = direction;

@@ -51,8 +51,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
   inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
-  RadiusType radius;
-  radius.Fill(0);
+  RadiusType radius{};
   for (size_t dim = 0; dim < ImageDimension; ++dim)
   {
     radius[dim] = this->GetKernelRadius(dim);
@@ -91,8 +90,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
     }
 
     // Set up kernel image
-    typename RealImageType::IndexType index;
-    index.Fill(0);
+    typename RealImageType::IndexType  index{};
     typename RealImageType::RegionType region;
     region.SetSize(kernelSize);
     region.SetIndex(index);

@@ -146,8 +146,7 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   ImageRegionIteratorWithIndex<EigenValueImageType>  outputIt2(outputPtr2, region);
   ImageRegionIteratorWithIndex<EigenVectorImageType> outputIt3(outputPtr3, region);
 
-  EigenVectorType nullVector;
-  nullVector.Fill(0.0);
+  EigenVectorType nullVector{};
 
   // support progress methods/callbacks
   ProgressReporter progress(this, 0, region.GetNumberOfPixels());

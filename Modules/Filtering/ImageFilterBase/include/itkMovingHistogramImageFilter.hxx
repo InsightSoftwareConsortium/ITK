@@ -69,8 +69,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
   FixedArray<short, ImageDimension> direction;
   direction.Fill(1);
   int        axis = ImageDimension - 1;
-  OffsetType offset;
-  offset.Fill(0);
+  OffsetType offset{};
   RegionType stRegion;
   stRegion.SetSize(this->m_Kernel.GetSize());
   stRegion.PadByRadius(1); // must pad the region by one because of the translation

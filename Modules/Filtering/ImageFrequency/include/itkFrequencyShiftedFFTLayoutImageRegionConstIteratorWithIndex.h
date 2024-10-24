@@ -169,9 +169,7 @@ public:
   IndexType
   GetFrequencyBin() const
   {
-    IndexType freqInd;
-
-    freqInd.Fill(0);
+    IndexType freqInd{};
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
       freqInd[dim] = this->m_PositionIndex[dim] - this->m_ZeroFrequencyIndex[dim];

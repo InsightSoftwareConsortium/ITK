@@ -163,8 +163,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
   // Solve the initial value problem using fourth-order Runge-Kutta
   //    y' = f(t, y), y(t_0) = y_0
 
-  VectorType zeroVector;
-  zeroVector.Fill(0.0);
+  VectorType zeroVector{};
 
   // Initial conditions
 

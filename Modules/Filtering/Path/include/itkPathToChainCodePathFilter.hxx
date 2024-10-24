@@ -35,9 +35,7 @@ PathToChainCodePathFilter<TInputPath, TOutputChainCodePath>::GenerateData()
 {
   OffsetType offset;
   OffsetType tempOffset;
-  OffsetType zeroOffset;
-
-  zeroOffset.Fill(0);
+  OffsetType zeroOffset{};
 
   InputPathInputType inputPathInput;
 

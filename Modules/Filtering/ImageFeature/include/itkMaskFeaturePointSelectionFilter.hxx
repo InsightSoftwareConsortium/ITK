@@ -227,8 +227,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
       // compute and add structure tensor into pointData
       if (m_ComputeStructureTensors)
       {
-        StructureTensorType tensor;
-        tensor.Fill(0);
+        StructureTensorType tensor{};
 
         Matrix<SpacePrecisionType, ImageDimension, 1> gradI; // vector declared as column matrix
 

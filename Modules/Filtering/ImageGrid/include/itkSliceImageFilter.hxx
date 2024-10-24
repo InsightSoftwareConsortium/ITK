@@ -182,8 +182,7 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   }
 
 
-  typename TInputImage::SizeType inputRequestedRegionSize;
-  inputRequestedRegionSize.Fill(0);
+  typename TInputImage::SizeType inputRequestedRegionSize{};
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     if (outputRequestedRegionSize[i] > 0)

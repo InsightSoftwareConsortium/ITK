@@ -193,9 +193,8 @@ public:
       m_Eccentricity = 1;
       m_Elongation = 1;
       m_Orientation = 0;
-      LabelPointType emptyPoint;
-      emptyPoint.Fill(0);
-      unsigned int numberOfVertices = 1 << ImageDimension;
+      LabelPointType emptyPoint{};
+      unsigned int   numberOfVertices = 1 << ImageDimension;
       m_OrientedBoundingBoxVertices.resize(numberOfVertices, emptyPoint);
       m_OrientedBoundingBoxVolume = 0;
       m_OrientedBoundingBoxSize.Fill(0);

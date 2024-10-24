@@ -96,18 +96,12 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   double                sum2 = 0;
   double                sum3 = 0;
   double                sum4 = 0;
-  IndexType             minIdx;
-  minIdx.Fill(0);
-  IndexType maxIdx;
-  maxIdx.Fill(0);
-  PointType centerOfGravity;
-  centerOfGravity.Fill(0);
-  MatrixType centralMoments;
-  centralMoments.Fill(0);
-  MatrixType principalAxes;
-  principalAxes.Fill(0);
-  VectorType principalMoments;
-  principalMoments.Fill(0);
+  IndexType             minIdx{};
+  IndexType             maxIdx{};
+  PointType             centerOfGravity{};
+  MatrixType            centralMoments{};
+  MatrixType            principalAxes{};
+  VectorType            principalMoments{};
 
 
   // iterate over all the indexes

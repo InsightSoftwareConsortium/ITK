@@ -1077,8 +1077,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
   m_BottomSite = &(m_SeedSites[0]);
   FortuneSite * currentSite = &(m_SeedSites[1]);
 
-  PointType currentCircle;
-  currentCircle.Fill(0.0);
+  PointType         currentCircle{};
   FortuneHalfEdge * leftHalfEdge;
   FortuneHalfEdge * rightHalfEdge;
   FortuneHalfEdge * left2HalfEdge;

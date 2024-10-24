@@ -110,9 +110,8 @@ TImageType::PointType
 ComputeCG(TImageType::Pointer img)
 {
   itk::ImageRegionConstIteratorWithIndex<TImageType> it(img, img->GetLargestPossibleRegion());
-  TImageType::PointType                              Cg;
-  Cg.Fill(0.0);
-  double sumMass = 0.0;
+  TImageType::PointType                              Cg{};
+  double                                             sumMass = 0.0;
   while (!it.IsAtEnd())
   {
     const double value = it.Value();

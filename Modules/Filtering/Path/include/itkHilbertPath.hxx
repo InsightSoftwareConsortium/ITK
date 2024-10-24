@@ -53,8 +53,7 @@ HilbertPath<TIndexValue, VDimension>::TransformPathIndexToMultiDimensionalIndex(
   PathIndexType d = 0;
   PathIndexType e = 0;
 
-  IndexType index;
-  index.Fill(0);
+  IndexType index{};
 
   for (PathIndexType i = 0; i < this->m_HilbertOrder; ++i)
   {

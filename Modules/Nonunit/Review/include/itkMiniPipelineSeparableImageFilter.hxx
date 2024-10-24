@@ -75,8 +75,7 @@ MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, TFilter>::SetRadius(
   // set up the kernels
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    RadiusType rad;
-    rad.Fill(0);
+    RadiusType rad{};
     rad[i] = radius[i];
     m_Filters[i]->SetRadius(rad);
   }

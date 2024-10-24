@@ -862,8 +862,7 @@ FlatStructuringElement<VDimension>::Box(RadiusType radius)
   {
     if (radius[i] != 0)
     {
-      LType L;
-      L.Fill(0);
+      LType L{};
       L[i] = radius[i] * 2 + 1;
       res.AddLine(L);
     }
@@ -896,8 +895,7 @@ FlatStructuringElement<VDimension>::Cross(RadiusType radius)
   }
   for (int d = 0; d < static_cast<int>(VDimension); ++d)
   {
-    OffsetType o;
-    o.Fill(0);
+    OffsetType o{};
     for (int i = -static_cast<int>(radius[d]); i <= static_cast<int>(radius[d]); ++i)
     {
       o[d] = i;

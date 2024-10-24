@@ -92,8 +92,7 @@ protected:
 
     if (qe != nullptr)
     {
-      OutputVectorType Laplace;
-      Laplace.Fill(0.);
+      OutputVectorType Laplace{};
 
       OutputQEType * qe_it = qe;
 
@@ -107,8 +106,7 @@ protected:
         OutputPointType  q0, q1;
         OutputVectorType face_normal;
 
-        OutputVectorType normal;
-        normal.Fill(0.);
+        OutputVectorType normal{};
 
         OutputCurvatureType temp_area;
         OutputCoordType     temp_coeff;

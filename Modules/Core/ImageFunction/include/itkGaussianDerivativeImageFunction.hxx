@@ -159,8 +159,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
       // Set the derivative of the Gaussian first
       OperatorNeighborhoodType                                  dogNeighborhood;
       typename GaussianDerivativeSpatialFunctionType::InputType pt;
-      typename NeighborhoodType::SizeType                       size;
-      size.Fill(0);
+      typename NeighborhoodType::SizeType                       size{};
       size[direction] = static_cast<SizeValueType>(m_Sigma[direction] * m_Extent[direction]);
       dogNeighborhood.SetRadius(size);
       m_ImageNeighborhoodOffsets[direction] = GenerateRectangularImageNeighborhoodOffsets(size);

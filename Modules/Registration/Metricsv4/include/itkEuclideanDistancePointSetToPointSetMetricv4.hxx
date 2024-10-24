@@ -28,8 +28,7 @@ typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPoin
   EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
     GetLocalNeighborhoodValue(const PointType & point, const PixelType & itkNotUsed(pixel)) const
 {
-  PointType closestPoint;
-  closestPoint.Fill(0.0);
+  PointType closestPoint{};
 
   PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
   closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);
@@ -53,8 +52,7 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TIn
                                          LocalDerivativeType & localDerivative,
                                          const PixelType &     itkNotUsed(pixel)) const
 {
-  PointType closestPoint;
-  closestPoint.Fill(0.0);
+  PointType closestPoint{};
 
   PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
   closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);

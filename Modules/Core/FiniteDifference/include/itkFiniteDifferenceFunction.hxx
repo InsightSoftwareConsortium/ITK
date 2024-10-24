@@ -79,9 +79,7 @@ template <typename TImageType>
 auto
 FiniteDifferenceFunction<TImageType>::ComputeNeighborhoodScales() const -> const NeighborhoodScalesType
 {
-  NeighborhoodScalesType neighborhoodScales;
-
-  neighborhoodScales.Fill(0.0);
+  NeighborhoodScalesType neighborhoodScales{};
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (this->m_Radius[i] > 0)

@@ -351,8 +351,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
 {
   for (unsigned int direction = 0; direction < Self::ImageDimension; ++direction)
   {
-    typename NeighborhoodType::SizeType size;
-    size.Fill(0);
+    typename NeighborhoodType::SizeType size{};
     size[direction] = static_cast<SizeValueType>(m_Sigma[direction] * m_Extent[direction]);
 
     NeighborhoodType gaussianNeighborhood;

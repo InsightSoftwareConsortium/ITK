@@ -71,8 +71,7 @@ test_fft(unsigned int * SizeOfDimensions)
   // Set up spacing and origin to test passing of metadata
   typename RealImageType::PointType     origin;
   typename RealImageType::SpacingType   spacing;
-  typename RealImageType::DirectionType direction;
-  direction.Fill(0.0);
+  typename RealImageType::DirectionType direction{};
   for (unsigned int i = 0; i < VImageDimensions; ++i)
   {
     origin[i] = static_cast<typename RealImageType::PointValueType>(i) + 1.0;

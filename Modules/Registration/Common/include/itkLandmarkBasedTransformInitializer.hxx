@@ -158,8 +158,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
   filter->SetNumberOfLevels(3);
 
-  typename FilterType::ArrayType close;
-  close.Fill(0);
+  typename FilterType::ArrayType close{};
   filter->SetCloseDimension(close);
 
   filter->Update();
@@ -645,8 +644,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   transform->SetIdentity();
 
   // Compute the centroids.
-  PointType fixedCentroid;
-  fixedCentroid.Fill(0.0);
+  PointType                    fixedCentroid{};
   PointsContainerConstIterator fixedItr = this->m_FixedLandmarks.begin();
   while (fixedItr != this->m_FixedLandmarks.end())
   {
@@ -659,8 +657,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   fixedCentroid[1] /= this->m_FixedLandmarks.size();
 
   PointsContainerConstIterator movingItr = this->m_MovingLandmarks.begin();
-  PointType                    movingCentroid;
-  movingCentroid.Fill(0.0);
+  PointType                    movingCentroid{};
   while (movingItr != this->m_MovingLandmarks.end())
   {
     movingCentroid[0] += (*movingItr)[0];
@@ -771,8 +768,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Comput
   const LandmarkPointContainer inputLandmarks) -> PointType3D
 {
   // Compute the centroids.
-  PointType3D centroid;
-  centroid.Fill(0.0);
+  PointType3D                  centroid{};
   PointsContainerConstIterator fixedItr = inputLandmarks.begin();
   while (fixedItr != inputLandmarks.end())
   {

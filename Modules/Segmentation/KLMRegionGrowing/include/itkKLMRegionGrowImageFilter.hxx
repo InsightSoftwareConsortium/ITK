@@ -112,8 +112,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateOutputImage()
   OutputRegionType region;
   region.SetSize(gridSize); // Constant grid size
 
-  OutputImageIndexType tmpIndex;
-  tmpIndex.Fill(0);
+  OutputImageIndexType tmpIndex{};
 
   for (unsigned int iregion = 0; iregion < m_InitialNumberOfRegions; ++iregion)
   {
@@ -201,8 +200,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateLabelledImage(Label
   InputRegionType region;
   region.SetSize(gridSize); // Constant grid size
 
-  InputImageIndexType tmpIndex;
-  tmpIndex.Fill(0);
+  InputImageIndexType tmpIndex{};
 
   for (unsigned int iregion = 0; iregion < m_InitialNumberOfRegions; ++iregion)
   {
@@ -329,8 +327,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   InputRegionType region;
   region.SetSize(gridSize); // Constant grid size
 
-  InputImageIndexType tmpIndex;
-  tmpIndex.Fill(0);
+  InputImageIndexType tmpIndex{};
 
   for (RegionLabelType iregion = 0; iregion < m_InitialNumberOfRegions; ++iregion)
   {

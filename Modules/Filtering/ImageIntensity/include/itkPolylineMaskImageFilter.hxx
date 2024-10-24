@@ -167,8 +167,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   typename TPolyline::ConstPointer   polylinePtr(dynamic_cast<const TPolyline *>(this->ProcessObject::GetInput(1)));
   typename TOutputImage::Pointer     outputImagePtr(dynamic_cast<TOutputImage *>(this->ProcessObject::GetOutput(0)));
 
-  OriginType originInput;
-  originInput.Fill(0.0);
+  OriginType originInput{};
   // outputImagePtr->SetOrigin(inputImagePtr->GetOrigin());
   outputImagePtr->SetOrigin(originInput);
   outputImagePtr->SetSpacing(inputImagePtr->GetSpacing());

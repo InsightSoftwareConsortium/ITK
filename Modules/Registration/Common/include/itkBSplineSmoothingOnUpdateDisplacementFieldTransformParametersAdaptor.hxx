@@ -40,8 +40,7 @@ void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::SetMeshSizeForTheUpdateField(
   const ArrayType & meshSize)
 {
-  ArrayType numberOfControlPoints;
-  numberOfControlPoints.Fill(0);
+  ArrayType numberOfControlPoints{};
   for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
     if (meshSize[d] > 0)
@@ -60,8 +59,7 @@ void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::SetMeshSizeForTheTotalField(
   const ArrayType & meshSize)
 {
-  ArrayType numberOfControlPoints;
-  numberOfControlPoints.Fill(0);
+  ArrayType numberOfControlPoints{};
   for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
     if (meshSize[d] > 0)

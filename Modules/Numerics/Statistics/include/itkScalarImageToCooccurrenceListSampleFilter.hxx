@@ -98,8 +98,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   typename FaceCalculatorType::FaceListType faceList = faceCalculator(input, input->GetRequestedRegion(), radius);
 
-  OffsetType center_offset;
-  center_offset.Fill(0);
+  OffsetType center_offset{};
 
   bool isInside;
 

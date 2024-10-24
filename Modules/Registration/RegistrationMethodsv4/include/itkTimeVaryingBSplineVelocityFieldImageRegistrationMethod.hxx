@@ -352,8 +352,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
 
   SizeValueType numberOfIntegrationSteps = this->m_NumberOfTimePointSamples + 2;
 
-  typename DisplacementFieldType::PixelType zeroVector;
-  zeroVector.Fill(0);
+  typename DisplacementFieldType::PixelType zeroVector{};
 
   velocityFieldPointSet->Initialize();
   velocityFieldWeights->Initialize();

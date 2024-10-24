@@ -343,8 +343,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
 
   // Process image.
 
-  OffsetType offset;
-  offset.Fill(0);
+  OffsetType offset{};
 
   SizeValueType i = 0;
 

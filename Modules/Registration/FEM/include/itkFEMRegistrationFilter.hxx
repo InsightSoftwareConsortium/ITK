@@ -857,8 +857,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
     m_TotalField->SetLargestPossibleRegion(m_FieldRegion);
     m_TotalField->Allocate();
 
-    VectorType disp;
-    disp.Fill(0.0);
+    VectorType disp{};
 
     FieldIterator fieldIter(m_TotalField, m_FieldRegion);
 
@@ -930,8 +929,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
     fieldIter.GoToBegin();
     while (!fieldIter.IsAtEnd())
     {
-      VectorType disp;
-      disp.Fill(0.0);
+      VectorType disp{};
       fieldIter.Set(disp);
       ++fieldIter;
     }
