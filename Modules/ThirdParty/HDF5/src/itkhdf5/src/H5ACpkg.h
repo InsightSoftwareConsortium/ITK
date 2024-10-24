@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -124,7 +123,7 @@ H5FL_EXTERN(H5AC_aux_t);
  * Maintaining this count is easy for all processes not on process 0 --
  * all that is necessary is to add the size of the entry to the total
  * whenever there is an insertion, a move of a previously clean entry,
- * or whever a previously clean entry is marked dirty in an unprotect.
+ * or wherever a previously clean entry is marked dirty in an unprotect.
  *
  * On process 0, we have to be careful not to count dirty bytes twice.
  * If an entry is marked dirty, flushed, and marked dirty again, all
@@ -293,12 +292,12 @@ H5FL_EXTERN(H5AC_aux_t);
  *		   dirtied flag set and the entry does not already appear
  *		   in the dirty entry list.
  *
- *		Entries are added to the dirty entry list whever they cause
+ *		Entries are added to the dirty entry list wherever they cause
  *		the dirty bytes count to be increased.  They are removed
  *		when they appear in a clean entries broadcast.  Note that
  *		moves must be reflected in the dirty entry list.
  *
- *		To reitterate, this field is only used on process 0 -- it
+ *		To reiterate, this field is only used on process 0 -- it
  *		should be NULL on all other processes.
  *
  * c_slist_ptr: Pointer to an instance of H5SL_t used to maintain a list
@@ -346,7 +345,7 @@ H5FL_EXTERN(H5AC_aux_t);
  *
  * The following field supports the metadata cache image feature.
  *
- * p0_image_len: unsiged integer containing the length of the metadata cache
+ * p0_image_len: unsigned integer containing the length of the metadata cache
  *		image constructed by MPI process 0.  This field should be 0
  *		if the value is unknown, or if cache image is not enabled.
  *

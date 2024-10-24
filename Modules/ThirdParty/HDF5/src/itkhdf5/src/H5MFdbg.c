@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -49,8 +48,8 @@
 /* User data for free space section iterator callback */
 typedef struct {
     H5FS_t *fspace; /* Free space manager */
-    FILE *  stream; /* Stream for output */
-    int     indent; /* Indention amount */
+    FILE   *stream; /* Stream for output */
+    int     indent; /* Indentation amount */
     int     fwidth; /* Field width amount */
 } H5MF_debug_iter_ud_t;
 
@@ -91,7 +90,7 @@ static herr_t H5MF__sects_debug_cb(H5FS_section_info_t *_sect, void *_udata);
 static herr_t
 H5MF__sects_debug_cb(H5FS_section_info_t *_sect, void *_udata)
 {
-    H5MF_free_section_t * sect      = (H5MF_free_section_t *)_sect;   /* Section to dump info */
+    H5MF_free_section_t  *sect      = (H5MF_free_section_t *)_sect;   /* Section to dump info */
     H5MF_debug_iter_ud_t *udata     = (H5MF_debug_iter_ud_t *)_udata; /* User data for callbacks */
     herr_t                ret_value = SUCCEED;                        /* Return value */
 

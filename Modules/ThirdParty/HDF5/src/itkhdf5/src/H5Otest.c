@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -86,9 +85,9 @@
 htri_t
 H5O__is_attr_dense_test(hid_t oid)
 {
-    H5O_t *     oh = NULL;              /* Object header */
+    H5O_t      *oh = NULL;              /* Object header */
     H5O_ainfo_t ainfo;                  /* Attribute information for object */
-    H5O_loc_t * loc;                    /* Pointer to object's location */
+    H5O_loc_t  *loc;                    /* Pointer to object's location */
     hbool_t     api_ctx_pushed = FALSE; /* Whether API context pushed */
     htri_t      ret_value      = FAIL;  /* Return value */
 
@@ -155,11 +154,11 @@ done:
 htri_t
 H5O__is_attr_empty_test(hid_t oid)
 {
-    H5O_t *     oh       = NULL;        /* Object header */
-    H5B2_t *    bt2_name = NULL;        /* v2 B-tree handle for name index */
+    H5O_t      *oh       = NULL;        /* Object header */
+    H5B2_t     *bt2_name = NULL;        /* v2 B-tree handle for name index */
     H5O_ainfo_t ainfo;                  /* Attribute information for object */
     htri_t      ainfo_exists = FALSE;   /* Whether the attribute info exists in the file */
-    H5O_loc_t * loc;                    /* Pointer to object's location */
+    H5O_loc_t  *loc;                    /* Pointer to object's location */
     hsize_t     nattrs;                 /* Number of attributes */
     hbool_t     api_ctx_pushed = FALSE; /* Whether API context pushed */
     htri_t      ret_value      = FAIL;  /* Return value */
@@ -258,10 +257,10 @@ done:
 herr_t
 H5O__num_attrs_test(hid_t oid, hsize_t *nattrs)
 {
-    H5O_t *     oh       = NULL;          /* Object header */
-    H5B2_t *    bt2_name = NULL;          /* v2 B-tree handle for name index */
+    H5O_t      *oh       = NULL;          /* Object header */
+    H5B2_t     *bt2_name = NULL;          /* v2 B-tree handle for name index */
     H5O_ainfo_t ainfo;                    /* Attribute information for object */
-    H5O_loc_t * loc;                      /* Pointer to object's location */
+    H5O_loc_t  *loc;                      /* Pointer to object's location */
     hsize_t     obj_nattrs;               /* Number of attributes */
     hbool_t     api_ctx_pushed = FALSE;   /* Whether API context pushed */
     herr_t      ret_value      = SUCCEED; /* Return value */
@@ -357,11 +356,11 @@ done:
 herr_t
 H5O__attr_dense_info_test(hid_t oid, hsize_t *name_count, hsize_t *corder_count)
 {
-    H5O_t *     oh         = NULL;        /* Object header */
-    H5B2_t *    bt2_name   = NULL;        /* v2 B-tree handle for name index */
-    H5B2_t *    bt2_corder = NULL;        /* v2 B-tree handle for creation order index */
+    H5O_t      *oh         = NULL;        /* Object header */
+    H5B2_t     *bt2_name   = NULL;        /* v2 B-tree handle for name index */
+    H5B2_t     *bt2_corder = NULL;        /* v2 B-tree handle for creation order index */
     H5O_ainfo_t ainfo;                    /* Attribute information for object */
-    H5O_loc_t * loc;                      /* Pointer to object's location */
+    H5O_loc_t  *loc;                      /* Pointer to object's location */
     hbool_t     api_ctx_pushed = FALSE;   /* Whether API context pushed */
     herr_t      ret_value      = SUCCEED; /* Return value */
 
@@ -461,8 +460,8 @@ done:
 herr_t
 H5O__check_msg_marked_test(hid_t oid, hbool_t flag_val)
 {
-    H5O_t *     oh = NULL;           /* Object header */
-    H5O_loc_t * loc;                 /* Pointer to object's location */
+    H5O_t      *oh = NULL;           /* Object header */
+    H5O_loc_t  *loc;                 /* Pointer to object's location */
     H5O_mesg_t *idx_msg;             /* Pointer to message */
     unsigned    idx;                 /* Index of message */
     herr_t      ret_value = SUCCEED; /* Return value */
@@ -522,7 +521,7 @@ done:
 herr_t
 H5O__expunge_chunks_test(const H5O_loc_t *loc)
 {
-    H5O_t * oh = NULL;           /* Object header */
+    H5O_t  *oh = NULL;           /* Object header */
     haddr_t chk_addr[16];        /* Array of chunk addresses */
     size_t  nchunks;             /* Number of chunks in object header */
     size_t  u;                   /* Local index variable */
@@ -628,8 +627,8 @@ done:
 herr_t
 H5O__msg_get_chunkno_test(hid_t oid, unsigned msg_type, unsigned *chunk_num)
 {
-    H5O_t *     oh = NULL;                /* Object header */
-    H5O_loc_t * loc;                      /* Pointer to object's location */
+    H5O_t      *oh = NULL;                /* Object header */
+    H5O_loc_t  *loc;                      /* Pointer to object's location */
     H5O_mesg_t *idx_msg;                  /* Pointer to message */
     unsigned    idx;                      /* Index of message */
     hbool_t     api_ctx_pushed = FALSE;   /* Whether API context pushed */
@@ -695,8 +694,8 @@ done:
 herr_t
 H5O__msg_move_to_new_chunk_test(hid_t oid, unsigned msg_type)
 {
-    H5O_t *     oh = NULL;                /* Object header */
-    H5O_loc_t * loc;                      /* Pointer to object's location */
+    H5O_t      *oh = NULL;                /* Object header */
+    H5O_loc_t  *loc;                      /* Pointer to object's location */
     H5O_mesg_t *curr_msg;                 /* Pointer to current message */
     unsigned    idx;                      /* Index of message */
     hbool_t     api_ctx_pushed = FALSE;   /* Whether API context pushed */
@@ -722,7 +721,7 @@ H5O__msg_move_to_new_chunk_test(hid_t oid, unsigned msg_type)
         if (curr_msg->type->id == msg_type) {
             H5O_msg_alloc_info_t found_msg;                       /* Information about message to move */
             unsigned             msg_chunkno = curr_msg->chunkno; /* Chunk that the message is in */
-            uint8_t *            end_chunk_data =
+            uint8_t             *end_chunk_data =
                 (oh->chunk[msg_chunkno].image + oh->chunk[msg_chunkno].size) -
                 (H5O_SIZEOF_CHKSUM_OH(oh) + oh->chunk[msg_chunkno].gap); /* End of message data in chunk */
             uint8_t *end_msg    = curr_msg->raw + curr_msg->raw_size;    /* End of current message */

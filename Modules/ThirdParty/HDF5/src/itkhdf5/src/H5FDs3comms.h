@@ -179,7 +179,7 @@
  * HTTP header fields, of particular use when composing an
  * "S3 Canonical Request" for authentication.
  *
- * - The creation of a Canoncial Request involves:
+ * - The creation of a Canonical Request involves:
  *     - convert field names to lower case
  *     - sort by this lower-case name
  *     - convert ": " name-value separator in HTTP string to ":"
@@ -216,7 +216,7 @@
  *
  * `magic` (unsigned long)
  *
- *     "unique" idenfier number for the structure type
+ *     "unique" identifier number for the structure type
  *
  * `name` (char *)
  *
@@ -249,10 +249,10 @@
  */
 typedef struct hrb_node_t {
     unsigned long      magic;
-    char *             name;
-    char *             value;
-    char *             cat;
-    char *             lowername;
+    char              *name;
+    char              *value;
+    char              *cat;
+    char              *lowername;
     struct hrb_node_t *next;
 } hrb_node_t;
 #define S3COMMS_HRB_NODE_MAGIC 0x7F5757UL
@@ -325,12 +325,12 @@ typedef struct hrb_node_t {
  */
 typedef struct {
     unsigned long magic;
-    char *        body;
+    char         *body;
     size_t        body_len;
-    hrb_node_t *  first_header;
-    char *        resource;
-    char *        verb;
-    char *        version;
+    hrb_node_t   *first_header;
+    char         *resource;
+    char         *verb;
+    char         *version;
 } hrb_t;
 #define S3COMMS_HRB_MAGIC 0x6DCC84UL
 
@@ -388,11 +388,11 @@ typedef struct {
  */
 typedef struct {
     unsigned long magic;
-    char *        scheme; /* required */
-    char *        host;   /* required */
-    char *        port;
-    char *        path;
-    char *        query;
+    char         *scheme; /* required */
+    char         *host;   /* required */
+    char         *port;
+    char         *path;
+    char         *query;
 } parsed_url_t;
 #define S3COMMS_PARSED_URL_MAGIC 0x21D0DFUL
 
@@ -459,29 +459,29 @@ typedef struct {
  *
  *     Pointer to NULL-terminated string for "secret" access id to S3 resource.
  *
- *     Requred to authenticate.
+ *     Required to authenticate.
  *
  * `signing_key` (unsigned char *)
  *
- *     Pointer to `SHA256_DIGEST_LENGTH`-long string for "re-usable" signing
+ *     Pointer to `SHA256_DIGEST_LENGTH`-long string for "reusable" signing
  *     key, generated via
  *     `HMAC-SHA256(HMAC-SHA256(HMAC-SHA256(HMAC-SHA256("AWS4<secret_key>",
  *         "<yyyyMMDD"), "<aws-region>"), "<aws-service>"), "aws4_request")`
  *     which may be re-used for several (up to seven (7)) days from creation?
  *     Computed once upon file open.
  *
- *     Requred to authenticate.
+ *     Required to authenticate.
  *
  *----------------------------------------------------------------------------
  */
 typedef struct {
     unsigned long  magic;
-    CURL *         curlhandle;
+    CURL          *curlhandle;
     size_t         filesize;
-    char *         httpverb;
-    parsed_url_t * purl;
-    char *         region;
-    char *         secret_id;
+    char          *httpverb;
+    parsed_url_t  *purl;
+    char          *region;
+    char          *secret_id;
     unsigned char *signing_key;
 } s3r_t;
 

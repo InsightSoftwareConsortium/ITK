@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -118,9 +117,9 @@ H5DOappend(hid_t dset_id, hid_t dxpl_id, unsigned axis, size_t extension, hid_t 
     hsize_t stride[H5S_MAX_RANK]; /* H5Sselect_hyperslab: # of elements to move when selecting */
     hsize_t block[H5S_MAX_RANK];  /* H5Sselect_hyperslab: # of elements in a block */
 
-    hsize_t *       boundary = NULL;  /* Boundary set in append flush property */
+    hsize_t        *boundary = NULL;  /* Boundary set in append flush property */
     H5D_append_cb_t append_cb;        /* Callback function set in append flush property */
-    void *          udata;            /* User data set in append flush property */
+    void           *udata;            /* User data set in append flush property */
     hbool_t         hit = FALSE;      /* Boundary is hit or not */
     hsize_t         k;                /* Local index variable */
     unsigned        u;                /* Local index variable */
@@ -182,7 +181,7 @@ H5DOappend(hid_t dset_id, hid_t dxpl_id, unsigned axis, size_t extension, hid_t 
     if (FAIL == H5Sselect_hyperslab(new_space_id, H5S_SELECT_SET, start, stride, count, block))
         goto done;
 
-    /* The # of elemnts in the new extended dataspace */
+    /* The # of elements in the new extended dataspace */
     if ((snelmts = H5Sget_select_npoints(new_space_id)) < 0)
         goto done;
     nelmts = (hsize_t)snelmts;

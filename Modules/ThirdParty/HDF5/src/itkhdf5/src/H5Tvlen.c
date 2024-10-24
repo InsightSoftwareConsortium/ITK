@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -53,7 +52,7 @@
 
 /* Memory-based VL sequence callbacks */
 static herr_t H5T__vlen_mem_seq_getlen(H5VL_object_t *file, const void *_vl, size_t *len);
-static void * H5T__vlen_mem_seq_getptr(void *_vl);
+static void  *H5T__vlen_mem_seq_getptr(void *_vl);
 static herr_t H5T__vlen_mem_seq_isnull(const H5VL_object_t *file, void *_vl, hbool_t *isnull);
 static herr_t H5T__vlen_mem_seq_setnull(H5VL_object_t *file, void *_vl, void *_bg);
 static herr_t H5T__vlen_mem_seq_read(H5VL_object_t *file, void *_vl, void *_buf, size_t len);
@@ -62,7 +61,7 @@ static herr_t H5T__vlen_mem_seq_write(H5VL_object_t *file, const H5T_vlen_alloc_
 
 /* Memory-based VL string callbacks */
 static herr_t H5T__vlen_mem_str_getlen(H5VL_object_t *file, const void *_vl, size_t *len);
-static void * H5T__vlen_mem_str_getptr(void *_vl);
+static void  *H5T__vlen_mem_str_getptr(void *_vl);
 static herr_t H5T__vlen_mem_str_isnull(const H5VL_object_t *file, void *_vl, hbool_t *isnull);
 static herr_t H5T__vlen_mem_str_setnull(H5VL_object_t *file, void *_vl, void *_bg);
 static herr_t H5T__vlen_mem_str_read(H5VL_object_t *file, void *_vl, void *_buf, size_t len);
@@ -76,7 +75,7 @@ static herr_t H5T__vlen_disk_setnull(H5VL_object_t *file, void *_vl, void *_bg);
 static herr_t H5T__vlen_disk_read(H5VL_object_t *file, void *_vl, void *_buf, size_t len);
 static herr_t H5T__vlen_disk_write(H5VL_object_t *file, const H5T_vlen_alloc_info_t *vl_alloc_info, void *_vl,
                                    void *_buf, void *_bg, size_t seq_len, size_t base_size);
-static herr_t H5T__vlen_disk_delete(H5VL_object_t *file, const void *_vl);
+static herr_t H5T__vlen_disk_delete(H5VL_object_t *file, void *_vl);
 
 /*********************/
 /* Public Variables */
@@ -566,7 +565,7 @@ H5T__vlen_mem_seq_write(H5VL_object_t H5_ATTR_UNUSED *file, const H5T_vlen_alloc
         }    /* end if */
         else /* Default to system malloc */
             if (NULL == (vl.p = HDmalloc(len)))
-            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "memory allocation failed for VL data")
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "memory allocation failed for VL data")
 
         /* Copy the data into the newly allocated buffer */
         H5MM_memcpy(vl.p, buf, len);
@@ -637,7 +636,7 @@ H5T__vlen_mem_str_getptr(void *_vl)
 #ifdef H5_NO_ALIGNMENT_RESTRICTIONS
     char *s = *(char **)_vl; /* Pointer to the user's string information */
 #else
-    char *      s = NULL; /* Pointer to the user's string information */
+    char       *s = NULL; /* Pointer to the user's string information */
 #endif
 
     FUNC_ENTER_STATIC_NOERR
@@ -765,7 +764,7 @@ static herr_t
 H5T__vlen_mem_str_write(H5VL_object_t H5_ATTR_UNUSED *file, const H5T_vlen_alloc_info_t *vl_alloc_info,
                         void *_vl, void *buf, void H5_ATTR_UNUSED *_bg, size_t seq_len, size_t base_size)
 {
-    char * t;                   /* Pointer to temporary buffer allocated */
+    char  *t;                   /* Pointer to temporary buffer allocated */
     size_t len;                 /* Maximum length of the string to copy */
     herr_t ret_value = SUCCEED; /* Return value */
 
@@ -783,7 +782,7 @@ H5T__vlen_mem_str_write(H5VL_object_t H5_ATTR_UNUSED *file, const H5T_vlen_alloc
     }    /* end if */
     else /* Default to system malloc */
         if (NULL == (t = (char *)HDmalloc((seq_len + 1) * base_size)))
-        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "memory allocation failed for VL data")
+            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "memory allocation failed for VL data")
 
     /* 'write' the string into the buffer, with memcpy() */
     len = (seq_len * base_size);
@@ -955,9 +954,9 @@ static herr_t
 H5T__vlen_disk_write(H5VL_object_t *file, const H5T_vlen_alloc_info_t H5_ATTR_UNUSED *vl_alloc_info,
                      void *_vl, void *buf, void *_bg, size_t seq_len, size_t base_size)
 {
-    uint8_t *      vl        = (uint8_t *)_vl;       /* Pointer to the user's hvl_t information */
-    const uint8_t *bg        = (const uint8_t *)_bg; /* Pointer to the old data hvl_t */
-    herr_t         ret_value = SUCCEED;              /* Return value */
+    uint8_t *vl        = (uint8_t *)_vl; /* Pointer to the user's hvl_t information */
+    uint8_t *bg        = (uint8_t *)_bg; /* Pointer to the old data hvl_t */
+    herr_t   ret_value = SUCCEED;        /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -995,10 +994,10 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5T__vlen_disk_delete(H5VL_object_t *file, const void *_vl)
+H5T__vlen_disk_delete(H5VL_object_t *file, void *_vl)
 {
-    const uint8_t *vl        = (const uint8_t *)_vl; /* Pointer to the user's hvl_t information */
-    herr_t         ret_value = SUCCEED;              /* Return value */
+    uint8_t *vl        = (uint8_t *)_vl; /* Pointer to the user's hvl_t information */
+    herr_t   ret_value = SUCCEED;        /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -1014,7 +1013,7 @@ H5T__vlen_disk_delete(H5VL_object_t *file, const void *_vl)
 
         /* Delete object, if length > 0 */
         if (seq_len > 0)
-            if (H5VL_blob_specific(file, (void *)vl, H5VL_BLOB_DELETE) < 0) /* Casting away 'const' OK -QAK */
+            if (H5VL_blob_specific(file, vl, H5VL_BLOB_DELETE) < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTREMOVE, FAIL, "unable to delete blob")
     } /* end if */
 
@@ -1039,7 +1038,7 @@ H5T__vlen_reclaim(void *elem, const H5T_t *dt, H5T_vlen_alloc_info_t *alloc_info
 {
     unsigned    u;                   /* Local index variable */
     H5MM_free_t free_func;           /* Free function */
-    void *      free_info;           /* Free info */
+    void       *free_info;           /* Free info */
     herr_t      ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)

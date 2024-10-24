@@ -22,7 +22,7 @@
 #include "H5VLnative_private.h" /* Native VOL connector                     */
 
 /* Note: H5VL__native_introspect_get_conn_cls is in src/H5VLnative.c so that
- *      it can return the address of the staticly declared class struct.
+ *      it can return the address of the statically declared class struct.
  */
 
 /*---------------------------------------------------------------------------

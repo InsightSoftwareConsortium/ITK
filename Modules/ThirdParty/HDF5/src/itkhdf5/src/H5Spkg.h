@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -150,7 +149,7 @@ struct H5S_pnt_list_t {
 struct H5S_hyper_span_t {
     hsize_t                       low, high; /* Low & high bounds of elements selected for span, inclusive */
     struct H5S_hyper_span_info_t *down;      /* Pointer to list of spans in next dimension down */
-    struct H5S_hyper_span_t *     next;      /* Pointer to next span in list */
+    struct H5S_hyper_span_t      *next;      /* Pointer to next span in list */
 };
 
 /* "Operation info" struct.  Used to hold temporary information during  copies,
@@ -201,7 +200,7 @@ struct H5S_hyper_span_info_t {
 typedef enum {
     H5S_DIMINFO_VALID_IMPOSSIBLE, /* 0: diminfo is not valid and can never be valid with the current selection
                                    */
-    H5S_DIMINFO_VALID_NO,         /* 1: diminfo is not valid but may or may not be possible to constuct */
+    H5S_DIMINFO_VALID_NO,         /* 1: diminfo is not valid but may or may not be possible to construct */
     H5S_DIMINFO_VALID_YES         /* 2: diminfo is valid */
 } H5S_diminfo_valid_t;
 
@@ -242,11 +241,12 @@ typedef herr_t (*H5S_sel_release_func_t)(H5S_t *space);
 /* Method to determine if current selection is valid for dataspace */
 typedef htri_t (*H5S_sel_is_valid_func_t)(const H5S_t *space);
 /* Method to determine number of bytes required to store current selection */
-typedef hssize_t (*H5S_sel_serial_size_func_t)(const H5S_t *space);
+typedef hssize_t (*H5S_sel_serial_size_func_t)(H5S_t *space);
 /* Method to store current selection in "serialized" form (a byte sequence suitable for storing on disk) */
-typedef herr_t (*H5S_sel_serialize_func_t)(const H5S_t *space, uint8_t **p);
+typedef herr_t (*H5S_sel_serialize_func_t)(H5S_t *space, uint8_t **p);
 /* Method to create selection from "serialized" form (a byte sequence suitable for storing on disk) */
-typedef herr_t (*H5S_sel_deserialize_func_t)(H5S_t **space, const uint8_t **p);
+typedef herr_t (*H5S_sel_deserialize_func_t)(H5S_t **space, const uint8_t **p, const size_t p_size,
+                                             hbool_t skip);
 /* Method to determine smallest n-D bounding box containing the current selection */
 typedef herr_t (*H5S_sel_bounds_func_t)(const H5S_t *space, hsize_t *start, hsize_t *end);
 /* Method to determine linear offset of initial element in selection within dataspace */
@@ -260,12 +260,11 @@ typedef htri_t (*H5S_sel_is_contiguous_func_t)(const H5S_t *space);
 /* Method to determine if current selection is a single block */
 typedef htri_t (*H5S_sel_is_single_func_t)(const H5S_t *space);
 /* Method to determine if current selection is "regular" */
-typedef htri_t (*H5S_sel_is_regular_func_t)(const H5S_t *space);
+typedef htri_t (*H5S_sel_is_regular_func_t)(H5S_t *space);
 /* Method to determine if two dataspaces' selections are the same shape */
-typedef htri_t (*H5S_sel_shape_same_func_t)(const H5S_t *space1, const H5S_t *space2);
+typedef htri_t (*H5S_sel_shape_same_func_t)(H5S_t *space1, H5S_t *space2);
 /* Method to determine if selection intersects a block */
-typedef htri_t (*H5S_sel_intersect_block_func_t)(const H5S_t *space, const hsize_t *start,
-                                                 const hsize_t *end);
+typedef htri_t (*H5S_sel_intersect_block_func_t)(H5S_t *space, const hsize_t *start, const hsize_t *end);
 /* Method to adjust a selection by an offset */
 typedef herr_t (*H5S_sel_adjust_u_func_t)(H5S_t *space, const hsize_t *offset);
 /* Method to adjust a selection by an offset (signed) */
@@ -275,7 +274,7 @@ typedef herr_t (*H5S_sel_project_scalar)(const H5S_t *space, hsize_t *offset);
 /* Method to construct selection projection onto/into simple dataspace */
 typedef herr_t (*H5S_sel_project_simple)(const H5S_t *space, H5S_t *new_space, hsize_t *offset);
 /* Method to initialize iterator for current selection */
-typedef herr_t (*H5S_sel_iter_init_func_t)(const H5S_t *space, H5S_sel_iter_t *sel_iter);
+typedef herr_t (*H5S_sel_iter_init_func_t)(H5S_t *space, H5S_sel_iter_t *sel_iter);
 
 /* Selection class information */
 typedef struct {
@@ -286,7 +285,7 @@ typedef struct {
     H5S_sel_release_func_t  release;  /* Method to release current selection */
     H5S_sel_is_valid_func_t is_valid; /* Method to determine if current selection is valid for dataspace */
     H5S_sel_serial_size_func_t
-                             serial_size; /* Method to determine number of bytes required to store current selection */
+        serial_size; /* Method to determine number of bytes required to store current selection */
     H5S_sel_serialize_func_t serialize;     /* Method to store current selection in "serialized" form (a byte
                                                sequence suitable for storing on disk) */
     H5S_sel_deserialize_func_t deserialize; /* Method to store create selection from "serialized" form (a byte
@@ -294,7 +293,7 @@ typedef struct {
     H5S_sel_bounds_func_t
         bounds; /* Method to determine to smallest n-D bounding box containing the current selection */
     H5S_sel_offset_func_t
-                             offset; /* Method to determine linear offset of initial element in selection within dataspace */
+        offset; /* Method to determine linear offset of initial element in selection within dataspace */
     H5S_sel_unlim_dim_func_t unlim_dim; /* Method to get unlimited dimension of selection (or -1 for none) */
     H5S_sel_num_elem_non_unlim_func_t num_elem_non_unlim; /* Method to get the number of elements in a slice
                                                              through the unlimited dimension */
@@ -304,9 +303,9 @@ typedef struct {
     H5S_sel_shape_same_func_t
         shape_same; /* Method to determine if two dataspaces' selections are the same shape */
     H5S_sel_intersect_block_func_t
-                             intersect_block; /* Method to determine if a dataspaces' selection intersects a block */
-    H5S_sel_adjust_u_func_t  adjust_u;        /* Method to adjust a selection by an offset */
-    H5S_sel_adjust_s_func_t  adjust_s;        /* Method to adjust a selection by an offset (signed) */
+        intersect_block;               /* Method to determine if a dataspaces' selection intersects a block */
+    H5S_sel_adjust_u_func_t  adjust_u; /* Method to adjust a selection by an offset */
+    H5S_sel_adjust_s_func_t  adjust_s; /* Method to adjust a selection by an offset (signed) */
     H5S_sel_project_scalar   project_scalar; /* Method to construct scalar dataspace projection */
     H5S_sel_project_simple   project_simple; /* Method to construct simple dataspace projection */
     H5S_sel_iter_init_func_t iter_init;      /* Method to initialize iterator for current selection */
@@ -322,7 +321,7 @@ typedef struct {
     hsize_t num_elem; /* Number of elements in selection */
 
     union {
-        H5S_pnt_list_t * pnt_lst; /* Info about list of selected points (order is important) */
+        H5S_pnt_list_t  *pnt_lst; /* Info about list of selected points (order is important) */
         H5S_hyper_sel_t *hslab;   /* Info about hyperslab selection */
     } sel_info;
 } H5S_select_t;
@@ -370,7 +369,7 @@ typedef struct H5S_sel_iter_class_t {
     H5S_sel_iter_next_block_func_t
         iter_next_block; /* Method to move selection iterator to the next block in the selection */
     H5S_sel_iter_get_seq_list_func_t
-                                iter_get_seq_list; /* Method to retrieve a list of offset/length sequences for selection iterator */
+        iter_get_seq_list; /* Method to retrieve a list of offset/length sequences for selection iterator */
     H5S_sel_iter_release_func_t iter_release; /* Method to release iterator for current selection */
 } H5S_sel_iter_class_t;
 
@@ -405,9 +404,8 @@ H5_DLL herr_t H5S__extent_copy_real(H5S_extent_t *dst, const H5S_extent_t *src, 
 H5_DLL uint64_t H5S__hyper_get_op_gen(void);
 H5_DLL void     H5S__hyper_rebuild(H5S_t *space);
 H5_DLL herr_t   H5S__modify_select(H5S_t *space1, H5S_seloper_t op, H5S_t *space2);
-H5_DLL herr_t   H5S__hyper_project_intersection(const H5S_t *src_space, const H5S_t *dst_space,
-                                                const H5S_t *src_intersect_space, H5S_t *proj_space,
-                                                hbool_t share_space);
+H5_DLL herr_t H5S__hyper_project_intersection(H5S_t *src_space, H5S_t *dst_space, H5S_t *src_intersect_space,
+                                              H5S_t *proj_space, hbool_t share_space);
 
 /* Testing functions */
 #ifdef H5S_TESTING

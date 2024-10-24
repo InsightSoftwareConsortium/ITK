@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -85,10 +84,10 @@ H5_DLL herr_t     H5I_find_id(const void *object, H5I_type_t type, hid_t *id /*o
  */
 
 /* Functions that manipulate objects */
-H5_DLL void * H5I_object(hid_t id);
-H5_DLL void * H5I_object_verify(hid_t id, H5I_type_t type);
-H5_DLL void * H5I_remove(hid_t id);
-H5_DLL void * H5I_subst(hid_t id, const void *new_object);
+H5_DLL void  *H5I_object(hid_t id);
+H5_DLL void  *H5I_object_verify(hid_t id, H5I_type_t type);
+H5_DLL void  *H5I_remove(hid_t id);
+H5_DLL void  *H5I_subst(hid_t id, const void *new_object);
 H5_DLL htri_t H5I_is_file_object(hid_t id);
 
 /* ID registration functions */

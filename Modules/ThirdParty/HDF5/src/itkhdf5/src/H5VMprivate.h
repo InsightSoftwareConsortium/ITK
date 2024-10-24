@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -393,8 +392,8 @@ static const unsigned char LogTable256[] = {
 static inline unsigned H5_ATTR_UNUSED
 H5VM_log2_gen(uint64_t n)
 {
-    unsigned              r;          /* r will be log2(n) */
-    register unsigned int t, tt, ttt; /* temporaries */
+    unsigned     r;          /* r will be log2(n) */
+    unsigned int t, tt, ttt; /* temporaries */
 
     if ((ttt = (unsigned)(n >> 32)))
         if ((tt = (unsigned)(n >> 48)))

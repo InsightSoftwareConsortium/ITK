@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -204,7 +203,7 @@ herr_t
 H5C_log_trace_set_up(H5C_log_info_t *log_info, const char log_location[], int mpi_rank)
 {
     H5C_log_trace_udata_t *trace_udata = NULL;
-    char *                 file_name   = NULL;
+    char                  *file_name   = NULL;
     size_t                 n_chars;
     herr_t                 ret_value = SUCCEED; /* Return value */
 

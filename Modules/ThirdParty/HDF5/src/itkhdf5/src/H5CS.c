@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -47,7 +46,7 @@ typedef struct H5CS_t {
  * each thread individually. The association of stacks to threads will
  * be handled by the pthread library.
  *
- * In order for this macro to work, H5CS_get_my_stack() must be preceeded
+ * In order for this macro to work, H5CS_get_my_stack() must be preceded
  * by "H5CS_t *fstack =".
  */
 static H5CS_t *H5CS__get_stack(void);
@@ -127,7 +126,7 @@ H5CS__get_stack(void)
 herr_t
 H5CS_print_stack(const H5CS_t *fstack, FILE *stream)
 {
-    const int indent = 2; /* Indention level */
+    const int indent = 2; /* Indentation level */
     int       i;          /* Local index ariable */
 
     /* Don't push this function on the function stack... :-) */
@@ -244,10 +243,10 @@ H5CS_pop(void)
 H5CS_t *
 H5CS_copy_stack(void)
 {
-    H5CS_t * old_stack = H5CS_get_my_stack(); /* Existing function stack for library */
-    H5CS_t * new_stack;                       /* New function stack, for copy */
+    H5CS_t  *old_stack = H5CS_get_my_stack(); /* Existing function stack for library */
+    H5CS_t  *new_stack;                       /* New function stack, for copy */
     unsigned u;                               /* Local index variable */
-    H5CS_t * ret_value = NULL;                /* Return value */
+    H5CS_t  *ret_value = NULL;                /* Return value */
 
     /* Don't push this function on the function stack... :-) */
     FUNC_ENTER_NOAPI_NOFS

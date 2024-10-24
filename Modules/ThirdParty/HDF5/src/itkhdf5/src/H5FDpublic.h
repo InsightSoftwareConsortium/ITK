@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -18,8 +17,13 @@
 #ifndef H5FDpublic_H
 #define H5FDpublic_H
 
-#include "H5public.h"
-#include "H5Fpublic.h" /*for H5F_close_degree_t */
+/* Public headers needed by this file */
+#include "H5public.h"  /* Generic Functions */
+#include "H5Fpublic.h" /* Files */
+
+/*****************/
+/* Public Macros */
+/*****************/
 
 #define H5_HAVE_VFL      1 /*define a convenient app feature test*/
 #define H5FD_VFD_DEFAULT 0 /* Default VFL driver value */
@@ -180,7 +184,7 @@ typedef enum H5F_mem_t H5FD_mem_t;
 /*
  * Defining H5FD_FEAT_DATA_SIEVE for a VFL driver means that
  * the library will attempt to cache raw data as it is read from/written to
- * a file in a "data seive" buffer.  See Rajeev Thakur's papers:
+ * a file in a "data sieve" buffer.  See Rajeev Thakur's papers:
  *  http://www.mcs.anl.gov/~thakur/papers/romio-coll.ps.gz
  *  http://www.mcs.anl.gov/~thakur/papers/mpio-high-perf.ps.gz
  */
@@ -268,7 +272,7 @@ typedef struct H5FD_t H5FD_t;
 
 /* Class information for each file driver */
 typedef struct H5FD_class_t {
-    const char *       name;
+    const char        *name;
     haddr_t            maxaddr;
     H5F_close_degree_t fc_degree;
     herr_t (*terminate)(void);
@@ -441,8 +445,8 @@ extern "C" {
 #endif
 
 /* Function prototypes */
-H5_DLL hid_t  H5FDregister(const H5FD_class_t *cls);
-H5_DLL herr_t H5FDunregister(hid_t driver_id);
+H5_DLL hid_t   H5FDregister(const H5FD_class_t *cls);
+H5_DLL herr_t  H5FDunregister(hid_t driver_id);
 H5_DLL H5FD_t *H5FDopen(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
 H5_DLL herr_t  H5FDclose(H5FD_t *file);
 H5_DLL int     H5FDcmp(const H5FD_t *f1, const H5FD_t *f2);
@@ -462,7 +466,26 @@ H5_DLL herr_t  H5FDtruncate(H5FD_t *file, hid_t dxpl_id, hbool_t closing);
 H5_DLL herr_t  H5FDlock(H5FD_t *file, hbool_t rw);
 H5_DLL herr_t  H5FDunlock(H5FD_t *file);
 
-/* Allows querying a VFD ID for features before the file is opened */
+/**
+ * \ingroup H5FD
+ *
+ * \brief Allows querying a VFD ID for features before the file is opened
+ *
+ * \param[in] driver_id Virtual File Driver (VFD) ID
+ * \param[out] flags VFD flags supported
+ *
+ * \return \herr_t
+ *
+ * \details Queries a virtual file driver (VFD) for feature flags. Takes a
+ *          VFD hid_t so it can be used before the file is opened. For example,
+ *          this could be used to check if a VFD supports SWMR.
+ *
+ * \note The flags obtained here are just those of the base driver and
+ *       do not take any configuration options (e.g., set via a fapl
+ *       call) into consideration.
+ *
+ * \since 1.10.2
+ */
 H5_DLL herr_t H5FDdriver_query(hid_t driver_id, unsigned long *flags /*out*/);
 
 #ifdef __cplusplus
