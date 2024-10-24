@@ -47,10 +47,9 @@ BSpline(int argc, char * argv[])
 
   // Reconstruction of the scalar field from the control points
 
-  typename ScalarFieldType::PointType   origin{};
-  auto                                  size = ScalarFieldType::SizeType::Filled(100);
-  typename ScalarFieldType::SpacingType spacing;
-  spacing.Fill(1.0);
+  typename ScalarFieldType::PointType origin{};
+  auto                                size = ScalarFieldType::SizeType::Filled(100);
+  auto                                spacing = itk::MakeFilled<typename ScalarFieldType::SpacingType>(1.0);
 
   using BSplinerType = itk::BSplineControlPointImageFilter<ScalarFieldType, ScalarFieldType>;
   auto bspliner = BSplinerType::New();
@@ -58,8 +57,7 @@ BSpline(int argc, char * argv[])
   bspliner->SetInput(reader->GetOutput());
 
   typename BSplinerType::ArrayType::ValueType closeDimensionVal = 0;
-  typename BSplinerType::ArrayType            closeDimension;
-  closeDimension.Fill(closeDimensionVal);
+  auto closeDimension = itk::MakeFilled<typename BSplinerType::ArrayType>(closeDimensionVal);
   bspliner->SetCloseDimension(closeDimension);
   ITK_TEST_SET_GET_VALUE(closeDimension, bspliner->GetCloseDimension());
 
@@ -102,8 +100,7 @@ BSpline(int argc, char * argv[])
   // and seeing if the output is the same. In this example we double the
   // resolution twice as the refinement is doubled at every level.
   //
-  typename BSplinerType::ArrayType numberOfRefinementLevels;
-  numberOfRefinementLevels.Fill(3);
+  auto numberOfRefinementLevels = itk::MakeFilled<typename BSplinerType::ArrayType>(3);
 
   typename BSplinerType::ControlPointLatticeType::Pointer refinedControlPointLattice =
     bspliner->RefineControlPointLattice(numberOfRefinementLevels);

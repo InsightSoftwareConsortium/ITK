@@ -56,10 +56,8 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     small_image->Allocate();
 
     {
-      ImageType::SpacingType spacing;
-      spacing.Fill(FOV / static_cast<double>(small_ySize));
-      ImageType::PointType origin;
-      origin.Fill(0.5 * FOV / static_cast<double>(small_ySize));
+      auto spacing = itk::MakeFilled<ImageType::SpacingType>(FOV / static_cast<double>(small_ySize));
+      auto origin = itk::MakeFilled<ImageType::PointType>(0.5 * FOV / static_cast<double>(small_ySize));
 
       small_image->SetOrigin(origin);
       small_image->SetSpacing(spacing);
@@ -128,10 +126,8 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     large_image->Allocate();
 
     {
-      ImageType::SpacingType spacing;
-      spacing.Fill(FOV / static_cast<double>(large_ySize));
-      ImageType::PointType origin;
-      origin.Fill(0.5 * FOV / static_cast<double>(large_ySize));
+      auto spacing = itk::MakeFilled<ImageType::SpacingType>(FOV / static_cast<double>(large_ySize));
+      auto origin = itk::MakeFilled<ImageType::PointType>(0.5 * FOV / static_cast<double>(large_ySize));
 
       large_image->SetOrigin(origin);
       large_image->SetSpacing(spacing);

@@ -75,8 +75,7 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   inputDisplacementField->Allocate();
 
   // Initialize the content of the input image
-  DeformationPixelType vectorValue;
-  vectorValue.Fill(5.0); // FIXME: replace with something more interesting...
+  auto vectorValue = itk::MakeFilled<DeformationPixelType>(5.0); // FIXME: replace with something more interesting...
   inputDisplacementField->FillBuffer(vectorValue);
 
   // Declare the type for the itk::WarpHarmonicEnergyCalculator
@@ -92,8 +91,7 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   auto useImageSpacing = static_cast<bool>(std::stoi(argv[1]));
   ITK_TEST_SET_GET_BOOLEAN(calculator, UseImageSpacing, useImageSpacing);
 
-  CalculatorType::WeightsType derivativeWeights;
-  derivativeWeights.Fill(std::stod(argv[2]));
+  auto derivativeWeights = itk::MakeFilled<CalculatorType::WeightsType>(std::stod(argv[2]));
   calculator->SetDerivativeWeights(derivativeWeights);
   ITK_TEST_SET_GET_VALUE(derivativeWeights, calculator->GetDerivativeWeights());
 

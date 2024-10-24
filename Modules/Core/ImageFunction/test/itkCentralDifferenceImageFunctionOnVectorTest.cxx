@@ -132,8 +132,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   }
 
   // test continuous index
-  typename FunctionType::ContinuousIndexType cindex;
-  cindex.Fill(8.0);
+  auto       cindex = itk::MakeFilled<typename FunctionType::ContinuousIndexType>(8.0);
   OutputType continuousIndexOutput = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
   std::cout << continuousIndexOutput << std::endl;
@@ -144,8 +143,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
     result = EXIT_FAILURE;
   }
 
-  typename FunctionType::PointType point;
-  point.Fill(8.0);
+  auto       point = itk::MakeFilled<typename FunctionType::PointType>(8.0);
   OutputType pointOutput = function->Evaluate(point);
   std::cout << "Point: " << point << " Derivative: ";
   std::cout << pointOutput << std::endl;

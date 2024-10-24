@@ -241,8 +241,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   ra_it.SetLocation(loc);
 
   std::cout << "Adding [1, 1, 1, 1]" << std::endl;
-  OffsetType a_off;
-  a_off.Fill(1);
+  auto a_off = itk::MakeFilled<OffsetType>(1);
   ra_it += a_off;
   for (unsigned int i = 0; i < 4; ++i)
   {

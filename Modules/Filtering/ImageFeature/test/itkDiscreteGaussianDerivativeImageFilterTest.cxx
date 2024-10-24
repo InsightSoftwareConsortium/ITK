@@ -96,14 +96,12 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
     maxKernelWidth = std::stoi(argv[7]);
   }
 
-  DerivativeFilterType::ArrayType variance;
-  variance.Fill(sigma * sigma);
+  auto variance = itk::MakeFilled<DerivativeFilterType::ArrayType>(sigma * sigma);
 
   derivativeFilter->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, derivativeFilter->GetVariance());
 
-  DerivativeFilterType::ArrayType maxError;
-  maxError.Fill(maxErrorVal);
+  auto maxError = itk::MakeFilled<DerivativeFilterType::ArrayType>(maxErrorVal);
 
   derivativeFilter->SetMaximumError(maxErrorVal);
   ITK_TEST_SET_GET_VALUE(maxError, derivativeFilter->GetMaximumError());

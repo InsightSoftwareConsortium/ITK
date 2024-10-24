@@ -88,8 +88,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
   auto sigmaVal =
     static_cast<typename GaussianDerivativeImageFunctionType::VarianceArrayType::ValueType>(sigma * sigma);
-  typename GaussianDerivativeImageFunctionType::VarianceArrayType variance;
-  variance.Fill(sigmaVal);
+  auto variance = itk::MakeFilled<typename GaussianDerivativeImageFunctionType::VarianceArrayType>(sigmaVal);
 
   function->SetVariance(sigmaVal);
   ITK_TEST_SET_GET_VALUE(variance, function->GetVariance());

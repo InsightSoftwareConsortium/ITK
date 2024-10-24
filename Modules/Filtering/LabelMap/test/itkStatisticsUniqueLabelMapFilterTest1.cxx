@@ -105,8 +105,7 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   labelMapConverter->SetBackgroundValue(PixelType{});
 
   using StructuringElementType = itk::FlatStructuringElement<Dimension>;
-  StructuringElementType::RadiusType radius;
-  radius.Fill(radiusValue);
+  auto radius = itk::MakeFilled<StructuringElementType::RadiusType>(radiusValue);
 
   StructuringElementType structuringElement = StructuringElementType::Box(radius);
 

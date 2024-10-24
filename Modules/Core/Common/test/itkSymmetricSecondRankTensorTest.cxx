@@ -426,8 +426,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     tensor3D(2, 1) = 0.0; // overrides (1,2)
     tensor3D(2, 2) = 29.0;
 
-    Double3DMatrixType matrix3D;
-    matrix3D.Fill(1.0);
+    auto                matrix3D = itk::MakeFilled<Double3DMatrixType>(1.0);
     std::vector<double> ans;
     ans.push_back(26);
     ans.push_back(23);

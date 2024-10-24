@@ -63,8 +63,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
 
   TubePointListType list;
 
-  TubeType::TransformType::OffsetType offset;
-  offset.Fill(10);
+  auto offset = itk::MakeFilled<TubeType::TransformType::OffsetType>(10);
   tube1->GetModifiableObjectToParentTransform()->SetOffset(offset);
 
   for (unsigned int i = 0; i < 10; ++i)
@@ -533,14 +532,11 @@ itkDTITubeSpatialObjectTest(int, char *[])
     pOriginal.SetPositionInObjectSpace(42, 41, 43);
 
     // itk::TubeSpatialObjectPoint
-    TubePointType::VectorType tangent;
-    tangent.Fill(1);
+    auto tangent = itk::MakeFilled<TubePointType::VectorType>(1);
     pOriginal.SetTangentInObjectSpace(tangent);
-    TubePointType::CovariantVectorType normal1;
-    normal1.Fill(2);
+    auto normal1 = itk::MakeFilled<TubePointType::CovariantVectorType>(2);
     pOriginal.SetNormal1InObjectSpace(normal1);
-    TubePointType::CovariantVectorType normal2;
-    normal2.Fill(3);
+    auto normal2 = itk::MakeFilled<TubePointType::CovariantVectorType>(3);
     pOriginal.SetNormal2InObjectSpace(normal2);
     pOriginal.SetRadiusInObjectSpace(1.0);
     pOriginal.SetMedialness(2.0);

@@ -104,8 +104,7 @@ TestGaussianDerivativeImageFunction()
   typename DoGFunctionType::OutputType gradientPoint;
   gradientPoint = DoG->Evaluate(pt);
 
-  typename DoGFunctionType::ContinuousIndexType continuousIndex;
-  continuousIndex.Fill(25);
+  auto continuousIndex = itk::MakeFilled<typename DoGFunctionType::ContinuousIndexType>(25);
   typename DoGFunctionType::OutputType gradientContinuousIndex;
   gradientContinuousIndex = DoG->EvaluateAtContinuousIndex(continuousIndex);
 

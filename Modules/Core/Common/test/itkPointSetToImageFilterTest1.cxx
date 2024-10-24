@@ -68,8 +68,7 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
 
 
   BinaryImageType::SpacingType::ValueType spacingValue = 1.0;
-  BinaryImageType::SpacingType            spacing;
-  spacing.Fill(spacingValue);
+  auto                                    spacing = itk::MakeFilled<BinaryImageType::SpacingType>(spacingValue);
   filter->SetSpacing(spacing);
   ITK_TEST_SET_GET_VALUE(spacing, filter->GetSpacing());
 

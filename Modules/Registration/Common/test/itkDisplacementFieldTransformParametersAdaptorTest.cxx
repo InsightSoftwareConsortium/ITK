@@ -30,15 +30,13 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
    * Define the transformation domain
    */
   using PointType = TransformType::PointType;
-  PointType origin;
-  origin.Fill(-5.0);
+  auto origin = itk::MakeFilled<PointType>(-5.0);
 
   using SizeType = TransformType::SizeType;
   auto size = SizeType::Filled(65);
 
   using SpacingType = TransformType::SpacingType;
-  SpacingType spacing;
-  spacing.Fill(1.2);
+  auto spacing = itk::MakeFilled<SpacingType>(1.2);
 
   using DirectionType = TransformType::DirectionType;
   DirectionType direction;
@@ -55,8 +53,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
   TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
-  TransformType::OutputVectorType nonzeroVector;
-  nonzeroVector.Fill(10.3);
+  auto nonzeroVector = itk::MakeFilled<TransformType::OutputVectorType>(10.3);
 
   auto index = DisplacementFieldType::IndexType::Filled(40);
   displacementField->SetPixel(index, nonzeroVector);
@@ -69,8 +66,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
   auto transform = TransformType::New();
   transform->SetDisplacementField(displacementField);
 
-  TransformType::InputPointType point;
-  point.Fill(50.0);
+  auto                           point = itk::MakeFilled<TransformType::InputPointType>(50.0);
   TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
 
   SpacingType spacingBefore = transform->GetDisplacementField()->GetSpacing();
@@ -84,8 +80,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
 
   std::cout << "Instantiate adaptor." << std::endl;
 
-  SpacingType requiredSpacing;
-  requiredSpacing.Fill(0.6);
+  auto     requiredSpacing = itk::MakeFilled<SpacingType>(0.6);
   SizeType requiredSize;
   for (unsigned int d = 0; d < SpaceDimension; ++d)
   {

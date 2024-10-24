@@ -48,8 +48,7 @@ itkImageSpatialObjectTest(int, char *[])
   ImageType::SizeType   size = { { 10, 10, 10 } };
   ImageType::IndexType  index = { { 0, 0, 0 } };
   ImageType::RegionType region;
-  ImageType::PointType  origin;
-  origin.Fill(5);
+  auto                  origin = itk::MakeFilled<ImageType::PointType>(5);
 
   region.SetSize(size);
   region.SetIndex(index);
@@ -78,8 +77,7 @@ itkImageSpatialObjectTest(int, char *[])
   imageSO->SetImage(image);
   imageSO->Update();
 
-  ImageSpatialObject::TransformType::OffsetType offset;
-  offset.Fill(5);
+  auto offset = itk::MakeFilled<ImageSpatialObject::TransformType::OffsetType>(5);
 
   imageSO->GetModifiableObjectToParentTransform()->SetOffset(offset);
   imageSO->Update();

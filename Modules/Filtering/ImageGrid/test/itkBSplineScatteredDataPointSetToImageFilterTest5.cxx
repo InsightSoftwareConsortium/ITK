@@ -160,8 +160,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
   filter->SetNumberOfLevels(4);
   filter->SetGenerateOutputImage(false);
 
-  FilterType::ArrayType close;
-  close.Fill(1);
+  auto close = itk::MakeFilled<FilterType::ArrayType>(1);
   filter->SetCloseDimension(close);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());

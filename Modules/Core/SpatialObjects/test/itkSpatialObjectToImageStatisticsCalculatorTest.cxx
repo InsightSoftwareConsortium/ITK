@@ -31,17 +31,15 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   using EllipseType = itk::EllipseSpatialObject<2>;
 
   // Image Definition
-  auto                   size = ImageType::SizeType::Filled(50);
-  ImageType::SpacingType spacing;
-  spacing.Fill(1);
+  auto size = ImageType::SizeType::Filled(50);
+  auto spacing = itk::MakeFilled<ImageType::SpacingType>(1);
 
   // Circle definition
   auto ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(10);
   ellipse->Update();
 
-  EllipseType::VectorType offset;
-  offset.Fill(25);
+  auto offset = itk::MakeFilled<EllipseType::VectorType>(25);
   ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse->Update();
 
@@ -182,8 +180,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   radii[2] = 0;
   ellipse3D->SetRadiusInObjectSpace(radii);
 
-  Ellipse3DType::VectorType offset3D;
-  offset3D.Fill(25);
+  auto offset3D = itk::MakeFilled<Ellipse3DType::VectorType>(25);
   offset3D[2] = 0; // first slice
   ellipse3D->GetModifiableObjectToParentTransform()->SetOffset(offset3D);
   ellipse3D->Update();

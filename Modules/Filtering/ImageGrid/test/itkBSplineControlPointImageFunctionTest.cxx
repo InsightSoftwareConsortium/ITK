@@ -92,14 +92,12 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
     }
   }
 
-  BSplinerType::ArrayType bSplineOrder;
-  bSplineOrder.Fill(bSplineOrderValue);
+  auto bSplineOrder = itk::MakeFilled<BSplinerType::ArrayType>(bSplineOrderValue);
   bspliner->SetSplineOrder(bSplineOrder);
   ITK_TEST_SET_GET_VALUE(bSplineOrder, bspliner->GetSplineOrder());
 
   BSplinerType::ArrayType::ValueType closeDimensionValue = 0;
-  BSplinerType::ArrayType            closeDimension;
-  closeDimension.Fill(closeDimensionValue);
+  auto                               closeDimension = itk::MakeFilled<BSplinerType::ArrayType>(closeDimensionValue);
   bspliner->SetCloseDimension(closeDimension);
   ITK_TEST_SET_GET_VALUE(closeDimension, bspliner->GetCloseDimension());
 

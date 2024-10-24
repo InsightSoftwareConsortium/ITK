@@ -62,8 +62,7 @@ itkBSplineTransformTest1()
   OriginType origin{};
 
   using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
-  PhysicalDimensionsType dimensions;
-  dimensions.Fill(100);
+  auto dimensions = itk::MakeFilled<PhysicalDimensionsType>(100);
 
   using MeshSizeType = TransformType::MeshSizeType;
   auto meshSize = MeshSizeType::Filled(10);
@@ -319,8 +318,7 @@ itkBSplineTransformTest1()
    */
   {
     using VectorType = TransformType::InputVectorType;
-    VectorType vector;
-    vector.Fill(1.0);
+    auto vector = itk::MakeFilled<VectorType>(1.0);
 
     bool pass = false;
     try
@@ -343,8 +341,7 @@ itkBSplineTransformTest1()
 
   {
     using VectorType = TransformType::InputCovariantVectorType;
-    VectorType vector;
-    vector.Fill(1.0);
+    auto vector = itk::MakeFilled<VectorType>(1.0);
 
     bool pass = false;
     try
@@ -615,8 +612,7 @@ itkBSplineTransformTest3()
   OriginType origin{};
 
   using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
-  PhysicalDimensionsType dimensions;
-  dimensions.Fill(100);
+  auto dimensions = itk::MakeFilled<PhysicalDimensionsType>(100);
 
   using MeshSizeType = TransformType::MeshSizeType;
   auto meshSize = MeshSizeType::Filled(10);

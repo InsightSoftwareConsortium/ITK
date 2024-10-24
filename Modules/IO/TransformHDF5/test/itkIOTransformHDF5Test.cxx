@@ -55,16 +55,14 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
     typename FieldType::RegionType region{ start, size };
     knownField->SetRegions(region);
 
-    typename FieldType::SpacingType spacing;
-    spacing.Fill(requiredSpacing);
+    auto spacing = itk::MakeFilled<typename FieldType::SpacingType>(requiredSpacing);
     knownField->SetSpacing(spacing);
-    typename FieldType::PointType origin;
-    origin.Fill(requiredOrigin);
+    auto origin = itk::MakeFilled<typename FieldType::PointType>(requiredOrigin);
     knownField->SetOrigin(origin);
     knownField->Allocate();
 
-    typename DisplacementTransformType::OutputVectorType zeroVector;
-    zeroVector.Fill(aNumberThatCanNotBeRepresentedInFloatingPoint);
+    auto zeroVector = itk::MakeFilled<typename DisplacementTransformType::OutputVectorType>(
+      aNumberThatCanNotBeRepresentedInFloatingPoint);
     knownField->FillBuffer(zeroVector);
 
     displacementTransform->SetDisplacementField(knownField);
