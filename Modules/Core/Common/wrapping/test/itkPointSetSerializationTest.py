@@ -24,57 +24,76 @@ import sys
 import os
 
 
-Dimension = 3
-PixelType = itk.D
-NumberOfPoints = 5
+def test_point_set_serialization(use_unsafe_SetPoints_overload: bool = False):
+    """Tests serialization of a PointSet.
 
-PointSetType = itk.PointSet[PixelType, Dimension]
-point_set = PointSetType.New()
+    Parameters
+    ----------
+    use_unsafe_SetPoints_overload: Use the unsafe SetPoints overload, instead of
+    SetPointsByCoordinates, to specify the coordinates of the points. ITK issue
+    https://github.com/InsightSoftwareConsortium/ITK/issues/4848 explains why this SetPoints
+    overload is considered unsafe: "`PointSet::SetPoints(PointsVectorContainer *)` overload leads
+    to undefined behavior".
+    """
 
-# Set the name of mesh
-point_set.SetObjectName("testpointset")
+    Dimension = 3
+    PixelType = itk.D
+    NumberOfPoints = 5
 
-# Set Points in the PointSet
-PointType = itk.Point[itk.F, 3]
-if os.name == 'nt':
-    v_point = itk.VectorContainer[itk.ULL, PointType].New()
-else:
-    v_point = itk.VectorContainer[itk.UL, PointType].New()
-v_point.Reserve(NumberOfPoints)
+    PointSetType = itk.PointSet[PixelType, Dimension]
+    point_set = PointSetType.New()
 
-point = PointType()
-for i in range(NumberOfPoints):
-    point[0] = i + 1.0
-    point[1] = i + 2.0
-    point[2] = i + 3.0
-    v_point.SetElement(i, point)
+    # Set the name of mesh
+    point_set.SetObjectName("testpointset")
 
-arr = itk.array_view_from_vector_container(v_point)
-points_vc = itk.vector_container_from_array(arr.flatten())
+    # Set Points in the PointSet
+    PointType = itk.Point[itk.F, 3]
+    if os.name == 'nt':
+        v_point = itk.VectorContainer[itk.ULL, PointType].New()
+    else:
+        v_point = itk.VectorContainer[itk.UL, PointType].New()
+    v_point.Reserve(NumberOfPoints)
 
-point_set.SetPoints(points_vc)
+    point = PointType()
+    for i in range(NumberOfPoints):
+        point[0] = i + 1.0
+        point[1] = i + 2.0
+        point[2] = i + 3.0
+        v_point.SetElement(i, point)
 
+    arr = itk.array_view_from_vector_container(v_point)
+    points_vc = itk.vector_container_from_array(arr.flatten())
 
-# Check the serialization of mesh
-serialize_deserialize = pickle.loads(pickle.dumps(point_set))
-
-assert serialize_deserialize.GetNumberOfPoints() == point_set.GetNumberOfPoints()
-assert serialize_deserialize.GetObjectName() == point_set.GetObjectName()
-
-# Check if points are same
-p1 = itk.array_from_vector_container(serialize_deserialize.GetPoints())
-p2 = itk.array_from_vector_container(point_set.GetPoints())
-assert np.array_equal(p1, p2)
+    if use_unsafe_SetPoints_overload:
+        point_set.SetPoints(points_vc)
+    else:
+        point_set.SetPointsByCoordinates(points_vc)
 
 
-# Check dictionary set/get for ITK point_set
-point_set["name"] = "testpoint_set1"
-assert point_set["name"] == "testpoint_set1"
+    # Check the serialization of mesh
+    serialize_deserialize = pickle.loads(pickle.dumps(point_set))
 
-points_array = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9], dtype="float32")
-point_set["points"] = points_array
-assert np.array_equal(point_set["points"], points_array)
+    assert serialize_deserialize.GetNumberOfPoints() == point_set.GetNumberOfPoints()
+    assert serialize_deserialize.GetObjectName() == point_set.GetObjectName()
 
-points_data_array = np.array([10, 11], dtype="float64")
-point_set["pointData"] = points_data_array
-assert np.array_equal(point_set["pointData"], points_data_array)
+    # Check if points are same
+    p1 = itk.array_from_vector_container(serialize_deserialize.GetPoints())
+    p2 = itk.array_from_vector_container(point_set.GetPoints())
+    assert np.array_equal(p1, p2)
+
+
+    # Check dictionary set/get for ITK point_set
+    point_set["name"] = "testpoint_set1"
+    assert point_set["name"] == "testpoint_set1"
+
+    points_array = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9], dtype="float32")
+    point_set["points"] = points_array
+    assert np.array_equal(point_set["points"], points_array)
+
+    points_data_array = np.array([10, 11], dtype="float64")
+    point_set["pointData"] = points_data_array
+    assert np.array_equal(point_set["pointData"], points_data_array)
+
+
+test_point_set_serialization()
+test_point_set_serialization(use_unsafe_SetPoints_overload=True)
