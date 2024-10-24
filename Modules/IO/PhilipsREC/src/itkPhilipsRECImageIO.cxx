@@ -710,7 +710,7 @@ PhilipsRECImageIO::ReadImageInformation()
   AffineMatrix spacing;
   spacing.SetIdentity();
 
-  AnatomicalOrientation coord_orient(AnatomicalOrientation::FromEnum::RSA);
+  AnatomicalOrientation coord_orient(AnatomicalOrientation::NegativeEnum::RSA);
 
   switch (par.sliceorient)
   {
