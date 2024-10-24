@@ -41,9 +41,16 @@ the [`setup-git-aliases`] script for general Git tasks in ITK.
 Visit the *Pro Git: Setup* resource in [Git Help] for further
 information on setting up your local Git environment.
 
+(build)=
+Local Build and Testing
+-----------------------
+
+See our guide on how to [build and test ITK] to make and test your change
+locally.
+
 (workflow)=
-Workflow
---------
+Git Workflow
+------------
 
 ITK development uses a branchy workflow based on topic branches.
 This corresponds to the *Fork & Pull Model* mentioned in the
@@ -387,6 +394,7 @@ Actual releases have tags named by the release version number.
 :maxdepth: 3
 :caption: 📖 More Information
 
+build_test_itk.md
 ITK Software Guide, Book 1, Part III: Development Guidelines <https://itk.org/ItkSoftwareGuide.pdf>
 git_help.md
 GitHub flow guide <https://guides.github.com/introduction/flow/index.html>
@@ -405,6 +413,7 @@ python_packaging.md
 [ITK Git Cheatsheet]: ./GitCheatSheet.pdf
 [download instructions]: ../download.md
 [Updating Third Party]: ./updating_third_party.md
+[build and test ITK]: ./build_test_itk.md
 
 [`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/SetupForDevelopment.sh
 [`setup-git-aliases`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/GitSetup/setup-git-aliases
