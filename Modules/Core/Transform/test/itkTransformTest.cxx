@@ -86,9 +86,7 @@ public:
   OutputVectorPixelType
   TransformVector(const InputVectorPixelType & itkNotUsed(inputVector)) const override
   {
-    OutputVectorPixelType outVector;
-    outVector.Fill(88.8);
-    return outVector;
+    return {};
   }
 
   using Superclass::TransformCovariantVector;
@@ -103,9 +101,7 @@ public:
   OutputVectorPixelType
   TransformCovariantVector(const InputVectorPixelType & itkNotUsed(inputVector)) const override
   {
-    OutputVectorPixelType outVector;
-    outVector.Fill(6.9);
-    return outVector;
+    return {};
   }
 
   using Superclass::TransformDiffusionTensor3D;
@@ -120,9 +116,7 @@ public:
   OutputVectorPixelType
   TransformDiffusionTensor3D(const InputVectorPixelType & itkNotUsed(tensor)) const override
   {
-    OutputVectorPixelType outTensor;
-    outTensor.Fill(29.1);
-    return outTensor;
+    return {};
   }
 
   using Superclass::TransformSymmetricSecondRankTensor;
@@ -137,9 +131,7 @@ public:
   OutputVectorPixelType
   TransformSymmetricSecondRankTensor(const InputVectorPixelType & itkNotUsed(tensor)) const override
   {
-    OutputVectorPixelType outTensor;
-    outTensor.Fill(55.9);
-    return outTensor;
+    return {};
   }
 
   void
