@@ -661,6 +661,7 @@ itk_add_test(
 
 set(ITKImageGridGTests
     itkChangeInformationImageFilterGTest.cxx
+    itkOrientImageFilterGTest.cxx
     itkResampleImageFilterGTest.cxx
     itkSliceImageFilterTest.cxx
     itkTileImageFilterGTest.cxx
