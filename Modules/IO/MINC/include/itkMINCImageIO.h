@@ -123,6 +123,11 @@ public:
   void
   Write(const void * buffer) override;
 
+  /** Set to automatically convert from RAS to LPS*/
+  itkSetMacro(RAS_to_LPS, bool);
+  itkGetConstMacro(RAS_to_LPS, bool);
+  itkBooleanMacro(RAS_to_LPS);
+
 protected:
   MINCImageIO();
   ~MINCImageIO() override;
@@ -153,6 +158,7 @@ private:
 
   // complex type images, composed of complex numbers
   // int m_Complex;
+  bool m_RAS_to_LPS;
 };
 } // end namespace itk
 

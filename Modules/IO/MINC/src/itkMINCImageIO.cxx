@@ -29,6 +29,9 @@
 
 #include <memory> // For unique_ptr.
 
+#include "itkMINCImageIOConfigurePrivate.h"
+
+
 extern "C"
 {
   void
@@ -235,6 +238,7 @@ MINCImageIO::CloseVolume()
 
 MINCImageIO::MINCImageIO()
   : m_MINCPImpl(std::make_unique<MINCImageIOPImpl>())
+  , m_RAS_to_LPS(ITK_MINC_IO_RAS_TO_LPS)
 {
   for (auto & dimensionIndex : m_MINCPImpl->m_DimensionIndices)
   {
@@ -283,6 +287,7 @@ MINCImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "MINCPImpl: " << m_MINCPImpl.get() << std::endl;
   os << indent << "DirectionCosines: " << m_DirectionCosines << std::endl;
+  os << indent << "RAS_to_LPS: " << m_RAS_to_LPS << std::endl;
 }
 
 void
@@ -458,6 +463,14 @@ MINCImageIO::ReadImageInformation()
   Matrix<double, 3, 3> dir_cos{};
   dir_cos.SetIdentity();
 
+  // Conversion matrix for RAS (RightToLeft,AnteriorToPosterior,SuperiorToInferior)
+  // to LPS (LeftToRight,PosteriorToInferior,SuperiortoInferior)
+  Matrix<double, 3, 3> RAS_tofrom_LPS;
+  RAS_tofrom_LPS.SetIdentity();
+  RAS_tofrom_LPS(0, 0) = -1.0;
+  RAS_tofrom_LPS(1, 1) = -1.0;
+  std::vector<double> dir_cos_temp(3);
+
   Vector<double, 3> origin, sep;
   Vector<double, 3> o_origin;
   origin.Fill(0.0);
@@ -493,11 +506,27 @@ MINCImageIO::ReadImageInformation()
       sep[i - 1] = _sep;
 
       this->SetDimensions(i - 1, static_cast<unsigned int>(_sz));
-      this->SetDirection(i - 1, _dir);
       this->SetSpacing(i - 1, _sep);
 
       ++usable_dimensions;
     }
+  }
+
+  // Transform MINC RAS coordinates to internal ITK LPS Coordinates
+  if (this->m_RAS_to_LPS)
+    dir_cos = RAS_tofrom_LPS * dir_cos;
+
+  // Transform origin coordinates
+  o_origin = dir_cos * origin;
+
+  for (int i = 0; i < spatial_dimension_count; ++i)
+  {
+    this->SetOrigin(i, o_origin[i]);
+    for (unsigned int j = 0; j < 3; j++)
+    {
+      dir_cos_temp[j] = dir_cos[j][i];
+    }
+    this->SetDirection(i, dir_cos_temp);
   }
 
   if (m_MINCPImpl->m_DimensionIndices[0] != -1) // have vector dimension
@@ -530,13 +559,6 @@ MINCImageIO::ReadImageInformation()
   if (miset_apparent_dimension_order(m_MINCPImpl->m_Volume, usable_dimensions, m_MINCPImpl->m_MincApparentDims) < 0)
   {
     itkExceptionMacro(" Can't set apparent dimension order!");
-  }
-
-  o_origin = dir_cos * origin;
-
-  for (int i = 0; i < spatial_dimension_count; ++i)
-  {
-    this->SetOrigin(i, o_origin[i]);
   }
 
   miclass_t volume_data_class;
@@ -667,6 +689,8 @@ MINCImageIO::ReadImageInformation()
   std::string classname(GetNameOfClass());
   //  EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName,
   // classname);
+  // preserve information if the volume was RAS to LPS converted
+  EncapsulateMetaData<bool>(thisDic, "RAS_to_LPS", m_RAS_to_LPS);
 
   // store history
   size_t minc_history_length = 0;
@@ -958,6 +982,12 @@ MINCImageIO::WriteImageInformation()
   dircosmatrix.set_identity();
   vnl_vector<double> origin(nDims);
 
+  // MINC stores direction cosines in RAS, need to convert to LPS for ITK
+  vnl_matrix<double> RAS_tofrom_LPS(nDims, nDims);
+  RAS_tofrom_LPS.set_identity();
+  RAS_tofrom_LPS(0, 0) = -1.0;
+  RAS_tofrom_LPS(1, 1) = -1.0;
+
   for (unsigned int i = 0; i < nDims; ++i)
   {
     for (unsigned int j = 0; j < nDims; ++j)
@@ -969,6 +999,10 @@ MINCImageIO::WriteImageInformation()
 
   const vnl_matrix<double> inverseDirectionCosines{ vnl_matrix_inverse<double>(dircosmatrix).as_matrix() };
   origin *= inverseDirectionCosines; // transform to minc convention
+
+  // Convert ITK direction cosines from LPS to RAS convention
+  if (this->m_RAS_to_LPS)
+    dircosmatrix *= RAS_tofrom_LPS;
 
   for (unsigned int i = 0; i < nDims; ++i)
   {
@@ -998,27 +1032,21 @@ MINCImageIO::WriteImageInformation()
   {
     case IOComponentEnum::UCHAR:
       m_MINCPImpl->m_Volume_type = MI_TYPE_UBYTE;
-      // m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case IOComponentEnum::CHAR:
       m_MINCPImpl->m_Volume_type = MI_TYPE_BYTE;
-      // m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case IOComponentEnum::USHORT:
       m_MINCPImpl->m_Volume_type = MI_TYPE_USHORT;
-      // m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case IOComponentEnum::SHORT:
       m_MINCPImpl->m_Volume_type = MI_TYPE_SHORT;
-      // m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case IOComponentEnum::UINT:
       m_MINCPImpl->m_Volume_type = MI_TYPE_UINT;
-      // m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case IOComponentEnum::INT:
       m_MINCPImpl->m_Volume_type = MI_TYPE_INT;
-      // m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
       //     case IOComponentEnum::ULONG://TODO: make sure we are cross-platform here!
       //       volume_data_type=MI_TYPE_ULONG;
@@ -1026,10 +1054,10 @@ MINCImageIO::WriteImageInformation()
       //     case IOComponentEnum::LONG://TODO: make sure we are cross-platform here!
       //       volume_data_type=MI_TYPE_LONG;
       //       break;
-    case IOComponentEnum::FLOAT: // TODO: make sure we are cross-platform here!
+    case IOComponentEnum::FLOAT:
       m_MINCPImpl->m_Volume_type = MI_TYPE_FLOAT;
       break;
-    case IOComponentEnum::DOUBLE: // TODO: make sure we are cross-platform here!
+    case IOComponentEnum::DOUBLE:
       m_MINCPImpl->m_Volume_type = MI_TYPE_DOUBLE;
       break;
     default:
@@ -1069,7 +1097,6 @@ MINCImageIO::WriteImageInformation()
   if (ExposeMetaData<std::string>(thisDic, "dimension_order", dimension_order))
   {
     // the format should be ((+|-)(X|Y|Z|V|T))*
-    // std::cout<<"Restoring original dimension order:"<<dimension_order.c_str()<<std::endl;
     if (dimension_order.length() == (minc_dimensions * 2))
     {
       dimorder_good = true;
@@ -1306,6 +1333,13 @@ MINCImageIO::WriteImageInformation()
       // TODO: figure out what to do with it
     }
   }
+
+  // preserve information of ITK RAS to MINC LPS conversion
+  {
+    int tmp = (int)this->m_RAS_to_LPS;
+    miset_attr_values(m_MINCPImpl->m_Volume, MI_TYPE_INT, "itk", "RAS_to_LPS", 1, &tmp);
+  }
+
   mifree_volume_props(hprops);
 }
 
@@ -1440,7 +1474,7 @@ MINCImageIO::Write(const void * buffer)
   {
     itkExceptionMacro(" Can not set real value hyperslab!!\n");
   }
-  // TODO: determine what to do if we are streming
+  // TODO: determine what to do if we are streaming
   this->CloseVolume();
 }
 

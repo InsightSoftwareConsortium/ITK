@@ -1,3 +1,6 @@
+configure_file(itkMINCImageIOConfigurePrivate.h.in itkMINCImageIOConfigurePrivate.h @ONLY)
+include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+
 set(ITKIOMINC_SRC itkMINCImageIO.cxx itkMINCImageIOFactory.cxx)
 
 add_library(ITKIOMINC ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOMINC_SRC})
