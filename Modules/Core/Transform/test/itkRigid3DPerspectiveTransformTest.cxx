@@ -72,9 +72,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     ITK_TEST_SET_GET_VALUE(centerOfRotation, transform->GetCenterOfRotation());
 
     // This transform has no fixed parameters; empty method body; called for coverage purposes
-    typename TransformType::FixedParametersType::ValueType fixedParametersValues = 0;
-    typename TransformType::FixedParametersType            fixedParameters;
-    fixedParameters.Fill(fixedParametersValues);
+    const typename TransformType::FixedParametersType fixedParameters{};
     transform->SetFixedParameters(fixedParameters);
   }
 
