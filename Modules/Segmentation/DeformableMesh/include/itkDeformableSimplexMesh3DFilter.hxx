@@ -217,9 +217,8 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeGeometry()
 {
   PointType           Foot;
   CovariantVectorType normal;
-  CovariantVectorType z;
-  z.Fill(0.0);
-  VectorType tmp;
+  CovariantVectorType z{};
+  VectorType          tmp;
   //   IdentifierType idx = 0;
 
   const InputMeshType *        inputMesh = this->GetInput(0);
@@ -294,8 +293,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeDisplacement()
 
   typename GeometryMapType::Iterator dataIt = this->m_Data->Begin();
   SimplexMeshGeometry *              data;
-  VectorType                         displacement;
-  displacement.Fill(0.0);
+  VectorType                         displacement{};
 
   while (dataIt != this->m_Data->End())
   {

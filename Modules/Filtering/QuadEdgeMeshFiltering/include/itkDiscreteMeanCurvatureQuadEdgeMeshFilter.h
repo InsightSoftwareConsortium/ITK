@@ -89,13 +89,10 @@ protected:
 
     OutputCurvatureType oH(0.);
 
-    OutputVectorType Laplace;
-
-    Laplace.Fill(0.);
+    OutputVectorType Laplace{};
 
     OutputCurvatureType area(0.);
-    OutputVectorType    normal;
-    normal.Fill(0.);
+    OutputVectorType    normal{};
 
     if (qe != nullptr)
     {

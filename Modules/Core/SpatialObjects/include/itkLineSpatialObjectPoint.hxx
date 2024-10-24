@@ -26,8 +26,7 @@ template <unsigned int TPointDimension>
 LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint()
 {
   unsigned int        ii = 0;
-  CovariantVectorType normal;
-  normal.Fill(0);
+  CovariantVectorType normal{};
   while (ii < TPointDimension - 1)
   {
     this->m_NormalArrayInObjectSpace[ii] = normal;

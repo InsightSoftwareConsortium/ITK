@@ -290,8 +290,7 @@ SliceBySliceImageFilter<TInputImage,
       // not supported to avoid dealing with singularities, but we still account
       // for the direction matrix when collapsing the origin to an N-1
       // point.
-      typename InputImageType::IndexType originIndex;
-      originIndex.Fill(0);
+      typename InputImageType::IndexType originIndex{};
       originIndex[m_Dimension] = slice;
 
       typename InputImageType::PointType inputOrigin;

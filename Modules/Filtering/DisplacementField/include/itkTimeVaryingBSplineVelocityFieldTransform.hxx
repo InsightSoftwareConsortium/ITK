@@ -52,8 +52,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Inte
 
   using BSplineFilterType = BSplineControlPointImageFilter<VelocityFieldType, VelocityFieldType>;
 
-  typename BSplineFilterType::ArrayType closeDimensions;
-  closeDimensions.Fill(0);
+  typename BSplineFilterType::ArrayType closeDimensions{};
   if (this->m_TemporalPeriodicity)
   {
     closeDimensions[VDimension] = 1;

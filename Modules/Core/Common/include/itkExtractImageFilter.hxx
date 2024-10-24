@@ -62,11 +62,9 @@ ExtractImageFilter<TInputImage, TOutputImage>::SetExtractionRegion(InputImageReg
                 "InputImageDimension must be greater than OutputImageDimension");
   m_ExtractionRegion = extractRegion;
 
-  InputImageSizeType  inputSize = extractRegion.GetSize();
-  OutputImageSizeType outputSize;
-  outputSize.Fill(0);
-  OutputImageIndexType outputIndex;
-  outputIndex.Fill(0);
+  InputImageSizeType   inputSize = extractRegion.GetSize();
+  OutputImageSizeType  outputSize{};
+  OutputImageIndexType outputIndex{};
 
   /**
    * check to see if the number of non-zero entries in the extraction region
@@ -131,8 +129,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
     typename OutputImageType::SpacingType   outputSpacing;
     typename OutputImageType::DirectionType outputDirection;
-    typename OutputImageType::PointType     outputOrigin;
-    outputOrigin.Fill(0.0);
+    typename OutputImageType::PointType     outputOrigin{};
 
     if (static_cast<unsigned int>(OutputImageDimension) > static_cast<unsigned int>(InputImageDimension))
     {

@@ -455,8 +455,7 @@ MINCImageIO::ReadImageInformation()
   int numberOfComponents = 1;
   int usable_dimensions = 0;
 
-  Matrix<double, 3, 3> dir_cos;
-  dir_cos.Fill(0.0);
+  Matrix<double, 3, 3> dir_cos{};
   dir_cos.SetIdentity();
 
   Vector<double, 3> origin, sep;

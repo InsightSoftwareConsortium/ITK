@@ -216,9 +216,8 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
 
   for (unsigned int count = 0; count < numberOfInputCorners; ++count)
   {
-    ContinuousInputIndexType currentInputCornerIndex;
-    currentInputCornerIndex.Fill(0);
-    unsigned int localCount = count;
+    ContinuousInputIndexType currentInputCornerIndex{};
+    unsigned int             localCount = count;
 
     // For each dimension, set the current index to either
     // the highest or lowest index along this dimension.

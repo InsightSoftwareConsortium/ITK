@@ -155,9 +155,8 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeU
     }
   }
 
-  PixelType update;
-  update.Fill(0.0);
-  double updatenorm = 0.0;
+  PixelType update{};
+  double    updatenorm = 0.0;
   if ((sff * smm) != 0.0)
   {
     const double factor = 1.0 / std::sqrt(sff * smm);

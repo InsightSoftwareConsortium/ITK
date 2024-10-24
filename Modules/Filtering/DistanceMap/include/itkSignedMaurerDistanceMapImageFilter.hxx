@@ -223,11 +223,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   // The result of this division is the offsetIndex, which is the index offset relative to the region of this thread.
   // The true pixel location (idx) is provided by the sum of the offsetIndex and the startIndex.
   InputSizeValueType index;
-  OutputIndexType    offsetIndex;
-  offsetIndex.Fill(0);
+  OutputIndexType    offsetIndex{};
   InputSizeValueType tempRow = NumberOfRows[m_CurrentDimension];
-  OutputIndexType    idx;
-  idx.Fill(0);
+  OutputIndexType    idx{};
 
   for (InputSizeValueType n = 0; n < tempRow; ++n)
   {

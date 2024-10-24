@@ -406,8 +406,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::ComputeNormal(PointIdentifier 
   this->GetPoint(neighbors[2], &n3);
 
   // compute normals
-  CovariantVectorType normal;
-  normal.Fill(0.0);
+  CovariantVectorType normal{};
   CovariantVectorType z;
   z.SetVnlVector(vnl_cross_3d((n2 - n1).GetVnlVector(), (n3 - n1).GetVnlVector()));
   z.Normalize();

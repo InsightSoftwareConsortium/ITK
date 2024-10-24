@@ -350,8 +350,7 @@ TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints) -> 
 
   if (sum_weights != 0.)
   {
-    PointType oP;
-    oP.Fill(0.);
+    PointType oP{};
 
     for (i = 0; i < 3; ++i)
     {

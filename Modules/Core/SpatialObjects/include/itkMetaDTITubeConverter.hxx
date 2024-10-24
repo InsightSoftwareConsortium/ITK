@@ -56,10 +56,8 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
 
   auto it2 = tube->GetPoints().begin();
 
-  itk::CovariantVector<double, VDimension> v;
-  v.Fill(0.0);
-  itk::Vector<double, VDimension> t;
-  t.Fill(0.0);
+  itk::CovariantVector<double, VDimension> v{};
+  itk::Vector<double, VDimension>          t{};
 
   for (unsigned int identifier = 0; identifier < tube->GetPoints().size(); ++identifier)
   {

@@ -121,8 +121,7 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
   tmpVertex = pstartVertex;
   ++piter;
 
-  ImageIndexType tmpImageIndex;
-  tmpImageIndex.Fill(0);
+  ImageIndexType tmpImageIndex{};
 
   ImageLineIteratorType imit(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
   imit.SetDirection(0);

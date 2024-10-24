@@ -189,9 +189,7 @@ template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
 {
-  LabelledImageIndexType offsetIndex3D;
-
-  offsetIndex3D.Fill(0);
+  LabelledImageIndexType offsetIndex3D{};
 
   int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   int frame = m_ImageWidth * m_ImageHeight;
@@ -315,9 +313,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsEnergy(unsigned int i, 
   bool         changeflag;
   double       res = 0.0;
 
-  LabelledImageIndexType offsetIndex3D;
-
-  offsetIndex3D.Fill(0);
+  LabelledImageIndexType offsetIndex3D{};
 
   LabelledImagePixelType labelledPixel = 0;
 
@@ -533,8 +529,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
   changedPixelVec.Fill(typename InputImagePixelType::ValueType{});
 
   // Set a variable to store the offset index.
-  LabelledImageIndexType offsetIndex3D;
-  offsetIndex3D.Fill(0);
+  LabelledImageIndexType offsetIndex3D{};
 
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int frame = m_ImageWidth * m_ImageHeight;
@@ -656,9 +651,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::LabelRegion(int i, int l, in
   const unsigned int frame = m_ImageWidth * m_ImageHeight;
   const unsigned int rowsize = m_ImageWidth;
 
-  LabelledImageIndexType offsetIndex3D;
-
-  offsetIndex3D.Fill(0);
+  LabelledImageIndexType offsetIndex3D{};
 
   m_Region[i] = l;
 

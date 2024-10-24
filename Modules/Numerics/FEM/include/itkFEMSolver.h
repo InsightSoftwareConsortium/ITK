@@ -228,9 +228,7 @@ public:
   void
   InitializeInterpolationGrid(const InterpolationGridSizeType & size)
   {
-    InterpolationGridPointType bb1;
-
-    bb1.Fill(0.0);
+    InterpolationGridPointType bb1{};
 
     InterpolationGridPointType bb2;
     for (unsigned int i = 0; i < FEMDimension; ++i)

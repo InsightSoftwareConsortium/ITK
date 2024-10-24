@@ -453,8 +453,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
 
   for (unsigned int n = start; n < end; ++n)
   {
-    PointType point;
-    point.Fill(0.0);
+    PointType point{};
 
     input->GetPoint(n, &point);
 
@@ -707,8 +706,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::AfterTh
 
     for (ItP.GoToBegin(), ItO.GoToBegin(), ItD.GoToBegin(); !ItP.IsAtEnd(); ++ItP, ++ItO, ++ItD)
     {
-      PointDataType P;
-      P.Fill(0);
+      PointDataType P{};
       if (Math::NotAlmostEquals(ItO.Get(), typename PointDataType::ValueType{}))
       {
         P = ItD.Get() / ItO.Get();
@@ -755,8 +753,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::RefineC
   refinedLattice->SetRegions(size);
   refinedLattice->Allocate();
 
-  PointDataType data;
-  data.Fill(0.0);
+  PointDataType data{};
   refinedLattice->FillBuffer(data);
 
   typename PointDataImageType::IndexType            idx;
@@ -945,8 +942,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
 
   for (unsigned int n = start; n < end; ++n)
   {
-    PointType point;
-    point.Fill(0.0);
+    PointType point{};
 
     input->GetPoint(n, &point);
 
@@ -1001,8 +997,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Collaps
        !It.IsAtEnd();
        ++It)
   {
-    PointDataType data;
-    data.Fill(0.0);
+    PointDataType                          data{};
     typename PointDataImageType::IndexType idx = It.GetIndex();
     for (unsigned int i = 0; i < this->m_SplineOrder[dimension] + 1; ++i)
     {

@@ -53,8 +53,7 @@ VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuo
    * neighbors. The weight for each neighbor is the fraction overlap
    * of the neighbor pixel with respect to a pixel centered on point.
    */
-  OutputType output;
-  output.Fill(0.0);
+  OutputType output{};
 
   using ScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
   ScalarRealType totalOverlap{};

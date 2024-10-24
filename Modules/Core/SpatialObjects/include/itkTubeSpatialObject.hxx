@@ -405,11 +405,9 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
     ((TubePointType *)(this->GetPoint(it1)))->SetTangentInObjectSpace(tb);
   }
 
-  CovariantVectorType prevN1;
-  prevN1.Fill(0);
+  CovariantVectorType prevN1{};
   prevN1[TDimension - 1] = 1;
-  CovariantVectorType prevN2;
-  prevN2.Fill(0);
+  CovariantVectorType prevN2{};
   prevN2[TDimension - 2] = 1;
 
   it1 = 0;

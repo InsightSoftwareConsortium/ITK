@@ -111,8 +111,7 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
     center[i] = labelGeometry.m_Centroid[i] * inputImage->GetSpacing()[i];
     origin[i] = labelGeometry.m_OrientedBoundingBoxOrigin[i] * inputImage->GetSpacing()[i];
   }
-  typename TransformType::OutputVectorType translation;
-  translation.Fill(0);
+  typename TransformType::OutputVectorType translation{};
   transform->SetCenter(center);
   transform->SetTranslation(translation);
   transform->SetMatrix(rotationMatrix);
@@ -861,8 +860,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxVe
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
-    LabelPointType emptyPoint;
-    emptyPoint.Fill(0);
+    LabelPointType          emptyPoint{};
     BoundingBoxVerticesType emptyVertices;
     emptyVertices.resize(numberOfVertices, emptyPoint);
     return emptyVertices;

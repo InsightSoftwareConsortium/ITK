@@ -731,8 +731,7 @@ Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridSizeType 
     image_size[i] = size[i];
   }
 
-  InterpolationGridPointType image_origin;
-  image_origin.Fill(0.0);
+  InterpolationGridPointType image_origin{};
   for (unsigned int i = 0; i < FEMDimension; ++i)
   {
     image_origin[i] = bb1[i];

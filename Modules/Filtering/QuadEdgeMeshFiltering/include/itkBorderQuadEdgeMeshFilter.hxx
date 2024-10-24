@@ -285,9 +285,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GetMeshBarycentre() -> InputP
 {
   InputMeshConstPointer input = this->GetInput();
 
-  InputPointType oCenter;
-
-  oCenter.Fill(0.0);
+  InputPointType oCenter{};
 
   const InputPointsContainer * points = input->GetPoints();
 

@@ -132,8 +132,7 @@ SpatialOrientationAdapter::ToDirectionCosines(const OrientationType & Or)
     (static_cast<uint32_t>(Or) >>
      static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_TertiaryMinor)) &
     0xff);
-  DirectionType direction;
-  direction.Fill(0.0);
+  DirectionType direction{};
   for (unsigned int i = 0; i < DirectionType::ColumnDimensions; ++i)
   {
     switch (terms[i])

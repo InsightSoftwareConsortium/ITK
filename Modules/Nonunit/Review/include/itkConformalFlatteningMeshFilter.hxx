@@ -137,12 +137,9 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   ++pointIditer;
   unsigned int boundaryId2 = *pointIditer;
 
-  InputPointType ptA;
-  ptA.Fill(0.0);
-  InputPointType ptB;
-  ptB.Fill(0.0);
-  InputPointType ptC;
-  ptC.Fill(0.0);
+  InputPointType ptA{};
+  InputPointType ptB{};
+  InputPointType ptC{};
 
   inputMesh->GetPoint(boundaryId0, &ptA);
   inputMesh->GetPoint(boundaryId1, &ptB);

@@ -66,8 +66,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
 {
   using DisplacementFieldDuplicatorType = ImageDuplicator<DisplacementFieldType>;
   using DisplacementFieldTransformType = DisplacementFieldTransform<RealType, ImageDimension>;
-  typename DisplacementFieldType::PixelType zeroVector;
-  zeroVector.Fill(0);
+  typename DisplacementFieldType::PixelType zeroVector{};
 
   // This transform is used for the fixed image
   using IdentityTransformType = itk::IdentityTransform<RealType, ImageDimension>;
