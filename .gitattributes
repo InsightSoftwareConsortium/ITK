@@ -56,8 +56,11 @@ Modules/ThirdParty/GDCM/src/gdcm/Source/DataDictionary/privatedicts.xml hooks-ma
 Modules/Filtering/Denoising/include/itkPatchBasedDenoisingImageFilter.hxx hooks-max-size=120000
 Documentation/docs/releases/* hooks-max-size=300000
 Documentation/Art/* hooks-max-size=300000
+pixi.lock hooks-max-size=1000000
 
 # VNL-specific .gitattributes should go into Modules/ThirdParty/VNL/.gitattributes
 # GDCM-specific .gitattributes should go into Modules/ThirdParty/GDCM/src/gdcm/.gitattributes
 
 # HDF5-specific .gitattributes should go into Modules/ThirdParty/HDF5/.gitattributes
+# GitHub syntax highlighting
+pixi.lock linguist-language=YAML linguist-generated=true
