@@ -85,8 +85,7 @@ itkFlatStructuringElementTest3(int argc, char * argv[])
   {
     using SE2Type = itk::FlatStructuringElement<2>;
 
-    SE2Type::RadiusType r2;
-    r2.Fill(radius);
+    auto    r2 = itk::MakeFilled<SE2Type::RadiusType>(radius);
     SE2Type P = SE2Type::Polygon(r2, lines);
     SEToFile(P, outputImage);
   }
@@ -94,8 +93,7 @@ itkFlatStructuringElementTest3(int argc, char * argv[])
   {
     using SE3Type = itk::FlatStructuringElement<3>;
 
-    SE3Type::RadiusType r3;
-    r3.Fill(radius);
+    auto    r3 = itk::MakeFilled<SE3Type::RadiusType>(radius);
     SE3Type P = SE3Type::Polygon(r3, lines);
     SEToFile(P, outputImage);
   }

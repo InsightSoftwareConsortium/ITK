@@ -46,8 +46,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     vnlVector.fill(1.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformVector(vnlVector));
 
-    typename TransformType::InputCovariantVectorType covVector;
-    covVector.Fill(1.0);
+    auto covVector = itk::MakeFilled<typename TransformType::InputCovariantVectorType>(1.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformCovariantVector(covVector));
 
     auto                                         point = itk::MakeFilled<typename TransformType::InputPointType>(1.0);
@@ -130,8 +129,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     {
       // Projecting  an itk::Point
-      TransformType::InputPointType p;
-      p.Fill(10);
+      auto                          p = itk::MakeFilled<TransformType::InputPointType>(10);
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;
@@ -189,8 +187,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     {
       // Project an itk::Point
-      TransformType::InputPointType p;
-      p.Fill(10.0);
+      auto                          p = itk::MakeFilled<TransformType::InputPointType>(10.0);
       TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType s;

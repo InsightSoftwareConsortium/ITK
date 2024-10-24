@@ -82,8 +82,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   pointSet->SetPoint(2, point3);
   pointSet->SetPointData(2, ones_points);
 
-  BSplineFilterType::ArrayType numberOfControlPoints;
-  numberOfControlPoints.Fill(4);
+  auto numberOfControlPoints = itk::MakeFilled<BSplineFilterType::ArrayType>(4);
 
   auto bspliner = BSplineFilterType::New();
 
@@ -109,8 +108,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(splineOrder, bspliner->GetSplineOrder());
 
   typename BSplineFilterType::ArrayType::ValueType numberOfFittingLevelsVal = 8;
-  typename BSplineFilterType::ArrayType            numberOfFittingLevels;
-  numberOfFittingLevels.Fill(numberOfFittingLevelsVal);
+  auto numberOfFittingLevels = itk::MakeFilled<typename BSplineFilterType::ArrayType>(numberOfFittingLevelsVal);
   bspliner->SetNumberOfFittingLevels(numberOfFittingLevelsVal);
   ITK_TEST_SET_GET_VALUE(numberOfFittingLevels, bspliner->GetNumberOfFittingLevels());
 
@@ -122,13 +120,11 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_BOOLEAN(bspliner, EstimateInverse, false);
 
   typename BSplineFilterType::OriginType::ValueType bSplineDomainOriginVal = 0.0;
-  typename BSplineFilterType::OriginType            bSplineDomainOrigin;
-  bSplineDomainOrigin.Fill(bSplineDomainOriginVal);
+  auto bSplineDomainOrigin = itk::MakeFilled<typename BSplineFilterType::OriginType>(bSplineDomainOriginVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainOrigin, bspliner->GetBSplineDomainOrigin());
 
   typename BSplineFilterType::SpacingType::ValueType bSplineDomainSpacingVal = 1.0;
-  typename BSplineFilterType::SpacingType            bSplineDomainSpacing;
-  bSplineDomainSpacing.Fill(bSplineDomainSpacingVal);
+  auto bSplineDomainSpacing = itk::MakeFilled<typename BSplineFilterType::SpacingType>(bSplineDomainSpacingVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainSpacing, bspliner->GetBSplineDomainSpacing());
 
   typename BSplineFilterType::SizeType::value_type bSplineDomainSizeVal = 0;

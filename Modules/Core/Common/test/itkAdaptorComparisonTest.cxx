@@ -204,8 +204,7 @@ itkAdaptorComparisonTest(int, char *[])
   vector_image->SetRegions(region);
   vector_image->Allocate();
 
-  VectorImageType::PixelType initialVectorValue;
-  initialVectorValue.Fill(1.2345); // arbitrary value;
+  auto initialVectorValue = itk::MakeFilled<VectorImageType::PixelType>(1.2345); // arbitrary value;
   vector_image->FillBuffer(initialVectorValue);
 
   // Time trials

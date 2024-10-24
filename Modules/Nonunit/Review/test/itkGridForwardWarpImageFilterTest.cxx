@@ -83,8 +83,7 @@ itkGridForwardWarpImageFilterTest(int argc, char * argv[])
   DeformationIteratorType it(inputDisplacementField, inputDisplacementField->GetBufferedRegion());
 
   // Initialize the content of the input image
-  DeformationPixelType vectorValue;
-  vectorValue.Fill(5.0); // FIXME: replace with something more interesting...
+  auto vectorValue = itk::MakeFilled<DeformationPixelType>(5.0); // FIXME: replace with something more interesting...
 
   it.GoToBegin();
   while (!it.IsAtEnd())

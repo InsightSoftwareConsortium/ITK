@@ -26,8 +26,7 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  TPoint center;
-  center.Fill(16);
+  auto   center = itk::MakeFilled<TPoint>(16);
   double radius = 10;
 
   double accum = 0.0;

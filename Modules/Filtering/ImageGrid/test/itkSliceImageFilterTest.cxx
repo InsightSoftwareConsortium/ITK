@@ -270,8 +270,7 @@ TEST(SliceImageFilterTests, Coverage)
   filter->SetStop(13);
   EXPECT_EQ(idx, filter->GetStop());
 
-  FilterType::ArrayType a;
-  a.Fill(14);
+  auto a = itk::MakeFilled<FilterType::ArrayType>(14);
   filter->SetStep(a);
   EXPECT_EQ(a, filter->GetStep());
 

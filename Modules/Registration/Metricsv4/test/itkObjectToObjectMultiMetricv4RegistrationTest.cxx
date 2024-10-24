@@ -91,13 +91,13 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
 
   auto size = TImage::SizeType::Filled(ImageSize);
 
-  typename TImage::SpacingType spacing;
-  spacing.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
+  auto spacing =
+    itk::MakeFilled<typename TImage::SpacingType>(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
 
   typename TImage::PointType origin{};
 
-  typename TImage::DirectionType direction;
-  direction.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
+  auto direction =
+    itk::MakeFilled<typename TImage::DirectionType>(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
 
   auto fixedImageSource = GaussianImageSourceType::New();
 

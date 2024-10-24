@@ -192,8 +192,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   printnb<itk::ConstNeighborhoodIterator<TestImageType>>(ra_it, false);
 
   println("Adding [1, 1, 1, 1]");
-  OffsetType a_off;
-  a_off.Fill(1);
+  auto a_off = itk::MakeFilled<OffsetType>(1);
   ra_it += a_off;
   printnb<itk::ConstNeighborhoodIterator<TestImageType>>(ra_it, false);
 

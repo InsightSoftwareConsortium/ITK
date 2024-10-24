@@ -255,8 +255,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   using RegionType = FieldType::RegionType;
   using RealType = DisplacementFieldTransformType::ScalarType;
 
-  FieldType::SpacingType spacing;
-  spacing.Fill(static_cast<RealType>(1.0));
+  auto spacing = itk::MakeFilled<FieldType::SpacingType>(static_cast<RealType>(1.0));
 
   FieldType::DirectionType direction{};
   for (unsigned int d = 0; d < Dimension; ++d)

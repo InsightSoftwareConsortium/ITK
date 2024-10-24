@@ -101,9 +101,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   // Testing Set/GetMaximumError()
   {
     std::cout << "Testing Set/GetMaximumError(): ";
-    GFunctionType::ErrorArrayType setError;
-
-    setError.Fill(0.05);
+    auto setError = itk::MakeFilled<GFunctionType::ErrorArrayType>(0.05);
     gaussianFunction->SetMaximumError(setError);
 
     const GFunctionType::ErrorArrayType & readError = gaussianFunction->GetMaximumError();
@@ -187,8 +185,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   blurredvalue_point = gaussianFunction->Evaluate(pt);
 
 
-  GFunctionType::ContinuousIndexType continuousIndex;
-  continuousIndex.Fill(25);
+  auto                      continuousIndex = itk::MakeFilled<GFunctionType::ContinuousIndexType>(25);
   GFunctionType::OutputType blurredvalue_continuousIndex;
   blurredvalue_continuousIndex = gaussianFunction->EvaluateAtContinuousIndex(continuousIndex);
 

@@ -56,8 +56,7 @@ itkMapGrayscaleMorphologicalClosingImageFilterTest(int argc, char * argv[])
   using RadiusType = FilterType::RadiusType;
 
   // test default values
-  RadiusType r1;
-  r1.Fill(1);
+  auto r1 = itk::MakeFilled<RadiusType>(1);
   if (filter->GetRadius() != r1)
   {
     std::cerr << "Wrong default Radius: " << filter->GetRadius() << std::endl;

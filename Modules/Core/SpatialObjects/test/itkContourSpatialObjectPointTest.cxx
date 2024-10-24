@@ -140,11 +140,9 @@ itkContourSpatialObjectPointTest(int, char *[])
     pOriginal.SetPositionInObjectSpace(42, 41, 43);
 
     // itk::ContourSpatialObjectPoint
-    ContourSpatialObjectPoint3DType::CovariantVectorType normal;
-    normal.Fill(276);
+    auto normal = itk::MakeFilled<ContourSpatialObjectPoint3DType::CovariantVectorType>(276);
     pOriginal.SetNormalInObjectSpace(normal);
-    ContourSpatialObjectPoint3DType::PointType picked;
-    picked.Fill(277);
+    auto picked = itk::MakeFilled<ContourSpatialObjectPoint3DType::PointType>(277);
     pOriginal.SetPickedPointInObjectSpace(picked);
 
     // Copy

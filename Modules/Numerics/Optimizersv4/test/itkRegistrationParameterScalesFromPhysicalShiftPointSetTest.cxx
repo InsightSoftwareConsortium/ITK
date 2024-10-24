@@ -100,9 +100,8 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   upperRightPoint[1] = virtualDomainSize[1];
 
   // Make a simple point set
-  PointType             testPoint;
-  PointType::VectorType offset;
-  offset.Fill(0.1);
+  PointType testPoint;
+  auto      offset = itk::MakeFilled<PointType::VectorType>(0.1);
   testPoint[0] = 0.0;
   testPoint[1] = 0.0;
   fixedPoints->SetPoint(0, testPoint);

@@ -43,13 +43,13 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
 
 
   typename DisplacementTransformType::ArrayType::ValueType controlPointsUpdateFieldVal = 4;
-  typename DisplacementTransformType::ArrayType            controlPointsUpdateField;
-  controlPointsUpdateField.Fill(controlPointsUpdateFieldVal);
+  auto                                                     controlPointsUpdateField =
+    itk::MakeFilled<typename DisplacementTransformType::ArrayType>(controlPointsUpdateFieldVal);
   ITK_TEST_SET_GET_VALUE(controlPointsUpdateField, displacementTransform->GetNumberOfControlPointsForTheUpdateField());
 
   typename DisplacementTransformType::ArrayType::ValueType controlPointsTotalFieldVal = 0;
-  typename DisplacementTransformType::ArrayType            controlPointsTotalField;
-  controlPointsTotalField.Fill(controlPointsTotalFieldVal);
+  auto                                                     controlPointsTotalField =
+    itk::MakeFilled<typename DisplacementTransformType::ArrayType>(controlPointsTotalFieldVal);
   ITK_TEST_SET_GET_VALUE(controlPointsTotalField, displacementTransform->GetNumberOfControlPointsForTheTotalField());
 
   using FieldType = DisplacementTransformType::DisplacementFieldType;
@@ -82,12 +82,10 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   paramsFill(outlier) = 99.0;
   paramsFill(outlier + 1) = 99.0;
 
-  DisplacementTransformType::ArrayType meshSizeForUpdateField;
-  meshSizeForUpdateField.Fill(15);
+  auto meshSizeForUpdateField = itk::MakeFilled<DisplacementTransformType::ArrayType>(15);
   displacementTransform->SetMeshSizeForTheUpdateField(meshSizeForUpdateField);
 
-  DisplacementTransformType::ArrayType meshSizeForTotalField;
-  meshSizeForTotalField.Fill(30);
+  auto meshSizeForTotalField = itk::MakeFilled<DisplacementTransformType::ArrayType>(30);
   displacementTransform->SetMeshSizeForTheTotalField(meshSizeForTotalField);
 
   typename DisplacementTransformType::SplineOrderType splineOrder = 3;

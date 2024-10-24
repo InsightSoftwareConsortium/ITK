@@ -99,8 +99,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   using FieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
   using RegionType = typename FieldType::RegionType;
 
-  typename FieldType::SpacingType spacing;
-  spacing.Fill(1.0);
+  auto spacing = itk::MakeFilled<typename FieldType::SpacingType>(1.0);
 
   typename FieldType::DirectionType direction{};
   for (unsigned int d = 0; d < Dimension; ++d)
@@ -231,8 +230,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   metric->SetVirtualDomain(spacing, origin, direction, badRegion);
   ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());
 
-  typename FieldType::SpacingType badSpacing;
-  badSpacing.Fill(0.5);
+  auto badSpacing = itk::MakeFilled<typename FieldType::SpacingType>(0.5);
   metric->SetVirtualDomain(badSpacing, origin, direction, region);
   ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());
 

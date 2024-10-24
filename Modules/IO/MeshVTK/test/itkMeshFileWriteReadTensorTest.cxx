@@ -46,8 +46,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   // Test the 2D case
   std::cout << "Testing VTKPolyDataMeshIO for a mesh with 2D tensor pixels..." << std::endl;
 
-  Mesh2dType::PointType point2d;
-  point2d.Fill(1);
+  auto point2d = itk::MakeFilled<Mesh2dType::PointType>(1);
 
   Mesh2dType::PixelType pixel2d{};
 
@@ -87,8 +86,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   // Test the 3D case
   std::cout << "Testing VTKPolyDataMeshIO for a mesh with 3D tensor pixels..." << std::endl;
 
-  Mesh3dType::PointType point3d;
-  point3d.Fill(1);
+  auto point3d = itk::MakeFilled<Mesh3dType::PointType>(1);
 
   Mesh3dType::PixelType pixel3d{};
 

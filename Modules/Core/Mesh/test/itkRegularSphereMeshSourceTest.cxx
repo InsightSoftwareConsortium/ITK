@@ -37,14 +37,12 @@ itkRegularSphereMeshSourceTest(int, char *[])
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;
 
-  PointType center;
-  center.Fill(7.4);
+  auto center = itk::MakeFilled<PointType>(7.4);
 
   constexpr double radius = 1.5;
   const double     tolerance = 1e-5;
 
-  VectorType scale;
-  scale.Fill(radius);
+  auto scale = itk::MakeFilled<VectorType>(radius);
 
   mySphereMeshSource->SetCenter(center);
   ITK_TEST_SET_GET_VALUE(center, mySphereMeshSource->GetCenter());

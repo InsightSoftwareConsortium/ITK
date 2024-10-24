@@ -226,8 +226,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   costFunction->SetShapeParameterMeans(mean);
   costFunction->SetShapeParameterStandardDeviations(stddev);
 
-  CostFunctionType::WeightsType weights;
-  weights.Fill(1.0);
+  auto weights = itk::MakeFilled<CostFunctionType::WeightsType>(1.0);
   weights[1] = 10.0;
   costFunction->SetWeights(weights);
 

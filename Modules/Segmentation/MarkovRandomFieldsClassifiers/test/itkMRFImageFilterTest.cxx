@@ -422,8 +422,7 @@ itkMRFImageFilterTest(int, char *[])
   using OutImageFacesCalculator = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ClassImageType>;
   using OutImageFaceListType = OutImageFacesCalculator::FaceListType;
 
-  OutImageNeighborhoodRadiusType outImageNeighborhoodRadius;
-  outImageNeighborhoodRadius.Fill(1);
+  auto outImageNeighborhoodRadius = itk::MakeFilled<OutImageNeighborhoodRadiusType>(1);
 
   // Define the face list for the input/labelled image
   OutImageFacesCalculator outImageFacesCalculator;

@@ -66,9 +66,8 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     maxKernelWidth = std::stoi(argv[5]);
   }
 
-  double                                                       varianceValue = sigma * sigma;
-  typename HessianGaussianImageFunctionType::VarianceArrayType varianceArray;
-  varianceArray.Fill(varianceValue);
+  double varianceValue = sigma * sigma;
+  auto   varianceArray = itk::MakeFilled<typename HessianGaussianImageFunctionType::VarianceArrayType>(varianceValue);
 
   function->SetVariance(varianceArray);
   ITK_TEST_SET_GET_VALUE(varianceArray, function->GetVariance());

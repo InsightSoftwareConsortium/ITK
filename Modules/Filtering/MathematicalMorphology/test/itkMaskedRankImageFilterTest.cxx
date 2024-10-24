@@ -54,8 +54,7 @@ itkMaskedRankImageFilterTest(int argc, char * argv[])
   using RadiusType = FilterType::RadiusType;
 
   // test default values
-  RadiusType r1;
-  r1.Fill(1);
+  auto r1 = itk::MakeFilled<RadiusType>(1);
   if (filter->GetRadius() != r1)
   {
     std::cerr << "Wrong default Radius." << std::endl;
@@ -83,8 +82,7 @@ itkMaskedRankImageFilterTest(int argc, char * argv[])
   }
 
   // set radius with a radius type
-  RadiusType r5;
-  r5.Fill(5);
+  auto r5 = itk::MakeFilled<RadiusType>(5);
   filter->SetRadius(r5);
   if (filter->GetRadius() != r5)
   {

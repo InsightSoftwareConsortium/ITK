@@ -235,11 +235,9 @@ PerformBSplineExpImageRegistration(int argc, char * argv[])
 
   auto fieldTransform = DisplacementFieldTransformType::New();
 
-  typename DisplacementFieldTransformType::ArrayType updateControlPoints;
-  updateControlPoints.Fill(10);
+  auto updateControlPoints = itk::MakeFilled<typename DisplacementFieldTransformType::ArrayType>(10);
 
-  typename DisplacementFieldTransformType::ArrayType velocityControlPoints;
-  velocityControlPoints.Fill(10);
+  auto velocityControlPoints = itk::MakeFilled<typename DisplacementFieldTransformType::ArrayType>(10);
 
   fieldTransform->SetNumberOfControlPointsForTheUpdateField(updateControlPoints);
   fieldTransform->SetNumberOfControlPointsForTheConstantVelocityField(velocityControlPoints);
@@ -250,9 +248,8 @@ PerformBSplineExpImageRegistration(int argc, char * argv[])
   displacementFieldSimple->InPlaceOn();
 
   using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  auto                                       correlationMetric = CorrelationMetricType::New();
-  typename CorrelationMetricType::RadiusType radius;
-  radius.Fill(4);
+  auto correlationMetric = CorrelationMetricType::New();
+  auto radius = itk::MakeFilled<typename CorrelationMetricType::RadiusType>(4);
   correlationMetric->SetRadius(radius);
   correlationMetric->SetUseMovingImageGradientFilter(false);
   correlationMetric->SetUseFixedImageGradientFilter(false);

@@ -214,8 +214,7 @@ N4(int argc, char * argv[])
   correcter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, correcter->GetMaximumNumberOfIterations());
 
-  typename CorrecterType::ArrayType numberOfFittingLevels;
-  numberOfFittingLevels.Fill(
+  auto numberOfFittingLevels = itk::MakeFilled<typename CorrecterType::ArrayType>(
     static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>(numIters.size()));
   correcter->SetNumberOfFittingLevels(numberOfFittingLevels);
   ITK_TEST_SET_GET_VALUE(numberOfFittingLevels, correcter->GetNumberOfFittingLevels());

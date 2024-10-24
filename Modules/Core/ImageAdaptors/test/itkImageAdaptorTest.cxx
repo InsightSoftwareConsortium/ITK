@@ -155,8 +155,7 @@ itkImageAdaptorTest(int, char *[])
   }
 
 
-  myImageType::PointType imageOrigin;
-  imageOrigin.Fill(10.0);
+  auto imageOrigin = itk::MakeFilled<myImageType::PointType>(10.0);
   myImage->SetOrigin(imageOrigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
   {
@@ -184,8 +183,7 @@ itkImageAdaptorTest(int, char *[])
   }
 
 
-  myImageType::SpacingType imageSpacing;
-  imageSpacing.Fill(10.0);
+  auto imageSpacing = itk::MakeFilled<myImageType::SpacingType>(10.0);
 
   myImage->SetSpacing(imageSpacing);
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
