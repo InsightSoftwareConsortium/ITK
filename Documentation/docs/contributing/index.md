@@ -1,5 +1,5 @@
-Contributing to ITK
-===================
+Contribute to ITK
+=================
 
 Welcome to the Insight Toolkit (ITK) ! We are excited that you are here! Join us as a contributing member of the community.
 
@@ -412,6 +412,10 @@ Actual releases have tags named by the release version number.
 :caption: 📖 More Information
 
 build_test_itk.md
+document_itk.md
+upload_binary_data.md
+data.md
+module_workflows.md
 ITK Software Guide, Book 1, Part III: Development Guidelines <https://itk.org/ItkSoftwareGuide.pdf>
 git_help.md
 GitHub flow guide <https://guides.github.com/introduction/flow/index.html>
@@ -419,10 +423,6 @@ ITK Git Cheatsheet <https://github.com/InsightSoftwareConsortium/ITK/blob/master
 CDash Dashboard <https://open.cdash.org/index.php?project=Insight>
 dashboard.md
 updating_third_party.md
-data.md
-documenting_itk.md
-upload_binary_data.md
-module_workflows.md
 python_packaging.md
 ../README.md
 ```

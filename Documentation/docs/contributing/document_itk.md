@@ -1,4 +1,4 @@
-# Documenting ITK
+# Document ITK
 
 The ITK code documentation is available online at https://itk.org/Doxygen/html/.
 
