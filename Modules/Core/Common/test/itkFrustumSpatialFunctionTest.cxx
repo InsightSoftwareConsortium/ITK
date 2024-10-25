@@ -43,8 +43,7 @@ itkFrustumSpatialFunctionTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(frustrumSpatialFunction, FrustumSpatialFunction, InteriorExteriorSpatialFunction);
 
   // Set the frustum properties
-  FrustumSpatialFunctionType::InputType apex;
-  apex.Fill(1.1);
+  auto apex = itk::MakeFilled<FrustumSpatialFunctionType::InputType>(1.1);
 
   frustrumSpatialFunction->SetApex(apex);
   ITK_TEST_SET_GET_VALUE(apex, frustrumSpatialFunction->GetApex());

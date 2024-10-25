@@ -264,8 +264,7 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   std::cout << "Testing with Image< itk::Vector<char,4>, 3 > " << std::endl;
   using VC = itk::Vector<char, 4>;
-  VC vc;
-  vc.Fill(127);
+  auto                                            vc = itk::MakeFilled<VC>(127);
   itkImageIteratorWithIndexTestIteratorTester<VC> TesterVC(vc);
   if (TesterVC.TestIterator() == false)
   {
@@ -282,8 +281,7 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   std::cout << "Testing with Image< itk::Vector<unsigned char,4>, 3 > " << std::endl;
   using VUC = itk::Vector<unsigned char, 4>;
-  VUC vuc;
-  vuc.Fill(10);
+  auto                                             vuc = itk::MakeFilled<VUC>(10);
   itkImageIteratorWithIndexTestIteratorTester<VUC> TesterVUC(vuc);
   if (TesterVUC.TestIterator() == false)
   {
@@ -300,8 +298,7 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   std::cout << "Testing with Image< itk::Vector<short,4>, 3 > " << std::endl;
   using VS = itk::Vector<short, 4>;
-  VS vs;
-  vs.Fill(10);
+  auto                                            vs = itk::MakeFilled<VS>(10);
   itkImageIteratorWithIndexTestIteratorTester<VS> TesterVS(vs);
   if (TesterVS.TestIterator() == false)
   {
@@ -318,8 +315,7 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   std::cout << "Testing with Image< itk::Vector<unsigned short,4>, 3 > " << std::endl;
   using VUS = itk::Vector<unsigned short, 4>;
-  VUS vus;
-  vus.Fill(10);
+  auto                                             vus = itk::MakeFilled<VUS>(10);
   itkImageIteratorWithIndexTestIteratorTester<VUS> TesterVUS(vus);
   if (TesterVUS.TestIterator() == false)
   {
@@ -336,8 +332,7 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   std::cout << "Testing with Image< itk::Vector<int,4>, 3 > " << std::endl;
   using VI = itk::Vector<int, 4>;
-  VI vi;
-  vi.Fill(10);
+  auto                                            vi = itk::MakeFilled<VI>(10);
   itkImageIteratorWithIndexTestIteratorTester<VI> TesterVI(vi);
   if (TesterVI.TestIterator() == false)
   {
@@ -354,8 +349,7 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   std::cout << "Testing with Image< itk::Vector<unsigned int,4>, 3 > " << std::endl;
   using VUI = itk::Vector<unsigned int, 4>;
-  VUI vui;
-  vui.Fill(10);
+  auto                                             vui = itk::MakeFilled<VUI>(10);
   itkImageIteratorWithIndexTestIteratorTester<VUI> TesterVUI(vui);
   if (TesterVUI.TestIterator() == false)
   {
@@ -372,8 +366,7 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   std::cout << "Testing with Image< itk::Vector<float,4>, 3 > " << std::endl;
   using VF = itk::Vector<float, 4>;
-  VF vf;
-  vf.Fill(10);
+  auto                                            vf = itk::MakeFilled<VF>(10);
   itkImageIteratorWithIndexTestIteratorTester<VF> TesterVF(vf);
   if (TesterVF.TestIterator() == false)
   {
@@ -390,8 +383,7 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   std::cout << "Testing with Image< itk::Vector<double,4>, 3 > " << std::endl;
   using VD = itk::Vector<double, 4>;
-  VD vd;
-  vd.Fill(10);
+  auto                                            vd = itk::MakeFilled<VD>(10);
   itkImageIteratorWithIndexTestIteratorTester<VD> TesterVD(vd);
   if (TesterVD.TestIterator() == false)
   {

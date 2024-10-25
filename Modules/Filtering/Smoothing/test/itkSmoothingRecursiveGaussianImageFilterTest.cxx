@@ -140,8 +140,7 @@ itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
 
   // Set the value of the standard deviation of the Gaussian used for smoothing
   SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = std::stod(argv[4]);
-  SmoothingRecursiveGaussianImageFilterType::SigmaArrayType            sigma;
-  sigma.Fill(sigmaValue);
+  auto sigma = itk::MakeFilled<SmoothingRecursiveGaussianImageFilterType::SigmaArrayType>(sigmaValue);
 
   filter->SetSigma(sigmaValue);
   ITK_TEST_SET_GET_VALUE(sigmaValue, filter->GetSigma());

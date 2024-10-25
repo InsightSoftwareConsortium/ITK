@@ -95,8 +95,7 @@ itkResampleImageTest(int, char *[])
   resample->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
 
-  ImageType::SpacingType spacing;
-  spacing.Fill(1.0);
+  auto spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
   resample->SetOutputSpacing(spacing);
   ITK_TEST_SET_GET_VALUE(spacing, resample->GetOutputSpacing());
 

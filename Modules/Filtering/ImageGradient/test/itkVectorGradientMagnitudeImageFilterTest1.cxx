@@ -76,14 +76,12 @@ itkVectorGradientMagnitudeImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
   auto derivativeWeightsValue = static_cast<FilterType::DerivativeWeightsType::ValueType>(std::stod(argv[4]));
-  FilterType::DerivativeWeightsType derivativeWeights;
-  derivativeWeights.Fill(derivativeWeightsValue);
+  auto derivativeWeights = itk::MakeFilled<FilterType::DerivativeWeightsType>(derivativeWeightsValue);
   filter->SetDerivativeWeights(derivativeWeights);
   ITK_TEST_SET_GET_VALUE(derivativeWeights, filter->GetDerivativeWeights());
 
   auto componentWeightsValue = static_cast<FilterType::ComponentWeightsType::ValueType>(std::stod(argv[5]));
-  FilterType::ComponentWeightsType componentWeights;
-  componentWeights.Fill(componentWeightsValue);
+  auto componentWeights = itk::MakeFilled<FilterType::ComponentWeightsType>(componentWeightsValue);
   filter->SetComponentWeights(componentWeights);
   ITK_TEST_SET_GET_VALUE(componentWeights, filter->GetComponentWeights());
 

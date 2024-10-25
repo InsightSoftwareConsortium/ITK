@@ -85,13 +85,11 @@ itkEllipseSpatialObjectTest(int, char *[])
   myEllipse2->SetRadiusInObjectSpace(1);
   myEllipse->AddChild(myEllipse2);
 
-  EllipseType::TransformType::OffsetType offset;
-  offset.Fill(10);
+  auto offset = itk::MakeFilled<EllipseType::TransformType::OffsetType>(10);
   myEllipse->GetModifiableObjectToWorldTransform()->SetOffset(offset);
   myEllipse->ComputeObjectToParentTransform();
 
-  EllipseType::TransformType::OffsetType offset2;
-  offset2.Fill(15);
+  auto offset2 = itk::MakeFilled<EllipseType::TransformType::OffsetType>(15);
   myEllipse2->GetModifiableObjectToWorldTransform()->SetOffset(offset2);
   myEllipse2->ComputeObjectToParentTransform();
 

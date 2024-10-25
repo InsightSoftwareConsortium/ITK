@@ -45,8 +45,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
 
   PointType center{};
 
-  VectorType scale;
-  scale.Fill(1.0);
+  auto scale = itk::MakeFilled<VectorType>(1.0);
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(1);

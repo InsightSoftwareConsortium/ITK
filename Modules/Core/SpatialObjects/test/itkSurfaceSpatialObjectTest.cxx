@@ -171,8 +171,7 @@ itkSurfaceSpatialObjectTest(int, char *[])
 
 
     // itk::SurfaceSpatialObjectPoint
-    VectorType normal;
-    normal.Fill(276);
+    auto normal = itk::MakeFilled<VectorType>(276);
     pOriginal.SetNormalInObjectSpace(normal);
 
     Surface->AddPoint(pOriginal);

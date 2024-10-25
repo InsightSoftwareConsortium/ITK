@@ -71,8 +71,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   IteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
-  PixelType vectorValue;
-  vectorValue.Fill(5.0); // FIXME: replace with something more interesting...
+  auto vectorValue = itk::MakeFilled<PixelType>(5.0); // FIXME: replace with something more interesting...
 
   it.GoToBegin();
   while (!it.IsAtEnd())

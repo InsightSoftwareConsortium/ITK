@@ -47,10 +47,9 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
 
   using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
-  auto                         size = VectorImageType::SizeType::Filled(100);
-  VectorImageType::PointType   origin{};
-  VectorImageType::SpacingType spacing;
-  spacing.Fill(1);
+  auto                           size = VectorImageType::SizeType::Filled(100);
+  VectorImageType::PointType     origin{};
+  auto                           spacing = itk::MakeFilled<VectorImageType::SpacingType>(1);
   VectorImageType::DirectionType direction;
   direction.SetIdentity();
 
@@ -158,8 +157,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   // transform.  Specifically, this includes the final
   // number of control points and the spline order.
   filter->SetSplineOrder(SplineOrder);
-  FilterType::ArrayType ncps;
-  ncps.Fill(4);
+  auto ncps = itk::MakeFilled<FilterType::ArrayType>(4);
   filter->SetNumberOfControlPoints(ncps);
   filter->SetNumberOfLevels(3);
   FilterType::ArrayType close{};
@@ -194,8 +192,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   using InputPointType = TransformType::InputPointType;
   using OutputPointType = TransformType::OutputPointType;
 
-  InputPointType inputPoint;
-  inputPoint.Fill(50.0);
+  auto inputPoint = itk::MakeFilled<InputPointType>(50.0);
 
   OutputPointType outputPoint = transform->TransformPoint(inputPoint);
 

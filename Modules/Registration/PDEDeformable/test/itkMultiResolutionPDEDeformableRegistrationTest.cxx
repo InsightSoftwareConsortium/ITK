@@ -176,8 +176,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   ImageType::PointType origin{};
   origin[0] = 0.8;
 
-  ImageType::SpacingType spacing;
-  spacing.Fill(1.0);
+  auto spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
   spacing[1] = 1.2;
 
   auto moving = ImageType::New();

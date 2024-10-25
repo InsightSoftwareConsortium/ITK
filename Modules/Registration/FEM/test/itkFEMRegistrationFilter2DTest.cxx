@@ -252,8 +252,7 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
     // ITK_TEST_SET_GET_VALUE( standardDeviations, registrator->GetStandardDeviations() );
 
     standardDeviation = 1.0;
-    RegistrationType::StandardDeviationsType standardDeviations;
-    standardDeviations.Fill(standardDeviation);
+    auto standardDeviations = itk::MakeFilled<RegistrationType::StandardDeviationsType>(standardDeviation);
     registrator->SetStandardDeviations(standardDeviations);
     // ITK_TEST_SET_GET_VALUE( standardDeviations, registrator->GetStandardDeviations() );
 

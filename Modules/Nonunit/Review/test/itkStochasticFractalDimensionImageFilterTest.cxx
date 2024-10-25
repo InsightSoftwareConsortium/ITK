@@ -50,9 +50,7 @@ public:
 
     itk::SimpleFilterWatcher watcher(fractalFilter, "FractalDimensionFilter");
 
-    typename FractalFilterType::RadiusType radius;
-
-    radius.Fill(5);
+    auto radius = itk::MakeFilled<typename FractalFilterType::RadiusType>(5);
     fractalFilter->SetNeighborhoodRadius(radius);
     ITK_TEST_SET_GET_VALUE(radius, fractalFilter->GetNeighborhoodRadius());
 

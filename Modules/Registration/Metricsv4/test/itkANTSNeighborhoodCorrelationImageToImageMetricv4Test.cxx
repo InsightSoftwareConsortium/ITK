@@ -151,11 +151,10 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
   constexpr itk::SizeValueType imageSize = 6;
 
-  auto                   size = ImageType::SizeType::Filled(imageSize);
-  ImageType::IndexType   index{};
-  ImageType::RegionType  region{ index, size };
-  ImageType::SpacingType spacing;
-  spacing.Fill(1.0);
+  auto                     size = ImageType::SizeType::Filled(imageSize);
+  ImageType::IndexType     index{};
+  ImageType::RegionType    region{ index, size };
+  auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
   ImageType::PointType     origin{};
   ImageType::DirectionType direction;
   direction.SetIdentity();

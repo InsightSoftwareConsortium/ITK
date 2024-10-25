@@ -52,8 +52,7 @@ public:
     BeforeThreadedExecution() override
     {
       this->m_DomainInThreadedExecution.resize(this->GetNumberOfWorkUnitsUsed());
-      DomainType unsetDomain;
-      unsetDomain.Fill(-1);
+      auto unsetDomain = itk::MakeFilled<DomainType>(-1);
       for (auto & i : m_DomainInThreadedExecution)
       {
         i = unsetDomain;

@@ -58,9 +58,8 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
 
   // Generate a synthetic ellipse image
   using EllipseType = itk::EllipseSpatialObject<2>;
-  auto                   ellipse = EllipseType::New();
-  EllipseType::PointType center;
-  center.Fill(20);
+  auto ellipse = EllipseType::New();
+  auto center = itk::MakeFilled<EllipseType::PointType>(20);
   ellipse->SetCenterInObjectSpace(center);
   ellipse->SetRadiusInObjectSpace(10);
   ellipse->Update();

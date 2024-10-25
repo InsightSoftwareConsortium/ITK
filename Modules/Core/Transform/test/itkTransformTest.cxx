@@ -62,8 +62,7 @@ public:
   OutputPointType
   TransformPoint(const InputPointType & itkNotUsed(inputPoint)) const override
   {
-    OutputPointType outPoint;
-    outPoint.Fill(22.0);
+    auto outPoint = itk::MakeFilled<OutputPointType>(22.0);
     return outPoint;
   }
 
@@ -71,8 +70,7 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType & itkNotUsed(inputVector)) const override
   {
-    OutputVectorType outVector;
-    outVector.Fill(12.2);
+    auto outVector = itk::MakeFilled<OutputVectorType>(12.2);
     return outVector;
   }
 
@@ -93,8 +91,7 @@ public:
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType & itkNotUsed(inputVector)) const override
   {
-    OutputCovariantVectorType outVector;
-    outVector.Fill(8.9);
+    auto outVector = itk::MakeFilled<OutputCovariantVectorType>(8.9);
     return outVector;
   }
 
@@ -108,8 +105,7 @@ public:
   OutputDiffusionTensor3DType
   TransformDiffusionTensor3D(const InputDiffusionTensor3DType & itkNotUsed(tensor)) const override
   {
-    OutputDiffusionTensor3DType outTensor;
-    outTensor.Fill(2.1);
+    auto outTensor = itk::MakeFilled<OutputDiffusionTensor3DType>(2.1);
     return outTensor;
   }
 
@@ -123,8 +119,7 @@ public:
   OutputSymmetricSecondRankTensorType
   TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & itkNotUsed(tensor)) const override
   {
-    OutputSymmetricSecondRankTensorType outTensor;
-    outTensor.Fill(10.0);
+    auto outTensor = itk::MakeFilled<OutputSymmetricSecondRankTensorType>(10.0);
     return outTensor;
   }
 
@@ -190,8 +185,7 @@ public:
     std::cout << "Testing itkTransform<" << VInputDimension << ',' << VOutputDimension << '>' << std::endl;
     auto transform = TransformType::New();
 
-    InputPointType pnt;
-    pnt.Fill(2.9);
+    auto pnt = itk::MakeFilled<InputPointType>(2.9);
 
     transform->TransformPoint(pnt);
     std::cout << "TransformPoint()                              OK" << std::endl;

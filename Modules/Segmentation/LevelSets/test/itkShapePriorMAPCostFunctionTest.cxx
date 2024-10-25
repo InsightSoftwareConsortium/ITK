@@ -149,8 +149,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   costFunction->SetShapeParameterMeans(shapeMean);
   costFunction->SetShapeParameterStandardDeviations(shapeStdDev);
 
-  CostFunctionType::WeightsType weights;
-  weights.Fill(1.5);
+  auto weights = itk::MakeFilled<CostFunctionType::WeightsType>(1.5);
 
   costFunction->SetWeights(weights);
 

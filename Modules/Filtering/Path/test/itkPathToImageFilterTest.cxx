@@ -40,8 +40,7 @@ itkPathToImageFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, PolyLineParametricPath, ParametricPath);
 
   std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << std::endl;
-  VertexType v;
-  v.Fill(30);
+  auto v = itk::MakeFilled<VertexType>(30);
   path->AddVertex(v);
   v[0] = 33;
   v[1] = 30;

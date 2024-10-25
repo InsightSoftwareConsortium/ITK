@@ -707,8 +707,7 @@ itkVectorImageTest(int, char * argv[])
       std::cout << "Testing ConstNeighborhoodIterator...." << std::endl;
 
       using ConstNeighborhoodIteratorType = itk::ConstNeighborhoodIterator<VectorImageType>;
-      ConstNeighborhoodIteratorType::RadiusType radius;
-      radius.Fill(1);
+      auto radius = itk::MakeFilled<ConstNeighborhoodIteratorType::RadiusType>(1);
 
       ConstNeighborhoodIteratorType::RegionType region = vectorImage->GetBufferedRegion();
       auto                                      size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
@@ -782,8 +781,7 @@ itkVectorImageTest(int, char * argv[])
 
       // Test operator-
       --cNit;
-      ConstNeighborhoodIteratorType::OffsetType offset;
-      offset.Fill(1);
+      auto offset = itk::MakeFilled<ConstNeighborhoodIteratorType::OffsetType>(1);
       cNit -= offset;
       itk::VariableLengthVector<PixelType> pixel = cNit.GetCenterPixel();
       itk::VariableLengthVector<PixelType> correctAnswer(VectorLength);

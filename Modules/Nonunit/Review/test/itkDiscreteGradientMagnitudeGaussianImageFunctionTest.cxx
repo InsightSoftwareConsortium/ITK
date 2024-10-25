@@ -78,9 +78,9 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
     useImageSpacing = static_cast<bool>(std::stoi(argv[7]));
   }
 
-  double                                                                    varianceValue = sigma * sigma;
-  typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType varianceArray;
-  varianceArray.Fill(varianceValue);
+  double varianceValue = sigma * sigma;
+  auto   varianceArray =
+    itk::MakeFilled<typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType>(varianceValue);
 
   function->SetVariance(varianceArray);
   ITK_TEST_SET_GET_VALUE(varianceArray, function->GetVariance());

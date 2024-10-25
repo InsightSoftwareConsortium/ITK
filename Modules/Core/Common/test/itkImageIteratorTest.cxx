@@ -68,8 +68,7 @@ itkImageIteratorTest(int, char *[])
   o3->SetSpacing(spacing3D);
 
   o3->Allocate();
-  itk::Vector<unsigned short, 5> fillValue;
-  fillValue.Fill(itk::NumericTraits<unsigned short>::max());
+  auto fillValue = itk::MakeFilled<itk::Vector<unsigned short, 5>>(itk::NumericTraits<unsigned short>::max());
   o3->FillBuffer(fillValue);
 
   std::cout << "Setting/Getting a pixel" << std::endl;

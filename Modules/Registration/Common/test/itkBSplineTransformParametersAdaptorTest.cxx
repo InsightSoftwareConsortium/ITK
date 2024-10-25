@@ -32,12 +32,10 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
    */
 
   using OriginType = TransformType::OriginType;
-  OriginType origin;
-  origin.Fill(5.0);
+  auto origin = itk::MakeFilled<OriginType>(5.0);
 
   using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
-  PhysicalDimensionsType dimensions;
-  dimensions.Fill(100);
+  auto dimensions = itk::MakeFilled<PhysicalDimensionsType>(100);
 
   using MeshSizeType = TransformType::MeshSizeType;
   auto meshSize = MeshSizeType::Filled(10);
@@ -72,8 +70,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
   auto index = CoefficientImageType::IndexType::Filled(5);
   transform->GetCoefficientImages()[0]->SetPixel(index, 5.0);
 
-  TransformType::InputPointType point;
-  point.Fill(50.0);
+  auto point = itk::MakeFilled<TransformType::InputPointType>(50.0);
 
   TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
 

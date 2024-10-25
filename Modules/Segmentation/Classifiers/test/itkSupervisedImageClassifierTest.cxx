@@ -98,8 +98,7 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   // Slice 1
   // Vector no. 1
-  VecImagePixelType vec;
-  vec.Fill(21);
+  auto vec = itk::MakeFilled<VecImagePixelType>(21);
   outIt.Set(vec);
   ++outIt;
   // Vector no. 2

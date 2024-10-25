@@ -55,16 +55,14 @@ itkFastApproximateRankImageFilterTest(int argc, char * argv[])
   using RadiusType = FilterType::RadiusType;
 
   // Test default values
-  RadiusType r1;
-  r1.Fill(1);
+  auto r1 = itk::MakeFilled<RadiusType>(1);
   ITK_TEST_SET_GET_VALUE(r1, filter->GetRadius());
 
   auto rank = 0.5;
   ITK_TEST_SET_GET_VALUE(rank, filter->GetRank());
 
   // Set radius with a radius type
-  RadiusType r5;
-  r5.Fill(5);
+  auto r5 = itk::MakeFilled<RadiusType>(5);
   filter->SetRadius(r5);
   ITK_TEST_SET_GET_VALUE(r5, filter->GetRadius());
 

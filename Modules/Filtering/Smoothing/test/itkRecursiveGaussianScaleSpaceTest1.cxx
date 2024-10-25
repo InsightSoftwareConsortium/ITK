@@ -50,8 +50,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   image->SetRegions(ImageType::RegionType(size));
   image->Allocate();
 
-  ImageType::SpacingType spacing;
-  spacing.Fill(pixelSpacing);
+  auto spacing = itk::MakeFilled<ImageType::SpacingType>(pixelSpacing);
 
   image->SetSpacing(spacing);
 

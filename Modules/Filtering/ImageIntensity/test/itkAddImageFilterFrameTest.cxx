@@ -117,8 +117,7 @@ itkAddImageFilterFrameTest(int, char *[])
   myImageType3Pointer outputImage = filter->GetOutput();
 
   // Make Image B have a different origin
-  myImageType2::PointType borigin;
-  borigin.Fill(0.01);
+  auto borigin = itk::MakeFilled<myImageType2::PointType>(0.01);
   inputImageB->SetOrigin(borigin);
 
 
@@ -138,8 +137,7 @@ itkAddImageFilterFrameTest(int, char *[])
   // Make Image B have a different spacing
   inputImageB->CopyInformation(inputImageA);
 
-  myImageType2::SpacingType bspacing;
-  bspacing.Fill(1.001);
+  auto bspacing = itk::MakeFilled<myImageType2::SpacingType>(1.001);
   inputImageB->SetSpacing(bspacing);
 
   // Execute the filter

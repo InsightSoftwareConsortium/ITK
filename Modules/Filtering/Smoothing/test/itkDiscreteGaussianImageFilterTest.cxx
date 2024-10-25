@@ -64,8 +64,7 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   // Set the value of the standard deviation of the Gaussian used for smoothing
   FilterType::SigmaArrayType::ValueType sigmaValue = 1.0;
-  FilterType::SigmaArrayType            sigma;
-  sigma.Fill(sigmaValue);
+  auto                                  sigma = itk::MakeFilled<FilterType::SigmaArrayType>(sigmaValue);
 
   filter->SetSigma(sigmaValue);
   ITK_TEST_SET_GET_VALUE(sigmaValue, filter->GetSigma());
@@ -86,14 +85,12 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   // Set other filter properties
   FilterType::ArrayType::ValueType varianceValue = 1.0;
-  FilterType::ArrayType            variance;
-  variance.Fill(varianceValue);
+  auto                             variance = itk::MakeFilled<FilterType::ArrayType>(varianceValue);
   filter->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, filter->GetVariance());
 
   FilterType::ArrayType::ValueType maximumErrorValue = 0.01;
-  FilterType::ArrayType            maximumError;
-  maximumError.Fill(maximumErrorValue);
+  auto                             maximumError = itk::MakeFilled<FilterType::ArrayType>(maximumErrorValue);
   filter->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
 

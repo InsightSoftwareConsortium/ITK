@@ -32,8 +32,7 @@ itkFlatStructuringElementTest(int, char *[])
   bool radiusIsParametric = true;
 
   using SE2Type = itk::FlatStructuringElement<2>;
-  SE2Type::RadiusType r2;
-  r2.Fill(scalarRadius);
+  auto r2 = itk::MakeFilled<SE2Type::RadiusType>(scalarRadius);
 
   SE2Type::Self result2{};
   result2.RadiusIsParametricOn();

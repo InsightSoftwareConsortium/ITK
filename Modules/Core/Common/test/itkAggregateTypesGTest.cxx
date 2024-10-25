@@ -287,11 +287,10 @@ public:
 
     //============ Test Copy with Round/Cast Type ====================================
     {
-      AggregateType         known3s{ { 3, 3, 3, 3 } };
-      AggregateType         threes{};
-      AggregateType         known4s{ { 4, 4, 4, 4 } };
-      itk::Point<double, 4> p1;
-      p1.Fill(3.5);
+      AggregateType known3s{ { 3, 3, 3, 3 } };
+      AggregateType threes{};
+      AggregateType known4s{ { 4, 4, 4, 4 } };
+      auto          p1 = itk::MakeFilled<itk::Point<double, 4>>(3.5);
       threes.CopyWithRound(p1);
       ITK_EXPECT_VECTOR_NEAR(threes, known4s, 0);
 

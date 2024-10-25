@@ -285,8 +285,7 @@ itkImageFunctionTest(int, char *[])
   }
 
   /* IsInsideBuffer with Point type */
-  PointType point;
-  point.Fill(1);
+  auto point = itk::MakeFilled<PointType>(1);
   if (!function->IsInsideBuffer(point))
   {
     std::cout << "Error with IsInsideBuffer 1P." << std::endl;

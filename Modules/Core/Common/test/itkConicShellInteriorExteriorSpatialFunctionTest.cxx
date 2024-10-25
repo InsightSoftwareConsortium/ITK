@@ -50,14 +50,12 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
                                     InteriorExteriorSpatialFunction);
 
   // Set the conic shell properties
-  ConicShellInteriorExteriorSpatialFunctionType::InputType origin;
-  origin.Fill(1.0);
+  auto origin = itk::MakeFilled<ConicShellInteriorExteriorSpatialFunctionType::InputType>(1.0);
 
   conicShellInteriorExteriorSpatialFunction->SetOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, conicShellInteriorExteriorSpatialFunction->GetOrigin());
 
-  ConicShellInteriorExteriorSpatialFunctionType::GradientType originGradient;
-  originGradient.Fill(1.6);
+  auto originGradient = itk::MakeFilled<ConicShellInteriorExteriorSpatialFunctionType::GradientType>(1.6);
   originGradient.GetVnlVector().normalize();
   conicShellInteriorExteriorSpatialFunction->SetOriginGradient(originGradient);
 

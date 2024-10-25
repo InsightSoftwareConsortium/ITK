@@ -81,8 +81,7 @@ protected:
     function->SetCurvatureWeight(0.0);
     function->SetShapePriorWeight(1.0);
 
-    typename ShapePriorFunctionType::RadiusType radius;
-    radius.Fill(1);
+    auto radius = itk::MakeFilled<typename ShapePriorFunctionType::RadiusType>(1);
     function->Initialize(radius);
 
     this->SetDifferenceFunction(function);
