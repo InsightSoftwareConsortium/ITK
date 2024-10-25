@@ -219,9 +219,7 @@ auto
 BarycentricCombination<TPointContainer, TWeightContainer>::Evaluate(const PointContainerPointer & points,
                                                                     const WeightContainerType &   weights) -> PointType
 {
-  using ValueType = typename PointType::ValueType;
-  PointType barycentre;
-  barycentre.Fill(ValueType{}); // set to null
+  PointType barycentre{}; // set to null
 
   typename TPointContainer::Iterator point = points->Begin();
   typename TPointContainer::Iterator final = points->End();

@@ -525,8 +525,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
   InputImagePixelType originPixelVec;
 
   // Variable to store the modified pixel vector value.
-  InputImagePixelType changedPixelVec;
-  changedPixelVec.Fill(typename InputImagePixelType::ValueType{});
+  InputImagePixelType changedPixelVec{};
 
   // Set a variable to store the offset index.
   LabelledImageIndexType offsetIndex3D{};

@@ -344,8 +344,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
   PixelType          zeroPixel{};
 
   ScalarDerivativeType componentDerivativeOut;
-  ScalarDerivativeType componentDerivative;
-  componentDerivative.Fill(OutputValueType{});
+  ScalarDerivativeType componentDerivative{};
 
   for (unsigned int dim = 0; dim < Self::ImageDimension; ++dim)
   {
