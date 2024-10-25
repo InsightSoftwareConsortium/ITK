@@ -191,4 +191,6 @@
 #  endif
 #endif
 
+#cmakedefine ITK_HAS_SCHED_GETAFFINITY
+
 #endif //itkConfigure_h

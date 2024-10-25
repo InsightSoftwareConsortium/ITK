@@ -46,6 +46,10 @@
 #include <cctype>
 #include <utility> // For move.
 
+#if defined(ITK_HAS_SCHED_GETAFFINITY)
+#  include <sched.h>
+#endif
+
 #if defined(ITK_USE_TBB)
 #  include "itkTBBMultiThreader.h"
 #endif
@@ -334,6 +338,14 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
 ThreadIdType
 MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
 {
+#if defined(ITK_HAS_SCHED_GETAFFINITY)
+  cpu_set_t mask;
+  if (sched_getaffinity(0, sizeof(cpu_set_t), &mask) != -1)
+  {
+    return static_cast<ThreadIdType>(CPU_COUNT(&mask));
+  }
+#endif
+
 #if defined(ITK_LEGACY_REMOVE)
   return std::thread::hardware_concurrency();
 #endif
@@ -341,8 +353,8 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
 #if defined(ITK_USE_PTHREADS)
   ThreadIdType num;
 
-  // Default the number of threads to be the number of available
-  // processors if we are using pthreads()
+// Default the number of threads to be the number of available
+// processors if we are using pthreads()
 #  ifdef _SC_NPROCESSORS_ONLN
   num = static_cast<ThreadIdType>(sysconf(_SC_NPROCESSORS_ONLN));
 #  elif defined(_SC_NPROC_ONLN)
@@ -371,7 +383,7 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
 #else
   return 1;
 #endif
-}
+} // namespace itk
 
 MultiThreaderBase::Pointer
 MultiThreaderBase::New()
