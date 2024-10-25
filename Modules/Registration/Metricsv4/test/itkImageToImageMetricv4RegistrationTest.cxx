@@ -68,9 +68,6 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
 
   typename TImage::PointType origin{};
 
-  typename TImage::DirectionType direction;
-  direction.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
-
   auto fixedImageSource = GaussianImageSourceType::New();
 
   fixedImageSource->SetSize(size);
