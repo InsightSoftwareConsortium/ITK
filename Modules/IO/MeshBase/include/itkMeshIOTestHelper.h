@@ -250,8 +250,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   using ArrayPixelType = itk::Array<FloatType>;
 
-  ArrayPixelType arrayPixelValue;
-  arrayPixelValue.Fill(1.0);
+  ArrayPixelType arrayPixelValue{};
   usePointPixel = true;
   meshIO->SetPixelType(arrayPixelValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(arrayPixelValue.Size(), meshIO->GetNumberOfPointPixelComponents());
@@ -269,8 +268,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   using VariableLengthVectorPixelType = itk::VariableLengthVector<FloatType>;
 
-  VariableLengthVectorPixelType variableLengthVectorValue;
-  variableLengthVectorValue.Fill(1.0);
+  VariableLengthVectorPixelType variableLengthVectorValue{};
   usePointPixel = true;
   meshIO->SetPixelType(variableLengthVectorValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(variableLengthVectorValue.Size(), meshIO->GetNumberOfPointPixelComponents());
@@ -288,8 +286,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   using VariableSizeMatrixType = itk::VariableSizeMatrix<FloatType>;
 
-  VariableSizeMatrixType matrix;
-  matrix.Fill(1.0);
+  VariableSizeMatrixType matrix{};
   usePointPixel = true;
   meshIO->SetPixelType(matrix, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(matrix.Rows() * matrix.Cols(), meshIO->GetNumberOfPointPixelComponents());
