@@ -62,8 +62,7 @@ ComputeOffset(TImage * image, unsigned int count, unsigned int repeat)
   typename TImage::OffsetValueType offset = 0;
   typename TImage::OffsetValueType accum = 0;
   typename TImage::IndexType       index;
-  typename TImage::OffsetType      indexIncr;
-  indexIncr.Fill(1);
+  auto                             indexIncr = itk::MakeFilled<typename TImage::OffsetType>(1);
 
   for (unsigned int j = 0; j < repeat; ++j)
   {
@@ -86,8 +85,7 @@ ComputeFastOffset(TImage * image, unsigned int count, unsigned int repeat)
   typename TImage::OffsetValueType offset = 0;
   typename TImage::OffsetValueType accum = 0;
   typename TImage::IndexType       index;
-  typename TImage::OffsetType      indexIncr;
-  indexIncr.Fill(1);
+  auto                             indexIncr = itk::MakeFilled<typename TImage::OffsetType>(1);
 
   const typename TImage::OffsetValueType * offsetTable = image->GetOffsetTable();
 

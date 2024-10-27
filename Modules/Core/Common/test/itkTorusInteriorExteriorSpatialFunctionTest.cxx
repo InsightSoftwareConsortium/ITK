@@ -44,8 +44,7 @@ itkTorusInteriorExteriorSpatialFunctionTest(int, char *[])
     torusInteriorExteriorSpatialFunction, TorusInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
 
   // Set the torus properties
-  TorusInteriorExteriorSpatialFunctionType::InputType origin;
-  origin.Fill(1.0);
+  auto origin = itk::MakeFilled<TorusInteriorExteriorSpatialFunctionType::InputType>(1.0);
 
   torusInteriorExteriorSpatialFunction->SetOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, torusInteriorExteriorSpatialFunction->GetOrigin());

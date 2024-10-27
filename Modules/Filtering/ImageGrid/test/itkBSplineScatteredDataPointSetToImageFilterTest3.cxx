@@ -94,8 +94,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BSplineScatteredDataPointSetToImageFilter, PointSetToImageFilter);
 
   // Define the parametric domain
-  ImageType::SpacingType spacing;
-  spacing.Fill(0.001);
+  auto                spacing = itk::MakeFilled<ImageType::SpacingType>(0.001);
   ImageType::SizeType size;
   // Adding 0.5 to avoid rounding errors
   size.Fill(static_cast<unsigned int>(1.0 / spacing[0] + .5) + 1);
@@ -107,8 +106,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
   filter->SetInput(pointSet);
 
   filter->SetSplineOrder(3);
-  FilterType::ArrayType ncps;
-  ncps.Fill(4);
+  auto ncps = itk::MakeFilled<FilterType::ArrayType>(4);
   filter->SetNumberOfControlPoints(ncps);
 
   // We set an extreme number of levels to show how this

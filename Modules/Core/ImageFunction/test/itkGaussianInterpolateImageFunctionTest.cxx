@@ -32,8 +32,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(interpolator, GaussianInterpolateImageFunction, InterpolateImageFunction);
 
-  InterpolatorType::ArrayType sigma;
-  sigma.Fill(1.0);
+  auto sigma = itk::MakeFilled<InterpolatorType::ArrayType>(1.0);
   interpolator->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, interpolator->GetSigma());
 

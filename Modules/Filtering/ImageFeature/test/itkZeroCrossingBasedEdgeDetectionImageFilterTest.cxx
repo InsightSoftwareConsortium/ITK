@@ -58,8 +58,7 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
     }
   }
 
-  FilterType::ArrayType variance;
-  variance.Fill(varianceValue);
+  auto variance = itk::MakeFilled<FilterType::ArrayType>(varianceValue);
   filter->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, filter->GetVariance());
 
@@ -76,8 +75,7 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
     }
   }
 
-  FilterType::ArrayType maximumError;
-  maximumError.Fill(maximumErrorValue);
+  auto maximumError = itk::MakeFilled<FilterType::ArrayType>(maximumErrorValue);
   filter->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
 

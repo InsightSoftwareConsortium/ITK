@@ -62,10 +62,8 @@ itkImageTest(int, char *[])
   image->GetSource();
   image->DisconnectPipeline();
 
-  Image::SpacingType spacing;
-  spacing.Fill(1.0);
-  Image::PointType origin;
-  origin.Fill(1.0);
+  auto                 spacing = itk::MakeFilled<Image::SpacingType>(1.0);
+  auto                 origin = itk::MakeFilled<Image::PointType>(1.0);
   Image::DirectionType direction;
   direction[0][0] = .5;
   direction[0][1] = .7;
@@ -127,9 +125,8 @@ itkImageTest(int, char *[])
   region.SetSize(size);
   image->SetRegions(region);
 
-  auto               imageRef = Image::New();
-  Image::SpacingType spacingRef;
-  spacingRef.Fill(2);
+  auto                 imageRef = Image::New();
+  auto                 spacingRef = itk::MakeFilled<Image::SpacingType>(2);
   Image::PointType     originRef{};
   Image::DirectionType directionRef;
   directionRef.SetIdentity();
@@ -161,9 +158,8 @@ itkImageTest(int, char *[])
   }
 
   using Image3D = itk::Image<float, 3>;
-  auto                 volume = Image3D::New();
-  Image3D::SpacingType spacingVol;
-  spacingVol.Fill(1);
+  auto                   volume = Image3D::New();
+  auto                   spacingVol = itk::MakeFilled<Image3D::SpacingType>(1);
   Image3D::PointType     originVol{};
   Image3D::DirectionType directionVol;
   directionVol.SetIdentity();

@@ -47,8 +47,7 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  TPoint center;
-  center.Fill(50);
+  auto   center = itk::MakeFilled<TPoint>(50);
   double radius = 19.5;
 
   double accum = 0.0;
@@ -65,8 +64,7 @@ template <typename TPoint>
 double
 SimpleVelocity(const TPoint & p)
 {
-  TPoint center;
-  center.Fill(50);
+  auto center = itk::MakeFilled<TPoint>(50);
 
   double value;
   double x = p[0] - center[0];

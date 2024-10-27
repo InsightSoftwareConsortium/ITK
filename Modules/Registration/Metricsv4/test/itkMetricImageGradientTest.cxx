@@ -209,11 +209,10 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
 
   using ImageType = itk::Image<double, ImageDimensionality>;
 
-  auto                            size = ImageType::SizeType::Filled(imageSize);
-  typename ImageType::IndexType   virtualIndex{};
-  typename ImageType::RegionType  region{ virtualIndex, size };
-  typename ImageType::SpacingType spacing;
-  spacing.Fill(1.0);
+  auto                              size = ImageType::SizeType::Filled(imageSize);
+  typename ImageType::IndexType     virtualIndex{};
+  typename ImageType::RegionType    region{ virtualIndex, size };
+  auto                              spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
   typename ImageType::PointType     origin{};
   typename ImageType::DirectionType direction;
   direction.SetIdentity();
@@ -409,8 +408,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
         transform->SetIdentity();
 
         transform->Rotate2D(itk::Math::pi * rotationDegrees / 180);
-        ImageType::PointType center;
-        center.Fill((imageSize - 1) / 2.0);
+        auto center = itk::MakeFilled<ImageType::PointType>((imageSize - 1) / 2.0);
         transform->SetCenter(center);
 
         using ImageType = itk::Image<double, 2>;

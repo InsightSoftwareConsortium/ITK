@@ -42,8 +42,7 @@ itkShapedIteratorFromStructuringElementTest(int, char *[])
   CreateImagex(image);
 
   using StructuringElementType = itk::BinaryBallStructuringElement<PixelType, 2>;
-  StructuringElementType::RadiusType elementRadius;
-  elementRadius.Fill(2);
+  auto elementRadius = itk::MakeFilled<StructuringElementType::RadiusType>(2);
 
   StructuringElementType structuringElement;
   structuringElement.SetRadius(elementRadius);

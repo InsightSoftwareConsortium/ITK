@@ -57,11 +57,9 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 
   // Parameters used for FS and BM
   using RadiusType = InputImageType::SizeType;
-  RadiusType blockRadius;
-  blockRadius.Fill(2);
+  auto blockRadius = itk::MakeFilled<RadiusType>(2);
 
-  RadiusType searchRadius;
-  searchRadius.Fill(7);
+  auto searchRadius = itk::MakeFilled<RadiusType>(7);
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
 

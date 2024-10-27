@@ -490,8 +490,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     transform->SetTranslation(translation);
 
-    TransformType::ScaleVectorType scale;
-    scale.Fill(2.5);
+    auto scale = itk::MakeFilled<TransformType::ScaleVectorType>(2.5);
 
     transform->SetScale(scale);
 

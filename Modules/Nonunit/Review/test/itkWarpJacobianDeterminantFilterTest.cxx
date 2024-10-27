@@ -73,8 +73,7 @@ itkWarpJacobianDeterminantFilterTest(int, char *[])
   DeformationIteratorType it(inputDisplacementField, inputDisplacementField->GetBufferedRegion());
 
   // Initialize the content of Image A
-  DeformationPixelType vectorValue;
-  vectorValue.Fill(5.0); // FIXME: replace with something more interesting...
+  auto vectorValue = itk::MakeFilled<DeformationPixelType>(5.0); // FIXME: replace with something more interesting...
 
   it.GoToBegin();
   while (!it.IsAtEnd())

@@ -51,8 +51,7 @@ FastMarchingImageFilterBaseTestFunction()
   fastMarchingFilter->SetOutputRegion(outputRegion);
   ITK_TEST_SET_GET_VALUE(outputRegion, fastMarchingFilter->GetOutputRegion());
 
-  typename FastMarchingImageFilterType::OutputSpacingType outputSpacing;
-  outputSpacing.Fill(1.0);
+  auto outputSpacing = itk::MakeFilled<typename FastMarchingImageFilterType::OutputSpacingType>(1.0);
   fastMarchingFilter->SetOutputSpacing(outputSpacing);
   ITK_TEST_SET_GET_VALUE(outputSpacing, fastMarchingFilter->GetOutputSpacing());
 

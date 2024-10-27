@@ -47,8 +47,7 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   ImageType::PointType origin{};
   image->SetOrigin(origin);
 
-  ImageType::SpacingType spacing;
-  spacing.Fill(1);
+  auto spacing = itk::MakeFilled<ImageType::SpacingType>(1);
   image->SetSpacing(spacing);
 
   ImageType::IndexType index{};

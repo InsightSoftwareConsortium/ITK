@@ -70,8 +70,7 @@ itkBSplineDeformableTransformTest1()
   std::cout << region << std::endl;
 
   using SpacingType = TransformType::SpacingType;
-  SpacingType spacing;
-  spacing.Fill(2.0);
+  auto spacing = itk::MakeFilled<SpacingType>(2.0);
 
   /**
    * Instantiate a transform
@@ -297,8 +296,7 @@ itkBSplineDeformableTransformTest1()
    */
   {
     using VectorType = TransformType::InputVectorType;
-    VectorType vector;
-    vector.Fill(1.0);
+    auto vector = itk::MakeFilled<VectorType>(1.0);
 
     bool pass = false;
     try
@@ -321,8 +319,7 @@ itkBSplineDeformableTransformTest1()
 
   {
     using VectorType = TransformType::InputCovariantVectorType;
-    VectorType vector;
-    vector.Fill(1.0);
+    auto vector = itk::MakeFilled<VectorType>(1.0);
 
     bool pass = false;
     try
@@ -604,8 +601,7 @@ itkBSplineDeformableTransformTest3()
   std::cout << region << std::endl;
 
   using SpacingType = TransformType::SpacingType;
-  SpacingType spacing;
-  spacing.Fill(2.0);
+  auto spacing = itk::MakeFilled<SpacingType>(2.0);
   /**
    * Instantiate a transform
    */

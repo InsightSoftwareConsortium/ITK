@@ -47,12 +47,10 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
   region.SetIndex(start);
   region.SetSize(size);
 
-  PointType origin;
-  origin.Fill(-1.25);
+  auto origin = itk::MakeFilled<PointType>(-1.25);
   origin[0] = -20.0;
 
-  SpacingType spacing;
-  spacing.Fill(0.1);
+  auto spacing = itk::MakeFilled<SpacingType>(0.1);
 
   inputImage->SetOrigin(origin);
   inputImage->SetSpacing(spacing);

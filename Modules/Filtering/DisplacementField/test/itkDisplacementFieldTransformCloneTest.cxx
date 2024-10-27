@@ -66,8 +66,7 @@ itkDisplacementFieldTransformCloneTest(int, char *[])
   field->SetRegions(region);
   field->Allocate();
 
-  DisplacementTransformType::OutputVectorType zeroVector;
-  zeroVector.Fill(1);
+  auto zeroVector = itk::MakeFilled<DisplacementTransformType::OutputVectorType>(1);
   field->FillBuffer(zeroVector);
   displacementTransform->SetDisplacementField(field);
 

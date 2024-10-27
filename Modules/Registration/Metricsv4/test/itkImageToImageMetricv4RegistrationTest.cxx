@@ -63,8 +63,8 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
 
   auto size = TImage::SizeType::Filled(ImageSize);
 
-  typename TImage::SpacingType spacing;
-  spacing.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
+  auto spacing =
+    itk::MakeFilled<typename TImage::SpacingType>(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
 
   typename TImage::PointType origin{};
 

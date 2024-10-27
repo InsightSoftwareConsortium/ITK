@@ -40,9 +40,8 @@ itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
 
   // Generate co-occurence matrix
   using MatrixGeneratorType = itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<ImageType>;
-  auto                            generator = MatrixGeneratorType::New();
-  MatrixGeneratorType::OffsetType offset;
-  offset.Fill(1);
+  auto generator = MatrixGeneratorType::New();
+  auto offset = itk::MakeFilled<MatrixGeneratorType::OffsetType>(1);
   generator->SetOffset(offset);
   generator->SetInput(image);
   generator->Update();

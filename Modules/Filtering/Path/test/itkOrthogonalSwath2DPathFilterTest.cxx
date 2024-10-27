@@ -73,8 +73,7 @@ itkOrthogonalSwath2DPathFilterTest(int, char *[])
   std::cout << "Making a square Path with v0 at (24,24) -> (24,104) -> (104,104) -> (104,24)" << std::endl;
   auto inputPath = PolyLineParametricPathType::New();
 
-  VertexType v;
-  v.Fill(24);
+  auto v = itk::MakeFilled<VertexType>(24);
   inputPath->AddVertex(v);
   v[0] = 24;
   v[1] = 104;

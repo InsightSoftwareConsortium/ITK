@@ -84,8 +84,7 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
 
   std::cout << "EvaluateAtContinuousIndex: ";
 
-  FunctionType::ContinuousIndexType continuousIndex;
-  continuousIndex.Fill(25);
+  auto continuousIndex = itk::MakeFilled<FunctionType::ContinuousIndexType>(25);
 
   function->EvaluateAtContinuousIndex(continuousIndex);
 
