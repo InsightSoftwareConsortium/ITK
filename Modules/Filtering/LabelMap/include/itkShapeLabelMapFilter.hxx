@@ -96,13 +96,11 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   // Init the vars
   SizeValueType                           nbOfPixels = 0;
   ContinuousIndex<double, ImageDimension> centroid{};
-  IndexType                               mins;
-  mins.Fill(NumericTraits<IndexValueType>::max());
-  IndexType maxs;
-  maxs.Fill(NumericTraits<IndexValueType>::NonpositiveMin());
-  SizeValueType nbOfPixelsOnBorder = 0;
-  double        perimeterOnBorder = 0;
-  MatrixType    centralMoments{};
+  auto                                    mins = IndexType::Filled(NumericTraits<IndexValueType>::max());
+  auto                                    maxs = IndexType::Filled(NumericTraits<IndexValueType>::NonpositiveMin());
+  SizeValueType                           nbOfPixelsOnBorder = 0;
+  double                                  perimeterOnBorder = 0;
+  MatrixType                              centralMoments{};
 
   using LengthType = typename LabelObjectType::LengthType;
 

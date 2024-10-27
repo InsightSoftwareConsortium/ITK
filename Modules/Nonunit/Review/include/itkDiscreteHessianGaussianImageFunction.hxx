@@ -117,14 +117,12 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
   kernelImage->AllocateInitialized();
 
   // Initially the kernel image will be an impulse at the center
-  typename KernelImageType::IndexType centerIndex;
-  centerIndex.Fill(2 * maxRadius); // include also boundaries
+  auto centerIndex = KernelImageType::IndexType::Filled(2 * maxRadius); // include also boundaries
 
   // Create an image region to be used later that does not include boundaries
   RegionType kernelRegion;
   size.Fill(2 * maxRadius + 1);
-  typename RegionType::IndexType origin;
-  origin.Fill(maxRadius);
+  auto origin = RegionType::IndexType::Filled(maxRadius);
   kernelRegion.SetSize(size);
   kernelRegion.SetIndex(origin);
 
