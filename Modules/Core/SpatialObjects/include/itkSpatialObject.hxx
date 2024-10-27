@@ -38,8 +38,7 @@ template <unsigned int TDimension>
 void
 SpatialObject<TDimension>::Clear()
 {
-  typename BoundingBoxType::PointType pnt;
-  pnt.Fill(typename BoundingBoxType::PointType::ValueType{});
+  typename BoundingBoxType::PointType pnt{};
   m_FamilyBoundingBoxInObjectSpace->SetMinimum(pnt);
   m_FamilyBoundingBoxInObjectSpace->SetMaximum(pnt);
   m_FamilyBoundingBoxInWorldSpace->SetMinimum(pnt);
@@ -601,8 +600,7 @@ template <unsigned int TDimension>
 void
 SpatialObject<TDimension>::ComputeMyBoundingBox()
 {
-  typename BoundingBoxType::PointType pnt;
-  pnt.Fill(typename BoundingBoxType::PointType::ValueType{});
+  typename BoundingBoxType::PointType pnt{};
   if (m_MyBoundingBoxInObjectSpace->GetMinimum() != pnt || m_MyBoundingBoxInObjectSpace->GetMaximum() != pnt)
   {
     m_MyBoundingBoxInObjectSpace->SetMinimum(pnt);
@@ -638,8 +636,7 @@ SpatialObject<TDimension>::ComputeFamilyBoundingBox(unsigned int depth, const st
 {
   itkDebugMacro("Computing Bounding Box");
 
-  typename BoundingBoxType::PointType zeroPnt;
-  zeroPnt.Fill(typename BoundingBoxType::PointType::ValueType{});
+  typename BoundingBoxType::PointType zeroPnt{};
   m_FamilyBoundingBoxInObjectSpace->SetMinimum(zeroPnt);
   m_FamilyBoundingBoxInObjectSpace->SetMaximum(zeroPnt);
   bool bbDefined = false;

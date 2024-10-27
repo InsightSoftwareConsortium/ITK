@@ -153,8 +153,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Befor
   using SliceErodeType = BinaryErodeImageFilter<SliceInternalImageType, SliceInternalImageType, SliceKernelType>;
   auto serode = SliceErodeType::New();
   using RadiusType = typename SliceKernelType::RadiusType;
-  RadiusType srad;
-  srad.Fill(typename RadiusType::SizeValueType{});
+  RadiusType srad{};
   for (unsigned int i = 0, j = 0; i < ImageDimension; ++i)
   {
     if (j != static_cast<unsigned int>(m_SliceDimension) && (j < (ImageDimension - 1)))

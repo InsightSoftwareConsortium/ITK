@@ -413,8 +413,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   }
   else
   {
-    VirtualOriginType origin;
-    origin.Fill(typename VirtualOriginType::ValueType{});
+    VirtualOriginType origin{};
     return origin;
   }
 }
