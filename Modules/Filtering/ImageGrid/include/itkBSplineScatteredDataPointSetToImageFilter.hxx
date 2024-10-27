@@ -558,8 +558,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
     collapsedPhiLattices[i] = PointDataImageType::New();
     collapsedPhiLattices[i]->CopyInformation(this->m_PhiLattice);
 
-    typename PointDataImageType::SizeType size;
-    size.Fill(1);
+    auto size = PointDataImageType::SizeType::Filled(1);
     for (unsigned int j = 0; j < i; ++j)
     {
       size[j] = this->m_PhiLattice->GetLargestPossibleRegion().GetSize()[j];
@@ -886,8 +885,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
     collapsedPhiLattices[i]->SetSpacing(this->m_PhiLattice->GetSpacing());
     collapsedPhiLattices[i]->SetDirection(this->m_PhiLattice->GetDirection());
 
-    typename PointDataImageType::SizeType size;
-    size.Fill(1);
+    auto size = PointDataImageType::SizeType::Filled(1);
     for (unsigned int j = 0; j < i; ++j)
     {
       size[j] = this->m_PhiLattice->GetLargestPossibleRegion().GetSize()[j];

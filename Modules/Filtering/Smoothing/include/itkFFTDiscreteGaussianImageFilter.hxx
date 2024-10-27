@@ -132,8 +132,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
     kernelSource->SetOrigin(inputOrigin);
     kernelSource->SetDirection(this->GetInput()->GetDirection());
 
-    KernelSizeType kernelSize;
-    kernelSize.Fill(1);
+    auto kernelSize = KernelSizeType::Filled(1);
     for (size_t dim = 0; dim < this->GetFilterDimensionality(); ++dim)
     {
       kernelSize[dim] = static_cast<SizeValueType>(this->GetKernelRadius(dim)) * 2 + 1;

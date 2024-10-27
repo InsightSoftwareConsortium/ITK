@@ -187,8 +187,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
     collapsedPhiLattices[i] = PointDataImageType::New();
     collapsedPhiLattices[i]->CopyInformation(inputPtr);
 
-    typename PointDataImageType::SizeType size;
-    size.Fill(1);
+    auto size = PointDataImageType::SizeType::Filled(1);
     for (unsigned int j = 0; j < i; ++j)
     {
       size[j] = inputPtr->GetLargestPossibleRegion().GetSize()[j];

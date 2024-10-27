@@ -117,8 +117,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
   using RegionType = typename KernelImageType::RegionType;
   RegionType region;
 
-  typename RegionType::SizeType size;
-  size.Fill(4 * maxRadius + 1);
+  auto size = RegionType::SizeType::Filled(4 * maxRadius + 1);
   region.SetSize(size);
 
   kernelImage->SetRegions(region);

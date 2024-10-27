@@ -64,8 +64,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   }
 
   // Set the radius for the neighborhood
-  Size<ImageDimension> radius;
-  radius.Fill(VRadius);
+  auto radius = Size<ImageDimension>::Filled(VRadius);
 
   // Initialize the neighborhood
   IteratorType it(radius, image, image->GetBufferedRegion());
@@ -145,8 +144,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   }
 
   // Position the neighborhood at the index of interest
-  Size<ImageDimension> radius;
-  radius.Fill(VRadius);
+  auto         radius = Size<ImageDimension>::Filled(VRadius);
   IteratorType nit(radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
   nit.SetLocation(baseIndex);
 

@@ -48,11 +48,10 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   typename InputImageType::ConstPointer input = this->GetInput();
 
   // Get values from superclass
-  InputPixelType foregroundValue = this->GetForegroundValue();
-  InputPixelType backgroundValue = this->GetBackgroundValue();
-  KernelType     kernel = this->GetKernel();
-  InputSizeType  radius;
-  radius.Fill(1);
+  InputPixelType                    foregroundValue = this->GetForegroundValue();
+  InputPixelType                    backgroundValue = this->GetBackgroundValue();
+  KernelType                        kernel = this->GetKernel();
+  auto                              radius = InputSizeType::Filled(1);
   typename TOutputImage::RegionType outputRegion = output->GetBufferedRegion();
 
   // compute the size of the temp image. It is needed to create the progress

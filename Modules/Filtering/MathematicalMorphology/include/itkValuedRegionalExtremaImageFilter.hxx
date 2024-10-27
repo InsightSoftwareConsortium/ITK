@@ -106,8 +106,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
     // Note : all comments refer to finding regional minima, because
     // it is briefer and clearer than trying to describe both regional
     // maxima and minima processes at the same time
-    ISizeType kernelRadius;
-    kernelRadius.Fill(1);
+    auto            kernelRadius = ISizeType::Filled(1);
     NOutputIterator outNIt(kernelRadius, output, output->GetRequestedRegion());
     setConnectivity(&outNIt, m_FullyConnected);
 

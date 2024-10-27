@@ -197,8 +197,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // Determine the last dimension for the tile image. This dimension will
   // be large enough to accommodate left-over images.
-  OutputSizeType outputSize;
-  outputSize.Fill(1);
+  auto outputSize = OutputSizeType::Filled(1);
 
   if (m_Layout[OutputImageDimension - 1] == 0)
   {
@@ -216,8 +215,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     m_Layout[OutputImageDimension - 1] = outputSize[OutputImageDimension - 1];
   }
 
-  OutputSizeType tileSize;
-  tileSize.Fill(1);
+  auto tileSize = OutputSizeType::Filled(1);
 
   for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {

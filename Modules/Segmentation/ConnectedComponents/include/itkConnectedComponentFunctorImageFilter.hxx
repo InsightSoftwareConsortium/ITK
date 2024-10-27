@@ -55,8 +55,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   using InputNeighborhoodIteratorType = ConstShapedNeighborhoodIterator<TInputImage>;
   using OutputNeighborhoodIteratorType = ConstShapedNeighborhoodIterator<TOutputImage>;
 
-  SizeType kernelRadius;
-  kernelRadius.Fill(1);
+  auto kernelRadius = SizeType::Filled(1);
 
   InputNeighborhoodIteratorType  init(kernelRadius, input, output->GetRequestedRegion());
   OutputNeighborhoodIteratorType onit(kernelRadius, output, output->GetRequestedRegion());

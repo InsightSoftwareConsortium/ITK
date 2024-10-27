@@ -141,8 +141,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
   NOutputIterator   outNIt;
   InputIteratorType mskIt;
   CNInputIterator   mskNIt;
-  ISizeType         kernelRadius;
-  kernelRadius.Fill(1);
+  auto              kernelRadius = ISizeType::Filled(1);
   if (m_UseInternalCopy)
   {
     FaceCalculatorType faceCalculator;
