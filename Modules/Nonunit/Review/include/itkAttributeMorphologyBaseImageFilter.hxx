@@ -86,8 +86,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   SizeValueType buffsize = output->GetRequestedRegion().GetNumberOfPixels();
 
-  SizeType kernelRadius;
-  kernelRadius.Fill(1);
+  auto kernelRadius = SizeType::Filled(1);
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>;
   FaceCalculatorType                        faceCalculator;
   typename FaceCalculatorType::FaceListType faceList =
@@ -211,8 +210,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   OffsetVecType &       Offsets)
 {
   using NeighType = ConstShapedNeighborhoodIterator<TOutputImage>;
-  SizeType KernRad;
-  KernRad.Fill(1);
+  auto      KernRad = SizeType::Filled(1);
   NeighType It(KernRad, this->GetOutput(), this->GetOutput()->GetRequestedRegion());
   setConnectivity(&It, m_FullyConnected);
   typename NeighType::IndexListType                 OffsetList;

@@ -432,8 +432,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeFeretDiameter(LabelObjectType *
   IndexListType idxList;
 
   using NeighborIteratorType = typename itk::ConstNeighborhoodIterator<LabelImageType>;
-  SizeType neighborHoodRadius;
-  neighborHoodRadius.Fill(1);
+  auto                                      neighborHoodRadius = SizeType::Filled(1);
   NeighborIteratorType                      it(neighborHoodRadius, m_LabelImage, m_LabelImage->GetBufferedRegion());
   ConstantBoundaryCondition<LabelImageType> lcbc;
   // Use label + 1 to have a label different of the current label on the border

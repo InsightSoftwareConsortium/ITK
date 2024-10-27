@@ -54,8 +54,7 @@ VectorMeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType
   }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
-  typename InputImageType::SizeType kernelSize;
-  kernelSize.Fill(m_NeighborhoodRadius);
+  auto kernelSize = InputImageType::SizeType::Filled(m_NeighborhoodRadius);
 
   ConstNeighborhoodIterator<InputImageType> it(
     kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());

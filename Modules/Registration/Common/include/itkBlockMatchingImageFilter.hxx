@@ -287,8 +287,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   // start constructing window region and center region (single voxel)
   ImageRegionType window;
   ImageRegionType center;
-  ImageSizeType   windowSize;
-  windowSize.Fill(1);
+  auto            windowSize = ImageSizeType::Filled(1);
   center.SetSize(windowSize); // size of center region is 1
   windowSize += m_SearchRadius + m_SearchRadius;
   window.SetSize(windowSize); // size of window region is 1+2*m_BlockHalfWindow

@@ -104,8 +104,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
   using RegionType = typename KernelImageType::RegionType;
   RegionType region;
 
-  typename RegionType::SizeType size;
-  size.Fill(4 * m_OperatorArray[0].GetRadius()[0] + 1);
+  auto size = RegionType::SizeType::Filled(4 * m_OperatorArray[0].GetRadius()[0] + 1);
   region.SetSize(size);
 
   kernelImage->SetRegions(region);

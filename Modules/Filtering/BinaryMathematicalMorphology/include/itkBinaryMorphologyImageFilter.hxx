@@ -139,8 +139,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   ImageRegionIteratorWithIndex<BoolImageType> kernelImageItIndex(tmpSEImage, tmpSEImage->GetRequestedRegion());
 
   // Neighborhood iterator on SE element temp image
-  InputSizeType padBy;
-  padBy.Fill(1);
+  auto                                padBy = InputSizeType::Filled(1);
   NeighborhoodIterator<BoolImageType> SEoNeighbIt(padBy, tmpSEImage, tmpSEImage->GetRequestedRegion());
   SEoNeighbIt.OverrideBoundaryCondition(&cbc);
   SizeValueType neighborhoodSize = SEoNeighbIt.Size();

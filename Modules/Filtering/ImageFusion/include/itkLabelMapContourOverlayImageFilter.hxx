@@ -42,8 +42,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Label
   m_Opacity = 0.5;
   m_Type = CONTOUR;
   m_Priority = HIGH_LABEL_ON_TOP;
-  SizeType s;
-  s.Fill(1);
+  auto s = SizeType::Filled(1);
   m_ContourThickness = SizeType(s);
   s.Fill(0);
   m_DilationRadius = SizeType(s);

@@ -177,8 +177,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
   InputImage1ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  SizeType radius;
-  radius.Fill(1);
+  auto radius = SizeType::Filled(1);
 
   using FaceListType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImage1Type>::FaceListType;
 

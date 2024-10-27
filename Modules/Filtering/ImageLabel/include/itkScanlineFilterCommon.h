@@ -415,8 +415,7 @@ protected:
 
     LineRegion.SetSize(PretendSize);
     fakeImage->SetRegions(LineRegion);
-    PretendSizeType kernelRadius;
-    kernelRadius.Fill(1);
+    auto                 kernelRadius = PretendSizeType::Filled(1);
     LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
 
     if (wholeNeighborhood)

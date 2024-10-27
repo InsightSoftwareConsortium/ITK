@@ -110,9 +110,8 @@ BoxAccumulateFunction(const TInputImage *               inputImage,
   using InputIterator = ImageRegionConstIterator<TInputImage>;
 
   using NOutputIterator = ShapedNeighborhoodIterator<TOutputImage>;
-  InputIterator                  inIt(inputImage, inputRegion);
-  typename TInputImage::SizeType kernelRadius;
-  kernelRadius.Fill(1);
+  InputIterator inIt(inputImage, inputRegion);
+  auto          kernelRadius = TInputImage::SizeType::Filled(1);
 
   NOutputIterator noutIt(kernelRadius, outputImage, outputRegion);
   // this iterator is fully connected
@@ -165,8 +164,7 @@ std::vector<typename TImage::OffsetType>
 CornerOffsets(const TImage * im)
 {
   using NIterator = ShapedNeighborhoodIterator<TImage>;
-  typename TImage::SizeType unitradius;
-  unitradius.Fill(1);
+  auto                                     unitradius = TImage::SizeType::Filled(1);
   NIterator                                n1(unitradius, im, im->GetRequestedRegion());
   unsigned int                             centerIndex = n1.GetCenterNeighborhoodIndex();
   typename NIterator::OffsetType           offset;
@@ -564,9 +562,8 @@ BoxSquareAccumulateFunction(const TInputImage *               inputImage,
   using InputIterator = ImageRegionConstIterator<TInputImage>;
 
   using NOutputIterator = ShapedNeighborhoodIterator<TOutputImage>;
-  InputIterator                  inIt(inputImage, inputRegion);
-  typename TInputImage::SizeType kernelRadius;
-  kernelRadius.Fill(1);
+  InputIterator inIt(inputImage, inputRegion);
+  auto          kernelRadius = TInputImage::SizeType::Filled(1);
 
   NOutputIterator noutIt(kernelRadius, outputImage, outputRegion);
   // this iterator is fully connected

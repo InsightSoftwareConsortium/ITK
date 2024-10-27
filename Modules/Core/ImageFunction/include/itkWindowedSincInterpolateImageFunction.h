@@ -321,8 +321,7 @@ public:
   SizeType
   GetRadius() const override
   {
-    SizeType radius;
-    radius.Fill(VRadius);
+    auto radius = SizeType::Filled(VRadius);
     return radius;
   }
 

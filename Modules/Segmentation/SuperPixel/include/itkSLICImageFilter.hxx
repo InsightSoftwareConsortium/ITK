@@ -330,14 +330,12 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedPerturbClust
   const unsigned int numberOfClusterComponents = numberOfComponents + ImageDimension;
 
 
-  itk::Size<ImageDimension> radius;
-  radius.Fill(1);
+  auto          radius = itk::Size<ImageDimension>::Filled(1);
   unsigned long center;
   unsigned long stride[ImageDimension];
 
 
-  typename InputImageType::SizeType searchRadius;
-  searchRadius.Fill(1);
+  auto searchRadius = InputImageType::SizeType::Filled(1);
 
 
   using NeighborhoodType = ConstNeighborhoodIterator<TInputImage>;
@@ -439,8 +437,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedConnectivity
   ConstantBoundaryCondition<TOutputImage> lbc;
   lbc.SetConstant(NumericTraits<typename OutputImageType::PixelType>::max());
 
-  itk::Size<ImageDimension> radius;
-  radius.Fill(1);
+  auto radius = itk::Size<ImageDimension>::Filled(1);
 
   using NeighborhoodType = ConstNeighborhoodIterator<TOutputImage, ConstantBoundaryCondition<TOutputImage>>;
 
@@ -769,8 +766,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::RelabelConnectedRegi
   ConstantBoundaryCondition<TOutputImage> lbc;
   lbc.SetConstant(NumericTraits<typename OutputImageType::PixelType>::max());
 
-  itk::Size<ImageDimension> radius;
-  radius.Fill(1);
+  auto          radius = itk::Size<ImageDimension>::Filled(1);
   unsigned long center;
   unsigned long stride[ImageDimension];
 
