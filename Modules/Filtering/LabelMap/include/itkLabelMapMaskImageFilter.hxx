@@ -104,10 +104,8 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       else
       {
         // Compute the bounding box of all the objects which don't have that label
-        IndexType mins;
-        mins.Fill(NumericTraits<IndexValueType>::max());
-        IndexType maxs;
-        maxs.Fill(NumericTraits<IndexValueType>::NonpositiveMin());
+        auto mins = IndexType::Filled(NumericTraits<IndexValueType>::max());
+        auto maxs = IndexType::Filled(NumericTraits<IndexValueType>::NonpositiveMin());
         for (typename InputImageType::ConstIterator loit(this->GetInput()); !loit.IsAtEnd(); ++loit)
         {
           if (loit.GetLabel() != m_Label)
@@ -168,10 +166,8 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         // Just find the bounding box of the object with that label
 
         const LabelObjectType * labelObject = input->GetLabelObject(m_Label);
-        IndexType               mins;
-        mins.Fill(NumericTraits<IndexValueType>::max());
-        IndexType maxs;
-        maxs.Fill(NumericTraits<IndexValueType>::NonpositiveMin());
+        auto                    mins = IndexType::Filled(NumericTraits<IndexValueType>::max());
+        auto                    maxs = IndexType::Filled(NumericTraits<IndexValueType>::NonpositiveMin());
         // Iterate over all the lines
         typename LabelObjectType::ConstLineIterator lit(labelObject);
         while (!lit.IsAtEnd())

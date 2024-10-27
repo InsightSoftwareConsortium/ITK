@@ -482,8 +482,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
   physicalWeightsImage->Allocate();
   physicalWeightsImage->FillBuffer(1.0);
 
-  typename WeightsImageType::IndexType centerIndex;
-  centerIndex.Fill(patchRadius);
+  auto centerIndex = WeightsImageType::IndexType::Filled(patchRadius);
 
   unsigned int pos = 0;
   for (ImageRegionIteratorWithIndex<WeightsImageType> pwIt(physicalWeightsImage, physicalRegion); !pwIt.IsAtEnd();
