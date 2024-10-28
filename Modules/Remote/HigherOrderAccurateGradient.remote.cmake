@@ -50,5 +50,5 @@ itk_fetch_module(
   https://doi.org/10.54294/zv7979"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient.git
-  GIT_TAG 692f6b7416c05c2a0b1dc2ed952ac69081c44abc
+  GIT_TAG ffb1cd47ddea117e3bc76ee075415efb784afd41
   )
