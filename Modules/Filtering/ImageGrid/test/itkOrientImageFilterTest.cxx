@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#define ITK_LEGACY_SILENT
 #include "itkOrientImageFilter.h"
 #include "itkImageToImageFilter.h"
 #include "itkTestingMacros.h"
