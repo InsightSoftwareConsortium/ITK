@@ -48,5 +48,5 @@ itk_fetch_module(
   files. See https://doi.org/10.54294/lf8u753"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKIOTransformDCMTK.git
-  GIT_TAG e97e0e8c27809eea1834dd534a47fc06168e3e45
+  GIT_TAG 3111018eb241e5e90b5923413372f1adbcb34b0d
   )

@@ -46,5 +46,5 @@ itk_fetch_module(
   "MGHIO ImageIO plugin for ITK"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/itkMGHImageIO.git
-  GIT_TAG 0adac35fa22945c7a5f3a63dd8d01454577c24d3
+  GIT_TAG 05c87e0642608c733e79f2966b17c357afb55763
   )

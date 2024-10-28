@@ -48,5 +48,5 @@ itk_fetch_module(
   the STL (STereoLithography) file format. https://doi.org/10.54294/7rr2te"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKIOMeshSTL.git
-  GIT_TAG 31594eb088ef35897e7ce0f02077e8ce50454e01
+  GIT_TAG cf5e0b7625704c81bdcde53f2515571632ad39ec
   )
