@@ -162,6 +162,9 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  LightObject::Pointer
+  InternalClone() const override;
+
 }; // End Class: PointSet
 } // end namespace itk
 

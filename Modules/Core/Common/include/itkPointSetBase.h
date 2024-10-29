@@ -67,6 +67,8 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PointSetBase);
 
+  itkCloneMacro(Self);
+
   /** Convenient type alias obtained from TPointsContainer template parameter. */
   using PointType = typename TPointsContainer::Element;
   using CoordRepType = typename PointType::CoordRepType;
@@ -199,6 +201,9 @@ protected:
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
+
+  LightObject::Pointer
+  InternalClone() const override;
 
   // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following
   // variables represent the maximum number of region that the data

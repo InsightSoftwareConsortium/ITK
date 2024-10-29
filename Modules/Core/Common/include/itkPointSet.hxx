@@ -143,6 +143,23 @@ PointSet<TPixelType, VDimension, TMeshTraits>::Graft(const DataObject * data)
   this->SetPointData(pointSet->m_PointDataContainer);
 }
 
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+LightObject::Pointer
+PointSet<TPixelType, VDimension, TMeshTraits>::InternalClone() const
+{
+  LightObject::Pointer lightObject = Superclass::InternalClone();
+
+  if (auto * const clone = dynamic_cast<Self *>(lightObject.GetPointer()))
+  {
+    if (m_PointDataContainer)
+    {
+      clone->m_PointDataContainer = PointDataContainer::New();
+      clone->m_PointDataContainer->CastToSTLContainer() = m_PointDataContainer->CastToSTLConstContainer();
+    }
+    return lightObject;
+  }
+  itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
+}
 } // end namespace itk
 
 #endif
