@@ -73,6 +73,44 @@ TestSetPointsByCoordinates(TPointSet & pointSet)
     }
   }
 }
+
+
+template <typename TPointSet>
+void
+TestCloneDoesDeepCopy(const TPointSet & pointSet)
+{
+  const auto clone = pointSet.Clone();
+
+  // Using a const reference to the clone, because the non-const overloads of GetPointData() and GetPoints() might
+  // potentially modify the point set! (Specifically when the container pointers were initially null.)
+  const TPointSet & constClone = itk::Deref(clone.get());
+
+  if (const auto * const pointData = pointSet.GetPointData())
+  {
+    const auto * const clonedPointData = constClone.GetPointData();
+
+    ASSERT_NE(clonedPointData, nullptr);
+    EXPECT_NE(clonedPointData, pointData) << "It should not just be a shallow copy!";
+    EXPECT_EQ(clonedPointData->CastToSTLConstContainer(), pointData->CastToSTLConstContainer());
+  }
+  else
+  {
+    EXPECT_EQ(constClone.GetPointData(), nullptr);
+  }
+
+  if (const auto * const points = pointSet.GetPoints())
+  {
+    const auto * const clonedPoints = constClone.GetPoints();
+
+    ASSERT_NE(clonedPoints, nullptr);
+    EXPECT_NE(clonedPoints, points) << "It should not just be a shallow copy!";
+    EXPECT_EQ(clonedPoints->CastToSTLConstContainer(), points->CastToSTLConstContainer());
+  }
+  else
+  {
+    EXPECT_EQ(constClone.GetPoints(), nullptr);
+  }
+}
 } // namespace
 
 
@@ -112,4 +150,23 @@ TEST(PointSet, GraftDoesShallowCopy)
   pointSet->SetPointData(itk::MakeVectorContainer<PixelType>({ 0.0, 1.0, 2.0 }));
 
   check(*pointSet);
+}
+
+
+// Tests that `PointSet::Clone` copies the points and the data. So it does a "deep copy".
+TEST(PointSet, CloneDoesDeepCopy)
+{
+  // First check an empty point set:
+  TestCloneDoesDeepCopy(*itk::PointSet<int>::New());
+
+  // Then check a non-empty 2-D point set with `double` data:
+  using PixelType = double;
+  using PointSetType = itk::PointSet<PixelType, 2>;
+  using PointType = PointSetType::PointType;
+
+  const auto pointSet = PointSetType::New();
+  pointSet->SetPoints(itk::MakeVectorContainer<PointType>({ PointType(), itk::MakeFilled<PointType>(1.0f) }));
+  pointSet->SetPointData(itk::MakeVectorContainer<PixelType>({ 0.0, 1.0, 2.0 }));
+
+  TestCloneDoesDeepCopy(*pointSet);
 }

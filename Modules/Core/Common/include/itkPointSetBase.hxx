@@ -350,6 +350,31 @@ PointSetBase<TPointsContainer>::VerifyRequestedRegion()
   return retval;
 }
 
+template <typename TPointsContainer>
+LightObject::Pointer
+PointSetBase<TPointsContainer>::InternalClone() const
+{
+  LightObject::Pointer lightObject = Superclass::InternalClone();
+
+  if (auto * const clone = dynamic_cast<Self *>(lightObject.GetPointer()))
+  {
+    if (m_PointsContainer)
+    {
+      clone->m_PointsContainer = TPointsContainer::New();
+      clone->m_PointsContainer->CastToSTLContainer() = m_PointsContainer->CastToSTLConstContainer();
+    }
+
+    clone->m_MaximumNumberOfRegions = m_MaximumNumberOfRegions;
+    clone->m_NumberOfRegions = m_NumberOfRegions;
+    clone->m_RequestedNumberOfRegions = m_RequestedNumberOfRegions;
+    clone->m_BufferedRegion = m_BufferedRegion;
+    clone->m_RequestedRegion = m_RequestedRegion;
+
+    return lightObject;
+  }
+  itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
+}
+
 // Destructor. Must be defined here (rather than inside the class definition) because it is pure virtual.
 template <typename TPointsContainer>
 PointSetBase<TPointsContainer>::~PointSetBase() = default;
