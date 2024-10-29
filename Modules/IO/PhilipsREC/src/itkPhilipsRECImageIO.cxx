@@ -718,7 +718,7 @@ PhilipsRECImageIO::ReadImageInformation()
       // Transverse - the REC data appears to be stored as right-left,
       // anterior-posterior, and inferior-superior.
       // Verified using a marker on right side of brain.
-      coord_orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
+      coord_orient = AnatomicalOrientation::NegativeEnum::RAI;
       spacing[0][0] = par.vox[0];
       spacing[1][1] = par.vox[1];
       spacing[2][2] = par.vox[2];
@@ -727,7 +727,7 @@ PhilipsRECImageIO::ReadImageInformation()
       // Sagittal - the REC data appears to be stored as anterior-posterior,
       // superior-inferior, and right-left.
       // Verified using marker on right side of brain.
-      coord_orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL;
+      coord_orient = AnatomicalOrientation::NegativeEnum::ASL;
       spacing[0][0] = par.vox[2];
       spacing[1][1] = par.vox[0];
       spacing[2][2] = par.vox[1];
@@ -738,7 +738,7 @@ PhilipsRECImageIO::ReadImageInformation()
     // Verified using marker on right side of brain.
     // fall thru
     default:
-      coord_orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSA;
+      coord_orient = AnatomicalOrientation::NegativeEnum::RSA;
       spacing[0][0] = par.vox[0];
       spacing[1][1] = par.vox[2];
       spacing[2][2] = par.vox[1];
