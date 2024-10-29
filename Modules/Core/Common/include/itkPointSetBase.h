@@ -67,6 +67,8 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PointSetBase);
 
+  itkCloneMacro(Self);
+
   /** Convenient type alias obtained from TPointsContainer template parameter. */
   using PointType = typename TPointsContainer::Element;
   using CoordRepType = typename PointType::CoordRepType;
@@ -190,6 +192,25 @@ public:
 
   itkGetConstMacro(BufferedRegion, RegionType);
 
+
+  /** Returns a "deep copy" of this point set, having copied its points and point data. */
+  Pointer
+  MakeDeepCopy() const
+  {
+    const auto clone = this->Clone();
+    clone->Graft(this);
+
+    if (m_PointsContainer)
+    {
+      // Make a new copy of the points, detached from the original one.
+      const auto points = TPointsContainer::New();
+      points->CastToSTLContainer() = m_PointsContainer->CastToSTLConstContainer();
+      clone->m_PointsContainer = points;
+    }
+    clone->DetachPointData();
+    return clone;
+  }
+
 protected:
   /** Default-constructor, to be used by derived classes. */
   PointSetBase() = default;
@@ -215,6 +236,10 @@ protected:
   RegionType m_RequestedNumberOfRegions{};
   RegionType m_BufferedRegion{ -1 };
   RegionType m_RequestedRegion{ -1 };
+
+private:
+  virtual void
+  DetachPointData() = 0;
 };
 } // end namespace itk
 

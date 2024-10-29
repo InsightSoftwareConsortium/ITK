@@ -73,6 +73,42 @@ TestSetPointsByCoordinates(TPointSet & pointSet)
     }
   }
 }
+
+template <typename TPointSet>
+void
+TestMakeDeepCopy(const TPointSet & pointSet)
+{
+  const auto deepCopyPointSetBase = pointSet.MakeDeepCopy();
+
+  // Check that MakeDeepCopy() did not return null, by using itk::Deref(ptr).
+  const auto & deepCopyPointSet = dynamic_cast<const TPointSet &>(itk::Deref(deepCopyPointSetBase.get()));
+
+  if (const auto * const pointData = pointSet.GetPointData())
+  {
+    const auto * const deepCopyPointData = deepCopyPointSet.GetPointData();
+
+    ASSERT_NE(deepCopyPointData, nullptr);
+    EXPECT_NE(deepCopyPointData, pointData) << "It should not just be a shallow copy!";
+    EXPECT_EQ(deepCopyPointData->CastToSTLConstContainer(), pointData->CastToSTLConstContainer());
+  }
+  else
+  {
+    EXPECT_EQ(deepCopyPointSet.GetPointData(), nullptr);
+  }
+
+  if (const auto * const points = pointSet.GetPoints())
+  {
+    const auto * const deepCopyPoints = deepCopyPointSetBase->GetPoints();
+
+    ASSERT_NE(deepCopyPoints, nullptr);
+    EXPECT_NE(deepCopyPoints, points) << "It should not just be a shallow copy!";
+    EXPECT_EQ(deepCopyPoints->CastToSTLConstContainer(), points->CastToSTLConstContainer());
+  }
+  else
+  {
+    EXPECT_EQ(deepCopyPointSet.GetPoints(), nullptr);
+  }
+}
 } // namespace
 
 
@@ -112,4 +148,22 @@ TEST(PointSet, GraftDoesShallowCopy)
   pointSet->SetPointData(itk::MakeVectorContainer<PixelType>({ 0.0, 1.0, 2.0 }));
 
   check(*pointSet);
+}
+
+
+TEST(PointSet, MakeDeepCopy)
+{
+  // First check an empty point set:
+  TestMakeDeepCopy(*itk::PointSet<int>::New());
+
+  // Then check a non-empty 2-D point set with `double` data:
+  using PixelType = double;
+  using PointSetType = itk::PointSet<PixelType, 2>;
+  using PointType = PointSetType::PointType;
+
+  const auto pointSet = PointSetType::New();
+  pointSet->SetPoints(itk::MakeVectorContainer<PointType>({ PointType(), itk::MakeFilled<PointType>(1.0f) }));
+  pointSet->SetPointData(itk::MakeVectorContainer<PixelType>({ 0.0, 1.0, 2.0 }));
+
+  TestMakeDeepCopy(*pointSet);
 }

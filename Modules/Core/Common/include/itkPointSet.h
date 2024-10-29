@@ -162,6 +162,18 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+private:
+  void
+  DetachPointData() override
+  {
+    if (m_PointDataContainer)
+    {
+      // Make a new copy of the point data, detached from the original one.
+      const auto pointData = PointDataContainer::New();
+      pointData->CastToSTLContainer() = m_PointDataContainer->CastToSTLConstContainer();
+      m_PointDataContainer = pointData;
+    }
+  }
 }; // End Class: PointSet
 } // end namespace itk
 
