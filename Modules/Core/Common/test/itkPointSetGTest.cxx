@@ -18,6 +18,7 @@
 
 // First include the header file to be tested:
 #include "itkPointSet.h"
+#include "itkDeref.h"
 #include "../../QuadEdgeMesh/include/itkQuadEdgeMeshTraits.h"
 #include <gtest/gtest.h>
 #include <algorithm> // For equal.
@@ -79,4 +80,36 @@ TEST(PointSet, SetPointsByCoordinates)
 {
   TestSetPointsByCoordinates(*itk::PointSet<int>::New());
   TestSetPointsByCoordinates(*itk::PointSet<double, 2, itk::QuadEdgeMeshTraits<double, 2, bool, bool>>::New());
+}
+
+
+// Tests that `PointSet::Graft` just copies the *pointers* to the points and the data. It does not do a "deep copy".
+TEST(PointSet, GraftDoesShallowCopy)
+{
+  const auto check = [](const auto & pointSet) {
+    const auto clone = pointSet.Clone();
+
+    // Check that Clone() did not return null, by using itk::Deref(ptr).
+    const auto & constClone = itk::Deref(clone.get());
+
+    clone->Graft(&pointSet);
+
+    // Expect that the pointers to the points and the data of the clone are equal to those of the original.
+    EXPECT_EQ(constClone.GetPoints(), pointSet.GetPoints());
+    EXPECT_EQ(constClone.GetPointData(), pointSet.GetPointData());
+  };
+
+  // First check an empty point set:
+  check(*itk::PointSet<int>::New());
+
+  // Then check a non-empty 2-D point set with `double` data:
+  using PixelType = double;
+  using PointSetType = itk::PointSet<PixelType, 2>;
+  using PointType = PointSetType::PointType;
+
+  const auto pointSet = PointSetType::New();
+  pointSet->SetPoints(itk::MakeVectorContainer<PointType>({ PointType(), itk::MakeFilled<PointType>(1.0f) }));
+  pointSet->SetPointData(itk::MakeVectorContainer<PixelType>({ 0.0, 1.0, 2.0 }));
+
+  check(*pointSet);
 }
