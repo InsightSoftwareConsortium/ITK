@@ -40,15 +40,12 @@ TIFFImageIO::CanReadFile(const char * file)
   }
 
   // Now check if this is a valid TIFF image
-  TIFFErrorHandler save = TIFFSetErrorHandler(nullptr);
-  int              res = m_InternalImage->Open(file);
+  int res = m_InternalImage->Open(file, true);
   if (res)
   {
-    TIFFSetErrorHandler(save);
     return true;
   }
   m_InternalImage->Clean();
-  TIFFSetErrorHandler(save);
   return false;
 }
 

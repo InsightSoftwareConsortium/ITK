@@ -17,14 +17,70 @@
  *=========================================================================*/
 
 #include "itkMacro.h"
+#include "itkObject.h"
 #include "itkTIFFReaderInternal.h"
 #include <sys/stat.h>
 
 namespace itk
 {
 
+// Macro added in libtiff 4.5.0
+#if defined(TIFFLIB_AT_LEAST)
+namespace
+{
+class tiff_open_options_free
+{
+public:
+  void
+  operator()(TIFFOpenOptions * ptr) const
+  {
+    TIFFOpenOptionsFree(ptr);
+  }
+};
+
 int
-TIFFReaderInternal::Open(const char * filename)
+itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
+                        [[maybe_unused]] void * user_data,
+                        const char *            module,
+                        const char *            fmt,
+                        va_list                 ap)
+{
+  TIFFReaderInternal * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
+  if (::itk::Object::GetGlobalWarningDisplay() && !self->m_ErrorSilence)
+  {
+    char out[256];
+    vsnprintf(out, 256, fmt, ap);
+    std::ostringstream itkmsg;
+    itkmsg << "WARNING: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
+    ::itk::OutputWindowDisplayErrorText(itkmsg.str().c_str());
+  }
+  return 1;
+}
+
+int
+itkTIFFWarningHandlerExtR([[maybe_unused]] TIFF * tif,
+                          [[maybe_unused]] void * user_data,
+                          const char *            module,
+                          const char *            fmt,
+                          va_list                 ap)
+{
+
+  TIFFReaderInternal * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
+  if (::itk::Object::GetGlobalWarningDisplay() && !self->m_WarningSilence)
+  {
+    char out[256];
+    vsnprintf(out, 256, fmt, ap);
+    std::ostringstream itkmsg;
+    itkmsg << "WARNING: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
+    ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());
+  }
+  return 1;
+}
+} // namespace
+#endif
+
+int
+TIFFReaderInternal::Open(const char * filename, bool silent)
 {
   this->Clean();
   struct stat fs;
@@ -41,8 +97,34 @@ TIFFReaderInternal::Open(const char * filename)
     return 0;
 #endif
   }
+// Macro added in libtiff 4.5.0
+#if defined(TIFFLIB_AT_LEAST)
 
-  this->m_Image = TIFFOpen(filename, "r");
+  std::unique_ptr<TIFFOpenOptions, tiff_open_options_free> options(TIFFOpenOptionsAlloc());
+  TIFFOpenOptionsSetErrorHandlerExtR(options.get(), itkTIFFErrorHandlerExtR, this);
+  TIFFOpenOptionsSetWarningHandlerExtR(options.get(), itkTIFFWarningHandlerExtR, this);
+  if (silent)
+  {
+    this->m_ErrorSilence = true;
+  }
+  this->m_Image = TIFFOpenExt(filename, "r", options.get());
+
+#else
+  if (silent)
+  {
+
+    // Now check if this is a valid TIFF image
+    TIFFErrorHandler error_save = TIFFSetErrorHandler(nullptr);
+
+    this->m_Image = TIFFOpen(filename, "r");
+    TIFFSetErrorHandler(error_save);
+  }
+  else
+  {
+    this->m_Image = TIFFOpen(filename, "r");
+  }
+
+#endif
   if (!this->m_Image)
   {
     this->Clean();
@@ -54,6 +136,8 @@ TIFFReaderInternal::Open(const char * filename)
     return 0;
   }
 
+  this->m_WarningSilence = false;
+  this->m_ErrorSilence = false;
   this->m_IsOpen = true;
   return 1;
 }
@@ -89,6 +173,9 @@ TIFFReaderInternal::Clean()
   this->m_SampleFormat = 1;
   this->m_ResolutionUnit = 1; // none
   this->m_IsOpen = false;
+
+  this->m_WarningSilence = false;
+  this->m_ErrorSilence = false;
 }
 
 

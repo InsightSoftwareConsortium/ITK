@@ -40,7 +40,7 @@ public:
   CanRead();
 
   int
-  Open(const char * filename);
+  Open(const char * filename, bool silent = false);
 
   TIFF *   m_Image;
   bool     m_IsOpen;
@@ -66,6 +66,9 @@ public:
   float    m_XResolution;
   float    m_YResolution;
   uint16_t m_SampleFormat;
+
+  bool m_WarningSilence{ false };
+  bool m_ErrorSilence{ false };
 };
 
 } // namespace itk
