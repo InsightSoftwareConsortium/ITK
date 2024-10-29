@@ -1209,8 +1209,12 @@ TIFFImageIO::ReadTIFFTags()
         case TIFF_IFD:
 #ifdef TIFF_INT64_T // detect if libtiff4
         case TIFF_LONG8:
+          itkEncapsulate(uint64_t, uint64_t);
+          break;
         case TIFF_SLONG8:
         case TIFF_IFD8:
+          itkEncapsulate(int64_t, int64_t);
+          break;
 #endif
         case TIFF_RATIONAL:
         case TIFF_SRATIONAL:
