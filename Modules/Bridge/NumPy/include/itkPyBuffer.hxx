@@ -52,7 +52,7 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 
 template <class TImage>
 auto
-PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent)
+PyBuffer<TImage>::_get_image_view_from_contiguous_array(PyObject * arr, PyObject * shape, PyObject * numOfComponent)
   -> OutputImagePointer
 {
   Py_buffer pyBuffer{};
