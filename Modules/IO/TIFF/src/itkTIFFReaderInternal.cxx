@@ -23,6 +23,38 @@
 namespace itk
 {
 
+namespace
+{
+constexpr ttag_t        TIFFTAG_IMAGEJ_META_DATA_BYTE_COUNTS = 50838;
+constexpr ttag_t        TIFFTAG_IMAGEJ_META_DATA = 50839;
+constexpr TIFFFieldInfo xtiffFieldInfo[] = {
+  { TIFFTAG_IMAGEJ_META_DATA_BYTE_COUNTS, -1, -1, TIFF_LONG, FIELD_CUSTOM, true, true, "MetaDataByteCounts" },
+  { TIFFTAG_IMAGEJ_META_DATA, -1, -1, TIFF_BYTE, FIELD_CUSTOM, true, true, "MetaData" },
+};
+
+void
+_XTIFFDefaultDirectory(TIFF * tif);
+
+// During static initialization add a default hook to add additional tags that commonly cause warnings.
+static TIFFExtendProc _ParentExtender = TIFFSetTagExtender(_XTIFFDefaultDirectory);
+
+
+void
+_XTIFFDefaultDirectory(TIFF * tif)
+{
+  /* Install the extended Tag field info */
+  TIFFMergeFieldInfo(tif, xtiffFieldInfo, sizeof(xtiffFieldInfo) / sizeof(xtiffFieldInfo[0]));
+
+  /* Since an XTIFF client module may have overridden
+   * the default directory method, we call it now to
+   * allow it to set up the rest of its own methods.
+   */
+
+  if (_ParentExtender)
+    (*_ParentExtender)(tif);
+}
+} // namespace
+
 int
 TIFFReaderInternal::Open(const char * filename)
 {
