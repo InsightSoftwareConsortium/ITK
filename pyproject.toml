@@ -117,12 +117,12 @@ cmd = '''cmake
   -DCMAKE_BUILD_TYPE:STRING=Debug
   -DBUILD_TESTING:BOOL=ON'''
 description = "Configure ITK Python - Debug"
-outputs = ["build-debug/CMakeFiles/"]
+outputs = ["build-debug-python/CMakeFiles/"]
 
 [tool.pixi.feature.python.tasks.build-debug-python]
 cmd = "cmake --build build-debug-python"
 description = "Build ITK Python - Debug"
-outputs = ["build-debug/lib/**"]
+outputs = ["build-debug-python/lib/**"]
 depends-on = ["configure-debug-python"]
 
 [tool.pixi.feature.python.tasks.test-debug-python]
