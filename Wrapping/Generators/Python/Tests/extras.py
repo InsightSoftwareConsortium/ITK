@@ -163,6 +163,18 @@ except Exception as e:
 image = itk.imread(filename, imageio=itk.PNGImageIO.New())
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
 
+# Python functional interface that determines the filter type
+# based on the primary input (dispatch)
+image = itk.imread(filename, itk.UC)
+# positional argument
+filtered_positional = itk.median_image_filter(image)
+# required primary named input argument
+filtered_kwarg = itk.median_image_filter(primary=image)
+comparison = itk.comparison_image_filter(
+    filtered_positional, filtered_kwarg, verify_input_information=True
+)
+assert np.sum(comparison) == 0.0
+
 # imread using a dicom series
 image = itk.imread(sys.argv[8])
 image0 = itk.imread(sys.argv[8], series_uid=0)
