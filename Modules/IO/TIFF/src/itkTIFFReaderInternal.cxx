@@ -46,12 +46,12 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
                         va_list                 ap)
 {
   TIFFReaderInternal * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
-  if (::itk::Object::GetGlobalWarningDisplay() && !self->m_ErrorSilence)
+  if (::itk::Object::GetGlobalErrorDisplay() && !self->m_ErrorSilence)
   {
     char out[256];
     vsnprintf(out, 256, fmt, ap);
     std::ostringstream itkmsg;
-    itkmsg << "WARNING: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
+    itkmsg << "ERROR: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
     ::itk::OutputWindowDisplayErrorText(itkmsg.str().c_str());
   }
   return 1;
