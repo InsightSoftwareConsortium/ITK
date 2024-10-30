@@ -73,10 +73,11 @@ public:
   _GetArrayViewFromImage(ImageType * image);
 
   /**
-   * Get an ITK image from a Python array
+   * Get an ITK image from a contiguous Python array. Internal helper function for the implementation of
+   * `itkPyBuffer.GetImageViewFromArray`.
    */
   static OutputImagePointer
-  _GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObject * numOfComponent);
+  _get_image_view_from_contiguous_array(PyObject * arr, PyObject * shape, PyObject * numOfComponent);
 };
 
 } // namespace itk
