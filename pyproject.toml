@@ -108,6 +108,12 @@ cmd = "ctest -j3 --test-dir build-python"
 description = "Test ITK Python"
 depends-on = ["build-python"]
 
+[tool.pixi.feature.python.tasks.python-exe]
+cmd = '''cp ./build-python/Wrapping/Generators/Python/WrapITK.pth $(python -c "import site; print(next(p for p in site.getsitepackages() if \'site-packages\' in p))") &&
+  python'''
+description = "Run a Python executable with the development ITK Python package"
+depends-on = ["build-python"]
+
 [tool.pixi.feature.python.tasks.configure-debug-python]
 cmd = '''cmake
   -Bbuild-debug-python
@@ -128,6 +134,12 @@ depends-on = ["configure-debug-python"]
 [tool.pixi.feature.python.tasks.test-debug-python]
 cmd = "ctest -j3 --test-dir build-debug-python"
 description = "Test ITK Python - Debug"
+depends-on = ["build-debug-python"]
+
+[tool.pixi.feature.python.tasks.python-exe-debug]
+cmd = '''cp ./build-python/Wrapping/Generators/Python/WrapITK.pth $(python -c "import site; print(next(p for p in site.getsitepackages() if \'site-packages\' in p))") &&
+  python'''
+description = "Run a Python executable with the development ITK Python Debug build package"
 depends-on = ["build-debug-python"]
 
 [tool.pixi.environments]
