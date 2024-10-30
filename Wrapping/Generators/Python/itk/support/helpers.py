@@ -40,6 +40,18 @@ except importlib.metadata.PackageNotFoundError:
     pass
 
 
+def snake_to_camel_case(keyword: str):
+    # Helpers for set_inputs snake case to CamelCase keyword argument conversion
+    _snake_underscore_re = re.compile("(_)([a-z0-9A-Z])")
+
+    def _underscore_upper(match_obj):
+        return match_obj.group(2).upper()
+
+    camel = keyword[0].upper()
+    if _snake_underscore_re.search(keyword[1:]):
+        return camel + _snake_underscore_re.sub(_underscore_upper, keyword[1:])
+    return camel + keyword[1:]
+
 def camel_to_snake_case(name):
     snake = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
     snake = re.sub("([a-z0-9])([A-Z])", r"\1_\2", snake)
