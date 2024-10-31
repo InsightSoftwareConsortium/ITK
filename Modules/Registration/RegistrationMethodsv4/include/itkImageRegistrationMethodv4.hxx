@@ -102,13 +102,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->SetNumberOfLevels(3);
 
   this->m_ShrinkFactorsPerLevel.resize(this->m_NumberOfLevels);
-  ShrinkFactorsPerDimensionContainerType shrinkFactors;
-  shrinkFactors.Fill(2);
-  this->m_ShrinkFactorsPerLevel[0] = shrinkFactors;
-  shrinkFactors.Fill(1);
-  this->m_ShrinkFactorsPerLevel[1] = shrinkFactors;
-  shrinkFactors.Fill(1);
-  this->m_ShrinkFactorsPerLevel[2] = shrinkFactors;
+  this->m_ShrinkFactorsPerLevel[0].Fill(2);
+  this->m_ShrinkFactorsPerLevel[1].Fill(1);
+  this->m_ShrinkFactorsPerLevel[2].Fill(1);
 
   this->m_SmoothingSigmasPerLevel.SetSize(this->m_NumberOfLevels);
   this->m_SmoothingSigmasPerLevel[0] = 2;
