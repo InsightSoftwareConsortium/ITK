@@ -287,9 +287,9 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
 
   // Find the boundary "faces". Structuring element is elementary
   // (face connected neighbors within a radius of 1).
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>                      fC;
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType kernelRadius;
-  kernelRadius.Fill(1);
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
+  auto                                                                 kernelRadius =
+    MakeFilled<typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType>(1);
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList =
     fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
 

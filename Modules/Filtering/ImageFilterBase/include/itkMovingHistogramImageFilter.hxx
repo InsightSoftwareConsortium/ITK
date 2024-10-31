@@ -66,8 +66,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
   }
 
   // now move the histogram
-  FixedArray<short, ImageDimension> direction;
-  direction.Fill(1);
+  auto       direction = MakeFilled<FixedArray<short, ImageDimension>>(1);
   int        axis = ImageDimension - 1;
   OffsetType offset{};
   RegionType stRegion;

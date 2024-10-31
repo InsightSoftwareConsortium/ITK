@@ -439,8 +439,7 @@ public:
   {
     m_SegmentationFunction = s;
 
-    typename SegmentationFunctionType::RadiusType r;
-    r.Fill(1);
+    auto r = MakeFilled<typename SegmentationFunctionType::RadiusType>(1);
 
     m_SegmentationFunction->Initialize(r);
     this->SetDifferenceFunction(m_SegmentationFunction);

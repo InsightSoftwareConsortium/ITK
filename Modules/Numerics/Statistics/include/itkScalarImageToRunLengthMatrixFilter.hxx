@@ -146,8 +146,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
   // distance/intensity pair to the histogram
 
   using NeighborhoodIteratorType = ConstNeighborhoodIterator<ImageType>;
-  typename NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(1);
+  auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
   NeighborhoodIteratorType neighborIt(radius, inputImage, inputImage->GetRequestedRegion());
 
 

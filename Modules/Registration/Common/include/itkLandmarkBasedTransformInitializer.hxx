@@ -152,8 +152,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   filter->SetGenerateOutputImage(false);
   filter->SetSplineOrder(SplineOrder);
 
-  typename FilterType::ArrayType ncps;
-  ncps.Fill(this->m_BSplineNumberOfControlPoints); // Should be greater than SplineOrder
+  auto ncps = MakeFilled<typename FilterType::ArrayType>(
+    this->m_BSplineNumberOfControlPoints); // Should be greater than SplineOrder
   filter->SetNumberOfControlPoints(ncps);
 
   filter->SetNumberOfLevels(3);

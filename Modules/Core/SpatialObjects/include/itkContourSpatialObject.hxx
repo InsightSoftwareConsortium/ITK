@@ -211,8 +211,7 @@ ContourSpatialObject<TDimension>::Update()
         // "`ContourSpatialObject<TDimension>::Update()` LINEAR_INTERPOLATION case may need some adjustment"
         // https://github.com/InsightSoftwareConsortium/ITK/issues/3222
 
-        PointType newPoint;
-        newPoint.Fill(NumericTraits<double>::max());
+        auto newPoint = MakeFilled<PointType>(NumericTraits<double>::max());
         for (unsigned int i = 0; i < m_InterpolationFactor; ++i)
         {
           for (unsigned int d = 0; d < TDimension; ++d)

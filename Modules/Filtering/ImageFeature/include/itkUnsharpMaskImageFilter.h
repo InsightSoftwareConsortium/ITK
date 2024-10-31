@@ -120,8 +120,7 @@ public:
   void
   SetSigma(const typename SigmaArrayType::ValueType sigma)
   {
-    SigmaArrayType sigmas;
-    sigmas.Fill(sigma);
+    auto sigmas = MakeFilled<SigmaArrayType>(sigma);
     this->SetSigmas(sigmas); // checks whether it is actually modified
   }
 

@@ -101,8 +101,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
 
   typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
 
-  typename NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(1);
+  auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
   NeighborhoodIteratorType ot(radius, thinImage, region);
 
   // Create a set of offsets from the center.

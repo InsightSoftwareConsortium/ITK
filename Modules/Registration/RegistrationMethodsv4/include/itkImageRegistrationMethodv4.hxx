@@ -871,8 +871,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
     for (SizeValueType level = 0; level < this->m_NumberOfLevels; ++level)
     {
-      ShrinkFactorsPerDimensionContainerType shrinkFactors;
-      shrinkFactors.Fill(1);
+      auto shrinkFactors = MakeFilled<ShrinkFactorsPerDimensionContainerType>(1);
       this->SetShrinkFactorsPerDimension(level, shrinkFactors);
     }
 

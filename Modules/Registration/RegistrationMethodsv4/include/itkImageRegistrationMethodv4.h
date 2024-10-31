@@ -384,8 +384,7 @@ public:
   {
     for (unsigned int level = 0; level < factors.Size(); ++level)
     {
-      ShrinkFactorsPerDimensionContainerType shrinkFactors;
-      shrinkFactors.Fill(factors[level]);
+      auto shrinkFactors = MakeFilled<ShrinkFactorsPerDimensionContainerType>(factors[level]);
       this->SetShrinkFactorsPerDimension(level, shrinkFactors);
     }
   }

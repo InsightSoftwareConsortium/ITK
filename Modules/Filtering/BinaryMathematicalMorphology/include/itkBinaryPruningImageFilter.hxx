@@ -91,8 +91,7 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::ComputePruneImage()
 
   typename OutputImageType::RegionType region = pruneImage->GetRequestedRegion();
 
-  typename NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(1);
+  auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
   NeighborhoodIteratorType ot(radius, pruneImage, region);
 
   typename NeighborhoodIteratorType::OffsetType offset1 = { { -1, -1 } };

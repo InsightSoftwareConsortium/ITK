@@ -600,8 +600,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   }
 
   FixedArray<RealType, ImageDimension> U;
-  FixedArray<RealType, ImageDimension> currentU;
-  currentU.Fill(-1);
+  auto                                 currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
 
   typename ImageType::IndexType          startIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
   typename PointDataImageType::IndexType startPhiIndex = this->m_PhiLattice->GetLargestPossibleRegion().GetIndex();
@@ -921,8 +920,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   }
 
   FixedArray<RealType, ImageDimension> U;
-  FixedArray<RealType, ImageDimension> currentU;
-  currentU.Fill(-1);
+  auto                                 currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
 
   typename PointDataImageType::IndexType startPhiIndex = this->m_PhiLattice->GetLargestPossibleRegion().GetIndex();
 

@@ -215,8 +215,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
     }
   }
   FixedArray<RealType, ImageDimension> U;
-  FixedArray<RealType, ImageDimension> currentU;
-  currentU.Fill(-1);
+  auto                                 currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
 
   typename OutputImageType::IndexType    startIndex = outputPtr->GetRequestedRegion().GetIndex();
   typename PointDataImageType::IndexType startPhiIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
