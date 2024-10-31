@@ -127,8 +127,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   m_BufferedRegion = output->GetBufferedRegion();
   m_StartIndex = m_BufferedRegion.GetIndex();
   m_LastIndex = m_StartIndex + m_BufferedRegion.GetSize();
-  typename LevelSetImageType::OffsetType offset;
-  offset.Fill(1);
+  auto offset = MakeFilled<typename LevelSetImageType::OffsetType>(1);
   m_LastIndex -= offset;
 
   // allocate memory for the PointTypeImage

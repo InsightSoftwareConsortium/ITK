@@ -220,8 +220,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchRadiusInV
       maxSpacing = spacing[dim];
     }
   }
-  PatchRadiusType radius;
-  radius.Fill(m_PatchRadius);
+  auto radius = MakeFilled<PatchRadiusType>(m_PatchRadius);
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     radius[dim] = itk::Math::ceil(maxSpacing * radius[dim] / spacing[dim]);

@@ -227,8 +227,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
     reconstructer->SetSplineOrder(this->m_SplineOrder);
     reconstructer->Update();
 
-    typename BSplineReconstructerType::ArrayType numberOfLevels;
-    numberOfLevels.Fill(1);
+    auto numberOfLevels = MakeFilled<typename BSplineReconstructerType::ArrayType>(1);
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       if (this->m_NumberOfFittingLevels[d] + 1 >= this->m_CurrentLevel &&
@@ -546,8 +545,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   auto bspliner = BSplineFilterType::New();
 
   typename BSplineFilterType::ArrayType numberOfControlPoints;
-  typename BSplineFilterType::ArrayType numberOfFittingLevels;
-  numberOfFittingLevels.Fill(1);
+  auto                                  numberOfFittingLevels = MakeFilled<typename BSplineFilterType::ArrayType>(1);
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     if (!this->m_LogBiasFieldControlPointLattice)

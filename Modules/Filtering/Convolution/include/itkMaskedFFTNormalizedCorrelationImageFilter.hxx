@@ -299,8 +299,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 
   // Flip the moving images along all dimensions so that the correlation can be more easily handled.
   using FlipperType = itk::FlipImageFilter<LocalInputImageType>;
-  typename FlipperType::FlipAxesArrayType flipAxes;
-  flipAxes.Fill(true);
+  auto flipAxes = MakeFilled<typename FlipperType::FlipAxesArrayType>(true);
   auto rotater = FlipperType::New();
   rotater->SetFlipAxes(flipAxes);
   rotater->SetInput(inputImage);

@@ -193,8 +193,7 @@ void
 ScaleTransform<TParametersValueType, VDimension>::SetIdentity()
 {
   Superclass::SetIdentity();
-  ScaleType i;
-  i.Fill(1.0);
+  auto i = MakeFilled<ScaleType>(1.0);
   this->SetScale(i);
 }
 

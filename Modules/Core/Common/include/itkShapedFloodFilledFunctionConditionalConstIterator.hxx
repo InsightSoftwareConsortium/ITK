@@ -80,8 +80,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::Initialize
   m_ImageRegion = this->m_Image->GetBufferedRegion();
 
   // Build and setup the neighborhood iterator
-  typename NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(1);
+  auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 
   NeighborhoodIteratorType tmp_iter(radius, this->m_Image, m_ImageRegion);
   m_NeighborhoodIterator = tmp_iter;

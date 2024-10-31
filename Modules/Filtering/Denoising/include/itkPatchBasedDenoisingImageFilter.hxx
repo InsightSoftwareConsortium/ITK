@@ -220,8 +220,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
   typename InputImageType::IndexType        requiredIndex{};
   const typename InputImageType::RegionType largestRegion = this->GetInput()->GetLargestPossibleRegion();
   const PatchRadiusType                     radius = this->GetPatchRadiusInVoxels();
-  PatchRadiusType                           two;
-  two.Fill(2);
+  auto                                      two = MakeFilled<PatchRadiusType>(2);
   requiredIndex += two * radius;
 
   if (!(largestRegion.IsInside(requiredIndex)))

@@ -372,8 +372,7 @@ typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, 
   }
   else
   {
-    VirtualSpacingType spacing;
-    spacing.Fill(NumericTraits<typename VirtualSpacingType::ValueType>::OneValue());
+    auto spacing = MakeFilled<VirtualSpacingType>(NumericTraits<typename VirtualSpacingType::ValueType>::OneValue());
     return spacing;
   }
 }
@@ -393,8 +392,8 @@ typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, 
   }
   else
   {
-    VirtualDirectionType direction;
-    direction.Fill(NumericTraits<typename VirtualDirectionType::ValueType>::OneValue());
+    auto direction =
+      MakeFilled<VirtualDirectionType>(NumericTraits<typename VirtualDirectionType::ValueType>::OneValue());
     return direction;
   }
 }

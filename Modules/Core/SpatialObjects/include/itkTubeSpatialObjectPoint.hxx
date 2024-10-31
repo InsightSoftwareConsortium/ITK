@@ -51,8 +51,7 @@ TubeSpatialObjectPoint<TPointDimension>::GetRadiusInWorldSpace() const
     itkExceptionMacro("The SpatialObject must be set prior to calling.");
   }
 
-  CovariantVectorType cVect;
-  cVect.Fill(m_RadiusInObjectSpace);
+  auto cVect = MakeFilled<CovariantVectorType>(m_RadiusInObjectSpace);
   cVect = Superclass::m_SpatialObject->GetObjectToWorldTransform()->TransformCovariantVector(cVect);
   double worldR = 0;
   for (unsigned int d = 0; d < TPointDimension; ++d)
@@ -72,8 +71,7 @@ TubeSpatialObjectPoint<TPointDimension>::SetRadiusInWorldSpace(double newR)
     itkExceptionMacro("The SpatialObject must be set prior to calling.");
   }
 
-  CovariantVectorType cVect;
-  cVect.Fill(newR);
+  auto cVect = MakeFilled<CovariantVectorType>(newR);
   cVect =
     Superclass::m_SpatialObject->GetObjectToWorldTransform()->GetInverseTransform()->TransformCovariantVector(cVect);
   m_RadiusInObjectSpace = 0;

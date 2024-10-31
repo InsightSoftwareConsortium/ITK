@@ -154,8 +154,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
     }
   }
 
-  RadiusType radius;
-  radius.Fill(minRadius);
+  auto radius = MakeFilled<RadiusType>(minRadius);
 
   const MaskImageType * maskImage = nullptr;
 

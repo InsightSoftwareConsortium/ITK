@@ -139,27 +139,21 @@ public:
   void
   SetOrder(const typename OrderArrayType::ValueType v)
   {
-    OrderArrayType a;
-
-    a.Fill(v);
+    auto a = MakeFilled<OrderArrayType>(v);
     this->SetOrder(a);
   }
 
   void
   SetVariance(const typename ArrayType::ValueType v)
   {
-    ArrayType a;
-
-    a.Fill(v);
+    auto a = MakeFilled<ArrayType>(v);
     this->SetVariance(a);
   }
 
   void
   SetMaximumError(const typename ArrayType::ValueType v)
   {
-    ArrayType a;
-
-    a.Fill(v);
+    auto a = MakeFilled<ArrayType>(v);
     this->SetMaximumError(a);
   }
 

@@ -71,8 +71,7 @@ template <typename TSample, typename TRegion>
 void
 SpatialNeighborSubsampler<TSample, TRegion>::SetRadius(unsigned int radius)
 {
-  RadiusType radiusND;
-  radiusND.Fill(radius);
+  auto radiusND = MakeFilled<RadiusType>(radius);
   this->SetRadius(radiusND);
 }
 

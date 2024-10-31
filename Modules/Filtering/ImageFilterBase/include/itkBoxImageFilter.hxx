@@ -43,9 +43,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 BoxImageFilter<TInputImage, TOutputImage>::SetRadius(const RadiusValueType & radius)
 {
-  RadiusType rad;
-
-  rad.Fill(radius);
+  auto rad = MakeFilled<RadiusType>(radius);
   this->SetRadius(rad);
 }
 

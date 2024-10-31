@@ -74,8 +74,7 @@ PermuteAxesImageFilter<TImage>::SetOrder(const PermuteOrderArrayType & order)
 
   // check that input is a rearrangement of the
   // numbers from 0 to ImageDimension - 1
-  FixedArray<bool, ImageDimension> used;
-  used.Fill(false);
+  auto used = MakeFilled<FixedArray<bool, ImageDimension>>(false);
 
   for (j = 0; j < ImageDimension; ++j)
   {
