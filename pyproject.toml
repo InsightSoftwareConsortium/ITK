@@ -12,10 +12,12 @@ clean = { cmd = "git clean -fdx", description = "Clean the repository" }
 [tool.pixi.dependencies]
 python = ">=3.12.0,<3.13"
 
-[tool.pixi.feature.cxx.dependencies]
+[tool.pixi.feature.dev.dependencies]
 cmake = ">=3.30.2,<4"
 cxx-compiler = ">=1.7.0,<2"
 ninja = ">=1.12.1,<2"
+
+[tool.pixi.feature.cxx.dependencies]
 
 [tool.pixi.feature.python.dependencies]
 pytest = "*"
@@ -129,5 +131,6 @@ description = "Test ITK Python - Debug"
 depends-on = ["build-debug-python"]
 
 [tool.pixi.environments]
-cxx = ["cxx"]
-python = ["python", "cxx"]
+dev = ["dev"]
+cxx = ["dev", "cxx"]
+python = ["python", "dev"]

@@ -1,0 +1,63 @@
+name: ITK.Pixi
+
+on:
+    push:
+        branches:
+            - master
+            - 'release*'
+        paths-ignore:
+            - '*.md'
+            - LICENSE
+            - NOTICE
+            - 'Documentation/**'
+            - 'Utilities/Debugger/**'
+            - 'Utilities/ITKv5Preparation/**'
+            - 'Utilities/Maintenance/**'
+    pull_request:
+        paths-ignore:
+            - '*.md'
+            - LICENSE
+            - NOTICE
+            - 'Documentation/**'
+            - 'Utilities/Debugger/**'
+            - 'Utilities/ITKv5Preparation/**'
+            - 'Utilities/Maintenance/**'
+
+env:
+    ExternalDataVersion: 5.3.0
+
+jobs:
+    Pixi-Cxx:
+      runs-on: ${{ matrix.os }}
+      timeout-minutes: 0
+      strategy:
+        matrix:
+          os: [ubuntu-22.04, windows-2022]
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 5
+            clean: true
+
+        - name: Free Disk Space (Ubuntu)
+          if: matrix.os == 'ubuntu-22.04'
+          uses: jlumbroso/free-disk-space@main
+
+        - name: Download testing data
+          run: |
+            curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v${{ env.ExternalDataVersion }}/InsightData-${{ env.ExternalDataVersion }}.tar.gz -O
+            cmake -E tar xfz InsightData-${{ env.ExternalDataVersion }}.tar.gz
+            cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/MD5 ${{ github.workspace }}/.ExternalData/MD5
+
+        - name: Set up Pixi
+          uses: prefix-dev/setup-pixi@v0.8.1
+
+        - name: Configure
+          run: pixi run configure
+
+        - name: Build
+          run: pixi run build
+
+        - name: Test
+          run: pixi run test
