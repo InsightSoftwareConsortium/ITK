@@ -865,14 +865,19 @@ GDCMImageIO::Write(const void * buffer)
   gdcm::StringFilter sf;
   sf.SetFile(writer.GetFile());
 
+  std::vector<std::string> problematicKeys;
+
   while (itr != end)
   {
     std::string         value;
     const std::string & key = itr->first; // Needed for bcc32
     ExposeMetaData<std::string>(dict, key, value);
 
-    // Convert DICOM name to DICOM (group,element)
-    bool b = tag.ReadFromPipeSeparatedString(key.c_str());
+    // Convert DICOM name to DICOM (group,element). Corner case
+    // currently ignored, same tag appears twice in the dictionary
+    // once with comma separator and once with pipe. The last one
+    // encountered is the one used to set the tag value.
+    bool b = tag.ReadFromPipeSeparatedString(key.c_str()) || tag.ReadFromCommaSeparatedString(key.c_str());
 
     // Anything that has been changed in the MetaData Dict will be pushed
     // into the DICOM header:
@@ -1008,13 +1013,19 @@ GDCMImageIO::Write(const void * buffer)
       }
       else
       {
-        itkDebugMacro("GDCMImageIO: non-DICOM and non-ITK standard key = " << key);
+        problematicKeys.push_back(key);
       }
     }
 
     ++itr;
   }
 
+  if (!problematicKeys.empty())
+  {
+    itkWarningMacro("ignoring non-DICOM and non-ITK standard keys = "
+                    << problematicKeys[0] +
+                         std::accumulate(problematicKeys.begin() + 1, problematicKeys.end(), std::string(", ")));
+  }
   gdcm::SmartPointer<gdcm::Image> simage = new gdcm::Image;
   gdcm::Image &                   image = *simage;
   image.SetNumberOfDimensions(2); // good default

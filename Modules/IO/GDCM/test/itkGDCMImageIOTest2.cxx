@@ -59,7 +59,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   // reader->GetOutput()->Print(std::cout);
 
   itk::MetaDataDictionary & dict = dicomIO->GetMetaDataDictionary();
-  std::string               tagkey, value;
+  std::string               tagkey, value, commatagkey, commavalue;
   tagkey = "0002|0002";
   value = "1.2.840.10008.5.1.4.1.1.4"; // Media Storage SOP Class UID
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
@@ -78,9 +78,9 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   tagkey = "0020|1040"; // Position Reference Indicator
   value = "";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
-  tagkey = "0018|0020"; // Scanning Sequence
-  value = "GR";
-  itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
+  commatagkey = "0018,0020"; // Scanning Sequence
+  commavalue = "GR";
+  itk::EncapsulateMetaData<std::string>(dict, commatagkey, commavalue);
   tagkey = "0018|0021"; // Sequence Variant
   value = "SS\\SP";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
@@ -155,6 +155,48 @@ itkGDCMImageIOTest2(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-
+  // Try to read tags from the written file
+  auto outputReader = ReaderType::New();
+  outputReader->SetFileName(writer->GetFileName());
+  try
+  {
+    outputReader->Update();
+  }
+  catch (const itk::ExceptionObject & error)
+  {
+    std::cerr << "Error: exception in file reader " << std::endl;
+    std::cerr << error << std::endl;
+    return EXIT_FAILURE;
+  }
+  auto & inputDict = outputReader->GetOutput()->GetMetaDataDictionary();
+  // DICOM tags can be specified using pipe or comma separators for
+  // writing in the metadata dictionary, but are always read back with
+  // the pipe separator.
+  commatagkey[4] = '|';
+  auto tagIt = inputDict.Find(commatagkey);
+  if (tagIt == inputDict.End())
+  {
+    std::cerr << "Error: Tag " << commatagkey << " expected to be in file but missing" << std::endl;
+    return EXIT_FAILURE;
+  }
+  else
+  {
+    itk::MetaDataObject<std::string>::ConstPointer tagvalue =
+      dynamic_cast<const itk::MetaDataObject<std::string> *>(tagIt->second.GetPointer());
+    if (tagvalue)
+    {
+      if (tagvalue->GetMetaDataObjectValue() != commavalue)
+      {
+        std::cerr << "Error: Written tag value was (" << commavalue << "), read value was ("
+                  << tagvalue->GetMetaDataObjectValue() << ")" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    else
+    {
+      std::cerr << "Error: Tag value for tag (" << commatagkey << ") is missing" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
   return EXIT_SUCCESS;
 }
