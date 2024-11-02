@@ -29,14 +29,7 @@ SingleValuedNonLinearVnlOptimizerv4::SingleValuedNonLinearVnlOptimizerv4()
   this->m_CachedDerivative.Fill(DerivativeType::ValueType{});
 }
 
-SingleValuedNonLinearVnlOptimizerv4::~SingleValuedNonLinearVnlOptimizerv4()
-{
-  if (this->m_CostFunctionAdaptor)
-  {
-    delete this->m_CostFunctionAdaptor;
-    this->m_CostFunctionAdaptor = nullptr;
-  }
-}
+SingleValuedNonLinearVnlOptimizerv4::~SingleValuedNonLinearVnlOptimizerv4() = default;
 
 void
 SingleValuedNonLinearVnlOptimizerv4::StartOptimization(bool doOnlyInitialization)
@@ -67,17 +60,12 @@ SingleValuedNonLinearVnlOptimizerv4::StartOptimization(bool doOnlyInitialization
 void
 SingleValuedNonLinearVnlOptimizerv4::SetCostFunctionAdaptor(CostFunctionAdaptorType * adaptor)
 {
-  if (this->m_CostFunctionAdaptor == adaptor)
+  if (this->m_CostFunctionAdaptor.get() == adaptor)
   {
     return;
   }
 
-  if (this->m_CostFunctionAdaptor)
-  {
-    delete this->m_CostFunctionAdaptor;
-  }
-
-  this->m_CostFunctionAdaptor = adaptor;
+  this->m_CostFunctionAdaptor.reset(adaptor);
 
   this->m_CostFunctionAdaptor->AddObserver(IterationEvent(), this->m_Command);
 }
@@ -85,19 +73,19 @@ SingleValuedNonLinearVnlOptimizerv4::SetCostFunctionAdaptor(CostFunctionAdaptorT
 const SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizerv4::GetCostFunctionAdaptor() const
 {
-  return this->m_CostFunctionAdaptor;
+  return this->m_CostFunctionAdaptor.get();
 }
 
 SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizerv4::GetCostFunctionAdaptor()
 {
-  return this->m_CostFunctionAdaptor;
+  return this->m_CostFunctionAdaptor.get();
 }
 
 SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
 SingleValuedNonLinearVnlOptimizerv4::GetNonConstCostFunctionAdaptor() const
 {
-  return this->m_CostFunctionAdaptor;
+  return this->m_CostFunctionAdaptor.get();
 }
 
 void
@@ -118,6 +106,6 @@ SingleValuedNonLinearVnlOptimizerv4::PrintSelf(std::ostream & os, Indent indent)
   os << indent << "Cached Derivative: " << this->m_CachedDerivative << std::endl;
   os << indent << "Cached current positiion: " << this->m_CachedCurrentPosition << std::endl;
   os << indent << "Command observer " << this->m_Command.GetPointer() << std::endl;
-  os << indent << "Cost Function adaptor" << this->m_CostFunctionAdaptor << std::endl;
+  os << indent << "Cost Function adaptor" << this->m_CostFunctionAdaptor.get() << std::endl;
 }
 } // end namespace itk

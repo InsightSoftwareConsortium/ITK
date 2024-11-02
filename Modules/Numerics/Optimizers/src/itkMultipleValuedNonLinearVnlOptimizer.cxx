@@ -37,23 +37,17 @@ MultipleValuedNonLinearVnlOptimizer::MultipleValuedNonLinearVnlOptimizer()
 /**
  * Destructor
  */
-MultipleValuedNonLinearVnlOptimizer::~MultipleValuedNonLinearVnlOptimizer()
-{
-  delete m_CostFunctionAdaptor;
-  m_CostFunctionAdaptor = nullptr;
-}
+MultipleValuedNonLinearVnlOptimizer::~MultipleValuedNonLinearVnlOptimizer() = default;
 
 void
 MultipleValuedNonLinearVnlOptimizer::SetCostFunctionAdaptor(CostFunctionAdaptorType * adaptor)
 {
-  if (m_CostFunctionAdaptor == adaptor)
+  if (m_CostFunctionAdaptor.get() == adaptor)
   {
     return;
   }
 
-  delete m_CostFunctionAdaptor;
-
-  m_CostFunctionAdaptor = adaptor;
+  m_CostFunctionAdaptor.reset(adaptor);
 
   this->SetUseCostFunctionGradient(m_UseGradient);
 
@@ -63,13 +57,13 @@ MultipleValuedNonLinearVnlOptimizer::SetCostFunctionAdaptor(CostFunctionAdaptorT
 const MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 MultipleValuedNonLinearVnlOptimizer::GetCostFunctionAdaptor() const
 {
-  return m_CostFunctionAdaptor;
+  return m_CostFunctionAdaptor.get();
 }
 
 MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 MultipleValuedNonLinearVnlOptimizer::GetCostFunctionAdaptor()
 {
-  return m_CostFunctionAdaptor;
+  return m_CostFunctionAdaptor.get();
 }
 
 /** The purpose of this method is to get around the lack of const
@@ -77,7 +71,7 @@ MultipleValuedNonLinearVnlOptimizer::GetCostFunctionAdaptor()
 MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
 MultipleValuedNonLinearVnlOptimizer::GetNonConstCostFunctionAdaptor() const
 {
-  return m_CostFunctionAdaptor;
+  return m_CostFunctionAdaptor.get();
 }
 
 void
@@ -134,6 +128,6 @@ MultipleValuedNonLinearVnlOptimizer::PrintSelf(std::ostream & os, Indent indent)
   os << indent << "Cached Derivative: " << m_CachedDerivative << std::endl;
   os << indent << "Cached current positiion: " << m_CachedCurrentPosition << std::endl;
   os << indent << "Command observer " << m_Command.GetPointer() << std::endl;
-  os << indent << "Cost Function adaptor" << m_CostFunctionAdaptor << std::endl;
+  os << indent << "Cost Function adaptor" << m_CostFunctionAdaptor.get() << std::endl;
 }
 } // end namespace itk

@@ -24,6 +24,8 @@
 #include "itkSingleValuedVnlCostFunctionAdaptorv4.h"
 #include "itkCommand.h"
 
+#include <memory> // For unique_ptr.
+
 namespace itk
 {
 /**
@@ -124,7 +126,7 @@ private:
   void
   IterationReport(const EventObject & event);
 
-  CostFunctionAdaptorType * m_CostFunctionAdaptor{};
+  std::unique_ptr<CostFunctionAdaptorType> m_CostFunctionAdaptor;
 
   CommandType::Pointer m_Command{};
 
