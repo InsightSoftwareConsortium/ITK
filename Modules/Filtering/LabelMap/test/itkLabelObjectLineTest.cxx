@@ -33,77 +33,67 @@ itkLabelObjectLineTest(int, char *[])
   nextIndex[0] = 14;
   nextIndex[1] = 7;
 
-  auto * labelLine = new LabelObjectLineType;
-  labelLine->SetIndex(currentIndex);
-  labelLine->SetLength(11);
+  LabelObjectLineType labelLine;
+  labelLine.SetIndex(currentIndex);
+  labelLine.SetLength(11);
 
   IndexType indexBack;
-  indexBack = labelLine->GetIndex();
+  indexBack = labelLine.GetIndex();
 
   if ((indexBack[0] != 3) || (indexBack[1] != 7))
   {
     std::cerr << "Set/Get Index failed on null constructor. " << indexBack << std::endl;
-    delete labelLine;
     return (EXIT_FAILURE);
   }
 
   LabelObjectLineType::LengthType length;
-  length = labelLine->GetLength();
+  length = labelLine.GetLength();
   if (length != 11)
   {
     std::cerr << "Set/Get length failed on null constructor." << length << std::endl;
-    delete labelLine;
     return (EXIT_FAILURE);
   }
-  delete labelLine;
 
-  labelLine = new LabelObjectLineType(currentIndex, 11);
-  indexBack = labelLine->GetIndex();
+  labelLine = LabelObjectLineType(currentIndex, 11);
+  indexBack = labelLine.GetIndex();
 
   if ((indexBack[0] != 3) || (indexBack[1] != 7))
   {
     std::cerr << "Set/Get Index failed on arg constructor. " << indexBack << std::endl;
-    delete labelLine;
     return (EXIT_FAILURE);
   }
 
-  if (labelLine->GetLength() != 11)
+  if (labelLine.GetLength() != 11)
   {
     std::cerr << "Set/Get length failed on arg constructor." << length << std::endl;
-    delete labelLine;
     return (EXIT_FAILURE);
   }
 
-  if (!labelLine->HasIndex(currentIndex))
+  if (!labelLine.HasIndex(currentIndex))
   {
     std::cerr << "Has Index failed." << std::endl;
-    delete labelLine;
     return (EXIT_FAILURE);
   }
 
-  if (labelLine->HasIndex(nextIndex))
+  if (labelLine.HasIndex(nextIndex))
   {
     std::cerr << "Has Index failed." << std::endl;
-    delete labelLine;
     return (EXIT_FAILURE);
   }
 
-  if (labelLine->IsNextIndex(currentIndex))
+  if (labelLine.IsNextIndex(currentIndex))
   {
     std::cerr << "Is Next Index failed." << std::endl;
-    delete labelLine;
     return (EXIT_FAILURE);
   }
 
-  if (!labelLine->IsNextIndex(nextIndex))
+  if (!labelLine.IsNextIndex(nextIndex))
   {
     std::cerr << "Is Next Index failed." << std::endl;
-    delete labelLine;
     return (EXIT_FAILURE);
   }
 
-  labelLine->Print(std::cout);
-  delete labelLine;
+  labelLine.Print(std::cout);
 
   return (EXIT_SUCCESS);
 }
