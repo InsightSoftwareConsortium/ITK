@@ -23,6 +23,8 @@
 #include "itkCommand.h"
 #include "ITKOptimizersExport.h"
 
+#include <memory> // For unique_ptr.
+
 namespace itk
 {
 /** \class MultipleValuedNonLinearVnlOptimizer
@@ -126,8 +128,8 @@ private:
   void
   IterationReport(const EventObject & event);
 
-  CostFunctionAdaptorType * m_CostFunctionAdaptor{};
-  bool                      m_UseGradient{};
+  std::unique_ptr<CostFunctionAdaptorType> m_CostFunctionAdaptor;
+  bool                                     m_UseGradient{};
 
   CommandType::Pointer m_Command{};
 
