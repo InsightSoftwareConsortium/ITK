@@ -18,6 +18,7 @@
 #ifndef itkLabelObjectLine_h
 #define itkLabelObjectLine_h
 
+#include "itkMacro.h"
 #include "itkIndex.h"
 #include "itkIndent.h"
 
@@ -42,6 +43,8 @@ template <unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT LabelObjectLine
 {
 public:
+  ITK_DEFAULT_COPY_AND_MOVE(LabelObjectLine);
+
   static constexpr unsigned int ImageDimension = VImageDimension;
 
   using IndexType = Index<VImageDimension>;
