@@ -638,8 +638,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::Evalua
       tempValue = 1.0;
       for (unsigned int n1 = 0; n1 < ImageDimension; ++n1)
       {
-        unsigned int indx;
-        indx = m_PointsToIndex[p][n1];
+        unsigned int indx = m_PointsToIndex[p][n1];
         coefficientIndex[n1] = (evaluateIndex)[n1][indx];
 
         if (n1 == n)

@@ -255,8 +255,7 @@ test3DInterpolateImagePointsFilter()
   using OutputIterator = itk::ImageRegionIterator<CoordImageType3D>;
   InputIterator  inIter(image, region);
   OutputIterator outIter(outputImage, region);
-  double         rmse;
-  rmse = 0.0;
+  double         rmse = 0.0;
   while (!outIter.IsAtEnd())
   {
     double temp = inIter.Get() - outIter.Get();

@@ -165,8 +165,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
     for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
-      double temp;
-      temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
+      double temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
       displacement += (temp * temp);
     }
     displacement = std::sqrt(displacement);

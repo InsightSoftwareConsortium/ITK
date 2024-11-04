@@ -442,9 +442,9 @@ itkVectorImageTest(int, char * argv[])
         std::cerr << "[FAILED]" << std::endl;
         failed = true;
       }
-      bool adaptorTestResult;
-      adaptorTestResult = testVectorImageAdaptor<PixelType, Dimension, VectorImageToImageAdaptorType, VectorLength>(
-        vectorImageToImageAdaptor, vectorImage, region, componentToExtract);
+      bool adaptorTestResult =
+        testVectorImageAdaptor<PixelType, Dimension, VectorImageToImageAdaptorType, VectorLength>(
+          vectorImageToImageAdaptor, vectorImage, region, componentToExtract);
       if (adaptorTestResult)
       {
         failed = true;

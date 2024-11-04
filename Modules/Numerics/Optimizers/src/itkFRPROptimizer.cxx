@@ -132,8 +132,7 @@ FRPROptimizer::StartOptimization()
   {
     this->SetCurrentIteration(currentIteration);
 
-    double fret;
-    fret = fp;
+    double fret = fp;
     this->LineOptimize(&p, xi, &fret, tempCoord);
 
     if (2.0 * itk::Math::abs(fret - fp) <=

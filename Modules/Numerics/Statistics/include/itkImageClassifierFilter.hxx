@@ -169,8 +169,7 @@ ImageClassifierFilter<TSample, TInputImage, TOutputImage>::GenerateData()
       discriminantScores[i] = membershipFunctionsWeightsArray[i] * membershipFunctions[i]->Evaluate(measurements);
     }
 
-    unsigned int classIndex;
-    classIndex = static_cast<unsigned int>(m_DecisionRule->Evaluate(discriminantScores));
+    unsigned int classIndex = static_cast<unsigned int>(m_DecisionRule->Evaluate(discriminantScores));
 
     auto value = static_cast<OutputPixelType>(classLabels[classIndex]);
     outItr.Set(value);

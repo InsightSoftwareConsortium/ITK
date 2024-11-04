@@ -33,26 +33,24 @@ constexpr int V_DEPTH = 64;
 float
 sphere(float x, float y, float z)
 {
-  float dis;
-  dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
-          ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
-        (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
-          ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
-        (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
-          ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
+                ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+              (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
+                ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+              (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
+                ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
   return (1.0f - dis);
 }
 
 float
 sphere2(float x, float y, float z)
 {
-  float dis;
-  dis = (x - static_cast<float>(V_WIDTH) / 2.1) * (x - static_cast<float>(V_WIDTH) / 2.1) /
-          ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
-        (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
-          ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
-        (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
-          ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  float dis = (x - static_cast<float>(V_WIDTH) / 2.1) * (x - static_cast<float>(V_WIDTH) / 2.1) /
+                ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+              (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
+                ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+              (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
+                ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
   return (1.0f - dis);
 }
 

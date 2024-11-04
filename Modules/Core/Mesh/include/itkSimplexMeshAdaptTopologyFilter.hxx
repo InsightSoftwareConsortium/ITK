@@ -225,9 +225,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellParameters()
       CovariantVectorType lineTwoFirstNormal = outputMesh->ComputeNormal(lineTwoFirstIdx);
       CovariantVectorType secondNewNormal = outputMesh->ComputeNormal(secondNewIndex);
 
-      double prod;
-
-      prod = dot_product(firstNewNormal.GetVnlVector(), lineOneFirstNormal.GetVnlVector());
+      double prod = dot_product(firstNewNormal.GetVnlVector(), lineOneFirstNormal.GetVnlVector());
 
       if (prod < 0)
       {

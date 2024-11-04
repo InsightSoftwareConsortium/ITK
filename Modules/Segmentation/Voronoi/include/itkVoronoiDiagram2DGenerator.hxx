@@ -187,9 +187,7 @@ bool
 VoronoiDiagram2DGenerator<TCoordRepType>::almostsame(CoordRepType p1, CoordRepType p2)
 {
   double diff = p1 - p2;
-  bool   save;
-
-  save = ((diff < -DIFF_TOLERENCE) || (diff > DIFF_TOLERENCE));
+  bool   save = ((diff < -DIFF_TOLERENCE) || (diff > DIFF_TOLERENCE));
   return (!save);
 }
 
@@ -534,9 +532,7 @@ template <typename TCoordRepType>
 int
 VoronoiDiagram2DGenerator<TCoordRepType>::PQbucket(FortuneHalfEdge * task)
 {
-  int bucket;
-
-  bucket = static_cast<int>((task->m_Ystar - m_Pymin) / m_Deltay * m_PQhashsize);
+  int bucket = static_cast<int>((task->m_Ystar - m_Pymin) / m_Deltay * m_PQhashsize);
   if (bucket < 0)
   {
     bucket = 0;

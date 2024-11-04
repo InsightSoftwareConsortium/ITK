@@ -715,9 +715,7 @@ itkBSplineTransformTest3()
 int
 itkBSplineTransformTest(int, char *[])
 {
-  bool failed;
-
-  failed = itkBSplineTransformTest1();
+  bool failed = itkBSplineTransformTest1();
   if (failed)
   {
     return EXIT_FAILURE;
