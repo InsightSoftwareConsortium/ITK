@@ -439,7 +439,7 @@ public:
   {
     m_SegmentationFunction = s;
 
-    auto r = MakeFilled<typename SegmentationFunctionType::RadiusType>(1);
+    constexpr auto r = MakeFilled<typename SegmentationFunctionType::RadiusType>(1);
 
     m_SegmentationFunction->Initialize(r);
     this->SetDifferenceFunction(m_SegmentationFunction);

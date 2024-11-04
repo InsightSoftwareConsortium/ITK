@@ -65,7 +65,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Update()
   // neighborhood iterator
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -184,7 +184,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::UpdateLayerPlusOne()
 
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -283,7 +283,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::UpdateLayerMinusOne()
 
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -379,7 +379,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Con(const LevelSetInput
 
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 

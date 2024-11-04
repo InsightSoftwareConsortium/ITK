@@ -132,7 +132,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
   // Setup the kernel that spans the immediate neighbors of the current
   // input pixel - used to determine if that pixel abuts a non-object
   // pixel, i.e., is a boundary pixel
-  auto bKernelSize = MakeFilled<RadiusType>(1);
+  constexpr auto bKernelSize = MakeFilled<RadiusType>(1);
 
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 

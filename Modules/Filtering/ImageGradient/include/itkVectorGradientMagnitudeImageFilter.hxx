@@ -102,7 +102,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Genera
   typename TInputImage::RegionType inputRequestedRegion;
   inputRequestedRegion = inputPtr->GetRequestedRegion();
 
-  auto r1 = MakeFilled<RadiusType>(1);
+  constexpr auto r1 = MakeFilled<RadiusType>(1);
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(r1);
 

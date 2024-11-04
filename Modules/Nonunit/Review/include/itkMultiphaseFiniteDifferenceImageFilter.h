@@ -349,7 +349,7 @@ public:
 
     m_DifferenceFunctions.resize(m_FunctionCount, nullptr);
 
-    auto radius = MakeFilled<RadiusType>(1);
+    constexpr auto radius = MakeFilled<RadiusType>(1);
 
     for (unsigned int i = 0; i < this->m_FunctionCount; ++i)
     {
