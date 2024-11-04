@@ -35,16 +35,13 @@ itkMaximumDecisionRuleTest(int, char *[])
 
   MembershipVectorType membershipScoreVector;
 
-  double membershipScore1;
-  membershipScore1 = 0.1;
+  double membershipScore1 = 0.1;
   membershipScoreVector.push_back(membershipScore1);
 
-  double membershipScore2;
-  membershipScore2 = 0.5;
+  double membershipScore2 = 0.5;
   membershipScoreVector.push_back(membershipScore2);
 
-  double membershipScore3;
-  membershipScore3 = 1.9;
+  double membershipScore3 = 1.9;
   membershipScoreVector.push_back(membershipScore3);
 
   // the maximum score is the third component. The decision rule should

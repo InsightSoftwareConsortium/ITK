@@ -687,9 +687,7 @@ itkBSplineDeformableTransformTest3()
 int
 itkBSplineDeformableTransformTest(int, char *[])
 {
-  bool failed;
-
-  failed = itkBSplineDeformableTransformTest1();
+  bool failed = itkBSplineDeformableTransformTest1();
   if (failed)
   {
     return EXIT_FAILURE;

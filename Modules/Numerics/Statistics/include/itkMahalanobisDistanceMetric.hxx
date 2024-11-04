@@ -160,8 +160,7 @@ MahalanobisDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & measu
   tempMat = tempVec * m_InverseCovariance;
 
   // Compute |y - mean | * inverse(cov) * |y - mean|^T
-  double temp;
-  temp = std::sqrt(dot_product(tempMat.as_ref(), tempVec.as_ref()));
+  double temp = std::sqrt(dot_product(tempMat.as_ref(), tempVec.as_ref()));
 
   return temp;
 }
@@ -193,8 +192,7 @@ MahalanobisDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, c
   tempMat = tempVec * m_InverseCovariance;
 
   // Compute |x1 - x2 | * inverse(cov) * |x1 - x2|^T
-  double temp;
-  temp = std::sqrt(dot_product(tempMat.as_ref(), tempVec.as_ref()));
+  double temp = std::sqrt(dot_product(tempMat.as_ref(), tempVec.as_ref()));
 
   return temp;
 }

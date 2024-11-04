@@ -209,8 +209,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   double rangeVariance = m_RangeSigma * m_RangeSigma;
 
   // denominator (normalization factor) for Gaussian used for range
-  double rangeGaussianDenom;
-  rangeGaussianDenom = m_RangeSigma * std::sqrt(2.0 * itk::Math::pi);
+  double rangeGaussianDenom = m_RangeSigma * std::sqrt(2.0 * itk::Math::pi);
 
   // Maximum delta for the dynamic range
   double tableDelta;

@@ -86,8 +86,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
       IndexType index;
       index[0] = ctrI;
       index[1] = ctrJ;
-      unsigned long val;
-      val = map->GetPixel(index);
+      unsigned long val = map->GetPixel(index);
       std::cout << "Pixel[" << ctrI << ',' << ctrJ << "]: " << val << std::endl;
       if ((ctrI == 5) || (ctrJ == 5))
       {

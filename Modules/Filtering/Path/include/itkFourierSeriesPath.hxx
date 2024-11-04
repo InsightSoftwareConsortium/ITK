@@ -28,9 +28,7 @@ FourierSeriesPath<VDimension>::Evaluate(const InputType & input) const -> Output
 {
   InputType  theta;
   OutputType output;
-  int        numHarmonics;
-
-  numHarmonics = m_CosCoefficients->Size();
+  int        numHarmonics = m_CosCoefficients->Size();
   output.Fill(0);
 
   const double PI = 4.0 * std::atan(1.0);
@@ -57,9 +55,7 @@ FourierSeriesPath<VDimension>::EvaluateDerivative(const InputType & input) const
 {
   InputType  theta;
   VectorType output;
-  int        numHarmonics;
-
-  numHarmonics = m_CosCoefficients->Size();
+  int        numHarmonics = m_CosCoefficients->Size();
   output.Fill(0);
 
   const double PI = 4.0 * std::atan(1.0);

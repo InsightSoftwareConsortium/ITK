@@ -225,8 +225,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
   }
 
   // find the index for this output
-  unsigned int refLevel;
-  refLevel = static_cast<unsigned int>(refOutputPtr->GetSourceOutputIndex());
+  unsigned int refLevel = static_cast<unsigned int>(refOutputPtr->GetSourceOutputIndex());
 
   using OutputPixelType = typename TOutputImage::PixelType;
   using OperatorType = GaussianOperator<OutputPixelType, ImageDimension>;

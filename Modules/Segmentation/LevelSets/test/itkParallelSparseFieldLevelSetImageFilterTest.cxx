@@ -48,10 +48,9 @@ const int RADIUS = (std::min(std::min(HEIGHT, WIDTH), DEPTH) / 4);
 float
 sphere(unsigned int x, unsigned int y, unsigned int z)
 {
-  float dis;
-  dis = (x - static_cast<float>(WIDTH) / 2.0) * (x - static_cast<float>(WIDTH) / 2.0) +
-        (y - static_cast<float>(HEIGHT) / 2.0) * (y - static_cast<float>(HEIGHT) / 2.0) +
-        (z - static_cast<float>(DEPTH) / 2.0) * (z - static_cast<float>(DEPTH) / 2.0);
+  float dis = (x - static_cast<float>(WIDTH) / 2.0) * (x - static_cast<float>(WIDTH) / 2.0) +
+              (y - static_cast<float>(HEIGHT) / 2.0) * (y - static_cast<float>(HEIGHT) / 2.0) +
+              (z - static_cast<float>(DEPTH) / 2.0) * (z - static_cast<float>(DEPTH) / 2.0);
   dis = RADIUS - std::sqrt(dis);
   return (-dis);
 }

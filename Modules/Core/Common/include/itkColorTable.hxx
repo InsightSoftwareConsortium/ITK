@@ -349,8 +349,7 @@ ColorTable<TComponent>::GetClosestColorTableId(TComponent r, TComponent g, TComp
 
   for (unsigned int i = 0; i < m_NumberOfColors; ++i)
   {
-    double match;
-    match = (r - static_cast<double>(m_Color[i].GetRed())) * (r - static_cast<double>(m_Color[i].GetRed()));
+    double match = (r - static_cast<double>(m_Color[i].GetRed())) * (r - static_cast<double>(m_Color[i].GetRed()));
     match += (g - static_cast<double>(m_Color[i].GetGreen())) * (g - static_cast<double>(m_Color[i].GetGreen()));
     match += (b - static_cast<double>(m_Color[i].GetGreen())) * (b - static_cast<double>(m_Color[i].GetBlue()));
     if (i == 0 || match < bestMatch)

@@ -284,8 +284,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
     zero_zero[0] = 0;
     zero_zero[1] = 0;
 
-    float zzF;
-    zzF = hist2->GetFrequency(zero_zero);
+    float zzF = hist2->GetFrequency(zero_zero);
     totalF = hist2->GetTotalFrequency();
 
     if (itk::Math::NotAlmostEquals(zzF, 40.0f) || itk::Math::NotAlmostEquals(zzF, totalF))

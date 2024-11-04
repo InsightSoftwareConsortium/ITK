@@ -124,8 +124,7 @@ itkIteratorTests(int, char *[])
   start = clock();
   itk::ImageRegionIterator<ScalarImage> it(o3, region);
 
-  unsigned short scalar;
-  scalar = 5;
+  unsigned short scalar = 5;
 
   i = 0;
   for (; !it.IsAtEnd(); ++it)

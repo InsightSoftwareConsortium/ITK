@@ -120,9 +120,7 @@ PowellOptimizer::SetCurrentLinePoint(double x, double fx)
 void
 PowellOptimizer::Swap(double * a, double * b) const
 {
-  double tf;
-
-  tf = *a;
+  double tf = *a;
   *a = *b;
   *b = tf;
 }
@@ -294,8 +292,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
     /* Decide if the interpolation can be tried  */
     if (itk::Math::abs(x - w) >= tolerance1) /* If x and w are distinct      */
     {
-      double t;
-      t = (x - w) * (functionValueOfX - functionValueOfV);
+      double t = (x - w) * (functionValueOfX - functionValueOfV);
 
       double q; /* ted as p/q; division operation*/
       q = (x - v) * (functionValueOfX - functionValueOfW);
@@ -343,9 +340,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
     /* and reduce the enveloping range  */
     double t = x + new_step; /* Tentative point for the min  */
 
-    double functionValueOft;
-
-    functionValueOft = this->GetLineValue(t, tempCoord);
+    double functionValueOft = this->GetLineValue(t, tempCoord);
 
     if (functionValueOft <= functionValueOfX)
     {

@@ -79,10 +79,8 @@ TDistribution::PDF(double x, SizeValueType degreesOfFreedom)
   auto   dof = static_cast<double>(degreesOfFreedom);
   double dofplusoneon2 = 0.5 * (dof + 1.0);
   double dofon2 = 0.5 * dof;
-  double pdf;
-
-  pdf = (dgamma_(&dofplusoneon2) / dgamma_(&dofon2)) /
-        (std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ((x * x) / dof), dofplusoneon2));
+  double pdf = (dgamma_(&dofplusoneon2) / dgamma_(&dofon2)) /
+               (std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ((x * x) / dof), dofplusoneon2));
 
   return pdf;
 }

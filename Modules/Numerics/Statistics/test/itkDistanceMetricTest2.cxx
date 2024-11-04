@@ -45,16 +45,14 @@ public:
   double
   Evaluate(const TMeasurementVector &) const override
   {
-    double score;
-    score = 1;
+    double score = 1;
     return score;
   }
 
   double
   Evaluate(const TMeasurementVector &, const TMeasurementVector &) const override
   {
-    double score;
-    score = 1;
+    double score = 1;
     return score;
   }
 };

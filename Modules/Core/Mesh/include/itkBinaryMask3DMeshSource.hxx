@@ -431,9 +431,7 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::inverse(unsigned char * x)
 {
-  unsigned char tmp;
-
-  tmp = x[2];
+  unsigned char tmp = x[2];
   x[2] = x[1];
   x[1] = tmp;
 }

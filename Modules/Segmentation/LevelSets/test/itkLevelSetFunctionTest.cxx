@@ -45,9 +45,8 @@ const unsigned int WIDTH = (256);
 float
 circle(unsigned int x, unsigned int y)
 {
-  float dis;
-  dis = (x - static_cast<float>(WIDTH) / 2.0) * (x - static_cast<float>(WIDTH) / 2.0) +
-        (y - static_cast<float>(HEIGHT) / 2.0) * (y - static_cast<float>(HEIGHT) / 2.0);
+  float dis = (x - static_cast<float>(WIDTH) / 2.0) * (x - static_cast<float>(WIDTH) / 2.0) +
+              (y - static_cast<float>(HEIGHT) / 2.0) * (y - static_cast<float>(HEIGHT) / 2.0);
   dis = RADIUS - std::sqrt(dis);
   return dis;
 }

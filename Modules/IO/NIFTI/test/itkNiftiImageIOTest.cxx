@@ -155,8 +155,7 @@ itkNiftiImageIOTest(int argc, char * argv[])
   }
   else // This is the mechanism for doing internal testing of all data types.
   {
-    int cur_return;
-    cur_return = MakeNiftiImage<char>(testFileName);
+    int cur_return = MakeNiftiImage<char>(testFileName);
     if (cur_return != 0)
     {
       std::cerr << "Error writing Nifti file type char" << std::endl;

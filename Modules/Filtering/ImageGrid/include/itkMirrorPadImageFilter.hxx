@@ -151,9 +151,7 @@ int
 MirrorPadImageFilter<TInputImage, TOutputImage>::FindRegionsInArea(long start, long end, long size, long offset)
 {
   int  result = 1;
-  long regionsize;
-
-  regionsize = end - start;
+  long regionsize = end - start;
   if (regionsize > 0) // Find out home many regions we have,
   {
     result = regionsize / size;
