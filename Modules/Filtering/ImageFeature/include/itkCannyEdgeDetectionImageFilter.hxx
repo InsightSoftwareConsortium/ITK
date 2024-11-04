@@ -42,7 +42,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::CannyEdgeDetectionImag
   m_UpdateBuffer1 = OutputImageType::New();
 
   // Set up neighborhood slices for all the dimensions.
-  auto r = MakeFilled<typename Neighborhood<OutputImagePixelType, ImageDimension>::RadiusType>(1);
+  constexpr auto r = MakeFilled<typename Neighborhood<OutputImagePixelType, ImageDimension>::RadiusType>(1);
 
   // Dummy neighborhood used to set up the slices
   Neighborhood<OutputImagePixelType, ImageDimension> it;
