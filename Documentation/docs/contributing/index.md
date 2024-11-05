@@ -330,7 +330,7 @@ branches, assuming the topic branch is forked off the `release` branch:
 
 ```bash
 git checkout release-X.X
-git pull --ff-only upstream/release-X.X
+git pull --ff-only upstream release-X.X
 git merge --no-ff my-topic
 git push upstream release-X.X
 ```
@@ -339,16 +339,16 @@ then:
 
 ```bash
 git checkout release
-git pull --ff-only upstream/release
+git pull --ff-only upstream release
 git merge --no-ff release-X.X
-git push upstream release-X.X
+git push upstream release
 ```
 
 then:
 
 ```bash
 git checkout master
-git pull --ff-only upstream/master
+git pull --ff-only upstream master
 git merge --no-ff release
 git push upstream master
 ```
