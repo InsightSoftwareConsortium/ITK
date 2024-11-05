@@ -59,6 +59,24 @@ cd src/ITK
 pixi run test-python
 ```
 
+To run a python interpreter with the locally built `itk` Python package:
+
+```shell
+pixi run python-exe
+```
+
+A Python script can also be passed in, e.g.
+
+```shell
+pixi run python-exe ./test.py
+```
+
+To run a python interpreter with a locally built `itk` Python package with debug symbols,
+
+```shell
+pixi run python-exe-debug
+```
+
 ### Further testing and development
 
 Additional pixi tasks to run specific steps of the `configure`, `build`, `test` development process or create builds with other [CMake build types] are listed with
