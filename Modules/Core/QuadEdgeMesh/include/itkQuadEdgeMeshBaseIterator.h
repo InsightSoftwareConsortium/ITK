@@ -275,9 +275,7 @@ public:
   using OriginRefType = typename QuadEdgeType::OriginRefType;
 
 public:
-  QuadEdgeMeshIteratorGeom(QuadEdgeType * e = (QuadEdgeType *)nullptr,
-                           int            op = Superclass::OperatorOnext,
-                           bool           start = true)
+  QuadEdgeMeshIteratorGeom(QuadEdgeType * e = nullptr, int op = Superclass::OperatorOnext, bool start = true)
     : Superclass(e, op, start)
   {}
 

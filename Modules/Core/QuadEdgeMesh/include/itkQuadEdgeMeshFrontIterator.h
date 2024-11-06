@@ -32,10 +32,7 @@
   using FrontIterator = QuadEdgeMeshFrontIterator<MeshTypeArg, QEPrimalType>;                                         \
   using ConstFrontIterator = QuadEdgeMeshConstFrontIterator<MeshTypeArg, QEPrimalType>;                               \
                                                                                                                       \
-  virtual FrontIterator BeginFront(QEPrimalType * seed = (QEPrimalType *)nullptr)                                     \
-  {                                                                                                                   \
-    return (FrontIterator(this, true, seed));                                                                         \
-  }                                                                                                                   \
+  virtual FrontIterator BeginFront(QEPrimalType * seed = nullptr) { return (FrontIterator(this, true, seed)); }       \
                                                                                                                       \
   virtual ConstFrontIterator BeginFront(QEPrimalType * seed) const { return (ConstFrontIterator(this, true, seed)); } \
                                                                                                                       \
@@ -149,9 +146,7 @@ protected:
 
 public:
   /** Object creation methods. */
-  QuadEdgeMeshFrontBaseIterator(MeshType * mesh = (MeshType *)nullptr,
-                                bool       start = true,
-                                QEType *   seed = (QEType *)nullptr);
+  QuadEdgeMeshFrontBaseIterator(MeshType * mesh = nullptr, bool start = true, QEType * seed = nullptr);
   virtual ~QuadEdgeMeshFrontBaseIterator();
 
   Self &
@@ -242,7 +237,7 @@ public:
 
 public:
   /** Object creation methods. */
-  QuadEdgeMeshFrontIterator(MeshType * mesh = (MeshType *)0, bool start = true, QEType * seed = (QEType *)nullptr)
+  QuadEdgeMeshFrontIterator(MeshType * mesh = (MeshType *)0, bool start = true, QEType * seed = nullptr)
     : Superclass(mesh, start, seed)
   {}
   ~QuadEdgeMeshFrontIterator() override = default;
