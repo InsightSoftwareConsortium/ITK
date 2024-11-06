@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -260,7 +259,7 @@ typedef struct H5TS_rw_lock_stats_t {
  * Structure H5TS_rw_lock_t
  *
  * A read / write lock, is a lock that allows either an arbitrary number
- * of readers, or a single writer into a critical region.  A recurssive
+ * of readers, or a single writer into a critical region.  A recursive
  * lock is one that allows a thread that already has a lock (be it read or
  * write) to successfully request the lock again, only dropping the lock
  * when the number of un-lock calls equals the number of lock calls.
@@ -285,7 +284,7 @@ typedef struct H5TS_rw_lock_stats_t {
  *              If this structure is allocated dynamically, remember to set
  *              it to some invalid value before discarding the structure.
  *
- * policy       Integer containing a code indicating the precidence policy
+ * policy       Integer containing a code indicating the precedence policy
  *              used by the R/W lock.  The supported policies are listed
  *              below:
  *
@@ -362,13 +361,13 @@ typedef struct H5TS_rw_lock_t {
  *
  * Structure H5TS_rec_entry_count
  *
- * Strucure associated with the reader_rec_entry_count_key defined in
+ * Structure associated with the reader_rec_entry_count_key defined in
  * H5TS_rw_lock_t.
  *
  * The primary purpose of this structure is to maintain a count of recursive
  * locks so that the lock can be dropped when the count drops to zero.
  *
- * Aditional fields are included for purposes of sanity checking.
+ * Additional fields are included for purposes of sanity checking.
  *
  * Individual fields are discussed below.
  *

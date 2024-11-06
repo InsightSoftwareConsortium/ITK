@@ -38,16 +38,17 @@
 #endif                                 /* H5_NO_DEPRECATED_SYMBOLS */
 
 /* Values for native VOL connector dataset optional VOL operations */
-#define H5VL_NATIVE_DATASET_FORMAT_CONVERT          0 /* H5Dformat_convert (internal) */
-#define H5VL_NATIVE_DATASET_GET_CHUNK_INDEX_TYPE    1 /* H5Dget_chunk_index_type      */
-#define H5VL_NATIVE_DATASET_GET_CHUNK_STORAGE_SIZE  2 /* H5Dget_chunk_storage_size    */
-#define H5VL_NATIVE_DATASET_GET_NUM_CHUNKS          3 /* H5Dget_num_chunks            */
-#define H5VL_NATIVE_DATASET_GET_CHUNK_INFO_BY_IDX   4 /* H5Dget_chunk_info            */
-#define H5VL_NATIVE_DATASET_GET_CHUNK_INFO_BY_COORD 5 /* H5Dget_chunk_info_by_coord   */
-#define H5VL_NATIVE_DATASET_CHUNK_READ              6 /* H5Dchunk_read                */
-#define H5VL_NATIVE_DATASET_CHUNK_WRITE             7 /* H5Dchunk_write               */
-#define H5VL_NATIVE_DATASET_GET_VLEN_BUF_SIZE       8 /* H5Dvlen_get_buf_size         */
-#define H5VL_NATIVE_DATASET_GET_OFFSET              9 /* H5Dget_offset                */
+#define H5VL_NATIVE_DATASET_FORMAT_CONVERT          0  /* H5Dformat_convert (internal) */
+#define H5VL_NATIVE_DATASET_GET_CHUNK_INDEX_TYPE    1  /* H5Dget_chunk_index_type      */
+#define H5VL_NATIVE_DATASET_GET_CHUNK_STORAGE_SIZE  2  /* H5Dget_chunk_storage_size    */
+#define H5VL_NATIVE_DATASET_GET_NUM_CHUNKS          3  /* H5Dget_num_chunks            */
+#define H5VL_NATIVE_DATASET_GET_CHUNK_INFO_BY_IDX   4  /* H5Dget_chunk_info            */
+#define H5VL_NATIVE_DATASET_GET_CHUNK_INFO_BY_COORD 5  /* H5Dget_chunk_info_by_coord   */
+#define H5VL_NATIVE_DATASET_CHUNK_READ              6  /* H5Dchunk_read                */
+#define H5VL_NATIVE_DATASET_CHUNK_WRITE             7  /* H5Dchunk_write               */
+#define H5VL_NATIVE_DATASET_GET_VLEN_BUF_SIZE       8  /* H5Dvlen_get_buf_size         */
+#define H5VL_NATIVE_DATASET_GET_OFFSET              9  /* H5Dget_offset                */
+#define H5VL_NATIVE_DATASET_CHUNK_ITER              10 /* H5Dchunk_iter                */
 
 /* Values for native VOL connector file optional VOL operations */
 #define H5VL_NATIVE_FILE_CLEAR_ELINK_CACHE            0  /* H5Fclear_elink_file_cache            */

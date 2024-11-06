@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -515,8 +514,8 @@ H5HF_hdr_t *
 H5HF__hdr_protect(H5F_t *f, haddr_t addr, unsigned flags)
 {
     H5HF_hdr_cache_ud_t cache_udata;      /* User-data for callback */
-    H5HF_hdr_t *        hdr;              /* Fractal heap header */
-    H5HF_hdr_t *        ret_value = NULL; /* Return value */
+    H5HF_hdr_t         *hdr;              /* Fractal heap header */
+    H5HF_hdr_t         *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 

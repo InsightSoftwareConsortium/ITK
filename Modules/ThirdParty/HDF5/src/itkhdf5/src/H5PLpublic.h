@@ -2,7 +2,7 @@
  * Copyright by The HDF Group.                                               *
  * All rights reserved.                                                      *
  *                                                                           *
- * This file is part of HDF5. The full HDF5 copyright notice, including      *
+ * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
  * distribution tree, or in https://www.hdfgroup.org/licenses.               *
@@ -17,8 +17,7 @@
 #ifndef H5PLpublic_H
 #define H5PLpublic_H
 
-/* Public headers needed by this file */
-#include "H5public.h" /* Generic Functions                    */
+#include "H5public.h" /* Generic Functions                        */
 
 /*******************/
 /* Public Typedefs */
@@ -93,9 +92,9 @@ H5_DLL herr_t H5PLset_loading_state(unsigned int plugin_control_mask);
  * \brief Queries the loadability of dynamic plugin types
  *
  * \param[out] plugin_control_mask List of dynamic plugin types that are enabled or disabled.\n
- *                                 A plugin bit set to 0 (zero) indicates that that the dynamic plugin type is
+ *                                 A plugin bit set to 0 (zero) indicates that the dynamic plugin type is
  *                                 disabled.\n
- *                                 A plugin bit set to 1 (one) indicates that that the dynamic plugin type is
+ *                                 A plugin bit set to 1 (one) indicates that the dynamic plugin type is
  *                                 enabled.\n
  *                                 If the value of \p plugin_control_mask is negative, all dynamic plugin
  *                                 types are enabled.\n
@@ -103,7 +102,7 @@ H5_DLL herr_t H5PLset_loading_state(unsigned int plugin_control_mask);
  *                                 are disabled.
  * \return \herr_t
  *
- * \details H5PLget_loading_state() retrieves the bitmask that controls whether a certain type of plugins
+ * \details H5PLget_loading_state() retrieves the bitmask that controls whether a certain type of plugin
  *          (e.g.: filters, VOL drivers) will be loaded by the HDF5 library.
  *
  *          Bit positions allocated to date are specified in \ref H5PL_type_t as follows:

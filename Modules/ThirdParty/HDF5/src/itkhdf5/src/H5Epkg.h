@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -48,7 +47,7 @@
  * each thread individually. The association of stacks to threads will
  * be handled by the pthread library.
  *
- * In order for this macro to work, H5E__get_my_stack() must be preceeded
+ * In order for this macro to work, H5E__get_my_stack() must be preceded
  * by "H5E_t *estack =".
  */
 #define H5E__get_my_stack() H5E__get_stack()
@@ -99,7 +98,7 @@ typedef struct H5E_cls_t {
 
 /* Major or minor message */
 typedef struct H5E_msg_t {
-    char *     msg;  /* Message for error */
+    char      *msg;  /* Message for error */
     H5E_type_t type; /* Type of error (major or minor) */
     H5E_cls_t *cls;  /* Which error class this message belongs to */
 } H5E_msg_t;
@@ -109,7 +108,7 @@ struct H5E_t {
     size_t        nused;            /* Num slots currently used in stack  */
     H5E_error2_t  slot[H5E_NSLOTS]; /* Array of error records	     */
     H5E_auto_op_t auto_op;          /* Operator for 'automatic' error reporting */
-    void *        auto_data;        /* Callback data for 'automatic error reporting */
+    void         *auto_data;        /* Callback data for 'automatic error reporting */
 };
 
 /*****************************/

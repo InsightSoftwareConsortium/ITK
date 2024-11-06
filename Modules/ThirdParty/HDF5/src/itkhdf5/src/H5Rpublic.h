@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -30,9 +29,11 @@
 #define H5R_OBJ_REF_BUF_SIZE      sizeof(haddr_t)
 #define H5R_DSET_REG_REF_BUF_SIZE (sizeof(haddr_t) + 4)
 
-/* Default reference buffer size.
- * Note! Be careful with the sizes of the references because they should really
- * depend on the run-time values in the file.
+/**
+ * Default reference buffer size.
+ *
+ * \internal Note! Be careful with the sizes of the references because they
+ *           should really depend on the run-time values in the file.
  */
 #define H5R_REF_BUF_SIZE (64)
 
@@ -74,7 +75,7 @@ typedef haddr_t hobj_ref_t;
 /**
  * Buffer to store heap ID and index
  *
- * This needs to be large enough to store largest #haddr_t in a worst case
+ * This needs to be large enough to store largest haddr_t in a worst case
  * machine (8 bytes currently) plus an int.
  *
  * \deprecated Dataset region reference type that is used with deprecated
@@ -258,7 +259,7 @@ H5_DLL herr_t H5Rdestroy(H5R_ref_t *ref_ptr);
  *          \snippet this H5R_type_t_snip
  *
  *          Note that #H5R_OBJECT1 and #H5R_DATASET_REGION1 can never be
- *          associated to an \ref H5R_ref_t reference and can therefore never be
+ *          associated with an \ref H5R_ref_t reference and can, therefore, never be
  *          returned through that function.
  *
  *          \ref H5R_ref_t is defined in H5Rpublic.h as:
@@ -301,7 +302,7 @@ H5_DLL htri_t H5Requal(const H5R_ref_t *ref1_ptr, const H5R_ref_t *ref2_ptr);
  * \return \herr_t
  *
  * \details H5Rcopy() creates a copy of an existing reference.
- *          \p src_ref_ptr points to the reference to copy and \p dst_ref_ptr is the
+ *          \p src_ref_ptr points to the reference to copy, and \p dst_ref_ptr is the
  *          pointer to the destination reference.
  *
  */
@@ -335,7 +336,7 @@ H5_DLL herr_t H5Rcopy(const H5R_ref_t *src_ref_ptr, H5R_ref_t *dst_ref_ptr);
  *
  *          The object opened with this function should be closed when it
  *          is no longer needed so that resource leaks will not develop. Use
- *          the appropriate close function such as H5Oclose() or H5Dclose()
+ *          the appropriate close function, such as H5Oclose() or H5Dclose()
  *          for datasets.
  *
  */
@@ -573,7 +574,7 @@ H5_DLL ssize_t H5Rget_attr_name(const H5R_ref_t *ref_ptr, char *name, size_t siz
  *
  *          A \Emph{reference type} is the type of reference, either an object
  *          reference or a dataset region reference. An \Emph{object reference}
- *          points to an HDF5 object while a \Emph{dataset region reference}
+ *          points to an HDF5 object, while a \Emph{dataset region reference}
  *          points to a defined region within a dataset.
  *
  *          The \Emph{referenced object} is the object the reference points
@@ -645,7 +646,7 @@ H5_DLL H5G_obj_t H5Rget_obj_type1(hid_t id, H5R_type_t ref_type, const void *ref
  *
  *          The object opened with this function should be closed when it is no
  *          longer needed so that resource leaks will not develop. Use the
- *          appropriate close function such as H5Oclose() or H5Dclose() for
+ *          appropriate close function, such as H5Oclose() or H5Dclose() for
  *          datasets.
  *
  * \version 1.10.0 Function H5Rdereference() renamed to H5Rdereference1() and
@@ -782,7 +783,7 @@ H5_DLL herr_t H5Rget_obj_type2(hid_t id, H5R_type_t ref_type, const void *ref, H
  *
  *          The object opened with this function should be closed when it is no
  *          longer needed so that resource leaks will not develop. Use the
- *          appropriate close function such as H5Oclose() or H5Dclose() for
+ *          appropriate close function, such as H5Oclose() or H5Dclose() for
  *          datasets.
  *
  * \since 1.10.0

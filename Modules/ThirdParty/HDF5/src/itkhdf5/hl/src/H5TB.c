@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -66,7 +65,7 @@ H5TBmake_table(const char *table_title, hid_t loc_id, const char *dset_name, hsi
     hsize_t        dims_chunk[1];
     hsize_t        maxdims[1] = {H5S_UNLIMITED};
     char           attr_name[255];
-    char *         member_name = NULL;
+    char          *member_name = NULL;
     unsigned char *tmp_buf     = NULL;
     hsize_t        i;
     herr_t         ret_val = -1;
@@ -437,7 +436,7 @@ H5TBwrite_fields_name(hid_t loc_id, const char *dset_name, const char *field_nam
     hssize_t i, j;
     hsize_t  count[1];
     hsize_t  offset[1];
-    char *   member_name = NULL;
+    char    *member_name = NULL;
     size_t   size_native;
     herr_t   ret_val = -1;
 
@@ -595,7 +594,7 @@ H5TBwrite_fields_index(hid_t loc_id, const char *dset_name, hsize_t nfields, con
     hsize_t offset[1];
     hsize_t i;
     size_t  size_native;
-    char *  member_name = NULL;
+    char   *member_name = NULL;
     herr_t  ret_val     = -1;
 
     /* check the arguments */
@@ -899,7 +898,7 @@ H5TBread_fields_name(hid_t loc_id, const char *dset_name, const char *field_name
     hsize_t  offset[1];
     hsize_t  mem_size[1];
     size_t   size_native;
-    char *   member_name = NULL;
+    char    *member_name = NULL;
     hssize_t i, j;
     herr_t   ret_val = -1;
 
@@ -1056,7 +1055,7 @@ H5TBread_fields_index(hid_t loc_id, const char *dset_name, hsize_t nfields, cons
     hsize_t mem_size[1];
     hsize_t i;
     size_t  size_native;
-    char *  member_name = NULL;
+    char   *member_name = NULL;
     herr_t  ret_val     = -1;
 
     /* check the arguments */
@@ -1212,8 +1211,8 @@ H5TBdelete_record(hid_t loc_id, const char *dset_name, hsize_t start, hsize_t nr
     hsize_t        mem_size[1];
     hsize_t        dims[1];
     size_t         src_size;
-    size_t *       src_offset = NULL;
-    size_t *       src_sizes  = NULL;
+    size_t        *src_offset = NULL;
+    size_t        *src_sizes  = NULL;
     unsigned char *tmp_buf    = NULL;
     herr_t         ret_val    = -1;
 
@@ -1524,8 +1523,8 @@ H5TBadd_records_from(hid_t loc_id, const char *dset_name1, hsize_t start1, hsize
     hsize_t        ntotal_records;
     size_t         type_size1;
     size_t         src_size;
-    size_t *       src_offset = NULL;
-    size_t *       src_sizes  = NULL;
+    size_t        *src_offset = NULL;
+    size_t        *src_sizes  = NULL;
     unsigned char *tmp_buf    = NULL;
     herr_t         ret_val    = -1;
 
@@ -1672,8 +1671,8 @@ H5TBcombine_tables(hid_t loc_id1, const char *dset_name1, hid_t loc_id2, const c
     size_t         type_size;
     size_t         member_offset;
     size_t         src_size;
-    size_t *       src_offset = NULL;
-    size_t *       src_sizes  = NULL;
+    size_t        *src_offset = NULL;
+    size_t        *src_sizes  = NULL;
     char           attr_name[255];
     unsigned char *tmp_buf      = NULL;
     unsigned char *tmp_fill_buf = NULL;
@@ -2033,7 +2032,7 @@ H5TBinsert_field(hid_t loc_id, const char *dset_name, const char *field_name, hi
     hsize_t        i;
     char           table_title[255];
     char           attr_name[255];
-    char *         member_name  = NULL;
+    char          *member_name  = NULL;
     unsigned char *tmp_buf      = NULL;
     unsigned char *tmp_fill_buf = NULL;
     hbool_t        inserted;
@@ -2446,7 +2445,7 @@ H5TBdelete_field(hid_t loc_id, const char *dset_name, const char *field_name)
     hsize_t        i;
     char           attr_name[255];
     char           table_title[255];
-    char *         member_name  = NULL;
+    char          *member_name  = NULL;
     unsigned char *tmp_buf      = NULL;
     unsigned char *tmp_fill_buf = NULL;
     htri_t         has_fill     = FALSE;
@@ -3207,7 +3206,7 @@ H5TB_attach_attributes(const char *table_title, hid_t loc_id, const char *dset_n
                        hid_t tid)
 {
     char    attr_name[255];
-    char *  member_name = NULL;
+    char   *member_name = NULL;
     hsize_t i;
     herr_t  ret_val = -1;
 
@@ -3272,7 +3271,7 @@ H5TB_create_type(hid_t loc_id, const char *dset_name, size_t type_size, const si
     hid_t    nmtype_id   = H5I_INVALID_HID;
     size_t   size_native;
     hsize_t  nfields = 0;
-    char **  fnames  = NULL;
+    char   **fnames  = NULL;
     unsigned i;
     hid_t    ret_val = -1;
 

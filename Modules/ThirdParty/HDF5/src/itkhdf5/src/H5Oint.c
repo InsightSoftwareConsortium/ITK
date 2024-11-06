@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -55,10 +54,10 @@
 /* User data for recursive traversal over objects from a group */
 typedef struct {
     hid_t          obj_id;    /* The ID for the starting group */
-    H5G_loc_t *    start_loc; /* Location of starting group */
-    H5SL_t *       visited;   /* Skip list for tracking visited nodes */
+    H5G_loc_t     *start_loc; /* Location of starting group */
+    H5SL_t        *visited;   /* Skip list for tracking visited nodes */
     H5O_iterate2_t op;        /* Application callback */
-    void *         op_data;   /* Application's op data */
+    void          *op_data;   /* Application's op data */
     unsigned       fields;    /* Selection of object info */
 } H5O_iter_visit_ud_t;
 
@@ -315,9 +314,9 @@ H5O_t *
 H5O_create_ohdr(H5F_t *f, hid_t ocpl_id)
 {
     H5P_genplist_t *oc_plist;
-    H5O_t *         oh = NULL; /* Object header in Freelist */
+    H5O_t          *oh = NULL; /* Object header in Freelist */
     uint8_t         oh_flags;  /* Initial status flags */
-    H5O_t *         ret_value = NULL;
+    H5O_t          *ret_value = NULL;
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -607,7 +606,7 @@ H5O_open_name(const H5G_loc_t *loc, const char *name, H5I_type_t *opened_type)
     H5G_name_t obj_path;          /* Opened object group hier. path */
     H5O_loc_t  obj_oloc;          /* Opened object object location */
     hbool_t    loc_found = FALSE; /* Entry at 'name' found */
-    void *     ret_value = NULL;  /* Return value */
+    void      *ret_value = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -658,7 +657,7 @@ H5O__open_by_idx(const H5G_loc_t *loc, const char *name, H5_index_t idx_type, H5
     H5G_name_t obj_path;          /* Opened object group hier. path */
     H5O_loc_t  obj_oloc;          /* Opened object object location */
     hbool_t    loc_found = FALSE; /* Entry at 'name' found */
-    void *     ret_value = NULL;  /* Return value */
+    void      *ret_value = NULL;  /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -707,7 +706,7 @@ H5O__open_by_addr(const H5G_loc_t *loc, haddr_t addr, H5I_type_t *opened_type)
     H5G_loc_t  obj_loc;          /* Location used to open group */
     H5G_name_t obj_path;         /* Opened object group hier. path */
     H5O_loc_t  obj_oloc;         /* Opened object object location */
-    void *     ret_value = NULL; /* Return value */
+    void      *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -747,7 +746,7 @@ void *
 H5O_open_by_loc(const H5G_loc_t *obj_loc, H5I_type_t *opened_type)
 {
     const H5O_obj_class_t *obj_class;        /* Class of object for location */
-    void *                 ret_value = NULL; /* Return value */
+    void                  *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -962,7 +961,7 @@ done:
 int
 H5O_link(const H5O_loc_t *loc, int adjust)
 {
-    H5O_t * oh        = NULL;
+    H5O_t  *oh        = NULL;
     hbool_t deleted   = FALSE; /* Whether the object was deleted */
     int     ret_value = -1;    /* Return value */
 
@@ -1009,11 +1008,11 @@ done:
 H5O_t *
 H5O_protect(const H5O_loc_t *loc, unsigned prot_flags, hbool_t pin_all_chunks)
 {
-    H5O_t *         oh = NULL;        /* Object header protected */
+    H5O_t          *oh = NULL;        /* Object header protected */
     H5O_cache_ud_t  udata;            /* User data for protecting object header */
     H5O_cont_msgs_t cont_msg_info;    /* Continuation message info */
     unsigned        file_intent;      /* R/W intent on file */
-    H5O_t *         ret_value = NULL; /* Return value */
+    H5O_t          *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_TAG(loc->addr, NULL)
 
@@ -1170,9 +1169,14 @@ H5O_protect(const H5O_loc_t *loc, unsigned prot_flags, hbool_t pin_all_chunks)
     ret_value = oh;
 
 done:
-    if (ret_value == NULL && oh)
+    if (ret_value == NULL && oh) {
+        /* Release any continuation messages built up */
+        if (cont_msg_info.msgs)
+            cont_msg_info.msgs = (H5O_cont_t *)H5FL_SEQ_FREE(H5O_cont_t, cont_msg_info.msgs);
+
         if (H5O_unprotect(loc, oh, H5AC__NO_FLAGS_SET) < 0)
             HDONE_ERROR(H5E_OHDR, H5E_CANTUNPROTECT, NULL, "unable to release object header")
+    }
 
     FUNC_LEAVE_NOAPI_TAG(ret_value)
 } /* end H5O_protect() */
@@ -1426,7 +1430,7 @@ done:
 herr_t
 H5O_touch(const H5O_loc_t *loc, hbool_t force)
 {
-    H5O_t *  oh        = NULL;               /* Object header to modify */
+    H5O_t   *oh        = NULL;               /* Object header to modify */
     unsigned oh_flags  = H5AC__NO_FLAGS_SET; /* Flags for unprotecting object header */
     herr_t   ret_value = SUCCEED;            /* Return value */
 
@@ -1441,7 +1445,7 @@ H5O_touch(const H5O_loc_t *loc, hbool_t force)
 
     /* Create/Update the modification time message */
     if (H5O_touch_oh(loc->file, oh, force) < 0)
-        HGOTO_ERROR(H5E_OHDR, H5E_CANTSET, FAIL, "unable to update object modificaton time")
+        HGOTO_ERROR(H5E_OHDR, H5E_CANTSET, FAIL, "unable to update object modification time")
 
     /* Mark object header as changed */
     oh_flags |= H5AC__DIRTIED_FLAG;
@@ -1540,7 +1544,7 @@ done:
 herr_t
 H5O_delete(H5F_t *f, haddr_t addr)
 {
-    H5O_t *   oh = NULL;                     /* Object header information */
+    H5O_t    *oh = NULL;                     /* Object header information */
     H5O_loc_t loc;                           /* Object location for object to delete */
     unsigned  oh_flags = H5AC__NO_FLAGS_SET; /* Flags for unprotecting object header */
     hbool_t   corked;
@@ -1716,7 +1720,7 @@ H5O__obj_type_real(const H5O_t *oh, H5O_type_t *obj_type)
 const H5O_obj_class_t *
 H5O__obj_class(const H5O_loc_t *loc)
 {
-    H5O_t *                oh        = NULL; /* Object header for location */
+    H5O_t                 *oh        = NULL; /* Object header for location */
     const H5O_obj_class_t *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE_TAG(loc->addr)
@@ -2099,7 +2103,7 @@ done:
 static herr_t
 H5O__get_hdr_info_real(const H5O_t *oh, H5O_hdr_info_t *hdr)
 {
-    const H5O_mesg_t * curr_msg;   /* Pointer to current message being operated on */
+    const H5O_mesg_t  *curr_msg;   /* Pointer to current message being operated on */
     const H5O_chunk_t *curr_chunk; /* Pointer to current message being operated on */
     unsigned           u;          /* Local index variable */
 
@@ -2180,7 +2184,7 @@ herr_t
 H5O_get_info(const H5O_loc_t *loc, H5O_info2_t *oinfo, unsigned fields)
 {
     const H5O_obj_class_t *obj_class;           /* Class of object for header */
-    H5O_t *                oh        = NULL;    /* Object header */
+    H5O_t                 *oh        = NULL;    /* Object header */
     herr_t                 ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI_TAG(loc->addr, FAIL)
@@ -2289,7 +2293,7 @@ herr_t
 H5O_get_native_info(const H5O_loc_t *loc, H5O_native_info_t *oinfo, unsigned fields)
 {
     const H5O_obj_class_t *obj_class;           /* Class of object for header */
-    H5O_t *                oh        = NULL;    /* Object header */
+    H5O_t                 *oh        = NULL;    /* Object header */
     herr_t                 ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI_TAG(loc->addr, FAIL)
@@ -2448,7 +2452,7 @@ void *
 H5O_obj_create(H5F_t *f, H5O_type_t obj_type, void *crt_info, H5G_loc_t *obj_loc)
 {
     size_t u;                /* Local index variable */
-    void * ret_value = NULL; /* Return value */
+    void  *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -2761,7 +2765,7 @@ H5O__visit(H5G_loc_t *loc, const char *obj_name, H5_index_t idx_type, H5_iter_or
     H5O_loc_t           obj_oloc;                    /* Opened object object location */
     hbool_t             loc_found = FALSE;           /* Entry at 'name' found */
     H5O_info2_t         oinfo;                       /* Object info struct */
-    void *              obj = NULL;                  /* Object */
+    void               *obj = NULL;                  /* Object */
     H5I_type_t          opened_type;                 /* ID type of object */
     hid_t               obj_id    = H5I_INVALID_HID; /* ID of object */
     herr_t              ret_value = FAIL;            /* Return value */
@@ -2925,7 +2929,8 @@ H5O__dec_rc(H5O_t *oh)
     FUNC_ENTER_PACKAGE
 
     /* check args */
-    HDassert(oh);
+    if (!oh)
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid object header")
 
     /* Decrement reference count */
     oh->rc--;

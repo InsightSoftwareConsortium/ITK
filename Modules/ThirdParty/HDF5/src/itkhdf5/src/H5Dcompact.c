@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -55,8 +54,7 @@
 static herr_t  H5D__compact_construct(H5F_t *f, H5D_t *dset);
 static hbool_t H5D__compact_is_space_alloc(const H5O_storage_t *storage);
 static herr_t  H5D__compact_io_init(const H5D_io_info_t *io_info, const H5D_type_info_t *type_info,
-                                    hsize_t nelmts, const H5S_t *file_space, const H5S_t *mem_space,
-                                    H5D_chunk_map_t *cm);
+                                    hsize_t nelmts, H5S_t *file_space, H5S_t *mem_space, H5D_chunk_map_t *cm);
 static ssize_t H5D__compact_readvv(const H5D_io_info_t *io_info, size_t dset_max_nseq, size_t *dset_curr_seq,
                                    size_t dset_size_arr[], hsize_t dset_offset_arr[], size_t mem_max_nseq,
                                    size_t *mem_curr_seq, size_t mem_size_arr[], hsize_t mem_offset_arr[]);
@@ -71,13 +69,24 @@ static herr_t  H5D__compact_dest(H5D_t *dset);
 /*********************/
 
 /* Compact storage layout I/O ops */
-const H5D_layout_ops_t H5D_LOPS_COMPACT[1] = {
-    {H5D__compact_construct, NULL, H5D__compact_is_space_alloc, NULL, H5D__compact_io_init, H5D__contig_read,
-     H5D__contig_write,
+const H5D_layout_ops_t H5D_LOPS_COMPACT[1] = {{
+    H5D__compact_construct,      /* construct */
+    NULL,                        /* init */
+    H5D__compact_is_space_alloc, /* is_space_alloc */
+    NULL,                        /* is_data_cached */
+    H5D__compact_io_init,        /* io_init */
+    H5D__contig_read,            /* ser_read */
+    H5D__contig_write,           /* ser_write */
 #ifdef H5_HAVE_PARALLEL
-     NULL, NULL,
-#endif /* H5_HAVE_PARALLEL */
-     H5D__compact_readvv, H5D__compact_writevv, H5D__compact_flush, NULL, H5D__compact_dest}};
+    NULL, /* par_read */
+    NULL, /* par_write */
+#endif
+    H5D__compact_readvv,  /* readvv */
+    H5D__compact_writevv, /* writevv */
+    H5D__compact_flush,   /* flush */
+    NULL,                 /* io_term */
+    H5D__compact_dest     /* dest */
+}};
 
 /*******************/
 /* Local Variables */
@@ -228,8 +237,8 @@ H5D__compact_is_space_alloc(const H5O_storage_t H5_ATTR_UNUSED *storage)
  */
 static herr_t
 H5D__compact_io_init(const H5D_io_info_t *io_info, const H5D_type_info_t H5_ATTR_UNUSED *type_info,
-                     hsize_t H5_ATTR_UNUSED nelmts, const H5S_t H5_ATTR_UNUSED *file_space,
-                     const H5S_t H5_ATTR_UNUSED *mem_space, H5D_chunk_map_t H5_ATTR_UNUSED *cm)
+                     hsize_t H5_ATTR_UNUSED nelmts, H5S_t H5_ATTR_UNUSED *file_space,
+                     H5S_t H5_ATTR_UNUSED *mem_space, H5D_chunk_map_t H5_ATTR_UNUSED *cm)
 {
     FUNC_ENTER_STATIC_NOERR
 
@@ -403,9 +412,9 @@ H5D__compact_copy(H5F_t *f_src, H5O_storage_compact_t *_storage_src, H5F_t *f_ds
     hid_t         tid_src     = -1;   /* Datatype ID for source datatype */
     hid_t         tid_dst     = -1;   /* Datatype ID for destination datatype */
     hid_t         tid_mem     = -1;   /* Datatype ID for memory datatype */
-    void *        buf         = NULL; /* Buffer for copying data */
-    void *        bkg         = NULL; /* Temporary buffer for copying data */
-    void *        reclaim_buf = NULL; /* Buffer for reclaiming data */
+    void         *buf         = NULL; /* Buffer for copying data */
+    void         *bkg         = NULL; /* Temporary buffer for copying data */
+    void         *reclaim_buf = NULL; /* Buffer for reclaiming data */
     hid_t         buf_sid     = -1;   /* ID for buffer dataspace */
     H5D_shared_t *shared_fo =
         (H5D_shared_t *)cpy_info->shared_fo;           /* Pointer to the shared struct for dataset object */
@@ -433,9 +442,9 @@ H5D__compact_copy(H5F_t *f_src, H5O_storage_compact_t *_storage_src, H5F_t *f_ds
     /* If there's a VLEN source datatype, do type conversion information */
     if (H5T_detect_class(dt_src, H5T_VLEN, FALSE) > 0) {
         H5T_path_t *tpath_src_mem, *tpath_mem_dst; /* Datatype conversion paths */
-        H5T_t *     dt_dst;                        /* Destination datatype */
-        H5T_t *     dt_mem;                        /* Memory datatype */
-        H5S_t *     buf_space;                     /* Dataspace describing buffer */
+        H5T_t      *dt_dst;                        /* Destination datatype */
+        H5T_t      *dt_mem;                        /* Memory datatype */
+        H5S_t      *buf_space;                     /* Dataspace describing buffer */
         size_t      buf_size;                      /* Size of copy buffer */
         size_t      nelmts;                        /* Number of elements in buffer */
         size_t      src_dt_size;                   /* Source datatype size */
@@ -451,7 +460,7 @@ H5D__compact_copy(H5F_t *f_src, H5O_storage_compact_t *_storage_src, H5F_t *f_ds
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTREGISTER, FAIL, "unable to register memory datatype")
         } /* end if */
 
-        /* create variable-length datatype at the destinaton file */
+        /* create variable-length datatype at the destination file */
         if (NULL == (dt_dst = H5T_copy(dt_src, H5T_COPY_TRANSIENT)))
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to copy")
         if (H5T_set_loc(dt_dst, H5F_VOL_OBJ(f_dst), H5T_LOC_DISK) < 0) {
@@ -493,7 +502,7 @@ H5D__compact_copy(H5F_t *f_src, H5O_storage_compact_t *_storage_src, H5F_t *f_ds
         if (NULL == (buf_space = H5S_create_simple((unsigned)1, &buf_dim, NULL)))
             HGOTO_ERROR(H5E_DATASPACE, H5E_CANTCREATE, FAIL, "can't create simple dataspace")
 
-        /* Atomize */
+        /* Register */
         if ((buf_sid = H5I_register(H5I_DATASPACE, buf_space, FALSE)) < 0) {
             H5S_close(buf_space);
             HGOTO_ERROR(H5E_ATOM, H5E_CANTREGISTER, FAIL, "unable to register dataspace ID")

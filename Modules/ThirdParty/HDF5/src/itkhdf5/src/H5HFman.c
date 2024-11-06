@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -97,10 +96,10 @@ herr_t
 H5HF__man_insert(H5HF_hdr_t *hdr, size_t obj_size, const void *obj, void *_id)
 {
     H5HF_free_section_t *sec_node    = NULL;        /* Pointer to free space section */
-    H5HF_direct_t *      dblock      = NULL;        /* Pointer to direct block to modify */
+    H5HF_direct_t       *dblock      = NULL;        /* Pointer to direct block to modify */
     haddr_t              dblock_addr = HADDR_UNDEF; /* Direct block address */
     size_t               dblock_size;               /* Direct block size */
-    uint8_t *            id = (uint8_t *)_id;       /* Pointer to ID buffer */
+    uint8_t             *id = (uint8_t *)_id;       /* Pointer to ID buffer */
     size_t               blk_off;                   /* Offset of object within block */
     htri_t               node_found;                /* Whether an existing free list node was found */
     herr_t               ret_value = SUCCEED;       /* Return value */
@@ -546,7 +545,7 @@ herr_t
 H5HF__man_remove(H5HF_hdr_t *hdr, const uint8_t *id)
 {
     H5HF_free_section_t *sec_node    = NULL;  /* Pointer to free space section for block */
-    H5HF_indirect_t *    iblock      = NULL;  /* Pointer to indirect block */
+    H5HF_indirect_t     *iblock      = NULL;  /* Pointer to indirect block */
     hbool_t              did_protect = FALSE; /* Whether we protected the indirect block or not */
     hsize_t              obj_off;             /* Object's offset in heap */
     size_t               obj_len;             /* Object's length in heap */

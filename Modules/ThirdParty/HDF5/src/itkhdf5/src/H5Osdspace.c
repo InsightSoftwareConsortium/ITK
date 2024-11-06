@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -24,10 +23,10 @@
 #include "H5Spkg.h"      /* Dataspaces 				*/
 
 /* PRIVATE PROTOTYPES */
-static void * H5O__sdspace_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
+static void  *H5O__sdspace_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
                                   size_t p_size, const uint8_t *p);
 static herr_t H5O__sdspace_encode(H5F_t *f, uint8_t *p, const void *_mesg);
-static void * H5O__sdspace_copy(const void *_mesg, void *_dest);
+static void  *H5O__sdspace_copy(const void *_mesg, void *_dest);
 static size_t H5O__sdspace_size(const H5F_t *f, const void *_mesg);
 static herr_t H5O__sdspace_reset(void *_mesg);
 static herr_t H5O__sdspace_free(void *_mesg);
@@ -61,7 +60,7 @@ const H5O_msg_class_t H5O_MSG_SDSPACE[1] = {{
     H5O_SDSPACE_ID,                            /* message id number		    	*/
     "dataspace",                               /* message name for debugging	   	*/
     sizeof(H5S_extent_t),                      /* native message size		    	*/
-    H5O_SHARE_IS_SHARABLE | H5O_SHARE_IN_OHDR, /* messages are sharable? */
+    H5O_SHARE_IS_SHARABLE | H5O_SHARE_IN_OHDR, /* messages are shareable? */
     H5O__sdspace_shared_decode,                /* decode message			*/
     H5O__sdspace_shared_encode,                /* encode message			*/
     H5O__sdspace_copy,                         /* copy the native value		*/
@@ -108,11 +107,11 @@ static void *
 H5O__sdspace_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUSED mesg_flags,
                     unsigned H5_ATTR_UNUSED *ioflags, size_t p_size, const uint8_t *p)
 {
-    H5S_extent_t * sdim = NULL; /* New extent dimensionality structure */
+    const uint8_t *p_end = p + p_size - 1; /* End of the p buffer */
+    H5S_extent_t  *sdim  = NULL;           /* New extent dimensionality structure */
     unsigned       flags, version;
-    unsigned       i;                          /* Local counting variable */
-    const uint8_t *p_end     = p + p_size - 1; /* End of the p buffer */
-    void *         ret_value = NULL;           /* Return value */
+    unsigned       i;
+    void          *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -122,25 +121,37 @@ H5O__sdspace_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UN
 
     /* decode */
     if (NULL == (sdim = H5FL_CALLOC(H5S_extent_t)))
-        HGOTO_ERROR(H5E_DATASPACE, H5E_NOSPACE, NULL, "dataspace structure allocation failed")
+        HGOTO_ERROR(H5E_DATASPACE, H5E_CANTALLOC, NULL, "dataspace structure allocation failed")
+    sdim->type = H5S_NO_CLASS;
 
     /* Check version */
+    if (H5_IS_BUFFER_OVERFLOW(p, 1, p_end))
+        HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
     version = *p++;
+
     if (version < H5O_SDSPACE_VERSION_1 || version > H5O_SDSPACE_VERSION_2)
-        HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, NULL, "wrong version number in dataspace message")
+        HGOTO_ERROR(H5E_OHDR, H5E_BADVALUE, NULL, "wrong version number in dataspace message")
     sdim->version = version;
 
     /* Get rank */
+    if (H5_IS_BUFFER_OVERFLOW(p, 1, p_end))
+        HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
     sdim->rank = *p++;
+
     if (sdim->rank > H5S_MAX_RANK)
-        HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, NULL, "simple dataspace dimensionality is too large")
+        HGOTO_ERROR(H5E_OHDR, H5E_BADVALUE, NULL, "simple dataspace dimensionality is too large")
 
     /* Get dataspace flags for later */
+    if (H5_IS_BUFFER_OVERFLOW(p, 1, p_end))
+        HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
     flags = *p++;
 
     /* Get or determine the type of the extent */
     if (version >= H5O_SDSPACE_VERSION_2) {
+        if (H5_IS_BUFFER_OVERFLOW(p, 1, p_end))
+            HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
         sdim->type = (H5S_class_t)*p++;
+
         if (sdim->type != H5S_SIMPLE && sdim->rank > 0)
             HGOTO_ERROR(H5E_OHDR, H5E_BADVALUE, NULL, "invalid rank for scalar or NULL dataspace")
     } /* end if */
@@ -152,36 +163,48 @@ H5O__sdspace_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UN
             sdim->type = H5S_SCALAR;
 
         /* Increment past reserved byte */
+        if (H5_IS_BUFFER_OVERFLOW(p, 1, p_end))
+            HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
         p++;
     } /* end else */
     HDassert(sdim->type != H5S_NULL || sdim->version >= H5O_SDSPACE_VERSION_2);
 
     /* Only Version 1 has these reserved bytes */
-    if (version == H5O_SDSPACE_VERSION_1)
+    if (version == H5O_SDSPACE_VERSION_1) {
+        if (H5_IS_BUFFER_OVERFLOW(p, 4, p_end))
+            HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
         p += 4; /*reserved*/
+    }
 
     /* Decode dimension sizes */
     if (sdim->rank > 0) {
-        /* Ensure that rank doesn't cause reading passed buffer's end,
-           due to possible data corruption */
         uint8_t sizeof_size = H5F_SIZEOF_SIZE(f);
-        if (p + (sizeof_size * sdim->rank - 1) > p_end) {
-            HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "rank might cause reading passed buffer's end")
-        }
+
+        /*
+         * Ensure that decoding doesn't cause reading past buffer's end,
+         * due to possible data corruption - check that we have space to
+         * decode a "sdim->rank" number of hsize_t values
+         */
+        if (H5_IS_BUFFER_OVERFLOW(p, (sizeof_size * sdim->rank), p_end))
+            HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
 
         if (NULL == (sdim->size = (hsize_t *)H5FL_ARR_MALLOC(hsize_t, (size_t)sdim->rank)))
-            HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
+            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, NULL, "memory allocation failed")
 
         for (i = 0; i < sdim->rank; i++)
             H5F_DECODE_LENGTH(f, p, sdim->size[i]);
 
         if (flags & H5S_VALID_MAX) {
             if (NULL == (sdim->max = (hsize_t *)H5FL_ARR_MALLOC(hsize_t, (size_t)sdim->rank)))
-                HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
+                HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, NULL, "memory allocation failed")
 
-            /* Ensure that rank doesn't cause reading passed buffer's end */
-            if (p + (sizeof_size * sdim->rank - 1) > p_end)
-                HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "rank might cause reading passed buffer's end")
+            /*
+             * Ensure that decoding doesn't cause reading past buffer's end,
+             * due to possible data corruption - check that we have space to
+             * decode a "sdim->rank" number of hsize_t values
+             */
+            if (H5_IS_BUFFER_OVERFLOW(p, (sizeof_size * sdim->rank), p_end))
+                HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding")
 
             for (i = 0; i < sdim->rank; i++)
                 H5F_DECODE_LENGTH(f, p, sdim->max[i]);
@@ -298,8 +321,8 @@ static void *
 H5O__sdspace_copy(const void *_mesg, void *_dest)
 {
     const H5S_extent_t *mesg      = (const H5S_extent_t *)_mesg;
-    H5S_extent_t *      dest      = (H5S_extent_t *)_dest;
-    void *              ret_value = NULL; /* Return value */
+    H5S_extent_t       *dest      = (H5S_extent_t *)_dest;
+    void               *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 

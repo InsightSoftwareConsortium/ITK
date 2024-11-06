@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -29,9 +28,9 @@ static herr_t H5LD_get_dset_elmts(hid_t did, const hsize_t *prev_dims, const hsi
  * Function: H5LD_clean_vector
  *
  * Purpose: Process the vector of info:
- *		1) free the array of pointers to member names in listv[n]
- *		2) close the type id of the last member in listv[n]
- *		3) free the H5LD_memb_t structure itself as pointed to by listv[n]
+ *        1) free the array of pointers to member names in listv[n]
+ *        2) close the type id of the last member in listv[n]
+ *        3) free the H5LD_memb_t structure itself as pointed to by listv[n]
  *
  * Return: void
  *
@@ -69,12 +68,12 @@ H5LD_clean_vector(H5LD_memb_t *listv[])
  * Function: H5LD_construct_info()
  *
  * Purpose: Get the remaining info for a field:
- *		1) Get the type id of the last member in the field
- *		2) Get the total offset of all the members in the field
- *		3) Get the type size of the last member in the field
+ *        1) Get the type id of the last member in the field
+ *        2) Get the total offset of all the members in the field
+ *        3) Get the type size of the last member in the field
  *
  * Return: Success: 0
- *	   Failure: negative
+ *       Failure: negative
  *
  * Programmer:  Vailin Choi; Aug 2010
  *
@@ -129,24 +128,24 @@ done:
  * Function: H5LD_construct_vector
  *
  * Purpose: Process the comma-separated list of fields in "fields" as follows:
- * 	Example:
- *		"fields": "a.b.c,d"
- *		listv[0]->tot_offset = total offset of "a" & "b" & "c"
- *		listv[0]->last_tid = type id of "c"
- *		listv[0]->last_tsize = type size of "c"
- *		listv[0]->names[0] = "a"
- *		listv[0]->names[1] = "b"
- *		listv[0]->names[2] = "c"
- *		listv[0]->names[3] = NULL
+ *     Example:
+ *        "fields": "a.b.c,d"
+ *        listv[0]->tot_offset = total offset of "a" & "b" & "c"
+ *        listv[0]->last_tid = type id of "c"
+ *        listv[0]->last_tsize = type size of "c"
+ *        listv[0]->names[0] = "a"
+ *        listv[0]->names[1] = "b"
+ *        listv[0]->names[2] = "c"
+ *        listv[0]->names[3] = NULL
  *
- *		listv[1]->tot_offset = offset of "d"
- *		listv[1]->last_tid = type id of "d"
- *		listv[1]->last_tsize = type size of "d"
- *		listv[1]->names[0] = "d"
- *		listv[1]->names[1] = NULL
+ *        listv[1]->tot_offset = offset of "d"
+ *        listv[1]->last_tid = type id of "d"
+ *        listv[1]->last_tsize = type size of "d"
+ *        listv[1]->names[0] = "d"
+ *        listv[1]->names[1] = NULL
  *
  * Return: Success: # of comma-separated fields in "fields"
- *	   Failure: negative value
+ *       Failure: negative value
  *
  * Programmer:  Vailin Choi; Aug 2010
  *
@@ -157,7 +156,7 @@ H5LD_construct_vector(char *fields, H5LD_memb_t *listv[] /*OUT*/, hid_t par_tid)
 {
     int     nfields;               /* The # of comma-separated fields in "fields" */
     hbool_t end_of_fields = FALSE; /* end of "fields" */
-    char *  fields_ptr;            /* Pointer to "fields" */
+    char   *fields_ptr;            /* Pointer to "fields" */
     int     ret_value = FAIL;      /* Return value */
 
     HDassert(listv);
@@ -169,7 +168,7 @@ H5LD_construct_vector(char *fields, H5LD_memb_t *listv[] /*OUT*/, hid_t par_tid)
     /* Process till end of "fields" */
     while (!end_of_fields) {
         H5LD_memb_t *memb = NULL;       /* Pointer to structure for storing a field's info */
-        char *       cur;               /* Pointer to a member in a field */
+        char        *cur;               /* Pointer to a member in a field */
         size_t       len;               /* Estimated # of members in a field */
         hbool_t      gotcomma  = FALSE; /* A comma encountered */
         hbool_t      gotmember = FALSE; /* Getting member in a field */
@@ -251,8 +250,10 @@ H5LD_construct_vector(char *fields, H5LD_memb_t *listv[] /*OUT*/, hid_t par_tid)
                 goto done;
         } /* end if */
         else {
-            if (memb)
+            if (memb) {
+                HDfree(memb->names);
                 HDfree(memb);
+            }
             goto done;
         } /* end else */
     }     /* while !end_of_fields */
@@ -272,10 +273,10 @@ done:
  * Function: H5LD_get_dset_dims
  *
  * Purpose: To return the current size for each dimension of the
- *	    dataset's dataspace
+ *        dataset's dataspace
  *
  * Return: Success: 0
- *	   Failure: negative value
+ *       Failure: negative value
  *
  * Programmer:  Vailin Choi; March 2010
  *
@@ -316,12 +317,12 @@ done:
  * Function: H5LD_get_dset_type_size
  *
  * Purpose: To return the size of the dataset's datatype in bytes
- *	null "fields": return the size of the dataset's datatype
- *	non-null "fields": return the size of the dataset's datatype
- *			   with respect to the selection in "fields"
+ *    null "fields": return the size of the dataset's datatype
+ *    non-null "fields": return the size of the dataset's datatype
+ *               with respect to the selection in "fields"
  *
  * Return: Success: size of the dataset's datatype
- *	   Failure: 0 (valid datatypes are never zero size)
+ *       Failure: 0 (valid datatypes are never zero size)
  *
  * Programmer:  Vailin Choi; March 2010
  *
@@ -333,7 +334,7 @@ H5LD_get_dset_type_size(hid_t did, const char *fields)
     hid_t         dset_tid   = -1;   /* Dataset's type identifier */
     hid_t         tid        = -1;   /* Native Type identifier */
     H5LD_memb_t **listv      = NULL; /* Vector for storing information in "fields" */
-    char *        dup_fields = NULL; /* A copy of "fields" */
+    char         *dup_fields = NULL; /* A copy of "fields" */
     size_t        ret_value  = 0;    /* Return value */
 
     /* Get the datatype of the dataset */
@@ -402,7 +403,7 @@ done:
  * Purpose: To retrieve selected data from the dataset
  *
  * Return: Success: 0
- *	   Failure: negative
+ *       Failure: negative
  *
  * Programmer:  Vailin Choi; August 2010
  *
@@ -419,8 +420,8 @@ H5LD_get_dset_elmts(hid_t did, const hsize_t *prev_dims, const hsize_t *cur_dims
     hsize_t       start[H5S_MAX_RANK]; /* Starting offset */
     hsize_t       count[H5S_MAX_RANK]; /* ??offset */
     H5LD_memb_t **listv      = NULL;   /* Vector for storing information in "fields" */
-    char *        dup_fields = NULL;   /* A copy of "fields" */
-    char *        sav_buf    = NULL;   /* Saved pointer temporary buffer */
+    char         *dup_fields = NULL;   /* A copy of "fields" */
+    char         *sav_buf    = NULL;   /* Saved pointer temporary buffer */
     unsigned      ctr;                 /* Counter for # of curr_dims > prev_dims */
     int           ndims;               /* Number of dimensions for the dataset */
     int           i;                   /* Local index variable */
@@ -492,7 +493,7 @@ H5LD_get_dset_elmts(hid_t did, const hsize_t *prev_dims, const hsize_t *cur_dims
     }                                                /* end if */
     else {                                           /* "fields" is specified */
         unsigned char *buf_p = (unsigned char *)buf; /* Pointer to the destination buffer */
-        char *         tmp_buf;                      /* Temporary buffer for data read */
+        char          *tmp_buf;                      /* Temporary buffer for data read */
         size_t         tot_tsize;                    /* Total datatype size */
         size_t         len; /* Estimate the number of comma-separated fields in "fields" */
 
@@ -578,7 +579,7 @@ done:
  * Purpose: To retrieve the current dimension sizes for a dataset
  *
  * Return: Success: 0
- *	   Failure: negative value
+ *       Failure: negative value
  *
  * Programmer:  Vailin Choi; March 2010
  *
@@ -596,7 +597,7 @@ H5LDget_dset_dims(hid_t did, hsize_t *cur_dims)
  * Purpose:  To return the size in bytes of the datatype for the dataset
  *
  * Return: Success: size in bytes of the dataset's datatype
- *	   Failure: 0 (valid datatypes are never zero size)
+ *       Failure: 0 (valid datatypes are never zero size)
  *
  * Programmer:  Vailin Choi; March 2010
  *
@@ -614,7 +615,7 @@ H5LDget_dset_type_size(hid_t did, const char *fields)
  * Purpose: To retrieve selected data from the dataset
  *
  * Return: Success: 0
- *	   Failure: negative value
+ *       Failure: negative value
  *
  * Programmer:  Vailin Choi; March 2010
  *
