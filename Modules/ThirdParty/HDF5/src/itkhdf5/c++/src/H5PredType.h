@@ -29,7 +29,7 @@ class H5_DLLCPP PredType : public AtomType {
   public:
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const
     {
         return ("PredType");
     }
@@ -42,7 +42,7 @@ class H5_DLLCPP PredType : public AtomType {
     PredType(const PredType &original);
 
     // Noop destructor
-    virtual ~PredType() H5_OVERRIDE;
+    virtual ~PredType();
 
     /*! \brief This dummy function do not inherit from DataType - it will
         throw a DataTypeIException if invoked.

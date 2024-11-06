@@ -47,7 +47,7 @@ class H5_DLLCPP DataType : public H5Object {
     //        PropList& plist = PropList::DEFAULT);
 
     // Closes this datatype.
-    virtual void close() H5_OVERRIDE;
+    virtual void close();
 
     // Copies an existing datatype to this datatype object.
     void copy(const DataType &like_type);
@@ -133,7 +133,7 @@ class H5_DLLCPP DataType : public H5Object {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const
     {
         return ("DataType");
     }
@@ -148,10 +148,10 @@ class H5_DLLCPP DataType : public H5Object {
     bool hasBinaryDesc() const;
 
     // Gets the datatype id.
-    virtual hid_t getId() const H5_OVERRIDE;
+    virtual hid_t getId() const;
 
     // Destructor: properly terminates access to this datatype.
-    virtual ~DataType() H5_OVERRIDE;
+    virtual ~DataType();
 
   protected:
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -162,7 +162,7 @@ class H5_DLLCPP DataType : public H5Object {
     hid_t p_decode() const;
 
     // Sets the datatype id.
-    virtual void p_setId(const hid_t new_id) H5_OVERRIDE;
+    virtual void p_setId(const hid_t new_id);
 
     // Opens a datatype and returns the id.
     hid_t p_opentype(const H5Location &loc, const char *dtype_name) const;
