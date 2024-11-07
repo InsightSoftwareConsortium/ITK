@@ -153,7 +153,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::EnlargeO
 {
   // this filter requires the all of the output image to be in
   // the buffer
-  TOutputImage * imgData = dynamic_cast<TOutputImage *>(output);
+  auto * imgData = dynamic_cast<TOutputImage *>(output);
   if (imgData)
   {
     imgData->SetRequestedRegionToLargestPossibleRegion();

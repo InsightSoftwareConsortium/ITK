@@ -59,7 +59,7 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::CopyInformation(const DataObject * data)
 {
-  const Superclass * mesh = dynamic_cast<const Superclass *>(data);
+  const auto * mesh = dynamic_cast<const Superclass *>(data);
 
   if (mesh == nullptr)
   {

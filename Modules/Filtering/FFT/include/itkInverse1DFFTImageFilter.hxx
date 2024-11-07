@@ -73,7 +73,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 Inverse1DFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * out)
 {
-  OutputImageType * output = dynamic_cast<OutputImageType *>(out);
+  auto * output = dynamic_cast<OutputImageType *>(out);
 
   // we need to enlarge the region in the fft direction to the
   // largest possible in that direction

@@ -107,7 +107,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::EnlargeOutputRequestedRegion(Data
 {
   // this filter requires that all of the output images
   // are in the buffer
-  TClassifiedImage * imgData = dynamic_cast<TClassifiedImage *>(output);
+  auto * imgData = dynamic_cast<TClassifiedImage *>(output);
   imgData->SetRequestedRegionToLargestPossibleRegion();
 }
 

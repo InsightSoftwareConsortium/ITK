@@ -197,7 +197,7 @@ template <typename TPixel, unsigned int VImageDimension>
 void
 GPUImage<TPixel, VImageDimension>::Graft(const DataObject * data)
 {
-  const Self * ptr = dynamic_cast<const Self *>(data);
+  const auto * ptr = dynamic_cast<const Self *>(data);
   if (ptr)
   {
     this->Graft(ptr);

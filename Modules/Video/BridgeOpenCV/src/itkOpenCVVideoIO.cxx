@@ -350,7 +350,7 @@ OpenCVVideoIO::Read(void * buffer)
   this->UpdateReaderProperties();
 
   // Put the frame's buffer into the supplied output buffer
-  void * tempBuffer = reinterpret_cast<void *>(this->m_CVImage->imageData);
+  auto * tempBuffer = reinterpret_cast<void *>(this->m_CVImage->imageData);
   size_t bufferSize = this->m_CVImage->imageSize;
   memcpy(buffer, tempBuffer, bufferSize);
 }

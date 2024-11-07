@@ -1211,7 +1211,7 @@ SpatialObject<TDimension>::CopyInformation(const DataObject * data)
   Superclass::CopyInformation(data);
 
   // Attempt to cast data to an ImageBase
-  const SpatialObject<TDimension> * soData = dynamic_cast<const SpatialObject<TDimension> *>(data);
+  const auto * soData = dynamic_cast<const SpatialObject<TDimension> *>(data);
 
   if (soData == nullptr)
   {

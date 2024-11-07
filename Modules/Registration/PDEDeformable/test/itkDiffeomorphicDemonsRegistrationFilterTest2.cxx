@@ -154,7 +154,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
   registrator->InPlaceOn();
 
 
-  FunctionType * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
+  auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   fptr->Print(std::cout);
 
   // exercise other member variables

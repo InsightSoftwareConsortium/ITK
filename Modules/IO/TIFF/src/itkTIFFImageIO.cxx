@@ -1264,7 +1264,7 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
       itkExceptionMacro("Cannot read TIFF image as a TIFF RGBA image");
     }
 
-    unsigned char * out = static_cast<unsigned char *>(buffer) + pixelOffset;
+    auto * out = static_cast<unsigned char *>(buffer) + pixelOffset;
     RGBAImageToBuffer<unsigned char>(out, tempImage);
   }
   else
