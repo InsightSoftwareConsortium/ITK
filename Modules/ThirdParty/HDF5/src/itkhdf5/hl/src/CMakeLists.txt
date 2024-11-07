@@ -1,6 +1,4 @@
-#[[ ITK --start
 cmake_minimum_required (VERSION 3.12)
-# ITK --stop ]]
 project (HDF5_HL_SRC C)
 
 #-----------------------------------------------------------------------------

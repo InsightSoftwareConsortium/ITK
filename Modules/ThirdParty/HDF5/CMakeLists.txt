@@ -7,17 +7,6 @@ set(ITKHDF5_THIRD_PARTY 1)
 # modified before reaching this point)
 set(BUILD_SHARED_LIBS ${ITK_BUILD_SHARED_LIBS})
 
-if (BUILD_SHARED_LIBS)
-   add_definitions(-DH5_BUILT_AS_DYNAMIC_LIB=1)
-   set(ONLY_SHARED_LIBS ON CACHE INTERNAL "Only build shared")
-else()
-   set(ONLY_SHARED_LIBS OFF CACHE INTERNAL "Only build static")
-endif()
-if(CMAKE_LINKER MATCHES "link.exe$")
-  # Suppress undefined public symbols warning
-  set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /IGNORE:4221")
-endif()
-
 if(ITK_USE_SYSTEM_HDF5)
 
   if(HDF5_DIR)

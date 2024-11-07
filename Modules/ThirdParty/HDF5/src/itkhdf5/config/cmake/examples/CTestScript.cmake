@@ -9,9 +9,7 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
-#[[ ITK --start
 cmake_minimum_required (VERSION 3.12)
-# ITK --stop ]]
 ########################################################
 # For any comments please contact cdashhelp@hdfgroup.org
 #
