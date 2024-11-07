@@ -328,9 +328,7 @@ testStringToolsWithItkArray()
 void
 testStringToolsForStringOperations()
 {
-  std::string s;
-
-  s = " Hello World! ";
+  std::string s = " Hello World! ";
   if (itk::StringTools::TrimLeft(s) != "Hello World! ")
   {
     throw "testStringToolsForStringOperations: failed trimming left";

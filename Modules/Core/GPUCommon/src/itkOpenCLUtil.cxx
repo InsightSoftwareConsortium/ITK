@@ -443,8 +443,7 @@ GetValidTypename(const std::type_info & intype, const std::vector<std::string> &
 {
   std::string                              typestr = GetTypename(intype);
   bool                                     isValid = false;
-  std::vector<std::string>::const_iterator validPos;
-  validPos = std::find(validtypes.begin(), validtypes.end(), typestr);
+  std::vector<std::string>::const_iterator validPos = std::find(validtypes.begin(), validtypes.end(), typestr);
   if (validPos != validtypes.end())
   {
     isValid = true;

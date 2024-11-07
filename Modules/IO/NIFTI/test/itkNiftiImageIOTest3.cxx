@@ -156,8 +156,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::string message;
-    message = "Problem found while writing image ";
+    std::string message = "Problem found while writing image ";
     message += fname;
     message += "\n";
     message += ex.GetLocation();
@@ -176,8 +175,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::string message;
-    message = "Problem found while reading image ";
+    std::string message = "Problem found while reading image ";
     message += fname;
     message += "\n";
     message += ex.GetLocation();
