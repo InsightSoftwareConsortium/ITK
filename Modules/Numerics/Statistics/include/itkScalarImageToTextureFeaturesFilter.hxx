@@ -112,9 +112,7 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
 {
   size_t    numOffsets = m_Offsets->size();
   size_t    numFeatures = m_RequestedFeatures->size();
-  double ** features;
-
-  features = new double *[numOffsets];
+  double ** features = new double *[numOffsets];
   for (size_t i = 0; i < numOffsets; ++i)
   {
     features[i] = new double[numFeatures];

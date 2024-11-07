@@ -182,8 +182,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
 
   std::cout << "\n\n\nPrinting function" << std::endl;
   using FunctionType = RegistrationType::RegistrationFunctionType;
-  FunctionType * fptr;
-  fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
+  FunctionType * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   fptr->Print(std::cout);
 
   // exercise other member variables

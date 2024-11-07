@@ -364,8 +364,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // This is a bit tricky to get the value as there is sometime no white
       // space
       // only a ':' separate field from value, we assume there is no other ':'
-      char * pch;
-      pch = strchr(line, ':');
+      char * pch = strchr(line, ':');
       sscanf(++pch, "%s", m_FidName); // delete any white space left
       itkDebugMacro("fidName was specified");
     }
@@ -376,8 +375,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // This is a bit tricky to get the value as there is sometime no white
       // space
       // only a ':' separate field from value, we assume there is no other ':'
-      char * pch;
-      pch = strchr(line, ':');
+      char * pch = strchr(line, ':');
       sscanf(++pch, "%s", m_SdtOrient); // delete any white space left
       itkDebugMacro("Orientation was specified");
     }

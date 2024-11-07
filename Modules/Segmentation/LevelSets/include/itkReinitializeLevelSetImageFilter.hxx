@@ -83,9 +83,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::EnlargeOutputRequestedRegion(DataObj
 {
   // this filter requires the all of the output image to be in
   // the buffer
-  TLevelSet * imgData;
-
-  imgData = dynamic_cast<TLevelSet *>(output);
+  TLevelSet * imgData = dynamic_cast<TLevelSet *>(output);
   if (imgData)
   {
     imgData->SetRequestedRegionToLargestPossibleRegion();

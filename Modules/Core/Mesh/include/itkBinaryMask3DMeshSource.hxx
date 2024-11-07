@@ -1378,11 +1378,9 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
 
   typename TriCell::CellAutoPointer        insertCell;
   typename OutputMeshType::PointIdentifier tripoints[3];
-  unsigned char *                          tp;
-  tp = (unsigned char *)malloc(3 * sizeof(unsigned char));
+  unsigned char *                          tp = (unsigned char *)malloc(3 * sizeof(unsigned char));
 
-  IdentifierType * tpl;
-  tpl = (IdentifierType *)malloc(3 * sizeof(IdentifierType));
+  IdentifierType * tpl = (IdentifierType *)malloc(3 * sizeof(IdentifierType));
 
   switch (static_cast<int>(celltype))
   {

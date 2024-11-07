@@ -678,8 +678,7 @@ GDCMImageIO::InternalReadImageInformation()
     break;
     default:
     {
-      const double * sp;
-      sp = image.GetSpacing();
+      const double * sp = image.GetSpacing();
       spacing[0] = sp[0];
       spacing[1] = sp[1];
       spacing[2] = sp[2];

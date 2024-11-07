@@ -95,9 +95,7 @@ void
 CurvatureFlowImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * ptr)
 {
   // convert DataObject pointer to OutputImageType pointer
-  OutputImageType * outputPtr;
-
-  outputPtr = dynamic_cast<OutputImageType *>(ptr);
+  OutputImageType * outputPtr = dynamic_cast<OutputImageType *>(ptr);
 
   // get input image pointer
   typename Superclass::InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());

@@ -197,8 +197,7 @@ template <typename TOutputImage>
 void
 RandomImageSource<TOutputImage>::GenerateOutputInformation()
 {
-  TOutputImage * output;
-  output = this->GetOutput(0);
+  TOutputImage * output = this->GetOutput(0);
 
   const typename TOutputImage::RegionType largestPossibleRegion(this->m_Size);
   output->SetLargestPossibleRegion(largestPossibleRegion);

@@ -152,8 +152,7 @@ setInt2DData(IntImageType2D::Pointer imgPtr)
 bool
 VerifyResultsHigherOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResults)
 {
-  double * ERptr;
-  ERptr = ExpectedResults;
+  double * ERptr = ExpectedResults;
 
   InputIterator ActualResultsIter(ActualResults, ActualResults->GetLargestPossibleRegion());
   double        percentErr = 0;
@@ -180,8 +179,7 @@ VerifyResultsHigherOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedRe
 bool
 VerifyResults3rdOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResults)
 {
-  double * ERptr;
-  ERptr = ExpectedResults;
+  double * ERptr = ExpectedResults;
 
   InputIterator ActualResultsIter(ActualResults, ActualResults->GetLargestPossibleRegion());
 
@@ -202,8 +200,7 @@ VerifyResults3rdOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResul
 bool
 VerifyResults2ndOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResults)
 {
-  double * ERptr;
-  ERptr = ExpectedResults;
+  double * ERptr = ExpectedResults;
 
   InputIterator ActualResultsIter(ActualResults, ActualResults->GetLargestPossibleRegion());
   double        percentErr = 0;
@@ -231,8 +228,7 @@ VerifyResults2ndOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResul
 bool
 VerifyResultsLowerOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResults)
 {
-  double * ERptr;
-  ERptr = ExpectedResults;
+  double * ERptr = ExpectedResults;
 
   InputIterator ActualResultsIter(ActualResults, ActualResults->GetLargestPossibleRegion());
   double        percentErr = 0;
