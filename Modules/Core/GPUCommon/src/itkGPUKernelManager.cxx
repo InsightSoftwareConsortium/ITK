@@ -130,8 +130,7 @@ GPUKernelManager::LoadProgramFromFile(const char * filename, const char * cPream
     // get error message size
     clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, 0, nullptr, &paramValueSize);
 
-    char * paramValue;
-    paramValue = (char *)malloc(paramValueSize);
+    char * paramValue = (char *)malloc(paramValueSize);
 
     // get error message
     clGetProgramBuildInfo(
@@ -208,8 +207,7 @@ GPUKernelManager::LoadProgramFromString(const char * cSource, const char * cPrea
     // get error message size
     clGetProgramBuildInfo(m_Program, m_Manager->GetDeviceId(0), CL_PROGRAM_BUILD_LOG, 0, nullptr, &paramValueSize);
 
-    char * paramValue;
-    paramValue = (char *)malloc(paramValueSize);
+    char * paramValue = (char *)malloc(paramValueSize);
 
     // get error message
     clGetProgramBuildInfo(

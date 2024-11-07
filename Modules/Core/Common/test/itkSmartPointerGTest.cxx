@@ -278,9 +278,7 @@ TEST(SmartPointer, ConvertingRegisterCount)
     Derived1Pointer d1ptr = Derived1::New();
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-    Derived1 * rptr;
-
-    rptr = d1ptr;
+    Derived1 * rptr = d1ptr;
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
     EXPECT_TRUE(rptr != nullptr);
   }
@@ -290,9 +288,7 @@ TEST(SmartPointer, ConvertingRegisterCount)
     Derived1Pointer d1ptr = Derived1::New();
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-    const Derived1 * rptr;
-
-    rptr = d1ptr;
+    const Derived1 * rptr = d1ptr;
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
     EXPECT_TRUE(rptr != nullptr);
   }

@@ -264,8 +264,7 @@ TemporalDataObject::CopyInformation(const DataObject * data)
   // Standard call to the superclass' method
   Superclass::CopyInformation(data);
 
-  const TemporalDataObject * temporalData;
-  temporalData = dynamic_cast<const TemporalDataObject *>(data);
+  const TemporalDataObject * temporalData = dynamic_cast<const TemporalDataObject *>(data);
 
   if (temporalData)
   {
@@ -292,9 +291,7 @@ TemporalDataObject::CopyInformation(const DataObject * data)
 void
 TemporalDataObject::Graft(const DataObject * data)
 {
-  const TemporalDataObject * temporalData;
-
-  temporalData = dynamic_cast<const TemporalDataObject *>(data);
+  const TemporalDataObject * temporalData = dynamic_cast<const TemporalDataObject *>(data);
 
   if (temporalData)
   {
@@ -324,9 +321,7 @@ TemporalDataObject::Graft(const DataObject * data)
 void
 TemporalDataObject::SetRequestedRegion(const DataObject * data)
 {
-  const TemporalDataObject * temporalData;
-
-  temporalData = dynamic_cast<const TemporalDataObject *>(data);
+  const TemporalDataObject * temporalData = dynamic_cast<const TemporalDataObject *>(data);
 
   if (temporalData)
   {

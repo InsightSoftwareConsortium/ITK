@@ -122,9 +122,8 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   outputPtr->SetLargestPossibleRegion(m_OutputImageRegion);
 
   // Set the output spacing and origin
-  const ImageBase<InputImageDimension> * phyData;
-
-  phyData = dynamic_cast<const ImageBase<InputImageDimension> *>(this->GetInput());
+  const ImageBase<InputImageDimension> * phyData =
+    dynamic_cast<const ImageBase<InputImageDimension> *>(this->GetInput());
 
   if (phyData == nullptr)
   {

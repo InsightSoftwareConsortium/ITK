@@ -328,9 +328,7 @@ void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   // This filter requires all of the input image to be in the buffer
-  TOutputImage * imgData;
-
-  imgData = dynamic_cast<TOutputImage *>(output);
+  TOutputImage * imgData = dynamic_cast<TOutputImage *>(output);
   if (imgData)
   {
     imgData->SetRequestedRegionToLargestPossibleRegion();

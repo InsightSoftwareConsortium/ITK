@@ -104,8 +104,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
             << std::endl;
 
   std::cout << "Test IplImage -> itk::Image..." << std::endl;
-  IplImage * inIpl;
-  inIpl = cvLoadImage(argv, CV_LOAD_IMAGE_ANYDEPTH);
+  IplImage * inIpl = cvLoadImage(argv, CV_LOAD_IMAGE_ANYDEPTH);
   if (!inIpl)
   {
     std::cerr << "Could not load input as IplImage" << std::endl;

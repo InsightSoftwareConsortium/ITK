@@ -230,8 +230,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   ITK_TEST_SET_GET_BOOLEAN(registrator, InPlace, inPlace);
 
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
-  FunctionType * fptr;
-  fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
+  FunctionType * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   fptr->Print(std::cout);
 
   using ProgressType = ShowProgressObject<RegistrationType>;

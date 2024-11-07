@@ -638,8 +638,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   Superclass::EnlargeOutputRequestedRegion(ptr);
 
   // set the output requested region to largest possible.
-  DisplacementFieldType * outputPtr;
-  outputPtr = dynamic_cast<DisplacementFieldType *>(ptr);
+  DisplacementFieldType * outputPtr = dynamic_cast<DisplacementFieldType *>(ptr);
 
   if (outputPtr)
   {

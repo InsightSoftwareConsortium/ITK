@@ -83,8 +83,7 @@ itkLoggerManagerTest(int argc, char * argv[])
     manager->Write(itk::Logger::PriorityLevelEnum::FATAL, "This is the FATAL message.\n");
     manager->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     std::cout << "  Message #3" << std::endl;
-    itk::Logger * pLogger;
-    pLogger = manager->GetLogger("org.itk.logTester.logger");
+    itk::Logger * pLogger = manager->GetLogger("org.itk.logTester.logger");
     if (pLogger == nullptr)
     {
       throw "LoggerManager::GetLogger() failed";
