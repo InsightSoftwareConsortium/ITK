@@ -206,9 +206,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
   val[1] = 8;
   baselineVectorList.emplace_back(val);
 
-  std::vector<MeasurementVectorType>::const_iterator it;
-
-  it = baselineVectorList.begin();
+  std::vector<MeasurementVectorType>::const_iterator it = baselineVectorList.begin();
 
   while (s_iter != sample->End())
   {

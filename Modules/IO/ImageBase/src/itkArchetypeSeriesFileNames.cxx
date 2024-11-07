@@ -183,8 +183,7 @@ ArchetypeSeriesFileNames::Scan()
     fit->NumericSortOn();
     names = fit->GetFileNames();
 
-    std::vector<std::string>::iterator ait;
-    ait = std::find(names.begin(), names.end(), pathPrefix + unixArchetype);
+    std::vector<std::string>::iterator ait = std::find(names.begin(), names.end(), pathPrefix + unixArchetype);
 
     // Accept the list if it contains the archetype and is not the
     // "trivial" list (containing only the archetype)

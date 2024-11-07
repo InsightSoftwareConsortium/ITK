@@ -65,8 +65,7 @@ itkNarrowBandTest(int, char *[])
   }
 
   // Split the band
-  std::vector<RegionType> regions;
-  regions = band->SplitBand(10);
+  std::vector<RegionType> regions = band->SplitBand(10);
   //  RegionType region;
   using regionitType = std::vector<RegionType>::const_iterator;
   regionitType regionsit = regions.begin();

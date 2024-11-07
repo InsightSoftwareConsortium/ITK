@@ -760,9 +760,7 @@ MINCImageIO::ReadImageInformation()
         {
           mitype_t    att_data_type;
           size_t      att_length;
-          std::string entry_key;
-
-          entry_key = group_name;
+          std::string entry_key = group_name;
           entry_key += ":";
           entry_key += attribute;
 

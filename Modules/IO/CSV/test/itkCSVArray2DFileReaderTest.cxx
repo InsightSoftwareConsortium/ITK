@@ -207,8 +207,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   }
 
   // Test Row Names
-  std::vector<std::string> test_row_names;
-  test_row_names = dfo->GetRowHeaders();
+  std::vector<std::string> test_row_names = dfo->GetRowHeaders();
 
   std::vector<std::string> row_names;
   row_names.emplace_back("Jan");
@@ -225,8 +224,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   PrintVector(test_row_names);
 
   // Test Column Names
-  std::vector<std::string> test_col_names;
-  test_col_names = dfo->GetColumnHeaders();
+  std::vector<std::string> test_col_names = dfo->GetColumnHeaders();
 
   std::vector<std::string> col_names;
   col_names.emplace_back("Africa");
@@ -244,8 +242,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
 
   // Test a row (using index access)
-  std::vector<double> test_row_1;
-  test_row_1 = dfo->GetRow(1);
+  std::vector<double> test_row_1 = dfo->GetRow(1);
 
   std::vector<double> row_1;
   row_1.push_back(99);
@@ -262,8 +259,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   PrintVector(test_row_1);
 
   // Test a row (using string access)
-  std::vector<double> test_row_Jan;
-  test_row_Jan = dfo->GetRow("Jan");
+  std::vector<double> test_row_Jan = dfo->GetRow("Jan");
 
   std::vector<double> row_Jan;
   row_Jan.push_back(nan);
@@ -281,8 +277,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   PrintVector(test_row_Jan);
 
   // Test a column (using index)
-  std::vector<double> test_col_2;
-  test_col_2 = dfo->GetColumn(2);
+  std::vector<double> test_col_2 = dfo->GetColumn(2);
 
   std::vector<double> col_2;
   col_2.push_back(5);
@@ -299,8 +294,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   PrintVector(col_2);
 
   // Test a column (using string access)
-  std::vector<double> test_col_Africa;
-  test_col_Africa = dfo->GetColumn("Africa");
+  std::vector<double> test_col_Africa = dfo->GetColumn("Africa");
 
   std::vector<double> col_Africa;
   col_Africa.push_back(nan);
@@ -319,8 +313,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   // Test a row that does not exist
   try
   {
-    std::vector<double> test_row_Oct;
-    test_row_Oct = dfo->GetRow("Oct");
+    std::vector<double> test_row_Oct = dfo->GetRow("Oct");
     if (!test_row_Oct.empty())
     {
       std::cerr << "Row should be empty! Test Failed!";
@@ -336,8 +329,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   try
   {
     // Test column that does not exist
-    std::vector<double> test_col_Eur;
-    test_col_Eur = dfo->GetColumn("Eur");
+    std::vector<double> test_col_Eur = dfo->GetColumn("Eur");
     if (!test_col_Eur.empty())
     {
       std::cerr << "Column should be empty! Test Failed!";
