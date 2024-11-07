@@ -33,7 +33,6 @@ FileOutputWindow::FileOutputWindow()
 FileOutputWindow::~FileOutputWindow()
 {
   delete m_Stream;
-  m_Stream = nullptr;
 }
 
 void
