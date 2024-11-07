@@ -640,7 +640,7 @@ template <typename TInputImage>
 void
 ContourExtractor2DImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
-  InputImageType * input = const_cast<InputImageType *>(this->GetInput());
+  auto * input = const_cast<InputImageType *>(this->GetInput());
 
   if (!input)
   {

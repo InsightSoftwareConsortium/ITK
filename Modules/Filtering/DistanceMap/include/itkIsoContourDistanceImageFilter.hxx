@@ -80,7 +80,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequested
 {
   // this filter requires the all of the output image to be in
   // the buffer
-  TOutputImage * imgData = dynamic_cast<TOutputImage *>(output);
+  auto * imgData = dynamic_cast<TOutputImage *>(output);
   if (imgData)
   {
     imgData->SetRequestedRegionToLargestPossibleRegion();
@@ -126,7 +126,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreaderFullCallback(v
   ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
   using FilterStruct = typename ImageSource<TOutputImage>::ThreadStruct;
   auto * str = (FilterStruct *)(workUnitInfo->UserData);
-  Self * filter = static_cast<Self *>(str->Filter.GetPointer());
+  auto * filter = static_cast<Self *>(str->Filter.GetPointer());
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

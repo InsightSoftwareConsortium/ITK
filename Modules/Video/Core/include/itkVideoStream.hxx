@@ -610,7 +610,7 @@ VideoStream<TFrameType>::Allocate()
                         << ". Call "
                            "InitializeEmptyFrames to prepare the frame buffer correctly.");
     }
-    FrameType * frame = dynamic_cast<FrameType *>(m_DataObjectBuffer->GetBufferContents(i).GetPointer());
+    auto * frame = dynamic_cast<FrameType *>(m_DataObjectBuffer->GetBufferContents(i).GetPointer());
     if (!frame)
     {
       itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "

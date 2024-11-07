@@ -367,9 +367,9 @@ GDCMImageIO::Read(void * pointer)
 
   if (m_SingleBit)
   {
-    const auto      copy = make_unique_for_overwrite<unsigned char[]>(len);
-    unsigned char * t = reinterpret_cast<unsigned char *>(pointer);
-    size_t          j = 0;
+    const auto copy = make_unique_for_overwrite<unsigned char[]>(len);
+    auto *     t = reinterpret_cast<unsigned char *>(pointer);
+    size_t     j = 0;
     for (size_t i = 0; i < len / 8; ++i)
     {
       const unsigned char c = t[i];

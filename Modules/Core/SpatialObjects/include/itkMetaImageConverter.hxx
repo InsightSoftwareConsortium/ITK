@@ -28,7 +28,7 @@ template <unsigned int VDimension, typename PixelType, typename TSpatialObjectTy
 auto
 MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::CreateMetaObject() -> MetaObjectType *
 {
-  MetaObjectType * mo = dynamic_cast<MetaObjectType *>(new ImageMetaObjectType);
+  auto * mo = dynamic_cast<MetaObjectType *>(new ImageMetaObjectType);
   mo->APIVersion(1);
   mo->FileFormatVersion(1);
   return mo;

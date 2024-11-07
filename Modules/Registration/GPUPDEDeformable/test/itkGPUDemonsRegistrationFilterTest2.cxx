@@ -202,7 +202,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   registrator->UseMovingImageGradientOff();
 
   using FunctionType = RegistrationType::GPUDemonsRegistrationFunctionType;
-  FunctionType * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
+  auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   if (!fptr)
   {
     std::cout << "Invalid demons registration function ptr" << std::endl;

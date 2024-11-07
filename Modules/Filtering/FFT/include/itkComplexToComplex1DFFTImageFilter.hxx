@@ -72,7 +72,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
-  OutputImageType * outputPtr = dynamic_cast<OutputImageType *>(output);
+  auto * outputPtr = dynamic_cast<OutputImageType *>(output);
 
   // we need to enlarge the region in the fft direction to the
   // largest possible in that direction

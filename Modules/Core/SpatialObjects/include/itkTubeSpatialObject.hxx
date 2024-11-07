@@ -60,7 +60,7 @@ TubeSpatialObject<TDimension, TTubePointType>::CopyInformation(const DataObject 
   Superclass::CopyInformation(data);
 
   // Attempt to cast data to an ImageBase
-  const TubeSpatialObject<TDimension> * soData = dynamic_cast<const TubeSpatialObject<TDimension> *>(data);
+  const auto * soData = dynamic_cast<const TubeSpatialObject<TDimension> *>(data);
 
   if (soData == nullptr)
   {

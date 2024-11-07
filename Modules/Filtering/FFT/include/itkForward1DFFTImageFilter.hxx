@@ -37,7 +37,7 @@ Forward1DFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  InputImageType *  input = const_cast<InputImageType *>(this->GetInput());
+  auto *            input = const_cast<InputImageType *>(this->GetInput());
   OutputImageType * output = this->GetOutput();
 
   // we need to compute the input requested region (size and start index)
@@ -68,7 +68,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 Forward1DFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * out)
 {
-  OutputImageType * output = dynamic_cast<OutputImageType *>(out);
+  auto * output = dynamic_cast<OutputImageType *>(out);
 
   // we need to enlarge the region in the fft direction to the
   // largest possible in that direction
