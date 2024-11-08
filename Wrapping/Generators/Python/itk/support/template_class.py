@@ -30,6 +30,7 @@ import itkConfig
 from itk.support import base
 from itk.support.extras import output
 from itk.support.types import itkCType
+from itk.support.helpers import snake_to_camel_case
 import math
 from collections.abc import Mapping
 
@@ -718,6 +719,20 @@ class itkTemplate(Mapping):
             # try to find a type suitable for the input provided
             input_type = output(cur).__class__
             keys = ttype_for_input_type(keys, input_type)
+        else:
+            inst = self.values()[0].New()
+            if hasattr(inst, "GetRequiredInputNames"):
+                required_input_names = inst.GetRequiredInputNames()
+                if len(required_input_names) > 0:
+                    primary_input_name = required_input_names[0]
+                    kwargs_camel = {snake_to_camel_case(k): v for k,v in kwargs.items()}
+                    if primary_input_name in kwargs_camel.keys():
+                        input_type = output(kwargs_camel[primary_input_name]).__class__
+                        keys = ttype_for_input_type(keys, input_type)
+                        if not hasattr(inst, f"Set{primary_input_name}"):
+                            arg_0 = kwargs_camel.pop(primary_input_name)
+                            kwargs = kwargs_camel
+                            args = (arg_0,) + args
 
         if len(keys) == 0:
             if not input_type:

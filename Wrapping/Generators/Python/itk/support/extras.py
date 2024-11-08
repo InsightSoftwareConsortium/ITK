@@ -39,6 +39,7 @@ import itk.support.types as itkt
 from .helpers import wasm_type_from_image_type, image_type_from_wasm_type
 from .helpers import wasm_type_from_mesh_type, mesh_type_from_wasm_type, python_to_js
 from .helpers import wasm_type_from_pointset_type, pointset_type_from_wasm_type
+from .helpers import snake_to_camel_case
 
 from .xarray import xarray_from_image, image_from_xarray
 
@@ -1554,17 +1555,6 @@ def search(s: str, case_sensitive: bool = False) -> List[str]:  # , fuzzy=True):
     return res
 
 
-def _snake_to_camel(keyword: str):
-    # Helpers for set_inputs snake case to CamelCase keyword argument conversion
-    _snake_underscore_re = re.compile("(_)([a-z0-9A-Z])")
-
-    def _underscore_upper(match_obj):
-        return match_obj.group(2).upper()
-
-    camel = keyword[0].upper()
-    if _snake_underscore_re.search(keyword[1:]):
-        return camel + _snake_underscore_re.sub(_underscore_upper, keyword[1:])
-    return camel + keyword[1:]
 
 
 def set_inputs(
@@ -1658,7 +1648,7 @@ def set_inputs(
         # (Ex: itk.ImageFileReader.UC2.New(SetFileName='image.png'))
         if attribName not in ["auto_progress", "template_parameters"]:
             if attribName.islower():
-                attribName = _snake_to_camel(attribName)
+                attribName = snake_to_camel_case(attribName)
             attrib = getattr(new_itk_object, "Set" + attribName)
 
             # Do not use try-except mechanism as this leads to
@@ -2164,7 +2154,7 @@ def ipython_kw_matches(text: str):
             namespace = split_name_parts[:-1]
             function_name = split_name_parts[-1]
             # Find corresponding object name
-            object_name = _snake_to_camel(function_name)
+            object_name = snake_to_camel_case(function_name)
             # Check that this object actually exists
             try:
                 object_callable_match = ".".join(namespace + [object_name])

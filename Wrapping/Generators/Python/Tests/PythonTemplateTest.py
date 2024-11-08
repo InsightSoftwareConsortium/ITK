@@ -119,6 +119,17 @@ assert itk.class_(median) == itk.class_(median_args)
 median_kwarg = itk.MedianImageFilter.New(Input=reader.GetOutput())
 assert itk.class_(median) == itk.class_(median_kwarg)
 
+# filter type determined by the input passed as a primary input name input
+median_primary_kwarg = itk.MedianImageFilter.New(Primary=reader.GetOutput())
+assert itk.class_(median) == itk.class_(median_primary_kwarg)
+
+# First RequiredInputName: "FixedImage"
+fixed_image = reader.GetOutput()
+moving_image = fixed_image
+pde_registration = itk.PDEDeformableRegistrationFilter.New(
+    FixedImage=fixed_image, MovingImage=moving_image
+)
+
 # to a filter with a SetImage method
 calculator = itk.MinimumMaximumImageCalculator[ImageType].New(reader)
 # not GetImage() method here to verify it's the right image
