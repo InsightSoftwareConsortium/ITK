@@ -31,7 +31,6 @@ set(ITKImageGridTests
     itkPasteImageFilterTest.cxx
     itkPermuteAxesImageFilterTest.cxx
     itkOrientImageFilterTest.cxx
-    itkOrientImageFilterTest2.cxx
     itkWarpImageFilterTest.cxx
     itkWarpImageFilterTest2.cxx
     itkWarpVectorImageFilterTest.cxx
@@ -54,6 +53,11 @@ set(ITKImageGridTests
     itkZeroFluxNeumannPadImageFilterTest.cxx
     itkSliceBySliceImageFilterTest.cxx
     itkPadImageFilterTest.cxx)
+
+if( NOT ITK_FUTURE_LEGACY_REMOVE)
+    list(APPEND ITKImageGridTests itkOrientImageFilterTest2.cxx)
+endif()
+
 
 createtestdriver(ITKImageGrid "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridTests}")
 
