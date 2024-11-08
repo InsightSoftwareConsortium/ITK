@@ -1,6 +1,6 @@
 {
   "name": "@itk-wasm/mesh-to-poly-data",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Convert an ITK Mesh to a simple data structure compatible with vtkPolyData.",
   "type": "module",
   "module": "./dist/index.js",
