@@ -118,7 +118,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
   MapType fah;
 
   // the radius which will be used for all the shaped iterators
-  auto radius = Size<ImageDimension>::Filled(1);
+  constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   // iterator for the marker image
   using MarkerIteratorType = ConstShapedNeighborhoodIterator<LabelImageType>;

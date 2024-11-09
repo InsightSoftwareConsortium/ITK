@@ -362,7 +362,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         RealType spatialNorm{};
         RealType spatioTemporalNorm{};
 
-        auto radius = TimeVaryingVelocityFieldType::SizeType::Filled(1);
+        constexpr auto radius = TimeVaryingVelocityFieldType::SizeType::Filled(1);
 
         using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TimeVaryingVelocityFieldType>;
         FaceCalculatorType                        faceCalculator;

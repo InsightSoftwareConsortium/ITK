@@ -106,7 +106,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   typename OutputImageType::Pointer input = m_GaussianFilter->GetOutput();
 
   // Set iterator radius
-  auto radius = Size<ImageDimension>::Filled(1);
+  constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        bC;
@@ -320,7 +320,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::FollowEdge(IndexType  
   ListNodeType * node;
 
   // Assign iterator radius
-  auto radius = Size<ImageDimension>::Filled(1);
+  constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   ConstNeighborhoodIterator<TOutputImage> oit(
     radius, multiplyImageFilterOutput, multiplyImageFilterOutput->GetRequestedRegion());
@@ -395,7 +395,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   typename InputImageType::Pointer output = m_UpdateBuffer1;
 
   // Set iterator radius
-  auto radius = Size<ImageDimension>::Filled(1);
+  constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        bC;
