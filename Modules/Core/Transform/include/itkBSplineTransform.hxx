@@ -52,7 +52,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::BSplineTransfo
 
   DirectionType meshDirection;
   meshDirection.SetIdentity();
-  auto meshSize = MeshSizeType::Filled(1);
+  constexpr auto meshSize = MeshSizeType::Filled(1);
 
   this->m_FixedParameters.SetSize(VDimension * (VDimension + 3));
 
