@@ -64,7 +64,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   }
 
   // Set the radius for the neighborhood
-  auto radius = Size<ImageDimension>::Filled(VRadius);
+  constexpr auto radius = Size<ImageDimension>::Filled(VRadius);
 
   // Initialize the neighborhood
   IteratorType it(radius, image, image->GetBufferedRegion());
