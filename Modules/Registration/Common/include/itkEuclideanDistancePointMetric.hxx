@@ -19,6 +19,7 @@
 #define itkEuclideanDistancePointMetric_hxx
 
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include <cmath> // For abs.
 
 namespace itk
 {
@@ -89,10 +90,7 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
         minimumDistance = m_DistanceMap->GetPixel(index);
         // In case the provided distance map was signed,
         // we correct here the distance to take its absolute value.
-        if (minimumDistance < 0.0)
-        {
-          minimumDistance = -minimumDistance;
-        }
+        minimumDistance = std::abs(minimumDistance);
         closestPoint = true;
       }
     }

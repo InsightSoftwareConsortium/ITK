@@ -20,6 +20,7 @@
 #include "vnl/algo/vnl_determinant.h"
 
 #include <algorithm> // For copy_n.
+#include <cmath>     // For abs.
 
 namespace itk
 {
@@ -237,12 +238,7 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType   x,
     denom += static_cast<double>(v21[i] * v21[i]);
   }
 
-  // trying to avoid an expensive fabs
-  double tolerance = 1.e-05 * num;
-  if (tolerance < 0.0)
-  {
-    tolerance = -tolerance;
-  }
+  double tolerance = std::abs(1.e-05 * num);
   if ((-tolerance < denom) && (denom < tolerance)) // numerically bad!
   {
     closestPoint = p1; // arbitrary, point is (numerically) far away

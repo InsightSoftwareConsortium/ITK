@@ -329,11 +329,7 @@ FloatAlmostEqual(T                                        x1,
     return false;
   }
 
-  typename Detail::FloatIEEE<T>::IntType ulps = FloatDifferenceULP(x1, x2);
-  if (ulps < 0)
-  {
-    ulps = -ulps;
-  }
+  typename Detail::FloatIEEE<T>::IntType ulps = std::abs(FloatDifferenceULP(x1, x2));
   return ulps <= maxUlps;
 }
 
