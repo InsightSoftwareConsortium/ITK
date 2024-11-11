@@ -76,7 +76,7 @@ itkThresholdImageFilterTest(int, char *[])
     std::ostringstream os;
     os << "Filter: " << threshold.GetPointer();
     itk::OutputWindowDisplayText(os.str().c_str());
-    os = {};
+    os.str("");
     os << "Output #0: " << threshold->GetOutput(0);
     itk::OutputWindowDisplayText(os.str().c_str());
 
@@ -97,7 +97,7 @@ itkThresholdImageFilterTest(int, char *[])
     std::ostringstream os;
     os << "Filter: " << threshold.GetPointer();
     itk::OutputWindowDisplayText(os.str().c_str());
-    os = {};
+    os.str("");
     os << "Output #0: " << threshold->GetOutput(0);
     itk::OutputWindowDisplayText(os.str().c_str());
 
@@ -120,7 +120,7 @@ itkThresholdImageFilterTest(int, char *[])
     std::ostringstream os;
     os << "Filter: " << threshold.GetPointer();
     itk::OutputWindowDisplayText(os.str().c_str());
-    os = {};
+    os.str("");
     os << "Output #0: " << threshold->GetOutput(0);
     itk::OutputWindowDisplayText(os.str().c_str());
 
