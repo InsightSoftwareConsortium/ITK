@@ -68,7 +68,9 @@ int main (int argc, char * argv[])
    float,
    double,
    itk::Vector<uint8_t, 3>,
-   itk::Vector<float, 3>
+   itk::Vector<float, 3>,
+   itk::VariableLengthVector<uint8_t>,
+   itk::VariableLengthVector<float>
    >
   ::Dimensions<2U,3U>("mesh", pipeline);
 }
