@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0LinearLine.h"
+#include <cmath> // For abs.
 
 namespace itk
 {
@@ -144,13 +145,7 @@ Element2DC0LinearLine::DistanceToLine(const VectorType & x,
   //
   num = p21[0] * (x[0] - p1[0]) + p21[1] * (x[1] - p1[1]) + p21[2] * (x[2] - p1[2]);
   denom = p21[0] * p21[0] + p21[1] * p21[1] + p21[2] * p21[2];
-
-  // trying to avoid an expensive fabs
-  tolerance = 1e-5 * num;
-  if (tolerance < 0.0)
-  {
-    tolerance = -tolerance;
-  }
+  tolerance = std::abs(1e-5 * num);
   if (-tolerance < denom && denom < tolerance) // numerically bad!
   {
     closest = p1; // arbitrary, point is (numerically) far away

@@ -24,6 +24,8 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkProgressReporter.h"
 
+#include <cmath> // For abs.
+
 namespace itk
 {
 namespace Testing
@@ -165,12 +167,8 @@ ComparisonImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(const Out
         InputPixelType t = valid.Get();
 
         //  Assume a good match - so test center pixel first, for speed
-        RealType difference = static_cast<RealType>(t) - test.GetCenterPixel();
-        if (NumericTraits<RealType>::IsNegative(difference))
-        {
-          difference = -difference;
-        }
-        auto minimumDifference = static_cast<OutputPixelType>(difference);
+        RealType difference = std::abs(static_cast<RealType>(t) - test.GetCenterPixel());
+        auto     minimumDifference = static_cast<OutputPixelType>(difference);
 
         // If center pixel isn't good enough, then test the neighborhood
         if (minimumDifference > m_DifferenceThreshold)
@@ -182,12 +180,8 @@ ComparisonImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(const Out
           {
             // Use the RealType for the difference to make sure we get the
             // sign.
-            RealType differenceReal = static_cast<RealType>(t) - test.GetPixel(i);
-            if (NumericTraits<RealType>::IsNegative(differenceReal))
-            {
-              differenceReal = -differenceReal;
-            }
-            auto d = static_cast<OutputPixelType>(differenceReal);
+            RealType differenceReal = std::abs(static_cast<RealType>(t) - test.GetPixel(i));
+            auto     d = static_cast<OutputPixelType>(differenceReal);
             if (d < minimumDifference)
             {
               minimumDifference = d;

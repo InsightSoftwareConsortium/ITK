@@ -25,6 +25,8 @@
 #include "itkTotalProgressReporter.h"
 #include "itkStatisticsImageFilter.h"
 
+#include <cmath> // For abs.
+
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
@@ -280,12 +282,8 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       {
         // range distance between neighborhood pixel and neighborhood center
         pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
-        rangeDistance = pixel - centerPixel;
         // flip sign if needed
-        if (rangeDistance < 0.0)
-        {
-          rangeDistance *= -1.0;
-        }
+        rangeDistance = std::abs(pixel - centerPixel);
 
         // if the range distance is close enough, then use the pixel
         if (rangeDistance < rangeDistanceThreshold)
