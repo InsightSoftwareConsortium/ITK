@@ -43,8 +43,8 @@ H5VL__native_group_create(void *obj, const H5VL_loc_params_t *loc_params, const 
                           void H5_ATTR_UNUSED **req)
 {
     H5G_loc_t loc;        /* Location to create group     */
-    H5G_t *   grp = NULL; /* New group created            */
-    void *    ret_value;
+    H5G_t    *grp = NULL; /* New group created            */
+    void     *ret_value;
 
     FUNC_ENTER_PACKAGE
 
@@ -109,8 +109,8 @@ H5VL__native_group_open(void *obj, const H5VL_loc_params_t *loc_params, const ch
                         hid_t H5_ATTR_UNUSED gapl_id, hid_t H5_ATTR_UNUSED dxpl_id, void H5_ATTR_UNUSED **req)
 {
     H5G_loc_t loc;        /* Location to open group   */
-    H5G_t *   grp = NULL; /* New group opend          */
-    void *    ret_value;
+    H5G_t    *grp = NULL; /* New group opend          */
+    void     *ret_value;
 
     FUNC_ENTER_PACKAGE
 
@@ -159,7 +159,7 @@ H5VL__native_group_get(void *obj, H5VL_group_get_t get_type, hid_t H5_ATTR_UNUSE
         /* H5Gget_info */
         case H5VL_GROUP_GET_INFO: {
             const H5VL_loc_params_t *loc_params = HDva_arg(arguments, const H5VL_loc_params_t *);
-            H5G_info_t *             group_info = HDva_arg(arguments, H5G_info_t *);
+            H5G_info_t              *group_info = HDva_arg(arguments, H5G_info_t *);
             H5G_loc_t                loc;
 
             if (H5G_loc_real(obj, loc_params->obj_type, &loc) < 0)
@@ -271,11 +271,11 @@ H5VL__native_group_optional(void H5_ATTR_UNUSED *obj, H5VL_group_optional_t opti
 #ifndef H5_NO_DEPRECATED_SYMBOLS
         /* H5Giterate (deprecated) */
         case H5VL_NATIVE_GROUP_ITERATE_OLD: {
-            const H5VL_loc_params_t * loc_params = HDva_arg(arguments, const H5VL_loc_params_t *);
+            const H5VL_loc_params_t  *loc_params = HDva_arg(arguments, const H5VL_loc_params_t *);
             hsize_t                   idx        = HDva_arg(arguments, hsize_t);
-            hsize_t *                 last_obj   = HDva_arg(arguments, hsize_t *);
+            hsize_t                  *last_obj   = HDva_arg(arguments, hsize_t *);
             const H5G_link_iterate_t *lnk_op     = HDva_arg(arguments, const H5G_link_iterate_t *);
-            void *                    op_data    = HDva_arg(arguments, void *);
+            void                     *op_data    = HDva_arg(arguments, void *);
             H5G_loc_t                 grp_loc;
 
             /* Get the location struct for the object */
@@ -294,7 +294,7 @@ H5VL__native_group_optional(void H5_ATTR_UNUSED *obj, H5VL_group_optional_t opti
         case H5VL_NATIVE_GROUP_GET_OBJINFO: {
             const H5VL_loc_params_t *loc_params  = HDva_arg(arguments, const H5VL_loc_params_t *);
             hbool_t                  follow_link = (hbool_t)HDva_arg(arguments, unsigned);
-            H5G_stat_t *             statbuf     = HDva_arg(arguments, H5G_stat_t *);
+            H5G_stat_t              *statbuf     = HDva_arg(arguments, H5G_stat_t *);
             H5G_loc_t                grp_loc;
 
             /* Get the location struct for the object */

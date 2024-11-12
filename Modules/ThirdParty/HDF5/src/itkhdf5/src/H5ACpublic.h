@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -27,10 +26,6 @@
 /* Public headers needed by this file */
 #include "H5public.h"
 #include "H5Cpublic.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /****************************************************************************
  *
@@ -76,7 +71,7 @@ extern "C" {
  *
  *      *** DEPRECATED *** Use H5Fstart/stop logging functions instead
  *
- *     The trace file is a debuging feature that allow the capture of
+ *     The trace file is a debugging feature that allow the capture of
  *     top level metadata cache requests for purposes of debugging and/or
  *     optimization.  This field should normally be set to FALSE, as
  *     trace file collection imposes considerable overhead.
@@ -123,7 +118,7 @@ extern "C" {
  *    H5C_incr__off ) && ( decr_mode == H5C_decr__off )).  There
  *    is no logical reason why this should be so, but it simplifies
  *    implementation and testing, and I can't think of any reason
- *    why it would be desireable.  If you can think of one, I'll
+ *    why it would be desirable.  If you can think of one, I'll
  *    revisit the issue.
  *
  * set_initial_size: Boolean flag indicating whether the size of the
@@ -396,7 +391,7 @@ extern "C" {
  *
  *    When the sync point is reached (or when there is a user generated
  *    flush), process zero flushes sufficient entries to bring it into
- *    complience with its min clean size (or flushes all dirty entries in
+ *    compliance with its min clean size (or flushes all dirty entries in
  *    the case of a user generated flush), broad casts the list of
  *    entries just cleaned to all the other processes, and then exits
  *    the sync point.
@@ -567,7 +562,7 @@ typedef struct H5AC_cache_config_t {
      * The value must lie in the interval [0.0, 1.0]. 0.01 is a good place to
      * start in the serial case. In the parallel case, a larger value is needed
      * -- see the overview of the metadata cache in the
-     * “Metadata Caching in HDF5” section of the -- <em>HDF5 User’s Guide</em>
+     * “Metadata Caching in HDF5” section of the -- <em>\ref UG</em>
      * for details. */
 
     size_t max_size;
@@ -576,7 +571,7 @@ typedef struct H5AC_cache_config_t {
 
     size_t min_size;
     /**< Lower bound (in bytes) on the range of values that the
-     * adaptive cache resize code can select as the mininum cache * size. */
+     * adaptive cache resize code can select as the minimum cache * size. */
 
     long int epoch_length;
     /**< Number of cache accesses between runs of the adaptive cache resize
@@ -708,13 +703,13 @@ typedef struct H5AC_cache_config_t {
      * of bytes of dirty metadata created since the last synchronization exceeds
      * this limit.\n This field only applies to the parallel case. While it is
      * ignored elsewhere, it can still draw a value out of bounds error.\n It
-     * must be consistant across all caches on any given file.\n By default,
+     * must be consistent across all caches on any given file.\n By default,
      * this field is set to 256 KB. It shouldn't be more than half the current
      * max cache size times the min clean fraction. */
 
     int metadata_write_strategy;
     /**< Desired metadata write strategy. The valid values for this field
-     * are:\n #H5AC_METADATA_WRITE_STRATEGY__PROCESS_0_ONLY: Specifies tha only
+     * are:\n #H5AC_METADATA_WRITE_STRATEGY__PROCESS_0_ONLY: Specifies the only
      * process zero is allowed to write dirty metadata to disk.\n
      * #H5AC_METADATA_WRITE_STRATEGY__DISTRIBUTED: Specifies that process zero
      * still makes the decisions as to what entries should be flushed, but the
@@ -764,7 +759,7 @@ typedef struct H5AC_cache_image_config_t {
      *   H5AC__CACHE_IMAGE__ENTRY_AGEOUT__MAX (100).
      *
      *   \ref H5AC__CACHE_IMAGE__ENTRY_AGEOUT__NONE means that no limit is
-     *   imposed on number of times a prefeteched entry can appear in subsequent
+     *   imposed on number of times a prefetched entry can appear in subsequent
      *   cache images.
      *
      *   A value of 0 prevents prefetched entries from being included in cache
@@ -783,7 +778,4 @@ typedef struct H5AC_cache_image_config_t {
 
 //! <!-- [H5AC_cache_image_config_t_snip] -->
 
-#ifdef __cplusplus
-}
-#endif
 #endif

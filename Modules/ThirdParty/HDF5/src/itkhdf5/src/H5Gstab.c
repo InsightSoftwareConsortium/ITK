@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -44,7 +43,7 @@
 typedef struct {
     /* downward */
     const char *name; /* Name to search for */
-    H5HL_t *    heap; /* Local heap for group */
+    H5HL_t     *heap; /* Local heap for group */
 
     /* upward */
     H5O_link_t *lnk; /* Caller's link location */
@@ -54,7 +53,7 @@ typedef struct {
 typedef struct H5G_bt_it_gnbi_t {
     /* downward */
     H5G_bt_it_idx_common_t common; /* Common information for "by index" lookup  */
-    H5HL_t *               heap;   /*symbol table heap 			     */
+    H5HL_t                *heap;   /*symbol table heap 			     */
 
     /* upward */
     char *name; /*member name to be returned                 */
@@ -65,7 +64,7 @@ typedef struct H5G_bt_it_gnbi_t {
 typedef struct H5G_bt_it_gtbi_t {
     /* downward */
     H5G_bt_it_idx_common_t common; /* Common information for "by index" lookup  */
-    H5F_t *                f;      /* Pointer to file that symbol table is in */
+    H5F_t                 *f;      /* Pointer to file that symbol table is in */
 
     /* upward */
     H5G_obj_t type; /*member type to be returned                 */
@@ -76,7 +75,7 @@ typedef struct H5G_bt_it_gtbi_t {
 typedef struct H5G_bt_it_lbi_t {
     /* downward */
     H5G_bt_it_idx_common_t common; /* Common information for "by index" lookup  */
-    H5HL_t *               heap;   /*symbol table heap 			     */
+    H5HL_t                *heap;   /*symbol table heap 			     */
 
     /* upward */
     H5O_link_t *lnk;   /*link to be returned                        */
@@ -245,7 +244,7 @@ herr_t
 H5G__stab_insert_real(H5F_t *f, const H5O_stab_t *stab, const char *name, H5O_link_t *obj_lnk,
                       H5O_type_t obj_type, const void *crt_info)
 {
-    H5HL_t *     heap = NULL;         /* Pointer to local heap */
+    H5HL_t      *heap = NULL;         /* Pointer to local heap */
     H5G_bt_ins_t udata;               /* Data to pass through B-tree	*/
     herr_t       ret_value = SUCCEED; /* Return value */
 
@@ -334,7 +333,7 @@ done:
 herr_t
 H5G__stab_remove(const H5O_loc_t *loc, H5RS_str_t *grp_full_path_r, const char *name)
 {
-    H5HL_t *    heap = NULL;         /* Pointer to local heap */
+    H5HL_t     *heap = NULL;         /* Pointer to local heap */
     H5O_stab_t  stab;                /*symbol table message		*/
     H5G_bt_rm_t udata;               /*data to pass through B-tree	*/
     herr_t      ret_value = SUCCEED; /* Return value */
@@ -385,7 +384,7 @@ herr_t
 H5G__stab_remove_by_idx(const H5O_loc_t *grp_oloc, H5RS_str_t *grp_full_path_r, H5_iter_order_t order,
                         hsize_t n)
 {
-    H5HL_t *    heap = NULL;          /* Pointer to local heap */
+    H5HL_t     *heap = NULL;          /* Pointer to local heap */
     H5O_stab_t  stab;                 /* Symbol table message		*/
     H5G_bt_rm_t udata;                /* Data to pass through B-tree	*/
     H5O_link_t  obj_lnk;              /* Object's link within group */
@@ -445,7 +444,7 @@ done:
 herr_t
 H5G__stab_delete(H5F_t *f, const H5O_stab_t *stab)
 {
-    H5HL_t *    heap = NULL;         /* Pointer to local heap */
+    H5HL_t     *heap = NULL;         /* Pointer to local heap */
     H5G_bt_rm_t udata;               /*data to pass through B-tree	*/
     herr_t      ret_value = SUCCEED; /* Return value */
 
@@ -501,7 +500,7 @@ herr_t
 H5G__stab_iterate(const H5O_loc_t *oloc, H5_iter_order_t order, hsize_t skip, hsize_t *last_lnk,
                   H5G_lib_iterate_t op, void *op_data)
 {
-    H5HL_t *         heap = NULL;           /* Local heap for group */
+    H5HL_t          *heap = NULL;           /* Local heap for group */
     H5O_stab_t       stab;                  /* Info about symbol table */
     H5G_link_table_t ltable    = {0, NULL}; /* Link table */
     herr_t           ret_value = FAIL;      /* Return value */
@@ -678,7 +677,7 @@ H5G__stab_get_name_by_idx_cb(const H5G_entry_t *ent, void *_udata)
 {
     H5G_bt_it_gnbi_t *udata = (H5G_bt_it_gnbi_t *)_udata;
     size_t            name_off;            /* Offset of name in heap */
-    const char *      name;                /* Pointer to name string in heap */
+    const char       *name;                /* Pointer to name string in heap */
     herr_t            ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -716,7 +715,7 @@ done:
 ssize_t
 H5G__stab_get_name_by_idx(const H5O_loc_t *oloc, H5_iter_order_t order, hsize_t n, char *name, size_t size)
 {
-    H5HL_t *         heap = NULL;         /* Pointer to local heap */
+    H5HL_t          *heap = NULL;         /* Pointer to local heap */
     H5O_stab_t       stab;                /* Info about local heap & B-tree */
     H5G_bt_it_gnbi_t udata;               /* Iteration information */
     hbool_t          udata_valid = FALSE; /* Whether iteration information is valid */
@@ -835,7 +834,7 @@ done:
 htri_t
 H5G__stab_lookup(const H5O_loc_t *grp_oloc, const char *name, H5O_link_t *lnk)
 {
-    H5HL_t *          heap = NULL;      /* Pointer to local heap */
+    H5HL_t           *heap = NULL;      /* Pointer to local heap */
     H5G_bt_lkp_t      bt_udata;         /* Data to pass through B-tree	*/
     H5G_stab_fnd_ud_t udata;            /* 'User data' to give to callback */
     H5O_stab_t        stab;             /* Symbol table message		*/
@@ -897,7 +896,7 @@ static herr_t
 H5G__stab_lookup_by_idx_cb(const H5G_entry_t *ent, void *_udata)
 {
     H5G_bt_it_lbi_t *udata = (H5G_bt_it_lbi_t *)_udata;
-    const char *     name;                /* Pointer to name string in heap */
+    const char      *name;                /* Pointer to name string in heap */
     herr_t           ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -934,7 +933,7 @@ done:
 herr_t
 H5G__stab_lookup_by_idx(const H5O_loc_t *grp_oloc, H5_iter_order_t order, hsize_t n, H5O_link_t *lnk)
 {
-    H5HL_t *        heap = NULL;         /* Pointer to local heap */
+    H5HL_t         *heap = NULL;         /* Pointer to local heap */
     H5G_bt_it_lbi_t udata;               /* Iteration information */
     H5O_stab_t      stab;                /* Symbol table message */
     herr_t          ret_value = SUCCEED; /* Return value */
@@ -1016,7 +1015,7 @@ herr_t
 H5G__stab_valid(H5O_loc_t *grp_oloc, H5O_stab_t *alt_stab)
 {
     H5O_stab_t stab;                /* Current symbol table */
-    H5HL_t *   heap      = NULL;    /* Pointer to local heap */
+    H5HL_t    *heap      = NULL;    /* Pointer to local heap */
     hbool_t    changed   = FALSE;   /* Whether stab has been modified */
     herr_t     ret_value = SUCCEED; /* Return value */
 

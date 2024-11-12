@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -36,7 +35,7 @@
 
 /* Private typedefs & structs */
 struct H5RS_str_t {
-    char *   s;       /* String to be reference counted */
+    char    *s;       /* String to be reference counted */
     unsigned wrapped; /* Indicates that the string to be ref-counted is not copied */
     unsigned n;       /* Reference count of number of pointers sharing string */
 };
@@ -174,8 +173,16 @@ H5RS_wrap(const char *s)
     if (NULL == (ret_value = H5FL_MALLOC(H5RS_str_t)))
         HGOTO_ERROR(H5E_RS, H5E_CANTALLOC, NULL, "memory allocation failed")
 
-    /* Set the internal fields */
-    ret_value->s       = (char *)s;
+    /* Set the internal fields
+     *
+     * We ignore warnings about storing a const char pointer in the struct
+     * since we never modify or free the string when the wrapped struct
+     * field is set to TRUE.
+     */
+    H5_GCC_DIAG_OFF("cast-qual")
+    ret_value->s = (char *)s;
+    H5_GCC_DIAG_ON("cast-qual")
+
     ret_value->wrapped = 1;
     ret_value->n       = 1;
 
@@ -357,7 +364,7 @@ H5RS_dup(H5RS_str_t *ret_value)
 H5RS_str_t *
 H5RS_dup_str(const char *s)
 {
-    char *      new_str;  /* Duplicate of string */
+    char       *new_str;  /* Duplicate of string */
     size_t      path_len; /* Length of the path */
     H5RS_str_t *ret_value;
 

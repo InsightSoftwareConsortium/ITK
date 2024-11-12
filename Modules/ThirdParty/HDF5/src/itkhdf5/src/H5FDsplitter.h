@@ -34,7 +34,7 @@
  * Structure:   H5FD_spliiter_vfd_config_t
  *
  * One-stop shopping for configuring a Splitter VFD (rather than many
- * paramaters passed into H5Pset/get functions).
+ * parameters passed into H5Pset/get functions).
  *
  * magic (int32_t)
  *      Semi-unique number, used to sanity-check that a given pointer is

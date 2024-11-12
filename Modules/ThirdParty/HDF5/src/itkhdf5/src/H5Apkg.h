@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -72,7 +71,7 @@
 typedef struct H5A_shared_t {
     uint8_t version; /* Version to encode attribute with */
 
-    char *     name;     /* Attribute's name */
+    char      *name;     /* Attribute's name */
     H5T_cset_t encoding; /* Character encoding of attribute name */
 
     H5T_t *dt;      /* Attribute's datatype */
@@ -81,7 +80,7 @@ typedef struct H5A_shared_t {
     H5S_t *ds;      /* Attribute's dataspace */
     size_t ds_size; /* Size of dataspace on disk */
 
-    void *            data;      /* Attribute data (on a temporary basis) */
+    void             *data;      /* Attribute data (on a temporary basis) */
     size_t            data_size; /* Size of data on disk */
     H5O_msg_crt_idx_t crt_idx;   /* Attribute's creation index in the object header */
     unsigned          nrefs;     /* Ref count for times this object is referred	*/
@@ -126,15 +125,15 @@ typedef herr_t (*H5A_bt2_found_t)(const H5A_t *attr, hbool_t *took_ownership, vo
  */
 typedef struct H5A_bt2_ud_common_t {
     /* downward */
-    H5F_t *           f;             /* Pointer to file that fractal heap is in */
-    H5HF_t *          fheap;         /* Fractal heap handle               */
-    H5HF_t *          shared_fheap;  /* Fractal heap handle for shared messages */
-    const char *      name;          /* Name of attribute to compare      */
+    H5F_t            *f;             /* Pointer to file that fractal heap is in */
+    H5HF_t           *fheap;         /* Fractal heap handle               */
+    H5HF_t           *shared_fheap;  /* Fractal heap handle for shared messages */
+    const char       *name;          /* Name of attribute to compare      */
     uint32_t          name_hash;     /* Hash of name of attribute to compare */
     uint8_t           flags;         /* Flags for attribute storage location */
     H5O_msg_crt_idx_t corder;        /* Creation order value of attribute to compare */
     H5A_bt2_found_t   found_op;      /* Callback when correct attribute is found */
-    void *            found_op_data; /* Callback data when correct attribute is found */
+    void             *found_op_data; /* Callback data when correct attribute is found */
 } H5A_bt2_ud_common_t;
 
 /*

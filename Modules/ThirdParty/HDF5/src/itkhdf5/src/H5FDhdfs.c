@@ -1,15 +1,13 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Read-Only HDFS Virtual File Driver (VFD)                                  *
- * Copyright (c) 2018, The HDF Group.                                        *
- *                                                                           *
+ * Copyright by The HDF Group.                                               *
  * All rights reserved.                                                      *
  *                                                                           *
- * NOTICE:                                                                   *
- * All information contained herein is, and remains, the property of The HDF *
- * Group. The intellectual and technical concepts contained herein are       *
- * proprietary to The HDF Group. Dissemination of this information or        *
- * reproduction of this material is strictly forbidden unless prior written  *
- * permission is obtained from The HDF Group.                                *
+ * This file is part of HDF5.  The full HDF5 copyright notice, including     *
+ * terms governing use, modification, and redistribution, is contained in    *
+ * the COPYING file, which can be found at the root of the source code       *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
+ * If you do not have access to either file, you may request a copy from     *
+ * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
@@ -253,7 +251,7 @@ typedef struct H5FD_hdfs_t {
     H5FD_t           pub;
     H5FD_hdfs_fapl_t fa;
     haddr_t          eoa;
-    hdfs_t *         hdfs_handle;
+    hdfs_t          *hdfs_handle;
 #if HDFS_STATS
     hdfs_statsbin meta[HDFS_STATS_BIN_COUNT + 1];
     hdfs_statsbin raw[HDFS_STATS_BIN_COUNT + 1];
@@ -275,8 +273,8 @@ typedef struct H5FD_hdfs_t {
 
 /* Prototypes */
 static herr_t  H5FD__hdfs_term(void);
-static void *  H5FD__hdfs_fapl_get(H5FD_t *_file);
-static void *  H5FD__hdfs_fapl_copy(const void *_old_fa);
+static void   *H5FD__hdfs_fapl_get(H5FD_t *_file);
+static void   *H5FD__hdfs_fapl_copy(const void *_old_fa);
 static herr_t  H5FD__hdfs_fapl_free(void *_fa);
 static H5FD_t *H5FD__hdfs_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
 static herr_t  H5FD__hdfs_close(H5FD_t *_file);
@@ -450,8 +448,8 @@ H5FD__hdfs_handle_open(const char *path, const char *namenode_name, const int32_
                        const int32_t stream_buffer_size)
 {
     struct hdfsBuilder *builder   = NULL;
-    hdfs_t *            handle    = NULL;
-    hdfs_t *            ret_value = NULL;
+    hdfs_t             *handle    = NULL;
+    hdfs_t             *ret_value = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -569,16 +567,16 @@ done:
  * Function:    H5FD__hdfs_validate_config()
  *
  * Purpose:     Test to see if the supplied instance of H5FD_hdfs_fapl_t
- *              contains internally consistant data.  Return SUCCEED if so,
+ *              contains internally consistent data.  Return SUCCEED if so,
  *              and FAIL otherwise.
  *
- *              Note the difference between internally consistant and
+ *              Note the difference between internally consistent and
  *              correct.  As we will have to try to access the target
  *              object to determine whether the supplied data is correct,
- *              we will settle for internal consistancy at this point
+ *              we will settle for internal consistency at this point
  *
  * Return:      SUCCEED if instance of H5FD_hdfs_fapl_t contains internally
- *              consistant data, FAIL otherwise.
+ *              consistent data, FAIL otherwise.
  *
  * Programmer:  Jacob Smith
  *              9/10/17
@@ -665,7 +663,7 @@ herr_t
 H5Pget_fapl_hdfs(hid_t fapl_id, H5FD_hdfs_fapl_t *fa_dst)
 {
     const H5FD_hdfs_fapl_t *fa_src    = NULL;
-    H5P_genplist_t *        plist     = NULL;
+    H5P_genplist_t         *plist     = NULL;
     herr_t                  ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
@@ -713,9 +711,9 @@ done:
 static void *
 H5FD__hdfs_fapl_get(H5FD_t *_file)
 {
-    H5FD_hdfs_t *     file      = (H5FD_hdfs_t *)_file;
+    H5FD_hdfs_t      *file      = (H5FD_hdfs_t *)_file;
     H5FD_hdfs_fapl_t *fa        = NULL;
-    void *            ret_value = NULL;
+    void             *ret_value = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -753,8 +751,8 @@ static void *
 H5FD__hdfs_fapl_copy(const void *_old_fa)
 {
     const H5FD_hdfs_fapl_t *old_fa    = (const H5FD_hdfs_fapl_t *)_old_fa;
-    H5FD_hdfs_fapl_t *      new_fa    = NULL;
-    void *                  ret_value = NULL;
+    H5FD_hdfs_fapl_t       *new_fa    = NULL;
+    void                   *ret_value = NULL;
 
     FUNC_ENTER_STATIC
 
@@ -879,9 +877,9 @@ done:
 static H5FD_t *
 H5FD__hdfs_open(const char *path, unsigned flags, hid_t fapl_id, haddr_t maxaddr)
 {
-    H5FD_t *         ret_value = NULL;
-    H5FD_hdfs_t *    file      = NULL;
-    hdfs_t *         handle    = NULL;
+    H5FD_t          *ret_value = NULL;
+    H5FD_hdfs_t     *file      = NULL;
+    hdfs_t          *handle    = NULL;
     H5FD_hdfs_fapl_t fa;
 
     FUNC_ENTER_STATIC
@@ -1000,7 +998,7 @@ static herr_t
 hdfs__fprint_stats(FILE *stream, const H5FD_hdfs_t *file)
 {
     herr_t             ret_value    = SUCCEED;
-    parsed_url_t *     purl         = NULL;
+    parsed_url_t      *purl         = NULL;
     unsigned           i            = 0;
     unsigned long      count_meta   = 0;
     unsigned long      count_raw    = 0;
@@ -1012,7 +1010,7 @@ hdfs__fprint_stats(FILE *stream, const H5FD_hdfs_t *file)
     unsigned long long max_raw      = 0;
     unsigned long long bytes_raw    = 0;
     unsigned long long bytes_meta   = 0;
-    double             re_dub       = 0.0; /* re-usable double variable */
+    double             re_dub       = 0.0; /* reusable double variable */
     unsigned           suffix_i     = 0;
     const char         suffixes[]   = {' ', 'K', 'M', 'G', 'T', 'P'};
 
@@ -1275,8 +1273,8 @@ H5FD__hdfs_cmp(const H5FD_t *_f1, const H5FD_t *_f2)
     int                ret_value = 0;
     const H5FD_hdfs_t *f1        = (const H5FD_hdfs_t *)_f1;
     const H5FD_hdfs_t *f2        = (const H5FD_hdfs_t *)_f2;
-    hdfsFileInfo *     finfo1    = NULL;
-    hdfsFileInfo *     finfo2    = NULL;
+    hdfsFileInfo      *finfo1    = NULL;
+    hdfsFileInfo      *finfo2    = NULL;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -1732,7 +1730,7 @@ H5FD_hdfs_init(void)
 }
 
 herr_t
-H5Pget_fapl_hdfs(hid_t fapl_id, H5FD_hdfs_fapl_t *fa_out)
+H5Pget_fapl_hdfs(hid_t H5_ATTR_UNUSED fapl_id, H5FD_hdfs_fapl_t H5_ATTR_UNUSED *fa_out)
 {
     herr_t ret_value = FAIL;
 
@@ -1746,7 +1744,7 @@ done:
 }
 
 herr_t
-H5Pset_fapl_hdfs(hid_t fapl_id, H5FD_hdfs_fapl_t *fa)
+H5Pset_fapl_hdfs(hid_t H5_ATTR_UNUSED fapl_id, H5FD_hdfs_fapl_t H5_ATTR_UNUSED *fa)
 {
     herr_t ret_value = FAIL;
 

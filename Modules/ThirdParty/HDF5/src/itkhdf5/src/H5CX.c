@@ -50,7 +50,7 @@
  * each thread individually. The association of contexts to threads will
  * be handled by the pthread library.
  *
- * In order for this macro to work, H5CX_get_my_context() must be preceeded
+ * In order for this macro to work, H5CX_get_my_context() must be preceded
  * by "H5CX_node_t *ctx =".
  */
 #define H5CX_get_my_context() H5CX__get_context()
@@ -218,9 +218,9 @@ typedef struct H5CX_t {
     /* Cached DXPL properties */
     size_t    max_temp_buf;            /* Maximum temporary buffer size */
     hbool_t   max_temp_buf_valid;      /* Whether maximum temporary buffer size is valid */
-    void *    tconv_buf;               /* Temporary conversion buffer (H5D_XFER_TCONV_BUF_NAME) */
+    void     *tconv_buf;               /* Temporary conversion buffer (H5D_XFER_TCONV_BUF_NAME) */
     hbool_t   tconv_buf_valid;         /* Whether temporary conversion buffer is valid */
-    void *    bkgr_buf;                /* Background conversion buffer (H5D_XFER_BKGR_BUF_NAME) */
+    void     *bkgr_buf;                /* Background conversion buffer (H5D_XFER_BKGR_BUF_NAME) */
     hbool_t   bkgr_buf_valid;          /* Whether background conversion buffer is valid */
     H5T_bkg_t bkgr_buf_type;           /* Background buffer type (H5D_XFER_BKGR_BUF_NAME) */
     hbool_t   bkgr_buf_type_valid;     /* Whether background buffer type is valid */
@@ -237,7 +237,7 @@ typedef struct H5CX_t {
     H5FD_mpio_chunk_opt_t
              mpio_chunk_opt_mode;        /* Collective chunk option (H5D_XFER_MPIO_CHUNK_OPT_HARD_NAME) */
     hbool_t  mpio_chunk_opt_mode_valid;  /* Whether collective chunk option is valid */
-    unsigned mpio_chunk_opt_num;         /* Collective chunk thrreshold (H5D_XFER_MPIO_CHUNK_OPT_NUM_NAME) */
+    unsigned mpio_chunk_opt_num;         /* Collective chunk threshold (H5D_XFER_MPIO_CHUNK_OPT_NUM_NAME) */
     hbool_t  mpio_chunk_opt_num_valid;   /* Whether collective chunk threshold is valid */
     unsigned mpio_chunk_opt_ratio;       /* Collective chunk ratio (H5D_XFER_MPIO_CHUNK_OPT_RATIO_NAME) */
     hbool_t  mpio_chunk_opt_ratio_valid; /* Whether collective chunk ratio is valid */
@@ -246,7 +246,7 @@ typedef struct H5CX_t {
     hbool_t               err_detect_valid;     /* Whether error detection info is valid */
     H5Z_cb_t              filter_cb;            /* Filter callback function (H5D_XFER_FILTER_CB_NAME) */
     hbool_t               filter_cb_valid;      /* Whether filter callback function is valid */
-    H5Z_data_xform_t *    data_transform;       /* Data transform info (H5D_XFER_XFORM_NAME) */
+    H5Z_data_xform_t     *data_transform;       /* Data transform info (H5D_XFER_XFORM_NAME) */
     hbool_t               data_transform_valid; /* Whether data transform info is valid */
     H5T_vlen_alloc_info_t vl_alloc_info;        /* VL datatype alloc info (H5D_XFER_VLEN_*_NAME) */
     hbool_t               vl_alloc_info_valid;  /* Whether VL datatype alloc info is valid */
@@ -332,7 +332,7 @@ typedef struct H5CX_t {
     /* Cached VOL settings */
     H5VL_connector_prop_t vol_connector_prop; /* Property for VOL connector ID & info */
     hbool_t vol_connector_prop_valid;         /* Whether property for VOL connector ID & info is valid */
-    void *  vol_wrap_ctx;                     /* VOL connector's "wrap context" for creating IDs */
+    void   *vol_wrap_ctx;                     /* VOL connector's "wrap context" for creating IDs */
     hbool_t vol_wrap_ctx_valid; /* Whether VOL connector's "wrap context" for creating IDs is valid */
 } H5CX_t;
 
@@ -356,8 +356,8 @@ typedef struct H5CX_node_t {
  */
 typedef struct H5CX_dxpl_cache_t {
     size_t    max_temp_buf;         /* Maximum temporary buffer size (H5D_XFER_MAX_TEMP_BUF_NAME) */
-    void *    tconv_buf;            /* Temporary conversion buffer (H5D_XFER_TCONV_BUF_NAME) */
-    void *    bkgr_buf;             /* Background conversion buffer (H5D_XFER_BKGR_BUF_NAME) */
+    void     *tconv_buf;            /* Temporary conversion buffer (H5D_XFER_TCONV_BUF_NAME) */
+    void     *bkgr_buf;             /* Background conversion buffer (H5D_XFER_BKGR_BUF_NAME) */
     H5T_bkg_t bkgr_buf_type;        /* Background buffer type (H5D_XFER_BKGR_BUF_NAME) */
     double    btree_split_ratio[3]; /* B-tree split ratios (H5D_XFER_BTREE_SPLIT_RATIO_NAME) */
     size_t    vec_size;             /* Size of hyperslab vector (H5D_XFER_HYPER_VECTOR_SIZE_NAME) */
@@ -371,12 +371,12 @@ typedef struct H5CX_dxpl_cache_t {
                                                  (H5D_MPIO_GLOBAL_NO_COLLECTIVE_CAUSE_NAME) */
     H5FD_mpio_chunk_opt_t
              mpio_chunk_opt_mode;         /* Collective chunk option (H5D_XFER_MPIO_CHUNK_OPT_HARD_NAME) */
-    unsigned mpio_chunk_opt_num;          /* Collective chunk thrreshold (H5D_XFER_MPIO_CHUNK_OPT_NUM_NAME) */
+    unsigned mpio_chunk_opt_num;          /* Collective chunk threshold (H5D_XFER_MPIO_CHUNK_OPT_NUM_NAME) */
     unsigned mpio_chunk_opt_ratio;        /* Collective chunk ratio (H5D_XFER_MPIO_CHUNK_OPT_RATIO_NAME) */
 #endif                                    /* H5_HAVE_PARALLEL */
     H5Z_EDC_t             err_detect;     /* Error detection info (H5D_XFER_EDC_NAME) */
     H5Z_cb_t              filter_cb;      /* Filter callback function (H5D_XFER_FILTER_CB_NAME) */
-    H5Z_data_xform_t *    data_transform; /* Data transform info (H5D_XFER_XFORM_NAME) */
+    H5Z_data_xform_t     *data_transform; /* Data transform info (H5D_XFER_XFORM_NAME) */
     H5T_vlen_alloc_info_t vl_alloc_info;  /* VL datatype alloc info (H5D_XFER_VLEN_*_NAME) */
     H5T_conv_cb_t         dt_conv_cb;     /* Datatype conversion struct (H5D_XFER_CONV_CB_NAME) */
 } H5CX_dxpl_cache_t;
@@ -949,7 +949,7 @@ H5CX_retrieve_state(H5CX_state_t **api_state)
             /* Copy connector info, if it exists */
             if ((*api_state)->vol_connector_prop.connector_info) {
                 H5VL_class_t *connector;                 /* Pointer to connector */
-                void *        new_connector_info = NULL; /* Copy of connector info */
+                void         *new_connector_info = NULL; /* Copy of connector info */
 
                 /* Retrieve the connector for the ID */
                 if (NULL ==
@@ -1366,7 +1366,7 @@ H5CX_set_apl(hid_t *acspl_id, const H5P_libclass_t *libclass,
          * specified a collective metadata read for just this operation.
          */
         if (!is_collective) {
-            H5P_genplist_t *        plist;        /* Property list pointer */
+            H5P_genplist_t         *plist;        /* Property list pointer */
             H5P_coll_md_read_flag_t md_coll_read; /* Collective metadata read flag */
 
             /* Get the plist structure for the access property list */
@@ -1392,9 +1392,7 @@ H5CX_set_apl(hid_t *acspl_id, const H5P_libclass_t *libclass,
 
         /* If parallel is enabled and the file driver used is the MPI-IO
          * VFD, issue an MPI barrier for easier debugging if the API function
-         * calling this is supposed to be called collectively. Note that this
-         * happens only when the environment variable H5_COLL_BARRIER is set
-         * to non 0.
+         * calling this is supposed to be called collectively.
          */
         if (H5_coll_api_sanity_check_g) {
             MPI_Comm mpi_comm; /* File communicator */
@@ -1420,7 +1418,7 @@ done:
  * Purpose:     Sanity checks and sets up collective operations.
  *
  * Note:        Should be called for all API routines that modify file
- *              file metadata but don't pass in an access property list.
+ *              metadata but don't pass in an access property list.
  *
  * Return:      Non-negative on success / Negative on failure
  *
@@ -1451,9 +1449,7 @@ H5CX_set_loc(hid_t
 
     /* If parallel is enabled and the file driver used is the MPI-IO
      * VFD, issue an MPI barrier for easier debugging if the API function
-     * calling this is supposed to be called collectively. Note that this
-     * happens only when the environment variable H5_COLL_BARRIER is set
-     * to non 0.
+     * calling this is supposed to be called collectively.
      */
     if (H5_coll_api_sanity_check_g) {
         MPI_Comm mpi_comm; /* File communicator */
