@@ -17,7 +17,7 @@
   <key>CFBundleSignature</key>
   <string>????</string>
   <key>CFBundleVersion</key>
-  <string>@CPACK_PACKAGE_VERSIO@</string>
+  <string>@CPACK_PACKAGE_VERSION@</string>
   <key>CFBundleShortVersionString</key>
   <string>@CPACK_SHORT_VERSION_STRING@</string>
   <key>CSResourcesFileMapped</key>

@@ -24,11 +24,3 @@
  *      magic number as prefix and checksum as suffix for all chunks.
  */
 #define H5O_VERSION_2 2
-
-// H5_OVERRIDE enables using the override keyword with C++11
-// (HDF5 1.12.x and earlier do not require C++11)
-#if defined(__cplusplus) && (201103L <= __cplusplus)
-#define H5_OVERRIDE override
-#else
-#define H5_OVERRIDE
-#endif

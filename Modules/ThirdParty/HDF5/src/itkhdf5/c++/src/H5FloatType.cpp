@@ -37,7 +37,6 @@ namespace H5 {
 //--------------------------------------------------------------------------
 // Function:    FloatType default constructor
 ///\brief       Default constructor: Creates a stub floating-point datatype
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FloatType::FloatType()
 {
@@ -48,7 +47,6 @@ FloatType::FloatType()
 ///\brief       Creates a floating-point datatype using a predefined type.
 ///\param       pred_type - IN: Predefined datatype
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FloatType::FloatType(const PredType &pred_type) : AtomType()
 {
@@ -62,7 +60,6 @@ FloatType::FloatType(const PredType &pred_type) : AtomType()
 ///             datatype.
 ///\param       existing_id - IN: Id of an existing datatype
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FloatType::FloatType(const hid_t existing_id) : AtomType(existing_id)
 {
@@ -71,7 +68,6 @@ FloatType::FloatType(const hid_t existing_id) : AtomType(existing_id)
 //--------------------------------------------------------------------------
 // Function:    FloatType copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FloatType::FloatType(const FloatType &original) : AtomType(original)
 {
@@ -83,7 +79,6 @@ FloatType::FloatType(const FloatType &original) : AtomType(original)
 ///\param       dataset - IN: Dataset that this floating-point datatype
 ///             associates with
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 FloatType::FloatType(const DataSet &dataset) : AtomType()
 {
@@ -102,7 +97,6 @@ FloatType::FloatType(const DataSet &dataset) : AtomType()
 ///\param       loc        - IN: Location of the type
 ///\param       dtype_name - IN: Float type name
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Dec 2016
 // Description
 //              In 1.10.1, this constructor was introduced and may replace the
 //              existing function CommonFG::openFloatType(const char*)
@@ -121,7 +115,6 @@ FloatType::FloatType(const H5Location &loc, const char *dtype_name) : AtomType()
 ///\param       loc        - IN: Location of the type
 ///\param       dtype_name - IN: Float type name
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Dec 2016
 // Description
 //              In 1.10.1, this constructor was introduced and may replace the
 //              existing function CommonFG::openFloatType(const H5std_string&)
@@ -139,7 +132,6 @@ FloatType::FloatType(const H5Location &loc, const H5std_string &dtype_name) : At
 ///             binary object description of this type.
 ///
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Aug 2017
 //--------------------------------------------------------------------------
 DataType *
 FloatType::decode() const
@@ -165,7 +157,6 @@ FloatType::decode() const
 ///\param       mpos  - OUT: Retrieved mantissa bit-position
 ///\param       msize - OUT: Retrieved size of mantissa, in bits
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FloatType::getFields(size_t &spos, size_t &epos, size_t &esize, size_t &mpos, size_t &msize) const
@@ -186,7 +177,6 @@ FloatType::getFields(size_t &spos, size_t &epos, size_t &esize, size_t &mpos, si
 ///\param       mpos  - OUT: Mantissa bit-position
 ///\param       msize - OUT: Size of mantissa, in bits
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FloatType::setFields(size_t spos, size_t epos, size_t esize, size_t mpos, size_t msize) const
@@ -202,7 +192,6 @@ FloatType::setFields(size_t spos, size_t epos, size_t esize, size_t mpos, size_t
 ///\brief       Retrieves the exponent bias of a floating-point type.
 ///\return      Exponent bias
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 size_t
 FloatType::getEbias() const
@@ -220,7 +209,6 @@ FloatType::getEbias() const
 ///\brief       Sets the exponent bias of a floating-point type.
 ///\param       ebias - Exponent bias value
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FloatType::setEbias(size_t ebias) const
@@ -244,7 +232,6 @@ FloatType::setEbias(size_t ebias) const
 ///             For your convenience, this function also provides the text
 ///             string of the returned normalization type, via parameter
 ///             \a norm_string.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5T_norm_t
 FloatType::getNorm(H5std_string &norm_string) const
@@ -273,7 +260,6 @@ FloatType::getNorm(H5std_string &norm_string) const
 ///             \li \c H5T_NORM_IMPLIED (0) - MSB of mantissa is not stored
 ///             \li \c H5T_NORM_MSBSET (1) - MSB of mantissa is always 1
 ///             \li \c H5T_NORM_NONE (2) - Mantissa is not normalized
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FloatType::setNorm(H5T_norm_t norm) const
@@ -297,7 +283,6 @@ FloatType::setNorm(H5T_norm_t norm) const
 ///             For your convenience, this function also provides the text
 ///             string of the returned internal padding type, via parameter
 ///             \a pad_string.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5T_pad_t
 FloatType::getInpad(H5std_string &pad_string) const
@@ -331,7 +316,6 @@ FloatType::getInpad(H5std_string &pad_string) const
 ///             \li \c H5T_PAD_ZERO (0) - Set background to zeros
 ///             \li \c H5T_PAD_ONE (1) - Set background to ones
 ///             \li \c H5T_PAD_BACKGROUND (2) - Leave background alone
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 FloatType::setInpad(H5T_pad_t inpad) const
@@ -340,15 +324,6 @@ FloatType::setInpad(H5T_pad_t inpad) const
     if (ret_value < 0) {
         throw DataTypeIException("FloatType::setInpad", "H5Tset_inpad failed");
     }
-}
-
-//--------------------------------------------------------------------------
-// Function:    FloatType destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-FloatType::~FloatType()
-{
 }
 
 } // namespace H5

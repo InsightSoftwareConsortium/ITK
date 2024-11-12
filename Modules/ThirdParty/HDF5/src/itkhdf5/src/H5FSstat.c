@@ -63,9 +63,6 @@
  *
  * Return:      SUCCEED (Can't fail)
  *
- * Programmer:  Vailin Choi
- *              August 25th, 2008
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -74,8 +71,8 @@ H5FS_stat_info(const H5F_t *f, const H5FS_t *frsp, H5FS_stat_t *stats)
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments. */
-    HDassert(frsp);
-    HDassert(stats);
+    assert(frsp);
+    assert(stats);
 
     /* Report statistics for free space */
     stats->tot_space         = frsp->tot_space;

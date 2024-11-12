@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Quincey Koziol
- *              Tuesday, January 8, 2008
- *
  * Purpose:     This file contains declarations which are visible only within
  *              the H5MF package.  Source files outside the H5MF package should
  *              include H5MFprivate.h instead.
@@ -70,14 +67,14 @@
 
 /* Calculate the mis-aligned fragment */
 #define H5MF_EOA_MISALIGN(F, E, A, FR)                                                                       \
-    {                                                                                                        \
+    do {                                                                                                     \
         hsize_t m;                                                                                           \
                                                                                                              \
-        if (H5F_addr_gt((E), 0) && ((m) = ((E) + H5F_BASE_ADDR(F)) % (A)))                                   \
+        if (H5_addr_gt((E), 0) && ((m) = ((E) + H5F_BASE_ADDR(F)) % (A)))                                    \
             (FR) = (A)-m;                                                                                    \
         else                                                                                                 \
             (FR) = 0;                                                                                        \
-    }
+    } while (0)
 
 /****************************/
 /* Package Private Typedefs */
@@ -99,7 +96,7 @@ typedef struct H5MF_free_section_t {
             unsigned                    num_entries; /* Number of entries covered */
 
             /* Fields that aren't stored */
-            hbool_t checked_out; /* Flag to indicate that a row section is temporarily out of the free space
+            bool checked_out; /* Flag to indicate that a row section is temporarily out of the free space
                                     manager */
         } row;
         struct {
@@ -145,8 +142,8 @@ typedef struct H5MF_sect_ud_t {
     /* Down */
     H5F_t     *f;                     /* Pointer to file to operate on */
     H5FD_mem_t alloc_type;            /* Type of memory being allocated */
-    hbool_t    allow_sect_absorb;     /* Whether sections are allowed to absorb a block aggregator */
-    hbool_t    allow_eoa_shrink_only; /* Whether shrinking eoa is allowed only for the section */
+    bool       allow_sect_absorb;     /* Whether sections are allowed to absorb a block aggregator */
+    bool       allow_eoa_shrink_only; /* Whether shrinking eoa is allowed only for the section */
 
     /* Up */
     H5MF_shrink_type_t shrink; /* Type of shrink operation to perform */
@@ -194,7 +191,7 @@ H5_DLL htri_t H5MF__aggrs_try_shrink_eoa(H5F_t *f);
 H5_DLL htri_t H5MF__aggr_can_absorb(const H5F_t *f, const H5F_blk_aggr_t *aggr,
                                     const H5MF_free_section_t *sect, H5MF_shrink_type_t *shrink);
 H5_DLL herr_t H5MF__aggr_absorb(const H5F_t *f, H5F_blk_aggr_t *aggr, H5MF_free_section_t *sect,
-                                hbool_t allow_sect_absorb);
+                                bool allow_sect_absorb);
 H5_DLL herr_t H5MF__aggr_query(const H5F_t *f, const H5F_blk_aggr_t *aggr, haddr_t *addr, hsize_t *size);
 
 /* Debugging routines */

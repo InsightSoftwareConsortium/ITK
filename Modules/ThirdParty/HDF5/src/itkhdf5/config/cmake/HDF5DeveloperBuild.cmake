@@ -139,16 +139,6 @@ if (HDF5_ENABLE_DEBUG_H5T_REF)
   list (APPEND HDF5_DEBUG_APIS H5T_REF_DEBUG)
 endif ()
 
-# HDF5 module debug definitions for debug code which may add
-# considerable amounts of overhead when enabled and is usually
-# only useful for specific circumstances rather than general
-# developer use.
-option (HDF5_ENABLE_DEBUG_H5B "Enable debugging of H5B module" OFF)
-mark_as_advanced (HDF5_ENABLE_DEBUG_H5B)
-if (HDF5_ENABLE_DEBUG_H5B)
-  list (APPEND HDF5_DEBUG_APIS H5B_DEBUG)
-endif ()
-
 option (HDF5_ENABLE_DEBUG_H5B2 "Enable debugging of H5B2 module" OFF)
 mark_as_advanced (HDF5_ENABLE_DEBUG_H5B2)
 if (HDF5_ENABLE_DEBUG_H5B2)
@@ -167,17 +157,6 @@ if (HDF5_ENABLE_DEBUG_H5C_SANITY_CHECKS)
   # list (APPEND HDF5_DEBUG_APIS H5C_DO_MEMORY_SANITY_CHECKS=1)
 endif ()
 
-option (HDF5_ENABLE_DEBUG_H5FL_TRACK "Enable tracking of free list allocations" OFF)
-mark_as_advanced (HDF5_ENABLE_DEBUG_H5FL_TRACK)
-if (HDF5_ENABLE_DEBUG_H5FL_TRACK)
-  list (APPEND HDF5_DEBUG_APIS H5FL_TRACK)
-
-  # Free list tracking requires the codestack functionality
-  set (HDF5_ENABLE_CODESTACK ON CACHE BOOL "Enable the function stack tracing (for developer debugging)." FORCE)
-else ()
-  unset (HDF5_ENABLE_CODESTACK CACHE)
-endif ()
-
 option (HDF5_ENABLE_DEBUG_H5FS_ASSERT "Enable extra debugging of H5FS module" OFF)
 mark_as_advanced (HDF5_ENABLE_DEBUG_H5FS_ASSERT)
 if (HDF5_ENABLE_DEBUG_H5FS_ASSERT)
@@ -188,7 +167,7 @@ endif ()
 # free lists entirely for developer build modes, as they can
 # make certain types of issues (like references to stale pointers)
 # much more difficult to debug
-if (NOT HDF5_ENABLE_DEBUG_H5FL AND NOT HDF5_ENABLE_DEBUG_H5FL_TRACK)
+if (NOT HDF5_ENABLE_DEBUG_H5FL)
   list (APPEND HDF5_DEVELOPER_DEFS H5_NO_FREE_LISTS)
 endif ()
 

@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  James Laird
- *              Thursday, March 30, 2006
- *
  * Purpose:     This file contains declarations which are visible only within
  *              the H5SM shared object header messages package.  Source files
  *              outside the H5SM package should	include H5SMprivate.h instead.
@@ -32,6 +29,7 @@
 #include "H5ACprivate.h" /* Metadata Cache		  	*/
 #include "H5B2private.h" /* B-trees                              */
 #include "H5HFprivate.h" /* Fractal heaps		  	*/
+#include "H5FLprivate.h" /* Free Lists                           */
 
 /****************************/
 /* Package Macros           */
@@ -254,7 +252,7 @@ H5_DLLVAR const H5B2_class_t H5SM_INDEX[1];
 /****************************/
 
 /* General routines */
-H5_DLL ssize_t H5SM__get_index(const H5SM_master_table_t *table, unsigned type_id);
+H5_DLL herr_t H5SM__get_index(const H5SM_master_table_t *table, unsigned type_id, ssize_t *idx);
 
 /* Encode and decode routines, used for B-tree and cache encoding/decoding */
 H5_DLL herr_t H5SM__message_compare(const void *rec1, const void *rec2, int *result);

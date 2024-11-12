@@ -41,7 +41,6 @@ namespace H5 {
 ///\brief       Initializes the HDF5 library.
 ///
 ///\exception   H5::LibraryIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 H5Library::open()
@@ -57,7 +56,6 @@ H5Library::open()
 ///\brief       Flushes all data to disk, closes files, and cleans up memory.
 ///
 ///\exception   H5::LibraryIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 H5Library::close()
@@ -73,7 +71,6 @@ H5Library::close()
 ///\brief       Instructs library not to install the C \c atexit cleanup routine
 ///
 ///\exception   H5::LibraryIException
-// Programmer   Binh-Minh Ribler - 2000
 // Modification
 //              Removed the check for failure returned from H5dont_atexit.
 //              will be fixed to not fail (HDFFV-9540)
@@ -91,7 +88,6 @@ H5Library::dontAtExit()
 ///\param       minnum - OUT: Minor version of the library
 ///\param       relnum - OUT: Release number of the library
 ///\exception   H5::LibraryIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 H5Library::getLibVersion(unsigned &majnum, unsigned &minnum, unsigned &relnum)
@@ -113,7 +109,6 @@ H5Library::getLibVersion(unsigned &majnum, unsigned &minnum, unsigned &relnum)
 ///\par Description
 ///             For information about library version, please refer to
 ///             the H5check_version API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 H5Library::checkVersion(unsigned majnum, unsigned minnum, unsigned relnum)
@@ -142,7 +137,6 @@ H5Library::checkVersion(unsigned majnum, unsigned minnum, unsigned relnum)
 ///\par
 ///             The library automatically garbage collects all the free
 ///             lists when the application ends.
-// Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
 void
 H5Library::garbageCollect()
@@ -166,7 +160,6 @@ H5Library::garbageCollect()
 //                                    for <classname> global constants
 ///\exception   H5::LibraryIException
 //
-// Programmer   Binh-Minh Ribler - September, 2015
 //--------------------------------------------------------------------------
 void
 H5Library::initH5cpp()
@@ -236,7 +229,6 @@ H5Library::initH5cpp()
 ///\brief       Sends request for the C layer to terminate.
 ///\par Description
 ///             If the C library fails to terminate, exit with a failure.
-// Programmer   Binh-Minh Ribler - September, 2015
 //--------------------------------------------------------------------------
 void
 H5Library::termH5cpp()
@@ -261,7 +253,6 @@ H5Library::termH5cpp()
 ///             Setting a value of -1 for a limit means no limit of that type.
 ///             For more information on free list limits, please refer to
 ///             the H5set_free_list_limits API in the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
 void
 H5Library::setFreeListLimits(int reg_global_lim, int reg_list_lim, int arr_global_lim, int arr_list_lim,
@@ -278,18 +269,8 @@ H5Library::setFreeListLimits(int reg_global_lim, int reg_list_lim, int arr_globa
 //--------------------------------------------------------------------------
 // Function:    H5Library default constructor - private
 ///\brief       Default constructor: Creates a stub H5Library object
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5Library::H5Library()
-{
-}
-
-//--------------------------------------------------------------------------
-// Function:    H5Library destructor
-///\brief       Noop destructor
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-H5Library::~H5Library()
 {
 }
 #endif // DOXYGEN_SHOULD_SKIP_THIS

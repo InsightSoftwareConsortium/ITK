@@ -26,6 +26,9 @@
 #
 -Wunused-variable
 #
+#     H5VLpassthru.c
+#       -Werror=unused-parameter
+#
 -Wunused-parameter
 #
 #

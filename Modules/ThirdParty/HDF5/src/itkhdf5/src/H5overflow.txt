@@ -9,7 +9,7 @@
 # help@hdfgroup.org.
 #
 
-# This file is used to generate the headers that is needed for detecting
+# This file is used to generate the header that is needed for detecting
 # overflows between types at run-time
 #
 # The bin/make_overflow script reads in this file and creates the appropriate
@@ -24,8 +24,6 @@
 # Where <type> is a valid C type (like 'int8_t', 'hssize_t', etc. and whether
 #       the type is signed or unsigned follows.
 #
-# Programmer: Quincey Koziol
-# Creation Date: 2009/04/09
 
 unsigned, UNSIGNED;
 int8_t, SIGNED;

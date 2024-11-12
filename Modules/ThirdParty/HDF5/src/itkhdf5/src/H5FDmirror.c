@@ -15,11 +15,11 @@
  *          a remote host.
  */
 
-#include "H5FDdrvr_module.h" /* This source code file is part of the H5FD driver module */
-
 #include "H5private.h" /* Generic Functions        */
 
 #ifdef H5_HAVE_MIRROR_VFD
+
+#include "H5FDdrvr_module.h" /* This source code file is part of the H5FD driver module */
 
 #include "H5Eprivate.h"      /* Error handling           */
 #include "H5Fprivate.h"      /* File access              */
@@ -81,48 +81,48 @@ typedef struct H5FD_mirror_t {
         ssize_t              bytes_written = 0;                                                              \
         const unsigned char *b             = NULL;                                                           \
                                                                                                              \
-        HDfprintf(stdout, "%s bytes:\n```\n", (label));                                                      \
+        fprintf(stdout, "%s bytes:\n```\n", (label));                                                        \
                                                                                                              \
         /* print whole lines */                                                                              \
         while ((len - bytes_written) >= 32) {                                                                \
             b = (const unsigned char *)(buf) + bytes_written;                                                \
-            HDfprintf(stdout,                                                                                \
-                      "%04zX  %02X%02X%02X%02X %02X%02X%02X%02X"                                             \
-                      " %02X%02X%02X%02X %02X%02X%02X%02X"                                                   \
-                      " %02X%02X%02X%02X %02X%02X%02X%02X"                                                   \
-                      " %02X%02X%02X%02X %02X%02X%02X%02X\n",                                                \
-                      bytes_written, b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7], b[8], b[9], b[10],      \
-                      b[11], b[12], b[13], b[14], b[15], b[16], b[17], b[18], b[19], b[20], b[21], b[22],    \
-                      b[23], b[24], b[25], b[26], b[27], b[28], b[29], b[30], b[31]);                        \
+            fprintf(stdout,                                                                                  \
+                    "%04zX  %02X%02X%02X%02X %02X%02X%02X%02X"                                               \
+                    " %02X%02X%02X%02X %02X%02X%02X%02X"                                                     \
+                    " %02X%02X%02X%02X %02X%02X%02X%02X"                                                     \
+                    " %02X%02X%02X%02X %02X%02X%02X%02X\n",                                                  \
+                    bytes_written, b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7], b[8], b[9], b[10], b[11], \
+                    b[12], b[13], b[14], b[15], b[16], b[17], b[18], b[19], b[20], b[21], b[22], b[23],      \
+                    b[24], b[25], b[26], b[27], b[28], b[29], b[30], b[31]);                                 \
             bytes_written += 32;                                                                             \
         }                                                                                                    \
                                                                                                              \
         /* start partial line */                                                                             \
         if (len > bytes_written) {                                                                           \
-            HDfprintf(stdout, "%04zX ", bytes_written);                                                      \
+            fprintf(stdout, "%04zX ", bytes_written);                                                        \
         }                                                                                                    \
                                                                                                              \
         /* partial line blocks */                                                                            \
         while ((len - bytes_written) >= 4) {                                                                 \
-            HDfprintf(stdout, " %02X%02X%02X%02X", (buf)[bytes_written], (buf)[bytes_written + 1],           \
-                      (buf)[bytes_written + 2], (buf)[bytes_written + 3]);                                   \
+            fprintf(stdout, " %02X%02X%02X%02X", (buf)[bytes_written], (buf)[bytes_written + 1],             \
+                    (buf)[bytes_written + 2], (buf)[bytes_written + 3]);                                     \
             bytes_written += 4;                                                                              \
         }                                                                                                    \
                                                                                                              \
         /* block separator before partial block */                                                           \
         if (len > bytes_written) {                                                                           \
-            HDfprintf(stdout, " ");                                                                          \
+            fprintf(stdout, " ");                                                                            \
         }                                                                                                    \
                                                                                                              \
         /* partial block individual bytes */                                                                 \
         while (len > bytes_written) {                                                                        \
-            HDfprintf(stdout, "%02X", (buf)[bytes_written++]);                                               \
+            fprintf(stdout, "%02X", (buf)[bytes_written++]);                                                 \
         }                                                                                                    \
                                                                                                              \
         /* end partial line */                                                                               \
-        HDfprintf(stdout, "\n");                                                                             \
-        HDfprintf(stdout, "```\n");                                                                          \
-        HDfflush(stdout);                                                                                    \
+        fprintf(stdout, "\n");                                                                               \
+        fprintf(stdout, "```\n");                                                                            \
+        fflush(stdout);                                                                                      \
     } while (0)
 #else
 #define LOG_XMIT_BYTES(label, buf, len) /* no-op */
@@ -131,8 +131,8 @@ typedef struct H5FD_mirror_t {
 #if MIRROR_DEBUG_OP_CALLS
 #define LOG_OP_CALL(name)                                                                                    \
     do {                                                                                                     \
-        HDprintf("called %s()\n", (name));                                                                   \
-        HDfflush(stdout);                                                                                    \
+        printf("called %s()\n", (name));                                                                     \
+        fflush(stdout);                                                                                      \
     } while (0)
 #else
 #define LOG_OP_CALL(name) /* no-op */
@@ -153,13 +153,15 @@ static herr_t  H5FD__mirror_write(H5FD_t *_file, H5FD_mem_t type, hid_t fapl_id,
                                   const void *buf);
 static herr_t  H5FD__mirror_read(H5FD_t *_file, H5FD_mem_t type, hid_t fapl_id, haddr_t addr, size_t size,
                                  void *buf);
-static herr_t  H5FD__mirror_truncate(H5FD_t *_file, hid_t dxpl_id, hbool_t closing);
-static herr_t  H5FD__mirror_lock(H5FD_t *_file, hbool_t rw);
+static herr_t  H5FD__mirror_truncate(H5FD_t *_file, hid_t dxpl_id, bool closing);
+static herr_t  H5FD__mirror_lock(H5FD_t *_file, bool rw);
 static herr_t  H5FD__mirror_unlock(H5FD_t *_file);
 
 static herr_t H5FD__mirror_verify_reply(H5FD_mirror_t *file);
 
 static const H5FD_class_t H5FD_mirror_g = {
+    H5FD_CLASS_VERSION,     /* struct version       */
+    H5FD_MIRROR_VALUE,      /* value                */
     "mirror",               /* name                 */
     MAXADDR,                /* maxaddr              */
     H5F_CLOSE_WEAK,         /* fc_degree            */
@@ -187,10 +189,16 @@ static const H5FD_class_t H5FD_mirror_g = {
     NULL,                   /* get_handle           */
     H5FD__mirror_read,      /* read                 */
     H5FD__mirror_write,     /* write                */
+    NULL,                   /* read_vector          */
+    NULL,                   /* write_vector         */
+    NULL,                   /* read_selection       */
+    NULL,                   /* write_selection      */
     NULL,                   /* flush                */
     H5FD__mirror_truncate,  /* truncate             */
     H5FD__mirror_lock,      /* lock                 */
     H5FD__mirror_unlock,    /* unlock               */
+    NULL,                   /* del                  */
+    NULL,                   /* ctl                  */
     H5FD_FLMAP_DICHOTOMY    /* fl_map               */
 };
 
@@ -202,30 +210,6 @@ H5FL_DEFINE_STATIC(H5FD_mirror_t);
 
 /* Declare a free list to manage the H5FD_mirror_xmit_open_t struct */
 H5FL_DEFINE_STATIC(H5FD_mirror_xmit_open_t);
-
-/*-------------------------------------------------------------------------
- * Function:    H5FD__init_package
- *
- * Purpose:     Initializes any interface-specific data or routines.
- *
- * Return:      Non-negative on success/Negative on failure
- *-------------------------------------------------------------------------
- */
-static herr_t
-H5FD__init_package(void)
-{
-    herr_t ret_value = SUCCEED;
-
-    FUNC_ENTER_STATIC
-
-    LOG_OP_CALL(FUNC);
-
-    if (H5FD_mirror_init() < 0)
-        HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, FAIL, "unable to initialize mirror VFD");
-
-done:
-    FUNC_LEAVE_NOAPI(ret_value)
-} /* H5FD__init_package() */
 
 /* -------------------------------------------------------------------------
  * Function:    H5FD_mirror_init
@@ -247,9 +231,9 @@ H5FD_mirror_init(void)
     LOG_OP_CALL(__func__);
 
     if (H5I_VFL != H5I_get_type(H5FD_MIRROR_g)) {
-        H5FD_MIRROR_g = H5FD_register(&H5FD_mirror_g, sizeof(H5FD_class_t), FALSE);
+        H5FD_MIRROR_g = H5FD_register(&H5FD_mirror_g, sizeof(H5FD_class_t), false);
         if (H5I_INVALID_HID == H5FD_MIRROR_g)
-            HGOTO_ERROR(H5E_ATOM, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register mirror");
+            HGOTO_ERROR(H5E_ID, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register mirror");
     }
     ret_value = H5FD_MIRROR_g;
 
@@ -298,10 +282,10 @@ H5FD__mirror_xmit_decode_uint16(uint16_t *out, const unsigned char *_buf)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(_buf && out);
+    assert(_buf && out);
 
     H5MM_memcpy(&n, _buf, sizeof(n));
-    *out = (uint16_t)HDntohs(n);
+    *out = (uint16_t)ntohs(n);
 
     return 2; /* number of bytes eaten */
 } /* end H5FD__mirror_xmit_decode_uint16() */
@@ -326,10 +310,10 @@ H5FD__mirror_xmit_decode_uint32(uint32_t *out, const unsigned char *_buf)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(_buf && out);
+    assert(_buf && out);
 
     H5MM_memcpy(&n, _buf, sizeof(n));
-    *out = (uint32_t)HDntohl(n);
+    *out = (uint32_t)ntohl(n);
 
     return 4; /* number of bytes eaten */
 } /* end H5FD__mirror_xmit_decode_uint32() */
@@ -344,11 +328,9 @@ H5FD__mirror_xmit_decode_uint32(uint32_t *out, const unsigned char *_buf)
  *
  * Return:      The number of bytes written to the buffer (8).
  *
- * Programmer:  Jacob Smith
- *              2020-03-05
  * ---------------------------------------------------------------------------
  */
-static hbool_t
+static bool
 is_host_little_endian(void)
 {
     union {
@@ -358,9 +340,9 @@ is_host_little_endian(void)
     echeck.u32 = 0xA1B2C3D4;
 
     if (echeck.u8[0] == 0xD4)
-        return TRUE;
+        return true;
     else
-        return FALSE;
+        return false;
 } /* end is_host_little_endian() */
 
 /* ---------------------------------------------------------------------------
@@ -385,10 +367,10 @@ H5FD__mirror_xmit_decode_uint64(uint64_t *out, const unsigned char *_buf)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(_buf && out);
+    assert(_buf && out);
 
     H5MM_memcpy(&n, _buf, sizeof(n));
-    if (TRUE == is_host_little_endian())
+    if (true == is_host_little_endian())
         *out = BSWAP_64(n);
     else
         *out = n;
@@ -412,7 +394,7 @@ H5FD__mirror_xmit_decode_uint8(uint8_t *out, const unsigned char *_buf)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(_buf && out);
+    assert(_buf && out);
 
     H5MM_memcpy(out, _buf, sizeof(uint8_t));
 
@@ -438,9 +420,9 @@ H5FD__mirror_xmit_encode_uint16(unsigned char *_dest, uint16_t v)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(_dest);
+    assert(_dest);
 
-    n = (uint16_t)HDhtons(v);
+    n = (uint16_t)htons(v);
     H5MM_memcpy(_dest, &n, sizeof(n));
 
     return 2;
@@ -465,9 +447,9 @@ H5FD__mirror_xmit_encode_uint32(unsigned char *_dest, uint32_t v)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(_dest);
+    assert(_dest);
 
-    n = (uint32_t)HDhtonl(v);
+    n = (uint32_t)htonl(v);
     H5MM_memcpy(_dest, &n, sizeof(n));
 
     return 4;
@@ -492,9 +474,9 @@ H5FD__mirror_xmit_encode_uint64(unsigned char *_dest, uint64_t v)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(_dest);
+    assert(_dest);
 
-    if (TRUE == is_host_little_endian())
+    if (true == is_host_little_endian())
         n = BSWAP_64(v);
     H5MM_memcpy(_dest, &n, sizeof(n));
 
@@ -519,7 +501,7 @@ H5FD__mirror_xmit_encode_uint8(unsigned char *dest, uint8_t v)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(dest);
+    assert(dest);
 
     H5MM_memcpy(dest, &v, sizeof(v));
 
@@ -552,14 +534,14 @@ H5FD_mirror_xmit_decode_header(H5FD_mirror_xmit_t *out, const unsigned char *buf
 
     LOG_OP_CALL(__func__);
 
-    HDassert(out && buf);
+    assert(out && buf);
 
     n_eaten += H5FD__mirror_xmit_decode_uint32(&(out->magic), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint8(&(out->version), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint32(&(out->session_token), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint32(&(out->xmit_count), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint8(&(out->op), &buf[n_eaten]);
-    HDassert(n_eaten == H5FD_MIRROR_XMIT_HEADER_SIZE);
+    assert(n_eaten == H5FD_MIRROR_XMIT_HEADER_SIZE);
 
     return n_eaten;
 } /* end H5FD_mirror_xmit_decode_header() */
@@ -590,11 +572,11 @@ H5FD_mirror_xmit_decode_lock(H5FD_mirror_xmit_lock_t *out, const unsigned char *
 
     LOG_OP_CALL(__func__);
 
-    HDassert(out && buf);
+    assert(out && buf);
 
     n_eaten += H5FD_mirror_xmit_decode_header(&(out->pub), buf);
     n_eaten += H5FD__mirror_xmit_decode_uint64(&(out->rw), &buf[n_eaten]);
-    HDassert(n_eaten == H5FD_MIRROR_XMIT_LOCK_SIZE);
+    assert(n_eaten == H5FD_MIRROR_XMIT_LOCK_SIZE);
 
     return n_eaten;
 } /* end H5FD_mirror_xmit_decode_lock() */
@@ -626,14 +608,14 @@ H5FD_mirror_xmit_decode_open(H5FD_mirror_xmit_open_t *out, const unsigned char *
 
     LOG_OP_CALL(__func__);
 
-    HDassert(out && buf);
+    assert(out && buf);
 
     n_eaten += H5FD_mirror_xmit_decode_header(&(out->pub), buf);
     n_eaten += H5FD__mirror_xmit_decode_uint32(&(out->flags), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint64(&(out->maxaddr), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint64(&(out->size_t_blob), &buf[n_eaten]);
-    HDassert((H5FD_MIRROR_XMIT_OPEN_SIZE - H5FD_MIRROR_XMIT_FILEPATH_MAX) == n_eaten);
-    HDstrncpy(out->filename, (const char *)&buf[n_eaten], H5FD_MIRROR_XMIT_FILEPATH_MAX - 1);
+    assert((H5FD_MIRROR_XMIT_OPEN_SIZE - H5FD_MIRROR_XMIT_FILEPATH_MAX) == n_eaten);
+    strncpy(out->filename, (const char *)&buf[n_eaten], H5FD_MIRROR_XMIT_FILEPATH_MAX - 1);
     out->filename[H5FD_MIRROR_XMIT_FILEPATH_MAX - 1] = 0; /* force final NULL */
 
     return H5FD_MIRROR_XMIT_OPEN_SIZE;
@@ -666,12 +648,12 @@ H5FD_mirror_xmit_decode_reply(H5FD_mirror_xmit_reply_t *out, const unsigned char
 
     LOG_OP_CALL(__func__);
 
-    HDassert(out && buf);
+    assert(out && buf);
 
     n_eaten += H5FD_mirror_xmit_decode_header(&(out->pub), buf);
     n_eaten += H5FD__mirror_xmit_decode_uint32(&(out->status), &buf[n_eaten]);
-    HDassert((H5FD_MIRROR_XMIT_REPLY_SIZE - H5FD_MIRROR_STATUS_MESSAGE_MAX) == n_eaten);
-    HDstrncpy(out->message, (const char *)&buf[n_eaten], H5FD_MIRROR_STATUS_MESSAGE_MAX - 1);
+    assert((H5FD_MIRROR_XMIT_REPLY_SIZE - H5FD_MIRROR_STATUS_MESSAGE_MAX) == n_eaten);
+    strncpy(out->message, (const char *)&buf[n_eaten], H5FD_MIRROR_STATUS_MESSAGE_MAX - 1);
     out->message[H5FD_MIRROR_STATUS_MESSAGE_MAX - 1] = 0; /* force NULL term */
 
     return H5FD_MIRROR_XMIT_REPLY_SIZE;
@@ -703,12 +685,12 @@ H5FD_mirror_xmit_decode_set_eoa(H5FD_mirror_xmit_eoa_t *out, const unsigned char
 
     LOG_OP_CALL(__func__);
 
-    HDassert(out && buf);
+    assert(out && buf);
 
     n_eaten += H5FD_mirror_xmit_decode_header(&(out->pub), buf);
     n_eaten += H5FD__mirror_xmit_decode_uint8(&(out->type), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint64(&(out->eoa_addr), &buf[n_eaten]);
-    HDassert(n_eaten == H5FD_MIRROR_XMIT_EOA_SIZE);
+    assert(n_eaten == H5FD_MIRROR_XMIT_EOA_SIZE);
 
     return n_eaten;
 } /* end H5FD_mirror_xmit_decode_set_eoa() */
@@ -739,13 +721,13 @@ H5FD_mirror_xmit_decode_write(H5FD_mirror_xmit_write_t *out, const unsigned char
 
     LOG_OP_CALL(__func__);
 
-    HDassert(out && buf);
+    assert(out && buf);
 
     n_eaten += H5FD_mirror_xmit_decode_header(&(out->pub), buf);
     n_eaten += H5FD__mirror_xmit_decode_uint8(&(out->type), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint64(&(out->offset), &buf[n_eaten]);
     n_eaten += H5FD__mirror_xmit_decode_uint64(&(out->size), &buf[n_eaten]);
-    HDassert(n_eaten == H5FD_MIRROR_XMIT_WRITE_SIZE);
+    assert(n_eaten == H5FD_MIRROR_XMIT_WRITE_SIZE);
 
     return n_eaten;
 } /* end H5FD_mirror_xmit_decode_write() */
@@ -771,14 +753,14 @@ H5FD_mirror_xmit_encode_header(unsigned char *dest, const H5FD_mirror_xmit_t *x)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(dest && x);
+    assert(dest && x);
 
     n_writ += H5FD__mirror_xmit_encode_uint32((dest + n_writ), x->magic);
     n_writ += H5FD__mirror_xmit_encode_uint8((dest + n_writ), x->version);
     n_writ += H5FD__mirror_xmit_encode_uint32((dest + n_writ), x->session_token);
     n_writ += H5FD__mirror_xmit_encode_uint32((dest + n_writ), x->xmit_count);
     n_writ += H5FD__mirror_xmit_encode_uint8((dest + n_writ), x->op);
-    HDassert(n_writ == H5FD_MIRROR_XMIT_HEADER_SIZE);
+    assert(n_writ == H5FD_MIRROR_XMIT_HEADER_SIZE);
 
     return n_writ;
 } /* end H5FD_mirror_xmit_encode_header() */
@@ -803,11 +785,11 @@ H5FD_mirror_xmit_encode_lock(unsigned char *dest, const H5FD_mirror_xmit_lock_t 
 
     LOG_OP_CALL(__func__);
 
-    HDassert(dest && x);
+    assert(dest && x);
 
     n_writ += H5FD_mirror_xmit_encode_header(dest, (const H5FD_mirror_xmit_t *)&(x->pub));
     n_writ += H5FD__mirror_xmit_encode_uint64(&dest[n_writ], x->rw);
-    HDassert(n_writ == H5FD_MIRROR_XMIT_LOCK_SIZE);
+    assert(n_writ == H5FD_MIRROR_XMIT_LOCK_SIZE);
 
     return n_writ;
 } /* end H5FD_mirror_xmit_encode_lock() */
@@ -833,17 +815,17 @@ H5FD_mirror_xmit_encode_open(unsigned char *dest, const H5FD_mirror_xmit_open_t 
 
     LOG_OP_CALL(__func__);
 
-    HDassert(dest && x);
+    assert(dest && x);
 
     /* clear entire structure, but especially its filepath string area */
-    HDmemset(dest, 0, H5FD_MIRROR_XMIT_OPEN_SIZE);
+    memset(dest, 0, H5FD_MIRROR_XMIT_OPEN_SIZE);
 
     n_writ += H5FD_mirror_xmit_encode_header(dest, (const H5FD_mirror_xmit_t *)&(x->pub));
     n_writ += H5FD__mirror_xmit_encode_uint32(&dest[n_writ], x->flags);
     n_writ += H5FD__mirror_xmit_encode_uint64(&dest[n_writ], x->maxaddr);
     n_writ += H5FD__mirror_xmit_encode_uint64(&dest[n_writ], x->size_t_blob);
-    HDassert((H5FD_MIRROR_XMIT_OPEN_SIZE - H5FD_MIRROR_XMIT_FILEPATH_MAX) == n_writ);
-    HDstrncpy((char *)&dest[n_writ], x->filename, H5FD_MIRROR_XMIT_FILEPATH_MAX);
+    assert((H5FD_MIRROR_XMIT_OPEN_SIZE - H5FD_MIRROR_XMIT_FILEPATH_MAX) == n_writ);
+    strncpy((char *)&dest[n_writ], x->filename, H5FD_MIRROR_XMIT_FILEPATH_MAX);
 
     return H5FD_MIRROR_XMIT_OPEN_SIZE;
 } /* end H5FD_mirror_xmit_encode_open() */
@@ -870,15 +852,15 @@ H5FD_mirror_xmit_encode_reply(unsigned char *dest, const H5FD_mirror_xmit_reply_
 
     LOG_OP_CALL(__func__);
 
-    HDassert(dest && x);
+    assert(dest && x);
 
     /* clear entire structure, but especially its message string area */
-    HDmemset(dest, 0, H5FD_MIRROR_XMIT_REPLY_SIZE);
+    memset(dest, 0, H5FD_MIRROR_XMIT_REPLY_SIZE);
 
     n_writ += H5FD_mirror_xmit_encode_header(dest, (const H5FD_mirror_xmit_t *)&(x->pub));
     n_writ += H5FD__mirror_xmit_encode_uint32(&dest[n_writ], x->status);
-    HDassert((H5FD_MIRROR_XMIT_REPLY_SIZE - H5FD_MIRROR_STATUS_MESSAGE_MAX) == n_writ);
-    HDstrncpy((char *)&dest[n_writ], x->message, H5FD_MIRROR_STATUS_MESSAGE_MAX);
+    assert((H5FD_MIRROR_XMIT_REPLY_SIZE - H5FD_MIRROR_STATUS_MESSAGE_MAX) == n_writ);
+    strncpy((char *)&dest[n_writ], x->message, H5FD_MIRROR_STATUS_MESSAGE_MAX);
 
     return H5FD_MIRROR_XMIT_REPLY_SIZE;
 } /* end H5FD_mirror_xmit_encode_reply() */
@@ -904,12 +886,12 @@ H5FD_mirror_xmit_encode_set_eoa(unsigned char *dest, const H5FD_mirror_xmit_eoa_
 
     LOG_OP_CALL(__func__);
 
-    HDassert(dest && x);
+    assert(dest && x);
 
     n_writ += H5FD_mirror_xmit_encode_header(dest, (const H5FD_mirror_xmit_t *)&(x->pub));
     n_writ += H5FD__mirror_xmit_encode_uint8(&dest[n_writ], x->type);
     n_writ += H5FD__mirror_xmit_encode_uint64(&dest[n_writ], x->eoa_addr);
-    HDassert(n_writ == H5FD_MIRROR_XMIT_EOA_SIZE);
+    assert(n_writ == H5FD_MIRROR_XMIT_EOA_SIZE);
 
     return n_writ;
 } /* end H5FD_mirror_xmit_encode_set_eoa() */
@@ -935,13 +917,13 @@ H5FD_mirror_xmit_encode_write(unsigned char *dest, const H5FD_mirror_xmit_write_
 
     LOG_OP_CALL(__func__);
 
-    HDassert(dest && x);
+    assert(dest && x);
 
     n_writ += H5FD_mirror_xmit_encode_header(dest, (const H5FD_mirror_xmit_t *)&(x->pub));
     n_writ += H5FD__mirror_xmit_encode_uint8(&dest[n_writ], x->type);
     n_writ += H5FD__mirror_xmit_encode_uint64(&dest[n_writ], x->offset);
     n_writ += H5FD__mirror_xmit_encode_uint64(&dest[n_writ], x->size);
-    HDassert(n_writ == H5FD_MIRROR_XMIT_WRITE_SIZE);
+    assert(n_writ == H5FD_MIRROR_XMIT_WRITE_SIZE);
 
     return n_writ;
 } /* end H5FD_mirror_xmit_encode_write() */
@@ -953,20 +935,20 @@ H5FD_mirror_xmit_encode_write(unsigned char *dest, const H5FD_mirror_xmit_write_
  *
  *              Checks header validity and op code.
  *
- * Return:      TRUE if valid; else FALSE.
+ * Return:      true if valid; else false.
  * ---------------------------------------------------------------------------
  */
-H5_ATTR_PURE hbool_t
+H5_ATTR_PURE bool
 H5FD_mirror_xmit_is_close(const H5FD_mirror_xmit_t *xmit)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(xmit);
+    assert(xmit);
 
-    if ((TRUE == H5FD_mirror_xmit_is_xmit(xmit)) && (H5FD_MIRROR_OP_CLOSE == xmit->op))
-        return TRUE;
+    if ((true == H5FD_mirror_xmit_is_xmit(xmit)) && (H5FD_MIRROR_OP_CLOSE == xmit->op))
+        return true;
 
-    return FALSE;
+    return false;
 } /* end H5FD_mirror_xmit_is_close() */
 
 /* ---------------------------------------------------------------------------
@@ -976,20 +958,20 @@ H5FD_mirror_xmit_is_close(const H5FD_mirror_xmit_t *xmit)
  *
  *              Checks header validity and op code.
  *
- * Return:      TRUE if valid; else FALSE.
+ * Return:      true if valid; else false.
  * ---------------------------------------------------------------------------
  */
-H5_ATTR_PURE hbool_t
+H5_ATTR_PURE bool
 H5FD_mirror_xmit_is_lock(const H5FD_mirror_xmit_lock_t *xmit)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(xmit);
+    assert(xmit);
 
-    if ((TRUE == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_LOCK == xmit->pub.op))
-        return TRUE;
+    if ((true == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_LOCK == xmit->pub.op))
+        return true;
 
-    return FALSE;
+    return false;
 } /* end H5FD_mirror_xmit_is_lock() */
 
 /* ---------------------------------------------------------------------------
@@ -999,21 +981,21 @@ H5FD_mirror_xmit_is_lock(const H5FD_mirror_xmit_lock_t *xmit)
  *
  *              Checks header validity and op code.
  *
- * Return:      TRUE if valid; else FALSE.
+ * Return:      true if valid; else false.
  * ---------------------------------------------------------------------------
  */
-H5_ATTR_PURE hbool_t
+H5_ATTR_PURE bool
 H5FD_mirror_xmit_is_open(const H5FD_mirror_xmit_open_t *xmit)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(xmit);
+    assert(xmit);
 
-    if ((TRUE == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_OPEN == xmit->pub.op))
+    if ((true == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_OPEN == xmit->pub.op))
 
-        return TRUE;
+        return true;
 
-    return FALSE;
+    return false;
 } /* end H5FD_mirror_xmit_is_open() */
 
 /* ---------------------------------------------------------------------------
@@ -1023,20 +1005,20 @@ H5FD_mirror_xmit_is_open(const H5FD_mirror_xmit_open_t *xmit)
  *
  *              Checks header validity and op code.
  *
- * Return:      TRUE if valid; else FALSE.
+ * Return:      true if valid; else false.
  * ---------------------------------------------------------------------------
  */
-H5_ATTR_PURE hbool_t
+H5_ATTR_PURE bool
 H5FD_mirror_xmit_is_set_eoa(const H5FD_mirror_xmit_eoa_t *xmit)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(xmit);
+    assert(xmit);
 
-    if ((TRUE == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_SET_EOA == xmit->pub.op))
-        return TRUE;
+    if ((true == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_SET_EOA == xmit->pub.op))
+        return true;
 
-    return FALSE;
+    return false;
 } /* end H5FD_mirror_xmit_is_eoa() */
 
 /* ---------------------------------------------------------------------------
@@ -1046,20 +1028,20 @@ H5FD_mirror_xmit_is_set_eoa(const H5FD_mirror_xmit_eoa_t *xmit)
  *
  *              Checks header validity and op code.
  *
- * Return:      TRUE if valid; else FALSE.
+ * Return:      true if valid; else false.
  * ---------------------------------------------------------------------------
  */
-H5_ATTR_PURE hbool_t
+H5_ATTR_PURE bool
 H5FD_mirror_xmit_is_reply(const H5FD_mirror_xmit_reply_t *xmit)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(xmit);
+    assert(xmit);
 
-    if ((TRUE == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_REPLY == xmit->pub.op))
-        return TRUE;
+    if ((true == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_REPLY == xmit->pub.op))
+        return true;
 
-    return FALSE;
+    return false;
 } /* end H5FD_mirror_xmit_is_reply() */
 
 /* ---------------------------------------------------------------------------
@@ -1069,20 +1051,20 @@ H5FD_mirror_xmit_is_reply(const H5FD_mirror_xmit_reply_t *xmit)
  *
  *              Checks header validity and op code.
  *
- * Return:      TRUE if valid; else FALSE.
+ * Return:      true if valid; else false.
  * ---------------------------------------------------------------------------
  */
-H5_ATTR_PURE hbool_t
+H5_ATTR_PURE bool
 H5FD_mirror_xmit_is_write(const H5FD_mirror_xmit_write_t *xmit)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(xmit);
+    assert(xmit);
 
-    if ((TRUE == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_WRITE == xmit->pub.op))
-        return TRUE;
+    if ((true == H5FD_mirror_xmit_is_xmit(&(xmit->pub))) && (H5FD_MIRROR_OP_WRITE == xmit->pub.op))
+        return true;
 
-    return FALSE;
+    return false;
 } /* end H5FD_mirror_xmit_is_write() */
 
 /* ---------------------------------------------------------------------------
@@ -1092,20 +1074,20 @@ H5FD_mirror_xmit_is_write(const H5FD_mirror_xmit_write_t *xmit)
  *
  *              Checks magic number and structure version.
  *
- * Return:      TRUE if valid; else FALSE.
+ * Return:      true if valid; else false.
  * ---------------------------------------------------------------------------
  */
-H5_ATTR_PURE hbool_t
+H5_ATTR_PURE bool
 H5FD_mirror_xmit_is_xmit(const H5FD_mirror_xmit_t *xmit)
 {
     LOG_OP_CALL(__func__);
 
-    HDassert(xmit);
+    assert(xmit);
 
     if ((H5FD_MIRROR_XMIT_MAGIC != xmit->magic) || (H5FD_MIRROR_XMIT_CURR_VERSION != xmit->version))
-        return FALSE;
+        return false;
 
-    return TRUE;
+    return true;
 } /* end H5FD_mirror_xmit_is_xmit() */
 
 /* ----------------------------------------------------------------------------
@@ -1131,7 +1113,7 @@ H5FD__mirror_verify_reply(H5FD_mirror_t *file)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(file && file->sock_fd);
+    assert(file && file->sock_fd);
 
     xmit_buf = H5FL_BLK_MALLOC(xmit, H5FD_MIRROR_XMIT_BUFFER_MAX);
     if (NULL == xmit_buf)
@@ -1148,7 +1130,7 @@ H5FD__mirror_verify_reply(H5FD_mirror_t *file)
     if (H5FD_mirror_xmit_decode_reply(&reply, xmit_buf) != H5FD_MIRROR_XMIT_REPLY_SIZE)
         HGOTO_ERROR(H5E_VFL, H5E_BADVALUE, FAIL, "unable to decode reply xmit");
 
-    if (H5FD_mirror_xmit_is_reply(&reply) != TRUE)
+    if (H5FD_mirror_xmit_is_reply(&reply) != true)
         HGOTO_ERROR(H5E_VFL, H5E_BADVALUE, FAIL, "xmit op code was not REPLY");
 
     if (reply.pub.session_token != file->xmit.session_token)
@@ -1162,7 +1144,7 @@ done:
     if (xmit_buf)
         xmit_buf = H5FL_BLK_FREE(xmit, xmit_buf);
 
-    FUNC_LEAVE_NOAPI(ret_value);
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD__mirror_verify_reply() */
 
 /* -------------------------------------------------------------------------
@@ -1255,8 +1237,8 @@ H5FD__mirror_fapl_free(void *_fa)
     LOG_OP_CALL(__func__);
 
     /* sanity check */
-    HDassert(fa != NULL);
-    HDassert(fa->magic == H5FD_MIRROR_FAPL_MAGIC);
+    assert(fa != NULL);
+    assert(fa->magic == H5FD_MIRROR_FAPL_MAGIC);
 
     fa->magic += 1; /* invalidate */
     H5MM_xfree(fa);
@@ -1274,14 +1256,13 @@ H5FD__mirror_fapl_free(void *_fa)
  * -------------------------------------------------------------------------
  */
 herr_t
-H5Pget_fapl_mirror(hid_t fapl_id, H5FD_mirror_fapl_t *fa_dst)
+H5Pget_fapl_mirror(hid_t fapl_id, H5FD_mirror_fapl_t *fa_dst /*out*/)
 {
     const H5FD_mirror_fapl_t *fa_src    = NULL;
     H5P_genplist_t           *plist     = NULL;
     herr_t                    ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE2("e", "i*x", fapl_id, fa_dst);
 
     LOG_OP_CALL(__func__);
 
@@ -1298,12 +1279,12 @@ H5Pget_fapl_mirror(hid_t fapl_id, H5FD_mirror_fapl_t *fa_dst)
     if (NULL == fa_src)
         HGOTO_ERROR(H5E_PLIST, H5E_BADVALUE, FAIL, "bad VFL driver info");
 
-    HDassert(fa_src->magic == H5FD_MIRROR_FAPL_MAGIC); /* sanity check */
+    assert(fa_src->magic == H5FD_MIRROR_FAPL_MAGIC); /* sanity check */
 
     H5MM_memcpy(fa_dst, fa_src, sizeof(H5FD_mirror_fapl_t));
 
 done:
-    FUNC_LEAVE_API(ret_value);
+    FUNC_LEAVE_API(ret_value)
 } /* end H5Pget_fapl_mirror() */
 
 /*-------------------------------------------------------------------------
@@ -1322,7 +1303,6 @@ H5Pset_fapl_mirror(hid_t fapl_id, H5FD_mirror_fapl_t *fa)
     herr_t          ret_value = FAIL;
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE2("e", "i*x", fapl_id, fa);
 
     LOG_OP_CALL(__func__);
 
@@ -1336,7 +1316,7 @@ H5Pset_fapl_mirror(hid_t fapl_id, H5FD_mirror_fapl_t *fa)
     if (H5FD_MIRROR_CURR_FAPL_T_VERSION != fa->version)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unknown fapl_t version");
 
-    ret_value = H5P_set_driver(plist, H5FD_MIRROR, (const void *)fa);
+    ret_value = H5P_set_driver(plist, H5FD_MIRROR, (const void *)fa, NULL);
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -1378,7 +1358,7 @@ H5FD__mirror_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxad
 
     if (!name || !*name)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "invalid file name");
-    if (HDstrlen(name) >= H5FD_MIRROR_XMIT_FILEPATH_MAX)
+    if (strlen(name) >= H5FD_MIRROR_XMIT_FILEPATH_MAX)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "filename is too long");
     if (0 == maxaddr || HADDR_UNDEF == maxaddr)
         HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, NULL, "bogus maxaddr");
@@ -1396,17 +1376,17 @@ H5FD__mirror_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxad
     /* Handshake with remote */
     /* --------------------- */
 
-    live_socket = HDsocket(AF_INET, SOCK_STREAM, 0);
+    live_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (live_socket < 0)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "can't create socket");
 
     target_addr.sin_family      = AF_INET;
-    target_addr.sin_port        = HDhtons((uint16_t)fa.handshake_port);
-    target_addr.sin_addr.s_addr = HDinet_addr(fa.remote_ip);
-    HDmemset(target_addr.sin_zero, '\0', sizeof target_addr.sin_zero);
+    target_addr.sin_port        = htons((uint16_t)fa.handshake_port);
+    target_addr.sin_addr.s_addr = inet_addr(fa.remote_ip);
+    memset(target_addr.sin_zero, '\0', sizeof target_addr.sin_zero);
 
     addr_size = sizeof(target_addr);
-    if (HDconnect(live_socket, (struct sockaddr *)&target_addr, addr_size) < 0)
+    if (connect(live_socket, (struct sockaddr *)&target_addr, addr_size) < 0)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "can't connect to remote server");
 
     /* ------------- */
@@ -1435,7 +1415,7 @@ H5FD__mirror_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxad
     open_xmit->flags       = (uint32_t)flags;
     open_xmit->maxaddr     = (uint64_t)maxaddr;
     open_xmit->size_t_blob = (uint64_t)((size_t)(-1));
-    HDsnprintf(open_xmit->filename, H5FD_MIRROR_XMIT_FILEPATH_MAX - 1, "%s", name);
+    snprintf(open_xmit->filename, H5FD_MIRROR_XMIT_FILEPATH_MAX - 1, "%s", name);
 
     xmit_buf = H5FL_BLK_MALLOC(xmit, H5FD_MIRROR_XMIT_BUFFER_MAX);
     if (NULL == xmit_buf)
@@ -1498,8 +1478,8 @@ H5FD__mirror_close(H5FD_t *_file)
     LOG_OP_CALL(__func__);
 
     /* Sanity check */
-    HDassert(file);
-    HDassert(file->sock_fd >= 0);
+    assert(file);
+    assert(file->sock_fd >= 0);
 
     file->xmit.xmit_count = (file->xmit_i)++;
     file->xmit.op         = H5FD_MIRROR_OP_CLOSE;
@@ -1530,15 +1510,14 @@ done:
              * We can ignore any response from the writer, if we receive
              * any reply at all.
              */
-            if (HDwrite(file->sock_fd, "GOODBYE", HDstrlen("GOODBYE")) < 0) {
+            if (HDwrite(file->sock_fd, "GOODBYE", strlen("GOODBYE")) < 0) {
                 HDONE_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to transmit close");
                 if (HDclose(file->sock_fd) < 0)
                     HDONE_ERROR(H5E_VFL, H5E_CANTCLOSEFILE, FAIL, "can't close socket");
                 file->sock_fd = -1; /* invalidate for later */
             }                       /* end if problem writing goodbye; go down hard */
             else if (HDshutdown(file->sock_fd, SHUT_WR) < 0)
-                HDONE_ERROR(H5E_VFL, H5E_BADVALUE, FAIL, "can't shutdown socket write: %s",
-                            HDstrerror(errno));
+                HDONE_ERROR(H5E_VFL, H5E_BADVALUE, FAIL, "can't shutdown socket write: %s", strerror(errno));
         } /* end if xmit encode failed */
 
         if (file->sock_fd >= 0)
@@ -1565,7 +1544,7 @@ done:
 static herr_t
 H5FD__mirror_query(const H5FD_t H5_ATTR_UNUSED *_file, unsigned long *flags)
 {
-    FUNC_ENTER_PACKAGE_NOERR;
+    FUNC_ENTER_PACKAGE_NOERR
 
     LOG_OP_CALL(__func__);
 
@@ -1582,7 +1561,7 @@ H5FD__mirror_query(const H5FD_t H5_ATTR_UNUSED *_file, unsigned long *flags)
                  H5FD_FEAT_AGGREGATE_SMALLDATA | H5FD_FEAT_POSIX_COMPAT_HANDLE | H5FD_FEAT_SUPPORTS_SWMR_IO |
                  H5FD_FEAT_DEFAULT_VFD_COMPATIBLE;
 
-    FUNC_LEAVE_NOAPI(SUCCEED);
+    FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5FD__mirror_query() */
 
 /*-------------------------------------------------------------------------
@@ -1606,7 +1585,7 @@ H5FD__mirror_get_eoa(const H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(file);
+    assert(file);
 
     FUNC_LEAVE_NOAPI(file->eoa)
 } /* end H5FD__mirror_get_eoa() */
@@ -1633,7 +1612,7 @@ H5FD__mirror_set_eoa(H5FD_t *_file, H5FD_mem_t type, haddr_t addr)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(file);
+    assert(file);
 
     file->eoa = addr; /* local copy */
 
@@ -1688,7 +1667,7 @@ H5FD__mirror_get_eof(const H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type)
 
     LOG_OP_CALL(__func__);
 
-    HDassert(file);
+    assert(file);
 
     FUNC_LEAVE_NOAPI(file->eof)
 } /* end H5FD__mirror_get_eof() */
@@ -1742,8 +1721,8 @@ H5FD__mirror_write(H5FD_t *_file, H5FD_mem_t type, hid_t H5_ATTR_UNUSED dxpl_id,
 
     LOG_OP_CALL(__func__);
 
-    HDassert(file);
-    HDassert(buf);
+    assert(file);
+    assert(buf);
 
     file->xmit.xmit_count = (file->xmit_i)++;
     file->xmit.op         = H5FD_MIRROR_OP_WRITE;
@@ -1795,7 +1774,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FD__mirror_truncate(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, hbool_t H5_ATTR_UNUSED closing)
+H5FD__mirror_truncate(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, bool H5_ATTR_UNUSED closing)
 {
     unsigned char *xmit_buf  = NULL;
     H5FD_mirror_t *file      = (H5FD_mirror_t *)_file;
@@ -1835,14 +1814,14 @@ done:
  *
  * Purpose:     To place an advisory lock on a file.
  *              The lock type to apply depends on the parameter "rw":
- *                      TRUE--opens for write: an exclusive lock
- *                      FALSE--opens for read: a shared lock
+ *                      true--opens for write: an exclusive lock
+ *                      false--opens for read: a shared lock
  *
  * Return:      SUCCEED/FAIL
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FD__mirror_lock(H5FD_t *_file, hbool_t rw)
+H5FD__mirror_lock(H5FD_t *_file, bool rw)
 {
     H5FD_mirror_xmit_lock_t xmit_lock;
     unsigned char          *xmit_buf  = NULL;
@@ -1878,7 +1857,7 @@ done:
     if (xmit_buf)
         xmit_buf = H5FL_BLK_FREE(xmit, xmit_buf);
 
-    FUNC_LEAVE_NOAPI(ret_value);
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD__mirror_lock */
 
 /*-------------------------------------------------------------------------
@@ -1922,7 +1901,7 @@ done:
     if (xmit_buf)
         xmit_buf = H5FL_BLK_FREE(xmit, xmit_buf);
 
-    FUNC_LEAVE_NOAPI(ret_value);
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD__mirror_unlock */
 
 #endif /* H5_HAVE_MIRROR_VFD */

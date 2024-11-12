@@ -21,11 +21,12 @@ fi
 dir=$(
   cd -P -- "$(dirname -- "$prg")/.." && pwd -P
 ) || exit
-prg=$dir/$(basename -- "$prg") || exit
+prg=$dir/bin/$(basename -- "$prg") || exit
 
-printf '%s\n' "$prg"
-printf 'dir is %s\n' "$dir"
+#printf '%s\n' "$prg"
+#printf 'dir is %s\n' "$dir"
 
+pc_args=""
 
 # Show the configuration summary of the library recorded in the
 # libhdf5.settings file residing in the lib directory.
@@ -33,6 +34,27 @@ showconfigure()
 {
   cat $dir/lib/libhdf5.settings
   status=$?
+}
+
+usage() {
+  # "How-to use" message.
+  echo "usage: $prg [OPTIONS] <pkg-config line>"
+  echo "  OPTIONS:"
+  echo "    -help           This help message."
+  echo "    -show           Show the commands without executing them"
+  echo "    -showconfig     Show the HDF5 library configuration summary"
+  echo " "
+  echo "  <pkg-config line> - the pkg-config compile line options for the compiler"
+  echo "                    that was used to compile HDF5." 
+  echo "                    Use pkg-config --help for more information"
+  echo "                    on which options are available. $prg passes pkg-config options"
+  echo "                    through as those options use double-underscores."
+  echo " "
+  echo "                    NOTE: pkg-config is required to be installed on your system and"
+  echo "                    using --static requires a static version of the C runtime library"
+  echo "                    to be have been installed on your system."
+  echo " "
+  exit $EXIT_FAILURE
 }
 
 export PKG_CONFIG_PATH=$dir/lib/pkgconfig
@@ -43,8 +65,20 @@ for arg in $@ ; do
       showconfigure
       exit $status
       ;;
+    -show)
+      echo @_PKG_CONFIG_COMPILER@ $@ `pkg-config $pc_args --define-variable=prefix=$dir --cflags --libs @_PKG_CONFIG_LIBNAME@`
+      exit $status
+      ;;
+    -help)
+      usage
+      exit $status
+      ;;
+    --*)
+      # gather pkg-config specific options
+      pc_args="$pc_args $arg"
+      ;;
     *)
-      @_PKG_CONFIG_COMPILER@ $@ `pkg-config --define-variable=prefix=$dir --cflags --libs @_PKG_CONFIG_LIBNAME@`
+      @_PKG_CONFIG_COMPILER@ $@ `pkg-config $pc_args --define-variable=prefix=$dir --cflags --libs @_PKG_CONFIG_LIBNAME@`
       status=$?
       exit $status
       ;;

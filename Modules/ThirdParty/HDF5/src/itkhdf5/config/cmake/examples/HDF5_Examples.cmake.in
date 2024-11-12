@@ -9,7 +9,7 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.18)
 ###############################################################################################################
 # This script will build and run the examples from a folder
 # Execute from a command line:
@@ -42,6 +42,14 @@ if(DEFINED CTEST_SCRIPT_ARG)
   endforeach()
 endif()
 
+if(${CTEST_VSVERS} STREQUAL "64_VS2022") # 64-bit Visual Studio 2022
+  set(CTEST_CMAKE_GENERATOR "Visual Studio 17 2022")
+  set(CMAKE_GENERATOR_ARCHITECTURE "x64")
+elseif(${VS_VERS} STREQUAL "64_VS2019") # 64-bit Visual Studio 2019
+  set(CTEST_CMAKE_GENERATOR "Visual Studio 16 2019")
+  set(CMAKE_GENERATOR_ARCHITECTURE "x64")
+endif()
+
 ###################################################################
 ### Following Line is one of [Release, RelWithDebInfo, Debug] #####
 set(CTEST_CONFIGURATION_TYPE "$ENV{CMAKE_CONFIG_TYPE}")
@@ -53,9 +61,9 @@ set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DCTEST_CONFIGURATION_TYPE:STRING=${
 
 if(NOT DEFINED INSTALLDIR)
   if(WIN32)
-    set(INSTALLDIR "%ProgramFiles%/HDF_Group/@HDF5_PACKAGE_NAME@/@HDF5_PACKAGE_VERSION@")
+    set(INSTALLDIR "\"%ProgramFiles%/HDF_Group/@HDF5_PACKAGE_NAME@/@HDF5_PACKAGE_VERSION@\"")
   else()
-    set(INSTALLDIR "@CMAKE_INSTALL_PREFIX@")
+    set(INSTALLDIR "/opt/HDF_Group/@HDF5_PACKAGE_NAME@/@HDF5_PACKAGE_VERSION@")
   endif()
 endif()
 
@@ -63,11 +71,6 @@ if(NOT DEFINED CTEST_SOURCE_NAME)
   set(CTEST_SOURCE_NAME "HDF5Examples")
 endif()
 
-if(NOT DEFINED HDF_LOCAL)
-  set(CDASH_LOCAL "NO")
-else()
-  set(CDASH_LOCAL "YES")
-endif()
 if(NOT DEFINED CTEST_SITE)
   set(CTEST_SITE "local")
 endif()
@@ -83,6 +86,7 @@ set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DSITE:STRING=${CTEST_SITE} -DBUILDN
 
 ###############################################################################################################
 set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ROOT:PATH=${INSTALLDIR}")
+set (ENV{HDF5_ROOT} "${INSTALLDIR}")
 if(WIN32)
   set(SITE_OS_NAME "Windows")
   set(CTEST_BINARY_NAME ${CTEST_SOURCE_NAME}\\build)
@@ -101,13 +105,16 @@ else()
 endif()
 ### default HDF5_PLUGIN_PATH to where the filter libraries are located
 set(ENV{HDF5_PLUGIN_PATH} "${INSTALLDIR}/lib/plugin")
-if(${CDASH_LOCAL})
-  set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DCDASH_LOCAL:BOOL=ON")
-endif()
 set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_PACKAGE_NAME:STRING=@HDF5_PACKAGE@@HDF_PACKAGE_EXT@")
+### use a toolchain file (supported everywhere)       ####
+#if(NOT DEFINED CTEST_TOOLCHAIN_FILE)
+#  set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DCMAKE_TOOLCHAIN_FILE:STRING=@CTEST_TOOLCHAIN_FILE@")
+#else()
+#  set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DCMAKE_TOOLCHAIN_FILE:STRING=${CTEST_TOOLCHAIN_FILE}")
+#endif()
 
 ###############################################################################################################
-# For any comments please contact cdashhelp@hdfgroup.org
+# For any comments please contact help@hdfgroup.org
 #
 ###############################################################################################################
 

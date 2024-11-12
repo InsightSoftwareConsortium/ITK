@@ -32,7 +32,6 @@ namespace H5 {
 //--------------------------------------------------------------------------
 // Function:    AtomType default constructor [protected]
 // Purpose      Default constructor: creates a stub atomic datatype.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 AtomType::AtomType() : DataType()
 {
@@ -43,7 +42,6 @@ AtomType::AtomType() : DataType()
 // Purpose      Creates an AtomType object using an existing id.
 // Parameter    existing_id - IN: Id of an existing datatype
 // Exception    H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 AtomType::AtomType(const hid_t existing_id) : DataType(existing_id)
 {
@@ -52,7 +50,6 @@ AtomType::AtomType(const hid_t existing_id) : DataType(existing_id)
 //--------------------------------------------------------------------------
 // Function:    AtomType copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 AtomType::AtomType(const AtomType &original) : DataType(original)
 {
@@ -64,7 +61,6 @@ AtomType::AtomType(const AtomType &original) : DataType(original)
 ///\brief       Sets the total size for an atomic datatype.
 ///\param       size - IN: Size to set
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 AtomType::setSize(size_t size) const
@@ -84,7 +80,6 @@ AtomType::setSize(size_t size) const
 ///             \li \c H5T_ORDER_BE
 ///             \li \c H5T_ORDER_VAX
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - Mar, 2005
 //--------------------------------------------------------------------------
 H5T_order_t
 AtomType::getOrder() const
@@ -114,7 +109,6 @@ AtomType::getOrder() const
 ///             \li \c H5T_ORDER_BE
 ///             \li \c H5T_ORDER_VAX
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 H5T_order_t
 AtomType::getOrder(H5std_string &order_string) const
@@ -140,7 +134,6 @@ AtomType::getOrder(H5std_string &order_string) const
 ///             \li \c H5T_ORDER_BE
 ///             \li \c H5T_ORDER_VAX
 ///\exception   H5::DataTypeIException
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 AtomType::setOrder(H5T_order_t order) const
@@ -161,7 +154,6 @@ AtomType::setOrder(H5T_order_t order) const
 ///             The precision is the number of significant bits which,
 ///             unless padding is present, is 8 times larger than the
 ///             value returned by \c DataType::getSize().
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 size_t
 AtomType::getPrecision() const
@@ -184,7 +176,6 @@ AtomType::getPrecision() const
 ///\par Description
 ///             For information, please refer to the H5Tset_precision API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 AtomType::setPrecision(size_t precision) const
@@ -204,7 +195,6 @@ AtomType::setPrecision(size_t precision) const
 ///\par Description
 ///             For information, please refer to the H5Tget_offset API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 // Modification
 //              12/05/00: due to C API change
 //                  - return type changed from size_t to int
@@ -230,7 +220,6 @@ AtomType::getOffset() const
 ///\par Description
 ///             For information, please refer to the H5Tset_offset API in
 ///             the HDF5 C Reference Manual.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 AtomType::setOffset(size_t offset) const
@@ -254,7 +243,6 @@ AtomType::setOffset(size_t offset) const
 ///             \li \c H5T_PAD_ZERO (0) - Set background to zeros.
 ///             \li \c H5T_PAD_ONE (1) - Set background to ones.
 ///             \li \c H5T_PAD_BACKGROUND (2) - Leave background alone.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 AtomType::getPad(H5T_pad_t &lsb, H5T_pad_t &msb) const
@@ -277,7 +265,6 @@ AtomType::getPad(H5T_pad_t &lsb, H5T_pad_t &msb) const
 ///             \li \c H5T_PAD_ZERO (0) - Set background to zeros.
 ///             \li \c H5T_PAD_ONE (1) - Set background to ones.
 ///             \li \c H5T_PAD_BACKGROUND (2) - Leave background alone.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void
 AtomType::setPad(H5T_pad_t lsb, H5T_pad_t msb) const
@@ -288,16 +275,5 @@ AtomType::setPad(H5T_pad_t lsb, H5T_pad_t msb) const
         throw DataTypeIException(inMemFunc("setPad"), "H5Tset_pad failed");
     }
 }
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-//--------------------------------------------------------------------------
-// Function:    AtomType destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-AtomType::~AtomType()
-{
-}
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 } // namespace H5

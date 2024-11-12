@@ -50,18 +50,18 @@ H5_HLDLL herr_t H5LDget_dset_dims(hid_t did, hsize_t *cur_dims);
  *-------------------------------------------------------------------------
  * \ingroup H5LT
  *
- * \brief Returns the size in bytes of the dataset’s datatype
+ * \brief Returns the size in bytes of the dataset's datatype
  *
  * \param[in] did       The dataset identifier
  * \param[in] fields    The pointer to a comma-separated list of fields for a compound datatype
  *
  * \return If successful, returns the size in bytes of the
- *         dataset’s datatype. Otherwise, returns 0.
+ *         dataset's datatype. Otherwise, returns 0.
  *
  * \details H5LDget_dset_type_size() allows the user to find out the datatype
  *          size for the dataset associated with \p did. If the
  *          parameter \p fields is NULL, this routine just returns the size
- *          of the dataset’s datatype. If the dataset has a compound datatype
+ *          of the dataset's datatype. If the dataset has a compound datatype
  *          and \p fields is non-NULL, this routine returns the size of the
  *          datatype(s) for the selected fields specified in \p fields.
  *          Note that ’,’ is the separator for the fields of a compound

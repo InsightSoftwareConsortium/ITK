@@ -11,12 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:	Quincey Koziol
- *		Saturday, September 12, 2015
- *
- * Purpose:	This file contains declarations which define macros for the
- *		H5A package.  Including this header means that the source file
- *		is part of the H5A package.
+ * Purpose: This file contains declarations which define macros for the
+ *          H5A package.  Including this header means that the source file
+ *          is part of the H5A package.
  */
 #ifndef H5Amodule_H
 #define H5Amodule_H
@@ -25,9 +22,8 @@
  *      reporting macros.
  */
 #define H5A_MODULE
-#define H5_MY_PKG      H5A
-#define H5_MY_PKG_ERR  H5E_ATTR
-#define H5_MY_PKG_INIT YES
+#define H5_MY_PKG     H5A
+#define H5_MY_PKG_ERR H5E_ATTR
 
 /** \page H5A_UG HDF5 Attributes
  *
@@ -63,7 +59,7 @@
  * attached directly to that object
  *
  * \subsection subsec_error_H5A Attribute Function Summaries
- * @see H5A reference manual
+ * see @ref H5A reference manual
  *
  * \subsection subsec_attribute_program Programming Model for Attributes
  *
@@ -81,7 +77,7 @@
  * data, and the attribute creation property list.
  *
  * The following steps are required to create and write an HDF5 attribute:
- * \li Obtain the object identifier for the attribute’s primary data object
+ * \li Obtain the object identifier for the attribute's primary data object
  * \li Define the characteristics of the attribute and specify the attribute creation property list
  * <ul> <li> Define the datatype</li>
  * <li> Define the dataspace</li>
@@ -92,35 +88,15 @@
  * \li Close the primary data object (if appropriate)
  *
  * The following steps are required to open and read/write an existing attribute. Since HDF5 attributes
- *  allow no partial I/O, you need specify only the attribute and the attribute’s memory datatype to read it:
- * \li Obtain the object identifier for the attribute’s primary data object
- * \li Obtain the attribute’s name or index
+ *  allow no partial I/O, you need specify only the attribute and the attribute's memory datatype to read it:
+ * \li Obtain the object identifier for the attribute's primary data object
+ * \li Obtain the attribute's name or index
  * \li Open the attribute
  * \li Get attribute dataspace and datatype (optional)
- * \li Specify the attribute’s memory type
+ * \li Specify the attribute's memory type
  * \li Read and/or write the attribute data
  * \li Close the attribute
  * \li Close the primary data object (if appropriate)
- *
- * <table>
- * <tr><th>Create</th><th>Update</th></tr>
- * <tr valign="top">
- *   <td>
- *   \snippet{lineno} H5A_examples.c create
- *   </td>
- *   <td>
- *   \snippet{lineno} H5A_examples.c update
- *   </td>
- * <tr><th>Read</th><th>Delete</th></tr>
- * <tr valign="top">
- *   <td>
- *   \snippet{lineno} H5A_examples.c read
- *   </td>
- *   <td>
- *   \snippet{lineno} H5A_examples.c delete
- *   </td>
- * </tr>
- * </table>
  *
  * \subsection subsec_attribute_work Working with Attributes
  *
@@ -130,7 +106,7 @@
  *
  * HDF5 attributes are sometimes discussed as name/value pairs in the form name=value.
  *
- * An attribute’s name is a null-terminated ASCII or UTF-8 character string. Each attribute attached to an
+ * An attribute's name is a null-terminated ASCII or UTF-8 character string. Each attribute attached to an
  * object has a unique name.
  *
  * The value portion of the attribute contains one or more data elements of the same datatype.
@@ -152,8 +128,8 @@
  *                      hid_t access_plist)
  * \endcode
  * loc_id identifies the object (dataset, group, or committed datatype) to which the attribute is to be
- * attached. name, type_id, space_id, and create_plist convey, respectively, the attribute’s name, datatype,
- * dataspace, and attribute creation property list. The attribute’s name must be locally unique: it must be
+ * attached. name, type_id, space_id, and create_plist convey, respectively, the attribute's name, datatype,
+ * dataspace, and attribute creation property list. The attribute's name must be locally unique: it must be
  * unique within the context of the object to which it is attached.
  *
  * \ref H5Acreate creates the attribute in memory. The attribute does not exist in the file until
@@ -179,14 +155,14 @@
  *
  * To access an attribute by its name, use the \ref H5Aopen_by_name function. \ref H5Aopen_by_name returns an
  * attribute identifier that can then be used by any function that must access an attribute such as \ref
- * H5Aread. Use the function \ref H5Aget_name to determine an attribute’s name.
+ * H5Aread. Use the function \ref H5Aget_name to determine an attribute's name.
  *
  * To access an attribute by its index value, use the \ref H5Aopen_by_idx function. To determine an attribute
  * index value when it is not already known, use the H5Oget_info function. \ref H5Aopen_by_idx is generally
  * used in the course of opening several attributes for later access. Use \ref H5Aiterate if the intent is to
  * perform the same operation on every attribute attached to an object.
  *
- * \subsubsection subsubsec_attribute_work_info Obtaining Information Regarding an Object’s Attributes
+ * \subsubsection subsubsec_attribute_work_info Obtaining Information Regarding an Object's Attributes
  *
  * In the course of working with HDF5 attributes, one may need to obtain any of several pieces of information:
  * \li An attribute name
@@ -194,12 +170,12 @@
  * \li The datatype of an attribute
  * \li The number of attributes attached to an object
  *
- * To obtain an attribute’s name, call H5Aget_name with an attribute identifier, attr_id:
+ * To obtain an attribute's name, call H5Aget_name with an attribute identifier, attr_id:
  * \code
  *      ssize_t H5Aget_name (hid_t attr_id, size_t buf_size, char *buf)
  * \endcode
  * As with other attribute functions, attr_id identifies the attribute; buf_size defines the size of the
- * buffer; and buf is the buffer to which the attribute’s name will be read.
+ * buffer; and buf is the buffer to which the attribute's name will be read.
  *
  * If the length of the attribute name, and hence the value required for buf_size, is unknown, a first call
  * to \ref H5Aget_name will return that size. If the value of buf_size used in that first call is too small,
@@ -217,7 +193,7 @@
  * step in determining attribute index values. If the call returns N, the attributes attached to the object
  * object_id have index values of 0 through N-1.
  *
- * \subsubsection subsubsec_attribute_work_iterate Iterating across an Object’s Attributes
+ * \subsubsection subsubsec_attribute_work_iterate Iterating across an Object's Attributes
  *
  * It is sometimes useful to be able to perform the identical operation across all of the attributes attached
  * to an object. At the simplest level, you might just want to open each attribute. At a higher level, you
@@ -239,7 +215,7 @@
  * null pointer, then all attributes have been processed, and the iterative process is complete.
  *
  * op_func is a user-defined operation that adheres to the \ref H5A_operator_t prototype. This prototype and
- * certain requirements imposed on the operator’s behavior are described in the \ref H5Aiterate entry in the
+ * certain requirements imposed on the operator's behavior are described in the \ref H5Aiterate entry in the
  * \ref RM.
  *
  * op_data is also user-defined to meet the requirements of op_func. Beyond providing a parameter with which
@@ -380,7 +356,7 @@
  * An HDF5 attribute is a small metadata object describing the nature and/or intended usage of a primary data
  * object. A primary data object may be a dataset, group, or committed datatype.
  *
- * @see sec_attribute
+ * @see \ref sec_attribute
  *
  */
 

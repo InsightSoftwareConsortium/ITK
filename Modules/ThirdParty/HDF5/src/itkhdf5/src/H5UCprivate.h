@@ -22,9 +22,6 @@
 /**************************************/
 /* Public headers needed by this file */
 /**************************************/
-#ifdef LATER
-#include "H5UCpublic.h"
-#endif /* LATER */
 
 /***************************************/
 /* Private headers needed by this file */

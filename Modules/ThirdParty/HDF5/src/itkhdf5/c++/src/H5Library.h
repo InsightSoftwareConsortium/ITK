@@ -62,7 +62,7 @@ class H5_DLLCPP H5Library {
     H5Library();
 
     // Destructor
-    ~H5Library();
+    ~H5Library() = default;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
 }; // end of H5Library

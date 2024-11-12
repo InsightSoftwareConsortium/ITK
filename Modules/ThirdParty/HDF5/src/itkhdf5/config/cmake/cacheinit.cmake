@@ -32,10 +32,6 @@ set_property (CACHE HDF5_INSTALL_MOD_FORTRAN PROPERTY STRINGS NO SHARED STATIC)
 
 set (HDF5_BUILD_GENERATORS ON CACHE BOOL "Build Test Generators" FORCE)
 
-set (HDF5_ENABLE_SZIP_SUPPORT ON CACHE BOOL "Use SZip Filter" FORCE)
-
-set (HDF5_ENABLE_SZIP_ENCODING ON CACHE BOOL "Use SZip Encoding" FORCE)
-
 set (MPIEXEC_MAX_NUMPROCS "4" CACHE STRING "Minimum number of processes for HDF parallel tests" FORCE)
 
 set (HDF5_ENABLE_ALL_WARNINGS ON CACHE BOOL "Enable all warnings" FORCE)
@@ -54,23 +50,44 @@ set (ZLIB_PACKAGE_NAME "zlib" CACHE STRING "Name of ZLIB package" FORCE)
 set (ZLIB_TGZ_NAME "zlib-1.3.tar.gz" CACHE STRING "Use HDF5_ZLib from compressed file" FORCE)
 set (ZLIB_TGZ_ORIGPATH "https://github.com/madler/zlib/releases/download/v1.3" CACHE STRING "Use ZLIB from original location" FORCE)
 set (ZLIB_USE_LOCALCONTENT ON CACHE BOOL "Use local file for ZLIB FetchContent" FORCE)
+set (ZLIB_GIT_URL "https://github.com/madler/zlib.git" CACHE STRING "Use ZLIB from  GitHub repository" FORCE)
+set (ZLIB_GIT_BRANCH "develop" CACHE STRING "" FORCE)
+set (HDF5_USE_ZLIB_STATIC ON CACHE BOOL "Use static zlib library" FORCE)
+
+set (ZLIBNG_PACKAGE_NAME "zlib-ng" CACHE STRING "Name of ZLIBNG package" FORCE)
+set (ZLIBNG_TGZ_NAME "2.1.6.tar.gz" CACHE STRING "Use HDF5_ZLib from compressed file" FORCE)
+set (ZLIBNG_TGZ_ORIGPATH "https://github.com/zlib-ng/zlib-ng/archive/refs/tags" CACHE STRING "Use ZLIBNG from original location" FORCE)
+set (ZLIBNG_GIT_URL "https://github.com/zlib-ng/zlib-ng.git" CACHE STRING "Use ZLIBNG from  GitHub repository" FORCE)
+set (ZLIBNG_GIT_BRANCH "develop" CACHE STRING "" FORCE)
 
 set (LIBAEC_PACKAGE_NAME "libaec" CACHE STRING "Name of AEC SZIP package" FORCE)
-set (LIBAEC_TGZ_NAME "libaec-1.0.6.tar.gz" CACHE STRING "Use SZip AEC from compressed file" FORCE)
-set (LIBAEC_TGZ_ORIGPATH "https://github.com/MathisRosenhauer/libaec/releases/download/v1.0.6" CACHE STRING "Use LIBAEC from original location" FORCE)
+set (LIBAEC_TGZ_NAME "libaec-1.1.3.tar.gz" CACHE STRING "Use SZip AEC from compressed file" FORCE)
+set (LIBAEC_TGZ_ORIGPATH "https://github.com/MathisRosenhauer/libaec/releases/download/v1.1.3" CACHE STRING "Use LIBAEC from original location" FORCE)
 set (LIBAEC_USE_LOCALCONTENT ON CACHE BOOL "Use local file for LIBAEC FetchContent" FORCE)
+set (LIBAEC_GIT_URL "https://github.com/MathisRosenhauer/libaec.git" CACHE STRING "Use LIBAEC from  GitHub repository" FORCE)
+set (LIBAEC_GIT_BRANCH "v1.1.3" CACHE STRING "" FORCE)
+set (HDF5_USE_LIBAEC_STATIC ON CACHE BOOL "Use static AEC library" FORCE)
+
+########################
+# API test options
+########################
+set (KWSYS_TGZ_ORIGPATH "https://gitlab.kitware.com/utils/kwsys/-/archive/master" CACHE STRING "Use KWSYS from original location" FORCE)
+set (KWSYS_TGZ_NAME "kwsys-master.tar.gz" CACHE STRING "Use KWSYS from original compressed file" FORCE)
+set (KWSYS_USE_LOCALCONTENT OFF CACHE BOOL "Use local file for KWSYS FetchContent" FORCE)
 
 ########################
 # filter plugin options
 ########################
 
 set (PLUGIN_TGZ_ORIGPATH "https://github.com/HDFGroup/hdf5_plugins/releases/download/snapshots" CACHE STRING "Use PLUGINS from original location" FORCE)
-set (PLUGIN_TGZ_NAME "hdf5_plugins-master.tar.gz" CACHE STRING "Use PLUGINS from compressed file" FORCE)
+set (PLUGIN_TGZ_NAME "hdf5_plugins-1.14.tar.gz" CACHE STRING "Use PLUGINS from compressed file" FORCE)
 set (PLUGIN_USE_LOCALCONTENT ON CACHE BOOL "Use local file for PLUGIN FetchContent" FORCE)
 set (PLUGIN_PACKAGE_NAME "pl" CACHE STRING "Name of PLUGIN package" FORCE)
+set (PLUGIN_GIT_URL "https://github.com/HDFGroup/hdf5_plugins.git" CACHE STRING "Use plugins from HDF Group repository" FORCE)
+set (PLUGIN_GIT_BRANCH "master" CACHE STRING "" FORCE)
 set (H5PL_VERS_MAJOR "1" CACHE STRING "Major version of hdf5 package for PLUGIN package" FORCE)
-set (H5PL_VERS_MINOR "12" CACHE STRING "Minor version of hdf5 package for PLUGIN package" FORCE)
-set (H5PL_VERS_RELEASE "3" CACHE STRING "Release version of hdf5 package for PLUGIN package" FORCE)
+set (H5PL_VERS_MINOR "14" CACHE STRING "Minor version of hdf5 package for PLUGIN package" FORCE)
+set (H5PL_VERS_RELEASE "5" CACHE STRING "Release version of hdf5 package for PLUGIN package" FORCE)
 
 #############
 # bitshuffle
@@ -105,11 +122,31 @@ set (BLOSC_ZLIB_TGZ_NAME "zlib-1.3.tar.gz" CACHE STRING "Use ZLib from compresse
 set (BLOSC_ZLIB_PACKAGE_NAME "zlib" CACHE STRING "Name of BLOSC_ZLIB package" FORCE)
 
 ########
+# blosc2
+########
+
+set (BLOSC2_GIT_URL "https://github.com/Blosc/c-blosc2.git" CACHE STRING "Use BLOSC2 from Github repository" FORCE)
+set (BLOSC2_GIT_BRANCH "main" CACHE STRING "" FORCE)
+
+set (BLOSC2_TGZ_ORIGPATH "https://github.com/Blosc/c-blosc2/archive/refs/tags" CACHE STRING "Use PLUGINS from original location" FORCE)
+set (BLOSC2_TGZ_NAME "c-blosc2-2.14.4.tar.gz" CACHE STRING "Use BLOSC2 from compressed file" FORCE)
+
+set (BLOSC2_PACKAGE_NAME "blosc2" CACHE STRING "Name of BLOSC2 package" FORCE)
+
+set (BLOSC2_ZLIB_GIT_URL "https://github.com/madler/zlib.git" CACHE STRING "Use ZLIB from  GitHub repository" FORCE)
+set (BLOSC2_ZLIB_GIT_BRANCH "develop" CACHE STRING "" FORCE)
+
+set (BLOSC2_ZLIB_TGZ_ORIGPATH "https://github.com/madler/zlib/releases/download/v1.3" CACHE STRING "Use PLUGINS from original location" FORCE)
+set (BLOSC2_ZLIB_TGZ_NAME "zlib-1.3.tar.gz" CACHE STRING "Use ZLib from compressed file" FORCE)
+
+set (BLOSC2_ZLIB_PACKAGE_NAME "zlib" CACHE STRING "Name of BLOSC2_ZLIB package" FORCE)
+
+########
 # bzip2
 ########
 
 set (BZ2_GIT_URL "https://github.com/libarchive/bzip2.git" CACHE STRING "Use BZ2 from  GitHub repository" FORCE)
-set (BZ2_GIT_BRANCH "master" CACHE STRING "" FORCE)
+set (BZ2_GIT_BRANCH "bzip2-1.0.8" CACHE STRING "" FORCE)
 
 set (BZ2_TGZ_ORIGPATH "https://github.com/libarchive/bzip2/archive/refs/tags" CACHE STRING "Use PLUGINS from original location" FORCE)
 set (BZ2_TGZ_NAME "bzip2-bzip2-1.0.8.tar.gz" CACHE STRING "Use BZ2 from compressed file" FORCE)
@@ -132,8 +169,8 @@ set (FPZIP_PACKAGE_NAME "fpzip" CACHE STRING "Name of FPZIP package" FORCE)
 # jpeg
 #######
 
-set (JPEG_GIT_URL "No repo www.ijg.org/files" CACHE STRING "Use JPEG from ILG" FORCE)
-set (JPEG_GIT_BRANCH "v9e" CACHE STRING "" FORCE)
+set (JPEG_GIT_URL "https://github.com/libjpeg-turbo/libjpeg-turbo.git" CACHE STRING "Use JPEG from TurboJPEG" FORCE)
+set (JPEG_GIT_BRANCH "jpeg-9e" CACHE STRING "" FORCE)
 
 set (JPEG_TGZ_ORIGPATH "https://www.ijg.org/files" CACHE STRING "Use PLUGINS from original location" FORCE)
 set (JPEG_TGZ_NAME "jpegsrc.v9e.tar.gz" CACHE STRING "Use JPEG from compressed file" FORCE)

@@ -6,7 +6,7 @@ UseJava
 
 This file provides support for ``Java``.  It is assumed that
 :module:`FindJava` has already been loaded.  See :module:`FindJava` for
-information on how to load Java into your ``CMake`` project.
+information on how to load Java into your CMake project.
 
 Synopsis
 ^^^^^^^^
@@ -42,6 +42,7 @@ Creating And Installing JARs
 
     add_jar(<target_name>
             [SOURCES] <source1> [<source2>...] [<resource1>...]
+            [RESOURCES NAMESPACE <ns1> <resource1>... [NAMESPACE <nsX> <resourceX>...]... ]
             [INCLUDE_JARS <jar1> [<jar2>...]]
             [ENTRY_POINT <entry>]
             [VERSION <version>]
@@ -63,6 +64,34 @@ Creating And Installing JARs
 
     .. versionadded:: 3.4
       Support for response files, prefixed by ``@``.
+
+  ``RESOURCES``
+    .. versionadded:: 3.21
+
+    Adds the named ``<resource>`` files to the jar by stripping the source file
+    path and placing the file beneath ``<ns>`` within the jar.
+
+    For example::
+
+      RESOURCES NAMESPACE "/com/my/namespace" "a/path/to/resource.txt"
+
+    results in a resource accessible via ``/com/my/namespace/resource.txt``
+    within the jar.
+
+    Resources may be added without adjusting the namespace by adding them to
+    the list of ``SOURCES`` (original behavior), in this case, resource
+    paths must be relative to ``CMAKE_CURRENT_SOURCE_DIR``.  Adding resources
+    without using the ``RESOURCES`` parameter in out of source builds will
+    almost certainly result in confusion.
+
+    .. note::
+
+      Adding resources via the ``SOURCES`` parameter relies upon a hard-coded
+      list of file extensions which are tested to determine whether they
+      compile (e.g. File.java). ``SOURCES`` files which match the extensions
+      are compiled. Files which do not match are treated as resources. To
+      include uncompiled resources matching those file extensions use
+      the ``RESOURCES`` parameter.
 
   ``INCLUDE_JARS``
     The list of jars are added to the classpath when compiling the java sources
@@ -264,7 +293,7 @@ Header Generation
 
   .. deprecated:: 3.11
     This command will no longer be supported starting with version 10 of the JDK
-    due to the `suppression of javah tool <http://openjdk.java.net/jeps/313>`_.
+    due to the `suppression of javah tool <https://openjdk.org/jeps/313>`_.
     The :ref:`add_jar(GENERATE_NATIVE_HEADERS) <add_jar>` command should be
     used instead.
 
@@ -526,6 +555,7 @@ function (__java_copy_file src dest comment)
                 ${dest}
         DEPENDS ${src}
         COMMENT ${comment}
+        VERBATIM
         )
 endfunction ()
 
@@ -550,6 +580,58 @@ function(__java_export_jar VAR TARGET PATH)
       ""
     )
     set(${VAR} "${${VAR}}" PARENT_SCOPE)
+endfunction()
+
+function(__java_copy_resource_namespaces VAR DEST JAVA_RESOURCE_FILES JAVA_RESOURCE_FILES_RELATIVE)
+
+    set(_ns_ID "")
+    set(_ns_VAL "")
+
+    foreach(_item IN LISTS VAR)
+        if(NOT _ns_ID)
+            if(NOT _item STREQUAL "NAMESPACE")
+                message(FATAL_ERROR "UseJava: Expecting \"NAMESPACE\", got\t\"${_item}\"")
+                return()
+            endif()
+        endif()
+
+        if(_item STREQUAL "NAMESPACE")
+            set(_ns_VAL "")               # Prepare for next namespace
+            set(_ns_ID "${_item}")
+            continue()
+        endif()
+
+        if( NOT _ns_VAL)
+            # we're expecting the next token to be a namespace value
+            # whatever it is, we're treating it like a namespace
+            set(_ns_VAL "${_item}")
+            continue()
+        endif()
+
+        if(_ns_ID AND _ns_VAL)
+            # We're expecting a file name, check to see if we got one
+            cmake_path(ABSOLUTE_PATH _item OUTPUT_VARIABLE _test_file_name)
+            if (NOT EXISTS "${_test_file_name}")
+                message(FATAL_ERROR "UseJava: File does not exist:\t${_item}")
+                return()
+            endif()
+        endif()
+
+        cmake_path(ABSOLUTE_PATH _item OUTPUT_VARIABLE _abs_file_name)
+        cmake_path(GET _item FILENAME _resource_file_name)
+        set(_dest_resource_file_name "${_ns_VAL}/${_resource_file_name}" )
+
+        __java_copy_file( ${_abs_file_name}
+                          ${DEST}/${_dest_resource_file_name}
+                          "Copying ${_item} to the build directory")
+
+        list(APPEND RESOURCE_FILES_LIST           ${DEST}/${_dest_resource_file_name})
+        list(APPEND RELATIVE_RESOURCE_FILES_LIST  ${_dest_resource_file_name})
+
+    endforeach()
+
+    set(${JAVA_RESOURCE_FILES} "${RESOURCE_FILES_LIST}" PARENT_SCOPE)
+    set(${JAVA_RESOURCE_FILES_RELATIVE} "${RELATIVE_RESOURCE_FILES_LIST}" PARENT_SCOPE)
 endfunction()
 
 # define helper scripts
@@ -746,6 +828,13 @@ function(add_jar _TARGET_NAME)
         endif ()
     endforeach()
 
+    if(_add_jar_RESOURCES)         # Process RESOURCES if it exists
+        __java_copy_resource_namespaces("${_add_jar_RESOURCES}"
+                                        ${CMAKE_JAVA_CLASS_OUTPUT_PATH}
+                                        _JAVA_RESOURCE_FILES
+                                        _JAVA_RESOURCE_FILES_RELATIVE)
+    endif()
+
     foreach(_JAVA_INCLUDE_JAR IN LISTS _add_jar_INCLUDE_JARS)
         if (TARGET ${_JAVA_INCLUDE_JAR})
             get_target_property(_JAVA_JAR_PATH ${_JAVA_INCLUDE_JAR} JAR_FILE)
@@ -792,9 +881,10 @@ function(add_jar _TARGET_NAME)
                 ${_GENERATE_NATIVE_HEADERS}
                 ${_JAVA_SOURCES_FILELISTS}
             COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_compiled_${_TARGET_NAME}
-            DEPENDS ${_JAVA_COMPILE_FILES} ${_JAVA_COMPILE_FILELISTS} ${_JAVA_COMPILE_DEPENDS}
+            DEPENDS ${_JAVA_COMPILE_FILES} ${_JAVA_COMPILE_FILELISTS} ${_JAVA_COMPILE_DEPENDS} ${_JAVA_SOURCES_FILE}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             COMMENT "Building Java objects for ${_TARGET_NAME}.jar"
+            VERBATIM
         )
         add_custom_command(
             OUTPUT ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_class_filelist
@@ -804,6 +894,7 @@ function(add_jar _TARGET_NAME)
                 -P ${_JAVA_CLASS_FILELIST_SCRIPT}
             DEPENDS ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_compiled_${_TARGET_NAME}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            VERBATIM
         )
     else ()
         # create an empty java_class_filelist
@@ -834,6 +925,7 @@ function(add_jar _TARGET_NAME)
             DEPENDS ${_JAVA_RESOURCE_FILES} ${_JAVA_DEPENDS} ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_class_filelist
             WORKING_DIRECTORY ${CMAKE_JAVA_CLASS_OUTPUT_PATH}
             COMMENT "Creating Java archive ${_JAVA_TARGET_OUTPUT_NAME}"
+            VERBATIM
         )
     else ()
         add_custom_command(
@@ -849,6 +941,7 @@ function(add_jar _TARGET_NAME)
             WORKING_DIRECTORY ${CMAKE_JAVA_CLASS_OUTPUT_PATH}
             DEPENDS ${_JAVA_RESOURCE_FILES} ${_JAVA_DEPENDS} ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_class_filelist
             COMMENT "Creating Java archive ${_JAVA_TARGET_OUTPUT_NAME}"
+            VERBATIM
         )
     endif ()
 

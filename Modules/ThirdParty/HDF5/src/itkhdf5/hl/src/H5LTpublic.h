@@ -34,7 +34,7 @@ typedef enum H5LT_lang_t {
 extern "C" {
 #endif
 
-/** \page H5LT_UG The HDF5 High Level Lite
+/** \page H5LT_UG HDF5 High Level Lite
  * @todo Under Construction
  */
 
@@ -208,7 +208,7 @@ H5_HLDLL herr_t H5LTmake_dataset(hid_t loc_id, const char *dset_name, int rank, 
  *          named \p dset_name attached to the object specified by
  *          the identifier \p loc_id.
  *
- *          The dataset’s datatype will be \e character, #H5T_NATIVE_CHAR.
+ *          The dataset's datatype will be \e character, #H5T_NATIVE_CHAR.
  *
  */
 H5_HLDLL herr_t H5LTmake_dataset_char(hid_t loc_id, const char *dset_name, int rank, const hsize_t *dims,
@@ -232,7 +232,7 @@ H5_HLDLL herr_t H5LTmake_dataset_char(hid_t loc_id, const char *dset_name, int r
  *          named \p dset_name attached to the object specified by
  *          the identifier \p loc_id.
  *
- *          The dataset’s datatype will be <em>short signed integer</em>,
+ *          The dataset's datatype will be <em>short signed integer</em>,
  *          #H5T_NATIVE_SHORT.
  *
  */
@@ -257,7 +257,7 @@ H5_HLDLL herr_t H5LTmake_dataset_short(hid_t loc_id, const char *dset_name, int 
  *          named \p dset_name attached to the object specified by
  *          the identifier \p loc_id.
  *
- *          The dataset’s datatype will be <em>native signed integer</em>,
+ *          The dataset's datatype will be <em>native signed integer</em>,
  *          #H5T_NATIVE_INT.
  *
  * \version Fortran subroutine modified in this release to accommodate
@@ -285,7 +285,7 @@ H5_HLDLL herr_t H5LTmake_dataset_int(hid_t loc_id, const char *dset_name, int ra
  *          named \p dset_name attached to the object specified by
  *          the identifier \p loc_id.
  *
- *          The dataset’s datatype will be <em>long signed integer</em>,
+ *          The dataset's datatype will be <em>long signed integer</em>,
  *          #H5T_NATIVE_LONG.
  *
  */
@@ -310,7 +310,7 @@ H5_HLDLL herr_t H5LTmake_dataset_long(hid_t loc_id, const char *dset_name, int r
  *          named \p dset_name attached to the object specified by
  *          the identifier \p loc_id.
  *
- *          The dataset’s datatype will be <em>native floating point</em>,
+ *          The dataset's datatype will be <em>native floating point</em>,
  *          #H5T_NATIVE_FLOAT.
  *
  * \version 1.8.7 Fortran subroutine modified in this release to accommodate
@@ -338,7 +338,7 @@ H5_HLDLL herr_t H5LTmake_dataset_float(hid_t loc_id, const char *dset_name, int 
  *          named \p dset_name attached to the object specified by
  *          the identifier \p loc_id.
  *
- *          The dataset’s datatype will be
+ *          The dataset's datatype will be
  *          <em>native floating-point double</em>, #H5T_NATIVE_DOUBLE.
  *
  * \version 1.8.7 Fortran subroutine modified in this release to accommodate
@@ -364,7 +364,7 @@ H5_HLDLL herr_t H5LTmake_dataset_double(hid_t loc_id, const char *dset_name, int
  *          named \p dset_name attached to the object specified by
  *          the identifier \p loc_id.
  *
- *          The dataset’s datatype will be <em>C string</em>, #H5T_C_S1.
+ *          The dataset's datatype will be <em>C string</em>, #H5T_C_S1.
  *
  */
 H5_HLDLL herr_t H5LTmake_dataset_string(hid_t loc_id, const char *dset_name, const char *buf);
@@ -1386,8 +1386,8 @@ H5_HLDLL herr_t H5LTget_attribute_info(hid_t loc_id, const char *obj_name, const
  *          \p lang_type definition of HDF5 datatypes.
  *          Currently, only the DDL(#H5LT_DDL) is supported.
  *          The complete DDL definition of HDF5 datatypes can be found in
- *          the last chapter of the
- *          <a href="https://portal.hdfgroup.org/display/HDF5/HDF5+User+Guides">
+ *          the specifications chapter of the
+ *          <a href="https://\DOXURL/_s_p_e_c.html">
  *          HDF5 User's Guide</a>.
  *
  * \par Example
@@ -1424,8 +1424,8 @@ H5_HLDLL hid_t H5LTtext_to_dtype(const char *text, H5LT_lang_t lang_type);
  *
  *          Currently only DDL (#H5LT_DDL) is supported for \p lang_type.
  *          The complete DDL definition of HDF5 data types can be found in
- *          the last chapter of the
- *          <a href="https://portal.hdfgroup.org/display/HDF5/HDF5+User+Guides">
+ *          the specifications chapter of the
+ *          <a href="https://\DOXURL/_s_p_e_c.html">
  *          HDF5 User's Guide</a>.
  *
  * \par Example
@@ -1496,7 +1496,7 @@ H5_HLDLL herr_t H5LTfind_attribute(hid_t loc_id, const char *name);
  *          final component of \p path resolves to an HDF5 object;
  *          if not, the final component is a dangling link.
  *
- *          The meaning of the function’s return value depends on the
+ *          The meaning of the function's return value depends on the
  *          value of \p check_object_valid:
  *
  *          If \p check_object_valid is set to \c FALSE, H5LTpath_valid()
@@ -1516,7 +1516,7 @@ H5_HLDLL herr_t H5LTfind_attribute(hid_t loc_id, const char *name);
  *          \p path can be any one of the following:
  *
  *          - An absolute path, which starts with a slash (\c /)
- *            indicating the file’s root group, followed by the members
+ *            indicating the file's root group, followed by the members
  *          - A relative path with respect to \p loc_id
  *          - A dot (\c .), if \p loc_id is the object identifier for
  *            the object itself.
@@ -1625,7 +1625,7 @@ H5_HLDLL htri_t H5LTpath_valid(hid_t loc_id, const char *path, hbool_t check_obj
  * \note      **Recommended Reading:**
  * \note      This function is part of the file image operations feature set.
  *            It is highly recommended to study the guide
- *            <a href="https://portal.hdfgroup.org/display/HDF5/HDF5+File+Image+Operations">
+ *            <a href="https://\RFCURL/HDF5FileImageOperations.pdf">
  *            HDF5 File Image Operations</a> before using this feature set.\n
  *            See the “See Also” section below for links to other elements of
  *            HDF5 file image operations.

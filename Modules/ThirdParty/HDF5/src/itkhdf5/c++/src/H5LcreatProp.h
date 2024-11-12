@@ -31,7 +31,7 @@ class H5_DLLCPP LinkCreatPropList : public PropList {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("LinkCreatPropList");
     }
@@ -58,7 +58,7 @@ class H5_DLLCPP LinkCreatPropList : public PropList {
     H5T_cset_t getCharEncoding() const;
 
     // Noop destructor
-    virtual ~LinkCreatPropList() H5_OVERRIDE;
+    virtual ~LinkCreatPropList() override = default;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

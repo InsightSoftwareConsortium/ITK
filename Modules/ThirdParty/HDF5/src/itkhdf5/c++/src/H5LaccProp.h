@@ -31,7 +31,7 @@ class H5_DLLCPP LinkAccPropList : public PropList {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("LinkAccPropList");
     }
@@ -51,7 +51,7 @@ class H5_DLLCPP LinkAccPropList : public PropList {
     size_t getNumLinks() const;
 
     // Noop destructor
-    virtual ~LinkAccPropList() H5_OVERRIDE;
+    virtual ~LinkAccPropList() override = default;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

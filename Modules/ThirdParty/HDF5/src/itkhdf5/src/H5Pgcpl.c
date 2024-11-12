@@ -13,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:		H5Pgcpl.c
- *			August 29 2006
- *			Quincey Koziol
  *
  * Purpose:		Group creation property list class routines
  *
@@ -33,7 +31,6 @@
 #include "H5private.h"  /* Generic Functions                        */
 #include "H5Eprivate.h" /* Error handling                           */
 #include "H5Gprivate.h" /* Groups                                   */
-#include "H5Iprivate.h" /* IDs                                      */
 #include "H5Oprivate.h" /* Object headers                           */
 #include "H5Ppkg.h"     /* Property lists                           */
 
@@ -110,8 +107,6 @@ static const H5O_linfo_t H5G_def_linfo_g = H5G_CRT_LINK_INFO_DEF;  /* Default li
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              October 31, 2006
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -119,19 +114,19 @@ H5P__gcrt_reg_prop(H5P_genclass_t *pclass)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Register group info property */
     if (H5P__register_real(pclass, H5G_CRT_GROUP_INFO_NAME, H5G_CRT_GROUP_INFO_SIZE, &H5G_def_ginfo_g, NULL,
                            NULL, NULL, H5G_CRT_GROUP_INFO_ENC, H5G_CRT_GROUP_INFO_DEC, NULL, NULL, NULL,
                            NULL) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class");
 
     /* Register link info property */
     if (H5P__register_real(pclass, H5G_CRT_LINK_INFO_NAME, H5G_CRT_LINK_INFO_SIZE, &H5G_def_linfo_g, NULL,
                            NULL, NULL, H5G_CRT_LINK_INFO_ENC, H5G_CRT_LINK_INFO_DEC, NULL, NULL, NULL,
                            NULL) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -144,8 +139,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              August 29, 2005
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -156,22 +149,21 @@ H5Pset_local_heap_size_hint(hid_t plist_id, size_t size_hint)
     herr_t          ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE2("e", "iz", plist_id, size_hint);
 
     /* Get the plist structure */
     if (NULL == (plist = H5P_object_verify(plist_id, H5P_GROUP_CREATE)))
-        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+        HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
     /* Get value */
     if (H5P_get(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info");
 
     /* Update field */
     H5_CHECKED_ASSIGN(ginfo.lheap_size_hint, uint32_t, size_hint, size_t);
 
     /* Set value */
     if (H5P_set(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set group info")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set group info");
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -185,8 +177,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              August 29, 2005
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -195,7 +185,6 @@ H5Pget_local_heap_size_hint(hid_t plist_id, size_t *size_hint /*out*/)
     herr_t ret_value = SUCCEED; /* return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE2("e", "ix", plist_id, size_hint);
 
     if (size_hint) {
         H5P_genplist_t *plist; /* Property list pointer */
@@ -203,11 +192,11 @@ H5Pget_local_heap_size_hint(hid_t plist_id, size_t *size_hint /*out*/)
 
         /* Get the plist structure */
         if (NULL == (plist = H5P_object_verify(plist_id, H5P_GROUP_CREATE)))
-            HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+            HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
         /* Get value */
         if (H5P_get(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info")
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info");
 
         /* Update field */
         *size_hint = ginfo.lheap_size_hint;
@@ -230,8 +219,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              August 29, 2005
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -242,35 +229,34 @@ H5Pset_link_phase_change(hid_t plist_id, unsigned max_compact, unsigned min_dens
     herr_t          ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "iIuIu", plist_id, max_compact, min_dense);
 
     /* Range check values */
     if (max_compact < min_dense)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "max compact value must be >= min dense value")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "max compact value must be >= min dense value");
     if (max_compact > 65535)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "max compact value must be < 65536")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "max compact value must be < 65536");
     if (min_dense > 65535)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "min dense value must be < 65536")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "min dense value must be < 65536");
 
     /* Get the plist structure */
     if (NULL == (plist = H5P_object_verify(plist_id, H5P_GROUP_CREATE)))
-        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+        HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
     /* Get group info */
     if (H5P_get(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info");
 
     /* Update fields */
     if (max_compact != H5G_CRT_GINFO_MAX_COMPACT || min_dense != H5G_CRT_GINFO_MIN_DENSE)
-        ginfo.store_link_phase_change = TRUE;
+        ginfo.store_link_phase_change = true;
     else
-        ginfo.store_link_phase_change = FALSE;
+        ginfo.store_link_phase_change = false;
     ginfo.max_compact = (uint16_t)max_compact;
     ginfo.min_dense   = (uint16_t)min_dense;
 
     /* Set group info */
     if (H5P_set(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set group info")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set group info");
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -284,8 +270,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              August 29, 2005
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -294,7 +278,6 @@ H5Pget_link_phase_change(hid_t plist_id, unsigned *max_compact /*out*/, unsigned
     herr_t ret_value = SUCCEED; /* return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "ixx", plist_id, max_compact, min_dense);
 
     /* Get values */
     if (max_compact || min_dense) {
@@ -303,11 +286,11 @@ H5Pget_link_phase_change(hid_t plist_id, unsigned *max_compact /*out*/, unsigned
 
         /* Get the plist structure */
         if (NULL == (plist = H5P_object_verify(plist_id, H5P_GROUP_CREATE)))
-            HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+            HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
         /* Get group info */
         if (H5P_get(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info")
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info");
 
         if (max_compact)
             *max_compact = ginfo.max_compact;
@@ -334,8 +317,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              September  6, 2005
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -346,33 +327,32 @@ H5Pset_est_link_info(hid_t plist_id, unsigned est_num_entries, unsigned est_name
     herr_t          ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "iIuIu", plist_id, est_num_entries, est_name_len);
 
     /* Range check values */
     if (est_num_entries > 65535)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "est. number of entries must be < 65536")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "est. number of entries must be < 65536");
     if (est_name_len > 65535)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "est. name length must be < 65536")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "est. name length must be < 65536");
 
     /* Get the plist structure */
     if (NULL == (plist = H5P_object_verify(plist_id, H5P_GROUP_CREATE)))
-        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+        HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
     /* Get group info */
     if (H5P_get(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info");
 
     /* Update fields */
     if (est_num_entries != H5G_CRT_GINFO_EST_NUM_ENTRIES || est_name_len != H5G_CRT_GINFO_EST_NAME_LEN)
-        ginfo.store_est_entry_info = TRUE;
+        ginfo.store_est_entry_info = true;
     else
-        ginfo.store_est_entry_info = FALSE;
+        ginfo.store_est_entry_info = false;
     ginfo.est_num_entries = (uint16_t)est_num_entries;
     ginfo.est_name_len    = (uint16_t)est_name_len;
 
     /* Set group info */
     if (H5P_set(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set group info")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set group info");
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -386,8 +366,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              September  6, 2005
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -396,7 +374,6 @@ H5Pget_est_link_info(hid_t plist_id, unsigned *est_num_entries /*out*/, unsigned
     herr_t ret_value = SUCCEED; /* return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "ixx", plist_id, est_num_entries, est_name_len);
 
     /* Get values */
     if (est_num_entries || est_name_len) {
@@ -405,11 +382,11 @@ H5Pget_est_link_info(hid_t plist_id, unsigned *est_num_entries /*out*/, unsigned
 
         /* Get the plist structure */
         if (NULL == (plist = H5P_object_verify(plist_id, H5P_GROUP_CREATE)))
-            HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+            HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
         /* Get group info */
         if (H5P_get(plist, H5G_CRT_GROUP_INFO_NAME, &ginfo) < 0)
-            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info")
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get group info");
 
         if (est_num_entries)
             *est_num_entries = ginfo.est_num_entries;
@@ -428,8 +405,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              September 12, 2006
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -440,27 +415,26 @@ H5Pset_link_creation_order(hid_t plist_id, unsigned crt_order_flags)
     herr_t          ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE2("e", "iIu", plist_id, crt_order_flags);
 
     /* Check for bad combination of flags */
     if (!(crt_order_flags & H5P_CRT_ORDER_TRACKED) && (crt_order_flags & H5P_CRT_ORDER_INDEXED))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "tracking creation order is required for index")
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "tracking creation order is required for index");
 
     /* Get the plist structure */
     if (NULL == (plist = H5P_object_verify(plist_id, H5P_GROUP_CREATE)))
-        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+        HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
     /* Get link info */
     if (H5P_get(plist, H5G_CRT_LINK_INFO_NAME, &linfo) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get link info")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get link info");
 
     /* Update fields */
-    linfo.track_corder = (hbool_t)((crt_order_flags & H5P_CRT_ORDER_TRACKED) ? TRUE : FALSE);
-    linfo.index_corder = (hbool_t)((crt_order_flags & H5P_CRT_ORDER_INDEXED) ? TRUE : FALSE);
+    linfo.track_corder = (bool)((crt_order_flags & H5P_CRT_ORDER_TRACKED) ? true : false);
+    linfo.index_corder = (bool)((crt_order_flags & H5P_CRT_ORDER_INDEXED) ? true : false);
 
     /* Set link info */
     if (H5P_set(plist, H5G_CRT_LINK_INFO_NAME, &linfo) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set link info")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set link info");
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -474,8 +448,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              September 12, 2006
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -484,7 +456,6 @@ H5Pget_link_creation_order(hid_t plist_id, unsigned *crt_order_flags /*out*/)
     herr_t ret_value = SUCCEED; /* return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE2("e", "ix", plist_id, crt_order_flags);
 
     /* Get values */
     if (crt_order_flags) {
@@ -496,11 +467,11 @@ H5Pget_link_creation_order(hid_t plist_id, unsigned *crt_order_flags /*out*/)
 
         /* Get the plist structure */
         if (NULL == (plist = H5P_object_verify(plist_id, H5P_GROUP_CREATE)))
-            HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+            HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
 
         /* Get link info */
         if (H5P_get(plist, H5G_CRT_LINK_INFO_NAME, &linfo) < 0)
-            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get link info")
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get link info");
 
         *crt_order_flags |= linfo.track_corder ? H5P_CRT_ORDER_TRACKED : 0;
         *crt_order_flags |= linfo.index_corder ? H5P_CRT_ORDER_INDEXED : 0;
@@ -514,14 +485,11 @@ done:
  * Function:       H5P__gcrt_group_info_enc
  *
  * Purpose:        Callback routine which is called whenever the group
- *                 property in the dataset access property list is
+ *                 info property in the dataset access property list is
  *                 encoded.
  *
  * Return:	   Success:	Non-negative
  *		   Failure:	Negative
- *
- * Programmer:     Mohamad Chaarawi
- *                 Monday, October 10, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -531,14 +499,14 @@ H5P__gcrt_group_info_enc(const void *value, void **_pp, size_t *size)
     const H5O_ginfo_t *ginfo = (const H5O_ginfo_t *)value; /* Create local aliases for values */
     uint8_t          **pp    = (uint8_t **)_pp;
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     if (NULL != *pp) {
-        UINT32ENCODE(*pp, ginfo->lheap_size_hint)
-        UINT16ENCODE(*pp, ginfo->max_compact)
-        UINT16ENCODE(*pp, ginfo->min_dense)
-        UINT16ENCODE(*pp, ginfo->est_num_entries)
-        UINT16ENCODE(*pp, ginfo->est_name_len)
+        UINT32ENCODE(*pp, ginfo->lheap_size_hint);
+        UINT16ENCODE(*pp, ginfo->max_compact);
+        UINT16ENCODE(*pp, ginfo->min_dense);
+        UINT16ENCODE(*pp, ginfo->est_num_entries);
+        UINT16ENCODE(*pp, ginfo->est_name_len);
     } /* end if */
 
     *size += sizeof(uint16_t) * 4 + sizeof(uint32_t);
@@ -556,9 +524,6 @@ H5P__gcrt_group_info_enc(const void *value, void **_pp, size_t *size)
  * Return:	   Success:	Non-negative
  *		   Failure:	Negative
  *
- * Programmer:     Mohamad Chaarawi
- *                 Monday, October 10, 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -568,29 +533,29 @@ H5P__gcrt_group_info_dec(const void **_pp, void *_value)
     const uint8_t **pp        = (const uint8_t **)_pp;
     herr_t          ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Set property to default value */
-    HDmemset(ginfo, 0, sizeof(H5O_ginfo_t));
+    memset(ginfo, 0, sizeof(H5O_ginfo_t));
     *ginfo = H5G_def_ginfo_g;
 
-    UINT32DECODE(*pp, ginfo->lheap_size_hint)
-    UINT16DECODE(*pp, ginfo->max_compact)
-    UINT16DECODE(*pp, ginfo->min_dense)
-    UINT16DECODE(*pp, ginfo->est_num_entries)
-    UINT16DECODE(*pp, ginfo->est_name_len)
+    UINT32DECODE(*pp, ginfo->lheap_size_hint);
+    UINT16DECODE(*pp, ginfo->max_compact);
+    UINT16DECODE(*pp, ginfo->min_dense);
+    UINT16DECODE(*pp, ginfo->est_num_entries);
+    UINT16DECODE(*pp, ginfo->est_name_len);
 
     /* Update fields */
     if (ginfo->max_compact != H5G_CRT_GINFO_MAX_COMPACT || ginfo->min_dense != H5G_CRT_GINFO_MIN_DENSE)
-        ginfo->store_link_phase_change = TRUE;
+        ginfo->store_link_phase_change = true;
     else
-        ginfo->store_link_phase_change = FALSE;
+        ginfo->store_link_phase_change = false;
 
     if (ginfo->est_num_entries != H5G_CRT_GINFO_EST_NUM_ENTRIES ||
         ginfo->est_name_len != H5G_CRT_GINFO_EST_NAME_LEN)
-        ginfo->store_est_entry_info = TRUE;
+        ginfo->store_est_entry_info = true;
     else
-        ginfo->store_est_entry_info = FALSE;
+        ginfo->store_est_entry_info = false;
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5P__gcrt_group_info_dec() */
@@ -599,14 +564,11 @@ H5P__gcrt_group_info_dec(const void **_pp, void *_value)
  * Function:       H5P__gcrt_link_info_enc
  *
  * Purpose:        Callback routine which is called whenever the link
- *                 property in the dataset access property list is
+ *                 info property in the dataset access property list is
  *                 encoded.
  *
  * Return:	   Success:	Non-negative
  *		   Failure:	Negative
- *
- * Programmer:     Mohamad Chaarawi
- *                 Monday, October 10, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -616,7 +578,7 @@ H5P__gcrt_link_info_enc(const void *value, void **_pp, size_t *size)
     const H5O_linfo_t *linfo = (const H5O_linfo_t *)value; /* Create local aliases for values */
     uint8_t          **pp    = (uint8_t **)_pp;
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     if (NULL != *pp) {
         unsigned crt_order_flags = 0;
@@ -628,7 +590,7 @@ H5P__gcrt_link_info_enc(const void *value, void **_pp, size_t *size)
         *(*pp)++ = (uint8_t)sizeof(unsigned);
 
         /* Encode the value */
-        H5_ENCODE_UNSIGNED(*pp, crt_order_flags)
+        H5_ENCODE_UNSIGNED(*pp, crt_order_flags);
     } /* end if */
 
     *size += (1 + sizeof(unsigned));
@@ -646,9 +608,6 @@ H5P__gcrt_link_info_enc(const void *value, void **_pp, size_t *size)
  * Return:	   Success:	Non-negative
  *		   Failure:	Negative
  *
- * Programmer:     Mohamad Chaarawi
- *                 Monday, October 10, 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -660,21 +619,21 @@ H5P__gcrt_link_info_dec(const void **_pp, void *_value)
     unsigned        enc_size;
     herr_t          ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     enc_size = *(*pp)++;
     if (enc_size != sizeof(unsigned))
-        HGOTO_ERROR(H5E_PLIST, H5E_BADVALUE, FAIL, "unsigned value can't be decoded")
+        HGOTO_ERROR(H5E_PLIST, H5E_BADVALUE, FAIL, "unsigned value can't be decoded");
 
     /* Set property to default value */
-    HDmemset(linfo, 0, sizeof(H5O_linfo_t));
+    memset(linfo, 0, sizeof(H5O_linfo_t));
     *linfo = H5G_def_linfo_g;
 
-    H5_DECODE_UNSIGNED(*pp, crt_order_flags)
+    H5_DECODE_UNSIGNED(*pp, crt_order_flags);
 
     /* Update fields */
-    linfo->track_corder = (hbool_t)((crt_order_flags & H5P_CRT_ORDER_TRACKED) ? TRUE : FALSE);
-    linfo->index_corder = (hbool_t)((crt_order_flags & H5P_CRT_ORDER_INDEXED) ? TRUE : FALSE);
+    linfo->track_corder = (bool)((crt_order_flags & H5P_CRT_ORDER_TRACKED) ? true : false);
+    linfo->index_corder = (bool)((crt_order_flags & H5P_CRT_ORDER_INDEXED) ? true : false);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

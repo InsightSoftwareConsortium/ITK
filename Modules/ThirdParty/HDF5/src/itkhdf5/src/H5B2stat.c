@@ -10,9 +10,7 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Programmer:  Quincey Koziol
- *              Monday, March  6, 2006
- *
+/*
  * Purpose:     v2 B-tree metadata statistics functions.
  *
  */
@@ -65,9 +63,6 @@
  *
  * Return:      SUCCEED (Can't fail)
  *
- * Programmer:  Quincey Koziol
- *              Monday, March  6, 2006
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -76,7 +71,7 @@ H5B2_stat_info(H5B2_t *bt2, H5B2_stat_t *info)
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments. */
-    HDassert(info);
+    assert(info);
 
     /* Get information about the B-tree */
     info->depth    = bt2->hdr->depth;
@@ -93,9 +88,6 @@ H5B2_stat_info(H5B2_t *bt2, H5B2_stat_t *info)
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              June 19 2007
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -107,8 +99,8 @@ H5B2_size(H5B2_t *bt2, hsize_t *btree_size)
     FUNC_ENTER_NOAPI(FAIL)
 
     /* Check arguments. */
-    HDassert(bt2);
-    HDassert(btree_size);
+    assert(bt2);
+    assert(btree_size);
 
     /* Set the shared v2 B-tree header's file context for this operation */
     bt2->hdr->f = bt2->f;
@@ -127,7 +119,7 @@ H5B2_size(H5B2_t *bt2, hsize_t *btree_size)
         else
             /* Iterate through nodes */
             if (H5B2__node_size(hdr, hdr->depth, &hdr->root, hdr, btree_size) < 0)
-                HGOTO_ERROR(H5E_BTREE, H5E_CANTLIST, FAIL, "node iteration failed")
+                HGOTO_ERROR(H5E_BTREE, H5E_CANTLIST, FAIL, "node iteration failed");
     } /* end if */
 
 done:

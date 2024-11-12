@@ -65,9 +65,6 @@
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              August 25th, 2008
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -76,8 +73,8 @@ H5FS__get_cparam_test(const H5FS_t *frsp, H5FS_create_t *cparam)
     FUNC_ENTER_PACKAGE_NOERR
 
     /* Check arguments. */
-    HDassert(frsp);
-    HDassert(cparam);
+    assert(frsp);
+    assert(cparam);
 
     cparam->client         = frsp->client;
     cparam->shrink_percent = frsp->shrink_percent;
@@ -96,9 +93,6 @@ H5FS__get_cparam_test(const H5FS_t *frsp, H5FS_create_t *cparam)
  *
  * Return:      A value like strcmp()
  *
- * Programmer:  Vailin Choi
- *              August 25th, 2008
- *
  *-------------------------------------------------------------------------
  */
 int
@@ -109,33 +103,33 @@ H5FS__cmp_cparam_test(const H5FS_create_t *cparam1, const H5FS_create_t *cparam2
     FUNC_ENTER_PACKAGE_NOERR
 
     /* Check arguments. */
-    HDassert(cparam1);
-    HDassert(cparam2);
+    assert(cparam1);
+    assert(cparam2);
 
     if (cparam1->client < cparam2->client)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (cparam1->client > cparam2->client)
-        HGOTO_DONE(1)
+        HGOTO_DONE(1);
 
     if (cparam1->shrink_percent < cparam2->shrink_percent)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (cparam1->shrink_percent > cparam2->shrink_percent)
-        HGOTO_DONE(1)
+        HGOTO_DONE(1);
 
     if (cparam1->expand_percent < cparam2->expand_percent)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (cparam1->expand_percent > cparam2->expand_percent)
-        HGOTO_DONE(1)
+        HGOTO_DONE(1);
 
     if (cparam1->max_sect_size < cparam2->max_sect_size)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (cparam1->max_sect_size > cparam2->max_sect_size)
-        HGOTO_DONE(1)
+        HGOTO_DONE(1);
 
     if (cparam1->max_sect_addr < cparam2->max_sect_addr)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (cparam1->max_sect_addr > cparam2->max_sect_addr)
-        HGOTO_DONE(1)
+        HGOTO_DONE(1);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

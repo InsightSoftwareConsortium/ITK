@@ -60,7 +60,7 @@ host_os="@host_os@"
 
 prog_name="`basename $0`"
 
-allargs=""
+qargs=""
 compile_args=""
 libraries=""
 link_args=""
@@ -69,8 +69,7 @@ clibpath=""
 
 do_link="yes"
 do_compile="no"
-dash_o="no"
-dash_c="no"
+dash_c=""
 get_output_file="no"
 
 SHOW="eval"
@@ -198,7 +197,6 @@ for arg in $@ ; do
 
   case "$arg" in
     -c)
-      allargs="$allargs $arg"
       compile_args="$compile_args $arg"
 
       if test "x$do_link" = "xyes" -a -n "$output_file"; then
@@ -206,13 +204,10 @@ for arg in $@ ; do
       fi
 
       do_link="no"
-      dash_c="yes"
+      dash_c="-c"
       ;;
     -o)
-      allargs="$allargs $arg"
-      dash_o="yes"
-
-      if test "x$dash_c" = "xyes"; then
+      if test "x$dash_c" = "x-c"; then
         compile_args="$compile_args $arg"
       else
         link_args="$link_args $arg"
@@ -221,14 +216,12 @@ for arg in $@ ; do
       fi
       ;;
     -E|-M|-MT)
-      allargs="$allargs $arg"
       compile_args="$compile_args $arg"
-      dash_c="yes"
+      dash_c="-c"
       do_link="no"
       ;;
     -l*)
       libraries=" $libraries $arg "
-      allargs="$allargs $arg"
       ;;
     -prefix=*)
       prefix="`expr "$arg" : '-prefix=\(.*\)'`"
@@ -254,53 +247,48 @@ for arg in $@ ; do
       ;;
     *\"*)
       qarg="'"$arg"'"
-      allargs="$allargs $qarg"
+      qargs="$qargs $qarg"
       ;;
     *\'*)
-      qarg='\"'"$arg"'\"'
-      allargs="$allargs $qarg"
+      qarg='"'"$arg"'"'
+      qargs="$qargs $qarg"
       ;;
-
     *)
-      allargs="$allargs $qarg"
-
-	if [ -s "$arg" ] ; then
-	    ext=`expr "$arg" : '.*\(\..*\)'`
-	    if [ "$ext" = ".C" -o "$ext" = ".cxx" -o "$ext" = ".cpp" -o \
-		 "$ext" = ".cc" -o "$ext" = ".c" -o "$ext" = ".CC" ] ; then
-
-	        do_compile="yes"
-	        compile_args="$compile_args $arg"
-	        fname=`basename $arg $ext`
-	        link_objs="$link_objs $fname.o"
-	    elif [ "$ext" = ".o" ] ; then
-		if test "x$dash_c" = "xyes"  ; then
-	            compile_args="$compile_args $arg"
-                else
-	            do_link="yes"
-	            link_objs="$link_objs $arg"
-                fi
-            elif test "x$ext" = "x.a"; then
-              # This is an archive that we're linking in
-              libraries=" $libraries $arg "
-            else
-              compile_args="$compile_args $arg"
-              link_args="$link_args $arg"
-            fi
-	    else
-	        compile_args="$compile_args $arg"
-	        link_args="$link_args $arg"
-	    fi
-	;;
+      if [ -s "$arg" ] ; then
+	ext=`expr "$arg" : '.*\(\..*\)'`
+	if [ "$ext" = ".C" -o "$ext" = ".cxx" -o "$ext" = ".cpp" -o \
+             "$ext" = ".cc" -o "$ext" = ".c" -o "$ext" = ".CC" ] ; then
+	  do_compile="yes"
+	  compile_args="$compile_args $arg"
+	  fname=`basename $arg $ext`
+	  link_objs="$link_objs $fname.o"
+        elif [ "$ext" = ".o" ] ; then
+          if test "x$dash_c" = "x-c"  ; then
+	    compile_args="$compile_args $arg"
+          else
+	    do_link="yes"
+	    link_objs="$link_objs $arg"
+          fi
+        elif test "x$ext" = "x.a"; then
+          # This is an archive that we're linking in
+          libraries=" $libraries $arg "
+        else
+          compile_args="$compile_args $arg"
+          link_args="$link_args $arg"
+        fi
+      else
+	compile_args="$compile_args $arg"
+	link_args="$link_args $arg"
+      fi
+      ;;
   esac
 done
-
+link_args="$link_args $qargs"
 if test "x$do_compile" = "xyes"; then
-  if test "x$dash_c" != "xyes"; then
-    compile_args="-c $compile_args"
+  if test "x$dash_c" = "x"; then
+    dash_c="-c"
   fi
-
-  $SHOW $CXX -I$includedir $H5BLD_CPPFLAGS $CPPFLAGS $H5BLD_CXXFLAGS $CXXFLAGS $compile_args
+  $SHOW $CXX -I$includedir $H5BLD_CPPFLAGS $CPPFLAGS $H5BLD_CXXFLAGS $CXXFLAGS $dash_c $qargs $compile_args
   status=$?
 
   if test "$status" != "0"; then
@@ -318,27 +306,27 @@ if test "x$do_link" = "xyes"; then
   fi
   link_args="$link_args -L${libdir}"
 
-  case "$kind" in
-    gcc|linux*)
-      # MacOS X doesn't support the "-Wl,-rpath -Wl," style of linker flags.
-      # It appears to want none of them specified.
-      case "$host_os" in
-        darwin*)          flag="" ;;
-        *)                flag="-Wl,-rpath -Wl," ;;
-      esac
-      ;;
-    hpux*)                flag="-Wl,+b -Wl," ;;
-    freebsd*|solaris*)    flag="-R" ;;
-    rs6000*|aix*)         flag="-L" ;;
-    sgi)                  flag="-rpath " ;;
-    *)                    flag="" ;;
-  esac
+  if test "x$USE_SHARED_LIB" = "xyes"; then
+    case "$kind" in
+      gcc|linux*)
+        # MacOS X doesn't support the "-Wl,-rpath -Wl," style of linker flags.
+        # It appears to want none of them specified.
+        case "$host_os" in
+          darwin*)          flag="" ;;
+          *)                flag="-Wl,-rpath -Wl," ;;
+        esac
+        ;;
+      hpux*)                flag="-Wl,+b -Wl," ;;
+      freebsd*|solaris*)    flag="-R" ;;
+      rs6000*|aix*)         flag="-L" ;;
+      sgi)                  flag="-rpath " ;;
+      *)                    flag="" ;;
+    esac
 
-  if test -n "$flag"; then
-    shared_link="${flag}${libdir}"
-  fi
-
-  if test "x$USE_SHARED_LIB" != "xyes"; then
+    if test -n "$flag"; then
+      shared_link="${flag}${libdir}"
+    fi
+  else
     # The "-lhdf5" & "-lhdf5_hl" flags are in here already...This is a static
     # compile though, so change it to the static version (.a) of the library.
     new_libraries=""

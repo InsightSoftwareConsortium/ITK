@@ -11,12 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:	Quincey Koziol
- *		Saturday, September 12, 2015
- *
- * Purpose:	This file contains declarations which define macros for the
- *		H5O package.  Including this header means that the source file
- *		is part of the H5O package.
+ * Purpose: This file contains declarations which define macros for the
+ *          H5O package.  Including this header means that the source file
+ *          is part of the H5O package.
  */
 #ifndef H5Omodule_H
 #define H5Omodule_H
@@ -25,11 +22,10 @@
  *      reporting macros.
  */
 #define H5O_MODULE
-#define H5_MY_PKG      H5O
-#define H5_MY_PKG_ERR  H5E_OHDR
-#define H5_MY_PKG_INIT YES
+#define H5_MY_PKG     H5O
+#define H5_MY_PKG_ERR H5E_OHDR
 
-/** \page H5O_UG The HDF5 Objects
+/** \page H5O_UG HDF5 Objects
  * @todo Under Construction
  */
 
@@ -53,7 +49,7 @@
  *
  * HDF5 objects are deleted as a side effect of rendering them unreachable
  * from the root group. The net effect is the diminution of the object's
- * reference count to zero, which can (but should not usually) be effected
+ * reference count to zero, which can (but should not usually) be affected
  * by a function in this module.
  *
  * <table>

@@ -40,7 +40,6 @@ DSetAccPropList *DSetAccPropList::DEFAULT_ = 0;
 //              If DSetAccPropList::DEFAULT_ already points to an allocated
 //              object, throw a PropListIException.  This scenario should
 //              not happen.
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 DSetAccPropList *
 DSetAccPropList::getConstant()
@@ -66,7 +65,6 @@ DSetAccPropList::getConstant()
 // Function:    DSetAccPropList::deleteConstants
 // Purpose:     Deletes the constant object that DSetAccPropList::DEFAULT_
 //              points to.
-// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
 void
 DSetAccPropList::deleteConstants()
@@ -84,7 +82,6 @@ const DSetAccPropList &DSetAccPropList::DEFAULT = *getConstant();
 //--------------------------------------------------------------------------
 // Function:    DSetAccPropList default constructor
 ///\brief       Default constructor: creates a stub dataset creation property list
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DSetAccPropList::DSetAccPropList() : LinkAccPropList(H5P_DATASET_ACCESS)
 {
@@ -94,7 +91,6 @@ DSetAccPropList::DSetAccPropList() : LinkAccPropList(H5P_DATASET_ACCESS)
 // Function:    DSetAccPropList copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
 ///             DSetAccPropList object
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DSetAccPropList::DSetAccPropList(const DSetAccPropList &orig) : LinkAccPropList(orig)
 {
@@ -104,7 +100,6 @@ DSetAccPropList::DSetAccPropList(const DSetAccPropList &orig) : LinkAccPropList(
 // Function:    DSetAccPropList overloaded constructor
 ///\brief       Creates a DSetAccPropList object using the id of an
 ///             existing dataset creation property list.
-// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 DSetAccPropList::DSetAccPropList(const hid_t plist_id) : LinkAccPropList(plist_id)
 {
@@ -156,15 +151,6 @@ DSetAccPropList::getChunkCache(size_t &rdcc_nslots, size_t &rdcc_nbytes, double 
     if (ret_value < 0) {
         throw PropListIException("DSetAccPropList::getChunkCache", "H5Pget_chunk_cache failed");
     }
-}
-
-//--------------------------------------------------------------------------
-// Function:    DSetAccPropList destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-DSetAccPropList::~DSetAccPropList()
-{
 }
 
 } // namespace H5

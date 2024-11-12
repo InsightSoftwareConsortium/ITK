@@ -57,7 +57,7 @@ class H5_DLLCPP AtomType : public DataType {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("AtomType");
     }
@@ -67,7 +67,7 @@ class H5_DLLCPP AtomType : public DataType {
     AtomType(const AtomType &original);
 
     // Noop destructor
-    virtual ~AtomType() H5_OVERRIDE;
+    virtual ~AtomType() override = default;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
   protected:

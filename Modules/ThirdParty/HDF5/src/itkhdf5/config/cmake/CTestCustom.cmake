@@ -52,6 +52,9 @@ set (CTEST_CUSTOM_MEMCHECK_IGNORE
     H5TEST-error_test       #uses runTest.cmake
     H5TEST-err_compat       #uses runTest.cmake
     H5TEST-testlibinfo      #uses grepTest.cmake
+    H5SHELL-test_flush_refresh #uses shell script
+    H5SHELL-test_flush_refresh #uses shell script
+    H5SHELL-test_vds_swmr      #uses shell script
     #########
     H5TEST-clear-objects
     H5TEST-cache-clear-objects
@@ -171,32 +174,6 @@ set (CTEST_CUSTOM_MEMCHECK_IGNORE
     H5REPACK_STAT-SP_PAGE-clear-objects
     H5REPACK_STAT-SPT_FSM_AGGR-clear-objects
     H5REPACK_STAT-STG_PAGE-clear-objects
-    #########
-    H5REPACK_META-meta_long
-    H5REPACK_META-meta_short
-    #########
-    H5REPACK-gzip_verbose_filters                       #uses runTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset2_chunk_20x10            #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT_ALL-chunk_20x10              #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset2_conti                  #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT_ALL-conti                    #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset2_compa                  #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT_ALL-compa                    #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset_compa_conti             #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset_compa_chunk             #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset_compa_compa             #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset_conti_compa             #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset_conti_chunk             #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-dset_conti_conti             #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-chunk_compa                  #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-chunk_conti                  #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-chunk_18x13                  #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-contig_small_compa           #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT-contig_small_fixed_compa     #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT_ALL-layout_long_switches     #uses grepTest.cmake
-    H5REPACK_VERIFY_LAYOUT_ALL-layout_short_switches    #uses grepTest.cmake
-    H5REPACK-plugin
-    H5REPACK_CMP-plugin_zero
     #########
     ADD_H5_VERIFY_INVALIDBOUNDS-h5repack-latest_latest_invalid-clear-objects
     H5REPACK_VERIFY_SUPERBLOCK-SB_IS_0-clear-objects

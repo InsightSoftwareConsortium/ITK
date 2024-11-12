@@ -77,7 +77,7 @@ class H5_DLLCPP FileCreatPropList : public PropList {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("FileCreatPropList");
     }
@@ -90,7 +90,7 @@ class H5_DLLCPP FileCreatPropList : public PropList {
     FileCreatPropList(const hid_t plist_id);
 
     // Noop destructor
-    virtual ~FileCreatPropList() H5_OVERRIDE;
+    virtual ~FileCreatPropList() override = default;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

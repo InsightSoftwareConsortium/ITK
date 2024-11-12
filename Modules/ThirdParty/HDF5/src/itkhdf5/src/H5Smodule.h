@@ -11,12 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:	Quincey Koziol
- *		Saturday, September 12, 2015
- *
- * Purpose:	This file contains declarations which define macros for the
- *		H5S package.  Including this header means that the source file
- *		is part of the H5S package.
+ * Purpose: This file contains declarations which define macros for the
+ *          H5S package.  Including this header means that the source file
+ *          is part of the H5S package.
  */
 #ifndef H5Smodule_H
 #define H5Smodule_H
@@ -25,9 +22,8 @@
  *      reporting macros.
  */
 #define H5S_MODULE
-#define H5_MY_PKG      H5S
-#define H5_MY_PKG_ERR  H5E_DATASPACE
-#define H5_MY_PKG_INIT YES
+#define H5_MY_PKG     H5S
+#define H5_MY_PKG_ERR H5E_DATASPACE
 
 /** \page H5S_UG Dataspaces and Partial I/O
  *
@@ -57,7 +53,7 @@
  * sub‐sampling, and scatter‐gather access to datasets.
  *
  * \subsection subsec_dataspace_function Dataspace Function Summaries
- * @see H5S reference manual provides a reference list of dataspace functions, the H5S APIs.
+ * see \ref H5S reference manual provides a reference list of dataspace functions, the H5S APIs.
  *
  * \subsection subsec_dataspace_program  Definition of Dataspace Objects and the Dataspace Programming Model
  *
@@ -67,7 +63,7 @@
  * \subsubsection subsubsec_dataspace_program_object Dataspace Objects
  *
  * An HDF5 dataspace is a required component of an HDF5 dataset or attribute. A dataspace defines the size
- * and the shape of a dataset’s or an attribute’s raw data. Currently, HDF5 supports the following types of
+ * and the shape of a dataset's or an attribute's raw data. Currently, HDF5 supports the following types of
  * the dataspaces:
  * \li Scalar dataspaces
  * \li Simple dataspaces
@@ -169,7 +165,7 @@
  *
  * <h4>Creating a Simple Dataspace</h4>
  *
- * Let’s assume that an application wants to store a two‐dimensional array of data, A(20,100). During the
+ * Let's assume that an application wants to store a two‐dimensional array of data, A(20,100). During the
  * life of the application, the first dimension of the array can grow up to 30; there is no restriction on
  * the size of the second dimension. The following steps are used to declare a dataspace for the dataset
  * in which the array data will be stored.
@@ -978,26 +974,25 @@
  *
  * This section is under construction.
  *
- * \subsection subsec_dataspace_refer References to Dataset Regions
+ * \subsection subsec_dataspace_refer References
  *
- * Another use of selections is to store a reference to a region of a dataset. An HDF5 object reference
- * object is a pointer to an object (dataset, group, or committed datatype) in the file. A selection can
+ * Another use of selections is to store a reference to a region of a dataset in the file or an external file.
+ * An HDF5 object reference
+ * object is a pointer to an object (attribute, dataset, group, or committed datatype) in the file or an
+ * external file. A selection can
  * be used to create a pointer to a set of selected elements of a dataset, called a region reference. The
  * selection can be either a point selection or a hyperslab selection.
  *
  * A region reference is an object maintained by the HDF5 Library. The region reference can be stored in a
  * dataset or attribute, and then read. The dataset or attribute is defined to have the special datatype,
- * #H5T_STD_REF_DSETREG.
+ * #H5T_STD_REF.
  *
- * To discover the elements and/or read the data, the region reference can be dereferenced. The
- * #H5Rdereference call returns an identifier for the dataset, and then the selected dataspace can be
- * retrieved with a call to #H5Rget_region(). The selected dataspace can be used to read the selected data
- * elements.
+ * To discover the elements and/or read the data, the region reference can be dereferenced to obtain the
+ * identifiers for the dataset and dataspace.
  *
- * For more information, \see subsubsec_datatype_other_refs.
+ * For more information, \see \ref subsubsec_datatype_other_refs.
  *
  * \subsubsection subsubsec_dataspace_refer_use Example Uses for Region References
- *
  * Region references are used to implement stored pointers to data within a dataset. For example, features
  * in a large dataset might be indexed by a table. See the figure below. This table could be stored as an
  * HDF5 dataset with a compound datatype, for example, with a field for the name of the feature and a region
@@ -1019,9 +1014,175 @@
  * </tr>
  * </table>
  *
- *
  * \subsubsection subsubsec_dataspace_refer_create Creating References to Regions
+ * To create a region reference:
+ * \li 1. Create or open the dataset that contains the region
+ * \li 2. Get the dataspace for the dataset
+ * \li 3. Define a selection that specifies the region
+ * \li 4. Create a region reference using the dataset and dataspace with selection
+ * \li 5. Write the region reference(s) to the desired dataset or attribute
+ * \li 6. Release the region reference(s)
  *
+ * The figure below shows a diagram of a file with three datasets. Dataset D1 and D2 are two dimensional
+ * arrays of integers. Dataset R1 is a one dimensional array of references to regions in D1 and D2. The
+ * regions can be any valid selection of the dataspace of the target dataset.
+ * <table>
+ * <tr>
+ * <td>
+ * \image html Dspace_three_datasets.gif "A file with three datasets"
+ * </td>
+ * </tr>
+ * </table>
+ * <em>Note: In the figure above, R1 is a 1 D array of region pointers; each pointer refers to a selection
+ * in one dataset.</em>
+ *
+ * The example below shows code to create the array of region references. The references are created in an
+ * array of type #H5R_ref_t. Each region is defined as a selection on the dataspace of the dataset,
+ * and a reference is created using \ref H5Rcreate_region(). The call to \ref H5Rcreate_region() specifies the
+ file,
+ * dataset, and the dataspace with selection.
+ *
+ * <em>Create an array of region references</em>
+ * \code
+ *     // create an array of 4 region references
+ *     H5R_ref_t ref[4];
+ *
+ *     // Create a reference to the first hyperslab in the first Dataset.
+ *     offset[0] = 1; offset[1] = 1;
+ *     count[0]  = 3; count[1]  = 2;
+ *     status = H5Sselect_hyperslab(space_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+ *     status = H5Rcreate_region(file_id, "D1", space_id, H5P_DEFAULT, &ref[0]);
+ *
+ *     // The second reference is to a union of hyperslabs in the first Dataset
+ *     offset[0] = 5; offset[1] = 3;
+ *     count[0]  = 1; count[1]  = 4;
+ *     status = H5Sselect_none(space_id);
+ *     status = H5Sselect_hyperslab(space_id, H5S_SELECT_SET, offset, NULL, count, NULL);
+ *     offset[0] = 6; offset[1] = 5;
+ *     count[0]  = 1; count[1]  = 2;
+ *     status = H5Sselect_hyperslab(space_id, H5S_SELECT_OR, offset, NULL, count, NULL);
+ *     status = H5Rcreate_region(file_id, "D1", space_id, H5P_DEFAULT, &ref[1]);
+ *
+ *     // the fourth reference is to a selection of points in the first Dataset
+ *     status = H5Sselect_none(space_id);
+ *     coord[0][0] = 4; coord[0][1] = 4;
+ *     coord[1][0] = 2; coord[1][1] = 6;
+ *     coord[2][0] = 3; coord[2][1] = 7;
+ *     coord[3][0] = 1; coord[3][1] = 5;
+ *     coord[4][0] = 5; coord[4][1] = 8;
+ *
+ *     status = H5Sselect_elements(space_id, H5S_SELECT_SET, num_points, (const hssize_t **)coord);
+ *     status = H5Rcreate_region(file_id, "D1", space_id, H5P_DEFAULT, &ref[3]);
+ *
+ *     // the third reference is to a hyperslab in the second Dataset
+ *     offset[0] = 0; offset[1] = 0;
+ *     count[0]  = 4; count[1]  = 6;
+ *     status = H5Sselect_hyperslab(space_id2, H5S_SELECT_SET, offset, NULL, count, NULL);
+ *     status = H5Rcreate_region(file_id, "D2", space_id2, H5P_DEFAULT, &ref[2]);
+ * \endcode
+ *
+ * When all the references are created, the array of references is written to the dataset R1. The
+ * dataset is declared to have datatype #H5T_STD_REF. See the example below. Also, note the release
+ * of the references afterwards.
+ *
+ * <em>Write the array of references to a dataset</em>
+ * \code
+ *     Hsize_t dimsr[1];
+ *     dimsr[0] = 4;
+ *
+ *     // Dataset with references.
+ *     spacer_id = H5Screate_simple(1, dimsr, NULL);
+ *     dsetr_id = H5Dcreate(file_id, "R1", H5T_STD_REF_DSETREG, spacer_id, H5P_DEFAULT, H5P_DEFAULT,
+ *     H5P_DEFAULT);
+ *
+ *     // Write dataset with the references.
+ *     status = H5Dwrite(dsetr_id, H5T_STD_REF_DSETREG, H5S_ALL, H5S_ALL, H5P_DEFAULT, ref);
+ *
+ *     status = H5Rdestroy(&ref[0]);
+ *     status = H5Rdestroy(&ref[1]);
+ *     status = H5Rdestroy(&ref[0]);
+ *     status = H5Rdestroy(&ref[1]);
+ * \endcode
+ *
+ * When creating region references, the following rules are enforced.
+ * \li The selection must be a valid selection for the target dataset, just as when transferring data
+ * \li The dataset must exist in the file when the reference is created; #H5Rcreate_region
+ * \li The target dataset must be in the same file as the stored reference
+ *
+ * \subsubsection subsubsec_dataspace_refer_read Reading References to Regions
+ * To retrieve data from a region reference, the reference must be read from the file, and then the data can
+ * be retrieved. The steps are:
+ * \li 1. Open the dataset or attribute containing the reference objects
+ * \li 2. Read the reference object(s)
+ * \li 3. For each region reference, get the dataset (#H5Ropen_object) and dataspace (#H5Ropen_region)
+ * \li 4. Use the dataspace and datatype to discover what space is needed to store the data, allocate the
+ *        correct storage and create a dataspace and datatype to define the memory data layout
+ * \li 5. Release the region reference(s)
+ *
+ * The example below shows code to read an array of region references from a dataset, and then read the
+ * data from the first selected region. Note that the region reference has information that records the
+ * dataset (within the file) and the selection on the dataspace of the dataset. After dereferencing the
+ * regions reference, the datatype, number of points, and some aspects of the selection can be discovered.
+ * (For a union of hyperslabs, it may not be possible to determine the exact set of hyperslabs that has been
+ * combined.)
+ * The table below the code example shows the inquiry functions.
+ *
+ * When reading data from a region reference, the following rules are enforced:
+ * \li The target dataset must be present and accessible in the file
+ * \li The selection must be a valid selection for the dataset
+ *
+ * <em>Read an array of region references; read from the first selection</em>
+ * \code
+ *     dsetr_id = H5Dopen (file_id, "R1", H5P_DEFAULT);
+ *     status = H5Dread(dsetr_id, H5T_STD, H5S_ALL, H5S_ALL, H5P_DEFAULT, ref_out);
+ *
+ *     // Dereference the first reference.
+ *     // 1) get the dataset (H5Ropen_object)
+ *     // 2) get the selected dataspace (H5Ropen_region)
+ *
+ *     dsetv_id = H5Ropen_object(&ref_out[0], H5P_DEFAULT, H5P_DEFAULT);
+ *     space_id = H5Ropen_region(&ref_out[0], H5P_DEFAULT, H5P_DEFAULT);
+ *
+ *     // Discover how many points and shape of the data
+ *     ndims = H5Sget_simple_extent_ndims(space_id);
+ *     H5Sget_simple_extent_dims(space_id,dimsx,NULL);
+ *
+ *     // Read and display hyperslab selection from the dataset.
+ *     dimsy[0] = H5Sget_select_npoints(space_id);
+ *     spacex_id = H5Screate_simple(1, dimsy, NULL);
+ *
+ *     status = H5Dread(dsetv_id, H5T_NATIVE_INT, H5S_ALL, space_id, H5P_DEFAULT, data_out);
+ *     printf("Selected hyperslab: ");
+ *     for (i = 0; i < 8; i++) {
+ *         printf("\n");
+ *         for (j = 0; j < 10; j++)
+ *             printf("%d ", data_out[i][j]);
+ *     }
+ *     printf("\n");
+ *
+ *     status = H5Rdestroy(&ref_out[0]);
+ * \endcode
+ *
+ *
+ * \subsection subsec_dataspace_deprecated_refer Deprecated References to Dataset Regions
+ * The API described in this section was deprecated since HDF5 1.12.0. Shown are
+ * examples and usage in use by applications written before 1.12.0.
+ *
+ * Another use of selections is to store a reference to a region of a dataset. An HDF5 object reference
+ * object is a pointer to an object (dataset, group, or committed datatype) in the file. A selection can
+ * be used to create a pointer to a set of selected elements of a dataset, called a region reference. The
+ * selection can be either a point selection or a hyperslab selection.
+ *
+ * A region reference is an object maintained by the HDF5 Library. The region reference can be stored in a
+ * dataset or attribute, and then read. The dataset or attribute is defined to have the special datatype,
+ * #H5T_STD_REF_DSETREG.
+ *
+ * To discover the elements and/or read the data, the region reference can be dereferenced. The
+ * #H5Rdereference call returns an identifier for the dataset, and then the selected dataspace can be
+ * retrieved with a call to #H5Rget_region(). The selected dataspace can be used to read the selected data
+ * elements.
+ *
+ * \subsubsection subsubsec_dataspace_deprecated_refer_create Deprecated Creating References to Regions
  * To create a region reference:
  * \li 1. Create or open the dataset that contains the region
  * \li 2. Get the dataspace for the dataset
@@ -1047,7 +1208,7 @@
  * and a reference is created using \ref H5Rcreate(). The call to \ref H5Rcreate() specifies the file,
  * dataset, and the dataspace with selection.
  *
- * <em>Create an array of region references</em>
+ * <em>Deprecated Create an array of region references</em>
  * \code
  *     // create an array of 4 region references
  *     hdset_reg_ref_t ref[4];
@@ -1089,7 +1250,7 @@
  * When all the references are created, the array of references is written to the dataset R1. The
  * dataset is declared to have datatype #H5T_STD_REF_DSETREG. See the example below.
  *
- * <em>Write the array of references to a dataset</em>
+ * <em>Deprecated Write the array of references to a dataset</em>
  * \code
  *     Hsize_t dimsr[1];
  *     dimsr[0] = 4;
@@ -1109,7 +1270,7 @@
  * \li The dataset must exist in the file when the reference is created; #H5Rcreate
  * \li The target dataset must be in the same file as the stored reference
  *
- * \subsubsection subsubsec_dataspace_refer_read Reading References to Regions
+ * \subsubsection subsubsec_dataspace_refer_deprecated_read Deprecated Reading References to Regions
  *
  * To retrieve data from a region reference, the reference must be read from the file, and then the data can
  * be retrieved. The steps are:
@@ -1131,7 +1292,7 @@
  * \li The target dataset must be present and accessible in the file
  * \li The selection must be a valid selection for the dataset
  *
- * <em>Read an array of region references; read from the first selection</em>
+ * <em>Deprecated Read an array of region references; read from the first selection</em>
  * \code
  *     dsetr_id = H5Dopen (file_id, "R1", H5P_DEFAULT);
  *     status = H5Dread(dsetr_id, H5T_STD_REF_DSETREG, H5S_ALL, H5S_ALL, H5P_DEFAULT, ref_out);
@@ -1161,6 +1322,7 @@
  *     printf("\n");
  * \endcode
  *
+ * \subsection subsec_dataspace_funcs Functions
  * <table>
  * <caption>The inquiry functions</caption>
  * <tr>
@@ -1221,11 +1383,10 @@
  * </tr>
  * </table>
  *
- *
  * \subsection subsec_dataspace_sample Sample Programs
  *
  * This section contains the full programs from which several of the code examples in this chapter were
- * derived. The h5dump output from the program’s output file immediately follows each program.
+ * derived. The h5dump output from the program's output file immediately follows each program.
  *
  * <em>h5_write.c</em>
  * \code

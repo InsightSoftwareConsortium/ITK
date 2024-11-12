@@ -136,7 +136,7 @@ class H5_DLLCPP FileAccPropList : public PropList {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("FileAccPropList");
     }
@@ -149,7 +149,7 @@ class H5_DLLCPP FileAccPropList : public PropList {
     FileAccPropList(const hid_t plist_id);
 
     // Noop destructor
-    virtual ~FileAccPropList() H5_OVERRIDE;
+    virtual ~FileAccPropList() override = default;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

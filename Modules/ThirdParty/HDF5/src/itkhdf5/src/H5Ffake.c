@@ -13,9 +13,10 @@
 #include "H5Fmodule.h" /* This source code file is part of the H5F module */
 
 /* Packages needed by this file... */
-#include "H5private.h"  /* Generic Functions			*/
-#include "H5Eprivate.h" /* Error handling		  	*/
-#include "H5Fpkg.h"     /* File access				*/
+#include "H5private.h"   /* Generic Functions			*/
+#include "H5Eprivate.h"  /* Error handling		  	*/
+#include "H5Fpkg.h"      /* File access				*/
+#include "H5FLprivate.h" /* Free Lists                               */
 
 /* PRIVATE PROTOTYPES */
 
@@ -30,9 +31,6 @@
  * Return:      Success:        Pointer to 'faked up' file structure
  *              Failure:        NULL
  *
- * Programmer:  Quincey Koziol
- *              Oct  2, 2006
- *
  *-------------------------------------------------------------------------
  */
 H5F_t *
@@ -45,9 +43,9 @@ H5F_fake_alloc(uint8_t sizeof_size)
 
     /* Allocate faked file struct */
     if (NULL == (f = H5FL_CALLOC(H5F_t)))
-        HGOTO_ERROR(H5E_FILE, H5E_NOSPACE, NULL, "can't allocate top file structure")
+        HGOTO_ERROR(H5E_FILE, H5E_NOSPACE, NULL, "can't allocate top file structure");
     if (NULL == (f->shared = H5FL_CALLOC(H5F_shared_t)))
-        HGOTO_ERROR(H5E_FILE, H5E_NOSPACE, NULL, "can't allocate shared file structure")
+        HGOTO_ERROR(H5E_FILE, H5E_NOSPACE, NULL, "can't allocate shared file structure");
 
     /* Only set fields necessary for clients */
     if (sizeof_size == 0)
@@ -72,9 +70,6 @@ done:
  *
  * Return:	Success:	non-negative
  *		Failure:	negative
- *
- * Programmer:  Quincey Koziol
- *              Oct  2, 2006
  *
  *-------------------------------------------------------------------------
  */

@@ -10,11 +10,6 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/*
- * Programmer: Robb Matzke
- *	       Friday, October 10, 1997
- */
-
 #include "H5private.h"
 #include "H5Eprivate.h"
 #include "H5MMprivate.h" /* Memory management			*/
@@ -35,11 +30,6 @@ static void H5VM__stride_optimize1(unsigned *np /*in,out*/, hsize_t *elmt_size /
                                    const hsize_t *size, hsize_t *stride1);
 static void H5VM__stride_optimize2(unsigned *np /*in,out*/, hsize_t *elmt_size /*in,out*/,
                                    const hsize_t *size, hsize_t *stride1, hsize_t *stride2);
-#ifdef LATER
-static void H5VM__stride_copy2(hsize_t nelmts, hsize_t elmt_size, unsigned dst_n, const hsize_t *dst_size,
-                               const ssize_t *dst_stride, void *_dst, unsigned src_n, const hsize_t *src_size,
-                               const ssize_t *src_stride, const void *_src);
-#endif /* LATER */
 
 /*-------------------------------------------------------------------------
  * Function:    H5VM__stride_optimize1
@@ -54,21 +44,18 @@ static void H5VM__stride_copy2(hsize_t nelmts, hsize_t elmt_size, unsigned dst_n
  *
  * Return:      void
  *
- * Programmer:  Robb Matzke
- *              Saturday, October 11, 1997
- *
  *-------------------------------------------------------------------------
  */
 static void
 H5VM__stride_optimize1(unsigned *np /*in,out*/, hsize_t *elmt_size /*in,out*/, const hsize_t *size,
                        hsize_t *stride1)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* This has to be true because if we optimize the dimensionality down to
      * zero we still must make one reference.
      */
-    HDassert(1 == H5VM_vector_reduce_product(0, NULL));
+    assert(1 == H5VM_vector_reduce_product(0, NULL));
 
     /* Combine adjacent memory accesses */
     while (*np && stride1[*np - 1] > 0 && (hsize_t)(stride1[*np - 1]) == *elmt_size) {
@@ -93,22 +80,19 @@ H5VM__stride_optimize1(unsigned *np /*in,out*/, hsize_t *elmt_size /*in,out*/, c
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Robb Matzke
- *              Saturday, October 11, 1997
- *
  *-------------------------------------------------------------------------
  */
 static void
 H5VM__stride_optimize2(unsigned *np /*in,out*/, hsize_t *elmt_size /*in,out*/, const hsize_t *size,
                        hsize_t *stride1, hsize_t *stride2)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* This has to be true because if we optimize the dimensionality down to
      * zero we still must make one reference.
      */
-    HDassert(1 == H5VM_vector_reduce_product(0, NULL));
-    HDassert(*elmt_size > 0);
+    assert(1 == H5VM_vector_reduce_product(0, NULL));
+    assert(*elmt_size > 0);
 
     /* Combine adjacent memory accesses */
 
@@ -217,9 +201,6 @@ H5VM__stride_optimize2(unsigned *np /*in,out*/, hsize_t *elmt_size /*in,out*/, c
  *
  * Return:      Byte offset from beginning of array to start of striding.
  *
- * Programmer:  Robb Matzke
- *              Saturday, October 11, 1997
- *
  *-------------------------------------------------------------------------
  */
 hsize_t
@@ -233,48 +214,48 @@ H5VM_hyper_stride(unsigned n, const hsize_t *size, const hsize_t *total_size, co
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    HDassert(n <= H5VM_HYPER_NDIMS);
-    HDassert(size);
-    HDassert(total_size);
-    HDassert(stride);
+    assert(n <= H5VM_HYPER_NDIMS);
+    assert(size);
+    assert(total_size);
+    assert(stride);
 
     /* init */
-    HDassert(n > 0);
+    assert(n > 0);
     stride[n - 1] = 1;
     skip          = offset ? offset[n - 1] : 0;
 
     switch (n) {
         case 2: /* 1-D dataset */
-            HDassert(total_size[1] >= size[1]);
+            assert(total_size[1] >= size[1]);
             stride[0] = total_size[1] - size[1]; /*overflow checked*/
             acc       = total_size[1];
             skip += acc * (offset ? offset[0] : 0);
             break;
 
         case 3: /* 2-D dataset */
-            HDassert(total_size[2] >= size[2]);
+            assert(total_size[2] >= size[2]);
             stride[1] = total_size[2] - size[2]; /*overflow checked*/
             acc       = total_size[2];
             skip += acc * (offset ? (hsize_t)offset[1] : 0);
 
-            HDassert(total_size[1] >= size[1]);
+            assert(total_size[1] >= size[1]);
             stride[0] = acc * (total_size[1] - size[1]); /*overflow checked*/
             acc *= total_size[1];
             skip += acc * (offset ? (hsize_t)offset[0] : 0);
             break;
 
         case 4: /* 3-D dataset */
-            HDassert(total_size[3] >= size[3]);
+            assert(total_size[3] >= size[3]);
             stride[2] = total_size[3] - size[3]; /*overflow checked*/
             acc       = total_size[3];
             skip += acc * (offset ? (hsize_t)offset[2] : 0);
 
-            HDassert(total_size[2] >= size[2]);
+            assert(total_size[2] >= size[2]);
             stride[1] = acc * (total_size[2] - size[2]); /*overflow checked*/
             acc *= total_size[2];
             skip += acc * (offset ? (hsize_t)offset[1] : 0);
 
-            HDassert(total_size[1] >= size[1]);
+            assert(total_size[1] >= size[1]);
             stride[0] = acc * (total_size[1] - size[1]); /*overflow checked*/
             acc *= total_size[1];
             skip += acc * (offset ? (hsize_t)offset[0] : 0);
@@ -283,7 +264,7 @@ H5VM_hyper_stride(unsigned n, const hsize_t *size, const hsize_t *total_size, co
         default:
             /* others */
             for (i = (int)(n - 2), acc = 1; i >= 0; --i) {
-                HDassert(total_size[i + 1] >= size[i + 1]);
+                assert(total_size[i + 1] >= size[i + 1]);
                 stride[i] = acc * (total_size[i + 1] - size[i + 1]); /*overflow checked*/
                 acc *= total_size[i + 1];
                 skip += acc * (offset ? (hsize_t)offset[i] : 0);
@@ -304,16 +285,13 @@ H5VM_hyper_stride(unsigned n, const hsize_t *size, const hsize_t *total_size, co
  *              assumes that both hyperslabs are relative to the same array,
  *              for if not, they could not possibly be equal.
  *
- * Return:      TRUE if the hyperslabs are equal (that is,
+ * Return:      true if the hyperslabs are equal (that is,
  *              both refer to exactly the same elements of an
  *              array)
  *
- *              FALSE otherwise
+ *              false otherwise
  *
  *              Never returns FAIL
- *
- * Programmer:  Robb Matzke
- *              Friday, October 17, 1997
  *
  *-------------------------------------------------------------------------
  */
@@ -323,23 +301,23 @@ H5VM_hyper_eq(unsigned n, const hsize_t *offset1, const hsize_t *size1, const hs
 {
     hsize_t  nelmts1 = 1, nelmts2 = 1;
     unsigned i;
-    htri_t   ret_value = TRUE; /* Return value */
+    htri_t   ret_value = true; /* Return value */
 
     /* Use FUNC_ENTER_NOAPI_NOINIT_NOERR here to avoid performance issues */
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     if (n == 0)
-        HGOTO_DONE(TRUE)
+        HGOTO_DONE(true);
 
     for (i = 0; i < n; i++) {
         if ((offset1 ? offset1[i] : 0) != (offset2 ? offset2[i] : 0))
-            HGOTO_DONE(FALSE)
+            HGOTO_DONE(false);
         if ((size1 ? size1[i] : 0) != (size2 ? size2[i] : 0))
-            HGOTO_DONE(FALSE)
+            HGOTO_DONE(false);
         if (0 == (nelmts1 *= (size1 ? size1[i] : 0)))
-            HGOTO_DONE(FALSE)
+            HGOTO_DONE(false);
         if (0 == (nelmts2 *= (size2 ? size2[i] : 0)))
-            HGOTO_DONE(FALSE)
+            HGOTO_DONE(false);
     }
 
 done:
@@ -360,9 +338,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Robb Matzke
- *              Friday, October 10, 1997
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -382,14 +357,14 @@ H5VM_hyper_fill(unsigned n, const hsize_t *_size, const hsize_t *total_size, con
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check args */
-    HDassert(n > 0 && n <= H5VM_HYPER_NDIMS);
-    HDassert(_size);
-    HDassert(total_size);
-    HDassert(dst);
+    assert(n > 0 && n <= H5VM_HYPER_NDIMS);
+    assert(_size);
+    assert(total_size);
+    assert(dst);
 #ifndef NDEBUG
     for (u = 0; u < n; u++) {
-        HDassert(_size[u] > 0);
-        HDassert(total_size[u] > 0);
+        assert(_size[u] > 0);
+        assert(total_size[u] > 0);
     }
 #endif
 
@@ -430,9 +405,6 @@ H5VM_hyper_fill(unsigned n, const hsize_t *_size, const hsize_t *total_size, con
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Robb Matzke
- *              Friday, October 10, 1997
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -454,17 +426,17 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check args */
-    HDassert(n > 0 && n <= H5VM_HYPER_NDIMS);
-    HDassert(_size);
-    HDassert(dst_size);
-    HDassert(src_size);
-    HDassert(dst);
-    HDassert(src);
+    assert(n > 0 && n <= H5VM_HYPER_NDIMS);
+    assert(_size);
+    assert(dst_size);
+    assert(src_size);
+    assert(dst);
+    assert(src);
 #ifndef NDEBUG
     for (u = 0; u < n; u++) {
-        HDassert(_size[u] > 0);
-        HDassert(dst_size[u] > 0);
-        HDassert(src_size[u] > 0);
+        assert(_size[u] > 0);
+        assert(dst_size[u] > 0);
+        assert(src_size[u] > 0);
     }
 #endif
 
@@ -483,7 +455,7 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
         int     ii;      /*counter				*/
 
         /* init */
-        HDassert(n > 0);
+        assert(n > 0);
         dst_stride[n - 1] = 1;
         src_stride[n - 1] = 1;
         dst_start         = dst_offset ? dst_offset[n - 1] : 0;
@@ -492,8 +464,8 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
         /* Unroll loop for common cases */
         switch (n) {
             case 2:
-                HDassert(dst_size[1] >= size[1]);
-                HDassert(src_size[1] >= size[1]);
+                assert(dst_size[1] >= size[1]);
+                assert(src_size[1] >= size[1]);
                 dst_stride[0] = dst_size[1] - size[1]; /*overflow checked*/
                 src_stride[0] = src_size[1] - size[1]; /*overflow checked*/
                 dst_acc       = dst_size[1];
@@ -503,8 +475,8 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
                 break;
 
             case 3:
-                HDassert(dst_size[2] >= size[2]);
-                HDassert(src_size[2] >= size[2]);
+                assert(dst_size[2] >= size[2]);
+                assert(src_size[2] >= size[2]);
                 dst_stride[1] = dst_size[2] - size[2]; /*overflow checked*/
                 src_stride[1] = src_size[2] - size[2]; /*overflow checked*/
                 dst_acc       = dst_size[2];
@@ -512,8 +484,8 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
                 dst_start += dst_acc * (dst_offset ? dst_offset[1] : 0);
                 src_start += src_acc * (src_offset ? src_offset[1] : 0);
 
-                HDassert(dst_size[1] >= size[1]);
-                HDassert(src_size[1] >= size[1]);
+                assert(dst_size[1] >= size[1]);
+                assert(src_size[1] >= size[1]);
                 dst_stride[0] = dst_acc * (dst_size[1] - size[1]); /*overflow checked*/
                 src_stride[0] = src_acc * (src_size[1] - size[1]); /*overflow checked*/
                 dst_acc *= dst_size[1];
@@ -523,8 +495,8 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
                 break;
 
             case 4:
-                HDassert(dst_size[3] >= size[3]);
-                HDassert(src_size[3] >= size[3]);
+                assert(dst_size[3] >= size[3]);
+                assert(src_size[3] >= size[3]);
                 dst_stride[2] = dst_size[3] - size[3]; /*overflow checked*/
                 src_stride[2] = src_size[3] - size[3]; /*overflow checked*/
                 dst_acc       = dst_size[3];
@@ -532,8 +504,8 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
                 dst_start += dst_acc * (dst_offset ? dst_offset[2] : 0);
                 src_start += src_acc * (src_offset ? src_offset[2] : 0);
 
-                HDassert(dst_size[2] >= size[2]);
-                HDassert(src_size[2] >= size[2]);
+                assert(dst_size[2] >= size[2]);
+                assert(src_size[2] >= size[2]);
                 dst_stride[1] = dst_acc * (dst_size[2] - size[2]); /*overflow checked*/
                 src_stride[1] = src_acc * (src_size[2] - size[2]); /*overflow checked*/
                 dst_acc *= dst_size[2];
@@ -541,8 +513,8 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
                 dst_start += dst_acc * (dst_offset ? dst_offset[1] : 0);
                 src_start += src_acc * (src_offset ? src_offset[1] : 0);
 
-                HDassert(dst_size[1] >= size[1]);
-                HDassert(src_size[1] >= size[1]);
+                assert(dst_size[1] >= size[1]);
+                assert(src_size[1] >= size[1]);
                 dst_stride[0] = dst_acc * (dst_size[1] - size[1]); /*overflow checked*/
                 src_stride[0] = src_acc * (src_size[1] - size[1]); /*overflow checked*/
                 dst_acc *= dst_size[1];
@@ -554,8 +526,8 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
             default:
                 /* others */
                 for (ii = (int)(n - 2), dst_acc = 1, src_acc = 1; ii >= 0; --ii) {
-                    HDassert(dst_size[ii + 1] >= size[ii + 1]);
-                    HDassert(src_size[ii + 1] >= size[ii + 1]);
+                    assert(dst_size[ii + 1] >= size[ii + 1]);
+                    assert(src_size[ii + 1] >= size[ii + 1]);
                     dst_stride[ii] = dst_acc * (dst_size[ii + 1] - size[ii + 1]); /*overflow checked*/
                     src_stride[ii] = src_acc * (src_size[ii + 1] - size[ii + 1]); /*overflow checked*/
                     dst_acc *= dst_size[ii + 1];
@@ -586,9 +558,6 @@ H5VM_hyper_copy(unsigned n, const hsize_t *_size, const hsize_t *dst_size, const
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Robb Matzke
- *              Saturday, October 11, 1997
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -600,27 +569,27 @@ H5VM_stride_fill(unsigned n, hsize_t elmt_size, const hsize_t *size, const hsize
     hsize_t  nelmts;                /*number of elements to fill	*/
     hsize_t  i;                     /*counter			*/
     int      j;                     /*counter			*/
-    hbool_t  carry;                 /*subtraction carray value	*/
+    bool     carry;                 /*subtraction carray value	*/
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    HDassert(elmt_size < SIZET_MAX);
+    assert(elmt_size < SIZE_MAX);
 
     H5VM_vector_cpy(n, idx, size);
     nelmts = H5VM_vector_reduce_product(n, size);
     for (i = 0; i < nelmts; i++) {
         /* Copy an element */
         H5_CHECK_OVERFLOW(elmt_size, hsize_t, size_t);
-        HDmemset(dst, (int)fill_value, (size_t)elmt_size); /*lint !e671 The elmt_size will be OK */
+        memset(dst, (int)fill_value, (size_t)elmt_size);
 
         /* Decrement indices and advance pointer */
-        for (j = (int)(n - 1), carry = TRUE; j >= 0 && carry; --j) {
+        for (j = (int)(n - 1), carry = true; j >= 0 && carry; --j) {
             dst += stride[j];
 
             if (--idx[j])
-                carry = FALSE;
+                carry = false;
             else {
-                HDassert(size);
+                assert(size);
                 idx[j] = size[j];
             } /* end else */
         }
@@ -643,9 +612,6 @@ H5VM_stride_fill(unsigned n, hsize_t elmt_size, const hsize_t *size, const hsize
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Robb Matzke
- *              Saturday, October 11, 1997
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -658,11 +624,11 @@ H5VM_stride_copy(unsigned n, hsize_t elmt_size, const hsize_t *size, const hsize
     hsize_t        nelmts;                      /*num elements to copy	*/
     hsize_t        i;                           /*counter		*/
     int            j;                           /*counters		*/
-    hbool_t        carry;                       /*carray for subtraction*/
+    bool           carry;                       /*carray for subtraction*/
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    HDassert(elmt_size < SIZET_MAX);
+    assert(elmt_size < SIZE_MAX);
 
     if (n) {
         H5VM_vector_cpy(n, idx, size);
@@ -671,17 +637,17 @@ H5VM_stride_copy(unsigned n, hsize_t elmt_size, const hsize_t *size, const hsize
 
             /* Copy an element */
             H5_CHECK_OVERFLOW(elmt_size, hsize_t, size_t);
-            H5MM_memcpy(dst, src, (size_t)elmt_size); /*lint !e671 The elmt_size will be OK */
+            H5MM_memcpy(dst, src, (size_t)elmt_size);
 
             /* Decrement indices and advance pointers */
-            for (j = (int)(n - 1), carry = TRUE; j >= 0 && carry; --j) {
+            for (j = (int)(n - 1), carry = true; j >= 0 && carry; --j) {
                 src += src_stride[j];
                 dst += dst_stride[j];
 
                 if (--idx[j])
-                    carry = FALSE;
+                    carry = false;
                 else {
-                    HDassert(size);
+                    assert(size);
                     idx[j] = size[j];
                 }
             }
@@ -689,7 +655,7 @@ H5VM_stride_copy(unsigned n, hsize_t elmt_size, const hsize_t *size, const hsize
     }
     else {
         H5_CHECK_OVERFLOW(elmt_size, hsize_t, size_t);
-        H5MM_memcpy(dst, src, (size_t)elmt_size); /*lint !e671 The elmt_size will be OK */
+        H5MM_memcpy(dst, src, (size_t)elmt_size);
     }
 
     FUNC_LEAVE_NOAPI(SUCCEED)
@@ -709,9 +675,6 @@ H5VM_stride_copy(unsigned n, hsize_t elmt_size, const hsize_t *size, const hsize
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Robb Matzke
- *              Saturday, October 11, 1997
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -724,11 +687,11 @@ H5VM_stride_copy_s(unsigned n, hsize_t elmt_size, const hsize_t *size, const hss
     hsize_t        nelmts;                      /*num elements to copy	*/
     hsize_t        i;                           /*counter		*/
     int            j;                           /*counters		*/
-    hbool_t        carry;                       /*carray for subtraction*/
+    bool           carry;                       /*carray for subtraction*/
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    HDassert(elmt_size < SIZET_MAX);
+    assert(elmt_size < SIZE_MAX);
 
     if (n) {
         H5VM_vector_cpy(n, idx, size);
@@ -737,17 +700,17 @@ H5VM_stride_copy_s(unsigned n, hsize_t elmt_size, const hsize_t *size, const hss
 
             /* Copy an element */
             H5_CHECK_OVERFLOW(elmt_size, hsize_t, size_t);
-            H5MM_memcpy(dst, src, (size_t)elmt_size); /*lint !e671 The elmt_size will be OK */
+            H5MM_memcpy(dst, src, (size_t)elmt_size);
 
             /* Decrement indices and advance pointers */
-            for (j = (int)(n - 1), carry = TRUE; j >= 0 && carry; --j) {
+            for (j = (int)(n - 1), carry = true; j >= 0 && carry; --j) {
                 src += src_stride[j];
                 dst += dst_stride[j];
 
                 if (--idx[j])
-                    carry = FALSE;
+                    carry = false;
                 else {
-                    HDassert(size);
+                    assert(size);
                     idx[j] = size[j];
                 }
             }
@@ -755,81 +718,11 @@ H5VM_stride_copy_s(unsigned n, hsize_t elmt_size, const hsize_t *size, const hss
     }
     else {
         H5_CHECK_OVERFLOW(elmt_size, hsize_t, size_t);
-        H5MM_memcpy(dst, src, (size_t)elmt_size); /*lint !e671 The elmt_size will be OK */
+        H5MM_memcpy(dst, src, (size_t)elmt_size);
     }
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 }
-
-#ifdef LATER
-
-/*-------------------------------------------------------------------------
- * Function:    H5VM__stride_copy2
- *
- * Purpose:     Similar to H5VM_stride_copy() except the source and
- *              destination each have their own dimensionality and size and
- *              we copy exactly NELMTS elements each of size ELMT_SIZE.	 The
- *              size counters wrap if NELMTS is more than a size counter.
- *
- * Return:      void
- *
- * Programmer:  Robb Matzke
- *              Saturday, October 11, 1997
- *
- *-------------------------------------------------------------------------
- */
-static void
-H5VM__stride_copy2(hsize_t nelmts, hsize_t elmt_size, unsigned dst_n, const hsize_t *dst_size,
-                   const hsize_t *dst_stride, void *_dst, unsigned src_n, const hsize_t *src_size,
-                   const hsize_t *src_stride, const void *_src)
-{
-    uint8_t       *dst = (uint8_t *)_dst;
-    const uint8_t *src = (const uint8_t *)_src;
-    hsize_t        dst_idx[H5VM_HYPER_NDIMS];
-    hsize_t        src_idx[H5VM_HYPER_NDIMS];
-    hsize_t        i; /* Local index variable */
-    int            j; /* Local index variable */
-    hbool_t        carry;
-
-    FUNC_ENTER_STATIC_NOERR
-
-    HDassert(elmt_size < SIZET_MAX);
-    HDassert(dst_n > 0);
-    HDassert(src_n > 0);
-
-    H5VM_vector_cpy(dst_n, dst_idx, dst_size);
-    H5VM_vector_cpy(src_n, src_idx, src_size);
-
-    for (i = 0; i < nelmts; i++) {
-
-        /* Copy an element */
-        H5_CHECK_OVERFLOW(elmt_size, hsize_t, size_t);
-        H5MM_memcpy(dst, src, (size_t)elmt_size); /*lint !e671 The elmt_size will be OK */
-
-        /* Decrement indices and advance pointers */
-        for (j = (int)(dst_n - 1), carry = TRUE; j >= 0 && carry; --j) {
-            dst += dst_stride[j];
-            if (--dst_idx[j])
-                carry = FALSE;
-            else {
-                HDassert(dst_size);
-                dst_idx[j] = dst_size[j];
-            } /* end else */
-        }
-        for (j = (int)(src_n - 1), carry = TRUE; j >= 0 && carry; --j) {
-            src += src_stride[j];
-            if (--src_idx[j])
-                carry = FALSE;
-            else {
-                HDassert(src_size);
-                src_idx[j] = src_size[j];
-            } /* end else */
-        }
-    }
-
-    FUNC_LEAVE_NOAPI_VOID
-}
-#endif /* LATER */
 
 /*-------------------------------------------------------------------------
  * Function:    H5VM_array_fill
@@ -839,9 +732,6 @@ H5VM__stride_copy2(hsize_t nelmts, hsize_t elmt_size, unsigned dst_n, const hsiz
  *              halfway point is crossed, then copies the rest in one swoop.
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  Quincey Koziol
- *              Thursday, June 18, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -855,10 +745,10 @@ H5VM_array_fill(void *_dst, const void *src, size_t size, size_t count)
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    HDassert(dst);
-    HDassert(src);
-    HDassert(size < SIZET_MAX && size > 0);
-    HDassert(count < SIZET_MAX && count > 0);
+    assert(dst);
+    assert(src);
+    assert(size < SIZE_MAX && size > 0);
+    assert(count < SIZE_MAX && count > 0);
 
     H5MM_memcpy(dst, src, size); /* copy first item */
 
@@ -893,9 +783,6 @@ H5VM_array_fill(void *_dst, const void *src, size_t size, size_t count)
  *
  * Return:	    void
  *
- * Programmer:  Quincey Koziol
- *              Monday, April 28, 2003
- *
  *-------------------------------------------------------------------------
  */
 void
@@ -906,9 +793,9 @@ H5VM_array_down(unsigned n, const hsize_t *total_size, hsize_t *down)
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    HDassert(n <= H5VM_HYPER_NDIMS);
-    HDassert(total_size);
-    HDassert(down);
+    assert(n <= H5VM_HYPER_NDIMS);
+    assert(total_size);
+    assert(down);
 
     /* Build the sizes of each dimension in the array
      * (From fastest to slowest)
@@ -933,9 +820,6 @@ H5VM_array_down(unsigned n, const hsize_t *total_size, hsize_t *down)
  *
  * Return:      Byte offset from beginning of array to element offset
  *
- * Programmer:	Quincey Koziol
- *		        Tuesday, June 22, 1999
- *
  *-------------------------------------------------------------------------
  */
 hsize_t
@@ -946,9 +830,9 @@ H5VM_array_offset_pre(unsigned n, const hsize_t *acc, const hsize_t *offset)
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    HDassert(n <= H5VM_HYPER_NDIMS);
-    HDassert(acc);
-    HDassert(offset);
+    assert(n <= H5VM_HYPER_NDIMS);
+    assert(acc);
+    assert(offset);
 
     /* Compute offset in array */
     for (u = 0, ret_value = 0; u < n; u++)
@@ -969,9 +853,6 @@ H5VM_array_offset_pre(unsigned n, const hsize_t *acc, const hsize_t *offset)
  *
  * Return:      Byte offset from beginning of array to element offset
  *
- * Programmer:	Quincey Koziol
- *              Tuesday, June 22, 1999
- *
  *-------------------------------------------------------------------------
  */
 hsize_t
@@ -982,9 +863,9 @@ H5VM_array_offset(unsigned n, const hsize_t *total_size, const hsize_t *offset)
 
     FUNC_ENTER_NOAPI_NOERR
 
-    HDassert(n <= H5VM_HYPER_NDIMS);
-    HDassert(total_size);
-    HDassert(offset);
+    assert(n <= H5VM_HYPER_NDIMS);
+    assert(total_size);
+    assert(offset);
 
     /* Build the sizes of each dimension in the array */
     H5VM_array_down(n, total_size, acc_arr);
@@ -1008,9 +889,6 @@ H5VM_array_offset(unsigned n, const hsize_t *total_size, const hsize_t *offset)
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Thursday, July 16, 2009
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1021,8 +899,8 @@ H5VM_array_calc_pre(hsize_t offset, unsigned n, const hsize_t *down, hsize_t *co
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
-    HDassert(n <= H5VM_HYPER_NDIMS);
-    HDassert(coords);
+    assert(n <= H5VM_HYPER_NDIMS);
+    assert(coords);
 
     /* Compute the coordinates from the offset */
     for (u = 0; u < n; u++) {
@@ -1046,9 +924,6 @@ H5VM_array_calc_pre(hsize_t offset, unsigned n, const hsize_t *down, hsize_t *co
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Wednesday, April 16, 2003
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1060,16 +935,16 @@ H5VM_array_calc(hsize_t offset, unsigned n, const hsize_t *total_size, hsize_t *
     FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
-    HDassert(n <= H5VM_HYPER_NDIMS);
-    HDassert(total_size);
-    HDassert(coords);
+    assert(n <= H5VM_HYPER_NDIMS);
+    assert(total_size);
+    assert(coords);
 
     /* Build the sizes of each dimension in the array */
     H5VM_array_down(n, total_size, idx);
 
     /* Compute the coordinates from the offset */
     if (H5VM_array_calc_pre(offset, n, idx, coords) < 0)
-        HGOTO_ERROR(H5E_INTERNAL, H5E_BADVALUE, FAIL, "can't compute coordinates")
+        HGOTO_ERROR(H5E_INTERNAL, H5E_BADVALUE, FAIL, "can't compute coordinates");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -1110,9 +985,6 @@ done:
  *
  * Return:      Chunk index on success (can't fail)
  *
- * Programmer:  Quincey Koziol
- *              Monday, April 21, 2003
- *
  *-------------------------------------------------------------------------
  */
 hsize_t
@@ -1124,10 +996,10 @@ H5VM_chunk_index(unsigned ndims, const hsize_t *coord, const uint32_t *chunk, co
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
-    HDassert(ndims <= H5VM_HYPER_NDIMS);
-    HDassert(coord);
-    HDassert(chunk);
-    HDassert(down_nchunks);
+    assert(ndims <= H5VM_HYPER_NDIMS);
+    assert(coord);
+    assert(chunk);
+    assert(down_nchunks);
 
     /* Defer to H5VM_chunk_index_scaled */
     chunk_idx = H5VM_chunk_index_scaled(ndims, coord, chunk, down_nchunks, scaled_coord);
@@ -1142,9 +1014,6 @@ H5VM_chunk_index(unsigned ndims, const hsize_t *coord, const uint32_t *chunk, co
  *
  * Return:      void
  *
- * Programmer:  Quincey Koziol
- *              Wednesday, November 19, 2014
- *
  *-------------------------------------------------------------------------
  */
 void
@@ -1155,10 +1024,10 @@ H5VM_chunk_scaled(unsigned ndims, const hsize_t *coord, const uint32_t *chunk, h
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
-    HDassert(ndims <= H5VM_HYPER_NDIMS);
-    HDassert(coord);
-    HDassert(chunk);
-    HDassert(scaled);
+    assert(ndims <= H5VM_HYPER_NDIMS);
+    assert(coord);
+    assert(chunk);
+    assert(scaled);
 
     /* Compute the scaled coordinates for actual coordinates */
     /* (Note that the 'scaled' array is an 'OUT' parameter) */
@@ -1206,9 +1075,6 @@ H5VM_chunk_scaled(unsigned ndims, const hsize_t *coord, const uint32_t *chunk, h
  *
  * Return:      Chunk index on success (can't fail)
  *
- * Programmer:  Vailin Choi
- *              Monday, February 9, 2015
- *
  *-------------------------------------------------------------------------
  */
 hsize_t
@@ -1221,11 +1087,11 @@ H5VM_chunk_index_scaled(unsigned ndims, const hsize_t *coord, const uint32_t *ch
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
-    HDassert(ndims <= H5VM_HYPER_NDIMS);
-    HDassert(coord);
-    HDassert(chunk);
-    HDassert(down_nchunks);
-    HDassert(scaled);
+    assert(ndims <= H5VM_HYPER_NDIMS);
+    assert(coord);
+    assert(chunk);
+    assert(down_nchunks);
+    assert(scaled);
 
     /* Compute the scaled coordinates for actual coordinates */
     /* (Note that the 'scaled' array is an 'OUT' parameter) */
@@ -1233,8 +1099,7 @@ H5VM_chunk_index_scaled(unsigned ndims, const hsize_t *coord, const uint32_t *ch
         scaled[u] = coord[u] / chunk[u];
 
     /* Compute the chunk index */
-    chunk_idx = H5VM_array_offset_pre(ndims, down_nchunks,
-                                      scaled); /*lint !e772 scaled_coord will always be initialized */
+    chunk_idx = H5VM_array_offset_pre(ndims, down_nchunks, scaled);
 
     FUNC_LEAVE_NOAPI(chunk_idx)
 } /* end H5VM_chunk_index_scaled() */
@@ -1256,9 +1121,6 @@ H5VM_chunk_index_scaled(unsigned ndims, const hsize_t *coord, const uint32_t *ch
  *
  * Return:      Non-negative # of bytes operated on, on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Thursday, September 30, 2010
- *
  *-------------------------------------------------------------------------
  */
 ssize_t
@@ -1277,15 +1139,15 @@ H5VM_opvv(size_t dst_max_nseq, size_t *dst_curr_seq, size_t dst_len_arr[], hsize
     FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
-    HDassert(dst_curr_seq);
-    HDassert(*dst_curr_seq < dst_max_nseq);
-    HDassert(dst_len_arr);
-    HDassert(dst_off_arr);
-    HDassert(src_curr_seq);
-    HDassert(*src_curr_seq < src_max_nseq);
-    HDassert(src_len_arr);
-    HDassert(src_off_arr);
-    HDassert(op);
+    assert(dst_curr_seq);
+    assert(*dst_curr_seq < dst_max_nseq);
+    assert(dst_len_arr);
+    assert(dst_off_arr);
+    assert(src_curr_seq);
+    assert(*src_curr_seq < src_max_nseq);
+    assert(src_len_arr);
+    assert(src_off_arr);
+    assert(op);
 
     /* Set initial offset & length pointers */
     dst_len_ptr = dst_len_arr + *dst_curr_seq;
@@ -1313,7 +1175,7 @@ src_smaller:
         do {
             /* Make operator callback */
             if ((*op)(tmp_dst_off, tmp_src_off, tmp_src_len, op_data) < 0)
-                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation")
+                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation");
 
             /* Accumulate number of bytes copied */
             acc_len += tmp_src_len;
@@ -1355,7 +1217,7 @@ dst_smaller:
         do {
             /* Make operator callback */
             if ((*op)(tmp_dst_off, tmp_src_off, tmp_dst_len, op_data) < 0)
-                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation")
+                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation");
 
             /* Accumulate number of bytes copied */
             acc_len += tmp_dst_len;
@@ -1397,7 +1259,7 @@ equal:
         do {
             /* Make operator callback */
             if ((*op)(tmp_dst_off, tmp_src_off, tmp_dst_len, op_data) < 0)
-                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation")
+                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation");
 
             /* Accumulate number of bytes copied */
             acc_len += tmp_dst_len;
@@ -1460,9 +1322,6 @@ done:
  *
  * Return:      Non-negative # of bytes copied on success/Negative on failure
  *
- * Programmer:  Quincey Koziol
- *              Friday, May 2, 2003
- *
  *-------------------------------------------------------------------------
  */
 ssize_t
@@ -1483,16 +1342,16 @@ H5VM_memcpyvv(void *_dst, size_t dst_max_nseq, size_t *dst_curr_seq, size_t dst_
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
-    HDassert(_dst);
-    HDassert(dst_curr_seq);
-    HDassert(*dst_curr_seq < dst_max_nseq);
-    HDassert(dst_len_arr);
-    HDassert(dst_off_arr);
-    HDassert(_src);
-    HDassert(src_curr_seq);
-    HDassert(*src_curr_seq < src_max_nseq);
-    HDassert(src_len_arr);
-    HDassert(src_off_arr);
+    assert(_dst);
+    assert(dst_curr_seq);
+    assert(*dst_curr_seq < dst_max_nseq);
+    assert(dst_len_arr);
+    assert(dst_off_arr);
+    assert(_src);
+    assert(src_curr_seq);
+    assert(*src_curr_seq < src_max_nseq);
+    assert(src_len_arr);
+    assert(src_off_arr);
 
     /* Set initial offset & length pointers */
     dst_len_ptr = dst_len_arr + *dst_curr_seq;
