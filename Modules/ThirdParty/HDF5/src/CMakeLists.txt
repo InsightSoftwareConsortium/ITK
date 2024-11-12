@@ -52,11 +52,11 @@ set (HDF5_LIB_INFIX "" CACHE INTERNAL "Use infix for custom library naming.")
 set (HDF5_USE_GNU_DIRS OFF CACHE INTERNAL "TRUE to use GNU Coding Standard install directory variables, FALSE to use historical settings")
 set (HDF5_TEST_SERIAL OFF CACHE INTERNAL "Execute non-parallel tests" )
 
-set( HDF5_BUILD_DOC                   OFF CACHE INTERNAL "Build documentation")
-set( HDF5_ENABLE_MAP_API              OFF CACHE INTERNAL "Build the map API")
-set( HDF5_ENABLE_WARNINGS_AS_ERRORS  OFF CACHE INTERNAL "Interpret some warnings as errors")
-set( HDF5_MINGW_STATIC_GCC_LIBS       OFF CACHE INTERNAL "")
-set( HDF5_MSVC_NAMING_CONVENTION      OFF CACHE INTERNAL "Use MSVC Naming conventions for Shared Libraries")
+set (HDF5_BUILD_DOC                   OFF CACHE INTERNAL "Build documentation")
+set (HDF5_ENABLE_MAP_API              OFF CACHE INTERNAL "Build the map API")
+set (HDF5_ENABLE_WARNINGS_AS_ERRORS   OFF CACHE INTERNAL "Interpret some warnings as errors")
+set (HDF5_MINGW_STATIC_GCC_LIBS       OFF CACHE INTERNAL "")
+set (HDF5_MSVC_NAMING_CONVENTION      OFF CACHE INTERNAL "Use MSVC Naming conventions for Shared Libraries")
 set (HDF5_ENABLE_PLUGIN_SUPPORT OFF CACHE INTERNAL "Enable PLUGIN Filters")
 
 set (HDF5_BUILD_STATIC_TOOLS OFF CACHE INTERNAL "Build Static Tools NOT Shared Tools")
@@ -66,6 +66,7 @@ set (HDF5_ENABLE_SUBFILING_VFD OFF CACHE INTERNAL "Build Parallel HDF5 Subfiling
 set (HDF5_USE_LIBAEC_STATIC OFF CACHE INTERNAL "Use static AEC library" )
 set (HDF5_USE_ZLIB_NG OFF CACHE INTERNAL "Use zlib-ng library as zlib library" )
 set (HDF5_USE_ZLIB_STATIC OFF CACHE INTERNAL "Find static zlib library" )
+set (ALLOW_UNSUPPORTED OFF CACHE INTERNAL "Allow unsupported combinations of configure options")
 
 
 if (NOT BUILD_SHARED_LIBS)
@@ -99,7 +100,6 @@ mark_as_advanced(HDF5_USE_18_API_DEFAULT)
 mark_as_advanced(HDF5_USE_FILE_LOCKING)
 mark_as_advanced(HDF5_USE_PREGEN)
 mark_as_advanced(USE_LIBAEC)
-unset(ALLOW_UNSUPPORTED CACHE)
 
 if(BUILD_SHARED_LIBS)
   set(target_extension -shared)
