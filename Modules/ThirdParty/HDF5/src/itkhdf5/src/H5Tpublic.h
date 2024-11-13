@@ -2801,9 +2801,12 @@ H5_DLL herr_t H5Treclaim(hid_t type_id, hid_t space_id, hid_t plist_id, void *bu
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5T_MODULE
-#define H5Tcommit_async(...) H5Tcommit_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Topen_async(...)   H5Topen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Tclose_async(...)  H5Tclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Tcommit_async
+#define H5Tcommit_async(...) HD5_MANGLE_PREFIX##_H5Tcommit_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Topen_async
+#define H5Topen_async(...)   HD5_MANGLE_PREFIX##_H5Topen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Tclose_async
+#define H5Tclose_async(...)  HD5_MANGLE_PREFIX##_H5Tclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  * be passed in by language wrapper or library layer on top of HDF5. */

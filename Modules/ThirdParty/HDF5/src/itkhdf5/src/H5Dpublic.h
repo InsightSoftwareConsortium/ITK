@@ -1660,15 +1660,24 @@ H5_DLL herr_t H5Dget_chunk_index_type(hid_t did, H5D_chunk_index_t *idx_type);
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5D_MODULE
-#define H5Dcreate_async(...)      H5Dcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Dopen_async(...)        H5Dopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Dget_space_async(...)   H5Dget_space_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Dread_async(...)        H5Dread_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Dread_multi_async(...)  H5Dread_multi_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Dwrite_async(...)       H5Dwrite_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Dwrite_multi_async(...) H5Dwrite_multi_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Dset_extent_async(...)  H5Dset_extent_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Dclose_async(...)       H5Dclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dcreate_async
+#define H5Dcreate_async(...)      HD5_MANGLE_PREFIX##_H5Dcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dopen_async
+#define H5Dopen_async(...)        HD5_MANGLE_PREFIX##_H5Dopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dget_space_async
+#define H5Dget_space_async(...)   HD5_MANGLE_PREFIX##_H5Dget_space_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dread_async
+#define H5Dread_async(...)        HD5_MANGLE_PREFIX##_H5Dread_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dread_multi_async
+#define H5Dread_multi_async(...)  HD5_MANGLE_PREFIX##_H5Dread_multi_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dwrite_async
+#define H5Dwrite_async(...)       HD5_MANGLE_PREFIX##_H5Dwrite_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dwrite_multi_async
+#define H5Dwrite_multi_async(...) HD5_MANGLE_PREFIX##_H5Dwrite_multi_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dset_extent_async
+#define H5Dset_extent_async(...)  HD5_MANGLE_PREFIX##_H5Dset_extent_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Dclose_async
+#define H5Dclose_async(...)       HD5_MANGLE_PREFIX##_H5Dclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  *      be passed in by language wrapper or library layer on top of HDF5.

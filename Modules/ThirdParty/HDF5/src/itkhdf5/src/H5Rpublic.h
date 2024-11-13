@@ -601,9 +601,12 @@ H5_DLL ssize_t H5Rget_attr_name(const H5R_ref_t *ref_ptr, char *name, size_t siz
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5R_MODULE
-#define H5Ropen_object_async(...) H5Ropen_object_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Ropen_region_async(...) H5Ropen_region_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Ropen_attr_async(...)   H5Ropen_attr_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Ropen_object_async
+#define H5Ropen_object_async(...) HD5_MANGLE_PREFIX##_H5Ropen_object_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Ropen_region_async
+#define H5Ropen_region_async(...) HD5_MANGLE_PREFIX##_H5Ropen_region_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Ropen_attr_async
+#define H5Ropen_attr_async(...)   HD5_MANGLE_PREFIX##_H5Ropen_attr_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  * be passed in by language wrapper or library layer on top of HDF5. */

@@ -68,7 +68,13 @@ Where *mangle.txt includes the results per platform from above along with an old
 
 After building, note any duplicate symbol warnings and remove corresponding definitions that are delegated to versioned definitions,
 e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_info2
+
+There are a number of HDF5 functions, mostly with this suffix "_async", which are redefined in the HDF5 library to have
+a different signature. These functions also redefined here to mangle then names, but the public library header files
+also have to be modified correctly apply the signature to the mangled name.
 */
+
+#define  HD5_MANGLE_PREFIX @MANGLE_PREFIX@
 
 #define ALL_ @MANGLE_PREFIX@_ALL_
 #define ALPHA_B16 @MANGLE_PREFIX@_ALPHA_B16
@@ -2186,10 +2192,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5MF_try_extend @MANGLE_PREFIX@_H5MF_try_extend
 #define H5MF_try_shrink @MANGLE_PREFIX@_H5MF_try_shrink
 #define H5MF_xfree @MANGLE_PREFIX@_H5MF_xfree
-#define H5MM_calloc @MANGLE_PREFIX@_H5MM_calloc
 #define H5MM_get_alloc_stats @MANGLE_PREFIX@_H5MM_get_alloc_stats
-#define H5MM_malloc @MANGLE_PREFIX@_H5MM_malloc
-#define H5MM_memcpy @MANGLE_PREFIX@_H5MM_memcpy
 #define H5MM_realloc @MANGLE_PREFIX@_H5MM_realloc
 #define H5MM_strdup @MANGLE_PREFIX@_H5MM_strdup
 #define H5MM_strndup @MANGLE_PREFIX@_H5MM_strndup

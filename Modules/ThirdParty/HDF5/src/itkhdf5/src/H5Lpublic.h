@@ -1426,12 +1426,18 @@ H5_DLL herr_t H5Lcreate_external(const char *file_name, const char *obj_name, hi
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5L_MODULE
-#define H5Lcreate_hard_async(...)   H5Lcreate_hard_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Lcreate_soft_async(...)   H5Lcreate_soft_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Ldelete_async(...)        H5Ldelete_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Ldelete_by_idx_async(...) H5Ldelete_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Lexists_async(...)        H5Lexists_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Literate_async(...)       H5Literate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Lcreate_hard_async
+#define H5Lcreate_hard_async(...)   HD5_MANGLE_PREFIX##_H5Lcreate_hard_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Lcreate_soft_async
+#define H5Lcreate_soft_async(...)   HD5_MANGLE_PREFIX##_H5Lcreate_soft_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Ldelete_async
+#define H5Ldelete_async(...)        HD5_MANGLE_PREFIX##_H5Ldelete_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Ldelete_by_idx_async
+#define H5Ldelete_by_idx_async(...) HD5_MANGLE_PREFIX##_H5Ldelete_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Lexists_async
+#define H5Lexists_async(...)        HD5_MANGLE_PREFIX##_H5Lexists_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Literate_async
+#define H5Literate_async(...)       HD5_MANGLE_PREFIX##_H5Literate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  *      be passed in by language wrapper or library layer on top of HDF5.

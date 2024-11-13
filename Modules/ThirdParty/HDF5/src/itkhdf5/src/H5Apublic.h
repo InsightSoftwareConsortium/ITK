@@ -1042,18 +1042,30 @@ H5_DLL herr_t H5Arename_by_name(hid_t loc_id, const char *obj_name, const char *
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5A_MODULE
-#define H5Acreate_async(...)         H5Acreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Acreate_by_name_async(...) H5Acreate_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Aopen_async(...)           H5Aopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Aopen_by_name_async(...)   H5Aopen_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Aopen_by_idx_async(...)    H5Aopen_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Awrite_async(...)          H5Awrite_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Aread_async(...)           H5Aread_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Arename_async(...)         H5Arename_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Arename_by_name_async(...) H5Arename_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Aexists_async(...)         H5Aexists_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Aexists_by_name_async(...) H5Aexists_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Aclose_async(...)          H5Aclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Acreate_async
+#define H5Acreate_async(...)         HD5_MANGLE_PREFIX##_H5Acreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Acreate_by_name_async
+#define H5Acreate_by_name_async(...) HD5_MANGLE_PREFIX##_H5Acreate_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Aopen_async
+#define H5Aopen_async(...)           HD5_MANGLE_PREFIX##_H5Aopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Aopen_by_name_async
+#define H5Aopen_by_name_async(...)   HD5_MANGLE_PREFIX##_H5Aopen_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Aopen_by_idx_async
+#define H5Aopen_by_idx_async(...)    HD5_MANGLE_PREFIX##_H5Aopen_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Awrite_async
+#define H5Awrite_async(...)          HD5_MANGLE_PREFIX##_H5Awrite_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Aread_async
+#define H5Aread_async(...)           HD5_MANGLE_PREFIX##_H5Aread_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Arename_async
+#define H5Arename_async(...)         HD5_MANGLE_PREFIX##_H5Arename_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Arename_by_name_async
+#define H5Arename_by_name_async(...) HD5_MANGLE_PREFIX##_H5Arename_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Aexists_async
+#define H5Aexists_async(...)         HD5_MANGLE_PREFIX##_H5Aexists_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Aexists_by_name_async
+#define H5Aexists_by_name_async(...) HD5_MANGLE_PREFIX##_H5Aexists_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Aclose_async
+#define H5Aclose_async(...)          HD5_MANGLE_PREFIX##_H5Aclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  *      be passed in by language wrapper or library layer on top of HDF5.

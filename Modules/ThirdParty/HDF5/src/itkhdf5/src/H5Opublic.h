@@ -1660,13 +1660,20 @@ H5_DLL herr_t H5Otoken_from_str(hid_t loc_id, const char *token_str, H5O_token_t
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5O_MODULE
-#define H5Oopen_async(...)             H5Oopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Oopen_by_idx_async(...)      H5Oopen_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Oget_info_by_name_async(...) H5Oget_info_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Oclose_async(...)            H5Oclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Oflush_async(...)            H5Oflush_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Orefresh_async(...)          H5Orefresh_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Ocopy_async(...)             H5Ocopy_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Oopen_async
+#define H5Oopen_async(...)             HD5_MANGLE_PREFIX##_H5Oopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Oopen_by_idx_async
+#define H5Oopen_by_idx_async(...)      HD5_MANGLE_PREFIX##_H5Oopen_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Oget_info_by_name_async
+#define H5Oget_info_by_name_async(...) HD5_MANGLE_PREFIX##_H5Oget_info_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Oclose_async
+#define H5Oclose_async(...)            HD5_MANGLE_PREFIX##_H5Oclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Oflush_async
+#define H5Oflush_async(...)            HD5_MANGLE_PREFIX##_H5Oflush_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Orefresh_async
+#define H5Orefresh_async(...)          HD5_MANGLE_PREFIX##_H5Orefresh_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Ocopy_async
+#define H5Ocopy_async(...)             HD5_MANGLE_PREFIX##_H5Ocopy_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  *      be passed in by language wrapper or library layer on top of HDF5.

@@ -650,11 +650,11 @@ H5_DLL herr_t H5Mdelete(hid_t map_id, hid_t key_mem_type_id, const void *key, hi
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5M_MODULE
-#define H5Mcreate_async(...) H5Mcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Mopen_async(...)   H5Mopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Mclose_async(...)  H5Mclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Mput_async(...)    H5Mput_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Mget_async(...)    H5Mget_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mcreate_async(...) HD5_MANGLE_PREFIX##_H5Mcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mopen_async(...)   HD5_MANGLE_PREFIX##_H5Mopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mclose_async(...)  HD5_MANGLE_PREFIX##_H5Mclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mput_async(...)    HD5_MANGLE_PREFIX##_H5Mput_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#define H5Mget_async(...)    HD5_MANGLE_PREFIX##_H5Mget_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  * be passed in by language wrapper or library layer on top of HDF5. */

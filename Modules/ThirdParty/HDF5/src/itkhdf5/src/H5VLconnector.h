@@ -1141,13 +1141,20 @@ H5_DLL herr_t H5VLrequest_optional_op(void *req, hid_t connector_id, H5VL_option
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5VL_MODULE
 /* Inject application compile-time macros into function calls */
-#define H5VLattr_optional_op(...)     H5VLattr_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5VLdataset_optional_op(...)  H5VLdataset_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5VLdatatype_optional_op(...) H5VLdatatype_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5VLfile_optional_op(...)     H5VLfile_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5VLgroup_optional_op(...)    H5VLgroup_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5VLlink_optional_op(...)     H5VLlink_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5VLobject_optional_op(...)   H5VLobject_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5VLattr_optional_op
+#define H5VLattr_optional_op(...)     HD5_MANGLE_PREFIX##_H5VLattr_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5VLdataset_optional_op
+#define H5VLdataset_optional_op(...)  HD5_MANGLE_PREFIX##_H5VLdataset_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5VLdatatype_optional_op
+#define H5VLdatatype_optional_op(...) HD5_MANGLE_PREFIX##_H5VLdatatype_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5VLfile_optional_op
+#define H5VLfile_optional_op(...)     HD5_MANGLE_PREFIX##_H5VLfile_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5VLgroup_optional_op
+#define H5VLgroup_optional_op(...)    HD5_MANGLE_PREFIX##_H5VLgroup_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5VLlink_optional_op
+#define H5VLlink_optional_op(...)     HD5_MANGLE_PREFIX##_H5VLlink_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5VLobject_optional_op
+#define H5VLobject_optional_op(...)   HD5_MANGLE_PREFIX##_H5VLobject_optional_op(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  *      be passed in by language wrapper or library layer on top of HDF5.

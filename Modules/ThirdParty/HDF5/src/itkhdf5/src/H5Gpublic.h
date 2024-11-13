@@ -496,12 +496,18 @@ H5_DLL herr_t H5Gclose_async(hid_t group_id, hid_t es_id);
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5G_MODULE
-#define H5Gcreate_async(...)           H5Gcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Gopen_async(...)             H5Gopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Gget_info_async(...)         H5Gget_info_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Gget_info_by_name_async(...) H5Gget_info_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Gget_info_by_idx_async(...)  H5Gget_info_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Gclose_async(...)            H5Gclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Gcreate_async
+#define H5Gcreate_async(...)           HD5_MANGLE_PREFIX##_H5Gcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Gopen_async
+#define H5Gopen_async(...)             HD5_MANGLE_PREFIX##_H5Gopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Gget_info_async
+#define H5Gget_info_async(...)         HD5_MANGLE_PREFIX##_H5Gget_info_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Gget_info_by_name_async
+#define H5Gget_info_by_name_async(...) HD5_MANGLE_PREFIX##_H5Gget_info_by_name_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Gget_info_by_idx_async
+#define H5Gget_info_by_idx_async(...)  HD5_MANGLE_PREFIX##_H5Gget_info_by_idx_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Gclose_async
+#define H5Gclose_async(...)            HD5_MANGLE_PREFIX##_H5Gclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  *      be passed in by language wrapper or library layer on top of HDF5.

@@ -1853,11 +1853,16 @@ H5_DLL herr_t H5Fformat_convert(hid_t fid);
 /* (Must be defined _after_ the function prototype) */
 /* (And must only defined when included in application code, not the library) */
 #ifndef H5F_MODULE
-#define H5Fcreate_async(...) H5Fcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Fopen_async(...)   H5Fopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Freopen_async(...) H5Freopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Fflush_async(...)  H5Fflush_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
-#define H5Fclose_async(...)  H5Fclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Fcreate_async
+#define H5Fcreate_async(...) HD5_MANGLE_PREFIX##_H5Fcreate_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Fopen_async
+#define H5Fopen_async(...)   HD5_MANGLE_PREFIX##_H5Fopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Freopen_async
+#define H5Freopen_async(...) HD5_MANGLE_PREFIX##_H5Freopen_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Fflush_async
+#define H5Fflush_async(...)  HD5_MANGLE_PREFIX##_H5Fflush_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
+#undef H5Fclose_async
+#define H5Fclose_async(...)  HD5_MANGLE_PREFIX##_H5Fclose_async(__FILE__, __func__, __LINE__, __VA_ARGS__)
 
 /* Define "wrapper" versions of function calls, to allow compile-time values to
  *      be passed in by language wrapper or library layer on top of HDF5.
