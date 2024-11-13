@@ -21,6 +21,7 @@
 #include "itkArray.h"
 #include "itkNumericTraits.h"
 #include "itkImageToImageFilter.h"
+#include <mutex>
 
 namespace itk
 {
