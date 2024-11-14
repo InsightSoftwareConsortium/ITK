@@ -21,6 +21,7 @@
 #include "itkArray.h"
 #include "itkNumericTraits.h"
 #include "itkImageToImageFilter.h"
+#include <mutex>
 
 namespace itk
 {
@@ -110,23 +111,11 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** ComparisonImageFilter can be implemented as a multithreaded
-   * filter.  Therefore, this implementation provides a
-   * ThreadedGenerateData() routine which is called for each
-   * processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling
-   * ThreadedGenerateData().  ThreadedGenerateData can only write to
-   * the portion of the output image specified by the parameter
-   * "outputRegionForThread"
+  /** ComparisonImageFilter can be implemented as a multithreading filter.  Therefore, this implementation provides a
+   * DynamicThreadedGenerateData() routine which is called for each region to process.
    */
   void
-  ThreadedGenerateData(const OutputImageRegionType & threadRegion, ThreadIdType threadId) override;
-
-  void
-  DynamicThreadedGenerateData(const OutputImageRegionType &) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override;
 
   void
   BeforeThreadedGenerateData() override;
@@ -140,24 +129,20 @@ protected:
   OutputPixelType m_DifferenceThreshold{};
 
   RealType        m_MeanDifference{};
-  OutputPixelType m_MinimumDifference{};
-  OutputPixelType m_MaximumDifference{};
-  bool            m_VerifyInputInformation{};
+  OutputPixelType m_MinimumDifference{ NumericTraits<OutputPixelType>::max() };
+  OutputPixelType m_MaximumDifference{ NumericTraits<OutputPixelType>::NonpositiveMin() };
+  bool            m_VerifyInputInformation{ true };
 
   AccumulateType m_TotalDifference{};
 
-  SizeValueType m_NumberOfPixelsWithDifferences{};
+  SizeValueType m_NumberOfPixelsWithDifferences{ 0 };
 
-  int m_ToleranceRadius{};
-
-  Array<AccumulateType> m_ThreadDifferenceSum{};
-  Array<SizeValueType>  m_ThreadNumberOfPixels{};
-
-  Array<OutputPixelType> m_ThreadMinimumDifference{};
-  Array<OutputPixelType> m_ThreadMaximumDifference{};
+  int m_ToleranceRadius{ 0 };
 
 private:
-  bool m_IgnoreBoundaryPixels{};
+  bool m_IgnoreBoundaryPixels{ false };
+
+  std::mutex m_Mutex;
 };
 } // end namespace Testing
 } // end namespace itk
