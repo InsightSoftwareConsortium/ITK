@@ -215,7 +215,7 @@ ImageSink<TInputImage>::VerifyInputInformation() const
         {
           originString.setf(std::ios::scientific);
           originString.precision(7);
-          originString << "InputImage Origin: " << inputPtr1->GetOrigin() << ", InputImage" << it.GetName()
+          originString << "InputImage Origin: " << inputPtr1->GetOrigin() << ", InputImage " << it.GetName()
                        << " Origin: " << inputPtrN->GetOrigin() << std::endl;
           originString << "\tTolerance: " << coordinateTol << std::endl;
         }
@@ -223,7 +223,7 @@ ImageSink<TInputImage>::VerifyInputInformation() const
         {
           spacingString.setf(std::ios::scientific);
           spacingString.precision(7);
-          spacingString << "InputImage Spacing: " << inputPtr1->GetSpacing() << ", InputImage" << it.GetName()
+          spacingString << "InputImage Spacing: " << inputPtr1->GetSpacing() << ", InputImage " << it.GetName()
                         << " Spacing: " << inputPtrN->GetSpacing() << std::endl;
           spacingString << "\tTolerance: " << coordinateTol << std::endl;
         }
@@ -232,7 +232,7 @@ ImageSink<TInputImage>::VerifyInputInformation() const
         {
           directionString.setf(std::ios::scientific);
           directionString.precision(7);
-          directionString << "InputImage Direction: " << inputPtr1->GetDirection() << ", InputImage" << it.GetName()
+          directionString << "InputImage Direction: " << inputPtr1->GetDirection() << ", InputImage " << it.GetName()
                           << " Direction: " << inputPtrN->GetDirection() << std::endl;
           directionString << "\tTolerance: " << this->m_DirectionTolerance << std::endl;
         }
