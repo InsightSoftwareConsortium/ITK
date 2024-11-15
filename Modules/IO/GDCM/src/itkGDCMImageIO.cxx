@@ -787,27 +787,6 @@ GDCMImageIO::InternalReadImageInformation()
       }
     }
   }
-
-#if defined(ITKIO_DEPRECATED_GDCM1_API)
-  // Now is a good time to fill in the class member:
-  char name[512];
-  this->GetPatientName(name, 512);
-  this->GetPatientID(name, 512);
-  this->GetPatientSex(name, 512);
-  this->GetPatientAge(name, 512);
-  this->GetStudyID(name, 512);
-  this->GetPatientDOB(name, 512);
-  this->GetStudyDescription(name, 512);
-  this->GetBodyPart(name, 512);
-  this->GetNumberOfSeriesInStudy(name, 512);
-  this->GetNumberOfStudyRelatedSeries(name, 512);
-  this->GetStudyDate(name, 512);
-  this->GetModality(name, 512);
-  this->GetManufacturer(name, 512);
-  this->GetInstitution(name, 512);
-  this->GetModel(name, 512);
-  this->GetScanOptions(name, 512);
-#endif
 }
 
 void
@@ -934,11 +913,6 @@ GDCMImageIO::Write(const void * buffer)
           {
             de.SetVR(dictEntry.GetVR());
           }
-#if GDCM_MAJOR_VERSION == 2 && GDCM_MINOR_VERSION == 0 && GDCM_BUILD_VERSION <= 12
-          // This will not work in the vast majority of cases but to get at
-          // least something working in GDCM 2.0.12
-          de.SetByteValue(value.c_str(), static_cast<uint32_t>(value.size()));
-#else
           // Even padding string with space. If string is not even, SetByteValue() will
           // pad it with '\0' which is not what is expected except for VR::UI
           // (see standard section 6.2).
@@ -952,7 +926,6 @@ GDCMImageIO::Write(const void * buffer)
             const gdcm::String<> si = sf.FromString(tag, value.c_str(), value.size());
             de.SetByteValue(si.c_str(), static_cast<uint32_t>(si.size()));
           }
-#endif
           if (tag.GetGroup() == 0x2)
           {
             fmi.Insert(de);
@@ -1416,170 +1389,6 @@ GDCMImageIO::Write(const void * buffer)
   }
 }
 
-#if defined(ITKIO_DEPRECATED_GDCM1_API)
-// Convenience methods to query patient and scanner information. These
-// methods are here for compatibility with the DICOMImageIO2 class.
-void
-GDCMImageIO::GetPatientName(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0010|0010", m_PatientName);
-  strncpy(name, m_PatientName.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetPatientID(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0010|0020", m_PatientID);
-  strncpy(name, m_PatientID.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetPatientSex(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0010|0040", m_PatientSex);
-  strncpy(name, m_PatientSex.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetPatientAge(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0010|1010", m_PatientAge);
-  strncpy(name, m_PatientAge.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetStudyID(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0020|0010", m_StudyID);
-  strncpy(name, m_StudyID.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetPatientDOB(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0010|0030", m_PatientDOB);
-  strncpy(name, m_PatientDOB.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetStudyDescription(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0008|1030", m_StudyDescription);
-  strncpy(name, m_StudyDescription.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetBodyPart(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0018|0015", m_BodyPart);
-  strncpy(name, m_BodyPart.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetNumberOfSeriesInStudy(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0020|1000", m_NumberOfSeriesInStudy);
-  strncpy(name, m_NumberOfSeriesInStudy.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetNumberOfStudyRelatedSeries(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0020|1206", m_NumberOfStudyRelatedSeries);
-  strncpy(name, m_NumberOfStudyRelatedSeries.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetStudyDate(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0008|0020", m_StudyDate);
-  strncpy(name, m_StudyDate.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetModality(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0008|0060", m_Modality);
-  strncpy(name, m_Modality.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetManufacturer(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0008|0070", m_Manufacturer);
-  strncpy(name, m_Manufacturer.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetInstitution(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0008|0080", m_Institution);
-  strncpy(name, m_Institution.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetModel(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0008|1090", m_Model);
-  strncpy(name, m_Model.c_str(), len);
-  name[len - 1] = '\0';
-}
-
-void
-GDCMImageIO::GetScanOptions(char * name, size_t len)
-{
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-
-  ExposeMetaData<std::string>(dict, "0018|0022", m_ScanOptions);
-  strncpy(name, m_ScanOptions.c_str(), len);
-  name[len - 1] = '\0';
-}
-#endif
-
 bool
 GDCMImageIO::GetValueFromTag(const std::string & tag, std::string & value)
 {
@@ -1649,25 +1458,6 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   {
     os << m_DICOMHeader << std::endl;
   }
-
-#if defined(ITKIO_DEPRECATED_GDCM1_API)
-  os << indent << "PatientName: " << m_PatientName << std::endl;
-  os << indent << "PatientID: " << m_PatientID << std::endl;
-  os << indent << "PatientSex: " << m_PatientSex << std::endl;
-  os << indent << "PatientAge: " << m_PatientAge << std::endl;
-  os << indent << "StudyID: " << m_StudyID << std::endl;
-  os << indent << "PatientDOB: " << m_PatientDOB << std::endl;
-  os << indent << "StudyDescription: " << m_StudyDescription << std::endl;
-  os << indent << "BodyPart: " << m_BodyPart << std::endl;
-  os << indent << "NumberOfSeriesInStudy: " << m_NumberOfSeriesInStudy << std::endl;
-  os << indent << "NumberOfStudyRelatedSeries: " << m_NumberOfStudyRelatedSeries << std::endl;
-  os << indent << "StudyDate: " << m_StudyDate << std::endl;
-  os << indent << "Modality: " << m_Modality << std::endl;
-  os << indent << "Manufacturer: " << m_Manufacturer << std::endl;
-  os << indent << "InstitutionName: " << m_Institution << std::endl;
-  os << indent << "Model: " << m_Model << std::endl;
-  os << indent << "ScanOptions: " << m_ScanOptions << std::endl;
-#endif
 }
 
 std::ostream &
