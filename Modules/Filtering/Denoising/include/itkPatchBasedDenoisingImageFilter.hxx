@@ -166,8 +166,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
 
   // Get a copy of the input requested region (should equal the output
   // requested region)
-  typename InputImageType::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
+  typename InputImageType::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
   // Pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(voxelNeighborhoodSize);
 
@@ -487,8 +486,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
   for (ImageRegionIteratorWithIndex<WeightsImageType> pwIt(physicalWeightsImage, physicalRegion); !pwIt.IsAtEnd();
        ++pwIt)
   {
-    typename WeightsImageType::IndexType curIndex;
-    curIndex = pwIt.GetIndex();
+    typename WeightsImageType::IndexType curIndex = pwIt.GetIndex();
     // Compute distances of each pixel from center pixel
     Vector<DistanceType, ImageDimension> distanceVector;
     for (unsigned int d = 0; d < ImageDimension; ++d)

@@ -168,8 +168,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
       {
         // We've hit the start of a run
         SizeValueType length = 0;
-        IndexType     thisIndex;
-        thisIndex = inLineIt.GetIndex();
+        IndexType     thisIndex = inLineIt.GetIndex();
         ++length;
         ++inLineIt;
         while (!inLineIt.IsAtEndOfLine() && inLineIt.Get() == this->m_InputForegroundValue)

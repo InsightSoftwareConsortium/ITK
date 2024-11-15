@@ -63,9 +63,7 @@ template <typename TImage>
 void
 ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegionToInsetRegion()
 {
-  RegionType excludeRegion;
-
-  excludeRegion = this->m_Region;
+  RegionType excludeRegion = this->m_Region;
   for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
   {
     if (excludeRegion.GetSize()[i] >= 2)

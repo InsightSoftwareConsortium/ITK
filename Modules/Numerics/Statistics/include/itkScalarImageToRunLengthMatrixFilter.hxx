@@ -190,9 +190,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
       MeasurementType lastBinMax = this->GetOutput()->GetDimensionMaxs(0)[this->GetOutput()->GetSize(0) - 1];
 
       PixelType pixelIntensity(PixelType{});
-      IndexType index;
-
-      index = centerIndex + offset;
+      IndexType index = centerIndex + offset;
       IndexType lastGoodIndex = centerIndex;
       bool      runLengthSegmentAlreadyVisited = false;
 

@@ -377,8 +377,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   InputSizeType &       FFTImageSize)
 {
   typename LocalInputImageType::PixelType constantPixel = 0;
-  typename LocalInputImageType::SizeType  upperPad;
-  upperPad = FFTImageSize - inputImage->GetLargestPossibleRegion().GetSize();
+  typename LocalInputImageType::SizeType  upperPad = FFTImageSize - inputImage->GetLargestPossibleRegion().GetSize();
 
   using PadType = itk::ConstantPadImageFilter<LocalInputImageType, RealImageType>;
   auto padder = PadType::New();

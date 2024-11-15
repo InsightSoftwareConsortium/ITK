@@ -554,8 +554,8 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // to the IsLinear() call.
   if (!isSpecialCoordinatesImage && transform->GetTransformCategory() == TransformType::TransformCategoryEnum::Linear)
   {
-    typename TInputImage::RegionType inputRequestedRegion;
-    inputRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(output->GetRequestedRegion(), output, input, transform);
+    typename TInputImage::RegionType inputRequestedRegion =
+      ImageAlgorithm::EnlargeRegionOverBox(output->GetRequestedRegion(), output, input, transform);
 
     const typename TInputImage::RegionType inputLargestRegion(input->GetLargestPossibleRegion());
     if (inputLargestRegion.IsInside(inputRequestedRegion.GetIndex()) ||

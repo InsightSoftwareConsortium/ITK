@@ -62,8 +62,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
 
   // get a copy of the input requested region which was set up by the
   // superclass (NeighborhoodOperatorImageFilter)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
+  typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // set the mask requested region to match the input requested region
   if (maskPtr->GetLargestPossibleRegion().IsInside(inputRequestedRegion))

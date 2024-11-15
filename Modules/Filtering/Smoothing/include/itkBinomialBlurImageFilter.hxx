@@ -106,8 +106,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   using TTempImage = Image<double, NDimensions>;
   auto tempPtr = TTempImage::New();
 
-  typename TTempImage::RegionType tempRegion;
-  tempRegion = inputPtr->GetRequestedRegion();
+  typename TTempImage::RegionType tempRegion = inputPtr->GetRequestedRegion();
 
   tempPtr->SetRegions(tempRegion);
   tempPtr->Allocate();

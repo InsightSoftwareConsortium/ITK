@@ -144,9 +144,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
     typename TInputImage::SizeType   inputLargSize;
     typename TInputImage::IndexType  inputLargIndex;
     typename TOutputImage::SizeType  outputSize;
-    typename TOutputImage::IndexType outputIndex;
-
-    outputIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
+    typename TOutputImage::IndexType outputIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
     outputSize = this->GetOutput()->GetRequestedRegion().GetSize();
     inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
     inputLargIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();

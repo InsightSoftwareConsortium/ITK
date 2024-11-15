@@ -27,9 +27,7 @@ template <typename TVector>
 MahalanobisDistanceMetric<TVector>::MahalanobisDistanceMetric()
 
 {
-  MeasurementVectorSizeType size;
-
-  size = this->GetMeasurementVectorSize();
+  MeasurementVectorSizeType size = this->GetMeasurementVectorSize();
 
   this->m_Covariance.set_size(size, size);
   this->m_InverseCovariance.set_size(size, size);

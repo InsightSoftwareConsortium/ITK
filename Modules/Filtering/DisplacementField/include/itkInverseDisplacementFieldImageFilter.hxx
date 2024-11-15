@@ -124,9 +124,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
   using InputRegionType = typename InputImageType::RegionType;
   using InputSizeType = typename InputImageType::SizeType;
 
-  InputRegionType region;
-
-  region = inputImage->GetLargestPossibleRegion();
+  InputRegionType region = inputImage->GetLargestPossibleRegion();
 
   InputSizeType size = region.GetSize();
 
