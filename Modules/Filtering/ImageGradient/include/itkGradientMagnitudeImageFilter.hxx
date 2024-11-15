@@ -64,8 +64,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedR
 
   // get a copy of the input requested region (should equal the output
   // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
+  typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by one, which is the value of the first
   // coordinate of the operator radius.

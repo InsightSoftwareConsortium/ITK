@@ -58,8 +58,7 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
 
   // get a copy of the input requested region (should equal the output
   // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
+  typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(m_Radius);

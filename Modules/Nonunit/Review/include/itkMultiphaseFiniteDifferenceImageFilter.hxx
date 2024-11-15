@@ -162,8 +162,7 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
 
   // get a copy of the input requested region (should equal the output
   // requested region)
-  FeatureRegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
+  FeatureRegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(radius);

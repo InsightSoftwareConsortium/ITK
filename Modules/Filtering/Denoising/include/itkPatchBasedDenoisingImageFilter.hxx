@@ -166,8 +166,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
 
   // Get a copy of the input requested region (should equal the output
   // requested region)
-  typename InputImageType::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
+  typename InputImageType::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
   // Pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(voxelNeighborhoodSize);
 

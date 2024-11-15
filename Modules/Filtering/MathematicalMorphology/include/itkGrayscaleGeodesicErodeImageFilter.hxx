@@ -107,8 +107,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateInputReque
 
     // get a copy of the marker image requested region (should equal
     // the output requested region)
-    MarkerImageRegionType markerRequestedRegion;
-    markerRequestedRegion = markerPtr->GetRequestedRegion();
+    MarkerImageRegionType markerRequestedRegion = markerPtr->GetRequestedRegion();
 
     // pad the marker requested region by the elementary operator radius
     markerRequestedRegion.PadByRadius(1);

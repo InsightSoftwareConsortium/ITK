@@ -351,8 +351,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ReduceNDImage(OutputI
   typename TOutputImage::Pointer scratchImage;
   scratchImage = TOutputImage::New();
   scratchImage->CopyInformation(inputPtr);
-  RegionType scratchRegion;
-  scratchRegion = inputPtr->GetBufferedRegion();
+  RegionType scratchRegion = inputPtr->GetBufferedRegion();
   currentSize = startSize;
   // scratchImage only needs the 1/2 the space of the original
   // image for the first dimension.
@@ -466,8 +465,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ExpandNDImage(OutputI
   typename TOutputImage::Pointer scratchImage;
   scratchImage = TOutputImage::New();
   scratchImage->CopyInformation(inputPtr);
-  RegionType scratchRegion;
-  scratchRegion = inputPtr->GetBufferedRegion();
+  RegionType scratchRegion = inputPtr->GetBufferedRegion();
   currentSize = startSize;
 
   // scratchImage 2 times the space of the original image .
