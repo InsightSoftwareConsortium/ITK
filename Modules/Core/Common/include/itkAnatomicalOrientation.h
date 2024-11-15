@@ -438,7 +438,7 @@ public:
    *
    * @param legacyOrientation
    */
-#  if defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT)
+#  if defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_WRAPPING)
   [[deprecated("Use the AnatomicalOrientation::FromEnum type instead.")]]
 #  endif
   AnatomicalOrientation(LegacyOrientationType legacyOrientation);
