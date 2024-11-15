@@ -57,6 +57,7 @@
 #include "gdcmDirectionCosines.h"
 
 #include <fstream>
+#include <itkImageBase.h>
 #include <sstream>
 
 namespace itk
@@ -681,7 +682,12 @@ GDCMImageIO::InternalReadImageInformation()
       const double * sp = image.GetSpacing();
       spacing[0] = sp[0];
       spacing[1] = sp[1];
-      spacing[2] = sp[2];
+      // A 2D dicom slice may not have an explicit interslice provided per
+      // file.  interslice distances can be computed after all slices are read.
+      // set to non-zero value here to avoid prematurely throwing an exception
+      // before the interslice thickness can be computed.
+      const auto abs_spacing_2 = std::abs(sp[2]); // Spacing may be negative at this point, will be fixed below
+      spacing[2] = (abs_spacing_2 < itk::DefaultImageCoordinateTolerance) ? 1.0 : sp[2];
     }
     break;
   }
