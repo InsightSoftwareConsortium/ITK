@@ -108,8 +108,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
         {
           for (t = 1; t >= -1; t = t - 2)
           {
-            IndexType NeighborIndex;
-            NeighborIndex = CurrentPositionIndex;
+            IndexType NeighborIndex = CurrentPositionIndex;
             NeighborIndex[Dimension] += t;
             if (outputImage->GetRequestedRegion().IsInside(NeighborIndex))
             {
@@ -187,8 +186,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
           {
             for (t = -1; t <= 1; t = t + 2)
             {
-              IndexType NeighborIndex;
-              NeighborIndex = SeedIndex;
+              IndexType NeighborIndex = SeedIndex;
               NeighborIndex[Dimension] += t;
               if (outputImage->GetRequestedRegion().IsInside(NeighborIndex))
               {

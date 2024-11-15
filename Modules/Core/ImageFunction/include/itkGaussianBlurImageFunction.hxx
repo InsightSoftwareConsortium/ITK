@@ -250,8 +250,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
   }
 
   // first direction
-  typename InternalImageType::IndexType ind;
-  ind = index;
+  typename InternalImageType::IndexType ind = index;
 
   // Define the region of the iterator
   typename InternalImageType::RegionType region;
