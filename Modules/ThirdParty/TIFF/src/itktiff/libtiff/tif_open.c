@@ -264,6 +264,9 @@ TIFFClientOpen(
 				if (m&O_CREAT)
 					tif->tif_flags |= TIFF_BIGTIFF;
 				break;
+			case 'W':
+				tif->tif_flags |= TIFF_WARNABOUTUNKNOWNTAGS;
+				break;
 		}
 	/*
 	 * Read in TIFF header.

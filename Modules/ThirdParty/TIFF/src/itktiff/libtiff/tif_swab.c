@@ -31,7 +31,6 @@
  */
 #include "tiffiop.h"
 
-#ifndef TIFFSwabShort
 void
 TIFFSwabShort(uint16* wp)
 {
@@ -40,9 +39,7 @@ TIFFSwabShort(uint16* wp)
 	assert(sizeof(uint16)==2);
 	t = cp[1]; cp[1] = cp[0]; cp[0] = t;
 }
-#endif
 
-#ifndef TIFFSwabLong
 void
 TIFFSwabLong(uint32* lp)
 {
@@ -52,9 +49,7 @@ TIFFSwabLong(uint32* lp)
 	t = cp[3]; cp[3] = cp[0]; cp[0] = t;
 	t = cp[2]; cp[2] = cp[1]; cp[1] = t;
 }
-#endif
 
-#ifndef TIFFSwabLong8
 void
 TIFFSwabLong8(uint64* lp)
 {
@@ -66,9 +61,7 @@ TIFFSwabLong8(uint64* lp)
 	t = cp[5]; cp[5] = cp[2]; cp[2] = t;
 	t = cp[4]; cp[4] = cp[3]; cp[3] = t;
 }
-#endif
 
-#ifndef TIFFSwabArrayOfShort
 void
 TIFFSwabArrayOfShort(register uint16* wp, tmsize_t n)
 {
@@ -82,9 +75,7 @@ TIFFSwabArrayOfShort(register uint16* wp, tmsize_t n)
 		wp++;
 	}
 }
-#endif
 
-#ifndef TIFFSwabArrayOfTriples
 void
 TIFFSwabArrayOfTriples(register uint8* tp, tmsize_t n)
 {
@@ -98,9 +89,7 @@ TIFFSwabArrayOfTriples(register uint8* tp, tmsize_t n)
 		tp += 3;
 	}
 }
-#endif
 
-#ifndef TIFFSwabArrayOfLong
 void
 TIFFSwabArrayOfLong(register uint32* lp, tmsize_t n)
 {
@@ -115,9 +104,7 @@ TIFFSwabArrayOfLong(register uint32* lp, tmsize_t n)
 		lp++;
 	}
 }
-#endif
 
-#ifndef TIFFSwabArrayOfLong8
 void
 TIFFSwabArrayOfLong8(register uint64* lp, tmsize_t n)
 {
@@ -134,9 +121,7 @@ TIFFSwabArrayOfLong8(register uint64* lp, tmsize_t n)
 		lp++;
 	}
 }
-#endif
 
-#ifndef TIFFSwabFloat
 void
 TIFFSwabFloat(float* fp)
 {
@@ -146,9 +131,7 @@ TIFFSwabFloat(float* fp)
 	t = cp[3]; cp[3] = cp[0]; cp[0] = t;
 	t = cp[2]; cp[2] = cp[1]; cp[1] = t;
 }
-#endif
 
-#ifndef TIFFSwabArrayOfFloat
 void
 TIFFSwabArrayOfFloat(register float* fp, tmsize_t n)
 {
@@ -163,9 +146,7 @@ TIFFSwabArrayOfFloat(register float* fp, tmsize_t n)
 		fp++;
 	}
 }
-#endif
 
-#ifndef TIFFSwabDouble
 void
 TIFFSwabDouble(double *dp)
 {
@@ -177,9 +158,7 @@ TIFFSwabDouble(double *dp)
 	t = cp[5]; cp[5] = cp[2]; cp[2] = t;
 	t = cp[4]; cp[4] = cp[3]; cp[3] = t;
 }
-#endif
 
-#ifndef TIFFSwabArrayOfDouble
 void
 TIFFSwabArrayOfDouble(double* dp, tmsize_t n)
 {
@@ -196,7 +175,6 @@ TIFFSwabArrayOfDouble(double* dp, tmsize_t n)
 		dp++;
 	}
 }
-#endif
 
 /*
  * Bit reversal tables.  TIFFBitRevTable[<byte>] gives

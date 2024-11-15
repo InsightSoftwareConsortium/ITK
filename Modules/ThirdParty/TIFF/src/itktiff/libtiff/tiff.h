@@ -27,7 +27,8 @@
 #ifndef _TIFF_
 #define	_TIFF_
 
-#include "tiffconf.h"
+#include "itk_tiff_mangle.h"
+#include "itk_tif_config.h"
 
 /*
  * Tag Image File Format (TIFF)
