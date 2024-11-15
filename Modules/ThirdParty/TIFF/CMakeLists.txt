@@ -20,6 +20,7 @@ else()
     ${ITKTIFF_BINARY_DIR}/src
     ${ITKTIFF_BINARY_DIR}/src/itktiff
     ${ITKTIFF_SOURCE_DIR}/src
+    ${ITKTIFF_SOURCE_DIR}/src/itktiff
     )
   set(ITKTIFF_LIBRARIES itktiff)
   set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
