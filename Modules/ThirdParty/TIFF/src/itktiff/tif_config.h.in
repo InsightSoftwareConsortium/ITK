@@ -420,7 +420,7 @@ the sizes can be different.*/
 /* MSVC does not support C99 inline, so just make the inline keyword
    disappear for C.  */
 #ifndef __cplusplus
-#  ifdef _MSC_VER
+#  if defined(_MSC_VER) && _MSC_VER < 1900
 #    define inline
 #  endif
 #endif
