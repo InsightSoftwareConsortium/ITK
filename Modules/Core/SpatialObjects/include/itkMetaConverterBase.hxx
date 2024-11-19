@@ -29,7 +29,7 @@ MetaConverterBase<VDimension>::MetaObjectToSpatialObjectBase(const MetaObjectTyp
 {
   rval->SetId(mo->ID());
   rval->SetParentId(mo->ParentID());
-  typename SpatialObject<VDimension>::TransformType::Pointer    tfm = SpatialObject<VDimension>::TransformType::New();
+  auto                                                          tfm = SpatialObject<VDimension>::TransformType::New();
   typename SpatialObject<VDimension>::TransformType::OffsetType off;
   typename SpatialObject<VDimension>::TransformType::MatrixType mat;
   typename SpatialObject<VDimension>::TransformType::CenterType cen;

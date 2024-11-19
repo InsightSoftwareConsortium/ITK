@@ -39,8 +39,7 @@ public:
       return;
     }
     m_Registrator = ptr;
-    typename itk::SimpleMemberCommand<SimpleMultiResolutionImageRegistrationUI>::Pointer iterationCommand =
-      itk::SimpleMemberCommand<SimpleMultiResolutionImageRegistrationUI>::New();
+    auto iterationCommand = itk::SimpleMemberCommand<SimpleMultiResolutionImageRegistrationUI>::New();
 
     iterationCommand->SetCallbackFunction(this, &SimpleMultiResolutionImageRegistrationUI::StartNewLevel);
 

@@ -214,7 +214,7 @@ template <typename T>
 inline void
 EncapsulateMetaData(MetaDataDictionary & Dictionary, const std::string & key, const T & invalue)
 {
-  typename MetaDataObject<T>::Pointer temp = MetaDataObject<T>::New();
+  auto temp = MetaDataObject<T>::New();
   temp->SetMetaDataObjectValue(invalue);
   Dictionary[key] = temp;
 }

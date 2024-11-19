@@ -83,8 +83,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     if (it.Get().m_ImageNumber >= 0)
     {
-      typename PasteImageFilter<TOutputImage, TempImageType>::Pointer paste =
-        PasteImageFilter<TOutputImage, TempImageType>::New();
+      auto paste = PasteImageFilter<TOutputImage, TempImageType>::New();
       paste->SetDestinationImage(output);
       paste->InPlaceOn();
 

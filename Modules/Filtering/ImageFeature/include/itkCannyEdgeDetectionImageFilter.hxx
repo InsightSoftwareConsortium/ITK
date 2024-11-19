@@ -202,8 +202,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
   output->Graft(this->GetOutput());
   this->m_OutputImage = output;
 
-  typename ZeroCrossingImageFilter<TOutputImage, TOutputImage>::Pointer zeroCrossFilter =
-    ZeroCrossingImageFilter<TOutputImage, TOutputImage>::New();
+  auto zeroCrossFilter = ZeroCrossingImageFilter<TOutputImage, TOutputImage>::New();
 
   this->AllocateUpdateBuffer();
 

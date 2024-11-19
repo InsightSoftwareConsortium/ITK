@@ -66,16 +66,14 @@ HConcaveImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Delegate to a H-Minima filter.
   //
   //
-  typename HMinimaImageFilter<TInputImage, TInputImage>::Pointer hmin =
-    HMinimaImageFilter<TInputImage, TInputImage>::New();
+  auto hmin = HMinimaImageFilter<TInputImage, TInputImage>::New();
 
   hmin->SetInput(this->GetInput());
   hmin->SetHeight(m_Height);
   hmin->SetFullyConnected(m_FullyConnected);
 
   // Need to subtract the input from the H-Minima image
-  typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer subtract =
-    SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::New();
+  auto subtract = SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::New();
 
   subtract->SetInput1(hmin->GetOutput());
   subtract->SetInput2(this->GetInput());

@@ -176,7 +176,7 @@ ArchetypeSeriesFileNames::Scan()
   StringVectorType::const_iterator regExpFileNameVectorItr = regExpFileNameVector.begin();
   while (regExpFileNameVectorItr != regExpFileNameVector.end())
   {
-    itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
+    auto fit = itk::RegularExpressionSeriesFileNames::New();
     fit->SetDirectory(fileNamePath.c_str());
     fit->SetRegularExpression(regExpFileNameVectorItr->c_str());
     fit->SetSubMatch(1);

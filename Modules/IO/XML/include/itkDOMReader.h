@@ -49,7 +49,7 @@ namespace itk
    \code
        itk::MyObjectType::Pointer output_object;
        const char* input_xml_file_name = ...
-       itk::MyObjectDOMReader::Pointer reader = itk::MyObjectDOMReader::New();
+       auto reader = itk::MyObjectDOMReader::New();
        reader->SetFileName( input_xml_file_name );
        reader->Update();
        output_object = reader->GetOutput();

@@ -92,8 +92,7 @@ TxtTransformIOTemplate<TParametersValueType>::ReadComponentFile(std::string Valu
   std::string filePath = itksys::SystemTools::GetFilenamePath(this->GetFileName()) + "/";
 
   /* Use TransformFileReader to read each component file. */
-  typename TransformFileReaderTemplate<TParametersValueType>::Pointer reader =
-    TransformFileReaderTemplate<TParametersValueType>::New();
+  auto        reader = TransformFileReaderTemplate<TParametersValueType>::New();
   std::string componentFullPath = filePath + Value;
   reader->SetFileName(componentFullPath);
   try

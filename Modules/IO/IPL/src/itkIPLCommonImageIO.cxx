@@ -189,7 +189,7 @@ IPLCommonImageIO::ReadImageInformation()
   {
     *lastslash = '\0';
   }
-  itk::Directory::Pointer Dir = itk::Directory::New();
+  auto Dir = itk::Directory::New();
   if (Dir->Load(imagePath) == 0)
   {
     RAISE_EXCEPTION();

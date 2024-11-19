@@ -28,10 +28,8 @@ template <typename TImageType, typename TFeatureImageType>
 void
 ThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateSpeedImage()
 {
-  typename GradientAnisotropicDiffusionImageFilter<TFeatureImageType, TFeatureImageType>::Pointer diffusion =
-    GradientAnisotropicDiffusionImageFilter<TFeatureImageType, TFeatureImageType>::New();
-  typename LaplacianImageFilter<TFeatureImageType, TFeatureImageType>::Pointer laplacian =
-    LaplacianImageFilter<TFeatureImageType, TFeatureImageType>::New();
+  auto diffusion = GradientAnisotropicDiffusionImageFilter<TFeatureImageType, TFeatureImageType>::New();
+  auto laplacian = LaplacianImageFilter<TFeatureImageType, TFeatureImageType>::New();
 
   ImageRegionIterator<FeatureImageType>      lit;
   ImageRegionConstIterator<FeatureImageType> fit(this->GetFeatureImage(),

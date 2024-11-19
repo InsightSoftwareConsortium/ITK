@@ -51,7 +51,7 @@ namespace itk
    \code
        itk::MyObjectType::Pointer input_object = ...
        const char* output_xml_file_name = ...
-       itk::MyObjectDOMWriter::Pointer writer = itk::MyObjectDOMWriter::New();
+       auto writer = itk::MyObjectDOMWriter::New();
        writer->SetInput( input_object );
        writer->SetFileName( output_xml_file_name );
        writer->Update();

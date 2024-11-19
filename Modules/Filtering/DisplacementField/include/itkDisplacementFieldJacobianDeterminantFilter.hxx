@@ -160,8 +160,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   //
   // cast might not be necessary, but CastImageFilter is optimized for
   // the case where the InputImageType == OutputImageType
-  typename CastImageFilter<TInputImage, RealVectorImageType>::Pointer caster =
-    CastImageFilter<TInputImage, RealVectorImageType>::New();
+  auto caster = CastImageFilter<TInputImage, RealVectorImageType>::New();
   caster->SetInput(this->GetInput());
   caster->Update();
   m_RealValuedInputImage = caster->GetOutput();

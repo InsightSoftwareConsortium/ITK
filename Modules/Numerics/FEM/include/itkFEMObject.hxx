@@ -129,7 +129,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
     {
       itkExceptionMacro("dynamic_cast failed.");
     }
-    fem::MaterialLinearElasticity::Pointer m = fem::MaterialLinearElasticity::New();
+    auto m = fem::MaterialLinearElasticity::New();
     m->SetGlobalNumber(mCopy->GetGlobalNumber());
     m->SetYoungsModulus(mCopy->GetYoungsModulus());
     m->SetPoissonsRatio(mCopy->GetPoissonsRatio());
@@ -180,7 +180,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
       {
         itkExceptionMacro("dynamic_cast failed.");
       }
-      fem::LoadNode::Pointer o1 = fem::LoadNode::New();
+      auto o1 = fem::LoadNode::New();
 
       o1->SetGlobalNumber(lCopy->GetGlobalNumber());
 
@@ -205,7 +205,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
         itkExceptionMacro("dynamic_cast failed.");
       }
 
-      fem::LoadBC::Pointer o1 = fem::LoadBC::New();
+      auto o1 = fem::LoadBC::New();
 
       o1->SetGlobalNumber(lCopy->GetGlobalNumber());
 
@@ -230,7 +230,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
         itkExceptionMacro("dynamic_cast failed.");
       }
 
-      fem::LoadBCMFC::Pointer o1 = fem::LoadBCMFC::New();
+      auto o1 = fem::LoadBCMFC::New();
       o1->SetGlobalNumber(lCopy->GetGlobalNumber());
 
       int   NumLHS;
@@ -268,7 +268,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
         itkExceptionMacro("dynamic_cast failed.");
       }
 
-      fem::LoadEdge::Pointer o1 = fem::LoadEdge::New();
+      auto o1 = fem::LoadEdge::New();
 
       o1->SetGlobalNumber(lCopy->GetGlobalNumber());
 
@@ -304,7 +304,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
         itkExceptionMacro("dynamic_cast failed.");
       }
 
-      fem::LoadGravConst::Pointer o1 = fem::LoadGravConst::New();
+      auto o1 = fem::LoadGravConst::New();
 
       o1->SetGlobalNumber(lCopy->GetGlobalNumber());
       for (auto & i : lCopy->GetElementArray())

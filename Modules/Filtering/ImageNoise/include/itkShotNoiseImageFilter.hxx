@@ -50,11 +50,10 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }
-  typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer rand =
-    Statistics::MersenneTwisterRandomVariateGenerator::New();
+  auto           rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
   const uint32_t seed = Self::Hash(this->GetSeed(), uint32_t(indSeed));
   rand->Initialize(seed);
-  typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
+  auto randn = Statistics::NormalVariateGenerator::New();
   randn->Initialize(bit_cast<int32_t>(seed));
 
   // Define the portion of the input to walk for this thread, using

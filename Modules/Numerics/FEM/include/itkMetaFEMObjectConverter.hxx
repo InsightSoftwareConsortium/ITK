@@ -68,7 +68,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
 
     // create a new object of the correct class
     // a = FEMOF::Create(clID);
-    fem::Element::Node::Pointer o1 = fem::Element::Node::New();
+    auto o1 = fem::Element::Node::New();
     o1->SetGlobalNumber(node->m_GN);
     fem::Element::VectorType pt(node->m_Dim);
     for (unsigned int i = 0; i < node->m_Dim; ++i)
@@ -93,7 +93,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
   {
     FEMObjectMaterial * material = (*it_material);
 
-    fem::MaterialLinearElasticity::Pointer o1 = fem::MaterialLinearElasticity::New();
+    auto o1 = fem::MaterialLinearElasticity::New();
     o1->SetGlobalNumber(material->m_GN);
     o1->SetYoungsModulus(material->E); /* Young modulus */
     o1->SetPoissonsRatio(material->nu);
@@ -142,7 +142,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     std::string loadname(load->m_LoadName);
     if (loadname == "LoadNode")
     {
-      fem::LoadNode::Pointer o1 = fem::LoadNode::New();
+      auto o1 = fem::LoadNode::New();
       o1->SetGlobalNumber(load->m_GN);
 
       o1->SetElement(myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
@@ -160,7 +160,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     }
     else if (loadname == "LoadBC")
     {
-      fem::LoadBC::Pointer o1 = fem::LoadBC::New();
+      auto o1 = fem::LoadBC::New();
       o1->SetGlobalNumber(load->m_GN);
 
       o1->SetDegreeOfFreedom(load->m_DOF);
@@ -178,7 +178,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     }
     else if (loadname == "LoadBCMFC")
     {
-      fem::LoadBCMFC::Pointer o1 = fem::LoadBCMFC::New();
+      auto o1 = fem::LoadBCMFC::New();
       o1->SetGlobalNumber(load->m_GN);
 
       int   NumLHS;
@@ -211,7 +211,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     }
     else if (loadname == "LoadEdge")
     {
-      fem::LoadEdge::Pointer o1 = fem::LoadEdge::New();
+      auto o1 = fem::LoadEdge::New();
       o1->SetGlobalNumber(load->m_GN);
 
       int numRows;
@@ -241,7 +241,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     }
     else if (loadname == "LoadGravConst")
     {
-      fem::LoadGravConst::Pointer o1 = fem::LoadGravConst::New();
+      auto o1 = fem::LoadGravConst::New();
       o1->SetGlobalNumber(load->m_GN);
 
       for (int i = 0; i < load->m_NumElements; ++i)
@@ -258,7 +258,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     }
     else if (loadname == "LoadLandmark")
     {
-      fem::LoadLandmark::Pointer o1 = fem::LoadLandmark::New();
+      auto o1 = fem::LoadLandmark::New();
       o1->SetGlobalNumber(load->m_GN);
       o1->SetEta(load->m_Variance);
       o1->GetElementArray().resize(1);

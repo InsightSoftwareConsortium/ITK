@@ -44,16 +44,14 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField,
   using DefaultVelocityFieldInterpolatorType =
     VectorLinearInterpolateImageFunction<TimeVaryingVelocityFieldType, ScalarType>;
 
-  typename DefaultVelocityFieldInterpolatorType::Pointer velocityFieldInterpolator =
-    DefaultVelocityFieldInterpolatorType::New();
+  auto velocityFieldInterpolator = DefaultVelocityFieldInterpolatorType::New();
 
   this->m_VelocityFieldInterpolator = velocityFieldInterpolator;
 
   using DefaultDisplacementFieldInterpolatorType =
     VectorLinearInterpolateImageFunction<DisplacementFieldType, ScalarType>;
 
-  typename DefaultDisplacementFieldInterpolatorType::Pointer deformationFieldInterpolator =
-    DefaultDisplacementFieldInterpolatorType::New();
+  auto deformationFieldInterpolator = DefaultDisplacementFieldInterpolatorType::New();
 
   this->m_DisplacementFieldInterpolator = deformationFieldInterpolator;
   this->DynamicMultiThreadingOn();

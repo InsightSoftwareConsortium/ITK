@@ -64,8 +64,7 @@ StandardDeviationPerComponentSampleFilter<TSample>::MakeOutput(DataObjectPointer
     MeasurementVectorType standardDeviation;
     NumericTraits<MeasurementVectorType>::SetLength(standardDeviation, this->GetMeasurementVectorSize());
     standardDeviation.Fill(ValueType{});
-    typename MeasurementVectorRealDecoratedType::Pointer decoratedStandardDeviation =
-      MeasurementVectorRealDecoratedType::New();
+    auto decoratedStandardDeviation = MeasurementVectorRealDecoratedType::New();
     decoratedStandardDeviation->Set(standardDeviation);
     return decoratedStandardDeviation.GetPointer();
   }
@@ -76,8 +75,7 @@ StandardDeviationPerComponentSampleFilter<TSample>::MakeOutput(DataObjectPointer
     MeasurementVectorType mean;
     NumericTraits<MeasurementVectorType>::SetLength(mean, this->GetMeasurementVectorSize());
     mean.Fill(ValueType{});
-    typename MeasurementVectorRealDecoratedType::Pointer decoratedStandardDeviation =
-      MeasurementVectorRealDecoratedType::New();
+    auto decoratedStandardDeviation = MeasurementVectorRealDecoratedType::New();
     decoratedStandardDeviation->Set(mean);
     return decoratedStandardDeviation.GetPointer();
   }

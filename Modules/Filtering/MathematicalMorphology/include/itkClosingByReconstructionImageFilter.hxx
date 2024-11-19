@@ -68,8 +68,7 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::Generate
   this->AllocateOutputs();
 
   // Delegate to a dilate filter.
-  typename GrayscaleDilateImageFilter<TInputImage, TInputImage, TKernel>::Pointer dilate =
-    GrayscaleDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
+  auto dilate = GrayscaleDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
 
   dilate->SetInput(this->GetInput());
   dilate->SetKernel(this->m_Kernel);
@@ -77,8 +76,7 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::Generate
   progress->RegisterInternalFilter(dilate, .5);
 
   // Delegate to a dilate filter.
-  typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer erode =
-    ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
+  auto erode = ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
 
   erode->SetMarkerImage(dilate->GetOutput());
   erode->SetMaskImage(this->GetInput());
@@ -114,8 +112,7 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::Generate
       ++inputIt;
     }
 
-    typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer erodeAgain =
-      ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
+    auto erodeAgain = ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
     erodeAgain->SetMaskImage(this->GetInput());
     erodeAgain->SetMarkerImage(tempImage);
     erodeAgain->SetFullyConnected(m_FullyConnected);

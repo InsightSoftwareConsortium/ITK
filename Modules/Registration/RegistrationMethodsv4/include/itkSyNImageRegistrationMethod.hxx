@@ -369,8 +369,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
           {
             using NearestNeighborInterpolatorType =
               NearestNeighborInterpolateImageFunction<FixedMaskImageType, RealType>;
-            typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator =
-              NearestNeighborInterpolatorType::New();
+            auto nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
             nearestNeighborInterpolator->SetInputImage(
               dynamic_cast<ImageMaskSpatialObjectType *>(
                 const_cast<FixedImageMaskType *>(fixedImageMasks[n].GetPointer()))
@@ -399,8 +398,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
           {
             using NearestNeighborInterpolatorType =
               NearestNeighborInterpolateImageFunction<MovingMaskImageType, RealType>;
-            typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator =
-              NearestNeighborInterpolatorType::New();
+            auto nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
             nearestNeighborInterpolator->SetInputImage(
               dynamic_cast<ImageMaskSpatialObjectType *>(
                 const_cast<MovingImageMaskType *>(movingImageMasks[n].GetPointer()))
@@ -502,8 +500,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
         if (fixedImageMasks[0])
         {
           using NearestNeighborInterpolatorType = NearestNeighborInterpolateImageFunction<FixedMaskImageType, RealType>;
-          typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator =
-            NearestNeighborInterpolatorType::New();
+          auto nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
           nearestNeighborInterpolator->SetInputImage(
             dynamic_cast<ImageMaskSpatialObjectType *>(
               const_cast<FixedImageMaskType *>(fixedImageMasks[0].GetPointer()))
@@ -531,8 +528,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
         {
           using NearestNeighborInterpolatorType =
             NearestNeighborInterpolateImageFunction<MovingMaskImageType, RealType>;
-          typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator =
-            NearestNeighborInterpolatorType::New();
+          auto nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
           nearestNeighborInterpolator->SetInputImage(
             dynamic_cast<ImageMaskSpatialObjectType *>(
               const_cast<MovingImageMaskType *>(movingImageMasks[0].GetPointer()))

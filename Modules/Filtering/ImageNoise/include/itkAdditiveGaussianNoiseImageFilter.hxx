@@ -51,8 +51,8 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDat
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }
-  typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
-  const uint32_t                                       seed = Self::Hash(this->GetSeed(), uint32_t(indSeed));
+  auto           randn = Statistics::NormalVariateGenerator::New();
+  const uint32_t seed = Self::Hash(this->GetSeed(), uint32_t(indSeed));
   // Convert the seed bit for bit to int32_t
   randn->Initialize(bit_cast<int32_t>(seed));
 

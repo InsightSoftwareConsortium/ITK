@@ -441,7 +441,7 @@ void
 GetImageType(const char * fileName, itk::IOPixelEnum & pixelType, itk::IOComponentEnum & componentType)
 {
   using ImageType = itk::Image<unsigned char, 3>;
-  itk::ImageFileReader<ImageType>::Pointer imageReader = itk::ImageFileReader<ImageType>::New();
+  auto imageReader = itk::ImageFileReader<ImageType>::New();
   imageReader->SetFileName(fileName);
   imageReader->UpdateOutputInformation();
 

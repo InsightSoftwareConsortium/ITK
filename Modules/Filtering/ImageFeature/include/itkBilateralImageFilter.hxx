@@ -199,7 +199,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   localInput->Graft(this->GetInput());
 
   // First, determine the min and max intensity range
-  typename StatisticsImageFilter<TInputImage>::Pointer statistics = StatisticsImageFilter<TInputImage>::New();
+  auto statistics = StatisticsImageFilter<TInputImage>::New();
 
   statistics->SetInput(localInput);
   statistics->Update();

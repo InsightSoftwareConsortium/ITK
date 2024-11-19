@@ -49,8 +49,7 @@ RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::
 
   m_Threshold = thresholdCalculator->GetOutput();
 
-  typename BinaryThresholdImageFilter<TInputImage, TOutputImage>::Pointer threshold =
-    BinaryThresholdImageFilter<TInputImage, TOutputImage>::New();
+  auto threshold = BinaryThresholdImageFilter<TInputImage, TOutputImage>::New();
 
   progress->RegisterInternalFilter(threshold, 1);
   threshold->GraftOutput(this->GetOutput());

@@ -488,8 +488,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
   // keep a handle to the shifted output
   m_ShiftedImage = shiftScaleFilter->GetOutput();
 
-  typename ZeroCrossingImageFilter<OutputImageType, OutputImageType>::Pointer zeroCrossingFilter =
-    ZeroCrossingImageFilter<OutputImageType, OutputImageType>::New();
+  auto zeroCrossingFilter = ZeroCrossingImageFilter<OutputImageType, OutputImageType>::New();
   zeroCrossingFilter->SetInput(m_ShiftedImage);
   zeroCrossingFilter->GraftOutput(this->GetOutput());
   zeroCrossingFilter->SetBackgroundValue(m_ValueOne);

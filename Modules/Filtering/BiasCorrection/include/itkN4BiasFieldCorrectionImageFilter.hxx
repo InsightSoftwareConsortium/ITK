@@ -505,7 +505,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   auto & pointDataSTLContainer = fieldPoints->GetPointData()->CastToSTLContainer();
   pointDataSTLContainer.reserve(numberOfIncludedPixels);
 
-  typename BSplineFilterType::WeightsContainerType::Pointer weights = BSplineFilterType::WeightsContainerType::New();
+  auto weights = BSplineFilterType::WeightsContainerType::New();
   weights->Initialize();
   auto & weightSTLContainer = weights->CastToSTLContainer();
   weightSTLContainer.reserve(numberOfIncludedPixels);

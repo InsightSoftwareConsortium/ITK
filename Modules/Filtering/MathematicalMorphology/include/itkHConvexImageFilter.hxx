@@ -67,16 +67,14 @@ HConvexImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Delegate to a H-Maxima filter.
   //
   //
-  typename HMaximaImageFilter<TInputImage, TInputImage>::Pointer hmax =
-    HMaximaImageFilter<TInputImage, TInputImage>::New();
+  auto hmax = HMaximaImageFilter<TInputImage, TInputImage>::New();
 
   hmax->SetInput(this->GetInput());
   hmax->SetHeight(m_Height);
   hmax->SetFullyConnected(m_FullyConnected);
 
   // Need to subtract the H-Maxima image from the input
-  typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer subtract =
-    SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::New();
+  auto subtract = SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::New();
 
   subtract->SetInput1(this->GetInput());
   subtract->SetInput2(hmax->GetOutput());

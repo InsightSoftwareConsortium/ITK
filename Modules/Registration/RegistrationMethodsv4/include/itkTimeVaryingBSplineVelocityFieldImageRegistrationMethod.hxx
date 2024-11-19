@@ -391,8 +391,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
     inverseFieldDuplicator->SetInputImage(this->m_OutputTransform->GetInverseDisplacementField());
     inverseFieldDuplicator->Update();
 
-    typename DisplacementFieldTransformType::Pointer fixedDisplacementFieldTransform =
-      DisplacementFieldTransformType::New();
+    auto fixedDisplacementFieldTransform = DisplacementFieldTransformType::New();
     fixedDisplacementFieldTransform->SetDisplacementField(fieldDuplicator->GetOutput());
     fixedDisplacementFieldTransform->SetInverseDisplacementField(inverseFieldDuplicator->GetOutput());
 
@@ -422,8 +421,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
       this->m_OutputTransform->IntegrateVelocityField();
     }
 
-    typename DisplacementFieldTransformType::Pointer movingDisplacementFieldTransform =
-      DisplacementFieldTransformType::New();
+    auto movingDisplacementFieldTransform = DisplacementFieldTransformType::New();
     movingDisplacementFieldTransform->SetDisplacementField(this->m_OutputTransform->GetModifiableDisplacementField());
     movingDisplacementFieldTransform->SetInverseDisplacementField(
       this->m_OutputTransform->GetModifiableInverseDisplacementField());

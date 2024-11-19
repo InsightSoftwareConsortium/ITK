@@ -175,9 +175,8 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   }
 
   // Create gaussian membership functions.
-  auto                                                meanEstimatorsContainer = MeanEstimatorsContainerType::New();
-  typename CovarianceEstimatorsContainerType::Pointer covarianceEstimatorsContainer =
-    CovarianceEstimatorsContainerType::New();
+  auto meanEstimatorsContainer = MeanEstimatorsContainerType::New();
+  auto covarianceEstimatorsContainer = CovarianceEstimatorsContainerType::New();
   meanEstimatorsContainer->Reserve(m_NumberOfClasses);
   covarianceEstimatorsContainer->Reserve(m_NumberOfClasses);
 
