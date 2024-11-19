@@ -29,8 +29,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::CurvatureFlowImageFilter()
   this->SetNumberOfIterations(0);
   m_TimeStep = 0.05f;
 
-  typename CurvatureFlowFunctionType::Pointer cffp;
-  cffp = CurvatureFlowFunctionType::New();
+  typename CurvatureFlowFunctionType::Pointer cffp = CurvatureFlowFunctionType::New();
 
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(cffp.GetPointer()));
 }

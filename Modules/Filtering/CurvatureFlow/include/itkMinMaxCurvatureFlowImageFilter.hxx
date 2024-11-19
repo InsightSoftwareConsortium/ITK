@@ -29,8 +29,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::MinMaxCurvatureFlowIm
 {
   m_StencilRadius = 2;
 
-  typename MinMaxCurvatureFlowFunctionType::Pointer cffp;
-  cffp = MinMaxCurvatureFlowFunctionType::New();
+  typename MinMaxCurvatureFlowFunctionType::Pointer cffp = MinMaxCurvatureFlowFunctionType::New();
 
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(cffp.GetPointer()));
 }

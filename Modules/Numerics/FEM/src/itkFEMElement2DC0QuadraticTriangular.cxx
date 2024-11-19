@@ -169,9 +169,7 @@ Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(const VectorType &
   VectorType tempWeights(3);
   VectorType closest(3);
 
-  itk::fem::Element2DC0LinearTriangularMembrane::Pointer e1;
-
-  e1 = itk::fem::Element2DC0LinearTriangularMembrane::New();
+  itk::fem::Element2DC0LinearTriangularMembrane::Pointer e1 = itk::fem::Element2DC0LinearTriangularMembrane::New();
   // four linear triangles are used
   for (i = 0; i < 4; ++i)
   {

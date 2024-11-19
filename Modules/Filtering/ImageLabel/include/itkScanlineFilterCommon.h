@@ -399,8 +399,7 @@ protected:
     using PretendIndexType = typename PretendImageType::RegionType::IndexType;
     using LineNeighborhoodType = ConstShapedNeighborhoodIterator<PretendImageType>;
 
-    typename PretendImageType::Pointer fakeImage;
-    fakeImage = PretendImageType::New();
+    typename PretendImageType::Pointer fakeImage = PretendImageType::New();
 
     typename PretendImageType::RegionType LineRegion;
 

@@ -33,8 +33,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction>::
   CurvatureRegistrationFilter()
 {
-  typename RegistrationFunctionType::Pointer drfp;
-  drfp = RegistrationFunctionType::New();
+  typename RegistrationFunctionType::Pointer drfp = RegistrationFunctionType::New();
 
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(drfp.GetPointer()));
 
