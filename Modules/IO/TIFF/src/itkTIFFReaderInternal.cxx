@@ -46,7 +46,7 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
                         va_list                 ap)
 {
   TIFFReaderInternal * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
-  if (::itk::Object::GetGlobalErrorDisplay() && !self->m_ErrorSilence)
+  if (::itk::Object::GetGlobalWarningDisplay() && !self->m_ErrorSilence)
   {
     char out[256];
     vsnprintf(out, 256, fmt, ap);
