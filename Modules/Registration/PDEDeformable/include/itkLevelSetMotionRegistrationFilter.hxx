@@ -24,8 +24,7 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::LevelSetMotionRegistrationFilter()
 {
-  typename LevelSetMotionFunctionType::Pointer drfp;
-  drfp = LevelSetMotionFunctionType::New();
+  typename LevelSetMotionFunctionType::Pointer drfp = LevelSetMotionFunctionType::New();
 
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(drfp.GetPointer()));
 
