@@ -49,8 +49,7 @@ KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>::GenerateD
 
   m_Threshold = thresholdImageCalculator->GetOutput();
 
-  typename BinaryThresholdImageFilter<TInputImage, TOutputImage>::Pointer threshold =
-    BinaryThresholdImageFilter<TInputImage, TOutputImage>::New();
+  auto threshold = BinaryThresholdImageFilter<TInputImage, TOutputImage>::New();
 
   progress->RegisterInternalFilter(threshold, .5f);
   threshold->GraftOutput(this->GetOutput());

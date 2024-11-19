@@ -81,8 +81,7 @@ protected:
   GPUGradientAnisotropicDiffusionImageFilter()
   {
     // Set DiffusionFunction
-    typename GPUGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p =
-      GPUGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+    auto p = GPUGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
     this->SetDifferenceFunction(p);
   }
 

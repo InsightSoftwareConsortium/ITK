@@ -49,8 +49,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }
-  typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer rand =
-    Statistics::MersenneTwisterRandomVariateGenerator::New();
+  auto           rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
   const uint32_t seed = Self::Hash(this->GetSeed(), uint32_t(indSeed));
   rand->Initialize(seed);
 

@@ -62,8 +62,7 @@ BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   }
 
   // Need to subtract the input from the closed image
-  typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer subtract =
-    SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::New();
+  auto subtract = SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::New();
 
   subtract->SetInput1(close->GetOutput());
   subtract->SetInput2(this->GetInput());

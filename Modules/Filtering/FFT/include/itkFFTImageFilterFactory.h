@@ -118,7 +118,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    FFTImageFilterFactory::Pointer factory = FFTImageFilterFactory::New();
+    auto factory = FFTImageFilterFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(factory);
   }

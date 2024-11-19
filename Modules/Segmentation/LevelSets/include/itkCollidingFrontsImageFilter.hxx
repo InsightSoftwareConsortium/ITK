@@ -38,8 +38,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 CollidingFrontsImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  typename FastMarchingUpwindGradientImageFilterType::Pointer fastMarchingFilter1 =
-    FastMarchingUpwindGradientImageFilterType::New();
+  auto fastMarchingFilter1 = FastMarchingUpwindGradientImageFilterType::New();
   fastMarchingFilter1->SetInput(this->GetInput());
   fastMarchingFilter1->SetTrialPoints(m_SeedPoints1);
   fastMarchingFilter1->SetTargetPoints(m_SeedPoints2);
@@ -58,8 +57,7 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   fastMarchingFilter1->Update();
 
-  typename FastMarchingUpwindGradientImageFilterType::Pointer fastMarchingFilter2 =
-    FastMarchingUpwindGradientImageFilterType::New();
+  auto fastMarchingFilter2 = FastMarchingUpwindGradientImageFilterType::New();
   fastMarchingFilter2->SetInput(this->GetInput());
   fastMarchingFilter2->SetTrialPoints(m_SeedPoints2);
   fastMarchingFilter2->SetTargetPoints(m_SeedPoints1);

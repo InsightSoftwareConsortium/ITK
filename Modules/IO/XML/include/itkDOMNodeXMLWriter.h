@@ -121,7 +121,7 @@ private:
 inline std::ostream &
 operator<<(std::ostream & os, const itk::DOMNode & object)
 {
-  itk::DOMNodeXMLWriter::Pointer writer = itk::DOMNodeXMLWriter::New();
+  auto writer = itk::DOMNodeXMLWriter::New();
   writer->SetInput(&object);
   writer->Update(os);
   return os;

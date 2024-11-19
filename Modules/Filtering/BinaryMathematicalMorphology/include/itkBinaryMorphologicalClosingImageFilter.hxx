@@ -62,11 +62,9 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Gener
   }
 
   /** set up erosion and dilation methods */
-  typename BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::Pointer dilate =
-    BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
+  auto dilate = BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
 
-  typename BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::Pointer erode =
-    BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::New();
+  auto erode = BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::New();
 
   // create the pipeline without input and output image
   dilate->ReleaseDataFlagOn();

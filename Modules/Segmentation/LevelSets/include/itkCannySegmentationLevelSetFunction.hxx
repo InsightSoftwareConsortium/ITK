@@ -40,14 +40,12 @@ template <typename TImageType, typename TFeatureImageType>
 void
 CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
 {
-  typename GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::Pointer gradient =
-    GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::New();
+  auto gradient = GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::New();
 
   using CovariantVectorImageType =
     typename GradientImageFilter<ImageType, ScalarValueType, ScalarValueType>::OutputImageType;
 
-  typename MultiplyImageFilter<CovariantVectorImageType, ImageType, CovariantVectorImageType>::Pointer multiply =
-    MultiplyImageFilter<CovariantVectorImageType, ImageType, CovariantVectorImageType>::New();
+  auto multiply = MultiplyImageFilter<CovariantVectorImageType, ImageType, CovariantVectorImageType>::New();
 
   // Create a distance transform to the canny edges
   this->CalculateDistanceImage();

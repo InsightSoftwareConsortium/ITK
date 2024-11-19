@@ -72,7 +72,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    FFTDiscreteGaussianImageFilterFactory::Pointer factory = FFTDiscreteGaussianImageFilterFactory::New();
+    auto factory = FFTDiscreteGaussianImageFilterFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(factory);
   }

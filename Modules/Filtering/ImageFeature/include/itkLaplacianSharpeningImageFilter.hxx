@@ -51,8 +51,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Calculate the needed input image statistics
 
-  typename StatisticsImageFilter<InputImageType>::Pointer inputCalculator =
-    StatisticsImageFilter<InputImageType>::New();
+  auto inputCalculator = StatisticsImageFilter<InputImageType>::New();
 
   inputCalculator->SetInput(localInput);
   inputCalculator->Update();
@@ -129,8 +128,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   binaryFilter->Update();
 
   // Calculate needed combined image statistics
-  typename StatisticsImageFilter<RealImageType>::Pointer enhancedCalculator =
-    StatisticsImageFilter<RealImageType>::New();
+  auto enhancedCalculator = StatisticsImageFilter<RealImageType>::New();
 
   enhancedCalculator->SetInput(binaryFilter->GetOutput());
   enhancedCalculator->Update();

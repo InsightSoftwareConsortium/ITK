@@ -584,15 +584,13 @@ PhilipsRECImageIO::ReadImageInformation()
   }
 
   // Get rescale values associated with each scanning sequence.
-  ScanningSequenceImageTypeRescaleValuesContainerType::Pointer scanningSequenceImageTypeRescaleVector =
-    ScanningSequenceImageTypeRescaleValuesContainerType::New();
+  auto scanningSequenceImageTypeRescaleVector = ScanningSequenceImageTypeRescaleValuesContainerType::New();
   scanningSequenceImageTypeRescaleVector->clear();
   // Must match number of scanning sequences.
   scanningSequenceImageTypeRescaleVector->resize(par.num_scanning_sequences);
   for (int scanIndex = 0; scanIndex < par.num_scanning_sequences; ++scanIndex)
   {
-    ImageTypeRescaleValuesContainerType::Pointer imageTypeRescaleValuesVector =
-      ImageTypeRescaleValuesContainerType::New();
+    auto imageTypeRescaleValuesVector = ImageTypeRescaleValuesContainerType::New();
     if (!philipsPAR->GetRECRescaleValues(
           HeaderFileName, imageTypeRescaleValuesVector, par.scanning_sequences[scanIndex]))
     {

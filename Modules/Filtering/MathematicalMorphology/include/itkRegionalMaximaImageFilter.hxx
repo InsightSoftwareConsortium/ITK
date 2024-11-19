@@ -76,8 +76,7 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
   OutputImageType *      output = this->GetOutput();
 
   // Delegate to the valued filter to find the minima
-  typename ValuedRegionalMaximaImageFilter<TInputImage, TInputImage>::Pointer regionalMax =
-    ValuedRegionalMaximaImageFilter<TInputImage, TInputImage>::New();
+  auto regionalMax = ValuedRegionalMaximaImageFilter<TInputImage, TInputImage>::New();
   regionalMax->SetInput(input);
   regionalMax->SetFullyConnected(m_FullyConnected);
   progress->RegisterInternalFilter(regionalMax, 0.67f);

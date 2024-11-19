@@ -625,7 +625,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
   {
     itkDebugMacro("Searching slabs...");
 
-    typename MRASlabIdentifier<InputImageType>::Pointer identifier = MRASlabIdentifier<InputImageType>::New();
+    auto identifier = MRASlabIdentifier<InputImageType>::New();
     // Find slabs
     identifier->SetImage(this->GetInput());
     identifier->SetNumberOfSamples(m_SlabNumberOfSamples);

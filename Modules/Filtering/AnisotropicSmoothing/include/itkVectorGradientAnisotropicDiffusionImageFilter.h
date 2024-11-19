@@ -93,8 +93,7 @@ public:
 protected:
   VectorGradientAnisotropicDiffusionImageFilter()
   {
-    typename VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p =
-      VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+    auto p = VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
     this->SetDifferenceFunction(p);
   }
 

@@ -591,7 +591,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
                                            TTensorPixelType,
                                            TMaskImageType>::SetMaskImage(MaskImageType * maskImage)
 {
-  typename ImageMaskSpatialObject<3>::Pointer maskSpatialObject = ImageMaskSpatialObject<3>::New();
+  auto maskSpatialObject = ImageMaskSpatialObject<3>::New();
   maskSpatialObject->SetImage(maskImage);
   this->SetMaskSpatialObject(maskSpatialObject);
 }

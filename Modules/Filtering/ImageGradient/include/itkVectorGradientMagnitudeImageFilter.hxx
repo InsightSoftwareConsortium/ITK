@@ -176,8 +176,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
   //
   // cast might not be necessary, but CastImageFilter is optimized for
   // the case where the InputImageType == OutputImageType
-  typename CastImageFilter<TInputImage, RealVectorImageType>::Pointer caster =
-    CastImageFilter<TInputImage, RealVectorImageType>::New();
+  auto caster = CastImageFilter<TInputImage, RealVectorImageType>::New();
   caster->SetInput(this->GetInput());
   caster->GetOutput()->SetRequestedRegion(this->GetInput()->GetRequestedRegion());
   caster->Update();

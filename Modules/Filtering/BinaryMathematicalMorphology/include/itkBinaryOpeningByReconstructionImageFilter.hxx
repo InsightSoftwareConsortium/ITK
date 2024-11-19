@@ -56,8 +56,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>::GenerateData()
   this->AllocateOutputs();
 
   /** set up erosion and dilation methods */
-  typename BinaryErodeImageFilter<InputImageType, OutputImageType, TKernel>::Pointer erode =
-    BinaryErodeImageFilter<InputImageType, OutputImageType, TKernel>::New();
+  auto erode = BinaryErodeImageFilter<InputImageType, OutputImageType, TKernel>::New();
   erode->SetForegroundValue(m_ForegroundValue); // Intensity value to erode
   erode->SetBackgroundValue(m_BackgroundValue); // Replacement value of eroded voxels
   erode->SetKernel(this->GetKernel());
@@ -65,8 +64,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>::GenerateData()
   erode->ReleaseDataFlagOn();
   erode->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
-  typename BinaryReconstructionByDilationImageFilter<OutputImageType>::Pointer dilate =
-    BinaryReconstructionByDilationImageFilter<OutputImageType>::New();
+  auto dilate = BinaryReconstructionByDilationImageFilter<OutputImageType>::New();
   dilate->SetForegroundValue(m_ForegroundValue);
   dilate->SetBackgroundValue(m_BackgroundValue);
   dilate->SetMarkerImage(erode->GetOutput());

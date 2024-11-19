@@ -54,8 +54,7 @@ OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   m_Thresholds = otsuHistogramThresholdCalculator->GetOutput();
 
-  typename ThresholdLabelerImageFilter<TInputImage, TOutputImage>::Pointer threshold =
-    ThresholdLabelerImageFilter<TInputImage, TOutputImage>::New();
+  auto threshold = ThresholdLabelerImageFilter<TInputImage, TOutputImage>::New();
 
   progress->RegisterInternalFilter(threshold, 1.0f);
   threshold->GraftOutput(this->GetOutput());

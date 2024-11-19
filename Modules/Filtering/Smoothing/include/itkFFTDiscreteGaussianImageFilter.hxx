@@ -118,7 +118,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
     using KernelSizeType = typename GaussianImageSourceType::SizeType;
     using KernelMeanType = typename GaussianImageSourceType::ArrayType;
 
-    typename GaussianImageSourceType::Pointer kernelSource = GaussianImageSourceType::New();
+    auto kernelSource = GaussianImageSourceType::New();
 
     auto inputSpacing = this->GetInput()->GetSpacing();
     auto inputOrigin = this->GetInput()->GetOrigin();

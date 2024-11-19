@@ -72,8 +72,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Delegate to a geodesic erosion filter.
   //
   //
-  typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer erode =
-    ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
+  auto erode = ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   auto progress = ProgressAccumulator::New();
@@ -87,7 +86,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>::GenerateData()
   erode->SetFullyConnected(m_FullyConnected);
 
   // Must cast to the output type
-  typename CastImageFilter<TInputImage, TOutputImage>::Pointer cast = CastImageFilter<TInputImage, TOutputImage>::New();
+  auto cast = CastImageFilter<TInputImage, TOutputImage>::New();
   cast->SetInput(erode->GetOutput());
   cast->InPlaceOn();
 

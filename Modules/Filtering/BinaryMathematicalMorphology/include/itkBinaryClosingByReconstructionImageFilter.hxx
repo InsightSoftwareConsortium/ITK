@@ -70,11 +70,9 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::GenerateData()
   }
 
   /** set up erosion and dilation methods */
-  typename BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::Pointer dilate =
-    BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
+  auto dilate = BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
 
-  typename BinaryReconstructionByErosionImageFilter<OutputImageType>::Pointer erode =
-    BinaryReconstructionByErosionImageFilter<OutputImageType>::New();
+  auto erode = BinaryReconstructionByErosionImageFilter<OutputImageType>::New();
 
   // create the pipeline without input and output image
   dilate->ReleaseDataFlagOn();

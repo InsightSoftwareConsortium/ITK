@@ -180,7 +180,7 @@ private:
 inline std::istream &
 operator>>(std::istream & is, itk::DOMNode & object)
 {
-  itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
+  auto reader = itk::DOMNodeXMLReader::New();
   reader->SetDOMNodeXML(&object);
   reader->Update(is);
   return is;

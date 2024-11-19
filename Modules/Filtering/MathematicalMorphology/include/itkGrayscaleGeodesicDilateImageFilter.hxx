@@ -179,8 +179,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::GenerateData()
   // separately. For efficiency, we will delegate to an instance that
   // is templated over <TInputImage, TInputImage> to avoid any
   // pixelwise casting until the final output image is configured.
-  typename GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::Pointer singleIteration =
-    GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
+  auto singleIteration = GrayscaleGeodesicDilateImageFilter<TInputImage, TInputImage>::New();
   bool done = false;
 
   // set up the singleIteration filter. we are not using the grafting

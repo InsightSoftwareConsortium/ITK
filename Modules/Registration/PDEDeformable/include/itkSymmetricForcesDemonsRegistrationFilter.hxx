@@ -25,7 +25,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   SymmetricForcesDemonsRegistrationFilter()
 {
-  typename DemonsRegistrationFunctionType::Pointer drfp = DemonsRegistrationFunctionType::New();
+  auto drfp = DemonsRegistrationFunctionType::New();
 
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(drfp.GetPointer()));
 }

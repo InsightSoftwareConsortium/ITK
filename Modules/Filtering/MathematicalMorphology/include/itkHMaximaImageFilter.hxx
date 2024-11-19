@@ -72,8 +72,7 @@ HMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Delegate to a geodesic dilation filter.
   //
   //
-  typename ReconstructionByDilationImageFilter<TInputImage, TInputImage>::Pointer dilate =
-    ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
+  auto dilate = ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   auto progress = ProgressAccumulator::New();
@@ -87,7 +86,7 @@ HMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
   dilate->SetFullyConnected(m_FullyConnected);
 
   // Must cast to the output type
-  typename CastImageFilter<TInputImage, TOutputImage>::Pointer cast = CastImageFilter<TInputImage, TOutputImage>::New();
+  auto cast = CastImageFilter<TInputImage, TOutputImage>::New();
   cast->SetInput(dilate->GetOutput());
   cast->InPlaceOn();
 

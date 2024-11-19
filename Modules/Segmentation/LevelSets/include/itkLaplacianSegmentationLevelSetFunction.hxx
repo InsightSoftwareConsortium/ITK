@@ -27,11 +27,9 @@ template <typename TImageType, typename TFeatureImageType>
 void
 LaplacianSegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateSpeedImage()
 {
-  typename LaplacianImageFilter<ImageType, ImageType>::Pointer filter =
-    LaplacianImageFilter<ImageType, ImageType>::New();
+  auto filter = LaplacianImageFilter<ImageType, ImageType>::New();
 
-  typename CastImageFilter<FeatureImageType, ImageType>::Pointer caster =
-    CastImageFilter<FeatureImageType, ImageType>::New();
+  auto caster = CastImageFilter<FeatureImageType, ImageType>::New();
 
   caster->SetInput(this->GetFeatureImage());
   filter->SetInput(caster->GetOutput());

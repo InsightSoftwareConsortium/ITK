@@ -61,8 +61,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GPUGradientAnisotropicDiffusionImageFilterFactory::Pointer factory =
-      GPUGradientAnisotropicDiffusionImageFilterFactory::New();
+    auto factory = GPUGradientAnisotropicDiffusionImageFilterFactory::New();
 
     itk::ObjectFactoryBase::RegisterFactory(factory);
   }
