@@ -43,7 +43,6 @@ extern "C"
 void
 PlatformMultiThreader::MultipleMethodExecute()
 {
-
   pthread_t process_id[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
@@ -65,21 +64,15 @@ PlatformMultiThreader::MultipleMethodExecute()
   // will call m_MultipleMethods[NumberOfWorkUnits-1]().  When it is done,
   // it will wait for all the children to finish.
   //
-  // First, start up the m_NumberOfWorkUnits-1 processes.  Keep track
-  // of their process ids for use later in the pthread_join call
+  // First, start up the m_NumberOfWorkUnits-1 threads.  Keep track
+  // of their thread ids for use later in the pthread_join call
 
-  pthread_attr_t attr;
-
-  pthread_attr_init(&attr);
-#  ifndef __CYGWIN__
-  pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
-#  endif
   for (ThreadIdType thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop)
   {
     m_ThreadInfoArray[thread_loop].UserData = m_MultipleData[thread_loop];
     m_ThreadInfoArray[thread_loop].NumberOfWorkUnits = m_NumberOfWorkUnits;
     int threadError = pthread_create(&(process_id[thread_loop]),
-                                     &attr,
+                                     nullptr,
                                      reinterpret_cast<c_void_cast>(m_MultipleMethod[thread_loop]),
                                      ((void *)(&m_ThreadInfoArray[thread_loop])));
     if (threadError != 0)
@@ -131,15 +124,8 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
   m_SpawnedThreadInfoArray[id].ActiveFlag = &m_SpawnedThreadActiveFlag[id];
   m_SpawnedThreadInfoArray[id].ActiveFlagLock = m_SpawnedThreadActiveFlagMutex[id];
 
-  pthread_attr_t attr;
-
-  pthread_attr_init(&attr);
-#  ifndef __CYGWIN__
-  pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
-#  endif
-
   int threadError = pthread_create(&(m_SpawnedThreadProcessID[id]),
-                                   &attr,
+                                   nullptr,
                                    reinterpret_cast<c_void_cast>(f),
                                    ((void *)(&m_SpawnedThreadInfoArray[id])));
   if (threadError != 0)
@@ -183,16 +169,11 @@ ThreadProcessIdType
 PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
 {
   // Using POSIX threads
-  pthread_attr_t attr;
-  pthread_t      threadHandle;
-
-  pthread_attr_init(&attr);
-#if !defined(__CYGWIN__)
-  pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
-#endif
-
-  int threadError = pthread_create(
-    &threadHandle, &attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy), reinterpret_cast<void *>(threadInfo));
+  pthread_t threadHandle;
+  int       threadError = pthread_create(&threadHandle,
+                                   nullptr,
+                                   reinterpret_cast<c_void_cast>(this->SingleMethodProxy),
+                                   reinterpret_cast<void *>(threadInfo));
   if (threadError != 0)
   {
     itkExceptionMacro("Unable to create a thread.  pthread_create() returned " << threadError);
