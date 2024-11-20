@@ -1213,7 +1213,11 @@ endif ()
 # Assuming they don't
 foreach (libs ${LINK_COMP_LIBS})
 #  set (_PKG_CONFIG_REQUIRES_PRIVATE "${_PKG_CONFIG_REQUIRES_PRIVATE} -l${libs}")
-  get_target_property (libname ${libs} OUTPUT_NAME)
+  if (TARGET ${libs})
+      get_target_property (libname ${libs} OUTPUT_NAME)
+  else()
+      set(libname ${libs})
+  endif()
   set (_PKG_CONFIG_LIBS_PRIVATE "${_PKG_CONFIG_LIBS_PRIVATE} -l${libname}")
 endforeach ()
 
