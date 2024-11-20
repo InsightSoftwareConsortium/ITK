@@ -1293,8 +1293,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   NeighborhoodIterator<StatusImageType> statusIt(
     m_NeighborList.GetRadius(), sparsePtr->m_StatusImage, this->m_LevelSet[sparsePtr->m_Index]->GetRequestedRegion());
 
-  typename LayerType::ConstIterator fromIt;
-  fromIt = sparsePtr->m_Layers[from]->Begin();
+  typename LayerType::ConstIterator fromIt = sparsePtr->m_Layers[from]->Begin();
 
   // For all indices in the "from" layer...
   while (fromIt != sparsePtr->m_Layers[from]->End())

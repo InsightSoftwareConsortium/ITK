@@ -97,8 +97,8 @@ WarpHarmonicEnergyCalculator<TInputImage>::Compute()
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>::FaceListType faceList =
     bC(m_Image, m_Region, m_NeighborhoodRadius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>::FaceListType::iterator fIt;
-  fIt = faceList.begin();
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>::FaceListType::iterator fIt =
+    faceList.begin();
 
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
