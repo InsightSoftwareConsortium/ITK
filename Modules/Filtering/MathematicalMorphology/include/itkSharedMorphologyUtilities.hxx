@@ -324,8 +324,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     faceList.push_back(R2);
     //    std::cout << R1 << R2 << std::endl;
   }
-  typename FaceListType::iterator fit;
-  fit = faceList.begin();
+  typename FaceListType::iterator fit = faceList.begin();
 
   typename TInputImage::RegionType RelevantRegion;
   bool                             foundFace = false;
