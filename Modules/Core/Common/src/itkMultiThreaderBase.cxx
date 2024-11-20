@@ -362,9 +362,6 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
 #  else
   num = 1;
 #  endif
-#  if defined(__SVR4) && defined(sun) && defined(PTHREAD_MUTEX_NORMAL)
-  pthread_setconcurrency(num);
-#  endif
 
   itksys::SystemInformation mySys;
   mySys.RunCPUCheck();
