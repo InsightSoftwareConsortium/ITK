@@ -117,7 +117,7 @@ struct ConditionVariableType
 // Compile-time conditional code for different threading models
 // require that some items are #defines (always global scope) or
 // can sometimes be rigorously typed.  When rigorously typed,
-// we need to re-exposed to the global namespace to keep the
+// we need to re-expose to the global namespace to keep the
 // use of these items consistent.
 #if defined(ITK_USE_PTHREADS)
 using itk::ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION;
