@@ -126,7 +126,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::SetImage(const TIm
   {
     m_Region = m_Image->GetLargestPossibleRegion();
   }
-  NeighborhoodIteratorType neighborIt = NeighborhoodIteratorType(m_Radius, m_Image, m_Region);
+  NeighborhoodIteratorType neighborIt(m_Radius, m_Image, m_Region);
   neighborIt.GoToBegin();
   m_NeighborIndexInternal = neighborIt.GetBeginIndex();
   m_MeasurementVectorInternal.clear();
@@ -158,7 +158,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::SetRadius(const Ne
     m_Radius = radius;
     if (m_Image.IsNotNull())
     {
-      NeighborhoodIteratorType neighborIt = NeighborhoodIteratorType(m_Radius, m_Image, m_Region);
+      NeighborhoodIteratorType neighborIt(m_Radius, m_Image, m_Region);
       neighborIt.GoToBegin();
       m_NeighborIndexInternal = neighborIt.GetBeginIndex();
       m_MeasurementVectorInternal.clear();
@@ -186,7 +186,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::SetRegion(const Re
     m_UseImageRegion = false;
     if (m_Image.IsNotNull())
     {
-      NeighborhoodIteratorType neighborIt = NeighborhoodIteratorType(m_Radius, m_Image, m_Region);
+      NeighborhoodIteratorType neighborIt(m_Radius, m_Image, m_Region);
       neighborIt.GoToBegin();
       m_NeighborIndexInternal = neighborIt.GetBeginIndex();
       m_MeasurementVectorInternal.clear();

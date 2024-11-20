@@ -109,8 +109,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
   if (mask)
   {
-    ImageRegionConstIterator<MaskImageType> mit =
-      ImageRegionConstIterator<MaskImageType>(mask, output->GetRequestedRegion());
+    ImageRegionConstIterator<MaskImageType> mit(mask, output->GetRequestedRegion());
 
     mit.GoToBegin();
     oit.GoToBegin();
