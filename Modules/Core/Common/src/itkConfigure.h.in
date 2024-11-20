@@ -59,7 +59,6 @@
 
 /* what threading system are we using */
 #cmakedefine ITK_USE_PTHREADS
-#cmakedefine ITK_HP_PTHREADS
 #cmakedefine ITK_USE_WIN32_THREADS
 
 #cmakedefine ITK_WINDOWS_EXPORT_ALL_SYMBOLS
