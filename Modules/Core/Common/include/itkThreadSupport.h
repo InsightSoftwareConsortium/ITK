@@ -22,16 +22,6 @@
 
 #include "itkConfigure.h" // For ITK_USE_WIN32_THREADS, ITK_USE_PTHREADS, etc.
 
-// This implementation uses a routine called SignalObjectAndWait()
-// which is only defined on WinNT 4.0 or greater systems.  We need to
-// define this symbol in order to get the prototype for the
-// routine. This needs to be done before we load any system headers.
-#ifdef ITK_USE_WIN32_THREADS
-#  ifndef _WIN32_WINNT
-#    define _WIN32_WINNT 0x0501 // TBB 4.4 requires WinXP (0x0501 or greater)
-#  endif
-#endif
-
 #if defined(ITK_USE_PTHREADS)
 #  include <pthread.h>
 #elif defined(ITK_USE_WIN32_THREADS)
