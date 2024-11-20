@@ -259,8 +259,7 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
         outputPoint[d] = inputPoint[d];
       }
     }
-    outputCorners[count] =
-      outputImage->template TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(outputPoint);
+    outputCorners[count] = outputImage->TransformPhysicalPointToContinuousIndex(outputPoint);
   }
 
   // Compute a rectangular region from the vector of corner indexes
