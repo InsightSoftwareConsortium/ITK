@@ -1,20 +1,15 @@
-$Header: /cvs/maptools/cvsroot/libtiff/README,v 1.7 2012-02-18 21:53:27 bfriesen Exp $
-
-
 TIFF Software Distribution
 --------------------------
-This file is just a placeholder; all the documentation is now in
-HTML in the html directory.  To view the documentation point your
-favorite WWW viewer at html/index.html; 
+This file is just a placeholder; the entire documentation is now located
+as reStructuredText in the doc directory. To view the documentation
+as HTML, visit https://libtiff.gitlab.io/libtiff/ or
+http://www.simplesystems.org/libtiff/ or within the release package
+in the doc/html-prebuilt directory. The manual pages are
+located at doc/man-prebuilt.
 
-e.g.
+The release package can be downloaded at
 
-    firefox html/index.html
-
-If you don't have an HTML viewer then you can read the HTML source
-or fetch a PostScript version of this documentation from the directory
-
-    ftp://ftp.remotesensing.org/pub/libtiff/
+http://download.osgeo.org/libtiff/
 
 If you can't hack either of these options then basically what you
 want to do is:
@@ -25,8 +20,21 @@ want to do is:
     # make install
 
 More information, email contacts, and mailing list information can be 
-found online at http://www.remotesensing.org/libtiff/.
+found online at http://www.simplesystems.org/libtiff/
 
+Source code repository
+----------------------
+
+[GitLab](https://gitlab.com/libtiff/libtiff)
+
+Bug database
+------------
+
+[GitLab issues](https://gitlab.com/libtiff/libtiff/issues)
+
+Previously, the project used
+[Bugzilla](http://bugzilla.maptools.org/buglist.cgi?product=libtiff). This
+is no longer in use, and all remaining issues have been migrated to GitLab.
 
 Use and Copyright
 -----------------
