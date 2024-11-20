@@ -13,6 +13,7 @@
 #ifndef _TIFFCONF_
 #define _TIFFCONF_
 
+#include "itk_tiff_mangle.h"
 
 #include <stddef.h>
 #include <stdint.h>

@@ -25,6 +25,7 @@
 
 # libwebp
 set(WEBP_SUPPORT FALSE)
+return() # XXX(ITK): hard-code settings
 
 find_package(WebP)
 

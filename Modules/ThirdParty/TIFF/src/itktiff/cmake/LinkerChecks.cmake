@@ -23,6 +23,7 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
+return() # XXX(ITK): We do not need TIFF project infrastructure.
 
 include(CheckCSourceCompiles)
 

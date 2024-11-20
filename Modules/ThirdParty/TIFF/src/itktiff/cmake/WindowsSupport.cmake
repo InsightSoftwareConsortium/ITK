@@ -23,6 +23,15 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
+if(TRUE) # XXX(ITK): hard-code settings
+  if(WIN32)
+    set(USE_WIN32_FILEIO ON)
+  else()
+    set(USE_WIN32_FILEIO OFF)
+  endif()
+  return()
+endif()
+
 if(MSVC)
     # Debug postfix
     set(CMAKE_DEBUG_POSTFIX "d")

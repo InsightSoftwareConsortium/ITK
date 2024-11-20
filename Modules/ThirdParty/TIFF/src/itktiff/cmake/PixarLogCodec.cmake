@@ -23,6 +23,9 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
+if(TRUE) # XXX(ITK): hard-code settings
+  set(pixarlog 1)
+endif()
 
 # Option for Pixar log-format algorithm
 # Pixar log format

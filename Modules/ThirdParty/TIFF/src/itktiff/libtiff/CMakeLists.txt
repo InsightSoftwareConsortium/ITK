@@ -34,6 +34,14 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tiffvers.h.cmake.in
                ${CMAKE_CURRENT_BINARY_DIR}/tiffvers.h
                @ONLY)
 
+set(MANGLE_PREFIX itk_tiff)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itk_tiff_mangle.h.in
+               ${CMAKE_CURRENT_BINARY_DIR}/itk_tiff_mangle.h
+               @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itktiff.def.in
+               ${CMAKE_CURRENT_BINARY_DIR}/itktiff.def
+               @ONLY)
+
 set(tiff_public_HEADERS
         tiff.h
         tiffio.h
@@ -49,10 +57,9 @@ set(tiff_private_HEADERS
         ${CMAKE_CURRENT_BINARY_DIR}/tif_config.h)
 
 
-add_library(tiff libtiff.def)
-add_library(TIFF::tiff ALIAS tiff)
+add_library(itktiff ${CMAKE_CURRENT_BINARY_DIR}/itktiff.def)
 
-target_sources(tiff PRIVATE
+target_sources(itktiff PRIVATE
         ${tiff_public_HEADERS}
         ${tiff_private_HEADERS}
         tif_aux.c
@@ -104,43 +111,44 @@ endif ()
 
 # For all files (but tif_open.c, tif_unix.c and tif_win32.c), forbid the use
 # of _TIFFmalloc/_TIFFfree and require the use of their "Ext" versions
-target_compile_definitions(tiff PRIVATE TIFF_DO_NOT_USE_NON_EXT_ALLOC_FUNCTIONS)
+target_compile_definitions(itktiff PRIVATE TIFF_DO_NOT_USE_NON_EXT_ALLOC_FUNCTIONS)
 set_property(SOURCE tif_open.c APPEND PROPERTY COMPILE_DEFINITIONS ALLOW_TIFF_NON_EXT_ALLOC_FUNCTIONS)
 
 if(USE_WIN32_FILEIO)
-  target_sources(tiff PRIVATE tif_win32.c)
+  target_sources(itktiff PRIVATE tif_win32.c)
   set_property(SOURCE tif_win32.c APPEND PROPERTY COMPILE_DEFINITIONS ALLOW_TIFF_NON_EXT_ALLOC_FUNCTIONS)
 else()
-  target_sources(tiff PRIVATE tif_unix.c)
+  target_sources(itktiff PRIVATE tif_unix.c)
   set_property(SOURCE tif_unix.c APPEND PROPERTY COMPILE_DEFINITIONS ALLOW_TIFF_NON_EXT_ALLOC_FUNCTIONS)
 endif()
 
-target_include_directories(tiff
+target_include_directories(itktiff
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     PRIVATE
         ${TIFF_INCLUDES}
 )
 
+if(FALSE) # XXX(ITK): ITK does not need TIFF library version info
 # Windows specific resource preparation
 if (WIN32)
   message(STATUS "Include resource version information for LibTIFF")
-  target_sources(tiff PRIVATE tif_win32_versioninfo.rc)
+  target_sources(itktiff PRIVATE tif_win32_versioninfo.rc)
   source_group("Resource Files" FILES tif_win32_versioninfo.rc)
 endif ()
+endif()
 
 
 set(tiff_libs_private_list "") # cmake list
 set(tiff_requires_private "") # cmake string
 
 if(ZIP_SUPPORT)
-  target_link_libraries(tiff PRIVATE ZLIB::ZLIB)
+  target_link_libraries(itktiff PRIVATE ${ITKZLIB_LIBRARIES})
   string(APPEND tiff_requires_private " zlib")
 endif()
 if(ZIP_SUPPORT AND LIBDEFLATE_SUPPORT)
-  target_link_libraries(tiff PRIVATE Deflate::Deflate)
+  target_link_libraries(itktiff PRIVATE Deflate::Deflate)
   if(Deflate_VERSION_STRING VERSION_GREATER_EQUAL "1.9")
     string(APPEND tiff_requires_private " libdeflate")
   else()
@@ -148,24 +156,24 @@ if(ZIP_SUPPORT AND LIBDEFLATE_SUPPORT)
   endif()
 endif()
 if(JPEG_SUPPORT)
-  target_link_libraries(tiff PRIVATE JPEG::JPEG)
+  target_link_libraries(itktiff PRIVATE ${ITKJPEG_LIBRARIES})
   string(APPEND tiff_requires_private " libjpeg")
   if(HAVE_JPEGTURBO_DUAL_MODE_8_12)
-    target_compile_definitions(tiff PRIVATE HAVE_JPEGTURBO_DUAL_MODE_8_12)
+    target_compile_definitions(itktiff PRIVATE HAVE_JPEGTURBO_DUAL_MODE_8_12)
   elseif(JPEG_DUAL_MODE_8_12)
-    target_include_directories(tiff PRIVATE ${JPEG12_INCLUDE_DIR})
-    target_link_libraries(tiff PRIVATE ${JPEG12_LIBRARIES})
+    target_include_directories(itktiff PRIVATE ${JPEG12_INCLUDE_DIR})
+    target_link_libraries(itktiff PRIVATE ${JPEG12_LIBRARIES})
   endif()
 endif()
 if(JBIG_SUPPORT)
-  target_link_libraries(tiff PRIVATE JBIG::JBIG)
+  target_link_libraries(itktiff PRIVATE JBIG::JBIG)
   list(APPEND tiff_libs_private_list "${JBIG_LIBRARY}")
 endif()
 if(LERC_SUPPORT)
-  target_link_libraries(tiff PRIVATE LERC::LERC)
+  target_link_libraries(itktiff PRIVATE LERC::LERC)
   if(LERC_VERSION_STRING VERSION_GREATER_EQUAL "4.0")
     if(NOT BUILD_SHARED_LIBS)
-      set_target_properties(tiff PROPERTIES COMPILE_DEFINITIONS LERC_STATIC)
+      set_target_properties(itktiff PROPERTIES COMPILE_DEFINITIONS LERC_STATIC)
     endif()
     string(APPEND tiff_requires_private " Lerc")
   else()
@@ -173,25 +181,26 @@ if(LERC_SUPPORT)
   endif()
 endif()
 if(LZMA_SUPPORT)
-  target_link_libraries(tiff PRIVATE liblzma::liblzma)
+  target_link_libraries(itktiff PRIVATE liblzma::liblzma)
   string(APPEND tiff_requires_private " liblzma")
 endif()
 if(ZSTD_SUPPORT)
-  target_link_libraries(tiff PRIVATE ZSTD::ZSTD)
+  target_link_libraries(itktiff PRIVATE ZSTD::ZSTD)
   string(APPEND tiff_requires_private " libzstd")
 endif()
 if(WEBP_SUPPORT)
-  target_link_libraries(tiff PRIVATE WebP::webp)
+  target_link_libraries(itktiff PRIVATE WebP::webp)
   string(APPEND tiff_requires_private " libwebp")
 endif()
 if(CMath_LIBRARY)
-  target_link_libraries(tiff PRIVATE CMath::CMath)
+  target_link_libraries(itktiff PRIVATE CMath::CMath)
   list(APPEND tiff_libs_private_list "${CMath_LIBRARY}")
 endif()
 
 set(tiff_libs_private_list "${tiff_libs_private_list}" PARENT_SCOPE)
 set(tiff_requires_private "${tiff_requires_private}" PARENT_SCOPE)
 
+if(FALSE) # XXX(ITK): ITK handles library properties and installation
 set_target_properties(tiff PROPERTIES SOVERSION ${SO_COMPATVERSION})
 if(NOT CYGWIN)
     # This property causes shared libraries on Linux to have the full version
@@ -203,6 +212,19 @@ endif()
 if(HAVE_LD_VERSION_SCRIPT)
   set_target_properties(tiff PROPERTIES LINK_FLAGS
                         "-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/libtiff.map")
+endif()
+else()
+# Apply user-defined properties to the library target.
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(itktiff PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
+
+install(TARGETS itktiff
+  EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
+  RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
+  LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
+  ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
+  )
 endif()
 
 if(tiff-install)
@@ -264,6 +286,7 @@ if(CXX_SUPPORT)
                           "-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/libtiffxx.map")
   endif()
 
+  if(FALSE) # XXX(ITK): ITK handles installation
   if(tiff-install)
     install(TARGETS tiffxx
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -273,8 +296,11 @@ if(CXX_SUPPORT)
     install(FILES ${tiffxx_HEADERS}
             DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
   endif()
-      
+  endif()
+
 endif()
+
+return() # XXX(ITK): We do not need TIFF tools.
 
 if(NOT CMAKE_CROSSCOMPILING)
   add_executable(tiff_mkg3states ../placeholder.h)

@@ -23,6 +23,10 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
+if(TRUE) # XXX(ITK): hard-code settings
+  set(cxx 0)
+endif()
+
 # C++ support
 option(cxx "Enable C++ stream API building (requires C++ compiler)" ON)
 set(CXX_SUPPORT FALSE)

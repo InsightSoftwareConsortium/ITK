@@ -23,6 +23,16 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
+if(TRUE) # XXX(ITK): hard-code settings
+  set(ccitt ON)
+  set(packbits ON)
+  set(lzw ON)
+  set(lze ON)
+  set(thunder ON)
+  set(next ON)
+  set(logluv ON)
+  set(mdi ON)
+endif()
 
 option(ccitt "support for CCITT Group 3 & 4 algorithms" ON)
 set(CCITT_SUPPORT ${ccitt})

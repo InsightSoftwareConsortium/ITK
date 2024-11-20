@@ -23,10 +23,11 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
-
 # libzstd
 set(ZSTD_SUPPORT FALSE)
 set(ZSTD_USABLE FALSE)
+
+return() # XXX(ITK): hard-code settings
 
 find_package(ZSTD)
 

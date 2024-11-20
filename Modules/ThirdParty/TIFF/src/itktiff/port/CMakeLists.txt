@@ -29,6 +29,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libport_config.h.cmake.in
 
 set(port_HEADERS libport.h)
 
+return() # XXX(ITK): We do not need TIFF tools.
+
 # Only build if any needed features are missing
 if(NOT HAVE_GETOPT)
   add_library(tiff_port STATIC ../placeholder.h)

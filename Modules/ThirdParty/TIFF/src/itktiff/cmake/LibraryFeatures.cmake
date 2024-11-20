@@ -23,9 +23,18 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
+if(TRUE) # XXX(ITK): hard-code settings
+  set(strip-chopping 1)
+  set(defer-strile-load 0)
+  set(chunky-strip-read 0)
+  set(extrasample-as-alpha 0)
+  set(check-ycbcr-subsampling 0)
+endif()
+
 # Strip chopping
 option(strip-chopping "strip chopping (whether or not to convert single-strip uncompressed images to mutiple strips of specified size to reduce memory usage)" ON)
 set(TIFF_DEFAULT_STRIP_SIZE 8192 CACHE STRING "default size of the strip in bytes (when strip chopping is enabled)")
+mark_as_advanced(TIFF_DEFAULT_STRIP_SIZE) # XXX(ITK)
 
 set(STRIPCHOP_DEFAULT)
 if(strip-chopping)
@@ -36,6 +45,7 @@ if(strip-chopping)
 endif()
 
 set(TIFF_MAX_DIR_COUNT 1048576 CACHE STRING "Maximum number of TIFF directories that libtiff can browse through")
+mark_as_advanced(TIFF_MAX_DIR_COUNT) # XXX(ITK)
 
 # Defer loading of strip/tile offsets
 option(defer-strile-load "enable deferred strip/tile offset/size loading (also available at runtime with the 'D' flag of TIFFOpen())" OFF)

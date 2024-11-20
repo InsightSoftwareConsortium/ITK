@@ -22,6 +22,9 @@
  * OF THIS SOFTWARE.
  */
 
+/* XXX(ITK): ITK defines mangling macros for these names.  */
+#define DISABLE_CHECK_TIFFSWABMACROS
+
 /*
  * TIFF Library Bit & Byte Swapping Support.
  *

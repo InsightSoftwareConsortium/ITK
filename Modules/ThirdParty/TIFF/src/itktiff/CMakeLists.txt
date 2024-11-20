@@ -24,17 +24,29 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
+if(FALSE) # XXX(ITK): ITK handles CMake versions.
 cmake_minimum_required(VERSION 3.9.0)
 
 # Default policy is from 3.9.0
 cmake_policy(VERSION 3.9.0)
+endif()
 
 # Find CMake modules in cmake/
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
+if(FALSE) # XXX(ITK): We hard-code the TIFF version that we imported.
 # Read version information from configure.ac.
 include(AutotoolsVersion)
 message(STATUS "Building tiff version ${LIBTIFF_VERSION_FULL}")
+else()
+# Hard-code the version of TIFF used by ITK.
+set(LIBTIFF_MAJOR_VERSION 4)
+set(LIBTIFF_MINOR_VERSION 7)
+set(LIBTIFF_MICRO_VERSION 0)
+set(LIBTIFF_ALPHA_VERSION)
+set(LIBTIFF_VERSION "${LIBTIFF_MAJOR_VERSION}.${LIBTIFF_MINOR_VERSION}.${LIBTIFF_MICRO_VERSION}")
+set(LIBTIFF_VERSION_FULL "${LIBTIFF_VERSION}${LIBTIFF_ALPHA_VERSION}")
+endif()
 
 # Project definition
 set(CMAKE_C_STANDARD 99)
@@ -42,6 +54,7 @@ project(tiff
         VERSION "${LIBTIFF_VERSION}"
         LANGUAGES C CXX)
 
+if(FALSE) # XXX(ITK): Suppress options not relevant to ITK.
 if(NOT CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
   # libtiff is being included as a subproject of some other project.
   set(TIFF_INSTALL_DEFAULT OFF)
@@ -56,6 +69,10 @@ option(tiff-contrib "build TIFF contrib" ON)
 option(tiff-docs "build TIFF documentation" ON)
 option(tiff-deprecated "build TIFF deprecated features" OFF)
 option(tiff-install "install TIFF targets" ${TIFF_INSTALL_DEFAULT})
+else()
+set(tiff-deprecated ON)
+set(tiff-install OFF)
+endif()
 
 # Disable deprecated features to ensure clean build
 if (tiff-deprecated)
@@ -85,8 +102,10 @@ include(GNUInstallDirs)
 # Documentation install directory (default to cmake project docdir)
 set(LIBTIFF_DOCDIR "${CMAKE_INSTALL_DOCDIR}")
 
+if(FALSE) # XXX(ITK): ITK handles testing
 # CTest testing
 enable_testing()
+endif()
 
 # Checks for type presence and size
 include(TypeSizeChecks)
@@ -137,12 +156,15 @@ include(LibraryFeatures)
 # math.h/libm portability
 find_package(CMath REQUIRED)
 
+if(FALSE) # XXX(ITK): We do not create TIFF releases.
 # Release support
 include(Release)
+endif()
 
 # Process subdirectories
 add_subdirectory(port)
 add_subdirectory(libtiff)
+return() # XXX(ITK): We do not need TIFF project infrastructure.
 if(tiff-tools)
   add_subdirectory(tools)
 endif()
