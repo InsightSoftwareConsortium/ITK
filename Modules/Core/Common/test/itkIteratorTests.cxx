@@ -61,8 +61,8 @@ itkIteratorTests(int, char *[])
   double        elapsedTime;
   clock_t       start, end;
   unsigned long num = 190 * 190 * 190;
-  unsigned long i;
-  bool          passed = true;
+
+  bool passed = true;
 
   // memset
   start = clock();
@@ -78,94 +78,98 @@ itkIteratorTests(int, char *[])
   // 1D array
   start = clock();
   ptr = o3->GetBufferPointer();
-  for (i = 0; i < num; ++i)
   {
-    ++ptr;
+    unsigned int i = 0;
+    for (; i < num; ++i)
+    {
+      ++ptr;
+    }
+    end = clock();
+    *ptr = 0;
+    elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+
+    std::cout << "Raw pointer as a 1D array" << std::endl;
+    std::cout << "\tTime   = " << elapsedTime << std::endl;
+    std::cout << "\tPixels = " << i << std::endl;
+
+    if (i != num)
+    {
+      passed = false;
+    }
   }
-  end = clock();
-  *ptr = 0;
-  elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
-
-  std::cout << "Raw pointer as a 1D array" << std::endl;
-  std::cout << "\tTime   = " << elapsedTime << std::endl;
-  std::cout << "\tPixels = " << i << std::endl;
-
-  if (i != num)
-  {
-    passed = false;
-  }
-
   // 3 nested loops
   unsigned long ii, jj, kk, len = 190;
   start = clock();
-  i = 0;
-  ptr = o3->GetBufferPointer();
-  for (ii = 0; ii < len; ++ii)
-    for (jj = 0; jj < len; ++jj)
-      for (kk = 0; kk < len; ++kk)
-      {
-        *ptr = 5;
-        ++ptr;
-        ++i;
-      }
-  end = clock();
-  elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
-
-  std::cout << "Raw pointer in 3 nested loops" << std::endl;
-  std::cout << "\tTime   = " << elapsedTime << std::endl;
-  std::cout << "\tPixels = " << i << std::endl;
-
-  if (i != num)
   {
-    passed = false;
-  }
+    unsigned int i = 0;
+    ptr = o3->GetBufferPointer();
+    for (ii = 0; ii < len; ++ii)
+      for (jj = 0; jj < len; ++jj)
+        for (kk = 0; kk < len; ++kk)
+        {
+          *ptr = 5;
+          ++ptr;
+          ++i;
+        }
+    end = clock();
+    elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
+    std::cout << "Raw pointer in 3 nested loops" << std::endl;
+    std::cout << "\tTime   = " << elapsedTime << std::endl;
+    std::cout << "\tPixels = " << i << std::endl;
+
+    if (i != num)
+    {
+      passed = false;
+    }
+  }
   // ImageRegionIterator
   start = clock();
   itk::ImageRegionIterator<ScalarImage> it(o3, region);
 
   unsigned short scalar = 5;
 
-  i = 0;
-  for (; !it.IsAtEnd(); ++it)
   {
-    it.Set(scalar);
-    ++i;
+    unsigned int i = 0;
+    for (; !it.IsAtEnd(); ++it)
+    {
+      it.Set(scalar);
+      ++i;
+    }
+    end = clock();
+    elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+
+    std::cout << "ImageRegionIterator" << std::endl;
+    std::cout << "\tTime   = " << elapsedTime << std::endl;
+    std::cout << "\tPixels = " << i << std::endl;
+
+    if (i != num)
+    {
+      passed = false;
+    }
   }
-  end = clock();
-  elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
-
-  std::cout << "ImageRegionIterator" << std::endl;
-  std::cout << "\tTime   = " << elapsedTime << std::endl;
-  std::cout << "\tPixels = " << i << std::endl;
-
-  if (i != num)
-  {
-    passed = false;
-  }
-
   // ImageRegionIteratorWithIndex
   start = clock();
   itk::ImageRegionIteratorWithIndex<ScalarImage> it2(o3, region);
-
-  i = 0;
-  for (; !it2.IsAtEnd(); ++it2)
   {
-    it2.Set(scalar);
-    ++i;
+    unsigned int i = 0;
+    for (; !it2.IsAtEnd(); ++it2)
+    {
+      it2.Set(scalar);
+      ++i;
+    }
+    end = clock();
+    elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+
+    std::cout << "ImageRegionIteratorWithIndex" << std::endl;
+    std::cout << "\tTime   = " << elapsedTime << std::endl;
+    std::cout << "\tPixels = " << i << std::endl;
+
+    if (i != num)
+    {
+      passed = false;
+    }
   }
-  end = clock();
-  elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
-
-  std::cout << "ImageRegionIteratorWithIndex" << std::endl;
-  std::cout << "\tTime   = " << elapsedTime << std::endl;
-  std::cout << "\tPixels = " << i << std::endl;
-
-  if (i != num)
-  {
-    passed = false;
-  }
-
   if (passed)
   {
     std::cout << "Iterator tests passed" << std::endl;

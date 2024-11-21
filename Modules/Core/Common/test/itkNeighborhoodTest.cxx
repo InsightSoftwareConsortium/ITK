@@ -29,14 +29,12 @@ println(const char * s)
 int
 itkNeighborhoodTest(int, char *[])
 {
-  unsigned int i;
-
   println("TESTING WITH VNL_VECTOR ALLOCATOR");
   itk::Neighborhood<float, 2, vnl_vector<float>> b;
   b.SetRadius(3);
 
   println("Test data access");
-  for (i = 0; i < b.Size(); ++i)
+  for (unsigned int i = 0; i < b.Size(); ++i)
   {
     b[i] = static_cast<float>(i);
   }

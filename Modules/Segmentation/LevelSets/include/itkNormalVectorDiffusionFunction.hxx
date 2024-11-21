@@ -54,48 +54,40 @@ template <typename TSparseImageType>
 void
 NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(NeighborhoodType & it) const
 {
-  unsigned int  i, j, k;
-  NodeValueType DotProduct;
-
   NodeType *             CenterNode = it.GetCenterPixel();
   const NormalVectorType CenterPixel = CenterNode->m_Data;
 
-  NodeType *       PreviousNode, *OtherNode;
-  NormalVectorType PreviousPixel;
-
   Vector<NodeValueType, ImageDimension> gradient[ImageDimension];
   NormalVectorType                      PositiveSidePixel[2], NegativeSidePixel[2], flux;
-
-  SizeValueType stride[ImageDimension];
-  SizeValueType center;
+  SizeValueType                         stride[ImageDimension];
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     stride[j] = it.GetStride(j);
   }
-  center = it.Size() / 2;
+  const auto center = it.Size() / 2;
 
-  for (i = 0; i < ImageDimension; ++i) // flux offset axis
+  for (unsigned int i = 0; i < ImageDimension; ++i) // flux offset axis
   {
-    PreviousNode = it.GetPrevious(i);
+    const auto PreviousNode = it.GetPrevious(i);
     if (PreviousNode == nullptr)
     {
-      for (j = 0; j < ImageDimension; ++j)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         CenterNode->m_Flux[i][j] = NodeValueType{};
       }
     }
     else
     {
-      PreviousPixel = PreviousNode->m_Data;
-      for (j = 0; j < ImageDimension; ++j) // derivative axis
+      const auto PreviousPixel = PreviousNode->m_Data;
+      for (unsigned int j = 0; j < ImageDimension; ++j) // derivative axis
       {
         if (i != j) // compute derivative on a plane
         {
           // compute differences (j-axis) in line with center pixel
-          OtherNode = it.GetPrevious(j);
+          auto OtherNode = it.GetPrevious(j);
           if (OtherNode == nullptr)
           {
             NegativeSidePixel[0] = CenterPixel;
@@ -145,10 +137,10 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
       } // end derivative axis
 
       // now compute the intrinsic derivative
-      for (j = 0; j < ImageDimension; ++j) // component axis
+      for (unsigned int j = 0; j < ImageDimension; ++j) // component axis
       {
-        DotProduct = NodeValueType{};
-        for (k = 0; k < ImageDimension; ++k) // derivative axis
+        auto DotProduct = NodeValueType{};
+        for (unsigned int k = 0; k < ImageDimension; ++k) // derivative axis
         {
           DotProduct += (gradient[k][j] * CenterNode->m_ManifoldNormal[i][k]);
         }
@@ -176,19 +168,15 @@ NormalVectorDiffusionFunction<TSparseImageType>::ComputeSparseUpdate(Neighborhoo
                                                                      void *,
                                                                      const FloatOffsetType &) const -> NormalVectorType
 {
-  unsigned int           i;
-  NormalVectorType       change;
-  NodeValueType          DotProduct;
   const NodeType *       CenterNode = it.GetCenterPixel();
   const NormalVectorType CenterPixel = CenterNode->m_Data;
-  NodeType *             NextNode;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
-  change = NormalVectorType{};
-  for (i = 0; i < ImageDimension; ++i) // flux offset axis
+  auto change = NormalVectorType{};
+  for (unsigned int i = 0; i < ImageDimension; ++i) // flux offset axis
   {
-    NextNode = it.GetNext(i);
+    const auto NextNode = it.GetNext(i);
     if (NextNode == nullptr)
     {
       change -= CenterNode->m_Flux[i] * neighborhoodScales[i];
@@ -198,7 +186,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::ComputeSparseUpdate(Neighborhoo
       change += (NextNode->m_Flux[i] - CenterNode->m_Flux[i]) * neighborhoodScales[i];
     }
   } // end flux offset axis
-  DotProduct = change * CenterPixel;
+  const auto DotProduct = change * CenterPixel;
   change -= CenterPixel * DotProduct;
 
   return change;

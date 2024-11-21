@@ -42,17 +42,14 @@ itkTranslationTransformTest(int, char *[])
 {
   int any = 0; // Any errors detected in testing?
 
-  VectorType vector2;
-
-  int i;
-
   /* FIXME: This code exercises most of the methods but doesn't
      actually check that the results are correct. */
 
   /* Create a 2D identity transformation and show its parameters */
   using TransformType = itk::TranslationTransform<double, 2>;
   auto id2 = TransformType::New();
-  vector2 = id2->GetOffset();
+
+  VectorType vector2 = id2->GetOffset();
   std::cout << "Vector from instantiating an identity transform:" << std::endl;
   PrintVector(vector2);
 
@@ -61,7 +58,7 @@ itkTranslationTransformTest(int, char *[])
   vector2[1] = 6;
   auto aff2 = TransformType::New();
   aff2->SetOffset(vector2);
-  for (i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     vector2[i] = 0.0;
   }
@@ -89,7 +86,7 @@ itkTranslationTransformTest(int, char *[])
   vector2[0] = 2;
   vector2[1] = 1;
   aff2->SetOffset(vector2);
-  for (i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     vector2[i] = 0.0;
   }

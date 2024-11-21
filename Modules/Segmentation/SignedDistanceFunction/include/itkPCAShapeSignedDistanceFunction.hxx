@@ -66,8 +66,7 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension, TImage>::SetParameter
   this->m_Parameters = parameters;
 
   // set the shape parameters
-  unsigned int i;
-  for (i = 0; i < m_NumberOfPrincipalComponents; ++i)
+  for (unsigned int i = 0; i < m_NumberOfPrincipalComponents; ++i)
   {
     m_WeightOfPrincipalComponents[i] = parameters[i];
   }
@@ -76,7 +75,7 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension, TImage>::SetParameter
   m_NumberOfTransformParameters = parameters.size() - m_NumberOfPrincipalComponents;
   m_TransformParameters.SetSize(m_NumberOfTransformParameters);
 
-  for (i = 0; i < m_NumberOfTransformParameters; ++i)
+  for (unsigned int i = 0; i < m_NumberOfTransformParameters; ++i)
   {
     m_TransformParameters[i] = parameters[m_NumberOfPrincipalComponents + i];
   }

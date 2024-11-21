@@ -42,15 +42,8 @@ itkChiSquareDistributionTest(int, char *[])
 
   distributionFunction->Print(std::cout);
 
-  int    i;
-  double x;
-  double value;
-  double diff;
-
   int status = EXIT_SUCCESS;
 
-  // Tolerance for the values.
-  double tol;
 
   // expected values for Chi-Square cdf with 1 degree of freedom at
   // values of 0:1:5
@@ -65,19 +58,21 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout << "Testing distribution with 1 degree of freedom" << std::endl;
 
   std::cout << "Chi-Square CDF" << std::endl;
-  tol = 1e-14;
+  // Tolerance for the values.
+  double tol = 1e-14;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
   distributionFunction->SetDegreesOfFreedom(1);
-  for (i = 0; i <= 5; ++i)
+
+  for (int i = 0; i <= 5; ++i)
   {
-    x = static_cast<double>(i);
+    const double x = static_cast<double>(i);
 
-    value = distributionFunction->EvaluateCDF(x);
+    const double value = distributionFunction->EvaluateCDF(x);
 
-    diff = itk::Math::abs(value - expected1[i]);
+    const double diff = itk::Math::abs(value - expected1[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -108,12 +103,12 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = 0; i <= 5; ++i)
+  for (int i = 0; i <= 5; ++i)
   {
 
-    value = distributionFunction->EvaluateInverseCDF(expected1[i]);
+    const double value = distributionFunction->EvaluateInverseCDF(expected1[i]);
 
-    diff = itk::Math::abs(value - static_cast<double>(i));
+    const double diff = itk::Math::abs(value - static_cast<double>(i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -163,13 +158,13 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout.precision(15);
   std::cout << tol << std::endl;
   distributionFunction->SetDegreesOfFreedom(11);
-  for (i = 0; i <= 10; ++i)
+  for (int i = 0; i <= 10; ++i)
   {
-    x = static_cast<double>(2 * i);
+    const double x = static_cast<double>(2 * i);
 
-    value = distributionFunction->EvaluateCDF(x);
+    const double value = distributionFunction->EvaluateCDF(x);
 
-    diff = itk::Math::abs(value - expected11[i]);
+    const double diff = itk::Math::abs(value - expected11[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -200,12 +195,12 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = 0; i <= 10; ++i)
+  for (int i = 0; i <= 10; ++i)
   {
 
-    value = distributionFunction->EvaluateInverseCDF(expected11[i]);
+    const double value = distributionFunction->EvaluateInverseCDF(expected11[i]);
 
-    diff = itk::Math::abs(value - static_cast<double>(2 * i));
+    const double diff = itk::Math::abs(value - static_cast<double>(2 * i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -245,13 +240,13 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout.precision(15);
   std::cout << tol << std::endl;
   distributionFunction->SetDegreesOfFreedom(100);
-  for (i = 0; i <= 5; ++i)
+  for (int i = 0; i <= 5; ++i)
   {
-    x = static_cast<double>(50 + 20 * i);
+    const double x = static_cast<double>(50 + 20 * i);
 
-    value = distributionFunction->EvaluateCDF(x);
+    const double value = distributionFunction->EvaluateCDF(x);
 
-    diff = itk::Math::abs(value - expected100[i]);
+    const double diff = itk::Math::abs(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -282,12 +277,12 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = 0; i <= 5; ++i)
+  for (int i = 0; i <= 5; ++i)
   {
 
-    value = distributionFunction->EvaluateInverseCDF(expected100[i]);
+    const double value = distributionFunction->EvaluateInverseCDF(expected100[i]);
 
-    diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
+    const double diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -326,13 +321,13 @@ itkChiSquareDistributionTest(int, char *[])
   DistributionType::ParametersType params(1);
   params[0] = 100.0;
 
-  for (i = 0; i <= 5; ++i)
+  for (int i = 0; i <= 5; ++i)
   {
-    x = static_cast<double>(50 + 20 * i);
+    double x = static_cast<double>(50 + 20 * i);
 
-    value = distributionFunction->EvaluateCDF(x, params);
+    const double value = distributionFunction->EvaluateCDF(x, params);
 
-    diff = itk::Math::abs(value - expected100[i]);
+    const double diff = itk::Math::abs(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -364,12 +359,12 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = 0; i <= 5; ++i)
+  for (int i = 0; i <= 5; ++i)
   {
 
-    value = distributionFunction->EvaluateInverseCDF(expected100[i], params);
+    const double value = distributionFunction->EvaluateInverseCDF(expected100[i], params);
 
-    diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
+    const double diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -404,13 +399,17 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout.precision(15);
   std::cout << tol << std::endl;
   distributionFunction->SetDegreesOfFreedom(1); // clear settings
-  for (i = 0; i <= 5; ++i)
+
+
+  double last_x;
+
+  for (int i = 0; i <= 5; ++i)
   {
-    x = static_cast<double>(50 + 20 * i);
+    const double x = static_cast<double>(50 + 20 * i);
+    last_x = x;
+    const double value = distributionFunction->EvaluateCDF(x, static_cast<long>(params[0]));
 
-    value = distributionFunction->EvaluateCDF(x, static_cast<long>(params[0]));
-
-    diff = itk::Math::abs(value - expected100[i]);
+    const double diff = itk::Math::abs(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -442,12 +441,12 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = 0; i <= 5; ++i)
+  for (int i = 0; i <= 5; ++i)
   {
 
-    value = distributionFunction->EvaluateInverseCDF(expected100[i], static_cast<long>(params[0]));
+    const double value = distributionFunction->EvaluateInverseCDF(expected100[i], static_cast<long>(params[0]));
 
-    diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
+    const double diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -479,17 +478,17 @@ itkChiSquareDistributionTest(int, char *[])
   long dof = 2;
 
   std::cout << "Variance() = " << distributionFunction->GetVariance() << std::endl;
-  std::cout << "PDF(x,p) = " << distributionFunction->PDF(x, parameters) << std::endl;
-  std::cout << "PDF(x,dof) = " << distributionFunction->PDF(x, dof) << std::endl;
-  std::cout << "EvaluatePDF(x) = " << distributionFunction->EvaluatePDF(x) << std::endl;
-  std::cout << "EvaluatePDF(x,p) = " << distributionFunction->EvaluatePDF(x, parameters) << std::endl;
-  std::cout << "EvaluatePDF(x,dof) = " << distributionFunction->EvaluatePDF(x, dof) << std::endl;
-  std::cout << "CDF(x,p) = " << distributionFunction->CDF(x, parameters) << std::endl;
-  std::cout << "CDF(x,dof) = " << distributionFunction->CDF(x, dof) << std::endl;
-  std::cout << "EvaluateCDF(x,p) = " << distributionFunction->EvaluateCDF(x, parameters) << std::endl;
-  std::cout << "EvaluateCDF(x,dof) = " << distributionFunction->EvaluateCDF(x, dof) << std::endl;
-  std::cout << "InverseCDF(x,p) = " << distributionFunction->InverseCDF(x, parameters) << std::endl;
-  std::cout << "InverseCDF(x,dof) = " << distributionFunction->InverseCDF(x, dof) << std::endl;
+  std::cout << "PDF(x,p) = " << distributionFunction->PDF(last_x, parameters) << std::endl;
+  std::cout << "PDF(x,dof) = " << distributionFunction->PDF(last_x, dof) << std::endl;
+  std::cout << "EvaluatePDF(x) = " << distributionFunction->EvaluatePDF(last_x) << std::endl;
+  std::cout << "EvaluatePDF(x,p) = " << distributionFunction->EvaluatePDF(last_x, parameters) << std::endl;
+  std::cout << "EvaluatePDF(x,dof) = " << distributionFunction->EvaluatePDF(last_x, dof) << std::endl;
+  std::cout << "CDF(x,p) = " << distributionFunction->CDF(last_x, parameters) << std::endl;
+  std::cout << "CDF(x,dof) = " << distributionFunction->CDF(last_x, dof) << std::endl;
+  std::cout << "EvaluateCDF(x,p) = " << distributionFunction->EvaluateCDF(last_x, parameters) << std::endl;
+  std::cout << "EvaluateCDF(x,dof) = " << distributionFunction->EvaluateCDF(last_x, dof) << std::endl;
+  std::cout << "InverseCDF(x,p) = " << distributionFunction->InverseCDF(last_x, parameters) << std::endl;
+  std::cout << "InverseCDF(x,dof) = " << distributionFunction->InverseCDF(last_x, dof) << std::endl;
   std::cout << "GetMean() = " << distributionFunction->GetMean() << std::endl;
   std::cout << "GetVariance() = " << distributionFunction->GetVariance() << std::endl;
 
@@ -503,15 +502,15 @@ itkChiSquareDistributionTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(distributionFunction->GetMean());
   ITK_TRY_EXPECT_EXCEPTION(distributionFunction->GetVariance());
   ITK_TRY_EXPECT_EXCEPTION(distributionFunction->GetDegreesOfFreedom());
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->PDF(x, wrongParameters));
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluatePDF(x));
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluatePDF(x, wrongParameters));
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->CDF(x, wrongParameters));
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateCDF(x));
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateCDF(x, wrongParameters));
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->InverseCDF(x, wrongParameters));
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateInverseCDF(x));
-  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateInverseCDF(x, wrongParameters));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->PDF(last_x, wrongParameters));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluatePDF(last_x));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluatePDF(last_x, wrongParameters));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->CDF(last_x, wrongParameters));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateCDF(last_x));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateCDF(last_x, wrongParameters));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->InverseCDF(last_x, wrongParameters));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateInverseCDF(last_x));
+  ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateInverseCDF(last_x, wrongParameters));
 
   distributionFunction->SetParameters(wrongParameters);
   unsigned long newdof = 17;

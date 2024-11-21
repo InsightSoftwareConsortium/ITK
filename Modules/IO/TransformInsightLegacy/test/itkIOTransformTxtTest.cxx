@@ -32,7 +32,6 @@ template <typename ScalarType>
 static int
 oneTest(const std::string & outputDirectory, const char * goodname, const char * badname)
 {
-  unsigned int i;
   using AffineTransformType = itk::AffineTransform<ScalarType, 4>;
   using AffineTransformTypeNotRegistered = itk::AffineTransform<ScalarType, 10>;
   auto affine = AffineTransformType::New();
@@ -42,7 +41,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   // Set its parameters
   {
     typename AffineTransformType::ParametersType p = affine->GetParameters();
-    for (i = 0; i < p.GetSize(); ++i)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -50,7 +49,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   }
   {
     typename AffineTransformType::FixedParametersType p = affine->GetFixedParameters();
-    for (i = 0; i < p.GetSize(); ++i)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -129,7 +128,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   // Set its parameters
   {
     typename AffineTransformType::ParametersType p = Bogus->GetParameters();
-    for (i = 0; i < p.GetSize(); ++i)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -137,7 +136,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   }
   {
     typename AffineTransformType::FixedParametersType p = Bogus->GetFixedParameters();
-    for (i = 0; i < p.GetSize(); ++i)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }

@@ -395,8 +395,8 @@ DOMNode::GetSibling(OffsetType i)
     return nullptr;
   }
 
-  IdentifierType j;
-  for (j = 0; j < static_cast<IdentifierType>(parent->GetNumberOfChildren()); ++j)
+  IdentifierType j = 0;
+  for (; j < static_cast<IdentifierType>(parent->GetNumberOfChildren()); ++j)
   {
     if (parent->GetChild(j) == this)
     {

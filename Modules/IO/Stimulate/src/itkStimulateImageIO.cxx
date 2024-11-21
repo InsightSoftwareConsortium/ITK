@@ -196,13 +196,6 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   // open in ascii mode
   this->OpenFileForReading(file, m_FileName, true);
 
-  // extract dimensions, spacing, origin
-  unsigned int dim;
-  unsigned int dims[4];
-  float        spacing[4];
-  float        origin[4];
-  float        fov[4];
-
   // set values in case we don't find them
   this->SetNumberOfDimensions(4);
   m_Spacing[0] = 1.0;
@@ -215,26 +208,27 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   m_Origin[2] = 0.0;
   m_Origin[3] = 0.0;
 
-  char  pixelType[256];
-  float range[2];
-
   // char fidName[256] = "";
   // char orient[256] = "";
 
-  bool fov_specified = false;
-  bool origin_specified = false;
-  bool spacing_specified = false;
+  bool         fov_specified = false;
+  bool         origin_specified = false;
+  bool         spacing_specified = false;
+  float        fov[4];
+  unsigned int dims[4];
   while ((static_cast<void>(file.getline(line, 255)), file.gcount() > 0))
   {
     text = line;
 
     if (text.find("numDim") < text.length())
     {
+      unsigned int dim;
       sscanf(line, "%*s %u", &dim);
       this->SetNumberOfDimensions(dim);
     }
     else if (text.find("dim") < text.length())
     {
+      // extract dimensions, spacing, origin
       sscanf(line, "%*s %u %u %u %u", dims, dims + 1, dims + 2, dims + 3);
       if (m_NumberOfDimensions > 3 && dims[3] <= 1)
       {
@@ -258,6 +252,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // to be centered:
 
       // save and reset old locale
+      float       origin[4];
       std::locale currentLocale = std::locale::global(std::locale::classic());
       sscanf(line, "%*s %f %f %f %f", origin, origin + 1, origin + 2, origin + 3);
       // reset locale
@@ -299,6 +294,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
       // save and reset old locale
       std::locale currentLocale = std::locale::global(std::locale::classic());
+      float       spacing[4];
       sscanf(line, "%*s %f %f %f %f", spacing, spacing + 1, spacing + 2, spacing + 3);
       // reset locale
       std::locale::global(currentLocale);
@@ -310,6 +306,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
     }
     else if (text.find("dataType") < text.length())
     {
+      char pixelType[256];
       sscanf(line, "%*s %s", pixelType);
       text = pixelType;
       SetPixelType(IOPixelEnum::SCALAR);
@@ -352,6 +349,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
       // save and reset old locale
       std::locale currentLocale = std::locale::global(std::locale::classic());
+      float       range[2];
       sscanf(line, "%*s %f %f", range, range + 1);
       // reset locale
       std::locale::global(currentLocale);
@@ -490,8 +488,6 @@ StimulateImageIO::CanWriteFile(const char * name)
 void
 StimulateImageIO::Write(const void * buffer)
 {
-  unsigned int i;
-
   std::ofstream file;
   this->OpenFileForWriting(file, m_FileName);
 
@@ -507,25 +503,25 @@ StimulateImageIO::Write(const void * buffer)
 
   // Write characteristics of the data
   file << "\ndim:";
-  for (i = 0; i < m_NumberOfDimensions; ++i)
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
     file << ' ' << m_Dimensions[i];
   }
 
   file << "\norigin:";
-  for (i = 0; i < m_NumberOfDimensions; ++i)
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
     file << ' ' << m_Origin[i];
   }
 
   file << "\nfov:";
-  for (i = 0; i < m_NumberOfDimensions; ++i)
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
     file << ' ' << m_Spacing[i] * m_Dimensions[i]; // fov = interval * dim
   }
 
   file << "\ninterval:";
-  for (i = 0; i < m_NumberOfDimensions; ++i)
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
     file << ' ' << m_Spacing[i];
   }

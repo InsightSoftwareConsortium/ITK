@@ -122,11 +122,10 @@ testMetaImage(int, char *[])
   MetaImage tIm(8, 8, 1, 2, MET_CHAR);
   MetaImage tImCopy(&tIm);
 
-  int i;
-  for (i = 0; i < 64; ++i)
+  for (int i = 0; i < 64; ++i)
     tIm.ElementData(i, i);
 
-  for (i = 0; i < 64; ++i)
+  for (int i = 0; i < 64; ++i)
   {
     if (itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
     {
@@ -203,7 +202,7 @@ testMetaImage(int, char *[])
   }
 
   tIm2.PrintInfo();
-  for (i = 0; i < 64; ++i)
+  for (int i = 0; i < 64; ++i)
   {
     if (itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
     {

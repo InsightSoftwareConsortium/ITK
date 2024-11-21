@@ -33,12 +33,11 @@ template <typename TMatrix>
 bool
 testMatrix(const TMatrix & m1, const TMatrix & m2)
 {
-  unsigned int i, j;
-  bool         pass = true;
+  bool pass = true;
 
-  for (i = 0; i < TMatrix::RowDimensions; ++i)
+  for (unsigned int i = 0; i < TMatrix::RowDimensions; ++i)
   {
-    for (j = 0; j < TMatrix::ColumnDimensions; ++j)
+    for (unsigned int j = 0; j < TMatrix::ColumnDimensions; ++j)
     {
       if (itk::Math::abs(m1[i][j] - m2[i][j]) > epsilon)
       {

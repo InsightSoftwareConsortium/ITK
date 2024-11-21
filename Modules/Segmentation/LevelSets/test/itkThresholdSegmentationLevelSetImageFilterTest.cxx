@@ -165,15 +165,13 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   TSIFTN::evaluate_function(seedImage, TSIFTN::sphere);
 
   // Target surface is a diamond
-  float        val;
-  unsigned int i;
   //  TSIFTN::ImageType::IndexType idx;
   for (idx[2] = 0; idx[2] < 64; idx[2]++)
     for (idx[1] = 0; idx[1] < 64; idx[1]++)
       for (idx[0] = 0; idx[0] < 64; idx[0]++)
       {
-        val = 0;
-        for (i = 0; i < 3; ++i)
+        float val = 0;
+        for (unsigned int i = 0; i < 3; ++i)
         {
           if (idx[i] < 32)
           {

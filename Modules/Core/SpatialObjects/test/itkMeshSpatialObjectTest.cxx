@@ -42,8 +42,7 @@ itkMeshSpatialObjectTest(int, char *[])
 
   MeshType::PointIdentifier tetraPoints[4] = { 0, 1, 2, 3 };
 
-  int i;
-  for (i = 0; i < 4; ++i)
+  for (int i = 0; i < 4; ++i)
   {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
   }
@@ -147,7 +146,7 @@ itkMeshSpatialObjectTest(int, char *[])
 
   MeshType::PointIdentifier trianglePoint1[3] = { 0, 1, 2 };
 
-  for (i = 0; i < 4; ++i)
+  for (int i = 0; i < 4; ++i)
   {
     meshTriangle->SetPoint(i, PointType(testTrianglePointCoords[i]));
   }

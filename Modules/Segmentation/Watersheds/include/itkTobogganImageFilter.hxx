@@ -79,20 +79,17 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
     if (outIt.Get() == z)
     {
       // Start labeling
-      std::vector<IndexType> Visited;
-      InputImagePixelType    MinimumNeighborValue = inIt.Get();
+      InputImagePixelType MinimumNeighborValue = inIt.Get();
 
       OutputImagePixelType MinimumNeighborClass;
       OutputImagePixelType LabelForRegion = CurrentLabel;
-      IndexType            MinimumNeighborIndex;
-      IndexType            CurrentPositionIndex;
-      unsigned int         Dimension;
-      unsigned int         i;
-      int                  t;
       bool                 FoundMinimum = false;
 
-      CurrentPositionIndex = outIt.GetIndex();
+      auto      CurrentPositionIndex = outIt.GetIndex();
+      IndexType MinimumNeighborIndex = CurrentPositionIndex;
+
       // This is the first pixel we've visited
+      std::vector<IndexType> Visited;
       Visited.clear();
       Visited.push_back(CurrentPositionIndex);
       itkDebugMacro("Found unlabeled pixel at: " << CurrentPositionIndex << " Value: " << MinimumNeighborValue);
@@ -104,9 +101,9 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
         MinimumNeighborIndex = CurrentPositionIndex;
         // DirectionImage->PutPixel ( CurrentPositionIndex, 1 );
         // Check the face connected neighbors
-        for (Dimension = 0; Dimension < ImageDimension; ++Dimension)
+        for (unsigned int Dimension = 0; Dimension < ImageDimension; ++Dimension)
         {
-          for (t = 1; t >= -1; t = t - 2)
+          for (int t = 1; t >= -1; t = t - 2)
           {
             IndexType NeighborIndex = CurrentPositionIndex;
             NeighborIndex[Dimension] += t;
@@ -180,9 +177,9 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
           itkDebugMacro("Flood fill, looking at " << SeedIndex);
           // Look at the neighbors
           InputImagePixelType SeedValue = inputImage->GetPixel(SeedIndex);
-          for (Dimension = 0; Dimension < ImageDimension; ++Dimension)
+          for (unsigned int Dimension = 0; Dimension < ImageDimension; ++Dimension)
           {
-            for (t = -1; t <= 1; t = t + 2)
+            for (int t = -1; t <= 1; t = t + 2)
             {
               IndexType NeighborIndex = SeedIndex;
               NeighborIndex[Dimension] += t;
@@ -227,7 +224,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
       }
       itkDebugMacro("Filling in: " << static_cast<unsigned int>(Visited.size()) << " with: " << LabelForRegion);
       // Loop over all the visited positions, setting their label
-      for (i = 0; i < Visited.size(); ++i)
+      for (unsigned int i = 0; i < Visited.size(); ++i)
       {
         outputImage->SetPixel(Visited[i], LabelForRegion);
       }

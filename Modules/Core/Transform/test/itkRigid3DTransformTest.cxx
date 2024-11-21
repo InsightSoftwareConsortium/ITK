@@ -495,13 +495,12 @@ itkRigid3DTransformTest(int, char *[])
     {
       // Testing SetParameters()
       std::cout << "Testing SetParameters() ... ";
-      unsigned int j;
 
       auto           t = TransformType::New();
       ParametersType p(t->GetNumberOfParameters());
 
       // attempt to set an non-orthogonal matrix
-      for (j = 0; j < t->GetNumberOfParameters(); ++j)
+      for (unsigned int j = 0; j < t->GetNumberOfParameters(); ++j)
       {
         p[j] = static_cast<double>(j + 1);
         p[j] = itk::Math::sqr(p[j]);

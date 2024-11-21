@@ -253,8 +253,6 @@ GiplImageIO::Read(void * buffer)
 void
 GiplImageIO::ReadImageInformation()
 {
-  unsigned int i;
-
   CheckExtension(m_FileName.c_str());
 
   if (m_IsCompressed)
@@ -275,12 +273,12 @@ GiplImageIO::ReadImageInformation()
   unsigned short dims[4];
 
   unsigned int numberofdimension = 0;
-  for (i = 0; i < 4; ++i)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     dims[i] = 0;
   }
 
-  for (i = 0; i < 4; ++i)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     if (m_IsCompressed)
     {
@@ -314,7 +312,7 @@ GiplImageIO::ReadImageInformation()
 
   this->SetNumberOfDimensions(numberofdimension);
 
-  for (i = 0; i < numberofdimension; ++i)
+  for (unsigned int i = 0; i < numberofdimension; ++i)
   {
     m_Dimensions[i] = dims[i];
   }
@@ -368,7 +366,7 @@ GiplImageIO::ReadImageInformation()
   }
 
   float pixdim[4]; /*   10   16  X,Y,Z,T pixel dimensions mm */
-  for (i = 0; i < 4; ++i)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     if (m_IsCompressed)
     {
@@ -394,7 +392,7 @@ GiplImageIO::ReadImageInformation()
   }
 
   char line1[80]; /*   26   80  Patient / Text field        */
-  for (i = 0; i < 80; ++i)
+  for (unsigned int i = 0; i < 80; ++i)
   {
     if (m_IsCompressed)
     {
@@ -407,7 +405,7 @@ GiplImageIO::ReadImageInformation()
   }
 
   float matrix[20]; /*  106   80                              */
-  for (i = 0; i < 20; ++i)
+  for (unsigned int i = 0; i < 20; ++i)
   {
     if (m_IsCompressed)
     {
@@ -487,7 +485,7 @@ GiplImageIO::ReadImageInformation()
   }
 
   double origin[4]; /*  204   32  X,Y,Z,T offset              */
-  for (i = 0; i < 4; ++i)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     if (m_IsCompressed)
     {

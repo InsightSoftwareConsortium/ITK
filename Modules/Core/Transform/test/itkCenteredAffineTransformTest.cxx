@@ -48,7 +48,6 @@ itkCenteredAffineTransformTest(int, char *[])
   MatrixType matrix2;
   VectorType vector2;
 
-  int i, j;
 
   /* FIXME: This code exercises most of the methods but doesn't
      actually check that the results are correct. */
@@ -74,9 +73,9 @@ itkCenteredAffineTransformTest(int, char *[])
   auto inverse2 = Affine2DType::New();
   aff2->SetMatrix(matrix2);
   aff2->SetOffset(vector2);
-  for (i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; ++j)
+    for (unsigned int j = 0; j < 2; ++j)
     {
       matrix2[i][j] = 0.0;
     }
@@ -97,9 +96,9 @@ itkCenteredAffineTransformTest(int, char *[])
   vector2[1] = 1;
   aff2->SetMatrix(matrix2);
   aff2->SetOffset(vector2);
-  for (i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; ++j)
+    for (unsigned int j = 0; j < 2; ++j)
     {
       matrix2[i][j] = 0.0;
     }

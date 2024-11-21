@@ -33,8 +33,7 @@ itkBlobSpatialObjectTest(int, char *[])
 
   BlobType::BlobPointListType list;
 
-  unsigned int i;
-  for (i = 0; i < 10; ++i)
+  for (unsigned int i = 0; i < 10; ++i)
   {
     BlobPointType p;
     PointType     pnt;
@@ -88,7 +87,7 @@ itkBlobSpatialObjectTest(int, char *[])
 
   BlobType::BlobPointListType::const_iterator it = blob->GetPoints().begin();
 
-  i = 0;
+  unsigned int i = 0;
   while (it != blob->GetPoints().end())
   {
     for (unsigned int d = 0; d < 3; ++d)

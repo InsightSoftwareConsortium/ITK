@@ -215,8 +215,8 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
       return EXIT_FAILURE;
     }
     bool   palette_equal = true;
-    size_t i;
-    for (i = 0; i < palette_written.size(); ++i)
+    size_t i = 0;
+    for (; i < palette_written.size(); ++i)
     {
       if (palette_written[i] != palette_read[i])
       {

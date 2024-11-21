@@ -51,16 +51,12 @@ Segmenter<TInputImage>::GenerateData()
   // will be used in this algorithm.  Also re-initialize some temporary data
   // structures that may have been used in previous updates of this filter.
   //
-  unsigned int i;
-
   this->UpdateProgress(0.0);
   if (m_DoBoundaryAnalysis == false)
   {
     this->GetSegmentTable()->Clear();
     this->SetCurrentLabel(1);
   }
-
-  flat_region_table_t flatRegions;
 
   typename InputImageType::Pointer  input = this->GetInputImage();
   typename OutputImageType::Pointer output = this->GetOutputImage();
@@ -98,7 +94,7 @@ Segmenter<TInputImage>::GenerateData()
   typename ImageRegionType::SizeType  tsz = thresholdImageRegion.GetSize();
   typename ImageRegionType::IndexType tlidx = thresholdLargestPossibleRegion.GetIndex();
   typename ImageRegionType::SizeType  tlsz = thresholdLargestPossibleRegion.GetSize();
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     ImageRegionType                     reg;
     typename ImageRegionType::IndexType idx = regionToProcess.GetIndex();
@@ -196,7 +192,7 @@ Segmenter<TInputImage>::GenerateData()
   //
   typename ImageRegionType::SizeType  irsz;
   typename ImageRegionType::IndexType iridx;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     irsz[i] = thresholdImageRegion.GetSize()[i] - 2;
     iridx[i] = thresholdImageRegion.GetIndex()[i] + 1;
@@ -269,6 +265,7 @@ Segmenter<TInputImage>::GenerateData()
   // flat-region connectivity) and constructs the appropriate Boundary
   // data structures.
   //
+  flat_region_table_t flatRegions;
   if (m_DoBoundaryAnalysis)
   {
     this->InitializeBoundary();
@@ -286,6 +283,7 @@ Segmenter<TInputImage>::GenerateData()
   //
   this->BuildRetainingWall(
     thresholdImage, thresholdImage->GetBufferedRegion(), maximum + NumericTraits<InputPixelType>::OneValue());
+
 
   //
   // Label all the local minima pixels in the image.  This function also

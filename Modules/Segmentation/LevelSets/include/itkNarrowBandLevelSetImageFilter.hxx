@@ -63,12 +63,10 @@ void
 NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::SetSegmentationFunction(
   SegmentationFunctionType * s)
 {
-  unsigned int i;
-
   m_SegmentationFunction = s;
 
   typename SegmentationFunctionType::RadiusType r;
-  for (i = 0; i < Self::ImageDimension; ++i)
+  for (unsigned int i = 0; i < Self::ImageDimension; ++i)
   {
     r[i] = 1;
   }

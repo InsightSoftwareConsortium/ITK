@@ -347,14 +347,13 @@ template <unsigned int VImageDimension>
 bool
 ImageBase<VImageDimension>::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
-  unsigned int      i;
   const IndexType & requestedRegionIndex = this->GetRequestedRegion().GetIndex();
   const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
 
   const SizeType & requestedRegionSize = this->GetRequestedRegion().GetSize();
   const SizeType & bufferedRegionSize = this->GetBufferedRegion().GetSize();
 
-  for (i = 0; i < VImageDimension; ++i)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     if ((requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >
@@ -372,8 +371,7 @@ template <unsigned int VImageDimension>
 bool
 ImageBase<VImageDimension>::VerifyRequestedRegion()
 {
-  bool         retval = true;
-  unsigned int i;
+  bool retval = true;
 
   // Is the requested region within the LargestPossibleRegion?
   // Note that the test is indeed against the largest possible region
@@ -384,7 +382,7 @@ ImageBase<VImageDimension>::VerifyRequestedRegion()
   const SizeType & requestedRegionSize = this->GetRequestedRegion().GetSize();
   const SizeType & largestPossibleRegionSize = this->GetLargestPossibleRegion().GetSize();
 
-  for (i = 0; i < VImageDimension; ++i)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     if ((requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >
