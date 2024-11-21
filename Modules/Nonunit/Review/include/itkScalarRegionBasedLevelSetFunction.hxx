@@ -37,8 +37,7 @@ ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
 
   product = 1.;
 
-  ListPixelType L;
-  L = this->m_SharedData->m_NearestNeighborListImage->GetPixel(globalIndex);
+  ListPixelType L = this->m_SharedData->m_NearestNeighborListImage->GetPixel(globalIndex);
 
   InputPixelType hVal;
   InputIndexType otherIndex;

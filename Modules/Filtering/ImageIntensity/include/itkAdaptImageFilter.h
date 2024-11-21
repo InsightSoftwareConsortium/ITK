@@ -155,9 +155,7 @@ public:
   void
   SetAccessor(AccessorType & accessor)
   {
-    FunctorType functor;
-
-    functor = this->GetFunctor();
+    FunctorType functor = this->GetFunctor();
     if (accessor != functor.GetAccessor())
     {
       functor.SetAccessor(accessor);

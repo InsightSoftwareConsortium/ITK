@@ -35,9 +35,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
 LaplacianOperator<TPixel, VDimension, TAllocator>::CreateOperator()
 {
-  CoefficientVector coefficients;
-
-  coefficients = this->GenerateCoefficients();
+  CoefficientVector coefficients = this->GenerateCoefficients();
 
   this->Fill(coefficients);
 }

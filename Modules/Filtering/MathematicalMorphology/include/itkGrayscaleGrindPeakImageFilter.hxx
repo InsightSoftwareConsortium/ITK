@@ -84,8 +84,7 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>::GenerateData()
   calculator->SetImage(this->GetInput());
   calculator->ComputeMinimum();
 
-  InputImagePixelType minValue;
-  minValue = calculator->GetMinimum();
+  InputImagePixelType minValue = calculator->GetMinimum();
 
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();

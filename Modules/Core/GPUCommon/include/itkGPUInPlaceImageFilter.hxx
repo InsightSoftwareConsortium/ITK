@@ -73,9 +73,7 @@ GPUInPlaceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::AllocateOu
       {
         // if we cannot cast the input to an output type, then allocate
         // an output usual.
-        OutputImagePointer outputPtr;
-
-        outputPtr = this->GetOutput(0);
+        OutputImagePointer outputPtr = this->GetOutput(0);
         outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
         outputPtr->Allocate();
       }

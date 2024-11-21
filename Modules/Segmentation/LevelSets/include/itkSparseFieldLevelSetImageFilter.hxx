@@ -667,8 +667,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActiveLayer(
   ValueType       value;
   StatusType      layer_number;
 
-  typename OutputImageType::IndexType upperBounds, lowerBounds;
-  lowerBounds = this->m_OutputImage->GetRequestedRegion().GetIndex();
+  typename OutputImageType::IndexType upperBounds, lowerBounds = this->m_OutputImage->GetRequestedRegion().GetIndex();
   upperBounds =
     this->m_OutputImage->GetRequestedRegion().GetIndex() + this->m_OutputImage->GetRequestedRegion().GetSize();
 

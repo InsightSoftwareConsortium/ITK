@@ -409,8 +409,7 @@ inline ConstNeighborhoodIteratorWithOnlyIndex<TImage>
 operator+(const ConstNeighborhoodIteratorWithOnlyIndex<TImage> &                      it,
           const typename ConstNeighborhoodIteratorWithOnlyIndex<TImage>::OffsetType & ind)
 {
-  ConstNeighborhoodIteratorWithOnlyIndex<TImage> ret;
-  ret = it;
+  ConstNeighborhoodIteratorWithOnlyIndex<TImage> ret = it;
   ret += ind;
   return ret;
 }
@@ -428,8 +427,7 @@ inline ConstNeighborhoodIteratorWithOnlyIndex<TImage>
 operator-(const ConstNeighborhoodIteratorWithOnlyIndex<TImage> &                      it,
           const typename ConstNeighborhoodIteratorWithOnlyIndex<TImage>::OffsetType & ind)
 {
-  ConstNeighborhoodIteratorWithOnlyIndex<TImage> ret;
-  ret = it;
+  ConstNeighborhoodIteratorWithOnlyIndex<TImage> ret = it;
   ret -= ind;
   return ret;
 }

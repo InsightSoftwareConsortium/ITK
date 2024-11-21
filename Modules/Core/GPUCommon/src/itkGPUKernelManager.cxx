@@ -317,9 +317,7 @@ GPUKernelManager::SetKernelArg(int kernelIdx, cl_uint argIdx, size_t argSize, co
     return false;
   }
 
-  cl_int errid;
-
-  errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, argSize, argVal);
+  cl_int errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, argSize, argVal);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
@@ -413,9 +411,7 @@ GPUKernelManager::SetKernelArgWithImage(int kernelIdx, cl_uint argIdx, GPUDataMa
     return false;
   }
 
-  cl_int errid;
-
-  errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, sizeof(cl_mem), manager->GetGPUBufferPointer());
+  cl_int errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, sizeof(cl_mem), manager->GetGPUBufferPointer());
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
@@ -624,16 +620,15 @@ GPUKernelManager::LaunchKernel(int kernelIdx, int dim, size_t * globalWorkSize, 
   // localWorkSize[0] = localWorkSize[1] = localWorkSize[2] = 1;
   //
 
-  cl_int errid;
-  errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(m_CommandQueueId),
-                                 m_KernelContainer[kernelIdx],
-                                 (cl_uint)dim,
-                                 nullptr,
-                                 globalWorkSize,
-                                 localWorkSize,
-                                 0,
-                                 nullptr,
-                                 nullptr);
+  cl_int errid = clEnqueueNDRangeKernel(m_Manager->GetCommandQueue(m_CommandQueueId),
+                                        m_KernelContainer[kernelIdx],
+                                        (cl_uint)dim,
+                                        nullptr,
+                                        globalWorkSize,
+                                        localWorkSize,
+                                        0,
+                                        nullptr,
+                                        nullptr);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   /*

@@ -114,8 +114,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SetSplineOrder(ArrayT
 
     if (this->m_DoMultilevel)
     {
-      typename KernelType::MatrixType C;
-      C = this->m_Kernel[i]->GetShapeFunctionsInZeroToOneInterval();
+      typename KernelType::MatrixType C = this->m_Kernel[i]->GetShapeFunctionsInZeroToOneInterval();
 
       vnl_matrix<RealType> R;
       vnl_matrix<RealType> S;

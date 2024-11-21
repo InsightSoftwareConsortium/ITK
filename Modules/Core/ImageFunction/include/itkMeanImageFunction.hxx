@@ -34,9 +34,7 @@ template <typename TInputImage, typename TCoordRep>
 auto
 MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
-  RealType sum;
-
-  sum = RealType{};
+  RealType sum = RealType{};
 
   const InputImageType * const image = this->GetInputImage();
 

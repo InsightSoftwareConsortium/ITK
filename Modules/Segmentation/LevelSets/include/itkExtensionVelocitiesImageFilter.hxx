@@ -37,8 +37,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::ExtensionVe
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
-    AuxImagePointer ptr;
-    ptr = AuxImageType::New();
+    AuxImagePointer ptr = AuxImageType::New();
     this->ProcessObject::SetNthOutput(k + 1, ptr.GetPointer());
   }
 }
@@ -187,8 +186,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
-    AuxImagePointer ptr;
-    ptr = m_Marcher->GetAuxiliaryImage(k);
+    AuxImagePointer ptr = m_Marcher->GetAuxiliaryImage(k);
     auxTempIt[k] = AuxIteratorType(ptr, ptr->GetBufferedRegion());
   }
 
@@ -321,8 +319,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   }
 
   // set all auxiliary images to zero
-  TAuxValue zeroPixel;
-  zeroPixel = 0.0;
+  TAuxValue zeroPixel = 0.0;
 
   using AuxIteratorType = ImageRegionIterator<AuxImageType>;
 

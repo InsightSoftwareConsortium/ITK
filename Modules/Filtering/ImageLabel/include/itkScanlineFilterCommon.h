@@ -426,8 +426,7 @@ protected:
       setConnectivityPrevious(&lnit, m_FullyConnected);
     }
 
-    typename LineNeighborhoodType::IndexListType ActiveIndexes;
-    ActiveIndexes = lnit.GetActiveIndexList();
+    typename LineNeighborhoodType::IndexListType ActiveIndexes = lnit.GetActiveIndexList();
 
     typename LineNeighborhoodType::IndexListType::const_iterator LI;
 

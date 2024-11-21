@@ -156,9 +156,7 @@ public:
   inline ExternalType
   Get(const ActualPixelType & input) const
   {
-    ExternalType output;
-
-    output = static_cast<ExternalType>(input[m_ElementNumber]);
+    ExternalType output = static_cast<ExternalType>(input[m_ElementNumber]);
     return output;
   }
 

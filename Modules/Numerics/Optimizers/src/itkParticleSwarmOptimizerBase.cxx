@@ -152,8 +152,7 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Maximal number of iterations: " << this->m_MaximalNumberOfIterations << '\n';
   os << indent << "Number of generations with minimal improvement: ";
   os << this->m_NumberOfGenerationsWithMinimalImprovement << '\n';
-  ParameterBoundsType::const_iterator it, end;
-  end = this->m_ParameterBounds.end();
+  ParameterBoundsType::const_iterator it, end = this->m_ParameterBounds.end();
   os << indent << "Parameter bounds: [";
   for (it = this->m_ParameterBounds.begin(); it != end; ++it)
   {
@@ -180,8 +179,7 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
 void
 ParticleSwarmOptimizerBase::PrintSwarm(std::ostream & os, Indent indent) const
 {
-  std::vector<ParticleData>::const_iterator it, end;
-  end = this->m_Particles.end();
+  std::vector<ParticleData>::const_iterator it, end = this->m_Particles.end();
   os << indent << "[\n";
   for (it = this->m_Particles.begin(); it != end; ++it)
   {
@@ -427,8 +425,7 @@ ParticleSwarmOptimizerBase::Initialize()
 void
 ParticleSwarmOptimizerBase::RandomInitialization()
 {
-  unsigned int i, j, n;
-  n = GetInitialPosition().Size();
+  unsigned int                                                    i, j, n = GetInitialPosition().Size();
   ParameterBoundsType                                             parameterBounds(this->m_ParameterBounds);
   ParametersType                                                  mean = GetInitialPosition();
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =

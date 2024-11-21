@@ -193,9 +193,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
   m_LastPointIsInside = false;
 
   typename LevelSetImageType::PixelType centerValue;
-  PixelType                             inputPixel;
-
-  inputPixel = m_InputLevelSet->GetPixel(index);
+  PixelType                             inputPixel = m_InputLevelSet->GetPixel(index);
   centerValue = static_cast<double>(inputPixel);
   centerValue -= m_LevelSetValue;
 

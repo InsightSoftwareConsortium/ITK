@@ -318,9 +318,7 @@ protected:
   NonPCEvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const
   {
     unsigned int i, j;
-    TRealType    dx, sum, accum;
-
-    accum = TRealType{};
+    TRealType    dx, sum, accum = TRealType{};
     for (i = 0; i < ImageDimension; ++i)
     {
       sum = TRealType{};

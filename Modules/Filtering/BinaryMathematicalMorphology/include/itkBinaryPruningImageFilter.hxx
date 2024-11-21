@@ -111,8 +111,7 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::ComputePruneImage()
     {
       if (ot.GetCenterPixel())
       {
-        PixelType genus;
-        genus = ot.GetPixel(offset1) + ot.GetPixel(offset2);
+        PixelType genus = ot.GetPixel(offset1) + ot.GetPixel(offset2);
         genus += ot.GetPixel(offset3) + ot.GetPixel(offset4);
         genus += ot.GetPixel(offset5) + ot.GetPixel(offset6);
         genus += ot.GetPixel(offset7) + ot.GetPixel(offset8);

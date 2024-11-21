@@ -310,8 +310,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   outputPtr->TransformContinuousIndexToPhysicalPoint(outputCenterIndex, outputCenterPoint);
 
   const typename TOutputImage::PointType & inputOrigin = inputPtr->GetOrigin();
-  typename TOutputImage::PointType         outputOrigin;
-  outputOrigin = inputOrigin + (inputCenterPoint - outputCenterPoint);
+  typename TOutputImage::PointType         outputOrigin = inputOrigin + (inputCenterPoint - outputCenterPoint);
   outputPtr->SetOrigin(outputOrigin);
 
   // Set region

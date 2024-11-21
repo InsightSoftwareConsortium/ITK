@@ -160,8 +160,7 @@ SampleClassifierFilter<TSample>::GenerateData()
 
   while (iter != end)
   {
-    typename TSample::MeasurementVectorType measurements;
-    measurements = iter.GetMeasurementVector();
+    typename TSample::MeasurementVectorType measurements = iter.GetMeasurementVector();
     for (unsigned int i = 0; i < this->m_NumberOfClasses; ++i)
     {
       discriminantScores[i] = membershipFunctionsWeightsArray[i] * membershipFunctions[i]->Evaluate(measurements);

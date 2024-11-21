@@ -136,8 +136,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   // set all output value to infinity
   using OutputIterator = ImageRegionIterator<LevelSetImageType>;
 
-  PixelType outputPixel;
-  outputPixel = m_LargeValue;
+  PixelType outputPixel = m_LargeValue;
 
   for (OutputIterator outIt(output, output->GetBufferedRegion()); !outIt.IsAtEnd(); ++outIt)
   {
