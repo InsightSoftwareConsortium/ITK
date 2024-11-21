@@ -48,9 +48,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   MeshType::PointIdentifier tetraPoints[4] = { 0, 1, 2, 3 };
   MeshType::PointIdentifier hexaPoints[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
-  unsigned int i;
-  unsigned int j;
-  for (i = 0; i < 8; ++i)
+  for (unsigned int i = 0; i < 8; ++i)
   {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
   }
@@ -72,9 +70,9 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   auto                              linkContainer = CellLinksContainerType::New();
   MeshType::PointCellLinksContainer pcl;
 
-  for (j = 0; j < 3; ++j)
+  for (unsigned int j = 0; j < 3; ++j)
   {
-    for (i = 0; i < 5; ++i)
+    for (unsigned int i = 0; i < 5; ++i)
     {
       pcl.insert(j + i);
     }
@@ -88,7 +86,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   auto pointData = PointDataContainer::New();
 
   float data = 0.1;
-  for (j = 0; j < 2; ++j)
+  for (unsigned int j = 0; j < 2; ++j)
   {
     pointData->SetElement(j, data);
     data += static_cast<float>(0.1);
@@ -100,7 +98,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   auto cellData = CellDataContainer::New();
 
   data = 0.9;
-  for (j = 0; j < 3; ++j)
+  for (unsigned int j = 0; j < 3; ++j)
   {
     cellData->SetElement(j, data);
     data -= static_cast<float>(0.2);
@@ -172,7 +170,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   const MeshType::PointsContainer *        points = mesh2->GetPoints();
   MeshType::PointsContainer::ConstIterator it_points = points->Begin();
 
-  j = 0;
+  unsigned int j = 0;
   while (it_points != points->End())
   {
     if ((*it_points)->Index() != j)
@@ -181,7 +179,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
       std::cout << "Index = " << (*it_points)->Index() << " v.s. " << j << std::endl;
       return EXIT_FAILURE;
     }
-    for (i = 0; i < 3; ++i)
+    for (unsigned int i = 0; i < 3; ++i)
     {
       if (itk::Math::NotExactlyEquals(((*it_points)->Value())[i], j + i))
       {
@@ -246,8 +244,8 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
       return EXIT_FAILURE;
     }
 
-    i = 0;
-    auto it = (*it_celllinks)->Value().begin();
+    unsigned int i = 0;
+    auto         it = (*it_celllinks)->Value().begin();
     while (it != (*it_celllinks)->Value().end())
     {
       if ((*it) != i)

@@ -38,8 +38,6 @@ itkSplineKernelTransformTest(int, char *[])
   const double epsilon = 1e-12;
 
   // 2-D case
-  int i, j;
-
   constexpr unsigned int Dimension = 2;
   using ParametersValueType = double;
 
@@ -76,9 +74,9 @@ itkSplineKernelTransformTest(int, char *[])
 
   Points2DIteratorType source2Dend = sourceLandmarks2D->GetPoints()->End();
 
-  for (i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; ++j)
+    for (unsigned int j = 0; j < 2; ++j)
     {
       sourcePoint2D[0] = j;
       sourcePoint2D[1] = i;
@@ -376,9 +374,9 @@ itkSplineKernelTransformTest(int, char *[])
   Points3DIteratorType ebs3DsEnd = ebs3D->GetModifiableSourceLandmarks()->GetPoints()->End();
   Points3DIteratorType tps3DsEnd = tps3D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
-  for (i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; ++j)
+    for (unsigned int j = 0; j < 2; ++j)
     {
       for (k = 0; k < 2; ++k)
       {
@@ -502,9 +500,9 @@ itkSplineKernelTransformTest(int, char *[])
   Points4DIteratorType ebs4DsEnd = ebs4D->GetModifiableSourceLandmarks()->GetPoints()->End();
   Points4DIteratorType tps4DsEnd = tps4D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
-  for (i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; ++j)
+    for (unsigned int j = 0; j < 2; ++j)
     {
       for (k = 0; k < 2; ++k)
       {

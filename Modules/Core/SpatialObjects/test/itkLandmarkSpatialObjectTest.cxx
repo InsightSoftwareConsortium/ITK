@@ -34,8 +34,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
 
   LandmarkType::LandmarkPointListType list;
 
-  unsigned int i;
-  for (i = 0; i < 10; ++i)
+  for (unsigned int i = 0; i < 10; ++i)
   {
     LandmarkPointType p;
     PointType         pnt;
@@ -82,7 +81,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
 
   LandmarkType::LandmarkPointListType::const_iterator it = landmark->GetPoints().begin();
 
-  i = 0;
+  unsigned int i = 0;
   while (it != landmark->GetPoints().end())
   {
     for (unsigned int d = 0; d < 3; ++d)

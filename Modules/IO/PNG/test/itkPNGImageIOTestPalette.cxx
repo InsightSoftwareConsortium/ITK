@@ -214,26 +214,25 @@ itkPNGImageIOTestPalette(int argc, char * argv[])
                 << palette_written.size() << ')' << std::endl;
       return EXIT_FAILURE;
     }
-    bool   palette_equal = true;
-    size_t i;
-    for (i = 0; i < palette_written.size(); ++i)
     {
-      if (palette_written[i] != palette_read[i])
+      bool   palette_equal = true;
+      size_t i = 0;
+      for (; i < palette_written.size(); ++i)
       {
-        palette_equal = false;
-        break;
+        if (palette_written[i] != palette_read[i])
+        {
+          palette_equal = false;
+          break;
+        }
+      }
+      if (!palette_equal)
+      {
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Palette not written as it was read at position [" << i << "]." << std::endl;
+        return EXIT_FAILURE;
       }
     }
-    if (!palette_equal)
-    {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Palette not written as it was read at position [" << i << "]." << std::endl;
-      return EXIT_FAILURE;
-    }
-    else
-    {
-      std::cout << "Read and written palette are equal" << std::endl;
-    }
+    std::cout << "Read and written palette are equal" << std::endl;
   }
 
   // Exercise other methods

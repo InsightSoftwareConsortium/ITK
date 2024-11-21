@@ -166,8 +166,8 @@ Thread(int tnum)
     threadMutex.unlock();
 
     // Fill the list.
-    int j;
-    for (j = 0; j < count; ++j)
+
+    for (int j = 0; j < count; ++j)
     {
       l.push_back(j);
     }
@@ -175,7 +175,7 @@ Thread(int tnum)
     // Empty the list while making sure values match.  Threading
     // errors can cause mismatches here, which is the purpose of the
     // test.
-    for (j = 0; j < count; ++j)
+    for (int j = 0; j < count; ++j)
     {
       if (l.front() != j)
       {

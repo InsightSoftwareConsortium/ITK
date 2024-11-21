@@ -31,7 +31,6 @@ template <typename TParametersValueType>
 static int
 oneTest(const char * goodname, const char * badname)
 {
-  unsigned int i;
   using AffineTransformType = itk::AffineTransform<TParametersValueType, 4>;
   using AffineTransformTypeNotRegistered = itk::AffineTransform<TParametersValueType, 10>;
   auto affine = AffineTransformType::New();
@@ -44,7 +43,7 @@ oneTest(const char * goodname, const char * badname)
   // Set its parameters
   {
     typename AffineTransformType::ParametersType p = affine->GetParameters();
-    for (i = 0; i < p.GetSize(); ++i)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -52,7 +51,7 @@ oneTest(const char * goodname, const char * badname)
   }
   {
     typename AffineTransformType::FixedParametersType p = affine->GetFixedParameters();
-    for (i = 0; i < p.GetSize(); ++i)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -112,7 +111,7 @@ oneTest(const char * goodname, const char * badname)
   // Set its parameters
   {
     typename AffineTransformType::ParametersType p = Bogus->GetParameters();
-    for (i = 0; i < p.GetSize(); ++i)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -120,7 +119,7 @@ oneTest(const char * goodname, const char * badname)
   }
   {
     typename AffineTransformType::FixedParametersType p = Bogus->GetFixedParameters();
-    for (i = 0; i < p.GetSize(); ++i)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }

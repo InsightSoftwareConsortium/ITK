@@ -215,10 +215,8 @@ ImageIOBase::ComputeStrides()
 ImageIOBase::SizeType
 ImageIOBase::GetImageSizeInPixels() const
 {
-  unsigned int i;
-  SizeType     numPixels = 1;
-
-  for (i = 0; i < m_NumberOfDimensions; ++i)
+  SizeType numPixels = 1;
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
     numPixels *= m_Dimensions[i];
   }

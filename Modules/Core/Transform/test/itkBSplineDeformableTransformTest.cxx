@@ -54,8 +54,6 @@ itkBSplineDeformableTransformTest1()
 
   using ParametersType = TransformType::ParametersType;
 
-  unsigned int j;
-
   /**
    * Define the deformable grid region, spacing and origin
    */
@@ -113,7 +111,7 @@ itkBSplineDeformableTransformTest1()
   CoefficientImageType::Pointer coeffImage[SpaceDimension];
   unsigned int                  numberOfControlPoints = region.GetNumberOfPixels();
   CoefficientType *             dataPointer = parameters.data_block();
-  for (j = 0; j < SpaceDimension; ++j)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     coeffImage[j] = CoefficientImageType::New();
     coeffImage[j]->SetRegions(region);
@@ -237,7 +235,7 @@ itkBSplineDeformableTransformTest1()
   unsigned int baseIndex;
 
   std::cout << "Index" << '\t' << "Value" << '\t' << "Weight" << std::endl;
-  for (j = 0; j < SpaceDimension; ++j)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     baseIndex = j * numberOfParametersPerDimension;
     for (unsigned int k = 0; k < numberOfCoefficientInSupportRegion; ++k)
@@ -443,8 +441,6 @@ itkBSplineDeformableTransformTest2()
    */
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  unsigned int j;
-
   /**
    * Define a vector field as Dimension number of images
    */
@@ -465,7 +461,7 @@ itkBSplineDeformableTransformTest2()
   double                origin[Dimension];
   ImageType::SizeType   size;
   ImageType::RegionType region;
-  for (j = 0; j < Dimension; ++j)
+  for (unsigned int j = 0; j < Dimension; ++j)
   {
     spacing[j] = 10.0;
     origin[j] = -10.0;
@@ -477,7 +473,7 @@ itkBSplineDeformableTransformTest2()
   region.SetSize(size);
 
   TransformType::CoefficientImageArray field;
-  for (j = 0; j < Dimension; ++j)
+  for (unsigned int j = 0; j < Dimension; ++j)
   {
     field[j] = ImageType::New();
     field[j]->SetSpacing(spacing);
@@ -490,7 +486,7 @@ itkBSplineDeformableTransformTest2()
   itk::Vector<double, Dimension> v;
   v[0] = 5;
   v[1] = 7;
-  for (j = 0; j < Dimension; ++j)
+  for (unsigned int j = 0; j < Dimension; ++j)
   {
     field[j]->FillBuffer(v[j]);
   }
@@ -585,8 +581,6 @@ itkBSplineDeformableTransformTest3()
 
   using ParametersType = TransformType::ParametersType;
 
-  unsigned int j;
-
   /**
    * Define the deformable grid region, spacing and origin
    */
@@ -629,7 +623,7 @@ itkBSplineDeformableTransformTest3()
   CoefficientImageType::Pointer coeffImage[SpaceDimension];
   unsigned int                  numberOfControlPoints = region.GetNumberOfPixels();
   CoefficientType *             dataPointer = parameters.data_block();
-  for (j = 0; j < SpaceDimension; ++j)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     coeffImage[j] = CoefficientImageType::New();
     coeffImage[j]->SetRegions(region);

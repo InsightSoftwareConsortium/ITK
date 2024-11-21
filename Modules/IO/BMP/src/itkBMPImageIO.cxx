@@ -862,7 +862,6 @@ BMPImageIO::Write(const void * buffer)
   }
 
   // Write down the raw binary pixel data
-  unsigned int i;
   for (unsigned int h = 0; h < m_Dimensions[1]; ++h)
   {
     constexpr char paddingValue = 0;
@@ -870,19 +869,19 @@ BMPImageIO::Write(const void * buffer)
     ptr += (m_Dimensions[1] - (h + 1)) * m_Dimensions[0] * bpp;
     if (bpp == 1)
     {
-      for (i = 0; i < m_Dimensions[0]; ++i)
+      for (unsigned int i = 0; i < m_Dimensions[0]; ++i)
       {
         m_Ofstream.write(ptr, sizeof(char));
         ++ptr;
       }
-      for (i = 0; i < paddedBytes; ++i)
+      for (unsigned int i = 0; i < paddedBytes; ++i)
       {
         m_Ofstream.write(&paddingValue, sizeof(char));
       }
     }
     if (bpp == 3)
     {
-      for (i = 0; i < m_Dimensions[0]; ++i)
+      for (unsigned int i = 0; i < m_Dimensions[0]; ++i)
       {
         ptr += 2;
         m_Ofstream.write(ptr, sizeof(char)); // blue
@@ -892,14 +891,14 @@ BMPImageIO::Write(const void * buffer)
         m_Ofstream.write(ptr, sizeof(char)); // red
         ptr += 3;
       }
-      for (i = 0; i < paddedBytes; ++i)
+      for (unsigned int i = 0; i < paddedBytes; ++i)
       {
         m_Ofstream.write(&paddingValue, sizeof(char));
       }
     }
     if (bpp == 4)
     {
-      for (i = 0; i < m_Dimensions[0]; ++i)
+      for (unsigned int i = 0; i < m_Dimensions[0]; ++i)
       {
         ptr += 2;
         m_Ofstream.write(ptr, sizeof(char)); // blue
@@ -911,7 +910,7 @@ BMPImageIO::Write(const void * buffer)
         m_Ofstream.write(ptr, sizeof(char)); // alpha
         ++ptr;
       }
-      for (i = 0; i < paddedBytes; ++i)
+      for (unsigned int i = 0; i < paddedBytes; ++i)
       {
         m_Ofstream.write(&paddingValue, sizeof(char));
       }

@@ -25,32 +25,33 @@ template <typename TPixelType, unsigned int VDimension>
 void
 FillRegionSequential(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
 {
-  unsigned int          iDim, ArrayLength, i;
   itk::Size<VDimension> Index;
   unsigned long         Location[VDimension];
-  unsigned int          mult;
-  TPixelType            value;
+
 
   itk::ImageRegionIterator<itk::Image<TPixelType, VDimension>> data(I, I->GetRequestedRegion());
 
   Index = (I->GetRequestedRegion()).GetSize();
 
-  for (ArrayLength = 1, iDim = 0; iDim < VDimension; ++iDim)
+  unsigned int ArrayLength = 1;
+  for (unsigned int iDim = 0; iDim < VDimension; ++iDim)
   {
     Location[iDim] = 0;
     ArrayLength *= Index[iDim];
   }
 
-  for (i = 0; i < ArrayLength; ++i, ++data)
+  for (unsigned int i = 0; i < ArrayLength; ++i, ++data)
   {
-    for (iDim = 0, mult = 1, value = 0; iDim < VDimension; ++iDim, mult *= 10)
+    TPixelType   value = 0;
+    unsigned int mult = 1;
+    for (unsigned int iDim = 0; iDim < VDimension; ++iDim, mult *= 10)
     {
       value += mult * Location[VDimension - iDim - 1];
     }
     data.Set(value);
 
-    iDim = VDimension - 1;
-    bool done = false;
+    unsigned int iDim = VDimension - 1;
+    bool         done = false;
     while (!done)
     {
       ++Location[iDim];
@@ -78,16 +79,15 @@ template <typename TPixelType, unsigned int VDimension>
 void
 PrintRegion(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
 {
-  unsigned int iDim;
-  long         rsz[VDimension];
-  long         Location[VDimension];
+  long rsz[VDimension];
+  long Location[VDimension];
 
   std::copy(I->GetRequestedRegion().GetSize().m_InternalArray,
             I->GetRequestedRegion().GetSize().m_InternalArray + VDimension,
             rsz);
   std::fill_n(Location, VDimension, 0);
 
-  for (iDim = 0; iDim < VDimension; ++iDim)
+  for (unsigned int iDim = 0; iDim < VDimension; ++iDim)
   {
     std::cout << "iDim = " << iDim << std::endl;
     std::cout << "\tRegionSize = " << I->GetRequestedRegion().GetSize().m_InternalArray[iDim] << std::endl;
@@ -100,8 +100,8 @@ PrintRegion(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
   {
     std::cout << iter.Get() << ' ';
 
-    iDim = VDimension - 1;
-    bool done = false;
+    unsigned int iDim = VDimension - 1;
+    bool         done = false;
     while (!done)
     {
       ++Location[iDim];

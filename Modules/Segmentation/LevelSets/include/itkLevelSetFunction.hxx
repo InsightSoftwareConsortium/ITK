@@ -55,7 +55,6 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
                                                       const FloatOffsetType &  itkNotUsed(offset),
                                                       GlobalDataStruct *       gd) -> ScalarValueType
 {
-  unsigned int          i, j, n;
   ScalarValueType       gradMag = std::sqrt(gd->m_GradMagSqr);
   ScalarValueType       Pgrad[ImageDimension][ImageDimension];
   ScalarValueType       tmp_matrix[ImageDimension][ImageDimension];
@@ -66,10 +65,10 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
 
   ScalarValueType mincurve;
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     Pgrad[i][i] = 1.0 - gd->m_dx[i] * gd->m_dx[i] / gradMag;
-    for (j = i + 1; j < ImageDimension; ++j)
+    for (unsigned int j = i + 1; j < ImageDimension; ++j)
     {
       Pgrad[i][j] = gd->m_dx[i] * gd->m_dx[j] / gradMag;
       Pgrad[j][i] = Pgrad[i][j];
@@ -77,12 +76,12 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   }
 
   // Compute Pgrad * Hessian * Pgrad
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    for (j = i; j < ImageDimension; ++j)
+    for (unsigned int j = i; j < ImageDimension; ++j)
     {
       tmp_matrix[i][j] = ZERO;
-      for (n = 0; n < ImageDimension; ++n)
+      for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         tmp_matrix[i][j] += Pgrad[i][n] * gd->m_dxy[n][j];
       }
@@ -90,12 +89,12 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
     }
   }
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    for (j = i; j < ImageDimension; ++j)
+    for (unsigned int j = i; j < ImageDimension; ++j)
     {
       Curve(i, j) = ZERO;
-      for (n = 0; n < ImageDimension; ++n)
+      for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         Curve(i, j) += tmp_matrix[i][n] * Pgrad[n][j];
       }
@@ -107,7 +106,7 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
 
   mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (itk::Math::abs(eig.get_eigenvalue(i)) < mincurve && itk::Math::abs(eig.get_eigenvalue(i)) > MIN_EIG)
     {
@@ -155,11 +154,10 @@ LevelSetFunction<TImageType>::ComputeMeanCurvature(const NeighborhoodType & itkN
 {
   // Calculate the mean curvature
   ScalarValueType curvature_term{};
-  unsigned int    i, j;
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       if (j != i)
       {
@@ -285,7 +283,6 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
                                             void *                   globalData,
                                             const FloatOffsetType &  offset) -> PixelType
 {
-  unsigned int          i, j;
   const ScalarValueType ZERO{};
   const ScalarValueType center_value = it.GetCenterPixel();
 
@@ -301,7 +298,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
   // Compute the Hessian matrix and various other derivatives.  Some of these
   // derivatives may be used by overloaded virtual functions.
   gd->m_GradMagSqr = 1.0e-6;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     const auto positionA = static_cast<unsigned int>(m_Center + m_xStride[i]);
     const auto positionB = static_cast<unsigned int>(m_Center - m_xStride[i]);
@@ -316,7 +313,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
 
     gd->m_GradMagSqr += gd->m_dx[i] * gd->m_dx[i];
 
-    for (j = i + 1; j < ImageDimension; ++j)
+    for (unsigned int j = i + 1; j < ImageDimension; ++j)
     {
       const auto positionAa = static_cast<unsigned int>(m_Center - m_xStride[i] - m_xStride[j]);
       const auto positionBa = static_cast<unsigned int>(m_Center - m_xStride[i] + m_xStride[j]);
@@ -351,7 +348,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
     advection_field = this->AdvectionField(it, offset, gd);
     advection_term = ZERO;
 
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       x_energy = m_AdvectionWeight * advection_field[i];
 
@@ -389,7 +386,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
 
     if (propagation_term > ZERO)
     {
-      for (i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         propagation_gradient +=
           itk::Math::sqr(std::max(gd->m_dx_backward[i], ZERO)) + itk::Math::sqr(std::min(gd->m_dx_forward[i], ZERO));
@@ -397,7 +394,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
     }
     else
     {
-      for (i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         propagation_gradient +=
           itk::Math::sqr(std::min(gd->m_dx_backward[i], ZERO)) + itk::Math::sqr(std::max(gd->m_dx_forward[i], ZERO));
@@ -420,7 +417,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
     laplacian = ZERO;
 
     // Compute the laplacian using the existing second derivative values
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       laplacian += gd->m_dxy[i][i];
     }

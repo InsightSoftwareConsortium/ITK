@@ -381,8 +381,8 @@ MetaImageIO::ReadImageInformation()
 
   this->SetNumberOfDimensions(m_MetaImage.NDims());
 
-  unsigned int i;
-  for (i = 0; i < m_NumberOfDimensions; ++i)
+
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
     this->SetDimensions(i, m_MetaImage.DimSize(i) / m_SubSamplingFactor);
     this->SetSpacing(i, m_MetaImage.ElementSpacing(i) * m_SubSamplingFactor);

@@ -93,8 +93,6 @@ FRPROptimizer::LineOptimize(ParametersType * p, ParametersType & xi, double * va
 void
 FRPROptimizer::StartOptimization()
 {
-  unsigned int i;
-
   if (m_CostFunction.IsNull())
   {
     return;
@@ -107,7 +105,7 @@ FRPROptimizer::StartOptimization()
 
   FRPROptimizer::ParametersType tempCoord(this->GetSpaceDimension());
 
-  double                        gg, gam, dgg;
+
   FRPROptimizer::ParametersType g(this->GetSpaceDimension());
   FRPROptimizer::ParametersType h(this->GetSpaceDimension());
   FRPROptimizer::ParametersType xi(this->GetSpaceDimension());
@@ -119,7 +117,7 @@ FRPROptimizer::StartOptimization()
   double fp;
   this->GetValueAndDerivative(p, &fp, &xi);
 
-  for (i = 0; i < this->GetSpaceDimension(); ++i)
+  for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)
   {
     g[i] = -xi[i];
     xi[i] = g[i];
@@ -157,12 +155,12 @@ FRPROptimizer::StartOptimization()
       this->GetValueAndDerivative(p, &fp, &xi);
     }
 
-    gg = 0.0;
-    dgg = 0.0;
+    double gg = 0.0;
+    double dgg = 0.0;
 
     if (m_OptimizationType == OptimizationEnum::PolakRibiere)
     {
-      for (i = 0; i < this->GetSpaceDimension(); ++i)
+      for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)
       {
         gg += g[i] * g[i];
         dgg += (xi[i] + g[i]) * xi[i];
@@ -170,7 +168,7 @@ FRPROptimizer::StartOptimization()
     }
     if (m_OptimizationType == OptimizationEnum::FletchReeves)
     {
-      for (i = 0; i < this->GetSpaceDimension(); ++i)
+      for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)
       {
         gg += g[i] * g[i];
         dgg += xi[i] * xi[i];
@@ -184,8 +182,8 @@ FRPROptimizer::StartOptimization()
       return;
     }
 
-    gam = dgg / gg;
-    for (i = 0; i < this->GetSpaceDimension(); ++i)
+    const double gam = dgg / gg;
+    for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)
     {
       g[i] = -xi[i];
       xi[i] = g[i] + gam * h[i];

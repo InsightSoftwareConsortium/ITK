@@ -27,7 +27,7 @@
 
 namespace itk
 {
-//#define ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING
+// #define ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING
 #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
 namespace
 {
@@ -538,24 +538,24 @@ NiftiImageIO::Read(void * buffer)
   ImageIORegion::SizeType  size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
 
-  size_t       numElts = 1;
-  int          _origin[7];
-  int          _size[7];
-  unsigned int i;
-
-  for (i = 0; i < start.size(); ++i)
+  size_t numElts = 1;
+  int    _origin[7];
+  int    _size[7];
   {
-    _origin[i] = static_cast<int>(start[i]);
-    _size[i] = static_cast<int>(size[i]);
-    numElts *= _size[i];
+    unsigned int i = 0;
+    for (; i < start.size(); ++i)
+    {
+      _origin[i] = static_cast<int>(start[i]);
+      _size[i] = static_cast<int>(size[i]);
+      numElts *= _size[i];
+    }
+    for (; i < 7; ++i)
+    {
+      _origin[i] = 0;
+      _size[i] = 1;
+    }
   }
-  for (; i < 7; ++i)
-  {
-    _origin[i] = 0;
-    _size[i] = 1;
-  }
-
-  unsigned int numComponents = this->GetNumberOfComponents();
+  const unsigned int numComponents = this->GetNumberOfComponents();
   //
   // special case for images of vector pixels
   if (numComponents > 1 && this->GetPixelType() != IOPixelEnum::COMPLEX)
@@ -581,29 +581,33 @@ NiftiImageIO::Read(void * buffer)
   //
   // decide whether to read whole region or subregion, by stepping
   // thru dims and comparing them to requested sizes
-  for (i = 0; i < this->GetNumberOfDimensions(); ++i)
   {
-    if (this->m_NiftiImage->dim[i + 1] != _size[i])
+    unsigned int i = 0;
+
+    for (; i < this->GetNumberOfDimensions(); ++i)
     {
-      break;
+      if (this->m_NiftiImage->dim[i + 1] != _size[i])
+      {
+        break;
+      }
     }
-  }
-  // if all dimensions match requested size, just read in
-  // all data as a block
-  if (i == this->GetNumberOfDimensions())
-  {
-    if (nifti_image_load(this->m_NiftiImage) == -1)
+    // if all dimensions match requested size, just read in
+    // all data as a block
+    if (i == this->GetNumberOfDimensions())
     {
-      itkExceptionMacro("nifti_image_load failed for file: " << this->GetFileName());
+      if (nifti_image_load(this->m_NiftiImage) == -1)
+      {
+        itkExceptionMacro("nifti_image_load failed for file: " << this->GetFileName());
+      }
+      data = this->m_NiftiImage->data;
     }
-    data = this->m_NiftiImage->data;
-  }
-  else
-  {
-    // read in a subregion
-    if (nifti_read_subregion_image(this->m_NiftiImage, _origin, _size, &data) == -1)
+    else
     {
-      itkExceptionMacro("nifti_read_subregion_image failed for file: " << this->GetFileName());
+      // read in a subregion
+      if (nifti_read_subregion_image(this->m_NiftiImage, _origin, _size, &data) == -1)
+      {
+        itkExceptionMacro("nifti_read_subregion_image failed for file: " << this->GetFileName());
+      }
     }
   }
   unsigned int pixelSize = this->m_NiftiImage->nbyper;
@@ -707,7 +711,7 @@ NiftiImageIO::Read(void * buffer)
     else
     {
       vecOrder = new int[numComponents];
-      for (i = 0; i < numComponents; ++i)
+      for (unsigned int i = 0; i < numComponents; ++i)
       {
         vecOrder[i] = i;
       }
@@ -2267,19 +2271,22 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
   using DirectionMatrixComponentType = float;
   const int                                 mindims(dims < 3 ? 3 : dims);
   std::vector<DirectionMatrixComponentType> dirx(mindims, 0.0f);
-  unsigned int                              i;
-  for (i = 0; i < this->GetDirection(0).size(); ++i)
   {
-    dirx[i] = static_cast<DirectionMatrixComponentType>(-this->GetDirection(0)[i]);
-  }
-  if (i < 3)
-  {
-    dirx[2] = 0.0f;
+    unsigned int i = 0;
+    for (; i < this->GetDirection(0).size(); ++i)
+    {
+      dirx[i] = static_cast<DirectionMatrixComponentType>(-this->GetDirection(0)[i]);
+    }
+    if (i < 3)
+    {
+      dirx[2] = 0.0f;
+    }
   }
   std::vector<DirectionMatrixComponentType> diry(mindims, 0);
   if (origdims > 1)
   {
-    for (i = 0; i < this->GetDirection(1).size(); ++i)
+    unsigned int i = 0;
+    for (; i < this->GetDirection(1).size(); ++i)
     {
       diry[i] = static_cast<DirectionMatrixComponentType>(-this->GetDirection(1)[i]);
     }

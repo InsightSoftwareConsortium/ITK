@@ -249,8 +249,7 @@ itkImageFileWriterStreamingPastingCompressingTest1(int argc, char * argv[])
 
   int           expectException[8];
   constexpr int expectedExceptionOffset = 4;
-  int           i;
-  for (i = 0; i < 8; ++i)
+  for (int i = 0; i < 8; ++i)
   {
     if (argc > i + expectedExceptionOffset)
     {
@@ -266,7 +265,7 @@ itkImageFileWriterStreamingPastingCompressingTest1(int argc, char * argv[])
     }
   }
 
-  i = 0;
+  int i = 0;
 
   int retValue = ActualTest(argv[1], argv[2], argv[3], false, false, false, expectException[i++]);
   retValue = (retValue == EXIT_FAILURE)

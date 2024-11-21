@@ -118,27 +118,24 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::InitializeN
   NormalBandNodeType *           node,
   const InputImageIteratorType & it)
 {
-  unsigned int     i, j, k;
-  unsigned int     counter;
-  unsigned long    position, center;
   unsigned long    stride[ImageDimension];
   NormalVectorType normalvector;
   NodeValueType    derivative;
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     stride[i] = it.GetStride(i);
   }
-  center = it.Size() / 2;
+  const unsigned long center = it.Size() / 2;
 
   // Normal vector computation -- use positive quadrant of neighborhood
-  for (j = 0; j < ImageDimension; ++j) // derivative axis
+  for (unsigned int j = 0; j < ImageDimension; ++j) // derivative axis
   {
     normalvector[j] = NodeValueType{};
-    for (counter = 0; counter < m_NumVertex; ++counter)
+    for (unsigned int counter = 0; counter < m_NumVertex; ++counter)
     {
-      position = center;
-      for (k = 0; k < ImageDimension; ++k)
+      unsigned long position = center;
+      for (unsigned int k = 0; k < ImageDimension; ++k)
       {
         if (counter & m_Indicator[k])
         {
@@ -159,19 +156,19 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::InitializeN
   node->m_InputData = node->m_Data;
 
   // Manifold normal vector computation
-  for (i = 0; i < ImageDimension; ++i) // offset axis (flux position)
+  for (unsigned int i = 0; i < ImageDimension; ++i) // offset axis (flux position)
   {
-    for (j = 0; j < ImageDimension; ++j) // derivative axis
+    for (unsigned int j = 0; j < ImageDimension; ++j) // derivative axis
     {
       derivative = NodeValueType{};
       if (i != j)
       {
-        for (counter = 0; counter < m_NumVertex; ++counter)
+        for (unsigned int counter = 0; counter < m_NumVertex; ++counter)
         {
           if (!(counter & m_Indicator[i])) // is the offset axis bit off?
           {
-            position = center;
-            for (k = 0; k < ImageDimension; ++k)
+            auto position = center;
+            for (unsigned int k = 0; k < ImageDimension; ++k)
             {
               if (counter & m_Indicator[k])
               {
@@ -192,10 +189,10 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::InitializeN
       } // if i!=j
       else
       {
-        for (counter = 0; counter < m_NumVertex; ++counter)
+        for (unsigned int counter = 0; counter < m_NumVertex; ++counter)
         {
-          position = center;
-          for (k = 0; k < ImageDimension; ++k)
+          auto position = center;
+          for (unsigned int k = 0; k < ImageDimension; ++k)
           {
             if ((k != i) && (counter & m_Indicator[k]))
             {

@@ -547,18 +547,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * ol
                                                                      int      scale,
                                                                      double * newCodeword)
 {
-  unsigned int i;
-  double       addoffset;
-  double       muloffset;
-  double       rand_num;
+  const double addoffset = m_OffsetAdd / std::pow(2.0, static_cast<double>(scale));
+  const double muloffset = m_OffsetMultiply / std::pow(2.0, static_cast<double>(scale));
 
-  addoffset = m_OffsetAdd / std::pow(2.0, static_cast<double>(scale));
-  muloffset = m_OffsetMultiply / std::pow(2.0, static_cast<double>(scale));
-
-  for (i = 0; i < m_VectorDimension; ++i)
+  for (unsigned int i = 0; i < m_VectorDimension; ++i)
   {
     srand(static_cast<unsigned int>(time(nullptr)));
-    rand_num = (rand()) / (static_cast<double>(RAND_MAX));
+    const double rand_num = (rand()) / (static_cast<double>(RAND_MAX));
 
     if (oldCodeword[i] == 0.0)
     {
@@ -592,8 +587,6 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithoutCodebookUseL
 {
   // itkDebugMacro(<<"Start local function lbg design()");
 
-  unsigned int tmp_ncodewords, j;
-
   // Do the LBG algorithm
   // Iteration begins here
   // Start with one word codebook
@@ -602,7 +595,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithoutCodebookUseL
   m_OutputDistortion = m_DoubleMaximum;
 
   // Apply the generalized Lloyd algorithm on all codebook sizes
-  for (tmp_ncodewords = 1; tmp_ncodewords < m_NumberOfCodewords;)
+  for (unsigned int tmp_ncodewords = 1; tmp_ncodewords < m_NumberOfCodewords;)
   {
     // Run the GLA for codebook of size i
     // Run GLA
@@ -616,7 +609,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithoutCodebookUseL
     }
 
     // Find the number of new codewords to be made (j-tmp_ncodewords)
-    j = 2 * tmp_ncodewords;
+    unsigned int j = 2 * tmp_ncodewords;
     if (j > m_NumberOfCodewords)
     {
       j = m_NumberOfCodewords;

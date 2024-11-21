@@ -27,9 +27,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::VoronoiSegmentationRGBImageFilter()
 {
-  unsigned int i;
-
-  for (i = 0; i < 6; ++i)
+  for (unsigned int i = 0; i < 6; ++i)
   {
     m_Mean[i] = 0;
     m_STD[i] = 0;
@@ -96,12 +94,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(const Inp
   PixelType                                              ipixel;
   RGBHCVPixel                                            wpixel;
 
-  double X;
-  double Y;
-  double Z;
-  double L;
-  double a;
-  double b;
+
   double X0 = m_MaxValueOfRGB * 0.982;
   double Y0 = m_MaxValueOfRGB;
   double Z0 = m_MaxValueOfRGB * 1.183;
@@ -113,15 +106,16 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(const Inp
     wpixel[1] = ipixel[1];
     wpixel[2] = ipixel[2];
 
-    X = 0.607 * ipixel[0] + 0.174 * ipixel[1] + 0.201 * ipixel[2];
-    Y = 0.299 * ipixel[0] + 0.587 * ipixel[1] + 0.114 * ipixel[2];
-    Z = 0.066 * ipixel[1] + 1.117 * ipixel[2];
+
+    double X = 0.607 * ipixel[0] + 0.174 * ipixel[1] + 0.201 * ipixel[2];
+    double Y = 0.299 * ipixel[0] + 0.587 * ipixel[1] + 0.114 * ipixel[2];
+    double Z = 0.066 * ipixel[1] + 1.117 * ipixel[2];
     X = std::pow((X / X0), 0.3333);
     Y = std::pow((Y / Y0), 0.3333);
     Z = std::pow((Z / Z0), 0.3333);
-    L = 116 * Y - 16;
-    a = 500 * (X - Y);
-    b = 200 * (Y - Z);
+    const double L = 116 * Y - 16;
+    const double a = 500 * (X - Y);
+    const double b = 200 * (Y - Z);
 
     if (b != 0.0)
     {
@@ -143,16 +137,14 @@ template <typename TInputImage, typename TOutputImage>
 bool
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(IndexList & Plist)
 {
-  auto        num = static_cast<int>(Plist.size());
-  int         i, j;
-  RGBHCVPixel getp;
-  double      addp[6] = { 0, 0, 0, 0, 0, 0 };
-  double      addpp[6] = { 0, 0, 0, 0, 0, 0 };
+  auto   num = static_cast<int>(Plist.size());
+  double addp[6] = { 0, 0, 0, 0, 0, 0 };
+  double addpp[6] = { 0, 0, 0, 0, 0, 0 };
 
-  for (i = 0; i < num; ++i)
+  for (int i = 0; i < num; ++i)
   {
-    getp = m_WorkingImage->GetPixel(Plist[i]);
-    for (j = 0; j < 6; ++j)
+    auto getp = m_WorkingImage->GetPixel(Plist[i]);
+    for (int j = 0; j < 6; ++j)
     {
       addp[j] = addp[j] + getp[j];
       addpp[j] = addpp[j] + getp[j] * getp[j];
@@ -162,7 +154,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
   double savemean[6], saveSTD[6];
   if (num > 1)
   {
-    for (i = 0; i < 6; ++i)
+    for (int i = 0; i < 6; ++i)
     {
       savemean[i] = addp[i] / num;
       saveSTD[i] = std::sqrt((addpp[i] - (addp[i] * addp[i]) / (num)) / (num - 1));
@@ -170,15 +162,14 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
   }
   else
   {
-    for (i = 0; i < 6; ++i)
+    for (int i = 0; i < 6; ++i)
     {
       savemean[i] = 0;
       saveSTD[i] = -1;
     }
   }
 
-  j = 0;
-  while ((j < 3))
+  for(int j =0;  j < 3; ++j)
   {
     const double savem = savemean[m_TestMean[j]] - m_Mean[m_TestMean[j]];
     const double savev = saveSTD[m_TestSTD[j]] - m_STD[m_TestSTD[j]];
@@ -190,7 +181,6 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
     {
       return false;
     }
-    ++j;
   }
   return true;
 }

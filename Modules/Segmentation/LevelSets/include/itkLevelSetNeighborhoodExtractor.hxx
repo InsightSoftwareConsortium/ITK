@@ -131,8 +131,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
     updateVisits = 1;
   }
 
-  SizeValueType i;
-  for (i = 0; !inIt.IsAtEnd(); ++inIt, ++i)
+  for (SizeValueType i = 0; !inIt.IsAtEnd(); ++inIt, ++i)
   {
     // update progress
     if (!(i % updateVisits))
@@ -169,8 +168,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataNarrowBand()
     updateVisits = 1;
   }
 
-  unsigned int i;
-  for (i = 0; pointsIter != pointsEnd; ++pointsIter, ++i)
+  for (unsigned int i = 0; pointsIter != pointsEnd; ++pointsIter, ++i)
   {
     // update progress
     if (!(i % updateVisits))

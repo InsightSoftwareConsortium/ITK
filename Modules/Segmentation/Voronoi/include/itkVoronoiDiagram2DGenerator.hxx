@@ -1022,11 +1022,9 @@ template <typename TCoordRepType>
 void
 VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
 {
-  unsigned int i;
-
   // Build seed sites
   m_SeedSites.resize(m_NumberOfSeeds);
-  for (i = 0; i < m_NumberOfSeeds; ++i)
+  for (unsigned int i = 0; i < m_NumberOfSeeds; ++i)
   {
     m_SeedSites[i].m_Coord = m_Seeds[i];
     m_SeedSites[i].m_Sitenbr = i;
@@ -1051,13 +1049,13 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
   m_PQmin = 0;
   m_PQhashsize = static_cast<int>(4 * m_SqrtNSites);
   m_PQHash.resize(m_PQhashsize);
-  for (i = 0; i < m_PQhashsize; ++i)
+  for (unsigned int i = 0; i < m_PQhashsize; ++i)
   {
     m_PQHash[i].m_Next = nullptr;
   }
   m_ELhashsize = static_cast<int>(2 * m_SqrtNSites);
   m_ELHash.resize(m_ELhashsize);
-  for (i = 0; i < m_ELhashsize; ++i)
+  for (unsigned int i = 0; i < m_ELhashsize; ++i)
   {
     m_ELHash[i] = nullptr;
   }
@@ -1098,8 +1096,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
   int Edgeid = 0;
   int Siteid = 0;
 
-  i = 2;
-  bool ok = true;
+  unsigned int i = 2;
+  bool         ok = true;
   while (ok)
   {
     if (m_PQcount != 0)
