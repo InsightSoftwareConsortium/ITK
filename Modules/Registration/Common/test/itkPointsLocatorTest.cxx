@@ -33,7 +33,6 @@ testPointsLocatorTest()
 
   using PointsContainerType = TPointsContainer;
   auto points = PointsContainerType::New();
-  points->Initialize();
 
   using PointsLocatorType = itk::PointsLocator<PointsContainerType>;
   auto pointsLocator = PointsLocatorType::New();

@@ -59,7 +59,6 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   confidenceImage->FillBuffer(1.0);
 
   auto pointSet = PointSetType::New();
-  pointSet->Initialize();
 
   auto ones_points = itk::MakeFilled<VectorType>(1.0);
 

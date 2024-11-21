@@ -75,10 +75,8 @@ itkExpectationBasedPointSetMetricRegistrationTest(int argc, char * argv[])
   using PointType = PointSetType::PointType;
 
   auto fixedPoints = PointSetType::New();
-  fixedPoints->Initialize();
 
   auto movingPoints = PointSetType::New();
-  movingPoints->Initialize();
 
 
   // two ellipses, one rotated slightly

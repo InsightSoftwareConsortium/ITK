@@ -70,10 +70,8 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
   using PointType = typename PointSetType::PointType;
 
   auto fixedPoints = PointSetType::New();
-  fixedPoints->Initialize();
 
   auto movingPoints = PointSetType::New();
-  movingPoints->Initialize();
 
   // two circles with a small offset
   PointType offset;

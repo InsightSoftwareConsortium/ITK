@@ -130,7 +130,6 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
 
   using ShapeFunctionType = itk::SphereSignedDistanceFunction<double, Dimension>;
   auto shape = ShapeFunctionType::New();
-  shape->Initialize();
 
   ShapeFunctionType::ParametersType parameters(shape->GetNumberOfParameters());
   parameters[0] = 10.0;

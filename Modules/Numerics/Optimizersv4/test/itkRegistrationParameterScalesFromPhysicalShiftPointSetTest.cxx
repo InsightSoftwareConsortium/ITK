@@ -87,9 +87,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   using PointType = PointSetType::PointType;
 
   auto fixedPoints = PointSetType::New();
-  fixedPoints->Initialize();
   auto movingPoints = PointSetType::New();
-  movingPoints->Initialize();
 
   itk::Size<Dimension> virtualDomainSize;
   virtualDomainSize[0] = static_cast<itk::SizeValueType>(10);

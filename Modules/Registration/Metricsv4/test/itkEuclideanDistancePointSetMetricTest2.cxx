@@ -37,10 +37,8 @@ itkEuclideanDistancePointSetMetricTest2Run()
   using PointType = typename PointSetType::PointType;
 
   auto fixedPoints = PointSetType::New();
-  fixedPoints->Initialize();
 
   auto movingPoints = PointSetType::New();
-  movingPoints->Initialize();
 
   // Create a few points and apply a small offset to make the moving points
   auto      pointMax = static_cast<float>(100.0);
@@ -200,7 +198,6 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   // Test with no valid points.
   auto fixedPoints2 = PointSetType::New();
-  fixedPoints2->Initialize();
   fixedPoint[0] = -pointMax;
   fixedPoint[1] = 0.0;
   fixedPoints2->SetPoint(0, fixedPoint);
