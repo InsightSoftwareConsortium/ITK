@@ -576,9 +576,6 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
 
   VectorType chebycoefs; // gradient direction
   chebycoefs.set_size(ImageDimension);
-  double chebycoefs0 = 0.0; // the constant term
-  double datatotal = 0.0;
-  double a0norm = 1.0;
   double a1norm = 1.0 / 2.0;
 
   double met, ind1, ind2;
@@ -588,7 +585,6 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
   inds[2] = 1.0;
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
-    a0norm /= 3.0;
     if (k < ImageDimension - 1)
     {
       a1norm /= 3.0;
@@ -654,8 +650,6 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
         }
         catch (...)
         {}
-
-        datatotal += measure[row + 1][col + 1];
       }
     }
     for (unsigned int cb1 = 0; cb1 < 3; ++cb1)
@@ -706,8 +700,6 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
           }
           catch (...)
           {}
-
-          datatotal += measure3D[row + 1][col + 1][z + 1];
         }
       }
     }
@@ -724,9 +716,6 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
       }
     }
   }
-
-  chebycoefs0 = a0norm * datatotal;
-  //  std::cout << " cb " << chebycoefs << std::endl;
   return chebycoefs;
 }
 
