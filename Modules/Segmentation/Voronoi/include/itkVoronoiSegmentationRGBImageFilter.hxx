@@ -177,32 +177,22 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
     }
   }
 
-  bool ok = true;
   j = 0;
-  double savem, savev;
-  while (ok && (j < 3))
+  while ((j < 3))
   {
-    savem = savemean[m_TestMean[j]] - m_Mean[m_TestMean[j]];
-    savev = saveSTD[m_TestSTD[j]] - m_STD[m_TestSTD[j]];
+    const double savem = savemean[m_TestMean[j]] - m_Mean[m_TestMean[j]];
+    const double savev = saveSTD[m_TestSTD[j]] - m_STD[m_TestSTD[j]];
     if ((savem < -m_MeanTolerance[m_TestMean[j]]) || (savem > m_MeanTolerance[m_TestMean[j]]))
     {
-      ok = false;
+      return false;
     }
     if ((savev < -m_STDTolerance[m_TestSTD[j]]) || (savev > m_STDTolerance[m_TestSTD[j]]))
     {
-      ok = false;
+      return false;
     }
     ++j;
   }
-
-  if (ok)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return true;
 }
 
 template <typename TInputImage, typename TOutputImage>
