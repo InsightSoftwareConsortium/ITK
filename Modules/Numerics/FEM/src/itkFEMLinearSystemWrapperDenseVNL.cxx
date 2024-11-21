@@ -199,8 +199,7 @@ LinearSystemWrapperDenseVNL::SwapMatrices(unsigned int MatrixIndex1, unsigned in
 void
 LinearSystemWrapperDenseVNL::SwapVectors(unsigned int VectorIndex1, unsigned int VectorIndex2)
 {
-  vnl_vector<Float> tmp;
-  tmp = *(*m_Vectors)[VectorIndex1];
+  vnl_vector<Float> tmp = *(*m_Vectors)[VectorIndex1];
   *(*m_Vectors)[VectorIndex1] = *(*m_Vectors)[VectorIndex2];
   *(*m_Vectors)[VectorIndex2] = tmp;
 }

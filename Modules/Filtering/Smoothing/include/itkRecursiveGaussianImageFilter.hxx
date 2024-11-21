@@ -185,8 +185,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       DN = DN2 + beta * DN0;
       EN = EN2 + beta * EN0;
 
-      ScalarRealType alpha2;
-      alpha2 = EN * SD * SD - ED * SN * SD - 2 * DN * DD * SD + 2 * DD * DD * SN;
+      ScalarRealType alpha2 = EN * SD * SD - ED * SN * SD - 2 * DN * DD * SD + 2 * DD * DD * SN;
       alpha2 /= SD * SD * SD;
 
       this->m_N0 *= across_scale_normalization / alpha2;

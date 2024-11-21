@@ -404,8 +404,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
     return update;
   }
 
-  PixelType threshold;
-  threshold = this->ComputeThreshold(Dispatch<ImageDimension>(), it);
+  PixelType threshold = this->ComputeThreshold(Dispatch<ImageDimension>(), it);
 
   NeighborhoodInnerProduct<ImageType> innerProduct;
   PixelType                           avgValue = innerProduct(it, m_StencilOperator);

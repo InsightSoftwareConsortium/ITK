@@ -105,8 +105,7 @@ ContourSpatialObject<TDimension>::SetControlPoints(const ContourPointListType & 
 {
   m_ControlPoints.clear();
 
-  typename ContourPointListType::const_iterator it;
-  it = points.begin();
+  typename ContourPointListType::const_iterator it = points.begin();
   while (it != points.end())
   {
     m_ControlPoints.push_back(*it);
@@ -219,8 +218,7 @@ ContourSpatialObject<TDimension>::Update()
             newPoint[d] = pnt[d] + i * step[d];
           }
         }
-        typename Superclass::SpatialObjectPointType newSOPoint;
-        newSOPoint = (*it);
+        typename Superclass::SpatialObjectPointType newSOPoint = (*it);
         newSOPoint.SetSpatialObject(this);
         newSOPoint.SetPositionInObjectSpace(newPoint);
         this->m_Points.push_back(newSOPoint);

@@ -92,17 +92,14 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   itkDebugMacro("Normalized View vector" << nViewVector);
 
   // Orthogonalize nUpVector and nViewVector
-  TVector nOrthogonalVector;
-
-  nOrthogonalVector = nUpVector - (nViewVector * (nUpVector * nViewVector));
+  TVector nOrthogonalVector = nUpVector - (nViewVector * (nUpVector * nViewVector));
 
   itkDebugMacro("Up vector component orthogonal to View vector " << nOrthogonalVector);
 
   // Perform the cross product and determine a third coordinate axis
   // orthogonal to both nOrthogonalVector and nViewVector.
 
-  TVector nThirdAxis;
-  nThirdAxis = itk::CrossProduct(nOrthogonalVector, nViewVector);
+  TVector nThirdAxis = itk::CrossProduct(nOrthogonalVector, nViewVector);
 
   itkDebugMacro("Third basis vector" << nThirdAxis);
 
@@ -298,9 +295,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   projectionStart[1] = 0;
 
   ProjectionImageSizeType projectionSize;
-  IndexValueType          pad;
-
-  pad = 5;
+  IndexValueType          pad = 5;
 
   projectionSize[0] = (IndexValueType)(bounds[1] - bounds[0]) + pad;
   projectionSize[1] = (IndexValueType)(bounds[3] - bounds[2]) + pad;

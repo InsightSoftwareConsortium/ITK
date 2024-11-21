@@ -211,8 +211,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchRadiusInV
     thisPtr->m_InputImage = this->GetInput();
   }
   const typename InputImageType::SpacingType & spacing = this->m_InputImage->GetSpacing();
-  typename InputImageType::SpacingValueType    maxSpacing;
-  maxSpacing = spacing[0];
+  typename InputImageType::SpacingValueType    maxSpacing = spacing[0];
   for (unsigned int dim = 1; dim < ImageDimension; ++dim)
   {
     if (spacing[dim] > maxSpacing)

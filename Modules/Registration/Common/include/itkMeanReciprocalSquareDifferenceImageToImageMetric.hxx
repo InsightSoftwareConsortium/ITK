@@ -112,9 +112,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Get
   const TransformParametersType & parameters,
   DerivativeType &                derivative) const
 {
-  TransformParametersType testPoint;
-
-  testPoint = parameters;
+  TransformParametersType testPoint = parameters;
 
   const unsigned int numberOfParameters = this->GetNumberOfParameters();
   derivative = DerivativeType(numberOfParameters);

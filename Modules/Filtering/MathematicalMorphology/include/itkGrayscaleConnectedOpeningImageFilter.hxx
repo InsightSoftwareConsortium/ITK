@@ -77,12 +77,10 @@ GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   calculator->SetImage(inputImage);
   calculator->ComputeMinimum();
 
-  InputImagePixelType minValue;
-  minValue = calculator->GetMinimum();
+  InputImagePixelType minValue = calculator->GetMinimum();
 
   // compare this minimum value to the value at the seed pixel.
-  InputImagePixelType seedValue;
-  seedValue = inputImage->GetPixel(m_Seed);
+  InputImagePixelType seedValue = inputImage->GetPixel(m_Seed);
 
   if (minValue == seedValue)
   {

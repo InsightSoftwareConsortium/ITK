@@ -127,8 +127,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
     outIt.GoToBegin();
     // set up the stack and neighbor list
     IndexStack                              IS;
-    typename NOutputIterator::IndexListType IndexList;
-    IndexList = outNIt.GetActiveIndexList();
+    typename NOutputIterator::IndexListType IndexList = outNIt.GetActiveIndexList();
 
     while (!outIt.IsAtEnd())
     {

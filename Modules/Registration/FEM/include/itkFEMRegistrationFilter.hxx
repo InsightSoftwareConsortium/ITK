@@ -1436,9 +1436,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GetLandmark(unsign
                                                                           PointType &  target)
 {
   Element::VectorType localSource;
-  Element::VectorType localTarget;
-
-  localTarget = m_LandmarkArray[index]->GetTarget();
+  Element::VectorType localTarget = m_LandmarkArray[index]->GetTarget();
   localSource = m_LandmarkArray[index]->GetSource();
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

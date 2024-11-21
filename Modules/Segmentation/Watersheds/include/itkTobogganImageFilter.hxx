@@ -119,8 +119,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
               // ignore
               // If NeighborClass > 1   -> Found a new neighbor, but only if
               // it's minimum
-              OutputImagePixelType NeighborClass;
-              NeighborClass = outputImage->GetPixel(NeighborIndex);
+              OutputImagePixelType NeighborClass = outputImage->GetPixel(NeighborIndex);
               // See if we've already touched it
               if (NeighborClass != 1)
               {
@@ -180,8 +179,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
           Visited.push_back(SeedIndex);
           itkDebugMacro("Flood fill, looking at " << SeedIndex);
           // Look at the neighbors
-          InputImagePixelType SeedValue;
-          SeedValue = inputImage->GetPixel(SeedIndex);
+          InputImagePixelType SeedValue = inputImage->GetPixel(SeedIndex);
           for (Dimension = 0; Dimension < ImageDimension; ++Dimension)
           {
             for (t = -1; t <= 1; t = t + 2)

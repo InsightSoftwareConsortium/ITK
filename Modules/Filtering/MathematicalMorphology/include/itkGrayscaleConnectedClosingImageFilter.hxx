@@ -77,12 +77,10 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>::GenerateData()
   calculator->SetImage(inputImage);
   calculator->ComputeMaximum();
 
-  InputImagePixelType maxValue;
-  maxValue = calculator->GetMaximum();
+  InputImagePixelType maxValue = calculator->GetMaximum();
 
   // compare this maximum value to the value at the seed pixel.
-  InputImagePixelType seedValue;
-  seedValue = inputImage->GetPixel(m_Seed);
+  InputImagePixelType seedValue = inputImage->GetPixel(m_Seed);
 
   if (maxValue == seedValue)
   {

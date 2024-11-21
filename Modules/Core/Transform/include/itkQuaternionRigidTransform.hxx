@@ -198,9 +198,7 @@ QuaternionRigidTransform<TParametersValueType>::ComputeMatrix()
   VnlQuaternionType conjugateRotation = m_Rotation.conjugate();
   // this is done to compensate for the transposed representation
   // between VNL and ITK
-  MatrixType newMatrix;
-
-  newMatrix = conjugateRotation.rotation_matrix_transpose();
+  MatrixType newMatrix = conjugateRotation.rotation_matrix_transpose();
   this->SetVarMatrix(newMatrix);
 }
 

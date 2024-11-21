@@ -75,9 +75,7 @@ InPlaceLabelMapFilter<TInputImage>::AllocateOutputs()
     // If there are more than one outputs, allocate the remaining outputs
     for (unsigned int i = 1; i < this->GetNumberOfIndexedOutputs(); ++i)
     {
-      OutputImagePointer outputPtr;
-
-      outputPtr = this->GetOutput(i);
+      OutputImagePointer outputPtr = this->GetOutput(i);
       outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
       outputPtr->Allocate();
     }

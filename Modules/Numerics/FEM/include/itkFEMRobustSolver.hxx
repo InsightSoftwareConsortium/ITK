@@ -487,8 +487,7 @@ RobustSolver<VDimension>::UnselectLandmarks(unsigned int nUnselected)
 
   LoadVectorType & loadVector = container->CastToSTLContainer();
 
-  LoadVectorType::iterator it;
-  it = loadVector.begin();
+  LoadVectorType::iterator it = loadVector.begin();
   std::advance(it, nUnselected - 1);
   auto nth = it;
 
@@ -522,8 +521,7 @@ RobustSolver<VDimension>::DeleteFromLandmarkBeginning(unsigned int nDeleted)
 
   LoadVectorType & loadVector = container->CastToSTLContainer();
 
-  LoadVectorType::iterator it;
-  it = loadVector.begin();
+  LoadVectorType::iterator it = loadVector.begin();
   std::advance(it, nDeleted);
   auto nth = it;
   loadVector.erase(loadVector.begin(), nth);

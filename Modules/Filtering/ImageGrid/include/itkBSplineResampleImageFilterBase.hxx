@@ -377,8 +377,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ReduceNDImage(OutputI
    * OutputImage for direct writing into the final variable. */
 
   // The first time through the loop our input image is inputPtr
-  typename TInputImage::ConstPointer workingImage;
-  workingImage = inputPtr;
+  typename TInputImage::ConstPointer workingImage = inputPtr;
 
   unsigned int     count = scratchRegion.GetNumberOfPixels() * ImageDimension;
   ProgressReporter progress(this, 0, count, 10);
@@ -491,8 +490,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ExpandNDImage(OutputI
   **/
 
   // The first time through the loop our input image is m_Image
-  typename TInputImage::ConstPointer workingImage;
-  workingImage = inputPtr;
+  typename TInputImage::ConstPointer workingImage = inputPtr;
 
   RegionType workingRegion = validRegion;
 

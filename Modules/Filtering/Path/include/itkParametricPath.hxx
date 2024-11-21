@@ -119,9 +119,7 @@ template <unsigned int VDimension>
 auto
 ParametricPath<VDimension>::EvaluateDerivative(const InputType & input) const -> VectorType
 {
-  InputType inputStepSize;
-
-  inputStepSize = m_DefaultInputStepSize;
+  InputType inputStepSize = m_DefaultInputStepSize;
   if ((input + inputStepSize) >= this->EndOfInput())
   {
     inputStepSize = this->EndOfInput() - input;

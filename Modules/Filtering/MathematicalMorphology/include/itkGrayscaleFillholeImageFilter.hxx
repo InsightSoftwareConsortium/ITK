@@ -74,8 +74,7 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GenerateData()
   calculator->SetImage(this->GetInput());
   calculator->ComputeMaximum();
 
-  InputImagePixelType maxValue;
-  maxValue = calculator->GetMaximum();
+  InputImagePixelType maxValue = calculator->GetMaximum();
 
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();

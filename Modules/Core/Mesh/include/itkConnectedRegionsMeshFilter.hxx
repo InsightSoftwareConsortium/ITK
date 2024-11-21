@@ -253,8 +253,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       }
 
       // get the cells using the closest point and use them as seeds
-      InputMeshCellLinksContainerConstPointer cellLinks;
-      cellLinks = input->GetCellLinks();
+      InputMeshCellLinksContainerConstPointer cellLinks = input->GetCellLinks();
 
       auto links = cellLinks->ElementAt(minId);
       for (auto citer = links.cbegin(); citer != links.cend(); ++citer)

@@ -30,9 +30,7 @@ template <typename TPixel, unsigned int TDimension, typename TAllocator>
 void
 AnnulusOperator<TPixel, TDimension, TAllocator>::CreateOperator()
 {
-  CoefficientVector coefficients;
-
-  coefficients = this->GenerateCoefficients();
+  CoefficientVector coefficients = this->GenerateCoefficients();
 
   this->Fill(coefficients);
 }
