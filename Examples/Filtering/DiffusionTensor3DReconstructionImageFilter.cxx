@@ -87,8 +87,7 @@ main(int argc, char * argv[])
   using PixelType = unsigned short;
   using ImageType = itk::VectorImage<unsigned short, 3>;
 
-  itk::ImageFileReader<ImageType>::Pointer reader =
-    itk::ImageFileReader<ImageType>::New();
+  auto reader = itk::ImageFileReader<ImageType>::New();
 
   ImageType::Pointer img;
 

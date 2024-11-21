@@ -76,8 +76,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using FloatImage2DType = itk::Image<float, 2>;
 
-  itk::RandomImageSource<FloatImage2DType>::Pointer random =
-    itk::RandomImageSource<FloatImage2DType>::New();
+  auto random = itk::RandomImageSource<FloatImage2DType>::New();
 
   random->SetMin(0.0);
   random->SetMax(1000.0);

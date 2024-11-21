@@ -58,7 +58,7 @@ main(int argc, char * argv[])
 
   auto reader = ReaderType::New();
 
-  itk::GDCMImageIO::Pointer dicomIO = itk::GDCMImageIO::New();
+  auto dicomIO = itk::GDCMImageIO::New();
 
   reader->SetFileName(argv[1]);
   reader->SetImageIO(dicomIO);

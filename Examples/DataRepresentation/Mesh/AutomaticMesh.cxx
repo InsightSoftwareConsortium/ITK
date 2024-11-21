@@ -85,7 +85,7 @@ main(int, char *[])
   using MeshSourceType = itk::AutomaticTopologyMeshSource<MeshType>;
   using IdentifierArrayType = MeshSourceType::IdentifierArrayType;
 
-  MeshSourceType::Pointer meshSource = MeshSourceType::New();
+  auto meshSource = MeshSourceType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
