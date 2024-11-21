@@ -94,10 +94,8 @@ main(int argc, char ** argv)
   fastMarching->SetTrialPoints(seeds);
   fastMarching->SetSpeedConstant(1.0);
 
-  itk::AddImageFilter<ImageType, ImageType, ImageType>::Pointer adder =
-    itk::AddImageFilter<ImageType, ImageType, ImageType>::New();
-  itk::RandomImageSource<ImageType>::Pointer noise =
-    itk::RandomImageSource<ImageType>::New();
+  auto adder = itk::AddImageFilter<ImageType, ImageType, ImageType>::New();
+  auto noise = itk::RandomImageSource<ImageType>::New();
 
   noise->SetSize(size.m_InternalArray);
   noise->SetMin(-.7);

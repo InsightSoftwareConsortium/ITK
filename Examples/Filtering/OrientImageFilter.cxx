@@ -60,7 +60,7 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   // Create and set up a reader
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImageFile);
 
   reader->UpdateOutputInformation();
@@ -91,7 +91,7 @@ main(int argc, char * argv[])
 
   // Create and set up an OrientImageFilter
   using OrientImageFilterType = itk::OrientImageFilter<ImageType, ImageType>;
-  OrientImageFilterType::Pointer orienter = OrientImageFilterType::New();
+  auto orienter = OrientImageFilterType::New();
   orienter->SetInput(reader->GetOutput());
   orienter->UseImageDirectionOn();
   orienter->SetDesiredCoordinateOrientation(desiredCoordinateOrientation);
@@ -99,7 +99,7 @@ main(int argc, char * argv[])
 
   // Create and set up a writer
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputImageFile);
   writer->SetInput(orienter->GetOutput());
 

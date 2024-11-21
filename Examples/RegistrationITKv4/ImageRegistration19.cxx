@@ -89,7 +89,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
+  auto fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
 
   // The types of each one of the components in the registration methods

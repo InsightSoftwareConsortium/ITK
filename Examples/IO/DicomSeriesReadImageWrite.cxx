@@ -74,11 +74,10 @@ main(int argc, char * argv[])
   using ImageType = itk::Image<short, 3>;
   using ReaderType = itk::ImageSeriesReader<ImageType>;
 
-  itk::DICOMImageIO2::Pointer dicomIO = itk::DICOMImageIO2::New();
+  auto dicomIO = itk::DICOMImageIO2::New();
 
   // Get the DICOM filenames from the directory
-  itk::DICOMSeriesFileNames::Pointer nameGenerator =
-    itk::DICOMSeriesFileNames::New();
+  auto nameGenerator = itk::DICOMSeriesFileNames::New();
   nameGenerator->SetDirectory(argv[1]);
 
 

@@ -60,7 +60,7 @@ main(int argc, char * argv[])
   try
   {
     // read a DOM object from an XML file
-    itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
+    auto reader = itk::DOMNodeXMLReader::New();
     reader->SetFileName(argv[1]);
     reader->Update();
     itk::DOMNode::Pointer dom = reader->GetOutput();
@@ -90,7 +90,7 @@ main(int argc, char * argv[])
     } while (query != "...");
 
     // write the sliced child DOM object to an XML file
-    itk::DOMNodeXMLWriter::Pointer writer = itk::DOMNodeXMLWriter::New();
+    auto writer = itk::DOMNodeXMLWriter::New();
     writer->SetInput(dom1);
     writer->SetFileName(argv[2]);
     writer->Update();
