@@ -27,7 +27,6 @@
 #include "itkMetaDataObject.h"
 #include <cstddef> // For ptrdiff_t.
 #include <iomanip>
-#include "itkImageBase.h"
 
 namespace itk
 {
@@ -433,8 +432,9 @@ ImageSeriesReader<TOutputImage>::GenerateData()
         SpacingScalarType dirNnorm = dirN.GetNorm();
 
         if (this->m_SpacingDefined &&
-            std::abs(dirNnorm - outputSpacing[this->m_NumberOfDimensionsInImage]) >
-              itk::DefaultImageCoordinateTolerance) // either non-uniform sampling or missing slice
+            !Math::AlmostEquals(
+              dirNnorm,
+              outputSpacing[this->m_NumberOfDimensionsInImage])) // either non-uniform sampling or missing slice
         {
           nonUniformSampling = true;
           spacingDeviation = itk::Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm);
