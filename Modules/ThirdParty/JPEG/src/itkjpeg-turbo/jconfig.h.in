@@ -1,13 +1,13 @@
 /* Version ID for the JPEG library.
  * Might be useful for tests like "#if JPEG_LIB_VERSION >= 60".
  */
-#define JPEG_LIB_VERSION  @JPEG_LIB_VERSION@
+#cmakedefine JPEG_LIB_VERSION  @JPEG_LIB_VERSION@
 
 /* libjpeg-turbo version */
-#define LIBJPEG_TURBO_VERSION  @VERSION@
+#cmakedefine LIBJPEG_TURBO_VERSION  @VERSION@
 
 /* libjpeg-turbo version in integer form */
-#define LIBJPEG_TURBO_VERSION_NUMBER  @LIBJPEG_TURBO_VERSION_NUMBER@
+#cmakedefine LIBJPEG_TURBO_VERSION_NUMBER  @LIBJPEG_TURBO_VERSION_NUMBER@
 
 /* Support arithmetic encoding when using 8-bit samples */
 #cmakedefine C_ARITH_CODING_SUPPORTED 1
@@ -56,5 +56,7 @@ typedef signed int INT32;
 /* Define if your (broken) compiler shifts signed values as if they were
    unsigned. */
 #cmakedefine RIGHT_SHIFT_IS_UNSIGNED 1
+
+#cmakedefine JPEG_SHARED_LIBS
 
 #endif

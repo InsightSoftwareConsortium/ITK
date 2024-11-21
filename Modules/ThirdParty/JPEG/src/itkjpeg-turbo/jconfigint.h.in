@@ -1,5 +1,5 @@
 /* libjpeg-turbo build number */
-#define BUILD  "@BUILD@"
+#cmakedefine BUILD  "@BUILD@"
 
 /* How to hide global symbols. */
 #define HIDDEN  @HIDDEN@
@@ -8,19 +8,19 @@
 #undef inline
 
 /* How to obtain function inlining. */
-#define INLINE  @INLINE@
+#define INLINE  inline
 
 /* How to obtain thread-local storage */
-#define THREAD_LOCAL  @THREAD_LOCAL@
+#cmakedefine THREAD_LOCAL  @THREAD_LOCAL@
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME  "@CMAKE_PROJECT_NAME@"
+#cmakedefine PACKAGE_NAME  "@CMAKE_PROJECT_NAME@"
 
 /* Version number of package */
-#define VERSION  "@VERSION@"
+#cmakedefine VERSION  "@VERSION@"
 
 /* The size of `size_t', as computed by sizeof. */
-#define SIZEOF_SIZE_T  @SIZE_T@
+#cmakedefine SIZEOF_SIZE_T  @SIZE_T@
 
 /* Define if your compiler has __builtin_ctzl() and sizeof(unsigned long) == sizeof(size_t). */
 #cmakedefine HAVE_BUILTIN_CTZL
