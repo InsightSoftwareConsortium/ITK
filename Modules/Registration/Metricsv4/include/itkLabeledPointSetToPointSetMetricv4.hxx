@@ -130,7 +130,6 @@ typename LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
     GetLabeledFixedPointSet(const LabelType label) const
 {
   auto fixedPointSet = FixedPointSetType::New();
-  fixedPointSet->Initialize();
 
   typename FixedPointSetType::PointIdentifier count{};
 
@@ -156,7 +155,6 @@ typename LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
     GetLabeledMovingPointSet(const LabelType label) const
 {
   auto movingPointSet = MovingPointSetType::New();
-  movingPointSet->Initialize();
 
   typename MovingPointSetType::PointIdentifier count{};
 

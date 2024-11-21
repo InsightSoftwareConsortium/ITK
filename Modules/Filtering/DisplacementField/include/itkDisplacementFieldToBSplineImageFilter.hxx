@@ -122,7 +122,6 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   }
 
   auto fieldPoints = InputPointSetType::New();
-  fieldPoints->Initialize();
 
   auto weights = WeightsContainerType::New();
 

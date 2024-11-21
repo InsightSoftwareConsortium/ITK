@@ -279,7 +279,6 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
     }
 
     auto gradientPointSet = BSplinePointSetType::New();
-    gradientPointSet->Initialize();
 
     if (fixedPointSets[0]->GetNumberOfPoints() > 0)
     {

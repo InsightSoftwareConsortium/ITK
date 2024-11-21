@@ -126,7 +126,6 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::SetPointsF
   if (iLabel == Traits::Alive || iLabel == Traits::InitialTrial || iLabel == Traits::Forbidden)
   {
     NodePairContainerPointer nodes = NodePairContainerType::New();
-    nodes->Initialize();
 
     using IteratorType = ImageRegionConstIteratorWithIndex<ImageType>;
     IteratorType it(image, image->GetBufferedRegion());

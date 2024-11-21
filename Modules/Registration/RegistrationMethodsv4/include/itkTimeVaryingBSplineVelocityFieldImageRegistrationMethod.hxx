@@ -150,13 +150,10 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
 
   // Keep track of velocityFieldPointSet from the previous iteration
   VelocityFieldPointSetPointer velocityFieldPointSetFromPreviousIteration = VelocityFieldPointSetType::New();
-  velocityFieldPointSetFromPreviousIteration->Initialize();
 
   VelocityFieldPointSetPointer velocityFieldPointSet = VelocityFieldPointSetType::New();
-  velocityFieldPointSet->Initialize();
 
   auto velocityFieldWeights = WeightsContainerType::New();
-  velocityFieldWeights->Initialize();
 
   // Monitor the convergence
   using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<RealType>;

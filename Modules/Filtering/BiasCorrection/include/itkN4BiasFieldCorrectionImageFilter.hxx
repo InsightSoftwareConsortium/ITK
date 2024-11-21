@@ -499,14 +499,12 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   const typename ImporterType::OutputImageType * parametricFieldEstimate = importer->GetOutput();
 
   PointSetPointer fieldPoints = PointSetType::New();
-  fieldPoints->Initialize();
-  auto & pointSTLContainer = fieldPoints->GetPoints()->CastToSTLContainer();
+  auto &          pointSTLContainer = fieldPoints->GetPoints()->CastToSTLContainer();
   pointSTLContainer.reserve(numberOfIncludedPixels);
   auto & pointDataSTLContainer = fieldPoints->GetPointData()->CastToSTLContainer();
   pointDataSTLContainer.reserve(numberOfIncludedPixels);
 
-  auto weights = BSplineFilterType::WeightsContainerType::New();
-  weights->Initialize();
+  auto   weights = BSplineFilterType::WeightsContainerType::New();
   auto & weightSTLContainer = weights->CastToSTLContainer();
   weightSTLContainer.reserve(numberOfIncludedPixels);
 

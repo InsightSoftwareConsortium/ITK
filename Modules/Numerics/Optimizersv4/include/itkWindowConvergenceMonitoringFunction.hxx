@@ -94,7 +94,6 @@ WindowConvergenceMonitoringFunction<TScalar>::GetConvergenceValue() const -> Rea
   bspliner->SetNumberOfWorkUnits(1);
 
   auto energyProfileWindow = EnergyProfileType::New();
-  energyProfileWindow->Initialize();
 
   for (unsigned int n = 0; n < this->m_WindowSize; ++n)
   {

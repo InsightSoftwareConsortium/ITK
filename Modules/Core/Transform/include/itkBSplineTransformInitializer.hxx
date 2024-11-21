@@ -86,7 +86,6 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
 
   using PointSetType = PointSet<CoordRepType, SpaceDimension>;
   auto cornerPoints = PointSetType::New();
-  cornerPoints->Initialize();
 
   using PointType = typename PointSetType::PointType;
   using PointIdentifier = typename PointSetType::PointIdentifier;

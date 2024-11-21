@@ -121,7 +121,6 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
   // Set a pointSet from the input landmarks.
   auto pointSet = PointSetType::New();
-  pointSet->Initialize();
 
   PointsContainerConstIterator fixedIt = this->m_FixedLandmarks.begin();
   PointsContainerConstIterator movingIt = this->m_MovingLandmarks.begin();
