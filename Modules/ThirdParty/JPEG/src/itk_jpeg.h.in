@@ -31,9 +31,13 @@
 
 /* Use the jpeg library configured for ITK.  */
 #cmakedefine  ITK_USE_SYSTEM_JPEG
+#cmakedefine ITK_USE_JPEG_TURBO
 #ifdef ITK_USE_SYSTEM_JPEG
 # include <jpeglib.h>
 # include <jerror.h>
+#elif defined(ITK_USE_JPEG_TURBO)
+# include <itkjpeg-turbo/jpeglib.h>
+# include <itkjpeg-turbo/jerror.h>
 #else
 # include <itkjpeg/jpeglib.h>
 # include <itkjpeg/jerror.h>
