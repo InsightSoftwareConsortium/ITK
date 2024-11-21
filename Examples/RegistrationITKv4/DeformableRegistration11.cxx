@@ -152,23 +152,23 @@ main(int argc, char * argv[])
   registrationFilter->SetMovingImage(IntensityEqualizeFilter->GetOutput());
 
 
-  itk::ImageFileWriter<ImageType>::Pointer writer;
-  writer = itk::ImageFileWriter<ImageType>::New();
+  itk::ImageFileWriter<ImageType>::Pointer writer =
+    itk::ImageFileWriter<ImageType>::New();
 
   writer->SetFileName("fixed.mhd");
   writer->SetInput(registrationFilter->GetFixedImage());
   writer->Write();
 
-  itk::ImageFileWriter<ImageType>::Pointer writer2;
-  writer2 = itk::ImageFileWriter<ImageType>::New();
+  itk::ImageFileWriter<ImageType>::Pointer writer2 =
+    itk::ImageFileWriter<ImageType>::New();
   writer2->SetFileName("moving.mhd");
   writer2->SetInput(registrationFilter->GetMovingImage());
   writer2->Write();
 
 
   // Create the material properties
-  itk::fem::MaterialLinearElasticity::Pointer m;
-  m = itk::fem::MaterialLinearElasticity::New();
+  itk::fem::MaterialLinearElasticity::Pointer m =
+    itk::fem::MaterialLinearElasticity::New();
   m->SetGlobalNumber(0);
   m->SetYoungsModulus(
     registrationFilter

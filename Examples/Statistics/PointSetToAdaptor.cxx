@@ -67,8 +67,8 @@ main()
   // Software Guide : BeginCodeSnippet
   using FloatPointSet2DType = itk::PointSet<float, 2>;
 
-  itk::RandomPointSetSource<FloatPointSet2DType>::Pointer random;
-  random = itk::RandomPointSetSource<FloatPointSet2DType>::New();
+  itk::RandomPointSetSource<FloatPointSet2DType>::Pointer random =
+    itk::RandomPointSetSource<FloatPointSet2DType>::New();
   random->SetMin(0.0);
   random->SetMax(1000.0);
 

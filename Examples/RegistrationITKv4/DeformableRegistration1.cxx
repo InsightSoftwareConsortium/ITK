@@ -214,8 +214,8 @@ main(int argc, char * argv[])
   registrationFilter->SetMovingImage(IntensityEqualizeFilter->GetOutput());
 
 
-  itk::ImageFileWriter<ImageType>::Pointer writer;
-  writer = itk::ImageFileWriter<ImageType>::New();
+  itk::ImageFileWriter<ImageType>::Pointer writer =
+    itk::ImageFileWriter<ImageType>::New();
   std::string ofn = "fixed.mha";
   writer->SetFileName(ofn.c_str());
   writer->SetInput(registrationFilter->GetFixedImage());
@@ -231,8 +231,8 @@ main(int argc, char * argv[])
   }
 
   ofn = "moving.mha";
-  itk::ImageFileWriter<ImageType>::Pointer writer2;
-  writer2 = itk::ImageFileWriter<ImageType>::New();
+  itk::ImageFileWriter<ImageType>::Pointer writer2 =
+    itk::ImageFileWriter<ImageType>::New();
   writer2->SetFileName(ofn.c_str());
   writer2->SetInput(registrationFilter->GetMovingImage());
 
@@ -261,8 +261,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginCodeSnippet
   // Create the material properties
-  itk::fem::MaterialLinearElasticity::Pointer m;
-  m = itk::fem::MaterialLinearElasticity::New();
+  itk::fem::MaterialLinearElasticity::Pointer m =
+    itk::fem::MaterialLinearElasticity::New();
   m->SetGlobalNumber(0);
   // Young's modulus of the membrane
   m->SetYoungsModulus(registrationFilter->GetElasticity());
@@ -300,8 +300,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  itk::ImageFileWriter<ImageType>::Pointer warpedImageWriter;
-  warpedImageWriter = itk::ImageFileWriter<ImageType>::New();
+  itk::ImageFileWriter<ImageType>::Pointer warpedImageWriter =
+    itk::ImageFileWriter<ImageType>::New();
   warpedImageWriter->SetInput(registrationFilter->GetWarpedImage());
   warpedImageWriter->SetFileName("warpedMovingImage.mha");
   try
