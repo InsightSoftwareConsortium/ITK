@@ -181,7 +181,6 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   covarianceEstimatorsContainer->Reserve(m_NumberOfClasses);
 
   m_MembershipFunctionContainer = MembershipFunctionContainerType::New();
-  m_MembershipFunctionContainer->Initialize(); // Clear elements
   for (unsigned int i = 0; i < m_NumberOfClasses; ++i)
   {
     meanEstimatorsContainer->InsertElement(i, new typename GaussianMembershipFunctionType::MeanVectorType(1));

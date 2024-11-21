@@ -938,7 +938,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   for (SizeValueType n = 0; n < numberOfLocalMetrics; ++n)
   {
     auto samplePointSet = MetricSamplePointSetType::New();
-    samplePointSet->Initialize();
 
     using SamplePointType = typename MetricSamplePointSetType::PointType;
 
