@@ -98,8 +98,6 @@ itkBSplineScatteredDataPointSetToImageFilterTest2(int argc, char * argv[])
 
   FilterType::WeightsContainerType::Pointer pointWeights = FilterType::WeightsContainerType::New();
 
-  pointWeights->Initialize();
-
   unsigned int abritrarySize = filter->GetInput()->GetNumberOfPoints() - 1;
   pointWeights->resize(abritrarySize);
   for (unsigned int i = 0; i < pointWeights->Size(); ++i)

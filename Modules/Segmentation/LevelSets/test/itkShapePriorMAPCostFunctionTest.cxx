@@ -49,7 +49,6 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
    */
   using ShapeFunctionType = itk::SphereSignedDistanceFunction<double, Dimension>;
   auto shape = ShapeFunctionType::New();
-  shape->Initialize();
 
   /**
    * Set up a statistical model of the shape parameters.

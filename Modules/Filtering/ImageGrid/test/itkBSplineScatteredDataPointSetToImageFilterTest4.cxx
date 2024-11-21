@@ -56,11 +56,9 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   // Instantiate example corresponding points with relative weighting
 
   auto pointSet = PointSetType::New();
-  pointSet->Initialize();
 
   using WeightsContainerType = FilterType::WeightsContainerType;
   auto weights = WeightsContainerType::New();
-  weights->Initialize();
 
   // Create first landmark pair and weights
   PointType landmarkInFirstImage1;

@@ -78,10 +78,8 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   using CoordRepType = typename PointType::CoordRepType;
 
   auto fixedPoints = PointSetType::New();
-  fixedPoints->Initialize();
 
   auto movingPoints = PointSetType::New();
-  movingPoints->Initialize();
 
   // Create a few points and apply a small rotation to make the moving point set
 

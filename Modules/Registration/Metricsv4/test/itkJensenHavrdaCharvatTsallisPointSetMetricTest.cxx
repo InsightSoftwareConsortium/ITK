@@ -32,10 +32,8 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   using VectorType = typename PointType::VectorType;
 
   auto fixedPoints = PointSetType::New();
-  fixedPoints->Initialize();
 
   auto movingPoints = PointSetType::New();
-  movingPoints->Initialize();
 
   // Produce two simple point sets of 1) a circle and 2) the same circle with an offset
   PointType  offset;

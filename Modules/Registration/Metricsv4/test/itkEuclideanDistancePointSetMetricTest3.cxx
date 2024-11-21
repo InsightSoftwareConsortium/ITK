@@ -38,10 +38,8 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
   auto pointsLocator = PointsLocatorType::New();
 
   auto fixedPoints = PointSetType::New();
-  fixedPoints->Initialize();
 
   auto movingPoints = PointSetType::New();
-  movingPoints->Initialize();
 
   // Create a few points and apply a small offset to make the moving points
   auto      pointMax = static_cast<float>(1.0);
