@@ -1073,19 +1073,12 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
   m_BottomSite = &(m_SeedSites[0]);
   FortuneSite * currentSite = &(m_SeedSites[1]);
 
-  PointType         currentCircle{};
   FortuneHalfEdge * leftHalfEdge;
   FortuneHalfEdge * rightHalfEdge;
-  FortuneHalfEdge * left2HalfEdge;
-  FortuneHalfEdge * right2HalfEdge;
   FortuneHalfEdge * newHE;
   FortuneSite *     findSite;
-  FortuneSite *     topSite;
-  FortuneSite *     saveSite;
   FortuneEdge *     newEdge;
   FortuneSite *     meetSite;
-  FortuneSite *     newVert;
-  bool              saveBool;
 
   std::vector<FortuneHalfEdge> HEpool;
   std::vector<FortuneEdge>     Edgepool;
@@ -1102,11 +1095,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
   bool ok = true;
   while (ok)
   {
-    if (m_PQcount != 0)
-    {
-      PQshowMin(&currentCircle);
-    }
-    if ((i <= m_NumberOfSeeds) && ((m_PQcount == 0) || comp(currentSite->m_Coord, currentCircle)))
+
+    if ((i <= m_NumberOfSeeds))
     {
       // Handling site event
       leftHalfEdge = findLeftHE(&(currentSite->m_Coord));
@@ -1153,66 +1143,6 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
         currentSite = &(m_SeedSites[i]);
       }
       ++i;
-    }
-    else if (m_PQcount != 0)
-    {
-      // Handling circle event
-
-      leftHalfEdge = getPQmin();
-      left2HalfEdge = leftHalfEdge->m_Left;
-      rightHalfEdge = leftHalfEdge->m_Right;
-      right2HalfEdge = rightHalfEdge->m_Right;
-      findSite = getLeftReg(leftHalfEdge);
-      topSite = getRightReg(rightHalfEdge);
-
-      newVert = leftHalfEdge->m_Vert;
-      newVert->m_Sitenbr = m_Nvert;
-      ++m_Nvert;
-      m_OutputVD->AddVert(newVert->m_Coord);
-
-      makeEndPoint(leftHalfEdge->m_Edge, leftHalfEdge->m_RorL, newVert);
-      makeEndPoint(rightHalfEdge->m_Edge, rightHalfEdge->m_RorL, newVert);
-      deleteEdgeList(leftHalfEdge);
-      deletePQ(rightHalfEdge);
-      deleteEdgeList(rightHalfEdge);
-
-      saveBool = false;
-      if ((findSite->m_Coord[1]) > (topSite->m_Coord[1]))
-      {
-        saveSite = findSite;
-        findSite = topSite;
-        topSite = saveSite;
-        saveBool = true;
-      }
-
-      bisect(&(Edgepool[Edgeid]), findSite, topSite);
-      newEdge = &(Edgepool[Edgeid]);
-      ++Edgeid;
-
-      createHalfEdge(&(HEpool[HEid]), newEdge, saveBool);
-      newHE = &(HEpool[HEid]);
-      ++HEid;
-
-      insertEdgeList(left2HalfEdge, newHE);
-      makeEndPoint(newEdge, 1 - saveBool, newVert);
-
-      intersect(&(Sitepool[Siteid]), left2HalfEdge, newHE);
-      meetSite = &(Sitepool[Siteid]);
-
-      if ((meetSite->m_Sitenbr) == -5)
-      {
-        ++Siteid;
-        deletePQ(left2HalfEdge);
-        insertPQ(left2HalfEdge, meetSite, dist(meetSite, findSite));
-      }
-
-      intersect(&(Sitepool[Siteid]), newHE, right2HalfEdge);
-      meetSite = &(Sitepool[Siteid]);
-      if ((meetSite->m_Sitenbr) == -5)
-      {
-        ++Siteid;
-        insertPQ(newHE, meetSite, dist(meetSite, findSite));
-      }
     }
     else
     {
