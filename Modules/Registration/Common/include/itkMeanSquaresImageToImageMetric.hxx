@@ -164,16 +164,30 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeT
     transform = this->m_Transform;
   }
 
-  // Jacobian should be evaluated at the unmapped (fixed image) point.
-  transform->ComputeJacobianWithRespectToParameters(fixedImagePoint, threadS.m_Jacobian);
-  for (unsigned int par = 0; par < this->m_NumberOfParameters; ++par)
-  {
-    double sum = 0.0;
-    for (unsigned int dim = 0; dim < MovingImageDimension; ++dim)
+  if (this->m_TransformIsBSpline && this->m_UseCachingOfBSplineWeights)
+  { // using pre-computed weights and indexes to calculate only non zero elements of the derivative
+    for (unsigned int k = 0; k < m_NumBSplineWeights; ++k)
     {
-      sum += 2.0 * diff * threadS.m_Jacobian(dim, par) * movingImageGradientValue[dim];
+      for (unsigned int dim = 0; dim < MovingImageDimension; ++dim)
+      {
+        int par = this->m_BSplineTransformIndicesArray[fixedImageSample][k] + this->m_BSplineParametersOffset[dim];
+        threadS.m_MSEDerivative[par] += 2.0 * diff * m_BSplineTransformWeightsArray[fixedImageSample][k] * movingImageGradientValue[dim];
+      }
     }
-    threadS.m_MSEDerivative[par] += sum;
+  }
+  else
+  {
+    // Use generic transform to compute Jacobian at the unmapped (fixed image) point.
+    transform->ComputeJacobianWithRespectToParameters(fixedImagePoint, threadS.m_Jacobian);
+    for (unsigned int par = 0; par < this->m_NumberOfParameters; ++par)
+    {
+      double sum = 0.0;
+      for (unsigned int dim = 0; dim < MovingImageDimension; ++dim)
+      {
+        sum += 2.0 * diff * threadS.m_Jacobian(dim, par) * movingImageGradientValue[dim];
+      }
+      threadS.m_MSEDerivative[par] += sum;
+    }
   }
 
   return true;
