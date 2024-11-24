@@ -92,7 +92,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
   for (int i = 0; i < 5; ++i)
     for (int j = 0; j < 5; j++, ++maskIt)
     {
-      maskIt.Set(bool{ 1 });
+      maskIt.Set(true);
     }
 
   //--------------------------------------------------------------------------
