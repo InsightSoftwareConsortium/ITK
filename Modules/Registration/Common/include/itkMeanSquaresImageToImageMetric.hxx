@@ -166,12 +166,12 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeT
 
   if (this->m_TransformIsBSpline && this->m_UseCachingOfBSplineWeights)
   { // using pre-computed weights and indexes to calculate only non zero elements of the derivative
-    for (unsigned int k = 0; k < m_NumBSplineWeights; ++k)
+    for (unsigned int k = 0; k < this->m_NumBSplineWeights; ++k)
     {
       for (unsigned int dim = 0; dim < MovingImageDimension; ++dim)
       {
         int par = this->m_BSplineTransformIndicesArray[fixedImageSample][k] + this->m_BSplineParametersOffset[dim];
-        threadS.m_MSEDerivative[par] += 2.0 * diff * m_BSplineTransformWeightsArray[fixedImageSample][k] * movingImageGradientValue[dim];
+        threadS.m_MSEDerivative[par] += 2.0 * diff * this->m_BSplineTransformWeightsArray[fixedImageSample][k] * movingImageGradientValue[dim];
       }
     }
   }
