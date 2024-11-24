@@ -95,7 +95,7 @@ VideoFileWriter<TInputVideoStream>::Write()
   }
 
   // Make sure FramesPerSecond and FourCC have been set
-  if (Math::ExactlyEquals(m_FramesPerSecond, TemporalRatioType{}) || m_FourCC.length() == 0)
+  if (Math::ExactlyEquals(m_FramesPerSecond, TemporalRatioType{}) || m_FourCC.empty())
   {
     itkExceptionMacro("Cannot write with FramesPerSecond or FourCC unset");
   }
@@ -270,7 +270,7 @@ template <typename TInputVideoStream>
 bool
 VideoFileWriter<TInputVideoStream>::InitializeVideoIO()
 {
-  if (m_FileName.length() != 0)
+  if (!m_FileName.empty())
   {
     m_VideoIO = itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::WriteMode, m_FileName.c_str());
 

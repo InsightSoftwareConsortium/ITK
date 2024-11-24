@@ -198,7 +198,7 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
     std::string errmsg("No PolygonGroup to Write");
     RAISE_EXCEPTION(errmsg);
   }
-  if (m_Filename.length() == 0)
+  if (m_Filename.empty())
   {
     std::string errmsg("No filename given");
     RAISE_EXCEPTION(errmsg);
