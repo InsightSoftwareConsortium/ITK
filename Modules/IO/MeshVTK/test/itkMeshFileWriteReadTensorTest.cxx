@@ -61,7 +61,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   itk::VTKPolyDataMeshIO::Pointer vtkPolyDataMeshIO = itk::VTKPolyDataMeshIO::New();
 
   // Supported read extensions are empty by default
-  ITK_TEST_EXPECT_TRUE(vtkPolyDataMeshIO->GetSupportedReadExtensions().size() == 0);
+  ITK_TEST_EXPECT_TRUE(vtkPolyDataMeshIO->GetSupportedReadExtensions().empty());
 
   const itk::MeshIOBase::ArrayOfExtensionsType supportedExtensions{ ".vtk" };
   ITK_TEST_EXPECT_TRUE(vtkPolyDataMeshIO->GetSupportedWriteExtensions() == supportedExtensions);

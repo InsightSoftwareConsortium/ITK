@@ -126,7 +126,7 @@ GetRootName(const std::string & filename)
 
   // Create a base filename
   // i.e Image.PAR --> Image
-  if (fileExt.length() > 0 && filename.length() > fileExt.length())
+  if (!fileExt.empty() && filename.length() > fileExt.length())
   {
     const std::string::size_type it = filename.find_last_of(fileExt);
     std::string                  baseName(filename, 0, it - (fileExt.length() - 1));

@@ -141,7 +141,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
     line = trim(line);
     itkDebugMacro("Found line: \"" << line << '"');
 
-    if (line.length() == 0)
+    if (line.empty())
     {
       continue;
     }
