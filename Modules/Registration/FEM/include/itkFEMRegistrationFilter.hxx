@@ -421,8 +421,8 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
 
   Element::VectorType coord;
 
-  bool         EdgeFound;
-  unsigned int nodect = 0;
+  bool EdgeFound;
+  itkDebugStatement(unsigned int nodect = 0);
   for (int i = 0; i < numNodes; ++i)
   {
     if (EdgeCounter >= ImageDimension)
@@ -493,7 +493,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
         }
       } // end elt loop
     }
-    ++nodect;
+    itkDebugStatement(++nodect);
     itkDebugMacro(" Node: " << nodect);
   }
 }
@@ -896,7 +896,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
     FieldIterator                      totalFieldIter(m_TotalField, m_TotalField->GetLargestPossibleRegion());
     totalFieldIter.GoToBegin();
     unsigned int jj;
-    float        pathsteplength = 0;
+    itkDebugStatement(float pathsteplength = 0);
     while (!totalFieldIter.IsAtEnd())
     {
       index = totalFieldIter.GetIndex();
@@ -917,7 +917,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
         interped[jj] = interpolatedValue[jj];
         temp += interped[jj] * interped[jj];
       }
-      pathsteplength += std::sqrt(temp);
+      itkDebugStatement(pathsteplength += std::sqrt(temp));
       m_TotalField->SetPixel(index, m_TotalField->GetPixel(index) + interped);
       ++totalFieldIter;
     }
