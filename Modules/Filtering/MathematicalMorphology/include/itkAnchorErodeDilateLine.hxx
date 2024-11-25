@@ -64,15 +64,16 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
 
   int middle = static_cast<int>(m_Size) / 2;
 
-  int                 outLeftP = 0, outRightP = static_cast<int>(bufflength) - 1;
-  int                 inLeftP = 0, inRightP = static_cast<int>(bufflength) - 1;
-  InputImagePixelType Extreme;
-  HistogramType       histo;
+  int           outLeftP = 0;
+  int           outRightP = static_cast<int>(bufflength) - 1;
+  int           inLeftP = 0;
+  int           inRightP = static_cast<int>(bufflength) - 1;
+  HistogramType histo;
   if (bufflength <= m_Size)
   {
     // basically a standard histogram method
     // Left border, first half of structuring element
-    Extreme = inbuffer[inLeftP];
+    InputImagePixelType Extreme = inbuffer[inLeftP];
     histo.AddPixel(Extreme);
     for (int i = 0; (i < middle); ++i)
     {
@@ -113,7 +114,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
   }
 
   // Left border, first half of structuring element
-  Extreme = inbuffer[inLeftP];
+  InputImagePixelType Extreme = inbuffer[inLeftP];
   histo.AddPixel(Extreme);
   for (int i = 0; (i < middle); ++i)
   {

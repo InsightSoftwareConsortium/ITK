@@ -235,65 +235,61 @@ void
 BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  typename TInputImage::ConstPointer   input = this->GetInput();
-  typename TOutputImage::Pointer       output = this->GetOutput();
-  typename TInputImage::IndexValueType i;
-  const double                         rangeDistanceThreshold = m_DynamicRangeUsed;
+  typename TInputImage::ConstPointer input = this->GetInput();
+  typename TOutputImage::Pointer     output = this->GetOutput();
 
-  ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
+  const double rangeDistanceThreshold = m_DynamicRangeUsed;
 
   // Find the boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     fC(this->GetInput(), outputRegionForThread, m_GaussianKernel.GetRadius());
 
-  OutputPixelRealType centerPixel;
-  OutputPixelRealType val, tableArg, normFactor, rangeGaussian, rangeDistance, pixel, gaussianProduct;
-
   const double distanceToTableIndex = static_cast<double>(m_NumberOfRangeGaussianSamples) / m_DynamicRangeUsed;
 
   // Process all the faces, the NeighborhoodIterator will determine
   // whether a specified region needs to use the boundary conditions or
   // not.
-  NeighborhoodIteratorType             b_iter;
-  ImageRegionIterator<OutputImageType> o_iter;
-  KernelConstIteratorType              k_it;
-  KernelConstIteratorType              kernelEnd = m_GaussianKernel.End();
+
+
+  KernelConstIteratorType kernelEnd = m_GaussianKernel.End();
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
+  ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
   for (const auto & face : faceList)
   {
     // walk the boundary face and the corresponding section of the output
-    b_iter = NeighborhoodIteratorType(m_GaussianKernel.GetRadius(), this->GetInput(), face);
+    NeighborhoodIteratorType b_iter = NeighborhoodIteratorType(m_GaussianKernel.GetRadius(), this->GetInput(), face);
     b_iter.OverrideBoundaryCondition(&BC);
-    o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), face);
+    ImageRegionIterator<OutputImageType> o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), face);
 
     while (!b_iter.IsAtEnd())
     {
       // Setup
-      centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
-      val = 0.0;
-      normFactor = 0.0;
+      OutputPixelRealType centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
+      OutputPixelRealType val = 0.0;
+      OutputPixelRealType normFactor = 0.0;
 
       // Walk the neighborhood of the input and the kernel
-      for (i = 0, k_it = m_GaussianKernel.Begin(); k_it < kernelEnd; ++k_it, ++i)
+      KernelConstIteratorType k_it = m_GaussianKernel.Begin();
+      for (typename TInputImage::IndexValueType i = 0; k_it < kernelEnd; ++k_it, ++i)
       {
         // range distance between neighborhood pixel and neighborhood center
-        pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
+        OutputPixelRealType pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
         // flip sign if needed
-        rangeDistance = std::abs(pixel - centerPixel);
+        OutputPixelRealType rangeDistance = std::abs(pixel - centerPixel);
 
         // if the range distance is close enough, then use the pixel
         if (rangeDistance < rangeDistanceThreshold)
         {
           // look up the range gaussian in a table
-          tableArg = rangeDistance * distanceToTableIndex;
-          rangeGaussian = m_RangeGaussianTable[Math::Floor<SizeValueType>(tableArg)];
+          OutputPixelRealType tableArg = rangeDistance * distanceToTableIndex;
+          OutputPixelRealType rangeGaussian = m_RangeGaussianTable[Math::Floor<SizeValueType>(tableArg)];
 
           // normalization factor so filter integrates to one
           // (product of the domain and the range gaussian)
-          gaussianProduct = (*k_it) * rangeGaussian;
+          OutputPixelRealType gaussianProduct = (*k_it) * rangeGaussian;
           normFactor += gaussianProduct;
 
           // Input Image * Domain Gaussian * Range Gaussian
