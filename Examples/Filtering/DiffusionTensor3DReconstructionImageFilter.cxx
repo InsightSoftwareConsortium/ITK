@@ -147,16 +147,16 @@ main(int argc, char * argv[])
 
   for (; itKey != imgMetaKeys.end(); ++itKey)
   {
-    double x, y, z;
 
     itk::ExposeMetaData<std::string>(imgMetaDictionary, *itKey, metaString);
     if (itKey->find("DWMRI_gradient") != std::string::npos)
     {
       std::cout << *itKey << " ---> " << metaString << std::endl;
-      sscanf(metaString.c_str(), "%lf %lf %lf\n", &x, &y, &z);
-      vect3d[0] = x;
-      vect3d[1] = y;
-      vect3d[2] = z;
+      sscanf(metaString.c_str(),
+             "%lf %lf %lf\n",
+             &(vect3d[0]),
+             &(vect3d[1]),
+             &(vect3d[2]));
       DiffusionVectors->InsertElement(numberOfImages, vect3d);
       ++numberOfImages;
       // If the direction is 0.0, this is a reference image
