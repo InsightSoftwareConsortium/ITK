@@ -42,5 +42,5 @@ itk_fetch_module(
   "Reconstruction Toolkit (RTK) https://www.openrtk.org/"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/RTKConsortium/RTK.git
-  GIT_TAG ff1967638805ff73d028fde036bfd81954923ccf
+  GIT_TAG 94d070b0101e4f0a5a7d0649a4559b8ee6d22d63
   )
