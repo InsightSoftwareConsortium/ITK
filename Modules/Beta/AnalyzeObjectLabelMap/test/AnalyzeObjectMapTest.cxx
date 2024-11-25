@@ -115,10 +115,8 @@ AnalyzeObjectMapTest(int ac, char * av[])
 
   char ReferenceBytes;
   char WrittenBytes;
-  int  count = 0;
   while (!ReferenceFile.eof() && !WrittenFile.eof())
   {
-    count++;
     ReferenceFile.read(reinterpret_cast<char *>(&ReferenceBytes), sizeof(char));
     WrittenFile.read(reinterpret_cast<char *>(&WrittenBytes), sizeof(char));
     if (ReferenceBytes != WrittenBytes)
