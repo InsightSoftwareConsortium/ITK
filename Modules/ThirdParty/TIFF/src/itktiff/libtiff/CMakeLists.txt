@@ -193,8 +193,15 @@ if(WEBP_SUPPORT)
   string(APPEND tiff_requires_private " libwebp")
 endif()
 if(CMath_LIBRARY)
+  target_include_directories(itktiff
+          PRIVATE
+            ${CMath_INCLUDE_DIRS}
+  )
+  target_link_libraries(itktiff PRIVATE "${CMath_LIBRARIES}")
+  if(FALSE) # XXX(ITK): We don't want to use an imported target for CMath
   target_link_libraries(itktiff PRIVATE CMath::CMath)
   list(APPEND tiff_libs_private_list "${CMath_LIBRARY}")
+  endif()
 endif()
 
 set(tiff_libs_private_list "${tiff_libs_private_list}" PARENT_SCOPE)
