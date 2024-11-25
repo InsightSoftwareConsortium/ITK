@@ -5,6 +5,8 @@
  * file.
  */
 
+#include "itk_jpeg_mangle.h"
+
 #include "jpeg_nbits.h"
 #include "jconfigint.h"
 

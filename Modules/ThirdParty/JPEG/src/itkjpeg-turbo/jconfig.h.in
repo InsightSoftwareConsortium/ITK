@@ -60,3 +60,6 @@ typedef signed int INT32;
 #cmakedefine JPEG_SHARED_LIBS
 
 #endif
+
+/* names mangling */
+#include "itk_jpeg_mangle.h"

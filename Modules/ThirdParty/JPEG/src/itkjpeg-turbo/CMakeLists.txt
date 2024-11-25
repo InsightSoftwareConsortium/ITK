@@ -103,6 +103,10 @@ configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/jversion.h.in"
         "${CMAKE_CURRENT_BINARY_DIR}/jversion.h")
 
+set(MANGLE_PREFIX "itk") # prefix for symbols mangling
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itk_jpeg_mangle.h.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/itk_jpeg_mangle.h")
+
 
 # Compile a separate version of these source files with 12-bit and 16-bit
 # data precision.
