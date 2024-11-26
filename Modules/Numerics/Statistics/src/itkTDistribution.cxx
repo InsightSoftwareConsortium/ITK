@@ -99,10 +99,6 @@ TDistribution::PDF(double x, const ParametersType & p)
 double
 TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
 {
-  double bx;
-  double pin, qin;
-  double dof;
-
   // Based on Abramowitz and Stegun 26.7.1, which gives the probability
   // that the absolute value of a random variable with a Student-t
   // distribution is less than or equal to a specified t.
@@ -126,11 +122,11 @@ TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
   //           = 0.5 + 0.5 * P[|x| < t]           (from above)
   //           = 0.5 + 0.5 * (1 - Ix(v/2. 1/2))
   //           = 1 - 0.5 * Ix(v/2, 1/2)
-  //
-  dof = static_cast<double>(degreesOfFreedom);
-  bx = dof / (dof + (x * x));
-  pin = dof / 2.0;
-  qin = 0.5;
+
+  double dof = static_cast<double>(degreesOfFreedom);
+  double bx = dof / (dof + (x * x));
+  double pin = dof / 2.0;
+  double qin = 0.5;
 
   if (x >= 0.0)
   {
@@ -165,25 +161,22 @@ TDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
     return itk::NumericTraits<double>::max();
   }
 
-  double x;
-  double dof, dof2, dof3, dof4;
-  double gaussX, gaussX3, gaussX5, gaussX7, gaussX9;
-
   // Based on Abramowitz and Stegun 26.7.5
-  dof = static_cast<double>(degreesOfFreedom);
-  dof2 = dof * dof;
-  dof3 = dof * dof2;
-  dof4 = dof * dof3;
+  double dof = static_cast<double>(degreesOfFreedom);
+  double dof2 = dof * dof;
+  double dof3 = dof * dof2;
+  double dof4 = dof * dof3;
 
-  gaussX = GaussianDistribution::InverseCDF(p);
-  gaussX3 = std::pow(gaussX, 3.0);
-  gaussX5 = std::pow(gaussX, 5.0);
-  gaussX7 = std::pow(gaussX, 7.0);
-  gaussX9 = std::pow(gaussX, 9.0);
+  double gaussX = GaussianDistribution::InverseCDF(p);
+  double gaussX3 = std::pow(gaussX, 3.0);
+  double gaussX5 = std::pow(gaussX, 5.0);
+  double gaussX7 = std::pow(gaussX, 7.0);
+  double gaussX9 = std::pow(gaussX, 9.0);
 
-  x = gaussX + (gaussX3 + gaussX) / (4.0 * dof) + (5.0 * gaussX5 + 16.0 * gaussX3 + 3 * gaussX) / (96.0 * dof2) +
-      (3.0 * gaussX7 + 19.0 * gaussX5 + 17.0 * gaussX3 - 15.0 * gaussX) / (384.0 * dof3) +
-      (79.0 * gaussX9 + 776.0 * gaussX7 + 1482.0 * gaussX5 - 1920.0 * gaussX3 - 945.0 * gaussX) / (92160.0 * dof4);
+  double x =
+    gaussX + (gaussX3 + gaussX) / (4.0 * dof) + (5.0 * gaussX5 + 16.0 * gaussX3 + 3 * gaussX) / (96.0 * dof2) +
+    (3.0 * gaussX7 + 19.0 * gaussX5 + 17.0 * gaussX3 - 15.0 * gaussX) / (384.0 * dof3) +
+    (79.0 * gaussX9 + 776.0 * gaussX7 + 1482.0 * gaussX5 - 1920.0 * gaussX3 - 945.0 * gaussX) / (92160.0 * dof4);
 
   // The polynomial approximation above is only accurate for large degrees
   // of freedom.  We'll improve the approximation by a few Newton

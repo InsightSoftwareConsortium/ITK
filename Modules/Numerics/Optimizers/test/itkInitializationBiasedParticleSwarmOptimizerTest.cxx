@@ -81,9 +81,6 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
     initalizationBasedTestVerboseFlag = std::stoi(argv[5]) ? true : false;
   }
 
-  unsigned int i, allIterations = 10;
-  double       threshold = 0.8;
-  unsigned int success1, success2, success3;
 
   std::cout << "Initialization Biased Particle Swarm Optimizer Test \n \n";
 
@@ -92,8 +89,11 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
   auto globalCoefficient = static_cast<typename OptimizerType::CoefficientType>(std::stod(argv[3]));
   auto initializationCoefficient = static_cast<typename OptimizerType::CoefficientType>(std::stod(argv[4]));
 
-  success1 = success2 = success3 = 0;
-  for (i = 0; i < allIterations; ++i)
+  unsigned int           success1{ 0 };
+  unsigned int           success2{ 0 };
+  unsigned int           success3{ 0 };
+  constexpr unsigned int allIterations = 10;
+  for (unsigned int i = 0; i < allIterations; ++i)
   {
     if (EXIT_SUCCESS ==
         IBPSOTest1(inertiaCoefficient, personalCoefficient, globalCoefficient, initializationCoefficient))
@@ -113,7 +113,7 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
   }
 
   std::cout << "All Tests Completed." << std::endl;
-
+  double threshold = 0.8;
   if (static_cast<double>(success1) / static_cast<double>(allIterations) <= threshold ||
       static_cast<double>(success2) / static_cast<double>(allIterations) <= threshold ||
       static_cast<double>(success3) / static_cast<double>(allIterations) <= threshold)
@@ -135,7 +135,7 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
   std::cout << "Particle Swarm Optimizer Test 1 [f(x) = if(x<0) x^2+4x; else 2x^2-8x]\n";
   std::cout << "-------------------------------\n";
 
-  double knownParameters = 2.0;
+  constexpr double knownParameters = 2.0;
 
   // the function we want to optimize
   itk::ParticleSwarmTestF1::Pointer costFunction = itk::ParticleSwarmTestF1::New();
@@ -164,11 +164,11 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
   // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
   bounds.push_back(std::make_pair(-10, 10));
-  unsigned int                  numberOfParticles = 10;
-  unsigned int                  maxIterations = 200;
-  double                        xTolerance = 0.1;
-  double                        fTolerance = 0.001;
-  OptimizerType::ParametersType initialParameters(1), finalParameters;
+  constexpr unsigned int        numberOfParticles = 10;
+  constexpr unsigned int        maxIterations = 200;
+  constexpr double              xTolerance = 0.1;
+  constexpr double              fTolerance = 0.001;
+  OptimizerType::ParametersType initialParameters(1);
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -190,7 +190,7 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
     initialParameters[0] = 3;
     itkOptimizer->SetInitialPosition(initialParameters);
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
 
     // show why we stopped and see if the optimization succeeded
 
@@ -291,11 +291,11 @@ IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
   OptimizerType::ParameterBoundsType bounds;
   bounds.push_back(std::make_pair(-10, 10));
   bounds.push_back(std::make_pair(-10, 10));
-  unsigned int                  numberOfParticles = 10;
-  unsigned int                  maxIterations = 200;
-  double                        xTolerance = 0.1;
-  double                        fTolerance = 0.001;
-  OptimizerType::ParametersType initialParameters(2), finalParameters;
+  constexpr unsigned int        numberOfParticles = 10;
+  constexpr unsigned int        maxIterations = 200;
+  constexpr double              xTolerance = 0.1;
+  constexpr double              fTolerance = 0.001;
+  OptimizerType::ParametersType initialParameters(2);
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -317,7 +317,7 @@ IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
     initialParameters[1] = -9;
     itkOptimizer->SetInitialPosition(initialParameters);
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
 
     // show why we stopped and see if the optimization succeeded
 
@@ -390,11 +390,11 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
   OptimizerType::ParameterBoundsType bounds;
   bounds.push_back(std::make_pair(-100, 100));
   bounds.push_back(std::make_pair(-100, 100));
-  unsigned int                  numberOfParticles = 100;
-  unsigned int                  maxIterations = 1000;
-  double                        xTolerance = 0.1;
-  double                        fTolerance = 0.01;
-  OptimizerType::ParametersType initialParameters(2), finalParameters;
+  constexpr unsigned int        numberOfParticles = 100;
+  constexpr unsigned int        maxIterations = 1000;
+  constexpr double              xTolerance = 0.1;
+  constexpr double              fTolerance = 0.01;
+  OptimizerType::ParametersType initialParameters(2);
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -417,7 +417,7 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
     initialParameters[1] = 3;
     itkOptimizer->SetInitialPosition(initialParameters);
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
 
     // show why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";

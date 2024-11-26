@@ -330,8 +330,8 @@ test2DSpline()
   set2DInterpData(image);
 
   /* Set origin and spacing of physical coordinates */
-  double origin[] = { 0.5, 1.0 };
-  double spacing[] = { 0.1, 0.5 };
+  constexpr double origin[] = { 0.5, 1.0 };
+  constexpr double spacing[] = { 0.1, 0.5 };
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
@@ -363,12 +363,14 @@ test2DSpline()
     //    4) outside image
 #define NPOINTS2 4 // number of points
 
-    itk::SpacePrecisionType darray1[NPOINTS2][2] = { { 0.1, 0.2 }, { 3.4, 5.8 }, { 4.0, 6.0 }, { 2.1, 8.0 } };
-    double truth[NPOINTS2][6] = { { 154.5, 140.14, 151.86429192392, 151.650316034, 151.865916515, 151.882483111 },
-                                  { 0, 13.84, 22.688125812495, 22.411473093, 22.606968306, 22.908345604 },
-                                  { 36.2, 36.2, 36.2, 36.2, 36.2, 36.2 },
-                                  { 0, 0, 0, 0, 0, 0 } };
-    bool   b_Inside[NPOINTS2] = { true, true, true, false };
+    constexpr itk::SpacePrecisionType darray1[NPOINTS2][2] = { { 0.1, 0.2 }, { 3.4, 5.8 }, { 4.0, 6.0 }, { 2.1, 8.0 } };
+    constexpr double                  truth[NPOINTS2][6] = {
+      { 154.5, 140.14, 151.86429192392, 151.650316034, 151.865916515, 151.882483111 },
+      { 0, 13.84, 22.688125812495, 22.411473093, 22.606968306, 22.908345604 },
+      { 36.2, 36.2, 36.2, 36.2, 36.2, 36.2 },
+      { 0, 0, 0, 0, 0, 0 }
+    };
+    constexpr bool b_Inside[NPOINTS2] = { true, true, true, false };
 
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS2; ++ii)
@@ -409,8 +411,8 @@ test3DSpline()
   set3DInterpData<ImageType3D>(image);
 
   /* Set origin and spacing of physical coordinates */
-  double origin[] = { 0.5, 1.0, 1.333 };
-  double spacing[] = { 0.1, 0.5, 0.75 };
+  constexpr double origin[] = { 0.5, 1.0, 1.333 };
+  constexpr double spacing[] = { 0.1, 0.5, 0.75 };
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
@@ -437,15 +439,17 @@ test3DSpline()
     //    4) outside image
 #define NPOINTS3 5 // number of points
 
-    itk::SpacePrecisionType darray1[NPOINTS3][ImageDimension3D] = {
+    constexpr itk::SpacePrecisionType darray1[NPOINTS3][ImageDimension3D] = {
       { 0.1, 20.1, 28.4 }, { 21.58, 34.5, 17.2 }, { 10, 20, 12 }, { 15, 20.2, 31 }, { 2, 0.3, -0.3 }
     };
-    double truth[NPOINTS3][4] = { { 48.621593795, 48.651173138, 48.656914878, 48.662256571 },
-                                  { 73.280126903, 73.280816965, 73.282780615, 73.285315943 },
-                                  { 42.0, 42.0, 42.0, 42.0 },
-                                  { 0, 0, 0, 0 },
-                                  { 2.2545584407825165, 2.2722384004239382, 2.2533523347849744, 2.2516795363567588 } };
-    bool   b_Inside[NPOINTS3] = { true, true, true, false, true };
+    constexpr double truth[NPOINTS3][4] = {
+      { 48.621593795, 48.651173138, 48.656914878, 48.662256571 },
+      { 73.280126903, 73.280816965, 73.282780615, 73.285315943 },
+      { 42.0, 42.0, 42.0, 42.0 },
+      { 0, 0, 0, 0 },
+      { 2.2545584407825165, 2.2722384004239382, 2.2533523347849744, 2.2516795363567588 }
+    };
+    constexpr bool b_Inside[NPOINTS3] = { true, true, true, false, true };
 
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS3; ++ii)
@@ -484,8 +488,8 @@ test3DSplineDerivative()
   set3DDerivativeData(image);
 
   /* Set origin and spacing of physical coordinates */
-  double origin[] = { 0.0, 0.0, 0.0 };
-  double spacing[] = { 1, 1, 1 };
+  constexpr double origin[] = { 0.0, 0.0, 0.0 };
+  constexpr double spacing[] = { 1, 1, 1 };
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
@@ -511,7 +515,7 @@ test3DSplineDerivative()
     //    4) outside image
 #define NPOINTS4 4 // number of points
 
-    itk::SpacePrecisionType darray1[NPOINTS4][ImageDimension3D] = {
+    constexpr itk::SpacePrecisionType darray1[NPOINTS4][ImageDimension3D] = {
       { 25.3, 26.8, 24.5 }, { 21.0, 1.4, 0.6 }, { 18, 31, 10 }, { 4.3, 17.9, 42 }
     };
     // Calculated Truth is: {19.4158,5,-24}, {0.9,5,71.6}, {-7.2, 5, 34}, {0,0,0}
@@ -524,7 +528,7 @@ test3DSplineDerivative()
       { { 19.4164, 5, -24 }, { 0.9, 4.9925, 94.5082 }, { -7.2, 5.00044, 33.9976 }, { 0, 0, 0 } },
       { { 19.4223, 5, -24 }, { 0.900157, 5.0544, 93.8607 }, { -7.19929, 5.00189, 33.9879 }, { 0, 0, 0 } }
     };
-    bool b_Inside[NPOINTS4] = { true, true, true, false };
+    constexpr bool b_Inside[NPOINTS4] = { true, true, true, false };
 
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4; ++ii)
@@ -553,8 +557,8 @@ testInteger3DSpline()
   set3DInterpData<ImageIntegerType3D>(image);
 
   /* Set origin and spacing of physical coordinates */
-  double origin[] = { 0.5, 1.0, 1.333 };
-  double spacing[] = { 0.1, 0.5, 0.75 };
+  constexpr double origin[] = { 0.5, 1.0, 1.333 };
+  constexpr double spacing[] = { 0.1, 0.5, 0.75 };
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
@@ -582,14 +586,14 @@ testInteger3DSpline()
 #define NPOINTS4b 4 // number of points
 
     // Note: the answers should be the same as for the test3DSpline
-    itk::SpacePrecisionType darray1[NPOINTS4b][ImageDimension3D] = {
+    constexpr itk::SpacePrecisionType darray1[NPOINTS4b][ImageDimension3D] = {
       { 0.1, 20.1, 28.4 }, { 21.58, 34.5, 17.2 }, { 10, 20, 12 }, { 15, 20.2, 31 }
     };
-    double truth[NPOINTS4b][4] = { { 48.621593795, 48.651173138, 48.656914878, 48.662256571 },
-                                   { 73.280126903, 73.280816965, 73.282780615, 73.285315943 },
-                                   { 42.0, 42.0, 42.0, 42.0 },
-                                   { 0, 0, 0, 0 } };
-    bool   b_Inside[NPOINTS4b] = { true, true, true, false };
+    constexpr double truth[NPOINTS4b][4] = { { 48.621593795, 48.651173138, 48.656914878, 48.662256571 },
+                                             { 73.280126903, 73.280816965, 73.282780615, 73.285315943 },
+                                             { 42.0, 42.0, 42.0, 42.0 },
+                                             { 0, 0, 0, 0 } };
+    constexpr bool   b_Inside[NPOINTS4b] = { true, true, true, false };
 
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4b; ++ii)
@@ -695,11 +699,12 @@ void
 set1DInterpData(ImageType1D::Pointer imgPtr)
 {
 
-  SizeType1D size = { { 36 } };
-  double     mydata[36] = { 454.0000, 369.4000, 295.2000, 230.8000, 175.6000, 129.0000, 90.4000,   59.2000,   34.8000,
-                        16.6000,  4.0000,   -3.6000,  -6.8000,  -6.2000,  -2.4000,  4.0000,    12.4000,   22.2000,
-                        32.8000,  43.6000,  54.0000,  63.4000,  71.2000,  76.8000,  79.6000,   79.0000,   74.4000,
-                        65.2000,  50.8000,  30.6000,  4.0000,   -29.6000, -70.8000, -120.2000, -178.4000, -246.0000 };
+  SizeType1D       size = { { 36 } };
+  constexpr double mydata[36] = { 454.0000, 369.4000,  295.2000,  230.8000, 175.6000, 129.0000, 90.4000, 59.2000,
+                                  34.8000,  16.6000,   4.0000,    -3.6000,  -6.8000,  -6.2000,  -2.4000, 4.0000,
+                                  12.4000,  22.2000,   32.8000,   43.6000,  54.0000,  63.4000,  71.2000, 76.8000,
+                                  79.6000,  79.0000,   74.4000,   65.2000,  50.8000,  30.6000,  4.0000,  -29.6000,
+                                  -70.8000, -120.2000, -178.4000, -246.0000 };
 
   ImageType1D::RegionType region;
   region.SetSize(size);
@@ -724,13 +729,13 @@ set1DInterpData(ImageType1D::Pointer imgPtr)
 void
 set2DInterpData(ImageType2D::Pointer imgPtr)
 {
-  SizeType2D size = { { 7, 7 } };
-  double mydata[49] = { 154.5000,  82.4000,   30.9000,   0,         -10.3000, 0,        30.9000,   117.0000,  62.4000,
-                        23.4000,   0,         -7.8000,   0,         23.4000,  18.0000,  9.6000,    3.6000,    0,
-                        -1.2000,   0,         3.6000,    -120.0000, -64.0000, -24.0000, 0,         8.0000,    0,
-                        -24.0000,  -274.5000, -146.4000, -54.9000,  0,        18.3000,  0,         -54.9000,  -423.0000,
-                        -225.6000, -84.6000,  0,         28.2000,   0,        -84.6000, -543.0000, -289.6000, -108.6000,
-                        0,         36.2000,   0,         -108.6000 };
+  SizeType2D       size = { { 7, 7 } };
+  constexpr double mydata[49] = {
+    154.5000,  82.4000,   30.9000,   0, -10.3000, 0, 30.9000,  117.0000,  62.4000,   23.4000,  0, -7.8000, 0, 23.4000,
+    18.0000,   9.6000,    3.6000,    0, -1.2000,  0, 3.6000,   -120.0000, -64.0000,  -24.0000, 0, 8.0000,  0, -24.0000,
+    -274.5000, -146.4000, -54.9000,  0, 18.3000,  0, -54.9000, -423.0000, -225.6000, -84.6000, 0, 28.2000, 0, -84.6000,
+    -543.0000, -289.6000, -108.6000, 0, 36.2000,  0, -108.6000
+  };
 
   auto index = ImageType2D::IndexType::Filled(10);
 
@@ -775,22 +780,21 @@ set3DDerivativeData(ImageType3D::Pointer imgPtr)
   // df(x)/dx = 0.4x^3 - 1.5x^2 + 2
   // df(y)/dy = 5
   // df(z)/dz = -4z - 6
-  double      value;
-  double      slice1, row1, col1;
+
   IndexType3D index;
   for (unsigned int slice = 0; slice < size[2]; ++slice)
   {
     index[2] = slice;
-    slice1 = slice - 20.0; // Center offset
+    double slice1 = slice - 20.0; // Center offset
     for (unsigned int row = 0; row < size[1]; ++row)
     {
       index[1] = row;
-      row1 = row - 20.0; // Center
+      double row1 = row - 20.0; // Center
       for (unsigned int col = 0; col < size[0]; ++col)
       {
         index[0] = col;
-        col1 = col - 20.0; // Center
-        value = 0.1 * col1 * col1 * col1 * col1 - 0.5 * col1 * col1 * col1 + 2.0 * col1 - 43.0;
+        double col1 = col - 20.0; // Center
+        double value = 0.1 * col1 * col1 * col1 * col1 - 0.5 * col1 * col1 * col1 + 2.0 * col1 - 43.0;
         value += 5.0 * row1 + 7.0;
         value += -2.0 * slice1 * slice1 - 6.0 * slice1 + 10.0;
         imgPtr->SetPixel(index, value);

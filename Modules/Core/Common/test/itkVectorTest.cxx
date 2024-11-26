@@ -208,34 +208,40 @@ itkVectorTest(int, char *[])
   }
 
   using RealVector3 = itk::Vector<float, 3>;
-  RealVector3 a, b, c;
+  RealVector3 a;
+
   a[0] = 1.0;
   a[1] = 0.0;
   a[2] = 0.0;
+  RealVector3 b;
   b[0] = 0.0;
   b[1] = 1.0;
   b[2] = 0.0;
-  c = itk::CrossProduct(a, b);
+  RealVector3 c = itk::CrossProduct(a, b);
   std::cout << '(' << a << ") cross (" << b << ") : (" << c << ')' << std::endl;
 
   using DoubleVector3 = itk::Vector<double, 3>;
-  DoubleVector3 aa, bb, cc;
+  DoubleVector3 aa;
+
   aa[0] = 1.0;
   aa[1] = 0.0;
   aa[2] = 0.0;
+  DoubleVector3 bb;
   bb[0] = 0.0;
   bb[1] = 1.0;
   bb[2] = 0.0;
-  cc = itk::CrossProduct(aa, bb);
+
+  DoubleVector3 cc = itk::CrossProduct(aa, bb);
   std::cout << '(' << aa << ") cross (" << bb << ") : (" << cc << ')' << std::endl;
-  DoubleVector3 ia, ib, ic;
+  DoubleVector3 ia;
   ia[0] = 1;
   ia[1] = 0;
   ia[2] = 0;
+  DoubleVector3 ib;
   ib[0] = 0;
   ib[1] = 1;
   ib[2] = 0;
-  ic = itk::CrossProduct(ia, ib);
+  DoubleVector3 ic = itk::CrossProduct(ia, ib);
   std::cout << '(' << ia << ") cross (" << ib << ") : (" << ic << ')' << std::endl;
   if (passed)
   {

@@ -110,7 +110,8 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   ImageScanlineConstIterator inputIterator(inputPtr, inputPtr->GetRequestedRegion());
 
   // Set up shaped neighbor hood by defining the offsets
-  OutputOffsetType negativeOffset, positiveOffset, iOffset;
+  OutputOffsetType negativeOffset;
+  OutputOffsetType positiveOffset;
 
   negativeOffset[0] = 0;
   positiveOffset[0] = 0;
@@ -121,7 +122,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   }
 
   std::vector<OutputOffsetType> offsets;
-  iOffset = negativeOffset;
+  OutputOffsetType              iOffset = negativeOffset;
   while (iOffset[TInputImage::ImageDimension - 1] <= positiveOffset[TInputImage::ImageDimension - 1])
   {
     offsets.push_back(iOffset);

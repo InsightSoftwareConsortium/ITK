@@ -89,14 +89,12 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
   image->Allocate();
   image->FillBuffer(backgroundValue);
 
-  unsigned int i, j, k, l;
-
   for (unsigned char counter = 0; counter < 18; ++counter)
   {
-    i = (counter / 1) % 2; // 0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1.
-    j = (counter / 2) % 2; // 0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1.
-    k = (counter / 4) % 2; // 0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1.
-    l = (counter / 8) % 2; // 0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1.
+    unsigned int i = (counter / 1) % 2; // 0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1.
+    unsigned int j = (counter / 2) % 2; // 0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1.
+    unsigned int k = (counter / 4) % 2; // 0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1.
+    unsigned int l = (counter / 8) % 2; // 0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1.
     Create16CubeConfig(image, 0, 0, 3 * counter, i, j, k, l);
   }
 

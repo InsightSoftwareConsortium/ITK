@@ -119,7 +119,9 @@ TIFFImageIO::GetFormat()
         {
           for (uint64_t cc = 0; cc < m_TotalColors; ++cc)
           {
-            uint16_t red, green, blue;
+            uint16_t red;
+            uint16_t green;
+            uint16_t blue;
             this->GetColor(cc, &red, &green, &blue);
             if (red != green || red != blue)
             {
@@ -301,7 +303,9 @@ TIFFImageIO::InitializeColors()
     return;
   }
 
-  unsigned short *red_orig, *green_orig, *blue_orig;
+  unsigned short * red_orig;
+  unsigned short * green_orig;
+  unsigned short * blue_orig;
   if (!TIFFGetField(m_InternalImage->m_Image, TIFFTAG_COLORMAP, &red_orig, &green_orig, &blue_orig))
   {
     return;
@@ -466,7 +470,9 @@ TIFFImageIO::ReadImageInformation()
     // detect if palette appears to be 8-bit or 16-bit
     for (uint64_t cc = 0; cc < m_TotalColors; ++cc)
     {
-      uint16_t red, green, blue;
+      uint16_t red;
+      uint16_t green;
+      uint16_t blue;
       this->GetColor(cc, &red, &green, &blue);
       if (red > 255 || green > 255 || blue > 255)
       {
@@ -566,7 +572,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
 {
   const auto * outPtr = static_cast<const char *>(buffer);
 
-  uint16_t page, pages = 1;
+  uint16_t pages = 1;
 
   const SizeValueType width = m_Dimensions[0];
   const SizeValueType height = m_Dimensions[1];
@@ -648,7 +654,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
   {
     TIFFCreateDirectory(tif);
   }
-  for (page = 0; page < pages; ++page)
+  for (uint16_t page = 0; page < pages; ++page)
   {
     TIFFSetDirectory(tif, page);
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);
@@ -967,7 +973,9 @@ TIFFImageIO::PopulateColorPalette()
     m_ColorPalette.resize(m_TotalColors);
     for (uint64_t cc = 0; cc < m_TotalColors; ++cc)
     {
-      uint16_t red, green, blue;
+      uint16_t red;
+      uint16_t green;
+      uint16_t blue;
       this->GetColor(cc, &red, &green, &blue);
 
       RGBPixelType p;

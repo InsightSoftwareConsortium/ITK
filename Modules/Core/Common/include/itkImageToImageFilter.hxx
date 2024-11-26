@@ -186,7 +186,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 
       if (!inputPtr1->IsCongruentImageGeometry(inputPtrN, m_CoordinateTolerance, m_DirectionTolerance))
       {
-        std::ostringstream originString, spacingString, directionString;
+        std::ostringstream originString;
         if (!inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol))
         {
           originString.setf(std::ios::scientific);
@@ -195,6 +195,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
                        << " Origin: " << inputPtrN->GetOrigin() << std::endl;
           originString << "\tTolerance: " << coordinateTol << std::endl;
         }
+        std::ostringstream spacingString;
         if (!inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol))
         {
           spacingString.setf(std::ios::scientific);
@@ -203,6 +204,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
                         << " Spacing: " << inputPtrN->GetSpacing() << std::endl;
           spacingString << "\tTolerance: " << coordinateTol << std::endl;
         }
+        std::ostringstream directionString;
         if (!inputPtr1->GetDirection().GetVnlMatrix().is_equal(inputPtrN->GetDirection().GetVnlMatrix(),
                                                                this->m_DirectionTolerance))
         {

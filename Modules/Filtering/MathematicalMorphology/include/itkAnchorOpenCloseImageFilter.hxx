@@ -196,11 +196,12 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DoFaceOpen(
   for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned int               start, end, len;
+    unsigned int               start;
+    unsigned int               end;
     if (FillLineBuffer<TImage, BresType, KernelLType>(
           input, Ind, NormLine, tol, LineOffsets, AllImage, outbuffer, start, end))
     {
-      len = end - start + 1;
+      const unsigned int len = end - start + 1;
       // compat
       outbuffer[0] = border;
       outbuffer[len + 1] = border;
