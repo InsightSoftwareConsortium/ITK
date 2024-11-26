@@ -99,17 +99,11 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::BeforeThreadedG
   {
     this->GetOutput()->FillBuffer(0);
   }
-}
 
-template <typename TInputImage, typename TOutputImage, typename TKernel>
-void
-ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
-{
-  ImageRegionConstIterator<TInputImage> iRegIter;
-  ImageRegionIterator<TOutputImage>     oRegIter;
-  iRegIter = ImageRegionConstIterator<InputImageType>(this->GetInput(), outputRegionForThread);
-  oRegIter = ImageRegionIterator<OutputImageType>(this->GetOutput(), outputRegionForThread);
+  RegionType requestedRegion = this->GetOutput()->GetRequestedRegion();
+
+  auto iRegIter = ImageRegionConstIterator<InputImageType>(this->GetInput(), requestedRegion);
+  auto oRegIter = ImageRegionIterator<OutputImageType>(this->GetOutput(), requestedRegion);
   /* Copy the input image to the output image - then only boundary pixels
    * need to be changed in the output image */
   while (!oRegIter.IsAtEnd())
@@ -121,7 +115,14 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
     ++oRegIter;
     ++iRegIter;
   }
+}
 
+
+template <typename TInputImage, typename TOutputImage, typename TKernel>
+void
+ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread)
+{
   // Find the boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
