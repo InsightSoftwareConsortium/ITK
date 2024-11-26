@@ -1,14 +1,7 @@
-cmake_minimum_required(VERSION 3.9.2 FATAL_ERROR)
+set(GDCM_MAX_VALIDATED_CMAKE_VERSION "3.13.4")
 
-set(GDCM_MAX_VALIDATED_CMAKE_VERSION "3.13.1")
-if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "${GDCM_MAX_VALIDATED_CMAKE_VERSION}")
-  # As of 2018-12-04 GDCM has been validated to build with cmake version 3.13.1 new policies.
-  # Set and use the newest cmake policies that are validated to work
-  set(GDCM_CMAKE_POLICY_VERSION "${CMAKE_VERSION}")
-else()
-  set(GDCM_CMAKE_POLICY_VERSION "${GDCM_MAX_VALIDATED_CMAKE_VERSION}")
-endif()
-cmake_policy(VERSION ${GDCM_CMAKE_POLICY_VERSION})
+# Set minimum required version of CMake, and policy version
+cmake_minimum_required(VERSION 3.9.2...${GDCM_MAX_VALIDATED_CMAKE_VERSION} FATAL_ERROR) # travis-ci wants 3.9.2
 
 # GDCM version 3.0.0 will only support C++11 and greater
 if(CMAKE_CXX_STANDARD EQUAL "98" )
