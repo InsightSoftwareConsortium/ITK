@@ -229,29 +229,25 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
                                                                                  unsigned int       inTraverseSize,
                                                                                  ProgressReporter & progress)
 {
-  IndexValueType i1, i2;
-
-  SizeValueType outK, inK;
   SizeValueType outTraverseSize = inTraverseSize / 2;
 
-  inTraverseSize = outTraverseSize * 2; // ensures that an even number is used.
-  SizeValueType inModK;                 // number for modulus math of in
-  inModK = 2L * inTraverseSize;
+  inTraverseSize = outTraverseSize * 2;       // ensures that an even number is used.
+  SizeValueType inModK = 2L * inTraverseSize; // number for modulus math of in
 
   // TODO:  Need to allocate this once as a scratch variable instead of each
   // time through.
   std::vector<double> temp;
   temp.resize(inTraverseSize);
 
-  for (inK = 0; inK < inTraverseSize; ++inK)
+  for (SizeValueType inK = 0; inK < inTraverseSize; ++inK)
   {
     temp[inK] = in[inK] * this->m_G[0];
 
     for (int i = 1; i < this->m_GSize; ++i)
     {
       // Calculate indices for left and right of symmetrical filter.
-      i1 = inK - i;
-      i2 = inK + i;
+      IndexValueType i1 = inK - i;
+      IndexValueType i2 = inK + i;
       // reflect at boundaries if necessary
       if (i1 < 0)
       {
@@ -274,10 +270,10 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
     }
   }
 
-  for (outK = 0; outK < outTraverseSize; ++outK)
+  for (SizeValueType outK = 0; outK < outTraverseSize; ++outK)
   {
-    i1 = 2 * outK;
-    double outVal = (temp[i1] + temp[i1 + 1]) / 2.0;
+    IndexValueType i1 = 2 * outK;
+    double         outVal = (temp[i1] + temp[i1 + 1]) / 2.0;
     out.Set(static_cast<OutputImagePixelType>(outVal));
     ++out;
     progress.CompletedPixel();
@@ -295,7 +291,8 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
                                                                                  unsigned int       inTraverseSize,
                                                                                  ProgressReporter & progress)
 {
-  IndexValueType i1, i2;
+  IndexValueType i1;
+  IndexValueType i2;
 
   IndexValueType inK;
   SizeValueType  outTraverseSize = inTraverseSize * 2;
@@ -305,7 +302,8 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
   inModK = outTraverseSize;
   IndexValueType k0 = (this->m_HSize / 2) * 2 - 1L;
 
-  double outVal, outVal2;
+  double outVal;
+  double outVal2;
 
   for (inK = 0; inK < (IndexValueType)inTraverseSize; ++inK)
   {

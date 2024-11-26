@@ -222,15 +222,14 @@ template <typename TComponent>
 void
 ColorTable<TComponent>::UseRandomColors(unsigned int n)
 {
-  unsigned int i;
-
   this->DeleteColors();
 
   m_NumberOfColors = n;
   m_Color.resize(m_NumberOfColors);
   m_ColorName.resize(m_NumberOfColors);
-  TComponent r, g, b;
-  TComponent minimum, maximum;
+
+  TComponent minimum;
+  TComponent maximum;
   if (NumericTraits<TComponent>::is_integer)
   {
     minimum = NumericTraits<TComponent>::NonpositiveMin();
@@ -241,13 +240,13 @@ ColorTable<TComponent>::UseRandomColors(unsigned int n)
     minimum = TComponent{};
     maximum = NumericTraits<TComponent>::OneValue();
   }
-  for (i = 0; i < n; ++i)
+  for (unsigned int i = 0; i < n; ++i)
   {
-    r = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
+    TComponent r = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][0] = r;
-    g = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
+    TComponent g = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][1] = g;
-    b = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
+    TComponent b = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][2] = b;
     std::ostringstream name;
     name << "Random(" << std::fixed << std::setprecision(2) << static_cast<float>(r) << ',' << static_cast<float>(g)

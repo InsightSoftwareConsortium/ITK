@@ -191,24 +191,18 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage(const s
                                                                          unsigned int                inTraverseSize,
                                                                          ProgressReporter &          progress)
 {
-  int i1, i2;
-
-  unsigned int outK, inK;
   unsigned int outTraverseSize = inTraverseSize / 2;
 
-  inTraverseSize = outTraverseSize * 2; // ensures that an even number is used.
-  unsigned int inModK;                  // number for modulus math of in
-  inModK = inTraverseSize - 1;
-
-  double outVal;
+  inTraverseSize = outTraverseSize * 2;     // ensures that an even number is used.
+  unsigned int inModK = inTraverseSize - 1; // number for modulus math of in
 
   // TODO:  m_GSize < 2 has not been tested.
   if (m_GSize < 2)
   {
-    for (outK = 0; outK < outTraverseSize; ++outK)
+    for (unsigned int outK = 0; outK < outTraverseSize; ++outK)
     {
-      inK = 2 * outK;
-      i2 = inK + 1;
+      unsigned int inK = 2 * outK;
+      int          i2 = inK + 1;
       if (i2 > static_cast<int>(inModK))
       {
         // Original was
@@ -225,17 +219,17 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage(const s
 
   else
   {
-    for (outK = 0; outK < outTraverseSize; ++outK)
+    for (unsigned int outK = 0; outK < outTraverseSize; ++outK)
     {
-      inK = 2L * outK;
+      unsigned int inK = 2L * outK;
 
-      outVal = in[inK] * m_G[0];
+      double outVal = in[inK] * m_G[0];
 
       for (int i = 1; i < m_GSize; ++i)
       {
         // Calculate indices for left and right of symmetrical filter.
-        i1 = inK - i;
-        i2 = inK + i;
+        int i1 = inK - i;
+        int i2 = inK + i;
         // reflect at boundaries if necessary
         if (i1 < 0)
         {
@@ -270,22 +264,14 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
                                                                          unsigned int                inTraverseSize,
                                                                          ProgressReporter &          progress)
 {
-  int i1, i2;
-
-  int          outK;
-  unsigned int inK;
   unsigned int outTraverseSize = inTraverseSize * 2;
   // inTraverseSize = outTraverseSize/2;  // ensures that an even number is used.
-  int inModK; // number for modulus math of in
-
-  inModK = inTraverseSize - 1;
-
-  double outVal;
+  int inModK = inTraverseSize - 1; // number for modulus math of in
 
   // TODO:  m_GSize < 2 has not been tested.
   if (m_HSize < 2)
   {
-    for (inK = 0; inK < inTraverseSize; ++inK)
+    for (unsigned int inK = 0; inK < inTraverseSize; ++inK)
     {
       out.Set(static_cast<OutputImagePixelType>(in[inK]));
       ++out;
@@ -297,12 +283,12 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
 
   else
   {
-    for (outK = 0; outK < static_cast<int>(outTraverseSize); ++outK)
+    for (int outK = 0; outK < static_cast<int>(outTraverseSize); ++outK)
     {
-      outVal = 0.0;
+      double outVal = 0.0;
       for (int k = (outK % 2); k < static_cast<int>(m_HSize); k += 2)
       {
-        i1 = (outK - k) / 2;
+        int i1 = (outK - k) / 2;
         if (i1 < 0)
         {
           i1 = (-i1) % inModK;
@@ -314,7 +300,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
       }
       for (int k = 2 - (outK % 2); k < static_cast<int>(m_HSize); k += 2)
       {
-        i2 = (outK + k) / 2;
+        int i2 = (outK + k) / 2;
         if (i2 > inModK)
         {
           i2 = i2 % inModK;
@@ -337,21 +323,16 @@ template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ReduceNDImage(OutputImageIterator & outItr)
 {
-  // Set up variables for waking the image regions.
-  RegionType validRegion;
-  SizeType   startSize;
-  SizeType   currentSize;
-
   // Does not support streaming
   typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
-  startSize = inputPtr->GetBufferedRegion().GetSize();
+  SizeType                               startSize = inputPtr->GetBufferedRegion().GetSize();
 
   // Initialize scratchImage space and allocate memory
   InitializeScratch(startSize);
   auto scratchImage = TOutputImage::New();
   scratchImage->CopyInformation(inputPtr);
   RegionType scratchRegion = inputPtr->GetBufferedRegion();
-  currentSize = startSize;
+  SizeType   currentSize = startSize;
   // scratchImage only needs the 1/2 the space of the original
   // image for the first dimension.
   // TODO: Is dividing by 2 correct or do I need something more complicated for
@@ -363,6 +344,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ReduceNDImage(OutputI
   scratchImage->Allocate();
 
   currentSize = startSize;
+  RegionType validRegion;
   validRegion.SetSize(currentSize);
   validRegion.SetIndex(inputPtr->GetBufferedRegion().GetIndex());
 
@@ -450,20 +432,16 @@ void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ExpandNDImage(OutputImageIterator & outItr)
 {
   // Set up variables for waking the image regions.
-  RegionType validRegion;
-  SizeType   startSize;
-  SizeType   currentSize;
-
   // Does not support streaming
   typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
-  startSize = inputPtr->GetBufferedRegion().GetSize();
+  SizeType                               startSize = inputPtr->GetBufferedRegion().GetSize();
 
   // Initialize scratchImage space and allocate memory
   InitializeScratch(startSize);
   auto scratchImage = TOutputImage::New();
   scratchImage->CopyInformation(inputPtr);
   RegionType scratchRegion = inputPtr->GetBufferedRegion();
-  currentSize = startSize;
+  SizeType   currentSize = startSize;
 
   // scratchImage 2 times the space of the original image .
 
@@ -476,6 +454,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ExpandNDImage(OutputI
   scratchImage->Allocate();
 
   currentSize = startSize;
+  RegionType validRegion;
   validRegion.SetSize(currentSize);
   validRegion.SetIndex(inputPtr->GetBufferedRegion().GetIndex());
 
