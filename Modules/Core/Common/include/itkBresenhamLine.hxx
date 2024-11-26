@@ -52,11 +52,10 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
 
   OffsetArray result(length);
 
-  IndexType m_CurrentImageIndex, LastIndex;
 
   Direction.Normalize();
   // we are going to start at 0
-  m_CurrentImageIndex.Fill(0);
+  IndexType           LastIndex;
   constexpr IndexType StartIndex = { { 0 } };
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -81,6 +80,7 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   m_ReduceErrorAfterIncrement.Fill(2 * maxDistance);
   m_AccumulateError.Fill(0);
   unsigned int steps = 1;
+  IndexType    m_CurrentImageIndex{ 0 };
   result[0] = m_CurrentImageIndex - StartIndex;
   while (steps < length)
   {

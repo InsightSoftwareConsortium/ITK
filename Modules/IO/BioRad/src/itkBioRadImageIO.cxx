@@ -204,13 +204,13 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   this->OpenFileForReading(file, m_FileName);
 
   // Find info...
-  bioradheader h, *p;
-  p = &h;
+  bioradheader h;
   if (sizeof(h) != BIORAD_HEADER_LENGTH)
   {
     itkExceptionMacro("Problem of alignement on your platform");
   }
   file.seekg(0, std::ios::beg);
+  bioradheader * p = &h;
   file.read((char *)p, BIORAD_HEADER_LENGTH);
 
   // byteswap header fields

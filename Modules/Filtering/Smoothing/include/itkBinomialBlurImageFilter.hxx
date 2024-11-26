@@ -139,9 +139,6 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename TTempImage::IndexType index;
   typename TTempImage::IndexType indexShift;
 
-  // Temporary pixel storage
-  double pixelA, pixelB;
-
   // walk the output image forwards and compute blur
   for (unsigned int rep = 0; rep < m_Repetitions; ++rep)
   {
@@ -173,8 +170,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
           }
 
           // Average the pixel of interest and shifted pixel
-          pixelA = tempPtr->GetPixel(index);
-          pixelB = tempPtr->GetPixel(indexShift);
+          double       pixelA = tempPtr->GetPixel(index);
+          const double pixelB = tempPtr->GetPixel(indexShift);
 
           pixelA += pixelB;
           pixelA = pixelA / 2.0;
@@ -214,8 +211,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
           }
 
           // Average the pixel of interest and shifted pixel
-          pixelA = tempPtr->GetPixel(index);
-          pixelB = tempPtr->GetPixel(indexShift);
+          double       pixelA = tempPtr->GetPixel(index);
+          const double pixelB = tempPtr->GetPixel(indexShift);
 
           pixelA += pixelB;
           pixelA = pixelA / 2;
