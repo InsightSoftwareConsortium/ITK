@@ -36,8 +36,6 @@ itkIOEuler3DTransformTxtTest(int argc, char * argv[])
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
   using TransformType = itk::Euler3DTransform<double>;
-  TransformType::Pointer oldStyleInput, newStyleInput;
-
   using ReaderType = itk::TransformFileReaderTemplate<double>;
   auto reader = ReaderType::New();
 
@@ -47,7 +45,8 @@ itkIOEuler3DTransformTxtTest(int argc, char * argv[])
   // read old style format in
   reader->SetFileName(argv[1]);
   reader->Update();
-  oldStyleInput = static_cast<TransformType *>((reader->GetTransformList()->begin())->GetPointer());
+  TransformType::Pointer oldStyleInput =
+    static_cast<TransformType *>((reader->GetTransformList()->begin())->GetPointer());
 
   // modify the interpretation of the Euler angles
   oldStyleInput->SetComputeZYX(true);
@@ -60,7 +59,8 @@ itkIOEuler3DTransformTxtTest(int argc, char * argv[])
   // read new style format back in
   reader->SetFileName(argv[2]);
   reader->Update();
-  newStyleInput = static_cast<TransformType *>((reader->GetTransformList()->begin())->GetPointer());
+  TransformType::Pointer newStyleInput =
+    static_cast<TransformType *>((reader->GetTransformList()->begin())->GetPointer());
 
   const TransformType::MatrixType & oldStyleMat = oldStyleInput->GetMatrix();
   const TransformType::MatrixType & newStyleMat = newStyleInput->GetMatrix();

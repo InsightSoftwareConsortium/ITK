@@ -133,7 +133,8 @@ itkExceptionObjectTest(int, char *[])
   bool OneShouldFail = true;
   try
   {
-    human          john, jane;
+    human          john;
+    human          jane;
     naked_mole_rat hal;
     OneShouldFail &= (john == john); // OK
     OneShouldFail &= (jane == john); // OK

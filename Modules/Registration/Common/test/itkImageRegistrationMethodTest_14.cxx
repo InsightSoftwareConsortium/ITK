@@ -106,7 +106,6 @@ itkImageRegistrationMethodTest_14(int, char *[])
   bool pass = true;
 
   constexpr unsigned int dimension = 3;
-  unsigned int           j;
 
   using PixelType = float;
 
@@ -161,29 +160,27 @@ itkImageRegistrationMethodTest_14(int, char *[])
   using FixedImageIterator = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double, dimension> center;
-  for (j = 0; j < dimension; ++j)
+  for (unsigned int j = 0; j < dimension; ++j)
   {
     center[j] = 0.5 * static_cast<double>(region.GetSize()[j]);
   }
-
-  itk::Point<double, dimension>  p;
-  itk::Vector<double, dimension> d, d2;
 
   MovingImageIterator mIter(movingImage, region);
   FixedImageIterator  fIter(fixedImage, region);
 
   while (!mIter.IsAtEnd())
   {
-    for (j = 0; j < dimension; ++j)
+    itk::Point<double, dimension> p;
+    for (unsigned int j = 0; j < dimension; ++j)
     {
       p[j] = mIter.GetIndex()[j];
     }
 
-    d = p - center;
+    itk::Vector<double, dimension> d = p - center;
 
     fIter.Set((PixelType)F(d));
 
-
+    itk::Vector<double, dimension> d2;
     d2[0] = d[0] * std::cos(angle) + d[1] * std::sin(angle) + displacement[0];
     d2[1] = -d[0] * std::sin(angle) + d[1] * std::cos(angle) + displacement[1];
     d2[2] = d[2] + displacement[2];
@@ -196,7 +193,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   // set the image origin to be center of the image
   double transCenter[dimension];
-  for (j = 0; j < dimension; ++j)
+  for (unsigned int j = 0; j < dimension; ++j)
   {
     transCenter[j] = -0.5 * static_cast<double>(size[j]);
   }
@@ -215,7 +212,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   parametersScales.Fill(1.0);
 
-  for (j = 4; j < 7; ++j)
+  for (unsigned int j = 4; j < 7; ++j)
   {
     parametersScales[j] = 0.0001;
   }
@@ -268,7 +265,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
   unsigned int           iter[numberOfLoops] = { 300, 300, 350 };
   double                 rates[numberOfLoops] = { 1e-3, 5e-4, 1e-4 };
 
-  for (j = 0; j < numberOfLoops; ++j)
+  for (unsigned int j = 0; j < numberOfLoops; ++j)
   {
 
     try
@@ -307,14 +304,14 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   std::cout << "True solution is: " << trueParameters << std::endl;
 
-  for (j = 0; j < 4; ++j)
+  for (unsigned int j = 0; j < 4; ++j)
   {
     if (itk::Math::abs(solution[j] - trueParameters[j]) > 0.025)
     {
       pass = false;
     }
   }
-  for (j = 4; j < 7; ++j)
+  for (unsigned int j = 4; j < 7; ++j)
   {
     if (itk::Math::abs(solution[j] - trueParameters[j]) > 1.0)
     {

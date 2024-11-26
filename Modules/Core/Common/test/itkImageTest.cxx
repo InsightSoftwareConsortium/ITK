@@ -98,10 +98,12 @@ itkImageTest(int, char *[])
 
   std::cout << "Test transform to/from physical vector." << std::endl;
   using GradientType = itk::FixedArray<float, 2>;
-  GradientType truthGradient, outputGradient, testGradient;
+  GradientType truthGradient;
   truthGradient[0] = 1.0;
   truthGradient[1] = 1.0;
+  GradientType outputGradient;
   image->TransformLocalVectorToPhysicalVector(truthGradient, outputGradient);
+  GradientType testGradient;
   image->TransformPhysicalVectorToLocalVector(outputGradient, testGradient);
   if (itk::Math::abs(truthGradient[0] - testGradient[0]) > eps ||
       itk::Math::abs(truthGradient[1] - testGradient[1]) > eps)

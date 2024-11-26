@@ -316,19 +316,19 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
 {
   int result = EXIT_SUCCESS;
 
-  ImageToImageMetricv4TestMetricType::MeasureType    valueReturn1, valueReturn2;
-  ImageToImageMetricv4TestMetricType::DerivativeType derivativeReturn;
-
   // Initialize.
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
 
   // Evaluate using GetValue
+  ImageToImageMetricv4TestMetricType::MeasureType valueReturn1;
   ITK_TRY_EXPECT_NO_EXCEPTION(valueReturn1 = metric->GetValue());
 
   // Re-initialize.
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
 
   // Evaluate using GetValueAndDerivative
+  ImageToImageMetricv4TestMetricType::MeasureType    valueReturn2;
+  ImageToImageMetricv4TestMetricType::DerivativeType derivativeReturn;
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn2, derivativeReturn));
 
   // Test same value returned by different methods
