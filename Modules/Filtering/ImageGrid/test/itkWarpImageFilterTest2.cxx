@@ -125,8 +125,8 @@ itkWarpImageFilterTest2(int, char *[])
   filter->Modified();
   filter->Update();
   ImageType::Pointer                  result2 = filter->GetOutput();
-  itk::ImageRegionIterator<ImageType> it1(result1, result1->GetLargestPossibleRegion()),
-    it2(result2, result1->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<ImageType> it1(result1, result1->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<ImageType> it2(result2, result1->GetLargestPossibleRegion());
   for (it1.GoToBegin(), it2.GoToBegin(); !it1.IsAtEnd() && !it2.IsAtEnd(); ++it1, ++it2)
   {
     if (itk::Math::NotAlmostEquals(it1.Value(), it2.Value()))

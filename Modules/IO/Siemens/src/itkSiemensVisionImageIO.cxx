@@ -85,7 +85,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
 #  define DB(x)
 #endif
 
-// #define GE_PROD_STR "SIEMENS"
+  // #define GE_PROD_STR "SIEMENS"
 #define TEMPLEN 2048
   auto * hdr = new GEImageHeader;
   if (hdr == nullptr)
@@ -115,22 +115,22 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   this->GetStringAt(f, HDR_PAT_NAME, hdr->name, HDR_PAT_NAME_LEN);
   hdr->name[HDR_PAT_NAME_LEN] = '\0';
   DB(hdr->name);
+  {
+    int year;
+    this->GetIntAt(f, HDR_REG_YEAR, &year);
+    int month;
+    this->GetIntAt(f, HDR_REG_MONTH, &month);
+    int day;
+    this->GetIntAt(f, HDR_REG_DAY, &day);
+    int hour;
+    this->GetIntAt(f, HDR_REG_HOUR, &hour);
+    int minute;
+    this->GetIntAt(f, HDR_REG_MIN, &minute);
+    int second;
+    this->GetIntAt(f, HDR_REG_SEC, &second);
 
-  int year, month, day, hour, minute, second;
-
-  this->GetIntAt(f, HDR_REG_YEAR, &year);
-
-  this->GetIntAt(f, HDR_REG_MONTH, &month);
-
-  this->GetIntAt(f, HDR_REG_DAY, &day);
-
-  this->GetIntAt(f, HDR_REG_HOUR, &hour);
-
-  this->GetIntAt(f, HDR_REG_MIN, &minute);
-
-  this->GetIntAt(f, HDR_REG_SEC, &second);
-
-  snprintf(hdr->date, sizeof(hdr->date), "%d/%d/%d %d:%d:%d", year, month, day, hour, minute, second);
+    snprintf(hdr->date, sizeof(hdr->date), "%d/%d/%d %d:%d:%d", year, month, day, hour, minute, second);
+  }
   DB(hdr->date);
 
   this->GetStringAt(f, HDR_INSTUTE_NAME, hdr->hospital, HDR_INSTUTE_NAME_LEN);

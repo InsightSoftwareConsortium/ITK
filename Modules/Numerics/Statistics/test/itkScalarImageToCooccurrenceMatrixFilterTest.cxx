@@ -203,12 +203,11 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
     two_two[0] = 2;
     two_two[1] = 2;
 
-    float ooF, otF, toF, ttF, totalF;
-    ooF = hist->GetFrequency(one_one);
-    otF = hist->GetFrequency(one_two);
-    toF = hist->GetFrequency(two_one);
-    ttF = hist->GetFrequency(two_two);
-    totalF = hist->GetTotalFrequency();
+    float ooF = hist->GetFrequency(one_one);
+    float otF = hist->GetFrequency(one_two);
+    float toF = hist->GetFrequency(two_one);
+    float ttF = hist->GetFrequency(two_two);
+    float totalF = hist->GetTotalFrequency();
 
     if (itk::Math::NotAlmostEquals(ooF, 24.0f) || itk::Math::NotAlmostEquals(ttF, 16.0f) ||
         itk::Math::NotAlmostEquals(otF, 20.0f) || itk::Math::NotAlmostEquals(toF, 20.0f) ||
@@ -335,7 +334,8 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
     one_zero[0] = 1;
     one_zero[1] = 0;
 
-    float zoF, ozF;
+    float zoF;
+    float ozF;
     zzF = hist3->GetFrequency(zero_zero);
     zoF = hist3->GetFrequency(zero_one);
     ozF = hist3->GetFrequency(one_zero);

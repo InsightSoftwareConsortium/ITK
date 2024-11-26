@@ -400,8 +400,8 @@ ASSERT(v[0] == 13.0 && v[1] == 18.0 && v[2] == 23.0, "On-the-fly conversion fail
   FloatVariableLengthVectorType v1{};
   FloatVariableLengthVectorType v2 = v1;
   v1 = v2;
-
-  FloatVariableLengthVectorType v3, v4;
+  FloatVariableLengthVectorType v3;
+  FloatVariableLengthVectorType v4;
   v1 = 2 * v2 + (v3 - v4) / 6;
 
   v1.SetSize(0, FloatVariableLengthVectorType::DontShrinkToFit(), FloatVariableLengthVectorType::KeepOldValues());
