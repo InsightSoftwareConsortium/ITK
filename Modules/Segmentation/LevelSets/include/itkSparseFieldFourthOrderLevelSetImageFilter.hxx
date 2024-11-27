@@ -85,7 +85,9 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
   SparseImageIteratorType & it) const -> ValueType
 {
   unsigned int            counter;
-  SizeValueType           position, stride[ImageDimension], indicator[ImageDimension];
+  SizeValueType           position;
+  SizeValueType           stride[ImageDimension];
+  SizeValueType           indicator[ImageDimension];
   constexpr SizeValueType one = 1;
   const SizeValueType     center = it.Size() / 2;
   NormalVectorType        normalvector;

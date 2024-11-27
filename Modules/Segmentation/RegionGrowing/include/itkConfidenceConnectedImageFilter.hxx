@@ -305,7 +305,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     secondFunction->SetInputImage(outputImage);
     secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 
-    typename NumericTraits<typename InputImageType::PixelType>::RealType sum, sumOfSquares;
+    typename NumericTraits<typename InputImageType::PixelType>::RealType sum;
+    typename NumericTraits<typename InputImageType::PixelType>::RealType sumOfSquares;
     sum = InputRealType{};
     sumOfSquares = InputRealType{};
     typename TOutputImage::SizeValueType numberOfSamples = 0;

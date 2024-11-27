@@ -114,7 +114,10 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::N
                                                                                          double *       y,
                                                                                          double *       z)
 {
-  double d, dlx, dly, dlz;
+  double d;
+  double dlx;
+  double dly;
+  double dlz;
   double dp[3];
 
   dp[0] = pp[0];
@@ -206,7 +209,9 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
   // image coordinate
   int               ic[3];
   GradientIndexType coord;
-  double            x, y, z;
+  double            x;
+  double            y;
+  double            z;
 
   coord[0] = static_cast<ImageIndexValueType>(data->pos[0]);
   coord[1] = static_cast<ImageIndexValueType>(data->pos[1]);
@@ -392,8 +397,10 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
 
   // now fun begins try to use all the above
   std::vector<ImageVoxel *>::iterator it;
-  double                              mag, max = 0;
-  GradientIndexType                   coord3, coord2{};
+  double                              mag;
+  double                              max = 0;
+  GradientIndexType                   coord3;
+  GradientIndexType                   coord2{};
   for (it = m_Positive.begin(); it != m_Positive.end(); ++it)
   {
     coord3[0] = static_cast<GradientIndexValueType>((*it)->GetX());

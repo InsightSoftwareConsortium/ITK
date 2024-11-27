@@ -23,7 +23,8 @@
   try
     {
     std::ofstream redirectStream;
-    std::streambuf *redirectBuf, *oldCoutBuf = nullptr;
+    std::streambuf *redirectBuf;
+    std::streambuf *oldCoutBuf = nullptr;
     RedirectOutputParameters& redirectOutputParameters = GetRedirectOutputParameters();
     if (redirectOutputParameters.redirect)
       {

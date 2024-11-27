@@ -110,7 +110,9 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   ImageScanlineConstIterator inputIterator(inputPtr, inputPtr->GetRequestedRegion());
 
   // Set up shaped neighbor hood by defining the offsets
-  OutputOffsetType negativeOffset, positiveOffset, iOffset;
+  OutputOffsetType negativeOffset;
+  OutputOffsetType positiveOffset;
+  OutputOffsetType iOffset;
 
   negativeOffset[0] = 0;
   positiveOffset[0] = 0;

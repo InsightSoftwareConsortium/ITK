@@ -409,7 +409,8 @@ MINCImageIO::ReadImageInformation()
   }
 
   // voxel valid range
-  double valid_min, valid_max;
+  double valid_min;
+  double valid_max;
   // get the voxel valid range
   if (miget_volume_valid_range(m_MINCPImpl->m_Volume, &valid_max, &valid_min) < 0)
   {
@@ -417,7 +418,8 @@ MINCImageIO::ReadImageInformation()
   }
 
   // real volume range, only awailable when slice scaling is off
-  double volume_min = 0.0, volume_max = 1.0;
+  double volume_min = 0.0;
+  double volume_max = 1.0;
   if (!slice_scaling_flag)
   {
     if (miget_volume_range(m_MINCPImpl->m_Volume, &volume_max, &volume_min) < 0)
@@ -458,7 +460,8 @@ MINCImageIO::ReadImageInformation()
   Matrix<double, 3, 3> dir_cos{};
   dir_cos.SetIdentity();
 
-  Vector<double, 3> origin, sep;
+  Vector<double, 3> origin;
+  Vector<double, 3> sep;
   Vector<double, 3> o_origin;
   origin.Fill(0.0);
   o_origin.Fill(0.0);
@@ -478,7 +481,8 @@ MINCImageIO::ReadImageInformation()
       miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_sz);
 
       std::vector<double> _dir(3);
-      double              _sep, _start;
+      double              _sep;
+      double              _start;
 
       miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_ORDER_APPARENT, &_sep);
       miget_dimension_cosines(m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_dir[0]);
@@ -684,7 +688,8 @@ MINCImageIO::ReadImageInformation()
   if (m_MINCPImpl->m_DimensionIndices[4] != -1) // have time dimension
   {
     // store time dimension start and step in metadata for preservation
-    double _sep, _start;
+    double _sep;
+    double _start;
     miget_dimension_separation(
       m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_sep);
     miget_dimension_start(m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_start);
@@ -1126,7 +1131,8 @@ MINCImageIO::WriteImageInformation()
           if (!positive && dimension_order[i * 2 + 1] != 'V' &&
               dimension_order[i * 2 + 1] != 'v') // Vector dimension is always positive
           {
-            double   _sep, _start;
+            double   _sep;
+            double   _start;
             misize_t _sz;
 
             miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[j], MI_ORDER_FILE, &_sep);
@@ -1226,7 +1232,8 @@ MINCImageIO::WriteImageInformation()
     itkExceptionMacro("Could not set slice scaling flag");
   }
 
-  double valid_min, valid_max;
+  double valid_min;
+  double valid_max;
   miget_volume_valid_range(m_MINCPImpl->m_Volume, &valid_max, &valid_min);
 
   // by default valid range will be equal to range, to avoid scaling
@@ -1359,7 +1366,8 @@ MINCImageIO::Write(const void * buffer)
     buffer_length *= nComp;
   }
 
-  double   buffer_min, buffer_max;
+  double   buffer_min;
+  double   buffer_max;
   mitype_t volume_data_type = MI_TYPE_UBYTE;
 
   switch (this->GetComponentType())

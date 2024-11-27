@@ -248,7 +248,13 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     fC(this->GetInput(), outputRegionForThread, m_GaussianKernel.GetRadius());
 
   OutputPixelRealType centerPixel;
-  OutputPixelRealType val, tableArg, normFactor, rangeGaussian, rangeDistance, pixel, gaussianProduct;
+  OutputPixelRealType val;
+  OutputPixelRealType tableArg;
+  OutputPixelRealType normFactor;
+  OutputPixelRealType rangeGaussian;
+  OutputPixelRealType rangeDistance;
+  OutputPixelRealType pixel;
+  OutputPixelRealType gaussianProduct;
 
   const double distanceToTableIndex = static_cast<double>(m_NumberOfRangeGaussianSamples) / m_DynamicRangeUsed;
 

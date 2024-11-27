@@ -100,7 +100,8 @@ double
 TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
 {
   double bx;
-  double pin, qin;
+  double pin;
+  double qin;
   double dof;
 
   // Based on Abramowitz and Stegun 26.7.1, which gives the probability
@@ -166,8 +167,15 @@ TDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   }
 
   double x;
-  double dof, dof2, dof3, dof4;
-  double gaussX, gaussX3, gaussX5, gaussX7, gaussX9;
+  double dof;
+  double dof2;
+  double dof3;
+  double dof4;
+  double gaussX;
+  double gaussX3;
+  double gaussX5;
+  double gaussX7;
+  double gaussX9;
 
   // Based on Abramowitz and Stegun 26.7.5
   dof = static_cast<double>(degreesOfFreedom);

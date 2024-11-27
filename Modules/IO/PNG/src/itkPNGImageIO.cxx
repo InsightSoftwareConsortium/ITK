@@ -174,9 +174,13 @@ PNGImageIO::Read(void * buffer)
 
   png_read_info(png_ptr, info_ptr);
 
-  png_uint_32 width, height;
-  int         bitDepth, colorType, interlaceType;
-  int         compression_type, filter_method;
+  png_uint_32 width;
+  png_uint_32 height;
+  int         bitDepth;
+  int         colorType;
+  int         interlaceType;
+  int         compression_type;
+  int         filter_method;
   png_get_IHDR(
     png_ptr, info_ptr, &width, &height, &bitDepth, &colorType, &interlaceType, &compression_type, &filter_method);
 
@@ -365,9 +369,13 @@ PNGImageIO::ReadImageInformation()
 
   png_read_info(png_ptr, info_ptr);
 
-  png_uint_32 width, height;
-  int         bitDepth, colorType, interlaceType;
-  int         compression_type, filter_method;
+  png_uint_32 width;
+  png_uint_32 height;
+  int         bitDepth;
+  int         colorType;
+  int         interlaceType;
+  int         compression_type;
+  int         filter_method;
   png_get_IHDR(
     png_ptr, info_ptr, &width, &height, &bitDepth, &colorType, &interlaceType, &compression_type, &filter_method);
 
@@ -593,8 +601,10 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
       break;
   }
 
-  png_uint_32 width, height;
-  double      rowSpacing, colSpacing;
+  png_uint_32 width;
+  png_uint_32 height;
+  double      rowSpacing;
+  double      colSpacing;
   width = this->GetDimensions(0);
   colSpacing = m_Spacing[0];
 

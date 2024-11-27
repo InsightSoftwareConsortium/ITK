@@ -230,7 +230,8 @@ protected:
     void
     UpdateCentroids()
     {
-      unsigned int i, j;
+      unsigned int i;
+      unsigned int j;
 
       for (i = 0; i < static_cast<unsigned int>(this->Size()); ++i)
       {

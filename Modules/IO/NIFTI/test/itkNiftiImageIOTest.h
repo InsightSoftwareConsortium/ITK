@@ -433,7 +433,8 @@ TestImageOfSymMats(const std::string & fname)
               for (int k = 0; k < dims[0]; ++k)
               {
                 _index[0] = k;
-                PixelType p1, p2;
+                PixelType p1;
+                PixelType p2;
                 for (unsigned int q = 0; q < VDimension; ++q)
                 {
                   index[q] = _index[q];

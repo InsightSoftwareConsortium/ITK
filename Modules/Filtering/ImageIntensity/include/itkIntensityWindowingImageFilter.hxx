@@ -50,7 +50,8 @@ IntensityWindowingImageFilter<TInputImage, TOutputImage>::SetWindowLevel(const I
                                                                          const InputPixelType & level)
 {
   using InputRealType = typename NumericTraits<InputPixelType>::RealType;
-  InputRealType tmp1, tmp2;
+  InputRealType tmp1;
+  InputRealType tmp2;
 
   tmp1 = static_cast<InputRealType>(level) - (static_cast<InputRealType>(window) / 2.0);
   if (tmp1 < NumericTraits<InputPixelType>::NonpositiveMin())

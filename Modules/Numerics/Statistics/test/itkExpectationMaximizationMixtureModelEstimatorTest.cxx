@@ -42,7 +42,8 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   }
 
 
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   char *       dataFileName = argv[1];
   int          dataSize = 2000;
   int          maximumIteration = 200;

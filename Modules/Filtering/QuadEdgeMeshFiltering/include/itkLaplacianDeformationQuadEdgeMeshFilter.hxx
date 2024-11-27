@@ -198,7 +198,8 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 
   OutputPointIdentifier vId;
   unsigned int          degree;
-  OutputQEPrimal *      qe, *temp;
+  OutputQEPrimal *      qe;
+  OutputQEPrimal *      temp;
 
   while (!todo.empty())
   {

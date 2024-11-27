@@ -56,7 +56,8 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
 
   std::vector<unsigned int> kernelOnElements;
 
-  IndexValueType i, k;
+  IndexValueType i;
+  IndexValueType k;
 
   // **************************
   // Structuring element ( SE ) coding

@@ -167,7 +167,8 @@ itkImageRegistrationMethodTest_14(int, char *[])
   }
 
   itk::Point<double, dimension>  p;
-  itk::Vector<double, dimension> d, d2;
+  itk::Vector<double, dimension> d;
+  itk::Vector<double, dimension> d2;
 
   MovingImageIterator mIter(movingImage, region);
   FixedImageIterator  fIter(fixedImage, region);

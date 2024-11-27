@@ -334,7 +334,9 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       for (unsigned int j = 0; j < facets; ++j)
       {
         // Find a line perpendicular to each face
-        LType3 L, A, B;
+        LType3 L;
+        LType3 A;
+        LType3 B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
         L[0] = A[1] * B[2] - B[1] * A[2];
@@ -700,7 +702,9 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       for (unsigned int j = 0; j < facets; ++j)
       {
         // Find a line perpendicular to each face
-        LType3 L, A, B;
+        LType3 L;
+        LType3 A;
+        LType3 B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
         L[0] = A[1] * B[2] - B[1] * A[2];
@@ -733,7 +737,12 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       FacetArray.resize(facets);
 
       // original corners of octahedron
-      LType3 P0{}, P1{}, P2{}, P3{}, P4{}, P5{};
+      LType3 P0{};
+      LType3 P1{};
+      LType3 P2{};
+      LType3 P3{};
+      LType3 P4{};
+      LType3 P5{};
       P0[0] = 0;
       P0[1] = 0;
       P0[2] = 1;
@@ -753,7 +762,14 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       P5[1] = 1 / sqrt2;
       P5[2] = 0;
 
-      FacetType3 F0, F1, F2, F3, F4, F5, F6, F7;
+      FacetType3 F0;
+      FacetType3 F1;
+      FacetType3 F2;
+      FacetType3 F3;
+      FacetType3 F4;
+      FacetType3 F5;
+      FacetType3 F6;
+      FacetType3 F7;
       F0.P1 = P0;
       F0.P2 = P3;
       F0.P3 = P4;
@@ -795,7 +811,9 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
         unsigned int ntold = pos;
         for (unsigned int i = 0; i < ntold; ++i)
         {
-          LType3 Pa, Pb, Pc;
+          LType3 Pa;
+          LType3 Pb;
+          LType3 Pc;
           for (unsigned int d = 0; d < 3; ++d)
           {
             Pa[d] = (FacetArray[i].P1[d] + FacetArray[i].P2[d]) / 2;
@@ -826,7 +844,9 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       for (unsigned int j = 0; j < facets; ++j)
       {
         // Find a line perpendicular to each face
-        LType3 L, A, B;
+        LType3 L;
+        LType3 A;
+        LType3 B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
         L[0] = A[1] * B[2] - B[1] * A[2];

@@ -381,7 +381,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   // Test ComputeJacobianWithRespectToParameters: should return identity
 
-  DisplacementTransformType::JacobianType identity(Dimensions, Dimensions), testIdentity;
+  DisplacementTransformType::JacobianType identity(Dimensions, Dimensions);
+  DisplacementTransformType::JacobianType testIdentity;
 
   identity.Fill(0);
   for (unsigned int i = 0; i < Dimensions; ++i)
@@ -415,7 +416,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   // Test transforming of points
   //
 
-  DisplacementTransformType::OutputPointType deformOutput, deformTruth;
+  DisplacementTransformType::OutputPointType deformOutput;
+  DisplacementTransformType::OutputPointType deformTruth;
 
   // Test a point with non-zero displacement
   FieldType::IndexType idx = field->TransformPhysicalPointToIndex(testPoint);
@@ -431,7 +433,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   }
 
   DisplacementTransformType::InputVectorType  testVector;
-  DisplacementTransformType::OutputVectorType deformVector, deformVectorTruth;
+  DisplacementTransformType::OutputVectorType deformVector;
+  DisplacementTransformType::OutputVectorType deformVectorTruth;
   testVector[0] = 0.5;
   testVector[1] = 0.5;
 
@@ -451,8 +454,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   // Test VectorTransform for variable length vector
   DisplacementTransformType::InputVectorPixelType  testVVector(DisplacementTransformType::Dimension);
-  DisplacementTransformType::OutputVectorPixelType deformVVector,
-    deformVVectorTruth(DisplacementTransformType::Dimension);
+  DisplacementTransformType::OutputVectorPixelType deformVVector;
+  DisplacementTransformType::OutputVectorPixelType deformVVectorTruth(DisplacementTransformType::Dimension);
   testVVector[0] = 0.5;
   testVVector[1] = 0.5;
 
@@ -472,7 +475,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
 
   DisplacementTransformType::InputCovariantVectorType  testcVector;
-  DisplacementTransformType::OutputCovariantVectorType deformcVector, deformcVectorTruth;
+  DisplacementTransformType::OutputCovariantVectorType deformcVector;
+  DisplacementTransformType::OutputCovariantVectorType deformcVectorTruth;
   testcVector[0] = 0.5;
   testcVector[1] = 0.5;
 
@@ -493,8 +497,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
 
   DisplacementTransformType::InputVectorPixelType  testcVVector(DisplacementTransformType::Dimension);
-  DisplacementTransformType::OutputVectorPixelType deformcVVector,
-    deformcVVectorTruth(DisplacementTransformType::Dimension);
+  DisplacementTransformType::OutputVectorPixelType deformcVVector;
+  DisplacementTransformType::OutputVectorPixelType deformcVVectorTruth(DisplacementTransformType::Dimension);
   testcVVector[0] = 0.5;
   testcVVector[1] = 0.5;
 
@@ -514,7 +518,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
 
   DisplacementTransformType::InputDiffusionTensor3DType  testTensor;
-  DisplacementTransformType::OutputDiffusionTensor3DType deformTensor, deformTensorTruth;
+  DisplacementTransformType::OutputDiffusionTensor3DType deformTensor;
+  DisplacementTransformType::OutputDiffusionTensor3DType deformTensorTruth;
   testTensor[0] = 3;
   testTensor[1] = 0.01;
   testTensor[2] = 0.01;

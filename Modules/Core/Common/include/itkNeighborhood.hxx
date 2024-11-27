@@ -42,7 +42,8 @@ Neighborhood<TPixel, VDimension, TContainer>::ComputeNeighborhoodOffsetTable()
   m_OffsetTable.clear();
   m_OffsetTable.reserve(this->Size());
   OffsetType         o;
-  DimensionValueType i, j;
+  DimensionValueType i;
+  DimensionValueType j;
   for (j = 0; j < VDimension; ++j)
   {
     o[j] = -(static_cast<OffsetValueType>(this->GetRadius(j)));

@@ -271,7 +271,9 @@ itkEuler2DTransformTest(int, char *[])
     t1->CloneTo(t5);
     t5->Compose(t4, false);
 
-    TransformType::InputPointType p5, p6, p7;
+    TransformType::InputPointType p5;
+    TransformType::InputPointType p6;
+    TransformType::InputPointType p7;
     p5 = t1->TransformPoint(p1);
     p6 = t4->TransformPoint(p5);
     p7 = t5->TransformPoint(p1);
@@ -368,7 +370,8 @@ itkEuler2DTransformTest(int, char *[])
     ip[0] = 8.0;
     ip[1] = 9.0;
 
-    TransformType::OutputPointType op1, op2;
+    TransformType::OutputPointType op1;
+    TransformType::OutputPointType op2;
     op1 = t1->TransformPoint(ip);
     op2 = t23->TransformPoint(ip);
 

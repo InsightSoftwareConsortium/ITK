@@ -255,7 +255,8 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   ImageLinearConstIteratorWithIndex<TileImageType> tit(m_TileImage, m_TileImage->GetRequestedRegion());
   int                                              value;
 
-  std::vector<std::vector<int>> sizes, offsets;
+  std::vector<std::vector<int>> sizes;
+  std::vector<std::vector<int>> offsets;
 
   sizes.resize(OutputImageDimension);
   offsets.resize(OutputImageDimension);

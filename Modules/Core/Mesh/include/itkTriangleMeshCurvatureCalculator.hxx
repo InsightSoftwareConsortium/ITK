@@ -76,8 +76,13 @@ template <typename TInputMesh>
 void
 TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMeshType * inputMesh)
 {
-  MeshPointType e0, e1, e2;
-  double        A, alpha0, alpha1, alpha2;
+  MeshPointType e0;
+  MeshPointType e1;
+  MeshPointType e2;
+  double        A;
+  double        alpha0;
+  double        alpha1;
+  double        alpha2;
 
   const unsigned int numberOfPoints = inputMesh->GetNumberOfPoints();
 

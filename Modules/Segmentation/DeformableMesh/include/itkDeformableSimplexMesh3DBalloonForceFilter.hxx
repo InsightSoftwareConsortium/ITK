@@ -57,8 +57,15 @@ DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::ComputeExter
   SimplexMeshGeometry *     data,
   const GradientImageType * gradientImage)
 {
-  PointType         vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
-  GradientIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
+  PointType         vec_for;
+  PointType         tmp_vec_1;
+  PointType         tmp_vec_2;
+  PointType         tmp_vec_3;
+  GradientIndexType coord;
+  GradientIndexType coord2;
+  GradientIndexType tmp_co_1;
+  GradientIndexType tmp_co_2;
+  GradientIndexType tmp_co_3;
 
   coord[0] = static_cast<GradientIndexValueType>(data->pos[0]);
   coord[1] = static_cast<GradientIndexValueType>(data->pos[1]);

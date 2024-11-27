@@ -214,7 +214,8 @@ MultivariateLegendrePolynomial::LegendreSum(const double x, int n, const Coeffic
     return coef[offset];
   }
 
-  double ykp2 = 0, ykp1 = coef[n + offset];
+  double ykp2 = 0;
+  double ykp1 = coef[n + offset];
 
   for (int k = n - 1; k > 0; k--)
   {

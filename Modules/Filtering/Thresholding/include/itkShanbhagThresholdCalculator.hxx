@@ -45,7 +45,8 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   const double                               tolerance = 2.220446049250313E-16;
   typename HistogramType::InstanceIdentifier threshold = 0;
-  int                                        ih, it;
+  int                                        ih;
+  int                                        it;
   int                                        first_bin;
   int                                        last_bin;
   double                                     term;

@@ -122,8 +122,10 @@ itkAffineTransformTest(int, char *[])
 
   int any = 0; // Any errors detected in testing?
 
-  Matrix2Type matrix2, matrix2Truth;
-  Vector2Type vector2, vector2Truth;
+  Matrix2Type matrix2;
+  Matrix2Type matrix2Truth;
+  Vector2Type vector2;
+  Vector2Type vector2Truth;
 
   /* Create a 2D identity transformation and show its parameters */
   using Affine2DType = itk::AffineTransform<double, 2>;
@@ -348,7 +350,9 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Transform a point */
-  itk::Point<double, 2> u2, v2, v2T;
+  itk::Point<double, 2> u2;
+  itk::Point<double, 2> v2;
+  itk::Point<double, 2> v2T;
   u2[0] = 3;
   u2[1] = 5;
   v2 = aff2->TransformPoint(u2);
@@ -368,7 +372,9 @@ itkAffineTransformTest(int, char *[])
   // << v2[0] << " , " << v2[1] << std::endl;
 
   /* Transform a vnl_vector */
-  vnl_vector_fixed<double, 2> x2, y2, y2T;
+  vnl_vector_fixed<double, 2> x2;
+  vnl_vector_fixed<double, 2> y2;
+  vnl_vector_fixed<double, 2> y2T;
   x2[0] = 1;
   x2[1] = 2;
   y2 = aff2->TransformVector(x2);
@@ -388,7 +394,9 @@ itkAffineTransformTest(int, char *[])
   // << y2[0] << " , " << y2[1] << std::endl;
 
   /* Transform a vector */
-  itk::Vector<double, 2> u3, v3, v3T;
+  itk::Vector<double, 2> u3;
+  itk::Vector<double, 2> v3;
+  itk::Vector<double, 2> v3T;
   u3[0] = 3;
   u3[1] = 5;
   v3 = aff2->TransformVector(u3);
@@ -414,7 +422,9 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Transform a variable length vector */
-  itk::VariableLengthVector<double> l3, m3, m3T;
+  itk::VariableLengthVector<double> l3;
+  itk::VariableLengthVector<double> m3;
+  itk::VariableLengthVector<double> m3T;
   l3.SetSize(2);
   m3T.SetSize(2);
   l3[0] = 3;
@@ -436,7 +446,9 @@ itkAffineTransformTest(int, char *[])
   // << v3[0] << " , " << v3[1] << std::endl;
 
   /* Transform a Covariant vector */
-  itk::CovariantVector<double, 2> u4, v4, v4T;
+  itk::CovariantVector<double, 2> u4;
+  itk::CovariantVector<double, 2> v4;
+  itk::CovariantVector<double, 2> v4T;
   u4[0] = 3;
   u4[1] = 5;
   v4 = aff2->TransformCovariantVector(u4);
@@ -451,7 +463,9 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Transform a variable length vector as covariant vector */
-  itk::VariableLengthVector<double> l4, m4, m4T;
+  itk::VariableLengthVector<double> l4;
+  itk::VariableLengthVector<double> m4;
+  itk::VariableLengthVector<double> m4T;
   l4.SetSize(2);
   m4T.SetSize(2);
   l4[0] = 3;

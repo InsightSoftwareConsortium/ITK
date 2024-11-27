@@ -233,7 +233,9 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreaderCallback(void * arg)
 {
   ThreadStruct * str;
-  ThreadIdType   total, workUnitID, workUnitCount;
+  ThreadIdType   total;
+  ThreadIdType   workUnitID;
+  ThreadIdType   workUnitCount;
 
   workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;

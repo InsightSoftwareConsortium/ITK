@@ -58,7 +58,9 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
   const NormalVectorType CenterPixel = CenterNode->m_Data;
 
   Vector<NodeValueType, ImageDimension> gradient[ImageDimension];
-  NormalVectorType                      PositiveSidePixel[2], NegativeSidePixel[2], flux;
+  NormalVectorType                      PositiveSidePixel[2];
+  NormalVectorType                      NegativeSidePixel[2];
+  NormalVectorType                      flux;
   SizeValueType                         stride[ImageDimension];
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();

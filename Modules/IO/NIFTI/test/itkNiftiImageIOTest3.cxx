@@ -263,7 +263,8 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
               for (size_t k = 0; k < dims[0]; ++k)
               {
                 _index[0] = k;
-                FieldPixelType p1, p2;
+                FieldPixelType p1;
+                FieldPixelType p2;
                 for (size_t q = 0; q < TDimension; ++q)
                 {
                   index[q] = _index[q];

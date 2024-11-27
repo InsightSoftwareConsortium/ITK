@@ -776,7 +776,9 @@ set3DDerivativeData(ImageType3D::Pointer imgPtr)
   // df(y)/dy = 5
   // df(z)/dz = -4z - 6
   double      value;
-  double      slice1, row1, col1;
+  double      slice1;
+  double      row1;
+  double      col1;
   IndexType3D index;
   for (unsigned int slice = 0; slice < size[2]; ++slice)
   {

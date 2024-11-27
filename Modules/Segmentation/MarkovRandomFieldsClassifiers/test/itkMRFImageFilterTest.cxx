@@ -75,7 +75,8 @@ itkMRFImageFilterTest(int, char *[])
   using DataVector = VecImageType::PixelType;
   DataVector dblVec;
 
-  int i, k;
+  int i;
+  int k;
   int halfWidth = static_cast<int>(vecImgSize[0]) / 2;
   int halfHeight = static_cast<int>(vecImgSize[1]) / 2;
 

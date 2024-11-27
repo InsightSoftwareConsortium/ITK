@@ -380,7 +380,8 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
       for (unsigned int i = 0; i < numWorkingLandmark; ++i)
       {
-        TransformInitializerType::LandmarkPointType fixedPoint, movingPoint;
+        TransformInitializerType::LandmarkPointType fixedPoint;
+        TransformInitializerType::LandmarkPointType movingPoint;
 
         for (unsigned int j = 0; j < 3; ++j)
         {
@@ -409,7 +410,8 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
       for (unsigned int i = 0; i < numDummyLandmark; ++i)
       {
-        TransformInitializerType::LandmarkPointType fixedPoint, movingPoint;
+        TransformInitializerType::LandmarkPointType fixedPoint;
+        TransformInitializerType::LandmarkPointType movingPoint;
 
         for (unsigned int j = 0; j < 3; ++j)
         {

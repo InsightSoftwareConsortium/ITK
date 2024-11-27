@@ -62,7 +62,8 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
 
   // start the real work - everything here will be done with index
   // arithmetic rather than pointer arithmetic
-  unsigned int outLeftP = 0, outRightP = bufflength - 1;
+  unsigned int outLeftP = 0;
+  unsigned int outRightP = bufflength - 1;
   // left side
   while ((outLeftP < outRightP) && Compare1(buffer[outLeftP], buffer[outLeftP + 1]))
   {
@@ -120,7 +121,8 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
   // code, and false to indicate finishLine
   Extreme = buffer[outLeftP];
   unsigned int currentP = outLeftP + 1;
-  unsigned int sentinel, endP;
+  unsigned int sentinel;
+  unsigned int endP;
 
   while ((currentP < outRightP) && Compare2(buffer[currentP], Extreme))
   {

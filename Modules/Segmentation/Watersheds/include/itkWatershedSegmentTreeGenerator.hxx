@@ -208,7 +208,8 @@ SegmentTreeGenerator<TScalar>::ExtractMergeHierarchy(SegmentTableTypePointer seg
   using MergeComparison = typename SegmentTreeType::merge_comp;
   typename SegmentTableType::DataType * toSeg;
   typename SegmentTreeType::ValueType   tempMerge;
-  IdentifierType                        toSegLabel, fromSegLabel;
+  IdentifierType                        toSegLabel;
+  IdentifierType                        fromSegLabel;
 
   if (heap->Empty())
   {
@@ -297,9 +298,12 @@ SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer       
                                                   const IdentifierType              TO,
                                                   ScalarType)
 {
-  typename SegmentTableType::edge_list_t::iterator edgeTOi, edgeFROMi, edgeTEMPi;
+  typename SegmentTableType::edge_list_t::iterator edgeTOi;
+  typename SegmentTableType::edge_list_t::iterator edgeFROMi;
+  typename SegmentTableType::edge_list_t::iterator edgeTEMPi;
   HashMapType                                      seen_table;
-  IdentifierType                                   labelTO, labelFROM;
+  IdentifierType                                   labelTO;
+  IdentifierType                                   labelFROM;
 
   // Lookup both entries.
   typename SegmentTableType::segment_t * from_seg = segments->Lookup(FROM);
@@ -434,9 +438,12 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
                                              const IdentifierType              FROM,
                                              const IdentifierType              TO)
 {
-  typename SegmentTableType::edge_list_t::iterator edgeTOi, edgeFROMi, edgeTEMPi;
+  typename SegmentTableType::edge_list_t::iterator edgeTOi;
+  typename SegmentTableType::edge_list_t::iterator edgeFROMi;
+  typename SegmentTableType::edge_list_t::iterator edgeTEMPi;
   HashMapType                                      seen_table;
-  IdentifierType                                   labelTO, labelFROM;
+  IdentifierType                                   labelTO;
+  IdentifierType                                   labelFROM;
 
   // Lookup both entries.
   typename SegmentTableType::segment_t * from_seg = segments->Lookup(FROM);

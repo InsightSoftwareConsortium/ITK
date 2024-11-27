@@ -340,7 +340,10 @@ NrrdImageIO::ReadImageInformation()
     this->SetComponentType(cmpType);
 
     // Set the number of image dimensions and bail if needed
-    unsigned int domainAxisNum, domainAxisIdx[NRRD_DIM_MAX], rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
+    unsigned int domainAxisNum;
+    unsigned int domainAxisIdx[NRRD_DIM_MAX];
+    unsigned int rangeAxisNum;
+    unsigned int rangeAxisIdx[NRRD_DIM_MAX];
     domainAxisNum = nrrdDomainAxesGet(nrrd, domainAxisIdx);
     rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
     if (nrrd->spaceDim && nrrd->spaceDim != domainAxisNum)
@@ -776,7 +779,8 @@ NrrdImageIO::Read(void * buffer)
   FloatingPointExceptions::SetEnabled(saveFPEState);
 #endif
 
-  unsigned int rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
+  unsigned int rangeAxisNum;
+  unsigned int rangeAxisIdx[NRRD_DIM_MAX];
   rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
 
   if (rangeAxisNum > 1)
@@ -815,7 +819,9 @@ NrrdImageIO::Read(void * buffer)
         IOPixelEnum::SYMMETRICSECONDRANKTENSOR == this->GetPixelType())
     {
       // we crop out the mask and put the output in ITK-allocated "buffer"
-      size_t size[NRRD_DIM_MAX], minIdx[NRRD_DIM_MAX], maxIdx[NRRD_DIM_MAX];
+      size_t size[NRRD_DIM_MAX];
+      size_t minIdx[NRRD_DIM_MAX];
+      size_t maxIdx[NRRD_DIM_MAX];
       for (unsigned int axi = 0; axi < nrrd->dim; ++axi)
       {
         minIdx[axi] = (0 == axi) ? 1 : 0;
@@ -892,7 +898,9 @@ NrrdImageIO::Write(const void * buffer)
   NrrdIoState * nio = nrrdIoStateNew();
   int           kind[NRRD_DIM_MAX];
   size_t        size[NRRD_DIM_MAX];
-  unsigned int  nrrdDim, baseDim, spaceDim;
+  unsigned int  nrrdDim;
+  unsigned int  baseDim;
+  unsigned int  spaceDim;
   double        spaceDir[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
   double        origin[NRRD_DIM_MAX];
 
@@ -972,7 +980,8 @@ NrrdImageIO::Write(const void * buffer)
   MetaDataDictionary &                     thisDic = this->GetMetaDataDictionary();
   std::vector<std::string>                 keys = thisDic.GetKeys();
   std::vector<std::string>::const_iterator keyIt;
-  const char *                             keyField, *field;
+  const char *                             keyField;
+  const char *                             field;
   for (keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
   {
     if (!strncmp(KEY_PREFIX, keyIt->c_str(), strlen(KEY_PREFIX)))

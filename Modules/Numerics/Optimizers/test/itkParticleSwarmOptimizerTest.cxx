@@ -66,9 +66,12 @@ itkParticleSwarmOptimizerTest(int argc, char * argv[])
     verboseFlag = std::stoi(argv[1]) ? true : false;
   }
 
-  unsigned int i, allIterations = 10;
+  unsigned int i;
+  unsigned int allIterations = 10;
   double       threshold = 0.8;
-  unsigned int success1, success2, success3;
+  unsigned int success1;
+  unsigned int success2;
+  unsigned int success3;
 
   std::cout << "Particle Swarm Optimizer Test \n \n";
 
@@ -125,7 +128,8 @@ PSOTest1()
   unsigned int                  maxIterations = 100;
   double                        xTolerance = 0.1;
   double                        fTolerance = 0.001;
-  OptimizerType::ParametersType initialParameters(1), finalParameters;
+  OptimizerType::ParametersType initialParameters(1);
+  OptimizerType::ParametersType finalParameters;
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -224,7 +228,8 @@ PSOTest2()
   unsigned int                  maxIterations = 100;
   double                        xTolerance = 0.1;
   double                        fTolerance = 0.001;
-  OptimizerType::ParametersType initialParameters(2), finalParameters;
+  OptimizerType::ParametersType initialParameters(2);
+  OptimizerType::ParametersType finalParameters;
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);

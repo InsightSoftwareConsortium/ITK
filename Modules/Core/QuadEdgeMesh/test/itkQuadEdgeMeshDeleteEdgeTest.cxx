@@ -28,7 +28,12 @@ itkQuadEdgeMeshDeleteEdgeTest(int, char *[])
   auto mesh = MeshType::New();
 
   // Points
-  MeshType::PointType p0, p1, p2, p3, p4, p5;
+  MeshType::PointType p0;
+  MeshType::PointType p1;
+  MeshType::PointType p2;
+  MeshType::PointType p3;
+  MeshType::PointType p4;
+  MeshType::PointType p5;
   p0[0] = 0.00000000000000;
   p0[1] = 0.00000000000000;
   p0[2] = 5.0;

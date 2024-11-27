@@ -49,9 +49,19 @@ template <typename TOutputMesh>
 void
 SphereMeshSource<TOutputMesh>::GenerateData()
 {
-  IdentifierType i, j, jn, p, numpts;
-  double         ustep, vstep, ubeg, vbeg, u, v;
-  int            signu, signv;
+  IdentifierType i;
+  IdentifierType j;
+  IdentifierType jn;
+  IdentifierType p;
+  IdentifierType numpts;
+  double         ustep;
+  double         vstep;
+  double         ubeg;
+  double         vbeg;
+  double         u;
+  double         v;
+  int            signu;
+  int            signv;
 
   // calculate the number os cells and points
   numpts = m_ResolutionX * m_ResolutionY + 2;

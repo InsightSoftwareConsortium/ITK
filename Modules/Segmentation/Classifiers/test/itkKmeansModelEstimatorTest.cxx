@@ -182,7 +182,8 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   vnl_matrix<double> inCDBK(NCODEWORDS, NUMBANDS);
   // There are 4 entries to the code book
-  int r, c;
+  int r;
+  int c;
   r = 0;
   c = 0;
   inCDBK.put(r, c, 10);

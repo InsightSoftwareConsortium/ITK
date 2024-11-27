@@ -448,7 +448,8 @@ JPEG2000ImageIO::Read(void * buffer)
                                                               << "Reason: opj_setup_decoder returns false");
   }
 
-  OPJ_INT32 l_tile_x0, l_tile_y0;
+  OPJ_INT32 l_tile_x0;
+  OPJ_INT32 l_tile_y0;
 
   OPJ_UINT32 l_tile_width;
   OPJ_UINT32 l_tile_height;
@@ -814,7 +815,8 @@ JPEG2000ImageIO::Write(const void * buffer)
 
   //--------------------------------------------------------
   // Copy the contents into the image structure
-  int w, h;
+  int w;
+  int h;
   w = this->m_Dimensions[0];
   h = this->m_Dimensions[1];
 

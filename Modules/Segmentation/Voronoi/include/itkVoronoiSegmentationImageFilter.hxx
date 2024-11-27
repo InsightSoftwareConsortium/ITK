@@ -57,7 +57,8 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Te
     addpp = addpp + getp * getp;
   }
 
-  double savemean, saveSTD;
+  double savemean;
+  double saveSTD;
   if (num > 1)
   {
     savemean = addp / num;
@@ -104,7 +105,10 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
   float addpp = 0;
   float currp;
 
-  unsigned int minx = 0, miny = 0, maxx = 0, maxy = 0;
+  unsigned int minx = 0;
+  unsigned int miny = 0;
+  unsigned int maxx = 0;
+  unsigned int maxy = 0;
   bool         status = false;
   for (unsigned int i = 0; i < this->m_Size[1]; ++i)
   {

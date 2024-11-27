@@ -287,7 +287,8 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   }
 
   // compute some projections!
-  ImagePCAShapeModelEstimatorType::BasisVectorType proj3, proj4;
+  ImagePCAShapeModelEstimatorType::BasisVectorType proj3;
+  ImagePCAShapeModelEstimatorType::BasisVectorType proj4;
   decomposer->SetImage(image3);
   ITK_TEST_SET_GET_VALUE(image3, decomposer->GetImage());
 
@@ -308,7 +309,8 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   basis.push_back(image7);
   decomposer->SetBasisImages(basis);
 
-  ImagePCAShapeModelEstimatorType::BasisVectorType proj3_2, proj4_2;
+  ImagePCAShapeModelEstimatorType::BasisVectorType proj3_2;
+  ImagePCAShapeModelEstimatorType::BasisVectorType proj4_2;
   // decomposer->SetImage(image4); // DON'T set image4 -- it should still
   // be cached with the decomposer. Test that this works between basis changes.
   decomposer->Compute();
@@ -318,7 +320,8 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   decomposer->Compute();
   proj3_2 = decomposer->GetProjection();
 
-  ImagePCAShapeModelEstimatorType::BasisVectorType proj3_3, proj4_3;
+  ImagePCAShapeModelEstimatorType::BasisVectorType proj3_3;
+  ImagePCAShapeModelEstimatorType::BasisVectorType proj4_3;
   // now test it with a mean image set
   decomposer->SetMeanImage(image8);
   ITK_TEST_SET_GET_VALUE(image8, decomposer->GetMeanImage());

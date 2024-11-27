@@ -113,7 +113,9 @@ void
 SimilarityIndexImageFilter<TInputImage1, TInputImage2>::AfterThreadedGenerateData()
 {
   ThreadIdType  i;
-  SizeValueType countImage1, countImage2, countIntersect;
+  SizeValueType countImage1;
+  SizeValueType countImage2;
+  SizeValueType countIntersect;
 
   ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 

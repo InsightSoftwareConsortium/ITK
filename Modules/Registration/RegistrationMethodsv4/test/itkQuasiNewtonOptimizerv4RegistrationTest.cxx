@@ -150,7 +150,8 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
     miMetric->SetNumberOfHistogramBins(20);
     using PointType = typename PointSetType::PointType;
     typename PointSetType::Pointer                    pset(PointSetType::New());
-    unsigned long                                     ind = 0, ct = 0;
+    unsigned long                                     ind = 0;
+    unsigned long                                     ct = 0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
     for (It.GoToBegin(); !It.IsAtEnd(); ++It)
     {

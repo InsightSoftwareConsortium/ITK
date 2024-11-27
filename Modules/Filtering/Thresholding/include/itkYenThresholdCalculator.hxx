@@ -44,7 +44,8 @@ YenThresholdCalculator<THistogram, TOutput>::GenerateData()
   unsigned int size = histogram->GetSize(0);
 
   typename HistogramType::InstanceIdentifier threshold = 0;
-  int                                        ih, it;
+  int                                        ih;
+  int                                        it;
   double                                     crit;
   double                                     max_crit;
   std::vector<double>                        norm_histo(size); // normalized histogram

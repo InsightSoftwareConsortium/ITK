@@ -208,7 +208,11 @@ GaussianDistribution::CDF(double x, const ParametersType & p)
 double
 GaussianDistribution::InverseCDF(double p)
 {
-  double dp, dx, dt, ddq, dq;
+  double dp;
+  double dx;
+  double dt;
+  double ddq;
+  double dq;
   int    newt;
 
   dp = (p <= 0.5) ? (p) : (1.0 - p); /* make between 0 and 0.5 */

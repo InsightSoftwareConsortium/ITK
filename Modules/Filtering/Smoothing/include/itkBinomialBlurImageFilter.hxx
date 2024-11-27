@@ -140,7 +140,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename TTempImage::IndexType indexShift;
 
   // Temporary pixel storage
-  double pixelA, pixelB;
+  double pixelA;
+  double pixelB;
 
   // walk the output image forwards and compute blur
   for (unsigned int rep = 0; rep < m_Repetitions; ++rep)

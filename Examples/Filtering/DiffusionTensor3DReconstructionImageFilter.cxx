@@ -147,7 +147,9 @@ main(int argc, char * argv[])
 
   for (; itKey != imgMetaKeys.end(); ++itKey)
   {
-    double x, y, z;
+    double x;
+    double y;
+    double z;
 
     itk::ExposeMetaData<std::string>(imgMetaDictionary, *itKey, metaString);
     if (itKey->find("DWMRI_gradient") != std::string::npos)

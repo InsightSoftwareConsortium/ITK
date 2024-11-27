@@ -98,7 +98,9 @@ itkImageTest(int, char *[])
 
   std::cout << "Test transform to/from physical vector." << std::endl;
   using GradientType = itk::FixedArray<float, 2>;
-  GradientType truthGradient, outputGradient, testGradient;
+  GradientType truthGradient;
+  GradientType outputGradient;
+  GradientType testGradient;
   truthGradient[0] = 1.0;
   truthGradient[1] = 1.0;
   image->TransformLocalVectorToPhysicalVector(truthGradient, outputGradient);

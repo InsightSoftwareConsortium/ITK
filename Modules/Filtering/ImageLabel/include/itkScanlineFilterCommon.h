@@ -157,7 +157,9 @@ protected:
   {
     m_UnionFind = UnionFindType(numberOfLabels + 1);
 
-    typename LineMapType::iterator MapBegin, MapEnd, LineIt;
+    typename LineMapType::iterator MapBegin;
+    typename LineMapType::iterator MapEnd;
+    typename LineMapType::iterator LineIt;
     MapBegin = m_LineMap.begin();
     MapEnd = m_LineMap.end();
     LineIt = MapBegin;
@@ -287,7 +289,9 @@ protected:
       offset = 1;
     }
 
-    LineEncodingConstIterator nIt, mIt, cIt;
+    LineEncodingConstIterator nIt;
+    LineEncodingConstIterator mIt;
+    LineEncodingConstIterator cIt;
 
     mIt = Neighbour.begin(); // out marker iterator
 

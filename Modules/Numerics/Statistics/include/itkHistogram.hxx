@@ -605,7 +605,9 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
   double             cumulated = 0;
   auto               totalFrequency = static_cast<double>(this->GetTotalFrequency());
   double             binProportion;
-  double             min, max, interval;
+  double             min;
+  double             max;
+  double             interval;
 
   if (p < 0.5)
   {

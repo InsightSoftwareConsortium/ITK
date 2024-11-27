@@ -59,7 +59,8 @@ BSplineInterpolationWeightFunction<TCoordinate, VSpaceDimension, VSplineOrder>::
     return table;
   }();
 
-  unsigned int j, k;
+  unsigned int j;
+  unsigned int k;
 
   // Find the starting index of the support region
   for (j = 0; j < SpaceDimension; ++j)

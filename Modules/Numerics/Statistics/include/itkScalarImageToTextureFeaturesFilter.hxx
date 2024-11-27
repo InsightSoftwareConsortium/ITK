@@ -120,7 +120,8 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
 
   // For each offset, calculate each feature
   typename OffsetVector::ConstIterator offsetIt;
-  size_t                               offsetNum, featureNum;
+  size_t                               offsetNum;
+  size_t                               featureNum;
   using InternalTextureFeatureName = itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature;
 
   for (offsetIt = m_Offsets->Begin(), offsetNum = 0; offsetIt != m_Offsets->End(); ++offsetIt, offsetNum++)

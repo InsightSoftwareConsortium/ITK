@@ -132,7 +132,8 @@ PermuteAxesImageFilter<TImage>::GenerateOutputInformation()
   typename TImage::SizeType      outputSize;
   typename TImage::IndexType     outputStartIndex;
 
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   for (j = 0; j < ImageDimension; ++j)
   {
     // origin does not change by a Permute.  But spacing, directions,

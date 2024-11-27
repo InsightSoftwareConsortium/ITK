@@ -138,7 +138,8 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
     // histogram to update and the direction in which to push
     // it. Then we need to copy that histogram to the relevant
     // places
-    OffsetType LineOffset, Changes;
+    OffsetType LineOffset;
+    OffsetType Changes;
     // Figure out which stored histogram to move and in
     // which direction
     int LineDirection = 0;

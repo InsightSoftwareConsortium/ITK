@@ -501,7 +501,8 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   }
   else
   {
-    CoordRepType pc[CellDimension3D], w[Self::NumberOfPoints];
+    CoordRepType pc[CellDimension3D];
+    CoordRepType w[Self::NumberOfPoints];
     if (closestPoint)
     {
       for (unsigned int i = 0; i < CellDimension3D; ++i) // only approximate, not really true

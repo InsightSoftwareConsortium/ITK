@@ -145,7 +145,10 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double 
 {
   constexpr double ACCURACY = 40.0;
   int              j;
-  double           qim, qi, qip, toy;
+  double           qim;
+  double           qi;
+  double           qip;
+  double           toy;
   double           accumulator;
 
   if (n < 2)

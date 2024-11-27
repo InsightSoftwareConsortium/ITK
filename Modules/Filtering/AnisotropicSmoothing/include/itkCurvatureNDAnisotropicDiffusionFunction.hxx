@@ -28,7 +28,8 @@ template <typename TImage>
 CurvatureNDAnisotropicDiffusionFunction<TImage>::CurvatureNDAnisotropicDiffusionFunction()
   : m_K(0.0)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   RadiusType   r;
 
   for (i = 0; i < ImageDimension; ++i)
@@ -75,10 +76,18 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
                                                                void *                   itkNotUsed(globalData),
                                                                const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
-  unsigned int i, j;
-  double       speed, dx_forward_Cn, dx_backward_Cn, propagation_gradient;
-  double       grad_mag_sq, grad_mag_sq_d, grad_mag, grad_mag_d;
-  double       Cx, Cxd;
+  unsigned int i;
+  unsigned int j;
+  double       speed;
+  double       dx_forward_Cn;
+  double       dx_backward_Cn;
+  double       propagation_gradient;
+  double       grad_mag_sq;
+  double       grad_mag_sq_d;
+  double       grad_mag;
+  double       grad_mag_d;
+  double       Cx;
+  double       Cxd;
   double       dx_forward[ImageDimension];
   double       dx_backward[ImageDimension];
   double       dx[ImageDimension];

@@ -54,7 +54,10 @@ ITKCommon_EXPORT std::istream &
 
     // Get name
     std::istringstream stream(headerline);
-    std::string        address, perms, offset, device;
+    std::string        address;
+    std::string        perms;
+    std::string        offset;
+    std::string        device;
     int                inode = -1;
     // the header is defined with the following expression: "address permissions
     // offset device inode [name]"

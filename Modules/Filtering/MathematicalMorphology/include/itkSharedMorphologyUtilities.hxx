@@ -95,7 +95,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   float                      Tfar = NumericTraits<float>::max();
   float                      Tnear = NumericTraits<float>::NonpositiveMin();
   float                      domdir = NumericTraits<float>::NonpositiveMin();
-  int                        sPos, ePos;
+  int                        sPos;
+  int                        ePos;
   unsigned int               perpdir = 0;
   for (unsigned int i = 0; i < TImage::RegionType::ImageDimension; ++i)
   {
@@ -305,7 +306,8 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
 
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
-    RegionType R1, R2;
+    RegionType R1;
+    RegionType R2;
     SizeType   S1 = AllImage.GetSize();
     IndexType  I2 = AllImage.GetIndex();
 

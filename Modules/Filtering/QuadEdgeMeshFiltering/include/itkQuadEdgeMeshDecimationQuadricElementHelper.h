@@ -182,7 +182,9 @@ public:
   void
   AddPoint(const PointType & iP, const VectorType & iN, const CoordType & iWeight = static_cast<CoordType>(1.))
   {
-    unsigned int k(0), dim1, dim2;
+    unsigned int k(0);
+    unsigned int dim1;
+    unsigned int dim2;
 
     CoordType d = -iN * iP.GetVectorFromOrigin();
 
@@ -262,7 +264,9 @@ protected:
   void
   ComputeAMatrixAndBVector()
   {
-    unsigned int k(0), dim1, dim2;
+    unsigned int k(0);
+    unsigned int dim1;
+    unsigned int dim2;
 
     for (dim1 = 0; dim1 < PointDimension; ++dim1)
     {

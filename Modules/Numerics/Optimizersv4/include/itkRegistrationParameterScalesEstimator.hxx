@@ -444,7 +444,9 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex() ->
   VirtualRegionType   region = this->m_Metric->GetVirtualRegion();
   const SizeValueType dim = this->GetDimension();
 
-  VirtualIndexType lowerIndex, upperIndex, centralIndex;
+  VirtualIndexType lowerIndex;
+  VirtualIndexType upperIndex;
+  VirtualIndexType centralIndex;
   lowerIndex = region.GetIndex();
   upperIndex = region.GetUpperIndex();
 
@@ -465,7 +467,8 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralRegion() -
   VirtualRegionType   region = this->m_Metric->GetVirtualRegion();
   const SizeValueType dim = this->GetDimension();
 
-  VirtualIndexType lowerIndex, upperIndex;
+  VirtualIndexType lowerIndex;
+  VirtualIndexType upperIndex;
   lowerIndex = region.GetIndex();
   upperIndex = region.GetUpperIndex();
 

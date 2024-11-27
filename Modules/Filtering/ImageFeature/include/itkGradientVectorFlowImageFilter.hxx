@@ -85,7 +85,8 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::InitIn
 {
   unsigned int i;
   double       b;
-  PixelType    c_vec, m_vec;
+  PixelType    c_vec;
+  PixelType    m_vec;
 
   m_IntermediateImage = TInputImage::New();
   m_IntermediateImage->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());

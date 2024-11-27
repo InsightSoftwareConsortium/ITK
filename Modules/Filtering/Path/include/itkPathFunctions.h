@@ -36,7 +36,9 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
   using ChainInputType = typename TChainCodePath::InputType;
   using InPathInputType = typename TPathInput::InputType;
 
-  OffsetType      offset, tempOffset, zeroOffset;
+  OffsetType      offset;
+  OffsetType      tempOffset;
+  OffsetType      zeroOffset;
   InPathInputType inPathInput;
   int             dimension = OffsetType::GetOffsetDimension();
 

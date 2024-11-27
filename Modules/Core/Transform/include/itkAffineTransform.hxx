@@ -91,7 +91,8 @@ void
 AffineTransform<TParametersValueType, VDimension>::Scale(const OutputVectorType & factor, bool pre)
 {
   MatrixType   trans;
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   for (i = 0; i < VDimension; ++i)
   {
@@ -120,7 +121,8 @@ void
 AffineTransform<TParametersValueType, VDimension>::Rotate(int axis1, int axis2, TParametersValueType angle, bool pre)
 {
   MatrixType   trans;
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   for (i = 0; i < VDimension; ++i)
   {
@@ -179,8 +181,14 @@ AffineTransform<TParametersValueType, VDimension>::Rotate3D(const OutputVectorTy
                                                             bool                     pre)
 {
   MatrixType trans;
-  ScalarType r, x1, x2, x3;
-  ScalarType q0, q1, q2, q3;
+  ScalarType r;
+  ScalarType x1;
+  ScalarType x2;
+  ScalarType x3;
+  ScalarType q0;
+  ScalarType q1;
+  ScalarType q2;
+  ScalarType q3;
 
   // Convert the axis to a unit vector
   r = std::sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
@@ -225,7 +233,8 @@ void
 AffineTransform<TParametersValueType, VDimension>::Shear(int axis1, int axis2, TParametersValueType coef, bool pre)
 {
   MatrixType   trans;
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   for (i = 0; i < VDimension; ++i)
   {
@@ -268,7 +277,8 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 AffineTransform<TParametersValueType, VDimension>::Metric(const Self * other) const -> ScalarType
 {
-  ScalarType result = 0.0, term;
+  ScalarType result = 0.0;
+  ScalarType term;
 
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -287,7 +297,8 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 AffineTransform<TParametersValueType, VDimension>::Metric() const -> ScalarType
 {
-  ScalarType result = 0.0, term;
+  ScalarType result = 0.0;
+  ScalarType term;
 
   for (unsigned int i = 0; i < VDimension; ++i)
   {

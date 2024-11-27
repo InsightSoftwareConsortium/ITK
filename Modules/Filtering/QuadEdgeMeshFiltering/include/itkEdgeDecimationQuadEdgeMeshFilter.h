@@ -221,7 +221,9 @@ protected:
     OutputMeshPointer           output = this->GetOutput();
     OutputCellsContainerPointer cells = output->GetCells();
 
-    std::list<OutputCellIdentifier> r1, r2, elements_to_be_tested;
+    std::list<OutputCellIdentifier> r1;
+    std::list<OutputCellIdentifier> r2;
+    std::list<OutputCellIdentifier> elements_to_be_tested;
     OutputQEType *                  qe = iEdge;
     OutputQEType *                  qe_it = qe->GetOnext();
 
@@ -255,10 +257,12 @@ protected:
     OutputPolygonType *   poly;
     OutputPointIdentifier p_id;
 
-    int             k(0), replace_k(0);
+    int             k(0);
+    int             replace_k(0);
     OutputPointType pt[3];
 
-    OutputVectorType n_bef, n_aft;
+    OutputVectorType n_bef;
+    OutputVectorType n_aft;
 
     while ((it != elements_to_be_tested.end()) && orientation_ok)
     {

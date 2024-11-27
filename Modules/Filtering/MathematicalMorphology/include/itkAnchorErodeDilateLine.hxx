@@ -64,8 +64,10 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
 
   int middle = static_cast<int>(m_Size) / 2;
 
-  int                 outLeftP = 0, outRightP = static_cast<int>(bufflength) - 1;
-  int                 inLeftP = 0, inRightP = static_cast<int>(bufflength) - 1;
+  int                 outLeftP = 0;
+  int                 outRightP = static_cast<int>(bufflength) - 1;
+  int                 inLeftP = 0;
+  int                 inRightP = static_cast<int>(bufflength) - 1;
   InputImagePixelType Extreme;
   HistogramType       histo;
   if (bufflength <= m_Size)

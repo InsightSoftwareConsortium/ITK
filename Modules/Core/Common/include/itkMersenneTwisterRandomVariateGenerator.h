@@ -500,7 +500,8 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate(const IntegerType & n)
 inline double
 MersenneTwisterRandomVariateGenerator::Get53BitVariate()
 {
-  IntegerType a = GetIntegerVariate() >> 5, b = GetIntegerVariate() >> 6;
+  IntegerType a = GetIntegerVariate() >> 5;
+  IntegerType b = GetIntegerVariate() >> 6;
 
   return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0); // by Isaku
                                                             // Wada

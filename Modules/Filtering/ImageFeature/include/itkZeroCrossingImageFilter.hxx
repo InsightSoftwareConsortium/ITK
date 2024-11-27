@@ -111,7 +111,10 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
-  InputImagePixelType this_one, that, abs_this_one, abs_that;
+  InputImagePixelType this_one;
+  InputImagePixelType that;
+  InputImagePixelType abs_this_one;
+  InputImagePixelType abs_that;
   InputImagePixelType zero{};
 
   FixedArray<OffsetValueType, 2 * ImageDimension> offset;

@@ -60,7 +60,8 @@ itkTransformCloneTest(int, char *[])
   using AffineTransformType = itk::AffineTransform<double, 3>;
   using Transform3DType = itk::Transform<double, 3, 3>;
   auto                                  affineXfrm = AffineTransformType::New();
-  AffineTransformType::OutputVectorType axis, offset;
+  AffineTransformType::OutputVectorType axis;
+  AffineTransformType::OutputVectorType offset;
   axis[0] = -1.0;
   axis[1] = 1.0;
   axis[2] = 0.0;

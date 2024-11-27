@@ -88,7 +88,8 @@ GaussianMixtureModelComponent<TSample>::SetParameters(const ParametersType & par
   Superclass::SetParameters(parameters);
 
   unsigned int paramIndex = 0;
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   bool changed = false;
 
@@ -137,7 +138,8 @@ template <typename TSample>
 double
 GaussianMixtureModelComponent<TSample>::CalculateParametersChange()
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   typename MeanVectorType::MeasurementVectorType meanEstimate = m_MeanEstimator->GetMean();
 
@@ -192,7 +194,8 @@ GaussianMixtureModelComponent<TSample>::GenerateData()
   m_MeanEstimator->SetWeights(weights);
   m_MeanEstimator->Update();
 
-  MeasurementVectorSizeType i, j;
+  MeasurementVectorSizeType i;
+  MeasurementVectorSizeType j;
   double                    temp;
   double                    changes;
   bool                      changed = false;

@@ -106,7 +106,8 @@ protected:
         OutputCurvatureType temp_area;
         OutputCoordType     temp_coeff;
 
-        OutputPointType  q0, q1;
+        OutputPointType  q0;
+        OutputPointType  q1;
         OutputVectorType face_normal;
 
         do

@@ -125,7 +125,9 @@ LevelSetFunction<TImageType>::Compute3DMinimalCurvature(const NeighborhoodType &
 {
   ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
 
-  int             i0 = 0, i1 = 1, i2 = 2;
+  int             i0 = 0;
+  int             i1 = 1;
+  int             i2 = 2;
   ScalarValueType gauss_curve =
     (2 *
        (gd->m_dx[i0] * gd->m_dx[i1] * (gd->m_dxy[i2][i0] * gd->m_dxy[i1][i2] - gd->m_dxy[i0][i1] * gd->m_dxy[i2][i2]) +
@@ -288,9 +290,14 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
-  ScalarValueType laplacian, x_energy, laplacian_term, propagation_term, curvature_term, advection_term,
-    propagation_gradient;
-  VectorType advection_field;
+  ScalarValueType laplacian;
+  ScalarValueType x_energy;
+  ScalarValueType laplacian_term;
+  ScalarValueType propagation_term;
+  ScalarValueType curvature_term;
+  ScalarValueType advection_term;
+  ScalarValueType propagation_gradient;
+  VectorType      advection_field;
 
   // Global data structure
   auto * gd = (GlobalDataStruct *)globalData;

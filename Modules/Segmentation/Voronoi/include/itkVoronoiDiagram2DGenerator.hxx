@@ -816,7 +816,10 @@ VoronoiDiagram2DGenerator<TCoordinateType>::clip_line(FortuneEdge * task)
   // Clip line
   FortuneSite * s1;
   FortuneSite * s2;
-  double        x1, y1, x2, y2;
+  double        x1;
+  double        y1;
+  double        x2;
+  double        y2;
 
   if (((task->m_A) == 1.0) && ((task->m_B) >= 0.0))
   {

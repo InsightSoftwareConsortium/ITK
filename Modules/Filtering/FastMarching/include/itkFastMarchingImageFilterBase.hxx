@@ -151,7 +151,9 @@ FastMarchingImageFilterBase<TInput, TOutput>::UpdateNeighbors(OutputImageType * 
 
   unsigned char label;
 
-  typename NodeType::IndexValueType v, start, last;
+  typename NodeType::IndexValueType v;
+  typename NodeType::IndexValueType start;
+  typename NodeType::IndexValueType last;
 
   int s;
 
@@ -215,7 +217,10 @@ FastMarchingImageFilterBase<TInput, TOutput>::GetInternalNodesUsed(OutputImageTy
   InternalNodeStructure temp_node;
   temp_node.m_Node = iNode;
 
-  typename NodeType::IndexValueType v, start, last, temp;
+  typename NodeType::IndexValueType v;
+  typename NodeType::IndexValueType start;
+  typename NodeType::IndexValueType last;
+  typename NodeType::IndexValueType temp;
 
   int s;
 

@@ -71,10 +71,14 @@ auto
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
   const NeighborhoodType & neighborhood) const -> ScalarValueType
 {
-  unsigned int              j, k;
-  unsigned int              counterN, counterP;
-  NeighborhoodSizeValueType positionN, positionP, stride[TImageType::ImageDimension],
-    indicator[TImageType::ImageDimension];
+  unsigned int              j;
+  unsigned int              k;
+  unsigned int              counterN;
+  unsigned int              counterP;
+  NeighborhoodSizeValueType positionN;
+  NeighborhoodSizeValueType positionP;
+  NeighborhoodSizeValueType stride[TImageType::ImageDimension];
+  NeighborhoodSizeValueType indicator[TImageType::ImageDimension];
 
   constexpr NeighborhoodSizeValueType one = 1;
   const NeighborhoodSizeValueType     center = neighborhood.Size() / 2;
@@ -155,7 +159,9 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PropagationSpeed(co
 {
   IndexType       idx = neighborhood.GetIndex();
   NodeType *      targetnode = m_SparseTargetImage->GetPixel(idx);
-  ScalarValueType refitterm, cv, tcv;
+  ScalarValueType refitterm;
+  ScalarValueType cv;
+  ScalarValueType tcv;
 
   if ((targetnode == nullptr) || (targetnode->m_CurvatureFlag == false))
   {

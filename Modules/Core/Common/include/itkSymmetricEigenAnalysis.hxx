@@ -142,8 +142,13 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
   double d__1;
 
   // Local variables
-  double f, g, h;
-  int    i, j, k, l;
+  double f;
+  double g;
+  double h;
+  int    i;
+  int    j;
+  int    k;
+  int    l;
   double scale;
 
   for (i = 0; i < static_cast<int>(m_Order); ++i)
@@ -259,9 +264,15 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
   double d__1;
 
   // Local variables
-  double       f, g, h;
-  unsigned int i, j, k, l;
-  double       scale, hh;
+  double       f;
+  double       g;
+  double       h;
+  unsigned int i;
+  unsigned int j;
+  unsigned int k;
+  unsigned int l;
+  double       scale;
+  double       hh;
 
   for (i = 0; i < m_Order; ++i)
   {
@@ -420,12 +431,24 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
   constexpr double c_b10 = 1.0;
 
   // Local variables
-  double       c, f, g, h;
-  unsigned int i, j, l, m;
-  double       p, r, s, c2, c3 = 0.0;
+  double       c;
+  double       f;
+  double       g;
+  double       h;
+  unsigned int i;
+  unsigned int j;
+  unsigned int l;
+  unsigned int m;
+  double       p;
+  double       r;
+  double       s;
+  double       c2;
+  double       c3 = 0.0;
   double       s2 = 0.0;
-  double       dl1, el1;
-  double       tst1, tst2;
+  double       dl1;
+  double       el1;
+  double       tst1;
+  double       tst2;
 
   unsigned int ierr = 0;
 
@@ -566,12 +589,25 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
   constexpr double c_b10 = 1.0;
 
   // Local variables
-  double       c, f, g, h;
-  unsigned int i, j, k, l, m;
-  double       p, r, s, c2, c3 = 0.0;
+  double       c;
+  double       f;
+  double       g;
+  double       h;
+  unsigned int i;
+  unsigned int j;
+  unsigned int k;
+  unsigned int l;
+  unsigned int m;
+  double       p;
+  double       r;
+  double       s;
+  double       c2;
+  double       c3 = 0.0;
   double       s2 = 0.0;
-  double       dl1, el1;
-  double       tst1, tst2;
+  double       dl1;
+  double       el1;
+  double       tst1;
+  double       tst2;
 
   unsigned int ierr = 0;
 

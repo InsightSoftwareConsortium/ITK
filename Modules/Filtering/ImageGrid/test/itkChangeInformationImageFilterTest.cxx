@@ -27,7 +27,8 @@ using ImagePointer = ImageType::Pointer;
 void
 PrintInformation(ImagePointer image1, ImagePointer image2)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   std::cout << "Input  "
             << "      Output" << std::endl;
   std::cout << "Origin"
@@ -63,7 +64,8 @@ PrintInformation(ImagePointer image1, ImagePointer image2)
 void
 PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   std::cout << "Input  "
             << "      Output"
             << "      Reference" << std::endl;

@@ -97,7 +97,8 @@ main(int argc, char * argv[])
   auto namesGenerator = NamesGeneratorType::New();
 
   itk::MetaDataDictionary & dict = gdcmIO->GetMetaDataDictionary();
-  std::string               tagkey, value;
+  std::string               tagkey;
+  std::string               value;
   tagkey = "0008|0060"; // Modality
   value = "MR";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);

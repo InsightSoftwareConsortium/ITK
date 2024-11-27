@@ -136,8 +136,10 @@ itkEuclideanDistancePointSetMetricTest2Run()
   metric->Initialize();
 
   // test
-  typename PointSetMetricType::MeasureType    value = metric->GetValue(), value2;
-  typename PointSetMetricType::DerivativeType derivative, derivative2;
+  typename PointSetMetricType::MeasureType    value = metric->GetValue();
+  typename PointSetMetricType::MeasureType    value2;
+  typename PointSetMetricType::DerivativeType derivative;
+  typename PointSetMetricType::DerivativeType derivative2;
   metric->GetDerivative(derivative);
   metric->GetValueAndDerivative(value2, derivative2);
 

@@ -368,7 +368,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
 
   // find the equations of the planes
 
-  int c1 = 0, c2 = 0, c3 = 0;
+  int c1 = 0;
+  int c2 = 0;
+  int c3 = 0;
 
   for (j = 0; j < 6; ++j)
   { // loop around for planes
@@ -406,8 +408,12 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
         break;
     }
 
-    double line1x, line1y, line1z;
-    double line2x, line2y, line2z;
+    double line1x;
+    double line1y;
+    double line1z;
+    double line2x;
+    double line2y;
+    double line2z;
 
     // lines from one corner to another in x,y,z dirns
     line1x = m_BoundingCorner[c1][0] - m_BoundingCorner[c2][0];
@@ -419,7 +425,10 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
     line1z = m_BoundingCorner[c1][2] - m_BoundingCorner[c2][2];
     line2z = m_BoundingCorner[c1][2] - m_BoundingCorner[c3][2];
 
-    double A, B, C, D;
+    double A;
+    double B;
+    double C;
+    double D;
 
     // take cross product
     A = line1y * line2z - line2y * line1z;
@@ -758,7 +767,9 @@ template <typename TInputImage, typename TCoordinate>
 void
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcDirnVector()
 {
-  double xNum, yNum, zNum;
+  double xNum;
+  double yNum;
+  double zNum;
 
   // Calculate the number of voxels in each direction
 
@@ -906,7 +917,8 @@ template <typename TInputImage, typename TCoordinate>
 bool
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::AdjustRayLength()
 {
-  bool startOK, endOK;
+  bool startOK;
+  bool endOK;
 
   int Istart[3];
   int Idirn[3];
@@ -1048,7 +1060,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Initia
 {
   IndexType index;
 
-  int Ix, Iy, Iz;
+  int Ix;
+  int Iy;
+  int Iz;
 
   Ix = static_cast<int>(m_RayVoxelStartPosition[0]);
   Iy = static_cast<int>(m_RayVoxelStartPosition[1]);
@@ -1210,8 +1224,12 @@ template <typename TInputImage, typename TCoordinate>
 double
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCurrentIntensity() const
 {
-  double a, b, c, d;
-  double y, z;
+  double a;
+  double b;
+  double c;
+  double d;
+  double y;
+  double z;
 
   if (!m_ValidRay)
   {

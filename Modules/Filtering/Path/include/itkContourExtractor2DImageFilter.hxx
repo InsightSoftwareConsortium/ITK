@@ -147,7 +147,10 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType  
     // 01    is numbered as    45
     // 23                      78
 
-    InputPixelType v0, v1, v2, v3;
+    InputPixelType v0;
+    InputPixelType v1;
+    InputPixelType v2;
+    InputPixelType v3;
     unsigned char  squareCase{ 0 };
     if (m_LabelContours)
     {

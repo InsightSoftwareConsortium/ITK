@@ -121,7 +121,8 @@ public:
     {
       using PointIdIterator = typename SimplexPolygonType::PointIdIterator;
       PointIdIterator it = poly->PointIdsBegin();
-      InputPointType  center, p;
+      InputPointType  center;
+      InputPointType  p;
       center.Fill(0);
       p.Fill(0.0);
 

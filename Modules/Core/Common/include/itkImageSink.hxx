@@ -210,7 +210,9 @@ ImageSink<TInputImage>::VerifyInputInformation() const
           !inputPtr1->GetDirection().GetVnlMatrix().is_equal(inputPtrN->GetDirection().GetVnlMatrix(),
                                                              this->m_DirectionTolerance))
       {
-        std::ostringstream originString, spacingString, directionString;
+        std::ostringstream originString;
+        std::ostringstream spacingString;
+        std::ostringstream directionString;
         if (!inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol))
         {
           originString.setf(std::ios::scientific);

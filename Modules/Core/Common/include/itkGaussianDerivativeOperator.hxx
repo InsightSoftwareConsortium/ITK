@@ -167,7 +167,8 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI0(double y)
 {
-  double d, accumulator;
+  double d;
+  double accumulator;
   double m;
 
   if ((d = itk::Math::abs(y)) < 3.75)
@@ -196,7 +197,8 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
 {
-  double d, accumulator;
+  double d;
+  double accumulator;
   double m;
 
   if ((d = itk::Math::abs(y)) < 3.75)
@@ -233,7 +235,10 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int 
 {
   constexpr double DIGITS = 10.0;
   int              j;
-  double           qim, qi, qip, toy;
+  double           qim;
+  double           qi;
+  double           qip;
+  double           toy;
   double           accumulator;
 
   if (n < 2)

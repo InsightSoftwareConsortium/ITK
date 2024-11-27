@@ -182,8 +182,10 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::ConvertOutputIndexToInputIndex(
                                                                                 double &                outDecayFactor)
 {
   unsigned int dimCtr;
-  long         a, b, c; // Output region goes from a to a+b-1
-                        // Input region goes from c to c+b-1
+  long         a;
+  long         b;
+  long         c; // Output region goes from a to a+b-1
+                  // Input region goes from c to c+b-1
   OutputImageIndexType outputRegionStart = outputRegion.GetIndex();
   InputImageIndexType  inputRegionStart = inputRegion.GetIndex();
   InputImageSizeType   inputSizes = inputRegion.GetSize();
@@ -488,8 +490,11 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // can handle other blockings imposed by the mirror and wrap algorithms.
   long              inRegLimit[ImageDimension];
   long              outRegLimit[ImageDimension];
-  long              minIndex[ImageDimension], maxIndex[ImageDimension];
-  int               numPre[ImageDimension], numPost[ImageDimension], numIn[ImageDimension];
+  long              minIndex[ImageDimension];
+  long              maxIndex[ImageDimension];
+  int               numPre[ImageDimension];
+  int               numPost[ImageDimension];
+  int               numIn[ImageDimension];
   std::vector<long> outputRegionStart[ImageDimension];
   std::vector<long> outputRegionSizes[ImageDimension];
   std::vector<long> inputRegionStart[ImageDimension];
@@ -621,10 +626,12 @@ void
 MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  unsigned int dimCtr, i;
+  unsigned int dimCtr;
+  unsigned int i;
   int          regCtr;
   int          numRegions = 1; // number of regions in our decomposed space.
-  int          goodInput, goodOutput;
+  int          goodInput;
+  int          goodOutput;
 
   // Are the regions non-empty?
   itkDebugMacro("MirrorPadImageFilter::DynamicThreadedGenerateData");
@@ -650,7 +657,9 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   long              inRegLimit[ImageDimension];
   long              outRegIndices[ImageDimension];
   long              outRegLimit[ImageDimension];
-  int               numPre[ImageDimension], numPost[ImageDimension], numIn[ImageDimension];
+  int               numPre[ImageDimension];
+  int               numPost[ImageDimension];
+  int               numIn[ImageDimension];
   std::vector<long> outputRegionStart[ImageDimension];
   std::vector<long> outputRegionSizes[ImageDimension];
   std::vector<long> inputRegionStart[ImageDimension];

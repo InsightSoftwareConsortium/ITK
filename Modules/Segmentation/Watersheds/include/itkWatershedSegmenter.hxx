@@ -167,7 +167,8 @@ Segmenter<TInputImage>::GenerateData()
   // for local minima without requiring expensive boundary conditions.
   //
   //
-  InputPixelType minimum, maximum;
+  InputPixelType minimum;
+  InputPixelType maximum;
   Self::MinMax(input, regionToProcess, minimum, maximum);
   // cap the maximum in the image so that we can always define a pixel
   // value that is one greater than the maximum value in the image.
@@ -430,7 +431,10 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
   // NOTE: For ease of initial implementation, this method does
   // not support arbitrary connectivity across boundaries (yet). 10-8-01 jc
   //
-  unsigned int nCenter, i, nPos, cPos;
+  unsigned int nCenter;
+  unsigned int i;
+  unsigned int nPos;
+  unsigned int cPos;
   bool         isSteepest;
 
   ConstNeighborhoodIterator<InputImageType>          searchIt;
@@ -621,7 +625,11 @@ template <typename TInputImage>
 void
 Segmenter<TInputImage>::GenerateConnectivity()
 {
-  unsigned int i, j, nSize, nCenter, stride;
+  unsigned int i;
+  unsigned int j;
+  unsigned int nSize;
+  unsigned int nCenter;
+  unsigned int stride;
   int          d;
 
   //
@@ -675,8 +683,12 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
                                     typename Self::flat_region_table_t & flatRegions,
                                     InputPixelType                       Max)
 {
-  unsigned int   i, nSize, nCenter, nPos = 0;
-  bool           foundSinglePixelMinimum, foundFlatRegion;
+  unsigned int   i;
+  unsigned int   nSize;
+  unsigned int   nCenter;
+  unsigned int   nPos = 0;
+  bool           foundSinglePixelMinimum;
+  bool           foundFlatRegion;
   InputPixelType maxValue = Max;
 
   flat_region_t tempFlatRegion;
@@ -829,7 +841,8 @@ Segmenter<TInputImage>::GradientDescent(InputImageTypePointer img, ImageRegionTy
   typename OutputImageType::Pointer output = this->GetOutputImage();
 
   InputPixelType                      minVal;
-  unsigned int                        i, nPos;
+  unsigned int                        i;
+  unsigned int                        nPos;
   typename InputImageType::OffsetType moveIndex;
   IdentifierType                      newLabel;
   std::stack<IdentifierType *>        updateStack;
@@ -920,7 +933,8 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
   typename edge_table_hash_t::iterator edge_table_entry_ptr;
   typename edge_table_t::iterator      edge_ptr;
 
-  unsigned int                                               i, nPos;
+  unsigned int                                               i;
+  unsigned int                                               nPos;
   typename NeighborhoodIterator<OutputImageType>::RadiusType hoodRadius;
   typename SegmentTableType::segment_t *                     segment_ptr;
   typename SegmentTableType::segment_t                       temp_segment;
@@ -1123,7 +1137,8 @@ Segmenter<TInputImage>::MergeFlatRegions(flat_region_table_t & regions, Equivale
   // format with its Flatten() method.
   eqTable->Flatten();
 
-  typename flat_region_table_t::iterator a, b;
+  typename flat_region_table_t::iterator a;
+  typename flat_region_table_t::iterator b;
   for (EquivalencyTable::ConstIterator it = eqTable->Begin(); it != eqTable->End(); ++it)
   {
     if (((a = regions.find(it->first)) == regions.end()) || ((b = regions.find(it->second)) == regions.end()))

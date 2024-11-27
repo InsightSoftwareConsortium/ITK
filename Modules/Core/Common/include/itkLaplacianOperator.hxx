@@ -64,7 +64,8 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 auto
 LaplacianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
-  unsigned int i, w;
+  unsigned int i;
+  unsigned int w;
 
   // Here we set the radius to 1's, here the
   // operator is 3x3 for 2D, 3x3x3 for 3D.

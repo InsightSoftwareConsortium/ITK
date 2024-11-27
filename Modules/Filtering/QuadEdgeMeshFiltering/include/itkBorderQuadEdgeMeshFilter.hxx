@@ -107,7 +107,8 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeLongestBorder() -> Inp
     itkGenericExceptionMacro("This filter requires at least one boundary");
   }
 
-  InputCoordRepType max_length(0.0), length(0.0);
+  InputCoordRepType max_length(0.0);
+  InputCoordRepType length(0.0);
   auto              oborder_it = list->begin();
 
   for (auto b_it = list->begin(); b_it != list->end(); ++b_it)
@@ -260,7 +261,8 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::RadiusMaxSquare() -> InputCoo
 
   InputPointType center = this->GetMeshBarycentre();
 
-  InputCoordRepType oRmax(0.), r;
+  InputCoordRepType oRmax(0.);
+  InputCoordRepType r;
 
   for (auto BoundaryPtIterator = this->m_BoundaryPtMap.begin(); BoundaryPtIterator != this->m_BoundaryPtMap.end();
        ++BoundaryPtIterator)
@@ -355,10 +357,14 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ArcLengthSquareTransform()
 
   std::vector<InputCoordRepType> Length(NbBoundaryPt + 1, 0.0);
 
-  InputCoordRepType TotalLength(0.0), distance;
+  InputCoordRepType TotalLength(0.0);
+  InputCoordRepType distance;
 
-  InputPointIdentifier i(0), org(0), dest(0);
-  InputPointType       PtOrg, PtDest;
+  InputPointIdentifier i(0);
+  InputPointIdentifier org(0);
+  InputPointIdentifier dest(0);
+  InputPointType       PtOrg;
+  InputPointType       PtDest;
 
   for (InputIteratorGeom it = bdryEdge->BeginGeomLnext(); it != bdryEdge->EndGeomLnext(); ++it, ++i)
   {

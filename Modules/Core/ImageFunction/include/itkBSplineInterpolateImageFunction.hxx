@@ -175,7 +175,12 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetI
   // For speed improvements we could make each case a separate function and use
   // function pointers to reference the correct weight order.
   // Left as is for now for readability.
-  double w, w2, w4, t, t0, t1;
+  double w;
+  double w2;
+  double w4;
+  double t;
+  double t0;
+  double t1;
 
   switch (splineOrder)
   {
@@ -291,7 +296,16 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetD
   // the number
   // of switch statement executions to one per routine call.
   // Left as is for now for readability.
-  double w, w1, w2, w3, w4, w5, t, t0, t1, t2;
+  double w;
+  double w1;
+  double w2;
+  double w3;
+  double w4;
+  double w5;
+  double t;
+  double t0;
+  double t1;
+  double t2;
   int    derivativeSplineOrder = static_cast<int>(splineOrder) - 1;
 
   switch (derivativeSplineOrder)
@@ -550,10 +564,14 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::
 
   unsigned int indx;
   double       tmpV;
-  double       w, w1, tmpW;
+  double       w;
+  double       w1;
+  double       tmpW;
   IndexType    coefficientIndex;
   value = 0.0;
-  unsigned int p, n, n1;
+  unsigned int p;
+  unsigned int n;
+  unsigned int n1;
   derivativeValue[0] = 0.0;
   for (p = 0; p < m_MaxNumberInterpolationPoints; ++p)
   {

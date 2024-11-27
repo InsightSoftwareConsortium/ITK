@@ -179,7 +179,9 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
 {
   // See Unser, 1999, Box 2 for explanation
   CoeffType                           sum;
-  double                              zn, z2n, iz;
+  double                              zn;
+  double                              z2n;
+  double                              iz;
   typename TInputImage::SizeValueType horizon;
 
   // Yhis initialization corresponds to mirror boundaries

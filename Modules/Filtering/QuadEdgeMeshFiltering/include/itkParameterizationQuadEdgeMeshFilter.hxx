@@ -93,8 +93,10 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Fill
 
   InputMapPointIdentifierIterator it;
 
-  InputPointIdentifier id1, id2;
-  InputPointIdentifier InternalId1, InternalId2;
+  InputPointIdentifier id1;
+  InputPointIdentifier id2;
+  InputPointIdentifier InternalId1;
+  InputPointIdentifier InternalId2;
 
   OutputPointType pt2;
 

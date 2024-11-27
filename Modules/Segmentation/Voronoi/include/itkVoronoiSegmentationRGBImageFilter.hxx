@@ -151,7 +151,8 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
     }
   }
 
-  double savemean[6], saveSTD[6];
+  double savemean[6];
+  double saveSTD[6];
   if (num > 1)
   {
     for (int i = 0; i < 6; ++i)
@@ -169,7 +170,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
     }
   }
 
-  for(int j =0;  j < 3; ++j)
+  for (int j = 0; j < 3; ++j)
   {
     const double savem = savemean[m_TestMean[j]] - m_Mean[m_TestMean[j]];
     const double savev = saveSTD[m_TestSTD[j]] - m_STD[m_TestSTD[j]];
@@ -194,7 +195,10 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
   itk::ImageRegionConstIteratorWithIndex<BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionIteratorWithIndex<RGBHCVImage>            iit(m_WorkingImage, region);
 
-  unsigned int minx = 0, miny = 0, maxx = 0, maxy = 0;
+  unsigned int minx = 0;
+  unsigned int miny = 0;
+  unsigned int maxx = 0;
+  unsigned int maxy = 0;
   bool         status = false;
   for (unsigned int i = 0; i < this->GetSize()[1]; ++i)
   {

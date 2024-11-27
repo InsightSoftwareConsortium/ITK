@@ -153,7 +153,8 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   //  metric->SetNumberOfHistogramBins(20);
   using PointType = PointSetType::PointType;
   PointSetType::Pointer                                pset(PointSetType::New());
-  unsigned long                                        ind = 0, ct = 0;
+  unsigned long                                        ind = 0;
+  unsigned long                                        ct = 0;
   itk::ImageRegionIteratorWithIndex<InternalImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
   {

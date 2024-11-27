@@ -90,7 +90,9 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::ApplyUpdateThreaderCallback(void * arg)
 {
   FDThreadStruct * str;
-  ThreadIdType     total, workUnitID, workUnitCount;
+  ThreadIdType     total;
+  ThreadIdType     workUnitID;
+  ThreadIdType     workUnitCount;
 
   workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
@@ -182,7 +184,9 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::CalculateChangeThreaderCallback(void * arg)
 {
   FDThreadStruct * str;
-  ThreadIdType     total, workUnitID, workUnitCount;
+  ThreadIdType     total;
+  ThreadIdType     workUnitID;
+  ThreadIdType     workUnitCount;
 
   workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
@@ -211,7 +215,9 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Prec
   void * arg)
 {
   FDThreadStruct * str;
-  ThreadIdType     total, workUnitID, workUnitCount;
+  ThreadIdType     total;
+  ThreadIdType     workUnitID;
+  ThreadIdType     workUnitCount;
 
   workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;

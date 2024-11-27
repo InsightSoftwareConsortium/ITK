@@ -231,8 +231,10 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
   setConnectivityLater(&mskNIt, m_FullyConnected);
   mskNIt.OverrideBoundaryCondition(&iBC);
 
-  typename NOutputIterator::IndexListType                 oIndexList, mIndexList;
-  typename NOutputIterator::IndexListType::const_iterator oLIt, mLIt;
+  typename NOutputIterator::IndexListType                 oIndexList;
+  typename NOutputIterator::IndexListType                 mIndexList;
+  typename NOutputIterator::IndexListType::const_iterator oLIt;
+  typename NOutputIterator::IndexListType::const_iterator mLIt;
 
   oIndexList = outNIt.GetActiveIndexList();
   mIndexList = mskNIt.GetActiveIndexList();

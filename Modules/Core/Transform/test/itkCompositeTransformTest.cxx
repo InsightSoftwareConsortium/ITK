@@ -203,7 +203,8 @@ itkCompositeTransformTest(int, char *[])
   /* Get parameters with single transform.
    * Should be same as GetParameters from affine transform. */
   std::cout << "Get Parameters: " << std::endl;
-  CompositeType::ParametersType parametersTest, parametersTruth;
+  CompositeType::ParametersType parametersTest;
+  CompositeType::ParametersType parametersTruth;
   parametersTest = compositeTransform->GetParameters();
   parametersTruth = affine->GetParameters();
   std::cout << "affine parametersTruth: " << std::endl
@@ -218,7 +219,8 @@ itkCompositeTransformTest(int, char *[])
   }
 
   /* Set parameters with single transform. */
-  CompositeType::ParametersType parametersNew(6), parametersReturned;
+  CompositeType::ParametersType parametersNew(6);
+  CompositeType::ParametersType parametersReturned;
   parametersNew[0] = 0;
   parametersNew[1] = 10;
   parametersNew[2] = 20;
@@ -282,7 +284,8 @@ itkCompositeTransformTest(int, char *[])
 
   /* Setup test point and truth value for tests */
   CompositeType::InputPointType  inputPoint;
-  CompositeType::OutputPointType outputPoint, affineTruth;
+  CompositeType::OutputPointType outputPoint;
+  CompositeType::OutputPointType affineTruth;
   inputPoint[0] = 2;
   inputPoint[1] = 3;
   affineTruth[0] = 13;
@@ -308,7 +311,8 @@ itkCompositeTransformTest(int, char *[])
 
   /* Test inverse */
   auto                           inverseTransform = CompositeType::New();
-  CompositeType::OutputPointType inverseTruth, inverseOutput;
+  CompositeType::OutputPointType inverseTruth;
+  CompositeType::OutputPointType inverseOutput;
   if (!compositeTransform->GetInverse(inverseTransform))
   {
     std::cout << "ERROR: GetInverse() failed." << std::endl;
@@ -328,7 +332,8 @@ itkCompositeTransformTest(int, char *[])
 
   /* Test ComputeJacobianWithRespectToParameters */
 
-  CompositeType::JacobianType   jacComposite, jacSingle;
+  CompositeType::JacobianType   jacComposite;
+  CompositeType::JacobianType   jacSingle;
   CompositeType::InputPointType jacPoint;
   jacPoint[0] = 1;
   jacPoint[1] = 2;
@@ -724,7 +729,10 @@ itkCompositeTransformTest(int, char *[])
    * Remember that the point gets transformed by preceding transforms
    * before its used for individual Jacobian. */
   std::cout << "Test ComputeJacobianWithRespectToParameters with three transforms: " << std::endl;
-  CompositeType::JacobianType   jacTruth, jacComposite2, jacAffine, jacAffine3;
+  CompositeType::JacobianType   jacTruth;
+  CompositeType::JacobianType   jacComposite2;
+  CompositeType::JacobianType   jacAffine;
+  CompositeType::JacobianType   jacAffine3;
   CompositeType::InputPointType jacPoint2;
   jacPoint2[0] = 1;
   jacPoint2[1] = 2;

@@ -100,7 +100,8 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetPixel(const unsigned int n,
   unsigned int i;
   OffsetType   temp;
 
-  typename OffsetType::OffsetValueType OverlapLow, OverlapHigh;
+  typename OffsetType::OffsetValueType OverlapLow;
+  typename OffsetType::OffsetValueType OverlapHigh;
 
   if (this->m_NeedToUseBoundaryCondition == false)
   {
@@ -148,7 +149,9 @@ void
 NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const NeighborhoodType & N)
 {
   unsigned int i;
-  OffsetType   OverlapLow, OverlapHigh, temp;
+  OffsetType   OverlapLow;
+  OffsetType   OverlapHigh;
+  OffsetType   temp;
   bool         flag;
 
   const Iterator _end = this->End();

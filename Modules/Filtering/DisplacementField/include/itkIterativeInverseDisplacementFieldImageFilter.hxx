@@ -95,10 +95,12 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
   else
   {
     // calculate the inverted field
-    InputImagePointType         mappedPoint, newPoint;
+    InputImagePointType         mappedPoint;
+    InputImagePointType         newPoint;
     OutputImagePointType        originalPoint;
     OutputImageIndexType        index;
-    OutputImagePixelType        displacement, outputValue;
+    OutputImagePixelType        displacement;
+    OutputImagePixelType        outputValue;
     FieldInterpolatorOutputType forwardVector;
     double                      spacing = inputPtr->GetSpacing()[0];
     double                      smallestError = 0;

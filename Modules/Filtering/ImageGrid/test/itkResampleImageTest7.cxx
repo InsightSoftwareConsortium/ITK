@@ -136,8 +136,8 @@ itkResampleImageTest7(int, char *[])
   ImagePointerType outputSDI = streamer->GetOutput();
   outputSDI->DisconnectPipeline();
 
-  itk::ImageRegionIterator<ImageType> itNoSDI(outputNoSDI, outputNoSDI->GetLargestPossibleRegion()),
-    itSDI(outputSDI, outputSDI->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<ImageType> itNoSDI(outputNoSDI, outputNoSDI->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<ImageType> itSDI(outputSDI, outputSDI->GetLargestPossibleRegion());
   for (itNoSDI.GoToBegin(), itSDI.GoToBegin(); !itNoSDI.IsAtEnd() && !itSDI.IsAtEnd(); ++itNoSDI, ++itSDI)
   {
     if (itk::Math::NotAlmostEquals(itNoSDI.Value(), itSDI.Value()))
