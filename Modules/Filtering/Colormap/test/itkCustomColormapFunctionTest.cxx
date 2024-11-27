@@ -115,23 +115,23 @@ itkCustomColormapFunctionTest(int argc, char * argv[])
 
   using RGBPixelType = itk::RGBPixel<unsigned char>;
 
-  double              value;
-  std::vector<double> redChannel;
-  std::vector<double> greenChannel;
-  std::vector<double> blueChannel;
-
   std::ifstream str(argv[1]);
-  std::string   line;
 
   // Get red values
+  std::string line;
   std::getline(str, line);
   std::istringstream issr(line);
+
+  double value;
+
+  std::vector<double> redChannel;
   while (issr >> value)
   {
     redChannel.push_back(value);
   }
 
   // Get green values
+  std::vector<double> greenChannel;
   std::getline(str, line);
   std::istringstream issg(line);
   while (issg >> value)
@@ -140,6 +140,7 @@ itkCustomColormapFunctionTest(int argc, char * argv[])
   }
 
   // Get blue values
+  std::vector<double> blueChannel;
   std::getline(str, line);
   std::istringstream issb(line);
   while (issb >> value)

@@ -39,12 +39,10 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
 
   std::cout << "Output from operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *) const"
             << std::endl;
-  unsigned int x;
-  unsigned int y;
   unsigned int i = 0;
-  for (y = 0; y < p.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < p.GetSize()[1]; ++y)
   {
-    for (x = 0; x < p.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < p.GetSize()[0]; ++x, ++i)
     {
       std::cout << p.GetPixel(i) << ' ';
     }
@@ -55,9 +53,9 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
             << "const NeighborhoodAccessorFunctorType &) const" << std::endl;
 
   i = 0;
-  for (y = 0; y < v.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < v.GetSize()[1]; ++y)
   {
-    for (x = 0; x < v.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < v.GetSize()[0]; ++x, ++i)
     {
       std::cout << v.GetPixel(i)[0] << ' ';
     }
@@ -67,11 +65,11 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
   std::cout << "Output from GetPixel( const IndexType & index, const TImage * image ) const" << std::endl;
 
   i = 0;
-  for (y = 0; y < p.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < p.GetSize()[1]; ++y)
   {
     itk::Index<2> index;
     index[1] = p.GetIndex()[1] - p.GetRadius()[1] + y;
-    for (x = 0; x < p.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < p.GetSize()[0]; ++x, ++i)
     {
       index[0] = p.GetIndex()[0] - p.GetRadius()[0] + x;
 
@@ -124,12 +122,11 @@ int
 itkPeriodicBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.
-  auto       image = ImageType::New();
-  RegionType imageRegion;
+  auto image = ImageType::New();
+
   SizeType   imageSize = { { 5, 5 } };
   IndexType  imageIndex = { { 0, 0 } };
-  imageRegion.SetSize(imageSize);
-  imageRegion.SetIndex(imageIndex);
+  RegionType imageRegion(imageIndex, imageSize);
   image->SetRegions(imageRegion);
   image->Allocate();
 
@@ -154,15 +151,15 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   }
 
   RadiusType radius;
-  RadiusType radiusTwo;
   radius[0] = radius[1] = 1;
-  IteratorType       it(radius, image, image->GetRequestedRegion());
-  VectorIteratorType vit(radius, vectorImage, vectorImage->GetRequestedRegion());
+  IteratorType it(radius, image, image->GetRequestedRegion());
 
-  itk::PeriodicBoundaryCondition<ImageType>       bc;
-  itk::PeriodicBoundaryCondition<VectorImageType> vbc;
 
+  itk::PeriodicBoundaryCondition<ImageType> bc;
   it.OverrideBoundaryCondition(&bc);
+
+  itk::PeriodicBoundaryCondition<VectorImageType> vbc;
+  VectorIteratorType                              vit(radius, vectorImage, vectorImage->GetRequestedRegion());
   vit.OverrideBoundaryCondition(&vbc);
 
   pos[0] = pos[1] = 0;
@@ -177,7 +174,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
       return EXIT_FAILURE;
     }
   }
-
+  RadiusType radiusTwo;
   radiusTwo[0] = radiusTwo[1] = 2;
   IteratorType       it2(radiusTwo, image, image->GetRequestedRegion());
   VectorIteratorType vit2(radiusTwo, vectorImage, vectorImage->GetRequestedRegion());
@@ -200,26 +197,16 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   }
 
   // Now test the input region calculation
-  IndexType  requestIndex;
-  SizeType   requestSize;
-  RegionType requestRegion;
-
-  IndexType  expectedIndex;
-  SizeType   expectedSize;
-  RegionType expectedRegion;
-
-  RegionType inputRegion;
-
   // Test 1
   std::cout << "GetInputRequestedRegion() Test 1" << std::endl;
-  requestIndex.Fill(0);
-  requestSize.Fill(2);
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  auto       requestIndex = itk::MakeFilled<IndexType>(0);
+  auto       requestSize = itk::MakeFilled<SizeType>(2);
+  RegionType requestRegion(requestIndex, requestSize);
 
-  expectedRegion = requestRegion;
 
-  inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
+  RegionType expectedRegion = requestRegion;
+
+  RegionType inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))
   {
     std::cerr << "[FAILED]" << std::endl;
@@ -236,8 +223,10 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   requestRegion.SetIndex(requestIndex);
   requestRegion.SetSize(requestSize);
 
+  IndexType expectedIndex;
   expectedIndex[0] = 0;
   expectedIndex[1] = 0;
+  SizeType expectedSize;
   expectedSize[0] = 5;
   expectedSize[1] = 2;
   expectedRegion.SetIndex(expectedIndex);

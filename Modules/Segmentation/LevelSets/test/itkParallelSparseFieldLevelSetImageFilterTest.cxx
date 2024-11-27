@@ -59,12 +59,9 @@ sphere(unsigned int x, unsigned int y, unsigned int z)
 float
 cube(unsigned int x, unsigned int y, unsigned int z)
 {
-  float X;
-  float Y;
-  float Z;
-  X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
-  Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
-  Z = itk::Math::abs(z - static_cast<float>(DEPTH) / 2.0);
+  float X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
+  float Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
+  float Z = itk::Math::abs(z - static_cast<float>(DEPTH) / 2.0);
   float dis;
   if (!((X > RADIUS) && (Y > RADIUS) && (Z > RADIUS)))
   {

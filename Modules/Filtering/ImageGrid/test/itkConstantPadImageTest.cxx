@@ -36,8 +36,6 @@ itkConstantPadImageTest(int, char *[])
   ShortImage::IndexType  index = { { 0, 0 } };
   ShortImage::SizeType   size = { { 8, 12 } };
   ShortImage::RegionType region;
-  int                    row;
-  int                    column;
   region.SetSize(size);
   region.SetIndex(index);
   image->SetLargestPossibleRegion(region);
@@ -46,8 +44,7 @@ itkConstantPadImageTest(int, char *[])
 
   itk::ImageRegionIterator<ShortImage> iterator(image, region);
 
-  short i = 0;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
+  for (short i = 0; !iterator.IsAtEnd(); ++iterator, ++i)
   {
     iterator.Set(i);
   }
@@ -64,7 +61,7 @@ itkConstantPadImageTest(int, char *[])
   SizeValueType upperFactors[2] = { 0, 0 };
   SizeValueType lowerFactors[2] = { 0, 0 };
 
-  float constant = 13.3f;
+  constexpr float constant = 13.3f;
   constantPad->SetConstant(constant);
   // check the method using the SizeType rather than the simple table type.
   ShortImage::SizeType stfactors{};
@@ -78,10 +75,6 @@ itkConstantPadImageTest(int, char *[])
   std::cout << "Output spacing: " << constantPad->GetOutput()->GetSpacing()[0] << ", "
             << constantPad->GetOutput()->GetSpacing()[1] << std::endl;
 
-
-  ShortImage::RegionType requestedRegion;
-  bool                   passed;
-
   // CASE 1
   lowerFactors[0] = 1;
   lowerFactors[1] = 2;
@@ -90,11 +83,10 @@ itkConstantPadImageTest(int, char *[])
   constantPad->SetPadLowerBound(lowerFactors);
   constantPad->SetPadUpperBound(upperFactors);
   constantPad->UpdateLargestPossibleRegion();
-  requestedRegion = constantPad->GetOutput()->GetRequestedRegion();
+  ShortImage::RegionType requestedRegion = constantPad->GetOutput()->GetRequestedRegion();
 
-  itk::ImageRegionIterator<FloatImage> iteratorIn1(constantPad->GetOutput(), requestedRegion);
 
-  passed = true;
+  bool passed = true;
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
   if ((index[0] != (0 - (IndexValueType)lowerFactors[0])) || (index[1] != (0 - (IndexValueType)lowerFactors[1])) ||
@@ -104,10 +96,12 @@ itkConstantPadImageTest(int, char *[])
   }
   else
   {
-    for (; !iteratorIn1.IsAtEnd(); ++iteratorIn1)
+    for (itk::ImageRegionIterator<FloatImage> iteratorIn1(constantPad->GetOutput(), requestedRegion);
+         !iteratorIn1.IsAtEnd();
+         ++iteratorIn1)
     {
-      row = iteratorIn1.GetIndex()[0];
-      column = iteratorIn1.GetIndex()[1];
+      int row = iteratorIn1.GetIndex()[0];
+      int column = iteratorIn1.GetIndex()[1];
       if ((row < 0) || (row > 7) || (column < 0) || (column > 11))
       {
         if (itk::Math::NotExactlyEquals(iteratorIn1.Get(), constant))
@@ -164,8 +158,6 @@ itkConstantPadImageTest(int, char *[])
     stream->UpdateLargestPossibleRegion();
     requestedRegion = stream->GetOutput()->GetRequestedRegion();
 
-    itk::ImageRegionIterator<FloatImage> iteratorIn2(stream->GetOutput(), requestedRegion);
-
     passed = true;
     size = requestedRegion.GetSize();
     index = requestedRegion.GetIndex();
@@ -176,10 +168,12 @@ itkConstantPadImageTest(int, char *[])
     }
     else
     {
-      for (; !iteratorIn2.IsAtEnd(); ++iteratorIn2)
+      for (itk::ImageRegionIterator<FloatImage> iteratorIn2(stream->GetOutput(), requestedRegion);
+           !iteratorIn2.IsAtEnd();
+           ++iteratorIn2)
       {
-        row = iteratorIn2.GetIndex()[0];
-        column = iteratorIn2.GetIndex()[1];
+        int row = iteratorIn2.GetIndex()[0];
+        int column = iteratorIn2.GetIndex()[1];
         if ((row < 0) || (row > 7) || (column < 0) || (column > 11))
         {
           if (itk::Math::NotExactlyEquals(iteratorIn2.Get(), constant))

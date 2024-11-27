@@ -55,16 +55,8 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
                                                       const FloatOffsetType &  itkNotUsed(offset),
                                                       GlobalDataStruct *       gd) -> ScalarValueType
 {
-  ScalarValueType       gradMag = std::sqrt(gd->m_GradMagSqr);
+  const ScalarValueType gradMag = std::sqrt(gd->m_GradMagSqr);
   ScalarValueType       Pgrad[ImageDimension][ImageDimension];
-  ScalarValueType       tmp_matrix[ImageDimension][ImageDimension];
-  const ScalarValueType ZERO{};
-
-  vnl_matrix_fixed<ScalarValueType, ImageDimension, ImageDimension> Curve;
-  const ScalarValueType                                             MIN_EIG = NumericTraits<ScalarValueType>::min();
-
-  ScalarValueType mincurve;
-
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     Pgrad[i][i] = 1.0 - gd->m_dx[i] * gd->m_dx[i] / gradMag;
@@ -76,6 +68,8 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   }
 
   // Compute Pgrad * Hessian * Pgrad
+  constexpr ScalarValueType ZERO{};
+  ScalarValueType           tmp_matrix[ImageDimension][ImageDimension];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     for (unsigned int j = i; j < ImageDimension; ++j)
@@ -88,7 +82,7 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
       tmp_matrix[j][i] = tmp_matrix[i][j];
     }
   }
-
+  vnl_matrix_fixed<ScalarValueType, ImageDimension, ImageDimension> Curve;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     for (unsigned int j = i; j < ImageDimension; ++j)
@@ -105,7 +99,8 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   // Eigensystem
   vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
 
-  mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
+  constexpr ScalarValueType MIN_EIG = NumericTraits<ScalarValueType>::min();
+  ScalarValueType           mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (itk::Math::abs(eig.get_eigenvalue(i)) < mincurve && itk::Math::abs(eig.get_eigenvalue(i)) > MIN_EIG)
@@ -176,14 +171,7 @@ template <typename TImageType>
 auto
 LevelSetFunction<TImageType>::InitializeZeroVectorConstant() -> VectorType
 {
-  VectorType ans;
-
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-  {
-    ans[i] = ScalarValueType{};
-  }
-
-  return ans;
+  return MakeFilled<VectorType>(ScalarValueType{});
 }
 
 template <typename TImageType>
@@ -215,12 +203,11 @@ template <typename TImageType>
 auto
 LevelSetFunction<TImageType>::ComputeGlobalTimeStep(void * GlobalData) const -> TimeStepType
 {
-  TimeStepType dt;
-
   auto * d = (GlobalDataStruct *)GlobalData;
 
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
 
+  TimeStepType dt;
   if (itk::Math::abs(d->m_MaxCurvatureChange) > 0.0)
   {
     if (d->m_MaxAdvectionChange > 0.0)
@@ -285,26 +272,13 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
                                             void *                   globalData,
                                             const FloatOffsetType &  offset) -> PixelType
 {
-  const ScalarValueType ZERO{};
-  const ScalarValueType center_value = it.GetCenterPixel();
-
-  const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
-
-  ScalarValueType laplacian;
-  ScalarValueType x_energy;
-  ScalarValueType laplacian_term;
-  ScalarValueType propagation_term;
-  ScalarValueType curvature_term;
-  ScalarValueType advection_term;
-  ScalarValueType propagation_gradient;
-  VectorType      advection_field;
-
   // Global data structure
   auto * gd = (GlobalDataStruct *)globalData;
-
   // Compute the Hessian matrix and various other derivatives.  Some of these
   // derivatives may be used by overloaded virtual functions.
   gd->m_GradMagSqr = 1.0e-6;
+  const ScalarValueType        center_value = it.GetCenterPixel();
+  const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     const auto positionA = static_cast<unsigned int>(m_Center + m_xStride[i]);
@@ -332,7 +306,8 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
         neighborhoodScales[i] * neighborhoodScales[j];
     }
   }
-
+  constexpr ScalarValueType ZERO{};
+  ScalarValueType           curvature_term{ ZERO };
   if (Math::NotAlmostEquals(m_CurvatureWeight, ZERO))
   {
     curvature_term = this->ComputeCurvatureTerm(it, offset, gd) * m_CurvatureWeight * this->CurvatureSpeed(it, offset);
@@ -350,15 +325,15 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
   // Here we can use a simple upwinding scheme since we know the
   // sign of each directional component of the advective force.
   //
+  ScalarValueType advection_term{ ZERO };
   if (Math::NotAlmostEquals(m_AdvectionWeight, ZERO))
   {
-    advection_field = this->AdvectionField(it, offset, gd);
-    advection_term = ZERO;
+    VectorType advection_field = this->AdvectionField(it, offset, gd);
+
 
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      x_energy = m_AdvectionWeight * advection_field[i];
-
+      ScalarValueType x_energy = m_AdvectionWeight * advection_field[i];
       if (x_energy > ZERO)
       {
         advection_term += advection_field[i] * gd->m_dx_backward[i];
@@ -372,11 +347,8 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
     }
     advection_term *= m_AdvectionWeight;
   }
-  else
-  {
-    advection_term = ZERO;
-  }
 
+  ScalarValueType propagation_term{ ZERO };
   if (Math::NotAlmostEquals(m_PropagationWeight, ZERO))
   {
     // Get the propagation speed
@@ -389,8 +361,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
     // The following scheme for "upwinding" in the normal direction is taken
     // from Sethian, Ch. 6 as referenced above.
     //
-    propagation_gradient = ZERO;
-
+    ScalarValueType propagation_gradient = ZERO;
     if (propagation_term > ZERO)
     {
       for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -414,14 +385,11 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
 
     propagation_term *= std::sqrt(propagation_gradient);
   }
-  else
-  {
-    propagation_term = ZERO;
-  }
 
+  ScalarValueType laplacian_term{ ZERO };
   if (Math::NotAlmostEquals(m_LaplacianSmoothingWeight, ZERO))
   {
-    laplacian = ZERO;
+    ScalarValueType laplacian{ ZERO };
 
     // Compute the laplacian using the existing second derivative values
     for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -431,10 +399,6 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
 
     // Scale the laplacian by its speed and weight
     laplacian_term = laplacian * m_LaplacianSmoothingWeight * LaplacianSmoothingSpeed(it, offset, gd);
-  }
-  else
-  {
-    laplacian_term = ZERO;
   }
   // Return the combination of all the terms.
   return (PixelType)(curvature_term - propagation_term - advection_term - laplacian_term);

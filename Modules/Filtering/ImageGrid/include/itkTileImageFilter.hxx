@@ -252,13 +252,11 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   }
 
   // Find the size of the largest cell for each "row" in each dimension.
-  ImageLinearConstIteratorWithIndex<TileImageType> tit(m_TileImage, m_TileImage->GetRequestedRegion());
-  int                                              value;
+
 
   std::vector<std::vector<int>> sizes;
-  std::vector<std::vector<int>> offsets;
-
   sizes.resize(OutputImageDimension);
+  std::vector<std::vector<int>> offsets;
   offsets.resize(OutputImageDimension);
   for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
@@ -269,6 +267,8 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       sizes[i][l] = 1;
     }
   }
+
+  ImageLinearConstIteratorWithIndex<TileImageType> tit(m_TileImage, m_TileImage->GetRequestedRegion());
   for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     tit.SetDirection(i);
@@ -279,7 +279,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       int count = 0;
       while (!tit.IsAtEndOfLine())
       {
-        value = tit.Get().m_ImageNumber;
+        int value = tit.Get().m_ImageNumber;
         if (value != -1)
         {
           if (i < InputImageDimension)
@@ -314,7 +314,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
-    value = it.Get().m_ImageNumber;
+    int value = it.Get().m_ImageNumber;
     if (value >= 0)
     {
       typename TileImageType::IndexType tileIndex2 = it.GetIndex();
@@ -374,7 +374,6 @@ TileImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
   const unsigned int numComponents = image->GetNumberOfComponentsPerPixel();
 
   typename Superclass::DataObjectPointerArraySizeType idx = 1;
-
   for (; idx < this->GetNumberOfIndexedInputs(); ++idx)
   {
     image = this->GetInput(idx);

@@ -279,43 +279,36 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   static constexpr double ITK_QUAD_CONVERGED = 1.e-03;
   static constexpr double ITK_DIVERGED = 1.e6;
 
-  int                     iteration;
-  int                     converged;
-  double                  params[CellDimension];
-  double                  fcol[CellDimension];
-  double                  rcol[CellDimension];
-  double                  scol[CellDimension];
-  double                  d;
-  PointType               pt;
-  CoordinateType          derivs[NumberOfDerivatives];
-  InterpolationWeightType weights[NumberOfPoints];
-
   //  set initial position for Newton's method
-  int            subId = 0;
-  CoordinateType pcoords[CellDimension];
+  int subId = 0;
 
-  pcoords[0] = pcoords[1] = params[0] = params[1] = 0.5;
+  double       params[CellDimension] = { 0.5, 0.5 };
+  CoordinateType pcoords[CellDimension] = { 0.5, 0.5 };
 
   // NOTE: Point x is here assumed to lie on the plane of Quad.  Otherwise, (FIXME)
   //   - Get normal for quadrilateral, using its 3 corners
   //   - Project point x onto Quad plane using this normal
   // See vtkQuad for this:  ComputeNormal (this, pt1, pt2, pt3, n);  vtkPlane::ProjectPoint(x,pt1,n,cp);
 
+
   //  enter iteration loop
-  for (iteration = converged = 0; !converged && (iteration < ITK_QUAD_MAX_ITERATION); ++iteration)
+  InterpolationWeightType weights[NumberOfPoints];
+  int                     converged = 0;
+  for (int iteration = 0; !converged && (iteration < ITK_QUAD_MAX_ITERATION); ++iteration)
   {
     //  calculate element interpolation functions and derivatives
     this->InterpolationFunctions(pcoords, weights);
+    CoordinateType derivs[NumberOfDerivatives];
     this->InterpolationDerivs(pcoords, derivs);
 
     //  calculate newton functions
-    for (unsigned int i = 0; i < CellDimension; ++i)
-    {
-      fcol[i] = rcol[i] = scol[i] = 0.0;
-    }
+    double fcol[CellDimension]{};
+    double rcol[CellDimension]{};
+    double scol[CellDimension]{};
+
     for (unsigned int i = 0; i < NumberOfPoints; ++i)
     {
-      pt = points->GetElement(m_PointIds[i]);
+      PointType pt = points->GetElement(m_PointIds[i]);
       // using the projection normal n, one can choose which 2 axes to use out of 3
       // any 2 should work, so (not having n) we use [x,y] (also assuming 2D use of QuadCell)
       // if we compute n, one can use the closest two indices as in vtkQuad
@@ -340,7 +333,7 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
       mat.put(1, i, scol[i]);
     }
 
-    d = vnl_determinant(mat);
+    double d = vnl_determinant(mat);
     // d=vtkMath::Determinant2x2(rcol,scol);
     if (itk::Math::abs(d) < 1.e-20)
     {

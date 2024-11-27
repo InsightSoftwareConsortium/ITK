@@ -319,18 +319,18 @@ MINCImageIO::ReadImageInformation()
 
   for (int i = 0; i < m_MINCPImpl->m_NDims; ++i)
   {
-    char *       name;
-    double       _sep;
-    const char * _sign = "+";
+    char * name;
     if (miget_dimension_name(m_MINCPImpl->m_MincFileDims[i], &name) < 0)
     {
       // Error getting dimension name
       itkExceptionMacro("Could not get dimension name!");
     }
-
+    double       _sep;
+    const char * _sign = "+";
     if (miget_dimension_separation(m_MINCPImpl->m_MincFileDims[i], MI_ORDER_FILE, &_sep) == MI_NOERROR && _sep < 0)
+    {
       _sign = "-";
-
+    }
     m_MINCPImpl->m_DimensionName[i] = name;
     if (!strcmp(name, MIxspace) || !strcmp(name, MIxfrequency)) // this is X space
     {
@@ -338,15 +338,13 @@ MINCImageIO::ReadImageInformation()
       dimension_order += _sign;
       dimension_order += "X";
     }
-    else if (!strcmp(name, MIyspace) || !strcmp(name, MIyfrequency)) // this is Y
-                                                                     // space
+    else if (!strcmp(name, MIyspace) || !strcmp(name, MIyfrequency)) // this is Y space
     {
       m_MINCPImpl->m_DimensionIndices[2] = i;
       dimension_order += _sign;
       dimension_order += "Y";
     }
-    else if (!strcmp(name, MIzspace) || !strcmp(name, MIzfrequency)) // this is Z
-                                                                     // space
+    else if (!strcmp(name, MIzspace) || !strcmp(name, MIzfrequency)) // this is Z space
     {
       m_MINCPImpl->m_DimensionIndices[3] = i;
       dimension_order += _sign;
@@ -358,8 +356,7 @@ MINCImageIO::ReadImageInformation()
       dimension_order += "+"; // vector dimension is always positive
       dimension_order += "V";
     }
-    else if (!strcmp(name, MItime) || !strcmp(name, MItfrequency)) // this is time
-                                                                   // space
+    else if (!strcmp(name, MItime) || !strcmp(name, MItfrequency)) // this is time space
     {
       m_MINCPImpl->m_DimensionIndices[4] = i;
       dimension_order += _sign;
@@ -423,8 +420,6 @@ MINCImageIO::ReadImageInformation()
     {
       itkExceptionMacro(" Can not get volume range!!\n");
     }
-
-
     global_scaling_flag = !(volume_min == valid_min && volume_max == valid_max);
   }
 
@@ -458,12 +453,12 @@ MINCImageIO::ReadImageInformation()
   dir_cos.SetIdentity();
 
   Vector<double, 3> origin;
-  Vector<double, 3> sep;
-  Vector<double, 3> o_origin;
   origin.Fill(0.0);
+  Vector<double, 3> o_origin;
   o_origin.Fill(0.0);
 
   // minc api uses inverse order of dimensions , fastest varying are last
+  Vector<double, 3> sep;
   for (int i = 3; i > 0; i--)
   {
     if (m_MINCPImpl->m_DimensionIndices[i] != -1)
@@ -477,12 +472,11 @@ MINCImageIO::ReadImageInformation()
       misize_t _sz;
       miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_sz);
 
-      std::vector<double> _dir(3);
-      double              _sep;
-      double              _start;
-
+      double _sep;
       miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_ORDER_APPARENT, &_sep);
+      std::vector<double> _dir(3);
       miget_dimension_cosines(m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_dir[0]);
+      double _start;
       miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_ORDER_APPARENT, &_start);
 
       for (int j = 0; j < 3; ++j)
@@ -624,8 +618,8 @@ MINCImageIO::ReadImageInformation()
       }
       else
       {
-        this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix,
-      } // tensor etc)
+        this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix, tensor etc)
+      }
       break;
     case MI_CLASS_INT:
       if (numberOfComponents == 1)
@@ -634,8 +628,8 @@ MINCImageIO::ReadImageInformation()
       }
       else
       {
-        this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix,
-      } // tensor etc)
+        this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix, tensor etc)
+      }
       break;
     case MI_CLASS_LABEL:
       if (numberOfComponents == 1)
@@ -686,9 +680,9 @@ MINCImageIO::ReadImageInformation()
   {
     // store time dimension start and step in metadata for preservation
     double _sep;
-    double _start;
     miget_dimension_separation(
       m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_sep);
+    double _start;
     miget_dimension_start(m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_start);
     EncapsulateMetaData<double>(thisDic, "tstart", _start);
     EncapsulateMetaData<double>(thisDic, "tstep", _sep);
@@ -747,11 +741,10 @@ MINCImageIO::ReadImageInformation()
 
   if ((milist_start(m_MINCPImpl->m_Volume, "", 0, &grplist)) == MI_NOERROR)
   {
-    char           group_name[256];
-    milisthandle_t attlist;
-
+    char group_name[256];
     while (milist_grp_next(grplist, group_name, sizeof(group_name)) == MI_NOERROR)
     {
+      milisthandle_t attlist;
       if ((milist_start(m_MINCPImpl->m_Volume, group_name, 1, &attlist)) == MI_NOERROR)
       {
         char attribute[256];
@@ -883,9 +876,6 @@ MINCImageIO::WriteImageInformation()
   MetaDataDictionary & thisDic = GetMetaDataDictionary();
 
   unsigned int minc_dimensions = 0;
-  double       tstart = 0.0;
-  double       tstep = 1.0;
-
   if (nComp > 3) // last dimension will be either vector or time
   {
     micreate_dimension(MItime,
@@ -894,6 +884,7 @@ MINCImageIO::WriteImageInformation()
                        nComp,
                        &m_MINCPImpl->m_MincApparentDims[m_MINCPImpl->m_NDims - minc_dimensions - 1]);
 
+    double tstart = 0.0;
     if (!ExposeMetaData<double>(thisDic, "tstart", tstart))
     {
       tstart = 0.0;
@@ -901,6 +892,7 @@ MINCImageIO::WriteImageInformation()
 
     miset_dimension_start(m_MINCPImpl->m_MincApparentDims[m_MINCPImpl->m_NDims - minc_dimensions - 1], tstart);
 
+    double tstep = 1.0;
     if (!ExposeMetaData<double>(thisDic, "tstep", tstep))
     {
       tstep = 1.0;
@@ -1128,12 +1120,11 @@ MINCImageIO::WriteImageInformation()
           if (!positive && dimension_order[i * 2 + 1] != 'V' &&
               dimension_order[i * 2 + 1] != 'v') // Vector dimension is always positive
           {
-            double   _sep;
-            double   _start;
-            misize_t _sz;
-
+            double _sep;
             miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[j], MI_ORDER_FILE, &_sep);
+            double _start;
             miget_dimension_start(m_MINCPImpl->m_MincApparentDims[j], MI_ORDER_FILE, &_start);
+            misize_t _sz;
             miget_dimension_size(m_MINCPImpl->m_MincApparentDims[j], &_sz);
 
             _start = _start + (_sz - 1) * _sep;
@@ -1247,14 +1238,13 @@ MINCImageIO::WriteImageInformation()
 
     const char *         d = strchr(it->first.c_str(), ':');
     MetaDataObjectBase * bs = it->second;
-    const char *         tname = bs->GetMetaDataObjectTypeName();
-
     if (d)
     {
       std::string var(it->first.c_str(), d - it->first.c_str());
       std::string att(d + 1);
 
       // VF:THIS is not good OO style at all :(
+      const char * tname = bs->GetMetaDataObjectTypeName();
       if (!strcmp(tname, typeid(std::string).name()))
       {
         const std::string & tmp = dynamic_cast<MetaDataObject<std::string> *>(bs)->GetMetaDataObjectValue();

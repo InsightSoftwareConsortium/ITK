@@ -182,10 +182,8 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   vnl_matrix<double> inCDBK(NCODEWORDS, NUMBANDS);
   // There are 4 entries to the code book
-  int r;
-  int c;
-  r = 0;
-  c = 0;
+  int r{};
+  int c{};
   inCDBK.put(r, c, 10);
   r = 0;
   c = 1;
@@ -304,10 +302,9 @@ itkKmeansModelEstimatorTest(int, char *[])
   // closest to the fist pixel.
   unsigned int minidx = 0;
   double       mindist = 99999999;
-  double       classdist;
   for (unsigned int idx = 0; idx < membershipFunctions.size(); ++idx)
   {
-    classdist = membershipFunctions[idx]->Evaluate(outIt.Get());
+    double classdist = membershipFunctions[idx]->Evaluate(outIt.Get());
     std::cout << "Distance of first pixel to class " << idx << " is: " << classdist << std::endl;
     if (mindist > classdist)
     {

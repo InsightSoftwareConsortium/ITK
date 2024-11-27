@@ -372,13 +372,12 @@ MersenneTwisterRandomVariateGenerator::reload()
   constexpr auto index = int{ M } - int{ MersenneTwisterRandomVariateGenerator::StateVectorLength };
 
   IntegerType * p = state;
-  int           i;
 
-  for (i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p)
+  for (int i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p)
   {
     *p = twist(p[M], p[0], p[1]);
   }
-  for (i = M; --i; ++p)
+  for (int i = M; --i; ++p)
   {
     *p = twist(p[index], p[0], p[1]);
   }

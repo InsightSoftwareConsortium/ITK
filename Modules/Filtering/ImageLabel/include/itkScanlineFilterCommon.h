@@ -157,17 +157,12 @@ protected:
   {
     m_UnionFind = UnionFindType(numberOfLabels + 1);
 
-    typename LineMapType::iterator MapBegin;
-    typename LineMapType::iterator MapEnd;
-    typename LineMapType::iterator LineIt;
-    MapBegin = m_LineMap.begin();
-    MapEnd = m_LineMap.end();
-    LineIt = MapBegin;
-    InternalLabelType label = 1;
-    for (LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
+    typename LineMapType::iterator MapBegin = m_LineMap.begin();
+    typename LineMapType::iterator MapEnd = m_LineMap.end();
+    InternalLabelType              label = 1;
+    for (typename LineMapType::iterator LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
     {
-      LineEncodingIterator cIt;
-      for (cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt)
+      for (LineEncodingIterator cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt)
       {
         cIt->label = label;
         m_UnionFind[label] = label;
@@ -289,13 +284,9 @@ protected:
       offset = 1;
     }
 
-    LineEncodingConstIterator nIt;
-    LineEncodingConstIterator mIt;
-    LineEncodingConstIterator cIt;
+    LineEncodingConstIterator mIt = Neighbour.begin(); // out marker iterator
 
-    mIt = Neighbour.begin(); // out marker iterator
-
-    for (cIt = current.begin(); cIt != current.end(); ++cIt)
+    for (LineEncodingConstIterator cIt = current.begin(); cIt != current.end(); ++cIt)
     {
       if (!labelCompare || cIt->label != InternalLabelType(background))
       {
@@ -307,7 +298,7 @@ protected:
           mIt = Neighbour.begin();
         }
 
-        for (nIt = mIt; nIt != Neighbour.end(); ++nIt)
+        for (LineEncodingConstIterator nIt = mIt; nIt != Neighbour.end(); ++nIt)
         {
           if (!labelCompare || cIt->label != nIt->label)
           {
@@ -432,12 +423,12 @@ protected:
 
     typename LineNeighborhoodType::IndexListType ActiveIndexes = lnit.GetActiveIndexList();
 
-    typename LineNeighborhoodType::IndexListType::const_iterator LI;
-
     PretendIndexType idx = LineRegion.GetIndex();
     OffsetValueType  offset = fakeImage->ComputeOffset(idx);
 
-    for (LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); ++LI)
+    for (typename LineNeighborhoodType::IndexListType::const_iterator LI = ActiveIndexes.begin();
+         LI != ActiveIndexes.end();
+         ++LI)
     {
       m_LineOffsets.push_back(fakeImage->ComputeOffset(idx + lnit.GetOffset(*LI)) - offset);
     }

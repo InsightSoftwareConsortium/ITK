@@ -38,12 +38,10 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
 
   std::cout << "Output from operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *) const"
             << std::endl;
-  unsigned int x;
-  unsigned int y;
   unsigned int i = 0;
-  for (y = 0; y < p.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < p.GetSize()[1]; ++y)
   {
-    for (x = 0; x < p.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < p.GetSize()[0]; ++x, ++i)
     {
       std::cout << p.GetPixel(i) << ' ';
     }
@@ -54,9 +52,9 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
             << "const NeighborhoodAccessorFunctorType &) const" << std::endl;
 
   i = 0;
-  for (y = 0; y < v.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < v.GetSize()[1]; ++y)
   {
-    for (x = 0; x < v.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < v.GetSize()[0]; ++x, ++i)
     {
       std::cout << v.GetPixel(i)[0] << ' ';
     }
@@ -66,11 +64,11 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
   std::cout << "Output from GetPixel( const IndexType & index, const TImage * image ) const" << std::endl;
 
   i = 0;
-  for (y = 0; y < p.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < p.GetSize()[1]; ++y)
   {
     itk::Index<2> index;
     index[1] = p.GetIndex()[1] - p.GetRadius()[1] + y;
-    for (x = 0; x < p.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < p.GetSize()[0]; ++x, ++i)
     {
       index[0] = p.GetIndex()[0] - p.GetRadius()[0] + x;
 

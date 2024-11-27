@@ -89,10 +89,6 @@ protected:
     if (qe != nullptr)
     {
       OutputQEType * qe_it = qe;
-      OutputQEType * qe_it2;
-
-      OutputPointType q0;
-      OutputPointType q1;
 
       OutputCurvatureType sum_theta = 0.;
       OutputCurvatureType area = 0.;
@@ -100,9 +96,9 @@ protected:
       do
       {
         // cell_id = qe_it->GetLeft();
-        qe_it2 = qe_it->GetOnext();
-        q0 = output->GetPoint(qe_it->GetDestination());
-        q1 = output->GetPoint(qe_it2->GetDestination());
+        OutputQEType *  qe_it2 = qe_it->GetOnext();
+        OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
+        OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
 
         // Compute Angle;
         sum_theta += static_cast<OutputCurvatureType>(TriangleType::ComputeAngle(q0, iP, q1));

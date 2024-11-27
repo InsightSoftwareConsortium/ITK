@@ -419,11 +419,10 @@ PhilipsRECImageIO::GetSliceIndex(IndexValueType index) const
 void
 PhilipsRECImageIO::Read(void * buffer)
 {
-  unsigned int       dim;
   const unsigned int dimensions = this->GetNumberOfDimensions();
   unsigned int       numberOfPixels = 1;
 
-  for (dim = 0; dim < dimensions; ++dim)
+  for (unsigned int dim = 0; dim < dimensions; ++dim)
   {
     numberOfPixels *= this->m_Dimensions[dim];
   }
@@ -739,11 +738,9 @@ PhilipsRECImageIO::ReadImageInformation()
 
   AffineMatrix direction;
   direction.SetIdentity();
-  int rows;
-  int columns;
-  for (rows = 0; rows < 3; ++rows)
+  for (int rows = 0; rows < 3; ++rows)
   {
-    for (columns = 0; columns < 3; ++columns)
+    for (int columns = 0; columns < 3; ++columns)
     {
       direction[columns][rows] = dir[columns][rows];
     }
@@ -823,23 +820,23 @@ PhilipsRECImageIO::ReadImageInformation()
   std::cout << "Final direction cosines after rotation = " << direction << std::endl;
 #endif
 
-  std::vector<double> dirx(numberOfDimensions, 0);
-  std::vector<double> diry(numberOfDimensions, 0);
-  std::vector<double> dirz(numberOfDimensions, 0);
   std::vector<double> dirBlock(numberOfDimensions, 0);
   dirBlock[numberOfDimensions - 1] = 1;
+
+  std::vector<double> dirx(numberOfDimensions, 0);
   dirx[0] = direction[0][0];
   dirx[1] = direction[1][0];
   dirx[2] = direction[2][0];
+  this->SetDirection(0, dirx);
+  std::vector<double> diry(numberOfDimensions, 0);
   diry[0] = direction[0][1];
   diry[1] = direction[1][1];
   diry[2] = direction[2][1];
+  this->SetDirection(1, diry);
+  std::vector<double> dirz(numberOfDimensions, 0);
   dirz[0] = direction[0][2];
   dirz[1] = direction[1][2];
   dirz[2] = direction[2][2];
-
-  this->SetDirection(0, dirx);
-  this->SetDirection(1, diry);
   this->SetDirection(2, dirz);
   if (numberOfDimensions > 3)
   {

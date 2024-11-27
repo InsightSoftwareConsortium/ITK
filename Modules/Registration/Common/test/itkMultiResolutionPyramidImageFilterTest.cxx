@@ -182,10 +182,8 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   }
 
   // set image origin to be center of the image
-  double       transCenter[3];
-  unsigned int j;
-  unsigned int k;
-  for (j = 0; j < 3; ++j)
+  double transCenter[3];
+  for (unsigned int j = 0; j < 3; ++j)
   {
     transCenter[j] = -0.5 * static_cast<double>(size[j]) * spacing[j];
   }
@@ -225,10 +223,10 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // check the schedule
   ScheduleType schedule(numLevels, ImageDimension);
 
-  for (k = 0; k < numLevels; ++k)
+  for (unsigned int k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
       if (schedule[k][j] == 0)
@@ -257,10 +255,10 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // check the schedule;
   schedule = ScheduleType(numLevels, ImageDimension, 0);
-  for (k = 0; k < numLevels; ++k)
+  for (unsigned int k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
       if (schedule[k][j] == 0)
@@ -281,7 +279,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // test start factors
   const unsigned int * ss = pyramid->GetStartingShrinkFactors();
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (ss[j] != factors[j])
     {
@@ -361,29 +359,32 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
       }
       // break;
     }
-    for (j = 0; j < ImageDimension; ++j)
     {
-      if (itk::Math::NotAlmostEquals(outputSpacing[j], inputSpacing[j] * static_cast<double>(schedule[testLevel][j])))
+      unsigned int j = 0;
+      for (; j < ImageDimension; ++j)
       {
-        break;
+        if (itk::Math::NotAlmostEquals(outputSpacing[j], inputSpacing[j] * static_cast<double>(schedule[testLevel][j])))
+        {
+          break;
+        }
+        unsigned int sz = inputSize[j] / schedule[testLevel][j];
+        if (sz == 0)
+        {
+          sz = 1;
+        }
+        if (outputSize[j] != sz)
+        {
+          break;
+        }
       }
-      unsigned int sz = inputSize[j] / schedule[testLevel][j];
-      if (sz == 0)
-      {
-        sz = 1;
-      }
-      if (outputSize[j] != sz)
-      {
-        break;
-      }
-    }
 
-    if (j != ImageDimension)
-    {
-      std::cout << "Output meta information incorrect." << std::endl;
-      pyramid->GetInput()->Print(std::cout);
-      pyramid->GetOutput(testLevel)->Print(std::cout);
-      return EXIT_FAILURE;
+      if (j != ImageDimension)
+      {
+        std::cout << "Output meta information incorrect." << std::endl;
+        pyramid->GetInput()->Print(std::cout);
+        pyramid->GetOutput(testLevel)->Print(std::cout);
+        return EXIT_FAILURE;
+      }
     }
   }
 

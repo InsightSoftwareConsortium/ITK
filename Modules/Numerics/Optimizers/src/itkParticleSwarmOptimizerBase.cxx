@@ -152,10 +152,9 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Maximal number of iterations: " << this->m_MaximalNumberOfIterations << '\n';
   os << indent << "Number of generations with minimal improvement: ";
   os << this->m_NumberOfGenerationsWithMinimalImprovement << '\n';
-  ParameterBoundsType::const_iterator it;
   ParameterBoundsType::const_iterator end = this->m_ParameterBounds.end();
   os << indent << "Parameter bounds: [";
-  for (it = this->m_ParameterBounds.begin(); it != end; ++it)
+  for (ParameterBoundsType::const_iterator it = this->m_ParameterBounds.begin(); it != end; ++it)
   {
     os << " [" << it->first << ", " << it->second << ']';
   }
@@ -180,10 +179,9 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
 void
 ParticleSwarmOptimizerBase::PrintSwarm(std::ostream & os, Indent indent) const
 {
-  std::vector<ParticleData>::const_iterator it;
   std::vector<ParticleData>::const_iterator end = this->m_Particles.end();
   os << indent << "[\n";
-  for (it = this->m_Particles.begin(); it != end; ++it)
+  for (std::vector<ParticleData>::const_iterator it = this->m_Particles.begin(); it != end; ++it)
   {
     const ParticleData & p = *it;
     os << indent;
@@ -344,9 +342,8 @@ ParticleSwarmOptimizerBase::ValidateSettings()
     {
       itkExceptionMacro("cost function and particle data dimensions mismatch");
     }
-    std::vector<ParticleData>::iterator it;
     std::vector<ParticleData>::iterator end = this->m_Particles.end();
-    for (it = this->m_Particles.begin(); it != end; ++it)
+    for (std::vector<ParticleData>::iterator it = this->m_Particles.begin(); it != end; ++it)
     {
       ParticleData & p = (*it);
       for (unsigned int i = 0; i < n; ++i)

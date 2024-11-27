@@ -29,36 +29,11 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
 {
   // copied from the line iterator
   /** Variables that drive the Bresenham-Algorithm */
-  // The dimension with the largest difference between start and end
-  unsigned int m_MainDirection;
-
-  // Accumulated error for the other dimensions
-  IndexType m_AccumulateError;
-
-  // Increment for the error for each step. Two times the difference between
-  // start and end
-  IndexType m_IncrementError;
-
-  // If enough is accumulated for a dimension, the index has to be
-  // incremented. Will be the number of pixels in the line
-  IndexType m_MaximalError;
-
-  // Direction of increment. -1 or 1
-  IndexType m_OverflowIncrement;
-
-  // After an overflow, the accumulated error is reduced again. Will be
-  // two times the number of pixels in the line
-  IndexType m_ReduceErrorAfterIncrement;
-
-  OffsetArray result(length);
-
-  IndexType m_CurrentImageIndex;
-  IndexType LastIndex;
 
   Direction.Normalize();
   // we are going to start at 0
-  m_CurrentImageIndex.Fill(0);
   constexpr IndexType StartIndex = { { 0 } };
+  IndexType           LastIndex;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     LastIndex[i] = (IndexValueType)(length * Direction[i]);
@@ -66,6 +41,12 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   // Find the dominant direction
   IndexValueType maxDistance = 0;
   unsigned int   maxDistanceDimension = 0;
+  // Increment for the error for each step. Two times the difference between
+  // start and end
+  IndexType m_IncrementError;
+
+  // Direction of increment. -1 or 1
+  IndexType m_OverflowIncrement;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     auto distance = static_cast<long>(itk::Math::abs(LastIndex[i]));
@@ -77,12 +58,22 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
     m_IncrementError[i] = 2 * distance;
     m_OverflowIncrement[i] = (LastIndex[i] < 0 ? -1 : 1);
   }
-  m_MainDirection = maxDistanceDimension;
-  m_MaximalError.Fill(maxDistance);
-  m_ReduceErrorAfterIncrement.Fill(2 * maxDistance);
-  m_AccumulateError.Fill(0);
-  unsigned int steps = 1;
+
+  // The dimension with the largest difference between start and end
+  unsigned int m_MainDirection = maxDistanceDimension;
+  // If enough is accumulated for a dimension, the index has to be
+  // incremented. Will be the number of pixels in the line
+  auto m_MaximalError = MakeFilled<IndexType>(maxDistance);
+  // After an overflow, the accumulated error is reduced again. Will be
+  // two times the number of pixels in the line
+  auto m_ReduceErrorAfterIncrement = MakeFilled<IndexType>(2 * maxDistance);
+  // Accumulated error for the other dimensions
+  auto m_AccumulateError = MakeFilled<IndexType>(0);
+
+  OffsetArray result(length);
+  auto        m_CurrentImageIndex = MakeFilled<IndexType>(0);
   result[0] = m_CurrentImageIndex - StartIndex;
+  unsigned int steps = 1;
   while (steps < length)
   {
     // This part is from ++ in LineConstIterator

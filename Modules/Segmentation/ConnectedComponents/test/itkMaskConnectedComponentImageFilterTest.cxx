@@ -68,10 +68,8 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
 
   reader->SetFileName(argv[1]);
 
-  InternalPixelType threshold_low;
-  InternalPixelType threshold_hi;
-  threshold_low = std::stoi(argv[3]);
-  threshold_hi = std::stoi(argv[4]);
+  InternalPixelType threshold_low = std::stoi(argv[3]);
+  InternalPixelType threshold_hi = std::stoi(argv[4]);
 
   threshold->SetInput(reader->GetOutput());
   threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());
@@ -91,16 +89,16 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
   MaskImageType::SizeType   maskSize = maskRegion.GetSize();
 
-  MaskImageType::RegionType region;
-  MaskImageType::SizeType   size;
-  MaskImageType::IndexType  index;
-
   // use upper left corner
-  index.Fill(0);
+  MaskImageType::SizeType size;
   for (unsigned int i = 0; i < MaskImageType::ImageDimension; ++i)
   {
     size[i] = static_cast<unsigned long>(0.375 * maskSize[i]);
   }
+
+  MaskImageType::IndexType index;
+  index.Fill(0);
+  MaskImageType::RegionType region;
   region.SetIndex(index);
   region.SetSize(size);
 
@@ -161,11 +159,11 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   unsigned short numObjects = relabel->GetNumberOfObjects();
 
   std::vector<RGBPixelType> colormap;
-  RGBPixelType              px;
   colormap.resize(numObjects + 1);
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
     itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
   rvgen->SetSeed(1031571);
+  RGBPixelType px;
   for (auto & i : colormap)
   {
     px.SetRed(static_cast<unsigned char>(255 * rvgen->GetUniformVariate(0.3333, 1.0)));

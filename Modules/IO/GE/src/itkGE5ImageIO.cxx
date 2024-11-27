@@ -69,11 +69,7 @@ GE5ImageIO::CheckGE5xImages(const char * const imageFileTemplate, std::string & 
     return -1;
   }
 
-  Ge5xPixelHeader imageHdr;     /* Header Structure for GE 5x images
-                                 */
-  char hdr[GENESIS_SU_HDR_LEN]; /* Header to hold GE Suite header */
-  char prod[16];                /* Product name from Suite Header */
-
+  Ge5xPixelHeader imageHdr; /* Header Structure for GE 5x images */
   // First pass see if image is a raw MR extracted via ximg
   if (!this->ReadBufferAsBinary(f, (void *)&imageHdr, sizeof(imageHdr)))
   {
@@ -92,12 +88,14 @@ GE5ImageIO::CheckGE5xImages(const char * const imageFileTemplate, std::string & 
   // Second pass see if image was extracted via tape by Gene's tape
   // reading software.
   //
+  char hdr[GENESIS_SU_HDR_LEN]; /* Header to hold GE Suite header */
   if (!this->ReadBufferAsBinary(f, (void *)hdr, GENESIS_SU_HDR_LEN))
   {
     reason = "Failed to read study header";
     f.close();
     return -1;
   }
+  char prod[16]; /* Product name from Suite Header */
   strncpy(prod, hdr + GENESIS_SU_PRODID, 13);
   prod[13] = '\0';
   if (strcmp(prod, GE_PROD_STR) == 0)
@@ -170,21 +168,19 @@ SwapPixHdr(Ge5xPixelHeader * hdr)
 GEImageHeader *
 GE5ImageIO::ReadHeader(const char * FileNameToRead)
 {
-  Ge5xPixelHeader imageHdr; // GE 5x Header
-  GEImageHeader * curImage;
-  bool            pixelHdrFlag;
-  std::string     reason;
+  std::string reason;
   if (this->CheckGE5xImages(FileNameToRead, reason) != 0)
   {
     itkExceptionMacro("GE5ImageIO could not open file " << FileNameToRead << " for reading." << std::endl
                                                         << "Reason: " << reason);
   }
 
-  curImage = new GEImageHeader();
+  GEImageHeader * curImage = new GEImageHeader();
 
   std::ifstream f;
   this->OpenFileForReading(f, FileNameToRead);
 
+  Ge5xPixelHeader imageHdr; // GE 5x Header
   f.read((char *)&imageHdr, sizeof(imageHdr));
   if (f.fail())
   {
@@ -204,6 +200,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   // if they don't have a header, we have to make assumptions
   // about where they start and hope we're right; below, the offset
   // is computed once the X & Y dims are known
+  bool pixelHdrFlag;
   if (imageHdr.GENESIS_IH_img_magic == GE_5X_MAGIC_NUMBER)
   {
     pixelHdrFlag = true;
@@ -452,24 +449,21 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
 void
 GE5ImageIO::ModifyImageInformation()
 {
-  vnl_vector<double> dirx(3);
-  vnl_vector<double> diry(3);
-  vnl_vector<double> dirz(3);
-
   // NOTE: itk use LPS coordinates while the GE system uses RAS
   // coordinates. Consequently, the R and A coordinates must be negated
   // to convert them to L and P.
-
+  vnl_vector<double> dirx(3);
   dirx[0] = -(m_ImageHeader->trhcR - m_ImageHeader->tlhcR);
   dirx[1] = -(m_ImageHeader->trhcA - m_ImageHeader->tlhcA);
   dirx[2] = (m_ImageHeader->trhcS - m_ImageHeader->tlhcS);
   dirx.normalize();
-
+  vnl_vector<double> diry(3);
   diry[0] = -(m_ImageHeader->brhcR - m_ImageHeader->trhcR);
   diry[1] = -(m_ImageHeader->brhcA - m_ImageHeader->trhcA);
   diry[2] = (m_ImageHeader->brhcS - m_ImageHeader->trhcS);
   diry.normalize();
 
+  vnl_vector<double> dirz(3);
   dirz[0] = -m_ImageHeader->normR;
   dirz[1] = -m_ImageHeader->normA;
   dirz[2] = m_ImageHeader->normS;
@@ -511,20 +505,13 @@ GE5ImageIO::ModifyImageInformation()
     const std::unique_ptr<const GEImageHeader> hdr1{ this->ReadHeader(file1.c_str()) };
     const std::unique_ptr<const GEImageHeader> hdr2{ this->ReadHeader(file2.c_str()) };
 
-    float origin1[3];
-    float origin2[3];
-    origin1[0] = hdr1->tlhcR;
-    origin1[1] = hdr1->tlhcA;
-    origin1[2] = hdr1->tlhcS;
+    float origin1[3] = { hdr1->tlhcR, hdr1->tlhcA, hdr1->tlhcS };
 
     // Origin shopuld always come from the first slice
     this->SetOrigin(0, -hdr1->tlhcR);
     this->SetOrigin(1, -hdr1->tlhcA);
     this->SetOrigin(2, hdr1->tlhcS);
-
-    origin2[0] = hdr2->tlhcR;
-    origin2[1] = hdr2->tlhcA;
-    origin2[2] = hdr2->tlhcS;
+    float origin2[3] = { hdr2->tlhcR, hdr2->tlhcA, hdr2->tlhcS };
 
     float distanceBetweenTwoSlices = std::sqrt((origin1[0] - origin2[0]) * (origin1[0] - origin2[0]) +
                                                (origin1[1] - origin2[1]) * (origin1[1] - origin2[1]) +

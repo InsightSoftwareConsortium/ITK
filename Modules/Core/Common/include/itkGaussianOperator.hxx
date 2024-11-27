@@ -25,24 +25,18 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 auto
 GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
-  CoefficientVector coeff;
-  double            sum;
-  int               i;
-  int               j;
-
-  typename CoefficientVector::iterator it;
-
   const double et = std::exp(-m_Variance);
-  const double cap = 1.0 - m_MaximumError;
 
   // Create the kernel coefficients as a std::vector
-  sum = 0.0;
+  double            sum = 0.0;
+  CoefficientVector coeff;
   coeff.push_back(et * ModifiedBesselI0(m_Variance));
   sum += coeff[0];
   coeff.push_back(et * ModifiedBesselI1(m_Variance));
   sum += coeff[1] * 2.0;
 
-  for (i = 2; sum < cap; ++i)
+  const double cap = 1.0 - m_MaximumError;
+  for (int i = 2; sum < cap; ++i)
   {
     coeff.push_back(et * ModifiedBesselI(i, m_Variance));
     sum += coeff[i] * 2.0;
@@ -59,19 +53,21 @@ GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coef
     }
   }
   // Normalize the coefficients so that their sum is one.
-  for (it = coeff.begin(); it < coeff.end(); ++it)
+  for (typename CoefficientVector::iterator it = coeff.begin(); it < coeff.end(); ++it)
   {
     *it /= sum;
   }
 
   // Make symmetric
-  j = static_cast<int>(coeff.size()) - 1;
+  int j = static_cast<int>(coeff.size()) - 1;
   coeff.insert(coeff.begin(), j, 0);
-  for (i = 0, it = coeff.end() - 1; i < j; --it, ++i)
   {
-    coeff[i] = *it;
+    int i = 0;
+    for (typename CoefficientVector::iterator it = coeff.end() - 1; i < j; --it, ++i)
+    {
+      coeff[i] = *it;
+    }
   }
-
   return coeff;
 }
 
@@ -144,12 +140,6 @@ double
 GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double y)
 {
   constexpr double ACCURACY = 40.0;
-  int              j;
-  double           qim;
-  double           qi;
-  double           qip;
-  double           toy;
-  double           accumulator;
 
   if (n < 2)
   {
@@ -164,13 +154,14 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double 
   }
   else
   {
-    toy = 2.0 / itk::Math::abs(y);
-    qip = accumulator = 0.0;
-    qi = 1.0;
+    double toy = 2.0 / itk::Math::abs(y);
+    double qip = 0.0;
+    double accumulator = 0.0;
+    double qi = 1.0;
 
-    for (j = 2 * (n + static_cast<int>(std::sqrt(ACCURACY * n))); j > 0; j--)
+    for (int j = 2 * (n + static_cast<int>(std::sqrt(ACCURACY * n))); j > 0; j--)
     {
-      qim = qip + j * toy * qi;
+      double qim = qip + j * toy * qi;
       qip = qi;
       qi = qim;
       if (itk::Math::abs(qi) > 1.0e10)

@@ -86,12 +86,10 @@ test(int testIdx)
   else
   {
     std::cout << "Compute with a 9x9 image, with a 5x5 square at the center set to ON." << std::endl << std::endl;
-    // Test the signed Danielsson Output for the a 5x5 square in a 9x9 image
-    int i;
-    int j;
-    for (i = 2; i <= 6; ++i)
+    // Test the signed Danielsson Output for the a 5x5 square in a 9x9 images
+    for (int i = 2; i <= 6; ++i)
     {
-      for (j = 2; j <= 6; ++j)
+      for (int j = 2; j <= 6; ++j)
       {
         index2D[0] = i;
         index2D[1] = j;

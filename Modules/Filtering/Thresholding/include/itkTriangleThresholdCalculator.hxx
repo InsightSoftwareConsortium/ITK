@@ -69,13 +69,12 @@ TriangleThresholdCalculator<THistogram, TOutput>::GenerateData()
   {
     cumSum[j] = histogram->GetFrequency(j, 0) + cumSum[j - 1];
   }
-
   typename HistogramType::MeasurementVectorType onePC(1);
-  typename HistogramType::MeasurementVectorType nnPC(1);
   onePC.Fill(histogram->Quantile(0, 0.01));
   typename HistogramType::IndexType localIndex;
   histogram->GetIndex(onePC, localIndex);
-  const IndexValueType onePCIdx = localIndex[0];
+  const IndexValueType                          onePCIdx = localIndex[0];
+  typename HistogramType::MeasurementVectorType nnPC(1);
   nnPC.Fill(histogram->Quantile(0, 0.99));
   histogram->GetIndex(nnPC, localIndex);
   const IndexValueType nnPCIdx = localIndex[0];

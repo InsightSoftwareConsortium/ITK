@@ -61,7 +61,6 @@ itkTransformCloneTest(int, char *[])
   using Transform3DType = itk::Transform<double, 3, 3>;
   auto                                  affineXfrm = AffineTransformType::New();
   AffineTransformType::OutputVectorType axis;
-  AffineTransformType::OutputVectorType offset;
   axis[0] = -1.0;
   axis[1] = 1.0;
   axis[2] = 0.0;
@@ -70,6 +69,7 @@ itkTransformCloneTest(int, char *[])
   axis[1] = 0.0;
   axis[2] = -1.0;
   affineXfrm->Rotate3D(axis, 0.5);
+  AffineTransformType::OutputVectorType offset;
   offset[0] = 999.0;
   offset[1] = -31415926.0;
   offset[2] = 32.768;

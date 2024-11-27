@@ -597,22 +597,18 @@ template <typename TMeasurement, typename TFrequencyContainer>
 double
 Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, double p) const
 {
-  InstanceIdentifier n;
   const unsigned int size = this->GetSize(dimension);
-  double             p_n_prev;
-  double             p_n;
-  double             f_n;
-  double             cumulated = 0;
-  auto               totalFrequency = static_cast<double>(this->GetTotalFrequency());
-  double             binProportion;
-  double             min;
-  double             max;
-  double             interval;
 
+  double cumulated = 0;
+  auto   totalFrequency = static_cast<double>(this->GetTotalFrequency());
+
+
+  double f_n;
+  double p_n_prev;
   if (p < 0.5)
   {
-    n = 0;
-    p_n = 0.0;
+    InstanceIdentifier n = 0;
+    double             p_n = 0.0;
     do
     {
       f_n = this->GetFrequency(n, dimension);
@@ -622,18 +618,18 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
       ++n;
     } while (n < size && p_n < p);
 
-    binProportion = f_n / totalFrequency;
+    double binProportion = f_n / totalFrequency;
 
-    min = static_cast<double>(this->GetBinMin(dimension, n - 1));
-    max = static_cast<double>(this->GetBinMax(dimension, n - 1));
-    interval = max - min;
+    double min = static_cast<double>(this->GetBinMin(dimension, n - 1));
+    double max = static_cast<double>(this->GetBinMax(dimension, n - 1));
+    double interval = max - min;
     return min + ((p - p_n_prev) / binProportion) * interval;
   }
   else
   {
-    n = size - 1;
+    InstanceIdentifier n = size - 1;
     InstanceIdentifier m{};
-    p_n = 1.0;
+    double             p_n = 1.0;
     do
     {
       f_n = this->GetFrequency(n, dimension);
@@ -644,10 +640,10 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
       ++m;
     } while (m < size && p_n > p);
 
-    binProportion = f_n / totalFrequency;
-    min = static_cast<double>(this->GetBinMin(dimension, n + 1));
-    max = static_cast<double>(this->GetBinMax(dimension, n + 1));
-    interval = max - min;
+    double binProportion = f_n / totalFrequency;
+    double min = static_cast<double>(this->GetBinMin(dimension, n + 1));
+    double max = static_cast<double>(this->GetBinMax(dimension, n + 1));
+    double interval = max - min;
     return max - ((p_n_prev - p) / binProportion) * interval;
   }
 }

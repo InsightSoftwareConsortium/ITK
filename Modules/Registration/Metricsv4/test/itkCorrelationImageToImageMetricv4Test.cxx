@@ -67,9 +67,7 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
 
   // Evaluate with GetValueAndDerivative
   typename MetricType::MeasureType    valueReturn1;
-  typename MetricType::MeasureType    valueReturn2;
   typename MetricType::DerivativeType derivativeReturn;
-
   try
   {
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
@@ -97,6 +95,7 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
     return EXIT_FAILURE;
   }
 
+  typename MetricType::MeasureType valueReturn2;
   try
   {
     std::cout << "Calling GetValue..." << std::endl;
@@ -214,21 +213,20 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   metric->SetFixedTransform(fixedTransform);
   metric->SetMovingTransform(movingTransform);
 
-  MetricType::MeasureType    value1;
-  MetricType::MeasureType    value2;
-  MetricType::DerivativeType derivative1;
-  MetricType::DerivativeType derivative2;
-  int                        ret;
-  int                        result = EXIT_SUCCESS;
+  int result = EXIT_SUCCESS;
 
   metric->SetMaximumNumberOfWorkUnits(1);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
-  ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
+  MetricType::MeasureType    value1;
+  MetricType::DerivativeType derivative1;
+
+  int ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
   if (ret == EXIT_FAILURE)
   {
     result = EXIT_FAILURE;
   }
-
+  MetricType::MeasureType    value2;
+  MetricType::DerivativeType derivative2;
   metric->SetMaximumNumberOfWorkUnits(8);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
   ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value2, derivative2);
@@ -260,11 +258,10 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   MovingTransformType::ParametersType parameters(imageDimensionality);
   parameters.Fill(static_cast<MovingTransformType::ParametersValueType>(1000));
   movingTransform->SetParameters(parameters);
-  MetricType::MeasureType    expectedMetricMax;
+  MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
+  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   MetricType::MeasureType    valueReturn;
   MetricType::DerivativeType derivativeReturn;
-  expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
-  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax))
   {

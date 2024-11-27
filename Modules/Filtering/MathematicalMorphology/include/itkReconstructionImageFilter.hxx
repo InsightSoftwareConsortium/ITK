@@ -231,13 +231,8 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
   setConnectivityLater(&mskNIt, m_FullyConnected);
   mskNIt.OverrideBoundaryCondition(&iBC);
 
-  typename NOutputIterator::IndexListType                 oIndexList;
-  typename NOutputIterator::IndexListType                 mIndexList;
-  typename NOutputIterator::IndexListType::const_iterator oLIt;
-  typename NOutputIterator::IndexListType::const_iterator mLIt;
-
-  oIndexList = outNIt.GetActiveIndexList();
-  mIndexList = mskNIt.GetActiveIndexList();
+  typename NOutputIterator::IndexListType oIndexList = outNIt.GetActiveIndexList();
+  typename NOutputIterator::IndexListType mIndexList = mskNIt.GetActiveIndexList();
 
   mskNIt.GoToEnd();
   while (!outNIt.IsAtBegin())
@@ -264,7 +259,9 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
 
     // now put indexes in the fifo
     // typename CNInputIterator::ConstIterator mIt;
-    for (oLIt = oIndexList.begin(), mLIt = mIndexList.begin(); oLIt != oIndexList.end(); ++oLIt, ++mLIt)
+    typename NOutputIterator::IndexListType::const_iterator mLIt = mIndexList.begin();
+    for (typename NOutputIterator::IndexListType::const_iterator oLIt = oIndexList.begin(); oLIt != oIndexList.end();
+         ++oLIt, ++mLIt)
     {
       InputImagePixelType VN = outNIt.GetPixel(*oLIt);
       InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
@@ -296,8 +293,10 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     // reposition the iterators
     outNIt += I - outNIt.GetIndex();
     mskNIt += I - mskNIt.GetIndex();
-    InputImagePixelType V = outNIt.GetCenterPixel();
-    for (oLIt = oIndexList.begin(), mLIt = mIndexList.begin(); oLIt != oIndexList.end(); ++oLIt, ++mLIt)
+    InputImagePixelType                                     V = outNIt.GetCenterPixel();
+    typename NOutputIterator::IndexListType::const_iterator mLIt = mIndexList.begin();
+    for (typename NOutputIterator::IndexListType::const_iterator oLIt = oIndexList.begin(); oLIt != oIndexList.end();
+         ++oLIt, ++mLIt)
     {
       InputImagePixelType VN = outNIt.GetPixel(*oLIt);
       InputImagePixelType iN = mskNIt.GetPixel(*mLIt);

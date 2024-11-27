@@ -133,11 +133,11 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   if (this->m_CorrelationAssociate->GetComputeDerivative())
   {
     DerivativeType fdm;
-    DerivativeType mdm;
     fdm.SetSize(globalDerivativeSize);
-    mdm.SetSize(globalDerivativeSize);
-
     fdm.Fill(DerivativeValueType{});
+
+    DerivativeType mdm;
+    mdm.SetSize(globalDerivativeSize);
     mdm.Fill(DerivativeValueType{});
 
     const auto fc = static_cast<InternalComputationValueType>(2.0);
@@ -169,15 +169,10 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
                                            const VirtualPointType & virtualPoint,
                                            const ThreadIdType       threadId)
 {
-  FixedImagePointType     mappedFixedPoint;
-  FixedImagePixelType     mappedFixedPixelValue;
-  FixedImageGradientType  mappedFixedImageGradient;
-  MovingImagePointType    mappedMovingPoint;
-  MovingImagePixelType    mappedMovingPixelValue;
-  MovingImageGradientType mappedMovingImageGradient;
-  bool                    pointIsValid = false;
-  MeasureType             metricValueResult;
-
+  FixedImagePointType    mappedFixedPoint;
+  FixedImagePixelType    mappedFixedPixelValue;
+  FixedImageGradientType mappedFixedImageGradient;
+  bool                   pointIsValid = false;
   /* Transform the point into fixed and moving spaces, and evaluate.
    * Different behavior with pre-warping enabled is handled transparently.
    * Do this in a try block to catch exceptions and print more useful info
@@ -205,6 +200,9 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     return pointIsValid;
   }
 
+  MovingImagePointType    mappedMovingPoint;
+  MovingImagePixelType    mappedMovingPixelValue;
+  MovingImageGradientType mappedMovingImageGradient;
   try
   {
     pointIsValid = this->m_CorrelationAssociate->TransformAndEvaluateMovingPoint(
@@ -229,6 +227,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
   /* Call the user method in derived classes to do the specific
    * calculations for value and derivative. */
+  MeasureType metricValueResult;
   try
   {
     pointIsValid = this->ProcessPoint(virtualIndex,

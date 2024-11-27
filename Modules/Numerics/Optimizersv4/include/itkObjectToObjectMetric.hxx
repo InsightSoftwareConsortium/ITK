@@ -512,12 +512,13 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
       !this->GetVirtualDirection().GetVnlMatrix().is_equal(field->GetDirection().GetVnlMatrix(), directionTol))
   {
     std::ostringstream originString;
-    std::ostringstream spacingString;
-    std::ostringstream directionString;
+
     originString << "Virtual Origin: " << this->GetVirtualOrigin()
                  << ", DisplacementField Origin: " << field->GetOrigin() << std::endl;
+    std::ostringstream spacingString;
     spacingString << "Virtual Spacing: " << this->GetVirtualSpacing()
                   << ", DisplacementField Spacing: " << field->GetSpacing() << std::endl;
+    std::ostringstream directionString;
     directionString << "Virtual Direction: " << this->GetVirtualDirection()
                     << ", DisplacementField Direction: " << field->GetDirection() << std::endl;
     itkExceptionMacro("Virtual Domain and DisplacementField do not "

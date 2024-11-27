@@ -44,17 +44,6 @@ MomentsThresholdCalculator<THistogram, TOutput>::GenerateData()
   unsigned int size = histogram->GetSize(0);
 
   double                                     total = histogram->GetTotalFrequency();
-  double                                     m0 = 1.0;
-  double                                     m1 = 0.0;
-  double                                     m2 = 0.0;
-  double                                     m3 = 0.0;
-  double                                     sum = 0.0;
-  double                                     p0 = 0.0;
-  double                                     cd;
-  double                                     c0;
-  double                                     c1;
-  double                                     z0;
-  double                                     z1; // auxiliary variables
   typename HistogramType::InstanceIdentifier threshold = 0;
 
   std::vector<double> histo(size);
@@ -64,6 +53,10 @@ MomentsThresholdCalculator<THistogram, TOutput>::GenerateData()
   }
 
   // Calculate the first, second, and third order moments
+  double m0 = 1.0;
+  double m1 = 0.0;
+  double m2 = 0.0;
+  double m3 = 0.0;
   for (unsigned int i = 0; i < size; ++i)
   {
     double m = histogram->GetMeasurement(i, 0);
@@ -77,16 +70,16 @@ MomentsThresholdCalculator<THistogram, TOutput>::GenerateData()
   // of the target binary image. This leads to 4 equalities whose solutions
   // are given in the Appendix of Ref. 1
   //
-  cd = m0 * m2 - m1 * m1;
-  c0 = (-m2 * m2 + m1 * m3) / cd;
-  c1 = (m0 * -m3 + m2 * m1) / cd;
-  z0 = 0.5 * (-c1 - std::sqrt(c1 * c1 - 4.0 * c0));
-  z1 = 0.5 * (-c1 + std::sqrt(c1 * c1 - 4.0 * c0));
-  p0 = (z1 - m1) / (z1 - z0); // Fraction of the object pixels in the target binary image
+  double cd = m0 * m2 - m1 * m1;
+  double c0 = (-m2 * m2 + m1 * m3) / cd;
+  double c1 = (m0 * -m3 + m2 * m1) / cd;
+  double z0 = 0.5 * (-c1 - std::sqrt(c1 * c1 - 4.0 * c0));
+  double z1 = 0.5 * (-c1 + std::sqrt(c1 * c1 - 4.0 * c0));
+  double p0 = (z1 - m1) / (z1 - z0); // Fraction of the object pixels in the target binary image
 
   // The threshold is the gray-level closest to the p0-tile of the normalized
   // histogram
-  sum = 0;
+  double sum = 0;
   for (unsigned int i = 0; i < size; ++i)
   {
     sum += histo[i];

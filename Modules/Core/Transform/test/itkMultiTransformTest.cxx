@@ -151,11 +151,11 @@ itkMultiTransformTest(int, char *[])
   using AffineType = itk::AffineTransform<ScalarType, VDimension>;
   auto        affine = AffineType::New();
   Matrix2Type matrix2;
-  Vector2Type vector2;
   matrix2[0][0] = 0;
   matrix2[0][1] = -1;
   matrix2[1][0] = 1;
   matrix2[1][1] = 0;
+  Vector2Type vector2;
   vector2[0] = 10;
   vector2[1] = 100;
   affine->SetMatrix(matrix2);
@@ -196,10 +196,8 @@ itkMultiTransformTest(int, char *[])
   /* Get parameters with single transform.
    * Should be same as GetParameters from affine transform. */
   std::cout << "Get Parameters: " << std::endl;
-  Superclass::ParametersType parametersTest;
-  Superclass::ParametersType parametersTruth;
-  parametersTest = multiTransform->GetParameters();
-  parametersTruth = affine->GetParameters();
+  Superclass::ParametersType parametersTest = multiTransform->GetParameters();
+  Superclass::ParametersType parametersTruth = affine->GetParameters();
   std::cout << "affine parametersTruth: " << std::endl
             << parametersTruth << std::endl
             << "parametersTest from Multi: " << std::endl
@@ -213,7 +211,6 @@ itkMultiTransformTest(int, char *[])
 
   /* Set parameters with single transform. */
   Superclass::ParametersType parametersNew(6);
-  Superclass::ParametersType parametersReturned;
   parametersNew[0] = 0;
   parametersNew[1] = 10;
   parametersNew[2] = 20;
@@ -223,7 +220,7 @@ itkMultiTransformTest(int, char *[])
   std::cout << "Set Parameters: " << std::endl;
   multiTransform->SetParameters(parametersNew);
   std::cout << "retrieving... " << std::endl;
-  parametersReturned = multiTransform->GetParameters();
+  Superclass::ParametersType parametersReturned = multiTransform->GetParameters();
   std::cout << "parametersNew: " << std::endl
             << parametersNew << std::endl
             << "parametersReturned: " << std::endl
@@ -326,12 +323,13 @@ itkMultiTransformTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  FieldType::SizeType   size;
-  FieldType::IndexType  start;
-  FieldType::RegionType region;
-  int                   dimLength = 4;
+
+  int                 dimLength = 4;
+  FieldType::SizeType size;
   size.Fill(dimLength);
+  FieldType::IndexType start;
   start.Fill(0);
+  FieldType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);
   field->SetRegions(region);

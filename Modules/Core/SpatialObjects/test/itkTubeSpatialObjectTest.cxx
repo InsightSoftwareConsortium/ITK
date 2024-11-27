@@ -41,12 +41,7 @@ itkTubeSpatialObjectTest(int, char *[])
   using ChildrenListType = std::list<itk::SpatialObject<3>::Pointer>;
   using ChildrenListPointer = ChildrenListType *;
 
-  Vector axis;
-  Vector translation;
-  Point  in;
-  Point  out;
-  double angle;
-  bool   passed = true;
+  bool passed = true;
 
   //======================================
   // testing of a single SpatialObject...
@@ -95,8 +90,9 @@ itkTubeSpatialObjectTest(int, char *[])
 
   tube1->SetPoints(list);
   tube1->Update();
-
+  Point in;
   in.Fill(15);
+  Point out;
   out.Fill(5);
 
   std::cout << "IsInside()...";
@@ -311,14 +307,15 @@ itkTubeSpatialObjectTest(int, char *[])
   {
     std::cout << "[PASSED]" << std::endl;
   }
-
+  Vector translation;
   translation.Fill(10);
   tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation, false);
   tubeNet1->Update();
 
+  Vector axis;
   axis.Fill(0);
   axis[1] = 1;
-  angle = itk::Math::pi_over_2;
+  double angle = itk::Math::pi_over_2;
   tube2->GetModifiableObjectToParentTransform()->Rotate3D(axis, angle);
   tube2->Update();
 
@@ -330,9 +327,9 @@ itkTubeSpatialObjectTest(int, char *[])
   out.Fill(15);
 
   Point p1;
-  Point p2;
   p1.Fill(15);
   p1[2] = 5;
+  Point p2;
   p2.Fill(15);
   p2[0] = 5;
 
@@ -378,10 +375,8 @@ itkTubeSpatialObjectTest(int, char *[])
   TubePointer  tube = TubeType::New();
   GroupPointer net = GroupType::New();
 
-  unsigned int tubeCount;
-  unsigned int netCount;
-  tubeCount = tube->GetReferenceCount();
-  netCount = net->GetReferenceCount();
+  unsigned int tubeCount = tube->GetReferenceCount();
+  unsigned int netCount = net->GetReferenceCount();
 
   std::cout << "References test...";
   if (tubeCount != 1)

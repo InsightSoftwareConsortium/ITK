@@ -45,19 +45,16 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // Perform the remaining calculations; use dynamic programming
 
   // current swath column (all previous columns have been fully processed)
-  unsigned int x;
   // current first row and last row of the swath.
-  unsigned int F;
-  unsigned int L;
   // index used to access the processed swath image; filled in with x, F, & L
-  IndexType index;
 
   // CalcFirstStep (x=0)
   // Enter the initial merit values
+  IndexType index;
   index[0] = 0;
-  for (F = 0; F < m_SwathSize[1]; ++F)
+  for (unsigned int F = 0; F < m_SwathSize[1]; ++F)
   {
-    for (L = 0; L < m_SwathSize[1]; ++L)
+    for (unsigned int L = 0; L < m_SwathSize[1]; ++L)
     {
       if (F == L)
       {
@@ -75,9 +72,9 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // end of double for-loop covering F & L
 
   // PrepForRemainingSteps
-  for (F = 0; F < m_SwathSize[1]; ++F)
+  for (unsigned int F = 0; F < m_SwathSize[1]; ++F)
   {
-    for (L = 0; L < m_SwathSize[1]; ++L)
+    for (unsigned int L = 0; L < m_SwathSize[1]; ++L)
     {
       // find merit for x=1
       if (itk::Math::abs(F - L) <= 1)
@@ -102,11 +99,11 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // end of double for-loop covering F & L
 
   // CalcRestPath
-  for (x = 1; x < m_SwathSize[0] - 1; ++x)
+  for (unsigned int x = 1; x < m_SwathSize[0] - 1; ++x)
   {
-    for (F = 0; F < m_SwathSize[1]; ++F)
+    for (unsigned int F = 0; F < m_SwathSize[1]; ++F)
     {
-      for (L = 0; L < m_SwathSize[1]; ++L)
+      for (unsigned int L = 0; L < m_SwathSize[1]; ++L)
       {
         int bestL = FindAndStoreBestErrorStep(x, F, L);
         index[0] = x + 1;
@@ -120,15 +117,14 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // Find the best starting and ending points (F & L) for the path
   int    bestF = 0;
   int    bestL = 0;
-  double meritTemp;
   double meritMax = NumericTraits<double>::NonpositiveMin();
-  for (F = 0; F < m_SwathSize[1]; ++F)
+  for (unsigned int F = 0; F < m_SwathSize[1]; ++F)
   {
-    for (L = 0; L < m_SwathSize[1]; ++L)
+    for (unsigned int L = 0; L < m_SwathSize[1]; ++L)
     {
       if (itk::Math::abs(F - L) <= 1) // only accept closed paths
       {
-        meritTemp = MeritValue(F, L, m_SwathSize[0] - 1);
+        double meritTemp = MeritValue(F, L, m_SwathSize[0] - 1);
         if (meritTemp > meritMax)
         {
           meritMax = meritTemp;
@@ -142,7 +138,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
 
   // Fill in the optimum path error-step (orthogonal correction) values
   m_OptimumStepsValues[m_SwathSize[0] - 1] = bestL;
-  for (x = m_SwathSize[0] - 2;; x--)
+  for (unsigned int x = m_SwathSize[0] - 2;; x--)
   {
     m_OptimumStepsValues[x] = StepValue(bestF, m_OptimumStepsValues[x + 1], x);
     if (0 == x)
@@ -152,7 +148,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   }
 
   // Convert from absolute indices to +/- orthogonal offset values
-  for (x = 0; x < m_SwathSize[0]; ++x)
+  for (unsigned int x = 0; x < m_SwathSize[0]; ++x)
   {
     m_FinalOffsetValues->InsertElement(
       x, static_cast<double>(m_OptimumStepsValues[x] - static_cast<int>(m_SwathSize[1] / 2)));

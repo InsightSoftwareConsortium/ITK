@@ -277,17 +277,13 @@ VideoSource<TOutputVideoStream>::SplitRequestedSpatialRegion(
 
   const typename TOutputVideoStream::SizeType & requestedRegionSize = framePtr->GetRequestedRegion().GetSize();
 
-  int                                    splitAxis;
-  typename TOutputVideoStream::IndexType splitIndex;
-  typename TOutputVideoStream::SizeType  splitSize;
-
   // Initialize the splitRegion to the output requested region
   splitRegion = framePtr->GetRequestedRegion();
-  splitIndex = splitRegion.GetIndex();
-  splitSize = splitRegion.GetSize();
+  typename TOutputVideoStream::IndexType splitIndex = splitRegion.GetIndex();
+  typename TOutputVideoStream::SizeType  splitSize = splitRegion.GetSize();
 
   // split on the outermost dimension available
-  splitAxis = framePtr->GetImageDimension() - 1;
+  int splitAxis = framePtr->GetImageDimension() - 1;
   while (requestedRegionSize[splitAxis] == 1)
   {
     --splitAxis;
@@ -343,20 +339,15 @@ template <typename TOutputVideoStream>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 VideoSource<TOutputVideoStream>::ThreaderCallback(void * arg)
 {
-  ThreadStruct * str;
-  int            total;
-  int            workUnitID;
-  int            threadCount;
+  int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
-  workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
-
-  str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  ThreadStruct * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   typename TOutputVideoStream::SpatialRegionType splitRegion;
-  total = str->Filter->SplitRequestedSpatialRegion(workUnitID, threadCount, splitRegion);
+  int total = str->Filter->SplitRequestedSpatialRegion(workUnitID, threadCount, splitRegion);
 
   if (workUnitID < total)
   {

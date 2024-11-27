@@ -63,14 +63,14 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
   m_ThreadMatches.resize(this->GetNumberOfWorkUnits());
   m_ThreadCounts.resize(this->GetNumberOfWorkUnits());
 
-  typename std::vector<MeasureType>::iterator mIt;
-  std::vector<SizeValueType>::iterator        cIt;
-  for (mIt = m_ThreadMatches.begin(), cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
   {
-    *mIt = MeasureType{};
-    *cIt = 0;
+    typename std::vector<MeasureType>::iterator mIt = m_ThreadMatches.begin();
+    for (std::vector<SizeValueType>::iterator cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
+    {
+      *mIt = MeasureType{};
+      *cIt = 0;
+    }
   }
-
   // store the parameters in the transform so all threads can access them
   this->SetTransformParameters(parameters);
 
@@ -86,12 +86,14 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
   // Collect the contribution to the metric for each thread
   //
   //
-  for (mIt = m_ThreadMatches.begin(), cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
   {
-    measure += *mIt;
-    this->m_NumberOfPixelsCounted += *cIt;
+    typename std::vector<MeasureType>::iterator mIt = m_ThreadMatches.begin();
+    for (std::vector<SizeValueType>::iterator cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
+    {
+      measure += *mIt;
+      this->m_NumberOfPixelsCounted += *cIt;
+    }
   }
-
   if (!this->m_NumberOfPixelsCounted)
   {
     itkExceptionMacro("All the points mapped to outside of the moving image");
@@ -118,15 +120,13 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
   }
 
   using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
-  typename FixedImageType::IndexType index;
-  FixedIteratorType                  ti(fixedImage, regionForThread);
+  FixedIteratorType ti(fixedImage, regionForThread);
 
   MeasureType   threadMeasure{};
   SizeValueType threadNumberOfPixelsCounted = 0;
-
   while (!ti.IsAtEnd())
   {
-    index = ti.GetIndex();
+    typename FixedImageType::IndexType index = ti.GetIndex();
 
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
@@ -149,10 +149,9 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
     {
       const RealType movingValue = this->GetInterpolator()->Evaluate(transformedPoint);
       const RealType fixedValue = ti.Get();
-      RealType       diff;
-
       ++threadNumberOfPixelsCounted;
 
+      RealType diff;
       if (m_MeasureMatches)
       {
         diff = Math::AlmostEquals(movingValue, fixedValue); // count matches
@@ -180,17 +179,13 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::SplitFixedRegion(
   // Get the output pointer
   const typename FixedImageRegionType::SizeType & fixedRegionSize = this->GetFixedImageRegion().GetSize();
 
-  int                                      splitAxis;
-  typename FixedImageRegionType::IndexType splitIndex;
-  typename FixedImageRegionType::SizeType  splitSize;
-
   // Initialize the splitRegion to the output requested region
   splitRegion = this->GetFixedImageRegion();
-  splitIndex = splitRegion.GetIndex();
-  splitSize = splitRegion.GetSize();
+  typename FixedImageRegionType::IndexType splitIndex = splitRegion.GetIndex();
+  typename FixedImageRegionType::SizeType  splitSize = splitRegion.GetSize();
 
   // split on the outermost dimension available
-  splitAxis = this->GetFixedImage()->GetImageDimension() - 1;
+  int splitAxis = this->GetFixedImage()->GetImageDimension() - 1;
   while (fixedRegionSize[splitAxis] == 1)
   {
     --splitAxis;
@@ -232,20 +227,15 @@ template <typename TFixedImage, typename TMovingImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreaderCallback(void * arg)
 {
-  ThreadStruct * str;
-  ThreadIdType   total;
-  ThreadIdType   workUnitID;
-  ThreadIdType   workUnitCount;
+  ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  ThreadIdType workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
-  workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
-
-  str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  ThreadStruct * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
   // execute the actual method with appropriate computation region
   // first find out how many pieces extent can be split into.
   FixedImageRegionType splitRegion;
-  total = str->Metric->SplitFixedRegion(workUnitID, workUnitCount, splitRegion);
+  ThreadIdType         total = str->Metric->SplitFixedRegion(workUnitID, workUnitCount, splitRegion);
 
   if (workUnitID < total)
   {

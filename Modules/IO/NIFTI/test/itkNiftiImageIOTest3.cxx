@@ -53,11 +53,6 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
 
   //
   // swizzle up a random vector image.
-  typename VectorImageType::RegionType  imageRegion;
-  typename VectorImageType::SizeType    size;
-  typename VectorImageType::IndexType   index;
-  typename VectorImageType::SpacingType spacing;
-  typename VectorImageType::PointType   origin;
   // original test case was destined for failure.  NIfTI always writes out 3D
   // orientation.  The only sensible matrices you could pass in would be of the form
   // A B C 0
@@ -75,14 +70,11 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   std::cout << "======================== Initialized Direction" << std::endl;
   std::cout << myDirection << std::endl;
 
-  for (unsigned int i = 0; i < TDimension; ++i)
-  {
-    size[i] = dimsize;
-    index[i] = 0;
-    spacing[i] = 1.0;
-    origin[i] = 0;
-  }
-
+  auto                                 size = itk::MakeFilled<typename VectorImageType::SizeType>(dimsize);
+  auto                                 spacing = itk::MakeFilled<typename VectorImageType::SpacingType>(1.0);
+  typename VectorImageType::IndexType  index{};
+  typename VectorImageType::PointType  origin{};
+  typename VectorImageType::RegionType imageRegion;
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
   typename VectorImageType::Pointer vi =
@@ -91,7 +83,6 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   vi->SetDirection(myDirection);
 
   size_t dims[7];
-  size_t _index[7];
   for (unsigned int i = 0; i < TDimension; ++i)
   {
     dims[i] = size[i];
@@ -103,6 +94,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
 
   ScalarType value = std::numeric_limits<ScalarType>::max();
   //  for(fillIt.GoToBegin(); !fillIt.IsAtEnd(); ++fillIt)
+  size_t _index[7];
   for (size_t l = 0; l < dims[6]; ++l)
   {
     _index[6] = l;
@@ -190,7 +182,6 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   {
     const itk::MetaDataDictionary & dictionary = readback->GetMetaDataDictionary();
     std::string                     readIntentCode;
-    std::string                     readDescription;
     if (itk::ExposeMetaData<std::string>(dictionary, "intent_code", readIntentCode))
     {
       if (readIntentCode != intentCode)
@@ -204,6 +195,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
       std::cout << "The read image should have an intent_code in its dictionary" << std::endl;
       same = false;
     }
+    std::string readDescription;
     if (itk::ExposeMetaData<std::string>(dictionary, "ITK_FileNotes", readDescription))
     {
       if (readDescription != description)
@@ -263,14 +255,12 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
               for (size_t k = 0; k < dims[0]; ++k)
               {
                 _index[0] = k;
-                FieldPixelType p1;
-                FieldPixelType p2;
                 for (size_t q = 0; q < TDimension; ++q)
                 {
                   index[q] = _index[q];
                 }
-                p1 = vi->GetPixel(index);
-                p2 = readback->GetPixel(index);
+                FieldPixelType p1 = vi->GetPixel(index);
+                FieldPixelType p2 = readback->GetPixel(index);
                 if (p1 != p2)
                 {
                   same = false;

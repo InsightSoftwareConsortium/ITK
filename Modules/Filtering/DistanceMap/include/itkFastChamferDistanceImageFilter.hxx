@@ -99,31 +99,21 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   constexpr int INNER_MASK = 2;
 
   typename NeighborhoodIterator<TInputImage>::RadiusType r;
-  bool                                                   in_bounds;
-
   r.Fill(1);
   NeighborhoodIterator<TInputImage> it(r, this->GetOutput(), m_RegionToProcess);
 
   const unsigned int center_voxel = it.Size() / 2;
   const auto         neighbor_type = make_unique_for_overwrite<int[]>(it.Size());
-  int                i;
-  unsigned int       n;
-  float              val[ImageDimension];
-  PixelType          center_value;
-  int                neighbor_start;
-  int                neighbor_end;
-  BandNodeType       node;
 
   /** 1st Scan , using neighbors from center_voxel+1 to it.Size()-1 */
-
   /** Precomputing the neighbor types */
-  neighbor_start = center_voxel + 1;
-  neighbor_end = it.Size() - 1;
+  int neighbor_start = center_voxel + 1;
+  int neighbor_end = it.Size() - 1;
 
-  for (i = neighbor_start; i <= neighbor_end; ++i)
+  for (int i = neighbor_start; i <= neighbor_end; ++i)
   {
     neighbor_type[i] = -1;
-    for (n = 0; n < ImageDimension; ++n)
+    for (unsigned int n = 0; n < ImageDimension; ++n)
     {
       neighbor_type[i] += static_cast<int>(it.GetOffset(i)[n] != 0);
     }
@@ -132,7 +122,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   /** Scan the image */
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
-    center_value = it.GetPixel(center_voxel);
+    PixelType center_value = it.GetPixel(center_voxel);
     if (center_value >= m_MaximumDistance)
     {
       continue;
@@ -144,15 +134,17 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     /** Update Positive Distance */
     if (center_value > -m_Weights[0])
     {
-      for (n = 0; n < ImageDimension; ++n)
+      float val[ImageDimension];
+      for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         val[n] = center_value + m_Weights[n];
       }
-      for (i = neighbor_start; i <= neighbor_end; ++i)
+      for (int i = neighbor_start; i <= neighbor_end; ++i)
       {
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] < it.GetPixel(i))
         {
+          bool in_bounds;
           it.SetPixel(i, val[neighbor_type[i]], in_bounds);
         }
       }
@@ -160,16 +152,18 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     /** Update Negative Distance */
     if (center_value < m_Weights[0])
     {
-      for (n = 0; n < ImageDimension; ++n)
+      float val[ImageDimension];
+      for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         val[n] = center_value - m_Weights[n];
       }
 
-      for (i = neighbor_start; i <= neighbor_end; ++i)
+      for (int i = neighbor_start; i <= neighbor_end; ++i)
       {
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] > it.GetPixel(i))
         {
+          bool in_bounds;
           it.SetPixel(i, val[neighbor_type[i]], in_bounds);
         }
       }
@@ -188,10 +182,10 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   neighbor_start = 0;
   neighbor_end = center_voxel - 1;
 
-  for (i = neighbor_start; i <= neighbor_end; ++i)
+  for (int i = neighbor_start; i <= neighbor_end; ++i)
   {
     neighbor_type[i] = -1;
-    for (n = 0; n < ImageDimension; ++n)
+    for (unsigned int n = 0; n < ImageDimension; ++n)
     {
       neighbor_type[i] += (it.GetOffset(i)[n] != 0);
     }
@@ -200,7 +194,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   /** Scan the image */
   for (it.GoToEnd(), --it; !it.IsAtBegin(); --it)
   {
-    center_value = it.GetPixel(center_voxel);
+    PixelType center_value = it.GetPixel(center_voxel);
     if (center_value >= m_MaximumDistance)
     {
       continue;
@@ -213,6 +207,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     // Update the narrow band
     if (m_NarrowBand.IsNotNull())
     {
+      BandNodeType node;
       if (itk::Math::abs(static_cast<float>(center_value)) <= m_NarrowBand->GetTotalRadius())
       {
         node.m_Index = it.GetIndex();
@@ -233,15 +228,17 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     /** Update Positive Distance */
     if (center_value > -m_Weights[0])
     {
-      for (n = 0; n < ImageDimension; ++n)
+      float val[ImageDimension];
+      for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         val[n] = center_value + m_Weights[n];
       }
-      for (i = neighbor_start; i <= neighbor_end; ++i)
+      for (int i = neighbor_start; i <= neighbor_end; ++i)
       {
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] < it.GetPixel(i))
         {
+          bool in_bounds;
           it.SetPixel(i, val[neighbor_type[i]], in_bounds);
         }
       }
@@ -250,16 +247,18 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     /** Update Negative Distance */
     if (center_value < m_Weights[0])
     {
-      for (n = 0; n < ImageDimension; ++n)
+      float val[ImageDimension];
+      for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         val[n] = center_value - m_Weights[n];
       }
 
-      for (i = neighbor_start; i <= neighbor_end; ++i)
+      for (int i = neighbor_start; i <= neighbor_end; ++i)
       {
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] > it.GetPixel(i))
         {
+          bool in_bounds;
           it.SetPixel(i, val[neighbor_type[i]], in_bounds);
         }
       }

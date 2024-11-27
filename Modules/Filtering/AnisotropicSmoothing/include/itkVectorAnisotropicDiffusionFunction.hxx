@@ -33,25 +33,14 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   using SNI_type = ConstNeighborhoodIterator<TImage>;
   using BFC_type = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage>;
 
-  unsigned int i;
-  unsigned int j;
-  //  ZeroFluxNeumannBoundaryCondition<TImage>  bc;
-  double                                    accumulator;
-  PixelType                                 val;
-  SizeValueType                             counter;
-  BFC_type                                  bfc;
-  typename RNI_type::RadiusType             radius;
-  typename BFC_type::FaceListType::iterator fit;
 
-  VectorNeighborhoodInnerProduct<TImage> SIP;
-  VectorNeighborhoodInnerProduct<TImage> IP;
-  RNI_type                               iterator_list[ImageDimension];
-  SNI_type                               face_iterator_list[ImageDimension];
+  //  ZeroFluxNeumannBoundaryCondition<TImage>  bc;
   using PixelValueType = typename PixelType::ValueType;
   DerivativeOperator<PixelValueType, ImageDimension> operator_list[ImageDimension];
 
   // Set up the derivative operators, one for each dimension
-  for (i = 0; i < ImageDimension; ++i)
+  typename RNI_type::RadiusType radius;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     operator_list[i].SetOrder(1);
     operator_list[i].SetDirection(i);
@@ -60,30 +49,34 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   }
 
   // Get the various region "faces" that are on the data set boundary.
-  typename BFC_type::FaceListType faceList = bfc(ip, ip->GetRequestedRegion(), radius);
-  fit = faceList.begin();
+  BFC_type                                  bfc;
+  typename BFC_type::FaceListType           faceList = bfc(ip, ip->GetRequestedRegion(), radius);
+  typename BFC_type::FaceListType::iterator fit = faceList.begin();
 
   // Now do the actual processing
-  accumulator = 0.0;
-  counter = SizeValueType{};
+  double        accumulator = 0.0;
+  SizeValueType counter = SizeValueType{};
 
   // First process the non-boundary region
 
   // Instead of maintaining a single N-d neighborhood of pointers,
   // we maintain a list of 1-d neighborhoods along each axial direction.
   // This is more efficient for higher dimensions.
-  for (i = 0; i < ImageDimension; ++i)
+  RNI_type iterator_list[ImageDimension];
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     iterator_list[i] = RNI_type(operator_list[i].GetRadius(), ip, *fit);
     iterator_list[i].GoToBegin();
   }
+  VectorNeighborhoodInnerProduct<TImage> IP;
   while (!iterator_list[0].IsAtEnd())
   {
     ++counter;
-    for (i = 0; i < ImageDimension; ++i)
+
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      val = IP(iterator_list[i], operator_list[i]);
-      for (j = 0; j < VectorDimension; ++j)
+      PixelType val = IP(iterator_list[i], operator_list[i]);
+      for (unsigned int j = 0; j < VectorDimension; ++j)
       {
         accumulator += val[j] * val[j];
       }
@@ -93,9 +86,11 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
 
   // Go on to the next region(s).  These are on the boundary faces.
   ++fit;
+  VectorNeighborhoodInnerProduct<TImage> SIP;
+  SNI_type                               face_iterator_list[ImageDimension];
   while (fit != faceList.end())
   {
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       face_iterator_list[i] = SNI_type(operator_list[i].GetRadius(), ip, *fit);
       face_iterator_list[i].GoToBegin();
@@ -104,10 +99,10 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
     while (!face_iterator_list[0].IsAtEnd())
     {
       ++counter;
-      for (i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        val = SIP(face_iterator_list[i], operator_list[i]);
-        for (j = 0; j < VectorDimension; ++j)
+        PixelType val = SIP(face_iterator_list[i], operator_list[i]);
+        for (unsigned int j = 0; j < VectorDimension; ++j)
         {
           accumulator += val[j] * val[j];
         }

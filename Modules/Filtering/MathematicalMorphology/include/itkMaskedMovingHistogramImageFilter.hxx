@@ -245,12 +245,12 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     // histogram to update and the direction in which to push
     // it. Then we need to copy that histogram to the relevant
     // places
-    OffsetType LineOffset;
-    OffsetType Changes;
     // Figure out which stored histogram to move and in
     // which direction
     int LineDirection = 0;
     // This function deals with changing planes etc
+    OffsetType LineOffset;
+    OffsetType Changes;
     this->GetDirAndOffset(LineStart, PrevLineStart, LineOffset, Changes, LineDirection);
     ++(Steps[LineDirection]);
     IndexType              PrevLineStartHist = LineStart - LineOffset;

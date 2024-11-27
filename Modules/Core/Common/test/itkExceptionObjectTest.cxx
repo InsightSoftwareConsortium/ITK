@@ -133,14 +133,14 @@ itkExceptionObjectTest(int, char *[])
   bool OneShouldFail = true;
   try
   {
-    human          john;
-    human          jane;
-    naked_mole_rat hal;
+    human john;
     OneShouldFail &= (john == john); // OK
+    human jane;
     OneShouldFail &= (jane == john); // OK
     // NOTE:  (hal == john) throws an exception, and does not actually return false!
     //       This means that the &= operator below is never executed, and
     //       the OneShouldFail variable is never actually set to false!
+    naked_mole_rat hal;
     OneShouldFail &= (hal == john); // ERROR
   }
   catch (const itk::IncompatibleOperandsError & e)

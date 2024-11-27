@@ -83,18 +83,13 @@ template <typename TInputImage, typename TOutputImage, typename TInternalPixel>
 void
 GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::InitInterImage()
 {
-  unsigned int i;
-  double       b;
-  PixelType    c_vec;
-  PixelType    m_vec;
-
   m_IntermediateImage = TInputImage::New();
   m_IntermediateImage->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
   m_IntermediateImage->SetRequestedRegionToLargestPossibleRegion();
   m_IntermediateImage->SetBufferedRegion(m_IntermediateImage->GetRequestedRegion());
   m_IntermediateImage->Allocate();
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_InternalImages[i] = InternalImageType::New();
     m_InternalImages[i]->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
@@ -133,13 +128,14 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::InitIn
   /* Calculate b(x, y), c1(x, y), c2(x, y), etc.... (eqn 15) */
   while (!inputIt.IsAtEnd())
   {
-    b = 0.0;
-    m_vec = inputIt.Get();
-    for (i = 0; i < ImageDimension; ++i)
+    double    b = 0.0;
+    PixelType m_vec = inputIt.Get();
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       b = b + m_vec[i] * m_vec[i]; /*  b = fx^2 + fy^2 ... */
     }
-    for (i = 0; i < ImageDimension; ++i)
+    PixelType c_vec;
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       c_vec[i] = b * m_vec[i]; /* c1 = b * fx, c2 = b * fy ... */
     }
@@ -160,10 +156,9 @@ template <typename TInputImage, typename TOutputImage, typename TInternalPixel>
 void
 GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::UpdateInterImage()
 {
-  unsigned int       i;
   InputImageIterator intermediateIt(m_IntermediateImage, m_IntermediateImage->GetBufferedRegion());
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     InternalImageIterator internalIt(m_InternalImages[i], m_InternalImages[i]->GetBufferedRegion());
 

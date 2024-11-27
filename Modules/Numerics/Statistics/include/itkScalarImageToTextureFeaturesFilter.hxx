@@ -119,18 +119,19 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
   }
 
   // For each offset, calculate each feature
-  typename OffsetVector::ConstIterator offsetIt;
-  size_t                               offsetNum;
-  size_t                               featureNum;
   using InternalTextureFeatureName = itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature;
 
-  for (offsetIt = m_Offsets->Begin(), offsetNum = 0; offsetIt != m_Offsets->End(); ++offsetIt, offsetNum++)
+  size_t offsetNum = 0;
+  for (typename OffsetVector::ConstIterator offsetIt = m_Offsets->Begin(); offsetIt != m_Offsets->End();
+       ++offsetIt, offsetNum++)
   {
     this->m_GLCMGenerator->SetOffset(offsetIt.Value());
     this->m_GLCMCalculator->Update();
 
-    typename FeatureNameVector::ConstIterator fnameIt;
-    for (fnameIt = m_RequestedFeatures->Begin(), featureNum = 0; fnameIt != m_RequestedFeatures->End();
+
+    size_t featureNum = 0;
+    for (typename FeatureNameVector::ConstIterator fnameIt = m_RequestedFeatures->Begin();
+         fnameIt != m_RequestedFeatures->End();
          ++fnameIt, featureNum++)
     {
       features[offsetNum][featureNum] = this->m_GLCMCalculator->GetFeature((InternalTextureFeatureName)fnameIt.Value());
@@ -154,7 +155,7 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
   */
 
   // Set up the initial conditions (k = 1)
-  for (featureNum = 0; featureNum < numFeatures; ++featureNum)
+  for (size_t featureNum = 0; featureNum < numFeatures; ++featureNum)
   {
     tempFeatureMeans[featureNum] = features[0][featureNum];
     tempFeatureDevs[featureNum] = 0;
@@ -163,7 +164,7 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
   for (offsetNum = 1; offsetNum < numOffsets; ++offsetNum)
   {
     size_t k = offsetNum + 1;
-    for (featureNum = 0; featureNum < numFeatures; ++featureNum)
+    for (size_t featureNum = 0; featureNum < numFeatures; ++featureNum)
     {
       double M_k_minus_1 = tempFeatureMeans[featureNum];
       double S_k_minus_1 = tempFeatureDevs[featureNum];
@@ -176,7 +177,7 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
       tempFeatureDevs[featureNum] = S_k;
     }
   }
-  for (featureNum = 0; featureNum < numFeatures; ++featureNum)
+  for (size_t featureNum = 0; featureNum < numFeatures; ++featureNum)
   {
     tempFeatureDevs[featureNum] = std::sqrt(tempFeatureDevs[featureNum] / numOffsets);
 

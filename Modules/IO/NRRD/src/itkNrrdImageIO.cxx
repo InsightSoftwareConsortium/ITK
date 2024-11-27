@@ -340,12 +340,11 @@ NrrdImageIO::ReadImageInformation()
     this->SetComponentType(cmpType);
 
     // Set the number of image dimensions and bail if needed
-    unsigned int domainAxisNum;
+
     unsigned int domainAxisIdx[NRRD_DIM_MAX];
-    unsigned int rangeAxisNum;
+    unsigned int domainAxisNum = nrrdDomainAxesGet(nrrd, domainAxisIdx);
     unsigned int rangeAxisIdx[NRRD_DIM_MAX];
-    domainAxisNum = nrrdDomainAxesGet(nrrd, domainAxisIdx);
-    rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
+    unsigned int rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
     if (nrrd->spaceDim && nrrd->spaceDim != domainAxisNum)
     {
       itkExceptionMacro("ReadImageInformation: nrrd's #independent axes (" << domainAxisNum
@@ -451,10 +450,7 @@ NrrdImageIO::ReadImageInformation()
                                                           << " dependent axis (not 1); not currently handled");
     }
 
-    double              spacing;
-    double              spaceDir[NRRD_SPACE_DIM_MAX];
-    std::vector<double> spaceDirStd(domainAxisNum);
-    int                 spacingStatus;
+    ;
 
     int iFlipFactors[3]; // used to flip the measurement frame later on
     for (int & iFlipFactor : iFlipFactors)
@@ -462,11 +458,14 @@ NrrdImageIO::ReadImageInformation()
       iFlipFactor = 1;
     }
 
+    std::vector<double> spaceDirStd(domainAxisNum);
     for (unsigned int axii = 0; axii < domainAxisNum; ++axii)
     {
       unsigned int naxi = domainAxisIdx[axii];
       this->SetDimensions(axii, static_cast<unsigned int>(nrrd->axis[naxi].size));
-      spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
+      double spacing;
+      double spaceDir[NRRD_SPACE_DIM_MAX];
+      int    spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
 
       switch (spacingStatus)
       {
@@ -582,15 +581,15 @@ NrrdImageIO::ReadImageInformation()
     }
 
     // Store key/value pairs in MetaDataDictionary
-    char                 key[AIR_STRLEN_SMALL];
-    const char *         val;
-    char *               keyPtr = nullptr;
-    char *               valPtr = nullptr;
     MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
     // Necessary to clear dict if ImageIO object is re-used
     thisDic.Clear();
     std::string classname(this->GetNameOfClass());
     EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
+
+    char   key[AIR_STRLEN_SMALL];
+    char * keyPtr = nullptr;
+    char * valPtr = nullptr;
     for (unsigned int kvpi = 0; kvpi < nrrdKeyValueSize(nrrd); ++kvpi)
     {
       nrrdKeyValueIndex(nrrd, &keyPtr, &valPtr, kvpi);
@@ -606,11 +605,10 @@ NrrdImageIO::ReadImageInformation()
     // Read() method, non-scalar data is permuted to the fastest axis,
     // on the on the Write() side, its always written to the fastest axis,
     // so we might was well go with consistent and idiomatic indexing.
-    NrrdAxisInfo * naxis;
     for (unsigned int axii = 0; axii < domainAxisNum; ++axii)
     {
-      unsigned int axi = domainAxisIdx[axii];
-      naxis = nrrd->axis + axi;
+      unsigned int   axi = domainAxisIdx[axii];
+      NrrdAxisInfo * naxis = nrrd->axis + axi;
       if (AIR_EXISTS(naxis->thickness))
       {
         snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_thicknesses), axii);
@@ -619,13 +617,13 @@ NrrdImageIO::ReadImageInformation()
       if (naxis->center)
       {
         snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_centers), axii);
-        val = airEnumStr(nrrdCenter, naxis->center);
+        const char * val = airEnumStr(nrrdCenter, naxis->center);
         EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(val));
       }
       if (naxis->kind)
       {
         snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_kinds), axii);
-        val = airEnumStr(nrrdKind, naxis->kind);
+        const char * val = airEnumStr(nrrdKind, naxis->kind);
         EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(val));
       }
       if (airStrlen(naxis->label))
@@ -652,7 +650,7 @@ NrrdImageIO::ReadImageInformation()
     if (nrrd->space)
     {
       snprintf(key, sizeof(key), "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_space));
-      val = airEnumStr(nrrdSpace, nrrd->space);
+      const char * val = airEnumStr(nrrdSpace, nrrd->space);
 
       // keep everything consistent: so enter it as LPS in the meta data
       // dictionary in case it could get converted, otherwise leave it
@@ -779,9 +777,8 @@ NrrdImageIO::Read(void * buffer)
   FloatingPointExceptions::SetEnabled(saveFPEState);
 #endif
 
-  unsigned int rangeAxisNum;
   unsigned int rangeAxisIdx[NRRD_DIM_MAX];
-  rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
+  unsigned int rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
 
   if (rangeAxisNum > 1)
   {
@@ -898,13 +895,12 @@ NrrdImageIO::Write(const void * buffer)
   NrrdIoState * nio = nrrdIoStateNew();
   int           kind[NRRD_DIM_MAX];
   size_t        size[NRRD_DIM_MAX];
-  unsigned int  nrrdDim;
-  unsigned int  baseDim;
-  unsigned int  spaceDim;
-  double        spaceDir[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
-  double        origin[NRRD_DIM_MAX];
 
-  spaceDim = this->GetNumberOfDimensions();
+  double spaceDir[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
+  double origin[NRRD_DIM_MAX];
+
+  unsigned int baseDim;
+  unsigned int spaceDim = this->GetNumberOfDimensions();
   if (this->GetNumberOfComponents() > 1)
   {
     size[0] = this->GetNumberOfComponents();
@@ -947,7 +943,7 @@ NrrdImageIO::Write(const void * buffer)
   {
     baseDim = 0;
   }
-  nrrdDim = baseDim + spaceDim;
+  unsigned int        nrrdDim = baseDim + spaceDim;
   std::vector<double> spaceDirStd(spaceDim);
   unsigned int        axi;
   for (axi = 0; axi < spaceDim; ++axi)
@@ -977,18 +973,15 @@ NrrdImageIO::Write(const void * buffer)
 
   // Go through MetaDataDictionary and set either specific nrrd field
   // or a key/value pair
-  MetaDataDictionary &                     thisDic = this->GetMetaDataDictionary();
-  std::vector<std::string>                 keys = thisDic.GetKeys();
-  std::vector<std::string>::const_iterator keyIt;
-  const char *                             keyField;
-  const char *                             field;
-  for (keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
+  MetaDataDictionary &     thisDic = this->GetMetaDataDictionary();
+  std::vector<std::string> keys = thisDic.GetKeys();
+  for (std::vector<std::string>::const_iterator keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
   {
     if (!strncmp(KEY_PREFIX, keyIt->c_str(), strlen(KEY_PREFIX)))
     {
-      keyField = keyIt->c_str() + strlen(KEY_PREFIX);
+      const char * keyField = keyIt->c_str() + strlen(KEY_PREFIX);
       // only of one of these can succeed
-      field = airEnumStr(nrrdField, nrrdField_thicknesses);
+      const char * field = airEnumStr(nrrdField, nrrdField_thicknesses);
       if (!strncmp(keyField, field, strlen(field)))
       {
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)

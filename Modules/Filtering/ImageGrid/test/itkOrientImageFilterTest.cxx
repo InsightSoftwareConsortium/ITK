@@ -93,10 +93,9 @@ itkOrientImageFilterTest(int argc, char * argv[])
   PrintImg(SLA);
 
   ImageType::RegionType::SizeType originalSize = randImage->GetLargestPossibleRegion().GetSize();
-  ImageType::RegionType::SizeType transformedSize = SLA->GetLargestPossibleRegion().GetSize();
-  ImageType::IndexType            originalIndex;
-  ImageType::IndexType            transformedIndex;
 
+  ImageType::IndexType originalIndex;
+  ImageType::IndexType transformedIndex;
   for (originalIndex[2] = transformedIndex[2] = 0;
        originalIndex[2] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[2]);
        originalIndex[2]++, transformedIndex[2]++)
@@ -128,7 +127,7 @@ itkOrientImageFilterTest(int argc, char * argv[])
   ImageType::Pointer LIP = orienter->GetOutput();
   std::cerr << "LIP" << std::endl;
   PrintImg(LIP);
-  transformedSize = LIP->GetLargestPossibleRegion().GetSize();
+  ImageType::RegionType::SizeType transformedSize = LIP->GetLargestPossibleRegion().GetSize();
 
   for (originalIndex[2] = transformedIndex[2] = 0;
        originalIndex[2] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[2]);

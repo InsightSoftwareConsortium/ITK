@@ -55,10 +55,8 @@ circle(unsigned int x, unsigned int y)
 float
 square(unsigned int x, unsigned int y)
 {
-  float X;
-  float Y;
-  X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
-  Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
+  float X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
+  float Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
   float dis;
   if (!((X > RADIUS) && (Y > RADIUS)))
   {

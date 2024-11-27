@@ -22,36 +22,27 @@
 int
 itkModifiedTimeTest(int, char *[])
 {
-
   using Point = itk::Point<double, 3>;
   using PointsContainer = itk::VectorContainer<Point>;
   using BoundingBox = itk::BoundingBox<unsigned long, 3, double, PointsContainer>;
 
-  Point p;
-  Point q;
-  Point r;
-
-  p.Fill(0);
-  q.Fill(0);
-  r.Fill(0);
-
-  auto bb = BoundingBox::New();
-
-  auto pc = PointsContainer::New();
-
+  auto  pc = PointsContainer::New();
+  Point p{};
   pc->InsertElement(0, p);
+  Point q{};
   pc->InsertElement(1, q);
   pc->Modified();
 
+  auto bb = BoundingBox::New();
   bb->SetPoints(pc);
 
   const itk::ModifiedTimeType bbBeforeTime = bb->GetMTime();
   const itk::ModifiedTimeType pcBeforeTime = pc->GetMTime();
 
-
   std::cout << "BB time before modification: " << bbBeforeTime << std::endl;
   std::cout << "PC time before modification: " << pcBeforeTime << std::endl;
 
+  Point r{};
   pc->InsertElement(2, r);
   pc->Modified(); // call the Modified function to update the modified time of the container
 
@@ -60,7 +51,6 @@ itkModifiedTimeTest(int, char *[])
 
   std::cout << "BB time after modification: " << bbAfterTime << std::endl;
   std::cout << "PC time after modification: " << pcAfterTime << std::endl;
-
 
   if (pcAfterTime == pcBeforeTime)
   {
@@ -75,7 +65,6 @@ itkModifiedTimeTest(int, char *[])
     std::cout << "updated by changes in the points" << std::endl;
     return EXIT_FAILURE;
   }
-
 
   if (bbAfterTime < pcAfterTime)
   {

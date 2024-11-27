@@ -28,11 +28,9 @@ template <typename TImage>
 CurvatureNDAnisotropicDiffusionFunction<TImage>::CurvatureNDAnisotropicDiffusionFunction()
   : m_K(0.0)
 {
-  unsigned int i;
-  unsigned int j;
-  RadiusType   r;
 
-  for (i = 0; i < ImageDimension; ++i)
+  RadiusType r;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     r[i] = 1;
   }
@@ -45,15 +43,15 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::CurvatureNDAnisotropicDiffusion
   // Slice the neighborhood
   m_Center = it.Size() / 2;
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Stride[i] = it.GetStride(i);
     x_slice[i] = std::slice(m_Center - m_Stride[i], 3, m_Stride[i]);
   }
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       // For taking derivatives in the i direction that are offset one
       // pixel in the j direction.
@@ -76,26 +74,11 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
                                                                void *                   itkNotUsed(globalData),
                                                                const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
-  unsigned int i;
-  unsigned int j;
-  double       speed;
-  double       dx_forward_Cn;
-  double       dx_backward_Cn;
-  double       propagation_gradient;
-  double       grad_mag_sq;
-  double       grad_mag_sq_d;
-  double       grad_mag;
-  double       grad_mag_d;
-  double       Cx;
-  double       Cxd;
-  double       dx_forward[ImageDimension];
-  double       dx_backward[ImageDimension];
-  double       dx[ImageDimension];
-  double       dx_aug;
-  double       dx_dim;
-
   // Calculate the partial derivatives for each dimension
-  for (i = 0; i < ImageDimension; ++i)
+  double dx_forward[ImageDimension];
+  double dx_backward[ImageDimension];
+  double dx[ImageDimension];
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // "Half" derivatives
     dx_forward[i] = it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center);
@@ -108,27 +91,29 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
     dx[i] *= this->m_ScaleCoefficients[i];
   }
 
-  speed = 0.0;
-  for (i = 0; i < ImageDimension; ++i)
+  double speed = 0.0;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // Gradient magnitude approximations
-    grad_mag_sq = dx_forward[i] * dx_forward[i];
-    grad_mag_sq_d = dx_backward[i] * dx_backward[i];
-    for (j = 0; j < ImageDimension; ++j)
+    double grad_mag_sq = dx_forward[i] * dx_forward[i];
+    double grad_mag_sq_d = dx_backward[i] * dx_backward[i];
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       if (j != i)
       {
-        dx_aug = m_InnerProduct(xa_slice[j][i], it, m_DerivativeOperator);
+        double dx_aug = m_InnerProduct(xa_slice[j][i], it, m_DerivativeOperator);
         dx_aug *= this->m_ScaleCoefficients[j];
-        dx_dim = m_InnerProduct(xd_slice[j][i], it, m_DerivativeOperator);
+        double dx_dim = m_InnerProduct(xd_slice[j][i], it, m_DerivativeOperator);
         dx_dim *= this->m_ScaleCoefficients[j];
         grad_mag_sq += 0.25f * (dx[j] + dx_aug) * (dx[j] + dx_aug);
         grad_mag_sq_d += 0.25f * (dx[j] + dx_dim) * (dx[j] + dx_dim);
       }
     }
-    grad_mag = std::sqrt(m_MIN_NORM + grad_mag_sq);
-    grad_mag_d = std::sqrt(m_MIN_NORM + grad_mag_sq_d);
+    double grad_mag = std::sqrt(m_MIN_NORM + grad_mag_sq);
+    double grad_mag_d = std::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
+    double Cx;
+    double Cxd;
     // Conductance Terms
     if (m_K == 0.0)
     {
@@ -141,17 +126,17 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
       Cxd = std::exp(grad_mag_sq_d / m_K);
     }
     // First order normalized finite-difference conductance products
-    dx_forward_Cn = (dx_forward[i] / grad_mag) * Cx;
-    dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd;
+    double dx_forward_Cn = (dx_forward[i] / grad_mag) * Cx;
+    double dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd;
 
     // Second order conductance-modified curvature
     speed += (dx_forward_Cn - dx_backward_Cn);
   }
   // "Upwind" gradient magnitude term
-  propagation_gradient = 0.0;
+  double propagation_gradient = 0.0;
   if (speed > 0)
   {
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       propagation_gradient +=
         itk::Math::sqr(std::min(dx_backward[i], 0.0)) + itk::Math::sqr(std::max(dx_forward[i], 0.0));
@@ -159,7 +144,7 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
   }
   else
   {
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       propagation_gradient +=
         itk::Math::sqr(std::max(dx_backward[i], 0.0)) + itk::Math::sqr(std::min(dx_forward[i], 0.0));

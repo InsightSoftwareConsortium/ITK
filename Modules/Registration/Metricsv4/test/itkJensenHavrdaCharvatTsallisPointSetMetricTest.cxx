@@ -19,7 +19,7 @@
 #include "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
 #include "itkTranslationTransform.h"
 #include "itkTestingMacros.h"
-
+#include "itkMakeFilled.h"
 #include <fstream>
 
 template <unsigned int Dimension>
@@ -36,14 +36,13 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   auto movingPoints = PointSetType::New();
 
   // Produce two simple point sets of 1) a circle and 2) the same circle with an offset
-  PointType  offset;
-  float      normOffset = 0;
-  VectorType normalizedOffset;
+  auto offset = itk::MakeFilled<PointType>(2);
+  auto normalizedOffset = itk::MakeFilled<VectorType>(2);
+
+  float normOffset = 0;
   for (unsigned int d = 0; d < Dimension; ++d)
   {
-    offset[d] = 2;
     normOffset += itk::Math::sqr(offset[d]);
-    normalizedOffset[d] = offset[d];
   }
   normOffset = std::sqrt(normOffset);
   normalizedOffset /= normOffset;
@@ -51,8 +50,8 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   unsigned long count = 0;
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
-    PointType fixedPoint;
     float     radius = 100.0;
+    PointType fixedPoint;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     // simplistic point set test:
@@ -130,10 +129,10 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     metric->Initialize();
 
     typename PointSetMetricType::MeasureType    value = metric->GetValue();
-    typename PointSetMetricType::MeasureType    value2;
     typename PointSetMetricType::DerivativeType derivative;
-    typename PointSetMetricType::DerivativeType derivative2;
     metric->GetDerivative(derivative);
+    typename PointSetMetricType::MeasureType    value2;
+    typename PointSetMetricType::DerivativeType derivative2;
     metric->GetValueAndDerivative(value2, derivative2);
 
     derivative /= derivative.magnitude();

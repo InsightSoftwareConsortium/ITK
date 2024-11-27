@@ -73,9 +73,8 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
   stRegion.SetSize(this->m_Kernel.GetSize());
   stRegion.PadByRadius(1); // must pad the region by one because of the translation
 
-  OffsetType   centerOffset;
-  unsigned int i;
-  for (i = 0; i < ImageDimension; ++i)
+  OffsetType centerOffset;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     centerOffset[i] = stRegion.GetSize()[i] / 2;
   }
@@ -106,7 +105,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
   // iterator passes over the various dimensions.
   int Steps[ImageDimension];
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     HistVec[i] = histogram;
     PrevLineStartVec[i] = InLineIt.GetIndex();
@@ -138,12 +137,12 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
     // histogram to update and the direction in which to push
     // it. Then we need to copy that histogram to the relevant
     // places
-    OffsetType LineOffset;
-    OffsetType Changes;
     // Figure out which stored histogram to move and in
     // which direction
     int LineDirection = 0;
     // This function deals with changing planes etc
+    OffsetType LineOffset;
+    OffsetType Changes;
     this->GetDirAndOffset(LineStart, PrevLineStart, LineOffset, Changes, LineDirection);
     ++(Steps[LineDirection]);
     IndexType              PrevLineStartHist = LineStart - LineOffset;
@@ -158,7 +157,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
     // copy the updated histogram and line start entries to the
     // relevant directions. When updating direction 2, for example,
     // new copies of directions 0 and 1 should be made.
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       if (Steps[i] > Steps[LineDirection])
       {

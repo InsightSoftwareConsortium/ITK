@@ -65,9 +65,9 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
   // from collapsing a volume into two facets glued together with opposite
   // orientations, such as would happen with any vertex of a tetrahedron.)
   PointIdentifier PointId1;
-  PointIdentifier PointId2;
   PointId1 = pList.back();
   pList.pop_back();
+  PointIdentifier PointId2;
   PointId2 = pList.back();
   pList.pop_back();
   FaceRefType FirstFace = this->m_Mesh->FindEdge(PointId1, PointId2)->GetLeft();

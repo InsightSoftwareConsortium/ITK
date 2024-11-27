@@ -208,14 +208,7 @@ GaussianDistribution::CDF(double x, const ParametersType & p)
 double
 GaussianDistribution::InverseCDF(double p)
 {
-  double dp;
-  double dx;
-  double dt;
-  double ddq;
-  double dq;
-  int    newt;
-
-  dp = (p <= 0.5) ? (p) : (1.0 - p); /* make between 0 and 0.5 */
+  double dp = (p <= 0.5) ? (p) : (1.0 - p); /* make between 0 and 0.5 */
 
   // if original value is invalid, return +infinity or -infinity
   // changed from original code to reflect the fact that the
@@ -236,16 +229,16 @@ GaussianDistribution::InverseCDF(double p)
 
   /**  Step 1:  use 26.2.23 from Abramowitz and Stegun */
 
-  dt = std::sqrt(-2.0 * std::log(dp));
-  dx = dt - ((.010328e+0 * dt + .802853e+0) * dt + 2.515517e+0) /
-              (((.001308e+0 * dt + .189269e+0) * dt + 1.432788e+0) * dt + 1.e+0);
+  double dt = std::sqrt(-2.0 * std::log(dp));
+  double dx = dt - ((.010328e+0 * dt + .802853e+0) * dt + 2.515517e+0) /
+                     (((.001308e+0 * dt + .189269e+0) * dt + 1.432788e+0) * dt + 1.e+0);
 
   /**  Step 2:  do 3 Newton steps to improve this */
 
-  for (newt = 0; newt < 3; ++newt)
+  for (int newt = 0; newt < 3; ++newt)
   {
-    dq = 0.5e+0 * vnl_erfc(dx * itk::Math::sqrt1_2) - dp;
-    ddq = std::exp(-0.5e+0 * dx * dx) / 2.506628274631000e+0;
+    double dq = 0.5e+0 * vnl_erfc(dx * itk::Math::sqrt1_2) - dp;
+    double ddq = std::exp(-0.5e+0 * dx * dx) / 2.506628274631000e+0;
     dx = dx + dq / ddq;
   }
 

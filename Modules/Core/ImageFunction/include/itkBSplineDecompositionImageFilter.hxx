@@ -178,15 +178,10 @@ void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoefficient(double z)
 {
   // See Unser, 1999, Box 2 for explanation
-  CoeffType                           sum;
-  double                              zn;
-  double                              z2n;
-  double                              iz;
-  typename TInputImage::SizeValueType horizon;
 
   // Yhis initialization corresponds to mirror boundaries
-  horizon = m_DataLength[m_IteratorDirection];
-  zn = z;
+  typename TInputImage::SizeValueType horizon = m_DataLength[m_IteratorDirection];
+  double                              zn = z;
   if (m_Tolerance > 0.0)
   {
     horizon = (typename TInputImage::SizeValueType)std::ceil(std::log(m_Tolerance) / std::log(itk::Math::abs(z)));
@@ -194,7 +189,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   if (horizon < m_DataLength[m_IteratorDirection])
   {
     // Accelerated loop
-    sum = m_Scratch[0]; // verify this
+    CoeffType sum = m_Scratch[0]; // verify this
     for (unsigned int n = 1; n < horizon; ++n)
     {
       sum += zn * m_Scratch[n];
@@ -205,9 +200,9 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   else
   {
     // Full loop
-    iz = 1.0 / z;
-    z2n = std::pow(z, static_cast<double>(m_DataLength[m_IteratorDirection] - 1L));
-    sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
+    double    iz = 1.0 / z;
+    double    z2n = std::pow(z, static_cast<double>(m_DataLength[m_IteratorDirection] - 1L));
+    CoeffType sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
     z2n *= z2n * iz;
     for (unsigned int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); ++n)
     {

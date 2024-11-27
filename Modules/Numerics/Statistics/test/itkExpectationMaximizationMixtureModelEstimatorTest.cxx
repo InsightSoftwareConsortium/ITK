@@ -41,12 +41,9 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-
-  unsigned int i;
-  unsigned int j;
-  char *       dataFileName = argv[1];
-  int          dataSize = 2000;
-  int          maximumIteration = 200;
+  char * dataFileName = argv[1];
+  int    dataSize = 2000;
+  int    maximumIteration = 200;
   using ParametersType = itk::Array<double>;
   double                      minStandardDeviation = 28.54746;
   unsigned int                numberOfClasses = 2;
@@ -112,7 +109,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   while (p_iter != pointsContainer->End())
   {
-    for (i = 0; i < PointSetType::PointDimension; ++i)
+    for (unsigned int i = 0; i < PointSetType::PointDimension; ++i)
     {
       dataStream >> temp;
       point[i] = temp;
@@ -131,7 +128,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   /* Preparing the gaussian mixture components */
   using ComponentPointer = ComponentType::Pointer;
   std::vector<ComponentPointer> components;
-  for (i = 0; i < numberOfClasses; ++i)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     components.push_back(ComponentType::New());
     (components[i])->SetSample(sample);
@@ -144,7 +141,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetInitialProportions(initialProportions);
 
-  for (i = 0; i < numberOfClasses; ++i)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     estimator->AddComponent((ComponentType::Superclass *)(components[i]).GetPointer());
   }
@@ -156,7 +153,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   bool               passed = true;
   double             displacement;
   const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
-  for (i = 0; i < numberOfClasses; ++i)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     std::cout << "Cluster[" << i << ']' << std::endl;
     std::cout << "    Parameters:" << std::endl;
@@ -164,7 +161,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
     std::cout << "    Proportion: ";
     std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
     displacement = 0.0;
-    for (j = 0; j < measurementVectorSize; ++j)
+    for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
       temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
       displacement += (temp * temp);

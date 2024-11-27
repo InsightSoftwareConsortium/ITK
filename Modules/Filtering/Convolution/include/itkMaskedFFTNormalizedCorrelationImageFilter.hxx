@@ -607,11 +607,10 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // We need a few additional checks.
   // Check that the image sizes are the same as their corresponding
   // masks.
-  std::ostringstream fixedSizeString;
-  std::ostringstream movingSizeString;
   if (this->GetFixedImageMask() && this->GetFixedImage()->GetLargestPossibleRegion().GetSize() !=
                                      this->GetFixedImageMask()->GetLargestPossibleRegion().GetSize())
   {
+    std::ostringstream fixedSizeString;
     fixedSizeString << std::endl
                     << "The fixed image must be the same size as the fixed mask.  " << std::endl
                     << "FixedImage Size: " << this->GetFixedImage()->GetLargestPossibleRegion().GetSize()
@@ -622,6 +621,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   if (this->GetMovingImageMask() && this->GetMovingImage()->GetLargestPossibleRegion().GetSize() !=
                                       this->GetMovingImageMask()->GetLargestPossibleRegion().GetSize())
   {
+    std::ostringstream movingSizeString;
     movingSizeString << std::endl
                      << "The moving image must be the same size as the moving mask.  " << std::endl
                      << "MovingImage Size: " << this->GetMovingImage()->GetLargestPossibleRegion().GetSize()

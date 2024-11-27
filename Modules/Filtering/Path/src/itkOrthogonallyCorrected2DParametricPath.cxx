@@ -22,21 +22,10 @@ namespace itk
 OrthogonallyCorrected2DParametricPath::OutputType
 OrthogonallyCorrected2DParametricPath::Evaluate(const InputType & inputValue) const
 {
-  InputType input = inputValue; // we may want to remap
-                                // the input
-  InputType                         inputRange;
-  InputType                         normalizedInput;
-  OutputType                        output;
-  OrthogonalCorrectionTableSizeType numOrthogonalCorrections;
-  double                            softOrthogonalCorrectionTableIndex;
-  double                            Correction;
-  double                            Correction1;
-  double                            Correction2;
-  VectorType                        originalDerivative;
-
-  numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size();
+  OrthogonalCorrectionTableSizeType numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size();
 
   // If the original path is closed, then tail input is remapped to head input
+  InputType input = inputValue; // we may want to remap the input
   if (m_OriginalPath->EvaluateToIndex(m_OriginalPath->EndOfInput()) ==
       m_OriginalPath->EvaluateToIndex(m_OriginalPath->StartOfInput()))
   {
@@ -47,20 +36,22 @@ OrthogonallyCorrected2DParametricPath::Evaluate(const InputType & inputValue) co
     }
   }
 
-  inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
-  normalizedInput = (input - m_OriginalPath->StartOfInput()) / inputRange;
+  InputType  inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
+  InputType  normalizedInput = (input - m_OriginalPath->StartOfInput()) / inputRange;
+  OutputType output;
   output.Fill(0);
 
   // Find the linearly interpolated offset error value for this exact time.
-  softOrthogonalCorrectionTableIndex = normalizedInput * numOrthogonalCorrections;
-  Correction1 = m_OrthogonalCorrectionTable->ElementAt(static_cast<int>(softOrthogonalCorrectionTableIndex));
-  Correction2 = m_OrthogonalCorrectionTable->ElementAt(static_cast<int>(softOrthogonalCorrectionTableIndex + 1) %
-                                                       numOrthogonalCorrections);
-  Correction = Correction1 + (Correction2 - Correction1) * (softOrthogonalCorrectionTableIndex -
-                                                            static_cast<int>(softOrthogonalCorrectionTableIndex));
+  double softOrthogonalCorrectionTableIndex = normalizedInput * numOrthogonalCorrections;
+  double Correction1 = m_OrthogonalCorrectionTable->ElementAt(static_cast<int>(softOrthogonalCorrectionTableIndex));
+  double Correction2 = m_OrthogonalCorrectionTable->ElementAt(static_cast<int>(softOrthogonalCorrectionTableIndex + 1) %
+                                                              numOrthogonalCorrections);
+  double Correction =
+    Correction1 + (Correction2 - Correction1) *
+                    (softOrthogonalCorrectionTableIndex - static_cast<int>(softOrthogonalCorrectionTableIndex));
 
   // Find the direction of the offset
-  originalDerivative = m_OriginalPath->EvaluateDerivative(input);
+  VectorType originalDerivative = m_OriginalPath->EvaluateDerivative(input);
   originalDerivative.Normalize();
 
   // Find the actual point along this corrected path

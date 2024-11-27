@@ -339,13 +339,6 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   static constexpr double ITK_HEX_CONVERGED = 1.e-03;
   static constexpr double ITK_DIVERGED = 1.e6;
 
-  double                  params[Self::CellDimension3D]{ 0.5, 0.5, 0.5 };
-  double                  fcol[Self::PointDimension3D];
-  double                  rcol[Self::PointDimension3D];
-  double                  scol[Self::PointDimension3D];
-  double                  tcol[Self::PointDimension3D];
-  double                  d;
-  PointType               pt;
   CoordinateType          derivs[CellDimension3D * Self::NumberOfPoints]{ 0 };
   InterpolationWeightType weights[Self::NumberOfPoints];
 
@@ -366,14 +359,18 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     this->InterpolationDerivs(pcoords, derivs);
 
     //  calculate newton functions
+    double fcol[Self::PointDimension3D];
+    double rcol[Self::PointDimension3D];
+    double scol[Self::PointDimension3D];
+    double tcol[Self::PointDimension3D];
     for (unsigned int i = 0; i < Self::PointDimension3D; ++i)
     {
       fcol[i] = rcol[i] = scol[i] = tcol[i] = 0.0;
     }
+
     for (unsigned int i = 0; i < Self::NumberOfPoints; ++i)
     {
-
-      pt = points->GetElement(m_PointIds[i]);
+      PointType pt = points->GetElement(m_PointIds[i]);
       for (unsigned int j = 0; j < PREVENT_OVERRUN_OF_INVALID_INSTANTIATIONS; ++j)
       {
         fcol[j] += pt[j] * weights[i];
@@ -401,7 +398,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     }
 
     // ONLY 3x3 determinants are supported.
-    d = vnl_determinant(mat);
+    double d = vnl_determinant(mat);
     // d=vtkMath::Determinant3x3(rcol,scol,tcol);
     if (itk::Math::abs(d) < 1.e-20)
     {
@@ -431,7 +428,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
       mat3.put(1, i, scol[i]);
       mat3.put(2, i, fcol[i]);
     }
-
+    double params[Self::CellDimension3D]{ 0.5, 0.5, 0.5 };
     pcoords[0] = params[0] - vnl_determinant(mat1) / d;
     pcoords[1] = params[1] - vnl_determinant(mat2) / d;
     pcoords[2] = params[2] - vnl_determinant(mat3) / d;
@@ -502,7 +499,6 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   else
   {
     CoordinateType pc[CellDimension3D];
-    CoordinateType w[Self::NumberOfPoints];
     if (closestPoint)
     {
       for (unsigned int i = 0; i < CellDimension3D; ++i) // only approximate, not really true
@@ -521,6 +517,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
           pc[i] = pcoords[i];
         }
       }
+      CoordinateType w[Self::NumberOfPoints];
       this->EvaluateLocation(subId, points, pc, closestPoint, (InterpolationWeightType *)w);
 
       *dist2 = 0;

@@ -29,11 +29,8 @@ template <typename TImage>
 GradientNDAnisotropicDiffusionFunction<TImage>::GradientNDAnisotropicDiffusionFunction()
   : m_K(0.0)
 {
-  unsigned int i;
-  unsigned int j;
-  RadiusType   r;
-
-  for (i = 0; i < ImageDimension; ++i)
+  RadiusType r;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     r[i] = 1;
   }
@@ -46,19 +43,19 @@ GradientNDAnisotropicDiffusionFunction<TImage>::GradientNDAnisotropicDiffusionFu
   // Slice the neighborhood
   m_Center = it.Size() / 2;
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Stride[i] = it.GetStride(i);
   }
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     x_slice[i] = std::slice(m_Center - m_Stride[i], 3, m_Stride[i]);
   }
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       // For taking derivatives in the i direction that are offset one
       // pixel in the j direction.
@@ -80,53 +77,39 @@ GradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhood
                                                               void *,
                                                               const FloatOffsetType &) -> PixelType
 {
-  unsigned int i;
-  unsigned int j;
-
-  double accum;
-  double accum_d;
-  double Cx;
-  double Cxd;
-
   // PixelType is scalar in this context
-  PixelRealType delta;
-  PixelRealType dx_forward;
-  PixelRealType dx_backward;
-  PixelRealType dx[ImageDimension];
-  PixelRealType dx_aug;
-  PixelRealType dx_dim;
-
-  delta = PixelRealType{};
+  PixelRealType delta = PixelRealType{};
 
   // Calculate the centralized derivatives for each dimension.
-  for (i = 0; i < ImageDimension; ++i)
+  PixelRealType dx[ImageDimension];
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     dx[i] = (it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center - m_Stride[i])) / 2.0f;
     dx[i] *= this->m_ScaleCoefficients[i];
   }
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // "Half" directional derivatives
-    dx_forward = it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center);
+    PixelRealType dx_forward = it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center);
     dx_forward *= this->m_ScaleCoefficients[i];
-    dx_backward = it.GetPixel(m_Center) - it.GetPixel(m_Center - m_Stride[i]);
+    PixelRealType dx_backward = it.GetPixel(m_Center) - it.GetPixel(m_Center - m_Stride[i]);
     dx_backward *= this->m_ScaleCoefficients[i];
 
     // Calculate the conductance terms.  Conductance varies with each
     // dimension because the gradient magnitude approximation is different
     // along each  dimension.
-    accum = 0.0;
-    accum_d = 0.0;
-    for (j = 0; j < ImageDimension; ++j)
+    double accum = 0.0;
+    double accum_d = 0.0;
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       if (j != i)
       {
-        dx_aug =
+        PixelRealType dx_aug =
           (it.GetPixel(m_Center + m_Stride[i] + m_Stride[j]) - it.GetPixel(m_Center + m_Stride[i] - m_Stride[j])) /
           2.0f;
         dx_aug *= this->m_ScaleCoefficients[j];
-        dx_dim =
+        PixelRealType dx_dim =
           (it.GetPixel(m_Center - m_Stride[i] + m_Stride[j]) - it.GetPixel(m_Center - m_Stride[i] - m_Stride[j])) /
           2.0f;
         dx_dim *= this->m_ScaleCoefficients[j];
@@ -135,6 +118,8 @@ GradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhood
       }
     }
 
+    double Cx;
+    double Cxd;
     if (m_K == 0.0)
     {
       Cx = 0.0;

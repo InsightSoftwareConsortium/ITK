@@ -76,7 +76,6 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::Initialize()
   InputPointType v1;
   InputPointType v2;
   InputPointType v3;
-
   for (unsigned int idx1 = 0; idx1 < m_IdOffset; ++idx1)
   {
     m_FaceSet->insert(idx1);
@@ -161,10 +160,6 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateSimplexNeighbors
   OutputPointsContainerPointer  outputPointsContainer = output->GetPoints();
   OutputPointsContainerIterator points = outputPointsContainer->Begin();
 
-  CellIdentifier tp0;
-  CellIdentifier tp1;
-  CellIdentifier tp2;
-
   InputBoundaryAssignmentsContainerPointer cntlines = this->GetInput(0)->GetBoundaryAssignments(1);
 
   while (points != outputPointsContainer->End())
@@ -174,9 +169,9 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateSimplexNeighbors
     InputBoundnaryAssignmentIdentifier key1(idx, 1);
     InputBoundnaryAssignmentIdentifier key2(idx, 2);
 
-    tp0 = cntlines->GetElement(key0);
-    tp1 = cntlines->GetElement(key1);
-    tp2 = cntlines->GetElement(key2);
+    CellIdentifier tp0 = cntlines->GetElement(key0);
+    CellIdentifier tp1 = cntlines->GetElement(key1);
+    CellIdentifier tp2 = cntlines->GetElement(key2);
 
     CreateEdgeForTrianglePair(idx, tp0, output);
     CreateEdgeForTrianglePair(idx, tp1, output);
@@ -304,14 +299,13 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
   const InputPointsContainer *      pointsContainer = this->GetInput(0)->GetPoints();
   InputPointsContainerConstIterator points = pointsContainer->Begin();
   TOutputMesh *                     outputMesh = this->GetOutput();
-  PointIdentifier                   idx;
 
   using MapType = itk::MapContainer<CellIdentifier, CellIdentifier>;
 
   while (points != pointsContainer->End())
   {
-    idx = points.Index();
-    IndexSetType vertexNeighbors = m_VertexNeighborList->GetElement(idx);
+    PointIdentifier idx = points.Index();
+    IndexSetType    vertexNeighbors = m_VertexNeighborList->GetElement(idx);
 
     auto iterator1 = vertexNeighbors.begin();
 
@@ -409,22 +403,20 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::ComputeFaceCenter(Cell
                                                                             const InputMeshType * inputMesh)
   -> InputPointType
 {
-  InputPointType v1;
-  InputPointType v2;
-  InputPointType v3;
-
   CellAutoPointer cellPointer;
-
   inputMesh->GetCell(faceId, cellPointer);
   const PointIdentifier * tp = cellPointer->GetPointIds();
+  InputPointType          v1;
   if (!inputMesh->GetPoint(tp[0], &v1))
   {
     itkExceptionMacro("Point with id " << tp[0] << " does not exist in the input mesh");
   }
+  InputPointType v2;
   if (!inputMesh->GetPoint(tp[1], &v2))
   {
     itkExceptionMacro("Point with id " << tp[1] << " does not exist in the input mesh");
   }
+  InputPointType v3;
   if (!inputMesh->GetPoint(tp[2], &v3))
   {
     itkExceptionMacro("Point with id " << tp[2] << " does not exist in the input mesh");

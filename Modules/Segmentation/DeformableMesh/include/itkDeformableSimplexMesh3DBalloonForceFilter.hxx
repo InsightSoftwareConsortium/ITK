@@ -50,43 +50,38 @@ DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::PrintSelf(st
 
   os << indent << "Kappa: " << m_Kappa << std::endl;
 }
-
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(
   SimplexMeshGeometry *     data,
   const GradientImageType * gradientImage)
 {
-  PointType         vec_for;
-  PointType         tmp_vec_1;
-  PointType         tmp_vec_2;
-  PointType         tmp_vec_3;
   GradientIndexType coord;
-  GradientIndexType coord2;
-  GradientIndexType tmp_co_1;
-  GradientIndexType tmp_co_2;
-  GradientIndexType tmp_co_3;
-
   coord[0] = static_cast<GradientIndexValueType>(data->pos[0]);
   coord[1] = static_cast<GradientIndexValueType>(data->pos[1]);
   coord[2] = static_cast<GradientIndexValueType>(data->pos[2]);
 
+  GradientIndexType coord2;
   coord2[0] = static_cast<GradientIndexValueType>(std::ceil(data->pos[0]));
   coord2[1] = static_cast<GradientIndexValueType>(std::ceil(data->pos[1]));
   coord2[2] = static_cast<GradientIndexValueType>(std::ceil(data->pos[2]));
 
+  GradientIndexType tmp_co_1;
   tmp_co_1[0] = coord2[0];
   tmp_co_1[1] = coord[1];
   tmp_co_1[2] = coord[2];
 
+  GradientIndexType tmp_co_2;
   tmp_co_2[0] = coord[0];
   tmp_co_2[1] = coord2[1];
   tmp_co_2[2] = coord[2];
 
+  GradientIndexType tmp_co_3;
   tmp_co_3[0] = coord[0];
   tmp_co_3[1] = coord[1];
   tmp_co_3[2] = coord2[2];
 
+  PointType vec_for;
   if ((coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && (coord2[0] < this->GetImageWidth()) &&
       (coord2[1] < this->GetImageHeight()) && (coord2[2] < this->GetImageDepth()))
   {
@@ -94,12 +89,17 @@ DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::ComputeExter
     vec_for[1] = gradientImage->GetPixel(coord)[1];
     vec_for[2] = gradientImage->GetPixel(coord)[2];
 
+    PointType tmp_vec_1;
     tmp_vec_1[0] = gradientImage->GetPixel(tmp_co_1)[0] - gradientImage->GetPixel(coord)[0];
     tmp_vec_1[1] = gradientImage->GetPixel(tmp_co_1)[1] - gradientImage->GetPixel(coord)[1];
     tmp_vec_1[2] = gradientImage->GetPixel(tmp_co_1)[2] - gradientImage->GetPixel(coord)[2];
+
+    PointType tmp_vec_2;
     tmp_vec_2[0] = gradientImage->GetPixel(tmp_co_2)[0] - gradientImage->GetPixel(coord)[0];
     tmp_vec_2[1] = gradientImage->GetPixel(tmp_co_2)[1] - gradientImage->GetPixel(coord)[1];
     tmp_vec_2[2] = gradientImage->GetPixel(tmp_co_2)[2] - gradientImage->GetPixel(coord)[2];
+
+    PointType tmp_vec_3;
     tmp_vec_3[0] = gradientImage->GetPixel(tmp_co_3)[0] - gradientImage->GetPixel(coord)[0];
     tmp_vec_3[1] = gradientImage->GetPixel(tmp_co_3)[1] - gradientImage->GetPixel(coord)[1];
     tmp_vec_3[2] = gradientImage->GetPixel(tmp_co_3)[2] - gradientImage->GetPixel(coord)[2];

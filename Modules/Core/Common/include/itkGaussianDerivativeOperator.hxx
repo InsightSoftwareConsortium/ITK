@@ -103,20 +103,19 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 auto
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateGaussianCoefficients() const -> CoefficientVector
 {
-
-  CoefficientVector coeff;
-
   // Use image spacing to modify variance
   const double pixelVariance = m_Variance / (m_Spacing * m_Spacing);
 
   // Now create coefficients as if they were zero order coeffs
-  const double                 et = std::exp(-pixelVariance);
-  const double                 cap = 1.0 - m_MaximumError;
-  CompensatedSummation<double> sum;
+  const double et = std::exp(-pixelVariance);
+  const double cap = 1.0 - m_MaximumError;
+
 
   // Create the kernel coefficients as a std::vector
+  CoefficientVector coeff;
   coeff.push_back(et * ModifiedBesselI0(pixelVariance));
-  sum += coeff[0];
+
+  CompensatedSummation<double> sum = coeff[0];
   coeff.push_back(et * ModifiedBesselI1(pixelVariance));
   sum += coeff[1] * 2.0;
 
@@ -167,20 +166,19 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI0(double y)
 {
-  double d;
   double accumulator;
-  double m;
 
-  if ((d = itk::Math::abs(y)) < 3.75)
+  double d = itk::Math::abs(y);
+  if (d < 3.75)
   {
-    m = y / 3.75;
+    double m = y / 3.75;
     m *= m;
     accumulator =
       1.0 + m * (3.5156229 + m * (3.0899424 + m * (1.2067492 + m * (0.2659732 + m * (0.360768e-1 + m * 0.45813e-2)))));
   }
   else
   {
-    m = 3.75 / d;
+    double m = 3.75 / d;
     accumulator =
       (std::exp(d) / std::sqrt(d)) *
       (0.39894228 +
@@ -197,13 +195,11 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
 {
-  double d;
   double accumulator;
-  double m;
-
-  if ((d = itk::Math::abs(y)) < 3.75)
+  double d = itk::Math::abs(y);
+  if (d < 3.75)
   {
-    m = y / 3.75;
+    double m = y / 3.75;
     m *= m;
     accumulator =
       d * (0.5 + m * (0.87890594 +
@@ -211,7 +207,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(dou
   }
   else
   {
-    m = 3.75 / d;
+    double m = 3.75 / d;
     accumulator = 0.2282967e-1 + m * (-0.2895312e-1 + m * (0.1787654e-1 - m * 0.420059e-2));
     accumulator =
       0.39894228 + m * (-0.3988024e-1 + m * (-0.362018e-2 + m * (0.163801e-2 + m * (-0.1031555e-1 + m * accumulator))));
@@ -234,30 +230,26 @@ double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double y)
 {
   constexpr double DIGITS = 10.0;
-  int              j;
-  double           qim;
-  double           qi;
-  double           qip;
-  double           toy;
-  double           accumulator;
 
   if (n < 2)
   {
     throw ExceptionObject(__FILE__, __LINE__, "Order of modified bessel is > 2.", ITK_LOCATION); //
                                                                                                  // placeholder
   }
+
+  double accumulator;
   if (y == 0.0)
   {
     return 0.0;
   }
   else
   {
-    toy = 2.0 / itk::Math::abs(y);
-    qip = accumulator = 0.0;
-    qi = 1.0;
-    for (j = 2 * (n + static_cast<int>(DIGITS * std::sqrt(static_cast<double>(n)))); j > 0; j--)
+    double toy = 2.0 / itk::Math::abs(y);
+    double qip = accumulator = 0.0;
+    double qi = 1.0;
+    for (int j = 2 * (n + static_cast<int>(DIGITS * std::sqrt(static_cast<double>(n)))); j > 0; j--)
     {
-      qim = qip + j * toy * qi;
+      double qim = qip + j * toy * qi;
       qip = qi;
       qi = qim;
       if (itk::Math::abs(qi) > 1.0e10)

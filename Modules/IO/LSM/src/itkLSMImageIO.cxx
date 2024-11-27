@@ -127,7 +127,6 @@ LSMImageIO::CanReadFile(const char * filename)
     return false;
   }
 
-
   if (!this->HasSupportedReadExtension(filename))
   {
     itkDebugMacro("The filename extension is not recognized");
@@ -234,25 +233,20 @@ LSMImageIO::Write(const void * buffer)
 {
   const auto * outPtr = (const unsigned char *)buffer;
 
-  unsigned int width;
-  unsigned int height;
-  unsigned int page;
   unsigned int pages = 1;
   if (this->GetNumberOfDimensions() < 2)
   {
     itkExceptionMacro("TIFF requires images to have at least 2 dimensions");
   }
-  width = m_Dimensions[0];
-  height = m_Dimensions[1];
+  unsigned int width = m_Dimensions[0];
+  unsigned int height = m_Dimensions[1];
   if (m_NumberOfDimensions == 3)
   {
     pages = m_Dimensions[2];
   }
 
   uint16_t scomponents = this->GetNumberOfComponents();
-  float    resolution = -1;
   uint16_t bps;
-
   switch (this->GetComponentType())
   {
     case IOComponentEnum::UCHAR:
@@ -267,8 +261,7 @@ LSMImageIO::Write(const void * buffer)
       itkExceptionMacro("TIFF supports unsigned char and unsigned short");
   }
 
-  uint16_t predictor;
-
+  float  resolution = -1;
   TIFF * tif = TIFFOpen(m_FileName.c_str(), "w");
   if (!tif)
   {
@@ -284,7 +277,7 @@ LSMImageIO::Write(const void * buffer)
   {
     TIFFCreateDirectory(tif);
   }
-  for (page = 0; page < pages; ++page)
+  for (unsigned int page = 0; page < pages; ++page)
   {
     TIFFSetDirectory(tif, page);
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);
@@ -308,8 +301,7 @@ LSMImageIO::Write(const void * buffer)
       uint16_t   extra_samples = scomponents - 3;
       const auto sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
-      int cc;
-      for (cc = 1; cc < scomponents - 3; ++cc)
+      for (int cc = 1; cc < scomponents - 3; ++cc)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }
@@ -347,6 +339,7 @@ LSMImageIO::Write(const void * buffer)
 
     uint16_t photometric = (scomponents == 1) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
 
+    uint16_t predictor;
     if (compression == COMPRESSION_JPEG)
     {
       TIFFSetField(tif, TIFFTAG_JPEGQUALITY, this->GetCompressionLevel()); // Parameter
@@ -379,8 +372,8 @@ LSMImageIO::Write(const void * buffer)
       // We are writing single page of the multipage file
       TIFFSetField(tif, TIFFTAG_SUBFILETYPE, FILETYPE_PAGE);
     }
-    int rowLength; // in bytes
 
+    int rowLength; // in bytes
     switch (this->GetComponentType())
     {
       case IOComponentEnum::UCHAR:

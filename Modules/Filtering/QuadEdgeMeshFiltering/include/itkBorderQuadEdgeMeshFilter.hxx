@@ -107,13 +107,11 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeLongestBorder() -> Inp
     itkGenericExceptionMacro("This filter requires at least one boundary");
   }
 
-  InputCoordinateType max_length(0.0);
-  InputCoordinateType length(0.0);
-  auto                oborder_it = list->begin();
-
+  InputCoordRepType max_length(0.0);
+  auto              oborder_it = list->begin();
   for (auto b_it = list->begin(); b_it != list->end(); ++b_it)
   {
-    length = 0.;
+    InputCoordRepType length(0.0);
 
     for (InputIteratorGeom e_it = (*b_it)->BeginGeomLnext(); e_it != (*b_it)->EndGeomLnext(); ++e_it)
     {
@@ -261,14 +259,12 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::RadiusMaxSquare() -> InputCoo
 
   InputPointType center = this->GetMeshBarycentre();
 
-  InputCoordinateType oRmax(0.);
-  InputCoordinateType r;
-
+  InputCoordRepType oRmax(0.);
   for (auto BoundaryPtIterator = this->m_BoundaryPtMap.begin(); BoundaryPtIterator != this->m_BoundaryPtMap.end();
        ++BoundaryPtIterator)
   {
-    r = static_cast<InputCoordinateType>(center.SquaredEuclideanDistanceTo(input->GetPoint(BoundaryPtIterator->first)));
-
+    InputCoordRepType r =
+      static_cast<InputCoordRepType>(center.SquaredEuclideanDistanceTo(input->GetPoint(BoundaryPtIterator->first)));
     if (r > oRmax)
     {
       oRmax = r;
@@ -357,28 +353,22 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ArcLengthSquareTransform()
 
   std::vector<InputCoordinateType> Length(NbBoundaryPt + 1, 0.0);
 
-  InputCoordinateType TotalLength(0.0);
-  InputCoordinateType distance;
-
-  InputPointIdentifier i(0);
-  InputPointIdentifier org(0);
-  InputPointIdentifier dest(0);
-  InputPointType       PtOrg;
-  InputPointType       PtDest;
-
-  for (InputIteratorGeom it = bdryEdge->BeginGeomLnext(); it != bdryEdge->EndGeomLnext(); ++it, ++i)
+  InputCoordRepType TotalLength(0.0);
   {
-    org = it.Value()->GetOrigin();
-    dest = it.Value()->GetDestination();
+    InputPointIdentifier i(0);
+    for (InputIteratorGeom it = bdryEdge->BeginGeomLnext(); it != bdryEdge->EndGeomLnext(); ++it, ++i)
+    {
+      InputPointIdentifier org = it.Value()->GetOrigin();
+      InputPointIdentifier dest = it.Value()->GetDestination();
 
-    PtOrg = input->GetPoint(org);
-    PtDest = input->GetPoint(dest);
+      InputPointType PtOrg = input->GetPoint(org);
+      InputPointType PtDest = input->GetPoint(dest);
 
-    distance = PtOrg.EuclideanDistanceTo(PtDest);
-    TotalLength += distance;
-    Length[i] = TotalLength;
+      InputCoordRepType distance = PtOrg.EuclideanDistanceTo(PtDest);
+      TotalLength += distance;
+      Length[i] = TotalLength;
+    }
   }
-
   if (this->m_Radius == 0.0)
   {
     this->m_Radius = 1000.;
@@ -387,7 +377,8 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ArcLengthSquareTransform()
   InputCoordinateType EdgeLength = 2.0 * this->m_Radius;
   InputCoordinateType ratio = 4.0 * EdgeLength / TotalLength;
 
-  for (i = 0; i < NbBoundaryPt + 1; ++i)
+
+  for (InputPointIdentifier i = 0; i < NbBoundaryPt + 1; ++i)
   {
     Length[i] *= ratio;
   }
@@ -399,7 +390,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ArcLengthSquareTransform()
 
   this->m_Border[0] = pt;
 
-  i = 1;
+  InputPointIdentifier i = 1;
   while (Length[i] < EdgeLength)
   {
     pt[0] = -this->m_Radius + Length[i];

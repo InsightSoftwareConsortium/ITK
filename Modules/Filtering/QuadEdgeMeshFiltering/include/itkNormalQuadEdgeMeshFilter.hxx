@@ -137,14 +137,11 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
       // this test should be removed...
       if (poly->GetNumberOfPoints() == 3)
       {
-        int              internal_id(0);
-        int              k(0);
-        OutputPointType  pt[3];
-        OutputVectorType u;
-        OutputVectorType v;
-
-        OutputQEType * edge = poly->GetEdgeRingEntry();
-        OutputQEType * temp = edge;
+        OutputQEType *  edge = poly->GetEdgeRingEntry();
+        OutputQEType *  temp = edge;
+        OutputPointType pt[3];
+        int             internal_id(0);
+        int             k(0);
         do
         {
           pt[k] = outputMesh->GetPoint(temp->GetOrigin());
@@ -167,6 +164,8 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
           case WeightEnum::THURMER:
           {
             // this implementation may be included inside itkTriangle
+            OutputVectorType u;
+            OutputVectorType v;
             switch (internal_id)
             {
               case 0:

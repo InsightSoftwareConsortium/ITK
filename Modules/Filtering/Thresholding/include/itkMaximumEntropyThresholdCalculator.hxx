@@ -44,38 +44,28 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   unsigned int size = histogram->GetSize(0);
 
   typename HistogramType::InstanceIdentifier threshold = 0;
-  int                                        ih;
-  int                                        it;
-  int                                        first_bin;
-  int                                        last_bin;
-  double                                     tot_ent;          // total entropy
-  double                                     max_ent;          // max entropy
-  double                                     ent_back;         // entropy of the background pixels at a given threshold
-  double                                     ent_obj;          // entropy of the object pixels at a given threshold
-  std::vector<double>                        norm_histo(size); // normalized histogram
-  std::vector<double>                        P1(size);         // cumulative normalized histogram
-  std::vector<double>                        P2(size);
 
   const double tolerance = itk::NumericTraits<double>::epsilon();
+  int          total = histogram->GetTotalFrequency();
 
-  int total = histogram->GetTotalFrequency();
-
-  for (ih = 0; static_cast<unsigned int>(ih) < size; ++ih)
+  std::vector<double> norm_histo(size); // normalized histogram
+  for (int ih = 0; static_cast<unsigned int>(ih) < size; ++ih)
   {
     norm_histo[ih] = static_cast<double>(histogram->GetFrequency(ih, 0)) / total;
   }
-
+  std::vector<double> P1(size); // cumulative normalized histogram
   P1[0] = norm_histo[0];
+  std::vector<double> P2(size);
   P2[0] = 1.0 - P1[0];
-  for (ih = 1; static_cast<unsigned int>(ih) < size; ++ih)
+  for (int ih = 1; static_cast<unsigned int>(ih) < size; ++ih)
   {
     P1[ih] = P1[ih - 1] + norm_histo[ih];
     P2[ih] = 1.0 - P1[ih];
   }
 
   // Determine the first non-zero bin
-  first_bin = 0;
-  for (ih = 0; static_cast<unsigned int>(ih) < size; ++ih)
+  int first_bin = 0;
+  for (int ih = 0; static_cast<unsigned int>(ih) < size; ++ih)
   {
     if (!(itk::Math::abs(P1[ih]) < tolerance))
     {
@@ -85,8 +75,8 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   }
 
   // Determine the last non-zero bin
-  last_bin = size - 1;
-  for (ih = size - 1; ih >= first_bin; ih--)
+  int last_bin = size - 1;
+  for (int ih = size - 1; ih >= first_bin; ih--)
   {
     if (!(itk::Math::abs(P2[ih]) < tolerance))
     {
@@ -97,13 +87,13 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Calculate the total entropy each gray-level and find the threshold that
   // maximizes it
-  max_ent = itk::NumericTraits<double>::min();
+  double max_ent = itk::NumericTraits<double>::min(); // max entropy
 
-  for (it = first_bin; it <= last_bin; ++it)
+  for (int it = first_bin; it <= last_bin; ++it)
   {
     // Entropy of the background pixels
-    ent_back = 0.0;
-    for (ih = 0; ih <= it; ++ih)
+    double ent_back = 0.0; // entropy of the background pixels at a given threshold
+    for (int ih = 0; ih <= it; ++ih)
     {
       if (histogram->GetFrequency(ih, 0) != 0)
       {
@@ -111,9 +101,9 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
       }
     }
 
-    // Entropy of the object pixels
-    ent_obj = 0.0;
-    for (ih = it + 1; static_cast<unsigned int>(ih) < size; ++ih)
+    // entropy of the object pixels at a given threshold
+    double ent_obj = 0.0;
+    for (int ih = it + 1; static_cast<unsigned int>(ih) < size; ++ih)
     {
       if (histogram->GetFrequency(ih, 0) != 0)
       {
@@ -121,9 +111,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
       }
     }
 
-    // Total entropy
-    tot_ent = ent_back + ent_obj;
-
+    double tot_ent = ent_back + ent_obj; // total entropy
     // IJ.log(""+max_ent+"  "+tot_ent);
 
     constexpr double tol = 0.00001;
