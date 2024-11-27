@@ -134,14 +134,15 @@ main(int argc, char * argv[])
   // DWMRI_gradient_0003:=0.110000        0.664000        0.740000
   // ...
   //
-  itk::MetaDataDictionary  imgMetaDictionary = img->GetMetaDataDictionary();
+  const itk::MetaDataDictionary imgMetaDictionary =
+    img->GetMetaDataDictionary();
   std::vector<std::string> imgMetaKeys = imgMetaDictionary.GetKeys();
   std::vector<std::string>::const_iterator itKey = imgMetaKeys.begin();
   std::string                              metaString;
 
   TensorReconstructionImageFilterType::GradientDirectionType vect3d;
-  TensorReconstructionImageFilterType::GradientDirectionContainerType::Pointer
-    DiffusionVectors = TensorReconstructionImageFilterType::
+  const TensorReconstructionImageFilterType::GradientDirectionContainerType::
+    Pointer DiffusionVectors = TensorReconstructionImageFilterType::
       GradientDirectionContainerType::New();
 
 

@@ -80,13 +80,13 @@ itkImageToHistogramFilterTest(int, char *[])
   using HistogramSizeType = HistogramFilterType::HistogramSizeType;
   using HistogramType = HistogramFilterType::HistogramType;
 
-  auto                     filter = HistogramFilterType::New();
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  auto                           filter = HistogramFilterType::New();
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToHistogramFilter, ImageSink);
 
 
-  unsigned int numberOfStreamDivisions = 1;
+  const unsigned int numberOfStreamDivisions = 1;
   filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   ITK_TEST_SET_GET_VALUE(numberOfStreamDivisions, filter->GetNumberOfStreamDivisions());
 
@@ -138,7 +138,7 @@ itkImageToHistogramFilterTest(int, char *[])
     }
   }
 
-  InputHistogramMeasurementVectorObjectType::Pointer histogramBinMinimumObject =
+  const InputHistogramMeasurementVectorObjectType::Pointer histogramBinMinimumObject =
     InputHistogramMeasurementVectorObjectType::New();
   histogramBinMinimumObject->Set(histogramBinMinimum1);
   filter->SetHistogramBinMinimumInput(histogramBinMinimumObject);
@@ -235,7 +235,7 @@ itkImageToHistogramFilterTest(int, char *[])
   }
 
 
-  InputHistogramMeasurementVectorObjectType::Pointer histogramBinMaximumObject =
+  const InputHistogramMeasurementVectorObjectType::Pointer histogramBinMaximumObject =
     InputHistogramMeasurementVectorObjectType::New();
 
   histogramBinMaximumObject->Set(histogramBinMaximum1);
@@ -288,7 +288,7 @@ itkImageToHistogramFilterTest(int, char *[])
 
   filter->SetHistogramBinMaximum(histogramBinMaximum1);
 
-  itk::ModifiedTimeType modifiedTime = filter->GetMTime();
+  const itk::ModifiedTimeType modifiedTime = filter->GetMTime();
   filter->SetHistogramBinMaximum(histogramBinMaximum1);
 
   if (filter->GetMTime() != modifiedTime)

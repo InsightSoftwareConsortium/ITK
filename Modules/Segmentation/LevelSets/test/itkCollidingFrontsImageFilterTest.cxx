@@ -50,7 +50,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   ImageType::RegionType imageRegion;
   imageRegion.SetSize(imageSize);
 
-  PixelType background = 64;
+  const PixelType background = 64;
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);
@@ -98,7 +98,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   seeds2->InsertElement(0, node2);
 
   InternalImageType::OffsetType offset = { { 60, 60 } };
-  double                        radius = seedPosition2[0] - offset[0];
+  const double                  radius = seedPosition2[0] - offset[0];
 
   collidingFronts->SetInput(caster->GetOutput());
   collidingFronts->SetSeedPoints1(seeds1);
@@ -114,7 +114,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(collidingFronts->Update());
 
 
-  InternalImageType::Pointer output = collidingFronts->GetOutput();
+  const InternalImageType::Pointer output = collidingFronts->GetOutput();
 
   itk::ImageRegionIterator<InternalImageType> iterator(output, output->GetBufferedRegion());
 
@@ -131,7 +131,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
       distance += tempIndex[j] * tempIndex[j];
     }
     distance = std::sqrt(distance);
-    InternalImageType::PixelType outputPixel = iterator.Get();
+    const InternalImageType::PixelType outputPixel = iterator.Get();
 
     // for test to pass, the circle of radius 10 centered in offset
     // must be made up only of negative pixels and vice-versa

@@ -293,7 +293,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
 
   // Get the input and output pointers
   const InputSpatialObjectType * InputObject = this->GetInput();
-  OutputImagePointer             OutputImage = this->GetOutput();
+  const OutputImagePointer       OutputImage = this->GetOutput();
 
   // Generate the image
   SizeType size;
@@ -359,7 +359,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
 
     double val = 0;
 
-    bool evaluable = InputObject->ValueAtInWorldSpace(objectPoint, val, m_ChildrenDepth);
+    const bool evaluable = InputObject->ValueAtInWorldSpace(objectPoint, val, m_ChildrenDepth);
     if (Math::NotExactlyEquals(m_InsideValue, ValueType{}) || Math::NotExactlyEquals(m_OutsideValue, ValueType{}))
     {
       if (evaluable)

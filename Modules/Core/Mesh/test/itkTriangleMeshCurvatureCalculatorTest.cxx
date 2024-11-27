@@ -77,7 +77,7 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   using VectorType = SphereMeshSourceType::VectorType;
 
   auto                 mySphereMeshSource = SphereMeshSourceType::New();
-  PointType            center{};
+  const PointType      center{};
   PointType::ValueType scaleInit_1[Dimension] = { 5, 5, 5 };
   VectorType           scale = scaleInit_1;
 
@@ -95,8 +95,8 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   gaussCurvatureData = curvCalculator->GetGaussCurvatureData();
 
   // Values obtained using the VTK Gaussian Curvature
-  float v1 = 0.06087285;
-  float v2 = 0.04463759;
+  const float v1 = 0.06087285;
+  const float v2 = 0.04463759;
 
   // Test if values are correct for scale 5 and resolution 1 sphere
   for (unsigned int k = 0; k < triangleMesh->GetNumberOfPoints(); ++k)
@@ -128,8 +128,8 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
 
   gaussCurvatureData = curvCalculator->GetGaussCurvatureData();
 
-  float v3 = 0.00015218;
-  float v4 = 0.00011159;
+  const float v3 = 0.00015218;
+  const float v4 = 0.00011159;
 
   // Test if values are correct for scale 100 and resolution 1 sphere.
   for (unsigned int k = 0; k < triangleMesh->GetNumberOfPoints(); ++k)
@@ -184,11 +184,11 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   if (argc > 1)
   {
     using ReaderType = itk::MeshFileReader<TriangleMeshType>;
-    ReaderType::Pointer polyDataReader = ReaderType::New();
+    const ReaderType::Pointer polyDataReader = ReaderType::New();
     polyDataReader->SetFileName(argv[1]);
     polyDataReader->Update();
 
-    TriangleMeshType::Pointer inputMesh = polyDataReader->GetOutput();
+    const TriangleMeshType::Pointer inputMesh = polyDataReader->GetOutput();
     curvCalculator->SetTriangleMesh(inputMesh);
     curvCalculator->SetCurvatureTypeToGaussian();
     curvCalculator->Compute();

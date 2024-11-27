@@ -103,8 +103,8 @@ itkSplineKernelTransformTest(int, char *[])
   ebs2D->ComputeWMatrix();
 
   { // Testing the number of parameters
-    EBSTransform2DType::ParametersType parameters1 = ebs2D->GetParameters();
-    const unsigned int                 numberOfParameters = parameters1.Size();
+    const EBSTransform2DType::ParametersType parameters1 = ebs2D->GetParameters();
+    const unsigned int                       numberOfParameters = parameters1.Size();
     if (numberOfParameters != 4 * 2)
     {
       std::cerr << "Number of parameters was not updated after" << std::endl;
@@ -210,7 +210,7 @@ itkSplineKernelTransformTest(int, char *[])
     }
   }
   { // Just for code coverage
-    TPSTransform2DType::VectorSetType::ConstPointer tempDisplacements = tps2D->GetDisplacements();
+    const TPSTransform2DType::VectorSetType::ConstPointer tempDisplacements = tps2D->GetDisplacements();
 
     {
       TPSTransform2DType::InputVectorType testVector;

@@ -256,7 +256,7 @@ ObjectFactoryBase::LoadDynamicFactories()
 #  ifdef _WIN32
   char PathSeparator = ';';
 #  else
-  char PathSeparator = ':';
+  const char PathSeparator = ':';
 #  endif
 
   const std::string itk_autoload_env{ "ITK_AUTOLOAD_PATH" };
@@ -286,7 +286,8 @@ ObjectFactoryBase::LoadDynamicFactories()
       EndSeparatorPosition = LoadPath.size() + 1; // Add 1 to simulate
                                                   // having a separator
     }
-    std::string CurrentPath = LoadPath.substr(StartSeparatorPosition, EndSeparatorPosition - StartSeparatorPosition);
+    const std::string CurrentPath =
+      LoadPath.substr(StartSeparatorPosition, EndSeparatorPosition - StartSeparatorPosition);
 
     ObjectFactoryBase::LoadLibrariesInPath(CurrentPath.c_str());
 
@@ -353,7 +354,7 @@ NameIsSharedLibrary([[maybe_unused]] const char * name)
 #ifdef ITK_DYNAMIC_LOADING
   std::string extension = itksys::DynamicLoader::LibExtension();
 
-  std::string sname = name;
+  const std::string sname = name;
   if (sname.rfind(extension) == sname.size() - extension.size())
   {
     return true;
@@ -399,8 +400,8 @@ ObjectFactoryBase::LoadLibrariesInPath(const char * path)
      */
     if (NameIsSharedLibrary(file))
     {
-      std::string fullpath = CreateFullPath(path, file);
-      LibHandle   lib = DynamicLoader::OpenLibrary(fullpath.c_str());
+      const std::string fullpath = CreateFullPath(path, file);
+      LibHandle         lib = DynamicLoader::OpenLibrary(fullpath.c_str());
       if (lib)
       {
         /**

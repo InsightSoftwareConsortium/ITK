@@ -102,8 +102,8 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   adaptor2->Initialize();
   std::cout << "Finished converting levelset2 to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
-  SparseLevelSetType::Pointer level_set2 = adaptor2->GetModifiableLevelSet();
+  const SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
+  const SparseLevelSetType::Pointer level_set2 = adaptor2->GetModifiableLevelSet();
 
   IdListType list_ids;
   list_ids.push_back(1);
@@ -156,18 +156,18 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   penaltyTerm1->SetInput(binary);
   ITK_TEST_SET_GET_VALUE(binary, penaltyTerm1->GetInput());
 
-  typename OverlapPenaltyTermType::LevelSetOutputRealType coefficient = 1000.0;
+  const typename OverlapPenaltyTermType::LevelSetOutputRealType coefficient = 1000.0;
   penaltyTerm1->SetCoefficient(coefficient);
   ITK_TEST_SET_GET_VALUE(coefficient, penaltyTerm1->GetCoefficient());
 
-  typename OverlapPenaltyTermType::LevelSetIdentifierType currentLevelSetId = 1;
+  const typename OverlapPenaltyTermType::LevelSetIdentifierType currentLevelSetId = 1;
   penaltyTerm1->SetCurrentLevelSetId(currentLevelSetId);
   ITK_TEST_SET_GET_VALUE(currentLevelSetId, penaltyTerm1->GetCurrentLevelSetId());
 
   penaltyTerm1->SetLevelSetContainer(lscontainer);
   ITK_TEST_SET_GET_VALUE(lscontainer, penaltyTerm1->GetLevelSetContainer());
 
-  std::string termName = "Overlap term";
+  const std::string termName = "Overlap term";
   penaltyTerm1->SetTermName(termName);
   ITK_TEST_SET_GET_VALUE(termName, penaltyTerm1->GetTermName());
 

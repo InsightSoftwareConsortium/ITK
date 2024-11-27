@@ -61,7 +61,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   ImageType::SizeType size;
   size[0] = 128;
   size[1] = 128;
-  ImageType::RegionType region{ start, size };
+  const ImageType::RegionType region{ start, size };
   inputImage->SetRegions(region);
   double spacing[ImageType::ImageDimension];
   spacing[0] = 1.0;
@@ -108,24 +108,24 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   // Set up the first filter
   auto pathToChainCodePathFilter = PathToChainCodePathFilterType::New();
   pathToChainCodePathFilter->SetInput(inputPath);
-  ChainCodePathType::Pointer chainPath = pathToChainCodePathFilter->GetOutput();
+  const ChainCodePathType::Pointer chainPath = pathToChainCodePathFilter->GetOutput();
 
   // Set up the second filter
-  ChainCodeToFourierSeriesPathFilterType::Pointer chainCodeToFourierSeriesPathFilte =
+  const ChainCodeToFourierSeriesPathFilterType::Pointer chainCodeToFourierSeriesPathFilte =
     ChainCodeToFourierSeriesPathFilterType::New();
   chainCodeToFourierSeriesPathFilte->SetInput(pathToChainCodePathFilter->GetOutput());
   chainCodeToFourierSeriesPathFilte->SetNumberOfHarmonics(7); // make a nice, round, path for the swath
-  FourierSeriesPathType::Pointer outputPath = chainCodeToFourierSeriesPathFilte->GetOutput();
+  const FourierSeriesPathType::Pointer outputPath = chainCodeToFourierSeriesPathFilte->GetOutput();
 
   // Set up the third filter; THIS IS THE MAIN FILTER TO BE TESTED
-  ExtractOrthogonalSwath2DImageFilterType::Pointer extractOrthogonalSwath2DImageFilter =
+  const ExtractOrthogonalSwath2DImageFilterType::Pointer extractOrthogonalSwath2DImageFilter =
     ExtractOrthogonalSwath2DImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     extractOrthogonalSwath2DImageFilter, ExtractOrthogonalSwath2DImageFilter, ImageAndPathToImageFilter);
 
 
-  typename ImageType::PixelType defaultPixelValue{};
+  const typename ImageType::PixelType defaultPixelValue{};
   extractOrthogonalSwath2DImageFilter->SetDefaultPixelValue(defaultPixelValue);
 
   extractOrthogonalSwath2DImageFilter->SetImageInput(inputImage);
@@ -136,7 +136,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   extractOrthogonalSwath2DImageFilter->SetSize(size);
 
   // Set up the output
-  ImageType::Pointer outputImage = extractOrthogonalSwath2DImageFilter->GetOutput();
+  const ImageType::Pointer outputImage = extractOrthogonalSwath2DImageFilter->GetOutput();
 
   // Test spacing
   double pathImageSpacing[ImageType::ImageDimension];
@@ -207,7 +207,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
     }
   }
 
-  itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
+  const itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
   writer->SetInput(extractOrthogonalSwath2DImageFilter->GetOutput());
   writer->SetFileName(argv[1]);
 

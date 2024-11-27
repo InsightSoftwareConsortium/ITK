@@ -47,8 +47,8 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto   center = itk::MakeFilled<TPoint>(50);
-  double radius = 19.5;
+  auto         center = itk::MakeFilled<TPoint>(50);
+  const double radius = 19.5;
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
@@ -66,9 +66,9 @@ SimpleVelocity(const TPoint & p)
 {
   auto center = itk::MakeFilled<TPoint>(50);
 
-  double value;
-  double x = p[0] - center[0];
-  double y = p[1] - center[1];
+  double       value;
+  const double x = p[0] - center[0];
+  const double y = p[1] - center[1];
 
   if (y == 0.0)
   {
@@ -123,9 +123,9 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  auto                  image = ImageType::New();
-  auto                  size = ImageType::SizeType::Filled(128);
-  ImageType::RegionType region(size);
+  auto                        image = ImageType::New();
+  auto                        size = ImageType::SizeType::Filled(128);
+  const ImageType::RegionType region(size);
 
   image->SetRegions(region);
   image->Allocate();
@@ -213,9 +213,9 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   difference->Update();
 
   // mask out the peak at near the center point
-  auto                  centerIndex = ImageType::IndexType::Filled(50 - 8);
-  auto                  centerSize = ImageType::SizeType::Filled(17);
-  ImageType::RegionType centerRegion{ centerIndex, centerSize };
+  auto                        centerIndex = ImageType::IndexType::Filled(50 - 8);
+  auto                        centerSize = ImageType::SizeType::Filled(17);
+  const ImageType::RegionType centerRegion{ centerIndex, centerSize };
 
   iter = Iterator(difference->GetOutput(), centerRegion);
   iter.GoToBegin();
@@ -231,8 +231,8 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   calculator->SetImage(difference->GetOutput());
   calculator->Compute();
 
-  double    maxAbsDifference = calculator->GetMaximum();
-  IndexType maxAbsDifferenceIndex = calculator->GetIndexOfMaximum();
+  const double    maxAbsDifference = calculator->GetMaximum();
+  const IndexType maxAbsDifferenceIndex = calculator->GetIndexOfMaximum();
 
   std::cout << "Max. abs. difference = " << maxAbsDifference;
   std::cout << " at " << maxAbsDifferenceIndex << std::endl;
@@ -263,14 +263,14 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   using NodeContainerType = ReinitializerType::NodeContainer;
   using ContainerIterator = NodeContainerType::ConstIterator;
 
-  NodeContainerPointer nodes = reinitializer->GetOutputNarrowBand();
-  ContainerIterator    nodeIter = nodes->Begin();
-  ContainerIterator    nodeEnd = nodes->End();
+  const NodeContainerPointer nodes = reinitializer->GetOutputNarrowBand();
+  ContainerIterator          nodeIter = nodes->Begin();
+  const ContainerIterator    nodeEnd = nodes->End();
 
   while (nodeIter != nodeEnd)
   {
-    ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
-    double               absDiff =
+    const ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
+    const double               absDiff =
       itk::Math::abs(aux2->GetPixel(nodeIndex) - reinitializer->GetOutputVelocityImage(1)->GetPixel(nodeIndex));
     if (absDiff > 0.6)
     {

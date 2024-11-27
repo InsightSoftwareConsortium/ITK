@@ -73,7 +73,7 @@ public:
     {
       return;
     }
-    double currentValue = optimizer->GetValue();
+    const double currentValue = optimizer->GetValue();
     // Only print out when the Metric value changes
     if (itk::Math::abs(m_LastMetricValue - currentValue) > 1e-7)
     {
@@ -176,7 +176,8 @@ main(int argc, char * argv[])
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage =
+    fixedImageReader->GetOutput();
   registration->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
   transform->SetIdentity();
@@ -198,7 +199,8 @@ main(int argc, char * argv[])
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
-  FixedImageType::RegionType  region = fixedImage->GetLargestPossibleRegion();
+  const FixedImageType::RegionType region =
+    fixedImage->GetLargestPossibleRegion();
   FixedImageType::SizeType    size = region.GetSize();
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
@@ -249,8 +251,8 @@ main(int argc, char * argv[])
   ParametersType finalParameters = registration->GetLastTransformParameters();
   const double   finalTranslationX = finalParameters[0];
   const double   finalTranslationY = finalParameters[1];
-  unsigned int   numberOfIterations = optimizer->GetCurrentIteration();
-  const double   bestValue = optimizer->GetValue();
+  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
+  const double       bestValue = optimizer->GetValue();
 
   // Print out results
   std::cout << "Result = " << std::endl;

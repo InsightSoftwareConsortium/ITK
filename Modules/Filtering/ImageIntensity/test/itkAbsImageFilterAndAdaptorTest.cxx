@@ -97,7 +97,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   filter->SetInput(inputImage);
 
   // Get the Smart Pointer to the Filter Output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Execute the filter
   filter->Update();
@@ -153,7 +153,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   diffFilter->Update();
 
   // Get the Smart Pointer to the Diff filter Output
-  OutputImageType::Pointer diffImage = diffFilter->GetOutput();
+  const OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
   //  Check the content of the diff image
   std::cout << "Comparing the results with those of an Adaptor" << std::endl;

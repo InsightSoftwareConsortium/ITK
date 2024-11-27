@@ -56,7 +56,7 @@ itkMaximumEntropyThresholdImageFilterTest(int argc, char * argv[])
   using FilterType = itk::MaximumEntropyThresholdImageFilter<InputImageType, OutputImageType>;
   auto filter = FilterType::New();
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MaximumEntropyThresholdImageFilter, HistogramThresholdImageFilter);
 
@@ -87,7 +87,7 @@ itkMaximumEntropyThresholdImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
 
-  FilterType::CalculatorType::Pointer calculator = FilterType::CalculatorType::New();
+  const FilterType::CalculatorType::Pointer calculator = FilterType::CalculatorType::New();
   filter->SetCalculator(calculator);
   ITK_TEST_SET_GET_VALUE(calculator, filter->GetCalculator());
 
@@ -96,8 +96,8 @@ itkMaximumEntropyThresholdImageFilterTest(int argc, char * argv[])
 
 
   // Regression test: compare computed threshold
-  auto                       expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
-  FilterType::InputPixelType resultThreshold = filter->GetThreshold();
+  auto                             expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
+  const FilterType::InputPixelType resultThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
   {
     std::cerr << "Test failed!" << std::endl;

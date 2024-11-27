@@ -54,7 +54,7 @@ MetaBlobConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * 
 
   auto it2 = Blob->GetPoints().begin();
 
-  vnl_vector<double> v(VDimension);
+  const vnl_vector<double> v(VDimension);
 
   for (unsigned int identifier = 0; identifier < Blob->GetPoints().size(); ++identifier)
   {
@@ -87,7 +87,7 @@ template <unsigned int VDimension>
 auto
 MetaBlobConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
-  BlobSpatialObjectConstPointer blobSO = dynamic_cast<const BlobSpatialObjectType *>(spatialObject);
+  const BlobSpatialObjectConstPointer blobSO = dynamic_cast<const BlobSpatialObjectType *>(spatialObject);
   if (blobSO.IsNull())
   {
     itkExceptionMacro("Can't downcast SpatialObject to BlobSpatialObject");

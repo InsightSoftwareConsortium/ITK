@@ -55,7 +55,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
 
   InputImageType::IndexType index{};
 
-  InputImageType::RegionType region{ index, size };
+  const InputImageType::RegionType region{ index, size };
 
   // Binary initialization
   auto binary = InputImageType::New();
@@ -65,7 +65,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   binary->Allocate();
   binary->FillBuffer(InputPixelType{});
 
-  IdentifierType numberOfLevelSetFunctions = 10;
+  const IdentifierType numberOfLevelSetFunctions = 10;
 
   LevelSetDomainRegionVectorType regionVector;
   regionVector.resize(numberOfLevelSetFunctions);
@@ -80,7 +80,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
     index[1] = 0;
     size.Fill(10);
 
-    InputImageType::RegionType region1{ index, size };
+    const InputImageType::RegionType region1{ index, size };
 
     regionVector[i] = region1;
 
@@ -93,7 +93,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   treeGenerator->SetSample(sample);
   treeGenerator->SetBucketSize(2);
   treeGenerator->Update();
-  TreeType::Pointer kdtree = treeGenerator->GetOutput();
+  const TreeType::Pointer kdtree = treeGenerator->GetOutput();
 
   auto partitionSource = DomainPartitionSourceType::New();
 
@@ -105,7 +105,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   partitionSource->SetImage(binary);
   partitionSource->SetLevelSetDomainRegionVector(regionVector);
 
-  typename DomainPartitionSourceType::NeighborsIdType numberOfNeighbors = 3;
+  const typename DomainPartitionSourceType::NeighborsIdType numberOfNeighbors = 3;
   partitionSource->SetNumberOfNeighbors(numberOfNeighbors);
   ITK_TEST_SET_GET_VALUE(numberOfNeighbors, partitionSource->GetNumberOfNeighbors());
 
@@ -115,9 +115,9 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
 
   bool flag = true;
 
-  ListType                    ll;
-  ListImageType::ConstPointer listImage = partitionSource->GetListDomain();
-  ListImageIteratorType       It(listImage, listImage->GetLargestPossibleRegion());
+  ListType                          ll;
+  const ListImageType::ConstPointer listImage = partitionSource->GetListDomain();
+  ListImageIteratorType             It(listImage, listImage->GetLargestPossibleRegion());
   It.GoToBegin();
   while (!It.IsAtEnd())
   {
@@ -134,7 +134,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
 
     while (it != ll.end())
     {
-      IdentifierType id = index[0] / 10;
+      const IdentifierType id = index[0] / 10;
       if (*it != id)
       {
         flag = false;

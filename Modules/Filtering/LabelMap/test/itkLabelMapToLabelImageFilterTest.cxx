@@ -82,7 +82,7 @@ itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
       IndexType index;
       index[0] = ctrI;
       index[1] = ctrJ;
-      unsigned char val = image->GetPixel(index);
+      const unsigned char val = image->GetPixel(index);
       if ((ctrI == 5) || (ctrJ == 5))
       {
         itkAssertOrThrowMacro((val == 1), "Error in Label Image.");

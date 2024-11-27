@@ -29,7 +29,7 @@ itkMultiThreadingEnvironmentTest(int argc, char * argv[])
   }
   const auto requiredValue = static_cast<unsigned int>(std::stoi(argv[1]));
 
-  itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
+  const itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   if (threader.IsNull())
   {
     return EXIT_FAILURE;

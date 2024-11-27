@@ -62,14 +62,14 @@ public:
   GetValue(const ParametersType & parameters) const override
   {
 
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetValue( ";
     std::cout << x << ' ';
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
     return measure;
@@ -79,8 +79,8 @@ public:
   GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override
   {
 
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetDerivative( ";
     std::cout << x << ' ';
@@ -128,48 +128,48 @@ itkSPSAOptimizerTest(int, char *[])
   parametersScale[1] = 2.0;
   itkOptimizer->SetScales(parametersScale);
 
-  bool maximize = false;
+  const bool maximize = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, maximize);
 
-  bool minimize = !maximize;
+  const bool minimize = !maximize;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Minimize, minimize);
 
-  double a = 10.0;
+  const double a = 10.0;
   itkOptimizer->SetA(a);
   ITK_TEST_SET_GET_VALUE(a, itkOptimizer->GetA());
 
-  double alpha = 0.602;
+  const double alpha = 0.602;
   itkOptimizer->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, itkOptimizer->GetAlpha());
 
-  double c = 0.0001;
+  const double c = 0.0001;
   itkOptimizer->Setc(c);
   ITK_TEST_SET_GET_VALUE(c, itkOptimizer->Getc());
 
   itkOptimizer->SetSc(c);
   ITK_TEST_SET_GET_VALUE(c, itkOptimizer->GetSc());
 
-  double gamma = 0.101;
+  const double gamma = 0.101;
   itkOptimizer->SetGamma(gamma);
   ITK_TEST_SET_GET_VALUE(gamma, itkOptimizer->GetGamma());
 
-  double tolerance = 1e-5;
+  const double tolerance = 1e-5;
   itkOptimizer->SetTolerance(tolerance);
   ITK_TEST_SET_GET_VALUE(tolerance, itkOptimizer->GetTolerance());
 
-  double stateOfConvergenceDecayRate = 0.5;
+  const double stateOfConvergenceDecayRate = 0.5;
   itkOptimizer->SetStateOfConvergenceDecayRate(stateOfConvergenceDecayRate);
   ITK_TEST_SET_GET_VALUE(stateOfConvergenceDecayRate, itkOptimizer->GetStateOfConvergenceDecayRate());
 
-  itk::SizeValueType minimumNumberOfIterations = 10;
+  const itk::SizeValueType minimumNumberOfIterations = 10;
   itkOptimizer->SetMinimumNumberOfIterations(10);
   ITK_TEST_SET_GET_VALUE(minimumNumberOfIterations, itkOptimizer->GetMinimumNumberOfIterations());
 
-  itk::SizeValueType maximumNumberOfIterations = 100;
+  const itk::SizeValueType maximumNumberOfIterations = 100;
   itkOptimizer->SetMaximumNumberOfIterations(maximumNumberOfIterations);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, itkOptimizer->GetMaximumNumberOfIterations());
 
-  itk::SizeValueType numberOfPerturbations = 1;
+  const itk::SizeValueType numberOfPerturbations = 1;
   itkOptimizer->SetNumberOfPerturbations(numberOfPerturbations);
   ITK_TEST_SET_GET_VALUE(numberOfPerturbations, itkOptimizer->GetNumberOfPerturbations());
 
@@ -225,8 +225,8 @@ itkSPSAOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool   pass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         pass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

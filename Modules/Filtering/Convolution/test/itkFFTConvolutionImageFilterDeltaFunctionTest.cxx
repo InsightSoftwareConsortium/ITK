@@ -53,8 +53,8 @@ itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Set up delta function image
-  ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  auto                  deltaFunctionImage = ImageType::New();
+  const ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
+  auto                        deltaFunctionImage = ImageType::New();
   deltaFunctionImage->SetRegions(region);
   deltaFunctionImage->AllocateInitialized();
 
@@ -62,7 +62,7 @@ itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   ImageType::IndexType middleIndex;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    ImageType::SizeValueType sizeInDimension = region.GetSize()[i];
+    const ImageType::SizeValueType sizeInDimension = region.GetSize()[i];
     middleIndex[i] = itk::Math::Floor<ImageType::IndexValueType>(0.5 * sizeInDimension);
   }
   deltaFunctionImage->SetPixel(middleIndex, 1);
@@ -75,7 +75,7 @@ itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   convolver->SetInput(deltaFunctionImage);
   convolver->SetKernelImage(reader->GetOutput());
 
-  ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = std::stoi(argv[3]);
+  const ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = std::stoi(argv[3]);
   if (!itk::Math::IsPrime(sizeGreatestPrimeFactor))
   {
     std::cerr << "A prime number is expected for the greatest prime factor size!" << std::endl;

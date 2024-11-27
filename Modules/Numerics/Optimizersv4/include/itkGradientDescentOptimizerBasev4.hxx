@@ -29,13 +29,13 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GradientD
 
 {
   /** Threader for apply scales to gradient */
-  typename GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>::Pointer
-    modifyGradientByScalesThreader =
-      GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>::New();
+  const typename GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<
+    TInternalComputationValueType>::Pointer modifyGradientByScalesThreader =
+    GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>::New();
   this->m_ModifyGradientByScalesThreader = modifyGradientByScalesThreader;
 
   /** Threader for apply the learning rate to gradient */
-  typename GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<
+  const typename GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<
     TInternalComputationValueType>::Pointer modifyGradientByLearningRateThreader =
     GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<TInternalComputationValueType>::New();
   this->m_ModifyGradientByLearningRateThreader = modifyGradientByLearningRateThreader;

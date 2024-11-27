@@ -108,7 +108,7 @@ bool
 Versor<T>::operator==(const Self & v) const
 {
   // Evaluate the quaternion ratio between them
-  Self ratio = *this * v.GetReciprocal();
+  const Self ratio = *this * v.GetReciprocal();
 
   const typename itk::NumericTraits<T>::AccumulateType square = ratio.m_W * ratio.m_W;
 

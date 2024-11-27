@@ -36,19 +36,19 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
     std::cout << "No test specified" << std::endl;
     return 1;
   }
-  int    error_return(0);
-  double double_zero = itkFloatingPointExceptionsTest_double_zero;
-  double double_max = itkFloatingPointExceptionsTest_double_max;
-  double test1 = itkFloatingPointExceptionsTest_double_zero;
+  int          error_return(0);
+  const double double_zero = itkFloatingPointExceptionsTest_double_zero;
+  const double double_max = itkFloatingPointExceptionsTest_double_max;
+  const double test1 = itkFloatingPointExceptionsTest_double_zero;
 
-  std::string testName(argv[1]);
+  const std::string testName(argv[1]);
   if (testName == "DivByZero")
   {
     std::cout << "Testing floating point divide by zero" << std::endl;
     std::cout.flush();
     try
     {
-      double s = 1.0 / double_zero;
+      const double s = 1.0 / double_zero;
       //
       // should never reach here
       std::cout << "Divide by Zero Exception not caught"
@@ -68,7 +68,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
     std::cout.flush();
     try
     {
-      double s = test1 / double_zero;
+      const double s = test1 / double_zero;
       //
       // should never reach here
       std::cout << "Zero divide by Zero Exception not caught"

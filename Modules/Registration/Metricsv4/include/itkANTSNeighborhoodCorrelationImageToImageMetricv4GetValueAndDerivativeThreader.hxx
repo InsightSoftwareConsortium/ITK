@@ -139,7 +139,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   const SizeValueType numberOfFillZero = scanParameters.numberOfFillZero;
   const SizeValueType hoodlen = scanParameters.windowLength;
 
-  InternalComputationValueType zero{};
+  const InternalComputationValueType zero{};
   scanMem.QsumFixed2 = SumQueueType(numberOfFillZero, zero);
   scanMem.QsumMoving2 = SumQueueType(numberOfFillZero, zero);
   scanMem.QsumFixed = SumQueueType(numberOfFillZero, zero);
@@ -150,7 +150,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   using LocalRealType = InternalComputationValueType;
 
   // Now add the rest of the values from each hyperplane
-  SizeValueType diameter = 2 * scanParameters.radius[0];
+  const SizeValueType diameter = 2 * scanParameters.radius[0];
 
   const LocalRealType localZero{};
   for (SizeValueType i = numberOfFillZero; i < (diameter + NumericTraits<SizeValueType>::OneValue()); ++i)
@@ -166,14 +166,14 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     {
       typename ScanIteratorType::OffsetType internalIndex;
       typename ScanIteratorType::OffsetType offset;
-      bool                                  isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
+      const bool                            isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
       if (!isInBounds)
       {
         // std::cout << "DEBUG: error" << std::endl;
         continue;
       }
 
-      typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
+      const typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
 
       VirtualPointType     virtualPoint;
       FixedImagePointType  mappedFixedPoint;
@@ -244,20 +244,20 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   LocalRealType sumFixedMoving = localZero;
   LocalRealType count = localZero;
 
-  SizeValueType diameter = 2 * scanParameters.radius[0];
+  const SizeValueType diameter = 2 * scanParameters.radius[0];
 
   for (SizeValueType indct = diameter; indct < hoodlen; indct += (diameter + NumericTraits<SizeValueType>::OneValue()))
   {
     typename ScanIteratorType::OffsetType internalIndex;
     typename ScanIteratorType::OffsetType offset;
-    bool                                  isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
+    const bool                            isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
 
     if (!isInBounds)
     {
       continue;
     }
 
-    typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
+    const typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
 
     VirtualPointType     virtualPoint;
     FixedImagePointType  mappedFixedPoint;
@@ -427,16 +427,17 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     ++itFixedMoving;
   }
 
-  LocalRealType fixedMean = sumFixed / count;
-  LocalRealType movingMean = sumMoving / count;
+  const LocalRealType fixedMean = sumFixed / count;
+  const LocalRealType movingMean = sumMoving / count;
 
-  LocalRealType sFixedFixed = sumFixed2 - fixedMean * sumFixed - fixedMean * sumFixed + count * fixedMean * fixedMean;
-  LocalRealType sMovingMoving =
+  const LocalRealType sFixedFixed =
+    sumFixed2 - fixedMean * sumFixed - fixedMean * sumFixed + count * fixedMean * fixedMean;
+  const LocalRealType sMovingMoving =
     sumMoving2 - movingMean * sumMoving - movingMean * sumMoving + count * movingMean * movingMean;
-  LocalRealType sFixedMoving =
+  const LocalRealType sFixedMoving =
     sumFixedMoving - movingMean * sumFixed - fixedMean * sumMoving + count * movingMean * fixedMean;
 
-  typename VirtualImageType::IndexType oindex = scanIt.GetIndex();
+  const typename VirtualImageType::IndexType oindex = scanIt.GetIndex();
 
   VirtualPointType        virtualPoint;
   FixedImagePointType     mappedFixedPoint;
@@ -520,13 +521,13 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
   using LocalRealType = InternalComputationValueType;
 
-  LocalRealType sFixedFixed = scanMem.sFixedFixed;
-  LocalRealType sMovingMoving = scanMem.sMovingMoving;
-  LocalRealType sFixedMoving = scanMem.sFixedMoving;
-  LocalRealType fixedI = scanMem.fixedA;
-  LocalRealType movingI = scanMem.movingA;
+  const LocalRealType sFixedFixed = scanMem.sFixedFixed;
+  const LocalRealType sMovingMoving = scanMem.sMovingMoving;
+  const LocalRealType sFixedMoving = scanMem.sFixedMoving;
+  const LocalRealType fixedI = scanMem.fixedA;
+  const LocalRealType movingI = scanMem.movingA;
 
-  LocalRealType sFixedFixed_sMovingMoving = sFixedFixed * sMovingMoving;
+  const LocalRealType sFixedFixed_sMovingMoving = sFixedFixed * sMovingMoving;
 
   if (itk::Math::abs(sFixedFixed_sMovingMoving) > NumericTraits<LocalRealType>::epsilon())
   {
@@ -560,7 +561,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParametersCachedTemporaries(
       scanMem.virtualPoint, jacobian, jacobianPositional);
 
-    NumberOfParametersType numberOfLocalParameters =
+    const NumberOfParametersType numberOfLocalParameters =
       this->m_Associate->GetMovingTransform()->GetNumberOfLocalParameters();
 
     for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)

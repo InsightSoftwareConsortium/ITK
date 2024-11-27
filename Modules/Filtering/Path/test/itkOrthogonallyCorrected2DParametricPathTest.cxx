@@ -57,7 +57,7 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
   originalPath->AddVertex(v);
 
   // 24 Alternating offsets
-  OrthogonalCorrectionTablePointer correctionTable = OrthogonalCorrectionTableType::New();
+  const OrthogonalCorrectionTablePointer correctionTable = OrthogonalCorrectionTableType::New();
   for (int i = 0; i < 24; ++i)
   {
     correctionTable->InsertElement(i, 1 - (i % 2)); // alternates 1, 0

@@ -40,10 +40,10 @@ int
 itkOctreeTest(int, char *[])
 {
   using ImageType = itk::Image<unsigned int, 3>;
-  const ImageType::SizeType  imageSize = { { 4, 4, 4 } };
-  const ImageType::IndexType imageIndex = { { 0, 0, 0 } };
-  ImageType::RegionType      region{ imageIndex, imageSize };
-  auto                       img = ImageType::New();
+  const ImageType::SizeType   imageSize = { { 4, 4, 4 } };
+  const ImageType::IndexType  imageIndex = { { 0, 0, 0 } };
+  const ImageType::RegionType region{ imageIndex, imageSize };
+  auto                        img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
   srand(static_cast<unsigned int>(time(nullptr)));
@@ -53,7 +53,7 @@ itkOctreeTest(int, char *[])
     unsigned int counter = 0;
     while (!ri.IsAtEnd())
     {
-      unsigned int val = rand() % 16384;
+      const unsigned int val = rand() % 16384;
       if (counter && counter % 8 == 0)
       {
         std::cerr << val << std::endl;
@@ -80,7 +80,7 @@ itkOctreeTest(int, char *[])
 
 
   octree->BuildFromImage(img);
-  ImageType::Pointer                  output = octree->GetImage();
+  const ImageType::Pointer            output = octree->GetImage();
   itk::ImageRegionIterator<ImageType> ri2(output, region);
   ri.GoToBegin();
   IdentityMap<unsigned int, 16384> id;
@@ -88,9 +88,9 @@ itkOctreeTest(int, char *[])
   {
     while (!ri.IsAtEnd() && !ri2.IsAtEnd())
     {
-      unsigned int x = ri.Get();
-      unsigned int y = ri2.Get();
-      unsigned int mapped = id.Evaluate(&x);
+      const unsigned int x = ri.Get();
+      const unsigned int y = ri2.Get();
+      const unsigned int mapped = id.Evaluate(&x);
       std::cerr << "x = " << x << " mapped(x) " << mapped << " y = " << y << std::endl;
       if (mapped != y)
       {

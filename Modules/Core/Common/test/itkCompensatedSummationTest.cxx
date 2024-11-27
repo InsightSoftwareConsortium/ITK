@@ -27,10 +27,10 @@ itkCompensatedSummationTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   using FloatType = float;
-  long seedValue = 17;
+  const long seedValue = 17;
 
   constexpr FloatType expectedMean = 0.5;
 
@@ -73,7 +73,7 @@ itkCompensatedSummationTest(int, char *[])
   }
 
   // exercise other methods
-  CompensatedSummationType floatAccumulatorCopy = floatAccumulator;
+  const CompensatedSummationType floatAccumulatorCopy = floatAccumulator;
   if (itk::Math::NotExactlyEquals(floatAccumulatorCopy.GetSum(), floatAccumulator.GetSum()))
   {
     std::cerr << "The copy constructor failed." << std::endl;

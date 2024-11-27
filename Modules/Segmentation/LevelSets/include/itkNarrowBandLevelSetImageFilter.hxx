@@ -118,7 +118,7 @@ template <typename TInputImage, typename TFeatureImage, typename TOutputPixelTyp
 void
 NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::CreateNarrowBand()
 {
-  typename OutputImageType::Pointer levelset = this->GetOutput();
+  const typename OutputImageType::Pointer levelset = this->GetOutput();
 
   if (!this->m_NarrowBand->Empty())
   {

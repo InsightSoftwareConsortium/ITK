@@ -65,7 +65,7 @@ itkNiftiImageIOTest4(int argc, char * argv[])
 
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  Test4ImageType::Pointer test4Image =
+  const Test4ImageType::Pointer test4Image =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<Test4ImageType>(imageRegion, spacing);
   test4Image->FillBuffer(0);
 
@@ -103,7 +103,7 @@ itkNiftiImageIOTest4(int argc, char * argv[])
   }
 
   test4Image->SetDirection(dir);
-  std::string fname("directionsTest.nii.gz");
+  const std::string fname("directionsTest.nii.gz");
   try
   {
     itk::IOTestHelper::WriteImage<Test4ImageType, itk::NiftiImageIO>(test4Image, fname);

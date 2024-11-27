@@ -28,14 +28,14 @@ auto
 SummerColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> RGBPixelType
 {
   // Map the input scalar between [0, 1].
-  RealType value = this->RescaleInputValue(v);
+  const RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
-  RealType red = value;
+  const RealType red = value;
 
-  RealType green = 0.5 * value + 0.5;
+  const RealType green = 0.5 * value + 0.5;
 
-  RealType blue = 0.4;
+  const RealType blue = 0.4;
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

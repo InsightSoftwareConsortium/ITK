@@ -39,7 +39,7 @@ StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buff
 
   auto * buffer = static_cast<char *>(_buffer);
   // Offset into file
-  std::streampos dataPos = this->GetDataPosition();
+  const std::streampos dataPos = this->GetDataPosition();
 
   itkDebugStatement(const std::streamsize sizeOfRegion =
                       static_cast<std::streamsize>(m_IORegion.GetNumberOfPixels()) * this->GetPixelSize());
@@ -118,7 +118,7 @@ StreamingImageIOBase::ReadBufferAsBinary(std::istream & is, void * buffer, Strea
 
   while (bytesRemaining)
   {
-    std::streamsize bytesToRead = bytesRemaining > maxChunk ? maxChunk : bytesRemaining;
+    const std::streamsize bytesToRead = bytesRemaining > maxChunk ? maxChunk : bytesRemaining;
 
     itkDebugMacro("Reading " << bytesToRead << " of " << bytesRemaining << " bytes for " << m_FileName);
 
@@ -145,7 +145,7 @@ StreamingImageIOBase::WriteBufferAsBinary(std::ostream & os, const void * buffer
 
   while (bytesRemaining)
   {
-    SizeType bytesToWrite = bytesRemaining > maxChunk ? maxChunk : bytesRemaining;
+    const SizeType bytesToWrite = bytesRemaining > maxChunk ? maxChunk : bytesRemaining;
 
     itkDebugMacro("Writing " << bytesToWrite << " of " << bytesRemaining << " bytes for " << m_FileName);
 
@@ -169,7 +169,7 @@ StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const void 
 
   const auto * buffer = static_cast<const char *>(_buffer);
   // Offset into file
-  std::streampos dataPos = this->GetDataPosition();
+  const std::streampos dataPos = this->GetDataPosition();
 
   // compute the number of continuous bytes to be written
   std::streamsize sizeOfChunk = 1;
@@ -265,8 +265,8 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          nu
     // we are going to be pasting (may be streaming too)
 
     // need to check to see if the file is compatible
-    std::string errorMessage;
-    Pointer     headerImageIOReader = dynamic_cast<StreamingImageIOBase *>(this->CreateAnother().GetPointer());
+    std::string   errorMessage;
+    const Pointer headerImageIOReader = dynamic_cast<StreamingImageIOBase *>(this->CreateAnother().GetPointer());
 
     try
     {
@@ -382,7 +382,8 @@ StreamingImageIOBase::RequestedToStream() const
   // This enables a 2D request from a 3D volume to get the first slice,
   // and a 4D with a 1-sized 4th dimension to equal the 3D volume
   // as well.
-  unsigned int maxNumberOfDimension = std::max(this->GetNumberOfDimensions(), this->GetIORegion().GetImageDimension());
+  const unsigned int maxNumberOfDimension =
+    std::max(this->GetNumberOfDimensions(), this->GetIORegion().GetImageDimension());
 
   ImageIORegion ioregion(maxNumberOfDimension);
   ImageIORegion largestRegion(maxNumberOfDimension);

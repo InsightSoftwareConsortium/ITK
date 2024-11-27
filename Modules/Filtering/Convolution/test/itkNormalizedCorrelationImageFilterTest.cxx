@@ -43,7 +43,7 @@ itkNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   using InputImageType = itk::Image<PixelType, Dimension>;
   using CorrelationImageType = itk::Image<CorrelationPixelType, Dimension>;
 
-  itk::ImageFileReader<InputImageType>::Pointer input = itk::ImageFileReader<InputImageType>::New();
+  const itk::ImageFileReader<InputImageType>::Pointer input = itk::ImageFileReader<InputImageType>::New();
   input->SetFileName(argv[1]);
   input->Update();
 
@@ -57,7 +57,7 @@ itkNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   annulus.CreateOperator();
 
   // create a mask
-  itk::ImageFileReader<InputImageType>::Pointer mask = itk::ImageFileReader<InputImageType>::New();
+  const itk::ImageFileReader<InputImageType>::Pointer mask = itk::ImageFileReader<InputImageType>::New();
   mask->SetFileName(argv[2]);
 
   // resample the mask to be the size of the input
@@ -77,8 +77,8 @@ itkNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   // Create a filter
   using FilterType = itk::NormalizedCorrelationImageFilter<InputImageType, InputImageType, CorrelationImageType>;
 
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher watcher(filter, "Normalized correlation");
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher watcher(filter, "Normalized correlation");
 
   filter->SetInput(input->GetOutput());
   filter->SetTemplate(annulus);

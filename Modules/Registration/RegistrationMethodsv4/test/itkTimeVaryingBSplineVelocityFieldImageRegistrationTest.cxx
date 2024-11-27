@@ -57,8 +57,8 @@ public:
       return;
     }
 
-    unsigned int                                             currentLevel = filter->GetCurrentLevel();
-    typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
+    const unsigned int                                             currentLevel = filter->GetCurrentLevel();
+    const typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
       filter->GetShrinkFactorsPerDimension(currentLevel);
     typename TFilter::SmoothingSigmasArrayType                 smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
@@ -120,14 +120,14 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   auto fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName(argv[2]);
   fixedImageReader->Update();
-  typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   fixedImage->Update();
   fixedImage->DisconnectPipeline();
 
   auto movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName(argv[3]);
   movingImageReader->Update();
-  typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
+  const typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
@@ -182,7 +182,8 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   affineResampler->SetDefaultPixelValue(0);
   affineResampler->Update();
 
-  std::string affineMovingImageFileName = std::string(argv[4]) + std::string("MovingImageAfterAffineTransform.nii.gz");
+  const std::string affineMovingImageFileName =
+    std::string(argv[4]) + std::string("MovingImageAfterAffineTransform.nii.gz");
 
   using AffineWriterType = itk::ImageFileWriter<FixedImageType>;
   auto affineWriter = AffineWriterType::New();
@@ -260,7 +261,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
 
   using VectorType = itk::Vector<RealType, ImageDimension>;
   using TimeVaryingVelocityFieldControlPointLatticeType = itk::Image<VectorType, ImageDimension + 1>;
-  typename TimeVaryingVelocityFieldControlPointLatticeType::Pointer velocityFieldLattice =
+  const typename TimeVaryingVelocityFieldControlPointLatticeType::Pointer velocityFieldLattice =
     TimeVaryingVelocityFieldControlPointLatticeType::New();
 
   // Determine the parameters (size, spacing, etc) for the time-varying velocity field
@@ -298,7 +299,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
 
   using VelocityFieldTransformAdaptorType =
     itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType>;
-  typename VelocityFieldTransformAdaptorType::Pointer initialFieldTransformAdaptor =
+  const typename VelocityFieldTransformAdaptorType::Pointer initialFieldTransformAdaptor =
     VelocityFieldTransformAdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(initialFieldTransformAdaptor,
@@ -397,7 +398,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
       }
     }
 
-    typename VelocityFieldTransformAdaptorType::Pointer fieldTransformAdaptor =
+    const typename VelocityFieldTransformAdaptorType::Pointer fieldTransformAdaptor =
       VelocityFieldTransformAdaptorType::New();
     fieldTransformAdaptor->SetSplineOrder(outputTransform->GetSplineOrder());
     fieldTransformAdaptor->SetRequiredTransformDomainSpacing(velocityFieldSpacing);
@@ -411,7 +412,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldRegistration->SetTransformParametersAdaptorsPerLevel(adaptors);
 
   using VelocityFieldRegistrationCommandType = CommandIterationUpdate<VelocityFieldRegistrationType>;
-  typename VelocityFieldRegistrationCommandType::Pointer displacementFieldObserver =
+  const typename VelocityFieldRegistrationCommandType::Pointer displacementFieldObserver =
     VelocityFieldRegistrationCommandType::New();
   velocityFieldRegistration->AddObserver(itk::IterationEvent(), displacementFieldObserver);
 
@@ -431,7 +432,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   resampler->SetDefaultPixelValue(0);
   resampler->Update();
 
-  std::string warpedMovingImageFileName =
+  const std::string warpedMovingImageFileName =
     std::string(argv[4]) + std::string("MovingImageAfterVelocityFieldTransform.nii.gz");
 
   using WriterType = itk::ImageFileWriter<FixedImageType>;
@@ -441,7 +442,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   writer->Update();
 
   using InverseResampleFilterType = itk::ResampleImageFilter<FixedImageType, MovingImageType>;
-  typename InverseResampleFilterType::Pointer inverseResampler = ResampleFilterType::New();
+  const typename InverseResampleFilterType::Pointer inverseResampler = ResampleFilterType::New();
   inverseResampler->SetTransform(compositeTransform->GetInverseTransform());
   inverseResampler->SetInput(fixedImage);
   inverseResampler->SetSize(movingImage->GetBufferedRegion().GetSize());
@@ -451,7 +452,8 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   inverseResampler->SetDefaultPixelValue(0);
   inverseResampler->Update();
 
-  std::string inverseWarpedFixedImageFileName = std::string(argv[4]) + std::string("InverseWarpedFixedImage.nii.gz");
+  const std::string inverseWarpedFixedImageFileName =
+    std::string(argv[4]) + std::string("InverseWarpedFixedImage.nii.gz");
 
   using InverseWriterType = itk::ImageFileWriter<MovingImageType>;
   auto inverseWriter = InverseWriterType::New();
@@ -459,7 +461,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   inverseWriter->SetInput(inverseResampler->GetOutput());
   inverseWriter->Update();
 
-  std::string velocityFieldLatticeFileName =
+  const std::string velocityFieldLatticeFileName =
     std::string(argv[4]) + std::string("VelocityFieldControlPointLattice.nii.gz");
 
   using VelocityFieldWriterType = itk::ImageFileWriter<TimeVaryingVelocityFieldControlPointLatticeType>;

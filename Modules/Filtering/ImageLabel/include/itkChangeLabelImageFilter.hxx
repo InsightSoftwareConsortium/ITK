@@ -39,7 +39,7 @@ void
 ChangeLabelImageFilter<TInputImage, TOutputImage>::SetChange(const InputPixelType &  original,
                                                              const OutputPixelType & result)
 {
-  OutputPixelType current = this->GetFunctor().GetChange(original);
+  const OutputPixelType current = this->GetFunctor().GetChange(original);
 
   if (current != result)
   {

@@ -70,7 +70,7 @@ itkPointGeometryTest(int, char *[])
   std::cout << "copy constructor pc=pa  = ";
   std::cout << pc << std::endl;
 
-  PointType pd = pa + va;
+  const PointType pd = pa + va;
   std::cout << "vector sum pd = pa + va = ";
   std::cout << pd << std::endl;
 
@@ -78,7 +78,7 @@ itkPointGeometryTest(int, char *[])
   std::cout << "vector sum pb = pd + va = ";
   std::cout << pb << std::endl;
 
-  VectorType diff = pa - pb;
+  const VectorType diff = pa - pb;
   std::cout << "diff = pa - pb = ";
   std::cout << diff << std::endl;
 
@@ -90,11 +90,11 @@ itkPointGeometryTest(int, char *[])
   std::cout << "pc += va = ";
   std::cout << pc << std::endl;
 
-  ValueType distance = pc.EuclideanDistanceTo(pb);
+  const ValueType distance = pc.EuclideanDistanceTo(pb);
   std::cout << "Euclidean distance between pc and pb = ";
   std::cout << distance << std::endl;
 
-  ValueType distance2 = pc.SquaredEuclideanDistanceTo(pb);
+  const ValueType distance2 = pc.SquaredEuclideanDistanceTo(pb);
   std::cout << "Squared Euclidean distance between pc and pb = ";
   std::cout << distance2 << std::endl;
 
@@ -149,11 +149,11 @@ itkPointGeometryTest(int, char *[])
 
   // Test the MeanPoint
   {
-    PointType            midpoint;
-    PointType::ValueType aInit[3] = { 2.0, 4.0, 7.0 };
-    PointType::ValueType bInit[3] = { 6.0, 2.0, 9.0 };
-    PointType            A = aInit;
-    PointType            B = bInit;
+    PointType                  midpoint;
+    const PointType::ValueType aInit[3] = { 2.0, 4.0, 7.0 };
+    const PointType::ValueType bInit[3] = { 6.0, 2.0, 9.0 };
+    PointType                  A = aInit;
+    PointType                  B = bInit;
     midpoint.SetToMidPoint(A, B);
     std::cout << "Test for MidPoint " << std::endl;
     std::cout << "PA = " << A << std::endl;
@@ -173,13 +173,13 @@ itkPointGeometryTest(int, char *[])
 
   // Test the Barycentric combination
   {
-    const double         tolerance = 1e-10;
-    PointType            combination;
-    PointType::ValueType aInit[3] = { 2.0, 4.0, 7.0 };
-    PointType::ValueType bInit[3] = { 6.0, 2.0, 9.0 };
-    PointType            A = aInit;
-    PointType            B = bInit;
-    double               alpha = 0.5;
+    const double               tolerance = 1e-10;
+    PointType                  combination;
+    const PointType::ValueType aInit[3] = { 2.0, 4.0, 7.0 };
+    const PointType::ValueType bInit[3] = { 6.0, 2.0, 9.0 };
+    PointType                  A = aInit;
+    PointType                  B = bInit;
+    const double               alpha = 0.5;
     combination.SetToBarycentricCombination(A, B, alpha);
     std::cout << "Test for Barycentric combination" << std::endl;
     std::cout << "PA = " << A << std::endl;
@@ -200,16 +200,16 @@ itkPointGeometryTest(int, char *[])
 
   // Test the Barycentric combination
   {
-    const double         tolerance = 1e-10;
-    PointType            combination;
-    PointType::ValueType aInit[3] = { 12.0, 0.0, 0.0 };
-    PointType::ValueType bInit[3] = { 0.0, 0.0, 12.0 };
-    PointType::ValueType cInit[3] = { 0.0, 12.0, 0.0 };
-    PointType            A = aInit;
-    PointType            B = bInit;
-    PointType            C = cInit;
-    double               alpha = 1.0 / 3.0;
-    double               beta = 1.0 / 3.0;
+    const double               tolerance = 1e-10;
+    PointType                  combination;
+    const PointType::ValueType aInit[3] = { 12.0, 0.0, 0.0 };
+    const PointType::ValueType bInit[3] = { 0.0, 0.0, 12.0 };
+    const PointType::ValueType cInit[3] = { 0.0, 12.0, 0.0 };
+    PointType                  A = aInit;
+    PointType                  B = bInit;
+    PointType                  C = cInit;
+    const double               alpha = 1.0 / 3.0;
+    const double               beta = 1.0 / 3.0;
     combination.SetToBarycentricCombination(A, B, C, alpha, beta);
     std::cout << "Test for Barycentric combination" << std::endl;
     std::cout << "PA = " << A << std::endl;

@@ -77,7 +77,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(ScalarRealType sigma)
 {
-  SigmaArrayType sigmas(sigma);
+  const SigmaArrayType sigmas(sigma);
   this->SetSigmaArray(sigmas);
 }
 
@@ -140,7 +140,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRe
   Superclass::GenerateInputRequestedRegion();
 
   // This filter needs all of the input
-  typename GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
+  const typename GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
     const_cast<InputImageType *>(this->GetInput());
   if (image)
   {
@@ -185,7 +185,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->RegisterInternalFilter(m_DerivativeFilter, weight);
 
   const typename TInputImage::ConstPointer inputImage(this->GetInput());
-  typename TOutputImage::Pointer           outputImage(this->GetOutput());
+  const typename TOutputImage::Pointer     outputImage(this->GetOutput());
 
   unsigned int nComponents = inputImage->GetNumberOfComponentsPerPixel();
   /* An Image of VariableLengthVectors will return 0 */
@@ -208,7 +208,8 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   m_DerivativeFilter->SetInput(inputImage);
 
   // For variable length output pixel types
-  ImageRegionIteratorWithIndex<OutputImageType> initGradIt(outputImage, this->m_ImageAdaptor->GetRequestedRegion());
+  const ImageRegionIteratorWithIndex<OutputImageType> initGradIt(outputImage,
+                                                                 this->m_ImageAdaptor->GetRequestedRegion());
 
 
   for (unsigned int nc = 0; nc < nComponents; ++nc)
@@ -230,7 +231,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       m_DerivativeFilter->SetDirection(dim);
 
       GaussianFilterPointer lastFilter;
-
       if constexpr (ImageDimension > 1)
       {
         const auto imageDimensionMinus2 = static_cast<unsigned int>(ImageDimension - 2);
@@ -278,7 +278,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // manually release memory in last filter in the mini-pipeline
   if constexpr (ImageDimension > 1)
   {
-    int temp_dim = static_cast<int>(ImageDimension) - 2;
+    const int temp_dim = static_cast<int>(ImageDimension) - 2;
     m_SmoothingFilters[temp_dim]->GetOutput()->ReleaseData();
   }
   else

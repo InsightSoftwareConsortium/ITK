@@ -50,22 +50,22 @@ itkLabelShapeOpeningImageFilterTest1(int argc, char * argv[])
 
   opening->SetInput(reader->GetOutput());
 
-  int BackgroundValue = (std::stoi(argv[3]));
+  const int BackgroundValue = (std::stoi(argv[3]));
   opening->SetBackgroundValue(BackgroundValue);
   ITK_TEST_SET_GET_VALUE(BackgroundValue, opening->GetBackgroundValue());
 
-  double lambda = std::stod(argv[4]);
+  const double lambda = std::stod(argv[4]);
   opening->SetLambda(lambda);
   ITK_TEST_SET_GET_VALUE(lambda, opening->GetLambda());
 
-  bool reverseOrdering = std::stoi(argv[5]);
+  const bool reverseOrdering = std::stoi(argv[5]);
   ITK_TEST_SET_GET_BOOLEAN(opening, ReverseOrdering, reverseOrdering);
 
-  LabelOpeningType::AttributeType attribute = std::stoi(argv[6]);
+  const LabelOpeningType::AttributeType attribute = std::stoi(argv[6]);
   opening->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, opening->GetAttribute());
 
-  itk::SimpleFilterWatcher watcher(opening, "filter");
+  const itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

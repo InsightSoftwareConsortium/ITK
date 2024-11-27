@@ -28,29 +28,29 @@ itkGaborKernelFunctionTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(gabor, GaborKernelFunction, KernelFunctionBase);
 
-  double sigma = 1.5;
+  const double sigma = 1.5;
   gabor->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, gabor->GetSigma());
 
-  double frequency = 2.;
+  const double frequency = 2.;
   gabor->SetFrequency(frequency);
   ITK_TEST_SET_GET_VALUE(frequency, gabor->GetFrequency());
 
-  double phaseOffset = 0.8;
+  const double phaseOffset = 0.8;
   gabor->SetPhaseOffset(phaseOffset);
   ITK_TEST_SET_GET_VALUE(phaseOffset, gabor->GetPhaseOffset());
 
-  bool calculateImaginaryPart = true;
+  const bool calculateImaginaryPart = true;
   gabor->SetCalculateImaginaryPart(calculateImaginaryPart);
   ITK_TEST_SET_GET_VALUE(calculateImaginaryPart, gabor->GetCalculateImaginaryPart());
 
   gabor->CalculateImaginaryPartOn();
   ITK_TEST_SET_GET_VALUE(true, gabor->GetCalculateImaginaryPart());
 
-  double tolerance = 1e-12;
-  double point = 2.86;
-  double expectedValue = -0.13297125073713259;
-  double result = gabor->Evaluate(point);
+  const double tolerance = 1e-12;
+  const double point = 2.86;
+  double       expectedValue = -0.13297125073713259;
+  double       result = gabor->Evaluate(point);
   if (!itk::Math::FloatAlmostEqual(expectedValue, result, 10, tolerance))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));

@@ -149,7 +149,7 @@ main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  PointsContainer::Pointer points2 = pointSet->GetPoints();
+  const PointsContainer::Pointer points2 = pointSet->GetPoints();
   // Software Guide : EndCodeSnippet
 
 
@@ -204,12 +204,12 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointsIterator end = points->End();
+  const PointsIterator end = points->End();
   while (pointIterator != end)
   {
-    PointType p = pointIterator.Value(); // access the point
-    std::cout << p << std::endl;         // print the point
-    ++pointIterator;                     // advance to next point
+    const PointType p = pointIterator.Value(); // access the point
+    std::cout << p << std::endl;               // print the point
+    ++pointIterator;                           // advance to next point
   }
   // Software Guide : EndCodeSnippet
 

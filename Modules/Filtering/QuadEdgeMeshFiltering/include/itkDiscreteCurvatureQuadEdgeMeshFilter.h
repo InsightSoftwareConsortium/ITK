@@ -103,10 +103,10 @@ protected:
   {
     this->CopyInputMeshToOutputMesh();
 
-    OutputMeshPointer output = this->GetOutput();
+    const OutputMeshPointer output = this->GetOutput();
 
-    OutputPointsContainerPointer  points = output->GetPoints();
-    OutputPointsContainerIterator p_it = points->Begin();
+    const OutputPointsContainerPointer points = output->GetPoints();
+    OutputPointsContainerIterator      p_it = points->Begin();
 
     OutputCurvatureType curvature;
 

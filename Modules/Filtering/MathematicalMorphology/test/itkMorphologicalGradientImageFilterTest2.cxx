@@ -52,7 +52,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   auto gradient = GradientType::New();
   gradient->SetInput(reader->GetOutput());
   gradient->SetKernel(structuringElement);
-  itk::SimpleFilterWatcher watcher(gradient);
+  const itk::SimpleFilterWatcher watcher(gradient);
 
   const GradientType::AlgorithmEnum algorithmType = gradient->GetAlgorithm();
   std::cout << "algorithmType : " << algorithmType << std::endl;
@@ -76,8 +76,8 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 
 
   using SRType = itk::FlatStructuringElement<dim>;
-  auto   elementRadius = itk::MakeFilled<SRType::RadiusType>(4);
-  SRType structuringElement2 = SRType::Box(elementRadius);
+  auto         elementRadius = itk::MakeFilled<SRType::RadiusType>(4);
+  const SRType structuringElement2 = SRType::Box(elementRadius);
 
   using Gradient1Type = itk::MorphologicalGradientImageFilter<IType, IType, SRType>;
   auto gradient1 = Gradient1Type::New();

@@ -67,7 +67,7 @@ itkAdaptImageFilterTest2(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  myVectorImageType::RegionType region{ index, size };
+  const myVectorImageType::RegionType region{ index, size };
 
   auto myImage = myVectorImageType::New();
 

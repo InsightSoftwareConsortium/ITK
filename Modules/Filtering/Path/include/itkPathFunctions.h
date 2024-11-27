@@ -36,9 +36,9 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
   using ChainInputType = typename TChainCodePath::InputType;
   using InPathInputType = typename TPathInput::InputType;
 
-  int dimension = OffsetType::GetOffsetDimension();
+  const int dimension = OffsetType::GetOffsetDimension();
 
-  OffsetType zeroOffset{};
+  const OffsetType zeroOffset{};
 
   chainPath.Clear();
   InPathInputType inPathInput = inPath.StartOfInput();
@@ -87,8 +87,8 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
   using FSInputType = typename TFourierSeriesPath::InputType;
   using ChainInputType = typename TChainCodePath::InputType;
 
-  int    dimension = OffsetType::GetOffsetDimension();
-  size_t numSteps = chainPath.NumberOfSteps();
+  const int    dimension = OffsetType::GetOffsetDimension();
+  const size_t numSteps = chainPath.NumberOfSteps();
 
   const double PI = 4.0 * std::atan(1.0);
 
@@ -113,7 +113,7 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
     for (ChainInputType step = 0; step < numSteps; ++step)
     {
       index += chainPath.Evaluate(step);
-      FSInputType theta = 2 * n * PI * (static_cast<double>(step + 1)) / numSteps;
+      const FSInputType theta = 2 * n * PI * (static_cast<double>(step + 1)) / numSteps;
 
       // turn the current index into a vector
       VectorType indexVector;

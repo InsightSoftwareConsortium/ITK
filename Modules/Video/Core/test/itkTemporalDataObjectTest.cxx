@@ -60,7 +60,7 @@ itkTemporalDataObjectTest(int, char *[])
   itk::TemporalDataObject::Pointer tdo2;
   itk::TemporalDataObject::Pointer tdo3;
   itk::TemporalDataObject::Pointer tdo4;
-  itk::DataObject::Pointer         notTemporal;
+  const itk::DataObject::Pointer   notTemporal;
 
   // Instantiate a TemporalDataObject
   tdo = itk::TemporalDataObject::New();

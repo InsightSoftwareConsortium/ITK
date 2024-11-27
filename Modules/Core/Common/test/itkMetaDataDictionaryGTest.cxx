@@ -38,7 +38,7 @@ createMetaDataDictionary()
 
   using ObjectType = itk::LightObject;
   using PointerType = typename ObjectType::Pointer;
-  PointerType obj = ObjectType::New();
+  const PointerType obj = ObjectType::New();
   itk::EncapsulateMetaData<PointerType>(metaDataDictionary, "object", obj);
 
   return metaDataDictionary;

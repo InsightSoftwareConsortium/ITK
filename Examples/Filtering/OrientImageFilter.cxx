@@ -36,10 +36,10 @@ main(int argc, char * argv[])
   }
 
   // Get the inputs from the command line in C++ style
-  std::string inputImageFile = argv[1];
-  std::string outputImageFile = argv[2];
+  const std::string inputImageFile = argv[1];
+  const std::string outputImageFile = argv[2];
 
-  itk::AnatomicalOrientation desiredCoordinateOrientation{
+  const itk::AnatomicalOrientation desiredCoordinateOrientation{
     itk::AnatomicalOrientation::CreateFromPositiveStringEncoding(argv[3])
   };
 

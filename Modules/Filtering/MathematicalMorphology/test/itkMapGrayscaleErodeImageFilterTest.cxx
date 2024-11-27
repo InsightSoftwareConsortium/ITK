@@ -50,7 +50,7 @@ itkMapGrayscaleErodeImageFilterTest(int argc, char * argv[])
   auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using RadiusType = FilterType::RadiusType;
 

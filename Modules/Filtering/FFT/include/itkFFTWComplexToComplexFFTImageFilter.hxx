@@ -61,7 +61,7 @@ FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGen
 
   // we don't have a nice progress to report, but at least this simple line
   // reports the beginning and the end of the process
-  ProgressReporter progress(this, 0, 1);
+  const ProgressReporter progress(this, 0, 1);
 
   // allocate output buffer memory
   output->SetBufferedRegion(output->GetRequestedRegion());
@@ -110,8 +110,8 @@ FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   if (this->GetTransformDirection() == Superclass::TransformDirectionEnum::INVERSE)
   {
     using IteratorType = ImageRegionIterator<OutputImageType>;
-    SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-    IteratorType  it(this->GetOutput(), outputRegionForThread);
+    const SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+    IteratorType        it(this->GetOutput(), outputRegionForThread);
     while (!it.IsAtEnd())
     {
       PixelType val = it.Value();

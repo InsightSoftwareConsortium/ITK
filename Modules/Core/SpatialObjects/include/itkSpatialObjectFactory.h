@@ -45,8 +45,8 @@ public:
   static void
   RegisterSpatialObject()
   {
-    auto                              t = T::New();
-    SpatialObjectFactoryBase::Pointer f = SpatialObjectFactoryBase::GetFactory();
+    auto                                    t = T::New();
+    const SpatialObjectFactoryBase::Pointer f = SpatialObjectFactoryBase::GetFactory();
     f->RegisterSpatialObject(t->GetClassNameAndDimension().c_str(),
                              t->GetClassNameAndDimension().c_str(),
                              t->GetClassNameAndDimension().c_str(),

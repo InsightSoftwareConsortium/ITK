@@ -70,7 +70,7 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * 
   std::copy_n(m_Image->GetOffsetTable(), ImageDimension + 1, m_OffsetTable);
 
   // Compute the start position
-  OffsetValueType offs = m_Image->ComputeOffset(m_BeginIndex);
+  const OffsetValueType offs = m_Image->ComputeOffset(m_BeginIndex);
   m_Begin = buffer + offs;
   m_Position = m_Begin;
 
@@ -79,7 +79,7 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * 
   IndexType pastEnd;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    SizeValueType size = region.GetSize()[i];
+    const SizeValueType size = region.GetSize()[i];
     if (size > 0)
     {
       m_Remaining = true;

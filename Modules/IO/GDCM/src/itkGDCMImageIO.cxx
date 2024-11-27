@@ -330,7 +330,7 @@ GDCMImageIO::Read(void * pointer)
     image = icpc.GetOutput();
   }
 
-  gdcm::PhotometricInterpretation pi = image.GetPhotometricInterpretation();
+  const gdcm::PhotometricInterpretation pi = image.GetPhotometricInterpretation();
 
   if (m_SingleBit)
   {
@@ -406,8 +406,8 @@ GDCMImageIO::Read(void * pointer)
       r.SetIntercept(m_RescaleIntercept);
       r.SetSlope(m_RescaleSlope);
       r.SetPixelFormat(pixeltype);
-      gdcm::PixelFormat outputpt = r.ComputeInterceptSlopePixelType();
-      const auto        copy = make_unique_for_overwrite<char[]>(len);
+      const gdcm::PixelFormat outputpt = r.ComputeInterceptSlopePixelType();
+      const auto              copy = make_unique_for_overwrite<char[]>(len);
       memcpy(copy.get(), (char *)pointer, len);
       r.Rescale((char *)pointer, copy.get(), len);
       // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
@@ -647,14 +647,14 @@ GDCMImageIO::InternalReadImageInformation()
     case gdcm::MediaStorage::UltrasoundMultiFrameImageStorageRetired:
     {
       std::vector<double> sp;
-      gdcm::Tag           spacingTag(0x0028, 0x0030);
+      const gdcm::Tag     spacingTag(0x0028, 0x0030);
       if (const gdcm::DataElement & de = ds.GetDataElement(spacingTag); !de.IsEmpty())
       {
         std::stringstream                            m_Ss;
         gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
         const gdcm::ByteValue *                      bv = de.GetByteValue();
         assert(bv);
-        std::string s(bv->GetPointer(), bv->GetLength());
+        const std::string s(bv->GetPointer(), bv->GetLength());
         m_Ss.str(s);
         // Erroneous file CT-MONO2-8-abdo.dcm,
         // The spacing is something like that [0.2\0\0.200000],
@@ -748,7 +748,7 @@ GDCMImageIO::InternalReadImageInformation()
     const gdcm::DataElement & ref = *it;
     const gdcm::Tag &         tag = ref.GetTag();
     // Compute VR from the toplevel file, and the currently processed dataset:
-    gdcm::VR vr = gdcm::DataSetHelper::ComputeVR(f, ds, tag);
+    const gdcm::VR vr = gdcm::DataSetHelper::ComputeVR(f, ds, tag);
 
     // Process binary field and encode them as mime64: only when we do not know
     // of any better
@@ -776,7 +776,7 @@ GDCMImageIO::InternalReadImageInformation()
                                                           static_cast<SizeValueType>(bv->GetLength()),
                                                           (unsigned char *)bin.get(),
                                                           0));
-          std::string encodedValue(bin.get(), encodedLengthActual);
+          const std::string encodedValue(bin.get(), encodedLengthActual);
           EncapsulateMetaData<std::string>(dico, tag.PrintAsPipeSeparatedString(), encodedValue);
         }
       }
@@ -801,7 +801,7 @@ GDCMImageIO::ReadImageInformation()
 bool
 GDCMImageIO::CanWriteFile(const char * name)
 {
-  std::string filename = name;
+  const std::string filename = name;
 
   if (filename.empty())
   {
@@ -859,15 +859,15 @@ GDCMImageIO::Write(const void * buffer)
     // currently ignored, same tag appears twice in the dictionary
     // once with comma separator and once with pipe. The last one
     // encountered is the one used to set the tag value.
-    gdcm::Tag tag;
-    bool      b = tag.ReadFromPipeSeparatedString(key.c_str()) || tag.ReadFromCommaSeparatedString(key.c_str());
+    gdcm::Tag  tag;
+    const bool b = tag.ReadFromPipeSeparatedString(key.c_str()) || tag.ReadFromCommaSeparatedString(key.c_str());
 
     // Anything that has been changed in the MetaData Dict will be pushed
     // into the DICOM header:
     if (b /*tag != gdcm::Tag(0xffff,0xffff)*/ /*dictEntry*/)
     {
       const gdcm::DictEntry & dictEntry = pubdict.GetDictEntry(tag);
-      gdcm::VR::VRType        vrtype = dictEntry.GetVR();
+      const gdcm::VR::VRType  vrtype = dictEntry.GetVR();
       if (dictEntry.GetVR() == gdcm::VR::SQ)
       {
         // How did we reach here ?
@@ -1003,8 +1003,8 @@ GDCMImageIO::Write(const void * buffer)
                     << problematicKeys[0] +
                          std::accumulate(problematicKeys.begin() + 1, problematicKeys.end(), std::string(", ")));
   }
-  gdcm::SmartPointer<gdcm::Image> simage = new gdcm::Image;
-  gdcm::Image &                   image = *simage;
+  const gdcm::SmartPointer<gdcm::Image> simage = new gdcm::Image;
+  gdcm::Image &                         image = *simage;
   image.SetNumberOfDimensions(2); // good default
   image.SetDimension(0, static_cast<unsigned int>(m_Dimensions[0]));
   image.SetDimension(1, static_cast<unsigned int>(m_Dimensions[1]));
@@ -1023,7 +1023,7 @@ GDCMImageIO::Write(const void * buffer)
   {
     double origin3D[3];
     // save and reset old locale
-    std::locale currentLocale = std::locale::global(std::locale::classic());
+    const std::locale currentLocale = std::locale::global(std::locale::classic());
     sscanf(tempString.c_str(), "%lf\\%lf\\%lf", &(origin3D[0]), &(origin3D[1]), &(origin3D[2]));
     // reset locale
     std::locale::global(currentLocale);
@@ -1058,7 +1058,7 @@ GDCMImageIO::Write(const void * buffer)
   {
     double directions[6];
     // save and reset old locale
-    std::locale currentLocale = std::locale::global(std::locale::classic());
+    const std::locale currentLocale = std::locale::global(std::locale::classic());
     sscanf(tempString.c_str(),
            "%lf\\%lf\\%lf\\%lf\\%lf\\%lf",
            &(directions[0]),
@@ -1099,7 +1099,7 @@ GDCMImageIO::Write(const void * buffer)
       image.SetDirectionCosines(5, 0);
     }
   }
-  gdcm::DirectionCosines gdcmDirection(image.GetDirectionCosines());
+  const gdcm::DirectionCosines gdcmDirection(image.GetDirectionCosines());
   if (!gdcmDirection.IsValid())
   {
     itkExceptionMacro("Invalid direction cosines, non-orthogonal or unit length.");
@@ -1323,7 +1323,7 @@ GDCMImageIO::Write(const void * buffer)
       itkExceptionMacro("Unknown compression type");
     }
     change.SetInput(image);
-    bool b = change.Change();
+    const bool b = change.Change();
     if (!b)
     {
       itkExceptionMacro("Could not change the Transfer Syntax for Compression");
@@ -1393,7 +1393,7 @@ GDCMImageIO::Write(const void * buffer)
 bool
 GDCMImageIO::GetValueFromTag(const std::string & tag, std::string & value)
 {
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
+  const MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   std::string tag_lower = tag;
   std::transform(tag_lower.begin(), tag_lower.end(), tag_lower.begin(), static_cast<int (*)(int)>(::tolower));

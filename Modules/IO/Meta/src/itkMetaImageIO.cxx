@@ -83,7 +83,7 @@ bool
 MetaImageIO::CanReadFile(const char * filename)
 {
   // First check the extension
-  std::string fname = filename;
+  const std::string fname = filename;
 
   if (fname.empty())
   {
@@ -403,7 +403,7 @@ MetaImageIO::ReadImageInformation()
     this->SetDirection(ii, directionAxis);
   }
 
-  std::string classname(this->GetNameOfClass());
+  const std::string classname(this->GetNameOfClass());
   EncapsulateMetaData<std::string>(thisMetaDict, ITK_InputFilterName, classname);
 
   // metaImage has a Modality tag which is not stored as part of its
@@ -414,11 +414,11 @@ MetaImageIO::ReadImageInformation()
   //
   // save the metadatadictionary in the MetaImage header.
   // NOTE: The MetaIO library only supports typeless strings as metadata
-  int dictFields = m_MetaImage.GetNumberOfAdditionalReadFields();
+  const int dictFields = m_MetaImage.GetNumberOfAdditionalReadFields();
   for (int f = 0; f < dictFields; ++f)
   {
-    std::string key(m_MetaImage.GetAdditionalReadFieldName(f));
-    std::string value(m_MetaImage.GetAdditionalReadFieldValue(f));
+    const std::string key(m_MetaImage.GetAdditionalReadFieldName(f));
+    const std::string value(m_MetaImage.GetAdditionalReadFieldValue(f));
     EncapsulateMetaData<std::string>(thisMetaDict, key, value);
   }
 
@@ -683,7 +683,7 @@ MetaImageIO::Write(const void * buffer)
     binaryData = false;
   }
 
-  int nChannels = this->GetNumberOfComponents();
+  const int nChannels = this->GetNumberOfComponents();
 
   MET_ValueEnumType eType = MET_OTHER;
   switch (m_ComponentType)
@@ -818,7 +818,7 @@ MetaImageIO::Write(const void * buffer)
       dir[ii][1] = diry[ii];
       dir[ii][2] = dirz[ii];
     }
-    AnatomicalOrientation coordOrient(dir);
+    const AnatomicalOrientation coordOrient(dir);
 
     // Mapping from DICOM CoordinateEnum defined as the increasing direction to
     // the MetaIO enum which has from/to orientation defined.
@@ -953,8 +953,8 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int          numberOfReq
     // we are going to be pasting (may be streaming too)
 
     // need to check to see if the file is compatible
-    std::string errorMessage;
-    Pointer     headerImageIOReader = Self::New();
+    std::string   errorMessage;
+    const Pointer headerImageIOReader = Self::New();
 
     try
     {

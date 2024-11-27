@@ -44,11 +44,11 @@ itkImageSpatialObjectTest(int, char *[])
   using Iterator = itk::ImageRegionIterator<ImageType>;
   using PointType = itk::Point<ScalarType, VDimension>;
 
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size = { { 10, 10, 10 } };
-  ImageType::IndexType  index = { { 0, 0, 0 } };
-  ImageType::RegionType region;
-  auto                  origin = itk::MakeFilled<ImageType::PointType>(5);
+  auto                       image = ImageType::New();
+  const ImageType::SizeType  size = { { 10, 10, 10 } };
+  const ImageType::IndexType index = { { 0, 0, 0 } };
+  ImageType::RegionType      region;
+  auto                       origin = itk::MakeFilled<ImageType::PointType>(5);
 
   region.SetSize(size);
   region.SetIndex(index);
@@ -70,7 +70,7 @@ itkImageSpatialObjectTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imageSO, ImageSpatialObject, SpatialObject);
 
 
-  typename ImageSpatialObject::IndexType sliceNumber{};
+  const typename ImageSpatialObject::IndexType sliceNumber{};
   imageSO->SetSliceNumber(sliceNumber);
   ITK_TEST_SET_GET_VALUE(sliceNumber, imageSO->GetSliceNumber());
 

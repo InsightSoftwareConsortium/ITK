@@ -35,8 +35,8 @@ IsoDataThresholdCalculator<THistogram, TOutput>::GenerateData()
   {
     itkExceptionMacro("Histogram is empty");
   }
-  SizeValueType    size = histogram->GetSize(0);
-  ProgressReporter progress(this, 0, size);
+  const SizeValueType size = histogram->GetSize(0);
+  ProgressReporter    progress(this, 0, size);
   if (size == 1)
   {
     this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(0, 0)));

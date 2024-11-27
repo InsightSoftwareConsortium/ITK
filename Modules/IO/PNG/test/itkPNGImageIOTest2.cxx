@@ -70,12 +70,12 @@ itkPNGImageIOTest2(int argc, char * argv[])
 
 
   // Read the input image
-  itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
+  const itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(io, PNGImageIO, ImageIOBase);
 
   // Exercise exception cases
-  size_t sizeOfActualIORegion =
+  const size_t sizeOfActualIORegion =
     io->GetIORegion().GetNumberOfPixels() * (io->GetComponentSize() * io->GetNumberOfComponents());
   auto * loadBuffer = new char[sizeOfActualIORegion];
 
@@ -85,7 +85,7 @@ itkPNGImageIOTest2(int argc, char * argv[])
   auto useCompression = static_cast<bool>(argv[3]);
   ITK_TEST_SET_GET_BOOLEAN(io, UseCompression, useCompression);
 
-  int compressionLevel = std::stoi(argv[4]);
+  const int compressionLevel = std::stoi(argv[4]);
   io->SetCompressionLevel(compressionLevel);
   ITK_TEST_SET_GET_VALUE(compressionLevel, io->GetCompressionLevel());
 
@@ -179,11 +179,11 @@ itkPNGImageIOTest2(int argc, char * argv[])
 
 
   // Exercise other methods
-  itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
+  const itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
   std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
 
 
-  ImageType::Pointer inputImage = reader->GetOutput();
+  const ImageType::Pointer inputImage = reader->GetOutput();
 
   // Write the grayscale output image
   auto writer = WriterType::New();

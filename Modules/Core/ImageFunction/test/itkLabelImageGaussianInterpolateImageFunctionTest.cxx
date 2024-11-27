@@ -43,7 +43,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   {
     RegionType region;
     {
-      IndexType start{};
+      const IndexType start{};
 
       SizeType size;
       size[0] = small_xSize;
@@ -69,7 +69,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     //   Intensity = f(x,y) = x + 3 * y
     //
     //
-    PixelType valarray[small_xSize][small_ySize] = { { 255, 255, 255 }, { 255, 171, 7 }, { 7, 7, 7 } };
+    const PixelType valarray[small_xSize][small_ySize] = { { 255, 255, 255 }, { 255, 171, 7 }, { 7, 7, 7 } };
 
     for (itk::IndexValueType y = 0; y < small_ySize; ++y)
     {
@@ -113,7 +113,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   {
     RegionType region;
     {
-      IndexType start{};
+      const IndexType start{};
 
       SizeType size;
       size[0] = large_xSize;
@@ -176,16 +176,16 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
  At: [5, 4] computed value =  17 known_value = 17
      */
 
-    PixelType valarray[large_xSize][large_ySize] = { { 255, 255, 255, 255, 255 },
-                                                     { 255, 255, 255, 255, 255 },
-                                                     { 255, 255, 171, 7, 7 },
-                                                     { 7, 7, 7, 7, 7 },
-                                                     { 7, 7, 7, 7, 7 },
-                                                     { default_background_value,
-                                                       default_background_value,
-                                                       default_background_value,
-                                                       default_background_value,
-                                                       default_background_value } };
+    const PixelType valarray[large_xSize][large_ySize] = { { 255, 255, 255, 255, 255 },
+                                                           { 255, 255, 255, 255, 255 },
+                                                           { 255, 255, 171, 7, 7 },
+                                                           { 7, 7, 7, 7, 7 },
+                                                           { 7, 7, 7, 7, 7 },
+                                                           { default_background_value,
+                                                             default_background_value,
+                                                             default_background_value,
+                                                             default_background_value,
+                                                             default_background_value } };
 
     for (itk::IndexValueType y = 0; y < large_ySize; ++y)
     {
@@ -231,7 +231,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
          if( interpolator->IsInsideBuffer( point ) )
            {
            //test scalar small_image
-           const double computedValue = interpolator->Evaluate( point );
+          const  double computedValue = interpolator->Evaluate( point );
            std::cout << "computed value =  " << computedValue << std::endl;
            }
          }

@@ -50,8 +50,8 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   // RecursiveGaussianImageFilter and compare a few filtered pixels.
   //
   // Create ON and OFF vectors
-  PixelType vector0{};
-  PixelType vector1;
+  const PixelType vector0{};
+  PixelType       vector1;
   vector1[0] = 1.0;
   vector1[1] = 2.0;
   vector1[2] = 3.0;
@@ -60,9 +60,9 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
 
   // Create the 9x9 input image
-  auto                  size = ImageType::SizeType::Filled(9);
-  ImageType::IndexType  index{};
-  ImageType::RegionType region{ index, size };
+  auto                        size = ImageType::SizeType::Filled(9);
+  ImageType::IndexType        index{};
+  const ImageType::RegionType region{ index, size };
   inputImage->SetRegions(region);
   inputImage->Allocate();
   inputImage->FillBuffer(vector0);
@@ -85,7 +85,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
 
   reader->SetFileName(argv[1]);
   reader->Update();
-  ImageType::Pointer outputImage = reader->GetOutput();
+  const ImageType::Pointer outputImage = reader->GetOutput();
 
   ConstIteratorType cit(outputImage, outputImage->GetLargestPossibleRegion());
   index[0] = 4;
@@ -105,7 +105,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::ImageIOBase::Pointer io = reader->GetModifiableImageIO();
+  const itk::ImageIOBase::Pointer io = reader->GetModifiableImageIO();
 
 
   std::cout << "ImageIO Pixel Information: " << io->GetPixelTypeAsString(io->GetPixelType()) << ' '

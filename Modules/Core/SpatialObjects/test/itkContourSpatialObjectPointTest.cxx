@@ -146,9 +146,9 @@ itkContourSpatialObjectPointTest(int, char *[])
     pOriginal.SetPickedPointInObjectSpace(picked);
 
     // Copy
-    ContourSpatialObjectPoint3DType pCopy(pOriginal);
+    const ContourSpatialObjectPoint3DType pCopy(pOriginal);
     // Assign
-    ContourSpatialObjectPoint3DType pAssign = pOriginal;
+    const ContourSpatialObjectPoint3DType pAssign = pOriginal;
 
     std::vector<ContourSpatialObjectPoint3DType> pointVector;
     pointVector.push_back(pCopy);

@@ -38,10 +38,10 @@ itkNiftiWriteCoerceOrthogonalDirectionTest(int argc, char * argv[])
   const unsigned int dim = 2;
   using ImageType = itk::Image<unsigned char, dim>;
 
-  ImageType::IndexType  startIndex = { { 0, 0 } };
-  ImageType::SizeType   imageSize = { { 2, 2 } };
-  ImageType::RegionType region{ startIndex, imageSize };
-  auto                  image1 = ImageType::New();
+  const ImageType::IndexType  startIndex = { { 0, 0 } };
+  const ImageType::SizeType   imageSize = { { 2, 2 } };
+  const ImageType::RegionType region{ startIndex, imageSize };
+  auto                        image1 = ImageType::New();
   image1->SetRegions(region);
   image1->AllocateInitialized();
 

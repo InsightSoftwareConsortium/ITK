@@ -354,7 +354,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   curImage->imageXres = hdr2Float(buffer.get() + VOff(50, 52));
   curImage->imageYres = hdr2Float(buffer.get() + VOff(54, 56));
 
-  short GE_Plane(hdr2Short(buffer.get() + VOff(114, 116)));
+  const short GE_Plane(hdr2Short(buffer.get() + VOff(114, 116)));
   switch (GE_Plane)
   {
     case GE_CORONAL:
@@ -478,7 +478,7 @@ GE5ImageIO::ModifyImageInformation()
   // coordinate system. If the computed slice direction is opposite
   // the direction in the header, the files have to be read in reverse
   // order.
-  vnl_vector<double> sliceDirection = vnl_cross_3d(dirx, diry);
+  const vnl_vector<double> sliceDirection = vnl_cross_3d(dirx, diry);
   if (dot_product(sliceDirection, dirz) < 0)
   {
     // Use the computed direction
@@ -496,26 +496,26 @@ GE5ImageIO::ModifyImageInformation()
     auto it = m_FilenameList->begin();
 
     // The first file
-    std::string file1 = (*it)->GetImageFileName();
+    const std::string file1 = (*it)->GetImageFileName();
 
     // The second file
     ++it;
-    std::string file2 = (*it)->GetImageFileName();
+    const std::string file2 = (*it)->GetImageFileName();
 
     const std::unique_ptr<const GEImageHeader> hdr1{ this->ReadHeader(file1.c_str()) };
     const std::unique_ptr<const GEImageHeader> hdr2{ this->ReadHeader(file2.c_str()) };
 
-    float origin1[3] = { hdr1->tlhcR, hdr1->tlhcA, hdr1->tlhcS };
+    const float origin1[3] = { hdr1->tlhcR, hdr1->tlhcA, hdr1->tlhcS };
 
     // Origin shopuld always come from the first slice
     this->SetOrigin(0, -hdr1->tlhcR);
     this->SetOrigin(1, -hdr1->tlhcA);
     this->SetOrigin(2, hdr1->tlhcS);
-    float origin2[3] = { hdr2->tlhcR, hdr2->tlhcA, hdr2->tlhcS };
+    const float origin2[3] = { hdr2->tlhcR, hdr2->tlhcA, hdr2->tlhcS };
 
-    float distanceBetweenTwoSlices = std::sqrt((origin1[0] - origin2[0]) * (origin1[0] - origin2[0]) +
-                                               (origin1[1] - origin2[1]) * (origin1[1] - origin2[1]) +
-                                               (origin1[2] - origin2[2]) * (origin1[2] - origin2[2]));
+    const float distanceBetweenTwoSlices = std::sqrt((origin1[0] - origin2[0]) * (origin1[0] - origin2[0]) +
+                                                     (origin1[1] - origin2[1]) * (origin1[1] - origin2[1]) +
+                                                     (origin1[2] - origin2[2]) * (origin1[2] - origin2[2]));
 
     this->SetSpacing(2, distanceBetweenTwoSlices);
   }

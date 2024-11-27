@@ -45,9 +45,9 @@ LevelSetDomainPartitionImage<TImage>::PopulateListDomain()
 
   for (ListIteratorType lIt(this->m_ListDomain, region); !lIt.IsAtEnd(); ++lIt)
   {
-    ListIndexType      listIndex = lIt.GetIndex();
-    IdentifierListType identifierList;
-    IdentifierType     i{};
+    const ListIndexType listIndex = lIt.GetIndex();
+    IdentifierListType  identifierList;
+    IdentifierType      i{};
     while (i < this->m_NumberOfLevelSetFunctions)
     {
       if (this->m_LevelSetDomainRegionVector[i].IsInside(listIndex))

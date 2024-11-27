@@ -42,9 +42,9 @@ template <typename TOutputMesh>
 auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(const PointType & p0) -> IdentifierType
 {
-  IdentifierType   nextNewPointID = m_OutputMesh->GetNumberOfPoints();
-  IdentifierType & pointIDPlusOne = m_PointsHashTable[p0];
-  IdentifierType   pointID;
+  const IdentifierType nextNewPointID = m_OutputMesh->GetNumberOfPoints();
+  IdentifierType &     pointIDPlusOne = m_PointsHashTable[p0];
+  IdentifierType       pointID;
 
   if (pointIDPlusOne != 0)
   {
@@ -82,10 +82,10 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(CoordinateType x0,
                                                    CoordinateType x4,
                                                    CoordinateType x5) -> IdentifierType
 {
-  CoordinateType p0[] = { x0, x1, x2, x3, x4, x5 };
-  PointType      newPoint;
-  unsigned int   i;
-  unsigned int   end = (PointDimension < 6 ? PointDimension : 6);
+  const CoordinateType p0[] = { x0, x1, x2, x3, x4, x5 };
+  PointType            newPoint;
+  unsigned int         i;
+  const unsigned int   end = (PointDimension < 6 ? PointDimension : 6);
 
   for (i = 0; i < end; ++i)
   {
@@ -155,7 +155,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const IdentifierArrayType & po
     IdentifierType      i;
     for (i = 0; i < pointIdsEnd; ++i)
     {
-      IdentifierType pointID = pointIDs[i];
+      const IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
       newCell->SetPointId(i, pointID);
     }
@@ -171,7 +171,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const IdentifierArrayType & po
 
     for (i = 0; i < pointIdsEnd; ++i)
     {
-      IdentifierType boundaryID = vertexArray[i];
+      const IdentifierType boundaryID = vertexArray[i];
       m_OutputMesh->SetBoundaryAssignment(0, cellID, i, boundaryID);
     }
   }
@@ -206,7 +206,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const IdentifierArrayType 
     IdentifierArrayType vertexArray(pointIdsEnd);
     for (i = 0; i < pointIdsEnd; ++i)
     {
-      IdentifierType pointID = pointIDs[i];
+      const IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
       newCell->SetPointId(i, pointID);
     }
@@ -268,7 +268,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const IdentifierArray
     IdentifierArrayType vertexArray(pointIdsEnd);
     for (i = 0; i < pointIdsEnd; ++i)
     {
-      IdentifierType pointID = pointIDs[i];
+      const IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
       newCell->SetPointId(i, pointID);
     }
@@ -330,7 +330,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const IdentifierArrayTy
     IdentifierArrayType vertexArray(pointIdsEnd);
     for (i = 0; i < pointIdsEnd; ++i)
     {
-      IdentifierType pointID = pointIDs[i];
+      const IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
       newCell->SetPointId(i, pointID);
     }
@@ -407,7 +407,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const IdentifierArrayTyp
     IdentifierArrayType vertexArray(pointIdsEnd);
     for (i = 0; i < pointIdsEnd; ++i)
     {
-      IdentifierType pointID = pointIDs[i];
+      const IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
       newCell->SetPointId(i, pointID);
     }

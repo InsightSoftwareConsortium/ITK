@@ -43,10 +43,10 @@ itkImportImageTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(basicImport, ImportImageFilter, ImageSource);
 
-  ShortImage::Pointer                    image;
-  itk::ImageRegion<Dimension>            region;
-  itk::ImageRegion<Dimension>::IndexType index = { { 0, 0 } };
-  itk::ImageRegion<Dimension>::SizeType  size = { { 8, 12 } };
+  ShortImage::Pointer                          image;
+  itk::ImageRegion<Dimension>                  region;
+  const itk::ImageRegion<Dimension>::IndexType index = { { 0, 0 } };
+  const itk::ImageRegion<Dimension>::SizeType  size = { { 8, 12 } };
   region.SetIndex(index);
   region.SetSize(size);
   // local scope to make sure that imported data is not deleted with ImportImageFilter
@@ -81,7 +81,7 @@ itkImportImageTest(int, char *[])
     image = import->GetOutput();
   }
   // Create another filter
-  itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::Pointer shrink =
+  const itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::Pointer shrink =
     itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::New();
 
   shrink->SetInput(image);

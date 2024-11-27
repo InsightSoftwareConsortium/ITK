@@ -121,8 +121,8 @@ AmoebaOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
   // expected parameter vector matches the one we have etc...)
   this->ValidateSettings();
 
-  ParametersType parameters = this->m_Metric->GetParameters();
-  unsigned int   n = parameters.GetSize();
+  ParametersType     parameters = this->m_Metric->GetParameters();
+  const unsigned int n = parameters.GetSize();
 
   InternalParametersType delta(m_InitialSimplexDelta);
 
@@ -192,7 +192,7 @@ AmoebaOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
       parameters = bestPosition;
       delta = delta * (1.0 / pow(2.0, static_cast<double>(i)) * (rand() > RAND_MAX / 2 ? 1 : -1));
       m_VnlOptimizer->minimize(parameters, delta);
-      double currentValue = adaptor->f(parameters);
+      const double currentValue = adaptor->f(parameters);
       // be consistent with the underlying vnl amoeba implementation
       double maxAbs = 0.0;
       for (unsigned int j = 0; j < n; ++j)
@@ -250,8 +250,8 @@ AmoebaOptimizerv4::ValidateSettings()
 {
   // if we got here it is safe to get the number of parameters the cost
   // function expects
-  ParametersType parameters = this->m_Metric->GetParameters();
-  unsigned int   n = parameters.GetSize();
+  const ParametersType parameters = this->m_Metric->GetParameters();
+  const unsigned int   n = parameters.GetSize();
 
   // the user gave us data to use for the initial simplex, check that it
   // matches the number of parameters (simplex dimension is n+1 - the initial

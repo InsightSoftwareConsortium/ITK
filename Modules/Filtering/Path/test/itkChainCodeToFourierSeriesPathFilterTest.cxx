@@ -62,7 +62,7 @@ itkChainCodeToFourierSeriesPathFilterTest(int, char *[])
   auto pathToChainCodePathFilter = PathToChainCodePathFilterType::New();
   pathToChainCodePathFilter->SetInput(inputPath);
 
-  ChainPathType::Pointer chainPath = pathToChainCodePathFilter->GetOutput();
+  const ChainPathType::Pointer chainPath = pathToChainCodePathFilter->GetOutput();
 
   // Set up the second filter
   auto chainCodeToFSPathFilter = ChainCodeToFSPathFilterType::New();
@@ -71,7 +71,7 @@ itkChainCodeToFourierSeriesPathFilterTest(int, char *[])
 
   chainCodeToFSPathFilter->SetInput(pathToChainCodePathFilter->GetOutput());
 
-  FSPathType::Pointer outputPath = chainCodeToFSPathFilter->GetOutput();
+  const FSPathType::Pointer outputPath = chainCodeToFSPathFilter->GetOutput();
 
   chainCodeToFSPathFilter->Update();
 

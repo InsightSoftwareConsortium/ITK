@@ -111,7 +111,7 @@ public:
 
     using ValueType = typename TRGBPixel::ValueType;
 
-    ValueType m = NumericTraits<ValueType>::max();
+    const ValueType m = NumericTraits<ValueType>::max();
 
     rgbPixel[0] = static_cast<ValueType>(static_cast<double>(r) / 255 * m);
     rgbPixel[1] = static_cast<ValueType>(static_cast<double>(g) / 255 * m);

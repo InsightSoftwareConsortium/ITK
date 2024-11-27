@@ -229,10 +229,10 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
                                                                                  unsigned int       inTraverseSize,
                                                                                  ProgressReporter & progress)
 {
-  SizeValueType outTraverseSize = inTraverseSize / 2;
+  const SizeValueType outTraverseSize = inTraverseSize / 2;
 
-  inTraverseSize = outTraverseSize * 2;       // ensures that an even number is used.
-  SizeValueType inModK = 2L * inTraverseSize; // number for modulus math of in
+  inTraverseSize = outTraverseSize * 2;             // ensures that an even number is used.
+  const SizeValueType inModK = 2L * inTraverseSize; // number for modulus math of in
 
   // TODO:  Need to allocate this once as a scratch variable instead of each
   // time through.
@@ -272,8 +272,8 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
 
   for (SizeValueType outK = 0; outK < outTraverseSize; ++outK)
   {
-    IndexValueType i1 = 2 * outK;
-    double         outVal = (temp[i1] + temp[i1 + 1]) / 2.0;
+    const IndexValueType i1 = 2 * outK;
+    const double         outVal = (temp[i1] + temp[i1 + 1]) / 2.0;
     out.Set(static_cast<OutputImagePixelType>(outVal));
     ++out;
     progress.CompletedPixel();
@@ -294,13 +294,13 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
   IndexValueType i1;
   IndexValueType i2;
 
-  IndexValueType inK;
-  SizeValueType  outTraverseSize = inTraverseSize * 2;
+  IndexValueType      inK;
+  const SizeValueType outTraverseSize = inTraverseSize * 2;
   // inTraverseSize = outTraverseSize/2;  // ensures that an even number is used.
   IndexValueType inModK; // number for modulus math of in
 
   inModK = outTraverseSize;
-  IndexValueType k0 = (this->m_HSize / 2) * 2 - 1L;
+  const IndexValueType k0 = (this->m_HSize / 2) * 2 - 1L;
 
   double outVal;
   double outVal2;
@@ -339,7 +339,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
     outVal2 = 0;
     for (IndexValueType k = -k0; k < this->m_HSize; k += 2L)
     {
-      IndexValueType kk = itk::Math::abs(static_cast<int>(k));
+      const IndexValueType kk = itk::Math::abs(static_cast<int>(k));
       i1 = inK + (k + 1L) / 2L;
       if (i1 < 0L)
       {

@@ -306,7 +306,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
           bool lfailed = false;
           for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt)
           {
-            int expectedValue = inIt.GetIndex()[0] * 10;
+            const int expectedValue = inIt.GetIndex()[0] * 10;
             if (inIt.Get() != expectedValue)
             {
               if (!lfailed)

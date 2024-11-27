@@ -74,7 +74,7 @@ public:
   inline ExternalType
   Get(const ActualPixelType & input) const
   {
-    ExternalType output = input[m_ComponentIdx];
+    const ExternalType output = input[m_ComponentIdx];
     return output;
   }
 

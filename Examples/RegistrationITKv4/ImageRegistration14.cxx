@@ -74,7 +74,7 @@ public:
     {
       return;
     }
-    double currentValue = optimizer->GetValue();
+    const double currentValue = optimizer->GetValue();
     // Only print out when the Metric value changes
     if (itk::Math::abs(m_LastMetricValue - currentValue) > 1e-7)
     {
@@ -178,7 +178,8 @@ main(int argc, char * argv[])
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage =
+    fixedImageReader->GetOutput();
   registration->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
   using TransformInitializerType =
@@ -208,7 +209,7 @@ main(int argc, char * argv[])
   transform->SetTranslation(initialTranslation);
 
   using ParametersType = RegistrationType::ParametersType;
-  ParametersType initialParameters = transform->GetParameters();
+  const ParametersType initialParameters = transform->GetParameters();
   registration->SetInitialTransformParameters(initialParameters);
   std::cout << "Initial transform parameters = ";
   std::cout << initialParameters << std::endl;
@@ -216,7 +217,8 @@ main(int argc, char * argv[])
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
-  FixedImageType::RegionType  region = fixedImage->GetLargestPossibleRegion();
+  const FixedImageType::RegionType region =
+    fixedImage->GetLargestPossibleRegion();
   FixedImageType::SizeType    size = region.GetSize();
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 

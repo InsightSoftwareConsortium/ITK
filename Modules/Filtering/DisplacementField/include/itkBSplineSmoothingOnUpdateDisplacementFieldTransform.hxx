@@ -68,7 +68,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
   const DerivativeType & update,
   ScalarType             factor)
 {
-  DisplacementFieldPointer displacementField = this->GetModifiableDisplacementField();
+  const DisplacementFieldPointer displacementField = this->GetModifiableDisplacementField();
 
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
   const SizeValueType                                numberOfPixels = bufferedRegion.GetNumberOfPixels();
@@ -103,19 +103,19 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
     importer->SetSpacing(displacementField->GetSpacing());
     importer->SetDirection(displacementField->GetDirection());
 
-    DisplacementFieldPointer updateField = importer->GetOutput();
+    const DisplacementFieldPointer updateField = importer->GetOutput();
     updateField->Update();
     updateField->DisconnectPipeline();
 
-    DisplacementFieldPointer updateSmoothField =
+    const DisplacementFieldPointer updateSmoothField =
       this->BSplineSmoothDisplacementField(updateField, this->m_NumberOfControlPointsForTheUpdateField);
 
     auto * updatePointer = reinterpret_cast<DerivativeValueType *>(updateSmoothField->GetBufferPointer());
 
     // Add the update field to the current total field
-    bool letArrayManageMemory = false;
+    const bool letArrayManageMemory = false;
     // Pass data pointer to required container. No copying is done.
-    DerivativeType smoothedUpdate(updatePointer, update.GetSize(), letArrayManageMemory);
+    const DerivativeType smoothedUpdate(updatePointer, update.GetSize(), letArrayManageMemory);
     Superclass::UpdateTransformParameters(smoothedUpdate, factor);
   }
   else
@@ -148,11 +148,11 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
     importer->SetSpacing(displacementField->GetSpacing());
     importer->SetDirection(displacementField->GetDirection());
 
-    DisplacementFieldPointer totalField = importer->GetOutput();
+    const DisplacementFieldPointer totalField = importer->GetOutput();
     totalField->Update();
     totalField->DisconnectPipeline();
 
-    DisplacementFieldPointer totalSmoothField =
+    const DisplacementFieldPointer totalSmoothField =
       this->BSplineSmoothDisplacementField(totalField, this->m_NumberOfControlPointsForTheTotalField);
 
     ImageAlgorithm::Copy<DisplacementFieldType, DisplacementFieldType>(
@@ -187,7 +187,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
 {
   LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");

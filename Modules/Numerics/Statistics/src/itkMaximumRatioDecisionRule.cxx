@@ -111,7 +111,7 @@ MaximumRatioDecisionRule::Evaluate(const MembershipVectorType & discriminantScor
   MembershipValueType best = NumericTraits<MembershipValueType>::NonpositiveMin();
   for (ClassIdentifierType i = 0; i < discriminantScores.size(); ++i)
   {
-    MembershipValueType temp = discriminantScores[i] * m_PriorProbabilities[i];
+    const MembershipValueType temp = discriminantScores[i] * m_PriorProbabilities[i];
     if (temp > best)
     {
       best = temp;

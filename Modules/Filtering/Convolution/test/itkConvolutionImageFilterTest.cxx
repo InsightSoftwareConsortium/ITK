@@ -53,7 +53,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   convoluter->SetInput(reader1->GetOutput());
   convoluter->SetKernelImage(reader2->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(convoluter, "filter");
+  const itk::SimpleFilterWatcher watcher(convoluter, "filter");
 
   if (argc >= 5)
   {
@@ -188,9 +188,9 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   }
 
   // Test for invalid request region.
-  auto                  invalidIndex = ImageType::IndexType::Filled(1000);
-  auto                  invalidSize = ImageType::SizeType::Filled(1000);
-  ImageType::RegionType invalidRequestRegion(invalidIndex, invalidSize);
+  auto                        invalidIndex = ImageType::IndexType::Filled(1000);
+  auto                        invalidSize = ImageType::SizeType::Filled(1000);
+  const ImageType::RegionType invalidRequestRegion(invalidIndex, invalidSize);
   convoluter->GetOutput()->SetRequestedRegion(invalidRequestRegion);
   try
   {

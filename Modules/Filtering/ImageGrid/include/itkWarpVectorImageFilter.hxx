@@ -140,9 +140,9 @@ void
 WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  InputImageConstPointer   inputPtr = this->GetInput();
-  OutputImagePointer       outputPtr = this->GetOutput();
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  const InputImageConstPointer   inputPtr = this->GetInput();
+  const OutputImagePointer       outputPtr = this->GetOutput();
+  const DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
 
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
@@ -198,7 +198,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateIn
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the input image
-  InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
 
   if (inputPtr)
   {
@@ -207,8 +207,8 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateIn
 
   // just propagate up the output requested region for the
   // displacement field.
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
-  OutputImagePointer       outputPtr = this->GetOutput();
+  const DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  const OutputImagePointer       outputPtr = this->GetOutput();
   if (fieldPtr)
   {
     fieldPtr->SetRequestedRegion(outputPtr->GetRequestedRegion());
@@ -222,13 +222,13 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateOu
   // call the superclass's implementation of this method
   Superclass::GenerateOutputInformation();
 
-  OutputImagePointer outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   outputPtr->SetSpacing(m_OutputSpacing);
   outputPtr->SetOrigin(m_OutputOrigin);
   outputPtr->SetDirection(m_OutputDirection);
 
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  const DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
   if (fieldPtr)
   {
     outputPtr->SetLargestPossibleRegion(fieldPtr->GetLargestPossibleRegion());

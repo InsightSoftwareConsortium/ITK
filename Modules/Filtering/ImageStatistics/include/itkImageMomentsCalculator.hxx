@@ -82,7 +82,7 @@ ImageMomentsCalculator<TImage>::Compute()
 
   while (!it.IsAtEnd())
   {
-    double value = it.Value();
+    const double value = it.Value();
 
     IndexType indexPosition = it.GetIndex();
 
@@ -98,7 +98,7 @@ ImageMomentsCalculator<TImage>::Compute()
         m_M1[i] += static_cast<double>(indexPosition[i]) * value;
         for (unsigned int j = 0; j < ImageDimension; ++j)
         {
-          double weight = value * static_cast<double>(indexPosition[i]) * static_cast<double>(indexPosition[j]);
+          const double weight = value * static_cast<double>(indexPosition[i]) * static_cast<double>(indexPosition[j]);
           m_M2[i][j] += weight;
         }
       }
@@ -108,7 +108,7 @@ ImageMomentsCalculator<TImage>::Compute()
         m_Cg[i] += physicalPosition[i] * value;
         for (unsigned int j = 0; j < ImageDimension; ++j)
         {
-          double weight = value * physicalPosition[i] * physicalPosition[j];
+          const double weight = value * physicalPosition[i] * physicalPosition[j];
           m_Cm[i][j] += weight;
         }
       }
@@ -147,8 +147,8 @@ ImageMomentsCalculator<TImage>::Compute()
   }
 
   // Compute principal moments and axes
-  vnl_symmetric_eigensystem<double> eigen{ m_Cm.GetVnlMatrix().as_matrix() };
-  vnl_diag_matrix<double>           pm{ eigen.D };
+  const vnl_symmetric_eigensystem<double> eigen{ m_Cm.GetVnlMatrix().as_matrix() };
+  vnl_diag_matrix<double>                 pm{ eigen.D };
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Pm[i] = pm(i) * m_M0;
@@ -157,7 +157,7 @@ ImageMomentsCalculator<TImage>::Compute()
 
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant
-  vnl_real_eigensystem                  eigenrot{ m_Pa.GetVnlMatrix().as_matrix() };
+  const vnl_real_eigensystem            eigenrot{ m_Pa.GetVnlMatrix().as_matrix() };
   vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
   std::complex<double>                  det(1.0, 0.0);
 
@@ -310,7 +310,7 @@ ImageMomentsCalculator<TImage>::GetPhysicalAxesToPrincipalAxesTransform() const 
     }
   }
 
-  AffineTransformPointer result = AffineTransformType::New();
+  const AffineTransformPointer result = AffineTransformType::New();
   result->SetMatrix(matrix);
   result->SetOffset(offset);
 

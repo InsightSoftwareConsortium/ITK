@@ -85,7 +85,7 @@ template <typename TParametersValueType>
 const typename TransformFileWriterTemplate<TParametersValueType>::TransformType *
 TransformFileWriterTemplate<TParametersValueType>::GetInput()
 {
-  ConstTransformPointer res = m_TransformList.front();
+  const ConstTransformPointer res = m_TransformList.front();
   return res.GetPointer();
 }
 
@@ -130,7 +130,8 @@ TransformFileWriterTemplate<TParametersValueType>::Update()
       std::ostringstream msg;
       msg << "Could not create Transform IO object for writing file " << this->GetFileName() << std::endl;
 
-      std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
+      const std::list<LightObject::Pointer> allobjects =
+        ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
 
       if (!allobjects.empty())
       {
@@ -196,8 +197,8 @@ struct TransformIOHelper
     TransformIOBaseTemplate<OutputParameterValueType>::CorrectTransformPrecisionType(transformName);
 
     // Instantiate the transform
-    LightObject::Pointer   i = ObjectFactoryBase::CreateInstance(transformName.c_str());
-    OutputTransformPointer convertedTransform = dynamic_cast<TOutputTransformType *>(i.GetPointer());
+    const LightObject::Pointer i = ObjectFactoryBase::CreateInstance(transformName.c_str());
+    OutputTransformPointer     convertedTransform = dynamic_cast<TOutputTransformType *>(i.GetPointer());
     if (convertedTransform.IsNull())
     {
       itkGenericExceptionMacro("Could not create an instance of " << transformName);
@@ -293,7 +294,7 @@ AddToTransformList(typename TInputTransformType::ConstPointer &             tran
      The first transform of the output transform list should be a composite transform
      we push back just an empty composite transform as it will be skipped by the outputHelper.
     */
-    OutputTransformPointer outputComposite = IOhelper::CreateNewTypeTransform(transformName);
+    const OutputTransformPointer outputComposite = IOhelper::CreateNewTypeTransform(transformName);
     compositeTransformList.push_back(outputComposite);
 
     // Now we iterate through input list and convert each sub transform to a new transform with requested precision
@@ -306,7 +307,7 @@ AddToTransformList(typename TInputTransformType::ConstPointer &             tran
       // get the input sub transform
       const InputTransformType * const inSub = it->GetPointer();
       // convert each sub transform and push them to the output transform list
-      std::string            inSubName = inSub->GetTransformTypeAsString();
+      const std::string      inSubName = inSub->GetTransformTypeAsString();
       OutputTransformPointer convertedSub = IOhelper::CreateNewTypeTransform(inSubName);
       IOhelper::SetAllParameters(inSub, convertedSub);
       // push back the converted sub transform to the composite transform list

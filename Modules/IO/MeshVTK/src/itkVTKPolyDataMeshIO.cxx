@@ -273,10 +273,10 @@ VTKPolyDataMeshIO::ReadMeshInformation()
 
   std::getline(inputFile, line, '\n');
   ++numLine;
-  size_t versionPos = line.find("Version ");
+  const size_t versionPos = line.find("Version ");
   if (versionPos != std::string::npos)
   {
-    std::string versionString = line.substr(versionPos + 8);
+    const std::string versionString = line.substr(versionPos + 8);
     // Split the version string by "."
     std::vector<std::string> versionTokens;
     std::istringstream       iss(versionString);
@@ -988,7 +988,7 @@ VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buff
   SizeValueType index = 0;
   unsigned int  numPoints; // number of point in each cell
 
-  MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+  const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
   using GeometryIntegerType = unsigned int;
   auto * data = static_cast<GeometryIntegerType *>(buffer);
 
@@ -1225,9 +1225,9 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
   using ConnectivityType = TConnectivity;
   using GeometryIntegerType = unsigned int;
 
-  std::string          line;
-  MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-  unsigned int         numPoints; // number of point in each cell
+  std::string                line;
+  const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+  unsigned int               numPoints; // number of point in each cell
 
   auto * outputBuffer = static_cast<unsigned int *>(buffer);
   while (!inputFile.eof())
@@ -1408,8 +1408,8 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYOffsetType(std::ifstream & inputFile, 
 {
   using OffsetType = TOffset;
 
-  MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-  std::string          connectivityType;
+  const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+  std::string                connectivityType;
   ExposeMetaData<std::string>(metaDic, "connectivityType", connectivityType);
   const auto connectivityComponentType = this->GetComponentTypeFromString(connectivityType);
   switch (connectivityComponentType)
@@ -1440,7 +1440,7 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARY(std::ifstream & inputFile, void * buf
   }
 
   using GeometryIntegerType = unsigned int;
-  MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+  const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
 
   if (this->m_ReadMeshVersionMajor >= 5)
   {

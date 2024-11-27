@@ -76,13 +76,13 @@ itkQuadEdgeMeshTest1(int, char *[])
   }
 
   using PointsIterator = MeshType::PointsContainer::Iterator;
-  PointsIterator pointIterator = mesh->GetPoints()->Begin();
-  PointsIterator end = mesh->GetPoints()->End();
+  PointsIterator       pointIterator = mesh->GetPoints()->Begin();
+  const PointsIterator end = mesh->GetPoints()->End();
 
   int nPoints = 0;
   while (pointIterator != end)
   {
-    MeshType::PointType p = pointIterator.Value();
+    const MeshType::PointType p = pointIterator.Value();
 
     if (p != pts[nPoints])
     {
@@ -116,7 +116,7 @@ itkQuadEdgeMeshTest1(int, char *[])
     }
 
     // create a tetahedra and one isolated point: id = 4
-    int specialCells[12] = { 0, 1, 2, 0, 2, 3, 3, 1, 0, 1, 3, 2 };
+    const int specialCells[12] = { 0, 1, 2, 0, 2, 3, 3, 1, 0, 1, 3, 2 };
 
     CellType::CellAutoPointer cellpointer;
     QEPolygonCellType *       poly;

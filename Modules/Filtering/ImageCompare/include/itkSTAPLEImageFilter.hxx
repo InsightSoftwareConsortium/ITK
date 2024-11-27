@@ -57,13 +57,13 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Allocate the output "fuzzy" image.
   this->GetOutput()->SetBufferedRegion(this->GetOutput()->GetRequestedRegion());
   this->GetOutput()->Allocate();
-  typename TOutputImage::Pointer W = this->GetOutput();
+  const typename TOutputImage::Pointer W = this->GetOutput();
 
   // Initialize the output to all 0's
   W->FillBuffer(0.0);
 
   // Record the number of input files.
-  ProcessObject::DataObjectPointerArraySizeType number_of_input_files = this->GetNumberOfIndexedInputs();
+  const ProcessObject::DataObjectPointerArraySizeType number_of_input_files = this->GetNumberOfIndexedInputs();
 
   const auto D_it = make_unique_for_overwrite<IteratorType[]>(number_of_input_files);
 

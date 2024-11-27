@@ -99,7 +99,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::PixelType pixelValue = image->GetPixel(pixelIndex);
+  const ImageType::PixelType pixelValue = image->GetPixel(pixelIndex);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

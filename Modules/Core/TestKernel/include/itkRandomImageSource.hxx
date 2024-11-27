@@ -216,7 +216,7 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
 
 
   using scalarType = typename TOutputImage::PixelType;
-  typename TOutputImage::Pointer image = this->GetOutput(0);
+  const typename TOutputImage::Pointer image = this->GetOutput(0);
 
   TotalProgressReporter progress(this, image->GetRequestedRegion().GetNumberOfPixels());
 

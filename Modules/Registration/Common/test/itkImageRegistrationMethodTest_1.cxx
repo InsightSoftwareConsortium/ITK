@@ -88,8 +88,8 @@ itkImageRegistrationMethodTest_1(int argc, char * argv[])
 
   imageSource->GenerateImages(size);
 
-  FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
-  MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
+  const FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  const MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
   // Connect all the components required for Registratio
@@ -188,9 +188,9 @@ itkImageRegistrationMethodTest_1(int argc, char * argv[])
   //
   //  Get the transform as the Output of the Registration filter
   //
-  RegistrationType::TransformOutputConstPointer transformDecorator = registration->GetOutput();
+  const RegistrationType::TransformOutputConstPointer transformDecorator = registration->GetOutput();
 
-  TransformType::ConstPointer finalTransform = static_cast<const TransformType *>(transformDecorator->Get());
+  const TransformType::ConstPointer finalTransform = static_cast<const TransformType *>(transformDecorator->Get());
 
 
   if (!pass)

@@ -71,7 +71,7 @@ itkLabelMapToAttributeImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(backgroundValue, l2i->GetBackgroundValue());
 
   l2i->SetInput(i2l->GetOutput());
-  itk::SimpleFilterWatcher watcher(l2i, "filter");
+  const itk::SimpleFilterWatcher watcher(l2i, "filter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 

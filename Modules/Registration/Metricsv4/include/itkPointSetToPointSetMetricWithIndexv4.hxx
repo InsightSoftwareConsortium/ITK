@@ -100,7 +100,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
                           "or a CompositeTransform with DisplacementFieldTransform as the last to have been added.");
       }
       using DisplacementFieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
-      typename DisplacementFieldType::ConstPointer field = displacementTransform->GetDisplacementField();
+      const typename DisplacementFieldType::ConstPointer field = displacementTransform->GetDisplacementField();
       this->SetVirtualDomain(
         field->GetSpacing(), field->GetOrigin(), field->GetDirection(), field->GetBufferedRegion());
     }
@@ -177,7 +177,7 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
 
   PointIdentifierRanges                          ranges = this->CreateRanges();
   std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
-  std::function<void(SizeValueType)>             sumNeighborhoodValues =
+  const std::function<void(SizeValueType)>       sumNeighborhoodValues =
     [this, &threadValues, &ranges, &virtualTransformedPointSet, &fixedTransformedPointSet](SizeValueType rangeIndex) {
       CompensatedSummation<MeasureType> threadValue = 0;
       PixelType                         pixel;
@@ -190,7 +190,7 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
         {
           if (this->m_UsePointSetData)
           {
-            bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
+            const bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
             if (!doesPointDataExist)
             {
               itkExceptionMacro("The corresponding data for point (pointId = " << index << ") does not exist.");
@@ -271,8 +271,8 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   PointIdentifierRanges                          ranges = this->CreateRanges();
   std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
   using CompensatedDerivative = typename std::vector<CompensatedSummation<ParametersValueType>>;
-  std::vector<CompensatedDerivative> threadDerivatives(ranges.size());
-  std::function<void(SizeValueType)> sumNeighborhoodValues =
+  std::vector<CompensatedDerivative>       threadDerivatives(ranges.size());
+  const std::function<void(SizeValueType)> sumNeighborhoodValues =
     [this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue, &numberOfLocalParameters](
       SizeValueType rangeIndex) {
       // Use STL container to make sure no unnecessary checks are performed
@@ -310,7 +310,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
 
         if (this->m_UsePointSetData)
         {
-          bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
+          const bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
           if (!doesPointDataExist)
           {
             itkExceptionMacro("The corresponding data for point with id " << index << " does not exist.");
@@ -447,7 +447,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   // is scalar (both of which are verified during Metric initialization).
   try
   {
-    OffsetValueType offset =
+    const OffsetValueType offset =
       this->ComputeParameterOffsetFromVirtualPoint(virtualPoint, this->GetNumberOfLocalParameters());
     for (NumberOfParametersType i = 0; i < this->GetNumberOfLocalParameters(); ++i)
     {
@@ -496,7 +496,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
     this->m_MovingTransformedPointSet = MovingTransformedPointSetType::New();
     this->m_MovingTransformedPointSet->Initialize();
 
-    typename MovingTransformType::InverseTransformBasePointer inverseTransform =
+    const typename MovingTransformType::InverseTransformBasePointer inverseTransform =
       this->m_MovingTransform->GetInverseTransform();
 
     typename MovingPointsContainer::ConstIterator It = this->m_MovingPointSet->GetPoints()->Begin();
@@ -504,7 +504,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
     {
       if (this->m_CalculateValueAndDerivativeInTangentSpace)
       {
-        PointType point = inverseTransform->TransformPoint(It.Value());
+        const PointType point = inverseTransform->TransformPoint(It.Value());
         this->m_MovingTransformedPointSet->SetPoint(It.Index(), point);
       }
       else
@@ -545,7 +545,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
     this->m_VirtualTransformedPointSet->Initialize();
 
     using InverseTransformBasePointer = typename FixedTransformType::InverseTransformBasePointer;
-    InverseTransformBasePointer inverseTransform = this->m_FixedTransform->GetInverseTransform();
+    const InverseTransformBasePointer inverseTransform = this->m_FixedTransform->GetInverseTransform();
 
     typename FixedPointsContainer::ConstIterator It = this->m_FixedPointSet->GetPoints()->Begin();
     while (It != this->m_FixedPointSet->GetPoints()->End())
@@ -553,7 +553,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
       if (this->m_CalculateValueAndDerivativeInTangentSpace)
       {
         // txf into virtual space
-        PointType point = inverseTransform->TransformPoint(It.Value());
+        const PointType point = inverseTransform->TransformPoint(It.Value());
         this->m_VirtualTransformedPointSet->SetPoint(It.Index(), point);
         this->m_FixedTransformedPointSet->SetPoint(It.Index(), point);
       }
@@ -630,8 +630,8 @@ const typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointS
   PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::CreateRanges()
     const
 {
-  PointIdentifier nPoints = this->m_FixedTransformedPointSet->GetNumberOfPoints();
-  PointIdentifier nWorkUnits = MultiThreaderBase::New()->GetNumberOfWorkUnits();
+  const PointIdentifier nPoints = this->m_FixedTransformedPointSet->GetNumberOfPoints();
+  PointIdentifier       nWorkUnits = MultiThreaderBase::New()->GetNumberOfWorkUnits();
   if (nWorkUnits > nPoints || MultiThreaderBase::New()->GetMaximumNumberOfThreads() <= 1)
   {
     nWorkUnits = 1;
@@ -640,7 +640,7 @@ const typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointS
   PointIdentifierRanges ranges;
   for (PointIdentifier p = 1; p < nWorkUnits; ++p)
   {
-    PointIdentifier endRange = (p * nPoints) / static_cast<double>(nWorkUnits);
+    const PointIdentifier endRange = (p * nPoints) / static_cast<double>(nWorkUnits);
     ranges.push_back(PointIdentifierPair(startRange, endRange));
     startRange = endRange;
   }

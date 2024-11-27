@@ -62,7 +62,7 @@ itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
 
   // Now we will valuate the attributes. The attribute will be the object position
   // in the label map
-  LabelMapType::Pointer labelMap = imageToLabel->GetOutput();
+  const LabelMapType::Pointer labelMap = imageToLabel->GetOutput();
 
   int pos = 0;
   for (LabelMapType::Iterator it(labelMap); !it.IsAtEnd(); ++it)
@@ -88,13 +88,13 @@ itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
   opening->ReverseOrderingOff();
   ITK_TEST_SET_GET_VALUE(false, opening->GetReverseOrdering());
 
-  bool reverseOrdering = std::stoi(argv[4]);
+  const bool reverseOrdering = std::stoi(argv[4]);
   opening->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, opening->GetReverseOrdering());
 
   opening->SetInput(labelMap);
 
-  itk::SimpleFilterWatcher watcher(opening, "filter");
+  const itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using LabelToImageType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto labelToImage = LabelToImageType::New();

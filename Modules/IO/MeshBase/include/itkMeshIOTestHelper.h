@@ -60,8 +60,8 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 {
   using FloatType = float;
 
-  FloatType floatValue = 1.0;
-  bool      usePointPixel = true;
+  const FloatType floatValue = 1.0;
+  bool            usePointPixel = true;
   meshIO->SetPixelType(floatValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(1, meshIO->GetNumberOfPointPixelComponents());
   LOCAL_ITK_TEST_SET_GET_VALUE(itk::MeshIOBase::MapComponentType<FloatType>::CType,
@@ -78,7 +78,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   using RGBPixelType = itk::RGBPixel<FloatType>;
 
-  RGBPixelType rgbValue{ 1.0 };
+  const RGBPixelType rgbValue{ 1.0 };
   usePointPixel = true;
   meshIO->SetPixelType(rgbValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(3, meshIO->GetNumberOfPointPixelComponents());
@@ -225,7 +225,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   using ComplexPixelType = std::complex<FloatType>;
 
-  ComplexPixelType complexPixelValue(1.0, 1.0);
+  const ComplexPixelType complexPixelValue(1.0, 1.0);
   usePointPixel = true;
   meshIO->SetPixelType(complexPixelValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(2, meshIO->GetNumberOfPointPixelComponents());
@@ -243,7 +243,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   using ArrayPixelType = itk::Array<FloatType>;
 
-  ArrayPixelType arrayPixelValue{};
+  const ArrayPixelType arrayPixelValue{};
   usePointPixel = true;
   meshIO->SetPixelType(arrayPixelValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(arrayPixelValue.Size(), meshIO->GetNumberOfPointPixelComponents());
@@ -261,7 +261,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   using VariableLengthVectorPixelType = itk::VariableLengthVector<FloatType>;
 
-  VariableLengthVectorPixelType variableLengthVectorValue{};
+  const VariableLengthVectorPixelType variableLengthVectorValue{};
   usePointPixel = true;
   meshIO->SetPixelType(variableLengthVectorValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(variableLengthVectorValue.Size(), meshIO->GetNumberOfPointPixelComponents());
@@ -279,7 +279,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   using VariableSizeMatrixType = itk::VariableSizeMatrix<FloatType>;
 
-  VariableSizeMatrixType matrix{};
+  const VariableSizeMatrixType matrix{};
   usePointPixel = true;
   meshIO->SetPixelType(matrix, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(matrix.Rows() * matrix.Cols(), meshIO->GetNumberOfPointPixelComponents());
@@ -297,66 +297,66 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   // ToDo see how the above change the below
   // Do this only for the last pixel type
-  itk::IOComponentEnum floatComponent = itk::IOComponentEnum::FLOAT;
+  const itk::IOComponentEnum floatComponent = itk::IOComponentEnum::FLOAT;
   std::cout << "ComponentSize: " << meshIO->GetComponentSize(floatComponent) << std::endl;
 
   std::cout << "ComponentTypeAsString: " << meshIO->GetComponentTypeAsString(floatComponent) << std::endl;
 
-  itk::CommonEnums::IOPixel pixelType = itk::CommonEnums::IOPixel::SCALAR;
+  const itk::CommonEnums::IOPixel pixelType = itk::CommonEnums::IOPixel::SCALAR;
   std::cout << "PixelTypeAsString: " << meshIO->GetPixelTypeAsString(pixelType) << std::endl;
 
-  itk::CommonEnums::IOComponent pointComponentType = itk::CommonEnums::IOComponent::FLOAT;
+  const itk::CommonEnums::IOComponent pointComponentType = itk::CommonEnums::IOComponent::FLOAT;
   meshIO->SetPointComponentType(pointComponentType);
   LOCAL_ITK_TEST_SET_GET_VALUE(pointComponentType, meshIO->GetPointComponentType());
 
-  itk::CommonEnums::IOComponent cellComponentType = itk::CommonEnums::IOComponent::FLOAT;
+  const itk::CommonEnums::IOComponent cellComponentType = itk::CommonEnums::IOComponent::FLOAT;
   meshIO->SetCellComponentType(cellComponentType);
   LOCAL_ITK_TEST_SET_GET_VALUE(cellComponentType, meshIO->GetCellComponentType());
 
-  unsigned int pointDimension = 2;
+  const unsigned int pointDimension = 2;
   meshIO->SetPointDimension(pointDimension);
   LOCAL_ITK_TEST_SET_GET_VALUE(pointDimension, meshIO->GetPointDimension());
 
-  itk::MeshIOBase::SizeValueType numberOfPoints = 400;
+  const itk::MeshIOBase::SizeValueType numberOfPoints = 400;
   meshIO->SetNumberOfPoints(numberOfPoints);
   LOCAL_ITK_TEST_SET_GET_VALUE(numberOfPoints, meshIO->GetNumberOfPoints());
 
-  itk::MeshIOBase::SizeValueType numberOfCells = 100;
+  const itk::MeshIOBase::SizeValueType numberOfCells = 100;
   meshIO->SetNumberOfCells(numberOfCells);
   LOCAL_ITK_TEST_SET_GET_VALUE(numberOfCells, meshIO->GetNumberOfCells());
 
-  itk::MeshIOBase::SizeValueType numberOfPointPixels = 200;
+  const itk::MeshIOBase::SizeValueType numberOfPointPixels = 200;
   meshIO->SetNumberOfPointPixels(numberOfPointPixels);
   LOCAL_ITK_TEST_SET_GET_VALUE(numberOfPointPixels, meshIO->GetNumberOfPointPixels());
 
-  itk::MeshIOBase::SizeValueType numberOfCellPixels = 600;
+  const itk::MeshIOBase::SizeValueType numberOfCellPixels = 600;
   meshIO->SetNumberOfCellPixels(numberOfCellPixels);
   LOCAL_ITK_TEST_SET_GET_VALUE(numberOfCellPixels, meshIO->GetNumberOfCellPixels());
 
-  itk::MeshIOBase::SizeValueType cellBufferSize = 1000;
+  const itk::MeshIOBase::SizeValueType cellBufferSize = 1000;
   meshIO->SetCellBufferSize(cellBufferSize);
   LOCAL_ITK_TEST_SET_GET_VALUE(cellBufferSize, meshIO->GetCellBufferSize());
 
-  itk::IOFileEnum fileType = itk::IOFileEnum::ASCII;
+  const itk::IOFileEnum fileType = itk::IOFileEnum::ASCII;
   meshIO->SetFileType(fileType);
   LOCAL_ITK_TEST_SET_GET_VALUE(fileType, meshIO->GetFileType());
 
   std::cout << "FileTypeAsString: " << meshIO->GetFileTypeAsString(fileType) << std::endl;
 
-  itk::IOByteOrderEnum ioByteOrder = itk::IOByteOrderEnum::BigEndian;
+  const itk::IOByteOrderEnum ioByteOrder = itk::IOByteOrderEnum::BigEndian;
   meshIO->SetByteOrder(ioByteOrder);
   LOCAL_ITK_TEST_SET_GET_VALUE(ioByteOrder, meshIO->GetByteOrder());
 
   std::cout << "ByteOrderAsString: " << meshIO->GetByteOrderAsString(ioByteOrder) << std::endl;
 
-  itk::MeshIOBase::ArrayOfExtensionsType supportedReadExtensions = meshIO->GetSupportedReadExtensions();
+  const itk::MeshIOBase::ArrayOfExtensionsType supportedReadExtensions = meshIO->GetSupportedReadExtensions();
   std::cout << "SupportedReadExtensions: " << std::endl;
   for (auto ext : supportedReadExtensions)
   {
     std::cout << ext << std::endl;
   }
 
-  itk::MeshIOBase::ArrayOfExtensionsType supportedWriteExtensions = meshIO->GetSupportedWriteExtensions();
+  const itk::MeshIOBase::ArrayOfExtensionsType supportedWriteExtensions = meshIO->GetSupportedWriteExtensions();
   std::cout << "SupportedWriteExtensions: " << std::endl;
   for (auto ext : supportedWriteExtensions)
   {

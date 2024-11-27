@@ -78,7 +78,7 @@ itkChangeLabelLabelMapFilterTest(int argc, char * argv[])
     changeFilter->SetChange(oldLabel, newLabel);
   }
 
-  itk::SimpleFilterWatcher watcher6(changeFilter, "filter");
+  const itk::SimpleFilterWatcher watcher6(changeFilter, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

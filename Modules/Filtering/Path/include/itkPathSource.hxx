@@ -29,7 +29,7 @@ PathSource<TOutputPath>::PathSource()
 {
   // Create the output. We use static_cast<> here because we know the default
   // output must be of type TOutputPath
-  OutputPathPointer output = static_cast<TOutputPath *>(this->MakeOutput(0).GetPointer());
+  const OutputPathPointer output = static_cast<TOutputPath *>(this->MakeOutput(0).GetPointer());
 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());

@@ -283,7 +283,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
     /* Global support */
     if (this->m_Associate->GetUseFloatingPointCorrection())
     {
-      DerivativeValueType correctionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
+      const DerivativeValueType correctionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
       for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
       {
         auto test = static_cast<intmax_t>(
@@ -306,7 +306,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
     // is scalar (which is verified during Metric initialization).
     try
     {
-      OffsetValueType offset =
+      const OffsetValueType offset =
         this->m_Associate->ComputeParameterOffsetFromVirtualIndex(virtualIndex, this->m_CachedNumberOfLocalParameters);
       for (NumberOfParametersType i = 0; i < this->m_CachedNumberOfLocalParameters; ++i)
       {

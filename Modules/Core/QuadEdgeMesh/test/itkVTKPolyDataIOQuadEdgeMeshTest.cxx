@@ -49,7 +49,7 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(polyDataReader->Update());
 
 
-  MeshType::Pointer mesh = polyDataReader->GetOutput();
+  const MeshType::Pointer mesh = polyDataReader->GetOutput();
 
   polyDataWriter->SetInput(mesh);
 

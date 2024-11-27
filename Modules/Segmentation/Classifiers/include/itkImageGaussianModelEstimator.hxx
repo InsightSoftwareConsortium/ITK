@@ -60,7 +60,7 @@ void
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::EstimateModels()
 {
   // Do some error checking
-  InputImageConstPointer inputImage = this->GetInputImage();
+  const InputImageConstPointer inputImage = this->GetInputImage();
 
   // Check if the training and input image dimensions are the same
   if (static_cast<int>(TInputImage::ImageDimension) != static_cast<int>(TTrainingImage::ImageDimension))
@@ -70,7 +70,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
 
   InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
 
-  TrainingImageConstPointer trainingImage = this->GetTrainingImage();
+  const TrainingImageConstPointer trainingImage = this->GetTrainingImage();
 
   using TrainingImageSizeType = InputImageSizeType;
   TrainingImageSizeType trainingImageSize = trainingImage->GetBufferedRegion().GetSize();
@@ -86,7 +86,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
   }
 
   // Set up the gaussian membership calculators
-  unsigned int numberOfModels = this->GetNumberOfModels();
+  const unsigned int numberOfModels = this->GetNumberOfModels();
 
   // Call local function to estimate mean variances of the various
   // class labels in the training set.
@@ -123,15 +123,15 @@ void
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::EstimateGaussianModelParameters()
 {
   // Set the iterators and the pixel type definition for the input image
-  InputImageConstPointer  inputImage = this->GetInputImage();
-  InputImageConstIterator inIt(inputImage, inputImage->GetBufferedRegion());
+  const InputImageConstPointer inputImage = this->GetInputImage();
+  InputImageConstIterator      inIt(inputImage, inputImage->GetBufferedRegion());
 
   // Set the iterators and the pixel type definition for the training image
-  TrainingImageConstPointer trainingImage = this->GetTrainingImage();
+  const TrainingImageConstPointer trainingImage = this->GetTrainingImage();
 
   TrainingImageConstIterator trainingImageIt(trainingImage, trainingImage->GetBufferedRegion());
 
-  unsigned int numberOfModels = (this->GetNumberOfModels());
+  const unsigned int numberOfModels = (this->GetNumberOfModels());
 
   // Set up the matrices to hold the means and the covariance for the
   // training data

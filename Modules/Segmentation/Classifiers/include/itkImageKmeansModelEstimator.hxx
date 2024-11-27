@@ -146,13 +146,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Allocate()
 
     // Set the initial and final codebook size
 
-    SizeValueType initCodebookSize = (SizeValueType)1;
+    const SizeValueType initCodebookSize = (SizeValueType)1;
     m_Codebook.set_size(initCodebookSize, m_VectorDimension);
 
     // Initialize m_Codebook to 0 (it now has only one row)
     m_Codebook.fill(0);
   }
-  SizeValueType finalCodebookSize = (SizeValueType)m_NumberOfCodewords;
+  const SizeValueType finalCodebookSize = (SizeValueType)m_NumberOfCodewords;
 
   // Allocate scratch memory for the centroid, codebook histogram
   // and the codebook distortion
@@ -217,7 +217,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::EstimateModels()
   this->EstimateKmeansModelParameters();
 
   // Set up the membership calculators
-  unsigned int numberOfModels = this->GetNumberOfModels();
+  const unsigned int numberOfModels = this->GetNumberOfModels();
 
   // Call local function to estimate mean variances of the various
   // class labels in the training set
@@ -410,8 +410,8 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   *distortion = 0.0;
 
   // Declare the iterators for the image and the codebook
-  InputImageConstPointer  inputImage = this->GetInputImage();
-  InputImageConstIterator inputImageIt(inputImage, inputImage->GetBufferedRegion());
+  const InputImageConstPointer inputImage = this->GetInputImage();
+  InputImageConstIterator      inputImageIt(inputImage, inputImage->GetBufferedRegion());
   inputImageIt.GoToBegin();
 
   // Calculate the number of vectors in the input data set
@@ -442,7 +442,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 
       for (unsigned int j = 0; j < m_VectorDimension; ++j)
       {
-        double diff = static_cast<double>(inputImagePixelVector[j] - m_Codebook[i][j]);
+        const double diff = static_cast<double>(inputImagePixelVector[j] - m_Codebook[i][j]);
         tempdistortion += diff * diff;
 
         if (tempdistortion > bestdistortion)

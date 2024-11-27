@@ -36,7 +36,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!inputPtr)
   {
@@ -81,8 +81,8 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename BFC::FaceListType;
 
-  NeighborhoodInnerProduct<InputImageType, OperatorValueType, ComputingPixelType> smartInnerProduct;
-  BFC                                                                             faceCalculator;
+  const NeighborhoodInnerProduct<InputImageType, OperatorValueType, ComputingPixelType> smartInnerProduct;
+  BFC                                                                                   faceCalculator;
 
   OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
@@ -92,7 +92,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   // we pass in the input image and the OUTPUT requested region. We are
   // only concerned with centering the neighborhood operator at the
   // pixels that correspond to output pixels.
-  FaceListType faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
+  const FaceListType faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
 
   ImageRegionIterator<OutputImageType> it;
 

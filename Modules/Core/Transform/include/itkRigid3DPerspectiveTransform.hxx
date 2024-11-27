@@ -80,7 +80,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetParameters(const Parameter
     norm = std::sqrt(norm);
   }
 
-  double epsilon = 1e-10;
+  const double epsilon = 1e-10;
   if (norm >= 1.0 - epsilon)
   {
     axis = axis / (norm + epsilon * norm);

@@ -48,7 +48,7 @@ DenseFrequencyContainer2::SetFrequency(const InstanceIdentifier id, const Absolu
   {
     return false;
   }
-  AbsoluteFrequencyType frequency = this->GetFrequency(id);
+  const AbsoluteFrequencyType frequency = this->GetFrequency(id);
   (*m_FrequencyContainer)[id] = value;
   m_TotalFrequency += (value - frequency);
   return true;
@@ -71,7 +71,7 @@ DenseFrequencyContainer2::IncreaseFrequency(const InstanceIdentifier id, const A
   {
     return false;
   }
-  AbsoluteFrequencyType frequency = this->GetFrequency(id);
+  const AbsoluteFrequencyType frequency = this->GetFrequency(id);
   (*m_FrequencyContainer)[id] = frequency + value;
   m_TotalFrequency += value;
   return true;

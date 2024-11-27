@@ -103,7 +103,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ScalarImageToHistogramGeneratorType::Pointer
+  const ScalarImageToHistogramGeneratorType::Pointer
     scalarImageToHistogramGenerator =
       ScalarImageToHistogramGeneratorType::New();
 
@@ -196,7 +196,7 @@ main(int argc, char * argv[])
   //
   // Software Guide : EndLatex
 
-  std::string outputFileBase = argv[2];
+  const std::string outputFileBase = argv[2];
 
   InputPixelType lowerThreshold = itk::NumericTraits<InputPixelType>::min();
   InputPixelType upperThreshold;

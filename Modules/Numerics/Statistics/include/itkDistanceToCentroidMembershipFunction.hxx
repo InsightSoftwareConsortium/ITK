@@ -69,8 +69,8 @@ template <typename TVector>
 typename LightObject::Pointer
 DistanceToCentroidMembershipFunction<TVector>::InternalClone() const
 {
-  LightObject::Pointer   loPtr = Superclass::InternalClone();
-  typename Self::Pointer membershipFunction = dynamic_cast<Self *>(loPtr.GetPointer());
+  LightObject::Pointer         loPtr = Superclass::InternalClone();
+  const typename Self::Pointer membershipFunction = dynamic_cast<Self *>(loPtr.GetPointer());
   if (membershipFunction.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");

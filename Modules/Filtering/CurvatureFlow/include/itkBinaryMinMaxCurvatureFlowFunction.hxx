@@ -37,15 +37,15 @@ BinaryMinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType 
                                                          const FloatOffsetType &  offset) -> PixelType
 {
   using CurvatureFlowFunctionType = CurvatureFlowFunction<TImage>;
-  PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(it, globalData, offset);
+  const PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(it, globalData, offset);
 
   if (update == 0.0)
   {
     return update;
   }
 
-  NeighborhoodInnerProduct<ImageType> innerProduct;
-  PixelType                           avgValue = innerProduct(it, this->m_StencilOperator);
+  const NeighborhoodInnerProduct<ImageType> innerProduct;
+  const PixelType                           avgValue = innerProduct(it, this->m_StencilOperator);
 
   if (avgValue < m_Threshold)
   {

@@ -47,7 +47,7 @@ itkComposeRGBImageFilterTest(int, char *[])
   size[1] = 2;
   size[2] = 2;
 
-  IndexType start{};
+  const IndexType start{};
 
   RegionType region;
   region.SetIndex(start);
@@ -81,7 +81,7 @@ itkComposeRGBImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  OutputImageType::Pointer rgbImage = filter->GetOutput();
+  const OutputImageType::Pointer rgbImage = filter->GetOutput();
 
   using OutputIterator = itk::ImageRegionIterator<OutputImageType>;
   using InputIterator = itk::ImageRegionIterator<InputImageType>;
@@ -102,7 +102,7 @@ itkComposeRGBImageFilterTest(int, char *[])
 
   while (!ot.IsAtEnd())
   {
-    OutputPixelType outp = ot.Get();
+    const OutputPixelType outp = ot.Get();
     if (ir.Get() != outp.GetRed())
     {
       std::cerr << "Error in red component" << std::endl;

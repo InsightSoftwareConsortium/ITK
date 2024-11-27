@@ -37,7 +37,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   //-------------------------------------------------------------
   //                        Typedefs
@@ -80,7 +80,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   const float spacing[3] = { 1.0, 1.0, 1.0 };
 
@@ -143,7 +143,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
 
   myFloatIteratorType itf(myFloatImage, myFloatImage->GetRequestedRegion());
 
-  myFloatPixelType initialFloatValue = 5.0;
+  const myFloatPixelType initialFloatValue = 5.0;
 
   while (!itf.IsAtEnd())
   {

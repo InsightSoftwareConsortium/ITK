@@ -56,7 +56,7 @@ itkQuadEdgeMeshDeletePointAndReorderIDsTest(int, char *[])
   }
 
   // create a tetahedra and one isolated point: id = 0
-  int specialCells[12] = { 4, 1, 2, 4, 2, 3, 3, 1, 4, 1, 3, 2 };
+  const int specialCells[12] = { 4, 1, 2, 4, 2, 3, 3, 1, 4, 1, 3, 2 };
 
   CellType::CellAutoPointer cellpointer;
   QEPolygonCellType *       poly;

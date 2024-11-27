@@ -62,7 +62,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::BeforeThreadedGen
 
   this->m_NumberOfPixelsChanged = 0;
 
-  unsigned int numberOfWorkUnits = this->GetNumberOfWorkUnits();
+  const unsigned int numberOfWorkUnits = this->GetNumberOfWorkUnits();
   this->m_Count.SetSize(numberOfWorkUnits);
   for (unsigned int i = 0; i < numberOfWorkUnits; ++i)
   {
@@ -82,12 +82,12 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   ImageRegionIterator<OutputImageType>      it;
 
   // Allocate output
-  typename OutputImageType::Pointer     output = this->GetOutput();
-  typename InputImageType::ConstPointer input = this->GetInput();
+  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                              bC;
+  const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     bC(input, outputRegionForThread, this->GetRadius());
 
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
@@ -107,7 +107,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    unsigned int neighborhoodSize = bit.Size();
+    const unsigned int neighborhoodSize = bit.Size();
 
     while (!bit.IsAtEnd())
     {
@@ -119,7 +119,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
         unsigned int count = 0;
         for (unsigned int i = 0; i < neighborhoodSize; ++i)
         {
-          InputPixelType value = bit.GetPixel(i);
+          const InputPixelType value = bit.GetPixel(i);
           if (value == foregroundValue)
           {
             ++count;
@@ -154,7 +154,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::AfterThreadedGene
 {
   this->m_NumberOfPixelsChanged = SizeValueType{};
 
-  unsigned int numberOfWorkUnits = this->GetNumberOfWorkUnits();
+  const unsigned int numberOfWorkUnits = this->GetNumberOfWorkUnits();
   this->m_Count.SetSize(numberOfWorkUnits);
   for (unsigned int t = 0; t < numberOfWorkUnits; ++t)
   {

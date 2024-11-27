@@ -30,7 +30,7 @@ template <typename TPixel, unsigned int TDimension, typename TAllocator>
 void
 AnnulusOperator<TPixel, TDimension, TAllocator>::CreateOperator()
 {
-  CoefficientVector coefficients = this->GenerateCoefficients();
+  const CoefficientVector coefficients = this->GenerateCoefficients();
 
   this->Fill(coefficients);
 }
@@ -84,7 +84,7 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
   {
     SizeType r;
 
-    double outerRadius = m_InnerRadius + m_Thickness;
+    const double outerRadius = m_InnerRadius + m_Thickness;
     for (unsigned int i = 0; i < TDimension; ++i)
     {
       r[i] = Math::Ceil<SizeValueType>(outerRadius / m_Spacing[i]);
@@ -160,16 +160,16 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
   {
     // Calculate the mean and standard deviation of kernel values NOT
     // the exterior
-    auto   num = static_cast<double>(countNotExterior);
-    double mean = sumNotExterior / num;
-    double var = (sumNotExteriorSq - (sumNotExterior * sumNotExterior / num)) / (num - 1.0);
-    double std = std::sqrt(var);
+    auto         num = static_cast<double>(countNotExterior);
+    const double mean = sumNotExterior / num;
+    const double var = (sumNotExteriorSq - (sumNotExterior * sumNotExterior / num)) / (num - 1.0);
+    const double std = std::sqrt(var);
 
     // convert std to a scaling factor k such that
     //
     //        || (coeffP - mean) / k || = 1.0
     //
-    double k = std * std::sqrt(num - 1.0);
+    const double k = std * std::sqrt(num - 1.0);
 
     // Run through the kernel again, shifting and normalizing the
     // elements that are not exterior to the annulus.  This forces the

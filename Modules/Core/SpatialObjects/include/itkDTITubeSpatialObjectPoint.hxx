@@ -71,7 +71,7 @@ template <unsigned int TPointDimension>
 void
 DTITubeSpatialObjectPoint<TPointDimension>::AddField(const char * name, float value)
 {
-  FieldType field(itksys::SystemTools::LowerCase(name), value);
+  const FieldType field(itksys::SystemTools::LowerCase(name), value);
 
   m_Fields.push_back(field);
 }
@@ -96,7 +96,7 @@ template <unsigned int TPointDimension>
 void
 DTITubeSpatialObjectPoint<TPointDimension>::SetField(DTITubeSpatialObjectPointFieldEnum name, float value)
 {
-  std::string charname = this->TranslateEnumToChar(name);
+  const std::string charname = this->TranslateEnumToChar(name);
 
   if (!charname.empty())
   {
@@ -112,11 +112,11 @@ template <unsigned int TPointDimension>
 void
 DTITubeSpatialObjectPoint<TPointDimension>::AddField(DTITubeSpatialObjectPointFieldEnum name, float value)
 {
-  std::string charname = this->TranslateEnumToChar(name);
+  const std::string charname = this->TranslateEnumToChar(name);
 
   if (!charname.empty())
   {
-    FieldType field(itksys::SystemTools::LowerCase(charname).c_str(), value);
+    const FieldType field(itksys::SystemTools::LowerCase(charname).c_str(), value);
     m_Fields.push_back(field);
   }
   else
@@ -146,7 +146,7 @@ template <unsigned int TPointDimension>
 float
 DTITubeSpatialObjectPoint<TPointDimension>::GetField(DTITubeSpatialObjectPointFieldEnum name) const
 {
-  std::string charname = this->TranslateEnumToChar(name);
+  const std::string charname = this->TranslateEnumToChar(name);
   if (!charname.empty())
   {
     return this->GetField(itksys::SystemTools::LowerCase(charname).c_str());

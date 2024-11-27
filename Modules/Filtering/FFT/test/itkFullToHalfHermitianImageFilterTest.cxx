@@ -86,7 +86,7 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
 
   // Check that the output of the full-to-half filter has the same
   // size as the output of the FFT filter.
-  ComplexImageType::RegionType fftRegion = fft->GetOutput()->GetLargestPossibleRegion();
+  const ComplexImageType::RegionType fftRegion = fft->GetOutput()->GetLargestPossibleRegion();
   if (fullToHalfFilter->GetOutput()->GetLargestPossibleRegion() != fftRegion)
   {
     std::cerr << "Output size of full-to-half filter is not the same as the output size "

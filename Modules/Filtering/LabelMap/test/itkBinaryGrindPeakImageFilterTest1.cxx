@@ -53,7 +53,7 @@ itkBinaryGrindPeakImageFilterTest1(int argc, char * argv[])
 
   binaryGrindPeakImageFilter->SetInput(reader->GetOutput());
 
-  bool fullyConnected = std::stoi(argv[3]) != 0;
+  const bool fullyConnected = std::stoi(argv[3]) != 0;
   binaryGrindPeakImageFilter->SetFullyConnected(fullyConnected);
   ITK_TEST_SET_GET_VALUE(fullyConnected, binaryGrindPeakImageFilter->GetFullyConnected());
 
@@ -77,7 +77,7 @@ itkBinaryGrindPeakImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(backgroundValue, binaryGrindPeakImageFilter->GetBackgroundValue());
 
 
-  itk::SimpleFilterWatcher watcher(binaryGrindPeakImageFilter, "BinaryGrindPeakImageFilter");
+  const itk::SimpleFilterWatcher watcher(binaryGrindPeakImageFilter, "BinaryGrindPeakImageFilter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();

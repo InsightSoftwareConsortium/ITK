@@ -28,7 +28,7 @@ if (redirectOutputParameters.redirect)
   redirectStream.close();
   }
 
-std::vector< HashPairType >& hashTestList = GetHashTestList();
+std::vector< HashPairType > const& hashTestList = GetHashTestList();
 
 // before the image to image compare we first check md5 hashes
 for(auto & li : hashTestList)

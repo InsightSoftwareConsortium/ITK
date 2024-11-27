@@ -66,7 +66,7 @@ itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
 
   filter->SetInput(sourceImage);
   filter->SetFunction(func);
-  ImageType::Pointer outputImage = filter->GetOutput();
+  const ImageType::Pointer outputImage = filter->GetOutput();
 
   filter->Update();
 

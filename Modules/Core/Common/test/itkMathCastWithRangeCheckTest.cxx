@@ -78,7 +78,7 @@ template <typename T1, typename T2>
 bool
 DoCastWithRangeCheckTest(const T1 * = nullptr, const T2 * = nullptr)
 {
-  int minus_one = -1;
+  const int minus_one = -1;
 
   // test convert T2 to T1
   bool pass = true;

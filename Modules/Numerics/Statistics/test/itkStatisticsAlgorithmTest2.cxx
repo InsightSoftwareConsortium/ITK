@@ -111,9 +111,9 @@ itkStatisticsAlgorithmTest2(int, char *[])
 
   auto size = ImageType::SizeType::Filled(5);
 
-  ImageType::IndexType index{};
+  const ImageType::IndexType index{};
 
-  ImageType::RegionType region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -167,7 +167,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
 
   // QuickSelect algorithm test
   resetData(image, refVector);
-  SubsampleType::MeasurementType median = itk::Statistics::Algorithm::QuickSelect<SubsampleType>(
+  const SubsampleType::MeasurementType median = itk::Statistics::Algorithm::QuickSelect<SubsampleType>(
     subsample, testDimension, 0, subsample->Size(), subsample->Size() / 2);
   if (refVector[subsample->Size() / 2] != median)
   {

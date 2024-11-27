@@ -58,12 +58,12 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
   values.push_back(32.0);
   values.push_back(48.0);
 
-  MeasurementType range = 2.0;
+  const MeasurementType range = 2.0;
 
   // Create histogram with samples at values +- range
   for (HistogramType::Iterator iter = histogram->Begin(); iter != histogram->End(); ++iter)
   {
-    HistogramType::MeasurementType measurement = iter.GetMeasurementVector()[0];
+    const HistogramType::MeasurementType measurement = iter.GetMeasurementVector()[0];
 
     for (ValuesVectorType::const_iterator viter = values.begin(); viter != values.end(); ++viter)
     {
@@ -91,10 +91,10 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
   otsuThresholdCalculator->SetNumberOfThresholds(numberOfThresholds);
   ITK_TEST_SET_GET_VALUE(numberOfThresholds, otsuThresholdCalculator->GetNumberOfThresholds());
 
-  bool valleyEmphasis = std::stoi(argv[1]);
+  const bool valleyEmphasis = std::stoi(argv[1]);
   ITK_TEST_SET_GET_BOOLEAN(otsuThresholdCalculator, ValleyEmphasis, valleyEmphasis);
 
-  bool returnBinMidpoint = std::stoi(argv[2]);
+  const bool returnBinMidpoint = std::stoi(argv[2]);
   ITK_TEST_SET_GET_BOOLEAN(otsuThresholdCalculator, ReturnBinMidpoint, returnBinMidpoint);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(otsuThresholdCalculator->Compute());

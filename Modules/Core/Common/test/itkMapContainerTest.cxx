@@ -38,7 +38,7 @@ itkMapContainerTest(int, char *[])
   /**
    * Create the Container
    */
-  ContainerPointer container = ContainerType::New();
+  const ContainerPointer container = ContainerType::New();
 
   PointType pointA;
   PointType pointB;
@@ -63,10 +63,10 @@ itkMapContainerTest(int, char *[])
 
   // Iterator
   {
-    ContainerType::Iterator p_null;
-    ContainerType::Iterator p = container->Begin();
-    ContainerType::Iterator p_copy(p);
-    ContainerType::Iterator p_assign = p;
+    const ContainerType::Iterator p_null;
+    ContainerType::Iterator       p = container->Begin();
+    ContainerType::Iterator       p_copy(p);
+    ContainerType::Iterator       p_assign = p;
 
     while (p != container->End())
     {
@@ -81,10 +81,10 @@ itkMapContainerTest(int, char *[])
 
   // ConstIterator
   {
-    ContainerType::ConstIterator p_null;
-    ContainerType::ConstIterator p = container->Begin();
-    ContainerType::ConstIterator p_copy(p);
-    ContainerType::ConstIterator p_assign = p;
+    const ContainerType::ConstIterator p_null;
+    ContainerType::ConstIterator       p = container->Begin();
+    ContainerType::ConstIterator       p_copy(p);
+    ContainerType::ConstIterator       p_assign = p;
 
     while (p != container->End())
     {

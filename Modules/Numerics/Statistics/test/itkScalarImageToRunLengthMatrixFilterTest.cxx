@@ -45,13 +45,13 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
   auto mask = InputImageType::New();
 
 
-  InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  const InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
   InputImageType::RegionType region;
 
   region.SetSize(inputImageSize);
   {
-    InputImageType::IndexType index{};
+    const InputImageType::IndexType index{};
     region.SetIndex(index);
   }
 
@@ -117,9 +117,9 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 
     filter->SetInput(image);
 
-    InputImageType::OffsetType      offset1 = { { 0, -1 } };
-    InputImageType::OffsetType      offset2 = { { -1, 0 } };
-    FilterType::OffsetVectorPointer offsetV = FilterType::OffsetVector::New();
+    const InputImageType::OffsetType      offset1 = { { 0, -1 } };
+    const InputImageType::OffsetType      offset2 = { { -1, 0 } };
+    const FilterType::OffsetVectorPointer offsetV = FilterType::OffsetVector::New();
     offsetV->push_back(offset1);
     offsetV->push_back(offset2);
 
@@ -138,7 +138,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
     //--------------------------------------------------------------------------
     bool passed = true;
 
-    unsigned int frequencies[5][5] = {
+    const unsigned int frequencies[5][5] = {
       { 0, 3, 0, 0, 0 }, { 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }
     };
 
@@ -158,7 +158,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
         }
       }
     }
-    unsigned int totalF = hist->GetTotalFrequency();
+    const unsigned int totalF = hist->GetTotalFrequency();
     if (totalF != 4)
     {
       std::cerr << "Expected total frequency = 4, calculated = " << totalF << std::endl;
@@ -231,7 +231,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
     filter->Update();
     hist = filter->GetOutput();
 
-    unsigned int frequencies2[5][5] = {
+    const unsigned int frequencies2[5][5] = {
       { 0, 12, 0, 10, 0 }, { 0, 0, 0, 0, 0 }, { 0, 3, 0, 2, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }
     };
 

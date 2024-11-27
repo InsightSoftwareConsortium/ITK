@@ -26,7 +26,7 @@ itkTDistributionTest(int, char *[])
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   std::cout << "itkTDistribution Test \n \n";
 
@@ -52,9 +52,10 @@ itkTDistributionTest(int, char *[])
 
   // expected values for Student-t cdf with 1 degree of freedom at
   // values of -5:1:5
-  double expected1[] = { 6.283295818900114e-002, 7.797913037736926e-002, 1.024163823495667e-001, 1.475836176504333e-001,
-                         2.500000000000000e-001, 5.000000000000000e-001, 7.500000000000000e-001, 8.524163823495667e-001,
-                         8.975836176504333e-001, 9.220208696226308e-001, 9.371670418109989e-001 };
+  const double expected1[] = { 6.283295818900114e-002, 7.797913037736926e-002, 1.024163823495667e-001,
+                               1.475836176504333e-001, 2.500000000000000e-001, 5.000000000000000e-001,
+                               7.500000000000000e-001, 8.524163823495667e-001, 8.975836176504333e-001,
+                               9.220208696226308e-001, 9.371670418109989e-001 };
 
 
   std::cout << "Testing distribution with 1 degree of freedom" << std::endl;
@@ -136,10 +137,10 @@ itkTDistributionTest(int, char *[])
 
   // expected values for Student-t cdf with 11 degrees of freedom at
   // values of -5:1:5
-  double expected11[] = { 2.012649090622596e-004, 1.043096783487477e-003, 6.039919735960683e-003,
-                          3.540197753401686e-002, 1.694003480981013e-001, 5.000000000000000e-001,
-                          8.305996519018988e-001, 9.645980224659831e-001, 9.939600802640394e-001,
-                          9.989569032165125e-001, 9.997987350909378e-001 };
+  const double expected11[] = { 2.012649090622596e-004, 1.043096783487477e-003, 6.039919735960683e-003,
+                                3.540197753401686e-002, 1.694003480981013e-001, 5.000000000000000e-001,
+                                8.305996519018988e-001, 9.645980224659831e-001, 9.939600802640394e-001,
+                                9.989569032165125e-001, 9.997987350909378e-001 };
 
   std::cout << "-----------------------------------------------" << std::endl << std::endl;
   std::cout << "Testing distribution with 11 degrees of freedom" << std::endl;
@@ -387,7 +388,7 @@ itkTDistributionTest(int, char *[])
   parameters[0] = 5.0;
   distributionFunction->SetParameters(parameters);
 
-  unsigned long dof = 5;
+  const unsigned long dof = 5;
 
   std::cout << "Variance() = " << distributionFunction->GetVariance() << std::endl;
   std::cout << "PDF(x,p) = " << distributionFunction->PDF(x, parameters) << std::endl;
@@ -452,7 +453,7 @@ itkTDistributionTest(int, char *[])
   std::cout << "Exercise negative argument " << std::endl;
   std::cout << "InverseCDF(x,p) = " << distributionFunction->InverseCDF(-1.0, dof) << std::endl;
 
-  unsigned long newdof = 17;
+  const unsigned long newdof = 17;
   distributionFunction->SetDegreesOfFreedom(newdof);
   ITK_TEST_SET_GET_VALUE(newdof, distributionFunction->GetDegreesOfFreedom());
 
@@ -462,7 +463,7 @@ itkTDistributionTest(int, char *[])
   distributionFunction->SetParameters(parameters2);
   distributionFunction->SetDegreesOfFreedom(16);
 
-  DistributionType::ParametersType parameters0(0);
+  const DistributionType::ParametersType parameters0(0);
   distributionFunction->SetParameters(parameters0);
   distributionFunction->Print(std::cout);
 

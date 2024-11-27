@@ -91,7 +91,7 @@ CheckVariableLengthArrayTraits(const T & t)
 {
   std::string name;
 #ifdef GCC_USEDEMANGLE
-  char const * mangledName = typeid(t).name();
+  const char * mangledName = typeid(t).name();
   int          status;
   char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
@@ -137,7 +137,7 @@ CheckFixedArrayTraits(const T & t)
 
   std::string name;
 #ifdef GCC_USEDEMANGLE
-  char const * mangledName = typeid(t).name();
+  const char * mangledName = typeid(t).name();
   int          status;
   char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;

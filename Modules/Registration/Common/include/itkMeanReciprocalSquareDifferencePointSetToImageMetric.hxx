@@ -35,23 +35,23 @@ auto
 MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValue(
   const TransformParametersType & parameters) const -> MeasureType
 {
-  FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
+  const FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
   if (!fixedPointSet)
   {
     itkExceptionMacro("Fixed point set has not been assigned");
   }
 
-  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
-  PointIterator pointEnd = fixedPointSet->GetPoints()->End();
+  PointIterator       pointItr = fixedPointSet->GetPoints()->Begin();
+  const PointIterator pointEnd = fixedPointSet->GetPoints()->End();
 
-  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
-  PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
+  PointDataIterator       pointDataItr = fixedPointSet->GetPointData()->Begin();
+  const PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
   MeasureType measure{};
 
   this->m_NumberOfPixelsCounted = 0;
-  double lambdaSquared = std::pow(this->m_Lambda, 2);
+  const double lambdaSquared = std::pow(this->m_Lambda, 2);
 
   this->SetTransformParameters(parameters);
 
@@ -59,7 +59,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   {
     InputPointType inputPoint;
     inputPoint.CastFrom(pointItr.Value());
-    OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
     {
@@ -98,7 +98,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
     itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
-  FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
+  const FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
   if (!fixedPointSet)
   {
@@ -107,7 +107,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   this->m_NumberOfPixelsCounted = 0;
 
-  double lambdaSquared = std::pow(this->m_Lambda, 2);
+  const double lambdaSquared = std::pow(this->m_Lambda, 2);
 
   this->SetTransformParameters(parameters);
 
@@ -115,11 +115,11 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(typename DerivativeType::ValueType{});
 
-  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
-  PointIterator pointEnd = fixedPointSet->GetPoints()->End();
+  PointIterator       pointItr = fixedPointSet->GetPoints()->Begin();
+  const PointIterator pointEnd = fixedPointSet->GetPoints()->End();
 
-  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
-  PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
+  PointDataIterator       pointDataItr = fixedPointSet->GetPointData()->Begin();
+  const PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
   TransformJacobianType jacobian(TMovingImage::ImageDimension, this->m_Transform->GetNumberOfParameters());
   TransformJacobianType jacobianCache;
@@ -128,7 +128,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   {
     InputPointType inputPoint;
     inputPoint.CastFrom(pointItr.Value());
-    OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
     {
@@ -196,7 +196,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
     itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
-  FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
+  const FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
   if (!fixedPointSet)
   {
@@ -207,17 +207,17 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   MeasureType measure{};
 
   this->SetTransformParameters(parameters);
-  double lambdaSquared = std::pow(this->m_Lambda, 2);
+  const double lambdaSquared = std::pow(this->m_Lambda, 2);
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(typename DerivativeType::ValueType{});
 
-  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
-  PointIterator pointEnd = fixedPointSet->GetPoints()->End();
+  PointIterator       pointItr = fixedPointSet->GetPoints()->Begin();
+  const PointIterator pointEnd = fixedPointSet->GetPoints()->End();
 
-  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
-  PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
+  PointDataIterator       pointDataItr = fixedPointSet->GetPointData()->Begin();
+  const PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
   TransformJacobianType jacobian(TMovingImage::ImageDimension, this->m_Transform->GetNumberOfParameters());
   TransformJacobianType jacobianCache(TMovingImage::ImageDimension, TMovingImage::ImageDimension);
@@ -225,7 +225,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   {
     InputPointType inputPoint;
     inputPoint.CastFrom(pointItr.Value());
-    OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
     {

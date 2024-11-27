@@ -102,7 +102,7 @@ template <typename T>
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ReadPoints(T * buffer)
 {
-  typename TOutputMesh::Pointer output = this->GetOutput();
+  const typename TOutputMesh::Pointer output = this->GetOutput();
   output->GetPoints()->Reserve(m_MeshIO->GetNumberOfPoints());
   OutputPointType point;
 
@@ -122,7 +122,7 @@ template <typename T>
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ReadCells(T * buffer)
 {
-  typename TOutputMesh::Pointer output = this->GetOutput();
+  const typename TOutputMesh::Pointer output = this->GetOutput();
 
   SizeValueType        index{};
   OutputCellIdentifier id{};
@@ -344,7 +344,7 @@ template <typename TOutputMesh, typename ConvertPointPixelTraits, typename Conve
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ReadPointData()
 {
-  typename TOutputMesh::Pointer output = this->GetOutput();
+  const typename TOutputMesh::Pointer output = this->GetOutput();
 
   const auto outputPointDataBuffer =
     make_unique_for_overwrite<OutputPointPixelType[]>(m_MeshIO->GetNumberOfPointPixels());
@@ -386,7 +386,7 @@ template <typename TOutputMesh, typename ConvertPointPixelTraits, typename Conve
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ReadCellData()
 {
-  typename TOutputMesh::Pointer output = this->GetOutput();
+  const typename TOutputMesh::Pointer output = this->GetOutput();
 
   const auto outputCellDataBuffer = make_unique_for_overwrite<OutputCellPixelType[]>(m_MeshIO->GetNumberOfCellPixels());
 
@@ -478,7 +478,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
 {
   m_MeshIO->SetPointDimension(OutputPointDimension);
 
-  typename TOutputMesh::Pointer output = this->GetOutput();
+  const typename TOutputMesh::Pointer output = this->GetOutput();
 
   // Test if the file exists and if it can be opened.
   // An exception will be thrown otherwise, since we can't

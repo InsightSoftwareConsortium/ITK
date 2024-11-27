@@ -73,9 +73,9 @@ WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::GenerateData()
 
   using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
-  const InputMeshType *    inputMesh = this->GetInput();
-  OutputMeshPointer        outputMesh = this->GetOutput();
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  const InputMeshType *          inputMesh = this->GetInput();
+  const OutputMeshPointer        outputMesh = this->GetOutput();
+  const DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
   if (!inputMesh)
   {
@@ -89,8 +89,8 @@ WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::GenerateData()
 
   outputMesh->SetBufferedRegion(outputMesh->GetRequestedRegion());
 
-  const InputPointsContainer * inPoints = inputMesh->GetPoints();
-  OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
+  const InputPointsContainer *       inPoints = inputMesh->GetPoints();
+  const OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
 
   outPoints->Reserve(inputMesh->GetNumberOfPoints());
   outPoints->Squeeze(); // in case the previous mesh had
@@ -132,7 +132,7 @@ WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::GenerateData()
   this->CopyInputMeshToOutputMeshCellLinks();
   this->CopyInputMeshToOutputMeshCellData();
 
-  unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
+  const unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
   for (unsigned int dim = 0; dim < maxDimension; ++dim)
   {

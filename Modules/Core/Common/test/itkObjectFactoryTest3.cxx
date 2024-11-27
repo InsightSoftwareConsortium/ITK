@@ -106,7 +106,7 @@ ListRegisteredFactories(const std::string & TestName, const DescriptionListType 
 
   while (registeredFactoryItr != factories.end())
   {
-    std::string description = (*registeredFactoryItr)->GetDescription();
+    const std::string description = (*registeredFactoryItr)->GetDescription();
     std::cout << "  Description: " << description << std::endl;
 
     if (description != *expectedItr)

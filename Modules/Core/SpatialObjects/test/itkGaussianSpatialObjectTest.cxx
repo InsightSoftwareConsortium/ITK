@@ -29,19 +29,19 @@ itkGaussianSpatialObjectTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(myGaussian, GaussianSpatialObject, SpatialObject);
 
-  GaussianType::ScalarType maximum = 2;
+  const GaussianType::ScalarType maximum = 2;
   myGaussian->SetMaximum(maximum);
   ITK_TEST_SET_GET_VALUE(maximum, myGaussian->GetMaximum());
 
-  GaussianType::ScalarType radius = 3;
+  const GaussianType::ScalarType radius = 3;
   myGaussian->SetRadiusInObjectSpace(radius);
   ITK_TEST_SET_GET_VALUE(radius, myGaussian->GetRadiusInObjectSpace());
 
-  GaussianType::ScalarType sigma = 1.5;
+  const GaussianType::ScalarType sigma = 1.5;
   myGaussian->SetSigmaInObjectSpace(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, myGaussian->GetSigmaInObjectSpace());
 
-  GaussianType::PointType center{};
+  const GaussianType::PointType center{};
   myGaussian->SetCenterInObjectSpace(center);
   ITK_TEST_SET_GET_VALUE(center, myGaussian->GetCenterInObjectSpace());
 

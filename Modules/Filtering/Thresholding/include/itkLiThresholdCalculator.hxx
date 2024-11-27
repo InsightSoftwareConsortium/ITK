@@ -36,13 +36,13 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
   {
     itkExceptionMacro("Histogram is empty");
   }
-  ProgressReporter progress(this, 0, histogram->GetSize(0));
+  const ProgressReporter progress(this, 0, histogram->GetSize(0));
   if (histogram->GetSize(0) == 1)
   {
     this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(0, 0)));
   }
 
-  unsigned int size = histogram->GetSize(0);
+  const unsigned int size = histogram->GetSize(0);
 
   long   histthresh;
   int    ih;
@@ -130,7 +130,7 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
     mean_obj -= bin_min;
     temp = (mean_back - mean_obj) / (std::log(mean_back) - std::log(mean_obj));
 
-    double epsilon = itk::NumericTraits<double>::epsilon();
+    const double epsilon = itk::NumericTraits<double>::epsilon();
     if (temp < -epsilon)
     {
       new_thresh = static_cast<int>(temp - 0.5);

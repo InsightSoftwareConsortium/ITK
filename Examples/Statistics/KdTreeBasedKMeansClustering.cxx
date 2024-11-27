@@ -323,9 +323,9 @@ main()
   auto classLabelsObject = ClassLabelVectorObjectType::New();
   ClassLabelVectorType & classLabelsVector = classLabelsObject->Get();
 
-  ClassLabelType class1 = 200;
+  const ClassLabelType class1 = 200;
   classLabelsVector.push_back(class1);
-  ClassLabelType class2 = 100;
+  const ClassLabelType class2 = 100;
   classLabelsVector.push_back(class2);
 
   classifier->SetClassLabels(classLabelsObject);

@@ -44,7 +44,7 @@ template <typename ImageType>
 void
 MyDerivedCSNI<ImageType>::TestNewExposedProtectedMembers()
 {
-  bool needToUseBoundaryCondition(this->GetNeedToUseBoundaryCondition());
+  const bool needToUseBoundaryCondition(this->GetNeedToUseBoundaryCondition());
   this->NeedToUseBoundaryConditionOn();
   this->NeedToUseBoundaryConditionOff();
   this->SetNeedToUseBoundaryCondition(needToUseBoundaryCondition);
@@ -53,7 +53,7 @@ MyDerivedCSNI<ImageType>::TestNewExposedProtectedMembers()
 int
 itkConstShapedNeighborhoodIteratorTest2(int, char *[])
 {
-  TestImageType::Pointer                  img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer            img = GetTestImage(10, 10, 5, 3);
   MyDerivedCSNI<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;

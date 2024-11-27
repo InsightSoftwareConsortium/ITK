@@ -108,8 +108,8 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointIterator = PointSetType::PointsContainer::ConstIterator;
-  PointIterator pointIterator = pointSet->GetPoints()->Begin();
-  PointIterator pointEnd = pointSet->GetPoints()->End();
+  PointIterator       pointIterator = pointSet->GetPoints()->Begin();
+  const PointIterator pointEnd = pointSet->GetPoints()->End();
   while (pointIterator != pointEnd)
   {
     point = pointIterator.Value();
@@ -142,8 +142,8 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointDataIterator = PointSetType::PointDataContainer::ConstIterator;
-  PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
-  PointDataIterator pixelEnd = pointSet->GetPointData()->End();
+  PointDataIterator       pixelIterator = pointSet->GetPointData()->Begin();
+  const PointDataIterator pixelEnd = pointSet->GetPointData()->End();
   while (pixelIterator != pixelEnd)
   {
     pixel = pixelIterator.Value();

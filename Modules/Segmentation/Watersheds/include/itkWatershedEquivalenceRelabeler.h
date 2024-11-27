@@ -125,7 +125,7 @@ public:
 protected:
   EquivalenceRelabeler()
   {
-    typename ImageType::Pointer img = static_cast<ImageType *>(this->MakeOutput(0).GetPointer());
+    const typename ImageType::Pointer img = static_cast<ImageType *>(this->MakeOutput(0).GetPointer());
     this->SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput(0, img.GetPointer());
   }

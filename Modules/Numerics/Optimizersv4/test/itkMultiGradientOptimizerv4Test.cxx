@@ -83,8 +83,8 @@ public:
       derivative.SetSize(2);
     }
 
-    double x = (*m_Parameters)[0];
-    double y = (*m_Parameters)[1];
+    const double x = (*m_Parameters)[0];
+    const double y = (*m_Parameters)[1];
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
@@ -107,9 +107,9 @@ public:
   MeasureType
   GetValue() const override
   {
-    double x = (*m_Parameters)[0];
-    double y = (*m_Parameters)[1];
-    double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const double x = (*m_Parameters)[0];
+    const double y = (*m_Parameters)[1];
+    const double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
     std::cout << (*m_Parameters) << " metric " << metric << std::endl;
     return metric;
   }
@@ -198,8 +198,8 @@ public:
       derivative.SetSize(2);
     }
 
-    double x = (*m_Parameters)[0];
-    double y = (*m_Parameters)[1];
+    const double x = (*m_Parameters)[0];
+    const double y = (*m_Parameters)[1];
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
@@ -222,9 +222,9 @@ public:
   MeasureType
   GetValue() const override
   {
-    double x = (*m_Parameters)[0];
-    double y = (*m_Parameters)[1];
-    double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - x + 4 * y;
+    const double x = (*m_Parameters)[0];
+    const double y = (*m_Parameters)[1];
+    const double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - x + 4 * y;
     std::cout << (*m_Parameters) << " metric " << metric << std::endl;
     return metric;
   }
@@ -349,7 +349,7 @@ itkMultiGradientOptimizerv4Test(int, char *[])
   OptimizerType::OptimizersListType optimizersList = itkOptimizer->GetOptimizersList();
 
   /** Declare the first optimizer for metric 1 */
-  OptimizerType::LocalOptimizerPointer locoptimizer = OptimizerType::LocalOptimizerType::New();
+  const OptimizerType::LocalOptimizerPointer locoptimizer = OptimizerType::LocalOptimizerType::New();
   locoptimizer->SetLearningRate(1.e-1);
   locoptimizer->SetNumberOfIterations(25);
   locoptimizer->SetMetric(metric);
@@ -357,7 +357,7 @@ itkMultiGradientOptimizerv4Test(int, char *[])
   optimizersList.push_back(locoptimizer);
 
   /** Declare the 2nd optimizer for metric 2 */
-  OptimizerType::LocalOptimizerPointer locoptimizer2 = OptimizerType::LocalOptimizerType::New();
+  const OptimizerType::LocalOptimizerPointer locoptimizer2 = OptimizerType::LocalOptimizerType::New();
   locoptimizer2->SetLearningRate(1.e-1);
   locoptimizer2->SetNumberOfIterations(25);
   locoptimizer2->SetMetric(metric2);

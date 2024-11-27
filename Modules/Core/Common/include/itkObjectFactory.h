@@ -58,7 +58,7 @@ public:
   static typename T::Pointer
   Create()
   {
-    LightObject::Pointer ret = CreateInstance(typeid(T).name());
+    const LightObject::Pointer ret = CreateInstance(typeid(T).name());
 
     return dynamic_cast<T *>(ret.GetPointer());
   }

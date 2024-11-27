@@ -124,7 +124,7 @@ itkConstrainedValueAdditionImageFilterTest(int argc, char * argv[])
   filter->Update();
 
   // Get the filter Output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Write the result image
   using WriterType = itk::ImageFileWriter<OutputImageType>;

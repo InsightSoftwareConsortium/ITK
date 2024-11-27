@@ -107,7 +107,7 @@ void
 PoolMultiThreader::SetMaximumNumberOfThreads(ThreadIdType numberOfThreads)
 {
   Superclass::SetMaximumNumberOfThreads(numberOfThreads);
-  ThreadIdType threadCount = m_ThreadPool->GetMaximumNumberOfThreads();
+  const ThreadIdType threadCount = m_ThreadPool->GetMaximumNumberOfThreads();
   if (threadCount < m_MaximumNumberOfThreads)
   {
     m_ThreadPool->AddThreads(m_MaximumNumberOfThreads - threadCount);
@@ -254,7 +254,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
     else
     {
       const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
-      ThreadIdType                    splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
+      const ThreadIdType              splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
       ProgressReporter                reporter(filter, 0, splitCount);
       itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
       ImageIORegion iRegion;

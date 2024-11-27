@@ -110,7 +110,7 @@ main(int argc, char ** argv)
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  unsigned int element_radius = std::stoi(argv[3]);
+  const unsigned int element_radius = std::stoi(argv[3]);
   auto radius = itk::MakeFilled<ShapedNeighborhoodIteratorType::RadiusType>(
     element_radius);
   // Software Guide : EndCodeSnippet
@@ -180,7 +180,7 @@ main(int argc, char ** argv)
       {
         ShapedNeighborhoodIteratorType::OffsetType off;
 
-        float dis = std::sqrt(x * x + y * y);
+        const float dis = std::sqrt(x * x + y * y);
         if (dis <= rad)
         {
           off[0] = static_cast<int>(x);

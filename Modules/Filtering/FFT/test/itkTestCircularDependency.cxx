@@ -43,7 +43,7 @@ FFTW()
 
   using FFTWRealToHalfHermitianForwardFFTImageFilterType =
     itk::FFTWRealToHalfHermitianForwardFFTImageFilter<RealImageType, CplxImageType>;
-  typename FFTWRealToHalfHermitianForwardFFTImageFilterType::Pointer fRlToHlfHrmtnFwrdFFT =
+  const typename FFTWRealToHalfHermitianForwardFFTImageFilterType::Pointer fRlToHlfHrmtnFwrdFFT =
     FFTWRealToHalfHermitianForwardFFTImageFilterType::New();
 
   using FFTWInverseFFTImageFilterType = itk::FFTWInverseFFTImageFilter<CplxImageType, RealImageType>;
@@ -51,7 +51,7 @@ FFTW()
 
   using FFTWHalfHermitianToRealInverseFFTImageFilterType =
     itk::FFTWHalfHermitianToRealInverseFFTImageFilter<CplxImageType, RealImageType>;
-  typename FFTWHalfHermitianToRealInverseFFTImageFilterType::Pointer hlfHrmtnToRlnvrs =
+  const typename FFTWHalfHermitianToRealInverseFFTImageFilterType::Pointer hlfHrmtnToRlnvrs =
     FFTWHalfHermitianToRealInverseFFTImageFilterType::New();
 
   using FFTWForwardFFTImageFilterType = itk::FFTWForwardFFTImageFilter<RealImageType, CplxImageType>;
@@ -73,7 +73,7 @@ Vnl()
 
   using VnlRealToHalfHermitianForwardFFTImageFilterType =
     itk::VnlRealToHalfHermitianForwardFFTImageFilter<RealImageType, CplxImageType>;
-  typename VnlRealToHalfHermitianForwardFFTImageFilterType::Pointer vRlToHlfHrmtnFwrdFFT =
+  const typename VnlRealToHalfHermitianForwardFFTImageFilterType::Pointer vRlToHlfHrmtnFwrdFFT =
     VnlRealToHalfHermitianForwardFFTImageFilterType::New();
 
   using VnlInverseFFTImageFilterType = itk::VnlInverseFFTImageFilter<CplxImageType, RealImageType>;
@@ -81,7 +81,7 @@ Vnl()
 
   using VnlHalfHermitianToRealInverseFFTImageFilterType =
     itk::VnlHalfHermitianToRealInverseFFTImageFilter<CplxImageType, RealImageType>;
-  typename VnlHalfHermitianToRealInverseFFTImageFilterType::Pointer fHlfHrmtnToRlnvrs =
+  const typename VnlHalfHermitianToRealInverseFFTImageFilterType::Pointer fHlfHrmtnToRlnvrs =
     VnlHalfHermitianToRealInverseFFTImageFilterType::New();
 
   using VnlForwardFFTImageFilterType = itk::VnlForwardFFTImageFilter<RealImageType, CplxImageType>;

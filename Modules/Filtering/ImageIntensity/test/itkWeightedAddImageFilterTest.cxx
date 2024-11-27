@@ -60,8 +60,8 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
   using myFilterTypePointer = myFilterType::Pointer;
 
   // Create two images
-  myImageType1Pointer inputImageA = myImageType1::New();
-  myImageType2Pointer inputImageB = myImageType2::New();
+  const myImageType1Pointer inputImageA = myImageType1::New();
+  const myImageType2Pointer inputImageB = myImageType2::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -74,7 +74,7 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -116,7 +116,7 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
 
 
   // Create an ADD Filter
-  myFilterTypePointer filter = myFilterType::New();
+  const myFilterTypePointer filter = myFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, WeightedAddImageFilter, BinaryGeneratorImageFilter);
 
@@ -130,7 +130,7 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(alpha, filter->GetAlpha());
 
   // Get the Smart Pointer to the Filter Output
-  myImageType3Pointer outputImage = filter->GetOutput();
+  const myImageType3Pointer outputImage = filter->GetOutput();
 
 
   // Execute the filter

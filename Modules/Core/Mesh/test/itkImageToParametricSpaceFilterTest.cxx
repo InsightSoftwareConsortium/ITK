@@ -47,7 +47,7 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   auto inputMesh = MeshType::New();
 
   // Insert data on the Mesh
-  PointsContainerPointer points = inputMesh->GetPoints();
+  const PointsContainerPointer points = inputMesh->GetPoints();
 
 
   // Declare the type for the images
@@ -59,16 +59,16 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   using FilterPointer = FilterType::Pointer;
 
 
-  ImagePointer imageX = ImageType::New();
-  ImagePointer imageY = ImageType::New();
-  ImagePointer imageZ = ImageType::New();
+  const ImagePointer imageX = ImageType::New();
+  const ImagePointer imageY = ImageType::New();
+  const ImagePointer imageZ = ImageType::New();
 
-  ImageType::SizeType  size;
-  ImageType::IndexType start{};
+  ImageType::SizeType        size;
+  const ImageType::IndexType start{};
   size[0] = 10;
   size[1] = 10;
 
-  ImageType::RegionType region{ start, size };
+  const ImageType::RegionType region{ start, size };
 
   imageX->SetRegions(region);
   imageY->SetRegions(region);
@@ -106,12 +106,12 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   }
 
 
-  FilterPointer filter = FilterType::New();
+  const FilterPointer filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToParametricSpaceFilter, ImageToMeshFilter);
 
 
-  bool computeIndices = true;
+  const bool computeIndices = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, ComputeIndices, computeIndices);
 
   // Connect the inputs
@@ -123,12 +123,12 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   filter->Update();
 
   // Get the Smart Pointer to the Filter Output
-  MeshType::Pointer outputMesh = filter->GetOutput();
+  const MeshType::Pointer outputMesh = filter->GetOutput();
 
   // Get the point container
-  MeshType::PointsContainer::Iterator beginPoint = outputMesh->GetPoints()->Begin();
+  const MeshType::PointsContainer::Iterator beginPoint = outputMesh->GetPoints()->Begin();
 
-  MeshType::PointsContainer::Iterator endPoint = outputMesh->GetPoints()->End();
+  const MeshType::PointsContainer::Iterator endPoint = outputMesh->GetPoints()->End();
 
   MeshType::PointsContainer::Iterator pointIt = beginPoint;
 

@@ -24,7 +24,7 @@ int
 itkShapedNeighborhoodIteratorTest(int, char *[])
 {
 
-  TestImageType::Pointer                                    img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer                              img = GetTestImage(10, 10, 5, 3);
   itk::ShapedNeighborhoodIterator<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;

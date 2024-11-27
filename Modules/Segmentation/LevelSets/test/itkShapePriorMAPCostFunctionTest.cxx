@@ -96,8 +96,8 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   Iterator iter(input, region);
   iter.GoToBegin();
 
-  unsigned int counter = 0;
-  PixelType    activeRegionThreshold = 3.0;
+  unsigned int    counter = 0;
+  const PixelType activeRegionThreshold = 3.0;
 
   while (!iter.IsAtEnd())
   {
@@ -106,7 +106,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
     index = iter.GetIndex();
     input->TransformIndexToPhysicalPoint(index, point);
 
-    float value = shape->Evaluate(point);
+    const float value = shape->Evaluate(point);
     iter.Set(value);
 
     if (itk::Math::abs(value) < activeRegionThreshold)

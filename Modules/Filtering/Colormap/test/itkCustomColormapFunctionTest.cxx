@@ -149,7 +149,7 @@ itkCustomColormapFunctionTest(int argc, char * argv[])
   }
 
   // The scalar valur to be mapped into an RGB colormap value
-  int scalarValue = std::stoi(argv[2]);
+  const int scalarValue = std::stoi(argv[2]);
 
   // Test for all possible scalar pixel types
   itk::Function::CustomColormapFunctionHelper<unsigned char, RGBPixelType>::Exercise(

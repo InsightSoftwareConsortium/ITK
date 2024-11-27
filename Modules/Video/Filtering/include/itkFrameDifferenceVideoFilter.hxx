@@ -96,15 +96,15 @@ FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGener
   // Get the input and output video streams
   const InputVideoStreamType * input = this->GetInput();
   OutputVideoStreamType *      output = this->GetOutput();
-  SizeValueType                numFrames = this->TemporalProcessObject::m_UnitInputNumberOfFrames;
+  const SizeValueType          numFrames = this->TemporalProcessObject::m_UnitInputNumberOfFrames;
 
   // Get output frame number
-  typename OutputVideoStreamType::TemporalRegionType outReqTempRegion = output->GetRequestedTemporalRegion();
-  SizeValueType                                      outputFrameNumber = outReqTempRegion.GetFrameStart();
+  const typename OutputVideoStreamType::TemporalRegionType outReqTempRegion = output->GetRequestedTemporalRegion();
+  const SizeValueType                                      outputFrameNumber = outReqTempRegion.GetFrameStart();
 
-  typename InputVideoStreamType::TemporalRegionType inReqTempRegion = input->GetRequestedTemporalRegion();
-  SizeValueType                                     inputStart = inReqTempRegion.GetFrameStart();
-  SizeValueType                                     inputDuration = inReqTempRegion.GetFrameDuration();
+  const typename InputVideoStreamType::TemporalRegionType inReqTempRegion = input->GetRequestedTemporalRegion();
+  const SizeValueType                                     inputStart = inReqTempRegion.GetFrameStart();
+  const SizeValueType                                     inputDuration = inReqTempRegion.GetFrameDuration();
 
   // Make sure we've got the right duration
   if (inputDuration != numFrames)

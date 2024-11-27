@@ -55,7 +55,7 @@ bool
 Rigid3DTransform<TParametersValueType>::MatrixIsOrthogonal(const MatrixType &         matrix,
                                                            const TParametersValueType tolerance)
 {
-  typename MatrixType::InternalMatrixType test = matrix.GetVnlMatrix() * matrix.GetTranspose();
+  const typename MatrixType::InternalMatrixType test = matrix.GetVnlMatrix() * matrix.GetTranspose();
 
   if (!test.is_identity(tolerance))
   {

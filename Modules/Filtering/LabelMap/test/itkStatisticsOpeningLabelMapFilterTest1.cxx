@@ -66,12 +66,12 @@ itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(opening, StatisticsOpeningLabelMapFilter, ShapeOpeningLabelMapFilter);
 
   // Testing get and set macros for Lambda
-  double lambda = std::stod(argv[4]);
+  const double lambda = std::stod(argv[4]);
   opening->SetLambda(lambda);
   ITK_TEST_SET_GET_VALUE(lambda, opening->GetLambda());
 
   // Testing get and set macros for ReverseOrdering
-  bool reverseOrdering = std::stoi(argv[5]);
+  const bool reverseOrdering = std::stoi(argv[5]);
   opening->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, opening->GetReverseOrdering());
 
@@ -83,13 +83,13 @@ itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, opening->GetReverseOrdering());
 
   // Testing get and set macros for Attribute
-  LabelOpeningType::AttributeType attribute = std::stoi(argv[6]);
+  const LabelOpeningType::AttributeType attribute = std::stoi(argv[6]);
   opening->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, opening->GetAttribute());
 
   opening->SetInput(i2l->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(opening, "filter");
+  const itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

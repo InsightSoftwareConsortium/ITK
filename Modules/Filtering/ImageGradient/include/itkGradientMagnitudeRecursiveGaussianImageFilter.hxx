@@ -149,7 +149,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
   Superclass::GenerateInputRequestedRegion();
 
   // This filter needs all of the input
-  typename GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
+  const typename GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
     const_cast<InputImageType *>(this->GetInput());
   if (image)
   {
@@ -178,7 +178,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
 
   const typename TInputImage::ConstPointer inputImage(this->GetInput());
 
-  typename TOutputImage::Pointer outputImage(this->GetOutput());
+  const typename TOutputImage::Pointer outputImage(this->GetOutput());
 
   // Reset progress of internal filters to zero,
   // otherwise progress starts from non-zero value the second time the filter is invoked.

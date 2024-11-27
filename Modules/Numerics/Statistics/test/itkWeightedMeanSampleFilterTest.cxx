@@ -145,7 +145,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
+  const FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {

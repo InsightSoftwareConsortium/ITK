@@ -35,12 +35,12 @@ itkSubsampleTest(int, char *[])
   using SourceType = itk::RandomImageSource<FloatImage>;
   auto source = SourceType::New();
 
-  itk::SizeValueType size[3] = { 17, 8, 20 };
-  itk::SizeValueType totalSize = size[0] * size[1] * size[2];
+  itk::SizeValueType       size[3] = { 17, 8, 20 };
+  const itk::SizeValueType totalSize = size[0] * size[1] * size[2];
 
   source->SetSize(size);
-  float minValue = -100.0;
-  float maxValue = 1000.0;
+  const float minValue = -100.0;
+  const float maxValue = 1000.0;
 
   source->SetMin(static_cast<FloatImage::PixelType>(minValue));
   source->SetMax(static_cast<FloatImage::PixelType>(maxValue));
@@ -107,7 +107,7 @@ itkSubsampleTest(int, char *[])
 
   // test if an exception is thrown, if a sample with id outside the
   // range of the Sample is added to the SubSample
-  int idOutisdeRange = listSample->Size() + 2;
+  const int idOutisdeRange = listSample->Size() + 2;
 
   try
   {
@@ -125,7 +125,7 @@ itkSubsampleTest(int, char *[])
   using MeasurementVectorType = SubsampleType::MeasurementVectorType;
   try
   {
-    MeasurementVectorType vec = subsample->GetMeasurementVector(idOutisdeRange);
+    const MeasurementVectorType vec = subsample->GetMeasurementVector(idOutisdeRange);
     std::cerr << "Exception should have been thrown since the id specified is outside the range of the sample container"
               << std::endl;
     std::cerr << "The invalid subsample->GetMeasurementVector() is: " << vec << std::endl;
@@ -166,8 +166,8 @@ itkSubsampleTest(int, char *[])
   // try accessing a measurement vector by index that is out of range
   try
   {
-    unsigned int          index = listSample->Size() + 2;
-    MeasurementVectorType measurementVector = subsample->GetMeasurementVectorByIndex(index);
+    const unsigned int          index = listSample->Size() + 2;
+    const MeasurementVectorType measurementVector = subsample->GetMeasurementVectorByIndex(index);
     std::cerr
       << "Exception should have been thrown since the index specified is outside the range of the sample container"
       << std::endl;
@@ -184,8 +184,8 @@ itkSubsampleTest(int, char *[])
   // try accessing a measurement vector frequency by index that is out of range
   try
   {
-    unsigned int                         index = listSample->Size() + 2;
-    SubsampleType::AbsoluteFrequencyType frequency = subsample->GetFrequencyByIndex(index);
+    const unsigned int                         index = listSample->Size() + 2;
+    const SubsampleType::AbsoluteFrequencyType frequency = subsample->GetFrequencyByIndex(index);
     std::cout << "Frequency: " << frequency << std::endl;
     std::cerr
       << "Exception should have been thrown since the index specified is outside the range of the sample container"
@@ -201,8 +201,8 @@ itkSubsampleTest(int, char *[])
   // using an index that is out of range
   try
   {
-    unsigned int                       index = listSample->Size() + 2;
-    ListSampleType::InstanceIdentifier id = subsample->GetInstanceIdentifier(index);
+    const unsigned int                       index = listSample->Size() + 2;
+    const ListSampleType::InstanceIdentifier id = subsample->GetInstanceIdentifier(index);
     std::cerr
       << "Exception should have been thrown since the index specified is outside the range of the sample container"
       << std::endl;
@@ -223,8 +223,8 @@ itkSubsampleTest(int, char *[])
   std::cout << subsample->GetTotalFrequency() << std::endl;
 
   auto index = ArrayPixelImageType::IndexType::Filled(2); // index {2, 2, 2} = instance identifier (offset from image)
-  ArrayPixelImageType::PixelType     pixel = filter->GetInput()->GetPixel(index);
-  ListSampleType::InstanceIdentifier ind =
+  ArrayPixelImageType::PixelType           pixel = filter->GetInput()->GetPixel(index);
+  const ListSampleType::InstanceIdentifier ind =
     static_cast<FloatImage::OffsetValueType>(filter->GetInput()->ComputeOffset(index));
 
   if (itk::Math::NotExactlyEquals(pixel[0], subsample->GetMeasurementVector(ind)[0]))

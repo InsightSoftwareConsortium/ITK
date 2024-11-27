@@ -47,8 +47,8 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto   center = itk::MakeFilled<TPoint>(50);
-  double radius = 19.5;
+  auto         center = itk::MakeFilled<TPoint>(50);
+  const double radius = 19.5;
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
@@ -72,9 +72,9 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  auto                  image = ImageType::New();
-  auto                  size = ImageType::SizeType::Filled(128);
-  ImageType::RegionType region(size);
+  auto                        image = ImageType::New();
+  auto                        size = ImageType::SizeType::Filled(128);
+  const ImageType::RegionType region(size);
 
   image->SetRegions(region);
   image->Allocate();
@@ -177,8 +177,8 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   auto calculator = CalculatorType::New();
   calculator->SetImage(checker->GetOutput());
   calculator->Compute();
-  double minValue = calculator->GetMinimum();
-  double maxValue = calculator->GetMaximum();
+  const double minValue = calculator->GetMinimum();
+  const double maxValue = calculator->GetMaximum();
 
   std::cout << "Min. product = " << minValue << std::endl;
   std::cout << "Max. product = " << maxValue << std::endl;

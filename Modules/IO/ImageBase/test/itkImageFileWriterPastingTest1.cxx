@@ -45,7 +45,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   reader->SetUseStreaming(true);
 
-  unsigned int m_NumberOfPieces = 10;
+  const unsigned int m_NumberOfPieces = 10;
 
   // We decide how we want to read the image and we split accordingly
   // The image is read slice by slice
@@ -58,7 +58,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
   size[1] = fullsize[1];
   size[2] = 0;
 
-  unsigned int zsize = fullsize[2] / m_NumberOfPieces;
+  const unsigned int zsize = fullsize[2] / m_NumberOfPieces;
 
   // Setup the writer
   auto writer = WriterType::New();

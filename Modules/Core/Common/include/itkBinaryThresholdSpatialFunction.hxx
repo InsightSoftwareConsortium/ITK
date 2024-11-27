@@ -42,7 +42,7 @@ template <typename TFunction>
 auto
 BinaryThresholdSpatialFunction<TFunction>::Evaluate(const InputType & point) const -> OutputType
 {
-  FunctionOutputType value = m_Function->Evaluate(point);
+  const FunctionOutputType value = m_Function->Evaluate(point);
 
   if (m_LowerThreshold <= value && value <= m_UpperThreshold)
   {

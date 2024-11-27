@@ -847,9 +847,9 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double initRadius = 1.05;
-  double grow = 1.1;
-  double shrink = pow(grow, -0.25);
+  const double initRadius = 1.05;
+  const double grow = 1.1;
+  const double shrink = pow(grow, -0.25);
   optimizer->Initialize(initRadius, grow, shrink);
 
   optimizer->SetEpsilon(1.0e-6); // minimal search radius

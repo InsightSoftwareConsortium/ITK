@@ -60,13 +60,13 @@ RunLinearInterpolateTest()
   auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
-  IndexType start{};
+  const IndexType start{};
 
   SizeType      size;
   constexpr int dimMaxLength = 3;
   size.Fill(dimMaxLength);
 
-  RegionType region{ start, size };
+  const RegionType region{ start, size };
 
   image->SetRegions(region);
   image->Allocate();

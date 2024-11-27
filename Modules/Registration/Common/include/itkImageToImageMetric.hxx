@@ -438,7 +438,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageIndexes(FixedImag
   for (SizeValueType i = 0; i < len; ++i)
   {
     // Get sampled index
-    FixedImageIndexType index = m_FixedImageIndexes[i];
+    const FixedImageIndexType index = m_FixedImageIndexes[i];
     // Translate index to point
     m_FixedImage->TransformIndexToPhysicalPoint(index, iter->point);
 
@@ -471,8 +471,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
   {
     randIter.ReinitializeSeed(m_RandomSeed++);
   }
-  typename FixedImageSampleContainer::iterator       iter;
-  typename FixedImageSampleContainer::const_iterator end = samples.end();
+  typename FixedImageSampleContainer::iterator             iter;
+  const typename FixedImageSampleContainer::const_iterator end = samples.end();
 
   if (m_FixedImageMask.IsNotNull() || m_UseFixedImageSamplesIntensityThreshold)
   {
@@ -507,7 +507,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
       }
 
       // Get sampled index
-      FixedImageIndexType index = randIter.GetIndex();
+      const FixedImageIndexType index = randIter.GetIndex();
       // Check if the Index is inside the mask, translate index to point
       m_FixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
@@ -553,7 +553,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
     for (iter = samples.begin(); iter != end; ++iter)
     {
       // Get sampled index
-      FixedImageIndexType index = randIter.GetIndex();
+      const FixedImageIndexType index = randIter.GetIndex();
       // Translate index to point
       m_FixedImage->TransformIndexToPhysicalPoint(index, iter->point);
       // Get sampled fixed image value
@@ -581,8 +581,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
 
   regionIter.GoToBegin();
 
-  typename FixedImageSampleContainer::iterator       iter;
-  typename FixedImageSampleContainer::const_iterator end = samples.end();
+  typename FixedImageSampleContainer::iterator             iter;
+  const typename FixedImageSampleContainer::const_iterator end = samples.end();
 
   if (m_FixedImageMask.IsNotNull() || m_UseFixedImageSamplesIntensityThreshold)
   {
@@ -593,7 +593,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
     while (iter != end)
     {
       // Get sampled index
-      FixedImageIndexType index = regionIter.GetIndex();
+      const FixedImageIndexType index = regionIter.GetIndex();
       // Check if the Index is inside the mask, translate index to point
       m_FixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
@@ -640,7 +640,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
     for (iter = samples.begin(); iter != end; ++iter)
     {
       // Get sampled index
-      FixedImageIndexType index = regionIter.GetIndex();
+      const FixedImageIndexType index = regionIter.GetIndex();
 
       // Translate index to point
       m_FixedImage->TransformIndexToPhysicalPoint(index, iter->point);
@@ -661,7 +661,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 ImageToImageMetric<TFixedImage, TMovingImage>::ComputeGradient()
 {
-  GradientImageFilterPointer gradientFilter = GradientImageFilterType::New();
+  const GradientImageFilterPointer gradientFilter = GradientImageFilterType::New();
 
   gradientFilter->SetInput(m_MovingImage);
 
@@ -731,9 +731,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PreComputeTransformValues()
   MovingImagePointType           mappedPoint;
 
   // Declare iterators for iteration over the sample container
-  typename FixedImageSampleContainer::const_iterator fiter;
-  typename FixedImageSampleContainer::const_iterator fend = m_FixedImageSamples.end();
-  SizeValueType                                      counter = 0;
+  typename FixedImageSampleContainer::const_iterator       fiter;
+  const typename FixedImageSampleContainer::const_iterator fend = m_FixedImageSamples.end();
+  SizeValueType                                            counter = 0;
 
   for (fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter, counter++)
   {

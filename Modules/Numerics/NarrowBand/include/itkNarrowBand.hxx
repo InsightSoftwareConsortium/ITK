@@ -36,8 +36,8 @@ template <typename NodeType>
 std::vector<typename NarrowBand<NodeType>::RegionType>
 NarrowBand<NodeType>::SplitBand(const SizeType & n)
 {
-  SizeType t_n = n;
-  SizeType t_size = m_NodeContainer.size();
+  SizeType       t_n = n;
+  const SizeType t_size = m_NodeContainer.size();
 
   std::vector<RegionType> regionList;
   if (t_n > t_size)

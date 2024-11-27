@@ -81,7 +81,7 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
      */
 
     // Get the nodes of the active region and plug it into the cost function
-    NodeContainerPointer nodes = NodeContainerType::New();
+    const NodeContainerPointer nodes = NodeContainerType::New();
     this->ExtractActiveRegion(nodes);
 
     // Setup the cost function

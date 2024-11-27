@@ -129,7 +129,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SetSplineOrder(ArrayT
       }
       for (unsigned int j = 0; j < C.cols(); ++j)
       {
-        RealType c = std::pow(static_cast<RealType>(2.0), static_cast<RealType>(C.cols() - j - 1));
+        const RealType c = std::pow(static_cast<RealType>(2.0), static_cast<RealType>(C.cols() - j - 1));
         for (unsigned int k = 0; k < C.rows(); ++k)
         {
           R(k, j) *= c;
@@ -216,14 +216,14 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
   FixedArray<RealType, ImageDimension> U;
   auto                                 currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
 
-  typename OutputImageType::IndexType    startIndex = outputPtr->GetRequestedRegion().GetIndex();
-  typename PointDataImageType::IndexType startPhiIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  typename OutputImageType::IndexType          startIndex = outputPtr->GetRequestedRegion().GetIndex();
+  const typename PointDataImageType::IndexType startPhiIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   RealArrayType epsilon;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    RealType r = static_cast<RealType>(this->m_NumberOfControlPoints[i] - this->m_SplineOrder[i]) /
-                 (static_cast<RealType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
+    const RealType r = static_cast<RealType>(this->m_NumberOfControlPoints[i] - this->m_SplineOrder[i]) /
+                       (static_cast<RealType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
     epsilon[i] = r * this->m_Spacing[i] * this->m_BSplineEpsilon;
   }
 
@@ -283,7 +283,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::CollapsePhiLattice(Po
     for (unsigned int i = 0; i < this->m_SplineOrder[dimension] + 1; ++i)
     {
       idx[dimension] = static_cast<unsigned int>(u) + i;
-      RealType v = u - idx[dimension] + 0.5 * static_cast<RealType>(this->m_SplineOrder[dimension] - 1);
+      const RealType v = u - idx[dimension] + 0.5 * static_cast<RealType>(this->m_SplineOrder[dimension] - 1);
 
       RealType B = 0.0;
       switch (this->m_SplineOrder[dimension])
@@ -348,7 +348,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(
   splitAxis = outputPtr->GetImageDimension() - 1;
 
   // determine the actual number of pieces that will be generated
-  typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
+  const typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
   auto valuesPerThread = static_cast<unsigned int>(std::ceil(range / static_cast<double>(num)));
   auto maxThreadIdUsed = static_cast<unsigned int>(std::ceil(range / static_cast<double>(valuesPerThread)) - 1);
 
@@ -419,7 +419,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
     auto refinedLattice = ControlPointLatticeType::New();
     refinedLattice->SetRegions(size);
     refinedLattice->Allocate();
-    PixelType data{};
+    const PixelType data{};
     refinedLattice->FillBuffer(data);
 
     typename ControlPointLatticeType::IndexType            idx;
@@ -547,7 +547,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    RealType domain = this->m_Spacing[i] * static_cast<RealType>(this->m_Size[i] - 1);
+    const RealType domain = this->m_Spacing[i] * static_cast<RealType>(this->m_Size[i] - 1);
 
     unsigned int totalNumberOfSpans = psiLattice->GetLargestPossibleRegion().GetSize()[i];
     if (!this->m_CloseDimension[i])

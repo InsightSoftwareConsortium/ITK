@@ -81,7 +81,7 @@ TestThrowErrorOnEmptyResampleSpace(const TPixel inputPixel, const bool setUseRef
     filter->UseReferenceImageOn();
   }
   filter->Update();
-  typename ImageType::ConstPointer filterOutputImage = filter->GetOutput();
+  const typename ImageType::ConstPointer filterOutputImage = filter->GetOutput();
   if (filterOutputImage->GetLargestPossibleRegion().GetNumberOfPixels() == 0)
   {
     return itk::NumericTraits<TPixel>::max();

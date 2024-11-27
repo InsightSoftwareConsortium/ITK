@@ -76,11 +76,11 @@ TDistribution::GetDegreesOfFreedom() const
 double
 TDistribution::PDF(double x, SizeValueType degreesOfFreedom)
 {
-  auto   dof = static_cast<double>(degreesOfFreedom);
-  double dofplusoneon2 = 0.5 * (dof + 1.0);
-  double dofon2 = 0.5 * dof;
-  double pdf = (dgamma_(&dofplusoneon2) / dgamma_(&dofon2)) /
-               (std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ((x * x) / dof), dofplusoneon2));
+  auto         dof = static_cast<double>(degreesOfFreedom);
+  double       dofplusoneon2 = 0.5 * (dof + 1.0);
+  double       dofon2 = 0.5 * dof;
+  const double pdf = (dgamma_(&dofplusoneon2) / dgamma_(&dofon2)) /
+                     (std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ((x * x) / dof), dofplusoneon2));
 
   return pdf;
 }
@@ -123,10 +123,10 @@ TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
   //           = 0.5 + 0.5 * (1 - Ix(v/2. 1/2))
   //           = 1 - 0.5 * Ix(v/2, 1/2)
 
-  double dof = static_cast<double>(degreesOfFreedom);
-  double bx = dof / (dof + (x * x));
-  double pin = dof / 2.0;
-  double qin = 0.5;
+  const double dof = static_cast<double>(degreesOfFreedom);
+  double       bx = dof / (dof + (x * x));
+  double       pin = dof / 2.0;
+  double       qin = 0.5;
 
   if (x >= 0.0)
   {
@@ -162,16 +162,16 @@ TDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   }
 
   // Based on Abramowitz and Stegun 26.7.5
-  double dof = static_cast<double>(degreesOfFreedom);
-  double dof2 = dof * dof;
-  double dof3 = dof * dof2;
-  double dof4 = dof * dof3;
+  const double dof = static_cast<double>(degreesOfFreedom);
+  const double dof2 = dof * dof;
+  const double dof3 = dof * dof2;
+  const double dof4 = dof * dof3;
 
-  double gaussX = GaussianDistribution::InverseCDF(p);
-  double gaussX3 = std::pow(gaussX, 3.0);
-  double gaussX5 = std::pow(gaussX, 5.0);
-  double gaussX7 = std::pow(gaussX, 7.0);
-  double gaussX9 = std::pow(gaussX, 9.0);
+  const double gaussX = GaussianDistribution::InverseCDF(p);
+  const double gaussX3 = std::pow(gaussX, 3.0);
+  const double gaussX5 = std::pow(gaussX, 5.0);
+  const double gaussX7 = std::pow(gaussX, 7.0);
+  const double gaussX9 = std::pow(gaussX, 9.0);
 
   double x =
     gaussX + (gaussX3 + gaussX) / (4.0 * dof) + (5.0 * gaussX5 + 16.0 * gaussX3 + 3 * gaussX) / (96.0 * dof2) +

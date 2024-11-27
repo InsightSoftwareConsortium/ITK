@@ -73,8 +73,8 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   mask->Allocate();
   mask->FillBuffer(MaskPixelType{});
 
-  MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
-  MaskImageType::SizeType   maskSize = maskRegion.GetSize();
+  const MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
+  MaskImageType::SizeType         maskSize = maskRegion.GetSize();
 
   MaskImageType::RegionType region;
   MaskImageType::SizeType   size;
@@ -123,13 +123,13 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
 
   if (argc > 4)
   {
-    int fullyConnected = std::stoi(argv[4]);
+    const int fullyConnected = std::stoi(argv[4]);
     filter->SetFullyConnected(fullyConnected);
   }
   relabel->SetInput(filter->GetOutput());
   if (argc > 5)
   {
-    int minSize = std::stoi(argv[5]);
+    const int minSize = std::stoi(argv[5]);
     relabel->SetMinimumObjectSize(minSize);
     std::cerr << "minSize: " << minSize << std::endl;
   }
@@ -149,12 +149,12 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   colored->SetRegions(filter->GetOutput()->GetBufferedRegion());
   colored->Allocate();
 
-  unsigned short numObjects = relabel->GetNumberOfObjects();
+  const unsigned short numObjects = relabel->GetNumberOfObjects();
 
   std::vector<RGBPixelType> colormap;
   RGBPixelType              px;
   colormap.resize(numObjects + 1);
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
+  const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
     itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
   rvgen->SetSeed(1031571);
   for (auto & i : colormap)

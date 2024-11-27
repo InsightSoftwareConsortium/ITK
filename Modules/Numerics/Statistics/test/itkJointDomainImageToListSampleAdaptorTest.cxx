@@ -40,8 +40,8 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   start.Fill(0);
   size.Fill(10);
 
-  unsigned long         totalSize = size[0] * size[1] * size[2];
-  ImageType::RegionType region(start, size);
+  const unsigned long         totalSize = size[0] * size[1] * size[2];
+  const ImageType::RegionType region(start, size);
   image->SetRegions(region);
   image->Allocate();
 
@@ -237,7 +237,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     IteratorType s_iter = adaptor->Begin();
 
     // copy constructor
-    IteratorType bs_iter(s_iter);
+    const IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor failed" << std::endl;
@@ -297,7 +297,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     ConstIteratorType s_iter = adaptor->Begin();
 
     // copy constructor
-    ConstIteratorType bs_iter(s_iter);
+    const ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
@@ -314,8 +314,8 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     }
 
     // copy from non-const iterator
-    JointDomainImageToListSampleAdaptorType::Iterator      nonconst_iter = adaptor->Begin();
-    JointDomainImageToListSampleAdaptorType::ConstIterator s2_iter(nonconst_iter);
+    const JointDomainImageToListSampleAdaptorType::Iterator nonconst_iter = adaptor->Begin();
+    JointDomainImageToListSampleAdaptorType::ConstIterator  s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;

@@ -23,10 +23,10 @@
 int
 itkConvertBufferTest(int, char *[])
 {
-  int                 piInit[3] = { 3, 1, 4 };
-  itk::RGBPixel<int>  pi = piInit;
-  int                 piaInit[4] = { 3, 1, 4, 1 };
-  itk::RGBAPixel<int> pia = piaInit;
+  int                       piInit[3] = { 3, 1, 4 };
+  const itk::RGBPixel<int>  pi = piInit;
+  int                       piaInit[4] = { 3, 1, 4, 1 };
+  const itk::RGBAPixel<int> pia = piaInit;
   std::cerr << "RGBPixel<int>: " << pi << '\n';
   std::cerr << "RGBAPixel<int>: " << pia << '\n';
 

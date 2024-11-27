@@ -66,7 +66,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
 {
   using DisplacementFieldDuplicatorType = ImageDuplicator<DisplacementFieldType>;
   using DisplacementFieldTransformType = DisplacementFieldTransform<RealType, ImageDimension>;
-  typename DisplacementFieldType::PixelType zeroVector{};
+  const typename DisplacementFieldType::PixelType zeroVector{};
 
   // This transform is used for the fixed image
   using IdentityTransformType = itk::IdentityTransform<RealType, ImageDimension>;
@@ -78,10 +78,10 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
   // This transform gets used for the moving image
   auto fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
 
-  TimeVaryingVelocityFieldPointer velocityField = this->m_OutputTransform->GetModifiableVelocityField();
-  IndexValueType numberOfTimePoints = velocityField->GetLargestPossibleRegion().GetSize()[ImageDimension];
+  const TimeVaryingVelocityFieldPointer velocityField = this->m_OutputTransform->GetModifiableVelocityField();
+  const IndexValueType numberOfTimePoints = velocityField->GetLargestPossibleRegion().GetSize()[ImageDimension];
 
-  SizeValueType numberOfIntegrationSteps = numberOfTimePoints + 2;
+  const SizeValueType numberOfIntegrationSteps = numberOfTimePoints + 2;
 
   const typename TimeVaryingVelocityFieldType::RegionType & largestRegion = velocityField->GetLargestPossibleRegion();
   const SizeValueType numberOfPixelsPerTimePoint = largestRegion.GetNumberOfPixels() / numberOfTimePoints;
@@ -89,10 +89,10 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
   const typename TimeVaryingVelocityFieldType::SpacingType velocityFieldSpacing = velocityField->GetSpacing();
 
   typename VirtualImageType::ConstPointer virtualDomainImage;
-  typename MultiMetricType::Pointer       multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
+  const typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
   if (multiMetric)
   {
-    typename ImageMetricType::Pointer metricQueue =
+    const typename ImageMetricType::Pointer metricQueue =
       dynamic_cast<ImageMetricType *>(multiMetric->GetMetricQueue()[0].GetPointer());
     if (metricQueue.IsNotNull())
     {
@@ -105,7 +105,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
   }
   else
   {
-    typename ImageMetricType::Pointer metric = dynamic_cast<ImageMetricType *>(this->m_Metric.GetPointer());
+    const typename ImageMetricType::Pointer metric = dynamic_cast<ImageMetricType *>(this->m_Metric.GetPointer());
     if (metric.IsNotNull())
     {
       virtualDomainImage = metric->GetVirtualImage();
@@ -228,7 +228,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
 
         if (multiMetric)
         {
-          typename ImageMetricType::Pointer metricQueue =
+          const typename ImageMetricType::Pointer metricQueue =
             dynamic_cast<ImageMetricType *>(multiMetric->GetMetricQueue()[n].GetPointer());
           if (metricQueue.IsNotNull())
           {
@@ -321,7 +321,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         maxNorm = 1.0;
       }
 
-      RealType scale = 1.0 / maxNorm;
+      const RealType scale = 1.0 / maxNorm;
       metricDerivative *= scale;
       updateDerivative.update(metricDerivative, timePoint * numberOfPixelsPerTimePoint * ImageDimension);
     } // end loop over time points
@@ -376,8 +376,8 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
           RealType localSpatioTemporalNorm{};
           for (unsigned int d = 0; d < ImageDimension + 1; ++d)
           {
-            DisplacementVectorType vector = (ItV.GetNext(d) - ItV.GetPrevious(d)) * 0.5 * velocityFieldSpacing[d];
-            RealType               vectorNorm = vector.GetNorm();
+            const DisplacementVectorType vector = (ItV.GetNext(d) - ItV.GetPrevious(d)) * 0.5 * velocityFieldSpacing[d];
+            const RealType               vectorNorm = vector.GetNorm();
             localSpatioTemporalNorm += vectorNorm;
             if (d < ImageDimension)
             {

@@ -35,7 +35,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateInputR
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!inputPtr)
   {
@@ -100,7 +100,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  typename TOutputImage::Pointer output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
 
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
@@ -178,7 +178,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   if constexpr (ImageDimension == 1)
   {
     // Use just a single filter
-    SingleFilterPointer singleFilter = SingleFilterType::New();
+    const SingleFilterPointer singleFilter = SingleFilterType::New();
     singleFilter->SetOperator(oper[0]);
     singleFilter->SetInput(localInput);
     progress->RegisterInternalFilter(singleFilter, 1.0f / ImageDimension);
@@ -200,10 +200,10 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     // Setup a full mini-pipeline and stream the data through the
     // pipeline.
-    unsigned int numberOfStages = ImageDimension * this->GetInternalNumberOfStreamDivisions() + 1;
+    const unsigned int numberOfStages = ImageDimension * this->GetInternalNumberOfStreamDivisions() + 1;
 
     // First filter convolves and changes type from input type to real type
-    FirstFilterPointer firstFilter = FirstFilterType::New();
+    const FirstFilterPointer firstFilter = FirstFilterType::New();
     firstFilter->SetOperator(oper[0]);
     firstFilter->ReleaseDataFlagOn();
     firstFilter->SetInput(localInput);
@@ -235,7 +235,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
     }
 
     // Last filter convolves and changes type from real type to output type
-    LastFilterPointer lastFilter = LastFilterType::New();
+    const LastFilterPointer lastFilter = LastFilterType::New();
     lastFilter->SetOperator(oper[ImageDimension - 1]);
     lastFilter->ReleaseDataFlagOn();
     if constexpr (ImageDimension > 2)
@@ -251,7 +251,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     // Put in a StreamingImageFilter so the mini-pipeline is processed
     // in chunks to minimize memory usage
-    StreamingFilterPointer streamingFilter = StreamingFilterType::New();
+    const StreamingFilterPointer streamingFilter = StreamingFilterType::New();
     streamingFilter->SetInput(lastFilter->GetOutput());
     streamingFilter->SetNumberOfStreamDivisions(this->GetInternalNumberOfStreamDivisions());
     progress->RegisterInternalFilter(streamingFilter, 1.0f / numberOfStages);

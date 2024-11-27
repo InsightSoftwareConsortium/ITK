@@ -40,7 +40,7 @@ solve_with_warning(const vnl_matrix<V> & M, const vnl_matrix<V> & B)
 {
   // Take svd of vnl_matrix<V> M, setting singular values
   // smaller than 1e-8 to 0, and hold the result.
-  vnl_svd<V> svd(M, 1e-8);
+  const vnl_svd<V> svd(M, 1e-8);
   // Check for rank-deficiency
   if (svd.singularities() > 1)
   {
@@ -53,10 +53,10 @@ solve_with_warning(const vnl_matrix<V> & M, const vnl_matrix<V> & B)
 int
 test_svd()
 {
-  double             data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
-  vnl_matrix<double> M(data, 3, 3);
-  vnl_matrix<double> B(3, 1, 7.0); // column vector [7 7 7]^T
-  vnl_matrix<double> result = solve_with_warning(M, B);
+  double                   data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
+  vnl_matrix<double>       M(data, 3, 3);
+  const vnl_matrix<double> B(3, 1, 7.0); // column vector [7 7 7]^T
+  vnl_matrix<double>       result = solve_with_warning(M, B);
   std::cout << "Original svd problem solution" << std::endl;
   print_vnl_matrix(result);
   M(2, 2) = 5;

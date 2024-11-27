@@ -25,8 +25,8 @@ namespace itk
 {
 SimplexMeshGeometry::SimplexMeshGeometry()
 {
-  double    c = 1.0 / 3.0;
-  PointType p{};
+  const double    c = 1.0 / 3.0;
+  const PointType p{};
 
   pos.Fill(0);
   oldPos.Fill(0);
@@ -73,7 +73,7 @@ SimplexMeshGeometry::ComputeGeometry()
   tmp.SetVnlVector(b.GetSquaredNorm() * vnl_cross_3d<double>(cXb.GetVnlVector(), c.GetVnlVector()) +
                    c.GetSquaredNorm() * vnl_cross_3d<double>(b.GetVnlVector(), cXb.GetVnlVector()));
 
-  double cXbSquaredNorm = 2 * cXb.GetSquaredNorm();
+  const double cXbSquaredNorm = 2 * cXb.GetSquaredNorm();
 
   circleRadius = tmp.GetNorm() / (cXbSquaredNorm);
   tmp[0] /= (cXbSquaredNorm);

@@ -53,8 +53,8 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogInsideTerm(con
 {
   this->m_ShapeFunction->SetParameters(parameters);
 
-  typename NodeContainerType::ConstIterator iter = this->GetActiveRegion()->Begin();
-  typename NodeContainerType::ConstIterator end = this->GetActiveRegion()->End();
+  typename NodeContainerType::ConstIterator       iter = this->GetActiveRegion()->Begin();
+  const typename NodeContainerType::ConstIterator end = this->GetActiveRegion()->End();
 
   MeasureType counter = 0.0;
 
@@ -69,7 +69,7 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogInsideTerm(con
 
     if (node.GetValue() <= 0.0)
     {
-      double value = this->m_ShapeFunction->Evaluate(point);
+      const double value = this->m_ShapeFunction->Evaluate(point);
       if (value > 0.0)
       {
         counter += 1.0;
@@ -83,7 +83,7 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogInsideTerm(con
     ++iter;
   }
 
-  MeasureType output = counter * m_Weights[0];
+  const MeasureType output = counter * m_Weights[0];
   return output;
 }
 
@@ -110,9 +110,9 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogGradientTerm(c
 {
   this->m_ShapeFunction->SetParameters(parameters);
 
-  typename NodeContainerType::ConstIterator iter = this->GetActiveRegion()->Begin();
-  typename NodeContainerType::ConstIterator end = this->GetActiveRegion()->End();
-  MeasureType                               sum = 0.0;
+  typename NodeContainerType::ConstIterator       iter = this->GetActiveRegion()->Begin();
+  const typename NodeContainerType::ConstIterator end = this->GetActiveRegion()->End();
+  MeasureType                                     sum = 0.0;
 
   // Assume that ( 1 - FeatureImage ) approximates a Gaussian (zero mean, unit
   // variance)

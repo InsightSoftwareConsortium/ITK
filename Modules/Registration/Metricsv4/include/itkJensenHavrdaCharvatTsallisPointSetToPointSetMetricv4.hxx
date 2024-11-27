@@ -103,7 +103,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
   /**
    * first term only
    */
-  typename PointSetType::PointIdentifier numberOfMovingPoints =
+  const typename PointSetType::PointIdentifier numberOfMovingPoints =
     this->m_MovingDensityFunction->GetInputPointSet()->GetNumberOfPoints();
   RealType probabilityStar =
     this->m_MovingDensityFunction->Evaluate(samplePoint) * static_cast<RealType>(numberOfMovingPoints);
@@ -117,7 +117,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 
   if (calcValue)
   {
-    RealType realOne = NumericTraits<RealType>::OneValue();
+    const RealType realOne = NumericTraits<RealType>::OneValue();
     if (Math::AlmostEquals(this->m_Alpha, realOne))
     {
       value = (std::log(probabilityStar));
@@ -131,7 +131,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 
   if (calcDerivative)
   {
-    RealType probabilityStarFactor = std::pow(probabilityStar, static_cast<RealType>(2.0 - this->m_Alpha));
+    const RealType probabilityStarFactor = std::pow(probabilityStar, static_cast<RealType>(2.0 - this->m_Alpha));
 
     typename DensityFunctionType::NeighborsIdentifierType neighbors;
     this->m_MovingDensityFunction->GetPointsLocator()->FindClosestNPoints(
@@ -139,7 +139,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 
     for (SizeValueType n = 0; n < neighbors.size(); ++n)
     {
-      RealType gaussian = this->m_MovingDensityFunction->GetGaussian(neighbors[n])->Evaluate(samplePoint);
+      const RealType gaussian = this->m_MovingDensityFunction->GetGaussian(neighbors[n])->Evaluate(samplePoint);
 
       if (Math::AlmostEquals(gaussian, RealType{}))
       {
@@ -156,7 +156,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 
       if (this->m_UseAnisotropicCovariances)
       {
-        typename GaussianType::CovarianceMatrixType Ci =
+        const typename GaussianType::CovarianceMatrixType Ci =
           this->m_MovingDensityFunction->GetGaussian(neighbors[n])->GetInverseCovariance();
         diffMean = Ci * diffMean;
       }
@@ -165,7 +165,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
         diffMean /= this->m_MovingDensityFunction->GetGaussian(neighbors[n])->GetCovariance()(0, 0);
       }
 
-      DerivativeValueType factor = this->m_Prefactor1 * gaussian / probabilityStarFactor;
+      const DerivativeValueType factor = this->m_Prefactor1 * gaussian / probabilityStarFactor;
       for (unsigned int i = 0; i < PointDimension; ++i)
       {
         derivativeReturn[i] += diffMean[i] * factor;

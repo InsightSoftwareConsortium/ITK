@@ -44,9 +44,9 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage, TOutputMesh>::BinaryMaskToNarr
   m_DistanceFilter->NarrowBandingOn();
   m_DistanceFilter->SetNarrowBandwidth(m_BandWidth);
 
-  PointDataContainerPointer pointData = PointDataContainer::New();
+  const PointDataContainerPointer pointData = PointDataContainer::New();
 
-  OutputMeshPointer mesh = this->GetOutput();
+  const OutputMeshPointer mesh = this->GetOutput();
 
   mesh->SetPointData(pointData);
 }
@@ -95,19 +95,19 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage, TOutputMesh>::GenerateData()
 
   m_DistanceFilter->Update();
 
-  OutputMeshPointer      mesh = this->GetOutput();
-  InputImageConstPointer image = this->GetInput(0);
+  const OutputMeshPointer      mesh = this->GetOutput();
+  const InputImageConstPointer image = this->GetInput(0);
 
-  PointsContainerPointer    points = PointsContainer::New();
-  PointDataContainerPointer pointData = PointDataContainer::New();
+  const PointsContainerPointer    points = PointsContainer::New();
+  const PointDataContainerPointer pointData = PointDataContainer::New();
 
-  NodeContainerPointer nodes = m_DistanceFilter->GetOutputNarrowBand();
+  const NodeContainerPointer nodes = m_DistanceFilter->GetOutputNarrowBand();
 
-  typename std::vector<NodeType>::size_type numberOfPixels = nodes->Size();
-  ProgressReporter                          progress(this, 0, static_cast<SizeValueType>(numberOfPixels));
+  const typename std::vector<NodeType>::size_type numberOfPixels = nodes->Size();
+  ProgressReporter                                progress(this, 0, static_cast<SizeValueType>(numberOfPixels));
 
-  typename NodeContainer::ConstIterator nodeItr = nodes->Begin();
-  typename NodeContainer::ConstIterator lastNode = nodes->End();
+  typename NodeContainer::ConstIterator       nodeItr = nodes->Begin();
+  const typename NodeContainer::ConstIterator lastNode = nodes->End();
 
   PointType point;
 

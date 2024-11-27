@@ -30,7 +30,7 @@ itkVTKPolyDataMeshCanReadImageTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::VTKPolyDataMeshIO::Pointer vtkMeshIO = itk::VTKPolyDataMeshIO::New();
+  const itk::VTKPolyDataMeshIO::Pointer vtkMeshIO = itk::VTKPolyDataMeshIO::New();
   // Ensure that the MeshIO does not claim to read a .vtk file with image
   // (Structured Grid) data
   ITK_TEST_EXPECT_EQUAL(vtkMeshIO->CanReadFile(argv[1]), false);

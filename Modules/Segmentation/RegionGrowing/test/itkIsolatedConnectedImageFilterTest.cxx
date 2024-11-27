@@ -38,14 +38,14 @@ itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
 
   using PixelType = unsigned char;
   using myImage = itk::Image<PixelType, 2>;
-  itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
+  const itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
   input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::IsolatedConnectedImageFilter<myImage, myImage>;
 
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher watcher(filter);
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());
 
@@ -76,24 +76,24 @@ itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
   }
 
   // The min and max values for a .png image
-  FilterType::InputImagePixelType lower = 0;
+  const FilterType::InputImagePixelType lower = 0;
   filter->SetLower(lower);
   ITK_TEST_SET_GET_VALUE(lower, filter->GetLower());
 
 #if !defined(ITK_LEGACY_REMOVE)
-  FilterType::InputImagePixelType upperValueLimit = 255;
+  FilterType::InputImagePixelType const upperValueLimit = 255;
   filter->SetUpperValueLimit(upperValueLimit);
   ITK_TEST_SET_GET_VALUE(upperValueLimit, filter->GetUpperValueLimit());
 #endif
-  FilterType::InputImagePixelType upper = 255;
+  const FilterType::InputImagePixelType upper = 255;
   filter->SetUpper(upper);
   ITK_TEST_SET_GET_VALUE(upper, filter->GetUpper());
 
-  FilterType::OutputImagePixelType replaceValue = 255;
+  const FilterType::OutputImagePixelType replaceValue = 255;
   filter->SetReplaceValue(replaceValue);
   ITK_TEST_SET_GET_VALUE(replaceValue, filter->GetReplaceValue());
 
-  FilterType::InputImagePixelType isolatedValueTolerance = 1;
+  const FilterType::InputImagePixelType isolatedValueTolerance = 1;
   filter->SetIsolatedValueTolerance(isolatedValueTolerance);
   ITK_TEST_SET_GET_VALUE(isolatedValueTolerance, filter->GetIsolatedValueTolerance());
 

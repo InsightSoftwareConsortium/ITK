@@ -402,7 +402,7 @@ ResourceProbe<ValueType, MeanType>::PrintJSONvar(std::ostream & os,
                                                  unsigned int   indent,
                                                  bool           comma)
 {
-  bool varIsNumber = mpl::IsNumber<T>::Value;
+  const bool varIsNumber = mpl::IsNumber<T>::Value;
   while (indent > 0)
   {
     os << ' ';
@@ -427,7 +427,7 @@ template <typename ValueType, typename MeanType>
 void
 ResourceProbe<ValueType, MeanType>::JSONReport(std::ostream & os)
 {
-  std::stringstream ss;
+  const std::stringstream ss;
 
   ValueType ratioOfMeanToMinimum;
   if (Math::ExactlyEquals(this->GetMinimum(), 0.0))

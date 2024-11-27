@@ -54,14 +54,14 @@ class EigenAnalysis2DImageFilterTester
   InitializeImage(myImageType * image, double value)
   {
 
-    typename myImageType::Pointer inputImage(image);
+    const typename myImageType::Pointer inputImage(image);
 
     // Define their size, and start index
     auto size = mySizeType::Filled(2);
 
-    myIndexType start{};
+    const myIndexType start{};
 
-    myRegionType region{ start, size };
+    const myRegionType region{ start, size };
 
     inputImage->SetRegions(region);
     inputImage->Allocate();
@@ -81,7 +81,7 @@ class EigenAnalysis2DImageFilterTester
   PrintImage(myImageType * image, const char * text)
   {
 
-    typename myImageType::Pointer imagePtr(image);
+    const typename myImageType::Pointer imagePtr(image);
 
     // Create an iterator for going through the image
     myIteratorType it(imagePtr, imagePtr->GetRequestedRegion());
@@ -103,7 +103,7 @@ class EigenAnalysis2DImageFilterTester
   PrintImage(myVectorImageType * image, const char * text)
   {
 
-    typename myVectorImageType::Pointer imagePtr(image);
+    const typename myVectorImageType::Pointer imagePtr(image);
 
     // Create an iterator for going through the image
     myVectorIteratorType it(imagePtr, imagePtr->GetRequestedRegion());
@@ -135,8 +135,8 @@ public:
 
 
     // Create a  Filter
-    auto                     filter = myFilterType::New();
-    itk::SimpleFilterWatcher watcher(filter);
+    auto                           filter = myFilterType::New();
+    const itk::SimpleFilterWatcher watcher(filter);
 
     // Connect the input images
     filter->SetInput1(inputImageXX);
@@ -148,10 +148,10 @@ public:
     filter->Update();
 
     // Get
-    typename myImageType::Pointer maxEigenValue = filter->GetMaxEigenValue();
-    typename myImageType::Pointer minEigenValue = filter->GetMinEigenValue();
+    const typename myImageType::Pointer maxEigenValue = filter->GetMaxEigenValue();
+    const typename myImageType::Pointer minEigenValue = filter->GetMinEigenValue();
 
-    typename myVectorImageType::Pointer maxEigenVector = filter->GetMaxEigenVector();
+    const typename myVectorImageType::Pointer maxEigenVector = filter->GetMaxEigenVector();
 
     PrintImage(maxEigenValue, "Max Eigen Value");
     PrintImage(minEigenValue, "Min Eigen Value");

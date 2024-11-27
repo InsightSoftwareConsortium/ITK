@@ -66,7 +66,7 @@ DOMTestObjectDOMWriter::GenerateData(DOMNodeType * outputdom, const void *) cons
 
   // write child foo
   fn = input->GetFooFileName();
-  DOMNodePointer foo = DOMNodeType::New();
+  const DOMNodePointer foo = DOMNodeType::New();
   foo->SetName("foo");
   foo->SetAttribute("fname", fn);
   outputdom->AddChild(foo);

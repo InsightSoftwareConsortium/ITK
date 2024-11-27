@@ -63,7 +63,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!inputPtr)
   {
@@ -207,10 +207,10 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   // Now create the lookup table whose domain runs from 0.0 to
   // (max-min) and range is gaussian evaluated at
   // that point
-  double rangeVariance = m_RangeSigma * m_RangeSigma;
+  const double rangeVariance = m_RangeSigma * m_RangeSigma;
 
   // denominator (normalization factor) for Gaussian used for range
-  double rangeGaussianDenom = m_RangeSigma * std::sqrt(2.0 * itk::Math::pi);
+  const double rangeGaussianDenom = m_RangeSigma * std::sqrt(2.0 * itk::Math::pi);
 
   // Maximum delta for the dynamic range
   double tableDelta;
@@ -235,14 +235,14 @@ void
 BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  typename TInputImage::ConstPointer input = this->GetInput();
-  typename TOutputImage::Pointer     output = this->GetOutput();
+  const typename TInputImage::ConstPointer input = this->GetInput();
+  const typename TOutputImage::Pointer     output = this->GetOutput();
 
   const double rangeDistanceThreshold = m_DynamicRangeUsed;
 
   // Find the boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                              fC;
+  const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     fC(this->GetInput(), outputRegionForThread, m_GaussianKernel.GetRadius());
 
   const double distanceToTableIndex = static_cast<double>(m_NumberOfRangeGaussianSamples) / m_DynamicRangeUsed;
@@ -267,29 +267,29 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     while (!b_iter.IsAtEnd())
     {
       // Setup
-      OutputPixelRealType centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
-      OutputPixelRealType val = 0.0;
-      OutputPixelRealType normFactor = 0.0;
+      const OutputPixelRealType centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
+      OutputPixelRealType       val = 0.0;
+      OutputPixelRealType       normFactor = 0.0;
 
       // Walk the neighborhood of the input and the kernel
       KernelConstIteratorType k_it = m_GaussianKernel.Begin();
       for (typename TInputImage::IndexValueType i = 0; k_it < kernelEnd; ++k_it, ++i)
       {
         // range distance between neighborhood pixel and neighborhood center
-        OutputPixelRealType pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
+        const OutputPixelRealType pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
         // flip sign if needed
-        OutputPixelRealType rangeDistance = std::abs(pixel - centerPixel);
+        const OutputPixelRealType rangeDistance = std::abs(pixel - centerPixel);
 
         // if the range distance is close enough, then use the pixel
         if (rangeDistance < rangeDistanceThreshold)
         {
           // look up the range gaussian in a table
-          OutputPixelRealType tableArg = rangeDistance * distanceToTableIndex;
-          OutputPixelRealType rangeGaussian = m_RangeGaussianTable[Math::Floor<SizeValueType>(tableArg)];
+          const OutputPixelRealType tableArg = rangeDistance * distanceToTableIndex;
+          const OutputPixelRealType rangeGaussian = m_RangeGaussianTable[Math::Floor<SizeValueType>(tableArg)];
 
           // normalization factor so filter integrates to one
           // (product of the domain and the range gaussian)
-          OutputPixelRealType gaussianProduct = (*k_it) * rangeGaussian;
+          const OutputPixelRealType gaussianProduct = (*k_it) * rangeGaussian;
           normFactor += gaussianProduct;
 
           // Input Image * Domain Gaussian * Range Gaussian

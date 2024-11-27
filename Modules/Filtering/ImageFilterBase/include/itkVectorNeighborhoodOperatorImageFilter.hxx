@@ -35,7 +35,7 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::GenerateInputR
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
 
   if (!inputPtr)
   {
@@ -80,8 +80,8 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
   using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename BFC::FaceListType;
 
-  VectorNeighborhoodInnerProduct<InputImageType> smartInnerProduct;
-  BFC                                            faceCalculator;
+  const VectorNeighborhoodInnerProduct<InputImageType> smartInnerProduct;
+  BFC                                                  faceCalculator;
 
   // Allocate output
   OutputImageType *      output = this->GetOutput();
@@ -92,7 +92,7 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
   // we pass in the input image and the OUTPUT requested region. We are
   // only concerned with centering the neighborhood operator at the
   // pixels that correspond to output pixels.
-  FaceListType faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
+  const FaceListType faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 

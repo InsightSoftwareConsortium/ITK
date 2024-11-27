@@ -77,7 +77,7 @@ template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
 double
 LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::CalculateDistance(Index & index)
 {
-  double distance = this->Superclass::CalculateDistance(index);
+  const double distance = this->Superclass::CalculateDistance(index);
 
   if (distance >= this->GetLargeValue())
   {

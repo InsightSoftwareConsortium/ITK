@@ -177,7 +177,8 @@ itkMultiTransformTest(int, char *[])
 
   /* Retrieve the transform and check that it's the same */
   std::cout << "Retrieve 1st transform." << std::endl;
-  AffineType::ConstPointer affineGet = dynamic_cast<const AffineType *>(multiTransform->GetNthTransformConstPointer(0));
+  const AffineType::ConstPointer affineGet =
+    dynamic_cast<const AffineType *>(multiTransform->GetNthTransformConstPointer(0));
   if (affineGet.IsNull())
   {
     std::cout << "Failed retrieving transform from queue." << std::endl;
@@ -185,8 +186,8 @@ itkMultiTransformTest(int, char *[])
   }
 
   std::cout << "Retrieve matrix and offset. " << std::endl;
-  Matrix2Type matrix2Get = affineGet->GetMatrix();
-  Vector2Type vector2Get = affineGet->GetOffset();
+  const Matrix2Type matrix2Get = affineGet->GetMatrix();
+  const Vector2Type vector2Get = affineGet->GetOffset();
   if (!testMatrix(matrix2, matrix2Get) || !testVectorArray(vector2, vector2Get))
   {
     std::cout << "Failed retrieving correct transform data." << std::endl;
@@ -324,10 +325,10 @@ itkMultiTransformTest(int, char *[])
   auto field = FieldType::New(); // This is based on itk::Image
 
 
-  int                   dimLength = 4;
-  auto                  size = itk::MakeFilled<FieldType::SizeType>(dimLength);
-  FieldType::IndexType  start{};
-  FieldType::RegionType region;
+  const int                  dimLength = 4;
+  auto                       size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  const FieldType::IndexType start{};
+  FieldType::RegionType      region;
   region.SetSize(size);
   region.SetIndex(start);
   field->SetRegions(region);
@@ -418,9 +419,9 @@ itkMultiTransformTest(int, char *[])
 
   /* Test GetNumberOfParameters */
   std::cout << "GetNumberOfParameters: " << std::endl;
-  unsigned int affineParamsN = affine->GetNumberOfParameters();
-  unsigned int displacementParamsN = displacementTransform->GetNumberOfParameters();
-  unsigned int nParameters = multiTransform->GetNumberOfParameters();
+  unsigned int       affineParamsN = affine->GetNumberOfParameters();
+  unsigned int       displacementParamsN = displacementTransform->GetNumberOfParameters();
+  const unsigned int nParameters = multiTransform->GetNumberOfParameters();
   std::cout << "Number of parameters: " << nParameters << std::endl;
   if (nParameters != affineParamsN + displacementParamsN)
   {
@@ -430,9 +431,9 @@ itkMultiTransformTest(int, char *[])
 
   /* Test GetNumberOfLocalParameters */
   std::cout << "GetNumberOfLocalParameters: " << std::endl;
-  unsigned int affineLocalParamsN = affine->GetNumberOfLocalParameters();
-  unsigned int displacementLocalParamsN = displacementTransform->GetNumberOfLocalParameters();
-  unsigned int nLocalParameters = multiTransform->GetNumberOfLocalParameters();
+  const unsigned int affineLocalParamsN = affine->GetNumberOfLocalParameters();
+  const unsigned int displacementLocalParamsN = displacementTransform->GetNumberOfLocalParameters();
+  const unsigned int nLocalParameters = multiTransform->GetNumberOfLocalParameters();
   std::cout << "Number of local parameters: " << nParameters << std::endl;
   if (nLocalParameters != affineLocalParamsN + displacementLocalParamsN)
   {
@@ -532,9 +533,9 @@ itkMultiTransformTest(int, char *[])
 
   /* Test GetNumberOfFixedParameters */
   std::cout << "GetNumberOfFixedParameters: " << std::endl;
-  unsigned int affineFixedParamsN = affine->GetFixedParameters().size();
-  unsigned int displacementFixedParamsN = displacementTransform->GetFixedParameters().size();
-  unsigned int nFixedParameters = multiTransform->GetNumberOfFixedParameters();
+  const unsigned int affineFixedParamsN = affine->GetFixedParameters().size();
+  const unsigned int displacementFixedParamsN = displacementTransform->GetFixedParameters().size();
+  const unsigned int nFixedParameters = multiTransform->GetNumberOfFixedParameters();
   std::cout << "Number of Fixed parameters: " << nParameters << std::endl;
   if (nFixedParameters != affineFixedParamsN + displacementFixedParamsN)
   {
@@ -562,7 +563,7 @@ itkMultiTransformTest(int, char *[])
   affine->SetOffset(vector2);
 
   /* Test accessors */
-  Superclass::TransformQueueType transformQueue = multiTransform->GetTransformQueue();
+  const Superclass::TransformQueueType transformQueue = multiTransform->GetTransformQueue();
   if (transformQueue.size() != 3)
   {
     std::cout << "Failed getting transform queue." << std::endl;
@@ -589,10 +590,10 @@ itkMultiTransformTest(int, char *[])
     Superclass::ParametersType truth = multiTransform->GetParameters();
     Superclass::DerivativeType update(multiTransform->GetNumberOfParameters());
     update.Fill(10.0);
-    AffineType::ScalarType factor = 0.5;
+    const AffineType::ScalarType factor = 0.5;
     truth += update * factor;
     multiTransform->UpdateTransformParameters(update, factor);
-    Superclass::ParametersType updateResult = multiTransform->GetParameters();
+    const Superclass::ParametersType updateResult = multiTransform->GetParameters();
     if (!testVectorArray(truth, updateResult))
     {
       std::cout << "UpdateTransformParameters 1 failed. " << std::endl

@@ -30,7 +30,7 @@ CheckFileNameParsing(const std::string & fileName,
   std::cout << "(kwsys) Extracting...file name...";
   char * nameOnly;
   {
-    std::string fileNameString =
+    const std::string fileNameString =
       itksys::SystemTools::GetFilenameWithoutLastExtension(itksys::SystemTools::GetFilenameName(fileName));
     nameOnly = new char[fileNameString.size() + 1];
     std::strncpy(nameOnly, fileNameString.c_str(), fileNameString.size() + 1);
@@ -39,7 +39,7 @@ CheckFileNameParsing(const std::string & fileName,
   std::cout << "extension...";
   char * extension;
   {
-    std::string extensionString = itksys::SystemTools::GetFilenameLastExtension(fileName);
+    const std::string extensionString = itksys::SystemTools::GetFilenameLastExtension(fileName);
     // NB: remove the period (kwsys leaves it on, ITK precedent was to
     // remove it)
     extension = new char[extensionString.size() + 1];
@@ -124,7 +124,7 @@ CheckFileNameParsing(const std::string & fileName,
   std::cout << "Path: (expected) \"" << correctPath << "\" (actual) \"" << static_cast<const char *>(path) << '"'
             << " (correct) " << pathMatches << std::endl;
 
-  bool correctParse = nameMatches && extensionMatches && pathMatches;
+  const bool correctParse = nameMatches && extensionMatches && pathMatches;
   std::cout << "Parsing is " << (correctParse ? "correct" : "incorrect") << std::endl;
 
   // clean up

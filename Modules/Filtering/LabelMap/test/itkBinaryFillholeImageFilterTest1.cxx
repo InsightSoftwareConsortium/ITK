@@ -45,12 +45,12 @@ DoIt(char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryFillholeImageFilter, ImageToImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   auto fullyConnected = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
 
-  typename FilterType::InputImagePixelType foregroundValue = std::stoi(argv[4]);
+  const typename FilterType::InputImagePixelType foregroundValue = std::stoi(argv[4]);
   filter->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 
@@ -86,7 +86,7 @@ itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->UpdateOutputInformation());
 
-  unsigned dim = reader->GetImageIO()->GetNumberOfDimensions();
+  const unsigned dim = reader->GetImageIO()->GetNumberOfDimensions();
   switch (dim)
   {
     case 2:

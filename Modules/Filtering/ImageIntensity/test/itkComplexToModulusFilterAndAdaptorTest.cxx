@@ -74,9 +74,9 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
   InputIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
-  InputPixelType value(13, 25);
+  const InputPixelType value(13, 25);
 
-  double modulus = std::sqrt(value.real() * value.real() + value.imag() * value.imag());
+  const double modulus = std::sqrt(value.real() * value.real() + value.imag() * value.imag());
 
   std::cout << "Modulus of input pixel = " << modulus << std::endl;
   it.GoToBegin();
@@ -101,7 +101,7 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
   filter->Update();
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
@@ -115,7 +115,7 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
     const InputImageType::PixelType  input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
 
-    double normd = std::sqrt(input.real() * input.real() + input.imag() * input.imag());
+    const double normd = std::sqrt(input.real() * input.real() + input.imag() * input.imag());
 
     const auto norm = static_cast<OutputImageType::PixelType>(normd);
 
@@ -154,7 +154,7 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
   diffFilter->Update();
 
   // Get the filter output
-  OutputImageType::Pointer diffImage = diffFilter->GetOutput();
+  const OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
   // Check the content of the diff image:
   // Create an iterator for going through the image output

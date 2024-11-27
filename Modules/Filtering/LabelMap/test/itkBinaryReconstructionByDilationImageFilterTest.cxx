@@ -53,11 +53,11 @@ itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(reconstruction, BinaryReconstructionByDilationImageFilter, ImageToImageFilter);
 
   // testing get and set macros for Lambda
-  int fg = std::stoi(argv[4]);
+  const int fg = std::stoi(argv[4]);
   reconstruction->SetForegroundValue(fg);
   ITK_TEST_SET_GET_VALUE(fg, reconstruction->GetForegroundValue());
 
-  int bg = std::stoi(argv[5]);
+  const int bg = std::stoi(argv[5]);
   reconstruction->SetBackgroundValue(bg);
   ITK_TEST_SET_GET_VALUE(bg, reconstruction->GetBackgroundValue());
 
@@ -69,7 +69,7 @@ itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
   reconstruction->SetMarkerImage(reader2->GetOutput());
   reconstruction->SetInput("MarkerImage", reader2->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(reconstruction, "filter");
+  const itk::SimpleFilterWatcher watcher(reconstruction, "filter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 

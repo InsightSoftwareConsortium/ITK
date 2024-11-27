@@ -79,7 +79,7 @@ SetAndVerify(int number)
   bool result = true;
   result &= SetAndVerifyGlobalMaximumNumberOfThreads(number);
   result &= SetAndVerifyGlobalDefaultNumberOfThreads(number);
-  itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
+  const itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   // PoolMultiThreader can only increase number of threads
   // so make sure to increase this before testing thread count
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(itk::ITK_MAX_THREADS);

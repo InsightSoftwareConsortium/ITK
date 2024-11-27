@@ -74,8 +74,8 @@ public:
   inline TOutput
   operator()(const TInput & x) const
   {
-    RealType value = static_cast<RealType>(x) * m_Factor + m_Offset;
-    auto     result = static_cast<TOutput>(value);
+    const RealType value = static_cast<RealType>(x) * m_Factor + m_Offset;
+    auto           result = static_cast<TOutput>(value);
 
     result = (result > m_Maximum) ? m_Maximum : result;
     result = (result < m_Minimum) ? m_Minimum : result;

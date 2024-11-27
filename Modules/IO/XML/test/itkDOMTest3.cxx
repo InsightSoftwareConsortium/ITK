@@ -43,10 +43,10 @@ itkDOMTest3(int argc, char * argv[])
   try
   {
     // read the DOM object from the input XML file
-    itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
+    const itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
     reader->SetFileName(argv[1]);
     reader->Update();
-    itk::DOMNode::Pointer dom = reader->GetOutput();
+    const itk::DOMNode::Pointer dom = reader->GetOutput();
 
     itk::DOMNode * node = dom->GetChild(0);
     if (!node)

@@ -85,7 +85,7 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  int numberOfSlices = std::stoi(argv[3]);
+  const int numberOfSlices = std::stoi(argv[3]);
   for (int slice = 0; slice < numberOfSlices; ++slice)
   {
     std::ostringstream filename;

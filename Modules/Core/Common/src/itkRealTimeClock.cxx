@@ -85,7 +85,7 @@ RealTimeClock::GetTimeInSeconds() const
   struct timeval tval;
   ::gettimeofday(&tval, nullptr);
 
-  TimeStampType value =
+  const TimeStampType value =
     static_cast<TimeStampType>(tval.tv_sec) + static_cast<TimeStampType>(tval.tv_usec) / m_Frequency;
   return value;
 #endif // defined(WIN32) || defined(_WIN32)

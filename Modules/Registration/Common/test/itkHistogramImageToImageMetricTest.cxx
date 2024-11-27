@@ -45,8 +45,8 @@ itkHistogramImageToImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-  MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+  const FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  const MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -66,8 +66,8 @@ itkHistogramImageToImageMetricTest(int, char *[])
   movingImageSource->Update(); // Force the filter to run
   fixedImageSource->Update();  // Force the filter to run
 
-  MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
+  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
   // Set up the metric.
   using MetricType = itk::MeanSquaresHistogramImageToImageMetric<FixedImageType, MovingImageType>;
@@ -78,7 +78,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
   auto metric = MetricType::New();
 
-  unsigned int                        nBins = 256;
+  const unsigned int                  nBins = 256;
   MetricType::HistogramType::SizeType histSize;
   histSize.SetSize(2);
   histSize[0] = nBins;
@@ -191,8 +191,8 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
   std::cout << "Exercise the SetLowerBound() and SetUpperBound() methods " << std::endl;
 
-  MetricType::MeasurementVectorType lowerBound{};
-  MetricType::MeasurementVectorType upperBound{};
+  const MetricType::MeasurementVectorType lowerBound{};
+  const MetricType::MeasurementVectorType upperBound{};
 
   metric->SetLowerBound(lowerBound);
   metric->SetUpperBound(upperBound);
@@ -217,9 +217,9 @@ itkHistogramImageToImageMetricTest(int, char *[])
   // Force an exception
   try
   {
-    ParametersType parameters2(2);
-    DerivativeType derivatives2(2);
-    ScalesType     badScales(1);
+    const ParametersType parameters2(2);
+    DerivativeType       derivatives2(2);
+    const ScalesType     badScales(1);
     metric->SetDerivativeStepLengthScales(badScales);
     metric->Initialize();
     metric->GetDerivative(parameters2, derivatives2);

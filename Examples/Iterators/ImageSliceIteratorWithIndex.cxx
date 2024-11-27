@@ -197,7 +197,8 @@ main(int argc, char * argv[])
   ImageType2D::RegionType::SizeType  size;
   ImageType2D::RegionType::IndexType index;
 
-  ImageType3D::RegionType requestedRegion = inputImage->GetRequestedRegion();
+  const ImageType3D::RegionType requestedRegion =
+    inputImage->GetRequestedRegion();
 
   index[direction[0]] = requestedRegion.GetIndex()[direction[0]];
   index[1 - direction[0]] = requestedRegion.GetIndex()[direction[1]];

@@ -34,12 +34,12 @@ itkImageToListSampleAdaptorTestTemplate()
   using SourceType = itk::RandomImageSource<FloatImageType>;
   auto source = SourceType::New();
 
-  itk::SizeValueType size[Dimension] = { 17, 8, 20 };
-  itk::SizeValueType totalSize = size[0] * size[1] * size[2];
+  itk::SizeValueType       size[Dimension] = { 17, 8, 20 };
+  const itk::SizeValueType totalSize = size[0] * size[1] * size[2];
 
   source->SetSize(size);
-  float minValue = -100.0;
-  float maxValue = 1000.0;
+  const float minValue = -100.0;
+  const float maxValue = 1000.0;
 
   source->SetMin(static_cast<typename FloatImageType::PixelType>(minValue));
   source->SetMax(static_cast<typename FloatImageType::PixelType>(maxValue));
@@ -78,7 +78,7 @@ itkImageToListSampleAdaptorTestTemplate()
 
   try
   {
-    typename ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector(0);
+    const typename ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector(0);
     std::cerr << "Exception should have been thrown since the input image is not set yet " << m << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
@@ -88,7 +88,7 @@ itkImageToListSampleAdaptorTestTemplate()
 
   try
   {
-    typename ImageToListSampleAdaptorType::ImageConstPointer image = sample->GetImage();
+    const typename ImageToListSampleAdaptorType::ImageConstPointer image = sample->GetImage();
     std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
@@ -165,7 +165,7 @@ itkImageToListSampleAdaptorTestTemplate()
     IteratorType s_iter = sample->Begin();
 
     // copy constructor
-    IteratorType bs_iter(s_iter);
+    const IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor failed" << std::endl;
@@ -224,7 +224,7 @@ itkImageToListSampleAdaptorTestTemplate()
     ConstIteratorType s_iter = sample->Begin();
 
     // copy constructor
-    ConstIteratorType bs_iter(s_iter);
+    const ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
@@ -241,8 +241,8 @@ itkImageToListSampleAdaptorTestTemplate()
     }
 
     // copy from non-const iterator
-    typename ImageToListSampleAdaptorType::Iterator      nonconst_iter = sample->Begin();
-    typename ImageToListSampleAdaptorType::ConstIterator s2_iter(nonconst_iter);
+    const typename ImageToListSampleAdaptorType::Iterator nonconst_iter = sample->Begin();
+    typename ImageToListSampleAdaptorType::ConstIterator  s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;

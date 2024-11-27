@@ -282,8 +282,8 @@ ImageToHistogramFilter<TImage>::ThreadedMergeHistogram(HistogramPointer && histo
 
     using HistogramIterator = typename HistogramType::ConstIterator;
 
-    HistogramIterator hit = tomergeHistogram->Begin();
-    HistogramIterator end = tomergeHistogram->End();
+    HistogramIterator       hit = tomergeHistogram->Begin();
+    const HistogramIterator end = tomergeHistogram->End();
 
     typename HistogramType::IndexType index;
 
@@ -308,8 +308,8 @@ ImageToHistogramFilter<TImage>::ApplyMarginalScale(HistogramMeasurementVectorTyp
   {
     if (!NumericTraits<HistogramMeasurementType>::is_integer)
     {
-      HistogramMeasurementType marginalScale = this->GetMarginalScale();
-      const double             margin =
+      const HistogramMeasurementType marginalScale = this->GetMarginalScale();
+      const double                   margin =
         (static_cast<HistogramMeasurementType>(max[i] - min[i]) / static_cast<HistogramMeasurementType>(size[i])) /
         static_cast<HistogramMeasurementType>(marginalScale);
 

@@ -123,7 +123,7 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
 
-  float padValue = 4.0;
+  const float padValue = 4.0;
 
   for (Iterator inIter(input, region); !inIter.IsAtEnd(); ++inIter)
   {
@@ -132,7 +132,7 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   std::cout << "Create the input displacement field." << std::endl;
 
-  unsigned int factors[ImageDimension] = { 2, 3 };
+  const unsigned int factors[ImageDimension] = { 2, 3 };
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;
@@ -256,8 +256,8 @@ itkWarpVectorImageFilterTest(int, char *[])
   Iterator outIter(warper->GetOutput(), warper->GetOutput()->GetBufferedRegion());
   while (!outIter.IsAtEnd())
   {
-    IndexType index = outIter.GetIndex();
-    PixelType value = outIter.Get();
+    const IndexType index = outIter.GetIndex();
+    PixelType       value = outIter.Get();
 
     if (validRegion.IsInside(index))
     {
@@ -339,7 +339,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   // Exercise error handling
 
   using InterpolatorType = WarperType::InterpolatorType;
-  InterpolatorType::Pointer interp = warper->GetModifiableInterpolator();
+  const InterpolatorType::Pointer interp = warper->GetModifiableInterpolator();
 
   std::cout << "Setting interpolator to nullptr" << std::endl;
   warper->SetInterpolator(nullptr);

@@ -51,7 +51,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   auto tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions(kernel.GetSize());
   tmpSEImage->Allocate();
-  RegionType                                  tmpSEImageRegion = tmpSEImage->GetRequestedRegion();
+  const RegionType                            tmpSEImageRegion = tmpSEImage->GetRequestedRegion();
   ImageRegionIteratorWithIndex<BoolImageType> kernelImageIt(tmpSEImage, tmpSEImageRegion);
   KernelIteratorType                          kernel_it = kernel.Begin();
   OffsetListType                              kernelOffsets;
@@ -117,12 +117,12 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
       refOffset[axis] = direction;
       for (kernelImageIt.GoToBegin(); !kernelImageIt.IsAtEnd(); ++kernelImageIt)
       {
-        IndexType idx = kernelImageIt.GetIndex();
+        const IndexType idx = kernelImageIt.GetIndex();
 
         if (kernelImageIt.Get())
         {
           // search for added pixel during a translation
-          IndexType nextIdx = idx + refOffset;
+          const IndexType nextIdx = idx + refOffset;
           if (tmpSEImageRegion.IsInside(nextIdx))
           {
             if (!tmpSEImage->GetPixel(nextIdx))
@@ -137,7 +137,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
             axisCount[axis]++;
           }
           // search for removed pixel during a translation
-          IndexType prevIdx = idx - refOffset;
+          const IndexType prevIdx = idx - refOffset;
           if (tmpSEImageRegion.IsInside(prevIdx))
           {
             if (!tmpSEImage->GetPixel(prevIdx))

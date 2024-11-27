@@ -43,7 +43,7 @@ template <typename TOutputMesh>
 void
 VTKPolyDataReader<TOutputMesh>::GenerateData()
 {
-  typename OutputMeshType::Pointer outputMesh = this->GetOutput();
+  const typename OutputMeshType::Pointer outputMesh = this->GetOutput();
 
   outputMesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
@@ -116,7 +116,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
   }
   itkDebugMacro("POINTS line" << line);
 
-  std::string pointLine(line, strlen("POINTS "), line.length());
+  const std::string pointLine(line, strlen("POINTS "), line.length());
   itkDebugMacro("pointLine " << pointLine);
 
   // we must use long here because this is the exact type specified by scanf
@@ -178,7 +178,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
 
   itkDebugMacro("POLYGONS line" << line);
 
-  std::string polygonLine(line, strlen("POLYGONS "), line.length());
+  const std::string polygonLine(line, strlen("POLYGONS "), line.length());
   itkDebugMacro("polygonLine " << polygonLine);
 
   //

@@ -42,12 +42,12 @@ itkBrukerImageTest(int argc, char * argv[])
 
   itk::Bruker2dseqImageIOFactory::RegisterOneFactory();
 
-  itk::Bruker2dseqImageIO::Pointer brukerImageIO = itk::Bruker2dseqImageIO::New();
+  const itk::Bruker2dseqImageIO::Pointer brukerImageIO = itk::Bruker2dseqImageIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(brukerImageIO, Bruker2dseqImageIO, ImageIOBase);
 
   const char * inputFilename = argv[1];
-  bool         canReadFile = brukerImageIO->CanReadFile(inputFilename);
+  const bool   canReadFile = brukerImageIO->CanReadFile(inputFilename);
   if (canReadFile)
   {
     using ReaderType = itk::ImageFileReader<ImageType>;

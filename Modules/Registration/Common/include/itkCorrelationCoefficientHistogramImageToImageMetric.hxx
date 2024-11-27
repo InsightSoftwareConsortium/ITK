@@ -42,8 +42,8 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Me
 
   for (unsigned int i = 0; i < this->m_HistogramSize[0]; ++i)
   {
-    MeasureType            valX = histogram.GetMeasurement(i, 0);
-    HistogramFrequencyType freq = histogram.GetFrequency(i, 0);
+    const MeasureType            valX = histogram.GetMeasurement(i, 0);
+    const HistogramFrequencyType freq = histogram.GetFrequency(i, 0);
     meanX += valX * freq;
   }
 
@@ -61,8 +61,8 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Me
 
   for (unsigned int i = 0; i < this->m_HistogramSize[1]; ++i)
   {
-    MeasureType            valY = histogram.GetMeasurement(i, 1);
-    HistogramFrequencyType freq = histogram.GetFrequency(i, 1);
+    const MeasureType            valY = histogram.GetMeasurement(i, 1);
+    const HistogramFrequencyType freq = histogram.GetFrequency(i, 1);
     meanY += valY * freq;
   }
 
@@ -108,9 +108,9 @@ auto
 CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Covariance(
   HistogramType & histogram) const -> MeasureType
 {
-  MeasureType var{};
-  MeasureType meanX = MeanX(histogram);
-  MeasureType meanY = MeanY(histogram);
+  MeasureType       var{};
+  const MeasureType meanX = MeanX(histogram);
+  const MeasureType meanY = MeanY(histogram);
 
   for (unsigned int j = 0; j < this->m_HistogramSize[1]; ++j)
   {

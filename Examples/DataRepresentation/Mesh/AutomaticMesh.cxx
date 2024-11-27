@@ -200,7 +200,7 @@ main(int, char *[])
   //
   //  Software Guide : EndLatex
 
-  MeshType::Pointer mesh = meshSource->GetOutput();
+  const MeshType::Pointer mesh = meshSource->GetOutput();
   std::cout << mesh << std::endl;
 
   //  Software Guide : BeginLatex

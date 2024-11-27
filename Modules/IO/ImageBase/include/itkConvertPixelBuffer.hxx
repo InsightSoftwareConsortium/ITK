@@ -229,10 +229,10 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
     // this is an ugly implementation of the simple equation
     // greyval = (.2125 * red + .7154 * green + .0721 * blue) / alpha
     //
-    double tempval = ((2125.0 * static_cast<double>(*inputData) + 7154.0 * static_cast<double>(*(inputData + 1)) +
-                       0721.0 * static_cast<double>(*(inputData + 2))) /
-                      10000.0) *
-                     static_cast<double>(*(inputData + 3)) / maxAlpha;
+    const double tempval = ((2125.0 * static_cast<double>(*inputData) + 7154.0 * static_cast<double>(*(inputData + 1)) +
+                             0721.0 * static_cast<double>(*(inputData + 2))) /
+                            10000.0) *
+                           static_cast<double>(*(inputData + 3)) / maxAlpha;
     inputData += 4;
     auto val = static_cast<OutputComponentType>(tempval);
     OutputConvertTraits::SetNthComponent(0, *outputData++, val);
@@ -261,7 +261,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
     const InputPixelType * endInput = inputData + size * 2;
     while (inputData != endInput)
     {
-      OutputComponentType val =
+      const OutputComponentType val =
         static_cast<OutputComponentType>(*inputData) * static_cast<OutputComponentType>(*(inputData + 1) / maxAlpha);
       inputData += 2;
       OutputConvertTraits::SetNthComponent(0, *outputData++, val);
@@ -278,10 +278,11 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
     const InputPixelType * endInput = inputData + size * static_cast<size_t>(inputNumberOfComponents);
     while (inputData != endInput)
     {
-      double tempval = ((2125.0 * static_cast<double>(*inputData) + 7154.0 * static_cast<double>(*(inputData + 1)) +
-                         0721.0 * static_cast<double>(*(inputData + 2))) /
-                        10000.0) *
-                       static_cast<double>(*(inputData + 3)) / maxAlpha;
+      const double tempval =
+        ((2125.0 * static_cast<double>(*inputData) + 7154.0 * static_cast<double>(*(inputData + 1)) +
+          0721.0 * static_cast<double>(*(inputData + 2))) /
+         10000.0) *
+        static_cast<double>(*(inputData + 3)) / maxAlpha;
       auto val = static_cast<OutputComponentType>(tempval);
       OutputConvertTraits::SetNthComponent(0, *outputData++, val);
       inputData += inputNumberOfComponents;
@@ -361,7 +362,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
     const InputPixelType * endInput = inputData + size * 2;
     while (inputData != endInput)
     {
-      OutputComponentType val =
+      const OutputComponentType val =
         static_cast<OutputComponentType>(*inputData) * static_cast<OutputComponentType>(*(inputData + 1));
       inputData += 2;
       OutputConvertTraits::SetNthComponent(0, *outputData, val);
@@ -497,8 +498,8 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   OutputPixelType *      outputData,
   size_t                 size)
 {
-  int outputNumberOfComponents = OutputConvertTraits::GetNumberOfComponents();
-  int componentCount = std::min(inputNumberOfComponents, outputNumberOfComponents);
+  const int outputNumberOfComponents = OutputConvertTraits::GetNumberOfComponents();
+  const int componentCount = std::min(inputNumberOfComponents, outputNumberOfComponents);
 
   for (size_t i = 0; i < size; ++i)
   {
@@ -621,7 +622,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   OutputPixelType *      outputData,
   size_t                 size)
 {
-  size_t length = size * static_cast<size_t>(inputNumberOfComponents);
+  const size_t length = size * static_cast<size_t>(inputNumberOfComponents);
 
   for (size_t i = 0; i < length; ++i)
   {

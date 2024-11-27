@@ -41,13 +41,13 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
                                     const ThreadIdType              threadId) const
 {
   /** Only the voxelwise contribution given the point pairs. */
-  FixedImagePixelType diff = fixedImageValue - movingImageValue;
-  const unsigned int  nComponents = NumericTraits<FixedImagePixelType>::GetLength(diff);
+  const FixedImagePixelType diff = fixedImageValue - movingImageValue;
+  const unsigned int        nComponents = NumericTraits<FixedImagePixelType>::GetLength(diff);
   metricValueReturn = MeasureType{};
 
   for (unsigned int nc = 0; nc < nComponents; ++nc)
   {
-    MeasureType diffC = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
+    const MeasureType diffC = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
     metricValueReturn += diffC * diffC;
   }
 
@@ -71,7 +71,7 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
     localDerivativeReturn[par] = DerivativeValueType{};
     for (unsigned int nc = 0; nc < nComponents; ++nc)
     {
-      MeasureType diffValue = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
+      const MeasureType diffValue = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
       for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; ++dim)
       {
         localDerivativeReturn[par] += 2.0 * diffValue * jacobian(dim, par) *

@@ -29,7 +29,7 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
   using ImageType = itk::Image<PixelType, Dimension>;
   using DivideFilterType = itk::DivideOrZeroOutImageFilter<ImageType>;
 
-  ImageType::SizeType size = { { 10, 12, 14 } };
+  const ImageType::SizeType size = { { 10, 12, 14 } };
 
   auto numeratorImage = ImageType::New();
   numeratorImage->SetRegions(size);
@@ -42,7 +42,7 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
 
   // Set input test values
   denominatorImage->FillBuffer(1.0f);
-  ImageType::IndexType zeroIndex = { { 4, 5, 6 } };
+  const ImageType::IndexType zeroIndex = { { 4, 5, 6 } };
   denominatorImage->SetPixel(zeroIndex, 0.0f);
 
   // Instantiate and run the filter
@@ -52,11 +52,11 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
   divider->InPlaceOn();
   divider->UpdateLargestPossibleRegion();
 
-  ImageType::RegionType                             region = divider->GetOutput()->GetLargestPossibleRegion();
+  const ImageType::RegionType                       region = divider->GetOutput()->GetLargestPossibleRegion();
   itk::ImageRegionConstIteratorWithIndex<ImageType> iter(divider->GetOutput(), region);
   for (; !iter.IsAtEnd(); ++iter)
   {
-    ImageType::IndexType index = iter.GetIndex();
+    const ImageType::IndexType index = iter.GetIndex();
     if (index != zeroIndex)
     {
       if (iter.Get() != 1.0f)

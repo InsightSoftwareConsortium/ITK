@@ -59,7 +59,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   auto criterion = CriterionType::New();
 
-  typename FloatImageType::PixelType threshold = 100.0;
+  const typename FloatImageType::PixelType threshold = 100.0;
   criterion->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, criterion->GetThreshold());
 
@@ -71,8 +71,9 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->SetStoppingCriterion(criterion);
   ITK_TEST_SET_GET_VALUE(criterion, marcher->GetStoppingCriterion());
 
-  ShowProgressObject                                    progressWatch(marcher);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  ShowProgressObject                                          progressWatch(marcher);
+  const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
+    itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   marcher->AddObserver(itk::ProgressEvent(), command);
 
@@ -84,7 +85,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   NodePairType node_pair;
 
-  FloatImageType::OffsetType offset0 = { { 28, 35 } };
+  const FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<Dimension> index{};
 
@@ -136,7 +137,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   ITK_TEST_SET_GET_VALUE(trial, marcher->GetTrialPoints());
 
   // Specify the size of the output image
-  FloatImageType::SizeType size = { { 64, 64 } };
+  const FloatImageType::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
 
   // Set up a speed image of ones
@@ -167,13 +168,13 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   std::cout << "ProcessedPoints: " << marcher->GetProcessedPoints() << std::endl;
 
   // Check the results
-  FloatImageType::Pointer output = marcher->GetOutput();
+  const FloatImageType::Pointer output = marcher->GetOutput();
 
   itk::ImageRegionIterator<FloatImageType> iterator(output, output->GetBufferedRegion());
 
   bool passed = true;
 
-  double outputValueThreshold = 1.42;
+  const double outputValueThreshold = 1.42;
   while (!iterator.IsAtEnd())
   {
     FloatImageType::IndexType tempIndex = iterator.GetIndex();

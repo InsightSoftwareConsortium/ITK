@@ -60,10 +60,10 @@ itkMetaImageIOGzTest(int argc, char * argv[])
   using PixelType = unsigned short;
   using myImage = itk::Image<PixelType, 3>;
 
-  itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
+  const itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
   reader->SetFileName(headerName.c_str());
 
-  itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
+  const itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
   reader->SetImageIO(io);
 
   try

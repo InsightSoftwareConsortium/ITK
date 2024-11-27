@@ -38,10 +38,10 @@ itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itk
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, CurvatureAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
 
-  itk::IdentifierType numberOfIterations = 1;
+  const itk::IdentifierType numberOfIterations = 1;
   filter->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, filter->GetNumberOfIterations());
 
@@ -49,7 +49,7 @@ itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itk
   filter->SetConductanceParameter(conductanceParameter);
   ITK_TEST_SET_GET_VALUE(conductanceParameter, filter->GetConductanceParameter());
 
-  FilterType::TimeStepType timeStep = 0.125;
+  const FilterType::TimeStepType timeStep = 0.125;
   filter->SetTimeStep(timeStep);
   ITK_TEST_SET_GET_VALUE(timeStep, filter->GetTimeStep());
 

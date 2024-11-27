@@ -89,7 +89,7 @@ itkAddImageAdaptorTest(int, char *[])
 
   auto addAdaptor = AdaptorType::New();
 
-  PixelType additiveConstant = 19;
+  const PixelType additiveConstant = 19;
 
   addAdaptor->SetImage(inputImage);
   addAdaptor->SetValue(additiveConstant);
@@ -104,7 +104,7 @@ itkAddImageAdaptorTest(int, char *[])
   diffFilter->Update();
 
   // Get the Smart Pointer to the Diff filter Output
-  ImageType::Pointer diffImage = diffFilter->GetOutput();
+  const ImageType::Pointer diffImage = diffFilter->GetOutput();
 
   //  Check the content of the diff image
   std::cout << "Comparing the results with those of an Adaptor" << std::endl;
@@ -124,7 +124,7 @@ itkAddImageAdaptorTest(int, char *[])
     auto v1 = static_cast<RealPixelType>(dt.Get());
     auto v2 = static_cast<RealPixelType>(additiveConstant);
 
-    RealPixelType diff = itk::Math::abs(v1 - v2);
+    const RealPixelType diff = itk::Math::abs(v1 - v2);
 
     if (diff > itk::Math::eps)
     {
@@ -144,16 +144,16 @@ itkAddImageAdaptorTest(int, char *[])
   index[1] = 1;
   index[2] = 1;
 
-  PixelType p1 = addAdaptor->GetPixel(index);
+  const PixelType p1 = addAdaptor->GetPixel(index);
 
   std::cout << " Pixel " << index << " had value = " << p1 << std::endl;
 
-  PixelType newValue = 27;
+  const PixelType newValue = 27;
 
   std::cout << " We set Pixel " << index << " to value = " << newValue << std::endl;
   addAdaptor->SetPixel(index, newValue);
 
-  PixelType p2 = addAdaptor->GetPixel(index);
+  const PixelType p2 = addAdaptor->GetPixel(index);
   std::cout << " Now Pixel " << index << " has value = " << p2 << std::endl;
 
   if (p2 != newValue)

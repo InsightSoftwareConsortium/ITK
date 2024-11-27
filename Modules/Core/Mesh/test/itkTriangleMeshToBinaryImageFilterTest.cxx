@@ -48,7 +48,7 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
   center[1] = 50;
   center[2] = 50;
   PointType::ValueType scaleInit[3] = { 10, 10, 10 };
-  VectorType           scale = scaleInit;
+  const VectorType     scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(3);

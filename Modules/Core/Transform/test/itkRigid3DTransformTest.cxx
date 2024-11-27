@@ -182,9 +182,9 @@ itkRigid3DTransformTest(int, char *[])
 
     {
       // Translate an itk::Point
-      TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType            q;
+      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      const TransformType::InputPointType            p = pInit;
+      TransformType::InputPointType                  q;
       q = p + ioffset;
       TransformType::OutputPointType r;
       r = translation->TransformPoint(p);
@@ -358,9 +358,9 @@ itkRigid3DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType            q;
+      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      TransformType::InputPointType                  p = pInit;
+      TransformType::InputPointType                  q;
 
       q[0] = p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;
@@ -533,7 +533,7 @@ itkRigid3DTransformTest(int, char *[])
       MatrixType matrix;
       matrix.GetVnlMatrix().set_identity();
 
-      double a = 1.0 / 180.0 * itk::Math::pi;
+      const double a = 1.0 / 180.0 * itk::Math::pi;
       matrix[0][0] = std::cos(a);
       matrix[0][1] = std::sin(a);
       matrix[1][0] = -1.0 * std::sin(a);
@@ -680,7 +680,7 @@ itkRigid3DTransformTest(int, char *[])
       // attempt to set an orthogonal matrix
       matrix.GetVnlMatrix().set_identity();
 
-      double a = 1.0 / 180.0 * itk::Math::pi;
+      const double a = 1.0 / 180.0 * itk::Math::pi;
       matrix[0][0] = std::cos(a);
       matrix[0][1] = std::sin(a);
       matrix[1][0] = -1.0 * std::sin(a);
@@ -707,7 +707,7 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Error: caught unexpected exception" << std::endl;
         return EXIT_FAILURE;
       }
-      bool TranslationSettingOK = TestSettingTranslation();
+      const bool TranslationSettingOK = TestSettingTranslation();
       if (!TranslationSettingOK)
       {
         std::cerr << "Error:  SetTranslation() did not result in consistent internal state for Rigid3DTransform."
@@ -754,7 +754,7 @@ itkRigid3DTransformTest(int, char *[])
     mrotation[1][1] = costh;
     transform->SetMatrix(mrotation);
 
-    TransformType::OffsetType ioffset{};
+    const TransformType::OffsetType ioffset{};
     transform->SetOffset(ioffset);
 
     hasInverse = transform->GetInverse(inverse);

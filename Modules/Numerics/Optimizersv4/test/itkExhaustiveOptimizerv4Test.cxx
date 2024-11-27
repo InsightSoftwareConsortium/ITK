@@ -64,12 +64,12 @@ public:
   MeasureType
   GetValue() const override
   {
-    double x = this->m_Parameters[0];
-    double y = this->m_Parameters[1];
+    const double x = this->m_Parameters[0];
+    const double y = this->m_Parameters[1];
 
     std::cout << "GetValue ( " << x << " , " << y << ") = ";
 
-    MeasureType val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << val << std::endl;
 
@@ -79,8 +79,8 @@ public:
   void
   GetDerivative(DerivativeType & derivative) const override
   {
-    double x = this->m_Parameters[0];
-    double y = this->m_Parameters[1];
+    const double x = this->m_Parameters[0];
+    const double y = this->m_Parameters[1];
 
     std::cout << "GetDerivative ( " << x << " , " << y << ") = ";
 
@@ -168,7 +168,7 @@ public:
     if (nullptr != optimizer)
     {
       OptimizerType::ParametersType currentIndex = optimizer->GetCurrentIndex();
-      itk::SizeValueType            currentIteration = optimizer->GetCurrentIteration();
+      const itk::SizeValueType      currentIteration = optimizer->GetCurrentIteration();
 
       if (currentIndex.GetSize() == 2)
       {
@@ -267,12 +267,12 @@ itkExhaustiveOptimizerv4Test(int, char *[])
   }
 
 
-  bool minimumValuePass = itk::Math::abs(itkOptimizer->GetMinimumMetricValue() - -10) < 1E-3;
+  const bool minimumValuePass = itk::Math::abs(itkOptimizer->GetMinimumMetricValue() - -10) < 1E-3;
 
   std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << std::endl;
   std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << std::endl;
 
-  bool maximumValuePass = itk::Math::abs(itkOptimizer->GetMaximumMetricValue() - 926) < 1E-3;
+  const bool maximumValuePass = itk::Math::abs(itkOptimizer->GetMaximumMetricValue() - 926) < 1E-3;
   std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << std::endl;
   std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << std::endl;
 
@@ -286,7 +286,7 @@ itkExhaustiveOptimizerv4Test(int, char *[])
   bool                       visitedIndicesPass = true;
   std::vector<unsigned long> visitedIndices = idxObserver->m_VisitedIndices;
 
-  size_t requiredNumberOfSteps = (2 * steps[0] + 1) * (2 * steps[1] + 1);
+  const size_t requiredNumberOfSteps = (2 * steps[0] + 1) * (2 * steps[1] + 1);
   if (visitedIndices.size() != requiredNumberOfSteps)
   {
     visitedIndicesPass = false;
@@ -307,8 +307,8 @@ itkExhaustiveOptimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool   trueParamsPass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         trueParamsPass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

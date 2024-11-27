@@ -56,8 +56,8 @@ itkLessTest(int, char *[])
   using myFilterTypePointer = myFilterType::Pointer;
 
   // Create two images
-  myImageType1Pointer inputImageA = myImageType1::New();
-  myImageType2Pointer inputImageB = myImageType2::New();
+  const myImageType1Pointer inputImageA = myImageType1::New();
+  const myImageType2Pointer inputImageB = myImageType2::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -70,7 +70,7 @@ itkLessTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -109,7 +109,7 @@ itkLessTest(int, char *[])
 
   {
     // Create a logic Filter
-    myFilterTypePointer filter = myFilterType::New();
+    const myFilterTypePointer filter = myFilterType::New();
 
     // Connect the input images
     filter->SetInput1(inputImageA);
@@ -118,15 +118,15 @@ itkLessTest(int, char *[])
     filter->SetFunctor(filter->GetFunctor());
 
     // Get the Smart Pointer to the Filter Output
-    myImageType3Pointer outputImage = filter->GetOutput();
+    const myImageType3Pointer outputImage = filter->GetOutput();
 
     // Execute the filter
     filter->Update();
     filter->SetFunctor(filter->GetFunctor());
-    PixelType FG = filter->GetFunctor().GetForegroundValue();
-    PixelType BG = filter->GetFunctor().GetBackgroundValue();
+    const PixelType FG = filter->GetFunctor().GetForegroundValue();
+    const PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-    int status1 = checkImOnImRes<myImageType1, myImageType2, myImageType3, std::less<myImageType1::PixelType>>(
+    const int status1 = checkImOnImRes<myImageType1, myImageType2, myImageType3, std::less<myImageType1::PixelType>>(
       inputImageA, inputImageB, outputImage, FG, BG);
     if (status1 == EXIT_FAILURE)
     {
@@ -140,7 +140,7 @@ itkLessTest(int, char *[])
 
   {
     // Create a logic Filter
-    myFilterTypePointer filter = myFilterType::New();
+    const myFilterTypePointer filter = myFilterType::New();
 
     // Connect the input images
     filter->SetInput1(inputImageA);
@@ -148,15 +148,15 @@ itkLessTest(int, char *[])
     filter->SetFunctor(filter->GetFunctor());
 
     // Get the Smart Pointer to the Filter Output
-    myImageType3Pointer outputImage = filter->GetOutput();
+    const myImageType3Pointer outputImage = filter->GetOutput();
 
     // Now try testing with constant : Im1 > 2
     filter->SetConstant(2.0);
     filter->Update();
-    PixelType FG = filter->GetFunctor().GetForegroundValue();
-    PixelType BG = filter->GetFunctor().GetBackgroundValue();
-    PixelType C = filter->GetConstant2();
-    int       status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::less<PixelType>>(
+    const PixelType FG = filter->GetFunctor().GetForegroundValue();
+    const PixelType BG = filter->GetFunctor().GetBackgroundValue();
+    const PixelType C = filter->GetConstant2();
+    const int       status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::less<PixelType>>(
       inputImageA, C, outputImage, FG, BG);
     if (status2 == EXIT_FAILURE)
     {
@@ -170,20 +170,20 @@ itkLessTest(int, char *[])
   // Now try testing with constant : 3 != Im2
   {
     // Create a logic Filter
-    myFilterTypePointer filter = myFilterType::New();
+    const myFilterTypePointer filter = myFilterType::New();
 
     // Connect the input images
     filter->SetFunctor(filter->GetFunctor());
 
     // Get the Smart Pointer to the Filter Output
-    myImageType3Pointer outputImage = filter->GetOutput();
+    const myImageType3Pointer outputImage = filter->GetOutput();
     filter->SetConstant1(3.0);
     filter->SetInput2(inputImageB);
     filter->Update();
-    PixelType FG = filter->GetFunctor().GetForegroundValue();
-    PixelType BG = filter->GetFunctor().GetBackgroundValue();
+    const PixelType FG = filter->GetFunctor().GetForegroundValue();
+    const PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-    int status3 = checkConstOnImRes<PixelType, myImageType2, myImageType3, std::less<PixelType>>(
+    const int status3 = checkConstOnImRes<PixelType, myImageType2, myImageType3, std::less<PixelType>>(
       filter->GetConstant1(), inputImageB, outputImage, FG, BG);
     if (status3 == EXIT_FAILURE)
     {

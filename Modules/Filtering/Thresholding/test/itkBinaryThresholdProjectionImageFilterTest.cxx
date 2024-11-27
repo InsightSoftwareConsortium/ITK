@@ -53,20 +53,20 @@ itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
   using FilterType = itk::BinaryThresholdProjectionImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryThresholdProjectionImageFilter, ProjectionImageFilter);
 
 
-  FilterType::InputPixelType thresholdValue = std::stoi(argv[3]);
+  const FilterType::InputPixelType thresholdValue = std::stoi(argv[3]);
   filter->SetThresholdValue(thresholdValue);
   ITK_TEST_SET_GET_VALUE(thresholdValue, filter->GetThresholdValue());
 
-  FilterType::OutputPixelType foregroundValue = std::stoi(argv[4]);
+  const FilterType::OutputPixelType foregroundValue = std::stoi(argv[4]);
   filter->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 
-  FilterType::OutputPixelType backgroundValue = std::stoi(argv[5]);
+  const FilterType::OutputPixelType backgroundValue = std::stoi(argv[5]);
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 

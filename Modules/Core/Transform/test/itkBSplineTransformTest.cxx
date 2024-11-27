@@ -95,7 +95,7 @@ itkBSplineTransformTest1()
   }
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
-    double delta = dimensions[i] / static_cast<double>(meshSize[i]);
+    const double delta = dimensions[i] / static_cast<double>(meshSize[i]);
     fixedParameters[fixedParametersCount++] = origin[i] - delta;
   }
   for (unsigned int i = 0; i < SpaceDimension; ++i)
@@ -112,7 +112,7 @@ itkBSplineTransformTest1()
 
   std::cout << "Fixed parameters set: " << fixedParameters << std::endl;
   transform->SetFixedParameters(fixedParameters);
-  ParametersType returnedParameters = transform->GetFixedParameters();
+  const ParametersType returnedParameters = transform->GetFixedParameters();
   std::cout << "Fixed parameters returned: " << returnedParameters << std::endl;
 
   if (fixedParameters != returnedParameters)
@@ -126,8 +126,8 @@ itkBSplineTransformTest1()
   /**
    * Allocate memory for the parameters
    */
-  unsigned long  numberOfParameters = transform->GetNumberOfParameters();
-  ParametersType parameters(numberOfParameters);
+  const unsigned long numberOfParameters = transform->GetNumberOfParameters();
+  ParametersType      parameters(numberOfParameters);
   parameters.Fill(ParametersType::ValueType{});
 
   /**
@@ -163,7 +163,7 @@ itkBSplineTransformTest1()
 
   coeffImage[1]->SetPixel(index, 1.0);
 
-  unsigned long n = coeffImage[1]->ComputeOffset(index) + numberOfControlPoints;
+  const unsigned long n = coeffImage[1]->ComputeOffset(index) + numberOfControlPoints;
 
   /**
    * Set the parameters in the transform
@@ -171,7 +171,7 @@ itkBSplineTransformTest1()
   transform->SetParameters(parameters);
 
   // outParametersCopy should make a copy of the parameters
-  ParametersType outParametersCopy = transform->GetParameters();
+  const ParametersType outParametersCopy = transform->GetParameters();
 
   /**
    * Transform some points
@@ -251,10 +251,10 @@ itkBSplineTransformTest1()
 
   // cycling through all the parameters and weights used in the previous
   // transformation
-  unsigned int numberOfCoefficientInSupportRegion = TransformType::NumberOfWeights;
-  unsigned int numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
-  unsigned int linearIndex;
-  unsigned int baseIndex;
+  const unsigned int numberOfCoefficientInSupportRegion = TransformType::NumberOfWeights;
+  const unsigned int numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
+  unsigned int       linearIndex;
+  unsigned int       baseIndex;
 
   std::cout << "Index" << '\t' << "Value" << '\t' << "Weight" << std::endl;
   for (unsigned int j = 0; j < SpaceDimension; ++j)
@@ -603,7 +603,7 @@ itkBSplineTransformTest3()
    */
 
   using OriginType = TransformType::OriginType;
-  OriginType origin{};
+  const OriginType origin{};
 
   using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
   auto dimensions = itk::MakeFilled<PhysicalDimensionsType>(100);
@@ -630,8 +630,8 @@ itkBSplineTransformTest3()
   /**
    * Allocate memory for the parameters
    */
-  unsigned long  numberOfParameters = transform->GetNumberOfParameters();
-  ParametersType parameters(numberOfParameters);
+  const unsigned long numberOfParameters = transform->GetNumberOfParameters();
+  ParametersType      parameters(numberOfParameters);
   parameters.Fill(ParametersType::ValueType{});
 
   /**

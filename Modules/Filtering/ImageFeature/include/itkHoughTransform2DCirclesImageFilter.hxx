@@ -57,7 +57,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
   Superclass::GenerateInputRequestedRegion();
   if (this->GetInput())
   {
-    InputImagePointer image = const_cast<InputImageType *>(this->GetInput());
+    const InputImagePointer image = const_cast<InputImageType *>(this->GetInput());
     image->SetRequestedRegionToLargestPossibleRegion();
   }
 }
@@ -213,8 +213,9 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
     gaussianFilter->Update();
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-    const auto                             minMaxCalculator = MinimumMaximumImageCalculator<InternalImageType>::New();
-    ImageRegionIterator<InternalImageType> it_input(postProcessImage, postProcessImage->GetLargestPossibleRegion());
+    const auto minMaxCalculator = MinimumMaximumImageCalculator<InternalImageType>::New();
+    const ImageRegionIterator<InternalImageType> it_input(postProcessImage,
+                                                          postProcessImage->GetLargestPossibleRegion());
 
     CirclesListSizeType circles = 0;
 

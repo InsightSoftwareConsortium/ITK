@@ -35,14 +35,14 @@ itkTemporalRegionTest(int, char *[])
   ITK_MACROEND_NOOP_STATEMENT
 
   // Test arrays for frame durations
-  itk::SizeValueType testFrameStart = 0;
-  itk::SizeValueType testFrameDuration = 20;
+  const itk::SizeValueType testFrameStart = 0;
+  const itk::SizeValueType testFrameDuration = 20;
 
   // Test time stamps and intervals
-  itk::RealTimeStamp    stamp0;
-  itk::RealTimeStamp    stamp1 = stamp0;
-  itk::RealTimeInterval oneSecond(1, 0);
-  itk::RealTimeInterval tenSeconds(10, 0);
+  const itk::RealTimeStamp    stamp0;
+  itk::RealTimeStamp          stamp1 = stamp0;
+  const itk::RealTimeInterval oneSecond(1, 0);
+  const itk::RealTimeInterval tenSeconds(10, 0);
   for (unsigned int i = 0; i < 1000000L; ++i)
   {
     stamp1 += oneSecond;
@@ -53,10 +53,10 @@ itkTemporalRegionTest(int, char *[])
   itk::TemporalRegion regionB;
 
   // Check value of regions at init
-  bool shouldBeTrue = regionA == regionB;
+  const bool shouldBeTrue = regionA == regionB;
   CHECK_FOR_VALUE(shouldBeTrue, true);
 
-  bool shouldBeFalse = regionA != regionB;
+  const bool shouldBeFalse = regionA != regionB;
   CHECK_FOR_VALUE(shouldBeFalse, false);
 
   // Set new start times

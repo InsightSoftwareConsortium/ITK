@@ -52,7 +52,7 @@ itkMeanImageFilterTest(int, char *[])
   random->SetOrigin(origin);
 
   // Create a mean image
-  itk::MeanImageFilter<FloatImage2DType, FloatImage2DType>::Pointer mean =
+  const itk::MeanImageFilter<FloatImage2DType, FloatImage2DType>::Pointer mean =
     itk::MeanImageFilter<FloatImage2DType, FloatImage2DType>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mean, MeanImageFilter, BoxImageFilter);

@@ -37,7 +37,7 @@ F(double x, double y, double z)
   x -= 8;
   y += 3;
   z += 0;
-  double r = std::sqrt(x * x + y * y + z * z);
+  const double r = std::sqrt(x * x + y * y + z * z);
   if (r > 35)
   {
     value = 2 * (itk::Math::abs(x) + 0.8 * itk::Math::abs(y) + 0.5 * itk::Math::abs(z));
@@ -105,7 +105,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   bool useShrinkFilter(false);
   if (argc > 1)
   {
-    std::string s(argv[1]);
+    const std::string s(argv[1]);
     std::cout << "useShrinkFilter ";
     if (s == "Shrink")
     {
@@ -121,7 +121,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   bool TestRecursive(false);
   if (argc > 2)
   {
-    std::string s(argv[2]);
+    const std::string s(argv[2]);
     if (s == "TestRecursive")
     {
       TestRecursive = true;
@@ -133,9 +133,9 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // When shrink factors are not divisible, this still does
   // a best does the best possible job.
   // InputImageType::SizeType size = {{101,101,41}};
-  InputImageType::SizeType   size = { { 128, 132, 48 } };
-  InputImageType::IndexType  index = { { 0, 0, 0 } };
-  InputImageType::RegionType region{ index, size };
+  InputImageType::SizeType         size = { { 128, 132, 48 } };
+  const InputImageType::IndexType  index = { { 0, 0, 0 } };
+  const InputImageType::RegionType region{ index, size };
 
   InputImageType::SpacingType spacing;
   spacing[0] = 0.5;
@@ -225,7 +225,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   for (unsigned int k = 0; k < numLevels; ++k)
   {
-    unsigned int denominator = 1 << k;
+    const unsigned int denominator = 1 << k;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
@@ -257,7 +257,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   schedule = ScheduleType(numLevels, ImageDimension, 0);
   for (unsigned int k = 0; k < numLevels; ++k)
   {
-    unsigned int denominator = 1 << k;
+    const unsigned int denominator = 1 << k;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
@@ -315,7 +315,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     InputImageType::SizeType inputSize = pyramid->GetInput()->GetLargestPossibleRegion().GetSize();
     // const InputImageType::PointType& inputOrigin =
     //  pyramid->GetInput()->GetOrigin();
-    OutputImageType::PointType          InputCenterOfMass = GetCenterOfMass<OutputImageType>(pyramid->GetInput());
+    const OutputImageType::PointType    InputCenterOfMass = GetCenterOfMass<OutputImageType>(pyramid->GetInput());
     const InputImageType::SpacingType & inputSpacing = pyramid->GetInput()->GetSpacing();
 
     OutputImageType::SizeType outputSize = pyramid->GetOutput(testLevel)->GetLargestPossibleRegion().GetSize();
@@ -324,7 +324,8 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     const OutputImageType::SpacingType & outputSpacing = pyramid->GetOutput(testLevel)->GetSpacing();
 
 
-    OutputImageType::PointType OutputCenterOfMass = GetCenterOfMass<OutputImageType>(pyramid->GetOutput(testLevel));
+    const OutputImageType::PointType OutputCenterOfMass =
+      GetCenterOfMass<OutputImageType>(pyramid->GetOutput(testLevel));
     // NOTE:  Origins can not be preserved if the objects physical spaces are to be preserved!
     //       The image center of physical space is what really needs to be preserved across
     //       the different scales.
@@ -335,9 +336,9 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     // std::cout << "TEST:  "<< j<< ' ' << OutputCenterOfMass << " != " << InputCenterOfMass << std::endl;
     // if( OutputCenterOfMass != InputCenterOfMass )
     {
-      OutputImageType::PointType::VectorType ErrorCenterOfMass = OutputCenterOfMass - InputCenterOfMass;
-      constexpr double                       CenterOfMassEpsilonAllowed = 0.001;
-      const double                           ErrorPercentage =
+      const OutputImageType::PointType::VectorType ErrorCenterOfMass = OutputCenterOfMass - InputCenterOfMass;
+      constexpr double                             CenterOfMassEpsilonAllowed = 0.001;
+      const double                                 ErrorPercentage =
         (ErrorCenterOfMass.GetNorm() / pyramid->GetOutput(testLevel)->GetSpacing().GetNorm());
       if (ErrorPercentage > CenterOfMassEpsilonAllowed)
       {

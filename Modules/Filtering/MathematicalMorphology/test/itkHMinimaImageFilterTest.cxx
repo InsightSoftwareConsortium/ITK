@@ -64,7 +64,7 @@ itkHMinimaImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(hMinimaFilter, HMinimaImageFilter, ImageToImageFilter);
 
-  itk::SimpleFilterWatcher watchHMinima(hMinimaFilter, "HMinimaImageFilter");
+  const itk::SimpleFilterWatcher watchHMinima(hMinimaFilter, "HMinimaImageFilter");
 
   // Set up the filter
   auto height = static_cast<HMinimaFilterType::InputImagePixelType>(std::stod(argv[3]));

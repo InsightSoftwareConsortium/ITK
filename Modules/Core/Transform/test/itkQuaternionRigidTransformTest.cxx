@@ -84,9 +84,9 @@ itkQuaternionRigidTransformTest(int, char *[])
 
     {
       // Translate an itk::Point
-      TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType            q;
+      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      const TransformType::InputPointType            p = pInit;
+      TransformType::InputPointType                  q;
       q = p + itransVector;
       TransformType::OutputPointType r;
       r = translation->TransformPoint(p);
@@ -265,9 +265,9 @@ itkQuaternionRigidTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType            q;
+      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      TransformType::InputPointType                  p = pInit;
+      TransformType::InputPointType                  q;
 
       q[0] = p[0] * costh - p[1] * sinth;
       q[1] = p[0] * sinth + p[1] * costh;
@@ -408,7 +408,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
     parameters.Fill(0.0);
 
-    double angle = 0.62 / 180.0 * itk::Math::pi;
+    const double angle = 0.62 / 180.0 * itk::Math::pi;
 
     parameters[0] = 2.0 * std::sin(0.5 * angle);
     parameters[1] = 5.0 * std::sin(0.5 * angle);
@@ -450,8 +450,8 @@ itkQuaternionRigidTransformTest(int, char *[])
       minusPoint = quaternionRigid->TransformPoint(pInit);
       for (unsigned int j = 0; j < 3; ++j)
       {
-        double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
-        double computedDerivative = jacobian[j][k];
+        const double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
+        const double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
         if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-5)
         {
@@ -600,9 +600,9 @@ itkQuaternionRigidTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType            q;
+      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      TransformType::InputPointType                  p = pInit;
+      TransformType::InputPointType                  q;
 
       const CoordinateType x = p[0] - center[0];
       const CoordinateType y = p[1] - center[1];
@@ -789,7 +789,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     // attempt to set an orthogonal matrix
     matrix.GetVnlMatrix().set_identity();
 
-    double a = 1.0 / 180.0 * itk::Math::pi;
+    const double a = 1.0 / 180.0 * itk::Math::pi;
     matrix[0][0] = std::cos(a);
     matrix[0][1] = -1.0 * std::sin(a);
     matrix[1][0] = std::sin(a);

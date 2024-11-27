@@ -31,20 +31,20 @@ itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << ": image-dimension number-of-reps" << std::endl;
     return EXIT_FAILURE;
   }
-  int imageSize = std::stoi(argv[1]);
-  int numberOfReps = std::stoi(argv[2]);
+  const int imageSize = std::stoi(argv[1]);
+  const int numberOfReps = std::stoi(argv[2]);
 
   std::cout << "image dim: " << imageSize << ", reps: " << numberOfReps << std::endl;
 
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                     size = ImageType::SizeType::Filled(imageSize);
-  ImageType::IndexType     index{};
-  ImageType::RegionType    region{ index, size };
-  auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
-  ImageType::PointType     origin{};
-  ImageType::DirectionType direction;
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::IndexType  index{};
+  const ImageType::RegionType region{ index, size };
+  auto                        spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  const ImageType::PointType  origin{};
+  ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   /* Create simple test images. */

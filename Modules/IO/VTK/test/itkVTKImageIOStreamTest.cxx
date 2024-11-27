@@ -137,8 +137,8 @@ TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
   constValueImageSource->SetValue(static_cast<TScalar>(23));
   constValueImageSource->SetSize(size);
 
-  typename ImageType::SpacingValueType spacing[3] = { 5.0f, 10.0f, 15.0f };
-  typename ImageType::PointValueType   origin[3] = { -5.0f, -10.0f, -15.0f };
+  typename ImageType::SpacingValueType     spacing[3] = { 5.0f, 10.0f, 15.0f };
+  const typename ImageType::PointValueType origin[3] = { -5.0f, -10.0f, -15.0f };
 
   constValueImageSource->SetSpacing(spacing);
   constValueImageSource->SetOrigin(origin);
@@ -171,9 +171,9 @@ TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
   consValueImage->SetRequestedRegion(consValueImage->GetLargestPossibleRegion());
   consValueImage->Update();
   reader->Update();
-  bool imagesEqual = ImagesEqual(consValueImage, reader->GetOutput());
+  const bool imagesEqual = ImagesEqual(consValueImage, reader->GetOutput());
 
-  std::string componentType = itk::ImageIOBase::GetComponentTypeAsString(vtkIO->GetComponentType());
+  const std::string componentType = itk::ImageIOBase::GetComponentTypeAsString(vtkIO->GetComponentType());
 
   if (!imagesEqual)
   {
@@ -209,8 +209,8 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
   constValueImageSource->SetValue(static_cast<TScalar>(23));
   constValueImageSource->SetSize(size);
 
-  typename ImageType::SpacingValueType spacing[3] = { 5.0f, 10.0f, 15.0f };
-  typename ImageType::PointValueType   origin[3] = { -5.0f, -10.0f, -15.0f };
+  typename ImageType::SpacingValueType     spacing[3] = { 5.0f, 10.0f, 15.0f };
+  const typename ImageType::PointValueType origin[3] = { -5.0f, -10.0f, -15.0f };
 
   constValueImageSource->SetSpacing(spacing);
   constValueImageSource->SetOrigin(origin);
@@ -243,8 +243,8 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
 
   // Simulate streaming and compares regions
   numberOfStreams = std::clamp(numberOfStreams, 1u, static_cast<unsigned int>(size[TDimension - 1]));
-  typename ImageType::SizeValueType width = (size[TDimension - 1] + numberOfStreams - 1) / numberOfStreams;
-  typename ImageType::RegionType    totalRegion = consValueImage->GetLargestPossibleRegion();
+  const typename ImageType::SizeValueType width = (size[TDimension - 1] + numberOfStreams - 1) / numberOfStreams;
+  const typename ImageType::RegionType    totalRegion = consValueImage->GetLargestPossibleRegion();
 
   ImageType * readImage = reader->GetOutput();
   consValueImage->SetRequestedRegion(totalRegion);
@@ -268,7 +268,7 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
     }
   }
 
-  std::string componentType = itk::ImageIOBase::GetComponentTypeAsString(vtkIO->GetComponentType());
+  const std::string componentType = itk::ImageIOBase::GetComponentTypeAsString(vtkIO->GetComponentType());
 
   if (!imagesEqual)
   {
@@ -293,8 +293,8 @@ itkVTKImageIOStreamTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int numberOfStreams = 2;
-  int          status = 0;
+  const unsigned int numberOfStreams = 2;
+  int                status = 0;
 
 #define ReadWriteTestMACRO(scalarType)                                \
   status += TestStreamWrite<scalarType, 2>(argv[1], 0);               \

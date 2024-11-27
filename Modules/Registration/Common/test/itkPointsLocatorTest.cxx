@@ -65,7 +65,7 @@ testPointsLocatorTest()
   coords[1] = 50;
   coords[2] = 50;
 
-  typename PointsLocatorType::PointIdentifier pointId = pointsLocator->FindClosestPoint(coords);
+  const typename PointsLocatorType::PointIdentifier pointId = pointsLocator->FindClosestPoint(coords);
   if (pointId != 49)
   {
     std::cerr << "Error with FindClosestPoint(), poindId does not match" << std::endl;
@@ -116,7 +116,7 @@ testPointsLocatorTest()
     std::cout << dist << " * " << distances[i] << std::endl;
   }
 
-  double radius = std::sqrt(3 * itk::Math::sqr(5.1));
+  const double radius = std::sqrt(3 * itk::Math::sqr(5.1));
 
   std::cout << "Test:  FindPointsWithinRadius()" << std::endl;
 

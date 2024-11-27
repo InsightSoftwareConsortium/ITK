@@ -46,7 +46,7 @@ main(int, char *[])
   // Used for NormalizedCorrelationPointSetToImageMetric
   using PointSetType = itk::PointSet<float, 2>;
 
-  itk::MattesMutualInformationImageToImageMetric<InputType, InputType>::Pointer
+  const itk::MattesMutualInformationImageToImageMetric<InputType, InputType>::Pointer
     MattesMutualInformationImageToImageMetricObj =
       itk::MattesMutualInformationImageToImageMetric<InputType, InputType>::New();
   std::cout << "-------------MattesMutualInformationImageToImageMetric "
@@ -55,67 +55,68 @@ main(int, char *[])
   /*itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::Pointer MeanSquaresPointSetToImageMetricObj =
     itk::MeanSquaresPointSetToImageMetric<InputType,OutputType>::New();
   std:: cout << "-------------MeanSquaresPointSetToImageMetric " << MeanSquaresPointSetToImageMetricObj;*/
-  itk::MeanSquaresImageToImageMetric<InputType, InputType>::Pointer MeanSquaresImageToImageMetricObj =
+  const itk::MeanSquaresImageToImageMetric<InputType, InputType>::Pointer MeanSquaresImageToImageMetricObj =
     itk::MeanSquaresImageToImageMetric<InputType, InputType>::New();
   std::cout << "-------------MeanSquaresImageToImageMetric " << MeanSquaresImageToImageMetricObj;
-  itk::MinMaxCurvatureFlowFunction<InputType>::Pointer MinMaxCurvatureFlowFunctionObj =
+  const itk::MinMaxCurvatureFlowFunction<InputType>::Pointer MinMaxCurvatureFlowFunctionObj =
     itk::MinMaxCurvatureFlowFunction<InputType>::New();
   std::cout << "-------------MinMaxCurvatureFlowFunction " << MinMaxCurvatureFlowFunctionObj;
 
-  itk::MinMaxCurvatureFlowImageFilter<InputType, OutputType>::Pointer MinMaxCurvatureFlowImageFilterObj =
+  const itk::MinMaxCurvatureFlowImageFilter<InputType, OutputType>::Pointer MinMaxCurvatureFlowImageFilterObj =
     itk::MinMaxCurvatureFlowImageFilter<InputType, OutputType>::New();
   std::cout << "-------------MinMaxCurvatureFlowImageFilter " << MinMaxCurvatureFlowImageFilterObj;
 
-  itk::MultiResolutionImageRegistrationMethod<InputType, InputType>::Pointer MultiResolutionImageRegistrationMethodObj =
-    itk::MultiResolutionImageRegistrationMethod<InputType, InputType>::New();
+  const itk::MultiResolutionImageRegistrationMethod<InputType, InputType>::Pointer
+    MultiResolutionImageRegistrationMethodObj =
+      itk::MultiResolutionImageRegistrationMethod<InputType, InputType>::New();
   std::cout << "-------------MultiResolutionImageRegistrationMethod " << MultiResolutionImageRegistrationMethodObj;
 
-  itk::MultiResolutionPDEDeformableRegistration<InputType, OutputType, VectorImageType>::Pointer
+  const itk::MultiResolutionPDEDeformableRegistration<InputType, OutputType, VectorImageType>::Pointer
     MultiResolutionPDEDeformableRegistrationObj =
       itk::MultiResolutionPDEDeformableRegistration<InputType, OutputType, VectorImageType>::New();
   std::cout << "-------------MultiResolutionPDEDeformableRegistration " << MultiResolutionPDEDeformableRegistrationObj;
 
-  itk::MultiResolutionPyramidImageFilter<InputType, OutputType>::Pointer MultiResolutionPyramidImageFilterObj =
+  const itk::MultiResolutionPyramidImageFilter<InputType, OutputType>::Pointer MultiResolutionPyramidImageFilterObj =
     itk::MultiResolutionPyramidImageFilter<InputType, OutputType>::New();
   std::cout << "-------------MultiResolutionPyramidImageFilter " << MultiResolutionPyramidImageFilterObj;
 
-  itk::MutualInformationImageToImageMetric<InputType, InputType>::Pointer MutualInformationImageToImageMetricObj =
+  const itk::MutualInformationImageToImageMetric<InputType, InputType>::Pointer MutualInformationImageToImageMetricObj =
     itk::MutualInformationImageToImageMetric<InputType, InputType>::New();
   std::cout << "-------------MutualInformationImageToImageMetric " << MutualInformationImageToImageMetricObj;
 
-  itk::NormalizedCorrelationImageToImageMetric<InputType, InputType>::Pointer
+  const itk::NormalizedCorrelationImageToImageMetric<InputType, InputType>::Pointer
     NormalizedCorrelationImageToImageMetricObj =
       itk::NormalizedCorrelationImageToImageMetric<InputType, InputType>::New();
   std::cout << "-------------NormalizedCorrelationImageToImageMetric " << NormalizedCorrelationImageToImageMetricObj;
 
-  itk::NormalizedCorrelationPointSetToImageMetric<PointSetType, InputType>::Pointer
+  const itk::NormalizedCorrelationPointSetToImageMetric<PointSetType, InputType>::Pointer
     NormalizedCorrelationPointSetToImageMetricObj =
       itk::NormalizedCorrelationPointSetToImageMetric<PointSetType, InputType>::New();
   std::cout << "-------------NormalizedCorrelationPointSetToImageMetric "
             << NormalizedCorrelationPointSetToImageMetricObj;
 
   using HistogramType = itk::Statistics::Histogram<double>;
-  itk::OtsuThresholdCalculator<HistogramType>::Pointer OtsuThresholdCalculatorObj =
+  const itk::OtsuThresholdCalculator<HistogramType>::Pointer OtsuThresholdCalculatorObj =
     itk::OtsuThresholdCalculator<HistogramType>::New();
   std::cout << "-------------OtsuThresholdCalculator " << OtsuThresholdCalculatorObj;
 
-  itk::PDEDeformableRegistrationFilter<InputType, InputType, VectorImageType>::Pointer
+  const itk::PDEDeformableRegistrationFilter<InputType, InputType, VectorImageType>::Pointer
     PDEDeformableRegistrationFilterObj =
       itk::PDEDeformableRegistrationFilter<InputType, InputType, VectorImageType>::New();
   std::cout << "-------------PDEDeformableRegistrationFilter " << PDEDeformableRegistrationFilterObj;
 
   // NOTE:  RGBGibbsPriorFilter only works in 3D
-  itk::RGBGibbsPriorFilter<VectorImageType3D, UShortImageType3D>::Pointer RGBGibbsPriorFilterObj =
+  const itk::RGBGibbsPriorFilter<VectorImageType3D, UShortImageType3D>::Pointer RGBGibbsPriorFilterObj =
     itk::RGBGibbsPriorFilter<VectorImageType3D, UShortImageType3D>::New();
   std::cout << "-------------RGBGibbsPriorFilter " << RGBGibbsPriorFilterObj;
 
-  itk::RecursiveMultiResolutionPyramidImageFilter<InputType, OutputType>::Pointer
+  const itk::RecursiveMultiResolutionPyramidImageFilter<InputType, OutputType>::Pointer
     RecursiveMultiResolutionPyramidImageFilterObj =
       itk::RecursiveMultiResolutionPyramidImageFilter<InputType, OutputType>::New();
   std::cout << "-------------RecursiveMultiResolutionPyramidImageFilter "
             << RecursiveMultiResolutionPyramidImageFilterObj;
 
-  itk::ReinitializeLevelSetImageFilter<InputType>::Pointer ReinitializeLevelSetImageFilterObj =
+  const itk::ReinitializeLevelSetImageFilter<InputType>::Pointer ReinitializeLevelSetImageFilterObj =
     itk::ReinitializeLevelSetImageFilter<InputType>::New();
   std::cout << "-------------ReinitializeLevelSetImageFilter " << ReinitializeLevelSetImageFilterObj;
 

@@ -56,7 +56,7 @@ itkCyclicReferences(int, char *[])
   // Test the deletion of an image with native type.
   // (scope operators cause automatic smart pointer destruction)
   { // image
-    itk::Image<float, 2>::Pointer            if2 = itk::Image<float, 2>::New();
+    const itk::Image<float, 2>::Pointer      if2 = itk::Image<float, 2>::New();
     DeleteEvent                              deleteEvent;
     itk::MemberCommand<DeleteEvent>::Pointer deleteCommand;
     deleteCommand = itk::MemberCommand<DeleteEvent>::New();

@@ -35,7 +35,7 @@ itkEventObjectTest(int, char *[])
 {
 
   // test constructor
-  itk::TestEvent event;
+  const itk::TestEvent event;
 
   itk::TestDerivedEvent derivedEvent;
 

@@ -139,10 +139,10 @@ main(int argc, char * argv[])
   metric->SetNumberOfHistogramBins(20);
 
 
-  double samplingPercentage = 0.20;
+  const double samplingPercentage = 0.20;
   registration->SetMetricSamplingPercentage(samplingPercentage);
 
-  RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
+  const RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
     RegistrationType::MetricSamplingStrategyEnum::RANDOM;
   registration->SetMetricSamplingStrategy(samplingStrategy);
   // Software Guide : EndCodeSnippet
@@ -275,9 +275,9 @@ main(int argc, char * argv[])
   const double rotationCenterY =
     registration->GetOutput()->Get()->GetFixedParameters()[1];
 
-  unsigned int numberOfIterations = optimizer->GetCurrentIteration();
+  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
-  double bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
   //
@@ -303,7 +303,7 @@ main(int argc, char * argv[])
   resample->SetTransform(transform);
   resample->SetInput(movingImageReader->GetOutput());
 
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resample->SetOutputOrigin(fixedImage->GetOrigin());

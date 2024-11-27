@@ -22,7 +22,7 @@ namespace itk
 void
 EventObject::Print(std::ostream & os) const
 {
-  Indent indent;
+  const Indent indent;
 
   this->PrintHeader(os, 0);
   this->PrintSelf(os, indent.GetNextIndent());

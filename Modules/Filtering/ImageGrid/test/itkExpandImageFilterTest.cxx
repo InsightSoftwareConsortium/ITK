@@ -82,8 +82,8 @@ itkExpandImageFilterTest(int, char *[])
   int testPassed = EXIT_SUCCESS;
 
   std::cout << "Create the input image pattern." << std::endl;
-  ImageType::RegionType region;
-  ImageType::SizeType   size = { { 64, 64 } };
+  ImageType::RegionType     region;
+  const ImageType::SizeType size = { { 64, 64 } };
   region.SetSize(size);
 
   auto input = ImageType::New();
@@ -119,8 +119,8 @@ itkExpandImageFilterTest(int, char *[])
 
   expander->SetExpandFactors(5);
 
-  unsigned int         factors[ImageDimension] = { 2, 3 };
-  ImageType::PixelType padValue = 4.0;
+  unsigned int               factors[ImageDimension] = { 2, 3 };
+  const ImageType::PixelType padValue = 4.0;
   expander->SetInput(input);
   expander->SetExpandFactors(factors);
   // TEST_RMV20100728   expander->SetEdgePaddingValue( padValue );
@@ -139,8 +139,8 @@ itkExpandImageFilterTest(int, char *[])
   Iterator outIter(expander->GetOutput(), expander->GetOutput()->GetBufferedRegion());
 
   // compute non-padded output region
-  ImageType::RegionType validRegion = expander->GetOutput()->GetLargestPossibleRegion();
-  ImageType::SizeType   validSize = validRegion.GetSize();
+  ImageType::RegionType     validRegion = expander->GetOutput()->GetLargestPossibleRegion();
+  const ImageType::SizeType validSize = validRegion.GetSize();
 
   validRegion.SetSize(validSize);
 
@@ -148,18 +148,18 @@ itkExpandImageFilterTest(int, char *[])
 
   while (!outIter.IsAtEnd())
   {
-    ImageType::IndexType index = outIter.GetIndex();
-    double               value = outIter.Get();
+    const ImageType::IndexType index = outIter.GetIndex();
+    const double               value = outIter.Get();
 
     if (validRegion.IsInside(index))
     {
 
       ImageType::PointType point;
       expanderOutput->TransformIndexToPhysicalPoint(outIter.GetIndex(), point);
-      ImageType::IndexType inputIndex = input->TransformPhysicalPointToIndex(point);
-      double               trueValue = pattern.Evaluate(inputIndex);
+      const ImageType::IndexType inputIndex = input->TransformPhysicalPointToIndex(point);
+      const double               trueValue = pattern.Evaluate(inputIndex);
 
-      double epsilon = 1e-4;
+      const double epsilon = 1e-4;
       if (itk::Math::abs(trueValue - value) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));

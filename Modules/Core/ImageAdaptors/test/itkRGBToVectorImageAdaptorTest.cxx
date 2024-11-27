@@ -64,7 +64,7 @@ itkRGBToVectorImageAdaptorTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  ImageType::RegionType region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
   auto image = ImageType::New();
 

@@ -137,7 +137,7 @@ main(int, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::Pointer image = reader->GetOutput();
+  const ImageType::Pointer image = reader->GetOutput();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

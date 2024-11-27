@@ -84,7 +84,7 @@ itkKalmanLinearEstimatorTest(int, char *[])
     }
   }
 
-  VectorType estimation = filter.GetEstimator();
+  const VectorType estimation = filter.GetEstimator();
 
   std::cout << std::endl << "The Right answer should be : " << std::endl;
   std::cout << planeEquation;
@@ -92,8 +92,8 @@ itkKalmanLinearEstimatorTest(int, char *[])
   std::cout << std::endl << "The Estimation is : " << std::endl;
   std::cout << estimation;
 
-  VectorType error = estimation - planeEquation;
-  ValueType  errorMagnitude = dot_product(error, error);
+  const VectorType error = estimation - planeEquation;
+  const ValueType  errorMagnitude = dot_product(error, error);
 
   std::cout << std::endl << "Errors : " << std::endl;
   std::cout << error;

@@ -144,7 +144,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     double normalizationFactor = 1.0;
     ITK_TEST_SET_GET_VALUE(normalizationFactor, fmm->GetNormalizationFactor());
 
-    typename ImageFastMarching::OutputPixelType targetReachedValue{};
+    const typename ImageFastMarching::OutputPixelType targetReachedValue{};
     ITK_TEST_EXPECT_EQUAL(targetReachedValue, fmm->GetTargetReachedValue());
 
     bool collectPoints = false;
@@ -157,9 +157,9 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 
     auto                                     processedPoints = ImageFastMarching::NodePairContainerType::New();
     typename ImageFastMarching::NodePairType node_pair;
-    ImageType::OffsetType                    offset = { { 28, 35 } };
+    const ImageType::OffsetType              offset = { { 28, 35 } };
 
-    itk::Index<Dimension> index{};
+    const itk::Index<Dimension> index{};
 
     node_pair.SetValue(0.0);
     node_pair.SetNode(index + offset);
@@ -189,7 +189,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 
 
     using OutputImageType = ImageFastMarching::OutputDomainType;
-    [[maybe_unused]] OutputImageType::Pointer output = fmm->GetOutput();
+    [[maybe_unused]] const OutputImageType::Pointer output = fmm->GetOutput();
   }
   else if (useMeshVsImage == 1)
   {
@@ -205,7 +205,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 
 
     using OutputMeshType = MeshFastMarching::OutputDomainType;
-    [[maybe_unused]] OutputMeshType::Pointer output = fmm->GetOutput();
+    [[maybe_unused]] const OutputMeshType::Pointer output = fmm->GetOutput();
   }
 
   // Test streaming enumeration for FastMarchingTraitsEnums::TopologyCheck elements

@@ -29,13 +29,13 @@ itkRealTimeClockTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   try
   {
 
     // Create an ITK RealTimeClock
-    itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
+    const itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(clock, RealTimeClock, Object);
 
     std::cout << "Testing itk::RealTimeClock" << std::endl;
@@ -68,17 +68,17 @@ itkRealTimeClockTest(int, char *[])
 
     using TimeRepresentationType = itk::RealTimeStamp::TimeRepresentationType;
 
-    TimeRepresentationType tolerance = 1e6;
+    const TimeRepresentationType tolerance = 1e6;
 
     for (unsigned int i = 0; i < 10; ++i)
     {
       realStamp1 = realStamp2;
       realStamp2 = clock->GetRealTimeStamp();
-      itk::RealTimeInterval                      difference = realStamp2 - realStamp1;
-      itk::RealTimeStamp::TimeRepresentationType seconds1 = realStamp1.GetTimeInSeconds();
-      itk::RealTimeStamp::TimeRepresentationType seconds2 = realStamp2.GetTimeInSeconds();
-      itk::RealTimeStamp::TimeRepresentationType secondsD = difference.GetTimeInSeconds();
-      itk::RealTimeStamp::TimeRepresentationType secondsE = seconds2 - seconds1;
+      const itk::RealTimeInterval                      difference = realStamp2 - realStamp1;
+      const itk::RealTimeStamp::TimeRepresentationType seconds1 = realStamp1.GetTimeInSeconds();
+      const itk::RealTimeStamp::TimeRepresentationType seconds2 = realStamp2.GetTimeInSeconds();
+      const itk::RealTimeStamp::TimeRepresentationType secondsD = difference.GetTimeInSeconds();
+      const itk::RealTimeStamp::TimeRepresentationType secondsE = seconds2 - seconds1;
       std::cout << realStamp2 << " - " << realStamp1 << " = ";
       std::cout << secondsD << " = " << secondsE << std::endl;
 

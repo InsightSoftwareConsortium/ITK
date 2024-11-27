@@ -41,7 +41,7 @@ ImageRegionSplitterMultidimensional::GetNumberOfSplitsInternal(unsigned int     
   // number of splits in each dimension
   std::vector<unsigned int> splits(dim); // Note: stack allocation preferred
 
-  unsigned int numberOfPieces = this->ComputeSplits(dim, requestedNumber, regionIndex, regionSize, &splits[0]);
+  const unsigned int numberOfPieces = this->ComputeSplits(dim, requestedNumber, regionIndex, regionSize, &splits[0]);
 
   return numberOfPieces;
 }

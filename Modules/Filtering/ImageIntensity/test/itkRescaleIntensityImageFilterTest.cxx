@@ -42,7 +42,7 @@ itkRescaleIntensityImageFilterTest(int, char *[])
 
   auto size = TestInputImage::SizeType::Filled(64);
 
-  TestInputImage::IndexType index{};
+  const TestInputImage::IndexType index{};
 
   region.SetIndex(index);
   region.SetSize(size);
@@ -63,8 +63,8 @@ itkRescaleIntensityImageFilterTest(int, char *[])
 
   // Set up source
   source->SetSize(randomSize);
-  double minValue = -128.0;
-  double maxValue = 127.0;
+  const double minValue = -128.0;
+  const double maxValue = 127.0;
 
   source->SetMin(static_cast<TestInputImage::PixelType>(minValue));
   source->SetMax(static_cast<TestInputImage::PixelType>(maxValue));

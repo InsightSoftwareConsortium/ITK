@@ -60,7 +60,7 @@ typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPoint
 
   for (NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
-    PointType         neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
+    const PointType   neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
     const MeasureType distance = point.SquaredEuclideanDistanceTo(neighbor);
     localValue -= this->m_PreFactor * std::exp(-distance / this->m_Denominator);
   }
@@ -92,7 +92,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 
   for (NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
-    PointType         neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
+    const PointType   neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
     const MeasureType distance = point.SquaredEuclideanDistanceTo(neighbor);
     measureValues[it - neighborhood.begin()] = -this->m_PreFactor * std::exp(-distance / this->m_Denominator);
     measureSum += measureValues[it - neighborhood.begin()];
@@ -106,8 +106,8 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 
   for (NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
-    PointType  neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
-    VectorType neighborVector = neighbor.GetVectorFromOrigin();
+    const PointType  neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
+    const VectorType neighborVector = neighbor.GetVectorFromOrigin();
     weightedPoint += (neighborVector * measureValues[it - neighborhood.begin()] / measure);
   }
 

@@ -76,7 +76,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   constexpr unsigned int     index_offset = 6543;
   const ImageType::IndexType index = { { index_offset, index_offset, index_offset } };
 
-  ImageType::RegionType region{ index, size };
+  const ImageType::RegionType region{ index, size };
   image->SetRegions(region);
   image->AllocateInitialized();
 
@@ -176,8 +176,8 @@ itkImageMaskSpatialObjectTest2(int, char *[])
 
   // Check if insideregion is properly computed at the image boundary
   {
-    ImageType::IndexType startPointIndex = { { INSIDE_SIZE - 2, INSIDE_SIZE - 2, INSIDE_SIZE - 2 } };
-    ImageType::IndexType endPointIndex = {
+    const ImageType::IndexType startPointIndex = { { INSIDE_SIZE - 2, INSIDE_SIZE - 2, INSIDE_SIZE - 2 } };
+    const ImageType::IndexType endPointIndex = {
       { INSIDE_INDEX + INSIDE_SIZE + 2, INSIDE_INDEX + INSIDE_SIZE + 2, INSIDE_INDEX + INSIDE_SIZE + 2 }
     };
     ImageType::PointType startPoint;
@@ -202,7 +202,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       const bool isZero = (itk::Math::ExactlyEquals(value, PixelType{}));
       if ((isInside && isZero) || (!isInside && !isZero))
       {
-        ImageType::IndexType pointIndex = image->TransformPhysicalPointToIndex(point);
+        const ImageType::IndexType pointIndex = image->TransformPhysicalPointToIndex(point);
         std::cerr
           << "Error in the evaluation ValueAt and IsInside (all the points inside the mask shall have non-zero value) "
           << std::endl;

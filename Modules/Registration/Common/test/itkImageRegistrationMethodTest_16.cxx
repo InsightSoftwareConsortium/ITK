@@ -91,8 +91,8 @@ DoRegistration()
 
   imageSource->GenerateImages(size);
 
-  typename FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
-  typename MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
+  const typename FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  const typename MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
   // Connect all the components required for Registratio
@@ -118,9 +118,9 @@ DoRegistration()
   scales.Fill(1.0);
 
 
-  unsigned long numberOfIterations = 100;
-  double        translationScale = 1e-6;
-  double        learningRate = 1e-8;
+  const unsigned long numberOfIterations = 100;
+  const double        translationScale = 1e-6;
+  const double        learningRate = 1e-8;
 
   for (unsigned int i = 0; i < dimension; ++i)
   {
@@ -176,16 +176,16 @@ DoRegistration()
 int
 itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char *[] itkNotUsed(argv))
 {
-  bool result_uc = DoRegistration<unsigned char>();
-  bool result_c = DoRegistration<char>();
-  bool result_us = DoRegistration<unsigned short>();
-  bool result_s = DoRegistration<short>();
-  bool result_ui = DoRegistration<unsigned int>();
-  bool result_i = DoRegistration<int>();
-  bool result_ul = DoRegistration<unsigned long>();
-  bool result_l = DoRegistration<long>();
-  bool result_f = DoRegistration<float>();
-  bool result_d = DoRegistration<double>();
+  const bool result_uc = DoRegistration<unsigned char>();
+  const bool result_c = DoRegistration<char>();
+  const bool result_us = DoRegistration<unsigned short>();
+  const bool result_s = DoRegistration<short>();
+  const bool result_ui = DoRegistration<unsigned int>();
+  const bool result_i = DoRegistration<int>();
+  const bool result_ul = DoRegistration<unsigned long>();
+  const bool result_l = DoRegistration<long>();
+  const bool result_f = DoRegistration<float>();
+  const bool result_d = DoRegistration<double>();
 
   std::cout << "<unsigned char>:  " << result_uc << std::endl;
   std::cout << "<char>:           " << result_c << std::endl;

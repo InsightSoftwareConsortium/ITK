@@ -36,10 +36,10 @@ ThreadedIteratorRangePartitioner<TIterator>::PartitionDomain(const ThreadIdType 
   // overallIndexRange is expected to be inclusive
 
   // determine the actual number of pieces that will be generated
-  ThreadIdType count = std::distance(completeDomain.Begin(), completeDomain.End());
+  const ThreadIdType count = std::distance(completeDomain.Begin(), completeDomain.End());
 
   auto valuesPerThread = Math::Ceil<ThreadIdType>(static_cast<double>(count) / static_cast<double>(requestedTotal));
-  ThreadIdType maxThreadIdUsed =
+  const ThreadIdType maxThreadIdUsed =
     Math::Ceil<ThreadIdType>(static_cast<double>(count) / static_cast<double>(valuesPerThread)) - 1;
 
   if (threadId > maxThreadIdUsed)

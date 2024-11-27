@@ -30,10 +30,10 @@ itkListSampleTest(int argc, char * argv[])
   using MeasurementVectorType = itk::Array<float>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  SampleType::MeasurementVectorSizeType measurementVectorSize = std::stoi(argv[1]);
+  const SampleType::MeasurementVectorSizeType measurementVectorSize = std::stoi(argv[1]);
   std::cerr << "Measurement vector size: " << measurementVectorSize << std::endl;
 
-  unsigned int sampleSize = 25;
+  const unsigned int sampleSize = 25;
 
   auto sample = SampleType::New();
 
@@ -115,7 +115,7 @@ itkListSampleTest(int argc, char * argv[])
   }
 
   std::cerr << "Trying SetMeasurementVector(4,mv)...";
-  float tmp = mv[0];
+  const float tmp = mv[0];
   mv[0] += 1.0;
   sample->SetMeasurementVector(4, mv);
   if (mv != sample->GetMeasurementVector(4))
@@ -165,7 +165,7 @@ itkListSampleTest(int argc, char * argv[])
     IteratorType s_iter = sample->Begin();
 
     // copy constructor
-    IteratorType bs_iter(s_iter);
+    const IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
       std::cerr << "FAILED" << std::endl;
@@ -259,7 +259,7 @@ itkListSampleTest(int argc, char * argv[])
     ConstIteratorType s_iter = sample->Begin();
 
     // copy constructor
-    ConstIteratorType bs_iter(s_iter);
+    const ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
       std::cerr << "FAILED" << std::endl;
@@ -286,8 +286,8 @@ itkListSampleTest(int argc, char * argv[])
 
     // copy from non-const iterator
     std::cerr << "Trying Iterator::Copy Constructor (from non-const)...";
-    SampleType::Iterator      nonconst_iter = sample->Begin();
-    SampleType::ConstIterator s2_iter(nonconst_iter);
+    const SampleType::Iterator nonconst_iter = sample->Begin();
+    SampleType::ConstIterator  s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
       std::cerr << "FAILED" << std::endl;
@@ -398,7 +398,7 @@ itkListSampleTest(int argc, char * argv[])
   constexpr unsigned int initialSize = 19;
   variableSizeSample->SetMeasurementVectorSize(initialSize);
 
-  unsigned int returnedSize = variableSizeSample->GetMeasurementVectorSize();
+  const unsigned int returnedSize = variableSizeSample->GetMeasurementVectorSize();
 
   if (initialSize != returnedSize)
   {
@@ -449,7 +449,7 @@ itkListSampleTest(int argc, char * argv[])
   bool               exceptionWorks = false;
   try
   {
-    MeasurementVectorType measurement = sample->GetMeasurementVector(largestId + 10);
+    const MeasurementVectorType measurement = sample->GetMeasurementVector(largestId + 10);
     std::cerr << measurement << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
@@ -492,8 +492,8 @@ itkListSampleTest(int argc, char * argv[])
   // Testing methods specific to Iterators
   {
     using IteratorType = SampleType::Iterator;
-    IteratorType iter = sample->Begin();
-    IteratorType iter2 = sample->Begin();
+    const IteratorType iter = sample->Begin();
+    IteratorType       iter2 = sample->Begin();
 
     std::cerr << "Trying Iterator operator=()...";
     iter2 = iter;
@@ -538,7 +538,7 @@ itkListSampleTest(int argc, char * argv[])
     }
 
     std::cerr << "Trying Iterator copy constructor...";
-    IteratorType iter4(iter2);
+    const IteratorType iter4(iter2);
     if (iter4 != iter2)
     {
       std::cerr << "FAILED" << std::endl;
@@ -550,7 +550,7 @@ itkListSampleTest(int argc, char * argv[])
     }
 
     std::cerr << "Trying Iterator operator=...";
-    IteratorType iter5 = iter2;
+    const IteratorType iter5 = iter2;
     if (iter5 != iter2)
     {
       std::cerr << "FAILED" << std::endl;
@@ -583,8 +583,8 @@ itkListSampleTest(int argc, char * argv[])
   {
     std::cerr << "Trying ConstIterator operator!=() and operator=()...";
     using ConstIteratorType = SampleType::ConstIterator;
-    ConstIteratorType iter = sample->Begin();
-    ConstIteratorType iter2 = sample->End();
+    const ConstIteratorType iter = sample->Begin();
+    ConstIteratorType       iter2 = sample->End();
 
     iter2 = iter;
 
@@ -605,7 +605,7 @@ itkListSampleTest(int argc, char * argv[])
     }
 
     std::cerr << "Trying ConstIterator copy constructor...";
-    ConstIteratorType iter3(iter2);
+    const ConstIteratorType iter3(iter2);
     if (iter3 != iter2)
     {
       std::cerr << "FAILED" << std::endl;
@@ -619,8 +619,8 @@ itkListSampleTest(int argc, char * argv[])
     std::cerr << "Trying Constructor from const container Begin() differs from non-const Begin()...";
     const SampleType * constSample = sample.GetPointer();
 
-    ConstIteratorType iter4(constSample->Begin());
-    ConstIteratorType iter5(sample->Begin());
+    const ConstIteratorType iter4(constSample->Begin());
+    const ConstIteratorType iter5(sample->Begin());
     if (iter4 != iter5)
     {
       std::cerr << "FAILED" << std::endl;
@@ -632,8 +632,8 @@ itkListSampleTest(int argc, char * argv[])
     }
 
     std::cerr << "Trying ConstIterator Constructor from const container differs from non-const container...";
-    ConstIteratorType iter6(constSample);
-    ConstIteratorType iter7(sample);
+    const ConstIteratorType iter6(constSample);
+    const ConstIteratorType iter7(sample);
     if (iter6 != iter7)
     {
       std::cerr << "FAILED" << std::endl;
@@ -645,7 +645,7 @@ itkListSampleTest(int argc, char * argv[])
     }
 
     std::cerr << "Trying Constructor with instance identifier 0...";
-    ConstIteratorType iter8(sample);
+    const ConstIteratorType iter8(sample);
     if (iter8.GetInstanceIdentifier() != 0)
     {
       std::cerr << "FAILED" << std::endl;

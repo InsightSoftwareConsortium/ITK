@@ -48,7 +48,7 @@ itkSimplexMeshAdaptTopologyFilterTest(int argc, char * argv[])
   auto                 mySphereMeshSource = SphereMeshSourceType::New();
   auto                 center = itk::MakeFilled<PointType>(10);
   PointType::ValueType scaleInit[3] = { 3, 3, 3 };
-  VectorType           scale = scaleInit;
+  const VectorType     scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(2);
@@ -60,7 +60,7 @@ itkSimplexMeshAdaptTopologyFilterTest(int argc, char * argv[])
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
   simplexFilter->Update();
 
-  SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
+  const SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   simplexMesh->DisconnectPipeline();
 
   std::cout << "Simplex Mesh: " << simplexMesh << std::endl;

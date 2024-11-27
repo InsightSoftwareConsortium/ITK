@@ -55,7 +55,7 @@ itkNrrdVectorImageReadWriteTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  myImage::Pointer image = reader->GetOutput();
+  const myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout);
 
   // Generate test image

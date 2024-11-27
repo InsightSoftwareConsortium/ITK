@@ -39,7 +39,7 @@ Directory::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Directory for: " << m_Internal.GetPath() << '\n';
   os << indent << "Contains the following files:\n";
   indent = indent.GetNextIndent();
-  unsigned long numFiles = m_Internal.GetNumberOfFiles();
+  const unsigned long numFiles = m_Internal.GetNumberOfFiles();
   for (unsigned long i = 0; i < numFiles; ++i)
   {
     os << indent << m_Internal.GetFile(i) << '\n';

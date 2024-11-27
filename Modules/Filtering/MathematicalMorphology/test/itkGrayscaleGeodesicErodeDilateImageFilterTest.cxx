@@ -104,8 +104,8 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
 
   writer->SetInput(erode->GetOutput());
 
-  itk::SimpleFilterWatcher watchDilate(dilate);
-  itk::SimpleFilterWatcher watchErode(erode);
+  const itk::SimpleFilterWatcher watchDilate(dilate);
+  const itk::SimpleFilterWatcher watchErode(erode);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 

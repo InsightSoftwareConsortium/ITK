@@ -64,7 +64,7 @@ itkFFTShiftImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(filter, Inverse, inverse);
 
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

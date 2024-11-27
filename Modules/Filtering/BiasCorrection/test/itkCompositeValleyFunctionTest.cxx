@@ -27,7 +27,7 @@ itkCompositeValleyFunctionTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   itk::Array<double> means(2);
   itk::Array<double> sigmas(2);
@@ -54,8 +54,8 @@ itkCompositeValleyFunctionTest(int, char *[])
   std::cout.setf(std::ios::scientific);
   std::cout.precision(12);
 
-  double interval1 = function.GetInterval();
-  double interval2 = (function.GetUpperBound() - function.GetLowerBound()) / (1000000.0 - 1.0);
+  const double interval1 = function.GetInterval();
+  const double interval2 = (function.GetUpperBound() - function.GetLowerBound()) / (1000000.0 - 1.0);
   if (itk::Math::abs(interval1 - interval2) > itk::NumericTraits<double>::epsilon())
   {
     std::cout << "Test fails: GetInterval()" << std::endl;
@@ -64,10 +64,10 @@ itkCompositeValleyFunctionTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  long   numberOfSamples = function.GetNumberOfSamples();
-  double measure = function.GetLowerBound() + interval1 * numberOfSamples * 0.5;
-  double value1 = function(measure);
-  double value2 = function.Evaluate(measure);
+  const long   numberOfSamples = function.GetNumberOfSamples();
+  const double measure = function.GetLowerBound() + interval1 * numberOfSamples * 0.5;
+  const double value1 = function(measure);
+  const double value2 = function.Evaluate(measure);
 
   if (itk::Math::abs(value1 - value2) > itk::NumericTraits<double>::epsilon())
   {

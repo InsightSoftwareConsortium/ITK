@@ -100,7 +100,7 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
     auto fft = FFTInverseType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, Inverse1DFFTImageFilter, ImageToImageFilter);
 
-    itk::SizeValueType sizeGreatestPrimeFactor = 2;
+    const itk::SizeValueType sizeGreatestPrimeFactor = 2;
     ITK_TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, fft->GetSizeGreatestPrimeFactor());
 
 

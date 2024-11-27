@@ -49,7 +49,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::BSpl
   m_Coefficients = CoefficientImageType::New();
 
   m_SplineOrder = 0;
-  unsigned int SplineOrder = 3;
+  const unsigned int SplineOrder = 3;
   this->SetSplineOrder(SplineOrder);
 }
 
@@ -181,7 +181,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetI
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        double w = x[n] - static_cast<double>(EvaluateIndex[n][1]);
+        const double w = x[n] - static_cast<double>(EvaluateIndex[n][1]);
         weights[n][3] = (1.0 / 6.0) * w * w * w;
         weights[n][0] = (1.0 / 6.0) + 0.5 * w * (w - 1.0) - weights[n][3];
         weights[n][2] = w + weights[n][0] - 2.0 * weights[n][3];
@@ -201,7 +201,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetI
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        double w = x[n] - static_cast<double>(EvaluateIndex[n][0]);
+        const double w = x[n] - static_cast<double>(EvaluateIndex[n][0]);
         weights[n][1] = w;
         weights[n][0] = 1.0 - w;
       }
@@ -212,7 +212,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetI
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         /* x */
-        double w = x[n] - static_cast<double>(EvaluateIndex[n][1]);
+        const double w = x[n] - static_cast<double>(EvaluateIndex[n][1]);
         weights[n][1] = 0.75 - w * w;
         weights[n][2] = 0.5 * (w - weights[n][1] + 1.0);
         weights[n][0] = 1.0 - weights[n][1] - weights[n][2];
@@ -224,14 +224,14 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetI
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         /* x */
-        double w = x[n] - static_cast<double>(EvaluateIndex[n][2]);
-        double w2 = w * w;
-        double t = (1.0 / 6.0) * w2;
+        const double w = x[n] - static_cast<double>(EvaluateIndex[n][2]);
+        const double w2 = w * w;
+        const double t = (1.0 / 6.0) * w2;
         weights[n][0] = 0.5 - w;
         weights[n][0] *= weights[n][0];
         weights[n][0] *= (1.0 / 24.0) * weights[n][0];
-        double t0 = w * (t - 11.0 / 24.0);
-        double t1 = 19.0 / 96.0 + w2 * (0.25 - t);
+        const double t0 = w * (t - 11.0 / 24.0);
+        const double t1 = 19.0 / 96.0 + w2 * (0.25 - t);
         weights[n][1] = t1 + t0;
         weights[n][3] = t1 - t0;
         weights[n][4] = weights[n][0] + t0 + 0.5 * w;
@@ -248,9 +248,9 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetI
         double w2 = w * w;
         weights[n][5] = (1.0 / 120.0) * w * w2 * w2;
         w2 -= w;
-        double w4 = w2 * w2;
+        const double w4 = w2 * w2;
         w -= 0.5;
-        double t = w2 * (w2 - 3.0);
+        const double t = w2 * (w2 - 3.0);
         weights[n][0] = (1.0 / 24.0) * (1.0 / 5.0 + w2 + w4) - weights[n][5];
         double t0 = (1.0 / 24.0) * (w2 * (w2 - 5.0) + 46.0 / 5.0);
         double t1 = (-1.0 / 12.0) * w * (t + 4.0);
@@ -289,7 +289,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetD
   // the number
   // of switch statement executions to one per routine call.
   // Left as is for now for readability.
-  int derivativeSplineOrder = static_cast<int>(splineOrder) - 1;
+  const int derivativeSplineOrder = static_cast<int>(splineOrder) - 1;
 
   switch (derivativeSplineOrder)
   {
@@ -317,9 +317,9 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetD
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        double w = x[n] + 0.5 - static_cast<double>(EvaluateIndex[n][1]);
+        const double w = x[n] + 0.5 - static_cast<double>(EvaluateIndex[n][1]);
         // w2 = w;
-        double w1 = 1.0 - w;
+        const double w1 = 1.0 - w;
 
         weights[n][0] = 0.0 - w1;
         weights[n][1] = w1 - w;
@@ -331,10 +331,10 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetD
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        double w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][2]);
-        double w2 = 0.75 - w * w;
-        double w3 = 0.5 * (w - w2 + 1.0);
-        double w1 = 1.0 - w2 - w3;
+        const double w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][2]);
+        const double w2 = 0.75 - w * w;
+        const double w3 = 0.5 * (w - w2 + 1.0);
+        const double w1 = 1.0 - w2 - w3;
 
         weights[n][0] = 0.0 - w1;
         weights[n][1] = w1 - w2;
@@ -347,11 +347,11 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetD
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        double w = x[n] + 0.5 - static_cast<double>(EvaluateIndex[n][2]);
-        double w4 = (1.0 / 6.0) * w * w * w;
-        double w1 = (1.0 / 6.0) + 0.5 * w * (w - 1.0) - w4;
-        double w3 = w + w1 - 2.0 * w4;
-        double w2 = 1.0 - w1 - w3 - w4;
+        const double w = x[n] + 0.5 - static_cast<double>(EvaluateIndex[n][2]);
+        const double w4 = (1.0 / 6.0) * w * w * w;
+        const double w1 = (1.0 / 6.0) + 0.5 * w * (w - 1.0) - w4;
+        const double w3 = w + w1 - 2.0 * w4;
+        const double w2 = 1.0 - w1 - w3 - w4;
 
         weights[n][0] = 0.0 - w1;
         weights[n][1] = w1 - w2;
@@ -365,18 +365,18 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetD
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        double w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][3]);
-        double t2 = w * w;
-        double t = (1.0 / 6.0) * t2;
-        double w1 = 0.5 - w;
+        const double w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][3]);
+        const double t2 = w * w;
+        const double t = (1.0 / 6.0) * t2;
+        double       w1 = 0.5 - w;
         w1 *= w1;
         w1 *= (1.0 / 24.0) * w1;
-        double t0 = w * (t - 11.0 / 24.0);
-        double t1 = 19.0 / 96.0 + t2 * (0.25 - t);
-        double w2 = t1 + t0;
-        double w4 = t1 - t0;
-        double w5 = w1 + t0 + 0.5 * w;
-        double w3 = 1.0 - w1 - w2 - w4 - w5;
+        const double t0 = w * (t - 11.0 / 24.0);
+        const double t1 = 19.0 / 96.0 + t2 * (0.25 - t);
+        const double w2 = t1 + t0;
+        const double w4 = t1 - t0;
+        const double w5 = w1 + t0 + 0.5 * w;
+        const double w3 = 1.0 - w1 - w2 - w4 - w5;
 
         weights[n][0] = 0.0 - w1;
         weights[n][1] = w1 - w2;
@@ -516,7 +516,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Eval
     double w = 1.0;
     for (unsigned int n = 0; n < ImageDimension; ++n)
     {
-      unsigned int indx = m_PointsToIndex[p][n];
+      const unsigned int indx = m_PointsToIndex[p][n];
       w *= (weights)[n][indx];
       coefficientIndex[n] = (evaluateIndex)[n][indx];
     }
@@ -558,11 +558,11 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::
     {
       indx = m_PointsToIndex[p][n];
       coefficientIndex[n] = (evaluateIndex)[n][indx];
-      double tmpW = (weights)[n][indx];
+      const double tmpW = (weights)[n][indx];
       w *= tmpW;
       w1 *= tmpW;
     }
-    double tmpV = m_Coefficients->GetPixel(coefficientIndex);
+    const double tmpV = m_Coefficients->GetPixel(coefficientIndex);
     value += w * tmpV;
     derivativeValue[0] += w1 * tmpV;
   }
@@ -575,7 +575,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::
       double w1 = 1.0;
       for (unsigned int n1 = 0; n1 < ImageDimension; ++n1)
       {
-        unsigned int indx = m_PointsToIndex[p][n1];
+        const unsigned int indx = m_PointsToIndex[p][n1];
         coefficientIndex[n1] = (evaluateIndex)[n1][indx];
 
         if (n1 == n)
@@ -631,7 +631,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Eval
       double tempValue = 1.0;
       for (unsigned int n1 = 0; n1 < ImageDimension; ++n1)
       {
-        unsigned int indx = m_PointsToIndex[p][n1];
+        const unsigned int indx = m_PointsToIndex[p][n1];
         coefficientIndex[n1] = (evaluateIndex)[n1][indx];
 
         if (n1 == n)

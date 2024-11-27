@@ -38,9 +38,9 @@ itkHeavisideStepFunctionTest1(int, char *[])
 
   for (int x = minValue; x < maxValue; ++x)
   {
-    const InputType ix = x * incValue;
-    OutputType      f = functionBase0->Evaluate(ix);
-    OutputType      df = functionBase0->EvaluateDerivative(ix);
+    const InputType  ix = x * incValue;
+    const OutputType f = functionBase0->Evaluate(ix);
+    const OutputType df = functionBase0->EvaluateDerivative(ix);
     std::cout << ix << ' ' << f << ' ' << df << std::endl;
   }
 

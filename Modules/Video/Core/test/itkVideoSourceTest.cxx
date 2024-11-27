@@ -75,10 +75,11 @@ protected:
     std::cout << "Working on thread " << threadId << std::endl;
     this->m_Mutex.unlock();
 
-    OutputVideoStreamType *                            video = this->GetOutput();
-    typename OutputVideoStreamType::TemporalRegionType requestedTemporalRegion = video->GetRequestedTemporalRegion();
-    SizeValueType                                      startFrame = requestedTemporalRegion.GetFrameStart();
-    SizeValueType                                      frameDuration = requestedTemporalRegion.GetFrameDuration();
+    OutputVideoStreamType *                                  video = this->GetOutput();
+    const typename OutputVideoStreamType::TemporalRegionType requestedTemporalRegion =
+      video->GetRequestedTemporalRegion();
+    const SizeValueType startFrame = requestedTemporalRegion.GetFrameStart();
+    const SizeValueType frameDuration = requestedTemporalRegion.GetFrameDuration();
 
     // Just as a check, throw an exception if the duration isn't equal to the
     // unit output size
@@ -112,9 +113,9 @@ CreateEmptyFrame()
 {
   auto out = FrameType::New();
 
-  FrameType::RegionType largestRegion;
-  FrameType::SizeType   sizeLR;
-  FrameType::IndexType  startLR{};
+  FrameType::RegionType      largestRegion;
+  FrameType::SizeType        sizeLR;
+  const FrameType::IndexType startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
   largestRegion.SetSize(sizeLR);
@@ -182,7 +183,7 @@ itkVideoSourceTest(int, char *[])
   videoSource->GraftOutput(video);
 
   // Check that graft worked
-  VideoType::Pointer videoOut = videoSource->GetOutput();
+  const VideoType::Pointer videoOut = videoSource->GetOutput();
   if (videoOut->GetLargestPossibleTemporalRegion() != video->GetLargestPossibleTemporalRegion() ||
       videoOut->GetRequestedTemporalRegion() != video->GetRequestedTemporalRegion() ||
       videoOut->GetBufferedTemporalRegion() != video->GetBufferedTemporalRegion())
@@ -204,10 +205,10 @@ itkVideoSourceTest(int, char *[])
   videoSource = VideoSourceType::New();
 
   // Set the requested regions on videoSource's output
-  VideoType::Pointer output = videoSource->GetOutput();
+  const VideoType::Pointer output = videoSource->GetOutput();
   output->SetRequestedTemporalRegion(requestedRegion);
   output->InitializeEmptyFrames();
-  FrameType::RegionType spatialRegion = frame->GetRequestedRegion();
+  const FrameType::RegionType spatialRegion = frame->GetRequestedRegion();
   output->SetAllRequestedSpatialRegions(spatialRegion);
 
   // Call update to set the requested spatial region to 1 for each requested
@@ -215,12 +216,12 @@ itkVideoSourceTest(int, char *[])
   videoSource->Update();
 
   // Check the pixel values of the output
-  SizeValueType frameStart = requestedRegion.GetFrameStart();
-  SizeValueType numFrames = requestedRegion.GetFrameDuration();
+  const SizeValueType frameStart = requestedRegion.GetFrameStart();
+  const SizeValueType numFrames = requestedRegion.GetFrameDuration();
   for (SizeValueType i = frameStart; i < frameStart + numFrames; ++i)
   {
     frame = videoSource->GetOutput()->GetFrame(i);
-    FrameType::RegionType               region = frame->GetRequestedRegion();
+    const FrameType::RegionType         region = frame->GetRequestedRegion();
     itk::ImageRegionIterator<FrameType> iter(frame, region);
     while (!iter.IsAtEnd())
     {
@@ -236,7 +237,7 @@ itkVideoSourceTest(int, char *[])
     // get set
     if (region.GetNumberOfPixels() > 0)
     {
-      FrameType::IndexType idx{};
+      const FrameType::IndexType idx{};
       if (frame->GetPixel(idx) == 1)
       {
         std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;
@@ -255,7 +256,7 @@ itkVideoSourceTest(int, char *[])
   videoSource->UpdateOutputInformation();
 
   // Make sure the requested temporal region of videoSource's output is empty
-  itk::TemporalRegion emptyRegion;
+  const itk::TemporalRegion emptyRegion;
   if (videoSource->GetOutput()->GetRequestedTemporalRegion() != emptyRegion)
   {
     std::cerr << "videoSource's output's requested temporal region not empty before propagate" << std::endl;
@@ -276,7 +277,7 @@ itkVideoSourceTest(int, char *[])
 
   // Artificially set the output's largest possible temporal region duration
   itk::TemporalRegion largestTempRegion = videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
-  unsigned int        newNumBuffers = 25;
+  const unsigned int  newNumBuffers = 25;
   largestTempRegion.SetFrameDuration(newNumBuffers);
   videoSource->GetOutput()->SetLargestPossibleTemporalRegion(largestTempRegion);
   videoSource->GetOutput()->SetRequestedTemporalRegion(emptyRegion);

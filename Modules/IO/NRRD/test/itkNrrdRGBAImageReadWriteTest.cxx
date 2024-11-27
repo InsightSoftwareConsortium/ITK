@@ -38,7 +38,7 @@ itkNrrdRGBAImageReadWriteTest(int argc, char * argv[])
   using PixelType = itk::RGBAPixel<unsigned char>;
   using myImage = itk::Image<PixelType, 2>;
 
-  itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
+  const itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
   reader->SetFileName(argv[1]);
 
   try
@@ -52,7 +52,7 @@ itkNrrdRGBAImageReadWriteTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  myImage::Pointer image = reader->GetOutput();
+  const myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout);
 
   // Generate test image

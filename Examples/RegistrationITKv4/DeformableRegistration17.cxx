@@ -319,7 +319,7 @@ main(int argc, char * argv[])
 
   auto interpolator = InterpolatorType::New();
 
-  ImageType::Pointer targetImage = targetReader->GetOutput();
+  const ImageType::Pointer targetImage = targetReader->GetOutput();
   warper->SetInput(sourceReader->GetOutput());
   warper->SetInterpolator(interpolator);
   warper->SetOutputSpacing(targetImage->GetSpacing());

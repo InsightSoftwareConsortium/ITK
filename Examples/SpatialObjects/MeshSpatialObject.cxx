@@ -63,7 +63,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   auto myMesh = MeshType::New();
 
-  MeshType::CoordinateType testPointCoords[4][3] = {
+  const MeshType::CoordinateType testPointCoords[4][3] = {
     { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 }
   };
 
@@ -238,7 +238,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  ImageType::Pointer myBinaryMeshImage = imageFilter->GetOutput();
+  const ImageType::Pointer myBinaryMeshImage = imageFilter->GetOutput();
   //  Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

@@ -49,17 +49,17 @@ RegionalMinimaImageFilterTestHelper(std::string inputImageFile,
 
   ITK_TEST_SET_GET_BOOLEAN(filter, FlatIsMinima, flatIsMinima);
 
-  typename FilterType::OutputImagePixelType foregroundValue =
+  const typename FilterType::OutputImagePixelType foregroundValue =
     itk::NumericTraits<typename FilterType::OutputImagePixelType>::max();
   filter->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 
-  typename FilterType::OutputImagePixelType backgroundValue =
+  const typename FilterType::OutputImagePixelType backgroundValue =
     itk::NumericTraits<typename FilterType::OutputImagePixelType>::NonpositiveMin();
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 
-  itk::SimpleFilterWatcher watcher(filter, "RegionalMinimaImageFilter");
+  const itk::SimpleFilterWatcher watcher(filter, "RegionalMinimaImageFilter");
 
   // Write the output images
   using WriterType = itk::ImageFileWriter<OutputImageType>;
@@ -111,14 +111,14 @@ itkRegionalMinimaImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::string inputImageFile = argv[1];
-  std::string outputImageFile = argv[2];
-  std::string outputImageFile2 = argv[3];
+  const std::string inputImageFile = argv[1];
+  const std::string outputImageFile = argv[2];
+  const std::string outputImageFile2 = argv[3];
 
-  unsigned int dimension = std::stoi(argv[4]);
+  const unsigned int dimension = std::stoi(argv[4]);
 
-  bool fullyConnected = std::stoi(argv[5]);
-  bool flatIsMinima = std::stoi(argv[6]);
+  const bool fullyConnected = std::stoi(argv[5]);
+  const bool flatIsMinima = std::stoi(argv[6]);
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited

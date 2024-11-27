@@ -64,7 +64,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients
   // operator, then the output kernel needs to be padded by N-1. For
   // these values to be computed the input kernel needs to be padded
   // by 2N-1 on both sides.
-  unsigned int N = (derivOp.Size() - 1) / 2;
+  const unsigned int N = (derivOp.Size() - 1) / 2;
 
   // copy the gaussian operator adding clamped boundary condition
   CoefficientVector paddedCoeff(coeff.size() + 4 * N - 2);
@@ -88,7 +88,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients
     // current index in derivative op
     for (unsigned int j = 0; j < derivOp.Size(); ++j)
     {
-      unsigned int k = i + j - derivOp.Size() / 2;
+      const unsigned int k = i + j - derivOp.Size() / 2;
       conv += paddedCoeff[k] * derivOp[derivOp.Size() - 1 - j];
     }
 
@@ -155,7 +155,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateGaussianCoef
   }
 
   // Make symmetric
-  size_t s = coeff.size() - 1;
+  const size_t s = coeff.size() - 1;
   coeff.insert(coeff.begin(), s, 0);
   std::copy_n(coeff.rbegin(), s, coeff.begin());
 
@@ -168,7 +168,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI0(dou
 {
   double accumulator;
 
-  double d = itk::Math::abs(y);
+  const double d = itk::Math::abs(y);
   if (d < 3.75)
   {
     double m = y / 3.75;
@@ -178,7 +178,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI0(dou
   }
   else
   {
-    double m = 3.75 / d;
+    const double m = 3.75 / d;
     accumulator =
       (std::exp(d) / std::sqrt(d)) *
       (0.39894228 +
@@ -195,8 +195,8 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
 {
-  double accumulator;
-  double d = itk::Math::abs(y);
+  double       accumulator;
+  const double d = itk::Math::abs(y);
   if (d < 3.75)
   {
     double m = y / 3.75;
@@ -207,7 +207,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(dou
   }
   else
   {
-    double m = 3.75 / d;
+    const double m = 3.75 / d;
     accumulator = 0.2282967e-1 + m * (-0.2895312e-1 + m * (0.1787654e-1 - m * 0.420059e-2));
     accumulator =
       0.39894228 + m * (-0.3988024e-1 + m * (-0.362018e-2 + m * (0.163801e-2 + m * (-0.1031555e-1 + m * accumulator))));
@@ -244,12 +244,12 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int 
   }
   else
   {
-    double toy = 2.0 / itk::Math::abs(y);
-    double qip = accumulator = 0.0;
-    double qi = 1.0;
+    const double toy = 2.0 / itk::Math::abs(y);
+    double       qip = accumulator = 0.0;
+    double       qi = 1.0;
     for (int j = 2 * (n + static_cast<int>(DIGITS * std::sqrt(static_cast<double>(n)))); j > 0; j--)
     {
-      double qim = qip + j * toy * qi;
+      const double qim = qip + j * toy * qi;
       qip = qi;
       qi = qim;
       if (itk::Math::abs(qi) > 1.0e10)

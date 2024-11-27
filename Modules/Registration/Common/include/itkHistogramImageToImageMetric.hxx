@@ -90,7 +90,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   if (!m_LowerBoundSetByUser || !m_UpperBoundSetByUser)
   {
     // Calculate min and max image values in fixed image.
-    FixedImageConstPointerType               pFixedImage = this->m_FixedImage;
+    const FixedImageConstPointerType         pFixedImage = this->m_FixedImage;
     ImageRegionConstIterator<FixedImageType> fiIt(pFixedImage, pFixedImage->GetBufferedRegion());
     fiIt.GoToBegin();
     FixedImagePixelType minFixed = fiIt.Value();
@@ -98,7 +98,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
     ++fiIt;
     while (!fiIt.IsAtEnd())
     {
-      FixedImagePixelType value = fiIt.Value();
+      const FixedImagePixelType value = fiIt.Value();
 
       if (value < minFixed)
       {
@@ -113,7 +113,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
     }
 
     // Calculate min and max image values in moving image.
-    MovingImageConstPointerType               pMovingImage = this->m_MovingImage;
+    const MovingImageConstPointerType         pMovingImage = this->m_MovingImage;
     ImageRegionConstIterator<MovingImageType> miIt(pMovingImage, pMovingImage->GetBufferedRegion());
     miIt.GoToBegin();
     MovingImagePixelType minMoving = miIt.Value();
@@ -121,7 +121,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
     ++miIt;
     while (!miIt.IsAtEnd())
     {
-      MovingImagePixelType value = miIt.Value();
+      const MovingImagePixelType value = miIt.Value();
 
       if (value < minMoving)
       {
@@ -210,7 +210,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const Tran
     newParameters[i] -= m_DerivativeStepLength / m_DerivativeStepLengthScales[i];
     this->ComputeHistogram(newParameters, *pHistogram2);
 
-    MeasureType e0 = EvaluateMeasure(*pHistogram2);
+    const MeasureType e0 = EvaluateMeasure(*pHistogram2);
 
     pHistogram2 = HistogramType::New();
     pHistogram2->SetMeasurementVectorSize(2);
@@ -220,7 +220,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const Tran
     newParameters[i] += m_DerivativeStepLength / m_DerivativeStepLengthScales[i];
     this->ComputeHistogram(newParameters, *pHistogram2);
 
-    MeasureType e1 = EvaluateMeasure(*pHistogram2);
+    const MeasureType e1 = EvaluateMeasure(*pHistogram2);
 
     derivative[i] = (e1 - e0) / (2 * m_DerivativeStepLength / m_DerivativeStepLengthScales[i]);
   }
@@ -242,7 +242,7 @@ void
 HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const TransformParametersType & parameters,
                                                                          HistogramType & histogram) const
 {
-  FixedImageConstPointerType fixedImage = this->m_FixedImage;
+  const FixedImageConstPointerType fixedImage = this->m_FixedImage;
 
   if (!fixedImage)
   {
@@ -279,7 +279,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const T
         continue;
       }
 
-      OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+      const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
       if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
       {
@@ -340,14 +340,14 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::CopyHistogram(HistogramT
   target.Initialize(size, min, max);
 
   // Copy the values.
-  typename HistogramType::Iterator sourceIt = source.Begin();
-  typename HistogramType::Iterator sourceEnd = source.End();
-  typename HistogramType::Iterator targetIt = target.Begin();
-  typename HistogramType::Iterator targetEnd = target.End();
+  typename HistogramType::Iterator       sourceIt = source.Begin();
+  const typename HistogramType::Iterator sourceEnd = source.End();
+  typename HistogramType::Iterator       targetIt = target.Begin();
+  const typename HistogramType::Iterator targetEnd = target.End();
 
   while (sourceIt != sourceEnd && targetIt != targetEnd)
   {
-    typename HistogramType::AbsoluteFrequencyType freq = sourceIt.GetFrequency();
+    const typename HistogramType::AbsoluteFrequencyType freq = sourceIt.GetFrequency();
 
     if (freq > 0)
     {

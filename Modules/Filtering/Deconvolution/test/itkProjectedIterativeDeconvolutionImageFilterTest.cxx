@@ -37,7 +37,7 @@ itkProjectedIterativeDeconvolutionImageFilterTest(int, char *[])
   auto deconvolutionFilter = ProjectedDeconvolutionFilterType::New();
   deconvolutionFilter->Print(std::cout);
 
-  itk::SimpleFilterWatcher watcher(deconvolutionFilter);
+  const itk::SimpleFilterWatcher watcher(deconvolutionFilter);
 
   return EXIT_SUCCESS;
 }

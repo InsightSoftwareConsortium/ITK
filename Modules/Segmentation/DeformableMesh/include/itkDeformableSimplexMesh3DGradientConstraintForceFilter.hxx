@@ -114,7 +114,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::N
                                                                                          double *       y,
                                                                                          double *       z)
 {
-  double dp[3]{ pp[0], pp[1], pp[2] };
+  const double dp[3]{ pp[0], pp[1], pp[2] };
 
   double dlx;
   if (dp[0] >= 0.0)
@@ -228,8 +228,8 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
       ic[2] < this->m_ImageDepth)
   {
 
-    SIDEEnum side = SIDEEnum::BOTH; // make sure you can set half segment as well but for now
-                                    // we just set it to full segment
+    const SIDEEnum side = SIDEEnum::BOTH; // make sure you can set half segment as well but for now
+                                          // we just set it to full segment
 
     int vpos[3] = { ic[0], ic[1], ic[2] };
 
@@ -282,7 +282,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
 
       while (!stop)
       {
-        double a = NextVoxel(dp, ic, &x, &y, &z);
+        const double a = NextVoxel(dp, ic, &x, &y, &z);
 
         pos[0] += a * dp[0];
         pos[1] += a * dp[1];
@@ -339,7 +339,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
 
       while (!stop)
       {
-        double a = NextVoxel(dp, ic, &x, &y, &z);
+        const double a = NextVoxel(dp, ic, &x, &y, &z);
 
         pos[0] += a * dp[0];
         pos[1] += a * dp[1];
@@ -397,7 +397,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
     vec_for[2] = gradient3[2];
     // check magnitude
 
-    double mag = std::sqrt(dot_product(vec_for.GetVnlVector(), vec_for.GetVnlVector()));
+    const double mag = std::sqrt(dot_product(vec_for.GetVnlVector(), vec_for.GetVnlVector()));
     if (mag > max)
     {
       max = mag;
@@ -414,7 +414,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
   vec_for[2] = gradient2[2];
 
   // now check highest gradient magnitude direction
-  double mag = dot_product(vec_for.GetVnlVector(), data->normal.GetVnlVector());
+  const double mag = dot_product(vec_for.GetVnlVector(), data->normal.GetVnlVector());
   if (mag > 0)
   {
     vec_for[0] -= gradient0[0];

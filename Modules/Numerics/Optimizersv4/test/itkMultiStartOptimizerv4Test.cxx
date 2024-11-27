@@ -79,8 +79,8 @@ public:
       derivative.SetSize(2);
     }
 
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    const double x = m_Parameters[0];
+    const double y = m_Parameters[1];
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
@@ -103,9 +103,9 @@ public:
   MeasureType
   GetValue() const override
   {
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
-    double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const double x = m_Parameters[0];
+    const double y = m_Parameters[1];
+    const double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
     std::cout << m_Parameters << " metric " << metric << std::endl;
     return metric;
   }
@@ -295,7 +295,7 @@ itkMultiStartOptimizerv4Test(int, char *[])
   }
   metric->SetParameters(parametersList[0]);
   itkOptimizer->SetParametersList(parametersList);
-  OptimizerType::LocalOptimizerPointer optimizer = OptimizerType::LocalOptimizerType::New();
+  const OptimizerType::LocalOptimizerPointer optimizer = OptimizerType::LocalOptimizerType::New();
   optimizer->SetLearningRate(1.e-1);
   optimizer->SetNumberOfIterations(25);
   itkOptimizer->SetLocalOptimizer(optimizer);

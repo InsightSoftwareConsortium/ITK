@@ -160,12 +160,12 @@ itkSampleTest4(int, char *[])
 
   using AbsoluteFrequencyType = SampleType::AbsoluteFrequencyType;
 
-  AbsoluteFrequencyType frequency = 17;
+  const AbsoluteFrequencyType frequency = 17;
 
   sample->AddMeasurementVector(measure, frequency);
 
-  MeasurementVectorType measureBack = sample->GetMeasurementVector(0);
-  AbsoluteFrequencyType frequencyBack = sample->GetFrequency(0);
+  MeasurementVectorType       measureBack = sample->GetMeasurementVector(0);
+  const AbsoluteFrequencyType frequencyBack = sample->GetFrequency(0);
 
   if (frequencyBack != frequency)
   {

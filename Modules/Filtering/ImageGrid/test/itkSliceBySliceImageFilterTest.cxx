@@ -89,12 +89,12 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   using MonitorType = itk::PipelineMonitorImageFilter<FilterType::InternalOutputImageType>;
   auto monitor = MonitorType::New();
 
-  itk::CStyleCommand::Pointer command = itk::CStyleCommand::New();
+  const itk::CStyleCommand::Pointer command = itk::CStyleCommand::New();
   command->SetCallback(*sliceCallBack);
 
   filter->AddObserver(itk::IterationEvent(), command);
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 

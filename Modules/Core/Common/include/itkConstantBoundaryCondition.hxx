@@ -63,7 +63,7 @@ ConstantBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRegion(
   const RegionType & outputRequestedRegion) const -> RegionType
 {
   RegionType inputRequestedRegion(inputLargestPossibleRegion);
-  bool       cropped = inputRequestedRegion.Crop(outputRequestedRegion);
+  const bool cropped = inputRequestedRegion.Crop(outputRequestedRegion);
 
   if (!cropped)
   {
@@ -79,7 +79,7 @@ auto
 ConstantBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const IndexType & index, const TInputImage * image) const
   -> OutputPixelType
 {
-  RegionType imageRegion = image->GetLargestPossibleRegion();
+  const RegionType imageRegion = image->GetLargestPossibleRegion();
   if (imageRegion.IsInside(index))
   {
     return static_cast<OutputPixelType>(image->GetPixel(index));

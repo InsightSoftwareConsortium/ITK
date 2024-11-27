@@ -180,7 +180,7 @@ Euler3DTransform<TParametersValueType>::ComputeMatrixParameters()
   if (m_ComputeZYX)
   {
     m_AngleY = -std::asin(this->GetMatrix()[2][0]);
-    double C = std::cos(m_AngleY);
+    const double C = std::cos(m_AngleY);
     if (itk::Math::abs(C) > 0.00005)
     {
       double x = this->GetMatrix()[2][2] / C;
@@ -193,15 +193,15 @@ Euler3DTransform<TParametersValueType>::ComputeMatrixParameters()
     else
     {
       m_AngleX = ScalarType{};
-      double x = this->GetMatrix()[1][1];
-      double y = -this->GetMatrix()[0][1];
+      const double x = this->GetMatrix()[1][1];
+      const double y = -this->GetMatrix()[0][1];
       m_AngleZ = std::atan2(y, x);
     }
   }
   else
   {
     m_AngleX = std::asin(this->GetMatrix()[2][1]);
-    double A = std::cos(m_AngleX);
+    const double A = std::cos(m_AngleX);
     if (itk::Math::abs(A) > 0.00005)
     {
       double x = this->GetMatrix()[2][2] / A;
@@ -215,8 +215,8 @@ Euler3DTransform<TParametersValueType>::ComputeMatrixParameters()
     else
     {
       m_AngleZ = ScalarType{};
-      double x = this->GetMatrix()[0][0];
-      double y = this->GetMatrix()[1][0];
+      const double x = this->GetMatrix()[0][0];
+      const double y = this->GetMatrix()[1][0];
       m_AngleY = std::atan2(y, x);
     }
   }
@@ -332,7 +332,7 @@ Euler3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(c
   }
 
   // compute derivatives for the translation part
-  unsigned int blockOffset = 3;
+  const unsigned int blockOffset = 3;
   for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian[dim][blockOffset + dim] = 1.0;

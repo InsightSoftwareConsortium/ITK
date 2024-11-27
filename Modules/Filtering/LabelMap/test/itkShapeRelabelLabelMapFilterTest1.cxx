@@ -61,7 +61,7 @@ itkShapeRelabelLabelMapFilterTest1(int argc, char * argv[])
   auto relabel = RelabelType::New();
 
   // testing get and set macros for ReverseOrdering
-  bool reverseOrdering = std::stoi(argv[3]);
+  const bool reverseOrdering = std::stoi(argv[3]);
   relabel->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, relabel->GetReverseOrdering());
 
@@ -73,16 +73,16 @@ itkShapeRelabelLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(true, relabel->GetReverseOrdering());
 
   // testing get and set macros for Attribute
-  unsigned int attribute = std::stoi(argv[4]);
+  const unsigned int attribute = std::stoi(argv[4]);
   relabel->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, relabel->GetAttribute());
 
-  std::string attributeName = ShapeLabelObjectType::GetNameFromAttribute(attribute);
+  const std::string attributeName = ShapeLabelObjectType::GetNameFromAttribute(attribute);
   relabel->SetAttribute(attributeName);
 
   relabel->SetInput(i2l->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(relabel, "filter");
+  const itk::SimpleFilterWatcher watcher(relabel, "filter");
 
   using L2ImageType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2ImageType::New();

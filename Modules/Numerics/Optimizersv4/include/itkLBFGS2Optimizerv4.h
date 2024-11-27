@@ -533,7 +533,7 @@ private:
   GetConvergenceValue() const override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
-    static PrecisionType value{};
+    static const PrecisionType value{};
     return value;
   }
 

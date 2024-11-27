@@ -109,13 +109,13 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
     using MaskImageType = Image<unsigned char, Self::ObjectDimension>;
     using MaskSOType = ImageMaskSpatialObject<Self::ObjectDimension>;
 
-    typename MaskSOType::Pointer maskSpatialObject = dynamic_cast<MaskSOType *>(m_SpatialObject.GetPointer());
+    const typename MaskSOType::Pointer maskSpatialObject = dynamic_cast<MaskSOType *>(m_SpatialObject.GetPointer());
     if (maskSpatialObject.IsNull())
     {
       itkExceptionMacro("Invalid dynamic cast.");
     }
 
-    typename MaskImageType::ConstPointer maskImage = maskSpatialObject->GetImage();
+    const typename MaskImageType::ConstPointer maskImage = maskSpatialObject->GetImage();
 
     using MaskIteratorType = ImageRegionConstIteratorWithIndex<MaskImageType>;
     MaskIteratorType it(maskImage, maskImage->GetLargestPossibleRegion());
@@ -169,7 +169,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
     {
       if (indMin[i] > indMax[i])
       {
-        int tmpI = indMin[i];
+        const int tmpI = indMin[i];
         indMin[i] = indMax[i];
         indMax[i] = tmpI;
       }

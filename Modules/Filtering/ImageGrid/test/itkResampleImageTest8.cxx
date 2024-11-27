@@ -141,10 +141,10 @@ itkResampleImageTest8(int, char *[])
   std::cout << "Input Image Type\n";
 
   // Create and configure an image
-  InputImagePointerType inputImage = InputImageType::New();
-  InputImageIndexType   inputIndex = { { 0, 0 } };
-  InputImageSizeType    inputSize = { { 18, 12 } };
-  InputImageRegionType  inputRegion{ inputIndex, inputSize };
+  const InputImagePointerType inputImage = InputImageType::New();
+  InputImageIndexType         inputIndex = { { 0, 0 } };
+  const InputImageSizeType    inputSize = { { 18, 12 } };
+  const InputImageRegionType  inputRegion{ inputIndex, inputSize };
   inputImage->SetLargestPossibleRegion(inputRegion);
   inputImage->SetBufferedRegion(inputRegion);
   inputImage->Allocate();
@@ -163,15 +163,15 @@ itkResampleImageTest8(int, char *[])
   auto tform = TransformType::New();
 
   // OutputImagePointerType outputImage = OutputImageType::New();
-  OutputImageIndexType outputIndex = { { 0, 0, 0 } };
-  OutputImageSizeType  outputSize = { { 18, 12, 5 } };
+  OutputImageIndexType      outputIndex = { { 0, 0, 0 } };
+  const OutputImageSizeType outputSize = { { 18, 12, 5 } };
 
   // Create a linear interpolation image function
   auto interp = InterpolatorType::New();
   interp->SetInputImage(inputImage);
 
   // Create and configure a resampling filter
-  itk::ResampleImageFilter<InputImageType, OutputImageType>::Pointer resample =
+  const itk::ResampleImageFilter<InputImageType, OutputImageType>::Pointer resample =
     itk::ResampleImageFilter<InputImageType, OutputImageType>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
@@ -193,7 +193,7 @@ itkResampleImageTest8(int, char *[])
   resample->SetOutputStartIndex(outputIndex);
   ITK_TEST_SET_GET_VALUE(outputIndex, resample->GetOutputStartIndex());
 
-  OutputImageType::PointType origin{};
+  const OutputImageType::PointType origin{};
   resample->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
 

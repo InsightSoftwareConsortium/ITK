@@ -116,7 +116,7 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
   std::cout << "Testing with " << numberOfThreads << " threads and complete domain " << fullRange << " ..."
             << std::endl;
 
-  DomainThreaderAssociate::TestDomainThreader::Pointer domainThreader = enclosingClass.GetDomainThreader();
+  const DomainThreaderAssociate::TestDomainThreader::Pointer domainThreader = enclosingClass.GetDomainThreader();
 
   // Exercise GetMultiThreader().
   domainThreader->GetMultiThreader();
@@ -192,8 +192,8 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
 int
 itkThreadedIndexedContainerPartitionerTest(int, char *[])
 {
-  DomainThreaderAssociate                                   enclosingClass;
-  DomainThreaderAssociate::TestDomainThreader::ConstPointer domainThreader = enclosingClass.GetDomainThreader();
+  DomainThreaderAssociate                                         enclosingClass;
+  const DomainThreaderAssociate::TestDomainThreader::ConstPointer domainThreader = enclosingClass.GetDomainThreader();
 
   /* Check # of threads */
   std::cout << "GetGlobalMaximumNumberOfThreads: "
@@ -238,7 +238,7 @@ itkThreadedIndexedContainerPartitionerTest(int, char *[])
 
     /* Test with max number of threads and check that we only used as
      * many as is reasonable. */
-    itk::ThreadIdType maxNumberOfThreads = domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads();
+    const itk::ThreadIdType maxNumberOfThreads = domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads();
     fullRange[0] = 6;
     fullRange[1] = fullRange[0] + maxNumberOfThreads - 2;
     if (ThreadedIndexedContainerPartitionerRunTest(enclosingClass, maxNumberOfThreads, fullRange) != EXIT_SUCCESS)

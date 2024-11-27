@@ -419,7 +419,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double MutualInformation = Entropy1 + Entropy2 - JointEntropy;
+  const double MutualInformation = Entropy1 + Entropy2 - JointEntropy;
   // Software Guide : EndCodeSnippet
 
   std::cout << "Mutual Information = " << MutualInformation << " bits "
@@ -434,7 +434,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double NormalizedMutualInformation1 =
+  const double NormalizedMutualInformation1 =
     2.0 * MutualInformation / (Entropy1 + Entropy2);
   // Software Guide : EndCodeSnippet
 
@@ -450,7 +450,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double NormalizedMutualInformation2 = (Entropy1 + Entropy2) / JointEntropy;
+  const double NormalizedMutualInformation2 =
+    (Entropy1 + Entropy2) / JointEntropy;
   // Software Guide : EndCodeSnippet
 
 

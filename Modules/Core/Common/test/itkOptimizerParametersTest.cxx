@@ -35,8 +35,8 @@ runTestByType()
   /* Test different ctors */
 
   // Construct by size
-  itk::SizeValueType               dim = 20;
-  itk::OptimizerParameters<TValue> paramsSize(dim);
+  const itk::SizeValueType               dim = 20;
+  const itk::OptimizerParameters<TValue> paramsSize(dim);
   if (paramsSize.GetSize() != dim)
   {
     std::cerr << "Constructor with dimension failed. Expected size of " << dim << ", but got " << paramsSize.GetSize()
@@ -122,7 +122,7 @@ runTestByType()
   }
 
   /* Test SetParametersObject. Should throw exception with default helper. */
-  typename itk::LightObject::Pointer dummyObj = itk::LightObject::New();
+  const typename itk::LightObject::Pointer dummyObj = itk::LightObject::New();
   ITK_TRY_EXPECT_EXCEPTION(params.SetParametersObject(dummyObj));
 
   /* Test with null helper and expect exception */

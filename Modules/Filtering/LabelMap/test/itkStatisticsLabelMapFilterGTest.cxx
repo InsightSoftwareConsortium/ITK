@@ -164,11 +164,11 @@ TEST_F(StatisticsLabelMapFixture, 2D_zero)
   auto image = Utils::CreateImage();
   auto labelImage = Utils ::CreateLabelImage();
 
-  Utils::LabelPixelType label = 1;
+  const Utils::LabelPixelType label = 1;
   labelImage->FillBuffer(label);
 
 
-  Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, 1, 1 << 8);
+  const Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, 1, 1 << 8);
 
   ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(0.0, labelObject->GetMinimum(), 1e-12);
@@ -190,8 +190,8 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
   using Utils = FixtureUtilities<2, short>;
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
-  auto             image = Utils::CreateImage();
-  Utils::PixelType value = 1;
+  auto                   image = Utils::CreateImage();
+  const Utils::PixelType value = 1;
   image->FillBuffer(value);
 
   // Test with outliers outside the label.
@@ -199,13 +199,13 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
   image->SetPixel(itk::MakeIndex(0, 1), -32000);
 
 
-  auto                  labelImage = Utils ::CreateLabelImage();
-  Utils::LabelPixelType label = 1;
+  auto                        labelImage = Utils ::CreateLabelImage();
+  const Utils::LabelPixelType label = 1;
   labelImage->FillBuffer(label);
   labelImage->SetPixel(itk::MakeIndex(0, 0), 0);
   labelImage->SetPixel(itk::MakeIndex(0, 1), 0);
 
-  Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 16);
+  const Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 16);
 
   ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(value, labelObject->GetMinimum(), 1e-12);
@@ -236,13 +236,13 @@ TEST_F(StatisticsLabelMapFixture, 2D_rand_with_outliers)
   image->SetPixel(itk::MakeIndex(0, 2), 0);
   image->SetPixel(itk::MakeIndex(0, 3), 500);
 
-  Utils::LabelPixelType label = 1;
+  const Utils::LabelPixelType label = 1;
   labelImage->FillBuffer(label);
   labelImage->SetPixel(itk::MakeIndex(0, 0), 0);
   labelImage->SetPixel(itk::MakeIndex(0, 1), 0);
 
 
-  Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 16);
+  const Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 16);
 
   ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(0.0, labelObject->GetMinimum(), 1e-12);
@@ -270,14 +270,14 @@ TEST_F(StatisticsLabelMapFixture, 2D_even)
   image->SetPixel(itk::MakeIndex(0, 2), 1);
   image->SetPixel(itk::MakeIndex(0, 3), 200);
 
-  Utils::LabelPixelType label = 1;
+  const Utils::LabelPixelType label = 1;
   labelImage->SetPixel(itk::MakeIndex(0, 0), label);
   labelImage->SetPixel(itk::MakeIndex(0, 1), label);
   labelImage->SetPixel(itk::MakeIndex(0, 2), label);
   labelImage->SetPixel(itk::MakeIndex(0, 3), label);
 
 
-  Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);
+  const Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);
 
   ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(1.0, labelObject->GetMinimum(), 1e-12);
@@ -307,13 +307,13 @@ TEST_F(StatisticsLabelMapFixture, 2D_three)
   image->SetPixel(itk::MakeIndex(0, 1), 3);
   image->SetPixel(itk::MakeIndex(0, 2), 10);
 
-  Utils::LabelPixelType label = 1;
+  const Utils::LabelPixelType label = 1;
   labelImage->SetPixel(itk::MakeIndex(0, 0), label);
   labelImage->SetPixel(itk::MakeIndex(0, 1), label);
   labelImage->SetPixel(itk::MakeIndex(0, 2), label);
 
 
-  Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);
+  const Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);
 
   ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(1.0, labelObject->GetMinimum(), 1e-12);

@@ -61,8 +61,8 @@ itkImageSeriesReaderSamplingTest(int argc, char * argv[])
     // iterate over all slices to detect offending slice
     for (auto d : *reader->GetMetaDataDictionaryArray())
     {
-      itk::MetaDataDictionary theMetadata = *d;
-      double                  samplingDeviation = 0.0;
+      const itk::MetaDataDictionary theMetadata = *d;
+      double                        samplingDeviation = 0.0;
       if (itk::ExposeMetaData<double>(theMetadata, "ITK_non_uniform_sampling_deviation", samplingDeviation))
       {
         std::cout << "slice ITK_non_uniform_sampling_deviation detected: " << samplingDeviation << std::endl;

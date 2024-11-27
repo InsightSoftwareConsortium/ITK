@@ -65,7 +65,7 @@ VersorTransformOptimizer::StepAlongGradient(double factor, const DerivativeType 
   // Composing the currentRotation with the gradientRotation
   // produces the new Rotation versor
   //
-  VersorType newRotation = currentRotation * gradientRotation;
+  const VersorType newRotation = currentRotation * gradientRotation;
 
   ParametersType newParameters(NumberOfParameters);
 

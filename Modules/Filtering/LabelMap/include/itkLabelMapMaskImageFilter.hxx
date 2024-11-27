@@ -46,7 +46,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   Superclass::GenerateInputRequestedRegion();
 
   // We need the whole input
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (!input)
   {
     return;
@@ -115,7 +115,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
             while (!lit.IsAtEnd())
             {
               const IndexType & idx = lit.GetLine().GetIndex();
-              LengthType        length = lit.GetLine().GetLength();
+              const LengthType  length = lit.GetLine().GetLength();
 
               // Update the mins and maxs
               for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -173,7 +173,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         while (!lit.IsAtEnd())
         {
           const IndexType & idx = lit.GetLine().GetIndex();
-          LengthType        length = lit.GetLine().GetLength();
+          const LengthType  length = lit.GetLine().GetLength();
 
           // Update the mins and maxs
           for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -279,8 +279,8 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateData()
       // And mark the label object as background
 
       // Should we take care to not write outside the image ?
-      bool       testIdxIsInside = m_Crop && (inImage->GetBackgroundValue() == m_Label) ^ m_Negated;
-      RegionType outputRegion = output->GetLargestPossibleRegion();
+      const bool       testIdxIsInside = m_Crop && (inImage->GetBackgroundValue() == m_Label) ^ m_Negated;
+      const RegionType outputRegion = output->GetLargestPossibleRegion();
 
       typename LabelObjectType::ConstIndexIterator it(labelObject);
       while (!it.IsAtEnd())
@@ -344,8 +344,8 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(L
     // equals the label given by the user. The other pixels are set to the background value.
 
     // Should we take care to not write outside the image ?
-    bool       testIdxIsInside = m_Crop && (input->GetBackgroundValue() == m_Label) ^ m_Negated;
-    RegionType outputRegion = output->GetLargestPossibleRegion();
+    const bool       testIdxIsInside = m_Crop && (input->GetBackgroundValue() == m_Label) ^ m_Negated;
+    const RegionType outputRegion = output->GetLargestPossibleRegion();
 
     // The user wants the mask to be the background of the label collection image
     typename LabelObjectType::ConstIndexIterator it(labelObject);

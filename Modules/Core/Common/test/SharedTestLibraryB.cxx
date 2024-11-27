@@ -21,5 +21,5 @@ void
 foo()
 {
   using ImageType = itk::Image<float, 2>;
-  ImageType::Pointer image = ImageType::New();
+  const ImageType::Pointer image = ImageType::New();
 }

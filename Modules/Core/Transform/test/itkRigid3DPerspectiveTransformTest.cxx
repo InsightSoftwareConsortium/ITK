@@ -39,7 +39,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
   {
     auto transform = TransformType::New();
 
-    typename TransformType::InputVectorType vector = itk::MakeVector(1.0, 4.0, 9.0);
+    const typename TransformType::InputVectorType vector = itk::MakeVector(1.0, 4.0, 9.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformVector(vector));
 
     typename TransformType::InputVnlVectorType vnlVector;
@@ -61,12 +61,12 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(transform, Rigid3DPerspectiveTransform, Transform);
 
 
-    typename TransformType::OffsetType fixedOffset{};
+    const typename TransformType::OffsetType fixedOffset{};
 
     transform->SetFixedOffset(fixedOffset);
     ITK_TEST_SET_GET_VALUE(fixedOffset, transform->GetFixedOffset());
 
-    typename TransformType::InputPointType centerOfRotation{};
+    const typename TransformType::InputPointType centerOfRotation{};
     transform->SetCenterOfRotation(centerOfRotation);
     ITK_TEST_SET_GET_VALUE(centerOfRotation, transform->GetCenterOfRotation());
 
@@ -165,18 +165,18 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     auto rigid = TransformType::New();
     rigid->SetFocalDistance(focal);
 
-    TransformType::OffsetType ioffset{};
+    const TransformType::OffsetType ioffset{};
 
     rigid->SetOffset(ioffset);
 
-    TransformType::OffsetType offset = rigid->GetOffset();
+    const TransformType::OffsetType offset = rigid->GetOffset();
     std::cout << "pure Translation test:  ";
     std::cout << offset << std::endl;
 
     using VersorType = TransformType::VersorType;
-    VersorType             rotation;
-    VersorType::VectorType axis;
-    VersorType::ValueType  angle = 30.0f * std::atan(1.0f) / 45.0f;
+    VersorType                  rotation;
+    VersorType::VectorType      axis;
+    const VersorType::ValueType angle = 30.0f * std::atan(1.0f) / 45.0f;
     axis[0] = 1.0f;
     axis[1] = 1.0f;
     axis[2] = 1.0f;

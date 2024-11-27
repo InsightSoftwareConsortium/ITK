@@ -74,11 +74,11 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
 
   using TreeType = TreeGeneratorType::KdTreeType;
 
-  TreeType::Pointer tree = treeGenerator->GetOutput();
+  const TreeType::Pointer tree = treeGenerator->GetOutput();
 
   MeasurementVectorType queryPoint(measurementVectorSize);
 
-  unsigned int                           numberOfNeighbors = 1;
+  const unsigned int                     numberOfNeighbors = 1;
   TreeType::InstanceIdentifierVectorType neighbors;
 
   MeasurementVectorType result(measurementVectorSize);
@@ -156,8 +156,8 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
     //
     // Compute the distance to the "presumed" nearest neighbor
     //
-    double result_dist = std::sqrt((result[0] - queryPoint[0]) * (result[0] - queryPoint[0]) +
-                                   (result[1] - queryPoint[1]) * (result[1] - queryPoint[1]));
+    const double result_dist = std::sqrt((result[0] - queryPoint[0]) * (result[0] - queryPoint[0]) +
+                                         (result[1] - queryPoint[1]) * (result[1] - queryPoint[1]));
 
     //
     // Compute the distance to all other points, to verify

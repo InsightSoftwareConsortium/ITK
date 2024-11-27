@@ -147,7 +147,7 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateSpatialObjectScene
       }
       currentSO = converterIt->second->MetaObjectToSpatialObject(*it);
     }
-    int tmpParentId = currentSO->GetParentId();
+    const int tmpParentId = currentSO->GetParentId();
     if (soScene != nullptr)
     {
       soScene->AddChild(currentSO);
@@ -211,7 +211,7 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
 
   while (it != itEnd)
   {
-    std::string spatialObjectTypeName((*it)->GetTypeName());
+    const std::string spatialObjectTypeName((*it)->GetTypeName());
     if (spatialObjectTypeName == "GroupSpatialObject")
     {
       currentMeta = this->SpatialObjectToMetaObject<MetaGroupConverter<VDimension>>(*it);

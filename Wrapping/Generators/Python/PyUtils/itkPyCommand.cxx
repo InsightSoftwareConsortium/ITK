@@ -47,14 +47,14 @@ PyCommand::~PyCommand()
 {
   if (this->m_Object)
   {
-    PyGILStateEnsure gil;
+    const PyGILStateEnsure gil;
     Py_DECREF(this->m_Object);
   }
   this->m_Object = nullptr;
 
   if (this->m_EmptyArgumentList)
   {
-    PyGILStateEnsure gil;
+    const PyGILStateEnsure gil;
     Py_DECREF(this->m_EmptyArgumentList);
   }
   this->m_EmptyArgumentList = nullptr;
@@ -66,7 +66,7 @@ PyCommand::SetCommandCallable(PyObject * o)
 {
   if (o != this->m_Object)
   {
-    PyGILStateEnsure gil;
+    const PyGILStateEnsure gil;
     if (this->m_Object)
     {
       // get rid of our reference
@@ -120,8 +120,8 @@ PyCommand::PyExecute()
   }
   else
   {
-    PyGILStateEnsure gil;
-    PyObject *       result = PyObject_Call(this->m_Object, this->m_EmptyArgumentList, (PyObject *)nullptr);
+    const PyGILStateEnsure gil;
+    PyObject *             result = PyObject_Call(this->m_Object, this->m_EmptyArgumentList, (PyObject *)nullptr);
 
     if (result)
     {

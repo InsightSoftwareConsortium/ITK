@@ -43,7 +43,7 @@ itkDelaunayConformingQuadEdgeMeshFilterTestHelper(const std::string & input,
   reader->SetFileName(input);
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  MeshType::Pointer mesh = reader->GetOutput();
+  const MeshType::Pointer mesh = reader->GetOutput();
 
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
   const auto generator = GeneratorType::New();

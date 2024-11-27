@@ -103,7 +103,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Par
     norm = std::sqrt(norm);
   }
 
-  double epsilon = 1e-10;
+  const double epsilon = 1e-10;
   if (norm >= 1.0 - epsilon)
   {
     axis = axis / (norm + epsilon * norm);
@@ -213,7 +213,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrix()
 {
   this->Superclass::ComputeMatrix();
 
-  MatrixType newMatrix = this->GetMatrix();
+  const MatrixType newMatrix = this->GetMatrix();
 
   MatrixType scaleM;
   scaleM.SetIdentity();
@@ -232,8 +232,8 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrix()
   skewM(2, 1) = 0;
   skewM(2, 2) = 1;
 
-  MatrixType Q = scaleM * skewM;
-  MatrixType res = newMatrix * Q;
+  const MatrixType Q = scaleM * skewM;
+  const MatrixType res = newMatrix * Q;
 
   this->SetVarMatrix(res);
 }
@@ -253,7 +253,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrixParameters
   M(1, 0) /= m_Scale[0];
   M(2, 0) /= m_Scale[0];
 
-  double ortho = M(0, 0) * M(0, 1) + M(1, 0) * M(1, 1) + M(2, 0) * M(2, 1);
+  const double ortho = M(0, 0) * M(0, 1) + M(1, 0) * M(1, 1) + M(2, 0) * M(2, 1);
   M(0, 1) -= ortho * M(0, 0);
   M(1, 1) -= ortho * M(1, 0);
   M(2, 1) -= ortho * M(2, 0);
@@ -266,8 +266,8 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrixParameters
   M(2, 1) /= m_Scale[1];
   m_Skew[0] = ortho / m_Scale[0];
 
-  double ortho0 = M(0, 0) * M(0, 2) + M(1, 0) * M(1, 2) + M(2, 0) * M(2, 2);
-  double ortho1 = M(0, 1) * M(0, 2) + M(1, 1) * M(1, 2) + M(2, 1) * M(2, 2);
+  const double ortho0 = M(0, 0) * M(0, 2) + M(1, 0) * M(1, 2) + M(2, 0) * M(2, 2);
+  const double ortho1 = M(0, 1) * M(0, 2) + M(1, 1) * M(1, 2) + M(2, 1) * M(2, 2);
   M(0, 2) -= (ortho0 * M(0, 0) + ortho1 * M(0, 1));
   M(1, 2) -= (ortho0 * M(1, 0) + ortho1 * M(1, 1));
   M(2, 2) -= (ortho0 * M(2, 0) + ortho1 * M(2, 1));
@@ -355,15 +355,15 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithResp
   jacobian.SetSize(3, this->GetNumberOfLocalParameters());
   jacobian.Fill(0.0);
 
-  double v0v0 = v0 * v0;
-  double v0v1 = v0 * v1;
-  double v0v2 = v0 * v2;
-  double v0w = v0 * w;
-  double v1v1 = v1 * v1;
-  double v1v2 = v1 * v2;
-  double v1w = v1 * w;
-  double v2v2 = v2 * v2;
-  double v2w = v2 * w;
+  const double v0v0 = v0 * v0;
+  const double v0v1 = v0 * v1;
+  const double v0v2 = v0 * v2;
+  const double v0w = v0 * w;
+  const double v1v1 = v1 * v1;
+  const double v1v2 = v1 * v2;
+  const double v1w = v1 * w;
+  const double v2v2 = v2 * v2;
+  const double v2w = v2 * w;
 
   // compute Jacobian with respect to quaternion parameters
   jacobian[0][0] = 2 * s1 * v1 * x1 + x2 * (2 * k2 * s1 * v1 + 2 * s2 * v2);

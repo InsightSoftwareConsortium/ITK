@@ -40,7 +40,7 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::Image
   m_InitialTransformParameters.Fill(0.0f);
   m_LastTransformParameters.Fill(0.0f);
 
-  TransformOutputPointer transformDecorator =
+  const TransformOutputPointer transformDecorator =
     itkDynamicCastInDebugMode<TransformOutputType *>(this->MakeOutput(0).GetPointer());
 
   this->ProcessObject::SetNthOutput(0, transformDecorator.GetPointer());

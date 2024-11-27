@@ -30,8 +30,8 @@ itkTestingStretchIntensityImageFilterTest(int itkNotUsed(argc), char * itkNotUse
   using StretchFilterType = itk::Testing::StretchIntensityImageFilter<ImageType>;
   using StatsFilterType = itk::StatisticsImageFilter<ImageType>;
 
-  ImageType::SizeType imageSize = { { 32, 32 } };
-  auto                image = ImageType::New();
+  const ImageType::SizeType imageSize = { { 32, 32 } };
+  auto                      image = ImageType::New();
   image->SetRegions(imageSize);
   image->Allocate();
   PixelType i = -511;

@@ -79,7 +79,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>::GenerateData()
                                  // global values, or otherwise setting up
                                  // for the next iteration
 
-    TimeStepType dt = this->CalculateChange();
+    const TimeStepType dt = this->CalculateChange();
 
     this->ApplyUpdate(dt);
     ++m_ElapsedIterations;
@@ -115,7 +115,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRe
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!inputPtr)
   {
@@ -124,7 +124,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRe
 
   // Get the size of the neighborhood on which we are going to operate.  This
   // radius is supplied by the difference function we are using.
-  RadiusType radius = this->GetDifferenceFunction()->GetRadius();
+  const RadiusType radius = this->GetDifferenceFunction()->GetRadius();
 
   // Try to set up a buffered region that will accommodate our
   // neighborhood operations.  This may not be possible and we

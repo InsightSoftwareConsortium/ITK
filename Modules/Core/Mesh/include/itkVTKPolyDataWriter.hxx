@@ -93,7 +93,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
 
   // POINTS go first
 
-  unsigned int numberOfPoints = this->m_Input->GetNumberOfPoints();
+  const unsigned int numberOfPoints = this->m_Input->GetNumberOfPoints();
   outputFile << "POINTS " << numberOfPoints << " float" << std::endl;
 
   const PointsContainer * points = this->m_Input->GetPoints();
@@ -103,8 +103,8 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
 
   if (points)
   {
-    PointIterator pointIterator = points->Begin();
-    PointIterator pointEnd = points->End();
+    PointIterator       pointIterator = points->Begin();
+    const PointIterator pointEnd = points->End();
 
     while (pointIterator != pointEnd)
     {
@@ -136,8 +136,8 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
 
   if (cells)
   {
-    CellIterator cellIterator = cells->Begin();
-    CellIterator cellEnd = cells->End();
+    CellIterator       cellIterator = cells->Begin();
+    const CellIterator cellEnd = cells->End();
 
     while (cellIterator != cellEnd)
     {

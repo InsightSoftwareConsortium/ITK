@@ -49,7 +49,7 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   auto pointSet = PointSetType::New();
 
   // Create a point set describing a circle
-  float        radius = 100.0;
+  const float  radius = 100.0;
   unsigned int count = 0;
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
@@ -67,12 +67,12 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PointSetToImageFilter, ImageSource);
 
 
-  BinaryImageType::SpacingType::ValueType spacingValue = 1.0;
-  auto                                    spacing = itk::MakeFilled<BinaryImageType::SpacingType>(spacingValue);
+  const BinaryImageType::SpacingType::ValueType spacingValue = 1.0;
+  auto                                          spacing = itk::MakeFilled<BinaryImageType::SpacingType>(spacingValue);
   filter->SetSpacing(spacing);
   ITK_TEST_SET_GET_VALUE(spacing, filter->GetSpacing());
 
-  BinaryImageType::PointType origin{ { { -125, -125 } } };
+  const BinaryImageType::PointType origin{ { { -125, -125 } } };
   filter->SetOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, filter->GetOrigin());
 
@@ -81,28 +81,29 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   filter->SetDirection(direction);
   ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
 
-  typename BinaryImageType::ValueType insideValue = itk::NumericTraits<typename BinaryImageType::ValueType>::OneValue();
+  const typename BinaryImageType::ValueType insideValue =
+    itk::NumericTraits<typename BinaryImageType::ValueType>::OneValue();
   filter->SetInsideValue(insideValue);
   ITK_TEST_SET_GET_VALUE(insideValue, filter->GetInsideValue());
 
-  typename BinaryImageType::ValueType outsideValue{};
+  const typename BinaryImageType::ValueType outsideValue{};
   filter->SetOutsideValue(outsideValue);
   ITK_TEST_SET_GET_VALUE(outsideValue, filter->GetOutsideValue());
 
-  typename BinaryImageType::SizeType size = { { 250, 250 } };
+  const typename BinaryImageType::SizeType size = { { 250, 250 } };
   filter->SetSize(size);
   ITK_TEST_SET_GET_VALUE(size, filter->GetSize());
 
   filter->SetInput(pointSet);
   ITK_TEST_SET_GET_VALUE(pointSet, filter->GetInput());
 
-  unsigned int idx = 0;
+  const unsigned int idx = 0;
   ITK_TEST_SET_GET_VALUE(pointSet, filter->GetInput(idx));
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  BinaryImageType::Pointer binaryImage = filter->GetOutput();
+  const BinaryImageType::Pointer binaryImage = filter->GetOutput();
 
   itk::WriteImage(binaryImage, argv[1]);
 

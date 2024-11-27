@@ -50,7 +50,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
   displacementField->SetDirection(direction);
   displacementField->Allocate();
 
-  TransformType::OutputVectorType zeroVector{};
+  const TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
   auto nonzeroVector = itk::MakeFilled<TransformType::OutputVectorType>(10.3);
@@ -66,11 +66,11 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
   auto transform = TransformType::New();
   transform->SetDisplacementField(displacementField);
 
-  auto                           point = itk::MakeFilled<TransformType::InputPointType>(50.0);
-  TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
+  auto                                 point = itk::MakeFilled<TransformType::InputPointType>(50.0);
+  const TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
 
-  SpacingType spacingBefore = transform->GetDisplacementField()->GetSpacing();
-  SizeType    sizeBefore = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
+  const SpacingType spacingBefore = transform->GetDisplacementField()->GetSpacing();
+  const SizeType    sizeBefore = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
 
   /**
    * Instantiate the adaptor
@@ -104,13 +104,13 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  SpacingType spacingAfter = transform->GetDisplacementField()->GetSpacing();
-  SizeType    sizeAfter = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
+  const SpacingType spacingAfter = transform->GetDisplacementField()->GetSpacing();
+  const SizeType    sizeAfter = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
 
   std::cout << "Spacing: " << spacingBefore << "(before), " << spacingAfter << "(after)." << std::endl;
   std::cout << "Size: " << sizeBefore << "(before), " << sizeAfter << "(after)." << std::endl;
 
-  TransformType::ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
+  const TransformType::ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
   std::cout << "Fixed parameters: " << fixedParameters << std::endl;
   adaptor->SetRequiredFixedParameters(fixedParameters);
 
@@ -135,7 +135,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
+  const TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
 
   if (outputPointBeforeAdapt.EuclideanDistanceTo(outputPointAfterAdapt) > 1e-6)
   {

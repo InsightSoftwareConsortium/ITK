@@ -36,9 +36,9 @@ itkShrinkImageStreamingTest(int, char *[])
   using MonitorFilter = itk::PipelineMonitorImageFilter<ShortImage>;
 
   // fill in an image
-  ShortImage::IndexType  index = { { 100, 100 } };
-  ShortImage::SizeType   size = { { 8, 12 } };
-  ShortImage::RegionType region{ index, size };
+  const ShortImage::IndexType  index = { { 100, 100 } };
+  const ShortImage::SizeType   size = { { 8, 12 } };
+  const ShortImage::RegionType region{ index, size };
   sourceImage->SetRegions(region);
   sourceImage->Allocate();
 

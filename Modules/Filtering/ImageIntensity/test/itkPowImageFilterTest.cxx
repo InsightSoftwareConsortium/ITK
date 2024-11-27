@@ -49,7 +49,7 @@ itkPowImageFilterTest(int, char *[])
   SizeType size;
   size[0] = 2;
 
-  ImageType::RegionType region(size);
+  const ImageType::RegionType region(size);
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -81,7 +81,7 @@ itkPowImageFilterTest(int, char *[])
   filter->SetInput2(inputImageB);
 
   // Get the Smart Pointer to the Filter Output
-  ImageType::Pointer outputImage = filter->GetOutput();
+  const ImageType::Pointer outputImage = filter->GetOutput();
 
   // Execute the filter
   filter->Update();

@@ -41,7 +41,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const In
   VectorType vecOriginToTest = position - m_Origin;
 
   // Compute the length of this vector
-  double vecDistance = vecOriginToTest.GetNorm();
+  const double vecDistance = vecOriginToTest.GetNorm();
 
   // Check to see if this an allowed distance
   if (!((vecDistance > m_DistanceMin) && (vecDistance < m_DistanceMax)))
@@ -53,7 +53,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const In
   vecOriginToTest.Normalize();
 
   // Create a temp vector to get around const problems
-  GradientType originGradient = m_OriginGradient;
+  const GradientType originGradient = m_OriginGradient;
 
   // Now compute the dot product
   double dotprod = originGradient * vecOriginToTest;

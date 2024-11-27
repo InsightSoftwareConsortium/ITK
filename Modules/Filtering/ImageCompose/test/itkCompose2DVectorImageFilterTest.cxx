@@ -45,7 +45,7 @@ itkCompose2DVectorImageFilterTest(int, char *[])
   size[1] = 2;
   size[2] = 2;
 
-  IndexType start{};
+  const IndexType start{};
 
   RegionType region;
   region.SetIndex(start);
@@ -76,7 +76,7 @@ itkCompose2DVectorImageFilterTest(int, char *[])
 
   using OutputImageType = FilterType::OutputImageType;
 
-  OutputImageType::Pointer twoVectorImage = filter->GetOutput();
+  const OutputImageType::Pointer twoVectorImage = filter->GetOutput();
 
   using OutputIterator = itk::ImageRegionIterator<OutputImageType>;
   using InputIterator = itk::ImageRegionIterator<InputImageType>;

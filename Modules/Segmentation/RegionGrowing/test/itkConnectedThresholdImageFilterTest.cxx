@@ -46,9 +46,9 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
 
-  itk::ImageFileReader<ImageType>::Pointer imageReader = itk::ImageFileReader<ImageType>::New();
+  const itk::ImageFileReader<ImageType>::Pointer imageReader = itk::ImageFileReader<ImageType>::New();
 
-  std::string inputImageFilename = argv[1];
+  const std::string inputImageFilename = argv[1];
   imageReader->SetFileName(inputImageFilename);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(imageReader->Update(););
@@ -58,7 +58,7 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
 
   auto connectedThresholdFilter = ConnectedThresholdImageFilterType::New();
 
-  itk::SimpleFilterWatcher watcher(connectedThresholdFilter);
+  const itk::SimpleFilterWatcher watcher(connectedThresholdFilter);
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(connectedThresholdFilter, ConnectedThresholdImageFilter, ImageToImageFilter);
 
@@ -93,22 +93,22 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(upperInputPixelObject->Get(), connectedThresholdFilter->GetUpper());
 
 
-  ConnectedThresholdImageFilterType::InputImagePixelType lowerThreshold = std::stoi(argv[5]);
+  const ConnectedThresholdImageFilterType::InputImagePixelType lowerThreshold = std::stoi(argv[5]);
   connectedThresholdFilter->SetLower(lowerThreshold);
   ITK_TEST_SET_GET_VALUE(lowerThreshold, connectedThresholdFilter->GetLower());
 
-  ConnectedThresholdImageFilterType::InputImagePixelType upperThreshold = std::stoi(argv[6]);
+  const ConnectedThresholdImageFilterType::InputImagePixelType upperThreshold = std::stoi(argv[6]);
   connectedThresholdFilter->SetUpper(upperThreshold);
   ITK_TEST_SET_GET_VALUE(upperThreshold, connectedThresholdFilter->GetUpper());
 
-  ConnectedThresholdImageFilterType::OutputImagePixelType replaceValue = 255;
+  const ConnectedThresholdImageFilterType::OutputImagePixelType replaceValue = 255;
   connectedThresholdFilter->SetReplaceValue(replaceValue);
   ITK_TEST_SET_GET_VALUE(replaceValue, connectedThresholdFilter->GetReplaceValue());
 
   // Test the use of full (8 connectivity in 2D) on this image
   if (argc > 7)
   {
-    ConnectedThresholdImageFilterType::ConnectivityEnum conenctivity =
+    const ConnectedThresholdImageFilterType::ConnectivityEnum conenctivity =
       std::stoi(argv[7]) ? ConnectedThresholdImageFilterType::ConnectivityEnum::FullConnectivity
                          : ConnectedThresholdImageFilterType::ConnectivityEnum::FaceConnectivity;
     connectedThresholdFilter->SetConnectivity(conenctivity);
@@ -120,9 +120,9 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(connectedThresholdFilter->Update(););
 
   // Write the output image
-  itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
+  const itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
 
-  std::string outputImageFilename = argv[2];
+  const std::string outputImageFilename = argv[2];
   writer->SetFileName(outputImageFilename);
 
   writer->SetInput(connectedThresholdFilter->GetOutput());

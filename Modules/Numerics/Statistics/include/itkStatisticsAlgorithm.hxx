@@ -143,7 +143,7 @@ Partition(TSubsample *                               sample,
   // partitionValue, that were placed at the end of the list, and move them to
   // the interface between smaller and larger values.
   //
-  int beginOfSectionEqualToPartition = moveToFrontIndex;
+  const int beginOfSectionEqualToPartition = moveToFrontIndex;
   moveToBackIndex = endIndex - 1;
   while (moveToFrontIndex < moveToBackIndex)
   {
@@ -181,9 +181,9 @@ Partition(TSubsample *                               sample,
       sample->Swap(moveToBackIndex, moveToFrontIndex);
     }
   }
-  int endOfSectionEqualToPartition = moveToFrontIndex - 1;
+  const int endOfSectionEqualToPartition = moveToFrontIndex - 1;
 
-  int storeIndex = (beginOfSectionEqualToPartition + endOfSectionEqualToPartition) / 2;
+  const int storeIndex = (beginOfSectionEqualToPartition + endOfSectionEqualToPartition) / 2;
 
   const SampleMeasurementType pivotValue = sample->GetMeasurementVectorByIndex(storeIndex)[activeDimension];
   if (pivotValue != partitionValue)
@@ -194,8 +194,8 @@ Partition(TSubsample *                               sample,
     // partitionValue.
     for (int kk = beginIndex; kk < storeIndex; ++kk)
     {
-      SampleMeasurementType nodeValue = sample->GetMeasurementVectorByIndex(kk)[activeDimension];
-      SampleMeasurementType boundaryValue = sample->GetMeasurementVectorByIndex(storeIndex)[activeDimension];
+      const SampleMeasurementType nodeValue = sample->GetMeasurementVectorByIndex(kk)[activeDimension];
+      const SampleMeasurementType boundaryValue = sample->GetMeasurementVectorByIndex(storeIndex)[activeDimension];
       if (nodeValue > boundaryValue)
       {
         sample->Swap(kk, storeIndex);
@@ -357,9 +357,9 @@ QuickSelect(TSubsample *                         sample,
 {
   using SampleMeasurementType = typename TSubsample::MeasurementType;
 
-  int begin = beginIndex;
-  int end = endIndex - 1;
-  int kthIndex = kth + beginIndex;
+  int       begin = beginIndex;
+  int       end = endIndex - 1;
+  const int kthIndex = kth + beginIndex;
 
   SampleMeasurementType tempMedian;
 
@@ -385,7 +385,7 @@ QuickSelect(TSubsample *                         sample,
     // Partition expects the end argument to be one past-the-end of the array.
     // The index pivotNewIndex returned by Partition is in the range
     // [begin,end].
-    int pivotNewIndex = Partition<TSubsample>(sample, activeDimension, begin, end + 1, tempMedian);
+    const int pivotNewIndex = Partition<TSubsample>(sample, activeDimension, begin, end + 1, tempMedian);
 
     if (kthIndex == pivotNewIndex)
     {
@@ -433,7 +433,7 @@ inline typename TSubsample::MeasurementType
 QuickSelect(TSubsample * sample, unsigned int activeDimension, int beginIndex, int endIndex, int kth)
 {
   using SampleMeasurementType = typename TSubsample::MeasurementType;
-  SampleMeasurementType medianGuess = NumericTraits<SampleMeasurementType>::NonpositiveMin();
+  const SampleMeasurementType medianGuess = NumericTraits<SampleMeasurementType>::NonpositiveMin();
   return QuickSelect<TSubsample>(sample, activeDimension, beginIndex, endIndex, kth, medianGuess);
 }
 
@@ -502,7 +502,7 @@ NthElement(TSubsample * sample, unsigned int activeDimension, int beginIndex, in
 
     const auto tempMedian = MedianOfThree<MeasurementType>(v1, v2, v3);
 
-    int cut = UnguardedPartition(sample, activeDimension, beginElement, endElement, tempMedian);
+    const int cut = UnguardedPartition(sample, activeDimension, beginElement, endElement, tempMedian);
 
     if (cut <= nthIndex)
     {
@@ -558,10 +558,10 @@ DownHeap(TSubsample * sample, unsigned int activeDimension, int beginIndex, int 
   int largerChild;
 
   using SampleMeasurementType = typename TSubsample::MeasurementType;
-  SampleMeasurementType currentNodeValue = sample->GetMeasurementVectorByIndex(currentNode)[activeDimension];
-  SampleMeasurementType leftChildValue;
-  SampleMeasurementType rightChildValue;
-  SampleMeasurementType largerChildValue;
+  const SampleMeasurementType currentNodeValue = sample->GetMeasurementVectorByIndex(currentNode)[activeDimension];
+  SampleMeasurementType       leftChildValue;
+  SampleMeasurementType       rightChildValue;
+  SampleMeasurementType       largerChildValue;
 
   while (true)
   {

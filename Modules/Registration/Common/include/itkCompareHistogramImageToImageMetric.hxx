@@ -114,7 +114,8 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
       typename Superclass::InputPointType inputPoint;
       this->m_TrainingFixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-      typename Superclass::OutputPointType transformedPoint = this->m_TrainingTransform->TransformPoint(inputPoint);
+      const typename Superclass::OutputPointType transformedPoint =
+        this->m_TrainingTransform->TransformPoint(inputPoint);
 
       if (this->m_TrainingInterpolator->IsInsideBuffer(transformedPoint))
       {

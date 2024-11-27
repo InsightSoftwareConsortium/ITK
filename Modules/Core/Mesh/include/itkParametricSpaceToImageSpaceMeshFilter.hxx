@@ -51,8 +51,8 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   using OutputPointDataContainerPointer = typename TOutputMesh::PointDataContainerPointer;
 
-  const InputMeshType * inputMesh = this->GetInput();
-  OutputMeshPointer     outputMesh = this->GetOutput();
+  const InputMeshType *   inputMesh = this->GetInput();
+  const OutputMeshPointer outputMesh = this->GetOutput();
 
   if (!inputMesh)
   {
@@ -66,13 +66,13 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   outputMesh->SetBufferedRegion(outputMesh->GetRequestedRegion());
 
-  const InputPointsContainer * inPoints = inputMesh->GetPoints();
-  OutputPointsContainerPointer outPoints = OutputPointsContainer::New();
+  const InputPointsContainer *       inPoints = inputMesh->GetPoints();
+  const OutputPointsContainerPointer outPoints = OutputPointsContainer::New();
 
   outPoints->Reserve(inputMesh->GetNumberOfPoints());
 
-  const InputPointDataContainer * inData = inputMesh->GetPointData();
-  OutputPointDataContainerPointer outData = OutputPointDataContainer::New();
+  const InputPointDataContainer *       inData = inputMesh->GetPointData();
+  const OutputPointDataContainerPointer outData = OutputPointDataContainer::New();
 
   outData->Reserve(inputMesh->GetNumberOfPoints());
 
@@ -89,9 +89,9 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     return;
   }
 
-  typename InputPointsContainer::ConstIterator    inputPointIt = inPoints->Begin();
-  typename InputPointsContainer::ConstIterator    inputPointEnd = inPoints->End();
-  typename InputPointDataContainer::ConstIterator inputDataIt = inData->Begin();
+  typename InputPointsContainer::ConstIterator       inputPointIt = inPoints->Begin();
+  const typename InputPointsContainer::ConstIterator inputPointEnd = inPoints->End();
+  typename InputPointDataContainer::ConstIterator    inputDataIt = inData->Begin();
 
   typename OutputPointsContainer::Iterator    outputPointIt = outPoints->Begin();
   typename OutputPointDataContainer::Iterator outputDataIt = outData->Begin();

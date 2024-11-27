@@ -46,7 +46,7 @@ extern "C"
     }
     for (unsigned int x = 0; x < size; ++x)
     {
-      [[maybe_unused]] int error = mifree_dimension_handle(ptr[x]);
+      [[maybe_unused]] const int error = mifree_dimension_handle(ptr[x]);
 #ifndef NDEBUG
       if (error != MI_NOERROR)
       {
@@ -657,7 +657,7 @@ MINCImageIO::ReadImageInformation()
   MetaDataDictionary & thisDic = GetMetaDataDictionary();
   thisDic.Clear();
 
-  std::string classname(GetNameOfClass());
+  const std::string classname(GetNameOfClass());
   //  EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName,
   // classname);
 
@@ -962,8 +962,8 @@ MINCImageIO::WriteImageInformation()
 
   for (unsigned int i = 0; i < nDims; ++i)
   {
-    unsigned int j = i + (nComp > 1 ? 1 : 0);
-    double       dir_cos[3];
+    const unsigned int j = i + (nComp > 1 ? 1 : 0);
+    double             dir_cos[3];
     for (unsigned int k = 0; k < 3; ++k)
     {
       if (k < nDims)
@@ -1065,8 +1065,8 @@ MINCImageIO::WriteImageInformation()
       dimorder_good = true;
       for (unsigned int i = 0; i < minc_dimensions && dimorder_good; ++i)
       {
-        bool positive = (dimension_order[i * 2] == '+');
-        int  j = 0;
+        const bool positive = (dimension_order[i * 2] == '+');
+        int        j = 0;
         switch (dimension_order[i * 2 + 1])
         {
           case 'v':
@@ -1238,8 +1238,8 @@ MINCImageIO::WriteImageInformation()
     MetaDataObjectBase * bs = it->second;
     if (d)
     {
-      std::string var(it->first.c_str(), d - it->first.c_str());
-      std::string att(d + 1);
+      const std::string var(it->first.c_str(), d - it->first.c_str());
+      const std::string att(d + 1);
 
       // VF:THIS is not good OO style at all :(
       const char * tname = bs->GetMetaDataObjectTypeName();

@@ -81,8 +81,8 @@ public:
       derivative.SetSize(2);
     }
 
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    const double x = m_Parameters[0];
+    const double y = m_Parameters[1];
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
@@ -105,10 +105,10 @@ public:
   MeasureType
   GetValue() const override
   {
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    const double x = m_Parameters[0];
+    const double y = m_Parameters[1];
 
-    MeasureType value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     return value;
   }
@@ -184,7 +184,7 @@ ConjugateGradientLineSearchOptimizerv4RunTest(itk::ConjugateGradientLineSearchOp
   //
   // check results to see if it is within range
   //
-  double trueParameters[2] = { 2, -2 };
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
@@ -213,7 +213,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
-  ConjugateGradientLineSearchOptimizerv4TestMetric::Pointer metric =
+  const ConjugateGradientLineSearchOptimizerv4TestMetric::Pointer metric =
     ConjugateGradientLineSearchOptimizerv4TestMetric::New();
 
   itkOptimizer->SetMetric(metric);

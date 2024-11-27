@@ -87,7 +87,7 @@ CorrelationImageToImageMetricv4<TFixedImage,
 
   if (this->m_UseSampledPointSet) // sparse sampling
   {
-    SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
+    const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if (numberOfPoints < 1)
     {
       itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");

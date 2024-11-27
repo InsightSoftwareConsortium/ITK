@@ -111,7 +111,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(ScalarRealType sigma)
 {
-  SigmaArrayType sigmas(sigma);
+  const SigmaArrayType sigmas(sigma);
 
   this->SetSigmaArray(sigmas);
 }
@@ -175,7 +175,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputR
   Superclass::GenerateInputRequestedRegion();
 
   // This filter needs all of the input
-  typename SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
+  const typename SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
     const_cast<InputImageType *>(this->GetInput());
   if (image)
   {

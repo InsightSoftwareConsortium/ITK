@@ -124,10 +124,10 @@ itkRigid2DTransformTest(int, char *[])
 
     {
       // Translate an itk::Point
-      TransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType            q = p + ioffset;
-      TransformType::OutputPointType           r = translation->TransformPoint(p);
+      const TransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
+      const TransformType::InputPointType            p = pInit;
+      TransformType::InputPointType                  q = p + ioffset;
+      TransformType::OutputPointType                 r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - r[i]) > epsilon)
@@ -331,9 +331,9 @@ itkRigid2DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      TransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType            q;
+      const TransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
+      TransformType::InputPointType                  p = pInit;
+      TransformType::InputPointType                  q;
 
       q[0] = p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;
@@ -486,7 +486,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::Pointer t2;
       t1->CloneInverseTo(t2);
 
-      TransformType::InputPointType p3 = t2->TransformPoint(p2);
+      const TransformType::InputPointType p3 = t2->TransformPoint(p2);
 
       std::cout << "Test CloneInverseTo(): ";
       if (!CheckEqual(p1, p3))
@@ -523,7 +523,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::Pointer t3;
       t1->CloneTo(t3);
 
-      TransformType::InputPointType p4 = t3->TransformPoint(p1);
+      const TransformType::InputPointType p4 = t3->TransformPoint(p1);
 
       std::cout << "Test Clone(): ";
       if (!CheckEqual(p2, p4))

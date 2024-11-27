@@ -94,7 +94,7 @@ public:
     // Ensure there is only one transform registered by a name, this
     // may happen on windows where this library is static, and the
     // global init flag may not be unique.
-    LightObject::Pointer test = this->CreateInstance(classOverride);
+    const LightObject::Pointer test = this->CreateInstance(classOverride);
     if (test.IsNotNull())
     {
       itkDebugMacro("Refusing to register transform \"" << classOverride << "\" again!");

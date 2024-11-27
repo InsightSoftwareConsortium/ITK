@@ -110,7 +110,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RecursiveGaussianImageFilter, RecursiveSeparableImageFilter);
 
 
-    unsigned int direction = 2; // apply along Z
+    const unsigned int direction = 2; // apply along Z
     filter->SetDirection(direction);
     ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
 
@@ -285,11 +285,11 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       // sort from smallest to largest for best numerical precision
       std::sort(values.begin(), values.end());
 
-      double total = std::accumulate(values.begin(), values.end(), 0.0);
+      const double total = std::accumulate(values.begin(), values.end(), 0.0);
 
       // 1000.0 is the value of the impulse
       // compute absolute normalized error
-      double error = itk::Math::abs(total - 1000.0) / 1000.0;
+      const double error = itk::Math::abs(total - 1000.0) / 1000.0;
       if (error > 1e-3)
       {
         std::cout << "FAILED !" << std::endl;
@@ -412,7 +412,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     filter->SetNormalizeAcrossScale(false);
     filter->SetSigma(2.0);
 
-    ImageType::ConstPointer outputImage = filter->GetOutput();
+    const ImageType::ConstPointer outputImage = filter->GetOutput();
     using IteratorType = itk::ImageRegionConstIterator<ImageType>;
     IteratorType it(outputImage, outputImage->GetBufferedRegion());
 
@@ -509,7 +509,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     filter->InPlaceOn();
     filter->Update();
 
-    ImageType::ConstPointer outputImage = filter->GetOutput();
+    const ImageType::ConstPointer outputImage = filter->GetOutput();
     using IteratorType = itk::ImageRegionConstIterator<ImageType>;
     IteratorType it(outputImage, outputImage->GetBufferedRegion());
 

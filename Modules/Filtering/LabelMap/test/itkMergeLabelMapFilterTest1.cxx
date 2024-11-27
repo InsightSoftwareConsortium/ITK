@@ -81,7 +81,7 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(itk::ChoiceMethodEnum::KEEP, change->GetMethod());
 
   change->SetMethod(method);
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+  const itk::SimpleFilterWatcher watcher6(change, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();
@@ -93,7 +93,7 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();
 
-  bool expectfailure = std::stoi(argv[7]);
+  const bool expectfailure = std::stoi(argv[7]);
 
   if (expectfailure)
   {

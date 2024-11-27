@@ -56,7 +56,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<MovingImageType, CoordRepPixelType>;
 
 
-  double epsilon = 0.000001;
+  const double epsilon = 0.000001;
 
   auto transform = TransformType::New();
   auto interpolator = InterpolatorType::New();
@@ -101,7 +101,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, KappaStatisticImageToImageMetric, ImageToImageMetric);
 
-  MetricType::RealType foregroundValue = 255;
+  const MetricType::RealType foregroundValue = 255;
   metric->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, metric->GetForegroundValue());
 
@@ -115,7 +115,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   transform->SetIdentity();
   metric->SetTransform(transform);
 
-  TransformType::ParametersType parameters = transform->GetParameters();
+  const TransformType::ParametersType parameters = transform->GetParameters();
 
   // Test error conditions
   //
@@ -230,7 +230,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   metric->GetDerivative(parameters, derivative);
 
   // The value 0.0477502 was computed by hand
-  double expectedDerivativeMeasure = -0.0477502;
+  const double expectedDerivativeMeasure = -0.0477502;
   for (unsigned int i = 0; i < derivative.size(); ++i)
   {
     if (!itk::Math::FloatAlmostEqual(static_cast<double>(derivative[i]), expectedDerivativeMeasure, 10, epsilon))

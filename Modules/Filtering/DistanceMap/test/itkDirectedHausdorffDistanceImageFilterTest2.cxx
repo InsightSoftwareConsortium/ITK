@@ -59,11 +59,11 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DirectedHausdorffDistanceImageFilter, ImageToImageFilter);
 
 
-  typename ImageType::Pointer image1 = reader1->GetOutput();
+  const typename ImageType::Pointer image1 = reader1->GetOutput();
   filter->SetInput1(image1);
   ITK_TEST_SET_GET_VALUE(image1, filter->GetInput1());
 
-  typename ImageType::Pointer image2 = reader2->GetOutput();
+  const typename ImageType::Pointer image2 = reader2->GetOutput();
   filter->SetInput2(image2);
   ITK_TEST_SET_GET_VALUE(image2, filter->GetInput2());
 
@@ -72,10 +72,10 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  double expecteDirectedHausdorffDistance = 0;
+  const double expecteDirectedHausdorffDistance = 0;
   ITK_TEST_EXPECT_EQUAL(expecteDirectedHausdorffDistance, filter->GetDirectedHausdorffDistance());
 
-  double expecteAverageHausdorffDistance = 0;
+  const double expecteAverageHausdorffDistance = 0;
   ITK_TEST_EXPECT_EQUAL(expecteAverageHausdorffDistance, filter->GetAverageHausdorffDistance());
 
 

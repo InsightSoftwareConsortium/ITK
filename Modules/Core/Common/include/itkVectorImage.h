@@ -223,7 +223,7 @@ public:
   void
   SetPixel(const IndexType & index, const PixelType & value)
   {
-    OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
+    const OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
 
     for (VectorLengthType i = 0; i < m_VectorLength; ++i)
     {
@@ -239,7 +239,7 @@ public:
   const PixelType
   GetPixel(const IndexType & index) const
   {
-    OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
+    const OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
 
     // Do not create a local for this method, to use return value
     // optimization.
@@ -258,7 +258,7 @@ public:
   PixelType
   GetPixel(const IndexType & index)
   {
-    OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
+    const OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
 
     // Correctness of this method relies of return value optimization, do
     // not create a local for the value.

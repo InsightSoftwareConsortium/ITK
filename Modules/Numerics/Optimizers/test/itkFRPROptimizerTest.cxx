@@ -62,14 +62,14 @@ public:
   GetValue(const ParametersType & parameters) const override
   {
 
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetValue( ";
     std::cout << x << ' ';
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
@@ -80,8 +80,8 @@ public:
   GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override
   {
 
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetDerivative( ";
     std::cout << x << ' ';
@@ -140,7 +140,7 @@ itkFRPROptimizerTest(int, char *[])
   itkOptimizer->SetMaximize(false);
   itkOptimizer->SetMaximumIteration(50);
 
-  bool useUnitLengthGradient = false;
+  const bool useUnitLengthGradient = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, UseUnitLengthGradient, useUnitLengthGradient);
 
   {
@@ -171,8 +171,8 @@ itkFRPROptimizerTest(int, char *[])
     //
     // check results to see if it is within range
     //
-    bool   pass = true;
-    double trueParameters[2] = { 2, -2 };
+    bool         pass = true;
+    const double trueParameters[2] = { 2, -2 };
     for (unsigned int j = 0; j < 2; ++j)
     {
       if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
@@ -226,8 +226,8 @@ itkFRPROptimizerTest(int, char *[])
     //
     // check results to see if it is within range
     //
-    bool   pass = true;
-    double trueParameters[2] = { 2, -2 };
+    bool         pass = true;
+    const double trueParameters[2] = { 2, -2 };
     for (unsigned int j = 0; j < 2; ++j)
     {
       if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

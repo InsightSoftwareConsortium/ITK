@@ -134,9 +134,9 @@ template <typename TInputImage1, typename TInputImage2, typename TOutputImage, t
 void
 BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::GenerateOutputInformation()
 {
-  const DataObject * input = nullptr;
-  Input1ImagePointer inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
-  Input2ImagePointer inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
+  const DataObject *       input = nullptr;
+  const Input1ImagePointer inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
+  const Input2ImagePointer inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
 
   if (this->GetNumberOfInputs() >= 2)
   {

@@ -45,9 +45,9 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateInputReq
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  MarkerImagePointer markerPtr = const_cast<MarkerImageType *>(this->GetInput(0));
+  const MarkerImagePointer markerPtr = const_cast<MarkerImageType *>(this->GetInput(0));
 
-  MaskImagePointer maskPtr = const_cast<MaskImageType *>(this->GetInput(1));
+  const MaskImagePointer maskPtr = const_cast<MaskImageType *>(this->GetInput(1));
 
   if (!markerPtr || !maskPtr)
   {
@@ -79,9 +79,9 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
 
   TCompare compare;
 
-  MarkerImageConstPointer markerImage = this->GetMarkerImage();
-  MaskImageConstPointer   maskImage = this->GetMaskImage();
-  OutputImagePointer      output = this->GetOutput();
+  const MarkerImageConstPointer markerImage = this->GetMarkerImage();
+  const MaskImageConstPointer   maskImage = this->GetMaskImage();
+  const OutputImagePointer      output = this->GetOutput();
 
   // mask and marker must have the same size
   if (this->GetMarkerImage()->GetRequestedRegion().GetSize() != this->GetMaskImage()->GetRequestedRegion().GetSize())
@@ -126,7 +126,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     // copy marker to output - isn't there a better way?
     while (!outIt.IsAtEnd())
     {
-      MarkerImagePixelType currentValue = inIt.Get();
+      const MarkerImagePixelType currentValue = inIt.Get();
       outIt.Set(static_cast<OutputImagePixelType>(currentValue));
       ++inIt;
       ++outIt;
@@ -152,22 +152,22 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     // we will only be processing the body region
     fit = faceList.begin();
     // must be a better way of doing this
-    NOutputIterator tt(kernelRadius, markerImageP, *fit);
+    const NOutputIterator tt(kernelRadius, markerImageP, *fit);
     outNIt = tt;
 
-    InputIteratorType ttt(maskImageP, *fit);
+    const InputIteratorType ttt(maskImageP, *fit);
     mskIt = ttt;
-    CNInputIterator tttt(kernelRadius, maskImageP, *fit);
+    const CNInputIterator tttt(kernelRadius, maskImageP, *fit);
     mskNIt = tttt;
   }
   else
   {
-    NOutputIterator tt(kernelRadius, markerImageP, output->GetRequestedRegion());
+    const NOutputIterator tt(kernelRadius, markerImageP, output->GetRequestedRegion());
     outNIt = tt;
 
-    InputIteratorType ttt(maskImageP, output->GetRequestedRegion());
+    const InputIteratorType ttt(maskImageP, output->GetRequestedRegion());
     mskIt = ttt;
-    CNInputIterator tttt(kernelRadius, maskImageP, output->GetRequestedRegion());
+    const CNInputIterator tttt(kernelRadius, maskImageP, output->GetRequestedRegion());
     mskNIt = tttt;
   }
 
@@ -201,7 +201,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     typename NOutputIterator::ConstIterator sIt;
     for (sIt = outNIt.Begin(); !sIt.IsAtEnd(); ++sIt)
     {
-      InputImagePixelType VN = sIt.Get();
+      const InputImagePixelType VN = sIt.Get();
       if (compare(VN, V))
       {
         outNIt.SetCenterPixel(VN);
@@ -243,14 +243,14 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     typename NOutputIterator::ConstIterator sIt;
     for (sIt = outNIt.Begin(); !sIt.IsAtEnd(); ++sIt)
     {
-      InputImagePixelType VN = sIt.Get();
+      const InputImagePixelType VN = sIt.Get();
       if (compare(VN, V))
       {
         outNIt.SetCenterPixel(VN);
         V = VN;
       }
     }
-    InputImagePixelType iV = mskNIt.GetCenterPixel();
+    const InputImagePixelType iV = mskNIt.GetCenterPixel();
     if (compare(V, iV))
     {
       outNIt.SetCenterPixel(iV);
@@ -263,8 +263,8 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     for (typename NOutputIterator::IndexListType::const_iterator oLIt = oIndexList.begin(); oLIt != oIndexList.end();
          ++oLIt, ++mLIt)
     {
-      InputImagePixelType VN = outNIt.GetPixel(*oLIt);
-      InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
+      const InputImagePixelType VN = outNIt.GetPixel(*oLIt);
+      const InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
       if (compare(V, VN) && compare(iN, VN))
       {
         IndexFifo.push(outNIt.GetIndex());
@@ -284,22 +284,22 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
   // now process the fifo - this fill the parts that weren't dealt
   // with by the raster and anti-raster passes
   // typename NOutputIterator::Iterator sIt;
-  typename CNInputIterator::ConstIterator mIt;
+  const typename CNInputIterator::ConstIterator mIt;
 
   while (!IndexFifo.empty())
   {
-    InputImageIndexType I = IndexFifo.front();
+    const InputImageIndexType I = IndexFifo.front();
     IndexFifo.pop();
     // reposition the iterators
     outNIt += I - outNIt.GetIndex();
     mskNIt += I - mskNIt.GetIndex();
-    InputImagePixelType                                     V = outNIt.GetCenterPixel();
+    const InputImagePixelType                               V = outNIt.GetCenterPixel();
     typename NOutputIterator::IndexListType::const_iterator mLIt = mIndexList.begin();
     for (typename NOutputIterator::IndexListType::const_iterator oLIt = oIndexList.begin(); oLIt != oIndexList.end();
          ++oLIt, ++mLIt)
     {
-      InputImagePixelType VN = outNIt.GetPixel(*oLIt);
-      InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
+      const InputImagePixelType VN = outNIt.GetPixel(*oLIt);
+      const InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
       // candidate for dilation via flooding
       if (compare(V, VN) && Math::NotAlmostEquals(iN, VN))
       {

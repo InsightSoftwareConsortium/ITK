@@ -61,7 +61,7 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  InputImageType::ConstPointer inputImage = reader->GetOutput();
+  const InputImageType::ConstPointer inputImage = reader->GetOutput();
 
   // Create polyline
   auto inputPolyline = InputPolylineType::New();

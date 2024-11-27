@@ -46,7 +46,7 @@ itkGradientMagnitudeImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Set up filter
-  itk::GradientMagnitudeImageFilter<ImageType, ImageType>::Pointer filter =
+  const itk::GradientMagnitudeImageFilter<ImageType, ImageType>::Pointer filter =
     itk::GradientMagnitudeImageFilter<ImageType, ImageType>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientMagnitudeImageFilter, ImageToImageFilter);

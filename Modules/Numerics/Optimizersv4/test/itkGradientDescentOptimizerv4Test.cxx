@@ -82,8 +82,8 @@ public:
       derivative.SetSize(2);
     }
 
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    const double x = m_Parameters[0];
+    const double y = m_Parameters[1];
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
@@ -180,7 +180,7 @@ GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &    
   std::cout << "ConvergenceValue: " << itkOptimizer->GetConvergenceValue() << std::endl;
 
   // check results to see if it is within range
-  ParametersType::ValueType eps = 0.03;
+  const ParametersType::ValueType eps = 0.03;
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > eps)
@@ -229,25 +229,25 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   initialPosition[1] = -100;
   metric->SetParameters(initialPosition);
 
-  double learningRate = 0.1;
+  const double learningRate = 0.1;
   itkOptimizer->SetLearningRate(learningRate);
   ITK_TEST_SET_GET_VALUE(learningRate, itkOptimizer->GetLearningRate());
 
-  itk::SizeValueType numberOfIterations = 50;
+  const itk::SizeValueType numberOfIterations = 50;
   itkOptimizer->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
-  double maximumStepSizeInPhysicalUnits = 0.0;
+  const double maximumStepSizeInPhysicalUnits = 0.0;
   itkOptimizer->SetMaximumStepSizeInPhysicalUnits(maximumStepSizeInPhysicalUnits);
   ITK_TEST_SET_GET_VALUE(maximumStepSizeInPhysicalUnits, itkOptimizer->GetMaximumStepSizeInPhysicalUnits());
 
-  bool doEstimateLearningRateAtEachIteration = false;
+  const bool doEstimateLearningRateAtEachIteration = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, DoEstimateLearningRateAtEachIteration, doEstimateLearningRateAtEachIteration);
 
-  bool doEstimateLearningRateOnce = true;
+  const bool doEstimateLearningRateOnce = true;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, DoEstimateLearningRateOnce, doEstimateLearningRateOnce);
 
-  bool returnBestParametersAndValue = false;
+  const bool returnBestParametersAndValue = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, ReturnBestParametersAndValue, returnBestParametersAndValue);
 
   // Truth

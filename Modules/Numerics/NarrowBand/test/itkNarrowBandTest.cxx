@@ -52,8 +52,8 @@ itkNarrowBandTest(int, char *[])
   // Iterate over the band
   using itType = BandType::ConstIterator;
 
-  itType it = band->Begin();
-  itType itend = band->End();
+  itType       it = band->Begin();
+  const itType itend = band->End();
 
   //  BandNodeType *tmp;
   for (unsigned int i = 0; it != itend; ++it)
@@ -66,8 +66,8 @@ itkNarrowBandTest(int, char *[])
   std::vector<RegionType> regions = band->SplitBand(10);
   //  RegionType region;
   using regionitType = std::vector<RegionType>::const_iterator;
-  regionitType regionsit = regions.begin();
-  regionitType regionsitend = regions.end();
+  regionitType       regionsit = regions.begin();
+  const regionitType regionsitend = regions.end();
   std::cout << "Number of regions: " << regions.size() << std::endl;
   for (unsigned int i = 0; regionsit != regionsitend; ++regionsit)
   {

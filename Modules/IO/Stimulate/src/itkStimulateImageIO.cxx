@@ -68,7 +68,7 @@ StimulateImageIO::CanReadFile(const char * filename)
     return false;
   }
 
-  bool extensionFound = this->HasSupportedReadExtension(filename, false);
+  const bool extensionFound = this->HasSupportedReadExtension(filename, false);
 
   if (!extensionFound)
   {
@@ -252,8 +252,8 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // to be centered:
 
       // save and reset old locale
-      float       origin[4];
-      std::locale currentLocale = std::locale::global(std::locale::classic());
+      float             origin[4];
+      const std::locale currentLocale = std::locale::global(std::locale::classic());
       sscanf(line, "%*s %f %f %f %f", origin, origin + 1, origin + 2, origin + 3);
       // reset locale
       std::locale::global(currentLocale);
@@ -278,7 +278,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // specified it is calculated according to: fov = interval * dim
 
       // save and reset old locale
-      std::locale currentLocale = std::locale::global(std::locale::classic());
+      const std::locale currentLocale = std::locale::global(std::locale::classic());
       sscanf(line, "%*s %f %f %f %f", fov, fov + 1, fov + 2, fov + 3);
       // reset locale
       std::locale::global(currentLocale);
@@ -293,8 +293,8 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // calculated according to: interval = fov / dim
 
       // save and reset old locale
-      std::locale currentLocale = std::locale::global(std::locale::classic());
-      float       spacing[4];
+      const std::locale currentLocale = std::locale::global(std::locale::classic());
+      float             spacing[4];
       sscanf(line, "%*s %f %f %f %f", spacing, spacing + 1, spacing + 2, spacing + 3);
       // reset locale
       std::locale::global(currentLocale);
@@ -348,8 +348,8 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // low_value and high_value.
 
       // save and reset old locale
-      std::locale currentLocale = std::locale::global(std::locale::classic());
-      float       range[2];
+      const std::locale currentLocale = std::locale::global(std::locale::classic());
+      float             range[2];
       sscanf(line, "%*s %f %f", range, range + 1);
       // reset locale
       std::locale::global(currentLocale);
@@ -414,10 +414,10 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
       // if the data filename has a directory specified, use it as is,
       // otherwise prepend the path of the .spr file.
-      std::string datafilenamePath = ::itksys::SystemTools::GetFilenamePath(datafilename);
+      const std::string datafilenamePath = ::itksys::SystemTools::GetFilenamePath(datafilename);
       if (datafilenamePath.empty())
       {
-        std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath(m_FileName.c_str());
+        const std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath(m_FileName.c_str());
         m_DataFileName = fileNamePath + "/" + datafilename;
       }
       else
@@ -465,7 +465,7 @@ StimulateImageIO::ReadImageInformation()
 bool
 StimulateImageIO::CanWriteFile(const char * name)
 {
-  std::string filename = name;
+  const std::string filename = name;
 
   if (filename.empty())
   {
@@ -474,7 +474,7 @@ StimulateImageIO::CanWriteFile(const char * name)
   }
 
 
-  bool extensionFound = this->HasSupportedWriteExtension(name);
+  const bool extensionFound = this->HasSupportedWriteExtension(name);
 
   if (!extensionFound)
   {
@@ -492,7 +492,7 @@ StimulateImageIO::Write(const void * buffer)
   this->OpenFileForWriting(file, m_FileName);
 
   // Check the image region for proper dimensions, etc.
-  unsigned int numDims = this->GetNumberOfDimensions();
+  const unsigned int numDims = this->GetNumberOfDimensions();
   if (numDims < 2 || numDims > 4)
   {
     itkExceptionMacro("Stimulate Writer can only write 2,3 or 4-dimensional images");

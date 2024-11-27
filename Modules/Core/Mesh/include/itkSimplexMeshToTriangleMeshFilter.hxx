@@ -34,10 +34,10 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::Initialize()
 {
-  SimplexVisitorInterfacePointer simplexVisitor = SimplexVisitorInterfaceType::New();
+  const SimplexVisitorInterfacePointer simplexVisitor = SimplexVisitorInterfaceType::New();
 
   simplexVisitor->SetMesh(this->GetInput(0));
-  CellMultiVisitorPointer mv = CellMultiVisitorType::New();
+  const CellMultiVisitorPointer mv = CellMultiVisitorType::New();
   mv->AddVisitor(simplexVisitor);
   this->GetInput(0)->Accept(mv);
   this->GetInput(0)->BuildCellLinks();
@@ -50,8 +50,8 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CreateTriangles()
 {
   auto meshSource = AutoMeshSourceType::New();
 
-  typename TInputMesh::ConstPointer                 inputMesh = this->GetInput(0);
-  typename InputPointsContainer::ConstPointer       points = inputMesh->GetPoints();
+  const typename TInputMesh::ConstPointer           inputMesh = this->GetInput(0);
+  const typename InputPointsContainer::ConstPointer points = inputMesh->GetPoints();
   typename TInputMesh::PointsContainerConstIterator pointsIt = points->Begin();
 
   meshSource->Update();
@@ -60,16 +60,16 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CreateTriangles()
   {
     typename InputMeshType::IndexArray n = this->GetInput(0)->GetNeighbors(pointsIt.Index());
 
-    CellIdentifier newId1 = FindCellId(n[0], pointsIt.Index(), n[1]);
-    CellIdentifier newId2 = FindCellId(n[1], pointsIt.Index(), n[2]);
-    CellIdentifier newId3 = FindCellId(n[2], pointsIt.Index(), n[0]);
+    const CellIdentifier newId1 = FindCellId(n[0], pointsIt.Index(), n[1]);
+    const CellIdentifier newId2 = FindCellId(n[1], pointsIt.Index(), n[2]);
+    const CellIdentifier newId3 = FindCellId(n[2], pointsIt.Index(), n[0]);
 
     typename AutoMeshSourceType::PointType p1;
-    bool                                   b1 = m_Centers->GetElementIfIndexExists(newId1, &p1);
+    const bool                             b1 = m_Centers->GetElementIfIndexExists(newId1, &p1);
     typename AutoMeshSourceType::PointType p2;
-    bool                                   b2 = m_Centers->GetElementIfIndexExists(newId2, &p2);
+    const bool                             b2 = m_Centers->GetElementIfIndexExists(newId2, &p2);
     typename AutoMeshSourceType::PointType p3;
-    bool                                   b3 = m_Centers->GetElementIfIndexExists(newId3, &p3);
+    const bool                             b3 = m_Centers->GetElementIfIndexExists(newId3, &p3);
 
     meshSource->AddTriangle(p1, p2, p3);
 

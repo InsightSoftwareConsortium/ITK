@@ -135,7 +135,7 @@ itkResampleImageTest2(int argc, char * argv[])
   resample->SetInterpolator(interpolator);
   ITK_TEST_SET_GET_VALUE(interpolator, resample->GetInterpolator());
 
-  bool useReferenceImage = std::stoi(argv[7]);
+  const bool useReferenceImage = std::stoi(argv[7]);
   ITK_TEST_SET_GET_BOOLEAN(resample, UseReferenceImage, useReferenceImage);
 
 
@@ -177,9 +177,9 @@ itkResampleImageTest2(int argc, char * argv[])
         itk::Math::Ceil<SizeValueType>(static_cast<double>(inputSize[i]) * inputSpacing[i] / outputSpacing[i]);
     }
 
-    typename ImageType::DirectionType outputDirection = resample->GetInput()->GetDirection();
+    const typename ImageType::DirectionType outputDirection = resample->GetInput()->GetDirection();
 
-    typename ImageType::PointType outputOrigin = resample->GetInput()->GetOrigin();
+    const typename ImageType::PointType outputOrigin = resample->GetInput()->GetOrigin();
 
     resample->SetOutputSpacing(outputSpacing);
     ITK_TEST_SET_GET_VALUE(outputSpacing, resample->GetOutputSpacing());
