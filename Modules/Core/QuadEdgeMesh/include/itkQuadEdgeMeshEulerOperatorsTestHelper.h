@@ -49,16 +49,16 @@ std::vector<typename TMesh::PointType>
 GeneratePointCoordinates(const unsigned int iN)
 {
   using PointType = typename TMesh::PointType;
-  using CoordRepType = typename PointType::CoordRepType;
+  using CoordinateType = typename PointType::CoordinateType;
   std::vector<PointType> oPt(iN * iN);
 
   for (unsigned int i = 0; i < iN; ++i)
   {
     for (unsigned int j = 0; j < iN; ++j)
     {
-      oPt[i * iN + j][0] = static_cast<CoordRepType>(j);
-      oPt[i * iN + j][1] = static_cast<CoordRepType>(i);
-      oPt[i * iN + j][2] = static_cast<CoordRepType>(0.);
+      oPt[i * iN + j][0] = static_cast<CoordinateType>(j);
+      oPt[i * iN + j][1] = static_cast<CoordinateType>(i);
+      oPt[i * iN + j][2] = static_cast<CoordinateType>(0.);
     }
   }
 

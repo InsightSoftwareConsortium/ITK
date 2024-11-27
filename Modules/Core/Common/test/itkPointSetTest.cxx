@@ -43,7 +43,7 @@ itkPointSetTest(int, char *[])
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  PointSet::CoordRepType testPointCoords[3];
+  PointSet::CoordinateType testPointCoords[3];
 
   /**
    * Create the point set through its object factory.
@@ -67,9 +67,9 @@ itkPointSetTest(int, char *[])
   {
     for (int i = 0; i < numOfPoints; ++i)
     {
-      testPointCoords[0] = (PointSet::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
-      testPointCoords[1] = (PointSet::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
-      testPointCoords[2] = (PointSet::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
+      testPointCoords[0] = (PointSet::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+      testPointCoords[1] = (PointSet::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+      testPointCoords[2] = (PointSet::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
       pset->SetPoint(i, PointType(testPointCoords));
     }
   }

@@ -117,25 +117,25 @@ TEST(VTKPolyDataMeshIO, LosslessWriteAndReadOfPoints)
   // Generate various input points that have finite coordinate values.
   const auto inputPoints = [] {
     using PointType = typename MeshType::PointType;
-    using CoordRepType = typename MeshType::CoordRepType;
-    using NumericLimits = std::numeric_limits<MeshType::CoordRepType>;
+    using CoordinateType = typename MeshType::CoordinateType;
+    using NumericLimits = std::numeric_limits<MeshType::CoordinateType>;
 
     std::vector<PointType> points;
     std::mt19937           randomNumberEngine;
-    const auto             smallRandomValue = std::uniform_real_distribution<CoordRepType>{}(randomNumberEngine);
+    const auto             smallRandomValue = std::uniform_real_distribution<CoordinateType>{}(randomNumberEngine);
     const auto             largeRandomValue =
-      std::uniform_real_distribution<CoordRepType>{ CoordRepType{ 1 }, NumericLimits::max() }(randomNumberEngine);
+      std::uniform_real_distribution<CoordinateType>{ CoordinateType{ 1 }, NumericLimits::max() }(randomNumberEngine);
 
     // Include random and boundary values with the test input.
-    for (const CoordRepType coordValue : { smallRandomValue,
-                                           largeRandomValue,
-                                           CoordRepType{ 0 },
-                                           NumericLimits::denorm_min(),
-                                           NumericLimits::min(),
-                                           NumericLimits::epsilon(),
-                                           CoordRepType{ 1 },
-                                           NumericLimits::max(),
-                                           NumericLimits::infinity() })
+    for (const CoordinateType coordValue : { smallRandomValue,
+                                             largeRandomValue,
+                                             CoordinateType{ 0 },
+                                             NumericLimits::denorm_min(),
+                                             NumericLimits::min(),
+                                             NumericLimits::epsilon(),
+                                             CoordinateType{ 1 },
+                                             NumericLimits::max(),
+                                             NumericLimits::infinity() })
     {
       points.push_back(itk::MakeFilled<PointType>(coordValue));
       points.push_back(itk::MakeFilled<PointType>(-coordValue));
@@ -161,11 +161,11 @@ TEST(VTKPolyDataMeshIO, SupportWriteAndReadOfNaNCoordValues)
   {
     using MeshType = itk::Mesh<int>;
     using PointType = typename MeshType::PointType;
-    using CoordRepType = typename MeshType::CoordRepType;
+    using CoordinateType = typename MeshType::CoordinateType;
 
     Expect_lossless_writing_and_reading_of_points<MeshType>(
       "VTKPolyDataMeshIOGTest_SupportWriteAndReadOfNaNCoordValues.vtk",
-      { itk::MakeFilled<PointType>(std::numeric_limits<CoordRepType>::quiet_NaN()) },
+      { itk::MakeFilled<PointType>(std::numeric_limits<CoordinateType>::quiet_NaN()) },
       writeAsBinary);
   }
 }

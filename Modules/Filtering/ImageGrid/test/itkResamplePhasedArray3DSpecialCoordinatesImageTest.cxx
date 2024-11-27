@@ -37,7 +37,7 @@ using ImagePointerType = ImageType::Pointer;
 using ImageRegionType = ImageType::RegionType;
 using ImageSizeType = ImageType::SizeType;
 using ImageIndexType = ImageType::IndexType;
-using CoordRepType = double;
+using CoordinateType = double;
 
 
 int

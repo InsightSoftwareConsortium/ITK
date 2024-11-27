@@ -37,12 +37,12 @@ enum
 
 using PixelType = unsigned char;
 using ImageType = itk::Image<PixelType, ImageDimension>;
-using CoordRepType = itk::SpacePrecisionType;
+using CoordinateType = itk::SpacePrecisionType;
 using WindowFunctionType = itk::Function::HammingWindowFunction<2>;
 using BoundaryConditionType = itk::ConstantBoundaryCondition<ImageType>;
 
 using InterpolatorType =
-  itk::WindowedSincInterpolateImageFunction<ImageType, 2, WindowFunctionType, BoundaryConditionType, CoordRepType>;
+  itk::WindowedSincInterpolateImageFunction<ImageType, 2, WindowFunctionType, BoundaryConditionType, CoordinateType>;
 
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
@@ -139,7 +139,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
   using PointType = SincInterpolate::PointType;
   using OutputType = SincInterpolate::OutputType;
   using ContinuousIndexType = SincInterpolate::ContinuousIndexType;
-  using CoordRepType = SincInterpolate::CoordRepType;
+  using CoordinateType = SincInterpolate::CoordinateType;
 
   using InterpolatorType = SincInterpolate::InterpolatorType;
 
@@ -204,7 +204,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   // an integer position inside the image
   {
-    CoordRepType darray[3] = { 10, 20, 40 };
+    CoordinateType darray[3] = { 10, 20, 40 };
     output = OutputType(70);
     cindex = ContinuousIndexType(darray);
     passed = SincInterpolate::TestContinuousIndex(interp, cindex, true, output);
@@ -225,7 +225,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   // position at the image border
   {
-    CoordRepType darray[3] = { 0, 20, 40 };
+    CoordinateType darray[3] = { 0, 20, 40 };
     output = OutputType(60);
     cindex = ContinuousIndexType(darray);
     passed = SincInterpolate::TestContinuousIndex(interp, cindex, true, output);
@@ -246,8 +246,8 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   // position near image border
   {
-    double       epsilon = 1.0e-10;
-    CoordRepType darray[3] = { 19 - epsilon, 20, 40 };
+    double         epsilon = 1.0e-10;
+    CoordinateType darray[3] = { 19 - epsilon, 20, 40 };
     output = OutputType(79);
     cindex = ContinuousIndexType(darray);
     passed = SincInterpolate::TestContinuousIndex(interp, cindex, true, output);
@@ -268,7 +268,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   // position outside the image
   {
-    CoordRepType darray[3] = { 20, 20, 40 };
+    CoordinateType darray[3] = { 20, 20, 40 };
     output = OutputType(1);
     cindex = ContinuousIndexType(darray);
     passed = SincInterpolate::TestContinuousIndex(interp, cindex, false, output);
@@ -289,7 +289,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   // at non-integer position
   {
-    CoordRepType darray[3] = { 5.25, 12.5, 42.0 };
+    CoordinateType darray[3] = { 5.25, 12.5, 42.0 };
     output = OutputType(59.75);
     cindex = ContinuousIndexType(darray);
     passed = SincInterpolate::TestContinuousIndex(interp, cindex, true, output);

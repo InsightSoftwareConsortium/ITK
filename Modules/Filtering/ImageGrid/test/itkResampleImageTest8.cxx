@@ -133,10 +133,10 @@ itkResampleImageTest8(int, char *[])
   using OutputImageIndexType = OutputImageType::IndexType;
   using OutputImageSizeType = OutputImageType::SizeType;
 
-  using CoordRepType = double;
+  using CoordinateType = double;
 
   using TransformType = ProjectTransform;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, CoordRepType>;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, CoordinateType>;
 
   std::cout << "Input Image Type\n";
 

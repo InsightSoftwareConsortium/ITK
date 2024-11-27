@@ -41,8 +41,8 @@ itkSimplexMeshTest(int, char *[])
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  SimplexMeshType::CoordRepType testPointCoords[8][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 0, 9 }, { 0, 0, 9 },
-                                                          { 0, 9, 0 }, { 9, 9, 0 }, { 9, 9, 9 }, { 0, 9, 9 } };
+  SimplexMeshType::CoordinateType testPointCoords[8][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 0, 9 }, { 0, 0, 9 },
+                                                            { 0, 9, 0 }, { 9, 9, 0 }, { 9, 9, 9 }, { 0, 9, 9 } };
 
 
   /**

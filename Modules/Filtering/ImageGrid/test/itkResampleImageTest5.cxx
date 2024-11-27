@@ -47,10 +47,10 @@ itkResampleImageTest5(int argc, char * argv[])
   using ImageRegionType = ImageType::RegionType;
   using ImageSizeType = ImageType::SizeType;
 
-  using CoordRepType = double;
+  using CoordinateType = double;
 
-  using AffineTransformType = itk::AffineTransform<CoordRepType, VDimension>;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+  using AffineTransformType = itk::AffineTransform<CoordinateType, VDimension>;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   float scaling = std::stod(argv[1]);

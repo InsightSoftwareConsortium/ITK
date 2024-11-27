@@ -111,16 +111,16 @@ itkImageFunctionTest(int, char *[])
   using SizeType = RegionType::SizeType;
   using IndexType = ImageType::IndexType;
 
-  using CoordRepType = float;
-  using ContinuousIndexType = itk::ContinuousIndex<CoordRepType, Dimension>;
-  using PointType = itk::Point<CoordRepType, Dimension>;
+  using CoordinateType = float;
+  using ContinuousIndexType = itk::ContinuousIndex<CoordinateType, Dimension>;
+  using PointType = itk::Point<CoordinateType, Dimension>;
 
   using IndexNumericTraits = itk::NumericTraits<IndexType::IndexValueType>;
   using ContinuousIndexNumericTraits = itk::NumericTraits<ContinuousIndexType::ValueType>;
   using PointNumericTraits = itk::NumericTraits<PointType::ValueType>;
 
 
-  using FunctionType = itk::TestImageFunction<ImageType, CoordRepType>;
+  using FunctionType = itk::TestImageFunction<ImageType, CoordinateType>;
 
   auto image = ImageType::New();
 

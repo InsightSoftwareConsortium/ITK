@@ -55,17 +55,17 @@ TestKernelTransform(const char * name, KernelType *)
   sourceLandmarks->GetPoints()->Reserve(4);
 
   // Generate some random coordinates
-  typename KernelPointSetType::CoordRepType randomCoords[3];
+  typename KernelPointSetType::CoordinateType randomCoords[3];
   for (int i = 0; i < 4; ++i)
   {
-    randomCoords[0] = (typename KernelPointSetType::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[1] = (typename KernelPointSetType::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[2] = (typename KernelPointSetType::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
+    randomCoords[0] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+    randomCoords[1] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+    randomCoords[2] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
     targetLandmarks->GetPoints()->SetElement(i, randomCoords);
 
-    randomCoords[0] = (typename KernelPointSetType::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[1] = (typename KernelPointSetType::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[2] = (typename KernelPointSetType::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
+    randomCoords[0] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+    randomCoords[1] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+    randomCoords[2] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
     sourceLandmarks->GetPoints()->SetElement(i, randomCoords);
   }
 

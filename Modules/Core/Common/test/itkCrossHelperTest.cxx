@@ -28,11 +28,11 @@ itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   constexpr unsigned int Dimension3D = 3;
   constexpr unsigned int Dimension4D = 4;
 
-  using CoordRepType = double;
+  using CoordinateType = double;
 
-  using Vector2DType = itk::Vector<CoordRepType, Dimension2D>;
-  using Vector3DType = itk::Vector<CoordRepType, Dimension3D>;
-  using Vector4DType = itk::Vector<CoordRepType, Dimension4D>;
+  using Vector2DType = itk::Vector<CoordinateType, Dimension2D>;
+  using Vector3DType = itk::Vector<CoordinateType, Dimension3D>;
+  using Vector4DType = itk::Vector<CoordinateType, Dimension4D>;
 
   using Cross2DType = itk::CrossHelper<Vector2DType>;
   Cross2DType cross2d;

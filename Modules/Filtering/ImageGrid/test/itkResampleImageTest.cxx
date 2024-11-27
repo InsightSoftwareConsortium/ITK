@@ -36,10 +36,10 @@ itkResampleImageTest(int, char *[])
   using ImagePointerType = ImageType::Pointer;
   using ImageRegionType = ImageType::RegionType;
   using ImageSizeType = ImageType::SizeType;
-  using CoordRepType = double;
+  using CoordinateType = double;
 
-  using AffineTransformType = itk::AffineTransform<CoordRepType, VDimension>;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+  using AffineTransformType = itk::AffineTransform<CoordinateType, VDimension>;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
 
 
   // Create and configure an image

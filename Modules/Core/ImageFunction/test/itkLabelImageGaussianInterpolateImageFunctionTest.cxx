@@ -33,7 +33,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   using SizeType = RegionType::SizeType;
   using IndexType = ImageType::IndexType;
 
-  using CoordRepType = float;
+  using CoordinateType = float;
 
   // The ImageSizeToCompute
   constexpr double              FOV = 10.0;
@@ -84,7 +84,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     }
   }
 
-  using InterpolatorType = itk::LabelImageGaussianInterpolateImageFunction<ImageType, CoordRepType>;
+  using InterpolatorType = itk::LabelImageGaussianInterpolateImageFunction<ImageType, CoordinateType>;
   auto interpolator = InterpolatorType::New();
   interpolator->SetInputImage(small_image);
   {

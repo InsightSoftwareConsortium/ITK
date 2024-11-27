@@ -40,7 +40,7 @@ itkBoundingBoxTest(int, char *[])
     const BB::BoundsArrayType & bounds = myBox->GetBounds();
     for (unsigned int i = 0; i < bounds.Size(); ++i)
     {
-      if (itk::Math::NotExactlyEquals(bounds[i], BB::CoordRepType{}))
+      if (itk::Math::NotExactlyEquals(bounds[i], BB::CoordinateType{}))
       {
         std::cerr << "Bounding Box initialization test failed" << std::endl;
         std::cerr << bounds << std::endl;
@@ -54,7 +54,7 @@ itkBoundingBoxTest(int, char *[])
     BB::PointType center = myBox->GetCenter();
     for (unsigned int i = 0; i < 1; ++i)
     {
-      if (itk::Math::NotExactlyEquals(center[i], BB::CoordRepType{}))
+      if (itk::Math::NotExactlyEquals(center[i], BB::CoordinateType{}))
       {
         std::cerr << "Empty Box GetCenter initialization test failed" << std::endl;
         return EXIT_FAILURE;

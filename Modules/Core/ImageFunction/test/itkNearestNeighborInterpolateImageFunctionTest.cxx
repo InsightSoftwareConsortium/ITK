@@ -44,11 +44,11 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
   using PointType = itk::Point<float, 2>;
 
-  using CoordRepType = float;
-  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
-  using VectorInterpolatorType = itk::NearestNeighborInterpolateImageFunction<VectorImageType, CoordRepType>;
+  using CoordinateType = float;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordinateType>;
+  using VectorInterpolatorType = itk::NearestNeighborInterpolateImageFunction<VectorImageType, CoordinateType>;
   using VariableVectorInterpolatorType =
-    itk::NearestNeighborInterpolateImageFunction<VariableVectorImageType, CoordRepType>;
+    itk::NearestNeighborInterpolateImageFunction<VariableVectorImageType, CoordinateType>;
 
   using InterpolatedVectorType = VectorInterpolatorType::OutputType;
   using InterpolatedVariableVectorType = VariableVectorInterpolatorType::OutputType;

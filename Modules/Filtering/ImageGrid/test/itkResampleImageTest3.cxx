@@ -47,10 +47,10 @@ itkResampleImageTest3(int argc, char * argv[])
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, VDimension>;
-  using CoordRepType = double;
+  using CoordinateType = double;
 
-  using TransformType = itk::IdentityTransform<CoordRepType, VDimension>;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+  using TransformType = itk::IdentityTransform<CoordinateType, VDimension>;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;

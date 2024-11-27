@@ -148,8 +148,8 @@ itkMeshTest(int, char *[])
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
-  MeshType::CoordRepType testPointCoords[8][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 0, 9 }, { 0, 0, 9 },
-                                                   { 0, 9, 0 }, { 9, 9, 0 }, { 9, 9, 9 }, { 0, 9, 9 } };
+  MeshType::CoordinateType testPointCoords[8][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 0, 9 }, { 0, 0, 9 },
+                                                     { 0, 9, 0 }, { 9, 9, 0 }, { 9, 9, 9 }, { 0, 9, 9 } };
 
   /**
    * List the points that the tetrahedron will use from the mesh.
@@ -688,7 +688,7 @@ itkMeshTest(int, char *[])
      */
     using BoundingBox = itk::BoundingBox<MeshType::PointIdentifier,
                                          MeshType::PointDimension,
-                                         MeshType::CoordRepType,
+                                         MeshType::CoordinateType,
                                          MeshType::PointsContainer>;
 
     BoundingBox::Pointer bbox(BoundingBox::New());

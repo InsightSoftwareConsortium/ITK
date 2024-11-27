@@ -75,7 +75,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
 {
   using PointSetType = TPointSet;
   using PointType = typename PointSetType::PointType;
-  using CoordRepType = typename PointType::CoordRepType;
+  using CoordinateType = typename PointType::CoordinateType;
 
   auto fixedPoints = PointSetType::New();
 
@@ -85,20 +85,20 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
 
   float     theta = itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(1.0);
   PointType fixedPoint;
-  fixedPoint[0] = static_cast<CoordRepType>(0.0);
-  fixedPoint[1] = static_cast<CoordRepType>(0.0);
+  fixedPoint[0] = static_cast<CoordinateType>(0.0);
+  fixedPoint[1] = static_cast<CoordinateType>(0.0);
   fixedPoints->SetPoint(0, fixedPoint);
   fixedPoint[0] = pointMax;
-  fixedPoint[1] = static_cast<CoordRepType>(0.0);
+  fixedPoint[1] = static_cast<CoordinateType>(0.0);
   fixedPoints->SetPoint(1, fixedPoint);
   fixedPoint[0] = pointMax;
   fixedPoint[1] = pointMax;
   fixedPoints->SetPoint(2, fixedPoint);
-  fixedPoint[0] = static_cast<CoordRepType>(0.0);
+  fixedPoint[0] = static_cast<CoordinateType>(0.0);
   fixedPoint[1] = pointMax;
   fixedPoints->SetPoint(3, fixedPoint);
-  fixedPoint[0] = pointMax / static_cast<CoordRepType>(2.0);
-  fixedPoint[1] = pointMax / static_cast<CoordRepType>(2.0);
+  fixedPoint[0] = pointMax / static_cast<CoordinateType>(2.0);
+  fixedPoint[1] = pointMax / static_cast<CoordinateType>(2.0);
   fixedPoints->SetPoint(4, fixedPoint);
   unsigned int numberOfPoints = fixedPoints->GetNumberOfPoints();
 

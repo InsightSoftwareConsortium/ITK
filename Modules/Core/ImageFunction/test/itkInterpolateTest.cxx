@@ -25,13 +25,13 @@
 
 using SizeType = itk::Size<3>;
 using ImageType = itk::Image<unsigned short, 3>;
-using CoordRepType = itk::SpacePrecisionType;
-using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+using CoordinateType = itk::SpacePrecisionType;
+using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
 using ContinuousIndexType = InterpolatorType::ContinuousIndexType;
 
-using NNInterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
+using NNInterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordinateType>;
 namespace
 {
 
