@@ -70,12 +70,7 @@ template <typename TPixel, unsigned int VDimension, typename TContainer>
 void
 Neighborhood<TPixel, VDimension, TContainer>::SetRadius(const SizeValueType s)
 {
-  SizeType k;
-
-  for (DimensionValueType i = 0; i < VDimension; ++i)
-  {
-    k[i] = s;
-  }
+  auto k = MakeFilled<SizeType>(s);
   this->SetRadius(k);
 }
 

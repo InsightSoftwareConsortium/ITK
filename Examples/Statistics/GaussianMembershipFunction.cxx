@@ -99,8 +99,7 @@ main(int, char *[])
   densityFunction->SetMean(mean);
   densityFunction->SetCovariance(cov);
 
-  MeasurementVectorType mv;
-  mv.Fill(0);
+  auto mv = itk::MakeFilled<MeasurementVectorType>(0);
 
   std::cout << densityFunction->Evaluate(mv) << std::endl;
   // Software Guide : EndCodeSnippet

@@ -302,8 +302,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
     {
       // setup the marker iterator to only visit face connected
       // neighbors and the center pixel
-      typename NeighborhoodIteratorType::OffsetType offset;
-      offset.Fill(0);
+      auto offset = MakeFilled<typename NeighborhoodIteratorType::OffsetType>(0);
       markerIt.ActivateOffset(offset); // center pixel
       for (unsigned int d = 0; d < TInputImage::ImageDimension; ++d)
       {
@@ -322,8 +321,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
       {
         markerIt.ActivateOffset(markerIt.GetOffset(nd));
       }
-      typename NeighborhoodIteratorType::OffsetType offset;
-      offset.Fill(0);
+      auto offset = MakeFilled<typename NeighborhoodIteratorType::OffsetType>(0);
       markerIt.DeactivateOffset(offset);
     }
 

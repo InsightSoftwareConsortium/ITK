@@ -217,11 +217,9 @@ main(int argc, char * argv[])
 
   pointsToImageFilter->SetInput(fixedPointSet);
 
-  BinaryImageType::SpacingType spacing;
-  spacing.Fill(1.0);
+  auto spacing = itk::MakeFilled<BinaryImageType::SpacingType>(1.0);
 
-  BinaryImageType::PointType origin;
-  origin.Fill(0.0);
+  auto origin = itk::MakeFilled<BinaryImageType::PointType>(0.0);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

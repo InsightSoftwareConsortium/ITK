@@ -214,8 +214,8 @@ main(int argc, char * argv[])
 
   unsigned int numberOfGridNodesInOneDimension = 8;
 
-  TransformType::MeshSizeType meshSize;
-  meshSize.Fill(numberOfGridNodesInOneDimension - SplineOrder);
+  auto meshSize = itk::MakeFilled<TransformType::MeshSizeType>(
+    numberOfGridNodesInOneDimension - SplineOrder);
 
   transformInitializer->SetTransform(outputBSplineTransform);
   transformInitializer->SetImage(fixedImage);

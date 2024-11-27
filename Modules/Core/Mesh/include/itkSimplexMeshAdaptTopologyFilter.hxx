@@ -182,10 +182,8 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellParameters()
       PointIdentifier secondNewIndex = newPointId + 1;
 
       // create first new point
-      InputPointType p1;
-      p1.Fill(0);
-      InputPointType p2;
-      p2.Fill(0);
+      auto p1 = MakeFilled<InputPointType>(0);
+      auto p2 = MakeFilled<InputPointType>(0);
       outputMesh->GetPoint(lineOneFirstIdx, &p1);
       outputMesh->GetPoint(lineOneSecondIdx, &p2);
 
@@ -400,10 +398,8 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellCenter(Input
   OutputMeshPointer           outputMesh = this->GetOutput();
   InputPolygonPointIdIterator pointIt = simplexCell->PointIdsBegin();
 
-  InputPointType p1;
-  p1.Fill(0);
-  InputPointType cellCenter;
-  cellCenter.Fill(0);
+  auto p1 = MakeFilled<InputPointType>(0);
+  auto cellCenter = MakeFilled<InputPointType>(0);
 
   // compute the cell center first
   while (pointIt != simplexCell->PointIdsEnd())

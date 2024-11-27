@@ -282,7 +282,7 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   //  set initial position for Newton's method
   int subId = 0;
 
-  double       params[CellDimension] = { 0.5, 0.5 };
+  double         params[CellDimension] = { 0.5, 0.5 };
   CoordinateType pcoords[CellDimension] = { 0.5, 0.5 };
 
   // NOTE: Point x is here assumed to lie on the plane of Quad.  Otherwise, (FIXME)

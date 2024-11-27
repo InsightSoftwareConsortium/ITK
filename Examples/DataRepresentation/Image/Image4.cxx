@@ -170,8 +170,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   // coordinates of the center of the first pixel in N-D
-  ImageType::PointType newOrigin;
-  newOrigin.Fill(0.0);
+  auto newOrigin = itk::MakeFilled<ImageType::PointType>(0.0);
   image->SetOrigin(newOrigin);
   // Software Guide : EndCodeSnippet
 
@@ -443,8 +442,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using MatrixType =
     itk::Matrix<itk::SpacePrecisionType, Dimension, Dimension>;
-  MatrixType SpacingMatrix;
-  SpacingMatrix.Fill(0.0F);
+  auto SpacingMatrix = itk::MakeFilled<MatrixType>(0.0F);
 
   const ImageType::SpacingType & ImageSpacing = image->GetSpacing();
   SpacingMatrix(0, 0) = ImageSpacing[0];

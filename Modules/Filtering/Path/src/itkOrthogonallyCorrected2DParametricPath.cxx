@@ -36,10 +36,9 @@ OrthogonallyCorrected2DParametricPath::Evaluate(const InputType & inputValue) co
     }
   }
 
-  InputType  inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
-  InputType  normalizedInput = (input - m_OriginalPath->StartOfInput()) / inputRange;
-  OutputType output;
-  output.Fill(0);
+  InputType inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
+  InputType normalizedInput = (input - m_OriginalPath->StartOfInput()) / inputRange;
+  auto      output = MakeFilled<OutputType>(0);
 
   // Find the linearly interpolated offset error value for this exact time.
   double softOrthogonalCorrectionTableIndex = normalizedInput * numOrthogonalCorrections;
